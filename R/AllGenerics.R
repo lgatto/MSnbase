@@ -1,0 +1,31 @@
+setGeneric("clean", function(object) standardGeneric("clean"))
+setGeneric("trimMz", function(object,mzlim,...) standardGeneric("trimMz"))
+setGeneric("removePeaks", function(object,t,...) standardGeneric("removePeaks"))
+setGeneric("bg.correct", function(object,bg,...) standardGeneric("bg.correct"))
+
+setGeneric("spectra",function(object) standardGeneric("spectra"))
+setGeneric("spectra<-",function(object,value) standardGeneric("spectra<-"))
+setGeneric("precursorMz",function(object) standardGeneric("precursorMz"))
+setGeneric("precursorCharge",function(object) standardGeneric("precursorCharge"))
+setGeneric("precursorCharge<-",function(object,value) standardGeneric("precursorCharge<-"))
+setGeneric("acquisitionNum",function(object) standardGeneric("acquisitionNum"))
+setGeneric("ms1scanNum",function(object) standardGeneric("ms1scanNum"))
+setGeneric("rtime",function(object) standardGeneric("rtime"))
+setGeneric("peaksCount",function(object) standardGeneric("peaksCount"))
+setGeneric("msLevel",function(object) standardGeneric("msLevel"))
+setGeneric("collisionEnergy",function(object) standardGeneric("collisionEnergy"))
+setGeneric("header",function(object) standardGeneric("header"))
+
+setGeneric("proteomicsData",  function(object) standardGeneric("proteomicsData"))
+setGeneric("proteomicsData<-",function(object, value) standardGeneric("proteomicsData<-"))
+
+setGeneric("mz",function(object) standardGeneric("mz"))
+setGeneric("intensity",function(object) standardGeneric("intensity"))
+
+setGeneric("quantify",function(object,reporters,method,...) standardGeneric("quantify"))
+setGeneric("curveStats",function(object,reporters,...) standardGeneric("curveStats"))
+
+setGeneric("qual",function(object) standardGeneric("qual"))
+setGeneric("normalise",function(object,method) standardGeneric("normalise"))
+setGeneric("precursors",function(object) standardGeneric("precursors"))
+setGeneric("ratios",function(object) standardGeneric("ratios"))

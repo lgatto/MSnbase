@@ -1,0 +1,206 @@
+show.Spectrum <- function(spectrum) {
+  if (msLevel(spectrum)==1) show.Spectrum1(spectrum)
+  else show.Spectrum2(spectrum)
+}
+    
+
+removePeaks.Spectrum <- function(spectrum,t) {
+  if (t=="min") 
+    t <- min(intensity(spectrum)[intensity(spectrum)>0])
+  ints <- utils.removePeaks(spectrum@intensity,t)
+  spectrum@intensity <- ints
+  return(spectrum)
+}
+
+bg.correct.Spectrum <- function(spectrum,bg="min") {
+  if (bg=="min") 
+    bg <- min(intensity(spectrum)[intensity(spectrum)>0])
+  int <- spectrum@intensity - 1
+  int[int<0] <- 0
+  sp@intensity <- int
+  return(sp)
+}
+
+clean.Spectrum <- function(spectrum,updatePeaksCount=TRUE) {
+  keep <- utils.clean(spectrum@intensity)
+  spectrum@intensity <- spectrum@intensity[keep]
+  spectrum@mz <- spectrum@mz[keep]
+  spectrum@peaksCount <- length(spectrum@intensity)
+  return(spectrum)
+}
+
+quantify.Spectrum <- function(spectrum,reporters,method) {
+  switch(method,
+         trapezoidation = quantify.Spectrum.trap(spectrum,reporters),
+         max = quantify.Spectrum.max(spectrum,reporters),
+         sum = quantify.Spectrum.sum(spectrum,reporters))
+}
+
+quantify.Spectrum.trap <- function(spectrum,reporters) {
+  ## function to quantify reporter ions calculating
+  ## the area un the curve by trapezoidation
+  ## Parameters:
+  ##  spectrum: object of class Spectrum
+  ##  reporters: object of class ReporterIons
+  ## Return value:
+  ##  named numeric of length length(reporters)
+  peakArea <- vector("numeric",length(reporters))
+  names(peakArea) <- paste(reporters@name,reporters@mz,sep=".")
+  for (i in 1:length(reporters)) {
+    dfr <- curveData(spectrum,reporters[i])
+    if (nrow(dfr)==1) {
+      peakArea[i] <- dfr$int
+    } else {
+      for (j in 1:(nrow(dfr)-1))
+        peakArea[i] <- peakArea[i] + area(dfr[j:(j+1),])
+    }
+  }
+  return(peakArea)
+}
+
+quantify.Spectrum.max <- function(spectrum,reporters) {
+  ## function to quantify reporter ions using max peak intensity
+  ## see quantify.Spectrum.trap for parameters
+  peakArea <- vector("numeric",length(reporters))
+  names(peakArea) <- paste(reporters@name,reporters@mz,sep=".")
+  for (i in 1:length(reporters)) {
+    dfr <- curveData(spectrum,reporters[i])    
+    peakArea[i] <- max(dfr$int)
+  }
+  return(peakArea)
+}
+
+quantify.Spectrum.sum <- function(spectrum,reporters) {
+  ## function to quantify reporter ions using sum of peak intensity
+  ## see quantify.Spectrum.trap for parameters
+  peakArea <- vector("numeric",length(reporters))
+  names(peakArea) <- paste(reporters@name,reporters@mz,sep=".")
+  for (i in 1:length(reporters)) {
+    dfr <- curveData(spectrum,reporters[i])    
+    peakArea[i] <- sum(dfr$int)
+  }
+  return(peakArea)
+}
+
+
+curveStats.Spectrum <- function(spectrum,reporters) {
+  curveStats <- c()
+  for (i in 1:length(reporters)) {
+    dfr <- curveData(spectrum,reporters[i])
+    maxInt <- max(dfr$int)
+    nMaxInt <- sum(dfr$int==maxInt)
+    baseLength <- nrow(dfr)
+    mzRange <- range(dfr$mz)
+    curveStats <- rbind(curveStats,
+                        c(maxInt,nMaxInt,baseLength,
+                          mzRange,
+                          reporters[i]@mz,precursorMz(spectrum)))
+  }
+  colnames(curveStats) <- c("maxInt","nMaxInt","baseLength",
+                            "lowerMz","upperMz",
+                            "reporter","precursor")
+  return(as.data.frame(curveStats))
+}
+
+curveData <- function(spectrum,reporter) {
+  ## Returns a data frame with mz and intensity
+  ## values (as columns) for all the points (rows)
+  ## in the reporter spectrum. The base of the
+  ## curve is extracted by getCurveWidth
+  ## Paramters:
+  ##  spectrum: object of class Spectrum
+  ##  reporter: object of class ReporterIons of length 1
+  ## Return value:
+  ##  a data frame
+  ##           mz int
+  ## 1  114.1023   0
+  ## 2  114.1063   2
+  ## 3  114.1102   3
+  ## 4  114.1142   4
+  ## ...
+  if (length(reporter)!=1) {
+    warning("Only returning data for first reporter ion")
+    reporter <- reporter[1]
+  }
+  bp <- getCurveWidth(spectrum,reporter)
+  if (any(is.na(bp))) {
+    ## returning 'fake' data
+    ## intensity 0 for 'missing' reporter
+    return(data.frame(mz=reporter@mz,int=0))
+  } else { 
+    int <- intensity(spectrum)[bp$lwr[1]:bp$upr[1]]
+    mz <- mz(spectrum)[bp$lwr[1]:bp$upr[1]]
+    return(data.frame(cbind(mz,int)))
+  }
+}
+
+getCurveWidth <- function(spectrum,reporters) {
+  ## This function returns curve base indices
+  ## from a spectrum object for all the reporter ions
+  ## in the reporter object
+  ## Warnings: the function returns warnings if the 
+  ##  mz[indeces] range outside of the original window
+  ##  reporter in the reporters object
+  ## Parameters:
+  ##  spectrum: object of class Spectrum
+  ##  reporters: object of class ReporterIons
+  ## Return value:
+  ##  list of length 2
+  ##   - list$lwr of length(reporters) lower indices
+  ##   - list$upr of length(reporters) upper indices
+  m <- reporters@mz 
+  lwr <- m-reporters@width
+  upr <- m+reporters@width
+  mz <- spectrum@mz
+  int <- spectrum@intensity
+  ## x... vectors of _indices_ of mz values
+  ## y... intensity values
+  xlwr <- xupr<- c()
+  for (i in 1:length(m)) {
+    region <- (mz>lwr[i] & mz<upr[i])
+    if (sum(region,na.rm=TRUE)==0) {
+      warning("No data for for precursor ",spectrum@precursorMz," reporter ",m[i])
+      xlwr[i] <- xupr[i] <- NA
+    } else {
+      ymax <- max(int[region])
+      xmax <- which((int %in% ymax) & region)
+      xlwr[i] <- min(xmax) ## if several max peaks
+      xupr[i] <- max(xmax) ## if several max peaks
+      ylwr <- yupr <- ymax
+      while (ylwr!=0) {
+        xlwr[i] <- xlwr[i]-1
+        ylwr <- int[xlwr[i]]
+      }
+      if (mz[xlwr[i]]<lwr[i])
+        warning("Peak base for precursor ",spectrum@precursorMz,
+                " reporter ",m[i],":\n   ",mz[xlwr[i]],"<",m[i],"-",
+                reporters@width)
+      while (yupr!=0) {
+        xupr[i] <- xupr[i]+1
+        yupr <- int[xupr[i]]
+      }
+      if (mz[xupr[i]]>upr[i])
+        warning("Peak base for precursor ",spectrum@precursorMz,
+                " reporter ",m[i],":\n   ",mz[xlwr[i]],">",m[i],"+",
+                reporters@width)
+    }
+  }
+  return(list(lwr=xlwr,upr=xupr))
+}
+
+trimMz.Spectrum <- function(x,mzlim,updatePeaksCount=TRUE) {
+  mzmin <- min(mzlim)
+  mzmax <- max(mzlim)
+  sel <- x@mz>mzmin & x@mz<mzmax
+  if (sum(sel)==0) {
+    warning(paste("No data points between ",mzmin," and ",mzmax,
+                  " for precursor ",precursorMz(x),
+                  ".\nLeaving data as is.",sep=""))
+    return(x)
+  }
+  x@mz <- x@mz[sel]
+  x@intensity <- x@intensity[sel]
+  if (updatePeaksCount)
+    x@peaksCount <- as.integer(length(x@intensity))
+  return(x)
+}
