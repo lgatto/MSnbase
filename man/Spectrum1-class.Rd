@@ -44,15 +44,14 @@
   }
 }
 \section{Extends}{
-Class \code{"\linkS4class{Spectrum}"}, directly.
-Class \code{"\linkS4class{Versioned}"}, by class "Spectrum", distance 2.
+  Class \code{"\linkS4class{Spectrum}"}, directly.
+  Class \code{"\linkS4class{Versioned}"}, by class "Spectrum", distance 2.
 }
 
 %% \section{Methods}{
 %% No methods defined with class "Spectrum1" in the signature.
 %% }
 
-}
 \author{
   Laurent Gatto <lg390@cam.ac.uk>
 }

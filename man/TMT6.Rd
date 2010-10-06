@@ -25,7 +25,7 @@ data(TMT7)
   Neumann T, Johnstone R, Mohammed AK, Hamon C.
   "Tandem mass tags: a novel quantification strategy for comparative
   analysis of complex protein mixtures by MS/MS."
-  \emph{Anal Chem.} 2003 Apr 15;75(8):1895-904. \textit{Erratum} in:
+  \emph{Anal Chem.} 2003 Apr 15;75(8):1895-904. \emph{Erratum} in:
   \emph{Anal Chem.} 2006 Jun 15;78(12):4235. Mohammed, A Karim A [added]
   and  
   \emph{Anal Chem.} 2003 Sep 15;75(18):4942. Johnstone, R [added].
