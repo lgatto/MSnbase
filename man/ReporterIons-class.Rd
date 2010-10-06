@@ -2,6 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{ReporterIons-class}
+\alias{class:ReporterIons}
 \alias{ReporterIons}
 
 \title{The "ReporterIons" Class}
@@ -72,7 +73,7 @@
   \emph{Mol Cell Proteomics}, 2004 Dec;3(12):1154-69.
   Epub 2004 Sep 22. PubMed PMID: 15385600.
   
-  Thompson A, Sch\"afer J, Kuhn K, Kienle S, Schwarz J, Schmidt G,
+  Thompson A, Schäfer J, Kuhn K, Kienle S, Schwarz J, Schmidt G,
   Neumann T, Johnstone R, Mohammed AK, Hamon C.
   "Tandem mass tags: a novel quantification strategy for comparative
   analysis of complex protein mixtures by MS/MS."

@@ -2,6 +2,8 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{Spectrum-class}
+\alias{class:Spectrum}
+\alias{Spectrum}
 
 \title{The "Spectrum" Class}
 
@@ -41,9 +43,6 @@
   Class \code{"\linkS4class{Versioned}"}, directly.
 }
 
-\references{
-  %%  ~~put references to the literature/web site here~~
-}
 \author{
   Laurent Gatto <lg390@cam.ac.uk>
 }

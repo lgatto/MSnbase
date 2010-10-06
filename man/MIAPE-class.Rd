@@ -2,6 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{MIAPE-class}
+\alias{class:MIAPE}
 \alias{MIAPE}
 \alias{proteomicsData}
 

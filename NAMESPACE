@@ -1,7 +1,8 @@
-import(Biobase)
+import("Biobase")
+import("graphics")
 
 export(readMzXMLData, formatRt)
 
-exportClass(MIAPE, MSnExp, MSnProcess,
-            Specrum, Spectrum1, Spectrum2,
-            ReporterIons)
+exportClasses(MIAPE, MSnExp, MSnProcess,
+              Spectrum, Spectrum1, Spectrum2,
+              ReporterIons)

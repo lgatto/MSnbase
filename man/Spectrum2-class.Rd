@@ -2,6 +2,8 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{Spectrum2-class}
+\alias{class:Spectrum2}
+\alias{Spectrum2}
 
 \title{The "Spectrum2" Class for MSMS Spectra}
 

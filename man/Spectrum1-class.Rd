@@ -2,6 +2,8 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{Spectrum1-class}
+\alias{class:Spectrum1}
+\alias{Spectrum1}
 
 \title{The "Spectrum1" Class for MS1 Spectra }
 \description{

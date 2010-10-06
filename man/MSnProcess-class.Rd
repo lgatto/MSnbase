@@ -2,6 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{MSnProcess-class}
+\alias{class:MSnProcess}
 \alias{MSnProcess}
 
 \title{The "MSnProcess" Class }
