@@ -1,0 +1,15 @@
+TODO for Package MSnbase    -*- mode: org; -*-
+
+* Documentation [0/1]
+  - [ ] MSnProcess-class.Rd: add links to the cleaning, peak removing 
+	and merging methods/functions in the documentation.
+  - [ ] readMzXMLMData.Rd: add links to removePeaks and clean methods 
+	once documented.
+
+* Code [0/1]
+ - [ ] MSnQual class in DataClasses.R: add metadata (eSet slots)
+
+
+* Bugs [0/2]
+ - [ ] check header function
+ - [ ] quantification: intensities that do not start/end with 0, which leads to errors in getCurveWidth (while (ylwr!=0) line)
