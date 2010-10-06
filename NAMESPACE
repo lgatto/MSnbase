@@ -1,3 +1,7 @@
-importClassesFrom(Biobase, Versioned, VersionedBiobase)
-export(readMzXMLData)
-export(formatRt)
+import(Biobase)
+
+export(readMzXMLData, formatRt)
+
+exportClass(MIAPE, MSnExp, MSnProcess,
+            Specrum, Spectrum1, Spectrum2,
+            ReporterIons)

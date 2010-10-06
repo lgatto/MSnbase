@@ -33,6 +33,16 @@
 ##' mzxmlfile <- dir(system.file("inst/extdata",package="MSnbase"),pattern="mzXML$")
 ##' msnexp <- readMzXMLData(mzxmlfile)
 ##' msnexp
+##' @references
+##' Information about the mzXML format as well converters from vendor
+##' specific formats to mzXML: 
+##' \url{http://tools.proteomecenter.org/wiki/index.php?title=Formats:mzXML}.
+##' @note
+##' A new open cummunity-developed format \code{mzML} (Martens
+##' \texit{et al.}, published in MCP in 2010 --
+##' \url{http://www.mcponline.org/content/early/2010/08/17/mcp.R110.000133.abstract}), 
+##' developed under the banner of the HUPO PSI is expected
+##' to supercede \code{mzXML} and will be implemented in the MSnbase.
 ##' @author Laurent Gatto
 ##' @export 
 ##' @keywords data utilities 
@@ -44,7 +54,6 @@ readMzXMLData <- function(files,
                           description=character(),
                           removePeaks=0,
                           clean=FALSE) {
-  msLevel <- match.arg(msLevel,1:2,several.ok=FALSE)
   ## Opening file handles to mzXML files
   n <- length(files)
   if (n<1)

@@ -1,27 +1,6 @@
-##' The Minimum Information About a Proteomics Experiment
-##'
-##' The current dummy implementation is composed of a free-text
-##' description of the experiment. The class will be updated
-##' at a later stage to be MIAPE compliant.
-##'
-##' @title The MIAPE Class
-##' @name MIAPE
-##' @slot description a character string describing the experiment
-##' @aliases MIAPE-class
-##' @aliases MIAPE
-##' @references
-##' About MIAPE: \url{http://www.psidev.info/index.php?q=node/91}
-##' Reporting guideline: \url{http://www.psidev.info/index.php?q=node/60}
-##' @author Laurent Gatto <lg390@@cam.ac.uk>
-##' @examples
-##' new("MIAPE",description="Quantitative MSMS experiment using iTRAQ 4-plex on QTop Premier.")
-##' @TODO
-##' This is a temporary implementation, that will most likely
-##' be updated using the AnnotedDataFrame class. MIAPE is currently 
-##' just a checklist of items, but may be more formally described later.
-##' @keywords classes
-##' @docType class 
-##' @exportClass MIAPE
+##################################################################
+## The 'Minimum Information About a Proteomics Experiment' Classe
+## See online documentation for more information.
 setClass("MIAPE",
          representation=representation(description="character"),
          contains=c("Versioned"),
@@ -31,46 +10,42 @@ setClass("MIAPE",
            )
          )
 
+##################################################################
+## MSnProcess: Container for MSnExp and MSnSet processing information
+## See online documentation for more information.
+setClass("MSnProcess",
+         representation = representation(
+           processing="character",
+           merged="logical",
+           cleaned="logical",
+           removedPeaks="character",
+           smoothed="logical",
+           centroided="logical",
+           normalised="logical",
+           xcmsVersion="character",
+           MSnbaseVersion="character"),
+         contains=c("Versioned"),
+         prototype = prototype(
+           new("Versioned", versions=c(MSnProcess="0.1.0")),
+           processing=character(),
+           merged=FALSE,
+           cleaned=FALSE,
+           removedPeaks=character(),
+           smoothed=FALSE,
+           centroided=FALSE,
+           normalised=FALSE,
+           xcmsVersion=as.character(packageVersion("xcms")),
+           ## will have to check whether this is a problem during 
+           ## package building, checking when packahe not yet installed
+           ## as well as during first installation
+           MSnbaseVersion=ifelse(is.na(packageDescription("MSnbase")),"0.0.0",
+             as.character(packageVersion("MSnbase")))
+           )
+         )
 
-##' Container for MS Spectra
-##'
-##' Virtual container for spectrum data common
-##' to all different types of spectra. A \code{Spectrum}
-##' object can not be directly instanciated. Use
-##' \code{"\linkS4class{Spectrum1}"} and
-##' \code{"\linkS4class{Spectrum2}"} instead. 
-##'
-##' @title The Virtual Spectrum Class
-##' @name Spectrum
-##' @slot msLevel an integer indication the MS level; 
-##' 1 for MS1 level \code{Spectrum1} objects and
-##' 2 for MSMSM \code{Spectrum2} objects.
-##' @slot peaksCount an integer indicating the number
-##' of MZ peaks.
-##' @slot rt a numeric value indicating the retention
-##' time (in seconds) for the current ions.
-##' @slot acquisitionNum an integer corresponding to
-##' the acquisition number of the current spectrum.
-##' @slot scanIndex an integer indicating the scan
-##' index of the current spectrum.
-##' @slot mz a numeric of length equal to the peaks count
-##' indicating the MZ values that have been measured for
-##' the current ion.
-##' @slot intensity a numeric of same length as \code{mz}
-##' indicating the intensity at which each \code{mz} datum
-##' has been measured.
-##' @aliases Spectrum-class
-##' @aliases Spectrum
-##' @author Laurent Gatto <lg390@@cam.ac.uk>
-##' @note This is a virtual class and can not be
-##' instanciated directly
-##' @seealso Instaciable sub-classes
-##' \code{"\linkS4class{Spectrum1}"}
-##' and \code{"\linkS4class{Spectrum2}"}
-##' for MS1 and MS2 spectra.
-##' @keywords classes
-##' @docType class 
-##' @exportClass Spectrum
+##################################################################
+## The Spectrum class and it's sub-classes Spectrum1 and Spectrum2
+## See online documentation for more information.
 setClass("Spectrum",
          representation = representation(
            msLevel="integer",
@@ -115,9 +90,10 @@ setClass("Spectrum2",
            scanindex = "integer",
            collisionEnergy = "numeric"),
          contains=c("Spectrum"),
-         prototype = prototype(
-           new("Versioned", versions=c(Spectrum1="0.1.0")),
-           merged = numeric(),
+         prototype = prototype(           
+           new("Versioned",
+               versions=c(classVersion("Spectrum"), Spectrum2="0.1.0")),
+           merged = 1,
            acquisitionNum = integer(),
            ms1scan = integer(),
            precursorMz = numeric(),
@@ -135,11 +111,12 @@ setClass("Spectrum2",
            else msg
          })
 
+
 setClass("Spectrum1",
          representation = representation(polarity="integer"),
          contains=c("Spectrum"),
          prototype = prototype(
-           new("Versioned", versions=c(Spectrum1="0.1.0")),
+           new("Versioned", versions=c(classVersion("Spectrum"), Spectrum1="0.1.0")),
            polarity=integer(),
            msLevel = as.integer(1)),
          validity = function(object) {
@@ -153,37 +130,9 @@ setClass("Spectrum1",
          })
 
 
-setClass("MSnProcess",
-         representation = representation(
-           processing="character",
-           merged="logical",
-           cleaned="logical",
-           removedPeaks="character",
-           smoothed="logical",
-           centroided="logical",
-           normalised="logical",
-           xcmsVersion="character",
-           MSnbaseVersion="character"),
-         contains=c("Versioned"),
-         prototype = prototype(
-           new("Versioned", versions=c(MSnProcess="0.1.0")),
-           processing=character(),
-           merged=FALSE,
-           cleaned=FALSE,
-           removedPeaks=character(),
-           smoothed=FALSE,
-           centroided=FALSE,
-           normalised=FALSE,
-           xcmsVersion=as.character(packageVersion("xcms")),
-           ## will have to check whether this is a problem during 
-           ## package building, checking when packahe not yet installed
-           ## as well as during first installation
-           MSnbaseVersion=ifelse(is.na(packageDescription("MSnbase")),"0.0.0",
-             as.character(packageVersion("MSnbase")))
-           )
-         )
-         
-
+##################################################################
+## Container for MSn Experiments Data and Meta-Data
+## See online documentation for more information.
 setClass("MSnExp",
          representation = representation(
            spectra="list",
@@ -194,12 +143,20 @@ setClass("MSnExp",
            files="character"),
          contains=c("eSet"),
          prototype = prototype(
-           new("VersionedBiobase",versions=c(MSnExp="0.2.0")),
-           description="Short description of the data.",
+           spectra=list(),
+           process=new("MSnProcess"),
+           proteomicsData=new("MIAPE"),
+           description="Provide a short description of your experiment here.",
            fromFile=numeric(),
-           files=character())
+           files=character(),           
+           new("VersionedBiobase",
+               versions=c(classVersion("eSet"), MSnExp="0.2.0")))
          )
 
+ 
+##################################################################
+## Data Structure for Reporter Ions for labelled MS Quantification
+## See online documentation for more information.
 setClass("ReporterIons",
          representation = representation(
            name="character",
@@ -217,9 +174,9 @@ setClass("ReporterIons",
            width=numeric()),
          validity = function(object) {
            msg <- validMsg(NULL, NULL)
-           if (length(object@mz)==0)
+           if (length(object@mz)==0) {
              msg <- validMsg(msg,"No reporter ions defined.")
-           if (length(object@mz)>0) {
+           } else {
              if (length(object@col)!=length(object@mz))
                warning("Missing colors for the reporter ions.")
            }
@@ -228,55 +185,29 @@ setClass("ReporterIons",
          })
 
 
-iTRAQ4 <- new("ReporterIons",
-              description="4-plex iTRAQ",
-              name="iTRAQ4",
-              mz=c(114.13,115.13,116.13,117.13),
-              col=c("red","green","blue","yellow"),
-              width=0.05)
-
-iTRAQ5 <- new("ReporterIons",
-              description="4-plex iTRAQ with isobaric tag",
-              name="iTRAQ4",
-              mz=c(114.13,115.13,116.13,117.13,145.13),
-              col=c("red","green","blue","yellow","grey"),
-              width=0.05)
-
-TMT6 <- new("ReporterIons",
-            description="6-plex TMT tags",
-            name="TMT6",
-            mz=c(126.22,127.21,128.20,129.20,130.19,131.18),
-            col=c("red","purple","blue","steelblue","green","yellow"),
-            width=0.05)
-
-TMT7 <- new("ReporterIons",
-            description="6-plex TMT tags with isobaric tag",
-            name="TMT7",
-            mz=c(126.22,127.21,128.20,129.20,130.19,131.18,229.26),
-            col=c("red","purple","blue","steelblue","green","yellow","grey"),
-            width=0.05)
-
-
-setClass("MSnQual",
-         representation = representation(
-           qc="data.frame"
-           ## add metadata and process
-           ),
-         contains=c("Versioned"),
-         prototype = prototype(
-           new("Versioned", versions=c(MSnQual="0.1.0")))
-         )
 
 
 setClass("MSnSet",
          representation = representation(
+           process="MSnProcess",
            proteomicsData="MIAPE",
-           process="MSnProcess"),
+           description="character",
+           files="character"),
          contains = c("ExpressionSet"),
          prototype = prototype(
-           new("VersionedBiobase",versions=c(MSnSet="0.1.0")))
+           proteomicsData=new("MIAPE"),
+           process=new("MSnProcess"),
+           new("VersionedBiobase",
+               versions=c(classVersion("ExpressionSet"), MSnSet="0.2.0")))
          )
 
 
-
-
+setClass("MSnQual",
+         representation = representation(
+           qc="data.frame",
+           process="MSnProcess",
+           files="character"),
+         contains=c("Versioned"),
+         prototype = prototype(
+           new("Versioned", versions=c(MSnQual="0.1.0")))
+         )

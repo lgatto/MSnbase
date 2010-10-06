@@ -29,4 +29,5 @@
 ##' @references
 ##' \url{http://github.com/lgatto/MSnbase}
 ##' @keywords package
+##' @import Biobase
 NULL
