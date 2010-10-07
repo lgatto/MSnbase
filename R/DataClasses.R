@@ -38,7 +38,9 @@ setClass("MSnProcess",
            ## will have to check whether this is a problem during 
            ## package building, checking when packahe not yet installed
            ## as well as during first installation
-           MSnbaseVersion=ifelse(is.na(packageDescription("MSnbase")),"0.0.0",
+           MSnbaseVersion=ifelse(
+             all(is.na(packageDescription("MSnbase"))),
+             "0.0.0",
              as.character(packageVersion("MSnbase")))
            )
          )

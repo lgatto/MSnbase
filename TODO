@@ -9,7 +9,7 @@ TODO for Package MSnbase    -*- mode: org; -*-
 * Code [0/1]
  - [ ] MSnQual class in DataClasses.R: add metadata (eSet slots)
 
-* Bugs [0/2]
+* Bugs [1/3]
  - [ ] check header function
  - [ ] quantification: intensities that do not start/end with 0, which leads to errors in getCurveWidth (while (ylwr!=0) line)
- - [ ] MSnProcess slot MSnbaseVersion is of length 13?
+ - [X] MSnProcess slot MSnbaseVersion is of length 13?
