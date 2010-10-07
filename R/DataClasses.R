@@ -187,8 +187,9 @@ setClass("ReporterIons",
          })
 
 
-
-
+#####################################################################
+## The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
+## See online documentation for more information.
 setClass("MSnSet",
          representation = representation(
            process="MSnProcess",
@@ -203,7 +204,7 @@ setClass("MSnSet",
                versions=c(classVersion("ExpressionSet"), MSnSet="0.2.0")))
          )
 
-
+#####################################################################
 setClass("MSnQual",
          representation = representation(
            qc="data.frame",

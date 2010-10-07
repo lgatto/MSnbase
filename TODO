@@ -8,7 +8,11 @@ TODO for Package MSnbase    -*- mode: org; -*-
 
 * Code [0/1]
  - [ ] MSnQual class in DataClasses.R: add metadata (eSet slots)
-
+ - [ ] When generating MSnSet with quantify from MSnExp, make sure that 
+       precursor's MZ, and possibly some other data from the spectra
+       is stored in featureData.
+ - [ ] Issue with assayData slot when MSnSet is created in quantify.MSnExp 
+       (see R CMD check)
 * Bugs [1/3]
  - [ ] check header function
  - [ ] quantification: intensities that do not start/end with 0, which leads to errors in getCurveWidth (while (ylwr!=0) line)

@@ -89,9 +89,9 @@
   \code{\link{readMzXMLData}} for loading \code{mzXML} data to generate
   an instance of \code{MSnExp}. See \code{"\linkS4class{eSet}"},
   \code{"\linkS4class{MSnProcess}"}, \code{"\linkS4class{MIAPE}"},
-  \code{"\linkS4class{featureData}"}, \code{"\linkS4class{phenoData}"},
-  \code{"\linkS4class{experimentData}"}, \code{"\linkS4class{MIAME}"}, 
-  \code{"\linkS4class{protocolData}"}, for more details about the
+  \code{\link{featureData}}, \code{\link{phenoData}},
+  \code{\link{experimentData}}, \code{"\linkS4class{MIAME}"}, 
+  \code{\link{protocolData}}, for more details about the
   individual slots.
 }
 \examples{

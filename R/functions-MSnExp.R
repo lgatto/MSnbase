@@ -171,9 +171,9 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
   ifelse(verbose,progress <- "text",progress <- "none")
   spectraList <- spectra(object)
   if (length(spectraList)==1) {
-    qdfr <- as.data.frame(t(quantify(spectraList[[1]],reporters,method)))
+    .exprs <- t(quantify(spectraList[[1]],reporters,method))
   } else {
-    qdfr <- ldply(spectraList,quantify,reporters,method,.progress=progress) }
+    .exprs <- laply(spectraList,quantify,reporters,method,.progress=progress) }
   prec <- sapply(spectraList,precursorMz)
   feat <- make.unique(as.character(prec))
   object@process@processing <- c(object@process@processing,
@@ -181,11 +181,17 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
                                        reporters@name,": ",date(),sep=""))
   object@process@centroided <- TRUE
   return(new("MSnSet",
-             quant=qdfr,
-             precursors=prec,
-             features=feat,
-             metadata=object@metadata,
-             process=object@process))
+             exprs=.exprs, 
+             process=object@process,
+             proteomicsData=object@proteomicsData,
+             description=object@description,
+             file=object@files,
+             phenoData=object@phenoData,
+             ##precursors=prec,
+             ##features=feat,
+             featureData=object@featureData,
+             experimentData=object@experimentData,
+             protocolData=object@protocolData))
 }
 
 "[.MSnExp" <- function(x,i) {

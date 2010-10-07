@@ -21,7 +21,7 @@ data(TMT7)
 }
 
 \references{
-  Thompson A, Schäfer J, Kuhn K, Kienle S, Schwarz J, Schmidt G,
+  Thompson A, Sch\"{a}fer J, Kuhn K, Kienle S, Schwarz J, Schmidt G,
   Neumann T, Johnstone R, Mohammed AK, Hamon C.
   "Tandem mass tags: a novel quantification strategy for comparative
   analysis of complex protein mixtures by MS/MS."
