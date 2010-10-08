@@ -170,28 +170,56 @@ clean.MSnExp <- function(object,verbose=TRUE) {
 quantify.MSnExp <- function(object,reporters,method,verbose) {
   ifelse(verbose,progress <- "text",progress <- "none")
   spectraList <- spectra(object)
+  ## Creating exprs for assayData slot
   if (length(spectraList)==1) {
     .exprs <- t(quantify(spectraList[[1]],reporters,method))
   } else {
-    .exprs <- laply(spectraList,quantify,reporters,method,.progress=progress) }
+    .exprs <- laply(spectraList,quantify,reporters,method,.progress=progress)
+  }
   prec <- sapply(spectraList,precursorMz)
   feat <- make.unique(as.character(prec))
+  rownames(.exprs) <- feat
+  colnames(.exprs) <- reporters@reporterNames
+  ## Updating MSnprocess slot
   object@process@processing <- c(object@process@processing,
                                  paste("Quantification by ",method,
                                        reporters@name,": ",date(),sep=""))
   object@process@centroided <- TRUE
+  ## Updating featureData slot or creating one
+  fd <- header(object)
+  if (nrow(fData(object))>0) { 
+    if (nrow(fData(object))==length(object)) {
+      .featureData <- new("AnnotatedDataFrame",data=cbind(fData(object),fd))
+    } else {
+      warning("Unexpected number of features in featureData slot. Dropping it.")
+    }
+  } else {
+    rownames(fd) <- feat
+    .featureData <- new("AnnotatedDataFrame",data=fd)
+  }
+  ## Updating phenoData slot or creating one
+  pd <- data.frame(mz=reporters@mz,
+                   reporters=reporters@name,
+                   row.names=reporters@reporterNames)
+  if (nrow(pData(object))>0) { 
+    if (nrow(fData(object))==length(object)) {
+      .phenoDataData <- new("AnnotatedDataFrame",data=cbind(pData(object),pd))
+    } else {
+      warning("Unexpected number of samples in phenoData slot. Dropping it.")
+    }
+  } else {
+    .phenoData <- new("AnnotatedDataFrame",data=pd)
+  }
   return(new("MSnSet",
              exprs=.exprs, 
              process=object@process,
              proteomicsData=object@proteomicsData,
              description=object@description,
-             file=object@files,
-             phenoData=object@phenoData,
-             ##precursors=prec,
-             ##features=feat,
-             featureData=object@featureData,
-             experimentData=object@experimentData,
-             protocolData=object@protocolData))
+             files=object@files,
+             featureData=.featureData,
+             phenoData=phenoData(object),
+             experimentData=experimentData(object),
+             protocolData=protocolData(object)))
 }
 
 "[.MSnExp" <- function(x,i) {

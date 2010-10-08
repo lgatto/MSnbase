@@ -9,7 +9,15 @@ setMethod("show","ReporterIons",function(object) show.ReporterIons(object))
 setMethod("[","ReporterIons",
           function(x,i,j="missing",drop="missing") "[.ReporterIons"(x,i))
 setMethod("length","ReporterIons",function(x) length(x@mz))
-
+setMethod("initialize", "ReporterIons",
+          function(.Object,...) {
+            .Object <- callNextMethod()
+            if (length(.Object@mz)!=length(.Object@reporterNames)) {
+              warning("Setting reporter name.")
+              .Object@reporterNames <- paste(.Object@name,.Object@mz,sep=".")
+            }
+            .Object
+          })
 
 ##################################################################
 ## Methods for Spectrum class and children

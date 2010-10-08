@@ -40,6 +40,11 @@
   \describe{
     \item{\code{name}:}{Object of class \code{"character"} to identify
       the \code{ReporterIons} instance. }
+    \item{\code{reporterNames}:}{Object of class \code{"character"}
+      naming each individual reporter of the \code{ReporterIons}
+      instance. If not provided explicitely, they are names by
+      concatenating the \code{ReporterIons} name and the respective MZ
+      values. }
     \item{\code{description}:}{Object of class \code{"character"} to
       describe the \code{ReporterIons} instance. }
     \item{\code{mz}:}{Object of class \code{"numeric"} providing the MZ

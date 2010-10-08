@@ -162,6 +162,7 @@ setClass("MSnExp",
 setClass("ReporterIons",
          representation = representation(
            name="character",
+           reporterNames="character",
            description="character",
            mz="numeric",
            col="character",
@@ -170,6 +171,7 @@ setClass("ReporterIons",
          prototype = prototype(
            new("Versioned", versions=c(ReporterIons="0.1.0")),
            name=character(),
+           reporterNames=character(),
            description=character(),
            mz=numeric(),
            col=character(),
@@ -185,6 +187,7 @@ setClass("ReporterIons",
            if (is.null(msg)) TRUE
            else msg
          })
+
 
 
 #####################################################################

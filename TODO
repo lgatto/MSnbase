@@ -5,15 +5,16 @@ TODO for Package MSnbase    -*- mode: org; -*-
 	and merging methods/functions in the documentation.
   - [ ] readMzXMLMData.Rd: add links to removePeaks and clean methods 
 	once documented.
-
-* Code [0/1]
- - [ ] MSnQual class in DataClasses.R: add metadata (eSet slots)
- - [ ] When generating MSnSet with quantify from MSnExp, make sure that 
-       precursor's MZ, and possibly some other data from the spectra
-       is stored in featureData.
- - [ ] Issue with assayData slot when MSnSet is created in quantify.MSnExp 
-       (see R CMD check)
 * Bugs [1/3]
  - [ ] check header function
  - [ ] quantification: intensities that do not start/end with 0, which leads to errors in getCurveWidth (while (ylwr!=0) line)
  - [X] MSnProcess slot MSnbaseVersion is of length 13?
+
+* Code [2/4]
+ - [ ] MSnQual class in DataClasses.R: add metadata (eSet slots)
+ - [X] When generating MSnSet with quantify from MSnExp, make sure that 
+       precursor's MZ, and possibly some other data from the spectra
+       is stored in featureData.
+ - [X] Issue with assayData slot when MSnSet is created in quantify.MSnExp 
+       (see R CMD check)
+ - [ ] Fix example(MSnSet): Error in validObject(.Object)
