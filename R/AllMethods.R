@@ -9,6 +9,17 @@ setMethod("show","ReporterIons",function(object) show.ReporterIons(object))
 setMethod("[","ReporterIons",
           function(x,i,j="missing",drop="missing") "[.ReporterIons"(x,i))
 setMethod("length","ReporterIons",function(x) length(x@mz))
+setMethod("reporterNames","ReporterIons", function(x) x@reporterNames)
+setMethod("reporterNames<-","ReporterIons",
+          function(object,value="list") object@reporterNames <- value)
+setReplaceMethod("reporterNames",
+                 signature(object="ReporterIons",
+                           value="character"),
+                 function(object, value) {
+                   object@reporterNames = value
+                   if (validObject(object))
+                     return(object)
+                 })
 setMethod("initialize", "ReporterIons",
           function(.Object,...) {
             .Object <- callNextMethod()
@@ -18,6 +29,7 @@ setMethod("initialize", "ReporterIons",
             }
             .Object
           })
+
 
 ##################################################################
 ## Methods for Spectrum class and children

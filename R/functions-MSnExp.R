@@ -185,6 +185,14 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
                                  paste("Quantification by ",method,
                                        reporters@name,": ",date(),sep=""))
   object@process@centroided <- TRUE
+  ## New MSnSet
+  msnset <- new("MSnSet",
+                exprs=.exprs, 
+                process=object@process,
+                proteomicsData=object@proteomicsData,
+                description=object@description,
+                files=object@files,
+                experimentData=experimentData(object))
   ## Updating featureData slot or creating one
   fd <- header(object)
   if (nrow(fData(object))>0) { 
@@ -197,12 +205,13 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
     rownames(fd) <- feat
     .featureData <- new("AnnotatedDataFrame",data=fd)
   }
+  featureData(msnset) <- .featureData
   ## Updating phenoData slot or creating one
   pd <- data.frame(mz=reporters@mz,
                    reporters=reporters@name,
                    row.names=reporters@reporterNames)
   if (nrow(pData(object))>0) { 
-    if (nrow(fData(object))==length(object)) {
+    if (nrow(pData(object))==length(reporters)) {
       .phenoDataData <- new("AnnotatedDataFrame",data=cbind(pData(object),pd))
     } else {
       warning("Unexpected number of samples in phenoData slot. Dropping it.")
@@ -210,16 +219,16 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
   } else {
     .phenoData <- new("AnnotatedDataFrame",data=pd)
   }
-  return(new("MSnSet",
-             exprs=.exprs, 
-             process=object@process,
-             proteomicsData=object@proteomicsData,
-             description=object@description,
-             files=object@files,
-             featureData=.featureData,
-             phenoData=phenoData(object),
-             experimentData=experimentData(object),
-             protocolData=protocolData(object)))
+  phenoData(msnset) <- .phenoData
+  ## Updating protocol slot
+  if (nrow(protocolData(object))>0) { 
+    if (nrow(protocolData(object))==length(reporters)) 
+      protocolData(msnset) <- protocolData(object)
+    else 
+      warning("Unexpected number of features in featureData slot. Dropping it.")
+  }
+  ## Returning shiny MSnSet object
+  return(msnset)
 }
 
 "[.MSnExp" <- function(x,i) {
