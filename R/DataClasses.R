@@ -1,5 +1,5 @@
-##################################################################
-## The 'Minimum Information About a Proteomics Experiment' Classe
+#################################################################
+## The 'Minimum Information About a Proteomics Experiment' Class
 ## See online documentation for more information.
 setClass("MIAPE",
          representation=representation(description="character"),
@@ -10,7 +10,7 @@ setClass("MIAPE",
            )
          )
 
-##################################################################
+######################################################################
 ## MSnProcess: Container for MSnExp and MSnSet processing information
 ## See online documentation for more information.
 setClass("MSnProcess",
@@ -45,7 +45,7 @@ setClass("MSnProcess",
            )
          )
 
-##################################################################
+###################################################################
 ## The Spectrum class and it's sub-classes Spectrum1 and Spectrum2
 ## See online documentation for more information.
 setClass("Spectrum",
