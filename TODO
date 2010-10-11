@@ -10,12 +10,14 @@ TODO for Package MSnbase    -*- mode: org; -*-
  - [ ] quantification: intensities that do not start/end with 0, which leads to errors in getCurveWidth (while (ylwr!=0) line)
  - [X] MSnProcess slot MSnbaseVersion is of length 13?
 
-* Code [4/5]
- - [ ] MSnQual class in DataClasses.R: add metadata (eSet slots)
+* Code [5/5]
+ - [ ] add curveData collection to quantify method.
+ - [X] MSnQual class in DataClasses.R: add metadata (eSet slots)
+       MOVED qual slot to MSnSet.
  - [X] Create reporterNames accessors and setter for ReporterIons.
  - [X] When generating MSnSet with quantify from MSnExp, make sure that 
        precursor's MZ, and possibly some other data from the spectra
        is stored in featureData.
  - [X] Issue with assayData slot when MSnSet is created in quantify.MSnExp 
-       (see R CMD check)
- - [X] Fix example(MSnSet): Error in validObject(.Object)
+       (see R CMD check).
+ - [X] Fix example(MSnSet): Error in validObject(.Object).

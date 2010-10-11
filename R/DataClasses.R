@@ -195,6 +195,7 @@ setClass("ReporterIons",
 ## See online documentation for more information.
 setClass("MSnSet",
          representation = representation(
+           qual="data.frame",
            process="MSnProcess",
            proteomicsData="MIAPE",
            description="character",
@@ -207,13 +208,4 @@ setClass("MSnSet",
                versions=c(classVersion("ExpressionSet"), MSnSet="0.2.0")))
          )
 
-#####################################################################
-setClass("MSnQual",
-         representation = representation(
-           qc="data.frame",
-           process="MSnProcess",
-           files="character"),
-         contains=c("Versioned"),
-         prototype = prototype(
-           new("Versioned", versions=c(MSnQual="0.1.0")))
-         )
+

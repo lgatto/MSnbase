@@ -9,7 +9,7 @@ setMethod("show","ReporterIons",function(object) show.ReporterIons(object))
 setMethod("[","ReporterIons",
           function(x,i,j="missing",drop="missing") "[.ReporterIons"(x,i))
 setMethod("length","ReporterIons",function(x) length(x@mz))
-setMethod("reporterNames","ReporterIons", function(x) x@reporterNames)
+setMethod("reporterNames","ReporterIons", function(object) object@reporterNames)
 setMethod("reporterNames<-","ReporterIons",
           function(object,value="list") object@reporterNames <- value)
 setReplaceMethod("reporterNames",
@@ -170,10 +170,7 @@ setMethod("curveStats","MSnExp",
             qdfr <- l[[1]]
             for (i in 2:length(l)) 
               qdfr <- rbind(qdfr,l[[i]])
-            return(new("MSnQual",
-                       qc=qdfr,
-                       metadata=object@metadata,
-                       process=object@process))
+            return(qdfr)
           })
 setMethod("proteomicsData",
           signature(object="MSnExp"),
@@ -183,13 +180,6 @@ setMethod("proteomicsData",
 ##################################################################
 ## Methods for MSnProcess class
 setMethod("show","MSnProcess",function(object) show.MSnProcess(object))
-
-
-##################################################################
-## Methods for MSnQual class
-setMethod("show","MSnQual",function(object) show.MSnQual(object))
-setMethod("qual","MSnQual",function(object) object@qc)
-setMethod("dim","MSnQual",function(x) dim(qual(x)))
 
 
 ##################################################################
@@ -203,10 +193,10 @@ setMethod("ratios","MSnSet",function(object) ratios.MSnSet(object))
 setMethod("proteomicsData",
           signature(object="MSnSet"),
           function(object) object@proteomicsData)
+setMethod("qual","MSnSet", function(object) object@qual)
 ## Not sure about these...
 setMethod("featureNames<-","MSnSet",
           function(object,value="character") object@features <- value)
-
 setReplaceMethod("featureNames",
                  signature(object="MSnSet",
                            value="character"),

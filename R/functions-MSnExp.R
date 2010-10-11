@@ -185,8 +185,11 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
                                  paste("Quantification by ",method,
                                        reporters@name,": ",date(),sep=""))
   object@process@centroided <- TRUE
+  ## Getting curve data
+  .qual <- curveStats(object,reporters,verbose=verbose)
   ## New MSnSet
   msnset <- new("MSnSet",
+                qual=.qual,
                 exprs=.exprs, 
                 process=object@process,
                 proteomicsData=object@proteomicsData,

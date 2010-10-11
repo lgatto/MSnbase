@@ -29,5 +29,4 @@ setGeneric("qual",function(object) standardGeneric("qual"))
 setGeneric("normalise",function(object,method) standardGeneric("normalise"))
 setGeneric("precursors",function(object) standardGeneric("precursors"))
 setGeneric("ratios",function(object) standardGeneric("ratios"))
-
 setGeneric("reporterNames",function(object) standardGeneric("reporterNames"))
