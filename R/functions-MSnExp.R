@@ -35,6 +35,14 @@ show.MSnExp <- function(object) {
   }
 }
 
+"[.MSnExp" <- function(x,i) {
+  if (max(i)>length(x) | min(i)<1)
+    stop("subscript out of bonds")
+  if (length(i)==1)
+    return(spectra(x)[[i]])
+  return(spectra(x)[i])
+}
+
 header.MSnExp <- function(object) {
   tbl <- table(object@fromFile)
   idx <- as.numeric(unlist(apply(tbl,1,function(x) 1:x)))
@@ -170,14 +178,19 @@ clean.MSnExp <- function(object,verbose=TRUE) {
 quantify.MSnExp <- function(object,reporters,method,verbose) {
   ifelse(verbose,progress <- "text",progress <- "none")
   spectraList <- spectra(object)
-  ## Creating exprs for assayData slot
+  ## Quantification -- creating exprs for assayData slot
   if (length(spectraList)==1) {
-    .exprs <- t(quantify(spectraList[[1]],reporters,method))
+    peakData <- quantify(spectraList[[1]],reporters,method)
+    .exprs <- t(peakData$peakArea)
+    .qual <- t(peakData$curveData)
   } else {
-    .exprs <- laply(spectraList,quantify,reporters,method,.progress=progress)
+    peakData <- laply(spectraList,quantify,reporters,method,.progress=progress)
+    .exprs <- do.call(rbind,sapply(peakData,"[","peakArea"))
+    .qual <- do.call(rbind,sapply(peakData,"[","curveStats"))
   }
   prec <- sapply(spectraList,precursorMz)
   feat <- make.unique(as.character(prec))
+  rownames(.qual) <- 1:nrow(.qual)
   rownames(.exprs) <- feat
   colnames(.exprs) <- reporters@reporterNames
   ## Updating MSnprocess slot
@@ -185,9 +198,7 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
                                  paste("Quantification by ",method,
                                        reporters@name,": ",date(),sep=""))
   object@process@centroided <- TRUE
-  ## Getting curve data
-  .qual <- curveStats(object,reporters,verbose=verbose)
-  ## New MSnSet
+  ## Creating new MSnSet
   msnset <- new("MSnSet",
                 qual=.qual,
                 exprs=.exprs, 
@@ -234,11 +245,4 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
   return(msnset)
 }
 
-"[.MSnExp" <- function(x,i) {
-  if (max(i)>length(x) | min(i)<1)
-    stop("subscript out of bonds")
-  if (length(i)==1)
-    return(spectra(x)[[i]])
-  return(spectra(x)[i])
-}
 

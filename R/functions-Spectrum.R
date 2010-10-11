@@ -30,58 +30,54 @@ clean.Spectrum <- function(spectrum,updatePeaksCount=TRUE) {
 }
 
 quantify.Spectrum <- function(spectrum,reporters,method) {
-  switch(method,
-         trapezoidation = quantify.Spectrum.trap(spectrum,reporters),
-         max = quantify.Spectrum.max(spectrum,reporters),
-         sum = quantify.Spectrum.sum(spectrum,reporters))
-}
-
-quantify.Spectrum.trap <- function(spectrum,reporters) {
-  ## function to quantify reporter ions calculating
-  ## the area un the curve by trapezoidation
   ## Parameters:
   ##  spectrum: object of class Spectrum
   ##  reporters: object of class ReporterIons
   ## Return value:
-  ##  named numeric of length length(reporters)
+  ##  a names list of length 2 with
+  ##   peakArea: named numeric of length length(reporters)
+  ##   curveStats: a length(reporters)x7 data frame 
   peakArea <- vector("numeric",length(reporters))
   names(peakArea) <- paste(reporters@name,reporters@mz,sep=".")
+  curveStats <- c()
   for (i in 1:length(reporters)) {
+    ## Curve statistics
     dfr <- curveData(spectrum,reporters[i])
-    if (nrow(dfr)==1) {
-      peakArea[i] <- dfr$int
-    } else {
-      for (j in 1:(nrow(dfr)-1))
-        peakArea[i] <- peakArea[i] + area(dfr[j:(j+1),])
+    maxInt <- max(dfr$int)
+    nMaxInt <- sum(dfr$int==maxInt)
+    baseLength <- nrow(dfr)
+    mzRange <- range(dfr$mz)
+    curveStats <- rbind(curveStats,
+                        c(maxInt,nMaxInt,baseLength,
+                          mzRange,
+                          reporters[i]@mz,precursorMz(spectrum)))
+    ## Quantification
+    if (method=="trapezoidation") {
+      ## Quantify reporter ions calculating the area
+      ## under the curve by trapezoidation
+      if (nrow(dfr)==1) {
+        peakArea[i] <- dfr$int
+      } else {
+        for (j in 1:(nrow(dfr)-1))
+          peakArea[i] <- peakArea[i] + area(dfr[j:(j+1),])
+      }
+    } 
+    else if (method=="sum") {
+      ## Quantify reporter ions using sum of data points of the peak
+      peakArea[i] <- sum(dfr$int)
+    }
+    else if (method=="max") {
+      ## Quantify reporter ions using max peak intensity
+      peakArea[i] <- max(dfr$int)
     }
   }
-  return(peakArea)
+  colnames(curveStats) <- c("maxInt","nMaxInt","baseLength",
+                            "lowerMz","upperMz",
+                            "reporter","precursor")
+  curveStats <- as.data.frame(curveStats)  
+  return(list(peakArea=peakArea,
+              curveStats=curveStats))
 }
-
-quantify.Spectrum.max <- function(spectrum,reporters) {
-  ## function to quantify reporter ions using max peak intensity
-  ## see quantify.Spectrum.trap for parameters
-  peakArea <- vector("numeric",length(reporters))
-  names(peakArea) <- paste(reporters@name,reporters@mz,sep=".")
-  for (i in 1:length(reporters)) {
-    dfr <- curveData(spectrum,reporters[i])    
-    peakArea[i] <- max(dfr$int)
-  }
-  return(peakArea)
-}
-
-quantify.Spectrum.sum <- function(spectrum,reporters) {
-  ## function to quantify reporter ions using sum of peak intensity
-  ## see quantify.Spectrum.trap for parameters
-  peakArea <- vector("numeric",length(reporters))
-  names(peakArea) <- paste(reporters@name,reporters@mz,sep=".")
-  for (i in 1:length(reporters)) {
-    dfr <- curveData(spectrum,reporters[i])    
-    peakArea[i] <- sum(dfr$int)
-  }
-  return(peakArea)
-}
-
 
 curveStats.Spectrum <- function(spectrum,reporters) {
   curveStats <- c()
