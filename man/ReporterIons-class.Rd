@@ -125,6 +125,7 @@ rep <- new("ReporterIons",
        col=c("red","green","blue","yellow"),
        width=0.05)
 rep
+sampleNames(rep)
 rep[1:2]
 }
 

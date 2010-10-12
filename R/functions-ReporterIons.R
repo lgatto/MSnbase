@@ -15,6 +15,7 @@ show.ReporterIons <- function(object) {
   return(new("ReporterIons",
              name=paste(x@name,"[",paste(i,collapse=":"),"]",sep=""),
              description=paste("subset of",x@description,sep=" "),
+             reporterNames=x@reporterNames[i],
              mz=x@mz[i],
              col=x@col[i],
              width=x@width))
