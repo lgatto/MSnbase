@@ -44,6 +44,8 @@ show.MSnExp <- function(object) {
 }
 
 header.MSnExp <- function(object) {
+  if (any(msLevel(object)<2))
+    stop("header() only works for MS levels > 1.")
   tbl <- table(object@fromFile)
   idx <- as.numeric(unlist(apply(tbl,1,function(x) 1:x)))
   return(data.frame(cbind(index=idx,

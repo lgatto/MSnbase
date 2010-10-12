@@ -13,5 +13,6 @@ Collate: DataClasses.R AllGenerics.R AllMethods.R
 	 functions-Spectrum1.R functions-Spectrum2.R functions-Spectrum.R
 	 plotting-MSnExp.R plotting-MSnSet.R plotting-Spectrum1.R
 	 plotting-Spectrum2.R plotting-Spectrum.R
+	 iTRAQ4.R iTRAQ5.R TMT6.R TMT7.R
 LazyLoad: yes
 biocViews: Infrastructure, Bioinformatics, Proteomics

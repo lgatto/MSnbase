@@ -5,6 +5,15 @@
 \alias{class:MSnExp}
 \alias{MSnExp}
 
+\alias{show,MSnExp-method}
+\alias{header,MSnExp-method}
+\alias{header}
+\alias{length,MSnExp-method}
+\alias{spectra,MSnExp-method}
+\alias{spectra}
+\alias{spectra<-,MSnExp-method}
+\alias{spectra<-}
+
 \title{The "MSnExp" Class for MS Data And Meta-Data}
 
 \description{
@@ -73,9 +82,26 @@
   Class \code{"\linkS4class{Versioned}"}, by class "eSet", distance 3.
 }
 
-%%\section{Methods}{
-%%  No methods defined with class "MSnExp" in the signature.
-%%}
+\section{Methods}{
+  \describe{
+    \item{\code{show(object)}}{ Displays object content as text. }
+    \item{\code{header(object)}}{ Returns a \code{"data.frame"} with file
+      information, retention time, precursor MZ, peaks count, total ion
+      count (sum of all peaks in MS2 spectrum), ms level, precursor charge
+      and collision energy. This method only works for MSMS experiments. }
+    \item{\code{length(object)}}{ Returns the number of spectra in the
+      experiment. }
+    \item{\code{spectra(object)}}{ Return a \code{"list"} of
+      \code{"\linkS4class{Spectrum}"} objects. }
+    \item{\code{spectra(object) <- value}}{ Sets the list of spectra for
+      the current \code{MSnExp} instance using \code{value}. }
+    %% go on here --  
+    \item{\code{clean}}{ See
+      \code{\link{clean,MSnExp-method}} documentation for more details. }
+    \item{\code{plot(object,reporters,full)}}{ See
+      \code{\link{plot,MSnExp-method}} documentation for more details. }
+  }
+}
 
 \references{
   Information about the mzXML format as well converters from vendor
