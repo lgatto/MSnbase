@@ -6,6 +6,8 @@
 \alias{MIAPE}
 \alias{proteomicsData}
 
+\alias{show,MIAPE-method}
+
 \title{The "MIAPE" Class for Storing Proteomics Experiment Information}
 
 \description{
@@ -27,11 +29,14 @@
 }
 
 \section{Extends}{
-Class \code{"\linkS4class{Versioned}"}, directly.
+  Class \code{"\linkS4class{Versioned}"}, directly.
 }
 
 \section{Methods}{
-  No methods defined with class "MIAPE" in the signature.
+  \describe{
+    \item{\code{show(object)}}{ Displays the free-text description of
+      the \code{MIAPE} object. }
+  }
 }
 
 \references{

@@ -5,6 +5,14 @@
 \alias{class:ReporterIons}
 \alias{ReporterIons}
 
+\alias{show,ReporterIons-method}
+\alias{[,ReporterIons-method}
+\alias{length,ReporterIons-method}
+\alias{reporterNames,ReporterIons-method}
+\alias{reporterNames<-,ReporterIons-method}
+\alias{reporterNames}
+\alias{reporterNames<-}
+
 \title{The "ReporterIons" Class}
 
 \description{
@@ -65,9 +73,24 @@
   Class \code{"\linkS4class{Versioned}"}, directly.
 }
 
-%%\section{Methods}{
-%% No methods defined with class "ReporterIons" in the signature.
-%%}
+\section{Methods}{
+  \describe{
+    \item{\code{show(object)}}{ Displays object content as text. }
+    \item{\code{objec[]}}{ Subsets one or several reporter ions of the
+      \code{ReporterIons} object and returns a new instance of the same
+      class. }
+    \item{\code{length(object)}}{ Returns the number of reporter ions in
+      the instance. }
+    \item{\code{reporterNames(object)}}{ Returns the name of the
+      individual reporter ions. If not specified or is an incorrect
+      number of names is provided at initialisation, the names are
+      generated automatically by concatenating the instance name and the
+      reporter's MZ values. }
+    \item{\code{reporterNames(object) <- value}}{ Sets the reporter
+      names to \code{value}, which must be a character of the same
+      length as the number of reporter ions. }
+  }
+}
 
 \references{
   Ross PL, Huang YN, Marchese JN, Williamson B, Parker K, Hattan S,
@@ -95,12 +118,14 @@
 
 \examples{
 ## Code used for the iTRAQ4 set
-new("ReporterIons",
-    description="4-plex iTRAQ",
-    name="iTRAQ4",
-    mz=c(114.13,115.13,116.13,117.13),
-    col=c("red","green","blue","yellow"),
-    width=0.05)
+rep <- new("ReporterIons",
+       description="4-plex iTRAQ",
+       name="iTRAQ4",
+       mz=c(114.13,115.13,116.13,117.13),
+       col=c("red","green","blue","yellow"),
+       width=0.05)
+rep
+rep[1:2]
 }
 
 \keyword{classes}

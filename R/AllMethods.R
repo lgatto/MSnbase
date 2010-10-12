@@ -16,6 +16,10 @@ setReplaceMethod("reporterNames",
                  signature(object="ReporterIons",
                            value="character"),
                  function(object, value) {
+                   if (length(value)!=length(object))
+                     stop(paste("Please provide names for",
+                                length(object),
+                                "reporters",sep=" "))
                    object@reporterNames = value
                    if (validObject(object))
                      return(object)

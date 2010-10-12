@@ -182,7 +182,7 @@ setClass("ReporterIons",
              msg <- validMsg(msg,"No reporter ions defined.")
            } else {
              if (length(object@col)!=length(object@mz))
-               warning("Missing colors for the reporter ions.")
+               warning("Missing color(s) for the reporter ions.")
            }
            if (is.null(msg)) TRUE
            else msg

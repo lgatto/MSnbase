@@ -6,3 +6,4 @@ export(readMzXMLData, formatRt)
 exportClasses(MIAPE, MSnExp, MSnProcess,
               Spectrum, Spectrum1, Spectrum2,
               ReporterIons)
+exportMethods(show,"[",length,reporterNames,"reporterNames<-")
