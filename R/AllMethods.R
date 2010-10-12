@@ -47,7 +47,7 @@ setMethod("clean","Spectrum",function(object) clean.Spectrum(object))
 setMethod("removePeaks","Spectrum",
           function(object,t) removePeaks.Spectrum(object,t))
 setMethod("bg.correct","Spectrum",
-          function(object,bg) bg.correct.Spectrum(object,bg="min"))
+          function(object,bg) bg.correct.Spectrum(object,bg=-1))
 setMethod("precursorMz","Spectrum",
           function(object) {
             if (msLevel(object)>1) 
@@ -122,7 +122,7 @@ setMethod("removePeaks","MSnExp",
           function(object,t,verbose) removePeaks.MSnExp(object,t,verbose=TRUE))
 setMethod("bg.correct","MSnExp",
           function(object,bg,verbose)
-          bg.correct.MSnExp(object,bg="min",verbose=TRUE))
+          bg.correct.MSnExp(object,bg=-1,verbose=TRUE))
 setMethod("precursorMz","MSnExp",
           function(object) {
             if (msLevel(object)[1]>1) 
