@@ -14,8 +14,8 @@
   ratios for MS proteomics data and the experimental meta-data. The
   \code{MSnSet} class is derived from the
   \code{"\linkS4class{ExpressionSet}"} class and thus benefits from many
-  of the available analysis methods and requires a matrix named ‘exprs’
-  as assayData member. 
+  of the available analysis methods and requires a matrix named
+  \code{exprs} as assayData member. 
 }
 
 \section{Objects from the Class}{
@@ -27,7 +27,7 @@
   \code{Bioconductor} packages. Importer functions will be developed to
   stream-line the generation of \code{"MSnSet"} instances from
   third-party software. 
-
+  
   In the frame of the \code{MSnbase} package, \code{MSnSet} instances
   are generated from \code{"\linkS4class{MSnExp}"} experiments when the
   \code{"\linkS4class{ReporterIons}"} are quantified (see the 
@@ -41,9 +41,6 @@
       metrics. }
     \item{\code{process}:}{Object of class
       \code{"\linkS4class{MSnProcess}"} that records all processing. }
-    \item{\code{proteomicsData}:}{Object of class
-      \code{"\linkS4class{MIAPE}"}  that documents minimum information
-      about the proteomics experiment. } 
     \item{\code{description}:}{Object of class \code{"character"}
       describing the experiment in free form. }
     \item{\code{files}:}{Object of class \code{"character"} recording
@@ -52,9 +49,9 @@
       instance. }
     \item{\code{assayData}:}{Object of class \code{"assayData"}
       containing a matrix with equal with column number equal to
-      ‘nrow(phenoData)’. ‘assayData’ must contain a matrix ‘exprs’ with
-      rows represening features (e.g., reporters ions) and columns
-      representing samples. See the \code{"\linkS4class{AssayData}"}
+      \code{nrow(phenoData)}. \code{assayData} must contain a matrix
+      \code{exprs} with rows represening features (e.g., reporters ions)
+      and columns representing samples. See the \code{"\linkS4class{AssayData}"}
       class, \code{\link{exprs}} and \code{\link{assayData}} accessor
       for more details. This slot in indirectly inherited from
       \code{"\linkS4class{ExpressionSet}"}. } 
@@ -72,11 +69,10 @@
       \code{\link{featureData}} and the \code{"\linkS4class{eSet}"}
       class for more details. }
     \item{\code{experimentData}:}{Object of class
-      \code{"\linkS4class{MIAME}"}, containing details of experimental
-      methods (inherited indirectly from
-      \code{"\linkS4class{ExpressionSet}"}). See
+      \code{"\linkS4class{MIAPE}"}, containing details of experimental
+      methods (inherited from \code{"\linkS4class{ExpressionSet}"}). See 
       \code{\link{experimentData}} and the \code{"\linkS4class{eSet}"}
-      for more details. }
+      class for more details. }
     \item{\code{annotation}:}{ not used here. }
     \item{\code{protocolData}:}{Object of class
       \code{"\linkS4class{AnnotatedDataFrame}"} containing

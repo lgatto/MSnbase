@@ -35,9 +35,6 @@
       objects - the data. }
     \item{\code{process}:}{Object of class
       \code{"\linkS4class{MSnProcess}"} that records all processing. }
-    \item{\code{proteomicsData}:}{Object of class
-      \code{"\linkS4class{MIAPE}"} that documents minimum information about
-      the proteomics experiment. }
     \item{\code{description}:}{Object of class \code{"character"}
       describing the experiment in free form. }
     \item{\code{fromFile}:}{Object of class \code{"numeric"} of same
@@ -59,8 +56,8 @@
       \code{"\linkS4class{eSet}"}). See \code{\link{phenoData}} for more
       details. }
     \item{\code{experimentData}:}{Object of class
-      \code{"\linkS4class{MIAME}"}, containing details of experimental
-      methods (inherited from \code{"\linkS4class{eSet}"}). See
+      \code{"\linkS4class{MIAPE}"}, containing details of experimental
+      methods, including MIAPE relevant information. See
       \code{\link{experimentData}} for more details.}
     \item{\code{protocolData}:}{Object of class
       \code{"\linkS4class{AnnotatedDataFrame}"} containing

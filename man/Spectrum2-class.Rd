@@ -9,7 +9,7 @@
 
 \description{
   \code{Spectrum2} extends the \code{"\linkS4class{Spectrum}"} class and
-  introduce several MS2 specific attributes in addition to the slots in
+  introduces several MS2 specific attributes in addition to the slots in
   \code{"\linkS4class{Spectrum}"}. \code{Spectrum2} are not created
   directly but are contained in the \code{spectra} slot of an
   \code{"\linkS4class{MSnExp}"}. 

@@ -122,7 +122,6 @@ extractPrecSpectra <- function(object,prec) {
   return(new("MSnExp",
              spectra=object@spectra[sel],
              process=object@process,
-             proteomicsData=object@proteomicsData,
              description=object@description,
              fromFile=object@fromFile[sel],
              files=object@files,
@@ -207,7 +206,6 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
                 qual=.qual,
                 exprs=.exprs, 
                 process=object@process,
-                proteomicsData=object@proteomicsData,
                 description=object@description,
                 files=object@files,
                 experimentData=experimentData(object))

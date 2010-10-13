@@ -2,11 +2,12 @@
 ## The 'Minimum Information About a Proteomics Experiment' Class
 ## See online documentation for more information.
 setClass("MIAPE",
-         representation=representation(description="character"),
-         contains=c("Versioned"),
+         representation=representation(
+           description="character"),
+         contains=c("MIAME"),
          prototype = prototype(
            new("Versioned", versions=c(MIAPE="0.0.1")),
-           description="Will contain MIAPE data."
+           description="Will contain more MIAPE data."
            )
          )
 
@@ -139,7 +140,6 @@ setClass("MSnExp",
          representation = representation(
            spectra="list",
            process="MSnProcess",
-           proteomicsData="MIAPE",
            description="character",
            fromFile="numeric",
            files="character"),
@@ -147,7 +147,7 @@ setClass("MSnExp",
          prototype = prototype(
            spectra=list(),
            process=new("MSnProcess"),
-           proteomicsData=new("MIAPE"),
+           experimentData=new("MIAPE"),
            description="Provide a short description of your experiment here.",
            fromFile=numeric(),
            files=character(),           
@@ -197,12 +197,11 @@ setClass("MSnSet",
          representation = representation(
            qual="data.frame",
            process="MSnProcess",
-           proteomicsData="MIAPE",
            description="character",
            files="character"),
          contains = c("ExpressionSet"),
          prototype = prototype(
-           proteomicsData=new("MIAPE"),
+           experimentData=new("MIAPE"),
            process=new("MSnProcess"),
            new("VersionedBiobase",
                versions=c(classVersion("ExpressionSet"), MSnSet="0.2.0")))

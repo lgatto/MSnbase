@@ -8,7 +8,7 @@
 \title{The "Spectrum1" Class for MS1 Spectra }
 \description{
   \code{Spectrum1} extends the \code{"\linkS4class{Spectrum}"} class and
-  introduce an MS1 specific attribute in addition to the slots in
+  introduces an MS1 specific attribute in addition to the slots in
   \code{"\linkS4class{Spectrum}"}. \code{Spectrum1} are not created
   directly but are contained in the \code{spectra} slot of an
   \code{"\linkS4class{MSnExp}"}. 

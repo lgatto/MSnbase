@@ -9,7 +9,6 @@ MSnbase provides classes, methods and functions for the plotting,
 manipulation and processing of mass spectrometry data.
 
 Important class are \code{"\linkS4class{MSnExp}"} (raw data file),
-\code{"\linkS4class{MSnQual}"} (quality data),
 \code{"\linkS4class{MSnSet}"} (expression data) and
 \code{"\linkS4class{ReporterIons}"} (reporter ions for labelled
 proteomics).  

@@ -176,11 +176,6 @@ setMethod("curveStats","MSnExp",
               qdfr <- rbind(qdfr,l[[i]])
             return(qdfr)
           })
-setMethod("proteomicsData",
-          signature(object="MSnExp"),
-          function(object) object@proteomicsData)
-
-
 ##################################################################
 ## Methods for MSnProcess class
 setMethod("show","MSnProcess",function(object) show.MSnProcess(object))
@@ -194,9 +189,6 @@ setMethod("normalise","MSnSet",
           )
 setMethod("dim","MSnSet",function(x) dim(exprs(x)))
 setMethod("ratios","MSnSet",function(object) ratios.MSnSet(object))
-setMethod("proteomicsData",
-          signature(object="MSnSet"),
-          function(object) object@proteomicsData)
 setMethod("qual","MSnSet", function(object) object@qual)
 ## Not sure about these...
 setMethod("featureNames<-","MSnSet",

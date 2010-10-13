@@ -11,6 +11,7 @@ TODO for Package MSnbase    -*- mode: org; -*-
  - [X] MSnProcess slot MSnbaseVersion is of length 13?
 
 * Code [6/6]
+ - [ ] automate ReporterIons data serialization.
  - [X] add curveData collection to quantify method.
  - [X] MSnQual class in DataClasses.R: add metadata (eSet slots)
        MOVED qual slot to MSnSet.

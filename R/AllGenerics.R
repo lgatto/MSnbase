@@ -16,9 +16,6 @@ setGeneric("msLevel",function(object) standardGeneric("msLevel"))
 setGeneric("collisionEnergy",function(object) standardGeneric("collisionEnergy"))
 setGeneric("header",function(object) standardGeneric("header"))
 
-setGeneric("proteomicsData",  function(object) standardGeneric("proteomicsData"))
-setGeneric("proteomicsData<-",function(object, value) standardGeneric("proteomicsData<-"))
-
 setGeneric("mz",function(object) standardGeneric("mz"))
 setGeneric("intensity",function(object) standardGeneric("intensity"))
 
