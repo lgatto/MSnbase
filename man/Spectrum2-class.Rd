@@ -19,8 +19,8 @@
   \describe{
     \item{\code{merged}:}{Object of class \code{"numeric"} indicating of
       how many combination the current spectrum is the result of. }
-    \item{\code{ms1scan}:}{Object of class \code{"integer"} indicating
-      the MS1 scan of the parent ion. }
+    % \item{\code{ms1scanIdx}:}{Object of class \code{"integer"} indicating
+    %   the MS1 scan index of the parent ion. }
     \item{\code{precursorMz}:}{Object of class \code{"numeric"}
       providing the precursor ion MZ value. }
     \item{\code{precursorIntensity}:}{Object of class \code{"numeric"}

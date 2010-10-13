@@ -67,8 +67,8 @@
 
 \section{Methods}{
   \describe{
-    \item{\code{show(object)}}{ Displays the free-text description of
-      the \code{MIAPE} object. }
+    \item{\code{show(object)}}{ Displays the experiment data of the
+      experiment. }
   }
 }
 

@@ -61,12 +61,12 @@ setMethod("precursorCharge","Spectrum",
             stop("No precursor charge value for MS1 spectra.")
           })
 setMethod("acquisitionNum","Spectrum",function(object) object@acquisitionNum)
-setMethod("ms1scanNum","Spectrum",
-          function(object) {
-            if (msLevel(object)>1) 
-              return(object@ms1scan)
-            stop("This is already an MS1 spectrum.")
-          })
+## setMethod("ms1scanNum","Spectrum",
+##           function(object) {
+##             if (msLevel(object)>1) 
+##               return(object@ms1scan)
+##             stop("This is already an MS1 spectrum.")
+##           })
 setMethod("rtime","Spectrum",function(object) object@rt)
 setMethod("peaksCount","Spectrum",function(object) object@peaksCount)
 setMethod("msLevel","Spectrum",function(object) object@msLevel)
@@ -125,6 +125,8 @@ setMethod("bg.correct","MSnExp",
           bg.correct.MSnExp(object,bg=-1,verbose=TRUE))
 setMethod("precursorMz","MSnExp",
           function(object) {
+            ## this assumes that if first spectrum
+            ## has msLevel>1, all have
             if (msLevel(object)[1]>1) 
               return(sapply(spectra(object), precursorMz))
             stop("No precursor MZ value for MS1 spectra.")
@@ -137,12 +139,12 @@ setMethod("precursorCharge","MSnExp",
           })
 setMethod("acquisitionNum","MSnExp",
           function(object) sapply(spectra(object), acquisitionNum))
-setMethod("ms1scanNum","MSnExp",
-          function(object) {
-            if (msLevel(object)[1]>1) 
-              return(sapply(spectra(object), ms1scanNum))
-            stop("This experiment contains MS1 spectra.")
-          })
+## setMethod("ms1scanIdx","MSnExp",
+##           function(object) {
+##             if (msLevel(object)[1]>1) 
+##               return(sapply(spectra(object), ms1scanNum))
+##             stop("This experiment contains MS1 spectra.")
+##           })
 setMethod("rtime","MSnExp",function(object) sapply(spectra(object),rtime))
 setMethod("peaksCount","MSnExp",
           function(object) sapply(spectra(object),peaksCount))
@@ -165,8 +167,12 @@ setMethod("trimMz","MSnExp",
 setMethod("quantify","MSnExp",
           function(object,reporters,
                    method=c("trapezoidation","max","sum"),
-                   verbose=TRUE) 
-          quantify.MSnExp(object,reporters,match.arg(method),verbose))
+                   verbose=TRUE) {
+            ## this assumes that if first spectrum
+            ## has msLevel>1, all have
+            if (msLevel(object)[1]<2) 
+              stop("No quantification for MS1 data implemented.")
+            quantify.MSnExp(object,reporters,match.arg(method),verbose)})
 setMethod("curveStats","MSnExp",
           function(object,reporters,verbose=TRUE) {
             ifelse(verbose,progress <- "text",progress <- "none")

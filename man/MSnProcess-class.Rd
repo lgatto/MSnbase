@@ -42,15 +42,18 @@
 }
 \section{Extends}{
   Class \code{"\linkS4class{Versioned}"}, directly.
+
 }
 \section{Methods}{
   No methods defined with class "MSnProcess" in the signature.
 }
+
 \author{
   Laurent Gatto <lg390@cam.ac.uk>
 }
+
 \note{
-  This class is likely to be updated.
+  This class is likely to be updated using an \code{AnnotatedDataFrame}.
 }
 
 

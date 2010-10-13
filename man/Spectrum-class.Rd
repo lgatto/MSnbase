@@ -5,6 +5,9 @@
 \alias{class:Spectrum}
 \alias{Spectrum}
 
+\alias{intensity,Spectrum-method}
+\alias{mz,Spectrum-method}
+
 \title{The "Spectrum" Class}
 
 \description{
@@ -41,6 +44,15 @@
 }
 \section{Extends}{
   Class \code{"\linkS4class{Versioned}"}, directly.
+}
+
+\section{Methods}{
+  \describe{
+    \item{\code{intensity(object)}}{ Returns an object of class
+      \code{"numeric"} containing the intensities of the spectrum. }
+    \item{\code{mz(object)}}{ Returns an object of class
+      \code{"numeric"} containing the MZ value of the spectrum peaks. }
+  }
 }
 
 \author{

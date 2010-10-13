@@ -86,7 +86,7 @@ setClass("Spectrum",
 setClass("Spectrum2",
          representation = representation(
            merged="numeric",
-           ms1scan="integer",
+           ##ms1scanIdx="integer",
            precursorMz="numeric",
            precursorIntensity = "numeric",
            precursorCharge = "integer",

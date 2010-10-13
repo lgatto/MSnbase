@@ -9,8 +9,8 @@
 \alias{[,ReporterIons-method}
 \alias{length,ReporterIons-method}
 \alias{reporterNames,ReporterIons-method}
-\alias{reporterNames<-,ReporterIons-method}
 \alias{reporterNames}
+\alias{reporterNames<-,ReporterIons-method}
 \alias{reporterNames<-}
 
 \title{The "ReporterIons" Class}

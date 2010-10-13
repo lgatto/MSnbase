@@ -13,6 +13,16 @@
 \alias{spectra}
 \alias{spectra<-,MSnExp-method}
 \alias{spectra<-}
+\alias{[,MSnExp-method}
+\alias{precursorMz,MSnExp-method}
+\alias{precursorCharge,MSnExp-method}
+\alias{acquisitionNum,MSnExp-method}
+\alias{rtime,MSnExp-method}
+\alias{peaksCount,MSnExp-method}
+\alias{msLevel,MSnExp-method}
+\alias{collisionEnergy,MSnExp-method}
+\alias{intensity,MSnExp-method}
+\alias{mz,MSnExp-method}
 
 \title{The "MSnExp" Class for MS Data And Meta-Data}
 
@@ -92,11 +102,65 @@
       \code{"\linkS4class{Spectrum}"} objects. }
     \item{\code{spectra(object) <- value}}{ Sets the list of spectra for
       the current \code{MSnExp} instance using \code{value}. }
-    %% go on here --  
-    \item{\code{clean}}{ See
-      \code{\link{clean,MSnExp-method}} documentation for more details. }
-    \item{\code{plot(object,reporters,full)}}{ See
-      \code{\link{plot,MSnExp-method}} documentation for more details. }
+    \item{\code{object[]}}{Subsets the \code{MSnExp} instance,
+      effectively subsetting the \code{spectra} and \code{featureData}
+      slots. }
+    \item{\code{precursorMz(object)}}{ Returns an object of class
+      \code{"numeric"} with the MZ values of the precursor ions of the
+      MS2 spectra of the the \code{MSnExp} instance. }
+    \item{\code{precursorCharge(object)}}{ Returns an object of class
+      \code{"integer"} with the charge states of the precursor ions of
+      the MS2 spectra of the the \code{MSnExp} instance. }
+    \item{\code{acquisitionNum(object)}}{ Returns an object of class
+      \code{"integer"} with the acquisition number of all the spectra of
+      the \code{MSnExp} instance. }
+    \item{\code{rtime(object)}}{ Returns an object of class
+      \code{"numeric"} with the retention time of all the spectra in
+      the \code{MSnExp} instance. }
+    \item{\code{peaksCount(object)}}{ Returns an object of class
+      \code{"integer"} with the peak count of all the spectra in
+      the \code{MSnExp} instance. }
+    \item{\code{msLevel(object)}}{ Returns an object of class
+      \code{"integer"} with the MS level of all the spectra in
+      the \code{MSnExp} instance. }
+    \item{\code{collisionEnergy(object)}}{ Returns an object of class
+      \code{"numeric"} with the collision energy used to fragment the
+      precursor ions of all the MS2 spectra of the \code{MSnExp}
+      instance. }
+    \item{\code{intensity(object)}}{ Returns an object of class
+      \code{"list"}, where each member is of class \code{"numeric"},
+      containing the intensities of the spectra of the \code{MSnExp}
+      instance. } 
+    \item{\code{mz(object)}}{ Returns an object of class
+      \code{"list"}, where each member is of class \code{"numeric"},
+      containing the MZ value of the spectra peaks of the \code{MSnExp}
+      instance. } 
+    %% Methods to be documentated in own Rd file
+    \item{\code{curveStats(object,reporters,...)}}{ Collects curve
+      statistics for the reporter ions peaks of all the MS2 spectra of
+      the \code{MSnExp} instance. See
+      \code{\link{curveStats,MSnExp-method}} documentation for more
+      details. } 
+    \item{\code{quantify(object,reporters,method,...)}}{ Performs
+      quantification for all the MS2 spectra of the \code{MSnExp}
+      instance. See \code{\link{quantify,MSnExp-method}} documentation
+      for more details. }
+    \item{\code{trimMz(object,mzlim,...)}}{ Trims the MZ range of all
+      the spectra of the \code{MSnExp} instance. See
+      \code{\link{trimMz,MSnExp-method}} documentation for more
+      details. }
+    \item{\code{bg.correct(object,bg,...)}}{ Background corrects all the
+      spectra of the \code{MSnExp} instance. See
+      \code{\link{bg.correct,MSnExp-method}} documentation for more
+      details. } 
+    \item{\code{removePeaks(object,t,...)}}{ Removed peaks lower that a
+      threshold \code{t}. See \code{\link{removePeaks,MSnExp-method}}
+      documentation for more details. }
+    \item{\code{clean}}{ Removes unused 0 intensity data points. See
+      \code{\link{clean,MSnExp-method}} documentation for more details. } 
+    \item{\code{plot(object,reporters,full)}}{ Plots all the spectra of
+      the \code{MSnExp} instance. See \code{\link{plot,MSnExp-method}}
+      documentation for more details. } 
   }
 }
 

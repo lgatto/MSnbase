@@ -38,9 +38,9 @@ show.MSnExp <- function(object) {
 "[.MSnExp" <- function(x,i) {
   if (max(i)>length(x) | min(i)<1)
     stop("subscript out of bonds")
-  if (length(i)==1)
-    return(spectra(x)[[i]])
-  return(spectra(x)[i])
+  spectra(x) <- spectra(x)[i]
+  featureData(x) <- featureData(x)[i,]
+  return(x)
 }
 
 header.MSnExp <- function(object) {
