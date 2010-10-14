@@ -11,7 +11,7 @@ normalise.MSnSet <- function(object,method) {
   switch(method,
          max = div <- rowMax(as.matrix(object@quant)),
          sum = div <- rowSums(object@quant))
-  object@quant <- (object@quant)/div
+  exprs(object) <- exprs(object)/div
   object@process@processing <- c(object@process@processing,
                                  paste("Normalised (",method,"): ",
                                        date(),

@@ -29,12 +29,7 @@ setClass("MSnProcess",
          prototype = prototype(
            new("Versioned", versions=c(MSnProcess="0.1.0")),
            processing=character(),
-           merged=FALSE,
-           cleaned=FALSE,
            removedPeaks=character(),
-           smoothed=FALSE,
-           centroided=FALSE,
-           normalised=FALSE,
            xcmsVersion=as.character(packageVersion("xcms")),
            ## will have to check whether this is a problem during 
            ## package building, checking when packahe not yet installed

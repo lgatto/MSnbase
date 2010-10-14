@@ -105,7 +105,7 @@ readMzXMLData <- function(files,
   
   ## Create 'MSnPeaksPocessing' object
   process <- new("MSnProcess",
-                 processing=paste("Data Loaded:",date()),
+                 processing=paste("Data loaded:",date()),
                  smoothed=smoothed,
                  centroided = centroided)
 
