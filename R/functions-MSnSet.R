@@ -9,8 +9,8 @@
 
 normalise.MSnSet <- function(object,method) {
   switch(method,
-         max = div <- rowMax(as.matrix(object@quant)),
-         sum = div <- rowSums(object@quant))
+         max = div <- rowMax(exprs(object)),
+         sum = div <- rowSums(exprs(object)))
   exprs(object) <- exprs(object)/div
   object@process@processing <- c(object@process@processing,
                                  paste("Normalised (",method,"): ",
