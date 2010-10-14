@@ -189,6 +189,8 @@ setMethod("show","MSnProcess",function(object) show.MSnProcess(object))
 
 ##################################################################
 ## Methods for MSnSet class
+setMethod("show","MSnSet",
+          function(object) show.MSnSet(object))
 setMethod("normalise","MSnSet",
           function(object,method=c("sum","max"))
           normalise.MSnSet(object,match.arg(method))

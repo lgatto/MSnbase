@@ -1,11 +1,7 @@
-#show.MSnSet <- function(object) {
-#  cat("Object of class \"",class(object),"\"\n",sep="")
-#  cat("Reporter ions:",names(object@quant),"\n")
-#  cat(length(unique(object@precursors)),"precursors:",head(object@precursors,n=3),"...\n")
-#  cat(length(object@precursors),"features:",head(object@features,n=3),"...\n")
-#  show(object@metadata)
-#  show(object@process)
-#}
+show.MSnSet <- function(object) {
+  callNextMethod()
+  show(object@process)
+}
 
 normalise.MSnSet <- function(object,method) {
   switch(method,
