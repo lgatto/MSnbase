@@ -19,9 +19,8 @@
 
 \section{Slots}{
   \describe{
-    \item{\code{description}:}{Object of class \code{"character"}
-      describing the proteomics experiment or linking to a complete
-      MIAPE compliant annexe.}
+    \item{\code{proteomicsData}:}{Object of class \code{"character"}
+      describing the proteomics experiment. }
     \item{\code{name}:}{Object of class \code{character} containing the
       experimenter name (inherited from \code{"linkS4class{MIAME}"}). }
     \item{\code{lab}:}{Object of class \code{character} containing the
@@ -86,10 +85,6 @@ About MIAPE: \url{http://www.psidev.info/index.php?q=node/91} and reporting guid
 
 \seealso{
   \code{"\linkS4class{MIAME}"}
-}
-
-\examples{
-  new("MIAPE", description="Reference file with MIAPE meta-data.")
 }
 
 \keyword{classes}

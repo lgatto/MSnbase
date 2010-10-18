@@ -1,4 +1,4 @@
 show.MIAPE <- function(object) {
-  cat(object@description,"\n")
   callNextMethod()
+  cat(object@prteomicsData,"\n")
   }

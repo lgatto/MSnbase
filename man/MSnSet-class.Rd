@@ -41,8 +41,6 @@
       metrics. }
     \item{\code{process}:}{Object of class
       \code{"\linkS4class{MSnProcess}"} that records all processing. }
-    \item{\code{description}:}{Object of class \code{"character"}
-      describing the experiment in free form. }
     \item{\code{files}:}{Object of class \code{"character"} recording
       the name of the \code{mzXML} files that have been loaded by
       \code{\link{readMzXMLData}} to create the \code{MSnExp}

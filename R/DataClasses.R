@@ -3,11 +3,11 @@
 ## See online documentation for more information.
 setClass("MIAPE",
          representation=representation(
-           description="character"),
+           proteomicsData="character"),
          contains=c("MIAME"),
          prototype = prototype(
            new("Versioned", versions=c(MIAPE="0.0.1")),
-           description="Will contain more MIAPE data."
+           proteomicsData="Will contain more MIAPE data."
            )
          )
 
@@ -135,7 +135,6 @@ setClass("MSnExp",
          representation = representation(
            spectra="list",
            process="MSnProcess",
-           description="character",
            fromFile="numeric",
            files="character"),
          contains=c("eSet"),
@@ -143,7 +142,6 @@ setClass("MSnExp",
            spectra=list(),
            process=new("MSnProcess"),
            experimentData=new("MIAPE"),
-           description="Provide a short description of your experiment here.",
            fromFile=numeric(),
            files=character(),           
            new("VersionedBiobase",
@@ -192,7 +190,6 @@ setClass("MSnSet",
          representation = representation(
            qual="data.frame",
            process="MSnProcess",
-           description="character",
            files="character"),
          contains = c("ExpressionSet"),
          prototype = prototype(

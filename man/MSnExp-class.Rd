@@ -45,8 +45,6 @@
       objects - the data. }
     \item{\code{process}:}{Object of class
       \code{"\linkS4class{MSnProcess}"} that records all processing. }
-    \item{\code{description}:}{Object of class \code{"character"}
-      describing the experiment in free form. }
     \item{\code{fromFile}:}{Object of class \code{"numeric"} of same
       length as \code{spectra} indicating the file of origin of each
       spectrum. }
