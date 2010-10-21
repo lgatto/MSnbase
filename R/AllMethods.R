@@ -31,7 +31,8 @@ setMethod("initialize", "ReporterIons",
               warning("Setting reporter name.")
               .Object@reporterNames <- paste(.Object@name,.Object@mz,sep=".")
             }
-            .Object
+            if (validObject(.Object))
+              return(.Object)
           })
 
 
