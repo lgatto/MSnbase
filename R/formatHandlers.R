@@ -245,7 +245,8 @@ readIspyData <- function(file="ispy_results.tsv",
   ## Remove features with NAs
   if (na.rm)
     keep.na <- apply(.exprs,1,function(x) !any(is.na(x)))
-  keep.int <- apply(.exprs,1,function(x) sum(x,na.rm=TRUE)>min.int)
+  rowsums <- rowSums(.exprs,na.rm=TRUE)
+  keep.int <- rowsums>min.int
   if (verbose)
     cat(" keep.na: ",sum(keep.na),"\n",
         "keep.int: ",sum(keep.int),"\n",
