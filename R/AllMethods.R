@@ -62,12 +62,12 @@ setMethod("precursorCharge","Spectrum",
             stop("No precursor charge value for MS1 spectra.")
           })
 setMethod("acquisitionNum","Spectrum",function(object) object@acquisitionNum)
-## setMethod("ms1scanNum","Spectrum",
-##           function(object) {
-##             if (msLevel(object)>1) 
-##               return(object@ms1scan)
-##             stop("This is already an MS1 spectrum.")
-##           })
+setMethod("ms1scan","Spectrum",
+          function(object) {
+            if (msLevel(object)>1) 
+              return(object@ms1scan)
+            stop("This is already an MS1 spectrum.")
+          })
 setMethod("rtime","Spectrum",function(object) object@rt)
 setMethod("peaksCount","Spectrum",function(object) object@peaksCount)
 setMethod("msLevel","Spectrum",function(object) object@msLevel)
@@ -140,12 +140,12 @@ setMethod("precursorCharge","MSnExp",
           })
 setMethod("acquisitionNum","MSnExp",
           function(object) sapply(spectra(object), acquisitionNum))
-## setMethod("ms1scanIdx","MSnExp",
-##           function(object) {
-##             if (msLevel(object)[1]>1) 
-##               return(sapply(spectra(object), ms1scanNum))
-##             stop("This experiment contains MS1 spectra.")
-##           })
+setMethod("ms1scan","MSnExp",
+          function(object) {
+            if (msLevel(object)[1]>1) 
+              return(sapply(spectra(object), ms1scan))
+            stop("This experiment contains MS1 spectra.")
+          })
 setMethod("rtime","MSnExp",function(object) sapply(spectra(object),rtime))
 setMethod("peaksCount","MSnExp",
           function(object) sapply(spectra(object),peaksCount))

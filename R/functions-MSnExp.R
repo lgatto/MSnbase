@@ -3,7 +3,6 @@ show.MSnExp <- function(object) {
   cat(" Object size in memory: ")
   print(object.size(object),units="Mb")
   cat("- - - Meta data  - - -\n")
-  cat(" Data description:",object@description,"\n")  
   cat(" Loaded from:\n")
   for (i in 1:length(object@files)) {
     f <- basename(object@files[i])
@@ -14,7 +13,7 @@ show.MSnExp <- function(object) {
   msnLevels <- unique(msLevel(object))
   cat(" MSn level(s):",msnLevels,"\n")
   if (all(msLevel(object)>1)) {
-    cat(" Number of MS1 acquisitions:",length(unique(ms1scanNum(object))),"\n")
+    cat(" Number of MS1 acquisitions:",length(unique(ms1scan(object))),"\n")
     cat(" Number of MS2 scans:",length(spectra(object)),"\n")
     msnPrecMz <- precursorMz(object)
     nbPrecIons <- length(msnPrecMz)
@@ -122,7 +121,6 @@ extractPrecSpectra <- function(object,prec) {
   return(new("MSnExp",
              spectra=object@spectra[sel],
              process=object@process,
-             description=object@description,
              fromFile=object@fromFile[sel],
              files=object@files,
              assayData=object@assayData,
@@ -206,7 +204,6 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
                 qual=.qual,
                 exprs=.exprs, 
                 process=object@process,
-                description=object@description,
                 files=object@files,
                 experimentData=experimentData(object))
   ## Updating featureData slot or creating one
