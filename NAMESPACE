@@ -3,8 +3,14 @@ import("graphics")
 
 export(readMzXMLData, formatRt)
 
-exportClasses(MIAPE, MSnExp, MSnProcess,
+exportClasses(MIAPE, MSnExp, MSnProcess, MSnSet,
               Spectrum, Spectrum1, Spectrum2,
               ReporterIons)
-exportMethods(show,"[",length,reporterNames,"reporterNames<-")
+
+exportMethods(show,"[",
+              length,
+              plot,
+              spectra,
+              reporterNames,"reporterNames<-")
+
 

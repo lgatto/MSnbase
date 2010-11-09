@@ -190,6 +190,17 @@ setMethod("show","MSnProcess",function(object) show.MSnProcess(object))
 
 ##################################################################
 ## Methods for MSnSet class
+setMethod("initialize", "MSnSet",
+          function(.Object,experimentData,...) {
+            .Object <- callNextMethod()
+            if (missing(experimentData)) 
+              experimentData(.Object) <- new("MIAPE")
+            else
+              experimentData(.Object) <- experimentData
+            .Object
+          })
+
+                   
 setMethod("show","MSnSet",
           function(object) show.MSnSet(object))
 setMethod("normalise","MSnSet",
