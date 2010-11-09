@@ -66,6 +66,8 @@ setClass("Spectrum",
            intensity = numeric()),
          validity = function(object) {
            msg <- validMsg(NULL, NULL)
+           if (any(is.na(object@intensity)))
+             msg <- validMsg(msg,"NA MZ values found.")
            if (length(object@mz)!=length(object@intensity))
              msg <- validMsg(msg,"Unequal number of MZ and intensity values.")
            if (length(object@mz)!=object@peaksCount)
