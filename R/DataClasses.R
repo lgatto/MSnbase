@@ -30,14 +30,14 @@ setClass("MSnProcess",
            new("Versioned", versions=c(MSnProcess="0.1.0")),
            processing=character(),
            removedPeaks=character(),
-           xcmsVersion=as.character(packageVersion("xcms")),
+           xcmsVersion=as.character(packageDescription("xcms",fields="Version")),
            ## will have to check whether this is a problem during 
            ## package building, checking when packahe not yet installed
            ## as well as during first installation
            MSnbaseVersion=ifelse(
-             all(is.na(packageDescription("MSnbase"))),
+             is.na(packageDescription("MSnbase",fields="Version")),
              "0.0.0",
-             as.character(packageVersion("MSnbase")))
+             as.character(packageDescription("MSnbase",fields="Version")))
            )
          )
 

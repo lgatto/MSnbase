@@ -33,7 +33,7 @@ exportMethods(show,"[",
               ratios,
               qual,
               reporterNames,"reporterNames<-",
-              bg.correct,
-              )
+              bg.correct)
+
 
 
