@@ -1,7 +1,10 @@
 import("Biobase")
 import("graphics")
 
-export(readMzXMLData, formatRt)
+export(readMzXMLData, formatRt,
+       pseudo3dplot,
+       extractSpectra,
+       extractPrecSpectra)
 
 exportClasses(MIAPE, MSnExp, MSnProcess, MSnSet,
               Spectrum, Spectrum1, Spectrum2,
@@ -34,6 +37,7 @@ exportMethods(show,"[",
               qual,
               reporterNames,"reporterNames<-",
               bg.correct)
+
 
 
 

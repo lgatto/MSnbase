@@ -120,10 +120,10 @@ setReplaceMethod("spectra",
 setMethod("[","MSnExp",
           function(x,i,j="missing",drop="missing") "[.MSnExp"(x,i))
 setMethod("removePeaks","MSnExp",
-          function(object,t,verbose) removePeaks.MSnExp(object,t,verbose=TRUE))
+          function(object,t,verbose=TRUE) removePeaks.MSnExp(object,t,verbose))
 setMethod("bg.correct","MSnExp",
-          function(object,bg,verbose)
-          bg.correct.MSnExp(object,bg=-1,verbose=TRUE))
+          function(object,bg,verbose=TRUE)
+          bg.correct.MSnExp(object,bg=-1,verbose))
 setMethod("precursorMz","MSnExp",
           function(object) {
             ## this assumes that if first spectrum

@@ -76,7 +76,7 @@ readMzXMLData <- function(files,
     }
     if (verbose)
       cat("Acquiring data for",length(raw$rt),
-          "precursors from file",files[i],"\n")
+          "spectra from file",files[i],"\n")
     spectra[[i]] <- vector("list",length=length(raw$rt))
     fromFile <- c(fromFile,rep(i,length(raw$rt)))
     pb <- txtProgressBar(min=0,max=length(raw$rt),style=3)

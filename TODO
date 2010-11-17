@@ -7,7 +7,11 @@ TODO for Package MSnbase    -*- mode: org; -*-
 	once documented.
 * Bugs [1/3]
  - [ ] check header function
- - [ ] quantification: intensities that do not start/end with 0, which leads to errors in getCurveWidth (while (ylwr!=0) line)
+ - [ ] quantification: intensities that do not start/end with 0, 
+       which leads to errors in getCurveWidth (while (ylwr!=0) line) 
+       (see Velos data for instance). This has been fixed, but another 
+       error in utils:::area:
+       Error in if (min(y) != 0) { : missing value where TRUE/FALSE needed
  - [X] MSnProcess slot MSnbaseVersion is of length 13?
 
 * Code [6/6]

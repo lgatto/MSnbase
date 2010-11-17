@@ -196,8 +196,8 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
   colnames(.exprs) <- reporters@reporterNames
   ## Updating MSnprocess slot
   object@process@processing <- c(object@process@processing,
-                                 paste("Quantification by ",method,
-                                       reporters@name,": ",date(),sep=""))
+                                 paste(reporters@name," quantification by ",method,
+                                       ": ",date(),sep=""))
   object@process@centroided <- TRUE
   ## Creating new MSnSet
   msnset <- new("MSnSet",

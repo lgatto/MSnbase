@@ -159,17 +159,24 @@ getCurveWidth <- function(spectrum,reporters) {
   upr <- m+reporters@width
   mz <- spectrum@mz
   int <- spectrum@intensity
+  ## if al least first/last int != 0, this function crashes in
+  ## the while (ylwr!=0)/(yupr!=0) loops. Adding leading/ending data point
+  ## to avoid this. Return values xlwr and xupr must be updated accordingly.
+  mz <- c(0,mz,0)
+  int <- c(0,int,0)
   ## x... vectors of _indices_ of mz values
   ## y... intensity values
   xlwr <- xupr<- c()
   for (i in 1:length(m)) {
     region <- (mz>lwr[i] & mz<upr[i])
     if (sum(region,na.rm=TRUE)==0) {
-      warning("No data for for precursor ",spectrum@precursorMz," reporter ",m[i])
+      warning("[getCurveData] No data for for precursor ",spectrum@precursorMz," reporter ",m[i])
       xlwr[i] <- xupr[i] <- NA
     } else {
       ymax <- max(int[region])
       xmax <- which((int %in% ymax) & region)
+
+      
       xlwr[i] <- min(xmax) ## if several max peaks
       xupr[i] <- max(xmax) ## if several max peaks
       ylwr <- yupr <- ymax
@@ -189,6 +196,10 @@ getCurveWidth <- function(spectrum,reporters) {
         warning("Peak base for precursor ",spectrum@precursorMz,
                 " reporter ",m[i],":\n   ",mz[xlwr[i]],">",m[i],"+",
                 reporters@width)
+      ## Updating xlwr and xupr
+      xlwr[i] <- xlwr[i]+1
+      if (xupr[i]==length(int))
+        xupr <- xupr-1
     }
   }
   return(list(lwr=xlwr,upr=xupr))
@@ -210,3 +221,5 @@ trimMz.Spectrum <- function(x,mzlim,updatePeaksCount=TRUE) {
     x@peaksCount <- as.integer(length(x@intensity))
   return(x)
 }
+
+
