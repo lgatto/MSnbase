@@ -1,12 +1,20 @@
 Package: MSnbase
 Title: MSnbase: Base Functions and Classes for MS-based Proteomics
-Version: 0.0.2
+Version: 0.0.3
 Author: Laurent Gatto 
 Description: Basic plotting, data manipulation and processing of MS-based Proteomics data
 Depends: Biobase, methods, ggplot2, plyr
 Maintainer: Laurent Gatto <lg390@cam.ac.uk>
 License: Artistic-2.0
-Collate: DataClasses.R AllGenerics.R AllMethods.R 
+Collate: DataClasses.R AllGenerics.R 
+	 methods-MIAPE.R
+	 methods-MSnExp.R
+	 methods-MSnProcess.R
+	 methods-MSnSet.R
+	 methods-NAnnotatedDataFrame.R
+	 methods-pSet.R
+	 methods-ReporterIons.R
+	 methods-Spectrum.R
 	 formatHandlers.R utils.R
 	 functions-MIAPE.R functions-MSnExp.R functions-MSnProcess.R
 	 functions-MSnSet.R functions-ReporterIons.R
