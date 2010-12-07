@@ -49,10 +49,11 @@ setMethod("quantify","Spectrum",
           quantify.Spectrum(object,reporters,match.arg(method)))
 setMethod("curveStats","Spectrum",
           function(object,reporters) curveStats.Spectrum(object,reporters))
-setMethod("precursorCharge<-","Spectrum2",
+
+setMethod("precursorCharge<-","Spectrum",
           function(object,value="integer") object@precursorCharge <- value)
 setReplaceMethod("precursorCharge",
-                 signature(object="Spectrum2",
+                 signature(object="Spectrum",
                            value="integer"),
                  function(object, value) {
                    object@precursorCharge = value
@@ -60,3 +61,4 @@ setReplaceMethod("precursorCharge",
                      return(object)
                  })
 
+setMethod("fromFile","Spectrum", function(object) object@fromFile)

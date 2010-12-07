@@ -1,43 +1,8 @@
-show.MSnExp <- function(object) {
-  cat("Object of class \"",class(object),"\"\n",sep="")
-  cat(" Object size in memory: ")
-  print(object.size(object),units="Mb")
-  cat("- - - Meta data  - - -\n")
-  cat(" Loaded from:\n")
-  for (i in 1:length(object@files)) {
-    f <- basename(object@files[i])
-    cat("   ",f,"\n")
-  }
-  show(object@process)
-  cat("- - - Spectra data - - -\n")
-  msnLevels <- unique(msLevel(object))
-  cat(" MSn level(s):",msnLevels,"\n")
-  if (all(msLevel(object)>1)) {
-    cat(" Number of MS1 acquisitions:",length(unique(ms1scan(object))),"\n")
-    cat(" Number of MS2 scans:",length(spectra(object)),"\n")
-    msnPrecMz <- precursorMz(object)
-    nbPrecIons <- length(msnPrecMz)
-    cat(" Number of precursor ions:",nbPrecIons,"\n")
-    if (nbPrecIons>0) {
-      cat("",length(unique(msnPrecMz)),"unique MZs\n")
-      cat(" Precursor MZ's:",paste(signif(range(msnPrecMz),5),collapse=" - "),"\n")
-    }
-    msnMzRange <- round(range(mz(object)),2)
-    cat(" MSn M/Z range:",msnMzRange,"\n")
-  } else {
-    cat(" Number of MS1 scans:",length(spectra(object)),"\n")
-  }
-  msnRt <- rtime(object)
-  if (length(msnRt)>0) {
-    rtr <- range(msnRt)
-    cat(" MSn retention times:",formatRt(rtr[1]),"-",formatRt(rtr[2]),"minutes\n")
-  }
-}
-
 "[.MSnExp" <- function(x,i) {
   if (max(i)>length(x) | min(i)<1)
     stop("subscript out of bonds")
-  spectra(x) <- spectra(x)[i]
+  whichElements <- ls(assayData(x))[i]
+  x@assayData <- list2env(mget(whichElements,assayData(x)))
   featureData(x) <- featureData(x)[i,]
   return(x)
 }
@@ -45,15 +10,15 @@ show.MSnExp <- function(object) {
 header.MSnExp <- function(object) {
   if (any(msLevel(object)<2))
     stop("header() only works for MS levels > 1.")
-  tbl <- table(object@fromFile)
+  tbl <- table(fromFile(object))
   idx <- as.numeric(unlist(apply(tbl,1,function(x) 1:x)))
   return(data.frame(cbind(index=idx,
-                          file=object@fromFile,
+                          file=fromFile(object),
                           retention.time=rtime(object),
                           precursor.mz=precursorMz(object),
                           peaks.count=peaksCount(object),
-                          tic=sapply(spectra(object),
-                            function(x) sum(intensity(x))),
+                          tic=unlist(eapply(spectra(object),
+                            function(x) sum(intensity(x)))),
                           ms.level=msLevel(object),
                           charge=precursorCharge(object),
                           collision.energy=collisionEnergy(object))))

@@ -1,45 +1,3 @@
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-## pSet: similarly to eSet but with a focus toward proteomics experiments,
-## pSet is a VIRTUAL class containing assay data (typically, one or many
-## different sets of spectra), phenotypic data (describing the samples involved
-## in the experiment), experimental data (describing the methods and
-## protocols used) and feature data (describing the features in the assay).
-##
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-setClass("pSet",
-         representation(assayData = "environment", ## locked environment
-                        phenoData = "AnnotatedDataFrame",
-                        featureData = "AnnotatedDataFrame",
-                        experimentData = "MIAxE",
-                        protocolData = "AnnotatedDataFrame",
-                        process = "MSnProcess",
-                        "VIRTUAL"),
-         contains="VersionedBiobase",
-         prototype = prototype(
-           new("VersionedBiobase", versions=c(pSet="0.0.1")),
-           assayData = new.env(),
-           phenoData = new("AnnotatedDataFrame",
-             dimLabels=c("sampleNames", "sampleColumns")),
-           featureData = new("AnnotatedDataFrame",
-             dimLabels=c("featureNames", "featureColumns")),
-           protocolData = new("AnnotatedDataFrame",
-             dimLabels=c("sampleNames", "sampleColumns"))))
-
-
-
-#################################################################
-## The 'Minimum Information About a Proteomics Experiment' Class
-## See online documentation for more information.
-setClass("MIAPE",
-         representation=representation(
-           proteomicsData="character"),
-         contains=c("MIAME"),
-         prototype = prototype(
-           new("Versioned", versions=c(MIAPE="0.0.1")),
-           proteomicsData="Will contain more MIAPE data."
-           )
-         )
-
 ######################################################################
 ## MSnProcess: Container for MSnExp and MSnSet processing information
 ## See online documentation for more information.
@@ -70,6 +28,86 @@ setClass("MSnProcess",
              as.character(packageDescription("MSnbase",fields="Version")))
            )
          )
+
+#################################################################
+## The 'Minimum Information About a Proteomics Experiment' Class
+## See online documentation for more information.
+setClass("MIAPE",
+         representation=representation(
+           proteomicsData="character"),
+         contains=c("MIAME"),
+         prototype = prototype(
+           new("Versioned", versions=c(MIAPE="0.0.1")),
+           proteomicsData="Will contain more MIAPE data."
+           )
+         )
+
+############################################################################
+## NAnnotatedDataFrame: As Biobase's AnnotatedDataFrame, it is composed of
+## a data.frame, with annotations about columns named
+## in the data slot contained in the metadata slot.
+## In addition, it contains a multiplex slot to make explicite that
+## the AnnotatedDataFrame is applied to a set of mulitplexed tags.
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+setClass("NAnnotatedDataFrame",
+         representation(multiplex="character"),
+         contains = c("AnnotatedDataFrame"),
+         prototype = prototype(
+           new("Versioned", versions=list(NAnnotatedDataFrame="0.0.1"))))
+
+
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+## pSet: similarly to eSet but with a focus toward proteomics experiments,
+## pSet is a VIRTUAL class containing assay data (typically, one or many
+## different sets of spectra), phenotypic data (describing the samples involved
+## in the experiment), experimental data (describing the methods and
+## protocols used) and feature data (describing the features in the assay).
+##
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+setClass("pSet",
+         representation(assayData = "environment", ## locked environment
+                        phenoData = "NAnnotatedDataFrame", 
+                                        # Filenames,  Fractions, replicates
+                                        # file1.mzML, 1        , 1          (n1 spectra)
+                                        # file2.mzML, 2        , 1          (n2 spectra)
+                                        # file3.mzML, 1        , 2          (n3 spectra)
+                                        # file4.mzML, 1        , 2          (n4 spectra)
+                                        # ...
+                                        # How to link individual spectra in assayData env to phenoData?
+                                        # Use the spectrum@fromFile slot
+                                        # This phenoData will be expanded to an NAnnotatedDataFrame
+                                        # when the MSnSet is created from MSnExp
+                        featureData = "AnnotatedDataFrame",
+                                        # How to link individual spectra in assayData env to featureData?
+                                        # The spectra and the rowNames of featureData will be named X1..(n1+n2+...) 
+                        experimentData = "MIAxE",
+                        protocolData = "AnnotatedDataFrame",
+                        process = "MSnProcess",
+                        "VIRTUAL"),
+         contains="VersionedBiobase",
+         prototype = prototype(
+           new("VersionedBiobase", versions=c(pSet="0.0.1")),
+           assayData = new.env(),
+           phenoData = new("NAnnotatedDataFrame",
+             dimLabels=c("sampleNames", "sampleColumns")), ## here, it's rather files than samples...
+           featureData = new("AnnotatedDataFrame",
+             dimLabels=c("featureNames", "featureColumns")),
+           protocolData = new("AnnotatedDataFrame",
+             dimLabels=c("sampleNames", "sampleColumns"))))
+
+
+##################################################################
+## Container for MSn Experiments Data and Meta-Data
+## See online documentation for more information.
+setClass("MSnExp",
+         contains=c("pSet"),
+         prototype = prototype(
+           new("VersionedBiobase",
+               versions=c(classVersion("pSet"), MSnExp="0.3.0")),
+           experimentData=new("MIAPE")))
+
+
+
 
 ###################################################################
 ## The Spectrum class and it's sub-classes Spectrum1 and Spectrum2
@@ -192,15 +230,6 @@ setClass("ReporterIons",
            else msg
          })
 
-##################################################################
-## Container for MSn Experiments Data and Meta-Data
-## See online documentation for more information.
-setClass("MSnExp",
-         contains=c("pSet"),
-         prototype = prototype(
-           new("VersionedBiobase",
-               versions=c(classVersion("pSet"), MSnExp="0.3.0")),
-           experimentData=new("MIAPE")))
 
 ## setClass("MSnExp",
 ##          representation = representation(
@@ -224,23 +253,10 @@ setClass("MSnExp",
 ## See online documentation for more information.
 setClass("MSnSet",
          representation = representation(
-           qual = "data.frame",
-           phenoData = "NAnnotatedDataFrame")
+           qual = "data.frame"),
          contains = c("pSet"),
          prototype = prototype(
            new("VersionedBiobase",
                versions=c(classVersion("pSet"),classVersion("MSnExp"), MSnSet="0.3.0")),
            experimentData=new("MIAPE")))
 
-############################################################################
-## NAnnotatedDataFrame: As Biobase's AnnotatedDataFrame, it is composed of
-## a data.frame, with annotations about columns named
-## in the data slot contained in the metadata slot.
-## In addition, it contains a multiplex slot to make explicite that
-## the AnnotatedDataFrame is applied to a set of mulitplexed tags.
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-setClass("NAnnotatedDataFrame",
-         representation(multiplex="character"),
-         contains = c("AnnotatedDataFrame"),
-         prototype = prototype(
-           new("Versioned", versions=list(NAnnotatedDataFrame="0.0.1"))))

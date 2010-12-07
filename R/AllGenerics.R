@@ -16,8 +16,11 @@ setGeneric("msLevel",function(object) standardGeneric("msLevel"))
 setGeneric("collisionEnergy",function(object) standardGeneric("collisionEnergy"))
 setGeneric("header",function(object) standardGeneric("header"))
 
+
 setGeneric("mz",function(object) standardGeneric("mz"))
 setGeneric("intensity",function(object) standardGeneric("intensity"))
+
+setGeneric("fromFile",function(object) standardGeneric("fromFile"))
 
 setGeneric("quantify",function(object,reporters,method,...) standardGeneric("quantify"))
 setGeneric("curveStats",function(object,reporters,...) standardGeneric("curveStats"))
@@ -27,3 +30,6 @@ setGeneric("normalise",function(object,method) standardGeneric("normalise"))
 setGeneric("precursors",function(object) standardGeneric("precursors"))
 setGeneric("ratios",function(object) standardGeneric("ratios"))
 setGeneric("reporterNames",function(object) standardGeneric("reporterNames"))
+
+setGeneric("fileNames",function(object) standardGeneric("fileNames"))
+setGeneric("fileNames<-",function(object,value) standardGeneric("fileNames<-"))

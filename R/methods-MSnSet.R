@@ -21,8 +21,8 @@ setMethod("dim","MSnSet",function(x) dim(exprs(x)))
 setMethod("ratios","MSnSet",function(object) ratios.MSnSet(object))
 setMethod("qual","MSnSet", function(object) object@qual)
 ## Not sure about these...
-setMethod("featureNames<-","MSnSet",
-          function(object,value="character") object@features <- value)
+## setMethod("featureNames<-","MSnSet",
+##           function(object,value="character") object@features <- value)
 setReplaceMethod("featureNames",
                  signature(object="MSnSet",
                            value="character"),
