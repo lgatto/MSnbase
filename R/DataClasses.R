@@ -7,10 +7,10 @@
 ##
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setClass("pSet",
-         representation(assayData = "environment",
+         representation(assayData = "environment", ## locked environment
                         phenoData = "AnnotatedDataFrame",
                         featureData = "AnnotatedDataFrame",
-                        experimentData = "MIAPE",
+                        experimentData = "MIAxE",
                         protocolData = "AnnotatedDataFrame",
                         process = "MSnProcess",
                         "VIRTUAL"),
@@ -159,38 +159,6 @@ setClass("Spectrum1",
            if (is.null(msg)) TRUE
            else msg
          })
-
-
-##################################################################
-## Container for MSn Experiments Data and Meta-Data
-## See online documentation for more information.
-setClass("MSnExp",
-         representation = representation(
-           spectra="list",
-           process="MSnProcess",
-           fromFile="numeric",
-           files="character"),
-         contains=c("eSet"),
-         prototype = prototype(
-           spectra=list(),
-           process=new("MSnProcess"),
-           experimentData=new("MIAPE"),
-           fromFile=numeric(),
-           files=character(),           
-           new("VersionedBiobase",
-               versions=c(classVersion("eSet"), MSnExp="0.2.0")))
-         )
-
-##################################################################
-## Container for MSn Experiments Data and Meta-Data
-## See online documentation for more information.
-setClass("MSnExp2",
-         contains=c("pSet"),
-         prototype = prototype(
-           new("VersionedBiobase",
-               versions=c(classVersion("eSet"), MSnExp="0.3.0")))
-         )
-
  
 ##################################################################
 ## Data Structure for Reporter Ions for labelled MS Quantification
@@ -224,6 +192,32 @@ setClass("ReporterIons",
            else msg
          })
 
+##################################################################
+## Container for MSn Experiments Data and Meta-Data
+## See online documentation for more information.
+setClass("MSnExp",
+         contains=c("pSet"),
+         prototype = prototype(
+           new("VersionedBiobase",
+               versions=c(classVersion("pSet"), MSnExp="0.3.0")),
+           experimentData=new("MIAPE")))
+
+## setClass("MSnExp",
+##          representation = representation(
+##            spectra="list",
+##            process="MSnProcess",
+##            fromFile="numeric",
+##            files="character"),
+##          contains=c("eSet"),
+##          prototype = prototype(
+##            spectra=list(),
+##            process=new("MSnProcess"),
+##            experimentData=new("MIAPE"),
+##            fromFile=numeric(),
+##            files=character(),           
+##            new("VersionedBiobase",
+##                versions=c(classVersion("eSet"), MSnExp="0.2.0")))
+##          )
 
 #####################################################################
 ## The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
@@ -235,10 +229,8 @@ setClass("MSnSet",
          contains = c("pSet"),
          prototype = prototype(
            new("VersionedBiobase",
-               versions=c(classVersion("ExpressionSet"), MSnSet="0.3.0")))
-         )
-
-
+               versions=c(classVersion("pSet"),classVersion("MSnExp"), MSnSet="0.3.0")),
+           experimentData=new("MIAPE")))
 
 ############################################################################
 ## NAnnotatedDataFrame: As Biobase's AnnotatedDataFrame, it is composed of
