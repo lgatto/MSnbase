@@ -170,6 +170,7 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
                 exprs=.exprs, 
                 process=object@process,
                 files=object@files,
+                protocolData=protocolData(object),
                 experimentData=experimentData(object))
   ## Updating featureData slot or creating one
   fd <- header(object)
@@ -206,7 +207,8 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
       warning("Unexpected number of features in featureData slot. Dropping it.")
   }
   ## Returning shiny MSnSet object
-  return(msnset)
+  if (validObject(msnset))
+    return(msnset)
 }
 
 

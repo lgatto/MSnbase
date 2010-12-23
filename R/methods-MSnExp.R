@@ -29,18 +29,18 @@ setMethod("show",
               rtr <- range(msnRt)
               cat(" MSn retention times:",formatRt(rtr[1]),"-",formatRt(rtr[2]),"minutes\n")
             }
-            cat("- - - Meta data  - - -\n")
-            ## cat(" Loaded from:\n")
-            ## for (i in 1:length(object@files)) {
-            ##   f <- basename(object@files[i])
-            ##   cat("   ",f,"\n")
-            ## }
             show(object@process)
-            ## from eSet
-            Biobase:::.showAnnotatedDataFrame(protocolData(object),
-                                              labels=list(object="protocolData"))
+            cat("- - - Meta data  - - -\n")
             Biobase:::.showAnnotatedDataFrame(phenoData(object),
                                               labels=list(object="phenoData"))
+            cat("Loaded from:\n")
+            files <- as.character(pData(object)$Files)
+            for (i in 1:length(files)) {
+              f <- basename(files[i])
+              cat(" ",f,"\n")
+            }
+            Biobase:::.showAnnotatedDataFrame(protocolData(object),
+                                              labels=list(object="protocolData"))
             Biobase:::.showAnnotatedDataFrame(featureData(object),
                                               labels=list(
                                                 object="featureData",
@@ -129,6 +129,7 @@ setMethod("trimMz","MSnExp",
             object@spectra <- lapply(spectra(object),trimMz,mzlim,...)
             return(object)
           })
+
 setMethod("quantify","MSnExp",
           function(object,reporters,
                    method=c("trapezoidation","max","sum"),
@@ -138,6 +139,7 @@ setMethod("quantify","MSnExp",
             if (msLevel(object)[1]<2) 
               stop("No quantification for MS1 data implemented.")
             quantify.MSnExp(object,reporters,match.arg(method),verbose)})
+
 setMethod("curveStats","MSnExp",
           function(object,reporters,verbose=TRUE) {
             ifelse(verbose,progress <- "text",progress <- "none")
