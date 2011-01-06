@@ -84,7 +84,7 @@ setClass("pSet",
                         protocolData = "AnnotatedDataFrame",
                         process = "MSnProcess",
                         "VIRTUAL"),
-         contains="VersionedBiobase",
+         contains = "VersionedBiobase",
          prototype = prototype(
            new("VersionedBiobase", versions=c(pSet="0.0.1")),
            assayData = new.env(),
@@ -94,7 +94,6 @@ setClass("pSet",
              dimLabels=c("featureNames", "featureColumns")),
            protocolData = new("AnnotatedDataFrame",
              dimLabels=c("sampleNames", "sampleColumns"))))
-
 
 ##################################################################
 ## Container for MSn Experiments Data and Meta-Data
@@ -107,6 +106,22 @@ setClass("MSnExp",
            experimentData=new("MIAPE")))
 
 
+## setClass("MSnExp",
+##          representation = representation(
+##            spectra="list",
+##            process="MSnProcess",
+##            fromFile="numeric",
+##            files="character"),
+##          contains=c("eSet"),
+##          prototype = prototype(
+##            spectra=list(),
+##            process=new("MSnProcess"),
+##            experimentData=new("MIAPE"),
+##            fromFile=numeric(),
+##            files=character(),           
+##            new("VersionedBiobase",
+##                versions=c(classVersion("eSet"), MSnExp="0.2.0")))
+##          )
 
 
 ###################################################################
@@ -136,7 +151,7 @@ setClass("Spectrum",
          validity = function(object) {
            msg <- validMsg(NULL, NULL)
            if (any(is.na(object@intensity)))
-             msg <- validMsg(msg,"NA MZ values found.")
+             msg <- validMsg(msg,"'NA' MZ values found.")
            if (length(object@mz)!=length(object@intensity))
              msg <- validMsg(msg,"Unequal number of MZ and intensity values.")
            if (length(object@mz)!=object@peaksCount)
@@ -230,23 +245,6 @@ setClass("ReporterIons",
            else msg
          })
 
-
-## setClass("MSnExp",
-##          representation = representation(
-##            spectra="list",
-##            process="MSnProcess",
-##            fromFile="numeric",
-##            files="character"),
-##          contains=c("eSet"),
-##          prototype = prototype(
-##            spectra=list(),
-##            process=new("MSnProcess"),
-##            experimentData=new("MIAPE"),
-##            fromFile=numeric(),
-##            files=character(),           
-##            new("VersionedBiobase",
-##                versions=c(classVersion("eSet"), MSnExp="0.2.0")))
-##          )
 
 #####################################################################
 ## The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data

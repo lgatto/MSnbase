@@ -4,29 +4,24 @@
 setMethod("dim", "pSet", function(x) dim(pData(x)))
 
 ## returns the number of spectra in the AssayData env
-setMethod("length", "pSet", function(x) length(ls(assayData(x))))
+setMethod("length", "pSet", function(x) length(assayData(x)))
 
-setValidity("eSet", function(object) {
+setValidity("pSet", function(object) {
   msg <- validMsg(NULL, NULL)
-  dims <- dims(object)
-  if (ncol(dims) > 0) {
-    ## assayData
-    ## featureData
-    nspectra  <- length(assayData(object)) ## number of spectra in assayData
-    nfeatures <- nrow(featureData(object)) ## number of features in featureData
-    if (nspectra != nfeatures)
-      msg <- validMsg(msg, "unequal number of spectra in assayData and features in featureData")
-    ## phenoData
-    nfilespData   <- nrow(pData(object))                                ## number of files in phenoData
-    nfilesSpectra <- length(unique(eapply(assayData(object),fromFile))) ## number of files in assayData
-    if (nfilespData != nfilesSpectra)
-      msg <- validMsg(msg, "unequal number of files in assayData and phenoData")
-    ## protocolData -- as in eSet
-    if (dim(phenoData(object)) != dim(protocolData(object)))
-      msg <- validMsg(msg, "sample numbers differ between phenoData and protocolData")
-    if (!identical(sampleNames(phenoData(object)), sampleNames(protocolData(object))))
-      msg <- validMsg(msg, "sampleNames differ between phenoData and protocolData")
-  }
+  ## checking number of spectra in assayData and
+  ##          number of features in featureData
+  nspectra  <- length(assayData(object)) 
+  nfeatures <- nrow(featureData(object)) 
+  if (nspectra != nfeatures)
+    msg <- validMsg(msg, "unequal number of spectra in assayData and features in featureData")
+  ## checking number of files in phenoData and
+  ##          number of files in assayData
+  nfilespData   <- nrow(pData(object))
+  nfilesSpectra <- length(unique(eapply(assayData(object),fromFile)))
+  if (nfilespData != nfilesSpectra)
+    msg <- validMsg(msg, "unequal number of files in assayData and phenoData")  
+  ## protocolData not checked yet - depends very much
+  ## on type of assay (MS1, MS2 quant, reporter ions, ...)
   if (is.null(msg)) TRUE else msg
 })
 

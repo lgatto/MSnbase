@@ -81,21 +81,26 @@ readMzXMLData <- function(files,
     }
   }
 
+  
   nms <- paste("X",seq_len(length(spectra)),sep="")
   names(spectra) <- nms
 
   spectra.env <- list2env(spectra)
-  
+
   if (is.null(pdata)) 
     pdata <- new("NAnnotatedDataFrame",data=data.frame(Files=files))
+
+  fdata <- new("AnnotatedDataFrame",
+               data=data.frame(spectum=1:length(spectra)))
   
   ## Create and return 'MSnPeaks' object
   if (verbose)
     cat("Creating 'MSnExp' object\n")
-
+  
   toReturn <- new("MSnExp",
                   assayData=spectra.env,
                   phenoData=pdata,
+                  featureData=fdata,
                   process=process)
   return(toReturn)
 }

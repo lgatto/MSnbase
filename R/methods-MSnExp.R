@@ -62,9 +62,11 @@ setMethod("plot",c("MSnExp","missing"),
 
 setMethod("clean","MSnExp",function(object) clean.MSnExp(object))
 
-setMethod("spectra","MSnExp",function(object) assayData(object))
+setMethod("spectra","MSnExp",function(object) as.list(assayData(object)))
+
 ## setMethod("spectra<-","MSnExp",
 ##           function(object,value="list") object@spectra <- value)
+
 setReplaceMethod("spectra",
                  signature(object="MSnExp",
                            value="list"),
@@ -103,7 +105,7 @@ setMethod("acquisitionNum","MSnExp",
 setMethod("ms1scan","MSnExp",
           function(object) {
             if (msLevel(object)[1]>1) 
-              return(unlist(eapply(spectra(object), ms1scan)))
+              return(unlist(eapply(assayData(object), ms1scan)))
             stop("This experiment contains MS1 spectra.")
           })
 
@@ -121,9 +123,9 @@ setMethod("collisionEnergy","MSnExp",
             stop("No collision energy for MS1 spectra.")
           })
 setMethod("intensity","MSnExp",
-          function(object) eapply(spectra(object),intensity))
+          function(object) eapply(assayData(object),intensity))
 
-setMethod("mz","MSnExp",function(object) eapply(spectra(object),mz))
+setMethod("mz","MSnExp",function(object) eapply(assayData(object),mz))
 setMethod("trimMz","MSnExp",
           function(object,mzlim,...) {
             object@spectra <- lapply(spectra(object),trimMz,mzlim,...)

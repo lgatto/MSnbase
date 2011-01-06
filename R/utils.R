@@ -74,16 +74,17 @@ rawToSpectrum1 <- function(x,
     if (updatePeaksCount)
       pc <- length(int)
   }
-  return(new("Spectrum1",
-             mz=mz,
-             intensity=int,
-             peaksCount=as.integer(pc),
-             polarity=x$polarity[i],
-             rt=x$rt[i],
-             acquisitionNum=x$acquisitionNum[i],
-             scanIndex=x$scanindex))
+  sp <- new("Spectrum1",
+            mz=mz,
+            intensity=int,
+            peaksCount=as.integer(pc),
+            polarity=x$polarity[i],
+            rt=x$rt[i],
+            acquisitionNum=x$acquisitionNum[i],
+            scanIndex=x$scanindex)
+  if (validObject(sp))
+    return(sp)
 }
-  
   
 rawToSpectrum2 <- function(x,
                            i,
@@ -111,17 +112,19 @@ rawToSpectrum2 <- function(x,
     if (updatePeaksCount)
       pc <- length(int)
   }
-  return(new("Spectrum2",
-             rt=x$rt[i],
-             acquisitionNum=x$acquisitionNum[i],
-             precursorMz=x$precursorMZ[i],
-             precursorIntensity=x$precursorIntensity[i],
-             precursorCharge=x$precursorCharge[i],
-             scanindex=x$scanindex[i],
-             collisionEnergy=x$collisionEnergy[i],
-             peaksCount=as.integer(pc),
-             mz=mz,
-             intensity=int))
+  sp <- new("Spectrum2",
+            rt=x$rt[i],
+            acquisitionNum=x$acquisitionNum[i],
+            precursorMz=x$precursorMZ[i],
+            precursorIntensity=x$precursorIntensity[i],
+            precursorCharge=x$precursorCharge[i],
+            scanindex=x$scanindex[i],
+            collisionEnergy=x$collisionEnergy[i],
+            peaksCount=as.integer(pc),
+            mz=mz,
+            intensity=int)
+  if (validObject(sp))
+    return(sp)
 }
 
 

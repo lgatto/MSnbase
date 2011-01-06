@@ -11,6 +11,7 @@ exportClasses(MIAPE, MSnExp, MSnProcess, MSnSet,
               ReporterIons)
 
 exportMethods(show,"[",
+              fileNames,
               length,
               plot,
               spectra,"spectra<-",
