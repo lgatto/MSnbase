@@ -1,18 +1,19 @@
 ##################################################################
 ## Methods for MSnSet class
-setMethod("initialize", "MSnSet",
-          function(.Object,experimentData,...) {
-            .Object <- callNextMethod()
-            if (missing(experimentData)) 
-              experimentData(.Object) <- new("MIAPE")
-            else
-              experimentData(.Object) <- experimentData
-            .Object
-          })
+## setMethod("initialize", "MSnSet",
+##           function(.Object,experimentData,...) {
+##             .Object <- callNextMethod()
+##             if (missing(experimentData)) 
+##               experimentData(.Object) <- new("MIAPE")
+##             else
+##               experimentData(.Object) <- experimentData
+##             .Object
+##           })
 
                    
 setMethod("show","MSnSet",
           function(object) show.MSnSet(object))
+
 setMethod("normalise","MSnSet",
           function(object,method=c("sum","max"))
           normalise.MSnSet(object,match.arg(method))

@@ -24,75 +24,74 @@ header.MSnExp <- function(object) {
                           collision.energy=collisionEnergy(object))))
        }
 
-mergeSpectra <- function(object, ## MSnExp object
-                         fun=sum,
-                         verbose=TRUE) {
-  spectra <- object@spectra
-  prec <- sapply(spectra,function(x) x@precursorMz)
-  uprec <- unique(prec)
-  luprec <- length(uprec)
-  if (verbose) 
-    cat(luprec,"unique precursors for",length(spectra),"spectra\n")
-  newSpectra <- vector("list",length=luprec)
-  if (verbose)
-    pb <- txtProgressBar(min = 0, max = luprec, style = 3)
-  for (i in 1:luprec) {
-    if (verbose)
-      setTxtProgressBar(pb, i)   
-    pi <- uprec[i]
-    sel <- prec %in% pi
-    l <- spectra[sel]
-    ## unique M/Z values
-    mzs <- unique(unlist(lapply(l,function(x) x@mz)))
-    ## vectors of intensitues (ints) and number of times
-    ## a given itensity is found (icounts)
-    ints <- icounts <- numeric(length(mzs))
-    names(icounts) <- mzs
-    allints <- unlist(lapply(l,function(x) x@intensity))
-    names(allints) <- unlist(lapply(l,function(x) x@mz))
-    for (j in 1:length(mzs)) {
-      k <- as.character(mzs[j])
-      ints[j] <- fun(allints[names(allints) %in% k])
-      icounts[j] <- sum(names(allints) %in% k)
-    }
-    o <- order(mzs)
-    newSpectra[[i]] <- new("Spectrum",
-                           merged=which(sel),
-                           rt=unique(sapply(l,function(x) x@rt)),
-                           msLevel=unique(sapply(l,function(x) x@msLevel)),
-                           precursorMz=pi,
-                           peaksCount=length(ints),
-                           intensity=ints[o],
-                           mz=mzs[o])
-    validObject(newSpectra[[i]])
-  }
-  if (verbose)
-    close(pb)
-  object@process@processing <- c(object@process@processing,
-                                 paste("Precursor ions with identical M/Z merged:",
-                                       date()))
-  object@process@merged <- TRUE
-  return(new("MSnExp",
-             spectra=newSpectra,
-             metadata=object@metadata,
-             process=object@process))
-}
+## mergeSpectra <- function(object, ## MSnExp object
+##                          fun=sum,
+##                          verbose=TRUE) {
+##   spectra <- spectra(object)
+##   prec <- sapply(spectra,function(x) x@precursorMz)
+##   uprec <- unique(prec)
+##   luprec <- length(uprec)
+##   if (verbose) 
+##     cat(luprec,"unique precursors for",length(spectra),"spectra\n")
+##   newSpectra <- vector("list",length=luprec)
+##   if (verbose)
+##     pb <- txtProgressBar(min = 0, max = luprec, style = 3)
+##   for (i in 1:luprec) {
+##     if (verbose)
+##       setTxtProgressBar(pb, i)   
+##     pi <- uprec[i]
+##     sel <- prec %in% pi
+##     l <- spectra[sel]
+##     ## unique M/Z values
+##     mzs <- unique(unlist(lapply(l,function(x) x@mz)))
+##     ## vectors of intensitues (ints) and number of times
+##     ## a given itensity is found (icounts)
+##     ints <- icounts <- numeric(length(mzs))
+##     names(icounts) <- mzs
+##     allints <- unlist(lapply(l,function(x) x@intensity))
+##     names(allints) <- unlist(lapply(l,function(x) x@mz))
+##     for (j in 1:length(mzs)) {
+##       k <- as.character(mzs[j])
+##       ints[j] <- fun(allints[names(allints) %in% k])
+##       icounts[j] <- sum(names(allints) %in% k)
+##     }
+##     o <- order(mzs)
+##     newSpectra[[i]] <- new("Spectrum",
+##                            merged=which(sel),
+##                            rt=unique(sapply(l,function(x) x@rt)),
+##                            msLevel=unique(sapply(l,function(x) x@msLevel)),
+##                            precursorMz=pi,
+##                            peaksCount=length(ints),
+##                            intensity=ints[o],
+##                            mz=mzs[o])
+##     validObject(newSpectra[[i]])
+##   }
+##   if (verbose)
+##     close(pb)
+##   object@process@processing <- c(object@process@processing,
+##                                  paste("Precursor ions with identical M/Z merged:",
+##                                        date()))
+##   object@process@merged <- TRUE
+##   ## TODO update and set featureData
+##   return(new("MSnExp",
+##              assayData=list2env(newSpectra),
+##              metadata=object@metadata,
+##              process=object@process))
+## }
 
 extractPrecSpectra <- function(object,prec) {
-  sel <- sapply(object@spectra,function(x) x@precursorMz %in% prec)
+  sel <- sapply(spectra(object),function(x) x@precursorMz %in% prec)
   n <- length(prec)
   object@process@processing <- c(object@process@processing,
                                  paste(n,"precursors extracted:",date()))
+  ## TODO: need to update phenoData - check files
   return(new("MSnExp",
-             spectra=object@spectra[sel],
+             spectra=list2env(object@spectra[sel]),
              process=object@process,
-             fromFile=object@fromFile[sel],
-             files=object@files,
              assayData=object@assayData,
              phenoData=object@phenoData,
-             featureData=object@featureData,
+             featureData=object@featureData[sel,],
              experimentData=object@experimentData,
-             annotation=object@annotation,
              protocolData=object@protocolData))
 }
 
@@ -132,9 +131,10 @@ bg.correct.MSnExp <- function(object,bg,verbose=TRUE) {
 
 
 clean.MSnExp <- function(object,verbose=TRUE) {
+  pb <- txtProgressBar(min = 0, max = total, style = 3) 
   ifelse(verbose,progress <- "text",progress <- "none")
-  spectra <- llply(object@spectra,function(x) clean(x),.progress=progress)
-  object@spectra <- spectra
+  spectra <- llply(spectra(object),function(x) clean(x),.progress=progress)
+  object@assayData <- list2env(spectra)
   object@process@cleaned <- TRUE
   object@process@processing <- c(object@process@processing,
                                  paste("Spectra cleaned: ",date(),sep=""))

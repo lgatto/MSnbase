@@ -101,6 +101,8 @@ readMzXMLData <- function(files,
                   assayData=spectra.env,
                   phenoData=pdata,
                   featureData=fdata,
+                  experimentData=new("MIAPE"),
+                  protocolData=new("AnnotatedDataFrame"),
                   process=process)
   return(toReturn)
 }
