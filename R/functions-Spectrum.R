@@ -4,7 +4,7 @@ show.Spectrum <- function(spectrum) {
 }
     
 
-removePeaks.Spectrum <- function(spectrum,t) {
+removePeaks.Spectrum <- function(spectrum,t="min") {
   if (t=="min") 
     t <- min(intensity(spectrum)[intensity(spectrum)>0])
   ints <- utils.removePeaks(spectrum@intensity,t)

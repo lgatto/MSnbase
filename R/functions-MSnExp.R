@@ -104,10 +104,10 @@ extractSpectra <- function(object,selected) {
   return(object)
 }
 
-removePeaks.MSnExp <- function(object,t,verbose=TRUE) {
+removePeaks.MSnExp <- function(object,t="min",verbose=TRUE) {
   ifelse(verbose,progress <- "text",progress <- "none")
-  spectraList <-  llply(object@spectra,function(x) removePeaks(x,t),.progress=progress)
-  object@spectra <- spectraList
+  spectraList <-  llply(spectra(object),function(x) removePeaks(x,t),.progress=progress)
+  object@assayData <- list2env(spectraList)
   object@process@removedPeaks <- c(object@process@removedPeaks,
                                    as.character(t))
   object@process@processing <- c(object@process@processing,

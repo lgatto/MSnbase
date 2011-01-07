@@ -1,6 +1,6 @@
 context("MSnExp class")
 
-test_that("readMzXMLData and MSnExp instance", {
+test_that("readMzXMLData and dummy MSnExp instance", {
   file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
   aa <- readMzXMLData(file,verbose=FALSE)
   expect_that(class(aa)=="MSnExp",is_true())
@@ -24,4 +24,18 @@ test_that("readMzXMLData and MSnExp instance", {
               equals(c(1982.92,6179.02)))
   expect_that(as.numeric(sort(rtime(aa))[1]),equals(1982.92)) ## [*]
   ## [*] using as.numeric because rtime and precursorMz return named numerics
+})
+
+
+context("data integrity")
+
+test_that("spectra order in assayData", {
+  file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
+  aa <- readMzXMLData(file,verbose=FALSE)
+  nms.0 <- ls(assayData(aa))
+  nms.1 <- ls(assayData(removePeaks(aa,verbose=FALSE)))
+  expect_that(nms.1,equals(nms.0))
+  expect_that(all.equal(removePeaks(assayData(aa)$X98,t=2),
+            assayData(removePeaks(aa,t=2,verbose=FALSE))$X98),
+            is_true())
 })
