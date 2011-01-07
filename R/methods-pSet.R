@@ -1,11 +1,5 @@
 ## No initialize method for pSet -- use constructor
 
-## returns the dimensions of PhenoData 
-setMethod("dim", "pSet", function(x) dim(pData(x)))
-
-## returns the number of spectra in the AssayData env
-setMethod("length", "pSet", function(x) length(assayData(x)))
-
 setValidity("pSet", function(object) {
   msg <- validMsg(NULL, NULL)
   ## checking number of spectra in assayData and
@@ -24,6 +18,12 @@ setValidity("pSet", function(object) {
   ## on type of assay (MS1, MS2 quant, reporter ions, ...)
   if (is.null(msg)) TRUE else msg
 })
+
+## returns the dimensions of PhenoData 
+setMethod("dim", "pSet", function(x) dim(pData(x)))
+
+## returns the number of spectra in the AssayData env
+setMethod("length", "pSet", function(x) length(assayData(x)))
 
 setMethod("assayData", "pSet", function(object) object@assayData)
 
@@ -99,10 +99,15 @@ setMethod("protocolData", "pSet",
                        phenoData(object)[,integer(0)]
                      })
           })
+setMethod("processingData",
+          signature(object="pSet"),
+          function(object) object@process)
 
+################################
 ## TODO: setReplaceMethods for
 ##  phenoData
 ##  pData
+##  processingData - or may be individual elements for MSnProcess class
 ##  varMetadata
 ##  varLabels
 ##  featureData
