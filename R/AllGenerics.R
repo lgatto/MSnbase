@@ -21,6 +21,7 @@ setGeneric("processingData<-",function(object,value) standardGeneric("processing
 
 setGeneric("mz",function(object) standardGeneric("mz"))
 setGeneric("intensity",function(object) standardGeneric("intensity"))
+setGeneric("tic",function(object) standardGeneric("tic"))
 
 setGeneric("fromFile",function(object) standardGeneric("fromFile"))
 

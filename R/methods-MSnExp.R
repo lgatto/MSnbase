@@ -94,6 +94,9 @@ setMethod("precursorMz","MSnExp",
             stop("No precursor MZ value for MS1 spectra.")
           })
 
+setMethod("tic","MSnExp",
+          function(object) sapply(assayData(object),tic))
+
 setMethod("precursorCharge","MSnExp",
           function(object) {
             if (msLevel(object)[1]>1) 

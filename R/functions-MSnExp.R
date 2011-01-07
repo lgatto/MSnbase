@@ -131,7 +131,6 @@ bg.correct.MSnExp <- function(object,bg,verbose=TRUE) {
 
 
 clean.MSnExp <- function(object,verbose=TRUE) {
-  pb <- txtProgressBar(min = 0, max = total, style = 3) 
   ifelse(verbose,progress <- "text",progress <- "none")
   spectra <- llply(spectra(object),function(x) clean(x),.progress=progress)
   object@assayData <- list2env(spectra)

@@ -29,13 +29,23 @@ test_that("readMzXMLData and dummy MSnExp instance", {
 
 context("data integrity")
 
-test_that("spectra order in assayData", {
+test_that("spectra order and integrity", {
   file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
   aa <- readMzXMLData(file,verbose=FALSE)
+  sp <- assayData(aa)$X98
   nms.0 <- ls(assayData(aa))
   nms.1 <- ls(assayData(removePeaks(aa,verbose=FALSE)))
   expect_that(nms.1,equals(nms.0))
-  expect_that(all.equal(removePeaks(assayData(aa)$X98,t=2),
+  expect_that(all.equal(removePeaks(sp,t=2),
             assayData(removePeaks(aa,t=2,verbose=FALSE))$X98),
             is_true())
+  expect_that(tic(sp),equals(334))
+  expect_that(tic(removePeaks(sp,1)),equals(56))
+  expect_that(tic(removePeaks(sp,2)),equals(22))
+  expect_that(tic(removePeaks(sp,3)),equals(0))
+  expect_that(peaksCount(sp),equals(849))
+  expect_that(peaksCount(clean(removePeaks(sp,1))),equals(65))
+  expect_that(peaksCount(clean(removePeaks(sp,2))),equals(21))
+  expect_that(peaksCount(clean(removePeaks(sp,3))),equals(0))
+  expect_that(tic(clean(removePeaks(sp,0))),equals(tic(sp)))
 })

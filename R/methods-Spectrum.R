@@ -43,6 +43,8 @@ setMethod("collisionEnergy","Spectrum",
           })
 setMethod("intensity","Spectrum",function(object) object@intensity)
 setMethod("mz","Spectrum",function(object) object@mz)
+setMethod("tic","Spectrum",function(object) sum(object@intensity))
+
 setMethod("trimMz","Spectrum",
           function(object,mzlim,...) trimMz.Spectrum(object,mzlim))
 setMethod("quantify","Spectrum",
