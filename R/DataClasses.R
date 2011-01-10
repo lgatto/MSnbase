@@ -3,6 +3,7 @@
 ## See online documentation for more information.
 setClass("MSnProcess",
          representation = representation(
+           files="character",
            processing="character",
            merged="logical",
            cleaned="logical",
@@ -251,10 +252,11 @@ setClass("ReporterIons",
 ## See online documentation for more information.
 setClass("MSnSet",
          representation = representation(
+           process = "MSnProcess",
            qual = "data.frame"),
-         contains = c("pSet"),
+         contains = c("ExpressionSet"),
          prototype = prototype(
            new("VersionedBiobase",
-               versions=c(classVersion("pSet"),classVersion("MSnExp"), MSnSet="0.3.0")),
+               versions=c(classVersion("ExpressionSet"),classVersion("MSnSet"), MSnSet="0.3.0")),
            experimentData=new("MIAPE")))
 

@@ -4,7 +4,7 @@ setGeneric("removePeaks", function(object,t="min",...) standardGeneric("removePe
 ##setGeneric("bg.correct", function(object,bg,...) standardGeneric("bg.correct"))
 
 setGeneric("spectra",function(object) standardGeneric("spectra"))
-setGeneric("spectra<-",function(object,value) standardGeneric("spectra<-"))
+##setGeneric("spectra<-",function(object,value) standardGeneric("spectra<-"))
 setGeneric("precursorMz",function(object) standardGeneric("precursorMz"))
 setGeneric("precursorCharge",function(object) standardGeneric("precursorCharge"))
 setGeneric("precursorCharge<-",function(object,value) standardGeneric("precursorCharge<-"))

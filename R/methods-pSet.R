@@ -10,7 +10,7 @@ setValidity("pSet", function(object) {
     msg <- validMsg(msg, "unequal number of spectra in assayData and features in featureData")
   ## checking number of files in phenoData and
   ##          number of files in assayData
-  nfilespData   <- nrow(pData(object))
+  nfilespData   <- length(object@process@files)
   nfilesSpectra <- length(unique(eapply(assayData(object),fromFile)))
   if (nfilespData != nfilesSpectra)
     msg <- validMsg(msg, "unequal number of files in assayData and phenoData")  
@@ -26,6 +26,15 @@ setMethod("dim", "pSet", function(x) dim(pData(x)))
 setMethod("length", "pSet", function(x) length(assayData(x)))
 
 setMethod("assayData", "pSet", function(object) object@assayData)
+
+## setReplaceMethod("assayData",
+##                  signature=signature(
+##                    object="pSet",
+##                    value="AssayData"),
+##                  function(object, value) {
+##                    object@assayData <- value ## may be lock env?                   
+##                    return(object)
+##                  })
 
 setMethod("sampleNames",
           signature(object="pSet"),
@@ -144,11 +153,3 @@ setMethod("processingData",
 ## setMethod("[[", "pSet", 
 ## setReplaceMethod("[[", "pSet",
 
-## setReplaceMethod("assayData",
-##                  signature=signature(
-##                    object="pSet",
-##                    value="AssayData"),
-##                  function(object, value) {
-##                    object@assayData <- value ## may be lock env?                   
-##                    return(object)
-##                  })

@@ -35,6 +35,12 @@ quantify.Spectrum <- function(spectrum,reporters,method) {
   for (i in 1:length(reporters)) {
     ## Curve statistics
     dfr <- curveData(spectrum,reporters[i])
+    ##  dfr:     mz int
+    ##  1  114.1023   0
+    ##  2  114.1063   2
+    ##  3  114.1102   3
+    ##  4  114.1142   4
+    ##  ...
     maxInt <- max(dfr$int)
     nMaxInt <- sum(dfr$int==maxInt)
     baseLength <- nrow(dfr)
@@ -48,10 +54,15 @@ quantify.Spectrum <- function(spectrum,reporters,method) {
       ## Quantify reporter ions calculating the area
       ## under the curve by trapezoidation
       if (nrow(dfr)==1) {
-        peakArea[i] <- dfr$int
+        peakArea[i] <- 0
       } else {
-        for (j in 1:(nrow(dfr)-1))
-          peakArea[i] <- peakArea[i] + area(dfr[j:(j+1),])
+        n <- nrow(dfr)
+        x <- vector(mode = "numeric", length = n)
+        for (j in 1:n) {
+          k <- (j%%n) + 1
+          x[j] <- peakTime[j] * peakIntensity[k] - peakTime[k] * peakIntensity[j]
+        }
+        peakArea[i] <- abs(sum(x)/2)
       }
     } 
     else if (method=="sum") {
@@ -71,24 +82,26 @@ quantify.Spectrum <- function(spectrum,reporters,method) {
               curveStats=curveStats))
 }
 
-curveStats.Spectrum <- function(spectrum,reporters) {
-  curveStats <- c()
-  for (i in 1:length(reporters)) {
-    dfr <- curveData(spectrum,reporters[i])
-    maxInt <- max(dfr$int)
-    nMaxInt <- sum(dfr$int==maxInt)
-    baseLength <- nrow(dfr)
-    mzRange <- range(dfr$mz)
-    curveStats <- rbind(curveStats,
-                        c(maxInt,nMaxInt,baseLength,
-                          mzRange,
-                          reporters[i]@mz,precursorMz(spectrum)))
-  }
-  colnames(curveStats) <- c("maxInt","nMaxInt","baseLength",
-                            "lowerMz","upperMz",
-                            "reporter","precursor")
-  return(as.data.frame(curveStats))
-}
+
+
+## curveStats.Spectrum <- function(spectrum,reporters) {
+##   curveStats <- c()
+##   for (i in 1:length(reporters)) {
+##     dfr <- curveData(spectrum,reporters[i])
+##     maxInt <- max(dfr$int)
+##     nMaxInt <- sum(dfr$int==maxInt)
+##     baseLength <- nrow(dfr)
+##     mzRange <- range(dfr$mz)
+##     curveStats <- rbind(curveStats,
+##                         c(maxInt,nMaxInt,baseLength,
+##                           mzRange,
+##                           reporters[i]@mz,precursorMz(spectrum)))
+##   }
+##   colnames(curveStats) <- c("maxInt","nMaxInt","baseLength",
+##                             "lowerMz","upperMz",
+##                             "reporter","precursor")
+##   return(as.data.frame(curveStats))
+## }
 
 curveData <- function(spectrum,reporter) {
   ## Returns a data frame with mz and intensity
@@ -141,9 +154,9 @@ getCurveWidth <- function(spectrum,reporters) {
   upr <- m+reporters@width
   mz <- spectrum@mz
   int <- spectrum@intensity
-  ## if al least first/last int != 0, this function crashes in
-  ## the while (ylwr!=0)/(yupr!=0) loops. Adding leading/ending data point
-  ## to avoid this. Return values xlwr and xupr must be updated accordingly.
+  ## if first/last int != 0, this function crashes in
+  ## the while (ylwr!=0)/(yupr!=0) loops. Adding leading/ending data points
+  ## to avoid this. Return values xlwr and xupr get updated accordingly [*].
   mz <- c(0,mz,0)
   int <- c(0,int,0)
   ## x... vectors of _indices_ of mz values
@@ -156,9 +169,7 @@ getCurveWidth <- function(spectrum,reporters) {
       xlwr[i] <- xupr[i] <- NA
     } else {
       ymax <- max(int[region])
-      xmax <- which((int %in% ymax) & region)
-
-      
+      xmax <- which((int %in% ymax) & region)      
       xlwr[i] <- min(xmax) ## if several max peaks
       xupr[i] <- max(xmax) ## if several max peaks
       ylwr <- yupr <- ymax
@@ -178,7 +189,7 @@ getCurveWidth <- function(spectrum,reporters) {
         warning("Peak base for precursor ",spectrum@precursorMz,
                 " reporter ",m[i],":\n   ",mz[xlwr[i]],">",m[i],"+",
                 reporters@width)
-      ## Updating xlwr and xupr
+      ## Updating xlwr and xupr [*]
       xlwr[i] <- xlwr[i]+1
       if (xupr[i]==length(int))
         xupr <- xupr-1

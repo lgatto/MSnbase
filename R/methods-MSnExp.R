@@ -5,7 +5,8 @@ setMethod("show",
           function(object) {
             cat("Object of class \"",class(object),"\"\n",sep="")
             cat(" Object size in memory: ")
-            print(object.size(object),units="Mb")
+            sz <- sum(sapply(assayData(object),object.size)) + object.size(object)
+            cat(round(sz/(1024^2),2),"Mb\n")
             cat("- - - Spectra data - - -\n")
             msnLevels <- unique(msLevel(object))
             cat(" MSn level(s):",msnLevels,"\n")
@@ -64,17 +65,17 @@ setMethod("clean","MSnExp",function(object) clean.MSnExp(object))
 
 setMethod("spectra","MSnExp",function(object) as.list(assayData(object)))
 
-## setMethod("spectra<-","MSnExp",
+##setMethod("spectra<-","MSnExp",
 ##           function(object,value="list") object@spectra <- value)
+## setReplaceMethod("spectra",
+##                  signature(object="MSnExp",
+##                            value="list"),
+##                  function(object, value) {
+##                    object@spectra = value
+##                    if (validObject(object))
+##                      return(object)
+##                  })
 
-setReplaceMethod("spectra",
-                 signature(object="MSnExp",
-                           value="list"),
-                 function(object, value) {
-                   object@spectra = value
-                   if (validObject(object))
-                     return(object)
-                 })
 setMethod("[","MSnExp",
           function(x,i,j="missing",drop="missing") "[.MSnExp"(x,i))
 
@@ -140,7 +141,8 @@ setMethod("quantify","MSnExp",
             ## has msLevel>1, all have
             if (msLevel(object)[1]<2) 
               stop("No quantification for MS1 data implemented.")
-            quantify.MSnExp(object,reporters,match.arg(method),verbose)})
+            quantify.MSnExp(object,reporters,match.arg(method),verbose)
+          })
 
 setMethod("curveStats","MSnExp",
           function(object,reporters,verbose=TRUE) {

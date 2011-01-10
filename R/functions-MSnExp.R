@@ -150,14 +150,19 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
                                  paste(reporters@name," quantification by ",method,
                                        ": ",date(),sep=""))
   object@process@centroided <- TRUE
+
   ## Creating new MSnSet
   msnset <- new("MSnSet",
                 qual=.qual,
                 exprs=.exprs, 
                 process=object@process,
-                files=object@files,
                 protocolData=protocolData(object),
-                experimentData=experimentData(object))
+                experimentData=experimentData(object),
+                phenoData=new("AnnotatedDataFrame"), ## <- THIS should be created from
+                                                     ##    the MSnExp phenoData slot
+                featureData=featureData(object),
+                annotation="No annotation")
+
   ## Updating featureData slot or creating one
   fd <- header(object)
   if (nrow(fData(object))>0) { 

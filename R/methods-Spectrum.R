@@ -45,10 +45,12 @@ setMethod("tic","Spectrum",function(object) sum(object@intensity))
 
 setMethod("trimMz","Spectrum",
           function(object,mzlim,...) trimMz.Spectrum(object,mzlim))
+
 setMethod("quantify","Spectrum",
           function(object,reporters,
                    method=c("trapezoidation","max","sum")) 
           quantify.Spectrum(object,reporters,match.arg(method)))
+
 setMethod("curveStats","Spectrum",
           function(object,reporters) curveStats.Spectrum(object,reporters))
 

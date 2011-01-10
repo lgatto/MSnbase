@@ -59,6 +59,7 @@ readMzXMLData <- function(files,
   ## Create 'MSnPocessing' object
   process <- new("MSnProcess",
                  processing=paste("Data loaded:",date()),
+                 files=files,
                  smoothed=smoothed,
                  centroided = centroided)
   
@@ -87,8 +88,13 @@ readMzXMLData <- function(files,
 
   spectra.env <- list2env(spectra)
 
-  if (is.null(pdata)) 
-    pdata <- new("NAnnotatedDataFrame",data=data.frame(Files=files))
+  ## here, a multiplex number (possibly 1) should be used
+  ## to generate th NAnnotatedDataFrame object to afterwards,
+  ## when the corresponding MSnSet is instanciated,
+  ## automatically create the AnnotatedDataFrame.
+  if (is.null(pdata)) {
+    pdata <- new("NAnnotatedDataFrame") 
+  }
 
   fdata <- new("AnnotatedDataFrame",
                data=data.frame(spectum=1:length(spectra)))
