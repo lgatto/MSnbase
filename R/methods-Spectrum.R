@@ -11,8 +11,6 @@ setMethod("clean","Spectrum",function(object) clean.Spectrum(object))
 setMethod("removePeaks","Spectrum",
           function(object,t) removePeaks.Spectrum(object,t))
 
-setMethod("bg.correct","Spectrum",
-          function(object,bg) bg.correct.Spectrum(object,bg=-1))
 setMethod("precursorMz","Spectrum",
           function(object) {
             if (msLevel(object)>1) 

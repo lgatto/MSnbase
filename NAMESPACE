@@ -38,8 +38,7 @@ exportMethods(show,"[",
               dim,
               ratios,
               qual,
-              reporterNames,"reporterNames<-",
-              bg.correct)
+              reporterNames,"reporterNames<-")
 
 
 

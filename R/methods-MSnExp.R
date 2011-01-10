@@ -81,10 +81,6 @@ setMethod("[","MSnExp",
 setMethod("removePeaks","MSnExp",
           function(object,t,verbose=TRUE) removePeaks.MSnExp(object,t,verbose))
 
-setMethod("bg.correct","MSnExp",
-          function(object,bg,verbose=TRUE)
-          bg.correct.MSnExp(object,bg=-1,verbose))
-
 setMethod("precursorMz","MSnExp",
           function(object) {
             ## this assumes that if first spectrum

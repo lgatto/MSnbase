@@ -1,7 +1,7 @@
 setGeneric("clean", function(object) standardGeneric("clean"))
 setGeneric("trimMz", function(object,mzlim,...) standardGeneric("trimMz"))
 setGeneric("removePeaks", function(object,t="min",...) standardGeneric("removePeaks"))
-setGeneric("bg.correct", function(object,bg,...) standardGeneric("bg.correct"))
+##setGeneric("bg.correct", function(object,bg,...) standardGeneric("bg.correct"))
 
 setGeneric("spectra",function(object) standardGeneric("spectra"))
 setGeneric("spectra<-",function(object,value) standardGeneric("spectra<-"))

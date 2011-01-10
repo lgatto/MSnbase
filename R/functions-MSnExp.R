@@ -116,19 +116,6 @@ removePeaks.MSnExp <- function(object,t="min",verbose=TRUE) {
 }
 
 
-bg.correct.MSnExp <- function(object,bg,verbose=TRUE) {
-  ifelse(verbose,progress <- "text",progress <- "none")
-  spectraList <-  llply(object@spectra,function(x) bg.correct(x,bg),.progress=progress)
-  object@spectra <- spectraList
-  object@process@removedPeaks <- c(object@process@removedPeaks,
-                                   as.character(bg))
-  if (bg<0)
-    bg <- "min. int."
-  object@process@processing <- c(object@process@processing,
-                                 paste("Backgroung corrected using ",bg,": ",date(),sep=""))
-  return(object)
-}
-
 
 clean.MSnExp <- function(object,verbose=TRUE) {
   ifelse(verbose,progress <- "text",progress <- "none")

@@ -12,24 +12,6 @@ removePeaks.Spectrum <- function(spectrum,t="min") {
   return(spectrum)
 }
 
-bg.correct.Spectrum <- function(spectrum,bg) {
-  ## Background correct intensity
-  ## Parameters:
-  ##  spectrum: an object of class Spectrum
-  ##  bg: a numeric indicating the background intensity,
-  ##      if bg<0, background is estimated as the lowest
-  ##      intensity in the spectrum. Using bg=0 has no
-  ##      effect.
-  ## Return value:
-  ##  An object of class Spectrum with background 
-  ##  corrected intensities.
-  if (bg<0) 
-    bg <- min(intensity(spectrum)[intensity(spectrum)>0])
-  int <- spectrum@intensity - bg
-  int[int<0] <- 0
-  sp@intensity <- int
-  return(sp)
-}
 
 clean.Spectrum <- function(spectrum,updatePeaksCount=TRUE) {
   keep <- utils.clean(spectrum@intensity)
