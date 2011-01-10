@@ -151,6 +151,11 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
                                        ": ",date(),sep=""))
   object@process@centroided <- TRUE
 
+  ## TODO: ExpressionSet validity
+  ## invalid class "MSnSet" object: 1: featureNames differ between assayData and featureData
+  ## invalid class "MSnSet" object: 2: sample numbers differ between assayData and phenoData
+  ## invalid class "MSnSet" object: 3: sampleNames differ between assayData and phenoData
+  
   ## Creating new MSnSet
   msnset <- new("MSnSet",
                 qual=.qual,
@@ -159,7 +164,7 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
                 protocolData=protocolData(object),
                 experimentData=experimentData(object),
                 phenoData=new("AnnotatedDataFrame"), ## <- THIS should be created from
-                                                     ##    the MSnExp phenoData slot
+                                                     ##    the MSnExp phenoData slot - see ABOVE TODO
                 featureData=featureData(object),
                 annotation="No annotation")
 
