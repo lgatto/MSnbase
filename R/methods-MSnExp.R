@@ -35,7 +35,7 @@ setMethod("show",
             Biobase:::.showAnnotatedDataFrame(phenoData(object),
                                               labels=list(object="phenoData"))
             cat("Loaded from:\n")
-            files <- as.character(pData(object)$Files)
+            files <- processingData(aa)@files
             for (i in 1:length(files)) {
               f <- basename(files[i])
               cat(" ",f,"\n")

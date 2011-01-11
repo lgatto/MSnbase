@@ -17,8 +17,7 @@ header.MSnExp <- function(object) {
                           retention.time=rtime(object),
                           precursor.mz=precursorMz(object),
                           peaks.count=peaksCount(object),
-                          tic=unlist(eapply(spectra(object),
-                            function(x) sum(intensity(x)))),
+                          tic=tic(object),
                           ms.level=msLevel(object),
                           charge=precursorCharge(object),
                           collision.energy=collisionEnergy(object))))
@@ -128,6 +127,22 @@ clean.MSnExp <- function(object,verbose=TRUE) {
 }
 
 quantify.MSnExp <- function(object,reporters,method,verbose) {
+  ## Display progress bar with eapply
+  ## if (verbose) {
+  ##   ._cnt <- 1
+  ##   pb <- txtProgressBar(min = 0, max = length(object), style = 3)
+  ##   ## Quantification -- creating exprs for assayData slot
+  ##   peakData <- eapply(assayData(object),function(x) {
+  ##     setTxtProgressBar(pb, ._cnt)
+  ##     ._cnt <<- ._cnt+1
+  ##     quantify(x,reporters,method)
+  ##   })
+  ##   close(pb)
+  ##   rm(pb)
+  ##   rm(._cnt)
+  ## } else {
+  ##   peakData <- eapply(assayData(object),quantify,reporters,method)
+  ## }
   ifelse(verbose,progress <- "text",progress <- "none")
   spectraList <- spectra(object)
   ## Quantification -- creating exprs for assayData slot
@@ -136,38 +151,36 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
     .exprs <- t(peakData$peakArea)
     .qual <- t(peakData$curveData)
   } else {
-    peakData <- laply(spectraList,quantify,reporters,method,.progress=progress)
+    peakData <- llply(spectraList,quantify,reporters,method,.progress=progress)
     .exprs <- do.call(rbind,sapply(peakData,"[","peakArea"))
     .qual <- do.call(rbind,sapply(peakData,"[","curveStats"))
   }
-  prec <- sapply(spectraList,precursorMz)
-  feat <- make.unique(as.character(prec))
-  rownames(.qual) <- 1:nrow(.qual)
-  rownames(.exprs) <- feat
-  colnames(.exprs) <- reporters@reporterNames
+  ##prec <- sapply(spectraList,precursorMz)
+  ##feat <- make.unique(as.character(prec))
+  ##rownames(.qual) <- 1:nrow(.qual)
+  ##rownames(.exprs) <- feat
+  ##colnames(.exprs) <- reporters@reporterNames
   ## Updating MSnprocess slot
   object@process@processing <- c(object@process@processing,
                                  paste(reporters@name," quantification by ",method,
                                        ": ",date(),sep=""))
   object@process@centroided <- TRUE
 
-  ## TODO: ExpressionSet validity
-  ## invalid class "MSnSet" object: 1: featureNames differ between assayData and featureData
-  ## invalid class "MSnSet" object: 2: sample numbers differ between assayData and phenoData
-  ## invalid class "MSnSet" object: 3: sampleNames differ between assayData and phenoData
+  pdata <- new("AnnotatedDataFrame",
+               data=data.frame(reporters=reporterNames(iTRAQ4)))
   
   ## Creating new MSnSet
+
   msnset <- new("MSnSet",
                 qual=.qual,
                 exprs=.exprs, 
                 process=object@process,
                 protocolData=protocolData(object),
                 experimentData=experimentData(object),
-                phenoData=new("AnnotatedDataFrame"), ## <- THIS should be created from
-                                                     ##    the MSnExp phenoData slot - see ABOVE TODO
+                phenoData=pdata,
                 featureData=featureData(object),
                 annotation="No annotation")
-
+  
   ## Updating featureData slot or creating one
   fd <- header(object)
   if (nrow(fData(object))>0) { 

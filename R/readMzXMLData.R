@@ -95,10 +95,9 @@ readMzXMLData <- function(files,
   if (is.null(pdata)) {
     pdata <- new("NAnnotatedDataFrame") 
   }
-
-  fdata <- new("AnnotatedDataFrame",
-               data=data.frame(spectum=1:length(spectra)))
-  
+  tmp.fdata <- new("AnnotatedDataFrame",
+                   data=data.frame(spectum=1:length(spectra),
+                     row.names=nms))
   ## Create and return 'MSnPeaks' object
   if (verbose)
     cat("Creating 'MSnExp' object\n")
@@ -106,10 +105,13 @@ readMzXMLData <- function(files,
   toReturn <- new("MSnExp",
                   assayData=spectra.env,
                   phenoData=pdata,
-                  featureData=fdata,
+                  featureData=tmp.fdata,
                   experimentData=new("MIAPE"),
                   protocolData=new("AnnotatedDataFrame"),
                   process=process)
+  toReturn@featureData <- new("AnnotatedDataFrame",
+                              data=header(toReturn))
+  
   return(toReturn)
 }
 
