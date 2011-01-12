@@ -60,7 +60,7 @@ quantify.Spectrum <- function(spectrum,reporters,method) {
         x <- vector(mode = "numeric", length = n)
         for (j in 1:n) {
           k <- (j%%n) + 1
-          x[j] <- peakTime[j] * peakIntensity[k] - peakTime[k] * peakIntensity[j]
+          x[j] <- dfr$mz[j] * dfr$int[k] - dfr$mz[k] * dfr$int[j]
         }
         peakArea[i] <- abs(sum(x)/2)
       }

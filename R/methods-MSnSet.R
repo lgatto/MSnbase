@@ -1,15 +1,11 @@
 ##################################################################
 ## Methods for MSnSet class
-## setMethod("initialize", "MSnSet",
-##           function(.Object,experimentData,...) {
-##             .Object <- callNextMethod()
-##             if (missing(experimentData)) 
-##               experimentData(.Object) <- new("MIAPE")
-##             else
-##               experimentData(.Object) <- experimentData
-##             .Object
-##           })
-
+setMethod("initialize", "MSnSet",
+          function(.Object,...) {
+            ## .Object <- callNextMethod() 
+            experimentData(.Object) <- new("MIAPE")
+            .Object
+          })
                    
 setMethod("show","MSnSet",
           function(object) show.MSnSet(object))

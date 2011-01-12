@@ -252,11 +252,14 @@ setClass("ReporterIons",
 ## See online documentation for more information.
 setClass("MSnSet",
          representation = representation(
+           experimentData = "MIAPE",
            process = "MSnProcess",
            qual = "data.frame"),
          contains = c("ExpressionSet"),
          prototype = prototype(
            new("VersionedBiobase",
-               versions=c(classVersion("ExpressionSet"),classVersion("MSnSet"), MSnSet="0.3.0")),
+               versions=c(classVersion("ExpressionSet"),
+                 classVersion("MSnSet"),
+                 MSnSet="0.3.0")),
            experimentData=new("MIAPE")))
 

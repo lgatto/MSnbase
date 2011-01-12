@@ -143,6 +143,7 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
   ## } else {
   ##   peakData <- eapply(assayData(object),quantify,reporters,method)
   ## }
+
   ifelse(verbose,progress <- "text",progress <- "none")
   spectraList <- spectra(object)
   ## Quantification -- creating exprs for assayData slot
@@ -155,45 +156,39 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
     .exprs <- do.call(rbind,sapply(peakData,"[","peakArea"))
     .qual <- do.call(rbind,sapply(peakData,"[","curveStats"))
   }
-  ##prec <- sapply(spectraList,precursorMz)
-  ##feat <- make.unique(as.character(prec))
-  ##rownames(.qual) <- 1:nrow(.qual)
-  ##rownames(.exprs) <- feat
-  ##colnames(.exprs) <- reporters@reporterNames
+  rownames(.exprs) <- sub(".peakArea","",rownames(.exprs))
+  rownames(.qual) <- sub(".curveStats","",rownames(.qual))
+  
   ## Updating MSnprocess slot
   object@process@processing <- c(object@process@processing,
                                  paste(reporters@name," quantification by ",method,
                                        ": ",date(),sep=""))
   object@process@centroided <- TRUE
-
-  pdata <- new("AnnotatedDataFrame",
-               data=data.frame(reporters=reporterNames(iTRAQ4)))
-  
+                 
   ## Creating new MSnSet
-
   msnset <- new("MSnSet",
                 qual=.qual,
                 exprs=.exprs, 
                 process=object@process,
-                protocolData=protocolData(object),
+                ##protocolData=protocolData(object),   ## updated/added below
                 experimentData=experimentData(object),
-                phenoData=pdata,
-                featureData=featureData(object),
+                ##phenoData=pdata,                     ## updated/added below
+                ##featureData=featureData(object),     ## updated/added below
                 annotation="No annotation")
   
   ## Updating featureData slot or creating one
-  fd <- header(object)
+  fd <- new("AnnotatedDataFrame",data=header(object))
   if (nrow(fData(object))>0) { 
     if (nrow(fData(object))==length(object)) {
-      .featureData <- new("AnnotatedDataFrame",data=cbind(fData(object),fd))
+      .featureData <- combine(featureData(object),fd)
     } else {
       warning("Unexpected number of features in featureData slot. Dropping it.")
     }
   } else {
-    rownames(fd) <- feat
     .featureData <- new("AnnotatedDataFrame",data=fd)
   }
   featureData(msnset) <- .featureData
+
   ## Updating phenoData slot or creating one
   pd <- data.frame(mz=reporters@mz,
                    reporters=reporters@name,
