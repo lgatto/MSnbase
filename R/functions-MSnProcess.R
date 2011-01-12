@@ -3,5 +3,4 @@ show.MSnProcess <- function(object) {
   for (proc in object@processing)
     cat(proc,"\n")
   cat(" MSnbase version:",object@MSnbaseVersion,"\n")
-  cat(" Xcms version:",object@xcmsVersion,"\n")
 }

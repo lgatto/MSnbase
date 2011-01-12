@@ -5,40 +5,52 @@ setMethod("show",
           function(object) {
             cat("Object of class \"",class(object),"\"\n",sep="")
             cat(" Object size in memory: ")
-            sz <- sum(sapply(assayData(object),object.size)) + object.size(object)
+            if (length(assayData(object))==0) {
+              sz <- 0
+            } else {
+              sz <- sum(sapply(assayData(object),object.size)) + object.size(object)
+            }
             cat(round(sz/(1024^2),2),"Mb\n")
             cat("- - - Spectra data - - -\n")
-            msnLevels <- unique(msLevel(object))
-            cat(" MSn level(s):",msnLevels,"\n")
-            if (all(msLevel(object)>1)) {
-              cat(" Number of MS1 acquisitions:",length(unique(ms1scan(object))),"\n")
-              cat(" Number of MS2 scans:",length(ls(assayData(object))),"\n")
-              msnPrecMz <- precursorMz(object)
-              nbPrecIons <- length(msnPrecMz)
-              cat(" Number of precursor ions:",nbPrecIons,"\n")
-              if (nbPrecIons>0) {
-                cat("",length(unique(msnPrecMz)),"unique MZs\n")
-                cat(" Precursor MZ's:",paste(signif(range(msnPrecMz),5),collapse=" - "),"\n")
-              }
-              msnMzRange <- round(range(mz(object)),2)
-              cat(" MSn M/Z range:",msnMzRange,"\n")
+            if (sz==0) {
+              cat(" none\n")
             } else {
-              cat(" Number of MS1 scans:",length(spectra(object)),"\n")
-            }
-            msnRt <- rtime(object)
-            if (length(msnRt)>0) {
-              rtr <- range(msnRt)
-              cat(" MSn retention times:",formatRt(rtr[1]),"-",formatRt(rtr[2]),"minutes\n")
+              msnLevels <- unique(msLevel(object))
+              cat(" MSn level(s):",msnLevels,"\n")
+              if (all(msLevel(object)>1)) {
+                cat(" Number of MS1 acquisitions:",length(unique(ms1scan(object))),"\n")
+                cat(" Number of MS2 scans:",length(ls(assayData(object))),"\n")
+                msnPrecMz <- precursorMz(object)
+                nbPrecIons <- length(msnPrecMz)
+                cat(" Number of precursor ions:",nbPrecIons,"\n")
+                if (nbPrecIons>0) {
+                  cat("",length(unique(msnPrecMz)),"unique MZs\n")
+                  cat(" Precursor MZ's:",paste(signif(range(msnPrecMz),5),collapse=" - "),"\n")
+                }
+                msnMzRange <- round(range(mz(object)),2)
+                cat(" MSn M/Z range:",msnMzRange,"\n")
+              } else {
+                cat(" Number of MS1 scans:",length(spectra(object)),"\n")
+              }
+              msnRt <- rtime(object)
+              if (length(msnRt)>0) {
+                rtr <- range(msnRt)
+                cat(" MSn retention times:",formatRt(rtr[1]),"-",formatRt(rtr[2]),"minutes\n")
+              }
             }
             show(object@process)
             cat("- - - Meta data  - - -\n")
             Biobase:::.showAnnotatedDataFrame(phenoData(object),
                                               labels=list(object="phenoData"))
             cat("Loaded from:\n")
-            files <- processingData(aa)@files
-            for (i in 1:length(files)) {
-              f <- basename(files[i])
-              cat(" ",f,"\n")
+            files <- processingData(object)@files
+            if (length(files)>0) {
+              for (i in 1:length(files)) {
+                f <- basename(files[i])
+                cat(" ",f,"\n")
+              }
+            } else {
+              cat(" none\n")
             }
             Biobase:::.showAnnotatedDataFrame(protocolData(object),
                                               labels=list(object="protocolData"))

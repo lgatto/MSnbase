@@ -11,14 +11,13 @@ setClass("MSnProcess",
            smoothed="logical",
            centroided="logical",
            normalised="logical",
-           xcmsVersion="character",
            MSnbaseVersion="character"),
          contains=c("Versioned"),
          prototype = prototype(
            new("Versioned", versions=c(MSnProcess="0.1.0")),
            processing=character(),
+           files=character(),
            removedPeaks=character(),
-           xcmsVersion=as.character(packageDescription("xcms",fields="Version")),
            ## will have to check whether this is a problem during 
            ## package building, checking when packahe not yet installed
            ## as well as during first installation
@@ -252,7 +251,6 @@ setClass("ReporterIons",
 ## See online documentation for more information.
 setClass("MSnSet",
          representation = representation(
-           experimentData = "MIAPE",
            process = "MSnProcess",
            qual = "data.frame"),
          contains = c("ExpressionSet"),
@@ -260,6 +258,5 @@ setClass("MSnSet",
            new("VersionedBiobase",
                versions=c(classVersion("ExpressionSet"),
                  classVersion("MSnSet"),
-                 MSnSet="0.3.0")),
-           experimentData=new("MIAPE")))
+                 MSnSet="0.3.0"))))
 

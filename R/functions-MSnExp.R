@@ -170,45 +170,49 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
                 qual=.qual,
                 exprs=.exprs, 
                 process=object@process,
-                ##protocolData=protocolData(object),   ## updated/added below
                 experimentData=experimentData(object),
-                ##phenoData=pdata,                     ## updated/added below
-                ##featureData=featureData(object),     ## updated/added below
+                ## protocolData=protocolData(object) ## updated/added below
+                ## phenoData=pdata,                  ## updated/added below
+                ## featureData=featureData(object),  ## updated/added below
                 annotation="No annotation")
   
   ## Updating featureData slot or creating one
-  fd <- new("AnnotatedDataFrame",data=header(object))
+  fd <- header(object)
   if (nrow(fData(object))>0) { 
     if (nrow(fData(object))==length(object)) {
-      .featureData <- combine(featureData(object),fd)
+      fd <- combine(fData(object),fd)
     } else {
       warning("Unexpected number of features in featureData slot. Dropping it.")
     }
-  } else {
-    .featureData <- new("AnnotatedDataFrame",data=fd)
   }
+  ## featureData rows must be reordered to match assayData rows
+  .featureData <- new("AnnotatedDataFrame",data=fd[rownames(.exprs),])
   featureData(msnset) <- .featureData
 
   ## Updating phenoData slot or creating one
-  pd <- data.frame(mz=reporters@mz,
-                   reporters=reporters@name,
-                   row.names=reporters@reporterNames)
+  .phenoData <- new("AnnotatedDataFrame",
+                    data=data.frame(mz=reporters@mz,
+                      reporters=reporters@name,
+                      row.names=reporters@reporterNames))
   if (nrow(pData(object))>0) { 
     if (nrow(pData(object))==length(reporters)) {
-      .phenoDataData <- new("AnnotatedDataFrame",data=cbind(pData(object),pd))
+      .phenoData <- combine(phenoData(object),.phenoData)
     } else {
+      ## Here, something more clever should be done, like replicating
+      ## old phenoData variables length(reporters) times
       warning("Unexpected number of samples in phenoData slot. Dropping it.")
     }
-  } else {
-    .phenoData <- new("AnnotatedDataFrame",data=pd)
   }
   phenoData(msnset) <- .phenoData
-  ## Updating protocol slot
+  ## Updating protocol slot 
   if (nrow(protocolData(object))>0) { 
-    if (nrow(protocolData(object))==length(reporters)) 
+    if (nrow(protocolData(object))==length(reporters)) {
       protocolData(msnset) <- protocolData(object)
-    else 
+    } else {
+      ## Here, something more clever should be done, like replicating
+      ## old phenoData variables length(reporters) times
       warning("Unexpected number of features in featureData slot. Dropping it.")
+    }
   }
   ## Returning shiny MSnSet object
   if (validObject(msnset))
