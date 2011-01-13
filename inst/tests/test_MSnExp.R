@@ -54,17 +54,30 @@ context("quantification and MSnSet instance")
 
 
 test_that("quantification", {
+
   ## dummy Spectrum
   int <- c(0,2,3,1,0)
-  mz <- c(114.05,
-          114.10,
+  mz <- c(114.11,
+          114.12,
           114.13,
-          114.15,
-          114.16)
+          114.14,
+          114.15)
   sp <- new("Spectrum2",
             intensity=int,
             mz=mz)
-  expect_that(validObject(sp),is_true())
   data(iTRAQ4)
-  ##quantify(sp,iTRAQ4[1],"sum")
+  expect_that(validObject(sp),is_true())
+  expect_that(MSnbase:::getCurveWidth(sp,iTRAQ4[1]),
+              equals(list(lwr=1,upr=5)))
+  expect_that(as.numeric(quantify(sp,iTRAQ4[1],"sum")$peakQuant),
+              equals(6))
+  expect_that(as.numeric(quantify(sp,iTRAQ4[1],"max")$peakQuant),
+              equals(3))
+  expect_that(as.numeric(quantify(sp,iTRAQ4[1],"trap")$peakQuant),
+              equals((0.01*2)/2+
+                     (0.01*2)  +
+                     (0.01*1)/2+
+                     0.01*1    +
+                     (0.01*2)/2+
+                     (0.01*1)/2))
 })

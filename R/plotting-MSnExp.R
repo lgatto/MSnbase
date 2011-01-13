@@ -2,7 +2,7 @@ plot.MSnExp <- function(object,reporters,full=FALSE) {
   if (any(msLevel(object)==1)) {
     stop("MSnExp object contains MS1 level spectra.\n  Plotting only supported for MSn spectra")
   }
-  spectra <- object@spectra
+  spectra <- spectra(spectra)
   ints <- unlist(sapply(spectra, function(x) x@intensity))
   mzs <- unlist(sapply(spectra, function(x) x@mz))
   l <- unlist(sapply(spectra, function(x) length(x@mz)))

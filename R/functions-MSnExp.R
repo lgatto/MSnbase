@@ -149,14 +149,14 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
   ## Quantification -- creating exprs for assayData slot
   if (length(spectraList)==1) {
     peakData <- quantify(spectraList[[1]],reporters,method)
-    .exprs <- t(peakData$peakArea)
+    .exprs <- t(peakData$peakQuant)
     .qual <- t(peakData$curveData)
   } else {
     peakData <- llply(spectraList,quantify,reporters,method,.progress=progress)
-    .exprs <- do.call(rbind,sapply(peakData,"[","peakArea"))
+    .exprs <- do.call(rbind,sapply(peakData,"[","peakQuant"))
     .qual <- do.call(rbind,sapply(peakData,"[","curveStats"))
   }
-  rownames(.exprs) <- sub(".peakArea","",rownames(.exprs))
+  rownames(.exprs) <- sub(".peakQuant","",rownames(.exprs))
   rownames(.qual) <- sub(".curveStats","",rownames(.qual))
   
   ## Updating MSnprocess slot

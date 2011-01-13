@@ -27,10 +27,10 @@ quantify.Spectrum <- function(spectrum,reporters,method) {
   ##  reporters: object of class ReporterIons
   ## Return value:
   ##  a names list of length 2 with
-  ##   peakArea: named numeric of length length(reporters)
+  ##   peakQuant: named numeric of length length(reporters)
   ##   curveStats: a length(reporters)x7 data frame 
-  peakArea <- vector("numeric",length(reporters))
-  names(peakArea) <- reporterNames(reporters)
+  peakQuant <- vector("numeric",length(reporters))
+  names(peakQuant) <- reporterNames(reporters)
   curveStats <- c()
   for (i in 1:length(reporters)) {
     ## Curve statistics
@@ -45,16 +45,19 @@ quantify.Spectrum <- function(spectrum,reporters,method) {
     nMaxInt <- sum(dfr$int==maxInt)
     baseLength <- nrow(dfr)
     mzRange <- range(dfr$mz)
+    precMz <- precursorMz(spectrum)
+    if (length(precMz)!= 1)
+      precMz <- NA
     curveStats <- rbind(curveStats,
                         c(maxInt,nMaxInt,baseLength,
                           mzRange,
-                          reporters[i]@mz,precursorMz(spectrum)))
+                          reporters[i]@mz,precMz))
     ## Quantification
     if (method=="trapezoidation") {
       ## Quantify reporter ions calculating the area
       ## under the curve by trapezoidation
       if (nrow(dfr)==1) {
-        peakArea[i] <- 0
+        peakQuant[i] <- 0
       } else {
         n <- nrow(dfr)
         x <- vector(mode = "numeric", length = n)
@@ -62,23 +65,23 @@ quantify.Spectrum <- function(spectrum,reporters,method) {
           k <- (j%%n) + 1
           x[j] <- dfr$mz[j] * dfr$int[k] - dfr$mz[k] * dfr$int[j]
         }
-        peakArea[i] <- abs(sum(x)/2)
+        peakQuant[i] <- abs(sum(x)/2)
       }
     } 
     else if (method=="sum") {
       ## Quantify reporter ions using sum of data points of the peak
-      peakArea[i] <- sum(dfr$int)
+      peakQuant[i] <- sum(dfr$int)
     }
     else if (method=="max") {
       ## Quantify reporter ions using max peak intensity
-      peakArea[i] <- max(dfr$int)
+      peakQuant[i] <- max(dfr$int)
     }
   }
   colnames(curveStats) <- c("maxInt","nMaxInt","baseLength",
                             "lowerMz","upperMz",
                             "reporter","precursor")
   curveStats <- as.data.frame(curveStats)  
-  return(list(peakArea=peakArea,
+  return(list(peakQuant=peakQuant,
               curveStats=curveStats))
 }
 
@@ -189,10 +192,11 @@ getCurveWidth <- function(spectrum,reporters) {
         warning("Peak base for precursor ",spectrum@precursorMz,
                 " reporter ",m[i],":\n   ",mz[xlwr[i]],">",m[i],"+",
                 reporters@width)
-      ## Updating xlwr and xupr [*]
-      xlwr[i] <- xlwr[i]+1
-      if (xupr[i]==length(int))
-        xupr <- xupr-1
+      ## Updating xlwr, unless we reached the artificial leading
+      if (xlwr[i]>1)
+        xlwr[i] <- xlwr[i]-1
+      ## Always updating xupr [*]      
+      xupr <- xupr-1
     }
   }
   return(list(lwr=xlwr,upr=xupr))

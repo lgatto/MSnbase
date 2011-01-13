@@ -19,11 +19,13 @@ setMethod("initialize",
           })
 
 setMethod("show","Spectrum",function(object) show.Spectrum(object))
+
 setMethod("plot",c("Spectrum","missing"),
           function(x,y,...) {
             if (msLevel(x)==1) plot.Spectrum1(x,...)
             else plot.Spectrum2(x,...)
           })
+
 setMethod("clean","Spectrum",function(object) clean.Spectrum(object))
 
 setMethod("removePeaks","Spectrum",
