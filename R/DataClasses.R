@@ -96,7 +96,13 @@ setClass("pSet",
            featureData = new("AnnotatedDataFrame",
              dimLabels=c("featureNames", "featureColumns")),
            protocolData = new("AnnotatedDataFrame",
-             dimLabels=c("sampleNames", "sampleColumns"))))
+             dimLabels=c("sampleNames", "sampleColumns"))),
+         validity = function(object) {
+           msl <- msLevel(object)
+           if (length(unique(msl))!=1) 
+             warning(paste("Different MS levels in ",class(object),
+                           " object:",unique(msl)))
+         })
 
 ##################################################################
 ## Container for MSn Experiments Data and Meta-Data
@@ -143,11 +149,11 @@ setClass("Spectrum",
            "VIRTUAL"),
          contains=c("Versioned"),
          prototype = prototype(
-           new("Versioned", versions=c(Spectrum="0.1.1")),
+           new("Versioned", versions=c(Spectrum="0.1.2")),
            rt = numeric(),
            acquisitionNum = integer(),
            msLevel = integer(),
-           peaksCount = integer(), 
+           peaksCount = 0, 
            scanindex = integer(),
            mz = numeric(),
            intensity = numeric()),
@@ -158,11 +164,7 @@ setClass("Spectrum",
            if (length(object@mz)!=length(object@intensity))
              msg <- validMsg(msg,"Unequal number of MZ and intensity values.")
            if (length(object@mz)!=object@peaksCount)
-             msg <- validMsg(msg,"Peaks count does not match up with number of MZ values.")           
-           msl <- object@msLevel
-           if (length(unique(msl))!=1) 
-             warning(paste("Different MS levels in ",class(object),
-                           " object:",unique(msl)))
+             msg <- validMsg(msg,"Peaks count does not match up with number of MZ values.")
            if (is.null(msg)) TRUE
            else msg
          })
