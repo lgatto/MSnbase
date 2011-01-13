@@ -3,7 +3,7 @@
 ## setMethod("initialize", "MSnSet",
 ##           function(.Object,...) {
 ##             .Object <- callNextMethod()
-##             ## experimentData(.Object) <- new("MIAPE")
+##             experimentData(.Object) <- new("MIAPE")
 ##             .Object
 ##           })
 
@@ -29,4 +29,19 @@ setReplaceMethod("featureNames",
                      return(object)
                  })
 
+setMethod("proteomicsData","MSnSet",function(object) object@proteomicsData)
+setMethod("proteomicsData<-","MSnSet",
+          function(object,value="MIAPE") object@proteomicsData <- value)
+setReplaceMethod("proteomicsData",
+                 signature(object="MSnSet",
+                           value="MIAPE"),
+                 function(object, value) {
+                   object@proteomicsData = value
+                   if (validObject(object))
+                     return(object)
+                 })
 
+
+setMethod("processingData",
+          signature(object="pSet"),
+          function(object) object@process)

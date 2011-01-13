@@ -19,6 +19,9 @@ setGeneric("header",function(object) standardGeneric("header"))
 setGeneric("processingData",function(object) standardGeneric("processingData"))
 setGeneric("processingData<-",function(object,value) standardGeneric("processingData<-"))
 
+setGeneric("proteomicsData",function(object) standardGeneric("proteomicsData"))
+setGeneric("proteomicsData<-",function(object,value) standardGeneric("proteomicsData<-"))
+
 setGeneric("mz",function(object) standardGeneric("mz"))
 setGeneric("intensity",function(object) standardGeneric("intensity"))
 setGeneric("tic",function(object) standardGeneric("tic"))

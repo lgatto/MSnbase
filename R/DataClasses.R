@@ -33,12 +33,12 @@ setClass("MSnProcess",
 ## The 'Minimum Information About a Proteomics Experiment' Class
 ## See online documentation for more information.
 setClass("MIAPE",
-         representation=representation(
-           proteomicsData="character"),
-         contains=c("MIAME"),
+         representation = representation(
+           description="character"),
+         contains = c("MIAxE"),
          prototype = prototype(
-           new("Versioned", versions=c(MIAPE="0.0.1")),
-           proteomicsData="Will contain more MIAPE data."
+           new("Versioned", versions=c(classVersion("MIAxE"), MIAME="0.0.2")),
+           description="Will contain more MIAPE data."
            )
          )
 
@@ -79,7 +79,8 @@ setClass("pSet",
                                         # when the MSnSet is created from MSnExp
                         featureData = "AnnotatedDataFrame",
                                         # How to link individual spectra in assayData env to featureData?
-                                        # The spectra and the rowNames of featureData will be named X1..(n1+n2+...) 
+                                        # The spectra and the rowNames of featureData will be named X1..(n1+n2+...)
+                        proteomicsData = "MIAPE",
                         experimentData = "MIAxE",
                         protocolData = "AnnotatedDataFrame",
                         process = "MSnProcess",
@@ -88,6 +89,8 @@ setClass("pSet",
          prototype = prototype(
            new("VersionedBiobase", versions=c(pSet="0.0.1")),
            assayData = new.env(),
+           experimentData = new("MIAME"),
+           proteomicsData = new("MIAPE"),
            phenoData = new("NAnnotatedDataFrame",
              dimLabels=c("sampleNames", "sampleColumns")), ## here, it's rather files than samples...
            featureData = new("AnnotatedDataFrame",
@@ -102,8 +105,8 @@ setClass("MSnExp",
          contains=c("pSet"),
          prototype = prototype(
            new("VersionedBiobase",
-               versions=c(classVersion("pSet"), MSnExp="0.3.0")),
-           experimentData=new("MIAPE")))
+               versions=c(classVersion("pSet"), MSnExp="0.3.0")))
+         )
 
 
 ## setClass("MSnExp",
@@ -252,6 +255,7 @@ setClass("ReporterIons",
 setClass("MSnSet",
          representation = representation(
            process = "MSnProcess",
+           proteomicsData = "MIAPE", ## see note below
            qual = "data.frame"),
          contains = c("ExpressionSet"),
          prototype = prototype(
@@ -259,4 +263,19 @@ setClass("MSnSet",
                versions=c(classVersion("ExpressionSet"),
                  classVersion("MSnSet"),
                  MSnSet="0.3.0"))))
+
+## Note: I want MSnSet to extend ExpressionSet because (1) it makes sense
+##       (it's expression data), (2) ExpressionSet is very well established
+##       and (3) many ExpressionSet methods are applicable to MSnSet.
+## 
+##       However, there is an issue in terms of meta data. It is not possible
+##       to use the experimentData slot to store MIAPE data (where MIAPE would
+##       extend MIAME) because ExperssionSet requires the class of experimentData
+##       to be MIAPE (instead of inherit from MIAME or MIAxE). As such, the
+##       MIAPE specific meta data will be stored in the proteomicsData slot, and
+##       lab/experimenter/publication meta data will be stored in the experimentData
+##       slot as an MIAME object. It is a bit unfortunate to keep the microarray naming.
+
+
+
 

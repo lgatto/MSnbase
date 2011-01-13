@@ -38,7 +38,7 @@ setMethod("show",
                 cat(" MSn retention times:",formatRt(rtr[1]),"-",formatRt(rtr[2]),"minutes\n")
               }
             }
-            show(object@process)
+            show(processingData(object))
             cat("- - - Meta data  - - -\n")
             Biobase:::.showAnnotatedDataFrame(phenoData(object),
                                               labels=list(object="phenoData"))
@@ -61,10 +61,12 @@ setMethod("show",
                                                 varLabels="fvarLabels",
                                                 varMetadata="fvarMetadata"))
             cat("experimentData: use 'experimentData(object)'\n")
+            cat("proteomicsData: use 'proteomicsData(object)'\n")
             pmids <- pubMedIds(object)
             if (length(pmids) > 0 && all(pmids != ""))
               cat("  pubMedIds:", paste(pmids, sep=", "), "\n")
           })
+
 
 setMethod("header","MSnExp",function(object) header.MSnExp(object))
 

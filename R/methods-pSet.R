@@ -36,6 +36,18 @@ setMethod("assayData", "pSet", function(object) object@assayData)
 ##                    return(object)
 ##                  })
 
+setMethod("proteomicsData","MSnExp",function(object) object@proteomicsData)
+setMethod("proteomicsData<-","MSnExp",
+          function(object,value="MIAPE") object@proteomicsData <- value)
+setReplaceMethod("proteomicsData",
+                 signature(object="MSnExp",
+                           value="MIAPE"),
+                 function(object, value) {
+                   object@proteomicsData = value
+                   if (validObject(object))
+                     return(object)
+                 })
+
 setMethod("sampleNames",
           signature(object="pSet"),
           function(object) sampleNames(phenoData(object)))
