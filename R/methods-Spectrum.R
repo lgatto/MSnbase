@@ -1,5 +1,23 @@
 ##################################################################
 ## Methods for Spectrum class and children
+setMethod("initialize",
+          "Spectrum",
+          function(.Object,...,mz,intensity,peaksCount) {
+            if (!missing(mz) & !missing(intensity)) {
+              .Object <- callNextMethod(.Object,
+                                        ...,
+                                        intensity=intensity,
+                                        mz=mz,
+                                        peaksCount=length(mz))
+            } else if (!missing(mz) | !missing(intensity)) {
+              stop("'mz' and 'intensity' or none required.")              
+            } else {
+              .Object <- callNextMethod(.Object,...)
+            }
+            if (validObject(.Object))
+              .Object
+          })
+
 setMethod("show","Spectrum",function(object) show.Spectrum(object))
 setMethod("plot",c("Spectrum","missing"),
           function(x,y,...) {

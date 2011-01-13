@@ -132,7 +132,6 @@ setClass("MSnExp",
 ##                versions=c(classVersion("eSet"), MSnExp="0.2.0")))
 ##          )
 
-
 ###################################################################
 ## The Spectrum class and it's sub-classes Spectrum1 and Spectrum2
 ## See online documentation for more information.
@@ -163,7 +162,7 @@ setClass("Spectrum",
              msg <- validMsg(msg,"'NA' MZ values found.")
            if (length(object@mz)!=length(object@intensity))
              msg <- validMsg(msg,"Unequal number of MZ and intensity values.")
-           if (length(object@mz)!=object@peaksCount)
+           if (length(mz(object))!=peaksCount(object))
              msg <- validMsg(msg,"Peaks count does not match up with number of MZ values.")
            if (is.null(msg)) TRUE
            else msg

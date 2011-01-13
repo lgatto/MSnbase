@@ -49,3 +49,22 @@ test_that("spectra order and integrity", {
   expect_that(peaksCount(clean(removePeaks(sp,3))),equals(0))
   expect_that(tic(clean(removePeaks(sp,0))),equals(tic(sp)))
 })
+
+context("quantification and MSnSet instance")
+
+
+test_that("quantification", {
+  ## dummy Spectrum
+  int <- c(0,2,3,1,0)
+  mz <- c(114.05,
+          114.10,
+          114.13,
+          114.15,
+          114.16)
+  sp <- new("Spectrum2",
+            intensity=int,
+            mz=mz)
+  expect_that(validObject(sp),is_true())
+  data(iTRAQ4)
+  ##quantify(sp,iTRAQ4[1],"sum")
+})

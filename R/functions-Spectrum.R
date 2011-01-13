@@ -30,7 +30,7 @@ quantify.Spectrum <- function(spectrum,reporters,method) {
   ##   peakArea: named numeric of length length(reporters)
   ##   curveStats: a length(reporters)x7 data frame 
   peakArea <- vector("numeric",length(reporters))
-  names(peakArea) <- reporterNames(iTRAQ4)
+  names(peakArea) <- reporterNames(reporters)
   curveStats <- c()
   for (i in 1:length(reporters)) {
     ## Curve statistics

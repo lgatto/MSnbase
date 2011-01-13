@@ -1,8 +1,8 @@
 plot.Spectrum2 <- function(spectrum,reporters=NULL,full=FALSE) {
   if (!full & is.null(reporters))
     stop("Please provide repotrer ions if you do not want a full spectrum.")
-  df <- data.frame(i=spectrum@intensity,
-                   mtc=spectrum@mz)
+  df <- data.frame(i=intensity(spectrum),
+                   mtc=mz(spectrum))
   mainvp <- viewport(width=1,height=1,x=0.5,y=0.5)
   title <- opts(title=paste("Precursor M/Z",spectrum@precursorMz))
   p <- ggplot(df,aes(x=mtc,y=i)) + 
@@ -10,7 +10,7 @@ plot.Spectrum2 <- function(spectrum,reporters=NULL,full=FALSE) {
               geom_line()
   if (!is.null(reporters)) {
     if (class(reporters)!="ReporterIons")
-      stop("Reporters must be of class \"ReporterIons\".")
+      stop("Reporters must be of class 'ReporterIons'.")
     width <- reporters@width
     rlim1 <- min(reporters@mz)-width
     rlim2 <- max(reporters@mz)+width
