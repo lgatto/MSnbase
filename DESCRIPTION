@@ -3,7 +3,7 @@ Title: MSnbase: Base Functions and Classes for MS-based Proteomics
 Version: 0.0.3
 Author: Laurent Gatto 
 Description: Basic plotting, data manipulation and processing of MS-based Proteomics data
-Depends: Biobase, methods, ggplot2, plyr
+Depends: Biobase, methods, ggplot2, plyr, IRanges
 Maintainer: Laurent Gatto <lg390@cam.ac.uk>
 License: Artistic-2.0
 LazyLoad: yes

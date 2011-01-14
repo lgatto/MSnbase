@@ -93,11 +93,14 @@ readMzXMLData <- function(files,
   ## when the corresponding MSnSet is instanciated,
   ## automatically create the AnnotatedDataFrame.
   if (is.null(pdata)) {
-    pdata <- new("NAnnotatedDataFrame") 
+    pdata <- new("NAnnotatedDataFrame",
+                 dimLabels=c("sampleNames", "sampleColumns"))
   }
   fdata <- new("AnnotatedDataFrame",
                data=data.frame(spectum=1:length(spectra),
                  row.names=nms))
+  fdata <- fdata[ls(spectra.env)] ## reorder features
+  
   ## Create and return 'MSnPeaks' object
   if (verbose)
     cat("Creating 'MSnExp' object\n")

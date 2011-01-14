@@ -92,17 +92,12 @@ setClass("pSet",
            experimentData = new("MIAME"),
            proteomicsData = new("MIAPE"),
            phenoData = new("NAnnotatedDataFrame",
-             dimLabels=c("sampleNames", "sampleColumns")), ## here, it's rather files than samples...
+             dimLabels=c("sampleNames", "sampleColumns")), 
            featureData = new("AnnotatedDataFrame",
              dimLabels=c("featureNames", "featureColumns")),
            protocolData = new("AnnotatedDataFrame",
-             dimLabels=c("sampleNames", "sampleColumns"))),
-         validity = function(object) {
-           msl <- msLevel(object)
-           if (length(unique(msl))!=1) 
-             warning(paste("Different MS levels in ",class(object),
-                           " object:",unique(msl)))
-         })
+             dimLabels=c("sampleNames", "sampleColumns")))
+         )
 
 ##################################################################
 ## Container for MSn Experiments Data and Meta-Data
@@ -158,8 +153,14 @@ setClass("Spectrum",
            intensity = numeric()),
          validity = function(object) {
            msg <- validMsg(NULL, NULL)
-           if (any(is.na(object@intensity)))
-             msg <- validMsg(msg,"'NA' MZ values found.")
+           if (any(is.na(intensity(object))))
+             msg <- validMsg(msg,"'NA' intensities found.")
+           if (any(is.na(mz(object))))
+             msg <- validMsg(msg,"'NA' M/Z found.")
+           if (any(intensity(object)<0))
+             msg <- validMsg(msg,"Negative intensities found.")
+           if (any(mz(object)<0))
+             msg <- validMsg(msg,"Negative M/Z found.")
            if (length(object@mz)!=length(object@intensity))
              msg <- validMsg(msg,"Unequal number of MZ and intensity values.")
            if (length(mz(object))!=peaksCount(object))

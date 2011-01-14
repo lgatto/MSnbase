@@ -77,19 +77,6 @@ setMethod("plot",c("MSnExp","missing"),
 
 setMethod("clean","MSnExp",function(object) clean.MSnExp(object))
 
-setMethod("spectra","MSnExp",function(object) as.list(assayData(object)))
-
-##setMethod("spectra<-","MSnExp",
-##           function(object,value="list") object@spectra <- value)
-## setReplaceMethod("spectra",
-##                  signature(object="MSnExp",
-##                            value="list"),
-##                  function(object, value) {
-##                    object@spectra = value
-##                    if (validObject(object))
-##                      return(object)
-##                  })
-
 setMethod("[","MSnExp",
           function(x,i,j="missing",drop="missing") "[.MSnExp"(x,i))
 

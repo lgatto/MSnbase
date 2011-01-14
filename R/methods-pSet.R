@@ -1,6 +1,10 @@
 ## No initialize method for pSet -- use constructor
 
 setValidity("pSet", function(object) {
+  msl <- msLevel(object)
+  if (length(unique(msl))!=1) 
+    warning(paste("Different MS levels in ",class(object),
+                  " object:",unique(msl)))
   msg <- validMsg(NULL, NULL)
   ## checking number of spectra in assayData and
   ##          number of features in featureData
@@ -8,6 +12,15 @@ setValidity("pSet", function(object) {
   nfeatures <- nrow(featureData(object)) 
   if (nspectra != nfeatures)
     msg <- validMsg(msg, "unequal number of spectra in assayData and features in featureData")
+  if (all(
+          featureNames(object) != ## obtained as ls(assayData(object))
+          rownames(fData(object)))
+      )
+    msg <- validMsg(msg,
+                    "featureNames differ between assayData and featureData")
+  if (length(spectra(object)) != length(ls(assayData(object))))
+    msg <- validMsg(msg,
+                    "Object size inconsistence using assayData() and spectra() methods.")
   ## checking number of files in phenoData and
   ##          number of files in assayData
   nfilespData   <- length(object@process@files)
@@ -26,6 +39,14 @@ setMethod("dim", "pSet", function(x) dim(pData(x)))
 setMethod("length", "pSet", function(x) length(assayData(x)))
 
 setMethod("assayData", "pSet", function(object) object@assayData)
+
+setMethod("spectra","MSnExp",function(object) {
+  sl <- as.list(assayData(object))
+  fnames <- featureNames(object)
+  ## reordering the spectra in the spectra list to match
+  ## their order in featureData
+  return(sl[fnames])
+})
 
 ## setReplaceMethod("assayData",
 ##                  signature=signature(
@@ -54,7 +75,7 @@ setMethod("sampleNames",
 
 setMethod("fileNames",
           signature(object="pSet"),
-          function(object) sampleNames(object))
+          function(object) processingData(object)@files)
 
 setReplaceMethod("sampleNames",
                  signature=signature(object="pSet", value="character"),
@@ -72,11 +93,6 @@ setReplaceMethod("sampleNames",
                      if (validObject(object))
                        return(object)
                  })
-
-setReplaceMethod("fileNames",
-                 signature=signature(object="pSet", value="character"),
-                 function(object, value) sampleNames(object) <- value)
-
 
 setMethod("featureNames",
           signature=signature(object="pSet"),

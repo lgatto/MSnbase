@@ -32,6 +32,11 @@ setReplaceMethod("featureNames",
 setMethod("proteomicsData","MSnSet",function(object) object@proteomicsData)
 setMethod("proteomicsData<-","MSnSet",
           function(object,value="MIAPE") object@proteomicsData <- value)
+
+setMethod("fileNames",
+          signature(object="MSnSet"),
+          function(object) processingData(object)@files)
+
 setReplaceMethod("proteomicsData",
                  signature(object="MSnSet",
                            value="MIAPE"),

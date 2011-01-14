@@ -127,80 +127,44 @@ rawToSpectrum2 <- function(x,
     return(sp)
 }
 
-
 utils.removePeaks <- function(int,t) {
   ## Description:
   ## Given a vector of intensities 'int' and a threshold 't',
   ## this function returns vector of same length with all
-  ## curve of max height 't' set t zero.
-  ##
+  ## peaks of max height 't' set t zero.
   ## Example:
-  ## The following two curves will be removed
-  ##   t - - - - + - - - - - -      
-  ##           +  +  or  +++   
-  ##   0 - - +    + - - +   + -
-  ##
-  ## Condition to remove peaks/curve:
-  ## For a candidat having an intensity t at position j,
-  ## this functions checks that intensities at previous
-  ## (indices i below) and successive (indices k below)
-  ## are monotonically decreasing 
-  ## index notation:  i  <- j -> k
-  ##
-  ## Note:
-  ## To avoid crashes in the two while loops in case
-  ## int[1] or int[length(int)] are not 0, we set
-  ## int <- c(0,int,0) and return int[2:(length(int)-1)].
-  ## This assures that curves below 't' at the
-  ## very beginning or end of int will also be removed.
-  ##
-  int <- c(0,int,0)
-  candidats <- which(int<=t & int>0)
-  for (j in candidats) {
-    setToZero <- TRUE ## if curve meets condition
-    i <- j - 1
-    k <- j + 1
-    ## test increasing monotonicity before candidate
-    while(int[i]>0 & setToZero) {
-      if (int[i]<=int[i+1]) {
-        i <- i - 1
-      } else {
-        setToZero <- FALSE
-      }
-    }
-    ## test decreasing monotonicity after candidate
-    while(int[k]>0 & setToZero) {
-      if (int[k]<=int[k-1]) {
-        k <- k + 1
-      } else {
-        setToZero <- FALSE
-      }
-    }
-    if (setToZero)
-      int[i:k] <- 0
-  }
-  return(int[2:(length(int)-1)])
-}  
-
+  ## The following three curves will be removed
+  ##   t - - - - + - - - - - - - - + - + -     
+  ##           +  +  or  +++     ++ +++ +
+  ##   0 - - +    + - - +   + - + - - - +  
+  ##  
+  peakRanges <- IRanges(sapply(int,">",0))
+  IRanges::sapply(peakRanges,function(x) {
+    ## we get the indices of every peak in int
+    if(all(int[x]<=t)) 
+      int[x] <<- 0
+  })
+  return(int)
+}
 
 utils.clean <- function(x) {
-  ## Given a vector of numerics, this function
-  ## returns a vector of logicals setting FALSE
-  ## where zero is found in x when this zero is
-  ## not adjacent to a non-zero value.
-  ## input:  0 0 1 1 1 0 0 0 0 1 0 1 1 1 0 0
-  ## output: F T T T T T F F T T T T T T T F
-  ## See vignette for more details
+  ## Given an numeric x, this function
+  ## returns a logical b of length(x) where
+  ## non-zero values and their direct
+  ## 0s are TRUE so that x[b] has only
+  ## non-zero values surrounded by unique zeroes.
+  ## Example
+  ## x:  1 0 0 0 1 1 1 0 0 1 1 0 0 0 1 0 0 0
+  ## b: T T F F T T T T F T T T F F T T F F
+  ##
+  ## x[b]:     1 0 1 1 1 0 1 1 0 1 0
   n <- length(x)
   b <- as.logical(rep(1,n)) ## initialise to TRUE
-  if (x[1]==0 & x[2]==0)
-    b[1] <- FALSE
-  for (i in 2:(n-1)) {
-    if (sum(x[(i-1):(i+1)])==0)
-      b[i] <- FALSE
-  }
-  if (x[n-1]==0 & x[n]==0)
-    b[n] <- FALSE
+  zeroRanges <- IRanges(sapply(x,"==",0))
+  IRanges:::sapply(zeroRanges,function(x){
+    if (length(x)>1)
+      b[x[2:length(x)]] <<- FALSE 
+  })
   return(b)
 }
 
@@ -229,7 +193,6 @@ area <- function(pts,verbose=FALSE) {
     cat(" total area:",area,"\n")
   return(area)
 }
-
 
 zoom <- function(x,w=0.05) {
   new("ReporterIons",
