@@ -1,4 +1,4 @@
-setGeneric("clean", function(object) standardGeneric("clean"))
+setGeneric("clean", function(object,...) standardGeneric("clean"))
 setGeneric("trimMz", function(object,mzlim,...) standardGeneric("trimMz"))
 setGeneric("removePeaks", function(object,t="min",...) standardGeneric("removePeaks"))
 ##setGeneric("bg.correct", function(object,bg,...) standardGeneric("bg.correct"))

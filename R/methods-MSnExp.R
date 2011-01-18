@@ -75,7 +75,8 @@ setMethod("fromFile","MSnExp",function(object) unlist(eapply(assayData(object),f
 setMethod("plot",c("MSnExp","missing"),
           function(x,y,...) plot.MSnExp(x,...))
 
-setMethod("clean","MSnExp",function(object) clean.MSnExp(object))
+setMethod("clean","MSnExp",
+          function(object,verbose=TRUE) clean.MSnExp(object,verbose))
 
 setMethod("[","MSnExp",
           function(x,i,j="missing",drop="missing") "[.MSnExp"(x,i))
