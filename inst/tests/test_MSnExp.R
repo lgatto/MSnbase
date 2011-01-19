@@ -42,7 +42,7 @@ test_that("readMzXMLData and dummy MSnExp msLevel 1 instance", {
   expect_that(rtime(aa)[1],is_a("numeric"))
   expect_that(range(rtime(aa)),
               equals(c(1982.08,3015.47)))
-
+  expect_that(as.numeric(polarity(aa)),equals(rep(-1,length(aa)))) ## [*]
   expect_that(as.numeric(rtime(aa)[1]),equals(1982.08)) ## [*]
   ## [*] using as.numeric because rtime and precursorMz return named numerics
 })

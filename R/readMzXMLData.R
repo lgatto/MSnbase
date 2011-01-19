@@ -109,7 +109,7 @@ readMzXMLData <- function(files,
                   assayData=spectra.env,
                   phenoData=pdata,
                   featureData=fdata,
-                  process=process)
+                  processingData=process)
   return(toReturn)
 }
 
@@ -248,7 +248,7 @@ readMzXMLData.old <- function(files,
     cat("Creating 'MSnExp' object\n")
   toReturn <- new("MSnExp",
                   spectra=spectra,
-                  process=process,
+                  processingData=process,
                   fromFile=fromFile,
                   files=files)
   return(toReturn)

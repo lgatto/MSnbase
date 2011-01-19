@@ -81,12 +81,12 @@ header.MSnExp <- function(object) {
 extractPrecSpectra <- function(object,prec) {
   sel <- sapply(spectra(object),function(x) x@precursorMz %in% prec)
   n <- length(prec)
-  object@process@processing <- c(object@process@processing,
-                                 paste(n,"precursors extracted:",date()))
+  object@processingData@processing <- c(object@processingData@processing,
+                                        paste(n,"precursors extracted:",date()))
   ## TODO: need to update phenoData - check files
   return(new("MSnExp",
              spectra=list2env(object@spectra[sel]),
-             process=object@process,
+             processingData=object@processingData,
              assayData=object@assayData,
              phenoData=object@phenoData,
              featureData=object@featureData[sel,],
@@ -107,10 +107,13 @@ removePeaks.MSnExp <- function(object,t="min",verbose=TRUE) {
   ifelse(verbose,progress <- "text",progress <- "none")
   spectraList <-  llply(spectra(object),function(x) removePeaks(x,t),.progress=progress)
   object@assayData <- list2env(spectraList)
-  object@process@removedPeaks <- c(object@process@removedPeaks,
-                                   as.character(t))
-  object@process@processing <- c(object@process@processing,
-                                 paste("Curves <= ",t," set to '0': ",date(),sep=""))
+  object@processingData@removedPeaks <- c(object@processingData@removedPeaks,
+                                          as.character(t))
+  object@processingData@processing <- c(object@processingData@processing,
+                                        paste("Curves <= ",
+                                              t
+                                              ," set to '0': ",
+                                              date(),sep=""))
   return(object)
 }
 
@@ -120,9 +123,9 @@ clean.MSnExp <- function(object,verbose=TRUE) {
   ifelse(verbose,progress <- "text",progress <- "none")
   spectra <- llply(spectra(object),function(x) clean(x),.progress=progress)
   object@assayData <- list2env(spectra)
-  object@process@cleaned <- TRUE
-  object@process@processing <- c(object@process@processing,
-                                 paste("Spectra cleaned: ",date(),sep=""))
+  object@processingData@cleaned <- TRUE
+  object@processingData@processing <- c(object@processingData@processing,
+                                        paste("Spectra cleaned: ",date(),sep=""))
   return(object)
 }
 
@@ -160,16 +163,17 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
   rownames(.qual) <- sub(".curveStats","",rownames(.qual))
   
   ## Updating MSnprocess slot
-  object@process@processing <- c(object@process@processing,
-                                 paste(reporters@name," quantification by ",method,
-                                       ": ",date(),sep=""))
-  object@process@centroided <- TRUE
+  object@processingData@processing <- c(object@processingData@processing,
+                                        paste(reporters@name,
+                                              " quantification by ",method,
+                                              ": ",date(),sep=""))
+  object@processingData@centroided <- TRUE
                  
   ## Creating new MSnSet
   msnset <- new("MSnSet",
                 qual=.qual,
                 exprs=.exprs, 
-                process=object@process,
+                processingData=object@processingData,
                 experimentData=experimentData(object),
                 ## protocolData=protocolData(object) ## updated/added below
                 ## phenoData=pdata,                  ## updated/added below
