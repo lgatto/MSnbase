@@ -23,7 +23,7 @@ setValidity("pSet", function(object) {
                     "Object size inconsistence using assayData() and spectra() methods.")
   ## checking number of files in phenoData and
   ##          number of files in assayData
-  nfilespData   <- length(object@process@files)
+  nfilespData   <- length(processingData(object)@files)
   nfilesSpectra <- length(unique(eapply(assayData(object),fromFile)))
   if (nfilespData != nfilesSpectra)
     msg <- validMsg(msg, "unequal number of files in assayData and phenoData")  
@@ -138,7 +138,7 @@ setMethod("protocolData", "pSet",
           })
 setMethod("processingData",
           signature(object="pSet"),
-          function(object) object@process)
+          function(object) object@processingData)
 
 ################################
 ## TODO: setReplaceMethods for

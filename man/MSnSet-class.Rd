@@ -5,14 +5,16 @@
 \alias{class:MSnSet}
 \alias{MSnSet}
 
+%% TODO add methods
+
 \title{
   The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
 }
 
 \description{
-  The \code{MSnSet} holds quantified expression data or expression
-  ratios for MS proteomics data and the experimental meta-data. The
-  \code{MSnSet} class is derived from the
+  The \code{MSnSet} holds quantified expression data for MS proteomics
+  data and the experimental meta-data.
+  The \code{MSnSet} class is derived from the
   \code{"\linkS4class{ExpressionSet}"} class and thus benefits from many
   of the available analysis methods and requires a matrix named
   \code{exprs} as assayData member. 
@@ -30,8 +32,7 @@
   
   In the frame of the \code{MSnbase} package, \code{MSnSet} instances
   are generated from \code{"\linkS4class{MSnExp}"} experiments when the
-  \code{"\linkS4class{ReporterIons}"} are quantified (see the 
-  \code{\link{quantify}} method). 
+  \code{"\linkS4class{ReporterIons}"} using the \code{"quantify"} method). 
 }
 
 \section{Slots}{
@@ -41,10 +42,6 @@
       metrics. }
     \item{\code{process}:}{Object of class
       \code{"\linkS4class{MSnProcess}"} that records all processing. }
-    \item{\code{files}:}{Object of class \code{"character"} recording
-      the name of the \code{mzXML} files that have been loaded by
-      \code{\link{readMzXMLData}} to create the \code{MSnExp}
-      instance. }
     \item{\code{assayData}:}{Object of class \code{"assayData"}
       containing a matrix with equal with column number equal to
       \code{nrow(phenoData)}. \code{assayData} must contain a matrix
@@ -67,10 +64,13 @@
       \code{\link{featureData}} and the \code{"\linkS4class{eSet}"}
       class for more details. }
     \item{\code{experimentData}:}{Object of class
-      \code{"\linkS4class{MIAPE}"}, containing details of experimental
+      \code{"\linkS4class{MIAME}"}, containing details of experimental
       methods (inherited from \code{"\linkS4class{ExpressionSet}"}). See 
       \code{\link{experimentData}} and the \code{"\linkS4class{eSet}"}
       class for more details. }
+    \item{\code{proteomicsData}:}{Object of class
+      \code{"\linkS4class{MIAPE}"}, containing information about the
+      proteomics experiment. }
     \item{\code{annotation}:}{ not used here. }
     \item{\code{protocolData}:}{Object of class
       \code{"\linkS4class{AnnotatedDataFrame}"} containing
@@ -110,7 +110,7 @@
 mzxmlfile <- dir(system.file("extdata",package="MSnbase"),pattern="mzXML",full.names=TRUE)
 msnexp <- readMzXMLData(mzxmlfile)
 data(iTRAQ4)
-msnset <- MSnbase:::quantify(msnexp,reporters=iTRAQ4,method="trap")
+msnset <- quantify(msnexp,reporters=iTRAQ4,method="trap")
 msnset
 }
 

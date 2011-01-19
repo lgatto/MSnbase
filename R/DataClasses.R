@@ -82,8 +82,8 @@ setClass("pSet",
                                         # The spectra and the rowNames of featureData will be named X1..(n1+n2+...)
                         proteomicsData = "MIAPE",
                         experimentData = "MIAxE",
-                        protocolData = "AnnotatedDataFrame",
-                        process = "MSnProcess",
+                        protocolData   = "AnnotatedDataFrame",
+                        processingData = "MSnProcess",
                         "VIRTUAL"),
          contains = "VersionedBiobase",
          prototype = prototype(
@@ -148,7 +148,7 @@ setClass("Spectrum",
            acquisitionNum = integer(),
            msLevel = integer(),
            peaksCount = 0L, 
-           scanindex = integer(),
+           scanIndex = integer(),
            mz = numeric(),
            intensity = numeric()),
          validity = function(object) {
@@ -176,7 +176,6 @@ setClass("Spectrum2",
            precursorMz="numeric",
            precursorIntensity = "numeric",
            precursorCharge = "integer",
-           scanindex = "integer",
            collisionEnergy = "numeric"),
          contains=c("Spectrum"),
          prototype = prototype(           
@@ -256,7 +255,7 @@ setClass("ReporterIons",
 ## See online documentation for more information.
 setClass("MSnSet",
          representation = representation(
-           process = "MSnProcess",
+           processingData = "MSnProcess",
            proteomicsData = "MIAPE", ## see note below
            qual = "data.frame"),
          contains = c("ExpressionSet"),

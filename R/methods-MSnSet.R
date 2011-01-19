@@ -49,4 +49,4 @@ setReplaceMethod("proteomicsData",
 
 setMethod("processingData",
           signature(object="pSet"),
-          function(object) object@process)
+          function(object) object@processingData)

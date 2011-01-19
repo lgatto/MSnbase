@@ -15,6 +15,7 @@ setGeneric("peaksCount",function(object) standardGeneric("peaksCount"))
 setGeneric("msLevel",function(object) standardGeneric("msLevel"))
 setGeneric("collisionEnergy",function(object) standardGeneric("collisionEnergy"))
 setGeneric("header",function(object) standardGeneric("header"))
+setGeneric("polarity", function(object) standardGeneric("polarity"))
 
 setGeneric("processingData",function(object) standardGeneric("processingData"))
 setGeneric("processingData<-",function(object,value) standardGeneric("processingData<-"))

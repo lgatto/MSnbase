@@ -5,16 +5,22 @@
 \alias{class:MSnProcess}
 \alias{MSnProcess}
 
+\alias{fileNames,MSnProcess-method}
+
 \title{The "MSnProcess" Class }
 
 \description{
   \code{MSnProcess} is a container for MSnExp and MSnSet processing
-  information. It records processing steps, thresholds, analysis methods
-  and times that hav been applied to MSnExp or MSnSet instances.
+  information. It records data files, processing steps, thresholds,
+  analysis methods and times that have been applied to MSnExp or MSnSet
+  instances. 
 }
 
 \section{Slots}{
   \describe{
+    \item{\code{files}:}{Object of class \code{"character"} storing the
+      raw data files used in experiment described by the
+      \code{"MSnProcess"} instance. }
     \item{\code{processing}:}{Object of class \code{"character"} storing
       all the processing steps and times. }
     \item{\code{merged}:}{Object of class \code{"logical"} indicating
@@ -30,8 +36,6 @@
       indicating whether spectra have been centroided. }
     \item{\code{normalised}:}{Object of class \code{"logical"}
       describing whether and how data have been normalised. }
-    \item{\code{xcmsVersion}:}{Object of class \code{"character"}
-      indicating the version of xcms used when data was loaded. }
     \item{\code{MSnbaseVersion}:}{Object of class \code{"character"}
       indicating the version of MSnbase. }
     \item{\code{.__classVersion__}:}{Object of class \code{"Versions"}
@@ -45,7 +49,10 @@
 
 }
 \section{Methods}{
-  No methods defined with class "MSnProcess" in the signature.
+  \describe{
+    \item{\code{fileNames}}{ Returns the file names used in experiment described by the
+      \code{"MSnProcess"} instance. }
+  }
 }
 
 \author{
@@ -58,7 +65,7 @@
 
 
 \seealso{
-  See \code{"\linkS4class{MSnExp}"} and \code{"\linkS4class{MSnSet}"}
+  See the \code{"\linkS4class{MSnExp}"} and \code{"\linkS4class{MSnSet}"}
   classes that actually use \code{MSnProcess} as a slot. 
 }
 

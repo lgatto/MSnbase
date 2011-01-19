@@ -37,12 +37,14 @@ setMethod("precursorMz","Spectrum",
               return(object@precursorMz)
             stop("No precursor MZ value for MS1 spectra.")
           })
+
 setMethod("precursorCharge","Spectrum",
           function(object) {
             if (msLevel(object)>1) 
               return(object@precursorCharge)
             stop("No precursor charge value for MS1 spectra.")
           })
+
 setMethod("acquisitionNum","Spectrum",function(object) object@acquisitionNum)
 setMethod("ms1scan","Spectrum",
           function(object) {
@@ -86,3 +88,10 @@ setReplaceMethod("precursorCharge",
                  })
 
 setMethod("fromFile","Spectrum", function(object) object@fromFile)
+
+setMethod("polarity","Spectrum",
+          function(object) {
+            if (msLevel(object)==1) 
+              return(object@polarity)
+            stop("No polarity for MS2 spectra.")
+          })

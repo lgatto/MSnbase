@@ -5,13 +5,19 @@
 \alias{class:Spectrum2}
 \alias{Spectrum2}
 
+\alias{ms1scan,Spectrum2-method}
+\alias{precursorMz,Spectrum2-method}
+\alias{precursorIntensity,Spectrum2-method}
+\alias{precursorCharge,Spectrum2-method}
+\alias{collisionEnergy,Spectrum2-method}
+
 \title{The "Spectrum2" Class for MSMS Spectra}
 
 \description{
   \code{Spectrum2} extends the \code{"\linkS4class{Spectrum}"} class and
   introduces several MS2 specific attributes in addition to the slots in
   \code{"\linkS4class{Spectrum}"}. \code{Spectrum2} are not created
-  directly but are contained in the \code{spectra} slot of an
+  directly but are contained in the \code{assayData} slot of an
   \code{"\linkS4class{MSnExp}"}. 
 }
 
@@ -19,18 +25,17 @@
   \describe{
     \item{\code{merged}:}{Object of class \code{"numeric"} indicating of
       how many combination the current spectrum is the result of. }
-    % \item{\code{ms1scanIdx}:}{Object of class \code{"integer"} indicating
-    %   the MS1 scan index of the parent ion. }
+    \item{\code{ms1scan}:}{Object of class \code{"integer"} indicating
+      the relative MS1 scan index of the parent ion. }
     \item{\code{precursorMz}:}{Object of class \code{"numeric"}
       providing the precursor ion MZ value. }
     \item{\code{precursorIntensity}:}{Object of class \code{"numeric"}
       providing the precursor ion intensity. }
     \item{\code{precursorCharge}:}{Object of class \code{"integer"}
       indicating the precursor ion charge. }
-    \item{\code{scanindex}:}{Object of class \code{"integer"} providing
-      the index(es) of the scan(s). }
     \item{\code{collisionEnergy}:}{Object of class \code{"numeric"}
       indicating the collision energy used to fragment the parent ion. }
+    %% ------------------------------------------------------------- %%
     \item{\code{msLevel}:}{Object of class \code{"integer"} indicating
       the MS level: 2 in this case (inherited from
       \code{"\linkS4class{Spectrum}"}). }
@@ -64,9 +69,21 @@
   Class \code{"\linkS4class{Versioned}"}, by class "Spectrum", distance 2.
 }
 
-%%\section{Methods}{
-%%  No methods defined with class "Spectrum2" in the signature.
-%%}
+\section{Methods}{
+  \describe{
+    \item{\code{ms1scan(object)}}{ Returns the relative MS1 scan index
+      of the parent ion as an integer. }
+    \item{\code{precursorMz(object)}}{ Returns the precursor MZ value as
+      a numeric. }
+    \item{\code{precursorIntensity(object)}}{ Returns the precursor
+      intensity as a numeric. }
+    \item{\code{precursorCharge(object)}}{ Returns the precursor
+      intensity as a integer. }
+    \item{\code{collisionEnergy(object)}}{ Returns the collision energy
+      as an numeric. }
+  }
+  See \code{"\linkS4class{Spectrum}"} for more methods.
+}
 
 \author{
   Laurent Gatto <lg390@cam.ac.uk>

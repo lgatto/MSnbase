@@ -7,6 +7,12 @@
 
 \alias{intensity,Spectrum-method}
 \alias{mz,Spectrum-method}
+\alias{msLevel,Spectrum-method}
+\alias{peaksCount,Spectrum-method}
+\alias{rtime,Spectrum-method}
+\alias{acquisitionNum,Spectrum-method}
+\alias{fromFile,Spectrum-method}
+
 
 \title{The "Spectrum" Class}
 
@@ -37,6 +43,11 @@
     \item{\code{intensity}:}{Object of class \code{"numeric"} of same
       length as \code{mz} indicating the intensity at which each \code{mz}
       datum has been measured. }
+    \item{\code{fromFile}:}{Object of class \code{"integer"} referencing
+      the file the spectrum originates. The file names are stored in the 
+      \code{processingData} slot of the \code{"\linkS4class{MSnExp}"} or
+      \code{"\linkS4class{MSnSet}"} instance that contains the current
+      \code{"Spectrum"} instance. }    
     \item{\code{.__classVersion__}:}{Object of class \code{"Versions"}
       indicating the version of the \code{Spectrum} class. Intended for
       developer use and debugging.}
@@ -52,6 +63,17 @@
       \code{"numeric"} containing the intensities of the spectrum. }
     \item{\code{mz(object)}}{ Returns an object of class
       \code{"numeric"} containing the MZ value of the spectrum peaks. }
+    \item{\code{msLevel(object)}}{ Returns an MS level of the spectrum
+      as an integer. }
+    \item{\code{peaksCount(object)}}{ Returns the number of peaks
+      (possibly of 0 intensity) as an integer. }
+    \item{\code{rtime(object)}}{ Returns the retention time for the
+      spectrum as an integer. }
+    \item{\code{acquisitionNum(object)}}{ Returns the acquisition number
+      of the spectrum as an integer. }
+    \item{\code{fromFile(object)}}{ Returns the index of the raw data
+      file from which the current instances originates as an
+      integer. }
   }
 }
 

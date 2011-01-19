@@ -5,21 +5,24 @@
 \alias{class:Spectrum1}
 \alias{Spectrum1}
 
+\alias{polarity,Spectrum1-method}
+
 \title{The "Spectrum1" Class for MS1 Spectra }
 \description{
   \code{Spectrum1} extends the \code{"\linkS4class{Spectrum}"} class and
   introduces an MS1 specific attribute in addition to the slots in
-  \code{"\linkS4class{Spectrum}"}. \code{Spectrum1} are not created
-  directly but are contained in the \code{spectra} slot of an
+  \code{"\linkS4class{Spectrum}"}. \code{Spectrum1} instances are not
+  created directly but are contained in the \code{assayData} slot of an
   \code{"\linkS4class{MSnExp}"}. 
 }
 
 \section{Slots}{
   \describe{
-    \item{\code{polarity}:}{Object of class \code{"integer"} refering to
+    \item{\code{polarity}:}{Object of class \code{"integer"} indicating
       the polarity if the ion. }
+    %% -------------------------------------------------------------- %%    
     \item{\code{msLevel}:}{Object of class \code{"integer"} indicating
-      the MS level: 1 in this case (inherited from
+      the MS level: always 1 in this case (inherited from
       \code{"\linkS4class{Spectrum}"}). }
     \item{\code{peaksCount}:}{Object of class \code{"integer"}
       indicating the number of MZ peaks (inherited from
@@ -45,14 +48,19 @@
       classes of the instance. Intended for developer use and debugging. }
   }
 }
+
 \section{Extends}{
   Class \code{"\linkS4class{Spectrum}"}, directly.
   Class \code{"\linkS4class{Versioned}"}, by class "Spectrum", distance 2.
 }
 
-%% \section{Methods}{
-%% No methods defined with class "Spectrum1" in the signature.
-%% }
+\section{Methods}{
+  \describe{
+    \item{\code{polarity(object)}}{ Returns the polarity of the spectrum
+      as an integer. }
+  }
+  See \code{"\linkS4class{Spectrum}"} for more methods.
+}
 
 \author{
   Laurent Gatto <lg390@cam.ac.uk>

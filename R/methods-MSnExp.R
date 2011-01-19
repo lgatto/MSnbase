@@ -155,3 +155,10 @@ setMethod("curveStats","MSnExp",
               qdfr <- rbind(qdfr,l[[i]])
             return(qdfr)
           })
+
+setMethod("polarity","MSnExp",
+          function(object) {
+            if (msLevel(object)[1]==1) 
+              return(sapply(spectra(object), polarity))
+            stop("No polarity for MS2 spectra.")
+          })

@@ -38,6 +38,12 @@
   }
 }
 
+\examples{
+my. miape <- new("MIAPE",
+  description="Relevant data about my proteomics experiment comes here.") 
+my.miape
+}
+
 \references{
 About MIAPE: \url{http://www.psidev.info/index.php?q=node/91} and reporting guideline: \url{http://www.psidev.info/index.php?q=node/60}
 }
