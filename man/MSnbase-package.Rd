@@ -12,7 +12,7 @@ Important class are \code{"\linkS4class{MSnExp}"} (raw data file),
 \code{"\linkS4class{MSnSet}"} (quantitation data) and
 \code{"\linkS4class{ReporterIons}"} (reporter ions for labelled
 proteomics).  
- 
+
 Other classes are \code{"\linkS4class{Spectrum}"} and the subclasses
 \code{"\linkS4class{Spectrum1}"} (for MS spectra) and
 \code{"\linkS4class{Spectrum2}"} (for MSMS spectra),
@@ -20,11 +20,11 @@ Other classes are \code{"\linkS4class{Spectrum}"} and the subclasses
 Experiments) and \code{"\linkS4class{MSnProcess}"} (for processing
 information). These should however not be of direct utility to users. 
 
- Introductory information, use cases and details are available from the
- vignettes, readily accessible with \code{openVignette()}. 
+Introductory information, use cases and details are available from the
+vignettes, readily accessible with \code{openVignette()}. 
 
- Complete listing of available documentation with
- \code{library(help="MSnbase")}.
+Complete listing of available documentation with
+\code{library(help="MSnbase")}.
 }
 
 
@@ -33,7 +33,6 @@ information). These should however not be of direct utility to users.
 }
 
 
-}
 \author{
   Laurent Gatto
   Maintainer: Laurent Gatto <lg390@cam.ac.uk>
