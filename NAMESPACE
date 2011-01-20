@@ -6,7 +6,11 @@ export(readMzXMLData, formatRt,
        extractSpectra,
        extractPrecSpectra)
 
-exportClasses(MIAPE, MSnExp, MSnProcess, MSnSet,
+exportClasses(pSet,
+              MIAPE,
+              MSnExp,
+              MSnProcess,
+              MSnSet,
               Spectrum, Spectrum1, Spectrum2,
               ReporterIons)
 

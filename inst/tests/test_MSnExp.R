@@ -5,6 +5,11 @@ test_that("readMzXMLData and dummy MSnExp msLevel 2 instance", {
   aa <- readMzXMLData(file,verbose=FALSE)
   expect_that(class(aa)=="MSnExp",is_true())
   expect_that(length(aa),equals(70))
+  expect_that(nrow(header(aa)),equals(length(aa)))
+  expect_that(names(header(aa)),
+              equals(c("index","file","retention.time",
+                       "precursor.mz","peaks.count","tic",
+                       "ms.level","charge","collision.energy")))
   ## MS levels
   expect_that(length(msLevel(aa)),equals(70))
   expect_that(unique(msLevel(aa)),equals(2))
