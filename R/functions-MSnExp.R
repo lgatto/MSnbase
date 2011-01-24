@@ -90,19 +90,18 @@ header.MSnExp <- function(object) {
 ## }
 
 extractPrecSpectra <- function(object,prec) {
-  sel <- sapply(spectra(object),function(x) x@precursorMz %in% prec)
+  sel <-precursorMz(object) %in% prec
+  nms <- names(precursorMz(object)[sel])
   n <- length(prec)
+  m <- length(nms)
+  ## updating object
   object@processingData@processing <- c(object@processingData@processing,
-                                        paste(n,"precursors extracted:",date()))
-  ## TODO: need to update phenoData - check files
-  return(new("MSnExp",
-             spectra=list2env(object@spectra[sel]),
-             processingData=object@processingData,
-             assayData=object@assayData,
-             phenoData=object@phenoData,
-             featureData=object@featureData[sel,],
-             experimentData=object@experimentData,
-             protocolData=object@protocolData))
+                                        paste(n,"(",m,
+                                              ") precursors (spectra) extracted: ",
+                                              date(),sep=""))
+  object@assayData <- list2env(mget(nms,assayData(object)))
+  object@featureData <- object@featureData[nms,]
+  return(object)
 }
 
 

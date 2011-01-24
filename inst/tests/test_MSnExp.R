@@ -40,6 +40,12 @@ test_that("readMzXMLData and dummy MSnExp msLevel 2 instance", {
   expect_that(all.equal(sub.aa[["X1"]], assayData(sub.aa)[["X1"]]),is_true())
   expect_that(all.equal(sub.aa[["X10"]],assayData(sub.aa)[["X10"]]),is_true())
   expect_that(fData(sub.aa), equals(fData(aa)[1:2,,drop=FALSE]))
+  my.prec <- precursorMz(aa)[1]
+  my.prec.aa <- extractPrecSpectra(aa,my.prec)
+  expect_that(all(precursorMz(my.prec.aa)==my.prec),is_true())
+  expect_that(length(my.prec.aa),equals(4))
+  expect_that(ls(assayData(my.prec.aa)),
+              equals(c("X65","X67","X69","X70")))
 })
 
 test_that("readMzXMLData and dummy MSnExp msLevel 1 instance", {
