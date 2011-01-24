@@ -81,6 +81,9 @@ setMethod("clean","MSnExp",
 setMethod("[","MSnExp",
           function(x,i,j="missing",drop="missing") "[.MSnExp"(x,i))
 
+setMethod("[[","MSnExp",
+          function(x,i,j="missing",drop="missing") "[[.MSnExp"(x,i))
+
 setMethod("removePeaks","MSnExp",
           function(object,t,verbose=TRUE) removePeaks.MSnExp(object,t,verbose))
 

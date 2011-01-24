@@ -4,6 +4,7 @@ test_that("readMzXMLData and dummy MSnExp msLevel 2 instance", {
   file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
   aa <- readMzXMLData(file,verbose=FALSE)
   expect_that(class(aa)=="MSnExp",is_true())
+  ## checking slots and methods
   expect_that(length(aa),equals(70))
   expect_that(nrow(header(aa)),equals(length(aa)))
   expect_that(names(header(aa)),
@@ -32,6 +33,13 @@ test_that("readMzXMLData and dummy MSnExp msLevel 2 instance", {
   ## Meta data
   expect_that(dim(fData(aa)),equals(c(70,1)))
   expect_that(dim(pData(aa)),equals(c(0,0)))
+  ## subsetting
+  expect_that(all.equal(aa[["X64"]],assayData(aa)[["X64"]]),
+              is_true())
+  sub.aa <- aa[1:2]  
+  expect_that(all.equal(sub.aa[["X1"]], assayData(sub.aa)[["X1"]]),is_true())
+  expect_that(all.equal(sub.aa[["X10"]],assayData(sub.aa)[["X10"]]),is_true())
+  expect_that(fData(sub.aa), equals(fData(aa)[1:2,,drop=FALSE]))
 })
 
 test_that("readMzXMLData and dummy MSnExp msLevel 1 instance", {
@@ -58,8 +66,10 @@ context("data integrity")
 test_that("spectra order and integrity", {
   file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
   aa <- readMzXMLData(file,verbose=FALSE)
-  expect_that(ls(assayData(clean(aa,verbose=FALSE))),equals(ls(assayData(aa))))
-  expect_that(ls(assayData(removePeaks(aa,verbose=FALSE))),equals(ls(assayData(aa))))
+  clean.aa <- clean(aa,verbose=FALSE)
+  rmpeaks.aa <- removePeaks(aa,verbose=FALSE)
+  expect_that(ls(assayData(clean.aa)),equals(ls(assayData(aa))))
+  expect_that(ls(assayData(rmpeaks.aa)),equals(ls(assayData(aa))))
   int <- c(0,2,3,1,0,0,1)
   sp <- new("Spectrum2",
             intensity = int,
@@ -93,7 +103,7 @@ test_that("quantification", {
             mz=mz)
   data(iTRAQ4)
   expect_that(validObject(sp),is_true())
-  expect_that(MSnbase:::getCurveWidth(sp,iTRAQ4[1]),
+  expect_that(getCurveWidth(sp,iTRAQ4[1]),
               equals(list(lwr=1,upr=5)))
   expect_that(as.numeric(quantify(sp,iTRAQ4[1],"sum")$peakQuant),
               equals(6))

@@ -1,11 +1,22 @@
 "[.MSnExp" <- function(x,i) {
-  if (max(i)>length(x) | min(i)<1)
-    stop("subscript out of bonds")
+  if (is.numeric(i)) {
+    if (max(i)>length(x) | min(i)<1)
+      stop("subscript out of bonds")
+  }
   whichElements <- ls(assayData(x))[i]
   x@assayData <- list2env(mget(whichElements,assayData(x)))
-  featureData(x) <- featureData(x)[i,]
+  x@featureData <- featureData(x)[i,]
+  x@processingData@processing <-
+    c(processingData(x)@processing,
+      paste("Data subsetted ",i,": ",date(),sep=""))
   return(x)
 }
+
+"[[.MSnExp" <- function(x,i) {
+  sl <- spectra(x)
+  return(sl[[i]])
+}
+
 
 header.MSnExp <- function(object) {
   if (any(msLevel(object)<2))

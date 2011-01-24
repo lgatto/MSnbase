@@ -14,7 +14,7 @@ exportClasses(pSet,
               Spectrum, Spectrum1, Spectrum2,
               ReporterIons)
 
-exportMethods(show,"[",
+exportMethods(show,"[","[[",
               fileNames,
               length,
               plot,
