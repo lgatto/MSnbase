@@ -1,7 +1,7 @@
 show.MSnSet <- function(object) {
   callNextMethod()
   cat("proteomicsData: use 'proteomicsData(object)'\n")
-  show(object@process)
+  show(processingData(object))
 }
 
 normalise.MSnSet <- function(object,method) {
