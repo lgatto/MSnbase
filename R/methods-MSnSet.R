@@ -46,7 +46,6 @@ setReplaceMethod("proteomicsData",
                      return(object)
                  })
 
-
 setMethod("processingData",
-          signature(object="pSet"),
+          signature(object="MSnSet"),
           function(object) object@processingData)
