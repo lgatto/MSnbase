@@ -122,11 +122,11 @@ readIspyData <- function(file="ispy_results.tsv",
   .process <- new("MSnProcess",
                   processing=paste("Data loaded:",date(),
                     "from ispy result file."),
-                  normalised=FALSE)
+                  normalised=FALSE,
+                  files=file)
   return(new("MSnSet",
              exprs=.exprs,
              featureData=new("AnnotatedDataFrame",data=.featureData),
-             process=.process,
-             files=file))
+             processingData=.process))
 }
 

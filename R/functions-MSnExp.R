@@ -141,6 +141,7 @@ clean.MSnExp <- function(object,verbose=TRUE) {
 
 quantify.MSnExp <- function(object,reporters,method,verbose) {
   ## Display progress bar with eapply
+  ## TODO - test if using eapply is more efficient in terms of mem/cpu usage
   ## if (verbose) {
   ##   ._cnt <- 1
   ##   pb <- txtProgressBar(min = 0, max = length(object), style = 3)
