@@ -46,6 +46,28 @@ test_that("readMzXMLData and dummy MSnExp msLevel 2 instance", {
   expect_that(length(my.prec.aa),equals(4))
   expect_that(ls(assayData(my.prec.aa)),
               equals(c("X65","X67","X69","X70")))
+  ## testing that accessors return always attributes in same order
+  precMzNames <- names(precursorMz(aa))
+  ticNames <- names(tic(aa))
+  expect_that(precMzNames,equals(ticNames))
+  precChNames <- names(precursorCharge(aa))
+  expect_that(precMzNames,equals(precChNames))
+  aqnNames <- names(acquisitionNum(aa))
+  expect_that(precMzNames,equals(aqnNames))
+  rtNames <- names(rtime(aa))
+  expect_that(precMzNames,equals(rtNames))
+  pkCntNames <- names(peaksCount(aa))
+  expect_that(precMzNames,equals(pkCntNames))
+  mslNames <- names(msLevel(aa))
+  expect_that(precMzNames,equals(mslNames))
+  coleNames <- names(collisionEnergy(aa))
+  expect_that(precMzNames,equals(coleNames))
+  intNames <- names(intensity(aa))
+  expect_that(precMzNames,equals(intNames))
+  mzNames <- names(mz(aa))
+  expect_that(precMzNames,equals(mzNames))
+  ffNames <- names(fromFile(aa))
+  expect_that(precMzNames,equals(ffNames))  
 })
 
 test_that("readMzXMLData and dummy MSnExp msLevel 1 instance", {

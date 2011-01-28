@@ -2,6 +2,10 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{MSnExp-class}
+\alias{class:MSnExp}
+\alias{MSnExp}
+
+
 \alias{acquisitionNum,MSnExp-method}
 \alias{[,MSnExp-method}
 \alias{clean,MSnExp-method}

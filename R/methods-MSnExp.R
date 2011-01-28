@@ -68,45 +68,15 @@ setMethod("show",
           })
 
 
-setMethod("header","MSnExp",function(object) header.MSnExp(object))
-
-setMethod("fromFile","MSnExp",function(object) unlist(eapply(assayData(object),fromFile)))
-
 setMethod("plot",c("MSnExp","missing"),
           function(x,y,...) plot.MSnExp(x,...))
 
 setMethod("clean","MSnExp",
           function(object,verbose=TRUE) clean.MSnExp(object,verbose))
 
-setMethod("[","MSnExp",
-          function(x,i,j="missing",drop="missing") "[.MSnExp"(x,i))
-
-setMethod("[[","MSnExp",
-          function(x,i,j="missing",drop="missing") "[[.MSnExp"(x,i))
-
 setMethod("removePeaks","MSnExp",
           function(object,t,verbose=TRUE) removePeaks.MSnExp(object,t,verbose))
 
-setMethod("precursorMz","MSnExp",
-          function(object) {
-            ## this assumes that if first spectrum
-            ## has msLevel>1, all have
-            if (msLevel(object)[1]>1) 
-              return(unlist(eapply(assayData(object), precursorMz)))
-            stop("No precursor MZ value for MS1 spectra.")
-          })
-
-setMethod("tic","MSnExp",
-          function(object) sapply(assayData(object),tic))
-
-setMethod("precursorCharge","MSnExp",
-          function(object) {
-            if (msLevel(object)[1]>1) 
-              return(sapply(spectra(object), precursorCharge))
-            stop("No precursor MZ value for MS1 spectra.")
-          })
-setMethod("acquisitionNum","MSnExp",
-          function(object) sapply(spectra(object), acquisitionNum))
 
 setMethod("ms1scan","MSnExp",
           function(object) {
@@ -115,23 +85,6 @@ setMethod("ms1scan","MSnExp",
             stop("This experiment contains MS1 spectra.")
           })
 
-setMethod("rtime","MSnExp",function(object) sapply(spectra(object),rtime))
-setMethod("peaksCount","MSnExp",
-          function(object) sapply(spectra(object),peaksCount))
-
-setMethod("msLevel","MSnExp",
-          function(object) unlist(eapply(assayData(object),msLevel)))
-
-setMethod("collisionEnergy","MSnExp",
-          function(object) {
-            if (msLevel(object)[1]>1) 
-              return(sapply(spectra(object),collisionEnergy))
-            stop("No collision energy for MS1 spectra.")
-          })
-setMethod("intensity","MSnExp",
-          function(object) eapply(assayData(object),intensity))
-
-setMethod("mz","MSnExp",function(object) eapply(assayData(object),mz))
 setMethod("trimMz","MSnExp",
           function(object,mzlim,...) {
             object@spectra <- lapply(spectra(object),trimMz,mzlim,...)
@@ -159,9 +112,3 @@ setMethod("curveStats","MSnExp",
             return(qdfr)
           })
 
-setMethod("polarity","MSnExp",
-          function(object) {
-            if (msLevel(object)[1]==1) 
-              return(sapply(spectra(object), polarity))
-            stop("No polarity for MS2 spectra.")
-          })

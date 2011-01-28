@@ -1,39 +1,3 @@
-"[.MSnExp" <- function(x,i) {
-  if (is.numeric(i)) {
-    if (max(i)>length(x) | min(i)<1)
-      stop("subscript out of bonds")
-  }
-  whichElements <- ls(assayData(x))[i]
-  x@assayData <- list2env(mget(whichElements,assayData(x)))
-  x@featureData <- featureData(x)[i,]
-  x@processingData@processing <-
-    c(processingData(x)@processing,
-      paste("Data subsetted ",i,": ",date(),sep=""))
-  return(x)
-}
-
-"[[.MSnExp" <- function(x,i) {
-  sl <- spectra(x)
-  return(sl[[i]])
-}
-
-
-header.MSnExp <- function(object) {
-  if (any(msLevel(object)<2))
-    stop("header() only works for MS levels > 1.")
-  tbl <- table(fromFile(object))
-  idx <- as.numeric(unlist(apply(tbl,1,function(x) 1:x)))
-  return(data.frame(cbind(index=idx,
-                          file=fromFile(object),
-                          retention.time=rtime(object),
-                          precursor.mz=precursorMz(object),
-                          peaks.count=peaksCount(object),
-                          tic=tic(object),
-                          ms.level=msLevel(object),
-                          charge=precursorCharge(object),
-                          collision.energy=collisionEnergy(object))))
-       }
-
 ## mergeSpectra <- function(object, ## MSnExp object
 ##                          fun=sum,
 ##                          verbose=TRUE) {
