@@ -4,6 +4,10 @@
 \alias{plot,ANY,ANY-method}
 \alias{plot,MSnExp,missing-method}
 \alias{plot,Spectrum,missing-method}
+\alias{plot.MSnExp}
+\alias{plot.Spectrum}
+
+
 \title{ ~~ Methods for Function plot in Package `graphics' ~~}
 \description{
  ~~ Methods for function \code{plot} in Package `graphics' ~~

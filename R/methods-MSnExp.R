@@ -112,3 +112,10 @@ setMethod("curveStats","MSnExp",
             return(qdfr)
           })
 
+setMethod("extractPrecSpectra",
+          signature=signature(object="MSnExp",prec="numeric"),
+          function(object,prec) extractPrecSpectra.MSnExp(object,prec))
+
+setMethod("extractSpectra",
+          signature=signature(object="MSnExp",selected="logical"),
+          function(object,selected) extractSpectra.MSnExp(object,selected))

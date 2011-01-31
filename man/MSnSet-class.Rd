@@ -40,7 +40,7 @@
     \item{\code{qual}:}{Object of class \code{"data.frame"} that records
       peaks data for each of the reporter ions to be used as quality
       metrics. }
-    \item{\code{process}:}{Object of class
+    \item{\code{processingData}:}{Object of class
       \code{"\linkS4class{MSnProcess}"} that records all processing. }
     \item{\code{assayData}:}{Object of class \code{"assayData"}
       containing a matrix with equal with column number equal to

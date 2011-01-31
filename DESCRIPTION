@@ -4,6 +4,7 @@ Version: 0.0.16
 Author: Laurent Gatto 
 Description: Basic plotting, data manipulation and processing of MS-based Proteomics data
 Depends: Biobase, methods, ggplot2, plyr, IRanges
+Suggests: testthat
 Maintainer: Laurent Gatto <lg390@cam.ac.uk>
 License: Artistic-2.0
 LazyLoad: yes

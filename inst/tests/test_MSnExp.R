@@ -131,7 +131,7 @@ test_that("quantification", {
             mz=mz)
   data(iTRAQ4)
   expect_that(validObject(sp),is_true())
-  expect_that(getCurveWidth(sp,iTRAQ4[1]),
+  expect_that(MSnbase:::getCurveWidth(sp,iTRAQ4[1]),
               equals(list(lwr=1,upr=5)))
   expect_that(as.numeric(quantify(sp,iTRAQ4[1],"sum")$peakQuant),
               equals(6))

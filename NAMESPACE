@@ -29,7 +29,7 @@ exportMethods(show,"[","[[",
               tic,
               fromFile,
               precursorMz,
-              precursorCharge,"precursorCharge<-",
+              precursorCharge,
               acquisitionNum,
               rtime,
               peaksCount,
@@ -47,8 +47,7 @@ exportMethods(show,"[","[[",
 ## methods NOT exported
 ## curveStats
 ## ms1scan
-
-
+## "precursorCharge<-"
 
 
 

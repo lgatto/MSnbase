@@ -53,7 +53,7 @@
 ##              process=object@process))
 ## }
 
-extractPrecSpectra <- function(object,prec) {
+extractPrecSpectra.MSnExp <- function(object,prec) {
   sel <-precursorMz(object) %in% prec
   nms <- names(precursorMz(object)[sel])
   n <- length(prec)
@@ -69,11 +69,9 @@ extractPrecSpectra <- function(object,prec) {
 }
 
 
-extractSpectra <- function(object,selected) {
-  if (!is.logical(selected))
-    stop("Please use logicals to extract a set of spectra.")
+extractSpectra.MSnExp <- function(object,selected) {
   object@spectra <- spectra(object)[selected]
-  object@fromFile <- object@fromFile[selected]
+  object@featureData <-   object@featureData[selected,]
   return(object)
 }
 

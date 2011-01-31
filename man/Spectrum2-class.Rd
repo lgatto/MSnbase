@@ -70,6 +70,8 @@
 }
 
 \section{Methods}{
+  See \code{"\linkS4class{Spectrum}"} for additional accessors and
+  methods to process \code{Spectrum1} objects.
   \describe{
     \item{\code{ms1scan(object)}}{ Returns the relative MS1 scan index
       of the parent ion as an integer. }

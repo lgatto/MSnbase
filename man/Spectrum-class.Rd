@@ -5,13 +5,23 @@
 \alias{class:Spectrum}
 \alias{Spectrum}
 
-\alias{intensity,Spectrum-method}
-\alias{mz,Spectrum-method}
-\alias{msLevel,Spectrum-method}
-\alias{peaksCount,Spectrum-method}
-\alias{rtime,Spectrum-method}
+%% -- accessors -- %%
 \alias{acquisitionNum,Spectrum-method}
 \alias{fromFile,Spectrum-method}
+\alias{intensity,Spectrum-method}
+\alias{msLevel,Spectrum-method}
+\alias{mz,Spectrum-method}
+\alias{peaksCount,Spectrum-method}
+\alias{rtime,Spectrum-method}
+\alias{tic,Spectrum-method}
+
+%% -- other -- %%
+\alias{clean,Spectrum-method}
+\alias{plot,Spectrum-method}
+\alias{quantify,Spectrum-method}
+\alias{removePeaks,Spectrum-method}
+\alias{show,Spectrum-method}
+\alias{trimMz,Spectrum-method}
 
 
 \title{The "Spectrum" Class}
@@ -59,21 +69,43 @@
 
 \section{Methods}{
   \describe{
-    \item{\code{intensity(object)}}{ Returns an object of class
-      \code{"numeric"} containing the intensities of the spectrum. }
-    \item{\code{mz(object)}}{ Returns an object of class
-      \code{"numeric"} containing the MZ value of the spectrum peaks. }
-    \item{\code{msLevel(object)}}{ Returns an MS level of the spectrum
-      as an integer. }
-    \item{\code{peaksCount(object)}}{ Returns the number of peaks
-      (possibly of 0 intensity) as an integer. }
-    \item{\code{rtime(object)}}{ Returns the retention time for the
-      spectrum as an integer. }
     \item{\code{acquisitionNum(object)}}{ Returns the acquisition number
       of the spectrum as an integer. }
     \item{\code{fromFile(object)}}{ Returns the index of the raw data
       file from which the current instances originates as an
       integer. }
+    \item{\code{intensity(object)}}{ Returns an object of class
+      \code{"numeric"} containing the intensities of the spectrum. }
+    \item{\code{msLevel(object)}}{ Returns an MS level of the spectrum
+      as an integer. }
+    \item{\code{mz(object)}}{ Returns an object of class
+      \code{"numeric"} containing the MZ value of the spectrum peaks. }
+    \item{\code{peaksCount(object)}}{ Returns the number of peaks
+      (possibly of 0 intensity) as an integer. }
+    \item{\code{rtime(object)}}{ Returns the retention time for the
+      spectrum as an integer. }
+    \item{\code{tic(object)}}{ Returns the total ion count for the
+      spectrum as a numeric. }
+    %% -------------------------------------------------- %%
+    \item{clean}{\code{signature(object = "Spectrum")}: Removes unused 0
+      intensity data points. See \code{\link{clean}} documentation
+      for more details and examples. }
+    \item{plot}{\code{signature(x = "Spectrum", y = "missing")}: Plots
+      intensity against mz.  
+      See \code{\link{plot.Spectrum}} documentation for more details. } 
+    \item{quantify}{\code{signature(object = "Spectrum")}: Quatifies
+      defined peaks in the spectrum. 
+      See \code{\link{quantify}} documentation for more details. }
+    \item{removePeaks}{\code{signature(object = "Spectrum")}: Remove
+      peaks lower that a threshold \code{t}. See
+      \code{\link{removePeaks}} documentation for more details and
+      examples. }
+    \item{show}{\code{signature(object = "Spectrum")}: Displays object
+      content as text. }
+    \item{trimMz}{\code{signature(object = "Spectrum")}: Trims the MZ
+      range of all the spectra of the \code{MSnExp} instance. See
+      \code{\link{trimMz}} documentation for more details and
+      examples. } 
   }
 }
 

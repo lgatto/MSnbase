@@ -5,47 +5,45 @@
 \alias{pSet}
 \alias{class:pSet}
 
-\alias{acquisitionNum,pSet-method}
 \alias{[,pSet-method}
 \alias{[[,pSet-method}
+\alias{abstract,pSet-method}
+\alias{acquisitionNum,pSet-method}
+\alias{assayData,pSet-method}
 \alias{collisionEnergy,pSet-method}
+\alias{description,pSet-method}
 \alias{dim,pSet-method}
+\alias{experimentData,pSet-method}
+\alias{fData,pSet-method}
+\alias{featureData,pSet-method}
+\alias{featureNames,pSet-method}
 \alias{fileNames,pSet-method}
+\alias{fromFile,pSet-method}
+\alias{fvarLabels,pSet-method}
+\alias{fvarMetadata,pSet-method}
 \alias{header,pSet-method}
 \alias{intensity,pSet-method}
 \alias{length,pSet-method}
 \alias{msLevel,pSet-method}
 \alias{mz,pSet-method}
+\alias{notes,pSet-method}
+\alias{pData,pSet-method}
 \alias{peaksCount,pSet-method}
+\alias{phenoData,pSet-method}
 \alias{polarity,pSet-method}
 \alias{precursorCharge,pSet-method}
 \alias{precursorMz,pSet-method}
 \alias{processingData,pSet-method}
-\alias{rtime,pSet-method}
-\alias{tic,pSet-method}
-
-
-\alias{abstract,pSet-method}
-\alias{assayData,pSet-method}
-\alias{description,pSet-method}
-\alias{experimentData,pSet-method}
-\alias{fData,pSet-method}
-\alias{featureData,pSet-method}
-\alias{featureNames,pSet-method}
-\alias{fvarMetadata,pSet-method}
-\alias{fvarLabels,pSet-method}
-\alias{notes,pSet-method}
-\alias{phenoData,pSet-method}
-\alias{pData,pSet-method}
 \alias{proteomicsData,pSet-method}
 \alias{proteomicsData<-,pSet-method}
 \alias{protocolData,pSet-method}
 \alias{pubMedIds,pSet-method}
+\alias{rtime,pSet-method}
 \alias{sampleNames,pSet-method}
-\alias{show,pSet-method}
 \alias{spectra,pSet-method}
-\alias{varMetadata,pSet-method}
+\alias{tic,pSet-method}
 \alias{varLabels,pSet-method}
+\alias{varMetadata,pSet-method}
 
 \title{
   Class to Contain Raw Mass-Spectrometry Assays and Experimental
@@ -99,7 +97,7 @@
       \code{"\linkS4class{eSet}"}). See \code{\link{protocolData}} for
       more details.
       Slot is inherited from \code{"linkS4class{pSet}"}. }
-    \item{\code{processindData}:}{Object of class
+    \item{\code{processingData}:}{Object of class
       \code{"\linkS4class{MSnProcess}"} that records all processing. 
       Slot is inherited from \code{"linkS4class{pSet}"}. }
     \item{\code{.__classVersion__}:}{Object of class
@@ -145,6 +143,9 @@
       \code{assayData} slot. }
     \item{fileNames}{\code{signature(object = "pSet")}: Access file
       names in the \code{processingData} slot. }
+    \item{fromFile}{\code{signature(object = "MSnExp")}: Access raw data
+      file indexes (to be found in the 'code{processingData}' slot) from
+      which the individual object's spectra where read from. }
     \item{fvarMetadata}{\code{signature(x = "pSet")}: Access metadata
       describing features reported in \code{fData}. }
     \item{fvarLabels}{\code{signature(x = "pSet")}: Access variable
@@ -170,7 +171,6 @@
       \code{experimentData}. } 
     \item{sampleNames}{\code{signature(x = "pSet")}: Access sample names
       in \code{phenoData}. }
-    \item{show}{ Informatively display object contents. } 
     \item{spectra}{\code{signature(x = "pSet")}: Access the
       \code{assayData} slot, returning the features as a \code{list}. } 
     \item{varMetadata}{\code{signature(x = "pSet")}: Access metadata

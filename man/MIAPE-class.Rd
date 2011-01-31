@@ -39,7 +39,7 @@
 }
 
 \examples{
-my. miape <- new("MIAPE",
+my.miape <- new("MIAPE",
   description="Relevant data about my proteomics experiment comes here.") 
 my.miape
 }

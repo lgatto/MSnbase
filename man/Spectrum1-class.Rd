@@ -20,7 +20,7 @@
   \describe{
     \item{\code{polarity}:}{Object of class \code{"integer"} indicating
       the polarity if the ion. }
-    %% -------------------------------------------------------------- %%    
+    %% -------------------------------------------------------------- %%
     \item{\code{msLevel}:}{Object of class \code{"integer"} indicating
       the MS level: always 1 in this case (inherited from
       \code{"\linkS4class{Spectrum}"}). }
@@ -55,6 +55,8 @@
 }
 
 \section{Methods}{
+  See \code{"\linkS4class{Spectrum}"} for additional accessors and
+  methods to process \code{Spectrum1} objects.
   \describe{
     \item{\code{polarity(object)}}{ Returns the polarity of the spectrum
       as an integer. }
