@@ -43,9 +43,9 @@ test_that("readMzXMLData and dummy MSnExp msLevel 2 instance", {
   my.prec <- precursorMz(aa)[1]
   my.prec.aa <- extractPrecSpectra(aa,my.prec)
   expect_that(all(precursorMz(my.prec.aa)==my.prec),is_true())
-  expect_that(length(my.prec.aa),equals(4))
+  expect_that(length(my.prec.aa),equals(9))
   expect_that(ls(assayData(my.prec.aa)),
-              equals(c("X65","X67","X69","X70")))
+              equals(paste("X",1:9,sep="")))
   ## testing that accessors return always attributes in same order
   precMzNames <- names(precursorMz(aa))
   ticNames <- names(tic(aa))
