@@ -31,7 +31,6 @@ exportMethods(show,"[","[[",
               precursorMz,
               precursorCharge,"precursorCharge<-",
               acquisitionNum,
-              ms1scan,
               rtime,
               peaksCount,
               msLevel,
@@ -39,13 +38,16 @@ exportMethods(show,"[","[[",
               polarity,
               trimMz,
               quantify,
-              curveStats,
               header,
               normalise,
               dim,
               ratios,
               qual,
               reporterNames,"reporterNames<-")
+## methods NOT exported
+## curveStats
+## ms1scan
+
 
 
 
