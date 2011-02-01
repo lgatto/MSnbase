@@ -26,7 +26,9 @@ setMethod("plot",c("Spectrum","missing"),
             else plot.Spectrum2(x,...)
           })
 
-setMethod("clean","Spectrum",function(object) clean.Spectrum(object))
+setMethod("clean",
+          signature=signature("Spectrum"),
+          function(object) clean.Spectrum(object))
 
 setMethod("removePeaks","Spectrum",
           function(object,t) removePeaks.Spectrum(object,t))
@@ -65,7 +67,8 @@ setMethod("intensity","Spectrum",function(object) object@intensity)
 setMethod("mz","Spectrum",function(object) object@mz)
 setMethod("tic","Spectrum",function(object) sum(object@intensity))
 
-setMethod("trimMz","Spectrum",
+setMethod("trimMz",
+          signature=signature("Spectrum","numeric"),
           function(object,mzlim,...) trimMz.Spectrum(object,mzlim))
 
 setMethod("quantify","Spectrum",

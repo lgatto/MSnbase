@@ -1,25 +1,59 @@
 \name{trimMz-methods}
 \docType{methods}
 \alias{trimMz-methods}
-\alias{trimMz,MSnExp-method}
-\alias{trimMz,Spectrum-method}
+% \alias{trimMz,MSnExp-method}
+% \alias{trimMz,Spectrum-method}
 \alias{trimMz}
 
 
-\title{ ~~ Methods for Function trimMz in Package `MSnbase' ~~}
+\title{ Trims 'MSnExp' or 'Spectrum' instances }
+
+
 \description{
- ~~ Methods for function \code{trimMz} in Package `MSnbase' ~~
+  This method selects a range of MZ values in a single spectrum
+  (\code{Spectrum} instances) or all the spectra of an experiment
+  (\code{MSnExp} instances). The regions to trim are defined by the
+  range of \code{mzlim} argument, such as MZ values < \code{min(mzlim)}
+  and MZ values > \code{max(mzlim)} are trimmed away.
 }
 \section{Methods}{
-\describe{
-
-\item{\code{signature(object = "MSnExp")}}{
-%%  ~~describe this method here~~
+  \describe{
+    \item{\code{signature(object = "MSnExp", mzlim = "numeric")}}{
+      Trims all spectra in \code{MSnExp} object according to
+      \code{mzlim}. Returns a cleaned \code{MSnExp} instance.
+    }
+    \item{\code{signature(object = "Spectrum", mzlim = "numeric")}}{
+      Trims the \code{Spectrum} object and retruns a new trimmed object.
+    }
+  }
 }
 
-\item{\code{signature(object = "Spectrum")}}{
-%%  ~~describe this method here~~
+\author{
+  Laurent Gatto <lg390@cam.ac.uk>
 }
-}}
+
+\seealso{
+  \code{\link{removePeaks}} and \code{\link{clean}} for other spectra
+  processing methods.
+}
+
+\examples{
+mz <- 1:100
+sp1 <- new("Spectrum2",
+           mz=mz,
+           intensity=abs(rnorm(length(mz))))
+sp2 <- trimMz(sp1,c(25,75))
+range(mz(sp1))
+range(mz(sp2))
+file <- dir(system.file(package="MSnbase",dir="extdata"),
+            full.name=TRUE,pattern="mzXML$")
+aa <- readMzXMLData(file,verbose=FALSE)
+bb <- trimMz(aa,c(113,117))
+range(mz(bb))
+range(mz(bb))
+processingData(bb)
+}
+
+
 \keyword{methods}
-\keyword{ ~~ other possible keyword(s) ~~ }
+

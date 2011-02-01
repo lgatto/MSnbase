@@ -152,18 +152,19 @@ utils.clean <- function(x) {
   ## returns a logical b of length(x) where
   ## non-zero values and their direct
   ## 0s are TRUE so that x[b] has only
-  ## non-zero values surrounded by unique zeroes.
+  ## non-zero values surrounded by it's
+  ## original direct zero neighbours.
   ## Example
-  ## x:  1 0 0 0 1 1 1 0 0 1 1 0 0 0 1 0 0 0
-  ## b: T T F F T T T T F T T T F F T T F F
+  ## x: 1 0 0 0 1 1 1 0 0 1 1 0 0 0 1 0 0 0
+  ## b: T T F T T T T T T T T T F T T T F F
   ##
   ## x[b]:     1 0 1 1 1 0 1 1 0 1 0
   n <- length(x)
   b <- as.logical(rep(1,n)) ## initialise to TRUE
   zeroRanges <- IRanges(sapply(x,"==",0))
   IRanges:::sapply(zeroRanges,function(x){
-    if (length(x)>1)
-      b[x[2:length(x)]] <<- FALSE 
+    if (length(x)>2)
+      b[x[2:(length(x)-1)]] <<- FALSE 
   })
   return(b)
 }

@@ -7,6 +7,8 @@ show.Spectrum <- function(spectrum) {
 removePeaks.Spectrum <- function(spectrum,t="min") {
   if (t=="min") 
     t <- min(intensity(spectrum)[intensity(spectrum)>0])
+  if (!is.numeric(t))
+    stop("'t' must either be 'min' or numeric.")
   ints <- utils.removePeaks(spectrum@intensity,t)
   spectrum@intensity <- ints
   return(spectrum)
@@ -205,7 +207,7 @@ getCurveWidth <- function(spectrum,reporters) {
 trimMz.Spectrum <- function(x,mzlim,updatePeaksCount=TRUE) {
   mzmin <- min(mzlim)
   mzmax <- max(mzlim)
-  sel <- x@mz>mzmin & x@mz<mzmax
+  sel <- (x@mz >= mzmin) & (x@mz <= mzmax)
   if (sum(sel)==0) {
     warning(paste("No data points between ",mzmin," and ",mzmax,
                   " for precursor ",precursorMz(x),

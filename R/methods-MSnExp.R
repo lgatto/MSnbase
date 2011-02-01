@@ -71,7 +71,8 @@ setMethod("show",
 setMethod("plot",c("MSnExp","missing"),
           function(x,y,...) plot.MSnExp(x,...))
 
-setMethod("clean","MSnExp",
+setMethod("clean",
+          signature=signature("MSnExp"),
           function(object,verbose=TRUE) clean.MSnExp(object,verbose))
 
 setMethod("removePeaks","MSnExp",
@@ -85,9 +86,11 @@ setMethod("ms1scan","MSnExp",
             stop("This experiment contains MS1 spectra.")
           })
 
-setMethod("trimMz","MSnExp",
+setMethod("trimMz",
+          signature=signature("MSnExp","numeric"),
           function(object,mzlim,...) {
-            object@spectra <- lapply(spectra(object),trimMz,mzlim,...)
+            trimmed <- eapply(assayData(object),trimMz,mzlim,...)
+            object@assayData <- list2env(trimmed)
             return(object)
           })
 
