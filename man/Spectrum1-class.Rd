@@ -5,7 +5,8 @@
 \alias{class:Spectrum1}
 \alias{Spectrum1}
 
-\alias{polarity,Spectrum1-method}
+\alias{polarity,Spectrum-method}
+\alias{polarity}
 
 \title{The "Spectrum1" Class for MS1 Spectra }
 \description{

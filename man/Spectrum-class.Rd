@@ -7,21 +7,31 @@
 
 %% -- accessors -- %%
 \alias{acquisitionNum,Spectrum-method}
+\alias{acquisitionNum}
 \alias{fromFile,Spectrum-method}
+\alias{fromFile}
 \alias{intensity,Spectrum-method}
+\alias{intensity}
 \alias{msLevel,Spectrum-method}
+\alias{msLevel}
 \alias{mz,Spectrum-method}
+\alias{mz}
 \alias{peaksCount,Spectrum-method}
+\alias{peaksCount}
 \alias{rtime,Spectrum-method}
+\alias{rtime}
 \alias{tic,Spectrum-method}
+\alias{tic}
 
 %% -- other -- %%
 \alias{clean,Spectrum-method}
 \alias{plot,Spectrum-method}
+\alias{plot,Spectrum,missing-method}
 \alias{quantify,Spectrum-method}
 \alias{removePeaks,Spectrum-method}
 \alias{show,Spectrum-method}
 \alias{trimMz,Spectrum-method}
+\alias{trimMz,Spectrum,numeric-method}
 
 
 \title{The "Spectrum" Class}

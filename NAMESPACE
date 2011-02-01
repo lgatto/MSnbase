@@ -41,13 +41,12 @@ exportMethods(show,"[","[[",
               header,
               normalise,
               dim,
-              ratios,
-              qual,
               reporterNames,"reporterNames<-")
 ## methods NOT exported
 ## curveStats
 ## ms1scan
 ## "precursorCharge<-"
-
+## qual
+## ratios
 
 

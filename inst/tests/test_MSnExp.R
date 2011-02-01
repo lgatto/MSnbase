@@ -14,8 +14,8 @@ test_that("readMzXMLData and dummy MSnExp msLevel 2 instance", {
   ## MS levels
   expect_that(length(msLevel(aa)),equals(70))
   expect_that(unique(msLevel(aa)),equals(2))
-  expect_that(length(ms1scan(aa)),equals(70))
-  expect_that(length(unique(ms1scan(aa))),equals(5))
+  expect_that(length(MSnbase:::ms1scan(aa)),equals(70))
+  expect_that(length(unique(MSnbase:::ms1scan(aa))),equals(5))
   ## Precursor MZ
   expect_that(length(precursorMz(aa)),equals(70))
   expect_that(precursorMz(aa)[1],is_a("numeric"))
@@ -110,8 +110,8 @@ test_that("spectra order and integrity", {
   expect_that(tic(removePeaks(sp,3)),equals(0))
   expect_that(tic(removePeaks(sp,max(intensity(sp)))),equals(0))
   expect_that(peaksCount(sp),equals(peaksCount(rsp)))
-  expect_that(peaksCount(clean(rsp)),equals(5))
-  expect_that(peaksCount(clean(sp)),equals(6))  
+  expect_that(peaksCount(clean(rsp)),equals(6))
+  expect_that(peaksCount(clean(sp)),equals(7))  
   expect_that(all.equal(removePeaks(sp,0),sp),is_true())
 })
 

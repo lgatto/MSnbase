@@ -1,9 +1,5 @@
 \name{plot-methods}
 \docType{methods}
-\alias{plot-methods}
-\alias{plot,ANY,ANY-method}
-\alias{plot,MSnExp,missing-method}
-\alias{plot,Spectrum,missing-method}
 \alias{plot.MSnExp}
 \alias{plot.Spectrum}
 

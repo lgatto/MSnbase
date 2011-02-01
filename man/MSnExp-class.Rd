@@ -10,11 +10,13 @@
 \alias{clean,MSnExp-method}
 \alias{extractPrecSpectra,MSnExp-method}
 \alias{extractSpectra,MSnExp-method}
+\alias{plot,MSnExp}
 \alias{plot,MSnExp,missing-method}
 \alias{quantify,MSnExp-method}
 \alias{removePeaks,MSnExp-method}
 \alias{show,MSnExp-method}
 \alias{trimMz,MSnExp-method}
+\alias{trimMz,MSnExp,numeric-method}
 
 \title{The 'MSnExp' Class for MS Data And Meta-Data}
 

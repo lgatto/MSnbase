@@ -5,11 +5,15 @@
 \alias{class:Spectrum2}
 \alias{Spectrum2}
 
-\alias{ms1scan,Spectrum2-method}
-\alias{precursorMz,Spectrum2-method}
-\alias{precursorIntensity,Spectrum2-method}
-\alias{precursorCharge,Spectrum2-method}
-\alias{collisionEnergy,Spectrum2-method}
+%% \alias{ms1scan,Spectrum-method}
+\alias{precursorMz,Spectrum-method}
+\alias{precursorMz}
+\alias{precursorIntensity,Spectrum-method}
+\alias{precursorIntensity}
+\alias{precursorCharge,Spectrum-method}
+\alias{precursorCharge}
+\alias{collisionEnergy,Spectrum-method}
+\alias{collisionEnergy}
 
 \title{The "Spectrum2" Class for MSMS Spectra}
 
