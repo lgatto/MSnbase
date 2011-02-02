@@ -15,6 +15,7 @@
 \alias{plot,MSnExp}
 \alias{plot,MSnExp,missing-method}
 \alias{quantify,MSnExp-method}
+\alias{quantify,MSnExp,character-method}
 \alias{removePeaks,MSnExp-method}
 \alias{show,MSnExp-method}
 \alias{trimMz,MSnExp-method}

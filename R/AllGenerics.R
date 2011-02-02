@@ -29,7 +29,7 @@ setGeneric("tic",function(object) standardGeneric("tic"))
 
 setGeneric("fromFile",function(object) standardGeneric("fromFile"))
 
-setGeneric("quantify",function(object,reporters,method,...) standardGeneric("quantify"))
+setGeneric("quantify",function(object,method,...) standardGeneric("quantify"))
 setGeneric("curveStats",function(object,reporters,...) standardGeneric("curveStats"))
 
 setGeneric("qual",function(object) standardGeneric("qual"))

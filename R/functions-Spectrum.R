@@ -23,7 +23,7 @@ clean.Spectrum <- function(spectrum,updatePeaksCount=TRUE) {
   return(spectrum)
 }
 
-quantify.Spectrum <- function(spectrum,reporters,method) {
+quantify.Spectrum <- function(spectrum,method,reporters) {
   ## Parameters:
   ##  spectrum: object of class Spectrum
   ##  reporters: object of class ReporterIons

@@ -94,10 +94,14 @@ setMethod("trimMz",
             return(object)
           })
 
-setMethod("quantify","MSnExp",
-          function(object,reporters,
+setMethod("quantify",
+          signature=signature("MSnExp","character"),
+          function(object,
                    method=c("trapezoidation","max","sum"),
+                   reporters,
                    verbose=TRUE) {
+            if (!inherits(reporters,"ReporterIons"))
+              stop("Argument 'reporters' must inherit from 'ReporterIons' class.")
             ## this assumes that if first spectrum
             ## has msLevel>1, all have
             if (msLevel(object)[1]<2) 

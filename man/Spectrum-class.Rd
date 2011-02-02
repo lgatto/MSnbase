@@ -28,6 +28,7 @@
 \alias{plot,Spectrum-method}
 \alias{plot,Spectrum,missing-method}
 \alias{quantify,Spectrum-method}
+\alias{quantify,Spectrum,character-method}
 \alias{removePeaks,Spectrum-method}
 \alias{show,Spectrum-method}
 \alias{trimMz,Spectrum-method}

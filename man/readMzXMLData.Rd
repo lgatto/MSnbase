@@ -54,7 +54,7 @@ readMzXMLData(files, pdata = NULL, msLevel = 2, verbose = TRUE, centroided = FAL
 % }
 
 \value{
-  An \code{MSnExp} object.
+  An \code{"\linkS4class{MSnExp}"} object.
 }
 
 % \references{
