@@ -9,7 +9,9 @@
 
 \alias{clean,MSnExp-method}
 \alias{extractPrecSpectra,MSnExp-method}
+\alias{extractPrecSpectra,MSnExp,numeric-method}
 \alias{extractSpectra,MSnExp-method}
+\alias{extractSpectra,MSnExp,logical-method}
 \alias{plot,MSnExp}
 \alias{plot,MSnExp,missing-method}
 \alias{quantify,MSnExp-method}

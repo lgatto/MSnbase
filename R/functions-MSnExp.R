@@ -54,6 +54,9 @@
 ## }
 
 extractPrecSpectra.MSnExp <- function(object,prec) {
+  nmissing <- sum(!prec %in% precursorMz(object))
+  if (nmissing!=0)
+    warning(nmissing," precursor MZ values not found in 'MSnExp' object.") 
   sel <-precursorMz(object) %in% prec
   nms <- names(precursorMz(object)[sel])
   n <- length(prec)
@@ -70,8 +73,13 @@ extractPrecSpectra.MSnExp <- function(object,prec) {
 
 
 extractSpectra.MSnExp <- function(object,selected) {
-  object@spectra <- spectra(object)[selected]
-  object@featureData <-   object@featureData[selected,]
+  slist <- spectra(object)[selected]
+  object@assayData <- list2env(slist)
+  object@featureData <- object@featureData[selected,]
+  object@processingData@processing <- c(object@processingData@processing,
+                                        paste(sum(selected),
+                                              " spectra extracted: ",
+                                              date(),sep=""))
   return(object)
 }
 
