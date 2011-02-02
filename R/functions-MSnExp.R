@@ -109,7 +109,7 @@ clean.MSnExp <- function(object,verbose=TRUE) {
   return(object)
 }
 
-quantify.MSnExp <- function(object,reporters,method,verbose) {
+quantify.MSnExp <- function(object,method,reporters,verbose) {
   ## Display progress bar with eapply
   ## TODO - test if using eapply is more efficient in terms of mem/cpu usage
   ## if (verbose) {
@@ -119,24 +119,23 @@ quantify.MSnExp <- function(object,reporters,method,verbose) {
   ##   peakData <- eapply(assayData(object),function(x) {
   ##     setTxtProgressBar(pb, ._cnt)
   ##     ._cnt <<- ._cnt+1
-  ##     quantify(x,reporters,method)
+  ##     quantify(x,method,reporters)
   ##   })
   ##   close(pb)
   ##   rm(pb)
   ##   rm(._cnt)
   ## } else {
-  ##   peakData <- eapply(assayData(object),quantify,reporters,method)
+  ##   peakData <- eapply(assayData(object),quantify,method,reporters)
   ## }
-
   ifelse(verbose,progress <- "text",progress <- "none")
   spectraList <- spectra(object)
   ## Quantification -- creating exprs for assayData slot
   if (length(spectraList)==1) {
-    peakData <- quantify(spectraList[[1]],reporters,method)
+    peakData <- quantify(spectraList[[1]],method,reporters)
     .exprs <- t(peakData$peakQuant)
     .qual <- t(peakData$curveData)
   } else {
-    peakData <- llply(spectraList,quantify,reporters,method,.progress=progress)
+    peakData <- llply(spectraList,quantify,method,reporters,.progress=progress)
     .exprs <- do.call(rbind,sapply(peakData,"[","peakQuant"))
     .qual <- do.call(rbind,sapply(peakData,"[","curveStats"))
   }
