@@ -29,7 +29,7 @@
 }
 
 \seealso{
-  \code{\link{extractPrecSpec}}
+  \code{\link{extractPrecSpectra}}
 }
 
 \examples{

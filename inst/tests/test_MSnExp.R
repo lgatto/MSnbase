@@ -162,11 +162,11 @@ test_that("quantification", {
   expect_that(validObject(sp),is_true())
   expect_that(MSnbase:::getCurveWidth(sp,iTRAQ4[1]),
               equals(list(lwr=1,upr=5)))
-  expect_that(as.numeric(quantify(sp,iTRAQ4[1],"sum")$peakQuant),
+  expect_that(as.numeric(quantify(sp,"sum",iTRAQ4[1])$peakQuant),
               equals(6))
-  expect_that(as.numeric(quantify(sp,iTRAQ4[1],"max")$peakQuant),
+  expect_that(as.numeric(quantify(sp,"max",iTRAQ4[1])$peakQuant),
               equals(3))
-  expect_that(as.numeric(quantify(sp,iTRAQ4[1],"trap")$peakQuant),
+  expect_that(as.numeric(quantify(sp,"trap",iTRAQ4[1])$peakQuant),
               equals((0.01*2)/2+
                      (0.01*2)  +
                      (0.01*1)/2+

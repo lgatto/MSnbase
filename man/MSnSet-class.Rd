@@ -108,10 +108,11 @@
   \code{"\linkS4class{eSet}"} and \code{"\linkS4class{ExpressionSet}"}.
 }
 \examples{
-mzxmlfile <- dir(system.file("extdata",package="MSnbase"),pattern="mzXML",full.names=TRUE)
+mzxmlfile <- dir(system.file("extdata",package="MSnbase"),
+                 pattern="mzXML",full.names=TRUE)
 msnexp <- readMzXMLData(mzxmlfile)
 data(iTRAQ4)
-msnset <- quantify(msnexp,reporters=iTRAQ4,method="trap")
+msnset <- quantify(msnexp,method="trap",reporters=iTRAQ4)
 msnset
 }
 

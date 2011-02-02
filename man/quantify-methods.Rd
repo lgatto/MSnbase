@@ -7,7 +7,7 @@
 
 
 \description{
-  This method quantifies individual \code{"\linkS4class{Spectra}"}
+  This method quantifies individual \code{"\linkS4class{Spectrum}"}
   objects or full \code{"\linkS4class{MSnExp}"} experiments. Current
   implementation quantify specific peaks, defined by the
   \code{reporters} parameter using one of the possible \code{method}
@@ -24,7 +24,7 @@
 }
 
 \arguments{
-  \item{object}{ Objects of class \code{"\linkS4class{Spectra}"} or
+  \item{object}{ Objects of class \code{"\linkS4class{Spectrum}"} or
     \code{"\linkS4class{MSnExp}"}. 
   }
   \item{method}{
