@@ -106,7 +106,7 @@ setMethod("quantify",
             ## has msLevel>1, all have
             if (msLevel(object)[1]<2) 
               stop("No quantification for MS1 data implemented.")
-            quantify.MSnExp(object,reporters,match.arg(method),verbose)
+            quantify.MSnExp(object,match.arg(method),reporters,verbose)
           })
 
 setMethod("curveStats","MSnExp",
