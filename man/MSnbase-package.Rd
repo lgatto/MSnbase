@@ -47,7 +47,7 @@ Complete listing of available documentation with
 \seealso{
   See also the package vignette for use-cases and details about the
   methods. Several \code{MSnbase} data structures are based on
-  \code{\link[pkg:Biobase-package]{Biobase}} classes.
+  \code{\link[Biobase-package]{Biobase}} classes.
 }
 
 
