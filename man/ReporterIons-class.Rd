@@ -11,7 +11,10 @@
 \alias{reporterNames,ReporterIons-method}
 \alias{reporterNames}
 \alias{reporterNames<-,ReporterIons-method}
+\alias{reporterNames<-,ReporterIons,ANY-method}
+\alias{reporterNames<-,ReporterIons,character-method}
 \alias{reporterNames<-}
+
 
 \title{The "ReporterIons" Class}
 

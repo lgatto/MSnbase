@@ -6,6 +6,7 @@
 \alias{MSnProcess}
 
 \alias{fileNames,MSnProcess-method}
+\alias{show,MSnProcess-method}
 
 \title{The "MSnProcess" Class }
 
@@ -50,8 +51,11 @@
 }
 \section{Methods}{
   \describe{
-    \item{\code{fileNames}}{ Returns the file names used in experiment described by the
-      \code{"MSnProcess"} instance. }
+    \item{fileNames}{\code{signature(object = "MSnExp")}: Returns the
+      file names used in experiment described by the \code{"MSnProcess"}
+      instance. } 
+    \item{show}{\code{signature(object = "MSnExp")}: Displays object
+      content as text. }
   }
 }
 

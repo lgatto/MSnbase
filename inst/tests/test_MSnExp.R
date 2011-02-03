@@ -164,6 +164,10 @@ test_that("quantification", {
               equals(list(lwr=1,upr=5)))
   expect_that(as.numeric(quantify(sp,"sum",iTRAQ4[1])$peakQuant),
               equals(6))
+  expect_that(as.logical(is.na(quantify(sp,"sum",iTRAQ4[2])$peakQuant)),
+              is_true())
+  expect_that(quantify(sp,"sum",iTRAQ4[2])$peakQuant,
+              gives_warning())
   expect_that(as.numeric(quantify(sp,"max",iTRAQ4[1])$peakQuant),
               equals(3))
   expect_that(as.numeric(quantify(sp,"trap",iTRAQ4[1])$peakQuant),

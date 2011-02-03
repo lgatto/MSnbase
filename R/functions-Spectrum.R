@@ -59,7 +59,7 @@ quantify.Spectrum <- function(spectrum,method,reporters) {
       ## Quantify reporter ions calculating the area
       ## under the curve by trapezoidation
       if (nrow(dfr)==1) {
-        peakQuant[i] <- 0
+        peakQuant[i] <- dfr$int
       } else {
         n <- nrow(dfr)
         x <- vector(mode = "numeric", length = n)
@@ -130,9 +130,7 @@ curveData <- function(spectrum,reporter) {
   }
   bp <- getCurveWidth(spectrum,reporter)
   if (any(is.na(bp))) {
-    ## returning 'fake' data
-    ## intensity 0 for 'missing' reporter
-    return(data.frame(mz=reporter@mz,int=0))
+    return(data.frame(mz=reporter@mz,int=NA))
   } else { 
     int <- intensity(spectrum)[bp$lwr[1]:bp$upr[1]]
     mz <- mz(spectrum)[bp$lwr[1]:bp$upr[1]]

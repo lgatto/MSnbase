@@ -6,7 +6,7 @@
 \alias{MSnSet}
 
 %% TODO add methods
-
+\alias{show,MSnSet-method}
 
 \title{
   The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
@@ -95,9 +95,10 @@
   Class \code{"\linkS4class{Versioned}"}, by class "ExpressionSet", distance 4.
 }
 
-%%\section{Methods}{
-%%  No methods defined with class "MSnSet" in the signature.
-%%}
+\section{Methods}{
+  See \code{"\linkS4class{ExpressionSet}"} methods.
+  %% more methods to add
+}
 
 
 \author{
