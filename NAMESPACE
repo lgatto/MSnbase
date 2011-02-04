@@ -1,7 +1,8 @@
 import("Biobase")
 import("graphics")
 
-export(readMzXMLData, formatRt,
+export(readMzXMLData,
+       formatRt,
        pseudo3dplot,
        extractSpectra,
        extractPrecSpectra)

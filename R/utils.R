@@ -218,7 +218,10 @@ getRatios <- function(x,log=FALSE) {
 }
 
 pseudo3dplot <- function(hx) {
-  require(ggplot2)
+  retention.time <- precursor.mz <- peaks.count <- NULL # to satisfy codetools
+  ## pseudo3dplot: no visible binding for global variable ‘retention.time’
+  ## pseudo3dplot: no visible binding for global variable ‘precursor.mz’
+  ## pseudo3dplot: no visible binding for global variable ‘peaks.count’
   p <- ggplot(hx,aes(retention.time,precursor.mz)) +
     geom_point(aes(color=peaks.count)) + 
       scale_colour_gradientn(colour=colorRampPalette(c("grey","blue","red","yellow"))(100), 

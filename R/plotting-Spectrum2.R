@@ -1,4 +1,7 @@
 plot.Spectrum2 <- function(spectrum,reporters=NULL,full=FALSE) {
+  mtc <- i <- NULL # to satisfy codetools
+  ## plot.Spectrum1: no visible binding for global variable ‘mtc’
+  ## plot.Spectrum1: no visible binding for global variable ‘i’
   if (!full & is.null(reporters))
     stop("Please provide repotrer ions if you do not want a full spectrum.")
   df <- data.frame(i=intensity(spectrum),
