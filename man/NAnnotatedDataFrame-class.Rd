@@ -16,7 +16,10 @@ Objects can be created by calls of the form \code{new("NAnnotatedDataFrame", dat
 }
 \section{Slots}{
   \describe{
-    \item{\code{multiplex}:}{Object of class \code{"character"} ~~ }
+    \item{\code{multiplex}:}{Object of class \code{"numeric"} indicating
+      the number of multiplexed samples described. }
+    \item{\code{multiLabels}:}{Object of class \code{"character"}
+      describing the multiplexing. }
     \item{\code{varMetadata}:}{Object of class \code{"data.frame"} ~~ }
     \item{\code{data}:}{Object of class \code{"data.frame"} ~~ }
     \item{\code{dimLabels}:}{Object of class \code{"character"} ~~ }
