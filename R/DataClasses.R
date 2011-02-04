@@ -59,7 +59,7 @@ setClass("NAnnotatedDataFrame",
            multiLable=character()),
          validity = function(object) {
            msg <- validMsg(NULL, NULL)
-           if (length(multiLabels!=)multiplex)
+           if (length(object@multiLabels)!=object@multiplex)
              msg <- validMsg(msg,"Number of multiplex does not match it's labels.")
            if (is.null(msg)) TRUE
            else msg
