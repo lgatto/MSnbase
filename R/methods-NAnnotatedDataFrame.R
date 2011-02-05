@@ -13,8 +13,14 @@ setMethod("show",
             callNextMethod(object)
             cat("  Multiplexing: ")
             if (length(object@multiplex)>0)
-                cat(object@multiplex,"\n")
+                cat(object@multiplex," - ",object@multiLabels,"\n",sep="")
             else
               cat("none\n")
           })
 
+
+setMethod("multiplex", "NAnnotatedDataFrame",
+          function(object) object@multiplex)
+
+setMethod("multiLabels", "NAnnotatedDataFrame",
+          function(object) object@multiLabels)

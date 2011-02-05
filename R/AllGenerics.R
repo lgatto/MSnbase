@@ -43,3 +43,6 @@ setGeneric("fileNames<-",function(object,value) standardGeneric("fileNames<-"))
 
 setGeneric("extractPrecSpectra",function(object,prec) standardGeneric("extractPrecSpectra"))
 setGeneric("extractSpectra",function(object,selected) standardGeneric("extractSpectra"))
+
+setGeneric("multiplex",function(object) standardGeneric("multiplex"))
+setGeneric("multiLabels",function(object) standardGeneric("multiLabels"))

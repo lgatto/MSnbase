@@ -42,6 +42,8 @@ exportMethods(show,"[","[[",
               header,
               normalise,
               dim,
+              multiplex,
+              multiLabels,
               reporterNames,"reporterNames<-")
 ## methods NOT exported
 ## curveStats
