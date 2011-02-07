@@ -27,7 +27,10 @@ setMethod("show",
                   cat("",length(unique(msnPrecMz)),"unique MZs\n")
                   cat(" Precursor MZ's:",paste(signif(range(msnPrecMz),5),collapse=" - "),"\n")
                 }
-                msnMzRange <- round(range(mz(object)),2)
+                ## msnMzRange <- round(range(mz(object)),2) ## this takes a huge amount of time
+                ## but this one is much faster... don't know why
+                msnMzRange <- round(range(sapply(mz(object),range)),2)
+
                 cat(" MSn M/Z range:",msnMzRange,"\n")
               } else {
                 cat(" Number of MS1 scans:",length(spectra(object)),"\n")
