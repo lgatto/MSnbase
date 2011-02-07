@@ -29,8 +29,9 @@ setMethod("show",
                 }
                 ## msnMzRange <- round(range(mz(object)),2) ## this takes a huge amount of time
                 ## but this one is much faster... don't know why
+                ## The above is as fast as the one below for un-named lists
+                ## Rprof indicates that the different in time is spend in "c"
                 msnMzRange <- round(range(sapply(mz(object),range)),2)
-
                 cat(" MSn M/Z range:",msnMzRange,"\n")
               } else {
                 cat(" Number of MS1 scans:",length(spectra(object)),"\n")
