@@ -28,9 +28,10 @@ setMethod("show",
                   cat(" Precursor MZ's:",paste(signif(range(msnPrecMz),5),collapse=" - "),"\n")
                 }
                 ## msnMzRange <- round(range(mz(object)),2) ## this takes a huge amount of time
-                ## but this one is much faster... don't know why
-                ## The above is as fast as the one below for un-named lists
-                ## Rprof indicates that the different in time is spend in "c"
+                ## but the one is MUCH faster
+                ## This is because of the c(..., recursive = TRUE) in range.degault,
+                ## that unlists the mz(object) resulting list in a VERY long NAMED vector,
+                ## and producing the names is very time consuming
                 msnMzRange <- round(range(sapply(mz(object),range)),2)
                 cat(" MSn M/Z range:",msnMzRange,"\n")
               } else {
