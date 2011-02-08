@@ -6,7 +6,7 @@
 \alias{class:NAnnotatedDataFrame}
 
 \alias{multiplex,NAnnotatedDataFrame-method}
-\alias{multiLabel,NAnnotatedDataFrame-method}
+\alias{multiLabels,NAnnotatedDataFrame-method}
 \alias{dim,NAnnotatedDataFrame-method}
 \alias{show,NAnnotatedDataFrame-method}
 \alias{multiplex}

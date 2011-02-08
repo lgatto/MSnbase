@@ -6,7 +6,19 @@
 \alias{MSnSet}
 
 %% TODO add methods
+\alias{dim,MSnSet-method}
+\alias{fileNames,MSnSet-method}
+%%\alias{normalise,MSnSet-method}
+\alias{processingData,MSnSet-method}
+\alias{proteomicsData,MSnSet-method}
+\alias{proteomicsData<-,MSnSet-method}
+\alias{proteomicsData<-,MSnSet,ANY-method}
+\alias{proteomicsData<-,MSnSet,MIAPE-method}
+\alias{qual,MSnSet-method}
+\alias{qual}
+%%\alias{ratios,MSnSet-method}
 \alias{show,MSnSet-method}
+
 
 \title{
   The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
@@ -96,8 +108,29 @@
 }
 
 \section{Methods}{
-  See \code{"\linkS4class{ExpressionSet}"} methods.
-  %% more methods to add
+  MSnSet specific methods or over-ridding it's super-class are described
+  below. See also more \code{"\linkS4class{ExpressionSet}"} for
+  inherited methods. 
+
+  \describe{
+    \item{dim}{\code{signature(x = "MSnSet")}: Returns the dimensions of
+      object's assay data, i.e the number of samples and the number of
+      features. }
+    \item{fileNames}{\code{signature(object = "MSnSet")}: Access file
+      names in the \code{processingData} slot. }
+    \item{processingData}{\code{signature(object = "MSnSet")}: Access the
+      \code{processingData} slot. }    
+    \item{proteomicsData}{\code{signature(x = "MSnSet")}: Access the
+      \code{proteomicsData} slot. }
+    \item{proteomicsData<-}{\code{signature(x = "MSnSet", value="MIAPE")}:
+      Set the \code{proteomicsData} slot. }
+    \item{show}{\code{signature(object = "MSnSet")}: Displays object
+      content as text. }
+    \item{qual}{\code{signature(object = "MSnSet")}: Access the reporter
+      ion peaks description. }
+    % \item{ratios}{\code{signature(object = "MSnSet")}: ... }
+    % \item{normalise}{\code{signature(object = "MSnSet")}: ... }
+  }    
 }
 
 
@@ -108,6 +141,7 @@
 \seealso{
   \code{"\linkS4class{eSet}"} and \code{"\linkS4class{ExpressionSet}"}.
 }
+
 \examples{
 mzxmlfile <- dir(system.file("extdata",package="MSnbase"),
                  pattern="mzXML",full.names=TRUE)

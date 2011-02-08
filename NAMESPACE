@@ -17,6 +17,7 @@ exportClasses(pSet,
 
 exportMethods(show,"[","[[",
               fileNames,
+              qual,
               length,
               plot,
               spectra,
@@ -40,7 +41,6 @@ exportMethods(show,"[","[[",
               trimMz,
               quantify,
               header,
-              normalise,
               dim,
               multiplex,
               multiLabels,
@@ -49,7 +49,7 @@ exportMethods(show,"[","[[",
 ## curveStats
 ## ms1scan
 ## "precursorCharge<-"
-## qual
 ## ratios
+## normalise
 
 

@@ -40,19 +40,17 @@
 \alias{processingData,pSet-method}
 \alias{processingData}
 \alias{proteomicsData,pSet-method}
-\alias{proteomicsData,MSnExp-method}
 \alias{proteomicsData}
+\alias{proteomicsData<-}
 \alias{proteomicsData<-,pSet-method}
-\alias{proteomicsData<-,MSnExp-method}
-\alias{proteomicsData<-,MSnExp,ANY-method}
-\alias{proteomicsData<-,MSnExp,MIAPE-method}
+\alias{proteomicsData<-,pSet,ANY-method}
+\alias{proteomicsData<-,pSet,MIAPE-method}
 \alias{proteomicsData<-}
 \alias{protocolData,pSet-method}
 \alias{pubMedIds,pSet-method}
 \alias{rtime,pSet-method}
 \alias{sampleNames,pSet-method}
 \alias{spectra,pSet-method}
-\alias{spectra,MSnExp-method}
 \alias{spectra}
 \alias{tic,pSet-method}
 \alias{varLabels,pSet-method}
@@ -156,7 +154,7 @@
       \code{assayData} slot. }
     \item{fileNames}{\code{signature(object = "pSet")}: Access file
       names in the \code{processingData} slot. }
-    \item{fromFile}{\code{signature(object = "MSnExp")}: Access raw data
+    \item{fromFile}{\code{signature(object = "pSet")}: Access raw data
       file indexes (to be found in the 'code{processingData}' slot) from
       which the individual object's spectra where read from. }
     \item{fvarMetadata}{\code{signature(x = "pSet")}: Access metadata

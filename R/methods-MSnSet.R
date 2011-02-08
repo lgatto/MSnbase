@@ -15,27 +15,23 @@ setMethod("normalise","MSnSet",
           normalise.MSnSet(object,match.arg(method))
           )
 setMethod("dim","MSnSet",function(x) dim(exprs(x)))
-setMethod("ratios","MSnSet",function(object) ratios.MSnSet(object))
+setMethod("ratios","MSnSet",function(object,...) ratios.MSnSet(object,...))
 setMethod("qual","MSnSet", function(object) object@qual)
 ## Not sure about these...
 ## setMethod("featureNames<-","MSnSet",
 ##           function(object,value="character") object@features <- value)
-setReplaceMethod("featureNames",
-                 signature(object="MSnSet",
-                           value="character"),
-                 function(object, value) {
-                   object@features = value
-                   if (validObject(object))
-                     return(object)
-                 })
+## setReplaceMethod("featureNames",
+##                  signature(object="MSnSet",
+##                            value="character"),
+##                  function(object, value) {
+##                    object@features = value
+##                    if (validObject(object))
+##                      return(object)
+##                  })
 
 setMethod("proteomicsData","MSnSet",function(object) object@proteomicsData)
 setMethod("proteomicsData<-","MSnSet",
           function(object,value="MIAPE") object@proteomicsData <- value)
-
-setMethod("fileNames",
-          signature(object="MSnSet"),
-          function(object) processingData(object)@files)
 
 setReplaceMethod("proteomicsData",
                  signature(object="MSnSet",
@@ -45,6 +41,10 @@ setReplaceMethod("proteomicsData",
                    if (validObject(object))
                      return(object)
                  })
+
+setMethod("fileNames",
+          signature(object="MSnSet"),
+          function(object) processingData(object)@files)
 
 setMethod("processingData",
           signature(object="MSnSet"),

@@ -17,8 +17,8 @@ normalise.MSnSet <- function(object,method) {
   return(object)
 }
 
-ratios.MSnSet <- function(object) {
-  r <- apply(exprs(object),1,getRatios)
+ratios.MSnSet <- function(object,log=FALSE) {
+  r <- apply(exprs(object),1,getRatios,log)
   r <- t(r)
   rownames(r) <- featureNames(object)
   return(r)

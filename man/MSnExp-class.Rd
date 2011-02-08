@@ -14,10 +14,14 @@
 \alias{extractSpectra,MSnExp,logical-method}
 \alias{plot,MSnExp}
 \alias{plot,MSnExp,missing-method}
+\alias{proteomicsData,MSnExp-method}
+\alias{proteomicsData<-,MSnExp,ANY-method}
+\alias{proteomicsData<-,MSnExp,MIAPE-method}
 \alias{quantify,MSnExp-method}
 \alias{quantify,MSnExp,character-method}
 \alias{removePeaks,MSnExp-method}
 \alias{show,MSnExp-method}
+\alias{spectra,MSnExp-method}
 \alias{trimMz,MSnExp-method}
 \alias{trimMz,MSnExp,numeric-method}
 
@@ -93,8 +97,9 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
 }
 
 \section{Methods}{
-  See the \code{"linkS4class{pSet}"} class for documentation on slot
-  accessors, subsetting and general attribute accession.
+  See the \code{"linkS4class{pSet}"} class for documentation on 
+  accessors inherited from \code{pSet}, subsetting and general attribute
+  accession. 
   
   \describe{
     \item{clean}{\code{signature(object = "MSnExp")}: Removes unused 0
