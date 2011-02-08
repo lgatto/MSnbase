@@ -1,21 +1,22 @@
 TODO for Package MSnbase    -*- mode: org; -*-
 
-* Documentation [0/1]
-  - [ ] MSnProcess-class.Rd: add links to the cleaning, peak removing 
+* Documentation [2/2]
+  - [X] MSnProcess-class.Rd: add links to the cleaning, peak removing 
 	and merging methods/functions in the documentation.
-  - [ ] readMzXMLMData.Rd: add links to removePeaks and clean methods 
+  - [X] readMzXMLMData.Rd: add links to removePeaks and clean methods 
 	once documented.
-* Bugs [1/3]
- - [ ] check header function
- - [ ] quantification: intensities that do not start/end with 0, 
+* Bugs [3/3]
+ - [X] check header function
+ - [X] quantification: intensities that do not start/end with 0, 
        which leads to errors in getCurveWidth (while (ylwr!=0) line) 
        (see Velos data for instance). This has been fixed, but another 
        error in utils:::area:
        Error in if (min(y) != 0) { : missing value where TRUE/FALSE needed
  - [X] MSnProcess slot MSnbaseVersion is of length 13?
 
-* Code [6/6]
- - [ ] Export documented MSnExp methods
+* Code [7/8]
+ - [ ] Add xlim paramter to plotting methods (reuse reporters=zoom())
+ - [X] Export documented MSnExp methods
  - [ ] automate ReporterIons data serialization.
  - [X] add curveData collection to quantify method.
  - [X] MSnQual class in DataClasses.R: add metadata (eSet slots)

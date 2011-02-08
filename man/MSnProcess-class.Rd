@@ -27,10 +27,11 @@
     \item{\code{merged}:}{Object of class \code{"logical"} indicating
       whether spectra have been merged. }
     \item{\code{cleaned}:}{Object of class \code{"logical"} indicating
-      whether spectra have been cleaned. }
+      whether spectra have been cleaned. See \code{\link{clean}} for
+      more details and examples. } 
     \item{\code{removedPeaks}:}{Object of class \code{"character"}
       describing whether peaks have been removed and which threshold was
-      used. }
+      used. See \code{\link{removePeaks}} for more details and examples. }
     \item{\code{smoothed}:}{Object of class \code{"logical"} indicating
       whether spectra have been smoothed. }
     \item{\code{centroided}:}{Object of class \code{"logical"}

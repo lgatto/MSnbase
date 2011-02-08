@@ -27,12 +27,9 @@ setMethod("show",
                   cat("",length(unique(msnPrecMz)),"unique MZs\n")
                   cat(" Precursor MZ's:",paste(signif(range(msnPrecMz),5),collapse=" - "),"\n")
                 }
-                ## msnMzRange <- round(range(mz(object)),2) ## this takes a huge amount of time
-                ## but the one is MUCH faster
-                ## This is because of the c(..., recursive = TRUE) in range.degault,
-                ## that unlists the mz(object) resulting list in a VERY long NAMED vector,
-                ## and producing the names is very time consuming
-                msnMzRange <- round(range(sapply(mz(object),range)),2)
+                msnMz <- unname(mz(object)) ## unnaming list to avoid
+                                            ## huge time oberhead in range(msnMz)
+                msnMzRange <- round(range(msnMz),2) 
                 cat(" MSn M/Z range:",msnMzRange,"\n")
               } else {
                 cat(" Number of MS1 scans:",length(spectra(object)),"\n")

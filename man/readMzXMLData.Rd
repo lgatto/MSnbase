@@ -45,7 +45,8 @@ readMzXMLData(files, pdata = NULL, msLevel = 2, verbose = TRUE, centroided = FAL
   }
   \item{clean}{
     Logical indicating whether 0 intensity peaks should be discarded
-    from spectra. Useful is removePeaks is set. Default is 'FALSE'.
+    from spectra. Useful is removePeaks is set. Default is 'FALSE'. See
+    \code{\link{clean}} for more details and examples. 
   }
 }
 
