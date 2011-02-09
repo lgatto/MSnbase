@@ -3,7 +3,6 @@ import("graphics")
 
 export(readMzXMLData,
        formatRt,
-       pseudo3dplot,
        extractSpectra,
        extractPrecSpectra)
 
@@ -20,6 +19,7 @@ exportMethods(show,"[","[[",
               qual,
               length,
               plot,
+              plot2d,
               spectra,
               processingData,
               proteomicsData,"proteomicsData<-",

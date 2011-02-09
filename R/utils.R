@@ -169,37 +169,13 @@ utils.clean <- function(x) {
   return(b)
 }
 
-area <- function(pts,verbose=FALSE) {
-  ## pl: 2x2 data frame or matrix
-  ##  with points along the rows
-  ##  and x and y coordinations in cols 1 and 2
-  if (any(dim(pts)!=c(2,2)))
-    stop("requires 2(points)x2(x,y coordinates) matrix or data frame as input")
-  area <- 0
-  x <- pts[,1]
-  y <- pts[,2]
-  ## triangle
-  b <- abs(x[1]-x[2])
-  h <- abs(y[1]-y[2])
-  area <- area + ((b*h)/2)
-  if (verbose)
-    cat(" trianlge area:",area,"\n")
-  if (min(y)!=0) { ## there is a rectangle
-    h <- min(y)
-    if (verbose)
-      cat(" rectangle area:",b*h,"\n")
-    area <- area + (h*b)
-  }
-  if (verbose)
-    cat(" total area:",area,"\n")
-  return(area)
-}
-
 zoom <- function(x,w=0.05) {
   new("ReporterIons",
       mz=x,
       width=w,
-      col=rep("grep",length(x)))
+      name="xlim",
+      reporterNames=paste("xlim",x,sep="."),
+      col=rep("grey",length(x)))
 }
 
 
@@ -217,17 +193,6 @@ getRatios <- function(x,log=FALSE) {
   return(r)
 }
 
-pseudo3dplot <- function(hx) {
-  retention.time <- precursor.mz <- peaks.count <- NULL # to satisfy codetools
-  ## pseudo3dplot: no visible binding for global variable ‘retention.time’
-  ## pseudo3dplot: no visible binding for global variable ‘precursor.mz’
-  ## pseudo3dplot: no visible binding for global variable ‘peaks.count’
-  p <- ggplot(hx,aes(retention.time,precursor.mz)) +
-    geom_point(aes(color=peaks.count)) + 
-      scale_colour_gradientn(colour=colorRampPalette(c("grey","blue","red","yellow"))(100), 
-                             breaks=seq(min(hx$peaks.count),max(hx$peaks.count),length=8))
-  return(p)
-  }
 
 getBins <- function(x) {
   bins <- numeric(length(x))
@@ -238,4 +203,18 @@ getBins <- function(x) {
            bins[i] <- bins[i-1]+1)
   }
   return(bins)
+}
+
+utils.plot2d <- function(object,z=c("tic","file","peaks.count","charge")) {
+  z <- match.arg(z)
+  stopifnot(c("retention.time","precursor.mz",z) %in% names(object))
+  peaks.count <- charge <- retention.time <- precursor.mz <- NULL # to satisfy codetools
+  p <- ggplot(object,aes(retention.time,precursor.mz)) + labs(colour=z)
+  switch(z,
+         tic = p <- p+ geom_point(aes(colour=tic)),
+         peaks.count = p <- p+ geom_point(aes(colour=peaks.count)),
+         file = p <- p+ geom_point(aes(colour=as.factor(file))),
+         charge = p <- p+ geom_point(aes(colour=as.factor(charge))))
+  print(p)
+  invisible(p)
 }

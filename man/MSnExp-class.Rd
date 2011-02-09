@@ -14,6 +14,8 @@
 \alias{extractSpectra,MSnExp,logical-method}
 \alias{plot,MSnExp}
 \alias{plot,MSnExp,missing-method}
+\alias{plot2d,MSnExp-method}
+\alias{plot2d,MSnExp,character-method}
 \alias{proteomicsData,MSnExp-method}
 \alias{proteomicsData<-,MSnExp,ANY-method}
 \alias{proteomicsData<-,MSnExp,MIAPE-method}
@@ -118,6 +120,10 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
     \item{plot}{\code{signature(x = "MSnExp", y = "missing")}: Plots all
       the spectra of the \code{MSnExp} instance. See
       \code{\link{plot.MSnExp}} documentation for more details. } 
+    \item{plot2d}{\code{signature(object = "MSnExp", z = "character")}:
+      Plots retention time against precursor MZ for \code{MSnExp}
+      instance. See \code{\link{plot2d}} documentation for more
+      details. } 
     \item{quantify}{\code{signature(object = "MSnExp")}: Performs
       quantification for all the MS2 spectra of the \code{MSnExp}
       instance. See \code{\link{quantify}} documentation for more

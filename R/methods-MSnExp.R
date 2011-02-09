@@ -73,6 +73,12 @@ setMethod("show",
 setMethod("plot",c("MSnExp","missing"),
           function(x,y,...) plot.MSnExp(x,...))
 
+setMethod("plot2d",c("MSnExp","character"),
+          function(object,z) utils.plot2d(header(object),z))
+
+setMethod("plot2d",c("data.frame","character"),
+          function(object,z) utils.plot2d(object,z))
+
 setMethod("clean",
           signature=signature("MSnExp"),
           function(object,verbose=TRUE) clean.MSnExp(object,verbose))

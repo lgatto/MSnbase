@@ -5,9 +5,7 @@
 \alias{plot.Spectrum}
 \alias{plot}
 
-
-\title{ Plotting 'Spectrum' object }
-
+\title{ Plotting 'Spectrum' object(s) }
 
 \description{
   These method plot mass spectra MZ values against the intensities as
@@ -22,7 +20,21 @@
   extract spectra of interest using the \code{\link{extractSpectra}} or
   \code{\link{extractPrecSpectra}} methods.
 
-  The methods make use the \code{ggplot2} system.
+  The methods make use the \code{ggplot2} system. An object of class
+  'ggplot' is returned invisibly. 
+}
+
+\arguments{
+  \item{x}{ Objects of class \code{"\linkS4class{Spectrum}"} or
+    \code{"\linkS4class{MSnExp}"} to be plotted. }
+  \item{y}{ Not used in these methods. }
+  \item{reporters}{ An object of class
+    \code{"\linkS4class{ReporterIons}"} that defines the peaks to be
+    plotted. If not specified, \code{full} must be set to 'TRUE'.} 
+  \item{full}{Logical indicating whether full spectrum (respectively
+    spectra) of  only reporter ions of interest should be
+    plotted. Default is 'FALSE', in which case \code{reporters} must be
+    defined. } 
 }
 
 \section{Methods}{
@@ -45,19 +57,6 @@
       by default.
     }
   }
-}
-
-\arguments{
-  \item{x}{ Objects of class \code{"\linkS4class{Spectrum}"} or
-    \code{"\linkS4class{MSnExp}"} to be plotted. }
-  \item{y}{ Not used in these methods. }
-  \item{reporters}{ An object of class
-    \code{"\linkS4class{ReporterIons}"} that defines the peaks to be
-    plotted. If not specified, \code{full} must be set to 'TRUE'.} 
-  \item{full}{Logical indicating whether full spectrum (respectively
-    spectra) of  only reporter ions of interest should be
-    plotted. Default is 'FALSE', in which case \code{reporters} must be
-    defined. } 
 }
 
 \author{
