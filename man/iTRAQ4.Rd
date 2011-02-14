@@ -1,6 +1,8 @@
 \name{iTRAQ4}
 \alias{iTRAQ4}
 \alias{iTRAQ5}
+\alias{iTRAQ8}
+\alias{iTRAQ9}
 \docType{data}
 
 \title{ iTRAQ 4-plex set }
@@ -18,6 +20,8 @@
 \usage{
 data(iTRAQ4)
 data(iTRAQ5)
+data(iTRAQ8)
+data(iTRAQ9)
 }
 
 \references{
