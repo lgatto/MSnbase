@@ -65,9 +65,11 @@ quantify.Spectrum <- function(spectrum,method,reporters) {
         x <- vector(mode = "numeric", length = n)
         for (j in 1:n) {
           k <- (j%%n) + 1
-          x[j] <- dfr$mz[j] * dfr$int[k] - dfr$mz[k] * dfr$int[j]
+          x[j] <- dfr$mz[j] * dfr$int[k] - dfr$mz[k] * dfr$int[j]          
         }
         peakQuant[i] <- abs(sum(x)/2)
+        ## area using zoo's rollmean, but seems slightly slower
+        ## peakQuant[i] <- abs(sum(diff(dfr$int)*rollmean(dfr$mz,2)))
       }
     } 
     else if (method=="sum") {
@@ -86,7 +88,6 @@ quantify.Spectrum <- function(spectrum,method,reporters) {
   return(list(peakQuant=peakQuant,
               curveStats=curveStats))
 }
-
 
 
 ## curveStats.Spectrum <- function(spectrum,reporters) {
