@@ -1,5 +1,5 @@
 ##' Reads an ispy2 result spread sheet and creates a fully featured MSnSet instance
-##'
+#'
 ##'\code{readIspyData} reads an ispy2 result spread sheet in tsv format
 ##' and parses the reporter values and the identification meta data to
 ##' generate a fully features MSnSet object.
@@ -7,9 +7,9 @@
 ##' @title readIspyData
 ##' @aliases readIspyData
 ##' @usage
-##' readIspyData(file,uniquePeps=TRUE,pep=0.05,
+##' readIspyData(filename,uniquePeps=TRUE,pep=0.05,
 ##' na.rm=TRUE, min.int=0,reporters=19:23,skipFullUp=24,verbose=TRUE) 
-##' @param file A character indicating the name of ispy2 result tsv file
+##' @param filename A character indicating the name of ispy2 result tsv file
 ##' @param uniquePeps A logical indicating whether only unique peptides
 ##' should be imported. Default is TRUE.
 ##' @param pep A numeric indicating the posterior error probability thershold
@@ -33,7 +33,7 @@
 ##' @seealso \code{\linkS4class{MSnSet}} class.
 ##' @author Laurent Gatto
 ##' @export
-##' @keywords data utilities 
+##' @keywords data utilities
 readIspyData <- function(file="ispy_results.tsv",
                          uniquePeps=TRUE,
                          pep=0.05,
@@ -124,6 +124,83 @@ readIspyData <- function(file="ispy_results.tsv",
                     "from ispy result file."),
                   normalised=FALSE,
                   files=file)
+  return(new("MSnSet",
+             exprs=.exprs,
+             featureData=new("AnnotatedDataFrame",data=.featureData),
+             processingData=.process))
+}
+
+
+
+readIspyData2 <- function(filename="ispy_results.tsv",
+                          uniquePeps=TRUE,
+                          pep=0.05,
+                          na.rm=TRUE,
+                          min.int=0,
+                          reporters=19:23,
+                          skipFillUp=24,
+                          verbose=TRUE) {
+  cat("Reading table\n")  
+  tab <- read.csv(filename,header=TRUE,sep="\t",fill=TRUE,
+                  colClasses=c(
+                    "factor",    # [1] "Index"
+                    "character",  # [2] "Protein_Accession"
+                    "character",  # [3] "Protein_Description"
+                    "numeric",    # [4] "Protein_Q.Value_.unique_peptides_only."
+                    "numeric",    # [5] "Protein_Type_1_Error_.unique_peptides_only."
+                    "numeric",    # [6] "Number_Of_Unique_Peptides"
+                    "character",  # [7] "Peptide_Sequence"
+                    "numeric",    # [8] "Peptide_Parent_Proteins"
+                    "character",  # [9] "MS_File_ID"
+                    "numeric",    # [10] "Peptide_Type_1_Error_For_MS_File"
+                    "character",  # [11] "Fixed_Modifications"
+                    "numeric",    # [12] "Fixed_Modification_Mass_Shift"
+                    "character",  # [13] "Variable_Modifications"#
+                    "numeric",    # [14] "Variable_Modification_Mass_Shift"
+                    "numeric",    # [15] "Precursor_MZ"
+                    "character",  # [16] "MS_Scan_ID"#
+                    "character",  # [17] "Mascot_Query"
+                    "numeric",    # [18] "Posterior_Error_Probability"
+                    rep("numeric",length(reporters)),
+                    "numeric"     #[28] "precursor_relative_signal"
+                    )) 
+  tab$Mascot_Query <- sub(",[0-0]+\\)&","",
+                          sub("=HYPERLINK\\(","",tab$Mascot_Query))
+  .exprs <- as.matrix(tab[,reporters])
+  .featureData <- tab[,-reporters]
+  if (verbose)
+    cat("Filtering\n")
+  ## Default filters keep all features
+  keep.uniq <- keep.pep <- keep.na <- keep.int <- rep(TRUE,nrow(.exprs))
+  ## Filtering on uniqueness of peptides
+  if (uniquePeps) 
+    keep.uniq <- .featureData$Peptide_Parent_Proteins==1
+  ## Filtering on posterior error probability
+  keep.pep <- .featureData$Posterior_Error_Probability<pep
+  ## Remove features with NAs
+  if (na.rm)
+    keep.na <- apply(.exprs,1,function(x) !any(is.na(x)))
+  rowsums <- rowSums(.exprs,na.rm=TRUE)
+  keep.int <- rowsums>min.int
+  if (verbose)
+    cat(" keep.na: ",sum(keep.na),"\n",
+        "keep.int: ",sum(keep.int),"\n",
+        "keep.pep: ",sum(keep.pep),"\n",
+        "keep.uniq: ",sum(keep.uniq),"\n")
+  ## Applying filter
+  keep <- keep.na & keep.pep & keep.uniq & keep.int
+  .featureData <- .featureData[keep,]
+  .exprs <- .exprs[keep,]
+  ## if (any(is.na(.featureData)))
+  ##   stop("NA values in .featureData.")
+  if (any(is.na(.exprs)))
+    warning("NA values in .exprs.")
+  ## Preparing return object slots and return new MSnSet
+  .process <- new("MSnProcess",
+                  processing=paste("Data loaded:",date(),
+                    "from ispy result file."),
+                  normalised=FALSE,
+                  files=filename)
   return(new("MSnSet",
              exprs=.exprs,
              featureData=new("AnnotatedDataFrame",data=.featureData),
