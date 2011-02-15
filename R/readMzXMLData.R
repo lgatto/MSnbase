@@ -33,7 +33,8 @@ readMzXMLData <- function(files,
           "spectra from file",files[i],"\n")
     spectra[[i]] <- vector("list",length=length(raw$rt))
     fromFile <- c(fromFile,rep(i,length(raw$rt)))
-    pb <- txtProgressBar(min=0,max=length(raw$rt),style=3)
+    if (verbose)
+      pb <- txtProgressBar(min=0,max=length(raw$rt),style=3)
     for (j in 1:length(raw$rt)) {
       if (msLevel>1) {
         spectra[[i]][[j]] <- rawToSpectrum2(raw,j,
@@ -51,7 +52,8 @@ readMzXMLData <- function(files,
       if (verbose)
         setTxtProgressBar(pb, j)
     }
-    close(pb)
+    if (verbose)
+      close(pb)
   }
   rm(raw)
   gc()
