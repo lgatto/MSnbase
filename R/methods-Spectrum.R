@@ -20,8 +20,8 @@ setMethod("initialize",
 
 setMethod("show","Spectrum",
           function(object) {
-            if (msLevel(spectrum)==1) show.Spectrum1(spectrum)
-            else show.Spectrum2(spectrum)
+            if (msLevel(object)==1) show.Spectrum1(object)
+            else show.Spectrum2(object)
           })
 
 setMethod("plot",c("Spectrum","missing"),
