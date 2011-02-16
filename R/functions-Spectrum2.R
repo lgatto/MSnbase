@@ -1,6 +1,6 @@
 show.Spectrum2 <- function(spectrum) {
   cat("Object of class \"",class(spectrum),"\"\n",sep="")
-  if (length(spectrum@merged)>0)
+  if (length(spectrum@merged)>1)
     cat(" Merged from ",length(spectrum@merged),"MSn spectra\n")
   cat(" Precursor:",spectrum@precursorMz,"\n")
   cat(" Retention time:",formatRt(spectrum@rt),"\n")

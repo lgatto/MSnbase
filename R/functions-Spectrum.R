@@ -1,9 +1,3 @@
-show.Spectrum <- function(spectrum) {
-  if (msLevel(spectrum)==1) show.Spectrum1(spectrum)
-  else show.Spectrum2(spectrum)
-}
-    
-
 removePeaks.Spectrum <- function(spectrum,t="min") {
   if (t=="min") 
     t <- min(intensity(spectrum)[intensity(spectrum)>0])
