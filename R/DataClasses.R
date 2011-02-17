@@ -15,7 +15,7 @@ setClass("MSnProcess",
            MSnbaseVersion="character"),
          contains=c("Versioned"),
          prototype = prototype(
-           new("Versioned", versions=c(MSnProcess="0.1.0")),
+           new("Versioned", versions=c(MSnProcess="0.1.1")),
            processing=character(),
            files=character(),
            trimmed=numeric(),
