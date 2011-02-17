@@ -36,6 +36,8 @@
       whether spectra have been smoothed. }
     \item{\code{centroided}:}{Object of class \code{"logical"}
       indicating whether spectra have been centroided. }
+    \item{\code{trimmed}:}{Object of class \code{"numeric"} documenting
+      if/how the data has been trimmed. }
     \item{\code{normalised}:}{Object of class \code{"logical"}
       describing whether and how data have been normalised. }
     \item{\code{MSnbaseVersion}:}{Object of class \code{"character"}

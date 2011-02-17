@@ -9,6 +9,7 @@ setClass("MSnProcess",
            cleaned="logical",
            removedPeaks="character",
            smoothed="logical",
+           trimmed="numeric",
            centroided="logical",
            normalised="logical",
            MSnbaseVersion="character"),
@@ -17,10 +18,8 @@ setClass("MSnProcess",
            new("Versioned", versions=c(MSnProcess="0.1.0")),
            processing=character(),
            files=character(),
+           trimmed=numeric(),
            removedPeaks=character(),
-           ## will have to check whether this is a problem during 
-           ## package building, checking when packahe not yet installed
-           ## as well as during first installation
            ## Put this in an initialise() method!
            MSnbaseVersion=ifelse(
              is.na(packageDescription("MSnbase",fields="Version")),

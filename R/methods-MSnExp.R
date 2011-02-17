@@ -99,6 +99,8 @@ setMethod("trimMz",
           function(object,mzlim,...) {
             trimmed <- eapply(assayData(object),trimMz,mzlim,...)
             object@assayData <- list2env(trimmed)
+            object@processingData@trimmed <- c(max(object@processingData@trimmed[1],mzlim[1]),
+                                               min(object@processingData@trimmed[2],mzlim[2]))
             return(object)
           })
 
