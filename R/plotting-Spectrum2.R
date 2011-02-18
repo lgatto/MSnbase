@@ -29,7 +29,7 @@ plot.Spectrum2 <- function(spectrum,reporters=NULL,full=FALSE) {
                            alpha=alpha)) 
   }
   p <- p +
-    geom_point(alpha=I(1/10)) +
+    ## geom_point(alpha=I(1/10)) +
       geom_line() +
         opts(legend.position = "none")
   if (!is.null(reporters)) {
@@ -49,9 +49,9 @@ plot.Spectrum2 <- function(spectrum,reporters=NULL,full=FALSE) {
   }
   if (full) {
     print(p+title,vp=mainvp)
+    invisible(p+title)
      if (!is.null(reporters)) 
       print(reps,vp=subvp)
-    invisible(p+title)
   } else {
     print(reps+title,vp=mainvp)
     invisible(reps+title)
