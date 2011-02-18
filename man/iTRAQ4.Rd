@@ -37,8 +37,16 @@ data(iTRAQ9)
 \examples{
 data(iTRAQ4)
 iTRAQ4
-data(iTRAQ5)
-iTRAQ5
+iTRAQ4[1:2]
+
+newReporter <- new("ReporterIons",
+                   description="an example",
+                   name="my reporter ions",
+                   reporterNames=c("myrep1","myrep2"),
+                   mz=c(121,122),
+                   col=c("red","blue"),
+                   width=0.05)
+newReporter
 }
 
 \seealso{

@@ -35,8 +35,16 @@ data(TMT7)
 \examples{
 data(TMT6)
 TMT6
-data(TMT7)
-TMT7
+TMT6[1:2]
+
+newReporter <- new("ReporterIons",
+                   description="an example",
+                   name="my reporter ions",
+                   reporterNames=c("myrep1","myrep2"),
+                   mz=c(121,122),
+                   col=c("red","blue"),
+                   width=0.05)
+newReporter
 }
 
 \seealso{
