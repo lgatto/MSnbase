@@ -76,6 +76,14 @@ setMethod("precursorCharge","pSet",
               return(sapply(spectra(object), precursorCharge))
             stop("No precursor MZ value for MS1 spectra.")
           })
+
+setMethod("precursorIntensity","pSet",
+          function(object) {
+            if (msLevel(object)[1]>1) 
+              return(sapply(spectra(object), precursorIntensity))
+            stop("No precursor data for MS1 spectra.")
+          })
+
 setMethod("acquisitionNum","pSet",
           function(object) sapply(spectra(object), acquisitionNum))
 

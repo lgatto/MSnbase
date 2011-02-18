@@ -63,7 +63,7 @@
     basePeakIntensity="9"
     totIonCurrent="672"
     collisionEnergy="25.1958" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >424.76651001</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >424.76651001</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -82,7 +82,7 @@
     basePeakIntensity="7"
     totIonCurrent="395"
     collisionEnergy="25.1958" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >424.76651001</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >424.76651001</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -101,7 +101,7 @@
     basePeakIntensity="7"
     totIonCurrent="385"
     collisionEnergy="25.1958" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >424.76651001</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >424.76651001</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -120,7 +120,7 @@
     basePeakIntensity="8"
     totIonCurrent="349"
     collisionEnergy="25.1958" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >424.76651001</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >424.76651001</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -139,7 +139,7 @@
     basePeakIntensity="8"
     totIonCurrent="349"
     collisionEnergy="25.1958" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >424.76651001</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >424.76651001</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -158,7 +158,7 @@
     basePeakIntensity="7"
     totIonCurrent="349"
     collisionEnergy="25.1958" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >424.76651001</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >424.76651001</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -177,7 +177,7 @@
     basePeakIntensity="10"
     totIonCurrent="369"
     collisionEnergy="25.1958" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >424.76651001</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >424.76651001</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -196,7 +196,7 @@
     basePeakIntensity="8"
     totIonCurrent="402"
     collisionEnergy="25.1958" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >424.76651001</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >424.76651001</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -215,7 +215,7 @@
     basePeakIntensity="10"
     totIonCurrent="380"
     collisionEnergy="25.1958" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >424.76651001</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >424.76651001</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -251,7 +251,7 @@
     basePeakIntensity="9"
     totIonCurrent="696"
     collisionEnergy="25.2038" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >425.77908325</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >425.77908325</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -270,7 +270,7 @@
     basePeakIntensity="7"
     totIonCurrent="548"
     collisionEnergy="25.2038" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >425.77908325</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >425.77908325</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -289,7 +289,7 @@
     basePeakIntensity="7"
     totIonCurrent="464"
     collisionEnergy="25.2038" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >425.77908325</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >425.77908325</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -308,7 +308,7 @@
     basePeakIntensity="6"
     totIonCurrent="479"
     collisionEnergy="25.2038" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >425.77908325</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >425.77908325</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -327,7 +327,7 @@
     basePeakIntensity="7"
     totIonCurrent="467"
     collisionEnergy="25.2038" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >425.77908325</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >425.77908325</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -346,7 +346,7 @@
     basePeakIntensity="9"
     totIonCurrent="478"
     collisionEnergy="25.2038" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >425.77908325</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >425.77908325</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -365,7 +365,7 @@
     basePeakIntensity="7"
     totIonCurrent="407"
     collisionEnergy="25.2038" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >425.77908325</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >425.77908325</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -384,7 +384,7 @@
     basePeakIntensity="6"
     totIonCurrent="424"
     collisionEnergy="25.2038" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >425.77908325</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >425.77908325</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -403,7 +403,7 @@
     basePeakIntensity="6"
     totIonCurrent="409"
     collisionEnergy="25.2038" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >425.77908325</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >425.77908325</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -439,7 +439,7 @@
     basePeakIntensity="9"
     totIonCurrent="1152"
     collisionEnergy="25.5913" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >474.80105591</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >474.80105591</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -458,7 +458,7 @@
     basePeakIntensity="11"
     totIonCurrent="1064"
     collisionEnergy="25.4527" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >457.26855469</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >457.26855469</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -477,7 +477,7 @@
     basePeakIntensity="8"
     totIonCurrent="593"
     collisionEnergy="26.3784" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >574.36175537</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >574.36175537</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -496,7 +496,7 @@
     basePeakIntensity="10"
     totIonCurrent="947"
     collisionEnergy="25.5913" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >474.80105591</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >474.80105591</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -515,7 +515,7 @@
     basePeakIntensity="11"
     totIonCurrent="870"
     collisionEnergy="25.4527" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >457.26855469</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >457.26855469</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -534,7 +534,7 @@
     basePeakIntensity="10"
     totIonCurrent="517"
     collisionEnergy="26.3784" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >574.36175537</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >574.36175537</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -553,7 +553,7 @@
     basePeakIntensity="10"
     totIonCurrent="709"
     collisionEnergy="25.5913" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >474.80105591</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >474.80105591</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -572,7 +572,7 @@
     basePeakIntensity="11"
     totIonCurrent="958"
     collisionEnergy="25.4527" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >457.26855469</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >457.26855469</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -591,7 +591,7 @@
     basePeakIntensity="11"
     totIonCurrent="720"
     collisionEnergy="26.3784" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >574.36175537</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >574.36175537</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -610,7 +610,7 @@
     basePeakIntensity="13"
     totIonCurrent="989"
     collisionEnergy="25.5913" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >474.80105591</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >474.80105591</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -629,7 +629,7 @@
     basePeakIntensity="12"
     totIonCurrent="1004"
     collisionEnergy="25.4527" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >457.26855469</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >457.26855469</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -648,7 +648,7 @@
     basePeakIntensity="8"
     totIonCurrent="657"
     collisionEnergy="26.3784" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >574.36175537</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >574.36175537</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -667,7 +667,7 @@
     basePeakIntensity="10"
     totIonCurrent="945"
     collisionEnergy="25.5913" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >474.80105591</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >474.80105591</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -686,7 +686,7 @@
     basePeakIntensity="8"
     totIonCurrent="894"
     collisionEnergy="25.4527" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >457.26855469</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >457.26855469</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -705,7 +705,7 @@
     basePeakIntensity="12"
     totIonCurrent="688"
     collisionEnergy="26.3784" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >574.36175537</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >574.36175537</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -724,7 +724,7 @@
     basePeakIntensity="14"
     totIonCurrent="1089"
     collisionEnergy="25.5913" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >474.80105591</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >474.80105591</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -743,7 +743,7 @@
     basePeakIntensity="14"
     totIonCurrent="1227"
     collisionEnergy="25.4527" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >457.26855469</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >457.26855469</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -762,7 +762,7 @@
     basePeakIntensity="14"
     totIonCurrent="730"
     collisionEnergy="26.3784" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >574.36175537</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >574.36175537</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -781,7 +781,7 @@
     basePeakIntensity="18"
     totIonCurrent="1147"
     collisionEnergy="25.5913" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >474.80105591</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >474.80105591</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -800,7 +800,7 @@
     basePeakIntensity="13"
     totIonCurrent="1358"
     collisionEnergy="25.4527" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >457.26855469</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >457.26855469</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -819,7 +819,7 @@
     basePeakIntensity="17"
     totIonCurrent="687"
     collisionEnergy="26.3784" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >574.36175537</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >574.36175537</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -838,7 +838,7 @@
     basePeakIntensity="18"
     totIonCurrent="1322"
     collisionEnergy="25.5913" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >474.80105591</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >474.80105591</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -857,7 +857,7 @@
     basePeakIntensity="16"
     totIonCurrent="1526"
     collisionEnergy="25.4527" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >457.26855469</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >457.26855469</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -876,7 +876,7 @@
     basePeakIntensity="19"
     totIonCurrent="811"
     collisionEnergy="26.3784" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >574.36175537</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >574.36175537</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -895,7 +895,7 @@
     basePeakIntensity="14"
     totIonCurrent="1174"
     collisionEnergy="25.5913" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >474.80105591</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >474.80105591</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -914,7 +914,7 @@
     basePeakIntensity="15"
     totIonCurrent="1659"
     collisionEnergy="25.4527" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >457.26855469</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >457.26855469</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -933,7 +933,7 @@
     basePeakIntensity="17"
     totIonCurrent="771"
     collisionEnergy="26.3784" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >574.36175537</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >574.36175537</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -969,7 +969,7 @@
     basePeakIntensity="29"
     totIonCurrent="4576"
     collisionEnergy="26.5443" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >595.35974121</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >595.35974121</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -988,7 +988,7 @@
     basePeakIntensity="24"
     totIonCurrent="1853"
     collisionEnergy="28.2565" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >630.33178711</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >630.33178711</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1007,7 +1007,7 @@
     basePeakIntensity="17"
     totIonCurrent="1230"
     collisionEnergy="25.9076" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >514.80999756</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >514.80999756</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1026,7 +1026,7 @@
     basePeakIntensity="31"
     totIonCurrent="4107"
     collisionEnergy="26.5443" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >595.35974121</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >595.35974121</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1045,7 +1045,7 @@
     basePeakIntensity="17"
     totIonCurrent="1076"
     collisionEnergy="28.2565" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >630.33178711</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >630.33178711</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1064,7 +1064,7 @@
     basePeakIntensity="8"
     totIonCurrent="1268"
     collisionEnergy="25.9076" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >514.80999756</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >514.80999756</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1083,7 +1083,7 @@
     basePeakIntensity="59"
     totIonCurrent="8809"
     collisionEnergy="26.5443" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >595.35974121</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >595.35974121</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1102,7 +1102,7 @@
     basePeakIntensity="30"
     totIonCurrent="2066"
     collisionEnergy="28.2565" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >630.33178711</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >630.33178711</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1121,7 +1121,7 @@
     basePeakIntensity="9"
     totIonCurrent="1222"
     collisionEnergy="25.9076" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >514.80999756</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >514.80999756</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1140,7 +1140,7 @@
     basePeakIntensity="29"
     totIonCurrent="1952"
     collisionEnergy="28.2565" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >630.33178711</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >630.33178711</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1159,7 +1159,7 @@
     basePeakIntensity="6"
     totIonCurrent="927"
     collisionEnergy="25.9076" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >514.80999756</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >514.80999756</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1178,7 +1178,7 @@
     basePeakIntensity="24"
     totIonCurrent="1692"
     collisionEnergy="28.2565" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >630.33178711</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >630.33178711</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1197,7 +1197,7 @@
     basePeakIntensity="5"
     totIonCurrent="863"
     collisionEnergy="25.9076" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >514.80999756</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >514.80999756</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1216,7 +1216,7 @@
     basePeakIntensity="26"
     totIonCurrent="1944"
     collisionEnergy="28.2565" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >630.33178711</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >630.33178711</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1235,7 +1235,7 @@
     basePeakIntensity="9"
     totIonCurrent="1253"
     collisionEnergy="25.9076" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >514.80999756</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >514.80999756</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1254,7 +1254,7 @@
     basePeakIntensity="8"
     totIonCurrent="1195"
     collisionEnergy="25.9076" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >514.80999756</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >514.80999756</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1273,7 +1273,7 @@
     basePeakIntensity="10"
     totIonCurrent="1192"
     collisionEnergy="25.9076" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >514.80999756</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >514.80999756</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1292,7 +1292,7 @@
     basePeakIntensity="13"
     totIonCurrent="1076"
     collisionEnergy="25.9076" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >514.80999756</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >514.80999756</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1328,7 +1328,7 @@
     basePeakIntensity="91"
     totIonCurrent="24577"
     collisionEnergy="26.022" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >576.31866455</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >576.31866455</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1347,7 +1347,7 @@
     basePeakIntensity="33"
     totIonCurrent="3008"
     collisionEnergy="25.6625" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >483.8046875</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >483.8046875</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1366,7 +1366,7 @@
     basePeakIntensity="49"
     totIonCurrent="5068"
     collisionEnergy="25.935" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >518.27520752</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >518.27520752</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1385,7 +1385,7 @@
     basePeakIntensity="34"
     totIonCurrent="3151"
     collisionEnergy="25.6625" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >483.8046875</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >483.8046875</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1404,7 +1404,7 @@
     basePeakIntensity="38"
     totIonCurrent="4459"
     collisionEnergy="25.935" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >518.27520752</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >518.27520752</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1423,7 +1423,7 @@
     basePeakIntensity="31"
     totIonCurrent="3104"
     collisionEnergy="25.6625" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >483.8046875</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >483.8046875</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"
@@ -1442,7 +1442,7 @@
     basePeakIntensity="37"
     totIonCurrent="3385"
     collisionEnergy="25.6625" >
-    <precursorMz precursorIntensity="0" activationMethod="CID" >483.8046875</precursorMz>
+    <precursorMz precursorIntensity="0" precursorCharge="2" activationMethod="CID" >483.8046875</precursorMz>
     <peaks precision="32"
      byteOrder="network"
      contentType="m/z-int"

@@ -36,6 +36,7 @@
 \alias{phenoData,pSet-method}
 \alias{polarity,pSet-method}
 \alias{precursorCharge,pSet-method}
+\alias{precursorIntensity,pSet-method}
 \alias{precursorMz,pSet-method}
 \alias{processingData,pSet-method}
 \alias{processingData}
@@ -204,6 +205,8 @@
       spectra polarities. }
     \item{precursorCharge}{\code{signature(object = "pSet")}: Accessor
       for MS2 precursor charges. }
+    \item{precursorIntensity}{\code{signature(object = "pSet")}: Accessor
+      for MS2 precursor intensity. }
     \item{precursorMz}{\code{signature(object = "pSet")}: Accessor
       for MS2 precursor M/Z values. }
     \item{rtime}{\code{signature(object = "pSet")}: Accessor for spectra

@@ -51,6 +51,13 @@ setMethod("precursorCharge","Spectrum",
             stop("No precursor charge value for MS1 spectra.")
           })
 
+setMethod("precursorIntensity","Spectrum",
+          function(object) {
+            if (msLevel(object)>1) 
+              return(object@precursorIntensity)
+            stop("No precursor data for MS1 spectra.")
+          })
+
 setMethod("acquisitionNum","Spectrum",function(object) object@acquisitionNum)
 setMethod("ms1scan","Spectrum",
           function(object) {
