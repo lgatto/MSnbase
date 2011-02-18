@@ -75,7 +75,7 @@
 
 \section{Methods}{
   See \code{"\linkS4class{Spectrum}"} for additional accessors and
-  methods to process \code{Spectrum1} objects.
+  methods for \code{Spectrum2} objects.
   \describe{
     \item{\code{ms1scan(object)}}{ Returns the relative MS1 scan index
       of the parent ion as an integer. }
@@ -88,7 +88,6 @@
     \item{\code{collisionEnergy(object)}}{ Returns the collision energy
       as an numeric. }
   }
-  See \code{"\linkS4class{Spectrum}"} for more methods.
 }
 
 \author{

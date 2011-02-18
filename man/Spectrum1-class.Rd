@@ -62,7 +62,6 @@
     \item{\code{polarity(object)}}{ Returns the polarity of the spectrum
       as an integer. }
   }
-  See \code{"\linkS4class{Spectrum}"} for more methods.
 }
 
 \author{

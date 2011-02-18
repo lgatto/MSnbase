@@ -151,7 +151,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
 }
 
 \seealso{
-  \code{"linkS4class{pSet}"} and \code{\link{readMzXMLData}} for loading
+  \code{"\linkS4class{pSet}"} and \code{\link{readMzXMLData}} for loading
   \code{mzXML} data to generate an instance of \code{MSnExp}.
 }
 
