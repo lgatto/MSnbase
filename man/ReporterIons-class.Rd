@@ -8,12 +8,15 @@
 \alias{show,ReporterIons-method}
 \alias{[,ReporterIons-method}
 \alias{length,ReporterIons-method}
+\alias{mz,ReporterIons-method}
 \alias{reporterNames,ReporterIons-method}
 \alias{reporterNames}
 \alias{reporterNames<-,ReporterIons-method}
 \alias{reporterNames<-,ReporterIons,ANY-method}
 \alias{reporterNames<-,ReporterIons,character-method}
 \alias{reporterNames<-}
+\alias{width,ReporterIons-method}
+\alias{width,ReporterIons-method}
 
 
 \title{The "ReporterIons" Class}
@@ -79,11 +82,13 @@
 \section{Methods}{
   \describe{
     \item{\code{show(object)}}{ Displays object content as text. }
-    \item{\code{objec[]}}{ Subsets one or several reporter ions of the
+    \item{\code{object[]}}{ Subsets one or several reporter ions of the
       \code{ReporterIons} object and returns a new instance of the same
       class. }
     \item{\code{length(object)}}{ Returns the number of reporter ions in
       the instance. }
+    \item{\code{mz(object)}}{ Returns the expected mz values of reporter
+      ions. }
     \item{\code{reporterNames(object)}}{ Returns the name of the
       individual reporter ions. If not specified or is an incorrect
       number of names is provided at initialisation, the names are
@@ -92,6 +97,8 @@
     \item{\code{reporterNames(object) <- value}}{ Sets the reporter
       names to \code{value}, which must be a character of the same
       length as the number of reporter ions. }
+    \item{\code{width(object)}}{ Returns the widhts in which the
+      reporter ion peaks are expected. }
   }
 }
 

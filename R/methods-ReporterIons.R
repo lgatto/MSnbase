@@ -4,6 +4,10 @@ setMethod("show","ReporterIons",function(object) show.ReporterIons(object))
 setMethod("[","ReporterIons",
           function(x,i,j="missing",drop="missing") "[.ReporterIons"(x,i))
 setMethod("length","ReporterIons",function(x) length(x@mz))
+setMethod("mz","ReporterIons", function(object) object@mz)
+
+## Using x as defined in the IRanges::width generic
+setMethod("width","ReporterIons", function(x) x@width) 
 setMethod("reporterNames","ReporterIons", function(object) object@reporterNames)
 setMethod("reporterNames<-","ReporterIons",
           function(object,value="list") object@reporterNames <- value)
