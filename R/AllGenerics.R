@@ -38,6 +38,8 @@ setGeneric("normalise",function(object,method) standardGeneric("normalise"))
 setGeneric("ratios",function(object,...) standardGeneric("ratios"))
 
 setGeneric("reporterNames",function(object) standardGeneric("reporterNames"))
+setGeneric("reporterColours",function(object) standardGeneric("reporterColours"))
+setGeneric("reporterColors",function(object) standardGeneric("reporterColors"))
 
 setGeneric("fileNames",function(object) standardGeneric("fileNames"))
 setGeneric("fileNames<-",function(object,value) standardGeneric("fileNames<-"))

@@ -99,8 +99,14 @@ setMethod("trimMz",
           function(object,mzlim,...) {
             trimmed <- eapply(assayData(object),trimMz,mzlim,...)
             object@assayData <- list2env(trimmed)
-            object@processingData@trimmed <- c(max(object@processingData@trimmed[1],mzlim[1]),
-                                               min(object@processingData@trimmed[2],mzlim[2]))
+            trmd <- object@processingData@trimmed
+            ifelse(length(trmd)==0,
+                   object@processingData@trimmed <- mzlim,
+                   object@processingData@trimmed <- c(max(trmd[1],mzlim[1]),
+                                                      min(trmd[2],mzlim[2])))
+            object@processingData@processing <- c(object@processingData@processing,
+                                                  paste("MZ trimmed [",object@processingData@trimmed[1],
+                                                        "..",object@processingData@trimmed[2],"]",sep=""))
             return(object)
           })
 

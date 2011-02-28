@@ -46,7 +46,8 @@ exportMethods(show,"[","[[",
               multiplex,
               multiLabels,
               width,
-              reporterNames,"reporterNames<-")
+              reporterNames,"reporterNames<-",
+              reporterColours,reporterColors)
 ## methods NOT exported
 ## curveStats
 ## ms1scan

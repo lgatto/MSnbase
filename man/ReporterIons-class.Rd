@@ -9,6 +9,10 @@
 \alias{[,ReporterIons-method}
 \alias{length,ReporterIons-method}
 \alias{mz,ReporterIons-method}
+\alias{reporterColours,ReporterIons-method}
+\alias{reporterColours}
+\alias{reporterColors,ReporterIons-method}
+\alias{reporterColors}
 \alias{reporterNames,ReporterIons-method}
 \alias{reporterNames}
 \alias{reporterNames<-,ReporterIons-method}
@@ -89,6 +93,8 @@
       the instance. }
     \item{\code{mz(object)}}{ Returns the expected mz values of reporter
       ions. }
+    \item{\code{reporterColours(object)} or reporterColors(object)}{
+      Returns the colours used to highlight the reporter ions. } 
     \item{\code{reporterNames(object)}}{ Returns the name of the
       individual reporter ions. If not specified or is an incorrect
       number of names is provided at initialisation, the names are
