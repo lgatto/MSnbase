@@ -1,0 +1,394 @@
+%\VignetteIndexEntry{Base Functions and Classes for MS-based Proteomics }
+%\VignetteKeywords{Mass Spectrometry, MS, MSMS, Proteomics, Infrastructure, Bioinformatics, quantitative }
+%\VignettePackage{MSnbase-demo}
+\documentclass{article}
+\usepackage{tikz}
+\usepackage[nogin]{Sweave}
+\usepackage{hyperref}
+\usepackage[authoryear,round]{natbib}
+
+\SweaveOpts{echo=T,eval=T,fig=F,results=verbatim,cache=F,tikz=T,external=F,prefix.string=sweave-cache/figs/fig}
+
+\newcommand{\R}{\texttt{R} }
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\email}[1]{\href{mailto:#1}{\normalfont\texttt{#1}}}
+%% colors
+\definecolor{Red}{rgb}{0.7,0,0}
+\definecolor{Blue}{rgb}{0,0,0.8}
+
+\hypersetup{%
+  hyperindex = {true},
+  colorlinks = {true},
+  linktocpage = {true},
+  plainpages = {false},
+  linkcolor = {Blue},
+  citecolor = {Blue},
+  urlcolor = {Red},
+  pdfstartview = {Fit},
+  pdfpagemode = {UseOutlines},
+  pdfview = {XYZ null null null}
+}
+
+\input{Author.tex}
+
+\begin{document}
+
+\title{\Rpackage{MSnbase}: labelled MS2 data pre-processing, visualisation and quantification.}
+
+\maketitle
+
+%% Abstract and keywords %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vskip 0.3in minus 0.1in
+\hrule
+\begin{abstract}
+  This vignette describes the functionality implemented in the \Rpackage{MSnbase} package. 
+  \Rpackage{MSnbase} aims at (1) facilitating the upload, processing, visualisation and 
+  quantification of mass spectrometry data into the \R environment \citep{Rstat} by providing 
+  specific data classes and methods and (2) enabling the utilisation of throughput-high data 
+  analysis pipelines provided by the Bioconductor \citep{Gentleman2004} project. 
+\end{abstract}
+\textit{Keywords}: Mass Spectrometry (MS), proteomics, infrastructure, bioinformatics, quantitative.
+\vskip 0.1in minus 0.05in
+\hrule
+\vskip 0.2in minus 0.1in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tableofcontents
+
+%% <<setup,cache=FALSE>>=
+%%  setCacheDir("sweave-cache/values")
+%% @ 
+
+<<environment,cache=FALSE,echo=FALSE>>=
+library(MSnbase)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{Foreword.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}\label{sec:intro} 
+
+\Rpackage{MSnbase} aims are providing a reproducible research framework to the proteomics data analysis. 
+It should allow researcher to easily mine mass spectrometry data, explore the data and its statistical properties 
+and visually display these.
+
+\Rpackage{MSnbase} also aims at being compatible with the infrastructure implemented in Bioconductor, 
+in particular \Rpackage{Biobase}. As such, classes 
+developed specifically for proteomics mass spectrometry data are based on the \Robject{eSet} 
+and \Robject{Expression} classes. The main goal is to assure seamless compatibility with 
+existing meta data structure, accessor methods and normalisation techniques. 
+
+This vignette illustrates \Rpackage{MSnbase} utility using a dummy data sets provided with the package 
+without describing the underlying data structures. More details can be found in the 
+package, classes, method and function documentations. A description of the classes is provided 
+in the \texttt{MSnbase-development} vignette.
+
+\input{NoteAboutSpeedAndMemory.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Importing raw data}\label{sec:msnexp}
+
+Raw data is stored in an \Robject{MSnExp} object, that stores all the spectra in an experiment, 
+as defined by one or multiple raw data files. 
+
+\Rpackage{MSnbase} imports raw MS data stored in \texttt{mzXML} format \citep{Pedrioli2004}. 
+More formats, notably \texttt{mzML} \citep{Martens2010}, will be added at a later stage. Either one of 
+MS1 or MS2 spectra can be loaded at a time by setting the \texttt{msLevel} parameter accordingly.
+
+
+<<MSnExp,cache=FALSE,echo=TRUE>>=
+library(MSnbase)
+filename <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
+experiment <- readMzXMLData(filename, msLevel = 2, verbose=FALSE)
+experiment
+@
+
+<<experiment-size,echo=FALSE,cache=FALSE>>=
+sz <- sum(sapply(assayData(experiment),object.size)) + object.size(experiment)
+sz <- round(sz/(1024^2),2)
+@ 
+
+As illustrated above, showing the experiment textually displays it's content: 
+\begin{itemize}
+  \item Information about the raw data, i.e. the spectra.
+  \item Specific information about the experiment processing\footnote{%%
+    this part will be automatically updated when the object is 
+    modified with it's methods, as illustrated later} and package version.
+    This slot can be accessed with the \Rfunction{processingData} method.
+  \item Other meta data, including experimental phenotype, 
+    file name(s) used to import the data, protocol data, 
+    information about features (individual spectra here), 
+    experiment data and proteomics data. Most of these are implemented as 
+    in the \Robject{eSet} class and are described in more details in their 
+    respective manual pages. See also \texttt{?pSet} and \texttt{MSnExp}
+    and references therein for additional background information. 
+    
+    The proteomics-specific meta data in slot \Robject{proteomicsData} is a 
+    new addition from the \Rpackage{MSnbase} package.
+    It contains MIAPE data (Minimum Information About a Proteomics Experiment, \citep{Taylor2007}) 
+    and can be accessed with the \Rfunction{proteomicsData} method. 
+    See \texttt{?MIAPE} for more details.
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Spectra objects}\label{sec:spectra}
+
+The raw data is composed of the \Sexpr{length(experiment)} MS spectra. 
+The spectra are named individually 
+(\Sexpr{paste(paste(head(featureNames(experiment)),collapse=", "),", ...",sep="")})
+and stored in a \Robject{environment}. They can be accessed individually with 
+\texttt{experiment[["X10"]]} or as a list with \texttt{spectra(experiment)}.
+As we have loaded our experiment specifying \texttt{msLevel=2}, 
+the spectra will all be of level 2 (or higher, if available). 
+
+<<Spectrum,cache=FALSE,echo=TRUE>>=
+sp <- experiment[["X66"]]
+sp
+@ 
+
+Attributes of individual spectra or of all spectra of an experiment can be 
+accessed with their respective methods: \Rfunction{precursorCharge} for the 
+precursor charge, \Rfunction{rtime} for the retention time, \Rfunction{mz} 
+for the MZ values, \Rfunction{intensity} for the inensities, \ldots see the 
+respecitve class manuals for more details.
+
+<<accessors,cache=FALSE,echo=TRUE>>=
+peaksCount(sp)
+head(peaksCount(experiment))
+rtime(sp)
+head(rtime(experiment))
+@ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reporter ions}\label{sec:reporterions}
+
+Reporter ions are defined with the \Robject{ReporterIons} class. 
+Specific peaks of interested are defined by a MZ value, a with 
+around the expected MZ and a name (and optionally a colour for plotting, 
+see section \ref{sec:plotting}). \Robject{ReporterIons} instances 
+are required to quantitate reporter peaks in \Robject{MSnExp} 
+experiments. Instances for the most commonly used isobaric tags like 
+iTRAQ 4-plex and 8-plex and TMT tags are already defined in 
+\Rpackage{MSnbase}. See \texttt{?ReporterIons} for details about how 
+to generate new \Robject{ReporterIons} objects.
+
+<<ReporterIons>>=
+data(iTRAQ4)
+iTRAQ4
+@ 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Plotting raw data}\label{sec:plotting}
+
+Spectra can be plotted individually or as part of (subsetted) experiments 
+with the \Robject{plot} method. Full spectra can be plotted 
+(using \texttt{full=TRUE}), specific reporter ions of interest 
+(by specifing with reporters with \texttt{reporters=iTRAQ4} for instance) 
+or both (figure \ref{fig:spectrum-plot}).
+
+\begin{figure}[!ht]
+<<spectrum-plot,fig=T,echo=T,tikz=T,external=T,width=5,height=5>>=
+plot(sp,reporters=iTRAQ4,full=TRUE)
+@ 
+\caption{Raw MS2 spectrum with detail about reporter ions.}
+\label{fig:spectrum-plot}
+\end{figure}
+
+
+It is also possible to plot all spectra of an experiment (figure \ref{fig:msnexp-plot}). 
+Lets start by extracting all spectra that have the sample precursor MZ value than \Robject{sp} 
+into a separate experiment, using the \Rfunction{extractPrecSpectra} method. 
+It takes an \Robject{MSnExp} experiment and a precursor MZ value as parameters.
+
+<<extractPrecSpec,echo=T,cache=F>>=
+exp2 <- extractPrecSpectra(experiment,precursorMz(experiment)["X66"])
+exp2
+@ 
+
+We see that \Sexpr{length(exp2)} spectra have the same MZ value. There two spectra 
+can be represented together by plotting the \Robject{MSnExp} object 
+(figure \ref{fig:msnexp-plot}).
+
+\begin{figure}[!ht]
+<<msnexp-plot,fig=T,echo=T,tikz=T,external=T,width=5,height=6>>=
+plot(exp2,reporters=iTRAQ4,full=FALSE)
+@ 
+\caption{Experiment-wide raw MS2 spectra.}
+\label{fig:msnexp-plot}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Data processing}\label{sec:processing}
+
+There are several methods implemented to perform basic data manipulation. 
+Low intensity peaks can be set to 0 with the \Rfunction{removePeaks} method 
+from spectra or whole experiments. The intensity below which peaks are removed 
+is defined by the \Robject{t} parameter. \texttt{t} can be specified directly 
+as a numeric. The default value is the character \texttt{"min"}, that will remove 
+all peaks equal to the lowest intensity peaks in the spectrum. 
+
+<<removePeaks,echo=TRUE,cache=FALSE>>=
+experiment <- removePeaks(experiment,t=3,verbose=FALSE)
+## total ion current
+tic(sp)
+tic(experiment[["X66"]])
+@ 
+
+\begin{figure}[!ht]
+<<spectrum-plot2,fig=T,echo=T,tikz=T,external=T,width=5,height=5>>=
+plot(experiment[["X66"]],reporters=iTRAQ4,full=TRUE)
+@ 
+\caption{Same spectrum as on figure \ref{fig:spectrum-plot}, after setting peaks <= 5 to 0.}
+\label{fig:spectrum-plot2}
+\end{figure}
+
+
+Unlike the name might suggest, the \Rfunction{removePeaks} method does not remove 
+peaks from the spectrum. To effectively remove 0 intensity peaks from spectra, 
+and reduce the size of the data set, one can use the \Rfunction{clean} method. 
+
+<<clean,echo=TRUE,cache=FALSE>>=
+## number of peaks
+peaksCount(sp)
+peaksCount(experiment[["X66"]])
+experiment <- clean(experiment,verbose=FALSE)
+peaksCount(experiment[["X66"]])
+@ 
+
+Another useful manipulation method is \Rfunction{trimMz}, that taken as 
+parameters and \Robject{MSnExp} (or a \Robject{Spectrum}) and a numeric 
+\Robject{mzlim}. MZ values smaller to \texttt{min(mzlim)} 
+or greater then \texttt{max(mzmax)} are discarded. This method is 
+particularely useful when one wants to concentrate on a specific MZ range, 
+as for reporter ions quantification, as is generally results in substantial 
+reduction of data size. Compare the size of the full trimmed experiment to 
+the original \Sexpr{sz} Mb.
+
+<<trimMz,echo=TRUE,cache=FALSE>>=
+range(mz(sp))
+experiment <- trimMz(experiment,mzlim=c(112,120))
+range(mz(experiment[["X66"]]))
+experiment
+@ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Quantitation}
+
+Quantitation is performed on specific peaks in the spectra, that are specified 
+with an \Robject{ReporterIon} object. A specific peak is defined by it's expected 
+\Robject{mz} value and is expected to be found within 
+\Robject{mz} $\pm$ \Robject{width}. If the peak reaches outside, a warning will 
+be issued. If no data is found, \Robject{NA} is returned.
+
+<<reporters,echo=TRUE,cache=FALSE>>=
+mz(iTRAQ4)
+width(iTRAQ4)
+@ 
+
+The \Rfunction{quantify} method takes an experiment, 
+a character describing the quantification 
+\Robject{method} and the \Robject{reporters} to be quantified as parameters. 
+Additionally, a progress bar can be dispaying when setting 
+the \Robject{verbose} paramter to \Robject{TRUE}.
+Three quantification methods are implemented: 
+\Robject{trapezoidation} returns the area under the peak of interest, 
+\Robject{max} returns the apex of the peak and 
+\Robject{sum} returns the sum of all intensities of the peak.
+
+The \Rfunction{quantify} method returns \Robject{MSnSet} objects, that 
+extend the well-known \Robject{ExpressionSet} objects defined in the 
+\Rpackage{Biobase} package. The assay data is a matrix of dimensions 
+$n \times m$ matrix, where $m$ is the  number of features/spectra 
+originally in the \Robject{MSnExp} used as parameter in 
+\Robject{quantify} and $m$ is the number of reporter ions. 
+The meta data is directly inherited from the \Robject{MSnExp} instance.
+
+<<quantify,echo=TRUE,cache=FALSE,keep.source=T>>=
+qnt <- quantify(experiment,
+                method="trap",
+                reporters=iTRAQ4,
+                verbose=FALSE)
+qnt
+head(exprs(qnt))
+@ 
+
+
+A \Robject{MSnSet} object is mean to be compatible with further downstream 
+packages for data normalisation and statistical analysis. 
+Below is an example of applying 
+variance stabilization normalisation \citep{Huber2002} 
+to the iTRAQ reporter intensities \citep{Karp2010}.
+
+<<vsn,echo=TRUE,cache=FALSE>>=
+library(vsn)
+qnt.vsn <- vsn2(qnt)
+@ 
+
+The results of figure 3 of \cite{Karp2010} are reproduced with 
+the dummy experiment and show on figure \ref{fig:cv-plot}.
+
+<<cvdata,echo=FALSE,cache=FALSE>>=
+sd1 <- apply(log2(exprs(qnt))+10,1,sd)
+mn1 <- apply(log2(exprs(qnt))+10,1,mean)
+cv1 <- sd1/mn1
+sd2 <- apply(exprs(qnt.vsn)+10,1,sd)
+mn2 <- apply(exprs(qnt.vsn)+10,1,mean)
+cv2 <- sd2/mn2
+library(zoo)
+rmed1 <- rollapply(cv1,7,function(x) median(x,na.rm=TRUE))
+rmed2 <- rollapply(cv2,7,function(x) median(x,na.rm=TRUE))
+@ 
+
+\begin{figure}[!ht]
+<<cv-plot,fig=T,echo=F,tikz=T,external=F,width=5,height=5>>=
+plot(order(mn1),cv1,col="steelblue",pch=19,
+     ylab="CV",xlab="Rank mean")
+points(order(mn2),cv2,col="red",pch=19)
+grid()
+lines(seq(1,70,by=(70/length(rmed1))),rmed1,col="steelblue",lwd=2)
+lines(seq(1,70,by=(70/length(rmed2))),rmed2,col="red"      ,lwd=2)
+## legend("topright",
+##        legend=c("log2","vsn","running\nmedian"),
+##        pch=c(19,19,NA),
+##        col=c("steelblue","red","black"),
+##        lwd=c(0,0,2),
+##        bty="n",
+##        cex=.7)
+@ 
+\caption{CV versus signal intensity comparison for log2 (red) and vsn (red) transformed data. Lines indicate running CV medians.}
+\label{fig:cv-plot}
+\end{figure}
+
+\clearpage
+
+\section{Session information}\label{sec:sessionInfo} 
+<<label=sessioninfo,results=tex,echo=FALSE,cache=FALSE>>=
+toLatex(sessionInfo())
+@
+
+\bibliographystyle{plainnat}
+\bibliography{MSnbase}
+
+\end{document}
