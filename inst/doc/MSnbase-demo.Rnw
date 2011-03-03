@@ -187,7 +187,6 @@ iTRAQ 4-plex and 8-plex and TMT tags are already defined in
 to generate new \Robject{ReporterIons} objects.
 
 <<ReporterIons>>=
-data(iTRAQ4)
 iTRAQ4
 @ 
 

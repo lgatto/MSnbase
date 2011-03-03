@@ -18,10 +18,10 @@
 }
 
 \usage{
-data(iTRAQ4)
-data(iTRAQ5)
-data(iTRAQ8)
-data(iTRAQ9)
+iTRAQ4
+iTRAQ5
+iTRAQ8
+iTRAQ9
 }
 
 \references{
@@ -35,7 +35,6 @@ data(iTRAQ9)
 }
 
 \examples{
-data(iTRAQ4)
 iTRAQ4
 iTRAQ4[1:2]
 

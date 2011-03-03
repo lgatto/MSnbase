@@ -1,0 +1,9 @@
+CHANGES IN VERSION 0.1.1
+------------------------
+ o Added LazyLoad: yes in DESCRIPTION and modified docs accordingly
+ o Added NEWS file
+
+CHANGES IN VERSION 0.1.0
+------------------------
+ o Added MSnbase-demo vignette
+ o Added MSnbase-development vignette

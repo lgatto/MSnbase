@@ -16,8 +16,8 @@
 }
 
 \usage{
-data(TMT6)
-data(TMT7)
+TMT6
+TMT7
 }
 
 \references{
@@ -33,7 +33,6 @@ data(TMT7)
 }
 
 \examples{
-data(TMT6)
 TMT6
 TMT6[1:2]
 
