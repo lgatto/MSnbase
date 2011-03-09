@@ -7,19 +7,24 @@
 
 \alias{show,ReporterIons-method}
 \alias{[,ReporterIons-method}
+\alias{length-method}
 \alias{length,ReporterIons-method}
+\alias{mz-method}
 \alias{mz,ReporterIons-method}
+\alias{reporterColours-method}
 \alias{reporterColours,ReporterIons-method}
 \alias{reporterColours}
+\alias{reporterColors-method}
 \alias{reporterColors,ReporterIons-method}
 \alias{reporterColors}
+\alias{reporterNames-method}
 \alias{reporterNames,ReporterIons-method}
 \alias{reporterNames}
 \alias{reporterNames<-,ReporterIons-method}
 \alias{reporterNames<-,ReporterIons,ANY-method}
 \alias{reporterNames<-,ReporterIons,character-method}
 \alias{reporterNames<-}
-\alias{width,ReporterIons-method}
+\alias{width-method}
 \alias{width,ReporterIons-method}
 
 

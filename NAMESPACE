@@ -1,5 +1,9 @@
-import("Biobase")
-import("graphics")
+import(graphics)
+import(Biobase)
+
+importFrom(plyr,llply)
+## not needed really, using unexported xcms:::ramp* only
+importFrom(xcms,xcmsRaw) 
 
 export(readMzXMLData,
        formatRt,

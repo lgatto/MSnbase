@@ -1,3 +1,10 @@
+CHANGES IN VERSION 0.1.3
+------------------------
+ o Updates to ReporterIons man page
+ o Moved some Depends to Imports and updated NAMESPACE
+ o corrected a IRanges:::sapply ot IRanges::sapply in utils.R
+ o added inst/tests/test_MSnProcess.R
+
 CHANGES IN VERSION 0.1.2
 ------------------------
  o MSnProcess@MSnbaseVersion is not set in the initialize method instead to the prototype
