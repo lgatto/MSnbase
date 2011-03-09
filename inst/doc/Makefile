@@ -18,14 +18,14 @@ make all:
 	make devel
 
 demo: 
-	R CMD pgfsweave --graphics-only MSnbase-demo.Rnw
+	$(R_HOME)/bin/R CMD pgfsweave --graphics-only MSnbase-demo.Rnw
 	pdflatex MSnbase-demo.tex
 	bibtex MSnbase-demo
 	pdflatex MSnbase-demo.tex
 	pdflatex MSnbase-demo.tex
 
 devel: 
-	R CMD pgfsweave --graphics-only MSnbase-development.Rnw
+	$(R_HOME)/bin/R CMD pgfsweave --graphics-only MSnbase-development.Rnw
 	pdflatex MSnbase-development.tex
 	bibtex MSnbase-development
 	pdflatex MSnbase-development.tex

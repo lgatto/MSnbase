@@ -15,17 +15,12 @@ setClass("MSnProcess",
            MSnbaseVersion="character"),
          contains=c("Versioned"),
          prototype = prototype(
-           new("Versioned", versions=c(MSnProcess="0.1.1")),
+           new("Versioned", versions=c(MSnProcess="0.1.2")),
            processing=character(),
            files=character(),
            trimmed=numeric(),
            removedPeaks=character(),
-           ## Put this in an initialise() method!
-           MSnbaseVersion=ifelse(
-             is.na(packageDescription("MSnbase",fields="Version")),
-             "0.0.0",
-             as.character(packageDescription("MSnbase",fields="Version")))
-           )
+           MSnbaseVersion=character()) ## set in initialize()
          )
 
 #################################################################

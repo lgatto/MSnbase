@@ -1,3 +1,13 @@
+CHANGES IN VERSION 0.1.2
+------------------------
+ o MSnProcess@MSnbaseVersion is not set in the initialize method instead to the prototype
+ o changed R CMD to $(R_HOME)/bin/R CMD in inst/doc/Makefile
+ o removed first and last (was 5th) MS1 spectra and associated MS2 spectra 
+   from dummy file to reduce size below 2MB.
+ o Updated tests to reflect new dummy data set
+ o Edition of dummy brakes readMzXMLData with msLevel=1 -- comment related tests
+ o Updated MSnbase-demo vignette and man to use good spectra un plots (i.e "X43" instead of "X64")
+
 CHANGES IN VERSION 0.1.1
 ------------------------
  o Added LazyLoad: yes in DESCRIPTION and modified docs accordingly

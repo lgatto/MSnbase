@@ -100,14 +100,17 @@ in the \texttt{MSnbase-development} vignette.
 Raw data is stored in an \Robject{MSnExp} object, that stores all the spectra in an experiment, 
 as defined by one or multiple raw data files. 
 
-\Rpackage{MSnbase} imports raw MS data stored in \texttt{mzXML} format \citep{Pedrioli2004}. 
-More formats, notably \texttt{mzML} \citep{Martens2010}, will be added at a later stage. Either one of 
-MS1 or MS2 spectra can be loaded at a time by setting the \texttt{msLevel} parameter accordingly.
+\Rpackage{MSnbase} imports raw MS data stored in \texttt{mzXML} 
+format \citep{Pedrioli2004}. More formats, notably \texttt{mzML} \citep{Martens2010}, 
+will be added at a later stage. 
+Either one of MS1 or MS2 spectra can be loaded at a time by setting the \texttt{msLevel} parameter accordingly.
 
 
 <<MSnExp,cache=FALSE,echo=TRUE>>=
 library(MSnbase)
-filename <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
+filename <- dir(system.file(package="MSnbase",dir="extdata"),
+                full.name=TRUE,pattern="mzXML$")
+print(filename)
 experiment <- readMzXMLData(filename, msLevel = 2, verbose=FALSE)
 experiment
 @
@@ -154,7 +157,7 @@ As we have loaded our experiment specifying \texttt{msLevel=2},
 the spectra will all be of level 2 (or higher, if available). 
 
 <<Spectrum,cache=FALSE,echo=TRUE>>=
-sp <- experiment[["X66"]]
+sp <- experiment[["X43"]]
 sp
 @ 
 
@@ -217,13 +220,13 @@ into a separate experiment, using the \Rfunction{extractPrecSpectra} method.
 It takes an \Robject{MSnExp} experiment and a precursor MZ value as parameters.
 
 <<extractPrecSpec,echo=T,cache=F>>=
-exp2 <- extractPrecSpectra(experiment,precursorMz(experiment)["X66"])
+exp2 <- extractPrecSpectra(experiment,precursorMz(experiment)["X43"])
 exp2
 @ 
 
-We see that \Sexpr{length(exp2)} spectra have the same MZ value. There two spectra 
-can be represented together by plotting the \Robject{MSnExp} object 
-(figure \ref{fig:msnexp-plot}).
+We see that \Sexpr{length(exp2)} spectra have the same MZ value. 
+There two spectra can be represented together by plotting the 
+\Robject{MSnExp} object (figure \ref{fig:msnexp-plot}).
 
 \begin{figure}[!ht]
 <<msnexp-plot,fig=T,echo=T,tikz=T,external=T,width=5,height=6>>=
@@ -250,28 +253,30 @@ all peaks equal to the lowest intensity peaks in the spectrum.
 experiment <- removePeaks(experiment,t=3,verbose=FALSE)
 ## total ion current
 tic(sp)
-tic(experiment[["X66"]])
+tic(experiment[["X43"]])
 @ 
 
 \begin{figure}[!ht]
 <<spectrum-plot2,fig=T,echo=T,tikz=T,external=T,width=5,height=5>>=
-plot(experiment[["X66"]],reporters=iTRAQ4,full=TRUE)
+plot(experiment[["X43"]],reporters=iTRAQ4,full=TRUE)
 @ 
-\caption{Same spectrum as on figure \ref{fig:spectrum-plot}, after setting peaks <= 5 to 0.}
+\caption{Same spectrum as on figure \ref{fig:spectrum-plot}, 
+  after setting peaks <= 3 to 0.}
 \label{fig:spectrum-plot2}
 \end{figure}
 
 
-Unlike the name might suggest, the \Rfunction{removePeaks} method does not remove 
-peaks from the spectrum. To effectively remove 0 intensity peaks from spectra, 
-and reduce the size of the data set, one can use the \Rfunction{clean} method. 
+Unlike the name might suggest, the \Rfunction{removePeaks} method does 
+not remove peaks from the spectrum. To effectively remove 0 intensity 
+peaks from spectra, and reduce the size of the data set, one can use 
+the \Rfunction{clean} method. 
 
 <<clean,echo=TRUE,cache=FALSE>>=
 ## number of peaks
 peaksCount(sp)
-peaksCount(experiment[["X66"]])
+peaksCount(experiment[["X43"]])
 experiment <- clean(experiment,verbose=FALSE)
-peaksCount(experiment[["X66"]])
+peaksCount(experiment[["X43"]])
 @ 
 
 Another useful manipulation method is \Rfunction{trimMz}, that taken as 
@@ -286,7 +291,7 @@ the original \Sexpr{sz} Mb.
 <<trimMz,echo=TRUE,cache=FALSE>>=
 range(mz(sp))
 experiment <- trimMz(experiment,mzlim=c(112,120))
-range(mz(experiment[["X66"]]))
+range(mz(experiment[["X43"]]))
 experiment
 @ 
 

@@ -88,7 +88,7 @@ aa <- readMzXMLData(file,verbose=FALSE)
 data(iTRAQ4)
 msnset <- quantify(aa,method="trap",reporters=iTRAQ4)
 msnset
-qty64 <- quantify(aa[["X64"]],method="trap",iTRAQ4[1])
+qty64 <- quantify(aa[["X43"]],method="trap",iTRAQ4[1])
 qty64$peakQuant
 qty64$curveStats
 }
