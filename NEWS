@@ -1,3 +1,7 @@
+CHANGES IN VERSION 0.1.4
+------------------------
+ o added pgfSweave to Suggests, as is called in vignette Makefile
+
 CHANGES IN VERSION 0.1.3
 ------------------------
  o Updates to ReporterIons man page
