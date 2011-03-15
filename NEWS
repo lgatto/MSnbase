@@ -4,6 +4,7 @@ CHANGES IN VERSION 0.1.5
  o changes rollapply call to zoo:::rollapply.zoo, to make it 
    work with zoo_1.6-4, rather that depending on zoo_1.7-0, which 
    is not yet on CRAN (only r-forge).
+ o added vns to Suggests, as it is used in the demo vignette.
 
 CHANGES IN VERSION 0.1.4
 ------------------------

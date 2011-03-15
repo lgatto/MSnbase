@@ -6,7 +6,7 @@ Description: Basic plotting, data manipulation and processing
 	     of MS-based Proteomics data
 Depends: Biobase (>= 2.11.0), methods, ggplot2, IRanges
 Imports: plyr, graphics, xcms
-Suggests: testthat, pgfSweave, zoo
+Suggests: testthat, pgfSweave, zoo, vsn
 Maintainer: Laurent Gatto <lg390@cam.ac.uk>
 License: Artistic-2.0
 LazyLoad: yes
