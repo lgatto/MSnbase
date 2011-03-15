@@ -1,3 +1,10 @@
+CHANGES IN VERSION 0.1.5
+------------------------
+ o added zoo to Suggest, as zoo::rollapply is used in vignette.
+ o changes rollapply call to zoo:::rollapply.zoo, to make it 
+   work with zoo_1.6-4, rather that depending on zoo_1.7-0, which 
+   is not yet on CRAN (only r-forge).
+
 CHANGES IN VERSION 0.1.4
 ------------------------
  o added pgfSweave to Suggests, as is called in vignette Makefile

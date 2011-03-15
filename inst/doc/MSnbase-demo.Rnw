@@ -361,8 +361,14 @@ sd2 <- apply(exprs(qnt.vsn)+10,1,sd)
 mn2 <- apply(exprs(qnt.vsn)+10,1,mean)
 cv2 <- sd2/mn2
 library(zoo)
-rmed1 <- rollapply(cv1,7,function(x) median(x,na.rm=TRUE))
-rmed2 <- rollapply(cv2,7,function(x) median(x,na.rm=TRUE))
+## rmed1 <- rollapply(cv1,7,function(x) median(x,na.rm=TRUE))
+## rmed2 <- rollapply(cv2,7,function(x) median(x,na.rm=TRUE))
+##
+## Calling directly rollapply.zoo to make it zoo_1.6-4 compatible.
+## The above requires zoo >= 1.7-0, which is as of 15 March 2011
+## not yet available on CRAN (only on r-forge).
+rmed1 <- zoo:::rollapply.zoo(cv1,7,function(x) median(x,na.rm=TRUE))
+rmed2 <- zoo:::rollapply.zoo(cv2,7,function(x) median(x,na.rm=TRUE))
 @ 
 
 \begin{figure}[!ht]
