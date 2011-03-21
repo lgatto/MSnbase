@@ -21,8 +21,9 @@ setGeneric("polarity", function(object) standardGeneric("polarity"))
 setGeneric("processingData",function(object) standardGeneric("processingData"))
 setGeneric("processingData<-",function(object,value) standardGeneric("processingData<-"))
 
-setGeneric("proteomicsData",function(object) standardGeneric("proteomicsData"))
-setGeneric("proteomicsData<-",function(object,value) standardGeneric("proteomicsData<-"))
+## setGeneric("proteomicsData",function(object) standardGeneric("proteomicsData"))
+## setGeneric("proteomicsData<-",function(object,value) standardGeneric("proteomicsData<-"))
+setGeneric("msInfo",function(object) standardGeneric("msInfo"))
 
 setGeneric("mz",function(object) standardGeneric("mz"))
 setGeneric("intensity",function(object) standardGeneric("intensity"))

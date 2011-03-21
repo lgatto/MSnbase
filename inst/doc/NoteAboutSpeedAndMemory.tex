@@ -1,11 +1,12 @@
 \paragraph{Speed and memory requirements} Raw mass spectrometry file are generally several 
 hundreds of MB large and most of this is used for binary raw spectrum data. As such, 
-\Robject{MSnExp} can easily grow very large and thus require large amounts of RAM. 
+data containers can easily grow very large and thus require large amounts of RAM. 
 This requirement may be tackled in the future by avoiding to load the raw data into memory
-and using random access to the content of \texttt{mzXML} data files on demand. 
+and using random access to the content of \texttt{mzXML}/\texttt{mzML} data files on demand. 
 When focusing on reporter ion quantitation, a direct solution for this is to trim the 
 spectra using the \Robject{trimMz} method to select the area of interest and thus 
-substantially reduce the size of the \Robject{Spectrum} objects.
+substantially reduce the size of the \Robject{Spectrum} objects. This is illustrated on page 
+\pageref{trimMz-example} of the \texttt{MSnbase-demo} vignette.
 
 The independent handling of spectra is ideally suited for parallel processing. 
 This will be added soon.

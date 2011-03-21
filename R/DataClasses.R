@@ -28,12 +28,67 @@ setClass("MSnProcess",
 ## See online documentation for more information.
 setClass("MIAPE",
          representation = representation(
-           description="character"),
+           title="character",
+           url="character",
+           ##  Publication details
+           abstract="character",
+           pubMedIds="character",
+           ## Other useful slots, from MIAME
+           samples="list",
+           preprocessing="list",
+           other="list",
+           ##########################
+           ## Based on MIAPE-MS 2.24
+           ## 1. General features - (a) Global descriptors
+           dateStamp="character",
+           ##    Responsible person
+           name="character",
+           lab="character",
+           contact="character",
+           ##    Instrument details
+           instrumentModel="character",
+           instrumentManufacturer="character",
+           instrumentCustomisations="character",
+           ## 1. General features - (b) Control and analysis software
+           softwareName="character",
+           softwareVersion="character",
+           switchingCriteria="character",
+           isolationWidth="numeric",
+           parameterFile="character",
+           ## 2. Ion sources -- will be updated to
+           ##                   provided details specific to
+           ##                   different sources
+           ionSource="character", ## ESI, MALDI, ...
+           ionSourceDetails="character", 
+           ## 3. Post-source componentry
+           analyser="character", ## Quad, TOF, Trap, ...
+           analyserDetails="character",
+           ## 3. Post-source componentry - (d) Collision cell
+           collisionGas="character",
+           collisionPressure="numeric",
+           collisionEnergy="character",
+           ## 3. Post-source component — (f) Detectors
+           detectorType="character", 
+           detectorSensitivity="character"
+           ## 4. Spectrum and peak list generation and annotation 
+           ##    (a) Spectrum description 
+           ##    (b) Peak list generation
+           ##    (c) Quantitation for selected ions
+           ## -- see Spectrum and MSnProcess objects           
+           ),
          contains = c("MIAxE"),
          prototype = prototype(
-           new("Versioned", versions=c(classVersion("MIAxE"), MIAME="0.0.2")),
-           description="Will contain more MIAPE data."
-           )
+           new("Versioned", versions=c(classVersion("MIAxE"), MIAPE="0.2.0")),
+           name="",
+           lab="",
+           contact="",
+           title="",
+           abstract="",
+           url="",
+           pubMedIds="",
+           samples=list(),
+           preprocessing=list(),
+           other=list())
          )
 
 ############################################################################
@@ -60,7 +115,7 @@ setClass("NAnnotatedDataFrame",
          })
 
 
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#############################################################################
 ## pSet: similarly to eSet but with a focus toward proteomics experiments,
 ## pSet is a VIRTUAL class containing assay data (typically, one or many
 ## different sets of spectra), phenotypic data (describing the samples involved
@@ -84,7 +139,6 @@ setClass("pSet",
                         featureData = "AnnotatedDataFrame",
                                         # How to link individual spectra in assayData env to featureData?
                                         # The spectra and the rowNames of featureData will be named X1..(n1+n2+...)
-                        proteomicsData = "MIAPE",
                         experimentData = "MIAxE",
                         protocolData   = "AnnotatedDataFrame",
                         processingData = "MSnProcess",
@@ -93,8 +147,7 @@ setClass("pSet",
          prototype = prototype(
            new("Versioned", versions=c(pSet="0.0.1")),
            assayData = new.env(),
-           experimentData = new("MIAME"),
-           proteomicsData = new("MIAPE"),
+           experimentData = new("MIAPE"),
            phenoData = new("NAnnotatedDataFrame",
              dimLabels=c("sampleNames", "sampleColumns")), 
            featureData = new("AnnotatedDataFrame",
@@ -110,26 +163,9 @@ setClass("MSnExp",
          contains=c("pSet"),
          prototype = prototype(
            new("VersionedBiobase",
-               versions=c(classVersion("pSet"), MSnExp="0.3.0")))
+               versions=c(classVersion("pSet"), MSnExp="0.3.0")),
+            experimentData = new("MIAPE"))
          )
-
-
-## setClass("MSnExp",
-##          representation = representation(
-##            spectra="list",
-##            process="MSnProcess",
-##            fromFile="numeric",
-##            files="character"),
-##          contains=c("eSet"),
-##          prototype = prototype(
-##            spectra=list(),
-##            process=new("MSnProcess"),
-##            experimentData=new("MIAPE"),
-##            fromFile=numeric(),
-##            files=character(),           
-##            new("VersionedBiobase",
-##                versions=c(classVersion("eSet"), MSnExp="0.2.0")))
-##          )
 
 ###################################################################
 ## The Spectrum class and it's sub-classes Spectrum1 and Spectrum2
@@ -257,30 +293,17 @@ setClass("ReporterIons",
 #####################################################################
 ## The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
 ## See online documentation for more information.
+
 setClass("MSnSet",
          representation = representation(
+           experimentData="MIAPE",
            processingData = "MSnProcess",
-           proteomicsData = "MIAPE", ## see note below
            qual = "data.frame"),
-         contains = c("ExpressionSet"),
+         contains = "eSet",
          prototype = prototype(
            new("VersionedBiobase",
-               versions=c(classVersion("ExpressionSet"),
-                 classVersion("MSnSet"),
-                 MSnSet="0.3.0"))))
-
-## Note: I want MSnSet to extend ExpressionSet because (1) it makes sense
-##       (it's expression data), (2) ExpressionSet is very well established
-##       and (3) many ExpressionSet methods are applicable to MSnSet.
-## 
-##       However, there is an issue in terms of meta data. It is not possible
-##       to use the experimentData slot to store MIAPE data (where MIAPE would
-##       extend MIAME) because ExperssionSet requires the class of experimentData
-##       to be MIAPE (instead of inherit from MIAME or MIAxE). As such, the
-##       MIAPE specific meta data will be stored in the proteomicsData slot, and
-##       lab/experimenter/publication meta data will be stored in the experimentData
-##       slot as an MIAME object. It is a bit unfortunate to keep the microarray naming.
-
-
-
-
+               versions=c(classVersion("eSet"),
+                 classVersion("pSet"),
+                 MSnSet="0.4.0")),
+           experimentData=new("MIAPE"),
+           annotation="No feature annotation."))

@@ -16,9 +16,6 @@
 \alias{plot,MSnExp,missing-method}
 \alias{plot2d,MSnExp-method}
 \alias{plot2d,MSnExp,character-method}
-\alias{proteomicsData,MSnExp-method}
-\alias{proteomicsData<-,MSnExp,ANY-method}
-\alias{proteomicsData<-,MSnExp,MIAPE-method}
 \alias{quantify,MSnExp-method}
 \alias{quantify,MSnExp,character-method}
 \alias{removePeaks,MSnExp-method}
@@ -65,10 +62,6 @@
       \code{"\linkS4class{eSet}"}). See \code{\link{featureData}} for
       more details.
       Slot is inherited from \code{"linkS4class{pSet}"}. }
-    \item{\code{proteomicsData}:}{Object of class
-      \code{"\linkS4class{MIAPE}"} describing proteomics-specific
-      experiment meta data. See also \code{\link{experimentData}}.
-      Slot is inherited from \code{"linkS4class{pSet}"}. }	  
     \item{\code{experimentData}:}{Object of class
       \code{"\linkS4class{MIAPE}"}, containing details of experimental
       methods. See \code{\link{experimentData}} for more details.

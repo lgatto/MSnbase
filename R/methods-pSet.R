@@ -169,17 +169,18 @@ setMethod("spectra","MSnExp",function(object) {
 ##                    return(object)
 ##                  })
 
-setMethod("proteomicsData","MSnExp",function(object) object@proteomicsData)
-setMethod("proteomicsData<-","MSnExp",
-          function(object,value="MIAPE") object@proteomicsData <- value)
-setReplaceMethod("proteomicsData",
-                 signature(object="MSnExp",
-                           value="MIAPE"),
-                 function(object, value) {
-                   object@proteomicsData = value
-                   if (validObject(object))
-                     return(object)
-                 })
+## No proteomicsData slot anymore since MSnbase 0.2.0 - experimentData is not MIAPE
+## setMethod("proteomicsData","MSnExp",function(object) object@proteomicsData)
+## setMethod("proteomicsData<-","MSnExp",
+##           function(object,value="MIAPE") object@proteomicsData <- value)
+## setReplaceMethod("proteomicsData",
+##                  signature(object="MSnExp",
+##                            value="MIAPE"),
+##                  function(object, value) {
+##                    object@proteomicsData = value
+##                    if (validObject(object))
+##                      return(object)
+##                  })
 
 setMethod("sampleNames",
           signature(object="pSet"),
@@ -231,6 +232,10 @@ setMethod("fvarLabels",
           signature=signature(object="pSet"),
           function(object) varLabels(featureData(object)))
 setMethod("experimentData", signature(object="pSet"), function(object) object@experimentData)
+
+setMethod("msInfo","pSet",
+          function(object) msInfo(experimentData(object)))
+
 setMethod("description", signature(object="pSet"),
           function(object, ...) {
             experimentData(object)

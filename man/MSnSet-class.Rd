@@ -9,11 +9,8 @@
 \alias{dim,MSnSet-method}
 \alias{fileNames,MSnSet-method}
 %%\alias{normalise,MSnSet-method}
+\alias{msInfo,MSnSet-method}
 \alias{processingData,MSnSet-method}
-\alias{proteomicsData,MSnSet-method}
-\alias{proteomicsData<-,MSnSet-method}
-\alias{proteomicsData<-,MSnSet,ANY-method}
-\alias{proteomicsData<-,MSnSet,MIAPE-method}
 \alias{qual,MSnSet-method}
 \alias{qual}
 %%\alias{ratios,MSnSet-method}
@@ -28,9 +25,9 @@
   The \code{MSnSet} holds quantified expression data for MS proteomics
   data and the experimental meta-data.
   The \code{MSnSet} class is derived from the
-  \code{"\linkS4class{ExpressionSet}"} class and thus benefits from many
-  of the available analysis methods and requires a matrix named
-  \code{exprs} as assayData member. 
+  \code{"\linkS4class{eSet}"} class and mimics the
+  \code{"\linkS4class{ExpressionSet}"} class classically used for
+  microarray data.
 }
 
 \section{Objects from the Class}{
@@ -62,54 +59,50 @@
       and columns representing samples. See the \code{"\linkS4class{AssayData}"}
       class, \code{\link{exprs}} and \code{\link{assayData}} accessor
       for more details. This slot in indirectly inherited from
-      \code{"\linkS4class{ExpressionSet}"}. } 
+      \code{"\linkS4class{eSet}"}. } 
     \item{\code{phenoData}:}{Object of class \code{"AnnotatedDataFrame"}
       containing experimenter-supplied variables describing sample (i.e
       the individual tags for an labelled MS experiment) (indireclty 
-      inherited from  \code{"\linkS4class{ExpressionSet}"}). See
+      inherited from  \code{"\linkS4class{eSet}"}). See
       \code{\link{phenoData}} and the \code{"\linkS4class{eSet}"}
       class for more details. }
     \item{\code{featureData}:}{Object of class
       \code{"AnnotatedDataFrame"} containing variables describing
       features (spectra in our case), e.g. identificaiton data, peptide
       sequence, identification score,... (inherited indirectly from 
-      \code{"\linkS4class{ExpressionSet}"}). See
+      \code{"\linkS4class{eSet}"}). See
       \code{\link{featureData}} and the \code{"\linkS4class{eSet}"}
       class for more details. }
     \item{\code{experimentData}:}{Object of class
-      \code{"\linkS4class{MIAME}"}, containing details of experimental
-      methods (inherited from \code{"\linkS4class{ExpressionSet}"}). See 
+      \code{"\linkS4class{MIAPE}"}, containing details of experimental
+      methods (inherited from \code{"\linkS4class{eSet}"}). See 
       \code{\link{experimentData}} and the \code{"\linkS4class{eSet}"}
       class for more details. }
-    \item{\code{proteomicsData}:}{Object of class
-      \code{"\linkS4class{MIAPE}"}, containing information about the
-      proteomics experiment. }
     \item{\code{annotation}:}{ not used here. }
     \item{\code{protocolData}:}{Object of class
       \code{"\linkS4class{AnnotatedDataFrame}"} containing
       equipment-generated variables (inherited indirectly from
-      \code{"\linkS4class{ExpressionSet}"}). See
+      \code{"\linkS4class{eSet}"}). See
       \code{\link{protocolData}} and the \code{"\linkS4class{eSet}"}
       class for more details. }
     \item{\code{.__classVersion__}:}{Object of class
       \code{"\linkS4class{Versions}"} describing the versions of R,
       \code{"linkS4class{Biobase}"}, \code{"\linkS4class{eSet}"},
-      \code{"\linkS4class{ExpressionSet}"} and \code{MSnSet} of the
+      \code{"\linkS4class{eSet}"} and \code{MSnSet} of the
       current instance. Intended for developer use and debugging (inherited
-      from indirectly \code{"\linkS4class{ExpressionSet}"}). }
+      from indirectly \code{"\linkS4class{eSet}"}). }
   }
 }
 
 \section{Extends}{
-  Class \code{"\linkS4class{ExpressionSet}"}, directly.
-  Class \code{"\linkS4class{eSet}"}, by class "ExpressionSet", distance 2.
-  Class \code{"\linkS4class{VersionedBiobase}"}, by class "ExpressionSet", distance 3.
-  Class \code{"\linkS4class{Versioned}"}, by class "ExpressionSet", distance 4.
+  Class \code{"\linkS4class{eSet}"}, directly.
+  Class \code{"\linkS4class{VersionedBiobase}"}, by class "eSet", distance 2.
+  Class \code{"\linkS4class{Versioned}"}, by class "eSet", distance 3.
 }
 
 \section{Methods}{
   MSnSet specific methods or over-ridding it's super-class are described
-  below. See also more \code{"\linkS4class{ExpressionSet}"} for
+  below. See also more \code{"\linkS4class{eSet}"} for
   inherited methods. 
 
   \describe{
@@ -118,12 +111,10 @@
       features. }
     \item{fileNames}{\code{signature(object = "MSnSet")}: Access file
       names in the \code{processingData} slot. }
+    \item{msInfo}{\code{signature(object = "MSnSet")}: Prints the MIAPE-MS
+      meta-data stored in the \code{experimentData} slot. }
     \item{processingData}{\code{signature(object = "MSnSet")}: Access the
       \code{processingData} slot. }    
-    \item{proteomicsData}{\code{signature(x = "MSnSet")}: Access the
-      \code{proteomicsData} slot. }
-    \item{proteomicsData<-}{\code{signature(x = "MSnSet", value="MIAPE")}:
-      Set the \code{proteomicsData} slot. }
     \item{show}{\code{signature(object = "MSnSet")}: Displays object
       content as text. }
     \item{qual}{\code{signature(object = "MSnSet")}: Access the reporter

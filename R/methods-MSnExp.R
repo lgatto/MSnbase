@@ -1,5 +1,6 @@
 ##################################################################
 ## Methods for MSnExp class
+
 setMethod("show",
           signature=signature(object="MSnExp"),
           function(object) {
@@ -63,7 +64,6 @@ setMethod("show",
                                                 varLabels="fvarLabels",
                                                 varMetadata="fvarMetadata"))
             cat("experimentData: use 'experimentData(object)'\n")
-            cat("proteomicsData: use 'proteomicsData(object)'\n")
             pmids <- pubMedIds(object)
             if (length(pmids) > 0 && all(pmids != ""))
               cat("  pubMedIds:", paste(pmids, sep=", "), "\n")

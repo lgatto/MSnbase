@@ -28,6 +28,7 @@
 \alias{intensity,pSet-method}
 \alias{length,pSet-method}
 \alias{length}
+\alias{msInfo,pSet-method}
 \alias{msLevel,pSet-method}
 \alias{mz,pSet-method}
 \alias{notes,pSet-method}
@@ -40,13 +41,6 @@
 \alias{precursorMz,pSet-method}
 \alias{processingData,pSet-method}
 \alias{processingData}
-\alias{proteomicsData,pSet-method}
-\alias{proteomicsData}
-\alias{proteomicsData<-}
-\alias{proteomicsData<-,pSet-method}
-\alias{proteomicsData<-,pSet,ANY-method}
-\alias{proteomicsData<-,pSet,MIAPE-method}
-\alias{proteomicsData<-}
 \alias{protocolData,pSet-method}
 \alias{pubMedIds,pSet-method}
 \alias{rtime,pSet-method}
@@ -95,10 +89,6 @@
       \code{"\linkS4class{eSet}"}). See \code{\link{featureData}} for
       more details.
       Slot is inherited from \code{"linkS4class{pSet}"}. }
-    \item{\code{proteomicsData}:}{Object of class
-      \code{"\linkS4class{MIAPE}"} describing proteomics-specific
-      experiment meta data. See also \code{\link{experimentData}}.
-      Slot is inherited from \code{"linkS4class{pSet}"}. }	  
     \item{\code{experimentData}:}{Object of class
       \code{"\linkS4class{MIAPE}"}, containing details of experimental
       methods. See \code{\link{experimentData}} for more details.
@@ -173,10 +163,6 @@
       \code{phenoData} slot. }
     \item{processingData}{\code{signature(object = "pSet")}: Access the
       \code{processingData} slot. }    
-    \item{proteomicsData}{\code{signature(x = "pSet")}: Access the
-      \code{proteomicsData} slot. }
-    \item{proteomicsData<-}{\code{signature(x = "pSet", value="MIAPE")}:
-      Set the \code{proteomicsData} slot. }
     \item{protocolData}{\code{signature(x = "pSet")}: Access the
       \code{protocolData} slot. }
     \item{pubMedIds}{\code{signature(x = "pSet")}: Access PMIDs in
@@ -195,6 +181,8 @@
       for MS2 spectra collision energies. }
     \item{intensity}{\code{signature(object = "pSet")}: Accessor for
     spectra instenities, returned as named list. }
+    \item{msInfo}{\code{signature(object = "pSet")}: Prints the MIAPE-MS
+      meta-data stored in the \code{experimentData} slot. }
     \item{msLevel}{\code{signature(object = "pSet")}: Accessor for
       spectra MS levels. }
     \item{mz}{\code{signature(object = "pSet")}: Accessor for spectra
