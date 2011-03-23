@@ -1,3 +1,15 @@
+CHANGES IN VERSION 0.99.0
+------------------------
+ o MSnProcess@process get's one line when subsetting and MSnExp object <2011-03-21 Mon>
+ o Updated vignette Makefile <2011-03-22 Tue>
+ o Added fake vignettes <2011-03-22 Tue>
+ o Version set to 0.99.0 <2011-03-22 Tue>
+ o Minor changes in quantify-method.Rd <2011-03-22 Tue>
+ o added .Rbuildignore to ignore 'sweave-cache.*' <2011-03-22 Tue>
+ o added R/zzz.R with start-up message <2011-03-23 Wed>
+ o Added width generic <2011-03-23 Wed>
+ o IRanges in now imported <2011-03-23 Wed>
+
 CHANGES IN VERSION 0.2.0 <2011-03-17 Thu>
 ------------------------
  o MSnSet now extends eSet, reimplementing the ExpressionSet class

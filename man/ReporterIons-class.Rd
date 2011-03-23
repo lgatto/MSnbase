@@ -26,7 +26,7 @@
 \alias{reporterNames<-}
 \alias{width-method}
 \alias{width,ReporterIons-method}
-
+\alias{width}
 
 \title{The "ReporterIons" Class}
 

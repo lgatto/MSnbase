@@ -9,40 +9,56 @@ LATEXFILES = *.aux\
         *.aux\
         MSnbase-demo.tex\
         MSnbase-development.tex\
+        MSnbase-demo.sh\
+        MSnbase-development.sh\
+	Rplots.pdf\
+	*.dvi\
 	*.map\
-        *.out
+        *.out\
 
-make all:
-	make all-clean
+all:
 	make demo
 	make devel
 
+setvars:
+ifeq (${R_HOME},)
+R_HOME=	$(shell R RHOME)
+endif
+
 demo: 
-	$(R_HOME)/bin/R CMD pgfsweave --graphics-only MSnbase-demo.Rnw
+	mkdir -p sweave-cache/figs/
+	cp ./MSnbase-demo/MSnbase-demo.Rnw . 
+	"$(R_HOME)/bin/Rscript" --vanilla -e "library(pgfSweave); pgfSweave('MSnbase-demo.Rnw');"
 	pdflatex MSnbase-demo.tex
 	bibtex MSnbase-demo
 	pdflatex MSnbase-demo.tex
 	pdflatex MSnbase-demo.tex
 
 devel: 
-	$(R_HOME)/bin/R CMD pgfsweave --graphics-only MSnbase-development.Rnw
+	mkdir -p sweave-cache/figs/
+	cp ./MSnbase-development/MSnbase-development.Rnw .
+	"$(R_HOME)/bin/Rscript" --vanilla -e "library(pgfSweave); pgfSweave('MSnbase-development.Rnw');"
 	pdflatex MSnbase-development.tex
 	bibtex MSnbase-development
 	pdflatex MSnbase-development.tex
 	pdflatex MSnbase-development.tex
 
+fake:
+	cp ./MSnbase-demo/MSnbase-demo-fake.Rnw ./MSnbase-demo.Rnw 
+	cp ./MSnbase-development/MSnbase-development-fake.Rnw ./MSnbase-development.Rnw 
+
+real:
+	cp ./MSnbase-demo/MSnbase-demo.Rnw ./MSnbase-demo.Rnw 
+	cp ./MSnbase-development/MSnbase-development.Rnw ./MSnbase-development.Rnw 
+
 clean:
 	rm -f $(LATEXFILES)
 	rm -f *~
-	rm -f MSnbase-demo.sh
-	rm -f MSnbase-development.sh
-	rm -f Rplots.pdf
+
+pdfclean: 
+	rm -f MSnbase-development.pdf
+	rm -f MSnbase-demo.pdf
 
 all-clean:
 	make clean
-	rm -f MSnbase-development.pdf
-	rm -f MSnbase-development.dvi
-	rm -f MSnbase-demo.pdf
-	rm -f MSnbase-demo.dvi
-	rm -f sweave-cache/figs/*
-
+	make pdfclean

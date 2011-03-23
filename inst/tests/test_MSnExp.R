@@ -154,28 +154,23 @@ test_that("quantification", {
           114.12,
           114.13,
           114.14,
-          114.15)
+          114.145)
   sp <- new("Spectrum2",
             intensity=int,
             mz=mz)
-  data(iTRAQ4)
-  expect_that(validObject(sp),is_true())
-  expect_that(MSnbase:::getCurveWidth(sp,iTRAQ4[1]),
-              equals(list(lwr=1,upr=5)))
-  expect_that(as.numeric(quantify(sp,"sum",iTRAQ4[1])$peakQuant),
-              equals(6))
-  expect_that(as.logical(is.na(quantify(sp,"sum",iTRAQ4[2])$peakQuant)),
-              is_true())
-  expect_that(quantify(sp,"sum",iTRAQ4[2])$peakQuant,
-              gives_warning())
-  expect_that(as.numeric(quantify(sp,"max",iTRAQ4[1])$peakQuant),
-              equals(3))
+  expect_true(validObject(sp))
+  expect_equal(MSnbase:::getCurveWidth(sp,iTRAQ4[1]),list(lwr=1,upr=5))
+  expect_equal(as.numeric(quantify(sp,"sum",iTRAQ4[1])$peakQuant),6)
+  expect_equal(as.numeric(quantify(sp,"max",iTRAQ4[1])$peakQuant),3)
   expect_that(as.numeric(quantify(sp,"trap",iTRAQ4[1])$peakQuant),
               equals((0.01*2)/2+
                      (0.01*2)  +
                      (0.01*1)/2+
                      0.01*1    +
                      (0.01*2)/2+
-                     (0.01*1)/2))
+                     (0.01*0.5)/2))
+  print("Warnings expected because there is not data for iTRAQ4[2].")
+  expect_true(as.logical(is.na(quantify(sp,"sum",iTRAQ4[2])$peakQuant)))
+  expect_warning(quantify(sp,"sum",iTRAQ4[2])$peakQuant)
 })
 

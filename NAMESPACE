@@ -5,6 +5,9 @@ importFrom(plyr,llply)
 ## not needed really, using unexported xcms:::ramp* only
 importFrom(xcms,xcmsRaw) 
 
+importFrom(IRanges,IRanges,sapply)
+importClassesFrom(IRanges,IRanges)
+
 export(readMzXMLData,
        formatRt,
        extractSpectra,

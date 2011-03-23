@@ -5,8 +5,8 @@
 \title{MSnbase: Base Functions and Classes for MS-based Proteomics}
 
 \description{
-MSnbase provides classes, methods and functions for the plotting,
-manipulation and processing of mass spectrometry data.
+MSnbase provides classes, methods and functions for visualisation,
+manipulation and processing of mass spectrometry data. 
 
 Important class are \code{"\linkS4class{MSnExp}"} (raw data file),
 \code{"\linkS4class{MSnSet}"} (quantitation data) and
@@ -19,22 +19,12 @@ Other classes are \code{"\linkS4class{Spectrum}"} and the subclasses
 \code{"\linkS4class{MIAPE}"} (Minimum Information about Proteomics
 Experiments) and \code{"\linkS4class{MSnProcess}"} (for processing
 information). These should however not be of direct utility to users. 
-
-Introductory information, use cases and details are available from the
-vignettes, readily accessible with \code{openVignette()}. 
-
-Complete listing of available documentation with
-\code{library(help="MSnbase")}.
-}
-
-
-\details{
-  see 'DESCRIPTION' file.
 }
 
 
 \author{
   Laurent Gatto
+  
   Maintainer: Laurent Gatto <lg390@cam.ac.uk>
 }
 
@@ -45,9 +35,20 @@ Complete listing of available documentation with
 \keyword{ package }
 
 \seealso{
-  See also the package vignette for use-cases and details about the
-  methods. Several \code{MSnbase} data structures are based on
-  \code{\link[Biobase]{Biobase}} classes.
+  Introductory information, use cases and details are available from the
+  vignettes:
+  \itemize{
+    \item The demo vignette describe an use-case using a dummy data set
+    provided with the package. It can be accessed with
+    \code{vignette("MSnbase-demo",package="MSnbase")}. 
+
+    \item The development vignette describes the classes implemented in
+    \code{MSnbase} and can be accessed with
+    \code{vignette("MSnbase-development",package="MSnbase")}.
+  }
+  
+  Complete listing of available documentation with
+  \code{library(help="MSnbase")}.
 }
 
 

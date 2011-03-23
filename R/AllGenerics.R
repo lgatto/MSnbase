@@ -38,6 +38,7 @@ setGeneric("qual",function(object) standardGeneric("qual"))
 setGeneric("normalise",function(object,method) standardGeneric("normalise"))
 setGeneric("ratios",function(object,...) standardGeneric("ratios"))
 
+setGeneric("width",function(object) standardGeneric("width"))
 setGeneric("reporterNames",function(object) standardGeneric("reporterNames"))
 setGeneric("reporterColours",function(object) standardGeneric("reporterColours"))
 setGeneric("reporterColors",function(object) standardGeneric("reporterColors"))

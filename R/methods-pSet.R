@@ -45,9 +45,19 @@ setMethod("[","pSet",
             whichElements <- ls(assayData(x))[i]
             x@assayData <- list2env(mget(whichElements,assayData(x)))
             x@featureData <- featureData(x)[i,]
-            x@processingData@processing <-
-              c(processingData(x)@processing,
-                paste("Data subsetted ",i,": ",date(),sep=""))
+            if (is.logical(i)) {
+              x@processingData@processing <-
+                c(processingData(x)@processing,
+                  paste("Data [logically] subsetted ",sum(i)," spectra: ",date(),sep=""))
+            } else if (is.numeric(i)) {
+              x@processingData@processing <-
+                c(processingData(x)@processing,
+                  paste("Data [numerically] subsetted ",length(i)," spectra: ",date(),sep=""))
+            } else {
+              x@processingData@processing <-
+                c(processingData(x)@processing,
+                  paste("Data subsetted ",i,": ",date(),sep=""))
+            }            
             return(x)
           })
 

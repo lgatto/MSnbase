@@ -36,15 +36,17 @@
 }
 
 \details{
-  Peaks \code{"\linkS4class{ReporterIons}"} defined a specific MZ at
-  which the peak is expected and a window around that MZ value. A peak
-  is searched for in that window and warnings are in case no peak data
-  is found in that region or the reporter peak extends outside the
-  window. Once the range of the curve is found, quantification is
+  \code{"\linkS4class{ReporterIons}"} define specific MZ at
+  which peaks are expected and a window around that MZ value.
+  A peak of interest is searched for in that window and
+  warnings are thrown in case no peak is found in that region
+  or the peak extends outside the window.
+  Once the range of the curve is found, quantification is
   performed. If no data points are found in the expected region, 'NA' is
-  returned at the expected reporter peak MZ.
+  returned for the reporter peak MZ.
 }
 
+     
 \section{Methods}{
   \describe{
     \item{\code{signature(object = "MSnExp", method = "character",
