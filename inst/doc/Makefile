@@ -19,6 +19,7 @@ LATEXFILES = *.aux\
 all:
 	make demo
 	make devel
+	make clean
 
 setvars:
 ifeq (${R_HOME},)
@@ -33,6 +34,7 @@ demo:
 	bibtex MSnbase-demo
 	pdflatex MSnbase-demo.tex
 	pdflatex MSnbase-demo.tex
+	make fake
 
 devel: 
 	mkdir -p sweave-cache/figs/
@@ -42,6 +44,7 @@ devel:
 	bibtex MSnbase-development
 	pdflatex MSnbase-development.tex
 	pdflatex MSnbase-development.tex
+	make fake
 
 fake:
 	cp ./MSnbase-demo/MSnbase-demo-fake.Rnw ./MSnbase-demo.Rnw 
@@ -53,6 +56,7 @@ real:
 
 clean:
 	rm -f $(LATEXFILES)
+	rm -rf sweave-cache
 	rm -f *~
 
 pdfclean: 

@@ -1,5 +1,12 @@
+CHANGES IN VERSION 0.99.1
+-------------------------
+ o fake vignettes are copied back in inst/doc/. to 
+   make sur tar tarball can be extracted and build 
+   again <2011-03-24 Thu> 
+ o Making clean after make all <2011-03-24 Thu> 
+
 CHANGES IN VERSION 0.99.0
-------------------------
+-------------------------
  o MSnProcess@process get's one line when subsetting and MSnExp object <2011-03-21 Mon>
  o Updated vignette Makefile <2011-03-22 Tue>
  o Added fake vignettes <2011-03-22 Tue>
