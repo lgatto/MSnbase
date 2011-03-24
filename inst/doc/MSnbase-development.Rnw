@@ -1,4 +1,0 @@
-\documentclass[10pt]{article}
-%\VignetteIndexEntry{MSnbase development}
-\begin{document}
-\end{document}

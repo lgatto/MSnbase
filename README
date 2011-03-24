@@ -1,0 +1,8 @@
+MSnbase has been accepted into the Bioconductor project.
+All source code it now hosted on the Bioc svn server [1]
+and the package can be installed from within R (>= 2.13) 
+with:
+> source("http://www.bioconductor.org/biocLite.R")
+> biocLite("MSnbase")
+
+[1] https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/MSnbase/

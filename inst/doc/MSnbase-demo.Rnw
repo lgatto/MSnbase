@@ -1,4 +1,0 @@
-\documentclass[10pt]{article}
-%\VignetteIndexEntry{Base Functions and Classes for MS-based Proteomics}
-\begin{document}
-\end{document}
