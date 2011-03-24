@@ -1,0 +1,65 @@
+CHANGES IN VERSION 0.99.1
+-------------------------
+ o fake vignettes are copied back in inst/doc/. to 
+   make sur tar tarball can be extracted and build 
+   again <2011-03-24 Thu> 
+ o Making clean after make all <2011-03-24 Thu> 
+
+CHANGES IN VERSION 0.99.0
+-------------------------
+ o MSnProcess@process get's one line when subsetting and MSnExp object <2011-03-21 Mon>
+ o Updated vignette Makefile <2011-03-22 Tue>
+ o Added fake vignettes <2011-03-22 Tue>
+ o Version set to 0.99.0 <2011-03-22 Tue>
+ o Minor changes in quantify-method.Rd <2011-03-22 Tue>
+ o added .Rbuildignore to ignore 'sweave-cache.*' <2011-03-22 Tue>
+ o added R/zzz.R with start-up message <2011-03-23 Wed>
+ o Added width generic <2011-03-23 Wed>
+ o IRanges in now imported <2011-03-23 Wed>
+
+CHANGES IN VERSION 0.2.0 <2011-03-17 Thu>
+------------------------
+ o MSnSet now extends eSet, reimplementing the ExpressionSet class
+   with exception of the experimentData slot, that must now be a MIAPE
+   instance.
+ o updated MIAPE substantially and added accessor methods.
+ o updated docs and vignettes to reflect above changes.
+
+CHANGES IN VERSION 0.1.5
+------------------------
+ o added zoo to Suggest, as zoo::rollapply is used in vignette.
+ o changes rollapply call to zoo:::rollapply.zoo, to make it 
+   work with zoo_1.6-4, rather that depending on zoo_1.7-0, which 
+   is not yet on CRAN (only r-forge).
+ o added vns to Suggests, as it is used in the demo vignette.
+
+CHANGES IN VERSION 0.1.4
+------------------------
+ o added pgfSweave to Suggests, as is called in vignette Makefile
+
+CHANGES IN VERSION 0.1.3
+------------------------
+ o Updates to ReporterIons man page
+ o Moved some Depends to Imports and updated NAMESPACE
+ o corrected a IRanges:::sapply ot IRanges::sapply in utils.R
+ o added inst/tests/test_MSnProcess.R
+
+CHANGES IN VERSION 0.1.2
+------------------------
+ o MSnProcess@MSnbaseVersion is not set in the initialize method instead to the prototype
+ o changed R CMD to $(R_HOME)/bin/R CMD in inst/doc/Makefile
+ o removed first and last (was 5th) MS1 spectra and associated MS2 spectra 
+   from dummy file to reduce size below 2MB.
+ o Updated tests to reflect new dummy data set
+ o Edition of dummy brakes readMzXMLData with msLevel=1 -- comment related tests
+ o Updated MSnbase-demo vignette and man to use good spectra un plots (i.e "X43" instead of "X64")
+
+CHANGES IN VERSION 0.1.1
+------------------------
+ o Added LazyLoad: yes in DESCRIPTION and modified docs accordingly
+ o Added NEWS file
+
+CHANGES IN VERSION 0.1.0
+------------------------
+ o Added MSnbase-demo vignette
+ o Added MSnbase-development vignette
