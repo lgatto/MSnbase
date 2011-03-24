@@ -1,0 +1,63 @@
+import(graphics)
+import(Biobase)
+
+importFrom(plyr,llply)
+## not needed really, using unexported xcms:::ramp* only
+importFrom(xcms,xcmsRaw) 
+
+importFrom(IRanges,IRanges,sapply)
+importClassesFrom(IRanges,IRanges)
+
+export(readMzXMLData,
+       formatRt,
+       extractSpectra,
+       extractPrecSpectra)
+
+exportClasses(pSet,
+              MIAPE,
+              MSnExp,
+              MSnProcess,
+              MSnSet,
+              Spectrum, Spectrum1, Spectrum2,
+              ReporterIons)
+
+exportMethods(show,"[","[[",
+              fileNames,
+              qual,
+              length,
+              plot,
+              plot2d,
+              spectra,
+              processingData,
+              peaksCount,
+              clean,
+              removePeaks,
+              intensity,
+              mz,
+              tic,
+              fromFile,
+              precursorMz,
+              precursorIntensity,
+              precursorCharge,
+              acquisitionNum,
+              rtime,
+              peaksCount,
+              msLevel,
+              collisionEnergy,
+              polarity,
+              trimMz,
+              quantify,
+              header,
+              dim,
+              multiplex,
+              multiLabels,
+              width,
+              reporterNames,"reporterNames<-",
+              reporterColours,reporterColors)
+## methods NOT exported
+## curveStats
+## ms1scan
+## "precursorCharge<-"
+## ratios
+## normalise
+
