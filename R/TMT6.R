@@ -1,10 +1,11 @@
 TMT6 <- new("ReporterIons",
-            description="6-plex TMT tags",
+            description="6-plex TMT tags (HCD)",
             name="TMT6",
             reporterNames=c("TMT6.126","TMT6.127",
               "TMT6.128","TMT6.129","TMT6.130",
               "TMT6.131"),
-            mz=c(126.22,127.21,128.20,129.20,130.19,131.18),
+            mz=c(126.13,127.13,128.13,
+              129.14,130.14,131.14),
             col=c("red","purple","blue","steelblue",
               "green","yellow"),
             width=0.05)
