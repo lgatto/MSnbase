@@ -1,18 +1,3 @@
-##' Converts seconds to min:sec format
-##'
-##' This function is used to convert retention times,
-##' expressed in seconds, in the more human friendly
-##' format mm:sec.
-##'
-##' @title Format Retention Time
-##' @usage formatRt(rt)
-##' @param rt retention in in seconds
-##' @return a character string in mm:ss format 
-##' @examples
-##' formatRt(1524)
-##' @author Laurent Gatto
-##' @export 
-##' @keywords chron utilities
 formatRt <- function(rt) {
   min <- floor(rt/60)
   sec <- round(rt-(min*60))

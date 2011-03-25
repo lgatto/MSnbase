@@ -3,7 +3,7 @@
 \concept{MSnExp}
 
 \title{
-  Read mzXML files into an MSnExp 
+  Import mzXML files as 'MSnExp' instances.
 }
 
 \description{
@@ -12,7 +12,7 @@
 }
 
 \usage{
-readMzXMLData(files, pdata = NULL, msLevel = 2, verbose = TRUE, centroided = FALSE, smoothed = FALSE, removePeaks = 0, clean = FALSE)
+readMzXMLData(files, pdata = NULL, msLevel = 2, verbose = TRUE, centroided = FALSE, smoothed = FALSE, removePeaks = 0, clean = FALSE) 
 }
 
 \arguments{
@@ -30,12 +30,12 @@ readMzXMLData(files, pdata = NULL, msLevel = 2, verbose = TRUE, centroided = FAL
    verbosity flag. 
   }
   \item{centroided}{
-    Logical indicating whether spectra are centroided or not. Default is
+    \code{Logical} indicating whether spectra are centroided or not. Default is
     'FALSE'. Used to initialise \code{"\linkS4class{MSnProcess}"} object
     in \code{processingData} slot.
   }
   \item{smoothed}{
-    Logical indicating whether spectra already smoothed or not. Default is
+    \code{Logical} indicating whether spectra already smoothed or not. Default is
     'FALSE'. Used to initialise \code{"\linkS4class{MSnProcess}"} object
     in \code{processingData} slot.
   }

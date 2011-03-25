@@ -1,3 +1,15 @@
+CHANGES IN VERSION 0.99.2
+-------------------------
+ o updated references in package Rd <2011-03-24 Thu>
+ o added readIspyData.Rd  <2011-03-24 Thu>
+ o removed old readMzXMLData function <2011-03-24 Thu>
+ o cleaning up code <2011-03-24 Thu>
+ o fixed MSnSet initialize: setting experimentData as MIAPE <2011-03-25 Fri>
+ o fixed MSnSet initialize: identical featureNames in assayData and 
+   featureData for empty MSnExp istances <2011-03-25 Fri>
+ o better test organisation and added object validity tests <2011-03-25 Fri>
+ o updated readIspyData function <2011-03-25 Fri>
+
 CHANGES IN VERSION 0.99.1
 -------------------------
  o fake vignettes are copied back in inst/doc/. to 

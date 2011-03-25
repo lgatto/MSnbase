@@ -1,10 +1,11 @@
 TMT7 <- new("ReporterIons",
-            description="6-plex TMT tags with isobaric tag",
+            description="6-plex TMT tags (HCD) with isobaric tag",
             name="TMT7",
             reporterNames=c("TMT7.126","TMT7.127",
               "TMT7.128","TMT7.129","TMT7.130",
               "TMT7.131","TMT7.229"),
-            mz=c(126.22,127.21,128.20,129.20,130.19,131.18,229.26),
+            mz=c(126.13,127.13,128.13,
+              129.14,130.14,131.14,229.26),
             col=c("red","purple","blue","steelblue",
               "green","yellow","grey"),
             width=0.05)

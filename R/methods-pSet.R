@@ -14,16 +14,12 @@ setValidity("pSet", function(object) {
   nspectra  <- length(assayData(object)) 
   nfeatures <- nrow(featureData(object)) 
   if (nspectra != nfeatures)
-    msg <- validMsg(msg, "unequal number of spectra in assayData and features in featureData.")
-  if (all(
-          featureNames(object) != ## obtained as ls(assayData(object))
-          rownames(fData(object)))
-      )
-    msg <- validMsg(msg,
-                    "featureNames differ between assayData and featureData.")
+    msg <- validMsg(msg,"unequal number of spectra in assayData and features in featureData.")
   if (length(spectra(object)) != length(ls(assayData(object))))
-    msg <- validMsg(msg,
-                    "Object size inconsistence using assayData() and spectra() methods.")
+    msg <- validMsg(msg,"object size inconsistence using assayData() and spectra() methods.")  
+  if (!identical(featureNames(object), ## obtained as ls(assayData(object))
+                 featureNames(featureData(object))))
+    msg <- validMsg(msg,"featureNames differ between assayData and featureData.")
   ## checking number of files in phenoData and
   ##          number of files in assayData
   nfilespData   <- length(processingData(object)@files)

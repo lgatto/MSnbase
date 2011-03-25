@@ -29,7 +29,10 @@ information). These should however not be of direct utility to users.
 }
 
 \references{
-  Package sources: \url{http://github.com/lgatto/MSnbase}
+  Gatto L. and Lilley K.S., Towards reproducible MSMS data
+  preprocessing, quality control and quantification. BSPR/EBI Proteomics
+  Meeting,  Hinxton, United Kingdom, 13-15 July 2010,
+  \url{http://dx.doi.org/10.1038/npre.2010.5010.1}. 
 }
 
 \keyword{ package }
