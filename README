@@ -1,5 +1,6 @@
-24 March 2010 -- MSnbase has been accepted in Bioconductor. 
-The source code has been transfered to Bio's svn server [1] 
+24 March 2010 -- MSnbase [0] has been accepted in Bioconductor. 
+The source code has been transferred to Bioc's svn server [1] 
 and can be installed from within R (>= 2.13) with biocLite("MSnbase").
 
+[0] https://sites.google.com/site/laurentgatto/r-bioconductor/msnbase
 [1] https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/MSnbase/
