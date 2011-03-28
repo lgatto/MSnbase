@@ -29,7 +29,8 @@ endif
 demo: 
 	mkdir -p sweave-cache/figs/
 	cp ./MSnbase-demo/MSnbase-demo.Rnw . 
-	"$(R_HOME)/bin/Rscript" --vanilla -e "library(pgfSweave); pgfSweave('MSnbase-demo.Rnw');"
+	##"$(R_HOME)/bin/Rscript" --vanilla -e "library(pgfSweave); pgfSweave('MSnbase-demo.Rnw');"
+	"$(R_HOME)/bin/R" CMD Sweave MSnbase-demo.Rnw
 	pdflatex MSnbase-demo.tex
 	bibtex MSnbase-demo
 	pdflatex MSnbase-demo.tex
@@ -39,7 +40,8 @@ demo:
 devel: 
 	mkdir -p sweave-cache/figs/
 	cp ./MSnbase-development/MSnbase-development.Rnw .
-	"$(R_HOME)/bin/Rscript" --vanilla -e "library(pgfSweave); pgfSweave('MSnbase-development.Rnw');"
+	##"$(R_HOME)/bin/Rscript" --vanilla -e "library(pgfSweave); pgfSweave('MSnbase-development.Rnw');"
+	"$(R_HOME)/bin/R" CMD Sweave MSnbase-development.Rnw
 	pdflatex MSnbase-development.tex
 	bibtex MSnbase-development
 	pdflatex MSnbase-development.tex
