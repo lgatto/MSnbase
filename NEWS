@@ -1,3 +1,7 @@
+CHANGES IN VERSION 0.99.3
+-------------------------
+ o Using Sweave rather than pgfSweave to build on lamb1. <2011-03-28 Mon>
+
 CHANGES IN VERSION 0.99.2
 -------------------------
  o updated references in package Rd <2011-03-24 Thu>
