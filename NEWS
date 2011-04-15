@@ -1,3 +1,18 @@
+CHANGES IN VERSION 1.1.1
+-------------------------
+ o added setAs data.frame and as.data.frame methods for
+   Spectrum objects <2011-03-29 Tue>
+ o support for uncentroided MS2 spectra plots <2011-03-31 Thu> <2011-04-02 Sat>
+ o support for uncentroided MS1 spectra plots <2011-04-02 Sat>
+ o minor modification to readIspyData <2011-04-04 Mon>
+ o removed centroided slot from MSnProcess and added to 
+   individial Spectrum instances. Relevant for Velos 
+   HCD (profile)/CID (uncentroided) data <2011-04-04 Mon>
+ o modified readMzXmlData accordingly <2011-04-04 Mon>
+ o added validObject(new(...)) tests for each class <2011-04-04 Mon>
+ o added centroided[<-] methods to Spectrum and pSet <2011-04-04 Mon>
+ o added 'keepAll' parameter to readIspyData <2011-04-11 Mon>
+
 CHANGES IN VERSION 0.99.4
 -------------------------
  o removed pgfSweave from Suggests field <2011-04-04 Mon>

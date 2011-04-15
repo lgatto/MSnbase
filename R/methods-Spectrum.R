@@ -95,13 +95,11 @@ setMethod("quantify",
 setMethod("curveStats","Spectrum",
           function(object,reporters) curveStats.Spectrum(object,reporters))
 
-setMethod("precursorCharge<-","Spectrum",
-          function(object,value="integer") object@precursorCharge <- value)
 setReplaceMethod("precursorCharge",
                  signature(object="Spectrum",
                            value="integer"),
                  function(object, value) {
-                   object@precursorCharge = value
+                   object@precursorCharge <- value
                    if (validObject(object))
                      return(object)
                  })
@@ -114,3 +112,23 @@ setMethod("polarity","Spectrum",
               return(object@polarity)
             stop("No polarity for MS2 spectra.")
           })
+
+setAs("Spectrum", "data.frame",
+      function (from)
+      data.frame(i=intensity(from),
+                 mz=mz(from))
+      )
+
+as.data.frame.Spectrum <- function(x, row.names=NULL, optional=FALSE, ...)
+  as(x, "data.frame")
+
+setMethod("centroided","Spectrum",function(object) object@centroided)
+
+setReplaceMethod("centroided",
+                 signature(object="Spectrum",
+                           value="logical"),
+                 function(object, value) {
+                   object@centroided <- value
+                   if (validObject(object))
+                     return(object)
+                 })

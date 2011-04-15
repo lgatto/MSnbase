@@ -146,9 +146,7 @@ quantify.MSnExp <- function(object,method,reporters,verbose) {
   object@processingData@processing <- c(object@processingData@processing,
                                         paste(reporters@name,
                                               " quantification by ",method,
-                                              ": ",date(),sep=""))
-  object@processingData@centroided <- TRUE
-                 
+                                              ": ",date(),sep=""))                
   ## Creating new MSnSet
   msnset <- new("MSnSet",
                 qual=.qual,

@@ -10,12 +10,11 @@ setClass("MSnProcess",
            removedPeaks="character",
            smoothed="logical",
            trimmed="numeric",
-           centroided="logical",
            normalised="logical",
            MSnbaseVersion="character"),
          contains=c("Versioned"),
          prototype = prototype(
-           new("Versioned", versions=c(MSnProcess="0.1.2")),
+           new("Versioned", versions=c(MSnProcess="0.1.3")),
            processing=character(),
            files=character(),
            trimmed=numeric(),
@@ -39,6 +38,7 @@ setClass("MIAPE",
            other="list",
            ##########################
            ## Based on MIAPE-MS 2.24
+           ##  will be updated with MIAPE-MSI and MIAPE-Quant
            ## 1. General features - (a) Global descriptors
            dateStamp="character",
            ##    Responsible person
@@ -179,14 +179,16 @@ setClass("Spectrum",
            scanIndex = "integer",
            mz = "numeric",
            intensity = "numeric",
-           fromFile = "integer", ## added to v0.1.1 to replace fromFile in MSnExp
+           fromFile = "integer", 
+           centroided = "logical", 
            "VIRTUAL"),
          contains=c("Versioned"),
          prototype = prototype(
-           new("Versioned", versions=c(Spectrum="0.1.2")),
+           new("Versioned", versions=c(Spectrum="0.1.3")),
            rt = numeric(),
            acquisitionNum = integer(),
            msLevel = integer(),
+           centroided = logical(),
            peaksCount = 0L, 
            scanIndex = integer(),
            mz = numeric(),

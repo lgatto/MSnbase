@@ -20,7 +20,6 @@ readMzXMLData <- function(files,
   on.exit(gc(),add=TRUE)
   
   ## Acquiring peak data and create 'MSnPeaksData' object  
-  fromFile <- c()
   spectra <- vector("list",length=n)
   for (i in 1:n) {
     if (msLevel>1) {
@@ -32,7 +31,6 @@ readMzXMLData <- function(files,
       cat("Acquiring data for",length(raw$rt),
           "spectra from file",files[i],"\n")
     spectra[[i]] <- vector("list",length=length(raw$rt))
-    fromFile <- c(fromFile,rep(i,length(raw$rt)))
     if (verbose)
       pb <- txtProgressBar(min=0,max=length(raw$rt),style=3)
     for (j in 1:length(raw$rt)) {
@@ -48,6 +46,7 @@ readMzXMLData <- function(files,
                                             removePeaks=removePeaks,
                                             verbose=FALSE)
       }
+      centroided(spectra[[i]][[j]]) <- centroided
       spectra[[i]][[j]]@fromFile <- i
       if (verbose)
         setTxtProgressBar(pb, j)
@@ -62,8 +61,7 @@ readMzXMLData <- function(files,
   process <- new("MSnProcess",
                  processing=paste("Data loaded:",date()),
                  files=files,
-                 smoothed=smoothed,
-                 centroided = centroided)
+                 smoothed=smoothed)
   
   if (removePeaks>0) {
     process@processing <- c(process@processing,

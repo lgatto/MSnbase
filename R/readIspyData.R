@@ -5,7 +5,8 @@ readIspyData <- function(file="ispy_results.tsv",
                          min.int=0,
                          reporters=19:23,
                          skipFillUp=24,
-                         fillUp=TRUE,
+                         fillUp=FALSE,
+                         keepAll=FALSE,
                          verbose=TRUE) {
   .fillUp <- function(x) {
     ## Fills up the left-most columns of
@@ -44,47 +45,58 @@ readIspyData <- function(file="ispy_results.tsv",
                     "numeric"))      # precursorrelativesignal
   names(tab) <- gsub("\\.\\.","pc",gsub("_","",names(tab)))
   names(tab)[ncol(tab)] <- "PrecursorRelativeSignal"
-  tab$MascotQuery <- sub(",[0-0]+\\)&","",
-                         sub("=HYPERLINK\\(","",tab$MascotQuery))
+  ## tab$MascotQuery <- sub(",[0-0]+\\)&","",
+  ##                        sub("=HYPERLINK\\(","",tab$MascotQuery))
+  tab$MascotQuery <- sub("^.+F0","F0",
+                         sub("\\.dat.+$",".dat",tab$MascotQuery))
   .exprs <- as.matrix(tab[,reporters])
-  .featureData <- tab[,c(-reporters,-skipFillUp)]
+  .featureData <- tab[,-reporters] ## was c(-reporters,-skipFillUp)
   if (fillUp) {
     if (verbose)
       cat("Filling up table\n")
+    if (verbose)
+      pb <- txtProgressBar(min = 0, max = ncol(.featureData), style = 3)
+    for (i in 1:ncol(.featureData)) {
+      .featureData[,i] <- .fillUp(.featureData[,i])
+      if (verbose)
+        setTxtProgressBar(pb,i)
+    }
+    if (verbose)
+      close(pb)
   }
   if (verbose)
-    pb <- txtProgressBar(min = 0, max = ncol(.featureData), style = 3)
-  for (i in 1:ncol(.featureData)) {
-    .featureData[,i] <- .fillUp(.featureData[,i])
-    setTxtProgressBar(pb,i)
-  }
-  if (verbose) {
-    close(pb)   
     cat("Filtering\n")
-  }
   ## Default filters keep all features
   keep.uniq <- keep.pep <- keep.na <- keep.int <- rep(TRUE,nrow(.exprs))
   ## Filtering on uniqueness of peptides
   if (uniquePeps) 
     keep.uniq <- .featureData$PeptideParentProteins==1
   ## Filtering on posterior error probability
-  keep.pep <- .featureData$PosteriorErrorProbability<pep
+  keep.pep <- .featureData$PosteriorErrorProbability<=pep
   ## Remove features with NAs
   if (na.rm)
     keep.na <- apply(.exprs,1,function(x) !any(is.na(x)))
   rowsums <- rowSums(.exprs,na.rm=TRUE)
-  keep.int <- rowsums>min.int
-  if (verbose)
+  keep.int <- rowsums>=min.int
+  keep.int[is.na(keep.int)] <- TRUE
+  if (verbose & !keepAll)
     cat(" keep.na: ",sum(keep.na),"\n",
         "keep.int: ",sum(keep.int),"\n",
         "keep.pep: ",sum(keep.pep),"\n",
         "keep.uniq: ",sum(keep.uniq),"\n")
   ## Applying filter
-  keep <- keep.na & keep.pep & keep.uniq & keep.int
+  if (!keepAll) {
+    keep <- keep.na & keep.pep & keep.uniq & keep.int
+  } else {
+    keep <- TRUE
+  }
   .featureData <- .featureData[keep,]
   .exprs <- .exprs[keep,]
-  if (any(is.na(.featureData)))
-    stop("NA values in .featureData.")
+  if (any(is.na(.featureData))) {
+    whichCols <- apply(.featureData,2,function(x) any(is.na(x)))
+    warning(paste("NA values in featureData column(s)",
+                  names(.featureData)[whichCols]))
+  }
   if (any(is.na(.exprs)))
     warning("NA values in .exprs.")
   ## Preparing return object slots and return new MSnSet

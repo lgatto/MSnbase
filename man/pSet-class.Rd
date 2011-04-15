@@ -21,6 +21,9 @@
 \alias{fileNames,pSet-method}
 \alias{fileNames}
 \alias{fromFile,pSet-method}
+\alias{centroided,pSet-method}
+\alias{centroided<-,pSet,ANY-method}
+\alias{centroided<-,pSet,logical-method}
 \alias{fvarLabels,pSet-method}
 \alias{fvarMetadata,pSet-method}
 \alias{header,pSet-method}
@@ -148,6 +151,11 @@
     \item{fromFile}{\code{signature(object = "pSet")}: Access raw data
       file indexes (to be found in the 'code{processingData}' slot) from
       which the individual object's spectra where read from. }
+    \item{centroided}{\code{signature(object = "pSet")}: Indicates
+      whether individual spectra are centroided ('TRUE') of uncentroided
+      ('FALSE'). Use \code{centroided(object) <- value} to update a
+      whole experiment, ensuring that \code{object} and \code{value}
+      have the same length. } 
     \item{fvarMetadata}{\code{signature(x = "pSet")}: Access metadata
       describing features reported in \code{fData}. }
     \item{fvarLabels}{\code{signature(x = "pSet")}: Access variable

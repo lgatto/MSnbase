@@ -8,6 +8,17 @@ test_that("readMzXMLData and dummy MSnExp msLevel 2 instance", {
   file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
   aa <- readMzXMLData(file,verbose=FALSE)
   expect_true(class(aa)=="MSnExp")
+  ## centroided get and set
+  expect_false(any(centroided(aa)))
+  val <- rep(TRUE,length(aa))
+  centroided(aa) <- val
+  expect_true(validObject(aa))
+  expect_true(all(centroided(aa)))
+  val[sample(length(aa),25)] <- FALSE
+  centroided(aa) <- val
+  expect_true(sum(centroided(aa))==length(aa)-25)
+  centroided(aa) <- rep(FALSE,length(aa))
+  expect_false(any(centroided(aa)))  
   ## checking slots and methods
   expect_equal(length(aa),54)
   expect_that(nrow(header(aa)),equals(length(aa)))

@@ -1,13 +1,19 @@
-plot.Spectrum1 <- function(spectrum) {
-  mtc <- i <- NULL # to satisfy codetools
-  ## plot.Spectrum1: no visible binding for global variable ‘mtc’
-  ## plot.Spectrum1: no visible binding for global variable ‘i’
-  df <- data.frame(i=spectrum@intensity,
-                   mtc=spectrum@mz)
+plot.Spectrum1 <- function(spectrum,
+                           centroided=FALSE,
+                           w1) {
+  if (missing(w1))
+    w1 <- max(mtc)/500
+  mtc <- mz(spectrum)
+  i <- intensity(spectrum)
+  dfr <- data.frame(i=i,mtc=mtc,width=w1)
   title <- opts(title=paste("Retention time",rtime(spectrum)))
-  p <- ggplot(df,aes(x=mtc,y=i)) + 
-              labs(x="M/Z",y="Intensity (ion counts)") +
-                geom_line()
+  if (centroided) {
+    p <- ggplot(df,aes(x=mtc,y=i,width=width)) + 
+      geom_bar(stat="identity",position="identity")
+  } else {
+    p <- ggplot(df,aes(x=mtc,y=i)) + geom_line()
+  }
+  p <- p + labs(x="M/Z",y="Intensity (ion counts)")  
   print(p+title)
   invisible(p+title)
 }
