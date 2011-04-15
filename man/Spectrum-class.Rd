@@ -22,6 +22,12 @@
 \alias{rtime}
 \alias{tic,Spectrum-method}
 \alias{tic}
+\alias{centroided,Spectrum-method}
+\alias{centroided}
+\alias{centroided<-,Spectrum,ANY-method}
+\alias{centroided<-,Spectrum,logical-method}
+\alias{centroided<-}
+
 
 %% -- other -- %%
 \alias{clean,Spectrum-method}
@@ -34,6 +40,8 @@
 \alias{trimMz,Spectrum-method}
 \alias{trimMz,Spectrum,numeric-method}
 
+\alias{coerce,Spectrum,data.frame-method}
+\alias{as.data.frame.Spectrum}
 
 \title{The "Spectrum" Class}
 
@@ -64,6 +72,9 @@
     \item{\code{intensity}:}{Object of class \code{"numeric"} of same
       length as \code{mz} indicating the intensity at which each \code{mz}
       datum has been measured. }
+    \item{\code{centroided}:}{Object of class \code{"logical"}
+      indicating if instance is centroided ('TRUE') of uncentroided
+      ('FALSE'). }
     \item{\code{fromFile}:}{Object of class \code{"integer"} referencing
       the file the spectrum originates. The file names are stored in the 
       \code{processingData} slot of the \code{"\linkS4class{MSnExp}"} or
@@ -82,6 +93,10 @@
   \describe{
     \item{\code{acquisitionNum(object)}}{ Returns the acquisition number
       of the spectrum as an integer. }
+    \item{\code{centroided(object)}}{ Indicates whether spectrum is
+      centroided ('TRUE') or uncentroided ('FALSE'). }
+    \item{\code{centroided(object) <- value}}{ Sets the 'centroided'
+      status of the spectrum object. }
     \item{\code{fromFile(object)}}{ Returns the index of the raw data
       file from which the current instances originates as an
       integer. }
@@ -116,7 +131,11 @@
     \item{trimMz}{\code{signature(object = "Spectrum")}: Trims the MZ
       range of all the spectra of the \code{MSnExp} instance. See
       \code{\link{trimMz}} documentation for more details and
-      examples. } 
+      examples. }
+    %% -------------------------------------------------- %%
+    \item{as}{\code{signature(object = "Spectrum", "data.frame")}:
+      Coerces the \code{Spectrum} object to a two-column
+      \code{data.frame} containing intensities and MZ values. }
   }
 }
 

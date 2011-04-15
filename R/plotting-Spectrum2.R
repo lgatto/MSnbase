@@ -1,52 +1,75 @@
-plot.Spectrum2 <- function(spectrum,reporters=NULL,full=FALSE) {
-  mtc <- i <- NULL                             # to satisfy codetools
-  xmin <- xmax <- ymin <- ymax <- fill <- NULL # to satisfy codetools
-  ## plot.Spectrum2: no visible binding for global variable ‘i’
-  ## ...
+plot.Spectrum2 <- function(spectrum,
+                           reporters=NULL,full=FALSE,
+                           centroided,
+                           w1,w2) {
   if (!full & is.null(reporters))
     stop("Please provide repotrer ions if you do not want a full spectrum.")
-  df <- data.frame(i=intensity(spectrum),
-                   mtc=mz(spectrum))
-  mainvp <- viewport(width=1,height=1,x=0.5,y=0.5)
-  title <- opts(title=paste("Precursor M/Z",spectrum@precursorMz))
-  p <- ggplot(df,aes(x=mtc,y=i)) + 
-              labs(x="M/Z",y="Intensity (ion counts)")
-  if (!is.null(reporters)) {
-    rect <- data.frame(mtc=mean(df$mtc),
-                       i=0,
-                       xmin=reporters@mz-reporters@width,
-                       xmax=reporters@mz+reporters@width,
-                       ymin=0,
-                       ymax=max(df$i),
-                       fill=reporters@col,
-                       alpha=1/3)
-    p <- p + geom_rect(data=rect,
-                       aes(xmin=xmin,
-                           xmax=xmax,
-                           ymin=ymin,
-                           ymax=ymax,
-                           fill=fill,
-                           alpha=alpha)) 
-  }
-  p <- p +
-    ## geom_point(alpha=I(1/10)) +
-      geom_line() +
-        opts(legend.position = "none")
   if (!is.null(reporters)) {
     if (class(reporters)!="ReporterIons")
       stop("Reporters must be of class 'ReporterIons'.")
+  }
+  if (missing(centroided))
+    centroided <- MSnbase:::centroided(spectrum)
+  xmin <- xmax <- ymin <- ymax <- fill <- NULL # to satisfy codetools
+  ## plot.Spectrum2: no visible binding for global variable ‘xmin’
+  ## ...
+  mtc <- mz(spectrum)
+  i <- intensity(spectrum)
+  if (missing(w1))
+    w1 <- max(mtc)/500
+  if (missing(w2))
+    w2 <- 0.01
+  ## preparing full spectrum plot p
+  dfr <- data.frame(i=i,mtc=mtc,width=w1)
+  mainvp <- viewport(width=1,height=1,x=0.5,y=0.5)
+  title <- opts(title=paste("Precursor M/Z",spectrum@precursorMz))
+  if (centroided) {
+    p <- ggplot(dfr,aes(x=mtc,y=i,width=width)) + opts(legend.position = "none") +
+      labs(x="M/Z",y="Intensity (ion counts)") +
+        geom_bar(stat="identity",position="identity")
+  } else {
+    p <- ggplot(dfr,aes(x=mtc,y=i)) + opts(legend.position = "none") +
+      labs(x="M/Z",y="Intensity (ion counts)") +
+        geom_line() ## + geom_point(alpha=I(1/10))
+  }
+  ## data reporters plot reps
+  if (!is.null(reporters)) {
     width <- reporters@width
     rlim1 <- min(reporters@mz)-width
     rlim2 <- max(reporters@mz)+width
+    dfr2 <- subset(dfr,mtc >= rlim1 & mtc <= rlim2)
+    dfr2$width <- w2
     coord <- coord_cartesian(xlim=c(rlim1,rlim2))
     subvp <- viewport(width=2/3,height=1/3,x=.95,y=.92,just=c("right","top"))
-    reps <- p + coord + 
+    rectdfr <- data.frame(mtc=mean(dfr$mtc),
+                          i=0,
+                          xmin=reporters@mz-reporters@width,
+                          xmax=reporters@mz+reporters@width,
+                          ymin=0,
+                          ymax=max(dfr$i),
+                          fill=reporters@col,
+                          alpha=0.2) ## was 1/3
+    rect <- geom_rect(data=rectdfr,
+                      aes(xmin=xmin,
+                          xmax=xmax,
+                          ymin=ymin,
+                          ymax=ymax,
+                          fill=fill,
+                          alpha=alpha))
+    if (centroided) {
+      p2 <- ggplot(dfr2,aes(x=mtc,y=i,width=width)) + 
+        geom_bar(stat="identity",position="identity") + rect
+    } else {
+      p2 <- ggplot(dfr2,aes(x=mtc,y=i)) + geom_line() + rect
+    }
+    reps <- p2 + coord + 
       theme_gray(9) +
         labs(x = NULL, y = NULL) +
           opts(plot.margin = unit(c(1,1,0,0), "lines")) +
             scale_x_continuous(breaks=seq(rlim1,rlim2,(rlim2-rlim1)/10)) +
               opts(legend.position = "none") 
   }
+  ## plotting
   if (full) {
     print(p+title,vp=mainvp)
     invisible(p+title)

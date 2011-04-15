@@ -96,6 +96,23 @@ setMethod("acquisitionNum","pSet",
 setMethod("rtime","pSet",
           function(object) sapply(spectra(object),rtime))
 
+setMethod("centroided","pSet",
+          function(object) sapply(spectra(object),centroided))
+
+setReplaceMethod("centroided",
+                 signature(object="pSet",
+                           value="logical"),
+                 function(object, value) {
+                   if (length(object) != length(value))
+                     stop("Length of replacement value is different than number of spectra.")
+                   sl <- spectra(object)
+                   for (i in 1:length(sl))
+                     centroided(sl[[i]]) <- value[i]
+                   object@assayData <- as.environment(sl)
+                   if (validObject(object))
+                     return(object)
+                 })
+
 setMethod("peaksCount","pSet",
           function(object) sapply(spectra(object),peaksCount))
 
@@ -228,9 +245,33 @@ setMethod("varLabels",
 setMethod("featureData",
           signature(object="pSet"),
           function(object) object@featureData)
+
+setReplaceMethod("featureData",
+                 signature=signature(
+                   object="pSet",
+                   value="AnnotatedDataFrame"),
+                 function(object, value) {
+                   object@featureData <- value
+                   if (validObject(object))
+                     return(object)
+                 })
+
 setMethod("fData",
           signature=signature(object="pSet"),
           function(object) pData(featureData(object)))
+
+setReplaceMethod("fData",
+                 signature=signature(
+                   object="pSet",
+                   value="data.frame"),
+                 function(object, value) {
+                     fd <- featureData(object)
+                     pData(fd) <- value
+                     object@featureData <- fd
+                     if (validObject(object))
+                       return(object)
+                 })
+
 setMethod("fvarMetadata",
           signature=signature(object="pSet"),
           function(object) varMetadata(featureData(object)))
@@ -277,6 +318,7 @@ setMethod("processingData",
           signature(object="pSet"),
           function(object) object@processingData)
 
+
 ################################
 ## TODO: setReplaceMethods for
 ##  phenoData
@@ -284,8 +326,6 @@ setMethod("processingData",
 ##  processingData - or may be individual elements for MSnProcess class
 ##  varMetadata
 ##  varLabels
-##  featureData
-##  fData
 ##  fvarMetadata
 ##  fvarLabels
 ##  experimentData

@@ -34,8 +34,6 @@
       used. See \code{\link{removePeaks}} for more details and examples. }
     \item{\code{smoothed}:}{Object of class \code{"logical"} indicating
       whether spectra have been smoothed. }
-    \item{\code{centroided}:}{Object of class \code{"logical"}
-      indicating whether spectra have been centroided. }
     \item{\code{trimmed}:}{Object of class \code{"numeric"} documenting
       if/how the data has been trimmed. }
     \item{\code{normalised}:}{Object of class \code{"logical"}

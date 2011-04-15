@@ -6,7 +6,6 @@ fragplot <- function(x,...) {
        xlab="Reporter",ylab="Intensity")
   grid()
   for (i in 1:nrow(x)) {
-    ##points(1:4,x[i,],...)
-    lines(1:4,x[i,],...)
+    lines(1:ncol(x),x[i,],...)
   }
 }

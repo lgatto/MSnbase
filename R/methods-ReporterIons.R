@@ -12,8 +12,7 @@ setMethod("reporterColours","ReporterIons", function(object) object@col)
 setMethod("reporterColors" ,"ReporterIons", function(object) object@col)
 
 setMethod("reporterNames","ReporterIons", function(object) object@reporterNames)
-setMethod("reporterNames<-","ReporterIons",
-          function(object,value="list") object@reporterNames <- value)
+
 setReplaceMethod("reporterNames",
                  signature(object="ReporterIons",
                            value="character"),

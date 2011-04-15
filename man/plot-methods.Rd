@@ -34,7 +34,14 @@
   \item{full}{Logical indicating whether full spectrum (respectively
     spectra) of  only reporter ions of interest should be
     plotted. Default is 'FALSE', in which case \code{reporters} must be
-    defined. } 
+    defined. }
+  \item{centroided}{Logical indicating if spectrum or spectra are in
+    centroided mode, in which case peaks are plotted as sticks, rather
+    than curves.}
+  \item{w1}{Width of sticks for full centroided spectra. Default is to
+    use maximum MZ value divided by 500. }
+  \item{w2}{Width of sticks for centroided reporter ions plots. Default
+    is 0.01. } 
 }
 
 \section{Methods}{
@@ -46,10 +53,11 @@
       objects, repoter ions are not inlaid when \code{full} is 'TRUE'.
     }
     \item{\code{signature(x = "Spectrum", y = "missing", reporters =
-	"ReporterIons", full = "logical")}}{ Displays the MZs against
-      intensities of the \code{Spectrum} object as a line plot.
-      At least one of \code{reporters} must be defined or \code{full}
-      set to 'TRUE'. 
+	"ReporterIons", full = "logical", centroided = "logical", w1,
+	w2)}}{ Displays the MZs against intensities of the
+      \code{Spectrum} object as a line plot.  
+      At least one of \code{reporters} being defined or \code{full}
+      set to 'TRUE' is required. 
 
       \code{reporters} and \code{full} are used only for
       \code{"\linkS4class{Spectrum2}"}
@@ -69,7 +77,7 @@ aa <- readMzXMLData(file,verbose=FALSE)
 data(iTRAQ4)
 plot(extractPrecSpectra(aa,precursorMz(aa)[1]),reporters=iTRAQ4)
 plot(extractPrecSpectra(aa,precursorMz(aa)[1]),full=TRUE)
-plot(aa[["X43"]],reporters=iTRAQ4,full=TRUE)
+plot(aa[["X43"]],reporters=iTRAQ4,full=TRUE,centroided=FALSE)
 }
 
 \keyword{methods}

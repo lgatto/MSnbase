@@ -4,11 +4,11 @@ normalise.MSnSet <- function(object,method) {
          max = div <- rowMax(exprs(object)),
          sum = div <- rowSums(exprs(object)))
   exprs(object) <- exprs(object)/div
-  object@process@processing <- c(object@process@processing,
-                                 paste("Normalised (",method,"): ",
-                                       date(),
-                                       sep=""))
-  object@process@normalised <- TRUE
+  object@processingData@processing <- c(object@processingData@processing,
+                                        paste("Normalised (",method,"): ",
+                                              date(),
+                                              sep=""))
+  object@processingData@normalised <- TRUE
   return(object)
 }
 
