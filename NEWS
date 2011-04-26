@@ -1,3 +1,17 @@
+CHANGES IN VERSION 1.1.2
+-------------------------
+ o Simplified quantify generic signature - now only object argument <2011-04-19 Tue>
+ o Added strict parameter to quantify method, man updated, added relevant test 
+ o Added illustrative plot for quantitation methods in MSnbase-demo vignette <2011-04-19 Tue>
+ o Added illustrative plot for data pre-processing (removePeaks and clean) 
+   in MSnbase-demo vignette <2011-04-20 Wed>
+ o No warnings are issued anymore when peaks expands outside of mz(reporters) +/- width(reporters). 
+   See ?quantify on how to check this manually. <2011-04-19 Tue>
+ o No warnings are issued anymore when reporter peaks are missing. 
+   See ?quantify on how to check this manually. <2011-04-20 Wed>  
+ o pSet validity warns if length(unique(msLevel(object))) > 1, rather than != 1. 
+   The latter triggered a warning for a new("MSnExp"). <2011-04-20 Wed>
+
 CHANGES IN VERSION 1.1.1
 -------------------------
  o added setAs data.frame and as.data.frame methods for

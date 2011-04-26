@@ -47,7 +47,8 @@ test_that("Spectrum quantification", {
           114.145)
   sp <- new("Spectrum2",
             intensity=int,
-            mz=mz)
+            mz=mz,
+            centroided=FALSE)
   expect_true(validObject(sp))
   expect_equal(MSnbase:::getCurveWidth(sp,iTRAQ4[1]),list(lwr=1,upr=5))
   expect_equal(as.numeric(quantify(sp,"sum",iTRAQ4[1])$peakQuant),6)
@@ -59,8 +60,38 @@ test_that("Spectrum quantification", {
                      0.01*1    +
                      (0.01*2)/2+
                      (0.01*0.5)/2))
-  print("Warnings expected because there is not data for iTRAQ4[2].")
+  ## print("Warnings expected because there is not data for iTRAQ4[2].") -- not since v1.1.2
   expect_true(as.logical(is.na(quantify(sp,"sum",iTRAQ4[2])$peakQuant)))
-  expect_warning(quantify(sp,"sum",iTRAQ4[2])$peakQuant)
+  ## expect_warning(quantify(sp,"sum",iTRAQ4[2])$peakQuant)
 })
 
+test_that("Spectrum strict quantification", {
+  ## dummy Spectrum  
+  int <- c(0,1,1,3,1,1,0)
+  mz <- c(113.9,
+          114.0,
+          114.05,
+          114.1,
+          114.15,
+          114.2,
+          114.25)
+  sp <- new("Spectrum2",
+            intensity=int,
+            mz=mz,
+            centroided=FALSE)
+  expect_true(validObject(sp))
+  expect_that(as.numeric(quantify(sp,"trap",iTRAQ4[1],strict=FALSE)$peakQuant),
+              equals((mz[2]-mz[1])*(int[2]-int[1])/2 +
+                     (mz[3]-mz[2])*int[3] +
+                     (mz[4]-mz[3])*int[3] +
+                     (mz[4]-mz[3])*(int[4]-int[3])/2 +
+                     (mz[5]-mz[4])*int[5] +
+                     (mz[5]-mz[4])*(int[4]-int[5])/2 +
+                     (mz[6]-mz[5])*int[6] +
+                     (mz[7]-mz[6])*(int[6]-int[7])/2))
+  expect_that(as.numeric(quantify(sp,"trap",iTRAQ4[1],strict=TRUE)$peakQuant),
+              equals((mz[4]-mz[3])*int[3] +
+                     (mz[4]-mz[3])*(int[4]-int[3])/2 +
+                     (mz[5]-mz[4])*int[5] +
+                     (mz[5]-mz[4])*(int[4]-int[5])/2))
+})

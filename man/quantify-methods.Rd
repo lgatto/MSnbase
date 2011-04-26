@@ -23,12 +23,19 @@
   \item{method}{
     Peak quantitation method. One of, possibly abreviated
     "trapezoidation", "max", or "sum". These methods return respectively
-    the area under the peak, the maximum of the peak or the sum of all
-    intensities of the peaks. 
+    the area under the peak(s), the maximum of the peak(s) or the sum of
+    all intensities of the peak(s). 
   }
   \item{reporters}{
     An object of class \code{"\linkS4class{ReporterIons}"} that defines
-    the peaks to be quantified.
+    the peak(s) to be quantified.
+  }
+  \item{strict}{
+    If strict is 'FALSE' (default), the quantitation is performed
+    using data points along the entire width of a peak. If strict is set
+    to 'TRUE', once the apex(es) is/are identified, only data points
+    within apex +/- width of reporter (see 
+    \code{"\linkS4class{ReporterIons}"}) are used for quantitation.
   }
   \item{verbose}{
     Verbose of the output (only for \code{MSnExp} objects).
@@ -38,11 +45,19 @@
 \details{
   \code{"\linkS4class{ReporterIons}"} define specific MZ at
   which peaks are expected and a window around that MZ value.
-  A peak of interest is searched for in that window and
-  warnings are thrown in case no peak is found in that region
-  or the peak extends outside the window.
-  Once the range of the curve is found, quantification is
-  performed. If no data points are found in the expected region, 'NA' is
+  A peak of interest is searched for in that window.
+  Since version 1.1.2, warnings are not thrown anymore in case no data
+  is found in that region or if the peak extends outside the window.
+  This can be checked manually after quantitation,
+  by inspecting the quantitation data (using the \code{exprs} accessor)
+  for \code{NA} values or by comaring the \code{lowerMz} and
+  \code{upperMz} columns in the \code{"\linkS4class{MSnSet}"}
+  \code{qual} slot against the respective expected \code{mz(reporters)}
+  +/- \code{width(reporters)}.
+  This is illustrated in the example below.
+  
+  Once the range of the curve is found, quantification is performed.
+  If no data points are found in the expected region, 'NA' is   
   returned for the reporter peak MZ.
 }
 
@@ -85,14 +100,22 @@
 }
 
 \examples{
+## quantifying full experiment
 file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
 aa <- readMzXMLData(file,verbose=FALSE)
-data(iTRAQ4)
 msnset <- quantify(aa,method="trap",reporters=iTRAQ4)
 msnset
-qty64 <- quantify(aa[["X43"]],method="trap",iTRAQ4[1])
-qty64$peakQuant
-qty64$curveStats
+## checking for non-quantified peaks
+table(is.na(exprs(msnset)))
+## checking for peaks outside of first reporter width
+lowerMz.114 <- qual(msnset)$lowerMz[qual(msnset)$reporter=="114.1"]
+upperMz.114 <- qual(msnset)$upperMz[qual(msnset)$reporter=="114.1"]
+any(lowerMz.114 < mz(iTRAQ4[1]) - width(iTRAQ4[1]))
+any(upperMz.114 > mz(iTRAQ4[1]) + width(iTRAQ4[1]))
+## quantifying single spectrum
+qty <- quantify(aa[["X43"]],method="trap",iTRAQ4[1])
+qty$peakQuant
+qty$curveStats
 }
 
 

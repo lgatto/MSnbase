@@ -6,7 +6,7 @@ setValidity("pSet", function(object) {
     msg <- validMsg(msg,
                     "assayData must contain Spectrum objects.")
   msl <- msLevel(object)
-  if (length(unique(msl))!=1) 
+  if (length(unique(msl))>1) 
     warning(paste("Different MS levels in ",class(object),
                   " object:",unique(msl)))
   ## checking number of spectra in assayData and

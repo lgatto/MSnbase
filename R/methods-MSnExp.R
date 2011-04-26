@@ -111,10 +111,11 @@ setMethod("trimMz",
           })
 
 setMethod("quantify",
-          signature=signature("MSnExp","character"),
+          signature=signature("MSnExp"),
           function(object,
                    method=c("trapezoidation","max","sum"),
                    reporters,
+                   strict=FALSE,
                    verbose=TRUE) {
             if (!inherits(reporters,"ReporterIons"))
               stop("Argument 'reporters' must inherit from 'ReporterIons' class.")
@@ -122,7 +123,7 @@ setMethod("quantify",
             ## has msLevel>1, all have
             if (msLevel(object)[1]<2) 
               stop("No quantification for MS1 data implemented.")
-            quantify.MSnExp(object,match.arg(method),reporters,verbose)
+            quantify.MSnExp(object,match.arg(method),reporters,strict,verbose)
           })
 
 setMethod("curveStats","MSnExp",
