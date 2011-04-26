@@ -17,29 +17,43 @@ clean.Spectrum <- function(spectrum,updatePeaksCount=TRUE) {
   return(spectrum)
 }
 
-quantify.Spectrum <- function(spectrum,method,reporters) {
+quantify.Spectrum <- function(spectrum,method,
+                              reporters,strict) {
   ## Parameters:
   ##  spectrum: object of class Spectrum
+  ##  method: methods for how to quantify the peaks
   ##  reporters: object of class ReporterIons
+  ##  strict: use full width of peaks or a limited range around apex
   ## Return value:
   ##  a names list of length 2 with
   ##   peakQuant: named numeric of length length(reporters)
-  ##   curveStats: a length(reporters)x7 data frame 
+  ##   curveStats: a length(reporters) x 7 data frame 
   peakQuant <- vector("numeric",length(reporters))
   names(peakQuant) <- reporterNames(reporters)
   curveStats <- c()
   for (i in 1:length(reporters)) {
     ## Curve statistics
-    dfr <- curveData(spectrum,reporters[i])
+    dfr <- MSnbase:::curveData(spectrum,reporters[i])    
     ##  dfr:     mz int
     ##  1  114.1023   0
     ##  2  114.1063   2
     ##  3  114.1102   3
     ##  4  114.1142   4
     ##  ...
+    if (strict) {
+      lowerMz <- round(mz(reporters[i]) - width(reporters[i]),3)
+      upperMz <- round(mz(reporters[i]) + width(reporters[i]),3)
+      selMz <- (dfr$mz >= lowerMz) & (dfr$mz <= upperMz)
+      dfr <- dfr[selMz,]
+      dfr <- rbind(c(min(dfr$mz),0),
+                   dfr,
+                   c(max(dfr$mz),0))
+    }
     maxInt <- max(dfr$int)
     nMaxInt <- sum(dfr$int==maxInt)
     baseLength <- nrow(dfr)
+    if (strict)
+      baseLength <- baseLength-2
     mzRange <- range(dfr$mz)
     precMz <- precursorMz(spectrum)
     if (length(precMz)!= 1)
@@ -50,27 +64,27 @@ quantify.Spectrum <- function(spectrum,method,reporters) {
                           reporters[i]@mz,precMz))
     ## Quantification
     if (method=="trapezoidation") {
+      if (nrow(dfr)==1) {
+        if (!is.na(dfr$int)) 
+          warning(paste("Found only one mz value for precursor ",precursorMz(spectrum),
+                        " and reporter ",reporterNames(reporters[i]),".\n",
+                        "  If your data is centroided, quantify with 'max'.",sep=""))
+      }
       ## Quantify reporter ions calculating the area
       ## under the curve by trapezoidation
-      if (nrow(dfr)==1) {
-        peakQuant[i] <- dfr$int
-      } else {
-        n <- nrow(dfr)
-        x <- vector(mode = "numeric", length = n)
-        for (j in 1:n) {
-          k <- (j%%n) + 1
-          x[j] <- dfr$mz[j] * dfr$int[k] - dfr$mz[k] * dfr$int[j]          
-        }
-        peakQuant[i] <- abs(sum(x)/2)
-        ## area using zoo's rollmean, but seems slightly slower
-        ## peakQuant[i] <- abs(sum(diff(dfr$int)*rollmean(dfr$mz,2)))
+      n <- nrow(dfr)
+      x <- vector(mode = "numeric", length = n)
+      for (j in 1:n) {
+        k <- (j%%n) + 1
+        x[j] <- dfr$mz[j] * dfr$int[k] - dfr$mz[k] * dfr$int[j]          
       }
-    } 
-    else if (method=="sum") {
+      peakQuant[i] <- abs(sum(x)/2)
+      ## area using zoo's rollmean, but seems slightly slower
+      ## peakQuant[i] <- abs(sum(diff(dfr$int)*rollmean(dfr$mz,2)))
+    } else if (method=="sum") {
       ## Quantify reporter ions using sum of data points of the peak
       peakQuant[i] <- sum(dfr$int)
-    }
-    else if (method=="max") {
+    }  else if (method=="max") {
       ## Quantify reporter ions using max peak intensity
       peakQuant[i] <- max(dfr$int)
     }
@@ -120,7 +134,7 @@ curveData <- function(spectrum,reporter) {
   ## 4  114.1142   4
   ## ...
   if (length(reporter)!=1) {
-    warning("Only returning data for first reporter ion")
+    warning("[curveData] Only returning data for first reporter ion")
     reporter <- reporter[1]
   }
   bp <- getCurveWidth(spectrum,reporter)
@@ -137,9 +151,10 @@ getCurveWidth <- function(spectrum,reporters) {
   ## This function returns curve base indices
   ## from a spectrum object for all the reporter ions
   ## in the reporter object
-  ## Warnings: the function returns warnings if the 
-  ##  mz[indeces] range outside of the original window
-  ##  reporter in the reporters object
+  ## CHANGED IN VERSION 1.1.2
+  ## NOT ANYMORE Warnings: the function returns warnings if the 
+  ## NOT ANYMORE  mz[indeces] range outside of the original window
+  ## NOT ANYMORE  reporter in the reporters object
   ## Parameters:
   ##  spectrum: object of class Spectrum
   ##  reporters: object of class ReporterIons
@@ -163,7 +178,7 @@ getCurveWidth <- function(spectrum,reporters) {
   for (i in 1:length(m)) {
     region <- (mz>lwr[i] & mz<upr[i])
     if (sum(region,na.rm=TRUE)==0) {
-      warning("[getCurveData] No data for for precursor ",spectrum@precursorMz," reporter ",m[i])
+      ## warning("[getCurveData] No data for for precursor ",spectrum@precursorMz," reporter ",m[i])
       xlwr[i] <- xupr[i] <- NA
     } else {
       ymax <- max(int[region])
@@ -175,18 +190,18 @@ getCurveWidth <- function(spectrum,reporters) {
         xlwr[i] <- xlwr[i]-1
         ylwr <- int[xlwr[i]]
       }
-      if (mz[xlwr[i]]<lwr[i])
-        warning("Peak base for precursor ",spectrum@precursorMz,
-                " reporter ",m[i],":\n   ",mz[xlwr[i]],"<",m[i],"-",
-                reporters@width)
+      ## if (mz[xlwr[i]]<lwr[i])
+      ##   warning("Peak base for precursor ",spectrum@precursorMz,
+      ##           " reporter ",m[i],": ",mz[xlwr[i]]," < ",m[i],"-",
+      ##           reporters@width,sep="")
       while (yupr!=0) {
         xupr[i] <- xupr[i]+1
         yupr <- int[xupr[i]]
       }
-      if (mz[xupr[i]]>upr[i])
-        warning("Peak base for precursor ",spectrum@precursorMz,
-                " reporter ",m[i],":\n   ",mz[xlwr[i]],">",m[i],"+",
-                reporters@width)
+      ## if (mz[xupr[i]]>upr[i])
+      ##   warning("Peak base for precursor ",spectrum@precursorMz,
+      ##           " reporter ",m[i],": ",mz[xlwr[i]]," > ",m[i],"+",
+      ##           reporters@width,sep="")
       ## Updating xlwr, unless we reached the artificial leading
       if (xlwr[i]>1)
         xlwr[i] <- xlwr[i]-1

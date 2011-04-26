@@ -104,7 +104,7 @@ test_that("readMzXMLData and dummy MSnExp msLevel 2 instance", {
 ##   ## [*] using as.numeric because rtime and precursorMz return named numerics
 ## })
 
-context("data integrity")
+context("MSnExp data integrity")
 
 test_that("spectra order and integrity", {
   file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")

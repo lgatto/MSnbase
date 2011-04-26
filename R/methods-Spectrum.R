@@ -83,13 +83,14 @@ setMethod("trimMz",
           function(object,mzlim,...) trimMz.Spectrum(object,mzlim))
 
 setMethod("quantify",
-          signature=signature("Spectrum","character"),
+          signature=signature("Spectrum"),
           function(object,
                    method=c("trapezoidation","max","sum"),
-                   reporters) {
+                   reporters,
+                   strict=FALSE) {
             if (!inherits(reporters,"ReporterIons"))
               stop("Argument 'reporters' must inherit from 'ReporterIons' class.")
-            quantify.Spectrum(object,match.arg(method),reporters)
+            quantify.Spectrum(object,match.arg(method),reporters,strict)
           })
 
 setMethod("curveStats","Spectrum",

@@ -109,7 +109,7 @@ clean.MSnExp <- function(object,verbose=TRUE) {
   return(object)
 }
 
-quantify.MSnExp <- function(object,method,reporters,verbose) {
+quantify.MSnExp <- function(object,method,reporters,strict,verbose) {
   ## Display progress bar with eapply
   ## TODO - test if using eapply is more efficient in terms of mem/cpu usage
   ## if (verbose) {
@@ -131,11 +131,12 @@ quantify.MSnExp <- function(object,method,reporters,verbose) {
   spectraList <- spectra(object)
   ## Quantification -- creating exprs for assayData slot
   if (length(spectraList)==1) {
-    peakData <- quantify(spectraList[[1]],method,reporters)
+    peakData <- quantify(spectraList[[1]],method,reporters,strict)
     .exprs <- t(peakData$peakQuant)
     .qual <- t(peakData$curveData)
   } else {
-    peakData <- llply(spectraList,quantify,method,reporters,.progress=progress)
+    peakData <- llply(spectraList,quantify,method,
+                      reporters,strict,.progress=progress)
     .exprs <- do.call(rbind,sapply(peakData,"[","peakQuant"))
     .qual <- do.call(rbind,sapply(peakData,"[","curveStats"))
   }
@@ -145,8 +146,9 @@ quantify.MSnExp <- function(object,method,reporters,verbose) {
   ## Updating MSnprocess slot
   object@processingData@processing <- c(object@processingData@processing,
                                         paste(reporters@name,
-                                              " quantification by ",method,
-                                              ": ",date(),sep=""))                
+                                              ifelse(strict," (strict) "," "),
+                                              "quantification by ",method,
+                                              ": ",date(),sep=""))
   ## Creating new MSnSet
   msnset <- new("MSnSet",
                 qual=.qual,

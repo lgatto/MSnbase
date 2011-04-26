@@ -72,9 +72,9 @@ plot.Spectrum2 <- function(spectrum,
   ## plotting
   if (full) {
     print(p+title,vp=mainvp)
-    invisible(p+title)
-     if (!is.null(reporters)) 
+    if (!is.null(reporters)) 
       print(reps,vp=subvp)
+    invisible(p+title)
   } else {
     print(reps+title,vp=mainvp)
     invisible(reps+title)
