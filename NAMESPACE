@@ -11,7 +11,8 @@ importClassesFrom(IRanges,IRanges)
 export(readMzXMLData,
        formatRt,
        extractSpectra,
-       extractPrecSpectra)
+       extractPrecSpectra,
+       as.data.frame.Spectrum)
 
 exportClasses(pSet,
               MIAPE,
@@ -21,7 +22,8 @@ exportClasses(pSet,
               Spectrum, Spectrum1, Spectrum2,
               ReporterIons)
 
-exportMethods(show,"[","[[",
+exportMethods(coerce,
+              show,"[","[[",
               fileNames,
               qual,
               length,
