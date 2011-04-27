@@ -116,8 +116,8 @@ setMethod("polarity","Spectrum",
 
 setAs("Spectrum", "data.frame",
       function (from)
-      data.frame(i=intensity(from),
-                 mz=mz(from))
+      data.frame(mz=mz(from),
+                 i=intensity(from))
       )
 
 as.data.frame.Spectrum <- function(x, row.names=NULL, optional=FALSE, ...)
