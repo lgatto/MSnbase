@@ -12,7 +12,8 @@ export(readMzXMLData,
        formatRt,
        extractSpectra,
        extractPrecSpectra,
-       as.data.frame.Spectrum)
+       as.data.frame.Spectrum,
+       combineFeatures)
 
 exportClasses(pSet,
               MIAPE,

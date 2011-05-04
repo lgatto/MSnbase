@@ -24,7 +24,7 @@ readIspyData <- function(file="ispy_results.tsv",
   tab <- read.csv(file,header=TRUE,sep="\t",fill=TRUE,
                   colClasses=c(
                     "numeric",       # Index
-                    "factor",        # ProteinAccession
+                    "factor",        # ProteinAccession 
                     "character",     # ProteinDescription
                     "numeric",       # ProteinQ.Value.uniquepeptidesonly.
                     "numeric",       # ProteinType1Error.uniquepeptidesonly.
@@ -90,8 +90,12 @@ readIspyData <- function(file="ispy_results.tsv",
   } else {
     keep <- TRUE
   }
-  .featureData <- .featureData[keep,]
   .exprs <- .exprs[keep,]
+  .featureData <- .featureData[keep,]
+  ## updating levels of factors
+  .featureData$ProteinAccession <- .featureData$ProteinAccession[,drop=TRUE]
+  .featureData$FixedModifications <- .featureData$FixedModifications[,drop=TRUE]
+  .featureData$VariableModifications <- .featureData$VariableModifications[,drop=TRUE]
   if (any(is.na(.featureData))) {
     whichCols <- apply(.featureData,2,function(x) any(is.na(x)))
     warning(paste("NA values in featureData column(s)",
