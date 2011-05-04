@@ -97,7 +97,7 @@ readMzXMLData <- function(files,
                  dimLabels=c("sampleNames", "sampleColumns"))
   }
   fdata <- new("AnnotatedDataFrame",
-               data=data.frame(spectum=1:length(spectra),
+               data=data.frame(spectrum=1:length(spectra),
                  row.names=nms))
   fdata <- fdata[ls(spectra.env)] ## reorder features
   
