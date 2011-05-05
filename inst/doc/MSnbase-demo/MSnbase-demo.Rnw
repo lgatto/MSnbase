@@ -359,7 +359,9 @@ and displayed as integral part of the experiment object.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Quantitation}
+\section{From spectra to quantitative expression data}
+
+\subsection{Reporter ions quantitation}\label{sec:quant}
 
 Quantitation is performed on specific peaks in the spectra, that are specified 
 with an \Robject{ReporterIon} object. A specific peak is defined by it's expected 
@@ -445,6 +447,7 @@ qnt
 head(exprs(qnt))
 @ 
 
+\subsection{Normalisation}\label{sec:norm}
 
 A \Robject{MSnSet} object is meant to be compatible with further downstream 
 packages for data normalisation and statistical analysis. 
@@ -457,7 +460,7 @@ library("vsn")
 qnt.vsn <- vsn2(exprs(qnt))
 @ 
 
-The results of figure 3 of \cite{Karp2010} are reproduced with 
+Figure 3 of \cite{Karp2010} is reproduced with 
 the dummy experiment and show on figure \ref{fig:cv-plot}.
 
 <<cvdata,echo=FALSE,cache=FALSE>>=
@@ -498,7 +501,60 @@ lines(seq(1,70,by=(70/length(rmed2))),rmed2,col="red"      ,lwd=2)
 \label{fig:cv-plot}
 \end{figure}
 
-\clearpage
+\subsection{Feature aggregation}
+
+The above quantitation and normalisation has been performed on quantitative data 
+obtained from individual spectra. However, the biological unit of interest is not 
+the spectrum but the peptide or the protein. As such, it is important to be able to 
+summarise features that belong to a same group, i.e. spectra from one peptide, 
+peptides that originate from one protein, or directly combine all spectra that have 
+been uniquely associated to one protein. 
+
+\Rpackage{MSnbase} provides one function, \Rfunction{combineFeatures}, that allows 
+to aggregate features stored in an \Robject{MSnSet} using build-in or user 
+defined summary function and return a new \Robject{MSnSet} instance. 
+The function has three main argument here described below. 
+Additional details can be found in the function manual. 
+
+<<makeGroups1,echo=FALSE,cache=FALSE>>=
+gb <- as.factor(fData(qnt)$precursor.mz)
+@ 
+
+\Rfunction{combineFeatures}'s first argument, \Robject{object}, is an instance of class \Robject{MSnSet}, 
+as has been created in the section \ref{sec:quant} for instance. 
+The second argument, \Robject{groupBy}, is a \Robject{factor} than has as many elements as 
+there are features in the \Robject{MSnSet} \Robject{object} argument. The features corresponding 
+to the \Robject{groupBy} levels will be aggregated so that the resulting \Robject{MSnSet} output 
+will have \Rfunction{length(levels(groupBy))} features. Here, we will combine individual 
+MSMS spectra based on their precursor mass-to-charge ratio. This information has been saved 
+in the \Robject{MSnSet}'s \Robject{featureData} slot during the quantitation (see section \ref{sec:quant}). 
+As shown below, this will result in \Sexpr{length(table(gb))} new aggregated features.
+
+<<makeGroups2,echo=TRUE,cache=FALSE>>=
+names(fData(qnt))
+head(fData(qnt)$precursor.mz)
+gb <- as.factor(fData(qnt)$precursor.mz)
+table(gb)
+@ 
+
+The third argument, \Robject{fun}, 
+defined how to combine the features. Predefined functions are readily available and can be 
+specified as strings 
+(\Robject{fun="mean"}, \Robject{fun="median"}, \Robject{fun="sum"}, 
+\Robject{fun="weigthed.mean"} or \Robject{fun="medianpolish"} to compute respectively the mean, 
+media, sum, weighted mean or median polish of the features to be aggregated). 
+Alternatively, is is possible to supply userdefined functions with 
+\Robject{fun=function(x) \{ ... \}}. We will use the \Robject{median} here.
+
+<<combineFeatures,echo=TRUE,cache=FALSE>>=
+qnt2 <- combineFeatures(qnt,groupBy=gb,fun="median")
+qnt2
+@ 
+
+Other intended ways to define aggregation groups is to import 
+identification data into R and collate it to the \Robject{MSnSet} 
+feature data, and subsequently use peptide sequences or protein assignments 
+to combine features. 
 
 \section{Session information}\label{sec:sessionInfo} 
 <<label=sessioninfo,results=tex,echo=FALSE,cache=FALSE>>=
