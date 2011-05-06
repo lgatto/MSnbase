@@ -111,12 +111,13 @@ library("MSnbase")
 filename <- dir(system.file(package="MSnbase",dir="extdata"),
                 full.name=TRUE,pattern="mzXML$")
 print(filename)
-experiment <- readMzXMLData(filename, msLevel = 2, verbose=FALSE)
-experiment
+raw.experiment <- readMzXMLData(filename, msLevel = 2, verbose=FALSE)
+raw.experiment
 @
 
 <<experiment-size,echo=FALSE,cache=FALSE>>=
-sz <- sum(sapply(assayData(experiment),object.size)) + object.size(experiment)
+sz <- sum(sapply(assayData(raw.experiment),object.size)) + 
+  object.size(raw.experiment)
 sz <- round(sz/(1024^2),2)
 @ 
 
@@ -150,16 +151,16 @@ As illustrated above, showing the experiment textually displays it's content:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Spectra objects}\label{sec:spectra}
 
-The raw data is composed of the \Sexpr{length(experiment)} MS spectra. 
+The raw data is composed of the \Sexpr{length(raw.experiment)} MS spectra. 
 The spectra are named individually 
-(\Sexpr{paste(paste(head(featureNames(experiment)),collapse=", "),", ...",sep="")})
+(\Sexpr{paste(paste(head(featureNames(raw.experiment)),collapse=", "),", ...",sep="")})
 and stored in a \Robject{environment}. They can be accessed individually with 
-\texttt{experiment[["X10"]]} or as a list with \texttt{spectra(experiment)}.
+\texttt{raw.experiment[["X10"]]} or as a list with \texttt{spectra(raw.experiment)}.
 As we have loaded our experiment specifying \texttt{msLevel=2}, 
 the spectra will all be of level 2 (or higher, if available). 
 
 <<Spectrum,cache=FALSE,echo=TRUE>>=
-sp <- experiment[["X43"]]
+sp <- raw.experiment[["X43"]]
 sp
 @ 
 
@@ -171,9 +172,9 @@ for the MZ values, \Rfunction{intensity} for the inensities, \ldots see the
 
 <<accessors,cache=FALSE,echo=TRUE>>=
 peaksCount(sp)
-head(peaksCount(experiment))
+head(peaksCount(raw.experiment))
 rtime(sp)
-head(rtime(experiment))
+head(rtime(raw.experiment))
 @ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -222,7 +223,7 @@ into a separate experiment, using the \Rfunction{extractPrecSpectra} method.
 This method takes an \Robject{MSnExp} experiment and a precursor MZ value as parameters.
 
 <<extractPrecSpec,echo=T,cache=F>>=
-exp2 <- extractPrecSpectra(experiment,precursorMz(sp))
+exp2 <- extractPrecSpectra(raw.experiment,precursorMz(sp))
 exp2
 @ 
 
@@ -257,7 +258,7 @@ Figure \ref{fig:spectrum-plot2} illustrated spectrum \texttt{X43} after low inte
 peaks removal.
 
 <<removePeaks,echo=TRUE,cache=FALSE>>=
-experiment <- removePeaks(experiment,t=3,verbose=FALSE)
+experiment <- removePeaks(raw.experiment,t=3,verbose=FALSE)
 ## total ion current
 tic(sp)
 tic(experiment[["X43"]])
@@ -363,9 +364,9 @@ and displayed as integral part of the experiment object.
 
 \subsection{Reporter ions quantitation}\label{sec:quant}
 
-Quantitation is performed on specific peaks in the spectra, that are specified 
+Quantitation is performed on fixed peaks in the spectra, that are specified 
 with an \Robject{ReporterIon} object. A specific peak is defined by it's expected 
-\Robject{mz} value and is expected to be found within \Robject{mz} $\pm$ \Robject{width}.  
+\Robject{mz} value and is searched for within \Robject{mz} $\pm$ \Robject{width}.  
 If no data is found, \Robject{NA} is returned.
 
 <<reporters,echo=TRUE,cache=FALSE>>=
@@ -484,11 +485,12 @@ rmed2 <- zoo:::rollapply.zoo(cv2,7,function(x) median(x,na.rm=TRUE))
 \begin{figure}[!ht]
 <<cv-plot,fig=T,echo=F,tikz=T,external=F,width=5,height=5>>=
 plot(order(mn1),cv1,col="steelblue",pch=19,
-     ylab="CV",xlab="Rank mean")
+     ylab="CV",xlab="Rank mean",
+     cex.axis=.7,cex.lab=.8)
 points(order(mn2),cv2,col="red",pch=19)
 grid()
-lines(seq(1,70,by=(70/length(rmed1))),rmed1,col="steelblue",lwd=2)
-lines(seq(1,70,by=(70/length(rmed2))),rmed2,col="red"      ,lwd=2)
+lines(seq(1,70,by=(70/length(rmed1))),rmed1,col="steelblue",lwd=1)
+lines(seq(1,70,by=(70/length(rmed2))),rmed2,col="red"      ,lwd=1)
 ## legend("topright",
 ##        legend=c("log2","vsn","running\nmedian"),
 ##        pch=c(19,19,NA),
@@ -502,6 +504,7 @@ lines(seq(1,70,by=(70/length(rmed2))),rmed2,col="red"      ,lwd=2)
 \end{figure}
 
 \subsection{Feature aggregation}
+\label{sec:feataggregation}
 
 The above quantitation and normalisation has been performed on quantitative data 
 obtained from individual spectra. However, the biological unit of interest is not 
@@ -555,6 +558,71 @@ Other intended ways to define aggregation groups is to import
 identification data into R and collate it to the \Robject{MSnSet} 
 feature data, and subsequently use peptide sequences or protein assignments 
 to combine features. 
+
+\subsection{Label-free MS2 quantitation}
+\label{sec:spectralcounting}
+
+Note that if samples are not multiplexed, label-free MS2 quantitation is possible 
+using \Rpackage{MSnbase}.
+Once individual spectra have been assigned to peptides and proteins, it becomes 
+straightforward to estimate protein quantities using the spectral counting method, 
+as illustrated in section \ref{sec:feataggregation}, when the \Robject{groupBy} 
+argument is defined. 
+
+\section{Quantitative assessment of incomplete dissociation}
+\label{sec:incompdissoc}
+
+Quantitation using isobaric reporter tags assumes complete dissociation between
+the reporter group (red on figure \ref{fig:itraqchem}), 
+balance group (blue) 
+and peptide (the peptide reactive group is drawn in green). 
+However, incomplete dissociation does occur and 
+results in an isobaric tag (i.e reporter and balance groups) specific peaks. 
+
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=4cm]{./itraqchem.pdf}
+\caption{ iTRAQ 4-plex isobaric tags reagent consist of three parts: 
+  (1) a charged reporter group (MZ of 114, 115, 116 and 117) that is unique to each of the four reagents (red),
+  (2) an uncharged mass balance group (28-31 Da) (blue)and 
+  (3) a peptide reactive group (NHS ester) that binds to the peptide. 
+  In case of incomplete dissociation, the reporter and balance groups produce a specific peaks 
+  at MZ 145.
+}
+\label{fig:itraqchem}
+  \end{center}
+\end{figure}
+
+\Rpackage{MSnbase} provides, among others, a \Robject{ReporterIons} object for iTRAQ 4-plex that includes the 
+145 peaks, called \Robject{iTRAQ5}. This can then be used to quantify the experiment as show in section \ref{sec:quant} 
+to estimate incomplete dissociation for each spectrum.
+
+<<incompdiss,echo=TRUE,cache=FALSE,keep.source=T>>=
+iTRAQ5
+incompdiss <- quantify(raw.experiment,
+                       method="trap",
+                       reporters=iTRAQ5,
+                       strict=FALSE,
+                       verbose=FALSE)
+head(exprs(incompdiss))
+@ 
+
+Figure \ref{fig:incompdiss} compares these intensities for the whole experiment.
+
+\begin{figure}[!hbt]
+  \begin{center}
+<<incompdiss-plot,fig=T,echo=F,tikz=T,external=F,width=4,height=3.5>>=
+dfr <- melt(exprs(incompdiss))
+colnames(dfr) <- c("feature","reporters","intensity")
+qplot(x=reporters,y=intensity,data=dfr,geom="boxplot") + theme_gray(8)
+@ 
+\caption{ Boxplot comparing intensities of the 4 reporter ions an the 
+  incomplete dissociation specific peak. }
+\label{fig:incompdiss}
+  \end{center}
+\end{figure}
+
+\clearpage
 
 \section{Session information}\label{sec:sessionInfo} 
 <<label=sessioninfo,results=tex,echo=FALSE,cache=FALSE>>=

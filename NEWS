@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.1.6
+-------------------------
+ o added incomplete dissociation and spectral counting sections 
+   to demo vignette <2011-05-06 Fri>
+ o added bioc-sig-proteomics link to forword <2011-05-06 Fri>
+
 CHANGES IN VERSION 1.1.5
 -------------------------
  o added combineFeatures example in demo vignette <2011-05-05 Thu>
