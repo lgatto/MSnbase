@@ -15,7 +15,8 @@
 \alias{qual}
 %%\alias{ratios,MSnSet-method}
 \alias{show,MSnSet-method}
-
+\alias{purityCorrect,MSnSet-method}
+\alias{purityCorrect,MSnSet,matrix-method}
 
 \title{
   The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
@@ -119,11 +120,13 @@
       content as text. }
     \item{qual}{\code{signature(object = "MSnSet")}: Access the reporter
       ion peaks description. }
+    \item{purityCorrect}{\code{signature(object = "MSnSet", impurities =
+	"matrix")}: performs reporter ions purity correction. See
+      \code{\link{purityCorrect}} documentation for more details. } 
     % \item{ratios}{\code{signature(object = "MSnSet")}: ... }
     % \item{normalise}{\code{signature(object = "MSnSet")}: ... }
   }    
 }
-
 
 \author{
   Laurent Gatto <lg390@cam.ac.uk>
