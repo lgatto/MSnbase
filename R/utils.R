@@ -203,3 +203,12 @@ utils.plot2d <- function(object,z=c("tic","file","peaks.count","charge")) {
   print(p)
   invisible(p)
 }
+
+
+makeImpuritiesMatrix <- function(x) {
+  M <- diag(x)
+  colnames(M) <- paste("reporter",1:x,sep=".")
+  rownames(M) <- paste("% reporter",1:x)
+  corrfactors <- edit(M)
+  invisible(corrfactors)
+}

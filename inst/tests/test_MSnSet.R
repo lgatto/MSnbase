@@ -33,3 +33,12 @@ test_that("Combine MSnSet features", {
   expect_true(all(fData(bb)[,1]==c("A","B")))
   expect_true(all(fData(bb)[,2]==c("A.1","B.6")))
 })
+
+test_that("Purity correction", {
+  file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
+  aa <- readMzXMLData(file,verbose=FALSE)
+  msnset <- quantify(aa,method="trap",reporters=iTRAQ4)
+  impurity0 <- matrix(c(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1),ncol=4)
+  pc <- purityCorrect(msnset,impurity0)
+  expect_true(all(exprs(pc)==exprs(msnset)))
+})

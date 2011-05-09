@@ -72,6 +72,30 @@ setMethod("normalise","MSnSet",
           normalise.MSnSet(object,match.arg(method))
           )
 
+setMethod("purityCorrect",
+          signature=signature("MSnSet","matrix"),
+          function(object,impurities) {
+            if (ncol(impurities)!=nrow(impurities))
+              stop("Impurity matrix must be a square matrix")
+            if (ncol(object)!=ncol(impurities))
+              stop("Impurity matrix show be",ncol(object),"by",ncol(object))
+            .purcor <- function(x,.impurities=impurities) {
+              keep <- !is.na(x)
+              if (sum(keep)>1) 
+                x[keep] <- solve(.impurities[keep,keep],x[keep])
+              x[x<0] <- NA
+              return(x)
+            }
+            corr.exprs <- apply(exprs(object),1,.purcor)
+            exprs(object) <- t(corr.exprs)
+            object@processingData@processing <-             
+              c(object@processingData@processing,
+                paste("Purity corrected: ",date(),sep=""))
+            if (validObject(object))
+              return(object)
+          })
+
+
 setMethod("dim","MSnSet",function(x) dim(exprs(x)))
 setMethod("ratios","MSnSet",function(object,...) ratios.MSnSet(object,...))
 setMethod("qual","MSnSet", function(object) object@qual)
