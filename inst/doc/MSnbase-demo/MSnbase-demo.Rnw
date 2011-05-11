@@ -102,22 +102,23 @@ as defined by one or multiple raw data files.
 
 \Rpackage{MSnbase} imports raw MS data stored in \texttt{mzXML} 
 format \citep{Pedrioli2004} with the function \Rfunction{readMzXMLData} function. 
+See \Rfunction{?readMzXMLData} for more details.
 More formats, notably \texttt{mzML} \citep{Martens2010}, will be added at a later stage. 
 Either MS1 or MS2 spectra can be loaded at a time by setting the \texttt{msLevel} parameter accordingly.
+In this document, we will use a slightly bigger dataset, \Robject{itraqdata}, provided with 
+\Rpackage{MSnbase}. It includes feature metadata, accessible with the \Rfunction{fData} method. 
+The metadata includes identification data for the \Sexpr{length(itraqdata)} MS2 spectra.
 
 
 <<MSnExp,cache=FALSE,echo=TRUE>>=
 library("MSnbase")
-filename <- dir(system.file(package="MSnbase",dir="extdata"),
-                full.name=TRUE,pattern="mzXML$")
-print(filename)
-raw.experiment <- readMzXMLData(filename, msLevel = 2, verbose=FALSE)
-raw.experiment
+itraqdata
+head(fData(itraqdata))
 @
 
 <<experiment-size,echo=FALSE,cache=FALSE>>=
-sz <- sum(sapply(assayData(raw.experiment),object.size)) + 
-  object.size(raw.experiment)
+sz <- sum(sapply(assayData(itraqdata),object.size)) + 
+  object.size(itraqdata)
 sz <- round(sz/(1024^2),2)
 @ 
 
@@ -151,16 +152,16 @@ As illustrated above, showing the experiment textually displays it's content:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Spectra objects}\label{sec:spectra}
 
-The raw data is composed of the \Sexpr{length(raw.experiment)} MS spectra. 
+The raw data is composed of the \Sexpr{length(itraqdata)} MS spectra. 
 The spectra are named individually 
-(\Sexpr{paste(paste(head(featureNames(raw.experiment)),collapse=", "),", ...",sep="")})
+(\Sexpr{paste(paste(head(featureNames(itraqdata)),collapse=", "),", ...",sep="")})
 and stored in a \Robject{environment}. They can be accessed individually with 
-\texttt{raw.experiment[["X10"]]} or as a list with \texttt{spectra(raw.experiment)}.
+\texttt{itraqdata[["X10"]]} or as a list with \texttt{spectra(itraqdata)}.
 As we have loaded our experiment specifying \texttt{msLevel=2}, 
 the spectra will all be of level 2 (or higher, if available). 
 
 <<Spectrum,cache=FALSE,echo=TRUE>>=
-sp <- raw.experiment[["X43"]]
+sp <- itraqdata[["X1"]]
 sp
 @ 
 
@@ -172,9 +173,9 @@ for the MZ values, \Rfunction{intensity} for the inensities, \ldots see the
 
 <<accessors,cache=FALSE,echo=TRUE>>=
 peaksCount(sp)
-head(peaksCount(raw.experiment))
+head(peaksCount(itraqdata))
 rtime(sp)
-head(rtime(raw.experiment))
+head(rtime(itraqdata))
 @ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -216,26 +217,39 @@ plot(sp,reporters=iTRAQ4,full=TRUE)
 \label{fig:spectrum-plot}
 \end{figure}
 
-
-It is also possible to plot all spectra of an experiment (figure \ref{fig:msnexp-plot}). 
-Lets start by extracting all spectra that have the same precursor MZ value than \Robject{sp} 
-into a separate experiment, using the \Rfunction{extractPrecSpectra} method. 
-This method takes an \Robject{MSnExp} experiment and a precursor MZ value as parameters.
-
-<<extractPrecSpec,echo=T,cache=F>>=
-exp2 <- extractPrecSpectra(raw.experiment,precursorMz(sp))
-exp2
+<<bsasel,echo=FALSE>>=
+bsasel <- fData(itraqdata)$ProteinAccession=="BSA"
 @ 
 
-We see that \Sexpr{length(exp2)} spectra have the same MZ value. 
-These can be visulaised together by plotting the 
+It is also possible to plot all spectra of an experiment (figure \ref{fig:msnexp-plot}). 
+Lets start by subsetting the \Robject{itraqdata} experiment using the protein accession 
+numbers included in the feature metadata, and keep the \Sexpr{sum(bsasel)} from 
+the \textit{BSA} protein.
+
+<<subset,echo=TRUE>>=
+sel <- fData(itraqdata)$ProteinAccession=="BSA"
+bsa <- itraqdata[sel]
+bsa
+as.character(fData(bsa)$ProteinAccession)
+@ 
+
+%% Lets start by extracting all spectra that have the same precursor MZ value than \Robject{sp} 
+%% into a separate experiment, using the \Rfunction{extractPrecSpectra} method. 
+%% This method takes an \Robject{MSnExp} experiment and a precursor MZ value as parameters.
+%% <<extractPrecSpec,echo=T,cache=F>>=
+%% exp2 <- extractPrecSpectra(raw.experiment,precursorMz(sp))
+%% exp2
+%% @ 
+
+These can then be visualised together by plotting the 
 \Robject{MSnExp} object, as illustrated on figure \ref{fig:msnexp-plot}.
 
 \begin{figure}[!ht]
 <<msnexp-plot,fig=T,echo=T,tikz=T,external=F,width=5,height=6>>=
-plot(exp2,reporters=iTRAQ4,full=FALSE)
+plot(bsa,reporters=iTRAQ4,full=FALSE)
 @ 
-\caption{Experiment-wide raw MS2 spectra.}
+\caption{Experiment-wide raw MS2 spectra. The y-axes of the individual 
+  spectra are automatically rescaled to the same range. }
 \label{fig:msnexp-plot}
 \end{figure}
 
@@ -253,26 +267,31 @@ as a numeric. The default value is the character \texttt{"min"}, that will remov
 all peaks equal to the lowest non null intensity in any spectrum. 
 We observe the effect of the \Rfunction{removePeaks} method by comparing 
 total ion count (i.e. the total intensity in a spectrum) with the \Rfunction{tic} method
-before (object \Robject{sp}) and after (object \Robject{experiment}). 
-Figure \ref{fig:spectrum-plot2} illustrated spectrum \texttt{X43} after low intensity 
-peaks removal.
+before (object \Robject{itraqdata}) and after (object \Robject{experiment}) for 
+spectrum \texttt{X55}. 
+
 
 <<removePeaks,echo=TRUE,cache=FALSE>>=
-experiment <- removePeaks(raw.experiment,t=3,verbose=FALSE)
+experiment <- removePeaks(itraqdata,t=400,verbose=FALSE)
 ## total ion current
-tic(sp)
-tic(experiment[["X43"]])
+tic(itraqdata[["X55"]])
+tic(experiment[["X55"]])
 @ 
 
 \begin{figure}[!ht]
-<<spectrum-plot2,fig=T,echo=T,tikz=T,external=F,width=5,height=5>>=
-plot(experiment[["X43"]],reporters=iTRAQ4,full=TRUE) 
+<<spectrum-plot2,fig=T,echo=F,tikz=T,external=F,width=5,height=2.5>>=
+grid.newpage()
+pushViewport(viewport(layout = grid.layout(1, 2)))
+vplayout <- function(x, y)
+  viewport(layout.pos.row = x, layout.pos.col = y)
+p1 <- plot(itraqdata[["X55"]],full=TRUE) + theme_gray(5) 
+p2 <- plot(experiment[["X55"]],full=TRUE) + theme_gray(5) 
+print(p1,vp=vplayout(1,1))
+print(p2,vp=vplayout(1,2))
 @ 
-\caption{Same spectrum as on figure \ref{fig:spectrum-plot}, 
-  after setting peaks <= 3 to 0.}
+\caption{Same spectrum before (left) and after setting peaks <= 400 to 0.}
 \label{fig:spectrum-plot2}
 \end{figure}
-
 
 Unlike the name might suggest, the \Rfunction{removePeaks} method does 
 not actually remove peaks from the spectrum; they are set to 0. This 
@@ -286,10 +305,10 @@ are illustrated on figure \ref{fig:preproc} on page \pageref{fig:preproc}.
 
 <<clean,echo=TRUE,cache=FALSE>>=
 ## number of peaks
-peaksCount(sp)
-peaksCount(experiment[["X43"]])
+peaksCount(itraqdata[["X55"]])
+peaksCount(experiment[["X55"]])
 experiment <- clean(experiment,verbose=FALSE)
-peaksCount(experiment[["X43"]])
+peaksCount(experiment[["X55"]])
 @ 
 
 
@@ -319,8 +338,6 @@ p3 <- plot(clean(removePeaks(ppsp,t=3)),full=TRUE) +
 <<preproc-plot,fig=T,echo=F,tikz=T,external=F,width=3,height=6>>=
 grid.newpage()
 pushViewport(viewport(layout = grid.layout(3, 1)))
-vplayout <- function(x, y)
-  viewport(layout.pos.row = x, layout.pos.col = y)
 print(p1, vp=vplayout(1,1))
 print(p2, vp=vplayout(2,1))
 print(p3, vp=vplayout(3,1))
@@ -348,12 +365,11 @@ the original \Sexpr{sz} Mb.
 \label{trimMz-example}
 
 <<trimMz,echo=TRUE,cache=FALSE>>=
-range(mz(sp))
+range(mz(itraqdata[["X55"]]))
 experiment <- trimMz(experiment,mzlim=c(112,120))
-range(mz(experiment[["X43"]]))
+range(mz(experiment[["X55"]]))
 experiment
 @ 
-
 As can be seen above, all processing performed on the experiment is recorded 
 and displayed as integral part of the experiment object.
 
@@ -448,6 +464,19 @@ qnt
 head(exprs(qnt))
 @ 
 
+If no peak is detected for a reporter ion peak, the respective 
+quantitation value is set to \texttt{NA}. In our case, there 
+is \Sexpr{sum(is.na(exprs(qnt)))} such case in row 
+\Sexpr{which(is.na(exprs(qnt))) %% nrow(qnt)}.
+We will remove the offending line, as we do not expect any missing  peaks.
+
+<<removeNa,echo=TRUE>>=
+sum(is.na(exprs(qnt)))
+whichRow <- which(is.na(exprs(qnt))) %% nrow(qnt)
+qnt <- qnt[-whichRow,]
+sum(is.na(exprs(qnt)))
+@ 
+
 \subsection{Normalisation}\label{sec:norm}
 
 A \Robject{MSnSet} object is meant to be compatible with further downstream 
@@ -520,7 +549,7 @@ The function has three main argument here described below.
 Additional details can be found in the function manual. 
 
 <<makeGroups1,echo=FALSE,cache=FALSE>>=
-gb <- as.factor(fData(qnt)$precursor.mz)
+gb <- fData(qnt)$ProteinAccession
 @ 
 
 \Rfunction{combineFeatures}'s first argument, \Robject{object}, is an instance of class \Robject{MSnSet}, 
@@ -529,14 +558,11 @@ The second argument, \Robject{groupBy}, is a \Robject{factor} than has as many e
 there are features in the \Robject{MSnSet} \Robject{object} argument. The features corresponding 
 to the \Robject{groupBy} levels will be aggregated so that the resulting \Robject{MSnSet} output 
 will have \Rfunction{length(levels(groupBy))} features. Here, we will combine individual 
-MSMS spectra based on their precursor mass-to-charge ratio. This information has been saved 
-in the \Robject{MSnSet}'s \Robject{featureData} slot during the quantitation (see section \ref{sec:quant}). 
+MS2 spectra based on the protein they originate from. 
 As shown below, this will result in \Sexpr{length(table(gb))} new aggregated features.
 
 <<makeGroups2,echo=TRUE,cache=FALSE>>=
-names(fData(qnt))
-head(fData(qnt)$precursor.mz)
-gb <- as.factor(fData(qnt)$precursor.mz)
+gb <- fData(qnt)$ProteinAccession
 table(gb)
 @ 
 
@@ -554,10 +580,10 @@ qnt2 <- combineFeatures(qnt,groupBy=gb,fun="median")
 qnt2
 @ 
 
-Other intended ways to define aggregation groups is to import 
-identification data into R and collate it to the \Robject{MSnSet} 
-feature data, and subsequently use peptide sequences or protein assignments 
-to combine features. 
+%% Other intended ways to define aggregation groups is to import 
+%% identification data into R and collate it to the \Robject{MSnSet} 
+%% feature data, and subsequently use peptide sequences or protein assignments 
+%% to combine features. 
 
 \subsection{Purity correction}
 \label{sec:purcor}
@@ -623,7 +649,7 @@ to estimate incomplete dissociation for each spectrum.
 
 <<incompdiss,echo=TRUE,cache=FALSE,keep.source=T>>=
 iTRAQ5
-incompdiss <- quantify(raw.experiment,
+incompdiss <- quantify(itraqdata,
                        method="trap",
                        reporters=iTRAQ5,
                        strict=FALSE,
