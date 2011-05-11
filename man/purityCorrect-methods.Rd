@@ -3,6 +3,7 @@
 
 \alias{purityCorrect-methods}
 \alias{purityCorrect}
+\alias{makeImpuritiesMatrix}
 
 \title{ Performs reporter ions purity correction }
 
@@ -22,7 +23,11 @@
   A detailed purity correction method is described in
   Shadforth \emph{et al.}, i-Tracker: for quantitative proteomics using
   iTRAQ. BMC Genomics. 2005 Oct 20;6:145. (PMID 16242023). 
-  
+
+  Function \code{makeImpuritiesMatrix} will create a simple graphical
+  interface to guide the user in the creation of such a matrix. The
+  function takes the dimension of the square matrix (i.e the number of
+  reporter ions) as argument.
 }
 
 \section{Methods}{

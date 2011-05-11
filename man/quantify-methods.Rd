@@ -106,14 +106,14 @@ aa <- readMzXMLData(file,verbose=FALSE)
 msnset <- quantify(aa,method="trap",reporters=iTRAQ4)
 msnset
 ## checking for non-quantified peaks
-table(is.na(exprs(msnset)))
+sum(is.na(exprs(msnset)))
 ## checking for peaks outside of first reporter width
 lowerMz.114 <- qual(msnset)$lowerMz[qual(msnset)$reporter=="114.1"]
 upperMz.114 <- qual(msnset)$upperMz[qual(msnset)$reporter=="114.1"]
 any(lowerMz.114 < mz(iTRAQ4[1]) - width(iTRAQ4[1]))
 any(upperMz.114 > mz(iTRAQ4[1]) + width(iTRAQ4[1]))
 ## quantifying single spectrum
-qty <- quantify(aa[["X43"]],method="trap",iTRAQ4[1])
+qty <- quantify(aa[[1]],method="trap",iTRAQ4[1])
 qty$peakQuant
 qty$curveStats
 }

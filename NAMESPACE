@@ -13,7 +13,8 @@ export(readMzXMLData,
        extractSpectra,
        extractPrecSpectra,
        as.data.frame.Spectrum,
-       combineFeatures)
+       combineFeatures,
+       makeImpuritiesMatrix)
 
 exportClasses(pSet,
               MIAPE,
@@ -58,7 +59,8 @@ exportMethods(coerce,
               multiLabels,
               width,
               reporterNames,"reporterNames<-",
-              reporterColours,reporterColors)
+              reporterColours,reporterColors,
+              writeMgfData)
 ## methods NOT exported
 ## curveStats
 ## ms1scan

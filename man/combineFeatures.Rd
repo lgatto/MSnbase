@@ -36,7 +36,7 @@ combineFeatures(object, groupBy, fun = c("mean", "median", "weighted.mean", "sum
   A new \code{"\linkS4class{MSnSet}"} instance is returned with
   \code{ncol} (i.e. number of samples) is unchanged, but \code{nrow}
   (i.e. the number od features) is now equals to the number of levels in
-  \code{groupBy}. The feature meta-data (\code{featureData} slot) is
+  \code{groupBy}. The feature metadata (\code{featureData} slot) is
   updated accordingly and only the first occurrence of a feature in
   the original feature meta-data is kept. 
 }
@@ -59,11 +59,10 @@ aa <- readMzXMLData(file)
 aa.quant <- quantify(aa,method="max",reporters=iTRAQ4)
 dim(aa.quant)
 ## arbitrary grouping into two groups
-grp <- as.factor(fData(aa)$spectrum>25)
-aa.quant.comb <- MSnbase:::combineFeatures(aa.quant,grp,"sum")
+grp <- as.factor(c(1,1,2,2,2))
+aa.quant.comb <- combineFeatures(aa.quant,grp,"sum")
 dim(aa.quant.comb)
 exprs(aa.quant.comb)
-fData(aa.quant.comb)
 }
 
 %% \keyword{ ~kwd1 }

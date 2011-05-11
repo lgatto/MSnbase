@@ -14,50 +14,50 @@ test_that("readMzXMLData and dummy MSnExp msLevel 2 instance", {
   centroided(aa) <- val
   expect_true(validObject(aa))
   expect_true(all(centroided(aa)))
-  val[sample(length(aa),25)] <- FALSE
+  val[sample(length(aa),2)] <- FALSE
   centroided(aa) <- val
-  expect_true(sum(centroided(aa))==length(aa)-25)
+  expect_true(sum(centroided(aa))==length(aa)-2)
   centroided(aa) <- rep(FALSE,length(aa))
   expect_false(any(centroided(aa)))  
   ## checking slots and methods
-  expect_equal(length(aa),54)
+  expect_equal(length(aa),5)
   expect_that(nrow(header(aa)),equals(length(aa)))
   expect_that(names(header(aa)),
               equals(c("index","file","retention.time",
                        "precursor.mz","peaks.count","tic",
                        "ms.level","charge","collision.energy")))
   ## MS levels
-  expect_equal(length(msLevel(aa)),54)
+  expect_equal(length(msLevel(aa)),5)
   expect_equal(unique(msLevel(aa)),2)
-  expect_equal(length(MSnbase:::ms1scan(aa)),54)
-  expect_equal(length(unique(MSnbase:::ms1scan(aa))),3)
+  expect_equal(length(MSnbase:::ms1scan(aa)),5)
+  expect_equal(length(unique(MSnbase:::ms1scan(aa))),1)
   ## Precursor MZ
-  expect_equal(length(precursorMz(aa)),54)
+  expect_equal(length(precursorMz(aa)),5)
   expect_that(precursorMz(aa)[1],is_a("numeric"))
-  expect_equal(length(unique(precursorMz(aa))),7)
+  expect_equal(length(unique(precursorMz(aa))),4)
   expect_equal(range(precursorMz(aa)),
-               c(425.77908325,630.33178711))
-  expect_equal(as.numeric(sort(precursorMz(aa))[1]),425.77908325) ## [*]
+               c(437.80401611,716.34051514))
+  expect_equal(as.numeric(sort(precursorMz(aa))[1]),437.80401611) ## [*]
   ## Retention time
-  expect_equal(length(rtime(aa)),54)
+  expect_equal(length(rtime(aa)),5)
   expect_that(rtime(aa)[1],is_a("numeric"))
-  expect_equal(range(rtime(aa)),c(2259.83,2955.78))
-  expect_equal(as.numeric(sort(rtime(aa))[1]),2259.83) ## [*]
+  expect_equal(range(rtime(aa)),c(1501.35,1502.31))
+  expect_equal(as.numeric(sort(rtime(aa))[1]),1501.35) ## [*]
   ## [*] using as.numeric because rtime and precursorMz return named numerics
   ## Meta data
-  expect_equal(dim(fData(aa)),c(54,1))
+  expect_equal(dim(fData(aa)),c(5,1))
   expect_equal(dim(pData(aa)),c(0,0))
   ## subsetting
-  expect_true(all.equal(aa[["X41"]],assayData(aa)[["X41"]]))
+  expect_true(all.equal(aa[["X4"]],assayData(aa)[["X4"]]))
   sub.aa <- aa[1:2]  
   expect_true(all.equal(sub.aa[["X1"]], assayData(sub.aa)[["X1"]]))
-  expect_true(all.equal(sub.aa[["X10"]],assayData(sub.aa)[["X10"]]))
+  expect_true(all.equal(sub.aa[["X2"]],assayData(sub.aa)[["X2"]]))
   expect_equal(fData(sub.aa),fData(aa)[1:2,,drop=FALSE])
   my.prec <- precursorMz(aa)[1]
   my.prec.aa <- extractPrecSpectra(aa,my.prec)
   expect_true(all(precursorMz(my.prec.aa)==my.prec))
-  expect_equal(length(my.prec.aa),9)
-  expect_equal(ls(assayData(my.prec.aa)),paste("X",1:9,sep=""))
+  expect_equal(length(my.prec.aa),2)
+  expect_equal(ls(assayData(my.prec.aa)),paste("X",c(1,3),sep=""))
   ## testing that accessors return always attributes in same order
   precMzNames <- names(precursorMz(aa))
   ticNames <- names(tic(aa))
@@ -129,7 +129,4 @@ test_that("spectra order and integrity", {
   expect_that(peaksCount(clean(sp)),equals(7))  
   expect_that(all.equal(removePeaks(sp,0),sp),is_true())
 })
-
-
-
 

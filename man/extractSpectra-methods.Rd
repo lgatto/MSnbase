@@ -11,8 +11,10 @@
   returns a subsetted \code{"\linkS4class{MSnExp}"} instance. The
   \code{featureData} slot is also subsetted accordingly.
 
-  Note that values in \code{selected} are recycled shorter than
-  \code{length(MSnExp)}. 
+  Note that values in \code{selected} are recycled if shorter than
+  \code{length(MSnExp)}.
+
+  This method is equivalent as using the \code{[} operator.
 }
 
 \section{Methods}{
@@ -41,6 +43,9 @@ sel[1:3] <- TRUE
 bb <- extractSpectra(aa,sel)
 stopifnot(length(bb) == sum(sel))
 processingData(bb)
+## equivalent
+cc <- aa[sel]
+all(featureNames(cc)==featureNames(bb))
 }
 
 \keyword{methods}

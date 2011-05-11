@@ -57,3 +57,5 @@ setGeneric("multiLabels",function(object) standardGeneric("multiLabels"))
 
 setGeneric("plot2d",function(object,z,...) standardGeneric("plot2d"))
 ##setGeneric("plot3d",function(object,z,...) standardGeneric("plot3d"))
+
+setGeneric("writeMgfData",function(object,...) standardGeneric("writeMgfData"))

@@ -1,3 +1,11 @@
+CHANGES IN VERSION 1.1.8
+-------------------------
+ o added writeMgfData method from spectra and experiment <2011-05-09 Mon>
+ o added writeMgfData manual <2011-05-09 Mon>
+ o added itraqdata data set and updated vignette to use it <2011-05-11 Wed>
+ o updated man pages to use tiny dummyiTRAQ.mzXML <2011-05-11 Wed>
+ o added makeImpuritiesMatrix function <2011-05-11 Wed>
+
 CHANGES IN VERSION 1.1.7
 -------------------------
  o reporter ions purity correction method, man and test <2011-05-09 Mon>

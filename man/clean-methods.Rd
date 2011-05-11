@@ -42,13 +42,14 @@
 }
 
 \examples{
-int <- c(1,0,0,0,1,1,1,0,0,1,1,0,0,0,1,0,0,0)
+int <- c(1,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0)
 sp1 <- new("Spectrum2",
            intensity=int,
            mz=1:length(int))
 sp2 <- clean(sp1)
 intensity(sp1)
 intensity(sp2)
+
 file <- dir(system.file(package="MSnbase",dir="extdata"),
             full.name=TRUE,pattern="mzXML$")
 aa <- readMzXMLData(file,verbose=FALSE)
