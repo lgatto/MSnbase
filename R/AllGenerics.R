@@ -1,6 +1,6 @@
 setGeneric("clean", function(object,...) standardGeneric("clean"))
 setGeneric("trimMz", function(object,mzlim,...) standardGeneric("trimMz"))
-setGeneric("removePeaks", function(object,t="min",...) standardGeneric("removePeaks"))
+setGeneric("removePeaks", signature=c("object"), function(object,t="min",...) standardGeneric("removePeaks"))
 ##setGeneric("bg.correct", function(object,bg,...) standardGeneric("bg.correct"))
 
 setGeneric("spectra",function(object) standardGeneric("spectra"))
@@ -38,7 +38,8 @@ setGeneric("curveStats",function(object,reporters,...) standardGeneric("curveSta
 setGeneric("purityCorrect",function(object,impurities,...) standardGeneric("purityCorrect"))
 
 setGeneric("qual",function(object) standardGeneric("qual"))
-setGeneric("normalise",function(object,method) standardGeneric("normalise"))
+setGeneric("normalise",function(object,method,...) standardGeneric("normalise"))
+setGeneric("normalize",function(object,method,...) standardGeneric("normalize"))
 setGeneric("ratios",function(object,...) standardGeneric("ratios"))
 
 setGeneric("width",function(object) standardGeneric("width"))

@@ -68,8 +68,15 @@ setMethod("show","MSnSet",
 
 
 setMethod("normalise","MSnSet",
-          function(object,method=c("sum","max"))
-          normalise.MSnSet(object,match.arg(method))
+          function(object,method=c("sum","max",
+                            "quantiles",
+                            "quantiles.robust",
+                            "vsn"),...)
+          normalise.MSnSet(object,match.arg(method),...)
+          )
+
+setMethod("normalize","MSnSet",
+          function(object,method,...) normalise(object,method,...)
           )
 
 setMethod("purityCorrect",

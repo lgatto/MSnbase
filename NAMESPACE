@@ -2,9 +2,9 @@ import(graphics)
 import(Biobase)
 
 importFrom(plyr,llply)
-## not needed really, using unexported xcms:::ramp* only
-importFrom(xcms,xcmsRaw) 
-
+importFrom(xcms,xcmsRaw) ## not needed really, using unexported xcms:::ramp* only
+importFrom(preprocessCore,normalize.quantiles) 
+importFrom(vsn,vsn2,meanSdPlot)
 importFrom(IRanges,IRanges,sapply)
 importClassesFrom(IRanges,IRanges)
 
@@ -60,11 +60,13 @@ exportMethods(coerce,
               width,
               reporterNames,"reporterNames<-",
               reporterColours,reporterColors,
-              writeMgfData)
+              writeMgfData,
+              normalise, normalize)
+
 ## methods NOT exported
 ## curveStats
 ## ms1scan
 ## "precursorCharge<-"
 ## ratios
-## normalise
+
 

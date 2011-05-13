@@ -95,7 +95,10 @@ in the \texttt{MSnbase-development} vignette.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Importing raw data}\label{sec:msnexp}
+
+\section{Data structure and content}\label{sec:data}
+
+\subsection{Importing experiments}\label{sec:msnexp}
 
 Raw data is contained in \Robject{MSnExp} objects, that stores all the spectra of an experiment, 
 as defined by one or multiple raw data files. 
@@ -105,7 +108,7 @@ format \citep{Pedrioli2004} with the function \Rfunction{readMzXMLData} function
 See \Rfunction{?readMzXMLData} for more details.
 More formats, notably \texttt{mzML} \citep{Martens2010}, will be added at a later stage. 
 Either MS1 or MS2 spectra can be loaded at a time by setting the \texttt{msLevel} parameter accordingly.
-In this document, we will use a slightly bigger dataset, \Robject{itraqdata}, provided with 
+In this document, we will use a slightly bigger data set, \Robject{itraqdata}, provided with 
 \Rpackage{MSnbase}. It includes feature metadata, accessible with the \Rfunction{fData} method. 
 The metadata includes identification data for the \Sexpr{length(itraqdata)} MS2 spectra.
 
@@ -139,8 +142,8 @@ As illustrated above, showing the experiment textually displays it's content:
     
     The experiment meta data associated with an \Robject{MSnExp} experiment
     is of class \Robject{MIAPE}. It stores general information about the 
-    experiment as well as MIAPE (Minimum Information About a Proteomics Experiment, 
-    \citep{Taylor2007, Taylor2008}) information.
+    experiment as well as MIAPE (Minimum Information About a Proteomics Experiment) 
+    information \citep{Taylor2007, Taylor2008}.
     This meta-data can be accessed with the \Rfunction{experimentData} method. 
     When available, a summary of MIAPE-MS data can be printed with the \Rfunction{msInfo} method.
     See \texttt{?MIAPE} for more details.
@@ -150,13 +153,14 @@ As illustrated above, showing the experiment textually displays it's content:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Spectra objects}\label{sec:spectra}
+\subsection{Spectra objects}\label{sec:spectra}
 
 The raw data is composed of the \Sexpr{length(itraqdata)} MS spectra. 
 The spectra are named individually 
 (\Sexpr{paste(paste(head(featureNames(itraqdata)),collapse=", "),", ...",sep="")})
 and stored in a \Robject{environment}. They can be accessed individually with 
-\texttt{itraqdata[["X10"]]} or as a list with \texttt{spectra(itraqdata)}.
+\texttt{itraqdata[["X1"]]} or \texttt{itraqdata[[1]]}, 
+or as a list with \texttt{spectra(itraqdata)}.
 As we have loaded our experiment specifying \texttt{msLevel=2}, 
 the spectra will all be of level 2 (or higher, if available). 
 
@@ -168,7 +172,7 @@ sp
 Attributes of individual spectra or of all spectra of an experiment can be 
 accessed with their respective methods: \Rfunction{precursorCharge} for the 
 precursor charge, \Rfunction{rtime} for the retention time, \Rfunction{mz} 
-for the MZ values, \Rfunction{intensity} for the inensities, \ldots see the 
+for the MZ values, \Rfunction{intensity} for the intensities, \ldots see the 
 \Robject{Spectrum}, \Robject{Spectrum1} and \Robject{Spectrum2} manuals for more details.
 
 <<accessors,cache=FALSE,echo=TRUE>>=
@@ -181,7 +185,7 @@ head(rtime(itraqdata))
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Reporter ions}\label{sec:reporterions}
+\subsection{Reporter ions}\label{sec:reporterions}
 
 Reporter ions are defined with the \Robject{ReporterIons} class. 
 Specific peaks of interest are defined by a MZ value, a with 
@@ -203,10 +207,10 @@ iTRAQ4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Plotting raw data}\label{sec:plotting}
 
-Spectra can be plotted individually or as part of (subsetted) experiments 
+Spectra can be plotted individually or as part of (subset) experiments 
 with the \Robject{plot} method. Full spectra can be plotted 
 (using \texttt{full=TRUE}), specific reporter ions of interest 
-(by specifing with reporters with \texttt{reporters=iTRAQ4} for instance) 
+(by specifying with reporters with \texttt{reporters=iTRAQ4} for instance) 
 or both (see figure \ref{fig:spectrum-plot}).
 
 \begin{figure}[!ht]
@@ -249,7 +253,8 @@ These can then be visualised together by plotting the
 plot(bsa,reporters=iTRAQ4,full=FALSE)
 @ 
 \caption{Experiment-wide raw MS2 spectra. The y-axes of the individual 
-  spectra are automatically rescaled to the same range. }
+  spectra are automatically rescaled to the same range. 
+  See section \ref{sec:norm} to rescale peaks identically. }
 \label{fig:msnexp-plot}
 \end{figure}
 
@@ -278,14 +283,17 @@ tic(itraqdata[["X55"]])
 tic(experiment[["X55"]])
 @ 
 
+<<prepare-spectrum-plot2,echo=FALSE>>=
+p1 <- plot(itraqdata[["X55"]],full=TRUE) + theme_gray(5) 
+p2 <- plot(experiment[["X55"]],full=TRUE) + theme_gray(5) 
+@ 
+
 \begin{figure}[!ht]
 <<spectrum-plot2,fig=T,echo=F,tikz=T,external=F,width=5,height=2.5>>=
 grid.newpage()
 pushViewport(viewport(layout = grid.layout(1, 2)))
 vplayout <- function(x, y)
   viewport(layout.pos.row = x, layout.pos.col = y)
-p1 <- plot(itraqdata[["X55"]],full=TRUE) + theme_gray(5) 
-p2 <- plot(experiment[["X55"]],full=TRUE) + theme_gray(5) 
 print(p1,vp=vplayout(1,1))
 print(p2,vp=vplayout(1,2))
 @ 
@@ -348,7 +356,7 @@ print(p3, vp=vplayout(3,1))
   of calling \Rfunction{removePeaks} with argument \Robject{t=3}, which sets 
   all data points of the first peak, whose maximum height is smaller or equal 
   to \Robject{t} to 0. The second peak is unaffected. Calling \Rfunction{clean} 
-  after \Rfunction{removePeaks} effectly deletes successive 0 intensities from 
+  after \Rfunction{removePeaks} effectively deletes successive 0 intensities from 
   the spectrum, as shown on the right plot. }
 \label{fig:preproc}
   \end{center}
@@ -358,7 +366,7 @@ Another useful manipulation method is \Rfunction{trimMz}, that takes as
 parameters and \Robject{MSnExp} (or a \Robject{Spectrum}) and a numeric 
 \Robject{mzlim}. MZ values smaller then \texttt{min(mzlim)} 
 or greater then \texttt{max(mzmax)} are discarded. This method is 
-particularely useful when one wants to concentrate on a specific MZ range, 
+particularly useful when one wants to concentrate on a specific MZ range, 
 as for reporter ions quantification, and generally results in substantial 
 reduction of data size. Compare the size of the full trimmed experiment to 
 the original \Sexpr{sz} Mb.
@@ -381,7 +389,7 @@ and displayed as integral part of the experiment object.
 \subsection{Reporter ions quantitation}\label{sec:quant}
 
 Quantitation is performed on fixed peaks in the spectra, that are specified 
-with an \Robject{ReporterIon} object. A specific peak is defined by it's expected 
+with an \Robject{ReporterIons} object. A specific peak is defined by it's expected 
 \Robject{mz} value and is searched for within \Robject{mz} $\pm$ \Robject{width}.  
 If no data is found, \Robject{NA} is returned.
 
@@ -390,14 +398,14 @@ mz(iTRAQ4)
 width(iTRAQ4)
 @ 
 
-The \Rfunction{quantify} method takes the following paramters: 
+The \Rfunction{quantify} method takes the following parameters: 
 an \Robject{MSnExp} experiment, 
 a character describing the quantification \Robject{method}, 
 the \Robject{reporters} to be quantified 
 and a \Robject{strict} logical defining whether data points 
 ranging outside of \Robject{mz} $\pm$ \Robject{width} should be considered 
 for quantitation. 
-Additionally, a progress bar can be dispaying when setting 
+Additionally, a progress bar can be displaying when setting 
 the \Robject{verbose} parameter to \Robject{TRUE}.
 Three quantification methods are implemented, as illustrated 
 on figure \ref{fig:quant-methods}: 
@@ -428,9 +436,9 @@ print(p + opts(title="Trapezoidation and strict=TRUE") +
 @ 
 \caption{The different quantitation methods are illustrated above. 
   Quantitation using \Robject{sum} sums all the data points in the peaks to 
-  produce, for ths example, \Sexpr{quantify(sp,iTRAQ4[1],method="sum")[[1]]}, 
+  produce, for this example, \Sexpr{quantify(ssp,iTRAQ4[1],method="sum")[[1]]}, 
   whereas method \Robject{max} only uses the peak's maximum intensity, 
-  \Sexpr{quantify(sp,iTRAQ4[1],method="max")[[1]]}. 
+  \Sexpr{quantify(ssp,iTRAQ4[1],method="max")[[1]]}. 
   \Robject{Trapezoidation} calculates the area under the peak taking 
   the full with into account (using \Robject{strict=FALSE} gives
   \Sexpr{round(quantify(ssp,iTRAQ4[1],method="trap",strict=FALSE)[[1]],3)}) 
@@ -480,18 +488,64 @@ sum(is.na(exprs(qnt)))
 \subsection{Normalisation}\label{sec:norm}
 
 A \Robject{MSnSet} object is meant to be compatible with further downstream 
-packages for data normalisation and statistical analysis. 
-Below is an example of applying 
-variance stabilization normalisation \citep{Huber2002} 
-to the iTRAQ reporter intensities \citep{Karp2010}.
+packages for data normalisation and statistical analysis. There is also a 
+\Rfunction{normalise} method for expression sets. The method takes and instance 
+of class \Robject{MSnSet} as first argument, and a character to describe the 
+\Robject{method} to be used: 
 
-<<vsn,echo=TRUE,cache=FALSE>>=
-library("vsn")
-qnt.vsn <- vsn2(exprs(qnt))
+\begin{description}
+\item{\Robject{quantiles}} Applies quantile normalisation \citep{Bolstad03} as 
+  implemented in the \Rfunction{normalize.quantiles} function of the 
+  \Rpackage{preprocessCore} package. 
+\item{\Robject{quantiles.robust}} Applies robust quantile normalisation 
+  \citep{Bolstad03} as implemented in the 
+  \Rfunction{normalize.quantiles.robust} function of the 
+  \Rpackage{preprocessCore} package. 
+\item{\Robject{vsn}} Applies variance stabilisation normalization \citep{Huber2002} 
+  as implemented in the \Rfunction{vsn2} function of the 
+  \Rpackage{vsn} package. 
+\item{\Robject{max}} Each feature's reporter intensity is divided by the 
+  maximum of the reporter ions intensities.
+\item{\Robject{sum}} Each feature's reporter intensity is divided by the 
+  sum of the reporter ions intensities.
+\end{description}
+
+<<normalise,echo=TRUE,cache=FALSE>>=
+qnt.max <- normalise(qnt,"max")
+qnt.sum <- normalise(qnt,"sum")
+qnt.quant <- normalise(qnt,"quantiles")
+qnt.qrob <- normalise(qnt,"quantiles.robust")
+qnt.vsn <- normalise(qnt,"vsn")
 @ 
 
-Figure 3 of \cite{Karp2010} is reproduced with 
-the dummy experiment and show on figure \ref{fig:cv-plot}.
+The effect of these are illustrated on figure \ref{fig:norm-plot} and
+figure \ref{fig:cv-plot} reproduces figure 3 of \cite{Karp2010} that described 
+the application of vsn on iTRAQ reporter data.
+
+\begin{figure}[p]
+<<norm-plot,fig=T,echo=F,tikz=T,external=F,width=5,height=7>>=
+.plot <- function(x,ttl=NULL) {
+  boxplot(exprs(x),
+          main=ifelse(is.null(ttl),processingData(x)@processing[6],ttl),
+          cex.main=.8,
+          cex.lab=.5,
+          cex.axis=.5,
+          cex=.8)
+  grid()
+}
+oldmar <- par()$mar
+par(mfrow=c(3,2),mar=c(2.9,2.9,2.9,1))
+.plot(qnt,ttl="Non-normalised data")
+.plot(qnt.max)
+.plot(qnt.sum)
+.plot(qnt.quant)
+.plot(qnt.qrob)
+.plot(qnt.vsn)
+@ 
+\caption{ Comparison of the normalisation \Robject{MSnSet} methods. 
+  Note that vsn also glog-transforms the intensities. }
+\label{fig:norm-plot}
+\end{figure}
 
 <<cvdata,echo=FALSE,cache=FALSE>>=
 sd1 <- apply(log2(exprs(qnt))+10,1,sd)
@@ -500,6 +554,8 @@ cv1 <- sd1/mn1
 sd2 <- apply(exprs(qnt.vsn)+10,1,sd)
 mn2 <- apply(exprs(qnt.vsn)+10,1,mean)
 cv2 <- sd2/mn2
+dfr <- rbind(data.frame(rank=order(mn1),cv=cv1,norm="raw"),
+             data.frame(rank=order(mn2),cv=cv2,norm="vsn"))
 library("zoo")
 ## rmed1 <- rollapply(cv1,7,function(x) median(x,na.rm=TRUE))
 ## rmed2 <- rollapply(cv2,7,function(x) median(x,na.rm=TRUE))
@@ -509,27 +565,50 @@ library("zoo")
 ## not yet available on CRAN (only on r-forge).
 rmed1 <- zoo:::rollapply.zoo(cv1,7,function(x) median(x,na.rm=TRUE))
 rmed2 <- zoo:::rollapply.zoo(cv2,7,function(x) median(x,na.rm=TRUE))
+dfr2 <- 
+  rbind(data.frame(x=seq(1,70,by=(70/length(rmed1))),
+                   y=rmed1,norm="raw"),
+        data.frame(x=seq(1,70,by=(70/length(rmed1))),
+                   y=rmed2,norm="vsn"))
+
+p <- qplot(rank,cv,data=dfr,col=norm) + 
+  geom_line(data=dfr2,aes(x=x,y=y,colour=norm)) +
+  theme_gray(7)
 @ 
 
+\begin{center}
 \begin{figure}[!ht]
-<<cv-plot,fig=T,echo=F,tikz=T,external=F,width=5,height=5>>=
-plot(order(mn1),cv1,col="steelblue",pch=19,
-     ylab="CV",xlab="Rank mean",
-     cex.axis=.7,cex.lab=.8)
-points(order(mn2),cv2,col="red",pch=19)
-grid()
-lines(seq(1,70,by=(70/length(rmed1))),rmed1,col="steelblue",lwd=1)
-lines(seq(1,70,by=(70/length(rmed2))),rmed2,col="red"      ,lwd=1)
-## legend("topright",
-##        legend=c("log2","vsn","running\nmedian"),
-##        pch=c(19,19,NA),
-##        col=c("steelblue","red","black"),
-##        lwd=c(0,0,2),
-##        bty="n",
-##        cex=.7)
+<<cv-plot,fig=T,echo=F,tikz=T,external=F,width=5,height=4>>=
+print(p)
 @ 
-\caption{CV versus signal intensity comparison for log2 (blue) and vsn (red) transformed data. Lines indicate running CV medians.}
+\caption{CV versus signal intensity comparison for log2 and vsn
+  transformed data. Lines indicate running CV medians.}
 \label{fig:cv-plot}
+\end{figure}
+\end{center}
+
+Note that it is also possible to normalise individual spectra or whole experiments with 
+the \Rfunction{normalise} method using the \Robject{max} method. 
+This will rescale all peaks between 0 and 1. 
+To visualise the relative reporter peaks, one should this first trim the spectra 
+using method \Rfunction{trimMz} as illustrated in section \ref{sec:processing}, 
+then normalise the \Robject{MSnExp} with \Rfunction{normalise} using 
+\Robject{method="max"} as illustrated above and plot the data using \Rfunction{plot} 
+(figure \ref{fig:msnexp-norm-plot}). 
+
+<<prepare-msnset-nrom-plot,cache=FALSE,echo=FALSE>>=
+p <- plot(normalise(experiment[bsasel],"max"),reporters=iTRAQ4,full=FALSE)
+p <- p + theme_gray(7)
+@ 
+
+\begin{figure}[p]
+<<msnexp-norm-plot,fig=T,echo=F,tikz=T,external=F,width=5,height=6>>=
+print(p)
+@ 
+\caption{Experiment-wide normalised MS2 spectra. The y-axes of the individual 
+  spectra is now rescaled between 0 and 1 (highest peak), as opposed to 
+  figure \ref{fig:msnexp-plot}. }
+\label{fig:msnexp-norm-plot}
 \end{figure}
 
 \subsection{Feature aggregation}
@@ -545,8 +624,8 @@ been uniquely associated to one protein.
 \Rpackage{MSnbase} provides one function, \Rfunction{combineFeatures}, that allows 
 to aggregate features stored in an \Robject{MSnSet} using build-in or user 
 defined summary function and return a new \Robject{MSnSet} instance. 
-The function has three main argument here described below. 
-Additional details can be found in the function manual. 
+The three main arguments are described below. 
+Additional details can be found in the method documentation. 
 
 <<makeGroups1,echo=FALSE,cache=FALSE>>=
 gb <- fData(qnt)$ProteinAccession
@@ -564,15 +643,16 @@ As shown below, this will result in \Sexpr{length(table(gb))} new aggregated fea
 <<makeGroups2,echo=TRUE,cache=FALSE>>=
 gb <- fData(qnt)$ProteinAccession
 table(gb)
+length(unique(gb))
 @ 
 
 The third argument, \Robject{fun}, 
 defined how to combine the features. Predefined functions are readily available and can be 
 specified as strings 
 (\Robject{fun="mean"}, \Robject{fun="median"}, \Robject{fun="sum"}, 
-\Robject{fun="weigthed.mean"} or \Robject{fun="medianpolish"} to compute respectively the mean, 
+\Robject{fun="weighted.mean"} or \Robject{fun="medianpolish"} to compute respectively the mean, 
 media, sum, weighted mean or median polish of the features to be aggregated). 
-Alternatively, is is possible to supply userdefined functions with 
+Alternatively, is is possible to supply user defined functions with 
 \Robject{fun=function(x) \{ ... \}}. We will use the \Robject{median} here.
 
 <<combineFeatures,echo=TRUE,cache=FALSE>>=
@@ -593,8 +673,8 @@ manufacturers provide correction coefficients.
 These generally come as percentages of each reporter ion that have masses differing 
 by -2, -1, +1 and +2 Da from the nominal reporter ion mass due to isotopic variants.  
 The \Rfunction{purityCorrect} method applies such correction to \Robject{MSnSet} 
-instances. It also requires a square matric as second argument, \Robject{impurities}, 
-that defines the repaltive percentage of reporter in the quantified each peak. 
+instances. It also requires a square matrix as second argument, \Robject{impurities}, 
+that defines the relative percentage of reporter in the quantified each peak. 
 See \texttt{?purityCorrect} for more details.
 
 <<purityCorrect,echo=TRUE,cache=FALSE>>=
@@ -671,6 +751,8 @@ qplot(x=reporters,y=intensity,data=dfr,geom="boxplot") + theme_gray(8)
 \label{fig:incompdiss}
   \end{center}
 \end{figure}
+
+%% \section{Conclusion}\ref{sec:ccl}
 
 \clearpage
 

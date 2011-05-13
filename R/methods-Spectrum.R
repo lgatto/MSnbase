@@ -133,3 +133,14 @@ setReplaceMethod("centroided",
                    if (validObject(object))
                      return(object)
                  })
+
+setMethod("normalise","Spectrum",
+          function(object,method="max",...) {
+            if (method!="max")
+              warning("Normalising spectrum with 'max'.")
+            normalise.Spectrum(object,method="max")
+        })
+
+setMethod("normalize","Spectrum",
+          function(object,method="max",...)
+          normalise(object,method=method))

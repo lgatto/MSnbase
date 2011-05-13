@@ -24,10 +24,14 @@
   Shadforth \emph{et al.}, i-Tracker: for quantitative proteomics using
   iTRAQ. BMC Genomics. 2005 Oct 20;6:145. (PMID 16242023). 
 
-  Function \code{makeImpuritiesMatrix} will create a simple graphical
+  Function \code{makeImpuritiesMatrix} creates a simple graphical
   interface to guide the user in the creation of such a matrix. The
   function takes the dimension of the square matrix (i.e the number of
-  reporter ions) as argument.
+  reporter ions) as argument. When available, default values taken from
+  manufacturer's certificaiton sheets are provided, but batch specific
+  values should be used whenever possible. \code{makeImpuritiesMatrix}
+  returns the (possibly updated) matrix to be used with
+  \code{purityCorrect}. 
 }
 
 \section{Methods}{
@@ -76,6 +80,8 @@ impurities <- matrix(c(0.929,0.059,0.002,0.000,
                        0.000,0.030,0.924,0.045,
                        0.000,0.001,0.040,0.923),
                      nrow=4)
+## or, using makeImpuritiesMatrix()
+\dontrun{impurities <- makeImpuritiesMatrix(4)}
 msnset.crct <- purityCorrect(msnset,impurities)
 head(exprs(msnset))
 head(exprs(msnset.crct))

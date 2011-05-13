@@ -37,8 +37,20 @@ test_that("Combine MSnSet features", {
 test_that("Purity correction", {
   file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
   aa <- readMzXMLData(file,verbose=FALSE)
-  msnset <- quantify(aa,method="trap",reporters=iTRAQ4)
-  impurity0 <- matrix(c(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1),ncol=4)
+  msnset <- quantify(aa,method="trap",reporters=iTRAQ4,verbose=FALSE)
+  impurity0 <- diag(4)
   pc <- purityCorrect(msnset,impurity0)
   expect_true(all(exprs(pc)==exprs(msnset)))
+})
+
+test_that("Normalisation", {
+  bb <- quantify(itraqdata,method="trap",reporters=iTRAQ4,verbose=FALSE)
+  bb1 <- normalise(bb,"sum")
+  expect_true(all.equal(rowSums(exprs(bb1),na.rm=TRUE),
+                        rep(1,nrow(bb1)),check.attributes=FALSE))
+  bb2 <- normalise(bb,"max")
+  expect_true(all(apply(exprs(bb2),1,max,na.rm=TRUE)==1))
+  bb3 <- normalise(bb,"quantiles")
+  bb4 <- normalise(bb,"quantiles.robust")
+  bb5 <- normalise(bb,"vsn")
 })
