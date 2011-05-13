@@ -9,7 +9,7 @@ plot.MSnExp <- function(object,reporters,full=FALSE) {
   dfr <- data.frame(i=ints,mz=mzs,n=n)
   colnames(dfr) <- c("i","mz","n")
   if (all(msLevel(object)>1)) {
-    pmz <- paste(unique(unlist(sapply(spectraList,function(x) x@precursorMz))),collapse=",")
+    pmz <- paste(unique(unlist(sapply(spectraList,function(x) round(precursorMz(x),2)))),collapse=",")
     title <- opts(title=paste("Precursor M/Z",pmz))
   } else {
     rtm <- paste(formatRt(range(rtime(object))),collapse=" - ")

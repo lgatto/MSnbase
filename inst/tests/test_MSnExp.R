@@ -104,7 +104,7 @@ test_that("readMzXMLData and dummy MSnExp msLevel 2 instance", {
 ##   ## [*] using as.numeric because rtime and precursorMz return named numerics
 ## })
 
-context("MSnExp data integrity")
+context("MSnExp data")
 
 test_that("spectra order and integrity", {
   file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
@@ -130,3 +130,10 @@ test_that("spectra order and integrity", {
   expect_that(all.equal(removePeaks(sp,0),sp),is_true())
 })
 
+
+test_that("MSnExp normalisation", {
+  aa <- itraqdata[1:3]
+  bb <- normalise(aa,"max")
+  expect_true(all(sapply(intensity(bb),max)==1))
+  expect_true(all(unlist(sapply(intensity(aa),order))==unlist(sapply(intensity(bb),order))))
+})

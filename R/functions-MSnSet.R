@@ -1,15 +1,27 @@
 
-normalise.MSnSet <- function(object,method) {
-  switch(method,
-         max = div <- rowMax(exprs(object)),
-         sum = div <- rowSums(exprs(object)))
-  exprs(object) <- exprs(object)/div
+normalise.MSnSet <- function(object,method,...) {
+  if (method=="vsn") {
+    e <- exprs(vsn2(exprs(object)))
+  } else if (method=="quantiles") {
+    e <- preprocessCore::normalize.quantiles(exprs(object),...)
+  } else if (method=="quantiles.robust") {
+    e <- preprocessCore::normalize.quantiles.robust(exprs(object),...)
+  } else {
+    switch(method,
+           max = div <- apply(exprs(object),1,max,na.rm=TRUE), 
+           sum = div <- rowSums(exprs(object),na.rm=TRUE))
+    e <- exprs(object)/div
+  }
+  rownames(e) <- rownames(exprs(object))
+  colnames(e) <- colnames(exprs(object))
+  exprs(object) <- e
   object@processingData@processing <- c(object@processingData@processing,
                                         paste("Normalised (",method,"): ",
                                               date(),
                                               sep=""))
   object@processingData@normalised <- TRUE
-  return(object)
+  if (validObject(object))
+    return(object)
 }
 
 ratios.MSnSet <- function(object,log=FALSE) {

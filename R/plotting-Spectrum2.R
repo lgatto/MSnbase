@@ -22,7 +22,7 @@ plot.Spectrum2 <- function(spectrum,
   ## preparing full spectrum plot p
   dfr <- data.frame(i=i,mtc=mtc,width=w1)
   mainvp <- viewport(width=1,height=1,x=0.5,y=0.5)
-  title <- opts(title=paste("Precursor M/Z",spectrum@precursorMz))
+  title <- opts(title=paste("Precursor M/Z",round(precursorMz(spectrum),2)))
   if (centroided) {
     p <- ggplot(dfr,aes(x=mtc,y=i,width=width)) + opts(legend.position = "none") +
       labs(x="M/Z",y="Intensity (ion counts)") +

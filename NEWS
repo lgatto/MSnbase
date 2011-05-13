@@ -1,3 +1,14 @@
+CHANGES IN VERSION 1.1.9
+-------------------------
+ o exporting normali[s|z]e methods for MSnSet, Spectrum and MSnExp <2011-05-12 Thu>
+ o added quantile normalisation <2011-05-12 Thu>
+ o added quantile.robust normalisation <2011-05-12 Thu>
+ o added vsn2 normalisation <2011-05-12 Thu>
+ o added normalise manual  <2011-05-12 Thu>
+ o included normalisation section in vignette <2011-05-13 Fri>
+ o more vignette updates <2011-05-13 Fri>
+ o updated plotting methods to round MZ in title <2011-05-13 Fri>
+
 CHANGES IN VERSION 1.1.8
 -------------------------
  o added writeMgfData method from spectra and experiment <2011-05-09 Mon>

@@ -204,3 +204,19 @@ quantify.MSnExp <- function(object,method,reporters,strict,verbose) {
 }
 
 
+normalise.MSnExp <- function(object,method) {
+  sapply(featureNames(object),
+         function(x) {
+           sp <- get(x,envir=assayData(object))
+           xx <- normalise(sp,method)
+           assign(x,xx,envir=assayData(object))
+           invisible(TRUE)
+         })
+  object@processingData@processing <- c(object@processingData@processing,
+                                        paste("Spectra normalised (",method,"): ",
+                                              date(),
+                                              sep=""))
+  object@processingData@normalised <- TRUE
+  if (validObject(object))
+    return(object)
+}

@@ -83,7 +83,7 @@ setMethod("clean",
           signature=signature("MSnExp"),
           function(object,verbose=TRUE) clean.MSnExp(object,verbose))
 
-setMethod("removePeaks","MSnExp",
+setMethod("removePeaks",signature("MSnExp"),
           function(object,t,verbose=TRUE) removePeaks.MSnExp(object,t,verbose))
 
 
@@ -143,3 +143,14 @@ setMethod("extractPrecSpectra",
 setMethod("extractSpectra",
           signature=signature(object="MSnExp",selected="logical"),
           function(object,selected) extractSpectra.MSnExp(object,selected))
+
+setMethod("normalise","MSnExp",
+          function(object,method="max",...) {
+            if (method!="max")
+              warning("Normalising experiment with 'max'.")
+            normalise.MSnExp(object,method="max")
+        })
+
+setMethod("normalize","MSnExp",
+          function(object,method="max",...)
+          normalise(object,method))
