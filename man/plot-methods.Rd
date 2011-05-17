@@ -38,6 +38,8 @@
   \item{centroided}{Logical indicating if spectrum or spectra are in
     centroided mode, in which case peaks are plotted as sticks, rather
     than curves.}
+  \item{plot}{Logical specifying whether plot should be printed to
+    current device. Default is 'TRUE'.}
   \item{w1}{Width of sticks for full centroided spectra. Default is to
     use maximum MZ value divided by 500. }
   \item{w2}{Width of sticks for centroided reporter ions plots. Default
@@ -47,18 +49,18 @@
 \section{Methods}{
   \describe{
     \item{\code{signature(x = "MSnExp", y = "missing", reporters =
-	"ReporterIons", full = "logical")}}{ Plots *all* the spectra in
-      the \code{MSnExp} object vertically. One of \code{reporters} must
-      be defined or \code{full} set to 'TRUE'. In case of \code{MSnExp}
-      objects, repoter ions are not inlaid when \code{full} is 'TRUE'.
+	"ReporterIons", full = "logical", plot = "logical")}}{ Plots
+      *all* the spectra in the \code{MSnExp} object vertically. One of
+      \code{reporters} must be defined or \code{full} set to 'TRUE'. In
+      case of \code{MSnExp} objects, repoter ions are not inlaid when
+      \code{full} is 'TRUE'. 
     }
     \item{\code{signature(x = "Spectrum", y = "missing", reporters =
-	"ReporterIons", full = "logical", centroided = "logical", w1,
-	w2)}}{ Displays the MZs against intensities of the
-      \code{Spectrum} object as a line plot.  
+	"ReporterIons", full = "logical", centroided = "logical", plot =
+	"logical", w1, w2)}}{ Displays the MZs against intensities of
+      the \code{Spectrum} object as a line plot.  
       At least one of \code{reporters} being defined or \code{full}
       set to 'TRUE' is required. 
-
       \code{reporters} and \code{full} are used only for
       \code{"\linkS4class{Spectrum2}"}
       objects. Full \code{"\linkS4class{Spectrum1}"} spectra are plotted

@@ -135,12 +135,10 @@ setReplaceMethod("centroided",
                  })
 
 setMethod("normalise","Spectrum",
-          function(object,method="max",...) {
-            if (method!="max")
-              warning("Normalising spectrum with 'max'.")
-            normalise.Spectrum(object,method="max")
+          function(object,method=c("max","sum"),...) {
+            normalise.Spectrum(object,method=match.arg(method))
         })
 
 setMethod("normalize","Spectrum",
-          function(object,method="max",...)
+          function(object,method=c("max","sum"),...)
           normalise(object,method=method))

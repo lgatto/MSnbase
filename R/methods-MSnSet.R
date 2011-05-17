@@ -85,7 +85,7 @@ setMethod("purityCorrect",
             if (ncol(impurities)!=nrow(impurities))
               stop("Impurity matrix must be a square matrix")
             if (ncol(object)!=ncol(impurities))
-              stop("Impurity matrix show be",ncol(object),"by",ncol(object))
+              stop("Impurity matrix show be ",ncol(object)," by ",ncol(object))
             .purcor <- function(x,.impurities=impurities) {
               keep <- !is.na(x)
               if (sum(keep)>1) 
@@ -138,3 +138,10 @@ setMethod("processingData",
 
 setMethod("msInfo","MSnSet",
           function(object) msInfo(experimentData(object)))
+
+setMethod("meanSdPlot",
+          signature="MSnSet",
+          definition =
+          function(x, ranks=TRUE, xlab = ifelse(ranks, "rank(mean)", "mean"),
+                   ylab = "sd", pch  = ".", plot = TRUE, ...)
+          vsn::meanSdPlot(exprs(x), ranks=ranks, xlab=xlab, ylab=ylab, pch=pch, plot=plot, ...))

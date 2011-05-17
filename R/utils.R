@@ -206,13 +206,15 @@ utils.plot2d <- function(object,z=c("tic","file","peaks.count","charge")) {
 
 
 makeImpuritiesMatrix <- function(x) {
-  if (x==4)
+  if (x==4) {
     M <- matrix(c(0.929,0.059,0.002,0.000,
                   0.020,0.923,0.056,0.001,
                   0.000,0.030,0.924,0.045,
                   0.000,0.001,0.040,0.923),
                 nrow=4)
-  M <- diag(x)
+  } else {
+    M <- diag(x)
+  }
   colnames(M) <- paste("reporter",1:x,sep=".")
   rownames(M) <- paste("% reporter",1:x)
   corrfactors <- edit(M)

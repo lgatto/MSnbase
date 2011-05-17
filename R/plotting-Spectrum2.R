@@ -1,6 +1,7 @@
 plot.Spectrum2 <- function(spectrum,
                            reporters=NULL,full=FALSE,
                            centroided,
+                           plot=TRUE,                          
                            w1,w2) {
   if (!full & is.null(reporters))
     stop("Please provide repotrer ions if you do not want a full spectrum.")
@@ -71,12 +72,15 @@ plot.Spectrum2 <- function(spectrum,
   }
   ## plotting
   if (full) {
-    print(p+title,vp=mainvp)
-    if (!is.null(reporters)) 
-      print(reps,vp=subvp)
+    if (plot) {
+      print(p+title,vp=mainvp)
+      if (!is.null(reporters))
+        print(reps,vp=subvp)
+    }
     invisible(p+title)
   } else {
-    print(reps+title,vp=mainvp)
+    if (plot)
+      print(reps+title,vp=mainvp)
     invisible(reps+title)
   }
 }

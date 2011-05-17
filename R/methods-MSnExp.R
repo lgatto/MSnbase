@@ -145,10 +145,8 @@ setMethod("extractSpectra",
           function(object,selected) extractSpectra.MSnExp(object,selected))
 
 setMethod("normalise","MSnExp",
-          function(object,method="max",...) {
-            if (method!="max")
-              warning("Normalising experiment with 'max'.")
-            normalise.MSnExp(object,method="max")
+          function(object,method=c("max","sum"),...) {
+            normalise.MSnExp(object,method=match.arg(method))
         })
 
 setMethod("normalize","MSnExp",

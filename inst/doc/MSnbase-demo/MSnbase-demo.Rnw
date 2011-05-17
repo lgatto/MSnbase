@@ -172,7 +172,7 @@ sp
 Attributes of individual spectra or of all spectra of an experiment can be 
 accessed with their respective methods: \Rfunction{precursorCharge} for the 
 precursor charge, \Rfunction{rtime} for the retention time, \Rfunction{mz} 
-for the MZ values, \Rfunction{intensity} for the intensities, \ldots see the 
+for the MZ values, \Rfunction{intensity} for the intensities, ... see the 
 \Robject{Spectrum}, \Robject{Spectrum1} and \Robject{Spectrum2} manuals for more details.
 
 <<accessors,cache=FALSE,echo=TRUE>>=
@@ -201,6 +201,10 @@ to generate new \Robject{ReporterIons} objects.
 iTRAQ4
 @ 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%\section{Quality control}\label{sec:qc}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
@@ -263,6 +267,8 @@ plot(bsa,reporters=iTRAQ4,full=FALSE)
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Data processing}\label{sec:processing}
+
+\subsection{Cleaning spectra}\label{sec:clean}
 
 There are several methods implemented to perform basic data manipulation. 
 Low intensity peaks can be set to 0 with the \Rfunction{removePeaks} method 
@@ -361,6 +367,8 @@ print(p3, vp=vplayout(3,1))
 \label{fig:preproc}
   \end{center}
 \end{figure}
+
+\subsection{Focusing on specific MZ values}\label{sec:trim}
 
 Another useful manipulation method is \Rfunction{trimMz}, that takes as 
 parameters and \Robject{MSnExp} (or a \Robject{Spectrum}) and a numeric 
@@ -752,6 +760,9 @@ qplot(x=reporters,y=intensity,data=dfr,geom="boxplot") + theme_gray(8)
   \end{center}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% \section{Conclusion}\ref{sec:ccl}
 
 \clearpage

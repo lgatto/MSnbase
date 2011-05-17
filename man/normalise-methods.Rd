@@ -21,9 +21,11 @@
   objects), whole experiments (\code{"\linkS4class{MSnExp}"} objects) or
   quantified expression data (\code{"\linkS4class{MSnSet}"} objects).
 
-  Raw spectra and experiments are normalised using \code{max} only. Each
-  peak intensity is divided by the highest intensity in the spectrum so
-  that all get scaled between 0 and 1. 
+  Raw spectra and experiments are normalised using \code{max} or
+  \code{sum} only. Each peak intensity is divided by the highest
+  intensity in the spectrum or the sum of intensities.
+  These methods aim at facilitating relative peaks heights between
+  different spectra.
 
   The \code{method} parameter for \code{"\linkS4class{MSnSet}"} can be
   one of \code{sum}, \code{max}, \code{quantiles},
