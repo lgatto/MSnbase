@@ -17,6 +17,8 @@
 \alias{show,MSnSet-method}
 \alias{purityCorrect,MSnSet-method}
 \alias{purityCorrect,MSnSet,matrix-method}
+\alias{meanSdPlot,MSnSet-method}
+
 
 \title{
   The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
@@ -123,8 +125,13 @@
     \item{purityCorrect}{\code{signature(object = "MSnSet", impurities =
 	"matrix")}: performs reporter ions purity correction. See
       \code{\link{purityCorrect}} documentation for more details. } 
+    \item{meanSdPlot}{\code{signature(object = "MSnSet")}: Plots row
+      standard deviations versus row means. See 
+      \code{\link{meanSdPlot}} (\code{vsn} package) for more details. }
+    \item{normalise}{\code{signature(object = "MSnSet")}: Performs
+      \code{MSnSet} normalisation. See \code{\link{normalise}} for more
+      details. }
     % \item{ratios}{\code{signature(object = "MSnSet")}: ... }
-    % \item{normalise}{\code{signature(object = "MSnSet")}: ... }
   }    
 }
 

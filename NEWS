@@ -1,3 +1,13 @@
+CHANGES IN VERSION 1.1.10
+-------------------------
+ o minor updates in demo vignette <2011-05-13 Fri>
+ o added plot argument to plot methods <2011-05-16 Mon>
+ o fix in makeImpuritiesMatrix <2011-05-16 Mon>
+ o added meanSdPlot MSnSet method <2011-05-17 Tue>
+ o minor cosmetic fix in purityCorrect error message <2011-05-17 Tue>
+ o added method="sum" to Spectrum/MSnExp normalisation <2011-05-17 Tue>
+ o typo in MSnSet-class.Rd corrected <2011-05-17 Tue>
+
 CHANGES IN VERSION 1.1.9
 -------------------------
  o exporting normali[s|z]e methods for MSnSet, Spectrum and MSnExp <2011-05-12 Thu>

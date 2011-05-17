@@ -1,5 +1,6 @@
 plot.Spectrum1 <- function(spectrum,
                            centroided=FALSE,
+                           plot=TRUE,
                            w1) {
   if (missing(w1))
     w1 <- max(mtc)/500
@@ -13,7 +14,8 @@ plot.Spectrum1 <- function(spectrum,
   } else {
     p <- ggplot(df,aes(x=mtc,y=i)) + geom_line()
   }
-  p <- p + labs(x="M/Z",y="Intensity (ion counts)")  
-  print(p+title)
+  p <- p + labs(x="M/Z",y="Intensity (ion counts)")
+  if (plot)
+    print(p+title)
   invisible(p+title)
 }

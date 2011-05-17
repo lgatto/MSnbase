@@ -1,4 +1,4 @@
-plot.MSnExp <- function(object,reporters,full=FALSE) {
+plot.MSnExp <- function(object,reporters,full=FALSE,plot=TRUE) {
   i <- NULL # to satisfy codetools
   ## plot.MSnExp: no visible binding for global variable ‘i’
   spectraList <- spectra(object)
@@ -33,7 +33,8 @@ plot.MSnExp <- function(object,reporters,full=FALSE) {
 ##    + geom_vline(xintercept=c(reporters@mz+reporters@width,
 ##                   reporters@mz-reporters@width),col="grey")
   }
-  print(p)
+  if (plot)
+    print(p)
   invisible(p)
 }
 
