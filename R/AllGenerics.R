@@ -1,6 +1,7 @@
 setGeneric("clean", function(object,...) standardGeneric("clean"))
 setGeneric("trimMz", function(object,mzlim,...) standardGeneric("trimMz"))
-setGeneric("removePeaks", signature=c("object"), function(object,t="min",...) standardGeneric("removePeaks"))
+##setGeneric("removePeaks", signature=c("object"), function(object,t="min",...) standardGeneric("removePeaks"))
+setGeneric("removePeaks", function(object,t="min",...) standardGeneric("removePeaks"))
 ##setGeneric("bg.correct", function(object,bg,...) standardGeneric("bg.correct"))
 
 setGeneric("spectra",function(object) standardGeneric("spectra"))
@@ -56,7 +57,7 @@ setGeneric("extractSpectra",function(object,selected) standardGeneric("extractSp
 setGeneric("multiplex",function(object) standardGeneric("multiplex"))
 setGeneric("multiLabels",function(object) standardGeneric("multiLabels"))
 
-setGeneric("plot2d",function(object,z,...) standardGeneric("plot2d"))
-##setGeneric("plot3d",function(object,z,...) standardGeneric("plot3d"))
+setGeneric("plot2d",function(object,...) standardGeneric("plot2d"))
+setGeneric("plotDensity",function(object,...) standardGeneric("plotDensity"))
 
 setGeneric("writeMgfData",function(object,...) standardGeneric("writeMgfData"))

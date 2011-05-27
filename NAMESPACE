@@ -14,7 +14,10 @@ export(readMzXMLData,
        extractPrecSpectra,
        as.data.frame.Spectrum,
        combineFeatures,
-       makeImpuritiesMatrix)
+       makeImpuritiesMatrix,
+       precSelection,
+       precSelectionTable)
+
 
 exportClasses(pSet,
               MIAPE,
@@ -31,6 +34,7 @@ exportMethods(coerce,
               length,
               plot,
               plot2d,
+              plotDensity,
               spectra,
               processingData,
               peaksCount,

@@ -19,6 +19,7 @@ plot.MSnExp <- function(object,reporters,full=FALSE,plot=TRUE) {
   p <- ggplot(data=dfr,aes(x=mz,y=i)) +
     geom_line()+
       facet_grid(n~.) +
+        labs(x="M/Z",y="Intensity")
 ##        geom_point(alpha=I(1/10)) +
       title
   if (!full) {

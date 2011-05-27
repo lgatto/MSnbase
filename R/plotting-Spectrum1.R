@@ -2,19 +2,20 @@ plot.Spectrum1 <- function(spectrum,
                            centroided=FALSE,
                            plot=TRUE,
                            w1) {
-  if (missing(w1))
-    w1 <- max(mtc)/500
   mtc <- mz(spectrum)
   i <- intensity(spectrum)
-  dfr <- data.frame(i=i,mtc=mtc,width=w1)
-  title <- opts(title=paste("Retention time",rtime(spectrum)))
   if (centroided) {
-    p <- ggplot(df,aes(x=mtc,y=i,width=width)) + 
+    if (missing(w1))
+      w1 <- max(mtc)/500
+    dfr <- data.frame(i=i,mtc=mtc,width=w1)      
+    p <- ggplot(dfr,aes(x=mtc,y=i,width=width)) + 
       geom_bar(stat="identity",position="identity")
   } else {
-    p <- ggplot(df,aes(x=mtc,y=i)) + geom_line()
+    dfr <- data.frame(i=i,mtc=mtc)
+    p <- ggplot(dfr,aes(x=mtc,y=i)) + geom_line()
   }
-  p <- p + labs(x="M/Z",y="Intensity (ion counts)")
+  title <- opts(title=paste("Retention time",rtime(spectrum)))
+  p <- p + labs(x="M/Z",y="Intensity") + title
   if (plot)
     print(p+title)
   invisible(p+title)

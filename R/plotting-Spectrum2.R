@@ -26,11 +26,11 @@ plot.Spectrum2 <- function(spectrum,
   title <- opts(title=paste("Precursor M/Z",round(precursorMz(spectrum),2)))
   if (centroided) {
     p <- ggplot(dfr,aes(x=mtc,y=i,width=width)) + opts(legend.position = "none") +
-      labs(x="M/Z",y="Intensity (ion counts)") +
+      labs(x="M/Z",y="Intensity") +
         geom_bar(stat="identity",position="identity")
   } else {
     p <- ggplot(dfr,aes(x=mtc,y=i)) + opts(legend.position = "none") +
-      labs(x="M/Z",y="Intensity (ion counts)") +
+      labs(x="M/Z",y="Intensity") +
         geom_line() ## + geom_point(alpha=I(1/10))
   }
   ## data reporters plot reps

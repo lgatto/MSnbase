@@ -149,10 +149,6 @@ As illustrated above, showing the experiment textually displays it's content:
     See \texttt{?MIAPE} for more details.
 \end{itemize}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Section
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Spectra objects}\label{sec:spectra}
 
 The raw data is composed of the \Sexpr{length(itraqdata)} MS spectra. 
@@ -182,9 +178,6 @@ rtime(sp)
 head(rtime(itraqdata))
 @ 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Section
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Reporter ions}\label{sec:reporterions}
 
 Reporter ions are defined with the \Robject{ReporterIons} class. 
@@ -204,12 +197,9 @@ iTRAQ4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%\section{Quality control}\label{sec:qc}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Section
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Plotting raw data}\label{sec:plotting}
+
+\subsection{Default plots}\label{sec:defaultplots}
 
 Spectra can be plotted individually or as part of (subset) experiments 
 with the \Robject{plot} method. Full spectra can be plotted 
@@ -252,7 +242,7 @@ as.character(fData(bsa)$ProteinAccession)
 These can then be visualised together by plotting the 
 \Robject{MSnExp} object, as illustrated on figure \ref{fig:msnexp-plot}.
 
-\begin{figure}[!ht]
+\begin{figure}[p]
 <<msnexp-plot,fig=T,echo=T,tikz=T,external=F,width=5,height=6>>=
 plot(bsa,reporters=iTRAQ4,full=FALSE)
 @ 
@@ -262,6 +252,96 @@ plot(bsa,reporters=iTRAQ4,full=FALSE)
 \label{fig:msnexp-plot}
 \end{figure}
 
+\subsection{Customising your plots}\label{sec:customplots}
+
+The \Rpackage{MSnbase} \Rfunction{plot} methods have a logical \Robject{plot} parameter 
+(default is \Robject{TRUE}), that specifies if the plot should be printed to the current 
+device. A plot object is also (invisibly) returned, so that it can be saved as a variable 
+for later use or for customisation. 
+
+\Rpackage{MSnbase} uses the \Rpackage{ggplot2} package to generate figures, 
+which can subsequently easily be customised. 
+More details about \Rpackage{ggplot2} can be found in \cite{ggplot2} (especially chapter 8) 
+and on \href{http://had.co.nz/ggplot2/}{http://had.co.nz/ggplot2/}. 
+Finally, if a plot object has been saved in a variable \Robject{p}, 
+it is possible to obtain a summary about the object with \Rfunction{summary(p)}. 
+To view the data frame used to generate the plot, use \Rfunction{p@data}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Quality control}\label{sec:qc}
+
+The current section is not executed dynamically for package size and processing time constrains. 
+The figures and tables have been generated with the respective methods and included statically 
+in the vignette for illustration purposes.
+
+\bigskip
+
+\Rpackage{MSnbase} allows easy and flexible access to the data, which allows to 
+visualise data features to assess it's quality. Some methods are readily available, 
+although many QC approaches will be experiment specific and users are encourage to 
+explore their data. 
+
+
+The \Rfunction{plot2d} method takes one \Robject{MSnExp} instance as firs argument 
+to produce retention time \textit{vs.} precursor MZ scatter plots. Points represent 
+individual MS2 spectra and can be coloured based on 
+precursor charge (with second argument \Robject{z="charge"}), 
+total ion current (\Robject{z="tic"}),
+number of peaks in the MS2 spectra \Robject{z="peaks.count"}) or, 
+when multiple data files were loaded, file \Robject{z="file"}), 
+as illustrated on figure \ref{fig:plot2d}. 
+The lower right panel is produced for only a subset of proteins. 
+See the method documentation for more details.
+
+\begin{figure}[htb]
+  \begin{center}
+    \includegraphics[width=\linewidth]{./plot2d-figure.png}
+\caption{ Illustration of the \Rfunction{plot2d} output. } 
+\label{fig:plot2d}
+  \end{center}
+\end{figure}
+
+The \Rfunction{plotDensity} method illustrates the distribution 
+of several parameters of interest (see figure \ref{fig:plotDensity}).
+Similarly to \Rfunction{plot2d}, the first argument is an \Robject{MSnExp} instance. 
+The second is one of \Robject{precursor.mz}, \Robject{peaks.count} or \Robject{tic}, 
+whose density will be plotted. 
+An optional third argument specifies whether the x axes should be logged.
+
+\begin{figure}[htb]
+  \begin{center}
+    \includegraphics[width=\linewidth]{./plotDensity-figure.png}
+\caption{ Illustration of the \Rfunction{plotDensity} output. } 
+\label{fig:plotDensity}
+  \end{center}
+\end{figure}
+
+%% xtable(preprocSelectionTable(velos))
+%% % latex table generated in R 2.14.0 by xtable 1.5-6 package
+%% % Thu May 19 10:22:29 2011
+%% \begin{table}[ht]
+%% \begin{center}
+%% \begin{tabular}{rr}
+%%   \hline
+%%  & x \\ 
+%%   \hline
+%% 1 & 6836 \\ 
+%%   2 &  59 \\ 
+%%   3 &   5 \\ 
+%%    \hline
+%% \end{tabular}
+%% \end{center}
+%% \end{table}
+
+%% matplot on iTRAQ5 quantitation (see allquant code chunk)
+
+\bigskip
+
+In section \ref{sec:incompdissoc} on page \pageref{sec:incompdissoc}, 
+we illustrate how to assess incomplete reporter ion dissociation. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
