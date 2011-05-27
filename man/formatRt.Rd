@@ -24,7 +24,7 @@ formatRt(rt)
 }
 
 \value{
-  a character string in mm:ss format
+  A character string in mm:ss format
 }
 
 

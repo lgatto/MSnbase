@@ -100,9 +100,32 @@ removePeaks.MSnExp <- function(object,t="min",verbose=TRUE) {
 
 
 clean.MSnExp <- function(object,verbose=TRUE) {
-  ifelse(verbose,progress <- "text",progress <- "none")
-  spectra <- llply(spectra(object),function(x) clean(x),.progress=progress)
-  object@assayData <- list2env(spectra)
+  ## -- was ---------------------------------------------------
+  ##  ifelse(verbose,progress <- "text",progress <- "none")
+  ##  spectra <- llply(spectra(object),function(x) clean(x),.progress=progress)
+  ##  object@assayData <- list2env(spectra)
+  ## -- new ---------------------------------------------------
+  if (verbose) {
+    ._cnt <- 1
+    pb <- txtProgressBar(min = 0, max = length(object), style = 3)
+  }
+  sapply(featureNames(object),
+         function(x) {
+           if (verbose) {
+             setTxtProgressBar(pb, ._cnt)
+             ._cnt <<- ._cnt+1
+           }
+           sp <- get(x,envir=assayData(object))
+           xx <- clean(sp)
+           assign(x,xx,envir=assayData(object))
+           invisible(TRUE)
+         })
+  if (verbose) {
+    close(pb)
+    rm(pb)
+    rm(._cnt)
+  }
+  ## ----------------------------------------------------------
   object@processingData@cleaned <- TRUE
   object@processingData@processing <- c(object@processingData@processing,
                                         paste("Spectra cleaned: ",date(),sep=""))
@@ -219,4 +242,23 @@ normalise.MSnExp <- function(object,method) {
   object@processingData@normalised <- TRUE
   if (validObject(object))
     return(object)
+}
+
+precSelection <- function(object,n=NULL) {
+  allPrecs <- precursorMz(object)
+  if (!is.null(n))
+    allPrecs <- round(allPrecs,n)
+  number.selection <- c()
+  ms1scanNums <- MSnbase:::ms1scan(object)
+  uprecmz <- unique(allPrecs)
+  for (mp in uprecmz)
+      number.selection <- c(number.selection,
+                            length(unique(ms1scanNums[allPrecs==mp])))
+  names(number.selection) <- uprecmz
+  return(number.selection)
+}
+
+precSelectionTable <- function(object,...) {
+  x <- precSelection(object,...)
+  return(table(x))
 }

@@ -1,3 +1,20 @@
+CHANGES IN VERSION 1.1.11
+-------------------------
+ o harmonised MSnExp and Spectrum plot axes labels <2011-05-18 Wed>
+ o Added plotting customisation section in vignette <2011-05-18 Wed>
+ o updated signature of plot2d method to "MSnExp" only <2011-05-18 Wed>
+ o added/exported plotDensity methods <2011-05-18 Wed>
+ o started QC vignette section <2011-05-18 Wed>
+ o added preprocSelection and preprocSelectionTable functions <2011-05-18 Wed>
+ o TODO document preprocSelection[Table] in vignette
+ o reduces plot2d-figure and plotDensity-figure sizes using png <2011-05-19 Thu>
+ o added plotDensity doc <2011-05-19 Thu>
+ o added round param to preprocSelection[Table] <2011-05-19 Thu>
+ o preprocSelection[Table] documented and exported <2011-05-19 Thu>
+ o fixed bug in plot.Spectrum1 <2011-05-24 Tue>
+ o changed removePeaks setGeneric explicit signature <2011-05-26 Thu>
+ o added MassSpectrometry biocView <2011-05-27 Fri>
+
 CHANGES IN VERSION 1.1.10
 -------------------------
  o minor updates in demo vignette <2011-05-13 Fri>

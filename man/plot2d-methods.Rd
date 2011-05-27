@@ -1,11 +1,12 @@
 \name{plot2d-methods}
 \docType{methods}
 \alias{plot2d-methods}
-\alias{plot2d,data.frame,character-method}
+\alias{plot2d,MSnExp-method}
+\alias{plot2d,data.frame-method}
 \alias{plot2d}
 
 
-\title{ Graphical overview of the 'MSnExp' object }
+\title{The 'plot2d' method for 'MSnExp' quality assessment}
 
 
 \description{
@@ -24,7 +25,7 @@
     'data.frame'. In the latter case, the data frame must have numerical
     columns named 'retention.time' and 'precursor.mz' and one of 'tic',
     'file', 'peaks.count' or 'charge', depending on the \code{z}
-    parameter. Such a data.frame is typically generated using the
+    parameter. Such a data frame is typically generated using the
     \code{header} method on \code{"\linkS4class{MSnExp}"} object.
   }
   \item{z}{ A character indicating according to what variable to colour
@@ -32,18 +33,25 @@
     "file" (raw data file), "peaks.count"
     (peaks count) or "charge" (precursor charge). 
   }
+  \item{alpha}{ Numeric [0,1] indicating transparence level of points. } 
+  \item{plot}{ A logical indicating whether the plot should be printed
+    (default is 'TRUE'). }
 }
 
 \section{Methods}{
   \describe{
-    \item{\code{signature(object = "MSnExp", z = "character")}}{
+    \item{\code{signature(object = "MSnExp", ...)}}{
       Plots a 'MSnExp' summary.
     }
-    \item{\code{signature(object = "data.frame", z = "character")}}{
+    \item{\code{signature(object = "data.frame", ...)}}{
       Plots a summary of the 'MSnExp' experiment described by the data
       frame. 
     }
   }
+}
+
+\seealso{
+  The \code{\link{plotDensity}} method.
 }
 
 
@@ -52,10 +60,10 @@
 }
 
 \examples{
-file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
-aa <- readMzXMLData(file,verbose=FALSE)
-plot2d(aa,z="tic")
-plot2d(aa,z="file")
+itraqdata
+plot2d(itraqdata,z="tic")
+plot2d(itraqdata,z="peaks.count")
+plot2d(itraqdata,z="charge")
 }
 
 
