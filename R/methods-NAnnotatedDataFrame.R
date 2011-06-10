@@ -16,6 +16,7 @@ setMethod("show",
                 cat(object@multiplex," - ",object@multiLabels,"\n",sep="")
             else
               cat("none\n")
+            invisible(NULL)
           })
 
 

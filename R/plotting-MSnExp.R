@@ -1,13 +1,25 @@
-plot.MSnExp <- function(object,reporters,full=FALSE,plot=TRUE) {
+plot.MSnExp <- function(object,
+                        reporters,
+                        full=FALSE,
+                        centroided,
+                        plot=TRUE,
+                        w1) {
   i <- NULL # to satisfy codetools
   ## plot.MSnExp: no visible binding for global variable ‘i’
+  if (missing(centroided))
+    centroided <- any(MSnbase:::centroided(object))
+  mtc <- unlist(mz(object))
+  if (missing(w1)) {
+    if (full) w1 <- max(mtc)/500
+    else w1 <- 0.02
+  }
   spectraList <- spectra(object)
   ints <- unlist(sapply(spectraList, function(x) x@intensity))
   mzs <- unlist(sapply(spectraList, function(x) x@mz))
   l <- unlist(sapply(spectraList, function(x) length(x@mz)))
   n <- rep(1:length(l),l)
-  dfr <- data.frame(i=ints,mz=mzs,n=n)
-  colnames(dfr) <- c("i","mz","n")
+  dfr <- data.frame(i=ints,mz=mzs,n=n,width=w1)
+  colnames(dfr) <- c("i","mz","n","width")
   if (all(msLevel(object)>1)) {
     pmz <- paste(unique(unlist(sapply(spectraList,function(x) round(precursorMz(x),2)))),collapse=",")
     title <- opts(title=paste("Precursor M/Z",pmz))
@@ -16,12 +28,14 @@ plot.MSnExp <- function(object,reporters,full=FALSE,plot=TRUE) {
     title <- opts(title=paste("Retention time",rtm))
     full <- TRUE
   }
-  p <- ggplot(data=dfr,aes(x=mz,y=i)) +
-    geom_line()+
-      facet_grid(n~.) +
-        labs(x="M/Z",y="Intensity")
-##        geom_point(alpha=I(1/10)) +
-      title
+  if (centroided) {
+    p <- ggplot(data=dfr,aes(x=mz,y=i,width=width)) + geom_bar(stat="identity",position="identity")
+  } else {
+    p <- ggplot(data=dfr,aes(x=mz,y=i)) + geom_line()
+  }
+  p <- p +  facet_grid(n~.) +
+    labs(x="M/Z",y="Intensity") + 
+      title    
   if (!full) {
     if (class(reporters)!="ReporterIons")
       stop("Reporters must be of class \"ReporterIons\".")

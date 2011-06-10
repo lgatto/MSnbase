@@ -1,6 +1,11 @@
 ##################################################################
 ## Methods for ReporterIons class
-setMethod("show","ReporterIons",function(object) show.ReporterIons(object))
+setMethod("show","ReporterIons",
+          function(object) {
+            show.ReporterIons(object)
+            invisible(NULL)
+          })
+
 setMethod("[","ReporterIons",
           function(x,i,j="missing",drop="missing") "[.ReporterIons"(x,i))
 setMethod("length","ReporterIons",function(x) length(x@mz))

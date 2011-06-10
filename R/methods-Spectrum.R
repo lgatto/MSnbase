@@ -22,6 +22,7 @@ setMethod("show","Spectrum",
           function(object) {
             if (msLevel(object)==1) show.Spectrum1(object)
             else show.Spectrum2(object)
+            invisible(NULL)
           })
 
 setMethod("plot",c("Spectrum","missing"),

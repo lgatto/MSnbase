@@ -8,7 +8,11 @@ setMethod("initialize","MSnProcess",
               return(.Object)
           })
 
-setMethod("show","MSnProcess",function(object) show.MSnProcess(object))
+setMethod("show","MSnProcess",
+          function(object) {
+            show.MSnProcess(object)
+            invisible(NULL)
+          })
 
 setMethod("fileNames",
           signature(object="MSnProcess"),
