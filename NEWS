@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.1.12
+-------------------------
+ o added invisible(NULL) to all show methods <2011-06-08 Wed>
+ o added centroided argument to plot.MSnExp <2011-06-09 Thu>
+
 CHANGES IN VERSION 1.1.11
 -------------------------
  o harmonised MSnExp and Spectrum plot axes labels <2011-05-18 Wed>

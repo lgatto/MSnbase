@@ -67,6 +67,7 @@ setMethod("show",
             pmids <- pubMedIds(object)
             if (length(pmids) > 0 && all(pmids != ""))
               cat("  pubMedIds:", paste(pmids, sep=", "), "\n")
+            invisible(NULL)
           })
 
 

@@ -2,7 +2,10 @@
 
 ##################################################################
 ## Methods for MIAPE class
-setMethod("show","MIAPE",function(object) show.MIAPE(object))
+setMethod("show","MIAPE",function(object) {
+  show.MIAPE(object)
+  invisible(NULL)
+})
 
 setMethod("msInfo","MIAPE",
           function(object) msInfo.MIAPE(object))

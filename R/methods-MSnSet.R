@@ -64,6 +64,7 @@ setMethod("show","MSnSet",
           function(object) {
             callNextMethod()
             show(processingData(object))
+            invisible(NULL)
           })
 
 
