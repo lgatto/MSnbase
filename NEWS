@@ -3,6 +3,8 @@ CHANGES IN VERSION 1.1.13
  o changed pSet [[ method <2011-06-13 Mon>
  o additional updates pSet [[ method <2011-06-13 Mon>
  o added MSnExp subsetting error tests <2011-06-13 Mon>
+ o created new plotting-dataframe.R file with former plotting 
+   utils functions, now renamed plot*.header <2011-06-13 Mon>
 
 CHANGES IN VERSION 1.1.12
 -------------------------

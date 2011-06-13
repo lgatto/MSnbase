@@ -76,20 +76,20 @@ setMethod("plot",c("MSnExp","missing"),
 
 setMethod("plot2d",c("MSnExp"),
           function(object,z,alpha=1/3,plot=TRUE)
-          utils.plot2d(header(object),z,alpha=alpha,plot=plot))
+          plot2d.header(header(object),z,alpha=alpha,plot=plot))
 
 setMethod("plot2d",c("data.frame"),
           function(object,z,alpha=1/3,plot=TRUE)
-          utils.plot2d(object,z,alpha=alpha,plot=plot))
+          plot2d.header(object,z,alpha=alpha,plot=plot))
 
 setMethod("plotDensity",c("MSnExp"),
           function(object,z,log=FALSE,plot=TRUE)
-          utils.plotDensity(header(object),z,log=log,plot=plot))
+          plotDensity.header(header(object),z,log=log,plot=plot))
 
 
 setMethod("plotDensity",c("data.frame"),
           function(object,z,log=FALSE,plot=TRUE)
-          utils.plotDensity(object,z,log=log,plot=plot))
+          plotDensity.header(object,z,log=log,plot=plot))
 
 setMethod("clean",
           signature=signature("MSnExp"),
