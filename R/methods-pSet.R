@@ -60,8 +60,9 @@ setMethod("[","pSet",
 
 setMethod("[[","pSet",
           function(x,i,j="missing",drop="missing") {
-            sl <- spectra(x)
-            return(sl[[i]])
+            if (!is.character(i)) 
+              i <- featureNames(x)[i]
+            return(get(i,envir=assayData(x)))
           })
 
 setMethod("precursorMz","pSet",

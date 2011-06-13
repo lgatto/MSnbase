@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.1.13
+-------------------------
+ o changed pSet [[ method <2011-06-13 Mon>
+
 CHANGES IN VERSION 1.1.12
 -------------------------
  o added invisible(NULL) to all show methods <2011-06-08 Wed>
