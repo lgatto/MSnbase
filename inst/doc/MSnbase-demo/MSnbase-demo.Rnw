@@ -573,6 +573,32 @@ qnt <- qnt[-whichRow,]
 sum(is.na(exprs(qnt)))
 @ 
 
+\subsection{Purity correction}
+\label{sec:purcor}
+
+Impurities in the reporter reagents can bias the results and can be corrected when 
+manufacturers provide correction coefficients. 
+These generally come as percentages of each reporter ion that have masses differing 
+by -2, -1, +1 and +2 Da from the nominal reporter ion mass due to isotopic variants.  
+The \Rfunction{purityCorrect} method applies such correction to \Robject{MSnSet} 
+instances. It also requires a square matrix as second argument, \Robject{impurities}, 
+that defines the relative percentage of reporter in the quantified each peak. 
+See \texttt{?purityCorrect} for more details.
+
+<<purityCorrect,echo=TRUE,cache=FALSE>>=
+impurities <- matrix(c(0.929,0.059,0.002,0.000,
+                       0.020,0.923,0.056,0.001,
+                       0.000,0.030,0.924,0.045,
+                       0.000,0.001,0.040,0.923),
+                     nrow=4)
+qnt.crct <- purityCorrect(qnt,impurities)
+head(exprs(qnt))
+head(exprs(qnt.crct))
+@ 
+
+The \Rfunction{makeImpuritiesMatrix} can be used to create impurity matrices. 
+It opens a rudimentary spreadsheet that can be directly edited.
+
 \subsection{Normalisation}\label{sec:norm}
 
 A \Robject{MSnSet} object is meant to be compatible with further downstream 
@@ -675,7 +701,7 @@ print(p)
 \end{figure}
 \end{center}
 
-Note that it is also possible to normalise individual spectra or whole experiments with 
+Note that it is also possible to normalise individual spectra or whole \Robject{MSnExp} experiments with 
 the \Rfunction{normalise} method using the \Robject{max} method. 
 This will rescale all peaks between 0 and 1. 
 To visualise the relative reporter peaks, one should this first trim the spectra 
@@ -752,30 +778,6 @@ qnt2
 %% identification data into R and collate it to the \Robject{MSnSet} 
 %% feature data, and subsequently use peptide sequences or protein assignments 
 %% to combine features. 
-
-\subsection{Purity correction}
-\label{sec:purcor}
-
-Impurities in the reporter reagents can bias the results and can be corrected when 
-manufacturers provide correction coefficients. 
-These generally come as percentages of each reporter ion that have masses differing 
-by -2, -1, +1 and +2 Da from the nominal reporter ion mass due to isotopic variants.  
-The \Rfunction{purityCorrect} method applies such correction to \Robject{MSnSet} 
-instances. It also requires a square matrix as second argument, \Robject{impurities}, 
-that defines the relative percentage of reporter in the quantified each peak. 
-See \texttt{?purityCorrect} for more details.
-
-<<purityCorrect,echo=TRUE,cache=FALSE>>=
-impurities <- matrix(c(0.929,0.059,0.002,0.000,
-                       0.020,0.923,0.056,0.001,
-                       0.000,0.030,0.924,0.045,
-                       0.000,0.001,0.040,0.923),
-                     nrow=4)
-qnt2.crct <- purityCorrect(qnt2,impurities)
-head(exprs(qnt2))
-head(exprs(qnt2.crct))
-@ 
-
 
 \subsection{Label-free MS2 quantitation}
 \label{sec:spectralcounting}
