@@ -34,9 +34,11 @@ setValidity("pSet", function(object) {
 
 setMethod("[","pSet",
           function(x,i,j="missing",drop="missing") {
+            if (!(is.logical(i) | is.numeric(i)))
+              stop("subsetting works only with numeric or logical")
             if (is.numeric(i)) {
               if (max(i)>length(x) | min(i)<1)
-                stop("subscript out of bonds")
+                stop("subscript out of bounds")
             }
             whichElements <- ls(assayData(x))[i]
             x@assayData <- list2env(mget(whichElements,assayData(x)))
@@ -60,6 +62,8 @@ setMethod("[","pSet",
 
 setMethod("[[","pSet",
           function(x,i,j="missing",drop="missing") {
+            if (length(i)!=1)
+              stop("subscript out of bounds")
             if (!is.character(i)) 
               i <- featureNames(x)[i]
             return(get(i,envir=assayData(x)))

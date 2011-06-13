@@ -58,6 +58,11 @@ test_that("readMzXMLData and dummy MSnExp msLevel 2 instance", {
   expect_true(all(precursorMz(my.prec.aa)==my.prec))
   expect_equal(length(my.prec.aa),2)
   expect_equal(ls(assayData(my.prec.aa)),paste("X",c(1,3),sep=""))
+  ## subsetting errors
+  expect_error(aa[[1:3]],"subscript out of bounds")
+  expect_error(aa[c("X1","X2")],"subsetting works only with numeric or logical")
+  expect_error(aa[["AA"]]," object 'AA' not found")
+  expect_error(aa[1:10],"subscript out of bounds")
   ## testing that accessors return always attributes in same order
   precMzNames <- names(precursorMz(aa))
   ticNames <- names(tic(aa))
