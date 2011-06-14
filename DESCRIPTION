@@ -1,7 +1,8 @@
 Package: MSnbase
 Title: MSnbase: Base Functions and Classes for MS-based Proteomics
-Version: 1.1.13
-Author: Laurent Gatto 
+Version: 1.1.14
+Author: Laurent Gatto <lg390@cam.ac.uk> with contributions 
+	from Guangchuang Yu <guangchuangyu@gmail.com>
 Description: Basic plotting, data manipulation and processing 
 	     of MS-based Proteomics data
 Depends: Biobase (>= 2.11.0), methods, ggplot2

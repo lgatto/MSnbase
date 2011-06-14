@@ -59,5 +59,6 @@ setGeneric("multiLabels",function(object) standardGeneric("multiLabels"))
 
 setGeneric("plot2d",function(object,...) standardGeneric("plot2d"))
 setGeneric("plotDensity",function(object,...) standardGeneric("plotDensity"))
+setGeneric("plotMzDelta",function(object,...) standardGeneric("plotMzDelta"))
 
 setGeneric("writeMgfData",function(object,...) standardGeneric("writeMgfData"))

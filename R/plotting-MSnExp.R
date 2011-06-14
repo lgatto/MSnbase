@@ -53,3 +53,84 @@ plot.MSnExp <- function(object,
   invisible(p)
 }
 
+
+
+plotMzDelta.MSnExp <- function(object,          ## MSnExp object
+                               reporters=NULL,  ## reporters to be removed
+                               precMz=NULL,     ## precursors to be removed
+                               percentage=0.1,  ## percentage of peaks to consider                               
+                               bw=1,            ## histogram bandwidth
+                               xlim=c(40, 200), ## delta m/z range
+                               withLabels=TRUE, ## add amino acide labels
+                               size=2.5,        ## labels size
+                               plot=TRUE,       ## plot figure
+                               verbose=TRUE) {     
+  ## Contributed by Guangchuang Yu for the plotMzDelta QC
+  ## Modified aa labelling
+  ResidueMass <- ..density.. <- NULL ## to accomodate codetools
+  value <- AA <- NULL
+  delta <- c()
+  spNames <- rownames(featureData(object)@data)
+  if (verbose) {
+    pb <- txtProgressBar(min=1,max=length(spNames),style=3)
+    k <- 1
+  }
+  for (j in spNames) {
+    if (verbose) {
+      setTxtProgressBar(pb, k)
+      k <- k + 1
+    }
+    sp <- object[[j]]
+    sp <- utils.removeReporters(sp, reporters)
+    sp <- utils.removePrecMz(sp, precMz, reporters)
+    delta <- c(delta, utils.getMzDelta(sp, percentage))
+  }
+  if (verbose) {
+    close(pb)
+    cat(" Plotting...\n")
+  }
+  delta <- melt(delta)
+  p <- ggplot(delta, aes(x=value))
+  p <- p +
+    geom_histogram(aes(y=..density..), stat="bin", binwidth=bw) +
+      xlim(xlim) +
+        xlab("m/z delta") + ylab("Density") +
+          opts(title="Histogram of Mass Delta Distribution")
+  if (withLabels) {
+    y_offset <- x_offset <- rep(0.5,21)
+    names(y_offset) <- names(x_offset) <- .get.amino.acids()$AA
+    x_offset[c("I","L","K","Q")] <- 1
+    y_offset[c("V","C")] <- 1
+    y_offset[c("P","T")] <- 0
+    y_offset[c("N","E")] <- 1
+    y_offset[c("K","Q","I","L")] <- 0
+    y_offset[c("D","M")] <- 0
+    aa <- cbind(.get.amino.acids(), x_offset, y_offset)
+    ## removing Isoleucine, as it has the same residue mass
+    ## as leucine, and updating leucine's label to I/L
+    aa$AA <- as.character(aa$AA)
+    aa[aa$AA=="I","ResidueMass"] <- NA
+    aa[aa$AA=="L","AA"] <- "I/L"
+    ## Removing Q as it is too close to K to show
+    ## up correctly and updating K label to K/Q
+    aa[aa$AA=="Q","ResidueMass"] <- NA
+    aa[aa$AA=="K","AA"] <- "K/Q"    
+    p <- p +
+      geom_vline(data=aa,
+                 aes(xintercept = ResidueMass,
+                     colour = AA),
+                 alpha = I(1/2))
+    p <- p +
+      geom_text(data = aa,
+                aes(x = ResidueMass,
+                    y = -0.001, label=AA,
+                    vjust = y_offset,
+                    hjust = x_offset),
+                size = size) +
+                      opts(legend.position="none")
+  }
+  if (plot) 
+    print(p)
+  invisible(p)
+}
+
