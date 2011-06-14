@@ -1,0 +1,31 @@
+.MSnbaseEnv <- new.env(parent=emptyenv(), hash=TRUE)
+
+assign("amino.acids",
+       data.frame(AA = c("peg","A","R","N","D","C","E",
+                    "Q","G","H","I","L", "K","M","F",
+                    "P","S","T","W","Y","V"),
+                  ResidueMass = c(44.00000,
+                    71.03711,  156.10111, 114.04293, 115.02694,
+                    103.00919, 129.04259, 128.05858, 57.02146,
+                    137.05891, 113.08406, 113.08406, 128.09496,
+                    131.04049, 147.06841, 97.05276,  87.03203,
+                    101.04768, 186.07931, 163.06333, 99.06841),
+                  Abbrev3 = c(NA,
+                    "Ala", "Arg", "Asn", "Asp", "Cys",
+                    "Glu", "Gln", "Gly", "His", "Ile",
+                    "Leu", "Lys", "Met", "Phe", "Pro",
+                    "Ser", "Thr", "Trp", "Tyr", "Val"),
+                  ImmoniumIonMass = c(NA,
+                    44.05003,  129.11400, 87.05584,  88.03986,  76.02210,
+                    102.05550, 101.07150, 30.03438,  110.07180, 86.09698,
+                    86.09698,  101.10790, 104.05340, 120.08130, 70.06568,
+                    60.04494,  74.06059,  159.09220, 136.07620, 72.08133),
+                  Name = c("Polyethylene glycol",
+                    "Alanine",    "Arginine",      "Asparagine", "Aspartic acid",
+                    "Cysteine",   "Glutamic acid", "Glutamine",  "Glycine",
+                    "Histidine",  "Isoleucine",    "Leucine",    "Lysine",
+                    "Methionine", "Phenylalanine", "Proline",    "Serine",
+                    "Threonine",  "Tryptophan",    "Tyrosine",   "Valine")),
+       envir = .MSnbaseEnv)
+
+lockEnvironment(.MSnbaseEnv,bindings=TRUE)

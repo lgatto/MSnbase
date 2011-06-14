@@ -1,3 +1,7 @@
+.get.amino.acids <- function() {
+  get("amino.acids",envir=.MSnbaseEnv)
+}
+
 formatRt <- function(rt) {
   min <- floor(rt/60)
   sec <- round(rt-(min*60))
@@ -163,7 +167,6 @@ zoom <- function(x,w=0.05) {
       col=rep("grey",length(x)))
 }
 
-
 getRatios <- function(x,log=FALSE) {
   ## x: a vector of numerics
   ## returns a vector of all xi/xj ratios
@@ -206,4 +209,64 @@ makeImpuritiesMatrix <- function(x) {
   invisible(corrfactors)
 }
 
+utils.removeReporters <- function(spectrum, reporters=NULL, clean=FALSE) {
+  ## Contributed by Guangchuang Yu for the plotMzDelta QC
+  ## Additional modifications: setting peaks to 0 and clean argument
+   if (class(spectrum)!="Spectrum2") {
+    warning("Spectrum level is not 2; no reporter ions to remove.")
+  } else {
+    if (!is.null(reporters)) {
+      mz <- mz(spectrum) 
+      i <- intensity(spectrum)
+      lower <- min(mz(reporters) - width(reporters))
+      upper <- max(mz(reporters) + width(reporters))
+      idx <- which(mz > lower & mz < upper)
+      if (length(idx) != 0) 
+        spectrum@intensity[idx] <- 0
+      if (clean)
+        spectrum <- clean(spectrum)
+    }
+  }
+  return(spectrum)
+}
 
+
+utils.removePrecMz <- function(spectrum, precMz=NULL,
+                               width=0.075, clean=FALSE) {
+  ## Contributed by Guangchuang Yu for the plotMzDelta QC
+  ## Additional modifications: setting peaks to 0 and clean argument
+  if (is.null(precMz)) 
+    precMz <- precursorMz(spectrum)
+  if (!is.numeric(precMz)) 
+    stop("precMz must either 'NULL' or numeric.")
+  if (length(precMz) > 2) 
+    stop ("precMz must a vector of length 1 or 2.")
+  if (length(precMz) == 1) 
+    precMz <- c(precMz-width, precMz+width)
+  mz <- mz(spectrum)
+  i <- intensity(spectrum)
+  idx <- which(mz > precMz[1] & mz < precMz[2])
+  spectrum@intensity[idx] <- 0
+  if (clean)
+    spectrum <- clean(spectrum)
+  return(spectrum)
+}
+
+utils.getMzDelta <- function(spectrum, percentage) {
+  ## Computes the m/z differences between all the 
+  ## 'percentage' top intensity peaks in a spectrum
+  ## Contributed by Guangchuang Yu for the plotMzDelta QC
+  mz <- mz(spectrum)
+  i <- intensity(spectrum)
+  idx <- order(i, decreasing=TRUE)
+  tops <- idx[1:floor(length(idx) * percentage)] ## top 'percentage' of peaks
+  mz.filtered <- mz[tops]
+  delta <- c()   # mass delta
+  while(length(mz.filtered) > 1) {
+    m <- mz.filtered[1]
+    mz.filtered <- mz.filtered[-1]
+    d <- abs(mz.filtered-m)
+    delta <- c(delta, d)
+  }
+  return(delta)
+}	

@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.1.14
+-------------------------
+ o Adding plotMzDelta QC plot (not yet exported), contributed by Guangchuang Yu <2011-06-14 Tue>
+ o created a locked environment to store amino.acids dataframe <2011-06-14 Tue>
+ o TODO plotMzDelta documentation and vignette section
+
 CHANGES IN VERSION 1.1.13
 -------------------------
  o changed pSet [[ method <2011-06-13 Mon>

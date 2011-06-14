@@ -86,10 +86,13 @@ setMethod("plotDensity",c("MSnExp"),
           function(object,z,log=FALSE,plot=TRUE)
           plotDensity.header(header(object),z,log=log,plot=plot))
 
-
 setMethod("plotDensity",c("data.frame"),
           function(object,z,log=FALSE,plot=TRUE)
           plotDensity.header(object,z,log=log,plot=plot))
+
+setMethod("plotMzDelta",c("MSnExp"),
+          function(object,...) 
+          plotMzDelta.MSnExp(object,...))
 
 setMethod("clean",
           signature=signature("MSnExp"),
@@ -164,3 +167,5 @@ setMethod("normalise","MSnExp",
 setMethod("normalize","MSnExp",
           function(object,method="max",...)
           normalise(object,method))
+
+
