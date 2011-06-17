@@ -143,3 +143,10 @@ setMethod("normalise","Spectrum",
 setMethod("normalize","Spectrum",
           function(object,method=c("max","sum"),...)
           normalise(object,method=method))
+
+setMethod("removeReporters","Spectrum",
+          function(object,reporters=NULL,clean=FALSE) {
+            if (msLevel(object)>1) 
+              return(removeReporters.Spectrum2(object,reporters,clean))
+            stop("No reporters to remove for MS1 spectra.")            
+          })

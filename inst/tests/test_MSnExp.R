@@ -87,6 +87,16 @@ test_that("readMzXMLData and dummy MSnExp msLevel 2 instance", {
   expect_that(precMzNames,equals(ffNames))  
 })
 
+context("MSnExp processing")
+
+test_that("MSnExp processing", {
+  ## removeReporters
+  expect_true(all.equal(removeReporters(itraqdata[[1]]),itraqdata[[1]]))
+  expect_true(all.equal(removeReporters(itraqdata,reporters=iTRAQ4,verbose=FALSE)[[1]],
+                        removeReporters(itraqdata[[1]],reporters=iTRAQ4)))
+  ## quantitation should be 0
+  expect_true(all(quantify(removeReporters(itraqdata[[1]],reporters=iTRAQ4),"max",iTRAQ4)[[1]]==0))
+})
 
 ## ! Issues with edited dummy data for MS1 uploading, although
 ## ! things work fine for original data set. Commented these

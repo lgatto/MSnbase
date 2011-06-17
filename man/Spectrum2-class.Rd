@@ -14,6 +14,7 @@
 \alias{precursorCharge}
 \alias{collisionEnergy,Spectrum-method}
 \alias{collisionEnergy}
+\alias{removeReporters,Spectrum-method}
 
 \title{The "Spectrum2" Class for MSMS Spectra}
 
@@ -89,6 +90,9 @@
       intensity as a integer. }
     \item{\code{collisionEnergy(object)}}{ Returns the collision energy
       as an numeric. }
+    \item{\code{removeReporters(object, ...)}}{ Removes all reporter ion
+      peaks. See \code{\link{removeReporters}} documentation for more
+      details and examples. } 
   }
 }
 

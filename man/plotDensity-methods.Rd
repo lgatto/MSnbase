@@ -49,7 +49,8 @@
 }
 
 \seealso{
-  The \code{\link{plot2d}} method.
+  The \code{\link{plot2d}} and \code{\link{plotDensity}} methods for
+  other QC plots.
 }
 
 

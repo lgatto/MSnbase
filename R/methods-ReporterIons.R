@@ -30,6 +30,7 @@ setReplaceMethod("reporterNames",
                    if (validObject(object))
                      return(object)
                  })
+
 setMethod("initialize", "ReporterIons",
           function(.Object,...) {
             .Object <- callNextMethod()
@@ -42,3 +43,8 @@ setMethod("initialize", "ReporterIons",
           })
 
 
+setMethod("description", "ReporterIons",
+          function(object) object@description)
+
+setMethod("names", "ReporterIons",
+          function(x) x@name)

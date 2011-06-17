@@ -262,3 +262,14 @@ precSelectionTable <- function(object,...) {
   x <- precSelection(object,...)
   return(table(x))
 }
+
+removeReporters.MSnExp <- function(object,reporters=NULL,clean=FALSE,verbose=TRUE) {
+  ifelse(verbose,progress <- "text",progress <- "none")
+  spectraList <-  llply(spectra(object),function(x) removeReporters(x,reporters,clean),.progress=progress)
+  object@assayData <- list2env(spectraList)
+  repname <- names(reporters)
+  object@processingData@processing <- c(object@processingData@processing,
+                                        paste("Removed", repname, "reporter ions",sep=" "))
+  if (validObject(object))
+    return(object)
+}

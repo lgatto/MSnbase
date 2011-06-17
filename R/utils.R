@@ -209,30 +209,7 @@ makeImpuritiesMatrix <- function(x) {
   invisible(corrfactors)
 }
 
-utils.removeReporters <- function(spectrum, reporters=NULL, clean=FALSE) {
-  ## Contributed by Guangchuang Yu for the plotMzDelta QC
-  ## Additional modifications: setting peaks to 0 and clean argument
-   if (class(spectrum)!="Spectrum2") {
-    warning("Spectrum level is not 2; no reporter ions to remove.")
-  } else {
-    if (!is.null(reporters)) {
-      mz <- mz(spectrum) 
-      i <- intensity(spectrum)
-      lower <- min(mz(reporters) - width(reporters))
-      upper <- max(mz(reporters) + width(reporters))
-      idx <- which(mz > lower & mz < upper)
-      if (length(idx) != 0) 
-        spectrum@intensity[idx] <- 0
-      if (clean)
-        spectrum <- clean(spectrum)
-    }
-  }
-  return(spectrum)
-}
-
-
-utils.removePrecMz <- function(spectrum, precMz=NULL,
-                               width=0.075, clean=FALSE) {
+utils.removePrecMz <- function(spectrum, precMz=NULL,width=2) {
   ## Contributed by Guangchuang Yu for the plotMzDelta QC
   ## Additional modifications: setting peaks to 0 and clean argument
   if (is.null(precMz)) 
@@ -247,8 +224,6 @@ utils.removePrecMz <- function(spectrum, precMz=NULL,
   i <- intensity(spectrum)
   idx <- which(mz > precMz[1] & mz < precMz[2])
   spectrum@intensity[idx] <- 0
-  if (clean)
-    spectrum <- clean(spectrum)
   return(spectrum)
 }
 

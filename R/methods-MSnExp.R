@@ -76,23 +76,35 @@ setMethod("plot",c("MSnExp","missing"),
 
 setMethod("plot2d",c("MSnExp"),
           function(object,z,alpha=1/3,plot=TRUE)
-          plot2d.header(header(object),z,alpha=alpha,plot=plot))
+          plot2d.header(header(object),z,alpha,plot))
 
 setMethod("plot2d",c("data.frame"),
           function(object,z,alpha=1/3,plot=TRUE)
-          plot2d.header(object,z,alpha=alpha,plot=plot))
+          plot2d.header(object,z,alpha,plot))
 
 setMethod("plotDensity",c("MSnExp"),
           function(object,z,log=FALSE,plot=TRUE)
-          plotDensity.header(header(object),z,log=log,plot=plot))
+          plotDensity.header(header(object),z,log,plot))
 
 setMethod("plotDensity",c("data.frame"),
           function(object,z,log=FALSE,plot=TRUE)
-          plotDensity.header(object,z,log=log,plot=plot))
+          plotDensity.header(object,z,log,plot))
 
 setMethod("plotMzDelta",c("MSnExp"),
-          function(object,...) 
-          plotMzDelta.MSnExp(object,...))
+          function(object, reporters=NULL,
+                   percentage=0.1,
+                   precMz=NULL,
+                   precMzWidth=2,
+                   bw=1,
+                   xlim=c(40,200),
+                   withLabels=TRUE,
+                   size=2.5,
+                   plot=TRUE,
+                   verbose=TRUE)
+          plotMzDelta.MSnExp(object, reporters, percentage,
+                             precMz, precMzWidth,bw,
+                             xlim, withLabels, size,
+                             plot, verbose))
 
 setMethod("clean",
           signature=signature("MSnExp"),
@@ -169,3 +181,9 @@ setMethod("normalize","MSnExp",
           normalise(object,method))
 
 
+setMethod("removeReporters","MSnExp",
+          function(object, reporters=NULL, clean=FALSE,verbose=TRUE) {
+            if (is.null(reporters))
+              return(object)
+            removeReporters.MSnExp(object,reporters,clean,verbose)
+        })

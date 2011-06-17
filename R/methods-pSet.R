@@ -55,8 +55,9 @@ setMethod("[","pSet",
               x@processingData@processing <-
                 c(processingData(x)@processing,
                   paste("Data subsetted ",i,": ",date(),sep=""))
-            }            
-            return(x)
+            }
+            if (validObject(x))
+              return(x)
           })
 
 

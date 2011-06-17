@@ -51,7 +51,8 @@
 }
 
 \seealso{
-  The \code{\link{plotDensity}} method.
+  The \code{\link{plotDensity}} and \code{\link{plotMzDelta}} methods
+  for other QC plots.
 }
 
 
