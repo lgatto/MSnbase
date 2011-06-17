@@ -17,6 +17,7 @@
 \alias{quantify,MSnExp-method}
 \alias{quantify,MSnExp,character-method}
 \alias{removePeaks,MSnExp-method}
+\alias{removeReporters,MSnExp-method}
 \alias{show,MSnExp-method}
 \alias{spectra,MSnExp-method}
 \alias{trimMz,MSnExp-method}
@@ -118,7 +119,11 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
     \item{plotDensity}{\code{signature(object = "MSnExp", ...)}:
       Plots the density of parameters of interest.      
       instances. See \code{\link{plotDensity}} documentation for more
-      details. }  
+      details. }
+    \item{plotMzDelta}{\code{signature(object = "MSnExp", ...)}:
+      Plots a histogram of the m/z difference betwee all of the highest
+      peaks of all MS2 spectra of an experiment. 
+      See \code{\link{plotMzDelta}} documentation for more details. } 
     \item{quantify}{\code{signature(object = "MSnExp")}: Performs
       quantification for all the MS2 spectra of the \code{MSnExp}
       instance. See \code{\link{quantify}} documentation for more
@@ -126,7 +131,11 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
     \item{removePeaks}{\code{signature(object = "MSnExp")}: Removes
       peaks lower that a threshold \code{t}. See
       \code{\link{removePeaks}} documentation for more details and
-      examples. }     
+      examples. }
+    \item{removeReporters}{\code{signature(object = "MSnExp", ...)}:
+      Removes reporter ion peaks from all MS2 spectra of an
+      experiment. See \code{\link{removeReporters}} documentation for
+      more details and examples. } 
     \item{show}{\code{signature(object = "MSnExp")}: Displays object
       content as text. }
     \item{trimMz}{\code{signature(object = "MSnExp")}: Trims the MZ
@@ -141,6 +150,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
   specific formats to mzXML:
   \url{http://tools.proteomecenter.org/wiki/index.php?title=Formats:mzXML}. 
 }
+
 \author{
   Laurent Gatto <lg390@cam.ac.uk>
 }

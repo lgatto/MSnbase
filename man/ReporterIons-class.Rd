@@ -27,6 +27,9 @@
 \alias{width-method}
 \alias{width,ReporterIons-method}
 \alias{width}
+\alias{names,ReporterIons-method}
+\alias{description,ReporterIons-method}
+
 
 \title{The "ReporterIons" Class}
 
@@ -108,8 +111,12 @@
     \item{\code{reporterNames(object) <- value}}{ Sets the reporter
       names to \code{value}, which must be a character of the same
       length as the number of reporter ions. }
-    \item{\code{width(object)}}{ Returns the widhts in which the
+    \item{\code{width(object)}}{ Returns the widths in which the
       reporter ion peaks are expected. }
+    \item{\code{names(object)}}{ Returns the name of the
+      \code{ReporterIons} object. }
+    \item{\code{description(object)}}{ Returns the description of the
+      \code{ReporterIons} object. }
   }
 }
 

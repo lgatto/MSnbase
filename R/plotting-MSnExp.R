@@ -53,14 +53,13 @@ plot.MSnExp <- function(object,
   invisible(p)
 }
 
-
-
 plotMzDelta.MSnExp <- function(object,          ## MSnExp object
                                reporters=NULL,  ## reporters to be removed
-                               precMz=NULL,     ## precursors to be removed
                                percentage=0.1,  ## percentage of peaks to consider                               
+                               precMz=NULL,     ## precursors to be removed
+                               precMzWidth=2,   ## precrsor m/z with
                                bw=1,            ## histogram bandwidth
-                               xlim=c(40, 200), ## delta m/z range
+                               xlim=c(40,200),  ## delta m/z range
                                withLabels=TRUE, ## add amino acide labels
                                size=2.5,        ## labels size
                                plot=TRUE,       ## plot figure
@@ -75,14 +74,23 @@ plotMzDelta.MSnExp <- function(object,          ## MSnExp object
     pb <- txtProgressBar(min=1,max=length(spNames),style=3)
     k <- 1
   }
+  if (!is.null(reporters)) {
+    if (verbose)
+      cat("Removing reporter ion peaks...\n")
+    object <- removeReporters(object,reporters,verbose=FALSE)
+  }
+  ## TODO -- check if there is a precursor mz to remove,
+  ## i.e precursorMz != 0
   for (j in spNames) {
     if (verbose) {
       setTxtProgressBar(pb, k)
       k <- k + 1
     }
     sp <- object[[j]]
-    sp <- utils.removeReporters(sp, reporters)
-    sp <- utils.removePrecMz(sp, precMz, reporters)
+    ## TODO - better than setting precMzWidth statically
+    ## would be to get the peaks based on it m/z value
+    ## and then find it's upper/lower m/z limits to set to 0
+    sp <- utils.removePrecMz(sp, precMz, precMzWidth)
     delta <- c(delta, utils.getMzDelta(sp, percentage))
   }
   if (verbose) {
@@ -93,9 +101,10 @@ plotMzDelta.MSnExp <- function(object,          ## MSnExp object
   p <- ggplot(delta, aes(x=value))
   p <- p +
     geom_histogram(aes(y=..density..), stat="bin", binwidth=bw) +
-      xlim(xlim) +
-        xlab("m/z delta") + ylab("Density") +
-          opts(title="Histogram of Mass Delta Distribution")
+      scale_x_continuous(limits = xlim) +
+        xlim(xlim) +
+          xlab("m/z delta") + ylab("Density") +
+            opts(title="Histogram of Mass Delta Distribution")
   if (withLabels) {
     y_offset <- x_offset <- rep(0.5,21)
     names(y_offset) <- names(x_offset) <- .get.amino.acids()$AA

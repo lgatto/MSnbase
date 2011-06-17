@@ -28,7 +28,6 @@
 \alias{centroided<-,Spectrum,logical-method}
 \alias{centroided<-}
 
-
 %% -- other -- %%
 \alias{clean,Spectrum-method}
 \alias{plot,Spectrum-method}
