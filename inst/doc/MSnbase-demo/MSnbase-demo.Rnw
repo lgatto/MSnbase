@@ -340,6 +340,29 @@ An optional third argument specifies whether the x axes should be logged.
 
 \bigskip
 
+The \Rfunction{plotMzDelta} method\footnote{The code to generate the 
+  histograms has been contributed by Guangchuang Yu from Jinan University, 
+  China.} implements the M/Z delta plot from \cite{Foster11} 
+The M/Z delta plot illustrates the suitability of MS2 spectra for
+identification by plotting the M/Z differences of the most intense
+peaks. The resulting histogram should optimally shown outstanding
+bars at amino acid residu masses. More details and parameters 
+are described in the method documentation (\Rfunction{?plotMzDelta}).
+Figure \ref{fig:plotMzDelta-pride12011} has been generated using 
+the PRIDE experiment 12011, as in \cite{Foster11}.
+
+\begin{figure}[htb]
+  \begin{center}
+    \includegraphics[width=.7\linewidth]{./plotMzDelta-pride12011.pdf}
+\caption{ Illustration of the \Rfunction{plotMzDelta} output for the PRIDE experiment 12011, 
+  as in figure 4A from \cite{Foster11}. } 
+\label{fig:plotMzDelta-pride12011}
+  \end{center}
+\end{figure}
+
+
+\bigskip
+
 In section \ref{sec:incompdissoc} on page \pageref{sec:incompdissoc}, 
 we illustrate how to assess incomplete reporter ion dissociation. 
 
