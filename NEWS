@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.1.16
+-------------------------
+ o added addVigs2WinMenu call in .onAttach <2011-06-26 Sun>
+ o added plotMzDelta paragraph in vignette <2011-06-26 Sun>
+
 CHANGES IN VERSION 1.1.15
 -------------------------
  o new names and description methods for ReporterIons <2011-06-16 Thu>
@@ -9,7 +14,7 @@ CHANGES IN VERSION 1.1.14
 -------------------------
  o Adding plotMzDelta QC plot (not yet exported), contributed by Guangchuang Yu <2011-06-14 Tue>
  o created a locked environment to store amino.acids dataframe <2011-06-14 Tue>
- o TODO plotMzDelta documentation and vignette section - man DONE in v 1.1.15
+ o TODO plotMzDelta documentation and vignette section - man DONE in v 1.1.15 , vignette DONE in v 1.1.16
 
 CHANGES IN VERSION 1.1.13
 -------------------------
