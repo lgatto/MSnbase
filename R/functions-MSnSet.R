@@ -111,8 +111,12 @@ combineFeatures <- function(object,  ## MSnSet
     msg <- paste("Combined ",n1," features into ",
                  nrow(object)," using user-defined function",sep="")
   }
-  if (verbose)
+  object@qual <- object@qual[0,]
+  object@processingData@merged <- TRUE
+  if (verbose) {
     message(msg)
+    warning("Dropping spectrum-level 'qual' slot.")
+  }
   object@processingData@processing <- c(object@processingData@processing,
                                         paste(msg,": ",
                                               date(),

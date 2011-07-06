@@ -164,26 +164,14 @@ quantify.MSnExp <- function(object,method,reporters,strict,verbose) {
     .qual <- do.call(rbind,sapply(peakData,"[","curveStats"))
   }
   rownames(.exprs) <- sub(".peakQuant","",rownames(.exprs))
-  rownames(.qual) <- sub(".curveStats","",rownames(.qual))
-  
+  rownames(.qual) <- sub(".curveStats","",rownames(.qual))  
   ## Updating MSnprocess slot
   object@processingData@processing <- c(object@processingData@processing,
                                         paste(reporters@name,
                                               ifelse(strict," (strict) "," "),
                                               "quantification by ",method,
                                               ": ",date(),sep=""))
-  ## Creating new MSnSet
-  msnset <- new("MSnSet",
-                qual=.qual,
-                exprs=.exprs, 
-                processingData=object@processingData,
-                experimentData=experimentData(object),
-                ## protocolData=protocolData(object) ## updated/added below
-                ## phenoData=pdata,                  ## updated/added below
-                ## featureData=featureData(object),  ## updated/added below
-                annotation="No annotation")
-  
-  ## Updating featureData slot or creating one
+  ## Creating new featureData slot or creating one
   fd <- header(object)
   if (nrow(fData(object))>0) { 
     if (nrow(fData(object))==length(object)) {
@@ -194,9 +182,7 @@ quantify.MSnExp <- function(object,method,reporters,strict,verbose) {
   }
   ## featureData rows must be reordered to match assayData rows
   .featureData <- new("AnnotatedDataFrame",data=fd[rownames(.exprs),])
-  featureData(msnset) <- .featureData
-
-  ## Updating phenoData slot or creating one
+  ## Creating new phenoData slot or creating one
   .phenoData <- new("AnnotatedDataFrame",
                     data=data.frame(mz=reporters@mz,
                       reporters=reporters@name,
@@ -210,15 +196,20 @@ quantify.MSnExp <- function(object,method,reporters,strict,verbose) {
       warning("Unexpected number of samples in phenoData slot. Dropping it.")
     }
   }
-  phenoData(msnset) <- .phenoData
+  msnset <- new("MSnSet",
+                qual=.qual,
+                exprs=.exprs, 
+                processingData=object@processingData,
+                experimentData=experimentData(object),
+                phenoData=.phenoData,
+                featureData=.featureData,
+                annotation="No annotation")
   ## Updating protocol slot 
   if (nrow(protocolData(object))>0) { 
     if (nrow(protocolData(object))==length(reporters)) {
-      protocolData(msnset) <- protocolData(object)
+      .protocolData <- protocolData(object)
     } else {
-      ## Here, something more clever should be done, like replicating
-      ## old phenoData variables length(reporters) times
-      warning("Unexpected number of features in featureData slot. Dropping it.")
+      warning("protocolData does not match with reporters. Dropping it.")
     }
   }
   ## Returning shiny MSnSet object

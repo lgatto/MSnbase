@@ -47,7 +47,14 @@ setMethod("initialize", "MSnSet",
 
 setValidity("MSnSet", function(object) {
   msg <- validMsg(NULL, Biobase:::isValidVersion(object, "MSnSet"))
-  msg <- validMsg(NULL, Biobase::assayDataValidMembers(assayData(object), c("exprs")))
+  msg <- validMsg(msg, Biobase::assayDataValidMembers(assayData(object), c("exprs")))
+  if ( nrow(qual(object)) != 0 ) {
+    nrow.obs <- nrow(qual(object))
+    nrow.exp <- nrow(object)*length(object$reporters)
+    if (nrow.obs != nrow.exp)
+      msg <- validMsg(msg,
+                      "number of rows in assayData and qual slots do not match.")
+  }
   if (!inherits(experimentData(object),"MIAPE"))
     msg <- validMsg(msg, 
                     "experimentData slot in MSnSet must be 'MIAPE' object")
@@ -146,3 +153,31 @@ setMethod("meanSdPlot",
           function(x, ranks=TRUE, xlab = ifelse(ranks, "rank(mean)", "mean"),
                    ylab = "sd", pch  = ".", plot = TRUE, ...)
           vsn::meanSdPlot(exprs(x), ranks=ranks, xlab=xlab, ylab=ylab, pch=pch, plot=plot, ...))
+
+t.MSnSet <- function(x) {
+  x@processingData@processing <-             
+    c(x@processingData@processing,
+      paste("MSnSet transposed: ",date(),sep=""))
+  warning("Dropping protocolData.")  
+  return(new("MSnSet",
+             exprs = t(exprs(x)),
+             phenoData = featureData(x),
+             featureData = phenoData(x),
+             experimentData = experimentData(x),
+             processingData = processingData(x),
+             annotation = annotation(x)))
+}
+
+
+setMethod("[", "MSnSet", function(x, i, j, ...) {
+  .Object <- callNextMethod(...)
+  ## subsetting qual
+  fn <- featureNames(.Object)
+  reps <- match(.Object$mz,x$mz)
+  qrows <- paste(rep(fn,each=length(reps)),reps,sep=".")
+  .Object@qual <- .Object@qual[qrows,]
+  if (validObject(.Object))
+    return(.Object)
+})
+
+  

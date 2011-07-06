@@ -18,7 +18,8 @@
 \alias{purityCorrect,MSnSet-method}
 \alias{purityCorrect,MSnSet,matrix-method}
 \alias{meanSdPlot,MSnSet-method}
-
+\alias{t.MSnSet}
+\alias{[,MSnSet-method}
 
 \title{
   The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
@@ -131,6 +132,11 @@
     \item{normalise}{\code{signature(object = "MSnSet")}: Performs
       \code{MSnSet} normalisation. See \code{\link{normalise}} for more
       details. }
+    \item{t}{\code{signature(x = "MSnSet")}: Returns a transposed
+      \code{MSnSet} object where features are now aligned along columns 
+      and samples along rows and the \code{phenoData} and
+      \code{featureData} slots have been swapped. The
+      \code{protocolData} slot is always dropped with a warning. } 
     % \item{ratios}{\code{signature(object = "MSnSet")}: ... }
   }    
 }
