@@ -16,8 +16,8 @@ export(readMzXMLData,
        combineFeatures,
        makeImpuritiesMatrix,
        precSelection,
-       precSelectionTable)
-
+       precSelectionTable,
+       t.MSnSet)
 
 exportClasses(pSet,
               MIAPE,

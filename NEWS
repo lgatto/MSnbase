@@ -1,3 +1,17 @@
+CHANGES IN VERSION 1.1.17
+-------------------------
+ o updated itraqdata manual <2011-06-27 Mon>
+ o fixed bug in MSnSet validity method - msg was initialised 
+   to NULL when testing Biobase:::isValidVersion and 
+   Biobase::assayDataValidMembers <2011-07-02 Sat>
+ o added t.MSnSet method <2011-07-02 Sat>
+ o document t.MSnSet method <2011-07-05 Tue>
+ o test for t-MSnSet <2011-07-05 Tue>
+ o new "["-MSnSet method to properly subset qual slot <2011-07-06 Wed>
+ o updated MSnSet validity method to check qual dims <2011-07-06 Wed>
+ o combineFeatures now drops the spectrum-specific qual slot <2011-07-06 Wed>
+ o test for "["-MSnSet <2011-07-06 Wed>
+
 CHANGES IN VERSION 1.1.16
 -------------------------
  o added addVigs2WinMenu call in .onAttach <2011-06-26 Sun>
