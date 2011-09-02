@@ -20,6 +20,9 @@
 \alias{meanSdPlot,MSnSet-method}
 \alias{t.MSnSet}
 \alias{[,MSnSet-method}
+\alias{as.ExpressionSet.MSnSet}
+\alias{coerce,MSnSet,ExpressionSet-method}
+
 
 \title{
   The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
@@ -136,7 +139,11 @@
       \code{MSnSet} object where features are now aligned along columns 
       and samples along rows and the \code{phenoData} and
       \code{featureData} slots have been swapped. The
-      \code{protocolData} slot is always dropped with a warning. } 
+      \code{protocolData} slot is always dropped with a warning. }
+    \item{as(,"ExpressionSet")}{\code{signature( x = "MSnSet")}: Coerce
+      object from \code{MSnSet} to
+    \code{\link{ExpressionSet-class}}. The \code{experimentData} slot is
+    dropped. }
     % \item{ratios}{\code{signature(object = "MSnSet")}: ... }
   }    
 }

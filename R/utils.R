@@ -43,6 +43,7 @@ rawToSpectrum1 <- function(x,
                            i,
                            removePeaks=0,
                            clean=FALSE,
+                           centroided=FALSE,
                            updatePeaksCount=TRUE,
                            verbose=verbose) {
   from <-x$scanindex[i]+1
@@ -70,7 +71,8 @@ rawToSpectrum1 <- function(x,
             polarity=x$polarity[i],
             rt=x$rt[i],
             acquisitionNum=x$acquisitionNum[i],
-            scanIndex=x$scanindex)
+            scanIndex=x$scanindex,
+            centroided=centroided)
   if (validObject(sp))
     return(sp)
 }
@@ -79,6 +81,7 @@ rawToSpectrum2 <- function(x,
                            i,
                            removePeaks=0,
                            clean=FALSE,
+                           centroided=FALSE,
                            updatePeaksCount=TRUE,
                            verbose=verbose) {
   from <-x$scanindex[i]+1
@@ -111,6 +114,7 @@ rawToSpectrum2 <- function(x,
             collisionEnergy=x$collisionEnergy[i],
             peaksCount=as.integer(pc),
             mz=mz,
+            centroided=centroided,
             intensity=int)
   if (validObject(sp))
     return(sp)

@@ -37,6 +37,7 @@ readMzXMLData <- function(files,
       if (msLevel>1) {
         spectra[[i]][[j]] <- rawToSpectrum2(raw,j,
                                             clean=clean,
+                                            centroided=centroided,
                                             removePeaks=removePeaks,
                                             updatePeaksCount=TRUE,
                                             verbose=FALSE)
@@ -44,9 +45,9 @@ readMzXMLData <- function(files,
         spectra[[i]][[j]] <- rawToSpectrum1(raw,j,
                                             clean=clean,
                                             removePeaks=removePeaks,
+                                            centroided=centroided,
                                             verbose=FALSE)
       }
-      centroided(spectra[[i]][[j]]) <- centroided
       spectra[[i]][[j]]@fromFile <- i
       if (verbose)
         setTxtProgressBar(pb, j)

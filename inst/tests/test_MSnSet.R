@@ -13,13 +13,17 @@ test_that("Combine MSnSet features", {
               data=data.frame(
                 A=rep(c("A","B"),each=5),
                 B=paste(rep(c("A","B"),each=5),1:10,sep="."))))
-  bb <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),"mean")
-  cc <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),"sum")
-  dd <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),"median")
-  ee <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),
-                                  "weighted.mean",w=rep(1,10))
+  expect_that(bb <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),"mean"),
+              gives_warning())
+  expect_that(cc <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),"sum"),
+              gives_warning())
+  expect_that(dd <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),"median"),
+              gives_warning())
+  expect_that(ee <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),
+                                    "weighted.mean",w=rep(1,10)),
+              gives_warning())
   ff <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),
-                                  "medpolish",verbose=FALSE)
+                        "medpolish",verbose=FALSE)
   expect_equal(exprs(bb),matrix(c(4,10,4,10),ncol=2),
                tolerance=.001,check.attributes=FALSE)
   expect_equal(exprs(dd),matrix(c(4,10,4,10),ncol=2),
