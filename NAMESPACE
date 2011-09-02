@@ -9,10 +9,12 @@ importFrom(IRanges,IRanges,sapply)
 importClassesFrom(IRanges,IRanges)
 
 export(readMzXMLData,
+       readMgfData,
        formatRt,
        extractSpectra,
        extractPrecSpectra,
        as.data.frame.Spectrum,
+       as.ExpressionSet.MSnSet,
        combineFeatures,
        makeImpuritiesMatrix,
        precSelection,

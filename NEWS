@@ -1,3 +1,15 @@
+CHANGES IN VERSION 1.1.18
+-------------------------
+ o read support for mgf files contributed by Guangchuang Yu <2011-07-06 Wed>
+ o added as.ExpressionSet.MSnSet and setAs methods and updated MSnSet doc <2011-07-09 Sat>
+ o fixed read/write mgf compatibility <2011-09-01 Thu>
+ o added mgf io test <2011-09-01 Thu>
+ o exported and document mfg read/write support <2011-09-01 Thu>
+ o added centroided parameter to rawToSpectrum[1|2] to set this directly 
+   at object creation in readMzXmlData <2011-09-01 Thu>
+ o other minor changes in Rd files <2011-09-01 Thu>
+ o added warning checks for combineFeatures when verbose=TRUE in test_MSnSet.R <2011-09-02 Fri>
+
 CHANGES IN VERSION 1.1.17
 -------------------------
  o updated itraqdata manual <2011-06-27 Mon>

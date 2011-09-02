@@ -17,7 +17,7 @@ readMzXMLData(files, pdata = NULL, msLevel = 2, verbose = TRUE, centroided = FAL
 
 \arguments{
   \item{files}{
-    file names to be read in a character vector.
+    character vector with file names to be read.
   }
   \item{pdata}{
     an object of class \code{"\linkS4class{NAnnotatedDataFrame}"}.
@@ -25,9 +25,6 @@ readMzXMLData(files, pdata = NULL, msLevel = 2, verbose = TRUE, centroided = FAL
   \item{msLevel}{
     MS level spectra to be read. Use '1' for MS1 spectra of any larger
     numeric for MSn spectra. Default is '2'.
-  }
-  \item{verbose}{
-   verbosity flag. 
   }
   \item{centroided}{
     \code{Logical} indicating whether spectra are centroided or not. Default is
@@ -47,6 +44,9 @@ readMzXMLData(files, pdata = NULL, msLevel = 2, verbose = TRUE, centroided = FAL
     Logical indicating whether 0 intensity peaks should be discarded
     from spectra. Useful is removePeaks is set. Default is 'FALSE'. See
     \code{\link{clean}} for more details and examples. 
+  }
+  \item{verbose}{
+   verbosity flag. 
   }
 }
 

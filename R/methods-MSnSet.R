@@ -181,3 +181,14 @@ setMethod("[", "MSnSet", function(x, i, j, ...) {
 })
 
   
+setAs("MSnSet", "ExpressionSet",
+      function (from)
+      new("ExpressionSet",
+          exprs=exprs(from),
+          phenoData=phenoData(from),
+          featureData=featureData(from),
+          annotation=annotation(from),
+          protocolData=protocolData(from))
+      )
+
+as.ExpressionSet.MSnSet <- function(x) as(x,"ExpressionSet")

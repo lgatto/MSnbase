@@ -5,7 +5,7 @@
 \alias{writeMgfData,MSnExp-method}
 \alias{writeMgfData,Spectrum-method}
 
-\title{ Writes an experiment or spectrum to an mgf file }
+\title{ Write an experiment or spectrum to an mgf file }
 
 \description{
   Methods \code{writeMgfData} write individual
@@ -13,7 +13,8 @@
   \code{"\linkS4class{MSnExp}"} experiments to a file
   in Mascot Generic Format (mgf) (see 
   \url{http://www.matrixscience.com/help/data_file_help.html}
-  for more details)
+  for more details). Function \code{readMgfData} read spectra from and
+  mgf file and creates an \code{"\linkS4class{MSnExp}"} object.
   
 }
 
@@ -37,4 +38,42 @@
   }
 }
 
+\seealso{
+  \code{\link{readMgfData}} function to read data from and mgf file.
+}
+
+\details{
+  Note that when reading an mgf file, the original order of the spectra
+  is lost. Thus, if the data was originally written to mgf from an
+  \code{MSnExp} object using \code{writeMgfData}, although the feature
+  names will be identical, the spectra are not as a result of the
+  reordering. See example below.
+}
+
+\examples{
+  \dontrun{
+    data(itraqdata)
+    writeMgfData(itraqdata,file="itraqdata.mgf",COM="MSnbase itraqdata")
+    itraqdata2 <- readMgfData("itraqdata.mgf")
+    ## note that the order of the spectra is altered
+    ## and precision of some values (precursorMz for instance)
+    match(signif(precursorMz(itraqdata2),4),signif(precursorMz(itraqdata),4))
+    ## [1]  1 10 11 12 13 14 15 16 17 18 ...
+    ## ... but all the precursors are there
+    all.equal(sort(precursorMz(itraqdata2)),sort(precursorMz(itraqdata)),
+              check.attributes=FALSE,
+              tolerance=10e-5)
+    ## is TRUE
+    all.equal(as.data.frame(itraqdata2[[1]]),as.data.frame(itraqdata[[1]]))
+    ## is TRUE
+    all.equal(as.data.frame(itraqdata2[[3]]),as.data.frame(itraqdata[[11]]))
+    ## is TRUE
+    ## But, beware that
+    all(featureNames(itraqdata2)==featureNames(itraqdata))
+    ## is TRUE too!
+  }
+}
+
+
+\keyword{ file }
 \keyword{methods}
