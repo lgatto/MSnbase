@@ -12,6 +12,7 @@ importClassesFrom(IRanges,IRanges)
 export(readMzXMLData,
        readMgfData,
        readMSData,
+       readMSnSet,
        formatRt,
        extractSpectra,
        extractPrecSpectra,
@@ -71,6 +72,7 @@ exportMethods(coerce,
               reporterNames,"reporterNames<-",
               reporterColours,reporterColors,
               writeMgfData,
+              write.exprs,
               normalise, normalize)
 
 ## methods NOT exported

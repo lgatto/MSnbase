@@ -93,7 +93,7 @@ setMethod("purityCorrect",
             if (ncol(impurities)!=nrow(impurities))
               stop("Impurity matrix must be a square matrix")
             if (ncol(object)!=ncol(impurities))
-              stop("Impurity matrix show be ",ncol(object)," by ",ncol(object))
+              stop("Impurity matrix should be ",ncol(object)," by ",ncol(object))
             .purcor <- function(x,.impurities=impurities) {
               keep <- !is.na(x)
               if (sum(keep)>1) 
@@ -192,3 +192,10 @@ setAs("MSnSet", "ExpressionSet",
       )
 
 as.ExpressionSet.MSnSet <- function(x) as(x,"ExpressionSet")
+
+setMethod("write.exprs",
+          signature(x="MSnSet"),
+          function(x, file="tmp.txt", quote=FALSE,
+                   sep="\t", col.names=NA, ...) {
+            write.table(exprs(x), file=file, quote=quote, sep=sep, col.names=col.names, ...)
+          })

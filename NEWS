@@ -1,4 +1,10 @@
-CHANGES IN VERSION 1.1.19
+CHANGES IN VERSION 1.1.20
+-------------------------
+ o added a readMSnSet function <2011-09-08 Thu>
+ o added a write.MSnSet("MSnSet") method  <2011-09-08 Thu>
+ o vignette/man updates - mainly data import section documenting 
+   readMSData and readMgfData <2011-09-08 Thu>
+
 -------------------------
  o incorporating mzR io frame work <2011-09-05 Mon>
  o use mzR's peaksCount and header generics <2011-09-05 Mon>

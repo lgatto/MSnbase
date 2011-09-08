@@ -12,7 +12,8 @@
 \newcommand{\R}{\texttt{R} }
 \newcommand{\Rfunction}[1]{{\texttt{#1}}}
 \newcommand{\Robject}[1]{{\texttt{#1}}}
-\newcommand{\Rpackage}[1]{{\textit{#1}}}
+%%\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rpackage}[1]{{\mbox{\normalfont\textsf{#1}}}}
 \newcommand{\email}[1]{\href{mailto:#1}{\normalfont\texttt{#1}}}
 %% colors
 \definecolor{Red}{rgb}{0.7,0,0}
@@ -98,20 +99,47 @@ in the \texttt{MSnbase-development} vignette.
 
 \section{Data structure and content}\label{sec:data}
 
-\subsection{Importing experiments}\label{sec:msnexp}
+\subsection{Importing experiments}\label{sec:io}
+
+\Rpackage{MSnbase} is able to import raw MS data stored in one of the \texttt{XML}-based formats 
+as well as peak lists in the \texttt{mfg} format\footnote{%%
+Mascot Generic Format -- \url{http://www.matrixscience.com/help/data\_file\_help.html\#GEN}}
+
+\paragraph{Raw data} The \texttt{XML}-based formats, \texttt{mzXML} \citep{Pedrioli2004}, 
+\texttt{mzData} \citep{Orchard2007} and \texttt{mzML} \citep{Martens2010} can be imported 
+with the \Rfunction{readMSData} function, as illstrated below 
+(see \Rfunction{?readMSData} for more details). 
+
+
+<<readdata, echo=TRUE, cache=FALSE>>=
+file <- dir(system.file(package="MSnbase",dir="extdata"),
+            full.name=TRUE,
+            pattern="mzXML$")
+rawdata <- readMSData(file, msLevel=2, verbose=FALSE)
+@ 
+
+Either MS1 or MS2 spectra can be loaded at a time by setting the \texttt{msLevel} parameter accordingly.
+In this document, we will use the \Robject{itraqdata} data set, provided with 
+\Rpackage{MSnbase}. It includes feature metadata, accessible with the \Rfunction{fData} accessor. 
+The metadata includes identification data for the \Sexpr{length(itraqdata)} MS2 spectra.
+
+\paragraph{Peak lists} Peak lists can often be exported after spectrum processing 
+from vendor-specific software and are also used as input to search engines. 
+Peak lists in \texttt{mgf} format can be imported with the function 
+\Rfunction{readMgfData} (see \Rfunction{?readMgfData} for details)
+to create experiment objects. 
+Experiments or individual spectra can be exported to an \texttt{mgf} file with 
+the \Rfunction{writeMgfData} methods (see \Rfunction{?writeMgfData} for details and examples).
+
+\bigskip
+
+See also section \ref{sec:io2} to import quantitative data stored in spreadsheets into \R 
+for further processing using \Rpackage{MSnbase}.
+
+\subsection{MS experiments}\label{sec:msnexp}
 
 Raw data is contained in \Robject{MSnExp} objects, that stores all the spectra of an experiment, 
 as defined by one or multiple raw data files. 
-
-\Rpackage{MSnbase} imports raw MS data stored in \texttt{mzXML} 
-format \citep{Pedrioli2004} with the function \Rfunction{readMzXMLData} function. 
-See \Rfunction{?readMzXMLData} for more details.
-More formats, notably \texttt{mzML} \citep{Martens2010}, will be added at a later stage. 
-Either MS1 or MS2 spectra can be loaded at a time by setting the \texttt{msLevel} parameter accordingly.
-In this document, we will use a slightly bigger data set, \Robject{itraqdata}, provided with 
-\Rpackage{MSnbase}. It includes feature metadata, accessible with the \Rfunction{fData} method. 
-The metadata includes identification data for the \Sexpr{length(itraqdata)} MS2 spectra.
-
 
 <<MSnExp,cache=FALSE,echo=TRUE>>=
 library("MSnbase")
@@ -596,11 +624,47 @@ qnt <- qnt[-whichRow,]
 sum(is.na(exprs(qnt)))
 @ 
 
-\subsection{Purity correction}
-\label{sec:purcor}
+\subsection{Importing quantitation data}\label{sec:io2}
 
-Impurities in the reporter reagents can bias the results and can be corrected when 
-manufacturers provide correction coefficients. 
+If quantitation data is already available as a spreadsheet, it can be 
+imported, along with additional optional feature and sample (pheno) meta data, 
+with the \Rfunction{readMSnSet} function. This function takes the 
+respective text-based spreadsheet (comma- or tab-separated) file names 
+as argument to create a valid \Robject{MSnSet} instance. 
+
+Note that the quantitation data of \Robject{MSnSet} objects can also be 
+exported to a text-based spreadsheet file using the \Rfunction{write.exps} 
+method.
+
+
+
+\subsection{Peak adjustments}\label{sec:purcor}
+
+\paragraph{Single peak adjustment} In certain cases, peak intensities need to be adjusted 
+as a result of peak interferance. For example, the $+1$ peak of the phenylalanine (F, Phe) 
+immonium ion (with m/z 120.03) inteferes with the 121.1 TMT reporter ion. 
+Below, we calculate the relative intensity of the +1 peaks compared to the main peak using the 
+\Rpackage{Rdispo} package.
+
+<<pheplus1, echo=TRUE, cache=FALSE>>=
+library(Rdisop)
+## Phenylalanine immonium ion
+Fim <- getMolecule("C8H10N")
+getMass(Fim)
+isotopes <- getIsotope(Fim)
+F1 <- isotopes[2,2]
+F1
+@ 
+
+If desired, one can thus specifically quantify the F immonium ion in the MS2 spectrum, 
+estimate the intensity of the +1 ion (\Sexpr{round(F1,4)}\% of the F peak) and substract 
+this calculated value from the 121.1 TMT reporter intensity. 
+
+The above principle can also be generalised for a set of overlapping peaks, 
+as described below.
+
+\paragraph{Reporter ions purity correction} Impurities in the reporter reagents can also 
+bias the results and can be corrected when manufacturers provide correction coefficients. 
 These generally come as percentages of each reporter ion that have masses differing 
 by -2, -1, +1 and +2 Da from the nominal reporter ion mass due to isotopic variants.  
 The \Rfunction{purityCorrect} method applies such correction to \Robject{MSnSet} 

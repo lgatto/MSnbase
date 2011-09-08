@@ -15,12 +15,12 @@
   quantitation.
 
   Purity correction here is applied using \code{solve} from the
-  \code{base} packge using the purity correction values as coefficient of
+  \code{base} package using the purity correction values as coefficient of
   the linear system and the reporter quantities as the right-hand side
-  of the linear system. 'NA' values are ignored and if negative
+  of the linear system. 'NA' values are ignored and negative
   intensities after correction are also set to 'NA'.
 
-  A detailed purity correction method is described in
+  A more elaborated purity correction method is described in
   Shadforth \emph{et al.}, i-Tracker: for quantitative proteomics using
   iTRAQ. BMC Genomics. 2005 Oct 20;6:145. (PMID 16242023). 
 
