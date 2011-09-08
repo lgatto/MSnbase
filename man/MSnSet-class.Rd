@@ -147,8 +147,11 @@
       dropped. }
     %% \item{ratios}{\code{signature(object = "MSnSet")}: ... }
     \item{write.exprs}{signature(x = "MSnSet")}{Writes expression values
-      to a tab-separated file (default is \code{tmp.txt}). Takes the same
-      arguments as \code{write.table}}  
+      to a tab-separated file (default is \code{tmp.txt}). The
+      \code{fDataCols} parameter can be used to specify which
+      \code{featureData} columns (as column names, column number or
+      \code{logical}) to append on the right of the expression matrix. 
+      The following arguments are the same as \code{write.table}.}
   }
 }
 

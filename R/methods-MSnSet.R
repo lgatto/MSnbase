@@ -195,7 +195,12 @@ as.ExpressionSet.MSnSet <- function(x) as(x,"ExpressionSet")
 
 setMethod("write.exprs",
           signature(x="MSnSet"),
-          function(x, file="tmp.txt", quote=FALSE,
+          function(x,
+                   fDataCols=NULL,
+                   file="tmp.txt", quote=FALSE,
                    sep="\t", col.names=NA, ...) {
-            write.table(exprs(x), file=file, quote=quote, sep=sep, col.names=col.names, ...)
+            res <- exprs(x)
+            if (!is.null(fDataCols))
+              res <- cbind(res,fData(x)[,fDataCols])
+            write.table(res, file=file, quote=quote, sep=sep, col.names=col.names, ...)
           })

@@ -23,15 +23,6 @@ readMSnSet <- function(exprsFile,
                   processing=paste("Quantitation data loaded:",date(),
                     " using readMSnSet."),
                   files=exprsFile)
-  if (!missing(featureDataFile)) {
-    featureDataArgs$file <- featureDataFile
-    fd <- do.call(read.AnnotatedDataFrame, featureDataArgs)
-    if (!identical(featureNames(fd), featureNames(eset)))
-      stop("Row names of the quantitation matrix must be identical to\n",
-           "the feature names of the featuredata table.\n",
-           "You could use 'options(error=recover)' to compare the",
-           "values of 'rowames(fd)' and 'featureNames(eset)'.\n")
-  }
   .miame <- experimentData(eset)
   .miape <- new("MIAPE",
                 name = .miame@name,
@@ -40,13 +31,29 @@ readMSnSet <- function(exprsFile,
                 title = .miame@title,
                 abstract = .miame@abstract,
                 url = .miame@url)
-  mset <- new("MSnSet",
-              exprs = exprs(eset),
-              phenoData = phenoData(eset),
-              featureData = fd,
-              processingData = .process,
-              protocolData = protocolData(eset),
-              experimentData = .miape)
+  if (!missing(featureDataFile)) {
+    featureDataArgs$file <- featureDataFile
+    fd <- do.call(read.AnnotatedDataFrame, featureDataArgs)
+    if (!identical(featureNames(fd), featureNames(eset)))
+      stop("Row names of the quantitation matrix must be identical to\n",
+           "the feature names of the featuredata table.\n",
+           "You could use 'options(error=recover)' to compare the",
+           "values of 'rowames(fd)' and 'featureNames(eset)'.\n")
+    mset <- new("MSnSet",
+                exprs = exprs(eset),
+                phenoData = phenoData(eset),
+                featureData = fd,
+                processingData = .process,
+                protocolData = protocolData(eset),
+                experimentData = .miape)    
+  } else {
+    mset <- new("MSnSet",
+                exprs = exprs(eset),
+                phenoData = phenoData(eset),
+                processingData = .process,
+                protocolData = protocolData(eset),
+                experimentData = .miape)
+  }
   if (validObject(mset))
     return(mset)
 }
