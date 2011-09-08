@@ -1,3 +1,12 @@
+CHANGES IN VERSION 1.1.19
+-------------------------
+ o incorporating mzR io frame work <2011-09-05 Mon>
+ o use mzR's peaksCount and header generics <2011-09-05 Mon>
+ o added test to check that readMzXMLData and readMSData give same output <2011-09-05 Mon>
+ o added readMSData.Rd doc file <2011-09-05 Mon>
+ o added Author@R field in DESCRIPTION <2011-09-07 Wed>
+ o compressed/resaved (using resaveRdaFiles) itraqdata.RData file to  <2011-09-07 Wed>
+
 CHANGES IN VERSION 1.1.18
 -------------------------
  o read support for mgf files contributed by Guangchuang Yu <2011-07-06 Wed>

@@ -119,8 +119,17 @@ setReplaceMethod("centroided",
                      return(object)
                  })
 
-setMethod("peaksCount","pSet",
+setMethod("peaksCount",
+          signature("pSet","missing"),
           function(object) sapply(spectra(object),peaksCount))
+
+setMethod("peaksCount",
+          signature("pSet","numeric"),          
+          function(object, scans) {
+            if (length(scans)==1)
+              return(peaksCount(object[[scans]]))           
+            sapply(spectra(object)[scans],peaksCount)
+          })
 
 setMethod("msLevel","pSet",
           function(object) sapply(spectra(object),msLevel))
@@ -148,7 +157,8 @@ setMethod("polarity","pSet",
 setMethod("fromFile","pSet",
           function(object) return(sapply(spectra(object),fromFile)))
 
-setMethod("header","pSet",
+setMethod("header",
+          signature("pSet","missing"),
           function(object) {
             if (any(msLevel(object)<2))
               stop("header() only works for MS levels > 1.")
@@ -163,6 +173,26 @@ setMethod("header","pSet",
                                     ms.level=msLevel(object),
                                     charge=precursorCharge(object),
                                     collision.energy=collisionEnergy(object))))
+          })
+
+setMethod("header",
+          signature=c("pSet","numeric"),
+          function(object, scans) {
+            if (any(msLevel(object)<2))
+              stop("header() only works for MS levels > 1.")
+            tbl <- table(fromFile(object))
+            idx <- as.numeric(unlist(apply(tbl,1,function(x) 1:x)))
+            ## OK for length(scans) > 1 -- slow for 1 scan
+            hdfr <- data.frame(cbind(index=idx,
+                                     file=fromFile(object),
+                                     retention.time=rtime(object),
+                                     precursor.mz=precursorMz(object),
+                                     peaks.count=peaksCount(object),
+                                     tic=tic(object),
+                                     ms.level=msLevel(object),
+                                     charge=precursorCharge(object),
+                                     collision.energy=collisionEnergy(object)))          
+            return(hdfr[scans,])
           })
 
 ##################################################################

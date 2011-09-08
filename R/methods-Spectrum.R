@@ -67,7 +67,12 @@ setMethod("ms1scan","Spectrum",
             stop("This is already an MS1 spectrum.")
           })
 setMethod("rtime","Spectrum",function(object) object@rt)
-setMethod("peaksCount","Spectrum",function(object) object@peaksCount)
+
+setMethod("peaksCount",
+          signature("Spectrum","missing"),
+          function(object) object@peaksCount)
+## no singature("Spectrum","numeric") -- does not make sense
+
 setMethod("msLevel","Spectrum",function(object) object@msLevel)
 setMethod("collisionEnergy","Spectrum",
           function(object) {

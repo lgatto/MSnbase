@@ -14,10 +14,10 @@ setGeneric("precursorCharge<-",function(object,value) standardGeneric("precursor
 setGeneric("acquisitionNum",function(object) standardGeneric("acquisitionNum"))
 setGeneric("ms1scan",function(object) standardGeneric("ms1scan"))
 setGeneric("rtime",function(object) standardGeneric("rtime"))
-setGeneric("peaksCount",function(object) standardGeneric("peaksCount"))
 setGeneric("msLevel",function(object) standardGeneric("msLevel"))
-setGeneric("collisionEnergy",function(object) standardGeneric("collisionEnergy"))
-setGeneric("header",function(object) standardGeneric("header"))
+setGeneric("collisionEnergy",function(object) standardGeneric("collisionEnergy")) 
+## setGeneric("peaksCount",function(object) standardGeneric("peaksCount")) ## use mzR generic
+## setGeneric("header",function(object) standardGeneric("header")) ## use mzR generic
 setGeneric("polarity", function(object) standardGeneric("polarity"))
 setGeneric("centroided", function(object) standardGeneric("centroided"))
 setGeneric("centroided<-", function(object,value) standardGeneric("centroided<-"))
