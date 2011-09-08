@@ -55,10 +55,11 @@ readMgfData(file, pdata = NULL, centroided = TRUE, smoothed = FALSE, verbose = T
 
 \seealso{
   \code{\link{writeMgfData}} method to write the content of
-    \code{"\linkS4class{Spectrum}"} or \code{"\linkS4class{MSnExp}"}
-  objects to mgf files.
-}
-
+  \code{"\linkS4class{Spectrum}"} or \code{"\linkS4class{MSnExp}"}
+  objects to mgf files. Raw data files can also be read with the
+  \code{\link{readMSData}} function.
+  }
+  
 \examples{
   \dontrun{
     data(itraqdata)

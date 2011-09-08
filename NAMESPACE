@@ -1,5 +1,6 @@
 import(graphics)
 import(Biobase)
+import(mzR)
 
 importFrom(plyr,llply)
 importFrom(xcms,xcmsRaw) ## not needed really, using unexported xcms:::ramp* only
@@ -10,6 +11,7 @@ importClassesFrom(IRanges,IRanges)
 
 export(readMzXMLData,
        readMgfData,
+       readMSData,
        formatRt,
        extractSpectra,
        extractPrecSpectra,

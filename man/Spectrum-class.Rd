@@ -16,7 +16,7 @@
 \alias{msLevel}
 \alias{mz,Spectrum-method}
 \alias{mz}
-\alias{peaksCount,Spectrum-method}
+\alias{peaksCount,Spectrum,missing-method}
 \alias{peaksCount}
 \alias{rtime,Spectrum-method}
 \alias{rtime}

@@ -1,18 +1,20 @@
-\name{readMzXMLData}
-\alias{readMzXMLData}
+\name{readMSData}
+\alias{readMSData}
 \concept{MSnExp}
 
 \title{
-  Import mzXML files as 'MSnExp' instances.
+  Imports mass-spectrometry raw data files as 'MSnExp' instances.
 }
 
 \description{
-  Reads mzXML files and generates an \code{"\linkS4class{MSnExp}"}
-  object. 
+  Reads as set of XML-based mass-spectrometry data files and generates
+  an \code{"\linkS4class{MSnExp}"} object. This function uses the
+  functionality provided by the \code{mzR} package to access data and
+  meta data in \code{mzData}, \code{mzXML} and \code{mzML}.
 }
 
 \usage{
-readMzXMLData(files, pdata = NULL, msLevel = 2, verbose = TRUE, centroided = FALSE, smoothed = FALSE, removePeaks = 0, clean = FALSE) 
+readMSData(files, pdata = NULL, msLevel = 2, verbose = TRUE, centroided = FALSE, smoothed = FALSE, removePeaks = 0, clean = FALSE) 
 }
 
 \arguments{
@@ -73,15 +75,15 @@ Laurent Gatto <lg390@cam.ac.uk>
 
 
 \seealso{
-  \code{"\linkS4class{MSnExp}"} as well as the \code{\link{readMSData}}
-  function to read more formats.
+  \code{"\linkS4class{MSnExp}"} or \code{\link{readMgfData}} to read
+  \code{mgf} peak lists.
 }
 
 \examples{
 file <- dir(system.file(package="MSnbase",dir="extdata"),
             full.name=TRUE,
             pattern="mzXML$")
-aa <- readMzXMLData(file)
+aa <- readMSData(file)
 aa
 }
 

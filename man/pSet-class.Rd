@@ -26,7 +26,8 @@
 \alias{centroided<-,pSet,logical-method}
 \alias{fvarLabels,pSet-method}
 \alias{fvarMetadata,pSet-method}
-\alias{header,pSet-method}
+\alias{header,pSet,missing-method}
+\alias{header,pSet,numeric-method}
 \alias{header}
 \alias{intensity,pSet-method}
 \alias{length,pSet-method}
@@ -36,7 +37,8 @@
 \alias{mz,pSet-method}
 \alias{notes,pSet-method}
 \alias{pData,pSet-method}
-\alias{peaksCount,pSet-method}
+\alias{peaksCount,pSet,missing-method}
+\alias{peaksCount,pSet,numeric-method}
 \alias{phenoData,pSet-method}
 \alias{polarity,pSet-method}
 \alias{precursorCharge,pSet-method}
@@ -197,6 +199,8 @@
       M/Z values, returned as a named list. }
     \item{peaksCount}{\code{signature(object = "pSet")}: Accessor for
       spectra preak counts. }
+    \item{peaksCount}{\code{signature(object = "pSet", scans =
+	"numeric")}: Accessor to \code{scans} spectra preak counts. }  
     \item{polarity}{\code{signature(object = "pSet")}: Accessor for MS1
       spectra polarities. }
     \item{precursorCharge}{\code{signature(object = "pSet")}: Accessor
@@ -211,6 +215,9 @@
       total ion counts. }
     \item{header}{\code{signature(object = "pSet")}: Returns a data
       frame containing all available spectra parameters (MSn only). }
+    \item{header}{\code{signature(object = "pSet", scans = "numeric")}:
+      Returns a data frame containing \code{scans} spectra parameters
+      (MSn only). } 
   }			      
 }
 

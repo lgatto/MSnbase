@@ -1,14 +1,20 @@
 Package: MSnbase
 Title: MSnbase: Base Functions and Classes for MS-based Proteomics
-Version: 1.1.18
-Author: Laurent Gatto <lg390@cam.ac.uk> with contributions 
-	from Guangchuang Yu <guangchuangyu@gmail.com>
+Version: 1.1.19
 Description: Basic plotting, data manipulation and processing 
 	     of MS-based Proteomics data
-Depends: Biobase (>= 2.11.0), methods, ggplot2
+Author@R: c(person(given = "Laurent", family = "Gatto",
+	           email = "lg390@cam.ac.uk",
+ 		   role = c("aut","cre"),
+            person(given = "Guangchuang", family ="Yu",
+	           email = "guangchuangyu@gmail.com>",
+		   role = "ctb"))
+Author: Laurent Gatto <lg390@cam.ac.uk> with contributions 
+	from Guangchuang Yu <guangchuangyu@gmail.com>
+Maintainer: Laurent Gatto <lg390@cam.ac.uk>
+Depends: R (>= 2.10), Biobase (>= 2.11.0), methods, ggplot2, mzR
 Imports: plyr, graphics, xcms, IRanges, preprocessCore, vsn
 Suggests: testthat, zoo
-Maintainer: Laurent Gatto <lg390@cam.ac.uk>
 License: Artistic-2.0
 LazyLoad: yes
 LazyData: yes
