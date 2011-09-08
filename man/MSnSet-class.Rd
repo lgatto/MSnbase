@@ -22,7 +22,8 @@
 \alias{[,MSnSet-method}
 \alias{as.ExpressionSet.MSnSet}
 \alias{coerce,MSnSet,ExpressionSet-method}
-
+\alias{write.exprs}
+\alias{write.exprs,MSnSet-method}
 
 \title{
   The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
@@ -142,10 +143,13 @@
       \code{protocolData} slot is always dropped with a warning. }
     \item{as(,"ExpressionSet")}{\code{signature( x = "MSnSet")}: Coerce
       object from \code{MSnSet} to
-    \code{\link{ExpressionSet-class}}. The \code{experimentData} slot is
-    dropped. }
-    % \item{ratios}{\code{signature(object = "MSnSet")}: ... }
-  }    
+      \code{\link{ExpressionSet-class}}. The \code{experimentData} slot is 
+      dropped. }
+    %% \item{ratios}{\code{signature(object = "MSnSet")}: ... }
+    \item{write.exprs}{signature(x = "MSnSet")}{Writes expression values
+      to a tab-separated file (default is \code{tmp.txt}). Takes the same
+      arguments as \code{write.table}}  
+  }
 }
 
 \author{
@@ -153,7 +157,10 @@
 }
 
 \seealso{
-  \code{"\linkS4class{eSet}"} and \code{"\linkS4class{ExpressionSet}"}.
+  \code{"\linkS4class{eSet}"} and
+  \code{"\linkS4class{ExpressionSet}"}. \code{MSnSet} quantitation
+  values can be exported to a file with
+  \code{\link[MSnbase]{write.exprs}}. 
 }
 
 \examples{
