@@ -13,6 +13,7 @@ export(readMzXMLData,
        readMgfData,
        readMSData,
        readMSnSet,
+       readIspyData,
        formatRt,
        extractSpectra,
        extractPrecSpectra,
@@ -55,6 +56,7 @@ exportMethods(coerce,
               precursorMz,
               precursorIntensity,
               precursorCharge,
+              precScanNum,
               acquisitionNum,
               rtime,
               peaksCount,
@@ -77,7 +79,6 @@ exportMethods(coerce,
 
 ## methods NOT exported
 ## curveStats
-## ms1scan
 ## "precursorCharge<-"
 ## ratios
 

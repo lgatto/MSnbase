@@ -6,7 +6,8 @@ test_that("MSnExp validity", {
 
 test_that("readMzXMLData and dummy MSnExp msLevel 2 instance", {
   file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
-  aa <- readMzXMLData(file,verbose=FALSE)
+  ## aa <- readMzXMLData(file,verbose=FALSE)
+  aa <- readMSData(file,verbose=FALSE)
   expect_true(class(aa)=="MSnExp")
   ## centroided get and set
   expect_false(any(centroided(aa)))
@@ -29,8 +30,8 @@ test_that("readMzXMLData and dummy MSnExp msLevel 2 instance", {
   ## MS levels
   expect_equal(length(msLevel(aa)),5)
   expect_equal(unique(msLevel(aa)),2)
-  expect_equal(length(MSnbase:::ms1scan(aa)),5)
-  expect_equal(length(unique(MSnbase:::ms1scan(aa))),1)
+  expect_equal(length(precScanNum(aa)),5)
+  expect_equal(length(unique(precScanNum(aa))),1)
   ## Precursor MZ
   expect_equal(length(precursorMz(aa)),5)
   expect_that(precursorMz(aa)[1],is_a("numeric"))

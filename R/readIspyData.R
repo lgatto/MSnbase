@@ -4,8 +4,8 @@ readIspyData <- function(file="ispy_results.tsv",
                          na.rm=TRUE,
                          min.int=0,
                          reporters=19:23,
-                         skipFillUp=24,
-                         fillUp=FALSE,
+                         ## skipFillUp=24,
+                         ## fillUp=FALSE,
                          keepAll=FALSE,
                          verbose=TRUE) {
   .fillUp <- function(x) {
@@ -39,31 +39,37 @@ readIspyData <- function(file="ispy_results.tsv",
                     "numeric",       # VariableModificationMassShift
                     "numeric",       # PrecursorMZ
                     "character",     # MSScanID
-                    "character",     # MascotQuery
+                    "character",     # DataBrowserLink ## was MascotQuery
                     "numeric",       # PosteriorErrorProbability
                     rep("numeric",length(reporters)),
                     "numeric"))      # precursorrelativesignal
   names(tab) <- gsub("\\.\\.","pc",gsub("_","",names(tab)))
   names(tab)[ncol(tab)] <- "PrecursorRelativeSignal"
+  ## remove mascot link
+  tab <- tab[,-17]  
   ## tab$MascotQuery <- sub(",[0-0]+\\)&","",
   ##                        sub("=HYPERLINK\\(","",tab$MascotQuery))
-  tab$MascotQuery <- sub("^.+F0","F0",
-                         sub("\\.dat.+$",".dat",tab$MascotQuery))
+  ## if (version==1)
+  ##   tab$MascotQuery <- sub("^.+F0","F0",
+  ##                          sub("\\.dat.+$",".dat",tab$MascotQuery))
+  ## else
+  ##   tab$DataBrowserLink <- sub("^.+F0","F0",
+  ##                          sub("\\.dat.+$",".dat",tab$DataBrowserLink))    
   .exprs <- as.matrix(tab[,reporters])
-  .featureData <- tab[,-reporters] ## was c(-reporters,-skipFillUp)
-  if (fillUp) {
-    if (verbose)
-      cat("Filling up table\n")
-    if (verbose)
-      pb <- txtProgressBar(min = 0, max = ncol(.featureData), style = 3)
-    for (i in 1:ncol(.featureData)) {
-      .featureData[,i] <- .fillUp(.featureData[,i])
-      if (verbose)
-        setTxtProgressBar(pb,i)
-    }
-    if (verbose)
-      close(pb)
-  }
+  .featureData <- tab[,-reporters] 
+  ## if (fillUp) {
+  ##   if (verbose)
+  ##     cat("Filling up table\n")
+  ##   if (verbose)
+  ##     pb <- txtProgressBar(min = 0, max = ncol(.featureData), style = 3)
+  ##   for (i in 1:ncol(.featureData)) {
+  ##     .featureData[,i] <- .fillUp(.featureData[,i])
+  ##     if (verbose)
+  ##       setTxtProgressBar(pb,i)
+  ##   }
+  ##   if (verbose)
+  ##     close(pb)
+  ## }
   if (verbose)
     cat("Filtering\n")
   ## Default filters keep all features

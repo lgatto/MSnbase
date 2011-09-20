@@ -19,7 +19,7 @@ setMethod("show",
               msnLevels <- unique(msLevel(object))
               cat(" MSn level(s):",msnLevels,"\n")
               if (all(msLevel(object)>1)) {
-                cat(" Number of MS1 acquisitions:",length(unique(ms1scan(object))),"\n")
+                cat(" Number of MS1 acquisitions:",length(unique(precScanNum(object))),"\n")
                 cat(" Number of MS2 scans:",length(ls(assayData(object))),"\n")
                 msnPrecMz <- precursorMz(object)
                 nbPrecIons <- length(msnPrecMz)
@@ -113,13 +113,6 @@ setMethod("clean",
 setMethod("removePeaks",signature("MSnExp"),
           function(object,t,verbose=TRUE) removePeaks.MSnExp(object,t,verbose))
 
-
-setMethod("ms1scan","MSnExp",
-          function(object) {
-            if (msLevel(object)[1]>1) 
-              return(unlist(eapply(assayData(object), ms1scan)))
-            stop("This experiment contains MS1 spectra.")
-          })
 
 setMethod("trimMz",
           signature=signature("MSnExp","numeric"),

@@ -5,9 +5,10 @@
 \alias{class:Spectrum2}
 \alias{Spectrum2}
 
-%% \alias{ms1scan,Spectrum-method}
 \alias{precursorMz,Spectrum-method}
 \alias{precursorMz}
+\alias{precScanNum,Spectrum-method}
+\alias{precScanNum}
 \alias{precursorIntensity,Spectrum-method}
 \alias{precursorIntensity}
 \alias{precursorCharge,Spectrum-method}
@@ -30,10 +31,8 @@
   \describe{
     \item{\code{merged}:}{Object of class \code{"numeric"} indicating of
       how many combination the current spectrum is the result of. }
-    \item{\code{ms1scan}:}{Object of class \code{"integer"} indicating
-      the (estimated) relative MS1 scan index of the parent ion. The
-      parent MS1 scan is defined as the previous missing scan number
-      in the serie of MS2 scans. Experimental! }
+    \item{\code{precScanNum}:}{Object of class \code{"integer"} indicating
+      the precursor MS scan index in the original input file. }
     \item{\code{precursorMz}:}{Object of class \code{"numeric"}
       providing the precursor ion MZ value. }
     \item{\code{precursorIntensity}:}{Object of class \code{"numeric"}
@@ -80,10 +79,10 @@
   See \code{"\linkS4class{Spectrum}"} for additional accessors and
   methods for \code{Spectrum2} objects.
   \describe{
-%%    \item{\code{ms1scan(object)}}{ Returns the relative MS1 scan index
-%%      of the parent ion as an integer. }
     \item{\code{precursorMz(object)}}{ Returns the precursor MZ value as
       a numeric. }
+    \item{\code{precursorMz(object)}}{ Returns the precursor scan number
+      in the original data file as an integer. }
     \item{\code{precursorIntensity(object)}}{ Returns the precursor
       intensity as a numeric. }
     \item{\code{precursorCharge(object)}}{ Returns the precursor

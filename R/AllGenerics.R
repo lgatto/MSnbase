@@ -12,7 +12,7 @@ setGeneric("precursorIntensity",function(object) standardGeneric("precursorInten
 setGeneric("precursorCharge",function(object) standardGeneric("precursorCharge"))
 setGeneric("precursorCharge<-",function(object,value) standardGeneric("precursorCharge<-"))
 setGeneric("acquisitionNum",function(object) standardGeneric("acquisitionNum"))
-setGeneric("ms1scan",function(object) standardGeneric("ms1scan"))
+setGeneric("precScanNum",function(object) standardGeneric("precScanNum"))
 setGeneric("rtime",function(object) standardGeneric("rtime"))
 setGeneric("msLevel",function(object) standardGeneric("msLevel"))
 setGeneric("collisionEnergy",function(object) standardGeneric("collisionEnergy")) 

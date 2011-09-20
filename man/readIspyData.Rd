@@ -12,8 +12,8 @@
 }
 \usage{
 readIspyData(file = "ispy_results.tsv", uniquePeps = TRUE, pep = 0.05,
-  na.rm = TRUE, min.int = 0, reporters = 19:23, skipFillUp = 24,
- fillUp = FALSE, keepAll = FALSE, verbose = TRUE) 
+  na.rm = TRUE, min.int = 0, reporters = 19:23, keepAll = FALSE,
+  verbose = TRUE) 
 }
 
 
@@ -33,18 +33,18 @@ readIspyData(file = "ispy_results.tsv", uniquePeps = TRUE, pep = 0.05,
     0. Note that 'NA' values are excluded when summing the values. } 
   \item{reporters}{A \code{numeric} indicating column indices of reporter
     ions quantitation data. Default is \code{19:23} for iTRAQ 4-plex. }
-  \item{skipFillUp}{A \code{numeric} indicating which column not to fill
-    up. Generally the column following the reporter ions quantitation
-    data. Default is 24.}
-  \item{fillUp}{A \code{logical} specifying if empty cells should be
-    filled up using their upper neighbour value. Default is FALSE, and
-    warnings are thrown if NA's are found. 
-    This can be set to TRUE for older ispy result sheets, were protein 
-    accession numbers, description,... and other shared fields were not
-    repeated across multiple lines. However, if one of these fields is
-    marked NA (for instance a protein without description), the value of
-    the previous protein will be copied (which is obviously a bug and
-    will be fixed.)}
+  % \item{skipFillUp}{A \code{numeric} indicating which column not to fill
+  %   up. Generally the column following the reporter ions quantitation
+  %   data. Default is 24.}
+  % \item{fillUp}{A \code{logical} specifying if empty cells should be
+  %   filled up using their upper neighbour value. Default is FALSE, and
+  %   warnings are thrown if NA's are found. 
+  %   This can be set to TRUE for older ispy result sheets, were protein 
+  %   accession numbers, description,... and other shared fields were not
+  %   repeated across multiple lines. However, if one of these fields is
+  %   marked NA (for instance a protein without description), the value of
+  %   the previous protein will be copied (which is obviously a bug and
+  %   will be fixed.)}
   \item{keepAll}{A \code{logical} that defines whether all features of
     the ispy result should be imported. If 'TRUE', 'pep', 'na.rm' and 
     'min.int' are ignored. This is equivalent to 'pep=1', 'na.rm=FALSE'

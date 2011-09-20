@@ -75,11 +75,11 @@ readMzXMLData <- function(files,
   }
   spectra <- unlist(spectra)
   if (msLevel>1) {
-    ms1scanNums <- getBins(sapply(spectra,acquisitionNum))
-    if (length(ms1scanNums)!=length(spectra))
-      stop("Number of spectra and ms1scan numbers do not match!")
+    scanNums <- getBins(sapply(spectra,acquisitionNum))
+    if (length(scanNums)!=length(spectra))
+      stop("Number of spectra and precursor scan number do not match!")
     for (i in 1:length(spectra)) {
-      spectra[[i]]@ms1scan <- as.integer(ms1scanNums[i])
+      spectra[[i]]@precScanNum <- 0L ## as.integer(ms1scanNums[i])
     }
   }
 
