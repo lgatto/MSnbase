@@ -60,10 +60,10 @@ setMethod("precursorIntensity","Spectrum",
           })
 
 setMethod("acquisitionNum","Spectrum",function(object) object@acquisitionNum)
-setMethod("ms1scan","Spectrum",
+setMethod("precScanNum","Spectrum",
           function(object) {
             if (msLevel(object)>1) 
-              return(object@ms1scan)
+              return(object@precScanNum)
             stop("This is already an MS1 spectrum.")
           })
 setMethod("rtime","Spectrum",function(object) object@rt)

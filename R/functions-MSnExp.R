@@ -240,11 +240,11 @@ precSelection <- function(object,n=NULL) {
   if (!is.null(n))
     allPrecs <- round(allPrecs,n)
   number.selection <- c()
-  ms1scanNums <- MSnbase:::ms1scan(object)
+  scanNums <- MSnbase:::precScanNum(object)
   uprecmz <- unique(allPrecs)
   for (mp in uprecmz)
       number.selection <- c(number.selection,
-                            length(unique(ms1scanNums[allPrecs==mp])))
+                            length(unique(scanNums[allPrecs==mp])))
   names(number.selection) <- uprecmz
   return(number.selection)
 }

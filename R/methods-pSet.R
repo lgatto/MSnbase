@@ -79,6 +79,14 @@ setMethod("precursorMz","pSet",
             stop("No precursor MZ value for MS1 spectra.")
           })
 
+setMethod("precScanNum","pSet",
+          function(object) {
+            if (msLevel(object)[1]>1) 
+              return(unlist(eapply(assayData(object), precScanNum)))
+            stop("This experiment contains MS1 spectra.")
+          })
+
+
 setMethod("tic","pSet",
           function(object) sapply(spectra(object),tic))
 
