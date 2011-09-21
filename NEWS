@@ -1,3 +1,16 @@
+CHANGES IN VERSION 1.1.23
+-------------------------
+ o fixed writeMgfData("MSnExp") <2011-09-21 Wed>
+ o readMgfData now works when mz and intensty are separated 
+   by a '\t' (as exported by PRIDE Inspector) <2011-09-21 Wed>
+ o show("MSnExp") now works without retention time <2011-09-21 Wed>
+ o updated mgf2Spectrum2 to make it faster <2011-09-21 Wed>
+ o fixed missing fromFile slot in data created from readMgfData 
+   that prevented calling header <2011-09-21 Wed>
+ o readMgfData now creates a fData based on the peak header <2011-09-21 Wed>
+ o modified getCurveWidth to work with centroided data <2011-09-21 Wed>
+ o fixed bug getCurveWidth <2011-09-21 Wed>
+
 CHANGES IN VERSION 1.1.22
 -------------------------
  o removed (internal) Mascot query link column in readIspyData 
