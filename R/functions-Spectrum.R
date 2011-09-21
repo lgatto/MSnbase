@@ -185,28 +185,40 @@ getCurveWidth <- function(spectrum,reporters) {
       xmax <- which((int %in% ymax) & region)      
       xlwr[i] <- min(xmax) ## if several max peaks
       xupr[i] <- max(xmax) ## if several max peaks
-      ylwr <- yupr <- ymax
-      while (ylwr!=0) {
-        xlwr[i] <- xlwr[i]-1
-        ylwr <- int[xlwr[i]]
+      if (!centroided(spectrum)) {      
+        ylwr <- yupr <- ymax
+        while (ylwr!=0) {
+          xlwr[i] <- xlwr[i]-1
+          ylwr <- int[xlwr[i]]
+        }
+        ## if (mz[xlwr[i]]<lwr[i])
+        ##   warning("Peak base for precursor ",spectrum@precursorMz,
+        ##           " reporter ",m[i],": ",mz[xlwr[i]]," < ",m[i],"-",
+        ##           reporters@width,sep="")
+        while (yupr!=0) {
+          xupr[i] <- xupr[i]+1
+          yupr <- int[xupr[i]]
+        }
+        ## if (mz[xupr[i]]>upr[i])
+        ##   warning("Peak base for precursor ",spectrum@precursorMz,
+        ##           " reporter ",m[i],": ",mz[xlwr[i]]," > ",m[i],"+",
+        ##           reporters@width,sep="")
       }
-      ## if (mz[xlwr[i]]<lwr[i])
-      ##   warning("Peak base for precursor ",spectrum@precursorMz,
-      ##           " reporter ",m[i],": ",mz[xlwr[i]]," < ",m[i],"-",
-      ##           reporters@width,sep="")
-      while (yupr!=0) {
-        xupr[i] <- xupr[i]+1
-        yupr <- int[xupr[i]]
-      }
-      ## if (mz[xupr[i]]>upr[i])
-      ##   warning("Peak base for precursor ",spectrum@precursorMz,
-      ##           " reporter ",m[i],": ",mz[xlwr[i]]," > ",m[i],"+",
-      ##           reporters@width,sep="")
-      ## Updating xlwr, unless we reached the artificial leading
-      if (xlwr[i]>1)
+      ##
+      ## --|--|--|--|--|--|--
+      ##      1  2  3  4      indeces before c(0,mz,0)
+      ##   1  2  3  4  5  6   indeces after  c(0,mz,0)
+      ## lower index: if x_after > 1 x <- x -1 (else x <- x_after)
+      ## upper index: always decrement by 1
+      ##              if we have reached the last index (the 0), decrement by 2
+      ##
+      ## Updating xlwr, unless we reached the artificial leading 0
+      if (xlwr[i]>1) 
         xlwr[i] <- xlwr[i]-1
       ## Always updating xupr [*]      
-      xupr <- xupr-1
+      if (xupr[i]==length(mz))
+        xupr[i] <- xupr[i]-2      
+      xupr[i] <- xupr[i]-1
     }
   }
   return(list(lwr=xlwr,upr=xupr))

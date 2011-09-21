@@ -35,7 +35,7 @@ setMethod("show",
               } else {
                 cat(" Number of MS1 scans:",length(spectra(object)),"\n")
               }
-              msnRt <- rtime(object)
+              msnRt <- unlist(rtime(object))
               if (length(msnRt)>0) {
                 rtr <- range(msnRt)
                 cat(" MSn retention times:",formatRt(rtr[1]),"-",formatRt(rtr[2]),"minutes\n")
