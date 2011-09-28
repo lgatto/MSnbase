@@ -117,7 +117,7 @@ This data as well as any additional metadata can be imported with the
   \begin{center}
     \begin{tikzpicture}[node distance = 2cm, auto]
       % Place nodes
-      \node [input] (raw) {Raw data in and open \texttt{XML} format};
+      \node [input] (raw) {Raw data in an open \texttt{XML} format};
       \node [fun, left of=raw, node distance=4cm] (readMSData) {\Rfunction{readMSData}};
       \node [input, below of=raw] (mgf) {Peak list in \texttt{mgf} format};
       \node [fun, left of=mgf, node distance=4cm] (readMgfData) {\Rfunction{readMgfData}};
@@ -165,7 +165,7 @@ intenstiy values. See \Rfunction{?writeMgfData} for details.
   \begin{center}
     \begin{tikzpicture}[node distance = 2cm, auto]
       % Place nodes
-      \node [input] (raw) {Raw data in and open \texttt{XML} format};
+      \node [input] (raw) {Raw data in an open \texttt{XML} format};
       \node [input, below of=raw] (mgf) {Peak list in \texttt{mgf} format};
       \node [fun, right of=mgf, node distance=4cm, yshift=1cm] (writeMgfData) {\Rfunction{writeMgfData}};
       \node [input, below of=mgf] (spreadsheet) {Quantitation data as a spreadsheet};
