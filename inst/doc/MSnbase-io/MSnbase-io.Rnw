@@ -1,0 +1,212 @@
+%\VignetteIndexEntry{MSnbase IO capabilities}
+%\VignetteKeywords{Mass Spectrometry, Proteomics, Infrastructure }
+%\VignettePackage{MSnbase-io}
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,shadows,fit}
+\usepackage[nogin]{Sweave}
+\usepackage{hyperref}
+\usepackage[authoryear,round]{natbib}
+
+\SweaveOpts{echo=T,eval=T,fig=F,results=verbatim,cache=F,tikz=T,external=T,prefix.string=sweave-cache/figs/fig}
+
+\newcommand{\R}{\texttt{R} }
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\mbox{\normalfont\textsf{#1}}}}
+\newcommand{\email}[1]{\href{mailto:#1}{\normalfont\texttt{#1}}}
+%% colors
+\definecolor{Red}{rgb}{0.7,0,0}
+\definecolor{Blue}{rgb}{0,0,0.8}
+
+\hypersetup{%
+  hyperindex = {true},
+  colorlinks = {true},
+  linktocpage = {true},
+  plainpages = {false},
+  linkcolor = {Blue},
+  citecolor = {Blue},
+  urlcolor = {Red},
+  pdfstartview = {Fit},
+  pdfpagemode = {UseOutlines},
+  pdfview = {XYZ null null null}
+}
+
+\input{Author.tex}
+
+\begin{document}
+
+%% pgf settup
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+% Define block styles
+\tikzstyle{input} = [rectangle, draw, fill=blue!20,
+  text width=6em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{fun} = [rectangle, draw, fill=white, drop shadow, 
+  text width=7em, text centered, rounded corners, minimum height=2em]
+\tikzstyle{obj} = [rectangle, draw, fill=red!20, 
+  text width=5em, text centered, rounded corners, minimum height=5em]
+
+\title{\Rpackage{MSnbase} input/output capabilities}
+
+\maketitle
+
+%% Abstract and keywords %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vskip 0.3in minus 0.1in
+\hrule
+\begin{abstract}
+  This vignette describes \Rpackage{MSnbase}'s input and output 
+  capabilites.
+\end{abstract}
+\textit{Keywords}: Mass Spectrometry (MS), proteomics, infrastructure, IO.
+\vskip 0.1in minus 0.05in
+\hrule
+\vskip 0.2in minus 0.1in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tableofcontents
+
+%% <<setup,cache=FALSE>>=
+%% setCacheDir("sweave-cache/values")
+%% @ 
+
+%% <<environment,cache=FALSE,echo=FALSE>>=
+%% library(MSnbase)
+%% @
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%\input{Foreword.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Overview}
+
+\Rpackage{MSnbase}'s aims are to facilitate the reproducible analysis of 
+mass spectrometry data within the \R environment, from raw data import and processing, 
+feature quantification, quantification and statistical analysis of the results.
+Several input functions are provided to allow execution of all of several 
+of these steps. Intermediate or final results can also be saved or exported. 
+These capabilites are presented below.
+
+\section{Data input}
+
+\paragraph{Raw data} Data stored in one of the published \texttt{XML}-based 
+formats. i.e. \texttt{mzXML} \citep{Pedrioli2004}, \texttt{mzData} \citep{Orchard2007} 
+or \texttt{mzML} \citep{Martens2010}, 
+can be imported with the \Rfunction{readMSData} method, which makes use of 
+the \Rpackage{mzR} package to create \Robject{MSnExp} objects. 
+The files can be in profile or centroided mode. 
+See \Rfunction{?readMSData} for details. 
+ 
+\paragraph{Peak lists} Peak lists in the \texttt{mgf} 
+format\footnote{\url{http://www.matrixscience.com/help/data\_file\_help.html\#GEN}} 
+can be imported using the \Rfunction{readMgfData}. 
+In this case, the peak data has generally been pre-processed by other software.
+See \Rfunction{?readMgfData} for details.
+
+\paragraph{Quantitation data} Third party software can be used to generate 
+quantitative data and exported as a spreadsheet (generally comma or tab separated format). 
+This data as well as any additional metadata can be imported with the 
+\Rfunction{readMSnSet} function. See \Rfunction{?readMSnSet} for details.
+
+\begin{figure}[!htb] %% input
+  \begin{center}
+    \begin{tikzpicture}[node distance = 2cm, auto]
+      % Place nodes
+      \node [input] (raw) {Raw data in and open \texttt{XML} format};
+      \node [fun, left of=raw, node distance=4cm] (readMSData) {\Rfunction{readMSData}};
+      \node [input, below of=raw] (mgf) {Peak list in \texttt{mgf} format};
+      \node [fun, left of=mgf, node distance=4cm] (readMgfData) {\Rfunction{readMgfData}};
+      \node [input, below of=mgf] (spreadsheet) {Quantitation data as a spreadsheet};
+      \node [fun, left of=spreadsheet, node distance=4cm] (readMSnSet) {\Rfunction{readMSnSet}};
+      \node [obj, left of=readMSData, yshift=-2.5mm, node distance=4cm] (MSnExp) {\Robject{MSnExp}};
+      \node [obj, left of=readMSnSet, node distance=4cm] (MSnSet) {\Robject{MSnSet}};
+      \node [fun, below of=MSnExp] (quantify) {\Rfunction{quantify}};
+      % Background
+      \begin{pgfonlayer}{background}
+        \node [fill=yellow!20,rounded corners, draw=black!50, dashed, fit=(MSnExp) (quantify) (MSnSet)] {};
+      \end{pgfonlayer}
+      % Draw edges
+      \draw  (raw) -- (readMSData);
+      \draw  (mgf) -- (readMgfData);
+      \draw  (spreadsheet) -- (readMSnSet);
+      \draw [->] (readMSData) -- (MSnExp);
+      \draw [->] (readMgfData) -- (MSnExp);
+      \draw [->] (readMSnSet) -- (MSnSet);
+      \draw  (MSnExp) -- (quantify);
+      \draw [->] (quantify) -- (MSnSet);
+    \end{tikzpicture}
+    \caption{Illustration of \texttt{MSnbase} input capabilities. 
+      The white and red boxes represent \R functions/methods and objects respectively. 
+      The blue boxes represent different disk storage formats.}
+    \label{fig:input}
+  \end{center}
+\end{figure}
+
+\section{Data output}
+
+\paragraph{RData files} \R objects can most easily be stored on disk with the \Rfunction{save} function.
+It creates compressed binary images of the data representation that can later be read back from the file 
+with the \Rfunction{load} function. 
+
+\paragraph{Peak lists} \Robject{MSnExp} instances as well as individual spectra can be written 
+as \texttt{mgf} files with the \Rfunction{writeMgfData} method. Note that the metadata in the original 
+\R object can not be included in the file. See \Rfunction{?writeMgfData} for details. 
+
+\paragraph{Quantitation data} Quantitation data can be exported to spreadsheet files with 
+the \Rfunction{write.exprs} method. Feature metadata can be appended to the feature 
+intenstiy values. See \Rfunction{?writeMgfData} for details. 
+
+\begin{figure}[!htb] %% out
+  \begin{center}
+    \begin{tikzpicture}[node distance = 2cm, auto]
+      % Place nodes
+      \node [input] (raw) {Raw data in and open \texttt{XML} format};
+      \node [input, below of=raw] (mgf) {Peak list in \texttt{mgf} format};
+      \node [fun, right of=mgf, node distance=4cm, yshift=1cm] (writeMgfData) {\Rfunction{writeMgfData}};
+      \node [input, below of=mgf] (spreadsheet) {Quantitation data as a spreadsheet};
+      \node [fun, right of=spreadsheet, node distance=4cm] (writeexprs) {\Rfunction{write.exprs}};
+
+      \node [obj, right of=writeMgfData, yshift=1.25cm, node distance=4cm] (MSnExp) {\Robject{MSnExp}};
+      \node [obj, right of=writeexprs, node distance=4cm] (MSnSet) {\Robject{MSnSet}};
+      \node [fun, below of=MSnExp] (quantify) {\Rfunction{quantify}};
+      % Background
+      \begin{pgfonlayer}{background}
+        \node [fill=yellow!20,rounded corners, draw=black!50, dashed, fit=(MSnExp) (quantify) (MSnSet)] {};
+      \end{pgfonlayer}
+      % Draw edges
+      \draw  (MSnExp) -- (writeMgfData);
+      \draw [->] (writeMgfData) -- (mgf);
+      \draw (MSnSet) -- (writeexprs);
+      \draw [->] (writeexprs) -- (spreadsheet);
+      \draw  (MSnExp) -- (quantify);
+      \draw [->] (quantify) -- (MSnSet);
+    \end{tikzpicture}
+    \caption{Illustration of \texttt{MSnbase} output capabilities.
+      The white and red boxes represent \R functions/methods and objects respectively. 
+      The blue boxes represent different disk storage formats.}
+    \label{fig:output}
+  \end{center}
+\end{figure}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% \section{Session information}
+%% \label{sec:sessionInfo} 
+
+%% <<label=sessioninfo,results=tex,echo=FALSE,cache=FALSE>>=
+%% toLatex(sessionInfo())
+%% @
+
+\bibliographystyle{plainnat}
+\bibliography{MSnbase}
+
+\end{document}
