@@ -12,7 +12,6 @@
 \newcommand{\R}{\texttt{R} }
 \newcommand{\Rfunction}[1]{{\texttt{#1}}}
 \newcommand{\Robject}[1]{{\texttt{#1}}}
-%%\newcommand{\Rpackage}[1]{{\textit{#1}}}
 \newcommand{\Rpackage}[1]{{\mbox{\normalfont\textsf{#1}}}}
 \newcommand{\email}[1]{\href{mailto:#1}{\normalfont\texttt{#1}}}
 %% colors
@@ -45,7 +44,7 @@
 \hrule
 \begin{abstract}
   This vignette describes the functionality implemented in the \Rpackage{MSnbase} package. 
-  \Rpackage{MSnbase} aims at (1) facilitating the upload, processing, visualisation and 
+  \Rpackage{MSnbase} aims at (1) facilitating the import, processing, visualisation and 
   quantification of mass spectrometry data into the \R environment \citep{Rstat} by providing 
   specific data classes and methods and (2) enabling the utilisation of throughput-high data 
   analysis pipelines provided by the Bioconductor \citep{Gentleman2004} project. 

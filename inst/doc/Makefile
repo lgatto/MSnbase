@@ -7,18 +7,26 @@ LATEXFILES = *.aux\
         *.nls\
         *.toc\
         *.aux\
+        MSnbase-io.tex\
         MSnbase-demo.tex\
         MSnbase-development.tex\
+        MSnbase-io.sh\
         MSnbase-demo.sh\
         MSnbase-development.sh\
 	Rplots.pdf\
 	*.dvi\
 	*.map\
         *.out\
+	*.figlist\
+	*.dep\
+	*.dpth\
+	*.makefile\
+	*-figure*.pdf\
 
 all:
 	make demo
 	make devel
+	make io
 	make clean
 
 setvars:
@@ -29,7 +37,7 @@ endif
 demo: 
 	mkdir -p sweave-cache/figs/
 	cp ./MSnbase-demo/MSnbase-demo.Rnw . 
-	##"$(R_HOME)/bin/Rscript" --vanilla -e "library(pgfSweave); pgfSweave('MSnbase-demo.Rnw');"
+	##"$(R_HOME)/bin/R" --vanilla -e "library(pgfSweave); pgfSweave('MSnbase-demo.Rnw');"
 	"$(R_HOME)/bin/R" CMD Sweave MSnbase-demo.Rnw
 	pdflatex MSnbase-demo.tex
 	bibtex MSnbase-demo
@@ -37,11 +45,21 @@ demo:
 	pdflatex MSnbase-demo.tex
 	make fake
 
+io: 
+	mkdir -p sweave-cache/figs/
+	cp ./MSnbase-io/MSnbase-io.Rnw . 
+	"$(R_HOME)/bin/R" --vanilla -e "library(pgfSweave); pgfSweave('MSnbase-io.Rnw');"
+	pdflatex MSnbase-io.tex
+	bibtex MSnbase-io
+	pdflatex MSnbase-io.tex
+	pdflatex MSnbase-io.tex
+	make fake
+
 devel: 
 	mkdir -p sweave-cache/figs/
 	cp ./MSnbase-development/MSnbase-development.Rnw .
-	##"$(R_HOME)/bin/Rscript" --vanilla -e "library(pgfSweave); pgfSweave('MSnbase-development.Rnw');"
-	"$(R_HOME)/bin/R" CMD Sweave MSnbase-development.Rnw
+	"$(R_HOME)/bin/R" --vanilla -e "library(pgfSweave); pgfSweave('MSnbase-development.Rnw');"
+	##"$(R_HOME)/bin/R" CMD Sweave MSnbase-development.Rnw
 	pdflatex MSnbase-development.tex
 	bibtex MSnbase-development
 	pdflatex MSnbase-development.tex
@@ -51,19 +69,23 @@ devel:
 fake:
 	cp ./MSnbase-demo/MSnbase-demo-fake.Rnw ./MSnbase-demo.Rnw 
 	cp ./MSnbase-development/MSnbase-development-fake.Rnw ./MSnbase-development.Rnw 
+	cp ./MSnbase-io/MSnbase-io-fake.Rnw ./MSnbase-io.Rnw 
 
 real:
 	cp ./MSnbase-demo/MSnbase-demo.Rnw ./MSnbase-demo.Rnw 
 	cp ./MSnbase-development/MSnbase-development.Rnw ./MSnbase-development.Rnw 
+	cp ./MSnbase-io/MSnbase-io.Rnw ./MSnbase-io.Rnw 
 
 clean:
 	rm -f $(LATEXFILES)
 	rm -rf sweave-cache
 	rm -f *~
+	rm -f */*~
 
 pdfclean: 
 	rm -f MSnbase-development.pdf
 	rm -f MSnbase-demo.pdf
+	rm -f MSnbase-io.pdf
 
 all-clean:
 	make clean

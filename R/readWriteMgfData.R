@@ -137,7 +137,7 @@ mgfToSpectrum2 <- function(mgf, centroided) {
     ##           centroided=centroided)
     sp <- new("Spectrum2",
               rt = ifelse("RTINSECONDS" %in% names(desc),as.numeric(desc["RTINSECONDS"]),0),
-              acquisitionNum = ifelse("SCANS" %in% names(desc),as.integer(desc["SCANS"]),0L),
+              ## acquisitionNum = ifelse("SCANS" %in% names(desc),as.integer(desc["SCANS"]),0L),
               precursorMz = ifelse("PEPMASS" %in% names(desc),as.numeric(desc["PEPMASS"]),0L),
               precursorCharge = ifelse("CHARGE" %in% names(desc),as.integer(sub("[+,-]","",desc["CHARGE"])),0L),
               peaksCount = length(int),
