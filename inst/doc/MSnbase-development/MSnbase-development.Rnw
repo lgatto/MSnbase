@@ -12,7 +12,7 @@
 \newcommand{\R}{\texttt{R} }
 \newcommand{\Rfunction}[1]{{\texttt{#1}}}
 \newcommand{\Robject}[1]{{\texttt{#1}}}
-\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rpackage}[1]{{\mbox{\normalfont\textsf{#1}}}}
 \newcommand{\email}[1]{\href{mailto:#1}{\normalfont\texttt{#1}}}
 %% colors
 \definecolor{Red}{rgb}{0.7,0,0}

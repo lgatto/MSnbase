@@ -8,17 +8,6 @@ readIspyData <- function(file="ispy_results.tsv",
                          ## fillUp=FALSE,
                          keepAll=FALSE,
                          verbose=TRUE) {
-  .fillUp <- function(x) {
-    ## Fills up the left-most columns of
-    ## the ispy results spread sheet
-    if (!any(is.na(x)) & !any(x!=""))
-      return(x)
-    for (i in 2:length(x)) {
-      if (is.na(x[i])) x[i] <- x[i-1]
-      if (x[i]=="") x[i] <- x[i-1]
-    }
-    return(x)
-  }
   if (verbose)
     cat("Reading table\n")
   tab <- read.csv(file,header=TRUE,sep="\t",fill=TRUE,
@@ -54,7 +43,7 @@ readIspyData <- function(file="ispy_results.tsv",
   ##                          sub("\\.dat.+$",".dat",tab$MascotQuery))
   ## else
   ##   tab$DataBrowserLink <- sub("^.+F0","F0",
-  ##                          sub("\\.dat.+$",".dat",tab$DataBrowserLink))    
+  ##                          sub("\\.dat.+$",".dat",tab$DataBrowserLink))
   .exprs <- as.matrix(tab[,reporters])
   .featureData <- tab[,-reporters] 
   ## if (fillUp) {
@@ -63,7 +52,7 @@ readIspyData <- function(file="ispy_results.tsv",
   ##   if (verbose)
   ##     pb <- txtProgressBar(min = 0, max = ncol(.featureData), style = 3)
   ##   for (i in 1:ncol(.featureData)) {
-  ##     .featureData[,i] <- .fillUp(.featureData[,i])
+  ##     .featureData[,i] <- fillUp(.featureData[,i])
   ##     if (verbose)
   ##       setTxtProgressBar(pb,i)
   ##   }
