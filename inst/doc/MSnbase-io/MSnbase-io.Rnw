@@ -88,8 +88,8 @@
 \Rpackage{MSnbase}'s aims are to facilitate the reproducible analysis of 
 mass spectrometry data within the \R environment, from raw data import and processing, 
 feature quantification, quantification and statistical analysis of the results.
-Several input functions are provided to allow execution of all of several 
-of these steps. Intermediate or final results can also be saved or exported. 
+Data import functions for several formats are provided and intermediate or final 
+results can also be saved or exported. 
 These capabilites are presented below.
 
 \section{Data input}
