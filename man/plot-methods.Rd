@@ -75,7 +75,7 @@
 
 \examples{
 file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
-aa <- readMzXMLData(file,verbose=FALSE)
+aa <- readMSData(file,verbose=FALSE)
 ## plotting experiments
 plot(aa[1:2],reporters=iTRAQ4)
 plot(aa[1:2],full=TRUE)

@@ -52,7 +52,7 @@ intensity(sp2)
 
 file <- dir(system.file(package="MSnbase",dir="extdata"),
             full.name=TRUE,pattern="mzXML$")
-aa <- readMzXMLData(file,verbose=FALSE)
+aa <- readMSData(file,verbose=FALSE)
 bb <- clean(aa,verbose=FALSE)
 sum(peaksCount(aa))
 sum(peaksCount(bb))

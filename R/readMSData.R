@@ -5,7 +5,8 @@ readMSData <- function(files,
                        centroided = FALSE,
                        smoothed = FALSE,
                        removePeaks = 0,
-                       clean = FALSE) {
+                       clean = FALSE,
+                       cache = 1) {
   msLevel <- as.integer(msLevel)
   if (!msLevel>0)
     stop("msLevel should be an integer > 0.")
@@ -111,6 +112,9 @@ readMSData <- function(files,
                  spectrum=1:length(nms),
                  row.names=nms))
   fdata <- fdata[ls(assaydata)] ## reorder features
+  ## cache levels 2 and 3 not yet implemented
+  cache <- testCacheArg(cache,maxCache=1)
+  .cacheEnv <- newCacheEnv(assaydata, cache, lock=TRUE)
   ## Create and return 'MSnPeaks' object
   if (verbose)
     cat("Creating 'MSnExp' object\n")
@@ -118,7 +122,8 @@ readMSData <- function(files,
                   assayData = assaydata,
                   phenoData = pdata,
                   featureData = fdata,
-                  processingData = process)
+                  processingData = process,
+                  .cache = .cacheEnv)
   if (validObject(toReturn))
     return(toReturn)
 }

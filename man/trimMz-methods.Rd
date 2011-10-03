@@ -47,7 +47,7 @@ range(mz(sp1))
 range(mz(sp2))
 file <- dir(system.file(package="MSnbase",dir="extdata"),
             full.name=TRUE,pattern="mzXML$")
-aa <- readMzXMLData(file,verbose=FALSE)
+aa <- readMSData(file,verbose=FALSE)
 bb <- trimMz(aa,c(113,117))
 range(mz(bb))
 range(mz(bb))

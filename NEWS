@@ -1,3 +1,21 @@
+CHANGES IN VERSION 1.1.25
+-------------------------
+ o added .cache slot to pSet class <2011-10-03 Mon>
+ o added pSet initialize method to set .cache and 
+   .cache$level as '0'. <2011-10-03 Mon>
+ o Check that level is defined in .cache and env is locked 
+   in pSet validity method. <2011-10-03 Mon>
+ o updated itraqdata.RData  <2011-10-03 Mon>
+ o Deprecated readMzXMLData, added defunct.Rd <2011-10-03 Mon>
+ o changed readMzXMLData to readMSData in man <2011-10-03 Mon>
+ o updated show MSnExp for speed <2011-10-03 Mon>
+ o updated read*Data is support cache = [0|1]. <2011-10-03 Mon>
+ o updated precScanNum to use sapply(spectra(...), precScanNum)
+   instead of unlist(eapply(assayData(...), precScanNum)) to 
+   preserve splectra order. <2011-10-03 Mon>
+ o new cache.R file with @.cache related code <2011-10-03 Mon>
+
+
 CHANGES IN VERSION 1.1.24
 -------------------------
  o in readMgfData, SCANS is not used to populate 

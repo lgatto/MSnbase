@@ -102,7 +102,7 @@
 \examples{
 ## quantifying full experiment
 file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
-aa <- readMzXMLData(file,verbose=FALSE)
+aa <- readMSData(file,verbose=FALSE)
 msnset <- quantify(aa,method="trap",reporters=iTRAQ4)
 msnset
 ## checking for non-quantified peaks

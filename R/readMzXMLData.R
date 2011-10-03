@@ -1,11 +1,16 @@
 readMzXMLData <- function(files,
-                          pdata=NULL,
-                          msLevel=2,
-                          verbose=TRUE,
-                          centroided=FALSE,
-                          smoothed=FALSE,
-                          removePeaks=0,
-                          clean=FALSE) {
+                          pdata = NULL,
+                          msLevel = 2,
+                          verbose = TRUE,
+                          centroided = FALSE,
+                          smoothed = FALSE,
+                          removePeaks = 0,
+                          clean = FALSE,
+                          cache = 1) {
+  msg <- c("The 'readMzXMLData' function is deprecated\n",
+          "Please use 'readMSData' instead.")
+  .Deprecated(msg=msg)
+  msLevel <- as.integer(msLevel)
   ## Opening file handles to mzXML files
   n <- length(files)
   if (n<1)
@@ -87,7 +92,7 @@ readMzXMLData <- function(files,
   nms <- paste("X",seq_len(length(spectra)),sep="")
   names(spectra) <- nms
 
-  spectra.env <- list2env(spectra)
+  assaydata <- list2env(spectra)
 
   ## here, a multiplex number (possibly 1) should be used
   ## to generate th NAnnotatedDataFrame object to afterwards,
@@ -100,18 +105,19 @@ readMzXMLData <- function(files,
   fdata <- new("AnnotatedDataFrame",
                data=data.frame(spectrum=1:length(spectra),
                  row.names=nms))
-  fdata <- fdata[ls(spectra.env)] ## reorder features
-  
+  fdata <- fdata[ls(assaydata)] ## reorder features
+  ## cache levels 2 and 3 not yet implemented
+  cache <- testCacheArg(cache,maxCache=1)
+  .cacheEnv <- newCacheEnv(assaydata, cache, lock=TRUE)
   ## Create and return 'MSnPeaks' object
   if (verbose)
     cat("Creating 'MSnExp' object\n")
-  
   toReturn <- new("MSnExp",
-                  assayData = spectra.env,
+                  assayData = assaydata,
                   phenoData = pdata,
                   featureData = fdata,
-                  processingData = process)
-  
+                  processingData = process,
+                  .cache = .cacheEnv)
   if (validObject(toReturn))
     return(toReturn)
 }

@@ -95,10 +95,10 @@
       class for more details. }
     \item{\code{.__classVersion__}:}{Object of class
       \code{"\linkS4class{Versions}"} describing the versions of R,
-      \code{"linkS4class{Biobase}"}, \code{"\linkS4class{eSet}"},
-      \code{"\linkS4class{eSet}"} and \code{MSnSet} of the
+      the Biobase package, \code{"\linkS4class{eSet}"},
+      \code{"\linkS4class{pSet}"} and \code{MSnSet} of the
       current instance. Intended for developer use and debugging (inherited
-      from indirectly \code{"\linkS4class{eSet}"}). }
+      indirectly from \code{"\linkS4class{eSet}"}). }
   }
 }
 
@@ -169,7 +169,7 @@
 \examples{
 mzxmlfile <- dir(system.file("extdata",package="MSnbase"),
                  pattern="mzXML",full.names=TRUE)
-msnexp <- readMzXMLData(mzxmlfile,verbose=FALSE)
+msnexp <- readMSData(mzxmlfile,verbose=FALSE)
 msnset <- quantify(msnexp,method="trap",reporters=iTRAQ4,verbose=FALSE)
 msnset
 }

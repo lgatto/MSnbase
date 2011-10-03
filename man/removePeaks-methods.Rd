@@ -70,7 +70,7 @@ peaksCount(sp1) < peaksCount(sp3)
 
 file <- dir(system.file(package="MSnbase",dir="extdata"),
             full.name=TRUE,pattern="mzXML$")
-aa <- readMzXMLData(file)
+aa <- readMSData(file)
 aa <- removePeaks(aa)
 processingData(aa)
 }

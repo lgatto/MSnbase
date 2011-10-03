@@ -142,10 +142,11 @@ setClass("pSet",
                         experimentData = "MIAxE",
                         protocolData   = "AnnotatedDataFrame",
                         processingData = "MSnProcess",
+                        .cache = "environment", ## locked
                         "VIRTUAL"),
          contains = "Versioned",
          prototype = prototype(
-           new("Versioned", versions=c(pSet="0.0.1")),
+           new("Versioned", versions=c(pSet="0.1.0")),
            assayData = new.env(),
            experimentData = new("MIAPE"),
            phenoData = new("NAnnotatedDataFrame",

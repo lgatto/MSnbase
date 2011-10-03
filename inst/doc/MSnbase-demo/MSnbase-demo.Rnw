@@ -111,9 +111,8 @@ with the \Rfunction{readMSData} function, as illstrated below
 
 
 <<readdata, echo=TRUE, cache=FALSE>>=
-file <- dir(system.file(package="MSnbase",dir="extdata"),
-            full.name=TRUE,
-            pattern="mzXML$")
+file <- dir(system.file(package="MSnbase", dir="extdata"),
+            full.names=TRUE, pattern="mzXML$")
 rawdata <- readMSData(file, msLevel=2, verbose=FALSE)
 @ 
 
