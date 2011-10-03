@@ -73,7 +73,7 @@
 \examples{
 ## quantifying full experiment
 file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
-aa <- readMzXMLData(file,verbose=FALSE)
+aa <- readMSData(file,verbose=FALSE)
 msnset <- quantify(aa,method="trap",reporters=iTRAQ4)
 impurities <- matrix(c(0.929,0.059,0.002,0.000,
                        0.020,0.923,0.056,0.001,

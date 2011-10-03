@@ -45,10 +45,11 @@ writeMgfContent <- function(sp,TITLE=NULL,filename) {
 
 ## Code contributed by Guangchuang Yu <guangchuangyu@gmail.com>
 readMgfData <- function(file,
-                        pdata=NULL,
-                        centroided=TRUE,
-                        smoothed=FALSE,
-                        verbose=TRUE) {
+                        pdata = NULL,
+                        centroided = TRUE,
+                        smoothed = FALSE,
+                        verbose = TRUE,
+                        cache = 1) {
   if (verbose)
     cat("Scanning ",file,"...\n",sep="")
   mgf <- scan(file=file, what="", sep="\n", quote="", allowEscapes=FALSE, quiet=TRUE)
@@ -79,7 +80,7 @@ readMgfData <- function(file,
     close(pb)
   nms <- paste("X",seq_len(length(spectra)),sep="")
   names(spectra) <- nms
-  spectra.env <- list2env(spectra)
+  assaydata <- list2env(spectra)
   process <- new("MSnProcess",
                  processing=paste("Data loaded:",date()),
                  files=file,
@@ -94,12 +95,16 @@ readMgfData <- function(file,
   colnames(fdata) <- names(desc)
   rownames(fdata) <- nms
   fdata <- AnnotatedDataFrame(data=data.frame(fdata))
-  fdata <- fdata[ls(spectra.env)] ## reorder features
+  fdata <- fdata[ls(assaydata)] ## reorder features
+  ## only levels 0 and 1 for mgf peak lists
+  cache <- testCacheArg(cache,maxCache=1)
+  .cacheEnv <- newCacheEnv(assaydata, cache, lock=TRUE)
   toReturn <- new("MSnExp",
-                  assayData = spectra.env,
+                  assayData = assaydata,
                   phenoData = pdata,
                   featureData = fdata,
-                  processingData = process)
+                  processingData = process,
+                  .cache = .cacheEnv)
   if (validObject(toReturn))
     return(toReturn)
 }

@@ -8,11 +8,16 @@
 
 \description{
   Reads mzXML files and generates an \code{"\linkS4class{MSnExp}"}
-  object. 
+  object.
+
+  Note: the preferred function to import raw data to generate
+  \code{MSnExp} objects is \code{\link{readMSData}}. 
 }
 
 \usage{
-readMzXMLData(files, pdata = NULL, msLevel = 2, verbose = TRUE, centroided = FALSE, smoothed = FALSE, removePeaks = 0, clean = FALSE) 
+readMzXMLData(files, pdata = NULL, msLevel = 2, verbose = TRUE,
+centroided = FALSE, smoothed = FALSE, removePeaks = 0, clean = FALSE,
+cache = 1) 
 }
 
 \arguments{
@@ -44,6 +49,9 @@ readMzXMLData(files, pdata = NULL, msLevel = 2, verbose = TRUE, centroided = FAL
     Logical indicating whether 0 intensity peaks should be discarded
     from spectra. Useful is removePeaks is set. Default is 'FALSE'. See
     \code{\link{clean}} for more details and examples. 
+  }
+  \item{cache}{
+    Numeric indicating caching level. Default is 1. Under development.   
   }
   \item{verbose}{
    verbosity flag. 

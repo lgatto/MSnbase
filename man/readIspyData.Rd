@@ -69,7 +69,7 @@ readIspyData(file = "ispy_results.tsv", uniquePeps = TRUE, pep = 0.05,
 }
 
 \seealso{
-  \code{\link{readMzXMLData}} to import raw data.
+  \code{\link{readMSData}} to import raw data.
 }
 
 \examples{

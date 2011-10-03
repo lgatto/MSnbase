@@ -37,7 +37,7 @@
 \examples{
 file <- dir(system.file(package="MSnbase",dir="extdata"),
             full.name=TRUE,pattern="mzXML$")
-aa <- readMzXMLData(file,verbose=FALSE)
+aa <- readMSData(file,verbose=FALSE)
 sel <- rep(FALSE,length(aa))
 sel[1:3] <- TRUE
 bb <- extractSpectra(aa,sel)

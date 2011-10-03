@@ -55,7 +55,7 @@ combineFeatures(object, groupBy, fun = c("mean", "median", "weighted.mean", "sum
 file <- dir(system.file(package="MSnbase",dir="extdata"),
             full.name=TRUE,
             pattern="mzXML$")
-aa <- readMzXMLData(file)
+aa <- readMSData(file)
 aa.quant <- quantify(aa,method="max",reporters=iTRAQ4)
 dim(aa.quant)
 ## arbitrary grouping into two groups

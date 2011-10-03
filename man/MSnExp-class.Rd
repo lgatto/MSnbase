@@ -29,7 +29,7 @@
   The \code{MSnExp} class encapsulates data and meta-data for mass
   spectrometry experiments, as described in the \code{slots}
   section. Several data files (currently in \code{mzXML}) can be loaded
-  together with the function \code{\link{readMzXMLData}}. 
+  together with the function \code{\link{readMSData}}. 
 
   This class extends the virtual \code{"\linkS4class{pSet}"} class.
 }
@@ -38,7 +38,7 @@
 \section{Objects from the Class}{
   Objects can be created by calls of the form
   \code{new("MSnExp",...)}. However, it is preferred to use the
-  \code{\link{readMzXMLData}} function that will read raw mass
+  \code{\link{readMSData}} function that will read raw mass
   spectrometry data to generate a valid \code{"MSnExp"} instance.
 }
 
@@ -47,38 +47,38 @@
     \item{\code{assayData}:}{Object of class \code{"environment"}
       containing the MS spectra (see \code{"\linkS4class{Spectrum1}"}
       and \code{"\linkS4class{Spectrum2}"}).
-      Slot is inherited from \code{"linkS4class{pSet}"}. }
+      Slot is inherited from \code{"\linkS4class{pSet}"}. }
     \item{\code{phenoData}:}{Object of class
       \code{"\linkS4class{AnnotatedDataFrame}"} containing 
       experimenter-supplied variables describing sample (i.e the
       individual tags for an labelled MS experiment)
       See \code{\link{phenoData}} for more details.
-      Slot is inherited from \code{"linkS4class{pSet}"}. }
+      Slot is inherited from \code{"\linkS4class{pSet}"}. }
     \item{\code{featureData}:}{Object of class
       \code{"\linkS4class{AnnotatedDataFrame}"} containing variables
       describing features (spectra in our case), e.g. identificaiton data,
       peptide sequence, identification score,... (inherited from
       \code{"\linkS4class{eSet}"}). See \code{\link{featureData}} for
       more details.
-      Slot is inherited from \code{"linkS4class{pSet}"}. }
+      Slot is inherited from \code{"\linkS4class{pSet}"}. }
     \item{\code{experimentData}:}{Object of class
       \code{"\linkS4class{MIAPE}"}, containing details of experimental
       methods. See \code{\link{experimentData}} for more details.
-      Slot is inherited from \code{"linkS4class{pSet}"}. }
+      Slot is inherited from \code{"\linkS4class{pSet}"}. }
     \item{\code{protocolData}:}{Object of class
       \code{"\linkS4class{AnnotatedDataFrame}"} containing
       equipment-generated variables (inherited from
       \code{"\linkS4class{eSet}"}). See \code{\link{protocolData}} for
       more details.
-      Slot is inherited from \code{"linkS4class{pSet}"}. }
+      Slot is inherited from \code{"\linkS4class{pSet}"}. }
     \item{\code{processingData}:}{Object of class
       \code{"\linkS4class{MSnProcess}"} that records all processing. 
-      Slot is inherited from \code{"linkS4class{pSet}"}. }
+      Slot is inherited from \code{"\linkS4class{pSet}"}. }
     \item{\code{.__classVersion__}:}{Object of class
       \code{"\linkS4class{Versions}"} describing the versions of R,
-      \code{"linkS4class{Biobase}"}, \code{"\linkS4class{pSet}"} and
+      the Biobase package, \code{"\linkS4class{pSet}"} and
       \code{MSnExp} of the current instance.
-      Slot is inherited from \code{"linkS4class{pSet}"}. 
+      Slot is inherited from \code{"\linkS4class{pSet}"}. 
       Intended for developer use and debugging (inherited from
       \code{"\linkS4class{eSet}"}). } 
   }
@@ -91,7 +91,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
 }
 
 \section{Methods}{
-  See the \code{"linkS4class{pSet}"} class for documentation on 
+  See the \code{"\linkS4class{pSet}"} class for documentation on 
   accessors inherited from \code{pSet}, subsetting and general attribute
   accession. 
   
@@ -156,14 +156,15 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
 }
 
 \seealso{
-  \code{"\linkS4class{pSet}"} and \code{\link{readMzXMLData}} for loading
-  \code{mzXML} data to generate an instance of \code{MSnExp}.
+  \code{"\linkS4class{pSet}"} and \code{\link{readMSData}} for loading
+  \code{mzXML}, \code{mzData} or \code{mzML} files to generate an
+  instance of \code{MSnExp}. 
 }
 
 \examples{
 mzxmlfile <- dir(system.file("extdata",package="MSnbase"),
                  pattern="mzXML",full.names=TRUE)
-msnexp <- readMzXMLData(mzxmlfile)
+msnexp <- readMSData(mzxmlfile)
 msnexp
 }
 

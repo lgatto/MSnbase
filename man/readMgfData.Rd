@@ -11,7 +11,8 @@
 }
 
 \usage{
-readMgfData(file, pdata = NULL, centroided = TRUE, smoothed = FALSE, verbose = TRUE)
+readMgfData(file, pdata = NULL, centroided = TRUE, smoothed = FALSE,
+verbose = TRUE, cache = 1)
 }
 
 
@@ -31,6 +32,9 @@ readMgfData(file, pdata = NULL, centroided = TRUE, smoothed = FALSE, verbose = T
     \code{Logical} indicating whether spectra are centroided or not. Default is
     'TRUE'. Used to initialise \code{"\linkS4class{MSnProcess}"} object
     in \code{processingData} slot.
+  }
+  \item{cache}{
+    Numeric indicating caching level. Default is 1. Under development.
   }
   \item{verbose}{
     verbosity flag. 

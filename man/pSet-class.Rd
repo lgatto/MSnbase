@@ -81,40 +81,38 @@
     \item{\code{assayData}:}{Object of class \code{"environment"}
       containing the MS spectra (see \code{"\linkS4class{Spectrum1}"}
       and \code{"\linkS4class{Spectrum2}"}).
-      Slot is inherited from \code{"linkS4class{pSet}"}. }
+      Slot is inherited from \code{"\linkS4class{pSet}"}. }
     \item{\code{phenoData}:}{Object of class
       \code{"\linkS4class{AnnotatedDataFrame}"} containing 
       experimenter-supplied variables describing sample (i.e the
       individual tags for an labelled MS experiment)
       See \code{\link{phenoData}} for more details.
-      Slot is inherited from \code{"linkS4class{pSet}"}. }
+      Slot is inherited from \code{"\linkS4class{pSet}"}. }
     \item{\code{featureData}:}{Object of class
       \code{"\linkS4class{AnnotatedDataFrame}"} containing variables
       describing features (spectra in our case), e.g. identificaiton data,
       peptide sequence, identification score,... (inherited from
       \code{"\linkS4class{eSet}"}). See \code{\link{featureData}} for
       more details.
-      Slot is inherited from \code{"linkS4class{pSet}"}. }
+      Slot is inherited from \code{"\linkS4class{pSet}"}. }
     \item{\code{experimentData}:}{Object of class
       \code{"\linkS4class{MIAPE}"}, containing details of experimental
       methods. See \code{\link{experimentData}} for more details.
-      Slot is inherited from \code{"linkS4class{pSet}"}. }
+      Slot is inherited from \code{"\linkS4class{pSet}"}. }
     \item{\code{protocolData}:}{Object of class
       \code{"\linkS4class{AnnotatedDataFrame}"} containing
       equipment-generated variables (inherited from
       \code{"\linkS4class{eSet}"}). See \code{\link{protocolData}} for
       more details.
-      Slot is inherited from \code{"linkS4class{pSet}"}. }
+      Slot is inherited from \code{"\linkS4class{pSet}"}. }
     \item{\code{processingData}:}{Object of class
       \code{"\linkS4class{MSnProcess}"} that records all processing. 
-      Slot is inherited from \code{"linkS4class{pSet}"}. }
+      Slot is inherited from \code{"\linkS4class{pSet}"}. }
+    \item{\code{.cache}:}{Object of class \code{environment} used to
+      cache data. Under development. }
     \item{\code{.__classVersion__}:}{Object of class
-      \code{"\linkS4class{Versions}"} describing the versions of R,
-      \code{"linkS4class{Biobase}"}, \code{"\linkS4class{pSet}"} and
-      \code{MSnExp} of the current instance.
-      Slot is inherited from \code{"linkS4class{pSet}"}. 
-      Intended for developer use and debugging (inherited from
-      \code{"\linkS4class{eSet}"}). } 
+      \code{"\linkS4class{Versions}"} describing the versions of the class. 
+    }
   }
 }
 

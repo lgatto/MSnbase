@@ -2,7 +2,8 @@ context("MSnExp class")
 
 test_that("MSnExp validity", {
   expect_true(validObject(new("MSnExp")))
-  })
+  expect_true(validObject(itraqdata))
+})
 
 test_that("readMzXMLData and dummy MSnExp msLevel 2 instance", {
   file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")

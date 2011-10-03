@@ -8,8 +8,8 @@ setMethod("show",
             cat(" Object size in memory: ")
             if (length(assayData(object))==0) {
               sz <- 0
-            } else {
-              sz <- sum(sapply(assayData(object),object.size)) + object.size(object)
+            } else {                            
+              sz <- sum(unlist(unname(eapply(assayData(object),object.size)))) + object.size(object)
             }
             cat(round(sz/(1024^2),2),"Mb\n")
             cat("- - - Spectra data - - -\n")
@@ -21,7 +21,7 @@ setMethod("show",
               if (all(msLevel(object)>1)) {
                 cat(" Number of MS1 acquisitions:",length(unique(precScanNum(object))),"\n")
                 cat(" Number of MS2 scans:",length(ls(assayData(object))),"\n")
-                msnPrecMz <- precursorMz(object)
+                msnPrecMz <- unname(precursorMz(object))
                 nbPrecIons <- length(msnPrecMz)
                 cat(" Number of precursor ions:",nbPrecIons,"\n")
                 if (nbPrecIons>0) {
@@ -35,7 +35,7 @@ setMethod("show",
               } else {
                 cat(" Number of MS1 scans:",length(spectra(object)),"\n")
               }
-              msnRt <- unlist(rtime(object))
+              msnRt <- unname(rtime(object))
               if (length(msnRt)>0) {
                 rtr <- range(msnRt)
                 cat(" MSn retention times:",formatRt(rtr[1]),"-",formatRt(rtr[2]),"minutes\n")

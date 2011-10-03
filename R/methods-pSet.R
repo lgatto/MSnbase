@@ -1,10 +1,19 @@
-## No initialize method for pSet -- use constructor
+setMethod("initialize",
+          signature(.Object="pSet"),
+          function(.Object, ..., .cache) {
+            if (missing(.cache)) {
+              .cache <- new.env()
+              assign("level",0,.cache)
+              lockEnvironment(.cache)
+            }
+            callNextMethod(.Object, ..., .cache = .cache)
+          })
 
 setValidity("pSet", function(object) {
   msg <- validMsg(NULL, NULL)
   if (!all(sapply(assayData(object),function(x) inherits(x,"Spectrum"))))
     msg <- validMsg(msg,
-                    "assayData must contain Spectrum objects.")
+                    "assayData must contain 'Spectrum'' objects.")
   msl <- msLevel(object)
   if (length(unique(msl))>1) 
     warning(paste("Different MS levels in ",class(object),
@@ -28,6 +37,10 @@ setValidity("pSet", function(object) {
     msg <- validMsg(msg, "unequal number of files in assayData and phenoData.")  
   ## protocolData not checked yet - depends very much
   ## on type of assay (MS1, MS2 quant, reporter ions, ...)
+  if (!cacheEnvIsLocked(object))
+    msg <- validMsg(msg,"'.cache' environment is not locked.")
+  if (!exists("level",envir=object@.cache))
+    msg <- validMsg(msg,"'.cache' level not defined.")
   if (is.null(msg)) TRUE else msg
 })
 
@@ -82,7 +95,7 @@ setMethod("precursorMz","pSet",
 setMethod("precScanNum","pSet",
           function(object) {
             if (msLevel(object)[1]>1) 
-              return(unlist(eapply(assayData(object), precScanNum)))
+              return(unlist(sapply(spectra(object), precScanNum)))
             stop("This experiment contains MS1 spectra.")
           })
 

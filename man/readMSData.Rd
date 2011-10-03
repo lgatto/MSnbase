@@ -14,7 +14,9 @@
 }
 
 \usage{
-readMSData(files, pdata = NULL, msLevel = 2, verbose = TRUE, centroided = FALSE, smoothed = FALSE, removePeaks = 0, clean = FALSE) 
+readMSData(files, pdata = NULL, msLevel = 2, verbose = TRUE,
+centroided = FALSE, smoothed = FALSE, removePeaks = 0, clean = FALSE,
+cache = 1)  
 }
 
 \arguments{
@@ -46,6 +48,9 @@ readMSData(files, pdata = NULL, msLevel = 2, verbose = TRUE, centroided = FALSE,
     Logical indicating whether 0 intensity peaks should be discarded
     from spectra. Useful is removePeaks is set. Default is 'FALSE'. See
     \code{\link{clean}} for more details and examples. 
+  }
+  \item{cache}{
+    Numeric indicating caching level. Default is 1. Under development.
   }
   \item{verbose}{
    verbosity flag. 
