@@ -9,7 +9,7 @@
   The function, class, or data object you have asked for has been
   deprecated or made defunct. 
 
-  Deprecated: \code{readMzXMLData}.
+  Deprecated: \code{readMzXMLData}, \code{extractSpectra}.
 
   Defunct: none.
 }

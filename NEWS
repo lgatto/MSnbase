@@ -1,3 +1,13 @@
+CHANGES IN VERSION 1.1.26
+-------------------------
+ o extractSpectra deprecated <2011-10-05 Wed>
+ o small changes in cache.R functions <2011-10-05 Wed>
+ o changed [, extractSpectra and extractPrecSpectra 
+   to update the .cache slot <2011-10-05 Wed>
+ o MSnExp show method uses .cache when level==1. <2011-10-05 Wed>
+ o Finished level 1 cache implementation: leads to an 
+   average 11.8 times faster MSnExp show method. <2011-10-05 Wed>
+
 CHANGES IN VERSION 1.1.25
 -------------------------
  o added .cache slot to pSet class <2011-10-03 Mon>
@@ -14,7 +24,6 @@ CHANGES IN VERSION 1.1.25
    instead of unlist(eapply(assayData(...), precScanNum)) to 
    preserve splectra order. <2011-10-03 Mon>
  o new cache.R file with @.cache related code <2011-10-03 Mon>
-
 
 CHANGES IN VERSION 1.1.24
 -------------------------

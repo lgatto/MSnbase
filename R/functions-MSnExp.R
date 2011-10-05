@@ -68,7 +68,10 @@ extractPrecSpectra.MSnExp <- function(object,prec) {
                                               date(),sep=""))
   object@assayData <- list2env(mget(nms,assayData(object)))
   object@featureData <- object@featureData[nms,]
-  return(object)
+  if (object@.cache$level > 0)
+    object@.cache <- setCacheEnv(assayData(object), object@.cache$level)
+  if (validObject(object))
+    return(object)
 }
 
 
@@ -80,7 +83,10 @@ extractSpectra.MSnExp <- function(object,selected) {
                                         paste(sum(selected),
                                               " spectra extracted: ",
                                               date(),sep=""))
-  return(object)
+  if (object@.cache$level > 0)
+    object@.cache <- setCacheEnv(assayData(object), object@.cache$level)
+  if (validObject(object))
+    return(object)
 }
 
 removePeaks.MSnExp <- function(object,t="min",verbose=TRUE) {
@@ -94,7 +100,8 @@ removePeaks.MSnExp <- function(object,t="min",verbose=TRUE) {
                                               t
                                               ," set to '0': ",
                                               date(),sep=""))
-  return(object)
+  if (validObject(object))
+    return(object)
 }
 
 
@@ -129,7 +136,8 @@ clean.MSnExp <- function(object,verbose=TRUE) {
   object@processingData@cleaned <- TRUE
   object@processingData@processing <- c(object@processingData@processing,
                                         paste("Spectra cleaned: ",date(),sep=""))
-  return(object)
+  if (validObject(object))
+    return(object)
 }
 
 quantify.MSnExp <- function(object,method,reporters,strict,verbose) {

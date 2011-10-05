@@ -4,40 +4,55 @@
 setMethod("show",
           signature=signature(object="MSnExp"),
           function(object) {
+            if (object@.cache$level > 0) {
+              msnMzRange <- object@.cache$rangeMz              
+              rangePrecMz <- object@.cache$rangePrecursorMz
+              nPrecMz <- object@.cache$nPrecursorMz
+              uPrecMz <- object@.cache$uPrecursorMz
+              nrt <- object@.cache$nRtime
+              rtr <- object@.cache$rangeRtime
+              msLevels <- object@.cache$msLevels
+              nPrecScans <- object@.cache$nPrecursorScans
+              sz <- object@.cache$size
+            } else {
+              msnPrecMz <- unname(eapply(assayData(object),precursorMz))              
+              nPrecMz <- length(msnPrecMz)
+              uPrecMz <- length(unique(msnPrecMz))
+              rangePrecMz <- range(msnPrecMz)
+              msnMzRange <- range(unname(mz(object)))
+              msnRt <- unname(eapply(assayData(object),rtime))
+              nrt <- length(msnRt)
+              rtr <- range(msnRt)
+              msLevels <- unique(unlist(eapply(assayData(object),msLevel)))
+              nPrecScans <- length(unique(eapply(assayData(object),precScanNum)))
+              sz <- sum(unlist(unname(eapply(assayData(object),object.size))))
+            }
             cat("Object of class \"",class(object),"\"\n",sep="")
             cat(" Object size in memory: ")
-            if (length(assayData(object))==0) {
-              sz <- 0
+            if (length(assayData(object)) == 0) {
+              sz <- object.size(object)
             } else {                            
-              sz <- sum(unlist(unname(eapply(assayData(object),object.size)))) + object.size(object)
+              sz <- sz + object.size(object)
             }
             cat(round(sz/(1024^2),2),"Mb\n")
             cat("- - - Spectra data - - -\n")
-            if (sz==0) {
+            if (length(assayData(object)) == 0) {
               cat(" none\n")
             } else {
-              msnLevels <- unique(msLevel(object))
-              cat(" MSn level(s):",msnLevels,"\n")
-              if (all(msLevel(object)>1)) {
-                cat(" Number of MS1 acquisitions:",length(unique(precScanNum(object))),"\n")
-                cat(" Number of MS2 scans:",length(ls(assayData(object))),"\n")
-                msnPrecMz <- unname(precursorMz(object))
-                nbPrecIons <- length(msnPrecMz)
-                cat(" Number of precursor ions:",nbPrecIons,"\n")
-                if (nbPrecIons>0) {
-                  cat("",length(unique(msnPrecMz)),"unique MZs\n")
-                  cat(" Precursor MZ's:",paste(signif(range(msnPrecMz),5),collapse=" - "),"\n")
+              cat(" MS level(s):",msLevels,"\n")
+              if (all(msLevel(object) > 1)) {
+                cat(" Number of MS1 acquisitions:",nPrecScans,"\n")
+                cat(" Number of MSn scans:",length(ls(assayData(object))),"\n")
+                cat(" Number of precursor ions:",nPrecMz,"\n")
+                if (nPrecMz > 0) {
+                  cat("",uPrecMz,"unique MZs\n")
+                  cat(" Precursor MZ's:",paste(signif(rangePrecMz,5),collapse=" - "),"\n")
                 }
-                msnMz <- unname(mz(object)) ## unnaming list to avoid
-                                            ## huge time oberhead in range(msnMz)
-                msnMzRange <- round(range(msnMz),2) 
-                cat(" MSn M/Z range:",msnMzRange,"\n")
+                cat(" MSn M/Z range:",round(msnMzRange,2),"\n")
               } else {
                 cat(" Number of MS1 scans:",length(spectra(object)),"\n")
               }
-              msnRt <- unname(rtime(object))
-              if (length(msnRt)>0) {
-                rtr <- range(msnRt)
+              if (nrt > 0) {
                 cat(" MSn retention times:",formatRt(rtr[1]),"-",formatRt(rtr[2]),"minutes\n")
               }
             }
@@ -127,7 +142,10 @@ setMethod("trimMz",
             object@processingData@processing <- c(object@processingData@processing,
                                                   paste("MZ trimmed [",object@processingData@trimmed[1],
                                                         "..",object@processingData@trimmed[2],"]",sep=""))
-            return(object)
+            if (object@.cache$level > 0)
+              object@.cache <- setCacheEnv(assayData(object), object@.cache$level)
+            if (validObject(object))
+              return(object)
           })
 
 setMethod("quantify",
@@ -162,7 +180,12 @@ setMethod("extractPrecSpectra",
 
 setMethod("extractSpectra",
           signature=signature(object="MSnExp",selected="logical"),
-          function(object,selected) extractSpectra.MSnExp(object,selected))
+          function(object,selected) {
+            msg <- c("The 'extractSpectra' function is deprecated\n",
+                     "Please use the '[' subsetting operator instead.")
+            .Deprecated(msg=msg)
+            extractSpectra.MSnExp(object,selected)
+          })
 
 setMethod("normalise","MSnExp",
           function(object,method=c("max","sum"),...) {
