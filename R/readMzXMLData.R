@@ -108,7 +108,7 @@ readMzXMLData <- function(files,
   fdata <- fdata[ls(assaydata)] ## reorder features
   ## cache levels 2 and 3 not yet implemented
   cache <- testCacheArg(cache,maxCache=1)
-  .cacheEnv <- newCacheEnv(assaydata, cache, lock=TRUE)
+  .cacheEnv <- setCacheEnv(assaydata, cache, lock=TRUE)
   ## Create and return 'MSnPeaks' object
   if (verbose)
     cat("Creating 'MSnExp' object\n")

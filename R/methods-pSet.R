@@ -69,6 +69,8 @@ setMethod("[","pSet",
                 c(processingData(x)@processing,
                   paste("Data subsetted ",i,": ",date(),sep=""))
             }
+            if (x@.cache$level > 0)
+              x@.cache <- setCacheEnv(assayData(x), x@.cache$level)
             if (validObject(x))
               return(x)
           })

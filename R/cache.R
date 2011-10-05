@@ -23,7 +23,7 @@ testCacheArg <- function(cache, maxCache=3) {
   return(cache)
 }
 
-newCacheEnv <- function(assaydata, level=0, lock=TRUE) {
+setCacheEnv <- function(assaydata, level=0, lock=TRUE) {
   ## Set the .cache slot of a pSet object.
   ## Parameters
   ##  assaydata: environment - pSet assaydata slot
@@ -31,40 +31,30 @@ newCacheEnv <- function(assaydata, level=0, lock=TRUE) {
   ##  lock: logical - lock env and bindings (default is TRUE)
   ## Return:
   ##  A new cache environment
-  cacheEnv <- new.env()
+  cacheEnv <- new.env(parent=emptyenv())
   assign("level", level, cacheEnv)
-  if (level >= 1) {
-    assign("rangePrecursorMz", range(unname(eapply(assaydata,precursorMz))), cacheEnv)
+  if (level >= 1) { ## levels 2 and 3 not yet implemented
+    ## precursor MZ
+    precMz <- unname(eapply(assaydata,precursorMz))
+    assign("rangePrecursorMz", range(precMz), cacheEnv)
+    assign("nPrecursorMz", length(precMz), cacheEnv)
+    assign("uPrecursorMz", length(unique(precMz)), cacheEnv)
+    ## MS2 MS range
     assign("rangeMz", range(unname(eapply(assaydata,mz))), cacheEnv)
-    assign("rangeRtime", range(unname(eapply(assaydata,rtime))), cacheEnv)
+    ## MS2 retention time
+    Rtime <- unname(eapply(assaydata,rtime))
+    assign("rangeRtime", range(Rtime), cacheEnv)
+    assign("nRtime", length(Rtime), cacheEnv)
+    ## MS levels
+    assign("msLevels", unique(unlist(eapply(assaydata,msLevel))), cacheEnv)
+    ## precursor scans
+    assign("nPrecursorScans", length(unique(eapply(assaydata,precScanNum))), cacheEnv)
+    ## assay data size
+    assign("size", sum(unlist(unname(eapply(assaydata,object.size)))), cacheEnv)
   }
-  ## levels 2 and 3 not yet implemented
   if (lock)
     lockEnvironment(cacheEnv, bindings=TRUE)
   return(cacheEnv)
-}
-
-setCacheEnv <- function(object, level, lock=TRUE) {
-  ## Set the .cache slot of a pSet object.
-  ## Parameters
-  ##  object: MSnExp instance
-  ##  level: numeric - cache level
-  ##  lock: logical - lock env and bindings (default is TRUE)
-  ## Return:
-  ##  Invisibly returns the updated env.
-  ## Side effect:
-  ##  The object@.cache is updated
-  object@.cache <- new.env()
-  assign("level", level, object@.cache) 
-  if (level >= 1) {
-    assign("rangePrecursorMz", range(precursorMz(object)), object@.cache)
-    assign("rangeMz", range(mz(object)), object@.cache)
-    assign("rangeRtime", range(rtime(object)), object@.cache)
-  }
-  ## levels 2 and 3 not yet implemented
-  if (lock)
-    lockCacheEnv(object)
-  invisible(validObject(object))
 }
 
 getCacheEnv <- function(object) {
@@ -79,8 +69,3 @@ lockCacheEnv <- function(object) {
   lockEnvironment(object@.cache, bindings=TRUE)  
 }
 
-## updateCacheEnv <- function(object) {
-##   cacheEnv <- object@.cache
-##   cacheLevel <- cacheEnv$level
-##   newCacheEnv <- setCacheEnv(level = cacheLevel)
-## }

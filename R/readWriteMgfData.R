@@ -98,7 +98,7 @@ readMgfData <- function(file,
   fdata <- fdata[ls(assaydata)] ## reorder features
   ## only levels 0 and 1 for mgf peak lists
   cache <- testCacheArg(cache,maxCache=1)
-  .cacheEnv <- newCacheEnv(assaydata, cache, lock=TRUE)
+  .cacheEnv <- setCacheEnv(assaydata, cache, lock=TRUE)
   toReturn <- new("MSnExp",
                   assayData = assaydata,
                   phenoData = pdata,
