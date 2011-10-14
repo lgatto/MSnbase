@@ -16,7 +16,7 @@
   spectrum.
 
   If an \code{"\linkS4class{MSnExp}"} is provided as argument, all the
-  spectra are aligned vertically. Experiments can be subsetted to
+  spectra are aligned vertically. Experiments can be subset to
   extract spectra of interest using the \code{\link{extractSpectra}} or
   \code{\link{extractPrecSpectra}} methods.
 

@@ -5,9 +5,8 @@ test_that("MSnExp validity", {
   expect_true(validObject(itraqdata))
 })
 
-test_that("readMzXMLData and dummy MSnExp msLevel 2 instance", {
+test_that("readMSData and dummy MSnExp msLevel 2 instance", {
   file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
-  ## aa <- readMzXMLData(file,verbose=FALSE)
   aa <- readMSData(file,verbose=FALSE)
   expect_true(class(aa)=="MSnExp")
   ## centroided get and set
@@ -103,9 +102,9 @@ test_that("MSnExp processing", {
 ## ! Issues with edited dummy data for MS1 uploading, although
 ## ! things work fine for original data set. Commented these
 ## ! tests for the moment
-## test_that("readMzXMLData and dummy MSnExp msLevel 1 instance", {
+## test_that("readMSLData and dummy MSnExp msLevel 1 instance", {
 ##   file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
-##   aa <- readMzXMLData(file,msLevel=1,verbose=FALSE)
+##   aa <- readMSData(file,msLevel=1,verbose=FALSE)
 ##   expect_that(class(aa)=="MSnExp",is_true())
 ##   expect_equal(length(aa),equals(5))
 ##   ## MS levels
@@ -125,7 +124,7 @@ context("MSnExp data")
 
 test_that("spectra order and integrity", {
   file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
-  aa <- readMzXMLData(file,verbose=FALSE)
+  aa <- readMSData(file,verbose=FALSE)
   clean.aa <- clean(aa,verbose=FALSE)
   rmpeaks.aa <- removePeaks(aa,verbose=FALSE)
   expect_that(ls(assayData(clean.aa)),equals(ls(assayData(aa))))

@@ -81,6 +81,5 @@ exportMethods(coerce,
 ## methods NOT exported
 ## curveStats
 ## "precursorCharge<-"
-## ratios
 
 

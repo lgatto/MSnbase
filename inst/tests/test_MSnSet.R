@@ -40,7 +40,7 @@ test_that("Combine MSnSet features", {
 
 test_that("Purity correction", {
   file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
-  aa <- readMzXMLData(file,verbose=FALSE)
+  aa <- readMSData(file,verbose=FALSE)
   msnset <- quantify(aa,method="trap",reporters=iTRAQ4,verbose=FALSE)
   impurity0 <- diag(4)
   pc <- purityCorrect(msnset,impurity0)
@@ -63,7 +63,8 @@ test_that("Normalisation and transpose", {
 test_that("Transpose and subset", {
   aa <- quantify(itraqdata,method="trap",reporters=iTRAQ4,verbose=FALSE)
   ## transpose
-  expect_warning(taa <- t(aa),"Dropping protocolData.")
+  ##expect_warning(taa <- t(aa),"Dropping protocolData.") ## replaced by message()
+  taa <- t(aa)
   expect_true(nrow(aa)==ncol(taa)) 
   expect_true(ncol(aa)==nrow(taa))
   expect_true(all.equal(pData(aa),fData(taa)))

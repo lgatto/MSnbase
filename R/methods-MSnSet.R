@@ -112,7 +112,6 @@ setMethod("purityCorrect",
 
 
 setMethod("dim","MSnSet",function(x) dim(exprs(x)))
-setMethod("ratios","MSnSet",function(object,...) ratios.MSnSet(object,...))
 setMethod("qual","MSnSet", function(object) object@qual)
 ## Not sure about these...
 ## setReplaceMethod("featureNames",
@@ -158,7 +157,7 @@ t.MSnSet <- function(x) {
   x@processingData@processing <-             
     c(x@processingData@processing,
       paste("MSnSet transposed: ",date(),sep=""))
-  warning("Dropping protocolData.")  
+  message("Dropping protocolData.")  
   return(new("MSnSet",
              exprs = t(exprs(x)),
              phenoData = featureData(x),
@@ -171,11 +170,15 @@ t.MSnSet <- function(x) {
 
 setMethod("[", "MSnSet", function(x, i, j, ...) {
   .Object <- callNextMethod(...)
-  ## subsetting qual
+  ## subsetting qual - requires pData(x)$mz!
   fn <- featureNames(.Object)
   reps <- match(.Object$mz,x$mz)
   qrows <- paste(rep(fn,each=length(reps)),reps,sep=".")
   .Object@qual <- .Object@qual[qrows,]
+  .Object@processingData@processing <- c(.Object@processingData@processing,
+                                         ifelse(missing(j),
+                                                paste("Features subsetted: ",date(),sep=""),
+                                                paste("Samples subsetted: ",date(),sep="")))
   if (validObject(.Object))
     return(.Object)
 })

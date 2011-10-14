@@ -8,8 +8,8 @@
 
 \description{
   Extracts the spectra defined by the \code{selected} parameter and
-  returns a subsetted \code{"\linkS4class{MSnExp}"} instance. The
-  \code{featureData} slot is also subsetted accordingly.
+  returns a subset \code{"\linkS4class{MSnExp}"} instance. The
+  \code{featureData} slot is also subset accordingly.
 
   Note that values in \code{selected} are recycled if shorter than
   \code{length(MSnExp)}.
