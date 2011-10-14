@@ -17,7 +17,7 @@ test_that("Compare readMzXMLData and readMSData output", {
   file <- dir(system.file(package="MSnbase", dir="extdata"),
               full.name=TRUE,
               pattern="mzXML$")
-  aa <- readMzXMLData(file, verbose=FALSE)  
+  expect_warning(aa <- readMzXMLData(file, verbose=FALSE))
   bb <- readMSData(file, verbose=FALSE)  
   ## comparing data
   expect_true(all.equal(header(aa),header(bb)))

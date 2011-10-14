@@ -171,20 +171,6 @@ zoom <- function(x,w=0.05) {
       col=rep("grey",length(x)))
 }
 
-getRatios <- function(x,log=FALSE) {
-  ## x: a vector of numerics
-  ## returns a vector of all xi/xj ratios
-  x <- as.numeric(x)
-  cmb <- combn(length(x),2)
-  r <- numeric(ncol(cmb))
-  for (i in 1:ncol(cmb)) {
-    j <- cmb[1,i]
-    k <- cmb[2,i]
-    ifelse(log,r[i] <- x[j]-x[k],r[i] <- x[j]/x[k])
-  }
-  return(r)
-}
-
 
 getBins <- function(x) {
   bins <- numeric(length(x))

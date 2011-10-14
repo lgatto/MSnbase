@@ -34,8 +34,8 @@ readIspyData <- function(file="ispy_results.tsv",
                     "numeric"))      # precursorrelativesignal
   names(tab) <- gsub("\\.\\.","pc",gsub("_","",names(tab)))
   names(tab)[ncol(tab)] <- "PrecursorRelativeSignal"
-  ## remove mascot link
-  tab <- tab[,-17]  
+  ## This column was called MascotQuery, then changed to BrowserData
+  ## - just ignore it
   ## tab$MascotQuery <- sub(",[0-0]+\\)&","",
   ##                        sub("=HYPERLINK\\(","",tab$MascotQuery))
   ## if (version==1)

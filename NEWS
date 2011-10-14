@@ -1,3 +1,12 @@
+CHANGES IN VERSION 1.1.27
+-------------------------
+ o fixed bug in readIspyData <2011-10-07 Fri>
+ o removed (unexported) ratio code <2011-10-12 Wed>
+ o added processing description when MSnSet['ing <2011-10-12 Wed>
+ o man typos corrected <2011-10-14 Fri>
+ o changed readMzXMLData to readMSData in tests <2011-10-14 Fri>
+ o expecting warning for readMzXMLData in test_io <2011-10-14 Fri>
+
 CHANGES IN VERSION 1.1.26
 -------------------------
  o extractSpectra deprecated <2011-10-05 Wed>
