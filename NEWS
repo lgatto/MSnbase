@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.1.28
+-------------------------
+ o added pgfSweave to Suggests <2011-10-23 Sun>
+
 CHANGES IN VERSION 1.1.27
 -------------------------
  o fixed bug in readIspyData <2011-10-07 Fri>
