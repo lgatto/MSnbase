@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: MSnbase: Base Functions and Classes for MS-based Proteomics
-Version: 1.1.27
+Version: 1.1.28
 Description: Basic plotting, data manipulation and processing 
 	     of MS-based Proteomics data
 Author@R: c(person(given = "Laurent", family = "Gatto",
@@ -14,7 +14,7 @@ Author: Laurent Gatto <lg390@cam.ac.uk> with contributions
 Maintainer: Laurent Gatto <lg390@cam.ac.uk>
 Depends: R (>= 2.10), Biobase (>= 2.11.0), methods, ggplot2, mzR
 Imports: plyr, graphics, xcms, IRanges, preprocessCore, vsn
-Suggests: testthat, zoo
+Suggests: testthat, zoo, pgfSweave
 License: Artistic-2.0
 LazyLoad: yes
 LazyData: yes
