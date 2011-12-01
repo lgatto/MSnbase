@@ -132,7 +132,7 @@ utils.removePeaks <- function(int,t) {
   ##   0 - - +    + - - +   + - + - - - +  
   ##  
   peakRanges <- IRanges(sapply(int,">",0))
-  IRanges::sapply(peakRanges,function(x) {
+  sapply(peakRanges,function(x) {
     ## we get the indices of every peak in int
     if(all(int[x]<=t)) 
       int[x] <<- 0
@@ -155,7 +155,7 @@ utils.clean <- function(x) {
   n <- length(x)
   b <- as.logical(rep(1,n)) ## initialise to TRUE
   zeroRanges <- IRanges(sapply(x,"==",0))
-  IRanges::sapply(zeroRanges,function(x){
+  sapply(zeroRanges,function(x){
     if (length(x)>2)
       b[x[2:(length(x)-1)]] <<- FALSE 
   })

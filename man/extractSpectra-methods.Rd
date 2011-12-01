@@ -35,6 +35,7 @@
 }
 
 \examples{
+\dontrun{
 file <- dir(system.file(package="MSnbase",dir="extdata"),
             full.name=TRUE,pattern="mzXML$")
 aa <- readMSData(file,verbose=FALSE)
@@ -46,6 +47,7 @@ processingData(bb)
 ## equivalent
 cc <- aa[sel]
 all(featureNames(cc)==featureNames(bb))
+}
 }
 
 \keyword{methods}

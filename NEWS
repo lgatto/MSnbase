@@ -1,3 +1,26 @@
+CHANGES IN VERSION 1.3.2
+-------------------------
+ o \dontrun{} extractSpectrum example, as this seems to be 
+   a major offender producing the intermittent check  
+   'Error in function (x)  : attempt to apply non-function'
+   error <2011-11-07 Mon>
+ o typo in Author@R <2011-11-14 Mon>
+ o modified utils.removePeaks and utils.clean to call sapply 
+   instead of IRanges:sapply <2011-12-01 Thu>
+
+CHANGES IN VERSION 1.3.1
+-------------------------
+ o Herve added BioGenerics as a dependency and import 
+   statement in NAMESPACE  <2011-11-29 Tue>   
+
+CHANGES IN VERSION 1.3.0
+-------------------------
+ o Version bump for Bioc 2.10 devel
+
+CHANGES IN VERSION 1.2.0
+-------------------------
+ o Version bump for Bioc 2.9 release
+
 CHANGES IN VERSION 1.1.28
 -------------------------
  o added pgfSweave to Suggests <2011-10-23 Sun>
