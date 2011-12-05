@@ -166,8 +166,13 @@ quantify.MSnExp <- function(object,method,reporters,strict,verbose) {
     .exprs <- t(peakData$peakQuant)
     .qual <- t(peakData$curveData)
   } else {
-    peakData <- llply(spectraList,quantify,method,
-                      reporters,strict,.progress=progress)
+    parallel <- FALSE
+    if (require(foreach) & require(doMC)) {
+      registerDoMC()
+      parallel <- TRUE
+    }
+    peakData <- llply(spectraList, quantify, method, reporters, strict,
+                      .progress=progress, .parallel=parallel)
     .exprs <- do.call(rbind,sapply(peakData,"[","peakQuant"))
     .qual <- do.call(rbind,sapply(peakData,"[","curveStats"))
   }
