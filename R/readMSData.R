@@ -7,6 +7,7 @@ readMSData <- function(files,
                        removePeaks = 0,
                        clean = FALSE,
                        cache = 1) {
+  ## TODO: add also a trimMz argument.
   msLevel <- as.integer(msLevel)
   if (!msLevel>0)
     stop("msLevel should be an integer > 0.")
@@ -44,7 +45,10 @@ readMSData <- function(files,
                   intensity=mzR::peaks(msdata,j)[,2],
                   fromFile=filen,
                   centroided=centroided)
-        ## TODO add peak removing and cleaning if necessary
+        if (removePeaks > 0)
+          sp <- removePeaks(sp, t=removePeaks)
+        if (clean)
+          sp <- clean(sp)
         assign(paste("X",i,sep=""),sp,assaydata)        
       }
     } else {
@@ -78,7 +82,10 @@ readMSData <- function(files,
                   intensity=mzR::peaks(msdata,j)[,2],
                   fromFile=filen,
                   centroided=centroided)
-        ## TODO add peak removing and cleaning if necessary
+        if (removePeaks > 0)
+          sp <- removePeaks(sp, t=removePeaks)
+        if (clean)
+          sp <- clean(sp)
         assign(paste("X",i,sep=""),sp,assaydata)
       }
     }
