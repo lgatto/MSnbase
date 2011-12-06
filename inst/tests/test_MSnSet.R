@@ -48,29 +48,29 @@ test_that("Purity correction", {
 })
 
 test_that("Normalisation and transpose", {
-  bb <- quantify(itraqdata,method="trap",reporters=iTRAQ4,verbose=FALSE)
-  bb1 <- normalise(bb,"sum")
-  expect_true(all.equal(rowSums(exprs(bb1),na.rm=TRUE),
-                        rep(1,nrow(bb1)),check.attributes=FALSE))
+  bb <- quantify(itraqdata, method="trap", reporters=iTRAQ4, verbose=FALSE)
+  bb1 <- normalise(bb, "sum")
+  expect_true(all.equal(rowSums(exprs(bb1), na.rm=TRUE),
+                        rep(1,nrow(bb1)), check.attributes=FALSE))
   bb2 <- normalise(bb,"max")
-  expect_true(all(apply(exprs(bb2),1,max,na.rm=TRUE)==1))
-  bb3 <- normalise(bb,"quantiles")
-  bb4 <- normalise(bb,"quantiles.robust")
-  bb5 <- normalise(bb,"vsn")
+  expect_true(all(apply(exprs(bb2), 1, max, na.rm=TRUE) == 1))
+  bb3 <- normalise(bb, "quantiles")
+  bb4 <- normalise(bb, "quantiles.robust")
+  bb5 <- normalise(bb, "vsn")
 })
 
 
 test_that("Transpose and subset", {
-  aa <- quantify(itraqdata,method="trap",reporters=iTRAQ4,verbose=FALSE)
+  aa <- quantify(itraqdata, method="trap", reporters=iTRAQ4, verbose=FALSE)
   ## transpose
   ##expect_warning(taa <- t(aa),"Dropping protocolData.") ## replaced by message()
   taa <- t(aa)
-  expect_true(nrow(aa)==ncol(taa)) 
-  expect_true(ncol(aa)==nrow(taa))
-  expect_true(all.equal(pData(aa),fData(taa)))
-  expect_true(all.equal(pData(taa),fData(aa)))
+  expect_true(nrow(aa) == ncol(taa)) 
+  expect_true(ncol(aa) == nrow(taa))
+  expect_true(all.equal(pData(aa), fData(taa)))
+  expect_true(all.equal(pData(taa), fData(aa)))
   ## subset
   bb <- aa[1:2,c(2,4)]
-  expect_true(all(dim(qual(bb))==c(4,7)))
+  expect_true(all(dim(qual(bb)) == c(4,7)))
   expect_true(all(qual(bb)$reporter %in% bb$mz))
 })

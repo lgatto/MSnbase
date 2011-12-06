@@ -1,3 +1,13 @@
+CHANGES IN VERSION 1.3.4
+-------------------------
+ o fixed bug in show MSnExp method for MS1 experiments. 
+   When loading MS1 spectra, cache is set to 0.
+   Bug reported by Jesse Meyer. <2011-12-06 Tue>
+ o fixed another bug/typo in readMSData <2011-12-06 Tue>
+ o now running extractSprectum example again <2011-12-06 Tue>
+ o setting default cache to 0, as cache=1 introduces 
+   unstabel behavious... will investigate that <2011-12-06 Tue>
+
 CHANGES IN VERSION 1.3.3
 -------------------------
  o added parallel computation for MSnExp quantitation using 

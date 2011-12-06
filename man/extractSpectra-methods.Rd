@@ -35,19 +35,18 @@
 }
 
 \examples{
-\dontrun{
-file <- dir(system.file(package="MSnbase",dir="extdata"),
-            full.name=TRUE,pattern="mzXML$")
-aa <- readMSData(file,verbose=FALSE)
-sel <- rep(FALSE,length(aa))
+fn <- dir(system.file(package = "MSnbase", dir = "extdata"),
+          full.names = TRUE,
+          pattern = "mzXML$")
+aa <- readMSData(fn, verbose=FALSE)
+sel <- rep(FALSE, length(aa))
 sel[1:3] <- TRUE
-bb <- extractSpectra(aa,sel)
+bb <- extractSpectra(aa, sel)
 stopifnot(length(bb) == sum(sel))
 processingData(bb)
 ## equivalent
 cc <- aa[sel]
-all(featureNames(cc)==featureNames(bb))
-}
+all(featureNames(cc) == featureNames(bb))
 }
 
 \keyword{methods}
