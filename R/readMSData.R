@@ -6,53 +6,56 @@ readMSData <- function(files,
                        smoothed = FALSE,
                        removePeaks = 0,
                        clean = FALSE,
-                       cache = 1) {
+                       cache = 0) {
   ## TODO: add also a trimMz argument.
+  if (msLevel == 1) ## cache currently only works for MS2 level data
+    cache <- 0 
   msLevel <- as.integer(msLevel)
-  if (!msLevel>0)
+  if (!(msLevel > 0))
     stop("msLevel should be an integer > 0.")
-  if (length(files)<1)
+  if (length(files) < 1)
     stop("At least one MS file is required.")
   extensions <- unique(toupper(sub("^.+\\.", "", files)))
-  if (length(extensions)>1)
+  if (length(extensions) > 1)
     warning(paste("Reading different file formats in.",
                   "This is untested but you are welcome to try it out.",
-                  "Please report back!",sep="\n"))
+                  "Please report back!", sep="\n"))
   ## Creating environment with Spectra objects
   assaydata <- new.env()
   for (f in files) {
     filen <- match(f,files)
     msdata <- mzR::openMSfile(f)
     fullhd <- mzR::header(msdata)
-    if (msLevel==1) {
-      spidx <- which(fullhd$msLevel==1)
+
+    if (msLevel == 1) {
+      spidx <- which(fullhd$msLevel == 1)
       if (length(spidx)==0)
         stop("No MS1 spectra in file",f)
       if (verbose) {
-        cat("Reading ",length(spidx)," MS1 spectra from file ",
+        cat("Reading ", length(spidx), " MS1 spectra from file ",
             basename(f),"\n",sep="")
-        pb <- txtProgressBar(min=0,max=length(spidx),style=3)
+        pb <- txtProgressBar(min=0, max=length(spidx), style=3)
       }
       for (i in 1:length(spidx)) {
         if (verbose) setTxtProgressBar(pb, i)
         j <- spidx[i]
         hd <- fullhd[j,]
         sp <- new("Spectrum1",
-                  peaksCount=hd$peaksCount,
-                  rt=hd$retentionTime,
-                  acquisitionNum=hd$acquisitionNum,
-                  mz=mzR::peaks(msdata,j)[,1],
-                  intensity=mzR::peaks(msdata,j)[,2],
-                  fromFile=filen,
-                  centroided=centroided)
+                  peaksCount = hd$peaksCount,
+                  rt = hd$retentionTime,
+                  acquisitionNum = hd$acquisitionNum,
+                  mz = mzR::peaks(msdata,j)[,1],
+                  intensity = mzR::peaks(msdata,j)[,2],
+                  fromFile = filen,
+                  centroided = centroided)
         if (removePeaks > 0)
           sp <- removePeaks(sp, t=removePeaks)
         if (clean)
           sp <- clean(sp)
-        assign(paste("X",i,sep=""),sp,assaydata)        
+        assign(paste("X",i,sep=""), sp, assaydata)        
       }
     } else {
-      spidx <- which(fullhd$msLevel>1)
+      spidx <- which(fullhd$msLevel > 1)
       if (length(spidx)==0)
         stop("No MS(n>1) spectra in file",f)
       if (verbose) {
@@ -62,7 +65,7 @@ readMSData <- function(files,
       }
       ## this was fullhd$acquisitionNum -- check/wrong 
       ## ms1scanNums <- MSnbase:::getBins(fullhd$msLevel[spidx])
-      scanNums <- fullhd[fullhd$msLeve==2,"precursorScanNum"]
+      scanNums <- fullhd[fullhd$msLevel == 2,"precursorScanNum"]
       if (length(scanNums)!=length(spidx))
         stop("Number of spectra and precursor scan number do not match!")
       for (i in 1:length(spidx)) {
@@ -99,10 +102,9 @@ readMSData <- function(files,
                  processing=paste("Data loaded:",date()),
                  files=files,
                  smoothed=smoothed)  
-  if (removePeaks>0) {
+  if (removePeaks > 0) {
     process@processing <- c(process@processing,
-                            paste("Curves <= ",removePeaks," set to '0': ",date(),sep=""),
-                            paste("Spectra cleaned: ",date(),sep=""))
+                            paste("Curves <= ", removePeaks, " set to '0': ", date(), sep=""))
   } else {
     if (clean)
       process@processing <- c(process@processing,

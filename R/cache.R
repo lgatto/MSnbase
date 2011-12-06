@@ -11,12 +11,12 @@ testCacheArg <- function(cache, maxCache=3) {
   if (!is.numeric(cache))
     stop("'cache' must be numeric.")
   if (cache < 0 | cache > maxCache) {
-    warning("cache must be [0:",maxCache,"]!")
+    warning("cache must be [0:", maxCache,"]!")
     if (cache < 0) {
       warning("Setting cache to 0.")
       cache <- 0
     } else {
-      warning("Setting cache to ",maxCache,".")
+      warning("Setting cache to ", maxCache, ".")
       cache <- maxCache
     }
   }
@@ -35,7 +35,7 @@ setCacheEnv <- function(assaydata, level=0, lock=TRUE) {
   assign("level", level, cacheEnv)
   if (level >= 1) { ## levels 2 and 3 not yet implemented
     ## precursor MZ
-    precMz <- unname(eapply(assaydata,precursorMz))
+    precMz <- unname(eapply(assaydata, precursorMz))
     assign("rangePrecursorMz", range(precMz), cacheEnv)
     assign("nPrecursorMz", length(precMz), cacheEnv)
     assign("uPrecursorMz", length(unique(precMz)), cacheEnv)

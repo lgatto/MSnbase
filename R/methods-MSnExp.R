@@ -15,17 +15,19 @@ setMethod("show",
               nPrecScans <- object@.cache$nPrecursorScans
               sz <- object@.cache$size
             } else {
-              msnPrecMz <- unname(eapply(assayData(object),precursorMz))              
-              nPrecMz <- length(msnPrecMz)
-              uPrecMz <- length(unique(msnPrecMz))
-              rangePrecMz <- range(msnPrecMz)
-              msnMzRange <- range(unname(mz(object)))
+              if (all(msLevel(object) > 1)) {
+                msnPrecMz <- unname(eapply(assayData(object),precursorMz))              
+                nPrecMz <- length(msnPrecMz)
+                uPrecMz <- length(unique(msnPrecMz))
+                rangePrecMz <- range(msnPrecMz)
+                msnMzRange <- range(unname(mz(object)))
+                nPrecScans <- length(unique(eapply(assayData(object),precScanNum)))
+              }
+              msLevels <- unique(unlist(eapply(assayData(object),msLevel)))
+              sz <- sum(unlist(unname(eapply(assayData(object),object.size))))
               msnRt <- unname(eapply(assayData(object),rtime))
               nrt <- length(msnRt)
               rtr <- range(msnRt)
-              msLevels <- unique(unlist(eapply(assayData(object),msLevel)))
-              nPrecScans <- length(unique(eapply(assayData(object),precScanNum)))
-              sz <- sum(unlist(unname(eapply(assayData(object),object.size))))
             }
             cat("Object of class \"",class(object),"\"\n",sep="")
             cat(" Object size in memory: ")

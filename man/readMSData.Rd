@@ -16,7 +16,7 @@
 \usage{
 readMSData(files, pdata = NULL, msLevel = 2, verbose = TRUE,
 centroided = FALSE, smoothed = FALSE, removePeaks = 0, clean = FALSE,
-cache = 1)  
+cache = 0)  
 }
 
 \arguments{
@@ -50,7 +50,7 @@ cache = 1)
     \code{\link{clean}} for more details and examples. 
   }
   \item{cache}{
-    Numeric indicating caching level. Default is 1. Under development.
+    Numeric indicating caching level. Default is 0. Under development.
   }
   \item{verbose}{
    verbosity flag. 

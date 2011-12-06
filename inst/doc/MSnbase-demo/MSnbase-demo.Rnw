@@ -879,8 +879,7 @@ argument is defined.
 
 Quantitation using isobaric reporter tags assumes complete dissociation between
 the reporter group (red on figure \ref{fig:itraqchem}), 
-balance group (blue) 
-and peptide (the peptide reactive group is drawn in green). 
+balance group (blue) and peptide (the peptide reactive group is drawn in green). 
 However, incomplete dissociation does occur and 
 results in an isobaric tag (i.e reporter and balance groups) specific peaks. 
 
