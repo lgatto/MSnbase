@@ -1,3 +1,12 @@
+CHANGES IN VERSION 1.3.5
+-------------------------
+ o added a gc() before mzR::close(msdata)... seems to help 
+   with Rcpp and ref classes issue. <2011-12-09 Fri>
+ o added a show parameter to getCacheEnv to define .cache 
+   should be printed out before being returned. <2011-12-09 Fri>
+ o added cache unit test <2011-12-09 Fri>
+ o readMzXMLData is now defunct and remove xcms from Imports <2011-12-16 Fri>
+
 CHANGES IN VERSION 1.3.4
 -------------------------
  o fixed bug in show MSnExp method for MS1 experiments. 

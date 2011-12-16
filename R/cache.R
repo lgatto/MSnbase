@@ -57,8 +57,9 @@ setCacheEnv <- function(assaydata, level=0, lock=TRUE) {
   return(cacheEnv)
 }
 
-getCacheEnv <- function(object) {
-  print(ls.str(object@.cache))
+getCacheEnv <- function(object, show=FALSE) {
+  if (show)
+    print(ls.str(object@.cache))
   invisible(object@.cache)
 }
 

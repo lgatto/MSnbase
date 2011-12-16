@@ -4,7 +4,6 @@ import(Biobase)
 import(mzR)
 
 importFrom(plyr,llply)
-importFrom(xcms,xcmsRaw) ## not needed really, using unexported xcms:::ramp* only
 importFrom(preprocessCore,normalize.quantiles) 
 importFrom(vsn,vsn2,meanSdPlot)
 importFrom(IRanges,IRanges)
