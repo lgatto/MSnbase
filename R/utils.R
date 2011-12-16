@@ -37,7 +37,7 @@ formatRt <- function(rt) {
 ##' low intensity peaks and cleaning data (default is FALSE).
 ##' @return an object of class \code{"\linkS4class{Spectrum1}"} for \code{rawToSpectrum1}
 ##' or \code{"\linkS4class{Spectrum1}"} for \code{rawToSpectrum2}.
-##' @seealso \code{\link{readMzXMLData}}, \code{"\linkS4class{Spectrum1}"}, \code{"\linkS4class{Spectrum2}"}. 
+##' @seealso \code{\link{readMSData}}, \code{"\linkS4class{Spectrum1}"}, \code{"\linkS4class{Spectrum2}"}. 
 ##' @author Laurent Gatto
 rawToSpectrum1 <- function(x,
                            i,

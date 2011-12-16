@@ -6,7 +6,7 @@ readMSData <- function(files,
                        smoothed = FALSE,
                        removePeaks = 0,
                        clean = FALSE,
-                       cache = 0) {
+                       cache = 1) {
   ## TODO: add also a trimMz argument.
   if (msLevel == 1) ## cache currently only works for MS2 level data
     cache <- 0 
@@ -23,10 +23,10 @@ readMSData <- function(files,
   ## Creating environment with Spectra objects
   assaydata <- new.env()
   for (f in files) {
-    filen <- match(f,files)
+    filen <- match(f, files) 
     msdata <- mzR::openMSfile(f)
     fullhd <- mzR::header(msdata)
-
+    ## 
     if (msLevel == 1) {
       spidx <- which(fullhd$msLevel == 1)
       if (length(spidx)==0)
@@ -94,6 +94,14 @@ readMSData <- function(files,
     }
     if (verbose)
       close(pb)
+    ## cache levels 2 and 3 not yet implemented
+    cache <- testCacheArg(cache, maxCache=1)
+    .cacheEnv <- setCacheEnv(assaydata, cache, lock=TRUE)
+    ## if cache==2, do not lock,
+    ## assign msdata in .cacheEnv
+    ## then lock it
+    ## and do not close(msdata) below; rm(msdata) is OK
+    gc() ## could this help with Error in function (x): no function to return from, jumping to top level)...
     mzR::close(msdata)
     rm(msdata)
   }
@@ -121,9 +129,6 @@ readMSData <- function(files,
                  spectrum=1:length(nms),
                  row.names=nms))
   fdata <- fdata[ls(assaydata)] ## reorder features
-  ## cache levels 2 and 3 not yet implemented
-  cache <- testCacheArg(cache,maxCache=1)
-  .cacheEnv <- setCacheEnv(assaydata, cache, lock=TRUE)
   ## Create and return 'MSnPeaks' object
   if (verbose)
     cat("Creating 'MSnExp' object\n")

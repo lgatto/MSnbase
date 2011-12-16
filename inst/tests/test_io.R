@@ -13,17 +13,19 @@ test_that("Compatibility between writeMgfData and readMgfData", {
   unlink(tf)
 })
 
-test_that("Compare readMzXMLData and readMSData output", {
-  file <- dir(system.file(package="MSnbase", dir="extdata"),
-              full.names=TRUE,
-              pattern="mzXML$")
-  expect_warning(aa <- readMzXMLData(file, verbose=FALSE))
-  bb <- readMSData(file, verbose=FALSE)  
-  ## comparing data
-  expect_true(all.equal(header(aa), header(bb)))
-  expect_true(all.equal(intensity(aa), intensity(bb)))
-  expect_true(all.equal(mz(aa), mz(bb)))  
-})
+## Removing this test, as readMzXML has been defunct
+## in MSnbase version 1.3.5
+## test_that("Compare readMzXMLData and readMSData output", {
+##   file <- dir(system.file(package="MSnbase", dir="extdata"),
+##               full.names=TRUE,
+##               pattern="mzXML$")
+##   expect_warning(aa <- readMzXMLData(file, verbose=FALSE))
+##   bb <- readMSData(file, verbose=FALSE)  
+##   ## comparing data
+##   expect_true(all.equal(header(aa), header(bb)))
+##   expect_true(all.equal(intensity(aa), intensity(bb)))
+##   expect_true(all.equal(mz(aa), mz(bb)))  
+## })
 
 test_that("Testing write.exprs and readMSnSet", {
   data(itraqdata)
