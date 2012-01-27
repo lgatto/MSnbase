@@ -187,15 +187,17 @@ setMethod("header",
               stop("header() only works for MS levels > 1.")
             tbl <- table(fromFile(object))
             idx <- as.numeric(unlist(apply(tbl,1,function(x) 1:x)))
-            return(data.frame(cbind(index=idx,
-                                    file=fromFile(object),
-                                    retention.time=rtime(object),
-                                    precursor.mz=precursorMz(object),
-                                    peaks.count=peaksCount(object),
-                                    tic=tic(object),
-                                    ms.level=msLevel(object),
-                                    charge=precursorCharge(object),
-                                    collision.energy=collisionEnergy(object))))
+            return(data.frame(cbind(index = idx,
+                                    file = fromFile(object),
+                                    retention.time = rtime(object),
+                                    precursor.mz = precursorMz(object),
+                                    precursor.intensity = precursorIntensity(object),
+                                    charge = precursorCharge(object),
+                                    peaks.count = peaksCount(object),
+                                    tic = tic(object),
+                                    ms.level = msLevel(object),
+                                    acquisition.number = acquisitionNum(object),
+                                    collision.energy = collisionEnergy(object))))
           })
 
 setMethod("header",

@@ -3,11 +3,11 @@ import(BiocGenerics)
 import(Biobase)
 import(mzR)
 
-importFrom(plyr,llply)
-importFrom(preprocessCore,normalize.quantiles) 
-importFrom(vsn,vsn2,meanSdPlot)
-importFrom(IRanges,IRanges)
-importClassesFrom(IRanges,IRanges)
+importFrom(plyr, llply)
+importFrom(preprocessCore, normalize.quantiles) 
+importFrom(vsn, vsn2, meanSdPlot)
+importFrom(IRanges, IRanges)
+importClassesFrom(IRanges, IRanges)
 
 export(readMzXMLData,
        readMgfData,

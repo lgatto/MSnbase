@@ -1,12 +1,13 @@
 plot.Spectrum2 <- function(spectrum,
-                           reporters=NULL,full=FALSE,
+                           reporters = NULL,
+                           full = FALSE,
                            centroided,
-                           plot=TRUE,                          
-                           w1,w2) {
+                           plot = TRUE,                          
+                           w1, w2) {
   if (!full & is.null(reporters))
-    stop("Please provide repotrer ions if you do not want a full spectrum.")
+    stop("Please provide reporter ions if you do not want a full spectrum.")
   if (!is.null(reporters)) {
-    if (class(reporters)!="ReporterIons")
+    if (class(reporters) != "ReporterIons")
       stop("Reporters must be of class 'ReporterIons'.")
   }
   if (missing(centroided))
@@ -21,66 +22,81 @@ plot.Spectrum2 <- function(spectrum,
   if (missing(w2))
     w2 <- 0.01
   ## preparing full spectrum plot p
-  dfr <- data.frame(i=i,mtc=mtc,width=w1)
-  mainvp <- viewport(width=1,height=1,x=0.5,y=0.5)
-  title <- opts(title=paste("Precursor M/Z",round(precursorMz(spectrum),2)))
+  dfr <- data.frame(i = i, mtc = mtc, width = w1)
+  if (nrow(dfr) == 0)
+    stop("No data to be plotted in full scan")
+  mainvp <- viewport(width = 1, height = 1, x = 0.5, y = 0.5)
+  title <- opts(title = paste("Precursor M/Z",
+                  round(precursorMz(spectrum), 2)))
   if (centroided) {
-    p <- ggplot(dfr,aes(x=mtc,y=i,width=width)) + opts(legend.position = "none") +
-      labs(x="M/Z",y="Intensity") +
-        geom_bar(stat="identity",position="identity")
+    p <- ggplot(dfr, aes(x = mtc, y = i, width = width)) +
+      opts(legend.position = "none") +
+        labs(x = "M/Z", y = "Intensity") +
+          geom_bar(stat = "identity", position = "identity")
   } else {
-    p <- ggplot(dfr,aes(x=mtc,y=i)) + opts(legend.position = "none") +
-      labs(x="M/Z",y="Intensity") +
+    p <- ggplot(dfr, aes(x = mtc,y = i)) + opts(legend.position = "none") +
+      labs(x = "M/Z", y = "Intensity") +
         geom_line() ## + geom_point(alpha=I(1/10))
   }
   ## data reporters plot reps
   if (!is.null(reporters)) {
     width <- reporters@width
-    rlim1 <- min(reporters@mz)-width
-    rlim2 <- max(reporters@mz)+width
-    dfr2 <- subset(dfr,mtc >= rlim1 & mtc <= rlim2)
-    dfr2$width <- w2
-    coord <- coord_cartesian(xlim=c(rlim1,rlim2))
-    subvp <- viewport(width=2/3,height=1/3,x=.95,y=.92,just=c("right","top"))
-    rectdfr <- data.frame(mtc=mean(dfr$mtc),
-                          i=0,
-                          xmin=reporters@mz-reporters@width,
-                          xmax=reporters@mz+reporters@width,
-                          ymin=0,
-                          ymax=max(dfr$i),
-                          fill=reporters@col,
-                          alpha=0.2) ## was 1/3
-    rect <- geom_rect(data=rectdfr,
-                      aes(xmin=xmin,
-                          xmax=xmax,
-                          ymin=ymin,
-                          ymax=ymax,
-                          fill=fill,
-                          alpha=alpha))
-    if (centroided) {
-      p2 <- ggplot(dfr2,aes(x=mtc,y=i,width=width)) + 
-        geom_bar(stat="identity",position="identity") + rect
+    rlim1 <- min(reporters@mz) - width
+    rlim2 <- max(reporters@mz) + width
+    dfr2 <- subset(dfr, mtc >= rlim1 & mtc <= rlim2)
+    if ( nrow(dfr2) == 0 ) {
+      warning("No reporter peaks to be plotted.")
+      reporters <- NULL
     } else {
-      p2 <- ggplot(dfr2,aes(x=mtc,y=i)) + geom_line() + rect
+      dfr2$width <- w2
+      coord <- coord_cartesian(xlim = c(rlim1, rlim2))
+      subvp <- viewport(width = 2/3,
+                        height = 1/3,
+                        x = .95,
+                        y = .92,
+                        just = c("right","top"))
+      rectdfr <- data.frame(mtc = mean(dfr$mtc),
+                            i = 0,
+                            xmin = reporters@mz-reporters@width,
+                            xmax = reporters@mz+reporters@width,
+                            ymin = 0,
+                            ymax = max(dfr$i),
+                            fill = reporters@col,
+                            alpha = 0.2) ## was 1/3
+      rect <- geom_rect(data = rectdfr,
+                        aes(xmin = xmin,
+                            xmax = xmax,
+                            ymin = ymin,
+                            ymax = ymax,
+                            fill = fill,
+                            alpha = alpha))
+      if (centroided) {
+        p2 <- ggplot(dfr2, aes(x = mtc, y = i, width = width)) + 
+          geom_bar(stat = "identity", position = "identity") +
+            rect
+      } else {
+        p2 <- ggplot(dfr2, aes( x =mtc, y = i)) + geom_line() + rect
+      }
+      reps <- p2 + coord + 
+        theme_gray(9) +
+          labs(x = NULL, y = NULL) +
+            opts(plot.margin = unit(c(1,1,0,0), "lines")) +
+              scale_x_continuous(breaks=seq(rlim1, rlim2, (rlim2-rlim1)/10)) +
+                opts(legend.position = "none")
     }
-    reps <- p2 + coord + 
-      theme_gray(9) +
-        labs(x = NULL, y = NULL) +
-          opts(plot.margin = unit(c(1,1,0,0), "lines")) +
-            scale_x_continuous(breaks=seq(rlim1,rlim2,(rlim2-rlim1)/10)) +
-              opts(legend.position = "none") 
   }
   ## plotting
   if (full) {
     if (plot) {
-      print(p+title,vp=mainvp)
-      if (!is.null(reporters))
-        print(reps,vp=subvp)
+      print(p + title, vp = mainvp)
+      if ( !is.null(reporters) )
+        print(reps, vp = subvp)
     }
-    invisible(p+title)
+    invisible(p + title)
   } else {
-    if (plot)
-      print(reps+title,vp=mainvp)
-    invisible(reps+title)
+    if ( plot & !is.null(reporters) ) {
+      print(reps + title, vp = mainvp)
+      invisible(reps + title)
+    }
   }
 }

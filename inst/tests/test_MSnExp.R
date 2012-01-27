@@ -15,23 +15,25 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
   centroided(aa) <- val
   expect_true(validObject(aa))
   expect_true(all(centroided(aa)))
-  val[sample(length(aa),2)] <- FALSE
+  val[sample(length(aa), 2)] <- FALSE
   centroided(aa) <- val
-  expect_true(sum(centroided(aa))==length(aa)-2)
-  centroided(aa) <- rep(FALSE,length(aa))
+  expect_true(sum(centroided(aa)) == length(aa)-2)
+  centroided(aa) <- rep(FALSE, length(aa))
   expect_false(any(centroided(aa)))  
   ## checking slots and methods
-  expect_equal(length(aa),5)
-  expect_that(nrow(header(aa)),equals(length(aa)))
+  expect_equal(length(aa), 5)
+  expect_that(nrow(header(aa)), equals(length(aa)))
   expect_that(names(header(aa)),
-              equals(c("index","file","retention.time",
-                       "precursor.mz","peaks.count","tic",
-                       "ms.level","charge","collision.energy")))
+              equals(c("index", "file", "retention.time",
+                       "precursor.mz", "precursor.intensity",
+                       "charge", "peaks.count","tic",
+                       "ms.level", "acquisition.number", 
+                       "collision.energy")))
   ## MS levels
-  expect_equal(length(msLevel(aa)),5)
-  expect_equal(unique(msLevel(aa)),2)
-  expect_equal(length(precScanNum(aa)),5)
-  expect_equal(length(unique(precScanNum(aa))),1)
+  expect_equal(length(msLevel(aa)), 5)
+  expect_equal(unique(msLevel(aa)), 2)
+  expect_equal(length(precScanNum(aa)), 5)
+  expect_equal(length(unique(precScanNum(aa))), 1)
   ## Precursor MZ
   expect_equal(length(precursorMz(aa)),5)
   expect_that(precursorMz(aa)[1],is_a("numeric"))
@@ -67,36 +69,36 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
   ## testing that accessors return always attributes in same order
   precMzNames <- names(precursorMz(aa))
   ticNames <- names(tic(aa))
-  expect_that(precMzNames,equals(ticNames))
+  expect_that(precMzNames, equals(ticNames))
   precChNames <- names(precursorCharge(aa))
-  expect_that(precMzNames,equals(precChNames))
+  expect_that(precMzNames, equals(precChNames))
   aqnNames <- names(acquisitionNum(aa))
-  expect_that(precMzNames,equals(aqnNames))
+  expect_that(precMzNames, equals(aqnNames))
   rtNames <- names(rtime(aa))
-  expect_that(precMzNames,equals(rtNames))
+  expect_that(precMzNames, equals(rtNames))
   pkCntNames <- names(peaksCount(aa))
-  expect_that(precMzNames,equals(pkCntNames))
+  expect_that(precMzNames, equals(pkCntNames))
   mslNames <- names(msLevel(aa))
-  expect_that(precMzNames,equals(mslNames))
+  expect_that(precMzNames, equals(mslNames))
   coleNames <- names(collisionEnergy(aa))
-  expect_that(precMzNames,equals(coleNames))
+  expect_that(precMzNames, equals(coleNames))
   intNames <- names(intensity(aa))
-  expect_that(precMzNames,equals(intNames))
+  expect_that(precMzNames, equals(intNames))
   mzNames <- names(mz(aa))
-  expect_that(precMzNames,equals(mzNames))
+  expect_that(precMzNames, equals(mzNames))
   ffNames <- names(fromFile(aa))
-  expect_that(precMzNames,equals(ffNames))  
+  expect_that(precMzNames, equals(ffNames))  
 })
 
 context("MSnExp processing")
 
 test_that("MSnExp processing", {
   ## removeReporters
-  expect_true(all.equal(removeReporters(itraqdata[[1]]),itraqdata[[1]]))
-  expect_true(all.equal(removeReporters(itraqdata,reporters=iTRAQ4,verbose=FALSE)[[1]],
-                        removeReporters(itraqdata[[1]],reporters=iTRAQ4)))
+  expect_true(all.equal(removeReporters(itraqdata[[1]]), itraqdata[[1]]))
+  expect_true(all.equal(removeReporters(itraqdata, reporters=iTRAQ4, verbose=FALSE)[[1]],
+                        removeReporters(itraqdata[[1]], reporters=iTRAQ4)))
   ## quantitation should be 0
-  expect_true(all(quantify(removeReporters(itraqdata[[1]],reporters=iTRAQ4),"max",iTRAQ4)[[1]]==0))
+  expect_true(all(quantify(removeReporters(itraqdata[[1]], reporters=iTRAQ4), "max", iTRAQ4)[[1]] == 0))
 })
 
 ## ! Issues with edited dummy data for MS1 uploading, although
@@ -123,33 +125,35 @@ test_that("MSnExp processing", {
 context("MSnExp data")
 
 test_that("spectra order and integrity", {
-  file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
-  aa <- readMSData(file,verbose=FALSE)
-  clean.aa <- clean(aa,verbose=FALSE)
-  rmpeaks.aa <- removePeaks(aa,verbose=FALSE)
-  expect_that(ls(assayData(clean.aa)),equals(ls(assayData(aa))))
-  expect_that(ls(assayData(rmpeaks.aa)),equals(ls(assayData(aa))))
-  int <- c(0,2,3,1,0,0,1)
+  file <- dir(system.file(package = "MSnbase", dir = "extdata"),
+              full.name = TRUE,
+              pattern = "mzXML$")
+  aa <- readMSData(file, verbose = FALSE)
+  clean.aa <- clean(aa, verbose = FALSE)
+  rmpeaks.aa <- removePeaks(aa, verbose = FALSE)
+  expect_that(ls(assayData(clean.aa)), equals(ls(assayData(aa))))
+  expect_that(ls(assayData(rmpeaks.aa)), equals(ls(assayData(aa))))
+  int <- c(0, 2, 3, 1, 0, 0, 1)
   sp <- new("Spectrum2",
             intensity = int,
             mz = 1:length(int))
   rsp <- removePeaks(sp)  
-  expect_that(peaksCount(sp),equals(length(int)))
-  expect_that(tic(sp),equals(sum(int)))
-  expect_that(all.equal(removePeaks(sp),rsp),is_true())
-  expect_that(tic(removePeaks(sp,1)),equals(6))  
-  expect_that(tic(removePeaks(sp,3)),equals(0))
-  expect_that(tic(removePeaks(sp,max(intensity(sp)))),equals(0))
-  expect_that(peaksCount(sp),equals(peaksCount(rsp)))
-  expect_that(peaksCount(clean(rsp)),equals(6))
-  expect_that(peaksCount(clean(sp)),equals(7))  
-  expect_that(all.equal(removePeaks(sp,0),sp),is_true())
+  expect_that(peaksCount(sp), equals(length(int)))
+  expect_that(tic(sp), equals(sum(int)))
+  expect_that(all.equal(removePeaks(sp),rsp), is_true())
+  expect_that(tic(removePeaks(sp,1)), equals(6))  
+  expect_that(tic(removePeaks(sp,3)), equals(0))
+  expect_that(tic(removePeaks(sp,max(intensity(sp)))), equals(0))
+  expect_that(peaksCount(sp), equals(peaksCount(rsp)))
+  expect_that(peaksCount(clean(rsp)), equals(6))
+  expect_that(peaksCount(clean(sp)), equals(7))  
+  expect_that(all.equal(removePeaks(sp,0),sp), is_true())
 })
 
 
 test_that("MSnExp normalisation", {
   aa <- itraqdata[1:3]
-  bb <- normalise(aa,"max")
-  expect_true(all(sapply(intensity(bb),max)==1))
-  expect_true(all(unlist(sapply(intensity(aa),order))==unlist(sapply(intensity(bb),order))))
+  bb <- normalise(aa, "max")
+  expect_true(all(sapply(intensity(bb),max) == 1))
+  expect_true(all(unlist(sapply(intensity(aa),order)) == unlist(sapply(intensity(bb),order))))
 })
