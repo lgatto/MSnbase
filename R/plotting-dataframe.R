@@ -1,10 +1,11 @@
 plot2d.header <- function(object, ## MSnExp header
-                          z=c("tic","file","peaks.count","charge"),
-                          alpha, plot) {
+                          z = c("tic", "file", "peaks.count", "charge"),
+                          alpha,
+                          plot) {
   z <- match.arg(z)
-  stopifnot(c("retention.time","precursor.mz",z) %in% names(object))
+  stopifnot(c("retention.time","precursor.mz", z) %in% names(object))
   peaks.count <- charge <- retention.time <- precursor.mz <- NULL # to satisfy codetools
-  p <- ggplot(object,aes(retention.time,precursor.mz)) + labs(colour=z)
+  p <- ggplot(object, aes(retention.time,precursor.mz)) + labs(colour = z)
   switch(z,
          tic = p <- p + geom_point(aes(colour=tic), alpha=alpha),
          peaks.count = p <- p + geom_point(aes(colour=peaks.count), alpha=alpha),
@@ -16,8 +17,9 @@ plot2d.header <- function(object, ## MSnExp header
 }
 
 plotDensity.header <- function(object, ## MSnExp header
-                               z=c("precursor.mz","peaks.count","tic"),
-                               log, plot) {
+                               z = c("precursor.mz","peaks.count","tic"),
+                               log,
+                               plot) {
   z <- match.arg(z)
   stopifnot(c("charge",z) %in% names(object))
   peaks.count <- charge <- tic <- precursor.mz <- NULL # to satisfy codetools
