@@ -6,6 +6,7 @@ CHANGES IN VERSION 1.3.6
  o Added information to header output: acquisition number 
    and precursor intensity <2012-01-27 Fri>
  o Added a test in plot.Spectrum2 for empty dataframe <2012-01-27 Fri>
+ o moved foreach, doMC to enhances <2012-01-27 Fri> 
 
 CHANGES IN VERSION 1.3.5
 -------------------------
