@@ -1,46 +1,86 @@
-setMethod("writeMgfData",
-          signature=signature("Spectrum"),
-          function(object,
-                   filename="spectrum.mgf",
-                   COM=NULL,
-                   TITLE=NULL) {
-            if (file.exists(filename)) 
-              message("Overwriting ",filename,".")
-            if (is.null(COM))
-              cat("COM=Spectrum exported by MSnbase on ",
-                  date(),"\n", sep="", file=filename)
-            writeMgfContent(object,TITLE=TITLE,filename=filename)
-          })
+ setMethod("writeMgfData",
+           signature = signature("Spectrum"),
+           function(object,
+                    con = NULL,
+                    COM = NULL,
+                    TITLE = NULL) {
+             if (is.null(con))
+               con <- "spectrum.mgf"
+             if (class(con) == "character") {
+               if (file.exists(con)) {
+                 message("Overwriting ", con, "!")
+                 unlink(con)
+               }
+               con <- file(description = con,
+                           open = "at",
+                           blocking = TRUE)
+             }
+             if (!inherits(con, "connection"))
+               stop("'con' is not a proper connection!")
+             if (is.null(COM))
+               COM <- paste("COM=Spectrum exported by MSnbase on ",
+                            date(), "\n", sep = "")
+             ## write spectrum
+             writeLines(COM, con = con)
+             writeMgfContent(object, TITLE = TITLE, con = con)
+             close(con)
+           })
 
 setMethod("writeMgfData",
-          signature=signature("MSnExp"),
+          signature = signature("MSnExp"),
           function(object,
-                   filename="experiment.mgf",
-                   COM=NULL) {
-            if (file.exists(filename)) 
-              warning("Overwriting ",filename,".")
+                   con = NULL,
+                   COM = NULL) {
+            if (is.null(con))
+               con <- "experiment.mgf"           
+            if (class(con) == "character") {
+              if (file.exists(con)) {
+                message("Overwriting ", con, "!")
+                unlink(con)
+              }
+              con <- file(description = con,
+                          open = "at",
+                          blocking = TRUE)
+            }
+            if (!inherits(con, "connection"))
+              stop("'con' is not a proper connection!")
             if (is.null(COM))
-              cat("COM=Experiment exported by MSnbase on ",
-                  date(), "\n", sep="", file=filename)
-            tmp <- lapply(spectra(object),writeMgfContent,TITLE=NULL,filename)
+              COM <- paste("COM=Experiment exported by MSnbase on ",
+                           date(), "\n", sep = "")
+            writeLines(COM, con = con)
+            splist <- spectra(object)
+            sapply(splist,
+                   writeMgfContent,
+                   TITLE = NULL,
+                   con = con)            
+            close(con)            
           })
 
-writeMgfContent <- function(sp,TITLE=NULL,filename) {
-  cat("BEGIN IONS\n",file=filename,append=TRUE)  
-  cat("SCANS=",acquisitionNum(sp),"\n",sep="",file=filename,append=TRUE)
+writeMgfContent <- function(sp, TITLE = NULL, con) {
+  buffer <- c("BEGIN IONS")
+  buffer <- c(buffer,
+              paste("SCANS=", acquisitionNum(sp), sep = ""))
   if (is.null(TITLE))
-    cat("TITLE=MS",msLevel(sp),"spectrum\n",sep="",file=filename,append=TRUE)
-  else 
-    cat("TITLE=",TITLE,"\n",sep="",file=filename,append=TRUE)
-  cat("RTINSECONDS=",rtime(sp),"\n",sep="",file=filename,append=TRUE)
-  cat("PEPMASS=",precursorMz(sp),"\n",sep="",file=filename,append=TRUE)
-  if (!is.na(precursorCharge(sp)))
-    cat("CHARGE=",precursorCharge(sp),"+\n",sep="",file=filename,append=TRUE)
-  dfr <- as(sp,"data.frame")
-  tmp <- apply(dfr,1,
-               function(x) cat(as.character(x),"\n",file=filename,append=TRUE))
-  cat("END IONS\n",file=filename,append=TRUE)
+    TITLE <- paste("TITLE=MS", msLevel(sp), "spectrum", sep = "")
+  buffer <- c(buffer, TITLE)
+  buffer <- c(buffer,
+              paste("RTINSECONDS=", rtime(sp), sep = ""))
+  buffer <- c(buffer,
+              paste("PEPMASS=", precursorMz(sp), sep = ""))
+  if ( !is.na(precursorCharge(sp)) )
+    buffer <- c(buffer,
+                paste("CHARGE=", precursorCharge(sp), "+", sep = ""))
+  dfr <- as(sp, "data.frame")
+  pks <- apply(dfr,
+               1,
+               base::paste, collapse = " ")  
+  buffer <- c(buffer, pks)
+  buffer <- c(buffer,
+              paste("END IONS"))
+  writeLines(buffer, con = con)
 }
+
+
 
 
 ## Code contributed by Guangchuang Yu <guangchuangyu@gmail.com>
@@ -57,8 +97,7 @@ readMgfData <- function(file,
   end <- grep("END IONS", mgf)
   if (verbose) {
     cnt <- 1
-    pb <- txtProgressBar(min = 0, max = length(begin), style = 3)
-    
+    pb <- txtProgressBar(min = 0, max = length(begin), style = 3)    
   }
   spectra <- vector("list",length=length(begin))
   fdata <- c()

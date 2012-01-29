@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.3.7
+-------------------------
+ o Speeded up writeMgfData <2012-01-28 Sat>
+ o added importFrom(grid, viewport) <2012-01-29 Sun>
+
 CHANGES IN VERSION 1.3.6
 -------------------------
  o Updated NoteAboutSpeedAndMemory since parallel processing 
