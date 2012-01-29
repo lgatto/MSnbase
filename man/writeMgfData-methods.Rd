@@ -21,9 +21,11 @@
 \arguments{
   \item{object}{An instance of class \code{"\linkS4class{Spectrum}"} or
     \code{"\linkS4class{MSnExp}"}. }
-  \item{filename}{A character string with the name of the file to save
-    the object. If not specified, 'spectrum.mgf' or 'experiment.mgf' are
-    used depending on the class of \code{object}. }
+  \item{con}{A valid \code{connection} or a \code{character} string with
+    the name of the file to save the object. In case of the latter, a
+    \code{file} connection is created. If not specified, 'spectrum.mgf' 
+    or 'experiment.mgf' are used depending on the class of
+    \code{object}. Note that existing files are overwritted. }
   \item{COM}{Optional character vector with the value for the 'COM' field. }
   \item{TITLE}{Optional character vector with the value for the spectrrm
     'TITLE' field. Not applicable for experiments.}
@@ -75,5 +77,5 @@
 }
 
 
-\keyword{ file }
+\keyword{file}
 \keyword{methods}
