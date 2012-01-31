@@ -3,8 +3,9 @@ import(BiocGenerics)
 import(Biobase)
 import(mzR)
 import(grid)
-import(reshape)
-import(plyr)
+
+import(reshape) ## try to reduce this
+importFrom(plyr, ddply, llply, adply, summarise, summarize)
 
 importFrom(preprocessCore, normalize.quantiles) 
 importFrom(vsn, vsn2, meanSdPlot)
