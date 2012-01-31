@@ -13,29 +13,34 @@ test_that("Combine MSnSet features", {
               data=data.frame(
                 A=rep(c("A","B"),each=5),
                 B=paste(rep(c("A","B"),each=5),1:10,sep="."))))
-  expect_that(bb <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),"mean"),
-              gives_warning())
-  expect_that(cc <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),"sum"),
-              gives_warning())
-  expect_that(dd <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),"median"),
-              gives_warning())
-  expect_that(ee <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),
-                                    "weighted.mean",w=rep(1,10)),
-              gives_warning())
-  ff <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),
-                        "medpolish",verbose=FALSE)
-  expect_equal(exprs(bb),matrix(c(4,10,4,10),ncol=2),
-               tolerance=.001,check.attributes=FALSE)
-  expect_equal(exprs(dd),matrix(c(4,10,4,10),ncol=2),
-               tolerance=.001,check.attributes=FALSE)
-  expect_equal(exprs(ee),matrix(c(4,10,4,10),ncol=2),
-               tolerance=.001,check.attributes=FALSE)
-  expect_equal(exprs(ff),matrix(c(4,10,4,10),ncol=2),
-               tolerance=.001,check.attributes=FALSE)
-  expect_equal(exprs(cc),matrix(c(5*4,5*10,5*4,5*10),ncol=2),
-               tolerance=.001,check.attributes=FALSE)
-  expect_true(all(fData(bb)[,1]==c("A","B")))
-  expect_true(all(fData(bb)[,2]==c("A.1","B.6")))
+  expect_warning(bb <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),"mean"))
+  expect_warning(cc <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),"sum"))
+  expect_warning(dd <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),"median"))
+  expect_warning(ee <- combineFeatures(aa,factor(rep(letters[1:2],each=5)), "weighted.mean", w=rep(1,10)))
+  ff <- combineFeatures(aa,factor(rep(letters[1:2], each = 5)),
+                        "medpolish", verbose=FALSE)
+  expect_equal(exprs(bb),
+               matrix(c(4,10,4,10), ncol = 2),
+               tolerance = .001,
+               check.attributes = FALSE)
+  expect_equal(exprs(dd),
+               matrix(c(4,10,4,10), ncol = 2),
+               tolerance = .001,
+               check.attributes = FALSE)
+  expect_equal(exprs(ee),
+               matrix(c(4,10,4,10), ncol = 2),
+               tolerance = .001,
+               check.attributes = FALSE)
+  expect_equal(exprs(ff),
+               matrix(c(4,10,4,10), ncol = 2),
+               tolerance = .001,
+               check.attributes = FALSE)
+  expect_equal(exprs(cc),
+               matrix(c(5*4,5*10,5*4,5*10), ncol = 2),
+               tolerance = .001,
+               check.attributes = FALSE)
+  expect_true(all(fData(bb)[,1] == c("A", "B")))
+  expect_true(all(fData(bb)[,2] == c("A.1", "B.6")))
 })
 
 test_that("Purity correction", {

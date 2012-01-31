@@ -26,12 +26,12 @@ normalise.MSnSet <- function(object,method,...) {
 
 combineMatrixFeatures <- function(matr,    ## matrix
                                    groupBy, ## factor
-                                   fun=c("mean",
+                                   fun = c("mean",
                                      "median",
                                      "weighted.mean",
                                      "sum",
                                      "medpolish"),
-                                   ...,    ## additional arguments to fun
+                                  ...,    ## additional arguments to fun
                                   verbose=TRUE) {
   if (is.character(fun)) {
     ## Using a predefined function
@@ -40,7 +40,7 @@ combineMatrixFeatures <- function(matr,    ## matrix
       summarisedFeatures <- by(matr,
                                groupBy,
                                function(x) {
-                                 medpol <- medpolish(x,trace.iter=verbose,...)
+                                 medpol <- medpolish(x, trace.iter = verbose, ...)
                                  return(medpol$overall+medpol$col)
                                })
     } else if (fun == "weighted.mean") {
@@ -54,12 +54,14 @@ combineMatrixFeatures <- function(matr,    ## matrix
       summarisedFeatures <- apply(matr,2,
                                   function(x) {
                                     .data <- data.frame(x=x,groupBy,w=w)
-                                    ddply(.data,"groupBy",summarise,
-                                          wmn=weighted.mean(x,w))
+                                    ddply(.data,
+                                          "groupBy",
+                                          summarise,
+                                          wmn = weighted.mean(x,w))
                                   })
-      summarisedFeatures <- do.call(cbind,summarisedFeatures)
+      summarisedFeatures <- do.call(cbind, summarisedFeatures)
       rn <- summarisedFeatures[,1]
-      summarisedFeatures <- summarisedFeatures[,grep("wmn",colnames(summarisedFeatures))]
+      summarisedFeatures <- summarisedFeatures[, grep("wmn", colnames(summarisedFeatures))]
       colnames(summarisedFeatures) <- colnames(matr)
       rownames(summarisedFeatures) <- rn
       return(summarisedFeatures)
@@ -67,21 +69,21 @@ combineMatrixFeatures <- function(matr,    ## matrix
       ## using either 'sum', 'mean', 'median'
       summarisedFeatures <- by(matr,
                                groupBy,
-                               function(x) apply(x,2,eval(parse(text=fun)),...))
+                               function(x) apply(x, 2, eval(parse(text = fun)),...))
     }
   } else {
     ## using user-defined function
     summarisedFeatures <- by(matr,
                              groupBy,
-                             function(x) apply(x,2,fun,...))
+                             function(x) apply(x, 2, fun, ...))
   }
-    return(do.call(rbind,summarisedFeatures))
+    return(do.call(rbind, summarisedFeatures))
 }
 
 
 combineFeatures <- function(object,  ## MSnSet
                             groupBy, ## factor
-                            fun=c("mean",
+                            fun = c("mean",
                               "median",
                               "weighted.mean",
                               "sum",
@@ -90,7 +92,7 @@ combineFeatures <- function(object,  ## MSnSet
                             verbose=TRUE) {
   n1 <- nrow(object)
   ## !! order of features in matRes is defined by the groupBy factor !!
-  matRes <- as.matrix(combineMatrixFeatures(exprs(object),groupBy,fun,...,verbose=verbose))  
+  matRes <- as.matrix(combineMatrixFeatures(exprs(object), groupBy, fun, ..., verbose = verbose))  
   fdata <- fData(object)[!duplicated(groupBy),]
   fdata <- fdata[order(unique(groupBy)),] ## ordering fdata according to groupBy factor
   rownames(matRes) <- rownames(fdata)

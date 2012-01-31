@@ -93,8 +93,8 @@ plotMzDelta.MSnExp <- function(object,            ## MSnExp object
     ## TODO - better than setting precMzWidth statically
     ## would be to get the peaks based on it m/z value
     ## and then find it's upper/lower m/z limits to set to 0
-    sp <- utils.removePrecMz(sp, precMz, precMzWidth)
-    delta <- c(delta, utils.getMzDelta(sp, percentage))
+    sp <- MSnbase:::utils.removePrecMz(sp, precMz, precMzWidth)
+    delta <- c(delta, MSnbase:::utils.getMzDelta(sp, percentage))
   }
   if (verbose) {
     close(pb)

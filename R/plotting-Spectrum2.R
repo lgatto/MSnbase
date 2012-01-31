@@ -4,6 +4,7 @@ plot.Spectrum2 <- function(spectrum,
                            centroided,
                            plot = TRUE,                          
                            w1, w2) {
+  alpha <- NULL # to satisfy codetools 'no visible binding...'
   if (!full & is.null(reporters))
     stop("Please provide reporter ions if you do not want a full spectrum.")
   if (!is.null(reporters)) {
