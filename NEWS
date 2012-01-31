@@ -3,7 +3,7 @@ CHANGES IN VERSION 1.3.7
  o Speeded up writeMgfData <2012-01-28 Sat>
  o fixes for ggplot2 0.9.0
  o added import(grid) and import(reshape) <2012-01-30 Mon>
- o import(plyr) instead of only llply <2012-01-31 Tue>
+ o importFrom(plyr, ...) instead of only llply <2012-01-31 Tue>
  o loading reshape and grid in vignette <2012-01-31 Tue>
  o fixed chunk 21 (label = quantitation-plot) <2012-01-31 Tue>
 
