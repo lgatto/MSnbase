@@ -77,7 +77,7 @@ library("reshape")
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}\label{sec:intro} 
 
-\Rpackage{MSnbase} aims are providing a reproducible research framework to proteomics data analysis. 
+\Rpackage{MSnbase} \citep{Gatto2012} aims are providing a reproducible research framework to proteomics data analysis. 
 It should allow researcher to easily mine mass spectrometry data, explore the data and its statistical properties 
 and visually display these.
 
@@ -113,9 +113,9 @@ with the \Rfunction{readMSData} function, as illstrated below
 
 
 <<readdata, echo=TRUE, cache=FALSE>>=
-file <- dir(system.file(package="MSnbase", dir="extdata"),
-            full.names=TRUE, pattern="mzXML$")
-rawdata <- readMSData(file, msLevel=2, verbose=FALSE)
+file <- dir(system.file(package = "MSnbase", dir = "extdata"),
+            full.names = TRUE, pattern = "mzXML$")
+rawdata <- readMSData(file, msLevel = 2, verbose = FALSE)
 @ 
 
 Either MS1 or MS2 spectra can be loaded at a time by setting the \texttt{msLevel} parameter accordingly.
@@ -237,14 +237,14 @@ or both (see figure \ref{fig:spectrum-plot}).
 
 \begin{figure}[!ht]
 <<spectrum-plot,fig=T,echo=T,tikz=T,external=F,width=5,height=5>>=
-plot(sp,reporters=iTRAQ4,full=TRUE) 
+plot(sp, reporters = iTRAQ4, full = TRUE) 
 @ 
 \caption{Raw MS2 spectrum with details about reporter ions.}
 \label{fig:spectrum-plot}
 \end{figure}
 
 <<bsasel,echo=FALSE>>=
-bsasel <- fData(itraqdata)$ProteinAccession=="BSA"
+bsasel <- fData(itraqdata)$ProteinAccession == "BSA"
 @ 
 
 It is also possible to plot all spectra of an experiment (figure \ref{fig:msnexp-plot}). 
@@ -253,7 +253,7 @@ numbers included in the feature metadata, and keep the \Sexpr{sum(bsasel)} from
 the \textit{BSA} protein.
 
 <<subset,echo=TRUE>>=
-sel <- fData(itraqdata)$ProteinAccession=="BSA"
+sel <- fData(itraqdata)$ProteinAccession == "BSA"
 bsa <- itraqdata[sel]
 bsa
 as.character(fData(bsa)$ProteinAccession)
@@ -272,7 +272,7 @@ These can then be visualised together by plotting the
 
 \begin{figure}[p]
 <<msnexp-plot,fig=T,echo=T,tikz=T,external=F,width=5,height=6>>=
-plot(bsa,reporters=iTRAQ4,full=FALSE)
+plot(bsa, reporters = iTRAQ4, full = FALSE)
 @ 
 \caption{Experiment-wide raw MS2 spectra. The y-axes of the individual 
   spectra are automatically rescaled to the same range. 
@@ -414,15 +414,15 @@ spectrum \texttt{X55}.
 
 
 <<removePeaks,echo=TRUE,cache=FALSE>>=
-experiment <- removePeaks(itraqdata,t=400,verbose=FALSE)
+experiment <- removePeaks(itraqdata, t = 400, verbose = FALSE)
 ## total ion current
 tic(itraqdata[["X55"]])
 tic(experiment[["X55"]])
 @ 
 
 <<prepare-spectrum-plot2,echo=FALSE>>=
-p1 <- plot(itraqdata[["X55"]],full=TRUE) + theme_gray(5) 
-p2 <- plot(experiment[["X55"]],full=TRUE) + theme_gray(5) 
+p1 <- plot(itraqdata[["X55"]], full = TRUE) + theme_gray(5) 
+p2 <- plot(experiment[["X55"]], full = TRUE) + theme_gray(5) 
 @ 
 
 \begin{figure}[!ht]
@@ -452,7 +452,7 @@ are illustrated on figure \ref{fig:preproc} on page \pageref{fig:preproc}.
 ## number of peaks
 peaksCount(itraqdata[["X55"]])
 peaksCount(experiment[["X55"]])
-experiment <- clean(experiment,verbose=FALSE)
+experiment <- clean(experiment, verbose = FALSE)
 peaksCount(experiment[["X55"]])
 @ 
 
@@ -513,7 +513,7 @@ the original \Sexpr{sz} Mb.
 
 <<trimMz,echo=TRUE,cache=FALSE>>=
 range(mz(itraqdata[["X55"]]))
-experiment <- trimMz(experiment,mzlim=c(112,120))
+experiment <- trimMz(experiment, mzlim = c(112,120))
 range(mz(experiment[["X55"]]))
 experiment
 @ 
@@ -616,10 +616,10 @@ The meta data is directly inherited from the \Robject{MSnExp} instance.
 
 <<quantify,echo=TRUE,cache=FALSE,keep.source=T>>=
 qnt <- quantify(experiment,
-                method="trap",
-                reporters=iTRAQ4,
-                strict=FALSE,
-                verbose=FALSE)
+                method = "trap",
+                reporters = iTRAQ4,
+                strict = FALSE,
+                verbose = FALSE)
 qnt
 head(exprs(qnt))
 @ 
@@ -633,7 +633,7 @@ We will remove the offending line, as we do not expect any missing  peaks.
 <<removeNa,echo=TRUE>>=
 sum(is.na(exprs(qnt)))
 whichRow <- which(is.na(exprs(qnt))) %% nrow(qnt)
-qnt <- qnt[-whichRow,]
+qnt <- qnt[-whichRow, ]
 sum(is.na(exprs(qnt)))
 @ 
 
@@ -665,7 +665,7 @@ library(Rdisop)
 Fim <- getMolecule("C8H10N")
 getMass(Fim)
 isotopes <- getIsotope(Fim)
-F1 <- isotopes[2,2]
+F1 <- isotopes[2, 2]
 F1
 @ 
 
@@ -686,12 +686,12 @@ that defines the relative percentage of reporter in the quantified each peak.
 See \texttt{?purityCorrect} for more details.
 
 <<purityCorrect,echo=TRUE,cache=FALSE>>=
-impurities <- matrix(c(0.929,0.059,0.002,0.000,
-                       0.020,0.923,0.056,0.001,
-                       0.000,0.030,0.924,0.045,
-                       0.000,0.001,0.040,0.923),
-                     nrow=4)
-qnt.crct <- purityCorrect(qnt,impurities)
+impurities <- matrix(c(0.929, 0.059, 0.002, 0.000,
+                       0.020, 0.923, 0.056, 0.001,
+                       0.000, 0.030, 0.924, 0.045,
+                       0.000, 0.001, 0.040, 0.923),
+                     nrow = 4)
+qnt.crct <- purityCorrect(qnt, impurities)
 head(exprs(qnt))
 head(exprs(qnt.crct))
 @ 
@@ -725,11 +725,11 @@ of class \Robject{MSnSet} as first argument, and a character to describe the
 \end{description}
 
 <<normalise,echo=TRUE,cache=FALSE>>=
-qnt.max <- normalise(qnt,"max")
-qnt.sum <- normalise(qnt,"sum")
-qnt.quant <- normalise(qnt,"quantiles")
-qnt.qrob <- normalise(qnt,"quantiles.robust")
-qnt.vsn <- normalise(qnt,"vsn")
+qnt.max <- normalise(qnt, "max")
+qnt.sum <- normalise(qnt, "sum")
+qnt.quant <- normalise(qnt, "quantiles")
+qnt.qrob <- normalise(qnt, "quantiles.robust")
+qnt.vsn <- normalise(qnt, "vsn")
 @ 
 
 The effect of these are illustrated on figure \ref{fig:norm-plot} and
@@ -811,7 +811,8 @@ then normalise the \Robject{MSnExp} with \Rfunction{normalise} using
 (figure \ref{fig:msnexp-norm-plot}). 
 
 <<prepare-msnset-nrom-plot,cache=FALSE,echo=FALSE>>=
-p <- plot(normalise(experiment[bsasel],"max"),reporters=iTRAQ4,full=FALSE)
+p <- plot(normalise(experiment[bsasel], "max"),
+          reporters = iTRAQ4, full = FALSE)
 p <- p + theme_gray(7)
 @ 
 
@@ -870,7 +871,7 @@ Alternatively, is is possible to supply user defined functions with
 \Robject{fun=function(x) \{ ... \}}. We will use the \Robject{median} here.
 
 <<combineFeatures,echo=TRUE,cache=FALSE>>=
-qnt2 <- combineFeatures(qnt,groupBy=gb,fun="median")
+qnt2 <- combineFeatures(qnt, groupBy = gb, fun = "median")
 qnt2
 @ 
 
@@ -919,10 +920,10 @@ to estimate incomplete dissociation for each spectrum.
 <<incompdiss,echo=TRUE,cache=FALSE,keep.source=T>>=
 iTRAQ5
 incompdiss <- quantify(itraqdata,
-                       method="trap",
-                       reporters=iTRAQ5,
-                       strict=FALSE,
-                       verbose=FALSE)
+                       method = "trap",
+                       reporters = iTRAQ5,
+                       strict = FALSE,
+                       verbose = FALSE)
 head(exprs(incompdiss))
 @ 
 
@@ -930,16 +931,130 @@ Figure \ref{fig:incompdiss} compares these intensities for the whole experiment.
 
 \begin{figure}[!hbt]
   \begin{center}
-<<incompdiss-plot,fig=T,echo=F,tikz=T,external=F,width=4,height=3.5>>=
+<<incompdiss-plot,fig=T,echo=F,tikz=T,external=F,width=5,height=2.5>>=
 dfr <- melt(exprs(incompdiss))
-colnames(dfr) <- c("feature","reporters","intensity")
-qplot(x=reporters,y=intensity,data=dfr,geom="boxplot") + theme_gray(8)
+colnames(dfr) <- c("feature", "reporters", "intensity")
+dfr$reporters <- sub("iTRAQ5.", "", dfr$reporters)
+repsum <- apply(exprs(incompdiss), 1, function(x) sum(x[1:4]))
+dfr2 <- data.frame(iTRAQ1to4 = repsum, iTRAQ5 = exprs(incompdiss)[,5])
+p1 <- ggplot(data = dfr, aes(x = reporters,y = log10(intensity))) +
+  geom_boxplot() +
+  theme_gray(6)
+p2 <- ggplot(data = dfr2, aes(x = log10(iTRAQ1to4), y = log10(iTRAQ5))) +
+  geom_point(alpha = I(1/2)) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dotted") +
+  stat_smooth(method = lm, se = FALSE) +
+  xlab(label = expression(log[10]~sum~114~to~117)) +
+  ylab(label = expression(log[10]~145)) +
+  theme_gray(6)
+grid.newpage()
+pushViewport(viewport(layout = grid.layout(1, 2)))
+print(p1, vp = vplayout(1, 1))
+print(p2, vp = vplayout(1, 2))
 @ 
-\caption{ Boxplot comparing intensities of the 4 reporter ions an the 
-  incomplete dissociation specific peak. }
+\caption{ Boxplot and scatterplot comparing intensities of the 4 reporter ions 
+  (or their sum, on the right) and the incomplete dissociation specific peak. }
 \label{fig:incompdiss}
   \end{center}
 \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Combining \Robject{MSnSet} instances}\label{sec:combine}
+
+Default MSnSet feature names (\Robject{X1}, \Robject{X2}, \ldots) and sample names 
+(\Robject{iTRAQ4.114}, \Robject{iTRAQ4.115}, \Robject{iTRAQ4.116}, \ldots) are not very informative.
+The features and samples of these anonymous quantitative data-sets should be updated prior 
+to additional downstream analysis. 
+
+Lets create two \Robject{MSnSet}s from the same raw data to simulate two different 
+independent experiments. As done previously (see section \ref{sec:feataggregation}), 
+we combine the specta based on the proteins they have been identified to belong to.
+Features can thus naturally be named using protein accession numbers.
+Alternatively, if peptide sequences would have been used as grouping factor in 
+\Rfunction{combineFeatures}, then these would be good feature name candidates. 
+
+<<make2exps, echo=TRUE, cache=FALSE>>=
+set.seed(1)
+i <- sample(length(itraqdata), 35)
+j <- sample(length(itraqdata), 35)
+exp1 <- quantify(itraqdata[i], reporters = iTRAQ4, verbose = FALSE)
+exp2 <- quantify(itraqdata[j], reporters = iTRAQ4, verbose = FALSE)
+table(featureNames(exp1) %in% featureNames(exp2))
+exp1 <- combineFeatures(exp1, groupBy = fData(exp1)$ProteinAccession)
+exp2 <- combineFeatures(exp2, groupBy = fData(exp2)$ProteinAccession)
+head(featureNames(exp1))
+featureNames(exp1) <- fData(exp1)$ProteinAccession
+featureNames(exp2) <- fData(exp2)$ProteinAccession
+head(featureNames(exp1))
+@ 
+
+Setting the feature names is critical when multiple experiments are to be combined, as 
+this is done using common features as defined by their names (see below).
+
+\bigskip
+
+Sample names should also be updated to replace reporter names with relevant identifiers; 
+the individual reporter data is stored in the \Robject{phenoData} and is not lost.
+A convenience function \Rfunction{updateSampleNames} is provided to append the \Robject{MSnSet}'s 
+variable name to the already defined names, although in general, biologically relevant 
+identifiers are preferred.
+
+<<renameSamples, echo=TRUE, cache=FALSE>>=
+sampleNames(exp1)
+exp1 <- updateSampleNames(exp1)
+sampleNames(exp1)
+sampleNames(exp1) <- c("Ctrl1", "Cond1", "Ctrl2", "Cond2")
+sampleNames(exp2) <- c("Ctrl3", "Cond3", "Ctrl4", "Cond4")
+@ 
+
+At this stage, it is not yet possible to combine the two experiments, 
+because their feature data is not compatible; they share the same feature 
+variable labels, i.e. the feature data column names 
+(\Sexpr{paste(head(fvarLabels(exp1), n = 3), collapse=", ")}, \ldots), 
+but the content is different because the original data was, in particular 
+all the spectrum data. Feature data with identical labels (columns in the data frame) 
+and names (row in the data frame) are expected to have the same data and produce an
+error if not conform.
+
+<<fdatanames, echo=TRUE, cache=FALSE>>=
+all(fvarLabels(exp1) == fvarLabels(exp1))
+fData(exp1)["BSA", 1:4]
+fData(exp2)["BSA", 1:4]
+@ 
+
+Instead of removing these overlapping and different feature data columns, 
+one can use a second convenience function, \Rfunction{updateFvarLabels}, 
+to update feature labels based on the experiements variable name and maintain all the metadata.
+
+<<renameFvars, echo=TRUE, cache=FALSE>>=
+exp1 <- updateFvarLabels(exp1)
+exp2 <- updateFvarLabels(exp2)
+head(fvarLabels(exp1))
+head(fvarLabels(exp2))
+@ 
+
+It is now possible to combine \Robject{exp1} and \Robject{exp2} with the 
+\Rfunction{combine} method. The new experiment will contain the union of 
+the feature names of the individual experiments with missing values 
+inserted appropriately.
+
+<<combine, echo=TRUE, cache=FALSE>>=
+exp12 <- combine(exp1, exp2)
+dim(exp12)
+pData(exp12)
+exprs(exp12)[25:28, ]
+exp12
+@ 
+
+In summary, when experiments need to be combined, one needs to 
+(1) clarify the sample names using \Rfunction{updateSampleNames} or,
+better manually, for biological relevance and (2) update the feature 
+data variable labels with \Rfunction{updateFvarLabels}. 
+The individual experiments (there can be more than 2) can then easily be combined 
+with the \Rfunction{combine} method while retaining the meta-data.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
@@ -957,3 +1072,5 @@ toLatex(sessionInfo())
 \bibliography{MSnbase}
 
 \end{document}
+
+% LocalWords:  renameSamples

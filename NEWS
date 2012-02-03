@@ -1,3 +1,13 @@
+CHANGES IN VERSION 1.3.9
+-------------------------
+ o updated demo vignette <2012-02-03 Fri>
+ o sorting numeric subsets in "[" pSet, as unsorted 
+   numerical indexes fails  <2012-02-03 Fri>
+ o Added match.arg in combineFeatures so that 
+   a unique default value (the first) is used when no 
+   fun is specified <2012-02-03 Fri>
+
+
 CHANGES IN VERSION 1.3.8
 -------------------------
  o Modified trimMz warning to report acquisition number <2012-02-01 Wed>

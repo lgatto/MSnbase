@@ -37,8 +37,8 @@ endif
 demo: 
 	mkdir -p sweave-cache/figs/
 	cp ./MSnbase-demo/MSnbase-demo.Rnw . 
-	##"$(R_HOME)/bin/R" --vanilla -e "library(pgfSweave); pgfSweave('MSnbase-demo.Rnw');"
-	"$(R_HOME)/bin/R" CMD Sweave MSnbase-demo.Rnw
+	"$(R_HOME)/bin/R" --vanilla -e "library(pgfSweave); pgfSweave('MSnbase-demo.Rnw');"
+	## "$(R_HOME)/bin/R" CMD Sweave MSnbase-demo.Rnw
 	pdflatex MSnbase-demo.tex
 	bibtex MSnbase-demo
 	pdflatex MSnbase-demo.tex

@@ -237,9 +237,9 @@ setMethod("combine",
             protocolData(x) <- combine(protocolData(x), protocolData(y))
             x@processingData <- combine(processingData(x), processingData(y))
             x@processingData@processing <- paste("Combined [",
-                                                 paste(dim(x), collapse = "."),
+                                                 paste(dim(x), collapse = ","),
                                                  "] and [",
-                                                 paste(dim(y), collapse = "."),
+                                                 paste(dim(y), collapse = ","),
                                                  "] MSnSets ", date(), sep = "")
             x@qual <- data.frame() ## dropping qual slot
             ## annotation -- constant / not used
