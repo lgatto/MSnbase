@@ -7,6 +7,7 @@
 
 \alias{fileNames,MSnProcess-method}
 \alias{show,MSnProcess-method}
+\alias{combine,MSnProcess,MSnProcess-method}
 
 \title{The "MSnProcess" Class }
 
@@ -52,11 +53,13 @@
 }
 \section{Methods}{
   \describe{
-    \item{fileNames}{\code{signature(object = "MSnExp")}: Returns the
+    \item{fileNames}{\code{signature(object = "MSnProcess")}: Returns the
       file names used in experiment described by the \code{"MSnProcess"}
       instance. } 
-    \item{show}{\code{signature(object = "MSnExp")}: Displays object
+    \item{show}{\code{signature(object = "MSnProcess")}: Displays object
       content as text. }
+    \item{combine}{\code{signature(x = "MSnProcess", y = "MSnProcess")}:
+      Combines multiple \code{MSnProcess} instances. }
   }
 }
 

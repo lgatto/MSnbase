@@ -183,10 +183,10 @@ setMethod("fromFile","pSet",
 setMethod("header",
           signature("pSet","missing"),
           function(object) {
-            if (any(msLevel(object)<2))
+            if (any(msLevel(object) < 2))
               stop("header() only works for MS levels > 1.")
             tbl <- table(fromFile(object))
-            idx <- as.numeric(unlist(apply(tbl,1,function(x) 1:x)))
+            idx <- as.numeric(unlist(apply(tbl, 1, function(x) 1:x)))
             return(data.frame(cbind(index = idx,
                                     file = fromFile(object),
                                     retention.time = rtime(object),
@@ -203,21 +203,21 @@ setMethod("header",
 setMethod("header",
           signature=c("pSet","numeric"),
           function(object, scans) {
-            if (any(msLevel(object)<2))
+            if (any(msLevel(object) < 2))
               stop("header() only works for MS levels > 1.")
             tbl <- table(fromFile(object))
-            idx <- as.numeric(unlist(apply(tbl,1,function(x) 1:x)))
+            idx <- as.numeric(unlist(apply(tbl, 1, function(x) 1:x)))
             ## OK for length(scans) > 1 -- slow for 1 scan
-            hdfr <- data.frame(cbind(index=idx,
-                                     file=fromFile(object),
-                                     retention.time=rtime(object),
-                                     precursor.mz=precursorMz(object),
-                                     peaks.count=peaksCount(object),
-                                     tic=tic(object),
-                                     ms.level=msLevel(object),
-                                     charge=precursorCharge(object),
-                                     collision.energy=collisionEnergy(object)))          
-            return(hdfr[scans,])
+            hdfr <- data.frame(cbind(index = idx,
+                                     file = fromFile(object),
+                                     retention.time = rtime(object),
+                                     precursor.mz = precursorMz(object),
+                                     peaks.count = peaksCount(object),
+                                     tic = tic(object),
+                                     ms.level = msLevel(object),
+                                     charge = precursorCharge(object),
+                                     collision.energy = collisionEnergy(object)))          
+            return(hdfr[scans, ])
           })
 
 ##################################################################
@@ -399,7 +399,7 @@ setMethod("processingData",
 ## - - - - - - - - - - - - - - - - - - - - - -
 ## Other TODO (based on eSet):
 
-## setMethod("combine","pSet",
+## setMethod("combine","pSet", ## rather a combine(MSnSet, )
 
 ## setReplaceMethod("featureNames",
 ##                  signature=signature(object="pSet", value="ANY"),

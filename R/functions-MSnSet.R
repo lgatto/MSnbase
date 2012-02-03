@@ -109,7 +109,7 @@ combineFeatures <- function(object,  ## MSnSet
   object@processingData@merged <- TRUE
   if (verbose) {
     message(msg)
-    warning("Dropping spectrum-level 'qual' slot.")
+    message("Dropping spectrum-level 'qual' slot.")
   }
   object@processingData@processing <- c(object@processingData@processing,
                                         paste(msg,": ",
@@ -119,3 +119,22 @@ combineFeatures <- function(object,  ## MSnSet
     return(object)
 }
 
+
+
+
+updateFvarLabels <- function(object, label, sep = ".") {
+  if(missing(label))
+    label <- getVariableName(match.call(), "object")
+  fvarLabels(object) <- paste(fvarLabels(object),
+                              label, sep = sep)
+  object
+}
+
+
+updateSampleNames <- function(object, label, sep = ".") {
+  if (missing(label))
+    label <- getVariableName(match.call(), "object")
+  sampleNames(object) <- paste(sampleNames(object),
+                               label, sep = sep)
+  object
+}
