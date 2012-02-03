@@ -90,6 +90,8 @@ combineFeatures <- function(object,  ## MSnSet
                               "medpolish"),
                             ...,    ## additional arguments to fun
                             verbose=TRUE) {
+  if (is.character(fun)) 
+    fun <- match.arg(fun)
   n1 <- nrow(object)
   ## !! order of features in matRes is defined by the groupBy factor !!
   matRes <- as.matrix(combineMatrixFeatures(exprs(object), groupBy, fun, ..., verbose = verbose))  

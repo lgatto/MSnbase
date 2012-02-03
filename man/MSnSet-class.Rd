@@ -173,7 +173,7 @@
       by appending \code{label}. By default, \code{label} is the
       variable name and the separator \code{sep} is \code{.}.}
     \item{updateSampleNames}{signature(object, label, sep)}{
-      This method updates \code{object}'s sample names by appending
+      This function updates \code{object}'s sample names by appending
       \code{label}. By default, \code{label} is the variable name and
       the separator \code{sep} is \code{.}.} 
   }

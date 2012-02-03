@@ -52,6 +52,7 @@ setMethod("[","pSet",
             if (is.numeric(i)) {
               if (max(i)>length(x) | min(i)<1)
                 stop("subscript out of bounds")
+              i <- sort(i) ## crash if unsorted
             }
             whichElements <- ls(assayData(x))[i]
             x@assayData <- list2env(mget(whichElements,assayData(x)))
