@@ -24,6 +24,12 @@
 \alias{coerce,MSnSet,ExpressionSet-method}
 \alias{write.exprs}
 \alias{write.exprs,MSnSet-method}
+\alias{experimentData<-,MSnSet,MIAPE-method}
+\alias{combine,MSnSet,MSnSet-method}
+
+%% functions
+\alias{updateFvarLabels}
+\alias{updateSampleNames}
 
 \title{
   The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
@@ -152,6 +158,24 @@
       \code{featureData} columns (as column names, column number or
       \code{logical}) to append on the right of the expression matrix. 
       The following arguments are the same as \code{write.table}.}
+    \item{combine}{signature(x = "MSnSet", y = "MSnSet", ...)}{Combines
+      2 or more \code{MSnSet} instances according to their feature names.
+      Note that the \code{qual} slot and the processing information are
+      silently dropped.
+    }
+  }
+}
+
+\section{Functions}{
+  \describe{
+    \item{updateFvarLabels}{signature(object, label, sep)}{
+      This function updates \code{object}'s featureData variable labels
+      by appending \code{label}. By default, \code{label} is the
+      variable name and the separator \code{sep} is \code{.}.}
+    \item{updateSampleNames}{signature(object, label, sep)}{
+      This method updates \code{object}'s sample names by appending
+      \code{label}. By default, \code{label} is the variable name and
+      the separator \code{sep} is \code{.}.} 
   }
 }
 

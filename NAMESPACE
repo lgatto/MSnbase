@@ -27,7 +27,10 @@ export(readMzXMLData,
        makeImpuritiesMatrix,
        precSelection,
        precSelectionTable,
-       t.MSnSet)
+       t.MSnSet,
+       updateFvarLabels,
+       updateSampleNames)
+
 
 exportClasses(pSet,
               MIAPE,
@@ -79,6 +82,8 @@ exportMethods(coerce,
               reporterColours,reporterColors,
               writeMgfData,
               write.exprs,
+              combine, ## for classes MIAPE, MSnProcess and MSnSet
+              "experimentData<-", ## signature("MSnSet", "MIAPE")
               normalise, normalize)
 
 ## methods NOT exported

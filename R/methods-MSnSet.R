@@ -207,3 +207,43 @@ setMethod("write.exprs",
               res <- cbind(res,fData(x)[,fDataCols])
             write.table(res, file=file, quote=quote, sep=sep, col.names=col.names, ...)
           })
+
+setReplaceMethod("experimentData",
+                 signature = signature(
+                   object = "MSnSet",
+                   value = "MIAPE"),
+                 function(object, value) {
+                   if (!validObject(value))
+                     stop("Not a valid MIAPE instance.")
+                   object@experimentData <- value
+                   object
+                 })
+
+
+
+setMethod("combine",
+          signature=signature(
+            x="MSnSet", y="MSnSet"),
+          function(x, y, ...) {
+            if (class(x) != class(y))
+              stop(paste("objects must be the same class, but are ",
+                         class(x), ", ", class(y), sep=""))
+            ## if (!isCurrent(x)[["MSnSet"]])
+            ##     x <- updateObject(x)
+            assayData(x) <- combine(assayData(x), assayData(y))
+            phenoData(x) <- combine(phenoData(x), phenoData(y))
+            featureData(x) <- combine(featureData(x), featureData(y))
+            experimentData(x) <- combine(experimentData(x),experimentData(y))
+            protocolData(x) <- combine(protocolData(x), protocolData(y))
+            x@processingData <- combine(processingData(x), processingData(y))
+            x@processingData@processing <- paste("Combined [",
+                                                 paste(dim(x), collapse = "."),
+                                                 "] and [",
+                                                 paste(dim(y), collapse = "."),
+                                                 "] MSnSets ", date(), sep = "")
+            x@qual <- data.frame() ## dropping qual slot
+            ## annotation -- constant / not used
+            if (validObject(x))
+              return(x)
+          })
+

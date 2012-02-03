@@ -45,3 +45,66 @@ setReplaceMethod("notes", signature(object="MIAPE", value="character"),
                      object
                  })
 
+
+## Adapted from Biobase::combine("MIAME", "MIAME") 
+setMethod("combine",
+          c("MIAPE", "MIAPE"),
+          function(x, y, ...) {
+            if (identical(x,y))
+              return (x)
+            for (sl in names(getSlots(class(x)))) {
+              if (identical(slot(x, sl),slot(y, sl)))
+                next
+              slot(x, sl) <-
+                switch(sl,
+                       ## multiple elements possible
+                       ## shared slots with MIAME
+                       name = ,
+                       lab = ,
+                       contact = ,
+                       title = ,
+                       url = ,
+                       pubMedIds = ,
+                       samples = ,
+                       hybridizations = ,
+                       normControls = ,
+                       preprocessing = ,
+                       other = ,
+                       ## MIAPE specific
+                       dataStamp = ,
+                       instrumentModel = ,
+                       instrumentManufacturer = ,
+                       instrumentCustomisations = ,
+                       softwareName = ,
+                       softwareVersion = ,
+                       switchingCriteria = ,
+                       isolationWidth = ,
+                       parameterFile = ,
+                       ionSource = ,
+                       ionSourceDetails = ,
+                       analyser = ,
+                       analyserDetails = ,
+                       collisionGas = ,
+                       collisionPressure = ,
+                       collisionEnergy = ,
+                       detectorType = ,
+                       detectorSensitivity = {
+                         c(slot(x, sl), slot(y, sl))
+                       },
+                       ## just a single entry
+                       abstract = {
+                         paste(slot(x, sl), slot(y, sl), collapse = "\n")
+                       },
+                       .__classVersion__ = {
+                         stop("'MIAPE' objects have different class version strings")
+                       },
+                       ## unknown
+                       {
+                         warning("\n  unknown or conflicting information in MIAPE field '",
+                                 sl,"'; using information from first object 'x'")
+                         slot(x, sl)
+                       })
+            }
+            if (validObject(x))
+              return(x)
+          })

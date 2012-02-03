@@ -229,9 +229,9 @@ trimMz.Spectrum <- function(x,mzlim,updatePeaksCount=TRUE) {
   mzmax <- max(mzlim)
   sel <- (x@mz >= mzmin) & (x@mz <= mzmax)
   if (sum(sel)==0) {
-    warning(paste("No data points between ",mzmin," and ",mzmax,
-                  " for precursor ",precursorMz(x),
-                  ".\nLeaving data as is.",sep=""))
+    warning(paste("No data points between ", mzmin, " and ", mzmax,
+                  " for spectrum with acquisition number ", acquisitionNum(x),
+                  ".\n Leaving data as is.", sep=""))
     return(x)
   }
   x@mz <- x@mz[sel]

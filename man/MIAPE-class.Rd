@@ -16,6 +16,7 @@
 \alias{expinfo,MIAPE-method}
 \alias{notes,MIAPE-method}
 \alias{notes<-,MIAPE-method}
+\alias{combine,MIAPE,MIAPE-method}
 
 \title{The "MIAPE" Class for Storing Proteomics Experiment Information}
 
