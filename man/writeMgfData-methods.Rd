@@ -27,7 +27,7 @@
     or 'experiment.mgf' are used depending on the class of
     \code{object}. Note that existing files are overwritted. }
   \item{COM}{Optional character vector with the value for the 'COM' field. }
-  \item{TITLE}{Optional character vector with the value for the spectrrm
+  \item{TITLE}{Optional character vector with the value for the spectrum
     'TITLE' field. Not applicable for experiments.}
 }
 
@@ -57,8 +57,9 @@
     data(itraqdata)
     writeMgfData(itraqdata,file="itraqdata.mgf",COM="MSnbase itraqdata")
     itraqdata2 <- readMgfData("itraqdata.mgf")
-    ## note that the order of the spectra is altered
+    ## note that the order of the spectra 
     ## and precision of some values (precursorMz for instance)
+    ## are altered
     match(signif(precursorMz(itraqdata2),4),signif(precursorMz(itraqdata),4))
     ## [1]  1 10 11 12 13 14 15 16 17 18 ...
     ## ... but all the precursors are there
