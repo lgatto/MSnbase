@@ -59,17 +59,30 @@ setMethod("writeMgfData",
 writeMgfContent <- function(sp, TITLE = NULL, con) {
   buffer <- c("BEGIN IONS")
   buffer <- c(buffer,
-              paste("SCANS=", acquisitionNum(sp), sep = ""))
-  if (is.null(TITLE))
-    TITLE <- paste("TITLE=MS", msLevel(sp), "spectrum", sep = "")
+              paste("SCANS=", sp@acquisitionNum, sep = ""))
+  if (is.null(TITLE)) {
+    TITLE <- paste("TITLE=msLevel ", sp@msLevel,
+                   "; retentionTime ", sp@rt, 
+                   "; scanNum ", sp@acquisitionNum, 
+                   sep = "")
+    if (length(sp@scanIndex) != 0)
+      TITLE <- paste(TITLE,
+                     "; scanIndex ", sp@scanIndex,
+                     sep = "")
+    if (sp@msLevel > 1)
+      TITLE <- paste(TITLE,
+                     "; precMz ", sp@precursorMz,
+                     "; precCharge ", sp@precursorCharge,
+                     sep = "")
+  }
   buffer <- c(buffer, TITLE)
   buffer <- c(buffer,
-              paste("RTINSECONDS=", rtime(sp), sep = ""))
+              paste("RTINSECONDS=", sp@rt, sep = ""))
   buffer <- c(buffer,
-              paste("PEPMASS=", precursorMz(sp), sep = ""))
-  if ( !is.na(precursorCharge(sp)) )
+              paste("PEPMASS=", sp@precursorMz, sep = ""))
+  if ( !is.na(sp@precursorCharge) )
     buffer <- c(buffer,
-                paste("CHARGE=", precursorCharge(sp), "+", sep = ""))
+                paste("CHARGE=", sp@precursorCharge, "+", sep = ""))
   dfr <- as(sp, "data.frame")
   pks <- apply(dfr,
                1,
@@ -79,8 +92,6 @@ writeMgfContent <- function(sp, TITLE = NULL, con) {
               paste("END IONS"))
   writeLines(buffer, con = con)
 }
-
-
 
 
 ## Code contributed by Guangchuang Yu <guangchuangyu@gmail.com>
@@ -121,9 +132,9 @@ readMgfData <- function(file,
   names(spectra) <- nms
   assaydata <- list2env(spectra)
   process <- new("MSnProcess",
-                 processing=paste("Data loaded:",date()),
-                 files=file,
-                 smoothed=smoothed)
+                 processing = paste("Data loaded:",date()),
+                 files = file,
+                 smoothed = smoothed)
   if (is.null(pdata)) {
     pdata <- new("NAnnotatedDataFrame",
                  dimLabels=c("sampleNames", "sampleColumns"))
@@ -133,10 +144,10 @@ readMgfData <- function(file,
   ##                row.names=nms))
   colnames(fdata) <- names(desc)
   rownames(fdata) <- nms
-  fdata <- AnnotatedDataFrame(data=data.frame(fdata))
+  fdata <- AnnotatedDataFrame(data = data.frame(fdata))
   fdata <- fdata[ls(assaydata)] ## reorder features
   ## only levels 0 and 1 for mgf peak lists
-  cache <- testCacheArg(cache,maxCache=1)
+  cache <- testCacheArg(cache, maxCache = 1)
   .cacheEnv <- setCacheEnv(assaydata, cache, lock=TRUE)
   toReturn <- new("MSnExp",
                   assayData = assaydata,
@@ -151,8 +162,8 @@ readMgfData <- function(file,
 
 mgfToSpectrum2 <- function(mgf, centroided) {
     mgf <- mgf[c(-1, -length(mgf))] ## remove "BEGIN IONS" and "END IONS"
-    mgf <- sub("\t"," ",mgf) ## expecting mz and int to be separated by 1 space
-    desc.idx <- grep("=",mgf)
+    mgf <- sub("\t"," ", mgf) ## expecting mz and int to be separated by 1 space
+    desc.idx <- grep("=", mgf)
     desc <- mgf[desc.idx]
     spec <- mgf[-desc.idx]
     ## mz.i <- adply(.data=mgf[-desc.idx], .margins=1, .fun=function(i) unlist(strsplit(i, split=" ")))
@@ -163,9 +174,9 @@ mgfToSpectrum2 <- function(mgf, centroided) {
     int <- as.numeric(unlist(lapply(mz.i,"[",2)))
     ## desc <- adply(.data=mgf[desc.idx], .margins=1, .fun=function(i) unlist(strsplit(i, split="=")))
     ## desc <- desc[,-1]
-    tmpdesc <- sapply(desc,strsplit,"=")
-    desc <- unlist(lapply(tmpdesc,"[",2))
-    names(desc) <- unlist(lapply(tmpdesc,"[",1))
+    tmpdesc <- sapply(desc, strsplit,"=")
+    desc <- unlist(lapply(tmpdesc, "[", 2))
+    names(desc) <- unlist(lapply(tmpdesc, "[", 1))
     ## sp <- new("Spectrum2",
     ##           rt=as.numeric(desc[desc[,1] == "RTINSECONDS",2]),
     ##           acquisitionNum=as.integer(desc[desc[,1] == "SCANS",2]),
