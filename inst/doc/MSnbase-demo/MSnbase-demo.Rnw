@@ -1019,7 +1019,7 @@ and names (row in the data frame) are expected to have the same data and produce
 error if not conform.
 
 <<fdatanames, echo=TRUE, cache=FALSE>>=
-all(fvarLabels(exp1) == fvarLabels(exp1))
+stopifnot(all(fvarLabels(exp1) == fvarLabels(exp2)))
 fData(exp1)["BSA", 1:4]
 fData(exp2)["BSA", 1:4]
 @ 
