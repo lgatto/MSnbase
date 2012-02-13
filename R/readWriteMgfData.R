@@ -14,6 +14,7 @@
                con <- file(description = con,
                            open = "at",
                            blocking = TRUE)
+               on.exit(close(con))
              }
              if (!inherits(con, "connection"))
                stop("'con' is not a proper connection!")
@@ -23,7 +24,7 @@
              ## write spectrum
              writeLines(COM, con = con)
              writeMgfContent(object, TITLE = TITLE, con = con)
-             close(con)
+             ## close(con)
            })
 
 setMethod("writeMgfData",
@@ -41,6 +42,7 @@ setMethod("writeMgfData",
               con <- file(description = con,
                           open = "at",
                           blocking = TRUE)
+              on.exit(close(con))
             }
             if (!inherits(con, "connection"))
               stop("'con' is not a proper connection!")
@@ -53,7 +55,7 @@ setMethod("writeMgfData",
                    writeMgfContent,
                    TITLE = NULL,
                    con = con)            
-            close(con)            
+            ## close(con)            
           })
 
 writeMgfContent <- function(sp, TITLE = NULL, con) {
