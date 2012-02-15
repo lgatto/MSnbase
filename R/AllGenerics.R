@@ -62,3 +62,6 @@ setGeneric("plotDensity",function(object,...) standardGeneric("plotDensity"))
 setGeneric("plotMzDelta",function(object,...) standardGeneric("plotMzDelta"))
 
 setGeneric("writeMgfData",function(object,...) standardGeneric("writeMgfData"))
+
+setGeneric("filterNA", function(object,...) standardGeneric("filterNA"))
+setGeneric("topN", function(object,...) standardGeneric("topN"))
