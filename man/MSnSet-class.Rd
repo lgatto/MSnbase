@@ -26,6 +26,10 @@
 \alias{write.exprs,MSnSet-method}
 \alias{experimentData<-,MSnSet,MIAPE-method}
 \alias{combine,MSnSet,MSnSet-method}
+\alias{topN,MSnSet,MSnSet-method}
+\alias{topN,MSnSet-method}
+\alias{topN,matrix-method}
+\alias{topN}
 
 %% functions
 \alias{updateFvarLabels}
@@ -158,11 +162,22 @@
       \code{featureData} columns (as column names, column number or
       \code{logical}) to append on the right of the expression matrix. 
       The following arguments are the same as \code{write.table}.}
-    \item{combine}{signature(x = "MSnSet", y = "MSnSet", ...)}{Combines
+    \item{combine}{signature(x = "MSnSet", y = "MSnSet", ...)}{ Combines
       2 or more \code{MSnSet} instances according to their feature names.
       Note that the \code{qual} slot and the processing information are
-      silently dropped.
-    }
+      silently dropped. }
+    \item{topN}{signature(object = "MSnSet", groupBy, n = 3, fun, ...)}{ 
+      Selects the \code{n} most intense features (typically peptides or
+      spectra) out of all available for each set defined by
+      \code{groupBy} (typically proteins) and creates a new instance of
+      class \code{MSnSet}. If less than \code{n} features are available,
+      all are selected. The \code{ncol(object)} features are summerised
+      using \code{fun} (default is \code{sum}) prior to be ordered in
+      decreasing order. Additional parameters can be passed to
+      \code{fun} through \code{...}, for instance to control the
+      behaviour of \code{topN} in case of \code{NA} values. 
+      Note that the \code{qual} slot and the processing information are
+      silently dropped. }
   }
 }
 

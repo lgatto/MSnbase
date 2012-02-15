@@ -247,3 +247,57 @@ setMethod("combine",
               return(x)
           })
 
+
+setMethod("topN", signature(object = "matrix"), 
+          function(object, groupBy, n=3, fun, ...) {
+            if (missing(groupBy))
+              stop("Specify how to group features to select top ", n, ".")
+            if (missing(fun)) {
+              fun <- sum
+              if (ncol(object) > 1)
+                message("Ranking features using their sum.")
+            }
+            rn <- rownames(object)
+            idx <- by(object, groupBy, getTopIdx, n, fun, ...)
+            object <- subsetBy(object, groupBy, idx)
+            if (!is.null(rn)) {
+              rownames(object) <- subsetBy(rn, groupBy, idx)
+            } else {
+              rownames(object) <- NULL
+            }
+            return(object)
+          })
+
+setMethod("topN", signature(object = "MSnSet"), 
+          function(object, groupBy, n=3, fun, ...) {
+            if (missing(groupBy))
+              stop("Specify how to group features to select top ", n, ".")
+            if (missing(fun)) {
+              fun <- sum
+              if (ncol(object) > 1)
+                message("Ranking features using their sum.")
+            }
+            idx <- by(exprs(object), groupBy, getTopIdx, n, fun, ...)
+            fn <- subsetBy(featureNames(object), groupBy, idx)
+            .eset <- subsetBy(exprs(object), groupBy, idx)
+            rownames(.eset) <- fn
+            .proc <- processingData(object)
+            .proc@processing <- c(.proc@processing,
+                                  paste("Selected top ", n,
+                                        " features.", 
+                                        sep = ""))
+            .fdata <- subsetBy(fData(object), groupBy, idx)
+            message("Dropping spectrum-level 'qual' slot.")
+            ans <- new("MSnSet",
+                       experimentData = experimentData(object),
+                       processingData = .proc,
+                       exprs = .eset,
+                       phenoData = phenoData(object),
+                       featureData = new("AnnotatedDataFrame", data = .fdata),
+                       annotation = object@annotation,
+                       protocolData = protocolData(object))
+            fn <- subsetBy(featureNames(object), groupBy, idx)
+            if (validObject(ans))
+              return(ans)
+          })
+

@@ -84,7 +84,8 @@ exportMethods(coerce,
               write.exprs,
               combine, ## for classes MIAPE, MSnProcess and MSnSet
               "experimentData<-", ## signature("MSnSet", "MIAPE")
-              normalise, normalize)
+              normalise, normalize,
+              topN)
 
 ## methods NOT exported
 ## curveStats
