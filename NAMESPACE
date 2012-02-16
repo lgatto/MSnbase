@@ -49,6 +49,7 @@ exportMethods(coerce,
               plot2d,
               plotDensity,
               plotMzDelta,
+              plotNA, 
               spectra,
               processingData,
               peaksCount,
@@ -85,7 +86,8 @@ exportMethods(coerce,
               combine, ## for classes MIAPE, MSnProcess and MSnSet
               "experimentData<-", ## signature("MSnSet", "MIAPE")
               normalise, normalize,
-              topN)
+              topN,
+              filterNA)
 
 ## methods NOT exported
 ## curveStats

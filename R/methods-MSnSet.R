@@ -283,9 +283,8 @@ setMethod("topN", signature(object = "MSnSet"),
             rownames(.eset) <- fn
             .proc <- processingData(object)
             .proc@processing <- c(.proc@processing,
-                                  paste("Selected top ", n,
-                                        " features.", 
-                                        sep = ""))
+                                  paste0("Selected top ", n,
+                                         " features: ", date()))
             .fdata <- subsetBy(fData(object), groupBy, idx)
             message("Dropping spectrum-level 'qual' slot.")
             ans <- new("MSnSet",
@@ -297,6 +296,66 @@ setMethod("topN", signature(object = "MSnSet"),
                        annotation = object@annotation,
                        protocolData = protocolData(object))
             fn <- subsetBy(featureNames(object), groupBy, idx)
+            if (validObject(ans))
+              return(ans)
+          })
+
+
+setMethod("plotNA", signature(object = "MSnSet"), 
+          function(object, pNA = .5, ...) {
+            if (pNA > 1)
+              pNA <- 1
+            if (pNA < 0)
+              pNA <- 0
+            X <- exprs(object)
+            p <- plotNA.matrix(X, pNA)
+            invisible(p)
+          })
+
+
+setMethod("plotNA", signature(object = "matrix"), 
+          function(object, pNA = .5, ...) {
+            if (pNA > 1)
+              pNA <- 1
+            if (pNA < 0)
+              pNA <- 0
+            p <- plotNA.matrix(object, pNA)
+            invisible(p)
+          })
+
+setMethod("filterNA", signature(object = "matrix"), 
+          function(object, pNA = .5, ...) {
+            if (pNA > 1)
+              pNA <- 1
+            if (pNA < 0)
+              pNA <- 0            
+            k <- apply(object, 1,
+                       function(x) sum(is.na(x))/length(x))
+            accept <- k <= pNA
+            if (sum(accept) == 1) {              
+              ans <- matrix(object[accept, ], nrow=1)
+              rownames(ans) <- rownames(object)[accept]
+            } else {
+              ans <- object[accept, ]
+            }
+            return(ans)
+          })
+
+
+setMethod("filterNA", signature(object = "MSnSet"), 
+          function(object, pNA = .5, ...) {
+            if (pNA > 1)
+              pNA <- 1
+            if (pNA < 0)
+              pNA <- 0
+            k <- apply(exprs(object), 1,
+                       function(x) sum(is.na(x))/length(x))
+            accept <- k <= pNA
+            object@processingData@processing <-
+              c(processingData(object)@processing,
+                paste0("Removed features with more that ",
+                       pNA, "NAs: ", date()))
+            ans <- object[accept, ]
             if (validObject(ans))
               return(ans)
           })

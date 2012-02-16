@@ -287,6 +287,8 @@ getTopIdx <- function(X, n, fun, ...) {
   ## If (l == 1), fun does not have any effect.
   ## Otherwise, fun is required to keep the features
   ## grouped into rows.
+  if (n < 1)
+    stop("'n' must be greater or equal than 1.")
   n <- min(n, nrow(X))
   X <- apply(X, 1, fun, ...)
   base::order(X, decreasing = TRUE)[1:n]
@@ -311,3 +313,5 @@ subsetBy <- function(X, groups, byIdx) {
   }
   return(ans)
 }
+
+
