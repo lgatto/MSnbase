@@ -1,6 +1,14 @@
+CHANGES IN VERSION 1.3.13
+-------------------------
+ o new plotNA method + doc <2012-02-15 Wed>
+ o new filterNA method + doc + tests <2012-02-15 Wed>
+ o added a check on 'n' in topN <2012-02-16 Thu>
+ o created a .Rinstignore <2012-02-16 Thu>
+ o Update package Rd <2012-02-16 Thu>
+
 CHANGES IN VERSION 1.3.12
 -------------------------
- o new topN methods <2012-02-14 Tue>
+ o new topN methods + doc + tests <2012-02-14 Tue>
 
 CHANGES IN VERSION 1.3.11
 -------------------------

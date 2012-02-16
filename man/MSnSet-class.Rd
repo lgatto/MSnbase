@@ -30,6 +30,9 @@
 \alias{topN,MSnSet-method}
 \alias{topN,matrix-method}
 \alias{topN}
+\alias{filterNA,MSnSet-method}
+\alias{filterNA,matrix-method}
+\alias{filterNA}
 
 %% functions
 \alias{updateFvarLabels}
@@ -177,7 +180,14 @@
       \code{fun} through \code{...}, for instance to control the
       behaviour of \code{topN} in case of \code{NA} values. 
       Note that the \code{qual} slot and the processing information are
-      silently dropped. }
+      silently dropped.
+      (Works also with \code{matrix} instances.)}
+    \item{filterNA}{signature(object = "MSnSet", pNA = "numeric")}{ This
+      methods subsets \code{object} by removing features that have more
+      than \code{pNA} percent of NA values. Default \code{pNA} is 1/2.
+      To remove any feature that exhibits missing data, use
+      \code{pNA = 0}. 
+      (Works also with \code{matrix} instances.) }
   }
 }
 

@@ -29,6 +29,11 @@ information). These should however not be of direct utility to users.
 }
 
 \references{
+  Laurent Gatto and Kathryn S. Lilley,
+  MSnbase - an R/Bioconductor package for isobaric tagged mass
+  spectrometry data visualization, processing and quantitation,
+  Bioinformatics 28(2), 288-289 (2012).
+  
   Gatto L. and Lilley K.S., Towards reproducible MSMS data
   preprocessing, quality control and quantification. BSPR/EBI Proteomics
   Meeting,  Hinxton, United Kingdom, 13-15 July 2010,
@@ -43,15 +48,20 @@ information). These should however not be of direct utility to users.
   \itemize{
     \item The demo vignette describe an use-case using a dummy data set
     provided with the package. It can be accessed with
-    \code{vignette("MSnbase-demo",package="MSnbase")}. 
+    \code{vignette("MSnbase-demo", package = "MSnbase")}. 
 
     \item The development vignette describes the classes implemented in
     \code{MSnbase} and can be accessed with
-    \code{vignette("MSnbase-development",package="MSnbase")}.
+    \code{vignette("MSnbase-development", package = "MSnbase")}.
+
+    \item Details about input/outcupt capabilities and formats
+    can be found in 
+    \code{vignette("MSnbase-io", package = "MSnbase")}.
+    
   }
   
   Complete listing of available documentation with
-  \code{library(help="MSnbase")}.
+  \code{library(help = "MSnbase")}.
 }
 
 

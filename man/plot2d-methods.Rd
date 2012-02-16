@@ -21,8 +21,8 @@
 
 \arguments{
   \item{object}{
-    An object of class \code{"\linkS4class{MSnExp}"} or and
-    'data.frame'. In the latter case, the data frame must have numerical
+    An object of class \code{"\linkS4class{MSnExp}"} or a
+    \code{data.frame}. In the latter case, the data frame must have numerical
     columns named 'retention.time' and 'precursor.mz' and one of 'tic',
     'file', 'peaks.count' or 'charge', depending on the \code{z}
     parameter. Such a data frame is typically generated using the

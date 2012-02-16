@@ -6,10 +6,10 @@ citEntry(entry="article",
            person(given="Laurent", family="Gatto"),
            person(given="Kathryn", family="Lilley")),
          journal = "Bioinformatics",
-         year = "2011",
+         year = "2012",
          volume = "28",
          pages = "288-289",
          textVersion = paste("Laurent Gatto and Kathryn S. Lilley.",
            "MSnbase - an R/Bioconductor package for isobaric tagged mass spectrometry data visualization, processing and quantitation.",
-           "Bioinformatics 28, 288-289 (2011).")
+           "Bioinformatics 28, 288-289 (2012).")
          )
