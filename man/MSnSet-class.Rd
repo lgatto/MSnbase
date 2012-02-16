@@ -186,8 +186,12 @@
       methods subsets \code{object} by removing features that have more
       than \code{pNA} percent of NA values. Default \code{pNA} is 1/2.
       To remove any feature that exhibits missing data, use
-      \code{pNA = 0}. 
-      (Works also with \code{matrix} instances.) }
+      \code{pNA = 0}.
+      This method also accepts \code{matrix} instances.
+
+      See also the \code{\link{is.na.MSnSet}} and \code{\link{plotNA}}
+      methods for missing data exploration.
+    }
   }
 }
 

@@ -302,7 +302,7 @@ setMethod("topN", signature(object = "MSnSet"),
 
 
 setMethod("plotNA", signature(object = "MSnSet"), 
-          function(object, pNA = .5, ...) {
+          function(object, pNA = .5) {
             if (pNA > 1)
               pNA <- 1
             if (pNA < 0)
@@ -314,7 +314,7 @@ setMethod("plotNA", signature(object = "MSnSet"),
 
 
 setMethod("plotNA", signature(object = "matrix"), 
-          function(object, pNA = .5, ...) {
+          function(object, pNA = .5) {
             if (pNA > 1)
               pNA <- 1
             if (pNA < 0)
@@ -324,7 +324,7 @@ setMethod("plotNA", signature(object = "matrix"),
           })
 
 setMethod("filterNA", signature(object = "matrix"), 
-          function(object, pNA = .5, ...) {
+          function(object, pNA = .5) {
             if (pNA > 1)
               pNA <- 1
             if (pNA < 0)
@@ -343,7 +343,7 @@ setMethod("filterNA", signature(object = "matrix"),
 
 
 setMethod("filterNA", signature(object = "MSnSet"), 
-          function(object, pNA = .5, ...) {
+          function(object, pNA = .5) {
             if (pNA > 1)
               pNA <- 1
             if (pNA < 0)
@@ -360,3 +360,4 @@ setMethod("filterNA", signature(object = "MSnSet"),
               return(ans)
           })
 
+is.na.MSnSet <- function(x) is.na(exprs(x))
