@@ -628,14 +628,23 @@ If no peak is detected for a reporter ion peak, the respective
 quantitation value is set to \texttt{NA}. In our case, there 
 is \Sexpr{sum(is.na(exprs(qnt)))} such case in row 
 \Sexpr{which(is.na(exprs(qnt))) %% nrow(qnt)}.
-We will remove the offending line, as we do not expect any missing  peaks.
+We will remove the offending line, as we do not expect any missing peaks.
 
 <<removeNa,echo=TRUE>>=
-sum(is.na(exprs(qnt)))
-whichRow <- which(is.na(exprs(qnt))) %% nrow(qnt)
+table(is.na(qnt))
+whichRow <- which(is.na((qnt))) %% nrow(qnt)
 qnt <- qnt[-whichRow, ]
 sum(is.na(exprs(qnt)))
 @ 
+
+The \Rfunction{filterNA} method allows to filter features based on the proportion 
+of missing data their carry, specified using the \Robject{pNA} argument. 
+The same result as above could have been achieved with 
+\Rfunction{qnt <- filterNA(qnt, pNA = 0)}, 
+specifying that we allow 0 percent of missing data. 
+See also the \Rfunction{plotNA} method to get an overview of the completeness 
+of a data set.
+
 
 \subsection{Importing quantitation data}\label{sec:io2}
 

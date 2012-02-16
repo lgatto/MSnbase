@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.3.14
+-------------------------
+ o new is.na.MSnSet <2012-02-16 Thu>
+ o updated vignette and NA related man pages with cross-links <2012-02-16 Thu>
+
 CHANGES IN VERSION 1.3.13
 -------------------------
  o new plotNA method + doc <2012-02-15 Wed>
