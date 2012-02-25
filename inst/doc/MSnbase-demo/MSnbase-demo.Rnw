@@ -972,19 +972,91 @@ print(p2, vp = vplayout(1, 2))
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Combining \Robject{MSnSet} instances}\label{sec:combine}
 
-Default MSnSet feature names (\Robject{X1}, \Robject{X2}, \ldots) and sample names 
-(\Robject{iTRAQ4.114}, \Robject{iTRAQ4.115}, \Robject{iTRAQ4.116}, \ldots) are not very informative.
-The features and samples of these anonymous quantitative data-sets should be updated prior 
-to additional downstream analysis. 
 
-Lets create two \Robject{MSnSet}s from the same raw data to simulate two different 
-independent experiments. As done previously (see section \ref{sec:feataggregation}), 
+Combining mass spectrometry runs can be done in two different ways depending on the 
+nature of these runs. If the runs represent repeated measures of identical samples, 
+for instance multiple fractions, the data has to be combine along the row of the 
+quantitation matrix: all the features (along the rows) represent measurements of the 
+same set of samples (along the columns). In this situation, described in section 
+\ref{sec:comb1}, two experiments of dimensions 
+$n_1$ (rows) by $m$ (columns and $n_2$ by $m$ will produce 
+a new experiment of dimensions $n_1 + n_2$ by $m$.
+
+When however, different sets of samples have been analysed in different mass 
+spectrometry runs, the data has 
+to be combined along the columns of the quantitation matrix: some features will be 
+shared across experiments and should thus be aligned on a same row in the new
+data set, whereas unique 
+features to one experiment should be set as missing in the other one. 
+In this situation, described in section \ref{sec:comb2}, 
+two experiments of dimensions $n_1$ by $m_1$ and $n_2$ by $m_2$ will 
+produce a new experiment of dimensions 
+$unique_{n_1} + unique_{n_2} + shared_{n_1, n_2}$ by $m_1 + m_2$. 
+The two first terms of the first dimension will be complemented by \Robject{NA} values.
+
+Default \Robject{MSnSet} feature names (\Robject{X1}, \Robject{X2}, \ldots) and sample names 
+(\Robject{iTRAQ4.114}, \Robject{iTRAQ4.115}, \Robject{iTRAQ4.116}, \ldots) are not informative.
+The features and samples of these anonymous quantitative data-sets should be updated 
+before being combined, to guide how to meaningfully merge them.
+
+
+\subsection{Combining identical samples}\label{sec:comb1}
+
+To simulate this situation, let us use quantiation data from the \Robject{itraqdata} 
+object that is provided with the package as experiment 1 and the data from the 
+\Robject{rawdata} \Robject{MSnExp} instance created at the very beginning of this 
+document. Both experiments share the \emph{same} default iTRAQ 4-plex reporter names 
+as default sample names, and will thus automatically be combined along rows.
+
+<<make2exps1, echo=TRUE, cache=FALSE>>=
+exp1 <- quantify(itraqdata, reporters = iTRAQ4, verbose = FALSE)
+sampleNames(exp1)
+exp2 <- quantify(rawdata, reporters = iTRAQ4, verbose = FALSE)
+sampleNames(exp2)
+@ 
+
+It important to note that the features of these independent experiments share 
+the same default anonymous names: X1, X2, X3, \ldots, 
+that however represent quantitation of distinct physical analytes. 
+If the experiments were to be combined as is, it would result in an error because
+data points for the same \emph{feature} name (say \Robject{X1}) and the 
+same \emph{sample name} (say \Robject{iTRAQ4.114}) have different values. 
+We thus first update the feature names to explicitate that they originate from 
+different experiment and represent quantitation from different spectra 
+using the convenience function \Rfunction{updateFeatureNames}.
+Note that updating the names of one experiment would suffice here.
+
+<<updateFnames, echo=TRUE, cache=FALSE>>=
+head(featureNames(exp1))
+exp1 <- updateFeatureNames(exp1)
+head(featureNames(exp1))
+head(featureNames(exp2))
+exp2 <- updateFeatureNames(exp2)
+head(featureNames(exp2))
+@ 
+
+The two experiments now share the same sample names and have different feature names 
+and will be combined along the row. Note that all meta-data is correctly 
+combined along the quantitation values.
+
+<<comb1, echo=TRUE, cache=FALSE>>=
+exp12 <- combine(exp1, exp2)
+dim(exp1)
+dim(exp2)
+dim(exp12)
+@ 
+
+\subsection{Combine different samples}\label{sec:comb2}
+
+Lets now create two \Robject{MSnSet}s from the same raw data to simulate two different 
+independent experiments that share some features. 
+As done previously (see section \ref{sec:feataggregation}), 
 we combine the specta based on the proteins they have been identified to belong to.
 Features can thus naturally be named using protein accession numbers.
 Alternatively, if peptide sequences would have been used as grouping factor in 
 \Rfunction{combineFeatures}, then these would be good feature name candidates. 
 
-<<make2exps, echo=TRUE, cache=FALSE>>=
+<<make2exps2, echo=TRUE, cache=FALSE>>=
 set.seed(1)
 i <- sample(length(itraqdata), 35)
 j <- sample(length(itraqdata), 35)
@@ -1004,7 +1076,7 @@ this is done using common features as defined by their names (see below).
 
 \bigskip
 
-Sample names should also be updated to replace reporter names with relevant identifiers; 
+Sample names should also be updated to replace anonymous reporter names with relevant identifiers; 
 the individual reporter data is stored in the \Robject{phenoData} and is not lost.
 A convenience function \Rfunction{updateSampleNames} is provided to append the \Robject{MSnSet}'s 
 variable name to the already defined names, although in general, biologically relevant 
@@ -1019,11 +1091,13 @@ sampleNames(exp2) <- c("Ctrl3", "Cond3", "Ctrl4", "Cond4")
 @ 
 
 At this stage, it is not yet possible to combine the two experiments, 
-because their feature data is not compatible; they share the same feature 
+because their feature data is not compatible yet; they share the same feature 
 variable labels, i.e. the feature data column names 
 (\Sexpr{paste(head(fvarLabels(exp1), n = 3), collapse=", ")}, \ldots), 
-but the content is different because the original data was, in particular 
-all the spectrum data. Feature data with identical labels (columns in the data frame) 
+but the part of the content is different because the original data was (in particular 
+all the spectrum centric data: identical peptides in different runs will have different 
+retention times, precursor intensities, \ldots). 
+Feature data with identical labels (columns in the data frame) 
 and names (row in the data frame) are expected to have the same data and produce an
 error if not conform.
 
@@ -1033,9 +1107,10 @@ fData(exp1)["BSA", 1:4]
 fData(exp2)["BSA", 1:4]
 @ 
 
-Instead of removing these overlapping and different feature data columns, 
+Instead of removing these identical feature data columns, 
 one can use a second convenience function, \Rfunction{updateFvarLabels}, 
-to update feature labels based on the experiements variable name and maintain all the metadata.
+to update feature labels based on the experiements variable name 
+and maintain all the metadata.
 
 <<renameFvars, echo=TRUE, cache=FALSE>>=
 exp1 <- updateFvarLabels(exp1)
@@ -1044,8 +1119,9 @@ head(fvarLabels(exp1))
 head(fvarLabels(exp2))
 @ 
 
-It is now possible to combine \Robject{exp1} and \Robject{exp2} with the 
-\Rfunction{combine} method. The new experiment will contain the union of 
+It is now possible to combine \Robject{exp1} and \Robject{exp2}, 
+including all the meta-data, with the \Rfunction{combine} method. 
+The new experiment will contain the union of 
 the feature names of the individual experiments with missing values 
 inserted appropriately.
 
@@ -1057,12 +1133,19 @@ exprs(exp12)[25:28, ]
 exp12
 @ 
 
-In summary, when experiments need to be combined, one needs to 
-(1) clarify the sample names using \Rfunction{updateSampleNames} or,
+\bigskip
+
+In summary, when experiments with different samples need to be combined 
+(along the columns), one needs to 
+(1) clarify the sample names using \Rfunction{updateSampleNames} or
 better manually, for biological relevance and (2) update the feature 
 data variable labels with \Rfunction{updateFvarLabels}. 
 The individual experiments (there can be more than 2) can then easily be combined 
 with the \Rfunction{combine} method while retaining the meta-data.
+
+If runs for the same sample (different fractions for example) need to be combines, 
+one needs to (1) differentiate the feature provenance with 
+\Rfunction{updateFeatureNames} prior to use \Rfunction{combine}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

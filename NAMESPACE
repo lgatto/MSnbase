@@ -30,6 +30,7 @@ export(readMzXMLData,
        precSelectionTable,
        t.MSnSet,
        updateFvarLabels,
+       updateFeatureNames,
        updateSampleNames)
 
 
