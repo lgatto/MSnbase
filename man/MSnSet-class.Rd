@@ -37,6 +37,7 @@
 %% functions
 \alias{updateFvarLabels}
 \alias{updateSampleNames}
+\alias{updateFeatureNames}
 
 \title{
   The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
@@ -203,6 +204,10 @@
       variable name and the separator \code{sep} is \code{.}.}
     \item{updateSampleNames}{signature(object, label, sep)}{
       This function updates \code{object}'s sample names by appending
+      \code{label}. By default, \code{label} is the variable name and
+      the separator \code{sep} is \code{.}.} 
+    \item{updateFeatureNames}{signature(object, label, sep)}{
+      This function updates \code{object}'s feature names by appending
       \code{label}. By default, \code{label} is the variable name and
       the separator \code{sep} is \code{.}.} 
   }

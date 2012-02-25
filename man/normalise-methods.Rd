@@ -29,7 +29,7 @@
 
   The \code{method} parameter for \code{"\linkS4class{MSnSet}"} can be
   one of \code{sum}, \code{max}, \code{quantiles},
-  \code{quantiles} or \code{vsn}.
+  \code{quantiles.robust} or \code{vsn}.
   For \code{sum} and \code{max}, each feature's reporter intensity is
   divided by the maximum of the sum respectively. Using
   \code{quantiles} or  \code{quantiles.robust} uses (robust)

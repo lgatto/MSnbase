@@ -140,3 +140,11 @@ updateSampleNames <- function(object, label, sep = ".") {
                                label, sep = sep)
   object
 }
+
+updateFeatureNames <- function(object, label, sep = ".") {
+  if (missing(label))
+    label <- getVariableName(match.call(), "object")
+  featureNames(object) <- paste(featureNames(object),
+                                label, sep = sep)
+  object
+}
