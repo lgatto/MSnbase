@@ -1,3 +1,16 @@
+CHANGES IN VERSION 1.5.1
+-------------------------
+ o updated NA warning message in readIspyData <2012-03-05 Mon>
+ o fixed combineFeatures/combineMatrixFeatures for 1 sample <2012-03-20 Tue>
+ o image method for MSnSet instances <2012-03-20 Tue>
+ o fixed bug in plotNA (first t was wring) <2012-03-21 Wed>
+ o import plot from stats4 <2012-03-21 Wed>
+ o using reshape2 <2012-03-30 Fri>
+
+CHANGES IN VERSION 1.5.0
+-------------------------
+ o new devel version bump
+
 CHANGES IN VERSION 1.3.15
 -------------------------
  o new updateFeatureNames function <2012-02-17 Fri>
