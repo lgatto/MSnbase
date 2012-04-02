@@ -33,6 +33,7 @@
 \alias{filterNA,MSnSet-method}
 \alias{filterNA,matrix-method}
 \alias{filterNA}
+\alias{image,MSnSet-method}
 
 %% functions
 \alias{updateFvarLabels}
@@ -123,7 +124,7 @@
 }
 
 \section{Methods}{
-  MSnSet specific methods or over-ridding it's super-class are described
+  MSnSet specific methods or over-riding it's super-class are described
   below. See also more \code{"\linkS4class{eSet}"} for
   inherited methods. 
 
@@ -144,9 +145,6 @@
     \item{purityCorrect}{\code{signature(object = "MSnSet", impurities =
 	"matrix")}: performs reporter ions purity correction. See
       \code{\link{purityCorrect}} documentation for more details. } 
-    \item{meanSdPlot}{\code{signature(object = "MSnSet")}: Plots row
-      standard deviations versus row means. See 
-      \code{\link{meanSdPlot}} (\code{vsn} package) for more details. }
     \item{normalise}{\code{signature(object = "MSnSet")}: Performs
       \code{MSnSet} normalisation. See \code{\link{normalise}} for more
       details. }
@@ -195,6 +193,31 @@
     }
   }
 }
+
+\section{Plotting}{
+  \describe{
+    \item{meanSdPlot}{\code{signature(object = "MSnSet")}}{ Plots row
+      standard deviations versus row means. See 
+      \code{\link{meanSdPlot}} (\code{vsn} package) for more details. }    
+    \item{image}{\code{signature(x = "MSnSet", yticks = "numeric",
+	x.cex.axis = "numeric", y.cex.axis = "numeric", ...)}}{ Produces
+      an image of expression values in the \code{x}
+      object. \code{yticks} defines how many ticks should be used on the
+      y axis. \code{x.cex.axis} and \code{y.cex.axis} are passed to
+      calls to \code{axis} and defined the respective character
+      expansion. \code{...} is passed to \code{image}.
+      \item{plotNA}{\code{signature(object = "MSnSet", pNA =
+	  "numeric")}}{
+	Plots missing data for an \code{MSnSet} instance. \code{pNA} is a
+	\code{numeric} of length 1 that specifies the percentage 
+	of accepted missing data values per features. This value will be
+	highlighted with a point on the figure, illustrating the overall
+	percentage of NA values in the full data set and the number of
+	proteins retained. Default is 1/2. See also
+	\code{\link{plotNA}}.} 
+    }
+  }
+}     
 
 \section{Functions}{
   \describe{

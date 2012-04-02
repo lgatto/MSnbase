@@ -59,7 +59,7 @@ combineMatrixFeatures <- function(matr,    ## matrix
                                           summarise,
                                           wmn = weighted.mean(x,w))
                                   })
-      summarisedFeatures <- do.call(cbind, summarisedFeatures)
+      summarisedFeatures <- do.call(cbind, as.list(summarisedFeatures))
       rn <- summarisedFeatures[,1]
       summarisedFeatures <- summarisedFeatures[, grep("wmn", colnames(summarisedFeatures))]
       colnames(summarisedFeatures) <- colnames(matr)
@@ -77,7 +77,7 @@ combineMatrixFeatures <- function(matr,    ## matrix
                              groupBy,
                              function(x) apply(x, 2, fun, ...))
   }
-    return(do.call(rbind, summarisedFeatures))
+    return(do.call(rbind, as.list(summarisedFeatures)))
 }
 
 
@@ -98,6 +98,7 @@ combineFeatures <- function(object,  ## MSnSet
   fdata <- fData(object)[!duplicated(groupBy),]
   fdata <- fdata[order(unique(groupBy)),] ## ordering fdata according to groupBy factor
   rownames(matRes) <- rownames(fdata)
+  colnames(matRes) <- sampleNames(object)
   exprs(object) <- matRes
   fData(object) <- fdata
   if (is.character(fun)) {

@@ -64,7 +64,7 @@
 <<environment,cache=FALSE,echo=FALSE>>=
 library("MSnbase")
 library("grid")
-library("reshape")
+library("reshape2")
 @
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
