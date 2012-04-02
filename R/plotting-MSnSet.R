@@ -21,7 +21,10 @@ plotNA.matrix <- function(X, pNA) {
   pNA <- pNA[1]
   calcNApp <- function(x) {
     nbna <- sum(is.na(x))
-    nbcells <- prod(dim(x))
+    if (is.null(dim(x)))
+      nbcells <- length(x)
+    else 
+      nbcells <- prod(dim(x))
     return(nbna/nbcells)
   }
   ocol <- apply(X,2, function(x) sum(is.na(x)))
@@ -69,3 +72,24 @@ plotNA.matrix <- function(X, pNA) {
   print(p)
   invisible(p)
 }
+
+
+setMethod("image", "MSnSet",
+          function(x, 
+                   yticks = 10,
+                   x.cex.axis = .75,
+                   y.cex.axis = .75,
+                   ...) {
+            lab <- sampleNames(x)
+            x <- exprs(x)
+            nc <- ncol(x)
+            nr <- nrow(x)
+            image(t(x), xaxt = "n", yaxt = "n", ...)
+            axis(1, seq(0,1, 1/(nc - 1)),
+                 labels = lab,
+                 cex.axis = x.cex.axis)
+            yticks <- seq(0, 1, 1/(yticks-1)) * nr
+            axis(2, seq(0,1, 1/(length(yticks) - 1)),
+                 labels = round(yticks, 0),
+                 cex.axis = y.cex.axis)
+          })

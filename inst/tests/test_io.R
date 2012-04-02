@@ -31,14 +31,14 @@ test_that("Compatibility between writeMgfData and readMgfData", {
 
 test_that("Testing write.exprs and readMSnSet", {
   data(itraqdata)
-  tf <- tempfile()
-  x <- quantify(itraqdata, reporters=iTRAQ4, method="max", verbose=FALSE)
   colchars <- c("ProteinAccession", "PeptideSequence", "retention.time", "precursor.mz")
-  write.exprs(x, file=tf)  
+  tf <- tempfile()
+  x <- quantify(itraqdata, reporters = iTRAQ4, method = "max", verbose = FALSE)
+  write.exprs(x, file = tf)  
   y <- readMSnSet(tf)
   expect_true(all.equal(exprs(x), exprs(y)))
   unlink(tf)
-  write.exprs(x, fDataCols=colchars, file=tf)
+  write.exprs(x, fDataCols = colchars, file = tf)
   tmp <- read.table(tf)
   expect_true(all(dim(tmp) == c(nrow(x), ncol(x) + length(colchars))))
   expect_true(all(colnames(tmp) == c(sampleNames(x), colchars)))

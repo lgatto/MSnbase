@@ -4,9 +4,9 @@ import(Biobase)
 import(mzR)
 import(grid)
 
-import(reshape) ## try to reduce this
+import(reshape2) ## try to reduce this
 importFrom(plyr, ddply, llply, adply, summarise, summarize)
-
+importFrom(stats4, plot)
 importFrom(preprocessCore, normalize.quantiles) 
 importFrom(vsn, vsn2, meanSdPlot)
 importFrom(IRanges, IRanges)
@@ -47,6 +47,7 @@ exportMethods(coerce,
               fileNames,
               qual,
               length,
+              image,
               plot,
               plot2d,
               plotDensity,

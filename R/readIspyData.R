@@ -1,17 +1,17 @@
-readIspyData <- function(file="ispy_results.tsv",
-                         uniquePeps=TRUE,
-                         pep=0.05,
-                         na.rm=TRUE,
-                         min.int=0,
-                         reporters=19:23,
-                         ## skipFillUp=24,
-                         ## fillUp=FALSE,
-                         keepAll=FALSE,
-                         verbose=TRUE) {
+readIspyData <- function(file = "ispy_results.tsv",
+                         uniquePeps = TRUE,
+                         pep = 0.05,
+                         na.rm = TRUE,
+                         min.int = 0,
+                         reporters = 19:23,
+                         ## skipFillUp = 24,
+                         ## fillUp = FALSE,
+                         keepAll = FALSE,
+                         verbose = TRUE) {
   if (verbose)
     cat("Reading table\n")
-  tab <- read.csv(file,header=TRUE,sep="\t",fill=TRUE,
-                  colClasses=c(
+  tab <- read.csv(file, header = TRUE, sep = "\t", fill = TRUE,
+                  colClasses = c(
                     "numeric",       # Index
                     "factor",        # ProteinAccession 
                     "character",     # ProteinDescription
@@ -32,7 +32,7 @@ readIspyData <- function(file="ispy_results.tsv",
                     "numeric",       # PosteriorErrorProbability
                     rep("numeric",length(reporters)),
                     "numeric"))      # precursorrelativesignal
-  names(tab) <- gsub("\\.\\.","pc",gsub("_","",names(tab)))
+  names(tab) <- gsub("\\.\\.","pc", gsub("_","",names(tab)))
   names(tab)[ncol(tab)] <- "PrecursorRelativeSignal"
   ## This column was called MascotQuery, then changed to BrowserData
   ## - just ignore it
@@ -93,11 +93,11 @@ readIspyData <- function(file="ispy_results.tsv",
   .featureData$VariableModifications <- .featureData$VariableModifications[,drop=TRUE]
   if (any(is.na(.featureData))) {
     whichCols <- apply(.featureData,2,function(x) any(is.na(x)))
-    warning(paste("NA values in featureData column(s)",
-                  names(.featureData)[whichCols]))
+    nacolnames <- paste(names(.featureData)[whichCols], collapse = ", ")
+    warning(paste0("NA values in featureData column(s) ", nacolnames))
   }
   if (any(is.na(.exprs)))
-    warning("NA values in .exprs.")
+    warning("NA values in quantitation data.")
   ## Preparing return object slots and return new MSnSet
   .process <- new("MSnProcess",
                   processing=paste("Data loaded:",date(),
