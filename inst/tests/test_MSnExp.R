@@ -7,7 +7,7 @@ test_that("MSnExp validity", {
 
 test_that("readMSData and dummy MSnExp msLevel 2 instance", {
   file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
-  aa <- readMSData(file,verbose=FALSE)
+  aa <- readMSData(file, verbose=FALSE)
   expect_true(class(aa)=="MSnExp")
   ## centroided get and set
   expect_false(any(centroided(aa)))
@@ -48,22 +48,22 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
   expect_equal(as.numeric(sort(rtime(aa))[1]),1501.35) ## [*]
   ## [*] using as.numeric because rtime and precursorMz return named numerics
   ## Meta data
-  expect_equal(dim(fData(aa)),c(5,1))
-  expect_equal(dim(pData(aa)),c(0,0))
+  expect_equal(dim(fData(aa)), c(5,1))
+  expect_equal(dim(pData(aa)), c(1,2))
   ## subsetting
-  expect_true(all.equal(aa[["X4"]],assayData(aa)[["X4"]]))
+  expect_true(all.equal(aa[["X4.1"]],assayData(aa)[["X4.1"]]))
   sub.aa <- aa[1:2]  
-  expect_true(all.equal(sub.aa[["X1"]], assayData(sub.aa)[["X1"]]))
-  expect_true(all.equal(sub.aa[["X2"]],assayData(sub.aa)[["X2"]]))
-  expect_equal(fData(sub.aa),fData(aa)[1:2,,drop=FALSE])
+  expect_true(all.equal(sub.aa[["X1.1"]], assayData(sub.aa)[["X1.1"]]))
+  expect_true(all.equal(sub.aa[["X2.1"]],assayData(sub.aa)[["X2.1"]]))
+  expect_equal(fData(sub.aa),fData(aa)[1:2, , drop = FALSE])
   my.prec <- precursorMz(aa)[1]
   my.prec.aa <- extractPrecSpectra(aa,my.prec)
-  expect_true(all(precursorMz(my.prec.aa)==my.prec))
+  expect_true(all(precursorMz(my.prec.aa) == my.prec))
   expect_equal(length(my.prec.aa),2)
-  expect_equal(ls(assayData(my.prec.aa)),paste("X",c(1,3),sep=""))
+  expect_equal(ls(assayData(my.prec.aa)), paste0("X", c(1,3), ".1"))
   ## subsetting errors
   expect_error(aa[[1:3]],"subscript out of bounds")
-  expect_error(aa[c("X1","X2")],"subsetting works only with numeric or logical")
+  expect_error(aa[c("X1.1","X2.1")],"subsetting works only with numeric or logical")
   expect_error(aa[["AA"]]," object 'AA' not found")
   expect_error(aa[1:10],"subscript out of bounds")
   ## testing that accessors return always attributes in same order
@@ -157,3 +157,11 @@ test_that("MSnExp normalisation", {
   expect_true(all(sapply(intensity(bb),max) == 1))
   expect_true(all(unlist(sapply(intensity(aa),order)) == unlist(sapply(intensity(bb),order))))
 })
+
+test_that("Parallel quantification", {
+  q1 <- quantify(itraqdata[1:5], reporters = iTRAQ4, parallel = TRUE, verbose = FALSE)
+  q2 <- quantify(itraqdata[1:5], reporters = iTRAQ4, parallel = FALSE, verbose = FALSE)
+  q1@processingData <- q2@processingData ## those are not expected to be equal
+  expect_true(all.equal(q1, q2))
+})
+

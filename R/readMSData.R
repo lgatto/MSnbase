@@ -15,6 +15,8 @@ readMSData <- function(files,
     stop("msLevel should be an integer > 0.")
   if (length(files) < 1)
     stop("At least one MS file is required.")
+  if (unique(files) != files) 
+    stop("Non unique files provided as input. ")
   extensions <- unique(toupper(sub("^.+\\.", "", files)))
   if (length(extensions) > 1)
     warning(paste("Reading different file formats in.",
@@ -22,8 +24,11 @@ readMSData <- function(files,
                   "Please report back!", sep="\n"))
   ## Creating environment with Spectra objects
   assaydata <- new.env()
+  filenams <- filenums <- c()
   for (f in files) {
-    filen <- match(f, files) 
+    filen <- match(f, files)
+    filenums <- c(filenums, filen)
+    filenams <- c(filenams, f)
     msdata <- mzR::openMSfile(f)
     fullhd <- mzR::header(msdata)
     ## 
@@ -52,7 +57,7 @@ readMSData <- function(files,
           sp <- removePeaks(sp, t=removePeaks)
         if (clean)
           sp <- clean(sp)
-        assign(paste("X",i,sep=""), sp, assaydata)        
+        assign(paste0("X", i, ".", filen), sp, assaydata)
       }
     } else {
       spidx <- which(fullhd$msLevel > 1)
@@ -89,14 +94,14 @@ readMSData <- function(files,
           sp <- removePeaks(sp, t=removePeaks)
         if (clean)
           sp <- clean(sp)
-        assign(paste("X",i,sep=""),sp,assaydata)
+        assign(paste0("X", i, ".", filen), sp, assaydata)
       }
     }
     if (verbose)
       close(pb)
     ## cache levels 2 and 3 not yet implemented
-    cache <- testCacheArg(cache, maxCache=1)
-    .cacheEnv <- setCacheEnv(assaydata, cache, lock=TRUE)
+    cache <- testCacheArg(cache, maxCache = 1)
+    .cacheEnv <- setCacheEnv(assaydata, cache, lock = TRUE)
     ## if cache==2, do not lock,
     ## assign msdata in .cacheEnv
     ## then lock it
@@ -107,22 +112,24 @@ readMSData <- function(files,
   }
   ## Create 'MSnProcess' object
   process <- new("MSnProcess",
-                 processing=paste("Data loaded:",date()),
-                 files=files,
-                 smoothed=smoothed)  
+                 processing = paste("Data loaded:",date()),
+                 files = files,
+                 smoothed = smoothed)  
   if (removePeaks > 0) {
     process@processing <- c(process@processing,
                             paste("Curves <= ", removePeaks, " set to '0': ", date(), sep=""))
   } else {
     if (clean)
       process@processing <- c(process@processing,
-                              paste("Spectra cleaned: ",date(),sep=""))
+                              paste("Spectra cleaned: ", date(), sep=""))
   }
   ## Create 'fdata' and 'pdata' objects
   nms <- ls(assaydata)
   if (is.null(pdata)) {
+    .pd <- data.frame(sampleNames = filenams,
+                      fileNumbers = filenums)
     pdata <- new("NAnnotatedDataFrame",
-                 dimLabels=c("sampleNames", "sampleColumns"))
+                 data = .pd)
   }
   fdata <- new("AnnotatedDataFrame",
                data=data.frame(

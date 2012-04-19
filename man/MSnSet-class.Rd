@@ -152,7 +152,7 @@
       \code{MSnSet} object where features are now aligned along columns 
       and samples along rows and the \code{phenoData} and
       \code{featureData} slots have been swapped. The
-      \code{protocolData} slot is always dropped with a warning. }
+      \code{protocolData} slot is always dropped. }
     \item{as(,"ExpressionSet")}{\code{signature( x = "MSnSet")}: Coerce
       object from \code{MSnSet} to
       \code{\link{ExpressionSet-class}}. The \code{experimentData} slot is 

@@ -1,3 +1,16 @@
+CHANGES IN VERSION 1.5.2
+-------------------------
+ o transposing and MSnSet does _silently_ drop the 
+   protocolData now <2012-04-03 Tue>
+ o fixed MSnExp pData creation for multiple files, feature names 
+   have a .fileNumber extension now. <2012-04-19 Thu>
+ o testing for uniqueness of files (filenames) in 
+   readMSData <2012-04-19 Thu>
+ o updated itraqdata.RData <2012-04-19 Thu>
+ o added a paralle argument to quantify and using 
+   paralle = FALSE in vignette, to avoid duplicated display
+   of the command <2012-04-19 Thu>
+
 CHANGES IN VERSION 1.5.1
 -------------------------
  o updated NA warning message in readIspyData <2012-03-05 Mon>

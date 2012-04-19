@@ -153,17 +153,18 @@ setMethod("trimMz",
 setMethod("quantify",
           signature=signature("MSnExp"),
           function(object,
-                   method=c("trapezoidation","max","sum"),
+                   method = c("trapezoidation","max","sum"),
                    reporters,
-                   strict=FALSE,
-                   verbose=TRUE) {
+                   strict = FALSE,
+                   parallel = TRUE,
+                   verbose = TRUE) {
             if (!inherits(reporters,"ReporterIons"))
               stop("Argument 'reporters' must inherit from 'ReporterIons' class.")
             ## this assumes that if first spectrum
             ## has msLevel>1, all have
             if (msLevel(object)[1]<2) 
               stop("No quantification for MS1 data implemented.")
-            quantify.MSnExp(object, match.arg(method), reporters, strict, verbose)
+            quantify.MSnExp(object, match.arg(method), reporters, strict, parallel, verbose)
           })
 
 setMethod("curveStats","MSnExp",

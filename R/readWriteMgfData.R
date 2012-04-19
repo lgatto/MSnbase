@@ -96,7 +96,7 @@ writeMgfContent <- function(sp, TITLE = NULL, con) {
 }
 
 
-## Code contributed by Guangchuang Yu <guangchuangyu@gmail.com>
+# Code contributed by Guangchuang Yu <guangchuangyu@gmail.com>
 readMgfData <- function(file,
                         pdata = NULL,
                         centroided = TRUE,
@@ -105,7 +105,7 @@ readMgfData <- function(file,
                         cache = 1) {
   if (verbose)
     cat("Scanning ",file,"...\n",sep="")
-  mgf <- scan(file=file, what="", sep="\n", quote="", allowEscapes=FALSE, quiet=TRUE)
+  mgf <- scan(file = file, what="", sep="\n", quote="", allowEscapes=FALSE, quiet=TRUE)
   begin <- grep("BEGIN IONS", mgf)
   end <- grep("END IONS", mgf)
   if (verbose) {
@@ -139,7 +139,7 @@ readMgfData <- function(file,
                  smoothed = smoothed)
   if (is.null(pdata)) {
     pdata <- new("NAnnotatedDataFrame",
-                 dimLabels=c("sampleNames", "sampleColumns"))
+                 data = data.frame(sampleNames = file, fileNumbers = 1))
   }
   ## fdata <- new("AnnotatedDataFrame",
   ##              data=data.frame(spectrum=1:length(spectra),

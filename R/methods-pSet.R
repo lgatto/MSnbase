@@ -31,8 +31,11 @@ setValidity("pSet", function(object) {
     msg <- validMsg(msg,"featureNames differ between assayData and featureData.")
   ## checking number of files in phenoData and
   ##          number of files in assayData
-  nfilespData   <- length(processingData(object)@files)
-  nfilesSpectra <- length(unique(eapply(assayData(object),fromFile)))
+  nfilesprocData   <- length(processingData(object)@files)
+  nfilesSpectra <- length(unique(unlist(eapply(assayData(object),fromFile))))
+  if (nfilesprocData != nfilesSpectra)
+    msg <- validMsg(msg, "unequal number of files in assayData and processingData.")
+  nfilespData <- nrow(pData(object))
   if (nfilespData != nfilesSpectra)
     msg <- validMsg(msg, "unequal number of files in assayData and phenoData.")  
   ## protocolData not checked yet - depends very much

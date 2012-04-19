@@ -619,6 +619,7 @@ qnt <- quantify(experiment,
                 method = "trap",
                 reporters = iTRAQ4,
                 strict = FALSE,
+                parallel = FALSE,
                 verbose = FALSE)
 qnt
 head(exprs(qnt))
@@ -932,6 +933,7 @@ incompdiss <- quantify(itraqdata,
                        method = "trap",
                        reporters = iTRAQ5,
                        strict = FALSE,
+                       parallel = FALSE,
                        verbose = FALSE)
 head(exprs(incompdiss))
 @ 
