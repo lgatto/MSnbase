@@ -10,6 +10,7 @@ CHANGES IN VERSION 1.5.2
  o added a paralle argument to quantify and using 
    paralle = FALSE in vignette, to avoid duplicated display
    of the command <2012-04-19 Thu>
+ o defined "reporterNames<-" generics <2012-04-19 Thu>
 
 CHANGES IN VERSION 1.5.1
 -------------------------
