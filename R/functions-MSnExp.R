@@ -140,7 +140,7 @@ clean.MSnExp <- function(object,verbose=TRUE) {
     return(object)
 }
 
-quantify.MSnExp <- function(object, method, reporters, strict, verbose) {
+quantify.MSnExp <- function(object, method, reporters, strict, parallel, verbose) {
   ## Display progress bar with eapply
   ## TODO - test if using eapply is more efficient in terms of mem/cpu usage
   ## if (verbose) {
@@ -166,10 +166,8 @@ quantify.MSnExp <- function(object, method, reporters, strict, verbose) {
     .exprs <- t(peakData$peakQuant)
     .qual <- t(peakData$curveData)
   } else {
-    parallel <- FALSE
-    if (require(foreach) & require(doMC)) {
+    if (parallel & require(foreach) & require(doMC)) {
       registerDoMC()
-      parallel <- TRUE
     }
     peakData <- llply(spectraList, quantify, method, reporters, strict,
                       .progress = progress, .parallel = parallel)
@@ -206,7 +204,8 @@ quantify.MSnExp <- function(object, method, reporters, strict, verbose) {
     } else {
       ## Here, something more clever should be done, like replicating
       ## old phenoData variables length(reporters) times
-      warning("Unexpected number of samples in phenoData slot. Dropping it.")
+      if (verbose)
+        message("Original MSnExp and new MSnSet have different number of samples in phenoData. Dropping original.")
     }
   }
   msnset <- new("MSnSet",

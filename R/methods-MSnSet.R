@@ -157,7 +157,6 @@ t.MSnSet <- function(x) {
   x@processingData@processing <-             
     c(x@processingData@processing,
       paste("MSnSet transposed: ",date(),sep=""))
-  message("Dropping protocolData.")  
   return(new("MSnSet",
              exprs = t(exprs(x)),
              phenoData = featureData(x),

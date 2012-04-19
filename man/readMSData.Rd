@@ -50,7 +50,8 @@ cache = 1)
     \code{\link{clean}} for more details and examples. 
   }
   \item{cache}{
-    Numeric indicating caching level. Default is 0. Under development.
+    Numeric indicating caching level. Default is 0 for MS1 and 1 MS2 (or
+    higher). Under development.
   }
   \item{verbose}{
    verbosity flag. 
