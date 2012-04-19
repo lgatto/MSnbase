@@ -45,6 +45,7 @@ setGeneric("normalize",function(object,method,...) standardGeneric("normalize"))
 
 setGeneric("width",function(object) standardGeneric("width"))
 setGeneric("reporterNames",function(object) standardGeneric("reporterNames"))
+setGeneric("reporterNames<-",function(object,value) standardGeneric("reporterNames<-"))
 setGeneric("reporterColours",function(object) standardGeneric("reporterColours"))
 setGeneric("reporterColors",function(object) standardGeneric("reporterColors"))
 
