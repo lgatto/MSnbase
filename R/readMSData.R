@@ -15,7 +15,7 @@ readMSData <- function(files,
     stop("msLevel should be an integer > 0.")
   if (length(files) < 1)
     stop("At least one MS file is required.")
-  if (unique(files) != files) 
+  if (all(unique(files) != files))
     stop("Non unique files provided as input. ")
   extensions <- unique(toupper(sub("^.+\\.", "", files)))
   if (length(extensions) > 1)
