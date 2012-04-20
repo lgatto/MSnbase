@@ -11,6 +11,8 @@ CHANGES IN VERSION 1.5.2
    paralle = FALSE in vignette, to avoid duplicated display
    of the command <2012-04-19 Thu>
  o defined "reporterNames<-" generics <2012-04-19 Thu>
+ o fixed warning in readMSData where all not used for 
+   comparison of verctors of length > 1 <2012-04-20 Fri>
 
 CHANGES IN VERSION 1.5.1
 -------------------------
