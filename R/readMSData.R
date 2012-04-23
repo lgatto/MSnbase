@@ -24,17 +24,21 @@ readMSData <- function(files,
                   "Please report back!", sep="\n"))
   ## Creating environment with Spectra objects
   assaydata <- new.env()
+  ioncount <- c()
   filenams <- filenums <- c()
+  fullhd2 <- fullhdorder <- c()
   for (f in files) {
     filen <- match(f, files)
     filenums <- c(filenums, filen)
     filenams <- c(filenams, f)
     msdata <- mzR::openMSfile(f)
-    fullhd <- mzR::header(msdata)
-    ## 
+    fullhd <- mzR::header(msdata)    
+    ifelse(msLevel == 1,
+           spidx <- which(fullhd$msLevel == 1),
+           spidx <- which(fullhd$msLevel > 1))
+    ## MS1 level
     if (msLevel == 1) {
-      spidx <- which(fullhd$msLevel == 1)
-      if (length(spidx)==0)
+      if (length(spidx) == 0)
         stop("No MS1 spectra in file",f)
       if (verbose) {
         cat("Reading ", length(spidx), " MS1 spectra from file ",
@@ -52,15 +56,18 @@ readMSData <- function(files,
                   mz = mzR::peaks(msdata,j)[,1],
                   intensity = mzR::peaks(msdata,j)[,2],
                   fromFile = filen,
+                  tic = hd$totIonCurrent,
                   centroided = centroided)
+        ioncount <- c(ioncount, sum(mzR::peaks(msdata,j)[,2]))
         if (removePeaks > 0)
           sp <- removePeaks(sp, t=removePeaks)
         if (clean)
           sp <- clean(sp)
-        assign(paste0("X", i, ".", filen), sp, assaydata)
+        .fname <- paste0("X", i, ".", filen)
+        assign(.fname, sp, assaydata)
+        fullhdorder <- c(fullhdorder, .fname)
       }
-    } else {
-      spidx <- which(fullhd$msLevel > 1)
+    } else { ## MS>2 levels
       if (length(spidx)==0)
         stop("No MS(n>1) spectra in file",f)
       if (verbose) {
@@ -83,6 +90,7 @@ readMSData <- function(files,
                   precursorIntensity=hd$precursorIntensity,
                   precursorCharge=hd$precursorCharge,
                   collisionEnergy=hd$collisionEnergy,
+                  tic = hd$totIonCurrent,                  
                   peaksCount=hd$peaksCount,
                   rt=hd$retentionTime,
                   acquisitionNum=hd$acquisitionNum,
@@ -90,26 +98,57 @@ readMSData <- function(files,
                   intensity=mzR::peaks(msdata,j)[,2],
                   fromFile=filen,
                   centroided=centroided)
+        ioncount <- c(ioncount, sum(mzR::peaks(msdata,j)[,2]))
         if (removePeaks > 0)
           sp <- removePeaks(sp, t=removePeaks)
         if (clean)
           sp <- clean(sp)
-        assign(paste0("X", i, ".", filen), sp, assaydata)
+        .fname <- paste0("X", i, ".", filen)
+        assign(.fname, sp, assaydata)
+        fullhdorder <- c(fullhdorder, .fname)
       }
     }
+    if (cache >= 1)
+      fullhd2 <- rbind(fullhd2, fullhd[spidx, ]) 
     if (verbose)
       close(pb)
-    ## cache levels 2 and 3 not yet implemented
-    cache <- testCacheArg(cache, maxCache = 1)
-    .cacheEnv <- setCacheEnv(assaydata, cache, lock = TRUE)
-    ## if cache==2, do not lock,
-    ## assign msdata in .cacheEnv
-    ## then lock it
-    ## and do not close(msdata) below; rm(msdata) is OK
     gc() ## could this help with Error in function (x): no function to return from, jumping to top level)...
-    mzR::close(msdata)
+    mzR::close(msdata) ## DO NOT CLOSE IF CACHE LEVEL >= 2
     rm(msdata)
   }
+  ## cache levels 2 and 3 not yet implemented
+  cache <- testCacheArg(cache, maxCache = 1)
+  if (cache >= 1) {
+    fl <- sapply(assaydata, fromFile)
+    featnms <- ls(assaydata) ## feautre names in final MSnExp
+    fl <- fl[featnms] ## reorder file numbers
+    stopifnot(all(sort(featnms) == sort(fullhdorder)))
+    fullhdorder <- match(featnms, fullhdorder)    
+    tmphd <- fullhd2[fullhdorder, ] ## reorder
+    ioncount <- ioncount[fullhdorder]
+    newhd <- data.frame(file = fl, 
+                        retention.time = tmphd$retentionTime,
+                        precursor.mz = tmphd$precursorMZ,
+                        precursor.intensity = tmphd$precursorIntensity,
+                        charge = tmphd$precursorCharge,
+                        peaks.count = tmphd$peaksCount,
+                        tic = tmphd$totIonCurrent,
+                        ionCount = ioncount, 
+                        ms.level = tmphd$msLevel,
+                        acquisition.number = tmphd$acquisitionNum,
+                        collision.energy = tmphd$collisionEnergy)
+  } else {
+    newhd <- NULL ## not used anyway
+  }
+  if (verbose)
+    message("Caching...")
+  .cacheEnv <- setCacheEnv(list("assaydata" = assaydata,
+                                "hd" = newhd),
+                           cache, lock = TRUE)
+  ## if cache==2, do not lock,
+  ## assign msdata in .cacheEnv
+  ## then lock it
+  ## and do not close(msdata) above; rm(msdata) is OK
   ## Create 'MSnProcess' object
   process <- new("MSnProcess",
                  processing = paste("Data loaded:",date()),

@@ -54,6 +54,7 @@
 \alias{spectra,pSet-method}
 \alias{spectra}
 \alias{tic,pSet-method}
+\alias{ionCount,pSet-method}
 \alias{varLabels,pSet-method}
 \alias{varMetadata,pSet-method}
 
@@ -214,6 +215,8 @@
     retention times. }
     \item{tic}{\code{signature(object = "pSet")}: Accessor for spectra
       total ion counts. }
+    \item{ionCount}{\code{signature(object = "pSet")}: Accessor for spectra
+      total ion current. }
     \item{header}{\code{signature(object = "pSet")}: Returns a data
       frame containing all available spectra parameters (MSn only). }
     \item{header}{\code{signature(object = "pSet", scans = "numeric")}:

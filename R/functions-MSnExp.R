@@ -58,6 +58,7 @@ extractPrecSpectra.MSnExp <- function(object,prec) {
   if (nmissing!=0)
     warning(nmissing," precursor MZ values not found in 'MSnExp' object.") 
   sel <-precursorMz(object) %in% prec
+  orghd <- header(object)
   nms <- names(precursorMz(object)[sel])
   n <- length(prec)
   m <- length(nms)
@@ -69,29 +70,34 @@ extractPrecSpectra.MSnExp <- function(object,prec) {
   object@assayData <- list2env(mget(nms,assayData(object)))
   object@featureData <- object@featureData[nms,]
   if (object@.cache$level > 0)
-    object@.cache <- setCacheEnv(assayData(object), object@.cache$level)
+    object@.cache <- setCacheEnv(list(assaydata = assayData(object),
+                                      hd = orghd[sel, ]),
+                                 object@.cache$level)
   if (validObject(object))
     return(object)
 }
 
 
-extractSpectra.MSnExp <- function(object,selected) {
-  slist <- spectra(object)[selected]
-  object@assayData <- list2env(slist)
-  object@featureData <- object@featureData[selected,]
-  object@processingData@processing <- c(object@processingData@processing,
-                                        paste(sum(selected),
-                                              " spectra extracted: ",
-                                              date(),sep=""))
-  if (object@.cache$level > 0)
-    object@.cache <- setCacheEnv(assayData(object), object@.cache$level)
-  if (validObject(object))
-    return(object)
-}
+## Defunct in v 1.5.2
+## extractSpectra.MSnExp <- function(object,selected) {
+##   slist <- spectra(object)[selected]
+##   object@assayData <- list2env(slist)
+##   object@featureData <- object@featureData[selected,]
+##   object@processingData@processing <- c(object@processingData@processing,
+##                                         paste(sum(selected),
+##                                               " spectra extracted: ",
+##                                               date(),sep=""))
+##   if (object@.cache$level > 0)
+##     object@.cache <- setCacheEnv(assayData(object), object@.cache$level)
+##   if (validObject(object))
+##     return(object)
+## }
 
 removePeaks.MSnExp <- function(object,t="min",verbose=TRUE) {
   ifelse(verbose,progress <- "text",progress <- "none")
-  spectraList <-  llply(spectra(object),function(x) removePeaks(x,t),.progress=progress)
+  spectraList <-  llply(spectra(object),
+                        function(x) removePeaks(x,t),
+                        .progress = progress)
   object@assayData <- list2env(spectraList)
   object@processingData@removedPeaks <- c(object@processingData@removedPeaks,
                                           as.character(t))
@@ -100,10 +106,16 @@ removePeaks.MSnExp <- function(object,t="min",verbose=TRUE) {
                                               t
                                               ," set to '0': ",
                                               date(),sep=""))
+  if (object@.cache$level > 0) {
+    hd <- header(object)
+    hd$ionCount <- ionCount(object)
+    object@.cache <- setCacheEnv(list(assaydata = assayData(object),
+                                      hd = hd),
+                                 object@.cache$level)
+  }
   if (validObject(object))
     return(object)
 }
-
 
 
 clean.MSnExp <- function(object,verbose=TRUE) {
@@ -136,6 +148,14 @@ clean.MSnExp <- function(object,verbose=TRUE) {
   object@processingData@cleaned <- TRUE
   object@processingData@processing <- c(object@processingData@processing,
                                         paste("Spectra cleaned: ",date(),sep=""))
+  
+  if (object@.cache$level > 0) {
+    hd <- header(object)
+    hd$peaks.count <- peaksCount(object)
+    object@.cache <- setCacheEnv(list(assaydata = assayData(object),
+                                      hd = hd),
+                                 object@.cache$level)
+  }
   if (validObject(object))
     return(object)
 }
@@ -170,12 +190,13 @@ quantify.MSnExp <- function(object, method, reporters, strict, parallel, verbose
       registerDoMC()
     }
     peakData <- llply(spectraList, quantify, method, reporters, strict,
-                      .progress = progress, .parallel = parallel)
+                      .progress = progress, .parallel = parallel)      
     .exprs <- do.call(rbind, sapply(peakData, "[", "peakQuant"))
-    .qual <- do.call(rbind, sapply(peakData, "[", "curveStats"))
+    ## .qual <- do.call(rbind, sapply(peakData, "[", "curveStats")) ## Time consuming - consider removing or caching
+    .qual <- data.frame()
   }
-  rownames(.exprs) <- sub(".peakQuant", "", rownames(.exprs))
-  rownames(.qual) <- sub(".curveStats", "", rownames(.qual))  
+  rownames(.exprs) <- sub(".peakQuant", "", rownames(.exprs))  
+  rownames(.qual) <- sub(".curveStats", "", rownames(.qual)) 
   ## Updating MSnprocess slot
   object@processingData@processing <- c(object@processingData@processing,
                                         paste(reporters@name,
@@ -183,7 +204,9 @@ quantify.MSnExp <- function(object, method, reporters, strict, parallel, verbose
                                               "quantification by ", method,
                                               ": ", date(), sep=""))
   ## Creating new featureData slot or creating one
-  fd <- header(object)
+  if (verbose)
+    message("Preparing meta-data")
+  fd <- header(object) ## Time consuming - consider caching
   if (nrow(fData(object)) > 0) { 
     if (nrow(fData(object)) == length(object)) {
       fd <- combine(fData(object), fd)
@@ -208,6 +231,8 @@ quantify.MSnExp <- function(object, method, reporters, strict, parallel, verbose
         message("Original MSnExp and new MSnSet have different number of samples in phenoData. Dropping original.")
     }
   }
+  if (verbose)
+    message("Creating 'MSnSet' object")
   msnset <- new("MSnSet",
                 qual = .qual,
                 exprs = .exprs, 

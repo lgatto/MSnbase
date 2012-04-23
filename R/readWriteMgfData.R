@@ -1,31 +1,31 @@
- setMethod("writeMgfData",
-           signature = signature("Spectrum"),
-           function(object,
-                    con = NULL,
-                    COM = NULL,
-                    TITLE = NULL) {
-             if (is.null(con))
-               con <- "spectrum.mgf"
-             if (class(con) == "character") {
-               if (file.exists(con)) {
-                 message("Overwriting ", con, "!")
-                 unlink(con)
-               }
-               con <- file(description = con,
-                           open = "at",
-                           blocking = TRUE)
-               on.exit(close(con))
-             }
-             if (!inherits(con, "connection"))
-               stop("'con' is not a proper connection!")
-             if (is.null(COM))
-               COM <- paste("COM=Spectrum exported by MSnbase on ",
-                            date(), "\n", sep = "")
-             ## write spectrum
-             writeLines(COM, con = con)
-             writeMgfContent(object, TITLE = TITLE, con = con)
-             ## close(con)
-           })
+setMethod("writeMgfData",
+          signature = signature("Spectrum"),
+          function(object,
+                   con = NULL,
+                   COM = NULL,
+                   TITLE = NULL) {
+            if (is.null(con))
+              con <- "spectrum.mgf"
+            if (class(con) == "character") {
+              if (file.exists(con)) {
+                message("Overwriting ", con, "!")
+                unlink(con)
+              }
+              con <- file(description = con,
+                          open = "at",
+                          blocking = TRUE)
+              on.exit(close(con))
+            }
+            if (!inherits(con, "connection"))
+              stop("'con' is not a proper connection!")
+            if (is.null(COM))
+              COM <- paste("COM=Spectrum exported by MSnbase on ",
+                           date(), "\n", sep = "")
+            ## write spectrum
+            writeLines(COM, con = con)
+            writeMgfContent(object, TITLE = TITLE, con = con)
+            ## close(con)
+          })
 
 setMethod("writeMgfData",
           signature = signature("MSnExp"),
@@ -105,7 +105,10 @@ readMgfData <- function(file,
                         cache = 1) {
   if (verbose)
     cat("Scanning ",file,"...\n",sep="")
-  mgf <- scan(file = file, what="", sep="\n", quote="", allowEscapes=FALSE, quiet=TRUE)
+  mgf <- scan(file = file, what = "",
+              sep = "\n", quote = "",
+              allowEscapes = FALSE,
+              quiet = TRUE)
   begin <- grep("BEGIN IONS", mgf)
   end <- grep("END IONS", mgf)
   if (verbose) {
@@ -147,10 +150,22 @@ readMgfData <- function(file,
   colnames(fdata) <- names(desc)
   rownames(fdata) <- nms
   fdata <- AnnotatedDataFrame(data = data.frame(fdata))
-  fdata <- fdata[ls(assaydata)] ## reorder features
+  fdata <- fdata[ls(assaydata), ] ## reorder features
   ## only levels 0 and 1 for mgf peak lists
   cache <- testCacheArg(cache, maxCache = 1)
-  .cacheEnv <- setCacheEnv(assaydata, cache, lock=TRUE)
+  if (cache >= 1) {
+    tmp <- new("MSnExp",
+               assayData = assaydata,
+               phenoData = pdata,
+               featureData = fdata,
+               processingData = process)
+    newhd <- .header(tmp)
+  } else {
+    newhd <- NULL ## not used anyway
+  }
+  .cacheEnv <- setCacheEnv(list(assaydata = assaydata,
+                                hd = newhd),
+                           cache, lock = TRUE)
   toReturn <- new("MSnExp",
                   assayData = assaydata,
                   phenoData = pdata,

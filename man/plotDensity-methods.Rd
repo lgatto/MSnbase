@@ -21,13 +21,13 @@
   \item{object}{
     An object of class \code{"\linkS4class{MSnExp}"} or and
     'data.frame'. In the latter case, the data frame must have numerical
-    columns named 'charge' and one of 'precursor.mz', 'peaks.count' or 'tic',
+    columns named 'charge' and one of 'precursor.mz', 'peaks.count' or 'ionCount',
     depending on the \code{z} parameter.
     Such a data frame is typically generated using the
     \code{header} method on \code{"\linkS4class{MSnExp}"} object.
   }
   \item{z}{ A character indicating which parameter's densitiy to plot.
-    One of, possibly abreviated, "tic" (total ion count),
+    One of, possibly abreviated, "ionCount" (total ion count),
     "peaks.count" (peaks count) or "precursor.mz" (precursor MZ). 
   }
   \item{log}{ Logical, whether to log transform the data (default is
@@ -60,7 +60,7 @@
 
 \examples{
 itraqdata
-plotDensity(itraqdata,z="tic")
+plotDensity(itraqdata,z="ionCount")
 plotDensity(itraqdata,z="peaks.count")
 plotDensity(itraqdata,z="precursor.mz")
 }

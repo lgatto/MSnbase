@@ -125,16 +125,16 @@ setMethod("plotMzDelta",c("MSnExp"),
 
 setMethod("clean",
           signature=signature("MSnExp"),
-          function(object,verbose=TRUE) clean.MSnExp(object,verbose))
+          function(object,verbose=TRUE) clean.MSnExp(object, verbose))
 
 setMethod("removePeaks",signature("MSnExp"),
-          function(object,t,verbose=TRUE) removePeaks.MSnExp(object,t,verbose))
+          function(object,t,verbose=TRUE) removePeaks.MSnExp(object, t, verbose))
 
 
 setMethod("trimMz",
           signature=signature("MSnExp","numeric"),
-          function(object,mzlim,...) {
-            trimmed <- eapply(assayData(object),trimMz,mzlim,...)
+          function(object, mzlim, ...) {
+            trimmed <- eapply(assayData(object), trimMz, mzlim, ...)
             object@assayData <- list2env(trimmed)
             trmd <- object@processingData@trimmed
             ifelse(length(trmd)==0,
@@ -144,8 +144,14 @@ setMethod("trimMz",
             object@processingData@processing <- c(object@processingData@processing,
                                                   paste("MZ trimmed [",object@processingData@trimmed[1],
                                                         "..",object@processingData@trimmed[2],"]",sep=""))
-            if (object@.cache$level > 0)
-              object@.cache <- setCacheEnv(assayData(object), object@.cache$level)
+            if (object@.cache$level > 0) {
+              hd <- header(object)
+              hd$peaks.count <- peaksCount(object)
+              hd$ionCount <- ionCount(object)
+              object@.cache <- setCacheEnv(list(assaydata = assayData(object),
+                                                hd = hd),
+                                           object@.cache$level)
+            }
             if (validObject(object))
               return(object)
           })
@@ -184,10 +190,10 @@ setMethod("extractPrecSpectra",
 setMethod("extractSpectra",
           signature=signature(object="MSnExp",selected="logical"),
           function(object,selected) {
-            msg <- c("The 'extractSpectra' function is deprecated\n",
+            msg <- c("The 'extractSpectra' function is defunct\n",
                      "Please use the '[' subsetting operator instead.")
-            .Deprecated(msg=msg)
-            extractSpectra.MSnExp(object,selected)
+            .Defunct(msg=msg)
+            ## extractSpectra.MSnExp(object,selected)
           })
 
 setMethod("normalise","MSnExp",

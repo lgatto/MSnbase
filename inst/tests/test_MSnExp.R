@@ -24,9 +24,9 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
   expect_equal(length(aa), 5)
   expect_that(nrow(header(aa)), equals(length(aa)))
   expect_that(names(header(aa)),
-              equals(c("index", "file", "retention.time",
+              equals(c("file", "retention.time",
                        "precursor.mz", "precursor.intensity",
-                       "charge", "peaks.count","tic",
+                       "charge", "peaks.count","tic","ionCount",
                        "ms.level", "acquisition.number", 
                        "collision.energy")))
   ## MS levels
@@ -68,8 +68,8 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
   expect_error(aa[1:10],"subscript out of bounds")
   ## testing that accessors return always attributes in same order
   precMzNames <- names(precursorMz(aa))
-  ticNames <- names(tic(aa))
-  expect_that(precMzNames, equals(ticNames))
+  ionCountNames <- names(ionCount(aa))
+  expect_that(precMzNames, equals(ionCountNames))
   precChNames <- names(precursorCharge(aa))
   expect_that(precMzNames, equals(precChNames))
   aqnNames <- names(acquisitionNum(aa))
@@ -139,11 +139,11 @@ test_that("spectra order and integrity", {
             mz = 1:length(int))
   rsp <- removePeaks(sp)  
   expect_that(peaksCount(sp), equals(length(int)))
-  expect_that(tic(sp), equals(sum(int)))
+  expect_that(ionCount(sp), equals(sum(int)))
   expect_that(all.equal(removePeaks(sp),rsp), is_true())
-  expect_that(tic(removePeaks(sp,1)), equals(6))  
-  expect_that(tic(removePeaks(sp,3)), equals(0))
-  expect_that(tic(removePeaks(sp,max(intensity(sp)))), equals(0))
+  expect_that(ionCount(removePeaks(sp,1)), equals(6))  
+  expect_that(ionCount(removePeaks(sp,3)), equals(0))
+  expect_that(ionCount(removePeaks(sp,max(intensity(sp)))), equals(0))
   expect_that(peaksCount(sp), equals(peaksCount(rsp)))
   expect_that(peaksCount(clean(rsp)), equals(6))
   expect_that(peaksCount(clean(sp)), equals(7))  

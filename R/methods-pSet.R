@@ -3,7 +3,7 @@ setMethod("initialize",
           function(.Object, ..., .cache) {
             if (missing(.cache)) {
               .cache <- new.env()
-              assign("level",0,.cache)
+              assign("level", 0 ,.cache)
               lockEnvironment(.cache)
             }
             callNextMethod(.Object, ..., .cache = .cache)
@@ -44,6 +44,9 @@ setValidity("pSet", function(object) {
     msg <- validMsg(msg,"'.cache' environment is not locked.")
   if (!exists("level",envir=object@.cache))
     msg <- validMsg(msg,"'.cache' level not defined.")
+  hd <- header(object) 
+  if (nrow(hd) != length(object))
+    msg("(Cached) header nrow and object length differ.")
   if (is.null(msg)) TRUE else msg
 })
 
@@ -58,6 +61,8 @@ setMethod("[","pSet",
               i <- sort(i) ## crash if unsorted
             }
             whichElements <- ls(assayData(x))[i]
+            sel <- featureNames(x) %in% whichElements
+            orghd <- header(x)
             x@assayData <- list2env(mget(whichElements,assayData(x)))
             x@featureData <- featureData(x)[i,]
             if (is.logical(i)) {
@@ -74,7 +79,9 @@ setMethod("[","pSet",
                   paste("Data subsetted ",i,": ",date(),sep=""))
             }
             if (x@.cache$level > 0)
-              x@.cache <- setCacheEnv(assayData(x), x@.cache$level)
+              x@.cache <- setCacheEnv(list(assaydata = assayData(x),
+                                           hd = orghd[sel, ]), ## faster than .header for big instances
+                                      x@.cache$level)
             if (validObject(x))
               return(x)
           })
@@ -108,6 +115,9 @@ setMethod("precScanNum","pSet",
 
 setMethod("tic","pSet",
           function(object) sapply(spectra(object),tic))
+
+setMethod("ionCount","pSet",
+          function(object) sapply(spectra(object),ionCount))
 
 setMethod("precursorCharge","pSet",
           function(object) {
@@ -189,39 +199,17 @@ setMethod("header",
           function(object) {
             if (any(msLevel(object) < 2))
               stop("header() only works for MS levels > 1.")
-            tbl <- table(fromFile(object))
-            idx <- as.numeric(unlist(apply(tbl, 1, function(x) 1:x)))
-            return(data.frame(cbind(index = idx,
-                                    file = fromFile(object),
-                                    retention.time = rtime(object),
-                                    precursor.mz = precursorMz(object),
-                                    precursor.intensity = precursorIntensity(object),
-                                    charge = precursorCharge(object),
-                                    peaks.count = peaksCount(object),
-                                    tic = tic(object),
-                                    ms.level = msLevel(object),
-                                    acquisition.number = acquisitionNum(object),
-                                    collision.energy = collisionEnergy(object))))
+            ifelse(object@.cache$level > 0, 
+                   hd <- object@.cache$hd,
+                   hd <- .header(object))
+            return(hd)
           })
 
 setMethod("header",
           signature=c("pSet","numeric"),
           function(object, scans) {
-            if (any(msLevel(object) < 2))
-              stop("header() only works for MS levels > 1.")
-            tbl <- table(fromFile(object))
-            idx <- as.numeric(unlist(apply(tbl, 1, function(x) 1:x)))
-            ## OK for length(scans) > 1 -- slow for 1 scan
-            hdfr <- data.frame(cbind(index = idx,
-                                     file = fromFile(object),
-                                     retention.time = rtime(object),
-                                     precursor.mz = precursorMz(object),
-                                     peaks.count = peaksCount(object),
-                                     tic = tic(object),
-                                     ms.level = msLevel(object),
-                                     charge = precursorCharge(object),
-                                     collision.energy = collisionEnergy(object)))          
-            return(hdfr[scans, ])
+            hd <- header(object)
+            return(hd[scans, ])
           })
 
 ##################################################################

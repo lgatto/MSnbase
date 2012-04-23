@@ -1,3 +1,23 @@
+CHANGES IN VERSION 1.5.3
+-------------------------
+ o extractSpectra is now defunct <2012-04-20 Fri>
+ o caching full header in level 1; this is required when and MSnExp
+   instance with *many* spectra (created from many raw files) is 
+   quantified - calling header(object) is a too big overhead compared 
+   to actual reporter quantification. <2012-04-20 Fri>
+ o The header() method now uses the cached dataframe if level >= 1;
+   the (unexported) .header function can be used to generate the 
+   dataframe using the assayData slot data. <2012-04-20 Fri>
+ o Setting processingData in MSnSet initialisation. <2012-04-20 Fri>
+ o Dropping index column from header. <2012-04-20 Fri>
+ o new Spectrum class v0.2.0 has tic slot. <2012-04-21 Sat>
+ o *tic* method (data stored as a Spectrum slot) now returns 
+   _total ion current_ (as commonly used) and _total ion count_ is 
+   obtain using *ionCount*. <2012-04-21 Sat>
+ o fixed normalisation boxplot titles and other tic/ionCount 
+   changes in demo vignette. <2012-04-21 Sat>
+ o removed qual subetting in MSnSet's "[" method <2012-04-24 Tue>
+
 CHANGES IN VERSION 1.5.2
 -------------------------
  o transposing and MSnSet does _silently_ drop the 

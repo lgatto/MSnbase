@@ -23,15 +23,19 @@ testCacheArg <- function(cache, maxCache=3) {
   return(cache)
 }
 
-setCacheEnv <- function(assaydata, level=0, lock=TRUE) {
+setCacheEnv <- function(toCache, level=0, lock=TRUE) {
   ## Set the .cache slot of a pSet object.
   ## Parameters
-  ##  assaydata: environment - pSet assaydata slot
+  ##  toCache a list with 
+  ##     "assaydata": environment - pSet assaydata slot
+  ##     "hd": header dataframe 
   ##  level: numeric - cache level
   ##  lock: logical - lock env and bindings (default is TRUE)
   ## Return:
   ##  A new cache environment
   cacheEnv <- new.env(parent=emptyenv())
+  assaydata <- toCache[["assaydata"]]
+  hd <- toCache[["hd"]]
   assign("level", level, cacheEnv)
   if (level >= 1) { ## levels 2 and 3 not yet implemented
     ## precursor MZ
@@ -51,6 +55,8 @@ setCacheEnv <- function(assaydata, level=0, lock=TRUE) {
     assign("nPrecursorScans", length(unique(eapply(assaydata,precScanNum))), cacheEnv)
     ## assay data size
     assign("size", sum(unlist(unname(eapply(assaydata,object.size)))), cacheEnv)
+    ## full header
+    assign("hd", hd, cacheEnv)
   }
   if (lock)
     lockEnvironment(cacheEnv, bindings=TRUE)

@@ -32,6 +32,7 @@ setGeneric("msInfo",function(object) standardGeneric("msInfo"))
 setGeneric("mz",function(object) standardGeneric("mz"))
 setGeneric("intensity",function(object) standardGeneric("intensity"))
 setGeneric("tic",function(object) standardGeneric("tic"))
+setGeneric("ionCount",function(object) standardGeneric("ionCount"))
 
 setGeneric("fromFile",function(object) standardGeneric("fromFile"))
 

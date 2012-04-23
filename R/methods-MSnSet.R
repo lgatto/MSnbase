@@ -40,7 +40,9 @@ setMethod("initialize", "MSnSet",
                                         ...)
             } else stop("provide at most one of 'assayData' or 'exprs' to initialize MSnSet",
                         call.=FALSE)
-            Biobase:::.harmonizeDimnames(.Object)
+            .Object@processingData <- new("MSnProcess")            
+            if (validObject(.Object))
+              Biobase:::.harmonizeDimnames(.Object)
           })
 
 
@@ -170,14 +172,15 @@ t.MSnSet <- function(x) {
 setMethod("[", "MSnSet", function(x, i, j, ...) {
   .Object <- callNextMethod(...)
   ## subsetting qual - requires pData(x)$mz!
-  fn <- featureNames(.Object)
-  reps <- match(.Object$mz,x$mz)
-  qrows <- paste(rep(fn,each=length(reps)),reps,sep=".")
-  .Object@qual <- .Object@qual[qrows,]
+  ## fn <- featureNames(.Object)
+  ## reps <- match(.Object$mz,x$mz)
+  ## qrows <- paste(rep(fn,each=length(reps)),reps,sep=".")
+  ## .Object@qual <- .Object@qual[qrows,]
+  .Object@qual <- data.frame()
   .Object@processingData@processing <- c(.Object@processingData@processing,
                                          ifelse(missing(j),
-                                                paste("Features subsetted: ",date(),sep=""),
-                                                paste("Samples subsetted: ",date(),sep="")))
+                                                paste("Features subset: ",date(),sep=""),
+                                                paste("Samples subset: ",date(),sep="")))
   if (validObject(.Object))
     return(.Object)
 })
