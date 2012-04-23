@@ -317,7 +317,7 @@ The \Rfunction{plot2d} method takes one \Robject{MSnExp} instance as firs argume
 to produce retention time \textit{vs.} precursor MZ scatter plots. Points represent 
 individual MS2 spectra and can be coloured based on 
 precursor charge (with second argument \Robject{z="charge"}), 
-total ion current (\Robject{z="tic"}),
+total ion count (\Robject{z="ionCount"}),
 number of peaks in the MS2 spectra \Robject{z="peaks.count"}) or, 
 when multiple data files were loaded, file \Robject{z="file"}), 
 as illustrated on figure \ref{fig:plot2d}. 
@@ -335,7 +335,7 @@ See the method documentation for more details.
 The \Rfunction{plotDensity} method illustrates the distribution 
 of several parameters of interest (see figure \ref{fig:plotDensity}).
 Similarly to \Rfunction{plot2d}, the first argument is an \Robject{MSnExp} instance. 
-The second is one of \Robject{precursor.mz}, \Robject{peaks.count} or \Robject{tic}, 
+The second is one of \Robject{precursor.mz}, \Robject{peaks.count} or \Robject{ionCount}, 
 whose density will be plotted. 
 An optional third argument specifies whether the x axes should be logged.
 
@@ -408,16 +408,16 @@ is defined by the \Robject{t} parameter. \Robject{t} can be specified directly
 as a numeric. The default value is the character \texttt{"min"}, that will remove 
 all peaks equal to the lowest non null intensity in any spectrum. 
 We observe the effect of the \Rfunction{removePeaks} method by comparing 
-total ion count (i.e. the total intensity in a spectrum) with the \Rfunction{tic} method
-before (object \Robject{itraqdata}) and after (object \Robject{experiment}) for 
+total ion count (i.e. the total intensity in a spectrum) with the \Rfunction{ionCount} 
+method before (object \Robject{itraqdata}) and after (object \Robject{experiment}) for 
 spectrum \texttt{X55}. 
 
 
 <<removePeaks,echo=TRUE,cache=FALSE>>=
 experiment <- removePeaks(itraqdata, t = 400, verbose = FALSE)
 ## total ion current
-tic(itraqdata[["X55"]])
-tic(experiment[["X55"]])
+ionCount(itraqdata[["X55"]])
+ionCount(experiment[["X55"]])
 @ 
 
 <<prepare-spectrum-plot2,echo=FALSE>>=
@@ -750,7 +750,7 @@ the application of vsn on iTRAQ reporter data.
 <<norm-plot,fig=T,echo=F,tikz=T,external=F,width=5,height=7>>=
 .plot <- function(x,ttl=NULL) {
   boxplot(exprs(x),
-          main=ifelse(is.null(ttl),processingData(x)@processing[6],ttl),
+          main=ifelse(is.null(ttl),processingData(x)@processing[2],ttl),
           cex.main=.8,
           cex.lab=.5,
           cex.axis=.5,

@@ -82,7 +82,9 @@ setMethod("collisionEnergy","Spectrum",
           })
 setMethod("intensity","Spectrum",function(object) object@intensity)
 setMethod("mz","Spectrum",function(object) object@mz)
-setMethod("tic","Spectrum",function(object) sum(object@intensity))
+setMethod("tic","Spectrum",function(object) object@tic)
+
+setMethod("ionCount","Spectrum", function(object) sum(object@intensity))
 
 setMethod("trimMz",
           signature=signature("Spectrum","numeric"),

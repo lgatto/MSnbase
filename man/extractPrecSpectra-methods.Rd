@@ -28,9 +28,9 @@
   Laurent Gatto <lg390@cam.ac.uk>
 }
 
-\seealso{
-  \code{\link{extractSpectra}}
-}
+% \seealso{
+%   \code{\link{extractSpectra}}
+% }
 
 \examples{
 file <- dir(system.file(package="MSnbase",dir="extdata"),

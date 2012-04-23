@@ -10,9 +10,9 @@
   The function, class, or data object you have asked for has been
   deprecated or made defunct. 
 
-  Deprecated: \code{extractSpectra}.
+  Deprecated: 
 
-  Defunct: \code{readMzXMLData}.
+  Defunct: \code{readMzXMLData}, \code{extractSpectra}.
 }
 
 \keyword{internal}

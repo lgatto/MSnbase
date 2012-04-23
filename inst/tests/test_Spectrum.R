@@ -19,13 +19,13 @@ test_that("Spectrum processing", {
   expect_that(identical(sp2a,sp2b),is_true())
   expect_that(identical(sp,sp2b),is_true())
   expect_that(identical(sp,sp2c),is_false())
-  expect_that(tic(sp),equals(sum(int)))
+  expect_that(ionCount(sp),equals(sum(int)))
   expect_that(peaksCount(sp2c),equals(peaksCount(sp)))
-  expect_that(tic(sp),equals(55))
-  expect_that(tic(sp2c),equals(45))
+  expect_that(ionCount(sp),equals(55))
+  expect_that(ionCount(sp2c),equals(45))
   ## clean
   sp3 <- clean(sp)
-  expect_that(tic(sp),equals(tic(sp3)))
+  expect_that(ionCount(sp),equals(ionCount(sp3)))
   expect_that(peaksCount(sp),equals(length(int)))
   expect_that(peaksCount(sp3),equals(23))
   ##trimMz
@@ -33,7 +33,7 @@ test_that("Spectrum processing", {
   expect_that(intensity(sp4),equals(int[10:20]))
   expect_that(mz(sp4),equals(10:20))
   expect_that(peaksCount(sp4),equals(length(10:20)))
-  expect_that(tic(sp4),equals(sum(int[10:20])))  
+  expect_that(ionCount(sp4),equals(sum(int[10:20])))  
 })
 
 

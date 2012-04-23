@@ -29,7 +29,7 @@
     \code{header} method on \code{"\linkS4class{MSnExp}"} object.
   }
   \item{z}{ A character indicating according to what variable to colour
-    the dots. One of, possibly abreviated, "tic" (total ion count),
+    the dots. One of, possibly abreviated, "ionCount" (total ion count),
     "file" (raw data file), "peaks.count"
     (peaks count) or "charge" (precursor charge). 
   }
@@ -62,7 +62,7 @@
 
 \examples{
 itraqdata
-plot2d(itraqdata,z="tic")
+plot2d(itraqdata,z="ionCount")
 plot2d(itraqdata,z="peaks.count")
 plot2d(itraqdata,z="charge")
 }

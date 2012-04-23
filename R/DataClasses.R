@@ -178,6 +178,7 @@ setClass("Spectrum",
            rt="numeric",
            acquisitionNum="integer",
            scanIndex = "integer",
+           tic = "numeric",
            mz = "numeric",
            intensity = "numeric",
            fromFile = "integer", 
@@ -185,12 +186,13 @@ setClass("Spectrum",
            "VIRTUAL"),
          contains=c("Versioned"),
          prototype = prototype(
-           new("Versioned", versions=c(Spectrum="0.1.3")),
+           new("Versioned", versions=c(Spectrum="0.2.0")),
            rt = numeric(),
            acquisitionNum = integer(),
            msLevel = integer(),
            centroided = logical(),
-           peaksCount = 0L, 
+           peaksCount = 0L,
+           tic = 0L,
            scanIndex = integer(),
            mz = numeric(),
            intensity = numeric()),
@@ -200,13 +202,13 @@ setClass("Spectrum",
              msg <- validMsg(msg,"'NA' intensities found.")
            if (any(is.na(mz(object))))
              msg <- validMsg(msg,"'NA' M/Z found.")
-           if (any(intensity(object)<0))
+           if (any(intensity(object) < 0))
              msg <- validMsg(msg,"Negative intensities found.")
            if (any(mz(object)<0))
              msg <- validMsg(msg,"Negative M/Z found.")
-           if (length(object@mz)!=length(object@intensity))
+           if (length(object@mz) != length(object@intensity))
              msg <- validMsg(msg,"Unequal number of MZ and intensity values.")
-           if (length(mz(object))!=peaksCount(object))
+           if (length(mz(object)) != peaksCount(object))
              msg <- validMsg(msg,"Peaks count does not match up with number of MZ values.")
            if (is.null(msg)) TRUE
            else msg

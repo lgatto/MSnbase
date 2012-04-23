@@ -37,7 +37,7 @@ test_that("Testing write.exprs and readMSnSet", {
   write.exprs(x, file = tf)  
   y <- readMSnSet(tf)
   expect_true(all.equal(exprs(x), exprs(y)))
-  unlink(tf)
+  ## unlink(tf)
   write.exprs(x, fDataCols = colchars, file = tf)
   tmp <- read.table(tf)
   expect_true(all(dim(tmp) == c(nrow(x), ncol(x) + length(colchars))))

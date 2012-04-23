@@ -315,3 +315,73 @@ subsetBy <- function(X, groups, byIdx) {
 }
 
 
+
+## Computes header from assay data by-passing cache
+.header <- function(object) {
+  if (length(object) == 0) {
+    hd <- data.frame()
+  } else {
+    ## tbl <- table(fromFile(object))
+    ## idx <- as.numeric(unlist(apply(tbl, 1, function(x) 1:x)))
+    hd <- list(file = fromFile(object),
+               retention.time = rtime(object),
+               precursor.mz = precursorMz(object),
+               precursor.intensity = precursorIntensity(object),
+               charge = precursorCharge(object),
+               peaks.count = peaksCount(object),
+               tic = tic(object),
+               ionCount = ionCount(object),
+               ms.level = msLevel(object),
+               acquisition.number = acquisitionNum(object),
+               collision.energy = collisionEnergy(object))
+    ## items are either a numeric or a list of integer() - keep former only
+    sel <- sapply(hd, function(i) !is.list(i))
+    hd <- as.data.frame(hd[sel])    
+  }
+  return(hd)
+}
+
+checkHeader <- function(object) {
+  if (object@.cache$level == 0) {
+    ans <- TRUE
+  } else {
+    cachedhd <- header(object)
+    fromdata <- .header(object)
+    ans <- identical(cachedhd, fromdata)
+  }
+  return(ans)
+}
+
+
+updateSpectrum2 <- function(x) {
+  ## Version 0.2.0 of Spectrum has now a tic slot (MSnbase 1.5.3)
+  newx <- new("Spectrum2")
+  newx@merged <- x@merged
+  newx@precScanNum <- x@precScanNum
+  newx@precursorMz <-   x@precursorMz
+  newx@precursorIntensity <- x@precursorIntensity
+  newx@precursorCharge <- x@precursorCharge
+  newx@collisionEnergy <- x@collisionEnergy   
+  newx@msLevel <- x@msLevel
+  newx@peaksCount <- x@peaksCount
+  newx@rt <- x@rt
+  newx@acquisitionNum <- x@acquisitionNum
+  newx@scanIndex <- x@scanIndex
+  newx@mz <- x@mz
+  newx@intensity <- x@intensity
+  newx@fromFile <- x@fromFile
+  newx@centroided <- x@centroided
+  newx@tic <- 0
+  if (validObject(newx))
+    return(newx)
+}
+
+updateMSnExp <- function(x) {
+  for (fn in featureNames(x)) {
+    .x <- x[[fn]]
+    assign(fn, updateSpectrum2(.x), envir = assayData(x))
+  }
+  if (validObject(x))
+    return(x)
+}
+ 

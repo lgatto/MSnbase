@@ -22,6 +22,8 @@
 \alias{rtime}
 \alias{tic,Spectrum-method}
 \alias{tic}
+\alias{ionCount,Spectrum-method}
+\alias{ionCount}
 \alias{centroided,Spectrum-method}
 \alias{centroided}
 \alias{centroided<-,Spectrum,ANY-method}
@@ -61,6 +63,8 @@
       indicating the number of MZ peaks. }
     \item{\code{rt}:}{Object of class \code{"numeric"} indicating the
       retention time (in seconds) for the current ions. }
+    \item{\code{tic}:}{Object of class \code{"numeric"} indicating the
+      total ion current.}
     \item{\code{acquisitionNum}:}{Object of class \code{"integer"}
       corresponding to the acquisition number of the current spectrum. }
     \item{\code{scanIndex}:}{Object of class \code{"integer"} indicating
@@ -109,7 +113,9 @@
       (possibly of 0 intensity) as an integer. }
     \item{\code{rtime(object)}}{ Returns the retention time for the
       spectrum as an integer. }
-    \item{\code{tic(object)}}{ Returns the total ion count for the
+    \item{\code{ionCount(object)}}{ Returns the total ion count for the
+      spectrum as a numeric. }
+    \item{\code{tic(object)}}{ Returns the total ion current for the
       spectrum as a numeric. }
     %% -------------------------------------------------- %%
     \item{clean}{\code{signature(object = "Spectrum")}: Removes unused 0

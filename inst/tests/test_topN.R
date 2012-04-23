@@ -1,6 +1,5 @@
 context("topN method")
 
-
 test_that("topN for matrix", {
   M <- matrix(c(1.0, 2.1, 10.9, # group 1
                 2.1, 1.1, 2.3,

@@ -17,7 +17,7 @@
 
   If an \code{"\linkS4class{MSnExp}"} is provided as argument, all the
   spectra are aligned vertically. Experiments can be subset to
-  extract spectra of interest using the \code{\link{extractSpectra}} or
+  extract spectra of interest using the \code{[} operator or
   \code{\link{extractPrecSpectra}} methods.
 
   The methods make use the \code{ggplot2} system. An object of class

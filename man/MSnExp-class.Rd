@@ -10,8 +10,8 @@
 \alias{clean,MSnExp-method}
 \alias{extractPrecSpectra,MSnExp-method}
 \alias{extractPrecSpectra,MSnExp,numeric-method}
-\alias{extractSpectra,MSnExp-method}
-\alias{extractSpectra,MSnExp,logical-method}
+%% \alias{extractSpectra,MSnExp-method}
+%% \alias{extractSpectra,MSnExp,logical-method}
 \alias{plot,MSnExp}
 \alias{plot,MSnExp,missing-method}
 \alias{quantify,MSnExp-method}
@@ -104,11 +104,11 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
       \code{prec} and returns an object of class 'MSnExp'.
       See \code{\link{extractPrecSpectra}} documentation for more
       details and examples. } 
-    \item{extractSpectra}{\code{signature(object = "MSnExp", selected =
-	"logical")}: extracts spectra corresponding to 'TRUE' in
-      \code{selected}.
-      See \code{\link{extractSpectra}} documentation for more details
-      and examples. }  
+    % \item{extractSpectra}{\code{signature(object = "MSnExp", selected =
+    % 	"logical")}: extracts spectra corresponding to 'TRUE' in
+    %   \code{selected}.
+    % See \code{\link{extractSpectra}} documentation for more details
+    % and examples. }  
     \item{plot}{\code{signature(x = "MSnExp", y = "missing")}: Plots all
       the spectra of the \code{MSnExp} instance. See
       \code{\link{plot.MSnExp}} documentation for more details. } 
