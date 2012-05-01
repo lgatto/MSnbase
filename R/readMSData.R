@@ -27,11 +27,13 @@ readMSData <- function(files,
   ioncount <- c()
   filenams <- filenums <- c()
   fullhd2 <- fullhdorder <- c()
+  .instrumentInfo <- list()
   for (f in files) {
     filen <- match(f, files)
     filenums <- c(filenums, filen)
     filenams <- c(filenams, f)
-    msdata <- mzR::openMSfile(f)
+    msdata <- mzR::openMSfile(f)    
+    .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
     fullhd <- mzR::header(msdata)    
     ifelse(msLevel == 1,
            spidx <- which(fullhd$msLevel == 1),
@@ -175,7 +177,28 @@ readMSData <- function(files,
                  spectrum=1:length(nms),
                  row.names=nms))
   fdata <- fdata[ls(assaydata)] ## reorder features
-  ## Create and return 'MSnPeaks' object
+  ## expriment data slot
+  if (length(.instrumentInfo) > 1) {
+    cmp <- sapply(.instrumentInfo[-1], function(x) identical(x, .instrumentInfo[[1]]))
+    if (!all(cmp)) {
+      wrn <- "According to the instrument information in your files, the data has been acquired on different instruments!"
+      warning(wrn)
+      .instrumentInfo <- c(manufacturer = wrn,
+                           model = wrn,
+                           ionisation = wrn,
+                           analyzer = wrn,
+                           detector = wrn)      
+    }
+  } else {
+    .instrumentInfo <- .instrumentInfo[[1]]
+  }
+  expdata <- new("MIAPE",
+                 instrumentManufacturer = .instrumentInfo$manufacturer,
+                 instrumentModel = .instrumentInfo$model,
+                 ionSource = .instrumentInfo$ionisation,
+                 analyser = .instrumentInfo$analyzer,
+                 detectorType = .instrumentInfo$detector)
+  ## Create and return 'MSnExp' object
   if (verbose)
     cat("Creating 'MSnExp' object\n")
   toReturn <- new("MSnExp",
@@ -183,6 +206,7 @@ readMSData <- function(files,
                   phenoData = pdata,
                   featureData = fdata,
                   processingData = process,
+                  experimentData = expdata,
                   .cache = .cacheEnv)
   if (validObject(toReturn))
     return(toReturn)

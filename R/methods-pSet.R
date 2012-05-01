@@ -331,7 +331,9 @@ setMethod("fvarMetadata",
 setMethod("fvarLabels",
           signature=signature(object="pSet"),
           function(object) varLabels(featureData(object)))
-setMethod("experimentData", signature(object="pSet"), function(object) object@experimentData)
+
+setMethod("experimentData", signature(object="pSet"),
+          function(object) object@experimentData)
 
 setMethod("msInfo","pSet",
           function(object) msInfo(experimentData(object)))

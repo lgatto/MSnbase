@@ -27,49 +27,49 @@ setClass("MSnProcess",
 ## See online documentation for more information.
 setClass("MIAPE",
          representation = representation(
-           title="character",
-           url="character",
+           title = "character",
+           url = "character",
            ##  Publication details
-           abstract="character",
-           pubMedIds="character",
+           abstract = "character",
+           pubMedIds = "character",
            ## Other useful slots, from MIAME
-           samples="list",
-           preprocessing="list",
-           other="list",
+           samples = "list",
+           preprocessing = "list",
+           other = "list",
            ##########################
            ## Based on MIAPE-MS 2.24
            ##  will be updated with MIAPE-MSI and MIAPE-Quant
            ## 1. General features - (a) Global descriptors
-           dateStamp="character",
+           dateStamp = "character",
            ##    Responsible person
-           name="character",
-           lab="character",
-           contact="character",
+           name = "character",
+           lab = "character",
+           contact = "character",
            ##    Instrument details
-           instrumentModel="character",
-           instrumentManufacturer="character",
-           instrumentCustomisations="character",
+           instrumentModel = "character",
+           instrumentManufacturer = "character",
+           instrumentCustomisations = "character",
            ## 1. General features - (b) Control and analysis software
-           softwareName="character",
-           softwareVersion="character",
-           switchingCriteria="character",
-           isolationWidth="numeric",
-           parameterFile="character",
+           softwareName = "character",
+           softwareVersion = "character",
+           switchingCriteria = "character",
+           isolationWidth = "numeric",
+           parameterFile = "character",
            ## 2. Ion sources -- will be updated to
            ##                   provided details specific to
            ##                   different sources
-           ionSource="character", ## ESI, MALDI, ...
-           ionSourceDetails="character", 
+           ionSource = "character", ## ESI, MALDI, ...
+           ionSourceDetails = "character", 
            ## 3. Post-source componentry
-           analyser="character", ## Quad, TOF, Trap, ...
-           analyserDetails="character",
+           analyser = "character", ## Quad, TOF, Trap, ...
+           analyserDetails = "character",
            ## 3. Post-source componentry - (d) Collision cell
-           collisionGas="character",
-           collisionPressure="numeric",
-           collisionEnergy="character",
+           collisionGas = "character",
+           collisionPressure = "numeric",
+           collisionEnergy = "character",
            ## 3. Post-source component — (f) Detectors
-           detectorType="character", 
-           detectorSensitivity="character"
+           detectorType = "character", 
+           detectorSensitivity = "character"
            ## 4. Spectrum and peak list generation and annotation 
            ##    (a) Spectrum description 
            ##    (b) Peak list generation

@@ -133,6 +133,21 @@ the \Rfunction{writeMgfData} methods (see \Rfunction{?writeMgfData} for details 
 
 \bigskip
 
+\paragraph{Experiments with multiple runs} Although it is possible to load and process multiple 
+files serially and later merge the resulting quantitation data as show in section 
+\ref{sec:combine} (page \pageref{sec:combine}), it is also feasible to load several raw data files at once. 
+Here, we report the analysis of an LC-MSMS experiment were 
+14 liquid chromatography (LC) fractions were loaded using \Rfunction{readMSData} on a 
+32-cores servers with 128 Gb of RAM. 
+It took about 90 minutes to read the 14 uncentroided \texttt{mzXML} raw files (4.9 Gb on disk in total)
+and create a 3.3 Mb raw data object (an \Robject{MSnExp} instance, see next section). 
+Quantitation of 9 reporter ions (\Robject{iTRAQ9} object, see \ref{sec:reporterions}) 
+for 88690 features was performed in parallel on 16 processors and took 76 minutes. 
+The resulting quantitation data was only 22.1 Mb and could easily be further processed and 
+analysed on a standard laptop computer.
+
+\bigskip
+
 See also section \ref{sec:io2} to import quantitative data stored in spreadsheets into \R 
 for further processing using \Rpackage{MSnbase}.
 
