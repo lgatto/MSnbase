@@ -148,6 +148,9 @@ setMethod("processingData",
 setMethod("msInfo","MSnSet",
           function(object) msInfo(experimentData(object)))
 
+setMethod("expinfo","pSet",
+          function(object) expinfo(experimentData(object)))
+
 setMethod("meanSdPlot",
           signature="MSnSet",
           definition =

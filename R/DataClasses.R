@@ -45,6 +45,7 @@ setClass("MIAPE",
            name = "character",
            lab = "character",
            contact = "character",
+           email = "character",
            ##    Instrument details
            instrumentModel = "character",
            instrumentManufacturer = "character",
@@ -78,17 +79,18 @@ setClass("MIAPE",
            ),
          contains = c("MIAxE"),
          prototype = prototype(
-           new("Versioned", versions=c(classVersion("MIAxE"), MIAPE="0.2.0")),
-           name="",
-           lab="",
-           contact="",
-           title="",
-           abstract="",
-           url="",
-           pubMedIds="",
-           samples=list(),
-           preprocessing=list(),
-           other=list())
+           new("Versioned", versions=c(classVersion("MIAxE"), MIAPE="0.2.1")),
+           name = "",
+           lab = "",
+           contact = "",
+           title = "",
+           abstract = "",
+           url = "",
+           pubMedIds = "",
+           email = "",
+           samples = list(),
+           preprocessing = list(),
+           other = list())
          )
 
 ############################################################################

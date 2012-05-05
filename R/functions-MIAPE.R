@@ -16,6 +16,7 @@ show.MIAPE <- function(object) {
   cat("  Experimenter name:", object@name,"\n")
   cat("  Laboratory:", object@lab,"\n")
   cat("  Contact information:", object@contact,"\n")
+  cat("  Contact email:", object@email,"\n")
   cat("  Title:", object@title,"\n")
   cat("  URL:", object@url,"\n")
   pmids <- pubMedIds(object)

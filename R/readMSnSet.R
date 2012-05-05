@@ -17,7 +17,7 @@ readMSnSet <- function(exprsFile,
   eset <- readExpressionSet(exprsFile, phenoDataFile, experimentDataFile,
                             notesFile, path, annotation,
                             exprsArgs, phenoDataArgs, experimentDataArgs,
-                            sep, header, quote, stringAsFactors, row.names,
+                            sep, header, quote, stringsAsFactors, row.names,
                             widget, ...)
   .process <- new("MSnProcess",
                   processing=paste("Quantitation data loaded:",date(),
