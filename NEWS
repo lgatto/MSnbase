@@ -1,3 +1,11 @@
+CHANGES IN VERSION 1.5.5
+-------------------------
+ o added email slot in MIAPE and accessor <2012-05-04 Fri>
+ o added expinfo methods to pSet and MSnSet <2012-05-04 Fri>
+ o updated itraqdata <2012-05-04 Fri>
+ o misc man typos fixed <2012-05-04 Fri>
+ o quantify now properly propagates processingData <2012-05-04 Fri>
+
 CHANGES IN VERSION 1.5.4
 -------------------------
  o automatically populating experiment data instrument info 

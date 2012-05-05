@@ -338,6 +338,9 @@ setMethod("experimentData", signature(object="pSet"),
 setMethod("msInfo","pSet",
           function(object) msInfo(experimentData(object)))
 
+setMethod("expinfo","pSet",
+          function(object) expinfo(experimentData(object)))
+
 setMethod("description", signature(object="pSet"),
           function(object, ...) {
             experimentData(object)
@@ -359,8 +362,8 @@ setReplaceMethod("pubMedIds",
                      return(object)
                    })
 
-
-setMethod("abstract", "pSet", function(object) abstract(experimentData(object)))
+setMethod("abstract", "pSet",
+          function(object) abstract(experimentData(object)))
 
 setMethod("protocolData", "pSet",
           function(object) {

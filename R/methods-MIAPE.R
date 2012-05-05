@@ -20,12 +20,22 @@ setReplaceMethod("pubMedIds","MIAPE",function(object,value){
    object
 })
 
+setMethod("email","MIAPE", function(object) object@email)
+
+setReplaceMethod("pubMedIds","MIAPE",function(object, value){
+   object@pubMedIds = value
+   object
+})
+
+
 setMethod("otherInfo","MIAPE",function(object) object@other)
 
 setMethod("expinfo","MIAPE",
    function(object) {
-      tmp <- c(object@name, object@lab, object@contact, object@title, object@url)
-    names(tmp) <- c("name","lab","contact","title","url")
+      tmp <- c(object@name, object@lab, object@contact,
+               object@email, object@title, object@url)
+    names(tmp) <- c("name","lab","contact",
+                    "email", "title","url")
     return(tmp)
    }
 )

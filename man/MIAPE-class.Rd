@@ -8,6 +8,8 @@
 \alias{show,MIAPE-method}
 \alias{msInfo,MIAPE-method}
 \alias{msInfo}
+\alias{email,MIAPE-method}
+\alias{email}
 \alias{abstract,MIAPE-method}
 \alias{samples,MIAPE-method}
 \alias{pubMedIds,MIAPE-method}
@@ -43,7 +45,7 @@
     \item{\code{other}:}{Object of class \code{list} containing other
       information for which none of the above slots does not applies. }
     \item{\code{dateStamp}:}{Object of class \code{character}, giving
-      yhe date on which the work described was initiated; given in the
+      the date on which the work described was initiated; given in the
       standard 'YYYY-MM-DD' format (with hyphens). }
     \item{\code{name}:}{Object of class \code{character} containing the
       name of the (stable) primary contact person for this data set;
@@ -52,6 +54,9 @@
       laboratory where the experiment was conducted. }
     \item{\code{contact}:}{Object of class \code{character} containing
       contact information for lab and/or experimenter. }
+    \item{\code{email}:}{Object of class \code{character} containing
+      tmail contact information for the primary contact person (see
+      \code{name} above). } 
     \item{\code{instrumentModel}:}{Object of class \code{character}
       indicating the model of the mass spectrometer used to generate the
       data. }
@@ -66,7 +71,7 @@
       the instrument management and data analysis package(s) name(s). }
     \item{\code{softwareVersion}:}{Object of class \code{character} with
       the instrument management and data analysis package(s) version(s). }
-    \item{\code{ switchingCriteria}:}{Object of class \code{character}
+    \item{\code{switchingCriteria}:}{Object of class \code{character}
       describing the list of conditions that cause the switch from survey or
       zoom mode (MS1) to or tandem mode (MSn where n > 1); e.g. 'parent
       ion'' mass lists, neutral loss criteria and so on [applied for

@@ -236,11 +236,14 @@ quantify.MSnExp <- function(object, method, reporters, strict, parallel, verbose
   msnset <- new("MSnSet",
                 qual = .qual,
                 exprs = .exprs, 
-                processingData = object@processingData,
                 experimentData = experimentData(object),
                 phenoData = .phenoData,
                 featureData = .featureData,
                 annotation = "No annotation")
+  
+  ## copying processingData  
+  msnset@processingData <- object@processingData
+  
   ## Updating protocol slot 
   if (nrow(protocolData(object)) > 0) { 
     if (nrow(protocolData(object)) == length(reporters)) {
