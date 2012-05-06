@@ -148,8 +148,23 @@ setMethod("processingData",
 setMethod("msInfo","MSnSet",
           function(object) msInfo(experimentData(object)))
 
-setMethod("expinfo","pSet",
+setMethod("expinfo","MSnSet",
           function(object) expinfo(experimentData(object)))
+
+setMethod("title","MSnSet",
+          function(object) title(experimentData(object)))
+
+setMethod("email","MSnSet",
+          function(object) email(experimentData(object)))
+
+setMethod("ionSource","MSnSet",
+          function(object) ionSource(experimentData(object)))
+
+setMethod("analyser","MSnSet",
+          function(object) analyser(experimentData(object)))
+
+setMethod("detectorType","MSnSet",
+          function(object) detectorType(experimentData(object)))
 
 setMethod("meanSdPlot",
           signature="MSnSet",

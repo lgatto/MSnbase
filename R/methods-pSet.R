@@ -341,6 +341,21 @@ setMethod("msInfo","pSet",
 setMethod("expinfo","pSet",
           function(object) expinfo(experimentData(object)))
 
+setMethod("title","pSet",
+          function(object) title(experimentData(object)))
+
+setMethod("email","pSet",
+          function(object) email(experimentData(object)))
+
+setMethod("ionSource","pSet",
+          function(object) ionSource(experimentData(object)))
+
+setMethod("analyser","pSet",
+          function(object) analyser(experimentData(object)))
+
+setMethod("detectorType","pSet",
+          function(object) detectorType(experimentData(object)))
+
 setMethod("description", signature(object="pSet"),
           function(object, ...) {
             experimentData(object)

@@ -10,6 +10,14 @@
 \alias{msInfo}
 \alias{email,MIAPE-method}
 \alias{email}
+\alias{title,MIAPE-method}
+\alias{title}
+\alias{ionSource,MIAPE-method}
+\alias{ionSource}
+\alias{analyser,MIAPE-method}
+\alias{analyser}
+\alias{detectorType,MIAPE-method}
+\alias{detectorType}
 \alias{abstract,MIAPE-method}
 \alias{samples,MIAPE-method}
 \alias{pubMedIds,MIAPE-method}
