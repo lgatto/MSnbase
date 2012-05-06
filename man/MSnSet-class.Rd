@@ -35,6 +35,13 @@
 \alias{filterNA}
 \alias{image,MSnSet-method}
 
+\alias{title,MSnSet-method}
+\alias{email,MSnSet-method}
+\alias{ionSource,MSnSet-method}
+\alias{analyser,MSnSet-method}
+\alias{detectorType,MSnSet-method}
+\alias{description,MSnSet-method}
+
 %% functions
 \alias{updateFvarLabels}
 \alias{updateSampleNames}

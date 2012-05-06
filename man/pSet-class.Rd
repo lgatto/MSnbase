@@ -11,7 +11,6 @@
 \alias{acquisitionNum,pSet-method}
 \alias{assayData,pSet-method}
 \alias{collisionEnergy,pSet-method}
-\alias{description,pSet-method}
 \alias{dim,pSet-method}
 \alias{dim}
 \alias{experimentData,pSet-method}
@@ -57,6 +56,12 @@
 \alias{ionCount,pSet-method}
 \alias{varLabels,pSet-method}
 \alias{varMetadata,pSet-method}
+\alias{title,pSet-method}
+\alias{email,pSet-method}
+\alias{ionSource,pSet-method}
+\alias{analyser,pSet-method}
+\alias{detectorType,pSet-method}
+\alias{description,pSet-method}
 
 \title{
   Class to Contain Raw Mass-Spectrometry Assays and Experimental

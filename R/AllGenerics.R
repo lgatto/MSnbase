@@ -29,6 +29,10 @@ setGeneric("processingData<-",function(object,value) standardGeneric("processing
 ## setGeneric("proteomicsData<-",function(object,value) standardGeneric("proteomicsData<-"))
 setGeneric("msInfo",function(object) standardGeneric("msInfo"))
 setGeneric("email",function(object) standardGeneric("email"))
+setGeneric("title",function(object) standardGeneric("title"))
+setGeneric("ionSource",function(object) standardGeneric("ionSource"))
+setGeneric("analyser",function(object) standardGeneric("analyser"))
+setGeneric("detectorType",function(object) standardGeneric("detectorType"))
 
 setGeneric("mz",function(object) standardGeneric("mz"))
 setGeneric("intensity",function(object) standardGeneric("intensity"))

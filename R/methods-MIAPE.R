@@ -21,6 +21,10 @@ setReplaceMethod("pubMedIds","MIAPE",function(object,value){
 })
 
 setMethod("email","MIAPE", function(object) object@email)
+setMethod("title","MIAPE", function(object) object@title)
+setMethod("ionSource","MIAPE", function(object) object@ionSource)
+setMethod("analyser","MIAPE", function(object) object@analyser)
+setMethod("detectorType","MIAPE", function(object) object@detectorType)
 
 setReplaceMethod("pubMedIds","MIAPE",function(object, value){
    object@pubMedIds = value

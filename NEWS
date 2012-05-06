@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.5.6
+-------------------------
+ o new ionSource, analyser, detectorType, title accessor methods 
+   for MIAPE, pSet and MSnSet classes <2012-05-06 Sun>
+
 CHANGES IN VERSION 1.5.5
 -------------------------
  o added email slot in MIAPE and accessor <2012-05-04 Fri>
