@@ -149,7 +149,8 @@ analysed on a standard laptop computer.
 \bigskip
 
 See also section \ref{sec:io2} to import quantitative data stored in spreadsheets into \R 
-for further processing using \Rpackage{MSnbase}.
+for further processing using \Rpackage{MSnbase}. The \texttt{MSnbase-io} vignette 
+gives a general overview of \Rpackage{MSnbase}'s input/ouput capabilites.
 
 \subsection{MS experiments}\label{sec:msnexp}
 
@@ -674,7 +675,15 @@ Note that the quantitation data of \Robject{MSnSet} objects can also be
 exported to a text-based spreadsheet file using the \Rfunction{write.exps} 
 method.
 
+\Rpackage{MSnbase} also supports the \texttt{mzTab} 
+format\footnote{\url{http://code.google.com/p/mztab/}}, a light-weight, tab-delimited 
+file format for proteomics data. \texttt{mzTab} files can be read into \R with 
+\Rfunction{readMzTabData} to create and \Robject{MSnSet} instance. 
+\Robject{MSnSet} objects can also be exported to \texttt{mzTab} with the 
+\Rfunction{writeMzTabData} function. 
 
+See the \texttt{MSnbase-io} vignette for a general overview of 
+\Rpackage{MSnbase}'s input/ouput capabilites.
 
 \subsection{Peak adjustments}\label{sec:purcor}
 
