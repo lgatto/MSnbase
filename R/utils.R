@@ -8,118 +8,6 @@ formatRt <- function(rt) {
   return(paste(min,":",sec,sep=""))
 }
 
-##' Convert spectrum data to an Spectrum object
-##'
-##' This function converts the i'th spectrum of a list produced
-##' by \code{xcms:::rampRawData} (for \code{rawToSpectrum1}) or
-##' \code{xcms:::rampRawDataMSn} (for \code{rawToSpectrum2}) to
-##' object of class \code{"\linkS4class{Spectrum1}"} or
-##' \code{"\linkS4class{Spectrum1}"}, respectively.
-##' Rudimentary data processing like low intensity peaks and
-##' zero intensity data points removal can optionally already be
-##' applied at this stage.
-##' 
-##' @title Raw spectrum data to Spectrum object 
-##' @aliases rawToSpectrum2
-##' @usage
-##' rawToSpectrum1(x,i,removePeaks,clean,updatePeaksCount,verbose)
-##' rawToSpectrum2(x,i,removePeaks,clean,updatePeaksCount,verbose)
-##' @param x a list as returned by \code{xcms:::rampRawData} (for \code{rawToSpectrum1})
-##' or \code{xcms:::rampRawDataMSn} (for \code{rawToSpectrum2}).
-##' @param i a numeric value (integer) indicating which spectrum to extract.
-##' @param removePeaks a numeric value to define low-intensity peaks that should
-##' be removed; indicate 0 (default) to keep data as is.
-##' @param clean a logical value specifying whether MZ data points with 0 intensity
-##' (if for instance removePeaks > 1) should be completely removed.
-##' @param updatePeaksCount a logical value indicating if peak counts should
-##' be updated (default is TRUE); should be set to TRUE.
-##' @param verbose a logical value indicating if ouput is written when removing
-##' low intensity peaks and cleaning data (default is FALSE).
-##' @return an object of class \code{"\linkS4class{Spectrum1}"} for \code{rawToSpectrum1}
-##' or \code{"\linkS4class{Spectrum1}"} for \code{rawToSpectrum2}.
-##' @seealso \code{\link{readMSData}}, \code{"\linkS4class{Spectrum1}"}, \code{"\linkS4class{Spectrum2}"}. 
-##' @author Laurent Gatto
-rawToSpectrum1 <- function(x,
-                           i,
-                           removePeaks=0,
-                           clean=FALSE,
-                           centroided=FALSE,
-                           updatePeaksCount=TRUE,
-                           verbose=verbose) {
-  from <-x$scanindex[i]+1
-  to <- x$scanindex[i]+x$tic[i]
-  int <- x$intensity[from:to]
-  mz <- x$mz[from:to]
-  pc <- x$tic[i]
-  if (removePeaks>0) {
-    if (verbose) cat(" [rawToSpectru1] removing peaks <=",removePeaks,"\n")
-    int <- utils.removePeaks(int,removePeaks)
-    clean <- TRUE
-  }
-  if (clean) {
-    if (verbose) cat(" [rawToSpectrum1] cleaning...\n")
-    keep <- utils.clean(int)
-    int <- int[keep]
-    mz <- mz[keep]
-    if (updatePeaksCount)
-      pc <- length(int)
-  }
-  sp <- new("Spectrum1",
-            mz=mz,
-            intensity=int,
-            peaksCount=as.integer(pc),
-            polarity=x$polarity[i],
-            rt=x$rt[i],
-            acquisitionNum=x$acquisitionNum[i],
-            scanIndex=x$scanindex,
-            centroided=centroided)
-  if (validObject(sp))
-    return(sp)
-}
-  
-rawToSpectrum2 <- function(x,
-                           i,
-                           removePeaks=0,
-                           clean=FALSE,
-                           centroided=FALSE,
-                           updatePeaksCount=TRUE,
-                           verbose=verbose) {
-  from <-x$scanindex[i]+1
-  to <- x$scanindex[i]+x$peaksCount[i]
-  int <- x$intensity[from:to]
-  mz <- x$mz[from:to]
-  pc <- x$peaksCount[i]
-  precursorMZ <- x$precursorMZ[i]
-  if (removePeaks>0) {
-    if (verbose) cat(" [rawToSpectru2] removing peaks <=",removePeaks,"\n")
-    int <- utils.removePeaks(int,removePeaks)
-    clean <- TRUE
-  }
-  pc <- length(int) ## peaksCount before cleaning
-  if (clean) {
-    if (verbose) cat(" [rawToSpectrum2] cleaning...\n")
-    keep <- utils.clean(int)
-    int <- int[keep]
-    mz <- mz[keep]
-    if (updatePeaksCount)
-      pc <- length(int)
-  }
-  sp <- new("Spectrum2",
-            rt=x$rt[i],
-            acquisitionNum=x$acquisitionNum[i],
-            precursorMz=x$precursorMZ[i],
-            precursorIntensity=x$precursorIntensity[i],
-            precursorCharge=x$precursorCharge[i],
-            scanIndex=x$scanindex[i],
-            collisionEnergy=x$collisionEnergy[i],
-            peaksCount=as.integer(pc),
-            mz=mz,
-            centroided=centroided,
-            intensity=int)
-  if (validObject(sp))
-    return(sp)
-}
-
 utils.removePeaks <- function(int,t) {
   ## Description:
   ## Given a vector of intensities 'int' and a threshold 't',
@@ -251,7 +139,7 @@ fillUp <- function(x) {
 
 ##' Return the name of variable \code{varname} in call \code{match_call}. 
 ##'
-##' @title Retirn variable name
+##' @title Return a variable name
 ##' @param match_call An object of class \code{call}, as returned by \code{match.call}. 
 ##' @param varname An \code{character} of length 1 which is looked up in \code{match_call}.
 ##' @return A \code{character} with the name of the variable passed as parameter
@@ -259,7 +147,7 @@ fillUp <- function(x) {
 ##' @examples
 ##' a <- 1
 ##' f <- function(x, y) 
-##'  getVariableName(match.call(), "x")
+##'  MSnbase:::getVariableName(match.call(), "x")
 ##' f(x = a)
 ##' f(y = a)
 ##' @author Laurent Gatto

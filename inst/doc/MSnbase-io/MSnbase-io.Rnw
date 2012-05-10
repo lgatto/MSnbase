@@ -65,7 +65,7 @@
 \vskip 0.2in minus 0.1in
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\tableofcontents
+%% \tableofcontents
 
 %% <<setup,cache=FALSE>>=
 %% setCacheDir("sweave-cache/values")
@@ -113,6 +113,11 @@ quantitative data and exported as a spreadsheet (generally comma or tab separate
 This data as well as any additional metadata can be imported with the 
 \Rfunction{readMSnSet} function. See \Rfunction{?readMSnSet} for details.
 
+\Rpackage{MSnbase} also supports the \texttt{mzTab} 
+format\footnote{\url{http://code.google.com/p/mztab/}}, a light-weight, tab-delimited 
+file format for proteomics data developed within the Proteomics Standards Initiative (PSI).
+\texttt{mzTab} files can be read into \R with \Rfunction{readMzTabData} to create and \Robject{MSnSet} instance. 
+
 \begin{figure}[!htb] %% input
   \begin{center}
     \begin{tikzpicture}[node distance = 2cm, auto]
@@ -122,7 +127,9 @@ This data as well as any additional metadata can be imported with the
       \node [input, below of=raw] (mgf) {Peak list in \texttt{mgf} format};
       \node [fun, left of=mgf, node distance=4cm] (readMgfData) {\Rfunction{readMgfData}};
       \node [input, below of=mgf] (spreadsheet) {Quantitation data as a spreadsheet};
+      \node [input, below of=spreadsheet] (mztab) {\texttt{mzTab} format};
       \node [fun, left of=spreadsheet, node distance=4cm] (readMSnSet) {\Rfunction{readMSnSet}};
+      \node [fun, left of=mztab, node distance=4cm] (readMzTabData) {\Rfunction{readMzTabData}};
       \node [obj, left of=readMSData, yshift=-2.5mm, node distance=4cm] (MSnExp) {\Robject{MSnExp}};
       \node [obj, left of=readMSnSet, node distance=4cm] (MSnSet) {\Robject{MSnSet}};
       \node [fun, below of=MSnExp] (quantify) {\Rfunction{quantify}};
@@ -139,6 +146,8 @@ This data as well as any additional metadata can be imported with the
       \draw [->] (readMSnSet) -- (MSnSet);
       \draw  (MSnExp) -- (quantify);
       \draw [->] (quantify) -- (MSnSet);
+      \draw (mztab) -- (readMzTabData);
+      \draw [->] (readMzTabData) -- (MSnSet);
     \end{tikzpicture}
     \caption{Illustration of \texttt{MSnbase} input capabilities. 
       The white and red boxes represent \R functions/methods and objects respectively. 
@@ -161,6 +170,9 @@ as \texttt{mgf} files with the \Rfunction{writeMgfData} method. Note that the me
 the \Rfunction{write.exprs} method. Feature metadata can be appended to the feature 
 intenstiy values. See \Rfunction{?writeMgfData} for details. 
 
+\Robject{MSnSet} instances can also be exported to \texttt{mzTab} files using the 
+\Rfunction{writeMzTabData} function.
+
 \begin{figure}[!htb] %% out
   \begin{center}
     \begin{tikzpicture}[node distance = 2cm, auto]
@@ -169,8 +181,9 @@ intenstiy values. See \Rfunction{?writeMgfData} for details.
       \node [input, below of=raw] (mgf) {Peak list in \texttt{mgf} format};
       \node [fun, right of=mgf, node distance=4cm, yshift=1cm] (writeMgfData) {\Rfunction{writeMgfData}};
       \node [input, below of=mgf] (spreadsheet) {Quantitation data as a spreadsheet};
+      \node [input, below of=spreadsheet] (mztab) {\texttt{mzTab} format};
       \node [fun, right of=spreadsheet, node distance=4cm] (writeexprs) {\Rfunction{write.exprs}};
-
+      \node [fun, right of=mztab, node distance=4cm] (writeMzTabData) {\Rfunction{writeMzTabData}};
       \node [obj, right of=writeMgfData, yshift=1.25cm, node distance=4cm] (MSnExp) {\Robject{MSnExp}};
       \node [obj, right of=writeexprs, node distance=4cm] (MSnSet) {\Robject{MSnSet}};
       \node [fun, below of=MSnExp] (quantify) {\Rfunction{quantify}};
@@ -185,6 +198,8 @@ intenstiy values. See \Rfunction{?writeMgfData} for details.
       \draw [->] (writeexprs) -- (spreadsheet);
       \draw  (MSnExp) -- (quantify);
       \draw [->] (quantify) -- (MSnSet);
+      \draw (MSnSet) -- (writeMzTabData);
+      \draw [->] (writeMzTabData) -- (mztab);
     \end{tikzpicture}
     \caption{Illustration of \texttt{MSnbase} output capabilities.
       The white and red boxes represent \R functions/methods and objects respectively. 

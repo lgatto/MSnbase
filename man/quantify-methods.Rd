@@ -101,14 +101,13 @@
 
 \examples{
 ## quantifying full experiment
-file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
-aa <- readMSData(file,verbose=FALSE)
-msnset <- quantify(aa,method="trap",reporters=iTRAQ4)
+data(itraqdata)
+msnset <- quantify(itraqdata ,method = "trap", reporters = iTRAQ4)
 msnset
 ## checking for non-quantified peaks
 sum(is.na(exprs(msnset)))
 ## quantifying single spectrum
-qty <- quantify(aa[[1]],method="trap",iTRAQ4[1])
+qty <- quantify(itraqdata[[1]], method = "trap", iTRAQ4[1])
 qty$peakQuant
 qty$curveStats
 }
