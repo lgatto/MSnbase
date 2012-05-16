@@ -151,11 +151,11 @@ setMethod("msInfo","MSnSet",
 setMethod("expinfo","MSnSet",
           function(object) expinfo(experimentData(object)))
 
-setMethod("title","MSnSet",
-          function(object) title(experimentData(object)))
+setMethod("exptitle","MSnSet",
+          function(object) exptitle(experimentData(object)))
 
-setMethod("email","MSnSet",
-          function(object) email(experimentData(object)))
+setMethod("expemail","MSnSet",
+          function(object) expemail(experimentData(object)))
 
 setMethod("ionSource","MSnSet",
           function(object) ionSource(experimentData(object)))

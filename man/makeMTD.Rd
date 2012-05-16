@@ -27,8 +27,8 @@
   sections.}
 
   \item{title}{A \code{character} of lenght 1 or
-  \code{NULL} (default), in which case \code{title(x)} is
-  used if available.}
+  \code{NULL} (default), in which case \code{exptitle(x)}
+  is used if available.}
 
   \item{mtdDescription}{A \code{character} of length 1
   describing the unit or \code{NULL} (default) to ignore.}
@@ -72,8 +72,8 @@
   \code{expinfo(x)["lab"]} is used.}
 
   \item{contactEmail}{A \code{character} (of length > 0) or
-  \code{NULL} (default), in which case
-  \code{expinfo(x)["email"]} is used.}
+  \code{NULL} (default), in which case \code{expemail(x)}
+  is used.}
 
   \item{mtdUri}{A \code{character} (of length > 0)
   describing the unit's uniform resource identifier (a

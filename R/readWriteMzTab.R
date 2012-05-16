@@ -21,7 +21,7 @@ writeCOM <- function(com, file = "")
 ##' which case \code{x}'s variable name will be used. This identifier
 ##' references the item under study all sections.
 ##' @param title A \code{character} of lenght 1 or \code{NULL}
-##' (default), in which case \code{title(x)} is used if available.
+##' (default), in which case \code{exptitle(x)} is used if available.
 ##' @param mtdDescription A \code{character} of length 1 describing the unit
 ##' or \code{NULL} (default) to ignore.
 ##' @param sampleProcessing A \code{list} of (possibly multiple) valid
@@ -49,7 +49,7 @@ writeCOM <- function(com, file = "")
 ##' \code{NULL} (default), in which case \code{expinfo(x)["lab"]} is
 ##' used. 
 ##' @param contactEmail A \code{character} (of length > 0) or
-##' \code{NULL} (default), in which case \code{expinfo(x)["email"]} is
+##' \code{NULL} (default), in which case \code{expemail(x)} is
 ##' used.
 ##' @param mtdUri A \code{character} (of length > 0) describing the unit's
 ##' uniform resource identifier (a PRIDE experiment or a PeptideAtlas build
@@ -251,8 +251,8 @@ makeMTD <- function(x,
                   paste0("contact[", 1:length(contactAffiliation), "]-affiliation"))
 
   if (is.null(contactEmail)) {
-    if (email(x) != "") 
-      contactEmail <- email(x)
+    if (expemail(x) != "") 
+      contactEmail <- expemail(x)
   }
   mtd <- addToMtd(contactEmail,
                   paste0("contact[", 1:length(contactEmail), "]-email"))
@@ -886,7 +886,6 @@ makePRT <- function(x,
 ##' @references The \code{mzTab} specification document and example
 ##' files: \url{http://code.google.com/p/mztab/}.
 ##' @examples
-##' \dontrun{ ## requires rols
 ##' mzTabFile <- tempfile()
 ##' data(itraqdata)
 ##' pep <- quantify(itraqdata, reporters = iTRAQ4)
@@ -905,16 +904,15 @@ makePRT <- function(x,
 ##'                charge = fData(pep)$charge,
 ##'                retentionTime = fData(pep)$retention.time,
 ##'                pepAbundance = exprs(pep))
-##' }
-
 writeMzTabData <- function(x,
                            what = c("PEP", "PRT"),
                            append = FALSE,
                            MTD = TRUE,
                            file, ...) {
+
   if (!require(rols))
     stop("The 'rols' package is required for mzTab write support.")
-  
+    
   if (missing(file))
     stop("To which file would you like the data to be saved to?")
   

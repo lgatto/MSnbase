@@ -341,11 +341,11 @@ setMethod("msInfo","pSet",
 setMethod("expinfo","pSet",
           function(object) expinfo(experimentData(object)))
 
-setMethod("title","pSet",
-          function(object) title(experimentData(object)))
+setMethod("exptitle","pSet",
+          function(object) exptitle(experimentData(object)))
 
-setMethod("email","pSet",
-          function(object) email(experimentData(object)))
+setMethod("expemail","pSet",
+          function(object) expemail(experimentData(object)))
 
 setMethod("ionSource","pSet",
           function(object) ionSource(experimentData(object)))

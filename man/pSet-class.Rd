@@ -56,8 +56,8 @@
 \alias{ionCount,pSet-method}
 \alias{varLabels,pSet-method}
 \alias{varMetadata,pSet-method}
-\alias{title,pSet-method}
-\alias{email,pSet-method}
+\alias{exptitle,pSet-method}
+\alias{expemail,pSet-method}
 \alias{ionSource,pSet-method}
 \alias{analyser,pSet-method}
 \alias{detectorType,pSet-method}
@@ -227,7 +227,11 @@
     \item{header}{\code{signature(object = "pSet", scans = "numeric")}:
       Returns a data frame containing \code{scans} spectra parameters
       (MSn only). } 
-  }			      
+  }
+
+  Additional accessors for the experimental metadata
+  (\code{experimentData} slot) are defined. See
+  \code{"\linkS4class{MIAPE}"} for details.
 }
 
 

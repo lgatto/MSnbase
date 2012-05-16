@@ -1,10 +1,12 @@
-import(graphics)
+import(grid)
 import(BiocGenerics)
 import(Biobase)
 import(mzR)
-import(grid)
 
 import(reshape2) ## try to reduce this
+
+## importFrom(rols, olsQuery, term)
+## importClassesFrom(rols, CVParam)
 importFrom(plyr, ddply, llply, adply, summarise, summarize)
 importFrom(stats4, plot)
 importFrom(preprocessCore, normalize.quantiles) 
@@ -51,7 +53,7 @@ exportMethods(coerce,
               show,"[","[[",
               fileNames,
               msInfo,
-              email, title,
+              expemail, exptitle,
               ionSource, analyser, detectorType,
               qual,
               length,
