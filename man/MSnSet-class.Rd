@@ -35,8 +35,8 @@
 \alias{filterNA}
 \alias{image,MSnSet-method}
 
-\alias{title,MSnSet-method}
-\alias{email,MSnSet-method}
+\alias{exptitle,MSnSet-method}
+\alias{expemail,MSnSet-method}
 \alias{ionSource,MSnSet-method}
 \alias{analyser,MSnSet-method}
 \alias{detectorType,MSnSet-method}
@@ -196,9 +196,13 @@
       This method also accepts \code{matrix} instances.
 
       See also the \code{\link{is.na.MSnSet}} and \code{\link{plotNA}}
-      methods for missing data exploration.
+      methods for missing data exploration.      
     }
   }
+  
+  Additional accessors for the experimental metadata
+  (\code{experimentData} slot) are defined. See
+  \code{"\linkS4class{MIAPE}"} for details.
 }
 
 \section{Plotting}{

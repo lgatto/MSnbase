@@ -8,10 +8,10 @@
 \alias{show,MIAPE-method}
 \alias{msInfo,MIAPE-method}
 \alias{msInfo}
-\alias{email,MIAPE-method}
-\alias{email}
-\alias{title,MIAPE-method}
-\alias{title}
+\alias{expemail,MIAPE-method}
+\alias{expemail}
+\alias{exptitle,MIAPE-method}
+\alias{exptitle}
 \alias{ionSource,MIAPE-method}
 \alias{ionSource}
 \alias{analyser,MIAPE-method}
@@ -144,8 +144,10 @@
       \code{preprocessing}.} 
     \item{\code{pubMedIds(MIAPE), pubMedIds(MIAME) <- value}:}{Accessor
       function for \code{pubMedIds}.} 
-    \item{\code{samples(MIAPE)}:}{An accessor function for
-      \code{samples}.}
+    \item{\code{expemail(MIAPE)}:}{An accessor function for 
+      \code{email} slot.}
+    \item{\code{exptitle(MIAPE)}:}{An accessor function for
+      \code{title} slot.}    
   }
   
   MIAPE-specific methods, including MIAPE-MS meta-data:

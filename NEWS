@@ -1,3 +1,10 @@
+CHANGES IN VERSION 1.5.7
+-------------------------
+ o changed title method to exptitle to avoid conflict/confusion 
+   with graphics::title and consitency with expinfo method <2012-05-15 Tue>
+ o changed email to expemail <2012-05-15 Tue>
+ o Added rols to Suggests <2012-05-15 Tue>
+
 CHANGES IN VERSION 1.5.6
 -------------------------
  o new ionSource, analyser, detectorType, title accessor methods 
