@@ -203,6 +203,7 @@ nQuants <- function(object, fcol) {
   } else {
     ans <- do.call(rbind, res)
   }
-    return(ans)
+  colnames(ans) <- sampleNames(object)
+  return(ans)
 }
 

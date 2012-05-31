@@ -5,6 +5,8 @@ CHANGES IN VERSION 1.5.8
    ncol(object) == 1 <2012-05-25 Fri>
  o new nQuants function <2012-05-31 Thu>
  o minor vignettes updates <2012-05-31 Thu>
+ o nQuants now return a matrix with col names, 
+   taken form sampleNames(object) <2012-05-31 Thu>
 
 CHANGES IN VERSION 1.5.7
 -------------------------
