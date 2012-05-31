@@ -187,7 +187,11 @@
       behaviour of \code{topN} in case of \code{NA} values. 
       Note that the \code{qual} slot and the processing information are
       silently dropped.
-      (Works also with \code{matrix} instances.)}
+      (Works also with \code{matrix} instances.)
+
+      See also the \code{\link{nQuants}} function to retrieve the
+      actual number of peptides out of \code{n} where retained.
+    }
     \item{filterNA}{signature(object = "MSnSet", pNA = "numeric")}{ This
       methods subsets \code{object} by removing features that have more
       than \code{pNA} percent of NA values. Default \code{pNA} is 1/2.

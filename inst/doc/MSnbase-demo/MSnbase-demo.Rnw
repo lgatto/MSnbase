@@ -1034,10 +1034,12 @@ object that is provided with the package as experiment 1 and the data from the
 document. Both experiments share the \emph{same} default iTRAQ 4-plex reporter names 
 as default sample names, and will thus automatically be combined along rows.
 
-<<make2exps1, echo=TRUE, cache=FALSE>>=
-exp1 <- quantify(itraqdata, reporters = iTRAQ4, verbose = FALSE)
+<<makeexp12, echo=TRUE, cache=FALSE>>=
+exp1 <- quantify(itraqdata, reporters = iTRAQ4,
+                 parallel = FALSE, verbose = FALSE)
 sampleNames(exp1)
-exp2 <- quantify(rawdata, reporters = iTRAQ4, verbose = FALSE)
+exp2 <- quantify(rawdata, reporters = iTRAQ4,
+                 parallel = FALSE, verbose = FALSE)
 sampleNames(exp2)
 @ 
 
@@ -1086,11 +1088,15 @@ Alternatively, if peptide sequences would have been used as grouping factor in
 set.seed(1)
 i <- sample(length(itraqdata), 35)
 j <- sample(length(itraqdata), 35)
-exp1 <- quantify(itraqdata[i], reporters = iTRAQ4, verbose = FALSE)
-exp2 <- quantify(itraqdata[j], reporters = iTRAQ4, verbose = FALSE)
+exp1 <- quantify(itraqdata[i], reporters = iTRAQ4,
+                 parallel = FALSE, verbose = FALSE)
+exp2 <- quantify(itraqdata[j], reporters = iTRAQ4,
+                 parallel = FALSE, verbose = FALSE)
 table(featureNames(exp1) %in% featureNames(exp2))
-exp1 <- combineFeatures(exp1, groupBy = fData(exp1)$ProteinAccession)
-exp2 <- combineFeatures(exp2, groupBy = fData(exp2)$ProteinAccession)
+exp1 <- combineFeatures(exp1,
+                        groupBy = fData(exp1)$ProteinAccession)
+exp2 <- combineFeatures(exp2,
+                        groupBy = fData(exp2)$ProteinAccession)
 head(featureNames(exp1))
 featureNames(exp1) <- fData(exp1)$ProteinAccession
 featureNames(exp2) <- fData(exp2)$ProteinAccession
