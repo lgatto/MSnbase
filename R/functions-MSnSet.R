@@ -112,7 +112,7 @@ combineFeatures <- function(object,  ## MSnSet
   object@processingData@merged <- TRUE
   if (verbose) {
     message(msg)
-    message("Dropping spectrum-level 'qual' slot.")
+    ## message("Dropping spectrum-level 'qual' slot.")
   }
   object@processingData@processing <- c(object@processingData@processing,
                                         paste(msg,": ",
@@ -149,3 +149,60 @@ updateFeatureNames <- function(object, label, sep = ".") {
                                 label, sep = sep)
   object
 }
+
+##' This function counts the number of quantified features, i.e
+##' non NA quantitation values, for each group of features
+##' for all the samples in an \code{"\linkS4class{MSnSet}"} object.
+##' The group of features are defined by a feature variable names, i.e
+##' the name of a column of \code{fData(object)}.
+##'
+##' This function is typically used after \code{\link{topN}} and before
+##' \code{\link{combineFeatures}}, when the summerising function is
+##' \code{sum}, or any function that does not normalise to the number of
+##' features aggregated. In the former case, sums of feautres might
+##' be the result of 0 (if no feature was quantified) to \code{n} 
+##' (if all \code{topN}'s \code{n} features were quantified) features, 
+##' and one might want to rescale the sums based on the number of 
+##' non-NA features effectively summed.
+##' 
+##' @title Count the number of quantitfied features.
+##' @param object An instance of class \code{"\linkS4class{MSnSet}"}.
+##' @param fcol The feature variable to consider when counting the
+##' number of quantified featues.
+##' @return A \code{matrix} of dimensions
+##' \code{length(levels(factor(fData(object)[, fcol])))} by \code{ncol(object)}
+##' of integers.
+##' @author Laurent Gatto
+##' @examples
+##' data(itraqdata)
+##' x <- quantify(itraqdata, reporters = iTRAQ4)
+##' n <- 2
+##' x <- topN(x, groupBy = fData(x)$ProteinAccession, n)
+##' m <- nQuants(x, fcol = "ProteinAccession")
+##' y <- combineFeatures(x, groupBy = fData(x)$ProteinAccession, fun = sum)
+##' stopifnot(dim(n) == dim(y))
+##' head(exprs(y))
+##' head(exprs(y) * (n/m))
+nQuants <- function(object, fcol) {
+  .count <- function(x) {
+    m <- rep(nrow(x), ncol(x))
+    nna <- apply(x, 2, function(.x) sum(is.na(.x)))
+    m - nna
+  }
+  if (class(object) != "MSnSet")
+    stop("'object' must be of class 'MSnSet'.")
+  if (missing(fcol))
+    stop("'fcol' is required.")
+  if (!fcol %in% fvarLabels(object))
+    stop("'fcol' not found in fvarLabels(object).")
+  res <- by(exprs(object),
+            factor(fData(object)[, fcol]),
+            .count)
+  if (ncol(object) == 1) {
+    ans <- as.matrix(res)
+  } else {
+    ans <- do.call(rbind, res)
+  }
+    return(ans)
+}
+

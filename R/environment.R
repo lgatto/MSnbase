@@ -25,7 +25,30 @@ assign("amino.acids",
                     "Cysteine",   "Glutamic acid", "Glutamine",  "Glycine",
                     "Histidine",  "Isoleucine",    "Leucine",    "Lysine",
                     "Methionine", "Phenylalanine", "Proline",    "Serine",
-                    "Threonine",  "Tryptophan",    "Tyrosine",   "Valine")),
+                    "Threonine",  "Tryptophan",    "Tyrosine",   "Valine"),
+                  ## The hydrophobicity values are from JACS, 1962, 84: 4240-4246. (C. Tanford)
+                  Hydrophobicity = c(NA, 0.62, -2.53, -0.78, -0.9, 0.29,
+                    -0.74, -0.85, 0.48, -0.4, 1.38, 1.06, -1.5, 0.64, 1.19,
+                    0.12, -0.18, -0.05, 0.81, 0.26, 1.08),
+                  ## The hydrophilicity values are from PNAS, 1981, 78:3824-3828 (T.P.Hopp & K.R.Woods)
+                  Hydrophilicity = c(NA, -0.5, 3, 0.2, 3, -1, 3, 0.2, 0,
+                    -0.5, -1.8, -1.8, 3, -1.3, -2.5, 0, 0.3, -0.4, -3.4,
+                    -2.3, -1.5),
+                  SideChainMass = c(NA, 15, 101, 58, 59, 47, 73, 72,
+                    1, 82, 57, 57, 73, 75, 91, 42, 31, 45, 130, 107, 43),
+                  ## CRC Handbook of Chemistry and Physics, 66th ed., CRC Press, Boca Raton, Florida (1985).
+                  ## R.M.C. Dawson, D.C. Elliott, W.H. Elliott, K.M. Jones, Data for Biochemical Research 3rd ed., Clarendon Press Oxford 
+                  pK1 = c(NA, 2.35, 2.18, 2.18, 1.88, 1.71, 2.19,
+                    2.17, 2.34, 1.78, 2.32, 2.36, 2.2, 2.28, 2.58,
+                    1.99, 2.21, 2.15, 2.38, 2.2, 2.29),
+                  pK2 = c(NA, 9.87, 9.09, 9.09, 9.6, 10.78, 9.67, 9.13,
+                    9.6, 8.97, 9.76, 9.6, 8.9, 9.21, 9.24, 10.6, 9.15,
+                    9.12, 9.39, 9.11, 9.74),
+                  pI = c(NA, 6.11, 10.76, 10.76, 2.98, 5.02, 3.08,
+                    5.65, 6.06, 7.64, 6.04, 6.04, 9.47, 5.74, 5.91,
+                    6.3, 5.68, 5.6, 5.88, 5.63, 6.02)),
        envir = .MSnbaseEnv)
+
+
 
 lockEnvironment(.MSnbaseEnv,bindings=TRUE)

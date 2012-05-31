@@ -184,19 +184,20 @@ getTopIdx <- function(X, n, fun, ...) {
 
 subsetBy <- function(X, groups, byIdx) {
   ans <- c()
-  if ( !is.null(dim(X)) ) {
+  if ( is.null(dim(X)) || ncol(X) == 1 ) {
+    X <- as.vector(X)
+    for (l_i in unique(groups)) {
+      X_i <- X[groups == l_i]
+      j <- byIdx[[l_i]]
+      ans <- c(ans, X_i[j])
+    }    
+  } else {
     for (l_i in unique(groups)) {
       X_i <- X[groups == l_i, ]
       j <- byIdx[[l_i]]
       ifelse(is.vector(X_i),
              ans <- base::rbind(ans, X_i),
              ans <- base::rbind(ans, X_i[j, ]))
-    }
-  } else {
-    for (l_i in unique(groups)) {
-      X_i <- X[groups == l_i]
-      j <- byIdx[[l_i]]
-      ans <- c(ans, X_i[j])
     }
   }
   return(ans)

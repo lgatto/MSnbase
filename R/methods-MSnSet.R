@@ -300,13 +300,15 @@ setMethod("topN", signature(object = "MSnSet"),
             idx <- by(exprs(object), groupBy, getTopIdx, n, fun, ...)
             fn <- subsetBy(featureNames(object), groupBy, idx)
             .eset <- subsetBy(exprs(object), groupBy, idx)
+            if (!is.matrix(.eset)) 
+              .eset <- matrix(.eset, ncol = 1)
             rownames(.eset) <- fn
             .proc <- processingData(object)
             .proc@processing <- c(.proc@processing,
                                   paste0("Selected top ", n,
                                          " features: ", date()))
             .fdata <- subsetBy(fData(object), groupBy, idx)
-            message("Dropping spectrum-level 'qual' slot.")
+            ## message("Dropping spectrum-level 'qual' slot.")
             ans <- new("MSnSet",
                        experimentData = experimentData(object),
                        processingData = .proc,
@@ -353,7 +355,7 @@ setMethod("filterNA", signature(object = "matrix"),
                        function(x) sum(is.na(x))/length(x))
             accept <- k <= pNA
             if (sum(accept) == 1) {              
-              ans <- matrix(object[accept, ], nrow=1)
+              ans <- matrix(object[accept, ], nrow = 1)
               rownames(ans) <- rownames(object)[accept]
             } else {
               ans <- object[accept, ]

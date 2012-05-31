@@ -1,3 +1,11 @@
+CHANGES IN VERSION 1.5.8
+-------------------------
+ o added aa data in environment data.frame <2012-05-22 Tue>
+ o fixed MSnbase:::subsetBy (used by topN) when 
+   ncol(object) == 1 <2012-05-25 Fri>
+ o new nQuants function <2012-05-31 Thu>
+ o minor vignettes updates <2012-05-31 Thu>
+
 CHANGES IN VERSION 1.5.7
 -------------------------
  o changed title method to exptitle to avoid conflict/confusion 
