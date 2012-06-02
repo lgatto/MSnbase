@@ -77,16 +77,16 @@ setMethod("show","MSnSet",
           })
 
 
-setMethod("normalise","MSnSet",
-          function(object,method=c("sum","max",
-                            "quantiles",
-                            "quantiles.robust",
-                            "vsn"),...)
-          normalise.MSnSet(object,match.arg(method),...)
+setMethod("normalise", "MSnSet",
+          function(object, method = c("sum","max",
+                             "quantiles",
+                             "quantiles.robust",
+                             "vsn"), ...)
+          normalise.MSnSet(object, match.arg(method), ...)
           )
 
 setMethod("normalize","MSnSet",
-          function(object,method,...) normalise(object,method,...)
+          function(object, method, ...) normalise(object, method,...)
           )
 
 setMethod("purityCorrect",
@@ -311,13 +311,13 @@ setMethod("topN", signature(object = "MSnSet"),
             ## message("Dropping spectrum-level 'qual' slot.")
             ans <- new("MSnSet",
                        experimentData = experimentData(object),
-                       processingData = .proc,
                        exprs = .eset,
                        phenoData = phenoData(object),
                        featureData = new("AnnotatedDataFrame", data = .fdata),
                        annotation = object@annotation,
                        protocolData = protocolData(object))
-            fn <- subsetBy(featureNames(object), groupBy, idx)
+            ans@processingData <- .proc
+            featureNames(ans) <- fn
             if (validObject(ans))
               return(ans)
           })
@@ -376,7 +376,7 @@ setMethod("filterNA", signature(object = "MSnSet"),
             object@processingData@processing <-
               c(processingData(object)@processing,
                 paste0("Removed features with more that ",
-                       pNA, "NAs: ", date()))
+                       pNA, " NAs: ", date()))
             ans <- object[accept, ]
             if (validObject(ans))
               return(ans)

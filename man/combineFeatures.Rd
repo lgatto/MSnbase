@@ -8,7 +8,10 @@
   This function combines the features in an
   \code{"\linkS4class{MSnSet}"} instance applying a summarisation
   function (see \code{fun} argument) to sets of features as
-  defined by a factor (see \code{groupBy} argument). 
+  defined by a factor (see \code{groupBy} argument).
+  
+  Note that the feature names are automatically updated based on the
+  \code{groupBy} parameter. 
 }
 
 \usage{

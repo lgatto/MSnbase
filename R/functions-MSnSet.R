@@ -1,15 +1,15 @@
 
 normalise.MSnSet <- function(object,method,...) {
   if (method=="vsn") {
-    e <- exprs(vsn2(exprs(object)))
+    e <- exprs(vsn2(exprs(object), ...))
   } else if (method=="quantiles") {
-    e <- preprocessCore::normalize.quantiles(exprs(object),...)
+    e <- preprocessCore::normalize.quantiles(exprs(object), ...)
   } else if (method=="quantiles.robust") {
-    e <- preprocessCore::normalize.quantiles.robust(exprs(object),...)
+    e <- preprocessCore::normalize.quantiles.robust(exprs(object), ...)
   } else {
     switch(method,
-           max = div <- apply(exprs(object),1,max,na.rm=TRUE), 
-           sum = div <- rowSums(exprs(object),na.rm=TRUE))
+           max = div <- apply(exprs(object), 1, max, na.rm = TRUE), 
+           sum = div <- rowSums(exprs(object), na.rm = TRUE))
     e <- exprs(object)/div
   }
   rownames(e) <- rownames(exprs(object))
@@ -94,19 +94,22 @@ combineFeatures <- function(object,  ## MSnSet
     fun <- match.arg(fun)
   n1 <- nrow(object)
   ## !! order of features in matRes is defined by the groupBy factor !!
-  matRes <- as.matrix(combineMatrixFeatures(exprs(object), groupBy, fun, ..., verbose = verbose))  
-  fdata <- fData(object)[!duplicated(groupBy),]
+  matRes <- as.matrix(combineMatrixFeatures(exprs(object),
+                                            groupBy, fun, ...,
+                                            verbose = verbose))  
+  fdata <- fData(object)[!duplicated(groupBy),] ## takes the first occurences
   fdata <- fdata[order(unique(groupBy)),] ## ordering fdata according to groupBy factor
   rownames(matRes) <- rownames(fdata)
   colnames(matRes) <- sampleNames(object)
   exprs(object) <- matRes
   fData(object) <- fdata
   if (is.character(fun)) {
-    msg <- paste("Combined ",n1," features into ",
-                 nrow(object)," using ",fun,sep="")
+    msg <- paste("Combined ", n1, " features into ",
+                 nrow(object) ," using ", fun, sep = "")
   } else {
-    msg <- paste("Combined ",n1," features into ",
-                 nrow(object)," using user-defined function",sep="")
+    msg <- paste("Combined ", n1, " features into ",
+                 nrow(object), " using user-defined function",
+                 sep = "")
   }
   object@qual <- object@qual[0,]
   object@processingData@merged <- TRUE
@@ -118,6 +121,10 @@ combineFeatures <- function(object,  ## MSnSet
                                         paste(msg,": ",
                                               date(),
                                               sep=""))
+  ## update feature names according to the groupBy argument
+  ## new in version 1.5.9
+  fn <- sort(unique(groupBy))
+  featureNames(object) <- fn
   if (validObject(object))
     return(object)
 }

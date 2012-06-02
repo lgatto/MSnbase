@@ -1098,13 +1098,11 @@ exp1 <- combineFeatures(exp1,
 exp2 <- combineFeatures(exp2,
                         groupBy = fData(exp2)$ProteinAccession)
 head(featureNames(exp1))
-featureNames(exp1) <- fData(exp1)$ProteinAccession
-featureNames(exp2) <- fData(exp2)$ProteinAccession
 head(featureNames(exp1))
 @ 
 
-Setting the feature names is critical when multiple experiments are to be combined, as 
-this is done using common features as defined by their names (see below).
+The feature names are updated automatically by \Rfunction{combineFeatures}, using the \Robject{groupBy} argument. 
+Proper feature names, reflecting the nature of the features (spectra, peptides or proteins) is critical when multiple experiments are to be combined, as this is done using common features as defined by their names (see below).
 
 \bigskip
 

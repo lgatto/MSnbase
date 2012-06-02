@@ -1,3 +1,12 @@
+CHANGES IN VERSION 1.5.9
+-------------------------
+ o topN now properly updates processingData <2012-06-01 Fri>
+ o combineFeatures updates featureNames based on the 
+   groupBy argument - updated demo vignette and man 
+   accordinlgy <2012-06-01 Fri>
+ o additional parameters were not passed when normalise 
+   using vsn <2012-06-01 Fri>
+
 CHANGES IN VERSION 1.5.8
 -------------------------
  o added aa data in environment data.frame <2012-05-22 Tue>
