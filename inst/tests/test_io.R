@@ -1,5 +1,15 @@
 context("IO testing")
 
+test_that("readMSData >1 files", {
+  file1 <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
+  tdir <- tempdir()
+  file2 <- file.path(tdir, sub("iTRAQ", "iTRAQ2", basename(file1)))
+  stopifnot(file.copy(file1, file2, overwrite = TRUE))
+  raw <- readMSData(c(file1, file2))
+  raw
+})
+
+
 test_that("Compatibility between writeMgfData and readMgfData", {
   data(itraqdata)
   tf <- tempfile()
