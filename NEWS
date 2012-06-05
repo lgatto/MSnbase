@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.5.10
+-------------------------
+ o Fixed readMSData instrumentInfo handling 
+   (reported by Gopuraja Dharmalingam) <2012-06-05 Tue>
+ o new multiple file loading test in test_io <2012-06-05 Tue>
+
 CHANGES IN VERSION 1.5.9
 -------------------------
  o topN now properly updates processingData <2012-06-01 Fri>

@@ -181,23 +181,20 @@ readMSData <- function(files,
   if (length(.instrumentInfo) > 1) {
     cmp <- sapply(.instrumentInfo[-1], function(x) identical(x, .instrumentInfo[[1]]))
     if (!all(cmp)) {
-      wrn <- "According to the instrument information in your files, the data has been acquired on different instruments!"
-      warning(wrn)
-      .instrumentInfo <- c(manufacturer = wrn,
-                           model = wrn,
-                           ionisation = wrn,
-                           analyzer = wrn,
-                           detector = wrn)      
-    }
-  } else {
-    .instrumentInfo <- .instrumentInfo[[1]]
-  }
+      warning("According to the instrument information in the files, the data has been acquired on different instruments!")
+      .instrumentInfo[[1]] <- list(manufacturer = paste(sapply(.instrumentInfo, "[[", "manufacturer"), collapse = ", "),
+                                   model = paste(sapply(.instrumentInfo, "[[", "model"), collapse = ", "),
+                                   ionisation = paste(sapply(.instrumentInfo, "[[", "ionisation"), collapse = ", "),
+                                   analyzer = paste(sapply(.instrumentInfo, "[[", "analyzer"), collapse = ", "),
+                                   detector = paste(sapply(.instrumentInfo, "[[", "detector"), collapse = ", "))
+    } 
+  } 
   expdata <- new("MIAPE",
-                 instrumentManufacturer = .instrumentInfo$manufacturer,
-                 instrumentModel = .instrumentInfo$model,
-                 ionSource = .instrumentInfo$ionisation,
-                 analyser = .instrumentInfo$analyzer,
-                 detectorType = .instrumentInfo$detector)
+                 instrumentManufacturer = .instrumentInfo[[1]]$manufacturer,
+                 instrumentModel = .instrumentInfo[[1]]$model,
+                 ionSource = .instrumentInfo[[1]]$ionisation,
+                 analyser = .instrumentInfo[[1]]$analyzer,
+                 detectorType = .instrumentInfo[[1]]$detector)
   ## Create and return 'MSnExp' object
   if (verbose)
     cat("Creating 'MSnExp' object\n")
