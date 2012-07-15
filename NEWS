@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.5.11
+-------------------------
+ o type in filterNA log messaging and also 
+   rounding pNA <2012-06-07 Thu>
+ o typo in demo vignette - Gb instead of Mb <2012-07-15 Sun>
+
 CHANGES IN VERSION 1.5.10
 -------------------------
  o Fixed readMSData instrumentInfo handling 

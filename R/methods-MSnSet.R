@@ -375,8 +375,8 @@ setMethod("filterNA", signature(object = "MSnSet"),
             accept <- k <= pNA
             object@processingData@processing <-
               c(processingData(object)@processing,
-                paste0("Removed features with more that ",
-                       pNA, " NAs: ", date()))
+                paste0("Removed features with more than ",
+                       round(pNA, 3), " NAs: ", date()))
             ans <- object[accept, ]
             if (validObject(ans))
               return(ans)
