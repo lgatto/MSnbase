@@ -3,6 +3,7 @@ CHANGES IN VERSION 1.5.12
  o using knitr instead of pgfSweave and misc 
    vignette updated<2012-08-13 Mon>
  o spectrum2 reporter plotting params updates <2012-08-14 Tue>
+ o added reporterNames to NAMESPACE <2012-08-14 Tue>
 
 CHANGES IN VERSION 1.5.11
 -------------------------
