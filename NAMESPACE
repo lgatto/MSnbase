@@ -1,0 +1,111 @@
+import(grid)
+import(BiocGenerics)
+import(Biobase)
+import(mzR)
+
+import(reshape2) ## try to reduce this
+
+## importFrom(rols, olsQuery, term)
+## importClassesFrom(rols, CVParam)
+importFrom(plyr, ddply, llply, adply, summarise, summarize)
+importFrom(stats4, plot)
+importFrom(preprocessCore, normalize.quantiles) 
+importFrom(vsn, vsn2, meanSdPlot)
+importFrom(IRanges, IRanges)
+importClassesFrom(IRanges, IRanges)
+
+export(readMzXMLData,
+       readMgfData,
+       readMSData,
+       readMSnSet,
+       readIspyData,
+       writeMzTabData,
+       readMzTabData,
+       makeMTD,
+       makePEP,
+       makePRT,
+       formatRt,
+       fillUp,
+       ## extractSpectra, defunct in v 1.5.3
+       extractPrecSpectra,
+       as.data.frame.Spectrum,
+       as.ExpressionSet.MSnSet,
+       is.na.MSnSet,
+       combineFeatures,
+       nQuants,
+       makeImpuritiesMatrix,
+       precSelection,
+       precSelectionTable,
+       t.MSnSet,
+       updateFvarLabels,
+       updateFeatureNames,
+       updateSampleNames)
+
+
+exportClasses(pSet,
+              MIAPE,
+              MSnExp,
+              MSnProcess,
+              MSnSet,
+              Spectrum, Spectrum1, Spectrum2,
+              ReporterIons)
+
+exportMethods(coerce,
+              show,"[","[[",
+              fileNames,
+              msInfo,
+              expemail, exptitle,
+              ionSource, analyser, detectorType,
+              qual,
+              length,
+              image,
+              plot,
+              plot2d,
+              plotDensity,
+              plotMzDelta,
+              plotNA, 
+              spectra,
+              processingData,
+              peaksCount,
+              clean,
+              removePeaks,
+              removeReporters,
+              intensity,
+              mz,
+              tic,
+              ionCount,
+              fromFile,
+              centroided,"centroided<-",
+              precursorMz,
+              precursorIntensity,
+              precursorCharge,
+              precScanNum,
+              acquisitionNum,
+              rtime,
+              peaksCount,
+              msLevel,
+              collisionEnergy,
+              polarity,
+              trimMz,
+              quantify,
+              purityCorrect,
+              header,
+              dim,
+              multiplex,
+              multiLabels,
+              width,
+              reporterColours, reporterColors,
+              reporterNames, "reporterNames<-",
+              writeMgfData,
+              write.exprs,
+              combine, ## for classes MIAPE, MSnProcess and MSnSet
+              "experimentData<-", ## signature("MSnSet", "MIAPE")
+              normalise, normalize,
+              topN,
+              filterNA)
+
+## methods NOT exported
+## curveStats
+## "precursorCharge<-"
+
+

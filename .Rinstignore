@@ -1,0 +1,11 @@
+doc/Makefile
+doc/Author.tex
+doc/Foreword.tex
+doc/NoteAboutSpeedAndMemory.tex
+doc/plot2d-figure.png
+doc/plotDensity-figure.png
+doc/MSnbase-demo/MSnbase-demo-fake.Rnw
+doc/MSnbase-development/MSnbase-development-fake.Rnw
+doc/MSnbase-io/MSnbase-io.Rnw
+doc/plotMzDelta-pride12011.pdf
+doc/itraqchem.pdf

@@ -1,0 +1,15 @@
+citHeader("To cite the MSnbase package in publications use:")
+
+citEntry(entry="article",  
+         title  = "MSnbase - an R/Bioconductor package for isobaric tagged mass spectrometry data visualization, processing and quantitation",
+         author = personList(
+           person(given="Laurent", family="Gatto"),
+           person(given="Kathryn", family="Lilley")),
+         journal = "Bioinformatics",
+         year = "2012",
+         volume = "28",
+         pages = "288-289",
+         textVersion = paste("Laurent Gatto and Kathryn S. Lilley.",
+           "MSnbase - an R/Bioconductor package for isobaric tagged mass spectrometry data visualization, processing and quantitation.",
+           "Bioinformatics 28, 288-289 (2012).")
+         )
