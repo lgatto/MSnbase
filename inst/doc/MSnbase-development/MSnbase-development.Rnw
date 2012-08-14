@@ -7,8 +7,6 @@
 \usepackage{hyperref}
 \usepackage[authoryear,round]{natbib}
 
-\SweaveOpts{echo=T,eval=T,fig=F,results=verbatim,cache=F,tikz=T,external=T,prefix.string=sweave-cache/figs/fig}
-
 \newcommand{\R}{\texttt{R} }
 \newcommand{\Rfunction}[1]{{\texttt{#1}}}
 \newcommand{\Robject}[1]{{\texttt{#1}}}
@@ -18,7 +16,23 @@
 \definecolor{Red}{rgb}{0.7,0,0}
 \definecolor{Blue}{rgb}{0,0,0.8}
 
+\usepackage{geometry}
+\geometry{verbose,
+  tmargin = 2.5cm,
+  bmargin = 2.5cm,
+  lmargin = 3.5cm,
+  rmargin = 3.5cm}
+
+\usepackage{hyperref}
+\usepackage{breakurl}
 \hypersetup{%
+  pdfusetitle,
+  bookmarks = {true},
+  bookmarksnumbered = {true},
+  bookmarksopen = {true},
+  bookmarksopenlevel = 2,
+  unicode = {true},
+  breaklinks = {false},
   hyperindex = {true},
   colorlinks = {true},
   linktocpage = {true},
@@ -54,14 +68,30 @@
 \vskip 0.2in minus 0.1in
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+<<'setup', include = FALSE, cache = FALSE>>=
+library(knitr)
+opts_chunk$set(fig.align = 'center', 
+               fig.show = 'hold', 
+               par = TRUE,
+               prompt = FALSE,
+               comment = NA)
+options(replace.assign = TRUE, 
+        width = 65)
+knit_hooks$set(par = function(before, options, envir) {
+  if (before && options$fig.show != 'none') 
+    par(mar = c(4,4,.1,.1),
+        cex.lab = .95,
+        cex.axis = .9,
+        mgp = c(2,.7,0),
+        tcl = -.3)
+})
+@
+
 \tableofcontents
 
-%% <<setup,cache=FALSE>>=
-%% setCacheDir("sweave-cache/values")
-%% @ 
-
-<<environment,cache=FALSE,echo=FALSE>>=
-library(MSnbase)
+<<environment, cache=FALSE, echo=FALSE>>=
+suppressPackageStartupMessages(library(MSnbase))
 @
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -209,16 +239,15 @@ describes the experiment, including contact details,
 information about the mass spectrometer and control 
 and analysis software. 
 
-Raw data is currently imported from \texttt{mzXML} files \citep{Pedrioli2004} <
-using the \Rfunction{xcms:::rampRawData} 
-and \Rfunction{xcms:::rampRawDataMSn} functions from the 
-\Rpackage{xcms} package \citep{Smith2006}.
-These functions do not give access to the meta data. New importer functions are 
-under development (see for instance \Rpackage{mzR}\footnote{%%
-  \url{https://github.com/sneumann/mzR/blob/master/DESCRIPTION}}) that will 
-hopefully give programmatic access to meta data stored in the data file to 
-populate the \Robject{MIAPE} object.
-
+%% Raw data is currently imported from \texttt{mzXML} files \citep{Pedrioli2004} <
+%% using the \Rfunction{xcms:::rampRawData} 
+%% and \Rfunction{xcms:::rampRawDataMSn} functions from the 
+%% \Rpackage{xcms} package \citep{Smith2006}.
+%% These functions do not give access to the meta data. New importer functions are 
+%% under development (see for instance \Rpackage{mzR}\footnote{%%
+%%   \url{https://github.com/sneumann/mzR/blob/master/DESCRIPTION}}) that will 
+%% hopefully give programmatic access to meta data stored in the data file to 
+%% populate the \Robject{MIAPE} object.
 
 
 <<MIAPE>>=
@@ -237,22 +266,22 @@ common attributes to all types of spectra. MS1 and MS2 specific attributes
 are defined in the \Robject{Spectrum1} and \Robject{Spectrum2} classes, 
 that directly extend \Robject{Spectrum}.
 
-The choices of attributes has been dictated by the \Rfunction{xcms:::rampRawData} 
-and \Rfunction{xcms:::rampRawDataMSn} functions and what data from the 
-\texttt{mzXML} file they gave access to. 
-It is expected that some hopefully minor changes might 
-come up here when migrating to other data import packages, that allow random access 
-to \texttt{mzXML} data and support \texttt{mzML} \citep{Martens2010}.
+%% The choices of attributes has been dictated by the \Rfunction{xcms:::rampRawData} 
+%% and \Rfunction{xcms:::rampRawDataMSn} functions and what data from the 
+%% \texttt{mzXML} file they gave access to. 
+%% It is expected that some hopefully minor changes might 
+%% come up here when migrating to other data import packages, that allow random access 
+%% to \texttt{mzXML} data and support \texttt{mzML} \citep{Martens2010}.
 
 <<Spectrum>>=
 getClass("Spectrum")
 @ 
 
-<<Spectrum>>=
+<<Spectrum1>>=
 getClass("Spectrum1")
 @ 
 
-<<Spectrum>>=
+<<Spectrum2>>=
 getClass("Spectrum2")
 @ 
 
@@ -281,7 +310,7 @@ The simple expansion of the \Robject{AnnotatedDataFrame}
 classes adds the \Robject{multiplex} and \Robject{multiLabel} slots to 
 document the number and names of multiplexed samples. 
 
-<<ReporterIons>>=
+<<NAnnotatedDF>>=
 getClass("NAnnotatedDataFrame")
 @ 
 
@@ -309,7 +338,7 @@ should be implemented for \Robject{Spectrum} objects first and then
 %% from the \Robject{ExpressionSet}, whose \Robject{experimentData} slot must be of class 
 %% \Robject{MIAME}. 
 
-\input{NoteAboutSpeedAndMemory.tex}
+%% \input{NoteAboutSpeedAndMemory.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% section
@@ -317,7 +346,7 @@ should be implemented for \Robject{Spectrum} objects first and then
 \section{Session information}
 \label{sec:sessionInfo} 
 
-<<label=sessioninfo,results=tex,echo=FALSE,cache=FALSE>>=
+<<label=sessioninfo, results=tex, echo=FALSE, cache=FALSE>>=
 toLatex(sessionInfo())
 @
 

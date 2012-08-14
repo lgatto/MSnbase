@@ -22,6 +22,7 @@ LATEXFILES = *.aux\
 	*.dpth\
 	*.makefile\
 	*-figure*.pdf\
+	*tikzDictionary
 
 all:
 	make demo
@@ -35,35 +36,21 @@ R_HOME=	$(shell R RHOME)
 endif
 
 demo: 
-	mkdir -p sweave-cache/figs/
 	cp ./MSnbase-demo/MSnbase-demo.Rnw . 
-	"$(R_HOME)/bin/R" --vanilla -e "library(pgfSweave); pgfSweave('MSnbase-demo.Rnw');"
-	## "$(R_HOME)/bin/R" CMD Sweave MSnbase-demo.Rnw
-	pdflatex MSnbase-demo.tex
-	bibtex MSnbase-demo
-	pdflatex MSnbase-demo.tex
-	pdflatex MSnbase-demo.tex
+	"$(R_HOME)/bin/R" --vanilla -e "library(knitr); knit2pdf('MSnbase-demo.Rnw');"
+	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-demo.tex
 	make fake
 
 io: 
-	mkdir -p sweave-cache/figs/
 	cp ./MSnbase-io/MSnbase-io.Rnw . 
-	"$(R_HOME)/bin/R" --vanilla -e "library(pgfSweave); pgfSweave('MSnbase-io.Rnw');"
-	pdflatex MSnbase-io.tex
-	bibtex MSnbase-io
-	pdflatex MSnbase-io.tex
-	pdflatex MSnbase-io.tex
+	"$(R_HOME)/bin/R" --vanilla -e "library(knitr); knit2pdf('MSnbase-io.Rnw');"
+	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-io.tex
 	make fake
 
 devel: 
-	mkdir -p sweave-cache/figs/
 	cp ./MSnbase-development/MSnbase-development.Rnw .
-	"$(R_HOME)/bin/R" --vanilla -e "library(pgfSweave); pgfSweave('MSnbase-development.Rnw');"
-	##"$(R_HOME)/bin/R" CMD Sweave MSnbase-development.Rnw
-	pdflatex MSnbase-development.tex
-	bibtex MSnbase-development
-	pdflatex MSnbase-development.tex
-	pdflatex MSnbase-development.tex
+	"$(R_HOME)/bin/R" --vanilla -e "library(knitr); knit2pdf('MSnbase-development.Rnw');"
+	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-development.tex
 	make fake
 
 fake:
@@ -78,9 +65,9 @@ real:
 
 clean:
 	rm -f $(LATEXFILES)
-	rm -rf sweave-cache
 	rm -f *~
 	rm -f */*~
+	rm -rf figure
 
 pdfclean: 
 	rm -f MSnbase-development.pdf

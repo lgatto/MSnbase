@@ -8,7 +8,6 @@
 \usepackage{hyperref}
 \usepackage[authoryear,round]{natbib}
 
-\SweaveOpts{echo=T,eval=T,fig=F,results=verbatim,cache=F,tikz=T,external=T,prefix.string=sweave-cache/figs/fig}
 
 \newcommand{\R}{\texttt{R} }
 \newcommand{\Rfunction}[1]{{\texttt{#1}}}
@@ -19,7 +18,23 @@
 \definecolor{Red}{rgb}{0.7,0,0}
 \definecolor{Blue}{rgb}{0,0,0.8}
 
+\usepackage{geometry}
+\geometry{verbose,
+  tmargin = 2.5cm,
+  bmargin = 2.5cm,
+  lmargin = 3.0cm,
+  rmargin = 3.0cm}
+
+\usepackage{hyperref}
+\usepackage{breakurl}
 \hypersetup{%
+  pdfusetitle,
+  bookmarks = {true},
+  bookmarksnumbered = {true},
+  bookmarksopen = {true},
+  bookmarksopenlevel = 2,
+  unicode = {true},
+  breaklinks = {false},
   hyperindex = {true},
   colorlinks = {true},
   linktocpage = {true},
@@ -32,11 +47,7 @@
   pdfview = {XYZ null null null}
 }
 
-\input{Author.tex}
-
-\begin{document}
-
-%% pgf settup
+%% pgf setup
 \pgfdeclarelayer{background}
 \pgfdeclarelayer{foreground}
 \pgfsetlayers{background,main,foreground}
@@ -47,6 +58,10 @@
   text width=7em, text centered, rounded corners, minimum height=2em]
 \tikzstyle{obj} = [rectangle, draw, fill=red!20, 
   text width=5em, text centered, rounded corners, minimum height=5em]
+
+\input{Author.tex}
+
+\begin{document}
 
 \title{\Rpackage{MSnbase} input/output capabilities}
 
@@ -67,13 +82,26 @@
 
 %% \tableofcontents
 
-%% <<setup,cache=FALSE>>=
-%% setCacheDir("sweave-cache/values")
-%% @ 
+\vspace{10mm}
 
-%% <<environment,cache=FALSE,echo=FALSE>>=
-%% library(MSnbase)
-%% @
+<<knitr, include=FALSE, cache=FALSE>>=
+library(knitr)
+opts_chunk$set(fig.align = 'center', 
+               fig.show = 'hold', 
+               par = TRUE,
+               prompt = TRUE,
+               comment = NA)
+options(replace.assign = TRUE, 
+        width = 70)
+knit_hooks$set(par = function(before, options, envir) {
+  if (before && options$fig.show != 'none') 
+    par(mar = c(4,4,.1,.1),
+        cex.lab = .95,
+        cex.axis = .9,
+        mgp = c(2,.7,0),
+        tcl = -.3)
+})
+@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
@@ -209,6 +237,7 @@ intenstiy values. See \Rfunction{?writeMgfData} for details.
 \end{figure}
 
 
+\clearpage
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

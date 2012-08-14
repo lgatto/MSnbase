@@ -54,7 +54,7 @@ plot.Spectrum2 <- function(spectrum,
       subvp <- viewport(width = 2/3,
                         height = 1/3,
                         x = .95,
-                        y = .92,
+                        y = .90, ## was .92
                         just = c("right","top"))
       rectdfr <- data.frame(mtc = mean(dfr$mtc),
                             i = 0,
@@ -79,7 +79,7 @@ plot.Spectrum2 <- function(spectrum,
         p2 <- ggplot(dfr2, aes( x =mtc, y = i)) + geom_line() + rect
       }
       reps <- p2 + coord + 
-        theme_gray(9) +
+        theme_gray(5) +
           labs(x = NULL, y = NULL) +
             opts(plot.margin = unit(c(1,1,0,0), "lines")) +
               scale_x_continuous(breaks=seq(rlim1, rlim2, (rlim2-rlim1)/10)) +
