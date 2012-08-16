@@ -2,7 +2,6 @@
 %\VignetteKeywords{Mass Spectrometry, MS, MSMS, Proteomics, Infrastructure, Bioinformatics, quantitative }
 %\VignettePackage{MSnbase-demo}
 \documentclass{article}
-\usepackage{tikz}
 \usepackage[nogin]{Sweave}
 \usepackage{hyperref}
 \usepackage[authoryear,round]{natbib}
@@ -82,7 +81,6 @@ library("reshape2")
 
 <<knitr, include=FALSE, cache=FALSE>>=
 library(knitr)
-library(tikzDevice)                             
 opts_chunk$set(fig.align = 'center', 
                fig.show = 'hold', 
                par = TRUE,
@@ -285,7 +283,7 @@ with the \Robject{plot} method. Full spectra can be plotted
 or both (see figure \ref{fig:spectrum-plot}).
 
 \begin{figure}[!ht]
-<<spectrum-plot, dev='tikz', fig.width=4, fig.height=4, fig.keep='high'>>=
+<<spectrum-plot, dev='pdf', fig.width=4, fig.height=4, fig.keep='high'>>=
 plot(sp, reporters = iTRAQ4, full = TRUE) 
 @ 
 \caption{Raw MS2 spectrum with details about reporter ions.}
@@ -320,7 +318,7 @@ These can then be visualised together by plotting the
 \Robject{MSnExp} object, as illustrated on figure \ref{fig:msnexp-plot}.
 
 \begin{figure}[p]
-<<msnexp-plot, dev='tikz', fig.width=3.7, fig.height=4.5, fig.keep='last'>>=
+<<msnexp-plot, dev='pdf', fig.width=3.7, fig.height=4.5, fig.keep='last'>>=
 plot(bsa, reporters = iTRAQ4, full = FALSE) + theme_gray(8)
 @ 
 \caption{Experiment-wide raw MS2 spectra. The y-axes of the individual 
@@ -467,7 +465,7 @@ ionCount(experiment[["X55"]])
 @ 
 
 \begin{figure}[!ht]
-<<spectrum-clean-plot, dev='tikz', fig.width=6, fig.height=3, echo=FALSE, fig.keep='high'>>=
+<<spectrum-clean-plot, dev='pdf', fig.width=6, fig.height=3, echo=FALSE, fig.keep='high'>>=
 p1 <- plot(itraqdata[["X55"]], full = TRUE, plot = FALSE) + theme_gray(5) 
 p2 <- plot(experiment[["X55"]], full = TRUE, plot = FALSE) + theme_gray(5) 
 grid.newpage()
@@ -522,7 +520,7 @@ p3 <- plot(clean(removePeaks(ppsp,t=3)), full = TRUE, plot = FALSE) +
 @
 
 \begin{figure}[p]
-<<preproc-plot, dev='tikz', fig.width=3, fig.height=6, echo=FALSE>>=
+<<preproc-plot, dev='pdf', fig.width=3, fig.height=6, echo=FALSE>>=
 grid.newpage()
 pushViewport(viewport(layout = grid.layout(3, 1)))
 print(p1, vp=vplayout(1,1))
@@ -603,7 +601,7 @@ p <- p + theme_gray(5)
 @ 
 
 \begin{figure}[p]
-<<quantitation-plot, dev='tikz',fig.width=5, fig.height=5, echo=FALSE>>=
+<<quantitation-plot, dev='pdf',fig.width=5, fig.height=5, echo=FALSE>>=
 grid.newpage()
 pushViewport(viewport(layout = grid.layout(2, 2)))
 vplayout <- function(x, y)
@@ -796,7 +794,7 @@ figure \ref{fig:cv-plot} reproduces figure 3 of \cite{Karp2010} that described
 the application of vsn on iTRAQ reporter data.
 
 \begin{figure}[p]
-<<norm-plot, dev='tikz', fig.width=5, fig.height=7, echo=FALSE>>=
+<<norm-plot, dev='pdf', fig.width=5, fig.height=7, echo=FALSE>>=
 .plot <- function(x,ttl=NULL) {
   boxplot(exprs(x),
           main=ifelse(is.null(ttl),processingData(x)@processing[2],ttl),
@@ -850,7 +848,7 @@ p <- qplot(rank,cv,data=dfr,col=norm) +
 @ 
 
 \begin{figure}[!ht]
-<<cv-plot, dev='tikz', fig.width=5, fig.height=4, echo=FALSE>>=
+<<cv-plot, dev='pdf', fig.width=5, fig.height=4, echo=FALSE>>=
 print(p)
 @ 
 \caption{CV versus signal intensity comparison for log2 and vsn
@@ -874,7 +872,7 @@ p <- p + theme_gray(7)
 @ 
 
 \begin{figure}[p]
-<<msnexp-norm-plot, dev='tikz', fig.width=5, fig.height=6, echo=FALSE>>=
+<<msnexp-norm-plot, dev='pdf', fig.width=5, fig.height=6, echo=FALSE>>=
 print(p)
 @ 
 \caption{Experiment-wide normalised MS2 spectra. The y-axes of the individual 
@@ -988,7 +986,7 @@ head(exprs(incompdiss))
 Figure \ref{fig:incompdiss} compares these intensities for the whole experiment.
 
 \begin{figure}[!hbt]
-<<incompdiss-plot, dev='tikz', fig.width=5, fig.height=2.5, echo=FALSE, warning=FALSE>>=
+<<incompdiss-plot, dev='pdf', fig.width=5, fig.height=2.5, echo=FALSE, warning=FALSE>>=
 dfr <- melt(exprs(incompdiss))
 colnames(dfr) <- c("feature", "reporters", "intensity")
 dfr$reporters <- sub("iTRAQ5.", "", dfr$reporters)
