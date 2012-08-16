@@ -82,6 +82,7 @@ library("reshape2")
 
 <<knitr, include=FALSE, cache=FALSE>>=
 library(knitr)
+library(tikzDevice)                             
 opts_chunk$set(fig.align = 'center', 
                fig.show = 'hold', 
                par = TRUE,

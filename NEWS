@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.5.13
+-------------------------
+ o updated fillUp function <2012-08-15 Wed>
+ o added tikzDevice to suggests <2012-08-16 Thu>
+
 CHANGES IN VERSION 1.5.12
 -------------------------
  o using knitr instead of pgfSweave and misc 
