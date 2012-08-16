@@ -129,9 +129,7 @@ fillUp <- function(x) {
   if (!any(is.na(x)) & !any(x != "")) 
     return(x)
   for (i in 2:length(x)) {
-    if (is.na(x[i])) 
-      x[i] <- x[i - 1]
-    if (x[i] == "") 
+    if (is.na(x[i]) | (x[i] == ""))
       x[i] <- x[i - 1]
   }
   return(x)
