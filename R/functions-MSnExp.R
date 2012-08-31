@@ -186,7 +186,8 @@ quantify.MSnExp <- function(object, method, reporters, strict, parallel, verbose
     .exprs <- t(peakData$peakQuant)
     .qual <- t(peakData$curveData)
   } else {
-    if (parallel & require(foreach) & require(doMC)) {
+    if (parallel & require(foreach) & require(doMC) &&
+        (.Platform$OS.type != "windows")) {
       registerDoMC()
     }
     peakData <- llply(spectraList, quantify, method, reporters, strict,
