@@ -24,10 +24,10 @@ plot.MSnExp <- function(object,
     pmz <- paste(unique(unlist(sapply(spectraList,
                                       function(x) round(precursorMz(x), 2)))),
                  collapse = ",")
-    title <- opts(title = paste("Precursor M/Z", pmz))
+    title <- ggtitle(paste("Precursor M/Z", pmz))
   } else {
     rtm <- paste(formatRt(range(rtime(object))), collapse = " - ")
-    title <- opts(title = paste("Retention time", rtm))
+    title <- ggtitle(paste("Retention time", rtm))
     full <- TRUE
   }
   if (centroided) {
@@ -107,7 +107,7 @@ plotMzDelta.MSnExp <- function(object,            ## MSnExp object
       scale_x_continuous(limits = xlim) +
         xlim(xlim) +
           xlab("m/z delta") + ylab("Density") +
-            opts(title = "Histogram of Mass Delta Distribution")
+            ggtitle("Histogram of Mass Delta Distribution")
   if (withLabels) {
     y_offset <- x_offset <- rep(0.5, 21)
     names(y_offset) <- names(x_offset) <- .get.amino.acids()$AA
@@ -139,7 +139,7 @@ plotMzDelta.MSnExp <- function(object,            ## MSnExp object
                     vjust = y_offset,
                     hjust = x_offset),
                 size = size) +
-                      opts(legend.position = "none")
+                      theme(legend.position = "none")
   }
   if (plot) 
     print(p)

@@ -27,15 +27,15 @@ plot.Spectrum2 <- function(spectrum,
   if (nrow(dfr) == 0)
     stop("No data to be plotted in full scan")
   mainvp <- viewport(width = 1, height = 1, x = 0.5, y = 0.5)
-  title <- opts(title = paste("Precursor M/Z",
-                  round(precursorMz(spectrum), 2)))
+  title <- ggtitle(paste("Precursor M/Z",
+                         round(precursorMz(spectrum), 2)))
   if (centroided) {
     p <- ggplot(dfr, aes(x = mtc, y = i, width = width)) +
-      opts(legend.position = "none") +
+      theme(legend.position = "none") +
         labs(x = "M/Z", y = "Intensity") +
           geom_bar(stat = "identity", position = "identity")
   } else {
-    p <- ggplot(dfr, aes(x = mtc,y = i)) + opts(legend.position = "none") +
+    p <- ggplot(dfr, aes(x = mtc,y = i)) + theme(legend.position = "none") +
       labs(x = "M/Z", y = "Intensity") +
         geom_line() ## + geom_point(alpha=I(1/10))
   }
@@ -81,9 +81,9 @@ plot.Spectrum2 <- function(spectrum,
       reps <- p2 + coord + 
         theme_gray(5) +
           labs(x = NULL, y = NULL) +
-            opts(plot.margin = unit(c(1,1,0,0), "lines")) +
+            theme(plot.margin = unit(c(1,1,0,0), "lines")) +
               scale_x_continuous(breaks=seq(rlim1, rlim2, (rlim2-rlim1)/10)) +
-                opts(legend.position = "none")
+                theme(legend.position = "none")
     }
   }
   ## plotting
