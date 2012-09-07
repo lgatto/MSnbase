@@ -73,7 +73,8 @@
 <<environment, cache=FALSE, echo=FALSE>>=
 suppressPackageStartupMessages(library("MSnbase"))
 suppressPackageStartupMessages(library("zoo"))
-suppressPackageStartupMessages(library("doMC"))
+if (.Platform$OS.type != "windows")
+  suppressPackageStartupMessages(library("doMC"))
 suppressPackageStartupMessages(library("multicore"))
 library("grid")
 library("reshape2")
@@ -148,6 +149,7 @@ file <- dir(system.file(package = "MSnbase", dir = "extdata"),
             full.names = TRUE, pattern = "mzXML$")
 rawdata <- readMSData(file, msLevel = 2, verbose = FALSE)
 @ 
+%% $
 
 Either MS1 or MS2 spectra can be loaded at a time by setting the \texttt{msLevel} parameter accordingly.
 In this document, we will use the \Robject{itraqdata} data set, provided with 
@@ -188,16 +190,17 @@ gives a general overview of \Rpackage{MSnbase}'s input/ouput capabilites.
 Raw data is contained in \Robject{MSnExp} objects, that stores all the spectra of an experiment, 
 as defined by one or multiple raw data files. 
 
-<<MSnExp,cache=FALSE,echo=TRUE>>=
+<<MSnExp, cache=FALSE, echo=TRUE>>=
 library("MSnbase")
 itraqdata
 head(fData(itraqdata))
 @
 
-<<experiment-size,echo=FALSE,cache=FALSE>>=
-sz <- sum(sapply(assayData(itraqdata),object.size)) + 
+<<experimentsize, echo=FALSE, cache=FALSE>>=
+sz <- sum(sapply(assayData(itraqdata), object.size)) + 
   object.size(itraqdata)
-sz <- round(sz/(1024^2),2)
+sz <- as.numeric(sz)
+sz <- round(sz/(1024^2), 2)
 @ 
 
 As illustrated above, showing the experiment textually displays it's content: 
@@ -235,7 +238,7 @@ or as a list with \texttt{spectra(itraqdata)}.
 As we have loaded our experiment specifying \texttt{msLevel=2}, 
 the spectra will all be of level 2 (or higher, if available). 
 
-<<Spectrum,cache=FALSE,echo=TRUE>>=
+<<Spectrum, cache=FALSE, echo=TRUE>>=
 sp <- itraqdata[["X1"]]
 sp
 @ 
@@ -246,7 +249,7 @@ precursor charge, \Rfunction{rtime} for the retention time, \Rfunction{mz}
 for the MZ values, \Rfunction{intensity} for the intensities, ... see the 
 \Robject{Spectrum}, \Robject{Spectrum1} and \Robject{Spectrum2} manuals for more details.
 
-<<accessors,cache=FALSE,echo=TRUE>>=
+<<accessors, cache=FALSE, echo=TRUE>>=
 peaksCount(sp)
 head(peaksCount(itraqdata))
 rtime(sp)
@@ -283,23 +286,25 @@ with the \Robject{plot} method. Full spectra can be plotted
 or both (see figure \ref{fig:spectrum-plot}).
 
 \begin{figure}[!ht]
-<<spectrum-plot, dev='pdf', fig.width=4, fig.height=4, fig.keep='high'>>=
+<<spectrumPlot, dev='pdf', fig.width=4, fig.height=4, fig.keep='high'>>=
 plot(sp, reporters = iTRAQ4, full = TRUE) 
 @ 
 \caption{Raw MS2 spectrum with details about reporter ions.}
 \label{fig:spectrum-plot}
 \end{figure}
 
-<<bsasel, echo=FALSE>>=
-bsasel <- fData(itraqdata)$ProteinAccession == "BSA"
+<<bsaSelect, eval=TRUE, echo=FALSE>>=
+## bsasel <- fData(itraqdata)$ProteinAccession == "BSA"
+bsasel <- 1:3
 @ 
+%% $
 
 It is also possible to plot all spectra of an experiment (figure \ref{fig:msnexp-plot}). 
 Lets start by subsetting the \Robject{itraqdata} experiment using the protein accession 
 numbers included in the feature metadata, and keep the \Sexpr{sum(bsasel)} from 
 the \textit{BSA} protein.
 
-<<subset,echo=TRUE>>=
+<<subset, echo=TRUE>>=
 sel <- fData(itraqdata)$ProteinAccession == "BSA"
 bsa <- itraqdata[sel]
 bsa
@@ -318,7 +323,7 @@ These can then be visualised together by plotting the
 \Robject{MSnExp} object, as illustrated on figure \ref{fig:msnexp-plot}.
 
 \begin{figure}[p]
-<<msnexp-plot, dev='pdf', fig.width=3.7, fig.height=4.5, fig.keep='last'>>=
+<<msnexpPlot, dev='pdf', fig.width=3.7, fig.height=4.5, fig.keep='last'>>=
 plot(bsa, reporters = iTRAQ4, full = FALSE) + theme_gray(8)
 @ 
 \caption{Experiment-wide raw MS2 spectra. The y-axes of the individual 
@@ -457,7 +462,7 @@ spectrum \texttt{X55}. The respective spectra are shown on
 figure \ref{fig:spectrum-clean-plot} (page \pageref{fig:spectrum-clean-plot}).
 
 
-<<removePeaks,echo=TRUE,cache=FALSE>>=
+<<removePeaks, echo=TRUE, cache=FALSE>>=
 experiment <- removePeaks(itraqdata, t = 400, verbose = FALSE)
 ## total ion current
 ionCount(itraqdata[["X55"]])
@@ -506,21 +511,21 @@ ppsp <- new("Spectrum2",intensity=int,mz=mz,centroided=FALSE)
 p1 <- plot(ppsp, full = TRUE, plot = FALSE) + theme_gray(5) + 
   geom_point(size=3,alpha=I(1/3)) +
   geom_hline(yintercept=3,linetype=2) + 
-  opts(title="Original spectrum") 
+  ggtitle("Original spectrum") 
 p2 <- plot(removePeaks(ppsp,t=3), full=TRUE, plot = FALSE) + 
   theme_gray(5) +
   geom_point(size=3,alpha=I(1/3)) + 
   geom_hline(yintercept=3,linetype=2) + 
-  opts(title="Peaks < 3 removed") 
+  ggtitle("Peaks < 3 removed") 
 p3 <- plot(clean(removePeaks(ppsp,t=3)), full = TRUE, plot = FALSE) + 
   theme_gray(5) +
   geom_point(size=3,alpha=I(1/3)) + 
   geom_hline(yintercept=3,linetype=2) + 
-  opts(title="Peaks < 3 removed and cleaned") 
+  ggtitle("Peaks < 3 removed and cleaned") 
 @
 
 \begin{figure}[p]
-<<preproc-plot, dev='pdf', fig.width=3, fig.height=6, echo=FALSE>>=
+<<preprocPlot, dev='pdf', fig.width=3, fig.height=6, echo=FALSE>>=
 grid.newpage()
 pushViewport(viewport(layout = grid.layout(3, 1)))
 print(p1, vp=vplayout(1,1))
@@ -550,7 +555,7 @@ reduction of data size. Compare the size of the full trimmed experiment to
 the original \Sexpr{sz} Mb.
 \label{trimMz-example}
 
-<<trimMz,echo=TRUE,cache=FALSE>>=
+<<trimMz, echo=TRUE, cache=FALSE>>=
 range(mz(itraqdata[["X55"]]))
 experiment <- trimMz(experiment, mzlim = c(112,120))
 range(mz(experiment[["X55"]]))
@@ -571,7 +576,7 @@ with an \Robject{ReporterIons} object. A specific peak is defined by it's expect
 \Robject{mz} value and is searched for within \Robject{mz} $\pm$ \Robject{width}.  
 If no data is found, \Robject{NA} is returned.
 
-<<reporters,echo=TRUE,cache=FALSE>>=
+<<reporters, echo=TRUE, cache=FALSE>>=
 mz(iTRAQ4)
 width(iTRAQ4)
 @ 
@@ -601,29 +606,28 @@ p <- p + theme_gray(5)
 @ 
 
 \begin{figure}[p]
-<<quantitation-plot, dev='pdf',fig.width=5, fig.height=5, echo=FALSE>>=
+<<quantitationPlot, dev='pdf',fig.width=5, fig.height=5, echo=FALSE>>=
 grid.newpage()
 pushViewport(viewport(layout = grid.layout(2, 2)))
 vplayout <- function(x, y)
   viewport(layout.pos.row = x, layout.pos.col = y)
-print(p + opts(title = "Quantitation using 'sum'") +
+print(p + ggtitle("Quantitation using 'sum'") +
       geom_point(size = 3, alpha = I(1/3), colour = "red"),
       vp = vplayout(1, 1))
-print(p + opts(title = "Quantitation using 'max'") +
+print(p + ggtitle("Quantitation using 'max'") +
       geom_point(aes(x = 114.1, y = 3),
                  alpha = I(1/18),
                  colour = "red", size = 3),
       vp = vplayout(1, 2))
 print(p +
-      opts(title = "Trapezoidation and strict=FALSE") +
+      ggtitle("Trapezoidation and strict=FALSE") +
       geom_polygon(alpha = I(1/5), fill = "red"),
       vp = vplayout(2, 1))
 print(p +
-      opts(title = "Trapezoidation and strict=TRUE") + 
+      ggtitle("Trapezoidation and strict=TRUE") + 
       geom_polygon(aes(x = c(NA, 114.05, 114.05, 114.1, 114.15, 114.15, NA),
                        y=c(NA, 0, 1, 3, 1, 0, NA)), fill = "red", alpha = I(1/5)),
       vp = vplayout(2,2))
-
 @ 
 \caption{The different quantitation methods are illustrated above. 
   Quantitation using \Robject{sum} sums all the data points in the peaks to 
@@ -653,7 +657,7 @@ originally in the \Robject{MSnExp} used as parameter in
 can be accessed with the \Rfunction{exprs} method.
 The meta data is directly inherited from the \Robject{MSnExp} instance.
 
-<<quantify,echo=TRUE,cache=FALSE,keep.source=T>>=
+<<quantify, echo=TRUE, cache=FALSE, keep.source=TRUE>>=
 qnt <- quantify(experiment,
                 method = "trap",
                 reporters = iTRAQ4,
@@ -670,7 +674,7 @@ is \Sexpr{sum(is.na(exprs(qnt)))} such case in row
 \Sexpr{which(is.na(exprs(qnt))) %% nrow(qnt)}.
 We will remove the offending line, as we do not expect any missing peaks.
 
-<<removeNa,echo=TRUE>>=
+<<removeNa, echo=TRUE>>=
 table(is.na(qnt))
 whichRow <- which(is.na((qnt))) %% nrow(qnt)
 qnt <- qnt[-whichRow, ]
@@ -742,7 +746,7 @@ instances. It also requires a square matrix as second argument, \Robject{impurit
 that defines the relative percentage of reporter in the quantified each peak. 
 See \texttt{?purityCorrect} for more details.
 
-<<purityCorrect,echo=TRUE,cache=FALSE>>=
+<<purityCorrect, echo=TRUE, cache=FALSE>>=
 impurities <- matrix(c(0.929, 0.059, 0.002, 0.000,
                        0.020, 0.923, 0.056, 0.001,
                        0.000, 0.030, 0.924, 0.045,
@@ -781,7 +785,7 @@ of class \Robject{MSnSet} as first argument, and a character to describe the
   sum of the reporter ions intensities.
 \end{description}
 
-<<normalise,echo=TRUE,cache=FALSE>>=
+<<normalise, echo=TRUE, cache=FALSE>>=
 qnt.max <- normalise(qnt, "max")
 qnt.sum <- normalise(qnt, "sum")
 qnt.quant <- normalise(qnt, "quantiles")
@@ -794,7 +798,7 @@ figure \ref{fig:cv-plot} reproduces figure 3 of \cite{Karp2010} that described
 the application of vsn on iTRAQ reporter data.
 
 \begin{figure}[p]
-<<norm-plot, dev='pdf', fig.width=5, fig.height=7, echo=FALSE>>=
+<<normPlot, dev='pdf', fig.width=5, fig.height=7, echo=FALSE>>=
 .plot <- function(x,ttl=NULL) {
   boxplot(exprs(x),
           main=ifelse(is.null(ttl),processingData(x)@processing[2],ttl),
@@ -818,7 +822,7 @@ par(mfrow=c(3,2),mar=c(2.9,2.9,2.9,1))
 \label{fig:norm-plot}
 \end{figure}
 
-<<cvdata,echo=FALSE,cache=FALSE>>=
+<<cvdata, echo=FALSE, cache=FALSE>>=
 sd1 <- apply(log2(exprs(qnt))+10,1,sd)
 mn1 <- apply(log2(exprs(qnt))+10,1,mean)
 cv1 <- sd1/mn1
@@ -848,7 +852,7 @@ p <- qplot(rank,cv,data=dfr,col=norm) +
 @ 
 
 \begin{figure}[!ht]
-<<cv-plot, dev='pdf', fig.width=5, fig.height=4, echo=FALSE>>=
+<<cvPlot, dev='pdf', fig.width=5, fig.height=4, echo=FALSE>>=
 print(p)
 @ 
 \caption{CV versus signal intensity comparison for log2 and vsn
@@ -865,14 +869,14 @@ then normalise the \Robject{MSnExp} with \Rfunction{normalise} using
 \Robject{method="max"} as illustrated above and plot the data using \Rfunction{plot} 
 (figure \ref{fig:msnexp-norm-plot}). 
 
-<<prepare-msnset-nrom-plot, cache=FALSE, echo=FALSE, keep.fig='none'>>=
+<<prepareMsnsetNormPlot, cache=FALSE, echo=FALSE, keep.fig='none'>>=
 p <- plot(normalise(experiment[bsasel], "max"),
           reporters = iTRAQ4, full = FALSE, plot = FALSE)
 p <- p + theme_gray(7)
 @ 
 
 \begin{figure}[p]
-<<msnexp-norm-plot, dev='pdf', fig.width=5, fig.height=6, echo=FALSE>>=
+<<msnexpNormPlot, dev='pdf', fig.width=5, fig.height=6, echo=FALSE>>=
 print(p)
 @ 
 \caption{Experiment-wide normalised MS2 spectra. The y-axes of the individual 
@@ -925,7 +929,7 @@ media, sum, weighted mean or median polish of the features to be aggregated).
 Alternatively, is is possible to supply user defined functions with 
 \Robject{fun=function(x) \{ ... \}}. We will use the \Robject{median} here.
 
-<<combineFeatures,echo=TRUE,cache=FALSE>>=
+<<combineFeatures, echo=TRUE, cache=FALSE>>=
 qnt2 <- combineFeatures(qnt, groupBy = gb, fun = "median")
 qnt2
 @ 
@@ -972,7 +976,7 @@ results in an isobaric tag (i.e reporter and balance groups) specific peaks.
 145 peaks, called \Robject{iTRAQ5}. This can then be used to quantify the experiment as show in section \ref{sec:quant} 
 to estimate incomplete dissociation for each spectrum.
 
-<<incompdiss,echo=TRUE,cache=FALSE,keep.source=T>>=
+<<incompdiss, echo=TRUE, cache=FALSE, keep.source=TRUE>>=
 iTRAQ5
 incompdiss <- quantify(itraqdata,
                        method = "trap",
@@ -986,7 +990,7 @@ head(exprs(incompdiss))
 Figure \ref{fig:incompdiss} compares these intensities for the whole experiment.
 
 \begin{figure}[!hbt]
-<<incompdiss-plot, dev='pdf', fig.width=5, fig.height=2.5, echo=FALSE, warning=FALSE>>=
+<<incompdissPlot, dev='pdf', fig.width=5, fig.height=2.5, echo=FALSE, warning=FALSE>>=
 dfr <- melt(exprs(incompdiss))
 colnames(dfr) <- c("feature", "reporters", "intensity")
 dfr$reporters <- sub("iTRAQ5.", "", dfr$reporters)
@@ -1117,7 +1121,7 @@ exp1 <- combineFeatures(exp1,
 exp2 <- combineFeatures(exp2,
                         groupBy = fData(exp2)$ProteinAccession)
 head(featureNames(exp1))
-head(featureNames(exp1))
+head(featureNames(exp2))
 @ 
 
 The feature names are updated automatically by \Rfunction{combineFeatures}, using the \Robject{groupBy} argument. 

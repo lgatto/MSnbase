@@ -46,9 +46,9 @@ plotNA.matrix <- function(X, pNA) {
     geom_line(data = dfr2, aes(x = x, y = value, colour = variable)) + 
       labs(x = "Protein index (ordered by data completeness)",
            y = "Data completeness") +
-             opts(legend.position=c(0.23, 0.18),
-                  legend.title = theme_blank(),
-                  legend.background = theme_rect(size = 0)) +
+             theme(legend.position=c(0.23, 0.18),
+                  legend.title = element_blank(),
+                  legend.background = element_rect(size = 0)) +
                     scale_colour_hue(labels = c("Individual proteins", "Full dataset"),
                                      breaks = c("proteins", "data"))
   p <- p +

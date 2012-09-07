@@ -1,3 +1,11 @@
+CHANGES IN VERSION 1.5.15
+-------------------------
+ o updating code to ggplot2 v0.9.2 <2012-09-07 Fri>
+
+CHANGES IN VERSION 1.5.14
+-------------------------
+ o added platform test to use doMC (d.tenenbaum) <2012-08-31 Fri>
+
 CHANGES IN VERSION 1.5.13
 -------------------------
  o updated fillUp function <2012-08-15 Wed>
