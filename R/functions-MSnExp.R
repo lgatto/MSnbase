@@ -179,6 +179,11 @@ quantify.MSnExp <- function(object, method, reporters, strict, parallel, verbose
   ##   peakData <- eapply(assayData(object),quantify,method,reporters)
   ## }
   ifelse(verbose, progress <- "text", progress <- "none")
+  if (.Platform$OS.type == "windows") {
+    parallel <- FALSE
+    if (verbose)
+      message("Parallel processing not yet supported on Windows.")    
+  }
   spectraList <- spectra(object)
   ## Quantification -- creating exprs for assayData slot
   if (length(spectraList) == 1) {
@@ -186,8 +191,7 @@ quantify.MSnExp <- function(object, method, reporters, strict, parallel, verbose
     .exprs <- t(peakData$peakQuant)
     .qual <- t(peakData$curveData)
   } else {
-    if (parallel & require(foreach) & require(doMC) &&
-        (.Platform$OS.type != "windows")) {
+    if (parallel & require(foreach) & require(doMC)) {
       registerDoMC()
     }
     peakData <- llply(spectraList, quantify, method, reporters, strict,
