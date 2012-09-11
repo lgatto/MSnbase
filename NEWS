@@ -3,6 +3,7 @@ CHANGES IN VERSION 1.5.16
  o parallel quantify is now always set to 
    FALSE on Windows, fixing example checking 
    issues <2012-09-11 Tue>
+ o fixed types in plotMzDelta man <2012-09-11 Tue>
 
 CHANGES IN VERSION 1.5.15
 -------------------------
