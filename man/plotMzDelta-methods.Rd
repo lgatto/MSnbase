@@ -66,7 +66,7 @@
     labels are plotted on the figure. Default is \code{TRUE}. }
   \item{size}{ A \code{numeric} of length 1 specifying the font size of
     amino acids lables. Default is 2.5.}
-  \item{plot}{ A \code{numeric} of length 1 that defines whether the
+  \item{plot}{ A \code{logical} of length 1 that defines whether the
     figure should be plotted on the active device. Default is
     \code{TRUE}. Note that the \code{ggplot} object is always returned
     invisibly. }
@@ -78,7 +78,7 @@
 \section{Methods}{
   \describe{
     \item{\code{signature(object = "MSnExp", ...)}}{
-      Plots a (invisibly) returns the m/z delta histogram.
+      Plots and (invisibly) returns the m/z delta histogram.
     }
   }
 }
