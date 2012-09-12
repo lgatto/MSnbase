@@ -1,5 +1,5 @@
 iTRAQ9 <- new("ReporterIons",
-              description="8-plex iTRAQ with isobaric tag",
+              description="8-plex iTRAQ and reporter + balance group",
               name="iTRAQ9",
               reporterNames=c(
                 "iTRAQ9.113","iTRAQ9.114","iTRAQ9.115","iTRAQ9.116",
