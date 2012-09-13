@@ -383,3 +383,37 @@ setMethod("filterNA", signature(object = "MSnSet"),
           })
 
 is.na.MSnSet <- function(x) is.na(exprs(x))
+
+setMethod("log",
+          signature = "MSnSet",
+          function(x, base, ...) {
+            exprs(x) <-  log(exprs(x), base)
+            x@processingData@processing <-
+              c(x@processingData@processing,
+                paste0("Log transformed (base ", base, ") ", date()))
+            if (validObject(x))
+              return(x)
+          })
+
+
+setMethod("MAplot",
+          signature = "MSnSet",
+          function(object, log.it = TRUE, base = 2, ...) {
+            if (ncol(object) < 2)
+              stop("Need at least 2 samples to produce an MA plot.")
+            if (log.it)
+              object <- log(object, base)              
+            if (ncol(object) == 2) {
+              x <- exprs(object[, 1])
+              y <- exprs(object[, 2])
+              sel <- !is.na(x) & !is.na(y)
+              x <- x[sel]
+              y <- y[sel]
+              M <- x - y
+              A <- (x + y)/2
+              o <- order(M)
+              ma.plot(A[o], M[o], ...)
+            } else {
+              mva.pairs(exprs(object), log.it = FALSE, ...)
+            }
+          })

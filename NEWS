@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.5.18
+-------------------------
+ o new log method for MSnSet instances <2012-09-13 Thu> 
+ o new MAplot methods using generic and ma.plot/mva.pairs 
+   from affy <2012-09-13 Thu>
+
 CHANGES IN VERSION 1.5.17
 -------------------------
  o changed TMT7[7] mass from 229.26 to 230.17 and 

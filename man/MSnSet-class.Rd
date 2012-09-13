@@ -33,7 +33,9 @@
 \alias{filterNA,MSnSet-method}
 \alias{filterNA,matrix-method}
 \alias{filterNA}
+\alias{log,MSnSet-method}
 \alias{image,MSnSet-method}
+\alias{MAplot,MSnSet-method}
 
 \alias{exptitle,MSnSet-method}
 \alias{expemail,MSnSet-method}
@@ -160,7 +162,7 @@
       and samples along rows and the \code{phenoData} and
       \code{featureData} slots have been swapped. The
       \code{protocolData} slot is always dropped. }
-    \item{as(,"ExpressionSet")}{\code{signature( x = "MSnSet")}: Coerce
+    \item{as(,"ExpressionSet")}{\code{signature(x = "MSnSet")}: Coerce
       object from \code{MSnSet} to
       \code{\link{ExpressionSet-class}}. The \code{experimentData} slot is 
       dropped. }
@@ -202,6 +204,12 @@
       See also the \code{\link{is.na.MSnSet}} and \code{\link{plotNA}}
       methods for missing data exploration.      
     }
+    \item{log}{signature(object = "MSnSet", base = "numeric")}{ Log
+      transforms \code{exprs(object)} using
+      \code{base::log}. \code{base} (defaults is \code{e='exp(1)'}) must
+      be a positive or complex number, the base with respect to which
+      logarithms are computed.  
+    }      
   }
   
   Additional accessors for the experimental metadata
@@ -213,7 +221,8 @@
   \describe{
     \item{meanSdPlot}{\code{signature(object = "MSnSet")}}{ Plots row
       standard deviations versus row means. See 
-      \code{\link{meanSdPlot}} (\code{vsn} package) for more details. }    
+      \code{\link{meanSdPlot}} (\code{vsn} package) for more details.
+    }    
     \item{image}{\code{signature(x = "MSnSet", yticks = "numeric",
 	x.cex.axis = "numeric", y.cex.axis = "numeric", ...)}}{ Produces
       an image of expression values in the \code{x}
@@ -231,8 +240,20 @@
 	proteins retained. Default is 1/2. See also
 	\code{\link{plotNA}}.} 
     }
+    \item{MAplot}{\code{signature(object = "MSnSet", log.it = "logical",
+    	base = "numeric", ...)}}{
+      Produces MA plots (Ratio as a function
+      of average intensity) for the samples in \code{object}. If
+      \code{ncol(object) == 2}, then one MA plot is produced using the
+      \code{\link{ma.plot}} function from the \code{affy} package. If
+      \code{object} has more than 2 columns, then
+      \code{\link{mva.pairs}}. \code{log.it} specifies is the data
+      should be log-transformed (default is \code{TRUE}) using
+      \code{base}. Further \code{...} arguments will be passed to the
+      respective functions.
+    }
   }
-}     
+} 
 
 \section{Functions}{
   \describe{
@@ -263,10 +284,10 @@
 }
 
 \examples{
-mzxmlfile <- dir(system.file("extdata",package="MSnbase"),
-                 pattern="mzXML",full.names=TRUE)
-msnexp <- readMSData(mzxmlfile,verbose=FALSE)
-msnset <- quantify(msnexp,method="trap",reporters=iTRAQ4,verbose=FALSE)
+mzxmlfile <- dir(system.file("extdata", package = "MSnbase"),
+                 pattern = "mzXML", full.names = TRUE)
+msnexp <- readMSData(mzxmlfile, verbose = FALSE)
+msnset <- quantify(msnexp, method = "trap", reporters = iTRAQ4, verbose = FALSE)
 msnset
 }
 
