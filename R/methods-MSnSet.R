@@ -383,3 +383,14 @@ setMethod("filterNA", signature(object = "MSnSet"),
           })
 
 is.na.MSnSet <- function(x) is.na(exprs(x))
+
+setMethod("log",
+          signature = "MSnSet",
+          function(x, base, ...) {
+            exprs(x) <-  log(exprs(x), base)
+            x@processingData@processing <-
+              c(x@processingData@processing,
+                paste0("Log transformed (base ", base, ") ", date()))
+            if (validObject(x))
+              return(x)
+          })
