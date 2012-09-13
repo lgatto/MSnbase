@@ -411,8 +411,7 @@ setMethod("MAplot",
               y <- y[sel]
               M <- x - y
               A <- (x + y)/2
-              o <- order(M)
-              ma.plot(A[o], M[o], ...)
+              ma.plot(A, M, ...)
             } else {
               mva.pairs(exprs(object), log.it = FALSE, ...)
             }
