@@ -33,6 +33,7 @@
 \alias{filterNA,MSnSet-method}
 \alias{filterNA,matrix-method}
 \alias{filterNA}
+\alias{log,MSnSet-method}
 \alias{image,MSnSet-method}
 
 \alias{exptitle,MSnSet-method}
@@ -202,6 +203,12 @@
       See also the \code{\link{is.na.MSnSet}} and \code{\link{plotNA}}
       methods for missing data exploration.      
     }
+    \item{log}{signature(object = "MSnSet", base = "numeric")}{ Log
+      transforms \code{exprs(object)} using
+      \code{base::log}. \code{base} (defaults is \code{e=‘exp(1)’}) must
+      be a positive or complex number, the base with respect to which
+      logarithms are computed.  
+    }      
   }
   
   Additional accessors for the experimental metadata
