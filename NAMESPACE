@@ -13,6 +13,7 @@ importFrom(preprocessCore, normalize.quantiles)
 importFrom(vsn, vsn2, meanSdPlot)
 importFrom(IRanges, IRanges)
 importClassesFrom(IRanges, IRanges)
+importFrom(affy, MAplot, ma.plot, mva.pairs)
 
 export(readMzXMLData,
        readMgfData,
@@ -63,7 +64,8 @@ exportMethods(coerce,
               plot2d,
               plotDensity,
               plotMzDelta,
-              plotNA, 
+              plotNA,
+              MAplot,
               spectra,
               processingData,
               peaksCount,
