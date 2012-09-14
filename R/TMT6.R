@@ -1,5 +1,5 @@
 TMT6 <- new("ReporterIons",
-            description="6-plex TMT tags (HCD)",
+            description="6-plex TMT tags",
             name="TMT6",
             reporterNames=c("TMT6.126","TMT6.127",
               "TMT6.128","TMT6.129","TMT6.130",
