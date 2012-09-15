@@ -2,6 +2,8 @@ CHANGES IN VERSION 1.5.20
 -------------------------
  o an immediate warning is thrown is any(centroided(object)) 
    in quantify.MSnExp <2012-09-15 Sat>
+ o mzTab file and loading time is now recorded in 
+   processingData <2012-09-15 Sat>
 
 CHANGES IN VERSION 1.5.19
 -------------------------

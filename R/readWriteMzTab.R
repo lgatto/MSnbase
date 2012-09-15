@@ -1000,7 +1000,7 @@ readMzTabData <- function(file,
   }
   
   lns <- readLines(file)
-  ans <- new("MSnSet")  
+  ans <- new("MSnSet")
 
   ## metadata section
   mtd <- grep("^MTD", lns, value = TRUE) 
@@ -1122,6 +1122,15 @@ readMzTabData <- function(file,
   exprs(ans) <- eset
   featureData(ans) <- fdata
   phenoData(ans) <- pdata
+
+  ## adding mzTab file
+  ans@processingData@files <-
+    c(ans@processingData@files,
+      file)
+  ans@processingData@processing <-
+    c(ans@processingData@processing,
+      paste0("mzTab read: ", date()))
+  
   if (validObject(ans))
     return(ans)
 }

@@ -66,7 +66,7 @@ plotMzDelta.MSnExp <- function(object,            ## MSnExp object
                                withLabels = TRUE, ## add amino acide labels
                                size = 2.5,        ## labels size
                                plot = TRUE,       ## plot figure
-                               verbose = TRUE) {     
+                               verbose = TRUE) {
   ## Contributed by Guangchuang Yu for the plotMzDelta QC
   ## Modified aa labelling
   ResidueMass <- ..density.. <- NULL ## to accomodate codetools
