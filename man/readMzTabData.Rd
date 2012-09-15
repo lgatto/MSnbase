@@ -26,12 +26,14 @@
   populate the \code{MSnSet}'s \code{experimentData} slot.
 }
 \examples{
+\dontrun{
 testfile <- "http://mztab.googlecode.com/svn/specification/trunk/examples/mztab_itraq_example.txt"
 prot <- readMzTabData(testfile, "PRT")
 prot
 pep <- readMzTabData(testfile, "PEP")
 pep
-}
+}}
+
 \author{
   Laurent Gatto
 }
