@@ -42,6 +42,7 @@
   See the example section.
 }
 \examples{
+\dontrun{
 mzTabFile <- tempfile()
 data(itraqdata)
 pep <- quantify(itraqdata, reporters = iTRAQ4)
@@ -60,7 +61,7 @@ writeMzTabData(pep, what = "PEP", file = mzTabFile,
                charge = fData(pep)$charge,
                retentionTime = fData(pep)$retention.time,
                pepAbundance = exprs(pep))
-}
+}}
 \author{
   Laurent Gatto
 }
