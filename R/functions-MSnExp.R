@@ -186,7 +186,7 @@ quantify.MSnExp <- function(object, method, reporters, strict, parallel, verbose
   }
   if (any(centroided(object)) & method == "trapezoidation")
     warning("You are quantifying using 'trapezoidation' on centroided data!",
-            immediate .= TRUE)
+            immediate. = TRUE)
   spectraList <- spectra(object)
   ## Quantification -- creating exprs for assayData slot
   if (length(spectraList) == 1) {
