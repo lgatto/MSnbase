@@ -47,7 +47,7 @@ setMethod("combine",
                        },
                        {
                          warning("\n  unknown or conflicting information in MSnProcess field '",
-                                 sl,"'; using information from object ", xvarname)
+                                 sl,"'; using information from object ", x)
                          slot(x, sl)
                        })
             }
