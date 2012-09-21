@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.5.21
+-------------------------
+ o removed registerDoMC no visible global function NOTE <2012-09-21 Fri>
+ o fixed NOTE about xvarname which was a bug <2012-09-21 Fri>
+
 CHANGES IN VERSION 1.5.20
 -------------------------
  o an immediate warning is thrown is any(centroided(object)) 
