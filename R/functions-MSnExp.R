@@ -178,6 +178,7 @@ quantify.MSnExp <- function(object, method, reporters, strict, parallel, verbose
   ## } else {
   ##   peakData <- eapply(assayData(object),quantify,method,reporters)
   ## }
+  registerDoMC <- function() NULL ## no visible global function definition
   ifelse(verbose, progress <- "text", progress <- "none")
   if (.Platform$OS.type == "windows") {
     parallel <- FALSE
