@@ -162,7 +162,7 @@ setMethod("quantify",
                    method = c("trapezoidation","max","sum"),
                    reporters,
                    strict = FALSE,
-                   parallel = TRUE,
+                   parallel = FALSE,
                    verbose = TRUE) {
             if (!inherits(reporters,"ReporterIons"))
               stop("Argument 'reporters' must inherit from 'ReporterIons' class.")
