@@ -178,7 +178,7 @@ quantify.MSnExp <- function(object, method, reporters, strict, parallel, verbose
   ## } else {
   ##   peakData <- eapply(assayData(object),quantify,method,reporters)
   ## }
-  registerDoMC <- function() NULL ## no visible global function definition
+  detectCores <- registerDoMC <- NULL ## no visible global function definition
   ifelse(verbose, progress <- "text", progress <- "none")
   if (.Platform$OS.type == "windows") {
     parallel <- FALSE
@@ -195,8 +195,8 @@ quantify.MSnExp <- function(object, method, reporters, strict, parallel, verbose
     .exprs <- t(peakData$peakQuant)
     .qual <- t(peakData$curveData)
   } else {
-    if (parallel && require(foreach) & require(doMC)) {
-      registerDoMC()
+    if (parallel && require("foreach") & require("doMC") & require("parallel")) {      
+      registerDoMC(cores = detectCores())
     }
     peakData <- llply(spectraList, quantify, method, reporters, strict,
                       .progress = progress, .parallel = parallel)      
