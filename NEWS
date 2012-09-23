@@ -1,6 +1,8 @@
 CHANGES IN VERSION 1.5.22
 -------------------------
  o setting parallel default to FALSE <2012-09-22 Sat>
+ o enhanced parallel in DESCRIPTION and detectCores() 
+   passed to registerDoMC <2012-09-23 Sun>
 
 CHANGES IN VERSION 1.5.21
 -------------------------
