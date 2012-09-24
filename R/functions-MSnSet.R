@@ -1,5 +1,5 @@
 
-normalise.MSnSet <- function(object,method,...) {
+normalise_MSnSet <- function(object,method,...) {
   if (method=="vsn") {
     e <- exprs(vsn2(exprs(object), ...))
   } else if (method=="quantiles") {

@@ -1,4 +1,4 @@
-removePeaks.Spectrum <- function(spectrum,t="min") {
+removePeaks_Spectrum <- function(spectrum,t="min") {
   if (t=="min") 
     t <- min(intensity(spectrum)[intensity(spectrum)>0])
   if (!is.numeric(t))
@@ -9,7 +9,7 @@ removePeaks.Spectrum <- function(spectrum,t="min") {
 }
 
 
-clean.Spectrum <- function(spectrum,updatePeaksCount=TRUE) {
+clean_Spectrum <- function(spectrum,updatePeaksCount=TRUE) {
   keep <- utils.clean(spectrum@intensity)
   spectrum@intensity <- spectrum@intensity[keep]
   spectrum@mz <- spectrum@mz[keep]
@@ -17,7 +17,7 @@ clean.Spectrum <- function(spectrum,updatePeaksCount=TRUE) {
   return(spectrum)
 }
 
-quantify.Spectrum <- function(spectrum,method,
+quantify_Spectrum <- function(spectrum,method,
                               reporters,strict) {
   ## Parameters:
   ##  spectrum: object of class Spectrum
@@ -98,7 +98,7 @@ quantify.Spectrum <- function(spectrum,method,
 }
 
 
-## curveStats.Spectrum <- function(spectrum,reporters) {
+## curveStats_Spectrum <- function(spectrum,reporters) {
 ##   curveStats <- c()
 ##   for (i in 1:length(reporters)) {
 ##     dfr <- curveData(spectrum,reporters[i])
@@ -224,7 +224,7 @@ getCurveWidth <- function(spectrum,reporters) {
   return(list(lwr=xlwr,upr=xupr))
 }
 
-trimMz.Spectrum <- function(x,mzlim,updatePeaksCount=TRUE) {
+trimMz_Spectrum <- function(x,mzlim,updatePeaksCount=TRUE) {
   mzmin <- min(mzlim)
   mzmax <- max(mzlim)
   sel <- (x@mz >= mzmin) & (x@mz <= mzmax)
@@ -241,7 +241,7 @@ trimMz.Spectrum <- function(x,mzlim,updatePeaksCount=TRUE) {
   return(x)
 }
 
-normalise.Spectrum <- function(object,method) {
+normalise_Spectrum <- function(object,method) {
   ints <- intensity(object)
   switch(method,
          max = div <- max(ints),

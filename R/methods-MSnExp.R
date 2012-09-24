@@ -89,7 +89,7 @@ setMethod("show",
 
 
 setMethod("plot",c("MSnExp","missing"),
-          function(x,y,...) plot.MSnExp(x,...))
+          function(x,y,...) plot_MSnExp(x,...))
 
 setMethod("plot2d",c("MSnExp"),
           function(object,z,alpha=1/3,plot=TRUE)
@@ -118,17 +118,17 @@ setMethod("plotMzDelta",c("MSnExp"),
                    size=2.5,
                    plot=TRUE,
                    verbose=TRUE)
-          plotMzDelta.MSnExp(object, reporters, percentage,
+          plotMzDelta_MSnExp(object, reporters, percentage,
                              precMz, precMzWidth,bw,
                              xlim, withLabels, size,
                              plot, verbose))
 
 setMethod("clean",
           signature=signature("MSnExp"),
-          function(object,verbose=TRUE) clean.MSnExp(object, verbose))
+          function(object,verbose=TRUE) clean_MSnExp(object, verbose))
 
 setMethod("removePeaks",signature("MSnExp"),
-          function(object,t,verbose=TRUE) removePeaks.MSnExp(object, t, verbose))
+          function(object,t,verbose=TRUE) removePeaks_MSnExp(object, t, verbose))
 
 
 setMethod("trimMz",
@@ -170,13 +170,13 @@ setMethod("quantify",
             ## has msLevel>1, all have
             if (msLevel(object)[1]<2) 
               stop("No quantification for MS1 data implemented.")
-            quantify.MSnExp(object, match.arg(method), reporters, strict, parallel, verbose)
+            quantify_MSnExp(object, match.arg(method), reporters, strict, parallel, verbose)
           })
 
 setMethod("curveStats","MSnExp",
           function(object,reporters,verbose=TRUE) {
             ifelse(verbose,progress <- "text",progress <- "none")
-            l <- llply(object@spectra,curveStats,reporters,.progress=progress)
+            l <- llply(object@spectra, curveStats, reporters, .progress=progress)
             qdfr <- l[[1]]
             for (i in 2:length(l)) 
               qdfr <- rbind(qdfr,l[[i]])
@@ -185,7 +185,7 @@ setMethod("curveStats","MSnExp",
 
 setMethod("extractPrecSpectra",
           signature=signature(object="MSnExp",prec="numeric"),
-          function(object,prec) extractPrecSpectra.MSnExp(object,prec))
+          function(object,prec) extractPrecSpectra_MSnExp(object,prec))
 
 setMethod("extractSpectra",
           signature=signature(object="MSnExp",selected="logical"),
@@ -196,19 +196,19 @@ setMethod("extractSpectra",
             ## extractSpectra.MSnExp(object,selected)
           })
 
-setMethod("normalise","MSnExp",
-          function(object,method=c("max","sum"),...) {
-            normalise.MSnExp(object,method=match.arg(method))
+setMethod("normalise", "MSnExp",
+          function(object, method = c("max","sum"),...) {
+            normalise_MSnExp(object, method = match.arg(method))
         })
 
-setMethod("normalize","MSnExp",
-          function(object,method="max",...)
-          normalise(object,method))
+setMethod("normalize", "MSnExp",
+          function(object, method = "max",...)
+          normalise(object, method))
 
 
 setMethod("removeReporters","MSnExp",
           function(object, reporters=NULL, clean=FALSE,verbose=TRUE) {
             if (is.null(reporters))
               return(object)
-            removeReporters.MSnExp(object,reporters,clean,verbose)
+            removeReporters_MSnExp(object,reporters,clean,verbose)
         })

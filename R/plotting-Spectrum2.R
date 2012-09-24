@@ -1,4 +1,4 @@
-plot.Spectrum2 <- function(spectrum,
+plot_Spectrum2 <- function(spectrum,
                            reporters = NULL,
                            full = FALSE,
                            centroided,
@@ -14,7 +14,7 @@ plot.Spectrum2 <- function(spectrum,
   if (missing(centroided))
     centroided <- MSnbase:::centroided(spectrum)
   xmin <- xmax <- ymin <- ymax <- fill <- NULL # to satisfy codetools
-  ## plot.Spectrum2: no visible binding for global variable ‘xmin’
+  ## plot_Spectrum2: no visible binding for global variable ‘xmin’
   ## ...
   mtc <- mz(spectrum)
   i <- intensity(spectrum)

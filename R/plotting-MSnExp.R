@@ -1,11 +1,11 @@
-plot.MSnExp <- function(object,
+plot_MSnExp <- function(object,
                         reporters,
                         full = FALSE,
                         centroided,
                         plot = TRUE,
                         w1) {
   i <- NULL # to satisfy codetools
-  ## plot.MSnExp: no visible binding for global variable ‘i’
+  ## plot_MSnExp: no visible binding for global variable ‘i’
   if (missing(centroided))
     centroided <- any(MSnbase:::centroided(object))
   mtc <- unlist(mz(object))
@@ -56,7 +56,7 @@ plot.MSnExp <- function(object,
   invisible(p)
 }
 
-plotMzDelta.MSnExp <- function(object,            ## MSnExp object
+plotMzDelta_MSnExp <- function(object,            ## MSnExp object
                                reporters = NULL,  ## reporters to be removed
                                percentage = 0.1,  ## percentage of peaks to consider                               
                                precMz = NULL,     ## precursors to be removed
