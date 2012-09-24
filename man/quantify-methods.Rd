@@ -37,9 +37,13 @@
     within apex +/- width of reporter (see 
     \code{"\linkS4class{ReporterIons}"}) are used for quantitation.
   }
+  \item{parallel}{
+    Logical defining if reporter peaks should be quantified in parallel
+    (default is FALSE). Currently not supported on Windows. 
+  }
   \item{verbose}{
     Verbose of the output (only for \code{MSnExp} objects).
-  }
+  }  
 }
 
 \details{
