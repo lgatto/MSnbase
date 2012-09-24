@@ -82,7 +82,7 @@ setMethod("normalise", "MSnSet",
                              "quantiles",
                              "quantiles.robust",
                              "vsn"), ...)
-          normalise.MSnSet(object, match.arg(method), ...)
+          normalise_MSnSet(object, match.arg(method), ...)
           )
 
 setMethod("normalize","MSnSet",

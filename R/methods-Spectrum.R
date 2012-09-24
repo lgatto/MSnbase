@@ -18,25 +18,25 @@ setMethod("initialize",
               .Object
           })
 
-setMethod("show","Spectrum",
+setMethod("show", "Spectrum",
           function(object) {
-            if (msLevel(object)==1) show.Spectrum1(object)
-            else show.Spectrum2(object)
+            if (msLevel(object)==1) show_Spectrum1(object)
+            else show_Spectrum2(object)
             invisible(NULL)
           })
 
 setMethod("plot",c("Spectrum","missing"),
           function(x,y,...) {
-            if (msLevel(x)==1) plot.Spectrum1(x,...)
-            else plot.Spectrum2(x,...)
+            if (msLevel(x)==1) plot_Spectrum1(x,...)
+            else plot_Spectrum2(x,...)
           })
 
 setMethod("clean",
           signature=signature("Spectrum"),
-          function(object) clean.Spectrum(object))
+          function(object) clean_Spectrum(object))
 
 setMethod("removePeaks","Spectrum",
-          function(object,t) removePeaks.Spectrum(object,t))
+          function(object,t) removePeaks_Spectrum(object,t))
 
 setMethod("precursorMz","Spectrum",
           function(object) {
@@ -87,8 +87,8 @@ setMethod("tic","Spectrum",function(object) object@tic)
 setMethod("ionCount","Spectrum", function(object) sum(object@intensity))
 
 setMethod("trimMz",
-          signature=signature("Spectrum","numeric"),
-          function(object,mzlim,...) trimMz.Spectrum(object,mzlim))
+          signature=signature("Spectrum", "numeric"),
+          function(object, mzlim, ...) trimMz_Spectrum(object,mzlim))
 
 setMethod("quantify",
           signature=signature("Spectrum"),
@@ -98,11 +98,11 @@ setMethod("quantify",
                    strict=FALSE) {
             if (!inherits(reporters,"ReporterIons"))
               stop("Argument 'reporters' must inherit from 'ReporterIons' class.")
-            quantify.Spectrum(object,match.arg(method),reporters,strict)
+            quantify_Spectrum(object,match.arg(method),reporters,strict)
           })
 
 setMethod("curveStats","Spectrum",
-          function(object,reporters) curveStats.Spectrum(object,reporters))
+          function(object,reporters) curveStats_Spectrum(object,reporters))
 
 setReplaceMethod("precursorCharge",
                  signature(object="Spectrum",
@@ -144,16 +144,16 @@ setReplaceMethod("centroided",
 
 setMethod("normalise","Spectrum",
           function(object,method=c("max","sum"),...) {
-            normalise.Spectrum(object,method=match.arg(method))
+            normalise_Spectrum(object,method=match.arg(method))
         })
 
 setMethod("normalize","Spectrum",
-          function(object,method=c("max","sum"),...)
-          normalise(object,method=method))
+          function(object, method = c("max","sum"),...)
+          normalise(object, method = method))
 
 setMethod("removeReporters","Spectrum",
           function(object,reporters=NULL,clean=FALSE) {
             if (msLevel(object)>1) 
-              return(removeReporters.Spectrum2(object,reporters,clean))
+              return(removeReporters_Spectrum2(object,reporters,clean))
             stop("No reporters to remove for MS1 spectra.")            
           })

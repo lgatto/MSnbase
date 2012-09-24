@@ -10,7 +10,7 @@ setMethod("initialize","MSnProcess",
 
 setMethod("show","MSnProcess",
           function(object) {
-            show.MSnProcess(object)
+            show_MSnProcess(object)
             invisible(NULL)
           })
 

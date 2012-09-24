@@ -53,7 +53,7 @@
 ##              process=object@process))
 ## }
 
-extractPrecSpectra.MSnExp <- function(object,prec) {
+extractPrecSpectra_MSnExp <- function(object,prec) {
   nmissing <- sum(!prec %in% precursorMz(object))
   if (nmissing!=0)
     warning(nmissing," precursor MZ values not found in 'MSnExp' object.") 
@@ -93,7 +93,7 @@ extractPrecSpectra.MSnExp <- function(object,prec) {
 ##     return(object)
 ## }
 
-removePeaks.MSnExp <- function(object,t="min",verbose=TRUE) {
+removePeaks_MSnExp <- function(object,t="min",verbose=TRUE) {
   ifelse(verbose,progress <- "text",progress <- "none")
   spectraList <-  llply(spectra(object),
                         function(x) removePeaks(x,t),
@@ -118,7 +118,7 @@ removePeaks.MSnExp <- function(object,t="min",verbose=TRUE) {
 }
 
 
-clean.MSnExp <- function(object,verbose=TRUE) {
+clean_MSnExp <- function(object,verbose=TRUE) {
   ## -- was ---------------------------------------------------
   ##  ifelse(verbose,progress <- "text",progress <- "none")
   ##  spectra <- llply(spectra(object),function(x) clean(x),.progress=progress)
@@ -160,7 +160,7 @@ clean.MSnExp <- function(object,verbose=TRUE) {
     return(object)
 }
 
-quantify.MSnExp <- function(object, method, reporters, strict, parallel, verbose) {
+quantify_MSnExp <- function(object, method, reporters, strict, parallel, verbose) {
   ## Display progress bar with eapply
   ## TODO - test if using eapply is more efficient in terms of mem/cpu usage
   ## if (verbose) {
@@ -267,7 +267,7 @@ quantify.MSnExp <- function(object, method, reporters, strict, parallel, verbose
 }
 
 
-normalise.MSnExp <- function(object,method) {
+normalise_MSnExp <- function(object,method) {
   sapply(featureNames(object),
          function(x) {
            sp <- get(x,envir=assayData(object))
@@ -303,7 +303,7 @@ precSelectionTable <- function(object,...) {
   return(table(x))
 }
 
-removeReporters.MSnExp <- function(object,reporters=NULL,clean=FALSE,verbose=TRUE) {
+removeReporters_MSnExp <- function(object,reporters=NULL,clean=FALSE,verbose=TRUE) {
   ifelse(verbose,progress <- "text",progress <- "none")
   spectraList <-  llply(spectra(object),function(x) removeReporters(x,reporters,clean),.progress=progress)
   object@assayData <- list2env(spectraList)

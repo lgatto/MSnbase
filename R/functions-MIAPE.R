@@ -1,4 +1,4 @@
-show.MIAPE <- function(object) {
+show_MIAPE <- function(object) {
   if (any(c(length(object@instrumentModel) > 0,
             length(object@instrumentManufacturer) > 0,
             length(object@instrumentCustomisations) > 0))) {
@@ -42,7 +42,7 @@ show.MIAPE <- function(object) {
   }
 }
 
-msInfo.MIAPE <- function(object) {
+msInfo_MIAPE <- function(object) {
   cat("MIAPE-MS information:\n")
   cat(" 1. General features:\n")
   cat("  Date stamp:", object@dateStamp,"\n")
