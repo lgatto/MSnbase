@@ -1,4 +1,4 @@
-show.Spectrum2 <- function(spectrum) {
+show_Spectrum2 <- function(spectrum) {
   cat("Object of class \"",class(spectrum),"\"\n",sep="")
   if (length(spectrum@merged)>1)
     cat(" Merged from ",length(spectrum@merged),"MSn spectra\n")
@@ -10,7 +10,7 @@ show.Spectrum2 <- function(spectrum) {
   cat(" Total ion count:",sum(spectrum@intensity),"\n")
 }
 
-removeReporters.Spectrum2 <- function(object, reporters=NULL, clean=FALSE) {
+removeReporters_Spectrum2 <- function(object, reporters=NULL, clean=FALSE) {
   ## Originally contributed by Guangchuang Yu for the plotMzDelta QC
   ## Additional modifications: setting peaks to 0 and clean argument
   ## Made removeReporters a method in version 1.1.15

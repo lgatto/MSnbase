@@ -1,4 +1,4 @@
-plot.Spectrum1 <- function(spectrum,
+plot_Spectrum1 <- function(spectrum,
                            centroided=FALSE,
                            plot=TRUE,
                            w1) {
