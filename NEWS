@@ -1,3 +1,10 @@
+CHANGES IN VERSION 1.5.24
+-------------------------
+ o updated clean, removePeaks, combineFeatures, purityCorrect, 
+   trimMz, plot, MSnSet-class examples to not use readMSData <2012-09-25 Tue>
+ o fixed clean,MSnExp-method <2012-09-25 Tue>
+ o space in log message in extractPrecSpectra <2012-09-25 Tue> 
+
 CHANGES IN VERSION 1.5.23
 -------------------------
  o updated quantify documentation <2012-09-24 Mon>

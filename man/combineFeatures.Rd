@@ -55,11 +55,8 @@ combineFeatures(object, groupBy, fun = c("mean", "median", "weighted.mean", "sum
 % }
 
 \examples{
-fn <- dir(system.file(package = "MSnbase", dir = "extdata"),
-          full.names = TRUE,
-          pattern = "mzXML$")
-aa <- readMSData(fn)
-aa.quant <- quantify(aa, method = "max", reporters = iTRAQ4)
+data(itraqdata)
+quant <- quantify(itraqdata[11:15], method = "max", reporters = iTRAQ4)
 dim(aa.quant)
 ## arbitrary grouping into two groups
 grp <- as.factor(c(1,1,2,2,2))

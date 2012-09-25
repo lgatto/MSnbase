@@ -1,4 +1,4 @@
-## mergeSpectra <- function(object, ## MSnExp object
+# mergeSpectra <- function(object, ## MSnExp object
 ##                          fun=sum,
 ##                          verbose=TRUE) {
 ##   spectra <- spectra(object)
@@ -64,7 +64,7 @@ extractPrecSpectra_MSnExp <- function(object,prec) {
   m <- length(nms)
   ## updating object
   object@processingData@processing <- c(object@processingData@processing,
-                                        paste(n,"(",m,
+                                        paste(n," (",m,
                                               ") precursors (spectra) extracted: ",
                                               date(),sep=""))
   object@assayData <- list2env(mget(nms,assayData(object)))
@@ -124,6 +124,7 @@ clean_MSnExp <- function(object,verbose=TRUE) {
   ##  spectra <- llply(spectra(object),function(x) clean(x),.progress=progress)
   ##  object@assayData <- list2env(spectra)
   ## -- new ---------------------------------------------------
+  e <- new.env()
   if (verbose) {
     ._cnt <- 1
     pb <- txtProgressBar(min = 0, max = length(object), style = 3)
@@ -134,9 +135,9 @@ clean_MSnExp <- function(object,verbose=TRUE) {
              setTxtProgressBar(pb, ._cnt)
              ._cnt <<- ._cnt+1
            }
-           sp <- get(x,envir=assayData(object))
+           sp <- get(x, envir = assayData(object))
            xx <- clean(sp)
-           assign(x,xx,envir=assayData(object))
+           assign(x, xx, envir = e)
            invisible(TRUE)
          })
   if (verbose) {
@@ -156,6 +157,7 @@ clean_MSnExp <- function(object,verbose=TRUE) {
                                       hd = hd),
                                  object@.cache$level)
   }
+  object@assayData <- e
   if (validObject(object))
     return(object)
 }

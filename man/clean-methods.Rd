@@ -50,13 +50,12 @@ sp2 <- clean(sp1)
 intensity(sp1)
 intensity(sp2)
 
-file <- dir(system.file(package="MSnbase",dir="extdata"),
-            full.name=TRUE,pattern="mzXML$")
-aa <- readMSData(file,verbose=FALSE)
-bb <- clean(aa,verbose=FALSE)
-sum(peaksCount(aa))
-sum(peaksCount(bb))
-processingData(bb)
+
+data(itraqdata)
+itraqdata2 <- clean(itraqdata)
+sum(peaksCount(itraqdata))
+sum(peaksCount(itraqdata2))
+processingData(itraqdata2)
 }
 
 

@@ -72,9 +72,8 @@
 
 \examples{
 ## quantifying full experiment
-file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
-aa <- readMSData(file,verbose=FALSE)
-msnset <- quantify(aa,method="trap",reporters=iTRAQ4)
+data(itraqdata)
+msnset <- quantify(itraqdata, method = "trap", reporters = iTRAQ4)
 impurities <- matrix(c(0.929,0.059,0.002,0.000,
                        0.020,0.923,0.056,0.001,
                        0.000,0.030,0.924,0.045,
@@ -82,7 +81,7 @@ impurities <- matrix(c(0.929,0.059,0.002,0.000,
                      nrow=4)
 ## or, using makeImpuritiesMatrix()
 \dontrun{impurities <- makeImpuritiesMatrix(4)}
-msnset.crct <- purityCorrect(msnset,impurities)
+msnset.crct <- purityCorrect(msnset, impurities)
 head(exprs(msnset))
 head(exprs(msnset.crct))
 processingData(msnset.crct)

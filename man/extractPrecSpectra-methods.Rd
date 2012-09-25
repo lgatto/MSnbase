@@ -37,8 +37,9 @@ file <- dir(system.file(package="MSnbase",dir="extdata"),
             full.name=TRUE,pattern="mzXML$")
 aa <- readMSData(file,verbose=FALSE)
 my.prec <- precursorMz(aa)[1]
+my.prec
 bb <- extractPrecSpectra(aa,my.prec)
-stopifnot(all(precursorMz(bb) \%in\% my.prec))
+precursorMz(bb)
 processingData(bb)
 }
 

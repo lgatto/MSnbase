@@ -66,13 +66,13 @@ intensity(sp2)
 intensity(sp3)
 
 peaksCount(sp1) == peaksCount(sp2)
-peaksCount(sp1) < peaksCount(sp3)
+peaksCount(sp3) <= peaksCount(sp1)
 
-file <- dir(system.file(package="MSnbase",dir="extdata"),
-            full.name=TRUE,pattern="mzXML$")
-aa <- readMSData(file)
-aa <- removePeaks(aa)
-processingData(aa)
+data(itraqdata)
+itraqdata2 <- removePeaks(itraqdata, t = 2.5e5)
+table(unlist(intensity(itraqdata)) == 0)
+table(unlist(intensity(itraqdata2)) == 0)
+processingData(itraqdata2)
 }
 
 \keyword{methods}
