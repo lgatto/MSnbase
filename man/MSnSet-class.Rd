@@ -284,10 +284,9 @@
 }
 
 \examples{
-mzxmlfile <- dir(system.file("extdata", package = "MSnbase"),
-                 pattern = "mzXML", full.names = TRUE)
-msnexp <- readMSData(mzxmlfile, verbose = FALSE)
-msnset <- quantify(msnexp, method = "trap", reporters = iTRAQ4, verbose = FALSE)
+data(itraqdata)
+itraqdata
+msnset <- quantify(itraqdata[10:15], method = "trap", reporters = iTRAQ4, verbose = FALSE)
 msnset
 }
 

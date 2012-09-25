@@ -74,13 +74,12 @@
 }
 
 \examples{
-file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
-aa <- readMSData(file,verbose=FALSE)
+data(itraqdata)
 ## plotting experiments
-plot(aa[1:2],reporters=iTRAQ4)
-plot(aa[1:2],full=TRUE)
+plot(itraqdata[1:2], reporters = iTRAQ4)
+plot(itraqdata[1:2], full = TRUE)
 ## plotting spectra
-plot(aa[[1]],reporters=iTRAQ4,full=TRUE)
+plot(itraqdata[[1]],reporters = iTRAQ4, full = TRUE)
 }
 
 \keyword{methods}

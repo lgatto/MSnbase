@@ -45,13 +45,12 @@ sp1 <- new("Spectrum2",
 sp2 <- trimMz(sp1,c(25,75))
 range(mz(sp1))
 range(mz(sp2))
-file <- dir(system.file(package="MSnbase",dir="extdata"),
-            full.name=TRUE,pattern="mzXML$")
-aa <- readMSData(file,verbose=FALSE)
-bb <- trimMz(aa,c(113,117))
-range(mz(bb))
-range(mz(bb))
-processingData(bb)
+
+data(itraqdata)
+itraqdata2 <- trimMz(itraqdata,c(113,117))
+range(mz(itraqdata))
+range(mz(itraqdata2))
+processingData(itraqdata2)
 }
 
 
