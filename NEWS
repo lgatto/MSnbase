@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.5.25
+-------------------------
+ o fixed bug when quantifying exp of length 1 (reported 
+   by Colin Archer), added test <2012-09-26 Wed>
+ o fixed parallel default to FALSE <2012-09-26 Wed>
+
 CHANGES IN VERSION 1.5.24
 -------------------------
  o updated clean, removePeaks, combineFeatures, purityCorrect, 

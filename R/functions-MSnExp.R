@@ -195,9 +195,14 @@ quantify_MSnExp <- function(object, method, reporters, strict, parallel, verbose
   if (length(spectraList) == 1) {
     peakData <- quantify(spectraList[[1]], method, reporters, strict)
     .exprs <- t(peakData$peakQuant)
-    .qual <- t(peakData$curveData)
+    rownames(.exprs) <- featureNames(object)
+    .qual <- as.data.frame(peakData$curveStats)
+    rownames(.qual) <-
+      paste(reporterNames(reporters),
+            rep(featureNames(object), each = length(reporters)),
+            sep = ".")
   } else {
-    if (parallel && require("foreach") & require("doMC") & require("parallel")) {      
+    if (parallel && require("foreach") && require("doMC") && require("parallel")) {      
       registerDoMC(cores = detectCores())
     }
     peakData <- llply(spectraList, quantify, method, reporters, strict,
@@ -205,9 +210,9 @@ quantify_MSnExp <- function(object, method, reporters, strict, parallel, verbose
     .exprs <- do.call(rbind, sapply(peakData, "[", "peakQuant"))
     ## .qual <- do.call(rbind, sapply(peakData, "[", "curveStats")) ## Time consuming - consider removing or caching
     .qual <- data.frame()
+    rownames(.exprs) <- sub(".peakQuant", "", rownames(.exprs))  
+    ## rownames(.qual) <- sub(".curveStats", "", rownames(.qual))
   }
-  rownames(.exprs) <- sub(".peakQuant", "", rownames(.exprs))  
-  rownames(.qual) <- sub(".curveStats", "", rownames(.qual)) 
   ## Updating MSnprocess slot
   object@processingData@processing <- c(object@processingData@processing,
                                         paste(reporters@name,
