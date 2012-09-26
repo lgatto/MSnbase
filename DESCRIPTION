@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: MSnbase: Base Functions and Classes for MS-based Proteomics
-Version: 1.5.24
+Version: 1.5.25
 Description: Basic plotting, data manipulation and processing 
 	     of MS-based Proteomics data
 Author@R: c(person(given = "Laurent", family = "Gatto",
