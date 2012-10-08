@@ -27,8 +27,8 @@ cache = 1)
     an object of class \code{"\linkS4class{NAnnotatedDataFrame}"}.
   }
   \item{msLevel}{
-    MS level spectra to be read. Use '1' for MS1 spectra of any larger
-    numeric for MSn spectra. Default is '2'.
+    MS level spectra to be read. Use '1' for MS1 spectra or any larger
+    numeric for MSn spectra. Default is '2'. 
   }
   \item{centroided}{
     \code{Logical} indicating whether spectra are centroided or not. Default is
