@@ -205,8 +205,22 @@ subsetBy <- function(X, groups, byIdx) {
 
 ## Computes header from assay data by-passing cache
 .header <- function(object) {
-  if (length(object) == 0) {
-    hd <- data.frame()
+  if (length(object) == 0) 
+    return(data.frame())
+  if (all(msLevel(object) == 1)) {
+    ln <- length(object)
+    nas <- rep(NA, ln)
+    hd <- list(file = fromFile(object),
+               retention.time = rtime(object),
+               precursor.mz = nas,
+               precursor.intensity = nas,
+               charge = nas,
+               peaks.count = peaksCount(object),
+               tic = tic(object),
+               ionCount = ionCount(object),
+               ms.level = msLevel(object),
+               acquisition.number = acquisitionNum(object),
+               collision.energy = nas)
   } else {
     ## tbl <- table(fromFile(object))
     ## idx <- as.numeric(unlist(apply(tbl, 1, function(x) 1:x)))
@@ -221,10 +235,10 @@ subsetBy <- function(X, groups, byIdx) {
                ms.level = msLevel(object),
                acquisition.number = acquisitionNum(object),
                collision.energy = collisionEnergy(object))
-    ## items are either a numeric or a list of integer() - keep former only
-    sel <- sapply(hd, function(i) !is.list(i))
-    hd <- as.data.frame(hd[sel])    
   }
+  ## items are either a numeric or a list of integer() - keep former only
+  sel <- sapply(hd, function(i) !is.list(i))
+  hd <- as.data.frame(hd[sel]) 
   return(hd)
 }
 

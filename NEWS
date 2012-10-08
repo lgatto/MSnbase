@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.7.2
+------------------------
+ o fixed readMSData for MS1 <2012-10-08 Mon>
+
 CHANGES IN VERSION 1.7.1
 ------------------------
  o fixed vignettes <2012-10-02 Tue>

@@ -12,6 +12,7 @@ setGeneric("precursorIntensity",function(object) standardGeneric("precursorInten
 setGeneric("precursorCharge",function(object) standardGeneric("precursorCharge"))
 setGeneric("precursorCharge<-",function(object,value) standardGeneric("precursorCharge<-"))
 setGeneric("acquisitionNum",function(object) standardGeneric("acquisitionNum"))
+setGeneric("precAcquisitionNum",function(object) standardGeneric("precAcquisitionNum"))
 setGeneric("precScanNum",function(object) standardGeneric("precScanNum"))
 setGeneric("rtime",function(object) standardGeneric("rtime"))
 setGeneric("msLevel",function(object) standardGeneric("msLevel"))
@@ -21,6 +22,7 @@ setGeneric("collisionEnergy",function(object) standardGeneric("collisionEnergy")
 setGeneric("polarity", function(object) standardGeneric("polarity"))
 setGeneric("centroided", function(object) standardGeneric("centroided"))
 setGeneric("centroided<-", function(object,value) standardGeneric("centroided<-"))
+
 
 setGeneric("processingData",function(object) standardGeneric("processingData"))
 setGeneric("processingData<-",function(object,value) standardGeneric("processingData<-"))
