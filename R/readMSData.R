@@ -20,7 +20,7 @@ readMSData <- function(files,
   extensions <- unique(toupper(sub("^.+\\.", "", files)))
   if (length(extensions) > 1)
     warning(paste("Reading different file formats in.",
-                  "This is untested but you are welcome to try it out.",
+                  "This is untested and you are welcome to try it out.",
                   "Please report back!", sep="\n"))
   ## Creating environment with Spectra objects
   assaydata <- new.env()

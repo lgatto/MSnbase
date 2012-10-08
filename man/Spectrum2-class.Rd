@@ -9,6 +9,8 @@
 \alias{precursorMz}
 \alias{precScanNum,Spectrum-method}
 \alias{precScanNum}
+\alias{precAcquisitionNum,Spectrum-method}
+\alias{precAcquisitionNum}
 \alias{precursorIntensity,Spectrum-method}
 \alias{precursorIntensity}
 \alias{precursorCharge,Spectrum-method}
@@ -27,12 +29,14 @@
   \code{"\linkS4class{MSnExp}"}. 
 }
 
+
 \section{Slots}{
   \describe{
     \item{\code{merged}:}{Object of class \code{"numeric"} indicating of
       how many combination the current spectrum is the result of. }
     \item{\code{precScanNum}:}{Object of class \code{"integer"} indicating
-      the precursor MS scan index in the original input file. }
+      the precursor MS scan index in the original input file. Accessed
+      with the \code{precScanNum} or \code{precAcquisitionNum} methods.}
     \item{\code{precursorMz}:}{Object of class \code{"numeric"}
       providing the precursor ion MZ value. }
     \item{\code{precursorIntensity}:}{Object of class \code{"numeric"}
@@ -91,7 +95,10 @@
       as an numeric. }
     \item{\code{removeReporters(object, ...)}}{ Removes all reporter ion
       peaks. See \code{\link{removeReporters}} documentation for more
-      details and examples. } 
+      details and examples. }
+    \item{\code{precAcquisitionNum}:}{Returns the precursor's
+      acquisition number. }
+    \item{\code{precScanNum}:}{See \code{precAcquisitionNum}. }
   }
 }
 

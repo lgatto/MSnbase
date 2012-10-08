@@ -66,6 +66,9 @@ setMethod("precScanNum","Spectrum",
               return(object@precScanNum)
             stop("This is already an MS1 spectrum.")
           })
+setMethod("precAcquisitionNum","Spectrum",
+          function(object) precScanNum(object))
+
 setMethod("rtime","Spectrum",function(object) object@rt)
 
 setMethod("peaksCount",

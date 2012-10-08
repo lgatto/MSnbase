@@ -197,12 +197,10 @@ setMethod("fromFile","pSet",
 setMethod("header",
           signature("pSet","missing"),
           function(object) {
-            if (any(msLevel(object) < 2))
-              stop("header() only works for MS levels > 1.")
             ifelse(object@.cache$level > 0, 
                    hd <- object@.cache$hd,
                    hd <- .header(object))
-            return(hd)
+            return(hd)              
           })
 
 setMethod("header",

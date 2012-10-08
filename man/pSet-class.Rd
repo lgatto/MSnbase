@@ -44,6 +44,7 @@
 \alias{precursorIntensity,pSet-method}
 \alias{precursorMz,pSet-method}
 \alias{precScanNum,pSet-method}
+\alias{precAcquisitionNum,pSet-method}
 \alias{processingData,pSet-method}
 \alias{processingData}
 \alias{protocolData,pSet-method}
@@ -214,8 +215,9 @@
       for MS2 precursor intensity. }
     \item{precursorMz}{\code{signature(object = "pSet")}: Accessor
       for MS2 precursor M/Z values. }
-    \item{precScanNum}{\code{signature(object = "pSet")}: Accessor
+    \item{precAcquisitionNum}{\code{signature(object = "pSet")}: Accessor
       for MS2 precursor scan numbers. }
+    \item{precScanNum}{see \code{precAcquisitionNum}. }
     \item{rtime}{\code{signature(object = "pSet")}: Accessor for spectra
     retention times. }
     \item{tic}{\code{signature(object = "pSet")}: Accessor for spectra
