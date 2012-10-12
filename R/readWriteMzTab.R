@@ -1011,9 +1011,10 @@ readMzTabData <- function(file,
     if (length(title <- grep("-title\t", mtd, value = TRUE)) > 0)
       ans@experimentData@title <- .parse(title)
     if (length(description <- grep("-description\t", mtd, value = TRUE)) > 0) {
-      description <- description[-grep("sub", description)] ## added later to experimentData@samples
-      if (length(description) > 0)
-        ans@experimentData@other$description <- .parse(description)
+      ans@experimentData@other$description <- .parse(description) 
+      ## description <- description[-grep("sub", description)] ## added later to experimentData@samples
+      ## if (length(description) > 0)
+      ##   ans@experimentData@other$description <- .parse(description)
     }
     if (length(sampleProcessing <- grep("-sample_processing\t", mtd, value = TRUE)) > 0)
       ans@experimentData@other$sampleProcessing <- .parse(sampleProcessing)
