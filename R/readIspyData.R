@@ -116,7 +116,7 @@ readIspySilacData <- function(file = "ispy_results.tsv",
                               na.rm = TRUE,
                               uniquePeps = TRUE,
                               pep = 0.1) {
-  xx <- read.csv(file)
+  xx <- read.table(file, sep = "\t", header = TRUE, fill = TRUE)
   ecols <- grep("precursor_intensity", names(xx))
   .exprs <- as.matrix(xx[, ecols])
   .fd <- new("AnnotatedDataFrame", data = xx[, -ecols])  
