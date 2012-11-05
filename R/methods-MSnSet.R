@@ -188,17 +188,19 @@ t.MSnSet <- function(x) {
 
 
 setMethod("[", "MSnSet", function(x, i, j, ...) {
+  dim0 <- dim(x)
   .Object <- callNextMethod(...)
+  dim1 <- dim(.Object)
   ## subsetting qual - requires pData(x)$mz!
   ## fn <- featureNames(.Object)
   ## reps <- match(.Object$mz,x$mz)
   ## qrows <- paste(rep(fn,each=length(reps)),reps,sep=".")
   ## .Object@qual <- .Object@qual[qrows,]
   .Object@qual <- data.frame()
+  dim0 <- paste0("[", paste0(dim0, collapse = ","), "]")
+  dim1 <- paste0("[", paste0(dim1, collapse = ","), "]")  
   .Object@processingData@processing <- c(.Object@processingData@processing,
-                                         ifelse(missing(j),
-                                                paste("Features subset: ",date(),sep=""),
-                                                paste("Samples subset: ",date(),sep="")))
+                                         paste0("Subset ", dim0, dim1, " ", date()))
   if (validObject(.Object))
     return(.Object)
 })
