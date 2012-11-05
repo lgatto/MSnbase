@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.7.4
+------------------------
+ o exporting log method <2012-11-02 Fri>
+ o private readIspySilacData function <2012-11-05 Mon>
+ o updating '['-MSnSet to log intial/final dims <2012-11-05 Mon>
+
 CHANGES IN VERSION 1.7.3
 ------------------------
  o updating readMzTabData to properly capture 

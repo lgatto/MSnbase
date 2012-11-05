@@ -65,9 +65,9 @@ readIspyData <- function(file = "ispy_results.tsv",
   keep.uniq <- keep.pep <- keep.na <- keep.int <- rep(TRUE,nrow(.exprs))
   ## Filtering on uniqueness of peptides
   if (uniquePeps) 
-    keep.uniq <- .featureData$PeptideParentProteins==1
+    keep.uniq <- .featureData$PeptideParentProteins == 1
   ## Filtering on posterior error probability
-  keep.pep <- .featureData$PosteriorErrorProbability<=pep
+  keep.pep <- .featureData$PosteriorErrorProbability <= pep
   ## Remove features with NAs
   if (na.rm)
     keep.na <- apply(.exprs,1,function(x) !any(is.na(x)))
@@ -108,4 +108,26 @@ readIspyData <- function(file = "ispy_results.tsv",
              exprs=.exprs,
              featureData=new("AnnotatedDataFrame",data=.featureData),
              processingData=.process))
+}
+
+
+
+readIspySilacData <- function(file = "ispy_results.tsv",
+                              na.rm = TRUE,
+                              uniquePeps = TRUE,
+                              pep = 0.1) {
+  xx <- read.csv(file)
+  ecols <- grep("precursor_intensity", names(xx))
+  .exprs <- as.matrix(xx[, ecols])
+  .fd <- new("AnnotatedDataFrame", data = xx[, -ecols])  
+  ans <- new("MSnSet",
+             exprs = .exprs,
+             featureData = .fd)
+  if (na.rm)
+    ans <- filterNA(ans, pNA = 0)
+  if (uniquePeps) 
+    ans <- ans[featureData(ans)$Peptide_Parent_Proteins == 1,]  
+  ans <- ans[featureData(ans)$Posterior_Error_Probability <= pep, ]  
+  if (validObject(ans))
+    return(ans)
 }
