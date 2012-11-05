@@ -103,6 +103,7 @@ exportMethods(coerce,
               combine, ## for classes MIAPE, MSnProcess and MSnSet
               "experimentData<-", ## signature("MSnSet", "MIAPE")
               normalise, normalize,
+              log,
               topN,
               filterNA)
 
