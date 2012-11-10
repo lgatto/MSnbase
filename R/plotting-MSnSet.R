@@ -51,12 +51,18 @@ plotNA.matrix <- function(X, pNA) {
                   legend.background = element_rect(size = 0)) +
                     scale_colour_hue(labels = c("Individual proteins", "Full dataset"),
                                      breaks = c("proteins", "data"))
+  dfr0 <- data.frame(x = nrow(dfr1), y = min(dfr1$data))  
   p <- p +
-    geom_text(data = dfr1, 
-              aes(x = length(proteins), y = min(data), label = round(min(data), 2)),
-              vjust = 1.5, size = 2.5) +
-                geom_point(data = dfr1, 
-                           aes(x = length(proteins), y = min(data)), alpha = 1/3)
+    geom_point(data = dfr0, aes(x = x, y = y), alpha = 1/3) + 
+      geom_text(data = dfr0, 
+                aes(x = x, y = y, label = round(y, 2)),
+                vjust = 1.5, size = 2.5)                 
+  ## p <- p +
+  ##   geom_text(data = dfr1, 
+  ##             aes(x = length(proteins), y = min(data), label = round(min(data), 2)),
+  ##             vjust = 1.5, size = 2.5) +
+  ##               geom_point(data = dfr1, 
+  ##                          aes(x = length(proteins), y = min(data)), alpha = 1/3)
   p <- p + 
     geom_text(data = data.frame(x = nkeep, y = kkeep),
               aes(x = x, y = y, label = round(y, 2)),
