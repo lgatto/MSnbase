@@ -127,7 +127,8 @@ readIspySilacData <- function(file = "ispy_results.tsv",
     ans <- filterNA(ans, pNA = 0)
   if (uniquePeps) 
     ans <- ans[featureData(ans)$Peptide_Parent_Proteins == 1,]  
-  ans <- ans[featureData(ans)$Posterior_Error_Probability <= pep, ]  
+  ans <- ans[featureData(ans)$Posterior_Error_Probability <= pep, ]
+  fData(ans) <- droplevels(fData(ans))
   if (validObject(ans))
     return(ans)
 }

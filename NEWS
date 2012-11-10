@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.7.5
+------------------------
+ o dropping levels in readIspySilacData <2012-11-06 Tue>
+ o fixed plotNA <2012-11-09 Fri>
+
 CHANGES IN VERSION 1.7.4
 ------------------------
  o exporting log method <2012-11-02 Fri>
