@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.7.6
+------------------------
+ o MSnSet $ and [[ now dispatch on featureData, 
+   instead of phenoData (as was inherited from 
+   ExpressionSet via eSet)
+
 CHANGES IN VERSION 1.7.5
 ------------------------
  o dropping levels in readIspySilacData <2012-11-06 Tue>
