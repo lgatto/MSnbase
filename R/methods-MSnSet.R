@@ -418,3 +418,29 @@ setMethod("MAplot",
               mva.pairs(exprs(object), log.it = FALSE, ...)
             }
           })
+
+
+##############################################
+## This should also be implemented for pSet!
+
+## o MSnSet $ and [[ now dispatch on featureData, 
+##   instead of phenoData (as was inherited from 
+##   ExpressionSet via eSet)
+
+## setMethod("$", "MSnSet", function(x, name) {
+##   eval(substitute(featureData(x)$NAME_ARG, list(NAME_ARG=name)))
+## })
+
+
+## setReplaceMethod("$", "MSnSet", function(x, name, value) {
+##   featureData(x)[[name]] = value
+##   x
+## })
+
+## setMethod("[[", "MSnSet", function(x, i, j, ...) featureData(x)[[i]])
+
+## setReplaceMethod("[[", "MSnSet",
+##                  function(x, i, j, ..., value) {
+##                      featureData(x)[[i, ...]] <- value
+##                      x
+##                  })
