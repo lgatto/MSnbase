@@ -420,19 +420,27 @@ setMethod("MAplot",
           })
 
 
-setMethod("$", "MSnSet", function(x, name) {
-  eval(substitute(featureData(x)$NAME_ARG, list(NAME_ARG=name)))
-})
+##############################################
+## This should also be implemented for pSet!
 
-setReplaceMethod("$", "MSnSet", function(x, name, value) {
-  featureData(x)[[name]] = value
-  x
-})
+## o MSnSet $ and [[ now dispatch on featureData, 
+##   instead of phenoData (as was inherited from 
+##   ExpressionSet via eSet)
 
-setMethod("[[", "MSnSet", function(x, i, j, ...) featureData(x)[[i]])
+## setMethod("$", "MSnSet", function(x, name) {
+##   eval(substitute(featureData(x)$NAME_ARG, list(NAME_ARG=name)))
+## })
 
-setReplaceMethod("[[", "MSnSet",
-                 function(x, i, j, ..., value) {
-                     featureData(x)[[i, ...]] <- value
-                     x
-                 })
+
+## setReplaceMethod("$", "MSnSet", function(x, name, value) {
+##   featureData(x)[[name]] = value
+##   x
+## })
+
+## setMethod("[[", "MSnSet", function(x, i, j, ...) featureData(x)[[i]])
+
+## setReplaceMethod("[[", "MSnSet",
+##                  function(x, i, j, ..., value) {
+##                      featureData(x)[[i, ...]] <- value
+##                      x
+##                  })

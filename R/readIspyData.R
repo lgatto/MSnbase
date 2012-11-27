@@ -10,28 +10,28 @@ readIspyData <- function(file = "ispy_results.tsv",
                          verbose = TRUE) {
   if (verbose)
     cat("Reading table\n")
-  tab <- read.csv(file, header = TRUE, sep = "\t", fill = TRUE,
-                  colClasses = c(
-                    "numeric",       # Index
-                    "factor",        # ProteinAccession 
-                    "character",     # ProteinDescription
-                    "numeric",       # ProteinQ.Value.uniquepeptidesonly.
-                    "numeric",       # ProteinType1Error.uniquepeptidesonly.
-                    "numeric",       # NumberOfUniquePeptides.FDR.1pc
-                    "character",     # PeptideSequence
-                    "numeric",       # PeptideParentProteins
-                    "character",     # MSFileID
-                    "numeric",       # PeptideType1ErrorForMSFile
-                    "factor",        # Fixed_Modifications
-                    "numeric",       # FixedModificationMassShift                    
-                    "factor",        # VariableModifications
-                    "numeric",       # VariableModificationMassShift
-                    "numeric",       # PrecursorMZ
-                    "character",     # MSScanID
-                    "character",     # DataBrowserLink ## was MascotQuery
-                    "numeric",       # PosteriorErrorProbability
-                    rep("numeric",length(reporters)),
-                    "numeric"))      # precursorrelativesignal
+  tab <- read.csv(file, header = TRUE, sep = "\t", fill = TRUE)
+                  ## colClasses = c(
+                  ##   "numeric",       # Index
+                  ##   "factor",        # ProteinAccession 
+                  ##   "character",     # ProteinDescription
+                  ##   "numeric",       # ProteinQ.Value.uniquepeptidesonly.
+                  ##   "numeric",       # ProteinType1Error.uniquepeptidesonly.
+                  ##   "numeric",       # NumberOfUniquePeptides.FDR.1pc
+                  ##   "character",     # PeptideSequence
+                  ##   "numeric",       # PeptideParentProteins
+                  ##   "character",     # MSFileID
+                  ##   "numeric",       # PeptideType1ErrorForMSFile
+                  ##   "factor",        # Fixed_Modifications
+                  ##   "numeric",       # FixedModificationMassShift                    
+                  ##   "factor",        # VariableModifications
+                  ##   "numeric",       # VariableModificationMassShift
+                  ##   "numeric",       # PrecursorMZ
+                  ##   "character",     # MSScanID
+                  ##   "character",     # DataBrowserLink ## was MascotQuery
+                  ##   "numeric",       # PosteriorErrorProbability
+                  ##   rep("numeric",length(reporters)),
+                  ##   "numeric"))      # precursorrelativesignal
   names(tab) <- gsub("\\.\\.","pc", gsub("_","",names(tab)))
   names(tab)[ncol(tab)] <- "PrecursorRelativeSignal"
   ## This column was called MascotQuery, then changed to BrowserData
@@ -65,14 +65,14 @@ readIspyData <- function(file = "ispy_results.tsv",
   keep.uniq <- keep.pep <- keep.na <- keep.int <- rep(TRUE,nrow(.exprs))
   ## Filtering on uniqueness of peptides
   if (uniquePeps) 
-    keep.uniq <- .featureData$PeptideParentProteins == 1
+    keep.uniq <- as.numeric(.featureData$PeptideParentProteins) == 1
   ## Filtering on posterior error probability
-  keep.pep <- .featureData$PosteriorErrorProbability <= pep
+  keep.pep <- as.numeric(.featureData$PosteriorErrorProbability) <= pep
   ## Remove features with NAs
   if (na.rm)
     keep.na <- apply(.exprs,1,function(x) !any(is.na(x)))
   rowsums <- rowSums(.exprs,na.rm=TRUE)
-  keep.int <- rowsums>=min.int
+  keep.int <- rowsums >= min.int
   keep.int[is.na(keep.int)] <- TRUE
   if (verbose & !keepAll)
     cat(" keep.na: ",sum(keep.na),"\n",

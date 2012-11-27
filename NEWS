@@ -1,8 +1,7 @@
 CHANGES IN VERSION 1.7.6
 ------------------------
- o MSnSet $ and [[ now dispatch on featureData, 
-   instead of phenoData (as was inherited from 
-   ExpressionSet via eSet)
+ o Fixed bug in readIspyData, reported by 
+   Claire Mulvey <2012-11-27 Tue>
 
 CHANGES IN VERSION 1.7.5
 ------------------------

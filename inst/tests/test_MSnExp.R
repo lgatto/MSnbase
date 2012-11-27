@@ -100,8 +100,7 @@ test_that("MSnExp processing", {
   ## quantitation should be 0
   expect_true(all(quantify(removeReporters(itraqdata[[1]], reporters=iTRAQ4), "max", iTRAQ4)[[1]] == 0))
   ## checking that quantification work for exp of length 1
-  expect_true(class(quantify(itraqdata[1], reporters=iTRAQ4, "max")) == "MSnSet")
-  
+  expect_true(class(quantify(itraqdata[1], reporters=iTRAQ4, "max")) == "MSnSet")  
 })
 
 ## ! Issues with edited dummy data for MS1 uploading, although
