@@ -138,6 +138,9 @@
   inherited methods. 
 
   \describe{
+    %% \item{$name}{\code{signature(x = "pSet")}: Access \code{name} column
+    %%   in \code{featureData}. Note that this behaviour is different to
+    %%   the \code{eSet}, where \code{$} accesses the \code{phenoData}. }    
     \item{dim}{\code{signature(x = "MSnSet")}: Returns the dimensions of
       object's assay data, i.e the number of samples and the number of
       features. }

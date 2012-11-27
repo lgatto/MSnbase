@@ -196,11 +196,12 @@ quantify_MSnExp <- function(object, method, reporters, strict, parallel, verbose
     peakData <- quantify(spectraList[[1]], method, reporters, strict)
     .exprs <- t(peakData$peakQuant)
     rownames(.exprs) <- featureNames(object)
-    .qual <- as.data.frame(peakData$curveStats)
-    rownames(.qual) <-
-      paste(reporterNames(reporters),
-            rep(featureNames(object), each = length(reporters)),
-            sep = ".")
+    ## .qual <- as.data.frame(peakData$curveStats)
+    ## rownames(.qual) <-
+    ##   paste(reporterNames(reporters),
+    ##         rep(featureNames(object), each = length(reporters)),
+    ##         sep = ".")
+    .qual <- data.frame()
   } else {
     if (parallel && require("foreach") && require("doMC") && require("parallel")) {      
       registerDoMC(cores = detectCores())
