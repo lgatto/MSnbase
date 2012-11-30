@@ -13,7 +13,7 @@ normalise_MSnSet <- function(object, method, ...) {
   } else if (method == "scale.median") {
     e <- exprs(object)
     center <- apply(e, 2L, median, na.rm = TRUE)
-    e <- sweep(x, 2L, center, check.margin = FALSE)       
+    e <- sweep(e, 2L, center, check.margin = FALSE)       
   } else {
     switch(method,
            max = div <- apply(exprs(object), 1, max, na.rm = TRUE), 
