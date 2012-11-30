@@ -1,11 +1,19 @@
 
-normalise_MSnSet <- function(object,method,...) {
-  if (method=="vsn") {
+normalise_MSnSet <- function(object, method, ...) {
+  if (method == "vsn") {
     e <- exprs(vsn2(exprs(object), ...))
-  } else if (method=="quantiles") {
+  } else if (method == "quantiles") {
     e <- preprocessCore::normalize.quantiles(exprs(object), ...)
-  } else if (method=="quantiles.robust") {
-    e <- preprocessCore::normalize.quantiles.robust(exprs(object), ...)
+  } else if (method == "quantiles.robust") {
+    e <- preprocessCore::normalize.quantiles.robust(exprs(object), ...) 
+  } else if (method == "scale.mean") {
+    e <- exprs(object)
+    center <- colMeans(e, na.rm = TRUE)
+    e <- sweep(e, 2L, center, check.margin = FALSE)    
+  } else if (method == "scale.median") {
+    e <- exprs(object)
+    center <- apply(e, 2L, median, na.rm = TRUE)
+    e <- sweep(x, 2L, center, check.margin = FALSE)       
   } else {
     switch(method,
            max = div <- apply(exprs(object), 1, max, na.rm = TRUE), 

@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.7.7
+------------------------
+ o added scale.mean and scale.median MSnSet normalisation 
+   method <2012-11-30 Fri>
+
 CHANGES IN VERSION 1.7.6
 ------------------------
  o Fixed bug in readIspyData, reported by 
