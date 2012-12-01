@@ -79,6 +79,7 @@ setMethod("show","MSnSet",
 
 setMethod("normalise", "MSnSet",
           function(object, method = c("sum","max",
+                             "scale.mean", "scale.median",
                              "quantiles",
                              "quantiles.robust",
                              "vsn"), ...)

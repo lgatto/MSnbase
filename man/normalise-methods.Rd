@@ -31,8 +31,11 @@
   one of \code{sum}, \code{max}, \code{quantiles},
   \code{quantiles.robust} or \code{vsn}.
   For \code{sum} and \code{max}, each feature's reporter intensity is
-  divided by the maximum of the sum respectively. Using
-  \code{quantiles} or  \code{quantiles.robust} uses (robust)
+  divided by the maximum of the sum respectively. These two methods are 
+  applied along the features (rows).
+  \code{scale.mean} and \code{scale.median} scale the respecitve sample
+  (column) intensities according to their mean or median.  
+  Using \code{quantiles} or  \code{quantiles.robust} uses (robust) 
   quantile normalisation, as implemented in
   \code{\link{normalize.quantiles}} and
   \code{\link{normalize.quantiles.robust}} of the \code{preprocessCore} 
