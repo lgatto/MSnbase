@@ -1,4 +1,4 @@
-testCacheArg <- function(cache, maxCache=3) {
+testCacheArg <- function(cache, maxCache = 2) {
   ## Function used to test the value of a 'cache'
   ## parameter in a read*Data function
   ## Parameters:
@@ -23,7 +23,7 @@ testCacheArg <- function(cache, maxCache=3) {
   return(cache)
 }
 
-setCacheEnv <- function(toCache, level=0, lock=TRUE) {
+setCacheEnv <- function(toCache, level = 0, lock = TRUE) {
   ## Set the .cache slot of a pSet object.
   ## Parameters
   ##  toCache a list with 
@@ -33,7 +33,8 @@ setCacheEnv <- function(toCache, level=0, lock=TRUE) {
   ##  lock: logical - lock env and bindings (default is TRUE)
   ## Return:
   ##  A new cache environment
-  cacheEnv <- new.env(parent=emptyenv())
+  level <- testCacheArg(level)
+  cacheEnv <- new.env(parent = emptyenv())
   assaydata <- toCache[["assaydata"]]
   hd <- toCache[["hd"]]
   assign("level", level, cacheEnv)
@@ -59,11 +60,11 @@ setCacheEnv <- function(toCache, level=0, lock=TRUE) {
     assign("hd", hd, cacheEnv)
   }
   if (lock)
-    lockEnvironment(cacheEnv, bindings=TRUE)
+    lockEnvironment(cacheEnv, bindings = TRUE)
   return(cacheEnv)
 }
 
-getCacheEnv <- function(object, show=FALSE) {
+getCacheEnv <- function(object, show = FALSE) {
   if (show)
     print(ls.str(object@.cache))
   invisible(object@.cache)
@@ -73,6 +74,6 @@ cacheEnvIsLocked <- function(object)
   environmentIsLocked(object@.cache)
 
 lockCacheEnv <- function(object) {
-  lockEnvironment(object@.cache, bindings=TRUE)  
+  lockEnvironment(object@.cache, bindings = TRUE)  
 }
 
