@@ -2,6 +2,7 @@ CHANGES IN VERSION 1.7.7
 ------------------------
  o added scale.mean and scale.median MSnSet normalisation 
    method <2012-11-30 Fri>
+ o updates to readMSData <2012-11-30 Fri>
 
 CHANGES IN VERSION 1.7.6
 ------------------------
