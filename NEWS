@@ -4,6 +4,7 @@ CHANGES IN VERSION 1.7.7
    method <2012-11-30 Fri>
  o improvements to readMSData <2012-11-30 Fri>
  o small updates to caching code, max level 2 <2012-11-30 Fri>
+ o readMSdata test <2012-12-01 Sat>
 
 CHANGES IN VERSION 1.7.6
 ------------------------

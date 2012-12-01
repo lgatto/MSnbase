@@ -5,8 +5,19 @@ test_that("MSnExp validity", {
   expect_true(validObject(itraqdata))
 })
 
+test_that("readMSData", {
+  f <- dir(system.file(package = "MSnbase",dir = "extdata"),
+           full.name = TRUE,pattern = "msx.rda")
+  load(f) ## msx
+  file <- dir(system.file(package = "MSnbase",dir = "extdata"),
+              full.name = TRUE,pattern = "mzXML$")
+  aa <- readMSData(file, verbose = FALSE)
+  expect_true(all.equal(aa, msx, check.attributes = FALSE))
+})
+
 test_that("readMSData and dummy MSnExp msLevel 2 instance", {
-  file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
+  file <- dir(system.file(package = "MSnbase",dir = "extdata"),
+              full.name = TRUE,pattern = "mzXML$")
   aa <- readMSData(file, verbose=FALSE)
   expect_true(class(aa)=="MSnExp")
   ## centroided get and set
