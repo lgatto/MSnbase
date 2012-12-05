@@ -71,20 +71,29 @@ getBins <- function(x) {
   return(bins)
 }
 
-makeImpuritiesMatrix <- function(x) {
+makeImpuritiesMatrix <- function(x, edit = TRUE) {
   if (x==4) {
     M <- matrix(c(0.929,0.059,0.002,0.000,
                   0.020,0.923,0.056,0.001,
                   0.000,0.030,0.924,0.045,
                   0.000,0.001,0.040,0.923),
-                nrow=4)
+                nrow=4, byrow = TRUE)
+  } else if (x == 6) {
+    M <- matrix(c(0.939, 0.061, 0.000, 0.000, 0.000, 0.000,
+                  0.005, 0.928, 0.067, 0.000, 0.000, 0.000,
+                  0.000, 0.011, 0.947, 0.042, 0.000, 0.000,
+                  0.000, 0.000, 0.017, 0.942, 0.041, 0.000,
+                  0.000, 0.000, 0.000, 0.016, 0.963, 0.021,
+                  0.000, 0.000, 0.000, 0.002, 0.032, 0.938),
+                nrow = 6, byrow = TRUE)
   } else {
     M <- diag(x)
   }
   colnames(M) <- paste("reporter",1:x,sep=".")
   rownames(M) <- paste("% reporter",1:x)
-  corrfactors <- edit(M)
-  invisible(corrfactors)
+  if (edit)
+    M <- edit(M)
+  return(M)
 }
 
 utils.removePrecMz <- function(spectrum, precMz=NULL,width=2) {
@@ -286,3 +295,93 @@ updateMSnExp <- function(x) {
     return(x)
 }
  
+
+cramer4 <- function(object, imp) {
+  ## see Shadford et al. 2005, BMC Genomics
+  if (missing(imp)) {
+    impM <- matrix(c(0.0, 1.0, 5.9, 0.2,
+                     0.0, 2.0, 5.6, 0.1,
+                     0.0, 3.0, 4.5, 0.1,
+                     0.1, 4.0, 3.5, 0.1),
+                   nrow = 4, byrow = TRUE)
+    colnames(impM) <- c("-2", "-1", "+1", "+2")
+    rownames(impM) <- 114:117
+    imp <- as.numeric(impM)
+    names(imp) <- letters[1:length(imp)]
+  }
+
+  w <- (100 - (imp["a"] + imp["e"] + imp["i"] + imp["m"]))
+  x <- (100 - (imp["b"] + imp["f"] + imp["j"] + imp["n"]))
+  y <- (100 - (imp["c"] + imp["g"] + imp["k"] + imp["o"]))
+  z <- (100 - (imp["d"] + imp["h"] + imp["l"] + imp["p"]))
+
+  C <- matrix(c(w, imp["f"], imp["c"], 0,
+                imp["i"], x, imp["g"], imp["d"],
+                imp["m"], imp["j"], y, imp["h"],
+                0, imp["n"], imp["k"], z),
+              ncol = 4, byrow = TRUE)
+
+  if (det(C) == 0) {
+    warning("Determinant of C is 0, correction impossible")
+    object@processingData@processing <-
+      c(object@processingData@processing,
+        "No impurity correction possible, det(C) is 0")    
+  } else {    
+    e <- exprs(object)
+    res <- apply(e, 1, function(.e) {
+      d1 <- matrix(c(.e,
+                     imp["f"], x, imp["j"], imp["n"],
+                     imp["c"], imp["g"], y, imp["k"],
+                     0, imp["d"], imp["h"], z),
+                   ncol = 4, byrow = TRUE)
+      d2 <- matrix(c(w, imp["i"], imp["m"], 0,
+                     .e,
+                     imp["c"], imp["g"], y, imp["k"],
+                     0, imp["d"], imp["h"], z),
+                   ncol = 4, byrow = TRUE)
+      d3 <- matrix(c(w, imp["i"], imp["m"], 0,
+                     imp["f"], x, imp["j"], imp["n"],               
+                     .e,
+                     0, imp["d"], imp["h"], z),
+                   ncol = 4, byrow = TRUE)
+      d4 <- matrix(c(w, imp["i"], imp["m"], 0,
+                     imp["f"], x, imp["j"], imp["n"],               
+                     imp["c"], imp["j"], y, imp["k"],
+                     .e),
+                   ncol = 4, byrow = TRUE)
+      res <- c(det(d1)/det(C),
+               det(d2)/det(C),
+               det(d3)/det(C),
+               det(d4)/det(C))
+      return(res)
+    })
+    res <- t(res)
+    rownames(res) <- featureNames(object)
+    colnames(res) <- sampleNames(object)
+    object@processingData@processing <-
+      c(object@processingData@processing,
+        "Impurity correction using Cramer's rule.")
+    exprs(object) <- res
+  }
+  if (validObject(object))
+    return(object)
+}
+
+cramer6 <- function(x, imp) {
+  if (missing(imp)) {
+    imp <- c(0, 0, 0, 6.1, 0, 0,
+             0, 0, 0.5, 6.7, 0, 0, 
+             0, 0, 1.1, 4.2, 0, 0, 
+             0, 0, 1.7, 4.1, 0, 0, 
+             0, 0, 1.6, 2.1, 0, 0, 
+             0, 0.2, 3.2, 2.8, 0, 0)
+    names(imp) <- letters[1:length(imp)]
+    impM <- matrix(imp, nrow = 6, byrow = TRUE)
+    colnames(impM) <- c("-3", "-2", "-1", "+1", "+2", "+3")
+    rownames(impM) <- 126:131
+    imp <- as.numeric(imp)
+  }
+  return(FALSE)
+}
+
+     

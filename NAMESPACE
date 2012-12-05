@@ -34,6 +34,8 @@ export(readMzXMLData,
        is.na.MSnSet,
        combineFeatures,
        nQuants,
+       featureCV,
+       getRatios,
        makeImpuritiesMatrix,
        precSelection,
        precSelectionTable,
@@ -104,6 +106,7 @@ exportMethods(coerce,
               "experimentData<-", ## signature("MSnSet", "MIAPE")
               normalise, normalize,
               log,
+              exprsToRatios,
               topN,
               filterNA)
 

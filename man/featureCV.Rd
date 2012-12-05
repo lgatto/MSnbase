@@ -1,0 +1,49 @@
+\name{featureCV}
+\alias{featureCV}
+\title{Calculates coeffivient of variation for features}
+\usage{
+  featureCV(x, groupBy, na.rm = TRUE,
+    norm = c("none", "sum", "max", "scale.mean", "scale.median", "quantiles", "quantiles.robust"))
+}
+\arguments{
+  \item{x}{An instance of class
+  \code{"\linkS4class{MSnSet}"}.}
+
+  \item{groupBy}{An object of class \code{factor} defining
+  how to summerise the features.}
+
+  \item{na.rm}{A \code{logical} defining whether missing
+  values should be removed.}
+
+  \item{norm}{One of 'none' (default), 'sum', 'max',
+  'scale.mean', 'scale.median' 'quantiles' or
+  'quantiles.robust' defining if and how the data should be
+  normalised prior to CV calculation. See
+  \code{\link{normalise}} for more details.}
+}
+\value{
+  A \code{matrix} of dimensions
+  \code{length(levels(groupBy))} by \code{ncol(x)} with the
+  respecive CVs.
+}
+\description{
+  This function calculates the column-wise coefficient of
+  variation (CV), i.e. the ration between the standard
+  deviation and the mean, for the features in an
+  \code{"\linkS4class{MSnSet}"}. The CVs are calculated for
+  the groups of features defined by \code{groupBy}. For
+  groups defined by single features, \code{NA} is returned.
+}
+\examples{
+data(itraqdata)
+m <- quantity(itraqdata[1:4], reporters = iTRAQ4)
+gb <- factor(rep(1:2, each = 2))
+featureCV(m, gb)
+}
+\author{
+  Laurent Gatto <lg390@cam.ac.uk>
+}
+\seealso{
+  \code{\link{combineFeatures}}
+}
+

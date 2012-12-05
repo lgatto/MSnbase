@@ -7,17 +7,23 @@ test_that("MSnSet validity", {
 
 test_that("Combine MSnSet features", {
   aa <- new("MSnSet",
-            exprs=matrix(c(rnorm(10,4,0.0001),rnorm(10,10,0.0001)),
-              nrow=10,byrow=TRUE),
-            featureData=new("AnnotatedDataFrame",
-              data=data.frame(
-                A=rep(c("A","B"),each=5),
-                B=paste(rep(c("A","B"),each=5),1:10,sep="."))))
-  bb <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),"mean")
-  cc <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),"sum")
-  dd <- combineFeatures(aa,factor(rep(letters[1:2],each=5)),"median")
-  ee <- combineFeatures(aa,factor(rep(letters[1:2],each=5)), "weighted.mean", w=rep(1,10))
-  ff <- combineFeatures(aa,factor(rep(letters[1:2], each = 5)), "medpolish", verbose=FALSE)
+            exprs=matrix(
+              c(rnorm(10, 4, 0.0001),
+                rnorm(10, 10, 0.0001)),
+              nrow = 10,byrow = TRUE),
+            featureData = new("AnnotatedDataFrame",
+              data = data.frame(
+                A = rep(c("A","B"), each = 5),
+                B = paste(
+                  rep(c("A","B"), each = 5),
+                  1:10,
+                  sep = "."))))
+  gb <- factor(rep(letters[1:2], each = 5))
+  bb <- combineFeatures(aa, gb, "mean")
+  cc <- combineFeatures(aa, gb, "sum")
+  dd <- combineFeatures(aa, gb, "median")
+  ee <- combineFeatures(aa, gb, "weighted.mean", w=rep(1,10))
+  ff <- combineFeatures(aa, gb, "medpolish", verbose=FALSE)
   expect_equal(exprs(bb),
                matrix(c(4,10,4,10), ncol = 2),
                tolerance = .001,
@@ -40,6 +46,29 @@ test_that("Combine MSnSet features", {
                check.attributes = FALSE)
   expect_true(all(fData(bb)[,1] == c("A", "B")))
   expect_true(all(fData(bb)[,2] == c("A.1", "B.6")))
+  gb2 <- factor(c("a", "c", "z", "a", "z", "b", "b", "a", "c", "a"))
+  gb3 <- factor(rev(c("a", "c", "z", "a", "z", "b", "b", "a", "c", "a")))
+  fData(aa)$Z <- gb2  
+  zz <- combineFeatures(aa, gb2, fun = "sum")  
+  zz3 <- combineFeatures(aa[10:1, ], gb3, fun = "sum")
+  expect_true(all.equal(exprs(zz), exprs(zz3)))
+  expect_true(all.equal(fData(zz)[, 3:5],
+                        fData(zz3)[, 3:5]))
+  expect_true(all.equal(as.numeric(exprs(zz["a", ])),
+                        colSums(exprs(aa)[gb2 == "a", ]),
+                        check.attributes = FALSE))
+  expect_true(all.equal(as.numeric(exprs(zz["b", ])),
+                        colSums(exprs(aa)[gb2 == "b", ]),
+                        check.attributes = FALSE))
+  expect_true(all.equal(as.numeric(exprs(zz["c", ])),
+                        colSums(exprs(aa)[gb2 == "c", ]),
+                        check.attributes = FALSE))
+  expect_true(all.equal(as.numeric(exprs(zz["z", ])),
+                        colSums(exprs(aa)[gb2 == "z", ]),
+                        check.attributes = FALSE))
+  expect_true(all.equal(featureNames(zz),
+                        as.character(fData(zz)$Z),
+                        check.attributes = FALSE))  
 })
 
 test_that("Purity correction", {

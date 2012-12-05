@@ -97,18 +97,18 @@ setMethod("purityCorrect",
               stop("Impurity matrix must be a square matrix")
             if (ncol(object)!=ncol(impurities))
               stop("Impurity matrix should be ",ncol(object)," by ",ncol(object))
-            .purcor <- function(x,.impurities=impurities) {
+            .purcor <- function(x, .impurities = impurities) {
               keep <- !is.na(x)
               if (sum(keep)>1) 
-                x[keep] <- solve(.impurities[keep,keep],x[keep])
+                x[keep] <- solve(.impurities[keep, keep], x[keep])
               x[x<0] <- NA
               return(x)
             }
-            corr.exprs <- apply(exprs(object),1,.purcor)
+            corr.exprs <- apply(exprs(object), 1, .purcor)
             exprs(object) <- t(corr.exprs)
             object@processingData@processing <-             
               c(object@processingData@processing,
-                paste("Purity corrected: ",date(),sep=""))
+                paste0("Purity corrected: ", date()))
             if (validObject(object))
               return(object)
           })
@@ -325,6 +325,57 @@ setMethod("topN", signature(object = "MSnSet"),
               return(ans)
           })
 
+
+getRatios <- function(x, log = FALSE) {
+  ## x: a vector of numerics
+  ## returns a vector of all xi/xj ratios
+  x <- as.numeric(x)
+  cmb <- combn(length(x),2)
+  r <- numeric(ncol(cmb))
+  for (i in 1:ncol(cmb)) {
+    j <- cmb[1, i]
+    k <- cmb[2, i]
+    ifelse(log,
+           r[i] <- x[j]-x[k],
+           r[i] <- x[j]/x[k])
+  }
+  return(r)
+}
+
+
+setMethod("exprsToRatios",
+          "MSnSet",
+          function(object, log = FALSE) {
+            if (ncol(object) == 2) {
+              ifelse(log,
+                     r <- exprs(object)[, 1] - exprs(object)[, 2],
+                     r <- exprs(object)[, 1] / exprs(object)[, 2])
+              dim(r) <- c(length(r), 1)
+            } else {
+              r <- apply(exprs(object), 1, getRatios, log)
+              r <- t(r)
+            }
+            rownames(r) <- featureNames(object)
+            cmb <- combn(ncol(object),2)            
+            ratio.description <- apply(cmb,2, function(x)
+                                       paste(sampleNames(object)[x[1]],
+                                             sampleNames(object)[x[2]],
+                                             sep="/"))
+            phenodata <- new("AnnotatedDataFrame",
+                             data=data.frame(ratio.description))
+            processingdata <- processingData(object)
+            processingdata@processing <- c(processingdata@processing,
+                                           paste("Intensities to ratios: ",date(),sep=""))
+            message("Dropping protocolData.")
+            res <- new("MSnSet",
+                       exprs = r,
+                       featureData = featureData(object),
+                       phenoData = phenodata,
+                       processingData = processingdata,
+                       experimentData = experimentData(object))
+            if (validObject(res))
+              return(res)
+          })
 
 setMethod("plotNA", signature(object = "MSnSet"), 
           function(object, pNA = .5) {
