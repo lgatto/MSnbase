@@ -164,7 +164,7 @@ combineFeatures <- function(object,  ## MSnSet
 ##' @seealso \code{\link{combineFeatures}}
 ##' @examples
 ##' data(itraqdata)
-##' m <- quantity(itraqdata[1:4], reporters = iTRAQ4)
+##' m <- quantify(itraqdata[1:4], reporters = iTRAQ4)
 ##' gb <- factor(rep(1:2, each = 2))
 ##' featureCV(m, gb)
 featureCV <- function(x, groupBy, na.rm = TRUE,
