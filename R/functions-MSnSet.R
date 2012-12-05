@@ -33,12 +33,12 @@ normalise_MSnSet <- function(object, method, ...) {
 }
 
 combineMatrixFeatures <- function(matr,    ## matrix
-                                   groupBy, ## factor
-                                   fun = c("mean",
-                                     "median",
-                                     "weighted.mean",
-                                     "sum",
-                                     "medpolish"),
+                                  groupBy, ## factor
+                                  fun = c("mean",
+                                    "median",
+                                    "weighted.mean",
+                                    "sum",
+                                    "medpolish"),
                                   ...,    ## additional arguments to fun
                                   verbose=TRUE) {
   if (is.character(fun)) {
@@ -97,19 +97,27 @@ combineFeatures <- function(object,  ## MSnSet
                               "sum",
                               "medpolish"),
                             ...,    ## additional arguments to fun
-                            verbose=TRUE) {
+                            cv = TRUE,
+                            cv.norm = "sum",
+                            verbose = TRUE) {
+  if (cv) {
+    cv.mat <- featureCV(object, groupBy = groupBy,
+                        norm = cv.norm)
+  }
   if (is.character(fun)) 
     fun <- match.arg(fun)
   n1 <- nrow(object)
   ## !! order of features in matRes is defined by the groupBy factor !!
   matRes <- as.matrix(combineMatrixFeatures(exprs(object),
                                             groupBy, fun, ...,
-                                            verbose = verbose))  
+                                            verbose = verbose)) 
   fdata <- fData(object)[!duplicated(groupBy),] ## takes the first occurences
   fdata <- fdata[order(unique(groupBy)),] ## ordering fdata according to groupBy factor
   rownames(matRes) <- rownames(fdata)
   colnames(matRes) <- sampleNames(object)
   exprs(object) <- matRes
+  if (cv)
+    fdata <- cbind(fdata, cv.mat)
   fData(object) <- fdata
   if (is.character(fun)) {
     msg <- paste("Combined ", n1, " features into ",
@@ -137,6 +145,53 @@ combineFeatures <- function(object,  ## MSnSet
     return(object)
 }
 
+##' This function calculates the column-wise coefficient of variation (CV), i.e.
+##' the ration between the standard deviation and the mean, for the features
+##' in an \code{"\linkS4class{MSnSet}"}. The CVs are calculated for the groups
+##' of features defined by \code{groupBy}. For groups defined by single features,
+##' \code{NA} is returned. 
+##'
+##' @title Calculates coeffivient of variation for features
+##' @param x An instance of class \code{"\linkS4class{MSnSet}"}.
+##' @param groupBy An object of class \code{factor} defining how to summerise the features.
+##' @param na.rm A \code{logical} defining whether missing values should be removed.
+##' @param norm One of 'none' (default), 'sum', 'max', 'scale.mean', 'scale.median'
+##' 'quantiles' or 'quantiles.robust' defining if and how the data should be normalised
+##' prior to CV calculation. See \code{\link{normalise}} for more details. 
+##' @return A \code{matrix} of dimensions \code{length(levels(groupBy))} by \code{ncol(x)}
+##' with the respecive CVs.
+##' @author Laurent Gatto <lg390@@cam.ac.uk>
+##' @seealso \code{\link{combineFeatures}}
+##' @examples
+##' data(itraqdata)
+##' m <- quantify(itraqdata[1:4], reporters = iTRAQ4)
+##' gb <- factor(rep(1:2, each = 2))
+##' featureCV(m, gb)
+featureCV <- function(x, groupBy, na.rm = TRUE,
+                      norm = c("none", "sum", "max",
+                        "scale.mean", "scale.median",
+                        "quantiles", "quantiles.robust")) {
+  norm <- match.arg(norm)
+  if (norm != "none")
+    x <- normalise(x, method = norm)    
+  .sd <- function(x, na.rm = na.rm) {
+    if (is.matrix(x) | is.data.frame(x)) {
+      ans <- apply(x, 2, sd, na.rm = na.rm)
+    } else {
+      ans <- rep(NA, length(x))
+    }
+    return(ans)
+  }  
+  sds <- by(exprs(x), groupBy, .sd, na.rm)  
+  mns <- by(exprs(x), groupBy, colMeans)
+  stopifnot(all(names(sds) == names(mns)))
+  ans <- t(sapply(seq_along(sds), function(i) sds[[i]]/mns[[i]]))
+  rownames(ans) <- names(sds)
+  colnames(ans) <- paste("CV", colnames(ans), sep = ".")
+  stopifnot(ncol(ans) == ncol(x))
+  stopifnot(nrow(ans) == length(levels(groupBy)))
+  return(ans)
+}
 
 
 

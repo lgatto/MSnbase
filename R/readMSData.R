@@ -26,24 +26,95 @@
 ##     stop("Can't remove peaks when cache level is > 1")
 ##   if (clean > 0)
 ##     stop("Can't clean peaks when cache level is > 1")
-##   .testReadMSDataInput(environment())
+##   MSnbase:::.testReadMSDataInput(environment())
   
 ##   if (msLevel == 1) ## cache currently only works for MS2 level data
-##     cache <- 0 
+##     cache <- 0
+  
 ##   msLevel <- as.integer(msLevel)
-##   filenams <- filenums <- c()
-##   fullhd2 <- fullhdorder <- c()
-##   .instrumentInfo <- list()
 
-##   mzr <- lapply(files, mzR:openMSfile)
-##   hd <- lapply(mzr, header)
+##   mzr <- lapply(files, mzR::openMSfile)
+##   .instrumentInfo <- lapply(mzr, instrumentInfo)
+##   names(.instrumentInfo) <- names(mzr) <- seq_along(mzr)
+##   fullhd <- do.call(rbind, lapply(mzr, header))
+##   ioncount <- unlist(lapply(mzr, function(xx) 
+##                             sapply(peaks(xx), function(pk) sum(pk[, 2]))))
+  
 ##   .n <- sapply(mzr, length)
 ##   featnms <- lapply(.n, function(n) paste0("X", 1:n))
-##   lapply(seq_along(featnms),
-##          function(x) {
-##            paste(featnms[[x]], x, sep=".")
-##          })
-         
+##   featnms <- unlist(lapply(seq_along(featnms),
+##                            function(x) {
+##                              paste(featnms[[x]], x, sep=".")
+##                            }))
+##   rownames(fullhd) <- featnms
+##   fromfile <- unlist(mapply(rep, 1:length(.n), .n, SIMPLIFY = FALSE)) ## to be saved to cache
+  
+
+##   newhd <- data.frame(file = fromfile, 
+##                       retention.time = fullhd$retentionTime,
+##                       precursor.mz = fullhd$precursorMZ,
+##                       precursor.intensity = fullhd$precursorIntensity,
+##                       charge = fullhd$precursorCharge,
+##                       peaks.count = fullhd$peaksCount,
+##                       tic = fullhd$totIonCurrent,
+##                       ionCount = ioncount, 
+##                       ms.level = fullhd$msLevel,
+##                       acquisition.number = fullhd$acquisitionNum,
+##                       collision.energy = fullhd$collisionEnergy)
+
+##   ## if (verbose)
+##   ##   message("Caching...")
+##   ## .cacheEnv <- MSnbase:::setCacheEnv(list("assaydata" = assaydata,
+##   ##                                         "hd" = newhd),
+##   ##                                    cache, lock = TRUE)
+
+##   ## Create 'MSnProcess' object
+##   process <- new("MSnProcess",
+##                  processing = c(
+##                    paste("Data loaded:", date()),
+##                    paste("Cache level ", cache)),
+##                  files = files,
+##                  smoothed = smoothed)  
+##   if (is.null(pdata)) {
+##     .pd <- data.frame(sampleNames = files,
+##                       fileNumbers = seq_along(files))
+##     pdata <- new("NAnnotatedDataFrame",
+##                  data = .pd)
+##   }
+##   fdata <- new("AnnotatedDataFrame",
+##                data=data.frame(
+##                  spectrum=1:nrow(fullhd) ,
+##                  row.names=featnms))
+##   ## expriment data slot
+##   if (length(.instrumentInfo) > 1) {
+##     cmp <- sapply(.instrumentInfo[-1], function(x) identical(x, .instrumentInfo[[1]]))
+##     if (!all(cmp)) {
+##       warning("According to the instrument information in the files, the data has been acquired on different instruments!")
+##       .instrumentInfo[[1]] <- list(manufacturer = paste(sapply(.instrumentInfo, "[[", "manufacturer"), collapse = ", "),
+##                                    model = paste(sapply(.instrumentInfo, "[[", "model"), collapse = ", "),
+##                                    ionisation = paste(sapply(.instrumentInfo, "[[", "ionisation"), collapse = ", "),
+##                                    analyzer = paste(sapply(.instrumentInfo, "[[", "analyzer"), collapse = ", "),
+##                                    detector = paste(sapply(.instrumentInfo, "[[", "detector"), collapse = ", "))
+##     } 
+##   } 
+##   expdata <- new("MIAPE",
+##                  instrumentManufacturer = .instrumentInfo[[1]]$manufacturer,
+##                  instrumentModel = .instrumentInfo[[1]]$model,
+##                  ionSource = .instrumentInfo[[1]]$ionisation,
+##                  analyser = .instrumentInfo[[1]]$analyzer,
+##                  detectorType = .instrumentInfo[[1]]$detector)
+##   ## Create and return 'MSnExp' object
+##   if (verbose)
+##     cat("Creating 'MSnExp' object\n")
+##   toReturn <- new("MSnExp",
+##                   assayData = list2env(mzr),
+##                   phenoData = pdata,
+##                   featureData = fdata,
+##                   processingData = process,
+##                   experimentData = expdata)
+##                   ## .cache = .cacheEnv)
+##   if (validObject(toReturn))
+##     return(toReturn)  
 ## }
   
 
@@ -168,7 +239,11 @@ readMSData <- function(files,
     rm(msdata)
   }
   ## cache level 2 yet implemented
+<<<<<<< HEAD
   cache <- testCacheArg(cache, maxCache = 1)
+=======
+  cache <- testCacheArg(cache, maxCache = 2)
+>>>>>>> local-hedgehog
   if (cache >= 1) {
     fl <- sapply(assaydata, fromFile)
     featnms <- ls(assaydata) ## feautre names in final MSnExp
