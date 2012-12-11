@@ -100,14 +100,16 @@ readIspyData <- function(file = "ispy_results.tsv",
     warning("NA values in quantitation data.")
   ## Preparing return object slots and return new MSnSet
   .process <- new("MSnProcess",
-                  processing=paste("Data loaded:",date(),
+                  processing = paste("Data loaded:",date(),
                     "from ispy result file."),
-                  normalised=FALSE,
-                  files=file)
-  return(new("MSnSet",
+                  normalised = FALSE,
+                  files = file)
+  ans <- new("MSnSet",
              exprs=.exprs,
-             featureData=new("AnnotatedDataFrame",data=.featureData),
-             processingData=.process))
+             featureData=new("AnnotatedDataFrame",data=.featureData))
+  ans@processingData <- .process
+  if (validObject(ans))
+    return(ans)
 }
 
 

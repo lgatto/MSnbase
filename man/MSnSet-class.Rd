@@ -197,12 +197,13 @@
       See also the \code{\link{nQuants}} function to retrieve the
       actual number of peptides out of \code{n} where retained.
     }
-    \item{filterNA}{signature(object = "MSnSet", pNA = "numeric")}{ This
-      methods subsets \code{object} by removing features that have more
-      than \code{pNA} percent of NA values. Default \code{pNA} is 1/2.
-      To remove any feature that exhibits missing data, use
-      \code{pNA = 0}.
-      This method also accepts \code{matrix} instances.
+    \item{filterNA}{signature(object = "MSnSet", pNA = "numeric",
+      droplevels = "logical")}{ This methods subsets \code{object} by
+      removing features that have more than \code{pNA} percent of NA
+      values. Default \code{pNA} is 0, which removes any feature that
+      exhibits missing data. This method also accepts \code{matrix}
+      instances. \code{droplevels} defines whether unused levels in the
+      feature meta-data ought to be lost. Default is \code{TRUE}.
 
       See also the \code{\link{is.na.MSnSet}} and \code{\link{plotNA}}
       methods for missing data exploration.      
