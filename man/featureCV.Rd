@@ -3,7 +3,7 @@
 \title{Calculates coeffivient of variation for features}
 \usage{
   featureCV(x, groupBy, na.rm = TRUE,
-    norm = c("none", "sum", "max", "scale.mean", "scale.median", "quantiles", "quantiles.robust"))
+    norm = c("sum", "max", "none", "scale.mean", "scale.median", "quantiles", "quantiles.robust"))
 }
 \arguments{
   \item{x}{An instance of class
