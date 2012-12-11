@@ -400,7 +400,7 @@ setMethod("plotNA", signature(object = "matrix"),
           })
 
 setMethod("filterNA", signature(object = "matrix"), 
-          function(object, pNA = .5) {
+          function(object, pNA = 0) {
             if (pNA > 1)
               pNA <- 1
             if (pNA < 0)
@@ -419,7 +419,7 @@ setMethod("filterNA", signature(object = "matrix"),
 
 
 setMethod("filterNA", signature(object = "MSnSet"), 
-          function(object, pNA = .5) {
+          function(object, pNA = 0, droplevels = TRUE) {
             if (pNA > 1)
               pNA <- 1
             if (pNA < 0)
@@ -427,11 +427,20 @@ setMethod("filterNA", signature(object = "MSnSet"),
             k <- apply(exprs(object), 1,
                        function(x) sum(is.na(x))/length(x))
             accept <- k <= pNA
-            object@processingData@processing <-
-              c(processingData(object)@processing,
-                paste0("Removed features with more than ",
-                       round(pNA, 3), " NAs: ", date()))
             ans <- object[accept, ]
+            if (droplevels) {
+              fData(ans) <- droplevels(fData(ans))
+              ans@processingData@processing <-
+                c(processingData(ans)@processing,
+                  paste0("Removed features with more than ",
+                         round(pNA, 3), " NAs: ", date()),
+                  " (Dropped unused fData levels.)")
+            } else {
+              ans@processingData@processing <-
+                c(processingData(ans)@processing,
+                  paste0("Removed features with more than ",
+                         round(pNA, 3), " NAs: ", date()))              
+            }
             if (validObject(ans))
               return(ans)
           })

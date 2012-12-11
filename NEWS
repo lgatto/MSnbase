@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.7.9
+------------------------
+ o Updating processing data on readIspyData <2012-12-05 Wed>
+ o filterNA has a droplevels arg <2012-12-05 Wed>
+
 CHANGES IN VERSION 1.7.8
 ------------------------
  o new featureCV function <2012-12-04 Tue>
