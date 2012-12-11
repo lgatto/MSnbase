@@ -171,6 +171,7 @@ featureCV <- function(x, groupBy, na.rm = TRUE,
                       norm = c("sum", "max", "none",
                         "scale.mean", "scale.median",
                         "quantiles", "quantiles.robust")) {
+  groupBy <- as.factor(groupBy)
   norm <- match.arg(norm)
   if (norm != "none")
     x <- normalise(x, method = norm)    
@@ -185,8 +186,8 @@ featureCV <- function(x, groupBy, na.rm = TRUE,
   sds <- by(exprs(x), groupBy, .sd, na.rm)  
   mns <- by(exprs(x), groupBy, colMeans)
   stopifnot(all(names(sds) == names(mns)))
-  ans <- sapply(seq_along(sds), function(i) sds[[i]]/mns[[i]])
-  if (ncol(x) > 1)
+  ans <- t(sapply(seq_along(sds), function(i) sds[[i]]/mns[[i]]))
+  if (ncol(x) == 1)
     ans <- t(ans)
   rownames(ans) <- names(sds)
   if (is.null(colnames(ans)))
