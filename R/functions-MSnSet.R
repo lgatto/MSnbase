@@ -168,7 +168,7 @@ combineFeatures <- function(object,  ## MSnSet
 ##' gb <- factor(rep(1:2, each = 2))
 ##' featureCV(m, gb)
 featureCV <- function(x, groupBy, na.rm = TRUE,
-                      norm = c("none", "sum", "max",
+                      norm = c("sum", "max", "none",
                         "scale.mean", "scale.median",
                         "quantiles", "quantiles.robust")) {
   norm <- match.arg(norm)
@@ -185,8 +185,12 @@ featureCV <- function(x, groupBy, na.rm = TRUE,
   sds <- by(exprs(x), groupBy, .sd, na.rm)  
   mns <- by(exprs(x), groupBy, colMeans)
   stopifnot(all(names(sds) == names(mns)))
-  ans <- t(sapply(seq_along(sds), function(i) sds[[i]]/mns[[i]]))
+  ans <- sapply(seq_along(sds), function(i) sds[[i]]/mns[[i]])
+  if (ncol(x) > 1)
+    ans <- t(ans)
   rownames(ans) <- names(sds)
+  if (is.null(colnames(ans)))
+    colnames(ans) <- seq_len(ncol(ans))
   colnames(ans) <- paste("CV", colnames(ans), sep = ".")
   stopifnot(ncol(ans) == ncol(x))
   stopifnot(nrow(ans) == length(levels(groupBy)))

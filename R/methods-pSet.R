@@ -13,7 +13,7 @@ setValidity("pSet", function(object) {
   msg <- validMsg(NULL, NULL)
   if (!all(sapply(assayData(object),function(x) inherits(x,"Spectrum"))))
     msg <- validMsg(msg,
-                    "assayData must contain 'Spectrum'' objects.")
+                    "assayData must contain 'Spectrum' objects.")
   msl <- msLevel(object)
   if (length(unique(msl))>1) 
     warning(paste("Different MS levels in ",class(object),

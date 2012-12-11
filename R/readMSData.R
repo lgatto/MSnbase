@@ -22,6 +22,7 @@
 ##                        removePeaks = 0,
 ##                        clean = FALSE,
 ##                        cache = 2) {
+## ## - deal with multiple files
 ##   if (removePeaks > 0)
 ##     stop("Can't remove peaks when cache level is > 1")
 ##   if (clean > 0)
