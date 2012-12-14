@@ -428,24 +428,26 @@ setMethod("filterNA", signature(object = "MSnSet"),
                        function(x) sum(is.na(x))/length(x))
             accept <- k <= pNA
             ans <- object[accept, ]
-            if (droplevels) {
-              fData(ans) <- droplevels(fData(ans))
-              ans@processingData@processing <-
-                c(processingData(ans)@processing,
-                  paste0("Removed features with more than ",
-                         round(pNA, 3), " NAs: ", date()),
-                  " (Dropped unused fData levels.)")
-            } else {
-              ans@processingData@processing <-
-                c(processingData(ans)@processing,
-                  paste0("Removed features with more than ",
-                         round(pNA, 3), " NAs: ", date()))              
-            }
+            ans@processingData@processing <-
+              c(processingData(ans)@processing,
+                paste0("Removed features with more than ",
+                       round(pNA, 3), " NAs: ", date()))              
+            if (droplevels) 
+              ans <- droplevels(ans)
             if (validObject(ans))
               return(ans)
           })
 
 is.na.MSnSet <- function(x) is.na(exprs(x))
+
+droplevels.MSnSet <- function(x, ...) {
+    fData(x) <- droplevels(fData(x), ...)
+    x@processingData@processing <-
+      c(x@processingData@processing,
+        paste("Dropped featureData's levels", date()))    
+    if (validObject(x))
+      return(x)
+  }
 
 setMethod("log",
           signature = "MSnSet",
