@@ -7,6 +7,7 @@
 \usepackage[authoryear,round]{natbib}
 
 \newcommand{\R}{\texttt{R} }
+\newcommand{\code}[1]{{\texttt{#1}}}
 \newcommand{\Rfunction}[1]{{\texttt{#1}}}
 \newcommand{\Robject}[1]{{\texttt{#1}}}
 \newcommand{\Rpackage}[1]{{\mbox{\normalfont\textsf{#1}}}}
@@ -89,6 +90,9 @@ opts_chunk$set(fig.align = 'center',
                comment = NA)
 options(replace.assign = TRUE, 
         width = 68)
+## see ?evaluate::evaluate for details
+opts_knit$set(stop_on_error = 1L)
+
 ## knit_hooks$set(par = function(before, options, envir) {
 ##   if (before && options$fig.show != 'none') 
 ##     par(mar = c(4,4,.1,.1),
@@ -672,23 +676,30 @@ If no peak is detected for a reporter ion peak, the respective
 quantitation value is set to \texttt{NA}. In our case, there 
 is \Sexpr{sum(is.na(exprs(qnt)))} such case in row 
 \Sexpr{which(is.na(exprs(qnt))) %% nrow(qnt)}.
-We will remove the offending line, as we do not expect any missing peaks.
+We will remove the offending line using the \Rfunction{filterNA} method.
+The \Robject{pNA} argument defines the percentage of accepted missing 
+values per feature. As we do not expect any missing peaks, we set it 
+to be 0 (which is also the detault value).
 
-<<removeNa, echo=TRUE>>=
+<<filterNA, echo=TRUE>>=
 table(is.na(qnt))
-whichRow <- which(is.na((qnt))) %% nrow(qnt)
-qnt <- qnt[-whichRow, ]
-sum(is.na(exprs(qnt)))
+qnt <- filterNA(qnt, pNA = 0)
+sum(is.na(qnt))
 @ 
 
-The \Rfunction{filterNA} method allows to filter features based on the proportion 
-of missing data their carry, specified using the \Robject{pNA} argument. 
-The same result as above could have been achieved with 
-\Rfunction{qnt <- filterNA(qnt, pNA = 0)}, 
-specifying that we allow 0 percent of missing data. 
-See also the \Rfunction{plotNA} method to get an overview of the completeness 
-of a data set.
+The infrastructure around the \Robject{MSnSet} class allows flexible filtering 
+using the \Rfunction{[} sub-setting operator. Below, we mimic the behaviour of
+\Rfunction{filterNA(, pNA = 0)} by calculating the row indices that should be removed, 
+i.e. those that have at least on \Robject{NA} value and explicitly remove these row. 
+This method allows one to devise and easily apply any filtering strategy.
 
+<<removeNa, echo=TRUE, eval=FALSE>>=
+whichRow <- which(is.na((qnt))) %% nrow(qnt)
+qnt <- qnt[-whichRow, ]
+@ 
+
+See also the \Rfunction{plotNA} method to obtain a graphical overview of 
+the completeness of a data set.
 
 \subsection{Importing quantitation data}\label{sec:io2}
 
@@ -1115,6 +1126,8 @@ exp1 <- quantify(itraqdata[i], reporters = iTRAQ4,
                  parallel = FALSE, verbose = FALSE)
 exp2 <- quantify(itraqdata[j], reporters = iTRAQ4,
                  parallel = FALSE, verbose = FALSE)
+exp1 <- droplevels(exp1) 
+exp2 <- droplevels(exp2)
 table(featureNames(exp1) %in% featureNames(exp2))
 exp1 <- combineFeatures(exp1,
                         groupBy = fData(exp1)$ProteinAccession)
@@ -1124,8 +1137,17 @@ head(featureNames(exp1))
 head(featureNames(exp2))
 @ 
 
-The feature names are updated automatically by \Rfunction{combineFeatures}, using the \Robject{groupBy} argument. 
-Proper feature names, reflecting the nature of the features (spectra, peptides or proteins) is critical when multiple experiments are to be combined, as this is done using common features as defined by their names (see below).
+The \Rfunction{droplevels} drops the unused \Robject{featureData} levels. 
+This is required to avoid passing absent levels as \Robject{groupBy} 
+in \Rfunction{combineFeatures}. 
+Alternatively, one could also use \Robject{factor(fData(exp1)\$ProteinAccession)} 
+as \Robject{groupBy} argument.
+
+The feature names are updated automatically by \Rfunction{combineFeatures}, 
+using the \Robject{groupBy} argument. 
+Proper feature names, reflecting the nature of the features (spectra, peptides or proteins) 
+is critical when multiple experiments are to be combined, as this is done using common 
+features as defined by their names (see below).
 
 \bigskip
 
@@ -1200,6 +1222,13 @@ If runs for the same sample (different fractions for example) need to be combine
 one needs to (1) differentiate the feature provenance with 
 \Rfunction{updateFeatureNames} prior to use \Rfunction{combine}.
 
+\section{MS$^E$ data processing}\label{sec:mse}
+
+\Rpackage{MSnbase} can also be used for MS$^E$ data independent acquisition from Waters instrument. 
+The MS$^E$ pipeline depends on the Bioconductor \Rpackage{synapter} package \citep{synapter} that 
+produces \Robject{MSnSet} instances for indvidual acquisitions. The \Rpackage{MSnbase} infrastructure can 
+subsequently be used to further combine experiments, as shown in section \ref{sec:comb2} and 
+apply \textit{top3} quantitation using the \Rfunction{topN} method. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section

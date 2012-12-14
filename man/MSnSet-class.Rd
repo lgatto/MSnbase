@@ -49,6 +49,9 @@
 \alias{updateSampleNames}
 \alias{updateFeatureNames}
 
+\alias{droplevels.MSnSet}
+
+
 \title{
   The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
 }
@@ -195,7 +198,10 @@
       (Works also with \code{matrix} instances.)
 
       See also the \code{\link{nQuants}} function to retrieve the
-      actual number of peptides out of \code{n} where retained.
+      actual number of retained peptides out of \code{n}.
+      
+      A complete use case using \code{topN} and \code{nQuants} is
+      detailed in the \code{synapter} package vignette. 
     }
     \item{filterNA}{signature(object = "MSnSet", pNA = "numeric",
       droplevels = "logical")}{ This methods subsets \code{object} by
@@ -204,6 +210,7 @@
       exhibits missing data. This method also accepts \code{matrix}
       instances. \code{droplevels} defines whether unused levels in the
       feature meta-data ought to be lost. Default is \code{TRUE}.
+      See the \code{droplevels} method below.
 
       See also the \code{\link{is.na.MSnSet}} and \code{\link{plotNA}}
       methods for missing data exploration.      
@@ -213,7 +220,11 @@
       \code{base::log}. \code{base} (defaults is \code{e='exp(1)'}) must
       be a positive or complex number, the base with respect to which
       logarithms are computed.  
-    }      
+    }
+    \item{droplevels}{signature(x = "MSnSet", ...)}{Drops the unusel
+      factor levels in the \code{featureData} slot. See
+      \code{\link{droplevels}} for details.
+    }
   }
   
   Additional accessors for the experimental metadata
@@ -272,7 +283,7 @@
     \item{updateFeatureNames}{signature(object, label, sep)}{
       This function updates \code{object}'s feature names by appending
       \code{label}. By default, \code{label} is the variable name and
-      the separator \code{sep} is \code{.}.} 
+      the separator \code{sep} is \code{.}.}	
   }
 }
 
