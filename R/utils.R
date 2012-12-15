@@ -385,3 +385,19 @@ cramer6 <- function(x, imp) {
 }
 
      
+getColsFromPattern <- function(x, pattern) {
+  if (missing(pattern))
+    stop("Pattern must not be missing.")
+  if (nchar(pattern) != ncol(x))
+    stop("The pattern must be equal to the number of columns.")
+  pattern <- strsplit(pattern, "")[[1]]
+  if (!all(unique(pattern) %in% c("0", "1")))
+    stop("Pattern must be composed of '0' or '1' defining columns with or without 'NA's.")
+  return(pattern == "1")  
+}
+
+getRowsFromPattern <- function(x, pattern) {
+  cols <- getColsFromPattern(x, pattern)
+  x2 <- x[, cols]
+  apply(x2, 1, function(xx) !any(is.na(xx)))
+}

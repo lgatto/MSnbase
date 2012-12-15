@@ -1,6 +1,5 @@
 context("filterNA method")
 
-
 test_that("filterNA for matrix", {
   M <- matrix(rnorm(20, 1), 5, 4)
   M[2, 1] <- NA
@@ -22,4 +21,20 @@ test_that("filterNA for MSnSet", {
   exprs(xx)[sample(prod(dim(xx)), 120)] <- NA
   xx2 <- filterNA(xx, 1/4)
   expect_true(nrow(xx) > nrow(xx2))
+})
+
+test_that("filterNA with patter", {
+  
+  M <- matrix(rnorm(40), ncol = 4)
+  rownames(M) <- 1:10
+  M[1:5, 1] <- NA
+  M[c(1, 3, 5), 4] <- NA
+  M[c(1, 5, 10), 2] <- NA
+  res <- filterNA(M, pattern = "0110")
+  expect_equal(rownames(res), as.character(c(2, 3, 4, 6, 7, 8, 9)))
+  res <- filterNA(M, pattern = "0111")
+  expect_equal(rownames(res), as.character(c(2, 4, 6, 7, 8, 9)))
+  res0 <- filterNA(M, pattern = "1111")
+  res1 <- filterNA(M, pNA = 0)
+  expect_identical(res0, res1)
 })
