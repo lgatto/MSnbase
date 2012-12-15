@@ -679,13 +679,17 @@ is \Sexpr{sum(is.na(exprs(qnt)))} such case in row
 We will remove the offending line using the \Rfunction{filterNA} method.
 The \Robject{pNA} argument defines the percentage of accepted missing 
 values per feature. As we do not expect any missing peaks, we set it 
-to be 0 (which is also the detault value).
+to be 0 (which is also the detault value). 
 
 <<filterNA, echo=TRUE>>=
 table(is.na(qnt))
 qnt <- filterNA(qnt, pNA = 0)
 sum(is.na(qnt))
 @ 
+
+The filtering criteria for \Rfunction{filterNA} can also be defined as a pattern
+of columns that can have missing values and columns that must not exhibit any. 
+See \Rfunction{?filterNA} for details and examples.
 
 The infrastructure around the \Robject{MSnSet} class allows flexible filtering 
 using the \Rfunction{[} sub-setting operator. Below, we mimic the behaviour of

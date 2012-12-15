@@ -204,10 +204,16 @@
       detailed in the \code{synapter} package vignette. 
     }
     \item{filterNA}{signature(object = "MSnSet", pNA = "numeric",
-      droplevels = "logical")}{ This methods subsets \code{object} by
-      removing features that have more than \code{pNA} percent of NA
-      values. Default \code{pNA} is 0, which removes any feature that
-      exhibits missing data. This method also accepts \code{matrix}
+      pattern = "character", droplevels = "logical")}{ This methods
+      subsets \code{object} by removing features that have (striclty)
+      more than \code{pNA} percent of NA values. Default \code{pNA} is
+      0, which removes any feature that exhibits missing data.
+      The method can also be used with a character pattern composed of
+      \code{0} or \code{1} characters only. A \code{0} represent a
+      column/sample that is allowed a missing values, while
+      columns/samples with and \code{1} must not have \code{NA}s. 
+      
+      This method also accepts \code{matrix}
       instances. \code{droplevels} defines whether unused levels in the
       feature meta-data ought to be lost. Default is \code{TRUE}.
       See the \code{droplevels} method below.
@@ -224,6 +230,11 @@
     \item{droplevels}{signature(x = "MSnSet", ...)}{Drops the unusel
       factor levels in the \code{featureData} slot. See
       \code{\link{droplevels}} for details.
+    }
+    \item{exprsToRatios}{\code{signature(object = "MSnSet", log =
+	"logical")}}{calculates all possible ratios between
+      \code{object}'s columns/samples.
+      See \code{\link{exprsToRatios}} for more details.
     }
   }
   
@@ -303,6 +314,12 @@ data(itraqdata)
 itraqdata
 msnset <- quantify(itraqdata[10:15], method = "trap", reporters = iTRAQ4, verbose = FALSE)
 msnset
+
+exprs(msnset)[1, c(1, 4)] <- NA
+exprs(msnset)[2, c(1, 2)] <- NA
+is.na(msnset)
+featureNames(filterNA(msnset, pNA = 1/4))
+featureNames(filterNA(msnset, pattern = "0110"))
 }
 
 \keyword{classes}

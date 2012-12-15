@@ -400,18 +400,23 @@ setMethod("plotNA", signature(object = "matrix"),
           })
 
 setMethod("filterNA", signature(object = "matrix"), 
-          function(object, pNA = 0) {
-            if (pNA > 1)
-              pNA <- 1
-            if (pNA < 0)
-              pNA <- 0            
-            k <- apply(object, 1,
-                       function(x) sum(is.na(x))/length(x))
-            accept <- k <= pNA
-            if (sum(accept) == 1) {              
-              ans <- matrix(object[accept, ], nrow = 1)
-              rownames(ans) <- rownames(object)[accept]
-            } else {
+          function(object, pNA = 0, pattern) {
+            if (missing(pattern)) { ## using pNA
+              if (pNA > 1)
+                pNA <- 1
+              if (pNA < 0)
+                pNA <- 0            
+              k <- apply(object, 1,
+                         function(x) sum(is.na(x))/length(x))
+              accept <- k <= pNA
+              if (sum(accept) == 1) {              
+                ans <- matrix(object[accept, ], nrow = 1)
+                rownames(ans) <- rownames(object)[accept]
+              } else {
+                ans <- object[accept, ]
+              }
+            } else { ## using pattern
+              accept <- getRowsFromPattern(object, pattern)
               ans <- object[accept, ]
             }
             return(ans)
@@ -419,19 +424,28 @@ setMethod("filterNA", signature(object = "matrix"),
 
 
 setMethod("filterNA", signature(object = "MSnSet"), 
-          function(object, pNA = 0, droplevels = TRUE) {
-            if (pNA > 1)
-              pNA <- 1
-            if (pNA < 0)
-              pNA <- 0
-            k <- apply(exprs(object), 1,
-                       function(x) sum(is.na(x))/length(x))
-            accept <- k <= pNA
-            ans <- object[accept, ]
-            ans@processingData@processing <-
-              c(processingData(ans)@processing,
-                paste0("Removed features with more than ",
-                       round(pNA, 3), " NAs: ", date()))              
+          function(object, pNA = 0, pattern, droplevels = TRUE) {
+            if (missing(pattern)) { ## using pNA
+              if (pNA > 1)
+                pNA <- 1
+              if (pNA < 0)
+                pNA <- 0
+              k <- apply(exprs(object), 1,
+                         function(x) sum(is.na(x))/length(x))
+              accept <- k <= pNA
+              ans <- object[accept, ]
+              ans@processingData@processing <-
+                c(processingData(ans)@processing,
+                  paste0("Removed features with more than ",
+                         round(pNA, 3), " NAs: ", date()))
+            } else { ## using pattern
+              accept <- getRowsFromPattern(exprs(object), pattern)
+              ans <- object[accept, ]
+              ans@processingData@processing <-
+                c(processingData(ans)@processing,
+                  paste0("Removed features with according to pattern ",
+                         pattern, " ", date()))              
+            }            
             if (droplevels) 
               ans <- droplevels(ans)
             if (validObject(ans))
