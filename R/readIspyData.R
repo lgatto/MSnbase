@@ -94,7 +94,8 @@ readIspyData <- function(file = "ispy_results.tsv",
   if (any(is.na(.featureData))) {
     whichCols <- apply(.featureData,2,function(x) any(is.na(x)))
     nacolnames <- paste(names(.featureData)[whichCols], collapse = ", ")
-    warning(paste0("NA values in featureData column(s) ", nacolnames))
+    if (verbose)
+      message(paste0("NA values in featureData column(s) ", nacolnames))
   }
   if (any(is.na(.exprs)))
     warning("NA values in quantitation data.")
