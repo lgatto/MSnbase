@@ -1,3 +1,12 @@
+CHANGES IN VERSION 1.7.12
+-------------------------
+ o updated makeImpuritiesMatrix to create matrix from 
+   csv file with correction factors <2012-12-23 Sun>
+ o makeImpuritiesMatrix test <2012-12-23 Sun>
+ o readIspyData: message instead of warning if NA in 
+   featureData <2012-12-24 Mon>
+ o Added msnbase.r script <2012-12-24 Mon>
+
 CHANGES IN VERSION 1.7.11
 -------------------------
  o new 'pattern' argument to filterNA <2012-12-15 Sat>
