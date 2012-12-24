@@ -24,15 +24,22 @@
   Shadforth \emph{et al.}, i-Tracker: for quantitative proteomics using
   iTRAQ. BMC Genomics. 2005 Oct 20;6:145. (PMID 16242023). 
 
-  Function \code{makeImpuritiesMatrix(x, edit = TRUE)} opens a simple graphical
-  interface to guide the user in the creation of such a matrix. The
-  function takes the dimension of the square matrix (i.e the number of
-  reporter ions) as argument. When available, default values taken from
-  manufacturer's certification sheets are provided, but batch specific
-  values should be used whenever possible. \code{makeImpuritiesMatrix}
-  returns the (possibly interactively updated) matrix to be used with
-  \code{purityCorrect}. If \code{edit = FALSE}, the edition of the
-  matrix is bypassed. 
+  Function \code{makeImpuritiesMatrix(x, filename, edit = TRUE)} helps
+  the user to create such a matrix. The function can be used in two ways.
+  If given an integer \code{x}, it is used as the dimension of the
+  square matrix (i.e the number of reporter ions). For TMT6-plex and
+  iTRAQ4-plex, default values taken from manufacturer's certification
+  sheets are used as templates, but batch specific values should be used
+  whenever possible. Alternatively, the \code{filename} of a \code{csv}
+  spreadsheet can be provided. The sheet should define the correction
+  factors as illustrated below (including reporter names in the first
+  column and header row) and the corresponding correction matrix is
+  calculated. Examples of such \code{csv} files are available in the
+  package's \code{extdata} directory. Use
+  \code{dir(system.file("extdata", package = "MSnbase"), pattern =
+    "PurityCorrection", full.names = TRUE)} to locate them.
+  If \code{edit = TRUE}, the the matrix can be edited before
+  it is returned.
 }
 
 \section{Methods}{
