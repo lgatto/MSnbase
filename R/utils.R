@@ -71,26 +71,53 @@ getBins <- function(x) {
   return(bins)
 }
 
-makeImpuritiesMatrix <- function(x, edit = TRUE) {
-  if (x==4) {
-    M <- matrix(c(0.929,0.059,0.002,0.000,
-                  0.020,0.923,0.056,0.001,
-                  0.000,0.030,0.924,0.045,
-                  0.000,0.001,0.040,0.923),
-                nrow=4, byrow = TRUE)
-  } else if (x == 6) {
-    M <- matrix(c(0.939, 0.061, 0.000, 0.000, 0.000, 0.000,
-                  0.005, 0.928, 0.067, 0.000, 0.000, 0.000,
-                  0.000, 0.011, 0.947, 0.042, 0.000, 0.000,
-                  0.000, 0.000, 0.017, 0.942, 0.041, 0.000,
-                  0.000, 0.000, 0.000, 0.016, 0.963, 0.021,
-                  0.000, 0.000, 0.000, 0.002, 0.032, 0.938),
-                nrow = 6, byrow = TRUE)
+makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
+  if (!missing(filename)) {
+    m <- read.csv(filename, row.names = 1)
+    x <- ncol(m)
+    if (ncol(m) != nrow(m))
+      stop(paste0("Problem reading impurity matrix. Not square.\n",
+                  "Please read '?purityCorrect' for details."))
+    ncharge <- x/2
+    a <- (x/2)
+    b <- (x/2) + 1
+    res <- matrix(0, x, x)
+    diag(res) <- 100 - rowSums(m)
+    for (k in 1:ncharge) {
+      diag(res[(1+k):x, 1:(x-k)]) <- m[(1+k):x, (a-k+1)]
+      diag(res[1:(x-k), (1+k):x]) <- m[1:(x-k), (b+k-1)]
+    }
+    ## test <- matrix(0, 6, 6)
+    ## diag(test) <- 100 - rowSums(m)
+    ## diag(test[4:6, 1:3]) <- m[4:6, 1] ## col1: -3
+    ## diag(test[3:6, 1:4]) <- m[3:6, 2] ## col2: -2 
+    ## diag(test[2:6, 1:5]) <- m[2:6, 3] ## col3: -1
+    ## diag(test[1:5, 2:6]) <- m[1:5, 4] ## col4: +1
+    ## diag(test[1:4, 3:6]) <- m[1:4, 5] ## col5: +2
+    ## diag(test[1:3, 4:6]) <- m[1:3, 6] ## col6: +3
+    ## test <- test/100
+    M <- res/100
   } else {
-    M <- diag(x)
-  }
-  colnames(M) <- paste("reporter",1:x,sep=".")
-  rownames(M) <- paste("% reporter",1:x)
+    if (x==4) {
+      M <- matrix(c(0.929,0.059,0.002,0.000,
+                    0.020,0.923,0.056,0.001,
+                    0.000,0.030,0.924,0.045,
+                    0.000,0.001,0.040,0.923),
+                  nrow=4, byrow = TRUE)
+    } else if (x == 6) {
+      M <- matrix(c(0.939, 0.061, 0.000, 0.000, 0.000, 0.000,
+                    0.005, 0.928, 0.067, 0.000, 0.000, 0.000,
+                    0.000, 0.011, 0.947, 0.042, 0.000, 0.000,
+                    0.000, 0.000, 0.017, 0.942, 0.041, 0.000,
+                    0.000, 0.000, 0.000, 0.016, 0.963, 0.021,
+                    0.000, 0.000, 0.000, 0.002, 0.032, 0.938),
+                  nrow = 6, byrow = TRUE)
+    } else {
+      M <- diag(x)
+    }
+  }  
+  colnames(M) <- paste("reporter", 1:x, sep=".")
+  rownames(M) <- paste("% reporter", 1:x)
   if (edit)
     M <- edit(M)
   return(M)
