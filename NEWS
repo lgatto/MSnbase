@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.7.13
+-------------------------
+ o msnbase.r v0.1.1 with -h (help) arg <2013-01-08 Tue>
+
 CHANGES IN VERSION 1.7.12
 -------------------------
  o updated makeImpuritiesMatrix to create matrix from 
