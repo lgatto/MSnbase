@@ -11,10 +11,11 @@
 ## that the original software is cited.
 ## 
 ## ChangeLog:
-## * 24-Dec-2012 Initial version 0.1.0
+## * 24-Dec-2012 Initial version v0.1.0
+## * 08-Jan-2013 help arg/output v0.1.1
 ###################################################
 
-version <- "0.1.0"
+version <- "0.1.1"
 
 args <- commandArgs()
 args <- args[-(1:match("--args", args))]
@@ -34,6 +35,17 @@ cat(msg0)
 message("Analysis settings")
 message(" - Running msnbase.r version ", version, ".")
 message(" - Using MSnbase ", packageVersion("MSnbase"), ".")
+
+if ("-h" %in%  args) {
+  message(" -h: prints this help.")
+  message(" -i: impurity matrix, generally defined as an csv file.")
+  message("     See ?makeImpuritiesMatrix for details.")
+  message(" -b: minimum reporter intensity filtering (default is 20000).")
+  message(" Other arguments are the files to be analysed.")
+  message(" Non-existent file names are ignored.")
+  q()
+}
+
 
 iarg <- match("-i", args)
 if (!is.na(iarg)) {
