@@ -85,6 +85,8 @@ readIspyData <- function(file = "ispy_results.tsv",
   } else {
     keep <- TRUE
   }
+  if (sum(keep) == 0)
+    stop("No features left after filtering.")
   .exprs <- .exprs[keep,]
   .featureData <- .featureData[keep,]
   ## updating levels of factors
