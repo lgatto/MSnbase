@@ -51,7 +51,8 @@ iarg <- match("-i", args)
 if (!is.na(iarg)) {
   imp <- args[iarg + 1]
   args <- args[-(iarg:(iarg + 1))]
-  message(" - Using user-defined impurity matrix: ", imp, ".")
+  if (file.exists(imp))
+    message(" - Using user-defined impurity matrix: ", imp, ".")
 } else {
   message(" - No purity correction.")
   imp <- NULL
@@ -59,7 +60,7 @@ if (!is.na(iarg)) {
 
 barg <- match("-b", args)
 if (!is.na(barg)) {
-  minint <- args[barg + 1]
+  minint <- as.numeric(args[barg + 1])
   args <- args[-(barg:(barg + 1))]
   message(" - Using user-defined minimum intensity filtering: ", minint, ".")
 } else {
@@ -110,11 +111,9 @@ do <- function(f) {
   if (is.null(imp)) {
     impurities <- matrix(0, length(ri), length(ri))
     diag(impurities) <- 1
-  } else if (file.exists(imp)) {
-    impurities <- makeImpuritiesMatrix(filename = imp, edit = FALSE)
   } else {
-    impurities <- makeImpuritiesMatrix(as.numeric(imp), edit = FALSE)
-  }  
+    impurities <- makeImpuritiesMatrix(filename = imp, edit = FALSE)
+  } 
   ## processing
   x0 <- readIspyData(f, reporters = r, min.int = minint, verbose = FALSE)
   x2 <- filterNA(purityCorrect(x0, impurities), pNA = 0)
