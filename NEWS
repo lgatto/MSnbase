@@ -1,6 +1,8 @@
 CHANGES IN VERSION 1.7.13
 -------------------------
  o msnbase.r v0.1.1 with -h (help) arg <2013-01-08 Tue>
+ o msnbase.r coerce -b arg to numeric <2013-01-08 Tue>
+ o testing if any features left in readIspyData <2013-01-08 Tue>
 
 CHANGES IN VERSION 1.7.12
 -------------------------
