@@ -240,11 +240,7 @@ readMSData <- function(files,
     rm(msdata)
   }
   ## cache level 2 yet implemented
-<<<<<<< HEAD
-  cache <- testCacheArg(cache, maxCache = 1)
-=======
   cache <- testCacheArg(cache, maxCache = 2)
->>>>>>> local-hedgehog
   if (cache >= 1) {
     fl <- sapply(assaydata, fromFile)
     featnms <- ls(assaydata) ## feautre names in final MSnExp
