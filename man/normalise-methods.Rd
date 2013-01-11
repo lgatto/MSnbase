@@ -8,6 +8,7 @@
 \alias{normalize,Spectrum-method}
 \alias{normalize,MSnSet-method}
 \alias{normalize,MSnExp-method}
+\alias{scale,MSnSet-method}
 \alias{normalise}
 \alias{normalize}
 
@@ -28,13 +29,13 @@
   different spectra.
 
   The \code{method} parameter for \code{"\linkS4class{MSnSet}"} can be
-  one of \code{sum}, \code{max}, \code{quantiles},
-  \code{quantiles.robust} or \code{vsn}.
+  one of \code{sum}, \code{max}, \code{quantiles}, \code{center.mean},
+  \code{center.median}, \code{quantiles.robust} or \code{vsn}.  
   For \code{sum} and \code{max}, each feature's reporter intensity is
   divided by the maximum of the sum respectively. These two methods are 
-  applied along the features (rows).
-  \code{scale.mean} and \code{scale.median} scale the respecitve sample
-  (column) intensities according to their mean or median.  
+  applied along the features (rows).  
+  \code{center.mean} and \code{center.median} translate the respective sample
+  (column) intensities according to the column mean or median.   
   Using \code{quantiles} or  \code{quantiles.robust} uses (robust) 
   quantile normalisation, as implemented in
   \code{\link{normalize.quantiles}} and
@@ -42,7 +43,11 @@
   package.
   \code{vsn} uses the \code{\link{vsn2}} from the \code{vsn} package.
   Note that the latter also glog-transforms the intensities.
-  See respective manuals for more details and function arguments. 
+  See respective manuals for more details and function arguments.
+
+  A \code{scale} method, mimicking the base \code{scale} method exists
+  for \code{"\linkS4class{MSnSet}"} instances. See
+  \code{?base::\link[base]{scale}} for details. 
 }
 
 \arguments{
@@ -58,6 +63,7 @@
 }
 
 \section{Methods}{
+  The \code{normalise} methods:
   \describe{
     \item{\code{signature(object = "MSnSet", method = "character")}}{
       Normalises the \code{object} reporter ions intensities using
@@ -68,6 +74,11 @@
     \item{\code{signature(object = "Spectrum", method = "character")}}{
       Normalises the \code{object} peak intensities using
       \code{method}. }
+  }
+  The \code{scale} method:
+  \describe{
+    \item{\code{signature(x = "MSnSet", center = "logical", scale =
+	"logical")}}{ See \code{?base::\link[base]{scale}}. }
   }
 }
 
