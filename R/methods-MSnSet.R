@@ -79,7 +79,7 @@ setMethod("show","MSnSet",
 
 setMethod("normalise", "MSnSet",
           function(object, method = c("sum","max",
-                             "scale.mean", "scale.median",
+                             "center.mean", "center.median",
                              "quantiles",
                              "quantiles.robust",
                              "vsn"), ...)
@@ -89,6 +89,37 @@ setMethod("normalise", "MSnSet",
 setMethod("normalize","MSnSet",
           function(object, method, ...) normalise(object, method,...)
           )
+
+
+setMethod("scale", "MSnSet",
+          function(x, center = TRUE, scale = TRUE) {
+            e <- scale(exprs(x), center = center, scale = scale)
+            proc <- NULL
+            if (!is.null(attr(e, "scaled:scale"))) {
+              escale <- attr(e, "scaled:scale")
+              attr(e, "scaled:scale") <- NULL
+              escale <- paste(round(escale, ), 3)              
+              proc <- c(proc,
+                        paste("Scaled",
+                              paste0("[", escale, collapse = ", "), "]:",
+                              date()))
+            }
+            if (!is.null(attr(e, "scaled:center"))) {
+              ecenter <- attr(e, "scaled:center")
+              attr(e, "scaled:center") <- NULL
+              ecenter <- paste(round(ecenter, ), 3)              
+              proc <- c(proc,
+                        paste("Centered",
+                              paste0("[", ecenter, collapse = ", "), "]:",
+                              date()))
+            }            
+            exprs(x) <- e
+            x@processingData@processing <-
+              c(x@processingData@processing,
+                proc)
+            if (validObject(x))
+              return(x) 
+          })
 
 setMethod("purityCorrect",
           signature=signature("MSnSet","matrix"),
