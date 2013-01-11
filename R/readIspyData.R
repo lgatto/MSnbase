@@ -116,24 +116,29 @@ readIspyData <- function(file = "ispy_results.tsv",
 }
 
 
+readIspy15NData <- 
+  readIspySilacData <-
+  function(file = "ispy_results.tsv",
+           uniquePeps = TRUE,
+           pep = 0.05,
+           na.rm = TRUE,
+           min.int = 0
+           ) {
+    xx <- read.table(file, sep = "\t", header = TRUE, fill = TRUE)
+    ecols <- grep("precursor_intensity", names(xx))
+    .exprs <- as.matrix(xx[, ecols])
+    .fd <- new("AnnotatedDataFrame", data = xx[, -ecols])  
+    ans <- new("MSnSet",
+               exprs = .exprs,
+               featureData = .fd)
+    if (na.rm)
+      ans <- filterNA(ans, pNA = 0)
+    if (uniquePeps) 
+      ans <- ans[featureData(ans)$Peptide_Parent_Proteins == 1,]  
+    ans <- ans[featureData(ans)$Posterior_Error_Probability <= pep, ]
+    ans <- ans[rowSums(exprs(ans), na.rm = TRUE) >= min.int, ]
+    fData(ans) <- droplevels(fData(ans))
+    if (validObject(ans))
+      return(ans)
+  }
 
-readIspySilacData <- function(file = "ispy_results.tsv",
-                              na.rm = TRUE,
-                              uniquePeps = TRUE,
-                              pep = 0.1) {
-  xx <- read.table(file, sep = "\t", header = TRUE, fill = TRUE)
-  ecols <- grep("precursor_intensity", names(xx))
-  .exprs <- as.matrix(xx[, ecols])
-  .fd <- new("AnnotatedDataFrame", data = xx[, -ecols])  
-  ans <- new("MSnSet",
-             exprs = .exprs,
-             featureData = .fd)
-  if (na.rm)
-    ans <- filterNA(ans, pNA = 0)
-  if (uniquePeps) 
-    ans <- ans[featureData(ans)$Peptide_Parent_Proteins == 1,]  
-  ans <- ans[featureData(ans)$Posterior_Error_Probability <= pep, ]
-  fData(ans) <- droplevels(fData(ans))
-  if (validObject(ans))
-    return(ans)
-}
