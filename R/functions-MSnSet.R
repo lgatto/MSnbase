@@ -6,27 +6,27 @@ normalise_MSnSet <- function(object, method, ...) {
     e <- preprocessCore::normalize.quantiles(exprs(object), ...)
   } else if (method == "quantiles.robust") {
     e <- preprocessCore::normalize.quantiles.robust(exprs(object), ...) 
-  } else if (method == "scale.mean") {
+  } else if (method == "center.mean") {
     e <- exprs(object)
     center <- colMeans(e, na.rm = TRUE)
     e <- sweep(e, 2L, center, check.margin = FALSE)    
-  } else if (method == "scale.median") {
+  } else if (method == "center.median") {
     e <- exprs(object)
     center <- apply(e, 2L, median, na.rm = TRUE)
     e <- sweep(e, 2L, center, check.margin = FALSE)       
   } else {
     switch(method,
-           max = div <- apply(exprs(object), 1, max, na.rm = TRUE), 
+           max = div <- apply(exprs(object), 1L, max, na.rm = TRUE), 
            sum = div <- rowSums(exprs(object), na.rm = TRUE))
     e <- exprs(object)/div
   }
   rownames(e) <- rownames(exprs(object))
   colnames(e) <- colnames(exprs(object))
   exprs(object) <- e
-  object@processingData@processing <- c(object@processingData@processing,
-                                        paste("Normalised (",method,"): ",
-                                              date(),
-                                              sep=""))
+  object@processingData@processing <-
+    c(object@processingData@processing,
+      paste("Normalised (", method ,"): ",
+            date(), sep = ""))
   object@processingData@normalised <- TRUE
   if (validObject(object))
     return(object)
@@ -155,7 +155,7 @@ combineFeatures <- function(object,  ## MSnSet
 ##' @param x An instance of class \code{"\linkS4class{MSnSet}"}.
 ##' @param groupBy An object of class \code{factor} defining how to summerise the features.
 ##' @param na.rm A \code{logical} defining whether missing values should be removed.
-##' @param norm One of 'none' (default), 'sum', 'max', 'scale.mean', 'scale.median'
+##' @param norm One of 'none' (default), 'sum', 'max', 'center.mean', 'center.median'
 ##' 'quantiles' or 'quantiles.robust' defining if and how the data should be normalised
 ##' prior to CV calculation. See \code{\link{normalise}} for more details. 
 ##' @return A \code{matrix} of dimensions \code{length(levels(groupBy))} by \code{ncol(x)}
@@ -169,7 +169,7 @@ combineFeatures <- function(object,  ## MSnSet
 ##' featureCV(m, gb)
 featureCV <- function(x, groupBy, na.rm = TRUE,
                       norm = c("sum", "max", "none",
-                        "scale.mean", "scale.median",
+                        "center.mean", "center.median",
                         "quantiles", "quantiles.robust")) {
   groupBy <- as.factor(groupBy)
   norm <- match.arg(norm)
