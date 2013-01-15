@@ -2,7 +2,6 @@
 %\VignetteKeywords{Mass Spectrometry, MS, MSMS, Proteomics, Infrastructure, Bioinformatics, quantitative }
 %\VignettePackage{MSnbase-demo}
 \documentclass{article}
-\usepackage[nogin]{Sweave}
 \usepackage{hyperref}
 \usepackage[authoryear,round]{natbib}
 
@@ -661,7 +660,7 @@ originally in the \Robject{MSnExp} used as parameter in
 can be accessed with the \Rfunction{exprs} method.
 The meta data is directly inherited from the \Robject{MSnExp} instance.
 
-<<quantify, echo=TRUE, cache=FALSE, keep.source=TRUE>>=
+<<quantify, echo=TRUE, cache=FALSE, tidy=FALSE>>=
 qnt <- quantify(experiment,
                 method = "trap",
                 reporters = iTRAQ4,
@@ -991,7 +990,7 @@ results in an isobaric tag (i.e reporter and balance groups) specific peaks.
 145 peaks, called \Robject{iTRAQ5}. This can then be used to quantify the experiment as show in section \ref{sec:quant} 
 to estimate incomplete dissociation for each spectrum.
 
-<<incompdiss, echo=TRUE, cache=FALSE, keep.source=TRUE>>=
+<<incompdiss, echo=TRUE, cache=FALSE, tidy=FALSE>>=
 iTRAQ5
 incompdiss <- quantify(itraqdata,
                        method = "trap",
@@ -1240,7 +1239,7 @@ apply \textit{top3} quantitation using the \Rfunction{topN} method.
 %% \section{Conclusion}\ref{sec:ccl}
 
 \section{Session information}\label{sec:sessionInfo} 
-<<label='sessioninfo', results=tex, echo=FALSE, cache=FALSE>>=
+<<sessioninfo, results='asis', echo=FALSE, cache=FALSE>>=
 toLatex(sessionInfo())
 @
 

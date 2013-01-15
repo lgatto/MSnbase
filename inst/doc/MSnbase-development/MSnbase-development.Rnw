@@ -3,7 +3,6 @@
 %\VignettePackage{MSnbase-development}
 \documentclass{article}
 \usepackage{tikz}
-\usepackage[nogin]{Sweave}
 \usepackage{hyperref}
 \usepackage[authoryear,round]{natbib}
 
@@ -346,7 +345,7 @@ should be implemented for \Robject{Spectrum} objects first and then
 \section{Session information}
 \label{sec:sessionInfo} 
 
-<<label=sessioninfo, results=tex, echo=FALSE, cache=FALSE>>=
+<<sessioninfo, results='asis', echo=FALSE, cache=FALSE>>=
 toLatex(sessionInfo())
 @
 

@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.7.16
+-------------------------
+ o fixing knitr 1.0 compatibility <2013-01-15 Tue>
+
 CHANGES IN VERSION 1.7.15
 -------------------------
  o new scale method <2013-01-11 Fri>
