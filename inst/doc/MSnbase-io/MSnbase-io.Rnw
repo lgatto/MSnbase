@@ -4,7 +4,6 @@
 \documentclass{article}
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows,shadows,fit}
-\usepackage[nogin]{Sweave}
 \usepackage{hyperref}
 \usepackage[authoryear,round]{natbib}
 
@@ -93,14 +92,6 @@ opts_chunk$set(fig.align = 'center',
                comment = NA)
 options(replace.assign = TRUE, 
         width = 70)
-## knit_hooks$set(par = function(before, options, envir) {
-##   if (before && options$fig.show != 'none') 
-##     par(mar = c(4,4,.1,.1),
-##         cex.lab = .95,
-##         cex.axis = .9,
-##         mgp = c(2,.7,0),
-##         tcl = -.3)
-## })
 @
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -246,7 +237,7 @@ intenstiy values. See \Rfunction{?writeMgfData} for details.
 %% \section{Session information}
 %% \label{sec:sessionInfo} 
 
-%% <<label=sessioninfo,results=tex,echo=FALSE,cache=FALSE>>=
+%% <<label=sessioninfo,results='asis',echo=FALSE,cache=FALSE>>=
 %% toLatex(sessionInfo())
 %% @
 
