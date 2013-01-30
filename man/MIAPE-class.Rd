@@ -16,6 +16,8 @@
 \alias{ionSource}
 \alias{analyser,MIAPE-method}
 \alias{analyser}
+\alias{analyzer,MIAPE-method}
+\alias{analyzer}
 \alias{detectorType,MIAPE-method}
 \alias{detectorType}
 \alias{abstract,MIAPE-method}
@@ -98,9 +100,9 @@
       the relevant details about the ion source. See MIAPE-MI docuement
       for more details. }
     \item{\code{analyser}:}{Object of class \code{character} describing
-      the analyser type (Quadrupole, time-of-flight, ion trap, \ldots). }
-    \item{\code{analyserDetails}:}{Object of class \code{character} describing
-      the relevant details about the analyser. See MIAPE-MI docuement
+      the analyzer type (Quadrupole, time-of-flight, ion trap, \ldots). }
+    \item{\code{analyzerDetails}:}{Object of class \code{character} describing
+      the relevant details about the analyzer. See MIAPE-MI docuement
       for more details. }
     \item{\code{collisionGas}:}{Object of class \code{character}
       describing the composition of the gas used to fragment ions in the
@@ -147,7 +149,15 @@
     \item{\code{expemail(MIAPE)}:}{An accessor function for 
       \code{email} slot.}
     \item{\code{exptitle(MIAPE)}:}{An accessor function for
-      \code{title} slot.}    
+      \code{title} slot.}
+    \item{\code{analyzer(MIAPE)}:}{ An accessor function for
+      \code{analyser} slot.}
+    \item{\code{analyser(MIAPE)}:}{ An accessor function for
+      \code{analyser} slot.}
+    \item{\code{detectorType(MIAPE)}:}{ An accessor function for
+      \code{detectorType} slot.}
+    \item{\code{ionSource(MIAPE)}:}{ An accessor function for
+      \code{ionSource} slot.}
   }
   
   MIAPE-specific methods, including MIAPE-MS meta-data:

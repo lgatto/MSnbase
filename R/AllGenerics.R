@@ -33,6 +33,7 @@ setGeneric("expemail",function(object) standardGeneric("expemail"))
 setGeneric("exptitle",function(object) standardGeneric("exptitle"))
 setGeneric("ionSource",function(object) standardGeneric("ionSource"))
 setGeneric("analyser",function(object) standardGeneric("analyser"))
+setGeneric("analyzer",function(object) standardGeneric("analyzer"))
 setGeneric("detectorType",function(object) standardGeneric("detectorType"))
 
 setGeneric("mz",function(object) standardGeneric("mz"))
