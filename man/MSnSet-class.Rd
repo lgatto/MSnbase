@@ -41,6 +41,7 @@
 \alias{expemail,MSnSet-method}
 \alias{ionSource,MSnSet-method}
 \alias{analyser,MSnSet-method}
+\alias{analyzer,MSnSet-method}
 \alias{detectorType,MSnSet-method}
 \alias{description,MSnSet-method}
 

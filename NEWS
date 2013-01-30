@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.7.17
+-------------------------
+ o added a analyzer accessors/slot to accomodate new mzTab 
+   files with more meta-data  <2013-01-30 Wed>
+
 CHANGES IN VERSION 1.7.16
 -------------------------
  o fixing knitr 1.0 compatibility <2013-01-15 Tue>
