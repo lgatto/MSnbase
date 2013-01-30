@@ -30,7 +30,7 @@ writeCOM <- function(com, file = "")
 ##' or \code{NULL} (default), in which case \code{ionSource(x)} is
 ##' used to generate a \code{CVParam}.
 ##' @param instrumentAnalyzer A list of valid \code{CVParam} instances
-##' or \code{NULL} (default), in which case \code{analyser(x)} is used
+##' or \code{NULL} (default), in which case \code{analyzer(x)} is used
 ##' to generate a \code{CVParam}.
 ##' @param instrumentDetector A list of valid \code{CVParam} instances
 ##' or \code{NULL} (default), in which case \code{detectorType(x)} is
@@ -192,8 +192,8 @@ makeMTD <- function(x,
   mtd <- addToMtd(as.character(instrumentSource), "instrument[1]-source")
 
   if (is.null(instrumentAnalyzer)) {
-    if (length(analyser(x)) > 0) {
-      instrumentAnalyzer <- analyser(x)
+    if (length(analyzer(x)) > 0) {
+      instrumentAnalyzer <- analyzer(x)
       instrumentAnalyzer <- olsQuery(instrumentAnalyzer, "MS", exact = TRUE)
       if (length(instrumentAnalyzer) != 1) {
         instrumentAnalyzer <- NULL
@@ -1021,7 +1021,7 @@ readMzTabData <- function(file,
     if (length(instrumentSource <- grep("-instrument\\[[0-9]*\\]-source\t", mtd, value = TRUE)) > 0) 
       ans@experimentData@ionSource <- .parse(instrumentSource)
     if (length(instrumentAnalyzer <- grep("-instrument\\[[0-9]*\\]-analyzer\t", mtd, value = TRUE)) > 0) 
-      ans@experimentData@analyzer <- .parse(instrumentAnalyzer)
+      ans@experimentData@analyser <- .parse(instrumentAnalyzer)
     if (length(instrumentDetector <- grep("-instrument\\[[0-9]*\\]-detector\t", mtd, value = TRUE)) > 0) 
       ans@experimentData@detectorType <- .parse(instrumentDetector)
     if (length(software <- grep("-software\\[[0-9]*\\]\t", mtd, value = TRUE)) > 0) 

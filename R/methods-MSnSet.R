@@ -195,6 +195,9 @@ setMethod("ionSource","MSnSet",
 setMethod("analyser","MSnSet",
           function(object) analyser(experimentData(object)))
 
+setMethod("analyzer","MSnSet",
+          function(object) analyzer(experimentData(object)))
+
 setMethod("detectorType","MSnSet",
           function(object) detectorType(experimentData(object)))
 
