@@ -59,7 +59,11 @@ setMethod("precursorIntensity","Spectrum",
             stop("No precursor data for MS1 spectra.")
           })
 
-setMethod("acquisitionNum","Spectrum",function(object) object@acquisitionNum)
+setMethod("acquisitionNum", "Spectrum",
+          function(object) object@acquisitionNum)
+setMethod("scanIndex", "Spectrum",
+          function(object) object@scanIndex)
+
 setMethod("precScanNum","Spectrum",
           function(object) {
             if (msLevel(object)>1) 

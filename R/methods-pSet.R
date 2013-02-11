@@ -133,10 +133,12 @@ setMethod("precursorIntensity","pSet",
             stop("No precursor data for MS1 spectra.")
           })
 
-setMethod("acquisitionNum","pSet",
+setMethod("acquisitionNum", "pSet",
           function(object) sapply(spectra(object), acquisitionNum))
+setMethod("scanIndex", "pSet",
+          function(object) sapply(spectra(object), scanIndex))
 
-setMethod("rtime","pSet",
+setMethod("rtime", "pSet",
           function(object) sapply(spectra(object),rtime))
 
 setMethod("centroided","pSet",

@@ -51,11 +51,10 @@ setMethod("writeMgfData",
                            date(), "\n", sep = "")
             writeLines(COM, con = con)
             splist <- spectra(object)
-            sapply(splist,
-                   writeMgfContent,
-                   TITLE = NULL,
-                   con = con)            
-            ## close(con)            
+            x <- sapply(splist,
+                        writeMgfContent,
+                        TITLE = NULL,
+                        con = con)            
           })
 
 writeMgfContent <- function(sp, TITLE = NULL, con) {
@@ -104,11 +103,18 @@ readMgfData <- function(file,
                         verbose = TRUE,
                         cache = 1) {
   if (verbose)
-    cat("Scanning ",file,"...\n",sep="")
+    cat("Scanning ", file,"...\n", sep="")
   mgf <- scan(file = file, what = "",
               sep = "\n", quote = "",
               allowEscapes = FALSE,
               quiet = TRUE)
+  ## From http://www.matrixscience.com/help/data_file_help.html#GEN
+  ## Comment lines beginning with one of the symbols #;!/ can be included,
+  ## but only outside of the BEGIN IONS and END IONS statements that delimit an MS/MS dataset.
+  commentsymbols <- c("^#", "^;", "^!", "^/")
+  cmts <- unlist(sapply(commentsymbols, grep, mgf))
+  if (length(cmts) > 0)
+    mgf <- mgf[-cmts]
   begin <- grep("BEGIN IONS", mgf)
   end <- grep("END IONS", mgf)
   if (verbose) {
@@ -207,11 +213,27 @@ mgfToSpectrum2 <- function(mgf, centroided) {
     ##           intensity=int,
     ##           fromFile=1L,
     ##           centroided=centroided)
+    .parsePEPMASS <- function(desc, what = c("MZ", "INTENSITY")) {
+      x <- strsplit(desc["PEPMASS"], " ")[[1]]
+      what <- match.arg(what)
+      if (length(x) == 1) x[2] <- 0
+      ifelse(what == "MZ",
+             as.numeric(x[1]),
+             as.numeric(x[2]))
+    }
     sp <- new("Spectrum2",
-              rt = ifelse("RTINSECONDS" %in% names(desc),as.numeric(desc["RTINSECONDS"]),0),
-              ## acquisitionNum = ifelse("SCANS" %in% names(desc),as.integer(desc["SCANS"]),0L),
-              precursorMz = ifelse("PEPMASS" %in% names(desc),as.numeric(desc["PEPMASS"]),0L),
-              precursorCharge = ifelse("CHARGE" %in% names(desc),as.integer(sub("[+,-]","",desc["CHARGE"])),0L),
+              rt = ifelse("RTINSECONDS" %in% names(desc),
+                as.numeric(desc["RTINSECONDS"]), 0),
+              scanIndex = ifelse("SCANS" %in% names(desc),
+                as.integer(desc["SCANS"]), 0L),
+              precursorMz = ifelse("PEPMASS" %in% names(desc),
+                .parsePEPMASS(desc, "MZ"),
+                0L),
+              precursorIntensity = ifelse("PEPMASS" %in% names(desc),
+                .parsePEPMASS(desc, "INTENSITY"),
+                0L),
+              precursorCharge = ifelse("CHARGE" %in% names(desc),
+                as.integer(sub("[+,-]","",desc["CHARGE"])), 0L),
               peaksCount = length(int),
               mz = mz,
               intensity = int,
