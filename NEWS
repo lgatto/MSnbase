@@ -1,3 +1,12 @@
+CHANGES IN VERSION 1.7.18
+-------------------------
+ o readMgfData now supports comments and 
+   PEPMASS with precursor mz and intensity,
+   requested by Thomas Taus <2013-02-11 Mon>
+ o improved and running read/writeMgfData 
+   example <2013-02-11 Mon>
+ o new scanIndex accessor method <2013-02-11 Mon>  
+
 CHANGES IN VERSION 1.7.17
 -------------------------
  o added a analyzer accessors/slot to accomodate new mzTab 

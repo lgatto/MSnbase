@@ -8,6 +8,8 @@
 %% -- accessors -- %%
 \alias{acquisitionNum,Spectrum-method}
 \alias{acquisitionNum}
+\alias{scanIndex,Spectrum-method}
+\alias{scanIndex}
 \alias{fromFile,Spectrum-method}
 \alias{fromFile}
 \alias{intensity,Spectrum-method}
@@ -96,6 +98,8 @@
   \describe{
     \item{\code{acquisitionNum(object)}}{ Returns the acquisition number
       of the spectrum as an integer. }
+    \item{\code{scanIndex(object)}}{ Returns the scan index of the
+      spectrum as an integer. } 
     \item{\code{centroided(object)}}{ Indicates whether spectrum is
       centroided ('TRUE') or uncentroided ('FALSE'). }
     \item{\code{centroided(object) <- value}}{ Sets the 'centroided'
