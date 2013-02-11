@@ -9,6 +9,7 @@
 \alias{[[,pSet-method}
 \alias{abstract,pSet-method}
 \alias{acquisitionNum,pSet-method}
+\alias{scanIndex,pSet-method}
 \alias{assayData,pSet-method}
 \alias{collisionEnergy,pSet-method}
 \alias{dim,pSet-method}
@@ -193,6 +194,8 @@
       labels in \code{phenoData}. }
     \item{acquisitionNum}{\code{signature(object = "pSet")}: Accessor
       for spectra acquisition numbers. }
+    \item{scanIndex}{\code{signature(object = "pSet")}: Accessor
+      for spectra scan indices. }
     \item{collisionEnergy}{\code{signature(object = "pSet")}: Accessor
       for MS2 spectra collision energies. }
     \item{intensity}{\code{signature(object = "pSet")}: Accessor for

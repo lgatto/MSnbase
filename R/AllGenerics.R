@@ -7,6 +7,7 @@ setGeneric("removeReporters", function(object,...) standardGeneric("removeReport
 
 setGeneric("spectra",function(object) standardGeneric("spectra"))
 ##setGeneric("spectra<-",function(object,value) standardGeneric("spectra<-"))
+setGeneric("scanIndex",function(object) standardGeneric("scanIndex"))
 setGeneric("precursorMz",function(object) standardGeneric("precursorMz"))
 setGeneric("precursorIntensity",function(object) standardGeneric("precursorIntensity"))
 setGeneric("precursorCharge",function(object) standardGeneric("precursorCharge"))
