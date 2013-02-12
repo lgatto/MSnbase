@@ -62,8 +62,8 @@ setClass("MIAPE",
            ionSource = "character", ## ESI, MALDI, ...
            ionSourceDetails = "character", 
            ## 3. Post-source componentry           
-           analyser = "character", ## Quad, TOF, Trap, ... (should be analyzer)
-           analyzerDetails = "character",
+           analyser = "character", ## Quad, TOF, Trap, ... 
+           analyserDetails = "character",
            ## 3. Post-source componentry - (d) Collision cell
            collisionGas = "character",
            collisionPressure = "numeric",

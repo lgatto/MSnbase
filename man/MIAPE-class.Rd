@@ -14,12 +14,24 @@
 \alias{exptitle}
 \alias{ionSource,MIAPE-method}
 \alias{ionSource}
+\alias{ionSourceDetails,MIAPE-method}
+\alias{ionSourceDetails}
 \alias{analyser,MIAPE-method}
 \alias{analyser}
+\alias{analyserDetails,MIAPE-method}
+\alias{analyserDetails}
 \alias{analyzer,MIAPE-method}
 \alias{analyzer}
+\alias{analyzerDetails,MIAPE-method}
+\alias{analyzerDetails}
 \alias{detectorType,MIAPE-method}
 \alias{detectorType}
+\alias{instrumentModel,MIAPE-method}
+\alias{instrumentModel}
+\alias{instrumentManufacturer,MIAPE-method}
+\alias{instrumentManufacturer}
+\alias{instrumentCustomisations,MIAPE-method}
+\alias{instrumentCustomisations}
 \alias{abstract,MIAPE-method}
 \alias{samples,MIAPE-method}
 \alias{pubMedIds,MIAPE-method}
@@ -101,8 +113,8 @@
       for more details. }
     \item{\code{analyser}:}{Object of class \code{character} describing
       the analyzer type (Quadrupole, time-of-flight, ion trap, \ldots). }
-    \item{\code{analyzerDetails}:}{Object of class \code{character} describing
-      the relevant details about the analyzer. See MIAPE-MI docuement
+    \item{\code{analyserDetails}:}{Object of class \code{character} describing
+      the relevant details about the analyzer. See MIAPE-MI document
       for more details. }
     \item{\code{collisionGas}:}{Object of class \code{character}
       describing the composition of the gas used to fragment ions in the
@@ -151,13 +163,22 @@
     \item{\code{exptitle(MIAPE)}:}{An accessor function for
       \code{title} slot.}
     \item{\code{analyzer(MIAPE)}:}{ An accessor function for
-      \code{analyser} slot.}
-    \item{\code{analyser(MIAPE)}:}{ An accessor function for
-      \code{analyser} slot.}
+      \code{analyser} slot. \code{analyser(MIAPE)} is also available.}
+    \item{\code{analyzerDetails(MIAPE)}:}{ An accessor function for
+      \code{analyserDetails} slot. \code{analyserDetails} is also
+      available. }
     \item{\code{detectorType(MIAPE)}:}{ An accessor function for
       \code{detectorType} slot.}
     \item{\code{ionSource(MIAPE)}:}{ An accessor function for
       \code{ionSource} slot.}
+    \item{\code{ionSourceDetails(MIAPE)}:}{ An accessor function for
+      \code{ionSourceDetails} slot.}
+    \item{\code{instrumentModel(MIAPE)}:}{ An accessor function for
+      \code{instrumentModel} slot.}
+    \item{\code{instrumentManufacturer(MIAPE)}:}{ An accessor function for
+      \code{instrumentManufacturer} slot.}
+    \item{\code{instrumentCustomisations(MIAPE)}:}{ An accessor function for
+      \code{instrumentCustomisations} slot.}
   }
   
   MIAPE-specific methods, including MIAPE-MS meta-data:
