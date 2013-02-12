@@ -350,8 +350,26 @@ setMethod("expemail","pSet",
 setMethod("ionSource","pSet",
           function(object) ionSource(experimentData(object)))
 
+setMethod("ionSourceDetails","pSet",
+          function(object) ionSourceDetails(experimentData(object)))
+
 setMethod("analyser","pSet",
           function(object) analyser(experimentData(object)))
+setMethod("analyzer","pSet",
+          function(object) analyzer(experimentData(object)))
+
+setMethod("analyzerDetails","pSet",
+          function(object) analyzerDetails(experimentData(object)))
+
+setMethod("analyserDetails","pSet",
+          function(object) analyzerDetails(experimentData(object)))
+
+setMethod("instrumentModel","pSet",
+          function(object) instrumentModel(experimentData(object)))
+setMethod("instrumentManufacturer","pSet",
+          function(object) instrumentManufacturer(experimentData(object)))
+setMethod("instrumentCustomisations","pSet",
+          function(object) instrumentCustomisations(experimentData(object)))
 
 setMethod("detectorType","pSet",
           function(object) detectorType(experimentData(object)))
