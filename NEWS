@@ -3,6 +3,7 @@ CHANGES IN VERSION 1.7.19
  o adding MIAPE and pSet accessors: analyserDetails, analyzerDetails, 
    ionSourceDetails, instrumentModel, instrumentManufacturer, 
    instrumentCustomisations <2013-02-12 Tue>
+ o switching back to analyserDetails slot <2013-02-12 Tue>
 
 CHANGES IN VERSION 1.7.18
 -------------------------

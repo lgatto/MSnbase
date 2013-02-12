@@ -202,7 +202,10 @@ makeMTD <- function(x,
         .label <- strsplit(names(instrumentAnalyzer), ":")[[1]][1]
         .accession <- names(instrumentAnalyzer)
         .name <- term(.accession, .label)
-        instrumentAnalyzer <- new("CVParam", label = .label, accession = .accession, name = .name)
+        instrumentAnalyzer <- new("CVParam",
+                                  label = .label,
+                                  accession = .accession,
+                                  name = .name)
       }
     }
   }

@@ -28,7 +28,7 @@ setMethod("ionSourceDetails","MIAPE", function(object) object@ionSourceDetails)
 setMethod("analyser","MIAPE", function(object) object@analyser)
 setMethod("analyzer","MIAPE", function(object) object@analyser)
 setMethod("analyzerDetails","MIAPE", function(object) object@analyserDetails)
-setMethod("analyserDetails","MIAPE", function(object) object@analyzerDetails)
+setMethod("analyserDetails","MIAPE", function(object) object@analyserDetails)
 
 setMethod("detectorType","MIAPE", function(object) object@detectorType)
 
@@ -106,7 +106,7 @@ setMethod("combine",
                        parameterFile = ,
                        ionSource = ,
                        ionSourceDetails = ,
-                       analyzer = ,
+                       analyser = ,
                        analyserDetails = ,
                        collisionGas = ,
                        collisionPressure = ,

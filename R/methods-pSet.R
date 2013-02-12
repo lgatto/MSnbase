@@ -357,10 +357,8 @@ setMethod("analyser","pSet",
           function(object) analyser(experimentData(object)))
 setMethod("analyzer","pSet",
           function(object) analyzer(experimentData(object)))
-
 setMethod("analyzerDetails","pSet",
           function(object) analyzerDetails(experimentData(object)))
-
 setMethod("analyserDetails","pSet",
           function(object) analyzerDetails(experimentData(object)))
 
