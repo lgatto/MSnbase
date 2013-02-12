@@ -23,9 +23,18 @@ setReplaceMethod("pubMedIds","MIAPE",function(object,value){
 setMethod("expemail","MIAPE", function(object) object@email)
 setMethod("exptitle","MIAPE", function(object) object@title)
 setMethod("ionSource","MIAPE", function(object) object@ionSource)
+setMethod("ionSourceDetails","MIAPE", function(object) object@ionSourceDetails)
+
 setMethod("analyser","MIAPE", function(object) object@analyser)
 setMethod("analyzer","MIAPE", function(object) object@analyser)
+setMethod("analyzerDetails","MIAPE", function(object) object@analyserDetails)
+setMethod("analyserDetails","MIAPE", function(object) object@analyzerDetails)
+
 setMethod("detectorType","MIAPE", function(object) object@detectorType)
+
+setMethod("instrumentModel","MIAPE", function(object) object@instrumentModel)
+setMethod("instrumentManufacturer","MIAPE", function(object) object@instrumentManufacturer)
+setMethod("instrumentCustomisations","MIAPE", function(object) object@instrumentCustomisations)
 
 setReplaceMethod("pubMedIds","MIAPE",function(object, value){
    object@pubMedIds = value
