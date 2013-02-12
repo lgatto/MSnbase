@@ -79,7 +79,7 @@ setClass("MIAPE",
            ),
          contains = c("MIAxE"),
          prototype = prototype(
-           new("Versioned", versions=c(classVersion("MIAxE"), MIAPE="0.2.1")),
+           new("Versioned", versions=c(classVersion("MIAxE"), MIAPE="0.2.2")),
            name = "",
            lab = "",
            contact = "",
