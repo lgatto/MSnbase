@@ -61,7 +61,14 @@
 \alias{exptitle,pSet-method}
 \alias{expemail,pSet-method}
 \alias{ionSource,pSet-method}
+\alias{ionSourceDetails,pSet-method}
 \alias{analyser,pSet-method}
+\alias{analyzer,pSet-method}
+\alias{analyserDetails,pSet-method}
+\alias{analyzerDetails,pSet-method}
+\alias{instrumentModel,pSet-method}
+\alias{instrumentManufacturer,pSet-method}
+\alias{instrumentCustomisations,pSet-method}
 \alias{detectorType,pSet-method}
 \alias{description,pSet-method}
 

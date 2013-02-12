@@ -1,4 +1,4 @@
-# mergeSpectra <- function(object, ## MSnExp object
+## mergeSpectra <- function(object, ## MSnExp object
 ##                          fun=sum,
 ##                          verbose=TRUE) {
 ##   spectra <- spectra(object)
