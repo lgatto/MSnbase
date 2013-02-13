@@ -17,7 +17,8 @@
   \code{Spectrum} objects } 
 
 \description{
-  The \code{normalise} method performs basic normalisation on spectra
+  The \code{normalise} method (also available as \code{normalize})
+  performs basic normalisation on spectra 
   intensities of single spectra (\code{"\linkS4class{Spectrum}"}
   objects), whole experiments (\code{"\linkS4class{MSnExp}"} objects) or
   quantified expression data (\code{"\linkS4class{MSnSet}"} objects).
