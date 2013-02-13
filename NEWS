@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.7.20
+-------------------------
+ o Explicitating that normalise and normalize are the same 
+   methods in the man. <2013-02-13 Wed>
+
 CHANGES IN VERSION 1.7.19
 -------------------------
  o adding MIAPE and pSet accessors: analyserDetails, analyzerDetails, 
