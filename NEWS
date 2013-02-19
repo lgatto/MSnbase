@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.7.21
+-------------------------
+ o Added impute method  <2013-02-19 Tue>
+
 CHANGES IN VERSION 1.7.20
 -------------------------
  o Explicitating that normalise and normalize are the same 

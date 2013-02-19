@@ -2,6 +2,7 @@ import(grid)
 import(BiocGenerics)
 import(Biobase)
 import(mzR)
+import(impute)
 
 import(reshape2) ## try to reduce this
 
@@ -115,6 +116,7 @@ exportMethods(coerce,
               scale,
               log,
               exprsToRatios,
+              impute,
               topN,
               filterNA)
 
