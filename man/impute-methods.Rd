@@ -26,7 +26,7 @@
       \code{MSnSet} instance using the \code{method}
       algorithm. Currently, only nearest neighbor averaging (\code{knn})
       from package \code{impute} (see
-      \code{?impute::\link[impute]{inpute.knn}} for details) is available. 
+      \code{?impute::inpute.knn} for details) is available. 
       \code{...} is used to pass parameters to the imputation function.
     }
   }

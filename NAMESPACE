@@ -116,6 +116,7 @@ exportMethods(coerce,
               scale,
               log,
               exprsToRatios,
+              impute,
               topN,
               filterNA)
 
