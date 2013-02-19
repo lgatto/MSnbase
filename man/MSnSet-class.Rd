@@ -237,6 +237,11 @@
       \code{object}'s columns/samples.
       See \code{\link{exprsToRatios}} for more details.
     }
+    \item{impute}{\code{signature(object = "MSnSet", ...)}}{
+      Performs data imputation on the \code{MSnSet} object. 
+      See \code{\link{impute}} for more details.
+    }
+    
   }
   
   Additional accessors for the experimental metadata
