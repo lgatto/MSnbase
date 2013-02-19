@@ -84,3 +84,4 @@ setGeneric("filterNA", function(object,...) standardGeneric("filterNA"))
 setGeneric("topN", function(object,...) standardGeneric("topN"))
 
 setGeneric("exprsToRatios",function(object,...) standardGeneric("exprsToRatios"))
+setGeneric("impute",function(object, ...) standardGeneric("impute"))
