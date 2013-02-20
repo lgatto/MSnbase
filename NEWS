@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.7.22
+-------------------------
+ o msnbase.r na.rm arg <2013-02-20 Wed>
+
 CHANGES IN VERSION 1.7.21
 -------------------------
  o Added impute method  <2013-02-19 Tue>
