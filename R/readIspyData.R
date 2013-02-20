@@ -99,7 +99,7 @@ readIspyData <- function(file = "ispy_results.tsv",
     if (verbose)
       message(paste0("NA values in featureData column(s) ", nacolnames))
   }
-  if (any(is.na(.exprs)))
+  if (na.rm & any(is.na(.exprs)))
     warning("NA values in quantitation data.")
   ## Preparing return object slots and return new MSnSet
   .process <- new("MSnProcess",
