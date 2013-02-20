@@ -1,7 +1,8 @@
 #! /usr/local/bin/Rscript
 
 ###################################################
-## Laurent Gatto, 2012-2013, <lg390@cam.ac.uk>
+## Laurent Gatto <lg390@cam.ac.uk>
+##
 ## This script automates a simple MSnbase
 ## processing pipeline for isobaric reporter
 ## tagging data. It is provided as is, whithout
@@ -13,9 +14,11 @@
 ## ChangeLog:
 ## * 24-Dec-2012 Initial version v0.1.0
 ## * 08-Jan-2013 help arg/output v0.1.1
+## * 20-Feb-2013 -keepna to retain features
+##               with missing values v0.1.2
 ###################################################
 
-version <- "0.1.1"
+version <- "0.1.2"
 
 args <- commandArgs()
 args <- args[-(1:match("--args", args))]
@@ -41,6 +44,7 @@ if ("-h" %in%  args) {
   message(" -i: impurity matrix, generally defined as an csv file.")
   message("     See ?makeImpuritiesMatrix for details.")
   message(" -b: minimum reporter intensity filtering (default is 20000).")
+  message(" -keepna: retain features with missing data.\n")
   message(" Other arguments are the files to be analysed.")
   message(" Non-existent file names are ignored.")
   q()
@@ -51,8 +55,8 @@ iarg <- match("-i", args)
 if (!is.na(iarg)) {
   imp <- args[iarg + 1]
   args <- args[-(iarg:(iarg + 1))]
-  if (file.exists(imp))
-    message(" - Using user-defined impurity matrix: ", imp, ".")
+  if (file.exists(imp)) message(" - Using user-defined impurity matrix: ", imp, ".")
+  else message(" - matrix ", imp, " not found.")
 } else {
   message(" - No purity correction.")
   imp <- NULL
@@ -67,6 +71,17 @@ if (!is.na(barg)) {
   message(" - Minimum intensity 20000.")
   minint <- 20000
 }
+
+naarg <- match("-keepna", args)
+if (!is.na(naarg)) {
+  .na.rm <- FALSE
+  args <- args[-naarg]
+  message(" - Retaining features with missing data.")
+} else {
+  message(" - Removing features with missing data.")
+  .na.rm <- TRUE
+}
+
 
 files <- unique(args)
 if (length(files) == 0) {
@@ -115,30 +130,48 @@ do <- function(f) {
     impurities <- makeImpuritiesMatrix(filename = imp, edit = FALSE)
   } 
   ## processing
-  x0 <- readIspyData(f, reporters = r, min.int = minint, verbose = FALSE)
-  x2 <- filterNA(purityCorrect(x0, impurities), pNA = 0)
+  x0 <- readIspyData(f, reporters = r, min.int = minint,
+                     na.rm = .na.rm, 
+                     verbose = FALSE)
+  x2 <- purityCorrect(x0, impurities)
+  if (.na.rm)
+    x2 <- filterNA(x2, pNA = 0)
   xx <- combineFeatures(x2, groupBy = fData(x2)$ProteinAccession,
                         fun = "median", verbose = FALSE)
   ## additional meta-data
   tmp <- nQuants(x2, "ProteinAccession")
-  stopifnot(all(apply(tmp, 1, function(x) length(unique(x)) == 1)))
   stopifnot(all.equal(featureNames(xx), rownames(tmp)))
-  nQuantSpectra <- as.numeric(tmp[, 1])
+  if (.na.rm) {
+    ## we expect having used the same number of features to perform
+    ## quantitation if all feature with NAs were removed
+    stopifnot(all(apply(tmp, 1, function(x) length(unique(x)) == 1)))
+    nQuantSpectra <- tmp[, 1, drop = FALSE]
+    colnames(nQuantSpectra) <- "nQuantSpectra"
+  } else {
+    nQuantSpectra <- tmp
+    colnames(nQuantSpectra) <- paste("nQuantSpectra",
+                                     colnames(nQuantSpectra),
+                                     sep = ".")
+  }
+  fData(xx) <- cbind(fData(xx), nQuantSpectra)
+
   nQuantPeps <- tapply(fData(x2)$PeptideSequence,
-                   fData(x2)$ProteinAccession,
-                   function(x) length(unique(x)))
-  all.equal(names(nQuantPeps), featureNames(xx))
-  fData(xx)$nQuantSpectra <- nQuantSpectra
+                       fData(x2)$ProteinAccession,
+                       function(x) length(unique(x)))
+  
+  stopifnot(all.equal(names(nQuantPeps), featureNames(xx)))
+
   fData(xx)$nQuantPeps <- nQuantPeps
   ## exporting
   cvcols <- grep("CV", fvarLabels(xx), value = TRUE)
+  nqntsp <- grep("nQuantSpectra", fvarLabels(xx), value = TRUE)  
   cols <- c("ProteinAccession",                     
             "ProteinDescription",                   
             "ProteinQ.Value.uniquepeptidesonly.",
             "ProteinType1Error.uniquepeptidesonly.",
             "NumberOfUniquePeptides",
             "nQuantPeps",
-            "nQuantSpectra",
+            nqntsp,
             cvcols)
   f2 <- sub("\\.tsv", "_prot.tsv", f)
   write.exprs(xx, file = f2, fDataCols = cols)
