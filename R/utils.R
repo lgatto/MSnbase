@@ -437,7 +437,7 @@ nologging <- function(object, n = 1) {
   x <- seq(l, length = n, by = -1)
   object@processingData@processing <-
     object@processingData@processing[-x]
-  stopifnot(length(object@processingData@processing) == (l + n))
-  if (validObject)
+  stopifnot(length(object@processingData@processing) == (l - n))
+  if (validObject(object))
     return(object)
 }
