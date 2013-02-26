@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.7.23
+-------------------------
+ o new private nologging function <2013-02-21 Thu>
+ o adding total number of features on plotNA <2013-02-22 Fri>
+ o updated msnbase.r <2013-02-26 Tue>
+
 CHANGES IN VERSION 1.7.22
 -------------------------
  o msnbase.r na.rm arg <2013-02-20 Wed>
