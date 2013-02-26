@@ -1,6 +1,6 @@
 #! /usr/local/bin/Rscript
 
-###################################################
+#######################################################
 ## Laurent Gatto <lg390@cam.ac.uk>
 ##
 ## This script automates a simple MSnbase
@@ -16,9 +16,12 @@
 ## * 08-Jan-2013 help arg/output v0.1.1
 ## * 20-Feb-2013 -keepna to retain features
 ##               with missing values v0.1.2
-###################################################
+## * 26-Feb-2013 exact match of all 4/6/8 reporter 
+##               ions and extract/return column indices
+##               Also considering old TMT6 ispy tags.
+#######################################################
 
-version <- "0.1.2"
+version <- "0.1.3"
 
 args <- commandArgs()
 args <- args[-(1:match("--args", args))]
@@ -107,22 +110,38 @@ suppressPackageStartupMessages(library("MSnbase"))
 
 whatIspyReporters <- function(f) {
   require("MSnbase")
-  tmt6 <- "126.128"
-  itraq4 <- c("114.1", "115.1", "116.1", "117.1" ,"145.1")
+  tmt6 <- c("126.128", "127.132", "128.14", "129.138",
+            "130.142", "131.139")
+  tmt6old <- c("126.128", "127.131", "128.135", "129.138",
+               "130.141", "131.139")
+  itraq4 <- c("114.1", "115.1", "116.1", "117.1")
   itraq8 <- c("113.1", "114.1", "115.1", "116.1",
-              "117.1", "118.1", "119.1","120.08" ,"121.1")
+              "117.1", "118.1", "119.1","120.08")
   hd <- scan(what = "character", file = f, nlines = 1, quiet = TRUE)
-  if (all(tmt6 %in% hd)) return(TMT6)
-  if (all(itraq4 %in% hd)) return(iTRAQ4)
-  if (all(itraq8 %in% hd)) return(iTRAQ8)
-  stop("ispy header does not match any expected patters.")
+  if (all(tmt6 %in% hd)) {
+    return(list(index = which(hd %in% tmt6),
+                reporters = TMT6))
+  }
+  if (all(tmt6old %in% hd)) {
+    return(list(index = which(hd %in% tmt6old),
+                reporters = TMT6))
+  }
+  if (all(itraq4 %in% hd)) {
+    return(list(index = which(hd %in% itraq4),
+                reporters = iTRAQ4))
+  }
+  if (all(itraq8 %in% hd)) {
+    return(list(index = which(hd %in% itraq8),
+                reporters = iTRAQ8))
+  }
+  stop("ispy header does not match any expected patter.")
 }
 
 do <- function(f) {
   message("Processing ", f, "...", appendLF = FALSE)
   require("MSnbase")
-  ri <- whatIspyReporters(f)
-  r <- 19:(19 + length(ri) - 1)    
+  reps <- whatIspyReporters(f)
+  ri <- reps$index
   if (is.null(imp)) {
     impurities <- matrix(0, length(ri), length(ri))
     diag(impurities) <- 1
@@ -130,7 +149,8 @@ do <- function(f) {
     impurities <- makeImpuritiesMatrix(filename = imp, edit = FALSE)
   } 
   ## processing
-  x0 <- readIspyData(f, reporters = r, min.int = minint,
+  x0 <- readIspyData(f, reporters = ri,
+                     min.int = minint,
                      na.rm = .na.rm, 
                      verbose = FALSE)
   x2 <- purityCorrect(x0, impurities)

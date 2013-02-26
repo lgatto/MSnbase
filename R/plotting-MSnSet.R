@@ -13,7 +13,7 @@ fragplot <- function(x, ...) {
 }
 
 
-plotNA.matrix <- function(X, pNA) {
+plotNA_matrix <- function(X, pNA) {
   ## no visible binding for global variable ...
   x <- value <- variable <- proteins <- y <- z <- NULL
   ## X: matrix
@@ -66,7 +66,7 @@ plotNA.matrix <- function(X, pNA) {
   p <- p + 
     geom_text(data = data.frame(x = nkeep, y = kkeep),
               aes(x = x, y = y, label = round(y, 2)),
-              hjust = -0.5, vjust = -.5, size = 2.5) +              
+              hjust = -0.5, vjust = -0.5, size = 2.5) +              
                 geom_point(data = data.frame(x = nkeep, y = kkeep),
                            aes(x = x, y = y), alpha = 1/3)
   
@@ -75,6 +75,10 @@ plotNA.matrix <- function(X, pNA) {
                      size = 2.5, vjust = 2, hjust = 2) +
                        geom_point(data = data.frame(x = nkeep, y = (1 - pNA)),
                                   aes(x = x, y = y), alpha = 1/3)
+  
+  p <- p + annotate("text", label = nrow(X), x = 0, y = 1, 
+                    size = 2.5, vjust = -1, alpha = 1/3)
+
   print(p)
   invisible(p)
 }
