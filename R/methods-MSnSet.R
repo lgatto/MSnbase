@@ -418,7 +418,7 @@ setMethod("plotNA", signature(object = "MSnSet"),
             if (pNA < 0)
               pNA <- 0
             X <- exprs(object)
-            p <- plotNA.matrix(X, pNA)
+            p <- plotNA_matrix(X, pNA)
             invisible(p)
           })
 
@@ -429,7 +429,7 @@ setMethod("plotNA", signature(object = "matrix"),
               pNA <- 1
             if (pNA < 0)
               pNA <- 0
-            p <- plotNA.matrix(object, pNA)
+            p <- plotNA_matrix(object, pNA)
             invisible(p)
           })
 
