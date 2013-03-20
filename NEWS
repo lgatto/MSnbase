@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.7.24
 -------------------------
  o Mention scale in vignette <2013-03-02 Sat>
+ o exprsToRatio matrix method <2013-03-20 Wed>
 
 CHANGES IN VERSION 1.7.23
 -------------------------

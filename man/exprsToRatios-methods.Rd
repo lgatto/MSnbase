@@ -4,6 +4,7 @@
 \alias{getRatios}
 \alias{exprsToRatios-methods}
 \alias{exprsToRatios,MSnSet-method}
+\alias{exprsToRatios,matrix-method}
 
 \title{Calculate all ratio pairs}
 
@@ -22,6 +23,8 @@
       \code{assayData} columns are computed; otherwise, log ratios
       (differences) are calculated. 
     }
+    \item{\code{signature(object = "matrix", log = "logical")}}{
+      As above, but for a \code{matrix} instance. }
   }
 }
 
