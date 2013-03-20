@@ -411,6 +411,26 @@ setMethod("exprsToRatios",
               return(res)
           })
 
+
+setMethod("exprsToRatios",
+          "matrix",
+          function(object, log = FALSE) {
+            if (ncol(object) == 2) {
+              ifelse(log,
+                     r <- object[, 1] - object[, 2],
+                     r <- object[, 1] / object[, 2])
+              dim(r) <- c(length(r), 1)
+            } else {
+              r <- apply(object, 1, getRatios, log)
+              r <- t(r)
+              conames(r) <- 
+                apply(combn(ncol(object), 2), 2,
+                      paste, collapse = ".")
+            }
+            r
+          })
+
+
 setMethod("plotNA", signature(object = "MSnSet"), 
           function(object, pNA = .5) {
             if (pNA > 1)

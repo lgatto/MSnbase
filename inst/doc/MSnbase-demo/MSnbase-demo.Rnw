@@ -778,7 +778,8 @@ It opens a rudimentary spreadsheet that can be directly edited.
 
 A \Robject{MSnSet} object is meant to be compatible with further downstream 
 packages for data normalisation and statistical analysis. There is also a 
-\Rfunction{normalise} method for expression sets. The method takes and instance 
+\Rfunction{normalise} (also available as \Rfunction{normalize}) 
+method for expression sets. The method takes and instance 
 of class \Robject{MSnSet} as first argument, and a character to describe the 
 \Robject{method} to be used: 
 
@@ -798,6 +799,9 @@ of class \Robject{MSnSet} as first argument, and a character to describe the
 \item{\Robject{sum}} Each feature's reporter intensity is divided by the 
   sum of the reporter ions intensities.
 \end{description}
+
+See \Rfunction{?normalise} for more methods. A \Rfunction{scale} method for \Robject{MSnSet} 
+instances, that relies on the \Rfunction{base::scale} function.
 
 <<normalise, echo=TRUE, cache=FALSE>>=
 qnt.max <- normalise(qnt, "max")
