@@ -74,8 +74,8 @@
 suppressPackageStartupMessages(library("MSnbase"))
 suppressPackageStartupMessages(library("zoo"))
 if (.Platform$OS.type != "windows")
-  suppressPackageStartupMessages(library("doMC"))
-suppressPackageStartupMessages(library("multicore"))
+  suppressPackageStartupMessages(require("doMC"))
+suppressPackageStartupMessages(require("multicore"))
 library("grid")
 library("reshape2")
 @
