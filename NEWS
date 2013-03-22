@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.7.25
+-------------------------
+ o updated itraqdata to fix issue in vignette when 
+   combine(exp1, exp2) and different MIAPE versions 
+   <2013-03-22 Fri>
+
 CHANGES IN VERSION 1.7.24
 -------------------------
  o Mention scale in vignette <2013-03-02 Sat>
