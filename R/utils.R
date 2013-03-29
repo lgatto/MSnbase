@@ -441,3 +441,12 @@ nologging <- function(object, n = 1) {
   if (validObject(object))
     return(object)
 }
+
+logging <- function(object, msg, date. = TRUE) {
+  if (date.)
+    msg <- paste0(msg, ": ", date())
+  object@processingData@processing <-
+    c(object@processingData@processing, msg)
+  if (validObject(object))
+    return(object)
+}
