@@ -208,17 +208,18 @@ setMethod("meanSdPlot",
                    ylab = "sd", pch  = ".", plot = TRUE, ...)
           vsn::meanSdPlot(exprs(x), ranks=ranks, xlab=xlab, ylab=ylab, pch=pch, plot=plot, ...))
 
-t.MSnSet <- function(x) {
-  x@processingData@processing <-             
-    c(x@processingData@processing,
-      paste("MSnSet transposed: ",date(),sep=""))
-  return(new("MSnSet",
+t.MSnSet <- function(x) {  
+  ans <- new("MSnSet",
              exprs = t(exprs(x)),
              phenoData = featureData(x),
              featureData = phenoData(x),
              experimentData = experimentData(x),
-             processingData = processingData(x),
-             annotation = annotation(x)))
+             annotation = annotation(x))
+  ans@processingData@processing <-
+    x@processingData@processing
+  ans <- logging(ans, "MSnSet transposed")  
+  if (validObject(ans))
+    return(ans)
 }
 
 

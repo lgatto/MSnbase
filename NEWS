@@ -2,6 +2,7 @@ CHANGES IN VERSION 1.9.1
 ------------------------
  o new logging utility function to update an MSnSet's 
    processingData(object)$processing <2013-03-29 Fri>
+ o Proper logging in t.MSnSet <2013-03-29 Fri>
 
 CHANGES IN VERSION 1.9.0
 ------------------------
