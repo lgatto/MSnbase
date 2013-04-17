@@ -125,10 +125,10 @@ setMethod("plotMzDelta",c("MSnExp"),
 
 setMethod("clean",
           signature=signature("MSnExp"),
-          function(object,verbose=TRUE) clean_MSnExp(object, verbose))
+          function(object, all = FALSE, verbose = TRUE) clean_MSnExp(object, all, verbose))
 
 setMethod("removePeaks",signature("MSnExp"),
-          function(object,t,verbose=TRUE) removePeaks_MSnExp(object, t, verbose))
+          function(object, t, verbose = TRUE) removePeaks_MSnExp(object, t, verbose))
 
 
 setMethod("trimMz",
@@ -207,8 +207,8 @@ setMethod("normalize", "MSnExp",
 
 
 setMethod("removeReporters","MSnExp",
-          function(object, reporters=NULL, clean=FALSE,verbose=TRUE) {
+          function(object, reporters=NULL, clean=FALSE, verbose=TRUE) {
             if (is.null(reporters))
               return(object)
-            removeReporters_MSnExp(object,reporters,clean,verbose)
+            removeReporters_MSnExp(object, reporters, clean, verbose)
         })

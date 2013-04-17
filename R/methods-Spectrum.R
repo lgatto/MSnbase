@@ -33,7 +33,7 @@ setMethod("plot",c("Spectrum","missing"),
 
 setMethod("clean",
           signature=signature("Spectrum"),
-          function(object) clean_Spectrum(object))
+          function(object, all = FALSE) clean_Spectrum(object, all))
 
 setMethod("removePeaks","Spectrum",
           function(object,t) removePeaks_Spectrum(object,t))
@@ -159,7 +159,7 @@ setMethod("normalize","Spectrum",
           normalise(object, method = method))
 
 setMethod("removeReporters","Spectrum",
-          function(object,reporters=NULL,clean=FALSE) {
+          function(object, reporters=NULL, clean=FALSE) {
             if (msLevel(object)>1) 
               return(removeReporters_Spectrum2(object,reporters,clean))
             stop("No reporters to remove for MS1 spectra.")            
