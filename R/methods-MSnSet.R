@@ -77,19 +77,17 @@ setMethod("show","MSnSet",
           })
 
 
-setMethod("normalise", "MSnSet",
-          function(object, method = c("sum","max",
-                             "center.mean", "center.median",
-                             "quantiles",
-                             "quantiles.robust",
-                             "vsn"), ...)
+setMethod("normalize", "MSnSet",
+          function(object,
+                   method = c("sum","max",
+                     "center.mean", "center.median",
+                     "quantiles",
+                     "quantiles.robust",
+                     "vsn"), ...)
           normalise_MSnSet(object, match.arg(method), ...)
           )
 
-setMethod("normalize","MSnSet",
-          function(object, method, ...) normalise(object, method,...)
-          )
-
+normalise <- normalize
 
 setMethod("scale", "MSnSet",
           function(x, center = TRUE, scale = TRUE) {
