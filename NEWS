@@ -2,6 +2,7 @@ CHANGES IN VERSION 1.9.2
 ------------------------
  o clean has now a all param (default FALSE is retain original behavious)
    to remove all 0 intensity values <2013-04-17 Wed>
+ o using BiocGenerics::normalize <2013-04-25 Thu>
 
 CHANGES IN VERSION 1.9.1
 ------------------------

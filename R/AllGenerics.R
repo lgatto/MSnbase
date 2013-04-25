@@ -55,8 +55,6 @@ setGeneric("curveStats",function(object,reporters,...) standardGeneric("curveSta
 setGeneric("purityCorrect",function(object,impurities,...) standardGeneric("purityCorrect"))
 
 setGeneric("qual",function(object) standardGeneric("qual"))
-setGeneric("normalise",function(object,method,...) standardGeneric("normalise"))
-setGeneric("normalize",function(object,method,...) standardGeneric("normalize"))
 
 setGeneric("width",function(object) standardGeneric("width"))
 setGeneric("reporterNames",function(object) standardGeneric("reporterNames"))

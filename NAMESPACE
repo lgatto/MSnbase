@@ -44,7 +44,9 @@ export(readMzXMLData,
        t.MSnSet,
        updateFvarLabels,
        updateFeatureNames,
-       updateSampleNames)
+       updateSampleNames,
+       normalise ## for normalize method
+       )
 
 
 exportClasses(pSet,
@@ -112,7 +114,7 @@ exportMethods(coerce,
               write.exprs,
               combine, ## for classes MIAPE, MSnProcess and MSnSet
               "experimentData<-", ## signature("MSnSet", "MIAPE")
-              normalise, normalize,
+              normalize,
               scale,
               log,
               exprsToRatios,

@@ -196,15 +196,12 @@ setMethod("extractSpectra",
             ## extractSpectra.MSnExp(object,selected)
           })
 
-setMethod("normalise", "MSnExp",
+setMethod("normalize", "MSnExp",
           function(object, method = c("max","sum"),...) {
             normalise_MSnExp(object, method = match.arg(method))
         })
 
-setMethod("normalize", "MSnExp",
-          function(object, method = "max",...)
-          normalise(object, method))
-
+normalise <- normalize
 
 setMethod("removeReporters","MSnExp",
           function(object, reporters=NULL, clean=FALSE, verbose=TRUE) {

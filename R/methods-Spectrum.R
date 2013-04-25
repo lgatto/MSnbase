@@ -149,14 +149,12 @@ setReplaceMethod("centroided",
                      return(object)
                  })
 
-setMethod("normalise","Spectrum",
-          function(object,method=c("max","sum"),...) {
+setMethod("normalize", "Spectrum",
+          function(object, method=c("max","sum"),...) {
             normalise_Spectrum(object,method=match.arg(method))
         })
 
-setMethod("normalize","Spectrum",
-          function(object, method = c("max","sum"),...)
-          normalise(object, method = method))
+normalise <- normalize
 
 setMethod("removeReporters","Spectrum",
           function(object, reporters=NULL, clean=FALSE) {
