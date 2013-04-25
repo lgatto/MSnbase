@@ -118,7 +118,7 @@ removePeaks_MSnExp <- function(object,t="min",verbose=TRUE) {
 }
 
 
-clean_MSnExp <- function(object,verbose=TRUE) {
+clean_MSnExp <- function(object, all, verbose = TRUE) {
   ## -- was ---------------------------------------------------
   ##  ifelse(verbose,progress <- "text",progress <- "none")
   ##  spectra <- llply(spectra(object),function(x) clean(x),.progress=progress)
@@ -136,7 +136,7 @@ clean_MSnExp <- function(object,verbose=TRUE) {
              ._cnt <<- ._cnt+1
            }
            sp <- get(x, envir = assayData(object))
-           xx <- clean(sp)
+           xx <- clean(sp, all)
            assign(x, xx, envir = e)
            invisible(TRUE)
          })
@@ -146,7 +146,7 @@ clean_MSnExp <- function(object,verbose=TRUE) {
     rm(._cnt)
   }
   ## ----------------------------------------------------------
-  object@processingData@cleaned <- TRUE
+  object@processingData@cleaned <- TRUE  
   object@processingData@processing <- c(object@processingData@processing,
                                         paste("Spectra cleaned: ",date(),sep=""))
   
@@ -311,9 +311,11 @@ precSelectionTable <- function(object,...) {
   return(table(x))
 }
 
-removeReporters_MSnExp <- function(object,reporters=NULL,clean=FALSE,verbose=TRUE) {
+removeReporters_MSnExp <- function(object, reporters=NULL, clean=FALSE, verbose=TRUE) {
   ifelse(verbose,progress <- "text",progress <- "none")
-  spectraList <-  llply(spectra(object),function(x) removeReporters(x,reporters,clean),.progress=progress)
+  spectraList <-  llply(spectra(object),
+                        function(x) removeReporters(x, reporters, clean),
+                        .progress = progress)
   object@assayData <- list2env(spectraList)
   repname <- names(reporters)
   object@processingData@processing <- c(object@processingData@processing,
