@@ -9,8 +9,8 @@ removePeaks_Spectrum <- function(spectrum,t="min") {
 }
 
 
-clean_Spectrum <- function(spectrum,updatePeaksCount=TRUE) {
-  keep <- utils.clean(spectrum@intensity)
+clean_Spectrum <- function(spectrum, all, updatePeaksCount = TRUE) {
+  keep <- utils.clean(spectrum@intensity, all)
   spectrum@intensity <- spectrum@intensity[keep]
   spectrum@mz <- spectrum@mz[keep]
   spectrum@peaksCount <- length(spectrum@intensity)

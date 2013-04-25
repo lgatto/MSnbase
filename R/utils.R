@@ -28,7 +28,7 @@ utils.removePeaks <- function(int,t) {
   return(int)
 }
 
-utils.clean <- function(x) {
+utils.clean <- function(x, all) {
   ## Given an numeric x, this function
   ## returns a logical b of length(x) where
   ## non-zero values and their direct
@@ -40,13 +40,19 @@ utils.clean <- function(x) {
   ## b: T T F T T T T T T T T T F T T T F F
   ##
   ## x[b]:     1 0 1 1 1 0 1 1 0 1 0
-  n <- length(x)
+  
+  n <- length(x) 
   b <- as.logical(rep(1,n)) ## initialise to TRUE
-  zeroRanges <- IRanges(sapply(x,"==",0))
-  sapply(zeroRanges,function(x){
-    if (length(x)>2)
-      b[x[2:(length(x)-1)]] <<- FALSE 
-  })
+  if (all) {    
+    b[x == 0] <- FALSE
+  } else {
+    zeroRanges <- IRanges(sapply(x,"==",0))
+
+    sapply(zeroRanges,function(x){
+      if (length(x)>2)
+        b[x[2:(length(x)-1)]] <<- FALSE 
+    })
+  }
   return(b)
 }
 
