@@ -90,7 +90,7 @@
 \hrule
 \begin{abstract}
   This vignette describes \Rpackage{MSnbase}'s input and output 
-  capabilites.
+  capabilities.
 \end{abstract}
 \textit{Keywords}: Mass Spectrometry (MS), proteomics, infrastructure, IO.
 \vskip 0.1in minus 0.05in
@@ -130,7 +130,7 @@ mass spectrometry data within the \R environment, from raw data import and proce
 feature quantification, quantification and statistical analysis of the results \citep{Gatto2012}.
 Data import functions for several formats are provided and intermediate or final 
 results can also be saved or exported. 
-These capabilites are presented below.
+These capabilities are presented below.
 
 \section{Data input}
 
@@ -150,7 +150,7 @@ See \Rfunction{?readMgfData} for details.
 
 \paragraph{Quantitation data} Third party software can be used to generate 
 quantitative data and exported as a spreadsheet (generally comma or tab separated format). 
-This data as well as any additional metadata can be imported with the 
+This data as well as any additional meta-data can be imported with the 
 \Rfunction{readMSnSet} function. See \Rfunction{?readMSnSet} for details.
 
 \Rpackage{MSnbase} also supports the \texttt{mzTab} 
@@ -203,12 +203,12 @@ It creates compressed binary images of the data representation that can later be
 with the \Rfunction{load} function. 
 
 \paragraph{Peak lists} \Robject{MSnExp} instances as well as individual spectra can be written 
-as \texttt{mgf} files with the \Rfunction{writeMgfData} method. Note that the metadata in the original 
+as \texttt{mgf} files with the \Rfunction{writeMgfData} method. Note that the meta-data in the original 
 \R object can not be included in the file. See \Rfunction{?writeMgfData} for details. 
 
 \paragraph{Quantitation data} Quantitation data can be exported to spreadsheet files with 
-the \Rfunction{write.exprs} method. Feature metadata can be appended to the feature 
-intenstiy values. See \Rfunction{?writeMgfData} for details. 
+the \Rfunction{write.exprs} method. Feature meta-data can be appended to the feature 
+intensity values. See \Rfunction{?writeMgfData} for details. 
 
 \Robject{MSnSet} instances can also be exported to \texttt{mzTab} files using the 
 \Rfunction{writeMzTabData} function.
@@ -248,8 +248,9 @@ intenstiy values. See \Rfunction{?writeMgfData} for details.
   \end{center}
 \end{figure}
 
+\clearpage
 
-\section{Creating Robject{MSnSet} from text spread sheets}
+\section{Creating \Robject{MSnSet} from text spread sheets}
 
 This section describes the generation of \Robject{MSnSet} objects using 
 data available in a text-based spreadsheet. This entry point into \R and 
@@ -258,13 +259,12 @@ third party mass-spectrometry processing software available and proceed
 with data exploration, normalisation and statistical analysis using 
 functions available in \R and the numerous Bioconductor packages.
 
+\subsection{A complete work flow}
 
-\subsection{A complete workflow}
-
-The following section describes a workflow that uses three input files to 
+The following section describes a work flow that uses three input files to 
 create the \Robject{MSnSet}. These files respectively describe the quantitative 
 expression data, the sample meta-data and the feature meta-data. 
-It is taken from the \Rpackage{pRolco} tutorial and uses example files from 
+It is taken from the \Rpackage{pRoloc} tutorial and uses example files from 
 the \Rpackage{pRolocdata} package.
 
 \subsubsection{The original data file}\label{sec:orgcsv}
@@ -272,11 +272,12 @@ the \Rpackage{pRolocdata} package.
 We start by describing the  \texttt{csv} to be used as input using the \Rfunction{read.csv} function.
 
 
-<<readCsvData0>>=
+<<readCsvData0, tidy = FALSE>>=
 ## The original data for replicate 1, available
 ## from the pRolocdata package
 f0 <- dir(system.file("extdata", package = "pRolocdata"), 
-          full.names = TRUE, pattern = "pr800866n_si_004-rep1.csv")
+          full.names = TRUE, 
+          pattern = "pr800866n_si_004-rep1.csv")
 csv <- read.csv(f0)
 @ 
 
@@ -366,18 +367,35 @@ The individual parts of this data object can be accessed with their respective a
 \item the sample meta-data with \Rfunction{pData(res)}. 
 \end{itemize}
 
-\clearpage
+\subsection{A shorter work flow}
 
+The \Rfunction{readMSnSet2} function provides a simplified import workforce. 
+It takes a single spreadsheet as input (default is \texttt{csv}) and extract the 
+columns identified by \Robject{ecol} to create the expression data, while the 
+others are used as feature meta-data. \Robject{ecol} can be a \Robject{character} with 
+the respective column labels or a numeric with their indices. In the former case, 
+it is important to make sure that the names match exactly. Special characters like 
+\texttt{'-'} or \texttt{'('} will be transformed by \R into \texttt{'.'} when the 
+\texttt{csv} file is read in.
+Optionally, one can also specify a column to be used as feature names. 
+Note that these must be unique to guarantee the final object validity.
+
+<<readMSnSet2>>=
+ecol <- paste("area", 114:117, sep = ".")
+fname <- "Protein.ID"
+eset <- readMSnSet2(f0, ecol, fname)
+eset
+@ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% \section{Session information}
-%% \label{sec:sessionInfo} 
+\section{Session information}
+\label{sec:sessionInfo} 
 
-%% <<label=sessioninfo,results='asis',echo=FALSE,cache=FALSE>>=
-%% toLatex(sessionInfo())
-%% @
+<<label=sessioninfo,results='asis',echo=FALSE,cache=FALSE>>=
+toLatex(sessionInfo())
+@
 
 \bibliographystyle{plainnat}
 \bibliography{MSnbase}

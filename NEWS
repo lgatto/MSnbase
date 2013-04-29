@@ -5,6 +5,7 @@ CHANGES IN VERSION 1.9.3
    which is default nowadays <2013-04-29 Mon>
  o knitr dependency > 1.1.0 for VignetteBuilder <2013-04-29 Mon>
  o Adding MSnSet creating sections in io vignette <2013-04-29 Mon>
+ o new readMSnSet2 function <2013-04-30 Tue>
 
 CHANGES IN VERSION 1.9.2
 ------------------------

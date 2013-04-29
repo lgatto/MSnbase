@@ -36,31 +36,47 @@ R_HOME=	$(shell R RHOME)
 endif
 
 demo: 
-	## cp ./MSnbase-demo/MSnbase-demo.Rnw . 
-	## "$(R_HOME)/bin/R" --vanilla -e "library(knitr); knit2pdf('MSnbase-demo.Rnw');"
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-demo.tex
 	bibtex MSnbase-demo
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-demo.tex
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-demo.tex
-	## make fake
+
+demo2: 
+	## local
+	"$(R_HOME)/bin/R" --vanilla -e "library(knitr); knit2pdf('MSnbase-demo.Rnw');"
+	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-demo.tex
+	bibtex MSnbase-demo
+	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-demo.tex
+	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-demo.tex
 
 io: 
-	## cp ./MSnbase-io/MSnbase-io.Rnw . 
-	## "$(R_HOME)/bin/R" --vanilla -e "library(knitr); knit2pdf('MSnbase-io.Rnw');"
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-io.tex
 	bibtex MSnbase-io
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-io.tex
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-io.tex
-	## make fake
+
+io2: 
+	## local
+	"$(R_HOME)/bin/R" --vanilla -e "library(knitr); knit2pdf('MSnbase-io.Rnw');"
+	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-io.tex
+	bibtex MSnbase-io
+	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-io.tex
+	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-io.tex
 
 devel: 
-	## cp ./MSnbase-development/MSnbase-development.Rnw .
-	## "$(R_HOME)/bin/R" --vanilla -e "library(knitr); knit2pdf('MSnbase-development.Rnw');"
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-development.tex
 	bibtex MSnbase-development
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-development.tex
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-development.tex
-	## make fake
+
+devel2: 
+	## local
+	"$(R_HOME)/bin/R" --vanilla -e "library(knitr); knit2pdf('MSnbase-development.Rnw');"
+	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-development.tex
+	bibtex MSnbase-development
+	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-development.tex
+	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-development.tex
+
 
 # fake:
 # 	cp ./MSnbase-demo/MSnbase-demo-fake.Rnw ./MSnbase-demo.Rnw 
