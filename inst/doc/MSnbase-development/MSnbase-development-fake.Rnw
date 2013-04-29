@@ -1,9 +1,0 @@
-
-%% This vignette is a stub. Please look at 
-%% .[/inst]/doc/MSnbase-development.Rnw or run 'make real'
-%% to copy the real vignettes in the current directory.
-
-\documentclass[10pt]{article}
-%\VignetteIndexEntry{MSnbase development}
-\begin{document}
-\end{document}
