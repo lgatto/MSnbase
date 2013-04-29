@@ -34,7 +34,7 @@ readMSnSet(exprsFile,
            row.names = 1L,
            widget = getOption("BioC")$Base$use.widgets, ...)
 
-readMSnSet2(file, ecol, ...)
+readMSnSet2(file, ecol, fnames, ...)
 }
 
 \arguments{
@@ -94,7 +94,7 @@ readMSnSet2(file, ecol, ...)
     will be converted to a '.'. If \code{ecol} does not match, the error
     message will dispay the column names are see by \code{R}.
   }
-  \item{fname}{An optional \code{character} indicating the column to be
+  \item{fnames}{An optional \code{character} indicating the column to be
     used as feature names. }
   \item{...}{Additional arguments to be passed to \code{\link{read.csv}}
     to import \code{file}.}

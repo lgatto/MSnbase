@@ -77,8 +77,8 @@ readMSnSet2 <- function(file, ecol, fnames, ...) {
              featureData = new("AnnotatedDataFrame",
                data = fdata))
   if (!missing(fnames)) {
-    if (is.na(match(fname, colnames(xx))))
-      stop(fname, "not found among\n",
+    if (is.na(match(fnames, colnames(xx))))
+      stop(fnames, "not found among\n",
            paste(colnames(xx), paste = ", "))        
     featureNames(ans) <- fdata[, fnames]
   }
