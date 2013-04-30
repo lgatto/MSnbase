@@ -58,3 +58,30 @@ readMSnSet <- function(exprsFile,
     return(mset)
 }
  
+
+readMSnSet2 <- function(file, ecol, fnames, ...) {  
+  xx <- read.csv(file, ...)
+  if (is.character(ecol)) {
+    ecol0 <- ecol
+    ecol <- match(ecol0, colnames(xx))
+    if (any(is.na(ecol)))
+      stop("Column identifiers ",
+           paste(ecol0[is.na(ecol)], collapse = ", "),
+           " not recognised among\n",
+           paste(colnames(xx), paste = ", "))
+  }
+  eset <- as.matrix(xx[, ecol])
+  fdata <- xx[, -ecol]
+  ans <- new("MSnSet",
+             exprs = eset,
+             featureData = new("AnnotatedDataFrame",
+               data = fdata))
+  if (!missing(fnames)) {
+    if (is.na(match(fnames, colnames(xx))))
+      stop(fnames, "not found among\n",
+           paste(colnames(xx), paste = ", "))        
+    featureNames(ans) <- fdata[, fnames]
+  }
+  if (validObject(ans))
+    return(ans)
+}    

@@ -1,3 +1,12 @@
+CHANGES IN VERSION 1.9.3
+------------------------
+ o Using knitr as VignetteEngine <2013-04-29 Mon>
+ o Remove LazyLoad from DESCRIPTION, 
+   which is default nowadays <2013-04-29 Mon>
+ o knitr dependency > 1.1.0 for VignetteBuilder <2013-04-29 Mon>
+ o Adding MSnSet creating sections in io vignette <2013-04-29 Mon>
+ o new readMSnSet2 function <2013-04-30 Tue>
+
 CHANGES IN VERSION 1.9.2
 ------------------------
  o clean has now a all param (default FALSE is retain original behavious)
