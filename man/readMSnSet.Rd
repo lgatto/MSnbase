@@ -86,7 +86,8 @@ readMSnSet2(file, ecol, fnames, ...)
   Arguments for \code{readMSnSet2}:
   \item{file}{A \code{character} indicating the spreadsheet
     file. Default is to read the file as a comma-separated values
-    (csv). If different, specify as using \code{...}.}
+    (csv). If different, use the additional arguments, passed to
+    \code{\link{read.csv}}, to parametrise file import.}
   \item{ecol}{A \code{numeric} indicating the indices of the columns to
     be used as expression values. Can also be a \code{character}
     indicating the names of the columns. Caution must be taken of the
@@ -96,8 +97,6 @@ readMSnSet2(file, ecol, fnames, ...)
   }
   \item{fnames}{An optional \code{character} indicating the column to be
     used as feature names. }
-  \item{...}{Additional arguments to be passed to \code{\link{read.csv}}
-    to import \code{file}.}
 }
 
 
