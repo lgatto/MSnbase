@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.9.4
+------------------------
+ o new simple MSnSet constructor <2013-05-07 Tue>
+
 CHANGES IN VERSION 1.9.3
 ------------------------
  o Using knitr as VignetteEngine <2013-04-29 Mon>
