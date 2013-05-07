@@ -67,7 +67,14 @@
 }
 
 \section{Objects from the Class}{
-  Objects can be created by calls of the form
+  The constructor \code{MSnSet(exprs, fData, pData)} can be used to
+  create \code{MSnSet} instances. Argument \code{exprs} is a
+  \code{matrix} and \code{fData} and \code{pData} must be of clas
+  \code{data.frame} or \code{"\linkS4class{AnnotatedDataFrame}"} and all
+  must meet the dimensions and name validity constrains. 
+
+  
+  Objects can also be created by calls of the form
   \code{new("MSnSet", exprs, ...)}.
   See also \code{"\linkS4class{ExpressionSet}"} for helpful information.
   Expression data produced from other softwares can thus make use of this
@@ -77,7 +84,7 @@
   third-party software. 
   
   In the frame of the \code{MSnbase} package, \code{MSnSet} instances
-  are generated from \code{"\linkS4class{MSnExp}"} experiments when the
+  can be generated from \code{"\linkS4class{MSnExp}"} experiments when the
   \code{"\linkS4class{ReporterIons}"} using the \code{"quantify"} method). 
 }
 
@@ -326,6 +333,22 @@ exprs(msnset)[2, c(1, 2)] <- NA
 is.na(msnset)
 featureNames(filterNA(msnset, pNA = 1/4))
 featureNames(filterNA(msnset, pattern = "0110"))
+
+M <- matrix(rnorm(12), 4)
+pd <- data.frame(otherpdata = letters[1:3])
+fd <- data.frame(otherfdata = letters[1:4])
+x0 <- MSnSet(M, fd, pd)
+sampleNames(x0)
+
+M <- matrix(rnorm(12), 4)
+colnames(M) <- LETTERS[1:3]
+rownames(M) <- paste0("id", LETTERS[1:4])
+pd <- data.frame(otherpdata = letters[1:3])
+rownames(pd) <- colnames(M)
+fd <- data.frame(otherfdata = letters[1:4])
+rownames(fd) <- rownames(M)
+x <- MSnSet(M, fd, pd)
+sampleNames(x)
 }
 
 \keyword{classes}

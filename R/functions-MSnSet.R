@@ -1,3 +1,16 @@
+MSnSet <- function(exprs, fData, pData, ...) {
+  if (class(fData) == "data.frame")
+    fData <- new("AnnotatedDataFrame", data = fData)
+  if (class(pData) == "data.frame")
+    pData <- new("AnnotatedDataFrame", data = pData)
+  ans <- new("MSnSet",
+             exprs = exprs,
+             featureData = fData,
+             phenoData = pData)
+  if (validObject(ans))
+    return(ans)  
+}
+
 
 normalise_MSnSet <- function(object, method, ...) {
   if (method == "vsn") {
