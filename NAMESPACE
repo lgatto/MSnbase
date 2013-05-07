@@ -16,7 +16,8 @@ importFrom(IRanges, IRanges)
 importClassesFrom(IRanges, IRanges)
 importFrom(affy, MAplot, ma.plot, mva.pairs)
 
-export(readMzXMLData,
+export(MSnSet,
+       readMzXMLData,
        readMgfData,
        readMSData,
        readMSnSet,
