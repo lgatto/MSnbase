@@ -1,14 +1,14 @@
 Package: MSnbase
 Title: MSnbase: Base Functions and Classes for MS-based Proteomics
-Version: 1.9.4
+Version: 1.9.5
 Description: Basic plotting, data manipulation and processing 
 	     of MS-based Proteomics data
-Author@R: c(person(given = "Laurent", family = "Gatto",
-	           email = "lg390@cam.ac.uk",
- 		   role = c("aut","cre")),
-            person(given = "Guangchuang", family ="Yu",
-	           email = "guangchuangyu@gmail.com",
-		   role = "ctb"))
+Authors@R: c(person(given = "Laurent", family = "Gatto",
+	            email = "lg390@cam.ac.uk",
+ 		    role = c("aut","cre")),
+             person(given = "Guangchuang", family ="Yu",
+	            email = "guangchuangyu@gmail.com",
+		    role = "ctb"))
 Author: Laurent Gatto <lg390@cam.ac.uk> with contributions 
 	from Guangchuang Yu <guangchuangyu@gmail.com>
 Maintainer: Laurent Gatto <lg390@cam.ac.uk>
