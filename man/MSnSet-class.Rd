@@ -212,7 +212,7 @@
       detailed in the \code{synapter} package vignette. 
     }
     \item{filterNA}{signature(object = "MSnSet", pNA = "numeric",
-      pattern = "character", droplevels = "logical")}{ This methods
+      pattern = "character", droplevels = "logical")}{ This method
       subsets \code{object} by removing features that have (striclty)
       more than \code{pNA} percent of NA values. Default \code{pNA} is
       0, which removes any feature that exhibits missing data.
