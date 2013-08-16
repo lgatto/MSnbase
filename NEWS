@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.9.6
+------------------------
+ o new as.data.frame.MSnSet method <2013-08-16 Fri>
+
 CHANGES IN VERSION 1.9.5
 ------------------------
  o typo in Author[s]@R <2013-05-15 Wed>

@@ -33,6 +33,7 @@ export(MSnSet,
        ## extractSpectra, defunct in v 1.5.3
        extractPrecSpectra,
        as.data.frame.Spectrum,
+       as.data.frame.MSnSet,
        as.ExpressionSet.MSnSet,
        is.na.MSnSet,
        droplevels.MSnSet,

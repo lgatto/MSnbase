@@ -21,6 +21,7 @@
 \alias{t.MSnSet}
 \alias{[,MSnSet-method}
 \alias{as.ExpressionSet.MSnSet}
+\alias{as.data.frame.MSnSet}
 \alias{coerce,MSnSet,ExpressionSet-method}
 \alias{write.exprs}
 \alias{write.exprs,MSnSet-method}
