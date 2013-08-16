@@ -456,3 +456,41 @@ logging <- function(object, msg, date. = TRUE) {
   if (validObject(object))
     return(object)
 }
+
+##' Given a text spread sheet \code{f} and a \code{pattern} to
+##' be matched to its header (first line in the file), the function
+##' returns the matching columns names or indices of the
+##' corresponding \code{data.frame}.
+##' 
+##' The function starts by reading the first line of the file (or connection)
+##' \code{f} with \code{\link{readLines}}, then splits it
+##' according to the optional \code{...} arguments (it is important to
+##' correctly specify \code{\link{strsplit}}'s \code{split} character vector here)
+##' and then matches \code{pattern} to the individual column names using
+##' \code{\link{grep}}.
+##'
+##' Similarly, \code{getEcols} can be used to explore the column names and
+##' decide for the appropriate \code{pattern} value.
+##' 
+##' These functions are useful to check the parameters to be provided to
+##' \code{\link{readMSnSet2}}.
+##' 
+##' @title Returns the matching column names of indices.
+##' @param f A connection object or a \code{character} string to
+##' be read in with \code{readLines(f, n = 1)}. 
+##' @param pattern A \code{character} string containing a regular expression
+##' to be matched to the file's header.
+##' @param ... Additional parameters passed to \code{\link{strsplit}}
+##' to split the file header into individual column names.
+##' @return Depending on \code{value}, the matching column names of
+##' indices. In case of \code{getEcols}, a \code{character} of
+##' column names.
+##' @seealso \code{\link{readMSnSet2}}
+##' @author Laurent Gatto
+grepEcols <- function(f, pattern, ...) 
+    grep(pattern, strsplit(readLines(f, 1), ...)[[1]])
+
+
+##' @rdname grepEcols
+getEcols <- function(f, ...)
+    strsplit(readLines(f, 1), ...)[[1]]
