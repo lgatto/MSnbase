@@ -487,8 +487,8 @@ logging <- function(object, msg, date. = TRUE) {
 ##' column names.
 ##' @seealso \code{\link{readMSnSet2}}
 ##' @author Laurent Gatto
-grepEcols <- function(f, pattern, value = FALSE, ...) 
-    grep("Ratio H/L normalized ", strsplit(readLines(f, 1), ...)[[1]])
+grepEcols <- function(f, pattern, ...) 
+    grep(pattern, strsplit(readLines(f, 1), ...)[[1]])
 
 
 ##' @rdname grepEcols

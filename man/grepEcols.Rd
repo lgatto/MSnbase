@@ -3,7 +3,7 @@
 \alias{grepEcols}
 \title{Returns the matching column names of indices.}
 \usage{
-  grepEcols(f, pattern, value = FALSE, ...)
+  grepEcols(f, pattern, ...)
 
   getEcols(f, ...)
 }
