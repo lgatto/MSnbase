@@ -253,11 +253,11 @@ setAs("MSnSet", "ExpressionSet",
 as.ExpressionSet.MSnSet <- function(x) as(x,"ExpressionSet")
 
 setAs("MSnSet", "data.frame",
-      function (from)
-      ## MSnSet -> ExpressionSet -> data.frame
-      from <- as(from, "ExpressionSet")
-      as(from, "data.frame")
-      )
+      function (from) {
+          ## MSnSet -> ExpressionSet -> data.frame
+          from <- as(from, "ExpressionSet")
+          as(from, "data.frame")
+      })
 
 as.data.frame.MSnSet <- function(x) as(x,"data.frame")
 
