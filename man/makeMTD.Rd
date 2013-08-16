@@ -44,7 +44,7 @@
 
   \item{instrumentAnalyzer}{A list of valid \code{CVParam}
   instances or \code{NULL} (default), in which case
-  \code{analyser(x)} is used to generate a \code{CVParam}.}
+  \code{analyzer(x)} is used to generate a \code{CVParam}.}
 
   \item{instrumentDetector}{A list of valid \code{CVParam}
   instances or \code{NULL} (default), in which case
