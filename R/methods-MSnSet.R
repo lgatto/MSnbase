@@ -262,6 +262,18 @@ setAs("MSnSet", "data.frame",
 as.data.frame.MSnSet <-
     function(x, row.names=NULL, optional=FALSE, ...) as(x,"data.frame")    
 
+
+ms2df <- function(x, fcols = fvarLabel(x)) {
+    if (is.null(fcols)) {
+        res <- data.frame(exprs(x))
+    } else {
+        sel <- fvarLabels(x) %in% fcols
+        res <- data.frame(exprs(x),
+                          fData(x)[, sel])
+    }
+    return(res)
+}
+
 setMethod("write.exprs",
           signature(x="MSnSet"),
           function(x,

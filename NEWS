@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.9.6
 ------------------------
  o new as.data.frame.MSnSet method <2013-08-16 Fri>
+ o new ms2df function <2013-08-16 Fri>
  o new getEcols and grepEcols helpers for readMSnSet2 <2013-08-16 Fri>
 
 CHANGES IN VERSION 1.9.5

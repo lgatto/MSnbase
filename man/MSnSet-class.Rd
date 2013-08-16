@@ -22,6 +22,7 @@
 \alias{[,MSnSet-method}
 \alias{as.ExpressionSet.MSnSet}
 \alias{as.data.frame.MSnSet}
+\alias{ms2df}
 \alias{coerce,MSnSet,ExpressionSet-method}
 \alias{coerce,MSnSet,data.frame-method}
 \alias{write.exprs}
@@ -182,6 +183,10 @@
       object from \code{MSnSet} to
       \code{\link{ExpressionSet-class}}. The \code{experimentData} slot is 
       dropped. }
+    \item{as(,"data.frame")}{\code{signature(x = "MSnSet")}: Coerce
+      object from \code{MSnSet} to \code{data.frame}. The \code{MSnSet}
+      is transposed and the \code{PhenoData} slot is appended.      
+      See also \code{ms2df} below.}    
     %% \item{ratios}{\code{signature(object = "MSnSet")}: ... }
     \item{write.exprs}{signature(x = "MSnSet")}{Writes expression values
       to a tab-separated file (default is \code{tmp.txt}). The
@@ -309,9 +314,15 @@
     \item{updateFeatureNames}{signature(object, label, sep)}{
       This function updates \code{object}'s feature names by appending
       \code{label}. By default, \code{label} is the variable name and
-      the separator \code{sep} is \code{.}.}	
+      the separator \code{sep} is \code{.}.}
+    \item{ms2df}{signature(x, fcols)}{Coerces the \code{MSnSet} instance
+      to a \code{data.frame}. The direction of the data is retained and
+      the feature variable labels that match \code{fcol} are appended to
+      the expression values. See also \code{as(x, "data.frame")} above.
+    }
   }
 }
+
 
 \author{
   Laurent Gatto <lg390@cam.ac.uk>
