@@ -23,6 +23,7 @@
 \alias{as.ExpressionSet.MSnSet}
 \alias{as.data.frame.MSnSet}
 \alias{coerce,MSnSet,ExpressionSet-method}
+\alias{coerce,MSnSet,data.frame-method}
 \alias{write.exprs}
 \alias{write.exprs,MSnSet-method}
 \alias{experimentData<-,MSnSet,MIAPE-method}

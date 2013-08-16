@@ -259,8 +259,8 @@ setAs("MSnSet", "data.frame",
           as(from, "data.frame")
       })
 
-as.data.frame.MSnSet <- function(x) as(x,"data.frame")
-
+as.data.frame.MSnSet <-
+    function(x, row.names=NULL, optional=FALSE, ...) as(x,"data.frame")    
 
 setMethod("write.exprs",
           signature(x="MSnSet"),
