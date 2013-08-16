@@ -263,7 +263,7 @@ as.data.frame.MSnSet <-
     function(x, row.names=NULL, optional=FALSE, ...) as(x,"data.frame")    
 
 
-ms2df <- function(x, fcols = fvarLabel(x)) {
+ms2df <- function(x, fcols = fvarLabels(x)) {
     if (is.null(fcols)) {
         res <- data.frame(exprs(x))
     } else {
