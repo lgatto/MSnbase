@@ -122,9 +122,9 @@ readIspy15NData <-
            uniquePeps = TRUE,
            pep = 0.05,
            na.rm = TRUE,
-           min.int = 0
-           ) {
-    xx <- read.table(file, sep = "\t", header = TRUE, fill = TRUE)
+           min.int = 0,
+           ...) {
+    xx <- read.table(file, sep = "\t", header = TRUE, fill = TRUE, ...)
     ecols <- grep("precursor_intensity", names(xx))
     .exprs <- as.matrix(xx[, ecols])
     .fd <- new("AnnotatedDataFrame", data = xx[, -ecols])  
