@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.9.7
 ------------------------
  o Passing ... to read.table in MSnbase:::readIspy[Silac|15N]Data <2013-09-16 Mon>
+ o QualityControl biocView <2013-09-16 Mon>
 
 CHANGES IN VERSION 1.9.6
 ------------------------

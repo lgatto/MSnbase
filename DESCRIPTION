@@ -19,7 +19,7 @@ Imports: plyr, IRanges, preprocessCore, vsn, grid,
 Suggests: testthat, zoo, knitr (>= 1.1.0), rols, Rdisop, pRolocdata
 Enhances: foreach, doMC, parallel
 License: Artistic-2.0
-biocViews: Infrastructure, Bioinformatics, Proteomics, MassSpectrometry
+biocViews: Infrastructure, Bioinformatics, Proteomics, MassSpectrometry, QualityControl
 LazyData: yes
 VignetteBuilder: knitr
 
