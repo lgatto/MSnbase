@@ -134,7 +134,7 @@ readMSData <- function(files,
     cache <- 0 
   msLevel <- as.integer(msLevel)
   ## Creating environment with Spectra objects
-  assaydata <- new.env()
+  assaydata <- new.env(parent=emptyenv())
   ioncount <- c()
   ioncounter <- 1
   filenams <- filenums <- c()
@@ -239,6 +239,8 @@ readMSData <- function(files,
     mzR::close(msdata) ## DO NOT CLOSE IF CACHE LEVEL >= 2
     rm(msdata)
   }
+  ## new in version 1.9.8
+  lockEnvironment(assaydata, bindings = TRUE)
   ## cache level 2 yet implemented
   cache <- testCacheArg(cache, maxCache = 2)
   if (cache >= 1) {
@@ -316,7 +318,7 @@ readMSData <- function(files,
                  ionSource = .instrumentInfo[[1]]$ionisation,
                  analyser = .instrumentInfo[[1]]$analyzer,
                  detectorType = .instrumentInfo[[1]]$detector)
-  ## Create and return 'MSnExp' object
+  ## Create and return 'MSnExp' object  
   if (verbose)
     cat("Creating 'MSnExp' object\n")
   toReturn <- new("MSnExp",
