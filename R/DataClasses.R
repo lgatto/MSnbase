@@ -149,7 +149,7 @@ setClass("pSet",
          contains = "Versioned",
          prototype = prototype(
            new("Versioned", versions=c(pSet="0.1.0")),
-           assayData = new.env(),
+           assayData = new.env(parent=emptyenv()), 
            experimentData = new("MIAPE"),
            phenoData = new("NAnnotatedDataFrame",
              dimLabels=c("sampleNames", "fileNumbers")), 
