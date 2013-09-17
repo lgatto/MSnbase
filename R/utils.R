@@ -494,3 +494,8 @@ grepEcols <- function(f, pattern, ...)
 ##' @rdname grepEcols
 getEcols <- function(f, ...)
     strsplit(readLines(f, 1), ...)[[1]]
+
+MSnExp.size <- function(x) 
+    object.size(x) + sum(unlist(unname(eapply(assayData(x),
+                                              object.size)))) 
+

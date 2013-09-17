@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.9.8
+------------------------
+ o using new.env(parent=emptyenv()) to get rid of enclosing env 
+   when creating new MSnExps <2013-09-17 Tue>
+ o new (private) MSnExp.size function <2013-09-17 Tue>
+
 CHANGES IN VERSION 1.9.7
 ------------------------
  o Passing ... to read.table in MSnbase:::readIspy[Silac|15N]Data <2013-09-16 Mon>

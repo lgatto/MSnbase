@@ -63,28 +63,35 @@ setMethod("[","pSet",
             whichElements <- ls(assayData(x))[i]
             sel <- featureNames(x) %in% whichElements
             orghd <- header(x)
-            x@assayData <- list2env(mget(whichElements,assayData(x)))
-            x@featureData <- featureData(x)[i,]
+            olde <- assayData(x)
+            newe <- new.env(parent=emptyenv())
+            for (el in whichElements) 
+                newe[[el]] <- olde[[el]]
+            if (environmentIsLocked(olde)) 
+                lockEnvironment(newe, 
+                                bindings = bindingIsLocked(el, olde))
+            x@assayData <- newe
+            x@featureData <- featureData(x)[i, ]
             if (is.logical(i)) {
-              x@processingData@processing <-
-                c(processingData(x)@processing,
-                  paste("Data [logically] subsetted ",sum(i)," spectra: ",date(),sep=""))
+                x@processingData@processing <-
+                    c(processingData(x)@processing,
+                      paste("Data [logically] subsetted ",sum(i)," spectra: ",date(),sep=""))
             } else if (is.numeric(i)) {
-              x@processingData@processing <-
-                c(processingData(x)@processing,
-                  paste("Data [numerically] subsetted ",length(i)," spectra: ",date(),sep=""))
+                x@processingData@processing <-
+                    c(processingData(x)@processing,
+                      paste("Data [numerically] subsetted ",length(i)," spectra: ",date(),sep=""))
             } else {
-              x@processingData@processing <-
-                c(processingData(x)@processing,
-                  paste("Data subsetted ",i,": ",date(),sep=""))
+                x@processingData@processing <-
+                    c(processingData(x)@processing,
+                      paste("Data subsetted ",i,": ",date(),sep=""))
             }
             if (x@.cache$level > 0)
-              x@.cache <- setCacheEnv(list(assaydata = assayData(x),
-                                           hd = orghd[sel, ]), ## faster than .header for big instances
-                                      x@.cache$level)
+                x@.cache <- setCacheEnv(list(assaydata = assayData(x),
+                                             hd = orghd[sel, ]), ## faster than .header for big instances
+                                        x@.cache$level)
             if (validObject(x))
-              return(x)
-          })
+                return(x)
+        })
 
 
 setMethod("[[","pSet",
@@ -93,7 +100,7 @@ setMethod("[[","pSet",
               stop("subscript out of bounds")
             if (!is.character(i)) 
               i <- featureNames(x)[i]
-            return(get(i,envir=assayData(x)))
+            return(get(i, envir = assayData(x)))
           })
 
 setMethod("precursorMz","pSet",
