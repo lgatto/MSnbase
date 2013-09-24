@@ -155,14 +155,16 @@ setReplaceMethod("centroided",
                  signature(object="pSet",
                            value="logical"),
                  function(object, value) {
-                   if (length(object) != length(value))
-                     stop("Length of replacement value is different than number of spectra.")
-                   sl <- spectra(object)
-                   for (i in 1:length(sl))
-                     centroided(sl[[i]]) <- value[i]
-                   object@assayData <- as.environment(sl)
-                   if (validObject(object))
-                     return(object)
+                     if (length(value) == 1) 
+                         value <- rep(value, length(object))                     
+                     if (length(object) != length(value))
+                         stop("Length of replacement value is different than number of spectra.")
+                     sl <- spectra(object)
+                     for (i in 1:length(sl))
+                         centroided(sl[[i]]) <- value[i]
+                     object@assayData <- as.environment(sl)
+                     if (validObject(object))
+                         return(object)
                  })
 
 setMethod("peaksCount",
