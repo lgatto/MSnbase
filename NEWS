@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.9.9
+------------------------
+ o typo in filterNA Rd <2013-09-18 Wed>
+ o writeMgfData now has a progress bar <2013-09-24 Tue>
+ o centroided(MSnExp) <- TRUE now allowed <2013-09-24 Tue>
+
 CHANGES IN VERSION 1.9.8
 ------------------------
  o using new.env(parent=emptyenv()) to get rid of enclosing env 
