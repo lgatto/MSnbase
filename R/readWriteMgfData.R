@@ -31,7 +31,8 @@ setMethod("writeMgfData",
           signature = signature("MSnExp"),
           function(object,
                    con = NULL,
-                   COM = NULL) {
+                   COM = NULL,
+                   verbose = TRUE) {
             if (is.null(con))
                con <- "experiment.mgf"           
             if (class(con) == "character") {
@@ -51,10 +52,21 @@ setMethod("writeMgfData",
                            date(), "\n", sep = "")
             writeLines(COM, con = con)
             splist <- spectra(object)
-            x <- sapply(splist,
-                        writeMgfContent,
-                        TITLE = NULL,
-                        con = con)            
+            ## x <- sapply(splist,
+            ##             writeMgfContent,
+            ##             TITLE = NULL,
+            ##             con = con)
+            if (verbose)
+                pb <- txtProgressBar(min = 0,
+                                     max = length(splist),
+                                     style = 3)
+            for (i in 1:length(splist)) {
+                if (verbose) setTxtProgressBar(pb, i)
+                writeMgfContent(splist[[i]],
+                                TITLE = NULL,
+                                con = con)
+            }
+            if (verbose) close(pb)               
           })
 
 writeMgfContent <- function(sp, TITLE = NULL, con) {

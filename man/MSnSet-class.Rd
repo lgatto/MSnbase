@@ -220,7 +220,7 @@
     }
     \item{filterNA}{signature(object = "MSnSet", pNA = "numeric",
       pattern = "character", droplevels = "logical")}{ This method
-      subsets \code{object} by removing features that have (striclty)
+      subsets \code{object} by removing features that have (strictly)
       more than \code{pNA} percent of NA values. Default \code{pNA} is
       0, which removes any feature that exhibits missing data.
       The method can also be used with a character pattern composed of
