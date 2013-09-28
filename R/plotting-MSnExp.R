@@ -71,7 +71,7 @@ plotMzDelta_MSnExp <- function(object,            ## MSnExp object
   ## Modified aa labelling
   ResidueMass <- ..density.. <- NULL ## to accomodate codetools
   value <- AA <- NULL
-  delta <- c()
+  delta <- vector("list", length(object))
   spNames <- rownames(featureData(object)@data)
   if (verbose) {
     pb <- txtProgressBar(min = 1, max = length(spNames), style = 3)
@@ -79,12 +79,12 @@ plotMzDelta_MSnExp <- function(object,            ## MSnExp object
   }
   if (!is.null(reporters)) {
     if (verbose)
-      cat("Removing reporter ion peaks...\n")
+      message("Removing reporter ion peaks...\n")
     object <- removeReporters(object, reporters, verbose = FALSE)
   }
   ## TODO -- check if there is a precursor mz to remove,
   ## i.e precursorMz != 0
-  for (j in spNames) {
+  for (j in 1:length(object)) {
     if (verbose) {
       setTxtProgressBar(pb, k)
       k <- k + 1
@@ -93,13 +93,14 @@ plotMzDelta_MSnExp <- function(object,            ## MSnExp object
     ## TODO - better than setting precMzWidth statically
     ## would be to get the peaks based on it m/z value
     ## and then find it's upper/lower m/z limits to set to 0
-    sp <- MSnbase:::utils.removePrecMz(sp, precMz, precMzWidth)
-    delta <- c(delta, MSnbase:::utils.getMzDelta(sp, percentage))
+    sp <- utils.removePrecMz(sp, precMz, precMzWidth)
+    delta[[j]] <- utils.getMzDelta(sp, percentage)
   }
   if (verbose) {
     close(pb)
-    cat(" Plotting...\n")
+    message(" Plotting...\n")
   }
+  delta <- unlist(delta)
   delta <- melt(delta)
   p <- ggplot(delta, aes(x = value))
   p <- p +

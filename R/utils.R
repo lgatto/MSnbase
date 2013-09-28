@@ -147,7 +147,7 @@ utils.removePrecMz <- function(spectrum, precMz=NULL,width=2) {
   return(spectrum)
 }
 
-utils.getMzDelta <- function(spectrum, percentage) {
+utils.getMzDelta2 <- function(spectrum, percentage) {
   ## Computes the m/z differences between all the 
   ## 'percentage' top intensity peaks in a spectrum
   ## Contributed by Guangchuang Yu for the plotMzDelta QC
@@ -156,14 +156,15 @@ utils.getMzDelta <- function(spectrum, percentage) {
   idx <- order(i, decreasing=TRUE)
   tops <- idx[1:floor(length(idx) * percentage)] ## top 'percentage' of peaks
   mz.filtered <- mz[tops]
-  delta <- c()   # mass delta
-  while(length(mz.filtered) > 1) {
-    m <- mz.filtered[1]
-    mz.filtered <- mz.filtered[-1]
-    d <- abs(mz.filtered-m)
-    delta <- c(delta, d)
+  delta <- vector("list", length = length(mz.filtered))
+  i <- 1
+  while (length(mz.filtered) > 1) {
+      m <- mz.filtered[1]
+      mz.filtered <- mz.filtered[-1]
+      delta[[i]] <- abs(mz.filtered-m)
+      i <- i+1
   }
-  return(delta)
+  return(unlist(delta))
 }	
 
 
