@@ -2,10 +2,11 @@
 \docType{methods}
 \alias{plotMzDelta-methods}
 \alias{plotMzDelta,MSnExp-method}
+\alias{plotMzDelta,mzRramp-method}
 \alias{plotMzDelta}
 
 
-\title{The delta m/z plot for 'MSnExp' quality assessment}
+\title{The delta m/z plot}
 
 
 \description{
@@ -35,15 +36,15 @@
   below suggest that it might work.
   
   The methods make use the \code{ggplot2} system. An object of class
-  'ggplot' is returned invisibly.
+  \code{ggplot} is returned invisibly.
 
   Most of the code for plotMzDelta has kindly been contributed by
   Guangchuang Yu. 
 }
 
 \arguments{
-  \item{object}{ An object of class \code{"\linkS4class{MSnExp}"}
-    containing MS2 spectra. }
+  \item{object}{ An object of class \code{MSnExp} or \code{mzRramp}
+    (from the \code{mzR} package) containing MS2 spectra. } 
   \item{reporters}{ An object of class class
     \code{"\linkS4class{ReporterIons}"} that defines which reporter ion
     peaks to set to 0. The default value \code{NULL} leaves the spectra

@@ -4,6 +4,9 @@ import(Biobase)
 import(mzR)
 import(impute)
 
+import(ggplot2)
+import(methods)
+
 import(reshape2) ## try to reduce this
 
 ## importFrom(rols, olsQuery, term)

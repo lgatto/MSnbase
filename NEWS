@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.9.10
 -------------------------
  o faster plotMzDelta <2013-09-28 Sat>
+ o faster plotMzDelta for mzRramp instances <2013-09-29 Sun>
 
 CHANGES IN VERSION 1.9.9
 ------------------------
