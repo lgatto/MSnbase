@@ -13,8 +13,8 @@ setMethod("plotMzDelta",c("mzRramp"),
               hd <- header(ms)
               ms2 <- which(hd$msLevel == 2)
               hd <- hd[ms2, ]
-              pl <- peaksAsLists(ms, ms2)              
-              plotMzDelta_list(object, reporters, percentage,
+              pl <- peaksAsLists(ms, ms2)  
+              plotMzDelta_list(pl, reporters, percentage,
                                precMz = hd$precursorMZ,
                                precMzWidth, bw,
                                xlim, withLabels, size,
