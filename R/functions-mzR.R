@@ -194,7 +194,7 @@ xicplot <- function(dd, mz, width, rtlim,
 
 
 ## want a vectorised version
-xic_1 <- function(ms, hd,
+xic_1 <- function(object, ##
                   mz,
                   width = 0.5,
                   rtlim,
@@ -204,13 +204,14 @@ xic_1 <- function(ms, hd,
                   legend=TRUE,
                   plot = TRUE,
                   points = TRUE,
+                  hd,
                   ...) {
     if (!missing(charge))
-        ms <- ms/as.integer(charge)
+        mz <- mz/as.integer(charge)
     if (missing(hd))
-        hd <- header(ms)
+        hd <- header(object)
     ms1 <- which(hd$msLevel == 1)
-    pl <- peaks(ms, ms1)
+    pl <- peaks(object, ms1)
     hd1 <- hd[ms1, ]
     res <- lapply(seq_len(length(pl)),
                   function(i) {
@@ -246,7 +247,7 @@ xic_1 <- function(ms, hd,
             if (any(sel)) {
                 pi <- hd2[sel, "precursorScanNum"]
                 pj <- match(pi, hd1$acquisitionNum)
-                ## pl2 <- peaks(ms, pj) ## relevant MS2 spectra
+                ## pl2 <- peaks(object, pj) ## relevant MS2 spectra
                 .dd2 <- data.frame(int = sapply(res[pj], "[", 2),
                                    rt = hd1$retentionTime[sapply(res[pj], "[", 1)],
                                    mz = sapply(res[pj], "[", 3))

@@ -7,7 +7,7 @@ plot_MSnExp <- function(object,
     i <- NULL # to satisfy codetools
     ## plot_MSnExp: no visible binding for global variable ‘i’
     if (missing(centroided))
-        centroided <- any(MSnbase:::centroided(object))
+        centroided <- any(centroided(object))
     mtc <- unlist(mz(object))
     if (missing(w1)) {
         if (full) w1 <- max(mtc)/500

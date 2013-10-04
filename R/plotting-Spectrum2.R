@@ -12,7 +12,7 @@ plot_Spectrum2 <- function(spectrum,
       stop("Reporters must be of class 'ReporterIons'.")
   }
   if (missing(centroided))
-    centroided <- MSnbase:::centroided(spectrum)
+    centroided <- centroided(spectrum)
   xmin <- xmax <- ymin <- ymax <- fill <- NULL # to satisfy codetools
   ## plot_Spectrum2: no visible binding for global variable ‘xmin’
   ## ...
