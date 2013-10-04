@@ -33,7 +33,7 @@ quantify_Spectrum <- function(spectrum,method,
   curveStats <- c()
   for (i in 1:length(reporters)) {
     ## Curve statistics
-    dfr <- MSnbase:::curveData(spectrum,reporters[i])    
+    dfr <- curveData(spectrum,reporters[i]) 
     ##  dfr:     mz int
     ##  1  114.1023   0
     ##  2  114.1063   2
