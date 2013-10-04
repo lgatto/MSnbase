@@ -158,7 +158,7 @@ makeMTD <- function(x,
   .n <- 0 ## number of reporter ions
   mtd <- c()
   if (is.null(unitId)) 
-    unitId <- MSnbase:::getVariableName(match.call(), "x")
+    unitId <- getVariableName(match.call(), "x")
   if (length(unitId) > 1) {
     unitId <- unitId[1]
     warning("Expecting 'unitId' of length 1. Dropping others.")
@@ -540,7 +540,7 @@ makePEP <- function(x,
     stop("Need instance of class 'MSnSet' to write to mzTab format.")  
   
   if (is.null(unitId)) 
-    unitId <- MSnbase:::getVariableName(match.call(), "x")
+    unitId <- getVariableName(match.call(), "x")
 
   if (!all(is.na(pepSearchEngine))) {
     pepSearchEngine <- sapply(pepSearchEngine,
@@ -754,7 +754,7 @@ makePRT <- function(x,
                     protAbundanceSterr = NULL,
                     protOpt_ = NULL) {
   if (is.null(unitId)) 
-    unitId <- MSnbase:::getVariableName(match.call(), "x")
+    unitId <- getVariableName(match.call(), "x")
   
   if (!all(is.na(protSearchEngine))) {
     protSearchEngine <- sapply(protSearchEngine,
@@ -924,7 +924,7 @@ writeMzTabData <- function(x,
   params <- as.list(match.call())[-1]
   params <- params[!names(params) %in% c("what", "file", "MTD", "append")]
   if (is.null(params$unitId))
-    params$unitId <- MSnbase:::getVariableName(match.call(), "x")    
+    params$unitId <- getVariableName(match.call(), "x")    
   paramNames <- names(params)
 
   selMTD <- paramNames %in% names(formals(makeMTD))

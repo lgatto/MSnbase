@@ -1,10 +1,10 @@
 plot_Spectrum1 <- function(spectrum,
-                           centroided=FALSE,
+                           centroided.=FALSE,
                            plot=TRUE,
                            w1) {
   mtc <- mz(spectrum)
   i <- intensity(spectrum)
-  if (centroided) {
+  if (centroided.) {
     if (missing(w1))
       w1 <- max(mtc)/500
     dfr <- data.frame(i=i,mtc=mtc,width=w1)      
