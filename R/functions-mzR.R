@@ -173,11 +173,13 @@ xicplot <- function(dd, mz, width, rtlim,
             dd2$int[i] <- 0
             dd0 <- which(dd2$int == 0)
             ii <- which(dd0 == i)
+            if (length(ii) < 3) break                
             dd2$int[dd0[ii-1]:dd0[ii+1]] <- 0
         }
-        text(kx,
-             ky,
-             sprintf("%.4f", kz),
+        ksel <- !is.na(kx)
+        text(kx[ksel],
+             ky[ksel],
+             sprintf("%.4f", kz[ksel]),
              pos = 3,
              cex = .75)
     }
@@ -235,7 +237,7 @@ xic_1 <- function(object, ##
                      rt = hd1$retentionTime[sapply(res2, "[", 1)],
                      mz = sapply(res2, "[", 3))
     if (clean) 
-        dd <- dd[MSnbase:::utils.clean(dd$int, all=FALSE), ]
+        dd <- dd[utils.clean(dd$int, all=FALSE), ]
     if (plot) {
         if (missing(rtlim))
             rtlim <- range(dd$rt)

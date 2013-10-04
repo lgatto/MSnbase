@@ -72,6 +72,11 @@ x <- chromatogram(f, main = "Source: mzXML file",
     hd <- header(ms)
     chromatogram(hd, main = "Source: mzRramp header",
                  lty = "dashed")
+
+    library("RforProteomics")
+    f <- getPXD000001mzXML()
+    chromatogram(f)
+    grid()
   }
 }
 

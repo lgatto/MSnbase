@@ -1,13 +1,13 @@
 plot_MSnExp <- function(object,
                         reporters,
                         full = FALSE,
-                        centroided,
+                        centroided.,
                         plot = TRUE,
                         w1) {
     i <- NULL # to satisfy codetools
     ## plot_MSnExp: no visible binding for global variable ‘i’
-    if (missing(centroided))
-        centroided <- any(centroided(object))
+    if (missing(centroided.))
+        centroided. <- any(centroided(object))
     mtc <- unlist(mz(object))
     if (missing(w1)) {
         if (full) w1 <- max(mtc)/500
@@ -30,7 +30,7 @@ plot_MSnExp <- function(object,
         title <- ggtitle(paste("Retention time", rtm))
         full <- TRUE
     }
-    if (centroided) {
+    if (centroided.) {
         p <- ggplot(data = dfr, aes(x = mz, y = i, width = width)) +
             geom_bar(stat = "identity", position = "identity")
     } else {

@@ -18,8 +18,7 @@
     \item{rtlim}{The retention time limit to be displayed. When missing
       (default), the complete range of the matching extracted ions is
       plotted. }
-    \item{npeaks}{The number of peaks to be annotated. Default is
-      3. Note that unreasonable high values will produce errors. }
+    \item{npeaks}{The number of peaks to be annotated. Default is 3.}  
     \item{charge}{The charge of the ion to be extracted. This value is
       optional; when provided, the mass of the ion (\code{mz} above)
       will first be divided by its \code{charge} before extraction. }
@@ -63,8 +62,17 @@
   }
 }
 
-%% \examples{
-%% }
+\examples{
+\dontrun{
+    library("RforProteomics")
+    (f <- getPXD000001mzXML())
+    x <- xic(ms, mz = 636.925, width = 0.01)
+    head(x)
+    xic(ms, mz = 636.925, width = 0.01,
+        npeaks = 1,
+        rtlim = c(2000, 2300))
+}
+}
 
 \keyword{methods}
 

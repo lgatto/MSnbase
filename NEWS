@@ -6,6 +6,7 @@ CHANGES IN VERSION 1.9.10
  o plotMzDelta has subset arg <2013-10-04 Fri>
  o xic method <2013-10-04 Fri>
  o suggesting msdata for chromatogram example <2013-10-04 Fri>
+ o renamed plotting arg 'centroided.' <2013-10-04 Fri>
 
 CHANGES IN VERSION 1.9.9
 ------------------------
