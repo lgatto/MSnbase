@@ -147,24 +147,15 @@ xicplot <- function(dd, mz, width, rtlim,
     ptcex <- .5
     plot(int ~ rt, data = dd,
          ylab = "Counts", xlab = "Retention time [s]",
-         type = "l", xlim = rtlim, ...)
+         type = "l", xlim = rtlim,
+         ...)
     abline(h = 0, col = "grey")
     grid()
     if (legend) 
         legend("topleft",
-               paste0("Precursor:\n", mz-width, "-", mz+width),
+               c(paste0("Precursor: ", mz),
+                 paste0("XIC: ", mz-width, " - ", mz+width)), 
                bty = "n", cex = .75)
-    if (points) {
-        ## colour points that have MS2 event
-        ## hd2 <- hd[-ms1, ]
-        ## col <- rep("grey", length(res2))
-        ## ms1acq <- hd1$acquisitionNum[sapply(res2, "[", 1)]
-        ## matchingms2 <- hd2$precursorScanNum[hd2$precursorMZ > mzs[k] - 0.01 & hd2$precursorMZ < mzs[k] + 0.01]
-        ## any(hd1$retentionTime[sapply(res2, "[", 1)] %in% matchingms2)
-        points(int ~ rt, data = dd,
-               col = "#00000060",
-               pch = 19, cex = ptcex)
-    }
     if (npeaks > 0) {
         dd2 <- dd[dd$rt >= min(rtlim) & dd$rt <= max(rtlim), ]
         dd2$int[dd2$int < max(dd2$int)/100] <- 0
@@ -179,14 +170,21 @@ xicplot <- function(dd, mz, width, rtlim,
             ii <- which(dd0 == i)
             dd2$int[dd0[ii-1]:dd0[ii+1]] <- 0
         }
-        points(kx, ky, cex = ptcex, pch = 19,
-               col = "#FFA404FF")
         text(kx,
              ky,
              sprintf("%.4f", kz),
              pos = 3,
              cex = .75)
-    }    
+    }
+    if (points) {
+        ## relevant MS2 spectra are coloured in xic_1 
+        points(int ~ rt, data = dd,
+               col = "#00000060",
+               pch = 19, cex = ptcex)
+        ## highlight annotated peaks
+        points(kx, ky, cex = ptcex, pch = 19,
+               col = "#FFA404FF")
+    }  
 }
 
 
@@ -200,7 +198,7 @@ xic_1 <- function(ms, hd,
                   clean = TRUE,
                   legend=TRUE,
                   plot = TRUE,
-                  points = FALSE,
+                  points = TRUE,
                   ...) {
     if (!missing(charge))
         ms <- ms/as.integer(charge)
@@ -247,8 +245,8 @@ xic_1 <- function(ms, hd,
                 .dd2 <- data.frame(int = sapply(res[pj], "[", 2),
                                    rt = hd1$retentionTime[sapply(res[pj], "[", 1)],
                                    mz = sapply(res[pj], "[", 3))
-                points(.dd2$rt, .dd2$int, col = "#FF0000AA",
-                       pch = 19, cex = .5)
+                points(.dd2$rt, .dd2$int, col = "#FF0000",
+                       pch = 19, cex = .6)
             }
         }
     }
