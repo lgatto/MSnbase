@@ -11,7 +11,8 @@ peaksAsLists <-  function(object,
     switch(what,
            mz = lapply(pl, function(x) list(mz = x[, 1])),
            int = lapply(pl, function(x) list(int = x[, 2])),
-           both = lapply(pl, function(x) list(mz = x[, 1], int = x[, 2])))
+           both = lapply(pl, function(x) list(mz = x[, 1],
+               int = x[, 2])))
 }
 
 
@@ -20,37 +21,6 @@ list2Spectrum2 <- function(x, ...)
         intensity = x$int,
         mz = x$mz,
         ...)
-
-utils.removePrecMz_list <- function(object,
-                                    precMz,
-                                    width = 2) {
-    if (!is.numeric(precMz)) 
-        stop("precMz must either 'NULL' or numeric.")
-    if (length(precMz) > 2) 
-        stop("precMz must a vector of length 1 or 2.")
-    if (length(precMz) == 1) 
-        precMz <- c(precMz - width, precMz + width)    
-    idx <- which(object$mz > precMz[1] & object$mz < precMz[2])
-    object$int[idx] <- 0
-    return(object)
-}
-
-
-utils.getMzDelta_list <- function (object, percentage) {
-    idx <- order(object$int, decreasing = TRUE)
-    tops <- idx[1:floor(length(idx) * percentage)]
-    mz.filtered <- object$mz[tops]
-    delta <- vector("list", length = length(mz.filtered))
-    i <- 1
-    while (length(mz.filtered) > 1) {
-        m <- mz.filtered[1]
-        mz.filtered <- mz.filtered[-1]
-        delta[[i]] <- abs(mz.filtered - m)
-        i <- i+1
-    }
-    return(unlist(delta))
-}
-
 
 plotMzDelta_list <- function(object,            ## peakLists
                              reporters = NULL,  ## reporters to be removed
@@ -63,10 +33,8 @@ plotMzDelta_list <- function(object,            ## peakLists
                              size = 2.5,        ## labels size
                              plot = TRUE,       ## plot figure
                              verbose = TRUE) {
-    ## Contributed by Guangchuang Yu for the plotMzDelta QC
-    ## Modified aa labelling
     if (missing(precMz))
-        stop("Precursor M/Z is only optional for MSnExp instances.")
+        stop("Precursor M/Z is only supported for MSnExp instances.")
     ResidueMass <- ..density.. <- NULL ## to accomodate codetools
     value <- AA <- NULL
     delta <- vector("list", length(object))
@@ -141,3 +109,148 @@ plotMzDelta_list <- function(object,            ## peakLists
     invisible(p)
 }
 
+
+.chromatogram <- function(hd, 
+                          y = c("tic", "bpi"),
+                          legend = TRUE,
+                          plot = TRUE,
+                          ...) {
+    y <- match.arg(y)
+    ylab <- switch(y,
+                tic = "Total ion current",
+                bpi = "Base peak intensity")
+    yy <- switch(y,
+                tic = 100 * hd$totIonCurrent / max(hd$totIonCurrent),
+                bpi = 100 * hd$basePeakIntensity / max(hd$basePeakIntensity))
+    xx <- hd$retentionTime
+    if (plot) {
+        plot(yy ~ xx, type = "l", 
+             xlab = "Time (sec)", ylab = ylab,
+             ...)
+        abline(h = 0)
+        if (legend)
+            legend("topleft",
+                   c(basename(fileName(ms)),
+                     sprintf("%s: %.3g", toupper(y),
+                             max(hd$totIonCurrent))),
+                   col = NA,
+                   cex = .7,
+                   bty = "n")
+    }
+    dd <- data.frame(xx, yy)
+    colnames(dd) <- c("rt", y)
+    invisible(dd)
+}
+
+xicplot <- function(dd, mz, width, rtlim,
+                    npeaks, legend, points, ...) {
+    ptcex <- .5
+    plot(int ~ rt, data = dd,
+         ylab = "Counts", xlab = "Retention time [s]",
+         type = "l", xlim = rtlim, ...)
+    abline(h = 0, col = "grey")
+    grid()
+    if (legend) 
+        legend("topleft",
+               paste0("Precursor:\n", mz-width, "-", mz+width),
+               bty = "n", cex = .75)
+    if (points) {
+        ## colour points that have MS2 event
+        ## hd2 <- hd[-ms1, ]
+        ## col <- rep("grey", length(res2))
+        ## ms1acq <- hd1$acquisitionNum[sapply(res2, "[", 1)]
+        ## matchingms2 <- hd2$precursorScanNum[hd2$precursorMZ > mzs[k] - 0.01 & hd2$precursorMZ < mzs[k] + 0.01]
+        ## any(hd1$retentionTime[sapply(res2, "[", 1)] %in% matchingms2)
+        points(int ~ rt, data = dd,
+               col = "#00000060",
+               pch = 19, cex = ptcex)
+    }
+    if (npeaks > 0) {
+        dd2 <- dd[dd$rt >= min(rtlim) & dd$rt <= max(rtlim), ]
+        dd2$int[dd2$int < max(dd2$int)/100] <- 0
+        kx <- ky <- kz<- rep(NA, npeaks)        
+        for (.k in 1:length(kx)) {
+            i <- order(dd2$int, decreasing = TRUE)[1]
+            kx[.k] <- dd2$rt[i]
+            ky[.k] <- dd2$int[i]
+            kz[.k] <- dd2$mz[i]
+            dd2$int[i] <- 0
+            dd0 <- which(dd2$int == 0)
+            ii <- which(dd0 == i)
+            dd2$int[dd0[ii-1]:dd0[ii+1]] <- 0
+        }
+        points(kx, ky, cex = ptcex, pch = 19,
+               col = "#FFA404FF")
+        text(kx,
+             ky,
+             sprintf("%.4f", kz),
+             pos = 3,
+             cex = .75)
+    }    
+}
+
+
+## want a vectorised version
+xic_1 <- function(ms, hd,
+                  mz,
+                  width = 0.5,
+                  rtlim,
+                  npeaks = 3,
+                  charge,
+                  clean = TRUE,
+                  legend=TRUE,
+                  plot = TRUE,
+                  points = FALSE,
+                  ...) {
+    if (!missing(charge))
+        ms <- ms/as.integer(charge)
+    if (missing(hd))
+        hd <- header(ms)
+    ms1 <- which(hd$msLevel == 1)
+    pl <- peaks(ms, ms1)
+    hd1 <- hd[ms1, ]
+    res <- lapply(seq_len(length(pl)),
+                  function(i) {
+                      ## matching peaks
+                      sel <- pl[[i]][, 1] > mz - width &
+                          pl[[i]][, 1] < mz + width
+                      ans <- NA
+                      if (any(sel)) {
+                          j <- which.max(pl[[i]][sel, 2])
+                          ## index, intensity, mz
+                          ans <- c(i, pl[[i]][sel, 2][j],
+                                   pl[[i]][sel, 1][j])
+                      }
+                      ans
+                  })    
+    if (length(res2 <- res[!is.na(res)]) == 0)
+        stop("No matching peaks found.")
+    if (length(res2) < 15)
+        warning("Only ", length(res2), "matching spectra found.")
+    dd <- data.frame(int = sapply(res2, "[", 2),
+                     rt = hd1$retentionTime[sapply(res2, "[", 1)],
+                     mz = sapply(res2, "[", 3))
+    if (clean) 
+        dd <- dd[MSnbase:::utils.clean(dd$int, all=FALSE), ]
+    if (plot) {
+        if (missing(rtlim))
+            rtlim <- range(dd$rt)
+        xicplot(dd, mz, width, rtlim, npeaks, legend, points, ...)
+        if (points) {
+            hd2 <- hd[-ms1, ]
+            sel <- hd2$precursorMZ > mz - width &
+                hd2$precursorMZ < mz + width
+            if (any(sel)) {
+                pi <- hd2[sel, "precursorScanNum"]
+                pj <- match(pi, hd1$acquisitionNum)
+                ## pl2 <- peaks(ms, pj) ## relevant MS2 spectra
+                .dd2 <- data.frame(int = sapply(res[pj], "[", 2),
+                                   rt = hd1$retentionTime[sapply(res[pj], "[", 1)],
+                                   mz = sapply(res[pj], "[", 3))
+                points(.dd2$rt, .dd2$int, col = "#FF0000AA",
+                       pch = 19, cex = .5)
+            }
+        }
+    }
+    invisible(dd)
+}

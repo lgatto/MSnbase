@@ -109,6 +109,7 @@ setMethod("plotDensity",c("data.frame"),
 
 setMethod("plotMzDelta",c("MSnExp"),
           function(object, reporters=NULL,
+                   subset,
                    percentage=0.1,
                    precMz=NULL,
                    precMzWidth=2,
@@ -117,11 +118,25 @@ setMethod("plotMzDelta",c("MSnExp"),
                    withLabels=TRUE,
                    size=2.5,
                    plot=TRUE,
-                   verbose=TRUE)
-          plotMzDelta_MSnExp(object, reporters, percentage,
-                             precMz, precMzWidth,bw,
-                             xlim, withLabels, size,
-                             plot, verbose))
+                   verbose=TRUE) {
+              if (!missing(subset)) {
+                  if (subset <= 0 | subset >= 1) {
+                      warning('subset must be in ]0, 1[. Ignoring ',
+                              subset, '.', immediate. = TRUE) 
+                  } else {
+                      n <- length(object)
+                      .subset <- sample(n, ceiling(n * subset))
+                      object <- object[.subset]
+                      if (verbose)
+                          message("Subset to ", length(object),
+                                  " spectra.")
+                  }
+              }
+              plotMzDelta_MSnExp(object, reporters, percentage,
+                                 precMz, precMzWidth,bw,
+                                 xlim, withLabels, size,
+                                 plot, verbose)
+      })
 
 setMethod("clean",
           signature=signature("MSnExp"),

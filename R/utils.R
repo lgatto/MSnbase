@@ -8,7 +8,7 @@ formatRt <- function(rt) {
   return(paste(min,":",sec,sep=""))
 }
 
-utils.removePeaks <- function(int,t) {
+utils.removePeaks <- function(int, t) {
   ## Description:
   ## Given a vector of intensities 'int' and a threshold 't',
   ## this function returns vector of same length with all
@@ -28,7 +28,22 @@ utils.removePeaks <- function(int,t) {
   return(int)
 }
 
-utils.clean <- function(x, all) {
+utils.removePrecMz_list <- function(object,
+                                    precMz,
+                                    width = 2) {
+    if (!is.numeric(precMz)) 
+        stop("precMz must either 'NULL' or numeric.")
+    if (length(precMz) > 2) 
+        stop("precMz must a vector of length 1 or 2.")
+    if (length(precMz) == 1) 
+        precMz <- c(precMz - width, precMz + width)    
+    idx <- which(object$mz > precMz[1] & object$mz < precMz[2])
+    object$int[idx] <- 0
+    return(object)
+}
+
+
+utils.clean <- function(x, all = FALSE) {
   ## Given an numeric x, this function
   ## returns a logical b of length(x) where
   ## non-zero values and their direct
@@ -42,13 +57,12 @@ utils.clean <- function(x, all) {
   ## x[b]:     1 0 1 1 1 0 1 1 0 1 0
   
   n <- length(x) 
-  b <- as.logical(rep(1,n)) ## initialise to TRUE
+  b <- rep(TRUE, n) 
   if (all) {    
     b[x == 0] <- FALSE
   } else {
     zeroRanges <- IRanges(sapply(x,"==",0))
-
-    sapply(zeroRanges,function(x){
+    sapply(zeroRanges, function(x){
       if (length(x)>2)
         b[x[2:(length(x)-1)]] <<- FALSE 
     })
@@ -167,6 +181,20 @@ utils.getMzDelta <- function(spectrum, percentage) {
   return(unlist(delta))
 }	
 
+utils.getMzDelta_list <- function (object, percentage) {
+    idx <- order(object$int, decreasing = TRUE)
+    tops <- idx[1:floor(length(idx) * percentage)]
+    mz.filtered <- object$mz[tops]
+    delta <- vector("list", length = length(mz.filtered))
+    i <- 1
+    while (length(mz.filtered) > 1) {
+        m <- mz.filtered[1]
+        mz.filtered <- mz.filtered[-1]
+        delta[[i]] <- abs(mz.filtered - m)
+        i <- i+1
+    }
+    return(unlist(delta))
+}
 
 fillUp <- function(x) {
   if (!any(is.na(x)) & !any(x != "")) 

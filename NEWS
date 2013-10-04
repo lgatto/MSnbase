@@ -2,6 +2,9 @@ CHANGES IN VERSION 1.9.10
 -------------------------
  o faster plotMzDelta <2013-09-28 Sat>
  o faster plotMzDelta for mzRramp instances <2013-09-29 Sun>
+ o chromatogram method <2013-10-04 Fri>
+ o plotMzDelta has subset arg <2013-10-04 Fri>
+ o xic method <2013-10-04 Fri>
 
 CHANGES IN VERSION 1.9.9
 ------------------------

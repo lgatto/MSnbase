@@ -5,9 +5,7 @@
 \alias{plotMzDelta,mzRramp-method}
 \alias{plotMzDelta}
 
-
 \title{The delta m/z plot}
-
 
 \description{
   The m/z delta plot illustrates the suitability of MS2 spectra for
@@ -49,6 +47,8 @@
     \code{"\linkS4class{ReporterIons}"} that defines which reporter ion
     peaks to set to 0. The default value \code{NULL} leaves the spectra
     as they are. }
+  \item{subset}{ A numeric between 0 and 1 to use a subset of 
+    \code{object}'s MS2 spectra. } 
   \item{percentage}{ The percentage of most intense peaks to be used for
     the plot. Default is 0.1.}
   \item{precMz}{ A \code{numeric} of length one or \code{NULL}
@@ -102,7 +102,10 @@
 }
 
 \examples{
-mzdplot <- plotMzDelta(itraqdata,reporters=iTRAQ4,verbose=FALSE,plot=FALSE)
+mzdplot <- plotMzDelta(itraqdata,
+                       subset = 0.5,
+                       reporters = iTRAQ4,
+                       verbose = FALSE, plot = FALSE)
 ## let's retrieve peptide sequence information
 ## and get a table of amino acids
 peps <- as.character(fData(itraqdata)$PeptideSequence)
