@@ -5,6 +5,7 @@ CHANGES IN VERSION 1.9.10
  o chromatogram method <2013-10-04 Fri>
  o plotMzDelta has subset arg <2013-10-04 Fri>
  o xic method <2013-10-04 Fri>
+ o suggesting msdata for chromatogram example <2013-10-04 Fri>
 
 CHANGES IN VERSION 1.9.9
 ------------------------

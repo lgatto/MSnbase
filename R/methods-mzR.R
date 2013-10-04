@@ -36,30 +36,58 @@ setMethod("plotMzDelta", "mzRramp",
           })
 
 
+setMethod("chromatogram", "character",
+          function(object,
+                   y = c("tic", "bpi"),
+                   legend = TRUE,
+                   plot = TRUE,
+                   ms = 1L,
+                   ...) {
+              object <- openMSfile(object)
+              on.exit(close(object))
+              hd <- header(object)
+              f <- basename(fileName(object))
+              chromatogram(hd, y, f, legend, plot, ms, ...)
+          })
+
 setMethod("chromatogram", "mzRramp",
           function(object,
                    y = c("tic", "bpi"),
                    legend = TRUE,
                    plot = TRUE,
+                   ms = 1L,
                    ...) {                    
-          hd <- header(object)          
-          .chromatogram(hd, y, legend, plot, ...)
+          hd <- header(object)
+          f <- basename(fileName(object))
+          chromatogram(hd, y, f, legend, plot, ms, ...)
       })
 
 setMethod("chromatogram", "data.frame",
           function(object,
                    y = c("tic", "bpi"),
+                   f,
                    legend = TRUE,
                    plot = TRUE,
-                   ...) {          
+                   ms = 1L,
+                   ...) { 
           stopifnot("retentionTime" %in% colnames(object))
+          stopifnot("msLevel" %in% colnames(object))
           y <- match.arg(y)
           chck <- switch(y,
                          tic = stopifnot("totIonCurrent" %in% colnames(object)),
-                         bpi = stopifnot("basePeakIntensity" %in% colnames(object)))          
-          .chromatogram(object, y, legend, plot, ...)
+                         bpi = stopifnot("basePeakIntensity" %in% colnames(object)))
+          object <- object[object$msLevel == ms, ]
+          if (nrow(object) == 0)
+              stop("No spectra of level ", ms, " found.")
+          .chromatogram(object, y, f, legend, plot, ...)
       })
 
 
 setMethod("xic", "mzRramp",
           function(object, ...) xic_1(object, ...))
+
+setMethod("xic", "character",
+          function(object, ...) {
+              object <- openMSfile(object)
+              xic_1(object, ...)
+          })

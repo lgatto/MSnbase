@@ -112,6 +112,7 @@ plotMzDelta_list <- function(object,            ## peakLists
 
 .chromatogram <- function(hd, 
                           y = c("tic", "bpi"),
+                          f, 
                           legend = TRUE,
                           plot = TRUE,
                           ...) {
@@ -120,22 +121,26 @@ plotMzDelta_list <- function(object,            ## peakLists
                 tic = "Total ion current",
                 bpi = "Base peak intensity")
     yy <- switch(y,
-                tic = 100 * hd$totIonCurrent / max(hd$totIonCurrent),
-                bpi = 100 * hd$basePeakIntensity / max(hd$basePeakIntensity))
+                tic = hd$totIonCurrent / max(hd$totIonCurrent),
+                bpi = hd$basePeakIntensity / max(hd$basePeakIntensity))
+    yy <- yy * 100
     xx <- hd$retentionTime
     if (plot) {
         plot(yy ~ xx, type = "l", 
              xlab = "Time (sec)", ylab = ylab,
              ...)
         abline(h = 0)
-        if (legend)
+        if (legend) {
+            leg <- sprintf("%s: %.3g", toupper(y),
+                           max(hd$totIonCurrent))
+            if (!missing(f))
+                leg <- c(f, leg)                    
             legend("topleft",
-                   c(basename(fileName(ms)),
-                     sprintf("%s: %.3g", toupper(y),
-                             max(hd$totIonCurrent))),
+                   leg,
                    col = NA,
                    cex = .7,
                    bty = "n")
+        }
     }
     dd <- data.frame(xx, yy)
     colnames(dd) <- c("rt", y)

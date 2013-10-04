@@ -128,7 +128,8 @@ exportMethods(coerce,
               impute,
               topN,
               filterNA,
-              chromatogram)
+              chromatogram, 
+              xic)
 
 ## methods NOT exported
 ## curveStats
