@@ -297,7 +297,7 @@ precSelection <- function(object,n=NULL) {
   if (!is.null(n))
     allPrecs <- round(allPrecs,n)
   number.selection <- c()
-  scanNums <- MSnbase:::precScanNum(object)
+  scanNums <- precScanNum(object)
   uprecmz <- unique(allPrecs)
   for (mp in uprecmz)
       number.selection <- c(number.selection,

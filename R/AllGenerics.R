@@ -83,3 +83,8 @@ setGeneric("topN", function(object,...) standardGeneric("topN"))
 
 setGeneric("exprsToRatios",function(object,...) standardGeneric("exprsToRatios"))
 setGeneric("impute",function(object, ...) standardGeneric("impute"))
+
+## mzR
+setGeneric("chromatogram",function(object, ...) standardGeneric("chromatogram"))
+setGeneric("xic",function(object, ...) standardGeneric("xic"))
+

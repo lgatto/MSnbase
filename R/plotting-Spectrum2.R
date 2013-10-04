@@ -1,7 +1,7 @@
 plot_Spectrum2 <- function(spectrum,
                            reporters = NULL,
                            full = FALSE,
-                           centroided,
+                           centroided.,
                            plot = TRUE,                          
                            w1, w2) {
   alpha <- NULL # to satisfy codetools 'no visible binding...'
@@ -11,8 +11,8 @@ plot_Spectrum2 <- function(spectrum,
     if (class(reporters) != "ReporterIons")
       stop("Reporters must be of class 'ReporterIons'.")
   }
-  if (missing(centroided))
-    centroided <- MSnbase:::centroided(spectrum)
+  if (missing(centroided.))
+    centroided. <- centroided(spectrum)
   xmin <- xmax <- ymin <- ymax <- fill <- NULL # to satisfy codetools
   ## plot_Spectrum2: no visible binding for global variable ‘xmin’
   ## ...
@@ -29,7 +29,7 @@ plot_Spectrum2 <- function(spectrum,
   mainvp <- viewport(width = 1, height = 1, x = 0.5, y = 0.5)
   title <- ggtitle(paste("Precursor M/Z",
                          round(precursorMz(spectrum), 2)))
-  if (centroided) {
+  if (centroided.) {
     p <- ggplot(dfr, aes(x = mtc, y = i, width = width)) +
       theme(legend.position = "none") +
         labs(x = "M/Z", y = "Intensity") +
@@ -71,7 +71,7 @@ plot_Spectrum2 <- function(spectrum,
                             ymax = ymax,
                             fill = fill,
                             alpha = alpha))
-      if (centroided) {
+      if (centroided.) {
         p2 <- ggplot(dfr2, aes(x = mtc, y = i, width = width)) + 
           geom_bar(stat = "identity", position = "identity") +
             rect
