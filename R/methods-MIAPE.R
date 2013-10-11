@@ -132,3 +132,19 @@ setMethod("combine",
             if (validObject(x))
               return(x)
           })
+
+
+
+setAs("MIAPE", "MIAME",
+      function (from)
+      new("MIAME",
+          name = from@name,
+          lab = from@lab,
+          contact = from@contact, 
+          title = from@title,
+          abstract = from@abstract,
+          url = from@url,
+          pubMedIds = from@pubMedIds,
+          samples = from@other))
+
+as.MIAME.MIAPE <- function(x) as(x,"MIAME")
