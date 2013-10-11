@@ -182,7 +182,7 @@
     \item{as(,"ExpressionSet")}{\code{signature(x = "MSnSet")}: Coerce
       object from \code{MSnSet} to
       \code{\link{ExpressionSet-class}}. The \code{experimentData} slot is 
-      dropped. }
+      converted to a \code{MIAME} instance. }
     \item{as(,"data.frame")}{\code{signature(x = "MSnSet")}: Coerce
       object from \code{MSnSet} to \code{data.frame}. The \code{MSnSet}
       is transposed and the \code{PhenoData} slot is appended.      
