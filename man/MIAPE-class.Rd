@@ -41,6 +41,8 @@
 \alias{notes,MIAPE-method}
 \alias{notes<-,MIAPE-method}
 \alias{combine,MIAPE,MIAPE-method}
+\alias{as.MIAME.MIAPE}
+\alias{coerce,MIAPE,MIAME-method}
 
 \title{The "MIAPE" Class for Storing Proteomics Experiment Information}
 
@@ -179,6 +181,9 @@
       \code{instrumentManufacturer} slot.}
     \item{\code{instrumentCustomisations(MIAPE)}:}{ An accessor function for
       \code{instrumentCustomisations} slot.}
+    \item{\code{as(,"MIAME")}:}{Coerce the object from \code{MIAPE} to
+      \code{MIAME} class. Used when converting an \code{MSnSet} into an
+      \code{ExpressionSet}. }
   }
   
   MIAPE-specific methods, including MIAPE-MS meta-data:
