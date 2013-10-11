@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.9.11
+-------------------------
+ o MIAPE to MIAME conversion <2013-10-11 Fri>
+ o proper MIAME when MSnSet -> ExpressionSet <2013-10-11 Fri>
+
 CHANGES IN VERSION 1.9.10
 -------------------------
  o faster plotMzDelta <2013-09-28 Sat>
