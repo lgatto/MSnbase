@@ -4,6 +4,14 @@ test_that("MSnSet validity", {
   expect_true(validObject(new("MSnSet")))
 })
 
+test_that("MSnSet coersion", {
+    library("pRolocdata")
+    data(dunkley2006)
+    expect_true(validObject(dunkley2006))
+    es <- as(dunkley2006, "ExpressionSet")
+    expect_true(validObject(es))
+})
+
 
 test_that("Combine MSnSet features", {
   aa <- new("MSnSet",

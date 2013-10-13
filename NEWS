@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.9.12
+-------------------------
+ o fix MSnSet -> ExpressionSet <2013-10-13 Sun>
+ o MSnSet -> ExpressionSet unit test <2013-10-13 Sun>
+
 CHANGES IN VERSION 1.9.11
 -------------------------
  o MIAPE to MIAME conversion <2013-10-11 Fri>

@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: MSnbase: Base Functions and Classes for MS-based Proteomics
-Version: 1.9.11
+Version: 1.9.12
 Description: Basic plotting, data manipulation and processing 
 	     of MS-based Proteomics data
 Authors@R: c(person(given = "Laurent", family = "Gatto",
@@ -17,7 +17,7 @@ Depends: R (>= 2.10), methods, BiocGenerics (>= 0.7.1),
 Imports: plyr, IRanges, preprocessCore, vsn, grid, 
 	 reshape2, stats4, affy, impute
 Suggests: testthat, zoo, knitr (>= 1.1.0), rols, 
-	  Rdisop, pRolocdata, msdata
+	  Rdisop, pRolocdata, msdata, pRolocdata
 Enhances: foreach, doMC, parallel
 License: Artistic-2.0
 biocViews: Infrastructure, Bioinformatics, Proteomics, MassSpectrometry, QualityControl

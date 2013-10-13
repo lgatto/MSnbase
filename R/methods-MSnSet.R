@@ -247,7 +247,7 @@ setAs("MSnSet", "ExpressionSet",
           phenoData = phenoData(from),
           featureData = featureData(from),
           annotation = annotation(from),
-          experimentData = as(experimentData(from), "MIAPE"), 
+          experimentData = as(experimentData(from), "MIAME"), 
           protocolData = protocolData(from))
       )
 
