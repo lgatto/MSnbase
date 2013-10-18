@@ -15,6 +15,11 @@
   The coefficient of variations are automatically computed and collated
   to the featureData slot. See \code{cv} and \code{cv.norm} arguments
   for details.
+
+  NB: All the functions available as \code{fun} take a \code{na.rm}
+  argument. This argument is \code{FALSE} by default. This will have as
+  effect that \code{NA} get propagated at the higher level. It is
+  generally advised to set \code{na.rm = TRUE}. See the example below.   
 }
 
 \usage{
@@ -68,12 +73,22 @@ combineFeatures(object, groupBy, fun = c("mean", "median", "weighted.mean", "sum
 data(itraqdata)
 quant <- quantify(itraqdata[11:15], method = "max", reporters = iTRAQ4)
 dim(quant)
+exprs(quant)
 ## arbitrary grouping into two groups
 grp <- as.factor(c(1, 1, 2, 2, 2))
 quant.comb <- combineFeatures(quant, grp, "sum")
 dim(quant.comb)
 exprs(quant.comb)
 fvarLabels(quant.comb)
+
+## missing data
+exprs(quant)[4, 4] <- 
+    exprs(quant)[2, 2] <- NA
+exprs(quant)
+## NAs propagate in the 115 and 117 channels 
+exprs(combineFeatures(quant, grp, "sum"))
+## NAs are removed before summing 
+exprs(combineFeatures(quant, grp, "sum", na.rm = TRUE))
 }
 
 %% \keyword{ ~kwd1 }
