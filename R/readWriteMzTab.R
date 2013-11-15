@@ -912,58 +912,58 @@ writeMzTabData <- function(x,
                            append = FALSE,
                            MTD = TRUE,
                            file, ...) {
-
-  if (!require(rols))
-    stop("The 'rols' package is required for mzTab write support.")
+    warning("Support for mzTab version 0.9 only. Support will be added soon.")
+    if (!require(rols))
+        stop("The 'rols' package is required for mzTab write support.")
     
-  if (missing(file))
-    stop("To which file would you like the data to be saved to?")
-  
-  what <- match.arg(what)
+    if (missing(file))
+        stop("To which file would you like the data to be saved to?")
+    
+    what <- match.arg(what)
 
-  params <- as.list(match.call())[-1]
-  params <- params[!names(params) %in% c("what", "file", "MTD", "append")]
-  if (is.null(params$unitId))
-    params$unitId <- getVariableName(match.call(), "x")    
-  paramNames <- names(params)
+    params <- as.list(match.call())[-1]
+    params <- params[!names(params) %in% c("what", "file", "MTD", "append")]
+    if (is.null(params$unitId))
+        params$unitId <- getVariableName(match.call(), "x")    
+    paramNames <- names(params)
 
-  selMTD <- paramNames %in% names(formals(makeMTD))
-  selPEP <- paramNames %in% names(formals(makePEP))
-  selPRT <- paramNames %in% names(formals(makePRT))
-  
-  noSel <- !(selMTD | selPEP | selPRT)
-  if (any(noSel))
-    warning("Parameter(s) [", paste(paramNames[noSel], collapse = ", "),
-            "] unknown and discarded.")
+    selMTD <- paramNames %in% names(formals(makeMTD))
+    selPEP <- paramNames %in% names(formals(makePEP))
+    selPRT <- paramNames %in% names(formals(makePRT))
+    
+    noSel <- !(selMTD | selPEP | selPRT)
+    if (any(noSel))
+        warning("Parameter(s) [", paste(paramNames[noSel], collapse = ", "),
+                "] unknown and discarded.")
 
-  if (MTD) {
-    mtdParams <- formals(makeMTD)
-    mtdParams[paramNames[selMTD]] <- params[selMTD]
-    formals(makeMTD) <- mtdParams
-    mtd <- makeMTD()
-   }
+    if (MTD) {
+        mtdParams <- formals(makeMTD)
+        mtdParams[paramNames[selMTD]] <- params[selMTD]
+        formals(makeMTD) <- mtdParams
+        mtd <- makeMTD()
+    }
 
-  if (what == "PEP") {
-    pepParams <- formals(makePEP)
-    pepParams[paramNames[selPEP]] <- params[selPEP]
-    formals(makePEP) <- pepParams
-    tab <- makePEP()
-    PRE1 <- "PEH"
-    PRE2 <- "PEP"
-  } else { ## PRT
-    prtParams <- formals(makePRT)
-    prtParams[paramNames[selPRT]] <- params[selPRT]
-    formals(makePRT) <- prtParams
-    tab <- makePRT()
-    PRE1 <- "PRH"
-    PRE2 <- "PRT"
-  }
+    if (what == "PEP") {
+        pepParams <- formals(makePEP)
+        pepParams[paramNames[selPEP]] <- params[selPEP]
+        formals(makePEP) <- pepParams
+        tab <- makePEP()
+        PRE1 <- "PEH"
+        PRE2 <- "PEP"
+    } else { ## PRT
+        prtParams <- formals(makePRT)
+        prtParams[paramNames[selPRT]] <- params[selPRT]
+        formals(makePRT) <- prtParams
+        tab <- makePRT()
+        PRE1 <- "PRH"
+        PRE2 <- "PRT"
+    }
 
-  if (MTD) 
-    cat(mtd, file = file, append = append, sep = "")  
-  cat(paste0(PRE1, "\t", paste(colnames(tab), collapse = "\t"), "\n"), sep = "", file = file, append = TRUE)  
-  cat(paste0(PRE2, "\t", apply(tab, 1, paste, collapse = "\t"), "\n"), sep = "", file = file, append = TRUE)
-  invisible(NULL)
+    if (MTD) 
+        cat(mtd, file = file, append = append, sep = "")  
+    cat(paste0(PRE1, "\t", paste(colnames(tab), collapse = "\t"), "\n"), sep = "", file = file, append = TRUE)  
+    cat(paste0(PRE2, "\t", apply(tab, 1, paste, collapse = "\t"), "\n"), sep = "", file = file, append = TRUE)
+    invisible(NULL)
 }
 
 ##' This function can be used to create a \code{"\linkS4class{MSnSet}"}
@@ -984,7 +984,7 @@ writeMzTabData <- function(x,
 ##' @seealso \code{\link{writeMzTabData}} to save an
 ##' \code{"\linkS4class{MSnSet}"} as an \code{mzTab} file.
 ##' @examples
-##' testfile <- "http://mztab.googlecode.com/svn/specification/trunk/examples/mztab_itraq_example.txt"
+##' testfile <- "http://mztab.googlecode.com/svn/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"
 ##' prot <- readMzTabData(testfile, "PRT")
 ##' prot
 ##' pep <- readMzTabData(testfile, "PEP")
@@ -992,149 +992,155 @@ writeMzTabData <- function(x,
 readMzTabData <- function(file,
                           what = c("PRT", "PEP"),
                           verbose = TRUE) {
-  what <- match.arg(what)
-  
-  ## .parse1 <- function(x)
-  ##   sapply(x, function(.x) strsplit(.x, "\t")[[1]][-1])
-  .parse <- function(x) {    
-    x <- sapply(x, function(.x) sub("\t", ":", .x))
-    names(x) <- sub("^(.+sub\\[[0-9*]\\]).+$", "\\1", x, perl = TRUE)
-    x[order(names(x))]
-  }
-  
-  lns <- readLines(file)
-  ans <- new("MSnSet")
-
-  ## metadata section
-  mtd <- grep("^MTD", lns, value = TRUE) 
-  if (length(mtd) > 0) {
-    if (verbose)
-      message("Detected a metadata section")
-    mtd <- sub("MTD\t", "", mtd)
-    if (length(title <- grep("-title\t", mtd, value = TRUE)) > 0)
-      ans@experimentData@title <- .parse(title)
-    if (length(description <- grep("-description\t", mtd, value = TRUE)) > 0) {
-      ans@experimentData@other$description <- .parse(description) 
-      ## description <- description[-grep("sub", description)] ## added later to experimentData@samples
-      ## if (length(description) > 0)
-      ##   ans@experimentData@other$description <- .parse(description)
+    warning("Support for mzTab version 0.9 only. Support will be added soon.")
+    
+    what <- match.arg(what)
+    
+    ## .parse1 <- function(x)
+    ##   sapply(x, function(.x) strsplit(.x, "\t")[[1]][-1])
+    .parse <- function(x) {    
+        x <- sapply(x, function(.x) sub("\t", ":", .x))
+        names(x) <- sub("^(.+sub\\[[0-9*]\\]).+$", "\\1", x, perl = TRUE)
+        x[order(names(x))]
     }
-    if (length(sampleProcessing <- grep("-sample_processing\t", mtd, value = TRUE)) > 0)
-      ans@experimentData@other$sampleProcessing <- .parse(sampleProcessing)
-    if (length(instrumentSource <- grep("-instrument\\[[0-9]*\\]-source\t", mtd, value = TRUE)) > 0) 
-      ans@experimentData@ionSource <- .parse(instrumentSource)
-    if (length(instrumentAnalyzer <- grep("-instrument\\[[0-9]*\\]-analyzer\t", mtd, value = TRUE)) > 0) 
-      ans@experimentData@analyser <- .parse(instrumentAnalyzer)
-    if (length(instrumentDetector <- grep("-instrument\\[[0-9]*\\]-detector\t", mtd, value = TRUE)) > 0) 
-      ans@experimentData@detectorType <- .parse(instrumentDetector)
-    if (length(software <- grep("-software\\[[0-9]*\\]\t", mtd, value = TRUE)) > 0) 
-      ans@experimentData@preprocessing <- as.list(.parse(software))
-    if (length(fdr <- grep("-false_discovery_rate\t", mtd, value = TRUE)) > 0)
-      ans@experimentData@other$fdr <- .parse(fdr)
-    if (length(publications <- grep("-publication\t", mtd, value = TRUE)) > 0)
-      ans@experimentData@pubMedIds <- .parse(publications)
-    if (length(name <- grep("-contact\\[[0-9]*\\]-name\t", mtd, value = TRUE)) > 0) 
-      ans@experimentData@name <- .parse(name)
-    if (length(affiliation <- grep("-contact\\[[0-9]*\\]-affiliation\t", mtd, value = TRUE)) > 0) 
-      ans@experimentData@lab <- .parse(affiliation)
-    if (length(email <- grep("-contact\\[[0-9]*\\]-email\t", mtd, value = TRUE)) > 0) 
-      ans@experimentData@email <- .parse(email)
-    if (length(uri <- grep("-uri\t", mtd, value = TRUE)) > 0) 
-      ans@experimentData@url <- .parse(uri)
-    if (length(mod <- grep("-mod\t", mtd, value = TRUE)) > 0)
-      ans@experimentData@other$modifications <- .parse(mod)
-    if (length(modprob <- grep("-mod-probability_method\t", mtd, value = TRUE)) > 0)
-      ans@experimentData@other$modProbabilityMethod <- .parse(modprob)
-    if (length(quantMethod <- grep("-quantification_method\t", mtd, value = TRUE)) > 0)
-      ans@experimentData@other$quantificationMethod <- .parse(quantMethod)
-    if (length(protQuantUnit <- grep("-protein-quantification_unit\t", mtd, value = TRUE)) > 0)
-      ans@experimentData@other$protQuantUnit <- .parse(protQuantUnit)
-    if (length(pepQuantUnit <- grep("-peptide-quantification_unit\t", mtd, value = TRUE)) > 0)
-      ans@experimentData@other$pepQuantUnit <- .parse(pepQuantUnit)
-    if (length(msFileFormat <- grep("-ms_file\\[[0-9]*\\]-format\t", mtd, value = TRUE)) > 0) 
-      ans@experimentData@other$msFileFormat <- .parse(msFileFormat)
-    if (length(msFile <- grep("-ms_file\\[[0-9]*\\]-location\t", mtd, value = TRUE)) > 0) 
-      ans@processingData@files <- .parse(msFile)
-    if (length(msFileIdFormat <- grep("-ms_file\\[[0-9]*\\]-id_format\t", mtd, value = TRUE)) > 0) 
-      ans@experimentData@other$msFileIdFormat <- .parse(msFileIdFormat)
-    if (length(custom <- grep("-custom\t", mtd, value = TRUE)) > 0) {
-      custom <- custom[-grep("sub", custom)] ## added later to experimentData@samples
-      if (length(custom) > 0)
-        ans@experimentData@other$custom <- .parse(custom)
+    
+    lns <- readLines(file)
+    ans <- new("MSnSet")
+
+    ## metadata section
+    mtd <- grep("^MTD", lns, value = TRUE) 
+    if (length(mtd) > 0) {
+        if (verbose)
+            message("Detected a metadata section")
+        mtd <- sub("MTD\t", "", mtd)
+        if (length(title <- grep("-title\t", mtd, value = TRUE)) > 0)
+            ans@experimentData@title <- .parse(title)
+        if (length(description <- grep("-description\t", mtd, value = TRUE)) > 0) {
+            ans@experimentData@other$description <- .parse(description) 
+            ## description <- description[-grep("sub", description)] ## added later to experimentData@samples
+            ## if (length(description) > 0)
+            ##   ans@experimentData@other$description <- .parse(description)
+        }
+        if (length(sampleProcessing <- grep("-sample_processing\t", mtd, value = TRUE)) > 0)
+            ans@experimentData@other$sampleProcessing <- .parse(sampleProcessing)
+        if (length(instrumentSource <- grep("-instrument\\[[0-9]*\\]-source\t", mtd, value = TRUE)) > 0) 
+            ans@experimentData@ionSource <- .parse(instrumentSource)
+        if (length(instrumentAnalyzer <- grep("-instrument\\[[0-9]*\\]-analyzer\t", mtd, value = TRUE)) > 0) 
+            ans@experimentData@analyser <- .parse(instrumentAnalyzer)
+        if (length(instrumentDetector <- grep("-instrument\\[[0-9]*\\]-detector\t", mtd, value = TRUE)) > 0) 
+            ans@experimentData@detectorType <- .parse(instrumentDetector)
+        if (length(software <- grep("-software\\[[0-9]*\\]\t", mtd, value = TRUE)) > 0) 
+            ans@experimentData@preprocessing <- as.list(.parse(software))
+        if (length(fdr <- grep("-false_discovery_rate\t", mtd, value = TRUE)) > 0)
+            ans@experimentData@other$fdr <- .parse(fdr)
+        if (length(publications <- grep("-publication\t", mtd, value = TRUE)) > 0)
+            ans@experimentData@pubMedIds <- .parse(publications)
+        if (length(name <- grep("-contact\\[[0-9]*\\]-name\t", mtd, value = TRUE)) > 0) 
+            ans@experimentData@name <- .parse(name)
+        if (length(affiliation <- grep("-contact\\[[0-9]*\\]-affiliation\t", mtd, value = TRUE)) > 0) 
+            ans@experimentData@lab <- .parse(affiliation)
+        if (length(email <- grep("-contact\\[[0-9]*\\]-email\t", mtd, value = TRUE)) > 0) 
+            ans@experimentData@email <- .parse(email)
+        if (length(uri <- grep("-uri\t", mtd, value = TRUE)) > 0) 
+            ans@experimentData@url <- .parse(uri)
+        if (length(mod <- grep("-mod\t", mtd, value = TRUE)) > 0)
+            ans@experimentData@other$modifications <- .parse(mod)
+        if (length(modprob <- grep("-mod-probability_method\t", mtd, value = TRUE)) > 0)
+            ans@experimentData@other$modProbabilityMethod <- .parse(modprob)
+        if (length(quantMethod <- grep("-quantification_method\t", mtd, value = TRUE)) > 0)
+            ans@experimentData@other$quantificationMethod <- .parse(quantMethod)
+        if (length(protQuantUnit <- grep("-protein-quantification_unit\t", mtd, value = TRUE)) > 0)
+            ans@experimentData@other$protQuantUnit <- .parse(protQuantUnit)
+        if (length(pepQuantUnit <- grep("-peptide-quantification_unit\t", mtd, value = TRUE)) > 0)
+            ans@experimentData@other$pepQuantUnit <- .parse(pepQuantUnit)
+        if (length(msFileFormat <- grep("-ms_file\\[[0-9]*\\]-format\t", mtd, value = TRUE)) > 0) 
+            ans@experimentData@other$msFileFormat <- .parse(msFileFormat)
+        if (length(msFile <- grep("-ms_file\\[[0-9]*\\]-location\t", mtd, value = TRUE)) > 0) 
+            ans@processingData@files <- .parse(msFile)
+        if (length(msFileIdFormat <- grep("-ms_file\\[[0-9]*\\]-id_format\t", mtd, value = TRUE)) > 0) 
+            ans@experimentData@other$msFileIdFormat <- .parse(msFileIdFormat)
+        if (length(custom <- grep("-custom\t", mtd, value = TRUE)) > 0) {
+            custom <- custom[-grep("sub", custom)] ## added later to experimentData@samples
+            if (length(custom) > 0)
+                ans@experimentData@other$custom <- .parse(custom)
+        }
+        ## sub metadata
+        if (length(species <- grep("-species\\[[0-9]*\\]\t", mtd, value = TRUE)) > 0) 
+            ans@experimentData@samples <- append(ans@experimentData@samples, list(species = .parse(species)))
+        if (length(tissue <- grep("-tissue\\[[0-9]*\\]\t", mtd, value = TRUE)) > 0)      
+            ans@experimentData@samples <- append(ans@experimentData@samples, list(tissue = .parse(tissue)))
+        if (length(cellType <- grep("-cell_type\\[[0-9]*\\]\t", mtd, value = TRUE)) > 0)      
+            ans@experimentData@samples <- append(ans@experimentData@samples, list(cellType = .parse(cellType)))
+        if (length(disease <- grep("-disease\\[[0-9]*\\]\t", mtd, value = TRUE)) > 0)      
+            ans@experimentData@samples <- append(ans@experimentData@samples, list(disease = .parse(disease)))
+        if (length(description_ <- grep("-sub\\[[0-9]*\\]-description\t", mtd, value = TRUE)) > 0)      
+            ans@experimentData@samples <- append(ans@experimentData@samples, list(description = .parse(description_)))
+        if (length(quantReagent_ <- grep("-sub\\[[0-9]*\\]-quantification_reagent\t", mtd, value = TRUE)) > 0)      
+            ans@experimentData@samples <- append(ans@experimentData@samples, list(quantReagent = .parse(quantReagent_)))
+        if (length(custom_ <- grep("-sub\\[[0-9]*\\]-custom\t", mtd, value = TRUE)) > 0) 
+            ans@experimentData@samples <- append(ans@experimentData@samples, list(custom = .parse(custom_)))
     }
-    ## sub metadata
-    if (length(species <- grep("-species\\[[0-9]*\\]\t", mtd, value = TRUE)) > 0) 
-      ans@experimentData@samples <- append(ans@experimentData@samples, list(species = .parse(species)))
-    if (length(tissue <- grep("-tissue\\[[0-9]*\\]\t", mtd, value = TRUE)) > 0)      
-      ans@experimentData@samples <- append(ans@experimentData@samples, list(tissue = .parse(tissue)))
-    if (length(cellType <- grep("-cell_type\\[[0-9]*\\]\t", mtd, value = TRUE)) > 0)      
-      ans@experimentData@samples <- append(ans@experimentData@samples, list(cellType = .parse(cellType)))
-    if (length(disease <- grep("-disease\\[[0-9]*\\]\t", mtd, value = TRUE)) > 0)      
-      ans@experimentData@samples <- append(ans@experimentData@samples, list(disease = .parse(disease)))
-    if (length(description_ <- grep("-sub\\[[0-9]*\\]-description\t", mtd, value = TRUE)) > 0)      
-      ans@experimentData@samples <- append(ans@experimentData@samples, list(description = .parse(description_)))
-    if (length(quantReagent_ <- grep("-sub\\[[0-9]*\\]-quantification_reagent\t", mtd, value = TRUE)) > 0)      
-      ans@experimentData@samples <- append(ans@experimentData@samples, list(quantReagent = .parse(quantReagent_)))
-    if (length(custom_ <- grep("-sub\\[[0-9]*\\]-custom\t", mtd, value = TRUE)) > 0) 
-      ans@experimentData@samples <- append(ans@experimentData@samples, list(custom = .parse(custom_)))
-  }
 
-  if (what == "PRT") {
-    prh <- grep("^PRH", lns, value = TRUE)
-    prt <- grep("^PRT", lns, value = TRUE)
-    if (length(prh) != 1 & length(prt) < 1)
-      stop("No protein section found.")
-    if (verbose)
-      message("Detected a protein section")
-    prt <- sub("^PRT\t", "", prt)
-    prh <- sub("^PRH\t", "", prh)
-    l <- sapply(prt, strsplit, "\t")
-    names(l) <- NULL
-    tab <- data.frame(do.call(rbind, l))
-    names(tab) <- strsplit(prh, "\t")[[1]]    
-  } else { ## "PEP"
-    peh <- grep("^PEH", lns, value = TRUE)
-    pep <- grep("^PEP", lns, value = TRUE)
-    if (length(peh) != 1 & length(pep) < 1)
-      stop("No peptide section found.")
-    if (verbose)
-      message("Detected a peptide section")
-    pep <- sub("^PEP\t", "", pep)
-    peh <- sub("^PEH\t", "", peh)
-    l <- sapply(pep, strsplit, "\t")
-    names(l) <- NULL
-    tab <- data.frame(do.call(rbind, l))
-    names(tab) <- strsplit(peh, "\t")[[1]]
-  }
-     
-  if (any(esetCols <- grepl("_abundance_sub\\[[0-9*]\\]", names(tab)))) {
-    eset <- as.matrix(tab[, esetCols])
-    mode(eset) <- "numeric"
-    nms <- colnames(eset)
-    colnames(eset) <- sub("^.+_abundance_", "", colnames(eset))    
-    fdata <- new("AnnotatedDataFrame", data = tab[, !esetCols])
-    pdata <- new("AnnotatedDataFrame",
-                 data = data.frame(abundance = nms, row.names = colnames(eset)))
-  } else {
-    warning("No quantitative data found - empty assayData slot.")
-    eset <- matrix(nrow = nrow(tab), ncol = 0)
-    fdata <- new("AnnotatedDataFrame", data = tab)
-    pdata <- new("AnnotatedDataFrame")
-  }
+    if (what == "PRT") {
+        prh <- grep("^PRH", lns, value = TRUE)
+        prt <- grep("^PRT", lns, value = TRUE)
+        if (length(prh) != 1 & length(prt) < 1)
+            stop("No protein section found.")
+        if (verbose)
+            message("Detected a protein section")
+        prt <- sub("^PRT\t", "", prt)
+        prh <- sub("^PRH\t", "", prh)
+        l <- sapply(prt, strsplit, "\t")
+        names(l) <- NULL
+        tab <- data.frame(do.call(rbind, l))
+        tabnms <- strsplit(prh, "\t")[[1]]
+        tabnms <- tabnms[tabnms != ""]
+        names(tab) <- tabnms 
+    } else { ## "PEP"
+        peh <- grep("^PEH", lns, value = TRUE)
+        pep <- grep("^PEP", lns, value = TRUE)
+        if (length(peh) != 1 & length(pep) < 1)
+            stop("No peptide section found.")
+        if (verbose)
+            message("Detected a peptide section")
+        pep <- sub("^PEP\t", "", pep)
+        peh <- sub("^PEH\t", "", peh)
+        l <- sapply(pep, strsplit, "\t")
+        names(l) <- NULL
+        tab <- data.frame(do.call(rbind, l))
+        tabnms <- strsplit(peh, "\t")[[1]]
+        tabnms <- tabnms[tabnms != ""]
+        names(tab) <- tabnms 
+    }
+    
+    if (any(esetCols <- grepl("_abundance_sub\\[[0-9*]\\]", names(tab)))) {
+        eset <- as.matrix(tab[, esetCols])
+        mode(eset) <- "numeric"
+        nms <- colnames(eset)
+        colnames(eset) <- sub("^.+_abundance_", "", colnames(eset))    
+        fdata <- new("AnnotatedDataFrame", data = tab[, !esetCols])
+        pdata <- new("AnnotatedDataFrame",
+                     data = data.frame(abundance = nms, row.names = colnames(eset)))
+    } else {
+        warning("No quantitative data found - empty assayData slot.")
+        eset <- matrix(nrow = nrow(tab), ncol = 0)
+        fdata <- new("AnnotatedDataFrame", data = tab)
+        pdata <- new("AnnotatedDataFrame")
+    }
 
-  rownames(eset) <- featureNames(fdata)
-  exprs(ans) <- eset
-  featureData(ans) <- fdata
-  phenoData(ans) <- pdata
+    rownames(eset) <- featureNames(fdata)
+    exprs(ans) <- eset
+    featureData(ans) <- fdata
+    phenoData(ans) <- pdata
 
-  ## adding mzTab file
-  ans@processingData@files <-
-    c(ans@processingData@files,
-      file)
-  ans@processingData@processing <-
-    c(ans@processingData@processing,
-      paste0("mzTab read: ", date()))
-  
-  if (validObject(ans))
-    return(ans)
+    ## adding mzTab file
+    ans@processingData@files <-
+        c(ans@processingData@files,
+          file)
+    ans@processingData@processing <-
+        c(ans@processingData@processing,
+          paste0("mzTab read: ", date()))
+    
+    if (validObject(ans))
+        return(ans)
 }
