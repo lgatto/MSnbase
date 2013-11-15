@@ -26,7 +26,7 @@
   populate the \code{MSnSet}'s \code{experimentData} slot.
 }
 \examples{
-testfile <- "http://mztab.googlecode.com/svn/specification/trunk/examples/mztab_itraq_example.txt"
+testfile <- "http://mztab.googlecode.com/svn/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"
 prot <- readMzTabData(testfile, "PRT")
 prot
 pep <- readMzTabData(testfile, "PEP")
