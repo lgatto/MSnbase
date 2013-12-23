@@ -306,14 +306,14 @@ makeMTD <- function(x,
   if (is.null(msFileFormat)) {
     if (length(fileNames(x)) > 0) {
       ext <- tail(unlist(strsplit(fileNames(x), "\\.")), n = 1)
-      if (ext %in% c("mzML", "mzXML", "mzData")) {
-        .name <- olsQuery(paste(ext,"file"), "MS")
+      if (tolower(ext) %in% c("mzml", "mzxml", "mzdata", "mgf")) {
+        .name <- olsQuery(paste(ext, "format"), "MS")
         .accession <- names(.name)
         msFileFormat <- new("CVParam", label = "MS", accession = .accession, name = .name)
-      } else if (tolower(ext) == "mgf") {
-        .name <- olsQuery("peak list scans", "MS", exact = TRUE)
-        .accession <- names(.name)
-        msFileFormat <- new("CVParam", label = "MS", accession = .accession, name = .name)
+      ## } else if (tolower(ext) == "mgf") {
+      ##   .name <- olsQuery("peak list scans", "MS", exact = TRUE)
+      ##   .accession <- names(.name)
+      ##   msFileFormat <- new("CVParam", label = "MS", accession = .accession, name = .nam)e
       } else {
         warning("File format '", ext, "' not recognised.")
         msFileFormat <- NULL

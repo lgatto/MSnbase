@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.11.4
+-------------------------
+ o passing ... to sweep when normalising [2013-12-08 Sun]
+ o updated makeMTD to accomodate new MS ontology [2013-12-23 Mon]
+
 CHANGES IN VERSION 1.11.3
 -------------------------
  o updated mzTab example files to new url [2013-11-15 Fri]
