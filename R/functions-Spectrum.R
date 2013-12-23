@@ -17,8 +17,8 @@ clean_Spectrum <- function(spectrum, all, updatePeaksCount = TRUE) {
   return(spectrum)
 }
 
-quantify_Spectrum <- function(spectrum,method,
-                              reporters,strict) {
+quantify_Spectrum <- function(spectrum, method,
+                              reporters, strict) {
   ## Parameters:
   ##  spectrum: object of class Spectrum
   ##  method: methods for how to quantify the peaks
@@ -28,66 +28,70 @@ quantify_Spectrum <- function(spectrum,method,
   ##  a names list of length 2 with
   ##   peakQuant: named numeric of length length(reporters)
   ##   curveStats: a length(reporters) x 7 data frame 
-  peakQuant <- vector("numeric",length(reporters))
+  peakQuant <- vector("numeric", length(reporters))
   names(peakQuant) <- reporterNames(reporters)
   curveStats <- c()
   for (i in 1:length(reporters)) {
-    ## Curve statistics
-    dfr <- curveData(spectrum,reporters[i]) 
-    ##  dfr:     mz int
-    ##  1  114.1023   0
-    ##  2  114.1063   2
-    ##  3  114.1102   3
-    ##  4  114.1142   4
-    ##  ...
-    if (strict) {
-      lowerMz <- round(mz(reporters[i]) - width(reporters[i]),3)
-      upperMz <- round(mz(reporters[i]) + width(reporters[i]),3)
-      selMz <- (dfr$mz >= lowerMz) & (dfr$mz <= upperMz)
-      dfr <- dfr[selMz,]
-      dfr <- rbind(c(min(dfr$mz),0),
-                   dfr,
-                   c(max(dfr$mz),0))
-    }
-    maxInt <- max(dfr$int)
-    nMaxInt <- sum(dfr$int==maxInt)
-    baseLength <- nrow(dfr)
-    if (strict)
-      baseLength <- baseLength-2
-    mzRange <- range(dfr$mz)
-    precMz <- precursorMz(spectrum)
-    if (length(precMz)!= 1)
-      precMz <- NA
-    curveStats <- rbind(curveStats,
-                        c(maxInt,nMaxInt,baseLength,
-                          mzRange,
-                          reporters[i]@mz,precMz))
-    ## Quantification
-    if (method=="trapezoidation") {
-      if (nrow(dfr)==1) {
-        if (!is.na(dfr$int)) 
-          warning(paste("Found only one mz value for precursor ",precursorMz(spectrum),
-                        " and reporter ",reporterNames(reporters[i]),".\n",
-                        "  If your data is centroided, quantify with 'max'.",sep=""))
+      ## Curve statistics
+      dfr <- curveData(spectrum, reporters[i]) 
+      ##  dfr:     mz int
+      ##  1  114.1023   0
+      ##  2  114.1063   2
+      ##  3  114.1102   3
+      ##  4  114.1142   4
+      ##  ...
+      if (strict) {
+          lowerMz <- round(mz(reporters[i]) - width(reporters[i]),3)
+          upperMz <- round(mz(reporters[i]) + width(reporters[i]),3)
+          selMz <- (dfr$mz >= lowerMz) & (dfr$mz <= upperMz)
+          dfr <- dfr[selMz,]
+          dfr <- rbind(c(min(dfr$mz),0),
+                       dfr,
+                       c(max(dfr$mz),0))
       }
-      ## Quantify reporter ions calculating the area
-      ## under the curve by trapezoidation
-      n <- nrow(dfr)
-      x <- vector(mode = "numeric", length = n)
-      for (j in 1:n) {
-        k <- (j%%n) + 1
-        x[j] <- dfr$mz[j] * dfr$int[k] - dfr$mz[k] * dfr$int[j]          
+      maxInt <- max(dfr$int)
+      nMaxInt <- sum(dfr$int == maxInt)
+      baseLength <- nrow(dfr)
+      if (strict)
+          baseLength <- baseLength-2
+      mzRange <- range(dfr$mz)
+      precMz <- precursorMz(spectrum)
+      if (length(precMz) != 1)
+          precMz <- NA
+      curveStats <- rbind(curveStats,
+                          c(maxInt,nMaxInt,baseLength,
+                            mzRange,
+                            reporters[i]@mz,precMz))
+      ## Quantification
+      if (method == "trapezoidation") {
+          if (nrow(dfr) == 1) {
+              if (!is.na(dfr$int)) 
+                  warning(paste("Found only one mz value for precursor ",precursorMz(spectrum),
+                                " and reporter ",reporterNames(reporters[i]),".\n",
+                                "  If your data is centroided, quantify with 'max'.",sep=""))
+          }
+          ## Quantify reporter ions calculating the area
+          ## under the curve by trapezoidation
+          n <- nrow(dfr)
+          ## - original code -
+          ## x <- vector(mode = "numeric", length = n)
+          ## for (j in 1:n) {
+          ##     k <- (j%%n) + 1
+          ##     x[j] <- dfr$mz[j] * dfr$int[k] - dfr$mz[k] * dfr$int[j]          
+          ## }
+          ## peakQuant[i] <- abs(sum(x)/2)
+          ## - updated - 
+          peakQuant[i] <- 0.5 * sum((dfr$mz[2:n] - dfr$mz[1:(n-1)]) *
+                                    (dfr$int[2:n] + dfr$int[1:(n-1)]))
+          ## area using zoo's rollmean, but seems slightly slower
+          ## peakQuant[i] <- abs(sum(diff(dfr$int)*rollmean(dfr$mz,2)))
+      } else if (method == "sum") {
+          ## Quantify reporter ions using sum of data points of the peak
+          peakQuant[i] <- sum(dfr$int)
+      }  else if (method == "max") {
+          ## Quantify reporter ions using max peak intensity
+          peakQuant[i] <- max(dfr$int)
       }
-      peakQuant[i] <- abs(sum(x)/2)
-      ## area using zoo's rollmean, but seems slightly slower
-      ## peakQuant[i] <- abs(sum(diff(dfr$int)*rollmean(dfr$mz,2)))
-    } else if (method=="sum") {
-      ## Quantify reporter ions using sum of data points of the peak
-      peakQuant[i] <- sum(dfr$int)
-    }  else if (method=="max") {
-      ## Quantify reporter ions using max peak intensity
-      peakQuant[i] <- max(dfr$int)
-    }
   }
   colnames(curveStats) <- c("maxInt","nMaxInt","baseLength",
                             "lowerMz","upperMz",

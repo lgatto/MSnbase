@@ -22,11 +22,11 @@ normalise_MSnSet <- function(object, method, ...) {
   } else if (method == "center.mean") {
     e <- exprs(object)
     center <- colMeans(e, na.rm = TRUE)
-    e <- sweep(e, 2L, center, check.margin = FALSE)    
+    e <- sweep(e, 2L, center, check.margin = FALSE, ...)    
   } else if (method == "center.median") {
     e <- exprs(object)
     center <- apply(e, 2L, median, na.rm = TRUE)
-    e <- sweep(e, 2L, center, check.margin = FALSE)       
+    e <- sweep(e, 2L, center, check.margin = FALSE, ...)       
   } else {
     switch(method,
            max = div <- apply(exprs(object), 1L, max, na.rm = TRUE), 
