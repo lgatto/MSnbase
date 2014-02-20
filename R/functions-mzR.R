@@ -121,9 +121,10 @@ plotMzDelta_list <- function(object,            ## peakLists
                 tic = "Total ion current",
                 bpi = "Base peak intensity")
     yy <- switch(y,
-                tic = hd$totIonCurrent / max(hd$totIonCurrent),
-                bpi = hd$basePeakIntensity / max(hd$basePeakIntensity))
-    yy <- yy * 100
+                tic = hd$totIonCurrent,
+                bpi = hd$basePeakIntensity)
+    yymax <- max(yy)
+    yy <- yy / yymax * 100
     xx <- hd$retentionTime
     if (plot) {
         plot(yy ~ xx, type = "l", 
@@ -131,8 +132,7 @@ plotMzDelta_list <- function(object,            ## peakLists
              ...)
         abline(h = 0)
         if (legend) {
-            leg <- sprintf("%s: %.3g", toupper(y),
-                           max(hd$totIonCurrent))
+            leg <- sprintf("%s: %.3g", toupper(y), yymax)
             if (!missing(f))
                 leg <- c(f, leg)                    
             legend("topleft",
