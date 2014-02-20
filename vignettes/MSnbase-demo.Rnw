@@ -1141,7 +1141,7 @@ dim(exp12)
 Lets now create two \Robject{MSnSet}s from the same raw data to simulate two different 
 independent experiments that share some features. 
 As done previously (see section \ref{sec:feataggregation}), 
-we combine the specta based on the proteins they have been identified to belong to.
+we combine the spectra based on the proteins they have been identified to belong to.
 Features can thus naturally be named using protein accession numbers.
 Alternatively, if peptide sequences would have been used as grouping factor in 
 \Rfunction{combineFeatures}, then these would be good feature name candidates. 
