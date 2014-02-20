@@ -242,7 +242,7 @@
       be a positive or complex number, the base with respect to which
       logarithms are computed.  
     }
-    \item{droplevels}{signature(x = "MSnSet", ...)}{Drops the unusel
+    \item{droplevels}{signature(x = "MSnSet", ...)}{Drops the unused
       factor levels in the \code{featureData} slot. See
       \code{\link{droplevels}} for details.
     }
