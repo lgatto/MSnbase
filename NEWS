@@ -1,10 +1,8 @@
-CHANGES IN VERSION 1.11.6
--------------------------
- o typo in MSnSet droplevels man [2014-01-27 Mon]
-
 CHANGES IN VERSION 1.11.5
 -------------------------
+ o typo in MSnSet droplevels man [2014-01-27 Mon]
  o typo in MSnbase-demo vignette [2014-02-20 Thu] 
+ o fix BPI legend in chromatogram [2014-02-20 Thu]
 
 CHANGES IN VERSION 1.11.4
 -------------------------
