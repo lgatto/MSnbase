@@ -27,6 +27,8 @@
     \item{...}{Additional arguments passed to the \code{plot}
       function. } 
   }  
+
+  xcms::plotChrom provides a similar functionality.
 }
 
 \value{
