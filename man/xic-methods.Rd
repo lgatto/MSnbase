@@ -39,6 +39,8 @@
     \item{...}{Additional arguments passed to the \code{plot} function.}
   }
   Note: the methods are currently not vectorised.
+
+  xcms::plotEIC provides a similar functionality.
 }
 
 \value{

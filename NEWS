@@ -1,3 +1,10 @@
+CHANGES IN VERSION 1.11.6
+-------------------------
+ o add corresponding xcms functions to the chromatogram and xic 
+   manual page [2014-02-21 Fri]
+ o new bpca imputation methods [2014-02-27 Thu]
+ o replacing stop_on_error with option in vignette [2014-02-27 Thu] 
+
 CHANGES IN VERSION 1.11.5
 -------------------------
  o typo in MSnSet droplevels man [2014-01-27 Mon]
