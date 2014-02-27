@@ -1,9 +1,25 @@
+##' Imputation of missing values
+##'
+##' @title Missing values imputation
+##' @param object An instance of class \code{"\linkS4class{MSnSet}"}.
+##' @param method The method of imputation to use. Default value is bpca.
+##' @references Oba et al., A Bayesian missing value estimation method for 
+##' gene expression profile data, Bioinformatics (2003) 19 (16): 2088-2096.
+##' @return An instance of class \code{"\linkS4class{MSnSet}"}.
+##' @author Laurent Gatto, Samuel Wieczorek, Vasile-Cosmin Lazar
 setMethod("impute", "MSnSet",
-          function(object, method = "knn", ...) {
+          function(object, method = c("bpca","knn"), ...) {
             method <- match.arg(method)
             ## so far, only knn imputation
-            .eset <- impute.knn(exprs(object), ...)$data
-            exprs(object) <- .eset
+            if (method == "knn"){
+              .eset <- impute.knn(exprs(object), ...)$data
+              exprs(object) <- .eset
+            }
+            else if (method=="bpca"){
+             nSamples <- dim(exprs(object))[2]
+             .resultBPCA = pca(exprs(object), method="bpca", nPcs=(nSamples-1), verbose=F)
+             exprs(object) = completeObs(.resultBPCA)
+            }
             impargs <- pairlist(...)
             object@processingData@processing <-
               c(object@processingData@processing,
@@ -22,4 +38,6 @@ setMethod("impute", "MSnSet",
             if (validObject(object))
               return(object)           
           })
+
+
 
