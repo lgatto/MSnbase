@@ -111,7 +111,7 @@ opts_chunk$set(fig.align = 'center',
 options(replace.assign = TRUE, 
         width = 68)
 ## see ?evaluate::evaluate for details
-opts_knit$set(stop_on_error = 1L)
+opts_knit$set(error=TRUE)
 
 ## knit_hooks$set(par = function(before, options, envir) {
 ##   if (before && options$fig.show != 'none') 
