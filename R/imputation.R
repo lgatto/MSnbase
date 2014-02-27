@@ -1,9 +1,17 @@
 setMethod("impute", "MSnSet",
-          function(object, method = "knn", ...) {
+          function(object, method = c("bpca","knn"), ...) {
             method <- match.arg(method)
             ## so far, only knn imputation
-            .eset <- impute.knn(exprs(object), ...)$data
-            exprs(object) <- .eset
+            if (method == "knn"){
+              .eset <- impute.knn(exprs(object), ...)$data
+              exprs(object) <- .eset
+            }
+            else if (method=="bpca"){
+             nSamples <- dim(exprs(object))[2]
+             .resultBPCA <- pca(exprs(object), method = "bpca",
+                 nPcs = (nSamples-1), verbose = FALSE, ...)
+             exprs(object) <- completeObs(.resultBPCA)
+            }
             impargs <- pairlist(...)
             object@processingData@processing <-
               c(object@processingData@processing,
@@ -22,4 +30,6 @@ setMethod("impute", "MSnSet",
             if (validObject(object))
               return(object)           
           })
+
+
 

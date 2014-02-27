@@ -11,6 +11,7 @@ import(reshape2) ## try to reduce this
 
 ## importFrom(rols, olsQuery, term)
 ## importClassesFrom(rols, CVParam)
+importFrom(pcaMethods, pca, completeObs)
 importFrom(plyr, ddply, llply, adply, summarise, summarize)
 importFrom(stats4, plot)
 importFrom(preprocessCore, normalize.quantiles) 
