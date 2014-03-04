@@ -1,31 +1,26 @@
 Package: MSnbase
 Title: MSnbase: Base Functions and Classes for MS-based Proteomics
-Version: 1.11.6
-Description: Basic plotting, data manipulation and processing 
-	     of MS-based Proteomics data
-Authors@R: c(person(given = "Laurent", family = "Gatto",
-	            email = "lg390@cam.ac.uk",
- 		    role = c("aut","cre")),
-             person(given = "Guangchuang", family ="Yu",
-	            email = "guangchuangyu@gmail.com",
-		    role = "ctb"),
-             person(given = "Samuel", family ="Wieczorek",
-	            email = "samuel.wieczorek@cea.fr",
-		    role = "ctb"),
-             person(given = "Vasile-Cosmin", family ="Lazar",
-	            email = "vasile-cosmin.lazar@cea.fr",
-		    role = "ctb"))
+Version: 1.11.7
+Description: Basic plotting, data manipulation and processing of
+        MS-based Proteomics data
+Authors@R: c(person(given = "Laurent", family = "Gatto", email =
+        "lg390@cam.ac.uk", role = c("aut","cre")), person(given =
+        "Guangchuang", family ="Yu", email = "guangchuangyu@gmail.com",
+        role = "ctb"), person(given = "Samuel", family ="Wieczorek",
+        email = "samuel.wieczorek@cea.fr", role = "ctb"), person(given
+        = "Vasile-Cosmin", family ="Lazar", email =
+        "vasile-cosmin.lazar@cea.fr", role = "ctb"))
 Author: Laurent Gatto <lg390@cam.ac.uk> with contributions from
-	Guangchuang Yu,Samuel Wieczorek and Vasile-Cosmin Lazar.
+        Guangchuang Yu,Samuel Wieczorek and Vasile-Cosmin Lazar.
 Maintainer: Laurent Gatto <lg390@cam.ac.uk>
-Depends: R (>= 2.10), methods, BiocGenerics (>= 0.7.1), 
-	 Biobase (>= 2.15.2), ggplot2, mzR
-Imports: plyr, IRanges, preprocessCore, vsn, grid, 
-	 reshape2, stats4, affy, impute, pcaMethods
-Suggests: testthat, zoo, knitr (>= 1.1.0), rols, 
-	  Rdisop, pRolocdata, msdata
+Depends: R (>= 2.10), methods, BiocGenerics (>= 0.7.1), Biobase (>=
+        2.15.2), ggplot2, mzR
+Imports: plyr, IRanges, preprocessCore, vsn, grid, reshape2, stats4,
+        affy, impute, pcaMethods
+Suggests: testthat, zoo, knitr (>= 1.1.0), rols, Rdisop, pRolocdata,
+        msdata
 Enhances: foreach, doMC, parallel
 License: Artistic-2.0
-biocViews: Infrastructure, Bioinformatics, Proteomics, MassSpectrometry, QualityControl
 LazyData: yes
 VignetteBuilder: knitr
+biocViews: Infrastructure, Proteomics, MassSpectrometry, QualityControl
