@@ -2,6 +2,8 @@ CHANGES IN VERSION 1.11.8
 -------------------------
  o adding redundancy handling to combineFeatures (by vladpetyuk, pull
    request #18) [2014-03-14 Fri]
+ o updated combineFeatures signature to accomodate above changes
+   [2014-03-14 Fri]
 
 CHANGES IN VERSION 1.11.7
 -------------------------
