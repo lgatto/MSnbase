@@ -187,4 +187,29 @@ combineFeatures <- function(object, # MSnSet
   object@processingData@merged <- TRUE
   if (verbose) {
     message(msg)
-    ## message("Dropping spectrum-level 'qual' slot
+    ## message("Dropping spectrum-level 'qual' slot.")
+  }
+  object@processingData@processing <- c(object@processingData@processing,
+                                        paste(msg,": ",
+                                              date(),
+                                              sep=""))
+  ## update feature names according to the groupBy argument
+  ## new in version 1.5.9
+  fn <- sort(unique(groupBy))
+  featureNames(object) <- fn
+  if (validObject(object))
+    return(object)
+}
+
+##' This function calculates the column-wise coefficient of variation (CV), i.e.
+##' the ration between the standard deviation and the mean, for the features
+##' in an \code{"\linkS4class{MSnSet}"}. The CVs are calculated for the groups
+##' of features defined by \code{groupBy}. For groups defined by single features,
+##' \code{NA} is returned. 
+##'
+##' @title Calculates coeffivient of variation for features
+##' @param x An instance of class \code{"\linkS4class{MSnSet}"}.
+##' @param groupBy An object of class \code{factor} defining how to summerise the features.
+##' @param na.rm A \code{logical} defining whether missing values should be removed.
+##' @param norm One of 'none' (default), 'sum', 'max', 'center.mean', 'center.median'
+##' 'quantiles' or 'quantiles.robust' defining if and how the data should be 
