@@ -4,6 +4,7 @@ CHANGES IN VERSION 1.11.8
    request #18) [2014-03-14 Fri]
  o updated combineFeatures signature to accomodate above changes
    [2014-03-14 Fri]
+ o updated unit tests for new testhat 0.8 [2014-03-14 Fri]
 
 CHANGES IN VERSION 1.11.7
 -------------------------
