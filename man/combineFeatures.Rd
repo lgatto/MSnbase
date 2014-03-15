@@ -23,27 +23,47 @@
 }
 
 \usage{
-combineFeatures(object, groupBy, fun = c("mean", "median", "weighted.mean", "sum", "medpolish"), ..., cv = TRUE, cv.norm = "sum", verbose = TRUE)
+
+combineFeatures(object, groupBy, fun = c("mean", "median",
+"weighted.mean", "sum", "medpolish"), redundancy.handler = c("ignore",
+"unique.only"), cv = TRUE, cv.norm = "sum", verbose = TRUE, ...)
+
 }
 
 \arguments{
+
   \item{object}{ An instance of class \code{"\linkS4class{MSnSet}"}
     whose features will be summerised. }
-  \item{groupBy}{ An object of class factor defining how to summerise
-    the features. }
+
+  \item{groupBy}{ An object of class \code{factor} or \code{list} of
+    factors defining how to summerise the features. See
+    \code{redundancy.handler} for details about the latter.}
+
   \item{fun}{ The summerising function. Currently, mean, median,
     weighted mean, sum and median polish are implemented, but
     user-defined functions can also be supplied. }
-  \item{\dots}{ Additional arguments for the \code{fun} function. }
+    
+  \item{redundancy.handler}{ If \code{groupBy} is a \code{list}, one of
+    \code{"ignore"} (default) or \code{"unique.only"} (ignored
+    otherwise) defining how to handle peptides that can be associated to
+    multiple groups. Using \code{"unique.only"} will discard non-unique
+    features. \code{"ignore"} ...  
+  }
+  
   \item{cv}{ A \code{logical} defining if feature coefficients of
     variation should be computed and stored as feature
     meta-data. Default is \code{TRUE}. }
+
   \item{cv.norm}{ A \code{character} defining how to normalise the
     feature intensitites prior to CV calculation. Default is
     \code{sum}. Use \code{none} to keep intensities as is. See
     \code{\link{featureCV}} for more details. }
+
   \item{verbose}{ A \code{logical} indicating whether verbose output is
     to be printed out. }
+
+  \item{\dots}{ Additional arguments for the \code{fun} function. }
+
 }
 
 % \details{
