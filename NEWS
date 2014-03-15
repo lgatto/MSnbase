@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.11.9
+-------------------------
+ o TODO add example and test for combineFeatures with list.
+
 CHANGES IN VERSION 1.11.8
 -------------------------
  o adding redundancy handling to combineFeatures (by vladpetyuk, pull
