@@ -103,59 +103,110 @@ combineMatrixFeatures <- function(matr,    ## matrix
 
 
 combineFeatures <- function(object,  ## MSnSet
-                            groupBy, ## factor
+                            groupBy, ## factor or list
                             fun = c("mean",
-                              "median",
-                              "weighted.mean",
-                              "sum",
-                              "medpolish"),
-                            ...,    ## additional arguments to fun
+                                "median",
+                                "weighted.mean",
+                                "sum",
+                                "medpolish"),
+                            redundancy.handler = c("ignore", "unique.only"),
+                            ##   redundancy.handler to be exanded to
+                            ##   include additional methods
                             cv = TRUE,
                             cv.norm = "sum",
-                            verbose = TRUE) {
-  if (cv) {
-    cv.mat <- featureCV(object, groupBy = groupBy,
-                        norm = cv.norm)
-  }
-  if (is.character(fun)) 
-    fun <- match.arg(fun)
-  n1 <- nrow(object)
-  ## !! order of features in matRes is defined by the groupBy factor !!
-  matRes <- as.matrix(combineMatrixFeatures(exprs(object),
-                                            groupBy, fun, ...,
-                                            verbose = verbose)) 
-  fdata <- fData(object)[!duplicated(groupBy),] ## takes the first occurences
-  fdata <- fdata[order(unique(groupBy)),] ## ordering fdata according to groupBy factor
-  rownames(matRes) <- rownames(fdata)
-  colnames(matRes) <- sampleNames(object)
-  exprs(object) <- matRes
-  if (cv)
-    fdata <- cbind(fdata, cv.mat)
-  fData(object) <- fdata
-  if (is.character(fun)) {
-    msg <- paste("Combined ", n1, " features into ",
-                 nrow(object) ," using ", fun, sep = "")
-  } else {
-    msg <- paste("Combined ", n1, " features into ",
-                 nrow(object), " using user-defined function",
-                 sep = "")
-  }
-  object@qual <- object@qual[0,]
-  object@processingData@merged <- TRUE
-  if (verbose) {
-    message(msg)
-    ## message("Dropping spectrum-level 'qual' slot.")
-  }
-  object@processingData@processing <- c(object@processingData@processing,
-                                        paste(msg,": ",
-                                              date(),
-                                              sep=""))
-  ## update feature names according to the groupBy argument
-  ## new in version 1.5.9
-  fn <- sort(unique(groupBy))
-  featureNames(object) <- fn
-  if (validObject(object))
-    return(object)
+                            verbose = TRUE,
+                            ... ## further arguments to combine features
+                            ) {
+    ## wrapper to combineFeatures to handle redundancy in feature to
+    ## factor mapping e.g. peptide-to-protein redundancy
+    if (is.factor(groupBy)) {
+        result <- .combineFeatures(object, groupBy, fun, cv, cv.norm, verbose, ...)
+    } else {
+        stopifnot(is.list(groupBy))
+        ## handling of the redundancy
+        if (!all(names(groupBy) %in% fvarLabels(object)))
+            stop("Names of the 'groupBy' list do not match fvarLabels of the MSnSet object")        
+        redundancy.handler <- match.arg(redundancy.handler)       
+        if (redundancy.handler == "ignore") { 
+            expansion.index <- rep(seq_len(nrow(object)), sapply(groupBy, length))
+            new.exprs <- exprs(object)[expansion.index, ]
+            rownames(new.exprs) <- NULL
+            groupBy.idx <- sapply(fData(object), identical, groupBy)
+            new.feature.data <- fData(object)[expansion.index, ]
+            new.feature.data[, groupBy.idx] <- unlist(groupBy)
+            rownames(new.feature.data) <- NULL
+            ## TODO: check this
+            new.object <- new("MSnSet", exprs = new.exprs, 
+                              featureData = new(
+                                  "AnnotatedDataFrame", 
+                                  data = new.feature.data),
+                              phenoData = phenoData(object))
+            result <- .combineFeatures(new.object, unlist(groupBy), fun, cv, cv.norm, verbose, ...)
+        } else { ## redundancy.handler == "unique.only" - checked by match.arg
+            idx.unique <- sapply(groupBy, length) < 2
+            object <- object[idx.unique, ]
+            groupBy <- unlist(groupBy[idx.unique])
+            result <- .combineFeatures(object, groupBy, fun, cv, cv.norm, verbose, ...)
+        } 
+        return(result)
+    }
+}
+
+.combineFeatures <- function(object,   ## MSnSet
+                             groupBy,  ## factor
+                             fun = c("mean",
+                                 "median",
+                                 "weighted.mean",
+                                 "sum",
+                                 "medpolish"),
+                             cv = TRUE,
+                             cv.norm = "sum",
+                             verbose = TRUE,
+                             ...    ## additional arguments to fun
+                             ) {
+    if (cv) {
+        cv.mat <- featureCV(object, groupBy = groupBy,
+                            norm = cv.norm)
+    }
+    if (is.character(fun)) 
+        fun <- match.arg(fun)
+    n1 <- nrow(object)
+    ## !! order of features in matRes is defined by the groupBy factor !!
+    matRes <- as.matrix(combineMatrixFeatures(exprs(object),
+                                              groupBy, fun, ...,
+                                              verbose = verbose)) 
+    fdata <- fData(object)[!duplicated(groupBy),] ## takes the first occurences
+    fdata <- fdata[order(unique(groupBy)),] ## ordering fdata according to groupBy factor
+    rownames(matRes) <- rownames(fdata)
+    colnames(matRes) <- sampleNames(object)
+    exprs(object) <- matRes
+    if (cv)
+        fdata <- cbind(fdata, cv.mat)
+    fData(object) <- fdata
+    if (is.character(fun)) {
+        msg <- paste("Combined ", n1, " features into ",
+                     nrow(object) ," using ", fun, sep = "")
+    } else {
+        msg <- paste("Combined ", n1, " features into ",
+                     nrow(object), " using user-defined function",
+                     sep = "")
+    }
+    object@qual <- object@qual[0,]
+    object@processingData@merged <- TRUE
+    if (verbose) {
+        message(msg)
+        ## message("Dropping spectrum-level 'qual' slot.")
+    }
+    object@processingData@processing <- c(object@processingData@processing,
+                                          paste(msg,": ",
+                                                date(),
+                                                sep=""))
+    ## update feature names according to the groupBy argument
+    ## new in version 1.5.9
+    fn <- sort(unique(groupBy))
+    featureNames(object) <- fn
+    if (validObject(object))
+        return(object)
 }
 
 ##' This function calculates the column-wise coefficient of variation (CV), i.e.

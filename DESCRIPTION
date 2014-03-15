@@ -1,17 +1,25 @@
 Package: MSnbase
 Title: MSnbase: Base Functions and Classes for MS-based Proteomics
-Version: 1.11.7
-Description: Basic plotting, data manipulation and processing of
-        MS-based Proteomics data
-Authors@R: c(person(given = "Laurent", family = "Gatto", email =
-        "lg390@cam.ac.uk", role = c("aut","cre")), person(given =
-        "Guangchuang", family ="Yu", email = "guangchuangyu@gmail.com",
-        role = "ctb"), person(given = "Samuel", family ="Wieczorek",
-        email = "samuel.wieczorek@cea.fr", role = "ctb"), person(given
-        = "Vasile-Cosmin", family ="Lazar", email =
-        "vasile-cosmin.lazar@cea.fr", role = "ctb"))
+Description: Basic plotting, data manipulation and processing 
+	     of MS-based Proteomics data
+Authors@R: c(person(given = "Laurent", family = "Gatto",
+	            email = "lg390@cam.ac.uk",
+ 		    role = c("aut","cre")),
+             person(given = "Guangchuang", family ="Yu",
+	            email = "guangchuangyu@gmail.com",
+		    role = "ctb"),
+             person(given = "Samuel", family ="Wieczorek",
+	            email = "samuel.wieczorek@cea.fr",
+		    role = "ctb"),
+             person(given = "Vasile-Cosmin", family ="Lazar",
+	            email = "vasile-cosmin.lazar@cea.fr",
+		    role = "ctb"),
+             person(given = "Vladislav", family ="Petyuk",
+	            email = "petyuk@gmail.com",
+		    role = "ctb"))
 Author: Laurent Gatto <lg390@cam.ac.uk> with contributions from
-        Guangchuang Yu,Samuel Wieczorek and Vasile-Cosmin Lazar.
+	Guangchuang Yu, Samuel Wieczorek, Vasile-Cosmin Lazar 
+	and Vladislav Petyuk
 Maintainer: Laurent Gatto <lg390@cam.ac.uk>
 Depends: R (>= 2.10), methods, BiocGenerics (>= 0.7.1), Biobase (>=
         2.15.2), ggplot2, mzR
