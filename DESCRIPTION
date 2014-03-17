@@ -32,3 +32,4 @@ License: Artistic-2.0
 LazyData: yes
 VignetteBuilder: knitr
 biocViews: Infrastructure, Proteomics, MassSpectrometry, QualityControl
+Version: 1.11.8
