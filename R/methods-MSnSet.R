@@ -276,15 +276,19 @@ ms2df <- function(x, fcols = fvarLabels(x)) {
 }
 
 setMethod("write.exprs",
-          signature(x="MSnSet"),
+          signature(x = "MSnSet"),
           function(x,
-                   fDataCols=NULL,
-                   file="tmp.txt", quote=FALSE,
-                   sep="\t", col.names=NA, ...) {
+                   fDataCols = NULL,
+                   fcol, 
+                   file = "tmp.txt", quote = FALSE,
+                   sep = "\t", col.names = NA, ...) {
             res <- exprs(x)
+            if (!missing(fcol))
+                fDataCols <- fcol
             if (!is.null(fDataCols))
               res <- cbind(res,fData(x)[,fDataCols])
-            write.table(res, file=file, quote=quote, sep=sep, col.names=col.names, ...)
+            write.table(res, file=file, quote=quote, sep=sep,
+                        col.names=col.names, ...)
           })
 
 setReplaceMethod("experimentData",
