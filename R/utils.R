@@ -553,3 +553,45 @@ utils.ssv2list <- function(ssv) {
   utils.ssv2vec(ssv, unlist=FALSE)
 }
 
+utils.mergeSpectraAndIdentificationData <- function(featureData, idData) {
+  ## sort id data to ensure the best matching peptide is on top in case of
+  ## multiple matching peptides
+  o <- order(idData$spectrumFile, idData$acquisitionnum, idData$rank)
+  idData <- idData[o, ]
+
+  idData$npsm <- ave(idData$acquisitionnum, idData$acquisitionnum, FUN=length)
+
+  ## use flat version of accession/description if multiple ones are available
+  idData$accession <- ave(idData$accession, idData$acquisitionnum,
+                          FUN=utils.vec2ssv)
+  idData$description <- ave(idData$description, idData$acquisitionnum, 
+                            FUN=utils.vec2ssv)
+
+  ## remove duplicated entries
+  idData <- idData[!duplicated(idData$acquisitionnum), ]
+
+  rn <- rownames(featureData)
+
+  ## preserve spectrum order
+  spectraIds <- featureData$spectrum
+
+  ## mzR::acquisitionNum and mzID::acquisitionnum should be identical
+  featureData <- merge(x=featureData, y=idData, 
+                       by.x=c("filename", "acquisitionNum"), 
+                       by.y=c("spectrumFile", "acquisitionnum"),
+                       all.x=TRUE, all.y=FALSE, 
+                       suffixes=c(".spectrum", ".id"))
+
+  ## recreate correct order
+  featureData <- featureData[match(featureData$spectrum, spectraIds), ]
+
+  ## rownames are lost while merging, restore them
+  rownames(featureData) <- rn
+
+  ## remove useless columns
+  keep <- !colnames(featureData) %in% c("spectrumid") # vendor specific nativeIDs 
+  featureData <- featureData[, keep]
+
+  return(featureData)
+}
+
