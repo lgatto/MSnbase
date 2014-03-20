@@ -31,10 +31,20 @@ setValidity("pSet", function(object) {
     msg <- validMsg(msg,"featureNames differ between assayData and featureData.")
   ## checking number of files in phenoData and
   ##          number of files in assayData
+  ## removing the following check because we add identification files 
+  ## (a modified version using "<" instead of "!=" is below
+  #nfilesprocData   <- length(processingData(object)@files)
+  #nfilesSpectra <- length(unique(unlist(eapply(assayData(object),fromFile))))
+  #if (nfilesprocData != nfilesSpectra)
+  #  msg <- validMsg(msg, "unequal number of files in assayData and processingData.")
+  aFileIds <- unlist(eapply(assayData(object), fromFile))
+  fFileIds <- fData(object)$fileId
+  if (any(aFileIds != fFileIds))
+    msg <- validMsg(msg, "mismatch of files in assayData and processingData.")
   nfilesprocData   <- length(processingData(object)@files)
-  nfilesSpectra <- length(unique(unlist(eapply(assayData(object),fromFile))))
-  if (nfilesprocData != nfilesSpectra)
-    msg <- validMsg(msg, "unequal number of files in assayData and processingData.")
+  nfilesSpectra <- length(unique(aFileIds))
+  if (nfilesprocData < nfilesSpectra)
+    msg <- validMsg(msg, "more spectra files in assayData than in processingData.")
   nfilespData <- nrow(pData(object))
   if (nfilespData != nfilesSpectra)
     msg <- validMsg(msg, "unequal number of files in assayData and phenoData.")  
