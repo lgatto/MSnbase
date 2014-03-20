@@ -1,6 +1,9 @@
 CHANGES IN VERSION 1.11.9
 -------------------------
- o TODO add example and test for combineFeatures with list.
+ o write.exprs can have fDataCol or fcol (for consistence) [2014-03-17 Mon]
+ o Fixing bug in combineFeatures(..., is.character(groupBy)) [2014-03-19 Wed]
+ o fixed combineFeatures [2014-03-20 Thu]
+ o added example, test and doc for combineFeatures with list [2014-03-20 Thu]
 
 CHANGES IN VERSION 1.11.8
 -------------------------
