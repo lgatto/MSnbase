@@ -59,7 +59,7 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
   expect_equal(as.numeric(sort(rtime(aa))[1]),1501.35) ## [*]
   ## [*] using as.numeric because rtime and precursorMz return named numerics
   ## Meta data
-  expect_equal(dim(fData(aa)), c(5,1))
+  expect_equal(dim(fData(aa)), c(5,2))
   expect_equal(dim(pData(aa)), c(1,2))
   ## subsetting
   expect_true(all.equal(aa[["X4.1"]],assayData(aa)[["X4.1"]]))

@@ -328,6 +328,11 @@ readMSData <- function(files,
                   processingData = process,
                   experimentData = expdata,
                   .cache = .cacheEnv)
+  ## add fileId to fData
+  fdata <- fData(toReturn)
+  fdata$fileId <- fromFile(toReturn)
+  fData(toReturn) <- fdata 
+
   if (validObject(toReturn))
     return(toReturn)
 }
