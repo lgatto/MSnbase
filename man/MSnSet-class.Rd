@@ -8,6 +8,7 @@
 %% TODO add methods
 \alias{dim,MSnSet-method}
 \alias{fileNames,MSnSet-method}
+\alias{identificationFileNames,MSnSet-method}
 %%\alias{normalise,MSnSet-method}
 \alias{msInfo,MSnSet-method}
 \alias{processingData,MSnSet-method}
@@ -160,6 +161,8 @@
       features. }
     \item{fileNames}{\code{signature(object = "MSnSet")}: Access file
       names in the \code{processingData} slot. }
+    \item{identificationFileNames}{\code{signature(object = "MSnSet")}: 
+      Access identification file names in the \code{processingData} slot. }
     \item{msInfo}{\code{signature(object = "MSnSet")}: Prints the MIAPE-MS
       meta-data stored in the \code{experimentData} slot. }
     \item{processingData}{\code{signature(object = "MSnSet")}: Access the

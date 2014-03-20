@@ -4,6 +4,7 @@
 setClass("MSnProcess",
          representation = representation(
            files="character",
+           identificationFiles="character",
            processing="character",
            merged="logical",
            cleaned="logical",
@@ -14,9 +15,10 @@ setClass("MSnProcess",
            MSnbaseVersion="character"),
          contains=c("Versioned"),
          prototype = prototype(
-           new("Versioned", versions=c(MSnProcess="0.1.3")),
+           new("Versioned", versions=c(MSnProcess="0.1.4")),
            processing=character(),
            files=character(),
+           identificationFiles=character(),
            trimmed=numeric(),
            removedPeaks=character(),
            MSnbaseVersion=character()) ## set in initialize()
