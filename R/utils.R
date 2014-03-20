@@ -528,3 +528,28 @@ MSnExp.size <- function(x)
     object.size(x) + sum(unlist(unname(eapply(assayData(x),
                                               object.size)))) 
 
+# convert character vector of length n to a semikolon separated character
+# vector of length 1
+utils.vec2ssv <- function(vec) {
+  paste0(vec, collapse=";")
+}
+
+# convert a semikolon separated character vector of length 1 to a vector of
+# length n
+utils.ssv2vec <- function(ssv, unlist=TRUE) {
+  vec <- strsplit(ssv, ";")
+  if (unlist) {
+    return(unlist(vec))
+  } else {
+    return(vec)
+  }
+}
+
+utils.list2ssv <- function(l) {
+  unlist(lapply(l, utils.vec2ssv))
+}
+
+utils.ssv2list <- function(ssv) {
+  utils.ssv2vec(ssv, unlist=FALSE)
+}
+
