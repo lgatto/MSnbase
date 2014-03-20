@@ -69,7 +69,6 @@ combineFeatures(object, groupBy, fun = c("mean", "median",
     to be printed out. }
 
   \item{\dots}{ Additional arguments for the \code{fun} function. }
-
 }
 
 % \details{
@@ -96,7 +95,6 @@ combineFeatures(object, groupBy, fun = c("mean", "median",
 }
 
 \examples{
-
 data(itraqdata)
 quant <- quantify(itraqdata[11:15], method = "max", reporters = iTRAQ4)
 dim(quant)

@@ -29,7 +29,7 @@ combineFeatures <- function(object,
         result <- combineFeaturesL(object, groupBy, fun,
                                    redundancy.handler,
                                    cv, cv.norm, verbose, ...)        
-    } else {
+    } else { ## factor, numeric or character
         result <- combineFeaturesV(object, groupBy, fun,
                                    cv, cv.norm, verbose, ...)
     }

@@ -122,7 +122,7 @@ test_that("Combine MSnSet features (L)", {
     expect_equal(ee2, ee3)
 
     ee4 <- combineFeatures(ee, L,
-                           redundancy.handler = "ignore",
+                           redundancy.handler = "multiple",
                            cv = FALSE)    
     expect_equal(exprs(ee4)["A", ], 
                  colMeans(exprs(ee)[sapply(L, function(l) any(grepl("A", l))), ]))
