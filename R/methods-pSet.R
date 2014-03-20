@@ -275,6 +275,13 @@ setMethod("fileNames",
           signature(object="pSet"),
           function(object) processingData(object)@files)
 
+setReplaceMethod("fileNames",
+          signature(object="pSet", value="character"),
+          function(object, value) {
+            fileNames(object@processingData) <- value
+            return(object)
+          })
+
 ## setReplaceMethod("sampleNames",
 ##                  signature=signature(object="pSet", value="character"),
 ##                  function(object, value) {

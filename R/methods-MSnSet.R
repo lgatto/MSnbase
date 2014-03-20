@@ -171,6 +171,13 @@ setMethod("fileNames",
           signature(object="MSnSet"),
           function(object) processingData(object)@files)
 
+setReplaceMethod("fileNames",
+          signature(object="MSnSet", value="character"),
+          function(object, value) {
+            fileNames(object@processingData) <- value
+            return(object)
+          })
+
 setMethod("processingData",
           signature(object="MSnSet"),
           function(object) object@processingData)

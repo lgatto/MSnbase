@@ -18,6 +18,15 @@ setMethod("fileNames",
           signature(object="MSnProcess"),
           function(object) object@files)
 
+setReplaceMethod("fileNames",
+          signature(object="MSnProcess", value="character"),
+          function(object, value) {
+            if (!file.exists(value))
+              stop("File ", sQuote(value), " does not exist!")
+            object@files <- normalizePath(value)
+            return(object)
+          })
+
 ## Adapted from Biobase::combine("MIAME", "MIAME") 
 setMethod("combine",
           c("MSnProcess", "MSnProcess"),
