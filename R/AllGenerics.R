@@ -1,9 +1,9 @@
-setGeneric("clean", function(object,...) standardGeneric("clean"))
-setGeneric("trimMz", function(object,mzlim,...) standardGeneric("trimMz"))
-setGeneric("removePeaks", function(object,t="min",...) standardGeneric("removePeaks"))
-setGeneric("removeReporters", function(object,...) standardGeneric("removeReporters"))
+setGeneric("clean", function(object, ...) standardGeneric("clean"))
+setGeneric("trimMz", function(object,mzlim, ...) standardGeneric("trimMz"))
+setGeneric("removePeaks", function(object,t="min", ...) standardGeneric("removePeaks"))
+setGeneric("removeReporters", function(object, ...) standardGeneric("removeReporters"))
 
-##setGeneric("bg.correct", function(object,bg,...) standardGeneric("bg.correct"))
+##setGeneric("bg.correct", function(object,bg, ...) standardGeneric("bg.correct"))
 
 setGeneric("spectra",function(object) standardGeneric("spectra"))
 ##setGeneric("spectra<-",function(object,value) standardGeneric("spectra<-"))
@@ -50,9 +50,9 @@ setGeneric("ionCount",function(object) standardGeneric("ionCount"))
 
 setGeneric("fromFile",function(object) standardGeneric("fromFile"))
 
-setGeneric("quantify",function(object,...) standardGeneric("quantify"))
-setGeneric("curveStats",function(object,reporters,...) standardGeneric("curveStats"))
-setGeneric("purityCorrect",function(object,impurities,...) standardGeneric("purityCorrect"))
+setGeneric("quantify",function(object, ...) standardGeneric("quantify"))
+setGeneric("curveStats",function(object,reporters, ...) standardGeneric("curveStats"))
+setGeneric("purityCorrect",function(object,impurities, ...) standardGeneric("purityCorrect"))
 
 setGeneric("qual",function(object) standardGeneric("qual"))
 
@@ -71,17 +71,17 @@ setGeneric("extractSpectra",function(object,selected) standardGeneric("extractSp
 setGeneric("multiplex",function(object) standardGeneric("multiplex"))
 setGeneric("multiLabels",function(object) standardGeneric("multiLabels"))
 
-setGeneric("plot2d",function(object,...) standardGeneric("plot2d"))
-setGeneric("plotDensity",function(object,...) standardGeneric("plotDensity"))
-setGeneric("plotMzDelta",function(object,...) standardGeneric("plotMzDelta"))
-setGeneric("plotNA",function(object,...) standardGeneric("plotNA"))
+setGeneric("plot2d",function(object, ...) standardGeneric("plot2d"))
+setGeneric("plotDensity",function(object, ...) standardGeneric("plotDensity"))
+setGeneric("plotMzDelta",function(object, ...) standardGeneric("plotMzDelta"))
+setGeneric("plotNA",function(object, ...) standardGeneric("plotNA"))
 
-setGeneric("writeMgfData",function(object,...) standardGeneric("writeMgfData"))
+setGeneric("writeMgfData",function(object, ...) standardGeneric("writeMgfData"))
 
-setGeneric("filterNA", function(object,...) standardGeneric("filterNA"))
-setGeneric("topN", function(object,...) standardGeneric("topN"))
+setGeneric("filterNA", function(object, ...) standardGeneric("filterNA"))
+setGeneric("topN", function(object, ...) standardGeneric("topN"))
 
-setGeneric("exprsToRatios",function(object,...) standardGeneric("exprsToRatios"))
+setGeneric("exprsToRatios",function(object, ...) standardGeneric("exprsToRatios"))
 setGeneric("impute",function(object, ...) standardGeneric("impute"))
 
 ## mzR
