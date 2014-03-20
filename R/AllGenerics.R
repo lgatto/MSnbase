@@ -64,7 +64,6 @@ setGeneric("reporterColors",function(object) standardGeneric("reporterColors"))
 
 setGeneric("fileNames",function(object) standardGeneric("fileNames"))
 setGeneric("fileNames<-",function(object,value) standardGeneric("fileNames<-"))
-setGeneric("identificationFileNames",function(object) standardGeneric("identificationFileNames")) 
 
 setGeneric("extractPrecSpectra",function(object,prec) standardGeneric("extractPrecSpectra"))
 setGeneric("extractSpectra",function(object,selected) standardGeneric("extractSpectra"))

@@ -20,8 +20,6 @@
 \alias{featureNames,pSet-method}
 \alias{fileNames,pSet-method}
 \alias{fileNames}
-\alias{identificationFileNames,pSet-method}
-\alias{identificationFileNames}
 \alias{fromFile,pSet-method}
 \alias{centroided,pSet-method}
 \alias{centroided<-,pSet,ANY-method}
@@ -166,8 +164,6 @@
       \code{assayData} slot. }
     \item{fileNames}{\code{signature(object = "pSet")}: Access file
       names in the \code{processingData} slot. }
-    \item{identificationFileNames}{\code{signature(object = "pSet")}:
-      Access identification file names in the \code{processingData} slot. }
     \item{fromFile}{\code{signature(object = "pSet")}: Access raw data
       file indexes (to be found in the 'code{processingData}' slot) from
       which the individual object's spectra where read from. }

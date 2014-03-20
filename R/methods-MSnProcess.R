@@ -18,10 +18,6 @@ setMethod("fileNames",
           signature(object="MSnProcess"),
           function(object) object@files)
 
-setMethod("identificationFileNames",
-          signature(object="MSnProcess"),
-          function(object) object@identificationFiles)
-
 ## Adapted from Biobase::combine("MIAME", "MIAME") 
 setMethod("combine",
           c("MSnProcess", "MSnProcess"),

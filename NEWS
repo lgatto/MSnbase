@@ -1,10 +1,7 @@
 CHANGES IN VERSION 1.11.7
 -------------------------
  o import mzID [2014-03-20 Thu] 
- o add identificationFiles slot to MSnProcess 
-   (increase class version to 0.1.4) [2014-03-20 Thu] 
- o add identificationFileNames method for MSnProcess, MSnSet, pSet 
-   [2014-03-20 Thu]
+ o 
 
 CHANGES IN VERSION 1.11.6
 -------------------------

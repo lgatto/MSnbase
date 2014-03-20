@@ -171,10 +171,6 @@ setMethod("fileNames",
           signature(object="MSnSet"),
           function(object) processingData(object)@files)
 
-setMethod("identificationFileNames",
-          signature(object="MSnSet"),
-          function(object) processingData(object)@identificationFiles)
-
 setMethod("processingData",
           signature(object="MSnSet"),
           function(object) object@processingData)

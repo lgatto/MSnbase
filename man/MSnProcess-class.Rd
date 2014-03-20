@@ -6,7 +6,6 @@
 \alias{MSnProcess}
 
 \alias{fileNames,MSnProcess-method}
-\alias{identificationFileNames,MSnProcess-method}
 \alias{show,MSnProcess-method}
 \alias{combine,MSnProcess,MSnProcess-method}
 
@@ -24,10 +23,6 @@
     \item{\code{files}:}{Object of class \code{"character"} storing the
       raw data files used in experiment described by the
       \code{"MSnProcess"} instance. }
-    \item{\code{identificationFiles}:}{Object of class \code{"character"}
-      storing the identification data files used in experiment described by 
-      the \code{"MSnProcess"} instance. If multiple files are given they have
-      to be in the same order as \code{files}. }
     \item{\code{processing}:}{Object of class \code{"character"} storing
       all the processing steps and times. }
     \item{\code{merged}:}{Object of class \code{"logical"} indicating
@@ -61,9 +56,6 @@
     \item{fileNames}{\code{signature(object = "MSnProcess")}: Returns the
       file names used in experiment described by the \code{"MSnProcess"}
       instance. } 
-    \item{identificationFileNames}{\code{signature(object = "MSnProcess")}:
-      Returns the identification file names used in experiment 
-      described by the \code{"MSnProcess"} instance. } 
     \item{show}{\code{signature(object = "MSnProcess")}: Displays object
       content as text. }
     \item{combine}{\code{signature(x = "MSnProcess", y = "MSnProcess")}:
