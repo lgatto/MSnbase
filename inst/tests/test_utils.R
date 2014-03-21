@@ -61,28 +61,49 @@ test_that("mergeSpectraAndIdentificationData", {
   ## pseudo fData(MSnSet) output
   fd <- data.frame(spectrum=1:4,
                    acquisitionNum=5:8, 
-                   filename="foobar.mzML",
-                   uselesscolumn=1,
+                   filename=c("foobar1.mzML", "foobar2.mzML",
+                              "foobar1.mzML", "foobar1.mzML"),
+                   row.names=paste0("R", 1:4),
                    stringsAsFactors=FALSE)
   ## pseudo mzID output
-  id <- data.frame(acquisitionnum=c(5, 5, 5, 8), 
-                   spectrumFile="foobar.mzML",
-                   rank=c(2, 3, 1, 1),
-                   accession=paste0("P", 1:4),
-                   description=paste0("D", 1:4),
-                   spectrumid=paste0("id", 1:4),
-                   uselesscolumn=2,
-                   stringsAsFactors=FALSE)
-  rfd <- data.frame(filename="foobar.mzML",
-                    acquisitionNum=5:8,
-                    spectrum=1:4,
-                    uselesscolumn.spectrum=1,
-                    rank=c(1, NA, NA, 1),
-                    accession=c("P3;P1;P2", NA, NA, "P4"),
-                    description=c("D3;D1;D2", NA, NA, "D4"),
-                    uselesscolumn.id=c(2, NA, NA, 2),
-                    npsm=c(3, NA, NA, 1),
-                    row.names=as.character(1:4),
+  id1 <- data.frame(acquisitionnum=c(5, 5, 5, 8), 
+                    spectrumFile="foobar1.mzML",
+                    rank=c(2, 3, 1, 1),
+                    accession=paste0("P", 1:4),
+                    description=paste0("D", 1:4),
+                    spectrumid=paste0("id", 1:4),
                     stringsAsFactors=FALSE)
-  expect_equal(MSnbase:::utils.mergeSpectraAndIdentificationData(fd, id), rfd)
+  id2 <- data.frame(acquisitionnum=6, 
+                    spectrumFile="foobar2.mzML",
+                    rank=1,
+                    accession="P9",
+                    description="D9",
+                    spectrumid="id9",
+                    stringsAsFactors=FALSE)
+  ## results
+  rfd1 <- data.frame(spectrum=1:4,
+                     acquisitionNum=5:8,
+                     filename=c("foobar1.mzML", "foobar2.mzML",
+                                "foobar1.mzML", "foobar1.mzML"),
+                     rank=c(1, NA, NA, 1),
+                     accession=c("P3;P1;P2", NA, NA, "P4"),
+                     description=c("D3;D1;D2", NA, NA, "D4"),
+                     npsm=c(3, NA, NA, 1),
+                     row.names=paste0("R", 1:4),
+                     stringsAsFactors=FALSE)
+  rfd2 <- data.frame(spectrum=1:4,
+                     acquisitionNum=5:8,
+                     filename=c("foobar1.mzML", "foobar2.mzML",
+                                "foobar1.mzML", "foobar1.mzML"),
+                     rank=c(1, 1, NA, 1),
+                     accession=c("P3;P1;P2", "P9", NA, "P4"),
+                     description=c("D3;D1;D2", "D9", NA, "D4"),
+                     npsm=c(3, 1, NA, 1),
+                     row.names=paste0("R", 1:4),
+                     stringsAsFactors=FALSE)
+  ## first run
+  expect_equal(MSnbase:::utils.mergeSpectraAndIdentificationData(fd, id1), rfd1)
+  ## second run
+  expect_equal(MSnbase:::utils.mergeSpectraAndIdentificationData(rfd1, id2),
+               rfd2)
 })

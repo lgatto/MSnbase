@@ -628,27 +628,13 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, idData) {
   ## remove duplicated entries
   idData <- idData[!duplicated(idData$acquisitionnum), ]
 
-  rn <- rownames(featureData)
-
-  ## preserve spectrum order
-  spectraIds <- featureData$spectrum
-
   ## mzR::acquisitionNum and mzID::acquisitionnum should be identical
-  featureData <- merge(x=featureData, y=idData, 
-                       by.x=c("filename", "acquisitionNum"), 
-                       by.y=c("spectrumFile", "acquisitionnum"),
-                       all.x=TRUE, all.y=FALSE, 
-                       suffixes=c(".spectrum", ".id"))
-
-  ## recreate correct order
-  featureData <- featureData[match(featureData$spectrum, spectraIds), ]
-
-  ## rownames are lost while merging, restore them
-  rownames(featureData) <- rn
-
-  ## remove useless columns
-  keep <- !colnames(featureData) %in% c("spectrumid") # vendor specific nativeIDs 
-  featureData <- featureData[, keep]
+  featureData <- utils.leftJoin(
+    x=featureData, y=idData, 
+    by.x=c("filename", "acquisitionNum"), 
+    by.y=c("spectrumFile", "acquisitionnum"),
+    exclude=c("spectrumid") # vendor specific nativeIDs 
+  )
 
   return(featureData)
 }
