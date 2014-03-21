@@ -631,9 +631,10 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, idData) {
   ## mzR::acquisitionNum and mzID::acquisitionnum should be identical
   featureData <- utils.leftJoin(
     x=featureData, y=idData, 
-    by.x=c("filename", "acquisitionNum"), 
-    by.y=c("spectrumFile", "acquisitionnum"),
-    exclude=c("spectrumid") # vendor specific nativeIDs 
+    by.x=c("fileId", "acquisitionNum"), 
+    by.y=c("fileId", "acquisitionnum"),
+    exclude=c("spectrumid",   # vendor specific nativeIDs 
+              "spectrumFile") # is stored in fileId + MSnExp@files
   )
 
   return(featureData)
@@ -653,10 +654,10 @@ utils.addSingleIdentificationDataFile <- function(object, filename,
 
   fd <- fData(object)
   fd$acquisitionNum <- acquisitionNum(object)
-  fd$filename <- spectrumFilenames
 
   ## append identification filename to filename slot
   fileNames(object) <- c(fileNames(object), filename)
+  id$fileId <- match(idFilenames, spectrumFilenames)
   id$identFileId <- length(fileNames(object))
 
   fData(object) <- utils.mergeSpectraAndIdentificationData(fd, id)

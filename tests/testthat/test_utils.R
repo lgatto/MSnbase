@@ -60,13 +60,13 @@ test_that("leftJoin", {
 test_that("mergeSpectraAndIdentificationData", {
   ## pseudo fData(MSnSet) output
   fd <- data.frame(spectrum=1:4,
+                   fileId=c(1, 2, 1, 1),
                    acquisitionNum=5:8, 
-                   filename=c("foobar1.mzML", "foobar2.mzML",
-                              "foobar1.mzML", "foobar1.mzML"),
                    row.names=paste0("R", 1:4),
                    stringsAsFactors=FALSE)
   ## pseudo mzID output
   id1 <- data.frame(acquisitionnum=c(5, 5, 5, 8), 
+                    fileId=1,
                     spectrumFile="foobar1.mzML",
                     rank=c(2, 3, 1, 1),
                     accession=paste0("P", 1:4),
@@ -74,6 +74,7 @@ test_that("mergeSpectraAndIdentificationData", {
                     spectrumid=paste0("id", 1:4),
                     stringsAsFactors=FALSE)
   id2 <- data.frame(acquisitionnum=6, 
+                    fileId=2,
                     spectrumFile="foobar2.mzML",
                     rank=1,
                     accession="P9",
@@ -82,9 +83,8 @@ test_that("mergeSpectraAndIdentificationData", {
                     stringsAsFactors=FALSE)
   ## results
   rfd1 <- data.frame(spectrum=1:4,
+                     fileId=c(1, 2, 1, 1),
                      acquisitionNum=5:8,
-                     filename=c("foobar1.mzML", "foobar2.mzML",
-                                "foobar1.mzML", "foobar1.mzML"),
                      rank=c(1, NA, NA, 1),
                      accession=c("P3;P1;P2", NA, NA, "P4"),
                      description=c("D3;D1;D2", NA, NA, "D4"),
@@ -92,9 +92,8 @@ test_that("mergeSpectraAndIdentificationData", {
                      row.names=paste0("R", 1:4),
                      stringsAsFactors=FALSE)
   rfd2 <- data.frame(spectrum=1:4,
+                     fileId=c(1, 2, 1, 1),
                      acquisitionNum=5:8,
-                     filename=c("foobar1.mzML", "foobar2.mzML",
-                                "foobar1.mzML", "foobar1.mzML"),
                      rank=c(1, 1, NA, 1),
                      accession=c("P3;P1;P2", "P9", NA, "P4"),
                      description=c("D3;D1;D2", "D9", NA, "D4"),
@@ -107,3 +106,4 @@ test_that("mergeSpectraAndIdentificationData", {
   expect_equal(MSnbase:::utils.mergeSpectraAndIdentificationData(rfd1, id2),
                rfd2)
 })
+
