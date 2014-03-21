@@ -56,6 +56,8 @@ msexp <- readMSData(quantFile)
 
 ## add identification information
 msexp <- addIdentificationData(msexp, identFile)
+
+fData(msexp)
 }
 
 \keyword{methods}
