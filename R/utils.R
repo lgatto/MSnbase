@@ -631,8 +631,8 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, idData) {
   ## mzR::acquisitionNum and mzID::acquisitionnum should be identical
   featureData <- utils.leftJoin(
     x=featureData, y=idData, 
-    by.x=c("fileId", "acquisitionNum"), 
-    by.y=c("fileId", "acquisitionnum"),
+    by.x=c("file", "acquisition.number"), 
+    by.y=c("file", "acquisitionnum"),
     exclude=c("spectrumid",   # vendor specific nativeIDs 
               "spectrumFile") # is stored in fileId + MSnExp@files
   )
@@ -645,22 +645,23 @@ utils.addSingleIdentificationDataFile <- function(object, filename,
 
   id <- flatten(mzID(filename, verbose=verbose))
   idFilenames <- basename(id$spectrumFile)
-  filenameId <- fromFile(object)
-  spectrumFilenames <- basename(fileNames(object)[filenameId])
+
+  if (!length(fData(object)$file)) {
+    stop("No quantification file loaded!")
+  }
+
+  spectrumFilenames <- basename(fileNames(object)[fData(object)$file])
 
   if (any(!idFilenames %in% unique(spectrumFilenames))) {
     stop("Filenames do not match! Do you use the wrong identification file?")
   }
 
-  fd <- fData(object)
-  fd$acquisitionNum <- acquisitionNum(object)
-
   ## append identification filename to filename slot
   fileNames(object) <- c(fileNames(object), filename)
-  id$fileId <- match(idFilenames, spectrumFilenames)
-  id$identFileId <- length(fileNames(object))
+  id$file <- match(idFilenames, spectrumFilenames)
+  id$identFile <- length(fileNames(object))
 
-  fData(object) <- utils.mergeSpectraAndIdentificationData(fd, id)
+  fData(object) <- utils.mergeSpectraAndIdentificationData(fData(object), id)
 
   return(object)
 }
@@ -668,7 +669,8 @@ utils.addSingleIdentificationDataFile <- function(object, filename,
 utils.addIdentificationData <- function(object, filenames, verbose=TRUE) {
 
   for (file in filenames) {
-    object <- utils.addSingleIdentificationDataFile(object, file, verbose=verbose)
+    object <- utils.addSingleIdentificationDataFile(object, file,
+                                                    verbose=verbose)
   }
 
   return(object)

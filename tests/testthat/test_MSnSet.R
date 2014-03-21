@@ -194,3 +194,27 @@ test_that("Transpose and subset", {
     ## expect_true(all(dim(qual(bb)) == c(4,7)))
     ## expect_true(all(qual(bb)$reporter %in% bb$mz))
 })
+
+context("MSnSet identification data")
+
+test_that("addIdentificationData", {
+  quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                   full.name = TRUE, pattern = "mzXML$")
+ 
+  identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                   full.name = TRUE, pattern = "mzid$")
+
+  aa <- readMSData(quantFile, verbose = FALSE)
+  msnset <- quantify(aa, method = "trap", reporters = iTRAQ4, verbose = FALSE)
+  fd <- fData(addIdentificationData(msnset, identFile, verbose = FALSE))
+
+  expect_equal(fd$spectrum, 1:5)
+  expect_equal(fd$file, rep(1, 5))
+  expect_equal(fd$acquisition.number, 1:5)
+  expect_equal(fd$pepseq, c("VESITARHGEVLQLRPK", "IDGQWVTHQWLKK", NA, NA,
+                            "LVILLFR"))
+  expect_equal(fd$accession, c("ECA0984;ECA3829", "ECA1028", NA, NA,
+                               "ECA0510")) 
+  expect_equal(fd$identFile, c(2, 2, NA, NA, 2))
+  expect_equal(fd$npsm, c(2, 1, NA, NA, 1))
+})

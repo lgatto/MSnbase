@@ -583,6 +583,14 @@ setMethod("MAplot",
             }
           })
 
+setMethod("addIdentificationData",
+          signature = "MSnSet",
+          function(object, filenames, verbose = TRUE) {
+            object <- utils.addIdentificationData(object, filenames, 
+                                                  verbose = verbose)
+            return(object)
+        })
+ 
 
 ##############################################
 ## This should also be implemented for pSet!

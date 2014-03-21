@@ -2,7 +2,7 @@ CHANGES IN VERSION 1.11.10
 --------------------------
  o dummiiTRAQ id extdata [2014-03-21 Fri]
  o import mzID [2014-03-20 Thu] 
- o 
+ o add addIdentificationData method for MSnExp and MSnSet [2014-03-21 Fri] 
 
 CHANGES IN VERSION 1.11.9
 -------------------------
