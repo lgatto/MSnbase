@@ -62,8 +62,8 @@
 }
 
 \affil{
-  Cambridge Center for Proteomics\\
-  University of Cambridge
+  Computational Proteomics Unit\\
+  University of Cambridge, UK
 }
 
 
@@ -358,18 +358,30 @@ plot(bsa, reporters = iTRAQ4, full = FALSE) + theme_gray(8)
 
 \subsection{Customising your plots}\label{sec:customplots}
 
-The \Rpackage{MSnbase} \Rfunction{plot} methods have a logical \Robject{plot} parameter 
-(default is \Robject{TRUE}), that specifies if the plot should be printed to the current 
-device. A plot object is also (invisibly) returned, so that it can be saved as a variable 
-for later use or for customisation. 
+The \Rpackage{MSnbase} \Rfunction{plot} methods have a logical
+\Robject{plot} parameter (default is \Robject{TRUE}), that specifies
+if the plot should be printed to the current device. A plot object is
+also (invisibly) returned, so that it can be saved as a variable for
+later use or for customisation.
 
-\Rpackage{MSnbase} uses the \Rpackage{ggplot2} package to generate figures, 
-which can subsequently easily be customised. 
-More details about \Rpackage{ggplot2} can be found in \cite{ggplot2} (especially chapter 8) 
-and on \href{http://had.co.nz/ggplot2/}{http://had.co.nz/ggplot2/}. 
-Finally, if a plot object has been saved in a variable \Robject{p}, 
-it is possible to obtain a summary about the object with \Rfunction{summary(p)}. 
-To view the data frame used to generate the plot, use \Rfunction{p@data}.
+\Rpackage{MSnbase} uses the \Rpackage{ggplot2} package to generate
+figures, which can subsequently easily be customised.  More details
+about \Rpackage{ggplot2} can be found in \cite{ggplot2} (especially
+chapter 8) and on
+\href{http://had.co.nz/ggplot2/}{http://had.co.nz/ggplot2/}.  Finally,
+if a plot object has been saved in a variable \Robject{p}, it is
+possible to obtain a summary about the object with
+\Rfunction{summary(p)}.  To view the data frame used to generate the
+plot, use \Rfunction{p@data}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Adding identification data}\label{sec:id}
+
+Document here \Rfunction{addIdentificationData} for \Robject{MSnExp}
+(and \Robject{MSnSet}) instances using \texttt{mzIdentML} files.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
