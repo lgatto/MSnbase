@@ -23,27 +23,52 @@
 }
 
 \usage{
-combineFeatures(object, groupBy, fun = c("mean", "median", "weighted.mean", "sum", "medpolish"), ..., cv = TRUE, cv.norm = "sum", verbose = TRUE)
+
+combineFeatures(object, groupBy, fun = c("mean", "median",
+"weighted.mean", "sum", "medpolish"), redundancy.handler = c("unique",
+"multiple"), cv = TRUE, cv.norm = "sum", verbose = TRUE, ...)
+
 }
 
 \arguments{
+
   \item{object}{ An instance of class \code{"\linkS4class{MSnSet}"}
     whose features will be summerised. }
-  \item{groupBy}{ An object of class factor defining how to summerise
-    the features. }
+
+  \item{groupBy}{ A \code{factor}, \code{character}, \code{numeric} or a
+    \code{list} of the above defining how to summerise the features. The
+    list must be of length \code{nrow(object)}. Each element of the list
+    is a vector describing the feature mapping. If the list can be
+    named, its names must match \code{fetureNames(object)}. See
+    \code{redundancy.handler} for details about the latter.}
+
   \item{fun}{ The summerising function. Currently, mean, median,
     weighted mean, sum and median polish are implemented, but
     user-defined functions can also be supplied. }
-  \item{\dots}{ Additional arguments for the \code{fun} function. }
+    
+  \item{redundancy.handler}{ If \code{groupBy} is a \code{list}, one of
+    \code{"unique"} (default) or \code{"multiple"} (ignored otherwise)
+    defining how to handle peptides that can be associated to multiple
+    higher-level features (proteins) uppon combination. Using
+    \code{"unique"} will only consider uniquely matching features
+    (features matching multiple proteins will be discarded).
+    \code{"multiple"} will allow matching to multiple proteins and each
+    feature will be repeatedly tallied for each possible matching
+    protein. }
+  
   \item{cv}{ A \code{logical} defining if feature coefficients of
     variation should be computed and stored as feature
     meta-data. Default is \code{TRUE}. }
+
   \item{cv.norm}{ A \code{character} defining how to normalise the
     feature intensitites prior to CV calculation. Default is
     \code{sum}. Use \code{none} to keep intensities as is. See
     \code{\link{featureCV}} for more details. }
+
   \item{verbose}{ A \code{logical} indicating whether verbose output is
     to be printed out. }
+
+  \item{\dots}{ Additional arguments for the \code{fun} function. }
 }
 
 % \details{
@@ -81,6 +106,13 @@ dim(quant.comb)
 exprs(quant.comb)
 fvarLabels(quant.comb)
 
+## grouping with a list
+grpl <- list(c("A", "B"), "A", "A", "C", c("C", "B"))
+## optional naming
+names(grpl) <- featureNames(quant)
+exprs(combineFeatures(quant, grpl, fun = "sum", redundancy.handler = "unique"))
+exprs(combineFeatures(quant, grpl, fun = "sum", redundancy.handler = "multiple"))
+
 ## missing data
 exprs(quant)[4, 4] <- 
     exprs(quant)[2, 2] <- NA
@@ -91,4 +123,4 @@ exprs(combineFeatures(quant, grp, "sum"))
 exprs(combineFeatures(quant, grp, "sum", na.rm = TRUE))
 }
 
-%% \keyword{ ~kwd1 }
+
