@@ -37,9 +37,9 @@ setValidity("pSet", function(object) {
   #nfilesSpectra <- length(unique(unlist(eapply(assayData(object),fromFile))))
   #if (nfilesprocData != nfilesSpectra)
   #  msg <- validMsg(msg, "unequal number of files in assayData and processingData.")
-  aFileIds <- unlist(eapply(assayData(object), fromFile))
+  aFileIds <- fromFile(object)
   fFileIds <- fData(object)$file
-  if (any(aFileIds != fFileIds))
+  if (length(fFileIds) && any(aFileIds != fFileIds))
     msg <- validMsg(msg, "mismatch of files in assayData and processingData.")
   nfilesprocData   <- length(processingData(object)@files)
   nfilesSpectra <- length(unique(aFileIds))
