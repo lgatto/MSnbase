@@ -553,6 +553,64 @@ utils.ssv2list <- function(ssv) {
   utils.ssv2vec(ssv, unlist=FALSE)
 }
 
+## similar to merge(..., all.x=TRUE) but if called multiple times
+## exisiting columns would not duplicated (with/without suffixes) 
+## but filled/overwritten using the values from y
+## params: x, y, by, by.x, by.y see ?merge
+##         exclude: character, columns which should excluded
+##         order: logical, preserve order?
+utils.leftJoin <- function(x, y, by, by.x=by, by.y=by, 
+                           exclude=character(), order=TRUE) {
+
+  ## create character ids to allow ids covering several columns
+  rxc <- do.call(paste, c(x[, by.x, drop=FALSE], sep=";"))
+  ryc <- do.call(paste, c(y[, by.y, drop=FALSE], sep=";"))
+
+  ## determine matching rows
+  ryid <- match(rxc, ryc, 0L)
+  rjid <- match(ryc, rxc, 0L)
+  ryid <- ryid[ryid > 0]
+  rjid <- rjid[rjid > 0]
+
+  ## preserve order?
+  if (order) {
+    rjid <- sort(rjid)
+  }
+
+  cnx <- colnames(x)
+  cny <- colnames(y)
+
+  ## exclude columns
+  keepx <- !cnx %in% exclude
+  keepy <- !cny %in% c(exclude, by.y)
+  cnx <- cnx[keepx]
+  cny <- cny[keepy]
+  x <- x[, keepx, drop=FALSE]
+  y <- y[, keepy, drop=FALSE]
+
+  ## start joining
+  joined <- x[, cnx]
+
+  ## only import equal columns from y
+  cjid <- match(cny, cnx, 0L)
+  cyid <- match(cnx, cny, 0L)
+
+  cjid <- cjid[cjid > 0]
+  cyid <- cyid[cyid > 0]
+
+  joined[rjid, cjid] <- y[ryid, cyid]
+
+  ## add missing columns from y
+  cym <- setdiff(cny, cnx)
+  
+  if (length(cym)) {
+    joined[, cym] <- NA
+    joined[rjid, cym] <- y[ryid, cym]
+  }
+
+  return(joined)
+}
+
 utils.mergeSpectraAndIdentificationData <- function(featureData, idData) {
   ## sort id data to ensure the best matching peptide is on top in case of
   ## multiple matching peptides

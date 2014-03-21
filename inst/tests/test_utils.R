@@ -21,6 +21,42 @@ test_that("list2ssv & ssv2list", {
   expect_equal(MSnbase:::utils.vec2ssv(unlist(l)), string)
 })
 
+test_that("leftJoin", {
+  x <- data.frame(id=1:7,
+                  fn=LETTERS[1:7],
+                  add=1:7,
+                  useless1=1,
+                  stringsAsFactors=FALSE)
+  rownames(x) <- paste0("R", seq(nrow(x)))
+  y1 <- data.frame(id=4:2,
+                   fn=LETTERS[4:2],
+                   foobar=letters[4:2],
+                   useless2=2,
+                   stringsAsFactors=FALSE)
+  y2 <- data.frame(id=6:7,
+                   fn=LETTERS[6:7],
+                   foobar=letters[6:7],
+                   useless3=3,
+                   stringsAsFactors=FALSE)
+  z1 <- data.frame(id=1:7,
+                   fn=LETTERS[1:7],
+                   add=1:7,
+                   foobar=c(NA, letters[2:4], rep(NA, 3)),
+                   stringsAsFactors=FALSE)
+  z2 <- data.frame(id=1:7,
+                   fn=LETTERS[1:7],
+                   add=1:7,
+                   foobar=c(NA, letters[2:4], NA, letters[6:7]),
+                   stringsAsFactors=FALSE)
+  rownames(z1) <- rownames(z2) <- paste0("R", seq(nrow(x)))
+  ## first run
+  expect_equal(MSnbase:::utils.leftJoin(x, y1, by=c("id", "fn"), 
+                                        exclude=c("useless1", "useless2")), z1)
+  ## second run (on the results of the first run)
+  expect_equal(MSnbase:::utils.leftJoin(z1, y2, by=c("id", "fn"), 
+                                        exclude=c("useless3")), z2)
+})
+
 test_that("mergeSpectraAndIdentificationData", {
   ## pseudo fData(MSnSet) output
   fd <- data.frame(spectrum=1:4,
