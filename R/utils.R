@@ -639,3 +639,37 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, idData) {
   return(featureData)
 }
 
+utils.addSingleIdentificationDataFile <- function(object, filename, 
+                                                  verbose=TRUE) {
+
+  id <- flatten(mzID(filename, verbose=verbose))
+  idFilenames <- basename(id$spectrumFile)
+  filenameId <- fromFile(object)
+  spectrumFilenames <- basename(fileNames(object)[filenameId])
+
+  if (any(!idFilenames %in% unique(spectrumFilenames))) {
+    stop("Filenames do not match! Do you use the wrong identification file?")
+  }
+
+  fd <- fData(object)
+  fd$acquisitionNum <- acquisitionNum(object)
+  fd$filename <- spectrumFilenames
+
+  ## append identification filename to filename slot
+  fileNames(object) <- c(fileNames(object), filename)
+  id$identFileId <- length(fileNames(object))
+
+  fData(object) <- utils.mergeSpectraAndIdentificationData(fd, id)
+
+  return(object)
+}
+
+utils.addIdentificationData <- function(object, filenames, verbose=TRUE) {
+
+  for (file in filenames) {
+    object <- utils.addSingleIdentificationDataFile(object, file, verbose=verbose)
+  }
+
+  return(object)
+}
+
