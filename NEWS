@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.11.10
+--------------------------
+ o dummiiTRAQ id extdata [2014-03-21 Fri]
+
 CHANGES IN VERSION 1.11.9
 -------------------------
  o write.exprs can have fDataCol or fcol (for consistence) [2014-03-17 Mon]
