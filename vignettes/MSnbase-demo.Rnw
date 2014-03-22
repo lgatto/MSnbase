@@ -380,9 +380,28 @@ plot, use \Rfunction{p@data}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Adding identification data}\label{sec:id}
 
-Document here \Rfunction{addIdentificationData} for \Robject{MSnExp}
-(and \Robject{MSnSet}) instances using \texttt{mzIdentML} files.
+\Rpackage{MSnbase} is able to integrate identification
+data from \texttt{mzIdentML} \citep{Jones2012} files.
 
+The \Rfunction{addIdentificationData} method takes an \Robject{MSnExp} or an
+\Robject{MSnSet} instance as first argument, one or multiple filenames of
+\texttt{mzIdentML} files as second one and merges the quantitation and
+identification data.
+
+<<msnexpIdentification>>=
+## find path to a mzXML file
+quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                 full.name = TRUE, pattern = "mzXML$")
+## find path to a mzIdentML file
+identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                 full.name = TRUE, pattern = "mzid$")
+
+## create basic MSnExp
+msexp <- readMSData(quantFile)
+
+## add identification information
+msexp <- addIdentificationData(msexp, identFile)
+@ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
