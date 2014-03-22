@@ -35,6 +35,16 @@
   }
 }
 
+\details{
+  The \code{featureData} slots in an \code{"\linkS4class{MSnExp}"} or 
+  an \code{"\linkS4class{MSnSet}"} instance provides only one row per MS2
+  spectrum but the identification is not always bijective. If multiple possible
+  matches are present only the highest ranked identification is added. 
+  The column \code{npsm} contains the number of matches. If there are more than
+  one possible match the columns \code{accession} and \code{description} contain
+  a semicolon separated list of all matches sorted by their \code{rank} values.
+}
+
 \author{
   Sebastian Gibb <mail@sebastiangibb.de>
 }
@@ -57,6 +67,8 @@ msexp <- readMSData(quantFile)
 ## add identification information
 msexp <- addIdentificationData(msexp, identFile)
 
+## access featureData; please note the multiple identification data
+## for spectrum 1 (row 1)
 fData(msexp)
 }
 
