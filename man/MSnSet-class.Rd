@@ -40,6 +40,7 @@
 \alias{image,MSnSet-method}
 \alias{MAplot,MSnSet-method}
 \alias{addIdentificationData,MSnSet-method}
+\alias{removeNoId,MSnSet-method}
 
 \alias{exptitle,MSnSet-method}
 \alias{expemail,MSnSet-method}
@@ -302,7 +303,12 @@
     \item{addIdentificationData}{\code{signature(object = "MSnSet", ...)}:
       Adds identification data to a \code{MSnSet} instance.
       See \code{\link{addIdentificationData}} documentation for
-      more details and examples. } 
+      more details and examples. }
+    \item{removeNoId}{\code{signature(object = "MSnSet", ...)}: Removes
+      non-identified features. See \code{\link{removeNoId}}
+      documentation for more details and examples. }
+
+    
   }
 } 
 
