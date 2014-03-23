@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.11.10
 --------------------------
- o dummiiTRAQ id extdata [2014-03-21 Fri]
+ o dummyiTRAQ id extdata [2014-03-21 Fri]
+ o using data from pRolocdata (was pRoloc) [2014-03-23 Sun]
 
 CHANGES IN VERSION 1.11.9
 -------------------------

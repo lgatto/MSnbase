@@ -292,15 +292,15 @@ feature meta-data (\texttt{fdataFile.csv}) and sample meta-data (\texttt{pdataFi
 
 <<readCsvData1, tidy = FALSE>>=
 ## The quantitation data, from the original data
-f1 <- dir(system.file("extdata", package = "pRoloc"), 
+f1 <- dir(system.file("extdata", package = "pRolocdata"), 
           full.names = TRUE, pattern = "exprsFile.csv")
 exprsCsv <- read.csv(f1)
 ## Feature meta-data, from the original data
-f2 <- dir(system.file("extdata", package = "pRoloc"), 
+f2 <- dir(system.file("extdata", package = "pRolocdata"), 
           full.names = TRUE, pattern = "fdataFile.csv")
 fdataCsv <- read.csv(f2)
 ## Sample meta-data, a new file
-f3 <- dir(system.file("extdata", package = "pRoloc"), 
+f3 <- dir(system.file("extdata", package = "pRolocdata"), 
           full.names = TRUE, pattern = "pdataFile.csv")
 pdataCsv <- read.csv(f3)
 @ 
