@@ -39,6 +39,7 @@
 \alias{log,MSnSet-method}
 \alias{image,MSnSet-method}
 \alias{MAplot,MSnSet-method}
+\alias{addIdentificationData,MSnSet-method}
 
 \alias{exptitle,MSnSet-method}
 \alias{expemail,MSnSet-method}
@@ -298,6 +299,10 @@
       \code{base}. Further \code{...} arguments will be passed to the
       respective functions.
     }
+    \item{addIdentificationData}{\code{signature(object = "MSnSet", ...)}:
+      Adds identification data to a \code{MSnSet} instance.
+      See \code{\link{addIdentificationData}} documentation for
+      more details and examples. } 
   }
 } 
 

@@ -331,6 +331,7 @@ readMSData <- function(files,
                   processingData = process,
                   experimentData = expdata,
                   .cache = .cacheEnv)
+
   if (validObject(toReturn))
     return(toReturn)
 }
