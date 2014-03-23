@@ -244,8 +244,11 @@ readMSData <- function(files,
   ## cache level 2 yet implemented
   cache <- testCacheArg(cache, maxCache = 2)
   if (cache >= 1) {
-    fl <- sapply(assaydata, fromFile)
-    featnms <- ls(assaydata) ## feautre names in final MSnExp
+    ## results sometimes in:
+    ##  Error in function (x)  : attempt to apply non-function
+    #fl <- sapply(assaydata, fromFile)
+    fl <- sapply(assaydata, function(x)x@fromFile)
+    featnms <- ls(assaydata) ## feature names in final MSnExp
     fl <- fl[featnms] ## reorder file numbers
     stopifnot(all(sort(featnms) == sort(fullhdorder)))
     fullhdorder <- match(featnms, fullhdorder)    
