@@ -388,19 +388,19 @@ The \Rfunction{addIdentificationData} method takes an \Robject{MSnExp} or an
 \texttt{mzIdentML} files as second one and merges the quantitation and
 identification data.
 
-<<msnexpIdentification>>=
+<<msnexpIdentification, echo=TRUE, cache=FALSE, tidy=FALSE>>=
 ## find path to a mzXML file
 quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                  full.name = TRUE, pattern = "mzXML$")
 ## find path to a mzIdentML file
 identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                  full.name = TRUE, pattern = "mzid$")
-
 ## create basic MSnExp
-msexp <- readMSData(quantFile)
-
+msexp <- readMSData(quantFile, verbose = FALSE)
 ## add identification information
-msexp <- addIdentificationData(msexp, identFile)
+msexp <- addIdentificationData(msexp, filenames = identFile, 
+                               verbose = FALSE)
+head(fData(msexp))
 @ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -420,7 +420,7 @@ although many QC approaches will be experiment specific and users are encourage 
 explore their data. 
 
 
-The \Rfunction{plot2d} method takes one \Robject{MSnExp} instance as firs argument 
+The \Rfunction{plot2d} method takes one \Robject{MSnExp} instance as first argument 
 to produce retention time \textit{vs.} precursor MZ scatter plots. Points represent 
 individual MS2 spectra and can be coloured based on 
 precursor charge (with second argument \Robject{z="charge"}), 
