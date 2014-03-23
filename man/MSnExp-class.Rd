@@ -136,7 +136,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
     \item{removeReporters}{\code{signature(object = "MSnExp", ...)}:
       Removes reporter ion peaks from all MS2 spectra of an
       experiment. See \code{\link{removeReporters}} documentation for
-      more details and examples. } 
+      more details and examples. }
     \item{addIdentificationData}{\code{signature(object = "MSnExp", ...)}:
       Adds identification data to an experiment.  
       See \code{\link{addIdentificationData}} documentation for

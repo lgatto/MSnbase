@@ -676,3 +676,21 @@ utils.addIdentificationData <- function(object, filenames, verbose=TRUE) {
   return(object)
 }
 
+utils.removeNoId <- function(object, fcol, keep) {
+    if (!fcol %in% fvarLabels(object))
+        stop(fcol, " not in fvarLabels(",
+             MSnbase:::getVariableName(match.call(), 'object'), ").")
+    if (is.null(keep)) noid <- is.na(fData(object)[, fcol])
+    else {
+        if (!is.logical(keep))
+            stop("'keep must be a logical.'")
+        if (length(keep) != length(msexp))
+            stop("The length of 'keep' does not match the number of spectra.")
+        noid <- !keep
+    }
+    object <- object[!noid, ]
+    MSnbase:::nologging(object, 1)
+    MSnbase:::logging(object,
+                      paste0("Filtered ", sum(noid),
+                             " unidentified peptides out"))
+}
