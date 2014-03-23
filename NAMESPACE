@@ -19,6 +19,7 @@ importFrom(vsn, vsn2, meanSdPlot)
 importFrom(IRanges, IRanges)
 importClassesFrom(IRanges, IRanges)
 importFrom(affy, MAplot, ma.plot, mva.pairs)
+importFrom(mzID, mzID, flatten)
 
 export(MSnSet,
        readMzXMLData,
@@ -92,6 +93,7 @@ exportMethods(coerce,
               clean,
               removePeaks,
               removeReporters,
+              addIdentificationData,
               intensity,
               mz,
               tic,

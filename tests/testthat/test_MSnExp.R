@@ -178,3 +178,30 @@ test_that("Parallel quantification", {
   expect_true(all.equal(q1, q2))
 })
 
+context("MSnExp identification data")
+
+test_that("addIdentificationData", {
+  quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                   full.name = TRUE, pattern = "mzXML$")
+  identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                   full.name = TRUE, pattern = "mzid$")
+
+  expect_error(addIdentificationData(new("MSnExp"), identFile, verbose = FALSE),
+               "No quantification file loaded")
+
+  aa <- readMSData(quantFile, verbose = FALSE)
+
+  expect_error(addIdentificationData(aa, "foobar.mzid", verbose = FALSE),
+               "does not exist")
+
+  fd <- fData(addIdentificationData(aa, identFile, verbose = FALSE))
+
+  expect_equal(fd$spectrum, 1:5)
+  expect_equal(fd$pepseq, c("VESITARHGEVLQLRPK", "IDGQWVTHQWLKK", NA, NA,
+                            "LVILLFR"))
+  expect_equal(fd$accession, c("ECA0984;ECA3829", "ECA1028", NA, NA,
+                               "ECA0510")) 
+  expect_equal(fd$identFile, c(2, 2, NA, NA, 2))
+  expect_equal(fd$npsm, c(2, 1, NA, NA, 1))
+})
+

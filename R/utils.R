@@ -528,3 +528,151 @@ MSnExp.size <- function(x)
     object.size(x) + sum(unlist(unname(eapply(assayData(x),
                                               object.size)))) 
 
+# convert character vector of length n to a semikolon separated character
+# vector of length 1
+utils.vec2ssv <- function(vec) {
+  paste0(vec, collapse=";")
+}
+
+# convert a semikolon separated character vector of length 1 to a vector of
+# length n
+utils.ssv2vec <- function(ssv, unlist=TRUE) {
+  vec <- strsplit(ssv, ";")
+  if (unlist) {
+    return(unlist(vec))
+  } else {
+    return(vec)
+  }
+}
+
+utils.list2ssv <- function(l) {
+  unlist(lapply(l, utils.vec2ssv))
+}
+
+utils.ssv2list <- function(ssv) {
+  utils.ssv2vec(ssv, unlist=FALSE)
+}
+
+## similar to merge(..., all.x=TRUE) but if called multiple times
+## exisiting columns would not duplicated (with/without suffixes) 
+## but filled/overwritten using the values from y
+## params: x, y, by, by.x, by.y see ?merge
+##         exclude: character, columns which should excluded
+##         order: logical, preserve order?
+utils.leftJoin <- function(x, y, by, by.x=by, by.y=by, 
+                           exclude=character(), order=TRUE) {
+
+  ## create character ids to allow ids covering several columns
+  rxc <- do.call(paste, c(x[, by.x, drop=FALSE], sep=";"))
+  ryc <- do.call(paste, c(y[, by.y, drop=FALSE], sep=";"))
+
+  ## determine matching rows
+  ryid <- match(rxc, ryc, 0L)
+  rjid <- match(ryc, rxc, 0L)
+  ryid <- ryid[ryid > 0]
+  rjid <- rjid[rjid > 0]
+
+  ## preserve order?
+  if (order) {
+    rjid <- sort(rjid)
+  }
+
+  cnx <- colnames(x)
+  cny <- colnames(y)
+
+  ## exclude columns
+  keepx <- !cnx %in% exclude
+  keepy <- !cny %in% c(exclude, by.y)
+  cnx <- cnx[keepx]
+  cny <- cny[keepy]
+  x <- x[, keepx, drop=FALSE]
+  y <- y[, keepy, drop=FALSE]
+
+  ## start joining
+  joined <- x[, cnx]
+
+  ## only import equal columns from y
+  cjid <- match(cny, cnx, 0L)
+  cyid <- match(cnx, cny, 0L)
+
+  cjid <- cjid[cjid > 0]
+  cyid <- cyid[cyid > 0]
+
+  joined[rjid, cjid] <- y[ryid, cyid]
+
+  ## add missing columns from y
+  cym <- setdiff(cny, cnx)
+  
+  if (length(cym)) {
+    joined[, cym] <- NA
+    joined[rjid, cym] <- y[ryid, cym]
+  }
+
+  return(joined)
+}
+
+utils.mergeSpectraAndIdentificationData <- function(featureData, idData) {
+  ## sort id data to ensure the best matching peptide is on top in case of
+  ## multiple matching peptides
+  o <- order(idData$spectrumFile, idData$acquisitionnum, idData$rank)
+  idData <- idData[o, ]
+
+  idData$npsm <- ave(idData$acquisitionnum, idData$acquisitionnum, FUN=length)
+
+  ## use flat version of accession/description if multiple ones are available
+  idData$accession <- ave(idData$accession, idData$acquisitionnum,
+                          FUN=utils.vec2ssv)
+  idData$description <- ave(idData$description, idData$acquisitionnum, 
+                            FUN=utils.vec2ssv)
+
+  ## remove duplicated entries
+  idData <- idData[!duplicated(idData$acquisitionnum), ]
+
+  ## mzR::acquisitionNum and mzID::acquisitionnum should be identical
+  featureData <- utils.leftJoin(
+    x=featureData, y=idData, 
+    by.x=c("file", "acquisition.number"), 
+    by.y=c("file", "acquisitionnum"),
+    exclude=c("spectrumid",   # vendor specific nativeIDs 
+              "spectrumFile") # is stored in fileId + MSnExp@files
+  )
+
+  return(featureData)
+}
+
+utils.addSingleIdentificationDataFile <- function(object, filename, 
+                                                  verbose=TRUE) {
+
+  id <- flatten(mzID(filename, verbose=verbose))
+  idFilenames <- basename(id$spectrumFile)
+
+  if (!length(fData(object)$file)) {
+    stop("No quantification file loaded!")
+  }
+
+  spectrumFilenames <- basename(fileNames(object)[fData(object)$file])
+
+  if (any(!idFilenames %in% unique(spectrumFilenames))) {
+    stop("Filenames do not match! Do you use the wrong identification file?")
+  }
+
+  ## append identification filename to filename slot
+  fileNames(object) <- c(fileNames(object), filename)
+  id$file <- match(idFilenames, spectrumFilenames)
+  id$identFile <- length(fileNames(object))
+
+  fData(object) <- utils.mergeSpectraAndIdentificationData(fData(object), id)
+
+  return(object)
+}
+
+utils.addIdentificationData <- function(object, filenames, verbose=TRUE) {
+
+  for (file in filenames) {
+    object <- utils.addSingleIdentificationDataFile(object, file,
+                                                    verbose=verbose)
+  }
+
+  return(object)
+}
+
