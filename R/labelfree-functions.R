@@ -11,13 +11,16 @@ SI <- function(object, method=c("SIp", "SIgip", "SInp"), verbose=TRUE) {
 
   method <- match.arg(method)
 
-  ## group by peptides seq
-  groups <- as.factor(fData(object)$pepseq)
+  ## group by protein
+  groups <- as.factor(fData(object)$accession)
   ## SIp
   object <- combineFeatures(object, groupBy=groups, fun="sum", verbose=verbose)
 
   if (method %in% c("SIgip", "SInp")) {
-    exprs(object) <- exprs(object)/colSums(exprs(object))
+    ## group by peptide 
+    groups <- as.factor(fData(object)$pepseq)
+    .exprs <- exprs(object)
+    exprs(object) <- .exprs/ave(as.vector(.exprs), groups, FUN=sum)
   }
 
   if (method == "SInp") {
