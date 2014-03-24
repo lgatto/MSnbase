@@ -449,6 +449,14 @@ per quantitation/identification file.
 idSummary(msexp)
 @
 
+We want to remove all quantitation data with no identification information
+using \Rfunction{removeNoId}.
+<<msnexpIdentification4, echo=TRUE, cache=FALSE, tidy=FALSE>>=
+msexp <- removeNoId(msexp)
+fData(msexp)
+idSummary(msexp)
+@
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
