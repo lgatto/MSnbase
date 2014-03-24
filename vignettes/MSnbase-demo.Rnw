@@ -58,7 +58,11 @@
 }
 
 \author{
-  Laurent Gatto\thanks{\email{lg390@cam.ac.uk}}
+  Laurent Gatto\thanks{\email{lg390@cam.ac.uk}} 
+}
+
+\author{
+  Sebastian Gibb
 }
 
 \affil{
@@ -91,7 +95,11 @@
 \vskip 0.2in minus 0.1in
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\newpage
+
 \tableofcontents
+
+\newpage
 
 <<environment, cache=FALSE, echo=FALSE>>=
 suppressPackageStartupMessages(library("MSnbase"))
@@ -129,6 +137,8 @@ opts_knit$set(error=TRUE)
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{Foreword.tex}
+
+\newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
@@ -425,7 +435,7 @@ identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                  full.name = TRUE, pattern = "mzid$")
 ## create basic MSnExp
 msexp <- readMSData(quantFile, verbose = FALSE)
-fData(msexp)
+head(fData(msexp), n = 2)
 @
 
 
@@ -440,20 +450,24 @@ data read from the \texttt{mzIdentML} file(s).
 ## add identification information
 msexp <- addIdentificationData(msexp, filenames = identFile,
                                verbose = FALSE)
-fData(msexp)
+head(fData(msexp), n = 2)
 @
 
-Next we use \Rfunction{idSummary} to list the percentage of identified features
-per quantitation/identification file.
+Finally we can use \Rfunction{idSummary} to summarise the percentage
+of identified features per quantitation/identification pairs.
+
 <<msnexpIdentification3, echo=TRUE, cache=FALSE, tidy=FALSE>>=
-idSummary(msexp)
+idSummary(msexp) 
 @
 
-We want to remove all quantitation data with no identification information
-using \Rfunction{removeNoId}.
+
+One can remove the features that have not been identified using
+\Rfunction{removeNoId}. 
+
 <<msnexpIdentification4, echo=TRUE, cache=FALSE, tidy=FALSE>>=
+fData(msexp)$pepseq
 msexp <- removeNoId(msexp)
-fData(msexp)
+fData(msexp)$pepseq
 idSummary(msexp)
 @
 
