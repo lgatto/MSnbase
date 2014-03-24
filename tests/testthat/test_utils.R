@@ -115,6 +115,8 @@ test_that("utils.idSummary", {
   rdf <- data.frame(file=c(1, 2, 3),
                     identFile=c(4, 5, NA),
                     coverage=c(0.75, 1, 0))
+  expect_error(MSnbase:::utils.idSummary(data.frame(file=1:3, foobar=1:3)),
+               "No quantification/identification data found")
   expect_equal(MSnbase:::utils.idSummary(fd), rdf)
 })
 

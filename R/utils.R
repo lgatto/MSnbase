@@ -696,10 +696,11 @@ utils.removeNoId <- function(object, fcol, keep) {
 }
 
 utils.idSummary <- function(fd) {
-  idSummary <- fd[!duplicated(fd$file), c("file", "identFile")]
-  if (!nrow(idSummary)) {
-    stop("No quantification file found!")
+  if (any(!c("file", "identFile") %in% colnames(fd))) {
+    stop("No quantification/identification data found! Did you run",
+         sQuote("addIdentificationData"), "?")
   }
+  idSummary <- fd[!duplicated(fd$file), c("file", "identFile")]
   idSummary$coverage <- sapply(idSummary$file, function(f) {
                           round(mean(!is.na(fd$identFile[fd$file == f])), 3)
                         })
