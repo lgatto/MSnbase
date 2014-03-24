@@ -30,7 +30,7 @@ Depends: R (>= 2.10), methods, BiocGenerics (>= 0.7.1),
 Imports: plyr, IRanges, preprocessCore, vsn, grid,
 	 reshape2, stats4, affy, impute, pcaMethods, mzID (>= 1.1.5)
 Suggests: testthat, zoo, knitr (>= 1.1.0), rols,
-	  Rdisop, pRolocdata, msdata
+	  Rdisop, pRolocdata (>= 1.0.7), msdata
 Enhances: foreach, doMC, parallel
 License: Artistic-2.0
 biocViews: Infrastructure, Bioinformatics, Proteomics, MassSpectrometry, QualityControl
