@@ -684,7 +684,7 @@ utils.removeNoId <- function(object, fcol, keep) {
     else {
         if (!is.logical(keep))
             stop("'keep must be a logical.'")
-        if (length(keep) != length(object))
+        if (length(keep) != nrow(fData(object)))
             stop("The length of 'keep' does not match the number of spectra.")
         noid <- !keep
     }
