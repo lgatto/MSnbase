@@ -172,14 +172,14 @@ setMethod("trimMz",
           })
 
 setMethod("quantify",
-          signature=signature("MSnExp"),
+          signature = signature("MSnExp"),
           function(object,
-                   method = c("trapezoidation","max","sum"),
+                   method = c("trapezoidation", "max", "sum"),
                    reporters,
                    strict = FALSE,
                    parallel = FALSE,
                    verbose = TRUE) {
-            if (!inherits(reporters,"ReporterIons"))
+            if (!inherits(reporters, "ReporterIons"))
               stop("Argument 'reporters' must inherit from 'ReporterIons' class.")
             ## this assumes that if first spectrum
             ## has msLevel>1, all have
@@ -243,3 +243,6 @@ setMethod("addIdentificationData", "MSnExp",
                 return(object)
         })
 
+setMethod("removeNoId", "MSnExp",
+          function(object, fcol = "pepseq", keep=NULL)
+          utils.removeNoId(msexp, fcol, keep))

@@ -19,6 +19,7 @@
 \alias{removePeaks,MSnExp-method}
 \alias{removeReporters,MSnExp-method}
 \alias{addIdentificationData,MSnExp-method}
+\alias{removeNoId,MSnExp-method}
 \alias{show,MSnExp-method}
 \alias{spectra,MSnExp-method}
 \alias{trimMz,MSnExp-method}
@@ -136,11 +137,14 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
     \item{removeReporters}{\code{signature(object = "MSnExp", ...)}:
       Removes reporter ion peaks from all MS2 spectra of an
       experiment. See \code{\link{removeReporters}} documentation for
-      more details and examples. } 
+      more details and examples. }
     \item{addIdentificationData}{\code{signature(object = "MSnExp", ...)}:
       Adds identification data to an experiment.  
       See \code{\link{addIdentificationData}} documentation for
-      more details and examples. } 
+      more details and examples. }
+    \item{removeNoId}{\code{signature(object = "MSnExp", ...)}: Removes
+      non-identified features. See \code{\link{removeNoId}}
+      documentation for more details and examples. }
     \item{show}{\code{signature(object = "MSnExp")}: Displays object
       content as text. }
     \item{trimMz}{\code{signature(object = "MSnExp")}: Trims the MZ

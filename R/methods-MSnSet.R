@@ -592,6 +592,10 @@ setMethod("addIdentificationData",
                 return(object)
         })
  
+setMethod("removeNoId", "MSnSet",
+          function(object, fcol = "pepseq", keep=NULL)
+          utils.removeNoId(msexp, fcol, keep))
+
 
 ##############################################
 ## This should also be implemented for pSet!

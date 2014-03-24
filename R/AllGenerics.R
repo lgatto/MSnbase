@@ -2,7 +2,6 @@ setGeneric("clean", function(object, ...) standardGeneric("clean"))
 setGeneric("trimMz", function(object,mzlim, ...) standardGeneric("trimMz"))
 setGeneric("removePeaks", function(object,t="min", ...) standardGeneric("removePeaks"))
 setGeneric("removeReporters", function(object, ...) standardGeneric("removeReporters"))
-setGeneric("addIdentificationData", function(object, ...) standardGeneric("addIdentificationData"))
 
 ##setGeneric("bg.correct", function(object,bg, ...) standardGeneric("bg.correct"))
 
@@ -88,4 +87,8 @@ setGeneric("impute",function(object, ...) standardGeneric("impute"))
 ## mzR
 setGeneric("chromatogram",function(object, ...) standardGeneric("chromatogram"))
 setGeneric("xic",function(object, ...) standardGeneric("xic"))
+
+## identification
+setGeneric("addIdentificationData", function(object, ...) standardGeneric("addIdentificationData"))
+setGeneric("removeNoId", function(object, ...) standardGeneric("removeNoId"))
 
