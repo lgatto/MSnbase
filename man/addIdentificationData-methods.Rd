@@ -75,6 +75,8 @@ msexp <- addIdentificationData(msexp, identFile)
 ## access featureData; please note the multiple identification data
 ## for spectrum 1 (row 1)
 fData(msexp)
+
+idSummary(msexp)
 }
 
 \keyword{methods}
