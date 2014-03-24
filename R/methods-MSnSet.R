@@ -594,7 +594,7 @@ setMethod("addIdentificationData",
 
 setMethod("removeNoId", "MSnSet",
           function(object, fcol = "pepseq", keep=NULL)
-          utils.removeNoId(msexp, fcol, keep))
+          utils.removeNoId(object, fcol, keep))
 
 setMethod("idSummary",
           signature = "MSnSet",
