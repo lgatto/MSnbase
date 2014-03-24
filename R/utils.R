@@ -704,6 +704,7 @@ utils.idSummary <- function(fd) {
                           round(mean(!is.na(fd$identFile[fd$file == f])), 3)
                         })
   rownames(idSummary) <- NULL
+  colnames(idSummary) <- c("quantFile", "identFile", "coverage")
   return(idSummary)
 }
 
