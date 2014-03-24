@@ -245,7 +245,7 @@ setMethod("addIdentificationData", "MSnExp",
 
 setMethod("removeNoId", "MSnExp",
           function(object, fcol = "pepseq", keep=NULL)
-          utils.removeNoId(msexp, fcol, keep))
+          utils.removeNoId(object, fcol, keep))
 
 setMethod("idSummary", "MSnExp",
           function(object) {
