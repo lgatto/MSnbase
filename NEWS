@@ -5,7 +5,7 @@ CHANGES IN VERSION 1.11.10
  o add addIdentificationData method for MSnExp and MSnSet [2014-03-21 Fri]
  o using data from pRolocdata (was pRoloc) [2014-03-23 Sun]
  o added removeNoId,MSnExp,MSnSet methods [2014-03-23 Sun]
- o added idSummary,MSnExp,MSnSet mthods [2014-03-24 Mon]
+ o added idSummary,MSnExp,MSnSet methods [2014-03-24 Mon]
 
 CHANGES IN VERSION 1.11.9
 -------------------------
