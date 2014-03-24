@@ -696,7 +696,7 @@ utils.removeNoId <- function(object, fcol, keep) {
 
 utils.idSummary <- function(fd) {
   if (any(!c("file", "identFile") %in% colnames(fd))) {
-    stop("No quantification/identification data found! Did you run",
+    stop("No quantification/identification data found! Did you run ",
          sQuote("addIdentificationData"), "?")
   }
   idSummary <- fd[!duplicated(fd$file), c("file", "identFile")]
