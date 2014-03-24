@@ -20,6 +20,7 @@
 \alias{removeReporters,MSnExp-method}
 \alias{addIdentificationData,MSnExp-method}
 \alias{removeNoId,MSnExp-method}
+\alias{idSummary,MSnExp-method}
 \alias{show,MSnExp-method}
 \alias{spectra,MSnExp-method}
 \alias{trimMz,MSnExp-method}
@@ -31,7 +32,7 @@
   The \code{MSnExp} class encapsulates data and meta-data for mass
   spectrometry experiments, as described in the \code{slots}
   section. Several data files (currently in \code{mzXML}) can be loaded
-  together with the function \code{\link{readMSData}}. 
+  together with the function \code{\link{readMSData}}.
 
   This class extends the virtual \code{"\linkS4class{pSet}"} class.
 }
@@ -51,7 +52,7 @@
       and \code{"\linkS4class{Spectrum2}"}).
       Slot is inherited from \code{"\linkS4class{pSet}"}. }
     \item{\code{phenoData}:}{Object of class
-      \code{"\linkS4class{AnnotatedDataFrame}"} containing 
+      \code{"\linkS4class{AnnotatedDataFrame}"} containing
       experimenter-supplied variables describing sample (i.e the
       individual tags for an labelled MS experiment)
       See \code{\link{phenoData}} for more details.
@@ -74,15 +75,15 @@
       more details.
       Slot is inherited from \code{"\linkS4class{pSet}"}. }
     \item{\code{processingData}:}{Object of class
-      \code{"\linkS4class{MSnProcess}"} that records all processing. 
+      \code{"\linkS4class{MSnProcess}"} that records all processing.
       Slot is inherited from \code{"\linkS4class{pSet}"}. }
     \item{\code{.__classVersion__}:}{Object of class
       \code{"\linkS4class{Versions}"} describing the versions of R,
       the Biobase package, \code{"\linkS4class{pSet}"} and
       \code{MSnExp} of the current instance.
-      Slot is inherited from \code{"\linkS4class{pSet}"}. 
+      Slot is inherited from \code{"\linkS4class{pSet}"}.
       Intended for developer use and debugging (inherited from
-      \code{"\linkS4class{eSet}"}). } 
+      \code{"\linkS4class{eSet}"}). }
   }
 }
 
@@ -93,10 +94,10 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
 }
 
 \section{Methods}{
-  See the \code{"\linkS4class{pSet}"} class for documentation on 
+  See the \code{"\linkS4class{pSet}"} class for documentation on
   accessors inherited from \code{pSet}, subsetting and general attribute
-  accession. 
-  
+  accession.
+
   \describe{
     \item{clean}{\code{signature(object = "MSnExp")}: Removes unused 0
       intensity data points. See \code{\link{clean}} documentation
@@ -105,27 +106,27 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
 	"numeric")}: extracts spectra with precursor MZ value equal to
       \code{prec} and returns an object of class 'MSnExp'.
       See \code{\link{extractPrecSpectra}} documentation for more
-      details and examples. } 
+      details and examples. }
     % \item{extractSpectra}{\code{signature(object = "MSnExp", selected =
     % 	"logical")}: extracts spectra corresponding to 'TRUE' in
     %   \code{selected}.
     % See \code{\link{extractSpectra}} documentation for more details
-    % and examples. }  
+    % and examples. }
     \item{plot}{\code{signature(x = "MSnExp", y = "missing")}: Plots all
       the spectra of the \code{MSnExp} instance. See
-      \code{\link{plot.MSnExp}} documentation for more details. } 
+      \code{\link{plot.MSnExp}} documentation for more details. }
     \item{plot2d}{\code{signature(object = "MSnExp", ...)}:
       Plots retention time against precursor MZ for \code{MSnExp}
       instances. See \code{\link{plot2d}} documentation for more
-      details. } 
+      details. }
     \item{plotDensity}{\code{signature(object = "MSnExp", ...)}:
-      Plots the density of parameters of interest.      
+      Plots the density of parameters of interest.
       instances. See \code{\link{plotDensity}} documentation for more
       details. }
     \item{plotMzDelta}{\code{signature(object = "MSnExp", ...)}:
       Plots a histogram of the m/z difference betwee all of the highest
-      peaks of all MS2 spectra of an experiment. 
-      See \code{\link{plotMzDelta}} documentation for more details. } 
+      peaks of all MS2 spectra of an experiment.
+      See \code{\link{plotMzDelta}} documentation for more details. }
     \item{quantify}{\code{signature(object = "MSnExp")}: Performs
       quantification for all the MS2 spectra of the \code{MSnExp}
       instance. See \code{\link{quantify}} documentation for more
@@ -139,25 +140,28 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
       experiment. See \code{\link{removeReporters}} documentation for
       more details and examples. }
     \item{addIdentificationData}{\code{signature(object = "MSnExp", ...)}:
-      Adds identification data to an experiment.  
+      Adds identification data to an experiment.
       See \code{\link{addIdentificationData}} documentation for
       more details and examples. }
     \item{removeNoId}{\code{signature(object = "MSnExp", ...)}: Removes
       non-identified features. See \code{\link{removeNoId}}
       documentation for more details and examples. }
+    \item{idSummary}{\code{signature(object = "MSnExp", ...)}:
+      Prints a summary that lists the percentage of identified features per
+      file (called \code{coverage}).}
     \item{show}{\code{signature(object = "MSnExp")}: Displays object
       content as text. }
     \item{trimMz}{\code{signature(object = "MSnExp")}: Trims the MZ
       range of all the spectra of the \code{MSnExp} instance. See
       \code{\link{trimMz}} documentation for more details and
-      examples. } 
+      examples. }
   }
 }
 
 \references{
   Information about the mzXML format as well converters from vendor
   specific formats to mzXML:
-  \url{http://tools.proteomecenter.org/wiki/index.php?title=Formats:mzXML}. 
+  \url{http://tools.proteomecenter.org/wiki/index.php?title=Formats:mzXML}.
 }
 
 \author{
@@ -167,7 +171,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
 \seealso{
   \code{"\linkS4class{pSet}"} and \code{\link{readMSData}} for loading
   \code{mzXML}, \code{mzData} or \code{mzML} files to generate an
-  instance of \code{MSnExp}. 
+  instance of \code{MSnExp}.
 }
 
 \examples{
