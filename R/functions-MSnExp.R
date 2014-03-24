@@ -171,10 +171,6 @@ quantifySI_MSnExp <- function(object) {
   colnames(.exprs) <- sampleNames(object)
   .qual <- data.frame()
 
-  ## Updating MSnprocess slot
-  object@processingData@processing <- c(object@processingData@processing,
-                                        paste0("quantification by SI: ",
-                                               date()))
   fd <- header(object)
   if (nrow(fData(object)) > 0) {
     if (nrow(fData(object)) == length(object)) {
@@ -192,11 +188,10 @@ quantifySI_MSnExp <- function(object) {
                 phenoData = phenoData(object),
                 featureData = .featureData,
                 annotation = "No annotation")
-
-  ## copying processingData
+  ## copying processingData and logging
   msnset@processingData <- object@processingData
-
-  ## Returning shiny MSnSet object
+  msnset <- logging(msnset, "Quantification by SI")
+  
   if (validObject(msnset))
     return(msnset)
 }

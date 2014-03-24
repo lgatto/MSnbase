@@ -6,6 +6,10 @@ CHANGES IN VERSION 1.11.10
  o using data from pRolocdata (was pRoloc) [2014-03-23 Sun]
  o added removeNoId,MSnExp,MSnSet methods [2014-03-23 Sun]
  o added idSummary,MSnExp,MSnSet methods [2014-03-24 Mon]
+ o Not generating different sample per file when reading raw
+   data. pData(.) now has systematically 1 row if not specifically
+   provided by the user. A message is also reported by validity,pSet
+   if row(pData(.)) > 1. [2014-03-24 Mon]
 
 CHANGES IN VERSION 1.11.9
 -------------------------
