@@ -15,14 +15,14 @@ utils.removePeaks <- function(int, t) {
   ## peaks of max height 't' set t zero.
   ## Example:
   ## The following three curves will be removed
-  ##   t - - - - + - - - - - - - - + - + -     
+  ##   t - - - - + - - - - - - - - + - + -
   ##           +  +  or  +++     ++ +++ +
-  ##   0 - - +    + - - +   + - + - - - +  
-  ##  
+  ##   0 - - +    + - - +   + - + - - - +
+  ##
   peakRanges <- IRanges(sapply(int,">",0))
   sapply(peakRanges,function(x) {
     ## we get the indices of every peak in int
-    if(all(int[x]<=t)) 
+    if(all(int[x]<=t))
       int[x] <<- 0
   })
   return(int)
@@ -31,12 +31,12 @@ utils.removePeaks <- function(int, t) {
 utils.removePrecMz_list <- function(object,
                                     precMz,
                                     width = 2) {
-    if (!is.numeric(precMz)) 
+    if (!is.numeric(precMz))
         stop("precMz must either 'NULL' or numeric.")
-    if (length(precMz) > 2) 
+    if (length(precMz) > 2)
         stop("precMz must a vector of length 1 or 2.")
-    if (length(precMz) == 1) 
-        precMz <- c(precMz - width, precMz + width)    
+    if (length(precMz) == 1)
+        precMz <- c(precMz - width, precMz + width)
     idx <- which(object$mz > precMz[1] & object$mz < precMz[2])
     object$int[idx] <- 0
     return(object)
@@ -55,16 +55,16 @@ utils.clean <- function(x, all = FALSE) {
   ## b: T T F T T T T T T T T T F T T T F F
   ##
   ## x[b]:     1 0 1 1 1 0 1 1 0 1 0
-  
-  n <- length(x) 
-  b <- rep(TRUE, n) 
-  if (all) {    
+
+  n <- length(x)
+  b <- rep(TRUE, n)
+  if (all) {
     b[x == 0] <- FALSE
   } else {
     zeroRanges <- IRanges(sapply(x,"==",0))
     sapply(zeroRanges, function(x){
       if (length(x)>2)
-        b[x[2:(length(x)-1)]] <<- FALSE 
+        b[x[2:(length(x)-1)]] <<- FALSE
     })
   }
   return(b)
@@ -110,7 +110,7 @@ makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
     ## test <- matrix(0, 6, 6)
     ## diag(test) <- 100 - rowSums(m)
     ## diag(test[4:6, 1:3]) <- m[4:6, 1] ## col1: -3
-    ## diag(test[3:6, 1:4]) <- m[3:6, 2] ## col2: -2 
+    ## diag(test[3:6, 1:4]) <- m[3:6, 2] ## col2: -2
     ## diag(test[2:6, 1:5]) <- m[2:6, 3] ## col3: -1
     ## diag(test[1:5, 2:6]) <- m[1:5, 4] ## col4: +1
     ## diag(test[1:4, 3:6]) <- m[1:4, 5] ## col5: +2
@@ -135,7 +135,7 @@ makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
     } else {
       M <- diag(x)
     }
-  }  
+  }
   colnames(M) <- paste("reporter", 1:x, sep=".")
   rownames(M) <- paste("% reporter", 1:x)
   if (edit)
@@ -146,13 +146,13 @@ makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
 utils.removePrecMz <- function(spectrum, precMz=NULL,width=2) {
   ## Contributed by Guangchuang Yu for the plotMzDelta QC
   ## Additional modifications: setting peaks to 0 and clean argument
-  if (is.null(precMz)) 
+  if (is.null(precMz))
     precMz <- precursorMz(spectrum)
-  if (!is.numeric(precMz)) 
+  if (!is.numeric(precMz))
     stop("precMz must either 'NULL' or numeric.")
-  if (length(precMz) > 2) 
+  if (length(precMz) > 2)
     stop ("precMz must a vector of length 1 or 2.")
-  if (length(precMz) == 1) 
+  if (length(precMz) == 1)
     precMz <- c(precMz-width, precMz+width)
   mz <- mz(spectrum)
   i <- intensity(spectrum)
@@ -162,7 +162,7 @@ utils.removePrecMz <- function(spectrum, precMz=NULL,width=2) {
 }
 
 utils.getMzDelta <- function(spectrum, percentage) {
-  ## Computes the m/z differences between all the 
+  ## Computes the m/z differences between all the
   ## 'percentage' top intensity peaks in a spectrum
   ## Contributed by Guangchuang Yu for the plotMzDelta QC
   mz <- mz(spectrum)
@@ -179,7 +179,7 @@ utils.getMzDelta <- function(spectrum, percentage) {
       i <- i+1
   }
   return(unlist(delta))
-}	
+}
 
 utils.getMzDelta_list <- function (object, percentage) {
     idx <- order(object$int, decreasing = TRUE)
@@ -197,7 +197,7 @@ utils.getMzDelta_list <- function (object, percentage) {
 }
 
 fillUp <- function(x) {
-  if (!any(is.na(x)) & !any(x != "")) 
+  if (!any(is.na(x)) & !any(x != ""))
     return(x)
   for (i in 2:length(x)) {
     if (is.na(x[i]) | (x[i] == ""))
@@ -206,16 +206,16 @@ fillUp <- function(x) {
   return(x)
 }
 
-##' Return the name of variable \code{varname} in call \code{match_call}. 
+##' Return the name of variable \code{varname} in call \code{match_call}.
 ##'
 ##' @title Return a variable name
-##' @param match_call An object of class \code{call}, as returned by \code{match.call}. 
+##' @param match_call An object of class \code{call}, as returned by \code{match.call}.
 ##' @param varname An \code{character} of length 1 which is looked up in \code{match_call}.
 ##' @return A \code{character} with the name of the variable passed as parameter
 ##' \code{varname} in parent close of \code{match_call}.
 ##' @examples
 ##' a <- 1
-##' f <- function(x, y) 
+##' f <- function(x, y)
 ##'  MSnbase:::getVariableName(match.call(), "x")
 ##' f(x = a)
 ##' f(y = a)
@@ -240,7 +240,7 @@ getTopIdx <- function(X, n, fun, ...) {
   ## Indices of the n highest values of vector X
   ## are then returned.
   ## input X: matrix [m,l]
-  ## output: numeric of length min(n, nrow(x))  
+  ## output: numeric of length min(n, nrow(x))
   ## If (l == 1), fun does not have any effect.
   ## Otherwise, fun is required to keep the features
   ## grouped into rows.
@@ -259,7 +259,7 @@ subsetBy <- function(X, groups, byIdx) {
       X_i <- X[groups == l_i]
       j <- byIdx[[l_i]]
       ans <- c(ans, X_i[j])
-    }    
+    }
   } else {
     for (l_i in unique(groups)) {
       X_i <- X[groups == l_i, ]
@@ -276,7 +276,7 @@ subsetBy <- function(X, groups, byIdx) {
 
 ## Computes header from assay data by-passing cache
 .header <- function(object) {
-  if (length(object) == 0) 
+  if (length(object) == 0)
     return(data.frame())
   if (all(msLevel(object) == 1)) {
     ln <- length(object)
@@ -309,7 +309,7 @@ subsetBy <- function(X, groups, byIdx) {
   }
   ## items are either a numeric or a list of integer() - keep former only
   sel <- sapply(hd, function(i) !is.list(i))
-  hd <- as.data.frame(hd[sel]) 
+  hd <- as.data.frame(hd[sel])
   return(hd)
 }
 
@@ -333,7 +333,7 @@ updateSpectrum2 <- function(x) {
   newx@precursorMz <-   x@precursorMz
   newx@precursorIntensity <- x@precursorIntensity
   newx@precursorCharge <- x@precursorCharge
-  newx@collisionEnergy <- x@collisionEnergy   
+  newx@collisionEnergy <- x@collisionEnergy
   newx@msLevel <- x@msLevel
   newx@peaksCount <- x@peaksCount
   newx@rt <- x@rt
@@ -356,7 +356,7 @@ updateMSnExp <- function(x) {
   if (validObject(x))
     return(x)
 }
- 
+
 
 cramer4 <- function(object, imp) {
   ## see Shadford et al. 2005, BMC Genomics
@@ -387,8 +387,8 @@ cramer4 <- function(object, imp) {
     warning("Determinant of C is 0, correction impossible")
     object@processingData@processing <-
       c(object@processingData@processing,
-        "No impurity correction possible, det(C) is 0")    
-  } else {    
+        "No impurity correction possible, det(C) is 0")
+  } else {
     e <- exprs(object)
     res <- apply(e, 1, function(.e) {
       d1 <- matrix(c(.e,
@@ -402,12 +402,12 @@ cramer4 <- function(object, imp) {
                      0, imp["d"], imp["h"], z),
                    ncol = 4, byrow = TRUE)
       d3 <- matrix(c(w, imp["i"], imp["m"], 0,
-                     imp["f"], x, imp["j"], imp["n"],               
+                     imp["f"], x, imp["j"], imp["n"],
                      .e,
                      0, imp["d"], imp["h"], z),
                    ncol = 4, byrow = TRUE)
       d4 <- matrix(c(w, imp["i"], imp["m"], 0,
-                     imp["f"], x, imp["j"], imp["n"],               
+                     imp["f"], x, imp["j"], imp["n"],
                      imp["c"], imp["j"], y, imp["k"],
                      .e),
                    ncol = 4, byrow = TRUE)
@@ -432,10 +432,10 @@ cramer4 <- function(object, imp) {
 cramer6 <- function(x, imp) {
   if (missing(imp)) {
     imp <- c(0, 0, 0, 6.1, 0, 0,
-             0, 0, 0.5, 6.7, 0, 0, 
-             0, 0, 1.1, 4.2, 0, 0, 
-             0, 0, 1.7, 4.1, 0, 0, 
-             0, 0, 1.6, 2.1, 0, 0, 
+             0, 0, 0.5, 6.7, 0, 0,
+             0, 0, 1.1, 4.2, 0, 0,
+             0, 0, 1.7, 4.1, 0, 0,
+             0, 0, 1.6, 2.1, 0, 0,
              0, 0.2, 3.2, 2.8, 0, 0)
     names(imp) <- letters[1:length(imp)]
     impM <- matrix(imp, nrow = 6, byrow = TRUE)
@@ -446,7 +446,7 @@ cramer6 <- function(x, imp) {
   return(FALSE)
 }
 
-     
+
 getColsFromPattern <- function(x, pattern) {
   if (missing(pattern))
     stop("Pattern must not be missing.")
@@ -455,7 +455,7 @@ getColsFromPattern <- function(x, pattern) {
   pattern <- strsplit(pattern, "")[[1]]
   if (!all(unique(pattern) %in% c("0", "1")))
     stop("Pattern must be composed of '0' or '1' defining columns with or without 'NA's.")
-  return(pattern == "1")  
+  return(pattern == "1")
 }
 
 getRowsFromPattern <- function(x, pattern) {
@@ -466,7 +466,7 @@ getRowsFromPattern <- function(x, pattern) {
 
 
 nologging <- function(object, n = 1) {
-  ## removes the last n entries from 
+  ## removes the last n entries from
   ## object@processingData@processing
   l <- length(object@processingData@processing)
   x <- seq(l, length = n, by = -1)
@@ -490,7 +490,7 @@ logging <- function(object, msg, date. = TRUE) {
 ##' be matched to its header (first line in the file), the function
 ##' returns the matching columns names or indices of the
 ##' corresponding \code{data.frame}.
-##' 
+##'
 ##' The function starts by reading the first line of the file (or connection)
 ##' \code{f} with \code{\link{readLines}}, then splits it
 ##' according to the optional \code{...} arguments (it is important to
@@ -500,13 +500,13 @@ logging <- function(object, msg, date. = TRUE) {
 ##'
 ##' Similarly, \code{getEcols} can be used to explore the column names and
 ##' decide for the appropriate \code{pattern} value.
-##' 
+##'
 ##' These functions are useful to check the parameters to be provided to
 ##' \code{\link{readMSnSet2}}.
-##' 
+##'
 ##' @title Returns the matching column names of indices.
 ##' @param f A connection object or a \code{character} string to
-##' be read in with \code{readLines(f, n = 1)}. 
+##' be read in with \code{readLines(f, n = 1)}.
 ##' @param pattern A \code{character} string containing a regular expression
 ##' to be matched to the file's header.
 ##' @param ... Additional parameters passed to \code{\link{strsplit}}
@@ -516,7 +516,7 @@ logging <- function(object, msg, date. = TRUE) {
 ##' column names.
 ##' @seealso \code{\link{readMSnSet2}}
 ##' @author Laurent Gatto
-grepEcols <- function(f, pattern, ...) 
+grepEcols <- function(f, pattern, ...)
     grep(pattern, strsplit(readLines(f, 1), ...)[[1]])
 
 
@@ -524,9 +524,9 @@ grepEcols <- function(f, pattern, ...)
 getEcols <- function(f, ...)
     strsplit(readLines(f, 1), ...)[[1]]
 
-MSnExp.size <- function(x) 
+MSnExp.size <- function(x)
     object.size(x) + sum(unlist(unname(eapply(assayData(x),
-                                              object.size)))) 
+                                              object.size))))
 
 # convert character vector of length n to a semikolon separated character
 # vector of length 1
@@ -554,12 +554,12 @@ utils.ssv2list <- function(ssv) {
 }
 
 ## similar to merge(..., all.x=TRUE) but if called multiple times
-## exisiting columns would not duplicated (with/without suffixes) 
+## exisiting columns would not duplicated (with/without suffixes)
 ## but filled/overwritten using the values from y
 ## params: x, y, by, by.x, by.y see ?merge
 ##         exclude: character, columns which should excluded
 ##         order: logical, preserve order?
-utils.leftJoin <- function(x, y, by, by.x=by, by.y=by, 
+utils.leftJoin <- function(x, y, by, by.x=by, by.y=by,
                            exclude=character(), order=TRUE) {
 
   ## create character ids to allow ids covering several columns
@@ -602,7 +602,7 @@ utils.leftJoin <- function(x, y, by, by.x=by, by.y=by,
 
   ## add missing columns from y
   cym <- setdiff(cny, cnx)
-  
+
   if (length(cym)) {
     joined[, cym] <- NA
     joined[rjid, cym] <- y[ryid, cym]
@@ -622,7 +622,7 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, idData) {
   ## use flat version of accession/description if multiple ones are available
   idData$accession <- ave(idData$accession, idData$acquisitionnum,
                           FUN=utils.vec2ssv)
-  idData$description <- ave(idData$description, idData$acquisitionnum, 
+  idData$description <- ave(idData$description, idData$acquisitionnum,
                             FUN=utils.vec2ssv)
 
   ## remove duplicated entries
@@ -630,17 +630,17 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, idData) {
 
   ## mzR::acquisitionNum and mzID::acquisitionnum should be identical
   featureData <- utils.leftJoin(
-    x=featureData, y=idData, 
-    by.x=c("file", "acquisition.number"), 
+    x=featureData, y=idData,
+    by.x=c("file", "acquisition.number"),
     by.y=c("file", "acquisitionnum"),
-    exclude=c("spectrumid",   # vendor specific nativeIDs 
+    exclude=c("spectrumid",   # vendor specific nativeIDs
               "spectrumFile") # is stored in fileId + MSnExp@files
   )
 
   return(featureData)
 }
 
-utils.addSingleIdentificationDataFile <- function(object, filename, 
+utils.addSingleIdentificationDataFile <- function(object, filename,
                                                   verbose=TRUE) {
 
   id <- flatten(mzID(filename, verbose=verbose))
@@ -679,18 +679,31 @@ utils.addIdentificationData <- function(object, filenames, verbose=TRUE) {
 utils.removeNoId <- function(object, fcol, keep) {
     if (!fcol %in% fvarLabels(object))
         stop(fcol, " not in fvarLabels(",
-             MSnbase:::getVariableName(match.call(), 'object'), ").")
+             getVariableName(match.call(), 'object'), ").")
     if (is.null(keep)) noid <- is.na(fData(object)[, fcol])
     else {
         if (!is.logical(keep))
             stop("'keep must be a logical.'")
-        if (length(keep) != length(msexp))
+        if (length(keep) != length(object))
             stop("The length of 'keep' does not match the number of spectra.")
         noid <- !keep
     }
     object <- object[!noid, ]
-    MSnbase:::nologging(object, 1)
-    MSnbase:::logging(object,
-                      paste0("Filtered ", sum(noid),
-                             " unidentified peptides out"))
+    nologging(object, 1)
+    logging(object, paste0("Filtered ", sum(noid),
+                           " unidentified peptides out"))
 }
+
+utils.idSummary <- function(fd) {
+  if (any(!c("file", "identFile") %in% colnames(fd))) {
+    stop("No quantification/identification data found! Did you run ",
+         sQuote("addIdentificationData"), "?")
+  }
+  idSummary <- fd[!duplicated(fd$file), c("file", "identFile")]
+  idSummary$coverage <- sapply(idSummary$file, function(f) {
+                          round(mean(!is.na(fd$identFile[fd$file == f])), 3)
+                        })
+  rownames(idSummary) <- NULL
+  return(idSummary)
+}
+

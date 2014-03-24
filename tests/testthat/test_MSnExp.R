@@ -30,7 +30,7 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
   centroided(aa) <- val
   expect_true(sum(centroided(aa)) == length(aa)-2)
   centroided(aa) <- rep(FALSE, length(aa))
-  expect_false(any(centroided(aa)))  
+  expect_false(any(centroided(aa)))
   ## checking slots and methods
   expect_equal(length(aa), 5)
   expect_that(nrow(header(aa)), equals(length(aa)))
@@ -38,7 +38,7 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
               equals(c("file", "retention.time",
                        "precursor.mz", "precursor.intensity",
                        "charge", "peaks.count","tic","ionCount",
-                       "ms.level", "acquisition.number", 
+                       "ms.level", "acquisition.number",
                        "collision.energy")))
   ## MS levels
   expect_equal(length(msLevel(aa)), 5)
@@ -63,7 +63,7 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
   expect_equal(dim(pData(aa)), c(1,2))
   ## subsetting
   expect_true(all.equal(aa[["X4.1"]],assayData(aa)[["X4.1"]]))
-  sub.aa <- aa[1:2]  
+  sub.aa <- aa[1:2]
   expect_true(all.equal(sub.aa[["X1.1"]], assayData(sub.aa)[["X1.1"]]))
   expect_true(all.equal(sub.aa[["X2.1"]],assayData(sub.aa)[["X2.1"]]))
   expect_equal(fData(sub.aa),fData(aa)[1:2, , drop = FALSE])
@@ -98,7 +98,7 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
   mzNames <- names(mz(aa))
   expect_that(precMzNames, equals(mzNames))
   ffNames <- names(fromFile(aa))
-  expect_that(precMzNames, equals(ffNames))  
+  expect_that(precMzNames, equals(ffNames))
 })
 
 context("MSnExp processing")
@@ -111,7 +111,7 @@ test_that("MSnExp processing", {
   ## quantitation should be 0
   expect_true(all(quantify(removeReporters(itraqdata[[1]], reporters=iTRAQ4), "max", iTRAQ4)[[1]] == 0))
   ## checking that quantification work for exp of length 1
-  expect_true(class(quantify(itraqdata[1], reporters=iTRAQ4, "max")) == "MSnSet")  
+  expect_true(class(quantify(itraqdata[1], reporters=iTRAQ4, "max")) == "MSnSet")
 })
 
 ## ! Issues with edited dummy data for MS1 uploading, although
@@ -150,16 +150,16 @@ test_that("spectra order and integrity", {
   sp <- new("Spectrum2",
             intensity = int,
             mz = 1:length(int))
-  rsp <- removePeaks(sp)  
+  rsp <- removePeaks(sp)
   expect_that(peaksCount(sp), equals(length(int)))
   expect_that(ionCount(sp), equals(sum(int)))
   expect_that(all.equal(removePeaks(sp),rsp), is_true())
-  expect_that(ionCount(removePeaks(sp,1)), equals(6))  
+  expect_that(ionCount(removePeaks(sp,1)), equals(6))
   expect_that(ionCount(removePeaks(sp,3)), equals(0))
   expect_that(ionCount(removePeaks(sp,max(intensity(sp)))), equals(0))
   expect_that(peaksCount(sp), equals(peaksCount(rsp)))
   expect_that(peaksCount(clean(rsp)), equals(6))
-  expect_that(peaksCount(clean(sp)), equals(7))  
+  expect_that(peaksCount(clean(sp)), equals(7))
   expect_that(all.equal(removePeaks(sp,0),sp), is_true())
 })
 
@@ -200,8 +200,22 @@ test_that("addIdentificationData", {
   expect_equal(fd$pepseq, c("VESITARHGEVLQLRPK", "IDGQWVTHQWLKK", NA, NA,
                             "LVILLFR"))
   expect_equal(fd$accession, c("ECA0984;ECA3829", "ECA1028", NA, NA,
-                               "ECA0510")) 
+                               "ECA0510"))
   expect_equal(fd$identFile, c(2, 2, NA, NA, 2))
   expect_equal(fd$npsm, c(2, 1, NA, NA, 1))
+})
+
+test_that("idSummary", {
+  quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                   full.name = TRUE, pattern = "mzXML$")
+  identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                   full.name = TRUE, pattern = "mzid$")
+
+  aa <- readMSData(quantFile, verbose = FALSE)
+  bb <- addIdentificationData(aa, identFile, verbose = FALSE)
+
+  expect_error(idSummary(aa), "No quantification/identification data found")
+  expect_equal(idSummary(bb),
+               data.frame(file=1, identFile=2, coverage=0.6))
 })
 

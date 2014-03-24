@@ -25,16 +25,16 @@ test_that("Combine MSnSet features (V)", {
                       B = paste(
                           rep(c("A","B"), each = 5),
                           1:10,
-                          sep = "."))))    
+                          sep = "."))))
     expect_true(validObject(aa))
     ## gb <- factor(rep(letters[1:2], each = 5))
     gb <- factor(rep(1:2, each = 5))
     bb <- MSnbase:::nologging(combineFeatures(aa, gb, "mean"), 1)
     bb2 <- MSnbase:::nologging(combineFeatures(aa, as.character(gb), "mean"), 1)
-    gbn <- rep(1:2, each = 5)    
+    gbn <- rep(1:2, each = 5)
     bb3 <- MSnbase:::nologging(combineFeatures(aa, gbn, "mean"), 1)
     expect_equal(bb, bb2)
-    expect_equal(bb, bb3)  
+    expect_equal(bb, bb3)
     cc <- combineFeatures(aa, gb, "sum")
     dd <- combineFeatures(aa, gb, "median")
     ee <- combineFeatures(aa, gb, "weighted.mean", w=rep(1,10))
@@ -63,8 +63,8 @@ test_that("Combine MSnSet features (V)", {
     expect_true(all(fData(bb)[,2] == c("A.1", "B.6")))
     gb2 <- factor(c("a", "c", "z", "a", "z", "b", "b", "a", "c", "a"))
     gb3 <- factor(rev(c("a", "c", "z", "a", "z", "b", "b", "a", "c", "a")))
-    fData(aa)$Z <- gb2  
-    zz <- combineFeatures(aa, gb2, fun = "sum")  
+    fData(aa)$Z <- gb2
+    zz <- combineFeatures(aa, gb2, fun = "sum")
     zz3 <- combineFeatures(aa[10:1, ], gb3, fun = "sum")
     expect_true(all.equal(exprs(zz), exprs(zz3)))
     expect_true(all.equal(fData(zz)[, 3:5],
@@ -83,7 +83,7 @@ test_that("Combine MSnSet features (V)", {
                           check.attributes = FALSE))
     expect_true(all.equal(featureNames(zz),
                           as.character(fData(zz)$Z),
-                          check.attributes = FALSE))  
+                          check.attributes = FALSE))
 })
 
 
@@ -103,7 +103,7 @@ test_that("Combine MSnSet features (L)", {
     names(L) <- LETTERS[1:5]
     expect_error(combineFeatures(ee, L))
 
-    ## unordered names -> warning     
+    ## unordered names -> warning
     names(L) <- featureNames(ee)
     L <- L[sample(featureNames(ee))]
     expect_warning(combineFeatures(ee, L,
@@ -123,13 +123,13 @@ test_that("Combine MSnSet features (L)", {
 
     ee4 <- combineFeatures(ee, L,
                            redundancy.handler = "multiple",
-                           cv = FALSE)    
-    expect_equal(exprs(ee4)["A", ], 
+                           cv = FALSE)
+    expect_equal(exprs(ee4)["A", ],
                  colMeans(exprs(ee)[sapply(L, function(l) any(grepl("A", l))), ]))
-    expect_equal(exprs(ee4)["B", ], 
+    expect_equal(exprs(ee4)["B", ],
                  colMeans(exprs(ee)[sapply(L, function(l) any(grepl("B", l))), ]))
-    expect_equal(exprs(ee4)["C", ], 
-                 colMeans(exprs(ee)[sapply(L, function(l) any(grepl("C", l))), ]))    
+    expect_equal(exprs(ee4)["C", ],
+                 colMeans(exprs(ee)[sapply(L, function(l) any(grepl("C", l))), ]))
 })
 
 test_that("Purity correction", {
@@ -139,7 +139,7 @@ test_that("Purity correction", {
     msnset <- quantify(aa, method="trap", reporters = iTRAQ4, verbose = FALSE)
     impurity0 <- diag(4)
     pc <- purityCorrect(msnset, impurity0)
-    expect_true(all(exprs(pc) == exprs(msnset)))  
+    expect_true(all(exprs(pc) == exprs(msnset)))
 })
 
 test_that("makeImpuritiesMatrix", {
@@ -185,7 +185,7 @@ test_that("Transpose and subset", {
     ## transpose
     ##expect_warning(taa <- t(aa),"Dropping protocolData.") ## replaced by message()
     taa <- t(aa)
-    expect_true(nrow(aa) == ncol(taa)) 
+    expect_true(nrow(aa) == ncol(taa))
     expect_true(ncol(aa) == nrow(taa))
     expect_true(all.equal(pData(aa), fData(taa)))
     expect_true(all.equal(pData(taa), fData(aa)))
@@ -200,7 +200,7 @@ context("MSnSet identification data")
 test_that("addIdentificationData", {
   quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "mzXML$")
- 
+
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "mzid$")
 
@@ -214,7 +214,23 @@ test_that("addIdentificationData", {
   expect_equal(fd$pepseq, c("VESITARHGEVLQLRPK", "IDGQWVTHQWLKK", NA, NA,
                             "LVILLFR"))
   expect_equal(fd$accession, c("ECA0984;ECA3829", "ECA1028", NA, NA,
-                               "ECA0510")) 
+                               "ECA0510"))
   expect_equal(fd$identFile, c(2, 2, NA, NA, 2))
   expect_equal(fd$npsm, c(2, 1, NA, NA, 1))
 })
+
+test_that("idSummary", {
+  quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                   full.name = TRUE, pattern = "mzXML$")
+  identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                   full.name = TRUE, pattern = "mzid$")
+
+  aa <- readMSData(quantFile, verbose = FALSE)
+  msnset <- quantify(aa, method = "trap", reporters = iTRAQ4, verbose = FALSE)
+  bb <- addIdentificationData(msnset, identFile, verbose = FALSE)
+
+  expect_error(idSummary(aa), "No quantification/identification data found")
+  expect_equal(idSummary(bb),
+               data.frame(file=1, identFile=2, coverage=0.6))
+})
+

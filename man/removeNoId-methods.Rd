@@ -19,7 +19,7 @@
 	\code{NA}. Alternatively, one can also manually define
 	\code{keep}, a vector of logical, defining the feature to be
 	retained.
-    }  
+    }
     \item{\code{signature(object = "MSnSet", fcol = "pepseq", keep =
 	NULL)}}{ As above of \code{MSnSet} instances. }
   }
@@ -38,6 +38,7 @@
                      full.name = TRUE, pattern = "mzXML$")
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                      full.name = TRUE, pattern = "mzid$")
+  msexp <- readMSData(quantFile)
   msexp <- addIdentificationData(msexp, identFile)
   fData(msexp)$pepseq
   length(msexp)
@@ -53,7 +54,7 @@
   k
   msexp3 <- removeNoId(msexp, keep = k)
   length(msexp3)
-  fData(msexp3)$pepseq  
+  fData(msexp3)$pepseq
 }
 
 \keyword{methods}
