@@ -5,14 +5,14 @@
 ##   prec <- sapply(spectra,function(x) x@precursorMz)
 ##   uprec <- unique(prec)
 ##   luprec <- length(uprec)
-##   if (verbose) 
+##   if (verbose)
 ##     cat(luprec,"unique precursors for",length(spectra),"spectra\n")
 ##   newSpectra <- vector("list",length=luprec)
 ##   if (verbose)
 ##     pb <- txtProgressBar(min = 0, max = luprec, style = 3)
 ##   for (i in 1:luprec) {
 ##     if (verbose)
-##       setTxtProgressBar(pb, i)   
+##       setTxtProgressBar(pb, i)
 ##     pi <- uprec[i]
 ##     sel <- prec %in% pi
 ##     l <- spectra[sel]
@@ -56,7 +56,7 @@
 extractPrecSpectra_MSnExp <- function(object,prec) {
   nmissing <- sum(!prec %in% precursorMz(object))
   if (nmissing!=0)
-    warning(nmissing," precursor MZ values not found in 'MSnExp' object.") 
+    warning(nmissing," precursor MZ values not found in 'MSnExp' object.")
   sel <-precursorMz(object) %in% prec
   orghd <- header(object)
   nms <- names(precursorMz(object)[sel])
@@ -146,10 +146,10 @@ clean_MSnExp <- function(object, all, verbose = TRUE) {
     rm(._cnt)
   }
   ## ----------------------------------------------------------
-  object@processingData@cleaned <- TRUE  
+  object@processingData@cleaned <- TRUE
   object@processingData@processing <- c(object@processingData@processing,
                                         paste("Spectra cleaned: ",date(),sep=""))
-  
+
   if (object@.cache$level > 0) {
     hd <- header(object)
     hd$peaks.count <- peaksCount(object)
@@ -160,6 +160,45 @@ clean_MSnExp <- function(object, all, verbose = TRUE) {
   object@assayData <- e
   if (validObject(object))
     return(object)
+}
+
+quantifySI_MSnExp <- function(object) {
+  ## SI calculation
+  .exprs <- matrix(tic(object), ncol=1)
+
+  ## interface stuff
+  rownames(.exprs) <- featureNames(object)
+  colnames(.exprs) <- sampleNames(object)
+  .qual <- data.frame()
+
+  ## Updating MSnprocess slot
+  object@processingData@processing <- c(object@processingData@processing,
+                                        paste0("quantification by SI: ",
+                                               date()))
+  fd <- header(object)
+  if (nrow(fData(object)) > 0) {
+    if (nrow(fData(object)) == length(object)) {
+      fd <- combine(fData(object), fd)
+    } else {
+      warning("Unexpected number of features in featureData slot. Dropping it.")
+    }
+  }
+  ## featureData rows must be reordered to match assayData rows
+  .featureData <- new("AnnotatedDataFrame", data=fd[rownames(.exprs), ])
+  msnset <- new("MSnSet",
+                qual = .qual,
+                exprs = .exprs,
+                experimentData = experimentData(object),
+                phenoData = phenoData(object),
+                featureData = .featureData,
+                annotation = "No annotation")
+
+  ## copying processingData
+  msnset@processingData <- object@processingData
+
+  ## Returning shiny MSnSet object
+  if (validObject(msnset))
+    return(msnset)
 }
 
 quantify_MSnExp <- function(object, method, reporters, strict, parallel, verbose) {
@@ -185,7 +224,7 @@ quantify_MSnExp <- function(object, method, reporters, strict, parallel, verbose
   if (.Platform$OS.type == "windows") {
     parallel <- FALSE
     if (verbose)
-      message("Parallel processing not yet supported on Windows.")    
+      message("Parallel processing not yet supported on Windows.")
   }
   if (any(centroided(object)) & method == "trapezoidation")
     warning("You are quantifying using 'trapezoidation' on centroided data!",
@@ -203,15 +242,15 @@ quantify_MSnExp <- function(object, method, reporters, strict, parallel, verbose
     ##         sep = ".")
     .qual <- data.frame()
   } else {
-    if (parallel && require("foreach") && require("doMC") && require("parallel")) {      
+    if (parallel && require("foreach") && require("doMC") && require("parallel")) {
       registerDoMC(cores = detectCores())
     }
     peakData <- llply(spectraList, quantify, method, reporters, strict,
-                      .progress = progress, .parallel = parallel)      
+                      .progress = progress, .parallel = parallel)
     .exprs <- do.call(rbind, sapply(peakData, "[", "peakQuant"))
     ## .qual <- do.call(rbind, sapply(peakData, "[", "curveStats")) ## Time consuming - consider removing or caching
     .qual <- data.frame()
-    rownames(.exprs) <- sub(".peakQuant", "", rownames(.exprs))  
+    rownames(.exprs) <- sub(".peakQuant", "", rownames(.exprs))
     ## rownames(.qual) <- sub(".curveStats", "", rownames(.qual))
   }
   ## Updating MSnprocess slot
@@ -224,7 +263,7 @@ quantify_MSnExp <- function(object, method, reporters, strict, parallel, verbose
   if (verbose)
     message("Preparing meta-data")
   fd <- header(object) ## Time consuming - consider caching
-  if (nrow(fData(object)) > 0) { 
+  if (nrow(fData(object)) > 0) {
     if (nrow(fData(object)) == length(object)) {
       fd <- combine(fData(object), fd)
     } else {
@@ -238,7 +277,7 @@ quantify_MSnExp <- function(object, method, reporters, strict, parallel, verbose
                     data = data.frame(mz = reporters@mz,
                       reporters = reporters@name,
                       row.names = reporters@reporterNames))
-  if (nrow(pData(object)) > 0) { 
+  if (nrow(pData(object)) > 0) {
     if (nrow(pData(object)) == length(reporters)) {
       .phenoData <- combine(phenoData(object), .phenoData)
     } else {
@@ -252,17 +291,17 @@ quantify_MSnExp <- function(object, method, reporters, strict, parallel, verbose
     message("Creating 'MSnSet' object")
   msnset <- new("MSnSet",
                 qual = .qual,
-                exprs = .exprs, 
+                exprs = .exprs,
                 experimentData = experimentData(object),
                 phenoData = .phenoData,
                 featureData = .featureData,
                 annotation = "No annotation")
-  
-  ## copying processingData  
+
+  ## copying processingData
   msnset@processingData <- object@processingData
-  
-  ## Updating protocol slot 
-  if (nrow(protocolData(object)) > 0) { 
+
+  ## Updating protocol slot
+  if (nrow(protocolData(object)) > 0) {
     if (nrow(protocolData(object)) == length(reporters)) {
       .protocolData <- protocolData(object)
     } else {
