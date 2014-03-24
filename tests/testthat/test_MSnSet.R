@@ -229,7 +229,7 @@ test_that("idSummary", {
   msnset <- quantify(aa, method = "trap", reporters = iTRAQ4, verbose = FALSE)
   bb <- addIdentificationData(msnset, identFile, verbose = FALSE)
 
-  expect_error(idSummary(aa), "No quantitation/identification data found")
+  expect_error(idSummary(aa), "No quantification/identification data found")
   expect_equal(idSummary(bb),
                data.frame(file=1, identFile=2, coverage=0.6))
 })

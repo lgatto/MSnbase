@@ -214,7 +214,7 @@ test_that("idSummary", {
   aa <- readMSData(quantFile, verbose = FALSE)
   bb <- addIdentificationData(aa, identFile, verbose = FALSE)
 
-  expect_error(idSummary(aa), "No quantitation/identification data found")
+  expect_error(idSummary(aa), "No quantification/identification data found")
   expect_equal(idSummary(bb),
                data.frame(file=1, identFile=2, coverage=0.6))
 })
