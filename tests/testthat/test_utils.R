@@ -50,10 +50,10 @@ test_that("leftJoin", {
                    stringsAsFactors=FALSE)
   rownames(z1) <- rownames(z2) <- paste0("R", seq(nrow(x)))
   ## first run
-  expect_equal(MSnbase:::utils.leftJoin(x, y1, by=c("id", "fn"), 
+  expect_equal(MSnbase:::utils.leftJoin(x, y1, by=c("id", "fn"),
                                         exclude=c("useless1", "useless2")), z1)
   ## second run (on the results of the first run)
-  expect_equal(MSnbase:::utils.leftJoin(z1, y2, by=c("id", "fn"), 
+  expect_equal(MSnbase:::utils.leftJoin(z1, y2, by=c("id", "fn"),
                                         exclude=c("useless3")), z2)
 })
 
@@ -61,11 +61,11 @@ test_that("mergeSpectraAndIdentificationData", {
   ## pseudo fData(MSnSet) output
   fd <- data.frame(spectrum=1:4,
                    file=c(1, 2, 1, 1),
-                   acquisition.number=5:8, 
+                   acquisition.number=5:8,
                    row.names=paste0("R", 1:4),
                    stringsAsFactors=FALSE)
   ## pseudo mzID output
-  id1 <- data.frame(acquisitionnum=c(5, 5, 5, 8), 
+  id1 <- data.frame(acquisitionnum=c(5, 5, 5, 8),
                     file=1,
                     spectrumFile="foobar1.mzML",
                     rank=c(2, 3, 1, 1),
@@ -73,7 +73,7 @@ test_that("mergeSpectraAndIdentificationData", {
                     description=paste0("D", 1:4),
                     spectrumid=paste0("id", 1:4),
                     stringsAsFactors=FALSE)
-  id2 <- data.frame(acquisitionnum=6, 
+  id2 <- data.frame(acquisitionnum=6,
                     file=2,
                     spectrumFile="foobar2.mzML",
                     rank=1,
@@ -105,5 +105,16 @@ test_that("mergeSpectraAndIdentificationData", {
   ## second run
   expect_equal(MSnbase:::utils.mergeSpectraAndIdentificationData(rfd1, id2),
                rfd2)
+})
+
+test_that("utils.idSummary", {
+  ## pseudo fData(MSnSet) output
+  fd <- data.frame(file=c(1, 2, 1, 1, 1, 3),
+                   identFile=c(4, 5, 4, 4, NA, NA))
+  ## results
+  rdf <- data.frame(file=c(1, 2, 3),
+                    identFile=c(4, 5, NA),
+                    coverage=c(0.75, 1, 0))
+  expect_equal(MSnbase:::utils.idSummary(fd), rdf)
 })
 
