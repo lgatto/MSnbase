@@ -2,8 +2,8 @@
 ## Methods for NAnnotatedDataFrame class
 setMethod("dim", "NAnnotatedDataFrame", function(x) {
   d <- c(dim(pData(x)),
-         length(x@multiplex))
-  names(d) <- c(dimLabels(x),"multipleNames")
+         x@multiplex)
+  names(d) <- c(dimLabels(x), "multiNames")
   return(d)
 })
 
@@ -12,8 +12,8 @@ setMethod("show",
           function(object) {
             callNextMethod(object)
             cat("  Multiplexing: ")
-            if (length(object@multiplex)>0)
-                cat(object@multiplex," - ",object@multiLabels,"\n",sep="")
+            if (length(object@multiplex) > 0)
+                cat(object@multiplex," - ", object@multiLabels, "\n", collapse=" ")
             else
               cat("none\n")
             invisible(NULL)

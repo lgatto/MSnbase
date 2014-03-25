@@ -1,53 +1,67 @@
 setMethod("initialize",
           signature(.Object="pSet"),
           function(.Object, ..., .cache) {
-            if (missing(.cache)) {
-              .cache <- new.env()
-              assign("level", 0 ,.cache)
-              lockEnvironment(.cache)
-            }
-            callNextMethod(.Object, ..., .cache = .cache)
+              if (missing(.cache)) {
+                  .cache <- new.env()
+                  assign("level", 0 ,.cache)
+                  lockEnvironment(.cache)
+              }
+              callNextMethod(.Object, ..., .cache = .cache)
           })
 
 setValidity("pSet", function(object) {
-  msg <- validMsg(NULL, NULL)
-  if (!all(sapply(assayData(object),function(x) inherits(x,"Spectrum"))))
-    msg <- validMsg(msg,
-                    "assayData must contain 'Spectrum' objects.")
-  msl <- msLevel(object)
-  if (length(unique(msl))>1) 
-    warning(paste("Different MS levels in ",class(object),
-                  " object:",unique(msl)))
-  ## checking number of spectra in assayData and
-  ##          number of features in featureData
-  nspectra  <- length(assayData(object)) 
-  nfeatures <- nrow(featureData(object)) 
-  if (nspectra != nfeatures)
-    msg <- validMsg(msg,"unequal number of spectra in assayData and features in featureData.")
-  if (length(spectra(object)) != length(ls(assayData(object))))
-    msg <- validMsg(msg,"object size inconsistence using assayData() and spectra() methods.")  
-  if (!identical(featureNames(object), ## obtained as ls(assayData(object))
-                 featureNames(featureData(object))))
-    msg <- validMsg(msg,"featureNames differ between assayData and featureData.")
-  ## checking number of files in phenoData and
-  ##          number of files in assayData
-  nfilesprocData   <- length(processingData(object)@files)
-  nfilesSpectra <- length(unique(unlist(eapply(assayData(object),fromFile))))
-  if (nfilesprocData != nfilesSpectra)
-    msg <- validMsg(msg, "unequal number of files in assayData and processingData.")
-  nfilespData <- nrow(pData(object))
-  if (nfilespData != nfilesSpectra)
-    msg <- validMsg(msg, "unequal number of files in assayData and phenoData.")  
-  ## protocolData not checked yet - depends very much
-  ## on type of assay (MS1, MS2 quant, reporter ions, ...)
-  if (!cacheEnvIsLocked(object))
-    msg <- validMsg(msg,"'.cache' environment is not locked.")
-  if (!exists("level",envir=object@.cache))
-    msg <- validMsg(msg,"'.cache' level not defined.")
-  hd <- header(object) 
-  if (nrow(hd) != length(object))
-    msg("(Cached) header nrow and object length differ.")
-  if (is.null(msg)) TRUE else msg
+    msg <- validMsg(NULL, NULL)
+    if (!all(sapply(assayData(object), function(x) inherits(x,"Spectrum"))))
+        msg <- validMsg(msg,
+                        "assayData must contain 'Spectrum' objects.")
+    msl <- msLevel(object)
+    if (length(unique(msl)) > 1) 
+        warning(paste0("Different MS levels in ", class(object),
+                       " object: ",unique(msl)))
+    ## checking number of spectra in assayData and
+    ##          number of features in featureData
+    nspectra  <- length(assayData(object)) 
+    nfeatures <- nrow(featureData(object)) 
+    if (nspectra != nfeatures)
+        msg <- validMsg(msg, "Unequal number of spectra in assayData and features in featureData.")    
+    if (length(spectra(object)) != length(ls(assayData(object))))
+        msg <- validMsg(msg, "Object size inconsistence using assayData() and spectra() methods.")    
+    if (!identical(featureNames(object), ## obtained as ls(assayData(object))
+                   featureNames(featureData(object))))
+        msg <- validMsg(msg, "featureNames differ between assayData and featureData.")    
+    ## checking number of files in phenoData and
+    ##          number of files in assayData
+    ## removing the following check because we add identification files 
+    ## (a modified version using "<" instead of "!=" is below
+    ## nfilesprocData   <- length(processingData(object)@files)
+    ## nfilesSpectra <- length(unique(unlist(eapply(assayData(object),fromFile))))
+    ## if (nfilesprocData != nfilesSpectra)
+    ##   msg <- validMsg(msg, "unequal number of files in assayData and processingData.")
+    aFileIds <- fromFile(object)
+    fFileIds <- fData(object)$file
+    if (length(fFileIds) && any(aFileIds != fFileIds))
+        msg <- validMsg(msg, "Mismatch of files in assayData and processingData.")
+    nfilesprocData   <- length(processingData(object)@files)
+    nfilesSpectra <- length(unique(aFileIds))
+    if (nfilesprocData < nfilesSpectra)
+        msg <- validMsg(msg, "More spectra files in assayData than in processingData.")
+    if (length(sampleNames(object)) != nrow(pData(object)))
+        msg <- validMsg(msg, "Different number of samples accoring to sampleNames and pData.")    
+    ## phenoData: at this stage, we don't know how many sample there will be
+    ## expecting one for label-free, but we could have 4, 6, 8 for isobaric tagging
+    ## or 2 for metabolic labelling
+    if (nrow(pData(object)) > 1)
+        message("Detected ", nrow(pData(object)), " samples in pData().")    
+    ## protocolData not checked yet - depends very much
+    ## on type of assay (MS1, MS2 quant, reporter ions, ...)
+    if (!cacheEnvIsLocked(object))
+        msg <- validMsg(msg,"'.cache' environment is not locked.")
+    if (!exists("level", envir=object@.cache))
+        msg <- validMsg(msg,"'.cache' level not defined.")
+    hd <- header(object) 
+    if (nrow(hd) != length(object))
+        msg("(Cached) header nrow and object length differ.")        
+    if (is.null(msg)) TRUE else msg
 })
 
 
@@ -274,6 +288,13 @@ setMethod("sampleNames",
 setMethod("fileNames",
           signature(object="pSet"),
           function(object) processingData(object)@files)
+
+setReplaceMethod("fileNames",
+          signature(object="pSet", value="character"),
+          function(object, value) {
+            fileNames(object@processingData) <- value
+            return(object)
+          })
 
 ## setReplaceMethod("sampleNames",
 ##                  signature=signature(object="pSet", value="character"),

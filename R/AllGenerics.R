@@ -17,7 +17,7 @@ setGeneric("precAcquisitionNum",function(object) standardGeneric("precAcquisitio
 setGeneric("precScanNum",function(object) standardGeneric("precScanNum"))
 setGeneric("rtime",function(object) standardGeneric("rtime"))
 setGeneric("msLevel",function(object) standardGeneric("msLevel"))
-setGeneric("collisionEnergy",function(object) standardGeneric("collisionEnergy")) 
+setGeneric("collisionEnergy",function(object) standardGeneric("collisionEnergy"))
 ## setGeneric("peaksCount",function(object) standardGeneric("peaksCount")) ## use mzR generic
 ## setGeneric("header",function(object) standardGeneric("header")) ## use mzR generic
 setGeneric("polarity", function(object) standardGeneric("polarity"))
@@ -87,4 +87,10 @@ setGeneric("impute",function(object, ...) standardGeneric("impute"))
 ## mzR
 setGeneric("chromatogram",function(object, ...) standardGeneric("chromatogram"))
 setGeneric("xic",function(object, ...) standardGeneric("xic"))
+
+## identification
+setGeneric("addIdentificationData", function(object, ...) standardGeneric("addIdentificationData"))
+setGeneric("idSummary", function(object, ...) standardGeneric("idSummary"))
+setGeneric("removeNoId", function(object, ...) standardGeneric("removeNoId"))
+setGeneric("removeMultipleAssignment", function(object, ...) standardGeneric("removeMultipleAssignment"))
 

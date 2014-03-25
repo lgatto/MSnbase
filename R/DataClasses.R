@@ -101,17 +101,17 @@ setClass("MIAPE",
 ## the AnnotatedDataFrame is applied to a set of mulitplexed tags.
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setClass("NAnnotatedDataFrame",
-         representation(multiplex="numeric",
-                        multiLabels="character"),
+         representation(multiplex = "numeric",
+                        multiLabels = "character"),
          contains = c("AnnotatedDataFrame"),
          prototype = prototype(
-           new("Versioned", versions=list(NAnnotatedDataFrame="0.0.2")),
-           multiplex=0,
-           multiLable=character()),
+           new("Versioned", versions=list(NAnnotatedDataFrame="0.0.3")),
+           multiplex = 1,
+           multiLabels = "Single run"),
          validity = function(object) {
            msg <- validMsg(NULL, NULL)
-           if (length(object@multiLabels)!=object@multiplex)
-             msg <- validMsg(msg,"Number of multiplex does not match it's labels.")
+           if (length(object@multiLabels) != object@multiplex)
+             msg <- validMsg(msg, "Number of multiplex does not match it's labels.")
            if (is.null(msg)) TRUE
            else msg
          })

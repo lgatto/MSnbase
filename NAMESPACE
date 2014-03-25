@@ -14,11 +14,12 @@ import(reshape2) ## try to reduce this
 importFrom(pcaMethods, pca, completeObs)
 importFrom(plyr, ddply, llply, adply, summarise, summarize)
 importFrom(stats4, plot)
-importFrom(preprocessCore, normalize.quantiles) 
+importFrom(preprocessCore, normalize.quantiles)
 importFrom(vsn, vsn2, meanSdPlot)
 importFrom(IRanges, IRanges)
 importClassesFrom(IRanges, IRanges)
 importFrom(affy, MAplot, ma.plot, mva.pairs)
+importFrom(mzID, mzID, flatten)
 
 export(MSnSet,
        readMzXMLData,
@@ -92,6 +93,10 @@ exportMethods(coerce,
               clean,
               removePeaks,
               removeReporters,
+              addIdentificationData,
+              removeNoId,
+              removeMultipleAssignment,
+              idSummary,
               intensity,
               mz,
               tic,
@@ -130,7 +135,7 @@ exportMethods(coerce,
               impute,
               topN,
               filterNA,
-              chromatogram, 
+              chromatogram,
               xic)
 
 ## methods NOT exported

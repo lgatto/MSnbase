@@ -40,7 +40,7 @@ setMethod("initialize", "MSnSet",
                                         ...)
             } else stop("provide at most one of 'assayData' or 'exprs' to initialize MSnSet",
                         call.=FALSE)
-            .Object@processingData <- new("MSnProcess")            
+            .Object@processingData <- new("MSnProcess")
             if (validObject(.Object))
               Biobase:::.harmonizeDimnames(.Object)
           })
@@ -58,7 +58,7 @@ setValidity("MSnSet", function(object) {
                       "number of rows in assayData and qual slots do not match.")
   }
   if (!inherits(experimentData(object),"MIAPE"))
-    msg <- validMsg(msg, 
+    msg <- validMsg(msg,
                     "experimentData slot in MSnSet must be 'MIAPE' object")
   if (is.null(msg)) TRUE else msg
 })
@@ -96,7 +96,7 @@ setMethod("scale", "MSnSet",
             if (!is.null(attr(e, "scaled:scale"))) {
               escale <- attr(e, "scaled:scale")
               attr(e, "scaled:scale") <- NULL
-              escale <- paste(round(escale, ), 3)              
+              escale <- paste(round(escale, ), 3)
               proc <- c(proc,
                         paste("Scaled",
                               paste0("[", escale, collapse = ", "), "]:",
@@ -105,18 +105,18 @@ setMethod("scale", "MSnSet",
             if (!is.null(attr(e, "scaled:center"))) {
               ecenter <- attr(e, "scaled:center")
               attr(e, "scaled:center") <- NULL
-              ecenter <- paste(round(ecenter, ), 3)              
+              ecenter <- paste(round(ecenter, ), 3)
               proc <- c(proc,
                         paste("Centered",
                               paste0("[", ecenter, collapse = ", "), "]:",
                               date()))
-            }            
+            }
             exprs(x) <- e
             x@processingData@processing <-
               c(x@processingData@processing,
                 proc)
             if (validObject(x))
-              return(x) 
+              return(x)
           })
 
 setMethod("purityCorrect",
@@ -128,14 +128,14 @@ setMethod("purityCorrect",
               stop("Impurity matrix should be ",ncol(object)," by ",ncol(object))
             .purcor <- function(x, .impurities = impurities) {
               keep <- !is.na(x)
-              if (sum(keep)>1) 
+              if (sum(keep)>1)
                 x[keep] <- solve(.impurities[keep, keep], x[keep])
               x[x<0] <- NA
               return(x)
             }
             corr.exprs <- apply(exprs(object), 1, .purcor)
             exprs(object) <- t(corr.exprs)
-            object@processingData@processing <-             
+            object@processingData@processing <-
               c(object@processingData@processing,
                 paste0("Purity corrected: ", date()))
             if (validObject(object))
@@ -170,6 +170,13 @@ setMethod("qual","MSnSet", function(object) object@qual)
 setMethod("fileNames",
           signature(object="MSnSet"),
           function(object) processingData(object)@files)
+
+setReplaceMethod("fileNames",
+          signature(object="MSnSet", value="character"),
+          function(object, value) {
+            fileNames(object@processingData) <- value
+            return(object)
+          })
 
 setMethod("processingData",
           signature(object="MSnSet"),
@@ -206,7 +213,7 @@ setMethod("meanSdPlot",
                    ylab = "sd", pch  = ".", plot = TRUE, ...)
           vsn::meanSdPlot(exprs(x), ranks=ranks, xlab=xlab, ylab=ylab, pch=pch, plot=plot, ...))
 
-t.MSnSet <- function(x) {  
+t.MSnSet <- function(x) {
   ans <- new("MSnSet",
              exprs = t(exprs(x)),
              phenoData = featureData(x),
@@ -215,7 +222,7 @@ t.MSnSet <- function(x) {
              annotation = annotation(x))
   ans@processingData@processing <-
     x@processingData@processing
-  ans <- logging(ans, "MSnSet transposed")  
+  ans <- logging(ans, "MSnSet transposed")
   if (validObject(ans))
     return(ans)
 }
@@ -232,14 +239,14 @@ setMethod("[", "MSnSet", function(x, i, j, ...) {
   ## .Object@qual <- .Object@qual[qrows,]
   .Object@qual <- data.frame()
   dim0 <- paste0("[", paste0(dim0, collapse = ","), "]")
-  dim1 <- paste0("[", paste0(dim1, collapse = ","), "]")  
+  dim1 <- paste0("[", paste0(dim1, collapse = ","), "]")
   .Object@processingData@processing <- c(.Object@processingData@processing,
                                          paste0("Subset ", dim0, dim1, " ", date()))
   if (validObject(.Object))
     return(.Object)
 })
 
-  
+
 setAs("MSnSet", "ExpressionSet",
       function (from)
       new("ExpressionSet",
@@ -247,7 +254,7 @@ setAs("MSnSet", "ExpressionSet",
           phenoData = phenoData(from),
           featureData = featureData(from),
           annotation = annotation(from),
-          experimentData = as(experimentData(from), "MIAME"), 
+          experimentData = as(experimentData(from), "MIAME"),
           protocolData = protocolData(from))
       )
 
@@ -261,7 +268,7 @@ setAs("MSnSet", "data.frame",
       })
 
 as.data.frame.MSnSet <-
-    function(x, row.names=NULL, optional=FALSE, ...) as(x,"data.frame")    
+    function(x, row.names=NULL, optional=FALSE, ...) as(x,"data.frame")
 
 
 ms2df <- function(x, fcols = fvarLabels(x)) {
@@ -279,7 +286,7 @@ setMethod("write.exprs",
           signature(x = "MSnSet"),
           function(x,
                    fDataCols = NULL,
-                   fcol, 
+                   fcol,
                    file = "tmp.txt", quote = FALSE,
                    sep = "\t", col.names = NA, ...) {
             res <- exprs(x)
@@ -331,7 +338,7 @@ setMethod("combine",
           })
 
 
-setMethod("topN", signature(object = "matrix"), 
+setMethod("topN", signature(object = "matrix"),
           function(object, groupBy, n=3, fun, ...) {
             if (missing(groupBy))
               stop("Specify how to group features to select top ", n, ".")
@@ -351,7 +358,7 @@ setMethod("topN", signature(object = "matrix"),
             return(object)
           })
 
-setMethod("topN", signature(object = "MSnSet"), 
+setMethod("topN", signature(object = "MSnSet"),
           function(object, groupBy, n=3, fun, ...) {
             if (missing(groupBy))
               stop("Specify how to group features to select top ", n, ".")
@@ -363,7 +370,7 @@ setMethod("topN", signature(object = "MSnSet"),
             idx <- by(exprs(object), groupBy, getTopIdx, n, fun, ...)
             fn <- subsetBy(featureNames(object), groupBy, idx)
             .eset <- subsetBy(exprs(object), groupBy, idx)
-            if (!is.matrix(.eset)) 
+            if (!is.matrix(.eset))
               .eset <- matrix(.eset, ncol = 1)
             rownames(.eset) <- fn
             .proc <- processingData(object)
@@ -416,7 +423,7 @@ setMethod("exprsToRatios",
               r <- t(r)
             }
             rownames(r) <- featureNames(object)
-            cmb <- combn(ncol(object),2)            
+            cmb <- combn(ncol(object),2)
             ratio.description <- apply(cmb,2, function(x)
                                        paste(sampleNames(object)[x[1]],
                                              sampleNames(object)[x[2]],
@@ -449,7 +456,7 @@ setMethod("exprsToRatios",
             } else {
               r <- apply(object, 1, getRatios, log)
               r <- t(r)
-              conames(r) <- 
+              conames(r) <-
                 apply(combn(ncol(object), 2), 2,
                       paste, collapse = ".")
             }
@@ -457,7 +464,7 @@ setMethod("exprsToRatios",
           })
 
 
-setMethod("plotNA", signature(object = "MSnSet"), 
+setMethod("plotNA", signature(object = "MSnSet"),
           function(object, pNA = .5) {
             if (pNA > 1)
               pNA <- 1
@@ -469,7 +476,7 @@ setMethod("plotNA", signature(object = "MSnSet"),
           })
 
 
-setMethod("plotNA", signature(object = "matrix"), 
+setMethod("plotNA", signature(object = "matrix"),
           function(object, pNA = .5) {
             if (pNA > 1)
               pNA <- 1
@@ -479,17 +486,17 @@ setMethod("plotNA", signature(object = "matrix"),
             invisible(p)
           })
 
-setMethod("filterNA", signature(object = "matrix"), 
+setMethod("filterNA", signature(object = "matrix"),
           function(object, pNA = 0, pattern) {
             if (missing(pattern)) { ## using pNA
               if (pNA > 1)
                 pNA <- 1
               if (pNA < 0)
-                pNA <- 0            
+                pNA <- 0
               k <- apply(object, 1,
                          function(x) sum(is.na(x))/length(x))
               accept <- k <= pNA
-              if (sum(accept) == 1) {              
+              if (sum(accept) == 1) {
                 ans <- matrix(object[accept, ], nrow = 1)
                 rownames(ans) <- rownames(object)[accept]
               } else {
@@ -503,7 +510,7 @@ setMethod("filterNA", signature(object = "matrix"),
           })
 
 
-setMethod("filterNA", signature(object = "MSnSet"), 
+setMethod("filterNA", signature(object = "MSnSet"),
           function(object, pNA = 0, pattern, droplevels = TRUE) {
             if (missing(pattern)) { ## using pNA
               if (pNA > 1)
@@ -524,9 +531,9 @@ setMethod("filterNA", signature(object = "MSnSet"),
               ans@processingData@processing <-
                 c(processingData(ans)@processing,
                   paste0("Removed features with according to pattern ",
-                         pattern, " ", date()))              
-            }            
-            if (droplevels) 
+                         pattern, " ", date()))
+            }
+            if (droplevels)
               ans <- droplevels(ans)
             if (validObject(ans))
               return(ans)
@@ -538,7 +545,7 @@ droplevels.MSnSet <- function(x, ...) {
     fData(x) <- droplevels(fData(x), ...)
     x@processingData@processing <-
       c(x@processingData@processing,
-        paste("Dropped featureData's levels", date()))    
+        paste("Dropped featureData's levels", date()))
     if (validObject(x))
       return(x)
   }
@@ -561,7 +568,7 @@ setMethod("MAplot",
             if (ncol(object) < 2)
               stop("Need at least 2 samples to produce an MA plot.")
             if (log.it)
-              object <- log(object, base)              
+              object <- log(object, base)
             if (ncol(object) == 2) {
               x <- exprs(object[, 1])
               y <- exprs(object[, 2])
@@ -576,12 +583,32 @@ setMethod("MAplot",
             }
           })
 
+setMethod("addIdentificationData",
+          signature = "MSnSet",
+          function(object, filenames, verbose = TRUE) 
+          utils.addIdentificationData(object, filenames,
+                                      verbose = verbose))
+
+setMethod("removeNoId", "MSnSet",
+          function(object, fcol = "pepseq", keep = NULL)
+          utils.removeNoId(object, fcol, keep))
+
+setMethod("removeMultipleAssignment", "MSnSet",
+          function(object, fcol = "npsm") 
+          utils.removeMultipleAssignment(object, fcol))
+
+setMethod("idSummary",
+          signature = "MSnSet",
+          function(object) utils.idSummary(fData(object)))
+
+
+
 
 ##############################################
 ## This should also be implemented for pSet!
 
-## o MSnSet $ and [[ now dispatch on featureData, 
-##   instead of phenoData (as was inherited from 
+## o MSnSet $ and [[ now dispatch on featureData,
+##   instead of phenoData (as was inherited from
 ##   ExpressionSet via eSet)
 
 ## setMethod("$", "MSnSet", function(x, name) {
