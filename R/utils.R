@@ -690,18 +690,20 @@ utils.removeNoId <- function(object, fcol, keep) {
         noid <- !keep
     }
     object <- object[!noid, ]
-    nologging(object, 1)
+    object <- nologging(object, 1)
     object <- logging(object, paste0("Filtered ", sum(noid),
                                      " unidentified peptides out"))
     if (validObject(object))
         return(object)
 }
 
-utils.removeMultipleAssignment <- function(obejct, fcol) {
+utils.removeMultipleAssignment <- function(object, fcol) {
     keep <- fData(object)[, fcol] == 1
     object <- object[keep, ]
-    object <- logging(object, "Removed ", sum(!keep), 
-                      " features assigned to multiple proteins.")
+    object <- nologging(object, 1)
+    object <- logging(object,
+                      paste0("Removed ", sum(!keep), 
+                             " features assigned to multiple proteins."))
     if (validObject(object))
         return(object)
 }
