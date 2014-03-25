@@ -7,22 +7,35 @@ test_that("MSnExp validity", {
 
 test_that("readMSData", {
   f <- dir(system.file(package = "MSnbase",dir = "extdata"),
-           full.name = TRUE,pattern = "msx.rda")
+           full.name = TRUE, pattern = "msx.rda")
   load(f) ## msx
   file <- dir(system.file(package = "MSnbase",dir = "extdata"),
               full.name = TRUE,pattern = "mzXML$")
   aa <- readMSData(file, verbose = FALSE)
-  expect_true(all.equal(aa, msx, check.attributes = FALSE))
+  ## processingData will be different
+  aa@processingData <- processingData(msx)
+  expect_true(all.equal(aa, msx))
+})
+
+test_that("readMSData with pdata", {
+    file <- dir(system.file(package = "MSnbase",dir = "extdata"),
+                full.name = TRUE,pattern = "mzXML$")
+    pd <- new("NAnnotatedDataFrame",
+              data = data.frame(pvarA = "A", pvarB = "B"))
+    aa <- readMSData(file, pdata = pd, verbose = FALSE)
+    expect_true(validObject(aa))
+    expect_true(validObject(pData(aa)))
+    expect_true(all.equal(dim(pd), dim(phenoData(aa))))
 })
 
 test_that("readMSData and dummy MSnExp msLevel 2 instance", {
   file <- dir(system.file(package = "MSnbase",dir = "extdata"),
               full.name = TRUE,pattern = "mzXML$")
   aa <- readMSData(file, verbose=FALSE)
-  expect_true(class(aa)=="MSnExp")
+  expect_true(class(aa) == "MSnExp")
   ## centroided get and set
   expect_false(any(centroided(aa)))
-  val <- rep(TRUE,length(aa))
+  val <- rep(TRUE, length(aa))
   centroided(aa) <- val
   expect_true(validObject(aa))
   expect_true(all(centroided(aa)))
@@ -46,41 +59,41 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
   expect_equal(length(precScanNum(aa)), 5)
   expect_equal(length(unique(precScanNum(aa))), 1)
   ## Precursor MZ
-  expect_equal(length(precursorMz(aa)),5)
-  expect_that(precursorMz(aa)[1],is_a("numeric"))
-  expect_equal(length(unique(precursorMz(aa))),4)
+  expect_equal(length(precursorMz(aa)), 5)
+  expect_that(precursorMz(aa)[1], is_a("numeric"))
+  expect_equal(length(unique(precursorMz(aa))), 4)
   expect_equal(range(precursorMz(aa)),
-               c(437.80401611,716.34051514))
-  expect_equal(as.numeric(sort(precursorMz(aa))[1]),437.80401611) ## [*]
+               c(437.80401611, 716.34051514))
+  expect_equal(as.numeric(sort(precursorMz(aa))[1]), 437.80401611) ## [*]
   ## Retention time
-  expect_equal(length(rtime(aa)),5)
-  expect_that(rtime(aa)[1],is_a("numeric"))
-  expect_equal(range(rtime(aa)),c(1501.35,1502.31))
-  expect_equal(as.numeric(sort(rtime(aa))[1]),1501.35) ## [*]
+  expect_equal(length(rtime(aa)), 5)
+  expect_that(rtime(aa)[1], is_a("numeric"))
+  expect_equal(range(rtime(aa)), c(1501.35, 1502.31))
+  expect_equal(as.numeric(sort(rtime(aa))[1]), 1501.35) ## [*]
   ## [*] using as.numeric because rtime and precursorMz return named numerics
   ## Meta data
-  expect_equal(dim(fData(aa)), c(5,1))
-  expect_equal(dim(pData(aa)), c(1,2))
+  expect_equal(dim(fData(aa)), c(5, 1))
+  expect_equal(dim(pData(aa)), c(1, 1))
   ## subsetting
-  expect_true(all.equal(aa[["X4.1"]],assayData(aa)[["X4.1"]]))
+  expect_true(all.equal(aa[["X4.1"]], assayData(aa)[["X4.1"]]))
   sub.aa <- aa[1:2]
   expect_true(all.equal(sub.aa[["X1.1"]], assayData(sub.aa)[["X1.1"]]))
-  expect_true(all.equal(sub.aa[["X2.1"]],assayData(sub.aa)[["X2.1"]]))
-  expect_equal(fData(sub.aa),fData(aa)[1:2, , drop = FALSE])
+  expect_true(all.equal(sub.aa[["X2.1"]], assayData(sub.aa)[["X2.1"]]))
+  expect_equal(fData(sub.aa), fData(aa)[1:2, , drop = FALSE])
   my.prec <- precursorMz(aa)[1]
-  my.prec.aa <- extractPrecSpectra(aa,my.prec)
+  my.prec.aa <- extractPrecSpectra(aa, my.prec)
   expect_true(all(precursorMz(my.prec.aa) == my.prec))
-  expect_equal(length(my.prec.aa),2)
+  expect_equal(length(my.prec.aa), 2)
   expect_equal(ls(assayData(my.prec.aa)), paste0("X", c(1,3), ".1"))
   ## subsetting errors
-  expect_error(aa[[1:3]],"subscript out of bounds")
-  expect_error(aa[c("X1.1","X2.1")],"subsetting works only with numeric or logical")
-  expect_error(aa[["AA"]]," object 'AA' not found")
-  expect_error(aa[1:10],"subscript out of bounds")
+  expect_error(aa[[1:3]], "subscript out of bounds")
+  expect_error(aa[c("X1.1","X2.1")], "subsetting works only with numeric or logical")
+  expect_error(aa[["AA"]], "object 'AA' not found")
+  expect_error(aa[1:10], "subscript out of bounds")
   ## testing that accessors return always attributes in same order
   precMzNames <- names(precursorMz(aa))
   ionCountNames <- names(ionCount(aa))
-  expect_that(precMzNames, equals(ionCountNames))
+  expect_true(all.equal(precMzNames, ionCountNames))
   precChNames <- names(precursorCharge(aa))
   expect_that(precMzNames, equals(precChNames))
   aqnNames <- names(acquisitionNum(aa))
