@@ -190,11 +190,40 @@ quantifySI_MSnExp <- function(object) {
                 annotation = "No annotation")
   ## copying processingData and logging
   msnset@processingData <- object@processingData
-  msnset <- logging(msnset, "Quantification by SI")
-  
+  msnset <- logging(msnset, "Quantification by SI")  
   if (validObject(msnset))
     return(msnset)
 }
+
+quantifySIp_MSnExp <- function(object, groupBy) {
+    ## TODO: group by could also be an fcol
+    object <- quantifySI_MSnExp(object)
+    msnset <- combineFeatures(object, groupBy = groupBy,
+                              fun = "sum")
+    object <- nologging(object, 2)
+    object <- logging(object, "Quantification by SIp")
+    if (validObject(object))
+        return(object)    
+}
+
+quantifySI_GIp_MSnExp <- function(object, groupBy) {
+    object <- quantifySIp_MSnExp(object, groupBy)
+    exprs(object) <- exprs(object)/rowSums(exprs(object))
+    object <- nologging(object, 1)
+    object <- logging(object, "Quantification by SI_GIp")
+    if (validObject(object))
+       return(object)       
+}
+
+quantifySI_Np_MSnExp <- function(object, groupBy, plength = "length") {
+    object <- quantifySI_GIp_MSnExp(object)
+    exprs(object) <- exprs(object)/fData(object)[, plength]
+    object <- nologging(object, 1)
+    object <- logging(object, "Quantification by SI_Np")
+    if (validObject(object))
+        return(object)       
+}
+
 
 quantify_MSnExp <- function(object, method, reporters, strict, parallel, verbose) {
   ## Display progress bar with eapply
