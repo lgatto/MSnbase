@@ -7,22 +7,35 @@ test_that("MSnExp validity", {
 
 test_that("readMSData", {
   f <- dir(system.file(package = "MSnbase",dir = "extdata"),
-           full.name = TRUE,pattern = "msx.rda")
+           full.name = TRUE, pattern = "msx.rda")
   load(f) ## msx
   file <- dir(system.file(package = "MSnbase",dir = "extdata"),
               full.name = TRUE,pattern = "mzXML$")
   aa <- readMSData(file, verbose = FALSE)
-  expect_true(all.equal(aa, msx, check.attributes = FALSE))
+  ## processingData will be different
+  aa@processingData <- processingData(msx)
+  expect_true(all.equal(aa, msx))
+})
+
+test_that("readMSData with pdata", {
+    file <- dir(system.file(package = "MSnbase",dir = "extdata"),
+                full.name = TRUE,pattern = "mzXML$")
+    pd <- new("NAnnotatedDataFrame",
+              data = data.frame(pvarA = "A", pvarB = "B"))
+    aa <- readMSData(file, pdata = pd, verbose = FALSE)
+    expect_true(validObject(aa))
+    expect_true(validObject(pData(aa)))
+    expect_true(all.equal(dim(pd), dim(phenoData(aa))))
 })
 
 test_that("readMSData and dummy MSnExp msLevel 2 instance", {
   file <- dir(system.file(package = "MSnbase",dir = "extdata"),
               full.name = TRUE,pattern = "mzXML$")
   aa <- readMSData(file, verbose=FALSE)
-  expect_true(class(aa)=="MSnExp")
+  expect_true(class(aa) == "MSnExp")
   ## centroided get and set
   expect_false(any(centroided(aa)))
-  val <- rep(TRUE,length(aa))
+  val <- rep(TRUE, length(aa))
   centroided(aa) <- val
   expect_true(validObject(aa))
   expect_true(all(centroided(aa)))
@@ -30,7 +43,7 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
   centroided(aa) <- val
   expect_true(sum(centroided(aa)) == length(aa)-2)
   centroided(aa) <- rep(FALSE, length(aa))
-  expect_false(any(centroided(aa)))  
+  expect_false(any(centroided(aa)))
   ## checking slots and methods
   expect_equal(length(aa), 5)
   expect_that(nrow(header(aa)), equals(length(aa)))
@@ -38,7 +51,7 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
               equals(c("file", "retention.time",
                        "precursor.mz", "precursor.intensity",
                        "charge", "peaks.count","tic","ionCount",
-                       "ms.level", "acquisition.number", 
+                       "ms.level", "acquisition.number",
                        "collision.energy")))
   ## MS levels
   expect_equal(length(msLevel(aa)), 5)
@@ -46,41 +59,41 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
   expect_equal(length(precScanNum(aa)), 5)
   expect_equal(length(unique(precScanNum(aa))), 1)
   ## Precursor MZ
-  expect_equal(length(precursorMz(aa)),5)
-  expect_that(precursorMz(aa)[1],is_a("numeric"))
-  expect_equal(length(unique(precursorMz(aa))),4)
+  expect_equal(length(precursorMz(aa)), 5)
+  expect_that(precursorMz(aa)[1], is_a("numeric"))
+  expect_equal(length(unique(precursorMz(aa))), 4)
   expect_equal(range(precursorMz(aa)),
-               c(437.80401611,716.34051514))
-  expect_equal(as.numeric(sort(precursorMz(aa))[1]),437.80401611) ## [*]
+               c(437.80401611, 716.34051514))
+  expect_equal(as.numeric(sort(precursorMz(aa))[1]), 437.80401611) ## [*]
   ## Retention time
-  expect_equal(length(rtime(aa)),5)
-  expect_that(rtime(aa)[1],is_a("numeric"))
-  expect_equal(range(rtime(aa)),c(1501.35,1502.31))
-  expect_equal(as.numeric(sort(rtime(aa))[1]),1501.35) ## [*]
+  expect_equal(length(rtime(aa)), 5)
+  expect_that(rtime(aa)[1], is_a("numeric"))
+  expect_equal(range(rtime(aa)), c(1501.35, 1502.31))
+  expect_equal(as.numeric(sort(rtime(aa))[1]), 1501.35) ## [*]
   ## [*] using as.numeric because rtime and precursorMz return named numerics
   ## Meta data
-  expect_equal(dim(fData(aa)), c(5,1))
-  expect_equal(dim(pData(aa)), c(1,2))
+  expect_equal(dim(fData(aa)), c(5, 1))
+  expect_equal(dim(pData(aa)), c(1, 1))
   ## subsetting
-  expect_true(all.equal(aa[["X4.1"]],assayData(aa)[["X4.1"]]))
-  sub.aa <- aa[1:2]  
+  expect_true(all.equal(aa[["X4.1"]], assayData(aa)[["X4.1"]]))
+  sub.aa <- aa[1:2]
   expect_true(all.equal(sub.aa[["X1.1"]], assayData(sub.aa)[["X1.1"]]))
-  expect_true(all.equal(sub.aa[["X2.1"]],assayData(sub.aa)[["X2.1"]]))
-  expect_equal(fData(sub.aa),fData(aa)[1:2, , drop = FALSE])
+  expect_true(all.equal(sub.aa[["X2.1"]], assayData(sub.aa)[["X2.1"]]))
+  expect_equal(fData(sub.aa), fData(aa)[1:2, , drop = FALSE])
   my.prec <- precursorMz(aa)[1]
-  my.prec.aa <- extractPrecSpectra(aa,my.prec)
+  my.prec.aa <- extractPrecSpectra(aa, my.prec)
   expect_true(all(precursorMz(my.prec.aa) == my.prec))
-  expect_equal(length(my.prec.aa),2)
+  expect_equal(length(my.prec.aa), 2)
   expect_equal(ls(assayData(my.prec.aa)), paste0("X", c(1,3), ".1"))
   ## subsetting errors
-  expect_error(aa[[1:3]],"subscript out of bounds")
-  expect_error(aa[c("X1.1","X2.1")],"subsetting works only with numeric or logical")
-  expect_error(aa[["AA"]]," object 'AA' not found")
-  expect_error(aa[1:10],"subscript out of bounds")
+  expect_error(aa[[1:3]], "subscript out of bounds")
+  expect_error(aa[c("X1.1","X2.1")], "subsetting works only with numeric or logical")
+  expect_error(aa[["AA"]], "object 'AA' not found")
+  expect_error(aa[1:10], "subscript out of bounds")
   ## testing that accessors return always attributes in same order
   precMzNames <- names(precursorMz(aa))
   ionCountNames <- names(ionCount(aa))
-  expect_that(precMzNames, equals(ionCountNames))
+  expect_true(all.equal(precMzNames, ionCountNames))
   precChNames <- names(precursorCharge(aa))
   expect_that(precMzNames, equals(precChNames))
   aqnNames <- names(acquisitionNum(aa))
@@ -98,7 +111,7 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
   mzNames <- names(mz(aa))
   expect_that(precMzNames, equals(mzNames))
   ffNames <- names(fromFile(aa))
-  expect_that(precMzNames, equals(ffNames))  
+  expect_that(precMzNames, equals(ffNames))
 })
 
 context("MSnExp processing")
@@ -111,7 +124,7 @@ test_that("MSnExp processing", {
   ## quantitation should be 0
   expect_true(all(quantify(removeReporters(itraqdata[[1]], reporters=iTRAQ4), "max", iTRAQ4)[[1]] == 0))
   ## checking that quantification work for exp of length 1
-  expect_true(class(quantify(itraqdata[1], reporters=iTRAQ4, "max")) == "MSnSet")  
+  expect_true(class(quantify(itraqdata[1], reporters=iTRAQ4, "max")) == "MSnSet")
 })
 
 ## ! Issues with edited dummy data for MS1 uploading, although
@@ -150,16 +163,16 @@ test_that("spectra order and integrity", {
   sp <- new("Spectrum2",
             intensity = int,
             mz = 1:length(int))
-  rsp <- removePeaks(sp)  
+  rsp <- removePeaks(sp)
   expect_that(peaksCount(sp), equals(length(int)))
   expect_that(ionCount(sp), equals(sum(int)))
   expect_that(all.equal(removePeaks(sp),rsp), is_true())
-  expect_that(ionCount(removePeaks(sp,1)), equals(6))  
+  expect_that(ionCount(removePeaks(sp,1)), equals(6))
   expect_that(ionCount(removePeaks(sp,3)), equals(0))
   expect_that(ionCount(removePeaks(sp,max(intensity(sp)))), equals(0))
   expect_that(peaksCount(sp), equals(peaksCount(rsp)))
   expect_that(peaksCount(clean(rsp)), equals(6))
-  expect_that(peaksCount(clean(sp)), equals(7))  
+  expect_that(peaksCount(clean(sp)), equals(7))
   expect_that(all.equal(removePeaks(sp,0),sp), is_true())
 })
 
@@ -176,5 +189,46 @@ test_that("Parallel quantification", {
   q2 <- quantify(itraqdata[1:5], reporters = iTRAQ4, parallel = FALSE, verbose = FALSE)
   q1@processingData <- q2@processingData ## those are not expected to be equal
   expect_true(all.equal(q1, q2))
+})
+
+context("MSnExp identification data")
+
+test_that("addIdentificationData", {
+  quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                   full.name = TRUE, pattern = "mzXML$")
+  identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                   full.name = TRUE, pattern = "mzid$")
+
+  expect_error(addIdentificationData(new("MSnExp"), identFile, verbose = FALSE),
+               "No quantification file loaded")
+
+  aa <- readMSData(quantFile, verbose = FALSE)
+
+  expect_error(addIdentificationData(aa, "foobar.mzid", verbose = FALSE),
+               "does not exist")
+
+  fd <- fData(addIdentificationData(aa, identFile, verbose = FALSE))
+
+  expect_equal(fd$spectrum, 1:5)
+  expect_equal(fd$pepseq, c("VESITARHGEVLQLRPK", "IDGQWVTHQWLKK", NA, NA,
+                            "LVILLFR"))
+  expect_equal(fd$accession, c("ECA0984;ECA3829", "ECA1028", NA, NA,
+                               "ECA0510"))
+  expect_equal(fd$identFile, c(2, 2, NA, NA, 2))
+  expect_equal(fd$npsm, c(2, 1, NA, NA, 1))
+})
+
+test_that("idSummary", {
+  quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                   full.name = TRUE, pattern = "mzXML$")
+  identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                   full.name = TRUE, pattern = "mzid$")
+
+  aa <- readMSData(quantFile, verbose = FALSE)
+  bb <- addIdentificationData(aa, identFile, verbose = FALSE)
+
+  expect_error(idSummary(aa), "No quantification/identification data found")
+  expect_equal(idSummary(bb),
+               data.frame(quantFile=1, identFile=2, coverage=0.6))
 })
 

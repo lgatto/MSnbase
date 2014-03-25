@@ -58,12 +58,16 @@
 }
 
 \author{
-  Laurent Gatto\thanks{\email{lg390@cam.ac.uk}}
+  Laurent Gatto\thanks{\email{lg390@cam.ac.uk}} 
+}
+
+\author{
+  Sebastian Gibb
 }
 
 \affil{
-  Cambridge Center for Proteomics\\
-  University of Cambridge
+  Computational Proteomics Unit\\
+  University of Cambridge, UK
 }
 
 
@@ -77,11 +81,13 @@
 \vskip 0.3in minus 0.1in
 \hrule
 \begin{abstract}
-  This vignette describes the functionality implemented in the \Rpackage{MSnbase} package. 
-  \Rpackage{MSnbase} aims at (1) facilitating the import, processing, visualisation and 
-  quantification of mass spectrometry data into the \R environment \citep{Rstat} by providing 
-  specific data classes and methods and (2) enabling the utilisation of throughput-high data 
-  analysis pipelines provided by the Bioconductor \citep{Gentleman2004} project. 
+  This vignette describes the functionality implemented in the
+  \Rpackage{MSnbase} package.  \Rpackage{MSnbase} aims at (1)
+  facilitating the import, processing, visualisation and
+  quantification of mass spectrometry data into the \R environment
+  \citep{Rstat} by providing specific data classes and methods and (2)
+  enabling the utilisation of throughput-high data analysis pipelines
+  provided by the Bioconductor \citep{Gentleman2004} project.
 \end{abstract}
 \textit{Keywords}: Mass Spectrometry (MS), proteomics, infrastructure, bioinformatics, quantitative.
 \vskip 0.1in minus 0.05in
@@ -89,7 +95,11 @@
 \vskip 0.2in minus 0.1in
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\newpage
+
 \tableofcontents
+
+\newpage
 
 <<environment, cache=FALSE, echo=FALSE>>=
 suppressPackageStartupMessages(library("MSnbase"))
@@ -103,18 +113,18 @@ library("reshape2")
 
 <<knitr, include=FALSE, cache=FALSE>>=
 library(knitr)
-opts_chunk$set(fig.align = 'center', 
-               fig.show = 'hold', 
+opts_chunk$set(fig.align = 'center',
+               fig.show = 'hold',
                par = TRUE,
                prompt = TRUE,
                comment = NA)
-options(replace.assign = TRUE, 
+options(replace.assign = TRUE,
         width = 68)
 ## see ?evaluate::evaluate for details
 opts_knit$set(error=TRUE)
 
 ## knit_hooks$set(par = function(before, options, envir) {
-##   if (before && options$fig.show != 'none') 
+##   if (before && options$fig.show != 'none')
 ##     par(mar = c(4,4,.1,.1),
 ##         cex.lab = .95,
 ##         cex.axis = .9,
@@ -128,25 +138,31 @@ opts_knit$set(error=TRUE)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{Foreword.tex}
 
+\newpage
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Introduction}\label{sec:intro} 
+\section{Introduction}\label{sec:intro}
 
-\Rpackage{MSnbase} \citep{Gatto2012} aims are providing a reproducible research framework to proteomics data analysis. 
-It should allow researcher to easily mine mass spectrometry data, explore the data and its statistical properties 
-and visually display these.
+\Rpackage{MSnbase} \citep{Gatto2012} aims are providing a reproducible
+research framework to proteomics data analysis.  It should allow
+researcher to easily mine mass spectrometry data, explore the data and
+its statistical properties and visually display these.
 
-\Rpackage{MSnbase} also aims at being compatible with the infrastructure implemented in Bioconductor, 
-in particular \Rpackage{Biobase}. As such, classes 
-developed specifically for proteomics mass spectrometry data are based on the \Robject{eSet} 
-and \Robject{Expression} classes. The main goal is to assure seamless compatibility with 
-existing meta data structure, accessor methods and normalisation techniques. 
+\Rpackage{MSnbase} also aims at being compatible with the
+infrastructure implemented in Bioconductor, in particular
+\Rpackage{Biobase}. As such, classes developed specifically for
+proteomics mass spectrometry data are based on the \Robject{eSet} and
+\Robject{Expression} classes. The main goal is to assure seamless
+compatibility with existing meta data structure, accessor methods and
+normalisation techniques.
 
-This vignette illustrates \Rpackage{MSnbase} utility using a dummy data sets provided with the package 
-without describing the underlying data structures. More details can be found in the 
-package, classes, method and function documentations. A description of the classes is provided 
-in the \texttt{MSnbase-development} vignette.
+This vignette illustrates \Rpackage{MSnbase} utility using a dummy
+data sets provided with the package without describing the underlying
+data structures. More details can be found in the package, classes,
+method and function documentations. A description of the classes is
+provided in the \texttt{MSnbase-development} vignette.
 
 \input{NoteAboutSpeedAndMemory.tex}
 
@@ -158,61 +174,72 @@ in the \texttt{MSnbase-development} vignette.
 
 \subsection{Importing experiments}\label{sec:io}
 
-\Rpackage{MSnbase} is able to import raw MS data stored in one of the \texttt{XML}-based formats 
-as well as peak lists in the \texttt{mfg} format\footnote{%%
-Mascot Generic Format -- \url{http://www.matrixscience.com/help/data\_file\_help.html\#GEN}}
+\Rpackage{MSnbase} is able to import raw MS data stored in one of the
+\texttt{XML}-based formats as well as peak lists in the \texttt{mfg}
+format\footnote{%%
+  Mascot Generic Format --
+  \url{http://www.matrixscience.com/help/data\_file\_help.html\#GEN}}
 
-\paragraph{Raw data} The \texttt{XML}-based formats, \texttt{mzXML} \citep{Pedrioli2004}, 
-\texttt{mzData} \citep{Orchard2007} and \texttt{mzML} \citep{Martens2010} can be imported 
-with the \Rfunction{readMSData} function, as illstrated below 
-(see \Rfunction{?readMSData} for more details). 
+\paragraph{Raw data} The \texttt{XML}-based formats, \texttt{mzXML}
+\citep{Pedrioli2004}, \texttt{mzData} \citep{Orchard2007} and
+\texttt{mzML} \citep{Martens2010} can be imported with the
+\Rfunction{readMSData} function, as illstrated below (see
+\Rfunction{?readMSData} for more details).
 
 
 <<readdata, echo=TRUE, cache=FALSE, tidy=FALSE>>=
 file <- dir(system.file(package = "MSnbase", dir = "extdata"),
             full.names = TRUE, pattern = "mzXML$")
 rawdata <- readMSData(file, msLevel = 2, verbose = FALSE)
-@ 
+@
 %% $
 
-Either MS1 or MS2 spectra can be loaded at a time by setting the \texttt{msLevel} parameter accordingly.
-In this document, we will use the \Robject{itraqdata} data set, provided with 
-\Rpackage{MSnbase}. It includes feature metadata, accessible with the \Rfunction{fData} accessor. 
-The metadata includes identification data for the \Sexpr{length(itraqdata)} MS2 spectra.
+Either MS1 or MS2 spectra can be loaded at a time by setting the
+\texttt{msLevel} parameter accordingly.  In this document, we will use
+the \Robject{itraqdata} data set, provided with \Rpackage{MSnbase}. It
+includes feature metadata, accessible with the \Rfunction{fData}
+accessor.  The metadata includes identification data for the
+\Sexpr{length(itraqdata)} MS2 spectra.
 
-\paragraph{Peak lists} Peak lists can often be exported after spectrum processing 
-from vendor-specific software and are also used as input to search engines. 
-Peak lists in \texttt{mgf} format can be imported with the function 
-\Rfunction{readMgfData} (see \Rfunction{?readMgfData} for details)
-to create experiment objects. 
-Experiments or individual spectra can be exported to an \texttt{mgf} file with 
-the \Rfunction{writeMgfData} methods (see \Rfunction{?writeMgfData} for details and examples).
-
-\bigskip
-
-\paragraph{Experiments with multiple runs} Although it is possible to load and process multiple 
-files serially and later merge the resulting quantitation data as show in section 
-\ref{sec:combine} (page \pageref{sec:combine}), it is also feasible to load several raw data files at once. 
-Here, we report the analysis of an LC-MSMS experiment were 
-14 liquid chromatography (LC) fractions were loaded using \Rfunction{readMSData} on a 
-32-cores servers with 128 Gb of RAM. 
-It took about 90 minutes to read the 14 uncentroided \texttt{mzXML} raw files (4.9 Gb on disk in total)
-and create a 3.3 Gb raw data object (an \Robject{MSnExp} instance, see next section). 
-Quantitation of 9 reporter ions (\Robject{iTRAQ9} object, see \ref{sec:reporterions}) 
-for 88690 features was performed in parallel on 16 processors and took 76 minutes. 
-The resulting quantitation data was only 22.1 Mb and could easily be further processed and 
-analysed on a standard laptop computer.
+\paragraph{Peak lists} Peak lists can often be exported after spectrum
+processing from vendor-specific software and are also used as input to
+search engines.  Peak lists in \texttt{mgf} format can be imported
+with the function \Rfunction{readMgfData} (see
+\Rfunction{?readMgfData} for details) to create experiment objects.
+Experiments or individual spectra can be exported to an \texttt{mgf}
+file with the \Rfunction{writeMgfData} methods (see
+\Rfunction{?writeMgfData} for details and examples).
 
 \bigskip
 
-See also section \ref{sec:io2} to import quantitative data stored in spreadsheets into \R 
-for further processing using \Rpackage{MSnbase}. The \texttt{MSnbase-io} vignette 
-gives a general overview of \Rpackage{MSnbase}'s input/ouput capabilites.
+\paragraph{Experiments with multiple runs} Although it is possible to
+load and process multiple files serially and later merge the resulting
+quantitation data as show in section \ref{sec:combine} (page
+\pageref{sec:combine}), it is also feasible to load several raw data
+files at once.  Here, we report the analysis of an LC-MSMS experiment
+were 14 liquid chromatography (LC) fractions were loaded using
+\Rfunction{readMSData} on a 32-cores servers with 128 Gb of RAM.  It
+took about 90 minutes to read the 14 uncentroided \texttt{mzXML} raw
+files (4.9 Gb on disk in total) and create a 3.3 Gb raw data object
+(an \Robject{MSnExp} instance, see next section).  Quantitation of 9
+reporter ions (\Robject{iTRAQ9} object, see \ref{sec:reporterions})
+for 88690 features was performed in parallel on 16 processors and took
+76 minutes.  The resulting quantitation data was only 22.1 Mb and
+could easily be further processed and analysed on a standard laptop
+computer.
+
+\bigskip
+
+See also section \ref{sec:io2} to import quantitative data stored in
+spreadsheets into \R for further processing using
+\Rpackage{MSnbase}. The \texttt{MSnbase-io} vignette gives a general
+overview of \Rpackage{MSnbase}'s input/ouput capabilites.
 
 \subsection{MS experiments}\label{sec:msnexp}
 
-Raw data is contained in \Robject{MSnExp} objects, that stores all the spectra of an experiment, 
-as defined by one or multiple raw data files. 
+Raw data is contained in \Robject{MSnExp} objects, that stores all the
+spectra of an experiment, as defined by one or multiple raw data
+files.
 
 <<MSnExp, cache=FALSE, echo=TRUE>>=
 library("MSnbase")
@@ -221,80 +248,85 @@ head(fData(itraqdata))
 @
 
 <<experimentsize, echo=FALSE, cache=FALSE>>=
-sz <- sum(sapply(assayData(itraqdata), object.size)) + 
+sz <- sum(sapply(assayData(itraqdata), object.size)) +
   object.size(itraqdata)
 sz <- as.numeric(sz)
 sz <- round(sz/(1024^2), 2)
-@ 
+@
 
-As illustrated above, showing the experiment textually displays it's content: 
+As illustrated above, showing the experiment textually displays it's
+content:
 \begin{itemize}
-  \item Information about the raw data, i.e. the spectra.
-  \item Specific information about the experiment processing\footnote{%%
-    this part will be automatically updated when the object is 
-    modified with it's \textit{ad hoc} methods, as illustrated later} and package version.
-    This slot can be accessed with the \Rfunction{processingData} method.
-  \item Other meta data, including experimental phenotype, 
-    file name(s) used to import the data, protocol data, 
-    information about features (individual spectra here) and
-    experiment data. Most of these are implemented as 
-    in the \Robject{eSet} class and are described in more details in their 
-    respective manual pages. See \texttt{?MSnExp}
-    and references therein for additional background information. 
-    
-    The experiment meta data associated with an \Robject{MSnExp} experiment
-    is of class \Robject{MIAPE}. It stores general information about the 
-    experiment as well as MIAPE (Minimum Information About a Proteomics Experiment) 
-    information \citep{Taylor2007, Taylor2008}.
-    This meta-data can be accessed with the \Rfunction{experimentData} method. 
-    When available, a summary of MIAPE-MS data can be printed with the \Rfunction{msInfo} method.
-    See \texttt{?MIAPE} for more details.
+\item Information about the raw data, i.e. the spectra.
+\item Specific information about the experiment processing\footnote{%%
+    this part will be automatically updated when the object is
+    modified with it's \textit{ad hoc} methods, as illustrated later}
+  and package version.  This slot can be accessed with the
+  \Rfunction{processingData} method.
+\item Other meta data, including experimental phenotype, file name(s)
+  used to import the data, protocol data, information about features
+  (individual spectra here) and experiment data. Most of these are
+  implemented as in the \Robject{eSet} class and are described in more
+  details in their respective manual pages. See \texttt{?MSnExp} and
+  references therein for additional background information.
+
+  The experiment meta data associated with an \Robject{MSnExp}
+  experiment is of class \Robject{MIAPE}. It stores general
+  information about the experiment as well as MIAPE (Minimum
+  Information About a Proteomics Experiment) information
+  \citep{Taylor2007, Taylor2008}.  This meta-data can be accessed with
+  the \Rfunction{experimentData} method.  When available, a summary of
+  MIAPE-MS data can be printed with the \Rfunction{msInfo} method.
+  See \texttt{?MIAPE} for more details.
 \end{itemize}
 
 \subsection{Spectra objects}\label{sec:spectra}
 
-The raw data is composed of the \Sexpr{length(itraqdata)} MS spectra. 
-The spectra are named individually 
-(\Sexpr{paste(paste(head(featureNames(itraqdata)),collapse=", "),", ...",sep="")})
-and stored in a \Robject{environment}. They can be accessed individually with 
-\texttt{itraqdata[["X1"]]} or \texttt{itraqdata[[1]]}, 
-or as a list with \texttt{spectra(itraqdata)}.
-As we have loaded our experiment specifying \texttt{msLevel=2}, 
-the spectra will all be of level 2 (or higher, if available). 
+The raw data is composed of the \Sexpr{length(itraqdata)} MS spectra.
+The spectra are named individually
+(\Sexpr{paste(paste(head(featureNames(itraqdata)),collapse=", "),",
+  ...",sep="")}) and stored in a \Robject{environment}. They can be
+accessed individually with \texttt{itraqdata[["X1"]]} or
+\texttt{itraqdata[[1]]}, or as a list with
+\texttt{spectra(itraqdata)}.  As we have loaded our experiment
+specifying \texttt{msLevel=2}, the spectra will all be of level 2 (or
+higher, if available).
 
 <<Spectrum, cache=FALSE, echo=TRUE>>=
 sp <- itraqdata[["X1"]]
 sp
-@ 
+@
 
-Attributes of individual spectra or of all spectra of an experiment can be 
-accessed with their respective methods: \Rfunction{precursorCharge} for the 
-precursor charge, \Rfunction{rtime} for the retention time, \Rfunction{mz} 
-for the MZ values, \Rfunction{intensity} for the intensities, ... see the 
-\Robject{Spectrum}, \Robject{Spectrum1} and \Robject{Spectrum2} manuals for more details.
+Attributes of individual spectra or of all spectra of an experiment
+can be accessed with their respective methods:
+\Rfunction{precursorCharge} for the precursor charge,
+\Rfunction{rtime} for the retention time, \Rfunction{mz} for the MZ
+values, \Rfunction{intensity} for the intensities, ... see the
+\Robject{Spectrum}, \Robject{Spectrum1} and \Robject{Spectrum2}
+manuals for more details.
 
 <<accessors, cache=FALSE, echo=TRUE>>=
 peaksCount(sp)
 head(peaksCount(itraqdata))
 rtime(sp)
 head(rtime(itraqdata))
-@ 
+@
 
 \subsection{Reporter ions}\label{sec:reporterions}
 
-Reporter ions are defined with the \Robject{ReporterIons} class. 
-Specific peaks of interest are defined by a MZ value, a with 
-around the expected MZ and a name (and optionally a colour for plotting, 
-see section \ref{sec:plotting}). \Robject{ReporterIons} instances 
-are required to quantify reporter peaks in \Robject{MSnExp} 
-experiments. Instances for the most commonly used isobaric tags like 
-iTRAQ 4-plex and 8-plex and TMT tags are already defined in 
-\Rpackage{MSnbase}. See \texttt{?ReporterIons} for details about how 
+Reporter ions are defined with the \Robject{ReporterIons} class.
+Specific peaks of interest are defined by a MZ value, a with around
+the expected MZ and a name (and optionally a colour for plotting, see
+section \ref{sec:plotting}). \Robject{ReporterIons} instances are
+required to quantify reporter peaks in \Robject{MSnExp}
+experiments. Instances for the most commonly used isobaric tags like
+iTRAQ 4-plex and 8-plex and TMT tags are already defined in
+\Rpackage{MSnbase}. See \texttt{?ReporterIons} for details about how
 to generate new \Robject{ReporterIons} objects.
 
 <<ReporterIons>>=
 iTRAQ4
-@ 
+@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
@@ -303,16 +335,16 @@ iTRAQ4
 
 \subsection{Default plots}\label{sec:defaultplots}
 
-Spectra can be plotted individually or as part of (subset) experiments 
-with the \Robject{plot} method. Full spectra can be plotted 
-(using \texttt{full=TRUE}), specific reporter ions of interest 
-(by specifying with reporters with \texttt{reporters=iTRAQ4} for instance) 
-or both (see figure \ref{fig:spectrum-plot}).
+Spectra can be plotted individually or as part of (subset) experiments
+with the \Robject{plot} method. Full spectra can be plotted (using
+\texttt{full=TRUE}), specific reporter ions of interest (by specifying
+with reporters with \texttt{reporters=iTRAQ4} for instance) or both
+(see figure \ref{fig:spectrum-plot}).
 
 \begin{figure}[!ht]
 <<spectrumPlot, dev='pdf', fig.width=6, fig.height=4, fig.keep='high'>>=
-plot(sp, reporters = iTRAQ4, full = TRUE) 
-@ 
+plot(sp, reporters = iTRAQ4, full = TRUE)
+@
 \caption{Raw MS2 spectrum with details about reporter ions.}
 \label{fig:spectrum-plot}
 \end{figure}
@@ -320,56 +352,124 @@ plot(sp, reporters = iTRAQ4, full = TRUE)
 <<bsaSelect, eval=TRUE, echo=FALSE>>=
 ## bsasel <- fData(itraqdata)$ProteinAccession == "BSA"
 bsasel <- 1:3
-@ 
+@
 %% $
 
-It is also possible to plot all spectra of an experiment (figure \ref{fig:msnexp-plot}). 
-Lets start by subsetting the \Robject{itraqdata} experiment using the protein accession 
-numbers included in the feature metadata, and keep the \Sexpr{sum(bsasel)} from 
-the \textit{BSA} protein.
+It is also possible to plot all spectra of an experiment (figure
+\ref{fig:msnexp-plot}).  Lets start by subsetting the
+\Robject{itraqdata} experiment using the protein accession numbers
+included in the feature metadata, and keep the \Sexpr{sum(bsasel)}
+from the \textit{BSA} protein.
 
 <<subset, echo=TRUE>>=
 sel <- fData(itraqdata)$ProteinAccession == "BSA"
 bsa <- itraqdata[sel]
 bsa
 as.character(fData(bsa)$ProteinAccession)
-@ 
+@
 
-%% Lets start by extracting all spectra that have the same precursor MZ value than \Robject{sp} 
-%% into a separate experiment, using the \Rfunction{extractPrecSpectra} method. 
+%% Lets start by extracting all spectra that have the same precursor MZ value than \Robject{sp}
+%% into a separate experiment, using the \Rfunction{extractPrecSpectra} method.
 %% This method takes an \Robject{MSnExp} experiment and a precursor MZ value as parameters.
 %% <<extractPrecSpec,echo=T,cache=F>>=
 %% exp2 <- extractPrecSpectra(raw.experiment,precursorMz(sp))
 %% exp2
-%% @ 
+%% @
 
-These can then be visualised together by plotting the 
+These can then be visualised together by plotting the
 \Robject{MSnExp} object, as illustrated on figure \ref{fig:msnexp-plot}.
 
 \begin{figure}[p]
 <<msnexpPlot, dev='pdf', fig.width=3.7, fig.height=4.5, fig.keep='last'>>=
 plot(bsa, reporters = iTRAQ4, full = FALSE) + theme_gray(8)
-@ 
-\caption{Experiment-wide raw MS2 spectra. The y-axes of the individual 
-  spectra are automatically rescaled to the same range. 
+@
+\caption{Experiment-wide raw MS2 spectra. The y-axes of the individual
+  spectra are automatically rescaled to the same range.
   See section \ref{sec:norm} to rescale peaks identically. }
 \label{fig:msnexp-plot}
 \end{figure}
 
 \subsection{Customising your plots}\label{sec:customplots}
 
-The \Rpackage{MSnbase} \Rfunction{plot} methods have a logical \Robject{plot} parameter 
-(default is \Robject{TRUE}), that specifies if the plot should be printed to the current 
-device. A plot object is also (invisibly) returned, so that it can be saved as a variable 
-for later use or for customisation. 
+The \Rpackage{MSnbase} \Rfunction{plot} methods have a logical
+\Robject{plot} parameter (default is \Robject{TRUE}), that specifies
+if the plot should be printed to the current device. A plot object is
+also (invisibly) returned, so that it can be saved as a variable for
+later use or for customisation.
 
-\Rpackage{MSnbase} uses the \Rpackage{ggplot2} package to generate figures, 
-which can subsequently easily be customised. 
-More details about \Rpackage{ggplot2} can be found in \cite{ggplot2} (especially chapter 8) 
-and on \href{http://had.co.nz/ggplot2/}{http://had.co.nz/ggplot2/}. 
-Finally, if a plot object has been saved in a variable \Robject{p}, 
-it is possible to obtain a summary about the object with \Rfunction{summary(p)}. 
-To view the data frame used to generate the plot, use \Rfunction{p@data}.
+\Rpackage{MSnbase} uses the \Rpackage{ggplot2} package to generate
+figures, which can subsequently easily be customised.  More details
+about \Rpackage{ggplot2} can be found in \cite{ggplot2} (especially
+chapter 8) and on
+\href{http://had.co.nz/ggplot2/}{http://had.co.nz/ggplot2/}.  Finally,
+if a plot object has been saved in a variable \Robject{p}, it is
+possible to obtain a summary about the object with
+\Rfunction{summary(p)}.  To view the data frame used to generate the
+plot, use \Rfunction{p@data}.
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Adding identification data}\label{sec:id}
+
+\Rpackage{MSnbase} is able to integrate identification data from
+\texttt{mzIdentML} \citep{Jones2012} files.
+
+We first load two example files shipped with the \Rpackage{MSnbase}
+containing raw data (as above) and the corresponding identification
+results respectively. The raw data is read with the
+\Rfunction{readMSData}, as demonstrated above. As can be seen, the
+default feature data only contain spectra numbers\footnote{More data
+  about the spectra is of course available in an \Robject{MSnExp}
+  object, as illustrated in the previous sections. See also
+  \Rfunction{?pSet} and \Rfunction{?MSnExp} for more details.}.
+
+<<msnexpIdentification, echo=TRUE, cache=FALSE, tidy=FALSE>>=
+## find path to a mzXML file
+quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                 full.name = TRUE, pattern = "mzXML$")
+## find path to a mzIdentML file
+identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                 full.name = TRUE, pattern = "mzid$")
+## create basic MSnExp
+msexp <- readMSData(quantFile, verbose = FALSE)
+head(fData(msexp), n = 2)
+@
+
+
+The \Rfunction{addIdentificationData} method takes an \Robject{MSnExp}
+instance (or an \Robject{MSnSet} instance storing quantitation data,
+see section \ref{sec:quant}) as first argument and one or multiple
+\texttt{mzIdentML} file names (as a character vector) as second one and
+updates the \Robject{MSnExp} feature data using the identification
+data read from the \texttt{mzIdentML} file(s).
+
+<<msnexpIdentification2, echo=TRUE, cache=FALSE, tidy=FALSE>>=
+## add identification information
+msexp <- addIdentificationData(msexp, filenames = identFile,
+                               verbose = FALSE)
+head(fData(msexp), n = 2)
+@
+
+Finally we can use \Rfunction{idSummary} to summarise the percentage
+of identified features per quantitation/identification pairs.
+
+<<msnexpIdentification3, echo=TRUE, cache=FALSE, tidy=FALSE>>=
+idSummary(msexp) 
+@
+
+
+One can remove the features that have not been identified using
+\Rfunction{removeNoId}. 
+
+<<msnexpIdentification4, echo=TRUE, cache=FALSE, tidy=FALSE>>=
+fData(msexp)$pepseq
+msexp <- removeNoId(msexp)
+fData(msexp)$pepseq
+idSummary(msexp)
+@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -377,45 +477,47 @@ To view the data frame used to generate the plot, use \Rfunction{p@data}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quality control}\label{sec:qc}
 
-The current section is not executed dynamically for package size and processing time constrains. 
-The figures and tables have been generated with the respective methods and included statically 
-in the vignette for illustration purposes.
+The current section is not executed dynamically for package size and
+processing time constrains.  The figures and tables have been
+generated with the respective methods and included statically in the
+vignette for illustration purposes.
 
 \bigskip
 
-\Rpackage{MSnbase} allows easy and flexible access to the data, which allows to 
-visualise data features to assess it's quality. Some methods are readily available, 
-although many QC approaches will be experiment specific and users are encourage to 
-explore their data. 
+\Rpackage{MSnbase} allows easy and flexible access to the data, which
+allows to visualise data features to assess it's quality. Some methods
+are readily available, although many QC approaches will be experiment
+specific and users are encourage to explore their data.
 
 
-The \Rfunction{plot2d} method takes one \Robject{MSnExp} instance as firs argument 
-to produce retention time \textit{vs.} precursor MZ scatter plots. Points represent 
-individual MS2 spectra and can be coloured based on 
-precursor charge (with second argument \Robject{z="charge"}), 
-total ion count (\Robject{z="ionCount"}),
-number of peaks in the MS2 spectra \Robject{z="peaks.count"}) or, 
-when multiple data files were loaded, file \Robject{z="file"}), 
-as illustrated on figure \ref{fig:plot2d}. 
-The lower right panel is produced for only a subset of proteins. 
-See the method documentation for more details.
+The \Rfunction{plot2d} method takes one \Robject{MSnExp} instance as
+first argument to produce retention time \textit{vs.} precursor MZ
+scatter plots. Points represent individual MS2 spectra and can be
+coloured based on precursor charge (with second argument
+\Robject{z="charge"}), total ion count (\Robject{z="ionCount"}),
+number of peaks in the MS2 spectra \Robject{z="peaks.count"}) or, when
+multiple data files were loaded, file \Robject{z="file"}), as
+illustrated on figure \ref{fig:plot2d}.  The lower right panel is
+produced for only a subset of proteins.  See the method documentation
+for more details.
 
 \begin{figure}[htb]
     \includegraphics[width=\linewidth]{./plot2d-figure.png}
-\caption{ Illustration of the \Rfunction{plot2d} output. } 
+\caption{ Illustration of the \Rfunction{plot2d} output. }
 \label{fig:plot2d}
 \end{figure}
 
-The \Rfunction{plotDensity} method illustrates the distribution 
-of several parameters of interest (see figure \ref{fig:plotDensity}).
-Similarly to \Rfunction{plot2d}, the first argument is an \Robject{MSnExp} instance. 
-The second is one of \Robject{precursor.mz}, \Robject{peaks.count} or \Robject{ionCount}, 
-whose density will be plotted. 
-An optional third argument specifies whether the x axes should be logged.
+The \Rfunction{plotDensity} method illustrates the distribution of
+several parameters of interest (see figure \ref{fig:plotDensity}).
+Similarly to \Rfunction{plot2d}, the first argument is an
+\Robject{MSnExp} instance.  The second is one of
+\Robject{precursor.mz}, \Robject{peaks.count} or \Robject{ionCount},
+whose density will be plotted.  An optional third argument specifies
+whether the x axes should be logged.
 
 \begin{figure}[htb]
     \includegraphics[width=\linewidth]{./plotDensity-figure.png}
-\caption{ Illustration of the \Rfunction{plotDensity} output. } 
+\caption{ Illustration of the \Rfunction{plotDensity} output. }
 \label{fig:plotDensity}
 \end{figure}
 
@@ -426,11 +528,11 @@ An optional third argument specifies whether the x axes should be logged.
 %% \begin{center}
 %% \begin{tabular}{rr}
 %%   \hline
-%%  & x \\ 
+%%  & x \\
 %%   \hline
-%% 1 & 6836 \\ 
-%%   2 &  59 \\ 
-%%   3 &   5 \\ 
+%% 1 & 6836 \\
+%%   2 &  59 \\
+%%   3 &   5 \\
 %%    \hline
 %% \end{tabular}
 %% \end{center}
@@ -440,22 +542,23 @@ An optional third argument specifies whether the x axes should be logged.
 
 \bigskip
 
-The \Rfunction{plotMzDelta} method\footnote{The code to generate the 
-  histograms has been contributed by Guangchuang Yu from Jinan University, 
-  China.} implements the M/Z delta plot from \cite{Foster11} 
-The M/Z delta plot illustrates the suitability of MS2 spectra for
-identification by plotting the M/Z differences of the most intense
-peaks. The resulting histogram should optimally shown outstanding
-bars at amino acid residu masses. More details and parameters 
-are described in the method documentation (\Rfunction{?plotMzDelta}).
-Figure \ref{fig:plotMzDelta-pride12011} has been generated using 
-the PRIDE experiment 12011, as in \cite{Foster11}.
+The \Rfunction{plotMzDelta} method\footnote{The code to generate the
+  histograms has been contributed by Guangchuang Yu from Jinan
+  University, China.} implements the M/Z delta plot from
+\cite{Foster11} The M/Z delta plot illustrates the suitability of MS2
+spectra for identification by plotting the M/Z differences of the most
+intense peaks. The resulting histogram should optimally shown
+outstanding bars at amino acid residu masses. More details and
+parameters are described in the method documentation
+(\Rfunction{?plotMzDelta}).  Figure \ref{fig:plotMzDelta-pride12011}
+has been generated using the PRIDE experiment 12011, as in
+\cite{Foster11}.
 
 \begin{figure}[htb]
-  \begin{center}   
+  \begin{center}
     \includegraphics[width=.7\linewidth]{./plotMzDelta-pride12011.pdf}
-\caption{ Illustration of the \Rfunction{plotMzDelta} output for the PRIDE experiment 12011, 
-  as in figure 4A from \cite{Foster11}. } 
+\caption{ Illustration of the \Rfunction{plotMzDelta} output for the PRIDE experiment 12011,
+  as in figure 4A from \cite{Foster11}. }
 \label{fig:plotMzDelta-pride12011}
   \end{center}
 \end{figure}
@@ -463,8 +566,8 @@ the PRIDE experiment 12011, as in \cite{Foster11}.
 
 \bigskip
 
-In section \ref{sec:incompdissoc} on page \pageref{sec:incompdissoc}, 
-we illustrate how to assess incomplete reporter ion dissociation. 
+In section \ref{sec:incompdissoc} on page \pageref{sec:incompdissoc},
+we illustrate how to assess incomplete reporter ion dissociation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
@@ -473,17 +576,20 @@ we illustrate how to assess incomplete reporter ion dissociation.
 
 \subsection{Cleaning spectra}\label{sec:clean}
 
-There are several methods implemented to perform basic data manipulation. 
-Low intensity peaks can be set to 0 with the \Rfunction{removePeaks} method 
-from spectra or whole experiments. The intensity threshold below which peaks are removed 
-is defined by the \Robject{t} parameter. \Robject{t} can be specified directly 
-as a numeric. The default value is the character \texttt{"min"}, that will remove 
-all peaks equal to the lowest non null intensity in any spectrum. 
-We observe the effect of the \Rfunction{removePeaks} method by comparing 
-total ion count (i.e. the total intensity in a spectrum) with the \Rfunction{ionCount} 
-method before (object \Robject{itraqdata}) and after (object \Robject{experiment}) for 
-spectrum \texttt{X55}. The respective spectra are shown on 
-figure \ref{fig:spectrum-clean-plot} (page \pageref{fig:spectrum-clean-plot}).
+There are several methods implemented to perform basic data
+manipulation.  Low intensity peaks can be set to 0 with the
+\Rfunction{removePeaks} method from spectra or whole experiments. The
+intensity threshold below which peaks are removed is defined by the
+\Robject{t} parameter. \Robject{t} can be specified directly as a
+numeric. The default value is the character \texttt{"min"}, that will
+remove all peaks equal to the lowest non null intensity in any
+spectrum.  We observe the effect of the \Rfunction{removePeaks} method
+by comparing total ion count (i.e. the total intensity in a spectrum)
+with the \Rfunction{ionCount} method before (object
+\Robject{itraqdata}) and after (object \Robject{experiment}) for
+spectrum \texttt{X55}. The respective spectra are shown on figure
+\ref{fig:spectrum-clean-plot} (page
+\pageref{fig:spectrum-clean-plot}).
 
 
 <<removePeaks, echo=TRUE, cache=FALSE>>=
@@ -491,32 +597,31 @@ experiment <- removePeaks(itraqdata, t = 400, verbose = FALSE)
 ## total ion current
 ionCount(itraqdata[["X55"]])
 ionCount(experiment[["X55"]])
-@ 
+@
 
 \begin{figure}[!ht]
 <<spectrum-clean-plot, dev='pdf', fig.width=6, fig.height=3, echo=FALSE, fig.keep='high'>>=
-p1 <- plot(itraqdata[["X55"]], full = TRUE, plot = FALSE) + theme_gray(5) 
-p2 <- plot(experiment[["X55"]], full = TRUE, plot = FALSE) + theme_gray(5) 
+p1 <- plot(itraqdata[["X55"]], full = TRUE, plot = FALSE) + theme_gray(5)
+p2 <- plot(experiment[["X55"]], full = TRUE, plot = FALSE) + theme_gray(5)
 grid.newpage()
 pushViewport(viewport(layout = grid.layout(1, 2)))
 vplayout <- function(x, y)
   viewport(layout.pos.row = x, layout.pos.col = y)
 print(p1,vp=vplayout(1,1))
 print(p2,vp=vplayout(1,2))
-@ 
+@
 \caption{Same spectrum before (left) and after setting peaks <= 400 to 0.}
 \label{fig:spectrum-clean-plot}
 \end{figure}
 
-Unlike the name might suggest, the \Rfunction{removePeaks} method does 
-not actually remove peaks from the spectrum; they are set to 0. This 
-can be checked using the \Rfunction{peaksCount} method, that returns 
-the number of peaks (including 0 intensity peaks) in a spectrum.
-To effectively remove 0 intensity 
-peaks from spectra, and reduce the size of the data set, one can use 
-the \Rfunction{clean} method. 
-The effect of the \Rfunction{removePeaks} and \Rfunction{clean} methods 
-are illustrated on figure \ref{fig:preproc} on page \pageref{fig:preproc}.
+Unlike the name might suggest, the \Rfunction{removePeaks} method does
+not actually remove peaks from the spectrum; they are set to 0. This
+can be checked using the \Rfunction{peaksCount} method, that returns
+the number of peaks (including 0 intensity peaks) in a spectrum.  To
+effectively remove 0 intensity peaks from spectra, and reduce the size
+of the data set, one can use the \Rfunction{clean} method.  The effect
+of the \Rfunction{removePeaks} and \Rfunction{clean} methods are
+illustrated on figure \ref{fig:preproc} on page \pageref{fig:preproc}.
 
 <<clean, echo=TRUE, cache=FALSE>>=
 ## number of peaks
@@ -524,7 +629,7 @@ peaksCount(itraqdata[["X55"]])
 peaksCount(experiment[["X55"]])
 experiment <- clean(experiment, verbose = FALSE)
 peaksCount(experiment[["X55"]])
-@ 
+@
 
 
 <<preprosp, cache=FALSE, echo=FALSE>>=
@@ -532,20 +637,20 @@ int <- c(0,1,1,3,1,1,0,0,0,1,3,7,3,1,0)
 mz <- c(113.9,114.0,114.05,114.1,114.15,114.2,114.25,
         114.3,114.35,114.4,114.42,114.48,114.5,114.55,114.6)
 ppsp <- new("Spectrum2",intensity=int,mz=mz,centroided=FALSE)
-p1 <- plot(ppsp, full = TRUE, plot = FALSE) + theme_gray(5) + 
+p1 <- plot(ppsp, full = TRUE, plot = FALSE) + theme_gray(5) +
   geom_point(size=3,alpha=I(1/3)) +
-  geom_hline(yintercept=3,linetype=2) + 
-  ggtitle("Original spectrum") 
-p2 <- plot(removePeaks(ppsp,t=3), full=TRUE, plot = FALSE) + 
+  geom_hline(yintercept=3,linetype=2) +
+  ggtitle("Original spectrum")
+p2 <- plot(removePeaks(ppsp,t=3), full=TRUE, plot = FALSE) +
   theme_gray(5) +
-  geom_point(size=3,alpha=I(1/3)) + 
-  geom_hline(yintercept=3,linetype=2) + 
-  ggtitle("Peaks < 3 removed") 
-p3 <- plot(clean(removePeaks(ppsp,t=3)), full = TRUE, plot = FALSE) + 
+  geom_point(size=3,alpha=I(1/3)) +
+  geom_hline(yintercept=3,linetype=2) +
+  ggtitle("Peaks < 3 removed")
+p3 <- plot(clean(removePeaks(ppsp,t=3)), full = TRUE, plot = FALSE) +
   theme_gray(5) +
-  geom_point(size=3,alpha=I(1/3)) + 
-  geom_hline(yintercept=3,linetype=2) + 
-  ggtitle("Peaks < 3 removed and cleaned") 
+  geom_point(size=3,alpha=I(1/3)) +
+  geom_hline(yintercept=3,linetype=2) +
+  ggtitle("Peaks < 3 removed and cleaned")
 @
 
 \begin{figure}[p]
@@ -555,28 +660,28 @@ pushViewport(viewport(layout = grid.layout(3, 1)))
 print(p1, vp=vplayout(1,1))
 print(p2, vp=vplayout(2,1))
 print(p3, vp=vplayout(3,1))
-@ 
-\caption{This figure illustrated the effect or the \Rfunction{removePeaks} 
-  and \Rfunction{clean} methods. The left-most spectrum displays two peaks, 
-  of max height 3 and 7 respectively. The middle spectrum shows the result 
-  of calling \Rfunction{removePeaks} with argument \Robject{t=3}, which sets 
-  all data points of the first peak, whose maximum height is smaller or equal 
-  to \Robject{t} to 0. The second peak is unaffected. Calling \Rfunction{clean} 
-  after \Rfunction{removePeaks} effectively deletes successive 0 intensities from 
+@
+\caption{This figure illustrated the effect or the \Rfunction{removePeaks}
+  and \Rfunction{clean} methods. The left-most spectrum displays two peaks,
+  of max height 3 and 7 respectively. The middle spectrum shows the result
+  of calling \Rfunction{removePeaks} with argument \Robject{t=3}, which sets
+  all data points of the first peak, whose maximum height is smaller or equal
+  to \Robject{t} to 0. The second peak is unaffected. Calling \Rfunction{clean}
+  after \Rfunction{removePeaks} effectively deletes successive 0 intensities from
   the spectrum, as shown on the right plot. }
 \label{fig:preproc}
 \end{figure}
 
 \subsection{Focusing on specific MZ values}\label{sec:trim}
 
-Another useful manipulation method is \Rfunction{trimMz}, that takes as 
-parameters and \Robject{MSnExp} (or a \Robject{Spectrum}) and a numeric 
-\Robject{mzlim}. MZ values smaller then \texttt{min(mzlim)} 
-or greater then \texttt{max(mzmax)} are discarded. This method is 
-particularly useful when one wants to concentrate on a specific MZ range, 
-as for reporter ions quantification, and generally results in substantial 
-reduction of data size. Compare the size of the full trimmed experiment to 
-the original \Sexpr{sz} Mb.
+Another useful manipulation method is \Rfunction{trimMz}, that takes
+as parameters and \Robject{MSnExp} (or a \Robject{Spectrum}) and a
+numeric \Robject{mzlim}. MZ values smaller then \texttt{min(mzlim)} or
+greater then \texttt{max(mzmax)} are discarded. This method is
+particularly useful when one wants to concentrate on a specific MZ
+range, as for reporter ions quantification, and generally results in
+substantial reduction of data size. Compare the size of the full
+trimmed experiment to the original \Sexpr{sz} Mb.
 \label{trimMz-example}
 
 <<trimMz, echo=TRUE, cache=FALSE>>=
@@ -584,9 +689,10 @@ range(mz(itraqdata[["X55"]]))
 experiment <- trimMz(experiment, mzlim = c(112,120))
 range(mz(experiment[["X55"]]))
 experiment
-@ 
-As can be seen above, all processing performed on the experiment is recorded 
-and displayed as integral part of the experiment object.
+@
+
+As can be seen above, all processing performed on the experiment is
+recorded and displayed as integral part of the experiment object.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
@@ -595,31 +701,29 @@ and displayed as integral part of the experiment object.
 
 \subsection{Reporter ions quantitation}\label{sec:quant}
 
-Quantitation is performed on fixed peaks in the spectra, that are specified 
-with an \Robject{ReporterIons} object. A specific peak is defined by it's expected 
-\Robject{mz} value and is searched for within \Robject{mz} $\pm$ \Robject{width}.  
-If no data is found, \Robject{NA} is returned.
+Quantitation is performed on fixed peaks in the spectra, that are
+specified with an \Robject{ReporterIons} object. A specific peak is
+defined by it's expected \Robject{mz} value and is searched for within
+\Robject{mz} $\pm$ \Robject{width}.  If no data is found, \Robject{NA}
+is returned.
 
 <<reporters, echo=TRUE, cache=FALSE>>=
 mz(iTRAQ4)
 width(iTRAQ4)
-@ 
+@
 
-The \Rfunction{quantify} method takes the following parameters: 
-an \Robject{MSnExp} experiment, 
-a character describing the quantification \Robject{method}, 
-the \Robject{reporters} to be quantified 
-and a \Robject{strict} logical defining whether data points 
-ranging outside of \Robject{mz} $\pm$ \Robject{width} should be considered 
-for quantitation. 
-Additionally, a progress bar can be displaying when setting 
-the \Robject{verbose} parameter to \Robject{TRUE}.
-Three quantification methods are implemented, as illustrated 
-on figure \ref{fig:quant-methods}: 
-\Robject{trapezoidation} returns the area under the peak of interest, 
-\Robject{max} returns the apex of the peak and 
-\Robject{sum} returns the sum of all intensities of the peak. 
-See \texttt{?quantify} for more details.
+The \Rfunction{quantify} method takes the following parameters: an
+\Robject{MSnExp} experiment, a character describing the quantification
+\Robject{method}, the \Robject{reporters} to be quantified and a
+\Robject{strict} logical defining whether data points ranging outside
+of \Robject{mz} $\pm$ \Robject{width} should be considered for
+quantitation.  Additionally, a progress bar can be displaying when
+setting the \Robject{verbose} parameter to \Robject{TRUE}.  Three
+quantification methods are implemented, as illustrated on figure
+\ref{fig:quant-methods}: \Robject{trapezoidation} returns the area
+under the peak of interest, \Robject{max} returns the apex of the peak
+and \Robject{sum} returns the sum of all intensities of the peak.  See
+\texttt{?quantify} for more details.
 
 <<simplesp, cache=FALSE, echo=FALSE, fig.keep='none'>>=
 int <- c(0,1,1,3,1,1,0)
@@ -627,7 +731,7 @@ mz <- c(113.9,114.0,114.05,114.1,114.15,114.2,114.25)
 ssp <- new("Spectrum2",intensity=int,mz=mz,centroided=FALSE)
 p <- plot(ssp, full=TRUE, plot=FALSE)
 p <- p + theme_gray(5)
-@ 
+@
 
 \begin{figure}[p]
 <<quantitationPlot, dev='pdf',fig.width=5, fig.height=5, echo=FALSE>>=
@@ -648,38 +752,38 @@ print(p +
       geom_polygon(alpha = I(1/5), fill = "red"),
       vp = vplayout(2, 1))
 print(p +
-      ggtitle("Trapezoidation and strict=TRUE") + 
+      ggtitle("Trapezoidation and strict=TRUE") +
       geom_polygon(aes(x = c(NA, 114.05, 114.05, 114.1, 114.15, 114.15, NA),
                        y=c(NA, 0, 1, 3, 1, 0, NA)), fill = "red", alpha = I(1/5)),
       vp = vplayout(2,2))
-@ 
-\caption{The different quantitation methods are illustrated above. 
-  Quantitation using \Robject{sum} sums all the data points in the peaks to 
-  produce, for this example, \Sexpr{quantify(ssp,iTRAQ4[1],method="sum")[[1]]}, 
-  whereas method \Robject{max} only uses the peak's maximum intensity, 
-  \Sexpr{quantify(ssp,iTRAQ4[1],method="max")[[1]]}. 
-  \Robject{Trapezoidation} calculates the area under the peak taking 
+@
+\caption{The different quantitation methods are illustrated above.
+  Quantitation using \Robject{sum} sums all the data points in the
+  peaks to produce, for this example,
+  \Sexpr{quantify(ssp,iTRAQ4[1],method="sum")[[1]]}, whereas method
+  \Robject{max} only uses the peak's maximum intensity,
+  \Sexpr{quantify(ssp,iTRAQ4[1],method="max")[[1]]}.
+  \Robject{Trapezoidation} calculates the area under the peak taking
   the full with into account (using \Robject{strict=FALSE} gives
-  \Sexpr{round(quantify(ssp,iTRAQ4[1],method="trap",strict=FALSE)[[1]],3)}) 
-  or only the width as defined by the reporter 
-  (using \Robject{strict=TRUE} gives
+  \Sexpr{round(quantify(ssp,iTRAQ4[1],method="trap",strict=FALSE)[[1]],3)})
+  or only the width as defined by the reporter (using
+  \Robject{strict=TRUE} gives
   \Sexpr{round(quantify(ssp,iTRAQ4[1],method="trap",strict=TRUE)[[1]],3)}). }
 \label{fig:quant-methods}
 \end{figure}
 
 \bigskip
 
-The \Rfunction{quantify} method returns \Robject{MSnSet} objects, that 
-extend the well-known \Robject{eSet} class defined in the 
-\Rpackage{Biobase} package. \Robject{MSnSet} instances are very similar 
-to \Robject{ExpressionSet} objects, except for the experiment meta-data 
-that captures MIAPE specific information.
-The assay data is a matrix of dimensions 
-$n \times m$, where $m$ is the  number of features/spectra 
-originally in the \Robject{MSnExp} used as parameter in 
-\Robject{quantify} and $m$ is the number of reporter ions, that 
-can be accessed with the \Rfunction{exprs} method.
-The meta data is directly inherited from the \Robject{MSnExp} instance.
+The \Rfunction{quantify} method returns \Robject{MSnSet} objects, that
+extend the well-known \Robject{eSet} class defined in the
+\Rpackage{Biobase} package. \Robject{MSnSet} instances are very
+similar to \Robject{ExpressionSet} objects, except for the experiment
+meta-data that captures MIAPE specific information.  The assay data is
+a matrix of dimensions $n \times m$, where $m$ is the number of
+features/spectra originally in the \Robject{MSnExp} used as parameter
+in \Robject{quantify} and $m$ is the number of reporter ions, that can
+be accessed with the \Rfunction{exprs} method.  The meta data is
+directly inherited from the \Robject{MSnExp} instance.
 
 <<quantify, echo=TRUE, cache=FALSE, tidy=FALSE>>=
 qnt <- quantify(experiment,
@@ -690,69 +794,73 @@ qnt <- quantify(experiment,
                 verbose = FALSE)
 qnt
 head(exprs(qnt))
-@ 
+@
 
-If no peak is detected for a reporter ion peak, the respective 
-quantitation value is set to \texttt{NA}. In our case, there 
-is \Sexpr{sum(is.na(exprs(qnt)))} such case in row 
+If no peak is detected for a reporter ion peak, the respective
+quantitation value is set to \texttt{NA}. In our case, there
+is \Sexpr{sum(is.na(exprs(qnt)))} such case in row
 \Sexpr{which(is.na(exprs(qnt))) %% nrow(qnt)}.
 We will remove the offending line using the \Rfunction{filterNA} method.
-The \Robject{pNA} argument defines the percentage of accepted missing 
-values per feature. As we do not expect any missing peaks, we set it 
-to be 0 (which is also the detault value). 
+The \Robject{pNA} argument defines the percentage of accepted missing
+values per feature. As we do not expect any missing peaks, we set it
+to be 0 (which is also the detault value).
 
 <<filterNA, echo=TRUE>>=
 table(is.na(qnt))
 qnt <- filterNA(qnt, pNA = 0)
 sum(is.na(qnt))
-@ 
+@
 
-The filtering criteria for \Rfunction{filterNA} can also be defined as a pattern
-of columns that can have missing values and columns that must not exhibit any. 
-See \Rfunction{?filterNA} for details and examples.
+The filtering criteria for \Rfunction{filterNA} can also be defined as
+a pattern of columns that can have missing values and columns that
+must not exhibit any.  See \Rfunction{?filterNA} for details and
+examples.
 
-The infrastructure around the \Robject{MSnSet} class allows flexible filtering 
-using the \Rfunction{[} sub-setting operator. Below, we mimic the behaviour of
-\Rfunction{filterNA(, pNA = 0)} by calculating the row indices that should be removed, 
-i.e. those that have at least on \Robject{NA} value and explicitly remove these row. 
-This method allows one to devise and easily apply any filtering strategy.
+The infrastructure around the \Robject{MSnSet} class allows flexible
+filtering using the \Rfunction{[} sub-setting operator. Below, we
+mimic the behaviour of \Rfunction{filterNA(, pNA = 0)} by calculating
+the row indices that should be removed, i.e. those that have at least
+on \Robject{NA} value and explicitly remove these row.  This method
+allows one to devise and easily apply any filtering strategy.
 
 <<removeNa, echo=TRUE, eval=FALSE>>=
 whichRow <- which(is.na((qnt))) %% nrow(qnt)
 qnt <- qnt[-whichRow, ]
-@ 
+@
 
-See also the \Rfunction{plotNA} method to obtain a graphical overview of 
+See also the \Rfunction{plotNA} method to obtain a graphical overview of
 the completeness of a data set.
 
 \subsection{Importing quantitation data}\label{sec:io2}
 
-If quantitation data is already available as a spreadsheet, it can be 
-imported, along with additional optional feature and sample (pheno) meta data, 
-with the \Rfunction{readMSnSet} function. This function takes the 
-respective text-based spreadsheet (comma- or tab-separated) file names 
-as argument to create a valid \Robject{MSnSet} instance. 
+If quantitation data is already available as a spreadsheet, it can be
+imported, along with additional optional feature and sample (pheno) meta data,
+with the \Rfunction{readMSnSet} function. This function takes the
+respective text-based spreadsheet (comma- or tab-separated) file names
+as argument to create a valid \Robject{MSnSet} instance.
 
-Note that the quantitation data of \Robject{MSnSet} objects can also be 
-exported to a text-based spreadsheet file using the \Rfunction{write.exps} 
-method.
+Note that the quantitation data of \Robject{MSnSet} objects can also
+be exported to a text-based spreadsheet file using the
+\Rfunction{write.exps} method.
 
-\Rpackage{MSnbase} also supports the \texttt{mzTab} 
-format\footnote{\url{http://code.google.com/p/mztab/}}, a light-weight, tab-delimited 
-file format for proteomics data. \texttt{mzTab} files can be read into \R with 
-\Rfunction{readMzTabData} to create and \Robject{MSnSet} instance. 
-\Robject{MSnSet} objects can also be exported to \texttt{mzTab} with the 
-\Rfunction{writeMzTabData} function. 
+\Rpackage{MSnbase} also supports the \texttt{mzTab}
+format\footnote{\url{http://code.google.com/p/mztab/}}, a
+light-weight, tab-delimited file format for proteomics
+data. \texttt{mzTab} files can be read into \R with
+\Rfunction{readMzTabData} to create and \Robject{MSnSet} instance.
+\Robject{MSnSet} objects can also be exported to \texttt{mzTab} with
+the \Rfunction{writeMzTabData} function.
 
-See the \texttt{MSnbase-io} vignette for a general overview of 
+See the \texttt{MSnbase-io} vignette for a general overview of
 \Rpackage{MSnbase}'s input/ouput capabilites.
 
 \subsection{Peak adjustments}\label{sec:purcor}
 
-\paragraph{Single peak adjustment} In certain cases, peak intensities need to be adjusted 
-as a result of peak interferance. For example, the $+1$ peak of the phenylalanine (F, Phe) 
-immonium ion (with m/z 120.03) inteferes with the 121.1 TMT reporter ion. 
-Below, we calculate the relative intensity of the +1 peaks compared to the main peak using the 
+\paragraph{Single peak adjustment} In certain cases, peak intensities
+need to be adjusted as a result of peak interferance. For example, the
+$+1$ peak of the phenylalanine (F, Phe) immonium ion (with m/z 120.03)
+inteferes with the 121.1 TMT reporter ion.  Below, we calculate the
+relative intensity of the +1 peaks compared to the main peak using the
 \Rpackage{Rdispo} package.
 
 <<pheplus1, echo=TRUE, cache=FALSE>>=
@@ -763,23 +871,26 @@ getMass(Fim)
 isotopes <- getIsotope(Fim)
 F1 <- isotopes[2, 2]
 F1
-@ 
+@
 
-If desired, one can thus specifically quantify the F immonium ion in the MS2 spectrum, 
-estimate the intensity of the +1 ion (\Sexpr{round(F1,4)}\% of the F peak) and substract 
-this calculated value from the 121.1 TMT reporter intensity. 
+If desired, one can thus specifically quantify the F immonium ion in
+the MS2 spectrum, estimate the intensity of the +1 ion
+(\Sexpr{round(F1,4)}\% of the F peak) and substract this calculated
+value from the 121.1 TMT reporter intensity.
 
-The above principle can also be generalised for a set of overlapping peaks, 
-as described below.
+The above principle can also be generalised for a set of overlapping
+peaks, as described below.
 
-\paragraph{Reporter ions purity correction} Impurities in the reporter reagents can also 
-bias the results and can be corrected when manufacturers provide correction coefficients. 
-These generally come as percentages of each reporter ion that have masses differing 
-by -2, -1, +1 and +2 Da from the nominal reporter ion mass due to isotopic variants.  
-The \Rfunction{purityCorrect} method applies such correction to \Robject{MSnSet} 
-instances. It also requires a square matrix as second argument, \Robject{impurities}, 
-that defines the relative percentage of reporter in the quantified each peak. 
-See \texttt{?purityCorrect} for more details.
+\paragraph{Reporter ions purity correction} Impurities in the reporter
+reagents can also bias the results and can be corrected when
+manufacturers provide correction coefficients.  These generally come
+as percentages of each reporter ion that have masses differing by -2,
+-1, +1 and +2 Da from the nominal reporter ion mass due to isotopic
+variants.  The \Rfunction{purityCorrect} method applies such
+correction to \Robject{MSnSet} instances. It also requires a square
+matrix as second argument, \Robject{impurities}, that defines the
+relative percentage of reporter in the quantified each peak.  See
+\texttt{?purityCorrect} for more details.
 
 <<purityCorrect, echo=TRUE, cache=FALSE, tidy = FALSE>>=
 impurities <- matrix(c(0.929, 0.059, 0.002, 0.000,
@@ -790,39 +901,42 @@ impurities <- matrix(c(0.929, 0.059, 0.002, 0.000,
 qnt.crct <- purityCorrect(qnt, impurities)
 head(exprs(qnt))
 head(exprs(qnt.crct))
-@ 
+@
 
-The \Rfunction{makeImpuritiesMatrix} can be used to create impurity matrices. 
-It opens a rudimentary spreadsheet that can be directly edited.
+The \Rfunction{makeImpuritiesMatrix} can be used to create impurity
+matrices.  It opens a rudimentary spreadsheet that can be directly
+edited.
 
 \subsection{Normalisation}\label{sec:norm}
 
-A \Robject{MSnSet} object is meant to be compatible with further downstream 
-packages for data normalisation and statistical analysis. There is also a 
-\Rfunction{normalise} (also available as \Rfunction{normalize}) 
-method for expression sets. The method takes and instance 
-of class \Robject{MSnSet} as first argument, and a character to describe the 
-\Robject{method} to be used: 
+A \Robject{MSnSet} object is meant to be compatible with further
+downstream packages for data normalisation and statistical
+analysis. There is also a \Rfunction{normalise} (also available as
+\Rfunction{normalize}) method for expression sets. The method takes
+and instance of class \Robject{MSnSet} as first argument, and a
+character to describe the \Robject{method} to be used:
 
 \begin{description}
-\item{\Robject{quantiles}} Applies quantile normalisation \citep{Bolstad03} as 
-  implemented in the \Rfunction{normalize.quantiles} function of the 
-  \Rpackage{preprocessCore} package. 
-\item{\Robject{quantiles.robust}} Applies robust quantile normalisation 
-  \citep{Bolstad03} as implemented in the 
-  \Rfunction{normalize.quantiles.robust} function of the 
-  \Rpackage{preprocessCore} package. 
-\item{\Robject{vsn}} Applies variance stabilisation normalization \citep{Huber2002} 
-  as implemented in the \Rfunction{vsn2} function of the 
-  \Rpackage{vsn} package. 
-\item{\Robject{max}} Each feature's reporter intensity is divided by the 
-  maximum of the reporter ions intensities.
-\item{\Robject{sum}} Each feature's reporter intensity is divided by the 
-  sum of the reporter ions intensities.
+\item{\Robject{quantiles}} Applies quantile normalisation
+  \citep{Bolstad03} as implemented in the
+  \Rfunction{normalize.quantiles} function of the
+  \Rpackage{preprocessCore} package.
+\item{\Robject{quantiles.robust}} Applies robust quantile
+  normalisation \citep{Bolstad03} as implemented in the
+  \Rfunction{normalize.quantiles.robust} function of the
+  \Rpackage{preprocessCore} package.
+\item{\Robject{vsn}} Applies variance stabilisation normalization
+  \citep{Huber2002} as implemented in the \Rfunction{vsn2} function of
+  the \Rpackage{vsn} package.
+\item{\Robject{max}} Each feature's reporter intensity is divided by
+  the maximum of the reporter ions intensities.
+\item{\Robject{sum}} Each feature's reporter intensity is divided by
+  the sum of the reporter ions intensities.
 \end{description}
 
-See \Rfunction{?normalise} for more methods. A \Rfunction{scale} method for \Robject{MSnSet} 
-instances, that relies on the \Rfunction{base::scale} function.
+See \Rfunction{?normalise} for more methods. A \Rfunction{scale}
+method for \Robject{MSnSet} instances, that relies on the
+\Rfunction{base::scale} function.
 
 <<normalise, echo=TRUE, cache=FALSE>>=
 qnt.max <- normalise(qnt, "max")
@@ -830,11 +944,11 @@ qnt.sum <- normalise(qnt, "sum")
 qnt.quant <- normalise(qnt, "quantiles")
 qnt.qrob <- normalise(qnt, "quantiles.robust")
 qnt.vsn <- normalise(qnt, "vsn")
-@ 
+@
 
 The effect of these are illustrated on figure \ref{fig:norm-plot} and
-figure \ref{fig:cv-plot} reproduces figure 3 of \cite{Karp2010} that described 
-the application of vsn on iTRAQ reporter data.
+figure \ref{fig:cv-plot} reproduces figure 3 of \cite{Karp2010} that
+described the application of vsn on iTRAQ reporter data.
 
 \begin{figure}[p]
 <<normPlot, dev='pdf', fig.width=5, fig.height=7, echo=FALSE>>=
@@ -855,8 +969,8 @@ par(mfrow=c(3,2),mar=c(2.9,2.9,2.9,1))
 .plot(qnt.quant, ttl = "Quantile")
 .plot(qnt.qrob, ttl = "Robust quantile")
 .plot(qnt.vsn, ttl = "vsn")
-@ 
-\caption{ Comparison of the normalisation \Robject{MSnSet} methods. 
+@
+\caption{ Comparison of the normalisation \Robject{MSnSet} methods.
   Note that vsn also glog-transforms the intensities. }
 \label{fig:norm-plot}
 \end{figure}
@@ -879,47 +993,48 @@ library("zoo")
 ## not yet available on CRAN (only on r-forge).
 rmed1 <- zoo:::rollapply.zoo(cv1,7,function(x) median(x,na.rm=TRUE))
 rmed2 <- zoo:::rollapply.zoo(cv2,7,function(x) median(x,na.rm=TRUE))
-dfr2 <- 
+dfr2 <-
   rbind(data.frame(x=seq(1,70,by=(70/length(rmed1))),
                    y=rmed1,norm="raw"),
         data.frame(x=seq(1,70,by=(70/length(rmed1))),
                    y=rmed2,norm="vsn"))
 
-p <- qplot(rank,cv,data=dfr,col=norm) + 
+p <- qplot(rank,cv,data=dfr,col=norm) +
   geom_line(data=dfr2,aes(x=x,y=y,colour=norm)) +
   theme_gray(7)
-@ 
+@
 
 \begin{figure}[!ht]
 <<cvPlot, dev='pdf', fig.width=5, fig.height=4, echo=FALSE>>=
 print(p)
-@ 
+@
 \caption{CV versus signal intensity comparison for log2 and vsn
   transformed data. Lines indicate running CV medians.}
 \label{fig:cv-plot}
 \end{figure}
 
-Note that it is also possible to normalise individual spectra or whole \Robject{MSnExp} experiments with 
-the \Rfunction{normalise} method using the \Robject{max} method. 
-This will rescale all peaks between 0 and 1. 
-To visualise the relative reporter peaks, one should this first trim the spectra 
-using method \Rfunction{trimMz} as illustrated in section \ref{sec:processing}, 
-then normalise the \Robject{MSnExp} with \Rfunction{normalise} using 
-\Robject{method="max"} as illustrated above and plot the data using \Rfunction{plot} 
-(figure \ref{fig:msnexp-norm-plot}). 
+Note that it is also possible to normalise individual spectra or whole
+\Robject{MSnExp} experiments with the \Rfunction{normalise} method
+using the \Robject{max} method.  This will rescale all peaks between 0
+and 1.  To visualise the relative reporter peaks, one should this
+first trim the spectra using method \Rfunction{trimMz} as illustrated
+in section \ref{sec:processing}, then normalise the \Robject{MSnExp}
+with \Rfunction{normalise} using \Robject{method="max"} as illustrated
+above and plot the data using \Rfunction{plot} (figure
+\ref{fig:msnexp-norm-plot}).
 
 <<prepareMsnsetNormPlot, cache=FALSE, echo=FALSE, keep.fig='none'>>=
 p <- plot(normalise(experiment[bsasel], "max"),
           reporters = iTRAQ4, full = FALSE, plot = FALSE)
 p <- p + theme_gray(7)
-@ 
+@
 
 \begin{figure}[p]
 <<msnexpNormPlot, dev='pdf', fig.width=5, fig.height=6, echo=FALSE>>=
 print(p)
-@ 
-\caption{Experiment-wide normalised MS2 spectra. The y-axes of the individual 
-  spectra is now rescaled between 0 and 1 (highest peak), as opposed to 
+@
+\caption{Experiment-wide normalised MS2 spectra. The y-axes of the individual
+  spectra is now rescaled between 0 and 1 (highest peak), as opposed to
   figure \ref{fig:msnexp-plot}. }
 \label{fig:msnexp-norm-plot}
 \end{figure}
@@ -927,93 +1042,101 @@ print(p)
 \subsection{Feature aggregation}
 \label{sec:feataggregation}
 
-The above quantitation and normalisation has been performed on quantitative data 
-obtained from individual spectra. However, the biological unit of interest is not 
-the spectrum but the peptide or the protein. As such, it is important to be able to 
-summarise features that belong to a same group, i.e. spectra from one peptide, 
-peptides that originate from one protein, or directly combine all spectra that have 
-been uniquely associated to one protein. 
+The above quantitation and normalisation has been performed on
+quantitative data obtained from individual spectra. However, the
+biological unit of interest is not the spectrum but the peptide or the
+protein. As such, it is important to be able to summarise features
+that belong to a same group, i.e. spectra from one peptide, peptides
+that originate from one protein, or directly combine all spectra that
+have been uniquely associated to one protein.
 
-\Rpackage{MSnbase} provides one function, \Rfunction{combineFeatures}, that allows 
-to aggregate features stored in an \Robject{MSnSet} using build-in or user 
-defined summary function and return a new \Robject{MSnSet} instance. 
-The three main arguments are described below. 
-Additional details can be found in the method documentation. 
+\Rpackage{MSnbase} provides one function, \Rfunction{combineFeatures},
+that allows to aggregate features stored in an \Robject{MSnSet} using
+build-in or user defined summary function and return a new
+\Robject{MSnSet} instance.  The three main arguments are described
+below.  Additional details can be found in the method documentation.
 
 <<makeGroups1,echo=FALSE,cache=FALSE>>=
 gb <- fData(qnt)$ProteinAccession
-@ 
+@
 
-\Rfunction{combineFeatures}'s first argument, \Robject{object}, is an instance of class \Robject{MSnSet}, 
-as has been created in the section \ref{sec:quant} for instance. 
-The second argument, \Robject{groupBy}, is a \Robject{factor} than has as many elements as 
-there are features in the \Robject{MSnSet} \Robject{object} argument. The features corresponding 
-to the \Robject{groupBy} levels will be aggregated so that the resulting \Robject{MSnSet} output 
-will have \Rfunction{length(levels(groupBy))} features. Here, we will combine individual 
-MS2 spectra based on the protein they originate from. 
-As shown below, this will result in \Sexpr{length(table(gb))} new aggregated features.
+\Rfunction{combineFeatures}'s first argument, \Robject{object}, is an
+instance of class \Robject{MSnSet}, as has been created in the section
+\ref{sec:quant} for instance.  The second argument, \Robject{groupBy},
+is a \Robject{factor} than has as many elements as there are features
+in the \Robject{MSnSet} \Robject{object} argument. The features
+corresponding to the \Robject{groupBy} levels will be aggregated so
+that the resulting \Robject{MSnSet} output will have
+\Rfunction{length(levels(groupBy))} features. Here, we will combine
+individual MS2 spectra based on the protein they originate from.  As
+shown below, this will result in \Sexpr{length(table(gb))} new
+aggregated features.
 
 <<makeGroups2,echo=TRUE,cache=FALSE>>=
 gb <- fData(qnt)$ProteinAccession
 table(gb)
 length(unique(gb))
-@ 
+@
 
-The third argument, \Robject{fun}, 
-defined how to combine the features. Predefined functions are readily available and can be 
-specified as strings 
-(\Robject{fun="mean"}, \Robject{fun="median"}, \Robject{fun="sum"}, 
-\Robject{fun="weighted.mean"} or \Robject{fun="medianpolish"} to compute respectively the mean, 
-media, sum, weighted mean or median polish of the features to be aggregated). 
-Alternatively, is is possible to supply user defined functions with 
-\Robject{fun=function(x) \{ ... \}}. We will use the \Robject{median} here.
+The third argument, \Robject{fun}, defined how to combine the
+features. Predefined functions are readily available and can be
+specified as strings (\Robject{fun="mean"}, \Robject{fun="median"},
+\Robject{fun="sum"}, \Robject{fun="weighted.mean"} or
+\Robject{fun="medianpolish"} to compute respectively the mean, media,
+sum, weighted mean or median polish of the features to be aggregated).
+Alternatively, is is possible to supply user defined functions with
+\Robject{fun=function(x) \{ ... \}}. We will use the \Robject{median}
+here.
 
 <<combineFeatures, echo=TRUE, cache=FALSE>>=
 qnt2 <- combineFeatures(qnt, groupBy = gb, fun = "median")
 qnt2
-@ 
+@
 
-%% Other intended ways to define aggregation groups is to import 
-%% identification data into R and collate it to the \Robject{MSnSet} 
-%% feature data, and subsequently use peptide sequences or protein assignments 
-%% to combine features. 
+%% Other intended ways to define aggregation groups is to import
+%% identification data into R and collate it to the \Robject{MSnSet}
+%% feature data, and subsequently use peptide sequences or protein assignments
+%% to combine features.
 
 \subsection{Label-free MS2 quantitation}
 \label{sec:spectralcounting}
 
-Note that if samples are not multiplexed, label-free MS2 quantitation is possible 
-using \Rpackage{MSnbase}.
-Once individual spectra have been assigned to peptides and proteins, it becomes 
-straightforward to estimate protein quantities using the spectral counting method, 
-as illustrated in section \ref{sec:feataggregation}, when the \Robject{groupBy} 
-argument is defined. 
+Note that if samples are not multiplexed, label-free MS2 quantitation
+is possible using \Rpackage{MSnbase}.  Once individual spectra have
+been assigned to peptides and proteins, it becomes straightforward to
+estimate protein quantities using the spectral counting method, as
+illustrated in section \ref{sec:feataggregation}, when the
+\Robject{groupBy} argument is defined.
 
 \section{Quantitative assessment of incomplete dissociation}
 \label{sec:incompdissoc}
 
-Quantitation using isobaric reporter tags assumes complete dissociation between
-the reporter group (red on figure \ref{fig:itraqchem}), 
-balance group (blue) and peptide (the peptide reactive group is drawn in green). 
-However, incomplete dissociation does occur and 
-results in an isobaric tag (i.e reporter and balance groups) specific peaks. 
+Quantitation using isobaric reporter tags assumes complete
+dissociation between the reporter group (red on figure
+\ref{fig:itraqchem}), balance group (blue) and peptide (the peptide
+reactive group is drawn in green).  However, incomplete dissociation
+does occur and results in an isobaric tag (i.e reporter and balance
+groups) specific peaks.
 
 \begin{figure}[h]
   \begin{center}
     \includegraphics[width=4cm]{./itraqchem.pdf}
-\caption{ iTRAQ 4-plex isobaric tags reagent consist of three parts: 
-  (1) a charged reporter group (MZ of 114, 115, 116 and 117) that is unique to each of the four reagents (red),
-  (2) an uncharged mass balance group (28-31 Da) (blue)and 
-  (3) a peptide reactive group (NHS ester) that binds to the peptide. 
-  In case of incomplete dissociation, the reporter and balance groups produce a specific peaks 
-  at MZ 145.
-}
+    \caption{ iTRAQ 4-plex isobaric tags reagent consist of three
+      parts: (1) a charged reporter group (MZ of 114, 115, 116 and
+      117) that is unique to each of the four reagents (red), (2) an
+      uncharged mass balance group (28-31 Da) (blue)and (3) a peptide
+      reactive group (NHS ester) that binds to the peptide.  In case
+      of incomplete dissociation, the reporter and balance groups
+      produce a specific peaks at MZ 145.  }
 \label{fig:itraqchem}
-  \end{center}  
+  \end{center}
 \end{figure}
 
-\Rpackage{MSnbase} provides, among others, a \Robject{ReporterIons} object for iTRAQ 4-plex that includes the 
-145 peaks, called \Robject{iTRAQ5}. This can then be used to quantify the experiment as show in section \ref{sec:quant} 
-to estimate incomplete dissociation for each spectrum.
+\Rpackage{MSnbase} provides, among others, a \Robject{ReporterIons}
+object for iTRAQ 4-plex that includes the 145 peaks, called
+\Robject{iTRAQ5}. This can then be used to quantify the experiment as
+show in section \ref{sec:quant} to estimate incomplete dissociation
+for each spectrum.
 
 <<incompdiss, echo=TRUE, cache=FALSE, tidy=FALSE>>=
 iTRAQ5
@@ -1024,7 +1147,7 @@ incompdiss <- quantify(itraqdata,
                        parallel = FALSE,
                        verbose = FALSE)
 head(exprs(incompdiss))
-@ 
+@
 
 Figure \ref{fig:incompdiss} compares these intensities for the whole experiment.
 
@@ -1049,9 +1172,10 @@ grid.newpage()
 pushViewport(viewport(layout = grid.layout(1, 2)))
 print(p1, vp = vplayout(1, 1))
 print(p2, vp = vplayout(1, 2))
-@ 
-\caption{Boxplot and scatterplot comparing intensities of the 4 reporter ions 
-  (or their sum, on the right) and the incomplete dissociation specific peak. }
+@
+\caption{Boxplot and scatterplot comparing intensities of the 4
+  reporter ions (or their sum, on the right) and the incomplete
+  dissociation specific peak. }
 \label{fig:incompdiss}
 \end{figure}
 
@@ -1061,40 +1185,44 @@ print(p2, vp = vplayout(1, 2))
 \section{Combining \Robject{MSnSet} instances}\label{sec:combine}
 
 
-Combining mass spectrometry runs can be done in two different ways depending on the 
-nature of these runs. If the runs represent repeated measures of identical samples, 
-for instance multiple fractions, the data has to be combine along the row of the 
-quantitation matrix: all the features (along the rows) represent measurements of the 
-same set of samples (along the columns). In this situation, described in section 
-\ref{sec:comb1}, two experiments of dimensions 
-$n_1$ (rows) by $m$ (columns and $n_2$ by $m$ will produce 
-a new experiment of dimensions $n_1 + n_2$ by $m$.
+Combining mass spectrometry runs can be done in two different ways
+depending on the nature of these runs. If the runs represent repeated
+measures of identical samples, for instance multiple fractions, the
+data has to be combine along the row of the quantitation matrix: all
+the features (along the rows) represent measurements of the same set
+of samples (along the columns). In this situation, described in
+section \ref{sec:comb1}, two experiments of dimensions $n_1$ (rows) by
+$m$ (columns and $n_2$ by $m$ will produce a new experiment of
+dimensions $n_1 + n_2$ by $m$.
 
-When however, different sets of samples have been analysed in different mass 
-spectrometry runs, the data has 
-to be combined along the columns of the quantitation matrix: some features will be 
-shared across experiments and should thus be aligned on a same row in the new
-data set, whereas unique 
-features to one experiment should be set as missing in the other one. 
-In this situation, described in section \ref{sec:comb2}, 
-two experiments of dimensions $n_1$ by $m_1$ and $n_2$ by $m_2$ will 
-produce a new experiment of dimensions 
-$unique_{n_1} + unique_{n_2} + shared_{n_1, n_2}$ by $m_1 + m_2$. 
-The two first terms of the first dimension will be complemented by \Robject{NA} values.
+When however, different sets of samples have been analysed in
+different mass spectrometry runs, the data has to be combined along
+the columns of the quantitation matrix: some features will be shared
+across experiments and should thus be aligned on a same row in the new
+data set, whereas unique features to one experiment should be set as
+missing in the other one.  In this situation, described in section
+\ref{sec:comb2}, two experiments of dimensions $n_1$ by $m_1$ and
+$n_2$ by $m_2$ will produce a new experiment of dimensions
+$unique_{n_1} + unique_{n_2} + shared_{n_1, n_2}$ by $m_1 + m_2$.  The
+two first terms of the first dimension will be complemented by
+\Robject{NA} values.
 
-Default \Robject{MSnSet} feature names (\Robject{X1}, \Robject{X2}, \ldots) and sample names 
-(\Robject{iTRAQ4.114}, \Robject{iTRAQ4.115}, \Robject{iTRAQ4.116}, \ldots) are not informative.
-The features and samples of these anonymous quantitative data-sets should be updated 
+Default \Robject{MSnSet} feature names (\Robject{X1}, \Robject{X2},
+\ldots) and sample names (\Robject{iTRAQ4.114}, \Robject{iTRAQ4.115},
+\Robject{iTRAQ4.116}, \ldots) are not informative.  The features and
+samples of these anonymous quantitative data-sets should be updated
 before being combined, to guide how to meaningfully merge them.
 
 
 \subsection{Combining identical samples}\label{sec:comb1}
 
-To simulate this situation, let us use quantiation data from the \Robject{itraqdata} 
-object that is provided with the package as experiment 1 and the data from the 
-\Robject{rawdata} \Robject{MSnExp} instance created at the very beginning of this 
-document. Both experiments share the \emph{same} default iTRAQ 4-plex reporter names 
-as default sample names, and will thus automatically be combined along rows.
+To simulate this situation, let us use quantiation data from the
+\Robject{itraqdata} object that is provided with the package as
+experiment 1 and the data from the \Robject{rawdata} \Robject{MSnExp}
+instance created at the very beginning of this document. Both
+experiments share the \emph{same} default iTRAQ 4-plex reporter names
+as default sample names, and will thus automatically be combined along
+rows.
 
 <<makeexp12, echo=TRUE, cache=FALSE, tidy = FALSE>>=
 exp1 <- quantify(itraqdata, reporters = iTRAQ4,
@@ -1103,18 +1231,19 @@ sampleNames(exp1)
 exp2 <- quantify(rawdata, reporters = iTRAQ4,
                  parallel = FALSE, verbose = FALSE)
 sampleNames(exp2)
-@ 
+@
 
-It important to note that the features of these independent experiments share 
-the same default anonymous names: X1, X2, X3, \ldots, 
-that however represent quantitation of distinct physical analytes. 
-If the experiments were to be combined as is, it would result in an error because
-data points for the same \emph{feature} name (say \Robject{X1}) and the 
-same \emph{sample name} (say \Robject{iTRAQ4.114}) have different values. 
-We thus first update the feature names to explicitate that they originate from 
-different experiment and represent quantitation from different spectra 
-using the convenience function \Rfunction{updateFeatureNames}.
-Note that updating the names of one experiment would suffice here.
+It important to note that the features of these independent
+experiments share the same default anonymous names: X1, X2, X3,
+\ldots, that however represent quantitation of distinct physical
+analytes.  If the experiments were to be combined as is, it would
+result in an error because data points for the same \emph{feature}
+name (say \Robject{X1}) and the same \emph{sample name} (say
+\Robject{iTRAQ4.114}) have different values.  We thus first update the
+feature names to explicitate that they originate from different
+experiment and represent quantitation from different spectra using the
+convenience function \Rfunction{updateFeatureNames}.  Note that
+updating the names of one experiment would suffice here.
 
 <<updateFnames, echo=TRUE, cache=FALSE>>=
 head(featureNames(exp1))
@@ -1123,28 +1252,29 @@ head(featureNames(exp1))
 head(featureNames(exp2))
 exp2 <- updateFeatureNames(exp2)
 head(featureNames(exp2))
-@ 
+@
 
-The two experiments now share the same sample names and have different feature names 
-and will be combined along the row. Note that all meta-data is correctly 
-combined along the quantitation values.
+The two experiments now share the same sample names and have different
+feature names and will be combined along the row. Note that all
+meta-data is correctly combined along the quantitation values.
 
 <<comb1, echo=TRUE, cache=FALSE>>=
 exp12 <- combine(exp1, exp2)
 dim(exp1)
 dim(exp2)
 dim(exp12)
-@ 
+@
 
 \subsection{Combine different samples}\label{sec:comb2}
 
-Lets now create two \Robject{MSnSet}s from the same raw data to simulate two different 
-independent experiments that share some features. 
-As done previously (see section \ref{sec:feataggregation}), 
-we combine the spectra based on the proteins they have been identified to belong to.
-Features can thus naturally be named using protein accession numbers.
-Alternatively, if peptide sequences would have been used as grouping factor in 
-\Rfunction{combineFeatures}, then these would be good feature name candidates. 
+Lets now create two \Robject{MSnSet}s from the same raw data to
+simulate two different independent experiments that share some
+features.  As done previously (see section \ref{sec:feataggregation}),
+we combine the spectra based on the proteins they have been identified
+to belong to.  Features can thus naturally be named using protein
+accession numbers.  Alternatively, if peptide sequences would have
+been used as grouping factor in \Rfunction{combineFeatures}, then
+these would be good feature name candidates.
 
 <<make2exps2, echo=TRUE, cache=FALSE, tidy=FALSE>>=
 set.seed(1)
@@ -1154,7 +1284,7 @@ exp1 <- quantify(itraqdata[i], reporters = iTRAQ4,
                  parallel = FALSE, verbose = FALSE)
 exp2 <- quantify(itraqdata[j], reporters = iTRAQ4,
                  parallel = FALSE, verbose = FALSE)
-exp1 <- droplevels(exp1) 
+exp1 <- droplevels(exp1)
 exp2 <- droplevels(exp2)
 table(featureNames(exp1) %in% featureNames(exp2))
 exp1 <- combineFeatures(exp1,
@@ -1163,27 +1293,29 @@ exp2 <- combineFeatures(exp2,
                         groupBy = fData(exp2)$ProteinAccession)
 head(featureNames(exp1))
 head(featureNames(exp2))
-@ 
+@
 
-The \Rfunction{droplevels} drops the unused \Robject{featureData} levels. 
-This is required to avoid passing absent levels as \Robject{groupBy} 
-in \Rfunction{combineFeatures}. 
-Alternatively, one could also use \Robject{factor(fData(exp1)\$ProteinAccession)} 
-as \Robject{groupBy} argument.
+The \Rfunction{droplevels} drops the unused \Robject{featureData}
+levels.  This is required to avoid passing absent levels as
+\Robject{groupBy} in \Rfunction{combineFeatures}.  Alternatively, one
+could also use \Robject{factor(fData(exp1)\$ProteinAccession)} as
+\Robject{groupBy} argument.
 
-The feature names are updated automatically by \Rfunction{combineFeatures}, 
-using the \Robject{groupBy} argument. 
-Proper feature names, reflecting the nature of the features (spectra, peptides or proteins) 
-is critical when multiple experiments are to be combined, as this is done using common 
-features as defined by their names (see below).
+The feature names are updated automatically by
+\Rfunction{combineFeatures}, using the \Robject{groupBy} argument.
+Proper feature names, reflecting the nature of the features (spectra,
+peptides or proteins) is critical when multiple experiments are to be
+combined, as this is done using common features as defined by their
+names (see below).
 
 \bigskip
 
-Sample names should also be updated to replace anonymous reporter names with relevant identifiers; 
-the individual reporter data is stored in the \Robject{phenoData} and is not lost.
-A convenience function \Rfunction{updateSampleNames} is provided to append the \Robject{MSnSet}'s 
-variable name to the already defined names, although in general, biologically relevant 
-identifiers are preferred.
+Sample names should also be updated to replace anonymous reporter
+names with relevant identifiers; the individual reporter data is
+stored in the \Robject{phenoData} and is not lost.  A convenience
+function \Rfunction{updateSampleNames} is provided to append the
+\Robject{MSnSet}'s variable name to the already defined names,
+although in general, biologically relevant identifiers are preferred.
 
 <<renameSamples, echo=TRUE, cache=FALSE>>=
 sampleNames(exp1)
@@ -1191,42 +1323,41 @@ exp1 <- updateSampleNames(exp1)
 sampleNames(exp1)
 sampleNames(exp1) <- c("Ctrl1", "Cond1", "Ctrl2", "Cond2")
 sampleNames(exp2) <- c("Ctrl3", "Cond3", "Ctrl4", "Cond4")
-@ 
+@
 
-At this stage, it is not yet possible to combine the two experiments, 
-because their feature data is not compatible yet; they share the same feature 
-variable labels, i.e. the feature data column names 
-(\Sexpr{paste(head(fvarLabels(exp1), n = 3), collapse=", ")}, \ldots), 
-but the part of the content is different because the original data was (in particular 
-all the spectrum centric data: identical peptides in different runs will have different 
-retention times, precursor intensities, \ldots). 
-Feature data with identical labels (columns in the data frame) 
-and names (row in the data frame) are expected to have the same data and produce an
-error if not conform.
+At this stage, it is not yet possible to combine the two experiments,
+because their feature data is not compatible yet; they share the same
+feature variable labels, i.e. the feature data column names
+(\Sexpr{paste(head(fvarLabels(exp1), n = 3), collapse=", ")}, \ldots),
+but the part of the content is different because the original data was
+(in particular all the spectrum centric data: identical peptides in
+different runs will have different retention times, precursor
+intensities, \ldots).  Feature data with identical labels (columns in
+the data frame) and names (row in the data frame) are expected to have
+the same data and produce an error if not conform.
 
 <<fdatanames, echo=TRUE, cache=FALSE>>=
 stopifnot(all(fvarLabels(exp1) == fvarLabels(exp2)))
 fData(exp1)["BSA", 1:4]
 fData(exp2)["BSA", 1:4]
-@ 
+@
 
-Instead of removing these identical feature data columns, 
-one can use a second convenience function, \Rfunction{updateFvarLabels}, 
-to update feature labels based on the experiements variable name 
-and maintain all the metadata.
+Instead of removing these identical feature data columns, one can use
+a second convenience function, \Rfunction{updateFvarLabels}, to update
+feature labels based on the experiements variable name and maintain
+all the metadata.
 
 <<renameFvars, echo=TRUE, cache=FALSE>>=
 exp1 <- updateFvarLabels(exp1)
 exp2 <- updateFvarLabels(exp2)
 head(fvarLabels(exp1))
 head(fvarLabels(exp2))
-@ 
+@
 
-It is now possible to combine \Robject{exp1} and \Robject{exp2}, 
-including all the meta-data, with the \Rfunction{combine} method. 
-The new experiment will contain the union of 
-the feature names of the individual experiments with missing values 
-inserted appropriately.
+It is now possible to combine \Robject{exp1} and \Robject{exp2},
+including all the meta-data, with the \Rfunction{combine} method.  The
+new experiment will contain the union of the feature names of the
+individual experiments with missing values inserted appropriately.
 
 <<combine, echo=TRUE, cache=FALSE>>=
 exp12 <- combine(exp1, exp2)
@@ -1234,36 +1365,38 @@ dim(exp12)
 pData(exp12)
 exprs(exp12)[25:28, ]
 exp12
-@ 
+@
 
 \bigskip
 
-In summary, when experiments with different samples need to be combined 
-(along the columns), one needs to 
-(1) clarify the sample names using \Rfunction{updateSampleNames} or
-better manually, for biological relevance and (2) update the feature 
-data variable labels with \Rfunction{updateFvarLabels}. 
-The individual experiments (there can be more than 2) can then easily be combined 
-with the \Rfunction{combine} method while retaining the meta-data.
+In summary, when experiments with different samples need to be
+combined (along the columns), one needs to (1) clarify the sample
+names using \Rfunction{updateSampleNames} or better manually, for
+biological relevance and (2) update the feature data variable labels
+with \Rfunction{updateFvarLabels}.  The individual experiments (there
+can be more than 2) can then easily be combined with the
+\Rfunction{combine} method while retaining the meta-data.
 
-If runs for the same sample (different fractions for example) need to be combines, 
-one needs to (1) differentiate the feature provenance with 
-\Rfunction{updateFeatureNames} prior to use \Rfunction{combine}.
+If runs for the same sample (different fractions for example) need to
+be combines, one needs to (1) differentiate the feature provenance
+with \Rfunction{updateFeatureNames} prior to use \Rfunction{combine}.
 
 \section{MS$^E$ data processing}\label{sec:mse}
 
-\Rpackage{MSnbase} can also be used for MS$^E$ data independent acquisition from Waters instrument. 
-The MS$^E$ pipeline depends on the Bioconductor \Rpackage{synapter} package \citep{Bond2013} that 
-produces \Robject{MSnSet} instances for indvidual acquisitions. The \Rpackage{MSnbase} infrastructure can 
-subsequently be used to further combine experiments, as shown in section \ref{sec:comb2} and 
-apply \textit{top3} quantitation using the \Rfunction{topN} method. 
+\Rpackage{MSnbase} can also be used for MS$^E$ data independent
+acquisition from Waters instrument.  The MS$^E$ pipeline depends on
+the Bioconductor \Rpackage{synapter} package \citep{Bond2013} that
+produces \Robject{MSnSet} instances for indvidual acquisitions. The
+\Rpackage{MSnbase} infrastructure can subsequently be used to further
+combine experiments, as shown in section \ref{sec:comb2} and apply
+\textit{top3} quantitation using the \Rfunction{topN} method.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% \section{Conclusion}\ref{sec:ccl}
 
-\section{Session information}\label{sec:sessionInfo} 
+\section{Session information}\label{sec:sessionInfo}
 <<sessioninfo, results='asis', echo=FALSE, cache=FALSE>>=
 toLatex(sessionInfo())
 @
