@@ -112,7 +112,7 @@ test_that("utils.idSummary", {
   fd <- data.frame(file=c(1, 2, 1, 1, 1, 3),
                    identFile=c(4, 5, 4, 4, NA, NA))
   ## results
-  rdf <- data.frame(file=c(1, 2, 3),
+  rdf <- data.frame(quantFile=c(1, 2, 3),
                     identFile=c(4, 5, NA),
                     coverage=c(0.75, 1, 0))
   expect_error(MSnbase:::utils.idSummary(data.frame(file=1:3, foobar=1:3)),

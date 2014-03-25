@@ -231,6 +231,6 @@ test_that("idSummary", {
 
   expect_error(idSummary(aa), "No quantification/identification data found")
   expect_equal(idSummary(bb),
-               data.frame(file=1, identFile=2, coverage=0.6))
+               data.frame(quantFile=1, identFile=2, coverage=0.6))
 })
 
