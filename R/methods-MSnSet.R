@@ -585,22 +585,22 @@ setMethod("MAplot",
 
 setMethod("addIdentificationData",
           signature = "MSnSet",
-          function(object, filenames, verbose = TRUE) {
-            object <- utils.addIdentificationData(object, filenames,
-                                                  verbose = verbose)
-            if (validObject(object))
-                return(object)
-        })
+          function(object, filenames, verbose = TRUE) 
+          utils.addIdentificationData(object, filenames,
+                                      verbose = verbose))
 
 setMethod("removeNoId", "MSnSet",
-          function(object, fcol = "pepseq", keep=NULL)
+          function(object, fcol = "pepseq", keep = NULL)
           utils.removeNoId(object, fcol, keep))
+
+setMethod("removeMultipleAssignment", "MSnSet",
+          function(object, fcol = "npsm") 
+          utils.removeMultipleAssignment(object, fcol))
 
 setMethod("idSummary",
           signature = "MSnSet",
-          function(object) {
-            utils.idSummary(fData(object))
-        })
+          function(object) utils.idSummary(fData(object)))
+
 
 
 

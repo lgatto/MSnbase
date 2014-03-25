@@ -90,6 +90,7 @@ setGeneric("xic",function(object, ...) standardGeneric("xic"))
 
 ## identification
 setGeneric("addIdentificationData", function(object, ...) standardGeneric("addIdentificationData"))
-setGeneric("removeNoId", function(object, ...) standardGeneric("removeNoId"))
 setGeneric("idSummary", function(object, ...) standardGeneric("idSummary"))
+setGeneric("removeNoId", function(object, ...) standardGeneric("removeNoId"))
+setGeneric("removeMultipleAssignment", function(object, ...) standardGeneric("removeMultipleAssignment"))
 

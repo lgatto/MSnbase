@@ -666,15 +666,16 @@ utils.addSingleIdentificationDataFile <- function(object, filename,
   return(object)
 }
 
-utils.addIdentificationData <- function(object, filenames, verbose=TRUE) {
-
-  for (file in filenames) {
-    object <- utils.addSingleIdentificationDataFile(object, file,
-                                                    verbose=verbose)
-  }
-
-  return(object)
-}
+utils.addIdentificationData <-
+    function(object, filenames, verbose=TRUE) {        
+        for (file in filenames) {
+            object <-
+                utils.addSingleIdentificationDataFile(object, file,
+                                                      verbose=verbose)
+        }
+        if (validObject(object))
+            return(object)
+    }
 
 utils.removeNoId <- function(object, fcol, keep) {
     if (!fcol %in% fvarLabels(object))
@@ -690,8 +691,19 @@ utils.removeNoId <- function(object, fcol, keep) {
     }
     object <- object[!noid, ]
     nologging(object, 1)
-    logging(object, paste0("Filtered ", sum(noid),
-                           " unidentified peptides out"))
+    object <- logging(object, paste0("Filtered ", sum(noid),
+                                     " unidentified peptides out"))
+    if (validObject(object))
+        return(object)
+}
+
+utils.removeMultipleAssignment <- function(obejct, fcol) {
+    keep <- fData(object)[, fcol] == 1
+    object <- object[keep, ]
+    object <- logging(object, "Removed ", sum(!keep), 
+                      " features assigned to multiple proteins.")
+    if (validObject(object))
+        return(object)
 }
 
 utils.idSummary <- function(fd) {
