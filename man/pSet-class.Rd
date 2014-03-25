@@ -7,6 +7,7 @@
 
 \alias{[,pSet-method}
 \alias{[[,pSet-method}
+\alias{[[,pSet,ANY,ANY-method}
 \alias{abstract,pSet-method}
 \alias{acquisitionNum,pSet-method}
 \alias{scanIndex,pSet-method}

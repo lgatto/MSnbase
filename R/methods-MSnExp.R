@@ -5,7 +5,7 @@ setMethod("show",
           signature=signature(object="MSnExp"),
           function(object) {
             if (object@.cache$level > 0) {
-              msnMzRange <- object@.cache$rangeMz              
+              msnMzRange <- object@.cache$rangeMz
               rangePrecMz <- object@.cache$rangePrecursorMz
               nPrecMz <- object@.cache$nPrecursorMz
               uPrecMz <- object@.cache$uPrecursorMz
@@ -16,7 +16,7 @@ setMethod("show",
               sz <- object@.cache$size
             } else {
               if (all(msLevel(object) > 1)) {
-                msnPrecMz <- unname(eapply(assayData(object),precursorMz))              
+                msnPrecMz <- unname(eapply(assayData(object),precursorMz))
                 nPrecMz <- length(msnPrecMz)
                 uPrecMz <- length(unique(msnPrecMz))
                 rangePrecMz <- range(msnPrecMz)
@@ -33,7 +33,7 @@ setMethod("show",
             cat(" Object size in memory: ")
             if (length(assayData(object)) == 0) {
               sz <- object.size(object)
-            } else {                            
+            } else {
               sz <- sz + object.size(object)
             }
             cat(round(sz/(1024^2),2),"Mb\n")
@@ -122,7 +122,7 @@ setMethod("plotMzDelta",c("MSnExp"),
               if (!missing(subset)) {
                   if (subset <= 0 | subset >= 1) {
                       warning('subset must be in ]0, 1[. Ignoring ',
-                              subset, '.', immediate. = TRUE) 
+                              subset, '.', immediate. = TRUE)
                   } else {
                       n <- length(object)
                       .subset <- sample(n, ceiling(n * subset))
@@ -172,18 +172,18 @@ setMethod("trimMz",
           })
 
 setMethod("quantify",
-          signature=signature("MSnExp"),
+          signature = signature("MSnExp"),
           function(object,
-                   method = c("trapezoidation","max","sum"),
+                   method = c("trapezoidation", "max", "sum"),
                    reporters,
                    strict = FALSE,
                    parallel = FALSE,
                    verbose = TRUE) {
-            if (!inherits(reporters,"ReporterIons"))
+            if (!inherits(reporters, "ReporterIons"))
               stop("Argument 'reporters' must inherit from 'ReporterIons' class.")
             ## this assumes that if first spectrum
             ## has msLevel>1, all have
-            if (msLevel(object)[1]<2) 
+            if (msLevel(object)[1]<2)
               stop("No quantification for MS1 data implemented.")
             quantify_MSnExp(object, match.arg(method), reporters, strict, parallel, verbose)
           })
@@ -193,7 +193,7 @@ setMethod("curveStats","MSnExp",
             ifelse(verbose,progress <- "text",progress <- "none")
             l <- llply(object@spectra, curveStats, reporters, .progress=progress)
             qdfr <- l[[1]]
-            for (i in 2:length(l)) 
+            for (i in 2:length(l))
               qdfr <- rbind(qdfr,l[[i]])
             return(qdfr)
           })
@@ -224,3 +224,36 @@ setMethod("removeReporters","MSnExp",
               return(object)
             removeReporters_MSnExp(object, reporters, clean, verbose)
         })
+
+setMethod("addIdentificationData", "MSnExp",
+          function(object, filenames, verbose = TRUE) {
+            ## we temporaly add the file/acquisition.number information
+            ## to our fData data.frame because utils.addIdentificationData
+            ## needs this information for matching (it is present in MSnSet)
+            fData(object)$file <- fromFile(object)
+            fData(object)$acquisition.number <- acquisitionNum(object)
+            object <- utils.addIdentificationData(object, filenames,
+                                                  verbose = verbose)
+            ## after adding the identification data we remove the
+            ## temporary data to avoid duplication and problems in quantify
+            cn <- colnames(fData(object))
+            keep <- !(cn %in% c("file", "acquisition.number"))
+            fData(object) <- fData(object)[, keep, drop=FALSE]
+            if (validObject(object))
+                return(object)
+        })
+
+setMethod("removeNoId", "MSnExp",
+          function(object, fcol = "pepseq", keep=NULL)
+          utils.removeNoId(object, fcol, keep))
+
+setMethod("idSummary", "MSnExp",
+          function(object) {
+            ## we temporaly add the file information
+            ## to our fData data.frame because utils.idSummary
+            ## needs this information for matching (it is present in MSnSet)
+            fd <- fData(object)
+            fd$file <- fromFile(object)
+            return(utils.idSummary(fd))
+        })
+
