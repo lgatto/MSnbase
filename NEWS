@@ -10,6 +10,8 @@ CHANGES IN VERSION 1.11.10
    data. pData(.) now has systematically 1 row if not specifically
    provided by the user. A message is also reported by validity,pSet
    if row(pData(.)) > 1. [2014-03-24 Mon]
+ o NAnnotatedDataFrame now has default multiplex 1 [2014-03-25 Tue]
+ o NAnnotatedDataFrame unit tests [2014-03-25 Tue]
 
 CHANGES IN VERSION 1.11.9
 -------------------------
