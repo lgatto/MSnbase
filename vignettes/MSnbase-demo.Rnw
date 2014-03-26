@@ -73,7 +73,10 @@
 
 \begin{document}
 
-\title{\Rpackage{MSnbase}: labelled MS2 data pre-processing, visualisation and quantification.}
+\title{ 
+  \Rpackage{MSnbase}: labelled and label-free MS2 data pre-processing,
+  visualisation and quantification.
+}
 
 \maketitle
 
@@ -89,7 +92,7 @@
   enabling the utilisation of throughput-high data analysis pipelines
   provided by the Bioconductor \citep{Gentleman2004} project.
 \end{abstract}
-\textit{Keywords}: Mass Spectrometry (MS), proteomics, infrastructure, bioinformatics, quantitative.
+\textit{Keywords}: Mass Spectrometry (MS), proteomics, infrastructure, quantitative.
 \vskip 0.1in minus 0.05in
 \hrule
 \vskip 0.2in minus 0.1in
@@ -97,7 +100,11 @@
 
 \newpage
 
-\tableofcontents
+\begin{small}
+
+  \tableofcontents
+
+\end{small}
 
 \newpage
 
@@ -107,6 +114,7 @@ suppressPackageStartupMessages(library("zoo"))
 if (.Platform$OS.type != "windows")
   suppressPackageStartupMessages(require("doMC"))
 suppressPackageStartupMessages(require("multicore"))
+suppressPackageStartupMessages(require(Rdisop))
 library("grid")
 library("reshape2")
 @
@@ -412,7 +420,9 @@ plot, use \Rfunction{p@data}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Adding identification data}\label{sec:id}
+\section{Tandem MS identification data}\label{sec:id}
+
+\subsection{Adding identification data}
 
 \Rpackage{MSnbase} is able to integrate identification data from
 \texttt{mzIdentML} \citep{Jones2012} files.
@@ -460,9 +470,12 @@ of identified features per quantitation/identification pairs.
 idSummary(msexp) 
 @
 
+\subsection{Filtering identification data}
 
 One can remove the features that have not been identified using
-\Rfunction{removeNoId}. 
+\Rfunction{removeNoId}. This function uses by default the
+\code{pepseq} feature variable to search the presence of missing data
+(\code{NA} values) and then filter these non-identified spectra.
 
 <<msnexpIdentification4, echo=TRUE, cache=FALSE, tidy=FALSE>>=
 fData(msexp)$pepseq
@@ -471,6 +484,16 @@ fData(msexp)$pepseq
 idSummary(msexp)
 @
 
+Similarly, the \Rfunction{removeMultipleAssignment} method can be used
+to filter out spectra that match peptides that have been assigned to
+multiple proteins. This function uses by default the \code{npsm}
+feature variable.
+
+\bigskip
+
+Note that \Rfunction{removeNoId} and
+\Rfunction{removeMultipleAssignment} methods can also be called on
+\code{MSnExp} instances.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
@@ -697,7 +720,8 @@ recorded and displayed as integral part of the experiment object.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{From spectra to quantitative expression data}
+
+\section{MS$^2$ isobaric tagging quantitation}\label{sec:isoquant}
 
 \subsection{Reporter ions quantitation}\label{sec:quant}
 
@@ -850,6 +874,8 @@ data. \texttt{mzTab} files can be read into \R with
 \Rfunction{readMzTabData} to create and \Robject{MSnSet} instance.
 \Robject{MSnSet} objects can also be exported to \texttt{mzTab} with
 the \Rfunction{writeMzTabData} function.
+
+\bigskip
 
 See the \texttt{MSnbase-io} vignette for a general overview of
 \Rpackage{MSnbase}'s input/ouput capabilites.
@@ -1039,8 +1065,13 @@ print(p)
 \label{fig:msnexp-norm-plot}
 \end{figure}
 
-\subsection{Feature aggregation}
-\label{sec:feataggregation}
+\bigskip
+
+Additional dedicated normalisation method are available for MS$^2$
+label-free quantitation, as described in section \ref{sec:lf} and in
+the \Rfunction{quantify} documentation.
+
+\section{Feature aggregation}\label{sec:feataggregation}
 
 The above quantitation and normalisation has been performed on
 quantitative data obtained from individual spectra. However, the
@@ -1098,15 +1129,77 @@ qnt2
 %% feature data, and subsequently use peptide sequences or protein assignments
 %% to combine features.
 
-\subsection{Label-free MS2 quantitation}
-\label{sec:spectralcounting}
+\section{Label-free MS$^2$ quantitation}\label{sec:lf}
 
-Note that if samples are not multiplexed, label-free MS2 quantitation
-is possible using \Rpackage{MSnbase}.  Once individual spectra have
-been assigned to peptides and proteins, it becomes straightforward to
-estimate protein quantities using the spectral counting method, as
-illustrated in section \ref{sec:feataggregation}, when the
-\Robject{groupBy} argument is defined.
+\subsection{Peptide counting}
+
+Note that if samples are not multiplexed, label-free MS$^2$
+quantitation by spectral counting is possible using
+\Rpackage{MSnbase}. Once individual spectra have been assigned to
+peptides and proteins (see section \ref{sec:id}), it becomes
+straightforward to estimate protein quantities using the simple
+peptide counting method, as illustrated in section
+\ref{sec:feataggregation}.
+
+<<count>>=
+sc <- quantify(msexp, method = "count")
+## lets modify out data for demonstration purposes
+fData(sc)$accession[1] <- fData(sc)$accession[2]
+fData(sc)$accession
+sc <- combineFeatures(sc, groupBy = fData(sc)$accession,
+                      fun = "sum")
+exprs(sc)
+@
+
+Such count data could then be further analyses using dedicated count
+methods (originally developed for high-throughput sequencing) and
+directly available for \Robject{MSnSet} instances in the
+\Rpackage{msmsTests} Bioconductor package.
+
+\subsection{Spectral counting and intensity methods}
+
+The spectral abundance factor (NAF) and the normalised form (NSAF)
+\citep{Paoletti2006} as well as the spectral index (SI) and other
+normalised variations (SI$_{GI}$ and SI$_N$) \citep{Griffin2010} are
+also available. Below, we illustrate how to apply the normalised
+SI$_N$ to the experiment containing identification data produced in
+section \ref{sec:id}.
+
+The spectra that did not match any peptide have already been remove
+with the \Rfunction{removeNoId} method. As can be seen in the
+following code chunk, the first spectrum could not be matched to any
+single protein. Non-identified spectra and those matching multiple
+proteins are removed automatically prior to any label-free
+quantitation. Once can also remove peptide that do not match uniquely
+to proteins (as defined by the \code{npsm} feature variable column)
+with the \Rfunction{removeMultipleAssignment} method.
+
+<<labelfree>>=
+fData(msexp)[, c("accession", "npsm")]
+@
+
+Note that the label-free methods implicitely apply feature aggregation
+(section \ref{sec:feataggregation}) and normalise (section
+\ref{sec:norm}) the quantitation values based on the total sample
+intensity and or the protein lengths (see \cite{Paoletti2006} and
+\cite{Griffin2010} for details).
+
+Let's now proceed with the quantitation using the
+\Rfunction{quantity}, as in section \ref{sec:quant}, this time however
+specifying the method of interest, \code{"SIn"} (the \code{reporters}
+argument can of course be ignored here). The required peptide-protein
+mapping and protein lengths are extracted automatically from the
+feature meta-data using the default \code{accession} and \code{length}
+feature variables.
+
+<<SIn>>=
+siquant <- quantify(msexp, method = "SIn")
+processingData(siquant)
+exprs(siquant)
+@
+
+Other label-free methods can be applied by specifiying the appropriate
+\Rfunction{method} argument. See \Rfunction{?quantify} for more details.
 
 \section{Quantitative assessment of incomplete dissociation}
 \label{sec:incompdissoc}
