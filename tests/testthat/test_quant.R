@@ -30,9 +30,10 @@ test_that("Counting and tic MSnSets", {
     load(f) ## msx
     ## count
     .cnt <- MSnbase:::count_MSnSet(msx)
-    m1 <- matrix(1, nrow = length(msx), ncol = 1)
+    n <- !is.na(fData(msx)$pepseq)
+    m1 <- matrix(1, nrow = sum(n), ncol = 1)
     colnames(m1) <- "1"
-    rownames(m1) <- paste0("X", 1:length(msx), ".1")
+    rownames(m1) <- paste0("X", (1:length(msx))[n], ".1")
     expect_equal(exprs(.cnt), m1)
     ## tic
     .tic <- MSnbase:::tic_MSnSet(msx)

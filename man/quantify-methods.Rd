@@ -40,7 +40,7 @@
     Finally, the simple \code{"count"} method counts the occurrence of
     the respective spectra (at this stage all 1s) that can then be used
     as input to \code{\link{combineFeatures}} to implement spectra
-    counting.
+    counting. 
 
   }
 
@@ -95,7 +95,9 @@
   Note that for label-free, spectra that have not been identified (the
   corresponding fields in the feature data are populated with \code{NA}
   values) or that have been assigned (the \code{npsm} feature data is
-  greater that 1) are removed prior to quantitation.
+  greater that 1) are removed prior to quantitation. The latter does not
+  apply for \code{method = "count"} but can be applied manually with
+  \code{\link{removeMultipleAssignment}}.
 
 }
 
