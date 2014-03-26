@@ -722,3 +722,8 @@ utils.idSummary <- function(fd) {
   return(idSummary)
 }
 
+utils.removeNoIdAndMultipleAssignments <- function(object) {
+    object <- removeNoId(object)
+    object <- removeMultipleAssignment(object)
+    return(object)
+}

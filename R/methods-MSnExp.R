@@ -247,6 +247,11 @@ setMethod("removeNoId", "MSnExp",
           function(object, fcol = "pepseq", keep=NULL)
           utils.removeNoId(object, fcol, keep))
 
+setMethod("removeMultipleAssignment", "MSnExp",
+          function(object, fcol = "npsm") 
+          utils.removeMultipleAssignment(object, fcol))
+
+
 setMethod("idSummary", "MSnExp",
           function(object) {
             ## we temporaly add the file information
