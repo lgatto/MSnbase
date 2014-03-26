@@ -8,112 +8,197 @@
 
 \description{
   This method quantifies individual \code{"\linkS4class{Spectrum}"}
-  objects or full \code{"\linkS4class{MSnExp}"} experiments. Current
-  implementation quantify specific peaks in individual spectra. The
-  peaks of interest are defined by the \code{reporters} parameter using
-  one of the possible \code{method} methods. 
-  This essentially qualifies for MSMS quantitation using isobaric tags,
-  altough any peak can be defined in \code{reporters}. 
+  objects or full \code{"\linkS4class{MSnExp}"} experiments. Current,
+  MS2-level isobar tagging using iTRAQ and TMT (or any arbitrary peaks
+  of interest, see \code{"\linkS4class{ReporterIons}"}) and MS2-level
+  label-free quantitation (spectral counting, spectral index or spectral
+  abundance factor) are available.
+
+  Isobaric tag peaks of single spectra or complete experiments can be
+  quantified using appropriate \code{methods}. Label-free quantitation
+  is available only for \code{MSnExp} experiments.
 }
 
 \arguments{
-  \item{object}{ Objects of class \code{"\linkS4class{Spectrum}"} or
-    \code{"\linkS4class{MSnExp}"}. 
+  \item{object}{
+    An instance of class \code{"\linkS4class{Spectrum}"} (isobaric
+    tagging only) or \code{"\linkS4class{MSnExp}"}.    
   }
-  \item{method}{
-    Peak quantitation method. One of, possibly abreviated
-    "trapezoidation", "max", or "sum". These methods return respectively
-    the area under the peak(s), the maximum of the peak(s) or the sum of
-    all intensities of the peak(s). 
+  
+  \item{method}{    
+    Peak quantitation method. For isobaric tags, one of, possibly
+    abreviated \code{"trapezoidation"}, \code{"max"}, or
+    \code{"sum"}. These methods return respectively the area under the
+    peak(s), the maximum of the peak(s) or the sum of all intensities of
+    the peak(s).
+
+    For label-free quantitation, one of \code{"SI"} (spectral index),
+    \code{"SIgi"} (global intensity spectral index), \code{"SIn"}
+    (normalised spectral index), \code{"SAF"} (spectral abundance
+    factor) or \code{"NSAF"} (normalised spectral abundance factor).     
   }
-  \item{reporters}{
-    An object of class \code{"\linkS4class{ReporterIons}"} that defines
-    the peak(s) to be quantified.
+  
+  \item{reporters}{    
+    An instance of class \code{"\linkS4class{ReporterIons}"} that defines
+    the peak(s) to be quantified. For isobaric tagging only.    
   }
+  
   \item{strict}{
-    If strict is 'FALSE' (default), the quantitation is performed
-    using data points along the entire width of a peak. If strict is set
-    to 'TRUE', once the apex(es) is/are identified, only data points
-    within apex +/- width of reporter (see 
+    
+    For isobaric tagging only.  If strict is \code{FALSE} (default), the
+    quantitation is performed using data points along the entire width
+    of a peak. If strict is set to \code{TRUE}, once the apex(es) is/are
+    identified, only data points within apex +/- width of reporter (see
     \code{"\linkS4class{ReporterIons}"}) are used for quantitation.
+
   }
+  
   \item{parallel}{
     Logical defining if reporter peaks should be quantified in parallel
-    (default is FALSE). Currently not supported on Windows. 
+    (default is FALSE). Currently not supported on Windows. Only
+    relevant for isobaric tagging.
+    
   }
   \item{verbose}{
     Verbose of the output (only for \code{MSnExp} objects).
-  }  
+  }
+  
+  \item{...}{
+    Further arguments passed to the quantitation functions.
+  }
 }
 
 \details{
-  \code{"\linkS4class{ReporterIons}"} define specific MZ at
-  which peaks are expected and a window around that MZ value.
-  A peak of interest is searched for in that window.
-  Since version 1.1.2, warnings are not thrown anymore in case no data
-  is found in that region or if the peak extends outside the window.
-  This can be checked manually after quantitation,
-  by inspecting the quantitation data (using the \code{exprs} accessor)
-  for \code{NA} values or by comaring the \code{lowerMz} and
-  \code{upperMz} columns in the \code{"\linkS4class{MSnSet}"}
-  \code{qual} slot against the respective expected \code{mz(reporters)}
-  +/- \code{width(reporters)}.
-  This is illustrated in the example below.
+
+  \code{"\linkS4class{ReporterIons}"} define specific MZ at which peaks
+  are expected and a window around that MZ value.  A peak of interest is
+  searched for in that window.  Since version 1.1.2, warnings are not
+  thrown anymore in case no data is found in that region or if the peak
+  extends outside the window.  This can be checked manually after
+  quantitation, by inspecting the quantitation data (using the
+  \code{exprs} accessor) for \code{NA} values or by comaring the
+  \code{lowerMz} and \code{upperMz} columns in the
+  \code{"\linkS4class{MSnSet}"} \code{qual} slot against the respective
+  expected \code{mz(reporters)} +/- \code{width(reporters)}.  This is
+  illustrated in the example below.
   
-  Once the range of the curve is found, quantification is performed.
-  If no data points are found in the expected region, 'NA' is   
-  returned for the reporter peak MZ.
+  Once the range of the curve is found, quantification is performed.  If
+  no data points are found in the expected region, \code{NA} is returned
+  for the reporter peak MZ.
+
+  Note that for label-free, spectra that have not been identified (the
+  corresponding fields in the feature data are populated with \code{NA}
+  values) or that have been assigned (the \code{npsm} feature data is
+  greater that 1) are removed prior to quantitation.
+  
 }
 
      
 \section{Methods}{
   \describe{
-    \item{\code{signature(object = "MSnExp", method = "character",
-	reporters = "ReporterIons", verbose = "logical")}}{
-      Quantifies peaks defined in \code{reporters} using \code{method}
-      in all spectra of the \code{MSnExp} object. If verbose is set to
-      \code{TRUE}, a progress bar will be displayed.
+    \item{
+      \code{signature(object = "MSnExp", method = "character", reporters
+	= "ReporterIons", verbose = "logical", ...)}}{
+
+      For isobaric tagging, quantifies peaks defined in \code{reporters}
+      using \code{method} in all spectra of the \code{MSnExp} object. If
+      verbose is set to \code{TRUE}, a progress bar will be displayed.
+
+      For label-free quantitation, the respective quantitation methods
+      and normalisations are applied to the spectra. These methods
+      require two additional arguments (\code{...}), namely the protein
+      accession of identifiers (\code{fcol}, with detault value
+      \code{"accession"}) and the protein lengths (\code{plength}, with
+      default value \code{"length"}). These values are available of the
+      identification data had been collated using
+      \code{\link{addIdentificationData}}.
       
       An object of class \code{"\linkS4class{MSnSet}"} is returned
       containing the quantified feature expression and all meta data
-      inherited from the \code{MSnExp} argument. 
+      inherited from the \code{MSnExp} \code{object} argument.
+      
     }
+    
     \item{\code{signature(object = "Spectrum", method = "character",
 	reporters = "ReporterIons")}}{
+
       Quantifies peaks defined in \code{reporters} using \code{method}
-      in the \code{Spectrum} object.
+      in the \code{Spectrum} object (isobaric tagging only).
 
       A list of length 2 will be returned. The first element, named
       \code{peakQuant}, is a 'numeric' of length equal to
       \code{length(reporters)} with quantitation of the reporter peaks
       using \code{method}.
 
-      The second element, names \code{curveStats}, is a 'data.frame'
-      of dimension \code{length(reporters)} times 7 giving, for each
-      reporter curve parameters: maximum intensity ('maxInt'), number
-      of maxima ('nMaxInt'), number of data points defined the curve
-      ('baseLength'), lower and upper MZ values for the curve
-      ('lowerMz' and 'upperMz'), reporter ('reporter') and precursor
-      MZ value ('precursor') when available. 	
+      The second element, names \code{curveStats}, is a 'data.frame' of
+      dimension \code{length(reporters)} times 7 giving, for each
+      reporter curve parameters: maximum intensity (\code{'maxInt'}),
+      number of maxima (\code{'nMaxInt'}), number of data points defined
+      the curve (\code{'baseLength'}), lower and upper MZ values for the
+      curve (\code{'lowerMz'} and \code{'upperMz'}), reporter
+      (\code{'reporter'}) and precursor MZ value (\code{'precursor'})
+      when available.
+      
     }
   }
 }
 
+\references{
+  
+  For details about the spectral index (SI), see Griffin NM, Yu J, Long
+  F, Oh P, Shore S, Li Y, Koziol JA, Schnitzer JE.  \emph{Label-free,
+  normalized quantification of complex mass spectrometry data for
+  proteomic analysis}. Nat Biotechnol. 2010 Jan;28(1):83-9. doi:
+  10.1038/nbt.1592. PMID: 20010810; PubMed Central PMCID: PMC2805705.
+
+  For details about the spectra abundance factor, see Paoletti AC,
+  Parmely TJ, Tomomori-Sato C, Sato S, Zhu D, Conaway RC, Conaway JW,
+  Florens L, Washburn MP. \emph{Quantitative proteomic analysis of
+  distinct mammalian Mediator complexes using normalized spectral
+  abundance factors}. PNAS. 2006 Dec 12;103(50):18928-33. PMID:
+  17138671; PubMed Central PMCID: PMC1672612.
+  
+}
+
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto <lg390@cam.ac.uk> and
+  Sebastian Gibb <mail@sebastiangibb.de>
 }
 
 \examples{
-## quantifying full experiment
+
+## Quantifying a full experiment using iTRAQ4-plex tagging
 data(itraqdata)
-msnset <- quantify(itraqdata ,method = "trap", reporters = iTRAQ4)
+msnset <- quantify(itraqdata, method = "trap", reporters = iTRAQ4)
 msnset
-## checking for non-quantified peaks
+
+## Checking for non-quantified peaks
 sum(is.na(exprs(msnset)))
-## quantifying single spectrum
+
+## Quantifying a single spectrum
 qty <- quantify(itraqdata[[1]], method = "trap", iTRAQ4[1])
 qty$peakQuant
 qty$curveStats
+
+## Label-free quantitation
+## Raw (mzXML) and identification (mzid) files
+quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                 full.name = TRUE, pattern = "mzXML$")
+identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                 full.name = TRUE, pattern = "mzid$")
+
+msexp <- readMSData(quantFile)
+msexp <- addIdentificationData(msexp, identFile)
+fData(msexp)$accession
+
+si <- quantify(msexp, method = "SIn")
+processingData(si)
+exprs(si)
+
+saf <- quantify(msexp, method = "NSAF")
+processingData(saf)
+exprs(saf)
+
 }
 
 
