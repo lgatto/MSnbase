@@ -1158,7 +1158,7 @@ directly available for \Robject{MSnSet} instances in the
 
 \subsection{Spectral counting and intensity methods}
 
-The spectral abundance factor (NAF) and the normalised form (NSAF)
+The spectral abundance factor (SAF) and the normalised form (NSAF)
 \citep{Paoletti2006} as well as the spectral index (SI) and other
 normalised variations (SI$_{GI}$ and SI$_N$) \citep{Griffin2010} are
 also available. Below, we illustrate how to apply the normalised
@@ -1185,7 +1185,7 @@ intensity and or the protein lengths (see \cite{Paoletti2006} and
 \cite{Griffin2010} for details).
 
 Let's now proceed with the quantitation using the
-\Rfunction{quantity}, as in section \ref{sec:quant}, this time however
+\Rfunction{quantify}, as in section \ref{sec:quant}, this time however
 specifying the method of interest, \code{"SIn"} (the \code{reporters}
 argument can of course be ignored here). The required peptide-protein
 mapping and protein lengths are extracted automatically from the
