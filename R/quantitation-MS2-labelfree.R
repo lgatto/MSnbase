@@ -1,4 +1,5 @@
 count_MSnSet <- function(object) {
+    object <- removeNoId(object)
     .exprs <- matrix(1, ncol = 1, nrow = length(object))
     rownames(.exprs) <- featureNames(object)
     colnames(.exprs) <- sampleNames(object)
