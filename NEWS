@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.11.11
 --------------------------
- o 
+ o precomputed msx test data now has id data [2014-03-25 Tue]
+ o quantitation unit tests [2014-03-25 Tue]
 
 CHANGES IN VERSION 1.11.10
 --------------------------
