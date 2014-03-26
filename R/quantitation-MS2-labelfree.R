@@ -65,25 +65,25 @@ SI <- function(object,
                method = c("SI", "SIgi", "SIn"),
                groupBy = "accession",
                plength = "length",
-               verbose = TRUE) {    
-    method <- match.arg(method)    
+               verbose = TRUE) {
+    method <- match.arg(method)
     if (!plength %in% fvarLabels(object))
         stop(plength,
-             "not found in fvarLabel(.). 'plength' must a feature variable")    
+             "not found in fvarLabel(.). 'plength' must a feature variable")
     if (!groupBy %in% fvarLabels(object))
         stop(groupBy,
-             "not found in fvarLabel(.). 'groupBy' must a feature variable")            
+             "not found in fvarLabel(.). 'groupBy' must a feature variable")
 
-    object <- tic_MSnSet(object)    
+    object <- tic_MSnSet(object)
     groupBy <- as.factor(fData(object)[, groupBy])
 
-    ## SI: protein-wise summed tic  
+    ## SI: protein-wise summed tic
     object <- combineFeatures(object, groupBy = groupBy,
                               fun = "sum", verbose = verbose)
-    
+
     if (method %in% c("SIgi", "SIn"))
         exprs(object) <- exprs(object)/colSums(exprs(object))
-    
+
     if (method == "SIn") {
         plength <- fData(object)[, plength]
         exprs(object) <- exprs(object)/plength
@@ -100,28 +100,29 @@ SAF <- function(object,
                 method = c("SAF", "NSAF"),
                 groupBy = "accession",
                 plength = "length",
-                verbose=TRUE) {
+                verbose = TRUE) {
     method <- match.arg(method)
+    if (!plength %in% fvarLabels(object))
+        stop(plength,
+             "not found in fvarLabel(.). 'plength' must a feature variable")
+    if (!groupBy %in% fvarLabels(object))
+        stop(groupBy,
+             "not found in fvarLabel(.). 'groupBy' must a feature variable")
     object <- count_MSnSet(object)
 
-    if (is.character(groupBy) && length(groupBy) == 1 &&
-        groupBy %in% fvarLabels(object))  
-        groupBy <- as.factor(fData(object)[, groupBy])
-    
+    groupBy <- as.factor(fData(object)[, groupBy])
+
     object <- combineFeatures(object,
                               groupBy = groupBy,
                               fun = length, verbose = verbose)
 
-    if (is.character(plength) && length(plength) == 1 &&
-        plength %in% fvarLabels(object))  
-        plength <- fData(object)[, plength]
+    plength <- fData(object)[, plength]
     exprs(object) <- exprs(object)/plength
-    
-    if (method == "NSAF") 
+
+    if (method == "NSAF")
         exprs(object) <- exprs(object)/colSums(exprs(object))
 
-    object <- logging(object, paste0("Quantification by ", method))    
+    object <- logging(object, paste0("Quantification by ", method))
     if (validObject(object))
         return(object)
 }
-
