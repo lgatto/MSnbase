@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.11.12
+--------------------------
+ o Fixed a bug in readMzTabData reported by Hendrik Weisser [2014-03-26 Wed]
+
 CHANGES IN VERSION 1.11.11
 --------------------------
  o precomputed msx test data now has id data [2014-03-25 Tue]
