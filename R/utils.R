@@ -703,7 +703,7 @@ utils.removeMultipleAssignment <- function(object, fcol) {
     object <- nologging(object, 1)
     object <- logging(object,
                       paste0("Removed ", sum(!keep), 
-                             " features assigned to multiple proteins."))
+                             " features assigned to multiple proteins"))
     if (validObject(object))
         return(object)
 }
@@ -723,7 +723,9 @@ utils.idSummary <- function(fd) {
 }
 
 utils.removeNoIdAndMultipleAssignments <- function(object) {
-    object <- removeNoId(object)
-    object <- removeMultipleAssignment(object)
+    if (anyNA(fData(object)$pepseq))
+        object <- removeNoId(object)
+    if (any(fData(object)$npsm > 1))
+        object <- removeMultipleAssignment(object)
     return(object)
 }

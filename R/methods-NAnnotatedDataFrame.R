@@ -13,7 +13,7 @@ setMethod("show",
             callNextMethod(object)
             cat("  Multiplexing: ")
             if (length(object@multiplex) > 0)
-                cat(object@multiplex," - ", object@multiLabels, "\n", collapse=" ")
+                cat(object@multiplex, "-", object@multiLabels, "\n")
             else
               cat("none\n")
             invisible(NULL)
