@@ -3,6 +3,10 @@ context("MSnExp class")
 test_that("MSnExp validity", {
   expect_true(validObject(new("MSnExp")))
   expect_true(validObject(itraqdata))
+  f <- dir(system.file(package = "MSnbase",dir = "extdata"),
+           full.name = TRUE, pattern = "msx.rda")
+  load(f) ## msx
+  expect_true(validObject(msx))
 })
 
 test_that("readMSData", {
@@ -14,6 +18,8 @@ test_that("readMSData", {
   aa <- readMSData(file, verbose = FALSE)
   ## processingData will be different
   aa@processingData <- processingData(msx)
+  ## msx has ident data to be remove for comparison
+  fData(msx) <- fData(msx)[, 1, drop = FALSE]
   expect_true(all.equal(aa, msx))
 })
 
@@ -116,17 +122,6 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
 
 context("MSnExp processing")
 
-test_that("MSnExp processing", {
-  ## removeReporters
-  expect_true(all.equal(removeReporters(itraqdata[[1]]), itraqdata[[1]]))
-  expect_true(all.equal(removeReporters(itraqdata, reporters=iTRAQ4, verbose=FALSE)[[1]],
-                        removeReporters(itraqdata[[1]], reporters=iTRAQ4)))
-  ## quantitation should be 0
-  expect_true(all(quantify(removeReporters(itraqdata[[1]], reporters=iTRAQ4), "max", iTRAQ4)[[1]] == 0))
-  ## checking that quantification work for exp of length 1
-  expect_true(class(quantify(itraqdata[1], reporters=iTRAQ4, "max")) == "MSnSet")
-})
-
 ## ! Issues with edited dummy data for MS1 uploading, although
 ## ! things work fine for original data set. Commented these
 ## ! tests for the moment
@@ -176,19 +171,12 @@ test_that("spectra order and integrity", {
   expect_that(all.equal(removePeaks(sp,0),sp), is_true())
 })
 
-
 test_that("MSnExp normalisation", {
   aa <- itraqdata[1:3]
   bb <- normalise(aa, "max")
   expect_true(all(sapply(intensity(bb),max) == 1))
-  expect_true(all(unlist(sapply(intensity(aa),order)) == unlist(sapply(intensity(bb),order))))
-})
-
-test_that("Parallel quantification", {
-  q1 <- quantify(itraqdata[1:5], reporters = iTRAQ4, parallel = TRUE, verbose = FALSE)
-  q2 <- quantify(itraqdata[1:5], reporters = iTRAQ4, parallel = FALSE, verbose = FALSE)
-  q1@processingData <- q2@processingData ## those are not expected to be equal
-  expect_true(all.equal(q1, q2))
+  expect_true(all.equal(unlist(sapply(intensity(aa),order)),
+                        unlist(sapply(intensity(bb),order))))
 })
 
 context("MSnExp identification data")
