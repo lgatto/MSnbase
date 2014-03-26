@@ -176,7 +176,8 @@ setMethod("quantify",
           function(object,
                    method = c("trapezoidation", "max", "sum",
                        "SI", "SIgi", "SIn",
-                       "SAF", "NSAF"),
+                       "SAF", "NSAF",
+                       "count"),
                    reporters,
                    strict = FALSE,
                    parallel = FALSE,
@@ -191,12 +192,13 @@ setMethod("quantify",
                   if (!inherits(reporters, "ReporterIons"))
                       stop("Argument 'reporters' must inherit from 'ReporterIons' class.")
                   quantify_MSnExp(object, method, reporters, strict, parallel, verbose)
-              } else if (method %in% c("SI", "SIgi", "SIn")) {
-                  object <- utils.removeNoIdAndMultipleAssignments(object)
-                  SI(object, method, ...)
+              } else if (method == "count") {
+                  count_MSnSet(object)                  
               } else {
-                  object <- utils.removeNoIdAndMultipleAssignments(object)
-                  SAF(object, method, ...)
+                  ## the following assumes that the appropriate fcols are available
+                  object <- utils.removeNoIdAndMultipleAssignments(object)                  
+                  if (method %in% c("SI", "SIgi", "SIn")) SI(object, method, ...)
+                  else SAF(object, method, ...)
               }
           })
 

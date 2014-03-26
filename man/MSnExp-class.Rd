@@ -20,6 +20,7 @@
 \alias{removeReporters,MSnExp-method}
 \alias{addIdentificationData,MSnExp-method}
 \alias{removeNoId,MSnExp-method}
+\alias{removeMultipleAssignment,MSnExp-method}
 \alias{idSummary,MSnExp-method}
 \alias{show,MSnExp-method}
 \alias{spectra,MSnExp-method}
@@ -143,14 +144,25 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
       Adds identification data to an experiment.
       See \code{\link{addIdentificationData}} documentation for
       more details and examples. }
-    \item{removeNoId}{\code{signature(object = "MSnExp", ...)}: Removes
-      non-identified features. See \code{\link{removeNoId}}
-      documentation for more details and examples. }
+    
+    \item{removeNoId}{\code{signature(object = "MSnExp", fcol =
+      "pepseq", keep = NULL)}: Removes non-identified features. See
+      \code{\link{removeNoId}} documentation for more details and
+      examples. }
+
+    \item{removeMultipleAssignment}{\code{signature(object = "MSnExp",
+	fcol = "npsm")}: Removes peptides that have been assigned to
+      multiple proteins. The latter is defined by extracting a feature
+      variable (default is \code{"npsm"}). }
+
+    
     \item{idSummary}{\code{signature(object = "MSnExp", ...)}:
       Prints a summary that lists the percentage of identified features per
       file (called \code{coverage}).}
+    
     \item{show}{\code{signature(object = "MSnExp")}: Displays object
       content as text. }
+    
     \item{trimMz}{\code{signature(object = "MSnExp")}: Trims the MZ
       range of all the spectra of the \code{MSnExp} instance. See
       \code{\link{trimMz}} documentation for more details and
