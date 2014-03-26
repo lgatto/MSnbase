@@ -22,10 +22,10 @@
 \arguments{
   \item{object}{
     An instance of class \code{"\linkS4class{Spectrum}"} (isobaric
-    tagging only) or \code{"\linkS4class{MSnExp}"}.    
+    tagging only) or \code{"\linkS4class{MSnExp}"}.
   }
-  
-  \item{method}{    
+
+  \item{method}{
     Peak quantitation method. For isobaric tags, one of, possibly
     abreviated \code{"trapezoidation"}, \code{"max"}, or
     \code{"sum"}. These methods return respectively the area under the
@@ -35,16 +35,22 @@
     For label-free quantitation, one of \code{"SI"} (spectral index),
     \code{"SIgi"} (global intensity spectral index), \code{"SIn"}
     (normalised spectral index), \code{"SAF"} (spectral abundance
-    factor) or \code{"NSAF"} (normalised spectral abundance factor).     
+    factor) or \code{"NSAF"} (normalised spectral abundance factor).
+
+    Finally, the simple \code{"count"} method counts the occurrence of
+    the respective spectra (at this stage all 1s) that can then be used
+    as input to \code{\link{combineFeatures}} to implement spectra
+    counting.
+
   }
-  
-  \item{reporters}{    
+
+  \item{reporters}{
     An instance of class \code{"\linkS4class{ReporterIons}"} that defines
-    the peak(s) to be quantified. For isobaric tagging only.    
+    the peak(s) to be quantified. For isobaric tagging only.
   }
-  
+
   \item{strict}{
-    
+
     For isobaric tagging only.  If strict is \code{FALSE} (default), the
     quantitation is performed using data points along the entire width
     of a peak. If strict is set to \code{TRUE}, once the apex(es) is/are
@@ -52,17 +58,17 @@
     \code{"\linkS4class{ReporterIons}"}) are used for quantitation.
 
   }
-  
+
   \item{parallel}{
     Logical defining if reporter peaks should be quantified in parallel
     (default is FALSE). Currently not supported on Windows. Only
     relevant for isobaric tagging.
-    
+
   }
   \item{verbose}{
     Verbose of the output (only for \code{MSnExp} objects).
   }
-  
+
   \item{...}{
     Further arguments passed to the quantitation functions.
   }
@@ -81,7 +87,7 @@
   \code{"\linkS4class{MSnSet}"} \code{qual} slot against the respective
   expected \code{mz(reporters)} +/- \code{width(reporters)}.  This is
   illustrated in the example below.
-  
+
   Once the range of the curve is found, quantification is performed.  If
   no data points are found in the expected region, \code{NA} is returned
   for the reporter peak MZ.
@@ -90,10 +96,10 @@
   corresponding fields in the feature data are populated with \code{NA}
   values) or that have been assigned (the \code{npsm} feature data is
   greater that 1) are removed prior to quantitation.
-  
+
 }
 
-     
+
 \section{Methods}{
   \describe{
     \item{
@@ -112,13 +118,13 @@
       default value \code{"length"}). These values are available of the
       identification data had been collated using
       \code{\link{addIdentificationData}}.
-      
+
       An object of class \code{"\linkS4class{MSnSet}"} is returned
       containing the quantified feature expression and all meta data
       inherited from the \code{MSnExp} \code{object} argument.
-      
+
     }
-    
+
     \item{\code{signature(object = "Spectrum", method = "character",
 	reporters = "ReporterIons")}}{
 
@@ -138,13 +144,13 @@
       curve (\code{'lowerMz'} and \code{'upperMz'}), reporter
       (\code{'reporter'}) and precursor MZ value (\code{'precursor'})
       when available.
-      
+
     }
   }
 }
 
 \references{
-  
+
   For details about the spectral index (SI), see Griffin NM, Yu J, Long
   F, Oh P, Shore S, Li Y, Koziol JA, Schnitzer JE.  \emph{Label-free,
   normalized quantification of complex mass spectrometry data for
@@ -157,7 +163,7 @@
   distinct mammalian Mediator complexes using normalized spectral
   abundance factors}. PNAS. 2006 Dec 12;103(50):18928-33. PMID:
   17138671; PubMed Central PMCID: PMC1672612.
-  
+
 }
 
 \author{
@@ -203,4 +209,3 @@ exprs(saf)
 
 
 \keyword{methods}
-
