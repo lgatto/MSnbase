@@ -1,0 +1,4 @@
+* MSnbase TODO list
+- use fcol in combineFeatures
+- document xic and chromatogram in the vignette
+- MS2 label-free: (x)RIBAR - requires multiple runs and pData
