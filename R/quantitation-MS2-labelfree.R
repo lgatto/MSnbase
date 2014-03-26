@@ -57,11 +57,6 @@ tic_MSnSet <- function(object) {
         return(msnset)
 }
 
-.removeNoIdAndMultipleAssignments <- function(object) {
-    object <- removeNoId(object)
-    object <- removeMultipleAssignment(object)
-    return(object)
-}
 
 
 ## SI Spectra Index
@@ -70,16 +65,18 @@ SI <- function(object,
                method = c("SI", "SIgi", "SIn"),
                groupBy = "accession",
                plength = "length",
-               verbose = TRUE) {
-    
-    method <- match.arg(method)
-    object <- tic_MSnSet(object)
-    object <- .removeNoIdAndMultipleAssignments(object)
+               verbose = TRUE) {    
+    method <- match.arg(method)    
+    if (!plength %in% fvarLabels(object))
+        stop(plength,
+             "not found in fvarLabel(.). 'plength' must a feature variable")    
+    if (!groupBy %in% fvarLabels(object))
+        stop(groupBy,
+             "not found in fvarLabel(.). 'groupBy' must a feature variable")            
 
-    if (is.character(groupBy) && length(groupBy) == 1 &&
-        groupBy %in% fvarLabels(object))  
-        groupBy <- as.factor(fData(object)[, groupBy])
-    
+    object <- tic_MSnSet(object)    
+    groupBy <- as.factor(fData(object)[, groupBy])
+
     ## SI: protein-wise summed tic  
     object <- combineFeatures(object, groupBy = groupBy,
                               fun = "sum", verbose = verbose)
@@ -88,9 +85,7 @@ SI <- function(object,
         exprs(object) <- exprs(object)/colSums(exprs(object))
     
     if (method == "SIn") {
-        if (is.character(plength) && length(plength) == 1 &&
-            plength %in% fvarLabels(object))  
-            plength <- fData(object)[, plength]
+        plength <- fData(object)[, plength]
         exprs(object) <- exprs(object)/plength
     }
 
@@ -106,9 +101,8 @@ SAF <- function(object,
                 groupBy = "accession",
                 plength = "length",
                 verbose=TRUE) {
-    object <- count_MSnSet(object)
-    object <- .removeNoIdAndMultipleAssignments(object)
     method <- match.arg(method)
+    object <- count_MSnSet(object)
 
     if (is.character(groupBy) && length(groupBy) == 1 &&
         groupBy %in% fvarLabels(object))  
