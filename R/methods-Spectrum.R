@@ -94,18 +94,18 @@ setMethod("tic","Spectrum",function(object) object@tic)
 setMethod("ionCount","Spectrum", function(object) sum(object@intensity))
 
 setMethod("trimMz",
-          signature=signature("Spectrum", "numeric"),
+          signature = signature("Spectrum", "numeric"),
           function(object, mzlim, ...) trimMz_Spectrum(object,mzlim))
 
 setMethod("quantify",
-          signature=signature("Spectrum"),
+          signature = signature("Spectrum"),
           function(object,
-                   method=c("trapezoidation","max","sum"),
+                   method = c("trapezoidation","max","sum"),
                    reporters,
-                   strict=FALSE) {
-            if (!inherits(reporters,"ReporterIons"))
+                   strict = FALSE) {
+            if (!inherits(reporters, "ReporterIons"))
               stop("Argument 'reporters' must inherit from 'ReporterIons' class.")
-            quantify_Spectrum(object,match.arg(method),reporters,strict)
+            quantify_Spectrum(object, match.arg(method), reporters, strict)
           })
 
 setMethod("curveStats","Spectrum",

@@ -2,6 +2,7 @@ CHANGES IN VERSION 1.11.11
 --------------------------
  o precomputed msx test data now has id data [2014-03-25 Tue]
  o quantitation unit tests [2014-03-25 Tue]
+ o quantify method now accepts label-free methods [2014-03-25 Tue]
 
 CHANGES IN VERSION 1.11.10
 --------------------------
