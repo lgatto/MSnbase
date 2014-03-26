@@ -15,34 +15,35 @@ test_that("MS2 isobaric quantitation", {
 
     
 test_that("Parallel quantification", {
-  q1 <- quantify(itraqdata[1:5], reporters = iTRAQ4,
-                 parallel = TRUE, verbose = FALSE)
-  q2 <- quantify(itraqdata[1:5], reporters = iTRAQ4,
-                 parallel = FALSE, verbose = FALSE)
-  q1@processingData <- q2@processingData ## those are not expected to be equal
-  expect_true(all.equal(q1, q2))
+    q1 <- quantify(itraqdata[1:5], reporters = iTRAQ4,
+                   parallel = TRUE, verbose = FALSE)
+    q2 <- quantify(itraqdata[1:5], reporters = iTRAQ4,
+                   parallel = FALSE, verbose = FALSE)
+    q1@processingData <- q2@processingData ## those are not expected to be equal
+    expect_true(all.equal(q1, q2))
 })
 
 
 test_that("Counting and tic MSnSets", {
-  f <- dir(system.file(package = "MSnbase",dir = "extdata"),
-           full.name = TRUE, pattern = "msx.rda")
-  load(f) ## msx
-  ## count
-  .cnt <- MSnbase:::count_MSnSet(msx)
-  m1 <- matrix(1, nrow = length(msx), ncol = 1)
-  colnames(m1) <- "1"
-  rownames(m1) <- paste0("X", 1:length(msx), ".1")
-  expect_equal(exprs(.cnt), m1)
-  ## tic
-  .tic <- MSnbase:::tic_MSnSet(msx)
-  mtic <- matrix(tic(msx), ncol = 1)
-  colnames(mtic) <- "1"
-  rownames(mtic) <- paste0("X", 1:length(msx), ".1")
-  expect_equal(exprs(.tic), mtic)  
+    f <- dir(system.file(package = "MSnbase",dir = "extdata"),
+             full.name = TRUE, pattern = "msx.rda")
+    load(f) ## msx
+    ## count
+    .cnt <- MSnbase:::count_MSnSet(msx)
+    m1 <- matrix(1, nrow = length(msx), ncol = 1)
+    colnames(m1) <- "1"
+    rownames(m1) <- paste0("X", 1:length(msx), ".1")
+    expect_equal(exprs(.cnt), m1)
+    ## tic
+    .tic <- MSnbase:::tic_MSnSet(msx)
+    mtic <- matrix(tic(msx), ncol = 1)
+    colnames(mtic) <- "1"
+    rownames(mtic) <- paste0("X", 1:length(msx), ".1")
+    expect_equal(exprs(.tic), mtic)  
 })
 
 test_that("MS2 labelfree quantitation: SI", {
+    ## prepare data
     f <- dir(system.file(package = "MSnbase",dir = "extdata"),
              full.name = TRUE, pattern = "msx.rda")
     load(f) ## msx
@@ -50,7 +51,7 @@ test_that("MS2 labelfree quantitation: SI", {
     fData(msx)$npsm[3:4] <- 1
     fData(msx)$pepseq[3:4] <- c("ABCDEFG", "1234567")
     fData(msx)$length[3:4] <- 100   
-    msx <- utils.removeNoIdAndMultipleAssignments(msx)
+    msx <- MSnbase:::utils.removeNoIdAndMultipleAssignments(msx)
     ## SI
     si <- MSnbase:::SI(msx, "SI")
     m <- tic(msx)
@@ -68,4 +69,28 @@ test_that("MS2 labelfree quantitation: SI", {
     sin <- MSnbase:::SI(msx, "SIn")
     m <- m/fData(sin)$length
     expect_equal(exprs(sin)[, 1], m)
+})
+
+test_that("MS2 labelfree quantitation: SAF", {
+    ## prepare data
+    f <- dir(system.file(package = "MSnbase",dir = "extdata"),
+             full.name = TRUE, pattern = "msx.rda")
+    load(f) ## msx
+    fData(msx)$accession[3:4] <- "protein"
+    fData(msx)$npsm[3:4] <- 1
+    fData(msx)$pepseq[3:4] <- c("ABCDEFG", "1234567")
+    fData(msx)$length[3:4] <- 100   
+    msx <- MSnbase:::utils.removeNoIdAndMultipleAssignments(msx)
+    ## SAF
+    saf <- MSnbase:::SAF(msx, method = "SAF")    
+    m <- rep(1, length(msx))
+    m <- tapply(m, fData(msx)$accession, sum, simplify = FALSE)
+    m <- unlist(m)
+    expect_equal(featureNames(saf), names(m))
+    m <- m/fData(saf)$length
+    expect_equal(exprs(saf)[, 1], m)
+    ## NSAF
+    nsaf <- MSnbase:::SAF(msx, method = "NSAF")
+    m <- m/sum(m)
+    expect_equal(exprs(nsaf)[, 1], m)
 })
