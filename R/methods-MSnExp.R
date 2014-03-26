@@ -174,18 +174,30 @@ setMethod("trimMz",
 setMethod("quantify",
           signature = signature("MSnExp"),
           function(object,
-                   method = c("trapezoidation", "max", "sum"),
+                   method = c("trapezoidation", "max", "sum",
+                       "SI", "SIgi", "SIn",
+                       "SAF", "NSAF"),
                    reporters,
                    strict = FALSE,
                    parallel = FALSE,
-                   verbose = TRUE) {
-            if (!inherits(reporters, "ReporterIons"))
-              stop("Argument 'reporters' must inherit from 'ReporterIons' class.")
-            ## this assumes that if first spectrum
-            ## has msLevel>1, all have
-            if (msLevel(object)[1]<2)
-              stop("No quantification for MS1 data implemented.")
-            quantify_MSnExp(object, match.arg(method), reporters, strict, parallel, verbose)
+                   verbose = TRUE,
+                   ...) {
+              method <- match.arg(method)
+              ## this assumes that if first spectrum has msLevel > 1, all have
+              if (msLevel(object)[1] < 2)
+                  stop("MS1-level quantification not implemented yet.")
+              ## MS2 isobaric
+              if (method %in% c("trapezoidation", "max", "sum")) {
+                  if (!inherits(reporters, "ReporterIons"))
+                      stop("Argument 'reporters' must inherit from 'ReporterIons' class.")
+                  quantify_MSnExp(object, method, reporters, strict, parallel, verbose)
+              } else if (method %in% c("SI", "SIgi", "SIn")) {
+                  object <- utils.removeNoIdAndMultipleAssignments(object)
+                  SI(object, method, ...)
+              } else {
+                  object <- utils.removeNoIdAndMultipleAssignments(object)
+                  SAF(object, method, ...)
+              }
           })
 
 setMethod("curveStats","MSnExp",
@@ -248,7 +260,7 @@ setMethod("removeNoId", "MSnExp",
           utils.removeNoId(object, fcol, keep))
 
 setMethod("removeMultipleAssignment", "MSnExp",
-          function(object, fcol = "npsm") 
+          function(object, fcol = "npsm")
           utils.removeMultipleAssignment(object, fcol))
 
 
@@ -261,4 +273,3 @@ setMethod("idSummary", "MSnExp",
             fd$file <- fromFile(object)
             return(utils.idSummary(fd))
         })
-
