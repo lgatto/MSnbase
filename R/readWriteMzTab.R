@@ -1000,7 +1000,7 @@ readMzTabData <- function(file,
     ##   sapply(x, function(.x) strsplit(.x, "\t")[[1]][-1])
     .parse <- function(x) {    
         x <- sapply(x, function(.x) sub("\t", ":", .x))
-        names(x) <- sub("^(.+sub\\[[0-9*]\\]).+$", "\\1", x, perl = TRUE)
+        names(x) <- sub("^(.+sub\\[[0-9]*\\]).+$", "\\1", x, perl = TRUE)
         x[order(names(x))]
     }
     
@@ -1113,7 +1113,7 @@ readMzTabData <- function(file,
         names(tab) <- tabnms 
     }
     
-    if (any(esetCols <- grepl("_abundance_sub\\[[0-9*]\\]", names(tab)))) {
+    if (any(esetCols <- grepl("_abundance_sub\\[[0-9]*\\]", names(tab)))) {
         eset <- as.matrix(tab[, esetCols])
         mode(eset) <- "numeric"
         nms <- colnames(eset)
