@@ -75,8 +75,8 @@
 }
 
 \affil{
-  Cambridge Center for Proteomics\\
-  University of Cambridge
+  Computational Proteomics Unit\\
+  University of Cambridge, UK
 }
 
 \begin{document}
@@ -307,23 +307,31 @@ pdataCsv <- read.csv(f3)
 
 \begin{description}
 
-\item[\texttt{exprsFile.csv}] containing the quantitation (expression) data for the \Sexpr{nrow(exprsCsv)} proteins and 4 reporter tags.
+\item[\texttt{exprsFile.csv}] containing the quantitation (expression)
+  data for the \Sexpr{nrow(exprsCsv)} proteins and 4 reporter tags.
 <<showExprsFile>>=
 head(exprsCsv, n=3)
 @
-\item[\texttt{fdataFile.csv}] containing meta-data for the \Sexpr{nrow(fdataCsv)} features (here proteins).
+
+\item[\texttt{fdataFile.csv}] containing meta-data for the
+  \Sexpr{nrow(fdataCsv)} features (here proteins).
+
 <<showFdFile>>=
 head(fdataCsv, n=3)
 @
-\item[\texttt{pdataFile.csv}] containing samples (here fractions) meta-data. This simple file has been created manually.
+
+\item[\texttt{pdataFile.csv}] containing samples (here fractions)
+  meta-data. This simple file has been created manually.
 <<showPdFile>>=
 pdataCsv
 @
 \end{description}
 
-The self-contained \Robject{MSnSet} can now easily be generated using the \Rfunction{readMSnSet} constructor, 
-providing the respective \texttt{csv} file names shown above and specifying that the data is comma-separated 
-(with \Robject{sep = ","}). Below, we call that object \Robject{res} and display its content.
+The self-contained \Robject{MSnSet} can now easily be generated using
+the \Rfunction{readMSnSet} constructor, providing the respective
+\texttt{csv} file names shown above and specifying that the data is
+comma-separated (with \Robject{sep = ","}). Below, we call that object
+\Robject{res} and display its content.
 
 <<makeMSnSet, tidy = FALSE>>=
 library("MSnbase")
@@ -386,6 +394,25 @@ fname <- "Protein.ID"
 eset <- readMSnSet2(f0, ecol, fname)
 eset
 @ 
+
+The \texttt{ecol} columns can also be queried interactively from \R
+using the \Rfunction{getEcols} and \Rfunction{grepEcols} function. The
+former return a character with all column names, given a splitting
+character, i.e. the separation value of the spreadsheet (typically
+\texttt{","} for \texttt{csv}, \texttt{"\t"} for \texttt{tsv},
+...). The latter can be used to grep a pattern of interest to obtain
+the relevant column indices.
+
+<<ecols>>=
+getEcols(f0, ",")
+grepEcols(f0, "area", ",")
+e <- grepEcols(f0, "area", ",")
+readMSnSet2(f0, e)
+@
+
+The \Robject{phenoData} slot can now be updated accordingly using the
+replacement functions \Rfunction{phenoData<-} or\Rfunction{pData<-}
+(see \Rfunction{?MSnSet} for details).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% section

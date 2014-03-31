@@ -110,7 +110,7 @@ readMSnSet2(file, ecol, fnames, ...)
   The \code{\link{grepEcols}} and \code{\link{getEcols}} helper
   functions to identify the \code{ecol} values.
   The \code{MSnbase-io} vignette illustrates these functions in
-  detail. It can accessed with \code{vignette{"MSnbase-io"}}.
+  detail. It can accessed with \code{vignette("MSnbase-io")}.
 }
 
 \examples{
