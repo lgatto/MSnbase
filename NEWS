@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.11.13
+--------------------------
+ o Document [get|grep]Ecols in io vignette [2014-03-31 Mon]
+ o typo in readMSnSet man [2014-03-31 Mon]
+ o updated affiliation in vignettes [2014-03-31 Mon]
+
 CHANGES IN VERSION 1.11.12
 --------------------------
  o Fixed a bug in readMzTabData reported by Hendrik Weisser [2014-03-26 Wed]
