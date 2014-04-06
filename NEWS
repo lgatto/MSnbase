@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.11.14
+--------------------------
+ o update dependency to R >= 3.1 [2014-04-05 Sat] 
+
 CHANGES IN VERSION 1.11.13
 --------------------------
  o Document [get|grep]Ecols in io vignette [2014-03-31 Mon]
