@@ -2,23 +2,31 @@ context("utils")
 
 test_that("vec2ssv & ssv2vec", {
   numbers <- 1:3
-  string <- "1;2;3"
+  string1 <- "1;2;3"
+  string2 <- "1,2,3"
 
-  expect_equal(MSnbase:::utils.vec2ssv(numbers), string)
+  expect_equal(MSnbase:::utils.vec2ssv(numbers), string1)
+  expect_equal(MSnbase:::utils.vec2ssv(numbers, sep=","), string2)
 
-  expect_equal(as.numeric(MSnbase:::utils.ssv2vec(string)), numbers)
+  expect_equal(as.numeric(MSnbase:::utils.ssv2vec(string1)), numbers)
+  expect_equal(as.numeric(MSnbase:::utils.ssv2vec(string2, sep=",")), numbers)
 })
 
 test_that("list2ssv & ssv2list", {
   l <- list(a=1:3, b=4:6)
-  string <- c("1;2;3;4;5;6")
-  strings <- c(a="1;2;3", b="4;5;6")
+  string1 <- c("1;2;3;4;5;6")
+  string2 <- c("1,2,3,4,5,6")
+  strings1 <- c(a="1;2;3", b="4;5;6")
+  strings2 <- c(a="1,2,3", b="4,5,6")
 
-  expect_equal(MSnbase:::utils.list2ssv(l), strings)
+  expect_equal(MSnbase:::utils.list2ssv(l), strings1)
+  expect_equal(MSnbase:::utils.list2ssv(l, sep=","), strings2)
 
-  expect_equal(lapply(MSnbase:::utils.ssv2list(strings), as.numeric), l)
+  expect_equal(lapply(MSnbase:::utils.ssv2list(strings1), as.numeric), l)
+  expect_equal(lapply(MSnbase:::utils.ssv2list(strings2, sep=","), as.numeric), l)
 
-  expect_equal(MSnbase:::utils.vec2ssv(unlist(l)), string)
+  expect_equal(MSnbase:::utils.vec2ssv(unlist(l)), string1)
+  expect_equal(MSnbase:::utils.vec2ssv(unlist(l), sep=","), string2)
 })
 
 test_that("leftJoin", {
