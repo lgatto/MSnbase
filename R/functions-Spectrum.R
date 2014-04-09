@@ -255,3 +255,29 @@ normalise_Spectrum <- function(object,method) {
   if (validObject(object))
     return(object)
 }
+
+bin_Spectrum <- function(object, binSize=1L, 
+                         breaks=seq(floor(min(mz(object))), 
+                                    ceiling(max(mz(object))), by=binSize),
+                         fun=sum) {
+  fun <- match.fun(fun)
+  nb <- length(breaks)
+  n <- peaksCount(object)
+
+  idx <- findInterval(mz(object), breaks)
+
+  idx[which(idx < 1L)] <- 1L
+  idx[which(idx > n)] <- n
+
+  intensity <- double(length(breaks))
+  intensity[unique(idx)] <- unlist(lapply(split(intensity(object), idx), fun))
+
+  mz <- c((breaks[-nb]+breaks[-1L])/2L, breaks[nb])
+
+  object@mz <- mz
+  object@intensity <- intensity
+  object@tic <- sum(intensity)
+  object@peaksCount <- nb
+  return(object)
+}
+

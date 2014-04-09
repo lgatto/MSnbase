@@ -95,3 +95,15 @@ test_that("Spectrum strict quantification", {
                      (mz[5]-mz[4])*int[5] +
                      (mz[5]-mz[4])*(int[4]-int[5])/2))
 })
+
+test_that("bin_Spectrum", {
+  s1 <- new("Spectrum2", mz=1:5, intensity=1:5)
+  r1 <- new("Spectrum2", mz=c(1.5, 2.5, 3.5, 4.5, 5), intensity=1:5, tic=15)
+  r2 <- new("Spectrum2", mz=c(2, 4, 5), intensity=c(3, 7, 5), tic=15)
+  r3 <- new("Spectrum2", mz=c(2, 4, 5), intensity=c(1.5, 3.5, 5), tic=10)
+  r4 <- new("Spectrum2", mz=c(1, 3, 5, 6), intensity=c(1, 5, 9, 0), tic=15)
+  expect_equal(MSnbase:::bin_Spectrum(s1, binSize=1), r1)
+  expect_equal(MSnbase:::bin_Spectrum(s1, binSize=2), r2)
+  expect_equal(MSnbase:::bin_Spectrum(s1, binSize=2, fun=mean), r3)
+  expect_equal(MSnbase:::bin_Spectrum(s1, breaks=seq(0, 7, by=2)), r4)
+})
