@@ -156,6 +156,15 @@ setMethod("normalize", "Spectrum",
 
 normalise <- normalize
 
+setMethod("bin", c("Spectrum"),
+          function(object, 
+                   binSize=1, 
+                   breaks=seq(floor(min(mz(object))), 
+                              ceiling(max(mz(object))), by=binSize),
+                   fun=sum) {
+            bin_Spectrum(object, binSize=binSize, breaks=breaks, fun=fun)
+        })
+
 setMethod("compareSpectra", c("Spectrum", "Spectrum"),
           function(object1, object2, fun=c("common", "cor", "dotproduct"), 
                    ...) {

@@ -2,6 +2,8 @@ CHANGES IN VERSION 1.13.1
 --------------------------
  o update dependency to R >= 3.1 [2014-04-05 Sat] 
  o add compareSpectrax to compare two Spectrum objects [2014-04-09 Wed] 
+ o add plotSpectra to plot two Spectrum objects [2014-04-09 Wed] 
+ o add bin method for Spectrum objects [2014-04-09 Wed] 
 
 CHANGES IN VERSION 1.13.0
 -------------------------
