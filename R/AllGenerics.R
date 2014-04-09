@@ -1,4 +1,5 @@
 setGeneric("clean", function(object, ...) standardGeneric("clean"))
+setGeneric("compareSpectra", function(object1, object2, ...) standardGeneric("compareSpectra"))
 setGeneric("trimMz", function(object,mzlim, ...) standardGeneric("trimMz"))
 setGeneric("removePeaks", function(object,t="min", ...) standardGeneric("removePeaks"))
 setGeneric("removeReporters", function(object, ...) standardGeneric("removeReporters"))

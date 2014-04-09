@@ -156,6 +156,12 @@ setMethod("normalize", "Spectrum",
 
 normalise <- normalize
 
+setMethod("compareSpectra", c("Spectrum", "Spectrum"),
+          function(object1, object2, fun=c("common", "cor", "dotproduct"), 
+                   ...) {
+            compare_Spectra(object1, object2, fun=fun, ...)
+        })
+
 setMethod("removeReporters","Spectrum",
           function(object, reporters=NULL, clean=FALSE) {
             if (msLevel(object)>1) 

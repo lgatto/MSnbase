@@ -87,3 +87,25 @@ numberOfCommonPeaks <- function(x, y, method=c("highest", "closest"),
                          tolerance=tolerance, 
                          relative=relative)))
 }
+
+#' calculate the dot product between two vectors
+#'
+#' Stein, S. E., & Scott, D. R. (1994). 
+#' Optimization and testing of mass spectral library search algorithms for 
+#' compound identification. 
+#' Journal of the American Society for Mass Spectrometry, 5(9), 859-866.
+#' doi: http://dx.doi.org/10.1016/1044-0305(94)87009-8
+#'
+#' Lam, H., Deutsch, E. W., Eddes, J. S., Eng, J. K., King, N., Stein, S. E.
+#' and Aebersold, R. (2007)
+#' Development and validation of a spectral library searching method for peptide
+#' identification from MS/MS.
+#' Proteomics, 7: 655–667. 
+#' doi: http://dx.doi.org/10.1002/pmic.200600625
+#'
+#' @param x double
+#' @param y double
+#' @return double, length == 1
+dotproduct <- function(x, y) {
+  as.vector(x %*% y) / (sqrt(sum(x*x)) * sqrt(sum(y*y)))
+}

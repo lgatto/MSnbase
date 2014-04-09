@@ -281,3 +281,33 @@ bin_Spectrum <- function(object, binSize=1L,
   return(object)
 }
 
+bin_Spectra <- function(object1, object2, binSize=1L, 
+                        breaks=seq(floor(min(c(mz(object1), mz(object2)))),
+                                   ceiling(max(c(mz(object1), mz(object2)))), 
+                                   by=binSize)) {
+  return(list(bin_Spectrum(object1, binSize=binSize, breaks=breaks),
+              bin_Spectrum(object2, binSize=binSize, breaks=breaks)))
+}
+
+#' calculate similarity between spectra (between their intensity profile)
+#' @param x spectrum1 (MSnbase::Spectrum)
+#' @param y spectrum2 (MSnbase::Spectrum)
+#' @param fun similarity function (must take two spectra and ... as arguments)
+#' @param ... further arguments passed to "fun"
+#' @return double, similarity score
+compare_Spectra <- function(x, y, fun=c("common", "cor", "dotproduct"), ...) {
+  if (is.character(fun)) {
+    fun <- match.arg(fun)
+    if (fun == "cor" || fun == "dotproduct") {
+      binnedSpectra <- bin_Spectra(x, y, ...)
+      inten <- lapply(binnedSpectra, intensity)
+      return(do.call(fun, inten))
+    } else if (fun == "common") {
+      return(numberOfCommonPeaks(x, y, ...))
+    }
+  } else if (is.function(fun)) {
+    return(fun(x, y, ...))
+  }
+  return(NA)
+}
+
