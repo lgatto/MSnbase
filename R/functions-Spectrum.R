@@ -311,3 +311,89 @@ compare_Spectra <- function(x, y, fun=c("common", "cor", "dotproduct"), ...) {
   return(NA)
 }
 
+#' plot spectrum1 vs spectrum2
+#' @param spectra list, 2 MSnbase::Spectrum2 objects
+#' @param sequences list, 2 character vectors containing the peptide sequence
+#' [not used yet]
+#' @param fragments list, 2 character vectors containing the fragment strings
+#' [not used yet]
+#' @param norm normalize?
+#' @param xlab label for x-axis
+#' @param ylab label for y-axis
+#' @param xlim limits for x-axis
+#' @param ylim limits for y-axis
+#' @param tolerance double, allowed deviation to be considered as common peak
+#' @param relative relative (or absolute) deviation
+#' @param fragments.cex cex for fragments
+#' @param legend.cex cex for legend
+plot_Spectra <- function(spectra,
+                         sequences,
+                         fragments,
+                         norm=TRUE,
+                         xlab="mz", ylab="intensity",
+                         xlim, ylim,
+                         tolerance=25e-6,
+                         relative=TRUE,
+                         fragments.cex=0.5,
+                         legend.cex=1, ...) {
+  if (norm) {
+    spectra <- lapply(spectra, normalize)
+  }
+  if (missing(xlim)) {
+    mass <- unlist(lapply(spectra, mz))
+    xlim <- c(min(c(mass, 0)), max(c(mass, 0)))
+  }
+
+  if (missing(ylim)) {
+    inten <- unlist(lapply(spectra, intensity))
+    maxInten <- max(c(inten, 0))
+    ylim <- c(-maxInten, maxInten)
+  }
+
+  common <- lapply(list(c(1, 2), c(2, 1)), function(x) {
+    commonPeaks(spectra[[x[1]]], spectra[[x[2]]], 
+                method="highest", tolerance=tolerance, relative=relative)
+  })
+
+  plot(NA, type="h", col=1,
+       xlab=xlab, ylab=ylab,
+       xlim=xlim, ylim=ylim,
+       ...)
+  abline(h=0, col="#808080")
+
+  orientation <- c(1, -1)
+  text.pos <- c(3, 1)
+  legend.pos <- c("topleft", "bottomleft")
+  legend.prefix <- c("ident", "quant")
+  ## colors: ColorBrewer RdYlBu c(9, 11, 3, 1)
+  cols <- c("#74ADD1", "#313695", "#F46D43", "#A50026")
+  pch <- c(NA, 19)
+
+  for (i in seq(along=spectra)) {
+    lines(mz(spectra[[i]]), orientation[i]*intensity(spectra[[i]]),
+          type="h", col=cols[(i-1)*2+common[[i]]+1L], lwd=1.5)
+    points(mz(spectra[[i]]), orientation[i]*intensity(spectra[[i]]),
+           col=cols[(i-1)*2+common[[i]]+1L], pch=pch[common[[i]]+1L],
+           cex=0.5)
+
+    if (!missing(fragments) && length(fragments[[i]])) {
+      text(mz(spectra[[i]]), orientation[i]*intensity(spectra[[i]]),
+           fragments[[i]], pos=text.pos[i], offset=0.25,
+           cex=fragments.cex, col="#808080")
+    }
+
+    label <- paste0("prec scan: ", precScanNum(spectra[[i]]))
+
+    if (peaksCount(spectra[[i]])) {
+      label <- paste0(label, ", prec mass: ", precursorMz(spectra[[i]]),
+                             ", prec z: ", precursorCharge(spectra[[i]]),
+                             ", # common: ", sum(common[[i]]))
+      if (!missing(sequences)) {
+        label <- paste0(label, ", seq: ", sequences[[i]])
+      }
+    }
+
+    legend(legend.pos[i], legend=label, bty="n", cex=legend.cex)
+  }
+}
+

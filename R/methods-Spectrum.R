@@ -162,6 +162,11 @@ setMethod("compareSpectra", c("Spectrum", "Spectrum"),
             compare_Spectra(object1, object2, fun=fun, ...)
         })
 
+setMethod("plotSpectra", c("Spectrum", "Spectrum"),
+          function(object1, object2, ...) {
+            plot_Spectra(list(object1, object2), ...)
+        })
+
 setMethod("removeReporters","Spectrum",
           function(object, reporters=NULL, clean=FALSE) {
             if (msLevel(object)>1) 
