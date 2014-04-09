@@ -393,7 +393,7 @@ plot_Spectra <- function(spectra,
     label <- paste0("prec scan: ", precScanNum(spectra[[i]]))
 
     if (peaksCount(spectra[[i]])) {
-      label <- paste0(label, ", prec mass: ", precursorMz(spectra[[i]]),
+      label <- paste0(label, ", prec mass: ", round(precursorMz(spectra[[i]]), 3),
                              ", prec z: ", precursorCharge(spectra[[i]]),
                              ", # common: ", sum(common[[i]]))
       if (!missing(sequences)) {
