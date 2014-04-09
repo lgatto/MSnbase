@@ -16,6 +16,10 @@ test_that("relaxedMatch", {
                c(NA, NA, 3, NA, NA, NA, NA, NA, NA, 1))
   expect_equal(MSnbase:::relaxedMatch(x, table, tolerance=0.3, relative=FALSE),
                c(NA, 2, 3, NA, NA, NA, NA, NA, NA, 1))
+  expect_equal(MSnbase:::relaxedMatch(c(4, 5), 4.8, tolerance=1.1, 
+                                      relative=FALSE), c(1, 1))
+  expect_equal(MSnbase:::relaxedMatch(4.8, c(4, 5), tolerance=1.1, 
+                                      relative=FALSE), 2)
 })
 
 test_that("commonPeaks", {

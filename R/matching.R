@@ -19,7 +19,7 @@ relaxedMatch <- function(x, table, nomatch=NA_integer_, tolerance=25e-6,
     }
     tolerance <- table*tolerance
   } else {
-    tolerance <- rep_len(tolerance, length(x))
+    tolerance <- rep_len(tolerance, length(table))
   }
 
   ## find left interval
@@ -28,7 +28,7 @@ relaxedMatch <- function(x, table, nomatch=NA_integer_, tolerance=25e-6,
 
   ## respect borders
   lIdx[which(lIdx < 1L)] <- 1L
-  rIdx[which(rIdx > length(x))] <- length(x)
+  rIdx[which(rIdx > length(table))] <- length(table)
 
   ## calculate differences for left and right
   lDiff <- abs(table[lIdx]-x)
@@ -56,7 +56,8 @@ commonPeaks <- function(x, y, method=c("highest", "closest"),
     return(logical(peaksCount(x)))
   }
 
-  m <- relaxedMatch(mz(x), mz(y), nomatch=NA, tolerance=tolerance)
+  m <- relaxedMatch(mz(x), mz(y), nomatch=NA, tolerance=tolerance, 
+                    relative=relative)
 
   if (anyDuplicated(m)) {
     if (method == "highest") {
