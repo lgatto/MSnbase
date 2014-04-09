@@ -39,7 +39,7 @@ test_that("commonPeaks", {
                  FALSE, FALSE, FALSE, FALSE, TRUE))
 })
 
-test_that("commonPeaks", {
+test_that("numberOfCommonPeaks", {
   s1 <- new("Spectrum2",
             mz=c(1:3, 4.2, 5:10),
             intensity=c(1:4, 10, 15, 7:8, 15, 10))
@@ -53,3 +53,4 @@ test_that("commonPeaks", {
   expect_true(MSnbase:::numberOfCommonPeaks(s1, s2, tolerance=0.2,
                                             method="closest") == 4)
 })
+
