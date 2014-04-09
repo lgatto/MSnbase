@@ -336,6 +336,14 @@ plot_Spectra <- function(spectra,
                          relative=TRUE,
                          fragments.cex=0.5,
                          legend.cex=1, ...) {
+  centroided <- sapply(spectra, centroided)
+
+  if (all(!centroided)) {
+    message("Your spectra are not centroided.")
+  } else if (any(!centroided)) {
+    warning("Only one spectrum is not centroided!")
+  }
+  
   if (norm) {
     spectra <- lapply(spectra, normalize)
   }
