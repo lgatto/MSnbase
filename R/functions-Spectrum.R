@@ -265,7 +265,7 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
     return(object)
   }
 
-  if (object@centroided) {
+  if (length(object@centroided) && object@centroided) {
     warning("Your spectrum is already centroided.")
     return(object)
   }
