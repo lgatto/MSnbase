@@ -36,6 +36,28 @@ test_that("Spectrum processing", {
   expect_that(ionCount(sp4),equals(sum(int[10:20])))  
 })
 
+test_that("Spectrum processing", {
+  s1 <- new("Spectrum1", mz=1:5, intensity=1:5)
+  s2 <- new("Spectrum2", mz=1:5, intensity=1:5, precursorIntensity=10)
+
+  ## Spectrum1
+  ## max is default
+  expect_equal(intensity(normalize(s1)), (1:5)/5)
+  expect_equal(intensity(normalise(s1)), (1:5)/5)
+  expect_equal(intensity(normalize(s1, method="max")), (1:5)/5)
+  expect_equal(intensity(normalize(s1, method="sum")), (1:5)/15)
+  expect_error(normalize(s1, method="precursor"), "'arg' should be one of")
+
+  ## Spectrum2
+  ## max is default
+  expect_equal(intensity(normalize(s2)), (1:5)/5)
+  expect_equal(intensity(normalise(s2)), (1:5)/5)
+  expect_equal(intensity(normalize(s2, method="max")), (1:5)/5)
+  expect_equal(intensity(normalize(s2, method="sum")), (1:5)/15)
+  expect_equal(intensity(normalize(s2, method="precursor")), (1:5)/10)
+  expect_equal(intensity(normalize(s2, method="precursor", 
+                         precursorIntensity=20)), (1:5)/20)
+})
 
 test_that("Spectrum quantification", {
   ## dummy Spectrum

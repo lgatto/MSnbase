@@ -1,5 +1,6 @@
 CHANGES IN VERSION 1.13.1
 --------------------------
+ o Add precursor method to Spectrum2 normalisation method [2014-04-08 Tue]
  o Add smooth for MSnExp and Spectrum classes [2014-04-10 Thu] 
  o Add pickPeaks for MSnExp and Spectrum classes [2014-04-10 Thu] 
 

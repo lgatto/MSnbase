@@ -2,10 +2,12 @@
 \docType{methods}
 \alias{normalise-methods}
 \alias{normalise,Spectrum-method}
+\alias{normalise,Spectrum2-method}
 \alias{normalise,MSnSet-method}
 \alias{normalise,MSnExp-method}
 \alias{normalize-methods}
 \alias{normalize,Spectrum-method}
+\alias{normalize,Spectrum2-method}
 \alias{normalize,MSnSet-method}
 \alias{normalize,MSnExp-method}
 \alias{scale,MSnSet-method}
@@ -19,13 +21,16 @@
 \description{
   The \code{normalise} method (also available as \code{normalize})
   performs basic normalisation on spectra 
-  intensities of single spectra (\code{"\linkS4class{Spectrum}"}
-  objects), whole experiments (\code{"\linkS4class{MSnExp}"} objects) or
+  intensities of single spectra (\code{"\linkS4class{Spectrum}"} or 
+  \code{"\linkS4class{Spectrum2}"} objects),
+  whole experiments (\code{"\linkS4class{MSnExp}"} objects) or
   quantified expression data (\code{"\linkS4class{MSnSet}"} objects).
 
   Raw spectra and experiments are normalised using \code{max} or
-  \code{sum} only. Each peak intensity is divided by the highest
-  intensity in the spectrum or the sum of intensities.
+  \code{sum} only. For MSMS spectra could be normalised to their 
+  \code{precursor} additionally. Each peak intensity is divided by the
+  highest intensity in the spectrum, the sum of intensities or the intensity 
+  of the precursor.
   These methods aim at facilitating relative peaks heights between
   different spectra.
 
@@ -53,7 +58,8 @@
 
 \arguments{
   \item{object}{ An object of class \code{"\linkS4class{Spectrum}"}, 
-    \code{"\linkS4class{MSnExp}"} or \code{"\linkS4class{MSnSet}"}.
+    \code{"\linkS4class{Spectrum2}"}, \code{"\linkS4class{MSnExp}"} or
+    \code{"\linkS4class{MSnSet}"}.
   }
   \item{method}{
     A character vector of length one that describes how to normalise
@@ -75,6 +81,12 @@
     \item{\code{signature(object = "Spectrum", method = "character")}}{
       Normalises the \code{object} peak intensities using
       \code{method}. }
+    \item{\code{signature(object = "Spectrum2", method = "character",
+        precursorIntensity)}}{
+      Normalises the \code{object} peak intensities using
+      \code{method}. If \code{method == "precursor"}, 
+      \code{precursorIntensity} allows to specify the intensity of the
+      precursor manually. }
   }
   The \code{scale} method:
   \describe{

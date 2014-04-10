@@ -154,6 +154,24 @@ setMethod("normalize", "Spectrum",
             normalise_Spectrum(object, method = match.arg(method))
         })
 
+setMethod("normalize", "Spectrum2",
+          function(object,
+                   method = c("max", "sum", "precursor"),
+                   precursorIntensity, 
+                   ...) {
+            method <- match.arg(method)
+            if (method == "precursor") {
+              precursorIntensity <- ifelse(missing(precursorIntensity), 
+                                           object@precursorIntensity,
+                                           precursorIntensity)
+              return(normalise_Spectrum(object, 
+                                        method = "value", 
+                                        value = precursorIntensity))
+            } else {
+              return(callNextMethod(object, method, ...))
+            }
+        })
+
 normalise <- normalize
 
 setMethod("pickPeaks", "Spectrum",

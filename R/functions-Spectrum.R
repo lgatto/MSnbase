@@ -245,11 +245,12 @@ trimMz_Spectrum <- function(x,mzlim,updatePeaksCount=TRUE) {
   return(x)
 }
 
-normalise_Spectrum <- function(object,method) {
+normalise_Spectrum <- function(object, method, value) {
   ints <- intensity(object)
   switch(method,
          max = div <- max(ints),
-         sum = div <- sum(ints))
+         sum = div <- sum(ints),
+         value = div <- value)
   normInts <- ints/div
   object@intensity <- normInts
   if (validObject(object))
