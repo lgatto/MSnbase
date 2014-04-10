@@ -256,9 +256,46 @@ normalise_Spectrum <- function(object,method) {
     return(object)
 }
 
+pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
+                               method = c("MAD", "SuperSmoother"), 
+                               SNR = 0L, ...) {
+
+  if (!peaksCount(object)) {
+    warning("Your spectrum is empty. Nothing to pick.")
+    return(object)
+  }
+
+  if (object@centroided) {
+    warning("Your spectrum is already centroided.")
+    return(object)
+  }
+
+  ## estimate noise
+  noise <- MALDIquant:::.estimateNoise(mz(object), intensity(object),
+                                       method = match.arg(method), ...)
+
+  ## find local maxima
+  isLocalMaxima <- MALDIquant:::.localMaxima(intensity(object), 
+                                             halfWindowSize = halfWindowSize)
+
+  ## include only local maxima which are above the noise
+  isAboveNoise <- object@intensity > (SNR * noise[, 2L])
+
+  peakIdx <- which(isAboveNoise & isLocalMaxima)
+
+  object@mz <- object@mz[peakIdx]
+  object@intensity <- object@intensity[peakIdx]
+  object@peaksCount <- length(peakIdx)
+  object@centroided <- TRUE
+
+  if (validObject(object)) {
+    return(object)
+  }
+}
+
 smooth_Spectrum <- function(object, 
                             method = c("SavitzkyGolay", "MovingAverage"), 
-                            halfWindowSize=2L, ...) {
+                            halfWindowSize = 2L, ...) {
 
   if (!peaksCount(object)) {
     warning("Your spectrum is empty. Nothing to change.")

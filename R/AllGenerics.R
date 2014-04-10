@@ -1,4 +1,5 @@
 setGeneric("clean", function(object, ...) standardGeneric("clean"))
+setGeneric("pickPeaks", function(object, ...) standardGeneric("pickPeaks"))
 ## stats::smooth already exists
 setGeneric("smooth", function(x, ...) standardGeneric("smooth"))
 setGeneric("trimMz", function(object,mzlim, ...) standardGeneric("trimMz"))

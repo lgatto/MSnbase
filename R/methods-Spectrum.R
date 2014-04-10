@@ -150,11 +150,19 @@ setReplaceMethod("centroided",
                  })
 
 setMethod("normalize", "Spectrum",
-          function(object, method=c("max","sum"),...) {
-            normalise_Spectrum(object,method=match.arg(method))
+          function(object, method = c("max", "sum"), ...) {
+            normalise_Spectrum(object, method = match.arg(method))
         })
 
 normalise <- normalize
+
+setMethod("pickPeaks", "Spectrum",
+          function(object, halfWindowSize = 3L,
+                   method = c("MAD", "SuperSmoother"), 
+                   SNR = 0L, ...) {
+            pickPeaks_Spectrum(object, halfWindowSize = halfWindowSize, 
+                               method = match.arg(method), SNR = SNR, ...)
+        })
 
 setMethod("smooth", "Spectrum",
           function(x, method = c("SavitzkyGolay", "MovingAverage"), 

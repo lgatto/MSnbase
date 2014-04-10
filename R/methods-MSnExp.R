@@ -232,6 +232,14 @@ setMethod("normalize", "MSnExp",
 
 normalise <- normalize
 
+setMethod("pickPeaks", "MSnExp",
+          function(object, halfWindowSize = 3L,
+                   method = c("MAD", "SuperSmoother"), 
+                   SNR = 0L, ...) {
+            pickPeaks_MSnExp(object, halfWindowSize = halfWindowSize, 
+                             method = match.arg(method), SNR = SNR, ...)
+        })
+
 setMethod("smooth", "MSnExp",
           function(x, method = c("SavitzkyGolay", "MovingAverage"), 
                    halfWindowSize = 2L, verbose = TRUE, ...) {
