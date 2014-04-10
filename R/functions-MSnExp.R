@@ -148,7 +148,7 @@ clean_MSnExp <- function(object, all, verbose = TRUE) {
   ## ----------------------------------------------------------
   object@processingData@cleaned <- TRUE
   object@processingData@processing <- c(object@processingData@processing,
-                                        paste("Spectra cleaned: ",date(),sep=""))
+                                        paste0("Spectra cleaned: ", date()))
 
   if (object@.cache$level > 0) {
     hd <- header(object)
@@ -172,13 +172,57 @@ normalise_MSnExp <- function(object,method) {
            invisible(TRUE)
          })
   object@processingData@processing <- c(object@processingData@processing,
-                                        paste("Spectra normalised (",method,"): ",
-                                              date(),
-                                              sep=""))
+                                        paste0("Spectra normalised (",method,"): ",
+                                              date()))
   object@processingData@normalised <- TRUE
   if (validObject(object))
     return(object)
 }
+
+
+smooth_MSnExp <- function(object, method, halfWindowSize, ..., verbose = TRUE) {
+  ## copied from clean_MSnExp
+  e <- new.env()
+
+  if (verbose) {
+    ._cnt <- 1
+    pb <- txtProgressBar(min = 0, max = length(object), style = 3)
+  }
+
+  sapply(featureNames(object),
+         function(x) {
+           if (verbose) {
+             setTxtProgressBar(pb, ._cnt)
+             ._cnt <<- ._cnt+1
+           }
+           sp <- get(x, envir = assayData(object))
+           xx <- smooth(sp, method = method, halfWindowSize = halfWindowSize, 
+                        ...)
+           assign(x, xx, envir = e)
+           invisible(TRUE)
+         })
+  if (verbose) {
+    close(pb)
+    rm(pb)
+    rm(._cnt)
+  }
+  ## ----------------------------------------------------------
+  object@processingData@smoothed <- TRUE
+  object@processingData@processing <- c(object@processingData@processing,
+                                        paste0("Spectra smoothed (",
+                                               method, "): ", date()))
+  if (object@.cache$level > 0) {
+    hd <- header(object)
+    hd$peaks.count <- peaksCount(object)
+    object@.cache <- setCacheEnv(list(assaydata = assayData(object),
+                                      hd = hd),
+                                 object@.cache$level)
+  }
+  object@assayData <- e
+  if (validObject(object))
+    return(object)
+}
+
 
 precSelection <- function(object,n=NULL) {
   allPrecs <- precursorMz(object)

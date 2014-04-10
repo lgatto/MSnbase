@@ -232,6 +232,14 @@ setMethod("normalize", "MSnExp",
 
 normalise <- normalize
 
+setMethod("smooth", "MSnExp",
+          function(x, method = c("SavitzkyGolay", "MovingAverage"), 
+                   halfWindowSize = 2L, verbose = TRUE, ...) {
+            smooth_MSnExp(x, method = match.arg(method), 
+                          halfWindowSize = halfWindowSize, verbose = verbose, 
+                          ...)
+        })
+
 setMethod("removeReporters","MSnExp",
           function(object, reporters=NULL, clean=FALSE, verbose=TRUE) {
             if (is.null(reporters))

@@ -1,6 +1,6 @@
 CHANGES IN VERSION 1.13.1
 --------------------------
- o update dependency to R >= 3.1 [2014-04-05 Sat] 
+ o Add smooth for MSnExp and Spectrum classes [2014-04-10 Thu] 
 
 CHANGES IN VERSION 1.13.0
 -------------------------

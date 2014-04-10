@@ -3,6 +3,7 @@ import(BiocGenerics)
 import(Biobase)
 import(mzR)
 import(impute)
+import(MALDIquant)
 
 import(ggplot2)
 import(methods)

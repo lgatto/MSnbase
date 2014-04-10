@@ -156,6 +156,13 @@ setMethod("normalize", "Spectrum",
 
 normalise <- normalize
 
+setMethod("smooth", "Spectrum",
+          function(x, method = c("SavitzkyGolay", "MovingAverage"), 
+                   halfWindowSize = 2L, ...) {
+            smooth_Spectrum(x, method = match.arg(method), 
+                            halfWindowSize = halfWindowSize, ...)
+        })
+
 setMethod("removeReporters","Spectrum",
           function(object, reporters=NULL, clean=FALSE) {
             if (msLevel(object)>1) 

@@ -255,3 +255,37 @@ normalise_Spectrum <- function(object,method) {
   if (validObject(object))
     return(object)
 }
+
+smooth_Spectrum <- function(object, 
+                            method = c("SavitzkyGolay", "MovingAverage"), 
+                            halfWindowSize=2L, ...) {
+
+  if (!peaksCount(object)) {
+    warning("Your spectrum is empty. Nothing to change.")
+    return(object)
+  }
+
+  method <- match.arg(method)
+
+  switch(method,
+         "SavitzkyGolay" = {
+           fun <- MALDIquant:::.savitzkyGolay
+         },
+         "MovingAverage" = {
+           fun <- MALDIquant:::.movingAverage
+         })
+
+  object@intensity <- fun(object@intensity, halfWindowSize = halfWindowSize, ...)
+
+  isBelowZero <- object@intensity < 0
+
+  if (any(isBelowZero)) {
+    warning("Negative intensities generated. Replaced by zeros.")
+    object@intensity[isBelowZero] <- 0  
+  }
+
+  if (validObject(object)) {
+    return(object)
+  }
+}
+
