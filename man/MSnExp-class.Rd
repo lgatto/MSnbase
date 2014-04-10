@@ -12,6 +12,7 @@
 \alias{extractPrecSpectra,MSnExp,numeric-method}
 %% \alias{extractSpectra,MSnExp-method}
 %% \alias{extractSpectra,MSnExp,logical-method}
+\alias{pickPeaks,MSnExp-method}
 \alias{plot,MSnExp}
 \alias{plot,MSnExp,missing-method}
 \alias{quantify,MSnExp-method}
@@ -114,6 +115,10 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
     %   \code{selected}.
     % See \code{\link{extractSpectra}} documentation for more details
     % and examples. }
+    \item{pickPeaks}{\code{signature(object = "MSnExp")}: Performs the peak
+      picking to generate centroided spectra.
+      See \code{\link{pickPeaks}} documentation for more 
+      details and examples. }
     \item{plot}{\code{signature(x = "MSnExp", y = "missing")}: Plots all
       the spectra of the \code{MSnExp} instance. See
       \code{\link{plot.MSnExp}} documentation for more details. }

@@ -50,8 +50,8 @@
 }
 
 \seealso{
-  \code{\link{clean}}, \code{\link{removePeaks}} and \code{\link{trimMz}} 
-  for other spectra processing methods.
+  \code{\link{clean}}, \code{\link{pickPeaks}}, \code{\link{removePeaks}} and 
+  \code{\link{trimMz}} for other spectra processing methods.
 }
 
 \references{

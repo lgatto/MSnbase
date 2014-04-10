@@ -34,6 +34,7 @@
 
 %% -- other -- %%
 \alias{clean,Spectrum-method}
+\alias{pickPeaks,Spectrum-method}
 \alias{plot,Spectrum-method}
 \alias{plot,Spectrum,missing-method}
 \alias{quantify,Spectrum-method}
@@ -126,6 +127,10 @@
     \item{clean}{\code{signature(object = "Spectrum")}: Removes unused 0
       intensity data points. See \code{\link{clean}} documentation
       for more details and examples. }
+    \item{pickPeaks}{\code{signature(object = "Spectrum")}: Performs the peak
+      picking to generate a centroided spectrum.
+      See \code{\link{pickPeaks}} documentation for more 
+      details and examples. }
     \item{plot}{\code{signature(x = "Spectrum", y = "missing")}: Plots
       intensity against mz.  
       See \code{\link{plot.Spectrum}} documentation for more details. } 
