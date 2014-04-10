@@ -18,6 +18,7 @@
 \alias{quantify,MSnExp,character-method}
 \alias{removePeaks,MSnExp-method}
 \alias{removeReporters,MSnExp-method}
+\alias{smooth,MSnExp-method}
 \alias{addIdentificationData,MSnExp-method}
 \alias{removeNoId,MSnExp-method}
 \alias{removeMultipleAssignment,MSnExp-method}
@@ -140,6 +141,8 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
       Removes reporter ion peaks from all MS2 spectra of an
       experiment. See \code{\link{removeReporters}} documentation for
       more details and examples. }
+    \item{smooth}{\code{signature(x = "MSnExp")}: Smooths spectra.
+      See \code{\link{clean}} documentation for more details and examples. }
     \item{addIdentificationData}{\code{signature(object = "MSnExp", ...)}:
       Adds identification data to an experiment.
       See \code{\link{addIdentificationData}} documentation for

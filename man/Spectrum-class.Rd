@@ -40,6 +40,7 @@
 \alias{quantify,Spectrum,character-method}
 \alias{removePeaks,Spectrum-method}
 \alias{show,Spectrum-method}
+\alias{smooth,Spectrum-method}
 \alias{trimMz,Spectrum-method}
 \alias{trimMz,Spectrum,numeric-method}
 
@@ -135,6 +136,8 @@
       peaks lower that a threshold \code{t}. See
       \code{\link{removePeaks}} documentation for more details and
       examples. }
+    \item{smooth}{\code{signature(x = "Spectrum")}: Smooths spectrum.
+      See \code{\link{clean}} documentation for more details and examples. }
     \item{show}{\code{signature(object = "Spectrum")}: Displays object
       content as text. }
     \item{trimMz}{\code{signature(object = "Spectrum")}: Trims the MZ
