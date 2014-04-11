@@ -63,14 +63,20 @@ setMethod("show",
             Biobase:::.showAnnotatedDataFrame(phenoData(object),
                                               labels=list(object="phenoData"))
             cat("Loaded from:\n")
-            files <- processingData(object)@files
-            if (length(files)>0) {
-              for (i in 1:length(files)) {
-                f <- basename(files[i])
-                cat(" ",f,"\n")
-              }
+            f <- basename(processingData(object)@files)
+            nf <- length(f)
+            if (nf > 0) {
+                if (nf < 3) {
+                    cat(paste(f, collapse = ", "), "\n")
+                } else {
+                    cat("[1]", paste(f[1], collapse = ", "))
+                    cat(" ... ")
+                    cat("[", nf, "] ", paste(f[nf], collapse = ", "),
+                        "\n", sep = "")
+                    cat("    Use 'fileNames(.)' to see all files.\n")
+                }                
             } else {
-              cat(" none\n")
+                cat(" none\n")
             }
             Biobase:::.showAnnotatedDataFrame(protocolData(object),
                                               labels=list(object="protocolData"))
