@@ -729,3 +729,29 @@ utils.removeNoIdAndMultipleAssignments <- function(object) {
         object <- removeMultipleAssignment(object)
     return(object)
 }
+
+calculateFragments <- function(sequence) {
+  ## constants
+  ## source wikipedia; @pavel-shliaha are they correct enough? other source?
+  proton <- 1.007276466
+  water <- 1.0078250321 * 2 + 15.9949146221
+
+  aa <- .get.amino.acids()
+  aamass <- setNames(aa$ResidueMass, aa$AA)
+
+  fragments.seq <- strsplit(sequence, "")[[1]]
+
+  b <- setNames(cumsum(aamass[fragments.seq]) + proton,
+                paste0("b", seq_along(fragments.seq)))
+  y <- setNames(cumsum(aamass[rev(fragments.seq)]) + water + proton,
+                paste0("y", seq_along(fragments.seq)))
+
+  fragment.str <- c(names(b), names(y))
+  mass <- c(b, y)
+
+  o <- order(mass)
+
+  return(data.frame(mass=mass[o], fragment.str=fragment.str[o],
+                    stringsAsFactors=FALSE))
+}
+
