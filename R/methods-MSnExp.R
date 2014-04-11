@@ -67,13 +67,13 @@ setMethod("show",
             nf <- length(f)
             if (nf > 0) {
                 if (nf < 3) {
-                    cat(paste(f, collapse = ", "), "\n")
+                    cat(paste0("  ", f, collapse = ", "), "\n")
                 } else {
-                    cat("[1]", paste(f[1], collapse = ", "))
-                    cat(" ... ")
-                    cat("[", nf, "] ", paste(f[nf], collapse = ", "),
+                    cat("  [1]", paste(f[1], collapse = ", "))
+                    cat("   ... ")
+                    cat("  [", nf, "] ", paste(f[nf], collapse = ", "),
                         "\n", sep = "")
-                    cat("    Use 'fileNames(.)' to see all files.\n")
+                    cat("  Use 'fileNames(.)' to see all files.\n")
                 }                
             } else {
                 cat(" none\n")
