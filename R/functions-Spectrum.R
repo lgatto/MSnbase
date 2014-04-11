@@ -403,6 +403,8 @@ plot_Spectra <- function(spectra,
     }
 
     legend(legend.pos[i], legend=label, bty="n", cex=legend.cex)
+  }
+}
 
 pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
                                method = c("MAD", "SuperSmoother"),

@@ -192,6 +192,7 @@ setMethod("compareSpectra", c("Spectrum", "Spectrum"),
 setMethod("plotSpectra", c("Spectrum", "Spectrum"),
           function(object1, object2, ...) {
             plot_Spectra(list(object1, object2), ...)
+        })
 
 setMethod("pickPeaks", "Spectrum",
           function(object, halfWindowSize = 3L,
