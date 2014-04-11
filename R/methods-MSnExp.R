@@ -70,7 +70,7 @@ setMethod("show",
                     cat(paste0("  ", f, collapse = ", "), "\n")
                 } else {
                     cat("  [1]", paste(f[1], collapse = ", "))
-                    cat("   ... ")
+                    cat("...")
                     cat("  [", nf, "] ", paste(f[nf], collapse = ", "),
                         "\n", sep = "")
                     cat("  Use 'fileNames(.)' to see all files.\n")
