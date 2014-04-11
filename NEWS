@@ -1,9 +1,12 @@
 CHANGES IN VERSION 1.13.1
 --------------------------
- o update dependency to R >= 3.1 [2014-04-05 Sat] 
- o add compareSpectrax to compare two Spectrum objects [2014-04-09 Wed] 
- o add plotSpectra to plot two Spectrum objects [2014-04-09 Wed] 
- o add bin method for Spectrum objects [2014-04-09 Wed] 
+ o update dependency to R >= 3.1 [2014-04-05 Sat]
+ o add compareSpectrax to compare two Spectrum objects [2014-04-09 Wed]
+ o add plotSpectra to plot two Spectrum objects [2014-04-09 Wed]
+ o add bin method for Spectrum objects [2014-04-09 Wed]
+ o add precursor method to Spectrum2 normalisation method [2014-04-08 Tue]
+ o add smooth for MSnExp and Spectrum classes [2014-04-10 Thu]
+ o add pickPeaks for MSnExp and Spectrum classes [2014-04-10 Thu]
 
 CHANGES IN VERSION 1.13.0
 -------------------------
@@ -11,7 +14,7 @@ CHANGES IN VERSION 1.13.0
 
 CHANGES IN VERSION 1.11.14
 --------------------------
- o update dependency to R >= 3.1 [2014-04-05 Sat] 
+ o update dependency to R >= 3.1 [2014-04-05 Sat]
 
 CHANGES IN VERSION 1.11.13
 --------------------------
