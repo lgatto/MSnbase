@@ -22,19 +22,7 @@ relaxedMatch <- function(x, table, nomatch=NA_integer_, tolerance=25e-6,
     tolerance <- rep_len(tolerance, length(table))
   }
 
-  ## find left interval
-  lIdx <- findInterval(x, table, rightmost.closed=FALSE, all.inside=FALSE)
-  rIdx <- lIdx+1L
-
-  ## respect borders
-  lIdx[which(lIdx < 1L)] <- 1L
-  rIdx[which(rIdx > length(table))] <- length(table)
-
-  ## calculate differences for left and right
-  lDiff <- abs(table[lIdx]-x)
-  rDiff <- abs(table[rIdx]-x)
-
-  potentialMatches <- ifelse(rDiff == pmin.int(lDiff, rDiff), rIdx, lIdx)
+  potentialMatches <- MALDIquant:::.which.closest(x, table)
   m <- which(abs(x-table[potentialMatches]) < tolerance[potentialMatches])
 
   res[m] <- potentialMatches[m]
@@ -56,7 +44,7 @@ commonPeaks <- function(x, y, method=c("highest", "closest"),
     return(logical(peaksCount(x)))
   }
 
-  m <- relaxedMatch(mz(x), mz(y), nomatch=NA, tolerance=tolerance, 
+  m <- relaxedMatch(mz(x), mz(y), nomatch=NA, tolerance=tolerance,
                     relative=relative)
 
   if (anyDuplicated(m)) {
@@ -84,16 +72,16 @@ commonPeaks <- function(x, y, method=c("highest", "closest"),
 #' @return double, number of common peaks
 numberOfCommonPeaks <- function(x, y, method=c("highest", "closest"),
                                 tolerance=25e-6, relative=TRUE) {
-  return(sum(commonPeaks(x, y, method=method, 
-                         tolerance=tolerance, 
+  return(sum(commonPeaks(x, y, method=method,
+                         tolerance=tolerance,
                          relative=relative)))
 }
 
 #' calculate the dot product between two vectors
 #'
-#' Stein, S. E., & Scott, D. R. (1994). 
-#' Optimization and testing of mass spectral library search algorithms for 
-#' compound identification. 
+#' Stein, S. E., & Scott, D. R. (1994).
+#' Optimization and testing of mass spectral library search algorithms for
+#' compound identification.
 #' Journal of the American Society for Mass Spectrometry, 5(9), 859-866.
 #' doi: http://dx.doi.org/10.1016/1044-0305(94)87009-8
 #'
@@ -101,7 +89,7 @@ numberOfCommonPeaks <- function(x, y, method=c("highest", "closest"),
 #' and Aebersold, R. (2007)
 #' Development and validation of a spectral library searching method for peptide
 #' identification from MS/MS.
-#' Proteomics, 7: 655–667. 
+#' Proteomics, 7: 655–667.
 #' doi: http://dx.doi.org/10.1002/pmic.200600625
 #'
 #' @param x double
