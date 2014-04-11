@@ -29,6 +29,8 @@
       algorithm. The resulting window size is \code{2 * halfWindowSize + 1}.
       The size should be nearly (or slightly larger) the \emph{FWHM}
       (full width at half maximum).
+      A local maximum is considered as peak if its intensity is \code{SNR} 
+      times larger than the estimated noise.
       The arguments \code{\dots} are passed to the noise estimator functions. 
       Currenlty only the \code{method = "SuperSmoother"} accepts additional
       arguments, e.g. \code{span}. Please see \code{\link[stats]{supsmu}} for
