@@ -748,7 +748,7 @@ calculateFragments <- function(sequence) {
                 paste0("y", 1:n))
 
   fragment.seq <- c(substring(sequence, rep(1, n), 1:n),
-                    substring(sequence, 1:n, rep(n, n)))
+                    rev(substring(sequence, 1:n, rep(n, n))))
   fragment.str <- c(names(b), names(y))
   mass <- c(b, y)
 
