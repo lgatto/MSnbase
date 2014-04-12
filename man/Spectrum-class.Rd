@@ -33,6 +33,7 @@
 \alias{centroided<-}
 
 %% -- other -- %%
+\alias{bin,Spectrum-method}
 \alias{clean,Spectrum-method}
 \alias{pickPeaks,Spectrum-method}
 \alias{plot,Spectrum-method}
@@ -54,7 +55,7 @@
   Virtual container for spectrum data common to all different types of
   spectra. A \code{Spectrum} object can not be directly instanciated. Use
   \code{"\linkS4class{Spectrum1}"} and \code{"\linkS4class{Spectrum2}"}
-  instead.  
+  instead.
 }
 
 \section{Slots}{
@@ -83,10 +84,10 @@
       indicating if instance is centroided ('TRUE') of uncentroided
       ('FALSE'). }
     \item{\code{fromFile}:}{Object of class \code{"integer"} referencing
-      the file the spectrum originates. The file names are stored in the 
+      the file the spectrum originates. The file names are stored in the
       \code{processingData} slot of the \code{"\linkS4class{MSnExp}"} or
       \code{"\linkS4class{MSnSet}"} instance that contains the current
-      \code{"Spectrum"} instance. }    
+      \code{"Spectrum"} instance. }
     \item{\code{.__classVersion__}:}{Object of class \code{"Versions"}
       indicating the version of the \code{Spectrum} class. Intended for
       developer use and debugging.}
@@ -101,7 +102,7 @@
     \item{\code{acquisitionNum(object)}}{ Returns the acquisition number
       of the spectrum as an integer. }
     \item{\code{scanIndex(object)}}{ Returns the scan index of the
-      spectrum as an integer. } 
+      spectrum as an integer. }
     \item{\code{centroided(object)}}{ Indicates whether spectrum is
       centroided ('TRUE') or uncentroided ('FALSE'). }
     \item{\code{centroided(object) <- value}}{ Sets the 'centroided'
@@ -124,18 +125,20 @@
     \item{\code{tic(object)}}{ Returns the total ion current for the
       spectrum as a numeric. }
     %% -------------------------------------------------- %%
+    \item{bin}{\code{signature(object = "Spectrum")}: Bins Spectrum.
+      See \code{\link{bin}} documentation for more details and examples. }
     \item{clean}{\code{signature(object = "Spectrum")}: Removes unused 0
       intensity data points. See \code{\link{clean}} documentation
       for more details and examples. }
     \item{pickPeaks}{\code{signature(object = "Spectrum")}: Performs the peak
       picking to generate a centroided spectrum.
-      See \code{\link{pickPeaks}} documentation for more 
+      See \code{\link{pickPeaks}} documentation for more
       details and examples. }
     \item{plot}{\code{signature(x = "Spectrum", y = "missing")}: Plots
-      intensity against mz.  
-      See \code{\link{plot.Spectrum}} documentation for more details. } 
+      intensity against mz.
+      See \code{\link{plot.Spectrum}} documentation for more details. }
     \item{quantify}{\code{signature(object = "Spectrum")}: Quatifies
-      defined peaks in the spectrum. 
+      defined peaks in the spectrum.
       See \code{\link{quantify}} documentation for more details. }
     \item{removePeaks}{\code{signature(object = "Spectrum")}: Remove
       peaks lower that a threshold \code{t}. See
