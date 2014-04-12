@@ -96,10 +96,8 @@ plotSpectrumVsSpectrum <- function(spectra, ...) {
 
   if (!missing(sequence) && is(object, "Spectrum2")) {
     calculatedFragments <- calculateFragments(sequence)
-    fragmentSpectrum <- new("Spectrum2", mz=calculatedFragments$mass,
-                            intensity=rep(1, nrow(calculatedFragments)))
-    m <- matchPeaks(object, fragmentSpectrum, tolerance=tolerance,
-                    relative=relative)
+    m <- matchPeaks(object, calculatedFragments$mass,
+                    tolerance=tolerance, relative=relative)
     i <- which(!is.na(m))
     m <- m[i]
     fragments[i] <- calculatedFragments$fragment.str[m]

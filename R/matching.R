@@ -47,18 +47,22 @@ matchPeaks <- function(x, y, method=c("highest", "closest"),
                        tolerance=25e-6, relative=TRUE) {
   method <- match.arg(method)
 
-  if (peaksCount(x) == 0 || peaksCount(y) == 0) {
+  if (inherits(y, "Spectrum")) {
+    y <- mz(y)
+  }
+
+  if (peaksCount(x) == 0 || length(y) == 0) {
     return(integer(peaksCount(x)))
   }
 
-  m <- relaxedMatch(mz(x), mz(y), nomatch=NA, tolerance=tolerance,
+  m <- relaxedMatch(mz(x), y, nomatch=NA, tolerance=tolerance,
                     relative=relative)
 
   if (anyDuplicated(m)) {
     if (method == "highest") {
       o <- order(intensity(x), decreasing=TRUE)
     } else {
-      o <- order(abs(mz(x)-mz(y)[m]))
+      o <- order(abs(mz(x)-y[m]))
     }
     sortedMatches <- m[o]
     sortedMatches[which(duplicated(sortedMatches))] <- NA
