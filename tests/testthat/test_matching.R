@@ -6,6 +6,7 @@ test_that("relaxedMatch", {
 
   expect_error(MSnbase:::relaxedMatch(table, x), "sorted non-decreasingly")
   expect_error(MSnbase:::relaxedMatch(x, table, tolerance=2), "must be smaller than 1")
+  expect_warning(MSnbase:::relaxedMatch(x, table, tolerance=-2), ".*tolerance.* < 0 is meaningless")
   expect_equal(MSnbase:::relaxedMatch(x, table),
                as.integer(rep(NA, 10)))
   expect_equal(MSnbase:::relaxedMatch(x, table, tolerance=0.2),

@@ -12,6 +12,11 @@ relaxedMatch <- function(x, table, nomatch=NA_integer_, tolerance=25e-6,
 
   res <- rep(nomatch, length(x))
 
+  if (tolerance < 0L) {
+    warning(sQuote("tolerance"), " < 0 is meaningless. Set to zero.")
+    tolerance <- 0L
+  }
+
   if (relative) {
     if (tolerance > 1L) {
       stop(sQuote("tolerance"),
