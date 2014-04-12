@@ -1,0 +1,126 @@
+#' plot spectrum1 vs spectrum2
+#' @param spectra list, 2 MSnbase::Spectrum2 objects
+plotSpectrumVsSpectrum <- function(spectra, ...) {
+  common <- lapply(list(c(1, 2), c(2, 1)), function(x) {
+    commonPeaks(spectra[[x[1]]], spectra[[x[2]]],
+                method="highest")
+  })
+  .plotSpectrumVsSpectrum(spectra, common=common, ...)
+}
+
+#' plot spectrum1 vs spectrum2
+#' @param spectra list, 2 MSnbase::Spectrum2 objects
+#' @param sequences character vector (length==2) containing the peptide
+#' sequences for both spectra
+#' @param common list (length==2), containing logical vector for common peaks
+#' @param norm normalize?
+#' @param xlim limits for x-axis
+#' @param ylim limits for y-axis
+#' @param fragments.cex cex for fragments
+#' @param legend.cex cex for legend
+.plotSpectrumVsSpectrum <- function(spectra,
+                                    sequences,
+                                    common,
+                                    norm=TRUE,
+                                    xlim, ylim,
+                                    legend.cex=1, ...) {
+  if (norm) {
+    spectra <- lapply(spectra, normalize)
+  }
+
+  if (missing(xlim)) {
+    mass <- unlist(lapply(spectra, mz))
+    xlim <- c(min(c(mass, 0)), max(c(mass, 0)))
+  }
+
+  if (missing(ylim)) {
+    inten <- unlist(lapply(spectra, intensity))
+    maxInten <- max(c(inten, 0))
+    ylim <- c(-maxInten, maxInten)
+  }
+
+  if (missing(common)) {
+    common <- lapply(spectra, function(x)logical(peaksCount(x)))
+  }
+
+  orientation <- c(1, -1)
+  add <- c(FALSE, TRUE)
+  legend.pos <- c("topleft", "bottomleft")
+  legend.prefix <- c("ident", "quant")
+  ## colors: ColorBrewer RdYlBu c(9, 11, 3, 1)
+  cols <- c("#74ADD1", "#313695", "#F46D43", "#A50026")
+  pch <- c(NA, 19)
+
+  for (i in seq(along=spectra)) {
+    .plotSingleSpectrum(spectra[[i]], sequence=sequences[[i]],
+                        orientation=orientation[i], add=add[i],
+                        xlim=xlim, ylim=ylim,
+                        col=cols[(i-1)*2+common[[i]]+1],
+                        pch=pch[common[[i]]+1], ...)
+
+    label <- paste0("prec scan: ", precScanNum(spectra[[i]]))
+
+    if (peaksCount(spectra[[i]])) {
+      label <- paste0(label, ", prec mass: ", round(precursorMz(spectra[[i]]), 3),
+                             ", prec z: ", precursorCharge(spectra[[i]]),
+                             ", # common: ", sum(common[[i]]))
+      if (!missing(sequences)) {
+        label <- paste0(label, ", seq: ", sequences[[i]])
+      }
+    }
+
+    legend(legend.pos[i], legend=label, bty="n", cex=legend.cex)
+  }
+}
+
+.plotSingleSpectrum <- function(object, sequence,
+                                orientation=1, add=FALSE,
+                                col="#74ADD1", pch=NA,
+                                xlab="m/z", ylab="intensity",
+                                xlim, ylim=c(0, 1),
+                                tolerance=0.1, relative=FALSE,
+                                fragments.cex=0.75, ...) {
+  if (!centroided(object)) {
+    message("Your spectrum is not centroided.")
+  }
+
+  if (missing(xlim)) {
+    xlim <- c(min(c(mz(object), 0)), max(c(mz(object), 0)))
+  }
+
+  if (missing(ylim)) {
+    ylim <- c(0, max(c(intensity(object), 0)))
+  }
+
+  fragments <- character(peaksCount(object))
+
+  if (!missing(sequence) && is(object, "Spectrum2")) {
+    calculatedFragments <- calculateFragments(sequence)
+    fragmentSpectrum <- new("Spectrum2", mz=calculatedFragments$mass,
+                            intensity=rep(1, nrow(calculatedFragments)))
+    m <- matchPeaks(object, fragmentSpectrum, tolerance=tolerance,
+                    relative=relative)
+    i <- which(!is.na(m))
+    m <- m[i]
+    fragments[i] <- calculatedFragments$fragment.str[m]
+  }
+
+  if (!add) {
+    plot(NA, type="h", col=1,
+         xlab=xlab, ylab=ylab,
+         xlim=xlim, ylim=ylim, ...)
+    abline(h=0, col="#808080")
+  }
+
+  lines(mz(object), orientation*intensity(object),
+        type="h", col=col, lwd=1)
+  points(mz(object), orientation*intensity(object),
+         col=col, pch=pch, cex=0.5)
+
+  if (any(nchar(fragments) > 0)) {
+    text(mz(object), orientation*intensity(object),
+         fragments, pos=2+orientation, offset=0.25,
+         cex=fragments.cex, col="#808080")
+  }
+}
+
