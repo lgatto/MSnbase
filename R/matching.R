@@ -29,19 +29,21 @@ relaxedMatch <- function(x, table, nomatch=NA_integer_, tolerance=25e-6,
   return(res)
 }
 
-#' common peaks
+#' similar to base::match but with tolerance
+#' if there are duplicated matches the highest/closest is choosen
 #' @param x spectrum1 (MSnbase::Spectrum), to be matched
 #' @param y spectrum2 (MSnbase::Spectrum), to match against
 #' @param method for duplicated matches use highest/closest intensity/mz
 #' @param tolerance double, allowed deviation
 #' @param relative relative (or absolute) deviation
-#' @return logical, TRUE for common peaks in y
-commonPeaks <- function(x, y, method=c("highest", "closest"),
-                         tolerance=25e-6, relative=TRUE) {
+#' @return integer vector of the same length as "x" representing the position in
+#' "y"
+matchPeaks <- function(x, y, method=c("highest", "closest"),
+                       tolerance=25e-6, relative=TRUE) {
   method <- match.arg(method)
 
   if (peaksCount(x) == 0 || peaksCount(y) == 0) {
-    return(logical(peaksCount(x)))
+    return(integer(peaksCount(x)))
   }
 
   m <- relaxedMatch(mz(x), mz(y), nomatch=NA, tolerance=tolerance,
@@ -57,6 +59,47 @@ commonPeaks <- function(x, y, method=c("highest", "closest"),
     sortedMatches[which(duplicated(sortedMatches))] <- NA
     m[o] <- sortedMatches
   }
+
+  return(as.integer(m))
+}
+
+#' similar to base::match but with tolerance
+#' if there are duplicated matches the closest is choosen
+#' @param x numeric vector.
+#' @param y spectrum2 (MSnbase::Spectrum), to match against
+#' @param tolerance double, allowed deviation
+#' @param relative relative (or absolute) deviation
+#' @return integer vector of the same length as "x" representing the position in
+#' "y"
+matchFragments <- function(x, y, tolerance=0.1, relative=FALSE) {
+  if (length(x) == 0 || peaksCount(y) == 0) {
+    return(integer(length(x)))
+  }
+
+  m <- relaxedMatch(x, mz(y), nomatch=NA, tolerance=tolerance,
+                    relative=relative)
+
+  if (anyDuplicated(m)) {
+    o <- order(abs(x-mz(y)[m]))
+    sortedMatches <- m[o]
+    sortedMatches[which(duplicated(sortedMatches))] <- NA
+    m[o] <- sortedMatches
+  }
+
+  return(as.integer(m))
+}
+
+#' common peaks
+#' @param x spectrum1 (MSnbase::Spectrum), to be matched
+#' @param y spectrum2 (MSnbase::Spectrum), to match against
+#' @param method for duplicated matches use highest/closest intensity/mz
+#' @param tolerance double, allowed deviation
+#' @param relative relative (or absolute) deviation
+#' @return logical, TRUE for common peaks in y
+commonPeaks <- function(x, y, method=c("highest", "closest"),
+                         tolerance=25e-6, relative=TRUE) {
+  m <- matchPeaks(x, y, method=match.arg(method), tolerance=tolerance,
+                  relative=relative)
 
   m[which(is.na(m))] <- 0L
 

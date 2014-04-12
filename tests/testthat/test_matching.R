@@ -16,10 +16,37 @@ test_that("relaxedMatch", {
                c(NA, NA, 3, NA, NA, NA, NA, NA, NA, 1))
   expect_equal(MSnbase:::relaxedMatch(x, table, tolerance=0.3, relative=FALSE),
                c(NA, 2, 3, NA, NA, NA, NA, NA, NA, 1))
-  expect_equal(MSnbase:::relaxedMatch(c(4, 5), 4.8, tolerance=1.1, 
+  expect_equal(MSnbase:::relaxedMatch(c(4, 5), 4.8, tolerance=1.1,
                                       relative=FALSE), c(1, 1))
-  expect_equal(MSnbase:::relaxedMatch(4.8, c(4, 5), tolerance=1.1, 
+  expect_equal(MSnbase:::relaxedMatch(4.8, c(4, 5), tolerance=1.1,
                                       relative=FALSE), 2)
+})
+
+test_that("matchPeaks", {
+  s1 <- new("Spectrum2",
+            mz=c(1:3, 4.2, 5:10),
+            intensity=c(1:4, 10, 15, 7:8, 15, 10))
+  s2 <- new("Spectrum2",
+            mz=c(1.08, 3.95, 5.11, 11.18, 15.88),
+            intensity=c(1, 4, 5, 11, 16))
+  expect_error(MSnbase:::matchPeaks(s1, s2, method="foobar"),
+               "'arg' should be one")
+  expect_equal(MSnbase:::matchPeaks(s1, s1), 1:10)
+  expect_equal(MSnbase:::matchPeaks(s1, s2, tolerance=0.2),
+               c(1, NA, NA, 2, NA, 3, NA, NA, 4, NA))
+  expect_equal(MSnbase:::matchPeaks(s1, s2, tolerance=0.2, method="highest"),
+               c(1, NA, NA, 2, NA, 3, NA, NA, 4, NA))
+  expect_equal(MSnbase:::matchPeaks(s1, s2, tolerance=0.2, method="closest"),
+               c(1, NA, NA, 2, 3, NA, NA, NA, NA, 4))
+})
+
+test_that("matchFragments", {
+  f <- c(1:3, 4.2, 5:11)
+  s <- new("Spectrum2",
+           mz=c(1.08, 3.95, 5.11, 11.18, 15.88),
+           intensity=c(1, 4, 5, 11, 16))
+  expect_equal(MSnbase:::matchFragments(f, s, tolerance=0.2, relative=FALSE),
+               c(1, NA, NA, NA, 3, NA, NA, NA, NA, NA, 4))
 })
 
 test_that("commonPeaks", {
