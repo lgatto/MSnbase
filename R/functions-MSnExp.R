@@ -179,7 +179,7 @@ normalise_MSnExp <- function(object,method) {
     return(object)
 }
 
-bin_MSnExp <- function(object, binSize=1, fun=sum, verbose=TRUE) {
+bin_MSnExp <- function(object, binSize=1, verbose=TRUE) {
   ## copied from clean_MSnExp
   e <- new.env()
 
@@ -188,6 +188,9 @@ bin_MSnExp <- function(object, binSize=1, fun=sum, verbose=TRUE) {
     pb <- txtProgressBar(min = 0, max = length(object), style = 3)
   }
 
+  mzrange <- range(eapply(assayData(object), mz))
+  breaks <- seq(floor(mzrange[1]), ceiling(mzrange[2]), by=binSize)
+
   sapply(featureNames(object),
          function(x) {
            if (verbose) {
@@ -195,7 +198,7 @@ bin_MSnExp <- function(object, binSize=1, fun=sum, verbose=TRUE) {
              ._cnt <<- ._cnt+1
            }
            sp <- get(x, envir = assayData(object))
-           xx <- bin(sp, binSize=binSize, fun=fun)
+           xx <- bin(sp, breaks=breaks)
            assign(x, xx, envir = e)
            invisible(TRUE)
          })
@@ -206,9 +209,7 @@ bin_MSnExp <- function(object, binSize=1, fun=sum, verbose=TRUE) {
   }
   ## ----------------------------------------------------------
   object@processingData@processing <- c(object@processingData@processing,
-                                        paste0("Spectra binned (",
-                                               as.character(substitute(fun)),
-                                               "): ", date()))
+                                        paste0("Spectra binned: ", date()))
   if (object@.cache$level > 0) {
     hd <- header(object)
     hd$peaks.count <- peaksCount(object)

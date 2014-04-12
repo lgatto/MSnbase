@@ -233,8 +233,8 @@ setMethod("normalize", "MSnExp",
 normalise <- normalize
 
 setMethod("bin", "MSnExp",
-          function(object, binSize = 1, fun = sum, verbose = TRUE) {
-            bin_MSnExp(object, binSize = binSize, fun = fun, verbose = verbose)
+          function(object, binSize = 1, verbose = TRUE) {
+            bin_MSnExp(object, binSize = binSize, verbose = verbose)
         })
 
 setMethod("pickPeaks", "MSnExp",
