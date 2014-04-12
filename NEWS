@@ -1,9 +1,10 @@
 CHANGES IN VERSION 1.13.1
 --------------------------
  o Add precursor method to Spectrum2 normalisation method [2014-04-08 Tue]
- o Add smooth for MSnExp and Spectrum classes [2014-04-10 Thu] 
- o Add pickPeaks for MSnExp and Spectrum classes [2014-04-10 Thu] 
+ o Add smooth for MSnExp and Spectrum classes [2014-04-10 Thu]
+ o Add pickPeaks for MSnExp and Spectrum classes [2014-04-10 Thu]
  o Updated show,MSnExp to display only first/last files when > 2 [2014-04-11 Fri]
+ o Recreate inst/extdata/msx.rda for R 3.1 and Biobase 2.24 [2014-04-13 Sun]
 
 CHANGES IN VERSION 1.13.0
 -------------------------
@@ -11,7 +12,7 @@ CHANGES IN VERSION 1.13.0
 
 CHANGES IN VERSION 1.11.14
 --------------------------
- o update dependency to R >= 3.1 [2014-04-05 Sat] 
+ o update dependency to R >= 3.1 [2014-04-05 Sat]
 
 CHANGES IN VERSION 1.11.13
 --------------------------
