@@ -193,10 +193,10 @@ setMethod("quantify",
                       stop("Argument 'reporters' must inherit from 'ReporterIons' class.")
                   quantify_MSnExp(object, method, reporters, strict, parallel, verbose)
               } else if (method == "count") {
-                  count_MSnSet(object)                  
+                  count_MSnSet(object)
               } else {
                   ## the following assumes that the appropriate fcols are available
-                  object <- utils.removeNoIdAndMultipleAssignments(object)                  
+                  object <- utils.removeNoIdAndMultipleAssignments(object)
                   if (method %in% c("SI", "SIgi", "SIn")) SI(object, method, ...)
                   else SAF(object, method, ...)
               }
@@ -232,19 +232,24 @@ setMethod("normalize", "MSnExp",
 
 normalise <- normalize
 
+setMethod("bin", "MSnExp",
+          function(object, binSize = 1, fun = sum, verbose = TRUE) {
+            bin_MSnExp(object, binSize = binSize, fun = fun, verbose = verbose)
+        })
+
 setMethod("pickPeaks", "MSnExp",
           function(object, halfWindowSize = 3L,
-                   method = c("MAD", "SuperSmoother"), 
+                   method = c("MAD", "SuperSmoother"),
                    SNR = 0L, ...) {
-            pickPeaks_MSnExp(object, halfWindowSize = halfWindowSize, 
+            pickPeaks_MSnExp(object, halfWindowSize = halfWindowSize,
                              method = match.arg(method), SNR = SNR, ...)
         })
 
 setMethod("smooth", "MSnExp",
-          function(x, method = c("SavitzkyGolay", "MovingAverage"), 
+          function(x, method = c("SavitzkyGolay", "MovingAverage"),
                    halfWindowSize = 2L, verbose = TRUE, ...) {
-            smooth_MSnExp(x, method = match.arg(method), 
-                          halfWindowSize = halfWindowSize, verbose = verbose, 
+            smooth_MSnExp(x, method = match.arg(method),
+                          halfWindowSize = halfWindowSize, verbose = verbose,
                           ...)
         })
 

@@ -33,7 +33,7 @@ test_that("Spectrum processing", {
   expect_that(intensity(sp4),equals(int[10:20]))
   expect_that(mz(sp4),equals(10:20))
   expect_that(peaksCount(sp4),equals(length(10:20)))
-  expect_that(ionCount(sp4),equals(sum(int[10:20])))  
+  expect_that(ionCount(sp4),equals(sum(int[10:20])))
 })
 
 test_that("Spectrum normalisation", {
@@ -55,7 +55,7 @@ test_that("Spectrum normalisation", {
   expect_equal(intensity(normalize(s2, method="max")), (1:5)/5)
   expect_equal(intensity(normalize(s2, method="sum")), (1:5)/15)
   expect_equal(intensity(normalize(s2, method="precursor")), (1:5)/10)
-  expect_equal(intensity(normalize(s2, method="precursor", 
+  expect_equal(intensity(normalize(s2, method="precursor",
                          precursorIntensity=20)), (1:5)/20)
 })
 
@@ -105,7 +105,7 @@ test_that("Spectrum quantification", {
 })
 
 test_that("Spectrum strict quantification", {
-  ## dummy Spectrum  
+  ## dummy Spectrum
   int <- c(0,1,1,3,1,1,0)
   mz <- c(113.9,
           114.0,
