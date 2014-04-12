@@ -80,7 +80,7 @@ plotSpectrumVsSpectrum <- function(spectra, ...) {
                                 xlim, ylim=c(0, 1),
                                 tolerance=0.1, relative=FALSE,
                                 fragments.cex=0.75, ...) {
-  if (!centroided(object)) {
+  if (peaksCount(object) > 0 && !centroided(object)) {
     message("Your spectrum is not centroided.")
   }
 
@@ -94,7 +94,10 @@ plotSpectrumVsSpectrum <- function(spectra, ...) {
 
   fragments <- character(peaksCount(object))
 
-  if (!missing(sequence) && is(object, "Spectrum2")) {
+  if (!missing(sequence) &&
+      !is.na(sequence) &&
+      is(object, "Spectrum2") &&
+      peaksCount(object) > 0) {
     calculatedFragments <- calculateFragments(sequence)
     m <- matchPeaks(object, calculatedFragments$mass,
                     tolerance=tolerance, relative=relative)
