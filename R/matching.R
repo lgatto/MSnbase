@@ -92,15 +92,11 @@ commonPeaks <- function(x, y, method=c("highest", "closest"),
 #' number of common peaks
 #' @param x spectrum1 (MSnbase::Spectrum)
 #' @param y spectrum2 (MSnbase::Spectrum)
-#' @param method for duplicated matches use highest/closest intensity/mz
 #' @param tolerance double, allowed deviation
 #' @param relative relative (or absolute) deviation
 #' @return double, number of common peaks
-numberOfCommonPeaks <- function(x, y, method=c("highest", "closest"),
-                                tolerance=25e-6, relative=TRUE) {
-  return(sum(commonPeaks(x, y, method=method,
-                         tolerance=tolerance,
-                         relative=relative)))
+numberOfCommonPeaks <- function(x, y, tolerance=25e-6, relative=TRUE) {
+  return(sum(commonPeaks(x, y, tolerance=tolerance, relative=relative)))
 }
 
 #' calculate the dot product between two vectors
