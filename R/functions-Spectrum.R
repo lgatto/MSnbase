@@ -245,13 +245,85 @@ trimMz_Spectrum <- function(x,mzlim,updatePeaksCount=TRUE) {
   return(x)
 }
 
-normalise_Spectrum <- function(object,method) {
+normalise_Spectrum <- function(object, method, value) {
   ints <- intensity(object)
   switch(method,
          max = div <- max(ints),
-         sum = div <- sum(ints))
+         sum = div <- sum(ints),
+         value = div <- value)
   normInts <- ints/div
   object@intensity <- normInts
   if (validObject(object))
     return(object)
 }
+
+pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
+                               method = c("MAD", "SuperSmoother"), 
+                               SNR = 0L, ...) {
+
+  if (!peaksCount(object)) {
+    warning("Your spectrum is empty. Nothing to pick.")
+    return(object)
+  }
+
+  if (length(object@centroided) && object@centroided) {
+    warning("Your spectrum is already centroided.")
+    return(object)
+  }
+
+  ## estimate noise
+  noise <- MALDIquant:::.estimateNoise(mz(object), intensity(object),
+                                       method = match.arg(method), ...)
+
+  ## find local maxima
+  isLocalMaxima <- MALDIquant:::.localMaxima(intensity(object), 
+                                             halfWindowSize = halfWindowSize)
+
+  ## include only local maxima which are above the noise
+  isAboveNoise <- object@intensity > (SNR * noise[, 2L])
+
+  peakIdx <- which(isAboveNoise & isLocalMaxima)
+
+  object@mz <- object@mz[peakIdx]
+  object@intensity <- object@intensity[peakIdx]
+  object@peaksCount <- length(peakIdx)
+  object@centroided <- TRUE
+
+  if (validObject(object)) {
+    return(object)
+  }
+}
+
+smooth_Spectrum <- function(object, 
+                            method = c("SavitzkyGolay", "MovingAverage"), 
+                            halfWindowSize = 2L, ...) {
+
+  if (!peaksCount(object)) {
+    warning("Your spectrum is empty. Nothing to change.")
+    return(object)
+  }
+
+  method <- match.arg(method)
+
+  switch(method,
+         "SavitzkyGolay" = {
+           fun <- MALDIquant:::.savitzkyGolay
+         },
+         "MovingAverage" = {
+           fun <- MALDIquant:::.movingAverage
+         })
+
+  object@intensity <- fun(object@intensity, halfWindowSize = halfWindowSize, ...)
+
+  isBelowZero <- object@intensity < 0
+
+  if (any(isBelowZero)) {
+    warning("Negative intensities generated. Replaced by zeros.")
+    object@intensity[isBelowZero] <- 0  
+  }
+
+  if (validObject(object)) {
+    return(object)
+  }
+}
+

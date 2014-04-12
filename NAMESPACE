@@ -3,6 +3,7 @@ import(BiocGenerics)
 import(Biobase)
 import(mzR)
 import(impute)
+import(MALDIquant)
 
 import(ggplot2)
 import(methods)
@@ -91,8 +92,10 @@ exportMethods(coerce,
               processingData,
               peaksCount,
               clean,
+              pickPeaks,
               removePeaks,
               removeReporters,
+              smooth,
               addIdentificationData,
               removeNoId,
               removeMultipleAssignment,
