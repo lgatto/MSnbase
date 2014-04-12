@@ -237,6 +237,11 @@ setMethod("bin", "MSnExp",
             bin_MSnExp(object, binSize = binSize, verbose = verbose)
         })
 
+setMethod("compareSpectra", c("MSnExp", "missing"),
+          function(object1, fun = c("common", "cor", "dotproduct"), ...) {
+            compare_MSnExp(object1, fun=match.arg(fun))
+        })
+
 setMethod("pickPeaks", "MSnExp",
           function(object, halfWindowSize = 3L,
                    method = c("MAD", "SuperSmoother"),

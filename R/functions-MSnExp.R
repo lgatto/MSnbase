@@ -222,6 +222,22 @@ bin_MSnExp <- function(object, binSize=1, verbose=TRUE) {
     return(object)
 }
 
+compare_MSnExp <- function(object, fun, ...) {
+
+  cb <- combn(featureNames(object), 2, function(x) {
+    compare_Spectra(object[[x[1]]], object[[x[2]]], fun=fun, ...)
+  })
+  m <- matrix(NA, length(object), length(object))
+  ## fill lower triangle of the matrix
+  m[lower.tri(m)] <- cb
+  ## copy to upper triangle
+  for (i in 1:nrow(m)) {
+    m[i, ] <- m[, i]
+  }
+
+  return(m)
+}
+
 pickPeaks_MSnExp <- function(object, halfWindowSize, method, SNR,
                              ..., verbose = TRUE) {
   ## copied from clean_MSnExp
