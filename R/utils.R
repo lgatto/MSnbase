@@ -739,19 +739,24 @@ calculateFragments <- function(sequence) {
   aa <- .get.amino.acids()
   aamass <- setNames(aa$ResidueMass, aa$AA)
 
-  fragments.seq <- strsplit(sequence, "")[[1]]
+  fragment.seq <- strsplit(sequence, "")[[1]]
+  n <- length(fragment.seq)
 
-  b <- setNames(cumsum(aamass[fragments.seq]) + proton,
-                paste0("b", seq_along(fragments.seq)))
-  y <- setNames(cumsum(aamass[rev(fragments.seq)]) + water + proton,
-                paste0("y", seq_along(fragments.seq)))
+  b <- setNames(cumsum(aamass[fragment.seq]) + proton,
+                paste0("b", 1:n))
+  y <- setNames(cumsum(aamass[rev(fragment.seq)]) + water + proton,
+                paste0("y", 1:n))
 
+  fragment.seq <- c(substring(sequence, rep(1, n), 1:n),
+                    substring(sequence, 1:n, rep(n, n)))
   fragment.str <- c(names(b), names(y))
   mass <- c(b, y)
 
   o <- order(mass)
 
-  return(data.frame(mass=mass[o], fragment.str=fragment.str[o],
+  return(data.frame(mass=mass[o],
+                    fragment.str=fragment.str[o],
+                    fragment.seq=fragment.seq[o],
                     stringsAsFactors=FALSE))
 }
 
