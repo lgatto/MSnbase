@@ -40,15 +40,6 @@ test_that("matchPeaks", {
                c(1, NA, NA, 2, 3, NA, NA, NA, NA, 4))
 })
 
-test_that("matchFragments", {
-  f <- c(1:3, 4.2, 5:11)
-  s <- new("Spectrum2",
-           mz=c(1.08, 3.95, 5.11, 11.18, 15.88),
-           intensity=c(1, 4, 5, 11, 16))
-  expect_equal(MSnbase:::matchFragments(f, s, tolerance=0.2, relative=FALSE),
-               c(1, NA, NA, NA, 3, NA, NA, NA, NA, NA, 4))
-})
-
 test_that("commonPeaks", {
   s1 <- new("Spectrum2",
             mz=c(1:3, 4.2, 5:10),
