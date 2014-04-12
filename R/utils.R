@@ -730,14 +730,17 @@ utils.removeNoIdAndMultipleAssignments <- function(object) {
     return(object)
 }
 
-calculateFragments <- function(sequence) {
-  ## constants
-  ## source wikipedia; @pavel-shliaha are they correct enough? other source?
+calculateFragments <- function(sequence, modifiedCystein=TRUE) {
+  ## constants; source wikipedia
   proton <- 1.007276466
   water <- 1.0078250321 * 2 + 15.9949146221
 
   aa <- .get.amino.acids()
   aamass <- setNames(aa$ResidueMass, aa$AA)
+
+  if (modifiedCystein) {
+    aamass["C"] <- 160.03065
+  }
 
   fragment.seq <- strsplit(sequence, "")[[1]]
   n <- length(fragment.seq)
@@ -748,7 +751,7 @@ calculateFragments <- function(sequence) {
                 paste0("y", 1:n))
 
   fragment.seq <- c(substring(sequence, rep(1, n), 1:n),
-                    substring(sequence, 1:n, rep(n, n)))
+                    rev(substring(sequence, 1:n, rep(n, n))))
   fragment.str <- c(names(b), names(y))
   mass <- c(b, y)
 
