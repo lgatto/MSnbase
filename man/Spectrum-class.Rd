@@ -35,6 +35,7 @@
 %% -- other -- %%
 \alias{bin,Spectrum-method}
 \alias{clean,Spectrum-method}
+\alias{compareSpectra,Spectrum,Spectrum-method}
 \alias{pickPeaks,Spectrum-method}
 \alias{plot,Spectrum-method}
 \alias{plot,Spectrum,missing-method}
@@ -130,6 +131,10 @@
     \item{clean}{\code{signature(object = "Spectrum")}: Removes unused 0
       intensity data points. See \code{\link{clean}} documentation
       for more details and examples. }
+    \item{compareSpectra}{\code{signature(object1 = "Spectrum",
+      object2 = "Spectrum")}: Compares spectra.  See
+      \code{\link{compareSpectra}} documentation for more details and
+      examples. }
     \item{pickPeaks}{\code{signature(object = "Spectrum")}: Performs the peak
       picking to generate a centroided spectrum.
       See \code{\link{pickPeaks}} documentation for more
@@ -145,7 +150,7 @@
       \code{\link{removePeaks}} documentation for more details and
       examples. }
     \item{smooth}{\code{signature(x = "Spectrum")}: Smooths spectrum.
-      See \code{\link{clean}} documentation for more details and examples. }
+      See \code{\link{smooth}} documentation for more details and examples. }
     \item{show}{\code{signature(object = "Spectrum")}: Displays object
       content as text. }
     \item{trimMz}{\code{signature(object = "Spectrum")}: Trims the MZ

@@ -9,6 +9,7 @@
 
 \alias{bin,MSnExp-method}
 \alias{clean,MSnExp-method}
+\alias{compareSpectra,MSnExp,missing-method}
 \alias{extractPrecSpectra,MSnExp-method}
 \alias{extractPrecSpectra,MSnExp,numeric-method}
 %% \alias{extractSpectra,MSnExp-method}
@@ -108,6 +109,10 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
     \item{clean}{\code{signature(object = "MSnExp")}: Removes unused 0
       intensity data points. See \code{\link{clean}} documentation
       for more details and examples. }
+    \item{compareSpectra}{\code{signature(object1 = "Spectrum",
+      object2 = "missing")}: Compares spectra.  See
+      \code{\link{compareSpectra}} documentation for more details and
+      examples. }
     \item{extractPrecSpectra}{\code{signature(object = "MSnExp", prec =
 	"numeric")}: extracts spectra with precursor MZ value equal to
       \code{prec} and returns an object of class 'MSnExp'.
@@ -150,7 +155,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
       experiment. See \code{\link{removeReporters}} documentation for
       more details and examples. }
     \item{smooth}{\code{signature(x = "MSnExp")}: Smooths spectra.
-      See \code{\link{clean}} documentation for more details and examples. }
+      See \code{\link{smooth}} documentation for more details and examples. }
     \item{addIdentificationData}{\code{signature(object = "MSnExp", ...)}:
       Adds identification data to an experiment.
       See \code{\link{addIdentificationData}} documentation for
@@ -162,7 +167,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
       examples. }
 
     \item{removeMultipleAssignment}{\code{signature(object = "MSnExp",
-	fcol = "npsm")}: Removes peptides that have been assigned to
+      fcol = "npsm")}: Removes peptides that have been assigned to
       multiple proteins. The latter is defined by extracting a feature
       variable (default is \code{"npsm"}). }
 
