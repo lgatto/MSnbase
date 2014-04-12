@@ -224,10 +224,12 @@ bin_MSnExp <- function(object, binSize=1, verbose=TRUE) {
 
 compare_MSnExp <- function(object, fun, ...) {
 
-  cb <- combn(featureNames(object), 2, function(x) {
+  nm <- featureNames(object)
+  cb <- combn(nm, 2, function(x) {
     compare_Spectra(object[[x[1]]], object[[x[2]]], fun=fun, ...)
   })
-  m <- matrix(NA, length(object), length(object))
+  m <- matrix(NA, length(object), length(object),
+              dimnames=list(nm, nm))
   ## fill lower triangle of the matrix
   m[lower.tri(m)] <- cb
   ## copy to upper triangle
