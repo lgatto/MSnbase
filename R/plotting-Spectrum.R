@@ -43,6 +43,10 @@ plotSpectrumVsSpectrum <- function(spectra, ...) {
     common <- lapply(spectra, function(x)logical(peaksCount(x)))
   }
 
+  if (missing(sequences)) {
+    sequences <- character(2)
+  }
+
   orientation <- c(1, -1)
   add <- c(FALSE, TRUE)
   legend.pos <- c("topleft", "bottomleft")
@@ -94,10 +98,11 @@ plotSpectrumVsSpectrum <- function(spectra, ...) {
 
   fragments <- character(peaksCount(object))
 
-  if (!missing(sequence) &&
-      !is.na(sequence) &&
-      is(object, "Spectrum2") &&
-      peaksCount(object) > 0) {
+  isValidSequence <- !missing(sequence) && !is.na(sequence) &&
+                     nchar(sequence)
+  isValidSpectrum <- is(object, "Spectrum2") && peaksCount(object)
+
+  if (isValidSequence && isValidSpectrum) {
     calculatedFragments <- calculateFragments(sequence)
     m <- matchPeaks(object, calculatedFragments$mass,
                     tolerance=tolerance, relative=relative)
