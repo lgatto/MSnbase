@@ -1,7 +1,6 @@
 setGeneric("bin", function(object, ...) standardGeneric("bin"))
 setGeneric("clean", function(object, ...) standardGeneric("clean"))
 setGeneric("compareSpectra", function(object1, object2, ...) standardGeneric("compareSpectra"))
-setGeneric("plotSpectra", function(object1, object2, ...) standardGeneric("plotSpectra"))
 setGeneric("pickPeaks", function(object, ...) standardGeneric("pickPeaks"))
 ## stats::smooth already exists
 setGeneric("smooth", function(x, ...) standardGeneric("smooth"))

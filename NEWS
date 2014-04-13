@@ -1,7 +1,6 @@
 CHANGES IN VERSION 1.13.1
 --------------------------
  o add compareSpectra to compare Spectrum objects [2014-04-09 Wed]
- o add plotSpectrumVsSpectrum to plot two Spectrum objects [2014-04-09 Wed]
  o add bin method for Spectrum objects [2014-04-09 Wed]
  o add precursor method to Spectrum2 normalisation method [2014-04-08 Tue]
  o add smooth for MSnExp and Spectrum classes [2014-04-10 Thu]
