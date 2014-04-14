@@ -71,9 +71,6 @@ test_that("numberOfCommonPeaks", {
             intensity=c(1, 4, 5, 11, 16))
   expect_true(MSnbase:::numberOfCommonPeaks(s1, s1) == 10)
   expect_true(MSnbase:::numberOfCommonPeaks(s1, s2, tolerance=0.2) == 4)
-  expect_true(MSnbase:::numberOfCommonPeaks(s1, s2, tolerance=0.2,
-                                            method="highest") == 4)
-  expect_true(MSnbase:::numberOfCommonPeaks(s1, s2, tolerance=0.2,
-                                            method="closest") == 4)
+  expect_true(MSnbase:::numberOfCommonPeaks(s1, s2, tolerance=0.2) == 4)
 })
 
