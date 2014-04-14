@@ -33,6 +33,13 @@
       to find and colour common peaks.
       Use a \code{character} vector of length 2 to provide \code{sequences}
       which would be used to calculate and draw the corresponding fragments.
+      If \code{sequences} are given the
+      \code{type} argument (default: \code{type=c("b", "y")} specify the
+      fragment types which should calculated. Also it is possible to allow some
+      \code{modifications}. Therefore you have to apply a named \code{character}
+      vector for \code{modifications} where the name corresponds to the
+      one-letter-code of the modified amino acid
+      (default: Carbamidomethyl \code{modifications=c(C=160.030649)}).
     }
   }
 }

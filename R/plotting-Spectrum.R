@@ -94,6 +94,8 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1, relative=FALSE,
 #' @param ylim limits for the y-axis
 #' @param tolerance double, allowed deviation
 #' @param relative relative (or absolute) deviation
+#' @param type fragment types, could be c("a", "b", "c", "x", "y", "z")
+#' @param modifications a named (amino acid one-letter-code; upper case) vector
 #' @param fragments.cex cex for the fragment letters
 #' @param ... further arguments passed to plot.default
 .plotSingleSpectrum <- function(object, sequence,
@@ -102,6 +104,8 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1, relative=FALSE,
                                 xlab="m/z", ylab="intensity",
                                 xlim, ylim=c(0, 1),
                                 tolerance=0.1, relative=FALSE,
+                                type=c("b", "y"),
+                                modifications=c(C=160.030649),
                                 fragments.cex=0.75, ...) {
   if (peaksCount(object) > 0 && !centroided(object)) {
     message("Your spectrum is not centroided.")
@@ -122,12 +126,13 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1, relative=FALSE,
   isValidSpectrum <- is(object, "Spectrum2") && peaksCount(object)
 
   if (isValidSequence && isValidSpectrum) {
-    calculatedFragments <- calculateFragments(sequence)
-    m <- matchPeaks(object, calculatedFragments$mass,
+    calculatedFragments <- calculateFragments(sequence, type=type,
+                                              modifications=modifications)
+    m <- matchPeaks(object, calculatedFragments$mz
                     tolerance=tolerance, relative=relative)
     i <- which(!is.na(m))
     m <- m[i]
-    fragments[i] <- calculatedFragments$fragment.str[m]
+    fragments[i] <- calculatedFragments$ion
   }
 
   if (!add) {
