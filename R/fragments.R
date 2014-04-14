@@ -24,9 +24,9 @@ calculateFragments <- function(sequence, type=c("b", "y"), z=1,
   add <- c(a=-(mass["C"]+mass["O"]),
            b=0,
            c=mass["N"]+3*mass["H"],
-           x=2*mass["H"]+mass["C"]+mass["O"],
+           x=mass["C"]+2*mass["O"],
            y=2*mass["H"]+mass["O"],
-           z=mass["O"]-mass["N"])
+           z=mass["O"]-mass["N"]-mass["H"])
 
   aa <- .get.amino.acids()
   aamass <- setNames(aa$ResidueMass, aa$AA)
