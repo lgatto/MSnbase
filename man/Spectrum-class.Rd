@@ -142,6 +142,9 @@
     \item{plot}{\code{signature(x = "Spectrum", y = "missing")}: Plots
       intensity against mz.
       See \code{\link{plot.Spectrum}} documentation for more details. }
+    \item{plot}{\code{signature(x = "Spectrum", y = "Spectrum")}: Plots
+      two spectra above/below each other.
+      See \code{\link{plot.Spectrum.Spectrum}} documentation for more details.}
     \item{quantify}{\code{signature(object = "Spectrum")}: Quatifies
       defined peaks in the spectrum.
       See \code{\link{quantify}} documentation for more details. }

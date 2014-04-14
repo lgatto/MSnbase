@@ -7,6 +7,7 @@ CHANGES IN VERSION 1.13.1
  o add pickPeaks for MSnExp and Spectrum classes [2014-04-10 Thu]
  o updated show,MSnExp to display only first/last files when > 2 [2014-04-11 Fri]
  o recreate inst/extdata/msx.rda for R 3.1 and Biobase 2.24 [2014-04-13 Sun]
+ o add plot,Spectrum,Spectrum method [2014-04-14 Mon]
 
 CHANGES IN VERSION 1.13.0
 -------------------------

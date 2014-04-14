@@ -68,7 +68,7 @@ Lam, H., Deutsch, E. W., Eddes, J. S., Eng, J. K., King, N., Stein, S. E.
 and Aebersold, R. (2007)
 Development and validation of a spectral library searching method for peptide
 identification from MS/MS.
-Proteomics, 7: 655–667.
+Proteomics, 7: 655-667.
 doi: http://dx.doi.org/10.1002/pmic.200600625
 }
 

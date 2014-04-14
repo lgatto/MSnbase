@@ -31,6 +31,11 @@ setMethod("plot",c("Spectrum","missing"),
             else plot_Spectrum2(x,...)
           })
 
+setMethod("plot", c("Spectrum", "Spectrum"),
+          function(x, y, ...) {
+            plotSpectrumVsSpectrum(list(x, y), ...)
+          })
+
 setMethod("clean",
           signature=signature("Spectrum"),
           function(object, all = FALSE) clean_Spectrum(object, all))

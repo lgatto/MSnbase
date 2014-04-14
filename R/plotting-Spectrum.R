@@ -1,6 +1,9 @@
 #' plot spectrum1 vs spectrum2
 #' @param spectra list, 2 MSnbase::Spectrum2 objects
-plotSpectrumVsSpectrum <- function(spectra, ...) {
+#' @param tolerance double, allowed deviation to be considered as equal peaks
+#' @param relative relative (or absolute) deviation
+plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1, relative=FALSE,
+                                   ...) {
   common <- lapply(list(c(1, 2), c(2, 1)), function(x) {
     commonPeaks(spectra[[x[1]]], spectra[[x[2]]],
                 method="highest")
@@ -68,7 +71,7 @@ plotSpectrumVsSpectrum <- function(spectra, ...) {
       label <- paste0(label, ", prec mass: ", round(precursorMz(spectra[[i]]), 3),
                              ", prec z: ", precursorCharge(spectra[[i]]),
                              ", # common: ", sum(common[[i]]))
-      if (!missing(sequences)) {
+      if (nchar(sequences[[i]])) {
         label <- paste0(label, ", seq: ", sequences[[i]])
       }
     }
@@ -77,6 +80,22 @@ plotSpectrumVsSpectrum <- function(spectra, ...) {
   }
 }
 
+#' plot spectrum
+#' @param object MSnbase::Spectrum
+#' @param sequence character, peptide sequence
+#' @param orientation c(1,-1) up/down
+#' @param add if add TRUE "plot" is not called and the spectrum is drawn in the
+#' existing plot (see ?hist for a similar argument)
+#' @param col col would be recycled to the length of peaksCount(object)
+#' @param pch pch would be recycled to the length of peaksCount(object)
+#' @param xlab label for the x-axis
+#' @param ylab label for the y-axis
+#' @param xlim limits for the x-axis
+#' @param ylim limits for the y-axis
+#' @param tolerance double, allowed deviation
+#' @param relative relative (or absolute) deviation
+#' @param fragments.cex cex for the fragment letters
+#' @param ... further arguments passed to plot.default
 .plotSingleSpectrum <- function(object, sequence,
                                 orientation=1, add=FALSE,
                                 col="#74ADD1", pch=NA,
