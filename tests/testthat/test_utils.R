@@ -139,6 +139,6 @@ test_that("calculateFragments", {
 
   expect_equal(nm, res$fragment.str)
   expect_true(all(abs(res$mass - mass) < 1e-4))
-  expect_true(all(res$fragment.seq == c("P", "PQR", "PQ", "QR", "PQR", "R")))
+  expect_true(all(res$fragment.seq == c("P", "R", "PQ", "QR", "PQR", "PQR")))
 })
 
