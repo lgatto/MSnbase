@@ -2,11 +2,11 @@
 #' @param spectra list, 2 MSnbase::Spectrum2 objects
 #' @param tolerance double, allowed deviation to be considered as equal peaks
 #' @param relative relative (or absolute) deviation
-plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1, relative=FALSE,
+plotSpectrumVsSpectrum <- function(spectra, tolerance=26e-6, relative=TRUE,
                                    ...) {
   common <- lapply(list(c(1, 2), c(2, 1)), function(x) {
     commonPeaks(spectra[[x[1]]], spectra[[x[2]]],
-                method="highest")
+                method="highest", tolerance=tolerance, relative=relative)
   })
   .plotSpectrumVsSpectrum(spectra, common=common, ...)
 }
