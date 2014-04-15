@@ -53,7 +53,6 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=26e-6, relative=TRUE,
   orientation <- c(1, -1)
   add <- c(FALSE, TRUE)
   legend.pos <- c("topleft", "bottomleft")
-  legend.prefix <- c("ident", "quant")
   ## colors: ColorBrewer RdYlBu c(9, 11, 3, 1)
   cols <- c("#74ADD1", "#313695", "#F46D43", "#A50026")
   pch <- c(NA, 19)
