@@ -617,8 +617,6 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, idData) {
   o <- order(idData$spectrumFile, idData$acquisitionnum, idData$rank)
   idData <- idData[o, ]
 
-  idData$npsm <- ave(idData$acquisitionnum, idData$acquisitionnum, FUN=length)
-
   ## use flat version of accession/description if multiple ones are available
   idData$accession <- ave(idData$accession, idData$acquisitionnum,
                           FUN=utils.vec2ssv)
@@ -666,16 +664,24 @@ utils.addSingleIdentificationDataFile <- function(object, filename,
   return(object)
 }
 
-utils.addIdentificationData <-
-    function(object, filenames, verbose=TRUE) {
-        for (file in filenames) {
-            object <-
-                utils.addSingleIdentificationDataFile(object, file,
-                                                      verbose=verbose)
-        }
-        if (validObject(object))
-            return(object)
-    }
+utils.addIdentificationData <- function(object, filenames, verbose=TRUE) {
+  for (file in filenames) {
+      object <-
+          utils.addSingleIdentificationDataFile(object, file,
+                                                verbose=verbose)
+  }
+
+  fd <- fData(object)
+  fd$npsm <- as.integer(ave(fd$accession, fd$accession, FUN=length))
+  fd$npep <- as.integer(ave(fd$pepseq, fd$pepseq, FUN=length))
+  fd$nprot <- as.integer(ave(fd$accession, fd$accession, FUN=function(x) {
+    length(utils.ssv2list(x))
+  }))
+  fData(object) <- fd
+
+  if (validObject(object))
+      return(object)
+}
 
 utils.removeNoId <- function(object, fcol, keep) {
     if (!fcol %in% fvarLabels(object))

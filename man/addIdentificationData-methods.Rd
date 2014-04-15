@@ -14,8 +14,8 @@
   \describe{
 
     \item{\code{signature(object = "MSnExp", filenames = "character",
-	    verbose = "logical")}}{ 
-      Adds the identification data stored in mzIdentML files to a 
+	    verbose = "logical")}}{
+      Adds the identification data stored in mzIdentML files to a
       \code{"\linkS4class{MSnExp}"} instance. The method handles
       one or multiple mzIdentML files provided via \code{filenames}.
       The \code{verbose} argument (default is
@@ -23,19 +23,19 @@
     }
 
     \item{\code{signature(object = "MSnSet", filenames = "character",
-	    verbose = "logical")}}{ 
+	    verbose = "logical")}}{
       Adds the identification data stored in mzIdentML files to an
       \code{"\linkS4class{MSnSet}"} instance. Please note that that would be
       only possible if the \code{"\linkS4class{MSnSet}"} was generated from an
       \code{"\linkS4class{MSnExp}"} object or the \code{featureData}
       slot has columns \code{file} and \code{acquisition.number}.\cr
-      
-      The method handles one or multiple mzIdentML files provided via 
+
+      The method handles one or multiple mzIdentML files provided via
       \code{filenames}. The \code{verbose} argument (default is
       \code{TRUE}) defines whether status messages should be showed.
     }
 
-    
+
   }
 }
 
@@ -44,10 +44,12 @@
   \code{"\linkS4class{MSnSet}"} instance provides only one row per MS2
   spectrum but the identification is not always bijective. If multiple
   possible matches are present only the highest ranked identification is
-  added. The column \code{npsm} contains the number of matches. If there
+  added. The column \code{nprot} contains the number of matches. If there
   are more than one possible match the columns \code{accession} and
   \code{description} contain a semicolon separated list of all matches
-  sorted by their \code{rank} values.
+  sorted by their \code{rank} values. The columns \code{npsm} and \code{npep}
+  representing the number of equally observed proteins respective peptides in
+  all identification data.
 }
 
 \author{

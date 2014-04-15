@@ -96,7 +96,6 @@ test_that("mergeSpectraAndIdentificationData", {
                      rank=c(1, NA, NA, 1),
                      accession=c("P3;P1;P2", NA, NA, "P4"),
                      description=c("D3;D1;D2", NA, NA, "D4"),
-                     npsm=c(3, NA, NA, 1),
                      row.names=paste0("R", 1:4),
                      stringsAsFactors=FALSE)
   rfd2 <- data.frame(spectrum=1:4,
@@ -105,7 +104,6 @@ test_that("mergeSpectraAndIdentificationData", {
                      rank=c(1, 1, NA, 1),
                      accession=c("P3;P1;P2", "P9", NA, "P4"),
                      description=c("D3;D1;D2", "D9", NA, "D4"),
-                     npsm=c(3, 1, NA, 1),
                      row.names=paste0("R", 1:4),
                      stringsAsFactors=FALSE)
   ## first run
