@@ -1,10 +1,15 @@
 CHANGES IN VERSION 1.13.1
 --------------------------
- o Add precursor method to Spectrum2 normalisation method [2014-04-08 Tue]
- o Add smooth for MSnExp and Spectrum classes [2014-04-10 Thu]
- o Add pickPeaks for MSnExp and Spectrum classes [2014-04-10 Thu]
- o Updated show,MSnExp to display only first/last files when > 2 [2014-04-11 Fri]
- o Recreate inst/extdata/msx.rda for R 3.1 and Biobase 2.24 [2014-04-13 Sun]
+ o add compareSpectra to compare Spectrum objects [2014-04-09 Wed]
+ o add bin method for Spectrum objects [2014-04-09 Wed]
+ o add precursor method to Spectrum2 normalisation method [2014-04-08 Tue]
+ o add smooth for MSnExp and Spectrum classes [2014-04-10 Thu]
+ o add pickPeaks for MSnExp and Spectrum classes [2014-04-10 Thu]
+ o updated show,MSnExp to display only first/last files when > 2 [2014-04-11 Fri]
+ o recreate inst/extdata/msx.rda for R 3.1 and Biobase 2.24 [2014-04-13 Sun]
+ o add plot,Spectrum,Spectrum method [2014-04-14 Mon]
+ o add calculateFragments,character,Spectrum and
+   calculateFragments,character,missing methods [2014-04-15 Tue]
 
 CHANGES IN VERSION 1.13.0
 -------------------------

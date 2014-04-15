@@ -18,6 +18,7 @@
 \alias{collisionEnergy,Spectrum-method}
 \alias{collisionEnergy}
 \alias{removeReporters,Spectrum-method}
+\alias{calculateFragments,character,Spectrum2-method}
 
 \title{The "Spectrum2" Class for MSMS Spectra}
 
@@ -26,7 +27,7 @@
   introduces several MS2 specific attributes in addition to the slots in
   \code{"\linkS4class{Spectrum}"}. \code{Spectrum2} are not created
   directly but are contained in the \code{assayData} slot of an
-  \code{"\linkS4class{MSnExp}"}. 
+  \code{"\linkS4class{MSnExp}"}.
 }
 
 
@@ -99,6 +100,12 @@
     \item{\code{precAcquisitionNum}:}{Returns the precursor's
       acquisition number. }
     \item{\code{precScanNum}:}{See \code{precAcquisitionNum}. }
+    \item{calculateFragments}{\code{signature(sequence = "character",
+      object = "Spectrum2")}:
+      Calculates and matches the theoretical fragments of a peptide
+      \code{sequence} with the ones observed in a spectrum.
+      See \code{\link{calculateFragments}} documentation
+      for more details and examples. }
   }
 }
 
@@ -109,7 +116,7 @@
 \seealso{
   Virtual super-class \code{"\linkS4class{Spectrum}"},
   \code{"\linkS4class{Spectrum1}"} for MS1 spectra and
-  \code{"\linkS4class{MSnExp}"} for a full experiment container. 
+  \code{"\linkS4class{MSnExp}"} for a full experiment container.
 }
 
 \keyword{classes}
