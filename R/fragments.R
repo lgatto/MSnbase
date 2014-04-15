@@ -4,13 +4,6 @@
 #' @param modifications a named (amino acid one-letter-code; upper case) vector
 #' of modified mass (default: Carbamidomethyl (C) replaces Cystein: 160.030649).
 #' @param z charge
-calculateFragments <- function(sequence, type=c("b", "y"), z=1,
-                               modifications=c(C=160.030649)) {
-  l <- lapply(sequence, .calculateFragments,
-              type=type, z=z, modifications=modifications)
-  return(do.call(rbind, l))
-}
-
 .calculateFragments <- function(sequence, type=c("b", "y"), z=1,
                                 modifications=c(C=160.030649)) {
   type <- match.arg(type, choices=c("a", "b", "c", "x", "y", "z"), several.ok=TRUE)

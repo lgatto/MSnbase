@@ -8,6 +8,8 @@ CHANGES IN VERSION 1.13.1
  o updated show,MSnExp to display only first/last files when > 2 [2014-04-11 Fri]
  o recreate inst/extdata/msx.rda for R 3.1 and Biobase 2.24 [2014-04-13 Sun]
  o add plot,Spectrum,Spectrum method [2014-04-14 Mon]
+ o add calculateFragments,character,Spectrum and
+   calculateFragments,character,missing methods [2014-04-15 Tue]
 
 CHANGES IN VERSION 1.13.0
 -------------------------

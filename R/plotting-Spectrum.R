@@ -96,6 +96,8 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1, relative=FALSE,
 #' @param relative relative (or absolute) deviation
 #' @param type fragment types, could be c("a", "b", "c", "x", "y", "z")
 #' @param modifications a named (amino acid one-letter-code; upper case) vector
+#' @param z fragment charge
+#' @param fragments a data.frame produced by calculatedFragments_Spectrum2
 #' @param fragments.cex cex for the fragment letters
 #' @param ... further arguments passed to plot.default
 .plotSingleSpectrum <- function(object, sequence,
@@ -106,6 +108,11 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1, relative=FALSE,
                                 tolerance=0.1, relative=FALSE,
                                 type=c("b", "y"),
                                 modifications=c(C=160.030649),
+                                z=1,
+                                fragments=calculateFragments_Spectrum2(object,
+                                  sequence=sequence, tolerance=tolerance,
+                                  relative=relative, type=type,
+                                  modifications=modifications, z=z),
                                 fragments.cex=0.75, ...) {
   if (peaksCount(object) > 0 && !centroided(object)) {
     message("Your spectrum is not centroided.")
@@ -117,22 +124,6 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1, relative=FALSE,
 
   if (missing(ylim)) {
     ylim <- c(0, max(c(intensity(object), 0)))
-  }
-
-  fragments <- character(peaksCount(object))
-
-  isValidSequence <- !missing(sequence) && !is.na(sequence) &&
-                     nchar(sequence)
-  isValidSpectrum <- is(object, "Spectrum2") && peaksCount(object)
-
-  if (isValidSequence && isValidSpectrum) {
-    calculatedFragments <- calculateFragments(sequence, type=type,
-                                              modifications=modifications)
-    m <- matchPeaks(object, calculatedFragments$mz
-                    tolerance=tolerance, relative=relative)
-    i <- which(!is.na(m))
-    m <- m[i]
-    fragments[i] <- calculatedFragments$ion
   }
 
   if (!add) {
@@ -147,9 +138,10 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1, relative=FALSE,
   points(mz(object), orientation*intensity(object),
          col=col, pch=pch, cex=0.5)
 
-  if (any(nchar(fragments) > 0)) {
-    text(mz(object), orientation*intensity(object),
-         fragments, pos=2+orientation, offset=0.25,
+  if (nrow(fragments)) {
+    text(fragments$mz,
+         orientation*intensity(object)[match(fragments$mz, mz(object))],
+         fragments$ion, pos=2+orientation, offset=0.25,
          cex=fragments.cex, col="#808080")
   }
 }

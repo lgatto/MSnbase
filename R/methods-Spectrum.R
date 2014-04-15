@@ -179,11 +179,16 @@ setMethod("normalize", "Spectrum2",
 
 normalise <- normalize
 
-setMethod("bin", c("Spectrum"),
+setMethod("bin", "Spectrum",
           function(object, binSize = 1,
                    breaks = seq(floor(min(mz(object))),
                                 ceiling(max(mz(object))), by = binSize)) {
             bin_Spectrum(object, binSize = binSize, breaks = breaks)
+        })
+
+setMethod("calculateFragments", c("character", "Spectrum2"),
+          function(sequence, object, ...) {
+            calculateFragments_Spectrum2(sequence, object, ...)
         })
 
 setMethod("compareSpectra", c("Spectrum", "Spectrum"),
