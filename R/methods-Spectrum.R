@@ -150,11 +150,44 @@ setReplaceMethod("centroided",
                  })
 
 setMethod("normalize", "Spectrum",
-          function(object, method=c("max","sum"),...) {
-            normalise_Spectrum(object,method=match.arg(method))
+          function(object, method = c("max", "sum"), ...) {
+            normalise_Spectrum(object, method = match.arg(method))
+        })
+
+setMethod("normalize", "Spectrum2",
+          function(object,
+                   method = c("max", "sum", "precursor"),
+                   precursorIntensity, 
+                   ...) {
+            method <- match.arg(method)
+            if (method == "precursor") {
+              precursorIntensity <- ifelse(missing(precursorIntensity), 
+                                           object@precursorIntensity,
+                                           precursorIntensity)
+              return(normalise_Spectrum(object, 
+                                        method = "value", 
+                                        value = precursorIntensity))
+            } else {
+              return(callNextMethod(object, method, ...))
+            }
         })
 
 normalise <- normalize
+
+setMethod("pickPeaks", "Spectrum",
+          function(object, halfWindowSize = 3L,
+                   method = c("MAD", "SuperSmoother"), 
+                   SNR = 0L, ...) {
+            pickPeaks_Spectrum(object, halfWindowSize = halfWindowSize, 
+                               method = match.arg(method), SNR = SNR, ...)
+        })
+
+setMethod("smooth", "Spectrum",
+          function(x, method = c("SavitzkyGolay", "MovingAverage"), 
+                   halfWindowSize = 2L, ...) {
+            smooth_Spectrum(x, method = match.arg(method), 
+                            halfWindowSize = halfWindowSize, ...)
+        })
 
 setMethod("removeReporters","Spectrum",
           function(object, reporters=NULL, clean=FALSE) {
