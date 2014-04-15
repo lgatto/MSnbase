@@ -1,5 +1,9 @@
+CHANGES IN VERSION 1.13.2
+-------------------------
+ o 
+
 CHANGES IN VERSION 1.13.1
---------------------------
+-------------------------
  o add compareSpectra to compare Spectrum objects [2014-04-09 Wed]
  o add bin method for Spectrum objects [2014-04-09 Wed]
  o add precursor method to Spectrum2 normalisation method [2014-04-08 Tue]
