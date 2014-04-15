@@ -40,6 +40,7 @@
       vector for \code{modifications} where the name corresponds to the
       one-letter-code of the modified amino acid
       (default: Carbamidomethyl \code{modifications=c(C=160.030649)}).
+      See \code{\link{calculateFragments}} for details.
     }
   }
 }
