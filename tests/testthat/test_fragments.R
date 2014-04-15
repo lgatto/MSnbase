@@ -1,7 +1,6 @@
 context("fragments")
 
-  s <- "PQR"
-
+test_that("calculateFragments", {
   pqr <- data.frame(
     mz = c(70.066, 198.124, 354.225,   # a
            98.061, 226.119, 382.220,   # b
