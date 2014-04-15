@@ -10,6 +10,8 @@ CHANGES IN VERSION 1.13.1
  o add plot,Spectrum,Spectrum method [2014-04-14 Mon]
  o add calculateFragments,character,Spectrum and
    calculateFragments,character,missing methods [2014-04-15 Tue]
+ o updated readMSData test unit to ignore object@.__classVersion__
+   that fails with latest R/Bioc versions [2014-04-15 Tue]
 
 CHANGES IN VERSION 1.13.0
 -------------------------

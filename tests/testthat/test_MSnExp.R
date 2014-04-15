@@ -18,6 +18,8 @@ test_that("readMSData", {
   aa <- readMSData(file, verbose = FALSE)
   ## processingData will be different
   aa@processingData <- processingData(msx)
+  ## overwrite R/Bioc versions 
+  msx@.__classVersion__ <- aa@.__classVersion__ 
   ## msx has ident data to be remove for comparison
   fData(msx) <- fData(msx)[, 1, drop = FALSE]
   expect_true(all.equal(aa, msx))
