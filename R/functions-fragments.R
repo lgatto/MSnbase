@@ -1,11 +1,12 @@
 #' calculate fragments from a peptide sequence
 #' @param sequence character vector of length 1
 #' @param type could be c("a", "b", "c", "x", "y", "z")
+#' @param z charge
 #' @param modifications a named (amino acid one-letter-code; upper case) vector
 #' of modified mass (default: Carbamidomethyl (C) replaces Cystein: 160.030649).
-#' @param z charge
+#' @param verbose verbose output?
 .calculateFragments <- function(sequence, type=c("b", "y"), z=1,
-                                modifications=c(C=160.030649)) {
+                                modifications=c(C=160.030649), verbose=TRUE) {
   type <- match.arg(type, choices=c("a", "b", "c", "x", "y", "z"), several.ok=TRUE)
   type <- sort(type)
   ## constants
@@ -27,6 +28,16 @@
   ## replace default mass by modifications
   if (length(modifications)) {
     aamass[names(modifications)] <- modifications
+
+  }
+
+  if (verbose) {
+    if(length(modifications)) {
+      mods <- paste0(names(modifications), "=", modifications, collapse=", ")
+    } else {
+      mods <- "None"
+    }
+    message("Modifications used: ", mods)
   }
 
   ## split peptide sequence into aa

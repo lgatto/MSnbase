@@ -95,8 +95,8 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1, relative=FALSE,
 #' @param tolerance double, allowed deviation
 #' @param relative relative (or absolute) deviation
 #' @param type fragment types, could be c("a", "b", "c", "x", "y", "z")
-#' @param modifications a named (amino acid one-letter-code; upper case) vector
 #' @param z fragment charge
+#' @param modifications a named (amino acid one-letter-code; upper case) vector
 #' @param fragments a data.frame produced by calculatedFragments_Spectrum2
 #' @param fragments.cex cex for the fragment letters
 #' @param ... further arguments passed to plot.default
@@ -111,8 +111,9 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1, relative=FALSE,
                                 z=1,
                                 fragments=calculateFragments_Spectrum2(object,
                                   sequence=sequence, tolerance=tolerance,
-                                  relative=relative, type=type,
-                                  modifications=modifications, z=z),
+                                  relative=relative, type=type, z=z,
+                                  modifications=modifications,
+                                  verbose=FALSE),
                                 fragments.cex=0.75, ...) {
   if (peaksCount(object) > 0 && !centroided(object)) {
     message("Your spectrum is not centroided.")
