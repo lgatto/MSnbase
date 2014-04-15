@@ -20,6 +20,7 @@
 \alias{meanSdPlot,MSnSet-method}
 \alias{t.MSnSet}
 \alias{[,MSnSet-method}
+\alias{[,MSnSet,ANY,ANY-method}
 \alias{as.ExpressionSet.MSnSet}
 \alias{as.data.frame.MSnSet}
 \alias{ms2df}
