@@ -530,14 +530,14 @@ MSnExp.size <- function(x)
 
 # convert character vector of length n to a semikolon separated character
 # vector of length 1
-utils.vec2ssv <- function(vec) {
-  paste0(vec, collapse=";")
+utils.vec2ssv <- function(vec, sep=";") {
+  paste0(vec, collapse=sep)
 }
 
 # convert a semikolon separated character vector of length 1 to a vector of
 # length n
-utils.ssv2vec <- function(ssv, unlist=TRUE) {
-  vec <- strsplit(ssv, ";")
+utils.ssv2vec <- function(ssv, sep=";", unlist=TRUE) {
+  vec <- strsplit(ssv, sep)
   if (unlist) {
     return(unlist(vec))
   } else {
@@ -545,12 +545,12 @@ utils.ssv2vec <- function(ssv, unlist=TRUE) {
   }
 }
 
-utils.list2ssv <- function(l) {
-  unlist(lapply(l, utils.vec2ssv))
+utils.list2ssv <- function(l, sep=";") {
+  unlist(lapply(l, utils.vec2ssv, sep=sep))
 }
 
-utils.ssv2list <- function(ssv) {
-  utils.ssv2vec(ssv, unlist=FALSE)
+utils.ssv2list <- function(ssv, sep=";") {
+  utils.ssv2vec(ssv, unlist=FALSE, sep=sep)
 }
 
 ## similar to merge(..., all.x=TRUE) but if called multiple times
@@ -667,7 +667,7 @@ utils.addSingleIdentificationDataFile <- function(object, filename,
 }
 
 utils.addIdentificationData <-
-    function(object, filenames, verbose=TRUE) {        
+    function(object, filenames, verbose=TRUE) {
         for (file in filenames) {
             object <-
                 utils.addSingleIdentificationDataFile(object, file,
@@ -702,7 +702,7 @@ utils.removeMultipleAssignment <- function(object, fcol) {
     object <- object[keep, ]
     object <- nologging(object, 1)
     object <- logging(object,
-                      paste0("Removed ", sum(!keep), 
+                      paste0("Removed ", sum(!keep),
                              " features assigned to multiple proteins"))
     if (validObject(object))
         return(object)

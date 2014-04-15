@@ -34,12 +34,14 @@
 
 %% -- other -- %%
 \alias{clean,Spectrum-method}
+\alias{pickPeaks,Spectrum-method}
 \alias{plot,Spectrum-method}
 \alias{plot,Spectrum,missing-method}
 \alias{quantify,Spectrum-method}
 \alias{quantify,Spectrum,character-method}
 \alias{removePeaks,Spectrum-method}
 \alias{show,Spectrum-method}
+\alias{smooth,Spectrum-method}
 \alias{trimMz,Spectrum-method}
 \alias{trimMz,Spectrum,numeric-method}
 
@@ -125,6 +127,10 @@
     \item{clean}{\code{signature(object = "Spectrum")}: Removes unused 0
       intensity data points. See \code{\link{clean}} documentation
       for more details and examples. }
+    \item{pickPeaks}{\code{signature(object = "Spectrum")}: Performs the peak
+      picking to generate a centroided spectrum.
+      See \code{\link{pickPeaks}} documentation for more 
+      details and examples. }
     \item{plot}{\code{signature(x = "Spectrum", y = "missing")}: Plots
       intensity against mz.  
       See \code{\link{plot.Spectrum}} documentation for more details. } 
@@ -135,6 +141,8 @@
       peaks lower that a threshold \code{t}. See
       \code{\link{removePeaks}} documentation for more details and
       examples. }
+    \item{smooth}{\code{signature(x = "Spectrum")}: Smooths spectrum.
+      See \code{\link{clean}} documentation for more details and examples. }
     \item{show}{\code{signature(object = "Spectrum")}: Displays object
       content as text. }
     \item{trimMz}{\code{signature(object = "Spectrum")}: Trims the MZ
