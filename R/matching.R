@@ -101,7 +101,7 @@ numberOfCommonPeaks <- function(x, y, tolerance=25e-6, relative=TRUE) {
 
 #' calculate the dot product between two vectors
 #'
-#' Stein, S. E., & Scott, D. R. (1994).
+#' Stein, S. E., and Scott, D. R. (1994).
 #' Optimization and testing of mass spectral library search algorithms for
 #' compound identification.
 #' Journal of the American Society for Mass Spectrometry, 5(9), 859-866.

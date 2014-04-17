@@ -13,7 +13,7 @@ dotproduct(x, y)
 double, length == 1
 }
 \description{
-Stein, S. E., & Scott, D. R. (1994). Optimization and
+Stein, S. E., and Scott, D. R. (1994). Optimization and
 testing of mass spectral library search algorithms for
 compound identification. Journal of the American Society
 for Mass Spectrometry, 5(9), 859-866. doi:
