@@ -44,12 +44,15 @@
   \code{"\linkS4class{MSnSet}"} instance provides only one row per MS2
   spectrum but the identification is not always bijective. If multiple
   possible matches are present only the highest ranked identification is
-  added. The column \code{nprot} contains the number of matches. If there
-  are more than one possible match the columns \code{accession} and
-  \code{description} contain a semicolon separated list of all matches
-  sorted by their \code{rank} values. The columns \code{npsm} and \code{npep}
-  representing the number of equally observed proteins respective peptides in
-  all identification data.
+  added.
+
+  The column \code{nprot} contains the number of proteins this
+  particular feature was assigned to. If there are more than one
+  assigned protein, the columns \code{accession} and \code{description}
+  contain a semicolon separated list of all matches sorted by their
+  \code{rank} values. The columns \code{npsm} and \code{npep}
+  representing the number of PSM and peptides that were matched to that
+  protein (or protein group) entry.
 }
 
 \author{
