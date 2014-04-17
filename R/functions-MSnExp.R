@@ -179,8 +179,68 @@ normalise_MSnExp <- function(object,method) {
     return(object)
 }
 
+bin_MSnExp <- function(object, binSize=1, verbose=TRUE) {
+  ## copied from clean_MSnExp
+  e <- new.env()
 
-pickPeaks_MSnExp <- function(object, halfWindowSize, method, SNR, 
+  if (verbose) {
+    ._cnt <- 1
+    pb <- txtProgressBar(min = 0, max = length(object), style = 3)
+  }
+
+  mzrange <- range(eapply(assayData(object), mz))
+  breaks <- seq(floor(mzrange[1]), ceiling(mzrange[2]), by=binSize)
+
+  sapply(featureNames(object),
+         function(x) {
+           if (verbose) {
+             setTxtProgressBar(pb, ._cnt)
+             ._cnt <<- ._cnt+1
+           }
+           sp <- get(x, envir = assayData(object))
+           xx <- bin(sp, breaks=breaks)
+           assign(x, xx, envir = e)
+           invisible(TRUE)
+         })
+  if (verbose) {
+    close(pb)
+    rm(pb)
+    rm(._cnt)
+  }
+  ## ----------------------------------------------------------
+  object@processingData@processing <- c(object@processingData@processing,
+                                        paste0("Spectra binned: ", date()))
+  if (object@.cache$level > 0) {
+    hd <- header(object)
+    hd$peaks.count <- peaksCount(object)
+    object@.cache <- setCacheEnv(list(assaydata = assayData(object),
+                                      hd = hd),
+                                 object@.cache$level)
+  }
+  object@assayData <- e
+  if (validObject(object))
+    return(object)
+}
+
+compare_MSnExp <- function(object, fun, ...) {
+
+  nm <- featureNames(object)
+  cb <- combn(nm, 2, function(x) {
+    compare_Spectra(object[[x[1]]], object[[x[2]]], fun=fun, ...)
+  })
+  m <- matrix(NA, length(object), length(object),
+              dimnames=list(nm, nm))
+  ## fill lower triangle of the matrix
+  m[lower.tri(m)] <- cb
+  ## copy to upper triangle
+  for (i in 1:nrow(m)) {
+    m[i, ] <- m[, i]
+  }
+
+  return(m)
+}
+
+pickPeaks_MSnExp <- function(object, halfWindowSize, method, SNR,
                              ..., verbose = TRUE) {
   ## copied from clean_MSnExp
   e <- new.env()
@@ -197,7 +257,7 @@ pickPeaks_MSnExp <- function(object, halfWindowSize, method, SNR,
              ._cnt <<- ._cnt+1
            }
            sp <- get(x, envir = assayData(object))
-           xx <- pickPeaks(sp, halfWindowSize = halfWindowSize, 
+           xx <- pickPeaks(sp, halfWindowSize = halfWindowSize,
                            method = method, SNR = SNR, ...)
            assign(x, xx, envir = e)
            invisible(TRUE)
@@ -225,7 +285,6 @@ pickPeaks_MSnExp <- function(object, halfWindowSize, method, SNR,
     return(object)
 }
 
-
 smooth_MSnExp <- function(object, method, halfWindowSize, ..., verbose = TRUE) {
   ## copied from clean_MSnExp
   e <- new.env()
@@ -242,7 +301,7 @@ smooth_MSnExp <- function(object, method, halfWindowSize, ..., verbose = TRUE) {
              ._cnt <<- ._cnt+1
            }
            sp <- get(x, envir = assayData(object))
-           xx <- smooth(sp, method = method, halfWindowSize = halfWindowSize, 
+           xx <- smooth(sp, method = method, halfWindowSize = halfWindowSize,
                         ...)
            assign(x, xx, envir = e)
            invisible(TRUE)
@@ -301,3 +360,4 @@ removeReporters_MSnExp <- function(object, reporters=NULL, clean=FALSE, verbose=
   if (validObject(object))
     return(object)
 }
+

@@ -10,7 +10,7 @@ setMethod("initialize",
                                         mz=mz,
                                         peaksCount=length(mz))
             } else if (!missing(mz) | !missing(intensity)) {
-              stop("'mz' and 'intensity' or none required.")              
+              stop("'mz' and 'intensity' or none required.")
             } else {
               .Object <- callNextMethod(.Object,...)
             }
@@ -31,6 +31,11 @@ setMethod("plot",c("Spectrum","missing"),
             else plot_Spectrum2(x,...)
           })
 
+setMethod("plot", c("Spectrum", "Spectrum"),
+          function(x, y, ...) {
+            plotSpectrumVsSpectrum(list(x, y), ...)
+          })
+
 setMethod("clean",
           signature=signature("Spectrum"),
           function(object, all = FALSE) clean_Spectrum(object, all))
@@ -40,21 +45,21 @@ setMethod("removePeaks","Spectrum",
 
 setMethod("precursorMz","Spectrum",
           function(object) {
-            if (msLevel(object)>1) 
+            if (msLevel(object)>1)
               return(object@precursorMz)
             stop("No precursor MZ value for MS1 spectra.")
           })
 
 setMethod("precursorCharge","Spectrum",
           function(object) {
-            if (msLevel(object)>1) 
+            if (msLevel(object)>1)
               return(object@precursorCharge)
             stop("No precursor charge value for MS1 spectra.")
           })
 
 setMethod("precursorIntensity","Spectrum",
           function(object) {
-            if (msLevel(object)>1) 
+            if (msLevel(object)>1)
               return(object@precursorIntensity)
             stop("No precursor data for MS1 spectra.")
           })
@@ -66,7 +71,7 @@ setMethod("scanIndex", "Spectrum",
 
 setMethod("precScanNum","Spectrum",
           function(object) {
-            if (msLevel(object)>1) 
+            if (msLevel(object)>1)
               return(object@precScanNum)
             stop("This is already an MS1 spectrum.")
           })
@@ -83,7 +88,7 @@ setMethod("peaksCount",
 setMethod("msLevel","Spectrum",function(object) object@msLevel)
 setMethod("collisionEnergy","Spectrum",
           function(object) {
-            if (msLevel(object)>1) 
+            if (msLevel(object)>1)
               return(object@collisionEnergy)
             stop("No collision energy for MS1 spectra.")
           })
@@ -124,7 +129,7 @@ setMethod("fromFile","Spectrum", function(object) object@fromFile)
 
 setMethod("polarity","Spectrum",
           function(object) {
-            if (msLevel(object)==1) 
+            if (msLevel(object)==1)
               return(object@polarity)
             stop("No polarity for MS2 spectra.")
           })
@@ -157,15 +162,15 @@ setMethod("normalize", "Spectrum",
 setMethod("normalize", "Spectrum2",
           function(object,
                    method = c("max", "sum", "precursor"),
-                   precursorIntensity, 
+                   precursorIntensity,
                    ...) {
             method <- match.arg(method)
             if (method == "precursor") {
-              precursorIntensity <- ifelse(missing(precursorIntensity), 
+              precursorIntensity <- ifelse(missing(precursorIntensity),
                                            object@precursorIntensity,
                                            precursorIntensity)
-              return(normalise_Spectrum(object, 
-                                        method = "value", 
+              return(normalise_Spectrum(object,
+                                        method = "value",
                                         value = precursorIntensity))
             } else {
               return(callNextMethod(object, method, ...))
@@ -174,24 +179,42 @@ setMethod("normalize", "Spectrum2",
 
 normalise <- normalize
 
+setMethod("bin", "Spectrum",
+          function(object, binSize = 1,
+                   breaks = seq(floor(min(mz(object))),
+                                ceiling(max(mz(object))), by = binSize)) {
+            bin_Spectrum(object, binSize = binSize, breaks = breaks)
+        })
+
+setMethod("calculateFragments", c("character", "Spectrum2"),
+          function(sequence, object, ...) {
+            calculateFragments_Spectrum2(sequence, object, ...)
+        })
+
+setMethod("compareSpectra", c("Spectrum", "Spectrum"),
+          function(object1, object2, fun=c("common", "cor", "dotproduct"),
+                   ...) {
+            compare_Spectra(object1, object2, fun=fun, ...)
+        })
+
 setMethod("pickPeaks", "Spectrum",
           function(object, halfWindowSize = 3L,
-                   method = c("MAD", "SuperSmoother"), 
+                   method = c("MAD", "SuperSmoother"),
                    SNR = 0L, ...) {
-            pickPeaks_Spectrum(object, halfWindowSize = halfWindowSize, 
+            pickPeaks_Spectrum(object, halfWindowSize = halfWindowSize,
                                method = match.arg(method), SNR = SNR, ...)
         })
 
 setMethod("smooth", "Spectrum",
-          function(x, method = c("SavitzkyGolay", "MovingAverage"), 
+          function(x, method = c("SavitzkyGolay", "MovingAverage"),
                    halfWindowSize = 2L, ...) {
-            smooth_Spectrum(x, method = match.arg(method), 
+            smooth_Spectrum(x, method = match.arg(method),
                             halfWindowSize = halfWindowSize, ...)
         })
 
 setMethod("removeReporters","Spectrum",
           function(object, reporters=NULL, clean=FALSE) {
-            if (msLevel(object)>1) 
+            if (msLevel(object)>1)
               return(removeReporters_Spectrum2(object,reporters,clean))
-            stop("No reporters to remove for MS1 spectra.")            
+            stop("No reporters to remove for MS1 spectra.")
           })

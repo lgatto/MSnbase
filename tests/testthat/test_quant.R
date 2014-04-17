@@ -49,7 +49,7 @@ test_that("MS2 labelfree quantitation: SI", {
              full.name = TRUE, pattern = "msx.rda")
     load(f) ## msx
     fData(msx)$accession[3:4] <- "protein"
-    fData(msx)$npsm[3:4] <- 1
+    fData(msx)$nprot[3:4] <- 1
     fData(msx)$pepseq[3:4] <- c("ABCDEFG", "1234567")
     fData(msx)$length[3:4] <- 100   
     msx <- MSnbase:::utils.removeNoIdAndMultipleAssignments(msx)
@@ -78,7 +78,7 @@ test_that("MS2 labelfree quantitation: SAF", {
              full.name = TRUE, pattern = "msx.rda")
     load(f) ## msx
     fData(msx)$accession[3:4] <- "protein"
-    fData(msx)$npsm[3:4] <- 1
+    fData(msx)$nprot[3:4] <- 1
     fData(msx)$pepseq[3:4] <- c("ABCDEFG", "1234567")
     fData(msx)$length[3:4] <- 100   
     msx <- MSnbase:::utils.removeNoIdAndMultipleAssignments(msx)

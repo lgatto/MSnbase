@@ -1,3 +1,37 @@
+#' calculate fragments from a peptide sequence for a specific Spectrum
+#' only Spectrum2 is supported yet
+#' @param sequence character vector of length 1
+#' @param object Spectrum2 object (for Spectrum1/Spectrum object an empty
+#' data.frame is returned)
+#' @param tolerance double, allowed deviation for mz values to be treated as
+#' equal
+#' @param relative relative (or absolute) deviation
+#' @param ... further arguments passed to calculateFragments
+calculateFragments_Spectrum2 <- function(sequence, object, tolerance=0.1,
+                                         relative=FALSE, ...) {
+
+  isValidSequence <- !missing(sequence) && !is.na(sequence) &&
+                     nchar(sequence)
+  isValidSpectrum <- is(object, "Spectrum2") && peaksCount(object)
+
+  if (isValidSpectrum && isValidSequence) {
+
+    fragments <- calculateFragments(sequence, ...)
+    fragments <- fragments[order(fragments$mz), ]
+
+    m <- matchPeaks(object, fragments$mz, tolerance=tolerance, relative=relative)
+    i <- which(!is.na(m))
+    fragments <- fragments[m[i], ]
+    fragments$error <- fragments$mz - mz(object)[i]
+    fragments$mz <- mz(object)[i]
+  } else {
+    fragments <- data.frame(mz=double(), ion=character(), type=character(),
+                            pos=integer(), z=integer(), seq=character(),
+                            error=double(), stringsAsFactors=FALSE)
+  }
+  return(fragments)
+}
+
 show_Spectrum2 <- function(spectrum) {
   cat("Object of class \"",class(spectrum),"\"\n",sep="")
   if (length(spectrum@merged)>1)
@@ -15,14 +49,14 @@ removeReporters_Spectrum2 <- function(object, reporters=NULL, clean=FALSE) {
   ## Additional modifications: setting peaks to 0 and clean argument
   ## Made removeReporters a method in version 1.1.15
   if (!is.null(reporters)) {
-    mz <- mz(object) 
+    mz <- mz(object)
     i <- intensity(object)
     lower <- mz(reporters) - width(reporters)
     upper <- mz(reporters) + width(reporters)
     idx <- logical(peaksCount(object))
-    for (i in 1:length(lower))      
+    for (i in 1:length(lower))
       idx[mz > lower[i] & mz < upper[i]] <- TRUE
-    if (sum(idx) != 0) 
+    if (sum(idx) != 0)
       object@intensity[idx] <- 0
     if (clean)
       object <- clean(object)
@@ -30,3 +64,4 @@ removeReporters_Spectrum2 <- function(object, reporters=NULL, clean=FALSE) {
   if (validObject(object))
     return(object)
 }
+

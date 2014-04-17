@@ -33,7 +33,7 @@ test_that("Spectrum processing", {
   expect_that(intensity(sp4),equals(int[10:20]))
   expect_that(mz(sp4),equals(10:20))
   expect_that(peaksCount(sp4),equals(length(10:20)))
-  expect_that(ionCount(sp4),equals(sum(int[10:20])))  
+  expect_that(ionCount(sp4),equals(sum(int[10:20])))
 })
 
 test_that("Spectrum normalisation", {
@@ -55,7 +55,7 @@ test_that("Spectrum normalisation", {
   expect_equal(intensity(normalize(s2, method="max")), (1:5)/5)
   expect_equal(intensity(normalize(s2, method="sum")), (1:5)/15)
   expect_equal(intensity(normalize(s2, method="precursor")), (1:5)/10)
-  expect_equal(intensity(normalize(s2, method="precursor", 
+  expect_equal(intensity(normalize(s2, method="precursor",
                          precursorIntensity=20)), (1:5)/20)
 })
 
@@ -105,7 +105,7 @@ test_that("Spectrum quantification", {
 })
 
 test_that("Spectrum strict quantification", {
-  ## dummy Spectrum  
+  ## dummy Spectrum
   int <- c(0,1,1,3,1,1,0)
   mz <- c(113.9,
           114.0,
@@ -133,4 +133,16 @@ test_that("Spectrum strict quantification", {
                      (mz[4]-mz[3])*(int[4]-int[3])/2 +
                      (mz[5]-mz[4])*int[5] +
                      (mz[5]-mz[4])*(int[4]-int[5])/2))
+})
+
+test_that("bin_Spectrum", {
+  s1 <- new("Spectrum2", mz=1:5, intensity=1:5)
+  r1 <- new("Spectrum2", mz=c(1.5, 2.5, 3.5, 4.5, 5), intensity=1:5, tic=15)
+  r2 <- new("Spectrum2", mz=c(2, 4, 5), intensity=c(3, 7, 5), tic=15)
+  r3 <- new("Spectrum2", mz=c(2, 4, 5), intensity=c(1.5, 3.5, 5), tic=10)
+  r4 <- new("Spectrum2", mz=c(1, 3, 5, 6), intensity=c(1, 5, 9, 0), tic=15)
+  expect_equal(MSnbase:::bin_Spectrum(s1, binSize=1), r1)
+  expect_equal(MSnbase:::bin_Spectrum(s1, binSize=2), r2)
+  expect_equal(MSnbase:::bin_Spectrum(s1, binSize=2, fun=mean), r3)
+  expect_equal(MSnbase:::bin_Spectrum(s1, breaks=seq(0, 7, by=2)), r4)
 })

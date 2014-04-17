@@ -594,7 +594,7 @@ setMethod("removeNoId", "MSnSet",
           utils.removeNoId(object, fcol, keep))
 
 setMethod("removeMultipleAssignment", "MSnSet",
-          function(object, fcol = "npsm") 
+          function(object, fcol = "nprot") 
           utils.removeMultipleAssignment(object, fcol))
 
 setMethod("idSummary",
