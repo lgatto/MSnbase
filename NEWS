@@ -9,6 +9,8 @@ CHANGES IN VERSION 1.13.2
  o updated readMSData test unit to ignore object@.__classVersion__
    that fails with latest R/Bioc versions [2014-04-15 Tue]
  o formatRt conversion from 'mm:sec' to sec and unit test [2014-04-17 Thu]
+ o Update nprot/npsm.prot/npsm.pep/npep.prot feature variables and
+   relevant man/tests/argument defaults [2014-04-17 Thu]
 
 CHANGES IN VERSION 1.13.1
 -------------------------

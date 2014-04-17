@@ -688,7 +688,7 @@ utils.addIdentificationData <- function(object,
   ## number of members in the protein group
   fd$nprot <- sapply(strsplit(fd$accession, ";"),
                      function(x) {
-                         if (is.na(x)) return(NA)
+                         if (length(x) == 1 && is.na(x)) return(NA)
                          length(x)
                      })
   ## number of peptides observed for each protein
@@ -750,7 +750,7 @@ utils.idSummary <- function(fd) {
 utils.removeNoIdAndMultipleAssignments <- function(object) {
     if (anyNA(fData(object)$pepseq))
         object <- removeNoId(object)
-    if (any(fData(object)$npsm > 1))
+    if (any(fData(object)$nprot > 1))
         object <- removeMultipleAssignment(object)
     return(object)
 }
