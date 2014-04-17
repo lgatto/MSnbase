@@ -485,9 +485,9 @@ idSummary(msexp)
 @
 
 Similarly, the \Rfunction{removeMultipleAssignment} method can be used
-to filter out spectra that match peptides that have been assigned to
-multiple proteins. This function uses by default the \code{npsm}
-feature variable.
+to filter out non-unique features, i.e. that have been assigned to
+protein groups with more than one member. This function uses by
+default the \code{nprot} feature variable.
 
 \bigskip
 
@@ -1171,11 +1171,11 @@ following code chunk, the first spectrum could not be matched to any
 single protein. Non-identified spectra and those matching multiple
 proteins are removed automatically prior to any label-free
 quantitation. Once can also remove peptide that do not match uniquely
-to proteins (as defined by the \code{npsm} feature variable column)
+to proteins (as defined by the \code{nprot} feature variable column)
 with the \Rfunction{removeMultipleAssignment} method.
 
 <<labelfree>>=
-fData(msexp)[, c("accession", "npsm")]
+fData(msexp)[, c("accession", "nprot")]
 @
 
 Note that the label-free methods implicitely apply feature aggregation
