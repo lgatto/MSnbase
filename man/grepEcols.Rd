@@ -3,9 +3,9 @@
 \alias{grepEcols}
 \title{Returns the matching column names of indices.}
 \usage{
-  grepEcols(f, pattern, ...)
+grepEcols(f, pattern, ...)
 
-  getEcols(f, ...)
+getEcols(f, ...)
 }
 \arguments{
   \item{f}{A connection object or a \code{character} string
@@ -19,36 +19,36 @@
   individual column names.}
 }
 \value{
-  Depending on \code{value}, the matching column names of
-  indices. In case of \code{getEcols}, a \code{character}
-  of column names.
+Depending on \code{value}, the matching column names of
+indices. In case of \code{getEcols}, a \code{character} of
+column names.
 }
 \description{
-  Given a text spread sheet \code{f} and a \code{pattern}
-  to be matched to its header (first line in the file), the
-  function returns the matching columns names or indices of
-  the corresponding \code{data.frame}.
+Given a text spread sheet \code{f} and a \code{pattern} to
+be matched to its header (first line in the file), the
+function returns the matching columns names or indices of
+the corresponding \code{data.frame}.
 }
 \details{
-  The function starts by reading the first line of the file
-  (or connection) \code{f} with \code{\link{readLines}},
-  then splits it according to the optional \code{...}
-  arguments (it is important to correctly specify
-  \code{\link{strsplit}}'s \code{split} character vector
-  here) and then matches \code{pattern} to the individual
-  column names using \code{\link{grep}}.
+The function starts by reading the first line of the file
+(or connection) \code{f} with \code{\link{readLines}}, then
+splits it according to the optional \code{...} arguments
+(it is important to correctly specify
+\code{\link{strsplit}}'s \code{split} character vector
+here) and then matches \code{pattern} to the individual
+column names using \code{\link{grep}}.
 
-  Similarly, \code{getEcols} can be used to explore the
-  column names and decide for the appropriate
-  \code{pattern} value.
+Similarly, \code{getEcols} can be used to explore the
+column names and decide for the appropriate \code{pattern}
+value.
 
-  These functions are useful to check the parameters to be
-  provided to \code{\link{readMSnSet2}}.
+These functions are useful to check the parameters to be
+provided to \code{\link{readMSnSet2}}.
 }
 \author{
-  Laurent Gatto
+Laurent Gatto
 }
 \seealso{
-  \code{\link{readMSnSet2}}
+\code{\link{readMSnSet2}}
 }
 

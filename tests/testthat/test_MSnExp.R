@@ -18,6 +18,8 @@ test_that("readMSData", {
   aa <- readMSData(file, verbose = FALSE)
   ## processingData will be different
   aa@processingData <- processingData(msx)
+  ## overwrite R/Bioc versions 
+  msx@.__classVersion__ <- aa@.__classVersion__ 
   ## msx has ident data to be remove for comparison
   fData(msx) <- fData(msx)[, 1, drop = FALSE]
   expect_true(all.equal(aa, msx))
@@ -187,24 +189,34 @@ test_that("addIdentificationData", {
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "mzid$")
 
-  expect_error(addIdentificationData(new("MSnExp"), identFile, verbose = FALSE),
+  expect_error(addIdentificationData(new("MSnExp"),
+                                     identFile, verbose = FALSE),
                "No quantification file loaded")
 
   aa <- readMSData(quantFile, verbose = FALSE)
 
-  expect_error(addIdentificationData(aa, "foobar.mzid", verbose = FALSE),
+  expect_error(addIdentificationData(aa, "foobar.mzid",
+                                     verbose = FALSE),
                "does not exist")
 
   fd <- fData(addIdentificationData(aa, identFile, verbose = FALSE))
 
   expect_equal(fd$spectrum, 1:5)
-  expect_equal(fd$pepseq, c("VESITARHGEVLQLRPK", "IDGQWVTHQWLKK", NA, NA,
-                            "LVILLFR"))
-  expect_equal(fd$accession, c("ECA0984;ECA3829", "ECA1028", NA, NA,
-                               "ECA0510"))
-  expect_equal(fd$identFile, c(2, 2, NA, NA, 2))
-  expect_equal(fd$npsm, c(2, 1, NA, NA, 1))
+  expect_equal(fd$pepseq,
+               c("VESITARHGEVLQLRPK", "IDGQWVTHQWLKK",
+                 NA, NA, "LVILLFR"))
+  expect_equal(fd$accession,
+               c("ECA0984;ECA3829", "ECA1028",
+                 NA, NA, "ECA0510"))
+  
+  expect_equal(fd$identFile, c(2, 2, NA, NA, 2)) 
+  expect_equal(fd$npsm.prot, c(1, 1, NA, NA, 1))
+  expect_equal(fd$npep.prot, c(1, 1, NA, NA, 1))
+  expect_equal(fd$nprot, c(2, 1, NA, NA, 1))
+  expect_equal(fd$npsm.pep, c(1, 1, NA, NA, 1))
 })
+
+
 
 test_that("idSummary", {
   quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),

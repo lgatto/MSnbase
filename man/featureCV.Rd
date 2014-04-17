@@ -2,8 +2,8 @@
 \alias{featureCV}
 \title{Calculates coeffivient of variation for features}
 \usage{
-  featureCV(x, groupBy, na.rm = TRUE,
-    norm = c("sum", "max", "none", "center.mean", "center.median", "quantiles", "quantiles.robust"))
+featureCV(x, groupBy, na.rm = TRUE, norm = c("sum", "max", "none",
+  "center.mean", "center.median", "quantiles", "quantiles.robust"))
 }
 \arguments{
   \item{x}{An instance of class
@@ -22,17 +22,17 @@
   \code{\link{normalise}} for more details.}
 }
 \value{
-  A \code{matrix} of dimensions
-  \code{length(levels(groupBy))} by \code{ncol(x)} with the
-  respecive CVs.
+A \code{matrix} of dimensions
+\code{length(levels(groupBy))} by \code{ncol(x)} with the
+respecive CVs.
 }
 \description{
-  This function calculates the column-wise coefficient of
-  variation (CV), i.e. the ration between the standard
-  deviation and the mean, for the features in an
-  \code{"\linkS4class{MSnSet}"}. The CVs are calculated for
-  the groups of features defined by \code{groupBy}. For
-  groups defined by single features, \code{NA} is returned.
+This function calculates the column-wise coefficient of
+variation (CV), i.e. the ration between the standard
+deviation and the mean, for the features in an
+\code{"\linkS4class{MSnSet}"}. The CVs are calculated for
+the groups of features defined by \code{groupBy}. For
+groups defined by single features, \code{NA} is returned.
 }
 \examples{
 data(itraqdata)
@@ -41,9 +41,9 @@ gb <- factor(rep(1:2, each = 2))
 featureCV(m, gb)
 }
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+Laurent Gatto <lg390@cam.ac.uk>
 }
 \seealso{
-  \code{\link{combineFeatures}}
+\code{\link{combineFeatures}}
 }
 

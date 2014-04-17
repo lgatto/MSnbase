@@ -1,17 +1,32 @@
+CHANGES IN VERSION 1.13.2
+-------------------------
+ o add compareSpectra to compare Spectrum objects [2014-04-09 Wed]
+ o add bin method for Spectrum objects [2014-04-09 Wed]
+ o recreate inst/extdata/msx.rda for R 3.1 and Biobase 2.24 [2014-04-13 Sun]
+ o add plot,Spectrum,Spectrum method [2014-04-14 Mon]
+ o add calculateFragments,character,Spectrum and
+   calculateFragments,character,missing methods [2014-04-15 Tue]
+ o updated readMSData test unit to ignore object@.__classVersion__
+   that fails with latest R/Bioc versions [2014-04-15 Tue]
+ o formatRt conversion from 'mm:sec' to sec and unit test [2014-04-17 Thu]
+ o Update nprot/npsm.prot/npsm.pep/npep.prot feature variables and
+   relevant man/tests/argument defaults [2014-04-17 Thu]
+
 CHANGES IN VERSION 1.13.1
---------------------------
- o Add precursor method to Spectrum2 normalisation method [2014-04-08 Tue]
- o Add smooth for MSnExp and Spectrum classes [2014-04-10 Thu] 
- o Add pickPeaks for MSnExp and Spectrum classes [2014-04-10 Thu] 
- o Updated show,MSnExp to display only first/last files when > 2 [2014-04-11 Fri]
+-------------------------
+ o add precursor method to Spectrum2 normalisation method [2014-04-08 Tue]
+ o add smooth for MSnExp and Spectrum classes [2014-04-10 Thu]
+ o add pickPeaks for MSnExp and Spectrum classes [2014-04-10 Thu]
+ o updated show,MSnExp to display only first/last files when > 2 [2014-04-11 Fri]
+
 
 CHANGES IN VERSION 1.13.0
 -------------------------
- o New devel version for Bioc 2.15
+ o New devel version for Bioc 3.0
 
 CHANGES IN VERSION 1.11.14
 --------------------------
- o update dependency to R >= 3.1 [2014-04-05 Sat] 
+ o update dependency to R >= 3.1 [2014-04-05 Sat]
 
 CHANGES IN VERSION 1.11.13
 --------------------------

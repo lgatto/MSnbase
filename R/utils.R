@@ -3,9 +3,21 @@
 }
 
 formatRt <- function(rt) {
-  min <- floor(rt/60)
-  sec <- round(rt-(min*60))
-  return(paste(min,":",sec,sep=""))
+    ans <- NA
+    if (is.numeric(rt)) {
+        min <- floor(rt/60)
+        sec <- round(rt-(min*60))
+        ans <- paste(min,":",sec,sep="")
+    } else if (is.character(rt)) {
+        ans <- strsplit(rt, ":")
+        ans <- sapply(ans, function(x) {
+            x <- as.numeric(x)
+            60 * x[1] + x[2]
+        })
+    } else {
+        warning("Input must be numeric of character.")
+    }
+    return(ans)
 }
 
 utils.removePeaks <- function(int, t) {
@@ -617,8 +629,6 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, idData) {
   o <- order(idData$spectrumFile, idData$acquisitionnum, idData$rank)
   idData <- idData[o, ]
 
-  idData$npsm <- ave(idData$acquisitionnum, idData$acquisitionnum, FUN=length)
-
   ## use flat version of accession/description if multiple ones are available
   idData$accession <- ave(idData$accession, idData$acquisitionnum,
                           FUN=utils.vec2ssv)
@@ -666,16 +676,31 @@ utils.addSingleIdentificationDataFile <- function(object, filename,
   return(object)
 }
 
-utils.addIdentificationData <-
-    function(object, filenames, verbose=TRUE) {
-        for (file in filenames) {
-            object <-
-                utils.addSingleIdentificationDataFile(object, file,
-                                                      verbose=verbose)
-        }
-        if (validObject(object))
-            return(object)
-    }
+utils.addIdentificationData <- function(object,
+                                        filenames,
+                                        verbose = TRUE) {
+  for (file in filenames) {
+      object <-
+          utils.addSingleIdentificationDataFile(object, file,
+                                                verbose=verbose)
+  }
+  fd <- fData(object)  
+  ## number of members in the protein group
+  fd$nprot <- sapply(strsplit(fd$accession, ";"),
+                     function(x) {
+                         if (length(x) == 1 && is.na(x)) return(NA)
+                         length(x)
+                     })
+  ## number of peptides observed for each protein
+  fd$npep.prot <- as.integer(ave(fd$accession, fd$pepseq, FUN = length))  
+  ## number of PSMs observed for each protein
+  fd$npsm.prot <- as.integer(ave(fd$accession, fd$accession, FUN=length))
+  ## number of PSMs observed for each protein
+  fd$npsm.pep <- as.integer(ave(fd$pepseq, fd$pepseq, FUN=length))  
+  fData(object) <- fd
+  if (validObject(object))
+      return(object)
+}
 
 utils.removeNoId <- function(object, fcol, keep) {
     if (!fcol %in% fvarLabels(object))
@@ -725,7 +750,8 @@ utils.idSummary <- function(fd) {
 utils.removeNoIdAndMultipleAssignments <- function(object) {
     if (anyNA(fData(object)$pepseq))
         object <- removeNoId(object)
-    if (any(fData(object)$npsm > 1))
+    if (any(fData(object)$nprot > 1))
         object <- removeMultipleAssignment(object)
     return(object)
 }
+
