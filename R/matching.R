@@ -1,9 +1,11 @@
-#' similar to base::match but with tolerance
-#' in contrast to match the "table" argument must be sorted and it is possible
-#' to get duplicated matches
+#' similar to base::match but with tolerance in contrast to match the
+#' 'table' argument must be sorted and it is possible to get
+#' duplicated matches
+#'
 #' @param x values to be matched
 #' @param table the values to be matched against, must be sorted!
-#' @param nomatch the value to be returned in the case when no match is found
+#' @param nomatch the value to be returned in the case when no match
+#' is found
 #' @param tolerance double, allowed deviation
 #' @param relative relative (or absolute) deviation
 #' @return numeric vector of the same length as "x"
@@ -111,7 +113,7 @@ numberOfCommonPeaks <- function(x, y, tolerance=25e-6, relative=TRUE) {
 #' and Aebersold, R. (2007)
 #' Development and validation of a spectral library searching method for peptide
 #' identification from MS/MS.
-#' Proteomics, 7: 655–667.
+#' Proteomics, 7: 655-667.
 #' doi: http://dx.doi.org/10.1002/pmic.200600625
 #'
 #' @param x double

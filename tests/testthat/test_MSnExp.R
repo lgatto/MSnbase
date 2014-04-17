@@ -204,10 +204,11 @@ test_that("addIdentificationData", {
                             "LVILLFR"))
   expect_equal(fd$accession, c("ECA0984;ECA3829", "ECA1028", NA, NA,
                                "ECA0510"))
-  expect_equal(fd$identFile, c(2, 2, NA, NA, 2))
-  expect_equal(fd$npsm, c(1, 1, NA, NA, 1))
-  expect_equal(fd$npep, c(1, 1, NA, NA, 1))
-  expect_equal(fd$nprot, c(1, 1, NA, NA, 1))
+  expect_equal(fd$identFile, c(2, 2, NA, NA, 2)) 
+  expect_equal(fd$npsm.prot, c(1, 1, NA, NA, 1))
+  expect_equal(fd$npep.prot, c(1, 1, NA, NA, 1))
+  expect_equal(fd$nprot, c(2, 1, NA, NA, 1))
+  expect_equal(fd$npsm.pep, c(1, 1, NA, NA, 1))
 })
 
 test_that("idSummary", {

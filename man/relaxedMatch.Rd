@@ -1,8 +1,8 @@
 \name{relaxedMatch}
 \alias{relaxedMatch}
-\title{similar to base::match but with tolerance
-in contrast to match the "table" argument must be sorted and it is possible
-to get duplicated matches}
+\title{similar to base::match but with tolerance in contrast to match the
+'table' argument must be sorted and it is possible to get
+duplicated matches}
 \usage{
 relaxedMatch(x, table, nomatch = NA_integer_, tolerance = 2.5e-05,
   relative = TRUE)
@@ -25,7 +25,7 @@ numeric vector of the same length as "x"
 }
 \description{
 similar to base::match but with tolerance in contrast to
-match the "table" argument must be sorted and it is
+match the 'table' argument must be sorted and it is
 possible to get duplicated matches
 }
 
