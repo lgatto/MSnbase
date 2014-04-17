@@ -127,7 +127,7 @@ test_that("utils.idSummary", {
 })
 
 
-test_that("formatRt". {
+test_that("formatRt", {
     tc <- c("1:1", "25:24")
     tn <- c(61, 25 * 60 + 24)
     expect_equal(tc, formatRt(tn)) 
