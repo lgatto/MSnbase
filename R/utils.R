@@ -3,9 +3,21 @@
 }
 
 formatRt <- function(rt) {
-  min <- floor(rt/60)
-  sec <- round(rt-(min*60))
-  return(paste(min,":",sec,sep=""))
+    ans <- NA
+    if (is.numeric(rt)) {
+        min <- floor(rt/60)
+        sec <- round(rt-(min*60))
+        ans <- paste(min,":",sec,sep="")
+    } else if (is.character(rt)) {
+        ans <- strsplit(rt, ":")
+        ans <- sapply(ans, function(x) {
+            x <- as.numeric(x)
+            60 * x[1] + x[2]
+        })
+    } else {
+        warning("Input must be numeric of character.")
+    }
+    return(ans)
 }
 
 utils.removePeaks <- function(int, t) {
