@@ -2,16 +2,13 @@
 \alias{makePRT}
 \title{Creates the mzTab protein section}
 \usage{
-  makePRT(x, protAccession = NA, unitId = NULL,
-    protDescription = NA, taxId = NA, species = NA,
-    protDatabase = NA, protDatabaseVersion = NA,
-    protSearchEngine = NA, protSearchEngineScore = NA,
-    protReliability = NA, numPep = NA, numPepDistinct = NA,
-    numPepUnambiguous = NA, ambiguityMembers = NA,
-    protModifications = NA, protUri = NA, goTerms = NA,
-    protCoverage = NA, protAbundance = NULL,
-    protAbundanceStdev = NULL, protAbundanceSterr = NULL,
-    protOpt_ = NULL)
+makePRT(x, protAccession = NA, unitId = NULL, protDescription = NA,
+  taxId = NA, species = NA, protDatabase = NA, protDatabaseVersion = NA,
+  protSearchEngine = NA, protSearchEngineScore = NA, protReliability = NA,
+  numPep = NA, numPepDistinct = NA, numPepUnambiguous = NA,
+  ambiguityMembers = NA, protModifications = NA, protUri = NA,
+  goTerms = NA, protCoverage = NA, protAbundance = NULL,
+  protAbundanceStdev = NULL, protAbundanceSterr = NULL, protOpt_ = NULL)
 }
 \arguments{
   \item{x}{An instance of class
@@ -138,30 +135,30 @@
   ignore.}
 }
 \value{
-  A \code{data.frame} defining the \code{mzTab} protein
-  section.
+A \code{data.frame} defining the \code{mzTab} protein
+section.
 }
 \description{
-  \code{mzTab} is a light-weight, tab-delimited file format
-  for proteomics data. It describes general metadata,
-  protein, peptide and small molecule information (all of
-  which are optinal), including quantitation and
-  identification. The proteine section (PRH header and PRT
-  tabular data) can be generated from an
-  \code{\linkS4class{MSnSet}} instance using
-  \code{makePRT}. The detailed description of all the
-  parameters can be found in the \code{mzTab} specification
-  document (see references).
+\code{mzTab} is a light-weight, tab-delimited file format
+for proteomics data. It describes general metadata,
+protein, peptide and small molecule information (all of
+which are optinal), including quantitation and
+identification. The proteine section (PRH header and PRT
+tabular data) can be generated from an
+\code{\linkS4class{MSnSet}} instance using \code{makePRT}.
+The detailed description of all the parameters can be found
+in the \code{mzTab} specification document (see
+references).
 }
 \author{
-  Laurent Gatto
+Laurent Gatto
 }
 \references{
-  mzTab - Reporting Proteomics Results
-  (\url{http://code.google.com/p/mztab/})
+mzTab - Reporting Proteomics Results
+(\url{http://code.google.com/p/mztab/})
 }
 \seealso{
-  \code{\link{makeMTD}} and \code{\link{makePEP}} to
-  generate \code{mzTab} metadat and peptide sections.
+\code{\link{makeMTD}} and \code{\link{makePEP}} to generate
+\code{mzTab} metadat and peptide sections.
 }
 

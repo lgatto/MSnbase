@@ -2,7 +2,7 @@
 \alias{getVariableName}
 \title{Return a variable name}
 \usage{
-  getVariableName(match_call, varname)
+getVariableName(match_call, varname)
 }
 \arguments{
   \item{match_call}{An object of class \code{call}, as
@@ -12,13 +12,13 @@
   looked up in \code{match_call}.}
 }
 \value{
-  A \code{character} with the name of the variable passed
-  as parameter \code{varname} in parent close of
-  \code{match_call}.
+A \code{character} with the name of the variable passed as
+parameter \code{varname} in parent close of
+\code{match_call}.
 }
 \description{
-  Return the name of variable \code{varname} in call
-  \code{match_call}.
+Return the name of variable \code{varname} in call
+\code{match_call}.
 }
 \examples{
 a <- 1
@@ -28,6 +28,6 @@ f(x = a)
 f(y = a)
 }
 \author{
-  Laurent Gatto
+Laurent Gatto
 }
 

@@ -7,7 +7,7 @@
 }
 
 \description{
-  Converts seconds to min:sec format
+  Converts seconds to/from 'min:sec' format
 }
 
 \usage{
@@ -15,16 +15,18 @@ formatRt(rt)
 }
 
 \arguments{
-  \item{rt}{ retention in in seconds }
+  \item{rt}{ retention in seconds (\code{numeric}) or "mm:sec"
+  (\code{character})}.
 }
 
+
 \details{
-  This function is used to convert retention times, expressed in seconds,
-  in the more human friendly format mm:sec.
+  This function is used to convert retention times. Conversion is
+  seconds to/from the more human friendly format "mm:sec".
 }
 
 \value{
-  A character string in mm:ss format
+  A vector of same length as \code{rt}.
 }
 
 
@@ -34,6 +36,7 @@ formatRt(rt)
 
 \examples{
 formatRt(1524)
+formatRt("25:24")
 }
 
 \keyword{ chron }

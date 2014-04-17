@@ -2,8 +2,7 @@
 \alias{readMzTabData}
 \title{Read an 'mzTab' file}
 \usage{
-  readMzTabData(file, what = c("PRT", "PEP"),
-    verbose = TRUE)
+readMzTabData(file, what = c("PRT", "PEP"), verbose = TRUE)
 }
 \arguments{
   \item{file}{A \code{character} with the \code{mzTab} file
@@ -17,13 +16,13 @@
   \item{verbose}{Produce verbose output.}
 }
 \value{
-  An instance of class \code{MSnSet}.
+An instance of class \code{MSnSet}.
 }
 \description{
-  This function can be used to create a
-  \code{"\linkS4class{MSnSet}"} by reading and parsing an
-  \code{mzTab} file. The metadata section is always used to
-  populate the \code{MSnSet}'s \code{experimentData} slot.
+This function can be used to create a
+\code{"\linkS4class{MSnSet}"} by reading and parsing an
+\code{mzTab} file. The metadata section is always used to
+populate the \code{MSnSet}'s \code{experimentData} slot.
 }
 \examples{
 testfile <- "http://mztab.googlecode.com/svn/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"
@@ -33,10 +32,10 @@ pep <- readMzTabData(testfile, "PEP")
 pep
 }
 \author{
-  Laurent Gatto
+Laurent Gatto
 }
 \seealso{
-  \code{\link{writeMzTabData}} to save an
-  \code{"\linkS4class{MSnSet}"} as an \code{mzTab} file.
+\code{\link{writeMzTabData}} to save an
+\code{"\linkS4class{MSnSet}"} as an \code{mzTab} file.
 }
 
