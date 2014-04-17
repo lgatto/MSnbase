@@ -2,20 +2,17 @@
 \alias{makeMTD}
 \title{Creates the mzTab metadata section}
 \usage{
-  makeMTD(x, unitId = NULL, title = NULL,
-    mtdDescription = NULL, sampleProcessing = NULL,
-    instrumentSource = NULL, instrumentAnalyzer = NULL,
-    instrumentDetector = NULL, software = NULL, fdr = NULL,
-    publication = NULL, contactName = NULL,
-    contactAffiliation = NULL, contactEmail = NULL,
-    mtdUri = NULL, mtdModifications = NULL,
-    modProbabilityMethod = NULL, quantitationMethod = NULL,
-    protQuantUnit = NULL, pepQuantUnit = NULL,
-    msFileFormat = NULL, msFileLocation = NULL,
-    msFileIdFormat = NULL, custom = NULL, species_ = NULL,
-    tissue_ = NULL, cellType_ = NULL, disease_ = NULL,
-    description_ = NULL, quantitationReagent_ = NULL,
-    custom_ = NULL)
+makeMTD(x, unitId = NULL, title = NULL, mtdDescription = NULL,
+  sampleProcessing = NULL, instrumentSource = NULL,
+  instrumentAnalyzer = NULL, instrumentDetector = NULL, software = NULL,
+  fdr = NULL, publication = NULL, contactName = NULL,
+  contactAffiliation = NULL, contactEmail = NULL, mtdUri = NULL,
+  mtdModifications = NULL, modProbabilityMethod = NULL,
+  quantitationMethod = NULL, protQuantUnit = NULL, pepQuantUnit = NULL,
+  msFileFormat = NULL, msFileLocation = NULL, msFileIdFormat = NULL,
+  custom = NULL, species_ = NULL, tissue_ = NULL, cellType_ = NULL,
+  disease_ = NULL, description_ = NULL, quantitationReagent_ = NULL,
+  custom_ = NULL)
 }
 \arguments{
   \item{x}{An instance of class
@@ -151,28 +148,28 @@
   \code{NULL} (default) to ignore.}
 }
 \value{
-  A \code{character} defining the mzTab metadata section.
+A \code{character} defining the mzTab metadata section.
 }
 \description{
-  \code{mzTab} is a light-weight, tab-delimited file format
-  for proteomics data. It describes general metadata,
-  protein, peptide and small molecule information (all of
-  which are optinal), including quantitation and
-  identification. The metadata section (MTD) can be
-  generated from an \code{\linkS4class{MSnSet}} instance
-  using \code{makeMTD}. The detailed description of all the
-  parameters can be found in the \code{mzTab} specification
-  document (see references).
+\code{mzTab} is a light-weight, tab-delimited file format
+for proteomics data. It describes general metadata,
+protein, peptide and small molecule information (all of
+which are optinal), including quantitation and
+identification. The metadata section (MTD) can be generated
+from an \code{\linkS4class{MSnSet}} instance using
+\code{makeMTD}. The detailed description of all the
+parameters can be found in the \code{mzTab} specification
+document (see references).
 }
 \author{
-  Laurent Gatto
+Laurent Gatto
 }
 \references{
-  mzTab - Reporting Proteomics Results
-  (\url{http://code.google.com/p/mztab/})
+mzTab - Reporting Proteomics Results
+(\url{http://code.google.com/p/mztab/})
 }
 \seealso{
-  \code{\link{makePEP}} and \code{\link{makePRT}} to
-  generate \code{mzTab} peptide and protein sections.
+\code{\link{makePEP}} and \code{\link{makePRT}} to generate
+\code{mzTab} peptide and protein sections.
 }
 

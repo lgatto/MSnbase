@@ -7,7 +7,9 @@
 \alias{class:MSnExp}
 \alias{MSnExp}
 
+\alias{bin,MSnExp-method}
 \alias{clean,MSnExp-method}
+\alias{compareSpectra,MSnExp,missing-method}
 \alias{extractPrecSpectra,MSnExp-method}
 \alias{extractPrecSpectra,MSnExp,numeric-method}
 %% \alias{extractSpectra,MSnExp-method}
@@ -102,9 +104,15 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
   accession.
 
   \describe{
+    \item{bin}{\code{signature(object = "MSnExp")}: Bins spectra.
+      See \code{\link{bin}} documentation for more details and examples. }
     \item{clean}{\code{signature(object = "MSnExp")}: Removes unused 0
       intensity data points. See \code{\link{clean}} documentation
       for more details and examples. }
+    \item{compareSpectra}{\code{signature(object1 = "Spectrum",
+      object2 = "missing")}: Compares spectra.  See
+      \code{\link{compareSpectra}} documentation for more details and
+      examples. }
     \item{extractPrecSpectra}{\code{signature(object = "MSnExp", prec =
 	"numeric")}: extracts spectra with precursor MZ value equal to
       \code{prec} and returns an object of class 'MSnExp'.
@@ -117,7 +125,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
     % and examples. }
     \item{pickPeaks}{\code{signature(object = "MSnExp")}: Performs the peak
       picking to generate centroided spectra.
-      See \code{\link{pickPeaks}} documentation for more 
+      See \code{\link{pickPeaks}} documentation for more
       details and examples. }
     \item{plot}{\code{signature(x = "MSnExp", y = "missing")}: Plots all
       the spectra of the \code{MSnExp} instance. See
@@ -147,30 +155,29 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
       experiment. See \code{\link{removeReporters}} documentation for
       more details and examples. }
     \item{smooth}{\code{signature(x = "MSnExp")}: Smooths spectra.
-      See \code{\link{clean}} documentation for more details and examples. }
+      See \code{\link{smooth}} documentation for more details and examples. }
     \item{addIdentificationData}{\code{signature(object = "MSnExp", ...)}:
       Adds identification data to an experiment.
       See \code{\link{addIdentificationData}} documentation for
       more details and examples. }
-    
+
     \item{removeNoId}{\code{signature(object = "MSnExp", fcol =
-      "pepseq", keep = NULL)}: Removes non-identified features. See
+	"pepseq", keep = NULL)}: Removes non-identified features. See
       \code{\link{removeNoId}} documentation for more details and
       examples. }
-
-    \item{removeMultipleAssignment}{\code{signature(object = "MSnExp",
-	fcol = "npsm")}: Removes peptides that have been assigned to
-      multiple proteins. The latter is defined by extracting a feature
-      variable (default is \code{"npsm"}). }
-
     
+    \item{removeMultipleAssignment}{\code{signature(object = "MSnExp",
+	fcol = "nprot")}: Removes protein groups with more than one
+	member. The latter is defined by extracting a feature variable
+	(default is \code{"nprot"}). }
+
     \item{idSummary}{\code{signature(object = "MSnExp", ...)}:
       Prints a summary that lists the percentage of identified features per
       file (called \code{coverage}).}
-    
+
     \item{show}{\code{signature(object = "MSnExp")}: Displays object
       content as text. }
-    
+
     \item{trimMz}{\code{signature(object = "MSnExp")}: Trims the MZ
       range of all the spectra of the \code{MSnExp} instance. See
       \code{\link{trimMz}} documentation for more details and

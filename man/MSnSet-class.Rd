@@ -20,6 +20,7 @@
 \alias{meanSdPlot,MSnSet-method}
 \alias{t.MSnSet}
 \alias{[,MSnSet-method}
+\alias{[,MSnSet,ANY,ANY-method}
 \alias{as.ExpressionSet.MSnSet}
 \alias{as.data.frame.MSnSet}
 \alias{ms2df}
@@ -312,13 +313,13 @@
 
     \item{removeNoId}{\code{signature(object = "MSnSet", fcol =
 	"pepseq", keep = NULL)}: Removes non-identified features. See
-	\code{\link{removeNoId}} documentation for more details and
-	examples. }
-
+      \code{\link{removeNoId}} documentation for more details and
+      examples. }
+    
     \item{removeMultipleAssignment}{\code{signature(object = "MSnSet",
-	fcol = "npsm")}: Removes peptides that have been assigned to
-	multiple proteins. The latter is defined by extracting a feature
-	variable (default is \code{"npsm"}).  }
+	fcol = "nprot")}: Removes protein groups with more than one
+      member. The latter is defined by extracting a feature variable
+      (default is \code{"nprot"}). }
     
     \item{idSummary}{\code{signature(object = "MSnSet", ...)}: Prints a
       summary that lists the percentage of identified features per file

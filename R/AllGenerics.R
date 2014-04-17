@@ -1,4 +1,6 @@
+setGeneric("bin", function(object, ...) standardGeneric("bin"))
 setGeneric("clean", function(object, ...) standardGeneric("clean"))
+setGeneric("compareSpectra", function(object1, object2, ...) standardGeneric("compareSpectra"))
 setGeneric("pickPeaks", function(object, ...) standardGeneric("pickPeaks"))
 ## stats::smooth already exists
 setGeneric("smooth", function(x, ...) standardGeneric("smooth"))
@@ -97,3 +99,5 @@ setGeneric("idSummary", function(object, ...) standardGeneric("idSummary"))
 setGeneric("removeNoId", function(object, ...) standardGeneric("removeNoId"))
 setGeneric("removeMultipleAssignment", function(object, ...) standardGeneric("removeMultipleAssignment"))
 
+## fragments
+setGeneric("calculateFragments", function(sequence, object, ...) standardGeneric("calculateFragments"))

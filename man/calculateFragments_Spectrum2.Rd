@@ -1,0 +1,27 @@
+\name{calculateFragments_Spectrum2}
+\alias{calculateFragments_Spectrum2}
+\title{calculate fragments from a peptide sequence for a specific Spectrum
+only Spectrum2 is supported yet}
+\usage{
+calculateFragments_Spectrum2(sequence, object, tolerance = 0.1,
+  relative = FALSE, ...)
+}
+\arguments{
+  \item{sequence}{character vector of length 1}
+
+  \item{object}{Spectrum2 object (for Spectrum1/Spectrum
+  object an empty data.frame is returned)}
+
+  \item{tolerance}{double, allowed deviation for mz values
+  to be treated as equal}
+
+  \item{relative}{relative (or absolute) deviation}
+
+  \item{...}{further arguments passed to
+  calculateFragments}
+}
+\description{
+calculate fragments from a peptide sequence for a specific
+Spectrum only Spectrum2 is supported yet
+}
+

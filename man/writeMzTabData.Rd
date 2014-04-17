@@ -2,8 +2,8 @@
 \alias{writeMzTabData}
 \title{Writes an 'MSnSet' to an mzTab file}
 \usage{
-  writeMzTabData(x, what = c("PEP", "PRT"), append = FALSE,
-    MTD = TRUE, file, ...)
+writeMzTabData(x, what = c("PEP", "PRT"), append = FALSE, MTD = TRUE,
+  file, ...)
 }
 \arguments{
   \item{x}{An instance of class \code{MSnSet}.}
@@ -26,20 +26,20 @@
   \code{\link{makePRT}} for proteins.}
 }
 \value{
-  None (invisible \code{NULL}).
+None (invisible \code{NULL}).
 }
 \description{
-  This function generates an \code{mzTab} file based on the
-  data available in teh \code{x} \code{MSnSet} instance and
-  additional information passed by the user. It make used
-  of the respective section generators to create
-  appropriate metadata, peptide and protein sections. If
-  peptide and protein sections need to be generated, one
-  has to first create the \code{mzTab} file with (metadata,
-  optional, but recommended and) protein data and then
-  append the peptide data, as per \code{mzTab}
-  specification (\url{http://code.google.com/p/mztab/}).
-  See the example section.
+This function generates an \code{mzTab} file based on the
+data available in teh \code{x} \code{MSnSet} instance and
+additional information passed by the user. It make used of
+the respective section generators to create appropriate
+metadata, peptide and protein sections. If peptide and
+protein sections need to be generated, one has to first
+create the \code{mzTab} file with (metadata, optional, but
+recommended and) protein data and then append the peptide
+data, as per \code{mzTab} specification
+(\url{http://code.google.com/p/mztab/}). See the example
+section.
 }
 \examples{
 mzTabFile <- tempfile()
@@ -62,17 +62,17 @@ writeMzTabData(pep, what = "PEP", file = mzTabFile,
                pepAbundance = exprs(pep))
 }
 \author{
-  Laurent Gatto
+Laurent Gatto
 }
 \references{
-  The \code{mzTab} specification document and example
-  files: \url{http://code.google.com/p/mztab/}.
+The \code{mzTab} specification document and example files:
+\url{http://code.google.com/p/mztab/}.
 }
 \seealso{
-  Functions to generate metadata (\code{\link{makeMTD}}),
-  peptide data (\code{\link{makePEP}}) and proteins
-  (\code{\link{makePRT}}). \code{\link{readMzTabData}} to
-  create \code{"\linkS4class{MSnSet}"} instances from an
-  \code{mzTab} file.
+Functions to generate metadata (\code{\link{makeMTD}}),
+peptide data (\code{\link{makePEP}}) and proteins
+(\code{\link{makePRT}}). \code{\link{readMzTabData}} to
+create \code{"\linkS4class{MSnSet}"} instances from an
+\code{mzTab} file.
 }
 
