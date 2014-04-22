@@ -15,12 +15,23 @@
             C=12,
             N=14.003074,
             O=15.994915)
-  add <- c(a=-(mass["C"]+mass["O"]),
-           b=0,
-           c=mass["N"]+3*mass["H"],
-           x=mass["C"]+2*mass["O"],
-           y=2*mass["H"]+mass["O"],
-           z=mass["O"]-mass["N"]-mass["H"])
+  ## according to Table 1 of:
+  ## Johnson, R. S., Martin, S. A., Biemann, K., Stults, J. T., and
+  ## Watson, J. T. (1987).
+  ## Novel fragmentation process of peptides by collision-induced
+  ## decomposition in a tandem mass spectrometer: differentiation of leucine
+  ## and isoleucine.
+  ## Analytical Chemistry, 59(21), 2621-2625.
+  ## http://dx.doi.org/10.1021/ac00148a019
+  ##
+  ## a proton (H+) is added later
+  ## (after calculation of the different charge states)
+  add <- c(a=-(mass["C"]+mass["O"]),            # + H - CO
+           b=0,                                 # + H
+           c=mass["N"]+3*mass["H"],             # + H + NH3
+           x=mass["C"]+2*mass["O"],             # + CO + OH
+           y=2*mass["H"]+mass["O"],             # + H2 + OH
+           z=-(mass["N"]+mass["H"])+mass["O"])  # + NH + OH
 
   aa <- .get.amino.acids()
   aamass <- setNames(aa$ResidueMass, aa$AA)
