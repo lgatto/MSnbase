@@ -1,8 +1,10 @@
-#' plot spectrum1 vs spectrum2
-#' @param spectra list, 2 MSnbase::Spectrum2 objects
-#' @param tolerance double, allowed deviation to be considered as equal peaks
-#' @param relative relative (or absolute) deviation
-plotSpectrumVsSpectrum <- function(spectra, tolerance=26e-6, relative=TRUE,
+##' plot spectrum1 vs spectrum2
+##' @param spectra list, 2 MSnbase::Spectrum2 objects
+##' @param tolerance double, allowed deviation to be considered as equal peaks
+##' @param relative relative (or absolute) deviation
+##' @param ... additional paramters passed to \code{.plotSpectrumVsSpectrum}.
+plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
+                                   relative=FALSE,
                                    ...) {
   common <- lapply(list(c(1, 2), c(2, 1)), function(x) {
     commonPeaks(spectra[[x[1]]], spectra[[x[2]]],
@@ -12,15 +14,16 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=26e-6, relative=TRUE,
 }
 
 #' plot spectrum1 vs spectrum2
-#' @param spectra list, 2 MSnbase::Spectrum2 objects
-#' @param sequences character vector (length==2) containing the peptide
-#' sequences for both spectra
-#' @param common list (length==2), containing logical vector for common peaks
-#' @param norm normalize?
-#' @param xlim limits for x-axis
-#' @param ylim limits for y-axis
-#' @param fragments.cex cex for fragments
-#' @param legend.cex cex for legend
+##' @param spectra list, 2 MSnbase::Spectrum2 objects
+##' @param sequences character vector (length==2) containing the peptide
+##' sequences for both spectra
+##' @param common list (length==2), containing logical vector for common peaks
+##' @param norm normalize?
+##' @param xlim limits for x-axis
+##' @param ylim limits for y-axis
+##' @param legend.cex cex for legend
+##' @param ... additional parameters passed to \code{.plotSingleSpectrum}.
+##' @param fragments.cex cex for fragments
 .plotSpectrumVsSpectrum <- function(spectra,
                                     sequences,
                                     common,
@@ -80,25 +83,25 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=26e-6, relative=TRUE,
 }
 
 #' plot spectrum
-#' @param object MSnbase::Spectrum
-#' @param sequence character, peptide sequence
-#' @param orientation c(1,-1) up/down
-#' @param add if add TRUE "plot" is not called and the spectrum is drawn in the
-#' existing plot (see ?hist for a similar argument)
-#' @param col col would be recycled to the length of peaksCount(object)
-#' @param pch pch would be recycled to the length of peaksCount(object)
-#' @param xlab label for the x-axis
-#' @param ylab label for the y-axis
-#' @param xlim limits for the x-axis
-#' @param ylim limits for the y-axis
-#' @param tolerance double, allowed deviation
-#' @param relative relative (or absolute) deviation
-#' @param type fragment types, could be c("a", "b", "c", "x", "y", "z")
-#' @param z fragment charge
-#' @param modifications a named (amino acid one-letter-code; upper case) vector
-#' @param fragments a data.frame produced by calculatedFragments_Spectrum2
-#' @param fragments.cex cex for the fragment letters
-#' @param ... further arguments passed to plot.default
+##' @param object MSnbase::Spectrum
+##' @param sequence character, peptide sequence
+##' @param orientation c(1,-1) up/down
+##' @param add if add TRUE "plot" is not called and the spectrum is drawn in the
+##' existing plot (see ?hist for a similar argument)
+##' @param col col would be recycled to the length of peaksCount(object)
+##' @param pch pch would be recycled to the length of peaksCount(object)
+##' @param xlab label for the x-axis
+##' @param ylab label for the y-axis
+##' @param xlim limits for the x-axis
+##' @param ylim limits for the y-axis
+##' @param tolerance double, allowed deviation
+##' @param relative relative (or absolute) deviation
+##' @param type fragment types, could be c("a", "b", "c", "x", "y", "z")
+##' @param modifications a named (amino acid one-letter-code; upper case) vector
+##' @param z fragment charge
+##' @param fragments a data.frame produced by calculatedFragments_Spectrum2
+##' @param fragments.cex cex for the fragment letters
+##' @param ... further arguments passed to plot.default
 .plotSingleSpectrum <- function(object, sequence,
                                 orientation=1, add=FALSE,
                                 col="#74ADD1", pch=NA,

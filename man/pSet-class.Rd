@@ -6,6 +6,7 @@
 \alias{class:pSet}
 
 \alias{[,pSet-method}
+\alias{[,pSet,ANY,ANY-method}
 \alias{[[,pSet-method}
 \alias{[[,pSet,ANY,ANY-method}
 \alias{abstract,pSet-method}

@@ -1,5 +1,6 @@
 \name{plot.Spectrum.Spectrum-methods}
 \alias{plot.Spectrum.Spectrum}
+\alias{plot,Spectrum,Spectrum-method}
 \docType{methods}
 
 \title{ Plotting a 'Spectrum' vs another 'Spectrum' object. }

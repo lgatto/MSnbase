@@ -2,7 +2,7 @@
 \alias{nQuants}
 \title{Count the number of quantitfied features.}
 \usage{
-  nQuants(object, fcol)
+nQuants(object, fcol)
 }
 \arguments{
   \item{object}{An instance of class
@@ -12,28 +12,27 @@
   counting the number of quantified featues.}
 }
 \value{
-  A \code{matrix} of dimensions
-  \code{length(levels(factor(fData(object)[, fcol])))} by
-  \code{ncol(object)} of integers.
+A \code{matrix} of dimensions
+\code{length(levels(factor(fData(object)[, fcol])))} by
+\code{ncol(object)} of integers.
 }
 \description{
-  This function counts the number of quantified features,
-  i.e non NA quantitation values, for each group of
-  features for all the samples in an
-  \code{"\linkS4class{MSnSet}"} object. The group of
-  features are defined by a feature variable names, i.e the
-  name of a column of \code{fData(object)}.
+This function counts the number of quantified features, i.e
+non NA quantitation values, for each group of features for
+all the samples in an \code{"\linkS4class{MSnSet}"} object.
+The group of features are defined by a feature variable
+names, i.e the name of a column of \code{fData(object)}.
 }
 \details{
-  This function is typically used after \code{\link{topN}}
-  and before \code{\link{combineFeatures}}, when the
-  summerising function is \code{sum}, or any function that
-  does not normalise to the number of features aggregated.
-  In the former case, sums of feautres might be the result
-  of 0 (if no feature was quantified) to \code{n} (if all
-  \code{topN}'s \code{n} features were quantified)
-  features, and one might want to rescale the sums based on
-  the number of non-NA features effectively summed.
+This function is typically used after \code{\link{topN}}
+and before \code{\link{combineFeatures}}, when the
+summerising function is \code{sum}, or any function that
+does not normalise to the number of features aggregated. In
+the former case, sums of feautres might be the result of 0
+(if no feature was quantified) to \code{n} (if all
+\code{topN}'s \code{n} features were quantified) features,
+and one might want to rescale the sums based on the number
+of non-NA features effectively summed.
 }
 \examples{
 data(itraqdata)
@@ -47,6 +46,6 @@ head(exprs(y))
 head(exprs(y) * (n/m))
 }
 \author{
-  Laurent Gatto
+Laurent Gatto
 }
 

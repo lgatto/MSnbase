@@ -3,9 +3,21 @@
 }
 
 formatRt <- function(rt) {
-  min <- floor(rt/60)
-  sec <- round(rt-(min*60))
-  return(paste(min,":",sec,sep=""))
+    ans <- NA
+    if (is.numeric(rt)) {
+        min <- floor(rt/60)
+        sec <- round(rt-(min*60))
+        ans <- paste(min,":",sec,sep="")
+    } else if (is.character(rt)) {
+        ans <- strsplit(rt, ":")
+        ans <- sapply(ans, function(x) {
+            x <- as.numeric(x)
+            60 * x[1] + x[2]
+        })
+    } else {
+        warning("Input must be numeric of character.")
+    }
+    return(ans)
 }
 
 utils.removePeaks <- function(int, t) {
@@ -664,21 +676,28 @@ utils.addSingleIdentificationDataFile <- function(object, filename,
   return(object)
 }
 
-utils.addIdentificationData <- function(object, filenames, verbose=TRUE) {
+utils.addIdentificationData <- function(object,
+                                        filenames,
+                                        verbose = TRUE) {
   for (file in filenames) {
       object <-
           utils.addSingleIdentificationDataFile(object, file,
                                                 verbose=verbose)
   }
-
-  fd <- fData(object)
-  fd$npsm <- as.integer(ave(fd$accession, fd$accession, FUN=length))
-  fd$npep <- as.integer(ave(fd$pepseq, fd$pepseq, FUN=length))
-  fd$nprot <- as.integer(ave(fd$accession, fd$accession, FUN=function(x) {
-    length(utils.ssv2list(x))
-  }))
+  fd <- fData(object)  
+  ## number of members in the protein group
+  fd$nprot <- sapply(strsplit(fd$accession, ";"),
+                     function(x) {
+                         if (length(x) == 1 && is.na(x)) return(NA)
+                         length(x)
+                     })
+  ## number of peptides observed for each protein
+  fd$npep.prot <- as.integer(ave(fd$accession, fd$pepseq, FUN = length))  
+  ## number of PSMs observed for each protein
+  fd$npsm.prot <- as.integer(ave(fd$accession, fd$accession, FUN=length))
+  ## number of PSMs observed for each protein
+  fd$npsm.pep <- as.integer(ave(fd$pepseq, fd$pepseq, FUN=length))  
   fData(object) <- fd
-
   if (validObject(object))
       return(object)
 }
@@ -731,7 +750,7 @@ utils.idSummary <- function(fd) {
 utils.removeNoIdAndMultipleAssignments <- function(object) {
     if (anyNA(fData(object)$pepseq))
         object <- removeNoId(object)
-    if (any(fData(object)$npsm > 1))
+    if (any(fData(object)$nprot > 1))
         object <- removeMultipleAssignment(object)
     return(object)
 }

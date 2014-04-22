@@ -279,7 +279,8 @@ bin_Spectrum <- function(object, binSize=1L,
   object@intensity <- intensity
   object@tic <- sum(intensity)
   object@peaksCount <- nb
-  return(object)
+  if (validObject(object))
+      return(object)
 }
 
 bin_Spectra <- function(object1, object2, binSize=1L,

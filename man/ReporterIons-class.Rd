@@ -7,6 +7,7 @@
 
 \alias{show,ReporterIons-method}
 \alias{[,ReporterIons-method}
+\alias{[,ReporterIons,ANY,ANY-method}
 \alias{length-method}
 \alias{length,ReporterIons-method}
 \alias{mz-method}

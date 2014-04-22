@@ -162,15 +162,14 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
       more details and examples. }
 
     \item{removeNoId}{\code{signature(object = "MSnExp", fcol =
-      "pepseq", keep = NULL)}: Removes non-identified features. See
+	"pepseq", keep = NULL)}: Removes non-identified features. See
       \code{\link{removeNoId}} documentation for more details and
       examples. }
-
+    
     \item{removeMultipleAssignment}{\code{signature(object = "MSnExp",
-      fcol = "npsm")}: Removes peptides that have been assigned to
-      multiple proteins. The latter is defined by extracting a feature
-      variable (default is \code{"npsm"}). }
-
+	fcol = "nprot")}: Removes protein groups with more than one
+	member. The latter is defined by extracting a feature variable
+	(default is \code{"nprot"}). }
 
     \item{idSummary}{\code{signature(object = "MSnExp", ...)}:
       Prints a summary that lists the percentage of identified features per

@@ -2,14 +2,12 @@
 \alias{makePEP}
 \title{Creates the mzTab peptide section}
 \usage{
-  makePEP(x, sequence = NA, pepAccession = NA,
-    unitId = NULL, unique = NA, pepDatabase = NA,
-    pepDatabaseVersion = NA, pepSearchEngine = NA,
-    pepSearchEngineScore = NA, pepReliability = NA,
-    pepModifications = NA, retentionTime = NA, charge = NA,
-    massToCharge = NA, pepUri = NA, spectraRef = NA,
-    pepAbundance = NULL, pepAbundanceStdev = NULL,
-    pepAbundanceSterr = NULL, pepOpt_ = NULL)
+makePEP(x, sequence = NA, pepAccession = NA, unitId = NULL, unique = NA,
+  pepDatabase = NA, pepDatabaseVersion = NA, pepSearchEngine = NA,
+  pepSearchEngineScore = NA, pepReliability = NA, pepModifications = NA,
+  retentionTime = NA, charge = NA, massToCharge = NA, pepUri = NA,
+  spectraRef = NA, pepAbundance = NULL, pepAbundanceStdev = NULL,
+  pepAbundanceSterr = NULL, pepOpt_ = NULL)
 }
 \arguments{
   \item{x}{An instance of class
@@ -123,26 +121,26 @@
   ignore.}
 }
 \value{
-  A \code{data.frame} defining the \code{mzTab} peptide
-  section.
+A \code{data.frame} defining the \code{mzTab} peptide
+section.
 }
 \description{
-  \code{mzTab} is a light-weight, tab-delimited file format
-  for proteomics data. It describes general metadata,
-  protein, peptide and small molecule information (all of
-  which are optinal), including quantitation and
-  identification. The peptide section (PEH header and PEP
-  tabular data) can be generated from an
-  \code{\linkS4class{MSnSet}} instance using
-  \code{makePEP}. The detailed description of all the
-  parameters can be found in the \code{mzTab} specification
-  document (see references).
+\code{mzTab} is a light-weight, tab-delimited file format
+for proteomics data. It describes general metadata,
+protein, peptide and small molecule information (all of
+which are optinal), including quantitation and
+identification. The peptide section (PEH header and PEP
+tabular data) can be generated from an
+\code{\linkS4class{MSnSet}} instance using \code{makePEP}.
+The detailed description of all the parameters can be found
+in the \code{mzTab} specification document (see
+references).
 }
 \author{
-  Laurent Gatto
+Laurent Gatto
 }
 \seealso{
-  \code{\link{makeMTD}} and \code{\link{makePRT}} to
-  generate \code{mzTab} metadata and protein sections.
+\code{\link{makeMTD}} and \code{\link{makePRT}} to generate
+\code{mzTab} metadata and protein sections.
 }
 
