@@ -14,7 +14,8 @@
   mass <- c(H=1.007825,
             C=12,
             N=14.003074,
-            O=15.994915)
+            O=15.994915,
+            p=1.007276)
   ## according to Table 1 of:
   ## Johnson, R. S., Martin, S. A., Biemann, K., Stults, J. T., and
   ## Watson, J. T. (1987).
@@ -75,9 +76,9 @@
   amz <- rep(amz, each=zn)/z
   cmz <- rep(cmz, each=zn)/z
 
-  ## add protons
-  amz <- amz + mass["H"]
-  cmz <- cmz + mass["H"]
+  ## add protons (H+)
+  amz <- amz + mass["p"]
+  cmz <- cmz + mass["p"]
 
   ## fragment seq (amino-terminus)
   fn <- length(fragment.seq)
