@@ -297,6 +297,7 @@ bin_Spectra <- function(object1, object2, binSize=1L,
 #' @param fun similarity function (must take two spectra and ... as arguments)
 #' @param ... further arguments passed to "fun"
 #' @return double, similarity score
+#' @noRd
 compare_Spectra <- function(x, y, fun=c("common", "cor", "dotproduct"), ...) {
   if (is.character(fun)) {
     fun <- match.arg(fun)
