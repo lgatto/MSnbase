@@ -12,9 +12,11 @@ setMethod("FeaturesOfInterest",
           function(fnames, description, object, ...) {
               fns <- featureNames(object)
               if (!all(fnames %in% fns)) {
-                  fx <- sum(!fnames %in% fns)
-                  stop(fx, " feature(s) of interest absent from your object's feature names:\n   ",
-                       paste(fnames[fx], collapse = ", "))
+                  fx <- !fnames %in% fns
+                  stop(sum(fx), " feature(s) of interest absent from your object's feature names:\n   ", 
+                       ifelse(sum(fx) > 5, 
+                              paste(paste(head(fnames[fx], n = 5), collapse = ", "), ", ..."),
+                              paste0(paste(fnames[fx], collapse = ", "), ".")))
               }
               .FeaturesOfInterest(fnames = fnames, 
                                   description = description, 
