@@ -5,6 +5,7 @@
 #' @param modifications a named (amino acid one-letter-code; upper case) vector
 #' of modified mass (default: Carbamidomethyl (C) replaces Cystein: 160.030649).
 #' @param verbose verbose output?
+#' @noRd
 .calculateFragments <- function(sequence, type=c("b", "y"), z=1,
                                 modifications=c(C=160.030649), verbose=TRUE) {
   type <- match.arg(type, choices=c("a", "b", "c", "x", "y", "z"), several.ok=TRUE)

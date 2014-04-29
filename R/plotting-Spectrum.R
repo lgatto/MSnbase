@@ -3,6 +3,7 @@
 ##' @param tolerance double, allowed deviation to be considered as equal peaks
 ##' @param relative relative (or absolute) deviation
 ##' @param ... additional paramters passed to \code{.plotSpectrumVsSpectrum}.
+##' @noRd
 plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
                                    relative=FALSE,
                                    ...) {
@@ -24,6 +25,7 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
 ##' @param legend.cex cex for legend
 ##' @param ... additional parameters passed to \code{.plotSingleSpectrum}.
 ##' @param fragments.cex cex for fragments
+##' @noRd
 .plotSpectrumVsSpectrum <- function(spectra,
                                     sequences,
                                     common,
@@ -102,6 +104,7 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
 ##' @param fragments a data.frame produced by calculatedFragments_Spectrum2
 ##' @param fragments.cex cex for the fragment letters
 ##' @param ... further arguments passed to plot.default
+##' @noRd
 .plotSingleSpectrum <- function(object, sequence,
                                 orientation=1, add=FALSE,
                                 col="#74ADD1", pch=NA,
