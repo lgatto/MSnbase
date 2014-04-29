@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.13.3
+-------------------------
+ o FeaturesOfInterest [2014-04-29 Tue]
+
 CHANGES IN VERSION 1.13.2
 -------------------------
  o add compareSpectra to compare Spectrum objects [2014-04-09 Wed]

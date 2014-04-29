@@ -21,6 +21,7 @@ importFrom(IRanges, IRanges)
 importClassesFrom(IRanges, IRanges)
 importFrom(affy, MAplot, ma.plot, mva.pairs)
 importFrom(mzID, mzID, flatten)
+importFrom(digest, digest)
 
 export(MSnSet,
        readMzXMLData,
@@ -66,7 +67,9 @@ exportClasses(pSet,
               MSnProcess,
               MSnSet,
               Spectrum, Spectrum1, Spectrum2,
-              ReporterIons)
+              ReporterIons,
+              FeaturesOfInterest,
+              FoICollection)
 
 exportMethods(coerce,
               show,"[","[[",
@@ -142,7 +145,15 @@ exportMethods(coerce,
               topN,
               filterNA,
               chromatogram,
-              xic)
+              xic,
+              ## Features of interest
+              FeaturesOfInterest,
+              foi,
+              description,
+              FoICollection,
+              addFeaturesOfInterest,
+              rmFeaturesOfInterest,
+              fnamesIn)
 
 ## methods NOT exported
 ## curveStats

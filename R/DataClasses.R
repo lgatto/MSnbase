@@ -314,3 +314,26 @@ setClass("MSnSet",
                  MSnSet="0.4.0")),
            experimentData=new("MIAPE"),
            annotation="No feature annotation."))
+
+## Features of interest infrastructure
+
+.FeaturesOfInterest <-
+    setClass("FeaturesOfInterest",
+             slots = c(
+                 description = "character",
+                 fnames = "character",
+                 date = "character",
+                 objpar = "list"),
+             contains = "Versioned",
+             prototype = prototype(
+                 new("Versioned",
+                     versions = c(FeaturesOfInterest = "0.1.0"))))
+
+.FoICollection <-
+    setClass("FoICollection",
+             slots = c(foic = "list"),
+             contains = "Versioned",
+             prototype = prototype(
+                 new("Versioned",
+                     versions = c(FeaturesOfInterest = "0.1.0"))))
+ 
