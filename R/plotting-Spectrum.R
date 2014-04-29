@@ -3,12 +3,13 @@
 ##' @param tolerance double, allowed deviation to be considered as equal peaks
 ##' @param relative relative (or absolute) deviation
 ##' @param ... additional paramters passed to \code{.plotSpectrumVsSpectrum}.
+##' @noRd
 plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
                                    relative=FALSE,
                                    ...) {
   common <- lapply(list(c(1, 2), c(2, 1)), function(x) {
     commonPeaks(spectra[[x[1]]], spectra[[x[2]]],
-                method="highest")
+                method="highest", tolerance=tolerance, relative=relative)
   })
   .plotSpectrumVsSpectrum(spectra, common=common, ...)
 }
@@ -24,6 +25,7 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
 ##' @param legend.cex cex for legend
 ##' @param ... additional parameters passed to \code{.plotSingleSpectrum}.
 ##' @param fragments.cex cex for fragments
+##' @noRd
 .plotSpectrumVsSpectrum <- function(spectra,
                                     sequences,
                                     common,
@@ -56,7 +58,6 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
   orientation <- c(1, -1)
   add <- c(FALSE, TRUE)
   legend.pos <- c("topleft", "bottomleft")
-  legend.prefix <- c("ident", "quant")
   ## colors: ColorBrewer RdYlBu c(9, 11, 3, 1)
   cols <- c("#74ADD1", "#313695", "#F46D43", "#A50026")
   pch <- c(NA, 19)
@@ -103,6 +104,7 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
 ##' @param fragments a data.frame produced by calculatedFragments_Spectrum2
 ##' @param fragments.cex cex for the fragment letters
 ##' @param ... further arguments passed to plot.default
+##' @noRd
 .plotSingleSpectrum <- function(object, sequence,
                                 orientation=1, add=FALSE,
                                 col="#74ADD1", pch=NA,

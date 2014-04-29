@@ -495,6 +495,24 @@ Note that \Rfunction{removeNoId} and
 \Rfunction{removeMultipleAssignment} methods can also be called on
 \code{MSnExp} instances.
 
+
+\subsection{Calculate Fragments}
+
+\Rpackage{MSnbase} is able to calculate theoretical peptide fragments via
+\Rfunction{calculateFragments}.
+
+<<calculateFragments, echo=TRUE, cache=FALSE, tidy=FALSE>>=
+calculateFragments("ACEK",
+                   type=c("a", "b", "c", "x", "y", "z"))
+@
+
+It is also possible to match these fragments against an \Robject{Spectrum2}
+object.
+<<msnexpcalculateFragments, echo=TRUE, cache=FALSE, tidy=FALSE>>=
+pepseq <- fData(msexp)$pepseq[1]
+calculateFragments(pepseq, msexp[[1]], type=c("b", "y"))
+@
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1186,7 +1204,7 @@ intensity and or the protein lengths (see \cite{Paoletti2006} and
 
 Let's now proceed with the quantitation using the
 \Rfunction{quantify}, as in section \ref{sec:quant}, this time however
-specifying the method of interest, \code{"SIn"} (the \code{reporters}
+specifying the method of interest, \code{SIn} (the \code{reporters}
 argument can of course be ignored here). The required peptide-protein
 mapping and protein lengths are extracted automatically from the
 feature meta-data using the default \code{accession} and \code{length}
@@ -1200,6 +1218,53 @@ exprs(siquant)
 
 Other label-free methods can be applied by specifiying the appropriate
 \Rfunction{method} argument. See \Rfunction{?quantify} for more details.
+
+\section{Spectra comparison}
+
+\subsection{Plotting two spectra}
+
+\Rpackage{MSnbase} provides functionality to compare spectra against
+each other. The first notable function is \Rfunction{plot}. If two
+\Robject{Spectrum2} objects are provided \Rfunction{plot} will draw
+two plots: the upper and lower panel contain respectively the first
+and second spectrum. Common peaks are drawn in a slightly darker
+colour.  
+
+<<plotSpectrumSpectrum>>=
+centroided <- pickPeaks(msexp, verbose=FALSE)
+plot(centroided[[2]], centroided[[3]])
+@
+
+\subsection{Comparison metrics}
+
+Currently \Rpackage{MSnbase} supports three different metrics to
+compare spectra against each other: \code{common} to calculate the
+number of common peaks, \code{cor} to calculate the Pearson
+correlation and \code{dotproduct} to calculate the dot product. See
+\code{?compareSpectra} to apply other arbitrary metrics.
+
+<<compareSpectra, tidy=FALSE>>=
+compareSpectra(centroided[[2]], centroided[[3]],
+               fun = "common")
+compareSpectra(centroided[[2]], centroided[[3]],
+               fun = "cor")
+compareSpectra(centroided[[2]], centroided[[3]],
+               fun = "dotproduct")
+@
+
+\Rfunction{compareSpectra} supports \Robject{MSnExp} objects as well.
+
+<<msnexpcompareSpectra>>=
+compareSpectra(centroided, fun="cor")
+@
+
+Below, we illustrate how to compare a set of spectra using a
+hierarchical clustering.
+
+<<hclustcompareSpectra>>=
+dm <- as.dist(compareSpectra(centroided, fun="cor"))
+plot(hclust(dm))
+@
 
 \section{Quantitative assessment of incomplete dissociation}
 \label{sec:incompdissoc}

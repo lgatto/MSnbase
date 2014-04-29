@@ -9,6 +9,7 @@
 #' @param tolerance double, allowed deviation
 #' @param relative relative (or absolute) deviation
 #' @return numeric vector of the same length as "x"
+#' @noRd
 relaxedMatch <- function(x, table, nomatch=NA_integer_, tolerance=25e-6,
                          relative=TRUE) {
 
@@ -45,6 +46,7 @@ relaxedMatch <- function(x, table, nomatch=NA_integer_, tolerance=25e-6,
 #' @param relative relative (or absolute) deviation
 #' @return integer vector of the same length as "x" representing the position in
 #' "y"
+#' @noRd
 matchPeaks <- function(x, y, method=c("highest", "closest"),
                        tolerance=25e-6, relative=TRUE) {
   method <- match.arg(method)
@@ -81,6 +83,7 @@ matchPeaks <- function(x, y, method=c("highest", "closest"),
 #' @param tolerance double, allowed deviation
 #' @param relative relative (or absolute) deviation
 #' @return logical, TRUE for common peaks in y
+#' @noRd
 commonPeaks <- function(x, y, method=c("highest", "closest"),
                          tolerance=25e-6, relative=TRUE) {
   m <- matchPeaks(x, y, method=match.arg(method), tolerance=tolerance,
@@ -97,6 +100,7 @@ commonPeaks <- function(x, y, method=c("highest", "closest"),
 #' @param tolerance double, allowed deviation
 #' @param relative relative (or absolute) deviation
 #' @return double, number of common peaks
+#' @noRd
 numberOfCommonPeaks <- function(x, y, tolerance=25e-6, relative=TRUE) {
   return(sum(commonPeaks(x, y, tolerance=tolerance, relative=relative)))
 }
@@ -119,6 +123,7 @@ numberOfCommonPeaks <- function(x, y, tolerance=25e-6, relative=TRUE) {
 #' @param x double
 #' @param y double
 #' @return double, length == 1
+#' @noRd
 dotproduct <- function(x, y) {
   as.vector(x %*% y) / (sqrt(sum(x*x)) * sqrt(sum(y*y)))
 }
