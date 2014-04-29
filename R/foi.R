@@ -1,24 +1,32 @@
-FeaturesOfInterest <- function(fnames,
-                               description,
-                               object) {
-    fns <- featureNames(object)
-    if (!all(fnames %in% fns)) {
-        fx <- sum(!fnames %in% fns)
-        stop(fx, " feature(s) of interest absent from your object's feature names:\n   ",
-             paste(fnames[fx], collapse = ", "))
-    }
-    .FeaturesOfInterest(description = description,
-                        fnames = fnames,
-                        date = date(),
-                        objpar = list(
-                            ncol = ncol(object),
-                            nrow = nrow(object),
-                            name = MSnbase:::getVariableName(
-                                match.call(),
-                                "object"),
-                            digest = digest(object)))
-}
+setMethod("FeaturesOfInterest",
+          c("character", "character", "missing"),
+          function(fnames, description, ...) {
+              .FeaturesOfInterest(fnames = fnames,
+                                  description = description,
+                                  date = date(),
+                                  objpar = list())
+          })
 
+setMethod("FeaturesOfInterest",
+          c("character", "character", "MSnSet"),
+          function(fnames, description, object, ...) {
+              fns <- featureNames(object)
+              if (!all(fnames %in% fns)) {
+                  fx <- sum(!fnames %in% fns)
+                  stop(fx, " feature(s) of interest absent from your object's feature names:\n   ",
+                       paste(fnames[fx], collapse = ", "))
+              }
+              .FeaturesOfInterest(fnames = fnames, 
+                                  description = description, 
+                                  date = date(),
+                                  objpar = list(
+                                      ncol = ncol(object),
+                                      nrow = nrow(object),
+                                      name = MSnbase:::getVariableName(
+                                          match.call(),
+                                          "object"),
+                                      digest = digest(object)))
+              })
 
 setMethod("foi", "FeaturesOfInterest",
           function(object, ...) object@fnames)
@@ -31,7 +39,9 @@ setMethod("length", "FeaturesOfInterest",
 
 setMethod("show", "FeaturesOfInterest",
           function(object) {
-              cat("Object of class \"", class(object), "\"\n", sep="")
+              if (length(object@objpar) > 0) cat("Traceable object")
+              else cat("Object")
+              cat(" of class \"", class(object), "\"\n", sep="")              
               cat(" Created on", object@date, "\n")
               cat(" Description:\n")
               cat(strwrap(object@description,
@@ -54,7 +64,12 @@ setMethod("FoICollection", "missing",
           .FoICollection(foic = list()))
 
 setMethod("FoICollection", "list",
-          function(object, ...) .FoICollection(foic = object))
+          function(object, ...) {
+              val <- sapply(object, inherits, "FeaturesOfInterest")
+              if (!all(val))
+                  stop("The list must be composed of FeatureOfInterest instances")
+              .FoICollection(foic = object)
+          })
 
 setMethod("length", "FoICollection",
          function(x) length(x@foic))
@@ -66,15 +81,29 @@ setMethod("show", "FoICollection",
 
 setMethod("foi", "FoICollection",
           function(object, n) {
-              if (missing(n)) return(object@foic)
-              else return(object@foic[n])
+              if (missing(n)) {
+                  return(object@foic)
+              } else {
+                  if (n > length(object))
+                      stop("There are only ", length(object),
+                           " available FeatureOfInterest instances.")
+                  return(object@foic[n])
+              }
           })
 
 
 setMethod("addFeaturesOfInterest",
           c("FeaturesOfInterest", "FoICollection"),
-          function(x, y) {              
-              y@foic <- c(y@foic, x)
+          function(x, y) {
+              .fois <- foi(y)
+              check <- sapply(.fois, function(._foi) {
+                  identical(sort(foi(._foi)), sort(foi(x)))
+              })
+              if (any(check)) {
+                  message("The features of interest are already present.")
+              } else {
+                  y@foic <- c(y@foic, x)
+              }
               return(y)
           })
 
@@ -85,61 +114,44 @@ setMethod("rmFeaturesOfInterest",
               return(object)
           })
 
-
+          
 setMethod("description", "FoICollection",
           function(object, ...) sapply(foi(object), description))
 
 
-setMethod("fromIdentical",
-          c("FeaturesOfInterest", "FeaturesOfInterest"),
-          function(x, y) x@objpar$digest == y@objpar$digest)
+## setMethod("fromIdentical",
+##           c("FeaturesOfInterest", "FeaturesOfInterest"),
+##           function(x, y) x@objpar$digest == y@objpar$digest)
 
-setMethod("fromIdentical",
-          c("FoICollection", "missing"),
-          function(x) {
-              dgsts <- sapply(foi(x), function(xx) xx@objpar$digest)
-              length(unique(dgsts)) == 1
-          })
+## setMethod("fromIdentical",
+##           c("FoICollection", "missing"),
+##           function(x) {
+##               dgsts <- sapply(foi(x), function(xx) xx@objpar$digest)
+##               length(unique(dgsts)) == 1
+##           })
               
+## setMethod("fromEqual",
+##           c("FeaturesOfInterest", "FeaturesOfInterest"),
+##           function(x, y)
+##           x@objpar$nrow == y@objpar$nrow & x@objpar$ncol == y@objpar$ncol)
 
-setMethod("fromEqual",
-          c("FeaturesOfInterest", "FeaturesOfInterest"),
-          function(x, y)
-          x@objpar$nrow == y@objpar$nrow & x@objpar$ncol == y@objpar$ncol)
+## setMethod("fromEqual",
+##           c("FoICollection", "missing"),
+##           function(x) {
+##               nc <- sapply(foi(x), function(xx) xx@objpar$ncol)
+##               nr <- sapply(foi(x), function(xx) xx@objpar$nrow)
+##               length(unique(nc)) == 1 & length(unique(nr)) == 1
+##           })
 
-setMethod("fromEqual",
-          c("FoICollection", "missing"),
-          function(x) {
-              nc <- sapply(foi(x), function(xx) xx@objpar$ncol)
-              nr <- sapply(foi(x), function(xx) xx@objpar$nrow)
-              length(unique(nc)) == 1 & length(unique(nr)) == 1
+
+## are any of the features in the FeaturesOfInterest instance present
+## in the MSnSet (matrix) featureNames (rownames)?
+setMethod("fnamesIn", c("FeaturesOfInterest", "MSnSet"),
+          function(x, y, count = FALSE) fnamesIn(x, exprs(y), count))
+
+setMethod("fnamesIn", c("FeaturesOfInterest", "matrix"),
+          function(x, y, count = FALSE) {             
+              ans <- foi(x) %in% rownames(y)
+              if (count) return(sum(ans))
+              else return(any(ans))
           })
-
-## example code
-
-## library("pRoloc")
-## library("pRolocdata")
-## data(tan2009r1)
-## library("digest")
-
-## x <- FeaturesOfInterest(description = "A test set of features of interest",
-##                      fnames = featureNames(tan2009r1)[1:10],
-##                      object = tan2009r1)
-
-## y <- FeaturesOfInterest(description = "A second test set of features of interest",
-##                        fnames = featureNames(tan2009r1)[111:113],
-##                        object = tan2009r1)
-
-## xx <- FoICollection()
-
-## xx <- addFeaturesOfInterest(x, xx)
-## xx <- addFeaturesOfInterest(y, xx)
-
-## .pca <- plot2D(tan2009r1)
-## highlightOnPlot(.pca, x, col = "red")
-## highlightOnPlot(tan2009r1, x, col = "red", cex = 1.5)
-## highlightOnPlot(tan2009r1, y, col = "green", pch = "+")
-
-## .pca <- plot2D(tan2009r1, dims = c(1, 3))
-## highlightOnPlot(tan2009r1, x, args = list(dims = c(1, 3)))
-## highlightOnPlot(.pca, x, pch = "+")

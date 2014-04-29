@@ -104,9 +104,13 @@ setGeneric("calculateFragments", function(sequence, object, ...) standardGeneric
 
 
 ## Feature of Interest
+setGeneric("FeaturesOfInterest",
+           function(fnames, description, object, ...)
+           standardGeneric("FeaturesOfInterest"))
 setGeneric("FoICollection", function(object, ...) standardGeneric("FoICollection"))
 setGeneric("foi", function(object, ...) standardGeneric("foi"))
 setGeneric("addFeaturesOfInterest", function(x, y) standardGeneric("addFeaturesOfInterest"))
 setGeneric("rmFeaturesOfInterest", function(object, i) standardGeneric("rmFeaturesOfInterest"))
-setGeneric("fromIdentical", function(x, y, ...) standardGeneric("fromIdentical"))
-setGeneric("fromEqual", function(x, y, ...) standardGeneric("fromEqual"))
+## setGeneric("fromIdentical", function(x, y, ...) standardGeneric("fromIdentical"))
+## setGeneric("fromEqual", function(x, y, ...) standardGeneric("fromEqual"))
+setGeneric("fnamesIn", function(x, y, ...) standardGeneric("fnamesIn"))

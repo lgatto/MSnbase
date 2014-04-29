@@ -319,10 +319,11 @@ setClass("MSnSet",
 
 .FeaturesOfInterest <-
     setClass("FeaturesOfInterest",
-             slots = c(description = "character",
-                 objpar = "list",
+             slots = c(
+                 description = "character",
                  fnames = "character",
-                 date = "character"),
+                 date = "character"
+                 objpar = "list"),
              contains = "Versioned",
              prototype = prototype(
                  new("Versioned",
