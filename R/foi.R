@@ -22,7 +22,7 @@ setMethod("FeaturesOfInterest",
                                   objpar = list(
                                       ncol = ncol(object),
                                       nrow = nrow(object),
-                                      name = MSnbase:::getVariableName(
+                                      name = getVariableName(
                                           match.call(),
                                           "object"),
                                       digest = digest(object)))

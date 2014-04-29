@@ -322,7 +322,7 @@ setClass("MSnSet",
              slots = c(
                  description = "character",
                  fnames = "character",
-                 date = "character"
+                 date = "character",
                  objpar = "list"),
              contains = "Versioned",
              prototype = prototype(

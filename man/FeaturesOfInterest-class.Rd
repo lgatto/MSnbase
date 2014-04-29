@@ -9,23 +9,28 @@
 \alias{FeaturesOfInterest,character,character,MSnSet-method}
 \alias{description,FeaturesOfInterest-method}
 \alias{foi,FeaturesOfInterest-method}
+\alias{foi}
 \alias{foi-methods}
 \alias{length,FeaturesOfInterest-method}
 \alias{show,FeaturesOfInterest-method}
 
 \alias{fnamesIn}
 \alias{fnamesIn-methods}
-\alias{fnamesIn,FeaturesOfInterst,MSnSet-method}
-\alias{fnamesIn,FeaturesOfInterst,matrix-method}
+\alias{fnamesIn,FeaturesOfInterest,MSnSet-method}
+\alias{fnamesIn,FeaturesOfInterest,matrix-method}
 
 \alias{FoICollection-class}
 \alias{FoICollection-methods}
+\alias{FoICollection,list-method}
+\alias{FoICollection,missing-method}
 \alias{FoICollection}
+\alias{addFeaturesOfInterest}
 \alias{addFeaturesOfInterest-methods}
 \alias{addFeaturesOfInterest,FeaturesOfInterest,FoICollection-method}
 \alias{description,FoICollection-method}
 \alias{foi,FoICollection-method}
 \alias{length,FoICollection-method}
+\alias{rmFeaturesOfInterest}
 \alias{rmFeaturesOfInterest-methods}
 \alias{rmFeaturesOfInterest,FoICollection,numeric-method}
 \alias{show,FoICollection-method}
