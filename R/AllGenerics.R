@@ -101,3 +101,12 @@ setGeneric("removeMultipleAssignment", function(object, ...) standardGeneric("re
 
 ## fragments
 setGeneric("calculateFragments", function(sequence, object, ...) standardGeneric("calculateFragments"))
+
+
+## Feature of Interest
+setGeneric("FoICollection", function(object, ...) standardGeneric("FoICollection"))
+setGeneric("foi", function(object, ...) standardGeneric("foi"))
+setGeneric("addFeaturesOfInterest", function(x, y) standardGeneric("addFeaturesOfInterest"))
+setGeneric("rmFeaturesOfInterest", function(object, i) standardGeneric("rmFeaturesOfInterest"))
+setGeneric("fromIdentical", function(x, y, ...) standardGeneric("fromIdentical"))
+setGeneric("fromEqual", function(x, y, ...) standardGeneric("fromEqual"))
