@@ -1219,6 +1219,49 @@ exprs(siquant)
 Other label-free methods can be applied by specifiying the appropriate
 \Rfunction{method} argument. See \Rfunction{?quantify} for more details.
 
+\section{Spectra comparison}
+
+\subsection{Plotting two spectra}
+
+\Rpackage{MSnbase} provides some functions to compare Spectra against each
+other. The first notable function is \Rfunction{plot}. If two
+\Robject{Spectrum2} objects are provided \Rfunction{plot} will draw two plots.
+The upper panel contains the first spectrum and the lower panel contains the
+second spectrum upside down. Common peaks are drawn in a slightly darker colour.
+<<plotSpectrumSpectrum>>=
+centroided <- pickPeaks(msexp, verbose=FALSE)
+plot(centroided[[2]], centroided[[3]])
+@
+
+\subsection{Comparison metrics}
+
+Currently \Rpackage{MSnbase} supports three different metrics to compare spectra
+against each other: \code{"common"} to calculate the number of common peaks,
+\code{"cor"} to calculate the pearson correlation and \code{"dotproduct"} to
+calculate the dot product (you could easily apply your own metric, please see
+\code{?compareSpectra}).
+
+<<compareSpectra, tidy=FALSE>>=
+compareSpectra(centroided[[2]], centroided[[3]],
+               fun = "common")
+compareSpectra(centroided[[2]], centroided[[3]],
+               fun = "cor")
+compareSpectra(centroided[[2]], centroided[[3]],
+               fun = "dotproduct")
+@
+
+\Rfunction{compareSpectra} supports \Robject{MSnExp} objects as well.
+
+<<msnexpcompareSpectra>>=
+compareSpectra(centroided, fun="cor")
+@
+
+This could be used to perform a hierarchical clustering.
+<<hclustcompareSpectra>>=
+dm <- as.dist(compareSpectra(centroided, fun="cor"))
+plot(hclust(dm))
+@
+
 \section{Quantitative assessment of incomplete dissociation}
 \label{sec:incompdissoc}
 
