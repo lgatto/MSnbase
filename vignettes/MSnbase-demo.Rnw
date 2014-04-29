@@ -495,6 +495,24 @@ Note that \Rfunction{removeNoId} and
 \Rfunction{removeMultipleAssignment} methods can also be called on
 \code{MSnExp} instances.
 
+
+\subsection{Calculate Fragments}
+
+\Rpackage{MSnbase} is able to calculate theoretical peptide fragments via
+\Rfunction{calculateFragments}.
+
+<<calculateFragments, echo=TRUE, cache=FALSE, tidy=FALSE>>=
+calculateFragments("ACEK",
+                   type=c("a", "b", "c", "x", "y", "z"))
+@
+
+It is also possible to match these fragments against an \Robject{Spectrum2}
+object.
+<<msnexpcalculateFragments, echo=TRUE, cache=FALSE, tidy=FALSE>>=
+pepseq <- fData(msexp)$pepseq[1]
+calculateFragments(pepseq, msexp[[1]], type=c("b", "y"))
+@
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
