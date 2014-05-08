@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.13.4
+-------------------------
+ o Document difference between traceable and non-traceable
+   FeaturesOfInterest instances [2014-04-30 Wed]
+ o ignoring desciptions with length > 1 [2014-04-30 Wed]
+
 CHANGES IN VERSION 1.13.3
 -------------------------
  o FeaturesOfInterest [2014-04-29 Tue]

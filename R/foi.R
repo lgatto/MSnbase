@@ -2,7 +2,7 @@ setMethod("FeaturesOfInterest",
           c("character", "character", "missing"),
           function(fnames, description, ...) {
               .FeaturesOfInterest(fnames = fnames,
-                                  description = description,
+                                  description = description[1],
                                   date = date(),
                                   objpar = list())
           })
@@ -19,7 +19,7 @@ setMethod("FeaturesOfInterest",
                               paste0(paste(fnames[fx], collapse = ", "), ".")))
               }
               .FeaturesOfInterest(fnames = fnames, 
-                                  description = description, 
+                                  description = description[1], 
                                   date = date(),
                                   objpar = list(
                                       ncol = ncol(object),
