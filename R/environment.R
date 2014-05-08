@@ -37,7 +37,7 @@ assign("amino.acids",
                   SideChainMass = c(NA, 15, 101, 58, 59, 47, 73, 72,
                     1, 82, 57, 57, 73, 75, 91, 42, 31, 45, 130, 107, 43),
                   ## CRC Handbook of Chemistry and Physics, 66th ed., CRC Press, Boca Raton, Florida (1985).
-                  ## R.M.C. Dawson, D.C. Elliott, W.H. Elliott, K.M. Jones, Data for Biochemical Research 3rd ed., Clarendon Press Oxford 
+                  ## R.M.C. Dawson, D.C. Elliott, W.H. Elliott, K.M. Jones, Data for Biochemical Research 3rd ed., Clarendon Press Oxford
                   pK1 = c(NA, 2.35, 2.18, 2.18, 1.88, 1.71, 2.19,
                     2.17, 2.34, 1.78, 2.32, 2.36, 2.2, 2.28, 2.58,
                     1.99, 2.21, 2.15, 2.38, 2.2, 2.29),
@@ -49,6 +49,14 @@ assign("amino.acids",
                     6.3, 5.68, 5.6, 5.88, 5.63, 6.02)),
        envir = .MSnbaseEnv)
 
-
+assign("atomic.mass",
+          ## taken from:
+          ## http://www.chem.ualberta.ca/~massspec/atomic_mass_abund.pdf
+          c(H=1.007825,
+            C=12,
+            N=14.003074,
+            O=15.994915,
+            p=1.007276),
+       envir = .MSnbaseEnv)
 
 lockEnvironment(.MSnbaseEnv,bindings=TRUE)

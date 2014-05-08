@@ -15,6 +15,20 @@ get.amino.acids <- function()
   get("amino.acids",envir=.MSnbaseEnv)
 }
 
+##' Returns a \code{double} of used atomic mass.
+##'
+##' @title Atomic mass.
+##' @return A named \code{double}.
+##' @author Sebastian Gibb
+##' @examples
+##' get.atomic.mass()
+get.atomic.mass <- function()
+    .get.atomic.mass()
+
+.get.atomic.mass <- function() {
+  get("atomic.mass",envir=.MSnbaseEnv)
+}
+
 formatRt <- function(rt) {
     ans <- NA
     if (is.numeric(rt)) {
@@ -703,7 +717,7 @@ utils.addIdentificationData <- function(object,
           utils.addSingleIdentificationDataFile(object, file,
                                                 verbose=verbose)
   }
-  fd <- fData(object)  
+  fd <- fData(object)
   ## number of members in the protein group
   fd$nprot <- sapply(strsplit(fd$accession, ";"),
                      function(x) {
@@ -711,11 +725,11 @@ utils.addIdentificationData <- function(object,
                          length(x)
                      })
   ## number of peptides observed for each protein
-  fd$npep.prot <- as.integer(ave(fd$accession, fd$pepseq, FUN = length))  
+  fd$npep.prot <- as.integer(ave(fd$accession, fd$pepseq, FUN = length))
   ## number of PSMs observed for each protein
   fd$npsm.prot <- as.integer(ave(fd$accession, fd$accession, FUN=length))
   ## number of PSMs observed for each protein
-  fd$npsm.pep <- as.integer(ave(fd$pepseq, fd$pepseq, FUN=length))  
+  fd$npsm.pep <- as.integer(ave(fd$pepseq, fd$pepseq, FUN=length))
   fData(object) <- fd
   if (validObject(object))
       return(object)

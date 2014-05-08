@@ -60,7 +60,8 @@ export(MSnSet,
        updateFeatureNames,
        updateSampleNames,
        normalise, ## for normalize method
-       get.amino.acids
+       get.amino.acids,
+       get.atomic.mass
        )
 
 
