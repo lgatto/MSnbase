@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.13.5
 -------------------------
  o export .get.amino.acids function [2014-05-08 Thu]
+ o removePeaks for centroided data [2014-05-08 Thu]
 
 CHANGES IN VERSION 1.13.4
 -------------------------

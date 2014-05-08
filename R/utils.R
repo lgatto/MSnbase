@@ -33,6 +33,12 @@ formatRt <- function(rt) {
     return(ans)
 }
 
+utils.removePeaks_centroided <- function(int, t) {
+    rmi <- int <= t
+    int[rmi] <- 0
+    int
+}
+
 utils.removePeaks <- function(int, t) {
   ## Description:
   ## Given a vector of intensities 'int' and a threshold 't',
