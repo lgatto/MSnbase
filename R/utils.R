@@ -1,3 +1,16 @@
+##' Returns a \code{data.frame} of amino acid properties: \code{AA},
+##' \code{ResidueMass}, \code{Abbrev3}, \code{ImmoniumIonMass},
+##' \code{Name}, \code{Hydrophobicity}, \code{Hydrophilicity},
+##' \code{SideChainMass}, \code{pK1}, \code{pK2} and \code{pI}.
+##'
+##' @title Amino acids
+##' @return A \code{data.frame}
+##' @author Laurent Gatto
+##' @examples
+##' get.amino.acids()
+get.amino.acids <- function()
+    .get.amino.acids()
+
 .get.amino.acids <- function() {
   get("amino.acids",envir=.MSnbaseEnv)
 }
