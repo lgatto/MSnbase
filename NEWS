@@ -3,6 +3,9 @@ CHANGES IN VERSION 1.13.5
  o export .get.amino.acids function [2014-05-08 Thu]
  o removePeaks for centroided data [2014-05-08 Thu]
  o add new exported function get.atomic.mass [2014-05-08 Thu]
+ o Spectrum[2] prototype sets centroided=FALSE by default (instead of
+   logical()) [2014-05-08 Thu]
+
 
 CHANGES IN VERSION 1.13.4
 -------------------------

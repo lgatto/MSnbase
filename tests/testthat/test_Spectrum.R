@@ -149,7 +149,6 @@ test_that("bin_Spectrum", {
 
 
 test_that("removePeaks profile vs centroided", {
-
      int <- c(2,0,0,0,1,5,1,0,0,1,3,1,0,0,1,4,2,1)
      sp1 <- new("Spectrum2",
                        intensity = int,
