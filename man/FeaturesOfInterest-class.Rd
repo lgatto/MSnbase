@@ -54,6 +54,29 @@
   Objects can be created with the respective \code{FeaturesOfInterest}
   and \code{FoICollection} constructors. 
 
+  \code{FeaturesOfInterest} instances can be generated in two different
+  ways: the constructor takes either (1) a set of features names (a
+  \code{character} vector) and a description (\code{character} of length
+  1 - any subsequent elements are silently ignored) or (2) feature
+  names, a description and an instance of class
+  \code{"\linkS4class{MSnSet}"}. In the latter case, we call such
+  \code{FeaturesOfInterest} objects traceable, because we can identify
+  the origin of the feature names and thus their validity. This is done
+  by inspecting the \code{MSnSet} instance and recording its dimensions,
+  its name and a unique md5 hash tag (these are stores as part of the
+  optional \code{objpar} slot). In such cases, the feature names passed
+  to the \code{FeaturesOfInterest} constructor must also be present in
+  the \code{MSnSet}; if one or more are not, an error will be thrown. If
+  your features of interest to be recorded stem for an existing
+  experiment and have all been observed, it is advised to pass the 3
+  arguments to the constructor to ensure that the feature names as
+  valid. Otherwise, only the third argument should be omitted.
+
+  \code{FoICollection} instances can be constructed by creating an empty
+  collection and serial additions of \code{FeaturesOfInterest} using
+  \code{addFeaturesOfInterest} or by passing a list of
+  \code{FeaturesOfInterest} instance. 
+  
 }
 
 \section{Slots}{
@@ -153,6 +176,8 @@
 
   }
 }
+  
+
 
 \author{
   Laurent Gatto <lg390@cam.ac.uk>
@@ -174,6 +199,16 @@ foi(x)
 y <- FeaturesOfInterest(description = "Non-traceable features of interest",
                         fnames = featureNames(tan2009r1)[111:113])
 y
+
+## an illegal FeaturesOfInterest
+try(FeaturesOfInterest(description = "Won't work",
+                       fnames = c("A", "Z", featureNames(tan2009r1)),
+                       object = tan2009r1))
+
+
+FeaturesOfInterest(description = "This work, but not traceable",
+                       fnames = c("A", "Z", featureNames(tan2009r1)))
+
 
 
 xx <- FoICollection()

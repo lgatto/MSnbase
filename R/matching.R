@@ -40,7 +40,8 @@ relaxedMatch <- function(x, table, nomatch=NA_integer_, tolerance=25e-6,
 #' similar to base::match but with tolerance
 #' if there are duplicated matches the highest/closest is choosen
 #' @param x spectrum1 (MSnbase::Spectrum), to be matched
-#' @param y spectrum2 (MSnbase::Spectrum), to match against
+#' @param y spectrum2 (MSnbase::Spectrum)/double vector of mz values, to match
+#' against
 #' @param method for duplicated matches use highest/closest intensity/mz
 #' @param tolerance double, allowed deviation
 #' @param relative relative (or absolute) deviation
