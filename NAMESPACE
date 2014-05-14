@@ -1,5 +1,6 @@
 import(grid)
 import(BiocGenerics)
+import(BiocParallel)
 import(Biobase)
 import(mzR)
 import(impute)
@@ -57,7 +58,9 @@ export(MSnSet,
        updateFvarLabels,
        updateFeatureNames,
        updateSampleNames,
-       normalise ## for normalize method
+       normalise, ## for normalize method
+       get.amino.acids,
+       get.atomic.mass
        )
 
 

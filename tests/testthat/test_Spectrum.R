@@ -146,3 +146,29 @@ test_that("bin_Spectrum", {
   expect_equal(MSnbase:::bin_Spectrum(s1, binSize=2, fun=mean), r3)
   expect_equal(MSnbase:::bin_Spectrum(s1, breaks=seq(0, 7, by=2)), r4)
 })
+
+
+test_that("removePeaks profile vs centroided", {
+     int <- c(2,0,0,0,1,5,1,0,0,1,3,1,0,0,1,4,2,1)
+     sp1 <- new("Spectrum2",
+                       intensity = int,
+                       centroided = FALSE,
+                       mz = 1:length(int))    
+     res1 <- c(0, 0, 0, 0, 1, 5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+     expect_identical(intensity(removePeaks(sp1, 4)), res1)
+
+     res2 <- int <- c(104, 57, 32, 33, 118, 76, 38, 39, 52, 140, 52, 88, 394, 71, 408, 94, 2032)
+     sp2 <- new("Spectrum2",
+                intensity = int,
+                centroided = FALSE,
+                mz = seq_len(length(int)))
+     expect_identical(intensity(removePeaks(sp2, 500)),
+                      intensity(sp2))
+     res2[res2 < 500] <- 0
+
+     expect_identical(intensity(removePeaks(sp2, 500)),
+                      intensity(sp2))
+     centroided(sp2) <- TRUE
+     expect_identical(intensity(removePeaks(sp2, 500)),
+                      res2)
+ })

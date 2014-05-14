@@ -17,6 +17,11 @@
   Isobaric tag peaks of single spectra or complete experiments can be
   quantified using appropriate \code{methods}. Label-free quantitation
   is available only for \code{MSnExp} experiments.
+
+  Since version 1.13.5, parallel quantitation is supported by the
+  \code{BiocParallel} package and controlled by the \code{BPPARAM}
+  argument.
+  
 }
 
 \arguments{
@@ -50,7 +55,6 @@
   }
 
   \item{strict}{
-
     For isobaric tagging only.  If strict is \code{FALSE} (default), the
     quantitation is performed using data points along the entire width
     of a peak. If strict is set to \code{TRUE}, once the apex(es) is/are
@@ -59,11 +63,18 @@
 
   }
 
+  \item{BPPARAM}{    
+    Support for parallel processing using the \code{BiocParallel}
+    infrastructure. When missing (default), the default registered
+    \code{BiocParallelParam} parameters are applied using
+    \code{bpparam()}. Alternatively, one can pass a valid
+    \code{BiocParallelParam} parameter instance: \code{SnowParam},
+    \code{MulticoreParam}, \code{DoparParam}, \ldots see the
+    \code{BiocParallel} package for details.
+  }
+  
   \item{parallel}{
-    Logical defining if reporter peaks should be quantified in parallel
-    (default is FALSE). Currently not supported on Windows. Only
-    relevant for isobaric tagging.
-
+    Deprecated. Please see \code{BPPARAM}.   
   }
   \item{verbose}{
     Verbose of the output (only for \code{MSnExp} objects).
@@ -181,6 +192,10 @@ data(itraqdata)
 msnset <- quantify(itraqdata, method = "trap", reporters = iTRAQ4)
 msnset
 
+## specifying a custom parallel framework
+bp <- MulticoreParam(2)
+quantify(itraqdata[1:10], method = "trap", iTRAQ4, BPPARAM = bp)
+
 ## Checking for non-quantified peaks
 sum(is.na(exprs(msnset)))
 
@@ -188,6 +203,7 @@ sum(is.na(exprs(msnset)))
 qty <- quantify(itraqdata[[1]], method = "trap", iTRAQ4[1])
 qty$peakQuant
 qty$curveStats
+
 
 ## Label-free quantitation
 ## Raw (mzXML) and identification (mzid) files

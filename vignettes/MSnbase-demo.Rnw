@@ -111,10 +111,7 @@
 <<environment, cache=FALSE, echo=FALSE>>=
 suppressPackageStartupMessages(library("MSnbase"))
 suppressPackageStartupMessages(library("zoo"))
-if (.Platform$OS.type != "windows")
-  suppressPackageStartupMessages(require("doMC"))
-suppressPackageStartupMessages(require("multicore"))
-suppressPackageStartupMessages(require(Rdisop))
+suppressPackageStartupMessages(require("Rdisop"))
 library("grid")
 library("reshape2")
 @
@@ -235,6 +232,11 @@ for 88690 features was performed in parallel on 16 processors and took
 76 minutes.  The resulting quantitation data was only 22.1 Mb and
 could easily be further processed and analysed on a standard laptop
 computer.
+
+Since verions 1.13.5, parallel support is provided by the
+\Rpackage{BiocParallel} and various backends including multicore
+(forking), simple networf network of workstations (SNOW) using
+sockets, forking or MPI among others.
 
 \bigskip
 
@@ -832,7 +834,6 @@ qnt <- quantify(experiment,
                 method = "trap",
                 reporters = iTRAQ4,
                 strict = FALSE,
-                parallel = FALSE,
                 verbose = FALSE)
 qnt
 head(exprs(qnt))
@@ -1302,7 +1303,6 @@ incompdiss <- quantify(itraqdata,
                        method = "trap",
                        reporters = iTRAQ5,
                        strict = FALSE,
-                       parallel = FALSE,
                        verbose = FALSE)
 head(exprs(incompdiss))
 @
@@ -1384,10 +1384,10 @@ rows.
 
 <<makeexp12, echo=TRUE, cache=FALSE, tidy = FALSE>>=
 exp1 <- quantify(itraqdata, reporters = iTRAQ4,
-                 parallel = FALSE, verbose = FALSE)
+                 verbose = FALSE)
 sampleNames(exp1)
 exp2 <- quantify(rawdata, reporters = iTRAQ4,
-                 parallel = FALSE, verbose = FALSE)
+                 verbose = FALSE)
 sampleNames(exp2)
 @
 
@@ -1439,9 +1439,9 @@ set.seed(1)
 i <- sample(length(itraqdata), 35)
 j <- sample(length(itraqdata), 35)
 exp1 <- quantify(itraqdata[i], reporters = iTRAQ4,
-                 parallel = FALSE, verbose = FALSE)
+                 verbose = FALSE)
 exp2 <- quantify(itraqdata[j], reporters = iTRAQ4,
-                 parallel = FALSE, verbose = FALSE)
+                 verbose = FALSE)
 exp1 <- droplevels(exp1)
 exp2 <- droplevels(exp2)
 table(featureNames(exp1) %in% featureNames(exp2))
