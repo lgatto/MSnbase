@@ -18,6 +18,11 @@
   other numeric values is valid. All peaks with maximum intensity
   smaller or equal to \code{t} are set to 0.
 
+  If the spectrum is in profile mode, ranges of successive non-0 peaks
+  <= \code{t} are set to 0. If the spectrum is centroided, then
+  individual peaks <= \code{t} are set to 0. See the example below for
+  an illustration.
+  
   Note that the number of peaks is not changed; the peaks below the
   threshold are set to 0 and the object is not cleanded out (see
   \code{\link{clean}}). An illustrative example is shown below. 
@@ -73,6 +78,23 @@ itraqdata2 <- removePeaks(itraqdata, t = 2.5e5)
 table(unlist(intensity(itraqdata)) == 0)
 table(unlist(intensity(itraqdata2)) == 0)
 processingData(itraqdata2)
+
+## difference between centroided and profile peaks
+
+int <- c(104, 57, 32, 33, 118, 76, 38, 39, 52, 140, 52, 88, 394, 71,
+         408, 94, 2032)
+sp <- new("Spectrum2",
+          intensity = int,
+          centroided = FALSE,
+          mz = seq_len(length(int)))
+
+## unchanged, as ranges of peaks <= 500 considered
+intensity(removePeaks(sp, 500))
+
+
+centroided(sp) <- TRUE
+## different!
+intensity(removePeaks(sp, 500))
 }
 
 \keyword{methods}
