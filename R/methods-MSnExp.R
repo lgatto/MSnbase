@@ -187,7 +187,7 @@ setMethod("quantify",
                        "count"),
                    reporters,
                    strict = FALSE,
-                   parallel, ## BPPARAM
+                   parallel, ## replaced by BPPARAM
                    BPPARAM,
                    verbose = TRUE,
                    ...) {
@@ -205,9 +205,11 @@ setMethod("quantify",
                       BPPARAM <- bpparam()
                       if (verbose)
                           message("Using default parallel backend: \n",
-                                  BPPARAM)
+                                  cat(capture.output(BPPARAM)),
+                                  sep = "\n")
                   }
-                  quantify_MSnExp(object, method, reporters, strict, BPPARAM, verbose)
+                  quantify_MSnExp(object, method, reporters, strict,
+                                  BPPARAM, verbose)
               } else if (method == "count") {
                   count_MSnSet(object)
               } else {

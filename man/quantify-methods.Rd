@@ -201,7 +201,7 @@ qty$peakQuant
 qty$curveStats
 
 ## specifying a custom parallel framework
-pb <- MulticoreParam(2)
+bp <- MulticoreParam(2)
 quantify(itraqdata, method = "trap", iTRAQ4, BPPARAM = bp)
 
 ## Label-free quantitation
