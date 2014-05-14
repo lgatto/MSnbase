@@ -18,6 +18,7 @@
 \alias{fnamesIn-methods}
 \alias{fnamesIn,FeaturesOfInterest,MSnSet-method}
 \alias{fnamesIn,FeaturesOfInterest,matrix-method}
+\alias{fnamesIn,FeaturesOfInterest,data.frame-method}
 
 \alias{FoICollection-class}
 \alias{FoICollection-methods}
@@ -144,7 +145,8 @@
 	"MSnSet", count = "logical")}: if \code{count} is \code{FALSE}
 	(default), return a logical indicating whether there is at least
 	one feautre of interest present in \code{x}? Otherwise, returns
-	the number of such features. Works also matrices. }
+	the number of such features. Works also with matrices and
+	data.frames. } 
     
   }
 

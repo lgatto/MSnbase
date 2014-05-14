@@ -11,12 +11,7 @@
   type <- match.arg(type, choices=c("a", "b", "c", "x", "y", "z"), several.ok=TRUE)
   type <- sort(type)
   ## constants
-  ## http://www.chem.ualberta.ca/~massspec/atomic_mass_abund.pdf
-  mass <- c(H=1.007825,
-            C=12,
-            N=14.003074,
-            O=15.994915,
-            p=1.007276)
+  mass <- get.atomic.mass()
   ## according to Table 1 of:
   ## Johnson, R. S., Martin, S. A., Biemann, K., Stults, J. T., and
   ## Watson, J. T. (1987).

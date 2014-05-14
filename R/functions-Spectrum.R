@@ -1,9 +1,14 @@
-removePeaks_Spectrum <- function(spectrum,t="min") {
+
+removePeaks_Spectrum <- function(spectrum, t="min") {
   if (t=="min")
     t <- min(intensity(spectrum)[intensity(spectrum)>0])
   if (!is.numeric(t))
     stop("'t' must either be 'min' or numeric.")
-  ints <- utils.removePeaks(spectrum@intensity,t)
+  if (centroided(spectrum)) {
+      ints <- utils.removePeaks_centroided(spectrum@intensity, t)
+  } else {
+      ints <- utils.removePeaks(spectrum@intensity,t)
+  }
   spectrum@intensity <- ints
   return(spectrum)
 }
@@ -66,9 +71,11 @@ quantify_Spectrum <- function(spectrum, method,
       if (method == "trapezoidation") {
           if (nrow(dfr) == 1) {
               if (!is.na(dfr$int))
-                  warning(paste("Found only one mz value for precursor ",precursorMz(spectrum),
-                                " and reporter ",reporterNames(reporters[i]),".\n",
-                                "  If your data is centroided, quantify with 'max'.",sep=""))
+                  warning(paste("Found only one mz value for precursor ",
+                                precursorMz(spectrum), " and reporter ",
+                                reporterNames(reporters[i]), ".\n",
+                                "  If your data is centroided, quantify with 'max'.",
+                                sep = ""))
           }
           ## Quantify reporter ions calculating the area
           ## under the curve by trapezoidation
@@ -171,9 +178,10 @@ getCurveWidth <- function(spectrum,reporters) {
   upr <- m+reporters@width
   mz <- spectrum@mz
   int <- spectrum@intensity
-  ## if first/last int != 0, this function crashes in
-  ## the while (ylwr!=0)/(yupr!=0) loops. Adding leading/ending data points
-  ## to avoid this. Return values xlwr and xupr get updated accordingly [*].
+  ## if first/last int != 0, this function crashes in the while
+  ## (ylwr!=0)/(yupr!=0) loops. Adding leading/ending data points to
+  ## avoid this. Return values xlwr and xupr get updated accordingly
+  ## [*].
   mz <- c(0,mz,0)
   int <- c(0,int,0)
   ## x... vectors of _indices_ of mz values
@@ -182,7 +190,8 @@ getCurveWidth <- function(spectrum,reporters) {
   for (i in 1:length(m)) {
     region <- (mz>lwr[i] & mz<upr[i])
     if (sum(region,na.rm=TRUE)==0) {
-      ## warning("[getCurveData] No data for for precursor ",spectrum@precursorMz," reporter ",m[i])
+        ## warning("[getCurveData] No data for for precursor ",
+        ##         spectrum@precursorMz, " reporter ", m[i])
       xlwr[i] <- xupr[i] <- NA
     } else {
       ymax <- max(int[region])
@@ -234,8 +243,9 @@ trimMz_Spectrum <- function(x,mzlim,updatePeaksCount=TRUE) {
   sel <- (x@mz >= mzmin) & (x@mz <= mzmax)
   if (sum(sel)==0) {
     warning(paste("No data points between ", mzmin, " and ", mzmax,
-                  " for spectrum with acquisition number ", acquisitionNum(x),
-                  ".\n Leaving data as is.", sep=""))
+                  " for spectrum with acquisition number ",
+                  acquisitionNum(x), ".\n Leaving data as is.",
+                  sep = ""))
     return(x)
   }
   x@mz <- x@mz[sel]
@@ -257,9 +267,10 @@ normalise_Spectrum <- function(object, method, value) {
     return(object)
 }
 
-bin_Spectrum <- function(object, binSize=1L,
-                         breaks=seq(floor(min(mz(object))),
-                                    ceiling(max(mz(object))), by=binSize),
+bin_Spectrum <- function(object, binSize = 1L,
+                         breaks = seq(floor(min(mz(object))),
+                                    ceiling(max(mz(object))),
+                             by = binSize),
                          fun=sum) {
   fun <- match.fun(fun)
   nb <- length(breaks)
@@ -298,7 +309,9 @@ bin_Spectra <- function(object1, object2, binSize=1L,
 #' @param ... further arguments passed to "fun"
 #' @return double, similarity score
 #' @noRd
-compare_Spectra <- function(x, y, fun=c("common", "cor", "dotproduct"), ...) {
+compare_Spectra <- function(x, y,
+                            fun=c("common", "cor", "dotproduct"),
+                            ...) {
   if (is.character(fun)) {
     fun <- match.arg(fun)
     if (fun == "cor" || fun == "dotproduct") {
