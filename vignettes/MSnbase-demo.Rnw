@@ -111,10 +111,7 @@
 <<environment, cache=FALSE, echo=FALSE>>=
 suppressPackageStartupMessages(library("MSnbase"))
 suppressPackageStartupMessages(library("zoo"))
-if (.Platform$OS.type != "windows")
-  suppressPackageStartupMessages(require("doMC"))
-suppressPackageStartupMessages(require("multicore"))
-suppressPackageStartupMessages(require(Rdisop))
+suppressPackageStartupMessages(require("Rdisop"))
 library("grid")
 library("reshape2")
 @
