@@ -1,6 +1,8 @@
 CHANGES IN VERSION 1.13.6
 -------------------------
- o 
+ o new isEmpty method for Spectrum instances [2014-05-14 Wed]
+ o removePeaks does not try for empty Spectra [2014-05-14 Wed]
+ o isEmpty unit test [2014-05-14 Wed]
 
 CHANGES IN VERSION 1.13.5
 -------------------------

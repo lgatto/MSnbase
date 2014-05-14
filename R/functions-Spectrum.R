@@ -1,16 +1,17 @@
 
-removePeaks_Spectrum <- function(spectrum, t="min") {
-  if (t=="min")
-    t <- min(intensity(spectrum)[intensity(spectrum)>0])
-  if (!is.numeric(t))
-    stop("'t' must either be 'min' or numeric.")
-  if (centroided(spectrum)) {
-      ints <- utils.removePeaks_centroided(spectrum@intensity, t)
-  } else {
-      ints <- utils.removePeaks(spectrum@intensity,t)
-  }
-  spectrum@intensity <- ints
-  return(spectrum)
+removePeaks_Spectrum <- function(spectrum, t = "min") {
+    if (isEmpty(spectrum)) return(spectrum)
+    if (t == "min")
+        t <- min(intensity(spectrum)[intensity(spectrum)>0])
+    if (!is.numeric(t))
+        stop("'t' must either be 'min' or numeric.")
+    if (centroided(spectrum)) {
+        ints <- utils.removePeaks_centroided(spectrum@intensity, t)
+    } else {
+        ints <- utils.removePeaks(spectrum@intensity, t)
+    }
+    spectrum@intensity <- ints
+    return(spectrum)
 }
 
 
