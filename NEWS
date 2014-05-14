@@ -5,7 +5,7 @@ CHANGES IN VERSION 1.13.5
  o add new exported function get.atomic.mass [2014-05-08 Thu]
  o Spectrum[2] prototype sets centroided=FALSE by default (instead of
    logical()) [2014-05-08 Thu]
-
+ o fnamesIn also supports y = "data.frame" [2014-05-14 Wed]
 
 CHANGES IN VERSION 1.13.4
 -------------------------
@@ -37,7 +37,6 @@ CHANGES IN VERSION 1.13.1
  o add smooth for MSnExp and Spectrum classes [2014-04-10 Thu]
  o add pickPeaks for MSnExp and Spectrum classes [2014-04-10 Thu]
  o updated show,MSnExp to display only first/last files when > 2 [2014-04-11 Fri]
-
 
 CHANGES IN VERSION 1.13.0
 -------------------------
