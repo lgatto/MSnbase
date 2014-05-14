@@ -365,7 +365,8 @@
 \examples{
 data(itraqdata)
 itraqdata
-msnset <- quantify(itraqdata[10:15], method = "trap", reporters = iTRAQ4, verbose = FALSE)
+msnset <- quantify(itraqdata[10:15], method = "trap",
+                   reporters = iTRAQ4, verbose = FALSE)
 msnset
 
 exprs(msnset)[1, c(1, 4)] <- NA

@@ -10,7 +10,8 @@ quantify_MSnExp <- function(object, method,
     peakData <- bplapply(spectraList, quantify, method, reporters, strict,
                          BPPARAM = BPPARAM)
     .exprs <- do.call(rbind, sapply(peakData, "[", "peakQuant"))
-    ## .qual <- do.call(rbind, sapply(peakData, "[", "curveStats")) ## Time consuming - consider removing or caching
+    ## Time consuming - consider removing or caching
+    ## .qual <- do.call(rbind, sapply(peakData, "[", "curveStats")) 
     .qual <- data.frame()
     rownames(.exprs) <- sub(".peakQuant", "", rownames(.exprs))
     ## rownames(.qual) <- sub(".curveStats", "", rownames(.qual))
@@ -32,7 +33,8 @@ quantify_MSnExp <- function(object, method,
         }
     }
     ## featureData rows must be reordered to match assayData rows
-    .featureData <- new("AnnotatedDataFrame", data=fd[rownames(.exprs), ])
+    .featureData <- new("AnnotatedDataFrame",
+                        data = fd[rownames(.exprs), ])
     ## Creating new phenoData slot or creating one
     .phenoData <- new("AnnotatedDataFrame",
                       data = data.frame(mz = reporters@mz,

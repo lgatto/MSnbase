@@ -180,7 +180,8 @@ setMethod("trimMz",
 setMethod("quantify",
           signature = signature("MSnExp"),
           function(object,
-                   method = c("trapezoidation", "max", "sum",
+                   method = c(
+                       "trapezoidation", "max", "sum",
                        "SI", "SIgi", "SIn",
                        "SAF", "NSAF",
                        "count"),
@@ -191,7 +192,7 @@ setMethod("quantify",
                    verbose = TRUE,
                    ...) {
               if (!missing(parallel))
-                  message("Please use the BPPARAM argument to set a parallel framework.")
+                  message("Please use BPPARAM to set a parallel framework.")
               method <- match.arg(method)
               ## this assumes that if first spectrum has msLevel > 1, all have
               if (msLevel(object)[1] < 2)
@@ -201,12 +202,12 @@ setMethod("quantify",
                   if (!inherits(reporters, "ReporterIons"))
                       stop("Argument 'reporters' must inherit from 'ReporterIons' class.")
                   if (missing(BPPARAM)) {
-                      parallel <- bpparam()
+                      BPPARAM <- bpparam()
                       if (verbose)
                           message("Using default parallel backend: \n",
-                                  PBPARAM)
+                                  BPPARAM)
                   }
-                  quantify_MSnExp(object, method, reporters, strict, parallel)
+                  quantify_MSnExp(object, method, reporters, strict, BPPARAM, verbose)
               } else if (method == "count") {
                   count_MSnSet(object)
               } else {
@@ -218,7 +219,7 @@ setMethod("quantify",
           })
 
 setMethod("curveStats","MSnExp",
-          function(object, reporters, verbose=TRUE) {
+          function(object, reporters, verbose = TRUE) {
             ifelse(verbose,progress <- "text",progress <- "none")
             l <- llply(object@spectra, curveStats, reporters, .progress=progress)
             qdfr <- l[[1]]
