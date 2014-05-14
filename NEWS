@@ -6,6 +6,8 @@ CHANGES IN VERSION 1.13.5
  o Spectrum[2] prototype sets centroided=FALSE by default (instead of
    logical()) [2014-05-08 Thu]
  o fnamesIn also supports y = "data.frame" [2014-05-14 Wed]
+ o Using BiocParallel for parallel support; replaced parallel argument
+   with BPPARAM [2014-05-14 Wed]
 
 CHANGES IN VERSION 1.13.4
 -------------------------

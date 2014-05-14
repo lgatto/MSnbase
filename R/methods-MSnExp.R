@@ -186,9 +186,12 @@ setMethod("quantify",
                        "count"),
                    reporters,
                    strict = FALSE,
-                   parallel = FALSE,
+                   parallel, ## BPPARAM
+                   BPPARAM,
                    verbose = TRUE,
                    ...) {
+              if (!missing(parallel))
+                  message("Please use the BPPARAM argument to set a parallel framework.")
               method <- match.arg(method)
               ## this assumes that if first spectrum has msLevel > 1, all have
               if (msLevel(object)[1] < 2)
@@ -197,7 +200,13 @@ setMethod("quantify",
               if (method %in% c("trapezoidation", "max", "sum")) {
                   if (!inherits(reporters, "ReporterIons"))
                       stop("Argument 'reporters' must inherit from 'ReporterIons' class.")
-                  quantify_MSnExp(object, method, reporters, strict, parallel, verbose)
+                  if (missing(BPPARAM)) {
+                      parallel <- bpparam()
+                      if (verbose)
+                          message("Using default parallel backend: \n",
+                                  PBPARAM)
+                  }
+                  quantify_MSnExp(object, method, reporters, strict, parallel)
               } else if (method == "count") {
                   count_MSnSet(object)
               } else {
@@ -209,7 +218,7 @@ setMethod("quantify",
           })
 
 setMethod("curveStats","MSnExp",
-          function(object,reporters,verbose=TRUE) {
+          function(object, reporters, verbose=TRUE) {
             ifelse(verbose,progress <- "text",progress <- "none")
             l <- llply(object@spectra, curveStats, reporters, .progress=progress)
             qdfr <- l[[1]]

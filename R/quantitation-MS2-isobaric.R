@@ -1,57 +1,19 @@
 quantify_MSnExp <- function(object, method,
                             reporters, strict,
-                            parallel, verbose) {
-    ## Display progress bar with eapply
-    ## TODO - test if using eapply is more efficient in terms of mem/cpu usage
-    ## if (verbose) {
-    ##   ._cnt <- 1
-    ##   pb <- txtProgressBar(min = 0, max = length(object), style = 3)
-    ##   ## Quantification -- creating exprs for assayData slot
-    ##   peakData <- eapply(assayData(object),function(x) {
-    ##     setTxtProgressBar(pb, ._cnt)
-    ##     ._cnt <<- ._cnt+1
-    ##     quantify(x,method,reporters)
-    ##   })
-    ##   close(pb)
-    ##   rm(pb)
-    ##   rm(._cnt)
-    ## } else {
-    ##   peakData <- eapply(assayData(object),quantify,method,reporters)
-    ## }
-    detectCores <- registerDoMC <- NULL ## no visible global function definition
-    ifelse(verbose, progress <- "text", progress <- "none")
-    if (.Platform$OS.type == "windows") {
-        parallel <- FALSE
-        if (verbose)
-            message("Parallel processing not yet supported on Windows.")
-    }
+                            BPPARAM,
+                            verbose) { ## ignored
     if (any(centroided(object)) & method == "trapezoidation")
         warning("You are quantifying using 'trapezoidation' on centroided data!",
                 immediate. = TRUE)
     spectraList <- spectra(object)
     ## Quantification -- creating exprs for assayData slot
-    if (length(spectraList) == 1) {
-        peakData <- quantify(spectraList[[1]], method, reporters, strict)
-        .exprs <- t(peakData$peakQuant)
-        rownames(.exprs) <- featureNames(object)
-        ## .qual <- as.data.frame(peakData$curveStats)
-        ## rownames(.qual) <-
-        ##   paste(reporterNames(reporters),
-        ##         rep(featureNames(object), each = length(reporters)),
-        ##         sep = ".")
-        .qual <- data.frame()
-    } else {
-        if (parallel && require("foreach") && require("doMC") && require("parallel")) {
-            registerDoMC(cores = detectCores())
-        }
-        peakData <- llply(spectraList, quantify, method, reporters, strict,
-                          .progress = progress, .parallel = parallel)
-        .exprs <- do.call(rbind, sapply(peakData, "[", "peakQuant"))
-        ## .qual <- do.call(rbind, sapply(peakData, "[", "curveStats")) ## Time consuming - consider removing or caching
-        .qual <- data.frame()
-        rownames(.exprs) <- sub(".peakQuant", "", rownames(.exprs))
-        ## rownames(.qual) <- sub(".curveStats", "", rownames(.qual))
-    }
+    peakData <- bplapply(spectraList, quantify, method, reporters, strict,
+                         BPPARAM = BPPARAM)
+    .exprs <- do.call(rbind, sapply(peakData, "[", "peakQuant"))
+    ## .qual <- do.call(rbind, sapply(peakData, "[", "curveStats")) ## Time consuming - consider removing or caching
+    .qual <- data.frame()
+    rownames(.exprs) <- sub(".peakQuant", "", rownames(.exprs))
+    ## rownames(.qual) <- sub(".curveStats", "", rownames(.qual))
     ## Updating MSnprocess slot
     object@processingData@processing <- c(object@processingData@processing,
                                           paste(reporters@name,

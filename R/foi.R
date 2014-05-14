@@ -152,7 +152,7 @@ setMethod("fnamesIn", c("FeaturesOfInterest", "MSnSet"),
           function(x, y, count = FALSE) fnamesIn(x, exprs(y), count))
 
 setMethod("fnamesIn", c("FeaturesOfInterest", "data.frame"),
-          function(x, y, count = FALSE) fnames(x, as.matrix(y), count))
+          function(x, y, count = FALSE) fnamesIn(x, as.matrix(y), count))
           
 setMethod("fnamesIn", c("FeaturesOfInterest", "matrix"),
           function(x, y, count = FALSE) {             
