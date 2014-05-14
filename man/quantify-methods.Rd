@@ -192,6 +192,10 @@ data(itraqdata)
 msnset <- quantify(itraqdata, method = "trap", reporters = iTRAQ4)
 msnset
 
+## specifying a custom parallel framework
+bp <- MulticoreParam(2)
+quantify(itraqdata[1:10], method = "trap", iTRAQ4, BPPARAM = bp)
+
 ## Checking for non-quantified peaks
 sum(is.na(exprs(msnset)))
 
@@ -200,9 +204,6 @@ qty <- quantify(itraqdata[[1]], method = "trap", iTRAQ4[1])
 qty$peakQuant
 qty$curveStats
 
-## specifying a custom parallel framework
-bp <- MulticoreParam(2)
-quantify(itraqdata, method = "trap", iTRAQ4, BPPARAM = bp)
 
 ## Label-free quantitation
 ## Raw (mzXML) and identification (mzid) files

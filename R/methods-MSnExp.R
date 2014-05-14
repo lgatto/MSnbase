@@ -204,9 +204,8 @@ setMethod("quantify",
                   if (missing(BPPARAM)) {
                       BPPARAM <- bpparam()
                       if (verbose)
-                          message("Using default parallel backend: \n",
-                                  cat(capture.output(BPPARAM)),
-                                  sep = "\n")
+                          message("Using default parallel backend: ",
+                                  class(BPPARAM)[1])
                   }
                   quantify_MSnExp(object, method, reporters, strict,
                                   BPPARAM, verbose)
