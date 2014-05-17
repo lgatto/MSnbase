@@ -41,7 +41,7 @@ setMethod("clean",
           function(object, all = FALSE) clean_Spectrum(object, all))
 
 setMethod("removePeaks","Spectrum",
-          function(object,t) removePeaks_Spectrum(object,t))
+          function(object,t) removePeaks_Spectrum(object, t))
 
 setMethod("precursorMz","Spectrum",
           function(object) {
@@ -218,3 +218,6 @@ setMethod("removeReporters","Spectrum",
               return(removeReporters_Spectrum2(object,reporters,clean))
             stop("No reporters to remove for MS1 spectra.")
           })
+
+setMethod("isEmpty", "Spectrum",
+          function(x) length(x@mz) == 0)

@@ -172,3 +172,16 @@ test_that("removePeaks profile vs centroided", {
      expect_identical(intensity(removePeaks(sp2, 500)),
                       res2)
  })
+
+test_that("empty spectrum", {
+    s <- new("Spectrum2")    
+    expect_true(isEmpty(s))
+    t <- removePeaks(s, 10)
+    expect_true(all.equal(s, t))
+    int <- c(0, 1, 2, 3, 1, 0, 0, 0, 0, 1, 3, 10, 6,
+             2, 1, 0, 1, 2, 0, 0, 1, 5, 10, 5, 1)
+    sp <- new("Spectrum2",
+              intensity=int,
+              mz=1:length(int))
+    expect_false(isEmpty(sp))    
+})

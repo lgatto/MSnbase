@@ -46,6 +46,7 @@
 \alias{smooth,Spectrum-method}
 \alias{trimMz,Spectrum-method}
 \alias{trimMz,Spectrum,numeric-method}
+\alias{isEmpty,Spectrum-method}
 
 \alias{coerce,Spectrum,data.frame-method}
 \alias{as.data.frame.Spectrum}
@@ -160,6 +161,8 @@
       range of all the spectra of the \code{MSnExp} instance. See
       \code{\link{trimMz}} documentation for more details and
       examples. }
+    \item{isEmpty}{\code{signature(x = "Spectrum")}: Checks if the
+      \code{x} is an empty \code{Spectrum}. }   
     %% -------------------------------------------------- %%
     \item{as}{\code{signature(object = "Spectrum", "data.frame")}:
       Coerces the \code{Spectrum} object to a two-column
