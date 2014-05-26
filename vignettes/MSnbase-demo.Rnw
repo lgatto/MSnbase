@@ -143,6 +143,8 @@ opts_knit$set(error=TRUE)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{Foreword.tex}
 
+\input{Bugs.tex}
+
 \newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

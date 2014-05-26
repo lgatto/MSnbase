@@ -35,4 +35,5 @@ Suggests: testthat, zoo, knitr (>= 1.1.0), rols,
 License: Artistic-2.0
 LazyData: yes
 VignetteBuilder: knitr
+BugReports: https://github.com/lgatto/MSnbase/issues
 biocViews: Infrastructure, Proteomics, MassSpectrometry, QualityControl

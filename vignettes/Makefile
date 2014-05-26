@@ -7,6 +7,7 @@ LATEXFILES = *.aux\
         *.nls\
         *.toc\
         *.aux\
+	Bugs.tex\
         MSnbase-io.tex\
         MSnbase-demo.tex\
         MSnbase-development.tex\
@@ -35,13 +36,17 @@ ifeq (${R_HOME},)
 R_HOME=	$(shell R RHOME)
 endif
 
+bugs:
+	"$(R_HOME)/bin/R" --vanilla -e "library(knitr); knit('Bugs.Rnw');"
 demo: 
+	make bugs
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-demo.tex
 	bibtex MSnbase-demo
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-demo.tex
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-demo.tex
 
 demo2: 
+	make bugs
 	## local
 	"$(R_HOME)/bin/R" --vanilla -e "library(knitr); knit2pdf('MSnbase-demo.Rnw');"
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-demo.tex
@@ -50,12 +55,14 @@ demo2:
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-demo.tex
 
 io: 
+	make bugs
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-io.tex
 	bibtex MSnbase-io
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-io.tex
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-io.tex
 
 io2: 
+	make bugs
 	## local
 	"$(R_HOME)/bin/R" --vanilla -e "library(knitr); knit2pdf('MSnbase-io.Rnw');"
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-io.tex
@@ -64,12 +71,14 @@ io2:
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-io.tex
 
 devel: 
+	make bugs
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-development.tex
 	bibtex MSnbase-development
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-development.tex
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-development.tex
 
 devel2: 
+	make bugs
 	## local
 	"$(R_HOME)/bin/R" --vanilla -e "library(knitr); knit2pdf('MSnbase-development.Rnw');"
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-development.tex
