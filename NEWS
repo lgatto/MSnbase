@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.13.7
+-------------------------
+ o Bug tracking link [2014-05-26 Mon]
+
 CHANGES IN VERSION 1.13.6
 -------------------------
  o new isEmpty method for Spectrum instances [2014-05-14 Wed]
