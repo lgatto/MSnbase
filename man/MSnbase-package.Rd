@@ -5,20 +5,28 @@
 \title{MSnbase: Base Functions and Classes for MS-based Proteomics}
 
 \description{
-MSnbase provides classes, methods and functions for visualisation,
-manipulation and processing of mass spectrometry data. 
 
-Important class are \code{"\linkS4class{MSnExp}"} (raw data file),
-\code{"\linkS4class{MSnSet}"} (quantitation data) and
-\code{"\linkS4class{ReporterIons}"} (reporter ions for labelled
-proteomics).  
+  MSnbase provides classes, methods and functions for visualisation,
+  manipulation and processing of mass spectrometry data. 
 
-Other classes are \code{"\linkS4class{Spectrum}"} and the subclasses
-\code{"\linkS4class{Spectrum1}"} (for MS spectra) and
-\code{"\linkS4class{Spectrum2}"} (for MSMS spectra),
-\code{"\linkS4class{MIAPE}"} (Minimum Information about Proteomics
-Experiments) and \code{"\linkS4class{MSnProcess}"} (for processing
-information). These should however not be of direct utility to users. 
+  Important class are \code{"\linkS4class{MSnExp}"} (raw data file),
+  \code{"\linkS4class{MSnSet}"} (quantitation data) and
+  \code{"\linkS4class{ReporterIons}"} (reporter ions for labelled
+  proteomics).
+
+  Other classes are \code{"\linkS4class{Spectrum}"} and the subclasses
+  \code{"\linkS4class{Spectrum1}"} (for MS spectra) and
+  \code{"\linkS4class{Spectrum2}"} (for MSMS spectra),
+  \code{"\linkS4class{MIAPE}"} (Minimum Information about Proteomics
+  Experiments) and \code{"\linkS4class{MSnProcess}"} (for processing
+  information). These should however not be of direct utility to users.
+
+  If you have questions, want to rebort a bug or share suggestions,
+  please contact fill out an issue at
+  \url{https://github.com/lgatto/MSnbase/issues}, contact me directly or
+  send an email to the Bioconductor mailing list
+  \url{https://stat.ethz.ch/mailman/listinfo/bioconductor}.
+  
 }
 
 
@@ -26,6 +34,8 @@ information). These should however not be of direct utility to users.
   Laurent Gatto
   
   Maintainer: Laurent Gatto <lg390@cam.ac.uk>
+
+  See the DESCRIPTION file for a complete list of contributors.
 }
 
 \references{
