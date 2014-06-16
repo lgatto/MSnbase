@@ -15,7 +15,7 @@ listOf(x, class)
 \code{class}.
 }
 \description{
-.. content for \description{} (no empty lines) ..
+Compares equality of all members of a list.
 }
 \examples{
 listOf(list(), "foo")

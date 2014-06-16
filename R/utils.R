@@ -787,7 +787,7 @@ utils.removeNoIdAndMultipleAssignments <- function(object) {
         object <- removeMultipleAssignment(object)
     return(object)
 }
-##' .. content for \description{} (no empty lines) ..
+##' Compares equality of all members of a list.
 ##'
 ##' @title Tests equality of list elements class
 ##' @param x A code{list}.
