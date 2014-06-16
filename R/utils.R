@@ -787,4 +787,17 @@ utils.removeNoIdAndMultipleAssignments <- function(object) {
         object <- removeMultipleAssignment(object)
     return(object)
 }
-
+##' Compares equality of all members of a list.
+##'
+##' @title Tests equality of list elements class
+##' @param x A code{list}.
+##' @param class A \code{character} defining the expected class. 
+##' @return \code{TRUE} is all elements of \code{x} inherit from
+##' \code{class}.
+##' @author Laurent Gatto
+##' @examples
+##' listOf(list(), "foo")
+##' listOf(list("a", "b"), "character")
+##' listOf(list("a", 1), "character")
+listOf <- function(x, class)    
+    all(sapply(x, inherits, class))

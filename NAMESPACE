@@ -60,9 +60,8 @@ export(MSnSet,
        updateSampleNames,
        normalise, ## for normalize method
        get.amino.acids,
-       get.atomic.mass
-       )
-
+       get.atomic.mass,
+       listOf)
 
 exportClasses(pSet,
               MIAPE,
@@ -72,7 +71,8 @@ exportClasses(pSet,
               Spectrum, Spectrum1, Spectrum2,
               ReporterIons,
               FeaturesOfInterest,
-              FoICollection)
+              FoICollection,
+              FeatComp)
 
 exportMethods(coerce,
               show,"[","[[",
@@ -157,7 +157,13 @@ exportMethods(coerce,
               FoICollection,
               addFeaturesOfInterest,
               rmFeaturesOfInterest,
-              fnamesIn)
+              fnamesIn,
+              ## FeatComp
+              compfnames,
+              common,
+              unique1,
+              unique2,
+              names)
 
 ## methods NOT exported
 ## curveStats
