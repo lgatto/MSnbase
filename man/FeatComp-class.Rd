@@ -7,13 +7,12 @@
 \alias{compfnames,list,missing-method}
 \alias{compfnames}
 \alias{show,FeatComp-method}
-
 \alias{names,FeatComp-method}
 \alias{common,FeatComp-method}
 \alias{common,methods}
 \alias{common}
 \alias{unique1,FeatComp-method}
-\alias{unique1,methods}p
+\alias{unique1,methods}
 \alias{unique1}
 \alias{unique2,FeatComp-method}
 \alias{unique2,methods}
