@@ -13,16 +13,16 @@ test_that("FeatComp/.compStrings", {
     string1 <- c("a", "b", "c", "d")
     string2 <- c("c", "d", "e", "f")
     string3 <- c("f", "e")
-    x12 <- pRoloc:::.compStrings(string1, string2)
-    x13 <- pRoloc:::.compStrings(string1, string2)
-    x23 <- pRoloc:::.compStrings(string2, string3)
+    x12 <- MSnbase:::.compStrings(string1, string2)
+    x13 <- MSnbase:::.compStrings(string1, string2)
+    x23 <- MSnbase:::.compStrings(string2, string3)
     
     expect_equal(length(x12), 1)
     expect_true(x12@all, TRUE)
     expect_equal(x12@name, "all")
     
-    expect_false(pRoloc:::.compStrings(string1, string2, all = FALSE)@all)
-    expect_equal(pRoloc:::.compStrings(string1, string2, 
+    expect_false(MSnbase:::.compStrings(string1, string2, all = FALSE)@all)
+    expect_equal(MSnbase:::.compStrings(string1, string2, 
                                 all = FALSE, name = "ut")@name, "ut")
     ## test common features
     expect_equal(x12@common, c("c", "d"))
@@ -45,12 +45,12 @@ test_that("FeatComp/.calcCompNumbers", {
 
     ## test .calcCompNumbers which creates matrix 
     ## create objects for input for function .calcCompNumbers
-    flist11 <- pRoloc:::.compStrings(string1, string1, FALSE, "ut11")
-    flist12 <- pRoloc:::.compStrings(string1, string2, FALSE, "ut12")
-    flist13 <- pRoloc:::.compStrings(string1, string3, FALSE, "ut13")
-    flist23 <- pRoloc:::.compStrings(string2, string3, FALSE, "ut23")
+    flist11 <- MSnbase:::.compStrings(string1, string1, FALSE, "ut11")
+    flist12 <- MSnbase:::.compStrings(string1, string2, FALSE, "ut12")
+    flist13 <- MSnbase:::.compStrings(string1, string3, FALSE, "ut13")
+    flist23 <- MSnbase:::.compStrings(string2, string3, FALSE, "ut23")
     flist <- list(flist11, flist12, flist13, flist23)
-    res <- pRoloc:::.calcCompNumbers(flist)
+    res <- MSnbase:::.calcCompNumbers(flist)
     ## start testing
     expect_true(is.matrix(res))
     expect_equal(dim(res), c(4, 3))
