@@ -5,7 +5,7 @@ context("compfnames")
 ## .calcCompNumbers
 
 test_that("FeatComp", {
-    expect_true(validObject(.FeatComp()))
+    expect_true(validObject(MSnbase:::.FeatComp()))
 })
 
 test_that("FeatComp/.compStrings", {
@@ -14,7 +14,7 @@ test_that("FeatComp/.compStrings", {
     string2 <- c("c", "d", "e", "f")
     string3 <- c("f", "e")
     x12 <- MSnbase:::.compStrings(string1, string2)
-    x13 <- MSnbase:::.compStrings(string1, string2)
+    x13 <- MSnbase:::.compStrings(string1, string3)
     x23 <- MSnbase:::.compStrings(string2, string3)
     
     expect_equal(length(x12), 1)
@@ -35,7 +35,7 @@ test_that("FeatComp/.compStrings", {
     ## test unique features for argument string2
     expect_equal(x12@unique2, c("e", "f"))
     expect_equal(x23@unique2, character())
-    expect_equal(x13@unique2, c("f", "e"))
+    expect_equal(x13@unique2, c("f", "e"))    
 })
 
 test_that("FeatComp/.calcCompNumbers", {
