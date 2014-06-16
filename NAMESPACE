@@ -71,7 +71,8 @@ exportClasses(pSet,
               Spectrum, Spectrum1, Spectrum2,
               ReporterIons,
               FeaturesOfInterest,
-              FoICollection)
+              FoICollection,
+              FeatComp)
 
 exportMethods(coerce,
               show,"[","[[",
@@ -156,7 +157,13 @@ exportMethods(coerce,
               FoICollection,
               addFeaturesOfInterest,
               rmFeaturesOfInterest,
-              fnamesIn)
+              fnamesIn,
+              ## FeatComp
+              compfnames,
+              common,
+              unique1,
+              unique2,
+              names)
 
 ## methods NOT exported
 ## curveStats
