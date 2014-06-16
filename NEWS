@@ -3,6 +3,8 @@ CHANGES IN VERSION 1.13.9
  o new listOf helper function [2014-06-16 Mon]
  o compfnames to compare and document differences in MSnSet feature
    names [2014-06-16 Mon]
+ o suggesting Vennerable (compfnames example) and roxygen2 (generate
+   rd) [2014-06-16 Mon]
 
 CHANGES IN VERSION 1.13.8
 -------------------------

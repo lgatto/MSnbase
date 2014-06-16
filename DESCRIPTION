@@ -18,20 +18,23 @@ Authors@R: c(person(given = "Laurent", family = "Gatto",
              person(given = "Vladislav", family ="Petyuk",
 	            email = "petyuk@gmail.com",
 		    role = "ctb"),
+             person(given = "Thomas", family ="Naake",
+                    email = "tn299@cam.ac.uk",
+                    role = "ctb"),
              person(given = "Gibb", family ="Sebastian",
 	            email = "mail@sebastiangibb.de",
 		    role = "ctb"))
 Author: Laurent Gatto <lg390@cam.ac.uk> with contributions from
 	Guangchuang Yu, Samuel Wieczorek, Vasile-Cosmin Lazar,
-	Vladislav Petyuk and Sebastian Gibb.
+	Vladislav Petyuk, Thomas Naake and Sebastian Gibb.
 Maintainer: Laurent Gatto <lg390@cam.ac.uk>
 Depends: R (>= 3.1), methods, BiocGenerics (>= 0.7.1),
 	 Biobase (>= 2.15.2), ggplot2, mzR, BiocParallel
 Imports: plyr, IRanges, preprocessCore, vsn, grid,
 	 reshape2, stats4, affy, impute, pcaMethods, 
 	 mzID (>= 1.1.5), MALDIquant (>= 1.9.8), digest
-Suggests: testthat, zoo, knitr (>= 1.1.0), rols,
-	  Rdisop, pRolocdata (>= 1.0.7), msdata
+Suggests: testthat, zoo, knitr (>= 1.1.0), rols, Rdisop, pRolocdata
+	  (>= 1.0.7), msdata, roxygen2, Vennerable
 License: Artistic-2.0
 LazyData: yes
 VignetteBuilder: knitr
