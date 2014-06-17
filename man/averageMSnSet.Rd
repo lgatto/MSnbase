@@ -15,9 +15,10 @@ median(x, na.rm = TRUE)}.}
 \item{disp}{The disperion function. Default is an non-parametric
 coefficient of variation that replaces the standard deviation by
 the median absolute deviation as computed by
-\code{mad(x)/abs(mean(x))}. See \code{?npcv} for details. Note
-that the \code{mad} of a single value is 0 (as opposed to
-\code{NA} for the standard deviation, see example below).}
+\code{mad(x)/abs(mean(x))}. See \code{\link{npcv}} for
+details. Note that the \code{mad} of a single value is 0 (as
+opposed to \code{NA} for the standard deviation, see example
+below).}
 }
 \value{
 A new average \code{MSnSet}.
@@ -79,5 +80,8 @@ title(main = paste("Dispersion: non-parametric CV",
 }
 \author{
 Laurent Gatto
+}
+\seealso{
+\code{\link{compfnames}} to compare MSnSet feature names.
 }
 

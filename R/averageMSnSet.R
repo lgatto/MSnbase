@@ -33,11 +33,13 @@
 ##' @param disp The disperion function. Default is an non-parametric
 ##' coefficient of variation that replaces the standard deviation by
 ##' the median absolute deviation as computed by
-##' \code{mad(x)/abs(mean(x))}. See \code{?npcv} for details. Note
-##' that the \code{mad} of a single value is 0 (as opposed to
-##' \code{NA} for the standard deviation, see example below).
+##' \code{mad(x)/abs(mean(x))}. See \code{\link{npcv}} for
+##' details. Note that the \code{mad} of a single value is 0 (as
+##' opposed to \code{NA} for the standard deviation, see example
+##' below).
 ##' @return A new average \code{MSnSet}.
 ##' @author Laurent Gatto
+##' @seealso \code{\link{compfnames}} to compare MSnSet feature names.
 ##' @examples
 ##' library("pRolocdata")
 ##' ## 3 replicates from Tan et al. 2009
