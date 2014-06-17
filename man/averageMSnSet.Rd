@@ -3,8 +3,7 @@
 \alias{averageMSnSet}
 \title{Generate an average \code{MSnSet}}
 \usage{
-averageMSnSet(x, avg = function(x) mean(x, na.rm = TRUE), disp = function(x)
-  mad(x, na.rm = TRUE))
+averageMSnSet(x, avg = function(x) mean(x, na.rm = TRUE), disp = npcv)
 }
 \arguments{
 \item{x}{A \code{list} of valid \code{MSnSet} instances to be averaged.}
@@ -13,11 +12,12 @@ averageMSnSet(x, avg = function(x) mean(x, na.rm = TRUE), disp = function(x)
 removing missing valiues, as computed by \code{function(x)
 median(x, na.rm = TRUE)}.}
 
-\item{disp}{The disperion function. Default is the median absolute
-deviation as computed by \code{mad(x, na.rm = TRUE)}. See
-\code{?mad} for details. Note that the \code{mad} of a single
-value is 0 (as opposed to \code{NA} for the standard deviation,
-see example below).}
+\item{disp}{The disperion function. Default is an non-parametric
+coefficient of variation that replaces the standard deviation by
+the median absolute deviation as computed by
+\code{mad(x)/abs(mean(x))}. See \code{?npcv} for details. Note
+that the \code{mad} of a single value is 0 (as opposed to
+\code{NA} for the standard deviation, see example below).}
 }
 \value{
 A new average \code{MSnSet}.
@@ -62,23 +62,19 @@ dim(avg)
 head(exprs(avg))
 head(fData(avg)$nNA)
 head(fData(avg)$disp)
-## using the coefficient of variation as measure of dispersion
-cv <- function(x, na.rm = TRUE) {
-   sdx <- sd(x, na.rm = na.rm)
-   sdx/abs(mean(x, na.rm = na.rm))
-}
+## using the standard deviation as measure of dispersion
 avg2 <-averageMSnSet(list(tan2009r1, tan2009r2, tan2009r3),
-                     disp = cv)
+                     disp = sd)
 head(fData(avg2)$disp)
 ## keep only complete observations, i.e proteins
 ## that had 0 missing values for all samples
-sel <- apply(fData(avg2)$nNA, 1 , function(x) all(x == 0))
-avg2 <- avg2[sel, ]
-disp <- rowMax(fData(avg2)$disp)
+sel <- apply(fData(avg)$nNA, 1 , function(x) all(x == 0))
+avg <- avg[sel, ]
+disp <- rowMax(fData(avg)$disp)
 library("pRoloc")
 setStockcol(paste0(getStockcol(), "AA"))
 plot2D(avg, cex = 7.7 * disp)
-title(main = paste("Dispersion: coefficient of variation",
+title(main = paste("Dispersion: non-parametric CV",
                    paste(round(range(disp), 3), collapse = " - ")))
 }
 \author{
