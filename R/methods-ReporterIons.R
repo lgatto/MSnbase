@@ -11,7 +11,7 @@ setMethod("[","ReporterIons",
 setMethod("length","ReporterIons",function(x) length(x@mz))
 setMethod("mz","ReporterIons", function(object) object@mz)
 
-setMethod("width","ReporterIons", function(object) object@width) 
+setMethod("width","ReporterIons", function(x) x@width) 
 
 setMethod("reporterColours","ReporterIons", function(object) object@col)
 setMethod("reporterColors" ,"ReporterIons", function(object) object@col)
