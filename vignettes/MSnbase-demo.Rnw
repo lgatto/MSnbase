@@ -112,6 +112,8 @@
 suppressPackageStartupMessages(library("MSnbase"))
 suppressPackageStartupMessages(library("zoo"))
 suppressPackageStartupMessages(require("Rdisop"))
+suppressPackageStartupMessages(require("pRolocdata"))
+suppressPackageStartupMessages(require("pRoloc"))
 library("grid")
 library("reshape2")
 @
@@ -1550,9 +1552,9 @@ facilitate their visualisation. This can be easily achieved with the
 expression values are an average of the original values. A value of
 dispersion (\code{disp}) and a count of missing values (\code{nNA}) is
 recorded in the feature metadata slot. The average and dispersion are
-computed by default as the median and median absolute deviation,
-although this can easily be parametrised, as described in
-\code{?averageMSnSet}.
+computed by default as the median and (non-parametric) coefficient of
+variation (see \code{?npcv} for details), although this can easily be
+parametrised, as described in \code{?averageMSnSet}.
 
 The next code chunk illustrates the averaging function using three
 replicated experiments from \cite{Tan2009} available in the

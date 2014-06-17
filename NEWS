@@ -2,6 +2,7 @@ CHANGES IN VERSION 1.13.10
 --------------------------
  o new averageMSnSet function to generate an average over a list of
    MSnSets. [2014-06-17 Tue]
+ o new non-parametric coefficent of variation function [2014-06-17 Tue]
 
 CHANGES IN VERSION 1.13.9
 -------------------------
