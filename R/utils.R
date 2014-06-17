@@ -791,7 +791,9 @@ utils.removeNoIdAndMultipleAssignments <- function(object) {
 ##'
 ##' @title Tests equality of list elements class
 ##' @param x A code{list}.
-##' @param class A \code{character} defining the expected class. 
+##' @param class A \code{character} defining the expected class.
+##' @param valid A \code{logical} defining if all elements should be
+##' tested for validity. Default is \code{TRUE}.
 ##' @return \code{TRUE} is all elements of \code{x} inherit from
 ##' \code{class}.
 ##' @author Laurent Gatto
@@ -799,5 +801,9 @@ utils.removeNoIdAndMultipleAssignments <- function(object) {
 ##' listOf(list(), "foo")
 ##' listOf(list("a", "b"), "character")
 ##' listOf(list("a", 1), "character")
-listOf <- function(x, class)    
-    all(sapply(x, inherits, class))
+listOf <- function(x, class, valid = TRUE) {
+    cla <- all(sapply(x, inherits, class))
+    if (valid) val <- all(sapply(x, validObject))
+    else val <- TRUE
+    cla & val
+}
