@@ -810,7 +810,7 @@ listOf <- function(x, class, valid = TRUE) {
 
 ##' Calculates a non-parametric version of the coefficient of
 ##' variation where the standard deviation is replaced by the median
-##' absolute deviations (see \link{\code{mad}} for details) and
+##' absolute deviations (see \code{\link{mad}} for details) and
 ##' divided by the absolute value of the mean. 
 ##'
 ##' Note that the \code{mad} of a single value is 0 (as opposed to
