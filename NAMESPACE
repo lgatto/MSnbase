@@ -62,6 +62,7 @@ export(MSnSet,
        get.amino.acids,
        get.atomic.mass,
        listOf,
+       npcv,
        ## comparing MSnSets
        averageMSnSet)
 
