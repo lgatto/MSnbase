@@ -16,7 +16,14 @@
 ##' stored as a \code{data.frame} in the feature metadata that can be
 ##' accessed with \code{fData(.)$disp}. Similarly, the number of
 ##' missing values that were present when average (and dispersion)
-##' were computed are available in \code{fData(.)$disp}. 
+##' were computed are available in \code{fData(.)$disp}.
+##'
+##' Currently, the feature metadata of the returned object corresponds
+##' the the feature metadata of the first object in the list
+##' (augmented with the missing value and dispersion values); the
+##' metadata of the features that were missing in this first input are
+##' missing (i.e. populated with \code{NA}s). This may change in the
+##' future.
 ##' 
 ##' @title Generate an average \code{MSnSet}
 ##' @param x A \code{list} of valid \code{MSnSet} instances to be averaged.
@@ -54,6 +61,7 @@
 ##' sel <- apply(fData(avg2)$nNA, 1 , function(x) all(x == 0))
 ##' avg2 <- avg2[sel, ]
 ##' disp <- rowMax(fData(avg2)$disp)
+##' library("pRoloc")
 ##' setStockcol(paste0(getStockcol(), "AA"))
 ##' plot2D(avg, cex = 7.7 * disp)
 ##' title(main = paste("Dispersion: coefficient of variation",
@@ -105,7 +113,7 @@ averageMSnSet <- function(x,
                exprs = e0,
                featureData = new("AnnotatedDataFrame", data = fd0),
                phenoData = phenoData(x[[1]]))
-    ans <- MSnbase:::logging(ans, paste("Average of", l))
+    ans <- logging(ans, paste("Average of", l))
     if (validObject(ans)) ans
 }
 

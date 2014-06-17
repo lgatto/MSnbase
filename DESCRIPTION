@@ -33,8 +33,8 @@ Depends: R (>= 3.1), methods, BiocGenerics (>= 0.7.1),
 Imports: plyr, IRanges, preprocessCore, vsn, grid,
 	 reshape2, stats4, affy, impute, pcaMethods, 
 	 mzID (>= 1.1.5), MALDIquant (>= 1.9.8), digest
-Suggests: testthat, zoo, knitr (>= 1.1.0), rols, Rdisop, pRolocdata
-	  (>= 1.0.7), msdata, roxygen2, Vennerable
+Suggests: testthat, zoo, knitr (>= 1.1.0), rols, Rdisop, pRoloc,
+	  pRolocdata (>= 1.0.7), msdata, roxygen2, Vennerable
 License: Artistic-2.0
 LazyData: yes
 VignetteBuilder: knitr
