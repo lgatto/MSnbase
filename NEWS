@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.13.10
 --------------------------
- o 
+ o new averageMSnSet function to generate an average over a list of
+   MSnSets. [2014-06-17 Tue]
 
 CHANGES IN VERSION 1.13.9
 -------------------------
