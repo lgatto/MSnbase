@@ -102,6 +102,9 @@
   Laurent Gatto <lg390@cam.ac.uk> and Thomas Naake
 }
 
+\seealso{
+  \code{\link{averageMSnSet}} to compuate an average \code{MSnSet}.
+}
 
 \examples{
 library("pRolocdata")
