@@ -3,12 +3,15 @@
 \alias{listOf}
 \title{Tests equality of list elements class}
 \usage{
-listOf(x, class)
+listOf(x, class, valid = TRUE)
 }
 \arguments{
 \item{x}{A code{list}.}
 
 \item{class}{A \code{character} defining the expected class.}
+
+\item{valid}{A \code{logical} defining if all elements should be
+tested for validity. Default is \code{TRUE}.}
 }
 \value{
 \code{TRUE} is all elements of \code{x} inherit from

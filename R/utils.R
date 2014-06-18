@@ -791,7 +791,9 @@ utils.removeNoIdAndMultipleAssignments <- function(object) {
 ##'
 ##' @title Tests equality of list elements class
 ##' @param x A code{list}.
-##' @param class A \code{character} defining the expected class. 
+##' @param class A \code{character} defining the expected class.
+##' @param valid A \code{logical} defining if all elements should be
+##' tested for validity. Default is \code{TRUE}.
 ##' @return \code{TRUE} is all elements of \code{x} inherit from
 ##' \code{class}.
 ##' @author Laurent Gatto
@@ -799,5 +801,37 @@ utils.removeNoIdAndMultipleAssignments <- function(object) {
 ##' listOf(list(), "foo")
 ##' listOf(list("a", "b"), "character")
 ##' listOf(list("a", 1), "character")
-listOf <- function(x, class)    
-    all(sapply(x, inherits, class))
+listOf <- function(x, class, valid = TRUE) {
+    cla <- all(sapply(x, inherits, class))
+    if (valid) val <- all(sapply(x, validObject))
+    else val <- TRUE
+    cla & val
+}
+
+##' Calculates a non-parametric version of the coefficient of
+##' variation where the standard deviation is replaced by the median
+##' absolute deviations (see \code{\link{mad}} for details) and
+##' divided by the absolute value of the mean. 
+##'
+##' Note that the \code{mad} of a single value is 0 (as opposed to
+##' \code{NA} for the standard deviation, see example below).
+##'
+##' 
+##' @title Non-parametric coefficient of variation
+##' @param x A \code{numeric}.
+##' @param na.rm A \code{logical} (default is \code{TRUE} indicating
+##' whether \code{NA} values should be stripped before the computation
+##' of the median absolute deviation and mean.
+##' @return A \code{numeric}.
+##' @author Laurent Gatto
+##' @examples
+##' set.seed(1)
+##' npcv(rnorm(10))
+##' replicate(10, npcv(rnorm(10)))
+##' npcv(1)
+##' mad(1)
+##' sd(1)
+npcv <- function(x, na.rm = TRUE) {
+    mdx <- mad(x, na.rm = na.rm)
+    mdx/abs(mean(x, na.rm = na.rm))
+}

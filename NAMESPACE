@@ -18,7 +18,7 @@ importFrom(plyr, ddply, llply, adply, summarise, summarize)
 importFrom(stats4, plot)
 importFrom(preprocessCore, normalize.quantiles)
 importFrom(vsn, vsn2, meanSdPlot)
-importFrom(IRanges, IRanges)
+importFrom(IRanges, IRanges, width)
 importClassesFrom(IRanges, IRanges)
 importFrom(affy, MAplot, ma.plot, mva.pairs)
 importFrom(mzID, mzID, flatten)
@@ -61,7 +61,11 @@ export(MSnSet,
        normalise, ## for normalize method
        get.amino.acids,
        get.atomic.mass,
-       listOf)
+       listOf,
+       npcv,
+       ## comparing MSnSets
+       averageMSnSet)
+
 
 exportClasses(pSet,
               MIAPE,
@@ -158,7 +162,7 @@ exportMethods(coerce,
               addFeaturesOfInterest,
               rmFeaturesOfInterest,
               fnamesIn,
-              ## FeatComp
+              ## comparing MSnSets
               compfnames,
               common,
               unique1,
