@@ -61,7 +61,6 @@ setGeneric("purityCorrect", function(object,impurities, ...) standardGeneric("pu
 
 setGeneric("qual", function(object) standardGeneric("qual"))
 
-setGeneric("width", function(object) standardGeneric("width"))
 setGeneric("reporterNames", function(object) standardGeneric("reporterNames"))
 setGeneric("reporterNames<-", function(object, value) standardGeneric("reporterNames<-"))
 setGeneric("reporterColours", function(object) standardGeneric("reporterColours"))

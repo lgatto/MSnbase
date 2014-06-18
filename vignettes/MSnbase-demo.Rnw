@@ -112,6 +112,8 @@
 suppressPackageStartupMessages(library("MSnbase"))
 suppressPackageStartupMessages(library("zoo"))
 suppressPackageStartupMessages(require("Rdisop"))
+suppressPackageStartupMessages(require("pRolocdata"))
+suppressPackageStartupMessages(require("pRoloc"))
 library("grid")
 library("reshape2")
 @
@@ -1540,6 +1542,53 @@ can be more than 2) can then easily be combined with the
 If runs for the same sample (different fractions for example) need to
 be combines, one needs to (1) differentiate the feature provenance
 with \Rfunction{updateFeatureNames} prior to use \Rfunction{combine}.
+
+\subsection{Averaging \Robject{MSnSet} instances}\label{sec:avg}
+
+It is sometimes useful to average a set of replicated experiments to
+facilitate their visualisation. This can be easily achieved with the
+\Rfunction{averageMSnSet} function, which takes a list of valid
+\Robject{MSnSet} instances as input and creates a new object whose
+expression values are an average of the original values. A value of
+dispersion (\code{disp}) and a count of missing values (\code{nNA}) is
+recorded in the feature metadata slot. The average and dispersion are
+computed by default as the median and (non-parametric) coefficient of
+variation (see \code{?npcv} for details), although this can easily be
+parametrised, as described in \code{?averageMSnSet}.
+
+The next code chunk illustrates the averaging function using three
+replicated experiments from \cite{Tan2009} available in the
+\Rpackage{pRolocdata} package.
+
+<<avg>>=
+library("pRolocdata")
+data(tan2009r1)
+data(tan2009r2)
+data(tan2009r3)
+avgtan <- averageMSnSet(list(tan2009r1, tan2009r2, tan2009r3))
+head(exprs(avgtan))
+head(fData(avgtan)$disp)
+head(fData(avgtan)$nNA)
+@
+
+We are going to visualise the average data on a principle component
+(PCA) plot using the \Rfunction{plot2D} function from the
+\Rpackage{pRoloc} package \cite{Gatto2014}. In addition, we are going
+to use the measure of dispersion to highlight averages with high
+variability by taking, for each protein, the maximum observed
+dispersion in the 4 samples. Note that in the default implementation,
+dispersions estimated from a single measurement (i.e. that had 2
+missing values in our example) are set to 0; we will set these to the
+overal maximum observed dispersion.
+
+<<avg2>>=
+disp <- rowMax(fData(avgtan)$disp)
+disp[disp == 0] <- max(disp)
+range(disp)
+library("pRoloc")
+plot2D(avgtan, cex = 7 * disp)
+@
+
 
 \section{MS$^E$ data processing}\label{sec:mse}
 

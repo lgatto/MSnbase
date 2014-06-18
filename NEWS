@@ -1,3 +1,10 @@
+CHANGES IN VERSION 1.13.10
+--------------------------
+ o new averageMSnSet function to generate an average over a list of
+   MSnSets. [2014-06-17 Tue]
+ o new non-parametric coefficent of variation function [2014-06-17 Tue]
+ o Using/importing IRanges::width [2014-06-18 Wed]
+
 CHANGES IN VERSION 1.13.9
 -------------------------
  o new listOf helper function [2014-06-16 Mon]
