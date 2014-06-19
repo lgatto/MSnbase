@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: MSnbase: Base Functions and Classes for MS-based Proteomics
-Version: 1.13.10
+Version: 1.13.11
 Description: Basic plotting, data manipulation and processing
 	     of MS-based Proteomics data
 Authors@R: c(person(given = "Laurent", family = "Gatto",
@@ -34,7 +34,7 @@ Imports: plyr, IRanges, preprocessCore, vsn, grid,
 	 reshape2, stats4, affy, impute, pcaMethods, 
 	 mzID (>= 1.1.5), MALDIquant (>= 1.9.8), digest
 Suggests: testthat, zoo, knitr (>= 1.1.0), rols, Rdisop, pRoloc,
-	  pRolocdata (>= 1.0.7), msdata, roxygen2, Vennerable
+	  pRolocdata (>= 1.0.7), msdata, roxygen2
 License: Artistic-2.0
 LazyData: yes
 VignetteBuilder: knitr

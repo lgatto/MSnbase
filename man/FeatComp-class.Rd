@@ -85,7 +85,7 @@
       1. The \code{verbose} logical controls if a summary table needs
       to be printed (default is \code{TRUE}). }
 
-    \item{compfnames}{\code{signature(x = "list", y = "missing"), ...}:
+    \item{compfnames}{\code{signature(x = "list", y = "missing", ...)}:
       when \code{x} is a list of \code{MSnSet} instances,
       \code{compfnames} is applied to all element pairs of
       \code{x}. Additional parameters \code{fcol1}, \code{fcol2},
@@ -124,10 +124,6 @@ tail(xx)
 all.equal(xx[[15]],
           compfnames(tan2009r2, tan2009r3, fcol1 = NULL))
 str(sapply(xx, common))
-
-if (require("Vennerable"))
-    Venn(sapply(xx[1:3], common))
-
 }
 
 \keyword{classes}
