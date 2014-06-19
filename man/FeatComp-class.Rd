@@ -124,10 +124,6 @@ tail(xx)
 all.equal(xx[[15]],
           compfnames(tan2009r2, tan2009r3, fcol1 = NULL))
 str(sapply(xx, common))
-
-if (require("Vennerable"))
-    Venn(sapply(xx[1:3], common))
-
 }
 
 \keyword{classes}

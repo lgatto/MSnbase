@@ -1,7 +1,6 @@
 CHANGES IN VERSION 1.13.11
 --------------------------
- o do not suggest Vennerable (as not available on Bioc)
-   [2014-06-19 Thu]
+ o remove Vennerable::Venn from example and DESCRIPTION [2014-06-19 Thu]
 
 CHANGES IN VERSION 1.13.10
 --------------------------
