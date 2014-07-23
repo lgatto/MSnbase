@@ -8,10 +8,10 @@
 
 \description{ The \code{impute} method performs data imputation on an
   \code{MSnSet} instance. Currently, nearest neighbor averaging
-  (\code{knn}) and Bayesian missing value imputation (\code{bpca}) are
-  available, as implemented in the \code{impute::impute.knn} and
-  \code{pcaMethods::pca} functions respectively. Additional methods
-  might be added at a later stage.
+  (\code{knn}) and Bayesian missing value imputation (\code{bpca},
+  default) are available, as implemented in the
+  \code{impute::impute.knn} and \code{pcaMethods::pca} functions
+  respectively. Additional methods might be added at a later stage.
   
   The imputation and the parameters are logged into the
   \code{processingData(object)} slot. 

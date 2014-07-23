@@ -76,6 +76,11 @@
   \item{parallel}{
     Deprecated. Please see \code{BPPARAM}.   
   }
+
+  \item{qual}{
+    Should the \code{qual} slot be populated. Default is \code{TRUE}.
+  }
+  
   \item{verbose}{
     Verbose of the output (only for \code{MSnExp} objects).
   }
@@ -96,8 +101,7 @@
   \code{exprs} accessor) for \code{NA} values or by comaring the
   \code{lowerMz} and \code{upperMz} columns in the
   \code{"\linkS4class{MSnSet}"} \code{qual} slot against the respective
-  expected \code{mz(reporters)} +/- \code{width(reporters)}.  This is
-  illustrated in the example below.
+  expected \code{mz(reporters)} +/- \code{width(reporters)}.
 
   Once the range of the curve is found, quantification is performed.  If
   no data points are found in the expected region, \code{NA} is returned
