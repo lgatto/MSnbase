@@ -189,6 +189,7 @@ setMethod("quantify",
                    strict = FALSE,
                    parallel, ## replaced by BPPARAM
                    BPPARAM,
+                   qual = TRUE,
                    verbose = TRUE,
                    ...) {
               if (!missing(parallel))
@@ -208,7 +209,7 @@ setMethod("quantify",
                                   class(BPPARAM)[1])
                   }
                   quantify_MSnExp(object, method, reporters, strict,
-                                  BPPARAM, verbose)
+                                  BPPARAM, qual, verbose)
               } else if (method == "count") {
                   count_MSnSet(object)
               } else {
