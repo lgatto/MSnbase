@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.13.12
 --------------------------
  o Don't import width from IRanges [2014-07-23 Wed]
+ o qual slot is populated again [2014-07-23 Wed]
 
 CHANGES IN VERSION 1.13.11
 --------------------------
