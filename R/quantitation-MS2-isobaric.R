@@ -1,6 +1,7 @@
 quantify_MSnExp <- function(object, method,
                             reporters, strict,
                             BPPARAM,
+                            qual,
                             verbose) { ## ignored
     if (any(centroided(object)) & method == "trapezoidation")
         warning("You are quantifying using 'trapezoidation' on centroided data!",
@@ -9,12 +10,16 @@ quantify_MSnExp <- function(object, method,
     ## Quantification -- creating exprs for assayData slot
     peakData <- bplapply(spectraList, quantify, method, reporters, strict,
                          BPPARAM = BPPARAM)
-    .exprs <- do.call(rbind, sapply(peakData, "[", "peakQuant"))
+    .exprs <- do.call(rbind, lapply(peakData, "[[", "peakQuant"))
+    rownames(.exprs) <- sub(".peakQuant", "", rownames(.exprs))    
     ## Time consuming - consider removing or caching
-    ## .qual <- do.call(rbind, sapply(peakData, "[", "curveStats")) 
-    .qual <- data.frame()
-    rownames(.exprs) <- sub(".peakQuant", "", rownames(.exprs))
-    ## rownames(.qual) <- sub(".curveStats", "", rownames(.qual))
+    if (qual) {
+        qlist <- lapply(peakData, "[[", "curveStats")
+        .qual <- do.call(rbind, qlist)
+        rownames(.qual) <- sub(".curveStats", "", rownames(.qual))
+    } else {
+        .qual <- data.frame()
+    }
     ## Updating MSnprocess slot
     object@processingData@processing <- c(object@processingData@processing,
                                           paste(reporters@name,
@@ -53,7 +58,7 @@ quantify_MSnExp <- function(object, method,
     if (verbose)
         message("Creating 'MSnSet' object")
     msnset <- new("MSnSet",
-                  qual = .qual,
+                  qual = data.frame(.qual),
                   exprs = .exprs,
                   experimentData = experimentData(object),
                   phenoData = .phenoData,
