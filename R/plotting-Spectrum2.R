@@ -72,11 +72,11 @@ plot_Spectrum2 <- function(spectrum,
                             fill = fill,
                             alpha = alpha))
       if (centroided.) {
-        p2 <- ggplot(dfr2, aes(x = mtc, y = i, width = width)) + 
+        p2 <- ggplot(dfr2, aes(x = mtc, y = i, width = 0.025)) + ## was  width = width
           geom_bar(stat = "identity", position = "identity") +
             rect
       } else {
-        p2 <- ggplot(dfr2, aes( x =mtc, y = i)) + geom_line() + rect
+        p2 <- ggplot(dfr2, aes(x = mtc, y = i)) + geom_line() + rect
       }
       reps <- p2 + coord + 
         theme_gray(5) +
