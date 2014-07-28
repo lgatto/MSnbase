@@ -1,6 +1,6 @@
 CHANGES IN VERSION 1.13.13
 --------------------------
- o 
+ o fix issue with readMSnSet2 without fdata [2014-07-28 Mon]
 
 CHANGES IN VERSION 1.13.12
 --------------------------
