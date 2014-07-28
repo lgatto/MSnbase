@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.13.13
+--------------------------
+ o fix issue with readMSnSet2 without fdata [2014-07-28 Mon]
+
 CHANGES IN VERSION 1.13.12
 --------------------------
  o Don't import width from IRanges [2014-07-23 Wed]
