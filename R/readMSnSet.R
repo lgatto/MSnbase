@@ -71,7 +71,7 @@ readMSnSet2 <- function(file, ecol, fnames, ...) {
            paste(colnames(xx), paste = ", "))
   }
   eset <- as.matrix(xx[, ecol])
-  fdata <- xx[, -ecol]
+  fdata <- xx[, -ecol, drop = FALSE]
   ans <- new("MSnSet",
              exprs = eset,
              featureData = new("AnnotatedDataFrame",
