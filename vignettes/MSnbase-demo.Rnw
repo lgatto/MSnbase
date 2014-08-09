@@ -109,6 +109,7 @@
 \newpage
 
 <<environment, cache=FALSE, echo=FALSE>>=
+suppressPackageStartupMessages(library("ggplot2"))
 suppressPackageStartupMessages(library("MSnbase"))
 suppressPackageStartupMessages(library("zoo"))
 suppressPackageStartupMessages(require("Rdisop"))
@@ -412,12 +413,12 @@ also (invisibly) returned, so that it can be saved as a variable for
 later use or for customisation.
 
 \Rpackage{MSnbase} uses the \Rpackage{ggplot2} package to generate
-figures, which can subsequently easily be customised.  More details
+plots, which can subsequently easily be customised.  More details
 about \Rpackage{ggplot2} can be found in \cite{ggplot2} (especially
 chapter 8) and on
 \href{http://had.co.nz/ggplot2/}{http://had.co.nz/ggplot2/}.  Finally,
 if a plot object has been saved in a variable \Robject{p}, it is
-possible to obtain a summary about the object with
+possible to obtain a summary of the object with
 \Rfunction{summary(p)}.  To view the data frame used to generate the
 plot, use \Rfunction{p@data}.
 
