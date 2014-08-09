@@ -68,6 +68,7 @@
 \dontrun{
     library("RforProteomics")
     (f <- getPXD000001mzXML())
+    ms <- openMSfile(f)
     x <- xic(ms, mz = 636.925, width = 0.01)
     head(x)
     xic(ms, mz = 636.925, width = 0.01,
