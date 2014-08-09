@@ -7,6 +7,7 @@ import(impute)
 import(MALDIquant)
 
 import(ggplot2)
+import(lattice)
 import(methods)
 
 import(reshape2) ## try to reduce this
@@ -64,7 +65,8 @@ export(MSnSet,
        listOf,
        npcv,
        ## comparing MSnSets
-       averageMSnSet)
+       averageMSnSet,
+       MSmap)
 
 
 exportClasses(pSet,
@@ -76,7 +78,8 @@ exportClasses(pSet,
               ReporterIons,
               FeaturesOfInterest,
               FoICollection,
-              FeatComp)
+              FeatComp,
+              MSmap)
 
 exportMethods(coerce,
               show,"[","[[",
@@ -167,7 +170,11 @@ exportMethods(coerce,
               common,
               unique1,
               unique2,
-              names)
+              names,
+              ## MSmap
+              mzRes, plot3D, msMap,
+              fileName, t
+              )
 
 ## methods NOT exported
 ## curveStats
