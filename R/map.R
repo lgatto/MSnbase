@@ -16,6 +16,13 @@ setGeneric("plot3D", function(object, ...) standardGeneric("plot3D"))
 setMethod("dim", "MSmap", function(x) dim(x@map))
 setMethod("nrow", "MSmap", function(x) nrow(x@map))
 setMethod("ncol", "MSmap", function(x) ncol(x@map))
+setMethod("fileName", "MSmap", function(object) object@filename)
+setMethod("msMap", "MSmap", function(object) object@map)
+setMethod("rtime", "MSmap", function(object) object@rt)
+setMethod("msLevel", "MSmap", function(object) object@ms)
+setMethod("mz", "MSmap", function(object) object@mz)
+setMethod("mzRes", "MSmap", function(object) object@res)
+
 setMethod("t", "MSmap", function(x) {
     .MSmap(call = x@call,
            map = t(x@map),
@@ -26,11 +33,6 @@ setMethod("t", "MSmap", function(x) {
            filename = x@filename)
 })
 
-setMethod("msMap", "MSmap", function(object) object@map)
-setMethod("rtime", "MSmap", function(object) object@rt)
-setMethod("msLevel", "MSmap", function(object) object@ms)
-setMethod("mz", "MSmap", function(object) object@mz)
-setMethod("mzRes", "MSmap", function(object) object@res)
 
 setMethod("show", "MSmap",
           function(object) {
@@ -63,28 +65,6 @@ setAs("MSmap", "data.frame",
                      mz = rep(.mz, each = length(.rt)),
                      ms = rep(.ms, length(.mz)))
       })
-
-MSmap <- function(object, scans, lowMz, highMz, resMz, hd) {
-    if (missing(hd))
-        hd <- header(object)
-    ms1 <- which(hd$msLevel == 1)
-    if (missing(scans)) {
-        scans <- ms1
-    } else {
-        if (!all(scans %in% ms1))
-            message("Some scans are not of MS level 1.")
-    }    
-    .call <- match.call()
-    map <- mzR::get3Dmap(object, scans, lowMz, highMz, resMz)
-    mz <- seq(lowMz, highMz, resMz)
-    rt <- hd$retentionTime[scans]
-    .MSmap(call = .call, map = map,
-           mz = mz, res = resMz,
-           rt = rt, ms = hd$msLevel[scans],
-           t = FALSE,
-           filename = mzR::fileName(object))
-}
-
 
 setMethod("plot", c("MSmap", "missing"),
           function(x, y, allTicks = TRUE, ...){
@@ -136,4 +116,21 @@ setMethod("plot3D", "MSmap",
               }
 
           })
+
+MSmap <- function(object, scans, lowMz, highMz, resMz, hd) {
+    if (missing(hd))
+        hd <- header(object)
+    ms1 <- which(hd$msLevel == 1)
+    if (missing(scans)) 
+        scans <- ms1
+    .call <- match.call()
+    map <- mzR::get3Dmap(object, scans, lowMz, highMz, resMz)
+    mz <- seq(lowMz, highMz, resMz)
+    rt <- hd$retentionTime[scans]
+    .MSmap(call = .call, map = map,
+           mz = mz, res = resMz,
+           rt = rt, ms = hd$msLevel[scans],
+           t = FALSE,
+           filename = mzR::fileName(object))
+}
 

@@ -3,7 +3,7 @@ CHANGES IN VERSION 1.13.14
  o Fix xic example [2014-08-08 Fri]
  o importing lattice, ggplot2 (was depends) and suggesting rgl
    [2014-08-09 Sat]
- o [non-exported] MSmap infrastructure [2014-08-09 Sat]
+ o MSmap infrastructure [2014-08-09 Sat]
 
 CHANGES IN VERSION 1.13.13
 --------------------------
