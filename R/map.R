@@ -81,11 +81,8 @@ setMethod("plot", c("MSmap", "missing"),
                       list(x = list(at = i, labels = formatRt(rtime(x)[i])),
                            y = list(at = j, labels = mz(x)[j]))
               } 
-              par.set <-
-                  list(clip = list(panel = "off"))
               levelplot(log10(m),
                         scales = scales.set,
-                        par.settings = par.set,
                         xlab = "Retention time",
                         ylab = "M/Z", ...)
           })
@@ -99,8 +96,7 @@ setMethod("plot3D", "MSmap",
                   plot3d(rev(dd$mz), dd$rt, dd$intensity, , type = "h",
                          xlab = "M/Z", ylab = "Retention time", zlab = "")
               } else {
-                  par.set <- list(box.3d = list(lwd=.2),
-                                  clip = list(panel = "off"))
+                  par.set <- list(box.3d = list(lwd=.2))
                   cloud(intensity ~ rev(mz) + rt , data = dd,
                         type="h",
                         scales= list(

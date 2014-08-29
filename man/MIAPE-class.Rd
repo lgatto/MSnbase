@@ -67,7 +67,7 @@
       information about the pre-processing steps used on the raw data from
       this experiment. }
     \item{\code{other}:}{Object of class \code{list} containing other
-      information for which none of the above slots does not applies. }
+      information for which none of the above slots applies. }
     \item{\code{dateStamp}:}{Object of class \code{character}, giving
       the date on which the work described was initiated; given in the
       standard 'YYYY-MM-DD' format (with hyphens). }
