@@ -1,5 +1,7 @@
-if (is.null(getGeneric("width")))
-    setGeneric("width", function(x) standardGeneric("width"))
+# if (is.null(getGeneric("width")))
+#    setGeneric("width", function(x) standardGeneric("width"))
+
+setGeneric("width", function(x) standardGeneric("width"))
 
 setGeneric("bin", function(object, ...) standardGeneric("bin"))
 setGeneric("clean", function(object, ...) standardGeneric("clean"))
