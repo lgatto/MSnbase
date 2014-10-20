@@ -686,27 +686,49 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, idData) {
 utils.addSingleIdentificationDataFile <- function(object, filename,
                                                   verbose=TRUE) {
 
-  id <- flatten(mzID(filename, verbose=verbose))
-  idFilenames <- basename(id$spectrumFile)
+    ## addIdentificationData does some data checking. It extracts the
+    ## data file name(s) using the run the search engine from the
+    ## (flattened) mzID file - idFilenames - and the file used to
+    ## produce the MSnExp - spectumFilenames.
 
-  if (!length(fData(object)$file)) {
-    stop("No quantification file loaded!")
-  }
+    ## If any idFilenames is absent from the spectumFilenames, if
+    ## complains, as it could be that the wrong identification data
+    ## was used or identification data is added to the wrong raw data.
 
-  spectrumFilenames <- basename(fileNames(object)[fData(object)$file])
+    ## There is however a case where this is too restricitve. If the
+    ## search engine only support peak lists, then idFilenames will
+    ## contain the peak lists and the spectumFilenames the mz[X]ML
+    ## file names. What about using the mgf to raw/quant data object?
+    ## Do we still have enough data to match id and raw data?
+    ## See utils.mergeSpectraAndIdentificationData(fData(object), id)   
+    
+    id <- mzID(filename, verbose=verbose)
+    idFilenames <- basename(files(xt)$raw$location)
+    id <- flatten(id)
 
-  if (any(!idFilenames %in% unique(spectrumFilenames))) {
-    stop("Filenames do not match! Do you use the wrong identification file?")
-  }
+    ## not all mzid results have the spectrumFile column
+    ## MSGF+ does, xTANDEM does not (see github issue #39)
+    if (!is.null(id$spectrumFile)) 
+        idFilenames <- basename(id$spectrumFile)
+    
+    if (!length(fData(object)$file)) 
+        stop(paste("fData(.) was not initialised.",
+                   "Did you call this unexported method directly?"))
 
-  ## append identification filename to filename slot
-  fileNames(object) <- c(fileNames(object), filename)
-  id$file <- match(idFilenames, spectrumFilenames)
-  id$identFile <- length(fileNames(object))
+    spectrumFilenames <- basename(fileNames(object)[fData(object)$file])
 
-  fData(object) <- utils.mergeSpectraAndIdentificationData(fData(object), id)
+    if (any(!idFilenames %in% unique(spectrumFilenames))) {
+        stop("Filenames do not match! Did you use the wrong identification file?")
+    }
 
-  return(object)
+    ## append identification filename to filename slot
+    fileNames(object) <- c(fileNames(object), filename)
+    id$file <- match(idFilenames, spectrumFilenames)
+    id$identFile <- length(fileNames(object))
+
+    fData(object) <- utils.mergeSpectraAndIdentificationData(fData(object), id)
+
+    return(object)
 }
 
 utils.addIdentificationData <- function(object,
@@ -725,7 +747,7 @@ utils.addIdentificationData <- function(object,
                          length(x)
                      })
   ## number of peptides observed for each protein
-  fd$npep.prot <- as.integer(ave(fd$accession, fd$pepseq, FUN = length))
+  fd$npep.prot <- as.integer(ave(fd$accession, fd$pepseq, FUN=length))
   ## number of PSMs observed for each protein
   fd$npsm.prot <- as.integer(ave(fd$accession, fd$accession, FUN=length))
   ## number of PSMs observed for each protein
