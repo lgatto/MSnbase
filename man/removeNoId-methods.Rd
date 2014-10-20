@@ -37,7 +37,7 @@
   quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                      full.name = TRUE, pattern = "mzXML$")
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                     full.name = TRUE, pattern = "mzid$")
+                     full.name = TRUE, pattern = "dummyiTRAQ.mzid")
   msexp <- readMSData(quantFile)
   msexp <- addIdentificationData(msexp, identFile)
   fData(msexp)$pepseq
