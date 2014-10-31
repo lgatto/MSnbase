@@ -187,11 +187,11 @@ test_that("addIdentificationData", {
   quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "mzXML$")
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                   full.name = TRUE, pattern = "mzid$")
+                   full.name = TRUE, pattern = "dummyiTRAQ.mzid")
 
   expect_error(addIdentificationData(new("MSnExp"),
                                      identFile, verbose = FALSE),
-               "No quantification file loaded")
+               "No data file found in the feature data.")
 
   aa <- readMSData(quantFile, verbose = FALSE)
 
@@ -216,13 +216,23 @@ test_that("addIdentificationData", {
   expect_equal(fd$npsm.pep, c(1, 1, NA, NA, 1))
 })
 
+## test_that("addIdentificationData from MSGF+ and X!TANDEM", {
+##     rawFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+##                    full.name = TRUE, pattern = "mzXML$")
+##     msgfFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+##                     full.name = TRUE, pattern = "dummyiTRAQ.mzid")
+##     xtFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+##                   full.name = TRUE, pattern = "dummyiTRAQxt.mzid")
+##     x <- addIdentificationData(aa, msgfFile)    
+##     y <- addIdentificationData(aa, xtFile)
+## })
 
 
 test_that("idSummary", {
   quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "mzXML$")
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                   full.name = TRUE, pattern = "mzid$")
+                   full.name = TRUE, pattern = "dummyiTRAQ.mzid")
 
   aa <- readMSData(quantFile, verbose = FALSE)
   bb <- addIdentificationData(aa, identFile, verbose = FALSE)
