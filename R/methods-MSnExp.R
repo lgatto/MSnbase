@@ -285,20 +285,31 @@ setMethod("removeReporters","MSnExp",
 
 setMethod("addIdentificationData", "MSnExp",
           function(object, filenames, verbose = TRUE) {
-            ## we temporaly add the file/acquisition.number information
-            ## to our fData data.frame because utils.addIdentificationData
-            ## needs this information for matching (it is present in MSnSet)
-            fData(object)$file <- fromFile(object)
-            fData(object)$acquisition.number <- acquisitionNum(object)
-            object <- utils.addIdentificationData(object, filenames,
-                                                  verbose = verbose)
-            ## after adding the identification data we remove the
-            ## temporary data to avoid duplication and problems in quantify
-            cn <- colnames(fData(object))
-            keep <- !(cn %in% c("file", "acquisition.number"))
-            fData(object) <- fData(object)[, keep, drop=FALSE]
-            if (validObject(object))
-                return(object)
+              ## we temporaly add the file/acquisition.number information
+              ## to our fData data.frame because utils.addIdentificationData
+              ## needs this information for matching (it is present in MSnSet)
+              fn0 <- fvarLabels(object)
+              if ("file" %in% fn0)
+                  file0 <- fData(object)$file
+              if ("acquisition.number" %in% fn0)
+                  an0 <- fData(object)$acquisition.number
+              
+              fData(object)$file <- fromFile(object)
+              fData(object)$acquisition.number <- acquisitionNum(object)
+              object <- utils.addIdentificationData(object, filenames,
+                                                    verbose = verbose)
+              ## after adding the identification data we remove the
+              ## temporary data to avoid duplication and problems in quantify
+              cn <- colnames(fData(object))
+              keep <- !(cn %in% c("file", "acquisition.number"))
+              fData(object) <- fData(object)[, keep, drop=FALSE]
+              if ("file" %in% fn0)
+                  fData(object)$file <- file0
+              if ("acquisition.number" %in% fn0)
+                  fData(object)$acquisition.number <- an0
+              
+              if (validObject(object))
+                  return(object)
         })
 
 setMethod("removeNoId", "MSnExp",

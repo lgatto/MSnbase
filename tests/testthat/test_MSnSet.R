@@ -88,8 +88,9 @@ test_that("Combine MSnSet features (V)", {
 
 
 test_that("Combine MSnSet features (L)", {
+
     e <- matrix(1:15, nrow = 5)
-    colnames(e) <- LETTERS[1:3]
+    colnames(e) <- paste0("X", 1:3)
     rownames(e) <- letters[1:5]
     ee <- new("MSnSet", exprs = e)
     expect_true(validObject(ee))
@@ -104,18 +105,28 @@ test_that("Combine MSnSet features (L)", {
     expect_error(combineFeatures(ee, L))
 
     ## unordered names -> warning
-    names(L) <- featureNames(ee)
+    names(L) <- featureNames(ee)    
     L <- L[sample(featureNames(ee))]
     expect_warning(combineFeatures(ee, L,
                                    redundancy.handler = "unique",
                                    cv = FALSE))
 
+    L <- list(c("A", "B"), "B", "C", c("A", "B", "C"), "A")
     names(L) <- featureNames(ee)
     ee2 <- combineFeatures(ee, L,
                            redundancy.handler = "unique",
-                           cv = FALSE)
+                           cv = FALSE)    
     ee2 <- MSnbase:::nologging(ee2, 2)
-    ee3 <- ee[c(5, 2, 3), ]
+    ## peptide a -> protein(s) A, B  DISCARD
+    ## peptide b -> protein(s) B       KEEP
+    ## peptide c -> protein(s) C       KEEP
+    ## peptide d -> protein(s) A, B, C DISCARD
+    ## peptide e -> protein(s) A       KEEP
+    ## 
+    ## Protein A is quantified by pep e only 
+    ## Protein B is quantified by pep b only 
+    ## Protein C is quantified by pep c only
+    ee3 <- ee[c("e", "b", "c"), ]
     featureNames(ee3) <- LETTERS[1:3]
     ee3@processingData@merged <- TRUE
     ee3 <- MSnbase:::nologging(ee3, 1)
@@ -202,7 +213,7 @@ test_that("addIdentificationData", {
                    full.name = TRUE, pattern = "mzXML$")
 
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                   full.name = TRUE, pattern = "mzid$")
+                   full.name = TRUE, pattern = "dummyiTRAQ.mzid")
 
   aa <- readMSData(quantFile, verbose = FALSE)
   msnset <- quantify(aa, method = "trap", reporters = iTRAQ4, verbose = FALSE)
@@ -228,7 +239,7 @@ test_that("idSummary", {
   quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "mzXML$")
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                   full.name = TRUE, pattern = "mzid$")
+                   full.name = TRUE, pattern = "dummyiTRAQ.mzid")
 
   aa <- readMSData(quantFile, verbose = FALSE)
   msnset <- quantify(aa, method = "trap", reporters = iTRAQ4, verbose = FALSE)
