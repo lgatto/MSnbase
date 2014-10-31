@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.15.2
+-------------------------
+ o 
+
 CHANGES IN VERSION 1.15.1
 -------------------------
  o Fixing error when id file has no spectrumFile info (see issue #39)
