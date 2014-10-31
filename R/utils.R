@@ -703,7 +703,7 @@ utils.addSingleIdentificationDataFile <- function(object, filename,
     ## See utils.mergeSpectraAndIdentificationData(fData(object), id)   
     
     id <- mzID(filename, verbose=verbose)
-    idFilenames <- basename(files(xt)$raw$location)
+    idFilenames <- basename(mzID::files(id)$raw$location)
     id <- flatten(id)
 
     ## not all mzid results have the spectrumFile column
@@ -712,8 +712,9 @@ utils.addSingleIdentificationDataFile <- function(object, filename,
         idFilenames <- basename(id$spectrumFile)
     
     if (!length(fData(object)$file)) 
-        stop(paste("fData(.) was not initialised.",
-                   "Did you call this unexported method directly?"))
+        stop(paste("No data file found in the feature data."))
+    ## possible reasons: fData was not initialised appropriately in
+    ## addIdentificationData,MSnExp
 
     spectrumFilenames <- basename(fileNames(object)[fData(object)$file])
 

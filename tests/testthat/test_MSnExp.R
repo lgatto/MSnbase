@@ -191,7 +191,7 @@ test_that("addIdentificationData", {
 
   expect_error(addIdentificationData(new("MSnExp"),
                                      identFile, verbose = FALSE),
-               "No quantification file loaded")
+               "No data file found in the feature data.")
 
   aa <- readMSData(quantFile, verbose = FALSE)
 
