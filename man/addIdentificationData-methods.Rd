@@ -69,7 +69,7 @@ quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                  full.name = TRUE, pattern = "mzXML$")
 ## find path to a mzIdentML file
 identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                 full.name = TRUE, pattern = "mzid$")
+                 full.name = TRUE, pattern = "dummyiTRAQ.mzid")
 
 ## create basic MSnExp
 msexp <- readMSData(quantFile)

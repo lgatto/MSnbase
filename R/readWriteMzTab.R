@@ -177,14 +177,14 @@ makeMTD <- function(x,
   if (is.null(instrumentSource)) {
     if (length(ionSource(x)) > 0) {
       instrumentSource <- ionSource(x)
-      instrumentSource <- olsQuery(instrumentSource, "PSI", exact = TRUE)
+      instrumentSource <- rols::olsQuery(instrumentSource, "PSI", exact = TRUE)
       if (length(instrumentSource) != 1) {
         instrumentSource <- NULL
         warning("No unique instrumentSource ontology term found.")
       } else {
         .label <- strsplit(names(instrumentSource), ":")[[1]][1]
         .accession <- names(instrumentSource)
-        .name <- term(.accession, .label)
+        .name <- rols::term(.accession, .label)
         instrumentSource <- new("CVParam", label = .label, accession = .accession, name = .name)
       }
     }
@@ -194,14 +194,14 @@ makeMTD <- function(x,
   if (is.null(instrumentAnalyzer)) {
     if (length(analyzer(x)) > 0) {
       instrumentAnalyzer <- analyzer(x)
-      instrumentAnalyzer <- olsQuery(instrumentAnalyzer, "MS", exact = TRUE)
+      instrumentAnalyzer <- rols::olsQuery(instrumentAnalyzer, "MS", exact = TRUE)
       if (length(instrumentAnalyzer) != 1) {
         instrumentAnalyzer <- NULL
         warning("No unique instrumentAnalyzer ontology term found.")
       } else {
         .label <- strsplit(names(instrumentAnalyzer), ":")[[1]][1]
         .accession <- names(instrumentAnalyzer)
-        .name <- term(.accession, .label)
+        .name <- rols::term(.accession, .label)
         instrumentAnalyzer <- new("CVParam",
                                   label = .label,
                                   accession = .accession,
@@ -214,14 +214,14 @@ makeMTD <- function(x,
   if (is.null(instrumentDetector)) {
     if (length(detectorType(x)) > 0) {
       instrumentDetector <- detectorType(x)
-      instrumentDetector <- olsQuery(instrumentDetector, "MS", exact = TRUE)
+      instrumentDetector <- rols::olsQuery(instrumentDetector, "MS", exact = TRUE)
       if (length(instrumentDetector) != 1) {
         instrumentDetector <- NULL
         warning("No unique instrumentDetector ontology term found.")
       } else {
         .label <- strsplit(names(instrumentDetector), ":")[[1]][1]
         .accession <- names(instrumentDetector)
-        .name <- term(.accession, .label)
+        .name <- rols::term(.accession, .label)
         instrumentDetector <- new("CVParam", label = .label, accession = .accession, name = .name)
       }
     }
@@ -291,14 +291,14 @@ makeMTD <- function(x,
   ## default quant unit is PRIDE:0000330, Arbitrary quantificatio unit
   if (is.null(protQuantUnit)) {
     .accession <- "PRIDE:0000330"
-    .name <- term(.accession, "PRIDE")
+    .name <- rols::term(.accession, "PRIDE")
     protQuantUnit <- new("CVParam", label = "PRIDE", accession = .accession, name = .name)
   }
   mtd <- addToMtd(as.character(protQuantUnit), "protein-quantification_unit")
 
   if (is.null(pepQuantUnit)) {
     .accession <- "PRIDE:0000330"
-    .name <- term(.accession, "PRIDE")
+    .name <- rols::term(.accession, "PRIDE")
     pepQuantUnit <- new("CVParam", label = "PRIDE", accession = .accession, name = .name)    
   }
   mtd <- addToMtd(as.character(pepQuantUnit), "peptide-quantification_unit")
@@ -307,7 +307,7 @@ makeMTD <- function(x,
     if (length(fileNames(x)) > 0) {
       ext <- tail(unlist(strsplit(fileNames(x), "\\.")), n = 1)
       if (tolower(ext) %in% c("mzml", "mzxml", "mzdata", "mgf")) {
-        .name <- olsQuery(paste(ext, "format"), "MS")
+        .name <- rols::olsQuery(paste(ext, "format"), "MS")
         .accession <- names(.name)
         msFileFormat <- new("CVParam", label = "MS", accession = .accession, name = .name)
       ## } else if (tolower(ext) == "mgf") {
