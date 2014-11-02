@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.15.2
 -------------------------
- o 
+ o merged sgibb's pull request exporting overloaded methods as well
+   [2014-11-02 Sun]
 
 CHANGES IN VERSION 1.15.1
 -------------------------
