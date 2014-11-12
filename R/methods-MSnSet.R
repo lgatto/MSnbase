@@ -60,6 +60,9 @@ setValidity("MSnSet", function(object) {
   if (!inherits(experimentData(object),"MIAPE"))
     msg <- validMsg(msg,
                     "experimentData slot in MSnSet must be 'MIAPE' object")
+  if (!inherits(exprs(object), "matrix"))
+    msg <- validMsg(msg,
+                    "exprs(.) must be a matrix")  
   if (is.null(msg)) TRUE else msg
 })
 
