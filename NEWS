@@ -1,3 +1,10 @@
+CHANGES IN VERSION 1.15.2
+-------------------------
+ o merged sgibb's pull request exporting overloaded methods as well
+   [2014-11-02 Sun]
+ o updated MSnSet validity, checking that exprs(.) is a matrix
+   [2014-11-12 Wed]
+
 CHANGES IN VERSION 1.15.1
 -------------------------
  o Fixing error when id file has no spectrumFile info (see issue #39)
