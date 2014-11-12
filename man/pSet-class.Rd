@@ -19,6 +19,7 @@
 \alias{dim}
 \alias{experimentData,pSet-method}
 \alias{fData,pSet-method}
+\alias{fData<-,pSet,data.frame-method}
 \alias{featureData,pSet-method}
 \alias{featureNames,pSet-method}
 \alias{fileNames,pSet-method}
