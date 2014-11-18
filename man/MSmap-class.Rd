@@ -121,6 +121,7 @@
 
     ## reads the data 
     ms <- openMSfile(mzf)
+    hd <- header(ms)
 
     ## a set of spectra of interest: MS1 spectra eluted
     ## between 30 and 35 minutes retention time
