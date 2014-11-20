@@ -2,12 +2,10 @@
 \docType{methods}
 \alias{plot,Spectrum-method}
 \alias{plot,Spectrum,missing-method}
-\alias{plot,Spectrum,Spectrum-method}
 \alias{plot,Spectrum2,character-method}
 \alias{plot-methods}
 \alias{plot.MSnExp}
 \alias{plot.Spectrum}
-\alias{plot.Spectrum.Spectrum}
 \alias{plot.Spectrum.character}
 \alias{plot}
 
@@ -28,10 +26,6 @@
 
   The methods make use the \code{ggplot2} system. An object of class
   'ggplot' is returned invisibly.
-
-  If two \code{"\linkS4class{Spectrum}"} objects are passed, they are
-  plotting on the same figure to enable their direct comparison and and
-  common peaks are highligthed.
 
   If a single \code{"\linkS4class{Spectrum2}"} and a \code{"character"}
   representing a valid peptide sequence are passed as argument, the
@@ -91,15 +85,6 @@
       by default.
     }
 
-  \item{\code{signature(x = "Spectrum", y = "Spectrum", tolerance =
-      "numeric", relative = "logical", ... )}}{Plot x againt y and
-      highlights common peaks, based on a \code{tolerance},
-      i.e. deviation between two peaks to be considered equal (default
-      is \code{0.1}) and whether a \code{relative} deviation is
-      calculated (default is \code{FALSE}). Further \code{...} arguments
-      are passed to \code{plot.default}. }
-
-
     \item{\code{signature(x = "Spectrum2", y = "character", orientation
 	= "numeric", add = "logical", col = "character", pch, xlab =
 	"character", ylab = "character", xlim = "numeric", ylim =
@@ -123,7 +108,9 @@
 
 
 \seealso{
-  \code{calculateFragments} to calculate ions produced by fragmentation.
+  \code{\link{calculateFragments}} to calculate ions produced by
+  fragmentation and \code{\link{plot.Spectrum.Spectrum}} to plot and
+  compare 2 spectra and their shared peaks.
 }
 
 \author{
@@ -137,14 +124,6 @@ plot(itraqdata[1:2], reporters = iTRAQ4)
 plot(itraqdata[1:2], full = TRUE)
 ## plotting spectra
 plot(itraqdata[[1]],reporters = iTRAQ4, full = TRUE)
-
-
-itraqdata2 <- pickPeaks(itraqdata)
-(k <- which(fData(itraqdata2)[, "PeptideSequence"] == "TAGIQIVADDLTVTNPK"))
-mzk <- precursorMz(itraqdata2)[k]
-zk <- precursorCharge(itraqdata2)[k]
-mzk * zk
-plot(itraqdata2[[k[1]]], itraqdata2[[k[2]]])
 
 
 i <- 14
