@@ -1253,12 +1253,12 @@ colour.
 
 
 <<plotSpectrumSpectrum>>=
-itraqdata2 <- pickPeaks(itraqdata)
-(k <- which(fData(itraqdata2)[, "PeptideSequence"] == "TAGIQIVADDLTVTNPK"))
-mzk <- precursorMz(itraqdata2)[k]
-zk <- precursorCharge(itraqdata2)[k]
+centroided <- pickPeaks(itraqdata, verbose=FALSE)
+(k <- which(fData(centroided)[, "PeptideSequence"] == "TAGIQIVADDLTVTNPK"))
+mzk <- precursorMz(centroided)[k]
+zk <- precursorCharge(centroided)[k]
 mzk * zk
-plot(itraqdata2[[k[1]]], itraqdata2[[k[2]]])
+plot(centroided[[k[1]]], centroided[[k[2]]])
 @
 
 \subsection{Comparison metrics}
