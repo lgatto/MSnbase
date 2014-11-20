@@ -1,19 +1,25 @@
 \name{plot-methods}
 \docType{methods}
+\alias{plot,Spectrum-method}
+\alias{plot,Spectrum,missing-method}
+\alias{plot,Spectrum,Spectrum-method}
+\alias{plot,Spectrum2,character-method}
 \alias{plot-methods}
 \alias{plot.MSnExp}
 \alias{plot.Spectrum}
+\alias{plot.Spectrum.Spectrum}
+\alias{plot.Spectrum.character}
 \alias{plot}
 
 \title{ Plotting 'Spectrum' object(s) }
 
 \description{
-  These method plot mass spectra MZ values against the intensities as
-  line plots. Full spectra (using the \code{full} parameter) or specific
-  peaks of interest can be plotted using the \code{reporters}
-  parameter. If \code{reporters} are specified and \code{full} is set to
-  'TRUE', a sub-figure of the reporter ions is inlaid inside the full
-  spectrum.
+
+  These method plot mass spectra MZ values against the intensities. Full
+  spectra (using the \code{full} parameter) or specific peaks of
+  interest can be plotted using the \code{reporters} parameter. If
+  \code{reporters} are specified and \code{full} is set to 'TRUE', a
+  sub-figure of the reporter ions is inlaid inside the full spectrum.
 
   If an \code{"\linkS4class{MSnExp}"} is provided as argument, all the
   spectra are aligned vertically. Experiments can be subset to
@@ -21,13 +27,28 @@
   \code{\link{extractPrecSpectra}} methods.
 
   The methods make use the \code{ggplot2} system. An object of class
-  'ggplot' is returned invisibly. 
+  'ggplot' is returned invisibly.
+
+  If two \code{"\linkS4class{Spectrum}"} objects are passed, they are
+  plotting on the same figure to enable their direct comparison and and
+  common peaks are highligthed.
+
+  If a single \code{"\linkS4class{Spectrum2}"} and a \code{"character"}
+  representing a valid peptide sequence are passed as argument, the
+  expected fragement ions are calculated and matched/annotated on the
+  spectum plot.
+  
 }
 
 \arguments{
-  \item{x}{ Objects of class \code{"\linkS4class{Spectrum}"} or
-    \code{"\linkS4class{MSnExp}"} to be plotted. }
-  \item{y}{ Not used in these methods. }
+
+  \item{x}{ Objects of class \code{"\linkS4class{Spectrum}"},
+    \code{"\linkS4class{Spectrum2}"} or \code{"\linkS4class{MSnExp}"} to
+    be plotted. }
+
+  \item{y}{ Missing, \code{"\linkS4class{Spectrum}"} or
+  \code{"character"}. }
+  
   \item{reporters}{ An object of class
     \code{"\linkS4class{ReporterIons}"} that defines the peaks to be
     plotted. If not specified, \code{full} must be set to 'TRUE'.} 
@@ -43,7 +64,10 @@
   \item{w1}{Width of sticks for full centroided spectra. Default is to
     use maximum MZ value divided by 500. }
   \item{w2}{Width of histogram bars for centroided reporter ions
-    plots. Default is 0.01. } 
+    plots. Default is 0.01. }
+
+  See below for more details.
+  
 }
 
 \section{Methods}{
@@ -66,11 +90,44 @@
       objects. Full \code{"\linkS4class{Spectrum1}"} spectra are plotted
       by default.
     }
-  }
+
+  \item{\code{signature(x = "Spectrum", y = "Spectrum", tolerance =
+      "numeric", relative = "logical", ... )}}{Plot x againt y and
+      highlights common peaks, based on a \code{tolerance},
+      i.e. deviation between two peaks to be considered equal (default
+      is \code{0.1}) and whether a \code{relative} deviation is
+      calculated (default is \code{FALSE}). Further \code{...} arguments
+      are passed to \code{plot.default}. }
+
+
+    \item{\code{signature(x = "Spectrum2", y = "character", orientation
+	= "numeric", add = "logical", col = "character", pch, xlab =
+	"character", ylab = "character", xlim = "numeric", ylim =
+	"numeric", tolerance = "numeric", relative = "logical", type =
+	"character", modifications = "numeric", x = "numeric", fragments
+	= "function", fragments.cex = "numeric", ... )}}{Plots a single
+	MS2 spectrum and annotates the fragment ions based on the
+	matching between the peaks in \code{x} and the fragment peaks
+	calculated from the peptide sequence \code{y}. The detault
+	values are \code{orientation=1}, \code{add=FALSE},
+	\code{col="#74ADD1"}, \code{pch=NA}, \code{xlab="m/z"},
+	\code{ylab="intensity"}, \code{ylim=c(0, 1)},
+	\code{tolerance=0.1}, relative=FALSE, type=c("b", "y"),
+	\code{modifications=c(C=160.030649)}, \code{z=1},
+	fragments=\code{MSnbase:::calculateFragments_Spectrum2} and
+	\code{fragments.cex=0.75}. Additional arguments \code{...} are
+	passed to \code{plot.default}.  }
+
+  }  
+}
+
+
+\seealso{
+  \code{calculateFragments} to calculate ions produced by fragmentation.
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto <lg390@cam.ac.uk> and Sebastian Gibb
 }
 
 \examples{
@@ -80,6 +137,19 @@ plot(itraqdata[1:2], reporters = iTRAQ4)
 plot(itraqdata[1:2], full = TRUE)
 ## plotting spectra
 plot(itraqdata[[1]],reporters = iTRAQ4, full = TRUE)
+
+
+itraqdata2 <- pickPeaks(itraqdata)
+(k <- which(fData(itraqdata2)[, "PeptideSequence"] == "TAGIQIVADDLTVTNPK"))
+mzk <- precursorMz(itraqdata2)[k]
+zk <- precursorCharge(itraqdata2)[k]
+mzk * zk
+plot(itraqdata2[[k[1]]], itraqdata2[[k[2]]])
+
+
+i <- 14
+s <- as.character(fData(itraqdata2)[i, "PeptideSequence"])
+plot(itraqdata2[[i]], s, main = s)
 }
 
 \keyword{methods}

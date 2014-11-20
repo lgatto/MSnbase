@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.15.3
 -------------------------
- o
+o plot,Spectrum2,character to add fragment ions based on peptide
+  sequence [2014-11-20 Thu]
  
 CHANGES IN VERSION 1.15.2
 -------------------------
