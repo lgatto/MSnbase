@@ -477,6 +477,21 @@ of identified features per quantitation/identification pairs.
 idSummary(msexp) 
 @
 
+When identification data is present, and hence peptide sequences, one
+can annotation fragment peaks on the MS2 figure by passing the peptide
+sequence to the \Rfunction{plot} method.
+
+<<fragplot>>=
+itraqdata2 <- pickPeaks(itraqdata)
+i <- 14
+s <- as.character(fData(itraqdata2)[i, "PeptideSequence"])
+plot(itraqdata2[[i]], s, main = s)
+@
+
+The fragment ions are calculated with the
+\Rfunction{calculateFragments}, described in section
+\ref{sec:calcfrag} on page \pageref{calcfrag}.
+
 \subsection{Filtering identification data}
 
 One can remove the features that have not been identified using
@@ -503,7 +518,7 @@ Note that \Rfunction{removeNoId} and
 \code{MSnExp} instances.
 
 
-\subsection{Calculate Fragments}
+\subsection{Calculate Fragments}\label{sec:calcfrag}
 
 \Rpackage{MSnbase} is able to calculate theoretical peptide fragments via
 \Rfunction{calculateFragments}.
@@ -1236,9 +1251,14 @@ two plots: the upper and lower panel contain respectively the first
 and second spectrum. Common peaks are drawn in a slightly darker
 colour.  
 
+
 <<plotSpectrumSpectrum>>=
-centroided <- pickPeaks(msexp, verbose=FALSE)
-plot(centroided[[2]], centroided[[3]])
+itraqdata2 <- pickPeaks(itraqdata)
+(k <- which(fData(itraqdata2)[, "PeptideSequence"] == "TAGIQIVADDLTVTNPK"))
+mzk <- precursorMz(itraqdata2)[k]
+zk <- precursorCharge(itraqdata2)[k]
+mzk * zk
+plot(itraqdata2[[k[1]]], itraqdata2[[k[2]]])
 @
 
 \subsection{Comparison metrics}
