@@ -104,10 +104,10 @@ plotNA_matrix <- function(X, pNA) {
 ##' nax <- makeNaData(dunkley2006, pNA = 0.10)
 ##' exprs(nax)[sample(nrow(nax), 30), pcol == "A"] <- NA
 ##' exprs(nax)[sample(nrow(nax), 50), pcol == "B"] <- NA
-##' imageNA2(nax, pcol)
-##' imageNA2(nax, pcol, useGroupMean = TRUE)
-##' imageNA2(nax, pcol, Colv = FALSE, useGroupMean = FALSE)
-##' imageNA2(nax, pcol, Colv = FALSE, useGroupMean = TRUE)
+##' MSnbase:::imageNA2(nax, pcol)
+##' MSnbase:::imageNA2(nax, pcol, useGroupMean = TRUE)
+##' MSnbase:::imageNA2(nax, pcol, Colv = FALSE, useGroupMean = FALSE)
+##' MSnbase:::imageNA2(nax, pcol, Colv = FALSE, useGroupMean = TRUE)
 imageNA2 <- function(object, pcol,
                      Rowv, Colv = TRUE,
                      useGroupMean = FALSE,
