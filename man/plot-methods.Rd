@@ -125,7 +125,7 @@ plot(itraqdata[1:2], full = TRUE)
 ## plotting spectra
 plot(itraqdata[[1]],reporters = iTRAQ4, full = TRUE)
 
-
+itraqdata2 <- pickPeaks(itraqdata)
 i <- 14
 s <- as.character(fData(itraqdata2)[i, "PeptideSequence"])
 plot(itraqdata2[[i]], s, main = s)
