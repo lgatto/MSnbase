@@ -1,4 +1,5 @@
 \name{missing-data}
+
 \alias{missing-data}
 
 \title{Documenting missing data visualisation}
@@ -39,11 +40,18 @@ library("pRoloc")
 data(dunkley2006)
 nax <- makeNaData(dunkley2006, pNA = 0.10)
 pcol <- factor(ifelse(dunkley2006$fraction <= 5, "A", "B"))
-barplot(colSums(is.na(nax)), col = pcol)
-barplot(table(rowSums(is.na(nax))))
 sel1 <- pcol == "A"
-table(rowSums(is.na(nax)[sel1,]))
-table(rowSums(is.na(nax)[!sel1,]))
+
+## missing values in each sample
+barplot(colSums(is.na(nax)), col = pcol)
+
+
+## table of missing values in proteins
+par(mfrow = c(3, 1))
+barplot(table(rowSums(is.na(nax))), main = "All")
+barplot(table(rowSums(is.na(nax)[sel1,])), main = "Group A")
+barplot(table(rowSums(is.na(nax)[!sel1,])), main = "Group B")
+
 
 fData(nax)$nNA1 <- rowSums(is.na(nax)[, sel1])
 fData(nax)$nNA2 <- rowSums(is.na(nax)[, !sel1])
