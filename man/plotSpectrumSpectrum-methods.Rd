@@ -50,6 +50,10 @@
   Sebastian Gibb <mail@sebastiangibb.de>
 }
 
+\seealso{
+  More spectrum plotting available in \code{\link{plot.Spectrum}}.
+}
+
 \examples{
 ## find path to a mzXML file
 file <- dir(system.file(package = "MSnbase", dir = "extdata"),
@@ -68,6 +72,13 @@ plot(msexp[[1]], msexp[[2]])
 plot(msexp[[1]], msexp[[2]], sequences=c("VESITARHGEVLQLRPK",
                                          "IDGQWVTHQWLKK"))
 
+
+itraqdata2 <- pickPeaks(itraqdata)
+(k <- which(fData(itraqdata2)[, "PeptideSequence"] == "TAGIQIVADDLTVTNPK"))
+mzk <- precursorMz(itraqdata2)[k]
+zk <- precursorCharge(itraqdata2)[k]
+mzk * zk
+plot(itraqdata2[[k[1]]], itraqdata2[[k[2]]])
 }
 
 \keyword{methods}
