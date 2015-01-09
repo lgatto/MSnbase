@@ -197,8 +197,9 @@ msnset <- quantify(itraqdata, method = "trap", reporters = iTRAQ4)
 msnset
 
 ## specifying a custom parallel framework
-bp <- MulticoreParam(2)
-quantify(itraqdata[1:10], method = "trap", iTRAQ4, BPPARAM = bp)
+## bp <- MulticoreParam(2L) # on Linux/OSX
+## bp <- SnowParam(2L) # on Windows
+## quantify(itraqdata[1:10], method = "trap", iTRAQ4, BPPARAM = bp)
 
 ## Checking for non-quantified peaks
 sum(is.na(exprs(msnset)))

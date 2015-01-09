@@ -36,6 +36,11 @@ setMethod("plot", c("Spectrum", "Spectrum"),
             plotSpectrumVsSpectrum(list(x, y), ...)
           })
 
+setMethod("plot", c("Spectrum2", "character"),
+          function(x, y, ...) {
+              .plotSingleSpectrum(x, y, ...)
+          })
+
 setMethod("clean",
           signature=signature("Spectrum"),
           function(object, all = FALSE) clean_Spectrum(object, all))

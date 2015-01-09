@@ -37,8 +37,6 @@
 \alias{clean,Spectrum-method}
 \alias{compareSpectra,Spectrum,Spectrum-method}
 \alias{pickPeaks,Spectrum-method}
-\alias{plot,Spectrum-method}
-\alias{plot,Spectrum,missing-method}
 \alias{quantify,Spectrum-method}
 \alias{quantify,Spectrum,character-method}
 \alias{removePeaks,Spectrum-method}
@@ -145,7 +143,12 @@
       See \code{\link{plot.Spectrum}} documentation for more details. }
     \item{plot}{\code{signature(x = "Spectrum", y = "Spectrum")}: Plots
       two spectra above/below each other.
-      See \code{\link{plot.Spectrum.Spectrum}} documentation for more details.}
+      See \code{\link{plot.Spectrum.Spectrum}} documentation for more
+      details.}
+    \item{plot}{\code{signature(x = "Spectrum", y = "character")}: Plots
+      an MS2 level spectrum and its highlight the fragmention peaks.
+      See \code{\link{plot.Spectrum.character}} documentation for more
+      details.}
     \item{quantify}{\code{signature(object = "Spectrum")}: Quatifies
       defined peaks in the spectrum.
       See \code{\link{quantify}} documentation for more details. }
