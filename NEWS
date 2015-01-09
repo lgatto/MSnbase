@@ -1,3 +1,10 @@
+CHANGES IN VERSION 1.15.3
+-------------------------
+o plot,Spectrum2,character to add fragment ions based on peptide
+  sequence [2014-11-20 Thu]
+o update vignette with above [2014-11-20 Thu]
+o comment parallel code in quantify man [2015-01-09 Fri]
+
 CHANGES IN VERSION 1.15.2
 -------------------------
  o merged sgibb's pull request exporting overloaded methods as well
