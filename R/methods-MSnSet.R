@@ -607,8 +607,14 @@ setMethod("MAplot",
 
 setMethod("addIdentificationData",
           signature = "MSnSet",
-          function(object, filenames, verbose = TRUE) 
-          utils.addIdentificationData(object, filenames,
+          function(object, filenames,
+                   fDataCol = "acquisition.number",
+                   iDataCol = "acquisitionnum",
+                   verbose = TRUE)
+          utils.addIdentificationData(object,
+                                      filenames = filenames,
+                                      fDataCol = fDataCol,
+                                      iDataCol = iDataCol,
                                       verbose = verbose))
 
 setMethod("removeNoId", "MSnSet",
@@ -616,7 +622,7 @@ setMethod("removeNoId", "MSnSet",
           utils.removeNoId(object, fcol, keep))
 
 setMethod("removeMultipleAssignment", "MSnSet",
-          function(object, fcol = "nprot") 
+          function(object, fcol = "nprot")
           utils.removeMultipleAssignment(object, fcol))
 
 setMethod("idSummary",
