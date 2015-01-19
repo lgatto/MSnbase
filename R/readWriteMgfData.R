@@ -99,15 +99,15 @@ writeMgfContent <- function(sp, TITLE = NULL, con) {
   dfr <- as(sp, "data.frame")
   pks <- apply(dfr,
                1,
-               base::paste, collapse = " ")  
+               base::paste, collapse = " ")
   buffer <- c(buffer, pks)
   buffer <- c(buffer,
               paste("END IONS"))
   writeLines(buffer, con = con)
 }
 
-
-# Code contributed by Guangchuang Yu <guangchuangyu@gmail.com>
+# Based on the code contributed by Guangchuang Yu <guangchuangyu@gmail.com>
+# Modified by Sebastian Gibb <mail@sebastiangibb.de>
 readMgfData <- function(file,
                         pdata = NULL,
                         centroided = TRUE,
@@ -115,58 +115,59 @@ readMgfData <- function(file,
                         verbose = TRUE,
                         cache = 1) {
   if (verbose)
-    cat("Scanning ", file,"...\n", sep="")
+    cat("Scanning", file, "...\n")
+
   mgf <- scan(file = file, what = "",
               sep = "\n", quote = "",
               allowEscapes = FALSE,
               quiet = TRUE)
+
   ## From http://www.matrixscience.com/help/data_file_help.html#GEN
   ## Comment lines beginning with one of the symbols #;!/ can be included,
   ## but only outside of the BEGIN IONS and END IONS statements that delimit an MS/MS dataset.
-  commentsymbols <- c("^#", "^;", "^!", "^/")
-  cmts <- unlist(sapply(commentsymbols, grep, mgf))
-  if (length(cmts) > 0)
+  cmts <- grep("^[#;!/]", mgf)
+  if (length(cmts))
     mgf <- mgf[-cmts]
-  begin <- grep("BEGIN IONS", mgf)
-  end <- grep("END IONS", mgf)
+
+  begin <- grep("BEGIN IONS", mgf) + 1L
+  end <- grep("END IONS", mgf) - 1L
+
+  n <- length(begin)
+
   if (verbose) {
-    cnt <- 1
-    pb <- txtProgressBar(min = 0, max = length(begin), style = 3)    
+    cnt <- 1L
+    pb <- txtProgressBar(min=0L, max=n, style=3L)
   }
-  spectra <- vector("list",length=length(begin))
-  fdata <- c()
-  for (i in 1:length(begin)) {
+
+  spectra <- vector("list", length=n)
+  fdata <- vector("list", length=n)
+
+  for (i in seq(along=spectra)) {
     if (verbose) {
       setTxtProgressBar(pb, cnt)
-      cnt <- cnt + 1
+      cnt <- cnt + 1L
     }
-    spec <- mgf[seq(begin[i], end[i])]
-    spectra[[i]] <- mgfToSpectrum2(spec,centroided=centroided)
-    ## adding the spectrum header as fData
-    tmpdesc <- spec[grep("=",spec)]
-    tmpdesc <- sapply(tmpdesc,strsplit,"=")
-    desc <- unlist(lapply(tmpdesc,"[",2))
-    names(desc) <- unlist(lapply(tmpdesc,"[",1))
-    fdata <- rbind(fdata,desc)
+    specInfo <- extractMgfSpectrum2Info(mgf[begin[i]:end[i]],
+                                        centroided=centroided)
+    spectra[[i]] <- specInfo$spectrum
+    fdata[[i]] <- specInfo$fdata
   }
-  if (verbose) 
+  if (verbose)
     close(pb)
-  nms <- paste("X",seq_len(length(spectra)),sep="")
-  names(spectra) <- nms
+
+  fdata <- do.call(rbind, fdata)
+
+  names(spectra) <- paste0("X", seq_along(spectra))
   assaydata <- list2env(spectra)
   process <- new("MSnProcess",
-                 processing = paste("Data loaded:",date()),
+                 processing = paste("Data loaded:", date()),
                  files = file,
                  smoothed = smoothed)
   if (is.null(pdata)) {
     pdata <- new("NAnnotatedDataFrame",
                  data = data.frame(sampleNames = file, fileNumbers = 1))
   }
-  ## fdata <- new("AnnotatedDataFrame",
-  ##              data=data.frame(spectrum=1:length(spectra),
-  ##                row.names=nms))
-  colnames(fdata) <- names(desc)
-  rownames(fdata) <- nms
+  rownames(fdata) <- names(spectra)
   fdata <- AnnotatedDataFrame(data = data.frame(fdata))
   fdata <- fdata[ls(assaydata), ] ## reorder features
   ## only levels 0 and 1 for mgf peak lists
@@ -194,64 +195,43 @@ readMgfData <- function(file,
     return(toReturn)
 }
 
+extractMgfSpectrum2Info <- function(mgf, centroided) {
+  ## grep description
+  desc.idx <- grep("=", mgf)
+  desc <- mgf[desc.idx]
+  spec <- mgf[-desc.idx]
 
-mgfToSpectrum2 <- function(mgf, centroided) {
-    mgf <- mgf[c(-1, -length(mgf))] ## remove "BEGIN IONS" and "END IONS"
-    mgf <- sub("\t"," ", mgf) ## expecting mz and int to be separated by 1 space
-    desc.idx <- grep("=", mgf)
-    desc <- mgf[desc.idx]
-    spec <- mgf[-desc.idx]
-    ## mz.i <- adply(.data=mgf[-desc.idx], .margins=1, .fun=function(i) unlist(strsplit(i, split=" ")))
-    ## mz <- as.numeric(mz.i$V1)
-    ## int <- as.numeric(mz.i$V2)
-    mz.i <- sapply(spec,strsplit," ")
-    mz <- as.numeric(unlist(lapply(mz.i,"[",1)))
-    int <- as.numeric(unlist(lapply(mz.i,"[",2)))
-    ## desc <- adply(.data=mgf[desc.idx], .margins=1, .fun=function(i) unlist(strsplit(i, split="=")))
-    ## desc <- desc[,-1]
-    tmpdesc <- sapply(desc, strsplit,"=")
-    desc <- unlist(lapply(tmpdesc, "[", 2))
-    names(desc) <- unlist(lapply(tmpdesc, "[", 1))
-    ## sp <- new("Spectrum2",
-    ##           rt=as.numeric(desc[desc[,1] == "RTINSECONDS",2]),
-    ##           acquisitionNum=as.integer(desc[desc[,1] == "SCANS",2]),
-    ##           precursorMz=as.numeric(desc[desc[,1] == "PEPMASS",2]),
-    ##           #precursorIntensity="",  ##I don't see any definition in MGF.
-    ##           precursorCharge=as.integer(sub("[+,-]","",desc[desc[,1] == "CHARGE",2])),
-    ##           #scanIndex="",
-    ##           #collisionEnergy="",
-    ##           peaksCount=length(int),
-    ##           mz=mz,
-    ##           intensity=int,
-    ##           fromFile=1L,
-    ##           centroided=centroided)
-    .parsePEPMASS <- function(desc, what = c("MZ", "INTENSITY")) {
-      x <- strsplit(desc["PEPMASS"], " ")[[1]]
-      what <- match.arg(what)
-      if (length(x) == 1) x[2] <- 0
-      ifelse(what == "MZ",
-             as.numeric(x[1]),
-             as.numeric(x[2]))
-    }
-    sp <- new("Spectrum2",
-              rt = ifelse("RTINSECONDS" %in% names(desc),
-                as.numeric(desc["RTINSECONDS"]), 0),
-              scanIndex = ifelse("SCANS" %in% names(desc),
-                as.integer(desc["SCANS"]), 0L),
-              precursorMz = ifelse("PEPMASS" %in% names(desc),
-                .parsePEPMASS(desc, "MZ"),
-                0L),
-              precursorIntensity = ifelse("PEPMASS" %in% names(desc),
-                .parsePEPMASS(desc, "INTENSITY"),
-                0L),
-              precursorCharge = ifelse("CHARGE" %in% names(desc),
-                as.integer(sub("[+,-]","",desc["CHARGE"])), 0L),
-              peaksCount = length(int),
-              mz = mz,
-              intensity = int,
-              fromFile = 1L,
-              centroided = centroided)
+  ms <- do.call(rbind, strsplit(spec, "[[:space:]]+"))
+  mode(ms) <- "double"
 
-    if(validObject(sp))
-        return(sp)
+  if (!length(ms))
+    ms <- matrix(numeric(), ncol=2L)
+
+  desc <- do.call(rbind, strsplit(desc, "=", fixed=TRUE))
+  desc <- setNames(desc[, 2L], desc[, 1L])
+  fdata <- desc
+
+  desc[c("PEPMASSMZ", "PEPMASSINT")] <- strsplit(desc["PEPMASS"], "[[:space:]]+")[[1L]][1:2]
+
+  ## select only values of interest and convert to numeric
+  desc["CHARGE"] <- sub("[+-]", "", desc["CHARGE"])
+  voi <- c("RTINSECONDS", "CHARGE", "SCANS", "PEPMASSMZ", "PEPMASSINT")
+  desc <- setNames(as.numeric(desc[voi]), voi)
+  desc[is.na(desc[voi])] <- 0L
+
+  sp <- new("Spectrum2",
+            rt = desc["RTINSECONDS"],
+            scanIndex = as.integer(desc["SCANS"]),
+            precursorMz = desc["PEPMASSMZ"],
+            precursorIntensity = desc["PEPMASSINT"],
+            precursorCharge = as.integer(desc["CHARGE"]),
+            peaksCount = nrow(ms),
+            mz = ms[, 1L],
+            intensity = ms[, 2L],
+            fromFile = 1L,
+            centroided = centroided)
+
+  if(validObject(sp))
+    return(list(spectrum=sp, fdata=fdata))
 }
+
