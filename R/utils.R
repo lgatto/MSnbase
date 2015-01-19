@@ -658,40 +658,40 @@ utils.leftJoin <- function(x, y, by, by.x=by, by.y=by,
 
 # @param featureData fData(msexp)/fData(msset)
 # @param idData output of mzID::flatten(mzID(filename))
-# @param fDataCol column name of fData data.frame used for merging
-# @param iDataCol column name of idData data.frame used for merging
+# @param fcol column name of fData data.frame used for merging
+# @param icol column name of idData data.frame used for merging
 # @noRd
 utils.mergeSpectraAndIdentificationData <- function(featureData, idData,
-                                                    fDataCol = "acquisition.number",
-                                                    iDataCol = "acquisitionnum") {
-  if (!fDataCol %in% colnames(featureData)) {
-    stop("There is no column named ", sQuote(fDataCol), "!")
+                                                    fcol = "acquisition.number",
+                                                    icol = "acquisitionnum") {
+  if (!fcol %in% colnames(featureData)) {
+    stop("There is no column named ", sQuote(fcol), "!")
   }
 
-  iDataColIdx <- match(iDataCol, colnames(idData))
-  if (is.na(iDataColIdx)) {
-    stop("There is no column named ", sQuote(iDataCol), "!")
+  icolIdx <- match(icol, colnames(idData))
+  if (is.na(icolIdx)) {
+    stop("There is no column named ", sQuote(icol), "!")
   }
 
   ## sort id data to ensure the best matching peptide is on top in case of
   ## multiple matching peptides
-  o <- order(idData$spectrumFile, idData[[iDataColIdx]], idData$rank)
+  o <- order(idData$spectrumFile, idData[[icolIdx]], idData$rank)
   idData <- idData[o, ]
 
   ## use flat version of accession/description if multiple ones are available
-  idData$accession <- ave(idData$accession, idData[[iDataColIdx]],
+  idData$accession <- ave(idData$accession, idData[[icolIdx]],
                           FUN=utils.vec2ssv)
-  idData$description <- ave(idData$description, idData[[iDataColIdx]],
+  idData$description <- ave(idData$description, idData[[icolIdx]],
                             FUN=utils.vec2ssv)
 
   ## remove duplicated entries
-  idData <- idData[!duplicated(idData[[iDataColIdx]]), ]
+  idData <- idData[!duplicated(idData[[icolIdx]]), ]
 
   ## mzR::acquisitionNum and mzID::acquisitionnum should be identical
   featureData <- utils.leftJoin(
     x=featureData, y=idData,
-    by.x=c("file", fDataCol),
-    by.y=c("file", iDataCol),
+    by.x=c("file", fcol),
+    by.y=c("file", icol),
     exclude=c("spectrumid",   # vendor specific nativeIDs
               "spectrumFile") # is stored in fileId + MSnExp@files
   )
@@ -700,7 +700,7 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, idData,
 }
 
 utils.addSingleIdentificationDataFile <- function(object, filename,
-                                                  fDataCol, iDataCol,
+                                                  fcol, icol,
                                                   verbose=TRUE) {
 
     ## addIdentificationData does some data checking. It extracts the
@@ -745,20 +745,20 @@ utils.addSingleIdentificationDataFile <- function(object, filename,
     id$identFile <- length(fileNames(object))
 
     fData(object) <- utils.mergeSpectraAndIdentificationData(fData(object), id,
-                                                             fDataCol=fDataCol,
-                                                             iDataCol=iDataCol)
+                                                             fcol=fcol,
+                                                             icol=icol)
 
     return(object)
 }
 
 utils.addIdentificationData <- function(object, filenames,
-                                        fDataCol, iDataCol,
+                                        fcol, icol,
                                         verbose = TRUE) {
   for (file in filenames) {
       object <-
           utils.addSingleIdentificationDataFile(object, file,
-                                                fDataCol=fDataCol,
-                                                iDataCol=iDataCol,
+                                                fcol=fcol,
+                                                icol=icol,
                                                 verbose=verbose)
   }
   fd <- fData(object)

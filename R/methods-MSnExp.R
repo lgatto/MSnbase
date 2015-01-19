@@ -285,8 +285,8 @@ setMethod("removeReporters","MSnExp",
 
 setMethod("addIdentificationData", "MSnExp",
           function(object, filenames,
-                   fDataCol = "acquisition.number",
-                   iDataCol = "acquisitionnum",
+                   fcol = "acquisition.number",
+                   icol = "acquisitionnum",
                    verbose = TRUE) {
               ## we temporaly add the file/acquisition.number information
               ## to our fData data.frame because utils.addIdentificationData
@@ -301,8 +301,8 @@ setMethod("addIdentificationData", "MSnExp",
               fData(object)$acquisition.number <- acquisitionNum(object)
               object <- utils.addIdentificationData(object,
                                                     filenames = filenames,
-                                                    fDataCol = fDataCol,
-                                                    iDataCol = iDataCol,
+                                                    fcol = fcol,
+                                                    icol = icol,
                                                     verbose = verbose)
               ## after adding the identification data we remove the
               ## temporary data to avoid duplication and problems in quantify

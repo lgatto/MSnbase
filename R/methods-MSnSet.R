@@ -608,13 +608,13 @@ setMethod("MAplot",
 setMethod("addIdentificationData",
           signature = "MSnSet",
           function(object, filenames,
-                   fDataCol = "acquisition.number",
-                   iDataCol = "acquisitionnum",
+                   fcol = "acquisition.number",
+                   icol = "acquisitionnum",
                    verbose = TRUE)
           utils.addIdentificationData(object,
                                       filenames = filenames,
-                                      fDataCol = fDataCol,
-                                      iDataCol = iDataCol,
+                                      fcol = fcol,
+                                      icol = icol,
                                       verbose = verbose))
 
 setMethod("removeNoId", "MSnSet",
