@@ -1,82 +1,28 @@
-%\VignetteEngine{knitr}
+%\VignetteEngine{knitr::knitr}
 %\VignetteIndexEntry{Base Functions and Classes for MS-based Proteomics}
 %\VignetteKeywords{Mass Spectrometry, MS, MSMS, Proteomics, Infrastructure, Bioinformatics, quantitative }
 %\VignettePackage{MSnbase-demo}
 
 
-\documentclass[12pt,a4paper,english]{scrartcl}
-\usepackage{amsmath,amsfonts,amssymb}
-\usepackage{tikz}
-\usepackage{hyperref}
-\usepackage[authoryear,round]{natbib}
-\usepackage[auth-sc]{authblk}
-\usepackage{setspace}
-\onehalfspacing
+\documentclass[12pt, oneside]{article}
 
-% caption formatting
-\setcapindent{0em}
-\setkomafont{captionlabel}{\sffamily\bfseries}
-\setkomafont{caption}{\sffamily}
+<<style, eval=TRUE, echo=FALSE, results="asis">>=
+BiocStyle::latex()
+@
 
-\newcommand{\R}{\texttt{R} }
-\newcommand{\code}[1]{{\texttt{#1}}}
-\newcommand{\Rfunction}[1]{{\texttt{#1}}}
-\newcommand{\Robject}[1]{{\texttt{#1}}}
-\newcommand{\Rpackage}[1]{{\mbox{\normalfont\textsf{#1}}}}
-\newcommand{\email}[1]{\href{mailto:#1}{\normalfont\texttt{#1}}}
-%% colors
-\definecolor{Red}{rgb}{0.7,0,0}
-\definecolor{Blue}{rgb}{0,0,0.8}
-
-\usepackage{geometry}
-\geometry{verbose,
-  tmargin = 2.5cm,
-  bmargin = 2.5cm,
-  lmargin = 3.5cm,
-  rmargin = 3.5cm}
-
-\usepackage{hyperref}
-\usepackage{breakurl}
-\hypersetup{%
-  pdfusetitle,
-  bookmarks = {true},
-  bookmarksnumbered = {true},
-  bookmarksopen = {true},
-  bookmarksopenlevel = 2,
-  unicode = {true},
-  breaklinks = {false},
-  hyperindex = {true},
-  colorlinks = {true},
-  linktocpage = {true},
-  plainpages = {false},
-  linkcolor = {Blue},
-  citecolor = {Blue},
-  urlcolor = {Red},
-  pdfstartview = {Fit},
-  pdfpagemode = {UseOutlines},
-  pdfview = {XYZ null null null}
+\bioctitle[\Biocpkg{MSnbase} introduction]{ 
+  \Biocpkg{MSnbase}: labelled and label-free MS2 data pre-processing,
+  visualisation and quantification.
 }
 
 \author{
-  Laurent Gatto\thanks{\email{lg390@cam.ac.uk}} 
-}
-
-\author{
-  Sebastian Gibb
-}
-
-\affil{
-  Computational Proteomics Unit\\
-  University of Cambridge, UK
+  Laurent Gatto\footnote {\email{lg390@cam.ac.uk}}~and Sebastian Gibb
 }
 
 
 \begin{document}
 
-\title{ 
-  \Rpackage{MSnbase}: labelled and label-free MS2 data pre-processing,
-  visualisation and quantification.
-}
+
 
 \maketitle
 
@@ -85,12 +31,12 @@
 \hrule
 \begin{abstract}
   This vignette describes the functionality implemented in the
-  \Rpackage{MSnbase} package.  \Rpackage{MSnbase} aims at (1)
+  \Biocpkg{MSnbase} package.  \Biocpkg{MSnbase} aims at (1)
   facilitating the import, processing, visualisation and
   quantification of mass spectrometry data into the \R environment
-  \citep{Rstat} by providing specific data classes and methods and (2)
+  \cite{Rstat} by providing specific data classes and methods and (2)
   enabling the utilisation of throughput-high data analysis pipelines
-  provided by the Bioconductor \citep{Gentleman2004} project.
+  provided by the Bioconductor \cite{Gentleman2004} project.
 \end{abstract}
 \textit{Keywords}: Mass Spectrometry (MS), proteomics, infrastructure, quantitative.
 \vskip 0.1in minus 0.05in
@@ -100,13 +46,7 @@
 
 \newpage
 
-\begin{small}
-
-  \tableofcontents
-
-\end{small}
-
-\newpage
+\tableofcontents
 
 <<environment, cache=FALSE, echo=FALSE>>=
 suppressPackageStartupMessages(library("ggplot2"))
@@ -117,28 +57,6 @@ suppressPackageStartupMessages(require("pRolocdata"))
 suppressPackageStartupMessages(require("pRoloc"))
 library("grid")
 library("reshape2")
-@
-
-<<knitr, include=FALSE, cache=FALSE>>=
-library(knitr)
-opts_chunk$set(fig.align = 'center',
-               fig.show = 'hold',
-               par = TRUE,
-               prompt = TRUE,
-               comment = NA)
-options(replace.assign = TRUE,
-        width = 68)
-## see ?evaluate::evaluate for details
-opts_knit$set(error=TRUE)
-
-## knit_hooks$set(par = function(before, options, envir) {
-##   if (before && options$fig.show != 'none')
-##     par(mar = c(4,4,.1,.1),
-##         cex.lab = .95,
-##         cex.axis = .9,
-##         mgp = c(2,.7,0),
-##         tcl = -.3)
-## })
 @
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -155,20 +73,20 @@ opts_knit$set(error=TRUE)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}\label{sec:intro}
 
-\Rpackage{MSnbase} \citep{Gatto2012} aims are providing a reproducible
+\Biocpkg{MSnbase} \cite{Gatto2012} aims are providing a reproducible
 research framework to proteomics data analysis.  It should allow
 researcher to easily mine mass spectrometry data, explore the data and
 its statistical properties and visually display these.
 
-\Rpackage{MSnbase} also aims at being compatible with the
+\Biocpkg{MSnbase} also aims at being compatible with the
 infrastructure implemented in Bioconductor, in particular
-\Rpackage{Biobase}. As such, classes developed specifically for
+\Biocpkg{Biobase}. As such, classes developed specifically for
 proteomics mass spectrometry data are based on the \Robject{eSet} and
 \Robject{Expression} classes. The main goal is to assure seamless
 compatibility with existing meta data structure, accessor methods and
 normalisation techniques.
 
-This vignette illustrates \Rpackage{MSnbase} utility using a dummy
+This vignette illustrates \Biocpkg{MSnbase} utility using a dummy
 data sets provided with the package without describing the underlying
 data structures. More details can be found in the package, classes,
 method and function documentations. A description of the classes is
@@ -179,20 +97,19 @@ provided in the \texttt{MSnbase-development} vignette.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Data structure and content}\label{sec:data}
 
 \subsection{Importing experiments}\label{sec:io}
 
-\Rpackage{MSnbase} is able to import raw MS data stored in one of the
+\Biocpkg{MSnbase} is able to import raw MS data stored in one of the
 \texttt{XML}-based formats as well as peak lists in the \texttt{mfg}
 format\footnote{%%
   Mascot Generic Format --
   \url{http://www.matrixscience.com/help/data\_file\_help.html\#GEN}}
 
 \paragraph{Raw data} The \texttt{XML}-based formats, \texttt{mzXML}
-\citep{Pedrioli2004}, \texttt{mzData} \citep{Orchard2007} and
-\texttt{mzML} \citep{Martens2010} can be imported with the
+\cite{Pedrioli2004}, \texttt{mzData} \cite{Orchard2007} and
+\texttt{mzML} \cite{Martens2010} can be imported with the
 \Rfunction{readMSData} function, as illstrated below (see
 \Rfunction{?readMSData} for more details).
 
@@ -206,7 +123,7 @@ rawdata <- readMSData(file, msLevel = 2, verbose = FALSE)
 
 Either MS1 or MS2 spectra can be loaded at a time by setting the
 \texttt{msLevel} parameter accordingly.  In this document, we will use
-the \Robject{itraqdata} data set, provided with \Rpackage{MSnbase}. It
+the \Robject{itraqdata} data set, provided with \Biocpkg{MSnbase}. It
 includes feature metadata, accessible with the \Rfunction{fData}
 accessor.  The metadata includes identification data for the
 \Sexpr{length(itraqdata)} MS2 spectra.
@@ -239,7 +156,7 @@ could easily be further processed and analysed on a standard laptop
 computer.
 
 Since verions 1.13.5, parallel support is provided by the
-\Rpackage{BiocParallel} and various backends including multicore
+\Biocpkg{BiocParallel} and various backends including multicore
 (forking), simple networf network of workstations (SNOW) using
 sockets, forking or MPI among others.
 
@@ -247,8 +164,8 @@ sockets, forking or MPI among others.
 
 See also section \ref{sec:io2} to import quantitative data stored in
 spreadsheets into \R for further processing using
-\Rpackage{MSnbase}. The \texttt{MSnbase-io} vignette gives a general
-overview of \Rpackage{MSnbase}'s input/ouput capabilites.
+\Biocpkg{MSnbase}. The \texttt{MSnbase-io} vignette gives a general
+overview of \Biocpkg{MSnbase}'s input/ouput capabilites.
 
 \subsection{MS experiments}\label{sec:msnexp}
 
@@ -282,17 +199,17 @@ content:
   used to import the data, protocol data, information about features
   (individual spectra here) and experiment data. Most of these are
   implemented as in the \Robject{eSet} class and are described in more
-  details in their respective manual pages. See \texttt{?MSnExp} and
+  details in their respective manual pages. See \Robject{?MSnExp} and
   references therein for additional background information.
 
   The experiment meta data associated with an \Robject{MSnExp}
   experiment is of class \Robject{MIAPE}. It stores general
   information about the experiment as well as MIAPE (Minimum
   Information About a Proteomics Experiment) information
-  \citep{Taylor2007, Taylor2008}.  This meta-data can be accessed with
+  \cite{Taylor2007, Taylor2008}.  This meta-data can be accessed with
   the \Rfunction{experimentData} method.  When available, a summary of
   MIAPE-MS data can be printed with the \Rfunction{msInfo} method.
-  See \texttt{?MIAPE} for more details.
+  See \Robject{?MIAPE} for more details.
 \end{itemize}
 
 \subsection{Spectra objects}\label{sec:spectra}
@@ -336,13 +253,14 @@ section \ref{sec:plotting}). \Robject{ReporterIons} instances are
 required to quantify reporter peaks in \Robject{MSnExp}
 experiments. Instances for the most commonly used isobaric tags like
 iTRAQ 4-plex and 8-plex and TMT tags are already defined in
-\Rpackage{MSnbase}. See \texttt{?ReporterIons} for details about how
+\Biocpkg{MSnbase}. See \Robject{?ReporterIons} for details about how
 to generate new \Robject{ReporterIons} objects.
 
 <<ReporterIons>>=
 iTRAQ4
 @
 
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -357,6 +275,7 @@ with reporters with \texttt{reporters=iTRAQ4} for instance) or both
 (see figure \ref{fig:spectrum-plot}).
 
 \begin{figure}[!ht]
+\centering
 <<spectrumPlot, dev='pdf', fig.width=6, fig.height=4, fig.keep='high'>>=
 plot(sp, reporters = iTRAQ4, full = TRUE)
 @
@@ -395,6 +314,7 @@ These can then be visualised together by plotting the
 \Robject{MSnExp} object, as illustrated on figure \ref{fig:msnexp-plot}.
 
 \begin{figure}[p]
+\centering
 <<msnexpPlot, dev='pdf', fig.width=3.7, fig.height=4.5, fig.keep='last'>>=
 plot(bsa, reporters = iTRAQ4, full = FALSE) + theme_gray(8)
 @
@@ -406,15 +326,15 @@ plot(bsa, reporters = iTRAQ4, full = FALSE) + theme_gray(8)
 
 \subsection{Customising your plots}\label{sec:customplots}
 
-The \Rpackage{MSnbase} \Rfunction{plot} methods have a logical
+The \Biocpkg{MSnbase} \Rfunction{plot} methods have a logical
 \Robject{plot} parameter (default is \Robject{TRUE}), that specifies
 if the plot should be printed to the current device. A plot object is
 also (invisibly) returned, so that it can be saved as a variable for
 later use or for customisation.
 
-\Rpackage{MSnbase} uses the \Rpackage{ggplot2} package to generate
+\Biocpkg{MSnbase} uses the \CRANpkg{ggplot2} package to generate
 plots, which can subsequently easily be customised.  More details
-about \Rpackage{ggplot2} can be found in \cite{ggplot2} (especially
+about \CRANpkg{ggplot2} can be found in \cite{ggplot2} (especially
 chapter 8) and on
 \href{http://had.co.nz/ggplot2/}{http://had.co.nz/ggplot2/}.  Finally,
 if a plot object has been saved in a variable \Robject{p}, it is
@@ -423,7 +343,6 @@ possible to obtain a summary of the object with
 plot, use \Rfunction{p@data}.
 
 \clearpage
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -431,10 +350,10 @@ plot, use \Rfunction{p@data}.
 
 \subsection{Adding identification data}
 
-\Rpackage{MSnbase} is able to integrate identification data from
-\texttt{mzIdentML} \citep{Jones2012} files.
+\Biocpkg{MSnbase} is able to integrate identification data from
+\texttt{mzIdentML} \cite{Jones2012} files.
 
-We first load two example files shipped with the \Rpackage{MSnbase}
+We first load two example files shipped with the \Biocpkg{MSnbase}
 containing raw data (as above) and the corresponding identification
 results respectively. The raw data is read with the
 \Rfunction{readMSData}, as demonstrated above. As can be seen, the
@@ -482,11 +401,20 @@ can annotation fragment peaks on the MS2 figure by passing the peptide
 sequence to the \Rfunction{plot} method.
 
 <<fragplot>>=
-itraqdata2 <- pickPeaks(itraqdata)
+itraqdata2 <- pickPeaks(itraqdata, verbose=FALSE)
 i <- 14
 s <- as.character(fData(itraqdata2)[i, "PeptideSequence"])
+@
+
+\begin{figure}[!ht]
+\centering
+<<fragplotfig, dev='pdf', fig.width=5, fig.height=5>>=
 plot(itraqdata2[[i]], s, main = s)
 @
+\caption{Annotated MS2 spectrum.}
+\label{fig:fragplot}
+\end{figure}
+
 
 The fragment ions are calculated with the
 \Rfunction{calculateFragments}, described in section
@@ -496,8 +424,8 @@ The fragment ions are calculated with the
 
 One can remove the features that have not been identified using
 \Rfunction{removeNoId}. This function uses by default the
-\code{pepseq} feature variable to search the presence of missing data
-(\code{NA} values) and then filter these non-identified spectra.
+\Robject{pepseq} feature variable to search the presence of missing data
+(\Robject{NA} values) and then filter these non-identified spectra.
 
 <<msnexpIdentification4, echo=TRUE, cache=FALSE, tidy=FALSE>>=
 fData(msexp)$pepseq
@@ -509,18 +437,18 @@ idSummary(msexp)
 Similarly, the \Rfunction{removeMultipleAssignment} method can be used
 to filter out non-unique features, i.e. that have been assigned to
 protein groups with more than one member. This function uses by
-default the \code{nprot} feature variable.
+default the \Robject{nprot} feature variable.
 
 \bigskip
 
 Note that \Rfunction{removeNoId} and
 \Rfunction{removeMultipleAssignment} methods can also be called on
-\code{MSnExp} instances.
+\Robject{MSnExp} instances.
 
 
 \subsection{Calculate Fragments}\label{sec:calcfrag}
 
-\Rpackage{MSnbase} is able to calculate theoretical peptide fragments via
+\Biocpkg{MSnbase} is able to calculate theoretical peptide fragments via
 \Rfunction{calculateFragments}.
 
 <<calculateFragments, echo=TRUE, cache=FALSE, tidy=FALSE>>=
@@ -535,6 +463,7 @@ pepseq <- fData(msexp)$pepseq[1]
 calculateFragments(pepseq, msexp[[1]], type=c("b", "y"))
 @
 
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -547,7 +476,7 @@ vignette for illustration purposes.
 
 \bigskip
 
-\Rpackage{MSnbase} allows easy and flexible access to the data, which
+\Biocpkg{MSnbase} allows easy and flexible access to the data, which
 allows to visualise data features to assess it's quality. Some methods
 are readily available, although many QC approaches will be experiment
 specific and users are encourage to explore their data.
@@ -566,7 +495,7 @@ for more details.
 
 \begin{figure}[htb]
     \includegraphics[width=\linewidth]{./plot2d-figure.png}
-\caption{ Illustration of the \Rfunction{plot2d} output. }
+\caption{Illustration of the \Rfunction{plot2d} output. }
 \label{fig:plot2d}
 \end{figure}
 
@@ -620,8 +549,9 @@ has been generated using the PRIDE experiment 12011, as in
 \begin{figure}[htb]
   \begin{center}
     \includegraphics[width=.7\linewidth]{./plotMzDelta-pride12011.pdf}
-\caption{ Illustration of the \Rfunction{plotMzDelta} output for the PRIDE experiment 12011,
-  as in figure 4A from \cite{Foster11}. }
+    \caption{Illustration of the \Rfunction{plotMzDelta} output for
+      the PRIDE experiment 12011, as in figure 4A from
+      \cite{Foster11}. }
 \label{fig:plotMzDelta-pride12011}
   \end{center}
 \end{figure}
@@ -632,6 +562,8 @@ has been generated using the PRIDE experiment 12011, as in
 In section \ref{sec:incompdissoc} on page \pageref{sec:incompdissoc},
 we illustrate how to assess incomplete reporter ion dissociation.
 
+
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -717,6 +649,7 @@ p3 <- plot(clean(removePeaks(ppsp,t=3)), full = TRUE, plot = FALSE) +
 @
 
 \begin{figure}[p]
+\centering
 <<preprocPlot, dev='pdf', fig.width=3, fig.height=6, echo=FALSE>>=
 grid.newpage()
 pushViewport(viewport(layout = grid.layout(3, 1)))
@@ -757,10 +690,11 @@ experiment
 As can be seen above, all processing performed on the experiment is
 recorded and displayed as integral part of the experiment object.
 
+
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{MS$^2$ isobaric tagging quantitation}\label{sec:isoquant}
 
 \subsection{Reporter ions quantitation}\label{sec:quant}
@@ -787,7 +721,7 @@ quantification methods are implemented, as illustrated on figure
 \ref{fig:quant-methods}: \Robject{trapezoidation} returns the area
 under the peak of interest, \Robject{max} returns the apex of the peak
 and \Robject{sum} returns the sum of all intensities of the peak.  See
-\texttt{?quantify} for more details.
+\Rfunction{?quantify} for more details.
 
 <<simplesp, cache=FALSE, echo=FALSE, fig.keep='none'>>=
 int <- c(0,1,1,3,1,1,0)
@@ -798,6 +732,7 @@ p <- p + theme_gray(5)
 @
 
 \begin{figure}[p]
+\centering
 <<quantitationPlot, dev='pdf',fig.width=5, fig.height=5, echo=FALSE>>=
 grid.newpage()
 pushViewport(viewport(layout = grid.layout(2, 2)))
@@ -840,7 +775,7 @@ print(p +
 
 The \Rfunction{quantify} method returns \Robject{MSnSet} objects, that
 extend the well-known \Robject{eSet} class defined in the
-\Rpackage{Biobase} package. \Robject{MSnSet} instances are very
+\Biocpkg{Biobase} package. \Robject{MSnSet} instances are very
 similar to \Robject{ExpressionSet} objects, except for the experiment
 meta-data that captures MIAPE specific information.  The assay data is
 a matrix of dimensions $n \times m$, where $m$ is the number of
@@ -906,7 +841,7 @@ Note that the quantitation data of \Robject{MSnSet} objects can also
 be exported to a text-based spreadsheet file using the
 \Rfunction{write.exps} method.
 
-\Rpackage{MSnbase} also supports the \texttt{mzTab}
+\Biocpkg{MSnbase} also supports the \texttt{mzTab}
 format\footnote{\url{http://code.google.com/p/mztab/}}, a
 light-weight, tab-delimited file format for proteomics
 data. \texttt{mzTab} files can be read into \R with
@@ -917,7 +852,7 @@ the \Rfunction{writeMzTabData} function.
 \bigskip
 
 See the \texttt{MSnbase-io} vignette for a general overview of
-\Rpackage{MSnbase}'s input/ouput capabilites.
+\Biocpkg{MSnbase}'s input/ouput capabilites.
 
 \subsection{Peak adjustments}\label{sec:purcor}
 
@@ -926,7 +861,7 @@ need to be adjusted as a result of peak interferance. For example, the
 $+1$ peak of the phenylalanine (F, Phe) immonium ion (with m/z 120.03)
 inteferes with the 121.1 TMT reporter ion.  Below, we calculate the
 relative intensity of the +1 peaks compared to the main peak using the
-\Rpackage{Rdispo} package.
+\Biocpkg{Rdispo} package.
 
 <<pheplus1, echo=TRUE, cache=FALSE>>=
 library(Rdisop)
@@ -955,7 +890,7 @@ variants.  The \Rfunction{purityCorrect} method applies such
 correction to \Robject{MSnSet} instances. It also requires a square
 matrix as second argument, \Robject{impurities}, that defines the
 relative percentage of reporter in the quantified each peak.  See
-\texttt{?purityCorrect} for more details.
+\Rfunction{?purityCorrect} for more details.
 
 <<purityCorrect, echo=TRUE, cache=FALSE, tidy = FALSE>>=
 impurities <- matrix(c(0.929, 0.059, 0.002, 0.000,
@@ -983,16 +918,16 @@ character to describe the \Robject{method} to be used:
 
 \begin{description}
 \item{\Robject{quantiles}} Applies quantile normalisation
-  \citep{Bolstad03} as implemented in the
+  \cite{Bolstad03} as implemented in the
   \Rfunction{normalize.quantiles} function of the
-  \Rpackage{preprocessCore} package.
+  \Biocpkg{preprocessCore} package.
 \item{\Robject{quantiles.robust}} Applies robust quantile
-  normalisation \citep{Bolstad03} as implemented in the
+  normalisation \cite{Bolstad03} as implemented in the
   \Rfunction{normalize.quantiles.robust} function of the
-  \Rpackage{preprocessCore} package.
+  \Biocpkg{preprocessCore} package.
 \item{\Robject{vsn}} Applies variance stabilisation normalization
-  \citep{Huber2002} as implemented in the \Rfunction{vsn2} function of
-  the \Rpackage{vsn} package.
+  \cite{Huber2002} as implemented in the \Rfunction{vsn2} function of
+  the \Biocpkg{vsn} package.
 \item{\Robject{max}} Each feature's reporter intensity is divided by
   the maximum of the reporter ions intensities.
 \item{\Robject{sum}} Each feature's reporter intensity is divided by
@@ -1016,6 +951,7 @@ figure \ref{fig:cv-plot} reproduces figure 3 of \cite{Karp2010} that
 described the application of vsn on iTRAQ reporter data.
 
 \begin{figure}[p]
+\centering
 <<normPlot, dev='pdf', fig.width=5, fig.height=7, echo=FALSE>>=
 .plot <- function(x,ttl=NULL) {
   boxplot(exprs(x),
@@ -1070,6 +1006,7 @@ p <- qplot(rank,cv,data=dfr,col=norm) +
 @
 
 \begin{figure}[!ht]
+\centering
 <<cvPlot, dev='pdf', fig.width=5, fig.height=4, echo=FALSE>>=
 print(p)
 @
@@ -1095,6 +1032,7 @@ p <- p + theme_gray(7)
 @
 
 \begin{figure}[p]
+\centering
 <<msnexpNormPlot, dev='pdf', fig.width=5, fig.height=6, echo=FALSE>>=
 print(p)
 @
@@ -1110,6 +1048,10 @@ Additional dedicated normalisation method are available for MS$^2$
 label-free quantitation, as described in section \ref{sec:lf} and in
 the \Rfunction{quantify} documentation.
 
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Feature aggregation}\label{sec:feataggregation}
 
 The above quantitation and normalisation has been performed on
@@ -1120,7 +1062,7 @@ that belong to a same group, i.e. spectra from one peptide, peptides
 that originate from one protein, or directly combine all spectra that
 have been uniquely associated to one protein.
 
-\Rpackage{MSnbase} provides one function, \Rfunction{combineFeatures},
+\Biocpkg{MSnbase} provides one function, \Rfunction{combineFeatures},
 that allows to aggregate features stored in an \Robject{MSnSet} using
 build-in or user defined summary function and return a new
 \Robject{MSnSet} instance.  The three main arguments are described
@@ -1168,13 +1110,17 @@ qnt2
 %% feature data, and subsequently use peptide sequences or protein assignments
 %% to combine features.
 
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Label-free MS$^2$ quantitation}\label{sec:lf}
 
 \subsection{Peptide counting}
 
 Note that if samples are not multiplexed, label-free MS$^2$
 quantitation by spectral counting is possible using
-\Rpackage{MSnbase}. Once individual spectra have been assigned to
+\Biocpkg{MSnbase}. Once individual spectra have been assigned to
 peptides and proteins (see section \ref{sec:id}), it becomes
 straightforward to estimate protein quantities using the simple
 peptide counting method, as illustrated in section
@@ -1193,13 +1139,13 @@ exprs(sc)
 Such count data could then be further analyses using dedicated count
 methods (originally developed for high-throughput sequencing) and
 directly available for \Robject{MSnSet} instances in the
-\Rpackage{msmsTests} Bioconductor package.
+\Biocpkg{msmsTests} Bioconductor package.
 
 \subsection{Spectral counting and intensity methods}
 
 The spectral abundance factor (SAF) and the normalised form (NSAF)
-\citep{Paoletti2006} as well as the spectral index (SI) and other
-normalised variations (SI$_{GI}$ and SI$_N$) \citep{Griffin2010} are
+\cite{Paoletti2006} as well as the spectral index (SI) and other
+normalised variations (SI$_{GI}$ and SI$_N$) \cite{Griffin2010} are
 also available. Below, we illustrate how to apply the normalised
 SI$_N$ to the experiment containing identification data produced in
 section \ref{sec:id}.
@@ -1210,7 +1156,7 @@ following code chunk, the first spectrum could not be matched to any
 single protein. Non-identified spectra and those matching multiple
 proteins are removed automatically prior to any label-free
 quantitation. Once can also remove peptide that do not match uniquely
-to proteins (as defined by the \code{nprot} feature variable column)
+to proteins (as defined by the \Robject{nprot} feature variable column)
 with the \Rfunction{removeMultipleAssignment} method.
 
 <<labelfree>>=
@@ -1225,10 +1171,10 @@ intensity and or the protein lengths (see \cite{Paoletti2006} and
 
 Let's now proceed with the quantitation using the
 \Rfunction{quantify}, as in section \ref{sec:quant}, this time however
-specifying the method of interest, \code{SIn} (the \code{reporters}
+specifying the method of interest, \Robject{SIn} (the \Robject{reporters}
 argument can of course be ignored here). The required peptide-protein
 mapping and protein lengths are extracted automatically from the
-feature meta-data using the default \code{accession} and \code{length}
+feature meta-data using the default \Robject{accession} and \Robject{length}
 feature variables.
 
 <<SIn>>=
@@ -1240,19 +1186,24 @@ exprs(siquant)
 Other label-free methods can be applied by specifiying the appropriate
 \Rfunction{method} argument. See \Rfunction{?quantify} for more details.
 
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Spectra comparison}
 
 \subsection{Plotting two spectra}
 
-\Rpackage{MSnbase} provides functionality to compare spectra against
+\Biocpkg{MSnbase} provides functionality to compare spectra against
 each other. The first notable function is \Rfunction{plot}. If two
 \Robject{Spectrum2} objects are provided \Rfunction{plot} will draw
 two plots: the upper and lower panel contain respectively the first
 and second spectrum. Common peaks are drawn in a slightly darker
 colour.  
 
-
-<<plotSpectrumSpectrum>>=
+\begin{figure}[!ht]
+\centering
+<<plotSpectrumSpectrum, dev='pdf', fig.width=6.5, fig.height=6.5>>=
 centroided <- pickPeaks(itraqdata, verbose=FALSE)
 (k <- which(fData(centroided)[, "PeptideSequence"] == "TAGIQIVADDLTVTNPK"))
 mzk <- precursorMz(centroided)[k]
@@ -1260,14 +1211,17 @@ zk <- precursorCharge(centroided)[k]
 mzk * zk
 plot(centroided[[k[1]]], centroided[[k[2]]])
 @
+\caption{Comparing two MS$^2$ spectra.}
+\label{fig:compms2plot}
+\end{figure}
 
 \subsection{Comparison metrics}
 
-Currently \Rpackage{MSnbase} supports three different metrics to
-compare spectra against each other: \code{common} to calculate the
-number of common peaks, \code{cor} to calculate the Pearson
-correlation and \code{dotproduct} to calculate the dot product. See
-\code{?compareSpectra} to apply other arbitrary metrics.
+Currently \Biocpkg{MSnbase} supports three different metrics to
+compare spectra against each other: \Robject{common} to calculate the
+number of common peaks, \Robject{cor} to calculate the Pearson
+correlation and \Robject{dotproduct} to calculate the dot product. See
+\Rfunction{?compareSpectra} to apply other arbitrary metrics.
 
 <<compareSpectra, tidy=FALSE>>=
 compareSpectra(centroided[[2]], centroided[[3]],
@@ -1281,17 +1235,25 @@ compareSpectra(centroided[[2]], centroided[[3]],
 \Rfunction{compareSpectra} supports \Robject{MSnExp} objects as well.
 
 <<msnexpcompareSpectra>>=
-compareSpectra(centroided, fun="cor")
+compmat <- compareSpectra(centroided, fun="cor")
+compmat[1:10, 1:5]
 @
 
 Below, we illustrate how to compare a set of spectra using a
 hierarchical clustering.
 
-<<hclustcompareSpectra>>=
-dm <- as.dist(compareSpectra(centroided, fun="cor"))
-plot(hclust(dm))
+\begin{figure}[!ht]
+\centering
+<<hclustcompareSpectra, dev='pdf', fig.width=5, fig.height=6>>=
+plot(hclust(as.dist(compmat)))
 @
+\label{fig:dendo}
+\end{figure}
 
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quantitative assessment of incomplete dissociation}
 \label{sec:incompdissoc}
 
@@ -1316,7 +1278,7 @@ groups) specific peaks.
   \end{center}
 \end{figure}
 
-\Rpackage{MSnbase} provides, among others, a \Robject{ReporterIons}
+\Biocpkg{MSnbase} provides, among others, a \Robject{ReporterIons}
 object for iTRAQ 4-plex that includes the 145 peaks, called
 \Robject{iTRAQ5}. This can then be used to quantify the experiment as
 show in section \ref{sec:quant} to estimate incomplete dissociation
@@ -1335,6 +1297,7 @@ head(exprs(incompdiss))
 Figure \ref{fig:incompdiss} compares these intensities for the whole experiment.
 
 \begin{figure}[!hbt]
+\centering
 <<incompdissPlot, dev='pdf', fig.width=5, fig.height=2.5, echo=FALSE, warning=FALSE>>=
 dfr <- melt(exprs(incompdiss))
 colnames(dfr) <- c("feature", "reporters", "intensity")
@@ -1362,6 +1325,7 @@ print(p2, vp = vplayout(1, 2))
 \label{fig:incompdiss}
 \end{figure}
 
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1571,15 +1535,15 @@ facilitate their visualisation. This can be easily achieved with the
 \Rfunction{averageMSnSet} function, which takes a list of valid
 \Robject{MSnSet} instances as input and creates a new object whose
 expression values are an average of the original values. A value of
-dispersion (\code{disp}) and a count of missing values (\code{nNA}) is
+dispersion (\Robject{disp}) and a count of missing values (\Robject{nNA}) is
 recorded in the feature metadata slot. The average and dispersion are
 computed by default as the median and (non-parametric) coefficient of
-variation (see \code{?npcv} for details), although this can easily be
-parametrised, as described in \code{?averageMSnSet}.
+variation (see \Rfunction{?npcv} for details), although this can easily be
+parametrised, as described in \Rfunction{?averageMSnSet}.
 
 The next code chunk illustrates the averaging function using three
 replicated experiments from \cite{Tan2009} available in the
-\Rpackage{pRolocdata} package.
+\Biocpkg{pRolocdata} package.
 
 <<avg>>=
 library("pRolocdata")
@@ -1594,7 +1558,7 @@ head(fData(avgtan)$nNA)
 
 We are going to visualise the average data on a principle component
 (PCA) plot using the \Rfunction{plot2D} function from the
-\Rpackage{pRoloc} package \cite{Gatto2014}. In addition, we are going
+\Biocpkg{pRoloc} package \cite{Gatto2014}. In addition, we are going
 to use the measure of dispersion to highlight averages with high
 variability by taking, for each protein, the maximum observed
 dispersion in the 4 samples. Note that in the default implementation,
@@ -1602,22 +1566,32 @@ dispersions estimated from a single measurement (i.e. that had 2
 missing values in our example) are set to 0; we will set these to the
 overal maximum observed dispersion.
 
-<<avg2>>=
+\begin{figure}[!ht]
+\centering
+<<avg2, dev='pdf', fig.height=5, fig.width=5>>=
 disp <- rowMax(fData(avgtan)$disp)
 disp[disp == 0] <- max(disp)
 range(disp)
 library("pRoloc")
-plot2D(avgtan, cex = 7 * disp)
+plot2D(avgtan, cex = 3 * disp)
 @
+\caption{PCA plot of the averaged \Robject{MSnSet}. The point sizes
+  are proportional to the dispersion of the protein quantitation
+  across the averaged data.}
+\label{fig:plot2Davg}
+\end{figure}
 
-
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MS$^E$ data processing}\label{sec:mse}
 
-\Rpackage{MSnbase} can also be used for MS$^E$ data independent
+\Biocpkg{MSnbase} can also be used for MS$^E$ data independent
 acquisition from Waters instrument.  The MS$^E$ pipeline depends on
-the Bioconductor \Rpackage{synapter} package \citep{Bond2013} that
+the Bioconductor \Biocpkg{synapter} package \cite{Bond2013} that
 produces \Robject{MSnSet} instances for indvidual acquisitions. The
-\Rpackage{MSnbase} infrastructure can subsequently be used to further
+\Biocpkg{MSnbase} infrastructure can subsequently be used to further
 combine experiments, as shown in section \ref{sec:comb2} and apply
 \textit{top3} quantitation using the \Rfunction{topN} method.
 
@@ -1631,7 +1605,6 @@ combine experiments, as shown in section \ref{sec:comb2} and apply
 toLatex(sessionInfo())
 @
 
-\bibliographystyle{plainnat}
 \bibliography{MSnbase}
 
 \end{document}

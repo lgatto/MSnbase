@@ -2,7 +2,7 @@ CHANGES IN VERSION 1.15.4
 -------------------------
  o partly rewrite readMgfData [2015-01-19 Mon]
  o Typo in addIdentification data man [2015-01-20 Tue]
- o fix GNU Make related warning [2015-01-23 Fri]
+ o use Biocstyle [2015-01-23 Fri]
  o replace require with requireNamespace [2015-01-23 Fri]
  
 CHANGES IN VERSION 1.15.3
