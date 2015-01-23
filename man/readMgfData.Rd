@@ -6,8 +6,8 @@
 }
 
 \description{
-  Reads an mgf file and generates an \code{"\linkS4class{MSnExp}"}
-  object. 
+  Reads a mgf file and generates an \code{"\linkS4class{MSnExp}"}
+  object.
 }
 
 \usage{
