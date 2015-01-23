@@ -1,62 +1,11 @@
-%\VignetteEngine{knitr}
+%\VignetteEngine{knitr::knitr}
 %\VignetteIndexEntry{MSnbase IO capabilities}
 %\VignetteKeywords{Mass Spectrometry, Proteomics, Infrastructure }
 %\VignettePackage{MSnbase-io}
 
-
-\documentclass[12pt,a4paper,english]{scrartcl}
-\usepackage{amsmath,amsfonts,amssymb}
+\documentclass[12pt, oneside]{article}
 \usepackage{tikz}
-\usepackage{hyperref}
-\usepackage[authoryear,round]{natbib}
-\usepackage[auth-sc]{authblk}
-\usepackage{setspace}
-\onehalfspacing
-
 \usetikzlibrary{shapes,arrows,shadows,fit}
-
-% caption formatting
-\setcapindent{0em}
-\setkomafont{captionlabel}{\sffamily\bfseries}
-\setkomafont{caption}{\sffamily}
-
-\newcommand{\R}{\texttt{R} }
-\newcommand{\Rfunction}[1]{{\texttt{#1}}}
-\newcommand{\Robject}[1]{{\texttt{#1}}}
-\newcommand{\Rpackage}[1]{{\mbox{\normalfont\textsf{#1}}}}
-\newcommand{\email}[1]{\href{mailto:#1}{\normalfont\texttt{#1}}}
-%% colors
-\definecolor{Red}{rgb}{0.7,0,0}
-\definecolor{Blue}{rgb}{0,0,0.8}
-
-\usepackage{geometry}
-\geometry{verbose,
-  tmargin = 2.5cm,
-  bmargin = 2.5cm,
-  lmargin = 3.0cm,
-  rmargin = 3.0cm}
-
-\usepackage{hyperref}
-\usepackage{breakurl}
-\hypersetup{%
-  pdfusetitle,
-  bookmarks = {true},
-  bookmarksnumbered = {true},
-  bookmarksopen = {true},
-  bookmarksopenlevel = 2,
-  unicode = {true},
-  breaklinks = {false},
-  hyperindex = {true},
-  colorlinks = {true},
-  linktocpage = {true},
-  plainpages = {false},
-  linkcolor = {Blue},
-  citecolor = {Blue},
-  urlcolor = {Red},
-  pdfstartview = {Fit},
-  pdfpagemode = {UseOutlines},
-  pdfview = {XYZ null null null}
-}
 
 %% pgf setup
 \pgfdeclarelayer{background}
@@ -64,24 +13,25 @@
 \pgfsetlayers{background,main,foreground}
 % Define block styles
 \tikzstyle{input} = [rectangle, draw, fill=blue!20,
-  text width=6em, text centered, rounded corners, minimum height=4em]
-\tikzstyle{fun} = [rectangle, draw, fill=white, drop shadow, 
-  text width=7em, text centered, rounded corners, minimum height=2em]
-\tikzstyle{obj} = [rectangle, draw, fill=red!20, 
-  text width=5em, text centered, rounded corners, minimum height=5em]
+text width=6em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{fun} = [rectangle, draw, fill=white, drop shadow,
+text width=7em, text centered, rounded corners, minimum height=2em]
+\tikzstyle{obj} = [rectangle, draw, fill=red!20,
+text width=5em, text centered, rounded corners, minimum height=5em]
+
+<<style, eval=TRUE, echo=FALSE, results="asis">>=
+BiocStyle::latex()
+@
 
 \author{
-  Laurent Gatto\thanks{\email{lg390@cam.ac.uk}}
+  Laurent Gatto\footnote{\email{lg390@cam.ac.uk}}
 }
 
-\affil{
-  Computational Proteomics Unit\\
-  University of Cambridge, UK
+\bioctitle[\Biocpkg{MSnbase} I/O]{  
+  \Biocpkg{MSnbase} input/output capabilities
 }
 
 \begin{document}
-
-\title{\Rpackage{MSnbase} input/output capabilities}
 
 \maketitle
 
@@ -89,7 +39,7 @@
 \vskip 0.3in minus 0.1in
 \hrule
 \begin{abstract}
-  This vignette describes \Rpackage{MSnbase}'s input and output 
+  This vignette describes \Biocpkg{MSnbase}'s input and output 
   capabilities.
 \end{abstract}
 \textit{Keywords}: Mass Spectrometry (MS), proteomics, infrastructure, IO.
@@ -127,9 +77,9 @@ options(replace.assign = TRUE,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Overview}
 
-\Rpackage{MSnbase}'s aims are to facilitate the reproducible analysis of 
+\Biocpkg{MSnbase}'s aims are to facilitate the reproducible analysis of 
 mass spectrometry data within the \R environment, from raw data import and processing, 
-feature quantification, quantification and statistical analysis of the results \citep{Gatto2012}.
+feature quantification, quantification and statistical analysis of the results \cite{Gatto2012}.
 Data import functions for several formats are provided and intermediate or final 
 results can also be saved or exported. 
 These capabilities are presented below.
@@ -137,10 +87,10 @@ These capabilities are presented below.
 \section{Data input}
 
 \paragraph{Raw data} Data stored in one of the published \texttt{XML}-based 
-formats. i.e. \texttt{mzXML} \citep{Pedrioli2004}, \texttt{mzData} \citep{Orchard2007} 
-or \texttt{mzML} \citep{Martens2010}, 
+formats. i.e. \texttt{mzXML} \cite{Pedrioli2004}, \texttt{mzData} \cite{Orchard2007} 
+or \texttt{mzML} \cite{Martens2010}, 
 can be imported with the \Rfunction{readMSData} method, which makes use of 
-the \Rpackage{mzR} package to create \Robject{MSnExp} objects. 
+the \Biocpkg{mzR} package to create \Robject{MSnExp} objects. 
 The files can be in profile or centroided mode. 
 See \Rfunction{?readMSData} for details. 
  
@@ -155,7 +105,7 @@ quantitative data and exported as a spreadsheet (generally comma or tab separate
 This data as well as any additional meta-data can be imported with the 
 \Rfunction{readMSnSet} function. See \Rfunction{?readMSnSet} for details.
 
-\Rpackage{MSnbase} also supports the \texttt{mzTab} 
+\Biocpkg{MSnbase} also supports the \texttt{mzTab} 
 format\footnote{\url{http://code.google.com/p/mztab/}}, a light-weight, tab-delimited 
 file format for proteomics data developed within the Proteomics Standards Initiative (PSI).
 \texttt{mzTab} files can be read into \R with \Rfunction{readMzTabData} to create and \Robject{MSnSet} instance. 
@@ -256,7 +206,7 @@ intensity values. See \Rfunction{?writeMgfData} for details.
 
 This section describes the generation of \Robject{MSnSet} objects using 
 data available in a text-based spreadsheet. This entry point into \R and 
-\Rpackage{MSnbase} allows to import data processed by any of the 
+\Biocpkg{MSnbase} allows to import data processed by any of the 
 third party mass-spectrometry processing software available and proceed 
 with data exploration, normalisation and statistical analysis using 
 functions available in \R and the numerous Bioconductor packages.
@@ -266,8 +216,8 @@ functions available in \R and the numerous Bioconductor packages.
 The following section describes a work flow that uses three input files to 
 create the \Robject{MSnSet}. These files respectively describe the quantitative 
 expression data, the sample meta-data and the feature meta-data. 
-It is taken from the \Rpackage{pRoloc} tutorial and uses example files from 
-the \Rpackage{pRolocdata} package.
+It is taken from the \Biocpkg{pRoloc} tutorial and uses example files from 
+the \Biocpkg{pRolocdata} package.
 
 \subsubsection{The original data file}\label{sec:orgcsv}
 
@@ -426,7 +376,6 @@ replacement functions \Rfunction{phenoData<-} or\Rfunction{pData<-}
 toLatex(sessionInfo())
 @
 
-\bibliographystyle{plainnat}
 \bibliography{MSnbase}
 
 \end{document}

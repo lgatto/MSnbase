@@ -1,68 +1,25 @@
-%\VignetteEngine{knitr}
+%\VignetteEngine{knitr::knitr}
 %\VignetteIndexEntry{MSnbase development}
 %\VignetteKeywords{Mass Spectrometry, Proteomics, Infrastructure }
 %\VignettePackage{MSnbase-development}
 
-\documentclass[12pt,a4paper,english]{scrartcl}
-\usepackage{amsmath,amsfonts,amssymb}
-\usepackage{tikz}
-\usepackage{hyperref}
-\usepackage[authoryear,round]{natbib}
-\usepackage[auth-sc]{authblk}
-\usepackage{setspace}
-\onehalfspacing
+\documentclass[12pt, oneside]{article}
 
-\newcommand{\R}{\texttt{R} }
-\newcommand{\Rfunction}[1]{{\texttt{#1}}}
-\newcommand{\Robject}[1]{{\texttt{#1}}}
-\newcommand{\Rpackage}[1]{{\mbox{\normalfont\textsf{#1}}}}
-\newcommand{\email}[1]{\href{mailto:#1}{\normalfont\texttt{#1}}}
-%% colors
-\definecolor{Red}{rgb}{0.7,0,0}
-\definecolor{Blue}{rgb}{0,0,0.8}
+<<style, eval=TRUE, echo=FALSE, results="asis">>=
+BiocStyle::latex()
+@
 
-\usepackage{geometry}
-\geometry{verbose,
-  tmargin = 2.5cm,
-  bmargin = 2.5cm,
-  lmargin = 3.5cm,
-  rmargin = 3.5cm}
-
-\usepackage{hyperref}
-\usepackage{breakurl}
-\hypersetup{%
-  pdfusetitle,
-  bookmarks = {true},
-  bookmarksnumbered = {true},
-  bookmarksopen = {true},
-  bookmarksopenlevel = 2,
-  unicode = {true},
-  breaklinks = {false},
-  hyperindex = {true},
-  colorlinks = {true},
-  linktocpage = {true},
-  plainpages = {false},
-  linkcolor = {Blue},
-  citecolor = {Blue},
-  urlcolor = {Red},
-  pdfstartview = {Fit},
-  pdfpagemode = {UseOutlines},
-  pdfview = {XYZ null null null}
-}
 
 \author{
-  Laurent Gatto\thanks{\email{lg390@cam.ac.uk}}
+  Laurent Gatto\footnote{\email{lg390@cam.ac.uk}}
 }
 
-\affil{
-  Computational Proteomics Unit\\
-  University of Cambridge, UK
+\bioctitle[\Biocpkg{MSnbase} devel]{ 
+  \Biocpkg{MSnbase} development
 }
-
 
 \begin{document}
 
-\title{\Rpackage{MSnbase} development}
 
 \maketitle
 
@@ -70,7 +27,7 @@
 \vskip 0.3in minus 0.1in
 \hrule
 \begin{abstract}
-  This vignette describes the classes implemented in \Rpackage{MSnbase} package. 
+  This vignette describes the classes implemented in \Biocpkg{MSnbase} package. 
   It is intended as a starting point for developers or users who would like to 
   learn more or further develop/extend \Robject{pSet}. 
 
@@ -112,20 +69,20 @@ suppressPackageStartupMessages(library(MSnbase))
 \section{Introduction}
 
 This document is not a replacement for the individual manual pages, that  
-document the slots of the \Rpackage{MSnbase} classes. It is a centralised high-level 
+document the slots of the \Biocpkg{MSnbase} classes. It is a centralised high-level 
 description of the package design.
 
-\Rpackage{MSnbase} aims at being compatible with the \Rpackage{Biobase} 
+\Biocpkg{MSnbase} aims at being compatible with the \Biocpkg{Biobase} 
 infrastructure \cite{Gentleman2004}. 
 Many meta data structures that are used in \Robject{eSet} and associated classes are 
 also used here. As such, knowledge of the \textit{Biobase development and the new eSet} 
 vignette\footnote{%%
   The vignette can directly be accessed with 
   \texttt{vignette("BiobaseDevelopment",package="Biobase")} 
-  once \Rpackage{Biobase} is loaded.} would be beneficial.
+  once \Biocpkg{Biobase} is loaded.} would be beneficial.
 
-The initial goal is to use the \Rpackage{MSnbase} infrastructure for labelled quantitation 
-using reporter ions (iTRAQ \citep{Ross2004} and TMT \citep{Thompson2003}). Spectral counting 
+The initial goal is to use the \Biocpkg{MSnbase} infrastructure for labelled quantitation 
+using reporter ions (iTRAQ \cite{Ross2004} and TMT \cite{Thompson2003}). Spectral counting 
 should be trivial to apply with current features, as long as identification data is at hand. 
 Currently, no effort is invested to streamline label-free quantitative proteomics, although 
 some effort has been done to keep the infrastructure flexible enough to accommodate more 
@@ -135,7 +92,7 @@ designs.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{\Rpackage{MSnbase} classes}
+\section{\Biocpkg{MSnbase} classes}
 
 All classes have a \Robject{.\_\_classVersion\_\_} slot, of class \Robject{Versioned} 
 from the \Robject{Biobase} package. This slot documents the class version for any instance 
@@ -225,7 +182,7 @@ centroided, smoothed, \ldots although many of the functionality is not implement
 Any new processing that is implemented should be documented and logged here.
 
 It also documents the raw data file from which the data originates (\Robject{files} 
-slot) and the \Rpackage{MSnbase} version that was in use when the \Robject{MSnProcess} 
+slot) and the \Biocpkg{MSnbase} version that was in use when the \Robject{MSnProcess} 
 instance, and hence the \Robject{MSnExp}/\Robject{MSnSet} objects, were originally created. 
 
 
@@ -241,17 +198,17 @@ getClass("MSnProcess")
 \label{sec:miape}
 
 The Minimum Information About a Proteomics 
-Experiment \citep{Taylor2007, Taylor2008} \Robject{MIAPE} class 
+Experiment \cite{Taylor2007, Taylor2008} \Robject{MIAPE} class 
 describes the experiment, including contact details, 
 information about the mass spectrometer and control 
 and analysis software. 
 
-%% Raw data is currently imported from \texttt{mzXML} files \citep{Pedrioli2004} <
+%% Raw data is currently imported from \texttt{mzXML} files \cite{Pedrioli2004} <
 %% using the \Rfunction{xcms:::rampRawData} 
 %% and \Rfunction{xcms:::rampRawDataMSn} functions from the 
-%% \Rpackage{xcms} package \citep{Smith2006}.
+%% \Biocpkg{xcms} package \cite{Smith2006}.
 %% These functions do not give access to the meta data. New importer functions are 
-%% under development (see for instance \Rpackage{mzR}\footnote{%%
+%% under development (see for instance \Biocpkg{mzR}\footnote{%%
 %%   \url{https://github.com/sneumann/mzR/blob/master/DESCRIPTION}}) that will 
 %% hopefully give programmatic access to meta data stored in the data file to 
 %% populate the \Robject{MIAPE} object.
@@ -278,7 +235,7 @@ that directly extend \Robject{Spectrum}.
 %% \texttt{mzXML} file they gave access to. 
 %% It is expected that some hopefully minor changes might 
 %% come up here when migrating to other data import packages, that allow random access 
-%% to \texttt{mzXML} data and support \texttt{mzML} \citep{Martens2010}.
+%% to \texttt{mzXML} data and support \texttt{mzML} \cite{Martens2010}.
 
 <<Spectrum>>=
 getClass("Spectrum")
@@ -328,8 +285,8 @@ getClass("NAnnotatedDataFrame")
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Miscellaneous}
 
-\paragraph{Unit tests} \Rpackage{MSnbase} implements unit tests with 
-the \Rpackage{testthat} package. 
+\paragraph{Unit tests} \Biocpkg{MSnbase} implements unit tests with 
+the \CRANpkg{testthat} package. 
 
 \paragraph{Processing methods} Methods that process raw data, i.e. spectra 
 should be implemented for \Robject{Spectrum} objects first and then 
@@ -338,7 +295,7 @@ should be implemented for \Robject{Spectrum} objects first and then
 
 
 %% \paragraph{Why this MIAME slot?} \label{misc:whymiame} While it would have been 
-%% possible to transfer all data stored in \Rpackage{Biobase}'s \Robject{MIAME} 
+%% possible to transfer all data stored in \Biocpkg{Biobase}'s \Robject{MIAME} 
 %% to a new \Robject{MIAPE} class and use the latter for \Robject{experimentData} slots in 
 %% the \Robject{pSet} class, it would not have been possible to directly transfer this 
 %% to \Robject{MSnSet} instances, as \Robject{MSnSet} classes directly inherit 
@@ -357,7 +314,6 @@ should be implemented for \Robject{Spectrum} objects first and then
 toLatex(sessionInfo())
 @
 
-\bibliographystyle{plainnat}
 \bibliography{MSnbase}
 
 \end{document}
