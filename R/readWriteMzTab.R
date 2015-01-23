@@ -913,7 +913,7 @@ writeMzTabData <- function(x,
                            MTD = TRUE,
                            file, ...) {
     warning("Support for mzTab version 0.9 only. Support will be added soon.")
-    if (!requireNamespace(rols))
+    if (!requireNamespace("rols"))
         stop("The 'rols' package is required for mzTab write support.")
     
     if (missing(file))
