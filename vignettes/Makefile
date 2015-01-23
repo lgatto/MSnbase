@@ -30,10 +30,16 @@ all:
 	make io
 	make clean
 
-setvars:
-ifeq (${R_HOME},)
-R_HOME=	$(shell R RHOME)
-endif
+# setvars:
+# ifeq (${R_HOME},)
+# R_HOME=	$(shell R RHOME)
+# endif
+
+: ${R_HOME=`R RHOME`}
+if test -z "${R_HOME}"; then
+  echo "could not determine R_HOME"
+  exit 1
+fi
 
 demo: 
 	"$(R_HOME)/bin/R" CMD pdflatex MSnbase-demo.tex
