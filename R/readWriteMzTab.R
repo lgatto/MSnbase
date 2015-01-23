@@ -138,6 +138,8 @@ makeMTD <- function(x,
                     ) {
   if (class(x) != "MSnSet")
     stop("Need instance of class 'MSnSet' to write to mzTab format.")
+
+  requireNamespace("rols")
   
   addToMtd <- function(x, k,
                        .unitId = unitId,
@@ -189,7 +191,7 @@ makeMTD <- function(x,
       }
     }
   }
-  mtd <- addToMtd(as.character(instrumentSource), "instrument[1]-source")
+  mtd <- addToMtd(as(instrumentSource, "character"), "instrument[1]-source")
 
   if (is.null(instrumentAnalyzer)) {
     if (length(analyzer(x)) > 0) {
@@ -209,7 +211,7 @@ makeMTD <- function(x,
       }
     }
   }
-  mtd <- addToMtd(as.character(instrumentAnalyzer), "instrument[1]-analyzer")
+  mtd <- addToMtd(as(instrumentAnalyzer, "character"), "instrument[1]-analyzer")
 
   if (is.null(instrumentDetector)) {
     if (length(detectorType(x)) > 0) {
@@ -226,7 +228,7 @@ makeMTD <- function(x,
       }
     }
   }
-  mtd <- addToMtd(as.character(instrumentDetector), "instrument[1]-detector")
+  mtd <- addToMtd(as(instrumentDetector, "character"), "instrument[1]-detector")
   
   mtd <- addToMtd(software, paste0("software[", 1:length(software), "]")) 
 
@@ -286,7 +288,7 @@ makeMTD <- function(x,
     }
   }
   if (!is.null(quantitationMethod)) ## then is must be a CVParam
-    mtd <- addToMtd(as.character(quantitationMethod), "quantitation_method")
+    mtd <- addToMtd(as(quantitationMethod, "character"), "quantitation_method")
 
   ## default quant unit is PRIDE:0000330, Arbitrary quantificatio unit
   if (is.null(protQuantUnit)) {
@@ -294,14 +296,14 @@ makeMTD <- function(x,
     .name <- rols::term(.accession, "PRIDE")
     protQuantUnit <- new("CVParam", label = "PRIDE", accession = .accession, name = .name)
   }
-  mtd <- addToMtd(as.character(protQuantUnit), "protein-quantification_unit")
+  mtd <- addToMtd(as(protQuantUnit, "character"), "protein-quantification_unit")
 
   if (is.null(pepQuantUnit)) {
     .accession <- "PRIDE:0000330"
     .name <- rols::term(.accession, "PRIDE")
     pepQuantUnit <- new("CVParam", label = "PRIDE", accession = .accession, name = .name)    
   }
-  mtd <- addToMtd(as.character(pepQuantUnit), "peptide-quantification_unit")
+  mtd <- addToMtd(as(pepQuantUnit, "character"), "peptide-quantification_unit")
 
   if (is.null(msFileFormat)) {
     if (length(fileNames(x)) > 0) {
@@ -321,7 +323,7 @@ makeMTD <- function(x,
     }
   }
   if (!is.null(msFileFormat))
-    mtd <- addToMtd(as.character(msFileFormat), paste0("ms_file[", 1:length(ext), "]-format"))
+    mtd <- addToMtd(as(msFileFormat, "character"), paste0("ms_file[", 1:length(ext), "]-format"))
   
   if (is.null(msFileLocation)) {
     if (length(fileNames(x)) > 0) 
@@ -338,7 +340,7 @@ makeMTD <- function(x,
     for (i in 1:.n) {
       sub <- species_[[i]]
       if (length(sub) == 1) {
-        mtd <- addToMtd(as.character(sub),
+        mtd <- addToMtd(as(sub, "character"),
                         paste0("sub[", i, "]-species[1]"))
       } else {
         mtd <- addToMtd(sapply(sub, as.character),
@@ -351,7 +353,7 @@ makeMTD <- function(x,
     for (i in 1:.n) {
       sub <- tissue_[[i]]
       if (length(sub) == 1) {
-        mtd <- addToMtd(as.character(sub),
+        mtd <- addToMtd(as(sub, "character"),
                         paste0("sub[", i, "]-tissue[1]"))
       } else {
         mtd <- addToMtd(sapply(sub, as.character),
@@ -364,7 +366,7 @@ makeMTD <- function(x,
     for (i in 1:.n) {
       sub <- cellType_[[i]]
       if (length(sub) == 1) {
-        mtd <- addToMtd(as.character(sub),
+        mtd <- addToMtd(as(sub, "character"),
                         paste0("sub[", i, "]-cell_type[1]"))
       } else {
         mtd <- addToMtd(sapply(sub, as.character),
@@ -377,7 +379,7 @@ makeMTD <- function(x,
     for (i in 1:.n) {
       sub <- disease_[[i]]
       if (length(sub) == 1) {
-        mtd <- addToMtd(as.character(sub),
+        mtd <- addToMtd(as(sub, "character"),
                         paste0("sub[", i, "]-disease[1]"))
       } else {
         mtd <- addToMtd(sapply(sub, as.character),
@@ -421,7 +423,7 @@ makeMTD <- function(x,
 
     if (is.list(quantitationReagent_)) {
       for (i in 1:.n)
-        mtd <- addToMtd(as.character(quantitationReagent_[[i]]),
+        mtd <- addToMtd(as(quantitationReagent_[[i]], "character"),
                         paste0("sub[", i, "]-quantitation_reagent"))
     }
 
