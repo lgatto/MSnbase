@@ -35,7 +35,7 @@ Imports: plyr, IRanges, preprocessCore, vsn, grid,
 	 mzID (>= 1.1.5), MALDIquant (>= 1.9.8), digest, 
 	 lattice, ggplot2
 Suggests: testthat, zoo, knitr (>= 1.1.0), rols, Rdisop, pRoloc,
-	  pRolocdata (>= 1.0.7), msdata, roxygen2, rgl
+	  pRolocdata (>= 1.0.7), msdata, roxygen2, rgl, BiocStyle
 License: Artistic-2.0
 LazyData: yes
 VignetteBuilder: knitr
