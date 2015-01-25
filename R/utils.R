@@ -657,11 +657,11 @@ utils.leftJoin <- function(x, y, by, by.x=by, by.y=by,
 }
 
 # @param featureData fData(msexp)/fData(msset)
-# @param idData output of mzID::flatten(mzID(filename))
+# @param id output of mzID::flatten(mzID(filename))
 # @param fcol column name of fData data.frame used for merging
 # @param icol column name of idData data.frame used for merging
 # @noRd
-utils.mergeSpectraAndIdentificationData <- function(featureData, idData,
+utils.mergeSpectraAndIdentificationData <- function(featureData, id,
                                                     fcol = c("file", "acquisition.number"),
                                                     icol = c("file", "acquisitionnum")) {
   # mzR::acquisitionNum (stored in fData()[, "acquisition.number"] and
@@ -671,129 +671,49 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, idData,
     stop("The column(s) ", sQuote(fcol), " are not in the feature data.frame!")
   }
 
-  if (!any(icol %in% colnames(idData))) {
+  if (!any(icol %in% colnames(id))) {
     stop("The column(s) ", sQuote(icol),
          " are not in the identification data.frame!")
   }
 
-  if (sum(fcol %in% colnames(featureData)) != sum(icol %in% colnames(idData))) {
+  if (sum(fcol %in% colnames(featureData)) != sum(icol %in% colnames(id))) {
     stop("The number of selected column(s) in the feature and identification ",
          "data don't match!")
   }
 
   ## sort id data to ensure the best matching peptide is on top in case of
   ## multiple matching peptides
-  o <- do.call("order", lapply(c(icol, "rank"), function(j)x[, j]))
-  idData <- idData[o, ]
+  o <- do.call("order", lapply(c(icol, "rank"), function(j)id[, j]))
+  id <- id[o, ]
 
   ## use flat version of accession/description if multiple ones are available
-  idData$accession <- ave(idData$accession, idData[, icol],
-                          FUN=utils.vec2ssv)
-  idData$description <- ave(idData$description, idData[, icol],
-                            FUN=utils.vec2ssv)
+  id$accession <- ave(id$accession, id[, icol], FUN=utils.vec2ssv)
+  id$description <- ave(id$description, id[, icol], FUN=utils.vec2ssv)
 
   ## remove duplicated entries
-  idData <- idData[!duplicated(idData[, icol]), ]
+  id <- id[!duplicated(id[, icol]), ]
 
   featureData <- utils.leftJoin(
-    x=featureData, y=idData,
-    by.x=fcol,
-    by.y=icol,
+    x=featureData, y=id, by.x=fcol, by.y=icol,
     exclude=c("spectrumid",   # vendor specific nativeIDs
               "spectrumFile") # is stored in fileId + MSnExp@files
   )
 
-  return(featureData)
-}
-
-utils.addSingleIdentificationDataFile <- function(object, filename,
-                                                  fcol = NULL, icol = NULL,
-                                                  verbose=TRUE) {
-
-    ## addIdentificationData does some data checking. It extracts the
-    ## data file name(s) using the run the search engine from the
-    ## (flattened) mzID file - idFilenames - and the file used to
-    ## produce the MSnExp - spectumFilenames.
-
-    ## If any idFilenames is absent from the spectumFilenames, if
-    ## complains, as it could be that the wrong identification data
-    ## was used or identification data is added to the wrong raw data.
-
-    ## There is however a case where this is too restricitve. If the
-    ## search engine only support peak lists, then idFilenames will
-    ## contain the peak lists and the spectumFilenames the mz[X]ML
-    ## file names. What about using the mgf to raw/quant data object?
-    ## Do we still have enough data to match id and raw data?
-    ## See utils.mergeSpectraAndIdentificationData(fData(object), id)
-
-    id <- mzID(filename, verbose=verbose)
-    idFilenames <- basename(mzID::files(id)$raw$location)
-    id <- flatten(id)
-
-    ## not all mzid results have the spectrumFile column
-    ## MSGF+ does, xTANDEM does not (see github issue #39)
-    if (!is.null(id$spectrumFile)) {
-        idFilenames <- basename(id$spectrumFile)
-    }
-
-    if (isTRUE(grepl("\.mgf", idFilenames, ignore.case = TRUE)) &&
-        is.null(fcol) && is.null(icol)) {
-      fcol <- c("file", "TITLE")
-      icol <- c("file", "spectrum title")
-    } else {
-      fcol <- c("file", "acquisition.number")
-      icol <- c("file", "acquisitionnum")
-    }
-
-    if (!length(fData(object)$file))
-        stop(paste("No data file found in the feature data."))
-    ## possible reasons: fData was not initialised appropriately in
-    ## addIdentificationData,MSnExp
-
-    spectrumFilenames <- basename(fileNames(object)[fData(object)$file])
-
-    if (any(!idFilenames %in% unique(spectrumFilenames))) {
-        stop("Filenames do not match! Did you use the wrong identification file?")
-    }
-
-    ## append identification filename to filename slot
-    fileNames(object) <- c(fileNames(object), filename)
-    id$file <- match(idFilenames, spectrumFilenames)
-    id$identFile <- length(fileNames(object))
-
-    fData(object) <- utils.mergeSpectraAndIdentificationData(fData(object), id,
-                                                             fcol=fcol,
-                                                             icol=icol)
-
-    return(object)
-}
-
-utils.addIdentificationData <- function(object, filenames,
-                                        fcol, icol,
-                                        verbose = TRUE) {
-  for (file in filenames) {
-      object <-
-          utils.addSingleIdentificationDataFile(object, file,
-                                                fcol=fcol,
-                                                icol=icol,
-                                                verbose=verbose)
-  }
-  fd <- fData(object)
   ## number of members in the protein group
-  fd$nprot <- sapply(strsplit(fd$accession, ";"),
-                     function(x) {
-                         if (length(x) == 1 && is.na(x)) return(NA)
-                         length(x)
-                     })
+  featureData$nprot <- sapply(utils.ssv2list(featureData$accession),
+                              function(x) {
+                                n <- length(x)
+                                if (n == 1 && is.na(x)) return(NA)
+                                n
+                       })
   ## number of peptides observed for each protein
-  fd$npep.prot <- as.integer(ave(fd$accession, fd$pepseq, FUN=length))
+  featureData$npep.prot <- as.integer(ave(featureData$accession, featureData$pepseq, FUN=length))
   ## number of PSMs observed for each protein
-  fd$npsm.prot <- as.integer(ave(fd$accession, fd$accession, FUN=length))
+  featureData$npsm.prot <- as.integer(ave(featureData$accession, featureData$accession, FUN=length))
   ## number of PSMs observed for each protein
-  fd$npsm.pep <- as.integer(ave(fd$pepseq, fd$pepseq, FUN=length))
-  fData(object) <- fd
-  if (validObject(object))
-      return(object)
+  featureData$npsm.pep <- as.integer(ave(featureData$pepseq, featureData$pepseq, FUN=length))
+
+  return(featureData)
 }
 
 utils.removeNoId <- function(object, fcol, keep) {
