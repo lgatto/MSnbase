@@ -283,40 +283,52 @@ setMethod("removeReporters","MSnExp",
             removeReporters_MSnExp(object, reporters, clean, verbose)
         })
 
-setMethod("addIdentificationData", "MSnExp",
-          function(object, filenames,
-                   fcol = "acquisition.number",
-                   icol = "acquisitionnum",
+setMethod("addIdentificationData", c("MSnExp", "character"),
+          function(object, id,
+                   fcol = c("spectrum.file", "acquisition.number"),
+                   icol = c("spectrumFile", "acquisitionnum"),
                    verbose = TRUE) {
-              ## we temporaly add the file/acquisition.number information
-              ## to our fData data.frame because utils.addIdentificationData
-              ## needs this information for matching (it is present in MSnSet)
-              fn0 <- fvarLabels(object)
-              if ("file" %in% fn0)
-                  file0 <- fData(object)$file
-              if ("acquisition.number" %in% fn0)
-                  an0 <- fData(object)$acquisition.number
+            addIdentificationData(object, id = mzID(id, verbose = verbose),
+                                  fcol = fcol, icol = icol)
+          })
 
-              fData(object)$file <- fromFile(object)
-              fData(object)$acquisition.number <- acquisitionNum(object)
-              object <- utils.addIdentificationData(object,
-                                                    filenames = filenames,
-                                                    fcol = fcol,
-                                                    icol = icol,
-                                                    verbose = verbose)
-              ## after adding the identification data we remove the
-              ## temporary data to avoid duplication and problems in quantify
-              cn <- colnames(fData(object))
-              keep <- !(cn %in% c("file", "acquisition.number"))
-              fData(object) <- fData(object)[, keep, drop=FALSE]
-              if ("file" %in% fn0)
-                  fData(object)$file <- file0
-              if ("acquisition.number" %in% fn0)
-                  fData(object)$acquisition.number <- an0
+setMethod("addIdentificationData", c("MSnExp", "mzIDClasses"),
+          function(object, id,
+                   fcol = c("spectrum.file", "acquisition.number"),
+                   icol = c("spectrumFile", "acquisitionnum"), ...) {
+            addIdentificationData(object, id = flatten(id),
+                                  fcol = fcol, icol = icol)
+          })
 
-              if (validObject(object))
-                  return(object)
-        })
+setMethod("addIdentificationData", c("MSnExp", "data.frame"),
+          function(object, id,
+                   fcol = c("spectrum.file", "acquisition.number"),
+                   icol = c("spectrumFile", "acquisitionnum"), ...) {
+            ## we temporaly add the spectrum.file/acquisition.number information
+            ## to our fData data.frame because
+            ## utils.mergeSpectraAndIdentificationData needs this information
+            ## for matching (it is present in MSnSet)
+            fd <- fData(object)
+
+            if (!nrow(fd))
+              stop("No feature data found.")
+
+            fd$spectrum.file <- basename(fileNames(object)[fromFile(object)])
+            fd$acquisition.number <- acquisitionNum(object)
+
+            fd <- utils.mergeSpectraAndIdentificationData(fd, id,
+                                                          fcol = fcol,
+                                                          icol = icol)
+
+            ## after adding the identification data we remove the
+            ## temporary data to avoid duplication and problems in quantify
+            cn <- colnames(fd)
+            keep <- cn[!(cn %in% c("spectrum.file", "acquisition.number"))]
+            fData(object)[, keep] <- fd[, keep, drop=FALSE]
+
+            if (validObject(object))
+                return(object)
+          })
 
 setMethod("removeNoId", "MSnExp",
           function(object, fcol = "pepseq", keep=NULL)
