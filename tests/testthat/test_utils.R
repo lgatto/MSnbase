@@ -80,6 +80,7 @@ test_that("mergeSpectraAndIdentificationData", {
                     accession=paste0("P", 1:4),
                     description=paste0("D", 1:4),
                     spectrumid=paste0("id", 1:4),
+                    pepseq=LETTERS[1:4],
                     stringsAsFactors=FALSE)
   id2 <- data.frame(acquisitionnum=6,
                     file=2,
@@ -88,6 +89,7 @@ test_that("mergeSpectraAndIdentificationData", {
                     accession="P9",
                     description="D9",
                     spectrumid="id9",
+                    pepseq="F",
                     stringsAsFactors=FALSE)
   ## results
   rfd1 <- data.frame(spectrum=1:4,
@@ -96,6 +98,11 @@ test_that("mergeSpectraAndIdentificationData", {
                      rank=c(1, NA, NA, 1),
                      accession=c("P3;P1;P2", NA, NA, "P4"),
                      description=c("D3;D1;D2", NA, NA, "D4"),
+                     pepseq=c("C", NA, NA, "D"),
+                     nprot=c(3, NA, NA, 1),
+                     npep.prot=c(1, NA, NA, 1),
+                     npsm.prot=c(1, NA, NA, 1),
+                     npsm.pep=c(1, NA, NA, 1),
                      row.names=paste0("R", 1:4),
                      stringsAsFactors=FALSE)
   rfd2 <- data.frame(spectrum=1:4,
@@ -104,13 +111,21 @@ test_that("mergeSpectraAndIdentificationData", {
                      rank=c(1, 1, NA, 1),
                      accession=c("P3;P1;P2", "P9", NA, "P4"),
                      description=c("D3;D1;D2", "D9", NA, "D4"),
+                     pepseq=c("C", "F", NA, "D"),
+                     nprot=c(3, 1, NA, 1),
+                     npep.prot=c(1, 1, NA, 1),
+                     npsm.prot=c(1, 1, NA, 1),
+                     npsm.pep=c(1, 1, NA, 1),
                      row.names=paste0("R", 1:4),
                      stringsAsFactors=FALSE)
   ## first run
-  expect_equal(MSnbase:::utils.mergeSpectraAndIdentificationData(fd, id1), rfd1)
+  expect_equal(MSnbase:::utils.mergeSpectraAndIdentificationData(fd, id1,
+                fcol=c("file", "acquisition.number"),
+                icol=c("file", "acquisitionnum")), rfd1)
   ## second run
-  expect_equal(MSnbase:::utils.mergeSpectraAndIdentificationData(rfd1, id2),
-               rfd2)
+  expect_equal(MSnbase:::utils.mergeSpectraAndIdentificationData(rfd1, id2,
+                fcol=c("file", "acquisition.number"),
+                icol=c("file", "acquisitionnum")), rfd2)
 })
 
 test_that("utils.idSummary", {
@@ -130,6 +145,6 @@ test_that("utils.idSummary", {
 test_that("formatRt", {
     tc <- c("1:1", "25:24")
     tn <- c(61, 25 * 60 + 24)
-    expect_equal(tc, formatRt(tn)) 
-    expect_equal(tn, formatRt(tc)) 
+    expect_equal(tc, formatRt(tn))
+    expect_equal(tn, formatRt(tc))
 })
