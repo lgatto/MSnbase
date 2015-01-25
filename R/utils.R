@@ -662,36 +662,43 @@ utils.leftJoin <- function(x, y, by, by.x=by, by.y=by,
 # @param icol column name of idData data.frame used for merging
 # @noRd
 utils.mergeSpectraAndIdentificationData <- function(featureData, idData,
-                                                    fcol = "acquisition.number",
-                                                    icol = "acquisitionnum") {
-  if (!fcol %in% colnames(featureData)) {
-    stop("There is no column named ", sQuote(fcol), "!")
+                                                    fcol = c("file", "acquisition.number"),
+                                                    icol = c("file", "acquisitionnum")) {
+  # mzR::acquisitionNum (stored in fData()[, "acquisition.number"] and
+  # mzID::acquisitionnum should be identical
+
+  if (!any(fcol %in% colnames(featureData))) {
+    stop("The column(s) ", sQuote(fcol), " are not in the feature data.frame!")
   }
 
-  icolIdx <- match(icol, colnames(idData))
-  if (is.na(icolIdx)) {
-    stop("There is no column named ", sQuote(icol), "!")
+  if (!any(icol %in% colnames(idData))) {
+    stop("The column(s) ", sQuote(icol),
+         " are not in the identification data.frame!")
+  }
+
+  if (sum(fcol %in% colnames(featureData)) != sum(icol %in% colnames(idData))) {
+    stop("The number of selected column(s) in the feature and identification ",
+         "data don't match!")
   }
 
   ## sort id data to ensure the best matching peptide is on top in case of
   ## multiple matching peptides
-  o <- order(idData$spectrumFile, idData[[icolIdx]], idData$rank)
+  o <- do.call("order", lapply(c(icol, "rank"), function(j)x[, j]))
   idData <- idData[o, ]
 
   ## use flat version of accession/description if multiple ones are available
-  idData$accession <- ave(idData$accession, idData[[icolIdx]],
+  idData$accession <- ave(idData$accession, idData[, icol],
                           FUN=utils.vec2ssv)
-  idData$description <- ave(idData$description, idData[[icolIdx]],
+  idData$description <- ave(idData$description, idData[, icol],
                             FUN=utils.vec2ssv)
 
   ## remove duplicated entries
-  idData <- idData[!duplicated(idData[[icolIdx]]), ]
+  idData <- idData[!duplicated(idData[, icol]), ]
 
-  ## mzR::acquisitionNum and mzID::acquisitionnum should be identical
   featureData <- utils.leftJoin(
     x=featureData, y=idData,
-    by.x=c("file", fcol),
-    by.y=c("file", icol),
+    by.x=fcol,
+    by.y=icol,
     exclude=c("spectrumid",   # vendor specific nativeIDs
               "spectrumFile") # is stored in fileId + MSnExp@files
   )
@@ -700,7 +707,7 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, idData,
 }
 
 utils.addSingleIdentificationDataFile <- function(object, filename,
-                                                  fcol, icol,
+                                                  fcol = NULL, icol = NULL,
                                                   verbose=TRUE) {
 
     ## addIdentificationData does some data checking. It extracts the
@@ -725,8 +732,18 @@ utils.addSingleIdentificationDataFile <- function(object, filename,
 
     ## not all mzid results have the spectrumFile column
     ## MSGF+ does, xTANDEM does not (see github issue #39)
-    if (!is.null(id$spectrumFile))
+    if (!is.null(id$spectrumFile)) {
         idFilenames <- basename(id$spectrumFile)
+    }
+
+    if (isTRUE(grepl("\.mgf", idFilenames, ignore.case = TRUE)) &&
+        is.null(fcol) && is.null(icol)) {
+      fcol <- c("file", "TITLE")
+      icol <- c("file", "spectrum title")
+    } else {
+      fcol <- c("file", "acquisition.number")
+      icol <- c("file", "acquisitionnum")
+    }
 
     if (!length(fData(object)$file))
         stop(paste("No data file found in the feature data."))
