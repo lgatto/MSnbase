@@ -208,7 +208,8 @@ test_that("addIdentificationData", {
   expect_equal(fd$accession,
                c("ECA0984;ECA3829", "ECA1028",
                  NA, NA, "ECA0510"))
-  expect_equal(fd$identFile, c(2, 2, NA, NA, 2))
+  expect_equal(fd$idFile, c("dummyiTRAQ.mzid", "dummyiTRAQ.mzid", NA, NA,
+                            "dummyiTRAQ.mzid"))
   expect_equal(fd$npsm.prot, c(1, 1, NA, NA, 1))
   expect_equal(fd$npep.prot, c(1, 1, NA, NA, 1))
   expect_equal(fd$nprot, c(2, 1, NA, NA, 1))
@@ -238,6 +239,7 @@ test_that("idSummary", {
 
   expect_error(idSummary(aa), "No quantification/identification data found")
   expect_equal(idSummary(bb),
-               data.frame(quantFile=1, identFile=2, coverage=0.6))
+               data.frame(quantFile=1, idFile="dummyiTRAQ.mzid", coverage=0.6,
+                          stringsAsFactors=FALSE))
 })
 
