@@ -88,7 +88,7 @@
   The column \code{nprot} contains the number of members in the protein
   group; the columns \code{accession} and \code{description} contain a
   semicolon separated list of all matches sorted by their \code{rank}
-  values. The columns \code{npsm.prot} and \code{npep.prot} representing
+  values. The columns \code{npsm.prot} and \code{npep.prot} represent
   the number of PSMs and peptides that were matched to a particular
   protein group. The column \code{npsm.pep} indicates how many PSMs were
   attributed to a peptide (as defined by its sequence \code{pepseq}).
