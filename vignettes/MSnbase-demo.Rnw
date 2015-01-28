@@ -16,7 +16,7 @@ BiocStyle::latex()
 }
 
 \author{
-  Laurent Gatto\footnote {\email{lg390@cam.ac.uk}}~and Sebastian Gibb
+  Laurent Gatto\footnote{\email{lg390@cam.ac.uk}} and Sebastian Gibb
 }
 
 
