@@ -341,10 +341,10 @@ setMethod("removeMultipleAssignment", "MSnExp",
 
 setMethod("idSummary", "MSnExp",
           function(object) {
-            ## we temporaly add the file information
+            ## we temporaly add the spectrumFile information
             ## to our fData data.frame because utils.idSummary
-            ## needs this information for matching (it is present in MSnSet)
+            ## needs this information for matching
             fd <- fData(object)
-            fd$file <- fromFile(object)
+            fd$spectrumFile <- basename(fileNames(object)[fromFile(object)])
             return(utils.idSummary(fd))
         })

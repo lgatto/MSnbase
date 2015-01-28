@@ -657,7 +657,14 @@ setMethod("removeMultipleAssignment", "MSnSet",
 
 setMethod("idSummary",
           signature = "MSnSet",
-          function(object) utils.idSummary(fData(object)))
+          function(object) {
+            ## we temporaly add the spectrumFile information
+            ## to our fData data.frame because utils.idSummary
+            ## needs this information for matching
+            fd <- fData(object)
+            fd$spectrumFile <- basename(fileNames(object)[fd$file])
+            return(utils.idSummary(fd))
+          })
 
 
 

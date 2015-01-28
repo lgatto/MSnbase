@@ -248,7 +248,8 @@ test_that("idSummary", {
 
   expect_error(idSummary(aa), "No quantification/identification data found")
   expect_equal(idSummary(bb),
-               data.frame(quantFile=1, idFile="dummyiTRAQ.mzid", coverage=0.6,
+               data.frame(spectrumFile="dummyiTRAQ.mzXML",
+                          idFile="dummyiTRAQ.mzid", coverage=0.6,
                           stringsAsFactors=FALSE))
 })
 

@@ -748,16 +748,16 @@ utils.removeMultipleAssignment <- function(object, fcol) {
 }
 
 utils.idSummary <- function(fd) {
-  if (any(!c("file", "idFile") %in% colnames(fd))) {
+  if (any(!c("spectrumFile", "idFile") %in% colnames(fd))) {
     stop("No quantification/identification data found! Did you run ",
          sQuote("addIdentificationData"), "?")
   }
-  idSummary <- fd[!duplicated(fd$file), c("file", "idFile")]
-  idSummary$coverage <- sapply(idSummary$file, function(f) {
-                          round(mean(!is.na(fd$idFile[fd$file == f])), 3)
+  idSummary <- fd[!duplicated(fd$spectrumFile), c("spectrumFile", "idFile")]
+  idSummary$coverage <- sapply(idSummary$spectrumFile, function(f) {
+                          round(mean(!is.na(fd$idFile[fd$spectrumFile== f])), 3)
                         })
   rownames(idSummary) <- NULL
-  colnames(idSummary) <- c("quantFile", "idFile", "coverage")
+  colnames(idSummary) <- c("spectrumFile", "idFile", "coverage")
   return(idSummary)
 }
 
