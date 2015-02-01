@@ -41,7 +41,11 @@
 \alias{log,MSnSet-method}
 \alias{image,MSnSet-method}
 \alias{MAplot,MSnSet-method}
-\alias{addIdentificationData,MSnSet-method}
+\alias{addIdentificationData,MSnSet,character-method}
+\alias{addIdentificationData,MSnSet,mzIDClasses-method}
+\alias{addIdentificationData,MSnSet,mzID-method}
+\alias{addIdentificationData,MSnSet,mzIDCollection-method}
+\alias{addIdentificationData,MSnSet,data.frame-method}
 \alias{removeNoId,MSnSet-method}
 \alias{removeMultipleAssignment-method}
 \alias{removeMultipleAssignment,MSnSet-method}
@@ -316,16 +320,16 @@
 	"pepseq", keep = NULL)}: Removes non-identified features. See
       \code{\link{removeNoId}} documentation for more details and
       examples. }
-    
+
     \item{removeMultipleAssignment}{\code{signature(object = "MSnSet",
 	fcol = "nprot")}: Removes protein groups with more than one
       member. The latter is defined by extracting a feature variable
       (default is \code{"nprot"}). }
-    
+
     \item{idSummary}{\code{signature(object = "MSnSet", ...)}: Prints a
       summary that lists the percentage of identified features per file
       (called \code{coverage}). }
-    
+
   }
 }
 

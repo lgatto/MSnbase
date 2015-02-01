@@ -10,7 +10,7 @@
 BiocStyle::latex()
 @
 
-\bioctitle[\Biocpkg{MSnbase} introduction]{ 
+\bioctitle[\Biocpkg{MSnbase} introduction]{
   \Biocpkg{MSnbase}: labelled and label-free MS2 data pre-processing,
   visualisation and quantification.
 }
@@ -21,8 +21,6 @@ BiocStyle::latex()
 
 
 \begin{document}
-
-
 
 \maketitle
 
@@ -384,7 +382,7 @@ data read from the \texttt{mzIdentML} file(s).
 
 <<msnexpIdentification2, echo=TRUE, cache=FALSE, tidy=FALSE>>=
 ## add identification information
-msexp <- addIdentificationData(msexp, filenames = identFile,
+msexp <- addIdentificationData(msexp, id = identFile,
                                verbose = FALSE)
 head(fData(msexp), n = 2)
 @
@@ -393,7 +391,7 @@ Finally we can use \Rfunction{idSummary} to summarise the percentage
 of identified features per quantitation/identification pairs.
 
 <<msnexpIdentification3, echo=TRUE, cache=FALSE, tidy=FALSE>>=
-idSummary(msexp) 
+idSummary(msexp)
 @
 
 When identification data is present, and hence peptide sequences, one
@@ -1199,7 +1197,7 @@ each other. The first notable function is \Rfunction{plot}. If two
 \Robject{Spectrum2} objects are provided \Rfunction{plot} will draw
 two plots: the upper and lower panel contain respectively the first
 and second spectrum. Common peaks are drawn in a slightly darker
-colour.  
+colour.
 
 \begin{figure}[!ht]
 \centering
