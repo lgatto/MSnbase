@@ -23,7 +23,7 @@ importFrom(IRanges, IRanges)
 importClassesFrom(IRanges, IRanges)
 importFrom(affy, MAplot, ma.plot, mva.pairs)
 importFrom(mzID, mzID, flatten)
-importClassesFrom(mzID, mzID, mzIDCollection)
+importClassesFrom(mzID, mzID)
 importFrom(digest, digest)
 
 export(MSnSet,
