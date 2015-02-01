@@ -716,6 +716,47 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, id,
   return(featureData)
 }
 
+## adds columns needed for merging id and quant data to the mzR output
+utils.mzRident2df <- function(object) {
+  psms <- psms(object)
+  psms$spectrumFile <- basename(sourceInfo(object))
+  psms$idFile <- basename(fileName(object))
+  ## TODO: hopefully this would be part of mzR
+  ## see https://github.com/sneumann/mzR/issues/17
+  psms$acquisitionnum <- as.numeric(sub("^.*=([[:digit:]]+)$", "\\1", psms$spectrumID))
+
+  ## rename mzR columns into mzID compatible columns
+  pattern <- c("DatabaseAccess", "DatabaseDescription", "sequence")
+  replacement <- c("accession", "description", "pepseq")
+  colnames(psms)[match(pattern, colnames(psms))] <- replacement
+
+  ## convert all factors into characters
+  i <- sapply(psms, is.factor)
+  psms[i] <- lapply(psms[i], as.character)
+
+  return(psms)
+}
+
+utils.addIdentificationData <- function(object, filenames,
+                                        backend = c("mzR", "mzID"), ...,
+                                        verbose = TRUE) {
+  backend <- match.arg(backend)
+
+  openFile <- mzR::openIDfile
+
+  if (backend == "mzID") {
+    requireNamespace("mzID")
+    openFile <- mzID::mzID
+  }
+
+  for (file in filenames) {
+    object <- addIdentificationData(object,
+                                    id = openFile(file, verbose = verbose), ...)
+  }
+
+  object
+}
+
 utils.removeNoId <- function(object, fcol, keep) {
     if (!fcol %in% fvarLabels(object))
         stop(fcol, " not in fvarLabels(",
