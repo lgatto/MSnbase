@@ -70,10 +70,10 @@ SI <- function(object,
     method <- match.arg(method)
     if (!plength %in% fvarLabels(object))
         stop(plength,
-             "not found in fvarLabel(.). 'plength' must a feature variable")
+             " not found in fvarLabel(.). 'plength' must a feature variable")
     if (!groupBy %in% fvarLabels(object))
         stop(groupBy,
-             "not found in fvarLabel(.). 'groupBy' must a feature variable")
+             " not found in fvarLabel(.). 'groupBy' must a feature variable")
 
     object <- tic_MSnSet(object)
     groupBy <- as.factor(fData(object)[, groupBy])
@@ -105,10 +105,10 @@ SAF <- function(object,
     method <- match.arg(method)
     if (!plength %in% fvarLabels(object))
         stop(plength,
-             "not found in fvarLabel(.). 'plength' must a feature variable")
+             " not found in fvarLabel(.). 'plength' must a feature variable")
     if (!groupBy %in% fvarLabels(object))
         stop(groupBy,
-             "not found in fvarLabel(.). 'groupBy' must a feature variable")
+             " not found in fvarLabel(.). 'groupBy' must a feature variable")
     object <- count_MSnSet(object)
 
     groupBy <- as.factor(fData(object)[, groupBy])

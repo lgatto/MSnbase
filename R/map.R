@@ -113,7 +113,8 @@ setMethod("plot3D", "MSmap",
 
           })
 
-MSmap <- function(object, scans, lowMz, highMz, resMz, hd) {
+MSmap <- function(object, scans, lowMz, highMz, resMz, hd,
+                  zeroIsNA = FALSE) {
     if (missing(hd))
         hd <- header(object)
     ms1 <- which(hd$msLevel == 1)
@@ -121,6 +122,8 @@ MSmap <- function(object, scans, lowMz, highMz, resMz, hd) {
         scans <- ms1
     .call <- match.call()
     map <- mzR::get3Dmap(object, scans, lowMz, highMz, resMz)
+    if (zeroIsNA)
+        map[map == 0] <- NA
     mz <- seq(lowMz, highMz, resMz)
     rt <- hd$retentionTime[scans]
     .MSmap(call = .call, map = map,

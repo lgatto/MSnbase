@@ -18,8 +18,8 @@ test_that("readMSData", {
   aa <- readMSData(file, verbose = FALSE)
   ## processingData will be different
   aa@processingData <- processingData(msx)
-  ## overwrite R/Bioc versions 
-  msx@.__classVersion__ <- aa@.__classVersion__ 
+  ## overwrite R/Bioc versions
+  msx@.__classVersion__ <- aa@.__classVersion__
   ## msx has ident data to be remove for comparison
   fData(msx) <- fData(msx)[, 1, drop = FALSE]
   expect_true(all.equal(aa, msx))
@@ -191,7 +191,7 @@ test_that("addIdentificationData", {
 
   expect_error(addIdentificationData(new("MSnExp"),
                                      identFile, verbose = FALSE),
-               "No data file found in the feature data.")
+               "No feature data found.")
 
   aa <- readMSData(quantFile, verbose = FALSE)
 
@@ -208,8 +208,8 @@ test_that("addIdentificationData", {
   expect_equal(fd$accession,
                c("ECA0984;ECA3829", "ECA1028",
                  NA, NA, "ECA0510"))
-  
-  expect_equal(fd$identFile, c(2, 2, NA, NA, 2)) 
+  expect_equal(fd$idFile, c("dummyiTRAQ.mzid", "dummyiTRAQ.mzid", NA, NA,
+                            "dummyiTRAQ.mzid"))
   expect_equal(fd$npsm.prot, c(1, 1, NA, NA, 1))
   expect_equal(fd$npep.prot, c(1, 1, NA, NA, 1))
   expect_equal(fd$nprot, c(2, 1, NA, NA, 1))
@@ -223,7 +223,7 @@ test_that("addIdentificationData", {
 ##                     full.name = TRUE, pattern = "dummyiTRAQ.mzid")
 ##     xtFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
 ##                   full.name = TRUE, pattern = "dummyiTRAQxt.mzid")
-##     x <- addIdentificationData(aa, msgfFile)    
+##     x <- addIdentificationData(aa, msgfFile)
 ##     y <- addIdentificationData(aa, xtFile)
 ## })
 
@@ -239,6 +239,8 @@ test_that("idSummary", {
 
   expect_error(idSummary(aa), "No quantification/identification data found")
   expect_equal(idSummary(bb),
-               data.frame(quantFile=1, identFile=2, coverage=0.6))
+               data.frame(spectrumFile="dummyiTRAQ.mzXML",
+                          idFile="dummyiTRAQ.mzid", coverage=0.6,
+                          stringsAsFactors=FALSE))
 })
 
