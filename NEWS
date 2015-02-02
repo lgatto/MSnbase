@@ -1,7 +1,8 @@
 CHANGES IN VERSION 1.15.6
 -------------------------
- o
- 
+ o add intensity column to the calculateFragments output; closes #47;1
+   [2015-02-02 Mon]
+
 CHANGES IN VERSION 1.15.5
 -------------------------
  o update dependency to mzID >= 1.5.2 [2015-01-28 Wed]

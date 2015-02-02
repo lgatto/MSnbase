@@ -24,8 +24,14 @@ calculateFragments_Spectrum2 <- function(sequence, object, tolerance=0.1,
     fragments <- fragments[m[i], ]
     fragments$error <- fragments$mz - mz(object)[i]
     fragments$mz <- mz(object)[i]
+    fragments$intensity <- intensity(object)[i]
+    ## set intensity as second column
+    fragments <- fragments[, c("mz", "intensity",
+                               "ion", "type", "pos", "z",
+                               "seq", "error")]
   } else {
-    fragments <- data.frame(mz=double(), ion=character(), type=character(),
+    fragments <- data.frame(mz=double(), intensity=double(),
+                            ion=character(), type=character(),
                             pos=integer(), z=integer(), seq=character(),
                             error=double(), stringsAsFactors=FALSE)
   }
