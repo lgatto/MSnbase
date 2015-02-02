@@ -62,7 +62,7 @@ setValidity("MSnSet", function(object) {
                     "experimentData slot in MSnSet must be 'MIAPE' object")
   if (!inherits(exprs(object), "matrix"))
     msg <- validMsg(msg,
-                    "exprs(.) must be a matrix")  
+                    "exprs(.) must be a matrix")
   if (is.null(msg)) TRUE else msg
 })
 
@@ -467,7 +467,7 @@ setMethod("exprsToRatios",
           })
 
 setMethod("image", "MSnSet",
-          function(x, 
+          function(x,
                    yticks = 10,
                    x.cex.axis = .75,
                    y.cex.axis = .75,
@@ -605,23 +605,66 @@ setMethod("MAplot",
             }
           })
 
-setMethod("addIdentificationData",
-          signature = "MSnSet",
-          function(object, filenames, verbose = TRUE) 
-          utils.addIdentificationData(object, filenames,
-                                      verbose = verbose))
+setMethod("addIdentificationData", c("MSnSet", "character"),
+          function(object, id,
+                   fcol = c("spectrum.file", "acquisition.number"),
+                   icol = c("spectrumFile", "acquisitionnum"),
+                   verbose = TRUE) {
+            addIdentificationData(object, id = mzID(id, verbose = verbose),
+                                  fcol = fcol, icol = icol)
+          })
+
+setMethod("addIdentificationData", c("MSnSet", "mzIDClasses"),
+          function(object, id,
+                   fcol = c("spectrum.file", "acquisition.number"),
+                   icol = c("spectrumFile", "acquisitionnum"), ...) {
+            addIdentificationData(object, id = flatten(id),
+                                  fcol = fcol, icol = icol)
+          })
+
+setMethod("addIdentificationData", c("MSnSet", "data.frame"),
+          function(object, id,
+                   fcol = c("spectrum.file", "acquisition.number"),
+                   icol = c("spectrumFile", "acquisitionnum"), ...) {
+            fd <- fData(object)
+
+            if (!nrow(fd))
+              stop("No feature data found.")
+
+            fd$spectrum.file <- basename(fileNames(object)[fd$file])
+
+            fd <- utils.mergeSpectraAndIdentificationData(fd, id,
+                                                          fcol = fcol,
+                                                          icol = icol)
+
+            ## after adding the identification data we remove the
+            ## temporary data to avoid duplication and problems in quantify
+            cn <- colnames(fd)
+            keep <- cn[!(cn %in% c("spectrum.file"))]
+            fData(object)[, keep] <- fd[, keep, drop=FALSE]
+
+            if (validObject(object))
+                return(object)
+          })
 
 setMethod("removeNoId", "MSnSet",
           function(object, fcol = "pepseq", keep = NULL)
           utils.removeNoId(object, fcol, keep))
 
 setMethod("removeMultipleAssignment", "MSnSet",
-          function(object, fcol = "nprot") 
+          function(object, fcol = "nprot")
           utils.removeMultipleAssignment(object, fcol))
 
 setMethod("idSummary",
           signature = "MSnSet",
-          function(object) utils.idSummary(fData(object)))
+          function(object) {
+            ## we temporaly add the spectrumFile information
+            ## to our fData data.frame because utils.idSummary
+            ## needs this information for matching
+            fd <- fData(object)
+            fd$spectrumFile <- basename(fileNames(object)[fd$file])
+            return(utils.idSummary(fd))
+          })
 
 
 

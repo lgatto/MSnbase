@@ -1,16 +1,21 @@
 CHANGES IN VERSION 1.15.5
 -------------------------
+ o update dependency to mzID >= 1.5.2 [2015-01-28 Wed]
+ o rewrite addIdentificationData and change its signature [2015-01-28 Wed]
+ o add methods addIdentificationData which work on MSnExp and MSnSets using
+   filenames (characters), mzID objects and data.frames; see #42; closes #45;
+   [2015-01-28 Wed]
  o add a section about MSmaps in the vignette [2015-02-02 Mon]
  o MSmap has a new zeroIsNA argument to set all 0 values of the map to
    NA. This simplifies the resulting plot3D figure. [2015-02-02 Mon]
- 
+
 CHANGES IN VERSION 1.15.4
 -------------------------
  o partly rewrite readMgfData [2015-01-19 Mon]
  o Typo in addIdentification data man [2015-01-20 Tue]
  o use Biocstyle [2015-01-23 Fri]
  o replace require with requireNamespace [2015-01-23 Fri]
- 
+
 CHANGES IN VERSION 1.15.3
 -------------------------
 o plot,Spectrum2,character to add fragment ions based on peptide
@@ -25,7 +30,7 @@ CHANGES IN VERSION 1.15.2
  o updated MSnSet validity, checking that exprs(.) is a matrix
    [2014-11-12 Wed]
  o fix error (missing header extraction) is MSmap example
-   [2014-11-18 Tue] 
+   [2014-11-18 Tue]
 
 CHANGES IN VERSION 1.15.1
 -------------------------
