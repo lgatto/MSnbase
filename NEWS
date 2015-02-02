@@ -1,6 +1,8 @@
 CHANGES IN VERSION 1.15.5
 -------------------------
- o
+ o add a section about MSmaps in the vignette [2015-02-02 Mon]
+ o MSmap has a new zeroIsNA argument to set all 0 values of the map to
+   NA. This simplifies the resulting plot3D figure. [2015-02-02 Mon]
  
 CHANGES IN VERSION 1.15.4
 -------------------------
