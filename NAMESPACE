@@ -19,10 +19,11 @@ importFrom(plyr, ddply, llply, adply, summarise, summarize)
 importFrom(stats4, plot)
 importFrom(preprocessCore, normalize.quantiles)
 importFrom(vsn, vsn2, meanSdPlot)
-importFrom(IRanges, IRanges) 
+importFrom(IRanges, IRanges)
 importClassesFrom(IRanges, IRanges)
 importFrom(affy, MAplot, ma.plot, mva.pairs)
 importFrom(mzID, mzID, flatten)
+importClassesFrom(mzID, mzID, mzIDCollection)
 importFrom(digest, digest)
 
 export(MSnSet,

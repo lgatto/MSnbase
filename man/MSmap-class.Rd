@@ -46,6 +46,8 @@
     \item{hd}{An optional \code{data.frame} as produced by
       \code{mzR::header(object)}. If missing, will be computer within
       the function. }
+    \item{zeroIsNA}{Set 0 intensities to \code{NA}. This can be used
+      to clarify the 3 dimensional plot produce by \code{plot3D}.}
   }
 }
 

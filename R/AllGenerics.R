@@ -98,7 +98,7 @@ setGeneric("chromatogram", function(object, ...) standardGeneric("chromatogram")
 setGeneric("xic", function(object, ...) standardGeneric("xic"))
 
 ## identification
-setGeneric("addIdentificationData", function(object, ...) standardGeneric("addIdentificationData"))
+setGeneric("addIdentificationData", function(object, id, ...) standardGeneric("addIdentificationData"))
 setGeneric("idSummary", function(object, ...) standardGeneric("idSummary"))
 setGeneric("removeNoId", function(object, ...) standardGeneric("removeNoId"))
 setGeneric("removeMultipleAssignment", function(object, ...) standardGeneric("removeMultipleAssignment"))

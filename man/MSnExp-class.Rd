@@ -22,7 +22,11 @@
 \alias{removePeaks,MSnExp-method}
 \alias{removeReporters,MSnExp-method}
 \alias{smooth,MSnExp-method}
-\alias{addIdentificationData,MSnExp-method}
+\alias{addIdentificationData,MSnExp,character-method}
+\alias{addIdentificationData,MSnExp,mzIDClasses-method}
+\alias{addIdentificationData,MSnExp,mzID-method}
+\alias{addIdentificationData,MSnExp,mzIDCollection-method}
+\alias{addIdentificationData,MSnExp,data.frame-method}
 \alias{removeNoId,MSnExp-method}
 \alias{removeMultipleAssignment,MSnExp-method}
 \alias{idSummary,MSnExp-method}
@@ -165,7 +169,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
 	"pepseq", keep = NULL)}: Removes non-identified features. See
       \code{\link{removeNoId}} documentation for more details and
       examples. }
-    
+
     \item{removeMultipleAssignment}{\code{signature(object = "MSnExp",
 	fcol = "nprot")}: Removes protein groups with more than one
 	member. The latter is defined by extracting a feature variable
