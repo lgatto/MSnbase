@@ -336,7 +336,7 @@ plot3D(M)
 
 To produce figure \ref{fig:map3d2}, we create a second \Rclass{MSmap}
 object containing the first two MS$^1$ spectra of the first map
-(object \Robject{M} above) and all intermediate $MS^2$ spectra and
+(object \Robject{M} above) and all intermediate MS$^2$ spectra and
 display $m/z$ values between 100 and 1000.
 
 <<msmap2, eval=FALSE>>=
