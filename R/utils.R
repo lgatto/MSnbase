@@ -721,20 +721,20 @@ utils.mzRident2df <- function(object) {
   psms <- psms(object)
   psms$spectrumFile <- basename(sourceInfo(object))
   psms$idFile <- basename(fileName(object))
-  ## TODO: hopefully this would be part of mzR
-  ## see https://github.com/sneumann/mzR/issues/17
-  psms$acquisitionnum <- as.numeric(sub("^.*=([[:digit:]]+)$", "\\1", psms$spectrumID))
 
   ## rename mzR columns into mzID compatible columns
-  pattern <- c("DatabaseAccess", "DatabaseDescription", "sequence")
-  replacement <- c("accession", "description", "pepseq")
-  colnames(psms)[match(pattern, colnames(psms))] <- replacement
+  pattern <- c("acquisitionNum", "DatabaseAccess", "DatabaseDescription",
+               "sequence", "DBseqLength")
+  replacement <- c("acquisitionnum", "accession", "description",
+                   "pepseq", "length")
+  i <- match(pattern, colnames(psms))
+  colnames(psms)[i[!is.na(i)]] <- replacement[!is.na(i)]
 
   ## convert all factors into characters
   i <- sapply(psms, is.factor)
   psms[i] <- lapply(psms[i], as.character)
 
-  return(psms)
+  return(cbind(psms, score(object)))
 }
 
 utils.addIdentificationData <- function(object, filenames,
