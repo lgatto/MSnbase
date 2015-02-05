@@ -22,8 +22,6 @@ importFrom(vsn, vsn2, meanSdPlot)
 importFrom(IRanges, IRanges)
 importClassesFrom(IRanges, IRanges)
 importFrom(affy, MAplot, ma.plot, mva.pairs)
-importFrom(mzID, mzID, flatten)
-importClassesFrom(mzID, mzID)
 importFrom(digest, digest)
 
 export(MSnSet,
