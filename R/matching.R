@@ -48,7 +48,7 @@ relaxedMatch <- function(x, table, nomatch=NA_integer_, tolerance=25e-6,
 #' @return integer vector of the same length as "x" representing the position in
 #' "y"
 #' @noRd
-matchPeaks <- function(x, y, method=c("highest", "closest"),
+matchPeaks <- function(x, y, method=c("highest", "closest", "all"),
                        tolerance=25e-6, relative=TRUE) {
   method <- match.arg(method)
 
@@ -66,11 +66,16 @@ matchPeaks <- function(x, y, method=c("highest", "closest"),
   if (anyDuplicated(m)) {
     if (method == "highest") {
       o <- order(intensity(x), decreasing=TRUE)
-    } else {
+    } else if (method == "closest") {
       o <- order(abs(mz(x)-y[m]))
+    } else {
+      o <- 1:length(x)
     }
     sortedMatches <- m[o]
-    sortedMatches[which(duplicated(sortedMatches))] <- NA
+
+    if (method != "all") {
+      sortedMatches[which(duplicated(sortedMatches))] <- NA
+    }
     m[o] <- sortedMatches
   }
 
