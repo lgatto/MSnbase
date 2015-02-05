@@ -2,6 +2,9 @@ CHANGES IN VERSION 1.15.6
 -------------------------
  o add intensity column to the calculateFragments output; closes #47;1
    [2015-02-02 Mon]
+ o add method argument to calculateFragments to allow the user choosing the
+   highest/closest peak or all peaks in the tolerance range; closes #47;2
+   [2015-02-09 Mon]
 
 CHANGES IN VERSION 1.15.5
 -------------------------
