@@ -49,7 +49,8 @@
   fData(msexp2)$pepseq
 
   ## using keep
-  (k <- fData(msexp)$'ms-gf:evalue' > 75)
+  print(fvarLabels(msexp))
+  (k <- fData(msexp)[, 'MS.GF.EValue'] > 75)
   k[is.na(k)] <- FALSE
   k
   msexp3 <- removeNoId(msexp, keep = k)
