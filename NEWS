@@ -1,6 +1,6 @@
 CHANGES IN VERSION 1.15.6
 -------------------------
- o
+ o new imputation methods via imputeLCMD and norm [2015-02-09 Mon]
  
 CHANGES IN VERSION 1.15.5
 -------------------------
