@@ -122,9 +122,11 @@
 data(itraqdata)
 qnt <- quantify(itraqdata, reporters = iTRAQ4)
 sum(is.na(qnt))
-iqnt <- impute(qnt)
+iqnt <- impute(qnt, method = "knn")
 sum(is.na(iqnt))
 processingData(iqnt)
+
+impute(qnt, method = "min")
 
 if (require("imputeLCMD")) {
     impute(qnt, method = "QRILC")
