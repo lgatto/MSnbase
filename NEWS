@@ -4,6 +4,8 @@ CHANGES IN VERSION 1.15.6
  
 CHANGES IN VERSION 1.15.5
 -------------------------
+ o add mzR support for addIdentificationData [2015-02-01 Sun]
+ o move mzID to Suggests [2015-02-01 Sun]
  o update dependency to mzID >= 1.5.2 [2015-01-28 Wed]
  o rewrite addIdentificationData and change its signature [2015-01-28 Wed]
  o add methods addIdentificationData which work on MSnExp and MSnSets using

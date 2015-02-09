@@ -49,7 +49,7 @@
   fData(msexp2)$pepseq
 
   ## using keep
-  (k <- fData(msexp)$'ms-gf:evalue' > 75)
+  (k <- fData(msexp)$'MS_GF_EValue' > 75)
   k[is.na(k)] <- FALSE
   k
   msexp3 <- removeNoId(msexp, keep = k)
