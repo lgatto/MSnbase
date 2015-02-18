@@ -1017,8 +1017,6 @@ edited.
 
 \subsection{Data imputation}\label{sec:imp}
 
-
-
 \subsection{Normalisation}\label{sec:norm}
 
 A \Rclass{MSnSet} object is meant to be compatible with further
