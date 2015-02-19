@@ -15,12 +15,12 @@
   \item{object}{ Object of class \code{"\linkS4class{Spectrum2}"} or
     \code{"missing"} . }
   \item{tolerance}{ \code{numeric} tolerance between the theoretical and
-    measured MZ values (only available if \code{object} is not \code{missing}).
+    measured MZ values (only available if \code{object} is not \code{missing}).}
   \item{method}{ \code{method} used for for duplicated matches. Choose
     \code{"highest"} or \code{"closest"} to select the peak with the highest
     intensity respectively the closest MZ in the tolerance range. If
     \code{"all"} is given all possible matches in the tolerance range are
-    reported (only available if \code{object} is not \code{missing}).
+    reported (only available if \code{object} is not \code{missing}).}
   \item{type}{ \code{character} vector of target ions; possible values:
     \code{c("a", "b", "c", "x", "y", "z")}; default: \code{type=c("b", "y")}. }
   \item{z}{ \code{numeric} desired charge state; default \code{z=1}. }
