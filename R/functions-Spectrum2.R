@@ -39,7 +39,8 @@ calculateFragments_Spectrum2 <- function(sequence, object, tolerance=0.1,
                             pos=integer(), z=integer(), seq=character(),
                             error=double(), stringsAsFactors=FALSE)
   }
-  return(fragments)
+  rownames(fragments) <- NULL
+  fragments
 }
 
 show_Spectrum2 <- function(spectrum) {
