@@ -28,6 +28,9 @@
     name must correspond to the one-letter-code of the modified amino acid and
     the \code{numeric} value must represent the replacement mass, default:
     Carbamidomethyl \code{modifications=c(C=160.030649)}. }
+  \item{neutralLoss}{ \code{logical} if \code{TRUE} (default) neutral loss is
+    also calculated. Currently water and ammonia loss (shown with an \code{_}
+    respectively a \code{*} in the results). }
   \item{verbose}{ \code{logical} if \code{TRUE} (default) the used
     modifications are printed. }
 }
