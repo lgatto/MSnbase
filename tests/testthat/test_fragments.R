@@ -33,13 +33,24 @@ test_that("calculateFragments", {
             rep(c("E", "CE", "ACE"), 3)),
     stringsAsFactors=FALSE)
 
-  pqr. <- MSnbase:::calculateFragments("PQR", type=c("a", "b", "c", "x", "y", "z"))
-  pqr.$mz <- round(pqr.$mz, 3)
+  pqr1 <- calculateFragments("PQR", type=c("a", "b", "c", "x", "y", "z"),
+                             verbose=FALSE)
+  pqr1$mz <- round(pqr1$mz, 3)
 
-  ace. <- MSnbase:::calculateFragments("ACE", type=c("a", "b", "c", "x", "y", "z"), z=2)
-  ace.$mz <- round(ace.$mz, 3)
+  ace1 <- calculateFragments("ACE", type=c("a", "b", "c", "x", "y", "z"), z=2,
+                             verbose=FALSE)
+  ace1$mz <- round(ace1$mz, 3)
 
-  expect_equal(pqr, pqr.)
-  expect_equal(ace, ace.)
+  pqr2 <- calculateFragments("PQR", type=c("a", "b"), verbose=FALSE)
+  pqr2$mz <- round(pqr2$mz, 3)
+
+  pqr3 <- calculateFragments("PQR", type=c("x", "z"), verbose=FALSE)
+  pqr3$mz <- round(pqr3$mz, 3)
+
+  expect_equal(pqr, pqr1)
+  expect_equal(pqr[1:6,], pqr2)
+  ## rownames always differ
+  expect_equal(pqr[c(10:12, 16:18),], pqr3, check.attributes=FALSE)
+  expect_equal(ace, ace1)
 })
 

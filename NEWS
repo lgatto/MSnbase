@@ -5,9 +5,13 @@ CHANGES IN VERSION 1.15.6
  o add method argument to calculateFragments to allow the user choosing the
    highest/closest peak or all peaks in the tolerance range; closes #47;2
    [2015-02-09 Mon]
+ o new imputation methods via imputeLCMD and norm [2015-02-09 Mon]
+ o vignette updates [2015-02-09 Mon]
 
 CHANGES IN VERSION 1.15.5
 -------------------------
+ o add mzR support for addIdentificationData [2015-02-01 Sun]
+ o move mzID to Suggests [2015-02-01 Sun]
  o update dependency to mzID >= 1.5.2 [2015-01-28 Wed]
  o rewrite addIdentificationData and change its signature [2015-01-28 Wed]
  o add methods addIdentificationData which work on MSnExp and MSnSets using
