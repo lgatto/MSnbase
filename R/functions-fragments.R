@@ -4,10 +4,13 @@
 #' @param z charge
 #' @param modifications a named (amino acid one-letter-code; upper case) vector
 #' of modified mass (default: Carbamidomethyl (C) replaces Cystein: 160.030649).
+#' @param neutralLoss should neutral loss calculated (currently water and
+#' ammonia loss are supported)
 #' @param verbose verbose output?
 #' @noRd
 .calculateFragments <- function(sequence, type=c("b", "y"), z=1,
-                                modifications=c(C=160.030649), verbose=TRUE) {
+                                modifications=c(C=160.030649),
+                                neutralLoss=TRUE, verbose=TRUE) {
   type <- match.arg(type, choices=c("a", "b", "c", "x", "y", "z"), several.ok=TRUE)
   type <- sort(type)
   ## constants
@@ -106,6 +109,9 @@
                    z=z,
                    seq=c(aseq, cseq),
                    stringsAsFactors=FALSE)
+  if (neutralLoss) {
+    df <- .neutralLoss(df)
+  }
   df
 }
 

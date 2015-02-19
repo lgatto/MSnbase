@@ -7,14 +7,20 @@ test_that("calculateFragments", {
            115.087, 243.145, 399.246,  # c
            201.098, 329.157, 426.210,  # x
            175.119, 303.178, 400.230,  # y
-           158.092, 286.151, 383.204), # z
-    ion = paste0(rep(c("a", "b", "c", "x", "y", "z"), each=3),
-                 rep(1:3, times=6)),
-    type = rep(c("a", "b", "c", "x", "y", "z"), each=3),
-    pos = rep(1:3, 6),
+           158.092, 286.151, 383.204,  # z
+           142.121, 270.180, 367.233,  # y_
+           365.193,                    # b*
+           286.151, 383.204),          # y*
+    ion = c(paste0(rep(c("a", "b", "c", "x", "y", "z"), each=3),
+                   rep(1:3, times=6)),
+            paste0("y", 1:3, "_"), "b3*", "y2*", "y3*"),
+    type = c(rep(c("a", "b", "c", "x", "y", "z", "y_"), each=3),
+             "b*", "y*", "y*"),
+    pos = c(rep(1:3, 7), 3, 2, 3),
     z = 1,
     seq = c(rep(c("P", "PQ", "PQR"), 3),
-            rep(c("R", "QR", "PQR"), 3)),
+            rep(c("R", "QR", "PQR"), 4),
+            "PQR", "QR", "PQR"),
     stringsAsFactors=FALSE)
 
   ace <- data.frame(
@@ -33,24 +39,37 @@ test_that("calculateFragments", {
             rep(c("E", "CE", "ACE"), 3)),
     stringsAsFactors=FALSE)
 
-  pqr1 <- calculateFragments("PQR", type=c("a", "b", "c", "x", "y", "z"),
-                             verbose=FALSE)
-  pqr1$mz <- round(pqr1$mz, 3)
+  expect_message(calculateFragments("PQR"),
+                 "Modifications used: C=160.030649")
+  expect_message(calculateFragments("PQR", modifications=NULL),
+                 "Modifications used: None")
 
-  ace1 <- calculateFragments("ACE", type=c("a", "b", "c", "x", "y", "z"), z=2,
-                             verbose=FALSE)
-  ace1$mz <- round(ace1$mz, 3)
-
-  pqr2 <- calculateFragments("PQR", type=c("a", "b"), verbose=FALSE)
-  pqr2$mz <- round(pqr2$mz, 3)
-
-  pqr3 <- calculateFragments("PQR", type=c("x", "z"), verbose=FALSE)
-  pqr3$mz <- round(pqr3$mz, 3)
-
-  expect_equal(pqr, pqr1)
-  expect_equal(pqr[1:6,], pqr2)
+  expect_equal(pqr[1:18,],
+               calculateFragments("PQR", type=c("a", "b", "c", "x", "y", "z"),
+                                  neutralLoss=FALSE, verbose=FALSE),
+               tolerance=1e-5)
+  expect_equal(pqr[1:6,],
+               calculateFragments("PQR", type=c("a", "b"), neutralLoss=FALSE,
+                                  verbose=FALSE),
+               tolerance=1e-5)
   ## rownames always differ
-  expect_equal(pqr[c(10:12, 16:18),], pqr3, check.attributes=FALSE)
-  expect_equal(ace, ace1)
+  expect_equal(pqr[c(10:12, 16:18),],
+               calculateFragments("PQR", type=c("x", "z"), neutralLoss=FALSE,
+                                  verbose=FALSE),
+               check.attributes=FALSE, tolerance=1e-5)
+
+  ## neutral loss, rownames always differ
+  expect_equal(pqr[c(4:6, 13:15, 19:24),],
+               calculateFragments("PQR", verbose=FALSE),
+               check.attributes=FALSE, tolerance=1e-5)
+
+  expect_equal(ace,
+               calculateFragments("ACE", type=c("a", "b", "c", "x", "y", "z"),
+                                  z=2, neutralLoss=FALSE, verbose=FALSE),
+               tolerance=1e-5)
+  expect_equal(ace[1:9,],
+               calculateFragments("ACE", type=letters[1:3], z=2, verbose=FALSE),
+               tolerance=1e-5)
+
 })
 
