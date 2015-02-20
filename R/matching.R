@@ -42,13 +42,14 @@ relaxedMatch <- function(x, table, nomatch=NA_integer_, tolerance=25e-6,
 #' @param x spectrum1 (MSnbase::Spectrum), to be matched
 #' @param y spectrum2 (MSnbase::Spectrum)/double vector of mz values, to match
 #' against
-#' @param method for duplicated matches use highest/closest intensity/mz
+#' @param method for duplicated matches use "highest"/"closest" intensity/mz or
+#' report "all" possible matches
 #' @param tolerance double, allowed deviation
 #' @param relative relative (or absolute) deviation
 #' @return integer vector of the same length as "x" representing the position in
 #' "y"
 #' @noRd
-matchPeaks <- function(x, y, method=c("highest", "closest"),
+matchPeaks <- function(x, y, method=c("highest", "closest", "all"),
                        tolerance=25e-6, relative=TRUE) {
   method <- match.arg(method)
 
@@ -66,11 +67,16 @@ matchPeaks <- function(x, y, method=c("highest", "closest"),
   if (anyDuplicated(m)) {
     if (method == "highest") {
       o <- order(intensity(x), decreasing=TRUE)
-    } else {
+    } else if (method == "closest") {
       o <- order(abs(mz(x)-y[m]))
+    } else {
+      o <- 1:length(x)
     }
     sortedMatches <- m[o]
-    sortedMatches[which(duplicated(sortedMatches))] <- NA
+
+    if (method != "all") {
+      sortedMatches[which(duplicated(sortedMatches))] <- NA
+    }
     m[o] <- sortedMatches
   }
 
