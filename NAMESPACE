@@ -59,6 +59,7 @@ export(MSnSet,
        updateFeatureNames,
        updateSampleNames,
        normalise, ## for normalize method
+       imputeMethods,
        get.amino.acids,
        get.atomic.mass,
        listOf,

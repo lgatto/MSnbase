@@ -1,16 +1,21 @@
+imputeMethods <- function()
+    c("bpca","knn", "QRILC", "MLE",
+      "MinDet", "MinProb", "min", "zero",
+      "mixed")
+
+
 setMethod("impute", "MSnSet",
           function(object,
                    method,
+                   randna,
+                   mar,
+                   mnar,
                    ...) {
-              methods <- c("bpca","knn", "QRILC",
-                           "MLE",
-                           "MinDet", "MinProb",
-                           "min", "zero")
               if (missing(method))
                   stop("Please specify an imputation method. ",
                        "See '?impute' for details.")              
               method <- match.arg(method,
-                                  choices = methods,
+                                  choices = imputeMethods(),
                                   several.ok = FALSE)
               
               if (method %in% c("CRILC", "MinDet", "MinProb"))
@@ -49,6 +54,25 @@ setMethod("impute", "MSnSet",
               } else if (method == "min") {
                   val <- min(exprs(object), na.rm = TRUE)
                   exprs(object)[is.na(exprs(object))] <- val
+              } else if (method == "mixed") {
+                  if (missing(randna))
+                      stop("Mixed imputation requires 'randna' argument. See ?impute.",
+                           call. = FALSE)
+                  stopifnot(is.logical(randna))
+                  if (missing(mar))
+                      stop("Mixed imputation requires 'mar' argument. See ?impute.",
+                           call. = FALSE)
+                  if (missing(mnar))
+                      stop("Mixed imputation requires 'mnar' argument. See ?impute.",
+                           call. = FALSE)
+                  if (length(randna) != nrow(object))
+                      stop("Number of proteins and length of randna must be equal.",
+                           call. = FALSE)
+                  exprs(object)[randna, ] <- exprs(impute(object[randna, ],
+                                                          mar, ...))
+                  exprs(object)[!randna, ] <- exprs(impute(object[!randna, ],
+                                                           mnar, ...))
+                  method <- paste(method, collapse = "/") ## for logging                  
               } else { ## method == "zero"
                   exprs(object)[is.na(exprs(object))] <- 0
               }

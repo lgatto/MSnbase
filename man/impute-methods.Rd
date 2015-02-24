@@ -3,6 +3,9 @@
 \alias{impute}
 \alias{impute-methods}
 \alias{impute,MSnSet-method}
+\alias{imputeMethods}
+\alias{naset}
+
 
 \title{ Quantitative proteomics data imputation }
 
@@ -95,46 +98,65 @@
       considered. Implemented in the \code{imputeLCMD::impute.MinProb}
       function. See \code{\link[imputeLCMD]{impute.MinProb}} for details
       and additional parameters. }
-  
-      
+        
     \item{min}{Replaces the missing values by the smallest non-missing
       value in the data. }
     
     \item{zero}{Replaces the missing values by 0.}
 
+    \item{mixed}{A mixed imputation applying two methods (to be defined
+      by the user as \code{mar} for values missing at random and
+      \code{mnar} for values missing not at random, see example) on two
+      M[C]AR/MNAR subsets of the data (as defined by the user by a
+      \code{randna} logical, of length equal to \code{nrow(object)}). }
+
   }
 
+  The \code{naset} \code{\linkS4class{MSnSet}} is an real quantitative
+  data where quantitative values have been replaced by \code{NA}s. See
+  \code{script/naset.R} for details.
+  
 }
 
 
 
 \section{Methods}{
   \describe{
+
     \item{\code{signature(object = "MSnSet", method, ...)}}{ This method
       performs data imputation on the \code{object} \code{MSnSet}
-      instance using the \code{method} algorithm. \code{...} is used
-      to pass parameters to the imputation function.
-    }
+      instance using the \code{method} algorithm. \code{...} is used to
+      pass parameters to the imputation function. See the respective
+      methods for details and additional parameters.}
+
   }
 }
 
 \examples{
-data(itraqdata)
-qnt <- quantify(itraqdata, reporters = iTRAQ4)
-sum(is.na(qnt))
-iqnt <- impute(qnt, method = "knn")
-sum(is.na(iqnt))
-processingData(iqnt)
+data(naset)
+## table of missing values along the rows
+table(fData(naset)$nNA)
+## table of missing values along the columns
+pData(naset)$nNA
 
-impute(qnt, method = "min")
+## non-random missing values
+notna <- which(!fData(naset)$randna)
+length(notna)
+notna
+
+impute(naset, method = "min")
 
 if (require("imputeLCMD")) {
-    impute(qnt, method = "QRILC")
-    impute(qnt, method = "MinDet")
+    impute(naset, method = "QRILC")
+    impute(naset, method = "MinDet")
 }
 
 if (require("norm"))
-    impute(qnt, method = "MLE")
+    impute(naset, method = "MLE")
+
+impute(naset, "mixed",
+       randna = fData(naset)$randna,
+       mar = "knn", mnar = "QRILC")
 
 }
 
