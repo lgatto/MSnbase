@@ -34,11 +34,14 @@
       distributed in the data and are defined as missing at random (MAR)
       or missing completely at random (MCAR). }
 
-    \item{Missing values resulting from the absence of the low abundance
-      of ions (below the limit of detection of the instrument). These
-      missing values are not expected to be randomly distributed in the
-      data and are defined as missing not at random (MNAR). }
+    \item{Biologically relevant missing values resulting from the
+      absence of the low abundance of ions (below the limit of detection
+      of the instrument). These missing values are not expected to be
+      randomly distributed in the data and are defined as missing not at
+      random (MNAR). }
+
   }
+  
 
   MNAR features should ideally be imputed with a left-censor method,
   such as \code{QRILC} below. Conversely, it is recommended to use other
