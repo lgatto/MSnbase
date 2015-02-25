@@ -287,16 +287,27 @@ setMethod("addIdentificationData", c("MSnExp", "character"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
                    icol = c("spectrumFile", "acquisitionnum"),
+                   backend = c("mzR", "mzID"),
                    verbose = TRUE) {
-            addIdentificationData(object, id = mzID(id, verbose = verbose),
-                                  fcol = fcol, icol = icol)
+            utils.addIdentificationData(object, filenames = id,
+                                        fcol = fcol, icol = icol,
+                                        backend = backend,
+                                        verbose = verbose)
           })
 
-setMethod("addIdentificationData", c("MSnExp", "mzIDClasses"),
+setMethod("addIdentificationData", c("MSnExp", "mzID"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
                    icol = c("spectrumFile", "acquisitionnum"), ...) {
             addIdentificationData(object, id = flatten(id),
+                                  fcol = fcol, icol = icol)
+          })
+
+setMethod("addIdentificationData", c("MSnExp", "mzRident"),
+          function(object, id,
+                   fcol = c("spectrum.file", "acquisition.number"),
+                   icol = c("spectrumFile", "acquisitionnum"), ...) {
+            addIdentificationData(object, id = utils.mzRident2df(id),
                                   fcol = fcol, icol = icol)
           })
 

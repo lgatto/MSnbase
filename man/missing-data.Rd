@@ -1,6 +1,7 @@
 \name{missing-data}
 
 \alias{missing-data}
+\alias{missingdata}
 
 \title{Documenting missing data visualisation}
 
@@ -38,6 +39,7 @@
 library("pRolocdata")
 library("pRoloc")
 data(dunkley2006)
+set.seed(1)
 nax <- makeNaData(dunkley2006, pNA = 0.10)
 pcol <- factor(ifelse(dunkley2006$fraction <= 5, "A", "B"))
 sel1 <- pcol == "A"
@@ -78,10 +80,9 @@ lines((fData(nax)$nNA1 - fData(nax)$nNA2)[o2], type = "l",
 
 }
 
-
 \seealso{\code{\link{plotNA}}, \code{\link{imageNA2}}.}
 
-\author{Laurent Gatto <lg390@cam.ac.uk>, Vasile-Cosmin Lavar, Samuel
-Wieczorek and Thomas Burger}
+\author{Laurent Gatto <lg390@cam.ac.uk>, Samuel Wieczorek and Thomas
+Burger}
 
 \keyword{documentation, internal}

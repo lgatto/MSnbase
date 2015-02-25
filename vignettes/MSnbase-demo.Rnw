@@ -56,6 +56,8 @@ library("grid")
 library("reshape2")
 @
 
+\newpage
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -662,23 +664,23 @@ we illustrate how to assess incomplete reporter ion dissociation.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Data processing}\label{sec:processing}
+\section{Raw data processing}\label{sec:rawprocessing}
 
 \subsection{Cleaning spectra}\label{sec:clean}
 
-There are several methods implemented to perform basic data
-manipulation.  Low intensity peaks can be set to 0 with the
-\Rfunction{removePeaks} method from spectra or whole experiments. The
-intensity threshold below which peaks are removed is defined by the
-\Robject{t} parameter. \Robject{t} can be specified directly as a
-numeric. The default value is the character \texttt{"min"}, that will
-remove all peaks equal to the lowest non null intensity in any
-spectrum.  We observe the effect of the \Rfunction{removePeaks} method
-by comparing total ion count (i.e. the total intensity in a spectrum)
-with the \Rfunction{ionCount} method before (object
-\Robject{itraqdata}) and after (object \Robject{experiment}) for
-spectrum \texttt{X55}. The respective spectra are shown on figure
-\ref{fig:spectrum-clean-plot} (page
+There are several methods implemented to perform basic raw data
+processing and manipulation. Low intensity peaks can be set to 0 with
+the \Rfunction{removePeaks} method from spectra or whole
+experiments. The intensity threshold below which peaks are removed is
+defined by the \Robject{t} parameter. \Robject{t} can be specified
+directly as a numeric. The default value is the character
+\texttt{"min"}, that will remove all peaks equal to the lowest non
+null intensity in any spectrum.  We observe the effect of the
+\Rfunction{removePeaks} method by comparing total ion count (i.e. the
+total intensity in a spectrum) with the \Rfunction{ionCount} method
+before (object \Robject{itraqdata}) and after (object
+\Robject{experiment}) for spectrum \texttt{X55}. The respective
+spectra are shown on figure \ref{fig:spectrum-clean-plot} (page
 \pageref{fig:spectrum-clean-plot}).
 
 
@@ -785,6 +787,15 @@ experiment
 As can be seen above, all processing performed on the experiment is
 recorded and displayed as integral part of the experiment object.
 
+\subsection{Spectrum processing}\label{sec:specproc}
+
+\Rclass{MSnExp} and \Rclass{Spectrum2} instances also support standard
+MS data processing such as smoothing and peak picking, as described in
+the \Rfunction{smooth} and \Rfunction{pickPeak} manual pages. The
+methods that either single spectra of experiments, process the
+spectrum/spectra, and return a updated, processed, object. The
+implementations originate from the \CRANpkg{MALDIquant} package
+\cite{Gibb2012}.
 
 \clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1002,6 +1013,28 @@ The \Rfunction{makeImpuritiesMatrix} can be used to create impurity
 matrices.  It opens a rudimentary spreadsheet that can be directly
 edited.
 
+\section{Processing quantitative data}\label{sec:qproc}
+
+\subsection{Data imputation}\label{sec:imp}
+
+A set of imputation methods are available in the \Rfunction{impute}
+method: it an \Rclass{MSnSet} instance as input, the name of the
+imputation method to be applied (one of \Sexpr{paste(imputeMethods(),
+  collapse=", ")}), possible additional parameters and returns an
+updated for \Rclass{MSnSet} without any missing values.
+
+<<impute>>=
+## an example MSnSet containing missing values
+data(naset)
+table(is.na(naset))
+x <- impute(naset, "min")
+processingData(x)
+table(is.na(x))
+@
+
+Please read \Rfunction{?impute} for a description of the different
+methods and general advice on data imputation.
+
 \subsection{Normalisation}\label{sec:norm}
 
 A \Rclass{MSnSet} object is meant to be compatible with further
@@ -1115,7 +1148,7 @@ Note that it is also possible to normalise individual spectra or whole
 using the \Robject{max} method.  This will rescale all peaks between 0
 and 1.  To visualise the relative reporter peaks, one should this
 first trim the spectra using method \Rfunction{trimMz} as illustrated
-in section \ref{sec:processing}, then normalise the \Rclass{MSnExp}
+in section \ref{sec:rawprocessing}, then normalise the \Rclass{MSnExp}
 with \Rfunction{normalise} using \Robject{method="max"} as illustrated
 above and plot the data using \Rfunction{plot} (figure
 \ref{fig:msnexp-norm-plot}).

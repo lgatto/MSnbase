@@ -5,9 +5,12 @@
 #' data.frame is returned)
 #' @param tolerance double, allowed deviation for mz values to be treated as
 #' equal
+#' @param method matching method
 #' @param relative relative (or absolute) deviation
 #' @param ... further arguments passed to calculateFragments
+#' @noRd
 calculateFragments_Spectrum2 <- function(sequence, object, tolerance=0.1,
+                                         method=c("highest", "closest", "all"),
                                          relative=FALSE, ...) {
 
   isValidSequence <- !missing(sequence) && !is.na(sequence) &&
@@ -19,17 +22,25 @@ calculateFragments_Spectrum2 <- function(sequence, object, tolerance=0.1,
     fragments <- calculateFragments(sequence, ...)
     fragments <- fragments[order(fragments$mz), ]
 
-    m <- matchPeaks(object, fragments$mz, tolerance=tolerance, relative=relative)
+    m <- matchPeaks(object, fragments$mz, tolerance=tolerance,
+                    relative=relative, method=match.arg(method))
     i <- which(!is.na(m))
     fragments <- fragments[m[i], ]
     fragments$error <- fragments$mz - mz(object)[i]
     fragments$mz <- mz(object)[i]
+    fragments$intensity <- intensity(object)[i]
+    ## set intensity as second column
+    fragments <- fragments[, c("mz", "intensity",
+                               "ion", "type", "pos", "z",
+                               "seq", "error")]
   } else {
-    fragments <- data.frame(mz=double(), ion=character(), type=character(),
+    fragments <- data.frame(mz=double(), intensity=double(),
+                            ion=character(), type=character(),
                             pos=integer(), z=integer(), seq=character(),
                             error=double(), stringsAsFactors=FALSE)
   }
-  return(fragments)
+  rownames(fragments) <- NULL
+  fragments
 }
 
 show_Spectrum2 <- function(spectrum) {
