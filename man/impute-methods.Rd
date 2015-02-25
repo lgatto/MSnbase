@@ -44,9 +44,10 @@
   
 
   MNAR features should ideally be imputed with a left-censor method,
-  such as \code{QRILC} below. Conversely, it is recommended to use other
-  methods such nearest neighbours, Bayesian missing value imputation or
-  maximum likelihood methods when values are missing at random.
+  such as \code{QRILC} below. Conversely, it is recommended to use host
+  deck methods such nearest neighbours, Bayesian missing value
+  imputation or maximum likelihood methods when values are missing at
+  random.
 
   Currently, the following imputation methods are available:
 
