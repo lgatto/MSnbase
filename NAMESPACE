@@ -22,8 +22,6 @@ importFrom(vsn, vsn2, meanSdPlot)
 importFrom(IRanges, IRanges)
 importClassesFrom(IRanges, IRanges)
 importFrom(affy, MAplot, ma.plot, mva.pairs)
-importFrom(mzID, mzID, flatten)
-importClassesFrom(mzID, mzID, mzIDCollection)
 importFrom(digest, digest)
 
 export(MSnSet,
@@ -61,6 +59,7 @@ export(MSnSet,
        updateFeatureNames,
        updateSampleNames,
        normalise, ## for normalize method
+       imputeMethods,
        get.amino.acids,
        get.atomic.mass,
        listOf,
