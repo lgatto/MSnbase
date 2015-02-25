@@ -1017,6 +1017,24 @@ edited.
 
 \subsection{Data imputation}\label{sec:imp}
 
+A set of imputation methods are available in the \Rfunction{impute}
+method: it an \Rclass{MSnSet} instance as input, the name of the
+imputation method to be applied (one of \Sexpr{paste(imputeMethods(),
+  collapse=", ")}), possible additional parameters and returns an
+updated for \Rclass{MSnSet} without any missing values.
+
+<<impute>>=
+## an example MSnSet containing missing values
+data(naset)
+table(is.na(naset))
+x <- impute(naset, "min")
+processingData(x)
+table(is.na(x))
+@
+
+Please read \Rfunction{?impute} for a description of the different
+methods and general advice on data imputation.
+
 \subsection{Normalisation}\label{sec:norm}
 
 A \Rclass{MSnSet} object is meant to be compatible with further
