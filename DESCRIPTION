@@ -29,13 +29,14 @@ Author: Laurent Gatto <lg390@cam.ac.uk> with contributions from
 	Vladislav Petyuk, Thomas Naake and Sebastian Gibb.
 Maintainer: Laurent Gatto <lg390@cam.ac.uk>
 Depends: R (>= 3.1), methods, BiocGenerics (>= 0.7.1),
-	 Biobase (>= 2.15.2), mzR (>= 2.1.6), BiocParallel
+	 Biobase (>= 2.15.2), mzR, BiocParallel
 Imports: plyr, IRanges, preprocessCore, vsn, grid,
 	 reshape2, stats4, affy, impute, pcaMethods,
-	 MALDIquant (>= 1.9.8), digest, lattice, ggplot2
+	 mzID (>= 1.5.2), MALDIquant (>= 1.9.8), digest,
+	 lattice, ggplot2
 Suggests: testthat, zoo, knitr (>= 1.1.0), rols, Rdisop, pRoloc,
 	  pRolocdata (>= 1.0.7), msdata, roxygen2, rgl, BiocStyle,
-	  imputeLCMD, norm, mzID (>= 1.5.2)
+	  imputeLCMD, norm
 License: Artistic-2.0
 LazyData: yes
 VignetteBuilder: knitr

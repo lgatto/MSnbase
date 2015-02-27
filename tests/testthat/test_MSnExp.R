@@ -196,7 +196,8 @@ test_that("addIdentificationData", {
   aa <- readMSData(quantFile, verbose = FALSE)
 
   expect_error(addIdentificationData(aa, "foobar.mzid",
-                                     verbose = FALSE))
+                                     verbose = FALSE),
+               "does not exist")
 
   fd <- fData(addIdentificationData(aa, identFile, verbose = FALSE))
 
