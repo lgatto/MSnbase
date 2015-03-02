@@ -1,16 +1,19 @@
 import(grid)
 import(BiocGenerics)
+import(ProtGenerics)
 import(BiocParallel)
 import(Biobase)
 import(mzR)
 import(impute)
-import(MALDIquant)
 
 import(ggplot2)
 import(lattice)
 import(methods)
 
 import(reshape2) ## try to reduce this
+
+
+importFrom(MALDIquant, isEmpty) 
 
 ## importFrom(rols, olsQuery, term)
 ## importClassesFrom(rols, CVParam)
@@ -22,6 +25,8 @@ importFrom(vsn, vsn2, meanSdPlot)
 importFrom(IRanges, IRanges)
 importClassesFrom(IRanges, IRanges)
 importFrom(affy, MAplot, ma.plot, mva.pairs)
+importFrom(mzID, mzID, flatten)
+importClassesFrom(mzID, mzID, mzIDCollection)
 importFrom(digest, digest)
 
 export(MSnSet,

@@ -23,8 +23,9 @@
 \alias{removeReporters,MSnExp-method}
 \alias{smooth,MSnExp-method}
 \alias{addIdentificationData,MSnExp,character-method}
+\alias{addIdentificationData,MSnExp,mzIDClasses-method}
 \alias{addIdentificationData,MSnExp,mzID-method}
-\alias{addIdentificationData,MSnExp,mzRident-method}
+\alias{addIdentificationData,MSnExp,mzIDCollection-method}
 \alias{addIdentificationData,MSnExp,data.frame-method}
 \alias{removeNoId,MSnExp-method}
 \alias{removeMultipleAssignment,MSnExp-method}
