@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.15.7
 -------------------------
- o 
+ o Importing ProtGenerics [2015-02-28 Sat]
+ o selective import of MALDIquant [2015-03-02 Mon]
  
 CHANGES IN VERSION 1.15.6
 -------------------------

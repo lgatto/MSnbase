@@ -28,8 +28,8 @@ Author: Laurent Gatto <lg390@cam.ac.uk> with contributions from
 	Guangchuang Yu, Samuel Wieczorek, Vasile-Cosmin Lazar,
 	Vladislav Petyuk, Thomas Naake and Sebastian Gibb.
 Maintainer: Laurent Gatto <lg390@cam.ac.uk>
-Depends: R (>= 3.1), methods, BiocGenerics (>= 0.7.1),
-	 Biobase (>= 2.15.2), mzR, BiocParallel
+Depends: R (>= 3.1), methods, BiocGenerics (>= 0.7.1), 
+	 Biobase (>= 2.15.2), mzR, BiocParallel, ProtGenerics	 
 Imports: plyr, IRanges, preprocessCore, vsn, grid,
 	 reshape2, stats4, affy, impute, pcaMethods,
 	 mzID (>= 1.5.2), MALDIquant (>= 1.9.8), digest,

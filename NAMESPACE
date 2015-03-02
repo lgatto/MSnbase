@@ -1,16 +1,19 @@
 import(grid)
 import(BiocGenerics)
+import(ProtGenerics)
 import(BiocParallel)
 import(Biobase)
 import(mzR)
 import(impute)
-import(MALDIquant)
 
 import(ggplot2)
 import(lattice)
 import(methods)
 
 import(reshape2) ## try to reduce this
+
+
+importFrom(MALDIquant, isEmpty) 
 
 ## importFrom(rols, olsQuery, term)
 ## importClassesFrom(rols, CVParam)
