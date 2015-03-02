@@ -197,8 +197,9 @@
       \code{experimentData}. } 
     \item{sampleNames}{\code{signature(x = "pSet")}: Access sample names
       in \code{phenoData}. }
-    \item{spectra}{\code{signature(x = "pSet")}: Access the
-      \code{assayData} slot, returning the features as a \code{list}. } 
+    \item{spectra}{\code{signature(x = "pSet", ...)}: Access the
+      \code{assayData} slot, returning the features as a \code{list}.
+      Additional arguments are currently ignored. } 
     \item{varMetadata}{\code{signature(x = "pSet")}: Access metadata
       describing variables reported in \code{pData}. }
     \item{varLabels}{\code{signature(x = "pSet")}: Access variable
@@ -209,14 +210,16 @@
       for spectra scan indices. }
     \item{collisionEnergy}{\code{signature(object = "pSet")}: Accessor
       for MS2 spectra collision energies. }
-    \item{intensity}{\code{signature(object = "pSet")}: Accessor for
-    spectra instenities, returned as named list. }
+    \item{intensity}{\code{signature(object = "pSet", ...)}: Accessor
+      for spectra instenities, returned as named list. Additional
+      arguments are currently ignored. } 
     \item{msInfo}{\code{signature(object = "pSet")}: Prints the MIAPE-MS
       meta-data stored in the \code{experimentData} slot. }
     \item{msLevel}{\code{signature(object = "pSet")}: Accessor for
       spectra MS levels. }
-    \item{mz}{\code{signature(object = "pSet")}: Accessor for spectra
-      M/Z values, returned as a named list. }
+    \item{mz}{\code{signature(object = "pSet", ...)}: Accessor for spectra
+      M/Z values, returned as a named list.  Additional arguments are
+      currently ignored. }
     \item{peaksCount}{\code{signature(object = "pSet")}: Accessor for
       spectra preak counts. }
     \item{peaksCount}{\code{signature(object = "pSet", scans =
@@ -232,10 +235,10 @@
     \item{precAcquisitionNum}{\code{signature(object = "pSet")}: Accessor
       for MS2 precursor scan numbers. }
     \item{precScanNum}{see \code{precAcquisitionNum}. }
-    \item{rtime}{\code{signature(object = "pSet")}: Accessor for spectra
-    retention times. }
-    \item{tic}{\code{signature(object = "pSet")}: Accessor for spectra
-      total ion counts. }
+    \item{rtime}{\code{signature(object = "pSet", ...)}: Accessor for spectra
+    retention times. Additional arguments are currently ignored. }
+    \item{tic}{\code{signature(object = "pSet", ...)}: Accessor for spectra
+      total ion counts. Additional arguments are currently ignored. }
     \item{ionCount}{\code{signature(object = "pSet")}: Accessor for spectra
       total ion current. }
     \item{header}{\code{signature(object = "pSet")}: Returns a data

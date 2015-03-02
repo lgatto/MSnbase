@@ -84,10 +84,10 @@
       level of the map spectra. }
     \item{msMap}{\code{signature(object = "MSmap")}: returns the actual
       map \code{matrix}. }
-    \item{mz}{\code{signature(object = "MSmap")}: returns the M/Z values
-      of the map. }
-    \item{rtime}{\code{signature(object = "MSmap")}: returns retention
-      time values of the map. }	
+    \item{mz}{\code{signature(object = "MSmap", ...)}: returns the M/Z values
+      of the map. Additional arguments are currently ignored. }
+    \item{rtime}{\code{signature(object = "MSmap", ...)}: returns retention
+      time values of the map. Additional arguments are currently ignored.}	
     \item{mzRes}{\code{signature(object = "MSmap")}: returns the
       resolution with which the sample along the M/Z range was done. }
     \item{dim}{\code{signature(x = "MSmap")}: returns the dimensions of

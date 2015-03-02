@@ -11,7 +11,6 @@
 \alias{[,ReporterIons,ANY,ANY,ANY-method}
 \alias{length-method}
 \alias{length,ReporterIons-method}
-\alias{mz-method}
 \alias{mz,ReporterIons-method}
 \alias{reporterColours-method}
 \alias{reporterColours,ReporterIons-method}
@@ -101,8 +100,8 @@
       class. }
     \item{\code{length(object)}}{ Returns the number of reporter ions in
       the instance. }
-    \item{\code{mz(object)}}{ Returns the expected mz values of reporter
-      ions. }
+    \item{\code{mz(object, ...)}}{ Returns the expected mz values of
+      reporter ions. Additional arguments are currently ignored. }
     \item{\code{reporterColours(object)} or reporterColors(object)}{
       Returns the colours used to highlight the reporter ions. } 
     \item{\code{reporterNames(object)}}{ Returns the name of the

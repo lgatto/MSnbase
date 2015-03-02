@@ -1,6 +1,3 @@
-# if (is.null(getGeneric("width")))
-#    setGeneric("width", function(x) standardGeneric("width"))
-
 setGeneric("width", function(x) standardGeneric("width"))
 
 setGeneric("bin", function(object, ...) standardGeneric("bin"))
@@ -15,7 +12,6 @@ setGeneric("removeReporters", function(object, ...) standardGeneric("removeRepor
 
 ##setGeneric("bg.correct", function(object,bg, ...) standardGeneric("bg.correct"))
 
-setGeneric("spectra", function(object) standardGeneric("spectra"))
 ##setGeneric("spectra<-", function(object, value) standardGeneric("spectra<-"))
 setGeneric("scanIndex", function(object) standardGeneric("scanIndex"))
 setGeneric("precursorMz", function(object) standardGeneric("precursorMz"))
@@ -25,7 +21,6 @@ setGeneric("precursorCharge<-", function(object, value) standardGeneric("precurs
 setGeneric("acquisitionNum", function(object) standardGeneric("acquisitionNum"))
 setGeneric("precAcquisitionNum", function(object) standardGeneric("precAcquisitionNum"))
 setGeneric("precScanNum", function(object) standardGeneric("precScanNum"))
-setGeneric("rtime", function(object) standardGeneric("rtime"))
 setGeneric("msLevel", function(object) standardGeneric("msLevel"))
 setGeneric("collisionEnergy", function(object) standardGeneric("collisionEnergy"))
 ## setGeneric("peaksCount", function(object) standardGeneric("peaksCount")) ## use mzR generic
@@ -53,9 +48,6 @@ setGeneric("instrumentModel", function(object) standardGeneric("instrumentModel"
 setGeneric("instrumentManufacturer", function(object) standardGeneric("instrumentManufacturer"))
 setGeneric("instrumentCustomisations", function(object) standardGeneric("instrumentCustomisations"))
 
-setGeneric("mz", function(object) standardGeneric("mz"))
-setGeneric("intensity", function(object) standardGeneric("intensity"))
-setGeneric("tic", function(object) standardGeneric("tic"))
 setGeneric("ionCount", function(object) standardGeneric("ionCount"))
 
 setGeneric("fromFile", function(object) standardGeneric("fromFile"))
@@ -71,6 +63,7 @@ setGeneric("reporterNames<-", function(object, value) standardGeneric("reporterN
 setGeneric("reporterColours", function(object) standardGeneric("reporterColours"))
 setGeneric("reporterColors", function(object) standardGeneric("reporterColors"))
 
+### THESE SHOULD PROBABLY BE REPLACED BY BiocGenerics::fileName?
 setGeneric("fileNames", function(object) standardGeneric("fileNames"))
 setGeneric("fileNames<-", function(object, value) standardGeneric("fileNames<-"))
 
@@ -118,3 +111,11 @@ setGeneric("rmFeaturesOfInterest", function(object, i) standardGeneric("rmFeatur
 ## setGeneric("fromIdentical", function(x, y, ...) standardGeneric("fromIdentical"))
 ## setGeneric("fromEqual", function(x, y, ...) standardGeneric("fromEqual"))
 setGeneric("fnamesIn", function(x, y, ...) standardGeneric("fnamesIn"))
+
+
+### ProtGenerics
+## setGeneric("rtime", function(object, ...) standardGeneric("rtime"))
+## setGeneric("tic", function(object, ...) standardGeneric("tic"))
+## setGeneric("spectra", function(object, ...) standardGeneric("spectra"))
+## setGeneric("mz", function(object, ...) standardGeneric("mz"))
+## setGeneric("intensity", function(object, ...) standardGeneric("intensity"))

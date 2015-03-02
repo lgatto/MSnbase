@@ -14,22 +14,16 @@
   \describe{
 
     \item{\code{signature(object = "MSnExp", id = "character",
-        fcol = "character", icol = "character",
-        backend = "character", verbose = "logical")}}{
+        fcol = "character", icol = "character", verbose = "logical")}}{
       Adds the identification data stored in mzIdentML files to a
       \code{"\linkS4class{MSnExp}"} instance. The method handles
       one or multiple mzIdentML files provided via \code{id}. \code{id} has to
       be a \code{character} vector of valid filenames.
-
       \code{fcol} and \code{icol} specify the columns in the \code{featureData}
       slot and the identification \code{data.frame} that are used to merge both
       data together as \code{character} vectors
       (defaults are \code{fcol = c("spectrum.file", "acquisition.number")} and
       \code{icol = c("spectrumFile", "acquisitionnum")}).
-
-      The default \code{backend} is \code{"mzR"}. Set it to \code{"mzID"} to use
-      the \emph{mzID} package for parsing the mzIdentML files.
-
       The \code{verbose} argument (default is
       \code{TRUE}) defines whether status messages should be showed.
     }
@@ -39,13 +33,18 @@
       Same as above but \code{id} could be an \code{mzID} object.
     }
 
+    \item{\code{signature(object = "MSnExp", id = "mzIDCollection",
+        fcol = "character", icol = "character", verbose = "logical")}}{
+      Same as above but \code{id} could be an \code{mzIDCollection} object.
+    }
+
     \item{\code{signature(object = "MSnExp", id = "data.frame",
         fcol = "character", icol = "character", verbose = "logical")}}{
       Same as above but \code{id} could be a \code{data.frame}.
     }
 
     \item{\code{signature(object = "MSnSet", id = "character",
-        backend = "character", verbose = "logical")}}{
+	    verbose = "logical")}}{
       Adds the identification data stored in mzIdentML files to an
       \code{"\linkS4class{MSnSet}"} instance.
       The method handles one or multiple mzIdentML files provided via
@@ -58,9 +57,6 @@
       (defaults are \code{fcol = c("spectrum.file", "acquisition.number")} and
       \code{icol = c("spectrumFile", "acquisitionnum")}).
 
-      The default \code{backend} is \code{"mzR"}. Set it to \code{"mzID"} to use
-      the \emph{mzID} package for parsing the mzIdentML files.
-
       The \code{verbose} argument (default is
       \code{TRUE}) defines whether status messages should be showed.
     }
@@ -68,6 +64,11 @@
     \item{\code{signature(object = "MSnSet", id = "mzID",
         fcol = "character", icol = "character", verbose = "logical")}}{
       Same as above but \code{id} could be an \code{mzID} object.
+    }
+
+    \item{\code{signature(object = "MSnSet", id = "mzIDCollection",
+        fcol = "character", icol = "character", verbose = "logical")}}{
+      Same as above but \code{id} could be an \code{mzIDCollection} object.
     }
 
     \item{\code{signature(object = "MSnSet", id = "data.frame",
