@@ -114,16 +114,18 @@
       \code{"numeric"} containing the intensities of the spectrum. }
     \item{\code{msLevel(object)}}{ Returns an MS level of the spectrum
       as an integer. }
-    \item{\code{mz(object)}}{ Returns an object of class
-      \code{"numeric"} containing the MZ value of the spectrum peaks. }
+    \item{\code{mz(object, ...)}}{ Returns an object of class
+      \code{"numeric"} containing the MZ value of the spectrum
+      peaks. Additional arguments are currently ignored. } 
     \item{\code{peaksCount(object)}}{ Returns the number of peaks
       (possibly of 0 intensity) as an integer. }
-    \item{\code{rtime(object)}}{ Returns the retention time for the
-      spectrum as an integer. }
+    \item{\code{rtime(object, ...)}}{ Returns the retention time for the
+      spectrum as an integer. Additional arguments are currently
+      ignored. }
     \item{\code{ionCount(object)}}{ Returns the total ion count for the
       spectrum as a numeric. }
-    \item{\code{tic(object)}}{ Returns the total ion current for the
-      spectrum as a numeric. }
+    \item{\code{tic(object, ...)}}{ Returns the total ion current for the
+      spectrum as a numeric. Additional arguments are currently ignored. }
     %% -------------------------------------------------- %%
     \item{bin}{\code{signature(object = "Spectrum")}: Bins Spectrum.
       See \code{\link{bin}} documentation for more details and examples. }
