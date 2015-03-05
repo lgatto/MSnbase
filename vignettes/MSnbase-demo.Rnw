@@ -1013,27 +1013,106 @@ The \Rfunction{makeImpuritiesMatrix} can be used to create impurity
 matrices.  It opens a rudimentary spreadsheet that can be directly
 edited.
 
+\clearpage
+
 \section{Processing quantitative data}\label{sec:qproc}
 
 \subsection{Data imputation}\label{sec:imp}
 
 A set of imputation methods are available in the \Rfunction{impute}
-method: it an \Rclass{MSnSet} instance as input, the name of the
+method: it takes an \Rclass{MSnSet} instance as input, the name of the
 imputation method to be applied (one of \Sexpr{paste(imputeMethods(),
   collapse=", ")}), possible additional parameters and returns an
-updated for \Rclass{MSnSet} without any missing values.
+updated for \Rclass{MSnSet} without any missing values. Below, we
+apply a deterministic minimum value imputation on the \Robject{naset}
+example data:
 
 <<impute>>=
 ## an example MSnSet containing missing values
 data(naset)
 table(is.na(naset))
+## number of NAs per protein
+table(fData(naset)$nNA) 
 x <- impute(naset, "min")
 processingData(x)
 table(is.na(x))
 @
 
+
+There are two types of mechanisms resulting in missing values in
+LC/MSMS experiments.
+
+\begin{itemize}
+\item Missing values resulting from absence of detection of a feature,
+  despite ions being present at detectable concentrations.  For
+  example in the case of ion suppression or as a result from the
+  stochastic, data-dependent nature of the MS acquisition
+  method. These missing value are expected to be randomly distributed
+  in the data and are defined as \emph{missing at random} (MAR) or
+  \emph{missing completely at random} (MCAR).
+\item Biologically relevant missing values, resulting from the
+  \emph{absence} of the low abundance of ions (below the limit of
+  detection of the instrument). These missing values are not expected
+  to be randomly distributed in the data and are defined as
+  \emph{missing not at random} (MNAR).
+\end{itemize}
+
+MAR and MCAR values can be reasonably well tackled by many imputation
+methods. MNAR data, however, requires some knowledge about the
+underlying mechanism that generates the missing data, to be able to
+attempt data imputation. MNAR features should ideally be imputed with
+a \emph{left-censor} (for example using a deterministic or
+probabilistic minimum value) method. Conversely, it is recommended to
+use \emph{hot deck} methods (for example nearest neighbour, maximum
+likelihood, etc) when data are missing at random. 
+
+\begin{figure}[h]
+  \centering
+  <<miximpfig, echo=FALSE, dev='pdf', fig.width=8, fig.width=8>>=
+  x <- impute(naset, "zero")
+  exprs(x)[exprs(x) != 0] <- 1
+
+  suppressPackageStartupMessages(library("gplots"))
+
+  heatmap.2(exprs(x), col = c("lightgray", "black"),
+              scale = "none", dendrogram = "none",
+              trace = "none", keysize = 0.5, key = FALSE,
+              RowSideColors = ifelse(fData(x)$randna, "orange", "brown"),
+              ColSideColors = rep(c("steelblue", "darkolivegreen"), each = 8))
+  @
+\caption{Mixed imputation method. Black cells represent presence of
+  quantitation values and light grey corresponds to missing data. The
+  two groups of interest are depicted in green and blue along the
+  heatmap columns. Two classes of proteins are annotated on the left:
+  yellow are proteins with randomly occurring missing values (if any)
+  while proteins in brown are candidates for non-random missing value
+  imputation.}
+\label{fig:miximp}
+\end{figure}
+
+
+It is anticipated that the identification of both classes of missing
+values will depend on various factors, such as feature intensities and
+experimental design. Below, we use perform mixed imputation, applying
+nearest neighbour imputation on the \Sexpr{sum(fData(naset)$randna)}
+features that are assumed to contain randomly distributed missing
+values (if any) (yellow on figure \ref{fig:miximp}) and a
+deterministic minimum value imputation on the
+\Sexpr{sum(!fData(naset)$randna)} proteins that display a non-random
+pattern of missing values (brown on figure \ref{fig:miximp}).
+
+<<miximp>>=
+x <- impute(naset, method = "mixed",
+            randna = fData(naset)$randna,
+            mar = "knn", mnar = "min")
+x
+@
+
+
 Please read \Rfunction{?impute} for a description of the different
-methods and general advice on data imputation.
+methods.
+
+\clearpage
 
 \subsection{Normalisation}\label{sec:norm}
 
