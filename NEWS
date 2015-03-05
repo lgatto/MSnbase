@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.15.8
+-------------------------
+ o Improved imputation section in demo vignette [2015-03-05 Thu]
+ 
 CHANGES IN VERSION 1.15.7
 -------------------------
  o Importing ProtGenerics [2015-02-28 Sat]
