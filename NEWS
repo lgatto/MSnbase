@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.15.9
+-------------------------
+ o use S4Vectors' isEmpty generic [2015-03-10 Tue]
+ 
 CHANGES IN VERSION 1.15.8
 -------------------------
  o Improved imputation section in demo vignette [2015-03-05 Thu]
