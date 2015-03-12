@@ -12,8 +12,8 @@ import(methods)
 
 import(reshape2) ## try to reduce this
 
-
-importFrom(MALDIquant, isEmpty) 
+importFrom(MALDIquant, binPeaks) ## only using ::: functions
+importFrom(S4Vectors, isEmpty)
 
 ## importFrom(rols, olsQuery, term)
 ## importClassesFrom(rols, CVParam)
