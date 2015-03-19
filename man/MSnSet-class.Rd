@@ -23,9 +23,11 @@
 \alias{[,MSnSet,ANY,ANY-method}
 \alias{[,MSnSet,ANY,ANY,ANY-method}
 \alias{as.ExpressionSet.MSnSet}
+\alias{as.MSnSet.ExpressionSet}
 \alias{as.data.frame.MSnSet}
 \alias{ms2df}
 \alias{coerce,MSnSet,ExpressionSet-method}
+\alias{coerce,ExpressionSet,MSnSet-method}
 \alias{coerce,MSnSet,data.frame-method}
 \alias{write.exprs}
 \alias{write.exprs,MSnSet-method}
@@ -195,7 +197,9 @@
     \item{as(,"ExpressionSet")}{\code{signature(x = "MSnSet")}: Coerce
       object from \code{MSnSet} to
       \code{\link{ExpressionSet-class}}. The \code{experimentData} slot is
-      converted to a \code{MIAME} instance. }
+      converted to a \code{MIAME} instance. It is also possible to
+      coerce an \code{ExpressionSet} to and \code{MSnSet}, in which case
+      the \code{experimentData} slot is newly initialised. }
     \item{as(,"data.frame")}{\code{signature(x = "MSnSet")}: Coerce
       object from \code{MSnSet} to \code{data.frame}. The \code{MSnSet}
       is transposed and the \code{PhenoData} slot is appended.

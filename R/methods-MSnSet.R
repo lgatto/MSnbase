@@ -263,6 +263,18 @@ setAs("MSnSet", "ExpressionSet",
 
 as.ExpressionSet.MSnSet <- function(x) as(x,"ExpressionSet")
 
+setAs("ExpressionSet", "MSnSet",
+      function (from)
+      new("MSnSet",
+          exprs = exprs(from),
+          phenoData = phenoData(from),
+          featureData = featureData(from),
+          annotation = annotation(from),
+          protocolData = protocolData(from))
+      )
+
+as.MSnSet.ExpressionSet <- function(x) as(x, "MSnSet")
+
 setAs("MSnSet", "data.frame",
       function (from) {
           ## MSnSet -> ExpressionSet -> data.frame
