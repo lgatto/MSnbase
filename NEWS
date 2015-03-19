@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.15.10
+--------------------------
+ o update compareSpectra man [2015-03-19 Thu]
+
 CHANGES IN VERSION 1.15.9
 -------------------------
  o use S4Vectors' isEmpty generic [2015-03-10 Tue]
