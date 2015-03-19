@@ -12,39 +12,40 @@
   This method compares spectra (\code{Spectrum} instances) pairwise
   or all spectra of an experiment (\code{MSnExp} instances). Currently
   the comparison is based on the number of common peaks \code{fun = "common"},
-  the Pearson correlation \code{fun = "cor"} or the dot product
-  \code{fun = "dotproduct"}. The user could use his own function.
+  the Pearson correlation \code{fun = "cor"}, the dot product
+  \code{fun = "dotproduct"} or a user-defined function.
+
+  For \code{fun = "common"} the \code{tolerance} (default \code{25e-6})
+  can be set and the tolerance can be defined to be relative (default
+  \code{relative = TRUE}) or absolute (\code{relative = FALSE}). To
+  compare spectra with \code{fun = "cor"} and \code{fun = "dotproduct"},
+  the spectra need to be binned. The \code{binSize} argument (in Dalton)
+  controls the binning precision. Please see \code{\link{bin}} for
+  details.
+  
+  Instead of these three predefined functions for \code{fun} a
+  user-defined comparison function can be supplied. This function takes
+  two \code{\linkS4class{Spectrum}} objects as the first two arguments
+  and \code{\dots} as third argument. The function must return a single
+  \code{numeric} value. See the example section.
 }
 
 \section{Methods}{
   \describe{
-    \item{\code{signature(object1 = "MSnExp", object2 = "missing",
-      fun = "character", \dots)}}{
-      Compares all spectra in an \code{MSnExp} object.
-      Use \code{fun} to compare spectra by the number of common peaks
-      \code{fun = "common"}, by the pearson correlation \code{fun = "cor"} and
-      by the dot product \code{fun = "dotproduct"}. The \code{\dots} arguments
-      are passed to the internal functions. For \code{fun = "common"} you could
-      change the \code{tolerance} (default \code{25e-6}) and decide whether this
-      tolerance should be applied relative (default \code{relative = TRUE}) or
-      absolute (\code{relative = FALSE}).
-      Instead of the three predefined functions for \code{fun} you could add
-      your own comparison function. Therefore you have to define a function that
-      takes two \code{\linkS4class{Spectrum}} objects as the first two arguments
-      and \code{\dots} as the third. The function must return a single
-      \code{numeric} value. Please see the example section.
-      Before \code{fun = "cor"} and \code{fun = "dotproduct"} could be used the
-      spectra need to be binned. Use the \code{binSize} argument (in Dalton) to
-      control the binning precision. Please see \code{\link{bin}} for details.
-      Returns a \code{n*n} matrix.
-    }
-    \item{\code{signature(object1 = "Spectrum", object2 = "Spectrum",
-        fun = "character", \dots)}}{
-      Compares two \code{Spectrum} objects. Please see the above
-      explanation for \code{fun} and \code{\dots}.
-      Returns a single \code{numeric} value.
-    }
-  }
+    
+    \item{\code{signature(object1 = "MSnExp", object2 = "missing", fun =
+	"character", \dots)}}{Compares all spectra in an \code{MSnExp}
+      object. The \code{\dots} arguments are passed to the internal
+      functions. Returns a \code{matrix} of dimension
+      \code{length(object1)} by \code{length(object1)}. }
+
+
+    \item{\code{signature(object1 = "Spectrum", object2 = "Spectrum", fun =
+	"character", \dots)}}{ Compares two \code{Spectrum} objects. See the
+      above explanation for \code{fun} and \code{\dots}. Returns a single
+      \code{numeric} value. }
+    
+  } 
 }
 
 \author{
@@ -58,18 +59,18 @@
 }
 
 \references{
-Stein, S. E., & Scott, D. R. (1994).
-Optimization and testing of mass spectral library search algorithms for
-compound identification.
-Journal of the American Society for Mass Spectrometry, 5(9), 859-866.
-doi: http://dx.doi.org/10.1016/1044-0305(94)87009-8
+  Stein, S. E., & Scott, D. R. (1994).
+  Optimization and testing of mass spectral library search algorithms for
+  compound identification.
+  Journal of the American Society for Mass Spectrometry, 5(9), 859-866.
+  doi: http://dx.doi.org/10.1016/1044-0305(94)87009-8
 
-Lam, H., Deutsch, E. W., Eddes, J. S., Eng, J. K., King, N., Stein, S. E.
-and Aebersold, R. (2007)
-Development and validation of a spectral library searching method for peptide
-identification from MS/MS.
-Proteomics, 7: 655-667.
-doi: http://dx.doi.org/10.1002/pmic.200600625
+  Lam, H., Deutsch, E. W., Eddes, J. S., Eng, J. K., King, N., Stein, S. E.
+  and Aebersold, R. (2007)
+  Development and validation of a spectral library searching method for peptide
+  identification from MS/MS.
+  Proteomics, 7: 655-667.
+  doi: http://dx.doi.org/10.1002/pmic.200600625
 }
 
 \examples{
