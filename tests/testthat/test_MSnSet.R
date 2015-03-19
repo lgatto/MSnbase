@@ -10,6 +10,19 @@ test_that("MSnSet coersion", {
     expect_true(validObject(dunkley2006))
     es <- as(dunkley2006, "ExpressionSet")
     expect_true(validObject(es))
+
+    ## back to MSnSet
+    ms <- as(es, "MSnSet")
+    expect_true(validObject(ms))
+    ## compare original dunkley2006 and ms
+    ## we know that coercion ExpressionSet to MSnSet initialises a new
+    ## experimentData
+    ms@experimentData <- experimentData(dunkley2006)
+    ## processingData is also list in MSnSet -> ExpressionSet
+    ms@processingData <- processingData(dunkley2006)
+    ## and classVersion will differ
+    ms@.__classVersion__ <- classVersion(dunkley2006)
+    expect_true(all.equal(ms, dunkley2006))
 })
 
 
