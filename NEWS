@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.15.13
+--------------------------
+ o improve nbavg imputation description and add example [2015-03-22 Sun]
+ 
 CHANGES IN VERSION 1.15.12
 --------------------------
  o average neighbour imputation for ordered fractions along a gradient
