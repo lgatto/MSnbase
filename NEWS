@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.15.12
+--------------------------
+ o average neighbour imputation for ordered fractions along a gradient
+   [2015-03-21 Sat]
+ 
 CHANGES IN VERSION 1.15.11
 --------------------------
  o update malformed Description [2015-03-20 Fri]
