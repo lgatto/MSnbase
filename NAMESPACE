@@ -1,3 +1,6 @@
+useDynLib(MSnbase)
+importFrom(Rcpp, sourceCpp)
+
 import(grid)
 import(BiocGenerics)
 import(ProtGenerics)

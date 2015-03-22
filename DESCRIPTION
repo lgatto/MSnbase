@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for MS-based Proteomics
-Version: 1.15.11
+Version: 1.15.12
 Description: Basic plotting, data manipulation and processing
 	     of MS-based Proteomics data
 Authors@R: c(person(given = "Laurent", family = "Gatto",
@@ -33,10 +33,11 @@ Depends: R (>= 3.1), methods, BiocGenerics (>= 0.7.1),
 Imports: plyr, IRanges, preprocessCore, vsn, grid,
 	 reshape2, stats4, affy, impute, pcaMethods,
 	 mzID (>= 1.5.2), MALDIquant (>= 1.9.8), digest,
-	 lattice, ggplot2, S4Vectors
+	 lattice, ggplot2, S4Vectors, Rcpp
 Suggests: testthat, zoo, knitr (>= 1.1.0), rols, Rdisop, pRoloc,
 	  pRolocdata (>= 1.0.7), msdata, roxygen2, rgl, BiocStyle,
 	  imputeLCMD, norm, gplots
+LinkingTo: Rcpp
 License: Artistic-2.0
 LazyData: yes
 VignetteBuilder: knitr
