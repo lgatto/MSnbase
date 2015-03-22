@@ -114,6 +114,18 @@
       M[C]AR/MNAR subsets of the data (as defined by the user by a
       \code{randna} logical, of length equal to \code{nrow(object)}). }
 
+    \item{nbavg}{Average neighbour imputation for fractions collected
+      along a fractionation/separation gradient, such as sub-cellular
+      fractions. The method assumes that the fraction are ordered along
+      the gradient and is invalid otherwise.
+
+      When a missing value is flanked by two non-missing neighbouring
+      values, it is imputed by the mean of its direct neighbours. In
+      addition, all continuous sets \code{NA} value at the beginning and
+      end of the vectors are set to the lowest observed value in the
+      data or to a user defined value passed as argument \code{k}.
+    }
+
   }
 
   The \code{naset} \code{\linkS4class{MSnSet}} is an real quantitative

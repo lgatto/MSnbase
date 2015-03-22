@@ -1,7 +1,7 @@
 imputeMethods <- function()
     c("bpca","knn", "QRILC", "MLE",
       "MinDet", "MinProb", "min", "zero",
-      "mixed")
+      "mixed", "nbavg")
 
 
 setMethod("impute", "MSnSet",
@@ -28,6 +28,13 @@ setMethod("impute", "MSnSet",
               if (method == "knn") {
                   .eset <- impute.knn(exprs(object), ...)$data
                   exprs(object) <- .eset
+              } else if (method == "nbavg") {
+                  message("Assuming values are ordered.")
+                  impargs <- pairlist(...)                  
+                  if (is.null(impargs$k)) k <- min(exprs(object), na.rm = TRUE)
+                  else k <- impargs$k
+                  exprs(object) <- imp_neighbour_avg(exprs(object),
+                                                     k = k)
               } else if (method == "MLE") {
                   require("norm") || stop("Package 'norm' is required.")
                   x <- exprs(object)
@@ -95,3 +102,8 @@ setMethod("impute", "MSnSet",
               if (validObject(object))
                   return(object)           
           })
+
+
+
+
+
