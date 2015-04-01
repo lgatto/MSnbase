@@ -89,7 +89,7 @@ compareSpectra(s1, new("Spectrum2", mz=1:5, intensity=1:5), fun=equalLength)
 compareSpectra(s1, new("Spectrum2"), fun=equalLength)
 
 data(itraqdata)
-compareSpectra(itraqdata, fun="cor")
+compareSpectra(itraqdata[1:5], fun="cor")
 }
 
 

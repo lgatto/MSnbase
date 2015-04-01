@@ -54,14 +54,14 @@
 }
 
 \examples{
-xx <- quantify(itraqdata, reporters = iTRAQ4, verbose = FALSE)
-exprs(xx)[sample(prod(dim(xx)), 120)] <- NA
+data(msnset)
+exprs(msnset)[sample(prod(dim(msnset)), 120)] <- NA
 
-head(is.na(xx))
-table(is.na(xx))
-image(is.na(xx))
+head(is.na(msnset))
+table(is.na(msnset))
+image(msnset)
 
-plotNA(xx, pNA = 1/4)
+plotNA(msnset, pNA = 1/4)
 }
 
 

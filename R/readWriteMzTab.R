@@ -892,8 +892,8 @@ makePRT <- function(x,
 ##' files: \url{http://code.google.com/p/mztab/}.
 ##' @examples
 ##' mzTabFile <- tempfile()
-##' data(itraqdata)
-##' pep <- quantify(itraqdata, reporters = iTRAQ4)
+##' data(msnset)
+##' pep <- msnset
 ##' prot <- combineFeatures(pep, groupBy = fData(pep)$ProteinAccession)
 ##' fvarLabels(pep)
 ##' ## First write metadata and protein data
