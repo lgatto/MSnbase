@@ -97,10 +97,9 @@
 
 \examples{
 ## quantifying full experiment
-data(itraqdata)
-qnt <- quantify(itraqdata,method="trap",reporters=iTRAQ4)
-qnt.nrm <- normalise(qnt,"quantiles")
-qnt.nrm
+data(msnset)
+msnset.nrm <- normalise(msnset, "quantiles")
+msnset.nrm
 }
 
 

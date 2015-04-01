@@ -103,8 +103,7 @@
 
 \examples{
 ## quantifying full experiment
-data(itraqdata)
-msnset <- quantify(itraqdata, method = "trap", reporters = iTRAQ4)
+data(msnset)
 impurities <- matrix(c(0.929,0.059,0.002,0.000,
                        0.020,0.923,0.056,0.001,
                        0.000,0.030,0.924,0.045,

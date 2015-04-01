@@ -85,25 +85,25 @@
 }
 
 \section{Objects from the Class}{
+
   The constructor \code{MSnSet(exprs, fData, pData)} can be used to
   create \code{MSnSet} instances. Argument \code{exprs} is a
   \code{matrix} and \code{fData} and \code{pData} must be of clas
   \code{data.frame} or \code{"\linkS4class{AnnotatedDataFrame}"} and all
   must meet the dimensions and name validity constrains.
 
-
-  Objects can also be created by calls of the form
-  \code{new("MSnSet", exprs, ...)}.
-  See also \code{"\linkS4class{ExpressionSet}"} for helpful information.
-  Expression data produced from other softwares can thus make use of this
-  standardized data container to benefit \code{R} and
-  \code{Bioconductor} packages. Importer functions will be developed to
-  stream-line the generation of \code{"MSnSet"} instances from
-  third-party software.
+  Objects can also be created by calls of the form \code{new("MSnSet",
+  exprs, ...)}.  See also \code{"\linkS4class{ExpressionSet}"} for
+  helpful information.  Expression data produced from other softwares
+  can thus make use of this standardized data container to benefit
+  \code{R} and \code{Bioconductor} packages. Importer functions will be
+  developed to stream-line the generation of \code{"MSnSet"} instances
+  from third-party software.
 
   In the frame of the \code{MSnbase} package, \code{MSnSet} instances
-  can be generated from \code{"\linkS4class{MSnExp}"} experiments when the
-  \code{"\linkS4class{ReporterIons}"} using the \code{"quantify"} method).
+  can be generated from \code{"\linkS4class{MSnExp}"} experiments using
+  the \code{\link{quantify}} method).
+  
 }
 
 \section{Slots}{
@@ -365,18 +365,16 @@
 }
 
 \seealso{
-  \code{"\linkS4class{eSet}"} and
-  \code{"\linkS4class{ExpressionSet}"}. \code{MSnSet} quantitation
-  values can be exported to a file with
-  \code{\link[MSnbase]{write.exprs}}.
+
+  \code{"\linkS4class{eSet}"}, \code{"\linkS4class{ExpressionSet}"} and
+  \code{\link{quantify}}. \code{MSnSet} quantitation values can be
+  exported to a file with \code{\link[MSnbase]{write.exprs}}.
+  
 }
 
 \examples{
-data(itraqdata)
-itraqdata
-msnset <- quantify(itraqdata[10:15], method = "trap",
-                   reporters = iTRAQ4, verbose = FALSE)
-msnset
+data(msnset)
+msnset <- msnset[10:15]
 
 exprs(msnset)[1, c(1, 4)] <- NA
 exprs(msnset)[2, c(1, 2)] <- NA

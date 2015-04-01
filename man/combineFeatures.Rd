@@ -95,32 +95,32 @@ combineFeatures(object, groupBy, fun = c("mean", "median",
 }
 
 \examples{
-data(itraqdata)
-quant <- quantify(itraqdata[11:15], method = "max", reporters = iTRAQ4)
-dim(quant)
-exprs(quant)
+data(msnset)
+msnset <- msnset[11:15, ]
+exprs(msnset)
+
 ## arbitrary grouping into two groups
 grp <- as.factor(c(1, 1, 2, 2, 2))
-quant.comb <- combineFeatures(quant, grp, "sum")
-dim(quant.comb)
-exprs(quant.comb)
-fvarLabels(quant.comb)
+msnset.comb <- combineFeatures(msnset, grp, "sum")
+dim(msnset.comb)
+exprs(msnset.comb)
+fvarLabels(msnset.comb)
 
 ## grouping with a list
 grpl <- list(c("A", "B"), "A", "A", "C", c("C", "B"))
 ## optional naming
-names(grpl) <- featureNames(quant)
-exprs(combineFeatures(quant, grpl, fun = "sum", redundancy.handler = "unique"))
-exprs(combineFeatures(quant, grpl, fun = "sum", redundancy.handler = "multiple"))
+names(grpl) <- featureNames(msnset)
+exprs(combineFeatures(msnset, grpl, fun = "sum", redundancy.handler = "unique"))
+exprs(combineFeatures(msnset, grpl, fun = "sum", redundancy.handler = "multiple"))
 
 ## missing data
-exprs(quant)[4, 4] <- 
-    exprs(quant)[2, 2] <- NA
-exprs(quant)
+exprs(msnset)[4, 4] <- 
+    exprs(msnset)[2, 2] <- NA
+exprs(msnset)
 ## NAs propagate in the 115 and 117 channels 
-exprs(combineFeatures(quant, grp, "sum"))
+exprs(combineFeatures(msnset, grp, "sum"))
 ## NAs are removed before summing 
-exprs(combineFeatures(quant, grp, "sum", na.rm = TRUE))
+exprs(combineFeatures(msnset, grp, "sum", na.rm = TRUE))
 }
 
 
