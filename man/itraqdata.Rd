@@ -1,6 +1,8 @@
 \name{itraqdata}
 \alias{itraqdata}
 \docType{data}
+\alias{itraqdata}
+\alias{msnset}
 
 \title{
   Example \code{MSnExp} data set 
@@ -20,6 +22,10 @@
   The spiked-in proteins in \code{itradata} are BSA and ENO and are
   present in relative abundances 1, 2.5, 5, 10 and 10, 5, 2.5, 1 in the
   114, 115, 116 and 117 reporter tags.  
+
+  The \code{msnset} the output or running the \code{quantify} method on
+  the \code{itraqdata} experimental data, as detailed in the
+  \code{\link{quantify}} example.
   
   This example data set is used in the MSnbase-demo vignette, available
   with \code{vignette("MSnbase-demo",package="MSnbase")}.
@@ -28,7 +34,13 @@
 \usage{itraqdata}
 
 \examples{
+data(itraqdata)
 itraqdata
+
+## created by
+## msnset <- quantify(itraqdata, method = "trap", reporters = iTRAQ4)
+data(msnset)
+msnset
 }
 
 \keyword{datasets}
