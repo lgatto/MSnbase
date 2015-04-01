@@ -1,3 +1,13 @@
+CHANGES IN VERSION 1.15.14
+--------------------------
+  o new msnset data, used in various examples instead of quantifying
+    the itraqdata experiment over and over again [2015-04-01 Wed]
+ 
+CHANGES IN VERSION 1.15.13
+--------------------------
+ o improve nbavg imputation description and add example [2015-03-22 Sun]
+ o reduce compareSpectra example timing [2015-03-30 Mon]
+ 
 CHANGES IN VERSION 1.15.12
 --------------------------
  o average neighbour imputation for ordered fractions along a gradient

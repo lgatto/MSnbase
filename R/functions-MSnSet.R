@@ -64,10 +64,10 @@ normalise_MSnSet <- function(object, method, ...) {
 ##' @author Laurent Gatto <lg390@@cam.ac.uk>
 ##' @seealso \code{\link{combineFeatures}}
 ##' @examples
-##' data(itraqdata)
-##' m <- quantify(itraqdata[1:4], reporters = iTRAQ4)
+##' data(msnset)
+##' msnset <- msnset[1:4]
 ##' gb <- factor(rep(1:2, each = 2))
-##' featureCV(m, gb)
+##' featureCV(msnset, gb)
 featureCV <- function(x, groupBy, na.rm = TRUE,
                       norm = c("sum", "max", "none",
                         "center.mean", "center.median",
@@ -148,15 +148,16 @@ updateFeatureNames <- function(object, label, sep = ".") {
 ##' of integers.
 ##' @author Laurent Gatto
 ##' @examples
-##' data(itraqdata)
-##' x <- quantify(itraqdata, reporters = iTRAQ4)
+##' data(msnset)
 ##' n <- 2
-##' x <- topN(x, groupBy = fData(x)$ProteinAccession, n)
-##' m <- nQuants(x, fcol = "ProteinAccession")
-##' y <- combineFeatures(x, groupBy = fData(x)$ProteinAccession, fun = sum)
-##' stopifnot(dim(n) == dim(y))
-##' head(exprs(y))
-##' head(exprs(y) * (n/m))
+##' msnset <- topN(msnset, groupBy = fData(msnset)$ProteinAccession, n)
+##' m <- nQuants(msnset, fcol = "ProteinAccession")
+##' msnset2 <- combineFeatures(msnset,
+##'                            groupBy = fData(msnset)$ProteinAccession,
+##'                            fun = sum)
+##' stopifnot(dim(n) == dim(msnset2))
+##' head(exprs(msnset2))
+##' head(exprs(msnset2) * (n/m))
 nQuants <- function(object, fcol) {
   .count <- function(x) {
     m <- rep(nrow(x), ncol(x))

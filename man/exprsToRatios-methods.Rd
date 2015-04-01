@@ -29,11 +29,10 @@
 }
 
 \examples{
-data(itraqdata)
-mst <- quantify(itraqdata, reporters = iTRAQ4)
-pData(mst)
-head(exprs(mst))
-r <- exprsToRatios(mst)
+data(msnset)
+pData(msnset)
+head(exprs(msnset))
+r <- exprsToRatios(msnset)
 head(exprs(r))
 pData(r)
 }

@@ -119,11 +119,14 @@
       fractions. The method assumes that the fraction are ordered along
       the gradient and is invalid otherwise.
 
-      When a missing value is flanked by two non-missing neighbouring
-      values, it is imputed by the mean of its direct neighbours. In
-      addition, all continuous sets \code{NA} value at the beginning and
-      end of the vectors are set to the lowest observed value in the
-      data or to a user defined value passed as argument \code{k}.
+      Continuous sets \code{NA} value at the beginning and the end of
+      the quantitation vectors are set to the lowest observed value in
+      the data or to a user defined value passed as argument \code{k}.
+      Them, when a missing value is flanked by two non-missing
+      neighbouring values, it is imputed by the mean of its direct
+      neighbours. A stretch of 2 or more missing values will not be
+      imputed. See the example below.
+      
     }
 
   }
@@ -174,6 +177,16 @@ impute(naset, "mixed",
        randna = fData(naset)$randna,
        mar = "knn", mnar = "QRILC")
 
+## neighbour averaging
+
+x <- naset[1:4, 1:6]
+exprs(x)[1, 1] <- NA ## min value
+exprs(x)[2, 3] <- NA ## average
+exprs(x)[3, 1:2] <- NA ## min value and average
+## 4th row: no imputation
+exprs(x)
+
+exprs(impute(x, "nbavg"))
 }
 
 \references{

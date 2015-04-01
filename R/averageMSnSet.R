@@ -46,7 +46,7 @@
 ##' data(tan2009r1)
 ##' data(tan2009r2)
 ##' data(tan2009r3)
-##' avg <-averageMSnSet(list(tan2009r1, tan2009r2, tan2009r3))
+##' avg <- averageMSnSet(list(tan2009r1, tan2009r2, tan2009r3))
 ##' dim(avg)
 ##' head(exprs(avg))
 ##' head(fData(avg)$nNA)
