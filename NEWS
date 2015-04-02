@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.15.15
+--------------------------
+ o using serial parallelisation during quantitation in unit tests
+   [2015-04-02 Thu]
+ 
 CHANGES IN VERSION 1.15.14
 --------------------------
   o new msnset data, used in various examples instead of quantifying
