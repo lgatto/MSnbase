@@ -160,7 +160,10 @@ test_that("Purity correction", {
     file <- dir(system.file(package = "MSnbase", dir = "extdata"),
                 full.name = TRUE, pattern = "mzXML$")
     aa <- readMSData(file,verbose=FALSE)
-    msnset <- quantify(aa, method="trap", reporters = iTRAQ4, verbose = FALSE)
+    bp <- SerialParam()
+    msnset <- quantify(aa, method="trap", reporters = iTRAQ4,
+                       BPPARAM = bp,
+                       verbose = FALSE)
     impurity0 <- diag(4)
     pc <- purityCorrect(msnset, impurity0)
     expect_true(all(exprs(pc) == exprs(msnset)))
@@ -192,7 +195,10 @@ test_that("makeImpuritiesMatrix", {
 })
 
 test_that("Normalisation and transpose", {
-    bb <- quantify(itraqdata, method="trap", reporters=iTRAQ4, verbose=FALSE)
+    bp <- SerialParam()
+    bb <- quantify(itraqdata, method="trap", reporters=iTRAQ4,
+                   BPPARAM = bp,
+                   verbose=FALSE)
     bb1 <- normalise(bb, "sum")
     expect_true(all.equal(rowSums(exprs(bb1), na.rm=TRUE),
                           rep(1,nrow(bb1)), check.attributes=FALSE))
@@ -205,7 +211,9 @@ test_that("Normalisation and transpose", {
 
 
 test_that("Transpose and subset", {
-    aa <- quantify(itraqdata, method="trap", reporters=iTRAQ4, verbose=FALSE)
+    aa <- quantify(itraqdata, method="trap", reporters=iTRAQ4,
+                   BPPARAM = SerialParam(),
+                   verbose=FALSE)
     ## transpose
     ##expect_warning(taa <- t(aa),"Dropping protocolData.") ## replaced by message()
     taa <- t(aa)
@@ -228,8 +236,10 @@ test_that("addIdentificationData", {
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "dummyiTRAQ.mzid")
 
-  aa <- readMSData(quantFile, verbose = FALSE)
-  msnset <- quantify(aa, method = "trap", reporters = iTRAQ4, verbose = FALSE)
+  aa <- readMSData(quantFile, verbose = FALSE)  
+  msnset <- quantify(aa, method = "trap", reporters = iTRAQ4,
+                     BPPARAM = SerialParam(),
+                     verbose = FALSE)
   fd <- fData(addIdentificationData(msnset, identFile, verbose = FALSE))
 
   expect_equal(fd$spectrum, 1:5)
@@ -256,9 +266,12 @@ test_that("idSummary", {
                    full.name = TRUE, pattern = "dummyiTRAQ.mzid")
 
   aa <- readMSData(quantFile, verbose = FALSE)
-  msnset <- quantify(aa, method = "trap", reporters = iTRAQ4, verbose = FALSE)
-  bb <- addIdentificationData(msnset, identFile, verbose = FALSE)
-
+  bp <- SerialParam()
+  msnset <- quantify(aa, method = "trap", reporters = iTRAQ4,
+                     BPPARAM = bp,
+                     verbose = FALSE)
+  bb <- addIdentificationData(msnset, identFile,
+                              verbose = FALSE)
   expect_error(idSummary(aa), "No quantification/identification data found")
   expect_equal(idSummary(bb),
                data.frame(spectrumFile="dummyiTRAQ.mzXML",

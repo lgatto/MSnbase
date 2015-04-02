@@ -8,9 +8,12 @@ test_that("MS2 isobaric quantitation", {
                                           verbose=FALSE)[[1]],
                           removeReporters(itraqdata[[1]], reporters=iTRAQ4)))
     ## quantitation should be 0
-    expect_true(all(quantify(removeReporters(itraqdata[[1]], reporters=iTRAQ4), "max", iTRAQ4)[[1]] == 0))
+    expect_true(all(quantify(removeReporters(itraqdata[[1]], reporters=iTRAQ4),
+                             method = "max", reporters = iTRAQ4)[[1]] == 0))
     ## checking that quantification work for exp of length 1
-    expect_true(class(quantify(itraqdata[1], reporters=iTRAQ4, "max")) == "MSnSet")
+    q1 <- quantify(itraqdata[1], reporters = iTRAQ4, method = "max",
+                   BPPARAM = SerialParam())
+    expect_true(inherits(q1, "MSnSet"))
 })
 
     
