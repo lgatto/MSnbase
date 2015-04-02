@@ -43,7 +43,9 @@ test_that("Testing write.exprs and readMSnSet", {
   data(itraqdata)
   colchars <- c("ProteinAccession", "PeptideSequence", "retention.time", "precursor.mz")
   tf <- tempfile()
-  x <- quantify(itraqdata, reporters = iTRAQ4, method = "max", verbose = FALSE)
+  x <- quantify(itraqdata, reporters = iTRAQ4,
+                BPPARAM = SerialParam(),
+                method = "max", verbose = FALSE)
   write.exprs(x, file = tf)  
   y <- readMSnSet(tf)
   expect_true(all.equal(exprs(x), exprs(y)))
