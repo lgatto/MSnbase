@@ -51,17 +51,19 @@ test_that("topN for matrix and NAs", {
 })
 
 test_that("topN for MSnSet", {
-  xx <- quantify(itraqdata, reporters = iTRAQ4, method = "max", verbose=FALSE)
-  for (.n in c(1:4)) {
-    xx2 <- topN(xx, groupBy = fData(xx)$ProteinAccession, n = .n)
-    tmp <- table(fData(xx)$ProteinAccession)
-    tmp[tmp > .n] <- .n
-    expect_equal(sum(tmp), nrow(xx2))
-    expect_equal(ncol(xx), ncol(xx2))
-  }
-  xx2 <- topN(xx, groupBy = fData(xx)$ProteinAccession, n = 10)
-  xo <- featureNames(xx)
-  expect_equal(exprs(xx)[xo, ], exprs(xx2)[xo, ])
-  expect_equal(fData(xx)[xo, ], fData(xx2)[xo, ])
-  expect_equal(pData(xx)[xo, ], pData(xx2)[xo, ])  
+    xx <- quantify(itraqdata, reporters = iTRAQ4,
+                   method = "max", verbose=FALSE,
+                   BPPARAM = SerialParam())
+    for (.n in c(1:4)) {
+        xx2 <- topN(xx, groupBy = fData(xx)$ProteinAccession, n = .n)
+        tmp <- table(fData(xx)$ProteinAccession)
+        tmp[tmp > .n] <- .n
+        expect_equal(sum(tmp), nrow(xx2))
+        expect_equal(ncol(xx), ncol(xx2))
+    }
+    xx2 <- topN(xx, groupBy = fData(xx)$ProteinAccession, n = 10)
+    xo <- featureNames(xx)
+    expect_equal(exprs(xx)[xo, ], exprs(xx2)[xo, ])
+    expect_equal(fData(xx)[xo, ], fData(xx2)[xo, ])
+    expect_equal(pData(xx)[xo, ], pData(xx2)[xo, ])  
 })
