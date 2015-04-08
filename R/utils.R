@@ -137,55 +137,74 @@ getBins <- function(x) {
 }
 
 makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
-  if (!missing(filename)) {
-    m <- read.csv(filename, row.names = 1)
-    x <- ncol(m)
-    if (ncol(m) != nrow(m))
-      stop(paste0("Problem reading impurity matrix. Not square.\n",
-                  "Please read '?purityCorrect' for details."))
-    ncharge <- x/2
-    a <- (x/2)
-    b <- (x/2) + 1
-    res <- matrix(0, x, x)
-    diag(res) <- 100 - rowSums(m)
-    for (k in 1:ncharge) {
-      diag(res[(1+k):x, 1:(x-k)]) <- m[(1+k):x, (a-k+1)]
-      diag(res[1:(x-k), (1+k):x]) <- m[1:(x-k), (b+k-1)]
-    }
-    ## test <- matrix(0, 6, 6)
-    ## diag(test) <- 100 - rowSums(m)
-    ## diag(test[4:6, 1:3]) <- m[4:6, 1] ## col1: -3
-    ## diag(test[3:6, 1:4]) <- m[3:6, 2] ## col2: -2
-    ## diag(test[2:6, 1:5]) <- m[2:6, 3] ## col3: -1
-    ## diag(test[1:5, 2:6]) <- m[1:5, 4] ## col4: +1
-    ## diag(test[1:4, 3:6]) <- m[1:4, 5] ## col5: +2
-    ## diag(test[1:3, 4:6]) <- m[1:3, 6] ## col6: +3
-    ## test <- test/100
-    M <- res/100
-  } else {
-    if (x==4) {
-      M <- matrix(c(0.929,0.059,0.002,0.000,
-                    0.020,0.923,0.056,0.001,
-                    0.000,0.030,0.924,0.045,
-                    0.000,0.001,0.040,0.923),
-                  nrow=4, byrow = TRUE)
-    } else if (x == 6) {
-      M <- matrix(c(0.939, 0.061, 0.000, 0.000, 0.000, 0.000,
-                    0.005, 0.928, 0.067, 0.000, 0.000, 0.000,
-                    0.000, 0.011, 0.947, 0.042, 0.000, 0.000,
-                    0.000, 0.000, 0.017, 0.942, 0.041, 0.000,
-                    0.000, 0.000, 0.000, 0.016, 0.963, 0.021,
-                    0.000, 0.000, 0.000, 0.002, 0.032, 0.938),
-                  nrow = 6, byrow = TRUE)
+    if (!missing(filename)) {
+        m <- read.csv(filename, row.names = 1)
+        x <- ncol(m)
+        if (ncol(m) != nrow(m))
+            stop(paste0("Problem reading impurity matrix. Not square.\n",
+                        "Please read '?purityCorrect' for details."))
+        ncharge <- x/2
+        a <- (x/2)
+        b <- (x/2) + 1
+        res <- matrix(0, x, x)
+        diag(res) <- 100 - rowSums(m)
+        for (k in 1:ncharge) {
+            diag(res[(1+k):x, 1:(x-k)]) <- m[(1+k):x, (a-k+1)]
+            diag(res[1:(x-k), (1+k):x]) <- m[1:(x-k), (b+k-1)]
+        }
+        ## test <- matrix(0, 6, 6)
+        ## diag(test) <- 100 - rowSums(m)
+        ## diag(test[4:6, 1:3]) <- m[4:6, 1] ## col1: -3
+        ## diag(test[3:6, 1:4]) <- m[3:6, 2] ## col2: -2
+        ## diag(test[2:6, 1:5]) <- m[2:6, 3] ## col3: -1
+        ## diag(test[1:5, 2:6]) <- m[1:5, 4] ## col4: +1
+        ## diag(test[1:4, 3:6]) <- m[1:4, 5] ## col5: +2
+        ## diag(test[1:3, 4:6]) <- m[1:3, 6] ## col6: +3
+        ## test <- test/100
+        M <- res/100
+        rownames(M) <- colnames(M) <-
+            paste("reporter", 1:x, sep=".")        
     } else {
-      M <- diag(x)
+        if (x==4) {
+            M <- matrix(c(0.929,0.059,0.002,0.000,
+                          0.020,0.923,0.056,0.001,
+                          0.000,0.030,0.924,0.045,
+                          0.000,0.001,0.040,0.923),
+                        nrow=4, byrow = TRUE)
+            rownames(M) <- colnames(M) <-
+                reporterNames(iTRAQ4)
+        } else if (x == 6) {
+            M <- matrix(c(0.939, 0.061, 0.000, 0.000, 0.000, 0.000,
+                          0.005, 0.928, 0.067, 0.000, 0.000, 0.000,
+                          0.000, 0.011, 0.947, 0.042, 0.000, 0.000,
+                          0.000, 0.000, 0.017, 0.942, 0.041, 0.000,
+                          0.000, 0.000, 0.000, 0.016, 0.963, 0.021,
+                          0.000, 0.000, 0.000, 0.002, 0.032, 0.938),
+                        nrow = 6, byrow = TRUE)
+            rownames(M) <- colnames(M) <-
+                reporterNames(TMT6)
+        } else if (x == 10) {
+            ## see TMT10.R
+            M <- structure(c(0.9531, 0, 0.002, 0, 0.001, 0, 0, 0, 0, 0, 0,
+                             0.931, 0, 0.009, 0, 0, 0, 0, 0, 0, 0.0469, 0, 0.949, 0, 0.0053, 0, 0,
+                             0, 0, 0, 0, 0.065, 0, 0.942, 0, 0.0073, 0, 0, 0, 0, 0, 0, 0.046, 0,
+                             0.9678, 0, 0.013, 0, 0.001, 0, 0, 0, 0.003, 0.047, 0, 0.9678, 0,
+                             0.012, 0, 0, 0, 0, 0, 0.002, 0.0259, 0, 0.962, 0, 0.029, 0, 0, 0, 0,
+                             0, 0, 0.0249, 0, 0.933, 0, 0.0236, 0, 0, 0, 0, 0, 0, 0.025, 0, 0.941,
+                             0, 0, 0, 0, 0, 0, 0, 0, 0.028, 0, 0.9621),                      
+                           .Dim = c(10L, 10L),
+                           .Dimnames = list(
+                               c("126", "127N", "127C", "128N", "128C",
+                                 "129N", "129C", "130N", "130C", "131"),
+                               c("126", "127N", "127C", "128N", "128C",
+                                 "129N", "129C", "130N", "130C", "131")))
+        } else {
+            M <- diag(x)
+        }
     }
-  }
-  colnames(M) <- paste("reporter", 1:x, sep=".")
-  rownames(M) <- paste("% reporter", 1:x)
-  if (edit)
-    M <- edit(M)
-  return(M)
+    rownames(M) <- paste("% reporter", rownames(M))
+    if (edit) M <- edit(M)
+    return(M)
 }
 
 utils.removePrecMz <- function(spectrum, precMz=NULL,width=2) {

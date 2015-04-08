@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.15.16
+--------------------------
+ o support for TMT10 plex [2015-04-08 Wed]
+ 
 CHANGES IN VERSION 1.15.15
 --------------------------
  o using serial parallelisation during quantitation in unit tests
