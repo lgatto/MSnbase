@@ -123,18 +123,19 @@ setMethod("scale", "MSnSet",
           })
 
 setMethod("purityCorrect",
-          signature=signature("MSnSet","matrix"),
-          function(object,impurities) {
-            if (ncol(impurities)!=nrow(impurities))
-              stop("Impurity matrix must be a square matrix")
-            if (ncol(object)!=ncol(impurities))
-              stop("Impurity matrix should be ",ncol(object)," by ",ncol(object))
+          signature = signature("MSnSet", "matrix"),
+          function(object, impurities) {
+            if (ncol(impurities) != nrow(impurities))
+                stop("Impurity matrix must be a square matrix")
+            if (ncol(object) != ncol(impurities))
+                stop("Impurity matrix should be ",
+                     ncol(object), " by ", ncol(object))
             .purcor <- function(x, .impurities = impurities) {
-              keep <- !is.na(x)
-              if (sum(keep)>1)
-                x[keep] <- solve(.impurities[keep, keep], x[keep])
-              x[x<0] <- NA
-              return(x)
+                keep <- !is.na(x)
+                if (sum(keep) > 1)
+                    x[keep] <- solve(.impurities[keep, keep], x[keep])
+                x[x<0] <- NA
+                return(x)
             }
             corr.exprs <- apply(exprs(object), 1, .purcor)
             exprs(object) <- t(corr.exprs)
@@ -146,8 +147,8 @@ setMethod("purityCorrect",
           })
 
 
-setMethod("dim","MSnSet",function(x) dim(exprs(x)))
-setMethod("qual","MSnSet", function(object) object@qual)
+setMethod("dim", "MSnSet",function(x) dim(exprs(x)))
+setMethod("qual", "MSnSet", function(object) object@qual)
 ## Not sure about these...
 ## setReplaceMethod("featureNames",
 ##                  signature(object="MSnSet",
