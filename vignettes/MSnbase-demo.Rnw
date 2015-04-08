@@ -251,9 +251,9 @@ the expected MZ and a name (and optionally a colour for plotting, see
 section \ref{sec:plotting}). \Rclass{ReporterIons} instances are
 required to quantify reporter peaks in \Rclass{MSnExp}
 experiments. Instances for the most commonly used isobaric tags like
-iTRAQ 4-plex and 8-plex and TMT tags are already defined in
-\Biocpkg{MSnbase}. See \Rfunction{?ReporterIons} for details about how
-to generate new \Rclass{ReporterIons} objects.
+iTRAQ 4-plex and 8-plex and TMT 6- and 10-plex tags are already
+defined in \Biocpkg{MSnbase}. See \Rfunction{?ReporterIons} for
+details about how to generate new \Rclass{ReporterIons} objects.
 
 <<ReporterIons>>=
 iTRAQ4

@@ -1,23 +1,29 @@
 \name{TMT6}
 \alias{TMT6}
 \alias{TMT7}
+\alias{TMT10}
 \docType{data}
 
 \title{ TMT 6-plex set }
 
 \description{
+
   This instance of class \code{"\linkS4class{ReporterIons}"} corresponds
   to the TMT 6-plex set, i.e the 126, 127, 128, 129, 130 and 131
-  isobaric tags. In the TMT7 data set, an unfragmented tag, i.e reporter
-  and attached isobaric tag, is also included at MZ 229.
+  isobaric tags. In the \code{TMT7} data set, an unfragmented tag, i.e
+  reporter and attached isobaric tag, is also included at MZ 229. The
+  \code{TMT10} instance corresponds to the 10-plex version.
+
   These objects are used to plot the reporter ions of interest in an
   MSMS spectra (see \code{"\linkS4class{Spectrum2}"}) as well as for
   quantification (see \code{\link{quantify}}).
+  
 }
 
 \usage{
 TMT6
 TMT7
+TMT10
 }
 
 \references{
@@ -35,6 +41,8 @@ TMT7
 \examples{
 TMT6
 TMT6[1:2]
+
+TMT10
 
 newReporter <- new("ReporterIons",
                    description="an example",
