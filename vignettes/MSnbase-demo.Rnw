@@ -257,6 +257,7 @@ details about how to generate new \Rclass{ReporterIons} objects.
 
 <<ReporterIons>>=
 iTRAQ4
+TMT10
 @
 
 \clearpage
@@ -899,6 +900,24 @@ qnt <- quantify(experiment,
 qnt
 head(exprs(qnt))
 @
+
+Figure \ref{fig:tmt10} illustrated the quantitation of the TMT 10-plex
+isobaric tags using the \Rfunction{quantify} method and the
+\texttt{TMT10} reporter instance. The data on the $x$ axis has been
+quantified using \texttt{method = "max"} and centroided data (as
+generated using ProteoWizard's \texttt{msconvert} with vendor
+libraries' peak picking); on the $y$ axis, the quantitation method was
+\texttt{trapezoidation} and \texttt{strict = TRUE} (that's important
+for TMT 10-plex) and the profile data. We observe a very good
+correlation.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=.6\linewidth]{./tmt10comp.pdf}
+\caption{TMT 10-plex quantitation. }
+\label{fig:tmt10}
+\end{figure}
+
 
 If no peak is detected for a reporter ion peak, the respective
 quantitation value is set to \texttt{NA}. In our case, there
