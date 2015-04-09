@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.15.17
+--------------------------
+ o add TMT10 paragraph and fig to demo vignette [2015-04-09 Thu]
+ 
 CHANGES IN VERSION 1.15.16
 --------------------------
  o support for TMT10 plex [2015-04-08 Wed]
