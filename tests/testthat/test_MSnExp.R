@@ -24,11 +24,13 @@ test_that("readMSData", {
   fData(msx) <- fData(msx)[, 1, drop = FALSE]
   ## the size of the assay data is different on Win i386 arch
   e2 <- new.env(parent = emptyenv())
+  ## copy all object in aa's cache
   for (i in ls(aa@.cache))
       assign(i, get(i, aa@.cache), envir = e2)
+  ## copy msx size object
   assign("size", get("size", msx@.cache), e2)
   lockEnvironment(e2, bindings = TRUE)
-  aa@.cache <- e2
+  aa@.cache <- e2 ## update aa's cache
   expect_true(all.equal(aa, msx))
 })
 
