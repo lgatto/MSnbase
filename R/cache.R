@@ -74,6 +74,5 @@ cacheEnvIsLocked <- function(object)
   environmentIsLocked(object@.cache)
 
 lockCacheEnv <- function(object) {
-  lockEnvironment(object@.cache, bindings = TRUE)  
+  lockEnvironment(object@.cache, bindings = TRUE)
 }
-
