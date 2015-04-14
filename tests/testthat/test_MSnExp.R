@@ -24,7 +24,7 @@ test_that("readMSData", {
   fData(msx) <- fData(msx)[, 1, drop = FALSE]
   ## the size of the assay data is different on Win i386 arch
   e2 <- MSnbase:::setCacheEnv(list(assaydata = aa@assayData,
-                                   hd = fData(aa)),
+                                   hd = fData(msx)),
                               level = 2)
   aa@.cache <- e2
   expect_true(all.equal(aa, msx))
