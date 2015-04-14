@@ -22,6 +22,11 @@ test_that("readMSData", {
   msx@.__classVersion__ <- aa@.__classVersion__
   ## msx has ident data to be remove for comparison
   fData(msx) <- fData(msx)[, 1, drop = FALSE]
+  ## the size of the assay data is different on Win i386 arch
+  e2 <- MSnbase:::setCacheEnv(list(assaydata = aa@assayData,
+                                   hd = fData(aa)),
+                              level = 2)
+  aa@.cache <- e2
   expect_true(all.equal(aa, msx))
 })
 
