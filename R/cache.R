@@ -26,9 +26,9 @@ testCacheArg <- function(cache, maxCache = 2) {
 setCacheEnv <- function(toCache, level = 0, lock = TRUE) {
   ## Set the .cache slot of a pSet object.
   ## Parameters
-  ##  toCache a list with 
+  ##  toCache a list with
   ##     "assaydata": environment - pSet assaydata slot
-  ##     "hd": header dataframe 
+  ##     "hd": header dataframe
   ##  level: numeric - cache level
   ##  lock: logical - lock env and bindings (default is TRUE)
   ## Return:
