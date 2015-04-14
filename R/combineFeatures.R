@@ -49,7 +49,7 @@ combineFeaturesL <- function(object,   ## MSnSet
     ## handling of the redundancy
     if (redundancy.handler == "multiple") { 
         expansion.index <- rep(seq_len(nrow(object)), sapply(groupBy, length))
-        new.exprs <- exprs(object)[expansion.index, ]
+        new.exprs <- exprs(object)[expansion.index, , drop = FALSE]
         rownames(new.exprs) <- NULL
         new.feature.data <- fData(object)[expansion.index, , drop = FALSE]
         rownames(new.feature.data) <- NULL
