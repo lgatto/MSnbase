@@ -26,7 +26,7 @@ test_that("readMSData", {
   e2 <- new.env(parent = emptyenv())
   for (i in ls(aa@.cache))
       assign(i, get(i, aa@.cache), envir = e2)
-  assign("size", get("size", msx@.cache))
+  assign("size", get("size", msx@.cache), e2)
   lockEnvironment(e2, bindings = TRUE)
   aa@.cache <- e2
   expect_true(all.equal(aa, msx))
