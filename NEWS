@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.15.18
+--------------------------
+ o fix failing test_MSnExp::readMSData unit test on Windows i386
+   (@.cache$size being different on that arch) [2015-04-14 Tue]
+ o merge @vladpetyuk PR #50 fix of combine features bug [2015-04-14 Tue]
+
 CHANGES IN VERSION 1.15.17
 --------------------------
  o add TMT10 paragraph and fig to demo vignette [2015-04-09 Thu]
