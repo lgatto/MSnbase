@@ -8,9 +8,8 @@ MSnSet <- function(exprs, fData, pData, ...) {
              featureData = fData,
              phenoData = pData)
   if (validObject(ans))
-    return(ans)  
+      return(ans)
 }
-
 
 normalise_MSnSet <- function(object, method, ...) {
   if (method == "vsn") {
@@ -18,18 +17,18 @@ normalise_MSnSet <- function(object, method, ...) {
   } else if (method == "quantiles") {
     e <- preprocessCore::normalize.quantiles(exprs(object), ...)
   } else if (method == "quantiles.robust") {
-    e <- preprocessCore::normalize.quantiles.robust(exprs(object), ...) 
+    e <- preprocessCore::normalize.quantiles.robust(exprs(object), ...)
   } else if (method == "center.mean") {
     e <- exprs(object)
     center <- colMeans(e, na.rm = TRUE)
-    e <- sweep(e, 2L, center, check.margin = FALSE, ...)    
+    e <- sweep(e, 2L, center, check.margin = FALSE, ...)
   } else if (method == "center.median") {
     e <- exprs(object)
     center <- apply(e, 2L, median, na.rm = TRUE)
-    e <- sweep(e, 2L, center, check.margin = FALSE, ...)       
+    e <- sweep(e, 2L, center, check.margin = FALSE, ...)
   } else {
     switch(method,
-           max = div <- apply(exprs(object), 1L, max, na.rm = TRUE), 
+           max = div <- apply(exprs(object), 1L, max, na.rm = TRUE),
            sum = div <- rowSums(exprs(object), na.rm = TRUE))
     e <- exprs(object)/div
   }
@@ -210,8 +209,10 @@ nQuants <- function(object, fcol) {
 ##' cmn <- commonFeatureNames(list(tan2009r1, tan2009r2, tan2009r3))
 ##' length(cmn)
 commonFeatureNames <- function(x, y) {
-    ## the general case is a list
-    if (!inherits(x, "list")) {
+    if (inherits(x, "MSnSetList"))
+        x <- msnsets(x)
+    if (inherits(x, "MSnSet")) {
+        stopifnot(inherits(y, "MSnSet"))
         nms <- c(MSnbase:::getVariableName(match.call(), "x"),
                  MSnbase:::getVariableName(match.call(), "y"))
         x <- list(x, y)
