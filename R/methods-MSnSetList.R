@@ -1,6 +1,9 @@
 msnsets <- function(object) object@x
+objlog <- function(object) object@log
 
-MSnSetList <- function(x) .MSnSetList(x = x)
+MSnSetList <-
+    function(x, log = list(call = match.call()))
+        .MSnSetList(x = x, log = log)
 
 setMethod("show", "MSnSetList",
           function(object) {
@@ -23,29 +26,67 @@ setMethod("[[", c("MSnSetList", "ANY", "missing"),
             msnsets(x)[[i]]
         })
 
-
 setMethod("split", c("MSnSet", "character"),
-          function(x, f, MARGIN = 1) {
-              if (length(f) > 1)
-                  stop("f must be of length 1.")
-              if (MARGIN > 2 | MARGIN < 1)
-                  stop("MARGIN must be 1 or 2.")
-              if (MARGIN == 1) f <- factor(fData(x)[, f])
-              else f <- factor(pData(x)[, f])
+          function(x, f) {
+              if (length(f) != 1) stop("Character must be of lenght one.")
+              if (f %in% varLabels(featureData(x))) {
+                  f <- fData(x)[, f]
+              } else if (f %in% varLabels(phenoData(x))) {
+                  f <- pData(x)[, f]
+              } else {
+                  stop(f, " not found in any feature/phenodata variables.")
+              }
+              if (!is.factor(f)) f <- factor(f)
               split(x, f)
           })
-
+          
 setMethod("split", c("MSnSet", "factor"),
           function(x, f) {
               if (!length(f) %in% dim(x))
                   stop("length(f) not compatible with dim(x).")
               if (length(f) == nrow(x))
-                  xl <- lapply(split(1:nrow(x), f), function(i) x[i, ])
+                  xl <- lapply(split(featureNames(x), f = f),
+                               function(i) x[i, ])
               else ## length(f) == ncol(x)
-                  xl <- lapply(split(1:ncol(x), f), function(i) x[, i])
-              .MSnSetList(x = xl)
+                  xl <- lapply(split(sampleNames(x), f = f),
+                               function(i) x[, i])
+              MSnSetList(x = xl,
+                         log = list(call = match.call(),
+                             dims = dim(x),
+                             f = f))
           })
 
-## setMethod("unsplit", "MSnSetList",
-##           function(value) {
-##           })
+setMethod("lapply", "MSnSetList",
+          function(X, FUN, ...) {
+              ans <- lapply(msnsets(X), FUN, ...)
+              if (listOf(ans, "MSnSet"))
+                  ans <- MSnSetList(ans)
+              ans
+          })
+
+setMethod("unsplit", c("MSnSetList", "factor"),
+          function(value, f) {
+              len <- length(f)
+              ## along what dimensions should we combine?
+              ## (1) along rows
+              dims1 <- c(ncol(value[[1L]]),
+                         sum(unlist(lapply(value, nrow))))
+              ## (2) along cols
+              dims2 <- c(nrow(value[[1L]]),
+                         sum(unlist(lapply(value, ncol))))
+              if (!len %in% c(dims1, dims2))
+                  stop(paste("length(f) is not compatible",
+                             "with the object to be unsplit."))
+              ans <- Reduce(combine, msnsets(value))
+              if (len %in% dims1) {
+                  xi <- lapply(value, featureNames)
+                  xi <- unsplit(xi, f)
+                  ans <- ans[xi, ]
+              } else {
+                  xi <- lapply(value, sampleNames)
+                  xi <- unsplit(xi, f)
+                  ans <- ans[, xi]
+              }
+              ans
+          })
+
