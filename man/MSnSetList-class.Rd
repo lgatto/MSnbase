@@ -3,12 +3,14 @@
 \docType{class}
 \alias{MSnSetList-class}
 \alias{MSnSetList}
+\alias{msnsets}
 \alias{[,MSnSetList,ANY,ANY,ANY-method}
 \alias{[,MSnSetList,ANY,missing,missing-method}
 \alias{[[,MSnSetList,ANY,ANY-method}
 \alias{[[,MSnSetList,ANY,missing-method}
 \alias{length,MSnSetList-method}
 \alias{show,MSnSetList-method}
+\alias{names,MSnSetList-method}
 \alias{split,MSnSet,character-method}
 \alias{split,MSnSet,factor-method}
 
@@ -45,7 +47,8 @@
 \section{Slots}{
   \describe{
     \item{\code{x}:}{Object of class \code{"list"} containing valid
-      \code{MSnSet} instances. }     
+      \code{MSnSet} instances. Can be extracted with the \code{msnsets}
+      accessor. }     
     \item{\code{.__classVersion__}:}{The version of the instance. For
       development purposes only. }      
   }
@@ -57,10 +60,13 @@
     \item{\code{[}}{Extracts one of more \code{MSnSets} as
       \code{MSnSetList}. }
     \item{\code{length}}{Returns the number of \code{MSnSets}. }
-    \item{show}{ Display the object by printing a short summary. }
+    \item{\code{names}}{Returns the names of \code{MSnSets}, if
+      available. }    
+    \item{\code{show}}{ Display the object by printing a short summary. }
   }
 }
-  
+
+
 
 \author{
   Laurent Gatto <lg390@cam.ac.uk>
@@ -74,6 +80,8 @@ data(tan2009r2)
 msnl <- MSnSetList(list(tan2009r1, tan2009r2))
 ## named
 msnl <- MSnSetList(list(A = tan2009r1, B = tan2009r2))
+names(msnl)
+msnsets(msnl)
 length(msnl)
 msnl[[1]] ## an MSnSet
 msnl[1]   ## an MSnSetList
