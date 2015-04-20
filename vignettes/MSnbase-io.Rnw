@@ -363,7 +363,7 @@ readMSnSet2(f0, e)
 @
 
 The \Robject{phenoData} slot can now be updated accordingly using the
-replacement functions \Rfunction{phenoData<-} or\Rfunction{pData<-}
+replacement functions \Rfunction{phenoData<-} or \Rfunction{pData<-}
 (see \Rfunction{?MSnSet} for details).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
