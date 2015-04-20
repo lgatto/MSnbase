@@ -52,7 +52,7 @@ setValidity("MSnSet", function(object) {
   msg <- validMsg(msg, Biobase::assayDataValidMembers(assayData(object), c("exprs")))
   if ( nrow(qual(object)) != 0 ) {
     nrow.obs <- nrow(qual(object))
-    nrow.exp <- nrow(object)*length(object$reporters)
+    nrow.exp <- nrow(object) * length(object$reporters)
     if (nrow.obs != nrow.exp)
       msg <- validMsg(msg,
                       "number of rows in assayData and qual slots do not match.")
@@ -678,9 +678,6 @@ setMethod("idSummary",
             fd$spectrumFile <- basename(fileNames(object)[fd$file])
             return(utils.idSummary(fd))
           })
-
-
-
 
 ##############################################
 ## This should also be implemented for pSet!
