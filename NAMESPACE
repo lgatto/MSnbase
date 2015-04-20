@@ -76,14 +76,17 @@ export(MSnSet,
        ## comparing MSnSets
        averageMSnSet,
        commonFeatureNames,
-       MSmap)
-
+       MSmap,
+       ## MSnSetList
+       msnsets
+       )
 
 exportClasses(pSet,
               MIAPE,
               MSnExp,
               MSnProcess,
               MSnSet,
+              MSnSetList,
               Spectrum, Spectrum1, Spectrum2,
               ReporterIons,
               FeaturesOfInterest,
