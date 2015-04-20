@@ -8,16 +8,16 @@
         .name[i] <- flist[[i]]@name
         ans[i, 1] <- length(flist[[i]]@common)
         ans[i, 2] <- length(flist[[i]]@unique1)
-        ans[i, 3] <- length(flist[[i]]@unique2) 
+        ans[i, 3] <- length(flist[[i]]@unique2)
     }
     rownames(ans) <- .name
     return(ans)
 }
 
 ## helper function for compfnames to create .FeatComp S4 object
-.compStrings <- function(string1, string2, all = TRUE, name = "") 
+.compStrings <- function(string1, string2, all = TRUE, name = "")
     .FeatComp(name = ifelse(all, "all", name),
-              common = .shared <- intersect(string1, string2), 
+              common = .shared <- intersect(string1, string2),
               unique1 = setdiff(string1, .shared),
               unique2 = setdiff(string2, .shared),
               all = all)
@@ -29,7 +29,7 @@ setGeneric("unique1", function(object, ...) standardGeneric("unique1"))
 setGeneric("unique2", function(object, ...) standardGeneric("unique2"))
 
 ## .FeatComp class
-.FeatComp <- setClass("FeatComp", 
+.FeatComp <- setClass("FeatComp",
                     slots = list(
                         name = "character",
                         common = "character",
@@ -68,7 +68,7 @@ setMethod("show", "FeatComp",
 
 setMethod("compfnames",
           c("MSnSet", "MSnSet"),
-          function(x, y, 
+          function(x, y,
                    fcol1 = "markers", fcol2,
                    simplify = TRUE, verbose = TRUE) {
               if (missing(fcol2)) fcol2 <- fcol1
@@ -93,14 +93,14 @@ setMethod("compfnames",
               ans[[1]] <- .compStrings(featureNames(x), featureNames(y))
               
               ## for marker class
-              if (!is.null(fcol1)) {                  
+              if (!is.null(fcol1)) {
                   for (i in 1:.lenmC) {
                       .fn1mC <- featureNames(x)[fData(x)[,fcol1] == .mC[i]]
                       .fn2mC <- featureNames(y)[fData(y)[,fcol2] == .mC[i]]
                       ans[[i+1]] <- .compStrings(.fn1mC, .fn2mC,
-                                                 all = FALSE, name = .mC[i]) 
+                                                 all = FALSE, name = .mC[i])
                   }
-              }              
+              }
               if (verbose) print(.calcCompNumbers(ans))
               if (simplify & length(ans) == 1)
                   ans <- ans[[1]]
