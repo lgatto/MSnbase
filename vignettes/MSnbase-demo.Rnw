@@ -1783,8 +1783,8 @@ compareMSnSets(dunkley2006, dun2)
 @
 
 See \Rfunction{?MSnSetList} for more details about the class,
-\code{split} and \code{unsplit} and comments about storing multiple
-assays pertaining the same experiment.
+\Rfunction{split} and \Rfunction{unsplit} and comments about storing
+multiple assays pertaining the same experiment.
 
 \subsection{Averaging \Rclass{MSnSet} instances}\label{sec:avg}
 
