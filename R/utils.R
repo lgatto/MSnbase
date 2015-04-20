@@ -787,6 +787,7 @@ utils.removeNoIdAndMultipleAssignments <- function(object) {
         object <- removeMultipleAssignment(object)
     return(object)
 }
+
 ##' Compares equality of all members of a list.
 ##'
 ##' @title Tests equality of list elements class
