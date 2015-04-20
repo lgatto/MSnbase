@@ -1,3 +1,11 @@
+CHANGES IN VERSION 1.17.1
+-------------------------
+ o new commonFeatureNames function [2015-04-14 Tue]
+
+CHANGES IN VERSION 1.17.0
+-------------------------
+ o new devel version for Bioc 3.2
+
 CHANGES IN VERSION 1.15.18
 --------------------------
  o fix failing test_MSnExp::readMSData unit test on Windows i386
