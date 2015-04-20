@@ -1754,6 +1754,38 @@ If runs for the same sample (different fractions for example) need to
 be combines, one needs to (1) differentiate the feature provenance
 with \Rfunction{updateFeatureNames} prior to use \Rfunction{combine}.
 
+\subsection{Splitting and unsplitting \Rclass{MSnSet} instances}\label{sec:split}
+
+A single \Rclass{MSnSet} can also be split along the features/rows or
+samples/columns using the \Rfunction{split} method and a factor
+defining the splitting groups, resulting in an instance of class
+\Rclass{MSnSetList}:
+
+<<split>>=
+data(dunkley2006)
+head(pData(dunkley2006))
+split(dunkley2006, dunkley2006$replicate)
+## or, defining the appropriate annotation variable name
+dun <- split(dunkley2006, "replicate")
+@
+
+Above, we split along the columns/samples, but the function would
+equally work with a factor of length equal to the number of rows of
+the \Rclass{MSnSet} (or a feature variable name) to split along the
+rows/features.
+
+Finally, the effect of \Rfunction{split} can be reverted by
+\Rfunction{unsplit}.
+
+<<unsplit>>=
+dun2 <- unsplit(dun, pData(dunkley2006)$replicate)
+compareMSnSets(dunkley2006, dun2)
+@
+
+See \Rfunction{?MSnSetList} for more details about the class,
+\code{split} and \code{unsplit} and comments about storing multiple
+assays pertaining the same experiment.
+
 \subsection{Averaging \Rclass{MSnSet} instances}\label{sec:avg}
 
 It is sometimes useful to average a set of replicated experiments to
