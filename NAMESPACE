@@ -33,6 +33,7 @@ importClassesFrom(mzID, mzID, mzIDCollection)
 importFrom(digest, digest)
 
 export(MSnSet,
+       compareMSnSets,
        readMzXMLData,
        readMgfData,
        readMSData,
@@ -79,7 +80,7 @@ export(MSnSet,
        MSmap,
        ## MSnSetList
        MSnSetList,
-       msnsets
+       msnsets, objlog
        )
 
 exportClasses(pSet,

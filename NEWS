@@ -1,7 +1,10 @@
 CHANGES IN VERSION 1.17.1
 -------------------------
- o new commonFeatureNames function [2015-04-14 Tue]
-
+ o new MSnSetList class <2015-04-19 Sun>
+ o new commonFeatureNames function <2015-04-14 Tue>
+ o new compareMSnSets function <2015-04-19 Sun>
+ o splitting and unsplitting MSnSets/MSnSetLists <2015-04-19 Sun>
+ 
 CHANGES IN VERSION 1.17.0
 -------------------------
  o new devel version for Bioc 3.2
