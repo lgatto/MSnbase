@@ -19,7 +19,7 @@ test_that("averageMSnSet", {
     expect_true(validObject(e2))
     expect_true(validObject(e3))
 
-    le <- list(e1, e2, e3)
+    le <- MSnSetList(list(e1, e2, e3))
     avg <- averageMSnSet(le)
     expect_equal(dim(avg), c(6, 4))
     expect_equal(sampleNames(e1), sampleNames(avg))
@@ -48,7 +48,6 @@ test_that("averageMSnSet", {
                        row.names = LETTERS[1:4]))
     expect_equal(fData(avg)$nNA, fd)
 
-    
     ## using sd would be
     nadisp <- t(data.frame(a = rep(TRUE, 4),
                            b = c(TRUE, rep(FALSE, 3)),
@@ -62,16 +61,16 @@ test_that("averageMSnSet", {
     rownames(nadisp) <- letters[1:6]
     colnames(nadisp) <- LETTERS[1:4]
     nadisp[1, 1] <- TRUE
-    
-    
+
     expect_equal(is.na(fData(avg)$disp),
-                 nadisp)   
+                 nadisp)
     sampleNames(e3) <- LETTERS[10:13]
-    expect_error(averageMSnSet(list(e1, e3)))
+    expect_error(averageMSnSet(MSnSetList(list(e1, e3))))
 })
 
 test_that("averageMSnSet list of length 1", {
     library("pRolocdata")
     data(dunkley2006)
-    expect_equal(dunkley2006, averageMSnSet(list(dunkley2006)))
+    expect_equal(dunkley2006,
+                 averageMSnSet(MSnSetList(list(dunkley2006))))
 })
