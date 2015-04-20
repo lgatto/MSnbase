@@ -189,10 +189,11 @@ nQuants <- function(object, fcol) {
 ##' objects.
 ##' @param y An instance of class \code{\linkS4class{MSnSet}}. Ignored
 ##' if \code{x} is a list of \code{MSnSet} instances.
-##' @return A list composed of the input \code{MSnSet} containing only
-##' common features in the same order. The names of the output are
-##' either the names of the \code{x} and \code{y} input variables or
-##' the names of \code{x} if a list is provided.
+##' @return An \code{linkS4class{MSnSetList}} composed of the input
+##' \code{MSnSet} containing only common features in the same
+##' order. The names of the output are either the names of the
+##' \code{x} and \code{y} input variables or the names of \code{x} if
+##' a list is provided.
 ##' @author Laurent Gatto
 ##' @examples
 ##' library("pRolocdata")
@@ -213,17 +214,17 @@ commonFeatureNames <- function(x, y) {
         x <- msnsets(x)
     if (inherits(x, "MSnSet")) {
         stopifnot(inherits(y, "MSnSet"))
-        nms <- c(MSnbase:::getVariableName(match.call(), "x"),
-                 MSnbase:::getVariableName(match.call(), "y"))
+        nms <- c(getVariableName(match.call(), "x"),
+                 getVariableName(match.call(), "y"))
         x <- list(x, y)
         names(x) <- nms
     }
-    stopifnot(listOf(x, "MSnSet"))
     nms <- names(x)
     cmn <- Reduce(intersect, lapply(x, featureNames))
     message(paste(length(cmn), "features in common"))
     res <- lapply(x, "[", cmn)
     if (!is.null(nms))
         names(res) <- nms
-    return(res)
+    return(MSnSetList(x = res,
+                      log = list(call = match_call())))
 }
