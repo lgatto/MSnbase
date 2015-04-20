@@ -75,6 +75,7 @@ export(MSnSet,
        npcv,
        ## comparing MSnSets
        averageMSnSet,
+       commonFeatureNames,
        MSmap)
 
 

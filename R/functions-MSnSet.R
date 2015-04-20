@@ -182,3 +182,47 @@ nQuants <- function(object, fcol) {
   return(ans)
 }
 
+##' Subsets \code{MSnSet} instances to their common feature names.
+##'
+##' @title Keep only common feature names
+##' @param x An instance of class \code{\linkS4class{MSnSet}} or a
+##' list of \code{MSnSet} instances of at least 2 \code{MSnSet}
+##' objects.
+##' @param y An instance of class \code{\linkS4class{MSnSet}}. Ignored
+##' if \code{x} is a list of \code{MSnSet} instances.
+##' @return A list composed of the input \code{MSnSet} containing only
+##' common features in the same order. The names of the output are
+##' either the names of the \code{x} and \code{y} input variables or
+##' the names of \code{x} if a list is provided.
+##' @author Laurent Gatto
+##' @examples
+##' library("pRolocdata")
+##' data(tan2009r1)
+##' data(tan2009r2)
+##' cmn <- commonFeatureNames(tan2009r1, tan2009r2)
+##' names(cmn)
+##' ## as a named list
+##' names(commonFeatureNames(list(a = tan2009r1, b = tan2009r2)))
+##' ## without message
+##' suppressMessages(cmn <- commonFeatureNames(tan2009r1, tan2009r2))
+##' ## more than 2 instance
+##' data(tan2009r3)
+##' cmn <- commonFeatureNames(list(tan2009r1, tan2009r2, tan2009r3))
+##' length(cmn)
+commonFeatureNames <- function(x, y) {
+    ## the general case is a list
+    if (!inherits(x, "list")) {
+        nms <- c(MSnbase:::getVariableName(match.call(), "x"),
+                 MSnbase:::getVariableName(match.call(), "y"))
+        x <- list(x, y)
+        names(x) <- nms
+    }
+    stopifnot(listOf(x, "MSnSet"))
+    nms <- names(x)
+    cmn <- Reduce(intersect, lapply(x, featureNames))
+    message(paste(length(cmn), "features in common"))
+    res <- lapply(x, "[", cmn)
+    if (!is.null(nms))
+        names(res) <- nms
+    return(res)
+}
