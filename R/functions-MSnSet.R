@@ -226,5 +226,5 @@ commonFeatureNames <- function(x, y) {
     if (!is.null(nms))
         names(res) <- nms
     return(MSnSetList(x = res,
-                      log = list(call = match_call())))
+                      log = list(call = match.call())))
 }
