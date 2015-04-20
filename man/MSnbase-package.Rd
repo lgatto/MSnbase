@@ -22,10 +22,10 @@
   information). These should however not be of direct utility to users.
 
   If you have questions, want to rebort a bug or share suggestions,
-  please contact fill out an issue at
+  please file an issue at
   \url{https://github.com/lgatto/MSnbase/issues}, contact me directly or
-  send an email to the Bioconductor mailing list
-  \url{https://stat.ethz.ch/mailman/listinfo/bioconductor}.
+  ask a question on the Bioconductor support forum
+  \url{https://support.bioconductor.org/}.
   
 }
 
