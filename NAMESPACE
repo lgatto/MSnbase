@@ -194,7 +194,9 @@ exportMethods(assayData,
               names,
               ## MSmap
               mzRes, plot3D, msMap,
-              fileName, t
+              fileName, t,
+              ## MSnSetList
+              split
               )
 
 ## methods NOT exported
