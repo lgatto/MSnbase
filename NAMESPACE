@@ -175,7 +175,7 @@ exportMethods(assayData,
               exprsToRatios,
               impute,
               topN,
-              filterNA,
+              filterNA, filterZero,
               chromatogram,
               xic,
               ## Features of interest
