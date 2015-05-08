@@ -258,7 +258,7 @@
     }
     \item{filterZero}{signature(object = "MSnSet", pNA = "numeric",
       pattern = "character", droplevels = "logical")}{ As
-      \code{filterNA}, but of zeros.
+      \code{filterNA}, but for zeros.
     }    
     \item{log}{signature(object = "MSnSet", base = "numeric")}{ Log
       transforms \code{exprs(object)} using
