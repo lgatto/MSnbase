@@ -351,7 +351,7 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
                                              halfWindowSize = halfWindowSize)
 
   ## include only local maxima which are above the noise
-  isAboveNoise <- object@intensity > (SNR * noise[, 2L])
+  isAboveNoise <- object@intensity > (SNR * noise)
 
   peakIdx <- which(isAboveNoise & isLocalMaxima)
 
