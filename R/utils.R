@@ -787,6 +787,7 @@ utils.removeNoIdAndMultipleAssignments <- function(object) {
         object <- removeMultipleAssignment(object)
     return(object)
 }
+
 ##' Compares equality of all members of a list.
 ##'
 ##' @title Tests equality of list elements class
@@ -834,4 +835,25 @@ listOf <- function(x, class, valid = TRUE) {
 npcv <- function(x, na.rm = TRUE) {
     mdx <- mad(x, na.rm = na.rm)
     mdx/abs(mean(x, na.rm = na.rm))
+}
+
+##' Compares two \code{\linkS4class{MSnSet}} instances. The
+##' \code{qual} and \code{processingData} slots are generally omitted.
+##'
+##' @title Compare two MSnSets
+##' @param x First MSnSet
+##' @param y Second MSnSet
+##' @param qual Should the \code{qual} slots be compared? Default is
+##' \code{FALSE}.
+##' @param proc Should the \code{processingData} slots be compared?
+##' Default is \code{FALSE}.
+##' @return A \code{logical}
+##' @author Laurent Gatto
+compareMSnSets <- function(x, y, qual = FALSE, proc = FALSE) {
+    if (!proc)  ## do not compare @processingData
+        x@processingData <-
+            y@processingData <- new("MSnProcess")
+    if (!qual)  ## do not compare @qual
+        x@qual <- y@qual
+    all.equal(x, y)
 }

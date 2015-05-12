@@ -33,6 +33,7 @@ importClassesFrom(mzID, mzID, mzIDCollection)
 importFrom(digest, digest)
 
 export(MSnSet,
+       compareMSnSets,
        readMzXMLData,
        readMgfData,
        readMSData,
@@ -75,14 +76,19 @@ export(MSnSet,
        npcv,
        ## comparing MSnSets
        averageMSnSet,
-       MSmap)
-
+       commonFeatureNames,
+       MSmap,
+       ## MSnSetList
+       MSnSetList,
+       msnsets, objlog
+       )
 
 exportClasses(pSet,
               MIAPE,
               MSnExp,
               MSnProcess,
               MSnSet,
+              MSnSetList,
               Spectrum, Spectrum1, Spectrum2,
               ReporterIons,
               FeaturesOfInterest,
@@ -169,7 +175,7 @@ exportMethods(assayData,
               exprsToRatios,
               impute,
               topN,
-              filterNA,
+              filterNA, filterZero,
               chromatogram,
               xic,
               ## Features of interest
@@ -188,7 +194,9 @@ exportMethods(assayData,
               names,
               ## MSmap
               mzRes, plot3D, msMap,
-              fileName, t
+              fileName, t,
+              ## MSnSetList
+              split
               )
 
 ## methods NOT exported

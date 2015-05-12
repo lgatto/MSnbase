@@ -46,14 +46,14 @@
 ##' data(tan2009r1)
 ##' data(tan2009r2)
 ##' data(tan2009r3)
-##' avg <- averageMSnSet(list(tan2009r1, tan2009r2, tan2009r3))
+##' x <- MSnSetList(list(tan2009r1, tan2009r2, tan2009r3))
+##' avg <- averageMSnSet(x)
 ##' dim(avg)
 ##' head(exprs(avg))
 ##' head(fData(avg)$nNA)
 ##' head(fData(avg)$disp)
 ##' ## using the standard deviation as measure of dispersion
-##' avg2 <-averageMSnSet(list(tan2009r1, tan2009r2, tan2009r3),
-##'                      disp = sd)
+##' avg2 <-averageMSnSet(x, disp = sd)
 ##' head(fData(avg2)$disp)
 ##' ## keep only complete observations, i.e proteins 
 ##' ## that had 0 missing values for all samples
@@ -68,8 +68,10 @@
 averageMSnSet <- function(x,
                           avg = function(x) mean(x, na.rm = TRUE),
                           disp = npcv) {
-    if (!listOf(x, "MSnSet"))
-        stop("Input list 'x' must be composed of valid MSnSets only")
+    if (!inherits(x, "MSnSetList"))
+        stop("'x' must be an 'MSnSetList'")
+
+    x <- msnsets(x)
 
     l <- length(x)
     if (l < 2) return(x[[1]])    
@@ -115,5 +117,3 @@ averageMSnSet <- function(x,
     ans <- logging(ans, paste("Average of", l))
     if (validObject(ans)) ans
 }
-
-

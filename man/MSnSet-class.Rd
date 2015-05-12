@@ -40,6 +40,9 @@
 \alias{filterNA,MSnSet-method}
 \alias{filterNA,matrix-method}
 \alias{filterNA}
+\alias{filterZero,MSnSet-method}
+\alias{filterZero,matrix-method}
+\alias{filterZero}
 \alias{log,MSnSet-method}
 \alias{image,MSnSet-method}
 \alias{MAplot,MSnSet-method}
@@ -253,6 +256,10 @@
       See also the \code{\link{is.na.MSnSet}} and \code{\link{plotNA}}
       methods for missing data exploration.
     }
+    \item{filterZero}{signature(object = "MSnSet", pNA = "numeric",
+      pattern = "character", droplevels = "logical")}{ As
+      \code{filterNA}, but for zeros.
+    }    
     \item{log}{signature(object = "MSnSet", base = "numeric")}{ Log
       transforms \code{exprs(object)} using
       \code{base::log}. \code{base} (defaults is \code{e='exp(1)'}) must

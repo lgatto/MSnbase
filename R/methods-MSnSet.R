@@ -52,7 +52,7 @@ setValidity("MSnSet", function(object) {
   msg <- validMsg(msg, Biobase::assayDataValidMembers(assayData(object), c("exprs")))
   if ( nrow(qual(object)) != 0 ) {
     nrow.obs <- nrow(qual(object))
-    nrow.exp <- nrow(object)*length(object$reporters)
+    nrow.exp <- nrow(object) * length(object$reporters)
     if (nrow.obs != nrow.exp)
       msg <- validMsg(msg,
                       "number of rows in assayData and qual slots do not match.")
@@ -544,6 +544,14 @@ setMethod("filterNA", signature(object = "matrix"),
             return(ans)
           })
 
+setMethod("filterZero", "matrix",
+          function(object, ...) {
+              object[object == 0] <- NA
+              object <- filterNA(object, ...)
+              object[is.na(object)] <- 0
+              object
+          })
+
 
 setMethod("filterNA", signature(object = "MSnSet"),
           function(object, pNA = 0, pattern, droplevels = TRUE) {
@@ -573,6 +581,24 @@ setMethod("filterNA", signature(object = "MSnSet"),
             if (validObject(ans))
               return(ans)
           })
+
+setMethod("filterZero", signature = "MSnSet",
+          function(object, ...) {
+              exprs(object)[exprs(object) == 0] <- NA
+              object <- filterNA(object, ...)
+              ## updating processing log
+              px <- object@processingData@processing
+              lx <- length(px)
+              ## if last one is 'Dropped ...', then update previous
+              i <- ifelse(grep("Dropped featureData's levels", px[lx]),
+                          lx - 1,
+                          lx)
+              px[i] <- sub("NAs", "zeros", px[i])
+              exprs(object)[is.na(object)] <- 0
+              object@processingData@processing <- px
+              if (validObject(object))
+                  return(object)
+              })
 
 is.na.MSnSet <- function(x) is.na(exprs(x))
 
@@ -678,9 +704,6 @@ setMethod("idSummary",
             fd$spectrumFile <- basename(fileNames(object)[fd$file])
             return(utils.idSummary(fd))
           })
-
-
-
 
 ##############################################
 ## This should also be implemented for pSet!

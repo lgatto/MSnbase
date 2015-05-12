@@ -338,3 +338,23 @@ setClass("MSnSet",
                  new("Versioned",
                      versions = c(FeaturesOfInterest = "0.1.0"))))
 
+.MSnSetList <-
+    setClass("MSnSetList",
+             slots = c(x = "list",
+                       log = "list"),
+             contains = "Versioned",
+             prototype = prototype(
+                 new("Versioned",
+                     versions = c(MSnSetList = "0.1.0"))),
+             validity = function(object) {
+                 msg <- validMsg(NULL, NULL)
+                 if (!listOf(object@x, "MSnSet"))
+                     msg <- validMsg(msg, "Not all items are MSnSets.")
+                 nvals <- sapply(object@x, validObject)
+                 if (!all(nvals))
+                     msg <- validMsg(msg,
+                                     paste(sum(!nvals),
+                                           "MSnSets are not valid."))
+                 if (is.null(msg)) TRUE
+                 else msg
+             })

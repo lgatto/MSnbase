@@ -279,3 +279,28 @@ test_that("idSummary", {
                           stringsAsFactors=FALSE))
 })
 
+test_that("keeping common features", {
+              library("pRolocdata")
+              data(tan2009r1)
+              data(tan2009r2)
+              data(tan2009r3)
+              res0 <- commonFeatureNames(tan2009r1, tan2009r1)
+              ## @qual and @processingData@processing will be different
+              expect_equal(res0[[1]], res0[[2]])
+              res01 <- res0[[1]]
+              res01@qual <- tan2009r1@qual
+              res01 <- MSnbase:::nologging(res01)
+              expect_equal(res01, tan2009r1)
+              res1 <- commonFeatureNames(tan2009r1, tan2009r2)
+              res2 <- commonFeatureNames(list(tan2009r1, tan2009r2))
+              res3 <- commonFeatureNames(list(tan2009r1 = tan2009r1,
+                                              tan2009r2 = tan2009r2))
+              ## the only expected difference are
+              ## names and .@processingData@processing
+              res1 <- lapply(res1, MSnbase:::nologging)
+              res2 <- lapply(res2, MSnbase:::nologging)
+              expect_equal(msnsets(res1), msnsets(res2),
+                           check.attributes = FALSE)
+              expect_null(names(res2))
+              expect_equal(names(res1), names(res3))
+})
