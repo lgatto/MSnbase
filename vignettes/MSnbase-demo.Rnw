@@ -943,7 +943,7 @@ The infrastructure around the \Rclass{MSnSet} class allows flexible
 filtering using the \Rfunction{[} sub-setting operator. Below, we
 mimic the behaviour of \Rfunction{filterNA(, pNA = 0)} by calculating
 the row indices that should be removed, i.e. those that have at least
-on \Robject{NA} value and explicitly remove these row.  This method
+one \Robject{NA} value and explicitly remove these rows.  This method
 allows one to devise and easily apply any filtering strategy.
 
 <<removeNa, echo=TRUE, eval=FALSE>>=
