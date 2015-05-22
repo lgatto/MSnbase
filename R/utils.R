@@ -183,6 +183,12 @@ makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
                         nrow = 6, byrow = TRUE)
             rownames(M) <- colnames(M) <-
                 reporterNames(TMT6)
+        } else if (x == 8) {
+            f <- dir(system.file("extdata", package = "MSnbase"),
+                     pattern = "iTRAQ8plexPurityCorrection",
+                     full.names = TRUE)
+            M <- makeImpuritiesMatrix(filename = f, edit = FALSE)
+            rownames(M) <- colnames(M) <- c(113:119, 121)
         } else if (x == 10) {
             ## see TMT10.R
             M <- structure(c(0.9531, 0, 0.002, 0, 0.001, 0, 0, 0, 0, 0, 0,
