@@ -96,8 +96,38 @@
       0.000 \tab 0.000 \tab 0.000 \tab 0.002 \tab 0.032 \tab 0.938 \cr
     }
 
+    For iTRAQ 8-plex, given the following correction factors (to make
+    such a matrix square, if suffices to add -4, -3, +3 and +4 columns
+    filled with zeros):
 
-    For a TMT 10-plex impurity matrix
+    \tabular{lllll}{
+      TAG \tab -2 \tab -1 \tab +1 \tab +2 \cr
+      113 \tab	0 \tab	2.5 \tab 3 \tab	0.1 \cr
+      114 \tab	0 \tab	1 \tab 5.9 \tab	0.2 \cr
+      115 \tab	0 \tab	2 \tab 5.6 \tab	0.1 \cr
+      116 \tab	0 \tab	3 \tab 4.5 \tab	0.1 \cr
+      117 \tab	0.1 \tab 4 \tab	 3.5 \tab 0.1 \cr
+      118 \tab	0.1 \tab 2 \tab	3 \tab 0.1 \cr
+      119 \tab	0.1 \tab 2 \tab	4 \tab 0.1 \cr
+      121 \tab	0.1 \tab 2 \tab	3 \tab 0.1 \cr
+    }
+
+    we calculate the impurity correction matrix shown below
+
+    \tabular{lrrrrrrrr}{
+                      \tab 113   \tab 114   \tab 115   \tab 116   \tab 117   \tab 118   \tab 119   \tab 121 \cr
+      \% reporter 113 \tab 0.944 \tab 0.030 \tab 0.001 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \cr
+      \% reporter 114 \tab 0.010 \tab 0.929 \tab 0.059 \tab 0.002 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \cr
+      \% reporter 115 \tab 0.000 \tab 0.020 \tab 0.923 \tab 0.056 \tab 0.001 \tab 0.000 \tab 0.000 \tab 0.000 \cr
+      \% reporter 116 \tab 0.000 \tab 0.000 \tab 0.030 \tab 0.924 \tab 0.045 \tab 0.001 \tab 0.000 \tab 0.000 \cr
+      \% reporter 117 \tab 0.000 \tab 0.000 \tab 0.001 \tab 0.040 \tab 0.923 \tab 0.035 \tab 0.001 \tab 0.000 \cr
+      \% reporter 118 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.001 \tab 0.020 \tab 0.948 \tab 0.030 \tab 0.001 \cr
+      \% reporter 119 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.001 \tab 0.020 \tab 0.938 \tab 0.040 \cr
+      \% reporter 121 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.001 \tab 0.020 \tab 0.948 \cr
+    }
+
+
+    Finally, for a TMT 10-plex impurity matrix
 
     \tabular{llllllllll}{
       .   \tab -2 \tab -1 \tab 1 \tab 2 \cr
@@ -152,6 +182,9 @@ msnset.crct <- purityCorrect(msnset, impurities)
 head(exprs(msnset))
 head(exprs(msnset.crct))
 processingData(msnset.crct)
+
+## default impurity matrix for iTRAQ 8-plex
+makeImpuritiesMatrix(8, edit = FALSE)
 
 ## default impurity matrix for TMT 10-plex
 makeImpuritiesMatrix(10, edit = FALSE)
