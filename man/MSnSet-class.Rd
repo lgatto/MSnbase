@@ -45,7 +45,7 @@
 \alias{filterZero}
 \alias{log,MSnSet-method}
 \alias{image,MSnSet-method}
-\alias{image,matrix-method}
+\alias{image2}
 \alias{MAplot,MSnSet-method}
 \alias{addIdentificationData,MSnSet,character-method}
 \alias{addIdentificationData,MSnSet,mzIDClasses-method}
@@ -304,8 +304,7 @@
       expansion. \code{...} is passed to \code{image}.
 
       This method has also been implemented for \code{matrix} objects
-      and overshadows the original implementation. Use
-      \code{graphics::image} to use the original function.
+      and in the \code{image2} function.
     }
       
     \item{plotNA}{\code{signature(object = "MSnSet", pNA =

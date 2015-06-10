@@ -81,8 +81,8 @@ export(MSnSet,
        MSmap,
        ## MSnSetList
        MSnSetList,
-       msnsets, objlog
-       )
+       msnsets, objlog,
+       image2)
 
 exportClasses(pSet,
               MIAPE,
