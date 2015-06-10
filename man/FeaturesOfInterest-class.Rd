@@ -25,12 +25,15 @@
 \alias{FoICollection,list-method}
 \alias{FoICollection,missing-method}
 \alias{FoICollection}
+\alias{as.matrix.FoICollection}
+\alias{coerce,FoICollection,matrix-method}
 \alias{addFeaturesOfInterest}
 \alias{addFeaturesOfInterest-methods}
 \alias{addFeaturesOfInterest,FeaturesOfInterest,FoICollection-method}
 \alias{description,FoICollection-method}
 \alias{foi,FoICollection-method}
 \alias{length,FoICollection-method}
+\alias{lengths,FoICollection-method}
 \alias{rmFeaturesOfInterest}
 \alias{rmFeaturesOfInterest-methods}
 \alias{rmFeaturesOfInterest,FoICollection,numeric-method}
@@ -162,6 +165,10 @@
 
     \item{length}{\code{signature(x = "FoICollection")}: returns the
       number of \code{FeaturesOfInterest} in the collection. }
+
+    \item{lengths}{\code{signature(x = "FoICollection")}: returns the
+      number of features of interest in each \code{FeaturesOfInterest}
+      in the collection \code{x}. }
 
     \item{addFeaturesOfInterest}{\code{signature(x =
 	"FeaturesOfInterest", y = "FoICollection")}: add the

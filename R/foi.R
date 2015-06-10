@@ -76,6 +76,14 @@ setMethod("FoICollection", "list",
 setMethod("length", "FoICollection",
          function(x) length(x@foic))
 
+setMethod("lengths", "FoICollection",
+          function(x, use.names = TRUE) {
+              res <- sapply(x@foic, length)
+              if (!use.names)
+                  names(res) <- NULL
+              res
+          })
+
 setMethod("show", "FoICollection",
           function(object)
           cat("A collection of ", length(object),
@@ -160,3 +168,19 @@ setMethod("fnamesIn", c("FeaturesOfInterest", "matrix"),
               if (count) return(sum(ans))
               else return(any(ans))
           })
+
+
+as.matrix.FoICollection <- function(x, ...) as(x, "matrix")
+
+setAs("FoICollection", "matrix",
+      function(from) {
+          nms <- sapply(foi(from), description)
+          names(nms) <- NULL          
+          fns <- unique(unlist(sapply(foi(from), foi)))
+          res <- matrix(0, ncol = length(nms), nrow = length(fns))
+          rownames(res) <- fns
+          colnames(res) <- nms
+          for (k in foi(from))
+              res[foi(k), description(k)] <- 1
+          return(res)
+      })
