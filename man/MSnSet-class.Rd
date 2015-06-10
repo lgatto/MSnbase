@@ -45,6 +45,7 @@
 \alias{filterZero}
 \alias{log,MSnSet-method}
 \alias{image,MSnSet-method}
+\alias{image,matrix-method}
 \alias{MAplot,MSnSet-method}
 \alias{addIdentificationData,MSnSet,character-method}
 \alias{addIdentificationData,MSnSet,mzIDClasses-method}
@@ -293,6 +294,7 @@
       standard deviations versus row means. See
       \code{\link{meanSdPlot}} (\code{vsn} package) for more details.
     }
+    
     \item{image}{\code{signature(x = "MSnSet", yticks = "numeric",
 	x.cex.axis = "numeric", y.cex.axis = "numeric", ...)}}{ Produces
       an image of expression values in the \code{x}
@@ -300,8 +302,14 @@
       y axis. \code{x.cex.axis} and \code{y.cex.axis} are passed to
       calls to \code{axis} and defined the respective character
       expansion. \code{...} is passed to \code{image}.
-      \item{plotNA}{\code{signature(object = "MSnSet", pNA =
-	  "numeric")}}{
+
+      This method has also been implemented for \code{matrix} objects
+      and overshadows the original implementation. Use
+      \code{graphics::image} to use the original function.
+    }
+      
+    \item{plotNA}{\code{signature(object = "MSnSet", pNA =
+	"numeric")}}{
 	Plots missing data for an \code{MSnSet} instance. \code{pNA} is a
 	\code{numeric} of length 1 that specifies the percentage
 	of accepted missing data values per features. This value will be
@@ -309,7 +317,7 @@
 	percentage of NA values in the full data set and the number of
 	proteins retained. Default is 1/2. See also
 	\code{\link{plotNA}}.}
-    }
+    
     \item{MAplot}{\code{signature(object = "MSnSet", log.it = "logical",
     	base = "numeric", ...)}}{
       Produces MA plots (Ratio as a function
