@@ -130,6 +130,7 @@ setMethod("purityCorrect",
             if (ncol(object) != ncol(impurities))
                 stop("Impurity matrix should be ",
                      ncol(object), " by ", ncol(object))
+            impurities <- t(impurities)
             .purcor <- function(x, .impurities = impurities) {
                 keep <- !is.na(x)
                 if (sum(keep) > 1)
@@ -484,20 +485,49 @@ setMethod("image", "MSnSet",
                    yticks = 10,
                    x.cex.axis = .75,
                    y.cex.axis = .75,
+                   xlab = "Samples",
+                   ylab = "Features",
                    ...) {
-            lab <- sampleNames(x)
-            x <- exprs(x)
-            nc <- ncol(x)
-            nr <- nrow(x)
-            image(t(x), xaxt = "n", yaxt = "n", ...)
-            axis(1, seq(0,1, 1/(nc - 1)),
-                 labels = lab,
-                 cex.axis = x.cex.axis)
-            yticks <- seq(0, 1, 1/(yticks-1)) * nr
-            axis(2, seq(0,1, 1/(length(yticks) - 1)),
-                 labels = round(yticks, 0),
-                 cex.axis = y.cex.axis)
+              lab <- sampleNames(x)
+              x <- exprs(x)
+              nc <- ncol(x)
+              nr <- nrow(x)
+              graphics::image(t(x),
+                              xlab = xlab, ylab = ylab,
+                              xaxt = "n", yaxt = "n", ...)
+              axis(1, seq(0,1, 1/(nc - 1)),
+                   labels = lab,
+                   cex.axis = x.cex.axis)
+              yticks <- seq(0, 1, 1/(yticks-1)) * nr
+              axis(2, seq(0,1, 1/(length(yticks) - 1)),
+                   labels = round(yticks, 0),
+                   cex.axis = y.cex.axis)
           })
+
+
+image2 <- function(x,
+                   yticks = 10,
+                   x.cex.axis = .75,
+                   y.cex.axis = .75,
+                   xlab = "Columns",
+                   ylab = "Rows",
+                   ...) {
+    nc <- ncol(x)
+    nr <- nrow(x)
+    lab <- colnames(x)
+    if (is.null(lab))
+        lab <- 1:nc                      
+    graphics::image(t(x),
+                    xlab = xlab, ylab = ylab,
+                    xaxt = "n", yaxt = "n", ...)
+    axis(1, seq(0,1, 1/(nc - 1)),
+         labels = lab,
+         cex.axis = x.cex.axis)
+    yticks <- seq(0, 1, 1/(yticks-1)) * nr
+    axis(2, seq(0,1, 1/(length(yticks) - 1)),
+         labels = round(yticks, 0),
+         cex.axis = y.cex.axis)
+}
 
 setMethod("plotNA", signature(object = "MSnSet"),
           function(object, pNA = .5) {
