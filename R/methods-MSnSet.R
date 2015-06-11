@@ -130,6 +130,7 @@ setMethod("purityCorrect",
             if (ncol(object) != ncol(impurities))
                 stop("Impurity matrix should be ",
                      ncol(object), " by ", ncol(object))
+            impurities <- t(impurities)
             .purcor <- function(x, .impurities = impurities) {
                 keep <- !is.na(x)
                 if (sum(keep) > 1)

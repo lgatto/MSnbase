@@ -5,6 +5,8 @@ CHANGES IN VERSION 1.17.4
    for MSnSets <2015-06-10 Wed>
  o image,MSnSet labels x and y axis as Samples and Features
    <2015-06-10 Wed>
+ o fixed bug in purityCorrect, reported by Dario Strbenac
+   <2015-06-11 Thu>
  
 CHANGES IN VERSION 1.17.3
 -------------------------
