@@ -156,19 +156,6 @@ test_that("Combine MSnSet features (L)", {
                  colMeans(exprs(ee)[sapply(L, function(l) any(grepl("C", l))), ]))
 })
 
-test_that("Purity correction", {
-    file <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                full.name = TRUE, pattern = "mzXML$")
-    aa <- readMSData(file,verbose=FALSE)
-    bp <- SerialParam()
-    msnset <- quantify(aa, method="trap", reporters = iTRAQ4,
-                       BPPARAM = bp,
-                       verbose = FALSE)
-    impurity0 <- diag(4)
-    pc <- purityCorrect(msnset, impurity0)
-    expect_true(all(exprs(pc) == exprs(msnset)))
-})
-
 test_that("makeImpuritiesMatrix", {
     i4 <- dir(system.file("extdata", package = "MSnbase"),
               pattern = "iTRAQ4plexPurityCorrection",
