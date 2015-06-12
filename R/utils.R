@@ -499,23 +499,22 @@ cramer4 <- function(object, imp) {
     return(object)
 }
 
-cramer6 <- function(x, imp) {
-  if (missing(imp)) {
-    imp <- c(0, 0, 0, 6.1, 0, 0,
-             0, 0, 0.5, 6.7, 0, 0,
-             0, 0, 1.1, 4.2, 0, 0,
-             0, 0, 1.7, 4.1, 0, 0,
-             0, 0, 1.6, 2.1, 0, 0,
-             0, 0.2, 3.2, 2.8, 0, 0)
-    names(imp) <- letters[1:length(imp)]
-    impM <- matrix(imp, nrow = 6, byrow = TRUE)
-    colnames(impM) <- c("-3", "-2", "-1", "+1", "+2", "+3")
-    rownames(impM) <- 126:131
-    imp <- as.numeric(imp)
-  }
-  return(FALSE)
-}
-
+## cramer6 <- function(x, imp) {
+##   if (missing(imp)) {
+##     imp <- c(0, 0, 0, 6.1, 0, 0,
+##              0, 0, 0.5, 6.7, 0, 0,
+##              0, 0, 1.1, 4.2, 0, 0,
+##              0, 0, 1.7, 4.1, 0, 0,
+##              0, 0, 1.6, 2.1, 0, 0,
+##              0, 0.2, 3.2, 2.8, 0, 0)
+##     names(imp) <- letters[1:length(imp)]
+##     impM <- matrix(imp, nrow = 6, byrow = TRUE)
+##     colnames(impM) <- c("-3", "-2", "-1", "+1", "+2", "+3")
+##     rownames(impM) <- 126:131
+##     imp <- as.numeric(imp)
+##   }
+##   return(FALSE)
+## }
 
 getColsFromPattern <- function(x, pattern) {
   if (missing(pattern))
