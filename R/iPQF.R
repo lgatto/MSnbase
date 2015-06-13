@@ -12,11 +12,13 @@
 ## Output: feat.trend = matrix with estimated protein ratios (rows= proteins, cols= labels)
 
 iPQF.method  <- function(pos, mat, features) {
-    feat.trend <- matrix(data = NA, nrow = length(pos), ncol = dim(mat)[2], byrow = FALSE)    ## calculated protein ratios based on feature ranking
+    ## calculated protein ratios based on feature ranking
+    feat.trend <- matrix(data = NA, nrow = length(pos),
+                         ncol = dim(mat)[2], byrow = FALSE)
     rownames(feat.trend) <- names(pos)
-    weight.list <- vector("list", length(pos))     ## peptide weights
-    avrank.list <- vector("list", length(pos))      ## peptide feature average ranks
-    rankmat.list <- vector("list", length(pos))      ## feature rank matrix
+    weight.list <- vector("list", length(pos))   ## peptide weights
+    avrank.list <- vector("list", length(pos))   ## peptide feature average ranks
+    rankmat.list <- vector("list", length(pos))  ## feature rank matrix
 
     for(i in 1:length(pos)) {
         Mat <- mat[pos[[i]], ]
