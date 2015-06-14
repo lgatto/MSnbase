@@ -249,7 +249,7 @@ iPQF <- function(object, groupBy,
     if (length(rm.rows) > 0) 
         stop("Remove NA/Zero Intensities in",
              object, "before peptide summarization. ",
-             length(rm.row), "spectra should be removed.")
+             length(rm.rows), "spectra should be removed.")
 
     ## Check mzTab standard names are provdied?
     mzTab.names <- c("sequence", "accession",
