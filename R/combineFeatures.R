@@ -85,7 +85,7 @@ combineFeaturesV <- function(object,   ## MSnSet
     }
     n1 <- nrow(object)
     ## !! order of features in matRes is defined by the groupBy factor !!
-    if (fun == "iPQF") { 
+    if (is.character(fun) && fun == "iPQF") { 
         args <- list(...)
         ratio.calc <- args$ratio.calc
         low.support.filter <- args$low.support.filter

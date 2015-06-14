@@ -25,7 +25,7 @@
 \usage{
 
 combineFeatures(object, groupBy, fun = c("mean", "median",
-"weighted.mean", "sum", "medpolish"), redundancy.handler = c("unique",
+"weighted.mean", "sum", "medpolish", "iPQF"), redundancy.handler = c("unique",
 "multiple"), cv = TRUE, cv.norm = "sum", verbose = TRUE, ...)
 
 }

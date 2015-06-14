@@ -240,7 +240,8 @@ iPQF <- function(object, groupBy,
                  ratio.calc = "none",
                  method.combine = TRUE) {
     
-    if (class(object) != "MSnSet") stop(object, "is required to be of class MSnSet")
+    if (inherits(object,"MSnSet"))
+        stop("'object' is required to be of class MSnSet")
     ## Check NA/Zero values still in data set?
     rm.pos <- apply(exprs(object), 2,
                     function(x) which(is.na(x) | x==0))
