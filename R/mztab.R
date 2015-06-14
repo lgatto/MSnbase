@@ -1,41 +1,5 @@
-.MzTabList <- setClass("MzTabList",
-                       slots = c(
-                           Metadata = "list",
-                           Proteins = "data.frame",
-                           Peptides = "data.frame",
-                           Spectra = "data.frame",
-                           SmallMolecules = "data.frame",
-                           Comments = "character"))
-
-setMethod("show", "MzTabList",
-          function(object) {
-              cat("Object of class \"", class(object),"\".\n", sep = "")
-              descr <- paste0(" Description: ", object@Metadata$description, "\n")
-              descr <- paste0(" ", strwrap(descr), "\n")
-              cat(descr, sep = "")              
-              cat(" Mode:", object@Metadata$`mzTab-mode`, "\n")
-              cat(" Type:", object@Metadata$`mzTab-type`, "\n")
-              cat(" Available data: ")
-              avbl <- sapply(slotNames(mz)[2:5], function(x) nrow(slot(mz, x)) > 0)
-              cat(paste(names(avbl)[which(avbl)], collape = ""), "\n")
-          })
-
-## Accessors
-setMethod("metadata", "MzTabList",
-          function(x, ...) x@Metadata)
-
-setMethod("proteins", "MzTabList",
-          function(object, ...) object@Proteins)
-
-setMethod("peptides", "MzTabList",
-          function(object, ...) object@Peptides)
-
-setMethod("spectra", "MzTabList",
-          function(object, ...) object@Spectra)
-
-smallMolecules <- function(x) x@SmallMolecules
-
-## Notes
+## What about a validity method for MzTabList objects?
+##
 ## Mandatory header fields
 ## mzTab-version
 ## mzTab-type: Identification Quantitation
@@ -53,16 +17,45 @@ smallMolecules <- function(x) x@SmallMolecules
 ## modifications were searched, specific CV parameters need to be used
 ## (see Section 5.8).
 
-## Niels:
-##
-## - The file you sent me is not a valif mzTab file
+setMethod("show", "MzTabList",
+          function(object) {
+              cat("Object of class \"", class(object),"\".\n", sep = "")
+              descr <- paste0(" Description: ", object@Metadata$description, "\n")
+              descr <- paste0(" ", strwrap(descr), "\n")
+              cat(descr, sep = "")              
+              cat(" Mode:", object@Metadata$`mzTab-mode`, "\n")
+              cat(" Type:", object@Metadata$`mzTab-type`, "\n")
+              cat(" Available data: ")
+              avbl <- sapply(slotNames(mz)[2:5], function(x) nrow(slot(mz, x)) > 0)
+              cat(paste(names(avbl)[which(avbl)], collape = ""), "\n")
+          })
 
-## library(data.table)
-## library(stringi)
+## Accessors
+## Generic from S4Vectors
+setMethod("metadata", "MzTabList",
+          function(x, ...) x@Metadata)
+
+## Generic from ProtGenerics
+setMethod("proteins", "MzTabList",
+          function(object, ...) object@Proteins)
+
+## Generic from ProtGenerics
+setMethod("peptides", "MzTabList",
+          function(object, ...) object@Peptides)
+
+## Generic from ProtGenerics
+setMethod("spectra", "MzTabList",
+          function(object, ...) object@Spectra)
+
+smallMolecules <- function(x) x@SmallMolecules
+
+comments <- function(x) x@Comments
+
+## Constructor
+##  Based on @richierocks contribution
+##  https://github.com/lgatto/MSnbase/issues/41
 
 MzTabList <- function(file) {
-    ## Like readLines, but way faster
-    ## lines <- stri_read_lines(file)
     lines <- readLines(file)
     lines <- lines[nzchar(lines)]
 
@@ -162,8 +155,9 @@ reshapeMetadata <- function(mtd) {
 
 
 ## testing
-allmzt <- dir("~/dev/00_github/MSnbase/sandbox/mzTabExamples/", full.names=TRUE)
-sapply(allmzt, MzTabList)
+## allmzt <- dir("~/dev/00_github/MSnbase/sandbox/mzTabExamples/",
+##               full.names=TRUE)
+## sapply(allmzt, MzTabList)
 
 ## coerce MzTabList as MSnSetList|MSnset
 

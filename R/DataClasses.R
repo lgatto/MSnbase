@@ -301,7 +301,6 @@ setClass("ReporterIons",
 #####################################################################
 ## The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
 ## See online documentation for more information.
-
 setClass("MSnSet",
          representation = representation(
              experimentData="MIAPE",
@@ -315,28 +314,6 @@ setClass("MSnSet",
                      MSnSet="0.4.0")),
              experimentData=new("MIAPE"),
              annotation="No feature annotation."))
-
-## Features of interest infrastructure
-
-.FeaturesOfInterest <-
-    setClass("FeaturesOfInterest",
-             slots = c(
-                 description = "character",
-                 fnames = "character",
-                 date = "character",
-                 objpar = "list"),
-             contains = "Versioned",
-             prototype = prototype(
-                 new("Versioned",
-                     versions = c(FeaturesOfInterest = "0.1.0"))))
-
-.FoICollection <-
-    setClass("FoICollection",
-             slots = c(foic = "list"),
-             contains = "Versioned",
-             prototype = prototype(
-                 new("Versioned",
-                     versions = c(FeaturesOfInterest = "0.1.0"))))
 
 .MSnSetList <-
     setClass("MSnSetList",
@@ -358,3 +335,36 @@ setClass("MSnSet",
                  if (is.null(msg)) TRUE
                  else msg
              })
+
+#####################################################################
+## Features of interest infrastructure
+.FeaturesOfInterest <-
+    setClass("FeaturesOfInterest",
+             slots = c(
+                 description = "character",
+                 fnames = "character",
+                 date = "character",
+                 objpar = "list"),
+             contains = "Versioned",
+             prototype = prototype(
+                 new("Versioned",
+                     versions = c(FeaturesOfInterest = "0.1.0"))))
+
+.FoICollection <-
+    setClass("FoICollection",
+             slots = c(foic = "list"),
+             contains = "Versioned",
+             prototype = prototype(
+                 new("Versioned",
+                     versions = c(FeaturesOfInterest = "0.1.0"))))
+
+#####################################################################
+## Support for the PSI mzTab format
+.MzTabList <- setClass("MzTabList",
+                       slots = c(
+                           Metadata = "list",
+                           Proteins = "data.frame",
+                           Peptides = "data.frame",
+                           Spectra = "data.frame",
+                           SmallMolecules = "data.frame",
+                           Comments = "character"))
