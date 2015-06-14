@@ -28,16 +28,6 @@
 ##
 ## - Out of curiosity, why Spearman correlation?
 
-## NOTES TO SELF
-##
-## - Different studies demonstrated that the coefficient of vari- ance
-##   is dependent on the absolute signal intensity, suffering from
-##   higher variation in low-intensity than in high-intensity data
-##   (Hundertmark et al., 2009; Karp et al., 2010; Mahoney et al.,
-##   2011; Hultin-Rosenberg et al., 2013).
-##   Make MAplot more prominent, document in vignette
-
-
 ##' Feature-based weighting of peptides for protein ratio estimation
 ##' (called by iPQF main function))
 ##'
