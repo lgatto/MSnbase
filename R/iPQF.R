@@ -1,5 +1,13 @@
 ## NOTES
-## - defined default values
+## - defined default values for iPQF
+n
+## - I have left the iPQF integration within combineFeaturesV as is
+##   was. If anything should be changed in the call stack, it would be
+##   to make iPQF return an MSnSet (the end of combineFeaturesV, after
+##   the if/else, would be copied into iPQF). iPQF could then be
+##   called through combineFeatures or directly as iPQF. Different
+##   ways of doing the same thing might not be ideal, but on the other
+##   hand, iPQF would have more visibility. 
 
 #######      FUNCTION:   iPQF.method    (called within iPQF main function)
 
@@ -322,163 +330,4 @@ iPQF <- function(object, groupBy,
         rownames(quant.result) <- names(pos.all)
     } 
     return(quant.result)
-}
-
-
-
-######################## combineFeatures ######################
-
-#### MSnBase Functions  
-##  !! within 'combineFeatures':  'combineFeaturesV'  modified    !!
-
-combineFeatures <- function(object,
-                            groupBy,
-                            fun = c("mean",
-                                "median",
-                                "weighted.mean",
-                                "sum",
-                                "medpolish",
-                                "iPQF"),  #### NEW iPQF
-                            redundancy.handler = c("unique", "multiple"),
-                            cv = TRUE,
-                            cv.norm = "sum",
-                            verbose = TRUE,
-                            ... ## further arguments to fun
-                            ) {
-    if (is.character(fun))
-        fun <- match.arg(fun)
-    if (is.list(groupBy)) {
-        if (length(groupBy) != nrow(object))
-            stop("'length(groupBy)' must be equal to 'nrow(object)': ",
-                 length(groupBy), " != ", nrow(object), ".")
-        if (!is.null(names(groupBy))) {
-            if (!all(names(groupBy) %in% featureNames(object)))
-                stop("'groupBy' names and 'featureNames(object)' don't match.")
-            if (!all(names(groupBy) == featureNames(object))) {
-                warning("Re-ordering groupBy to match feature names.")
-                groupBy <- groupBy[featureNames(object)]
-            }
-        }
-        redundancy.handler <- match.arg(redundancy.handler)
-        result <- combineFeaturesL(object, groupBy, fun,
-                                   redundancy.handler,
-                                   cv, cv.norm, verbose, ...)
-    } else { ## factor, numeric or character
-        result <- combineFeaturesV(object, groupBy, fun,
-                                   cv, cv.norm, verbose, ...)
-    }
-    if (validObject(result))
-        return(result)
-}
-
-
-
-combineFeaturesV <- function(object, ## MSnSet
-                             groupBy, ## factor, character or numeric
-                             fun,
-                             cv = TRUE,
-                             cv.norm = "sum",
-                             verbose = TRUE,
-                             ... ## additional arguments to fun
-                             ) {
-
-    groupBy <- as.character(groupBy)
-
-    if (cv) {
-        cv.mat <- featureCV(object, groupBy = groupBy,
-                            norm = cv.norm)
-    }
-    n1 <- nrow(object)
-
-
-    ## ######### NEW: THIS PART IS  MODIFIED - iPQF option INCLUDED !
-    ## order of features in matRes is defined by the groupBy factor #additional arguments for iPQF: low.support.filter, ratio.calc, method.combine
-    if (fun == "iPQF") {
-        args <- list(...)
-        ratio.calc <- args$ratio.calc
-        low.support.filter <- args$low.support.filter
-        method.combine <- args$method.combine
-        matRes <- iPQF(object, groupBy, low.support.filter, ratio.calc, method.combine )      
-    }
-    else {
-        matRes <- as.matrix(combineMatrixFeatures(exprs(object),
-                                                  groupBy, fun,
-                                                  verbose = verbose,
-                                                  ...))
-    }
-
-
-    fdata <- fData(object)[!duplicated(groupBy), , drop = FALSE] ## takes the first occurences
-    fdata <- fdata[order(unique(groupBy)), , drop = FALSE] ## ordering fdata according to groupBy factor
-    rownames(matRes) <- rownames(fdata)
-    colnames(matRes) <- sampleNames(object)
-    exprs(object) <- matRes
-    if (cv)
-        fdata <- cbind(fdata, cv.mat)
-    fData(object) <- fdata
-    if (is.character(fun)) {
-        msg <- paste("Combined ", n1, " features into ",
-                     nrow(object) ," using ", fun, sep = "")
-    } else {
-        msg <- paste("Combined ", n1, " features into ",
-                     nrow(object), " using user-defined function",
-                     sep = "")
-    }
-    object@qual <- object@qual[0,]
-    object@processingData@merged <- TRUE
-    if (verbose) {
-        message(msg)
-        ## message("Dropping spectrum-level 'qual' slot.")
-    }
-    object@processingData@processing <- c(object@processingData@processing,
-                                          paste(msg,": ",
-                                                date(),
-                                                sep=""))
-    ## update feature names according to the groupBy argument
-    ## new in version 1.5.9
-    fn <- sort(unique(groupBy))
-    featureNames(object) <- fn
-    if (validObject(object))
-        return(object)
-}
-
-combineMatrixFeatures <- function (matr, groupBy, fun, verbose = TRUE, ...) {
-    if (is.character(fun)) {
-        if (fun == "medpolish") {
-            summarisedFeatures <- by(matr, groupBy, function(x) {
-                medpol <- medpolish(x, trace.iter = verbose, 
-                  ...)
-                return(medpol$overall + medpol$col)
-            })
-        }
-        else if (fun == "weighted.mean") {
-            args <- list(...)
-            if (is.null(args$w)) 
-                stop("Expecting a weight parameter 'w' for 'weigthed mean'.")
-            w <- args$w
-            if (is.null(colnames(matr))) 
-                colnames(matr) <- paste0("X", 1:ncol(matr))
-            summarisedFeatures <- apply(matr, 2, function(x) {
-                .data <- data.frame(x = x, groupBy, w = w)
-                ddply(.data, "groupBy", summarise, wmn = weighted.mean(x, 
-                  w))
-            })
-            summarisedFeatures <- do.call(cbind, as.list(summarisedFeatures))
-            rn <- summarisedFeatures[, 1]
-            summarisedFeatures <- summarisedFeatures[, grep("wmn", 
-                colnames(summarisedFeatures))]
-            colnames(summarisedFeatures) <- colnames(matr)
-            rownames(summarisedFeatures) <- rn
-            return(summarisedFeatures)
-        }
-        else {
-            summarisedFeatures <- by(matr, groupBy, function(x) apply(x, 
-                2, eval(parse(text = fun)), ...))
-        }
-    }
-    else {
-        summarisedFeatures <- by(matr, groupBy, function(x) apply(x, 
-            2, fun, ...))
-    }
-    return(do.call(rbind, as.list(summarisedFeatures)))
 }
