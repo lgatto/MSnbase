@@ -1,27 +1,29 @@
 ## NOTES
-## - defined default values for iPQF
-n
+##
+## - defined default values for iPQF - only keep if iPQF is to be
+##   called directly.
+##
 ## - I have left the iPQF integration within combineFeaturesV as is
 ##   was. If anything should be changed in the call stack, it would be
 ##   to make iPQF return an MSnSet (the end of combineFeaturesV, after
 ##   the if/else, would be copied into iPQF). iPQF could then be
 ##   called through combineFeatures or directly as iPQF. Different
 ##   ways of doing the same thing might not be ideal, but on the other
-##   hand, iPQF would have more visibility. 
+##   hand, iPQF would have more visibility.
 
-#######      FUNCTION:   iPQF.method    (called within iPQF main function)
-
-## Feature-based weighting of peptides for protein ratio estimation
-
-## Input: pos = list of proteins with corresponding peptide spectra position assignment (in object)
-##        mat= ratio matrix /intensity matrix
-##        features = data.frame of peptide features
-
-## Output: feat.trend = matrix with estimated protein ratios (rows= proteins, cols= labels)
-
+##' Feature-based weighting of peptides for protein ratio estimation
+##' (called by iPQF main function))
+##'
+##' @param pos list of proteins with corresponding peptide spectra
+##' position assignment (in object)
+##' @param ma ratio matrix/intensity matrix
+##' @param features data.frame of peptide features
+##' @return A matrix with estimated protein ratios (rows are proteins,
+##' columns are samples).
+##' @author Martina Fisher
 iPQF.method  <- function(pos, mat, features) {
     ## calculated protein ratios based on feature ranking
-    feat.trend <- matrix(data = NA, nrow = length(pos),
+    feat.trend <- matrix(data = NA_real_, nrow = length(pos),
                          ncol = dim(mat)[2], byrow = FALSE)
     rownames(feat.trend) <- names(pos)
     weight.list <- vector("list", length(pos))   ## peptide weights
@@ -42,28 +44,32 @@ iPQF.method  <- function(pos, mat, features) {
         int.rank <- rank(-features$mean.ionInt[pos[[i]]])
 
         ## ranking matrix
-        rank.mat <- cbind(ru.rank, charge.rank , ll.rank, sc.rank , mo.rank , mass.rank, int.rank )
+        rank.mat <- cbind(ru.rank, charge.rank,
+                          ll.rank, sc.rank,
+                          mo.rank, mass.rank,
+                          int.rank)
         rankmat.list[[i]] <- rank.mat
 
         ## feature weighting  (based on correlation study in manuscript)
-        rank.mat2 <- (t(apply(rank.mat, 1, function(x){(c(7,6,4,3,2,1,5)^2)* x}) ))     
+        rank.mat2 <- (t(apply(rank.mat, 1,
+                              function(x) (c(7,6,4,3,2,1,5)^2)* x)))
 
         ## normalizing: divide by peptide number (rank zw 0-1)
-        rmat.n <- apply(rank.mat2, 2, function(x){x/length(which(!is.na(x)))})
+        rmat.n <- apply(rank.mat2, 2, function(x) x/length(which(!is.na(x))))
 
         ## sum ranks for each peptide:
-        pep.sumrank <- apply(rmat.n, 1, function(x){sum(x,na.rm = TRUE)})
+        pep.sumrank <- rowSums(rmat.n, na.rm = TRUE)
 
         ## divide by number of features: "average rank"
-        av.rank <- pep.sumrank/sum(c(1:7)^2)     ## worst av.rank =1
-        av.rank <- 1- av.rank  ## reverse: best= 1 "weight"=high =reliable peptide
+        av.rank <- pep.sumrank/sum(c(1:7)^2)     ## worst av.rank = 1
+        av.rank <- 1 - av.rank  ## reverse: best = 1 "weight" = high = reliable peptide
         av.rank <- av.rank^2
         avrank.list[[i]] <- av.rank
 
         ## Approach: Feature-Weighting 
         weight <- av.rank  
-        weight <- weight /sum(weight)
-        trend <- apply(Mat, 2, function(x){weighted.mean(x, w=weight)})
+        weight <- weight / sum(weight)
+        trend <- apply(Mat, 2, function(x) weighted.mean(x, w=weight))
 
         feat.trend[i,] <- trend           
         weight.list[[i]] <- weight
@@ -96,11 +102,14 @@ ratio.mat <- function(mat, method = c("sum", colnames(mat))) { ## FIXME
 
 ## Function: 'Build uniques.all'
 ## list elements= proteins
-## entries per list.element: discrete numbers presenting spectra assigned to the specific protein with same numbers for identical sequences
+## entries per list.element: discrete numbers presenting spectra
+## assigned to the specific protein with same numbers for identical
+## sequences
 uniques.list <- function(pos, sequence) {
     pep.all <- lapply(pos, function(i) sequence[i])
     un.pep.all <- lapply(pos, function(i) unique(sequence[i]))
-    uniques.all <-lapply(1:length(pos), function(x) match(pep.all[[x]],un.pep.all[[x]]))
+    uniques.all <-lapply(1:length(pos),
+                         function(x) match(pep.all[[x]],un.pep.all[[x]]))
     names(uniques.all) <- names(pos)
     return(uniques.all)
 }
@@ -151,8 +160,8 @@ redundant.dist <- function(pos, uniques.all, mat) {
 
 uni.measured.dist <- function(pos, uniques.all, mat) {
     uni.tab <- lapply(uniques.all, table)
-    uni.name <- lapply(uni.tab, function(x) which(x==1))        ## which protein has single measured peptides?
-    uni.prot <- which(lapply(uni.name, length)>0)               ## index protein profiles with single measured Peptides
+    uni.name <- lapply(uni.tab, function(x) which(x==1)) ## which protein has single measured peptides?
+    uni.prot <- which(lapply(uni.name, length) > 0)      ## index protein profiles with single measured Peptides
 
     num.unis <- unlist(lapply(uni.name, length))  ## number single uniques for each protein
     table(num.unis)                               
@@ -166,7 +175,7 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
         Mat <- mat[pos.u[[i]], ]
         uni.vec <- vector("numeric", length(pos.u[[i]]))
         for (j in 1:length(uni.vec)){
-            if (length(uni.vec)==1) {
+            if (length(uni.vec) == 1) {
                 Mat <- mat[pos[[i]], ]
                 k <- match(pos.u[[i]], pos[[i]]) ## for singles: mean distance to all other peptides of the protein
                 uni.vec[j] <- mean(apply(Mat[-k,], 1,
@@ -175,15 +184,12 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
             if (length(uni.vec) == 2)
                 uni.vec[j] <-  sqrt(sum((Mat[-j,]-Mat[j,])^2))
             if (length(uni.vec) > 2)
-                uni.vec[j] <- mean(apply(Mat[-j,], 1, function(x){sqrt(sum((x-Mat[j,])^2))}))
+                uni.vec[j] <- mean(apply(Mat[-j,], 1, function(x) sqrt(sum((x-Mat[j,])^2))))
         }
         pos.ud[[i]] <- uni.vec
     }
     return(list(pos.u, pos.ud))
 }
-
-
-
 
 ## combineFeatures(object, groupBy = fData(object)$accession,
 ##                 redundancy.handler, fun = "iPQF",
@@ -217,23 +223,27 @@ iPQF <- function(object, groupBy,
                  ratio.calc = "none",
                  method.combine = TRUE) {
     
-    if(class(object)!= "MSnSet") stop(object, "is required to be of class MSnSet")
-
-                                        # Check NA/Zero values still in data set?
-    rm.pos <- apply(exprs(object), 2, function(x) { which(is.na(x) | x==0)  })    
+    if (class(object) != "MSnSet") stop(object, "is required to be of class MSnSet")
+    ## Check NA/Zero values still in data set?
+    rm.pos <- apply(exprs(object), 2,
+                    function(x) which(is.na(x) | x==0))
     rm.rows <- unique(unlist(rm.pos))
-    if(length(rm.rows)>0) { 
-        stop("Remove NA/Zero Intensities in", object, "before peptide summarization. ", length(rm.row), "spectra should be removed.")
-    }
+    if (length(rm.rows) > 0) 
+        stop("Remove NA/Zero Intensities in",
+             object, "before peptide summarization. ",
+             length(rm.row), "spectra should be removed.")
 
-                                        # Check mzTab standard names are provdied?
-    mzTab.names <- c("sequence", "accession", "charge", "modifications","mass_to_charge", "search_engine_score") 
-    wrong.colnames <- which( mzTab.names %in% colnames(fData(object)) ==FALSE)
-    if (length(wrong.colnames)>0) {
-        stop(" In FeatureData the following column names, according to the mzTab standard, are required: ","\n", paste(mzTab.names[wrong.colnames], collapse= ", ")) }
+    ## Check mzTab standard names are provdied?
+    mzTab.names <- c("sequence", "accession",
+                     "charge", "modifications",
+                     "mass_to_charge",
+                     "search_engine_score") 
+    wrong.colnames <- which( mzTab.names %in% colnames(fData(object)) == FALSE)
+    if (length(wrong.colnames) > 0) {
+        stop(" In FeatureData the following column names, according to the mzTab standard, are required: ",
+             "\n", paste(mzTab.names[wrong.colnames], collapse = ", ")) }
 
-
-                                        # Extract individual features
+    ## Extract individual features
     sequence <- as.character(fData(object)$sequence)
     accession <- as.character(fData(object)$accession)
 
@@ -248,77 +258,78 @@ iPQF <- function(object, groupBy,
     }
 
     mod.stat.org <- as.character(fData(object)$modifications)
-    mod.stat <- ifelse(mod.stat.org=="null" | mod.stat.org=="0" , 0, 1)
+    mod.stat <- ifelse(mod.stat.org == "null" | mod.stat.org == "0" , 0, 1) ## FIXME
 
-    ion.mat <- exprs(object)                    # absolute ion intensity
-    mean.ionInt <- apply(ion.mat, 1, mean)     # mean absolute ion intensity
+    ## Should the above not be NULL and 0? These are probably badly
+    ## imported values from mzTab.
 
+    ion.mat <- exprs(object)               ## absolute ion intensity
+    mean.ionInt <- apply(ion.mat, 1, mean) ## mean absolute ion intensity
 
     ## Calculate Ratio Matrix
     if (ratio.calc != "none") {
-        mat <- ratio.mat(exprs(object), method=ratio.calc)    # relative intensities
+        mat <- ratio.mat(exprs(object), method=ratio.calc)  ## relative intensities
     } 
-    else mat <- ion.mat                                     # absolute intensities
-
+    else mat <- ion.mat  ## absolute intensities
 
     ## Protein-Peptide Spectra position assignment
-                                        # Build list 'pos.pep': Protein ID (accession name)- Peptide spectra assignment (position in object)
+    ## Build list 'pos.pep': Protein ID (accession name)- Peptide spectra assignment (position in object)
 
-                                        # group.by character vector!   groupBy = feature pep reihenfolge
+    ## group.by character vector! groupBy = feature pep reihenfolge
     uni.ids <- levels(as.factor(groupBy))
     pos.all <- sapply(uni.ids, function(y){which(groupBy==y) })
     names(pos.all) <- uni.ids
 
-                                        # remove low-supported proteins
-    singles <- which(unlist(lapply(pos.all, length))< 3)   # proteins supported by only 1-2 peptide spectra
-    pos.pep <- pos.all[-singles]                           # proteins supported by >2 peptide spectra   
-           
+    ## remove low-supported proteins
+    singles <- which(unlist(lapply(pos.all, length)) < 3) ## proteins supported by only 1-2 peptide spectra
+    pos.pep <- pos.all[-singles]                         ## proteins supported by >2 peptide spectra   
 
-                                        # Redundantly measured peptide spectrum status in a protein profile (uniques.all):
+    ## Redundantly measured peptide spectrum status in a protein profile (uniques.all):
     uniques.all <- uniques.list(pos.pep, sequence)
 
-                                        # Redundant peptides
+    ## Redundant peptides
     red.result <- redundant.dist(pos.pep, uniques.all, mat) 
     pos.r <- red.result[[1]]
     pos.rd <- red.result[[2]]
-                                        #Single measured peptides
+    ## Single measured peptides
     uni.result <- uni.measured.dist(pos.pep, uniques.all, mat) 
     pos.u <- uni.result[[1]]
     pos.ud <- uni.result[[2]]
 
-                                        #Combined distance vector:
+    ## Combined distance vector:
     ru.dist <- rep(NA, nrow(object))
     ru.dist[unlist(pos.r)] <- unlist(pos.rd)   
     ru.dist[unlist(pos.u)] <- unlist(pos.ud)
 
 
-                                        # Data.frame of selected peptide features:
-    features <- data.frame(charge, seq.l, prec.mass, score, mod.stat, mean.ionInt, ru.dist)
+    ## Data.frame of selected peptide features:
+    features <- data.frame(charge, seq.l, prec.mass,
+                           score, mod.stat, mean.ionInt, ru.dist)
 
 
     ## Protein Quantification - Peptide Summarization 
-
     iPQF.result  <- iPQF.method(pos.pep, mat, features)
 
     if (!low.support.filter) {
         single.prots <- unique(accession[unlist(pos.all[singles])])
-        cat(" The following ", length(single.prots), "proteins are only supported by 1 or 2 peptides, hence, \n protein quantification is not reliable and can only be calculated by the 'mean' in these cases,\n corresponding protein accessions are: ","\n", single.prots )
+        message(" The following ", length(single.prots), "proteins are only supported by 1 or 2 peptides, hence,\n",
+                "protein quantification is not reliable and can only be calculated by the 'mean' in these cases,\n",
+                "corresponding protein accessions are: ","\n", single.prots )
+        
         single.quant <- lapply(pos.all[singles],
                                function(i) {
-                                   if (length(i)==2) apply(mat[i,],2,mean) else mat[i,]
+                                   if (length(i) == 2) apply(mat[i,],2,mean) else mat[i,]
                                })
-    single.quant <- do.call(rbind, single.quant)
-    quant.result <- rbind(iPQF.result, single.quant)
-}
-    else quant.result <- iPQF.result
+        single.quant <- do.call(rbind, single.quant)
+        quant.result <- rbind(iPQF.result, single.quant)
+    } else quant.result <- iPQF.result
 
     quant.result <- quant.result[match(uni.ids, rownames(quant.result)), ]
-
     ## Method combination: iPQF with MedianPolish
     if (method.combine) {
         MP.quant<- lapply(1:length(pos.all),
-                          function(i){
-                              medpol <- medpolish(mat[pos.all[[i]],], trace.iter = FALSE);
+                          function(i) {
+                              medpol <- medpolish(mat[pos.all[[i]],], trace.iter = FALSE)
                               if (length(pos.all[[i]]) == 1)
                                   result <- medpol$overall + medpol$row
                               else
@@ -326,7 +337,8 @@ iPQF <- function(object, groupBy,
                               return(result)
                           } )
         MP.quant<- do.call(rbind, MP.quant)
-        quant.result <- t(sapply(1:length(pos.all), function(k) {apply(rbind(MP.quant[k,], quant.result[k,]), 2, mean) }))
+        quant.result <- t(sapply(1:length(pos.all),
+                                 function(k) apply(rbind(MP.quant[k,], quant.result[k,]), 2, mean)))
         rownames(quant.result) <- names(pos.all)
     } 
     return(quant.result)
