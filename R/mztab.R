@@ -1,4 +1,4 @@
-## What about a validity method for MzTabList objects?
+## What about a validity method for MzTab objects?
 ##
 ## Mandatory header fields
 ## mzTab-version
@@ -17,7 +17,7 @@
 ## modifications were searched, specific CV parameters need to be used
 ## (see Section 5.8).
 
-setMethod("show", "MzTabList",
+setMethod("show", "MzTab",
           function(object) {
               cat("Object of class \"", class(object),"\".\n", sep = "")
               descr <- paste0(" Description: ", object@Metadata$description, "\n")
@@ -26,25 +26,26 @@ setMethod("show", "MzTabList",
               cat(" Mode:", object@Metadata$`mzTab-mode`, "\n")
               cat(" Type:", object@Metadata$`mzTab-type`, "\n")
               cat(" Available data: ")
-              avbl <- sapply(slotNames(mz)[2:5], function(x) nrow(slot(mz, x)) > 0)
+              avbl <- sapply(slotNames(object)[2:5],
+                             function(x) nrow(slot(object, x)) > 0)
               cat(paste(names(avbl)[which(avbl)], collape = ""), "\n")
           })
 
 ## Accessors
 ## Generic from S4Vectors
-setMethod("metadata", "MzTabList",
+setMethod("metadata", "MzTab",
           function(x, ...) x@Metadata)
 
 ## Generic from ProtGenerics
-setMethod("proteins", "MzTabList",
+setMethod("proteins", "MzTab",
           function(object, ...) object@Proteins)
 
 ## Generic from ProtGenerics
-setMethod("peptides", "MzTabList",
+setMethod("peptides", "MzTab",
           function(object, ...) object@Peptides)
 
 ## Generic from ProtGenerics
-setMethod("spectra", "MzTabList",
+setMethod("spectra", "MzTab",
           function(object, ...) object@Spectra)
 
 smallMolecules <- function(x) x@SmallMolecules
@@ -54,8 +55,7 @@ comments <- function(x) x@Comments
 ## Constructor
 ##  Based on @richierocks contribution
 ##  https://github.com/lgatto/MSnbase/issues/41
-
-MzTabList <- function(file) {
+MzTab <- function(file) {
     lines <- readLines(file)
     lines <- lines[nzchar(lines)]
 
@@ -87,12 +87,11 @@ MzTabList <- function(file) {
                                   na.strings = c("", "null"),
                                   stringsAsFactors = FALSE)[,-1])
             }),
-        c("Metadata", "Proteins", "Peptides",
-          "Spectra", "SmallMolecules"))
+        c("Metadata", "Proteins", "Peptides", "Spectra", "SmallMolecules"))
     
     res[["Metadata"]] <- reshapeMetadata(res[["Metadata"]])
 
-    .MzTabList(Metadata = res[["Metadata"]],
+    .MzTab(Metadata = res[["Metadata"]],
                Proteins = res[["Proteins"]],
                Peptides = res[["Peptides"]],
                Spectra = res[["Spectra"]],
@@ -101,65 +100,22 @@ MzTabList <- function(file) {
 
 }
 
-##' @param x A character vector.
-##' @return A data table.
-##' @importFrom data.table fread setDT
-readTab <- function(x) {
-    ## Passing data to fread as a string doesn't work for < 2 lines, so
-    ## we have to handle these cases separately.
-    if (length(x) == 0) {
-        return(data.table())
-    }
-    if (length(x) == 1) {
-        ## [[-1]] is because we no longer care about the identifier
-        ## at the start of the line.
-        return(setDT(read.delim(text = x)[, -1]))
-    }
-    ## It isn't clear from the documentation which values are allowed
-    ## to represent missing values.  There were cases of "" and "null"
-    ## in the examples, but this may need to become an argument to
-    ## readMzTabData.
-    ## Also, some fiddling with converting columns types may be needed.
-    ## See https://github.com/Rdatatable/data.table/issues/729
-    fread(paste0(x, collapse = "\n"), sep = "\t", na.strings = c("", "null"))[, -1, with = FALSE]
-}
-
 ##' @param mtd A \code{data.frame} with 2 columns
-##' @return A named list, where each element is either a
-##' string or a named character vector of length 4.
+##' @return A named list, where each element is a string
 reshapeMetadata <- function(mtd) {
     stopifnot(ncol(mtd) >= 2)
-    ## Second column of mtd contains keys
-    ## Third column contains values
-    ## Store results in a list, with keys as names
     metadata <- setNames(vector("list", nrow(mtd)), mtd[[1]])
-    metadata[1:length(metadata)] <- mtd[[2]]
-    
-    ## ## Need different behaviour for strings vs. controlled vocab
-    ## rx <- "\\[([[:alnum:]]+), *([[:alnum:]]+:[[:digit:]]+), *([[:print:]]+), *([[:print:]]+)?\\]"
-    ## isControlledVocab <- stri_detect_regex(mtd[[2]], rx)
-    ## controlledVocabValues <- stri_match_all_regex(
-    ##     mtd[[2]][isControlledVocab],
-    ##     rx
-    ##     )
-    ## metadata[!isControlledVocab] <- mtd[[2]][!isControlledVocab]
-    ## metadata[isControlledVocab] <- lapply(
-    ##     controlledVocabValues,
-    ##     function(x)
-    ##         {
-    ##             setNames(x[-1], c("vocab", "id", "name", "def"))
-    ##         }
-    ##     )
+    metadata[1:length(metadata)] <- mtd[[2]]    
     metadata
 }
-
 
 ## testing
 ## allmzt <- dir("~/dev/00_github/MSnbase/sandbox/mzTabExamples/",
 ##               full.names=TRUE)
-## sapply(allmzt, MzTabList)
+## xx <- sapply(allmzt, MzTab)
 
-## coerce MzTabList as MSnSetList|MSnset
+## coerce MzTab as MSnSetList (peps, prots, spectra) or MSnset (only
+## one)
 
 ## what about readMzTabData? Keep it for backwards compatibility?
 ## deprecate writeMzTabData

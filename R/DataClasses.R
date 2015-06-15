@@ -360,11 +360,11 @@ setClass("MSnSet",
 
 #####################################################################
 ## Support for the PSI mzTab format
-.MzTabList <- setClass("MzTabList",
-                       slots = c(
-                           Metadata = "list",
-                           Proteins = "data.frame",
-                           Peptides = "data.frame",
-                           Spectra = "data.frame",
-                           SmallMolecules = "data.frame",
-                           Comments = "character"))
+.MzTab <- setClass("MzTab",
+                   slots = c(
+                       Metadata = "list",
+                       Proteins = "data.frame",
+                       Peptides = "data.frame",
+                       Spectra = "data.frame",
+                       SmallMolecules = "data.frame",
+                       Comments = "character"))
