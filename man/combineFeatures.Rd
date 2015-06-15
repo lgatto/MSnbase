@@ -49,7 +49,7 @@ combineFeatures(object, groupBy, fun = c("mean", "median",
   \item{redundancy.handler}{ If \code{groupBy} is a \code{list}, one of
     \code{"unique"} (default) or \code{"multiple"} (ignored otherwise)
     defining how to handle peptides that can be associated to multiple
-    higher-level features (proteins) uppon combination. Using
+    higher-level features (proteins) upon combination. Using
     \code{"unique"} will only consider uniquely matching features
     (features matching multiple proteins will be discarded).
     \code{"multiple"} will allow matching to multiple proteins and each
