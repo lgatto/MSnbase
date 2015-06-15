@@ -76,7 +76,7 @@
   Griss J, Jones AR, Sachsenberg T, Walzer M, Gatto L, Hartler J,
   Thallinger GG, Salek RM, Steinbeck C, Neuhauser N, Cox J, Neumann S,
   Fan J, Reisinger F, Xu QW, Del Toro N, Perez-Riverol Y, Ghali F,
-  Bandeira N, Xenarios I, Kohlbacher O, Vizcaíno JA, Hermjakob H. The
+  Bandeira N, Xenarios I, Kohlbacher O, Vizcaino JA, Hermjakob H. The
   mzTab data exchange format: communicating mass-spectrometry-based
   proteomics and metabolomics experimental results to a wider
   audience. Mol Cell Proteomics. 2014 Oct;13(10):2765-75. doi:
