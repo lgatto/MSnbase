@@ -237,8 +237,8 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
 ##' @author Martina Fisher
 iPQF <- function(object, groupBy,
                  low.support.filter = FALSE,
-                 ratio.calc = "none",
-                 method.combine = TRUE) {
+                 ratio.calc = "sum",
+                 method.combine = FALSE) {
     
     if (inherits(object,"MSnSet"))
         stop("'object' is required to be of class MSnSet")
@@ -302,6 +302,14 @@ iPQF <- function(object, groupBy,
     singles <- which(unlist(lapply(pos.all, length)) < 3) ## proteins supported by only 1-2 peptide spectra
     pos.pep <- pos.all[-singles]                         ## proteins supported by >2 peptide spectra   
 
+
+    ## FIXME - 
+    ## ! Note: I forgot to account for data sets which do not have any
+    ## proteins with less than 3 spectra.  Probably need sth like
+    ## this:
+    ## if (length(singles) > 0) pos.pep <- pos.all[-singles] 
+    ## else pos.pep <- pos.all
+    
     ## Redundantly measured peptide spectrum status in a protein profile (uniques.all):
     uniques.all <- uniques.list(pos.pep, sequence)
 
