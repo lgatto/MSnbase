@@ -19,13 +19,27 @@
 ## - Would you consider writing a short section for the vignette, a
 ##   complete example that demonstrates iPQF.
 ##
-
 ## QST
 ##
 ## - Abstract says peptide to protein summarisation, but iPQF object
 ##   arguments is documented as 'absolute ion intensities', suggesting
 ##   that these are ions/spectra intensities.
 ##
+## Yes I do actually refer to individual spectra/ PSMs - and the
+## algorithm requires the absolute intensities of each individual PSM
+## and all peptide spectra assigned to a protein are used to estimate
+## the protein ratio. I define the cases where "1 peptide was observed
+## and quantified by several MSMS events" as group of 'redundant
+## peptides' and I even use their distance similiarity as one
+## feature. ( In the manuscipt I refer to 'uniquely' and 'multiply
+## measured (redundant) peptides)...
+## However, I probably should revisit the manuscript and clarify this
+## more. I might have misleadingly thougt that summarization methods
+## always rely on spectra intensities to infer protein abundances -
+## because how do they usually combine these several (redundant)
+## spectra of one peptide? Publications usually do not comment on
+## this.
+
 ## - Out of curiosity, why Spearman correlation?
 
 ##' Feature-based weighting of peptides for protein ratio estimation
