@@ -12,25 +12,25 @@
 \alias{comments}
 \alias{smallMolecules}
 
-\title{Class \code{MzTab}}
+\title{Parse \code{MzTab} files}
 
 \description{
 
   The \code{MzTab} class stores the output of a basic parsing of a
   \code{mzTab} file. It contain the metadata (a \code{list}), comments
-  (a \code{character} vector), and the at least on of the following data
+  (a \code{character} vector), and the at least of of the following data
   types: proteins, peptides, spectra and small molecules (as
   \code{data.frames}).
 
   At this stage, the metadata and data are only minimally parsed. More
   specific data extraction and preparation are delegated to more
-  specialised functions, such as the \code{as(., to = "MSnSet")} or
-  \code{as(., to = "MSnSet")} coercion methods for proteomics data.
-  
+  specialised functions, such as the \code{as(., to = "MSnSet")} for
+  proteomics data.  
 }
 
 \section{Objects from the Class}{
-  Objects can be created by calls the the constructor \code{MzTab}.
+  Objects can be created by calls the the constructor \code{MzTab} that
+  takes a single \code{mzTab} file as input.
 }
 
 \section{Slots}{
@@ -86,10 +86,14 @@
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk> and Richard Cotton
+
+  Laurent Gatto, with contributions from Richard Cotton (see
+  \url{https://github.com/lgatto/MSnbase/issues/41}).
+
 }
 
 \examples{
+## Test files from the mzTab developement repository
 fls <- c("Cytidine.mzTab", "MTBLS2.mztab", 
          "PRIDE_Exp_Complete_Ac_1643.xml-mztab.txt", 
          "PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt", 
@@ -100,9 +104,17 @@ fls <- c("Cytidine.mzTab", "MTBLS2.mztab",
          "lipidomics-HFD-LD-study-TG.mzTab")
 baseUrl <- "https://mztab.googlecode.com/svn/examples/"
 
+## a list of mzTab objects
 mzt <- sapply(file.path(baseUrl, fls), MzTab)
-length(mzt)
+stopifnot(length(mzt) == length(fls))
 mzt[[4]]
+
+dim(proteins(mzt[[4]]))
+dim(spectra(mzt[[4]]))
+
+prots4 <- proteins(mzt[[4]])
+class(prots4)
+prots4[1:5, 1:4]
 }
 
 \keyword{classes}

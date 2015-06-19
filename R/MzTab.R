@@ -56,6 +56,7 @@ comments <- function(x) x@Comments
 ##  Based on @richierocks contribution
 ##  https://github.com/lgatto/MSnbase/issues/41
 MzTab <- function(file) {
+    file <- file[1]
     lines <- readLines(file)
     lines <- lines[nzchar(lines)]
 
@@ -108,11 +109,6 @@ reshapeMetadata <- function(mtd) {
     metadata[1:length(metadata)] <- mtd[[2]]    
     metadata
 }
-
-## testing
-## allmzt <- dir("~/dev/00_github/MSnbase/sandbox/mzTabExamples/",
-##               full.names=TRUE)
-## xx <- sapply(allmzt, MzTab)
 
 ## coerce MzTab as MSnSetList (peps, prots, spectra) or MSnset (only
 ## one)
