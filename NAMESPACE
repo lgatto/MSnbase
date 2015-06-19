@@ -16,7 +16,7 @@ import(methods)
 import(reshape2) ## try to reduce this
 
 importFrom(MALDIquant, binPeaks) ## only using ::: functions
-importFrom(S4Vectors, isEmpty)
+importFrom(S4Vectors, isEmpty, metadata)
 
 ## importFrom(rols, olsQuery, term)
 ## importClassesFrom(rols, CVParam)
@@ -82,7 +82,11 @@ export(MSnSet,
        ## MSnSetList
        MSnSetList,
        msnsets, objlog,
-       image2)
+       image2,
+       ## MzTab
+       MzTab,
+       smallMolecules,
+       comments)
 
 exportClasses(pSet,
               MIAPE,
@@ -95,7 +99,8 @@ exportClasses(pSet,
               FeaturesOfInterest,
               FoICollection,
               FeatComp,
-              MSmap)
+              MSmap,
+              MzTab)
 
 exportMethods(assayData,
               "assayData<-",
