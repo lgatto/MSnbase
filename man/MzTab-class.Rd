@@ -8,7 +8,7 @@
 \alias{peptides,MzTab-method}
 \alias{proteins,MzTab-method}
 \alias{show,MzTab-method}
-\alias{spectra,MzTab-method}
+\alias{psms,MzTab-method}
 \alias{comments}
 \alias{smallMolecules}
 
@@ -19,7 +19,7 @@
   The \code{MzTab} class stores the output of a basic parsing of a
   \code{mzTab} file. It contain the metadata (a \code{list}), comments
   (a \code{character} vector), and the at least of of the following data
-  types: proteins, peptides, spectra and small molecules (as
+  types: proteins, peptides, PSMs and small molecules (as
   \code{data.frames}).
 
   At this stage, the metadata and data are only minimally parsed. More
@@ -41,8 +41,8 @@
       the protein data.  }
     \item{\code{Peptides}:}{Object of class \code{"data.frame"} storing
       the peptide data. }
-    \item{\code{Spectra}:}{Object of class \code{"data.frame"} storing
-      the spectra data. }
+    \item{\code{PSMs}:}{Object of class \code{"data.frame"} storing
+      the PSM data. }
     \item{\code{SmallMolecules}:}{Object of class \code{"data.frame"}
       storing the small molecules data. }
     \item{\code{Comments}:}{Object of class \code{"character"} storing
@@ -58,8 +58,8 @@
       peptide \code{data.frame}. }
     \item{proteins}{\code{signature(object = "MzTab")}: returns the
       proteins \code{data.frame}. }
-    \item{spectra}{\code{signature(object = "MzTab")}: returns the
-      spectra \code{data.frame}. }
+    \item{psms}{\code{signature(object = "MzTab")}: returns the
+      PSMs \code{data.frame}. }
     \item{smallMolecules}{\code{signature(object = "MzTab")}: returns
       the small molecules \code{data.frame}. }
     \item{comments}{\code{signature(object = "MzTab")}: returns the
@@ -110,7 +110,7 @@ stopifnot(length(mzt) == length(fls))
 mzt[[4]]
 
 dim(proteins(mzt[[4]]))
-dim(spectra(mzt[[4]]))
+dim(psms(mzt[[4]]))
 
 prots4 <- proteins(mzt[[4]])
 class(prots4)

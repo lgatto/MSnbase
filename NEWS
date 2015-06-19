@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.17.6
 -------------------------
- o
+ o Export metadata,MzTab-method <2015-06-19 Fri>
+ o Replace spectra,MzTab-method by psms,MzTab-method <2015-06-20 Sat>
  
 CHANGES IN VERSION 1.17.5
 -------------------------

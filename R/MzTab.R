@@ -6,12 +6,15 @@
 ## mzTab-mode: Summary Complete
 ## description
 ## ms_run-location[1-n]
+##
 ## also
 ##
 ## “protein_search_engine_score[1-n]”,
-## ”peptide_search_engine_score[1-n]”, “psm_search_engine_score[1-n]”
-## and “smallmolecule_search_engine_score[1-n]” MUST be reported for
-## every search engine score reported in the corresponding section.
+## ”peptide_search_engine_score[1-n]”,
+## “psm_search_engine_score[1-n]”
+## “smallmolecule_search_engine_score[1-n]” 
+## MUST be reported for every search engine score reported in the
+## corresponding section.
 ##
 ## “fixed_mod[1-n]” and “variable_mod [1-n]” MUST be reported. If no
 ## modifications were searched, specific CV parameters need to be used
@@ -45,8 +48,8 @@ setMethod("peptides", "MzTab",
           function(object, ...) object@Peptides)
 
 ## Generic from ProtGenerics
-setMethod("spectra", "MzTab",
-          function(object, ...) object@Spectra)
+setMethod("psms", "MzTab",
+          function(object, ...) object@PSMs)
 
 smallMolecules <- function(x) x@SmallMolecules
 
@@ -88,14 +91,14 @@ MzTab <- function(file) {
                                   na.strings = c("", "null"),
                                   stringsAsFactors = FALSE)[,-1])
             }),
-        c("Metadata", "Proteins", "Peptides", "Spectra", "SmallMolecules"))
+        c("Metadata", "Proteins", "Peptides", "PSMs", "SmallMolecules"))
     
     res[["Metadata"]] <- reshapeMetadata(res[["Metadata"]])
 
     .MzTab(Metadata = res[["Metadata"]],
                Proteins = res[["Proteins"]],
                Peptides = res[["Peptides"]],
-               Spectra = res[["Spectra"]],
+               PSMs = res[["PSMs"]],
                SmallMolecules = res[["SmallMolecules"]],
                Comments = comments)
 
@@ -110,8 +113,28 @@ reshapeMetadata <- function(mtd) {
     metadata
 }
 
-## coerce MzTab as MSnSetList (peps, prots, spectra) or MSnset (only
-## one)
+## coerce MzTab as MSnSetList (peps, prots, psms) or MSnset (only
+## one). How to do the latter without the 'what' argument?
+
+setAs("MzTab", "MSnSetList",
+      function(from, to = "MSnSetList") {
+          ## TODO
+          ## 1. what type of quant exeriment
+          ##    and where are the quant values?
+          ##
+          ##    If it is of type identification, quantitation, ...
+          ##    Where are the quant values?
+          ##      protein_abundance_assay[1-n]
+          ##      peptide_abundance_assay[1-n]
+          ##      PSMs - no quant
+          ##    What are the feature names?
+          ##
+          ## 2. Extract userful metadata
+          ## 3. Make MSnSets -> prot, pep, spectra
+          ## 4. Return as MSnSetList
+
+          
+      })
 
 ## what about readMzTabData? Keep it for backwards compatibility?
 ## deprecate writeMzTabData

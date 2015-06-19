@@ -365,6 +365,6 @@ setClass("MSnSet",
                        Metadata = "list",
                        Proteins = "data.frame",
                        Peptides = "data.frame",
-                       Spectra = "data.frame",
+                       PSMs = "data.frame",
                        SmallMolecules = "data.frame",
                        Comments = "character"))

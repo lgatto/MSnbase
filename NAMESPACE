@@ -41,11 +41,6 @@ export(MSnSet,
        readMSnSet2,
        getEcols, grepEcols,
        readIspyData,
-       writeMzTabData,
-       readMzTabData,
-       makeMTD,
-       makePEP,
-       makePRT,
        formatRt,
        fillUp,
        ## extractSpectra, defunct in v 1.5.3
@@ -86,7 +81,13 @@ export(MSnSet,
        ## MzTab
        MzTab,
        smallMolecules,
-       comments)
+       comments,
+       ## old 
+       writeMzTabData,
+       readMzTabData,
+       makeMTD,
+       makePEP,
+       makePRT)
 
 exportClasses(pSet,
               MIAPE,
@@ -203,7 +204,10 @@ exportMethods(assayData,
               mzRes, plot3D, msMap,
               fileName, t,
               ## MSnSetList
-              split
+              split,
+              ## MzTab
+              metadata,
+              psms
               )
 
 ## methods NOT exported
