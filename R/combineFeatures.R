@@ -1,5 +1,5 @@
-combineFeatures <- function(object, 
-                            groupBy, 
+combineFeatures <- function(object,
+                            groupBy,
                             fun = c("mean",
                                 "median",
                                 "weighted.mean",
@@ -87,7 +87,7 @@ combineFeaturesV <- function(object,   ## MSnSet
     matRes <- as.matrix(combineMatrixFeatures(exprs(object),
                                               groupBy, fun, 
                                               verbose = verbose,
-                                              ...)) 
+                                              ...))
     fdata <- fData(object)[!duplicated(groupBy), , drop = FALSE] ## takes the first occurences
     fdata <- fdata[order(unique(groupBy)), , drop = FALSE] ## ordering fdata according to groupBy factor
     rownames(matRes) <- rownames(fdata)
@@ -125,50 +125,51 @@ combineFeaturesV <- function(object,   ## MSnSet
 combineMatrixFeatures <- function(matr,    ## matrix
                                   groupBy, ## char/factor
                                   fun,
-                                  verbose=TRUE, ## additional arguments to fun
-                                  ...) {
-  if (is.character(fun)) {
-    ## Using a predefined function
-    if (fun == "medpolish") {
-      summarisedFeatures <- by(matr,
-                               groupBy,
-                               function(x) {
-                                 medpol <- medpolish(x, trace.iter = verbose, ...)
-                                 return(medpol$overall+medpol$col)
-                               })
-    } else if (fun == "weighted.mean") {
-      ## Expecting 'w' argument
-      args <- list(...)
-      if (is.null(args$w))
-        stop("Expecting a weight parameter 'w' for 'weigthed mean'.")
-      w <- args$w
-      if (is.null(colnames(matr)))
-        colnames(matr) <- paste0("X", 1:ncol(matr))
-      summarisedFeatures <- apply(matr,2,
-                                  function(x) {
-                                    .data <- data.frame(x=x,groupBy,w=w)
-                                    ddply(.data,
-                                          "groupBy",
-                                          summarise,
-                                          wmn = weighted.mean(x,w))
-                                  })
-      summarisedFeatures <- do.call(cbind, as.list(summarisedFeatures))
-      rn <- summarisedFeatures[,1]
-      summarisedFeatures <- summarisedFeatures[, grep("wmn", colnames(summarisedFeatures))]
-      colnames(summarisedFeatures) <- colnames(matr)
-      rownames(summarisedFeatures) <- rn
-      return(summarisedFeatures)
+                                  verbose=TRUE, 
+                                  ...) { ## additional arguments to fun
+    if (is.character(fun)) {
+        ## Using a predefined function
+        if (fun == "medpolish") {
+            summarisedFeatures <- by(matr,
+                                     groupBy,
+                                     function(x) {
+                                         medpol <- medpolish(x, trace.iter = verbose, ...)
+                                         return(medpol$overall + medpol$col)
+                                     })
+        } else if (fun == "weighted.mean") {
+            ## Expecting 'w' argument
+            args <- list(...)
+            if (is.null(args$w))
+                stop("Expecting a weight parameter 'w' for 'weigthed mean'.")
+            w <- args$w
+            if (is.null(colnames(matr)))
+                colnames(matr) <- paste0("X", 1:ncol(matr))
+            summarisedFeatures <- apply(matr,2,
+                                        function(x) {
+                                            .data <- data.frame(x=x, groupBy, w=w)
+                                            ddply(.data,
+                                                  "groupBy",
+                                                  summarise,
+                                                  wmn = weighted.mean(x,w))
+                                        })
+            summarisedFeatures <- do.call(cbind, as.list(summarisedFeatures))
+            rn <- summarisedFeatures[,1]
+            summarisedFeatures <-
+                summarisedFeatures[, grep("wmn", colnames(summarisedFeatures))]
+            colnames(summarisedFeatures) <- colnames(matr)
+            rownames(summarisedFeatures) <- rn
+            return(summarisedFeatures)
+        } else {
+            ## using either 'sum', 'mean', 'median'
+            summarisedFeatures <- by(matr,
+                                     groupBy,
+                                     function(x) apply(x, 2, eval(parse(text = fun)), ...))
+        }
     } else {
-      ## using either 'sum', 'mean', 'median'
-      summarisedFeatures <- by(matr,
-                               groupBy,
-                               function(x) apply(x, 2, eval(parse(text = fun)), ...))
+        ## using user-defined function
+        summarisedFeatures <- by(matr,
+                                 groupBy,
+                                 function(x) apply(x, 2, fun, ...))
     }
-  } else {
-    ## using user-defined function
-    summarisedFeatures <- by(matr,
-                             groupBy,
-                             function(x) apply(x, 2, fun, ...))
-  }
     return(do.call(rbind, as.list(summarisedFeatures)))
 }

@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.17.5
+-------------------------
+ o new MzTab class to store a simple parsing of an mzTab version 1
+   data file. See ?MzTab for details. <2015-06-16 Tue>
+ 
 CHANGES IN VERSION 1.17.4
 -------------------------
  o New lengths method for FoICollection instances <2015-06-06 Sat>
