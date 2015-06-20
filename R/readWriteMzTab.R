@@ -1,3 +1,46 @@
+##' This function can be used to create a \code{"\linkS4class{MSnSet}"}
+##' by reading and parsing an \code{mzTab} file. The metadata section
+##' is always used to populate the \code{MSnSet}'s \code{experimentData}
+##' slot. 
+##'
+##' @title Read an 'mzTab' file
+##' @param file A \code{character} with the \code{mzTab} file to
+##' be read in.
+##' @param what One of \code{"PRT"}, \code{"PEP"} or \code{"PSM"},
+##' defining which of protein, peptide PSMs section should be returned
+##' as an \code{MSnSet}. 
+##' @param version A \code{character} defining the format
+##' specification version of the mzTab file. Default is
+##' \code{"1.0"}. Version \code{"0.9"} is available of backwards
+##' compatibility.
+##' @param verbose Produce verbose output.
+##' @return An instance of class \code{MSnSet}.
+##' @author Laurent Gatto
+##' @examples
+##' testfile <- "http://mztab.googlecode.com/svn/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"
+##' prot <- readMzTabData(testfile, "PRT")
+##' prot
+##' pep <- readMzTabData(testfile, "PEP")
+##' pep
+readMzTabData <- function(file, what = c("PRT", "PEP", "PSM"),
+                          version = c("1.0", "0.9"),
+                          verbose = TRUE) {
+    version <- match.arg(version)
+    what <- match.arg(what)
+    if (version == "0.9") {
+        if (what == "PSM") stop("Only 'PRT' or 'PEP' supported in mzTab version 0.9.")
+        readMzTabData_v0.9(file, what, verbose)
+    } else {
+        ans <- as(MzTab(file), "MSnSetList")
+        ans <- switch(what,
+                      PRT = ans[["Proteins"]],
+                      PEP = ans[["Peptides"]],
+                      PSM = ans[["PSMs"]])
+        return(ans)
+    }
+}
+
+
 ## mzTab - Reporting Proteomics Results
 ## ref: http://code.google.com/p/mztab/
 
@@ -992,9 +1035,9 @@ writeMzTabData <- function(x,
 ##' prot
 ##' pep <- readMzTabData(testfile, "PEP")
 ##' pep
-readMzTabData <- function(file,
-                          what = c("PRT", "PEP"),
-                          verbose = TRUE) {
+readMzTabData_v0.9 <- function(file,
+                               what = c("PRT", "PEP"),
+                               verbose = TRUE) {
     warning("Support for mzTab version 0.9 only. Support will be added soon.")
     
     what <- match.arg(what)
