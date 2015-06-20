@@ -206,6 +206,7 @@ exportMethods(assayData,
               ## MSnSetList
               split,
               ## MzTab
+              fileName,
               metadata,
               psms
               )

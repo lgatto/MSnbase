@@ -3,19 +3,24 @@ setMethod("show", "MzTab",
               cat("Object of class \"", class(object),"\".\n", sep = "")
               descr <- paste0(" Description: ", object@Metadata$description, "\n")
               descr <- paste0(" ", strwrap(descr), "\n")
-              cat(descr, sep = "")              
+              cat(descr, sep = "")
               cat(" Mode:", object@Metadata$`mzTab-mode`, "\n")
               cat(" Type:", object@Metadata$`mzTab-type`, "\n")
               cat(" Available data: ")
-              avbl <- sapply(slotNames(object)[2:5],
+              avbl <- sapply(slotNames(object)[4:6],
                              function(x) nrow(slot(object, x)) > 0)
               cat(paste(names(avbl)[which(avbl)], collape = ""), "\n")
           })
 
 ## Accessors
+
 ## Generic from S4Vectors
 setMethod("metadata", "MzTab",
           function(x, ...) x@Metadata)
+
+## Generic from BiocGenerics
+setMethod("fileName", "MzTab",
+          function(object, ...) object@Filename)
 
 ## Generic from ProtGenerics
 setMethod("proteins", "MzTab",
@@ -84,6 +89,7 @@ MzTab <- function(file) {
 
 ##' @param mtd A \code{data.frame} with 2 columns
 ##' @return A named list, where each element is a string
+##' @noRd
 reshapeMetadata <- function(mtd) {
     stopifnot(ncol(mtd) >= 2)
     metadata <- setNames(vector("list", nrow(mtd)), mtd[[1]])
@@ -103,15 +109,16 @@ setAs("MzTab", "MSnSetList",
 ##' @param x MSnSet object
 ##' @param y MzTab object
 ##' @return x decorated with metadata(y)
+##' @noRd
 addMzTabMetadata <- function(x, y) {
     experimentData(x)@other$mzTab <- metadata(y)
     if (any(i <- grepl("publication", names(metadata(y))))) 
         pubMedIds(x) <- unlist(metadata(y)[i], use.names = FALSE)
+    x@processingData@files <- fileName(y)
     ## This would need www access, if to use rols
     ## experimentData(x)@samples$species <- 'sample[1-n]-species[1-n]'
     if (validObject(x)) x
 }
-
 
 makeProtMSnSet <- function(object) {
     x <- proteins(object)

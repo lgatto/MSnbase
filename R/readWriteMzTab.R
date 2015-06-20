@@ -1,7 +1,7 @@
-##' This function can be used to create a \code{"\linkS4class{MSnSet}"}
-##' by reading and parsing an \code{mzTab} file. The metadata section
-##' is always used to populate the \code{MSnSet}'s \code{experimentData}
-##' slot. 
+##' This function can be used to create an
+##' \code{"\linkS4class{MSnSet}"} by reading and parsing an
+##' \code{mzTab} file. The metadata section is always used to populate
+##' the \code{MSnSet}'s \code{experimentData()@@other$mzTab} slot. 
 ##'
 ##' @title Read an 'mzTab' file
 ##' @param file A \code{character} with the \code{mzTab} file to
@@ -15,6 +15,8 @@
 ##' compatibility.
 ##' @param verbose Produce verbose output.
 ##' @return An instance of class \code{MSnSet}.
+##' @seealso See \code{\link{MzTab}} and \code{\link{MSnSetList}} for
+##' details about the inners of \code{readMzTabData}.
 ##' @author Laurent Gatto
 ##' @examples
 ##' testfile <- "http://mztab.googlecode.com/svn/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"
@@ -40,6 +42,9 @@ readMzTabData <- function(file, what = c("PRT", "PEP", "PSM"),
     }
 }
 
+
+## ===================================
+## Legacy code
 
 ## mzTab - Reporting Proteomics Results
 ## ref: http://code.google.com/p/mztab/
