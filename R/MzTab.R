@@ -1,25 +1,3 @@
-## What about a validity method for MzTab objects?
-##
-## Mandatory header fields
-## mzTab-version
-## mzTab-type: Identification Quantitation
-## mzTab-mode: Summary Complete
-## description
-## ms_run-location[1-n]
-##
-## also
-##
-## “protein_search_engine_score[1-n]”,
-## ”peptide_search_engine_score[1-n]”,
-## “psm_search_engine_score[1-n]”
-## “smallmolecule_search_engine_score[1-n]” 
-## MUST be reported for every search engine score reported in the
-## corresponding section.
-##
-## “fixed_mod[1-n]” and “variable_mod [1-n]” MUST be reported. If no
-## modifications were searched, specific CV parameters need to be used
-## (see Section 5.8).
-
 setMethod("show", "MzTab",
           function(object) {
               cat("Object of class \"", class(object),"\".\n", sep = "")
@@ -113,25 +91,6 @@ reshapeMetadata <- function(mtd) {
     metadata
 }
 
-## TODO - TESTING
-## 1. what type of quant exeriment
-##    and where are the quant values?
-##
-##    If it is of type identification, quantitation, ...
-##    Where are the quant values?
-##      protein_abundance_assay[1-n]
-##      peptide_abundance_assay[1-n]
-##      PSMs - no quant
-##    What are the feature names?
-##      prot -> accession
-##      pep -> undef: use sequence or
-##                    make.names(sequence, unique = TRUE)
-##      PSM -> PSM_ID
-##
-## 2. Extract userful metadata
-## 3. Make MSnSets -> prot, pep, spectra
-## 4. Return as MSnSetList
-
 setAs("MzTab", "MSnSetList",
       function(from, to = "MSnSetList") {
           MSnSetList(list(
@@ -140,10 +99,18 @@ setAs("MzTab", "MSnSetList",
               PSMs = makePsmMSnSet(from)))
       })
 
-## metadata
-## experimentData()@other$mzTab <- metadata()
-## pubMedIds() <- publication[1-n]
-## experimentData()@samples$species <- sample[1-n]-species[1-n]
+
+##' @param x MSnSet object
+##' @param y MzTab object
+##' @return x decorated with metadata(y)
+addMzTabMetadata <- function(x, y) {
+    experimentData(x)@other$mzTab <- metadata(y)
+    if (any(i <- grepl("publication", names(metadata(y))))) 
+        pubMedIds(x) <- unlist(metadata(y)[i], use.names = FALSE)
+    ## This would need www access, if to use rols
+    ## experimentData(x)@samples$species <- 'sample[1-n]-species[1-n]'
+    if (validObject(x)) x
+}
 
 
 makeProtMSnSet <- function(object) {
@@ -159,8 +126,7 @@ makeProtMSnSet <- function(object) {
         pd <- data.frame(row.names = colnames(e))
         ans <- MSnSet(exprs = e, fData = fd, pData = pd)
     }
-    ## add metadata
-    return(ans)
+    addMzTabMetadata(ans, object)
 }
 
 makePepMSnSet <- function(object) {
@@ -176,8 +142,7 @@ makePepMSnSet <- function(object) {
         pd <- data.frame(row.names = colnames(e))
         ans <- MSnSet(exprs = e, fData = fd, pData = pd)
     }
-    ## add metadata
-    return(ans)
+    addMzTabMetadata(ans, object)
 }
 
 makePsmMSnSet <- function(object) {
@@ -192,6 +157,5 @@ makePsmMSnSet <- function(object) {
         pd <- data.frame(row.names = colnames(e))
         ans <- MSnSet(exprs = e, fData = fd, pData = pd)        
     }
-    ## add metadata
-    return(ans)
+    addMzTabMetadata(ans, object)
 }
