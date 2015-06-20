@@ -113,28 +113,85 @@ reshapeMetadata <- function(mtd) {
     metadata
 }
 
-## coerce MzTab as MSnSetList (peps, prots, psms) or MSnset (only
-## one). How to do the latter without the 'what' argument?
+## TODO - TESTING
+## 1. what type of quant exeriment
+##    and where are the quant values?
+##
+##    If it is of type identification, quantitation, ...
+##    Where are the quant values?
+##      protein_abundance_assay[1-n]
+##      peptide_abundance_assay[1-n]
+##      PSMs - no quant
+##    What are the feature names?
+##      prot -> accession
+##      pep -> undef: use sequence or
+##                    make.names(sequence, unique = TRUE)
+##      PSM -> PSM_ID
+##
+## 2. Extract userful metadata
+## 3. Make MSnSets -> prot, pep, spectra
+## 4. Return as MSnSetList
 
 setAs("MzTab", "MSnSetList",
       function(from, to = "MSnSetList") {
-          ## TODO
-          ## 1. what type of quant exeriment
-          ##    and where are the quant values?
-          ##
-          ##    If it is of type identification, quantitation, ...
-          ##    Where are the quant values?
-          ##      protein_abundance_assay[1-n]
-          ##      peptide_abundance_assay[1-n]
-          ##      PSMs - no quant
-          ##    What are the feature names?
-          ##
-          ## 2. Extract userful metadata
-          ## 3. Make MSnSets -> prot, pep, spectra
-          ## 4. Return as MSnSetList
-
-          
+          MSnSetList(list(
+              Proteins = makeProtMSnSet(from),
+              Peptides = makePepMSnSet(from),
+              PSMs = makePsmMSnSet(from)))
       })
 
-## what about readMzTabData? Keep it for backwards compatibility?
-## deprecate writeMzTabData
+## metadata
+## experimentData()@other$mzTab <- metadata()
+## pubMedIds() <- publication[1-n]
+## experimentData()@samples$species <- sample[1-n]-species[1-n]
+
+
+makeProtMSnSet <- function(object) {
+    x <- proteins(object)
+    if (nrow(x) == 0) {
+        ans <- new("MSnSet")
+    } else {
+        ecols <- grep("abundance", names(x))
+        e <- as.matrix(x[, ecols])
+        fd <- x[, -ecols]
+        rownames(e) <- rownames(fd) <-
+            make.names(fd[, "accession"], unique = TRUE)
+        pd <- data.frame(row.names = colnames(e))
+        ans <- MSnSet(exprs = e, fData = fd, pData = pd)
+    }
+    ## add metadata
+    return(ans)
+}
+
+makePepMSnSet <- function(object) {
+    x <- peptides(object)
+    if (nrow(x) == 0) {
+        ans <- new("MSnSet")
+    } else {
+        ecols <- grep("abundance", names(x))
+        e <- as.matrix(x[, ecols])
+        fd <- x[, -ecols]
+        rownames(e) <- rownames(fd) <-
+            make.names(fd[, "sequence"], unique = TRUE)
+        pd <- data.frame(row.names = colnames(e))
+        ans <- MSnSet(exprs = e, fData = fd, pData = pd)
+    }
+    ## add metadata
+    return(ans)
+}
+
+makePsmMSnSet <- function(object) {
+    x <- psms(object)
+    if (nrow(x) == 0) {
+        ans <- new("MSnSet")
+    } else {
+        e <- matrix(NA_real_, nrow = nrow(x), ncol = 0)
+        fd <- x
+        rownames(e) <- rownames(fd) <-
+            make.names(fd[, "PSM_ID"], unique = TRUE)
+        pd <- data.frame(row.names = colnames(e))
+        ans <- MSnSet(exprs = e, fData = fd, pData = pd)        
+    }
+    ## add metadata
+    return(ans)
+}
