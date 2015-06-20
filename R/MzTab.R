@@ -7,7 +7,7 @@ setMethod("show", "MzTab",
               cat(" Mode:", object@Metadata$`mzTab-mode`, "\n")
               cat(" Type:", object@Metadata$`mzTab-type`, "\n")
               cat(" Available data: ")
-              avbl <- sapply(slotNames(object)[4:6],
+              avbl <- sapply(slotNames(object)[3:6],
                              function(x) nrow(slot(object, x)) > 0)
               cat(paste(names(avbl)[which(avbl)], collape = ""), "\n")
           })
