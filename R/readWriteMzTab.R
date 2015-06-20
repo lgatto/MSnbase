@@ -914,7 +914,8 @@ writeMzTabData <- function(x,
                            append = FALSE,
                            MTD = TRUE,
                            file, ...) {
-    warning("Support for mzTab version 0.9 only. Support will be added soon.")
+    .Deprecated(msg = paste("Writing support for mzTab 0.9 is deprecated.",
+                    "No writing support for mzTab 1.0 is currently available."))
     if (!requireNamespace("rols"))
         stop("The 'rols' package is required for mzTab write support.")
     
