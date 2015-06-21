@@ -12,6 +12,15 @@
 .calculateFragments <- function(sequence, type=c("b", "y"), z=1,
                                 modifications=c(C=57.02146),
                                 neutralLoss=TRUE, verbose=TRUE) {
+  ## TODO: this information should inform the user about a major API change
+  ## and could be removed in MSnbase > 1.18
+  if (packageVersion("MSnbase") < as.package_version("1.20.0")) {
+    message("The mass listed in \"modifications\" is now added to the ",
+            "amino acid/peptide.\n",
+            "In MSnbase < 1.17.6 the mass was replaced. ",
+            "Please see '?calculateFragments' for details.")
+  }
+
   type <- match.arg(type, choices=c("a", "b", "c", "x", "y", "z"), several.ok=TRUE)
   type <- sort(type)
   ## constants
