@@ -2,12 +2,15 @@ CHANGES IN VERSION 1.17.6
 -------------------------
  o Export metadata,MzTab-method <2015-06-19 Fri>
  o Replace spectra,MzTab-method by psms,MzTab-method <2015-06-20 Sat>
- 
+ o Change the meaning of calculateFragments' "modifications" argument. Now the
+   modification is added to the mass of the amino acid/peptide. Before it was
+   replaced. <2015-06-21 Sun>
+
 CHANGES IN VERSION 1.17.5
 -------------------------
  o new MzTab class to store a simple parsing of an mzTab version 1
    data file. See ?MzTab for details. <2015-06-16 Tue>
- 
+
 CHANGES IN VERSION 1.17.4
 -------------------------
  o New lengths method for FoICollection instances <2015-06-06 Sat>
@@ -17,7 +20,7 @@ CHANGES IN VERSION 1.17.4
    <2015-06-10 Wed>
  o fixed bug in purityCorrect, reported by Dario Strbenac
    <2015-06-11 Thu>
- 
+
 CHANGES IN VERSION 1.17.3
 -------------------------
  o iTRAQ 8-plex correction factors and impurity matrix
@@ -26,14 +29,14 @@ CHANGES IN VERSION 1.17.3
 CHANGES IN VERSION 1.17.2
 -------------------------
  o new filterZero function <2015-05-01 Fri>
- 
+
 CHANGES IN VERSION 1.17.1
 -------------------------
  o new MSnSetList class <2015-04-19 Sun>
  o new commonFeatureNames function <2015-04-14 Tue>
  o new compareMSnSets function <2015-04-19 Sun>
  o splitting and unsplitting MSnSets/MSnSetLists <2015-04-19 Sun>
- 
+
 CHANGES IN VERSION 1.17.0
 -------------------------
  o new devel version for Bioc 3.2
@@ -47,31 +50,31 @@ CHANGES IN VERSION 1.15.18
 CHANGES IN VERSION 1.15.17
 --------------------------
  o add TMT10 paragraph and fig to demo vignette [2015-04-09 Thu]
- 
+
 CHANGES IN VERSION 1.15.16
 --------------------------
  o support for TMT10 plex [2015-04-08 Wed]
- 
+
 CHANGES IN VERSION 1.15.15
 --------------------------
  o using serial parallelisation during quantitation in unit tests
    [2015-04-02 Thu]
- 
+
 CHANGES IN VERSION 1.15.14
 --------------------------
   o new msnset data, used in various examples instead of quantifying
     the itraqdata experiment over and over again [2015-04-01 Wed]
- 
+
 CHANGES IN VERSION 1.15.13
 --------------------------
  o improve nbavg imputation description and add example [2015-03-22 Sun]
  o reduce compareSpectra example timing [2015-03-30 Mon]
- 
+
 CHANGES IN VERSION 1.15.12
 --------------------------
  o average neighbour imputation for ordered fractions along a gradient
    [2015-03-21 Sat]
- 
+
 CHANGES IN VERSION 1.15.11
 --------------------------
  o update malformed Description [2015-03-20 Fri]
@@ -84,16 +87,16 @@ CHANGES IN VERSION 1.15.10
 CHANGES IN VERSION 1.15.9
 -------------------------
  o use S4Vectors' isEmpty generic [2015-03-10 Tue]
- 
+
 CHANGES IN VERSION 1.15.8
 -------------------------
  o Improved imputation section in demo vignette [2015-03-05 Thu]
- 
+
 CHANGES IN VERSION 1.15.7
 -------------------------
  o Importing ProtGenerics [2015-02-28 Sat]
  o selective import of MALDIquant [2015-03-02 Mon]
- 
+
 CHANGES IN VERSION 1.15.6
 -------------------------
  o add intensity column to the calculateFragments output; closes #47;1

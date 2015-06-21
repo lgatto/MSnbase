@@ -26,8 +26,9 @@
   \item{z}{ \code{numeric} desired charge state; default \code{z=1}. }
   \item{modifications}{ named \code{numeric} vector of used modifications. The
     name must correspond to the one-letter-code of the modified amino acid and
-    the \code{numeric} value must represent the replacement mass, default:
-    Carbamidomethyl \code{modifications=c(C=160.030649)}. }
+    the \code{numeric} value must represent the mass that should be added to the
+    original amino accid mass, default:
+    Carbamidomethyl \code{modifications=c(C=57.02146)}. }
   \item{neutralLoss}{ \code{logical} if \code{TRUE} (default) neutral loss is
     also calculated. Currently water and ammonia loss (shown with an \code{_}
     respectively a \code{*} in the results). }
@@ -80,7 +81,7 @@ msexp <- readMSData(file)
 msexp <- pickPeaks(msexp)
 
 ## calculate fragments for ACE with default modification
-calculateFragments("ACE", modifications=c(C=160.030649))
+calculateFragments("ACE", modifications=c(C=57.02146))
 
 ## calculate fragments for ACE without any modifications
 calculateFragments("ACE", modifications=NULL)

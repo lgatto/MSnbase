@@ -40,7 +40,7 @@ test_that("calculateFragments", {
     stringsAsFactors=FALSE)
 
   expect_message(calculateFragments("PQR"),
-                 "Modifications used: C=160.030649")
+                 "Modifications used: C=57.02146")
   expect_message(calculateFragments("PQR", modifications=NULL),
                  "Modifications used: None")
 
