@@ -5,6 +5,8 @@ CHANGES IN VERSION 1.17.6
  o Change the meaning of calculateFragments' "modifications" argument. Now the
    modification is added to the mass of the amino acid/peptide. Before it was
    replaced. <2015-06-21 Sun>
+ o calculateFragments gains the feature to handle N-/C-terminal modifications,
+   see #47. <2015-06-21 Sun>
 
 CHANGES IN VERSION 1.17.5
 -------------------------

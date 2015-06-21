@@ -28,7 +28,9 @@
     name must correspond to the one-letter-code of the modified amino acid and
     the \code{numeric} value must represent the mass that should be added to the
     original amino accid mass, default:
-    Carbamidomethyl \code{modifications=c(C=57.02146)}. }
+    Carbamidomethyl \code{modifications=c(C=57.02146)}. Use \code{Nterm} or
+    \code{Cterm} as names for modifications that should be added to the amino
+    respectively carboxyl-terminus.}
   \item{neutralLoss}{ \code{logical} if \code{TRUE} (default) neutral loss is
     also calculated. Currently water and ammonia loss (shown with an \code{_}
     respectively a \code{*} in the results). }
@@ -82,6 +84,9 @@ msexp <- pickPeaks(msexp)
 
 ## calculate fragments for ACE with default modification
 calculateFragments("ACE", modifications=c(C=57.02146))
+
+## calculate fragments for ACE with an addition N-terminal modification
+calculateFragments("ACE", modifications=c(C=57.02146, Nterm=229.1629))
 
 ## calculate fragments for ACE without any modifications
 calculateFragments("ACE", modifications=NULL)
