@@ -126,9 +126,10 @@ makeProtMSnSet <- function(object) {
     if (nrow(x) == 0) {
         ans <- new("MSnSet")
     } else {
-        ecols <- grep("abundance", names(x))
+        ecols <- grep("abundance", names(x))        
         e <- as.matrix(x[, ecols])
-        fd <- x[, -ecols]
+        if (length(ecols) > 0) fd <- x[, -ecols]
+        else fd <- x
         rownames(e) <- rownames(fd) <-
             make.names(fd[, "accession"], unique = TRUE)
         pd <- data.frame(row.names = colnames(e))
@@ -144,7 +145,8 @@ makePepMSnSet <- function(object) {
     } else {
         ecols <- grep("abundance", names(x))
         e <- as.matrix(x[, ecols])
-        fd <- x[, -ecols]
+        if (length(ecols) > 0) fd <- x[, -ecols]
+        else fd <- x
         rownames(e) <- rownames(fd) <-
             make.names(fd[, "sequence"], unique = TRUE)
         pd <- data.frame(row.names = colnames(e))

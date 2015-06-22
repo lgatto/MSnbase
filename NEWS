@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.17.7
+-------------------------
+ o Fix support of identification-only mzTab files <2015-06-22 Mon>
+ 
 CHANGES IN VERSION 1.17.6
 -------------------------
  o Export metadata,MzTab-method <2015-06-19 Fri>
