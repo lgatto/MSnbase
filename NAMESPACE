@@ -85,6 +85,7 @@ export(MSnSet,
        ## old 
        writeMzTabData,
        readMzTabData,
+       readMzTabData_v0.9,
        makeMTD,
        makePEP,
        makePRT)

@@ -1045,9 +1045,9 @@ writeMzTabData <- function(x,
 ##' pep
 readMzTabData_v0.9 <- function(file,
                                what = c("PRT", "PEP"),
-                               version = "0.9",
                                verbose = TRUE) {
-    warning("Support for mzTab version 0.9 only. Support will be added soon.")
+    
+    .Deprecated(msg = "Version 0.9 is deprecated. Please see '?readMzTabData' and '?MzTab' for details.")
     
     what <- match.arg(what)
     
