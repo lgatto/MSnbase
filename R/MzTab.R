@@ -1,40 +1,26 @@
-## What about a validity method for MzTab objects?
-##
-## Mandatory header fields
-## mzTab-version
-## mzTab-type: Identification Quantitation
-## mzTab-mode: Summary Complete
-## description
-## ms_run-location[1-n]
-## also
-##
-## “protein_search_engine_score[1-n]”,
-## ”peptide_search_engine_score[1-n]”, “psm_search_engine_score[1-n]”
-## and “smallmolecule_search_engine_score[1-n]” MUST be reported for
-## every search engine score reported in the corresponding section.
-##
-## “fixed_mod[1-n]” and “variable_mod [1-n]” MUST be reported. If no
-## modifications were searched, specific CV parameters need to be used
-## (see Section 5.8).
-
 setMethod("show", "MzTab",
           function(object) {
               cat("Object of class \"", class(object),"\".\n", sep = "")
               descr <- paste0(" Description: ", object@Metadata$description, "\n")
               descr <- paste0(" ", strwrap(descr), "\n")
-              cat(descr, sep = "")              
+              cat(descr, sep = "")
               cat(" Mode:", object@Metadata$`mzTab-mode`, "\n")
               cat(" Type:", object@Metadata$`mzTab-type`, "\n")
               cat(" Available data: ")
-              avbl <- sapply(slotNames(object)[2:5],
+              avbl <- sapply(slotNames(object)[3:6],
                              function(x) nrow(slot(object, x)) > 0)
               cat(paste(names(avbl)[which(avbl)], collape = ""), "\n")
           })
 
 ## Accessors
+
 ## Generic from S4Vectors
 setMethod("metadata", "MzTab",
           function(x, ...) x@Metadata)
+
+## Generic from BiocGenerics
+setMethod("fileName", "MzTab",
+          function(object, ...) object@Filename)
 
 ## Generic from ProtGenerics
 setMethod("proteins", "MzTab",
@@ -45,8 +31,8 @@ setMethod("peptides", "MzTab",
           function(object, ...) object@Peptides)
 
 ## Generic from ProtGenerics
-setMethod("spectra", "MzTab",
-          function(object, ...) object@Spectra)
+setMethod("psms", "MzTab",
+          function(object, ...) object@PSMs)
 
 smallMolecules <- function(x) x@SmallMolecules
 
@@ -73,7 +59,7 @@ MzTab <- function(file) {
     linesByType <- split(lines, lineType)
 
     ## Comments are easy: just strip the first four characters
-    ## from each line.  Though is it important to record the
+   ## from each line.  Though is it important to record the
     ## position in the file where they were found?
     comments <- substring(linesByType[["CO"]], 5)
 
@@ -88,21 +74,23 @@ MzTab <- function(file) {
                                   na.strings = c("", "null"),
                                   stringsAsFactors = FALSE)[,-1])
             }),
-        c("Metadata", "Proteins", "Peptides", "Spectra", "SmallMolecules"))
+        c("Metadata", "Proteins", "Peptides", "PSMs", "SmallMolecules"))
     
     res[["Metadata"]] <- reshapeMetadata(res[["Metadata"]])
 
     .MzTab(Metadata = res[["Metadata"]],
-               Proteins = res[["Proteins"]],
-               Peptides = res[["Peptides"]],
-               Spectra = res[["Spectra"]],
-               SmallMolecules = res[["SmallMolecules"]],
-               Comments = comments)
+           Filename = file,
+           Proteins = res[["Proteins"]],
+           Peptides = res[["Peptides"]],
+           PSMs = res[["PSMs"]],
+           SmallMolecules = res[["SmallMolecules"]],
+           Comments = comments)
 
 }
 
 ##' @param mtd A \code{data.frame} with 2 columns
 ##' @return A named list, where each element is a string
+##' @noRd
 reshapeMetadata <- function(mtd) {
     stopifnot(ncol(mtd) >= 2)
     metadata <- setNames(vector("list", nrow(mtd)), mtd[[1]])
@@ -110,8 +98,72 @@ reshapeMetadata <- function(mtd) {
     metadata
 }
 
-## coerce MzTab as MSnSetList (peps, prots, spectra) or MSnset (only
-## one)
+setAs("MzTab", "MSnSetList",
+      function(from, to = "MSnSetList") {
+          MSnSetList(list(
+              Proteins = makeProtMSnSet(from),
+              Peptides = makePepMSnSet(from),
+              PSMs = makePsmMSnSet(from)))
+      })
 
-## what about readMzTabData? Keep it for backwards compatibility?
-## deprecate writeMzTabData
+
+##' @param x MSnSet object
+##' @param y MzTab object
+##' @return x decorated with metadata(y)
+##' @noRd
+addMzTabMetadata <- function(x, y) {
+    experimentData(x)@other$mzTab <- metadata(y)
+    if (any(i <- grepl("publication", names(metadata(y))))) 
+        pubMedIds(x) <- unlist(metadata(y)[i], use.names = FALSE)
+    x@processingData@files <- fileName(y)
+    ## This would need www access, if to use rols
+    ## experimentData(x)@samples$species <- 'sample[1-n]-species[1-n]'
+    if (validObject(x)) x
+}
+
+makeProtMSnSet <- function(object) {
+    x <- proteins(object)
+    if (nrow(x) == 0) {
+        ans <- new("MSnSet")
+    } else {
+        ecols <- grep("abundance", names(x))
+        e <- as.matrix(x[, ecols])
+        fd <- x[, -ecols]
+        rownames(e) <- rownames(fd) <-
+            make.names(fd[, "accession"], unique = TRUE)
+        pd <- data.frame(row.names = colnames(e))
+        ans <- MSnSet(exprs = e, fData = fd, pData = pd)
+    }
+    addMzTabMetadata(ans, object)
+}
+
+makePepMSnSet <- function(object) {
+    x <- peptides(object)
+    if (nrow(x) == 0) {
+        ans <- new("MSnSet")
+    } else {
+        ecols <- grep("abundance", names(x))
+        e <- as.matrix(x[, ecols])
+        fd <- x[, -ecols]
+        rownames(e) <- rownames(fd) <-
+            make.names(fd[, "sequence"], unique = TRUE)
+        pd <- data.frame(row.names = colnames(e))
+        ans <- MSnSet(exprs = e, fData = fd, pData = pd)
+    }
+    addMzTabMetadata(ans, object)
+}
+
+makePsmMSnSet <- function(object) {
+    x <- psms(object)
+    if (nrow(x) == 0) {
+        ans <- new("MSnSet")
+    } else {
+        e <- matrix(NA_real_, nrow = nrow(x), ncol = 0)
+        fd <- x
+        rownames(e) <- rownames(fd) <-
+            make.names(fd[, "PSM_ID"], unique = TRUE)
+        pd <- data.frame(row.names = colnames(e))
+        ans <- MSnSet(exprs = e, fData = fd, pData = pd)        
+    }
+    addMzTabMetadata(ans, object)
+}

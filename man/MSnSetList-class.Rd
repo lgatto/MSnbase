@@ -19,8 +19,10 @@
 
 \title{Storing multiple related MSnSets}
 
-\description{A class for storing lists of \code{\linkS4class{MSnSet}}
-instances.}
+\description{
+  A class for storing lists of \code{\linkS4class{MSnSet}}
+  instances.
+}
 
 \details{
 
@@ -83,12 +85,14 @@ instances.}
 
     \item{\code{unsplit(value, f)}}{The \code{unsplit} method reverses
       the effect of splitting the \code{value} \code{MSnSet} along the
-      groups \code{f}.
+      groups \code{f}.}
 
-    }
+    \item{\code{as(x, "MSnSetList")}}{Where \code{x} is an instance of
+      class \linkS4class{MzTab}. See the class documentation for
+      details.}
+    
   }
 }
-
 
 \section{Slots}{
   \describe{

@@ -40,7 +40,7 @@ test_that("calculateFragments", {
     stringsAsFactors=FALSE)
 
   expect_message(calculateFragments("PQR"),
-                 "Modifications used: C=160.030649")
+                 "Modifications used: C=57.02146")
   expect_message(calculateFragments("PQR", modifications=NULL),
                  "Modifications used: None")
 
@@ -61,6 +61,23 @@ test_that("calculateFragments", {
   ## neutral loss, rownames always differ
   expect_equal(pqr[c(4:6, 13:15, 19:24),],
                calculateFragments("PQR", verbose=FALSE),
+               check.attributes=FALSE, tolerance=1e-5)
+
+  ## neutral loss + nterm mod, rownames always differ
+  tpqr <- pqr[c(4:6, 13:15, 19:24),]
+  tpqr$mz[1:3] <- tpqr$mz[1:3]+229
+  expect_equal(tpqr,
+               calculateFragments("PQR", modifications=c(C=57.02146, Nterm=229),
+                                                         verbose=FALSE),
+               check.attributes=FALSE, tolerance=1e-5)
+
+  ## neutral loss + nterm + cterm mod, rownames always differ
+  tpqr$mz[c(4:6, 11:12)] <- tpqr$mz[c(4:6, 11:12)]-100
+  expect_equal(tpqr,
+               calculateFragments("PQR", modifications=c(C=57.02146,
+                                                         Nterm=229,
+                                                         Cterm=-100),
+                                                         verbose=FALSE),
                check.attributes=FALSE, tolerance=1e-5)
 
   expect_equal(ace,
