@@ -7,6 +7,7 @@ CHANGES IN VERSION 1.17.6
    replaced. <2015-06-21 Sun>
  o calculateFragments gains the feature to handle N-/C-terminal modifications,
    see #47. <2015-06-21 Sun>
+ o update readMzTabData example <2015-06-22 Mon>
 
 CHANGES IN VERSION 1.17.5
 -------------------------
