@@ -32,11 +32,14 @@ This function can be used to create an
 the \code{MSnSet}'s \code{experimentData()@other$mzTab} slot.
 }
 \examples{
-testfile <- "http://mztab.googlecode.com/svn/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"
+testfile <- "https://mztab.googlecode.com/svn/examples//PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"
 prot <- readMzTabData(testfile, "PRT")
 prot
-pep <- readMzTabData(testfile, "PEP")
-pep
+head(fData(prot))
+head(exprs(prot))
+psms <- readMzTabData(testfile, "PSM")
+psms
+head(fData(psms))
 }
 \author{
 Laurent Gatto

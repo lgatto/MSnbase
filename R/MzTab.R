@@ -59,7 +59,7 @@ MzTab <- function(file) {
     linesByType <- split(lines, lineType)
 
     ## Comments are easy: just strip the first four characters
-    ## from each line.  Though is it important to record the
+   ## from each line.  Though is it important to record the
     ## position in the file where they were found?
     comments <- substring(linesByType[["CO"]], 5)
 
@@ -79,11 +79,12 @@ MzTab <- function(file) {
     res[["Metadata"]] <- reshapeMetadata(res[["Metadata"]])
 
     .MzTab(Metadata = res[["Metadata"]],
-               Proteins = res[["Proteins"]],
-               Peptides = res[["Peptides"]],
-               PSMs = res[["PSMs"]],
-               SmallMolecules = res[["SmallMolecules"]],
-               Comments = comments)
+           Filename = file,
+           Proteins = res[["Proteins"]],
+           Peptides = res[["Peptides"]],
+           PSMs = res[["PSMs"]],
+           SmallMolecules = res[["SmallMolecules"]],
+           Comments = comments)
 
 }
 

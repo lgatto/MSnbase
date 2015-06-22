@@ -19,11 +19,14 @@
 ##' details about the inners of \code{readMzTabData}.
 ##' @author Laurent Gatto
 ##' @examples
-##' testfile <- "http://mztab.googlecode.com/svn/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"
+##' testfile <- "https://mztab.googlecode.com/svn/examples//PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"
 ##' prot <- readMzTabData(testfile, "PRT")
 ##' prot
-##' pep <- readMzTabData(testfile, "PEP")
-##' pep
+##' head(fData(prot))
+##' head(exprs(prot))
+##' psms <- readMzTabData(testfile, "PSM")
+##' psms
+##' head(fData(psms))
 readMzTabData <- function(file, what = c("PRT", "PEP", "PSM"),
                           version = c("1.0", "0.9"),
                           verbose = TRUE) {
