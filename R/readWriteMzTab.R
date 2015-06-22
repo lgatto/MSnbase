@@ -12,7 +12,7 @@
 ##' @param version A \code{character} defining the format
 ##' specification version of the mzTab file. Default is
 ##' \code{"1.0"}. Version \code{"0.9"} is available of backwards
-##' compatibility.
+##' compatibility. See \code{\link{readMzTabData_v0.9}} for details.
 ##' @param verbose Produce verbose output.
 ##' @return An instance of class \code{MSnSet}.
 ##' @seealso See \code{\link{MzTab}} and \code{\link{MSnSetList}} for
