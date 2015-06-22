@@ -1039,12 +1039,13 @@ writeMzTabData <- function(x,
 ##' \code{"\linkS4class{MSnSet}"} as an \code{mzTab} file.
 ##' @examples
 ##' testfile <- "http://mztab.googlecode.com/svn/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"
-##' prot <- readMzTabData(testfile, "PRT")
+##' prot <- readMzTabData_v0.9(testfile, "PRT")
 ##' prot
-##' pep <- readMzTabData(testfile, "PEP")
+##' pep <- readMzTabData_v0.9(testfile, "PEP")
 ##' pep
 readMzTabData_v0.9 <- function(file,
                                what = c("PRT", "PEP"),
+                               version = "0.9",
                                verbose = TRUE) {
     warning("Support for mzTab version 0.9 only. Support will be added soon.")
     

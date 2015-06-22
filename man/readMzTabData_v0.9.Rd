@@ -4,7 +4,8 @@
 \alias{readMzTabData_v0.9}
 \title{Read an 'mzTab' file}
 \usage{
-readMzTabData_v0.9(file, what = c("PRT", "PEP"), verbose = TRUE)
+readMzTabData_v0.9(file, what = c("PRT", "PEP"), version = "0.9",
+  verbose = TRUE)
 }
 \arguments{
 \item{file}{A \code{character} with the \code{mzTab} file to
@@ -28,9 +29,9 @@ slot.
 }
 \examples{
 testfile <- "http://mztab.googlecode.com/svn/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"
-prot <- readMzTabData(testfile, "PRT")
+prot <- readMzTabData_v0.9(testfile, "PRT")
 prot
-pep <- readMzTabData(testfile, "PEP")
+pep <- readMzTabData_v0.9(testfile, "PEP")
 pep
 }
 \author{
