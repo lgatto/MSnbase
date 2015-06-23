@@ -114,17 +114,18 @@ iPQF.method  <- function(pos, mat, features) {
 ## to build internal objects required for iPQF.method 
 
 ## Ratio Matrix Construction Function
-## Define Ratio Calculation: all Channels to individual channel, or sum of all channels
-ratio.mat <- function(mat, method = c("sum", colnames(mat))) { ## FIXME
-    method <- match.arg(method)
-    if (method == "sum") {
-        ratio.mat <- t(apply(mat, 1, function(x){x/sum(x)}))
+# Define Ratio Calculation: all Channels to individual channel, or sum of all channels
+ratio.mat <- function(mat, method) {
+    if(method == "sum") {
+        ratio.mat <- t(apply(mat, 1, function(x) x/sum(x)))
     } else {
         base.channel <- match(method, colnames(mat))
-        ratio.mat <- t(apply(mat, 1, function(x){ x[-base.channel] /x[base.channel] } ))
-    }
-    return(ratio.mat)
+        ratio.mat <- t(apply(mat, 1,
+                             function(x) x /x[base.channel]))
+  }
+  return(ratio.mat)
 }
+
 
 ## example call: 
 ## exprs(object) <- ratio.mat(exprs(object), method="sum")
