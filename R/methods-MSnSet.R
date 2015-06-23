@@ -759,3 +759,22 @@ setMethod("idSummary",
 ##                      featureData(x)[[i, ...]] <- value
 ##                      x
 ##                  })
+
+
+setAs("IBSpectra", "MSnSet",
+      function (from, to = "MSnSet") {
+          ans <- MSnSet(exprs = assayData(from)$ions,
+                        fData = fData(from),
+                        pData = pData(from))
+          ans@experimentData <- experimentData(from)
+          ans@protocolData <- protocolData(from)
+          if (validObject(ans))
+              return(ans)
+      })
+
+## setAs("MSnSet", "IBSpectra",
+##       function (from, to = "IBSpectra") {
+##           ## see IBSpectraTypes() for possible types
+##           ## if (ncol(from)) == 2) ...
+##           ## if (ncol(from)) == 2) ...      
+##       })

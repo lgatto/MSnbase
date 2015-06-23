@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.17.8
 -------------------------
- o
+ o coercion from IBSpectra to MSnSet, as per user request
+   <2015-06-23 Tue>
  
 CHANGES IN VERSION 1.17.7
 -------------------------
