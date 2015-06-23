@@ -117,6 +117,7 @@ iPQF.method  <- function(pos, mat, features) {
 # Define Ratio Calculation: all Channels to individual channel, or sum of all channels
 ratio.mat <- function(mat, method) {
     if(method == "sum") {
+        ## equivalent to normalise(., "sum")
         ratio.mat <- t(apply(mat, 1, function(x) x/sum(x)))
     } else {
         base.channel <- match(method, colnames(mat))
