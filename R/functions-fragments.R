@@ -174,14 +174,20 @@
 #' @return modified data.frame
 #' @noRd
 .terminalModifications <- function(df, modifications) {
-  affected <- c(Nterm="^[abc]_?$", Cterm="^[xyz]\\*?$")
 
-  for (term in c("Nterm", "Cterm")) {
-    if (term %in% names(modifications)) {
-      isAffected <- grep(affected[term], df$type)
-      if (length(isAffected)) {
-        df$mz[isAffected] <- df$mz[isAffected] + modifications[term]
-      }
+  if ("Nterm" %in% names(modifications)) {
+    isABC <- grep("[abc]", df$type)
+
+    if (length(isABC)) {
+      df$mz[isABC] <- df$mz[isABC] + modifications["Nterm"]
+    }
+  }
+
+  if ("Cterm" %in% names(modifications)) {
+    isXYZ <- grep("[xyz]", df$type)
+
+    if (length(isXYZ)) {
+      df$mz[isXYZ] <- df$mz[isXYZ] + modifications["Cterm"]
     }
   }
 
