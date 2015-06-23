@@ -38,7 +38,7 @@
   one of \code{sum}, \code{max}, \code{quantiles}, \code{center.mean},
   \code{center.median}, \code{quantiles.robust} or \code{vsn}.  
   For \code{sum} and \code{max}, each feature's reporter intensity is
-  divided by the maximum of the sum respectively. These two methods are 
+  divided by the maximum or the sum respectively. These two methods are 
   applied along the features (rows).  
   \code{center.mean} and \code{center.median} translate the respective sample
   (column) intensities according to the column mean or median.   
