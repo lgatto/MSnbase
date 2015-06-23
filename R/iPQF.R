@@ -118,9 +118,11 @@ iPQF.method  <- function(pos, mat, features) {
 ratio.mat <- function(mat, method) {
     if(method == "sum") {
         ## equivalent to normalise(., "sum")
+        ## ration.mat <- mat/rowSums(mat)
         ratio.mat <- t(apply(mat, 1, function(x) x/sum(x)))
     } else {
         base.channel <- match(method, colnames(mat))
+        ## ratio.mat <- mat/mat[, base.channel]
         ratio.mat <- t(apply(mat, 1,
                              function(x) x /x[base.channel]))
   }
