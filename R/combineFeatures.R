@@ -86,18 +86,11 @@ combineFeaturesV <- function(object,   ## MSnSet
     n1 <- nrow(object)
     ## !! order of features in matRes is defined by the groupBy factor !!
     if (is.character(fun) && fun == "iPQF") { 
-        args <- list(...)
-        ratio.calc <- args$ratio.calc
-        low.support.filter <- args$low.support.filter
-        method.combine <- args$method.combine
         ## NB: here, we pass the object, not only assay data,
         ##     because iPGF also needs the feature data, otherwise
         ##     not passed and used in combineFeatureMatrix
         ##     iPQF still returns a matrix, though.
-        matRes <- iPQF(object, groupBy,
-                       low.support.filter,
-                       ratio.calc,
-                       method.combine)
+        matRes <- iPQF(object, groupBy, ...)
     } else {
         matRes <- as.matrix(combineMatrixFeatures(exprs(object),
                                                   groupBy, fun, 
