@@ -1,6 +1,5 @@
 \name{combineFeatures}
 \alias{combineFeatures}
-\alias{iPQF}
 
 \title{ Combines features in an \code{MSnSet} object }
 

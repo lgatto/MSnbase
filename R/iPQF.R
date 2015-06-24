@@ -1,7 +1,3 @@
-## TODO:
-##
-## - how are the feature names encoded? Hard-coded? Make more flexible.
-##
 
 ##' Feature-based weighting of peptides for protein ratio estimation
 ##' (called by iPQF main function))
@@ -211,6 +207,9 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
 ##' @param method.combine A \code{logical} defining whether to further
 ##' use median polish to combine features.
 ##' @return A \code{matrix} with estimated protein ratios.
+##' @references iPQF: A new peptide-to-protein summarization method
+##' using peptide characteristics to improve iTRAQ quantification
+##' Martina Fischer and Bernhard Y. Renard, \emph{in prep}.
 ##' @author Martina Fisher
 iPQF <- function(object, groupBy,
                  low.support.filter = FALSE,

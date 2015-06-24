@@ -41,4 +41,9 @@ general overview of feature aggregation and examples.
 \author{
 Martina Fisher
 }
+\references{
+iPQF: A new peptide-to-protein summarization method
+using peptide characteristics to improve iTRAQ quantification
+Martina Fischer and Bernhard Y. Renard, \emph{in prep}.
+}
 
