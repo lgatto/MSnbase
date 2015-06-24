@@ -258,7 +258,7 @@ iPQF <- function(object, groupBy,
                  ratio.calc = "sum",
                  method.combine = FALSE) {
     
-    if (inherits(object,"MSnSet"))
+    if (!inherits(object,"MSnSet"))
         stop("'object' is required to be of class MSnSet")
     ## Check NA/Zero values still in data set?
     rm.pos <- apply(exprs(object), 2,
@@ -356,10 +356,11 @@ iPQF <- function(object, groupBy,
 
     if (!low.support.filter) {
         single.prots <- unique(accession[unlist(pos.all[singles])])
-        message(" The following ", length(single.prots), "proteins are only supported by 1 or 2 peptides, hence,\n",
-                "protein quantification is not reliable and can only be calculated by the 'mean' in these cases,\n",
-                "corresponding protein accessions are: ","\n", single.prots )
-        
+        msg <- paste0("The following ", length(single.prots), " proteins are only supported by 1 or 2 peptides,\n",
+                      "hence, protein quantification is not reliable and can only be calculated\n",
+                      "by the 'mean' in these cases, corresponding protein accessions are:\n  ",
+                      paste(single.prots, collapse = ", "))
+        message(msg)
         single.quant <- lapply(pos.all[singles],
                                function(i) {
                                    if (length(i) == 2) apply(mat[i,],2,mean) else mat[i,]
