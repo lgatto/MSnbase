@@ -38,16 +38,16 @@
   one of \code{sum}, \code{max}, \code{quantiles}, \code{center.mean},
   \code{center.median}, \code{quantiles.robust} or \code{vsn}.  
   For \code{sum} and \code{max}, each feature's reporter intensity is
-  divided by the maximum of the sum respectively. These two methods are 
+  divided by the maximum or the sum respectively. These two methods are 
   applied along the features (rows).  
   \code{center.mean} and \code{center.median} translate the respective sample
   (column) intensities according to the column mean or median.   
-  Using \code{quantiles} or  \code{quantiles.robust} uses (robust) 
+  Using \code{quantiles} or  \code{quantiles.robust} applies (robust) 
   quantile normalisation, as implemented in
   \code{\link{normalize.quantiles}} and
   \code{\link{normalize.quantiles.robust}} of the \code{preprocessCore} 
   package.
-  \code{vsn} uses the \code{\link{vsn2}} from the \code{vsn} package.
+  \code{vsn} uses the \code{\link{vsn2}} function from the \code{vsn} package.
   Note that the latter also glog-transforms the intensities.
   See respective manuals for more details and function arguments.
 
