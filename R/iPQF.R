@@ -132,8 +132,7 @@ ratio.mat <- function(mat, method) {
 
 ## example call: 
 ## exprs(object) <- ratio.mat(exprs(object), method="sum")
-## ratio.mat(head(mat), method="X114_ions")
-     
+## ratio.mat(head(mat), method="X114_ions")     
 
 ## Function: 'Build uniques.all'
 ## list elements= proteins
@@ -226,16 +225,13 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
     return(list(pos.u, pos.ud))
 }
 
-## combineFeatures(object, groupBy = fData(object)$accession,
-##                 redundancy.handler, fun = "iPQF",
-##                 low.support.filter = c("TRUE","FALSE"),
-##                 ratio.calc = c("none", "sum", colnames(exprs(object))),
-##                 method.combine = c("TRUE","FALSE"))
 
-                                        
-##' iPQF is a novel peptide-to-protein summarization method, which
-##' integrates peptide characteristics as well as quantitative values
-##' for protein ratio estimation.
+##' The iPQF spectra-to-protein summarisation method integrates
+##' peptide characteristics and quantitative values for protein
+##' quantitation estimation, were peptide spectra receive weights and
+##' contribute to the protein quantification according to their
+##' reliability. See also \code{\link{combineFeatures}} for a more
+##' general overview of feature aggregation and examples.
 ##'
 ##' @title iPQF: iTRAQ (and TMT) Protein Quantification based on Features
 ##' @param object An instance of class \code{MSnSet} containing
@@ -246,11 +242,12 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
 ##' @param low.support.filter A \code{logical} specifying if proteins
 ##' being supported by only 1-2 peptides should be filtered
 ##' out. Default is \code{FALSE}.
-##' @param ratio.cal Either \code{"none"} (default), \code{"sum"}, or
-##' a specific channel (one of \code{sampleNames(object)}) defining
-##' how to calculate relative peptides intensities.
-##' @param method.combine A \code{logical} defining if whether to
-##' further use median polish to combine features.
+##' @param ratio.calc Either \code{"none"} (don't calculate any
+##' ratios), \code{"sum"} (default), or a specific channel (one of
+##' \code{sampleNames(object)}) defining how to calculate relative
+##' peptides intensities.
+##' @param method.combine A \code{logical} defining whether to further
+##' use median polish to combine features.
 ##' @return A \code{matrix} with estimated protein ratios.
 ##' @author Martina Fisher
 iPQF <- function(object, groupBy,

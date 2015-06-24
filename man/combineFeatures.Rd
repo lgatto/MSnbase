@@ -1,7 +1,8 @@
 \name{combineFeatures}
 \alias{combineFeatures}
+\alias{iPQF}
 
-\title{ Combines features in an 'MSnSet' object }
+\title{ Combines features in an \code{MSnSet} object }
 
 
 \description{
@@ -25,8 +26,9 @@
 \usage{
 
 combineFeatures(object, groupBy, fun = c("mean", "median",
-"weighted.mean", "sum", "medpolish", "iPQF"), redundancy.handler = c("unique",
-"multiple"), cv = TRUE, cv.norm = "sum", verbose = TRUE, ...)
+"weighted.mean", "sum", "medpolish", "iPQF"), redundancy.handler =
+c("unique", "multiple"), cv = TRUE, cv.norm = "sum", verbose = TRUE,
+...)
 
 }
 
@@ -43,8 +45,9 @@ combineFeatures(object, groupBy, fun = c("mean", "median",
     \code{redundancy.handler} for details about the latter.}
 
   \item{fun}{ The summerising function. Currently, mean, median,
-    weighted mean, sum and median polish are implemented, but
-    user-defined functions can also be supplied. }
+    weighted mean, sum and median polish and iPQF (see
+    \code{\link{iPQF}} for details) are implemented, but user-defined
+    functions can also be supplied. }
     
   \item{redundancy.handler}{ If \code{groupBy} is a \code{list}, one of
     \code{"unique"} (default) or \code{"multiple"} (ignored otherwise)
@@ -68,12 +71,10 @@ combineFeatures(object, groupBy, fun = c("mean", "median",
   \item{verbose}{ A \code{logical} indicating whether verbose output is
     to be printed out. }
 
-  \item{\dots}{ Additional arguments for the \code{fun} function. }
-}
+  \item{\dots}{ Additional arguments for the \code{fun} function. In
+    particular, for the iPQF method, additional arguments are described
+    in the details section. } }
 
-% \details{
-% %%  ~~ If necessary, more details than the description above ~~
-% }
 
 \value{
   A new \code{"\linkS4class{MSnSet}"} instance is returned with
@@ -89,6 +90,13 @@ combineFeatures(object, groupBy, fun = c("mean", "median",
   Laurent Gatto <lg390@cam.ac.uk>
 }
 
+\references{
+
+  iPQF: A new peptide-to-protein summarization method using peptide
+  characteristics to improve iTRAQ quantification Martina Fischer and
+  Bernhard Y. Renard, \emph{in prep}.
+
+}
 
 \seealso{
   \code{\link{featureCV}}
@@ -121,6 +129,17 @@ exprs(msnset)
 exprs(combineFeatures(msnset, grp, "sum"))
 ## NAs are removed before summing 
 exprs(combineFeatures(msnset, grp, "sum", na.rm = TRUE))
+
+## using iPQF
+data(msnset2)
+res <- combineFeatures(msnset2,
+                       groupBy = fData(object.test)$accession,
+                       redundancy.handler = "unique",
+                       fun = "iPQF",
+                       low.support.filter = FALSE,
+                       ratio.calc = "sum",
+                       method.combine = FALSE)
+head(exprs(res))
 }
 
 
