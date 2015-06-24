@@ -46,21 +46,38 @@ test_that("calculateFragments", {
 
   expect_equal(pqr[1:18,],
                calculateFragments("PQR", type=c("a", "b", "c", "x", "y", "z"),
-                                  neutralLoss=FALSE, verbose=FALSE),
+                                  neutralLoss=NULL, verbose=FALSE),
                tolerance=1e-5)
   expect_equal(pqr[1:6,],
-               calculateFragments("PQR", type=c("a", "b"), neutralLoss=FALSE,
+               calculateFragments("PQR", type=c("a", "b"), neutralLoss=NULL,
                                   verbose=FALSE),
                tolerance=1e-5)
   ## rownames always differ
   expect_equal(pqr[c(10:12, 16:18),],
-               calculateFragments("PQR", type=c("x", "z"), neutralLoss=FALSE,
+               calculateFragments("PQR", type=c("x", "z"), neutralLoss=NULL,
                                   verbose=FALSE),
                check.attributes=FALSE, tolerance=1e-5)
 
-  ## neutral loss, rownames always differ
+  ## neutral loss
+  ## rownames always differ
   expect_equal(pqr[c(4:6, 13:15, 19:24),],
                calculateFragments("PQR", verbose=FALSE),
+               check.attributes=FALSE, tolerance=1e-5)
+
+  ## neutral loss (water=cterm disabled),
+  ## rownames always differ
+  expect_equal(pqr[c(4:6, 13:15, 22:24),],
+               calculateFragments("PQR",
+                 neutralLoss=defaultNeutralLoss(disableWaterLoss="Cterm"),
+                 verbose=FALSE),
+               check.attributes=FALSE, tolerance=1e-5)
+
+  ## neutral loss (ammonia=Q disabled),
+  ## rownames always differ
+  expect_equal(pqr[c(4:6, 13:15, 19:21),],
+               calculateFragments("PQR",
+                 neutralLoss=defaultNeutralLoss(disableAmmoniaLoss="Q"),
+                 verbose=FALSE),
                check.attributes=FALSE, tolerance=1e-5)
 
   ## neutral loss + nterm mod, rownames always differ
@@ -82,7 +99,7 @@ test_that("calculateFragments", {
 
   expect_equal(ace,
                calculateFragments("ACE", type=c("a", "b", "c", "x", "y", "z"),
-                                  z=2, neutralLoss=FALSE, verbose=FALSE),
+                                  z=2, neutralLoss=NULL, verbose=FALSE),
                tolerance=1e-5)
   expect_equal(ace[1:9,],
                calculateFragments("ACE", type=letters[1:3], z=2, verbose=FALSE),
@@ -90,3 +107,17 @@ test_that("calculateFragments", {
 
 })
 
+test_that("defaultNeutralLoss", {
+  expect_equal(defaultNeutralLoss(),
+               list(water=c("Cterm", "D", "E", "S", "T"),
+                    ammonia=c("K", "N", "Q", "R")))
+  expect_equal(defaultNeutralLoss(disableWaterLoss=c("T", "E", "S", "D")),
+               list(water=c("Cterm"), ammonia=c("K", "N", "Q", "R")))
+  expect_equal(defaultNeutralLoss(disableWaterLoss=c("T", "E", "S", "D"),
+                                  disableAmmoniaLoss=c("K", "Q")),
+               list(water=c("Cterm"), ammonia=c("N", "R")))
+  expect_equal(defaultNeutralLoss(disableWaterLoss=c("Cterm",
+                                                     "T", "E", "S", "D"),
+                                  disableAmmoniaLoss=c("K", "N", "Q", "R")),
+               list(water=character(), ammonia=character()))
+})

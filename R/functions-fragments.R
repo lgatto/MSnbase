@@ -10,9 +10,7 @@
 #' @noRd
 .calculateFragments <- function(sequence, type=c("b", "y"), z=1,
                                 modifications=c(C=57.02146),
-                                neutralLoss=
-                                  list(water=c("Cterm", "D", "E", "S", "T"),
-                                       ammonia=c("K", "N", "Q", "R")),
+                                neutralLoss=defaultNeutralLoss(),
                                 verbose=TRUE) {
   ## TODO: this information should inform the user about a major API change
   ## and could be removed in MSnbase > 1.18
@@ -158,7 +156,7 @@
   if (length(water)) {
     ## N-term D/E, internal S/T
     rules <- c(D="^D.", E="^E.", S=".S.", T=".T.")
-    rules <- rules[water[water %in% c("D", "E", "S", "T")]]
+    rules <- rules[intersect(c("D", "E", "S", "T"), water)]
 
     if (length(rules)) {
       widx <- grep(paste0(rules, collapse="|"), df$seq)
@@ -173,7 +171,7 @@
   if (length(ammonia)) {
     ## N-term/internal K/N/Q, internal R
     rules <- c(K="^.*K.", N="^.*N.", Q="^.*Q.", R=".R.")
-    rules <- rules[ammonia[ammonia %in% c("K", "N", "Q", "R")]]
+    rules <- rules[intersect(c("K", "N", "Q", "R"), ammonia)]
 
     if (length(rules)) {
       aidx <- grep(paste0(rules, collapse="|"), df$seq)
@@ -213,4 +211,13 @@
   }
 
   df
+}
+
+#' default neutral loss argument for calculateFragments
+#' @param disableWaterLoss character, which loss should not calculated
+#' @param disableAmmoniaLoss character, which loss should not calculated
+#' @noRd
+defaultNeutralLoss <- function(disableWaterLoss=NULL, disableAmmoniaLoss=NULL) {
+  list(water=setdiff(c("Cterm", "D", "E", "S", "T"), disableWaterLoss),
+       ammonia=setdiff(c("K", "N", "Q", "R"), disableAmmoniaLoss))
 }
