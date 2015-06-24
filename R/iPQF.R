@@ -319,7 +319,7 @@ iPQF <- function(object, groupBy,
 
     if (!low.support.filter) {
         single.prots <- unique(accession[unlist(pos.all[singles])])
-        msg <- paste0("The following ", length(single.prots), " proteins are only supported by 1 or 2 peptides,\n",
+        msg <- paste0("The following ", length(single.prots), " proteins are only supported by 1 or 2 peptide spectra,\n",
                       "hence, protein quantification is not reliable and can only be calculated\n",
                       "by the 'mean' in these cases, corresponding protein accessions are:\n  ",
                       paste(single.prots, collapse = ", "))
