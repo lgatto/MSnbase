@@ -211,6 +211,13 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
 ##' using peptide characteristics to improve iTRAQ quantification
 ##' Martina Fischer and Bernhard Y. Renard, \emph{in prep}.
 ##' @author Martina Fisher
+##' @examples
+##' data(msnset2)
+##' head(exprs(msnset2))
+##' prot <- combineFeatures(msnset2,
+##'                         groupBy = fData(msnset2)$accession,
+##'                         method = "iPQF")
+##' head(exprs(prot))
 iPQF <- function(object, groupBy,
                  low.support.filter = FALSE,
                  ratio.calc = "sum",

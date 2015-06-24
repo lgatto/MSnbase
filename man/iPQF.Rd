@@ -38,6 +38,14 @@ contribute to the protein quantification according to their
 reliability. See also \code{\link{combineFeatures}} for a more
 general overview of feature aggregation and examples.
 }
+\examples{
+data(msnset2)
+head(exprs(msnset2))
+prot <- combineFeatures(msnset2,
+                        groupBy = fData(msnset2)$accession,
+                        method = "iPQF")
+head(exprs(prot))
+}
 \author{
 Martina Fisher
 }
