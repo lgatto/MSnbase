@@ -5,12 +5,14 @@
 \alias{class:MzTab}
 \alias{MzTab}
 \alias{metadata,MzTab-method}
+\alias{fileName,MzTab-method}
 \alias{peptides,MzTab-method}
 \alias{proteins,MzTab-method}
-\alias{show,MzTab-method}
 \alias{psms,MzTab-method}
 \alias{comments}
 \alias{smallMolecules}
+\alias{coerce,MzTab,MSnSetList-method}
+\alias{show,MzTab-method}
 
 \title{Parse \code{MzTab} files}
 
@@ -24,19 +26,41 @@
 
   At this stage, the metadata and data are only minimally parsed. More
   specific data extraction and preparation are delegated to more
-  specialised functions, such as the \code{as(., to = "MSnSet")} for
-  proteomics data.  
+  specialised functions, such as the \code{as(., to = "MSnSetList")} and
+  \code{readMzTabData} for proteomics data.
+
+  Note that no attempts are made to verify the validitiy of the mzTab
+  file. 
+
 }
 
 \section{Objects from the Class}{
+  
   Objects can be created by calls the the constructor \code{MzTab} that
   takes a single \code{mzTab} file as input.
+
+  The objects can subsequently be coerced to \linkS4class{MSnSetList}
+  instances with \code{as(object, "MSnSetList")}. The resulting
+  \code{MSnSetList} contains possibly empty \code{MSnSet} instances for
+  proteins, peptide and PSMs, respectively named \code{"Proteins"},
+  \code{"Peptides"} and \code{"PSMs"}.
+
+  The assaydata slots of the two former are populated with the
+  \code{protein_abundance_assay[1-n]} and
+  \code{peptide_abundance_assay[1-n]} columns in the \code{mzTab}
+  file. No abundance values are defined for the latter. The respective
+  feature names correspond to protein accessions, peptide sequences and
+  PSM identifiers, possibly made unique as by appending sequence numbers
+  to duplicates.
+  
 }
 
 \section{Slots}{
   \describe{
     \item{\code{Metadata}:}{Object of class \code{"list"} storing the
       metadata section. }
+    \item{\code{Filename}:}{Object of class \code{"character"} storing
+      the orginal file name. }
     \item{\code{Proteins}:}{Object of class \code{"data.frame"} storing
       the protein data.  }
     \item{\code{Peptides}:}{Object of class \code{"data.frame"} storing
@@ -54,6 +78,8 @@
   \describe{
     \item{metadata}{\code{signature(x = "MzTab")}: returns the meta data
       \code{list}. }
+    \item{fileName}{\code{signature(object = "MzTab")}: returns the file name
+      of the original \code{mzTab} file. }
     \item{peptides}{\code{signature(object = "MzTab")}: returns the
       peptide \code{data.frame}. }
     \item{proteins}{\code{signature(object = "MzTab")}: returns the
@@ -66,6 +92,7 @@
       comments. }
   }
 }
+
 
 \references{
 

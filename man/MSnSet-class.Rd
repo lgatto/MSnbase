@@ -26,6 +26,7 @@
 \alias{as.MSnSet.ExpressionSet}
 \alias{as.data.frame.MSnSet}
 \alias{ms2df}
+\alias{coerce,IBSpectra,MSnSet-method}
 \alias{coerce,MSnSet,ExpressionSet-method}
 \alias{coerce,ExpressionSet,MSnSet-method}
 \alias{coerce,MSnSet,data.frame-method}
@@ -103,6 +104,10 @@
   \code{R} and \code{Bioconductor} packages. Importer functions will be
   developed to stream-line the generation of \code{"MSnSet"} instances
   from third-party software.
+
+  A coercion method is also available to transform an \code{IBSpectra}
+  object (names \code{x}) from the \code{isobar} package into an
+  \code{MSnSet}: \code{as(x, "MSnSet")}.
 
   In the frame of the \code{MSnbase} package, \code{MSnSet} instances
   can be generated from \code{"\linkS4class{MSnExp}"} experiments using

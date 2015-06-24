@@ -1,3 +1,21 @@
+CHANGES IN VERSION 1.17.9
+-------------------------
+ o calculateFragments' "neutralLoss" argument is now a list (was a logical
+   before), see #47. <2015-06-24 Wed>
+ o add defaultNeutralLoss() function to fill calculateFragments' modified
+  "neutralLoss" argument, see #47. <2015-06-24 Wed>
+ o
+
+CHANGES IN VERSION 1.17.8
+-------------------------
+ o coercion from IBSpectra to MSnSet, as per user request
+   <2015-06-23 Tue>
+ o new iPQF combineFeature method <2015-06-24 Wed>
+
+CHANGES IN VERSION 1.17.7
+-------------------------
+ o Fix support of identification-only mzTab files <2015-06-22 Mon>
+
 CHANGES IN VERSION 1.17.6
 -------------------------
  o Export metadata,MzTab-method <2015-06-19 Fri>
@@ -7,10 +25,7 @@ CHANGES IN VERSION 1.17.6
    replaced. <2015-06-21 Sun>
  o calculateFragments gains the feature to handle N-/C-terminal modifications,
    see #47. <2015-06-21 Sun>
- o calculateFragments' "neutralLoss" argument is now a list (was a logical
-   before), see #47. <2015-06-24 Wed>
- o add defaultNeutralLoss() function to fill calculateFragments' modified
-  "neutralLoss" argument, see #47. <2015-06-24 Wed>
+ o update readMzTabData example <2015-06-22 Mon>
 
 CHANGES IN VERSION 1.17.5
 -------------------------
