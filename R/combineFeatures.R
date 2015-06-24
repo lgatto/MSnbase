@@ -4,7 +4,8 @@ combineFeatures <- function(object,
                                 "median",
                                 "weighted.mean",
                                 "sum",
-                                "medpolish"),
+                                "medpolish",
+                                "iPQF"),
                             redundancy.handler = c("unique", "multiple"),
                             cv = TRUE,
                             cv.norm = "sum",
@@ -84,10 +85,18 @@ combineFeaturesV <- function(object,   ## MSnSet
     }
     n1 <- nrow(object)
     ## !! order of features in matRes is defined by the groupBy factor !!
-    matRes <- as.matrix(combineMatrixFeatures(exprs(object),
-                                              groupBy, fun, 
-                                              verbose = verbose,
-                                              ...))
+    if (is.character(fun) && fun == "iPQF") { 
+        ## NB: here, we pass the object, not only assay data,
+        ##     because iPGF also needs the feature data, otherwise
+        ##     not passed and used in combineFeatureMatrix
+        ##     iPQF still returns a matrix, though.
+        matRes <- iPQF(object, groupBy, ...)
+    } else {
+        matRes <- as.matrix(combineMatrixFeatures(exprs(object),
+                                                  groupBy, fun, 
+                                                  verbose = verbose,
+                                                  ...))
+    }
     fdata <- fData(object)[!duplicated(groupBy), , drop = FALSE] ## takes the first occurences
     fdata <- fdata[order(unique(groupBy)), , drop = FALSE] ## ordering fdata according to groupBy factor
     rownames(matRes) <- rownames(fdata)

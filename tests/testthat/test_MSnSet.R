@@ -291,3 +291,23 @@ test_that("keeping common features", {
               expect_null(names(res2))
               expect_equal(names(res1), names(res3))
 })
+
+test_that("Combine with fun or 'fun'", {
+    aa <- new("MSnSet",
+              exprs=matrix(
+                  c(rnorm(10, 4, 0.0001),
+                    rnorm(10, 10, 0.0001)),
+                  nrow = 10,byrow = TRUE),
+              featureData = new("AnnotatedDataFrame",
+                  data = data.frame(
+                      A = rep(c("A","B"), each = 5),
+                      B = paste(
+                          rep(c("A","B"), each = 5),
+                          1:10,
+                          sep = "."))))
+    expect_true(validObject(aa))
+    gb <- factor(rep(1:2, each = 5))
+    xchar <- combineFeatures(aa, gb, "sum")
+    xfun <- combineFeatures(aa, gb, sum)
+    expect_equal(exprs(xchar), exprs(xfun))
+})
