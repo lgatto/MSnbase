@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.17.8
+-------------------------
+ o coercion from IBSpectra to MSnSet, as per user request
+   <2015-06-23 Tue>
+ o new iPQF combineFeature method <2015-06-24 Wed>
+ 
 CHANGES IN VERSION 1.17.7
 -------------------------
  o Fix support of identification-only mzTab files <2015-06-22 Mon>
