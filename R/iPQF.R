@@ -13,6 +13,7 @@
 ##' @return A matrix with estimated protein ratios (rows are proteins,
 ##' columns are samples).
 ##' @author Martina Fisher
+##' @noRd
 iPQF.method  <- function(pos, mat, features) {
     ## calculated protein ratios based on feature ranking
     feat.trend <- matrix(data = NA_real_, nrow = length(pos),
