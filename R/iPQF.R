@@ -1,46 +1,7 @@
-## NOTES
+## TODO:
 ##
-## - defined default values for iPQF - only keep if iPQF is to be
-##   called directly.
+## - how are the feature names encoded? Hard-coded? Make more flexible.
 ##
-## - I have left the iPQF integration within combineFeaturesV as is
-##   was. If anything should be changed in the call stack, it would be
-##   to make iPQF return an MSnSet (the end of combineFeaturesV, after
-##   the if/else, would be copied into iPQF). iPQF could then be
-##   called through combineFeatures or directly as iPQF. Different
-##   ways of doing the same thing might not be ideal, but on the other
-##   hand, iPQF would have more visibility.
-##
-## - QST: how are the feature names encoded? Hard-coded? How to make
-##   this more flexible?
-##
-## - What about missing cleavages?
-##
-## - Would you consider writing a short section for the vignette, a
-##   complete example that demonstrates iPQF.
-##
-## QST
-##
-## - Abstract says peptide to protein summarisation, but iPQF object
-##   arguments is documented as 'absolute ion intensities', suggesting
-##   that these are ions/spectra intensities.
-##
-## Yes I do actually refer to individual spectra/ PSMs - and the
-## algorithm requires the absolute intensities of each individual PSM
-## and all peptide spectra assigned to a protein are used to estimate
-## the protein ratio. I define the cases where "1 peptide was observed
-## and quantified by several MSMS events" as group of 'redundant
-## peptides' and I even use their distance similiarity as one
-## feature. ( In the manuscipt I refer to 'uniquely' and 'multiply
-## measured (redundant) peptides)...
-## However, I probably should revisit the manuscript and clarify this
-## more. I might have misleadingly thougt that summarization methods
-## always rely on spectra intensities to infer protein abundances -
-## because how do they usually combine these several (redundant)
-## spectra of one peptide? Publications usually do not comment on
-## this.
-
-## - Out of curiosity, why Spearman correlation?
 
 ##' Feature-based weighting of peptides for protein ratio estimation
 ##' (called by iPQF main function))
@@ -315,15 +276,13 @@ iPQF <- function(object, groupBy,
 
     ## remove low-supported proteins
     singles <- which(unlist(lapply(pos.all, length)) < 3) ## proteins supported by only 1-2 peptide spectra
-    pos.pep <- pos.all[-singles]                         ## proteins supported by >2 peptide spectra   
 
-
-    ## FIXME - 
-    ## ! Note: I forgot to account for data sets which do not have any
-    ## proteins with less than 3 spectra.  Probably need sth like
-    ## this:
-    ## if (length(singles) > 0) pos.pep <- pos.all[-singles] 
-    ## else pos.pep <- pos.all
+    if (length(singles) == length(pos.all)) {
+        warning("No proteins with > 2 peptide spectra - keeping everything.")
+        pos.pep <- pos.all
+    } else {
+        pos.pep <- pos.all[-singles] ## proteins supported by >2 peptide spectra
+    }
     
     ## Redundantly measured peptide spectrum status in a protein profile (uniques.all):
     uniques.all <- uniques.list(pos.pep, sequence)

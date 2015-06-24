@@ -19,7 +19,7 @@ test_that("iPQF unit test", {
               load(fl)
               ##
               res1 <- combineFeatures(msnset2,
-                                      groupBy = fData(object.test)$accession,
+                                      groupBy = fData(msnset2)$accession,
                                       redundancy.handler = "unique",
                                       fun = "iPQF",
                                       low.support.filter = FALSE,
@@ -28,8 +28,16 @@ test_that("iPQF unit test", {
               res1@processingData <- processingData(ipqf1)
               expect_true(all.equal(res1, ipqf1))
 
+              dflt <- combineFeatures(msnset2,
+                                      groupBy = fData(msnset2)$accession,
+                                      redundancy.handler = "unique",
+                                      fun = "iPQF")
+              dflt@processingData <- processingData(ipqf1)
+              expect_true(all.equal(res1, dflt))
+              
+
               res2 <- combineFeatures(msnset2,
-                                      groupBy = fData(object.test)$accession,
+                                      groupBy = fData(msnset2)$accession,
                                       redundancy.handler = "unique",
                                       fun = "iPQF",
                                       low.support.filter = FALSE,
@@ -39,7 +47,7 @@ test_that("iPQF unit test", {
               expect_true(all.equal(res2, ipqf2))
 
               res3 <- combineFeatures(msnset2,
-                                      groupBy = fData(object.test)$accession,
+                                      groupBy = fData(msnset2)$accession,
                                       redundancy.handler = "unique",
                                       fun = "iPQF",
                                       low.support.filter = TRUE,
@@ -49,7 +57,7 @@ test_that("iPQF unit test", {
               expect_true(all.equal(res3, ipqf3))
 
               res4 <- combineFeatures(msnset2,
-                                      groupBy = fData(object.test)$accession,
+                                      groupBy = fData(msnset2)$accession,
                                       redundancy.handler = "unique",
                                       fun = "iPQF",
                                       low.support.filter = TRUE,
@@ -59,7 +67,7 @@ test_that("iPQF unit test", {
               expect_true(all.equal(res4, ipqf4))
 
               res5 <- combineFeatures(msnset2,
-                                      groupBy = fData(object.test)$accession,
+                                      groupBy = fData(msnset2)$accession,
                                       redundancy.handler = "unique",
                                       fun = "iPQF",
                                       low.support.filter = TRUE,

@@ -133,7 +133,7 @@ exprs(combineFeatures(msnset, grp, "sum", na.rm = TRUE))
 ## using iPQF
 data(msnset2)
 res <- combineFeatures(msnset2,
-                       groupBy = fData(object.test)$accession,
+                       groupBy = fData(msnset2)$accession,
                        redundancy.handler = "unique",
                        fun = "iPQF",
                        low.support.filter = FALSE,
