@@ -185,10 +185,13 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
 
 
 ##' The iPQF spectra-to-protein summarisation method integrates
-##' peptide characteristics and quantitative values for protein
-##' quantitation estimation, were peptide spectra receive weights and
-##' contribute to the protein quantification according to their
-##' reliability. See also \code{\link{combineFeatures}} for a more
+##' peptide spectra characteristics and quantitative values for protein
+##' quantitation estimation. Spectra features, such as charge state, 
+##' sequence length, identification score and others, contain valuable 
+##' information concerning quantification accuracy. The iPQF algorithm 
+##' assigns weights to spectra according to their overall feature reliability
+##' and computes a weighted mean to estimate protein quantities.
+##' See also \code{\link{combineFeatures}} for a more
 ##' general overview of feature aggregation and examples.
 ##'
 ##' @title iPQF: iTRAQ (and TMT) Protein Quantification based on Features
@@ -198,7 +201,7 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
 ##' matching. Generally, this is a feature variable such as
 ##' \code{fData(object)$accession}.
 ##' @param low.support.filter A \code{logical} specifying if proteins
-##' being supported by only 1-2 peptides should be filtered
+##' being supported by only 1-2 peptide spectra should be filtered
 ##' out. Default is \code{FALSE}.
 ##' @param ratio.calc Either \code{"none"} (don't calculate any
 ##' ratios), \code{"sum"} (default), or a specific channel (one of
@@ -207,10 +210,11 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
 ##' @param method.combine A \code{logical} defining whether to further
 ##' use median polish to combine features.
 ##' @return A \code{matrix} with estimated protein ratios.
-##' @references iPQF: A new peptide-to-protein summarization method
-##' using peptide characteristics to improve iTRAQ quantification
-##' Martina Fischer and Bernhard Y. Renard, \emph{in prep}.
-##' @author Martina Fisher
+##' @author Martina Fischer
+##' @references
+##' iPQF: A new peptide-to-protein summarization method using peptide
+##' characteristics to improve iTRAQ quantification Martina Fischer
+##' and Bernhard Y. Renard, \emph{in prep}.
 ##' @examples
 ##' data(msnset2)
 ##' head(exprs(msnset2))

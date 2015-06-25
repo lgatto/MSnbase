@@ -16,7 +16,7 @@ matching. Generally, this is a feature variable such as
 \code{fData(object)$accession}.}
 
 \item{low.support.filter}{A \code{logical} specifying if proteins
-being supported by only 1-2 peptides should be filtered
+being supported by only 1-2 peptide spectra should be filtered
 out. Default is \code{FALSE}.}
 
 \item{ratio.calc}{Either \code{"none"} (don't calculate any
@@ -32,10 +32,13 @@ A \code{matrix} with estimated protein ratios.
 }
 \description{
 The iPQF spectra-to-protein summarisation method integrates
-peptide characteristics and quantitative values for protein
-quantitation estimation, were peptide spectra receive weights and
-contribute to the protein quantification according to their
-reliability. See also \code{\link{combineFeatures}} for a more
+peptide spectra characteristics and quantitative values for protein
+quantitation estimation. Spectra features, such as charge state,
+sequence length, identification score and others, contain valuable
+information concerning quantification accuracy. The iPQF algorithm
+assigns weights to spectra according to their overall feature reliability
+and computes a weighted mean to estimate protein quantities.
+See also \code{\link{combineFeatures}} for a more
 general overview of feature aggregation and examples.
 }
 \examples{
@@ -47,11 +50,11 @@ prot <- combineFeatures(msnset2,
 head(exprs(prot))
 }
 \author{
-Martina Fisher
+Martina Fischer
 }
 \references{
-iPQF: A new peptide-to-protein summarization method
-using peptide characteristics to improve iTRAQ quantification
-Martina Fischer and Bernhard Y. Renard, \emph{in prep}.
+iPQF: A new peptide-to-protein summarization method using peptide
+characteristics to improve iTRAQ quantification Martina Fischer
+and Bernhard Y. Renard, \emph{in prep}.
 }
 
