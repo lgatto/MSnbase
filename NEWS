@@ -4,7 +4,6 @@ CHANGES IN VERSION 1.17.9
    before), see #47. <2015-06-24 Wed>
  o add defaultNeutralLoss() function to fill calculateFragments' modified
   "neutralLoss" argument, see #47. <2015-06-24 Wed>
- o
 
 CHANGES IN VERSION 1.17.8
 -------------------------
