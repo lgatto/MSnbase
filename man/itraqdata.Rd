@@ -30,8 +30,11 @@
   The \code{msnset2} object is another example iTRAQ4 data that is used
   to demonstrate features of the package, in particular the \code{iPQF}
   feature aggregation method, described in
-  \code{\link{combineFeatures}}. 
-  
+  \code{\link{combineFeatures}}. It corresponds to 11 proteins with
+  spectra measurements from the original data set described by
+  Breitwieser et al. (2011) \emph{General statistical modeling of data
+  from protein relative expression isobaric tags}. J. Proteome Res., 10,
+  2758–2766.
   
 }
 

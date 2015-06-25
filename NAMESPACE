@@ -34,6 +34,7 @@ importFrom(digest, digest)
 
 export(MSnSet,
        compareMSnSets,
+       defaultNeutralLoss,
        readMzXMLData,
        readMgfData,
        readMSData,
@@ -82,7 +83,7 @@ export(MSnSet,
        MzTab,
        smallMolecules,
        comments,
-       ## old 
+       ## old
        writeMzTabData,
        readMzTabData,
        readMzTabData_v0.9,

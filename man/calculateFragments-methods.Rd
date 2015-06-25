@@ -1,6 +1,7 @@
 \name{calculateFragments-methods}
 \alias{calculateFragments}
 \alias{calculateFragments,character,missing-method}
+\alias{defaultNeutralLoss}
 \docType{methods}
 
 \title{ Calculate ions produced by fragmentation. }
@@ -31,9 +32,17 @@
     Carbamidomethyl \code{modifications=c(C=57.02146)}. Use \code{Nterm} or
     \code{Cterm} as names for modifications that should be added to the amino
     respectively carboxyl-terminus.}
-  \item{neutralLoss}{ \code{logical} if \code{TRUE} (default) neutral loss is
-    also calculated. Currently water and ammonia loss (shown with an \code{_}
-    respectively a \code{*} in the results). }
+  \item{neutralLoss}{ \code{list}, it has to have two named elments,
+    namely \code{water} and \code{ammonia} that contain a
+    \code{character} vector which type of neutral loss should be calculated.
+    Currently neutral loss on the C terminal \code{"Cterm"}, at the amino acids
+    \code{c("D", "E", "S", "T")} for \code{"water"} (shown with an \code{_})
+    and \code{c("K", "N", "Q", "R")} for \code{"ammonia"} (shown with an
+    \code{*}) are supported.\cr
+    There is a helper function \code{defaultNeutralLoss} that returns the
+    correct list. It has two arguments \code{disableWaterLoss} and
+    \code{disableAmmoniaLoss} to remove single neutral loss options. See the
+    example section for use cases.}
   \item{verbose}{ \code{logical} if \code{TRUE} (default) the used
     modifications are printed. }
 }
@@ -96,6 +105,22 @@ calculateFragments("VESITARHGEVLQLRPK",
                    z=1:2)
 
 calculateFragments("VESITARHGEVLQLRPK", msexp[[1]])
+
+## neutral loss
+defaultNeutralLoss()
+
+## disable water loss on the C terminal
+defaultNeutralLoss(disableWaterLoss="Cterm")
+
+## real example
+calculateFragments("PQR")
+calculateFragments("PQR",
+                   neutralLoss=defaultNeutralLoss(disableWaterLoss="Cterm"))
+calculateFragments("PQR",
+                   neutralLoss=defaultNeutralLoss(disableAmmoniaLoss="Q"))
+
+## disable neutral loss completely
+calculateFragments("PQR", neutralLoss=NULL)
 }
 
 \keyword{methods}
