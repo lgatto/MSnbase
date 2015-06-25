@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for MS-based Proteomics
-Version: 1.17.8
+Version: 1.17.9
 Description: Basic plotting, data manipulation and processing
 	     of MS-based Proteomics data.
 Authors@R: c(person(given = "Laurent", family = "Gatto",
@@ -24,7 +24,7 @@ Authors@R: c(person(given = "Laurent", family = "Gatto",
              person(given = "Richie", family ="Cotton",
 	            email = "richierocks@gmail.com",
 		    role = "ctb"),
-             person(given = "Martina", family ="Fisher",
+             person(given = "Martina", family ="Fischer",
 	            email = "FischerM@rki.de",
 		    role = "ctb"),
              person(given = "Gibb", family ="Sebastian",
