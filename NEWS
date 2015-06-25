@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.17.10
+--------------------------
+ o 
+
 CHANGES IN VERSION 1.17.9
 -------------------------
  o calculateFragments' "neutralLoss" argument is now a list (was a logical
