@@ -766,7 +766,7 @@ setAs("IBSpectra", "MSnSet",
           ans <- MSnSet(exprs = assayData(from)$ions,
                         fData = fData(from),
                         pData = pData(from))
-          exp <- experimentData(x)
+          exp <- experimentData(from)
           ## the example data in isobar has MIAME
           ## experimental data ?!?!
           if (inherits(exp, "MIAPE"))
