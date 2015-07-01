@@ -83,6 +83,8 @@ export(MSnSet,
        MzTab,
        smallMolecules,
        comments,
+       mzTabMode,
+       mzTabType,
        ## old
        writeMzTabData,
        readMzTabData,

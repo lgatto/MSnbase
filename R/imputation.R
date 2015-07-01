@@ -55,7 +55,7 @@ setMethod("impute", "MSnSet",
               } else if (method == "MinDet") {
                   exprs(object) <-
                       imputeLCMD::impute.MinDet(exprs(object), ...)
-              } else if (method == "MinProp") {
+              } else if (method == "MinProb") {
                   exprs(object) <-
                       imputeLCMD::impute.MinProb(exprs(object), ...)
               } else if (method == "min") {

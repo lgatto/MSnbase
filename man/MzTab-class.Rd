@@ -11,6 +11,8 @@
 \alias{psms,MzTab-method}
 \alias{comments}
 \alias{smallMolecules}
+\alias{mzTabMode}
+\alias{mzTabType}
 \alias{coerce,MzTab,MSnSetList-method}
 \alias{show,MzTab-method}
 
@@ -78,6 +80,12 @@
   \describe{
     \item{metadata}{\code{signature(x = "MzTab")}: returns the meta data
       \code{list}. }
+    \item{mzTabMode}{\code{signature(x = "MzTab")}: returns the mode
+      (complete or summary) of the \code{mzTab} data. A shortcut for
+      \code{metadata(x)$`mzTab-mode`}.}
+    \item{mzTabType}{\code{signature(x = "MzTab")}: returns the type
+      (quantification or identification) of the \code{mzTab} data. A
+      shortcut for \code{metadata(x)$`mzTab-type`}.}    
     \item{fileName}{\code{signature(object = "MzTab")}: returns the file name
       of the original \code{mzTab} file. }
     \item{peptides}{\code{signature(object = "MzTab")}: returns the
