@@ -25,16 +25,15 @@
   \code{quantify} method on the \code{itraqdata} experimental data, as
   detailed in the \code{\link{quantify}} example. This example data set
   is used in the MSnbase-demo vignette, available with
-  \code{vignette("MSnbase-demo",package="MSnbase")}.
+  \code{vignette("MSnbase-demo", package="MSnbase")}.
 
   The \code{msnset2} object is another example iTRAQ4 data that is used
   to demonstrate features of the package, in particular the \code{iPQF}
-  feature aggregation method, described in
-  \code{\link{combineFeatures}}. It corresponds to 11 proteins with
-  spectra measurements from the original data set described by
-  Breitwieser et al. (2011) \emph{General statistical modeling of data
-  from protein relative expression isobaric tags}. J. Proteome Res., 10,
-  2758–2766.
+  feature aggregation method, described in \code{\link{iPQF}}. It
+  corresponds to 11 proteins with spectra measurements from the original
+  data set described by Breitwieser et al. (2011) \emph{General
+  statistical modeling of data from protein relative expression isobaric
+  tags}. J. Proteome Res., 10, 2758-2766.
   
 }
 
