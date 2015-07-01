@@ -126,7 +126,7 @@ makeProtMSnSet <- function(object) {
     if (nrow(x) == 0) {
         ans <- new("MSnSet")
     } else {
-        ecols <- grep("abundance", names(x))        
+        ecols <- grep("protein_abundance_assay", names(x))        
         e <- as.matrix(x[, ecols])
         if (length(ecols) > 0) fd <- x[, -ecols]
         else fd <- x
