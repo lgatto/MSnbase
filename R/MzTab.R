@@ -18,6 +18,12 @@ setMethod("show", "MzTab",
 setMethod("metadata", "MzTab",
           function(x, ...) x@Metadata)
 
+mzTabMode <- function(x)
+    metadata(x)$`mzTab-mode`
+
+mzTabType <- function(x)
+    metadata(x)$`mzTab-type`
+
 ## Generic from BiocGenerics
 setMethod("fileName", "MzTab",
           function(object, ...) object@Filename)
@@ -121,12 +127,13 @@ addMzTabMetadata <- function(x, y) {
     if (validObject(x)) x
 }
 
-makeProtMSnSet <- function(object) {
+makeProtMSnSet <- function(object,
+                           protabundance = "protein_abundance_assay") {
     x <- proteins(object)
     if (nrow(x) == 0) {
         ans <- new("MSnSet")
     } else {
-        ecols <- grep("abundance", names(x))        
+        ecols <- grep(protabundance, names(x))        
         e <- as.matrix(x[, ecols])
         if (length(ecols) > 0) fd <- x[, -ecols]
         else fd <- x
@@ -138,12 +145,13 @@ makeProtMSnSet <- function(object) {
     addMzTabMetadata(ans, object)
 }
 
-makePepMSnSet <- function(object) {
+makePepMSnSet <- function(object,
+                          pepabundance = "peptide_abundance_assay") {
     x <- peptides(object)
     if (nrow(x) == 0) {
         ans <- new("MSnSet")
     } else {
-        ecols <- grep("abundance", names(x))
+        ecols <- grep(pepabundance, names(x))
         e <- as.matrix(x[, ecols])
         if (length(ecols) > 0) fd <- x[, -ecols]
         else fd <- x

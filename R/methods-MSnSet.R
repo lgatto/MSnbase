@@ -487,23 +487,11 @@ setMethod("image", "MSnSet",
                    y.cex.axis = .75,
                    xlab = "Samples",
                    ylab = "Features",
-                   ...) {
-              lab <- sampleNames(x)
-              x <- exprs(x)
-              nc <- ncol(x)
-              nr <- nrow(x)
-              graphics::image(t(x),
-                              xlab = xlab, ylab = ylab,
-                              xaxt = "n", yaxt = "n", ...)
-              axis(1, seq(0,1, 1/(nc - 1)),
-                   labels = lab,
-                   cex.axis = x.cex.axis)
-              yticks <- seq(0, 1, 1/(yticks-1)) * nr
-              axis(2, seq(0,1, 1/(length(yticks) - 1)),
-                   labels = round(yticks, 0),
-                   cex.axis = y.cex.axis)
-          })
-
+                   ...) 
+              image2(exprs(x),
+                     xlab = "Samples",
+                     ylab = "Features",
+                     ...))
 
 image2 <- function(x,
                    yticks = 10,
@@ -527,6 +515,7 @@ image2 <- function(x,
     axis(2, seq(0,1, 1/(length(yticks) - 1)),
          labels = round(yticks, 0),
          cex.axis = y.cex.axis)
+    invisible(NULL)
 }
 
 setMethod("plotNA", signature(object = "MSnSet"),
@@ -766,11 +755,30 @@ setAs("IBSpectra", "MSnSet",
           ans <- MSnSet(exprs = assayData(from)$ions,
                         fData = fData(from),
                         pData = pData(from))
-          ans@experimentData <- experimentData(from)
+          exp <- experimentData(from)
+          ## the example data in isobar has MIAME
+          ## experimental data ?!?!
+          if (inherits(exp, "MIAPE"))
+              ans@experimentData <- exp
           ans@protocolData <- protocolData(from)
           if (validObject(ans))
               return(ans)
       })
+
+as.IBSpectra.MSnSet <- function(x) {
+    ans <- MSnSet(exprs = assayData(x)$ions,
+                  fData = fData(x),
+                  pData = pData(x))
+    exp <- experimentData(x)
+    ## the example data in isobar has MIAME
+    ## experimental data ?!?!
+    if (inherits(exp, "MIAPE"))
+        ans@experimentData <- exp
+    ans@protocolData <- protocolData(x)
+    if (validObject(ans))
+        return(ans)
+}
+
 
 ## setAs("MSnSet", "IBSpectra",
 ##       function (from, to = "IBSpectra") {
