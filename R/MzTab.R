@@ -18,6 +18,12 @@ setMethod("show", "MzTab",
 setMethod("metadata", "MzTab",
           function(x, ...) x@Metadata)
 
+mzTabMode <- function(x)
+    metadata(x)$`mzTab-mode`
+
+mzTabType <- function(x)
+    metadata(x)$`mzTab-type`
+
 ## Generic from BiocGenerics
 setMethod("fileName", "MzTab",
           function(object, ...) object@Filename)

@@ -1,6 +1,10 @@
 CHANGES IN VERSION 1.17.11
 --------------------------
- o
+ o adding unit tests <2015-07-01 Wed>
+ o fix abundance column selection when creating MSnSet form MzTab
+   <2015-07-01 Wed>
+ o new mzTabMode and mzTabType shortcut accessors for mode and type of
+   an mzTab data <2015-07-01 Wed>
  
 CHANGES IN VERSION 1.17.10
 --------------------------
