@@ -176,7 +176,7 @@ setAs("FoICollection", "matrix",
       function(from) {
           nms <- sapply(foi(from), description)
           names(nms) <- NULL          
-          fns <- unique(unlist(sapply(foi(from), foi)))
+          fns <- unique(unlist(lapply(foi(from), foi)))
           res <- matrix(0, ncol = length(nms), nrow = length(fns))
           rownames(res) <- fns
           colnames(res) <- nms
