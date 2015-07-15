@@ -28,15 +28,20 @@ show_MIAPE <- function(object) {
     cat("  No abstract available.\n")
   if (any(Index))
     cat("  Information is available on:", paste(tmp[Index],collapse=", "),"\n")
-  nO = notes(object)
+  nO <- notes(object)
   if (length(nO) > 0) {
     cat("  notes:\n" )
     if( is.list(nO) ) {
-      nms = names(nO)
-      pw = options("width")[[1]] - 6
+      nms <- names(nO)
+      pw <- options("width")[[1]] - 6
       for(i in 1:length(nO) ) {
-        cat("   ", nms[i], ":", sep="")
-        cat("     ", strbreak(nO[[i]], width=pw, exdent=0), sep="\n      ")
+          cat("   ", nms[i], ":\n", sep="")
+          if (all(is.na(nO[[i]]))) {
+              cat("\n")
+          } else {
+              ni <- gsub("  ", "", gsub("\n", "", nO[[i]]))
+              cat(strbreak(ni, width=pw, exdent=0), sep="\n      ")
+          }
       }
     }
   }
