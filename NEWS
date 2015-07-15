@@ -1,11 +1,12 @@
 CHANGES IN VERSION 1.17.13
 --------------------------
+ o partly rewrite writeMgfData <2015-05-16 Thu>
  o
- 
+
 CHANGES IN VERSION 1.17.12
 --------------------------
  o fix show MIAPE when some otherInfo at NA <2015-07-15 Wed>
- 
+
 CHANGES IN VERSION 1.17.11
 --------------------------
  o adding unit tests <2015-07-01 Wed>
@@ -13,7 +14,7 @@ CHANGES IN VERSION 1.17.11
    <2015-07-01 Wed>
  o new mzTabMode and mzTabType shortcut accessors for mode and type of
    an mzTab data <2015-07-01 Wed>
- 
+
 CHANGES IN VERSION 1.17.10
 --------------------------
  o Fix URL <2015-06-30 Tue>
