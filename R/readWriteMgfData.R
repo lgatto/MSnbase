@@ -56,7 +56,7 @@ writeMgfContent <- function(sp, TITLE = NULL, con) {
     cat(..., file=file, sep=sep, append=append)
   }
 
-  .cat("BEGIN IONS\n",
+  .cat("\nBEGIN IONS\n",
        "SCANS=", acquisitionNum(sp))
 
   if (is.null(TITLE)) {
@@ -83,7 +83,7 @@ writeMgfContent <- function(sp, TITLE = NULL, con) {
   }
 
   .cat("\n", paste(mz(sp), intensity(sp), collapse = "\n"))
-  .cat("\nEND IONS\n\n")
+  .cat("\nEND IONS\n")
 }
 
 # Based on the code contributed by Guangchuang Yu <guangchuangyu@gmail.com>
