@@ -1,109 +1,89 @@
+# Based on the code contributed by Guangchuang Yu <guangchuangyu@gmail.com>
+# Modified by Sebastian Gibb <mail@sebastiangibb.de>
 setMethod("writeMgfData",
           signature = signature("Spectrum"),
           function(object,
-                   con = NULL,
+                   con = "spectrum.mgf",
                    COM = NULL,
                    TITLE = NULL) {
-            if (is.null(con))
-              con <- "spectrum.mgf"
-            if (class(con) == "character") {
-              if (file.exists(con)) {
-                message("Overwriting ", con, "!")
-                unlink(con)
-              }
-              con <- file(description = con,
-                          open = "at",
-                          blocking = TRUE)
-              on.exit(close(con))
-            }
-            if (!inherits(con, "connection"))
-              stop("'con' is not a proper connection!")
-            if (is.null(COM))
-              COM <- paste("COM=Spectrum exported by MSnbase on ",
-                           date(), "\n", sep = "")
-            ## write spectrum
-            writeLines(COM, con = con)
-            writeMgfContent(object, TITLE = TITLE, con = con)
-            ## close(con)
+            writeMgfDataFile(list(object), con = con, COM = COM, TITLE = TITLE,
+                             verbose = FALSE)
           })
 
 setMethod("writeMgfData",
           signature = signature("MSnExp"),
           function(object,
-                   con = NULL,
+                   con = "experiment.mgf",
                    COM = NULL,
                    verbose = TRUE) {
-            if (is.null(con))
-               con <- "experiment.mgf"           
-            if (class(con) == "character") {
-              if (file.exists(con)) {
-                message("Overwriting ", con, "!")
-                unlink(con)
-              }
-              con <- file(description = con,
-                          open = "at",
-                          blocking = TRUE)
-              on.exit(close(con))
-            }
-            if (!inherits(con, "connection"))
-              stop("'con' is not a proper connection!")
-            if (is.null(COM))
-              COM <- paste("COM=Experiment exported by MSnbase on ",
-                           date(), "\n", sep = "")
-            writeLines(COM, con = con)
-            splist <- spectra(object)
-            ## x <- sapply(splist,
-            ##             writeMgfContent,
-            ##             TITLE = NULL,
-            ##             con = con)
-            if (verbose)
-                pb <- txtProgressBar(min = 0,
-                                     max = length(splist),
-                                     style = 3)
-            for (i in 1:length(splist)) {
-                if (verbose) setTxtProgressBar(pb, i)
-                writeMgfContent(splist[[i]],
-                                TITLE = NULL,
-                                con = con)
-            }
-            if (verbose) close(pb)               
+            writeMgfDataFile(spectra(object), con = con, COM = COM,
+                             verbose = verbose)
           })
 
-writeMgfContent <- function(sp, TITLE = NULL, con) {
-  buffer <- c("BEGIN IONS")
-  buffer <- c(buffer,
-              paste("SCANS=", sp@acquisitionNum, sep = ""))
-  if (is.null(TITLE)) {
-    TITLE <- paste("TITLE=msLevel ", sp@msLevel,
-                   "; retentionTime ", sp@rt, 
-                   "; scanNum ", sp@acquisitionNum, 
-                   sep = "")
-    if (length(sp@scanIndex) != 0)
-      TITLE <- paste(TITLE,
-                     "; scanIndex ", sp@scanIndex,
-                     sep = "")
-    if (sp@msLevel > 1)
-      TITLE <- paste(TITLE,
-                     "; precMz ", sp@precursorMz,
-                     "; precCharge ", sp@precursorCharge,
-                     sep = "")
+writeMgfDataFile <- function(splist, con, COM = NULL, TITLE = NULL,
+                             verbose = TRUE) {
+  if (class(con) == "character" && file.exists(con)) {
+    message("Overwriting ", con, "!")
+    unlink(con)
   }
-  buffer <- c(buffer, TITLE)
-  buffer <- c(buffer,
-              paste("RTINSECONDS=", sp@rt, sep = ""))
-  buffer <- c(buffer,
-              paste("PEPMASS=", sp@precursorMz, sep = ""))
-  if ( !is.na(sp@precursorCharge) )
-    buffer <- c(buffer,
-                paste("CHARGE=", sp@precursorCharge, "+", sep = ""))
-  dfr <- as(sp, "data.frame")
-  pks <- apply(dfr,
-               1,
-               base::paste, collapse = " ")
-  buffer <- c(buffer, pks)
-  buffer <- c(buffer,
-              paste("END IONS"))
-  writeLines(buffer, con = con)
+
+  con <- file(description = con, open = "at")
+  on.exit(close(con))
+
+  if (is.null(COM)) {
+    COM <- paste0("COM=", ifelse(length(splist) <= 1, "Spectrum", "Experiment"),
+                  "exported by MSnbase on ", date())
+  }
+  cat(COM, file = con, sep = "")
+
+  verbose <- verbose & length(splist) > 1
+
+  if (verbose)
+    pb <- txtProgressBar(min = 0, max = length(splist), style = 3)
+
+  for (i in seq(along=splist)) {
+    if (verbose)
+      setTxtProgressBar(pb, i)
+
+    writeMgfContent(splist[[i]], TITLE = NULL, con = con)
+  }
+  if (verbose)
+    close(pb)
+}
+
+writeMgfContent <- function(sp, TITLE = NULL, con) {
+  .cat <- function(..., file=con, sep="", append=TRUE) {
+    cat(..., file=file, sep=sep, append=append)
+  }
+
+  .cat("BEGIN IONS\n",
+       "SCANS=", acquisitionNum(sp))
+
+  if (is.null(TITLE)) {
+    .cat("\nTITLE=msLevel ", msLevel(sp),
+         "; retentionTime ", rtime(sp),
+         "; scanNum ", acquisitionNum(sp))
+
+    if (length(scanIndex(sp))) {
+      .cat("; scanIndex ", scanIndex(sp))
+    }
+
+    if (msLevel(sp) > 1) {
+      .cat("; precMz ", precursorMz(sp),
+           "; precCharge ", precursorCharge(sp))
+    }
+  } else {
+    .cat("\nTITLE=", TITLE)
+  }
+
+  .cat("\nRTINSECONDS=", rtime(sp), "\nPEPMASS=", precursorMz(sp))
+
+  if (length(precursorCharge(sp)) && !is.na(precursorCharge(sp))) {
+    .cat("\nCHARGE=", precursorCharge(sp), "+")
+  }
+
+  .cat("\n", paste(mz(sp), intensity(sp), collapse = "\n"))
+  .cat("\nEND IONS\n\n")
 }
 
 # Based on the code contributed by Guangchuang Yu <guangchuangyu@gmail.com>
