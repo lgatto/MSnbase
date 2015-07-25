@@ -315,7 +315,7 @@
 	data, the values are considered as log fold-changes and a
 	divergent colour scale is used. Otherwise, a gradient from low
 	to high is used. To scale the quantitative data in \code{x}
-	prior to plotting, please see the \scale{method}.
+	prior to plotting, please see the \code{scale} method.
 
 	When there are more than \code{nmax} (default is 50)
 	features/rows, these are not printed. This behaviour can be
@@ -445,7 +445,9 @@ image(dunkley2006, fnames = TRUE)
 ## Facetting
 image(dunkley2006, facetBy = "replicate")
 p <- image(dunkley2006)
+library("ggplot2") ## for facet_grid
 p + facet_grid(replicate ~ membrane.prep, scales = 'free', space = 'free')
+p + facet_grid(markers ~ replicate)
 ## Fold-changes
 dd <- dunkley2006
 exprs(dd) <- exprs(dd) - 0.25

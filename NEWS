@@ -3,6 +3,8 @@ CHANGES IN VERSION 1.17.13
  o partly rewrite writeMgfData <2015-05-16 Thu>
  o initial hmap function <2015-07-16 Thu>
  o fix bug in plotting MS1 spectra (closes issue #59) <2015-07-16 Thu>
+ o new image implementation, based on @vladpetyuk's
+   vp.misc::image_msnset <2015-07-25 Sat>
 
 CHANGES IN VERSION 1.17.12
 --------------------------
