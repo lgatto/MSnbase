@@ -322,9 +322,10 @@
 	controlled by setting \code{fnames} to \code{TRUE} (always
 	print) or \code{FALSE} (never print). See examples below.
 
-	The previous version of this method is still available through the
-	\code{image2} function.
-    }
+	The code is based on Vlad Petyuk's
+	\code{vp.misc::image_msnset}. The previous version of this
+	method is still available through the \code{image2} function.
+      }
       
     \item{plotNA}{\code{signature(object = "MSnSet", pNA =
 	"numeric")}}{
