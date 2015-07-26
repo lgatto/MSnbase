@@ -114,7 +114,7 @@ imageNA2 <- function(object, pcol,
                      plot = TRUE,
                      ...) {
     if (missing(pcol)) {
-        if (plot) image(object)
+        if (plot) image2(object)
         return(invisible(NULL))
     }
     if (is.character(pcol) & length(pcol) == 1) {
@@ -161,7 +161,7 @@ imageNA2 <- function(object, pcol,
             exprs(object)[i, ] <- c(k1, k2)
         }        
     }
-    if (plot) image(object, ...)
+    if (plot) image2(object, ...)
     invisible(Rowv)
 }
 
