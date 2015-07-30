@@ -11,7 +11,7 @@ setMethod("plotMzDelta", "mzRramp",
                    plot = TRUE,
                    verbose = TRUE) {             
               ## keep only MS2 spectra
-              hd <- header(ms)
+              hd <- header(object)
               ms2 <- which(hd$msLevel == 2)
               if (!missing(subset)) {
                   if (subset <= 0 | subset >= 1) {

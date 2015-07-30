@@ -473,7 +473,7 @@ setMethod("exprsToRatios",
             } else {
               r <- apply(object, 1, getRatios, log)
               r <- t(r)
-              conames(r) <-
+              colnames(r) <-
                 apply(combn(ncol(object), 2), 2,
                       paste, collapse = ".")
             }
@@ -488,6 +488,8 @@ setMethod("image", "MSnSet",
                    low, high,
                    fnames,
                    nmax = 50) {
+                       ## get rid of 'no visible global function definition' note
+                       sample.name <- feature.id <- Expression <- NULL
                        isFC <- any(exprs(x) < 0, na.rm=TRUE)
                        xlong <- melt(exprs(x))
                        colnames(xlong) <- c("feature.id", "sample.name", "Expression")

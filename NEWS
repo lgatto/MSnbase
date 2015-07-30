@@ -5,6 +5,10 @@ CHANGES IN VERSION 1.17.13
  o fix bug in plotting MS1 spectra (closes issue #59) <2015-07-16 Thu>
  o new image implementation, based on @vladpetyuk's
    vp.misc::image_msnset <2015-07-25 Sat>
+ o Changed the deprecated warning to a message when reading MzTab data
+   version 0.9, as using the old reader can not only be achived by
+   accident and will be kept for backwards file format compatibility
+   <2015-07-30 Thu>
 
 CHANGES IN VERSION 1.17.12
 --------------------------
