@@ -38,12 +38,12 @@ setMethod("impute", "MSnSet",
               } else if (method == "MLE") {
                   require("norm") || stop("Package 'norm' is required.")
                   x <- exprs(object)
-                  s <- prelim.norm(x)  ## preliminary manipulations
-                  th <- em.norm(s, ...) ## find the MLE
+                  s <- norm::prelim.norm(x)  ## preliminary manipulations
+                  th <- norm::em.norm(s, ...) ## find the MLE
                   seed <- sample(.Machine$integer.max, 1)
-                  rngseed(seed) ## set random number generator seed
+                  norm::rngseed(seed) ## set random number generator seed
                   exprs(object) <-
-                      imp.norm(s, th, x)  ## impute missing data under the MLE
+                      norm::imp.norm(s, th, x)  ## impute missing data under the MLE
               } else if (method == "bpca"){
                   nSamples <- dim(exprs(object))[2]
                   .resultBPCA <- pca(exprs(object), method = "bpca",

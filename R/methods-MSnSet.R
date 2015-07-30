@@ -473,7 +473,7 @@ setMethod("exprsToRatios",
             } else {
               r <- apply(object, 1, getRatios, log)
               r <- t(r)
-              conames(r) <-
+              colnames(r) <-
                 apply(combn(ncol(object), 2), 2,
                       paste, collapse = ".")
             }
@@ -482,24 +482,70 @@ setMethod("exprsToRatios",
 
 setMethod("image", "MSnSet",
           function(x,
-                   yticks = 10,
-                   x.cex.axis = .75,
-                   y.cex.axis = .75,
-                   xlab = "Samples",
-                   ylab = "Features",
-                   ...) 
-              image2(exprs(x),
-                     xlab = "Samples",
-                     ylab = "Features",
-                     ...))
+                   facetBy = NULL, 
+                   sOrderBy = NULL,
+                   legend = "",
+                   low, high,
+                   fnames,
+                   nmax = 50) {
+                       ## get rid of 'no visible global function definition' note
+                       sample.name <- feature.id <- Expression <- NULL
+                       isFC <- any(exprs(x) < 0, na.rm=TRUE)
+                       xlong <- melt(exprs(x))
+                       colnames(xlong) <- c("feature.id", "sample.name", "Expression")
+                       xlong[['feature.id']] <- as.character(xlong[['feature.id']])
+                       xlong[['sample.name']] <- as.character(xlong[['sample.name']])
+                       xlong <- merge(xlong, fData(x), by.x="feature.id", by.y=0) 
+                       xlong <- merge(xlong, pData(x), by.x="sample.name", by.y=0)
+                       x <- xlong
+                       if (!is.null(sOrderBy))
+                           x[['sample.name']] <- reorder(x[['sample.name']], x[[sOrderBy]])
+    
+                       if (!is.null(facetBy)) x$facetBy <- x[[facetBy]]
+                       p <- ggplot(x, aes(x=`sample.name`, y=`feature.id`, fill=`Expression`)) + 
+                           geom_raster() +
+                           theme(
+                               axis.text.x = element_text(angle = +90),
+                               panel.grid.major = element_blank(),
+                               panel.grid.minor = element_blank()) +
+                           xlab("Sample names") +
+                           ylab("Features")
+                       if (isFC) {
+                           if (missing(low)) low <- "gold1"
+                           if (missing(high)) high <- "#08306B"
+                           p <- p + scale_fill_gradient2(legend, low = low, high = high, mid = "white")
+                       } else {
+                           if (missing(low)) low <- "#F7FBFF"
+                           if (missing(high)) high <- "#08306B"
+                           p <- p + scale_fill_gradient(legend, low = low, high = high)
+                       }
+                       if (missing(fnames)) {
+                           if (length(unique(x$`feature.id`)) > nmax) {
+                               p <- p + theme(axis.text.y = element_blank())
+                               p <- p + theme(axis.ticks.y = element_blank())
+                           }
+                       } else {
+                           if (!fnames) {
+                               p <- p + theme(axis.text.y = element_blank())
+                               p <- p + theme(axis.ticks.y = element_blank())
+                           }
+                       }
+                       if (!is.null(facetBy))
+                           p <- p + facet_grid( . ~ facetBy, scales='free', space='free')
+                       plot(p)
+                       invisible(p)
+                   })
+
 
 image2 <- function(x,
                    yticks = 10,
                    x.cex.axis = .75,
                    y.cex.axis = .75,
-                   xlab = "Columns",
-                   ylab = "Rows",
+                   xlab = "Samples",
+                   ylab = "Features",
                    ...) {
+    if (inherits(x, "MSnSet"))
+        x <- exprs(x)
     nc <- ncol(x)
     nr <- nrow(x)
     lab <- colnames(x)
@@ -520,47 +566,47 @@ image2 <- function(x,
 
 setMethod("plotNA", signature(object = "MSnSet"),
           function(object, pNA = .5) {
-            if (pNA > 1)
-              pNA <- 1
-            if (pNA < 0)
-              pNA <- 0
-            X <- exprs(object)
-            p <- plotNA_matrix(X, pNA)
-            invisible(p)
+              if (pNA > 1)
+                  pNA <- 1
+              if (pNA < 0)
+                  pNA <- 0
+              X <- exprs(object)
+              p <- plotNA_matrix(X, pNA)
+              invisible(p)
           })
 
 
 setMethod("plotNA", signature(object = "matrix"),
           function(object, pNA = .5) {
-            if (pNA > 1)
-              pNA <- 1
-            if (pNA < 0)
-              pNA <- 0
-            p <- plotNA_matrix(object, pNA)
-            invisible(p)
+              if (pNA > 1)
+                  pNA <- 1
+              if (pNA < 0)
+                  pNA <- 0
+              p <- plotNA_matrix(object, pNA)
+              invisible(p)
           })
 
 setMethod("filterNA", signature(object = "matrix"),
           function(object, pNA = 0, pattern) {
-            if (missing(pattern)) { ## using pNA
-              if (pNA > 1)
-                pNA <- 1
-              if (pNA < 0)
-                pNA <- 0
-              k <- apply(object, 1,
-                         function(x) sum(is.na(x))/length(x))
-              accept <- k <= pNA
-              if (sum(accept) == 1) {
-                ans <- matrix(object[accept, ], nrow = 1)
-                rownames(ans) <- rownames(object)[accept]
-              } else {
-                ans <- object[accept, ]
+              if (missing(pattern)) { ## using pNA
+                  if (pNA > 1)
+                      pNA <- 1
+                  if (pNA < 0)
+                      pNA <- 0
+                  k <- apply(object, 1,
+                             function(x) sum(is.na(x))/length(x))
+                  accept <- k <= pNA
+                  if (sum(accept) == 1) {
+                      ans <- matrix(object[accept, ], nrow = 1)
+                      rownames(ans) <- rownames(object)[accept]
+                  } else {
+                      ans <- object[accept, ]
+                  }
+              } else { ## using pattern
+                  accept <- getRowsFromPattern(object, pattern)
+                  ans <- object[accept, ]
               }
-            } else { ## using pattern
-              accept <- getRowsFromPattern(object, pattern)
-              ans <- object[accept, ]
-            }
-            return(ans)
+              return(ans)
           })
 
 setMethod("filterZero", "matrix",
@@ -574,31 +620,31 @@ setMethod("filterZero", "matrix",
 
 setMethod("filterNA", signature(object = "MSnSet"),
           function(object, pNA = 0, pattern, droplevels = TRUE) {
-            if (missing(pattern)) { ## using pNA
-              if (pNA > 1)
-                pNA <- 1
-              if (pNA < 0)
-                pNA <- 0
-              k <- apply(exprs(object), 1,
-                         function(x) sum(is.na(x))/length(x))
-              accept <- k <= pNA
-              ans <- object[accept, ]
-              ans@processingData@processing <-
-                c(processingData(ans)@processing,
-                  paste0("Removed features with more than ",
-                         round(pNA, 3), " NAs: ", date()))
-            } else { ## using pattern
-              accept <- getRowsFromPattern(exprs(object), pattern)
-              ans <- object[accept, ]
-              ans@processingData@processing <-
-                c(processingData(ans)@processing,
-                  paste0("Removed features with according to pattern ",
-                         pattern, " ", date()))
-            }
-            if (droplevels)
-              ans <- droplevels(ans)
-            if (validObject(ans))
-              return(ans)
+              if (missing(pattern)) { ## using pNA
+                  if (pNA > 1)
+                      pNA <- 1
+                  if (pNA < 0)
+                      pNA <- 0
+                  k <- apply(exprs(object), 1,
+                             function(x) sum(is.na(x))/length(x))
+                  accept <- k <= pNA
+                  ans <- object[accept, ]
+                  ans@processingData@processing <-
+                      c(processingData(ans)@processing,
+                        paste0("Removed features with more than ",
+                               round(pNA, 3), " NAs: ", date()))
+              } else { ## using pattern
+                  accept <- getRowsFromPattern(exprs(object), pattern)
+                  ans <- object[accept, ]
+                  ans@processingData@processing <-
+                      c(processingData(ans)@processing,
+                        paste0("Removed features with according to pattern ",
+                               pattern, " ", date()))
+              }
+              if (droplevels)
+                  ans <- droplevels(ans)
+              if (validObject(ans))
+                  return(ans)
           })
 
 setMethod("filterZero", signature = "MSnSet",
@@ -617,50 +663,50 @@ setMethod("filterZero", signature = "MSnSet",
               object@processingData@processing <- px
               if (validObject(object))
                   return(object)
-              })
+          })
 
 is.na.MSnSet <- function(x) is.na(exprs(x))
 
 droplevels.MSnSet <- function(x, ...) {
     fData(x) <- droplevels(fData(x), ...)
     x@processingData@processing <-
-      c(x@processingData@processing,
-        paste("Dropped featureData's levels", date()))
+        c(x@processingData@processing,
+          paste("Dropped featureData's levels", date()))
     if (validObject(x))
-      return(x)
-  }
+        return(x)
+}
 
 setMethod("log",
           signature = "MSnSet",
           function(x, base, ...) {
-            exprs(x) <-  log(exprs(x), base)
-            x@processingData@processing <-
-              c(x@processingData@processing,
-                paste0("Log transformed (base ", base, ") ", date()))
-            if (validObject(x))
-              return(x)
+              exprs(x) <-  log(exprs(x), base)
+              x@processingData@processing <-
+                  c(x@processingData@processing,
+                    paste0("Log transformed (base ", base, ") ", date()))
+              if (validObject(x))
+                  return(x)
           })
 
 
 setMethod("MAplot",
           signature = "MSnSet",
           function(object, log.it = TRUE, base = 2, ...) {
-            if (ncol(object) < 2)
-              stop("Need at least 2 samples to produce an MA plot.")
-            if (log.it)
-              object <- log(object, base)
-            if (ncol(object) == 2) {
-              x <- exprs(object[, 1])
-              y <- exprs(object[, 2])
-              sel <- !is.na(x) & !is.na(y)
-              x <- x[sel]
-              y <- y[sel]
-              M <- x - y
-              A <- (x + y)/2
-              ma.plot(A, M, ...)
-            } else {
-              mva.pairs(exprs(object), log.it = FALSE, ...)
-            }
+              if (ncol(object) < 2)
+                  stop("Need at least 2 samples to produce an MA plot.")
+              if (log.it)
+                  object <- log(object, base)
+              if (ncol(object) == 2) {
+                  x <- exprs(object[, 1])
+                  y <- exprs(object[, 2])
+                  sel <- !is.na(x) & !is.na(y)
+                  x <- x[sel]
+                  y <- y[sel]
+                  M <- x - y
+                  A <- (x + y)/2
+                  ma.plot(A, M, ...)
+              } else {
+                  mva.pairs(exprs(object), log.it = FALSE, ...)
+              }
           })
 
 setMethod("addIdentificationData", c("MSnSet", "character"),
@@ -668,60 +714,60 @@ setMethod("addIdentificationData", c("MSnSet", "character"),
                    fcol = c("spectrum.file", "acquisition.number"),
                    icol = c("spectrumFile", "acquisitionnum"),
                    verbose = TRUE) {
-            addIdentificationData(object, id = mzID(id, verbose = verbose),
-                                  fcol = fcol, icol = icol)
-          })
+                       addIdentificationData(object, id = mzID(id, verbose = verbose),
+                                             fcol = fcol, icol = icol)
+                   })
 
 setMethod("addIdentificationData", c("MSnSet", "mzIDClasses"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
                    icol = c("spectrumFile", "acquisitionnum"), ...) {
-            addIdentificationData(object, id = flatten(id),
-                                  fcol = fcol, icol = icol)
-          })
+                       addIdentificationData(object, id = flatten(id),
+                                             fcol = fcol, icol = icol)
+                   })
 
 setMethod("addIdentificationData", c("MSnSet", "data.frame"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
                    icol = c("spectrumFile", "acquisitionnum"), ...) {
-            fd <- fData(object)
+                       fd <- fData(object)
 
-            if (!nrow(fd))
-              stop("No feature data found.")
+                       if (!nrow(fd))
+                           stop("No feature data found.")
 
-            fd$spectrum.file <- basename(fileNames(object)[fd$file])
+                       fd$spectrum.file <- basename(fileNames(object)[fd$file])
 
-            fd <- utils.mergeSpectraAndIdentificationData(fd, id,
-                                                          fcol = fcol,
-                                                          icol = icol)
+                       fd <- utils.mergeSpectraAndIdentificationData(fd, id,
+                                                                     fcol = fcol,
+                                                                     icol = icol)
 
-            ## after adding the identification data we remove the
-            ## temporary data to avoid duplication and problems in quantify
-            cn <- colnames(fd)
-            keep <- cn[!(cn %in% c("spectrum.file"))]
-            fData(object)[, keep] <- fd[, keep, drop=FALSE]
+                       ## after adding the identification data we remove the
+                       ## temporary data to avoid duplication and problems in quantify
+                       cn <- colnames(fd)
+                       keep <- cn[!(cn %in% c("spectrum.file"))]
+                       fData(object)[, keep] <- fd[, keep, drop=FALSE]
 
-            if (validObject(object))
-                return(object)
-          })
+                       if (validObject(object))
+                           return(object)
+                   })
 
 setMethod("removeNoId", "MSnSet",
           function(object, fcol = "pepseq", keep = NULL)
-          utils.removeNoId(object, fcol, keep))
+              utils.removeNoId(object, fcol, keep))
 
 setMethod("removeMultipleAssignment", "MSnSet",
           function(object, fcol = "nprot")
-          utils.removeMultipleAssignment(object, fcol))
+              utils.removeMultipleAssignment(object, fcol))
 
 setMethod("idSummary",
           signature = "MSnSet",
           function(object) {
-            ## we temporaly add the spectrumFile information
-            ## to our fData data.frame because utils.idSummary
-            ## needs this information for matching
-            fd <- fData(object)
-            fd$spectrumFile <- basename(fileNames(object)[fd$file])
-            return(utils.idSummary(fd))
+              ## we temporaly add the spectrumFile information
+              ## to our fData data.frame because utils.idSummary
+              ## needs this information for matching
+              fd <- fData(object)
+              fd$spectrumFile <- basename(fileNames(object)[fd$file])
+              return(utils.idSummary(fd))
           })
 
 ##############################################

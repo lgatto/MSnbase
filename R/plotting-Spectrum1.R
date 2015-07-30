@@ -14,7 +14,7 @@ plot_Spectrum1 <- function(spectrum,
     dfr <- data.frame(i=i,mtc=mtc)
     p <- ggplot(dfr,aes(x=mtc,y=i)) + geom_line()
   }
-  title <- theme(title=paste("Retention time",rtime(spectrum)))
+  title <- ggtitle(paste("Retention time", rtime(spectrum)))
   p <- p + labs(x="M/Z",y="Intensity") + title
   if (plot)
     print(p+title)

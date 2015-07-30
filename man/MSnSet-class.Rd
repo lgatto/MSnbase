@@ -300,17 +300,32 @@
       \code{\link{meanSdPlot}} (\code{vsn} package) for more details.
     }
     
-    \item{image}{\code{signature(x = "MSnSet", yticks = "numeric",
-	x.cex.axis = "numeric", y.cex.axis = "numeric", ...)}}{ Produces
-      an image of expression values in the \code{x}
-      object. \code{yticks} defines how many ticks should be used on the
-      y axis. \code{x.cex.axis} and \code{y.cex.axis} are passed to
-      calls to \code{axis} and defined the respective character
-      expansion. \code{...} is passed to \code{image}.
+    \item{image}{\code{signature(x = "MSnSet", facetBy = "character",
+	sOrderBy = "character", legend = "character", low = "character",
+	high = "character", fnames = "logical", nmax =
+	"numeric")}}{Produces an heatmap of expression values in the
+	\code{x} object. Simple horizontal facetting is enabled by
+	passing a single character as \code{facetBy}. Arbitrary
+	facetting can be performed manually by saving the return value
+	of the method (see example below). Re-ordering of the samples is
+	possible by providing the name of a phenotypic variable to
+	\code{sOrderBy}. The title of the legend can be set with
+	\code{legend} and the colours with the \code{low} and
+	\code{high} arguments. If any negative value is detected in the
+	data, the values are considered as log fold-changes and a
+	divergent colour scale is used. Otherwise, a gradient from low
+	to high is used. To scale the quantitative data in \code{x}
+	prior to plotting, please see the \code{scale} method.
 
-      This method has also been implemented for \code{matrix} objects
-      and in the \code{image2} function.
-    }
+	When there are more than \code{nmax} (default is 50)
+	features/rows, these are not printed. This behaviour can be
+	controlled by setting \code{fnames} to \code{TRUE} (always
+	print) or \code{FALSE} (never print). See examples below.
+
+	The code is based on Vlad Petyuk's
+	\code{vp.misc::image_msnset}. The previous version of this
+	method is still available through the \code{image2} function.
+      }
       
     \item{plotNA}{\code{signature(object = "MSnSet", pNA =
 	"numeric")}}{
@@ -416,6 +431,33 @@ fd <- data.frame(otherfdata = letters[1:4])
 rownames(fd) <- rownames(M)
 x <- MSnSet(M, fd, pd)
 sampleNames(x)
+
+
+## Visualisation
+
+library(pRolocdata)
+data(dunkley2006)
+image(dunkley2006)
+## Changing colours
+image(dunkley2006, high = "darkgreen")
+image(dunkley2006, high = "darkgreen", low = "yellow")
+## Forcing feature names
+image(dunkley2006, fnames = TRUE)
+## Facetting
+image(dunkley2006, facetBy = "replicate")
+p <- image(dunkley2006)
+library("ggplot2") ## for facet_grid
+p + facet_grid(replicate ~ membrane.prep, scales = 'free', space = 'free')
+p + facet_grid(markers ~ replicate)
+## Fold-changes
+dd <- dunkley2006
+exprs(dd) <- exprs(dd) - 0.25
+image(dd)
+image(dd, low = "green", high = "red")
+## Feature names are displayed by default for smaller data
+dunkley2006 <- dunkley2006[1:25, ]
+image(dunkley2006)
+image(dunkley2006, legend = "hello")
 }
 
 \keyword{classes}

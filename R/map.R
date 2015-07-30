@@ -93,9 +93,10 @@ setMethod("plot3D", "MSmap",
               if (rgl) {
                   if (!require("rgl"))
                       stop("The 'rgl' package needed. Install it with 'install.packages(\"rgl\")'.")
-                  plot3d(rev(dd$mz), dd$rt, dd$intensity, , type = "h",
+                  rgl::plot3d(rev(dd$mz), dd$rt, dd$intensity, , type = "h",
                          xlab = "M/Z", ylab = "Retention time", zlab = "")
-              } else {
+              } else {                  
+                  ms <- NULL ## get rid of 'no visible global function definition' note
                   par.set <- list(box.3d = list(lwd=.2))
                   cloud(intensity ~ rev(mz) + rt , data = dd,
                         type="h",

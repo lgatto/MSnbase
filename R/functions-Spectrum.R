@@ -110,24 +110,24 @@ quantify_Spectrum <- function(spectrum, method,
 }
 
 
-## curveStats_Spectrum <- function(spectrum,reporters) {
-##   curveStats <- c()
-##   for (i in 1:length(reporters)) {
-##     dfr <- curveData(spectrum,reporters[i])
-##     maxInt <- max(dfr$int)
-##     nMaxInt <- sum(dfr$int==maxInt)
-##     baseLength <- nrow(dfr)
-##     mzRange <- range(dfr$mz)
-##     curveStats <- rbind(curveStats,
-##                         c(maxInt,nMaxInt,baseLength,
-##                           mzRange,
-##                           reporters[i]@mz,precursorMz(spectrum)))
-##   }
-##   colnames(curveStats) <- c("maxInt","nMaxInt","baseLength",
-##                             "lowerMz","upperMz",
-##                             "reporter","precursor")
-##   return(as.data.frame(curveStats))
-## }
+curveStats_Spectrum <- function(spectrum,reporters) {
+  curveStats <- c()
+  for (i in 1:length(reporters)) {
+    dfr <- curveData(spectrum,reporters[i])
+    maxInt <- max(dfr$int)
+    nMaxInt <- sum(dfr$int==maxInt)
+    baseLength <- nrow(dfr)
+    mzRange <- range(dfr$mz)
+    curveStats <- rbind(curveStats,
+                        c(maxInt,nMaxInt,baseLength,
+                          mzRange,
+                          reporters[i]@mz,precursorMz(spectrum)))
+  }
+  colnames(curveStats) <- c("maxInt","nMaxInt","baseLength",
+                            "lowerMz","upperMz",
+                            "reporter","precursor")
+  return(as.data.frame(curveStats))
+}
 
 curveData <- function(spectrum,reporter) {
   ## Returns a data frame with mz and intensity
