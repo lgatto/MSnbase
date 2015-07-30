@@ -118,8 +118,8 @@ setMethod("quantify",
             quantify_Spectrum(object, match.arg(method), reporters, strict)
           })
 
-setMethod("curveStats","Spectrum",
-          function(object,reporters) curveStats_Spectrum(object,reporters))
+## setMethod("curveStats","Spectrum",
+##           function(object,reporters) curveStats_Spectrum(object,reporters))
 
 setReplaceMethod("precursorCharge",
                  signature(object="Spectrum",
