@@ -27,7 +27,7 @@ setMethod("plotMzDelta", "mzRramp",
                   }
               }               
               hd <- hd[ms2, ]
-              pl <- peaksAsLists(ms, ms2)  
+              pl <- peaksAsLists(object, ms2)  
               plotMzDelta_list(pl, reporters, percentage,
                                precMz = hd$precursorMZ,
                                precMzWidth, bw,
