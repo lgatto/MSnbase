@@ -1,7 +1,19 @@
+CHANGES IN VERSION 1.17.13
+--------------------------
+ o partly rewrite writeMgfData <2015-05-16 Thu>
+ o initial hmap function <2015-07-16 Thu>
+ o fix bug in plotting MS1 spectra (closes issue #59) <2015-07-16 Thu>
+ o new image implementation, based on @vladpetyuk's
+   vp.misc::image_msnset <2015-07-25 Sat>
+ o Changed the deprecated warning to a message when reading MzTab data
+   version 0.9, as using the old reader can not only be achived by
+   accident and will be kept for backwards file format compatibility
+   <2015-07-30 Thu>
+
 CHANGES IN VERSION 1.17.12
 --------------------------
  o fix show MIAPE when some otherInfo at NA <2015-07-15 Wed>
- 
+
 CHANGES IN VERSION 1.17.11
 --------------------------
  o adding unit tests <2015-07-01 Wed>
@@ -9,7 +21,7 @@ CHANGES IN VERSION 1.17.11
    <2015-07-01 Wed>
  o new mzTabMode and mzTabType shortcut accessors for mode and type of
    an mzTab data <2015-07-01 Wed>
- 
+
 CHANGES IN VERSION 1.17.10
 --------------------------
  o Fix URL <2015-06-30 Tue>

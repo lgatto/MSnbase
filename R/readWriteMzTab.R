@@ -1047,7 +1047,7 @@ readMzTabData_v0.9 <- function(file,
                                what = c("PRT", "PEP"),
                                verbose = TRUE) {
     
-    .Deprecated(msg = "Version 0.9 is deprecated. Please see '?readMzTabData' and '?MzTab' for details.")
+    message("Version 0.9 is deprecated. Please see '?readMzTabData' and '?MzTab' for details.")
     
     what <- match.arg(what)
     
