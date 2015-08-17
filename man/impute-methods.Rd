@@ -88,7 +88,7 @@
       \code{\link[imputeLCMD]{impute.MinDet}} for details and additional
       parameters. }
   
-    \item{MinProt}{Performs the imputation of left-censored missing data
+    \item{MinProb}{Performs the imputation of left-censored missing data
       by random draws from a Gaussian distribution centred to a minimal
       value. Considering an expression data matrix with \emph{n} samples
       and \emph{p} features, for each sample, the mean value of the
