@@ -1,11 +1,12 @@
 CHANGES IN VERSION 1.17.15
 --------------------------
+ o Fix typo in plot man <2015-08-23 Sun>
  o
- 
+
 CHANGES IN VERSION 1.17.14
 --------------------------
  o Fix typo in impute man <2015-08-17 Mon>
- 
+
 CHANGES IN VERSION 1.17.13
 --------------------------
  o partly rewrite writeMgfData <2015-05-16 Thu>
