@@ -90,10 +90,10 @@
 	"character", ylab = "character", xlim = "numeric", ylim =
 	"numeric", tolerance = "numeric", relative = "logical", type =
 	"character", modifications = "numeric", x = "numeric", fragments
-	= "function", fragments.cex = "numeric", ... )}}{Plots a single
+	= "data.frame", fragments.cex = "numeric", ... )}}{Plots a single
 	MS2 spectrum and annotates the fragment ions based on the
 	matching between the peaks in \code{x} and the fragment peaks
-	calculated from the peptide sequence \code{y}. The detault
+	calculated from the peptide sequence \code{y}. The default
 	values are \code{orientation=1}, \code{add=FALSE},
 	\code{col="#74ADD1"}, \code{pch=NA}, \code{xlab="m/z"},
 	\code{ylab="intensity"}, \code{ylim=c(0, 1)},
