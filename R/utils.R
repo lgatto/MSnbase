@@ -322,27 +322,25 @@ getTopIdx <- function(X, n, fun, ...) {
 }
 
 subsetBy <- function(X, groups, byIdx) {
-  ans <- c()
   if ( is.null(dim(X)) || ncol(X) == 1 ) {
+    ## vector like
     X <- as.vector(X)
-    for (l_i in unique(groups)) {
+    ans <- unlist(lapply(unique(groups), function(l_i) {
       X_i <- X[groups == l_i]
       j <- byIdx[[l_i]]
-      ans <- c(ans, X_i[j])
-    }
+      X_i[j]
+    }))
   } else {
-    for (l_i in unique(groups)) {
-      X_i <- X[groups == l_i, ]
+    ## matrix like
+    ans <- lapply(unique(groups), function(l_i) {
+      X_i <- X[groups == l_i, , drop=FALSE]
       j <- byIdx[[l_i]]
-      ifelse(is.vector(X_i),
-             ans <- base::rbind(ans, X_i),
-             ans <- base::rbind(ans, X_i[j, ]))
-    }
+      X_i[j, , drop=FALSE]
+    })
+    ans <- do.call(rbind, ans)
   }
-  return(ans)
+  ans
 }
-
-
 
 ## Computes header from assay data by-passing cache
 .header <- function(object) {
