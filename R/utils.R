@@ -163,7 +163,7 @@ makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
         ## test <- test/100
         M <- res/100
         rownames(M) <- colnames(M) <-
-            paste("reporter", 1:x, sep=".")        
+            paste("reporter", 1:x, sep=".")
     } else {
         if (x==4) {
             M <- matrix(c(0.929,0.059,0.002,0.000,
@@ -197,7 +197,7 @@ makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
                              0.9678, 0, 0.013, 0, 0.001, 0, 0, 0, 0.003, 0.047, 0, 0.9678, 0,
                              0.012, 0, 0, 0, 0, 0, 0.002, 0.0259, 0, 0.962, 0, 0.029, 0, 0, 0, 0,
                              0, 0, 0.0249, 0, 0.933, 0, 0.0236, 0, 0, 0, 0, 0, 0, 0.025, 0, 0.941,
-                             0, 0, 0, 0, 0, 0, 0, 0, 0.028, 0, 0.9621),                      
+                             0, 0, 0, 0, 0, 0, 0, 0, 0.028, 0, 0.9621),
                            .Dim = c(10L, 10L),
                            .Dimnames = list(
                                c("126", "127N", "127C", "128N", "128C",
@@ -323,18 +323,16 @@ getTopIdx <- function(X, n, fun, ...) {
 
 subsetBy <- function(X, groups, byIdx) {
   if ( is.null(dim(X)) || ncol(X) == 1 ) {
-    ## vector like
-    X <- as.vector(X)
-    ans <- unlist(mapply("[", x=split(X, groups), i=byIdx,
-                         SIMPLIFY=FALSE, USE.NAMES=FALSE))
+    ## vector
+    unlist(mapply("[", x=split(as.vector(X), groups), i=byIdx,
+                  SIMPLIFY=FALSE, USE.NAMES=FALSE))
   } else {
-    ## matrix like
+    ## matrix
     ans <- mapply(function(i, j) {
       X[i, , drop=FALSE][j, , drop=FALSE]
     }, i=split(1:nrow(X), groups), j=byIdx, SIMPLIFY=FALSE, USE.NAMES=FALSE)
-    ans <- do.call(rbind, ans)
+    do.call(rbind, ans)
   }
-  ans
 }
 
 ## Computes header from assay data by-passing cache
