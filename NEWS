@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.17.16
 --------------------------
- o
+ o new default parameter 'feature weight' in iPQF by Martina Fisher
+   (see PR#65) <2015-10-07 Wed>
  
 CHANGES IN VERSION 1.17.15
 --------------------------

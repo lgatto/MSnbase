@@ -1,4 +1,3 @@
-
 ##' Feature-based weighting of peptides for protein ratio estimation
 ##' (called by iPQF main function))
 ##'
@@ -74,7 +73,7 @@ iPQF.method  <- function(pos, mat, features, feature.weight) {
 ## Ratio Matrix Construction Function
 # Define Ratio Calculation: all Channels to individual channel, or sum of all channels
 ratio.mat <- function(mat, method) {
-    if(method == "sum") {
+    if (method == "sum") {
         ## equivalent to normalise(., "sum")
         ## ration.mat <- mat/rowSums(mat)
         ratio.mat <- t(apply(mat, 1, function(x) x/sum(x)))
@@ -100,8 +99,8 @@ ratio.mat <- function(mat, method) {
 uniques.list <- function(pos, sequence) {
     pep.all <- lapply(pos, function(i) sequence[i])
     un.pep.all <- lapply(pos, function(i) unique(sequence[i]))
-    uniques.all <-lapply(1:length(pos),
-                         function(x) match(pep.all[[x]],un.pep.all[[x]]))
+    uniques.all <- lapply(1:length(pos),
+                         function(x) match(pep.all[[x]], un.pep.all[[x]]))
     names(uniques.all) <- names(pos)
     return(uniques.all)
 }
@@ -115,8 +114,8 @@ redundant.dist <- function(pos, uniques.all, mat) {
     uni.tab <- lapply(uniques.all, table)    ## list: name=individual sequence, value= ## appearance of same sequence
     anz.uni <- lapply(uni.tab,length)        ## number of different sequences in a protein profile
 
-    red.name <- lapply(uni.tab, function(x){which(x>1)})        ## which protein has redundant sequences?
-    red.prot <- which(lapply(red.name, length)>0)               ## list index (protein profiles) with redundant sequences
+    red.name <- lapply(uni.tab, function(x) which(x>1))        ## which protein has redundant sequences?
+    red.prot <- which(lapply(red.name, length)>0)              ## list index (protein profiles) with redundant sequences
 
     ## redundant group of peptides: 
     pos.r <- vector("list", length(pos))                ## pos.r: position of redundant peptide spectra
@@ -158,10 +157,10 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
     num.unis <- unlist(lapply(uni.name, length))  ## number single uniques for each protein
     table(num.unis)                               
 
-    pos.u <- vector("list", length(pos))   
-    pos.ud <- vector("list", length(pos))  
+    pos.u <- vector("list", length(pos))
+    pos.ud <- vector("list", length(pos))
 
-    for( i in uni.prot){                                
+    for (i in uni.prot) {
         uni.p <- match(names(uni.name[[i]]), uniques.all[[i]])  
         pos.u[[i]] <- pos[[i]][uni.p]  
         Mat <- mat[pos.u[[i]], ]
@@ -265,9 +264,8 @@ iPQF <- function(object, groupBy,
 
     ses.na <- which(is.na(fData(object)$search_engine_score))
     score  <- as.numeric(as.vector(fData(object)$search_engine_score))
-    if(length(which(is.na(score))) > length(ses.na)){
+    if (length(which(is.na(score))) > length(ses.na))
         stop("Search engine scores are expected as column of numeric values only.")
-    }
 
     mod.stat.org <- as.character(fData(object)$modifications)
     mod.stat <- ifelse(mod.stat.org == "null" | mod.stat.org == "0" , 0, 1) ## FIXME
@@ -289,7 +287,7 @@ iPQF <- function(object, groupBy,
 
     ## group.by character vector! groupBy = feature pep reihenfolge
     uni.ids <- levels(as.factor(groupBy))
-    pos.all <- sapply(uni.ids, function(y){which(groupBy==y) })
+    pos.all <- sapply(uni.ids, function(y) which(groupBy==y))
     names(pos.all) <- uni.ids
 
     ## remove low-supported proteins
@@ -316,7 +314,7 @@ iPQF <- function(object, groupBy,
 
     ## Combined distance vector:
     ru.dist <- rep(NA, nrow(object))
-    ru.dist[unlist(pos.r)] <- unlist(pos.rd)   
+    ru.dist[unlist(pos.r)] <- unlist(pos.rd)
     ru.dist[unlist(pos.u)] <- unlist(pos.ud)
 
 
@@ -346,19 +344,20 @@ iPQF <- function(object, groupBy,
     quant.result <- quant.result[match(uni.ids, rownames(quant.result)), ]
     ## Method combination: iPQF with MedianPolish
     if (method.combine) {
-        MP.quant<- lapply(1:length(pos.all),
+        MP.quant <- lapply(1:length(pos.all),
                           function(i) {
-                              medpol <- medpolish(mat[pos.all[[i]],], trace.iter = FALSE)
+                              medpol <- medpolish(mat[pos.all[[i]],],
+                                                  trace.iter = FALSE)
                               if (length(pos.all[[i]]) == 1)
                                   result <- medpol$overall + medpol$row
                               else
                                   result <- medpol$overall + medpol$col
                               return(result)
                           } )
-        MP.quant<- do.call(rbind, MP.quant)
+        MP.quant <- do.call(rbind, MP.quant)
         quant.result <- t(sapply(1:length(pos.all),
                                  function(k) apply(rbind(MP.quant[k,], quant.result[k,]), 2, mean)))
         rownames(quant.result) <- names(pos.all)
-    } 
+    }
     return(quant.result)
 }
