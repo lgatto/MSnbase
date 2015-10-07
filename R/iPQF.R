@@ -10,14 +10,14 @@
 ##' columns are samples).
 ##' @author Martina Fisher
 ##' @noRd
-iPQF.method  <- function(pos, mat, features) {
+iPQF.method  <- function(pos, mat, features, feature.weight) {
     ## calculated protein ratios based on feature ranking
     feat.trend <- matrix(data = NA_real_, nrow = length(pos),
                          ncol = dim(mat)[2], byrow = FALSE)
     rownames(feat.trend) <- names(pos)
-    weight.list <- vector("list", length(pos))   ## peptide weights
-    avrank.list <- vector("list", length(pos))   ## peptide feature average ranks
-    rankmat.list <- vector("list", length(pos))  ## feature rank matrix
+    #weight.list <- vector("list", length(pos))   ## peptide weights
+    #avrank.list <- vector("list", length(pos))   ## peptide feature average ranks
+    #rankmat.list <- vector("list", length(pos))  ## feature rank matrix
 
     for(i in 1:length(pos)) {
         Mat <- mat[pos[[i]], ]
@@ -37,11 +37,11 @@ iPQF.method  <- function(pos, mat, features) {
                           ll.rank, sc.rank,
                           mo.rank, mass.rank,
                           int.rank)
-        rankmat.list[[i]] <- rank.mat
+        #rankmat.list[[i]] <- rank.mat
 
         ## feature weighting  (based on correlation study in manuscript)
         rank.mat2 <- (t(apply(rank.mat, 1,
-                              function(x) (c(7,6,4,3,2,1,5)^2)* x)))
+                              function(x) feature.weight * x)))
 
         ## normalizing: divide by peptide number (rank zw 0-1)
         rmat.n <- apply(rank.mat2, 2, function(x) x/length(which(!is.na(x))))
@@ -53,7 +53,7 @@ iPQF.method  <- function(pos, mat, features) {
         av.rank <- pep.sumrank/sum(c(1:7)^2)     ## worst av.rank = 1
         av.rank <- 1 - av.rank  ## reverse: best = 1 "weight" = high = reliable peptide
         av.rank <- av.rank^2
-        avrank.list[[i]] <- av.rank
+        #avrank.list[[i]] <- av.rank
 
         ## Approach: Feature-Weighting 
         weight <- av.rank  
@@ -61,7 +61,7 @@ iPQF.method  <- function(pos, mat, features) {
         trend <- apply(Mat, 2, function(x) weighted.mean(x, w=weight))
 
         feat.trend[i,] <- trend           
-        weight.list[[i]] <- weight
+        #weight.list[[i]] <- weight
 
     }
     return(feat.trend)
@@ -207,6 +207,11 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
 ##' ratios), \code{"sum"} (default), or a specific channel (one of
 ##' \code{sampleNames(object)}) defining how to calculate relative
 ##' peptides intensities.
+##' @param feature.weight Vector \code{"numeric"} giving weight to the different
+##' features. Default is the squared order of the features redundant
+##' -unique-distance metric, charge state, ion intensity, sequence length, 
+##' identification score, modification state, and mass based on a robustness 
+##' analysis.
 ##' @param method.combine A \code{logical} defining whether to further
 ##' use median polish to combine features.
 ##' @return A \code{matrix} with estimated protein ratios.
@@ -220,12 +225,14 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
 ##' head(exprs(msnset2))
 ##' prot <- combineFeatures(msnset2,
 ##'                         groupBy = fData(msnset2)$accession,
-##'                         method = "iPQF")
+##'                         fun = "iPQF")
 ##' head(exprs(prot))
 iPQF <- function(object, groupBy,
                  low.support.filter = FALSE,
                  ratio.calc = "sum",
-                 method.combine = FALSE) {
+                 method.combine = FALSE,
+                 feature.weight = c(7,6,4,3,2,1,5)^2
+                 ) {
     
     if (!inherits(object,"MSnSet"))
         stop("'object' is required to be of class MSnSet")
@@ -319,7 +326,7 @@ iPQF <- function(object, groupBy,
 
 
     ## Protein Quantification - Peptide Summarization 
-    iPQF.result  <- iPQF.method(pos.pep, mat, features)
+    iPQF.result  <- iPQF.method(pos.pep, mat, features, feature.weight=feature.weight)
 
     if (!low.support.filter) {
         single.prots <- unique(accession[unlist(pos.all[singles])])
