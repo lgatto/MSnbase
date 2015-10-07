@@ -326,7 +326,7 @@ iPQF <- function(object, groupBy,
 
 
     ## Protein Quantification - Peptide Summarization 
-    iPQF.result  <- iPQF.method(pos.pep, mat, features, feature.weight)
+    iPQF.result  <- iPQF.method(pos.pep, mat, features, feature.weight=feature.weight)
 
     if (!low.support.filter) {
         single.prots <- unique(accession[unlist(pos.all[singles])])
