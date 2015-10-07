@@ -5,7 +5,7 @@
 \title{iPQF: iTRAQ (and TMT) Protein Quantification based on Features}
 \usage{
 iPQF(object, groupBy, low.support.filter = FALSE, ratio.calc = "sum",
-  method.combine = FALSE)
+  method.combine = FALSE, feature.weight = c(7, 6, 4, 3, 2, 1, 5)^2)
 }
 \arguments{
 \item{object}{An instance of class \code{MSnSet} containing
@@ -26,6 +26,12 @@ peptides intensities.}
 
 \item{method.combine}{A \code{logical} defining whether to further
 use median polish to combine features.}
+
+\item{feature.weight}{Vector \code{"numeric"} giving weight to the different
+features. Default is the squared order of the features redundant
+-unique-distance metric, charge state, ion intensity, sequence length,
+identification score, modification state, and mass based on a robustness
+analysis.}
 }
 \value{
 A \code{matrix} with estimated protein ratios.
@@ -46,7 +52,7 @@ data(msnset2)
 head(exprs(msnset2))
 prot <- combineFeatures(msnset2,
                         groupBy = fData(msnset2)$accession,
-                        method = "iPQF")
+                        fun = "iPQF")
 head(exprs(prot))
 }
 \author{

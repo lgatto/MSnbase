@@ -1,4 +1,3 @@
-
 ##' Feature-based weighting of peptides for protein ratio estimation
 ##' (called by iPQF main function))
 ##'
@@ -10,14 +9,14 @@
 ##' columns are samples).
 ##' @author Martina Fisher
 ##' @noRd
-iPQF.method  <- function(pos, mat, features) {
+iPQF.method  <- function(pos, mat, features, feature.weight) {
     ## calculated protein ratios based on feature ranking
     feat.trend <- matrix(data = NA_real_, nrow = length(pos),
                          ncol = dim(mat)[2], byrow = FALSE)
     rownames(feat.trend) <- names(pos)
-    weight.list <- vector("list", length(pos))   ## peptide weights
-    avrank.list <- vector("list", length(pos))   ## peptide feature average ranks
-    rankmat.list <- vector("list", length(pos))  ## feature rank matrix
+    #weight.list <- vector("list", length(pos))   ## peptide weights
+    #avrank.list <- vector("list", length(pos))   ## peptide feature average ranks
+    #rankmat.list <- vector("list", length(pos))  ## feature rank matrix
 
     for(i in 1:length(pos)) {
         Mat <- mat[pos[[i]], ]
@@ -37,11 +36,11 @@ iPQF.method  <- function(pos, mat, features) {
                           ll.rank, sc.rank,
                           mo.rank, mass.rank,
                           int.rank)
-        rankmat.list[[i]] <- rank.mat
+        #rankmat.list[[i]] <- rank.mat
 
         ## feature weighting  (based on correlation study in manuscript)
         rank.mat2 <- (t(apply(rank.mat, 1,
-                              function(x) (c(7,6,4,3,2,1,5)^2)* x)))
+                              function(x) feature.weight * x)))
 
         ## normalizing: divide by peptide number (rank zw 0-1)
         rmat.n <- apply(rank.mat2, 2, function(x) x/length(which(!is.na(x))))
@@ -53,7 +52,7 @@ iPQF.method  <- function(pos, mat, features) {
         av.rank <- pep.sumrank/sum(c(1:7)^2)     ## worst av.rank = 1
         av.rank <- 1 - av.rank  ## reverse: best = 1 "weight" = high = reliable peptide
         av.rank <- av.rank^2
-        avrank.list[[i]] <- av.rank
+        #avrank.list[[i]] <- av.rank
 
         ## Approach: Feature-Weighting 
         weight <- av.rank  
@@ -61,7 +60,7 @@ iPQF.method  <- function(pos, mat, features) {
         trend <- apply(Mat, 2, function(x) weighted.mean(x, w=weight))
 
         feat.trend[i,] <- trend           
-        weight.list[[i]] <- weight
+        #weight.list[[i]] <- weight
 
     }
     return(feat.trend)
@@ -74,7 +73,7 @@ iPQF.method  <- function(pos, mat, features) {
 ## Ratio Matrix Construction Function
 # Define Ratio Calculation: all Channels to individual channel, or sum of all channels
 ratio.mat <- function(mat, method) {
-    if(method == "sum") {
+    if (method == "sum") {
         ## equivalent to normalise(., "sum")
         ## ration.mat <- mat/rowSums(mat)
         ratio.mat <- t(apply(mat, 1, function(x) x/sum(x)))
@@ -100,8 +99,8 @@ ratio.mat <- function(mat, method) {
 uniques.list <- function(pos, sequence) {
     pep.all <- lapply(pos, function(i) sequence[i])
     un.pep.all <- lapply(pos, function(i) unique(sequence[i]))
-    uniques.all <-lapply(1:length(pos),
-                         function(x) match(pep.all[[x]],un.pep.all[[x]]))
+    uniques.all <- lapply(1:length(pos),
+                         function(x) match(pep.all[[x]], un.pep.all[[x]]))
     names(uniques.all) <- names(pos)
     return(uniques.all)
 }
@@ -115,8 +114,8 @@ redundant.dist <- function(pos, uniques.all, mat) {
     uni.tab <- lapply(uniques.all, table)    ## list: name=individual sequence, value= ## appearance of same sequence
     anz.uni <- lapply(uni.tab,length)        ## number of different sequences in a protein profile
 
-    red.name <- lapply(uni.tab, function(x){which(x>1)})        ## which protein has redundant sequences?
-    red.prot <- which(lapply(red.name, length)>0)               ## list index (protein profiles) with redundant sequences
+    red.name <- lapply(uni.tab, function(x) which(x>1))        ## which protein has redundant sequences?
+    red.prot <- which(lapply(red.name, length)>0)              ## list index (protein profiles) with redundant sequences
 
     ## redundant group of peptides: 
     pos.r <- vector("list", length(pos))                ## pos.r: position of redundant peptide spectra
@@ -158,10 +157,10 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
     num.unis <- unlist(lapply(uni.name, length))  ## number single uniques for each protein
     table(num.unis)                               
 
-    pos.u <- vector("list", length(pos))   
-    pos.ud <- vector("list", length(pos))  
+    pos.u <- vector("list", length(pos))
+    pos.ud <- vector("list", length(pos))
 
-    for( i in uni.prot){                                
+    for (i in uni.prot) {
         uni.p <- match(names(uni.name[[i]]), uniques.all[[i]])  
         pos.u[[i]] <- pos[[i]][uni.p]  
         Mat <- mat[pos.u[[i]], ]
@@ -207,6 +206,11 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
 ##' ratios), \code{"sum"} (default), or a specific channel (one of
 ##' \code{sampleNames(object)}) defining how to calculate relative
 ##' peptides intensities.
+##' @param feature.weight Vector \code{"numeric"} giving weight to the different
+##' features. Default is the squared order of the features redundant
+##' -unique-distance metric, charge state, ion intensity, sequence length, 
+##' identification score, modification state, and mass based on a robustness 
+##' analysis.
 ##' @param method.combine A \code{logical} defining whether to further
 ##' use median polish to combine features.
 ##' @return A \code{matrix} with estimated protein ratios.
@@ -220,12 +224,14 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
 ##' head(exprs(msnset2))
 ##' prot <- combineFeatures(msnset2,
 ##'                         groupBy = fData(msnset2)$accession,
-##'                         method = "iPQF")
+##'                         fun = "iPQF")
 ##' head(exprs(prot))
 iPQF <- function(object, groupBy,
                  low.support.filter = FALSE,
                  ratio.calc = "sum",
-                 method.combine = FALSE) {
+                 method.combine = FALSE,
+                 feature.weight = c(7,6,4,3,2,1,5)^2
+                 ) {
     
     if (!inherits(object,"MSnSet"))
         stop("'object' is required to be of class MSnSet")
@@ -258,9 +264,8 @@ iPQF <- function(object, groupBy,
 
     ses.na <- which(is.na(fData(object)$search_engine_score))
     score  <- as.numeric(as.vector(fData(object)$search_engine_score))
-    if(length(which(is.na(score))) > length(ses.na)){
+    if (length(which(is.na(score))) > length(ses.na))
         stop("Search engine scores are expected as column of numeric values only.")
-    }
 
     mod.stat.org <- as.character(fData(object)$modifications)
     mod.stat <- ifelse(mod.stat.org == "null" | mod.stat.org == "0" , 0, 1) ## FIXME
@@ -282,7 +287,7 @@ iPQF <- function(object, groupBy,
 
     ## group.by character vector! groupBy = feature pep reihenfolge
     uni.ids <- levels(as.factor(groupBy))
-    pos.all <- sapply(uni.ids, function(y){which(groupBy==y) })
+    pos.all <- sapply(uni.ids, function(y) which(groupBy==y))
     names(pos.all) <- uni.ids
 
     ## remove low-supported proteins
@@ -309,7 +314,7 @@ iPQF <- function(object, groupBy,
 
     ## Combined distance vector:
     ru.dist <- rep(NA, nrow(object))
-    ru.dist[unlist(pos.r)] <- unlist(pos.rd)   
+    ru.dist[unlist(pos.r)] <- unlist(pos.rd)
     ru.dist[unlist(pos.u)] <- unlist(pos.ud)
 
 
@@ -319,7 +324,7 @@ iPQF <- function(object, groupBy,
 
 
     ## Protein Quantification - Peptide Summarization 
-    iPQF.result  <- iPQF.method(pos.pep, mat, features)
+    iPQF.result  <- iPQF.method(pos.pep, mat, features, feature.weight=feature.weight)
 
     if (!low.support.filter) {
         single.prots <- unique(accession[unlist(pos.all[singles])])
@@ -339,19 +344,20 @@ iPQF <- function(object, groupBy,
     quant.result <- quant.result[match(uni.ids, rownames(quant.result)), ]
     ## Method combination: iPQF with MedianPolish
     if (method.combine) {
-        MP.quant<- lapply(1:length(pos.all),
+        MP.quant <- lapply(1:length(pos.all),
                           function(i) {
-                              medpol <- medpolish(mat[pos.all[[i]],], trace.iter = FALSE)
+                              medpol <- medpolish(mat[pos.all[[i]],],
+                                                  trace.iter = FALSE)
                               if (length(pos.all[[i]]) == 1)
                                   result <- medpol$overall + medpol$row
                               else
                                   result <- medpol$overall + medpol$col
                               return(result)
                           } )
-        MP.quant<- do.call(rbind, MP.quant)
+        MP.quant <- do.call(rbind, MP.quant)
         quant.result <- t(sapply(1:length(pos.all),
                                  function(k) apply(rbind(MP.quant[k,], quant.result[k,]), 2, mean)))
         rownames(quant.result) <- names(pos.all)
-    } 
+    }
     return(quant.result)
 }

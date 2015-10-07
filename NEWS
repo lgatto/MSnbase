@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.17.16
+--------------------------
+ o new default parameter 'feature weight' in iPQF by Martina Fisher
+   (see PR#65) <2015-10-07 Wed>
+ 
 CHANGES IN VERSION 1.17.15
 --------------------------
  o Fix typo in plot man <2015-08-23 Sun>
