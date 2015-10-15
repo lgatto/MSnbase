@@ -1,3 +1,15 @@
+CHANGES IN VERSION 1.19.1
+-------------------------
+ o Remove generics that are defined in ProtGenerics <2015-10-15 Thu>
+
+CHANGES IN VERSION 1.19.0
+-------------------------
+ o Bioc devel 3.3
+
+CHANGES IN VERSION 1.18.0
+-------------------------
+ o Bioc release 3.2
+
 CHANGES IN VERSION 1.17.16
 --------------------------
  o new default parameter 'feature weight' in iPQF by Martina Fisher

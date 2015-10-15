@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for MS-based Proteomics
-Version: 1.19.0
+Version: 1.19.1
 Description: Basic plotting, data manipulation and processing
 	     of MS-based Proteomics data.
 Authors@R: c(person(given = "Laurent", family = "Gatto",
@@ -35,7 +35,7 @@ Author: Laurent Gatto <lg390@cam.ac.uk> with contributions from
 	Vladislav Petyuk, Thomas Naake and Sebastian Gibb.
 Maintainer: Laurent Gatto <lg390@cam.ac.uk>
 Depends: R (>= 3.1), methods, BiocGenerics (>= 0.7.1),
-	 Biobase (>= 2.15.2), mzR, BiocParallel, ProtGenerics
+	 Biobase (>= 2.15.2), mzR, BiocParallel, ProtGenerics (>= 1.3.1)
 Imports: plyr, IRanges, preprocessCore, vsn, grid,
 	 reshape2, stats4, affy, impute, pcaMethods,
 	 mzID (>= 1.5.2), MALDIquant (>= 1.12), digest,
