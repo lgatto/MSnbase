@@ -88,7 +88,6 @@ setGeneric("exprsToRatios", function(object, ...) standardGeneric("exprsToRatios
 setGeneric("impute", function(object, ...) standardGeneric("impute"))
 
 ## mzR
-setGeneric("chromatogram", function(object, ...) standardGeneric("chromatogram"))
 setGeneric("xic", function(object, ...) standardGeneric("xic"))
 
 ## identification
@@ -120,3 +119,4 @@ setGeneric("fnamesIn", function(x, y, ...) standardGeneric("fnamesIn"))
 ## setGeneric("spectra", function(object, ...) standardGeneric("spectra"))
 ## setGeneric("mz", function(object, ...) standardGeneric("mz"))
 ## setGeneric("intensity", function(object, ...) standardGeneric("intensity"))
+## setGeneric("chromatogram", function(object, ...) standardGeneric("chromatogram"))
