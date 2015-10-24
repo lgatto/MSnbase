@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.19.2
+-------------------------
+ o new selectFeatureData function to subset the feature data
+   <2015-10-24 Sat>
+
 CHANGES IN VERSION 1.19.1
 -------------------------
  o Remove generics that are defined in ProtGenerics <2015-10-15 Thu>
