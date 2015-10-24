@@ -229,7 +229,7 @@ commonFeatureNames <- function(x, y) {
                       log = list(call = match.call())))
 }
 
-##' Starts a shiny interface to select feature variables to be retained.
+##' Select feature variables to be retained.
 ##'
 ##' @title Select feature variables of interest
 ##' @param object An \code{MSnSet}.
@@ -248,7 +248,7 @@ commonFeatureNames <- function(x, y) {
 ##' }
 selectFeatureData <- function(object, graphics = TRUE) {
     if (graphics) {
-        if (!require("shiny"))
+        if (!requireNamespace("shiny"))
             warning("The shiny package is required to use the graphical interface.")
         k <- .selectShinyFeatureData(object)        
     } else k <- .selectTextFeatureData(object)
@@ -261,23 +261,24 @@ selectFeatureData <- function(object, graphics = TRUE) {
     select.list(fvarLabels(object), multiple=TRUE)
 
 
-.selectShinyFeatureData <- function(object) {x
+.selectShinyFeatureData <- function(object) {
     sel <- fv <- fvarLabels(object)
     on.exit(return(sel))
 
-    ui <- fluidPage(
+    ui <- shiny::fluidPage(
         title = 'Examples of DataTables',
-        sidebarLayout(sidebarPanel(
-            checkboxGroupInput('vars', 'Feature variables',
+        shiny::sidebarLayout(
+            shiny::sidebarPanel(
+                shiny::checkboxGroupInput('vars', 'Feature variables',
                                as.list(fv), selected = sel)),
-                      mainPanel(dataTableOutput('fd'))))
+            shiny::mainPanel(shiny::dataTableOutput('fd'))))
 
     server <- function(input, output) {
-        output$fd <- renderDataTable({
+        output$fd <- shiny::renderDataTable({
             sel <<- input$vars
             fData(object)[, input$vars, drop = FALSE]
         })
     }
     app <- list(ui=ui, server=server)
-    runApp(app)
+    shiny::runApp(app)
 }
