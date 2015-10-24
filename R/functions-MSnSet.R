@@ -228,3 +228,56 @@ commonFeatureNames <- function(x, y) {
     return(MSnSetList(x = res,
                       log = list(call = match.call())))
 }
+
+##' Starts a shiny interface to select feature variables to be retained.
+##'
+##' @title Select feature variables of interest
+##' @param object An \code{MSnSet}.
+##' @param graphics A \code{logical} (default is \code{TRUE})
+##'     indicating whether a shiny application should be used if
+##'     available. Otherwise, a text menu is used.
+##' @return Updated \code{MSnSet}, containing only selected feature
+##'     variables.
+##' @author Laurent Gatto
+##' @examples
+##' \dontrun{
+##' library("pRolocdata")
+##' data(hyperLOPIT2015)
+##' x <- selectFeatureData(hyperLOPIT2015) ## select via GUI
+##' head(fData(x))
+##' }
+selectFeatureData <- function(object, graphics = TRUE) {
+    if (graphics) {
+        if (!require("shiny"))
+            warning("The shiny package is required to use the graphical interface.")
+        k <- .selectShinyFeatureData(object)        
+    } else k <- .selectTextFeatureData(object)
+    fData(object) <- fData(object)[, k, drop = FALSE]
+    object
+}
+
+
+.selectTextFeatureData <- function(object)
+    select.list(fvarLabels(object), multiple=TRUE)
+
+
+.selectShinyFeatureData <- function(object) {x
+    sel <- fv <- fvarLabels(object)
+    on.exit(return(sel))
+
+    ui <- fluidPage(
+        title = 'Examples of DataTables',
+        sidebarLayout(sidebarPanel(
+            checkboxGroupInput('vars', 'Feature variables',
+                               as.list(fv), selected = sel)),
+                      mainPanel(dataTableOutput('fd'))))
+
+    server <- function(input, output) {
+        output$fd <- renderDataTable({
+            sel <<- input$vars
+            fData(object)[, input$vars, drop = FALSE]
+        })
+    }
+    app <- list(ui=ui, server=server)
+    runApp(app)
+}

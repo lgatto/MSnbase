@@ -71,6 +71,7 @@ export(MSnSet,
        get.atomic.mass,
        listOf,
        npcv,
+       selectFeatureData,
        ## comparing MSnSets
        averageMSnSet,
        commonFeatureNames,
