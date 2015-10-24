@@ -42,7 +42,7 @@ Imports: plyr, IRanges, preprocessCore, vsn, grid,
 	 lattice, ggplot2, S4Vectors, Rcpp
 Suggests: testthat, zoo, knitr (>= 1.1.0), rols, Rdisop, pRoloc,
 	  pRolocdata (>= 1.7.1), msdata, roxygen2, rgl, BiocStyle,
-	  imputeLCMD, norm, gplots
+	  imputeLCMD, norm, gplots, shiny
 LinkingTo: Rcpp
 License: Artistic-2.0
 LazyData: yes

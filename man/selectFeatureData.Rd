@@ -18,7 +18,7 @@ Updated \code{MSnSet}, containing only selected feature
     variables.
 }
 \description{
-Starts a shiny interface to select feature variables to be retained.
+Select feature variables to be retained.
 }
 \examples{
 \dontrun{
