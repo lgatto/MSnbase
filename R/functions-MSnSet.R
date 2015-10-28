@@ -233,9 +233,13 @@ commonFeatureNames <- function(x, y) {
 ##'
 ##' @title Select feature variables of interest
 ##' @param object An \code{MSnSet}.
+
 ##' @param graphics A \code{logical} (default is \code{TRUE})
 ##'     indicating whether a shiny application should be used if
-##'     available. Otherwise, a text menu is used.
+##'     available. Otherwise, a text menu is used. Ignored if \code{k}
+##'     is not missing.
+##' @param k A \code{numeric}, \code{local} or \code{character} of
+##'     valid feature variables to be passed directly.
 ##' @return Updated \code{MSnSet}, containing only selected feature
 ##'     variables.
 ##' @author Laurent Gatto
@@ -246,12 +250,16 @@ commonFeatureNames <- function(x, y) {
 ##' x <- selectFeatureData(hyperLOPIT2015) ## select via GUI
 ##' head(fData(x))
 ##' }
-selectFeatureData <- function(object, graphics = TRUE) {
-    if (graphics) {
-        if (!requireNamespace("shiny"))
-            warning("The shiny package is required to use the graphical interface.")
-        k <- .selectShinyFeatureData(object)        
-    } else k <- .selectTextFeatureData(object)
+selectFeatureData <- function(object,
+                              graphics = TRUE,
+                              k) {
+    if (missing(k)) {
+        if (graphics) {
+            if (!requireNamespace("shiny"))
+                warning("The shiny package is required to use the graphical interface.")
+            k <- .selectShinyFeatureData(object)        
+        } else k <- .selectTextFeatureData(object)
+    } 
     fData(object) <- fData(object)[, k, drop = FALSE]
     object
 }

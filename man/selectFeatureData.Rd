@@ -4,14 +4,18 @@
 \alias{selectFeatureData}
 \title{Select feature variables of interest}
 \usage{
-selectFeatureData(object, graphics = TRUE)
+selectFeatureData(object, graphics = TRUE, k)
 }
 \arguments{
 \item{object}{An \code{MSnSet}.}
 
 \item{graphics}{A \code{logical} (default is \code{TRUE})
 indicating whether a shiny application should be used if
-available. Otherwise, a text menu is used.}
+available. Otherwise, a text menu is used. Ignored if \code{k}
+is not missing.}
+
+\item{k}{A \code{numeric}, \code{local} or \code{character} of
+valid feature variables to be passed directly.}
 }
 \value{
 Updated \code{MSnSet}, containing only selected feature

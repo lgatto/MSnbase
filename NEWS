@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.19.3
 -------------------------
- o
+ o Add new argument k to selectFeatureData to select feature variables
+   using a vector <2015-10-28 Wed>
  
 CHANGES IN VERSION 1.19.2
 -------------------------
