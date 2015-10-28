@@ -4,7 +4,7 @@
 \alias{selectFeatureData}
 \title{Select feature variables of interest}
 \usage{
-selectFeatureData(object, graphics = TRUE, k)
+selectFeatureData(object, graphics = TRUE, fcol)
 }
 \arguments{
 \item{object}{An \code{MSnSet}.}
@@ -14,7 +14,7 @@ indicating whether a shiny application should be used if
 available. Otherwise, a text menu is used. Ignored if \code{k}
 is not missing.}
 
-\item{k}{A \code{numeric}, \code{local} or \code{character} of
+\item{fcol}{A \code{numeric}, \code{local} or \code{character} of
 valid feature variables to be passed directly.}
 }
 \value{
@@ -25,11 +25,15 @@ Updated \code{MSnSet}, containing only selected feature
 Select feature variables to be retained.
 }
 \examples{
-\dontrun{
 library("pRolocdata")
 data(hyperLOPIT2015)
-x <- selectFeatureData(hyperLOPIT2015) ## select via GUI
-head(fData(x))
+## 5 first feature variables
+x <- selectFeatureData(hyperLOPIT2015, fcol = 1:5)
+fvarLabels(x)
+\dontrun{
+## select via GUI
+x <- selectFeatureData(hyperLOPIT2015)
+fvarLabels(x)
 }
 }
 \author{
