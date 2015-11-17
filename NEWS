@@ -1,3 +1,6 @@
+CHANGES IN VERSION 1.19.4
+-------------------------
+
 CHANGES IN VERSION 1.19.3
 -------------------------
  o New argument fcol to selectFeatureData to select feature variables
