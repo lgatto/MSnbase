@@ -311,3 +311,18 @@ test_that("Combine with fun or 'fun'", {
     xfun <- combineFeatures(aa, gb, sum)
     expect_equal(exprs(xchar), exprs(xfun))
 })
+
+test_that("Feature variable selection", {
+    library("pRolocdata")
+    data(hyperLOPIT2015)
+    fv <- fvarLabels(hyperLOPIT2015)
+    i <- sort(sample(length(fv), 10))
+    k <- fv[i]
+    l <- logical(length(fv))
+    l[i] <- TRUE
+    expect_equal(selectFeatureData(hyperLOPIT2015, fcol = i),
+                 selectFeatureData(hyperLOPIT2015, fcol = k))
+    expect_equal(selectFeatureData(hyperLOPIT2015, fcol = i),
+                 selectFeatureData(hyperLOPIT2015, fcol = l))
+})
+

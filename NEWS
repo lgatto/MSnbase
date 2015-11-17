@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.19.3
+-------------------------
+ o New argument fcol to selectFeatureData to select feature variables
+   using a vector <2015-10-28 Wed>
+ 
 CHANGES IN VERSION 1.19.2
 -------------------------
  o new selectFeatureData function to subset the feature data
