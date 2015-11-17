@@ -986,7 +986,7 @@ need to be adjusted as a result of peak interferance. For example, the
 $+1$ peak of the phenylalanine (F, Phe) immonium ion (with $m/z$ 120.03)
 inteferes with the 121.1 TMT reporter ion.  Below, we calculate the
 relative intensity of the +1 peaks compared to the main peak using the
-\Biocpkg{Rdispo} package.
+\Biocpkg{Rdisop} package.
 
 <<pheplus1, echo=TRUE, cache=FALSE>>=
 library(Rdisop)
