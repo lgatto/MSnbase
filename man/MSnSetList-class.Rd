@@ -12,6 +12,7 @@
 \alias{length,MSnSetList-method}
 \alias{show,MSnSetList-method}
 \alias{names,MSnSetList-method}
+\alias{names<-,MSnSetList,ANY-method}
 \alias{split,MSnSet,factor-method}
 \alias{split,MSnSet,character-method}
 \alias{unsplit,MSnSetList,factor-method}
@@ -117,7 +118,7 @@
       \code{MSnSetList}. }
     \item{\code{length}}{Returns the number of \code{MSnSets}. }
     \item{\code{names}}{Returns the names of \code{MSnSets}, if
-      available. }
+      available. The replacement method is also available. }
     \item{\code{show}}{ Display the object by printing a short
       summary. }
 

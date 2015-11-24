@@ -185,15 +185,15 @@ nQuants <- function(object, fcol) {
 ##'
 ##' @title Keep only common feature names
 ##' @param x An instance of class \code{\linkS4class{MSnSet}} or a
-##' list of \code{MSnSet} instances of at least 2 \code{MSnSet}
-##' objects.
+##'     \code{list} or \code{MSnSetList} with at least 2 \code{MSnSet}
+##'     objects.
 ##' @param y An instance of class \code{\linkS4class{MSnSet}}. Ignored
-##' if \code{x} is a list of \code{MSnSet} instances.
+##'     if \code{x} is a \code{list}/\code{MSnSetList}.
 ##' @return An \code{linkS4class{MSnSetList}} composed of the input
-##' \code{MSnSet} containing only common features in the same
-##' order. The names of the output are either the names of the
-##' \code{x} and \code{y} input variables or the names of \code{x} if
-##' a list is provided.
+##'     \code{MSnSet} containing only common features in the same
+##'     order. The names of the output are either the names of the
+##'     \code{x} and \code{y} input variables or the names of \code{x}
+##'     if a list is provided.
 ##' @author Laurent Gatto
 ##' @examples
 ##' library("pRolocdata")
@@ -210,7 +210,7 @@ nQuants <- function(object, fcol) {
 ##' cmn <- commonFeatureNames(list(tan2009r1, tan2009r2, tan2009r3))
 ##' length(cmn)
 commonFeatureNames <- function(x, y) {
-    if (inherits(x, "MSnSetList"))
+    if (inherits(x, "MSnSetList")) 
         x <- msnsets(x)
     if (inherits(x, "MSnSet")) {
         stopifnot(inherits(y, "MSnSet"))
