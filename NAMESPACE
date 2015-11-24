@@ -204,7 +204,7 @@ exportMethods(assayData,
               common,
               unique1,
               unique2,
-              names,
+              names, "names<-",
               ## MSmap
               mzRes, plot3D, msMap,
               fileName, t,
