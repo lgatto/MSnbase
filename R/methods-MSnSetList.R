@@ -95,3 +95,13 @@ setMethod("unsplit", c("MSnSetList", "factor"),
               }
               ans
           })
+
+##
+## un-exported utils
+##
+
+.sameNbCol <- function(x)
+    length(unique(sapply(msnsets(x), ncol)) == 1)
+
+.sameNbRow <- function(x)
+    length(unique(sapply(msnsets(x), nrow)) == 1)
