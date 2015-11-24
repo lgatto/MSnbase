@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.19.4
+-------------------------
+ o Replacement method for MSnSetList names <2015-11-24 Tue>
+ 
 CHANGES IN VERSION 1.19.3
 -------------------------
  o New argument fcol to selectFeatureData to select feature variables

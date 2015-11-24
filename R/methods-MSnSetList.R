@@ -15,6 +15,12 @@ setMethod("length", "MSnSetList", function(x) length(x@x))
 
 setMethod("names", "MSnSetList", function(x) names(x@x))
 
+setReplaceMethod("names", "MSnSetList",
+          function(x, value) {
+                     names(x@x) <- value
+                     x
+          })
+
 setMethod("[", c("MSnSetList", "ANY", "missing", "missing"),
           function(x, i, j = "missing", drop = "missing")
               .MSnSetList(x = msnsets(x)[i]))
