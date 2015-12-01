@@ -971,8 +971,6 @@ format\footnote{\url{http://code.google.com/p/mztab/}}, a
 light-weight, tab-delimited file format for proteomics
 data. \texttt{mzTab} files can be read into \R with
 \Rfunction{readMzTabData} to create and \Rclass{MSnSet} instance.
-\Rclass{MSnSet} objects can also be exported to \texttt{mzTab} with
-the \Rfunction{writeMzTabData} function.
 
 \bigskip
 
