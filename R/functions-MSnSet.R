@@ -49,7 +49,7 @@ normalise_MSnSet <- function(object, method, ...) {
 ##' the ration between the standard deviation and the mean, for the features
 ##' in an \code{"\linkS4class{MSnSet}"}. The CVs are calculated for the groups
 ##' of features defined by \code{groupBy}. For groups defined by single features,
-##' \code{NA} is returned. 
+##' \code{NA} is returned.
 ##'
 ##' @title Calculates coeffivient of variation for features
 ##' @param x An instance of class \code{"\linkS4class{MSnSet}"}.
@@ -57,10 +57,11 @@ normalise_MSnSet <- function(object, method, ...) {
 ##' @param na.rm A \code{logical} defining whether missing values should be removed.
 ##' @param norm One of 'none' (default), 'sum', 'max', 'center.mean', 'center.median'
 ##' 'quantiles' or 'quantiles.robust' defining if and how the data should be normalised
-##' prior to CV calculation. See \code{\link{normalise}} for more details. 
+##' prior to CV calculation. See \code{\link{normalise}} for more details.
 ##' @return A \code{matrix} of dimensions \code{length(levels(groupBy))} by \code{ncol(x)}
 ##' with the respecive CVs.
-##' @author Laurent Gatto <lg390@@cam.ac.uk>
+##' @author Laurent Gatto <lg390@@cam.ac.uk>,
+##' Sebastian Gibb <mail@@sebastiangibb.de>
 ##' @seealso \code{\link{combineFeatures}}
 ##' @examples
 ##' data(msnset)
@@ -74,28 +75,20 @@ featureCV <- function(x, groupBy, na.rm = TRUE,
   groupBy <- as.factor(groupBy)
   norm <- match.arg(norm)
   if (norm != "none")
-    x <- normalise(x, method = norm)    
-  .sd <- function(x, na.rm = na.rm) {
-    if (is.matrix(x) | is.data.frame(x)) {
-      ans <- apply(x, 2, sd, na.rm = na.rm)
-    } else {
-      ans <- rep(NA, length(x))
-    }
-    return(ans)
-  }  
-  sds <- by(exprs(x), groupBy, .sd, na.rm)  
-  mns <- by(exprs(x), groupBy, colMeans)
-  stopifnot(all(names(sds) == names(mns)))
-  ans <- t(sapply(seq_along(sds), function(i) sds[[i]]/mns[[i]]))
-  if (ncol(x) == 1)
-    ans <- t(ans)
-  rownames(ans) <- names(sds)
-  if (is.null(colnames(ans)))
-    colnames(ans) <- seq_len(ncol(ans))
+    x <- normalise(x, method = norm)
+
+  j <- split(1L:nrow(x), groupBy)
+  ans <- matrix(NA_real_, nrow = nlevels(groupBy), ncol = ncol(x),
+                dimnames = list(levels(groupBy), colnames(x)))
+
+  for (i in seq(along = j)) {
+    subexprs <- exprs(x)[j[[i]], , drop = FALSE]
+    ans[i, ] <- utils.colSd(subexprs, na.rm = na.rm)/
+                colMeans(subexprs, na.rm = na.rm)
+  }
+
   colnames(ans) <- paste("CV", colnames(ans), sep = ".")
-  stopifnot(ncol(ans) == ncol(x))
-  stopifnot(nrow(ans) == length(levels(groupBy)))
-  return(ans)
+  ans
 }
 
 updateFvarLabels <- function(object, label, sep = ".") {
@@ -133,11 +126,11 @@ updateFeatureNames <- function(object, label, sep = ".") {
 ##' \code{\link{combineFeatures}}, when the summerising function is
 ##' \code{sum}, or any function that does not normalise to the number of
 ##' features aggregated. In the former case, sums of feautres might
-##' be the result of 0 (if no feature was quantified) to \code{n} 
-##' (if all \code{topN}'s \code{n} features were quantified) features, 
-##' and one might want to rescale the sums based on the number of 
+##' be the result of 0 (if no feature was quantified) to \code{n}
+##' (if all \code{topN}'s \code{n} features were quantified) features,
+##' and one might want to rescale the sums based on the number of
 ##' non-NA features effectively summed.
-##' 
+##'
 ##' @title Count the number of quantitfied features.
 ##' @param object An instance of class \code{"\linkS4class{MSnSet}"}.
 ##' @param fcol The feature variable to consider when counting the
@@ -210,7 +203,7 @@ nQuants <- function(object, fcol) {
 ##' cmn <- commonFeatureNames(list(tan2009r1, tan2009r2, tan2009r3))
 ##' length(cmn)
 commonFeatureNames <- function(x, y) {
-    if (inherits(x, "MSnSetList")) 
+    if (inherits(x, "MSnSetList"))
         x <- msnsets(x)
     if (inherits(x, "MSnSet")) {
         stopifnot(inherits(y, "MSnSet"))
@@ -251,7 +244,7 @@ commonFeatureNames <- function(x, y) {
 ##' fvarLabels(x)
 ##' \dontrun{
 ##' ## select via GUI
-##' x <- selectFeatureData(hyperLOPIT2015) 
+##' x <- selectFeatureData(hyperLOPIT2015)
 ##' fvarLabels(x)
 ##' }
 selectFeatureData <- function(object,
@@ -261,9 +254,9 @@ selectFeatureData <- function(object,
         if (graphics) {
             if (!requireNamespace("shiny"))
                 warning("The shiny package is required to use the graphical interface.")
-            fcol <- .selectShinyFeatureData(object)        
+            fcol <- .selectShinyFeatureData(object)
         } else fcol <- .selectTextFeatureData(object)
-    } 
+    }
     fData(object) <- fData(object)[, fcol, drop = FALSE]
     object
 }
