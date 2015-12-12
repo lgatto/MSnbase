@@ -168,7 +168,6 @@ CHANGES IN VERSION 1.15.12
    [2015-03-21 Sat]
 
 CHANGES IN VERSION 1.15.11
-<<<<<<< HEAD
 --------------------------
  o update malformed Description [2015-03-20 Fri]
 
@@ -259,98 +258,6 @@ CHANGES IN VERSION 1.13.16
 
 CHANGES IN VERSION 1.13.15
 --------------------------
-=======
---------------------------
- o update malformed Description [2015-03-20 Fri]
-
-CHANGES IN VERSION 1.15.10
---------------------------
- o update compareSpectra man [2015-03-19 Thu]
- o ExpressionSet <-> MSnSet coercion [2015-03-19 Thu]
-
-CHANGES IN VERSION 1.15.9
--------------------------
- o use S4Vectors' isEmpty generic [2015-03-10 Tue]
-
-CHANGES IN VERSION 1.15.8
--------------------------
- o Improved imputation section in demo vignette [2015-03-05 Thu]
-
-CHANGES IN VERSION 1.15.7
--------------------------
- o Importing ProtGenerics [2015-02-28 Sat]
- o selective import of MALDIquant [2015-03-02 Mon]
-
-CHANGES IN VERSION 1.15.6
--------------------------
- o add intensity column to the calculateFragments output; closes #47;1
-   [2015-02-02 Mon]
- o add method argument to calculateFragments to allow the user choosing the
-   highest/closest peak or all peaks in the tolerance range; closes #47;2
-   [2015-02-09 Mon]
- o add neutralLoss argument to calculateFragments and calculate loss of water
-   and ammonia; closes #47:3 [2015-02-19 Thu]
- o new imputation methods via imputeLCMD and norm [2015-02-09 Mon]
- o vignette updates [2015-02-09 Mon]
- o imputation unit test [2015-02-24 Tue]
-
-CHANGES IN VERSION 1.15.5
--------------------------
- o update dependency to mzID >= 1.5.2 [2015-01-28 Wed]
- o rewrite addIdentificationData and change its signature [2015-01-28 Wed]
- o add methods addIdentificationData which work on MSnExp and MSnSets using
-   filenames (characters), mzID objects and data.frames; see #42; closes #45;
-   [2015-01-28 Wed]
- o add a section about MSmaps in the vignette [2015-02-02 Mon]
- o MSmap has a new zeroIsNA argument to set all 0 values of the map to
-   NA. This simplifies the resulting plot3D figure. [2015-02-02 Mon]
-
-CHANGES IN VERSION 1.15.4
--------------------------
- o partly rewrite readMgfData [2015-01-19 Mon]
- o Typo in addIdentification data man [2015-01-20 Tue]
- o use Biocstyle [2015-01-23 Fri]
- o replace require with requireNamespace [2015-01-23 Fri]
-
-CHANGES IN VERSION 1.15.3
--------------------------
-o plot,Spectrum2,character to add fragment ions based on peptide
-  sequence [2014-11-20 Thu]
-o update vignette with above [2014-11-20 Thu]
-o comment parallel code in quantify man [2015-01-09 Fri]
-
-CHANGES IN VERSION 1.15.2
--------------------------
- o merged sgibb's pull request exporting overloaded methods as well
-   [2014-11-02 Sun]
- o updated MSnSet validity, checking that exprs(.) is a matrix
-   [2014-11-12 Wed]
- o fix error (missing header extraction) is MSmap example
-   [2014-11-18 Tue]
-
-CHANGES IN VERSION 1.15.1
--------------------------
- o Fixing error when id file has no spectrumFile info (see issue #39)
-   and return a warning (instead of an error) when the file used to
-   create the MSnExp/MSnSet and mzid file were different
-   [2014-10-15 Wed]
-
-CHANGES IN VERSION 1.15.0
--------------------------
- o Devel version for Bioc 3.1
-
-CHANGES IN VERSION 1.14.0
--------------------------
- o Release version for Bioc 3.0
-
-CHANGES IN VERSION 1.13.16
---------------------------
- o width generic if non-existant [2014-09-03 Wed]
- o fix undocumented S4 methods warnings [2014-09-27 Sat]
-
-CHANGES IN VERSION 1.13.15
---------------------------
->>>>>>> master
  o msMap(MSmap)<- method [2014-08-12 Tue]
  o Typo in MIAPE man [2014-08-29 Fri]
 
