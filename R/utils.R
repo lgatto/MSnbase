@@ -120,7 +120,7 @@ zoom <- function(x,w=0.05) {
       mz=x,
       width=w,
       name="xlim",
-      reporterNames=paste("xlim",x,sep="."),
+      reporterNames=paste("xlim", x, sep="."),
       col=rep("grey",length(x)))
 }
 
@@ -163,7 +163,7 @@ makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
         ## test <- test/100
         M <- res/100
         rownames(M) <- colnames(M) <-
-            paste("reporter", 1:x, sep=".")        
+            paste("reporter", 1:x, sep=".")
     } else {
         if (x==4) {
             M <- matrix(c(0.929,0.059,0.002,0.000,
@@ -197,7 +197,7 @@ makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
                              0.9678, 0, 0.013, 0, 0.001, 0, 0, 0, 0.003, 0.047, 0, 0.9678, 0,
                              0.012, 0, 0, 0, 0, 0, 0.002, 0.0259, 0, 0.962, 0, 0.029, 0, 0, 0, 0,
                              0, 0, 0.0249, 0, 0.933, 0, 0.0236, 0, 0, 0, 0, 0, 0, 0.025, 0, 0.941,
-                             0, 0, 0, 0, 0, 0, 0, 0, 0.028, 0, 0.9621),                      
+                             0, 0, 0, 0, 0, 0, 0, 0, 0.028, 0, 0.9621),
                            .Dim = c(10L, 10L),
                            .Dimnames = list(
                                c("126", "127N", "127C", "128N", "128C",
@@ -859,4 +859,24 @@ compareMSnSets <- function(x, y, qual = FALSE, proc = FALSE) {
     if (!qual)  ## do not compare @qual
         x@qual <- y@qual
     all.equal(x, y)
+}
+
+##' Similar to colMeans but calculates the sd. Should be identical to
+##' apply(x, 2, sd, na.rm).
+##' based on: http://stackoverflow.com/questions/17549762/is-there-such-colsd-in-r/17551600#17551600
+##' @title colSd
+##' @param x matrix/data.frame
+##' @param na.rm logical. Should missing values (including ‘NaN’) be omitted
+##' from the calculations?
+##' @return double
+##' @author Sebastian Gibb <mail@@sebastiangibb.de>
+##' @noRd
+utils.colSd <- function(x, na.rm = TRUE) {
+  if (na.rm) {
+    n <- colSums(!is.na(x))
+  } else {
+    n <- nrow(x)
+  }
+  colVar <- colMeans(x*x, na.rm = na.rm) - (colMeans(x, na.rm = na.rm))^2L
+  sqrt(colVar * n/(n - 1L))
 }
