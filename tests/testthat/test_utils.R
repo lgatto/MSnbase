@@ -148,3 +148,13 @@ test_that("formatRt", {
     expect_equal(tc, formatRt(tn))
     expect_equal(tn, formatRt(tc))
 })
+
+test_that("colSd", {
+  set.seed(1)
+  m <- matrix(rnorm(10), ncol=2)
+  mna <- m
+  mna[c(1, 8)] <- NA
+  expect_equal(MSnbase:::utils.colSd(m), apply(m, 2, sd))
+  expect_equal(MSnbase:::utils.colSd(m, na.rm=TRUE),
+               apply(m, 2, sd, na.rm=TRUE))
+})
