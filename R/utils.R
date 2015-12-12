@@ -120,7 +120,7 @@ zoom <- function(x,w=0.05) {
       mz=x,
       width=w,
       name="xlim",
-      reporterNames=paste("xlim",x,sep="."),
+      reporterNames=paste("xlim", x, sep="."),
       col=rep("grey",length(x)))
 }
 
