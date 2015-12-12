@@ -869,7 +869,7 @@ compareMSnSets <- function(x, y, qual = FALSE, proc = FALSE) {
 ##' @param na.rm logical. Should missing values (including ‘NaN’) be omitted
 ##' from the calculations?
 ##' @return double
-##' @author Sebastian Gibb
+##' @author Sebastian Gibb <mail@@sebastiangibb.de>
 ##' @noRd
 utils.colSd <- function(x, na.rm = TRUE) {
   if (na.rm) {
