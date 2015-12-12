@@ -1,5 +1,7 @@
 CHANGES IN VERSION 1.19.5
 -------------------------
+ o Merged pull request #67 from lgatto/featureCV by sgibb: featureCV
+ ignores its na.rm argument <2015-12-12 Sat>
 
 CHANGES IN VERSION 1.19.4
 -------------------------
