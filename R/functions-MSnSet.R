@@ -72,21 +72,14 @@ featureCV <- function(x, groupBy, na.rm = TRUE,
                       norm = c("sum", "max", "none",
                         "center.mean", "center.median",
                         "quantiles", "quantiles.robust")) {
-  groupBy <- as.factor(groupBy)
   norm <- match.arg(norm)
   if (norm != "none")
     x <- normalise(x, method = norm)
 
-  j <- split(1L:nrow(x), groupBy)
-  ans <- matrix(NA_real_, nrow = nlevels(groupBy), ncol = ncol(x),
-                dimnames = list(levels(groupBy), colnames(x)))
-
-  for (i in seq(along = j)) {
-    subexprs <- exprs(x)[j[[i]], , drop = FALSE]
-    ans[i, ] <- utils.colSd(subexprs, na.rm = na.rm)/
-                colMeans(subexprs, na.rm = na.rm)
-  }
-
+  ans <- utils.applyColumnwiseByGroup(exprs(x), groupBy=groupBy,
+                                      FUN=function(y, ...) {
+                                        utils.colSd(y, ...)/
+                                          colMeans(y, ...)}, na.rm=na.rm)
   colnames(ans) <- paste("CV", colnames(ans), sep = ".")
   ans
 }
