@@ -218,7 +218,9 @@ readMSData <- function(files,
                     sp <- removePeaks(sp, t=removePeaks)
                 if (clean)
                     sp <- clean(sp)
-                .fname <- paste0("X", i, ".", filen)
+                .fname <- sprintf(paste0("X%0",
+                                         ceiling(log10(length(spidx) + 1L)),
+                                         "d.%s"), i, filen)
                 assign(.fname, sp, assaydata)
                 fullhdorder[fullhdordercounter] <- .fname
                 fullhdordercounter <- fullhdordercounter + 1
