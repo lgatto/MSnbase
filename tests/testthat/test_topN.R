@@ -10,21 +10,21 @@ test_that("topN for matrix", {
                 3.9, 4.1, 4.1,
                 1.0, 1.1, 0.9, # group 3
                 2.0, 2.1, 2.9),
-              9, 3, byrow =TRUE)  
+              9, 3, byrow =TRUE)
   groups <- factor(c(rep("XX", 3),
                      rep("BB", 4),
                      rep("CC", 2)))
   rownames(M) <-
-    paste("r", 1:9, groups, sep = "")  
-  Mtop2sum <- M[c(1, 3,
-                  7, 6,
-                  9, 8), ]
-  Mtop2max <- M[c(1, 3,
-                  7, 6,
-                  9, 8), ]
-  Mtop2min <- M[c(3, 2,
-                  7, 6,
-                  9, 8), ]
+    paste("r", 1:9, groups, sep = "")
+  Mtop2sum <- M[c(7, 6,
+                  9, 8,
+                  1, 3), ]
+  Mtop2max <- M[c(7, 6,
+                  9, 8,
+                  1, 3), ]
+  Mtop2min <- M[c(7, 6,
+                  9, 8,
+                  3, 2), ]
   M2 <- topN(M, groupBy = groups, n = 1)
   expect_equal(dim(M2), c(3, ncol(M)))
   M2 <- topN(M, groupBy = groups, n = 2)
@@ -39,11 +39,11 @@ test_that("topN for matrix and NAs", {
                 2.1, 1.1, 2.3,
                 3.9, 4.1, 4.1,
                 1.1, 1.1, 1.1 ), ## group 2
-              4, 3, byrow =TRUE) 
+              4, 3, byrow =TRUE)
   groups <- factor(c(rep("AA", 3),
                      rep("BB", 1)))
   rownames(M) <-
-    paste("r", 1:4, groups, sep = "")  
+    paste("r", 1:4, groups, sep = "")
   r1 <- rownames(topN(M, groupBy = groups, n = 1, fun = sum))
   expect_equal(r1, c("r3AA", "r4BB"))
   r2 <- rownames(topN(M, groupBy = groups, n = 1, fun = sum, na.rm = TRUE))
@@ -65,5 +65,5 @@ test_that("topN for MSnSet", {
     xo <- featureNames(xx)
     expect_equal(exprs(xx)[xo, ], exprs(xx2)[xo, ])
     expect_equal(fData(xx)[xo, ], fData(xx2)[xo, ])
-    expect_equal(pData(xx)[xo, ], pData(xx2)[xo, ])  
+    expect_equal(pData(xx)[xo, ], pData(xx2)[xo, ])
 })
