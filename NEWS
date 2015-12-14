@@ -1,3 +1,13 @@
+CHANGES IN VERSION 1.19.6
+-------------------------
+ o MSnExp feautreNames are now X01, X02 (0 after X) to maintain
+   numerical sorting of ASCII characters; contributed by sgibb
+   <2015-12-14 Mon>
+ o Update MSnbase:::subsetBy to use split instead of lapply, which
+   makes topN faster. This nevertheless changes the order of the
+   resulting MSnSet (see issue #63 for details and background);
+   contributed by sgibb <2015-12-14 Mon>
+
 CHANGES IN VERSION 1.19.5
 -------------------------
  o Merged pull request #67 from lgatto/featureCV by sgibb: featureCV
