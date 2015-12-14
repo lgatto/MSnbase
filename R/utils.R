@@ -323,18 +323,16 @@ getTopIdx <- function(X, n, fun, ...) {
 
 subsetBy <- function(X, groups, byIdx) {
   if ( is.null(dim(X)) || ncol(X) == 1 ) {
-    ## vector like
-    X <- as.vector(X)
-    ans <- unlist(mapply("[", x=split(X, groups), i=byIdx,
-                         SIMPLIFY=FALSE, USE.NAMES=FALSE))
+    ## vector
+    unlist(mapply("[", x=split(as.vector(X), groups), i=byIdx,
+                  SIMPLIFY=FALSE, USE.NAMES=FALSE))
   } else {
-    ## matrix like
+    ## matrix
     ans <- mapply(function(i, j) {
       X[i, , drop=FALSE][j, , drop=FALSE]
     }, i=split(1:nrow(X), groups), j=byIdx, SIMPLIFY=FALSE, USE.NAMES=FALSE)
-    ans <- do.call(rbind, ans)
+    do.call(rbind, ans)
   }
-  ans
 }
 
 ## Computes header from assay data by-passing cache
