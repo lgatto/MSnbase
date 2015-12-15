@@ -68,12 +68,17 @@ setValidity("pSet", function(object) {
 
 setMethod("[","pSet",
           function(x,i,j="missing",drop="missing") {
+              browser()
             if (!(is.logical(i) | is.numeric(i)))
               stop("subsetting works only with numeric or logical")
             if (is.numeric(i)) {
               if (max(i)>length(x) | min(i)<1)
                 stop("subscript out of bounds")
-              i <- sort(i) ## crash if unsorted
+              i <- sort(i) ## crash if unsorted (because of
+                           ## (alphanumerical) order in
+                           ## ls(assayData(.))  and
+                           ## featureNames(featureData) that have to
+                           ## be indenticat - see issues #70 and #71)
             }
             whichElements <- ls(assayData(x))[i]
             sel <- featureNames(x) %in% whichElements
