@@ -68,7 +68,6 @@ setValidity("pSet", function(object) {
 
 setMethod("[","pSet",
           function(x,i,j="missing",drop="missing") {
-              browser()
             if (!(is.logical(i) | is.numeric(i)))
               stop("subsetting works only with numeric or logical")
             if (is.numeric(i)) {
@@ -131,6 +130,18 @@ setMethod("precursorMz","pSet",
               return(sapply(spectra(object), precursorMz))
             stop("No precursor MZ value for MS1 spectra.")
           })
+
+## a general version
+## setMethod("precursorMz","pSet",
+##           function(object) {
+##               msl <- msLevel(object)
+##               ans <- rep(NA_integer_, length(object))
+##               obj2 <- object[msl > 1]
+##               ans2 <- sapply(spectra(obj2), slot, "precursorMz")
+##               ans[msl > 1] <- ans2
+##               names(ans) <- featureNames(object)
+##               ans
+##           })
 
 setMethod("precScanNum","pSet",
           function(object) {
