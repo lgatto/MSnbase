@@ -27,7 +27,7 @@ setValidity("pSet", function(object) {
     if (length(spectra(object)) != length(ls(assayData(object))))
         msg <- validMsg(msg, "Object size inconsistence using assayData() and spectra() methods.")    
     if (!identical(featureNames(object), ## obtained as featureNames(featureData(object))
-                   ls(assayData(object)))
+                   ls(assayData(object))))
         msg <- validMsg(msg, "featureNames differ between assayData and featureData.")    
     ## checking number of files in phenoData and
     ##          number of files in assayData
