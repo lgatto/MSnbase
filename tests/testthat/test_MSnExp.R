@@ -253,3 +253,24 @@ test_that("idSummary", {
                           stringsAsFactors=FALSE))
 })
 
+test_that("MSnExp sample names", {
+    data(itraqdata)
+    expect_identical(sampleNames(itraqdata), "1")
+    sampleNames(itraqdata) <- "A"
+    expect_identical(sampleNames(itraqdata), "A")
+})
+
+test_that("MSnExp mulitplexed sample names", {
+    data(itraqdata)
+    ## this is an iTRAQ4-plex sample; let's update phenoData
+    ## accordingly
+    pd2 <- new("NAnnotatedDataFrame",
+               data = data.frame(sampleNumbers = 1:4,
+                                 row.names = paste0("iTRAQ", 1:4)),
+               multiplex = 4,
+               multiLabels = paste0("iTRAQ", 1:4))
+    itraqdata@phenoData <- pd2
+    expect_true(validObject(itraqdata))
+    sampleNames(itraqdata) <- LETTERS[1:4]
+    expect_identical(sampleNames(itraqdata), LETTERS[1:4])
+})

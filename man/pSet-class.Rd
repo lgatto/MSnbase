@@ -56,6 +56,7 @@
 \alias{pubMedIds,pSet-method}
 \alias{rtime,pSet-method}
 \alias{sampleNames,pSet-method}
+\alias{sampleNames<-,pSet,character-method}
 \alias{spectra,pSet-method}
 \alias{spectra}
 \alias{tic,pSet-method}
@@ -99,34 +100,28 @@
   \describe{
     \item{\code{assayData}:}{Object of class \code{"environment"}
       containing the MS spectra (see \code{"\linkS4class{Spectrum1}"}
-      and \code{"\linkS4class{Spectrum2}"}).
-      Slot is inherited from \code{"\linkS4class{pSet}"}. }
+      and \code{"\linkS4class{Spectrum2}"}). }
     \item{\code{phenoData}:}{Object of class
-      \code{"\linkS4class{AnnotatedDataFrame}"} containing 
+      \code{"\linkS4class{NAnnotatedDataFrame}"} containing 
       experimenter-supplied variables describing sample (i.e the
       individual tags for an labelled MS experiment)
-      See \code{\link{phenoData}} for more details.
-      Slot is inherited from \code{"\linkS4class{pSet}"}. }
+      See \code{\link{phenoData}} for more details.}
     \item{\code{featureData}:}{Object of class
       \code{"\linkS4class{AnnotatedDataFrame}"} containing variables
       describing features (spectra in our case), e.g. identificaiton data,
       peptide sequence, identification score,... (inherited from
       \code{"\linkS4class{eSet}"}). See \code{\link{featureData}} for
-      more details.
-      Slot is inherited from \code{"\linkS4class{pSet}"}. }
+      more details. }
     \item{\code{experimentData}:}{Object of class
       \code{"\linkS4class{MIAPE}"}, containing details of experimental
-      methods. See \code{\link{experimentData}} for more details.
-      Slot is inherited from \code{"\linkS4class{pSet}"}. }
+      methods. See \code{\link{experimentData}} for more details. }
     \item{\code{protocolData}:}{Object of class
       \code{"\linkS4class{AnnotatedDataFrame}"} containing
       equipment-generated variables (inherited from
       \code{"\linkS4class{eSet}"}). See \code{\link{protocolData}} for
-      more details.
-      Slot is inherited from \code{"\linkS4class{pSet}"}. }
+      more details. }
     \item{\code{processingData}:}{Object of class
-      \code{"\linkS4class{MSnProcess}"} that records all processing. 
-      Slot is inherited from \code{"\linkS4class{pSet}"}. }
+      \code{"\linkS4class{MSnProcess}"} that records all processing. }
     \item{\code{.cache}:}{Object of class \code{environment} used to
       cache data. Under development. }
     \item{\code{.__classVersion__}:}{Object of class
@@ -196,7 +191,7 @@
     \item{pubMedIds}{\code{signature(x = "pSet")}: Access PMIDs in
       \code{experimentData}. } 
     \item{sampleNames}{\code{signature(x = "pSet")}: Access sample names
-      in \code{phenoData}. }
+      in \code{phenoData}. A replacement method is also available. }
     \item{spectra}{\code{signature(x = "pSet", ...)}: Access the
       \code{assayData} slot, returning the features as a \code{list}.
       Additional arguments are currently ignored. } 

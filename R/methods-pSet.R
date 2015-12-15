@@ -50,8 +50,9 @@ setValidity("pSet", function(object) {
     ## phenoData: at this stage, we don't know how many sample there will be
     ## expecting one for label-free, but we could have 4, 6, 8 for isobaric tagging
     ## or 2 for metabolic labelling
-    if (nrow(pData(object)) > 1)
-        message("Detected ", nrow(pData(object)), " samples in pData().")    
+    ## if (nrow(pData(object)) > 1)
+    ##     message("Detected ", nrow(pData(object)), " samples in pData().")
+    ##
     ## protocolData not checked yet - depends very much
     ## on type of assay (MS1, MS2 quant, reporter ions, ...)
     if (!cacheEnvIsLocked(object))
@@ -296,22 +297,22 @@ setReplaceMethod("fileNames",
             return(object)
           })
 
-## setReplaceMethod("sampleNames",
-##                  signature=signature(object="pSet", value="character"),
-##                  function(object, value) {
-##                      pd <- phenoData(object)
-##                      sampleNames(pd) <- value
-##                      prd <- protocolData(object)
-##                      if (nrow(prd) == 0) {
-##                        prd <- pd[,integer(0)]
-##                      } else {
-##                        sampleNames(prd) <- value
-##                      }
-##                      object@phenoData <- pd
-##                      object@protocolData <- prd
-##                      if (validObject(object))
-##                        return(object)
-##                  })
+setReplaceMethod("sampleNames",
+                 signature = signature(object = "pSet", value = "character"),
+                 function(object, value) {
+                     pd <- phenoData(object)
+                     sampleNames(pd) <- value
+                     prd <- protocolData(object)
+                     if (nrow(prd) == 0) {
+                       prd <- pd[,integer(0)]
+                     } else {
+                       sampleNames(prd) <- value
+                     }
+                     object@phenoData <- pd
+                     object@protocolData <- prd
+                     if (validObject(object))
+                       return(object)
+                 })
 
 setMethod("featureNames",
           signature=signature(object="pSet"),
