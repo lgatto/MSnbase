@@ -26,8 +26,8 @@ setValidity("pSet", function(object) {
         msg <- validMsg(msg, "Unequal number of spectra in assayData and features in featureData.")    
     if (length(spectra(object)) != length(ls(assayData(object))))
         msg <- validMsg(msg, "Object size inconsistence using assayData() and spectra() methods.")    
-    if (!identical(featureNames(object), ## obtained as ls(assayData(object))
-                   featureNames(featureData(object))))
+    if (!identical(featureNames(object), ## obtained as featureNames(featureData(object))
+                   ls(assayData(object)))
         msg <- validMsg(msg, "featureNames differ between assayData and featureData.")    
     ## checking number of files in phenoData and
     ##          number of files in assayData
@@ -316,7 +316,7 @@ setReplaceMethod("sampleNames",
 
 setMethod("featureNames",
           signature=signature(object="pSet"),
-          function(object) ls(assayData(object)))
+          function(object) featureNames(featureData(object)))
 
 setMethod("phenoData", "pSet", function(object) object@phenoData)
 setMethod("pData", "pSet", function(object) pData(phenoData(object)))
