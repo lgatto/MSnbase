@@ -253,3 +253,41 @@ test_that("idSummary", {
                           stringsAsFactors=FALSE))
 })
 
+test_that("MSnExp sample names", {
+    data(itraqdata)
+    expect_identical(sampleNames(itraqdata), "1")
+    sampleNames(itraqdata) <- "A"
+    expect_identical(sampleNames(itraqdata), "A")
+})
+
+test_that("MSnExp mulitplexed sample names", {
+    data(itraqdata)
+    ## this is an iTRAQ4-plex sample; let's update phenoData
+    ## accordingly
+    pd2 <- new("NAnnotatedDataFrame",
+               data = data.frame(sampleNumbers = 1:4,
+                                 row.names = paste0("iTRAQ", 1:4)),
+               multiplex = 4,
+               multiLabels = paste0("iTRAQ", 1:4))
+    itraqdata@phenoData <- pd2
+    expect_true(validObject(itraqdata))
+    sampleNames(itraqdata) <- LETTERS[1:4]
+    expect_identical(sampleNames(itraqdata), LETTERS[1:4])
+})
+
+test_that("feautre names are correct", {
+    data(itraqdata)
+    fn0 <- c("X1" , "X10", "X11", "X12", "X13", "X14", "X15", "X16",
+             "X17", "X18", "X19", "X2", "X20", "X21", "X22", "X23",
+             "X24", "X25", "X26", "X27", "X28", "X29", "X3" , "X30",
+             "X31", "X32", "X33", "X34", "X35", "X36", "X37", "X38",
+             "X39", "X4" , "X40", "X41", "X42", "X43", "X44", "X45",
+             "X46", "X47", "X48", "X49", "X5" , "X50", "X51", "X52",
+             "X53", "X54", "X55", "X6" , "X7" , "X8" , "X9")
+    expect_identical(featureNames(itraqdata), fn0)
+    ## these below are redundant with the validity method, but keeping
+    ## here as this validity rule will change in the future, and want
+    ## to have a regression test.
+    expect_identical(ls(assayData(itraqdata)), fn0)
+    expect_identical(featureNames(featureData(itraqdata)), fn0)
+})

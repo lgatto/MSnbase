@@ -76,11 +76,13 @@ writeMgfContent <- function(sp, TITLE = NULL, con) {
     .cat("\nTITLE=", TITLE)
   }
 
-  .cat("\nRTINSECONDS=", rtime(sp), "\nPEPMASS=", precursorMz(sp))
+  if (msLevel(sp) > 1) {
+      .cat("\nRTINSECONDS=", rtime(sp), "\nPEPMASS=", precursorMz(sp))
+      if (length(precursorCharge(sp)) && !is.na(precursorCharge(sp))) {
+          .cat("\nCHARGE=", precursorCharge(sp), "+")
+      }
+  } else .cat("\nRTINSECONDS=", rtime(sp))
 
-  if (length(precursorCharge(sp)) && !is.na(precursorCharge(sp))) {
-    .cat("\nCHARGE=", precursorCharge(sp), "+")
-  }
 
   .cat("\n", paste(mz(sp), intensity(sp), collapse = "\n"))
   .cat("\nEND IONS\n")
