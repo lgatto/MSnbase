@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.19.7
+-------------------------
+ o new sampleNames<- for pSet and MSnExp objects <2015-12-15 Tue>
+ o Fix bug preventing to write MS1 to mgf (fixes issue #73 reported by
+    meowcat) <2015-12-18 Fri>
+ 
 CHANGES IN VERSION 1.19.6
 -------------------------
  o MSnExp feautreNames are now X01, X02 (0 after X) to maintain

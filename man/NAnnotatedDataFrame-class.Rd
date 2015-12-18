@@ -27,7 +27,7 @@
 \section{Objects from the Class}{
   See \code{"\linkS4class{AnnotatedDataFrame}"} for object creation with
   \code{new}. Multiplexing data is defined by setting the
-  \code{multiplex} and \code{multiLables} paramters.
+  \code{multiplex} and \code{multiLables} parameters.
 }
 
 
