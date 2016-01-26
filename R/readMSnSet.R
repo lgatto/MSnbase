@@ -85,3 +85,19 @@ readMSnSet2 <- function(file, ecol, fnames, ...) {
   if (validObject(ans))
     return(ans)
 }    
+
+
+# reads SkyLine ouput file "Peptide Ratio Results.csv" as MSnSet
+readSkyLinePRR <- function(file){
+    x <- read.csv(file, na.strings = '#N/A')
+    xf <- ddply(x, .variables=c("Peptide.Sequence", "Protein.Name"), 
+                summarise, mean.rt = mean(Peptide.Retention.Time, na.rm=T))
+    rownames(xf) <- xf$Peptide.Sequence
+    xe <- acast(x, Peptide.Sequence ~ Replicate.Name, value.var = "Ratio.To.Standard")
+    xp <- data.frame(Replicate.Name=colnames(xe), row.names=colnames(xe))
+    msnset <- MSnSet(exprs = xe, fData = xf, pData = xp)
+    if(validObject(msnset))
+        return(msnset)
+    else
+        return(NULL)
+}
