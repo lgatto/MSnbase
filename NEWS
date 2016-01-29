@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.19.9
+-------------------------
+ o
+ 
 CHANGES IN VERSION 1.19.8
 -------------------------
  o readMSnSet2 now also accepts a data.frame as input <2016-01-29 Fri>
