@@ -60,6 +60,10 @@
 \alias{idSummary,MSnSet-method}
 \alias{idSummary}
 
+\alias{trimws}
+\alias{trimws,MSnSet-method}
+\alias{trimws,data.frame-method}
+
 \alias{exptitle,MSnSet-method}
 \alias{expemail,MSnSet-method}
 \alias{ionSource,MSnSet-method}
@@ -285,6 +289,11 @@
       Performs data imputation on the \code{MSnSet} object.
       See \code{\link{impute}} for more details.
     }
+
+    \item{trimws}{signature(object = "MSnSet", ...)}{Trim leading and/or
+      trailing white spaces in the feature data slot. Also available for
+      \code{data.frame} objects. See \code{?base::\link[base]{trimws}}
+      for details.  }
 
   }
 
