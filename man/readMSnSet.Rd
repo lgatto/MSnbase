@@ -6,14 +6,16 @@
 \title{ Read 'MSnSet' }
 
 \description{
+  
   This function reads data files to generate an
-  \code{\linkS4class{MSnSet}} instance. It is a wrapper around Biobase's
-  \code{\link{readExpressionSet}} function with an additional 
-  \code{featureDataFile} parameter to include feature data.
+  \code{\linkS4class{MSnSet}} instance. It is a wrapper around
+  \code{Biobase}'s \code{\link{readExpressionSet}} function with an
+  additional \code{featureDataFile} parameter to include feature data.
   See also \code{\link{readExpressionSet}} for more details.
-  \code{readMSnSet2} is a simple version that takes a single
-  text spreadsheet as input and extracts the expression data
-  and feature meta-data to create and \code{MSnSet}.
+  \code{readMSnSet2} is a simple version that takes a single text
+  spreadsheet as input and extracts the expression data and feature
+  meta-data to create and \code{MSnSet}.
+  
 }
 
 \usage{
@@ -38,8 +40,10 @@ readMSnSet2(file, ecol, fnames, ...)
 }
 
 \arguments{
+
   Arguments direclty passed to \code{readExpressionSet}. The description
   is from the \code{readExpressionSet} documentation page.
+  
   \item{exprsFile}{(character) File or connection from which to read
     expression values. The file should contain a matrix with rows as
     features and columns as samples. \code{\link{read.table}} is called
@@ -84,19 +88,33 @@ readMSnSet2(file, ecol, fnames, ...)
     data. }
 
   Arguments for \code{readMSnSet2}:
-  \item{file}{A \code{character} indicating the spreadsheet
-    file. Default is to read the file as a comma-separated values
-    (csv). If different, use the additional arguments, passed to
-    \code{\link{read.csv}}, to parametrise file import.}
+  
+  \item{file}{A \code{character} indicating the spreadsheet file or a
+    \code{data.frame} (new in version 1.19.8). Default, when \code{file}
+    is a \code{character}, is to read the file as a comma-separated
+    values (csv). If different, use the additional arguments, passed to
+    \code{\link{read.csv}}, to parametrise file import.
+
+    Passing a \code{data.frame} can be particularly useful if the
+    spreadsheet is in Excel format. The appropriate sheet can first be
+    read into R as a \code{data.frame} using, for example
+    \code{readxl::read_excel}, and then pass it to \code{readMSnSet2}.
+
+
+  }
+
   \item{ecol}{A \code{numeric} indicating the indices of the columns to
     be used as expression values. Can also be a \code{character}
-    indicating the names of the columns. Caution must be taken of the
-    column names are composed of special characters like '(' or '-' that
-    will be converted to a '.'. If \code{ecol} does not match, the error
-    message will dispay the column names are see by \code{R}.
-  }
+    indicating the names of the columns. Caution must be taken if the
+    column names are composed of special characters like \code{(} or
+    \code{-} that will be converted to a \code{.}. If \code{ecol} does
+    not match, the error message will dislpay the column names are see
+    by \code{R}.  }
+
+  
   \item{fnames}{An optional \code{character} indicating the column to be
     used as feature names. }
+  
 }
 
 
@@ -107,10 +125,12 @@ readMSnSet2(file, ecol, fnames, ...)
 }
 
 \seealso{
+  
   The \code{\link{grepEcols}} and \code{\link{getEcols}} helper
-  functions to identify the \code{ecol} values.
-  The \code{MSnbase-io} vignette illustrates these functions in
-  detail. It can accessed with \code{vignette("MSnbase-io")}.
+  functions to identify the \code{ecol} values.  The \code{MSnbase-io}
+  vignette illustrates these functions in detail. It can be accessed
+  with \code{vignette("MSnbase-io")}.
+  
 }
 
 \examples{
@@ -120,7 +140,9 @@ fdatafile <- "path_to_featuredata_file.csv"
 pdatafile <- "path_to_sampledata_file.csv"
 ## Read ExpressionSet with appropriate parameters
 res <- readMSnSet(exprsFile, pdataFile, fdataFile, sep = "\t", header=TRUE)
-}}
+}
+
+}
 
 \keyword{file}
 \keyword{manip}
