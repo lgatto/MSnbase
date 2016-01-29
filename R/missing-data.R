@@ -62,7 +62,7 @@ plotNA_matrix <- function(X, pNA) {
                        geom_point(data = data.frame(x = nkeep, y = (1 - pNA)),
                                   aes(x = x, y = y), alpha = 1/3)
   
-  p <- p + annotate("text", label = nrow(X), x = 0, y = 1, 
+  p <- p + annotate("text", label = nrow(X), x = 0, y = 1,
                     size = 2.5, vjust = -1, alpha = 1/3)
 
   print(p)
