@@ -873,3 +873,20 @@ utils.colSd <- function(x, na.rm = TRUE) {
   colVar <- colMeans(x*x, na.rm = na.rm) - (colMeans(x, na.rm = na.rm))^2L
   sqrt(colVar * n/(n - 1L))
 }
+
+
+setMethod("trimws", "data.frame",
+          function(x, ...) {
+              for (i in 1:ncol(x)) {
+                  if (inherits(x[, i], "character"))
+                      x[, i] <- base::trimws(x[, i], ...)
+              }
+              x
+          })
+
+setMethod("trimws", "MSnSet",
+          function(x, ...) {
+              fData(x) <- trimws(fData(x), ...)
+              x <- logging(x, "Trimmed featureData white spaces")
+              x
+          })

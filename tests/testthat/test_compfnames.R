@@ -1,6 +1,5 @@
 context("compfnames")
 
-
 ## Class FeatComp, function compfnames and helper functions .compStrings and 
 ## .calcCompNumbers
 
@@ -42,7 +41,6 @@ test_that("FeatComp/.calcCompNumbers", {
     string1 <- c("a", "b", "c", "d")
     string2 <- c("c", "d", "e", "f")
     string3 <- c("f", "e")
-
     ## test .calcCompNumbers which creates matrix 
     ## create objects for input for function .calcCompNumbers
     flist11 <- MSnbase:::.compStrings(string1, string1, FALSE, "ut11")
@@ -53,13 +51,13 @@ test_that("FeatComp/.calcCompNumbers", {
     res <- MSnbase:::.calcCompNumbers(flist)
     ## start testing
     expect_true(is.matrix(res))
-    expect_equal(dim(res), c(4, 3))
+    expect_equal(dim(res), c(4, 3))    
     expect_equal(rownames(res), c("ut11", "ut12", "ut13", "ut23"))
-    expect_equal(colnames(res), c("common", "unique1", "unique2"))
-    expect_equal(as.vector(res[1, ]), c(4, 0, 0)) 
-    expect_equal(as.vector(res[2, ]), c(2, 2, 2))
-    expect_equal(as.vector(res[3, ]), c(0, 4, 2))
-    expect_equal(as.vector(res[4, ]), c(2, 2, 0))
+    expect_equal(colnames(res), c("common", "unique1", "unique2"))    
+    expect_equal(as.numeric(res[1, ]), c(4, 0, 0))    
+    expect_equal(as.numeric(res[2, ]), c(2, 2, 2))
+    expect_equal(as.numeric(res[3, ]), c(0, 4, 2))
+    expect_equal(as.numeric(res[4, ]), c(2, 2, 0))
 })
 
 test_that("FeatComp/compfnames", {
