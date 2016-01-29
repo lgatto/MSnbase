@@ -30,7 +30,7 @@ None (invisible \code{NULL}).
 }
 \description{
 This function generates an \code{mzTab} file based on the data
-available in teh \code{x} \code{MSnSet} instance and additional 
+available in the \code{x} \code{MSnSet} instance and additional 
 information passed by the user. It make used of the respective
 section generators to create appropriate metadata, peptide and
 protein sections. If peptide and protein sections need to be
