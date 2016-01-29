@@ -32,7 +32,7 @@ x <- selectFeatureData(hyperLOPIT2015, fcol = 1:5)
 fvarLabels(x)
 \dontrun{
 ## select via GUI
-x <- selectFeatureData(hyperLOPIT2015) 
+x <- selectFeatureData(hyperLOPIT2015)
 fvarLabels(x)
 }
 }

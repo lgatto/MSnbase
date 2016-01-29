@@ -29,9 +29,9 @@ This function is typically used after \code{\link{topN}} and before
 \code{\link{combineFeatures}}, when the summerising function is
 \code{sum}, or any function that does not normalise to the number of
 features aggregated. In the former case, sums of feautres might
-be the result of 0 (if no feature was quantified) to \code{n} 
-(if all \code{topN}'s \code{n} features were quantified) features, 
-and one might want to rescale the sums based on the number of 
+be the result of 0 (if no feature was quantified) to \code{n}
+(if all \code{topN}'s \code{n} features were quantified) features,
+and one might want to rescale the sums based on the number of
 non-NA features effectively summed.
 }
 \examples{

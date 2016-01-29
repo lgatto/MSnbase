@@ -36,7 +36,8 @@ gb <- factor(rep(1:2, each = 2))
 featureCV(msnset, gb)
 }
 \author{
-Laurent Gatto <lg390@cam.ac.uk>
+Laurent Gatto <lg390@cam.ac.uk>,
+Sebastian Gibb <mail@sebastiangibb.de>
 }
 \seealso{
 \code{\link{combineFeatures}}
