@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.19.8
+-------------------------
+ o readMSnSet2 now also accepts a data.frame as input <2016-01-29 Fri>
+ o selective ggplot2 import <2016-01-29 Fri>
+
 CHANGES IN VERSION 1.19.7
 -------------------------
  o new sampleNames<- for pSet and MSnExp objects <2015-12-15 Tue>
