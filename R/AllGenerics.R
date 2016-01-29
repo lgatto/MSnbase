@@ -120,3 +120,6 @@ setGeneric("fnamesIn", function(x, y, ...) standardGeneric("fnamesIn"))
 ## setGeneric("mz", function(object, ...) standardGeneric("mz"))
 ## setGeneric("intensity", function(object, ...) standardGeneric("intensity"))
 ## setGeneric("chromatogram", function(object, ...) standardGeneric("chromatogram"))
+
+## base::trimws
+setGeneric("trimws", function(x, ...) standardGeneric("trimws"))
