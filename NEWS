@@ -1,6 +1,6 @@
 CHANGES IN VERSION 1.19.9
 -------------------------
- o
+ o new trimws method for data.frames and MSnSets <2016-01-29 Fri>
  
 CHANGES IN VERSION 1.19.8
 -------------------------
