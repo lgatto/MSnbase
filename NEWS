@@ -1,6 +1,6 @@
 CHANGES IN VERSION 1.19.10
 --------------------------
- o export exprs and fvarLabels <2016-01-30 Sat>
+ o export exprs, fvarLabels, and sampleNames[<-] <2016-01-30 Sat>
  
 CHANGES IN VERSION 1.19.9
 -------------------------

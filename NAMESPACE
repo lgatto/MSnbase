@@ -147,6 +147,8 @@ exportMethods(exprs,
               "fData<-",
               featureNames,
               "featureNames<-",
+              sampleNames,
+              "sampleNames<-"
               fileNames,
               msInfo,
               expemail, exptitle,
