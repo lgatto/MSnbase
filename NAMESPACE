@@ -137,10 +137,12 @@ exportClasses(pSet,
               MSmap,
               MzTab)
 
-exportMethods(assayData,
+exportMethods(exprs,
+              assayData,
               "assayData<-",
               coerce,
               show,"[","[[",
+              fvarLabels,
               fData,
               "fData<-",
               featureNames,
@@ -249,5 +251,3 @@ exportMethods(assayData,
 ## methods NOT exported
 ## curveStats
 ## "precursorCharge<-"
-
-
