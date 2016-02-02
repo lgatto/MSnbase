@@ -876,17 +876,17 @@ utils.colSd <- function(x, na.rm = TRUE) {
 
 
 setMethod("trimws", "data.frame",
-          function(x, ...) {
+          function(x, which, ...) {
               for (i in 1:ncol(x)) {
                   if (inherits(x[, i], "character"))
-                      x[, i] <- base::trimws(x[, i], ...)
+                      x[, i] <- base::trimws(x[, i], which)
               }
               x
           })
 
 setMethod("trimws", "MSnSet",
-          function(x, ...) {
-              fData(x) <- trimws(fData(x), ...)
+          function(x, which, ...) {
+              fData(x) <- trimws(fData(x), which, ...)
               x <- logging(x, "Trimmed featureData white spaces")
               x
           })
