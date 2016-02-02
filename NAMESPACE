@@ -148,7 +148,7 @@ exportMethods(exprs,
               featureNames,
               "featureNames<-",
               sampleNames,
-              "sampleNames<-"
+              "sampleNames<-",
               fileNames,
               msInfo,
               expemail, exptitle,
