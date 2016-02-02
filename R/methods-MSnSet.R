@@ -487,54 +487,55 @@ setMethod("image", "MSnSet",
                    legend = "",
                    low, high,
                    fnames,
-                   nmax = 50) {
-                       ## get rid of 'no visible global function definition' note
-                       sample.name <- feature.id <- Expression <- NULL
-                       isFC <- any(exprs(x) < 0, na.rm=TRUE)
-                       xlong <- melt(exprs(x))
-                       colnames(xlong) <- c("feature.id", "sample.name", "Expression")
-                       xlong[['feature.id']] <- as.character(xlong[['feature.id']])
-                       xlong[['sample.name']] <- as.character(xlong[['sample.name']])
-                       xlong <- merge(xlong, fData(x), by.x="feature.id", by.y=0) 
-                       xlong <- merge(xlong, pData(x), by.x="sample.name", by.y=0)
-                       x <- xlong
-                       if (!is.null(sOrderBy))
-                           x[['sample.name']] <- reorder(x[['sample.name']], x[[sOrderBy]])
+                   nmax = 50,
+                   plot = TRUE) {
+              ## get rid of 'no visible global function definition' note
+              sample.name <- feature.id <- Expression <- NULL
+              isFC <- any(exprs(x) < 0, na.rm=TRUE)
+              xlong <- melt(exprs(x))
+              colnames(xlong) <- c("feature.id", "sample.name", "Expression")
+              xlong[['feature.id']] <- as.character(xlong[['feature.id']])
+              xlong[['sample.name']] <- as.character(xlong[['sample.name']])
+              xlong <- merge(xlong, fData(x), by.x="feature.id", by.y=0) 
+              xlong <- merge(xlong, pData(x), by.x="sample.name", by.y=0)
+              x <- xlong
+              if (!is.null(sOrderBy))
+                  x[['sample.name']] <- reorder(x[['sample.name']], x[[sOrderBy]])
     
-                       if (!is.null(facetBy)) x$facetBy <- x[[facetBy]]
-                       p <- ggplot(x, aes(x=`sample.name`, y=`feature.id`, fill=`Expression`)) + 
-                           geom_raster() +
-                           theme(
-                               axis.text.x = element_text(angle = +90),
-                               panel.grid.major = element_blank(),
-                               panel.grid.minor = element_blank()) +
-                           xlab("Sample names") +
-                           ylab("Features")
-                       if (isFC) {
-                           if (missing(low)) low <- "gold1"
-                           if (missing(high)) high <- "#08306B"
-                           p <- p + scale_fill_gradient2(legend, low = low, high = high, mid = "white")
-                       } else {
-                           if (missing(low)) low <- "#F7FBFF"
-                           if (missing(high)) high <- "#08306B"
-                           p <- p + scale_fill_gradient(legend, low = low, high = high)
-                       }
-                       if (missing(fnames)) {
-                           if (length(unique(x$`feature.id`)) > nmax) {
-                               p <- p + theme(axis.text.y = element_blank())
-                               p <- p + theme(axis.ticks.y = element_blank())
-                           }
-                       } else {
-                           if (!fnames) {
-                               p <- p + theme(axis.text.y = element_blank())
-                               p <- p + theme(axis.ticks.y = element_blank())
-                           }
-                       }
-                       if (!is.null(facetBy))
-                           p <- p + facet_grid( . ~ facetBy, scales='free', space='free')
-                       plot(p)
-                       invisible(p)
-                   })
+              if (!is.null(facetBy)) x$facetBy <- x[[facetBy]]
+              p <- ggplot(x, aes(x=`sample.name`, y=`feature.id`, fill=`Expression`)) + 
+                  geom_raster() +
+                  theme(
+                      axis.text.x = element_text(angle = +90),
+                      panel.grid.major = element_blank(),
+                      panel.grid.minor = element_blank()) +
+                  xlab("Sample names") +
+                  ylab("Features")
+              if (isFC) {
+                  if (missing(low)) low <- "gold1"
+                  if (missing(high)) high <- "#08306B"
+                  p <- p + scale_fill_gradient2(legend, low = low, high = high, mid = "white")
+              } else {
+                  if (missing(low)) low <- "#F7FBFF"
+                  if (missing(high)) high <- "#08306B"
+                  p <- p + scale_fill_gradient(legend, low = low, high = high)
+              }
+              if (missing(fnames)) {
+                  if (length(unique(x$`feature.id`)) > nmax) {
+                      p <- p + theme(axis.text.y = element_blank())
+                      p <- p + theme(axis.ticks.y = element_blank())
+                  }
+              } else {
+                  if (!fnames) {
+                      p <- p + theme(axis.text.y = element_blank())
+                      p <- p + theme(axis.ticks.y = element_blank())
+                  }
+              }
+              if (!is.null(facetBy))
+                  p <- p + facet_grid( . ~ facetBy, scales='free', space='free')
+              if (plot) plot(p)
+              invisible(p)
+          })
 
 
 image2 <- function(x,
