@@ -30,3 +30,10 @@ test_that("trimws data.frame vs MSnSet ", {
     dfr2 <- trimws(fData(dunkley2006))
     expect_identical(fData(d2), dfr2)
 })
+
+test_that("check that base:::trimws still works", {
+    expect_equal(trimws("  xx  "), "xx")
+    expect_equal(trimws("  xx  ", "left"), "xx  ")
+    expect_equal(trimws("  xx  ", "right"), "  xx")
+})
+
