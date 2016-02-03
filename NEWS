@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.19.12
+--------------------------
+ o
+ 
 CHANGES IN VERSION 1.19.11
 --------------------------
  o Fix trimws generic/methods with useAsDefault (see issue #75)
