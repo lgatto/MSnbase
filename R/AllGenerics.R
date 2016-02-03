@@ -122,4 +122,10 @@ setGeneric("fnamesIn", function(x, y, ...) standardGeneric("fnamesIn"))
 ## setGeneric("chromatogram", function(object, ...) standardGeneric("chromatogram"))
 
 ## base::trimws
-setGeneric("trimws", function(x, ...) standardGeneric("trimws"))
+.trimws.useAsDefault <- function (x, which = c("both", "left", "right"), ...)
+    base::trimws(x, which, ...)
+
+setGeneric("trimws", signature = "x",
+    function(x, which = c("both", "left", "right"), ...)
+        standardGeneric("trimws"),
+    useAsDefault=.trimws.useAsDefault)

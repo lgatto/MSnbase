@@ -6,6 +6,7 @@
 \alias{MSnSet}
 
 %% TODO add methods
+\alias{exprs,MSnSet-method}
 \alias{dim,MSnSet-method}
 \alias{fileNames,MSnSet-method}
 %%\alias{normalise,MSnSet-method}
