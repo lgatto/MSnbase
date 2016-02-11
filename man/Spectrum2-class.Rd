@@ -28,6 +28,14 @@
   \code{"\linkS4class{Spectrum}"}. \code{Spectrum2} are not created
   directly but are contained in the \code{assayData} slot of an
   \code{"\linkS4class{MSnExp}"}.
+
+  In version 1.19.12, the \code{polarity} slot had been added to the
+  \code{"\linkS4class{Spectrum}"} class (previously in
+  \code{"\linkS4class{Spectrum1}"}). Hence, \code{"Spectrum2"} objects
+  created prior to this change will not be valid anymore, since they
+  will miss the \code{polarity} slots. Object can be appropriately
+  updated using the \code{updateObject} method.
+  
 }
 
 

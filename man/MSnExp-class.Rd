@@ -44,6 +44,14 @@
   together with the function \code{\link{readMSData}}.
 
   This class extends the virtual \code{"\linkS4class{pSet}"} class.
+
+  In version 1.19.12, the \code{polarity} slot had been added to the
+  \code{"\linkS4class{Spectrum}"} class (previously in
+  \code{"\linkS4class{Spectrum1}"}). Hence, \code{"MSnExp"} objects
+  created prior to this change will not be valid anymore, since all MS2
+  spectra will be missing the \code{polarity} slot. Object can be
+  appropriately updated using the \code{updateObject} method.
+
 }
 
 

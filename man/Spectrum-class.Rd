@@ -58,6 +58,10 @@
   spectra. A \code{Spectrum} object can not be directly instanciated. Use
   \code{"\linkS4class{Spectrum1}"} and \code{"\linkS4class{Spectrum2}"}
   instead.
+
+  In version 1.19.12, the \code{polarity} slot has been added to this
+  class (previously in \code{"\linkS4class{Spectrum1}"}).
+    
 }
 
 \section{Slots}{
