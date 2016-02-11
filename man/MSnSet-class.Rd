@@ -411,8 +411,11 @@
 \seealso{
 
   \code{"\linkS4class{eSet}"}, \code{"\linkS4class{ExpressionSet}"} and
-  \code{\link{quantify}}. \code{MSnSet} quantitation values can be
-  exported to a file with \code{\link[MSnbase]{write.exprs}}.
+  \code{\link{quantify}}. \code{MSnSet} quantitation values and
+  annotation can be exported to a file with
+  \code{\link[MSnbase]{write.exprs}}. See \code{\link{readMSnSet}} to
+  create and \code{MSnSet} using data available in a spreadsheet or
+  \code{data.frame}.
   
 }
 
