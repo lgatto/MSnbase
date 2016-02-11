@@ -133,11 +133,7 @@ setReplaceMethod("precursorCharge",
 setMethod("fromFile","Spectrum", function(object) object@fromFile)
 
 setMethod("polarity","Spectrum",
-          function(object) {
-            if (msLevel(object)==1)
-              return(object@polarity)
-            stop("No polarity for MS2 spectra.")
-          })
+          function(object) return(object@polarity))
 
 setAs("Spectrum", "data.frame",
       function (from)

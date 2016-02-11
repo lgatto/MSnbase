@@ -31,6 +31,8 @@
 \alias{centroided<-,Spectrum,ANY-method}
 \alias{centroided<-,Spectrum,logical-method}
 \alias{centroided<-}
+\alias{polarity,Spectrum-method}
+\alias{polarity}
 
 %% -- other -- %%
 \alias{bin,Spectrum-method}
@@ -64,6 +66,8 @@
       the MS level: 1 for MS1 level \code{Spectrum1} objects and 2 for MSMSM
       \code{Spectrum2} objects. Levels > 2 have not been tested and will be
       handled as MS2 spectra. }
+    \item{\code{polarity}:}{Object of class \code{"integer"} indicating
+      the polarity if the ion. }
     \item{\code{peaksCount}:}{Object of class \code{"integer"}
       indicating the number of MZ peaks. }
     \item{\code{rt}:}{Object of class \code{"numeric"} indicating the
