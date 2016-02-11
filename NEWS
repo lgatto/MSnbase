@@ -1,3 +1,11 @@
+CHANGES IN VERSION 1.19.12
+--------------------------
+o Moved polarity slot from Spectrum1 (0.1.0 -> 0.2.0) to Spectrum
+  (0.2.0 -> 0.3.0) superclass; also bumped Spectrum2 class (0.1.0 ->
+  0.2.0) and MSnExp (0.3.0 -> 0.3.1, to trace changes in
+  Spectrum2). Wrote MSnExp and Spectrum2 updateObject
+  methods. <2016-02-11 Thu>
+ 
 CHANGES IN VERSION 1.19.11
 --------------------------
  o Fix trimws generic/methods with useAsDefault (see issue #75)

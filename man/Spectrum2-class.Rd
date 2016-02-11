@@ -28,10 +28,19 @@
   \code{"\linkS4class{Spectrum}"}. \code{Spectrum2} are not created
   directly but are contained in the \code{assayData} slot of an
   \code{"\linkS4class{MSnExp}"}.
+
+  In version 1.19.12, the \code{polarity} slot had been added to the
+  \code{"\linkS4class{Spectrum}"} class (previously in
+  \code{"\linkS4class{Spectrum1}"}). Hence, \code{"Spectrum2"} objects
+  created prior to this change will not be valid anymore, since they
+  will miss the \code{polarity} slots. Object can be appropriately
+  updated using the \code{updateObject} method.
+  
 }
 
 
 \section{Slots}{
+  See the \code{"\linkS4class{Spectrum}"} class for inherited slots.
   \describe{
     \item{\code{merged}:}{Object of class \code{"numeric"} indicating of
       how many combination the current spectrum is the result of. }
@@ -46,32 +55,6 @@
       indicating the precursor ion charge. }
     \item{\code{collisionEnergy}:}{Object of class \code{"numeric"}
       indicating the collision energy used to fragment the parent ion. }
-    %% ------------------------------------------------------------- %%
-    \item{\code{msLevel}:}{Object of class \code{"integer"} indicating
-      the MS level: 2 in this case (inherited from
-      \code{"\linkS4class{Spectrum}"}). }
-    \item{\code{peaksCount}:}{Object of class \code{"integer"}
-      indicating the number of MZ peaks (inherited from
-      \code{"\linkS4class{Spectrum}"}). }
-    \item{\code{rt}:}{Object of class \code{"numeric"} indicating the
-      retention time (in seconds) for the current ions (inherited from
-      \code{"\linkS4class{Spectrum}"}). }
-    \item{\code{acquisitionNum}:}{Object of class \code{"integer"}
-      corresponding to the acquisition number of the current spectrum
-      (inherited from \code{"\linkS4class{Spectrum}"}). }
-    \item{\code{scanIndex}:}{Object of class \code{"integer"} indicating
-      the scan index of the current spectrum (inherited from
-      \code{"\linkS4class{Spectrum}"}). }
-    \item{\code{mz}:}{Object of class \code{"numeric"} of length equal
-      to the peaks count (see \code{peaksCount} slot) indicating the MZ
-      values that have been measured for the current ion (inherited from
-      \code{"\linkS4class{Spectrum}"}). }
-    \item{\code{intensity}:}{Object of class \code{"numeric"} of same
-      length as \code{mz} indicating the intensity at which each \code{mz}
-      datum has been measured \code{"\linkS4class{Spectrum}"}).}
-    \item{\code{.__classVersion__}:}{Object of class \code{"Versions"}
-      indicating the versions of the \code{Spectrum} and \code{Spectrum2}
-      classes of the instance. Intended for developer use and debugging. }
   }
 }
 

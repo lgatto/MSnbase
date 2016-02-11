@@ -61,7 +61,8 @@ setValidity("pSet", function(object) {
         msg <- validMsg(msg,"'.cache' level not defined.")
     hd <- header(object) 
     if (nrow(hd) != length(object))
-        msg("(Cached) header nrow and object length differ.")        
+        msg("(Cached) header nrow and object length differ.")
+    sapply(spectra(object), validObject)
     if (is.null(msg)) TRUE else msg
 })
 
