@@ -133,7 +133,7 @@ getBins <- function(x) {
              bins[i] <- bins[i-1],
              bins[i] <- bins[i-1]+1)
   }
-  return(bins)p
+  return(bins)
 }
 
 makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
