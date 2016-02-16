@@ -2,6 +2,9 @@ CHANGES IN VERSION 1.19.13
 --------------------------
  o Fixed bug in bin_Spectrum, reported by Weibo Xie <2016-02-16 Tue>
  o Added unit test for bug above <2016-02-16 Tue>
+ o Merged 'apply functions columnwise by group' <2016-02-16 Tue>
+ o In nQuants, the fcol argument has been replaced with groupBy to
+   make the signature consistent with featureCV <2016-02-16 Tue>
  
 CHANGES IN VERSION 1.19.12
 --------------------------
