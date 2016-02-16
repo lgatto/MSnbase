@@ -148,6 +148,18 @@ test_that("bin_Spectrum", {
 })
 
 
+test_that("bin_Spectrum - bug fix #ecaaa324505b17ee8c4855806f7e37f14f1b27b8", {
+    s <- new("Spectrum2", mz=c(1:7, 55, 78, 100), intensity=1:10)
+    s2 <- bin(s)
+    expect_equal(mz(s2), c(seq(1.5, 100, 1), 100))
+    ires <- rep(0, peaksCount(s2))
+    ires[peaksCount(s2)] <- intensity(s)[peaksCount(s)]
+    ires[1:7] <- 1:7
+    ires[55] <- 8
+    ires[78] <- 9
+    expect_equal(intensity(s2), ires)
+})
+
 test_that("removePeaks profile vs centroided", {
      int <- c(2,0,0,0,1,5,1,0,0,1,3,1,0,0,1,4,2,1)
      sp1 <- new("Spectrum2",
