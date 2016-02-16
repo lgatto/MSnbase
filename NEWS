@@ -1,6 +1,6 @@
 CHANGES IN VERSION 1.19.13
 --------------------------
- o
+ o Fixed bug in bin_Spectrum, reported by Weibo Xie <2016-02-16 Tue>
  
 CHANGES IN VERSION 1.19.12
 --------------------------
