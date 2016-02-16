@@ -115,13 +115,13 @@ utils.clean <- function(x, all = FALSE) {
   return(b)
 }
 
-zoom <- function(x,w=0.05) {
-  new("ReporterIons",
-      mz=x,
-      width=w,
-      name="xlim",
-      reporterNames=paste("xlim", x, sep="."),
-      col=rep("grey",length(x)))
+zoom <- function(x, w = 0.05) {
+    new("ReporterIons",
+        mz = x,
+        width = w,
+        name = "xlim",
+        reporterNames = paste("xlim", x, sep = "."),
+        pcol = rep("grey", length(x)))
 }
 
 
@@ -129,11 +129,11 @@ getBins <- function(x) {
   bins <- numeric(length(x))
   bins[1] <- 1
   for (i in 2:length(x)) {
-    ifelse(x[i]==x[i-1]+1,
-           bins[i] <- bins[i-1],
-           bins[i] <- bins[i-1]+1)
+      ifelse(x[i] == x[i-1]+1,
+             bins[i] <- bins[i-1],
+             bins[i] <- bins[i-1]+1)
   }
-  return(bins)
+  return(bins)p
 }
 
 makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
