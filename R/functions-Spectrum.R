@@ -275,7 +275,6 @@ bin_Spectrum <- function(object, binSize = 1L,
                          fun=sum) {
   fun <- match.fun(fun)
   nb <- length(breaks)
-  n <- peaksCount(object)
 
   idx <- findInterval(mz(object), breaks)
 
