@@ -7,18 +7,19 @@
 commonFeatureNames(x, y)
 }
 \arguments{
-\item{x}{An instance of class \code{\linkS4class{MSnSet}} or 
-\code{MSnSetList} with at least 2 \code{MSnSet} objects.}
+\item{x}{An instance of class \code{\linkS4class{MSnSet}} or a
+\code{list} or \code{MSnSetList} with at least 2 \code{MSnSet}
+objects.}
 
 \item{y}{An instance of class \code{\linkS4class{MSnSet}}. Ignored
-if \code{x} is an \code{MSnSetList}.}
+if \code{x} is a \code{list}/\code{MSnSetList}.}
 }
 \value{
 An \code{linkS4class{MSnSetList}} composed of the input
-\code{MSnSet} containing only common features in the same
-order. The names of the output are either the names of the
-\code{x} and \code{y} input variables or the names of \code{x} if
-a list is provided.
+    \code{MSnSet} containing only common features in the same
+    order. The names of the output are either the names of the
+    \code{x} and \code{y} input variables or the names of \code{x}
+    if a list is provided.
 }
 \description{
 Subsets \code{MSnSet} instances to their common feature names.

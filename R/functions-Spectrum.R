@@ -270,17 +270,16 @@ normalise_Spectrum <- function(object, method, value) {
 
 bin_Spectrum <- function(object, binSize = 1L,
                          breaks = seq(floor(min(mz(object))),
-                                    ceiling(max(mz(object))),
-                             by = binSize),
+                                      ceiling(max(mz(object))),
+                                      by = binSize),
                          fun=sum) {
   fun <- match.fun(fun)
   nb <- length(breaks)
-  n <- peaksCount(object)
 
   idx <- findInterval(mz(object), breaks)
 
   idx[which(idx < 1L)] <- 1L
-  idx[which(idx > n)] <- n
+  idx[which(idx > nb)] <- nb
 
   intensity <- double(length(breaks))
   intensity[unique(idx)] <- unlist(lapply(split(intensity(object), idx), fun))

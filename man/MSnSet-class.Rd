@@ -6,6 +6,7 @@
 \alias{MSnSet}
 
 %% TODO add methods
+\alias{exprs,MSnSet-method}
 \alias{dim,MSnSet-method}
 \alias{fileNames,MSnSet-method}
 %%\alias{normalise,MSnSet-method}
@@ -59,6 +60,10 @@
 \alias{removeMultipleAssignment}
 \alias{idSummary,MSnSet-method}
 \alias{idSummary}
+
+\alias{trimws}
+\alias{trimws,MSnSet-method}
+\alias{trimws,data.frame-method}
 
 \alias{exptitle,MSnSet-method}
 \alias{expemail,MSnSet-method}
@@ -286,6 +291,11 @@
       See \code{\link{impute}} for more details.
     }
 
+    \item{trimws}{signature(object = "MSnSet", ...)}{Trim leading and/or
+      trailing white spaces in the feature data slot. Also available for
+      \code{data.frame} objects. See \code{?base::\link[base]{trimws}}
+      for details.  }
+
   }
 
   Additional accessors for the experimental metadata
@@ -401,8 +411,11 @@
 \seealso{
 
   \code{"\linkS4class{eSet}"}, \code{"\linkS4class{ExpressionSet}"} and
-  \code{\link{quantify}}. \code{MSnSet} quantitation values can be
-  exported to a file with \code{\link[MSnbase]{write.exprs}}.
+  \code{\link{quantify}}. \code{MSnSet} quantitation values and
+  annotation can be exported to a file with
+  \code{\link[MSnbase]{write.exprs}}. See \code{\link{readMSnSet}} to
+  create and \code{MSnSet} using data available in a spreadsheet or
+  \code{data.frame}.
   
 }
 

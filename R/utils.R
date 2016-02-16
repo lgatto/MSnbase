@@ -115,13 +115,13 @@ utils.clean <- function(x, all = FALSE) {
   return(b)
 }
 
-zoom <- function(x,w=0.05) {
-  new("ReporterIons",
-      mz=x,
-      width=w,
-      name="xlim",
-      reporterNames=paste("xlim", x, sep="."),
-      col=rep("grey",length(x)))
+zoom <- function(x, w = 0.05) {
+    new("ReporterIons",
+        mz = x,
+        width = w,
+        name = "xlim",
+        reporterNames = paste("xlim", x, sep = "."),
+        pcol = rep("grey", length(x)))
 }
 
 
@@ -129,9 +129,9 @@ getBins <- function(x) {
   bins <- numeric(length(x))
   bins[1] <- 1
   for (i in 2:length(x)) {
-    ifelse(x[i]==x[i-1]+1,
-           bins[i] <- bins[i-1],
-           bins[i] <- bins[i-1]+1)
+      ifelse(x[i] == x[i-1]+1,
+             bins[i] <- bins[i-1],
+             bins[i] <- bins[i-1]+1)
   }
   return(bins)
 }
@@ -903,3 +903,19 @@ utils.applyColumnwiseByGroup <- function(x, groupBy, FUN, ...) {
 
   ans
 }
+
+setMethod("trimws", "data.frame",
+          function(x, which, ...) {
+              for (i in 1:ncol(x)) {
+                  if (inherits(x[, i], "character"))
+                      x[, i] <- base::trimws(x[, i], which)
+              }
+              x
+          })
+
+setMethod("trimws", "MSnSet",
+          function(x, which, ...) {
+              fData(x) <- trimws(fData(x), which, ...)
+              x <- logging(x, "Trimmed featureData white spaces")
+              x
+          })

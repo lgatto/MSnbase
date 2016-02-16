@@ -166,7 +166,7 @@ setClass("MSnExp",
          contains=c("pSet"),
          prototype = prototype(
              new("VersionedBiobase",
-                 versions=c(classVersion("pSet"), MSnExp="0.3.0")),
+                 versions = c(classVersion("pSet"), MSnExp="0.3.1")),
              experimentData = new("MIAPE"))
          )
 
@@ -183,15 +183,17 @@ setClass("Spectrum",
              tic = "numeric",
              mz = "numeric",
              intensity = "numeric",
-             fromFile = "integer", 
-             centroided = "logical", 
+             fromFile = "integer",
+             centroided = "logical",
+             polarity="integer",
              "VIRTUAL"),
          contains=c("Versioned"),
          prototype = prototype(
-             new("Versioned", versions=c(Spectrum="0.2.0")),
+             new("Versioned", versions=c(Spectrum="0.3.0")),
              rt = numeric(),
-             acquisitionNum = integer(),
-             msLevel = integer(),
+             polarity = NA_integer_,
+             acquisitionNum = NA_integer_,
+             msLevel = NA_integer_,
              centroided = FALSE,
              peaksCount = 0L,
              tic = 0L,
@@ -227,7 +229,7 @@ setClass("Spectrum2",
          contains=c("Spectrum"),
          prototype = prototype(           
              new("Versioned",
-                 versions=c(classVersion("Spectrum"), Spectrum2="0.1.0")),
+                 versions=c(classVersion("Spectrum"), Spectrum2="0.2.0")),
              merged = 1,
              centroided = FALSE,
              acquisitionNum = integer(),
@@ -249,10 +251,9 @@ setClass("Spectrum2",
 
 
 setClass("Spectrum1",
-         representation = representation(polarity="integer"),
          contains=c("Spectrum"),
          prototype = prototype(
-             new("Versioned", versions=c(classVersion("Spectrum"), Spectrum1="0.1.0")),
+             new("Versioned", versions=c(classVersion("Spectrum"), Spectrum1="0.2.0")),
              polarity=integer(),
              msLevel = as.integer(1)),
          validity = function(object) {

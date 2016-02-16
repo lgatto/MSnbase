@@ -44,6 +44,14 @@
   together with the function \code{\link{readMSData}}.
 
   This class extends the virtual \code{"\linkS4class{pSet}"} class.
+
+  In version 1.19.12, the \code{polarity} slot had been added to the
+  \code{"\linkS4class{Spectrum}"} class (previously in
+  \code{"\linkS4class{Spectrum1}"}). Hence, \code{"MSnExp"} objects
+  created prior to this change will not be valid anymore, since all MS2
+  spectra will be missing the \code{polarity} slot. Object can be
+  appropriately updated using the \code{updateObject} method.
+
 }
 
 
@@ -61,7 +69,7 @@
       and \code{"\linkS4class{Spectrum2}"}).
       Slot is inherited from \code{"\linkS4class{pSet}"}. }
     \item{\code{phenoData}:}{Object of class
-      \code{"\linkS4class{AnnotatedDataFrame}"} containing
+      \code{"\linkS4class{NAnnotatedDataFrame}"} containing
       experimenter-supplied variables describing sample (i.e the
       individual tags for an labelled MS experiment)
       See \code{\link{phenoData}} for more details.
