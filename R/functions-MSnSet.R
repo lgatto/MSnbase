@@ -72,21 +72,14 @@ featureCV <- function(x, groupBy, na.rm = TRUE,
                       norm = c("sum", "max", "none",
                         "center.mean", "center.median",
                         "quantiles", "quantiles.robust")) {
-  groupBy <- as.factor(groupBy)
   norm <- match.arg(norm)
   if (norm != "none")
     x <- normalise(x, method = norm)
 
-  j <- split(1L:nrow(x), groupBy)
-  ans <- matrix(NA_real_, nrow = nlevels(groupBy), ncol = ncol(x),
-                dimnames = list(levels(groupBy), colnames(x)))
-
-  for (i in seq(along = j)) {
-    subexprs <- exprs(x)[j[[i]], , drop = FALSE]
-    ans[i, ] <- utils.colSd(subexprs, na.rm = na.rm)/
-                colMeans(subexprs, na.rm = na.rm)
-  }
-
+  ans <- utils.applyColumnwiseByGroup(exprs(x), groupBy=groupBy,
+                                      FUN=function(y, ...) {
+                                        utils.colSd(y, ...)/
+                                          colMeans(y, ...)}, na.rm=na.rm)
   colnames(ans) <- paste("CV", colnames(ans), sep = ".")
   ans
 }
@@ -125,53 +118,41 @@ updateFeatureNames <- function(object, label, sep = ".") {
 ##' This function is typically used after \code{\link{topN}} and before
 ##' \code{\link{combineFeatures}}, when the summerising function is
 ##' \code{sum}, or any function that does not normalise to the number of
-##' features aggregated. In the former case, sums of feautres might
+##' features aggregated. In the former case, sums of features might
 ##' be the result of 0 (if no feature was quantified) to \code{n}
 ##' (if all \code{topN}'s \code{n} features were quantified) features,
 ##' and one might want to rescale the sums based on the number of
 ##' non-NA features effectively summed.
 ##'
 ##' @title Count the number of quantitfied features.
-##' @param object An instance of class \code{"\linkS4class{MSnSet}"}.
-##' @param fcol The feature variable to consider when counting the
-##' number of quantified featues.
+##' @param x An instance of class \code{"\linkS4class{MSnSet}"}.
+##' @param groupBy An object of class \code{factor} defining how to summerise the features.
+##' @return A \code{matrix} of dimensions \code{length(levels(groupBy))} by \code{ncol(x)}
 ##' @return A \code{matrix} of dimensions
 ##' \code{length(levels(factor(fData(object)[, fcol])))} by \code{ncol(object)}
 ##' of integers.
-##' @author Laurent Gatto
+##' @author Laurent Gatto <lg390@@cam.ac.uk>,
+##' Sebastian Gibb <mail@@sebastiangibb.de>
 ##' @examples
 ##' data(msnset)
 ##' n <- 2
 ##' msnset <- topN(msnset, groupBy = fData(msnset)$ProteinAccession, n)
-##' m <- nQuants(msnset, fcol = "ProteinAccession")
+##' m <- nQuants(msnset, groupBy = fData(msnset)$ProteinAccession)
 ##' msnset2 <- combineFeatures(msnset,
 ##'                            groupBy = fData(msnset)$ProteinAccession,
 ##'                            fun = sum)
 ##' stopifnot(dim(n) == dim(msnset2))
 ##' head(exprs(msnset2))
 ##' head(exprs(msnset2) * (n/m))
-nQuants <- function(object, fcol) {
-  .count <- function(x) {
-    m <- rep(nrow(x), ncol(x))
-    nna <- apply(x, 2, function(.x) sum(is.na(.x)))
-    m - nna
-  }
-  if (class(object) != "MSnSet")
-    stop("'object' must be of class 'MSnSet'.")
-  if (missing(fcol))
-    stop("'fcol' is required.")
-  if (!fcol %in% fvarLabels(object))
-    stop("'fcol' not found in fvarLabels(object).")
-  res <- by(exprs(object),
-            factor(fData(object)[, fcol]),
-            .count)
-  if (ncol(object) == 1) {
-    ans <- as.matrix(res)
-  } else {
-    ans <- do.call(rbind, res)
-  }
-  colnames(ans) <- sampleNames(object)
-  return(ans)
+nQuants <- function(x, groupBy) {
+  if (class(x) != "MSnSet")
+    stop("'x' must be of class 'MSnSet'.")
+
+  ans <- utils.applyColumnwiseByGroup(exprs(x), groupBy=groupBy,
+                                      FUN=function(y) {
+                                        nrow(y)-colSums(is.na(y))})
+  colnames(ans) <- sampleNames(x)
+  ans
 }
 
 ##' Subsets \code{MSnSet} instances to their common feature names.

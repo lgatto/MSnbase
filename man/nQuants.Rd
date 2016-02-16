@@ -4,15 +4,16 @@
 \alias{nQuants}
 \title{Count the number of quantitfied features.}
 \usage{
-nQuants(object, fcol)
+nQuants(x, groupBy)
 }
 \arguments{
-\item{object}{An instance of class \code{"\linkS4class{MSnSet}"}.}
+\item{x}{An instance of class \code{"\linkS4class{MSnSet}"}.}
 
-\item{fcol}{The feature variable to consider when counting the
-number of quantified featues.}
+\item{groupBy}{An object of class \code{factor} defining how to summerise the features.}
 }
 \value{
+A \code{matrix} of dimensions \code{length(levels(groupBy))} by \code{ncol(x)}
+
 A \code{matrix} of dimensions
 \code{length(levels(factor(fData(object)[, fcol])))} by \code{ncol(object)}
 of integers.
@@ -28,7 +29,7 @@ the name of a column of \code{fData(object)}.
 This function is typically used after \code{\link{topN}} and before
 \code{\link{combineFeatures}}, when the summerising function is
 \code{sum}, or any function that does not normalise to the number of
-features aggregated. In the former case, sums of feautres might
+features aggregated. In the former case, sums of features might
 be the result of 0 (if no feature was quantified) to \code{n}
 (if all \code{topN}'s \code{n} features were quantified) features,
 and one might want to rescale the sums based on the number of
@@ -38,7 +39,7 @@ non-NA features effectively summed.
 data(msnset)
 n <- 2
 msnset <- topN(msnset, groupBy = fData(msnset)$ProteinAccession, n)
-m <- nQuants(msnset, fcol = "ProteinAccession")
+m <- nQuants(msnset, groupBy = fData(msnset)$ProteinAccession)
 msnset2 <- combineFeatures(msnset,
                            groupBy = fData(msnset)$ProteinAccession,
                            fun = sum)
@@ -47,6 +48,7 @@ head(exprs(msnset2))
 head(exprs(msnset2) * (n/m))
 }
 \author{
-Laurent Gatto
+Laurent Gatto <lg390@cam.ac.uk>,
+Sebastian Gibb <mail@sebastiangibb.de>
 }
 
