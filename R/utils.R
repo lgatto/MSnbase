@@ -115,13 +115,13 @@ utils.clean <- function(x, all = FALSE) {
   return(b)
 }
 
-zoom <- function(x,w=0.05) {
-  new("ReporterIons",
-      mz=x,
-      width=w,
-      name="xlim",
-      reporterNames=paste("xlim", x, sep="."),
-      col=rep("grey",length(x)))
+zoom <- function(x, w = 0.05) {
+    new("ReporterIons",
+        mz = x,
+        width = w,
+        name = "xlim",
+        reporterNames = paste("xlim", x, sep = "."),
+        pcol = rep("grey", length(x)))
 }
 
 
@@ -129,9 +129,9 @@ getBins <- function(x) {
   bins <- numeric(length(x))
   bins[1] <- 1
   for (i in 2:length(x)) {
-    ifelse(x[i]==x[i-1]+1,
-           bins[i] <- bins[i-1],
-           bins[i] <- bins[i-1]+1)
+      ifelse(x[i] == x[i-1]+1,
+             bins[i] <- bins[i-1],
+             bins[i] <- bins[i-1]+1)
   }
   return(bins)
 }
@@ -874,6 +874,35 @@ utils.colSd <- function(x, na.rm = TRUE) {
   sqrt(colVar * n/(n - 1L))
 }
 
+##' Apply a function groupwise. Similar to tapply but takes a matrix as input
+##' and preserve its structure and order.
+##' @title applyColumnwiseByGroup
+##' @param x matrix
+##' @param groupBy factor/grouping index
+##' @param FUN function to be applied; must work on columns, e.g. colSums
+##' @param ... further arguments to FUN
+##' @return modified matrix
+##' @author Sebastian Gibb <mail@@sebastiangibb.de>
+##' @noRd
+utils.applyColumnwiseByGroup <- function(x, groupBy, FUN, ...) {
+  if (!is.matrix(x)) {
+    stop("x has to be a matrix!")
+  }
+
+  groupBy <- as.factor(groupBy)
+  FUN <- match.fun(FUN)
+
+  j <- split(1L:nrow(x), groupBy)
+  ans <- matrix(NA_real_, nrow = nlevels(groupBy), ncol = ncol(x),
+                dimnames = list(levels(groupBy), colnames(x)))
+
+  for (i in seq(along = j)) {
+    subexprs <- x[j[[i]], , drop = FALSE]
+    ans[i, ] <- do.call(FUN, list(subexprs, ...))
+  }
+
+  ans
+}
 
 setMethod("trimws", "data.frame",
           function(x, which, ...) {

@@ -158,3 +158,15 @@ test_that("colSd", {
   expect_equal(MSnbase:::utils.colSd(m, na.rm=TRUE),
                apply(m, 2, sd, na.rm=TRUE))
 })
+
+test_that("applyColumnwiseByGroup", {
+  m <- matrix(1:20, nrow=4, byrow=TRUE,
+              dimnames=list(1:4, LETTERS[1:5]))
+  r <- matrix(c(seq(7, 15, by=2), seq(27, 35, by=2)), nrow=2, byrow=TRUE,
+              dimnames=list(1:2, LETTERS[1:5]))
+  expect_error(MSnbase:::utils.applyColumnwiseByGroup(1:10, 1:2, sum),
+               "x has to be a matrix")
+  expect_equal(MSnbase:::utils.applyColumnwiseByGroup(m,
+                                                      rep(1:2, each=2),
+                                                      colSums), r)
+})
