@@ -30,7 +30,7 @@ setMethod("impute", "MSnSet",
                   exprs(object) <- .eset
               } else if (method == "nbavg") {
                   message("Assuming values are ordered.")
-                  impargs <- pairlist(...)                  
+                  impargs <- pairlist(...)
                   if (is.null(impargs$k)) k <- min(exprs(object), na.rm = TRUE)
                   else k <- impargs$k
                   exprs(object) <- imp_neighbour_avg(exprs(object),
