@@ -126,13 +126,18 @@ updateFeatureNames <- function(object, label, sep = ".") {
 ##'
 ##' @title Count the number of quantitfied features.
 ##' @param x An instance of class \code{"\linkS4class{MSnSet}"}.
-##' @param groupBy An object of class \code{factor} defining how to summerise the features.
-##' @return A \code{matrix} of dimensions \code{length(levels(groupBy))} by \code{ncol(x)}
+##' @param groupBy An object of class \code{factor} defining how to
+##'     summerise the features. (Note that this parameter was
+##'     previously named \code{fcol} and referred to a feature
+##'     variable label. This has been updated in version 1.19.12 for
+##'     consistency with other functions.)
 ##' @return A \code{matrix} of dimensions
-##' \code{length(levels(factor(fData(object)[, fcol])))} by \code{ncol(object)}
-##' of integers.
-##' @author Laurent Gatto <lg390@@cam.ac.uk>,
-##' Sebastian Gibb <mail@@sebastiangibb.de>
+##'     \code{length(levels(groupBy))} by \code{ncol(x)}
+##' @return A \code{matrix} of dimensions
+##'     \code{length(levels(factor(fData(object)[, fcol])))} by
+##'     \code{ncol(object)} of integers.
+##' @author Laurent Gatto <lg390@@cam.ac.uk>, Sebastian Gibb
+##'     <mail@@sebastiangibb.de>
 ##' @examples
 ##' data(msnset)
 ##' n <- 2

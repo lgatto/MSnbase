@@ -9,14 +9,19 @@ nQuants(x, groupBy)
 \arguments{
 \item{x}{An instance of class \code{"\linkS4class{MSnSet}"}.}
 
-\item{groupBy}{An object of class \code{factor} defining how to summerise the features.}
+\item{groupBy}{An object of class \code{factor} defining how to
+summerise the features. (Note that this parameter was
+previously named \code{fcol} and referred to a feature
+variable label. This has been updated in version 1.19.12 for
+consistency with other functions.)}
 }
 \value{
-A \code{matrix} of dimensions \code{length(levels(groupBy))} by \code{ncol(x)}
+A \code{matrix} of dimensions
+    \code{length(levels(groupBy))} by \code{ncol(x)}
 
 A \code{matrix} of dimensions
-\code{length(levels(factor(fData(object)[, fcol])))} by \code{ncol(object)}
-of integers.
+    \code{length(levels(factor(fData(object)[, fcol])))} by
+    \code{ncol(object)} of integers.
 }
 \description{
 This function counts the number of quantified features, i.e
@@ -48,7 +53,7 @@ head(exprs(msnset2))
 head(exprs(msnset2) * (n/m))
 }
 \author{
-Laurent Gatto <lg390@cam.ac.uk>,
-Sebastian Gibb <mail@sebastiangibb.de>
+Laurent Gatto <lg390@cam.ac.uk>, Sebastian Gibb
+    <mail@sebastiangibb.de>
 }
 
