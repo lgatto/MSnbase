@@ -155,8 +155,8 @@ test_that("colSd", {
   mna <- m
   mna[c(1, 8)] <- NA
   expect_equal(MSnbase:::utils.colSd(m), apply(m, 2, sd))
-  expect_equal(MSnbase:::utils.colSd(m, na.rm=TRUE),
-               apply(m, 2, sd, na.rm=TRUE))
+  expect_equal(MSnbase:::utils.colSd(mna, na.rm=TRUE),
+               apply(mna, 2, sd, na.rm=TRUE))
 })
 
 test_that("applyColumnwiseByGroup", {
