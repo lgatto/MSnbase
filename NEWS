@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.19.15
 --------------------------
  o limit readMSData unit test due to Windows-only error <2016-03-09 Wed>
+ o fix unit test for utils.colSd(x, na.rm=TRUE) 
  
 CHANGES IN VERSION 1.19.14
 --------------------------
