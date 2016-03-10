@@ -63,10 +63,12 @@ test_that("Noise estimation", {
   s1 <- new("Spectrum2", mz=1:5, intensity=c(1:3, 2:1))
   s2 <- new("Spectrum2", mz=3, intensity=3, centroided=TRUE)
 
+  e <- matrix(NA, nrow=0, ncol=2, dimnames=list(c(), c("mz", "intensity")))
+
   expect_warning(estimateNoise(new("Spectrum2")), "spectrum is empty")
   expect_warning(estimateNoise(s2), "only supported on non-centroided spectra")
-  expect_equal(suppressWarnings(estimateNoise(new("Spectrum2"))), NA)
-  expect_equal(suppressWarnings(estimateNoise(s2)), NA)
+  expect_equal(suppressWarnings(estimateNoise(new("Spectrum2"))), e)
+  expect_equal(suppressWarnings(estimateNoise(s2)), e)
   expect_equal(estimateNoise(s1), cbind(mz=1:5, intensity=mad(intensity(s1))))
 })
 
