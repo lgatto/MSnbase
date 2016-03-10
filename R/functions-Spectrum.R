@@ -331,12 +331,12 @@ estimateNoise_Spectrum <- function(object, method = c("MAD", "SuperSmoother"),
                                    ...) {
   if (isEmpty(object)) {
     warning("Your spectrum is empty. Nothing to estimate.")
-    return(NA)
+    return(matrix(NA, nrow=0L, ncol = 2L, dimnames = list(c(), c("mz", "intensity"))))
   }
 
   if (length(object@centroided) && object@centroided) {
     warning("Noise estimation is only supported on non-centroided spectra.")
-    return(NA)
+    return(matrix(NA, nrow=0L, ncol = 2L, dimnames = list(c(), c("mz", "intensity"))))
   }
 
   noise <- MALDIquant:::.estimateNoise(mz(object), intensity(object),
