@@ -327,11 +327,28 @@ compare_Spectra <- function(x, y,
   return(NA)
 }
 
+estimateNoise_Spectrum <- function(object, method = c("MAD", "SuperSmoother"),
+                                   ...) {
+  if (isEmpty(object)) {
+    warning("Your spectrum is empty. Nothing to estimate.")
+    return(NA)
+  }
+
+  if (length(object@centroided) && object@centroided) {
+    warning("Noise estimation is only supported on non-centroided spectra.")
+    return(NA)
+  }
+
+  noise <- MALDIquant:::.estimateNoise(mz(object), intensity(object),
+                                       method = match.arg(method), ...)
+  cbind(mz=mz(object), intensity=noise)
+}
+
 pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
                                method = c("MAD", "SuperSmoother"),
                                SNR = 0L, ...) {
 
-  if (!peaksCount(object)) {
+  if (isEmpty(object)) {
     warning("Your spectrum is empty. Nothing to pick.")
     return(object)
   }
@@ -342,8 +359,7 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
   }
 
   ## estimate noise
-  noise <- MALDIquant:::.estimateNoise(mz(object), intensity(object),
-                                       method = match.arg(method), ...)
+  noise <- estimateNoise_Spectrum(object, method = method, ...)[, 2L]
 
   ## find local maxima
   isLocalMaxima <- MALDIquant:::.localMaxima(intensity(object),

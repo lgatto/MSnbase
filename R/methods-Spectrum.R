@@ -198,6 +198,11 @@ setMethod("compareSpectra", c("Spectrum", "Spectrum"),
             compare_Spectra(object1, object2, fun=fun, ...)
         })
 
+setMethod("estimateNoise", "Spectrum",
+          function(object, method = c("MAD", "SuperSmoother"), ...) {
+            estimateNoise_Spectrum(object, method = match.arg(method), ...)
+        })
+
 setMethod("pickPeaks", "Spectrum",
           function(object, halfWindowSize = 3L,
                    method = c("MAD", "SuperSmoother"),

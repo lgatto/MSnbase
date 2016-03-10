@@ -1,10 +1,11 @@
 CHANGES IN VERSION 1.19.15
 --------------------------
+ o add estimateNoise,Spectrum-method; closes #78 <2016-03-10>
 
 CHANGES IN VERSION 1.19.14
 --------------------------
  o Document change in nQuants param fcol to groupBy <2016-03-02 Wed>
- 
+
 CHANGES IN VERSION 1.19.13
 --------------------------
  o Fixed bug in bin_Spectrum, reported by Weibo Xie <2016-02-16 Tue>
@@ -12,7 +13,7 @@ CHANGES IN VERSION 1.19.13
  o Merged 'apply functions columnwise by group' <2016-02-16 Tue>
  o In nQuants, the fcol argument has been replaced with groupBy to
    make the signature consistent with featureCV <2016-02-16 Tue>
- 
+
 CHANGES IN VERSION 1.19.12
 --------------------------
  o Moved polarity slot from Spectrum1 (0.1.0 -> 0.2.0) to Spectrum
@@ -20,22 +21,22 @@ CHANGES IN VERSION 1.19.12
    0.2.0) and MSnExp (0.3.0 -> 0.3.1, to trace changes in
    Spectrum2). Wrote MSnExp and Spectrum2 updateObject
    methods. <2016-02-11 Thu>
- 
+
 CHANGES IN VERSION 1.19.11
 --------------------------
  o Fix trimws generic/methods with useAsDefault (see issue #75)
    <2016-02-02 Tue>
  o add exprs,MSnSet-method alias (since exprs is now exported)
    <2016-02-02 Tue>
- 
+
 CHANGES IN VERSION 1.19.10
 --------------------------
  o export exprs, fvarLabels, and sampleNames[<-] <2016-01-30 Sat>
- 
+
 CHANGES IN VERSION 1.19.9
 -------------------------
  o new trimws method for data.frames and MSnSets <2016-01-29 Fri>
- 
+
 CHANGES IN VERSION 1.19.8
 -------------------------
  o readMSnSet2 now also accepts a data.frame as input <2016-01-29 Fri>
@@ -46,7 +47,7 @@ CHANGES IN VERSION 1.19.7
  o new sampleNames<- for pSet and MSnExp objects <2015-12-15 Tue>
  o Fix bug preventing to write MS1 to mgf (fixes issue #73 reported by
     meowcat) <2015-12-18 Fri>
- 
+
 CHANGES IN VERSION 1.19.6
 -------------------------
  o MSnExp feautreNames are now X01, X02 (0 after X) to maintain
@@ -65,12 +66,12 @@ CHANGES IN VERSION 1.19.5
 CHANGES IN VERSION 1.19.4
 -------------------------
  o Replacement method for MSnSetList names <2015-11-24 Tue>
- 
+
 CHANGES IN VERSION 1.19.3
 -------------------------
  o New argument fcol to selectFeatureData to select feature variables
    using a vector <2015-10-28 Wed>
- 
+
 CHANGES IN VERSION 1.19.2
 -------------------------
  o new selectFeatureData function to subset the feature data
@@ -92,7 +93,7 @@ CHANGES IN VERSION 1.17.16
 --------------------------
  o new default parameter 'feature weight' in iPQF by Martina Fisher
    (see PR#65) <2015-10-07 Wed>
- 
+
 CHANGES IN VERSION 1.17.15
 --------------------------
  o Fix typo in plot man <2015-08-23 Sun>
