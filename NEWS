@@ -1,7 +1,12 @@
-CHANGES IN VERSION 1.19.15
+CHANGES IN VERSION 1.19.16
 --------------------------
  o add estimateNoise,Spectrum-method; closes #78 <2016-03-10>
 
+CHANGES IN VERSION 1.19.15
+--------------------------
+ o limit readMSData unit test due to Windows-only error <2016-03-09 Wed>
+ o fix unit test for utils.colSd(x, na.rm=TRUE) 
+ 
 CHANGES IN VERSION 1.19.14
 --------------------------
  o Document change in nQuants param fcol to groupBy <2016-03-02 Wed>
