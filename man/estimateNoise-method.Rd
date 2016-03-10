@@ -18,7 +18,7 @@
 
 \section{Methods}{
   \describe{
-    \item{\code{signature(x = "Spectrum", method = "character", ...)}}{
+    \item{\code{signature(object = "Spectrum", method = "character", ...)}}{
       Estiamtes the noise in a non-centroided spectrum (\code{Spectrum}
       instance).
       \code{method} could be \code{"MAD"} or \code{"SuperSmoother"}.
@@ -30,6 +30,9 @@
       This method returns a two-column matrix with the m/z and intensity values
       in the first and the second column.
     }
+
+    \item{\code{signature(object = "MSnExp", method = "character", ...)}}{
+      Estimates noise for all spectra in \code{object}.}
   }
 }
 

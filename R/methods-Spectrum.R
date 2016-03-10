@@ -200,15 +200,15 @@ setMethod("compareSpectra", c("Spectrum", "Spectrum"),
 
 setMethod("estimateNoise", "Spectrum",
           function(object, method = c("MAD", "SuperSmoother"), ...) {
-            estimateNoise_Spectrum(object, method = match.arg(method), ...)
+              estimateNoise_Spectrum(object, method = match.arg(method), ...)
         })
 
 setMethod("pickPeaks", "Spectrum",
           function(object, halfWindowSize = 3L,
                    method = c("MAD", "SuperSmoother"),
                    SNR = 0L, ...) {
-            pickPeaks_Spectrum(object, halfWindowSize = halfWindowSize,
-                               method = match.arg(method), SNR = SNR, ...)
+              pickPeaks_Spectrum(object, halfWindowSize = halfWindowSize,
+                                 method = match.arg(method), SNR = SNR, ...)
         })
 
 setMethod("smooth", "Spectrum",

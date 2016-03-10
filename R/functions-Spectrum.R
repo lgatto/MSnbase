@@ -335,7 +335,7 @@ estimateNoise_Spectrum <- function(object, method = c("MAD", "SuperSmoother"),
   }
 
   if (length(object@centroided) && object@centroided) {
-    warning("Noise estimation is only supported on non-centroided spectra.")
+    warning("Noise estimation is only supported for profile spectra.")
     return(NA)
   }
 

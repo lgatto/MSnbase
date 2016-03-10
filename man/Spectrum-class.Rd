@@ -146,7 +146,7 @@
       \code{\link{compareSpectra}} documentation for more details and
       examples. }
     \item{estimateNoise}{\code{signature(object = "Spectrum")}: Estimates the
-      noise in a non-centroided spectrum.
+      noise in a profile spectrum.
       See \code{\link{estimateNoise}} documentation for more
       details and examples. }
     \item{pickPeaks}{\code{signature(object = "Spectrum")}: Performs the peak
