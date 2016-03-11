@@ -1,3 +1,6 @@
+CHANGES IN VERSION 1.19.17
+--------------------------
+
 CHANGES IN VERSION 1.19.16
 --------------------------
  o add estimateNoise,[Spectrum|MSnExp]-method; closes #78 <2016-03-10>
