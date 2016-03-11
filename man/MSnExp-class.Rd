@@ -15,6 +15,7 @@
 %% \alias{extractSpectra,MSnExp-method}
 %% \alias{extractSpectra,MSnExp,logical-method}
 \alias{pickPeaks,MSnExp-method}
+\alias{estimateNoise,MSnExp-method}
 \alias{plot,MSnExp}
 \alias{plot,MSnExp,missing-method}
 \alias{quantify,MSnExp-method}
@@ -139,6 +140,10 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
       picking to generate centroided spectra.
       See \code{\link{pickPeaks}} documentation for more
       details and examples. }
+    \item{estimateNoise}{\code{signature(object = "MSnExp")}: Estimates
+      the noise in all profile spectra of \code{object}.  See
+      \code{\link{estimateNoise}} documentation for more details and
+      examples. }
     \item{plot}{\code{signature(x = "MSnExp", y = "missing")}: Plots all
       the spectra of the \code{MSnExp} instance. See
       \code{\link{plot.MSnExp}} documentation for more details. }
