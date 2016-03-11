@@ -38,6 +38,7 @@
 \alias{bin,Spectrum-method}
 \alias{clean,Spectrum-method}
 \alias{compareSpectra,Spectrum,Spectrum-method}
+\alias{estimateNoise,Spectrum-method}
 \alias{pickPeaks,Spectrum-method}
 \alias{quantify,Spectrum-method}
 \alias{quantify,Spectrum,character-method}
@@ -61,7 +62,7 @@
 
   In version 1.19.12, the \code{polarity} slot has been added to this
   class (previously in \code{"\linkS4class{Spectrum1}"}).
-    
+
 }
 
 \section{Slots}{
@@ -124,7 +125,7 @@
       as an integer. }
     \item{\code{mz(object, ...)}}{ Returns an object of class
       \code{"numeric"} containing the MZ value of the spectrum
-      peaks. Additional arguments are currently ignored. } 
+      peaks. Additional arguments are currently ignored. }
     \item{\code{peaksCount(object)}}{ Returns the number of peaks
       (possibly of 0 intensity) as an integer. }
     \item{\code{rtime(object, ...)}}{ Returns the retention time for the
@@ -144,6 +145,10 @@
       object2 = "Spectrum")}: Compares spectra.  See
       \code{\link{compareSpectra}} documentation for more details and
       examples. }
+    \item{estimateNoise}{\code{signature(object = "Spectrum")}: Estimates the
+      noise in a profile spectrum.
+      See \code{\link{estimateNoise}} documentation for more
+      details and examples. }
     \item{pickPeaks}{\code{signature(object = "Spectrum")}: Performs the peak
       picking to generate a centroided spectrum.
       See \code{\link{pickPeaks}} documentation for more
@@ -175,7 +180,7 @@
       \code{\link{trimMz}} documentation for more details and
       examples. }
     \item{isEmpty}{\code{signature(x = "Spectrum")}: Checks if the
-      \code{x} is an empty \code{Spectrum}. }   
+      \code{x} is an empty \code{Spectrum}. }
     %% -------------------------------------------------- %%
     \item{as}{\code{signature(object = "Spectrum", "data.frame")}:
       Coerces the \code{Spectrum} object to a two-column

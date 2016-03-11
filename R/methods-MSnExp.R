@@ -268,6 +268,15 @@ setMethod("pickPeaks", "MSnExp",
                              method = match.arg(method), SNR = SNR, ...)
         })
 
+
+setMethod("estimateNoise", "MSnExp",
+          function(object, method = c("MAD", "SuperSmoother"), ...) {
+              lapply(spectra(object),
+                     estimateNoise_Spectrum,
+                     method = match.arg(method), ...)
+        })
+
+
 setMethod("smooth", "MSnExp",
           function(x, method = c("SavitzkyGolay", "MovingAverage"),
                    halfWindowSize = 2L, verbose = TRUE, ...) {
