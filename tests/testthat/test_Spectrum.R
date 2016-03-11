@@ -59,12 +59,27 @@ test_that("Spectrum normalisation", {
                          precursorIntensity=20)), (1:5)/20)
 })
 
+test_that("Noise estimation", {
+  s1 <- new("Spectrum2", mz=1:5, intensity=c(1:3, 2:1))
+  s2 <- new("Spectrum2", mz=3, intensity=3, centroided=TRUE)
+
+  e <- matrix(NA, nrow=0, ncol=2, dimnames=list(c(), c("mz", "intensity")))
+
+  expect_warning(estimateNoise(new("Spectrum2")), "spectrum is empty")
+  expect_warning(estimateNoise(s2), "only supported for profile spectra")
+  expect_equal(suppressWarnings(estimateNoise(new("Spectrum2"))), e)
+  expect_equal(suppressWarnings(estimateNoise(s2)), e)
+  expect_equal(estimateNoise(s1), cbind(mz=1:5, intensity=mad(intensity(s1))))
+})
+
 test_that("Peak picking", {
   s1 <- new("Spectrum2", mz=1:5, intensity=c(1:3, 2:1))
   s2 <- new("Spectrum2", mz=3, intensity=3, centroided=TRUE)
 
   expect_warning(pickPeaks(new("Spectrum2")), "spectrum is empty")
   expect_warning(pickPeaks(s2), "spectrum is already centroided")
+  expect_equal(suppressWarnings(pickPeaks(new("Spectrum2"))), new("Spectrum2"))
+  expect_equal(suppressWarnings(pickPeaks(s2)), s2)
   expect_equal(pickPeaks(s1), s2)
 })
 
@@ -165,7 +180,7 @@ test_that("removePeaks profile vs centroided", {
      sp1 <- new("Spectrum2",
                        intensity = int,
                        centroided = FALSE,
-                       mz = 1:length(int))    
+                       mz = 1:length(int))
      res1 <- c(0, 0, 0, 0, 1, 5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
      expect_identical(intensity(removePeaks(sp1, 4)), res1)
 
@@ -186,7 +201,7 @@ test_that("removePeaks profile vs centroided", {
  })
 
 test_that("empty spectrum", {
-    s <- new("Spectrum2")    
+    s <- new("Spectrum2")
     expect_true(isEmpty(s))
     t <- removePeaks(s, 10)
     expect_true(all.equal(s, t))
@@ -195,5 +210,5 @@ test_that("empty spectrum", {
     sp <- new("Spectrum2",
               intensity=int,
               mz=1:length(int))
-    expect_false(isEmpty(sp))    
+    expect_false(isEmpty(sp))
 })
