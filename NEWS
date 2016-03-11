@@ -1,6 +1,6 @@
 CHANGES IN VERSION 1.19.16
 --------------------------
- o add estimateNoise,Spectrum-method; closes #78 <2016-03-10>
+ o add estimateNoise,[Spectrum|MSnExp]-method; closes #78 <2016-03-10>
  o import a lot of functions from recommended packages, namely graphics, stats
    and utils to avoid many "Undefined global functions or variables" NOTEs in
    R CMD check <2016-03-10>
