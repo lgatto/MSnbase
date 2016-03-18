@@ -146,9 +146,9 @@ export(MSnSet,
        comments,
        mzTabMode,
        mzTabType,
-       ## old
-       writeMzTabData,
        readMzTabData,
+       ## old - defunct
+       writeMzTabData,
        readMzTabData_v0.9,
        makeMTD,
        makePEP,
