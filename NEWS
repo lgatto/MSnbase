@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.19.18
+--------------------------
+ o
+ 
 CHANGES IN VERSION 1.19.17
 --------------------------
  o Write support of mzTab has been dropped (writeMzTabData, makeMTD,
