@@ -9,9 +9,9 @@ averageMSnSet(x, avg = function(x) mean(x, na.rm = TRUE), disp = npcv)
 \arguments{
 \item{x}{A \code{list} of valid \code{MSnSet} instances to be averaged.}
 
-\item{avg}{The averaging function. Default is hte median after
-removing missing valiues, as computed by \code{function(x)
-median(x, na.rm = TRUE)}.}
+\item{avg}{The averaging function. Default is the mean after
+removing missing values, as computed by \code{function(x)
+mean(x, na.rm = TRUE)}.}
 
 \item{disp}{The disperion function. Default is an non-parametric
 coefficient of variation that replaces the standard deviation by
