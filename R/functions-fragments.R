@@ -21,8 +21,13 @@
             "Please see '?calculateFragments' for details.")
   }
 
-  type <- match.arg(type, choices=c("a", "b", "c", "x", "y", "z"), several.ok=TRUE)
-  type <- sort(type)
+  atypes <- c("a", "b", "c")
+  ctypes <- c("x", "y", "z")
+  itypes <- c("aIx", "bIy", "cIz")
+  types <- c(atypes, ctypes, itypes)
+
+  type <- match.arg(type, choices=types, several.ok=TRUE)
+
   ## constants
   mass <- get.atomic.mass()
   ## according to Table 1 of:
@@ -41,7 +46,12 @@
            c=mass["N"]+3*mass["H"],             # + H + NH3
            x=mass["C"]+2*mass["O"],             # + CO + OH
            y=2*mass["H"]+mass["O"],             # + H2 + OH
-           z=-(mass["N"]+mass["H"])+mass["O"])  # + NH + OH
+           z=-(mass["N"]+mass["H"])+mass["O"],  # - NH2 + OH
+           ### internal fragments
+           aIx=mass["O"],                       # (- CO + CO) + OH
+           bIy=2*mass["H"]+mass["O"],           # + H2 + OH
+           cIz=2*mass["H"]+mass["O"])           # + NH3 - NH2 + OH
+  names(add) <- types
 
   aa <- .get.amino.acids()
   aamass <- setNames(aa$ResidueMass, aa$AA)
@@ -61,67 +71,49 @@
   }
 
   ## split peptide sequence into aa
-  fragment.seq <- strsplit(sequence, "")[[1]]
+  fragment.seq <- strsplit(sequence, "", fixed=TRUE)[[1L]]
 
-  ## calculate cumulative mass starting at the amino-terminus (for a, b, c)
-  amz <- cumsum(aamass[fragment.seq])
-  ## calculate cumulative mass starting at the carboxyl-terminus (for x, y, z)
-  cmz <- cumsum(aamass[rev(fragment.seq)])
+  ## amino-terminus (for a, b, c)
+  atype <- atypes %in% type
+  atf <- .aterminus(fragment.seq, sequence, aamass, types=atypes[atype])
 
-  ## calculate fragment mass (amino-terminus)
-  tn <- length(amz)
-  atype <- c("a", "b", "c") %in% type
-  nat <- sum(atype)
-  amz <- rep(amz, nat) + rep(add[1:3][atype], each=tn)
+  ## carboxyl-terminus (for x, y, z)
+  ctype <- ctypes %in% type
+  ctf <- .cterminus(fragment.seq, sequence, aamass, types=ctypes[ctype])
 
-  ### calculate fragment mass (carboxyl-terminus)
-  ctype <- c("x", "y", "z") %in% type
-  nct <- sum(ctype)
-  cmz <- rep(cmz, nct) + rep(add[4:6][ctype], each=tn)
+  ## internal fragments
+  itype <- c("aIx", "bIy", "cIz") %in% type
+  itf <- .internalFragments(sequence, aamass, types=itypes[itype])
 
+  df <- data.frame(mz=c(atf$mz, ctf$mz, itf$mz),
+                   pos=c(atf$pos, ctf$pos, itf$pos),
+                   seq=c(atf$seq, ctf$seq, itf$seq),
+                   type=c(atf$type, ctf$type, itf$type),
+                   stringsAsFactors=FALSE)
+
+  ## do actual calculation
+  df$mz <- df$mz + add[df$type]
+
+  ## create names
+  df$ion <- paste0(df$type, df$pos)
+  isInternal <- df$type %in% itypes
+  df$ion[isInternal] <- paste0(df$type[isInternal], "[", df$pos[isInternal],
+                               "-", df$pos[isInternal] +
+                                 nchar(df$seq[isInternal]) - 1L, "]")
   ## devide by charge
   zn <- length(z)
-  amz <- rep(amz, each=zn)/z
-  cmz <- rep(cmz, each=zn)/z
+  df <- df[rep(1L:nrow(df), each=zn), ]
+  df$mz <- df$mz/z
+  df$z <- z
 
   ## add protons (H+)
-  amz <- amz + mass["p"]
-  cmz <- cmz + mass["p"]
+  df$mz <- df$mz + mass["p"]
 
-  ## fragment seq (amino-terminus)
-  fn <- length(fragment.seq)
-  aseq <- rep(rep(substring(sequence, rep(1, fn), 1:fn), each=zn), nat)
-
-  ## fragment seq (carboxyl-terminus)
-  cseq <- rep(rep(rev(substring(sequence, 1:fn, rep(fn, fn))), each=zn), nct)
-
-  ## fragment str (amino-terminus)
-  atype <- rep(c("a", "b", "c")[atype], each=tn*zn)
-  pos <- rep(1:tn, each=zn)
-  if (length(atype)) {
-    aion <- paste0(atype, pos)
-  } else {
-    aion <- character()
-  }
-
-  ## fragment str (carboxyl-terminus)
-  ctype <- rep(c("x", "y", "z")[ctype], each=tn*zn)
-  if (length(ctype)) {
-    cion <- paste0(ctype, pos)
-  } else {
-    cion <- character()
-  }
-
-  df <- data.frame(mz=c(amz, cmz),
-                   ion=c(aion, cion),
-                   type=c(atype, ctype),
-                   pos=pos,
-                   z=z,
-                   seq=c(aseq, cseq),
-                   stringsAsFactors=FALSE)
   df <- .neutralLoss(df, water=neutralLoss$water, ammonia=neutralLoss$ammonia)
   df <- .terminalModifications(df, modifications=modifications)
   rownames(df) <- NULL
+  ## change column order
+  df <- df[, c("mz", "ion", "type", "pos", "z", "seq")]
   df
 }
 
@@ -220,4 +212,55 @@
 defaultNeutralLoss <- function(disableWaterLoss=NULL, disableAmmoniaLoss=NULL) {
   list(water=setdiff(c("Cterm", "D", "E", "S", "T"), disableWaterLoss),
        ammonia=setdiff(c("K", "N", "Q", "R"), disableAmmoniaLoss))
+}
+
+#' @param fragments one-letter sequence
+#' @param sequence complete sequence
+#' @param aamass aa residual mass
+#' @param types
+#' @param n length of sequence
+#' @noRd
+.aterminus <- function(fragments, sequence, aamass, types,
+                       n=length(fragments), times=length(types)) {
+  list(mz=rep.int(cumsum(aamass[fragments]), times),
+       pos=rep.int(1L:n, times),
+       seq=rep.int(substring(sequence, rep(1L, n), 1L:n), times),
+       types=rep(types, each=n))
+}
+
+#' @param fragments one-letter sequence
+#' @param sequence complete sequence
+#' @param aamass aa residual mass
+#' @param times how often replicate
+#' @param n length of sequence
+#' @noRd
+.cterminus <- function(fragments, sequence, aamass, types,
+                       n=length(fragments), times=length(types)) {
+  list(mz=rep.int(cumsum(aamass[rev(fragments)]), times),
+       pos=rep.int(1L:n, times),
+       seq=rep.int(rev(substring(sequence, 1L:n, rep(n, n))), times),
+       types=rep(types, each=n))
+}
+
+#' internal fragments
+#' @param fragments sequence
+#' @param aamass aa residual mass
+#' @param types
+#' @param n length of sequence
+#' @param l minimum fragment length (default: 2)
+#' @noRd
+.internalFragments <- function(fragments, aamass, types, n=nchar(fragments), times=length(types), l=2L) {
+  if (n > 3L) {
+    nr <- (n-3L):1L
+    pos <- sequence(nr) + 1L
+    end <- pos - 1L + rep.int(l:(n-2L), nr)
+    seq <- substring(fragments, pos, end)
+    mz <- unlist(lapply(strsplit(seq, "", fixed=TRUE), function(y)sum(aamass[y])))
+    list(mz=rep.int(mz, times),
+         pos=rep.int(pos, times),
+         seq=rep.int(seq, times),
+         types=rep(types, each=length(mz)))
+  } else {
+    list(mz=double(), pos=double(), seq=character(), types=character())
+  }
 }
