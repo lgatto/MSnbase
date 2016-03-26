@@ -50,7 +50,7 @@
            ### internal fragments
            aIx=mass["O"],                       # (- CO + CO) + OH
            bIy=2*mass["H"]+mass["O"],           # + H2 + OH
-           cIz=2*mass["H"]+mass["O"])           # + NH3 - NH2 + OH
+           cIz=mass["H"]+mass["O"])             # + NH3 - NH2 + OH
   names(add) <- types
 
   aa <- .get.amino.acids()
