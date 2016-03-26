@@ -7,8 +7,8 @@
 \title{ Calculate ions produced by fragmentation. }
 
 \description{
-  These method calculates a-, b-, c-, x-, y- and z-ions produced by
-  fragmentation.
+  These method calculates a-, b-, c-, x-, y-, z-, aIx-, bIy-, cIz-ions produced
+  by fragmentation.
 }
 
 \arguments{
@@ -23,7 +23,8 @@
     \code{"all"} is given all possible matches in the tolerance range are
     reported (only available if \code{object} is not \code{missing}).}
   \item{type}{ \code{character} vector of target ions; possible values:
-    \code{c("a", "b", "c", "x", "y", "z")}; default: \code{type=c("b", "y")}. }
+    \code{c("a", "b", "c", "x", "y", "z", "aIx", "bIy", "cIz")}; default:
+    \code{type=c("b", "y")}. }
   \item{z}{ \code{numeric} desired charge state; default \code{z=1}. }
   \item{modifications}{ named \code{numeric} vector of used modifications. The
     name must correspond to the one-letter-code of the modified amino acid and
