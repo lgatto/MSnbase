@@ -1,6 +1,6 @@
 #' calculate fragments from a peptide sequence
 #' @param sequence character vector of length 1
-#' @param type could be c("a", "b", "c", "x", "y", "z")
+#' @param type could be c("a", "b", "c", "x", "y", "z", "aIx", "bIy", "cIz")
 #' @param z charge
 #' @param modifications a named (amino acid one-letter-code; upper case) vector
 #' of mass that should be added (default: Carbamidomethyl 57.02146 is added
