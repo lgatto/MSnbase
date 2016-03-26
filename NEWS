@@ -1,7 +1,9 @@
 CHANGES IN VERSION 1.19.18
 --------------------------
+ o Add internal fragmentation support in calculateFragments; see #82
+   <2016-03-26 Sat>
  o
- 
+
 CHANGES IN VERSION 1.19.17
 --------------------------
  o Write support of mzTab has been dropped (writeMzTabData, makeMTD,
