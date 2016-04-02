@@ -24,12 +24,12 @@
 ##' metadata of the features that were missing in this first input are
 ##' missing (i.e. populated with \code{NA}s). This may change in the
 ##' future.
-##' 
+##'
 ##' @title Generate an average \code{MSnSet}
 ##' @param x A \code{list} of valid \code{MSnSet} instances to be averaged.
-##' @param avg The averaging function. Default is hte median after
-##' removing missing valiues, as computed by \code{function(x)
-##' median(x, na.rm = TRUE)}. 
+##' @param avg The averaging function. Default is the mean after
+##' removing missing values, as computed by \code{function(x)
+##' mean(x, na.rm = TRUE)}.
 ##' @param disp The disperion function. Default is an non-parametric
 ##' coefficient of variation that replaces the standard deviation by
 ##' the median absolute deviation as computed by
