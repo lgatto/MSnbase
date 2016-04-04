@@ -165,3 +165,39 @@ imageNA2 <- function(object, pcol,
     invisible(Rowv)
 }
 
+
+##' Visualise missing values as a heatmap and barplots along the
+##' samples and features.
+##'
+##' @title Overview of missing value
+##' @param object An object of class \code{MSnSet}.
+##' @param verbose If verbose (default is \code{TRUE}), print a table
+##'     of missing values.
+##' @param ... Additional parameters passed to \code{image2}.
+##' @return Used for its side effect. Invisibly returns \code{NULL}
+##' @author Laurent Gatto
+##' @examples
+##' data(naset)
+##' naplot(naset)
+naplot <- function(object, verbose = TRUE, ...) {
+    op <- par(no.readonly = TRUE)
+    on.exit(par(op))
+    zones <- matrix(c(2,0,1,3), ncol = 2, byrow = TRUE)
+    layout(zones, widths = c(4/5, 1/5), heights = c(1/5, 4/5))
+    features.na <- apply(exprs(object), 1, function(x) sum(is.na(x)))
+    xo <- order(features.na)
+    samples.na <- apply(exprs(object), 2, function(x) sum(is.na(x)))
+    yo <- order(samples.na)
+    object <- object[xo, yo]
+    par(mar = c(3,3,1,1))
+    image2(object, ...)
+    par(mar = c(0,3,1,1))
+    barplot(sort(samples.na), space=0, xaxt = "n")
+    par(mar = c(3,0,1,1))
+    barplot(sort(features.na), space=0, horiz=TRUE, yaxt = "n")
+    if (verbose) {
+        print(table(features.na))
+        print(table(samples.na))
+    }
+    invisible(NULL)
+}
