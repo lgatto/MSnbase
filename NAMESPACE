@@ -256,6 +256,7 @@ exportMethods(exprs,
               impute,
               topN,
               filterNA, filterZero,
+	      makeNaData, makeNaData2, whichNA,
               chromatogram,
               xic,
               ## Features of interest

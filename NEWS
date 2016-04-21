@@ -1,10 +1,11 @@
 CHANGES IN VERSION 1.19.20
 --------------------------
-
+ o Moved makeNaData[2] and whichNA (was in pRoloc) <2016-04-21 Thu>
+  
 CHANGES IN VERSION 1.19.19
 --------------------------
-o new naplot function to visualise missing values as a heatmap and
-  barplots along the samples and features. <2016-04-04 Mon>
+ o new naplot function to visualise missing values as a heatmap and
+   barplots along the samples and features. <2016-04-04 Mon>
  
 CHANGES IN VERSION 1.19.18
 --------------------------
