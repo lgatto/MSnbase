@@ -77,7 +77,7 @@ makeNaData <- function(object,
       stop("Require 0 < pNA < 1")
     nNA <- ceiling(N * pNA)
   }
-  if (nNA <= 0 | nNA >= N)
+  if (nNA <= 0 | nNA > N)
     stop("Require 0 < nNA > ", N)
   .nNA <- sample(N, nNA)
   .naInd <- arrayInd(.nNA, .dim = dim(object))
