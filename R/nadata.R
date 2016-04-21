@@ -62,7 +62,7 @@ makeNaData <- function(object,
       objectX <- object0[exclude, ]
     }
     if (is.character(exclude)) {
-      if (!all(fn0 %in% exclude))
+      if (!all(exclude %in% fn0))
         stop("Unknown feature names in 'exclude'")
       exl <- !(fn0 %in% exclude)
       object <- object0[!exl, ]
