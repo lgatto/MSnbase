@@ -8,6 +8,7 @@ test_that("makeNAdata", {
     tmp <- makeNaData(dunkley2006, nNA = 1, exclude = 1:688)
 
     k <- 689
+    tmp <- makeNaData(dunkley2006, nNA = 1, exclude = k)
     expect_identical(sum(is.na(exprs(tmp[k, ]))), 1L)
     expect_identical(sum(is.na(exprs(tmp[-k, ]))), 0L)
 
@@ -36,4 +37,8 @@ test_that("makeNAdata2", {
 })
 
 test_that("whichNA", {
+    k <- 1
+    tmp <- makeNaData(dunkley2006, nNA = 16, exclude = 2:689)
+    expect_identical(sum(is.na(exprs(tmp[k, ]))), 16L)
+    expect_identical(sum(is.na(exprs(tmp)[-k, ])), 0L)
 })
