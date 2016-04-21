@@ -95,7 +95,7 @@ makeNaData <- function(object,
     msg <- paste0(msg, "\n  (excluding ", nrow(objectX) ," features)" )
     object <- combine(object, objectX)
     object <- object[fn0, ]
-    object <- MSnbase:::nologging(object, n = 2)
+    object <- nologging(object, n = 2)
   }
 
   object@processingData@processing <-
@@ -198,7 +198,7 @@ makeNaData2 <- function(object,
     msg <- paste0(msg, "\n  (excluding ", nrow(objectX) ," features)" )
     object <- combine(object, objectX)
     object <- object[fn0, ]
-    object <- MSnbase:::nologging(object, n = 2)
+    object <- nologging(object, n = 2)
   }
 
   object@processingData@processing <-
