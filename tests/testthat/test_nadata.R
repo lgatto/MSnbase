@@ -9,8 +9,8 @@ test_that("makeNAdata", {
 
     k <- 689
     tmp <- makeNaData(dunkley2006, nNA = 1, exclude = k)
-    expect_identical(sum(is.na(exprs(tmp[k, ]))), 1L)
-    expect_identical(sum(is.na(exprs(tmp[-k, ]))), 0L)
+    expect_identical(sum(is.na(exprs(tmp[k, ]))), 0L)
+    expect_identical(sum(is.na(exprs(tmp[-k, ]))), 1L)
 
     k <- logical(689)
     k[111] <- TRUE
