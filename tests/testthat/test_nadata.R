@@ -33,7 +33,9 @@ test_that("makeNAdata", {
 
 
 test_that("makeNAdata2", {
-    expect_error(makeNAdata2(1))
+    expect_error(makeNaData2(1))
+    expect_error(makeNaData(dunkley2006))
+    expect_error(makeNaData(dunkley2006, nRows = 1:10, nNA = 1:2))    
 })
 
 test_that("whichNA", {
