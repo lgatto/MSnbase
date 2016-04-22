@@ -45,65 +45,65 @@
 makeNaData <- function(object,
                        nNA, pNA,
                        exclude) {
-  stopifnot(inherits(object, "MSnSet"))
-  if (missing(nNA) & missing(pNA))
-    stop("Provide one of 'nNA' or 'pNA'.")
-  if (!missing(nNA) & !missing(pNA))
-    stop("Need only one of 'nNA' or 'pNA'.")
-  if (!missing(exclude)) {
-    object0 <- object
-    fn0 <- featureNames(object)
-    if (is.logical(exclude)) {
-      object <- object0[!exclude, ]
-      objectX <- object0[exclude, ]
+    stopifnot(inherits(object, "MSnSet"))
+    if (missing(nNA) & missing(pNA))
+        stop("Provide one of 'nNA' or 'pNA'.")
+    if (!missing(nNA) & !missing(pNA))
+        stop("Need only one of 'nNA' or 'pNA'.")
+    if (!missing(exclude)) {
+        object0 <- object
+        fn0 <- featureNames(object)
+        if (is.logical(exclude)) {
+            object <- object0[!exclude, ]
+            objectX <- object0[exclude, ]
+        }
+        if (is.numeric(exclude)) {
+            object <- object0[-(exclude), ]
+            objectX <- object0[exclude, ]
+        }
+        if (is.character(exclude)) {
+            if (!all(exclude %in% fn0))
+                stop("Unknown feature names in 'exclude'")
+            exl <- fn0 %in% exclude
+            object <- object0[!exl, ]
+            objectX <- object0[exl, ]
+        }
+        fData(objectX)$nNA <- 0
     }
-    if (is.numeric(exclude)) {
-      object <- object0[-(exclude), ]
-      objectX <- object0[exclude, ]
+
+    N <- prod(dim(object))
+    if (missing(nNA)) {
+        if (pNA <= 0 | pNA >= 1)
+            stop("Require 0 < pNA < 1")
+        nNA <- ceiling(N * pNA)
     }
-    if (is.character(exclude)) {
-      if (!all(fn0 %in% exclude))
-        stop("Unknown feature names in 'exclude'")
-      exl <- !(fn0 %in% exclude)
-      object <- object0[!exl, ]
-      objectX <- object0[exl, ]
+    if (nNA <= 0 | nNA > N)
+        stop("Require 0 < nNA > ", N)
+    .nNA <- sample(N, nNA)
+    .naInd <- arrayInd(.nNA, .dim = dim(object))
+    .naTab <- table(.naInd[, 1])
+    fData(object)$nNA <- 0
+    fData(object)$nNA[as.numeric(names(.naTab))] <- .naTab
+    exprs(object)[.naInd] <- NA
+    stopifnot(sum(fData(object)$nNA) == sum(is.na(object)))
+    msg <- {
+        if (missing(pNA)) paste0("Set ", nNA, " values to NA")
+        else paste0("Set ", nNA, " (", pNA, "%) values to NA")
     }
-    fData(objectX)$nNA <- 0
-  }
+    msg <- paste(msg, date())
+    if (!missing(exclude)) {
+        msg <- paste0(msg, "\n  (excluding ", nrow(objectX) ," features)" )
+        object <- combine(object, objectX)
+        object <- object[fn0, ]
+        object <- nologging(object, n = 2)
+    }
 
-  N <- prod(dim(object))
-  if (missing(nNA)) {
-    if (pNA <= 0 | pNA >= 1)
-      stop("Require 0 < pNA < 1")
-    nNA <- ceiling(N * pNA)
-  }
-  if (nNA <= 0 | nNA >= N)
-    stop("Require 0 < nNA > ", N)
-  .nNA <- sample(N, nNA)
-  .naInd <- arrayInd(.nNA, .dim = dim(object))
-  .naTab <- table(.naInd[, 1])
-  fData(object)$nNA <- 0
-  fData(object)$nNA[as.numeric(names(.naTab))] <- .naTab
-  exprs(object)[.naInd] <- NA
-  stopifnot(sum(fData(object)$nNA) == sum(is.na(object)))
-  msg <- {
-    if (missing(pNA)) paste0("Set ", nNA, " values to NA")
-    else paste0("Set ", nNA, " (", pNA, "%) values to NA")
-  }
-  msg <- paste(msg, date())
-  if (!missing(exclude)) {
-    msg <- paste0(msg, "\n  (excluding ", nrow(objectX) ," features)" )
-    object <- combine(object, objectX)
-    object <- object[fn0, ]
-    object <- nologging(object, n = 2)
-  }
+    object@processingData@processing <-
+        c(object@processingData@processing,
+          msg)
 
-  object@processingData@processing <-
-    c(object@processingData@processing,
-      msg)
-
-  if (validObject(object))
-    return(object)
+    if (validObject(object))
+        return(object)
 }
 
 
@@ -160,52 +160,52 @@ makeNaData2 <- function(object,
       objectX <- object0[exclude, ]
     }
     if (is.character(exclude)) {
-      if (!all(fn0 %in% exclude))
-        stop("Unknown feature names in 'exclude'")
-      exl <- !(fn0 %in% exclude)
-      object <- object0[!exl, ]      
-      objectX <- object0[exl, ]      
+        if (!all(exclude %in% fn0))
+            stop("Unknown feature names in 'exclude'")
+        exl <- fn0 %in% exclude
+        object <- object0[!exl, ]
+        objectX <- object0[exl, ]
     }
     fData(objectX)$nNA <- 0
   }
-  
+
   naRows <- sample(nrow(object), sum(nRows))
   naCols <- lapply(1:lNA, function(k) {
-    replicate(nRows[k],
-              sample(ncol(object), nNAs[k]))
+      replicate(nRows[k],
+                sample(ncol(object), nNAs[k]))
   })
   
-  for (k in 1:lNA) {    
-    i <- ifelse(k == 1,
-                1,
-                sum(nRows[1:(k-1)]) + 1)
-    j <- sum(nRows[1:k])
-    .cl <- as.numeric(naCols[[k]])
-    .rw <- naRows[i:j]
-    .rw <- rep(.rw, each = nNAs[k])    
-    stopifnot(length(.rw) == length(.cl))
-    .sel <- cbind(.rw, .cl)
-    exprs(object)[.sel] <- NA
+  for (k in 1:lNA) {
+      i <- ifelse(k == 1,
+                  1,
+                  sum(nRows[1:(k-1)]) + 1)
+      j <- sum(nRows[1:k])
+      .cl <- as.numeric(naCols[[k]])
+      .rw <- naRows[i:j]
+      .rw <- rep(.rw, each = nNAs[k])
+      stopifnot(length(.rw) == length(.cl))
+      .sel <- cbind(.rw, .cl)
+      exprs(object)[.sel] <- NA
   }
   
   fData(object)$nNA <-
-    colSums(apply(exprs(object), 1, is.na))
+                  colSums(apply(exprs(object), 1, is.na))
   
   msg <-  paste0("Set (", paste(nNAs, collapse = ","), ") NAs in (",
                  paste(nRows, collapse = ","), ") rows,\n  respectively ",
                  date())
   if (!missing(exclude)) {
-    msg <- paste0(msg, "\n  (excluding ", nrow(objectX) ," features)" )
-    object <- combine(object, objectX)
-    object <- object[fn0, ]
-    object <- nologging(object, n = 2)
+      msg <- paste0(msg, "\n  (excluding ", nrow(objectX) ," features)" )
+      object <- combine(object, objectX)
+      object <- object[fn0, ]
+      object <- nologging(object, n = 2)
   }
 
   object@processingData@processing <-
-    c(object@processingData@processing, msg)
+      c(object@processingData@processing, msg)
 
   if (validObject(object))
-    return(object)
+      return(object)
 }
 
 
