@@ -169,8 +169,6 @@ makeNaData2 <- function(object,
     fData(objectX)$nNA <- 0
   }
 
-  ## browser()
-  
   naRows <- sample(nrow(object), sum(nRows))
   naCols <- lapply(1:lNA, function(k) {
       replicate(nRows[k],
