@@ -81,5 +81,5 @@ test_that("nbavg methods", {
     expect_true(exprs(xx[2, 2]) == 6)
     expect_true(all(is.na(exprs(xx[3, 3:4]))))
     expect_true(exprs(xx[5, 2]) == 10)
-    expect_true(exprs(xx[4, 3]) == 14)    
+    expect_true(exprs(xx[4, 3]) == 14)
 })

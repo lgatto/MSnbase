@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.19.21
+--------------------------
+ o
+ 
 CHANGES IN VERSION 1.19.20
 --------------------------
  o Moved makeNaData[2] and whichNA (was in pRoloc) <2016-04-21 Thu>
