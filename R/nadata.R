@@ -64,7 +64,7 @@ makeNaData <- function(object,
         if (is.character(exclude)) {
             if (!all(exclude %in% fn0))
                 stop("Unknown feature names in 'exclude'")
-            exl <- !(fn0 %in% exclude)
+            exl <- fn0 %in% exclude
             object <- object0[!exl, ]
             objectX <- object0[exl, ]
         }
@@ -162,12 +162,15 @@ makeNaData2 <- function(object,
     if (is.character(exclude)) {
         if (!all(exclude %in% fn0))
             stop("Unknown feature names in 'exclude'")
-        exl <- !(fn0 %in% exclude)
+        exl <- fn0 %in% exclude
         object <- object0[!exl, ]
         objectX <- object0[exl, ]
     }
     fData(objectX)$nNA <- 0
   }
+
+  ## browser()
+  
   naRows <- sample(nrow(object), sum(nRows))
   naCols <- lapply(1:lNA, function(k) {
       replicate(nRows[k],
