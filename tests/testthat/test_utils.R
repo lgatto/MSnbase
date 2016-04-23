@@ -147,6 +147,9 @@ test_that("formatRt", {
     tn <- c(61, 25 * 60 + 24)
     expect_equal(tc, formatRt(tn))
     expect_equal(tn, formatRt(tc))
+    expect_true(is.na(formatRt("")))
+    expect_warning(is.na(formatRt("aaa")))
+    expect_warning(is.na(formatRt(TRUE)))
 })
 
 test_that("colSd", {
@@ -169,4 +172,48 @@ test_that("applyColumnwiseByGroup", {
   expect_equal(MSnbase:::utils.applyColumnwiseByGroup(m,
                                                       rep(1:2, each=2),
                                                       colSums), r)
+})
+
+test_that("get.amino.acids", {
+    aa <- get.amino.acids()
+    cn <- c("AA", "ResidueMass", "Abbrev3", "ImmoniumIonMass", "Name",
+            "Hydrophobicity", "Hydrophilicity", "SideChainMass",
+            "pK1", "pK2", "pI") ## from man
+    expect_identical(colnames(aa), cn)
+})
+
+test_that("remove precursor MZ", {
+    data(itraqdata)
+    sp <- itraqdata[[1]]
+    r1 <- MSnbase:::utils.removePrecMz(sp)
+    spl <- list(mz = mz(sp),
+                int = intensity(sp))
+    r2 <- MSnbase:::utils.removePrecMz_list(spl,
+                                            precursorMz(sp))
+    expect_identical(mz(r1), r2$mz)
+
+    r1 <- MSnbase:::utils.removePrecMz(sp, width = 1)
+    spl <- list(mz = mz(sp),
+                int = intensity(sp))
+    r2 <- MSnbase:::utils.removePrecMz_list(spl,
+                                            precursorMz(sp),
+                                            width = 1)
+    expect_identical(mz(r1), r2$mz)
+
+    spl <- list(mz = 1:10, int = 1:10)
+    spl <- MSnbase:::utils.removePrecMz_list(spl, 5, 2)
+    expect_identical(spl$mz, 1:10)
+    expect_identical(spl$int, c(1:3, rep(0, 3), 7:10))
+})
+
+
+test_that("clean utils", {
+    ## from description
+    x <- c(1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0)
+    b <- c(TRUE,  TRUE,  FALSE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,
+           TRUE, TRUE,  TRUE,  TRUE,  FALSE,  TRUE,  TRUE,  TRUE,
+           FALSE,  TRUE)
+    bx <- c(1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0)
+    expect_identical(MSnbase:::utils.clean(x), b)
+    expect_identical(x[MSnbase:::utils.clean(x)], bx)
 })

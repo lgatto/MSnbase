@@ -73,6 +73,26 @@ utils.removePeaks <- function(int, t) {
   return(int)
 }
 
+
+
+utils.removePrecMz <- function(spectrum, precMz = NULL, width = 2) {
+  ## Contributed by Guangchuang Yu for the plotMzDelta QC
+  ## Additional modifications: setting peaks to 0 and clean argument
+  if (is.null(precMz))
+    precMz <- precursorMz(spectrum)
+  if (!is.numeric(precMz))
+    stop("precMz must either 'NULL' or numeric.")
+  if (length(precMz) > 2)
+    stop ("precMz must a vector of length 1 or 2.")
+  if (length(precMz) == 1)
+    precMz <- c(precMz - width, precMz + width)
+  mz <- mz(spectrum)
+  i <- intensity(spectrum)
+  idx <- which(mz > precMz[1] & mz < precMz[2])
+  spectrum@intensity[idx] <- 0
+  return(spectrum)
+}
+
 utils.removePrecMz_list <- function(object,
                                     precMz,
                                     width = 2) {
@@ -97,9 +117,9 @@ utils.clean <- function(x, all = FALSE) {
   ## original direct zero neighbours.
   ## Example
   ## x: 1 0 0 0 1 1 1 0 0 1 1 0 0 0 1 0 0 0
-  ## b: T T F T T T T T T T T T F T T T F F
+  ## b: T T F T T T T T T T T T F T T T F T
   ##
-  ## x[b]:     1 0 1 1 1 0 1 1 0 1 0
+  ## x[b]:  1 0 0 1 1 1 0 0 1 1 0 0 1 0 0
 
   n <- length(x)
   b <- rep(TRUE, n)
@@ -107,9 +127,9 @@ utils.clean <- function(x, all = FALSE) {
     b[x == 0] <- FALSE
   } else {
     zeroRanges <- IRanges(sapply(x,"==",0))
-    sapply(zeroRanges, function(x){
-      if (length(x)>2)
-        b[x[2:(length(x)-1)]] <<- FALSE
+    sapply(zeroRanges, function(x) {
+      if (length(x) > 2)
+        b[x[2:(length(x) - 1)]] <<- FALSE
     })
   }
   return(b)
@@ -211,24 +231,6 @@ makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
     rownames(M) <- paste("% reporter", rownames(M))
     if (edit) M <- edit(M)
     return(M)
-}
-
-utils.removePrecMz <- function(spectrum, precMz=NULL,width=2) {
-  ## Contributed by Guangchuang Yu for the plotMzDelta QC
-  ## Additional modifications: setting peaks to 0 and clean argument
-  if (is.null(precMz))
-    precMz <- precursorMz(spectrum)
-  if (!is.numeric(precMz))
-    stop("precMz must either 'NULL' or numeric.")
-  if (length(precMz) > 2)
-    stop ("precMz must a vector of length 1 or 2.")
-  if (length(precMz) == 1)
-    precMz <- c(precMz-width, precMz+width)
-  mz <- mz(spectrum)
-  i <- intensity(spectrum)
-  idx <- which(mz > precMz[1] & mz < precMz[2])
-  spectrum@intensity[idx] <- 0
-  return(spectrum)
 }
 
 utils.getMzDelta <- function(spectrum, percentage) {
