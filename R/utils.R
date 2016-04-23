@@ -684,14 +684,14 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, id,
   # mzR::acquisitionNum (stored in fData()[, "acquisition.number"] and
   # mzID::acquisitionnum should be identical
 
-  if (!all(fcol %in% colnames(featureData))) {
+  if (!any(fcol %in% colnames(featureData))) {
       stop("The column(s) ", sQuote(fcol),
-           " are not all in the feature data.frame!")
+           " are notin the feature data.frame!")
   }
 
-  if (!all(icol %in% colnames(id))) {
+  if (!any(icol %in% colnames(id))) {
     stop("The column(s) ", sQuote(icol),
-         " are not all in the identification data.frame!")
+         " are not in the identification data.frame!")
   }
 
   if (sum(fcol %in% colnames(featureData)) != sum(icol %in% colnames(id))) {
