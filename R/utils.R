@@ -686,7 +686,7 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, id,
 
   if (!any(fcol %in% colnames(featureData))) {
       stop("The column(s) ", sQuote(fcol),
-           " are notin the feature data.frame!")
+           " are not in the feature data.frame!")
   }
 
   if (!any(icol %in% colnames(id))) {
