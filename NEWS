@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.19.22
 --------------------------
  o more unit tests <2016-04-23 Sat>
+ o remove readIspyData functions <2016-04-23 Sat>
  
 CHANGES IN VERSION 1.19.21
 --------------------------
