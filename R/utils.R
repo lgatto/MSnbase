@@ -73,40 +73,40 @@ utils.removePeaks <- function(int, t) {
   return(int)
 }
 
+utils.removePrecMz <- function(mz, int, precMz, tolerance=25e-6) {
+  if (!is.numeric(precMz) && length(precMz) == 1L)
+    stop("precMz must be numeric of length 1.")
 
+  i <- relaxedMatch(precMz, mz, tolerance=tolerance)
 
-utils.removePrecMz <- function(spectrum, precMz = NULL, width = 2) {
-  ## Contributed by Guangchuang Yu for the plotMzDelta QC
-  ## Additional modifications: setting peaks to 0 and clean argument
+  if (!is.na(i)) {
+    peakRanges <- IRanges(sapply(int, ">", 0L))
+    i <- findOverlaps(IRanges(i, width=1L), peakRanges,
+                      type="within", select="first")
+    if (!is.na(i)) {
+      int[start(peakRanges[i]):end(peakRanges[i])] <- 0
+    }
+  }
+  int
+}
+
+utils.removePrecMz_Spectrum <- function(spectrum, precMz=NULL,
+                                        tolerance=25e-6) {
   if (is.null(precMz))
     precMz <- precursorMz(spectrum)
   if (!is.numeric(precMz))
     stop("precMz must either 'NULL' or numeric.")
-  if (length(precMz) > 2)
-    stop ("precMz must a vector of length 1 or 2.")
-  if (length(precMz) == 1)
-    precMz <- c(precMz - width, precMz + width)
-  mz <- mz(spectrum)
-  i <- intensity(spectrum)
-  idx <- which(mz > precMz[1] & mz < precMz[2])
-  spectrum@intensity[idx] <- 0
+  spectrum@intensity <- utils.removePrecMz(mz(spectrum), intensity(spectrum),
+                                           precMz=precMz, tolerance=tolerance)
   return(spectrum)
 }
 
-utils.removePrecMz_list <- function(object,
-                                    precMz,
-                                    width = 2) {
-    if (!is.numeric(precMz))
-        stop("precMz must either 'NULL' or numeric.")
-    if (length(precMz) > 2)
-        stop("precMz must a vector of length 1 or 2.")
-    if (length(precMz) == 1)
-        precMz <- c(precMz - width, precMz + width)
+utils.removePrecMz_list <- function(object, precMz, tolerance=25e-6) {
     idx <- which(object$mz > precMz[1] & object$mz < precMz[2])
-    object$int[idx] <- 0
+    object$int <- utils.removePrecMz(object$mz, object$int,
+                                     precMz=precMz, tolerance=tolerance)
     return(object)
 }
-
 
 utils.clean <- function(x, all = FALSE) {
   ## Given an numeric x, this function
