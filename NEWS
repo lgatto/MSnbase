@@ -1,6 +1,6 @@
 CHANGES IN VERSION 1.19.22
 --------------------------
- o more unit tests <2016-04-23 Sat> <2016-04-24 Sun>
+ o more unit tests <2016-04-23 Sat> <2016-04-24 Sun> <2016-04-26 Tue>
  o remove readIspyData functions <2016-04-23 Sat>
  o Fixed bug in error catching in
    utils.mergeSpectraAndIdentificationData <2016-04-23 Sat>
