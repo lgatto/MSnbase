@@ -77,22 +77,6 @@ extractPrecSpectra_MSnExp <- function(object,prec) {
     return(object)
 }
 
-
-## Defunct in v 1.5.2
-## extractSpectra.MSnExp <- function(object,selected) {
-##   slist <- spectra(object)[selected]
-##   object@assayData <- list2env(slist)
-##   object@featureData <- object@featureData[selected,]
-##   object@processingData@processing <- c(object@processingData@processing,
-##                                         paste(sum(selected),
-##                                               " spectra extracted: ",
-##                                               date(),sep=""))
-##   if (object@.cache$level > 0)
-##     object@.cache <- setCacheEnv(assayData(object), object@.cache$level)
-##   if (validObject(object))
-##     return(object)
-## }
-
 removePeaks_MSnExp <- function(object,t="min",verbose=TRUE) {
   ifelse(verbose,progress <- "text",progress <- "none")
   spectraList <-  llply(spectra(object),

@@ -234,15 +234,6 @@ setMethod("extractPrecSpectra",
           signature=signature(object="MSnExp",prec="numeric"),
           function(object,prec) extractPrecSpectra_MSnExp(object,prec))
 
-setMethod("extractSpectra",
-          signature=signature(object="MSnExp",selected="logical"),
-          function(object,selected) {
-            msg <- c("The 'extractSpectra' function is defunct\n",
-                     "Please use the '[' subsetting operator instead.")
-            .Defunct(msg=msg)
-            ## extractSpectra.MSnExp(object,selected)
-          })
-
 setMethod("normalize", "MSnExp",
           function(object, method = c("max","sum"),...) {
             normalise_MSnExp(object, method = match.arg(method))
