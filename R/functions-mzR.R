@@ -7,12 +7,14 @@ peaksAsLists <-  function(object,
         pl <- peaks(object)
     } else {
         pl <- peaks(object, i)
+        if (is.matrix(pl)) ## i was of length 1
+            pl <- list(pl)
     }
     switch(what,
            mz = lapply(pl, function(x) list(mz = x[, 1])),
            int = lapply(pl, function(x) list(int = x[, 2])),
            both = lapply(pl, function(x) list(mz = x[, 1],
-               int = x[, 2])))
+                                              int = x[, 2])))
 }
 
 
@@ -24,11 +26,11 @@ list2Spectrum2 <- function(x, ...)
 
 plotMzDelta_list <- function(object,            ## peakLists
                              reporters = NULL,  ## reporters to be removed
-                             percentage = 0.1,  ## percentage of peaks to consider                               
+                             percentage = 0.1,  ## percentage of peaks to consider
                              precMz,            ## precursors to be removed
                              precMzWidth = 2,   ## precrsor m/z with
                              bw = 1,            ## histogram bandwidth
-                             xlim = c(40,200),  ## delta m/z range
+                             xlim = c(40, 200), ## delta m/z range
                              withLabels = TRUE, ## add amino acide labels
                              size = 2.5,        ## labels size
                              plot = TRUE,       ## plot figure
@@ -110,9 +112,9 @@ plotMzDelta_list <- function(object,            ## peakLists
 }
 
 
-.chromatogram <- function(hd, 
+.chromatogram <- function(hd,
                           y = c("tic", "bpi"),
-                          f, 
+                          f,
                           legend = TRUE,
                           plot = TRUE,
                           ...) {
@@ -127,14 +129,14 @@ plotMzDelta_list <- function(object,            ## peakLists
     yy <- yy / yymax * 100
     xx <- hd$retentionTime
     if (plot) {
-        plot(yy ~ xx, type = "l", 
+        plot(yy ~ xx, type = "l",
              xlab = "Time (sec)", ylab = ylab,
              ...)
         abline(h = 0)
         if (legend) {
             leg <- sprintf("%s: %.3g", toupper(y), yymax)
             if (!missing(f))
-                leg <- c(f, leg)                    
+                leg <- c(f, leg)
             legend("topleft",
                    leg,
                    col = NA,
@@ -156,15 +158,15 @@ xicplot <- function(dd, mz, width, rtlim,
          ...)
     abline(h = 0, col = "grey")
     grid()
-    if (legend) 
+    if (legend)
         legend("topleft",
                c(paste0("Precursor: ", mz),
-                 paste0("XIC: ", mz-width, " - ", mz+width)), 
+                 paste0("XIC: ", mz-width, " - ", mz+width)),
                bty = "n", cex = .75)
     if (npeaks > 0) {
         dd2 <- dd[dd$rt >= min(rtlim) & dd$rt <= max(rtlim), ]
         dd2$int[dd2$int < max(dd2$int)/100] <- 0
-        kx <- ky <- kz<- rep(NA, npeaks)        
+        kx <- ky <- kz<- rep(NA, npeaks)
         for (.k in 1:length(kx)) {
             i <- order(dd2$int, decreasing = TRUE)[1]
             kx[.k] <- dd2$rt[i]
@@ -173,8 +175,8 @@ xicplot <- function(dd, mz, width, rtlim,
             dd2$int[i] <- 0
             dd0 <- which(dd2$int == 0)
             ii <- which(dd0 == i)
-            if (length(ii) < 3) break                
-            dd2$int[dd0[ii-1]:dd0[ii+1]] <- 0
+            if (length(ii) < 3) break
+            dd2$int[dd0[ii - 1]:dd0[ii + 1]] <- 0
         }
         ksel <- !is.na(kx)
         text(kx[ksel],
@@ -184,14 +186,14 @@ xicplot <- function(dd, mz, width, rtlim,
              cex = .75)
     }
     if (points) {
-        ## relevant MS2 spectra are coloured in xic_1 
+        ## relevant MS2 spectra are coloured in xic_1
         points(int ~ rt, data = dd,
                col = "#00000060",
                pch = 19, cex = ptcex)
         ## highlight annotated peaks
         points(kx, ky, cex = ptcex, pch = 19,
                col = "#FFA404FF")
-    }  
+    }
 }
 
 
@@ -228,7 +230,7 @@ xic_1 <- function(object, ##
                                    pl[[i]][sel, 1][j])
                       }
                       ans
-                  })    
+                  })
     if (length(res2 <- res[!is.na(res)]) == 0)
         stop("No matching peaks found.")
     if (length(res2) < 15)
@@ -236,8 +238,8 @@ xic_1 <- function(object, ##
     dd <- data.frame(int = sapply(res2, "[", 2),
                      rt = hd1$retentionTime[sapply(res2, "[", 1)],
                      mz = sapply(res2, "[", 3))
-    if (clean) 
-        dd <- dd[utils.clean(dd$int, all=FALSE), ]
+    if (clean)
+        dd <- dd[utils.clean(dd$int, all = FALSE), ]
     if (plot) {
         if (missing(rtlim))
             rtlim <- range(dd$rt)
