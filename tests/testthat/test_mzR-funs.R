@@ -26,7 +26,7 @@ test_that("peaksAsList function", {
     expect_identical(plii, pl[1:2])
 })
 
-test_that("chomatogram", {
+test_that(".chomatogram function", {
     f <- dir(system.file("extdata", package = "MSnbase"),
              full.names = TRUE, pattern = "mzXML")
     ms <- openMSfile(f)
@@ -37,4 +37,19 @@ test_that("chomatogram", {
     expect_identical(colnames(x), c("rt", "tic"))
     expect_identical(x$rt, hd$retentionTime)
     expect_equal(x$tic, 100 * hd$totIonCurrent/ max(hd$totIonCurrent))    
+})
+
+
+test_that("chomatogram methods", {
+    library("msdata")
+    f <- dir(system.file("microtofq", package = "msdata"),
+             full.names = TRUE, pattern = "MM8.mzML")
+    library("mzR")
+    ms <- openMSfile(f)
+    ch1 <- chromatogram(f, plot = FALSE)
+    ch2 <- chromatogram(ms, plot = FALSE)
+    expect_identical(ch1, ch2)
+    hd <- header(ms)
+    ch3 <- MSnbase:::.chromatogram(hd, plot = FALSE)
+    expect_identical(ch1, ch3)
 })
