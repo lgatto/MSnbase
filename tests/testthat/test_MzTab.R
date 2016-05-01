@@ -1,4 +1,4 @@
-context("MSzTab class")
+context("MzTab class")
 
 test_that("MzTab creation and accessors", {
               fl <- "iTRAQ_CQI.mzTab"
