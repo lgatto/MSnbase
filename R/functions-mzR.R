@@ -234,7 +234,7 @@ xic_1 <- function(object, ##
     if (length(res2 <- res[!is.na(res)]) == 0)
         stop("No matching peaks found.")
     if (length(res2) < 15)
-        warning("Only ", length(res2), "matching spectra found.")
+        warning("Only ", length(res2), " matching spectra found.")
     dd <- data.frame(int = sapply(res2, "[", 2),
                      rt = hd1$retentionTime[sapply(res2, "[", 1)],
                      mz = sapply(res2, "[", 3))

@@ -82,7 +82,7 @@ readMSnSet2 <- function(file, ecol, fnames, ...) {
                                  data = fdata))
     if (!missing(fnames)) {
         if (is.na(match(fnames, colnames(xx))))
-            stop(fnames, "not found among\n",
+            stop(fnames, " not found among\n",
                  paste(colnames(xx), paste = ", "))
         featureNames(ans) <- fdata[, fnames]
     }

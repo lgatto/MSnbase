@@ -241,8 +241,8 @@ readMSData <- function(files,
     if (cache >= 1) {
         ## results sometimes in:
         ##  Error in function (x)  : attempt to apply non-function
-                                        #fl <- sapply(assaydata, fromFile)
-        fl <- sapply(assaydata, function(x)x@fromFile)
+        ## fl <- sapply(assaydata, fromFile)
+        fl <- sapply(assaydata, function(x) x@fromFile)
         featnms <- ls(assaydata) ## feature names in final MSnExp
         fl <- fl[featnms] ## reorder file numbers
         stopifnot(all(sort(featnms) == sort(fullhdorder)))
