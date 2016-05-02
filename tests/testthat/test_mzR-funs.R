@@ -53,3 +53,16 @@ test_that("chomatogram methods", {
     ch3 <- MSnbase:::.chromatogram(hd, plot = FALSE)
     expect_identical(ch1, ch3)
 })
+
+test_that("xic", {
+    library("msdata")
+    f <- dir(system.file("microtofq", package = "msdata"),
+             full.names = TRUE, pattern = "MM8.mzML")
+    ms <- openMSfile(f)
+
+    expect_error(xic(ms))
+    expect_warning(xicres <- xic(ms, mz = 636.925, width = 0.01, plot = FALSE))
+    xicres1 <- xic(ms, mz = 636.925)
+    xicres2 <- xic(f, mz = 636.925)
+    expect_identical(xicres1, xicres2)
+})

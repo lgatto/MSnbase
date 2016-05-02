@@ -1,7 +1,8 @@
 context("IO testing")
 
 test_that("readMSData >1 files", {
-  file1 <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
+    file1 <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                 full.name = TRUE, pattern = "mzXML$")
   tdir <- tempdir()
   file2 <- file.path(tdir, sub("iTRAQ", "iTRAQ2", basename(file1)))
   stopifnot(file.copy(file1, file2, overwrite = TRUE))
@@ -41,12 +42,13 @@ test_that("Compatibility between writeMgfData and readMgfData", {
 
 test_that("Testing write.exprs and readMSnSet", {
   data(itraqdata)
-  colchars <- c("ProteinAccession", "PeptideSequence", "retention.time", "precursor.mz")
+  colchars <- c("ProteinAccession", "PeptideSequence",
+                "retention.time", "precursor.mz")
   tf <- tempfile()
   x <- quantify(itraqdata, reporters = iTRAQ4,
                 BPPARAM = SerialParam(),
                 method = "max", verbose = FALSE)
-  write.exprs(x, file = tf)  
+  write.exprs(x, file = tf)
   y <- readMSnSet(tf)
   expect_true(all.equal(exprs(x), exprs(y)))
   ## unlink(tf)
@@ -56,4 +58,34 @@ test_that("Testing write.exprs and readMSnSet", {
   expect_true(all(colnames(tmp) == c(sampleNames(x), colchars)))
   expect_true(all(rownames(tmp) == featureNames(x)))
   unlink(tf)
+})
+
+
+test_that("readMSnSet2: MSnSet from a data.frame", {
+    k <- data.frame(A = 1:10, B = 10:1,
+                    X1 = LETTERS[1:10], X2 = letters[1:10],
+                    row.names = paste0("X", 1:10))
+    x <- readMSnSet2(k, ecol = 1:2)
+    expect_true(validObject(x))
+    expect_identical(sampleNames(x), c("A", "B"))
+    expect_identical(featureNames(x), rownames(k))
+    expect_equivalent(exprs(x)[, 1], 1:10)
+    expect_equivalent(exprs(x)[, 2], 10:1)
+    expect_identical(fData(x), k[, 3:4])
+    ## feature names as a column
+    k$fn <- paste0("P", 1:10)
+    x <- readMSnSet2(k, ecol = 1:2, fnames = "fn")
+    expect_identical(featureNames(x), k$fn)
+    rownames(k) <- k$fn
+    expect_identical(fData(x), k[, 3:5])
+    expect_error(readMSnSet2(k, ecol = 1:2, fnames = "fnames"))
+    ## no feature names
+    k <- data.frame(A = 1:10, B = 10:1,
+                    X1 = LETTERS[1:10], X2 = letters[1:10])
+    x <- readMSnSet2(k, ecol = 1:2)
+    expect_identical(featureNames(x), as.character(1:10))
+    x2 <- readMSnSet2(k, ecol = c("A", "B"))
+    expect_identical(exprs(x), exprs(x2))
+    expect_identical(fData(x), fData(x2))
+    expect_equal(x, x2)
 })
