@@ -1,5 +1,5 @@
 .testReadMSDataInput <- function(e) {
-    if (!all(e$msLevel > 0)) 
+    if (!all(e$msLevel > 0))
         stop("msLevel must be an integer > 0.")
     if (length(e$files) < 1)
         stop("At least one MS file is required.")
@@ -35,7 +35,7 @@
 ##   .instrumentInfo <- lapply(mzr, instrumentInfo)
 ##   names(.instrumentInfo) <- names(mzr) <- seq_along(mzr)
 ##   fullhd <- do.call(rbind, lapply(mzr, header))
-##   ioncount <- unlist(lapply(mzr, function(xx) 
+##   ioncount <- unlist(lapply(mzr, function(xx)
 ##                             sapply(peaks(xx), function(pk) sum(pk[, 2]))))
 ##   .n <- sapply(mzr, length)
 ##   featnms <- lapply(.n, function(n) paste0("X", 1:n))
@@ -45,14 +45,14 @@
 ##                            }))
 ##   rownames(fullhd) <- featnms
 ##   fromfile <- unlist(mapply(rep, 1:length(.n), .n, SIMPLIFY = FALSE)) ## to be saved to cache
-##   newhd <- data.frame(file = fromfile, 
+##   newhd <- data.frame(file = fromfile,
 ##                       retention.time = fullhd$retentionTime,
 ##                       precursor.mz = fullhd$precursorMZ,
 ##                       precursor.intensity = fullhd$precursorIntensity,
 ##                       charge = fullhd$precursorCharge,
 ##                       peaks.count = fullhd$peaksCount,
 ##                       tic = fullhd$totIonCurrent,
-##                       ionCount = ioncount, 
+##                       ionCount = ioncount,
 ##                       ms.level = fullhd$msLevel,
 ##                       acquisition.number = fullhd$acquisitionNum,
 ##                       collision.energy = fullhd$collisionEnergy)
@@ -67,7 +67,7 @@
 ##                    paste("Data loaded:", date()),
 ##                    paste("Cache level ", cache)),
 ##                  files = files,
-##                  smoothed = smoothed)  
+##                  smoothed = smoothed)
 ##   if (is.null(pdata)) {
 ##     .pd <- data.frame(sampleNames = files,
 ##                       fileNumbers = seq_along(files))
@@ -88,8 +88,8 @@
 ##                                    ionisation = paste(sapply(.instrumentInfo, "[[", "ionisation"), collapse = ", "),
 ##                                    analyzer = paste(sapply(.instrumentInfo, "[[", "analyzer"), collapse = ", "),
 ##                                    detector = paste(sapply(.instrumentInfo, "[[", "detector"), collapse = ", "))
-##     } 
-##   } 
+##     }
+##   }
 ##   expdata <- new("MIAPE",
 ##                  instrumentManufacturer = .instrumentInfo[[1]]$manufacturer,
 ##                  instrumentModel = .instrumentInfo[[1]]$model,
@@ -107,7 +107,7 @@
 ##                   experimentData = expdata)
 ##                   ## .cache = .cacheEnv)
 ##   if (validObject(toReturn))
-##     return(toReturn)  
+##     return(toReturn)
 ## }
 
 readMSData <- function(files,
@@ -119,10 +119,10 @@ readMSData <- function(files,
                        removePeaks = 0,
                        clean = FALSE,
                        cache = 1) {
-    .testReadMSDataInput(environment())  
+    .testReadMSDataInput(environment())
     ## TODO: add also a trimMz argument.
     if (msLevel == 1) ## cache currently only works for MS2 level data
-        cache <- 0 
+        cache <- 0
     msLevel <- as.integer(msLevel)
     ## Creating environment with Spectra objects
     assaydata <- new.env(parent=emptyenv())
@@ -136,15 +136,15 @@ readMSData <- function(files,
         filen <- match(f, files)
         filenums <- c(filenums, filen)
         filenams <- c(filenams, f)
-        msdata <- mzR::openMSfile(f)    
+        msdata <- mzR::openMSfile(f)
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
-        fullhd <- mzR::header(msdata)    
+        fullhd <- mzR::header(msdata)
         ifelse(msLevel == 1, ## later, > 1 level
                spidx <- which(fullhd$msLevel == 1),
                spidx <- which(fullhd$msLevel > 1))
         ## increase vectors as needed
-        ioncount <- c(ioncount, numeric(length(spidx))) 
-        fullhdorder <- c(fullhdorder, numeric(length(spidx))) 
+        ioncount <- c(ioncount, numeric(length(spidx)))
+        fullhdorder <- c(fullhdorder, numeric(length(spidx)))
         ## MS1 level
         if (msLevel == 1) {
             if (length(spidx) == 0)
@@ -177,8 +177,8 @@ readMSData <- function(files,
                                          ceiling(log10(length(spidx) + 1L)),
                                          "d.%s"), i, filen)
                 assign(.fname, sp, assaydata)
-                fullhdorder[fullhdorder] <- .fname
-                fullhdordercounter <- fullhdordercounter + 1 
+                fullhdorder[fullhdordercounter] <- .fname
+                fullhdordercounter <- fullhdordercounter + 1
             }
         } else { ## MS>2 levels
             if (length(spidx)==0)
@@ -188,7 +188,7 @@ readMSData <- function(files,
                     basename(f),"\n",sep="")
                 pb <- txtProgressBar(min=0,max=length(spidx),style=3)
             }
-            ## this was fullhd$acquisitionNum -- check/wrong 
+            ## this was fullhd$acquisitionNum -- check/wrong
             ## ms1scanNums <- MSnbase:::getBins(fullhd$msLevel[spidx])
             scanNums <- fullhd[fullhd$msLevel == 2, "precursorScanNum"]
             if (length(scanNums)!=length(spidx))
@@ -204,7 +204,7 @@ readMSData <- function(files,
                           precursorIntensity = hd$precursorIntensity,
                           precursorCharge = hd$precursorCharge,
                           collisionEnergy = hd$collisionEnergy,
-                          tic = hd$totIonCurrent,                  
+                          tic = hd$totIonCurrent,
                           peaksCount = hd$peaksCount,
                           rt = hd$retentionTime,
                           acquisitionNum = hd$acquisitionNum,
@@ -227,7 +227,7 @@ readMSData <- function(files,
             }
         }
         if (cache >= 1)
-            fullhd2 <- rbind(fullhd2, fullhd[spidx, ]) 
+            fullhd2 <- rbind(fullhd2, fullhd[spidx, ])
         if (verbose)
             close(pb)
         gc() ## could this help with Error in function (x): no function to return from, jumping to top level)...
@@ -246,17 +246,17 @@ readMSData <- function(files,
         featnms <- ls(assaydata) ## feature names in final MSnExp
         fl <- fl[featnms] ## reorder file numbers
         stopifnot(all(sort(featnms) == sort(fullhdorder)))
-        fullhdorder <- match(featnms, fullhdorder)    
+        fullhdorder <- match(featnms, fullhdorder)
         tmphd <- fullhd2[fullhdorder, ] ## reorder
         ioncount <- ioncount[fullhdorder]
-        newhd <- data.frame(file = fl, 
+        newhd <- data.frame(file = fl,
                             retention.time = tmphd$retentionTime,
                             precursor.mz = tmphd$precursorMZ,
                             precursor.intensity = tmphd$precursorIntensity,
                             charge = tmphd$precursorCharge,
                             peaks.count = tmphd$peaksCount,
                             tic = tmphd$totIonCurrent,
-                            ionCount = ioncount, 
+                            ionCount = ioncount,
                             ms.level = tmphd$msLevel,
                             acquisition.number = tmphd$acquisitionNum,
                             collision.energy = tmphd$collisionEnergy)
@@ -276,7 +276,7 @@ readMSData <- function(files,
     process <- new("MSnProcess",
                    processing = paste("Data loaded:",date()),
                    files = files,
-                   smoothed = smoothed)  
+                   smoothed = smoothed)
     if (removePeaks > 0) {
         process@processing <- c(process@processing,
                                 paste("Curves <= ", removePeaks, " set to '0': ", date(), sep=""))
@@ -307,15 +307,15 @@ readMSData <- function(files,
                                          ionisation = paste(sapply(.instrumentInfo, "[[", "ionisation"), collapse = ", "),
                                          analyzer = paste(sapply(.instrumentInfo, "[[", "analyzer"), collapse = ", "),
                                          detector = paste(sapply(.instrumentInfo, "[[", "detector"), collapse = ", "))
-        } 
-    } 
+        }
+    }
     expdata <- new("MIAPE",
                    instrumentManufacturer = .instrumentInfo[[1]]$manufacturer,
                    instrumentModel = .instrumentInfo[[1]]$model,
                    ionSource = .instrumentInfo[[1]]$ionisation,
                    analyser = .instrumentInfo[[1]]$analyzer,
                    detectorType = .instrumentInfo[[1]]$detector)
-    ## Create and return 'MSnExp' object  
+    ## Create and return 'MSnExp' object
     if (verbose)
         cat("Creating 'MSnExp' object\n")
     toReturn <- new("MSnExp",
