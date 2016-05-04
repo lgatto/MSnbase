@@ -567,24 +567,27 @@ logging <- function(object, msg, date. = TRUE) {
 ##' \code{\link{readMSnSet2}}.
 ##'
 ##' @title Returns the matching column names of indices.
-##' @param f A connection object or a \code{character} string to
-##' be read in with \code{readLines(f, n = 1)}.
-##' @param pattern A \code{character} string containing a regular expression
-##' to be matched to the file's header.
+##' @param f A connection object or a \code{character} string to be
+##'     read in with \code{readLines(f, n = 1)}.
+##' @param pattern A \code{character} string containing a regular
+##'     expression to be matched to the file's header.
 ##' @param ... Additional parameters passed to \code{\link{strsplit}}
-##' to split the file header into individual column names.
+##'     to split the file header into individual column names.
+##' @param n An \code{integer} specifying which line in file \code{f}
+##'     to grep (get). Default is 1. Note that this argument must be
+##'     named.
 ##' @return Depending on \code{value}, the matching column names of
-##' indices. In case of \code{getEcols}, a \code{character} of
-##' column names.
+##'     indices. In case of \code{getEcols}, a \code{character} of
+##'     column names.
 ##' @seealso \code{\link{readMSnSet2}}
 ##' @author Laurent Gatto
-grepEcols <- function(f, pattern, ...)
-    grep(pattern, strsplit(readLines(f, 1), ...)[[1]])
+grepEcols <- function(f, pattern, ..., n = 1)
+    grep(pattern, strsplit(readLines(f, n), ...)[n][[1]])
 
 
 ##' @rdname grepEcols
-getEcols <- function(f, ...)
-    strsplit(readLines(f, 1), ...)[[1]]
+getEcols <- function(f, ..., n = 1)
+    strsplit(readLines(f, n)[n], ...)[[1]]
 
 MSnExp.size <- function(x)
     object.size(x) + sum(unlist(unname(eapply(assayData(x),

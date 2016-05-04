@@ -5,24 +5,28 @@
 \alias{grepEcols}
 \title{Returns the matching column names of indices.}
 \usage{
-grepEcols(f, pattern, ...)
+grepEcols(f, pattern, ..., n = 1)
 
-getEcols(f, ...)
+getEcols(f, ..., n = 1)
 }
 \arguments{
-\item{f}{A connection object or a \code{character} string to
-be read in with \code{readLines(f, n = 1)}.}
+\item{f}{A connection object or a \code{character} string to be
+read in with \code{readLines(f, n = 1)}.}
 
-\item{pattern}{A \code{character} string containing a regular expression
-to be matched to the file's header.}
+\item{pattern}{A \code{character} string containing a regular
+expression to be matched to the file's header.}
 
 \item{...}{Additional parameters passed to \code{\link{strsplit}}
 to split the file header into individual column names.}
+
+\item{n}{An \code{integer} specifying which line in file \code{f}
+to grep (get). Default is 1. Note that this argument must be
+named.}
 }
 \value{
 Depending on \code{value}, the matching column names of
-indices. In case of \code{getEcols}, a \code{character} of
-column names.
+    indices. In case of \code{getEcols}, a \code{character} of
+    column names.
 }
 \description{
 Given a text spread sheet \code{f} and a \code{pattern} to
