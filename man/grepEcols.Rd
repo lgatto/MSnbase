@@ -20,7 +20,8 @@ expression to be matched to the file's header.}
 to split the file header into individual column names.}
 
 \item{n}{An \code{integer} specifying which line in file \code{f}
-to grep (get). Default is 1.}
+to grep (get). Default is 1. Note that this argument must be
+named.}
 }
 \value{
 Depending on \code{value}, the matching column names of

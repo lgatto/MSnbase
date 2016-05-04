@@ -574,7 +574,8 @@ logging <- function(object, msg, date. = TRUE) {
 ##' @param ... Additional parameters passed to \code{\link{strsplit}}
 ##'     to split the file header into individual column names.
 ##' @param n An \code{integer} specifying which line in file \code{f}
-##'     to grep (get). Default is 1.
+##'     to grep (get). Default is 1. Note that this argument must be
+##'     named.
 ##' @return Depending on \code{value}, the matching column names of
 ##'     indices. In case of \code{getEcols}, a \code{character} of
 ##'     column names.
