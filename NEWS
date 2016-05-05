@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.21.2
 -------------------------
- o
+ o Check for rownames/fnames in readMSnSet2 and unit test
+   <2016-05-05 Thu>
  
 CHANGES IN VERSION 1.21.1
 -------------------------
