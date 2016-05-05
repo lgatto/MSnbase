@@ -89,3 +89,25 @@ test_that("readMSnSet2: MSnSet from a data.frame", {
     expect_identical(fData(x), fData(x2))
     expect_equal(x, x2)
 })
+
+
+test_that("readMSnSet2: rowames and fnames", {
+    library("pRolocdata")
+    f0 <- dir(system.file("extdata", package = "pRolocdata"),
+              full.names = TRUE,
+              pattern = "hyperLOPIT-SIData-ms3-rep12-intersect.csv")
+    res1 <- readMSnSet2(f0, ecol = 8:27, fnames = 1)
+    res2 <- readMSnSet2(f0, ecol = 8:27, rownames = 1)
+    expect_warning(res3 <- readMSnSet2(f0, ecol = 8:27, rownames = 1, fnames = 1))
+    expect_equal(res1, res2)
+    expect_equal(res1, res3)
+    f0 <- dir(system.file("extdata", package = "pRolocdata"),
+              full.names = TRUE, pattern = "Dunkley2006")
+    res1 <- readMSnSet2(f0, ecol = 5:20, fnames = 1)
+    res2 <- readMSnSet2(f0, ecol = 5:20, fnames = "Protein.ID")
+    res3 <- readMSnSet2(f0, ecol = 5:20, rownames = 1)
+    res4 <- readMSnSet2(f0, ecol = 5:20, rownames = "Protein.ID")
+    expect_equal(res1, res2)
+    expect_equal(res3, res4)
+    expect_equal(res1, res3)
+})

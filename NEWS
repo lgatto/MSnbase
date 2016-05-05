@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.21.2
+-------------------------
+ o Check for rownames/fnames in readMSnSet2 and unit test
+   <2016-05-05 Thu>
+ 
 CHANGES IN VERSION 1.21.1
 -------------------------
  o Fix wrong indexing in readMSdata, msLevel==1 (PR #85 by jotsetung)
@@ -12,7 +17,6 @@ CHANGES IN VERSION 1.21.0
 CHANGES IN VERSION 1.20.0
 -------------------------
  o Version bump for Bioc release version 3.3 
->>>>>>> master
  
 CHANGES IN VERSION 1.19.24
 --------------------------
