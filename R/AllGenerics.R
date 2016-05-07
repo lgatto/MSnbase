@@ -65,8 +65,8 @@ setGeneric("reporterColours", function(object) standardGeneric("reporterColours"
 setGeneric("reporterColors", function(object) standardGeneric("reporterColors"))
 
 ### THESE SHOULD PROBABLY BE REPLACED BY BiocGenerics::fileName?
-setGeneric("fileNames", function(object) standardGeneric("fileNames"))
-setGeneric("fileNames<-", function(object, value) standardGeneric("fileNames<-"))
+setGeneric("fileNames", function(object, ...) standardGeneric("fileNames"))
+## setGeneric("fileNames<-", function(object, value) standardGeneric("fileNames<-"))
 
 setGeneric("extractPrecSpectra", function(object, prec) standardGeneric("extractPrecSpectra"))
 setGeneric("extractSpectra", function(object, selected) standardGeneric("extractSpectra"))
