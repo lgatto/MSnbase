@@ -6,6 +6,7 @@
 \alias{MzTab}
 \alias{metadata,MzTab-method}
 \alias{fileName,MzTab-method}
+\alias{fileNames,MzTab-method}
 \alias{peptides,MzTab-method}
 \alias{proteins,MzTab-method}
 \alias{psms,MzTab-method}

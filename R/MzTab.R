@@ -28,6 +28,9 @@ mzTabType <- function(x)
 setMethod("fileName", "MzTab",
           function(object, ...) object@Filename)
 
+setMethod("fileNames", "MzTab",
+          function(object, ...) object@Filename)
+
 ## Generic from ProtGenerics
 setMethod("proteins", "MzTab",
           function(object, ...) object@Proteins)
