@@ -1,3 +1,10 @@
+CHANGES IN VERSION 1.21.3
+-------------------------
+ o No fileNames replacement method <2016-05-07 Sat>
+ o fileNames unit tests <2016-05-07 Sat>
+ o add fileNames to class that had fileName accessor (MSmap, MzTab)
+   <2016-05-07 Sat>
+ 
 CHANGES IN VERSION 1.21.2
 -------------------------
  o Check for rownames/fnames in readMSnSet2 and unit test
