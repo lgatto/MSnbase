@@ -150,38 +150,17 @@ setMethod("purityCorrect",
 
 setMethod("dim", "MSnSet",function(x) dim(exprs(x)))
 setMethod("qual", "MSnSet", function(object) object@qual)
-## Not sure about these...
-## setReplaceMethod("featureNames",
-##                  signature(object="MSnSet",
-##                            value="character"),
-##                  function(object, value) {
-##                    object@features = value
-##                    if (validObject(object))
-##                      return(object)
-##                  })
-
-## No proteomicsData anymore (since version 0.2.0 of MSnSet and MSnbase).
-## experimentData is not proper MIAPE
-## setMethod("proteomicsData","MSnSet",function(object) object@proteomicsData)
-## setReplaceMethod("proteomicsData",
-##                  signature(object="MSnSet",
-##                            value="MIAPE"),
-##                  function(object, value) {
-##                    object@proteomicsData = value
-##                    if (validObject(object))
-##                      return(object)
-##                  })
 
 setMethod("fileNames",
-          signature(object="MSnSet"),
+          signature(object = "MSnSet"),
           function(object) processingData(object)@files)
 
-setReplaceMethod("fileNames",
-          signature(object="MSnSet", value="character"),
-          function(object, value) {
-            fileNames(object@processingData) <- value
-            return(object)
-          })
+## setReplaceMethod("fileNames",
+##           signature(object="MSnSet", value="character"),
+##           function(object, value) {
+##             fileNames(object@processingData) <- value
+##             return(object)
+##           })
 
 setMethod("processingData",
           signature(object="MSnSet"),
