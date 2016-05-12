@@ -158,16 +158,17 @@ readMSData <- function(files,
                 if (verbose) setTxtProgressBar(pb, i)
                 j <- spidx[i]
                 hd <- fullhd[j,]
+                pks <- mzR::peaks(msdata, j)
                 sp <- new("Spectrum1",
                           peaksCount = hd$peaksCount,
                           rt = hd$retentionTime,
                           acquisitionNum = hd$acquisitionNum,
-                          mz = mzR::peaks(msdata,j)[,1],
-                          intensity = mzR::peaks(msdata,j)[,2],
+                          mz = pks[, 1],
+                          intensity = pks[, 2],
                           fromFile = filen,
                           tic = hd$totIonCurrent,
                           centroided = centroided)
-                ioncount[ioncounter] <- sum(mzR::peaks(msdata,j)[,2])
+                ioncount[ioncounter] <- sum(pks[, 2])
                 ioncounter <- ioncounter + 1
                 if (removePeaks > 0)
                     sp <- removePeaks(sp, t=removePeaks)
@@ -181,7 +182,7 @@ readMSData <- function(files,
                 fullhdordercounter <- fullhdordercounter + 1
             }
         } else { ## MS>2 levels
-            if (length(spidx)==0)
+            if (length(spidx) == 0)
                 stop("No MS(n>1) spectra in file",f)
             if (verbose) {
                 cat("Reading ",length(spidx)," MS2 spectra from file ",
