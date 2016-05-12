@@ -212,3 +212,11 @@ test_that("empty spectrum", {
               mz=1:length(int))
     expect_false(isEmpty(sp))
 })
+
+test_that("show MS1 spectrum", {
+    require("msdata")
+    f <- dir(system.file("threonine", package = "msdata"),
+             full.names = TRUE)
+    x <- readMSData(f, msLevel = 1)
+    expect_null(show(x[[1]]))
+})
