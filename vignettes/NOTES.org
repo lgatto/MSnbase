@@ -1,0 +1,66 @@
+* On-disk MS data access and related objects
+
+The principal idea is to avoid reading the full MS1 spectra into memory, as this
+would require way too much memory for larger experiments. This is implemented by
+defining a =OnDiskMSnExp= class (extending =MSnExp=) that contains all relevant MS1
+data, except the actual spectra (i.e. their M/Z and intensity values). The
+related on-the-fly data access might slow down some tasks in which the full data
+is retrieved, but should be reasonably fast for extraction of individual
+spectra.
+
+Some requirements and ideas for the actual implementation:
+1) Retention time and other spectra relevant data should be extracted from the
+   header information and stored into the =OnDiskMSnExp='s =featureData=.
+2) Keeping/storing the file handles to the MS data files might be problematic
+   (e.g. for parallel processing, saving/restoring to/from RData files). Thus it
+   might be better to always open/close the connection to the file.
+3) The =validate= method should ensure that the files are actually present.
+4) Read data and create =OnDiskMSnExp= objects using =readMSDdata= with an
+   additional argument =backend= (which could be either "ram" or "disk").
+5) Think of a clever was to do /lazy processing/ of e.g. =clean= or
+   =removePeaks=. These latter two are actually easy, as they are applied to each
+   spectrum separately. Idea: a =list= with the function call name and the
+   arguments so that we can use =do.call=?
+6) We have to implement all relevant =pSet= and =MSnExp= methods for =OnDiskMSnExp=
+   objects that will take care of reading the files; eventually using parallel
+   processing (might not bring much, as the I/O will be the bottleneck).
+7) Implement a method to convert from =MSnExp= to =OnDiskMSnExp= objects and /vice
+   versa/.
+
+
+
+** Implementation
+
+*** TODO Define the =OnDiskMSnExp= class
+
+This one should just extend the =MSnExp= and add eventually one or two slots;
+there shouldn't be much to add.
+
+*** TODO Implement the /lazy processing/ framework (Point 5)
+
+Idea:
++ Add a slot =spectraProcessQueue= to the =OnDiskMSnExp=.
++ Implement a simple =ProcessingStep= class that has two slots =FUN= and =ARGS=.
++ If we're e.g. calling =spectra= on the =OnDiskMSnExp= object, it will first
+  read the spectra from the file and then, sequentially, using =do.call= apply all
+  of the processing steps to each spectrum.
+
+*** TODO Implement all methods [/]
+
++ [ ] =assayData=. Read all spectra from file; should hint in the documentation
+  that it might be better to do more specific calls, e.g. extract specific
+  spectra etc.
++ [ ] =spectra=: allow to retrieve by ID, sample etc.
++ [ ] =intensity=.
++ [ ] =[[= to access directly individual spectra.
++ [ ] =mz=.
++ [ ] =rtime=.
++ [ ] =tic=.
++ [ ] =ionCount=.
++ [ ] =polarity=.
++ [ ] =peaksCount=.
++ [ ] =acquisitionNum=.
++ [ ] =scanIndex=.
++ [ ] =length=.
+
+*** TODO Implement a conversion function/method (Point 7)
