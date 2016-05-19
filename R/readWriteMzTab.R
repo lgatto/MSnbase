@@ -19,7 +19,7 @@
 ##' details about the inners of \code{readMzTabData}.
 ##' @author Laurent Gatto
 ##' @examples
-##' testfile <- "https://mztab.googlecode.com/svn/examples//PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"
+##' testfile <- "https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"
 ##' prot <- readMzTabData(testfile, "PRT")
 ##' prot
 ##' head(fData(prot))
@@ -79,7 +79,7 @@ makePRT <- function(...) .Defunct()
 ##' @seealso \code{\link{writeMzTabData}} to save an
 ##' \code{"\linkS4class{MSnSet}"} as an \code{mzTab} file.
 ##' @examples
-##' testfile <- "http://mztab.googlecode.com/svn/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"
+##' testfile <- "https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"
 ##' prot <- readMzTabData_v0.9(testfile, "PRT")
 ##' prot
 ##' pep <- readMzTabData_v0.9(testfile, "PEP")
@@ -87,24 +87,23 @@ makePRT <- function(...) .Defunct()
 readMzTabData_v0.9 <- function(file,
                                what = c("PRT", "PEP"),
                                verbose = TRUE) {
-    
-    message("Version 0.9 is deprecated. Please see '?readMzTabData' and '?MzTab' for details.")
+    .Deprecated(msg = "Version 0.9 is deprecated. Please see '?readMzTabData' and '?MzTab' for details.")
     
     what <- match.arg(what)
     
     ## .parse1 <- function(x)
     ##   sapply(x, function(.x) strsplit(.x, "\t")[[1]][-1])
-    .parse <- function(x) {    
+    .parse <- function(x) {
         x <- sapply(x, function(.x) sub("\t", ":", .x))
         names(x) <- sub("^(.+sub\\[[0-9]*\\]).+$", "\\1", x, perl = TRUE)
         x[order(names(x))]
     }
-    
+
     lns <- readLines(file)
     ans <- new("MSnSet")
 
     ## metadata section
-    mtd <- grep("^MTD", lns, value = TRUE) 
+    mtd <- grep("^MTD", lns, value = TRUE)
     if (length(mtd) > 0) {
         if (verbose)
             message("Detected a metadata section")
