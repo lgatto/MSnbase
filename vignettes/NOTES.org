@@ -31,10 +31,45 @@ Some requirements and ideas for the actual implementation:
 
 ** Implementation
 
-*** TODO Define the =OnDiskMSnExp= class
+*** TODO Define the =OnDiskMSnExp= class [2/6]
 
 This one should just extend the =MSnExp= and add eventually one or two slots;
 there shouldn't be much to add.
++ [X] Add slot =spectraProcessingQueue=: a list of =ProcessingStep= objects recording
+  optional processing steps that have to be applied to the spectra /on-the-fly/.
++ [ ] =featureData= contains the following info: *NOTE* this seems redundant with
+  =header=! Check that!
+  - fileIdx: the index of the file (in =fileNames=) from which the spectra can be
+    read.
+  - spIdx: the index of the spectrum in that file (use that in =mzR::peaks= call).
+  - centroided: the argument from the =readMSData= function.
+  - acquisitionNum: taken from the file header.
+  - peaksCount: taken from the file header.
+  - totIonCurrent: taken from the file header.
+  - retentionTime: taken from the file header.
+  - basePeakMZ: taken from the file header.
+  - basePeakIntensity: taken from the file header.
+  - polarity: taken from the file header.
+  - msLevel: the MS level of the spectrum.
+
++ [X] We might get a problem in the superclasse's =validate= method; eventually
+  set a flag there that some of the checks should be skipped if it's on-disk
+  data. Solution: add a slot =onDisk= to =pSet= (for backward compatibility, the
+  getter method =isOnDisk= returns =FALSE= if that slot does not
+  exist). =OnDiskMSnExp= objects will always set that slot to =TRUE=, which skips
+  all validations that directly access the spectrum data.
++ [ ] Write documentation.
++ [ ] Add examples to vignette.
++ [ ] Test cases.
+
+*** TODO Adapt the =readMSData= function (Point 4) [2/5]
+
++ [ ] For =backend= being =disk=, disable argument =cache=.
++ [X] Add general spectrum information to the =featureData= for MS1 (and MS2?),
+  =row.names= should be the spectra names.
++ [X] Add =ProcessingStep= to the =spectraProcessQueue= if =clean= or =removePeaks= are set.
++ [ ] Write documentation.
++ [ ] Test cases.
 
 *** TODO Implement the /lazy processing/ framework (Point 5)
 
@@ -44,8 +79,9 @@ Idea:
 + If we're e.g. calling =spectra= on the =OnDiskMSnExp= object, it will first
   read the spectra from the file and then, sequentially, using =do.call= apply all
   of the processing steps to each spectrum.
++ A =do= method might be helpful that executes the function.
 
-*** TODO Implement all methods [/]
+*** TODO Implement all methods for =OnDiskMSnExp= [2/17]
 
 + [ ] =assayData=. Read all spectra from file; should hint in the documentation
   that it might be better to do more specific calls, e.g. extract specific
@@ -62,5 +98,14 @@ Idea:
 + [ ] =acquisitionNum=.
 + [ ] =scanIndex=.
 + [ ] =length=.
++ [X] =msLevel=.
++ [X] =fromFile=.
++ [ ] =header= extract the required data from the =featureData= renaming some of the
+  columns.
++ [ ] Test cases.
++ [ ] Documentation.
+
+! Had to add an additional slot =onDisk= to the =pSet= class, to avoid testing
+spectra related stuff in its =validate= method.
 
 *** TODO Implement a conversion function/method (Point 7)

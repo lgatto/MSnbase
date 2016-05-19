@@ -1,68 +1,90 @@
+## setMethod("initialize",
+##           signature(.Object="pSet"),
+##           function(.Object, ..., .cache) {
+##               cat("initialize pSet")
+##               if (missing(.cache)) {
+##                   .cache <- new.env()
+##                   assign("level", 0 ,.cache)
+##                   lockEnvironment(.cache)
+##               }
+##               callNextMethod(.Object, ..., .cache = .cache)
+##           })
+
+## That (according to the R-help) should be the "correct" way to set specific
+## slot values if not provided. With the "old" version above some slot values (like
+## 'onDisk') were not propagated.
 setMethod("initialize",
-          signature(.Object="pSet"),
-          function(.Object, ..., .cache) {
-              if (missing(.cache)) {
+          "pSet",
+          function(.Object, ...) {
+              if(!any(names(list(...)) == ".cache")){
                   .cache <- new.env()
                   assign("level", 0 ,.cache)
                   lockEnvironment(.cache)
+                  .Object@.cache <- .cache
               }
-              callNextMethod(.Object, ..., .cache = .cache)
+              callNextMethod()
           })
 
 setValidity("pSet", function(object) {
     msg <- validMsg(NULL, NULL)
-    if (!all(sapply(assayData(object), function(x) inherits(x,"Spectrum"))))
-        msg <- validMsg(msg,
-                        "assayData must contain 'Spectrum' objects.")
-    msl <- msLevel(object)
-    if (length(unique(msl)) > 1) 
-        warning(paste0("Different MS levels in ", class(object),
-                       " object: ",unique(msl)))
-    ## checking number of spectra in assayData and
-    ##          number of features in featureData
-    nspectra  <- length(assayData(object)) 
-    nfeatures <- nrow(featureData(object)) 
-    if (nspectra != nfeatures)
-        msg <- validMsg(msg, "Unequal number of spectra in assayData and features in featureData.")    
-    if (length(spectra(object)) != length(ls(assayData(object))))
-        msg <- validMsg(msg, "Object size inconsistence using assayData() and spectra() methods.")    
-    if (!identical(featureNames(object), ## obtained as featureNames(featureData(object))
-                   ls(assayData(object))))
-        msg <- validMsg(msg, "featureNames differ between assayData and featureData.")    
-    ## checking number of files in phenoData and
-    ##          number of files in assayData
-    ## removing the following check because we add identification files 
-    ## (a modified version using "<" instead of "!=" is below
-    ## nfilesprocData   <- length(processingData(object)@files)
-    ## nfilesSpectra <- length(unique(unlist(eapply(assayData(object),fromFile))))
-    ## if (nfilesprocData != nfilesSpectra)
-    ##   msg <- validMsg(msg, "unequal number of files in assayData and processingData.")
-    aFileIds <- fromFile(object)
-    fFileIds <- fData(object)$file
-    if (length(fFileIds) && any(aFileIds != fFileIds))
-        msg <- validMsg(msg, "Mismatch of files in assayData and processingData.")
-    nfilesprocData   <- length(processingData(object)@files)
-    nfilesSpectra <- length(unique(aFileIds))
-    if (nfilesprocData < nfilesSpectra)
-        msg <- validMsg(msg, "More spectra files in assayData than in processingData.")
-    if (length(sampleNames(object)) != nrow(pData(object)))
-        msg <- validMsg(msg, "Different number of samples accoring to sampleNames and pData.")    
-    ## phenoData: at this stage, we don't know how many sample there will be
-    ## expecting one for label-free, but we could have 4, 6, 8 for isobaric tagging
-    ## or 2 for metabolic labelling
-    ## if (nrow(pData(object)) > 1)
-    ##     message("Detected ", nrow(pData(object)), " samples in pData().")
-    ##
-    ## protocolData not checked yet - depends very much
-    ## on type of assay (MS1, MS2 quant, reporter ions, ...)
-    if (!cacheEnvIsLocked(object))
-        msg <- validMsg(msg,"'.cache' environment is not locked.")
-    if (!exists("level", envir=object@.cache))
-        msg <- validMsg(msg,"'.cache' level not defined.")
-    hd <- header(object) 
-    if (nrow(hd) != length(object))
-        msg("(Cached) header nrow and object length differ.")
-    sapply(spectra(object), validObject)
+
+    ## Skip some (most) of the tests for a OnDiskMSnExp, since we don't have
+    ## spectrum data available, i.e. assayData is empty.
+    if(!isOnDisk(object)){
+        if (!all(sapply(assayData(object), function(x) inherits(x,"Spectrum"))))
+            msg <- validMsg(msg,
+                            "assayData must contain 'Spectrum' objects.")
+        msl <- msLevel(object)
+        if (length(unique(msl)) > 1)
+            warning(paste0("Different MS levels in ", class(object),
+                           " object: ",unique(msl)))
+        ## checking number of spectra in assayData and
+        ##          number of features in featureData
+        nspectra  <- length(assayData(object))
+        nfeatures <- nrow(featureData(object))
+        if (nspectra != nfeatures)
+            msg <- validMsg(msg, "Unequal number of spectra in assayData and features in featureData.")
+        if (length(spectra(object)) != length(ls(assayData(object))))
+            msg <- validMsg(msg, "Object size inconsistence using assayData() and spectra() methods.")
+        if (!identical(featureNames(object), ## obtained as featureNames(featureData(object))
+                       ls(assayData(object))))
+            msg <- validMsg(msg, "featureNames differ between assayData and featureData.")
+        ## checking number of files in phenoData and
+        ##          number of files in assayData
+        ## removing the following check because we add identification files
+        ## (a modified version using "<" instead of "!=" is below
+        ## nfilesprocData   <- length(processingData(object)@files)
+        ## nfilesSpectra <- length(unique(unlist(eapply(assayData(object),fromFile))))
+        ## if (nfilesprocData != nfilesSpectra)
+        ##   msg <- validMsg(msg, "unequal number of files in assayData and processingData.")
+        aFileIds <- fromFile(object)
+        fFileIds <- fData(object)$file
+        if (length(fFileIds) && any(aFileIds != fFileIds))
+            msg <- validMsg(msg, "Mismatch of files in assayData and processingData.")
+        nfilesprocData   <- length(processingData(object)@files)
+        nfilesSpectra <- length(unique(aFileIds))
+        if (nfilesprocData < nfilesSpectra)
+            msg <- validMsg(msg, "More spectra files in assayData than in processingData.")
+        if (length(sampleNames(object)) != nrow(pData(object)))
+            msg <- validMsg(msg, "Different number of samples accoring to sampleNames and pData.")
+        ## phenoData: at this stage, we don't know how many sample there will be
+        ## expecting one for label-free, but we could have 4, 6, 8 for isobaric tagging
+        ## or 2 for metabolic labelling
+        ## if (nrow(pData(object)) > 1)
+        ##     message("Detected ", nrow(pData(object)), " samples in pData().")
+        ##
+        ## protocolData not checked yet - depends very much
+        ## on type of assay (MS1, MS2 quant, reporter ions, ...)
+        if (!cacheEnvIsLocked(object))
+            msg <- validMsg(msg,"'.cache' environment is not locked.")
+        if (!exists("level", envir=object@.cache))
+            msg <- validMsg(msg,"'.cache' level not defined.")
+        hd <- header(object)
+        if (nrow(hd) != length(object))
+            msg("(Cached) header nrow and object length differ.")
+        sapply(spectra(object), validObject)
+    }
+
     if (is.null(msg)) TRUE else msg
 })
 
@@ -85,10 +107,10 @@ setMethod("[","pSet",
             orghd <- header(x)
             olde <- assayData(x)
             newe <- new.env(parent=emptyenv())
-            for (el in whichElements) 
+            for (el in whichElements)
                 newe[[el]] <- olde[[el]]
-            if (environmentIsLocked(olde)) 
-                lockEnvironment(newe, 
+            if (environmentIsLocked(olde))
+                lockEnvironment(newe,
                                 bindings = bindingIsLocked(el, olde))
             x@assayData <- newe
             x@featureData <- featureData(x)[i, ]
@@ -118,7 +140,7 @@ setMethod("[[","pSet",
           function(x,i,j="missing",drop="missing") {
             if (length(i)!=1)
               stop("subscript out of bounds")
-            if (!is.character(i)) 
+            if (!is.character(i))
               i <- featureNames(x)[i]
             return(get(i, envir = assayData(x)))
           })
@@ -127,7 +149,7 @@ setMethod("precursorMz","pSet",
           function(object) {
             ## this assumes that if first spectrum
             ## has msLevel>1, all have
-            if (msLevel(object)[1]>1) 
+            if (msLevel(object)[1]>1)
               return(sapply(spectra(object), precursorMz))
             stop("No precursor MZ value for MS1 spectra.")
           })
@@ -146,7 +168,7 @@ setMethod("precursorMz","pSet",
 
 setMethod("precScanNum","pSet",
           function(object) {
-            if (msLevel(object)[1]>1) 
+            if (msLevel(object)[1]>1)
               return(unlist(sapply(spectra(object), precScanNum)))
             stop("This experiment contains MS1 spectra.")
           })
@@ -160,14 +182,14 @@ setMethod("ionCount","pSet",
 
 setMethod("precursorCharge","pSet",
           function(object) {
-            if (msLevel(object)[1]>1) 
+            if (msLevel(object)[1]>1)
               return(sapply(spectra(object), precursorCharge))
             stop("No precursor MZ value for MS1 spectra.")
           })
 
 setMethod("precursorIntensity","pSet",
           function(object) {
-            if (msLevel(object)[1]>1) 
+            if (msLevel(object)[1]>1)
               return(sapply(spectra(object), precursorIntensity))
             stop("No precursor data for MS1 spectra.")
           })
@@ -187,8 +209,8 @@ setReplaceMethod("centroided",
                  signature(object="pSet",
                            value="logical"),
                  function(object, value) {
-                     if (length(value) == 1) 
-                         value <- rep(value, length(object))                     
+                     if (length(value) == 1)
+                         value <- rep(value, length(object))
                      if (length(object) != length(value))
                          stop("Length of replacement value is different than number of spectra.")
                      sl <- spectra(object)
@@ -204,10 +226,10 @@ setMethod("peaksCount",
           function(object) sapply(spectra(object),peaksCount))
 
 setMethod("peaksCount",
-          signature("pSet","numeric"),          
+          signature("pSet","numeric"),
           function(object, scans) {
             if (length(scans)==1)
-              return(peaksCount(object[[scans]]))           
+              return(peaksCount(object[[scans]]))
             sapply(spectra(object)[scans],peaksCount)
           })
 
@@ -216,7 +238,7 @@ setMethod("msLevel","pSet",
 
 setMethod("collisionEnergy","pSet",
           function(object) {
-            if (msLevel(object)[1]>1) 
+            if (msLevel(object)[1]>1)
               return(sapply(spectra(object),collisionEnergy))
             stop("No collision energy for MS1 spectra.")
           })
@@ -229,7 +251,7 @@ setMethod("mz","pSet",
 
 setMethod("polarity","pSet",
           function(object) {
-            if (msLevel(object)[1]==1) 
+            if (msLevel(object)[1]==1)
               return(sapply(spectra(object), polarity))
             stop("No polarity for MS2 spectra.")
           })
@@ -240,10 +262,10 @@ setMethod("fromFile","pSet",
 setMethod("header",
           signature("pSet","missing"),
           function(object) {
-            ifelse(object@.cache$level > 0, 
+            ifelse(object@.cache$level > 0,
                    hd <- object@.cache$hd,
                    hd <- .header(object))
-            return(hd)              
+            return(hd)
           })
 
 setMethod("header",
@@ -261,7 +283,7 @@ setMethod("header",
 ##       directly copies from the respective eSet method.
 
 
-## returns the dimensions of PhenoData 
+## returns the dimensions of PhenoData
 setMethod("dim", "pSet", function(x) dim(pData(x)))
 
 ## returns the number of spectra in the AssayData env
@@ -282,7 +304,7 @@ setMethod("spectra","MSnExp",function(object) {
 ##                    object="pSet",
 ##                    value="AssayData"),
 ##                  function(object, value) {
-##                    object@assayData <- value ## may be lock env?                   
+##                    object@assayData <- value ## may be lock env?
 ##                    return(object)
 ##                  })
 
@@ -488,3 +510,19 @@ setMethod("processingData",
 ##                    return(object)
 ##                  })
 
+############################################################
+## isOnDisk
+##
+## Simple helper to help differentiate between on disk and in
+## memory objects.
+setMethod("isOnDisk", "pSet", function(object){
+    ## Return the info from the slot if it's present, otherwise, always
+    ## return FALSE (backwards compatibility).
+    ## if(.hasSlot(object, "onDisk")){
+    ##     return(object@onDisk)
+    ## }
+    ## Guess if we have "on Disk data": assayData empty, but featureData present.
+    if(nrow(featureData(object)) > 0 & length(ls(assayData(object))) == 0)
+        return(TRUE)
+    return(FALSE)
+})
