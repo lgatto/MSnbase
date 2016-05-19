@@ -138,7 +138,8 @@ fls <- c("Cytidine.mzTab", "MTBLS2.mztab",
          "labelfree_CQI.mzTab", "labelfree_SQI.mzTab", 
          "lipidomics-HFD-LD-study-PL-DG-SM.mzTab", 
          "lipidomics-HFD-LD-study-TG.mzTab")
-baseUrl <- "https://mztab.googlecode.com/svn/examples/"
+
+baseUrl <- "https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/"
 
 ## a list of mzTab objects
 mzt <- sapply(file.path(baseUrl, fls), MzTab)

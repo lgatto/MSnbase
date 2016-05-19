@@ -27,7 +27,7 @@ is always used to populate the \code{MSnSet}'s \code{experimentData}
 slot.
 }
 \examples{
-testfile <- "http://mztab.googlecode.com/svn/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"
+testfile <- "https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"
 prot <- readMzTabData_v0.9(testfile, "PRT")
 prot
 pep <- readMzTabData_v0.9(testfile, "PEP")
