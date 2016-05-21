@@ -1,5 +1,7 @@
 CHANGES IN VERSION 1.21.6
 -------------------------
+ o Spectrum1 constructor implemented in C (presently not exported) <2016-05-20>
+ o length, scanIndex, acquisitionNum and centroided implemented <2016-05-20>
  o Implemented fromFile and msLevel for OnDiskMSnExp <2016-05-19 Thu>
  o Implemented an OnDiskMSnExp class for on-the-fly data import <2016-05-19 Thu>
  o Fixed the validate method for pSet to play nicely with OnDiskMSnExp objects

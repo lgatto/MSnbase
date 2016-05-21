@@ -396,9 +396,9 @@ setClass("OnDiskMSnExp",
              msg <- validMsg(NULL, NULL)
              ## Elements in spectraProcessingQueue have to be ProcessingStep objects.
              if(length(object@spectraProcessingQueue) > 0){
-                 isOK <- unlist(lapply(object@spectraProcessingQueue), function(z){
+                 isOK <- unlist(lapply(object@spectraProcessingQueue, function(z){
                      return(is(z, "ProcessingStep"))
-                 })
+                 }))
                  if(any(!isOK))
                      msg <- validMsg(msg,
                                      paste0("Only objects of type 'ProcessingStep'",
@@ -406,7 +406,7 @@ setClass("OnDiskMSnExp",
              }
              ## Check that required columns are present in the featureData:
              reqCols <- c("fileIdx", "spIdx", "acquisitionNum", "retentionTime",
-                          "polarity", "msLevel")
+                          "polarity", "msLevel", "peaksCount", "totIonCurrent")
              NotPresent <- reqCols[!(reqCols %in% colnames(fData(object)))]
              if(length(NotPresent) > 0)
                  msg <- validMsg(msg,
@@ -462,6 +462,7 @@ setClass("ProcessingStep",
          ),
          validity=function(object){
              msg <- validMsg(NULL, NULL)
+             cat("Validity on ProcessingStep\n")
              ## Check if function/method exists?
              if(length(object@FUN) > 0){
                  Res <- try(get(object@FUN), silent=TRUE)
@@ -480,3 +481,4 @@ setClass("ProcessingStep",
                  return(msg)
              }
          })
+

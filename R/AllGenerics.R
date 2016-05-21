@@ -132,3 +132,4 @@ setGeneric("trimws", signature = "x",
     useAsDefault=.trimws.useAsDefault)
 
 setGeneric("isOnDisk", function(object) standardGeneric("isOnDisk"))
+setGeneric("execute", function(object, ...) standardGeneric("execute"))

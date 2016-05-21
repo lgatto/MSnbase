@@ -5,7 +5,7 @@
 ## ProcessingStep
 ##
 ## Constructor
-ProcessingStep <- function(FUN, ARGS=list()){
+ProcessingStep <- function(FUN=character(), ARGS=list()){
     if(missing(FUN))
         FUN <- character()
     return(new("ProcessingStep", FUN=FUN, ARGS=ARGS))
@@ -26,3 +26,10 @@ setMethod("show", "ProcessingStep", function(object){
     }
 })
 
+############################################################
+## execute
+##
+## Execute the processing step.
+setMethod("execute", "ProcessingStep", function(object, ...){
+    return(do.call(object@FUN, args=c(list(...), object@ARGS)))
+})
