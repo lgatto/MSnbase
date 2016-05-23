@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.21.6
 -------------------------
- o
+ o MSmap unit test <2016-05-23 Mon>
+ o Fix bug in as(MSmap, "data.frame") <2016-05-23 Mon>
  
 CHANGES IN VERSION 1.21.5
 -------------------------
