@@ -32,10 +32,13 @@ test_that("MSmap accessors", {
 
     Mt <- t(M)
     expect_identical(msMap(M), t(msMap(Mt)))
+    expect_null(show(Mt))
 })
 
 test_that("map data.frame", {
     mdf <- as(M, "data.frame")
+    mdf2 <- as.data.frame(M)
+    expect_identical(mdf, mdf2)
     expect_equal(nrow(mdf), 401 * 75)
     expect_equal(colnames(mdf), c("intensity", "rt", "mz", "ms"))
     k <- sample(nrow(mdf), 1)    
