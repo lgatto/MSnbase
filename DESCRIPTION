@@ -75,6 +75,8 @@ Suggests:
     msdata,
     roxygen2,
     rgl,
+    rpx,
+    AnnotationHub,
     BiocStyle,
     imputeLCMD,
     norm,
