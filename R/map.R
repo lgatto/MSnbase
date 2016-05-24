@@ -112,7 +112,6 @@ setMethod("plot3D", "MSmap",
                         axis.line = list(col = "transparent"),
                         xlab="M/Z", ylab="Retention time", zlab=NULL)
               }
-
           })
 
 MSmap <- function(object, scans, lowMz, highMz, resMz, hd,

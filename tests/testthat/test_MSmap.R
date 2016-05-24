@@ -10,10 +10,9 @@ hd <- header(ms)
 ms1 <- which(hd$msLevel == 1)
 rtsel <- hd$retentionTime[ms1] / 60 > 30 &
     hd$retentionTime[ms1] / 60 < 35
-M <- MSmap(ms, ms1[rtsel], 521, 523, .005)
-
 
 test_that("MSmap accessors", {
+    M <- MSmap(ms, ms1[rtsel], 521, 523, .005)
     expect_null(show(M))
 
     expect_identical(mzRes(M), 0.005)
@@ -36,13 +35,23 @@ test_that("MSmap accessors", {
 })
 
 test_that("map data.frame", {
+    M <- MSmap(ms, ms1[rtsel], 521, 523, .005)
     mdf <- as(M, "data.frame")
     mdf2 <- as.data.frame(M)
     expect_identical(mdf, mdf2)
     expect_equal(nrow(mdf), 401 * 75)
     expect_equal(colnames(mdf), c("intensity", "rt", "mz", "ms"))
-    k <- sample(nrow(mdf), 1)    
+    k <- sample(nrow(mdf), 1)
     i <- which(rtime(M)/60 == mdf[k, "rt"])
     j <- which(mz(M) == mdf[k, "mz"])
     expect_identical(msMap(M)[i, j], mdf[k, "intensity"])
+})
+
+
+test_that("MSmap plotting", {
+    M <- MSmap(ms, ms1[rtsel], 521, 523, .005)
+    x <- plot3D(M)
+    expect_is(x, "trellis")
+    x <- plot(M, aspect = 1, allTicks = FALSE)
+    expect_is(x, "trellis")
 })
