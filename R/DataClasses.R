@@ -462,7 +462,6 @@ setClass("ProcessingStep",
          ),
          validity=function(object){
              msg <- validMsg(NULL, NULL)
-             cat("Validity on ProcessingStep\n")
              ## Check if function/method exists?
              if(length(object@FUN) > 0){
                  Res <- try(get(object@FUN), silent=TRUE)

@@ -1,5 +1,7 @@
 context("OnDiskMSnExp class")
 
+############################################################
+## Load the required data files.
 .getMzMLFiles <- function(){
     ## Return the mzML files, the ones from the XXX package, or if run
     ## locally, some of my test files.
@@ -16,7 +18,9 @@ context("OnDiskMSnExp class")
     return(mzfiles)
 }
 mzf <- .getMzMLFiles()[1:2]
+## Load the data as an MSnExp into memory.
 mse <- readMSData(files=mzf, msLevel=1, centroided=TRUE, backend="ram")
+## Load the data as OnDiskMSnExp.
 odmse <- readMSData(files=mzf, msLevel=1, centroided=TRUE, backend="disk")
 
 
@@ -28,12 +32,7 @@ test_that("OnDiskMSnExp constructor", {
     expect_identical(as.character(class(odmse)), "OnDiskMSnExp")
 })
 
-test_that("read and validate OnDiskMSnExp data", {
-    ## Testing everything in one test fun, so we don't have to re-read the data
-    ## again.
-    ## Reading the stuff in memory.
-    ## Read as an OnDiskMSnExp
-
+test_that("compare basic contents", {
     ## Check if we get the same data! MSnExp will retrieve that from the spectra,
     ## OnDiskMSnExp from featureData.
     ## fromFile
@@ -51,13 +50,20 @@ test_that("read and validate OnDiskMSnExp data", {
     ## length
     expect_identical(length(mse), length(odmse))
 
+})
+
+test_that("compare acquisitionNum", {
     ## acquisitionNum
     expect_identical(acquisitionNum(mse), acquisitionNum(odmse))
+})
 
+test_that("compare scanIndex", {
     ## scanIndex; point is that scanIndex on an MSnExp will return 0, as it is not
     ## set in the spectra (same as acquisitionNum?)
     expect_identical(acquisitionNum(mse), scanIndex(odmse))
+})
 
+test_that("compare centroided", {
     ## centroided.
     expect_identical(centroided(mse), centroided(odmse))
     ## Setting stuff
@@ -66,7 +72,10 @@ test_that("read and validate OnDiskMSnExp data", {
     expect_identical(centroided(mse), centroided(odmse))
     ## Check error
     expect_that(centroided(odmse) <- c(TRUE, FALSE, TRUE), throws_error())
+})
 
+test_that("compare peaksCount", {
+    ## Trivial case, without any processing steps.
     ## peaksCount
     system.time(
         pk <- peaksCount(mse)
@@ -75,64 +84,194 @@ test_that("read and validate OnDiskMSnExp data", {
         pk2 <- peaksCount(odmse)
     )  ## 0.002
     expect_identical(pk, pk2)
-    ## There's however something different if we're using removePeaks or clean.
-    mseRemPeaks <- readMSData(files=mzf, msLevel=1, backend="ram", removePeaks=100000, clean=TRUE)
-    odmseRemPeaks <- readMSData(files=mzf, msLevel=1, backend="disk", removePeaks=100000, clean=TRUE)
-    ## peaksCount
+
+    ## Have a processing step "removePeaks"
+    mseRemPeaks <- readMSData(files=mzf, msLevel=1, backend="ram",
+                              removePeaks=100000)
+    odmseRemPeaks <- readMSData(files=mzf, msLevel=1, backend="disk",
+                                removePeaks=100000)
     system.time(
         pk <- peaksCount(mseRemPeaks)
     )  ## 0.046
     system.time(
         pk2 <- peaksCount(odmseRemPeaks)
-    )  ## 51 secs.
+    )  ## 0 secs.
     expect_identical(pk, pk2)
 
-    ## spectra
+    ## Now including also "clean", i.e. this means we'll have to recalculate the
+    ## peaks count on-the-fly.
+    mseRemPeaks <- readMSData(files=mzf, msLevel=1, backend="ram",
+                              removePeaks=100000, clean=TRUE)
+    odmseRemPeaks <- readMSData(files=mzf, msLevel=1, backend="disk",
+                                removePeaks=100000, clean=TRUE)
     system.time(
-        sp1 <- spectra(mse)
-    )  ## 0.004
-    sp1 <- lapply(sp1, function(z){
-        z@polarity <- -1L
-        return(z)
-    })
+        pk <- peaksCount(mseRemPeaks)
+    )  ## 0.046
+    ## Apply on spectra.
     system.time(
-        sp2 <- spectra(odmse)
-    )  ## 29
-    expect_identical(sp1, sp2)
-
-    ## With clean and stuff.
+        pk2 <- peaksCount(odmseRemPeaks)
+    )  ## 26 secs.
+    expect_identical(pk, pk2)
     system.time(
-        sp3 <- spectra(mseRemPeaks)
-    )
-    sp3 <- lapply(sp3, function(z){
-        z@polarity <- -1L
-        return(z)
-    })
-    system.time(
-        sp4 <- spectra(odmseRemPeaks)
-    )  ## 50.8
-    expect_identical(sp3, sp4)
-    ## do the queue afterwards.
-    system.time(
-        sp2 <- lapply(sp2, function(z){
-            z <- MSnbase:::execute(odmseRemPeaks@spectraProcessingQueue[[1]], z)
-            z <- MSnbase:::execute(odmseRemPeaks@spectraProcessingQueue[[2]], z)
-            return(z)
-        })
-    ) ## 20 secs.
-    expect_identical(sp2, sp4)
-
-    ## Check some internal stuff....
-    fd <- fData(odmse)
-    fd <- fd[fd$fileIdx == 1, ]
-    ## Get me the Spectrum1 objects.
-    system.time(
-        Test1 <- MSnbase:::.applyFun2SpectraOfFile(fData=fd, filenames=fileNames(odmse))
-    ) ## 14.5 sec
-    system.time(
-        Test2 <- MSnbase:::.applyFun2SpectraOfFile2(fData=fd, filenames=fileNames(odmse))
-    ) ## 3.7 sec
-    expect_identical(Test1, Test2)
+        pk3 <- peaksCount(odmseRemPeaks, method=2)
+    )  ## 25 secs.
+    expect_identical(pk, pk3)
 })
+
+test_that("compare spectra call", {
+    system.time(
+        spct <- spectra(mse)
+    )  ## 0.005 sec.
+    system.time(
+        spct1 <- spectra(odmse)
+    )  ## 7.1 sec.
+    system.time(
+        spct2 <- spectra(odmse, method=2)
+    )  ## 5.4 sec.
+    expect_identical(spct1, spct2)
+    ## Polarity and scanIndex will not match.
+    spct1 <- lapply(spct1, function(z){
+        z@polarity <- integer()
+        z@scanIndex <- integer()
+        return(z)
+    })
+    spct2 <- lapply(spct2, function(z){
+        z@polarity <- integer()
+        z@scanIndex <- integer()
+        return(z)
+    })
+    expect_identical(spct, spct1)
+    expect_identical(spct, spct2)
+
+    ## All the same with removePeaks.
+    mseRemPeaks <- readMSData(files=mzf, msLevel=1, backend="ram",
+                              removePeaks=10000, clean=TRUE)
+    odmseRemPeaks <- readMSData(files=mzf, msLevel=1, backend="disk",
+                                removePeaks=10000, clean=TRUE)
+    system.time(
+        spct <- spectra(mseRemPeaks)
+    )  ## 0.005 sec.
+    system.time(
+        spct1 <- spectra(odmseRemPeaks)
+    )  ## 28.8 sec.
+    system.time(
+        spct2 <- spectra(odmseRemPeaks, method=2)
+    )  ## 25.6 sec.
+    ## Polarity and scanIndex will not match.
+    expect_identical(spct1, spct2)
+    spct1 <- lapply(spct1, function(z){
+        z@polarity <- integer()
+        z@scanIndex <- integer()
+        return(z)
+    })
+    spct2 <- lapply(spct2, function(z){
+        z@polarity <- integer()
+        z@scanIndex <- integer()
+        return(z)
+    })
+    expect_identical(spct, spct1)
+    expect_identical(spct, spct2)
+
+    ## Spectra for subsets.
+    ## Note that ordering is NOT considered.
+    subs <- c(4, 6, 13, 45, 3)
+    system.time(
+        spSub1 <- spectra(odmse, scans=subs, method=1)
+    )  ## 0.068 sec
+    system.time(
+        spSub2 <- spectra(odmse, scans=subs, method=2)
+    )  ## 0.052
+    expect_identical(spSub1, spSub2)
+    ## Check if we really have the expected scans.
+    ## Compare to manually extracted ones.
+    spSub <- spectra(mse)[acquisitionNum(mse) %in% subs]
+    spSub1 <- lapply(spSub1, function(z){
+        z@polarity <- integer()
+        z@scanIndex <- integer()
+        return(z)
+    })
+    spSub2 <- lapply(spSub2, function(z){
+        z@polarity <- integer()
+        z@scanIndex <- integer()
+        return(z)
+    })
+    expect_identical(spSub, spSub1)
+    expect_identical(spSub, spSub2)
+    expect_identical(spSub2, spSub1)
+    ## With the processing steps...
+    system.time(
+        spSub1 <- spectra(odmseRemPeaks, scans=subs, method=1)
+    )  ## 0.088 sec
+    system.time(
+        spSub2 <- spectra(odmseRemPeaks, scans=subs, method=2)
+    )  ## 0.082
+    expect_identical(spSub1, spSub2)
+    spSub <- spectra(mseRemPeaks)[acquisitionNum(mseRemPeaks) %in% subs]
+    spSub1 <- lapply(spSub1, function(z){
+        z@polarity <- integer()
+        z@scanIndex <- integer()
+        return(z)
+    })
+    spSub2 <- lapply(spSub2, function(z){
+        z@polarity <- integer()
+        z@scanIndex <- integer()
+        return(z)
+    })
+    expect_identical(spSub, spSub1)
+    expect_identical(spSub, spSub2)
+    expect_identical(spSub2, spSub1)
+})
+
+
+## Compare the performacen of the C-contructor against the "standard" R constructor.
+.compareCconstructorPerformance <- function(){
+    featDat <- fData(odmse)
+    featDat <- featDat[featDat$fileIdx == 1, ]
+    ## Get all spectra from one file using the C-constructor
+    system.time(
+        spC <- MSnbase:::.applyFun2SpectraOfFile(featDat, filenames=fileNames(odmse))
+    ) ## 3.7 sec.
+    ## Get all spectra from one file using the "new" constructor
+    system.time(
+        spR <- MSnbase:::.applyFun2SpectraOfFileSlow(featDat, filenames=fileNames(odmse))
+    ) ## 19 sec.
+    expect_identical(spC, spR)
+    ## Construct all of the spectra in one go...
+
+    featDat <- fData(odmse)
+    featDat <- featDat[featDat$fileIdx == 1, ]
+
+    fileh <- mzR::openMSfile(fileNames(odmse)[1])
+    ## Reading all of the data in "one go".
+    allSpect <- mzR::peaks(fileh, featDat$spIdx)
+    mzR::close(fileh)
+
+    nValues <- lengths(allSpect) / 2
+    allSpect <- do.call(rbind, allSpect)
+    Test <- MSnbase:::Spectra1(peaksCount=featDat$peaksCount,
+                               rt=featDat$retentionTime,
+                               acquisitionNum=featDat$acquisitionNum,
+                               tic=featDat$totIonCurrent,
+                               mz=allSpect[, 1], intensity=allSpect[, 2],
+                               centroided=featDat$centroided,
+                               fromFile=rep(1, length(nValues)),
+                               nvalues=nValues)
+    names(Test) <- rownames(featDat)
+    ## Have to change some stuff:
+    ## o scanIndex is numeric() for the "standard" constructor
+    ## o polarity is numeric().
+    Test <- lapply(Test, function(z){
+        z@polarity <- integer()
+        z@scanIndex <- integer()
+        return(z)
+    })
+    ## This should be identical to the spectra from mse
+    mseSpec <- spectra(mse)
+    mseSpec <- mseSpec[fromFile(mse) == 1]
+    expect_identical(mseSpec, Test)
+}
+
+
+
 
 

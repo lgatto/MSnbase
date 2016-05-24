@@ -121,9 +121,15 @@ Idea:
 
 *** TODO Implement a conversion function/method (Point 7)
 
-*** TODO Implement a =Spectrum1= constructor in C.
-
+*** DONE Implement a =Spectrum1= constructor in C.
+    CLOSED: [2016-05-23 Mon 17:15]
+    - State "DONE"       from "TODO"       [2016-05-23 Mon 17:15]
+    - Created a C-constructor for a single Spectrum1 class called using the
+      =Spectrum1= function and a C-constructor able to create a list of =Spectrum1=
+      objects given that all data is provided. Both are considerably faster than
+      the standard R constructor.
 Creating the =Spectrum1= classes takes way too much time; eventually we might be
 faster with a constructor implemented in C, similar to the =Rle= constructor in
 =S4Vectors=.
+
 
