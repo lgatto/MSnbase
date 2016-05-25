@@ -5,7 +5,6 @@
 \alias{MSmap}
 
 \alias{coerce,MSmap,data.frame-method}
-\alias{as.data.frame.MSmap}
 \alias{dim,MSmap-method}
 \alias{fileName,MSmap-method}
 \alias{fileNames,MSmap-method}
