@@ -93,6 +93,7 @@ export(MSnSet,
        averageMSnSet,
        commonFeatureNames,
        MSmap,
+       as.data.frame.MSmap,
        ## MSnSetList
        MSnSetList,
        msnsets, objlog,
