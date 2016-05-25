@@ -1,5 +1,7 @@
 CHANGES IN VERSION 1.99.0
 -------------------------
+ o Methods rtime, tic, ionCount, polarity and acquisitionNum implemented <2016-05-25 Wed>.
+ o Documentation added for most methods <2016-05-25 Wed>.
  o Methods peaksCount and spectra for OnDiskMSnExp objects implemented <2016-05-24 Tue>.
  o Performance and validation tests for the Spectrum1 C-constructor <2016-05-23 Mon>.
  o Spectrum1 constructor implemented in C (presently not exported) <2016-05-20>

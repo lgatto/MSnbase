@@ -36,7 +36,7 @@ Some requirements and ideas for the actual implementation:
 
 ** Implementation
 
-*** TODO Define the =OnDiskMSnExp= class [3/6]
+*** TODO Define the =OnDiskMSnExp= class [4/7]
 
 This one should just extend the =MSnExp= and add eventually one or two slots;
 there shouldn't be much to add.
@@ -44,6 +44,10 @@ there shouldn't be much to add.
   optional processing steps that have to be applied to the spectra
   /on-the-fly/. *NOTE*: to speed up stuff, it might be better to apply this to the
   M/Z-intensity matrix instead of the spectrum!
++ [X] =processingQueue= to get/set the =spectraProcessingQueue= slot. We should
+  however not export that method, since this list should ideally not manipulated
+  directly. New processing steps are supposed to be added by the actual
+  processing methods.
 + [X] =featureData= contains the following info: *NOTE* this seems redundant with
   =header= (if available in the =.cache=)! Check that!
   - fileIdx: the index of the file (in =fileNames=) from which the spectra can be
@@ -69,17 +73,18 @@ there shouldn't be much to add.
 + [ ] Add examples to vignette.
 + [ ] Test cases.
 
-*** TODO Adapt the =readMSData= function (Point 4) [2/5]
+*** TODO Adapt the =readMSData= function (Point 4) [3/5]
 
-+ [ ] For =backend= being =disk=, disable argument =cache=.
++ [X] For =backend= being =disk=, disable argument =cache=.
 + [X] Add general spectrum information to the =featureData= for MS1 (and MS2?),
   =row.names= should be the spectra names.
 + [X] Add =ProcessingStep= to the =spectraProcessQueue= if =clean= or =removePeaks= are set.
 + [ ] Write documentation.
 + [ ] Test cases.
 
-*** TODO Implement the /lazy processing/ framework (Point 5)
-
+*** DONE Implement the /lazy processing/ framework (Point 5)
+    CLOSED: [2016-05-25 Wed 14:45]
+    - State "DONE"       from "TODO"       [2016-05-25 Wed 14:45]
 Idea:
 + Add a slot =spectraProcessQueue= to the =OnDiskMSnExp=.
 + Implement a simple =ProcessingStep= class that has two slots =FUN= and =ARGS=.
@@ -93,20 +98,20 @@ Idea:
   =peaks= method that reads the raw data.
 + The =execute= method executes the function.
 
-*** TODO Implement all methods for =OnDiskMSnExp= [7/20]
+*** TODO Implement all methods for =OnDiskMSnExp= [14/20]
 
-+ [ ] =assayData=. Read all spectra from file; should hint in the documentation
++ [X] =assayData=. Read all spectra from file; should hint in the documentation
   that it might be better to do more specific calls, e.g. extract specific
   spectra etc.
-+ [ ] =spectra=: allow to retrieve by ID, sample etc.
++ [X] =spectra=: allow to retrieve by ID, sample etc.
 + [ ] =intensity=.
 + [ ] =[[= to access directly individual spectra.
 + [ ] =mz=.
-+ [ ] =rtime=.
-+ [ ] =tic=.
-+ [ ] =ionCount=.
-+ [ ] =polarity=.
-+ [ ] =peaksCount=.
++ [X] =rtime=.
++ [X] =tic=.
++ [X] =ionCount=.
++ [X] =polarity=.
++ [X] =peaksCount=.
 + [X] =centroided=, =centroided<-=.
 + [X] =acquisitionNum=.
 + [X] =scanIndex=.

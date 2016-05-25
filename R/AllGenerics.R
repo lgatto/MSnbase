@@ -49,7 +49,7 @@ setGeneric("instrumentModel", function(object) standardGeneric("instrumentModel"
 setGeneric("instrumentManufacturer", function(object) standardGeneric("instrumentManufacturer"))
 setGeneric("instrumentCustomisations", function(object) standardGeneric("instrumentCustomisations"))
 
-setGeneric("ionCount", function(object) standardGeneric("ionCount"))
+setGeneric("ionCount", function(object, ...) standardGeneric("ionCount"))
 
 setGeneric("fromFile", function(object) standardGeneric("fromFile"))
 
@@ -133,3 +133,4 @@ setGeneric("trimws", signature = "x",
 
 setGeneric("isOnDisk", function(object) standardGeneric("isOnDisk"))
 setGeneric("execute", function(object, ...) standardGeneric("execute"))
+setGeneric("processingQueue", function(object) standardGeneric("processingQueue"))

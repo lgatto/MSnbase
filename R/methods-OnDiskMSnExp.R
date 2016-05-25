@@ -14,6 +14,82 @@ setMethod("initialize",
           })
 
 ############################################################
+## show
+##
+setMethod("show", "OnDiskMSnExp", function(object){
+    procs <- processingQueue(object)
+    ## Gather information.
+    msLevels <- unique(msLevel(object))
+    msnRt <- unname(rtime(object))
+    nrt <- length(msnRt)
+    rtr <- range(msnRt)
+    cat("Object of class \"",class(object),"\"\n",sep="")
+    cat(" Object size in memory: ")
+    sz <- object.size(object)
+    cat(round(sz/(1024^2),2),"Mb\n")
+    cat("- - - Spectra data - - -\n")
+    if (nrow(fData(object)) == 0) {
+        cat(" none\n")
+    } else {
+        cat(" MS level(s):",msLevels,"\n")
+        if (all(msLevel(object) > 1)) {
+            ## cat(" Number of MS1 acquisitions:",nPrecScans,"\n")
+            ## cat(" Number of MSn scans:",length(ls(assayData(object))),"\n")
+            ## cat(" Number of precursor ions:",nPrecMz,"\n")
+            ## if (nPrecMz > 0) {
+            ##     cat("",uPrecMz,"unique MZs\n")
+            ##     cat(" Precursor MZ's:",paste(signif(rangePrecMz,5),collapse=" - "),"\n")
+            ## }
+            ## cat(" MSn M/Z range:",round(msnMzRange,2),"\n")
+        } else {
+            cat(" Number of MS1 scans:",length(msnRt),"\n")
+        }
+        if (nrt > 0) {
+            cat(" MSn retention times:",formatRt(rtr[1]),"-",formatRt(rtr[2]),"minutes\n")
+        }
+    }
+    show(processingData(object))
+    cat("- - - Meta data  - - -\n")
+    Biobase:::.showAnnotatedDataFrame(phenoData(object),
+                                      labels=list(object="phenoData"))
+    cat("Loaded from:\n")
+    f <- basename(processingData(object)@files)
+    nf <- length(f)
+    if (nf > 0) {
+        if (nf < 3) {
+            cat(paste0("  ", f, collapse = ", "), "\n")
+        } else {
+            cat("  [1]", paste(f[1], collapse = ", "))
+            cat("...")
+            cat("  [", nf, "] ", paste(f[nf], collapse = ", "),
+                "\n", sep = "")
+            cat("  Use 'fileNames(.)' to see all files.\n")
+        }
+    } else {
+        cat(" none\n")
+    }
+    Biobase:::.showAnnotatedDataFrame(protocolData(object),
+                                      labels=list(object="protocolData"))
+    Biobase:::.showAnnotatedDataFrame(featureData(object),
+                                      labels=list(
+                                          object="featureData",
+                                          sampleNames="featureNames",
+                                          varLabels="fvarLabels",
+                                          varMetadata="fvarMetadata"))
+    cat("experimentData: use 'experimentData(object)'\n")
+    pmids <- pubMedIds(object)
+    if (length(pmids) > 0 && all(pmids != ""))
+        cat("  pubMedIds:", paste(pmids, sep=", "), "\n")
+    invisible(NULL)
+})
+
+############################################################
+## processingQueue
+setMethod("processingQueue", "OnDiskMSnExp", function(object){
+    return(object@spectraProcessingQueue)
+})
+
+############################################################
 ## msLevel
 ##
 ## Extract the msLevel info for all spectra in an OnDiskMSnExp
@@ -63,8 +139,14 @@ setMethod("header",
 setMethod("header",
           signature=c("OnDiskMSnExp","numeric"),
           function(object, scans){
-              hd <- header(object)
-              return(hd[scans, ])
+              hd <- .subsetFeatureDataBy(fData(object), scanIdx=scans)
+              colnames(hd)[colnames(hd) == "fileIdx"] <- "file"
+              colnames(hd)[colnames(hd) == "retentionTime"] <- "retention.time"
+              colnames(hd)[colnames(hd) == "peaksCount"] <- "peaks.count"
+              colnames(hd)[colnames(hd) == "totIonCurrent"] <- "tic"
+              colnames(hd)[colnames(hd) == "msLevel"] <- "ms.level"
+              colnames(hd)[colnames(hd) == "acquisitionNum"] <- "acquisition.number"
+              return(hd)
           })
 
 ############################################################
@@ -121,22 +203,61 @@ setReplaceMethod("centroided", signature(object="OnDiskMSnExp", value="logical")
                  })
 
 ############################################################
+## rtime
+##
+## Get the retention time
+setMethod("rtime", "OnDiskMSnExp",
+          function(object){
+              vals <- fData(object)$retentionTime
+              names(vals) <- featureNames(object)
+              return(vals)
+          })
+
+############################################################
+## tic
+##
+## Get the total ion Current (from the featureData, thus it will not
+## be recalculated).
+setMethod("tic", "OnDiskMSnExp",
+          function(object){
+              vals <- fData(object)$totIonCurrent
+              names(vals) <- featureNames(object)
+              return(vals)
+          })
+
+############################################################
+## polarity
+##
+## Get the polarity.
+setMethod("polarity", "OnDiskMSnExp",
+          function(object){
+              vals <- fData(object)$polarity
+              names(vals) <- featureNames(object)
+              return(vals)
+          })
+
+#############################################################
 ## peaksCount
 ##
 ## Extract the peaksCount data; if the spectraProcessingQueue is empty
 ## we're just returning the peaksCount from the featureData, otherwise we
 ## check the function in there and eventually load the data and apply it.
 setMethod("peaksCount", signature(object="OnDiskMSnExp", scans="missing"),
-          function(object, scans, method=1, BPPARAM=bpparam()){
-              ## Now, that's a little different now; we might have to calculate that
-              ## if we've done some data processing. Thus we have to check the
-              ## spectraProcessingQueue.
-              ## By default we will always re-calculate the peaks count, but we define
-              ## some functions from which we know that they don't change that count.
-              ## removePeaks for example does NOT remove peaks, onyl "clean" does. So, if
-              ## there are some new methods that do NOT remove peaks they should be added
-              ## to this list.
-              skipFun <- c("removePeaks")
+          function(object, scans, BPPARAM=bpparam()){
+              scans <- numeric()
+              return(peaksCount(object, scans=scans, BPPARAM=BPPARAM))
+          })
+setMethod("peaksCount", signature(object="OnDiskMSnExp", scans="numeric"),
+          function(object, scans, BPPARAM=bpparam()){
+              fd <- .subsetFeatureDataBy(fData(object), index=scans)
+              ## Peaks count from the original files is available in the featureData,
+              ## thus, we only have to read the raw data again and calculate the peaksCount
+              ## if we did do some processing of the data. And here also just processing
+              ## that has an influence on the number of data duplets. So, "removePeaks" does
+              ## not change the peaksCount, only "clean" would. We thus check the methods
+              ## in 'spectraProcessingQueue' and decide whether or not we have to load
+              ## the data.
+              skipFun <- c("removePeaks")  ## Add methods here that would not require raw data reading.
               recalc <- FALSE
               if(length(object@spectraProcessingQueue) > 0){
                   recalc <- any(unlist(lapply(object@spectraProcessingQueue,
@@ -149,35 +270,46 @@ setMethod("peaksCount", signature(object="OnDiskMSnExp", scans="missing"),
               if(recalc){
                   ## Heck; reload the data.
                   message("Loading the raw data to calculate peaksCount.")
-                  ## peaks count is the length of mz values per spectrum.
-                  ## The "clean", but somewhat slow version is to get all of the spectra,
-                  ## run the processing function on these spectra and call peaksCount on them.
-                  fDataPerFile <- split(fData(object), f=fData(object)$fileIdx)
-                  if(method == 1){
-                      message("Apply on Spectrum")
-                      vals <- lapply(fDataPerFile, FUN=.applyFun2SpectraOfFile,
-                                     filenames=fileNames(object),
-                                     queue=object@spectraProcessingQueue,
-                                     APPLYFUN=peaksCount)
-                  }
-                  if(method == 2){
-                      message("Using the multi-constructor in C")
-                      vals <- lapply(fDataPerFile, FUN=.applyFun2SpectraOfFileMulti,
-                                     filenames=fileNames(object),
-                                     queue=object@spectraProcessingQueue,
-                                     APPLYFUN=peaksCount)
-                  }
-                  names(vals) <- NULL
-                  vals <- unlist(vals, recursive=TRUE)
-                  return(vals[featureNames(object)])
                   ## An important point here is that we DON'T want to get all of the data from
                   ## all files in one go; that would require eventually lots of memory! It's better
                   ## to do that per file; that way we could also do that in parallel.
+                  fDataPerFile <- split(fd, f=fd$fileIdx)
+                  vals <- bplapply(fDataPerFile, FUN=.applyFun2SpectraOfFileMulti,
+                                   filenames=fileNames(object),
+                                   queue=object@spectraProcessingQueue,
+                                   APPLYFUN=peaksCount,
+                                   BPPARAM=BPPARAM)
+                  names(vals) <- NULL
+                  vals <- unlist(vals, recursive=TRUE)
+                  return(vals[rownames(fd)])
               }else{
-                  vals <- fData(object)$peaksCount
-                  names(vals) <- featureNames(object)
+                  vals <- fd$peaksCount
+                  names(vals) <- rownames(fd)
               }
               return(vals)
+          })
+
+############################################################
+## ionCount
+##
+## Calculate the ion count, i.e. the sum of intensities per spectrum.
+setMethod("ionCount", "OnDiskMSnExp",
+          function(object, BPPARAM=bpparam()){
+              fd <- fData(object)
+              ## Heck; reload the data.
+              message("Loading the raw data to calculate peaksCount.")
+              ## An important point here is that we DON'T want to get all of the data from
+              ## all files in one go; that would require eventually lots of memory! It's better
+              ## to do that per file; that way we could also do that in parallel.
+              fDataPerFile <- split(fd, f=fd$fileIdx)
+              vals <- bplapply(fDataPerFile, FUN=.applyFun2SpectraOfFileMulti,
+                               filenames=fileNames(object),
+                               queue=object@spectraProcessingQueue,
+                               APPLYFUN=function(y){return(sum(y@intensity))},
+                               BPPARAM=BPPARAM)
+              names(vals) <- NULL
+              vals <- unlist(vals, recursive=TRUE)
+              return(vals[rownames(fd)])
           })
 
 ############################################################
@@ -190,39 +322,96 @@ setMethod("peaksCount", signature(object="OnDiskMSnExp", scans="missing"),
 ## Returned spectra are always sorted by scan index and file (first scan
 ## first file, first scan second file, etc.).
 setMethod("spectra", "OnDiskMSnExp", function(object, scans=NULL,
-                                              method=1,
                                               BPPARAM=bpparam()){
-    fd <- .subsetFeatureDataBy(fData(object), scanIdx=scans)
-    ## fd <- fData(object)
-    ## ## Check scans argument.
-    ## if(length(scans) > 0){
-    ##     if(!is.numeric(scans))
-    ##         stop("Argument 'scans', if provided, has to be numeric!")
-    ##     ## Subset the featureData based on scans.
-    ##     fd <- fd[fd$spIdx %in% scans, , drop=FALSE]
-    ##     if(nrow(fd) == 0)
-    ##         stop("The requested scan indices are not available!")
-    ## }
+    fd <- .subsetFeatureDataBy(fData(object), index=scans)
     fdPerFile <- split(fd, f=fd$fileIdx)
-    if(method == 1){
-        vals <- lapply(fdPerFile, FUN=.applyFun2SpectraOfFile,
-                       filenames=fileNames(object),
-                       queue=object@spectraProcessingQueue)
-    }
-    if(method == 2){
-        vals <- lapply(fdPerFile, FUN=.applyFun2SpectraOfFileMulti,
-                       filenames=fileNames(object),
-                       queue=object@spectraProcessingQueue)
-    }
+    ## Overwriting the BPPARAM setting if we've only got some scans!
+    if(length(scans) > 0 & length(scans) < 800)
+        BPPARAM <- SerialParam()
+    vals <- bplapply(fdPerFile, FUN=.applyFun2SpectraOfFileMulti,
+                     filenames=fileNames(object),
+                     queue=object@spectraProcessingQueue,
+                     BPPARAM=BPPARAM)
     names(vals) <- NULL
     vals <- unlist(vals)
     return(vals[rownames(fd)])
 })
 
 ############################################################
+## assayData
+##
+## Read the full data, put it into an environment and return that.
+setMethod("assayData", "OnDiskMSnExp", function(object){
+    fd <- fData(object)
+    fdPerFile <- split(fd, f=fd$fileIdx)
+    vals <- bplapply(fdPerFile, FUN=.applyFun2SpectraOfFileMulti,
+                     filenames=fileNames(object),
+                     queue=object@spectraProcessingQueue,
+                     BPPARAM=bpparam())
+    names(vals) <- NULL
+    vals <- unlist(vals)
+    return(list2env(vals[rownames(fd)]))
+})
+
+##============================================================
+##  --  DATA MANIPULATION METHODS
+##
+##------------------------------------------------------------
+
+############################################################
+## removePeaks
+##
+## Add a "removePeaks" ProcessingStep to the queue and update
+## the processingData information of the object.
+setMethod("removePeaks", signature("OnDiskMSnExp"),
+          function(object, t="min", verbose=TRUE){
+              if(missing(t))
+                  t <- "min"
+              if(!is.numeric(t)){
+                  if(t != "min")
+                      stop("Argument 't' has to be either numeric or 'min'!")
+              }
+              ps <- ProcessingStep("removePeaks", list(t=t))
+              ## Append the processing step to the queue.
+              if(verbose)
+                  message("Adding 'removePeaks' to the processing queue.")
+              object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
+                                                 list(ps))
+              object@processingData@removedPeaks <- c(object@processingData@removedPeaks,
+                                                      as.character(t))
+              object@processingData@processing <- c(object@processingData@processing,
+                                                    paste("Curves <= ",
+                                                          t
+                                                         ," set to '0': ",
+                                                          date(),sep=""))
+              return(object)
+          })
+
+############################################################
+## clean
+##
+## Add a "clean" ProcessingStep to the queue and update
+## the processingData information of the object.
+setMethod("clean", signature("OnDiskMSnExp"),
+          function(object, all=FALSE, verbose=TRUE){
+              if(!is.logical(all))
+                  stop("Argument 'all' is supposed to be a logical!")
+              ps <- ProcessingStep("clean", list(all=all))
+              if(verbose)
+                  message("Adding 'clean' to the processing queue.")
+              object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
+                                                 list(ps))
+              object@processingData@cleaned <- TRUE
+              object@processingData@processing <- c(object@processingData@processing,
+                                                    paste0("Spectra cleaned: ", date()))
+              return(object)
+          })
+
+
+##============================================================
 ##  --  HELPER FUNCTIONS  --
 ##
-############################################################
+##------------------------------------------------------------
 
 ############################################################
 ## .subsetFeatureDataBy
@@ -281,54 +470,6 @@ setMethod("spectra", "OnDiskMSnExp", function(object, scans=NULL,
         return(fd[name, , drop=FALSE])
     }
     return(fd)
-}
-
-############################################################
-## .getDataDupletsAsMatrix
-##
-## Get the mz and intensity values as a matrix.
-## object: the OnDiskMSnExp object.
-## scnIdx: optionally the index of the scans that should be extracted. The function checks if these
-##         indices are available and throws a warning (or error) if some or none are present.
-##
-## return: a list of data matrices. Names of the list elements will be the spectrum names.
-.getDataDupletsAsMatrix <- function(object, scnIdx){
-    ## fileNames(object) to get the file names; open the connection.
-    ## scanIndex(object) to get all of the scan indices.
-    ## fromFile(object) to get to know from which file the spectra should be extracted.
-    ## Do that with PARALLEL processing.
-    ## Split the scanIndex by from File.
-    wantScnIdx <- scanIndex(object)
-    wantScnIdx <- split(wantScnIdx, fromFile(object))
-    if(!missing(scnIdx)){
-        ## Subset the wantScnIdx and check if the requested scnIdx are available.
-        wantScnIdx <- lapply(wantScnIdx, FUN=function(z){
-            newz <- z[z %in% scnIdx]
-            if(length(newz) == 0)
-                stop("The requested scan indices are not available!")
-            if(any(!(scnIdx %in% newz)))
-                warning("Some of the requested scan indices are not available.")
-            return(newz)
-        })
-    }
-    ## Do the call:
-    res <- mapply(fileNames(object), wantScnIdx, FUN=.getDataDupletsAsMatrixForFile,
-                  SIMPLIFY=FALSE)
-    names(res) <- NULL
-    res <- unlist(res, recursive=FALSE)
-    return(res[featureNames(object)])
-}
-## The function we'll apply in the mapply (bplapply).
-.getDataDupletsAsMatrixForFile <- function(filename, wantScnIdx){
-    ## Open the handle.
-    message("Reading data from file ", basename(filename), "...", appendLF=FALSE)
-    fileh <- mzR::openMSfile(filename)
-    ## Close handle
-    on.exit(expr=mzR::close(fileh))
-    on.exit(expr=message("OK"), add=TRUE)
-
-    ## Extract the data.
-    return(mzR::peaks(fileh, wantScnIdx))
 }
 
 ## Apply a function to the spectra of a file.
@@ -441,9 +582,14 @@ setMethod("spectra", "OnDiskMSnExp", function(object, scans=NULL,
     on.exit(expr=mzR::close(fileh))
     ## Reading all of the data in "one go".
     allSpect <- mzR::peaks(fileh, fData$spIdx)
-
-    nValues <- lengths(allSpect) / 2
-    allSpect <- do.call(rbind, allSpect)
+    ## If we have more than one spectrum.
+    if(is(allSpect, "list")){
+        nValues <- lengths(allSpect) / 2
+        allSpect <- do.call(rbind, allSpect)
+    }else{
+        ## otherwise it's a matrix, e.g. if only a single scan index was provided.
+        nValues <- nrow(allSpect)
+    }
     ## Call the C-constructor to create a list of Spectrum1 objects.
     res <- Spectra1(peaksCount=fData$peaksCount,
                     scanIndex=fData$spIdx,
@@ -460,16 +606,17 @@ setMethod("spectra", "OnDiskMSnExp", function(object, scans=NULL,
 
     ## If we have a non-empty queue, we might want to execute that too.
     if(!is.null(APPLYFUN) | length(queue) > 0){
-        res <- lapply(res, function(z, theQ, APPLYFUN){
+        cat("APPLYFUN not empty\n")
+        res <- lapply(res, function(z, theQ, APPLF){
             if(length(theQ) > 0){
                 for(pStep in theQ){
                     z <- execute(pStep, z)
                 }
-                if(is.null(APPLYFUN))
-                    return(z)
-                return(APPLYFUN(z))
             }
-        }, theQ=queue, APPLYFUN=APPLYFUN)
+            if(is.null(APPLF))
+                return(z)
+            return(APPLF(z))
+        }, theQ=queue, APPLF=APPLYFUN)
     }
     message("OK")
     return(res)
