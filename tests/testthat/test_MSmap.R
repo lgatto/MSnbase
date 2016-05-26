@@ -37,8 +37,6 @@ test_that("MSmap accessors", {
 test_that("map data.frame", {
     M <- MSmap(ms, ms1[rtsel], 521, 523, .005)
     mdf <- as(M, "data.frame")
-    mdf2 <- as.data.frame(M)
-    expect_identical(mdf, mdf2)
     expect_equal(nrow(mdf), 401 * 75)
     expect_equal(colnames(mdf), c("intensity", "rt", "mz", "ms"))
     k <- sample(nrow(mdf), 1)
