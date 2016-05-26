@@ -106,7 +106,7 @@
 \references{
 
   The mzTab format is a light-weight, tab-delimited file format for
-  proteomics data. See https://code.google.com/p/mztab/ for details and
+  proteomics data. See https://github.com/HUPO-PSI/mzTab for details and
   specifications.
 
   Griss J, Jones AR, Sachsenberg T, Walzer M, Gatto L, Hartler J,

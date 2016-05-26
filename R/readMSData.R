@@ -189,8 +189,6 @@ readMSData <- function(files,
                     basename(f),"\n",sep="")
                 pb <- txtProgressBar(min=0,max=length(spidx),style=3)
             }
-            ## this was fullhd$acquisitionNum -- check/wrong
-            ## ms1scanNums <- MSnbase:::getBins(fullhd$msLevel[spidx])
             scanNums <- fullhd[fullhd$msLevel == 2, "precursorScanNum"]
             if (length(scanNums)!=length(spidx))
                 stop("Number of spectra and precursor scan number do not match!")

@@ -967,7 +967,7 @@ be exported to a text-based spreadsheet file using the
 \Rfunction{write.exps} method.
 
 \Biocpkg{MSnbase} also supports the \texttt{mzTab}
-format\footnote{\url{http://code.google.com/p/mztab/}}, a
+format\footnote{\url{https://github.com/HUPO-PSI/mzTab}}, a
 light-weight, tab-delimited file format for proteomics
 data. \texttt{mzTab} files can be read into \R with
 \Rfunction{readMzTabData} to create and \Rclass{MSnSet} instance.

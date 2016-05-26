@@ -106,7 +106,7 @@ This data as well as any additional meta-data can be imported with the
 \Rfunction{readMSnSet} function. See \Rfunction{?readMSnSet} for details.
 
 \Biocpkg{MSnbase} also supports the \texttt{mzTab} 
-format\footnote{\url{http://code.google.com/p/mztab/}}, a light-weight, tab-delimited 
+format\footnote{\url{https://github.com/HUPO-PSI/mzTab}}, a light-weight, tab-delimited 
 file format for proteomics data developed within the Proteomics Standards Initiative (PSI).
 \texttt{mzTab} files can be read into \R with \Rfunction{readMzTabData} to create and \Robject{MSnSet} instance. 
 
