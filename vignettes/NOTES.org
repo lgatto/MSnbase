@@ -73,14 +73,15 @@ there shouldn't be much to add.
 + [ ] Add examples to vignette.
 + [ ] Test cases.
 
-*** TODO Adapt the =readMSData= function (Point 4) [3/5]
-
+*** DONE Adapt the =readMSData= function (Point 4) [5/5]
+    CLOSED: [2016-05-26 Thu 12:46]
+    - State "DONE"       from "TODO"       [2016-05-26 Thu 12:46]
 + [X] For =backend= being =disk=, disable argument =cache=.
 + [X] Add general spectrum information to the =featureData= for MS1 (and MS2?),
   =row.names= should be the spectra names.
 + [X] Add =ProcessingStep= to the =spectraProcessQueue= if =clean= or =removePeaks= are set.
-+ [ ] Write documentation.
-+ [ ] Test cases.
++ [X] Write documentation.
++ [X] Test cases.
 
 *** DONE Implement the /lazy processing/ framework (Point 5)
     CLOSED: [2016-05-25 Wed 14:45]
@@ -98,15 +99,16 @@ Idea:
   =peaks= method that reads the raw data.
 + The =execute= method executes the function.
 
-*** TODO Implement all methods for =OnDiskMSnExp= [14/20]
-
+*** DONE Implement all =pSet= methods for =OnDiskMSnExp= [21/21]
+    CLOSED: [2016-05-26 Thu 12:46]
+    - State "DONE"       from "TODO"       [2016-05-26 Thu 12:46]
 + [X] =assayData=. Read all spectra from file; should hint in the documentation
   that it might be better to do more specific calls, e.g. extract specific
   spectra etc.
 + [X] =spectra=: allow to retrieve by ID, sample etc.
-+ [ ] =intensity=.
-+ [ ] =[[= to access directly individual spectra.
-+ [ ] =mz=.
++ [X] =intensity=.
++ [X] =[[= to access directly individual spectra.
++ [X] =mz=.
 + [X] =rtime=.
 + [X] =tic=.
 + [X] =ionCount=.
@@ -120,11 +122,29 @@ Idea:
 + [X] =fromFile=.
 + [X] =header= extract the required data from the =featureData= renaming some of the
   columns.
-+ [ ] Test cases.
-+ [ ] Documentation.
-+ [ ] Check =[= sub-setting.
++ [X] =[= sub-setting.
++ [X] Test cases.
++ [X] Documentation.
++ [X] Check =[= sub-setting.
+
+*** TODO Implement additional methods defined for =MSnExp= objects [/].
+
++ [ ] =plot=.
++ [ ] =plot2d=.
++ [ ] =plotDensity=.
++ [ ] =plotMzDelta=.
++ [ ] =trimMz=.
++ [ ] =normalize=.
++ [ ] =bin=.
++ [ ] =compareSpectra=.
++ [ ] =pickPeaks=.
++ [ ] =estimateNoise=.
++ [ ] =smooth=.
 
 *** TODO Implement a conversion function/method (Point 7)
+
+Convert from =OnDiskMSnExp= to a =MSnExp= object and /vice versa/.
+The problems here are: how the heck should I track the processing steps???
 
 *** DONE Implement a =Spectrum1= constructor in C.
     CLOSED: [2016-05-23 Mon 17:15]

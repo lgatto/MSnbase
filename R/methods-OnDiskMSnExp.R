@@ -317,13 +317,17 @@ setMethod("ionCount", "OnDiskMSnExp",
 ##
 ## Extract the spectra of an experiment by reading the raw data from
 ## the original files, applying processing steps from the queue.
-## The optional argument "scans" allows to restrict extraction of
-## specific scans.
+## The optional arguments "scans" allows to restrict extraction of
+## specific scans (scans being the index of the spectra in the full data
+## set, or a character vector of spectrum names or a logical vector).
+## Optional argument "rtlim" allows to extract spectra for the specified
+## retention time window.
 ## Returned spectra are always sorted by scan index and file (first scan
 ## first file, first scan second file, etc.).
 setMethod("spectra", "OnDiskMSnExp", function(object, scans=NULL,
+                                              rtlim=NULL,
                                               BPPARAM=bpparam()){
-    fd <- .subsetFeatureDataBy(fData(object), index=scans)
+    fd <- .subsetFeatureDataBy(fData(object), index=scans, rtlim=rtlim)
     fdPerFile <- split(fd, f=fd$fileIdx)
     ## Overwriting the BPPARAM setting if we've only got some scans!
     if(length(scans) > 0 & length(scans) < 800)
@@ -352,6 +356,120 @@ setMethod("assayData", "OnDiskMSnExp", function(object){
     vals <- unlist(vals)
     return(list2env(vals[rownames(fd)]))
 })
+
+############################################################
+## intensity
+##
+## Extract the intensity values of individual spectra. This means we
+## have to read all of the data, create Spectrum objects, apply
+## eventual processing steps and return the intensities.
+setMethod("intensity", "OnDiskMSnExp", function(object, BPPARAM=bpparam()){
+    fd <- fData(object)
+    message("Loading data to extract intensity values.")
+    fDataPerFile <- split(fd, f=fd$fileIdx)
+    vals <- bplapply(fDataPerFile, FUN=.applyFun2SpectraOfFileMulti,
+                     filenames=fileNames(object),
+                     queue=object@spectraProcessingQueue,
+                     APPLYFUN=intensity,
+                     BPPARAM=BPPARAM)
+    names(vals) <- NULL
+    vals <- unlist(vals, recursive=FALSE)
+    return(vals[rownames(fd)])
+})
+
+
+############################################################
+## mz
+##
+## Extract the mz values of individual spectra.
+setMethod("mz", "OnDiskMSnExp", function(object, BPPARAM=bpparam()){
+    fd <- fData(object)
+    message("Loading data to extract M/Z values.")
+    fDataPerFile <- split(fd, f=fd$fileIdx)
+    vals <- bplapply(fDataPerFile, FUN=.applyFun2SpectraOfFileMulti,
+                     filenames=fileNames(object),
+                     queue=object@spectraProcessingQueue,
+                     APPLYFUN=mz,
+                     BPPARAM=BPPARAM)
+    names(vals) <- NULL
+    vals <- unlist(vals, recursive=FALSE)
+    return(vals[rownames(fd)])
+})
+
+############################################################
+## [[
+##
+## Extract individual spectra (single ones).
+setMethod("[[","OnDiskMSnExp",
+          function(x,i,j="missing",drop="missing") {
+              if (length(i)!=1)
+                  stop("subscript out of bounds")
+              if (!is.character(i))
+                  i <- featureNames(x)[i]
+              res <- spectra(x, scans=i)
+              return(res[[1]])
+          })
+
+############################################################
+## [
+##
+## Subset by [
+setMethod("[", signature(x="OnDiskMSnExp", i="logicalOrNumeric",
+                         j="logicalOrNumeric", drop="missing"),
+          function(x, i, j, drop){
+              if(!(is.logical(i) | is.numeric(i)))
+                  stop("Subsetting works only with numeric or logical!")
+              if(is.logical(i)){
+                  if(length(i) != nrow(fData(x)))
+                      stop("If 'i' is logical its length has to match the number of spectra!")
+                  i <- which(i)
+              }
+              i <- sort(i)  ## Force sorted!
+              ## Now subset the featureData. The function will cry if i is outside the range.
+              fd <- .subsetFeatureDataBy(featureData(x), index=i)
+              ## Process j.
+              ##  o subset the featureData
+              ##  o subset the phenoData
+              ##  o processingData
+              if(!(is.logical(j) | is.numeric(j)))
+                  stop("Subsetting works only with numeric of logical!")
+              if(is.logical(j)){
+                  if(length(j) != length(fileNames(x)))
+                      stop("If 'j' is logical its length has to match the number of data files!")
+                  j <- which(j)
+              }
+              j <- sort(j)
+              ## featureData:
+              fd <- fd[fd$fileIdx %in% j, , drop=FALSE]
+              origFileNames <- fileNames(x)
+              newFileNames <- origFileNames[j]
+              ## fix the fileIdx.
+              newIdx <- match(origFileNames[fd$fileIdx], newFileNames)
+              fd$fileIdx <- newIdx
+              ## phenoData
+              pd <- phenoData(x)[j, ]
+              ## processingData
+              procD <- processingData(x)
+              procD@files <- newFileNames
+              ## change the values.
+              x@processingData <- procD
+              x@phenoData <- pd
+              x@featureData <- fd
+              validObject(x)
+              return(x)
+          })
+setMethod("[", signature(x="OnDiskMSnExp", i="logicalOrNumeric",
+                         j="missing", drop="missing"),
+          function(x, i, j, drop="missing"){
+              j <- 1:length(fileNames(x))
+              return(x[i, j])
+          })
+setMethod("[", signature(x="OnDiskMSnExp", i="missing",
+                         j="logicalOrNumeric", drop="missing"),
+          function(x, i, j, drop="missing"){
+              i <- 1:length(featureNames(x))
+              return(x[i, j])
+          })
 
 ##============================================================
 ##  --  DATA MANIPULATION METHODS
@@ -424,8 +542,10 @@ setMethod("clean", signature("OnDiskMSnExp"),
 ##  is provided, it is "forwarded" to argument "name".
 ## scanIdxCol: the column of the featureData containing the scan indices.
 ## name: a character vector, matching is performed using the row names of fd.
+## rtlim: a numeric of length 2 specifying the retention time window from which spectra
+##  should be extracted.
 .subsetFeatureDataBy <- function(fd, index=NULL, scanIdx=NULL, scanIdxCol="spIdx",
-                                 name=NULL){
+                                 name=NULL, rtlim=NULL){
     ## First check index.
     if(length(index) > 0){
         if(is.logical(index)){
@@ -469,6 +589,16 @@ setMethod("clean", signature("OnDiskMSnExp"),
         name <- name[gotIt]
         return(fd[name, , drop=FALSE])
     }
+    ## rtlim: subset by retention time range.
+    if(length(rtlim > 0)){
+        if(length(rtlim) > 2 | !is.numeric(rtlim))
+            stop("Argument 'rtlim' has to be a numeric vector of length 2 specifying",
+                 " the retention time window (range).")
+        gotIt <- which(fd$retentionTime >= rtlim[1] & fd$retentionTime <= rtlim[2])
+        if(length(gotIt) == 0)
+            stop("No spectrum within the specified retention time window.")
+        fd <- fd[gotIt, , drop=FALSE]
+    }
     return(fd)
 }
 
@@ -502,7 +632,7 @@ setMethod("clean", signature("OnDiskMSnExp"),
     res <- lapply(split(fData[, c("fileIdx", "spIdx", "centroided", "acquisitionNum",
                                   "peaksCount", "totIonCurrent", "retentionTime",
                                   "polarity")], rownames(fData)),
-                  FUN=function(z, theQ, skipValidate, fh, APPLYFUN){
+                  FUN=function(z, theQ, fh, APPLYFUN){
                       ## Read the data.
                       spD <- mzR::peaks(fh, z[1, 2])
                       sp <- Spectrum1(peaksCount=z[1, 5], rt=z[1, 7],
@@ -520,7 +650,7 @@ setMethod("clean", signature("OnDiskMSnExp"),
                           return(sp)
                       ## Now what remains is to apply the APPLYFUN and return results.
                       return(APPLYFUN(sp))
-                  }, theQ=queue, skipValidate=fast, fh=fileh, APPLYFUN=APPLYFUN)
+                  }, theQ=queue, fh=fileh, APPLYFUN=APPLYFUN)
     return(res)
 }
 ## The same function but using the standard "new" constructor from R.
@@ -541,7 +671,7 @@ setMethod("clean", signature("OnDiskMSnExp"),
     res <- lapply(split(fData[, c("fileIdx", "spIdx", "centroided", "acquisitionNum",
                                   "peaksCount", "totIonCurrent", "retentionTime",
                                   "polarity")], rownames(fData)),
-                  FUN=function(z, theQ, skipValidate, fh, APPLYFUN){
+                  FUN=function(z, theQ, fh, APPLYFUN){
                       ## Read the data.
                       spD <- mzR::peaks(fh, z[1, 2])
                       sp <- new("Spectrum1",
@@ -565,7 +695,7 @@ setMethod("clean", signature("OnDiskMSnExp"),
                           return(sp)
                       ## Now what remains is to apply the APPLYFUN and return results.
                       return(APPLYFUN(sp))
-                  }, theQ=queue, skipValidate=fast, fh=fileh, APPLYFUN=APPLYFUN)
+                  }, theQ=queue, fh=fileh, APPLYFUN=APPLYFUN)
     return(res)
 }
 ## Using the C constructor that takes all values and creates a list of Spectrum1 objects.
@@ -606,7 +736,6 @@ setMethod("clean", signature("OnDiskMSnExp"),
 
     ## If we have a non-empty queue, we might want to execute that too.
     if(!is.null(APPLYFUN) | length(queue) > 0){
-        cat("APPLYFUN not empty\n")
         res <- lapply(res, function(z, theQ, APPLF){
             if(length(theQ) > 0){
                 for(pStep in theQ){

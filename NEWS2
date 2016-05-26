@@ -1,5 +1,7 @@
 CHANGES IN VERSION 1.99.0
 -------------------------
+ o Finished with all pSet inherited methods and docs <2016-05-26 Thu>.
+ o Added rtlim argument to spectra method for OnDiskMSnExp <2016-05-26 Thu>.
  o Methods rtime, tic, ionCount, polarity and acquisitionNum implemented <2016-05-25 Wed>.
  o Documentation added for most methods <2016-05-25 Wed>.
  o Methods peaksCount and spectra for OnDiskMSnExp objects implemented <2016-05-24 Tue>.

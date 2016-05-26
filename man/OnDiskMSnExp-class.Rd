@@ -9,17 +9,25 @@
 \alias{show,OnDiskMSnExp-method}
 
 %% Getter/Setter
+\alias{[,OnDiskMSnExp,ANY,ANY,ANY-method}
+\alias{[,OnDiskMSnExp,logicalOrNumeric,logicalOrNumeric,missing-method}
+\alias{[,OnDiskMSnExp,logicalOrNumeric,missing,missing-method}
+\alias{[,OnDiskMSnExp,missing,logicalOrNumeric,missing-method}
+\alias{[[,OnDiskMSnExp-method}
+\alias{[[,OnDiskMSnExp,ANY,ANY-method}
 \alias{acquisitionNum,OnDiskMSnExp-method}
 \alias{assayData,OnDiskMSnExp-method}
 \alias{centroided,OnDiskMSnExp-method}
 \alias{centroided<-,OnDiskMSnExp,logical-method}
 \alias{fromFile,OnDiskMSnExp-method}
-\alias{header,OnDiskMSnExp-method}
+\alias{header,OnDiskMSnExp,missing-method}
 \alias{header,OnDiskMSnExp,numeric-method}
 \alias{ionCount,OnDiskMSnExp-method}
+\alias{intensity,OnDiskMSnExp-method}
 \alias{length,OnDiskMSnExp-method}
 \alias{msLevel,OnDiskMSnExp-method}
-\alias{peaksCount,OnDiskMSnExp-method}
+\alias{mz,OnDiskMSnExp-method}
+\alias{peaksCount,OnDiskMSnExp,missing-method}
 \alias{peaksCount,OnDiskMSnExp,numeric-method}
 \alias{polarity,OnDiskMSnExp-method}
 \alias{rtime,OnDiskMSnExp-method}
@@ -30,35 +38,6 @@
 %% Data manipulations.
 \alias{clean,OnDiskMSnExp-method}
 \alias{removePeaks,OnDiskMSnExp-method}
-
-%% \alias{bin,MSnExp-method}
-%% \alias{clean,MSnExp-method}
-%% \alias{compareSpectra,MSnExp,missing-method}
-%% \alias{extractPrecSpectra,MSnExp-method}
-%% \alias{extractPrecSpectra,MSnExp,numeric-method}
-%% %% \alias{extractSpectra,MSnExp-method}
-%% %% \alias{extractSpectra,MSnExp,logical-method}
-%% \alias{pickPeaks,MSnExp-method}
-%% \alias{estimateNoise,MSnExp-method}
-%% \alias{plot,MSnExp}
-%% \alias{plot,MSnExp,missing-method}
-%% \alias{quantify,MSnExp-method}
-%% \alias{quantify,MSnExp,character-method}
-%% \alias{removePeaks,MSnExp-method}
-%% \alias{removeReporters,MSnExp-method}
-%% \alias{smooth,MSnExp-method}
-%% \alias{addIdentificationData,MSnExp,character-method}
-%% \alias{addIdentificationData,MSnExp,mzIDClasses-method}
-%% \alias{addIdentificationData,MSnExp,mzID-method}
-%% \alias{addIdentificationData,MSnExp,mzIDCollection-method}
-%% \alias{addIdentificationData,MSnExp,data.frame-method}
-%% \alias{removeNoId,MSnExp-method}
-%% \alias{removeMultipleAssignment,MSnExp-method}
-%% \alias{idSummary,MSnExp-method}
-%% \alias{show,MSnExp-method}
-%% \alias{spectra,MSnExp-method}
-%% \alias{trimMz,MSnExp-method}
-%% \alias{trimMz,MSnExp,numeric-method}
 
 \title{The 'OnDiskMSnExp' Class for MS Data And Meta-Data}
 
@@ -165,6 +144,30 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 
   \describe{
 
+    \item{[}{
+      \code{object[i, j]}: subset the \code{OnDiskMSnExp} by spectra
+      (\code{i}) or samples (\code{j}).
+      \code{i} can be a \code{numeric} or \code{logical} vector
+      specifying to which spectra the data set should be reduced (with
+      \code{i} being the index of the spectrum in the object's
+      \code{featureData}).
+      \code{j} can be a \code{numeric} or \code{logical} vector defining
+      the samples/files to which the data set should be reduced.
+
+      The method returns a \code{OnDiskMSnExp} object with the data
+      sub-set.
+    }
+
+    \item{[[}{
+      \code{object[[i]]}: extract s single spectrum from the
+      \code{OnDiskMSnExp} object \code{object}. Argument \code{i} can be
+      either numeric or character specifying the index or the name of
+      the spectrum in the object (i.e. in the \code{featureData}). The
+      relevant information will be extracted from the corresponding raw
+      data file.
+
+      The method returns a \code{Spectrum1} object.
+    }
     \item{acquisitionNum}{
       \code{acquisitionNum(signature(object="OnDiskMSnExp"))}:
       get the acquisition number of each spectrum in each individual
@@ -223,6 +226,22 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
       \code{header} method above for more details.
     }
 
+    \item{intensity}{
+      \code{intensity(signature(object="OnDiskMSnExp"))}:
+      return the intensities from each spectrum in the data
+      set. Intensities are first read from the raw files followed by an
+      optional processing (depending on the processing steps defined in
+      the \code{spectraProcessingQueue}). To reduce the amount of
+      required  memory, this is performed on a per-file basis.
+      The \code{BPPARAM} argument allows to specify how
+      and if parallel processing should be used. Information from
+      individual files will be processed in parallel (one process per
+      original file).
+
+      The method returns a \code{list} of numeric intensity values. Each
+      list element represents the intensities from one spectrum.
+    }
+
     \item{ionCount}{
       \code{ionCount(signature(object="OnDiskMSnExp",
 	BPPARAM=bpparam()))}:
@@ -250,6 +269,22 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 
       Returns a numeric vector with names corresponding to the spectrum
       names.
+    }
+
+    \item{mz}{
+      \code{mz(signature(object="OnDiskMSnExp"))}:
+      return the M/Z values from each spectrum in the data
+      set. M/Z values are first read from the raw files followed by an
+      optional processing (depending on the processing steps defined in
+      the \code{spectraProcessingQueue}). To reduce the amount of
+      required  memory, this is performed on a per-file basis.
+      The \code{BPPARAM} argument allows to specify how
+      and if parallel processing should be used. Information from
+      individual files will be processed in parallel (one process per
+      original file).
+
+      The method returns a \code{list} of numeric M/Z values. Each
+      list element represents the values from one spectrum.
     }
 
     \item{peaksCount}{
@@ -296,17 +331,27 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 
     \item{spectra}{
       \code{spectra(signature(object="OnDiskMSnExp"), scans=NULL,
-	BPPARAM=bpparam())}:
-      extract spectrum data from the individual files. Spectrum data is
-      retrieved from the raw files, any processing steps in the
-      \code{spectraProcessingQueue} are applied to the data which is
-      then returned as \code{\linkS4class{Spectrum1}} objects. Argument
-      \code{scans} can be used to extract only specific spectra (which
-      considerably increases processing speed) by specifying their index
-      in the object's \code{featureData}. The \code{BPPARAM} argument
-      can be used to define how and if parallel processing should be
-      used. Information from individual files will be processed in
-      parallel (one process per file).
+	rtlim=NULL, BPPARAM=bpparam())}:
+      extract spectrum data from the individual files. This causes the
+      spectrum data to be read from the original raw files. After that
+      all processing steps defined in the \code{spectraProcessingQueue}
+      are applied to it. The results are then returned as a \code{list}
+      of \code{\linkS4class{Spectrum1}} objects.
+
+      Argument \code{scans}: numeric, character or logical vector
+      specifying the spectra that should be extracted (either index in
+      the data set (not scan index within the file!), name of the
+      spectrum or logical vector with length equal to the number of
+      spectra in the data set).
+      Argument \code{rtlim}: numeric vector of length 2 defining a
+      retention time window/range from which spectra should be
+      extracted.
+      The \code{BPPARAM} argument can be used to define how and if
+      parallel processing should be used. Information from individual
+      files will be processed in parallel (one process per file).
+      Note: extraction of selected spectra results in a considerable
+      processing speed and should thus be preferred over whole data
+      extraction.
 
       Returns a \code{list} of \code{\linkS4class{Spectrum1}} objects
       with names corresponding to the spectrum names.
@@ -359,112 +404,15 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 
 }
 
-%% \section{Methods}{
-%%   See the \code{"\linkS4class{pSet}"} class for documentation on
-%%   accessors inherited from \code{pSet}, subsetting and general attribute
-%%   accession.
-
-%%   \describe{
-%%     \item{bin}{\code{signature(object = "MSnExp")}: Bins spectra.
-%%       See \code{\link{bin}} documentation for more details and examples. }
-%%     \item{clean}{\code{signature(object = "MSnExp")}: Removes unused 0
-%%       intensity data points. See \code{\link{clean}} documentation
-%%       for more details and examples. }
-%%     \item{compareSpectra}{\code{signature(object1 = "Spectrum",
-%%       object2 = "missing")}: Compares spectra.  See
-%%       \code{\link{compareSpectra}} documentation for more details and
-%%       examples. }
-%%     \item{extractPrecSpectra}{\code{signature(object = "MSnExp", prec =
-%% 	"numeric")}: extracts spectra with precursor MZ value equal to
-%%       \code{prec} and returns an object of class 'MSnExp'.
-%%       See \code{\link{extractPrecSpectra}} documentation for more
-%%       details and examples. }
-%%     % \item{extractSpectra}{\code{signature(object = "MSnExp", selected =
-%%     % 	"logical")}: extracts spectra corresponding to 'TRUE' in
-%%     %   \code{selected}.
-%%     % See \code{\link{extractSpectra}} documentation for more details
-%%     % and examples. }
-%%     \item{pickPeaks}{\code{signature(object = "MSnExp")}: Performs the peak
-%%       picking to generate centroided spectra.
-%%       See \code{\link{pickPeaks}} documentation for more
-%%       details and examples. }
-%%     \item{estimateNoise}{\code{signature(object = "MSnExp")}: Estimates
-%%       the noise in all profile spectra of \code{object}.  See
-%%       \code{\link{estimateNoise}} documentation for more details and
-%%       examples. }
-%%     \item{plot}{\code{signature(x = "MSnExp", y = "missing")}: Plots all
-%%       the spectra of the \code{MSnExp} instance. See
-%%       \code{\link{plot.MSnExp}} documentation for more details. }
-%%     \item{plot2d}{\code{signature(object = "MSnExp", ...)}:
-%%       Plots retention time against precursor MZ for \code{MSnExp}
-%%       instances. See \code{\link{plot2d}} documentation for more
-%%       details. }
-%%     \item{plotDensity}{\code{signature(object = "MSnExp", ...)}:
-%%       Plots the density of parameters of interest.
-%%       instances. See \code{\link{plotDensity}} documentation for more
-%%       details. }
-%%     \item{plotMzDelta}{\code{signature(object = "MSnExp", ...)}:
-%%       Plots a histogram of the m/z difference betwee all of the highest
-%%       peaks of all MS2 spectra of an experiment.
-%%       See \code{\link{plotMzDelta}} documentation for more details. }
-%%     \item{quantify}{\code{signature(object = "MSnExp")}: Performs
-%%       quantification for all the MS2 spectra of the \code{MSnExp}
-%%       instance. See \code{\link{quantify}} documentation for more
-%%       details. }
-%%     \item{removePeaks}{\code{signature(object = "MSnExp")}: Removes
-%%       peaks lower that a threshold \code{t}. See
-%%       \code{\link{removePeaks}} documentation for more details and
-%%       examples. }
-%%     \item{removeReporters}{\code{signature(object = "MSnExp", ...)}:
-%%       Removes reporter ion peaks from all MS2 spectra of an
-%%       experiment. See \code{\link{removeReporters}} documentation for
-%%       more details and examples. }
-%%     \item{smooth}{\code{signature(x = "MSnExp")}: Smooths spectra.
-%%       See \code{\link{smooth}} documentation for more details and examples. }
-%%     \item{addIdentificationData}{\code{signature(object = "MSnExp", ...)}:
-%%       Adds identification data to an experiment.
-%%       See \code{\link{addIdentificationData}} documentation for
-%%       more details and examples. }
-
-%%     \item{removeNoId}{\code{signature(object = "MSnExp", fcol =
-%% 	"pepseq", keep = NULL)}: Removes non-identified features. See
-%%       \code{\link{removeNoId}} documentation for more details and
-%%       examples. }
-
-%%     \item{removeMultipleAssignment}{\code{signature(object = "MSnExp",
-%% 	fcol = "nprot")}: Removes protein groups with more than one
-%% 	member. The latter is defined by extracting a feature variable
-%% 	(default is \code{"nprot"}). }
-
-%%     \item{idSummary}{\code{signature(object = "MSnExp", ...)}:
-%%       Prints a summary that lists the percentage of identified features per
-%%       file (called \code{coverage}).}
-
-%%     \item{show}{\code{signature(object = "MSnExp")}: Displays object
-%%       content as text. }
-
-%%     \item{trimMz}{\code{signature(object = "MSnExp")}: Trims the MZ
-%%       range of all the spectra of the \code{MSnExp} instance. See
-%%       \code{\link{trimMz}} documentation for more details and
-%%       examples. }
-%%   }
-%% }
-
-%% \references{
-%%   Information about the mzXML format as well converters from vendor
-%%   specific formats to mzXML:
-%%   \url{http://tools.proteomecenter.org/wiki/index.php?title=Formats:mzXML}.
-%% }
-
 \author{
   Johannes Rainer <johannes.rainer@eurac.edu>
 }
 
-%% \seealso{
-%%   \code{"\linkS4class{pSet}"} and \code{\link{readMSData}} for loading
-%%   \code{mzXML}, \code{mzData} or \code{mzML} files to generate an
-%%   instance of \code{MSnExp}.
-%% }
+\seealso{
+  \code{\linkS4class{pSet}},
+  \code{\linkS4class{MSnExp}},
+  \code{\link{readMSData}}
+}
 
 \examples{
 ## Get some example mzML files
@@ -499,12 +447,26 @@ head(spectra(odmse))
 ## Extracting individual spectra or a subset is much faster.
 spectra(odmse, scans=c(1, 50))
 
+## Spectra can also be extracted given a retention time window
+spectra(odmse, rtlim=c(2, 20))
+
+## Alternatively, we could also subset the whole object by spectra and/or samples:
+subs <- odmse[rtime(odmse) >= 2 & rtime(odmse) <= 20, 1]
+fileNames(subs)
+rtime(subs)
+
+## Extract intensities and M/Z values per spectrum; the methods return a list,
+## each element representing the values for one spectrum.
+ints <- intensity(odmse)
+mzs <- mz(odmse)
+
+
 ## Calling removePeaks, i.e. setting intensity values below a certain threshold to 0.
 ## Unlike the name suggests, this is not actually removing peaks. Such peaks with a 0
 ## intensity are then removed by the "clean" step.
 ## Also, the manipulations are not applied directly, but put into the "lazy"
 ## processing queue.
-odmse <- removePeaks(odmse)
+odmse <- removePeaks(odmse, t=10000)
 odmse <- clean(odmse)
 
 ## The processing steps are only applied when actual raw data is extracted.
@@ -515,6 +477,17 @@ head(polarity(odmse))
 
 ## Get the retention time of all spectra
 head(rtime(odmse))
+
+## Get the intensities after removePeaks and clean
+intsAfter <- intensity(odmse)
+
+head(lengths(ints))
+head(lengths(intsAfter))
+
+## The same for the M/Z values
+mzsAfter <- intensity(odmse)
+head(lengths(mzs))
+head(lengths(mzsAfter))
 
 }
 

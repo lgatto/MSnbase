@@ -16,7 +16,7 @@
 \usage{
 readMSData(files, pdata = NULL, msLevel = 2, verbose = TRUE,
 centroided = FALSE, smoothed = FALSE, removePeaks = 0, clean = FALSE,
-cache = 1)  
+cache = 1, backend = ifelse(msLevel == 1, yes = "disk", no = "ram"))
 }
 
 \arguments{
@@ -28,7 +28,7 @@ cache = 1)
   }
   \item{msLevel}{
     MS level spectra to be read. Use '1' for MS1 spectra or any larger
-    numeric for MSn spectra. Default is '2'. 
+    numeric for MSn spectra. Default is '2'.
   }
   \item{centroided}{
     \code{Logical} indicating whether spectra are centroided or not. Default is
@@ -47,23 +47,39 @@ cache = 1)
   \item{clean}{
     Logical indicating whether 0 intensity peaks should be discarded
     from spectra. Useful is removePeaks is set. Default is 'FALSE'. See
-    \code{\link{clean}} for more details and examples. 
+    \code{\link{clean}} for more details and examples.
   }
   \item{cache}{
     Numeric indicating caching level. Default is 0 for MS1 and 1 MS2 (or
     higher). Under development.
   }
+  \item{backend}{
+    Whether spectrum data should be kept in-memory
+    (\code{backend="ram"}) or should be fetched on-the-fly from the
+    original data files (\code{backend="disk"}). The default for MS
+    level 1 is to fetch spectrum data on-the-fly.
+  }
   \item{verbose}{
-   verbosity flag. 
+   verbosity flag.
   }
 }
 
-% \details{
-%   %%  ~~ If necessary, more details than the description above ~~
-% }
+\details{
+  For \code{backend="ram"} the whole MS data is read from file and kept
+  in memory as \code{\linkS4class{Spectrum}} objects within the
+  \code{\linkS4class{MSnExp}}'s \code{assayData} slot. To reduce the
+  memory footpring especially for large MS 1 data sets it is also
+  possible to read only selected information from the MS files and fetch
+  the actual spectrum data (i.e. the M/Z and intensity values) only on
+  demand from the original data files. This can be achieved by specifying
+  \code{backend="disk"} (the default for MS level 1 data). The function
+  returns then an \code{\linkS4class{OnDiskMSnExp}} object instead of a
+  \code{\linkS4class{MSnExp}} object.
+}
 
 \value{
-  An \code{"\linkS4class{MSnExp}"} object.
+  An \code{"\linkS4class{MSnExp}"} object for \code{backend="ram"} and a
+  \code{\linkS4class{OnDiskMSnExp}} object for \code{backend="disk"}.
 }
 
 % \references{
