@@ -43,13 +43,13 @@ setMethod("show", "MSmap",
                            "-", formatRt(max(object@rt)), "\n"),
                        "mz" = paste("  M/Z: ", min(object@mz), " - ",
                            max(object@mz), " (res ", mzRes(object),
-                           ")\n", sep = ""))                           
+                           ")\n", sep = ""))
               if (object@t) {
                   cat("  [1]", msg["mz"], sep = "")
                   cat("  [2]", msg["rt"], sep = "")
               } else {
                   cat("  [1]", msg["rt"], sep = "")
-                  cat("  [2]", msg["mz"], sep = "")                  
+                  cat("  [2]", msg["mz"], sep = "")
               }
           })
 
@@ -57,7 +57,7 @@ as.data.frame.MSmap <- function(x) as(x, "data.frame")
 
 setAs("MSmap", "data.frame",
       function(from) {
-          .int <- msMap(from)[, ncol(msMap(from)):1]
+          .int <- as.numeric(msMap(from))
           .rt <- rtime(from)/60
           .mz <- mz(from)
           .ms <- msLevel(from)
@@ -112,7 +112,6 @@ setMethod("plot3D", "MSmap",
                         axis.line = list(col = "transparent"),
                         xlab="M/Z", ylab="Retention time", zlab=NULL)
               }
-
           })
 
 MSmap <- function(object, scans, lowMz, highMz, resMz, hd,
@@ -120,7 +119,7 @@ MSmap <- function(object, scans, lowMz, highMz, resMz, hd,
     if (missing(hd))
         hd <- header(object)
     ms1 <- which(hd$msLevel == 1)
-    if (missing(scans)) 
+    if (missing(scans))
         scans <- ms1
     .call <- match.call()
     map <- mzR::get3Dmap(object, scans, lowMz, highMz, resMz)

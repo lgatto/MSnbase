@@ -144,18 +144,6 @@ zoom <- function(x, w = 0.05) {
         pcol = rep("grey", length(x)))
 }
 
-
-getBins <- function(x) {
-  bins <- numeric(length(x))
-  bins[1] <- 1
-  for (i in 2:length(x)) {
-      ifelse(x[i] == x[i-1]+1,
-             bins[i] <- bins[i-1],
-             bins[i] <- bins[i-1]+1)
-  }
-  return(bins)
-}
-
 makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
     if (!missing(filename)) {
         m <- read.csv(filename, row.names = 1)

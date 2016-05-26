@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for MS-based Proteomics
-Version: 1.21.5
+Version: 1.21.6
 Description: Basic plotting, data manipulation and processing
 	     of MS-based Proteomics data.
 Authors@R: c(person(given = "Laurent", family = "Gatto",
@@ -75,6 +75,8 @@ Suggests:
     msdata,
     roxygen2,
     rgl,
+    rpx,
+    AnnotationHub,
     BiocStyle,
     imputeLCMD,
     norm,
