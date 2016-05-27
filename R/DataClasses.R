@@ -405,14 +405,7 @@ setClass("OnDiskMSnExp",
                                             " allowed in slot 'spectraProcessingQueue'"))
              }
              ## Check that required columns are present in the featureData:
-             reqCols <- c("fileIdx", "spIdx", "acquisitionNum", "retentionTime",
-                          "polarity", "msLevel", "peaksCount", "totIonCurrent")
-             NotPresent <- reqCols[!(reqCols %in% colnames(fData(object)))]
-             if(length(NotPresent) > 0)
-                 msg <- validMsg(msg,
-                                 paste0("Required columns: ",
-                                        paste(sQuote(NotPresent), collapse=","),
-                                        " not present in featureData!"))
+             msg <- validMsg(msg, .validateFeatureDataForOnDiskMSnExp(featureData(object)))
              ## Check if the files do exist.
              theFiles <- fileNames(object)
              for(theF in theFiles){

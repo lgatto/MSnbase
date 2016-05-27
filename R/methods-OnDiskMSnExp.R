@@ -123,29 +123,32 @@ setMethod("fromFile", "OnDiskMSnExp", function(object){
 ## of the columns and return the data.frame.
 setMethod("header",
           signature("OnDiskMSnExp","missing"),
-          function(object){
-              hd <- fData(object)
-              ## If we need the "ionCount" column we might have to read it on-the-fly,
-              ## which would badly suck, as it would slow down stuff.
-              ## Rename columns
-              colnames(hd)[colnames(hd) == "fileIdx"] <- "file"
-              colnames(hd)[colnames(hd) == "retentionTime"] <- "retention.time"
-              colnames(hd)[colnames(hd) == "peaksCount"] <- "peaks.count"
-              colnames(hd)[colnames(hd) == "totIonCurrent"] <- "tic"
-              colnames(hd)[colnames(hd) == "msLevel"] <- "ms.level"
-              colnames(hd)[colnames(hd) == "acquisitionNum"] <- "acquisition.number"
-              return(hd)
+          function(object, BPPARAM=bpparam()){
+              return(header(object, scans=numeric(), BPPARAM=BPPARAM))
           })
 setMethod("header",
           signature=c("OnDiskMSnExp","numeric"),
-          function(object, scans){
-              hd <- .subsetFeatureDataBy(fData(object), scanIdx=scans)
+          function(object, scans, BPPARAM=bpparam()){
+              hd <- .subsetFeatureDataBy(fData(object), index=scans)
+              message("Loading the raw data to calculate peaksCount and ionCount.")
+              ## Need to get ionCount anyway from the raw file; peaksCount could be returned
+              ## too with the same call.
+              if(length(scans) < 800)
+                  BPPARAM <- SerialParam()
+              vals <- spectrapply(object, FUN=function(y){
+                  return(c(sum(y@intensity), length(y@intensity)))
+              }, index=scans, BPPARAM=BPPARAM)
+              numMat <- do.call(rbind, vals[rownames(hd)])
+              colnames(numMat) <- c("ionCount", "peaks.count")
+              ## Rename columns
               colnames(hd)[colnames(hd) == "fileIdx"] <- "file"
               colnames(hd)[colnames(hd) == "retentionTime"] <- "retention.time"
-              colnames(hd)[colnames(hd) == "peaksCount"] <- "peaks.count"
               colnames(hd)[colnames(hd) == "totIonCurrent"] <- "tic"
               colnames(hd)[colnames(hd) == "msLevel"] <- "ms.level"
               colnames(hd)[colnames(hd) == "acquisitionNum"] <- "acquisition.number"
+              ## Drop the peaks count column
+              hd <- hd[, colnames(hd) != "peaksCount"]
+              hd <- cbind(hd, as.data.frame(numMat))
               return(hd)
           })
 
@@ -249,7 +252,6 @@ setMethod("peaksCount", signature(object="OnDiskMSnExp", scans="missing"),
           })
 setMethod("peaksCount", signature(object="OnDiskMSnExp", scans="numeric"),
           function(object, scans, BPPARAM=bpparam()){
-              fd <- .subsetFeatureDataBy(fData(object), index=scans)
               ## Peaks count from the original files is available in the featureData,
               ## thus, we only have to read the raw data again and calculate the peaksCount
               ## if we did do some processing of the data. And here also just processing
@@ -273,16 +275,10 @@ setMethod("peaksCount", signature(object="OnDiskMSnExp", scans="numeric"),
                   ## An important point here is that we DON'T want to get all of the data from
                   ## all files in one go; that would require eventually lots of memory! It's better
                   ## to do that per file; that way we could also do that in parallel.
-                  fDataPerFile <- split(fd, f=fd$fileIdx)
-                  vals <- bplapply(fDataPerFile, FUN=.applyFun2SpectraOfFileMulti,
-                                   filenames=fileNames(object),
-                                   queue=object@spectraProcessingQueue,
-                                   APPLYFUN=peaksCount,
-                                   BPPARAM=BPPARAM)
-                  names(vals) <- NULL
-                  vals <- unlist(vals, recursive=TRUE)
-                  return(vals[rownames(fd)])
+                  vals <- spectrapply(object, FUN=peaksCount, index=scans, BPPARAM=BPPARAM)
+                  return(unlist(vals))
               }else{
+                  fd <- .subsetFeatureDataBy(fData(object), index=scans)
                   vals <- fd$peaksCount
                   names(vals) <- rownames(fd)
               }
@@ -295,21 +291,14 @@ setMethod("peaksCount", signature(object="OnDiskMSnExp", scans="numeric"),
 ## Calculate the ion count, i.e. the sum of intensities per spectrum.
 setMethod("ionCount", "OnDiskMSnExp",
           function(object, BPPARAM=bpparam()){
-              fd <- fData(object)
               ## Heck; reload the data.
-              message("Loading the raw data to calculate peaksCount.")
+              message("Loading the raw data to calculate ionCount.")
               ## An important point here is that we DON'T want to get all of the data from
               ## all files in one go; that would require eventually lots of memory! It's better
               ## to do that per file; that way we could also do that in parallel.
-              fDataPerFile <- split(fd, f=fd$fileIdx)
-              vals <- bplapply(fDataPerFile, FUN=.applyFun2SpectraOfFileMulti,
-                               filenames=fileNames(object),
-                               queue=object@spectraProcessingQueue,
-                               APPLYFUN=function(y){return(sum(y@intensity))},
-                               BPPARAM=BPPARAM)
-              names(vals) <- NULL
-              vals <- unlist(vals, recursive=TRUE)
-              return(vals[rownames(fd)])
+              vals <- spectrapply(object, FUN=function(y){return(sum(y@intensity))},
+                                  BPPARAM=BPPARAM)
+              return(unlist(vals))
           })
 
 ############################################################
@@ -327,18 +316,10 @@ setMethod("ionCount", "OnDiskMSnExp",
 setMethod("spectra", "OnDiskMSnExp", function(object, scans=NULL,
                                               rtlim=NULL,
                                               BPPARAM=bpparam()){
-    fd <- .subsetFeatureDataBy(fData(object), index=scans, rtlim=rtlim)
-    fdPerFile <- split(fd, f=fd$fileIdx)
     ## Overwriting the BPPARAM setting if we've only got some scans!
     if(length(scans) > 0 & length(scans) < 800)
         BPPARAM <- SerialParam()
-    vals <- bplapply(fdPerFile, FUN=.applyFun2SpectraOfFileMulti,
-                     filenames=fileNames(object),
-                     queue=object@spectraProcessingQueue,
-                     BPPARAM=BPPARAM)
-    names(vals) <- NULL
-    vals <- unlist(vals)
-    return(vals[rownames(fd)])
+    return(spectrapply(object, index=scans, rtlim=rtlim, BPPARAM=BPPARAM))
 })
 
 ############################################################
@@ -346,15 +327,8 @@ setMethod("spectra", "OnDiskMSnExp", function(object, scans=NULL,
 ##
 ## Read the full data, put it into an environment and return that.
 setMethod("assayData", "OnDiskMSnExp", function(object){
-    fd <- fData(object)
-    fdPerFile <- split(fd, f=fd$fileIdx)
-    vals <- bplapply(fdPerFile, FUN=.applyFun2SpectraOfFileMulti,
-                     filenames=fileNames(object),
-                     queue=object@spectraProcessingQueue,
-                     BPPARAM=bpparam())
-    names(vals) <- NULL
-    vals <- unlist(vals)
-    return(list2env(vals[rownames(fd)]))
+    message("Loading data from original files.")
+    return(list2env(spectra(object)))
 })
 
 ############################################################
@@ -364,17 +338,8 @@ setMethod("assayData", "OnDiskMSnExp", function(object){
 ## have to read all of the data, create Spectrum objects, apply
 ## eventual processing steps and return the intensities.
 setMethod("intensity", "OnDiskMSnExp", function(object, BPPARAM=bpparam()){
-    fd <- fData(object)
     message("Loading data to extract intensity values.")
-    fDataPerFile <- split(fd, f=fd$fileIdx)
-    vals <- bplapply(fDataPerFile, FUN=.applyFun2SpectraOfFileMulti,
-                     filenames=fileNames(object),
-                     queue=object@spectraProcessingQueue,
-                     APPLYFUN=intensity,
-                     BPPARAM=BPPARAM)
-    names(vals) <- NULL
-    vals <- unlist(vals, recursive=FALSE)
-    return(vals[rownames(fd)])
+    return(spectrapply(object, FUN=intensity, BPPARAM=BPPARAM))
 })
 
 
@@ -383,17 +348,8 @@ setMethod("intensity", "OnDiskMSnExp", function(object, BPPARAM=bpparam()){
 ##
 ## Extract the mz values of individual spectra.
 setMethod("mz", "OnDiskMSnExp", function(object, BPPARAM=bpparam()){
-    fd <- fData(object)
     message("Loading data to extract M/Z values.")
-    fDataPerFile <- split(fd, f=fd$fileIdx)
-    vals <- bplapply(fDataPerFile, FUN=.applyFun2SpectraOfFileMulti,
-                     filenames=fileNames(object),
-                     queue=object@spectraProcessingQueue,
-                     APPLYFUN=mz,
-                     BPPARAM=BPPARAM)
-    names(vals) <- NULL
-    vals <- unlist(vals, recursive=FALSE)
-    return(vals[rownames(fd)])
+    return(spectrapply(object, FUN=mz, BPPARAM=BPPARAM))
 })
 
 ############################################################
@@ -469,6 +425,40 @@ setMethod("[", signature(x="OnDiskMSnExp", i="missing",
           function(x, i, j, drop="missing"){
               i <- 1:length(featureNames(x))
               return(x[i, j])
+          })
+
+############################################################
+## spectrapply
+##
+## That's the main method to apply functions to the object's spectra, or
+## to just return a list with the spectra, if FUN is empty.
+## Arguments; all are related to the sub-setting of the featureData.
+## index: subset by numeric index, logical or character. Character indices are "forwarded"
+##  to argument "name".
+## scanIdx: a numeric is expected, specifying the scan index. If a character vector
+##  is provided, it is "forwarded" to argument "name".
+## scanIdxCol: the column of the featureData containing the scan indices.
+## name: a character vector, matching is performed using the row names of fd.
+## rtlim: a numeric of length 2 specifying the retention time window from which spectra
+##  should be extracted.
+setMethod("spectrapply", "OnDiskMSnExp",
+          function(object, FUN=NULL, index=NULL, scanIdx=NULL, name=NULL, rtlim=NULL,
+                   BPPARAM=bpparam(), ...){
+              ## Sub-set the feature data based on the arguments.
+              fd <- .subsetFeatureDataBy(fData(object), index=index, scanIdx=scanIdx,
+                                         name=name, rtlim=rtlim)
+              isOK <- .validateFeatureDataForOnDiskMSnExp(fd)
+              if(!is.null(isOK))
+                  stop(isOK)
+              fDataPerFile <- split(fd, f=fd$fileIdx)
+              vals <- bplapply(fDataPerFile, FUN=.applyFun2SpectraOfFileMulti,
+                               filenames=fileNames(object),
+                               queue=object@spectraProcessingQueue,
+                               APPLYFUN=FUN,
+                               BPPARAM=BPPARAM)
+              names(vals) <- NULL
+              vals <- unlist(vals, recursive=FALSE)
+              return(vals[rownames(fd)])
           })
 
 ##============================================================
@@ -698,11 +688,21 @@ setMethod("clean", signature("OnDiskMSnExp"),
                   }, theQ=queue, fh=fileh, APPLYFUN=APPLYFUN)
     return(res)
 }
-## Using the C constructor that takes all values and creates a list of Spectrum1 objects.
+## Using the C constructor that takes all values at once and creates a list of
+## Spectrum1 objects, applies processing steps, applies the provided function and returns its
+## results - or the list of Spectrum1 objects if APPLYFUN=NULL.
+## Arguments:
+## o fData: either a full data.frame (returned by fData(OnDiskMSnExp)) or a sub-set for
+##   specific spectra. The data.frame should ONLY CONTAIN VALUES FOR SPECTRA OF ONE FILE!
+## o filenames: fileNames(object)
+## o queue: object@spectraProcessingQueue; if lenght > 0 all processing steps will be
+##   applied to the created Spectrum1 objects.
+## o APPLYFUN: the function to be applied to the Spectrum1 objects (such as ionCount etc).
+##   If NULL the function returns the list of Spectrum1 objects.
 .applyFun2SpectraOfFileMulti <- function(fData, filenames, queue=NULL,
                                         APPLYFUN=NULL){
     if(missing(fData) | missing(filenames))
-        stop("Both 'fData' and 'filenames' are requierd!")
+        stop("Both 'fData' and 'filenames' are required!")
     filename <- filenames[fData[1, "fileIdx"]]
     if(any(fData$msLevel > 1))
         stop("on-the-fly import currently only supported for MS1 level data.")
@@ -721,7 +721,7 @@ setMethod("clean", signature("OnDiskMSnExp"),
         nValues <- nrow(allSpect)
     }
     ## Call the C-constructor to create a list of Spectrum1 objects.
-    res <- Spectra1(peaksCount=fData$peaksCount,
+    res <- Spectra1(peaksCount=nValues,
                     scanIndex=fData$spIdx,
                     rt=fData$retentionTime,
                     acquisitionNum=fData$acquisitionNum,
@@ -751,3 +751,17 @@ setMethod("clean", signature("OnDiskMSnExp"),
     return(res)
 }
 
+## Returns either NULL or a character string.
+.validateFeatureDataForOnDiskMSnExp <- function(x){
+    ## Testing if we've got all the required columns!
+    ## Note: we might drop peaksCount, as that one will anyway be calculted on the fly.
+    reqCols <- c("fileIdx", "spIdx", "acquisitionNum", "retentionTime",
+                 "polarity", "msLevel", "totIonCurrent", "peaksCount",
+                 "centroided")
+    NotPresent <- reqCols[!(reqCols %in% colnames(x))]
+    if(length(NotPresent) > 0)
+        return(paste0("Required columns: ",
+                      paste(sQuote(NotPresent), collapse=","),
+                      " not present in featureData!"))
+    return(NULL)
+}

@@ -52,11 +52,34 @@ test_that("compare basic contents", {
     hd <- header(mse)
     odhd <- header(odmse)
     commonCols <- intersect(colnames(hd), colnames(odhd))
-    expect_identical(hd[, commonCols], odhd[, commonCols])
+    expect_equal(hd[, commonCols], odhd[, commonCols])
 
     ## length
     expect_identical(length(mse), length(odmse))
 
+})
+
+############################################################
+## header
+test_that("header on OnDiskMSnExp", {
+    system.time(
+        hd1 <- header(mse)
+    )
+    system.time(
+        hd2 <- header(odmse)
+    )
+    commonCols <- intersect(colnames(hd1), colnames(hd2))
+    expect_equal(hd1[, commonCols], hd2[, commonCols])
+
+    ## header with scans.
+    system.time(
+        hd1 <- header(mse, scans=1:300)
+    ) ## 0.5
+    system.time(
+        hd2 <- header(odmse, scans=1:300)
+    ) ## 0.3
+    commonCols <- intersect(colnames(hd1), colnames(hd2))
+    expect_equal(hd1[, commonCols], hd2[, commonCols])
 })
 
 ############################################################
@@ -114,8 +137,12 @@ test_that("tic for OnDiskMSnExp", {
 ############################################################
 ## ionCount
 test_that("ionCount for OnDiskMSnExp", {
-    ic <- ionCount(mse)
-    ic2 <- ionCount(odmse)
+    system.time(
+        ic <- ionCount(mse)
+    ) ## 0.058
+    system.time(
+        ic2 <- ionCount(odmse)
+    ) ## 5 sec.
     expect_identical(ic, ic2)
 })
 
@@ -175,7 +202,7 @@ test_that("compare spectra call", {
     )  ## 0.005 sec.
     system.time(
         spct1 <- spectra(odmse)
-    )  ## 7.1 sec.
+    )  ## 5.6 sec.
     ## Polarity and scanIndex will not match.
     spct1 <- lapply(spct1, function(z){
         z@polarity <- integer()
@@ -189,7 +216,7 @@ test_that("compare spectra call", {
     )  ## 0.005 sec.
     system.time(
         spct1 <- spectra(odmseRemPeaks)
-    )  ## 18.8 sec.
+    )  ## 20 sec.
     ## Polarity and scanIndex will not match.
     spct1 <- lapply(spct1, function(z){
         z@polarity <- integer()
@@ -216,7 +243,7 @@ test_that("compare spectra call", {
     ## With the processing steps...
     system.time(
         spSub1 <- spectra(odmseRemPeaks, scans=subs)
-    )  ## 0.088 sec
+    )  ## 0.069 sec
     spSub <- spectra(mseRemPeaks)[subs]
     spSub1 <- lapply(spSub1, function(z){
         z@polarity <- integer()
@@ -326,8 +353,9 @@ test_that("[[ for OnDiskMSnExp", {
     expect_identical(sp1, sp2)
 
     ## by name.
-    sp1 <- mse[["X0003.1"]]
-    sp2 <- odmse[["X0003.1"]]
+    theN <- featureNames(mse)[100]
+    sp1 <- mse[[theN]]
+    sp2 <- odmse[[theN]]
     sp2@polarity <- integer()
     sp2@scanIndex <- integer()
     expect_identical(sp1, sp2)

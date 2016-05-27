@@ -1,5 +1,9 @@
 CHANGES IN VERSION 1.99.0
 -------------------------
+ o Added (internal) method spectrapply to apply a function to all spectra
+   of an OnDiskMSnExp object; does the data import, subsetting, application
+   of lazy processing steps etc. <2016-05-27 Fri>.
+ o Added a section to the MSnbase-development vignette <2016-05-27 Fri>.
  o Finished with all pSet inherited methods and docs <2016-05-26 Thu>.
  o Added rtlim argument to spectra method for OnDiskMSnExp <2016-05-26 Thu>.
  o Methods rtime, tic, ionCount, polarity and acquisitionNum implemented <2016-05-25 Wed>.
