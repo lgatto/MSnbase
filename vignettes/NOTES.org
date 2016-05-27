@@ -36,8 +36,9 @@ Some requirements and ideas for the actual implementation:
 
 ** Implementation
 
-*** TODO Define the =OnDiskMSnExp= class [4/7]
-
+*** DONE Define the =OnDiskMSnExp= class [7/7]
+    CLOSED: [2016-05-27 Fri 13:28]
+    - State "DONE"       from "TODO"       [2016-05-27 Fri 13:28]
 This one should just extend the =MSnExp= and add eventually one or two slots;
 there shouldn't be much to add.
 + [X] Add slot =spectraProcessingQueue=: a list of =ProcessingStep= objects recording
@@ -69,9 +70,9 @@ there shouldn't be much to add.
   getter method =isOnDisk= returns =FALSE= if that slot does not
   exist). =OnDiskMSnExp= objects will always set that slot to =TRUE=, which skips
   all validations that directly access the spectrum data.
-+ [ ] Write documentation.
-+ [ ] Add examples to vignette.
-+ [ ] Test cases.
++ [X] Write documentation.
++ [X] Add examples to vignette.
++ [X] Test cases.
 
 *** DONE Adapt the =readMSData= function (Point 4) [5/5]
     CLOSED: [2016-05-26 Thu 12:46]
