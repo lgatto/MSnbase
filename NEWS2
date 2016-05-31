@@ -1,5 +1,6 @@
 CHANGES IN VERSION 1.99.0
 -------------------------
+ o Added trimMz method for OnDiskMSnExp objects <2016-05-31 Tue>.
  o Added (internal) method spectrapply to apply a function to all spectra
    of an OnDiskMSnExp object; does the data import, subsetting, application
    of lazy processing steps etc. <2016-05-27 Fri>.

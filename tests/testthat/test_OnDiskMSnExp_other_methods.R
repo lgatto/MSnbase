@@ -1,4 +1,4 @@
-context("OnDiskMSnExp class")
+context("OnDiskMSnExp class, other methods")
 
 ############################################################
 ## Load the required data files.
@@ -34,5 +34,36 @@ odmseRemPeaks <- readMSData(files=mzf, msLevel=1, backend="disk",
 test_that("OnDiskMSnExp plot", {
     ## Would be nice to know what the plot function is actually doing though...
     ## seems I can forget that for larger experiments; takes way to long.
+})
+
+############################################################
+## trimMz
+test_that("OnDiskMSnExp trimMz", {
+    ## Comparing timings and results for the trimMz.
+    system.time(
+        mseT <- trimMz(mse, mzlim=c(300, 310))
+    ) ## 7.3 sec.
+    system.time(
+        odmseT <- trimMz(odmse, mzlim=c(300, 310))
+    ) ## woah, 0.009 sec (what a surprise ;) )
+    ## Test the results.
+    system.time(
+        mseTmz <- mz(mseT)
+    ) ## 0.04 sec
+    system.time(
+        odmseTmz <- mz(odmseT)
+    ) ##  sec
+    expect_identical(mseTmz, odmseTmz)
+    system.time(
+        mseTsp <- spectra(mseT)
+    ) ## 0.005
+    system.time(
+        odmseTsp <- spectra(odmseT)
+    ) ## 6.8
+    odmseTsp <- lapply(odmseTsp, function(z){
+        z@polarity <- integer()
+        z@scanIndex <- integer()
+    })
+    expect_identical(mseTmz, odmseTmz)
 })
 

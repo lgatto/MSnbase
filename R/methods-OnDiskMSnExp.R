@@ -49,6 +49,11 @@ setMethod("show", "OnDiskMSnExp", function(object){
         }
     }
     show(processingData(object))
+    if(length(procs) > 0){
+        cat("- - - Lazy processing queue content  - - -\n")
+        for(i in 1:length(procs))
+            cat(" o ", procs[[i]]@FUN, "\n")
+    }
     cat("- - - Meta data  - - -\n")
     Biobase:::.showAnnotatedDataFrame(phenoData(object),
                                       labels=list(object="phenoData"))
@@ -505,8 +510,7 @@ setMethod("clean", signature("OnDiskMSnExp"),
               if(!is.logical(all))
                   stop("Argument 'all' is supposed to be a logical!")
               ps <- ProcessingStep("clean", list(all=all))
-              if(verbose)
-                  message("Adding 'clean' to the processing queue.")
+              message("Adding 'clean' to the processing queue.")
               object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
                                                  list(ps))
               object@processingData@cleaned <- TRUE
@@ -515,6 +519,34 @@ setMethod("clean", signature("OnDiskMSnExp"),
               return(object)
           })
 
+############################################################
+## trimMz
+##
+## Add the "trimMz" ProcessingStep to the queue and update the
+## processingData.
+setMethod("trimMz", signature("OnDiskMSnExp", "numeric"),
+          function(object, mzlim, ...){
+              ## Simple check on mzlim.
+              if(length(mzlim) != 2)
+                  stop("Argument 'mzlim' should be a numeric vector of length 2",
+                       " specifying the lower and upper M/Z value range!")
+              ps <- ProcessingStep("trimMz", list(mzlim=mzlim))
+              message("Adding 'trimMz' to the processing queue.")
+              object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
+                                                 list(ps))
+              trmd <- object@processingData@trimmed
+              ifelse(length(trmd)==0,
+                     object@processingData@trimmed <- mzlim,
+                     object@processingData@trimmed <- c(max(trmd[1],mzlim[1]),
+                                                        min(trmd[2],mzlim[2])))
+              object@processingData@processing <- c(object@processingData@processing,
+                                                    paste("MZ trimmed [",
+                                                          object@processingData@trimmed[1],
+                                                          "..",
+                                                          object@processingData@trimmed[2],
+                                                          "]",sep=""))
+              return(object)
+          })
 
 ##============================================================
 ##  --  HELPER FUNCTIONS  --
@@ -707,7 +739,7 @@ setMethod("clean", signature("OnDiskMSnExp"),
     if(any(fData$msLevel > 1))
         stop("on-the-fly import currently only supported for MS1 level data.")
     ## Open the file.
-    message("Reading data from file ", basename(filename), "...", appendLF=FALSE)
+    message("Read data from file ", basename(filename), ".")
     fileh <- mzR::openMSfile(filename)
     on.exit(expr=mzR::close(fileh))
     ## Reading all of the data in "one go".
@@ -736,6 +768,11 @@ setMethod("clean", signature("OnDiskMSnExp"),
 
     ## If we have a non-empty queue, we might want to execute that too.
     if(!is.null(APPLYFUN) | length(queue) > 0){
+        if(length(queue) > 0){
+            message("Apply lazy processing steps:")
+            for(j in 1:length(queue))
+                message(" o '", queue[[j]]@FUN, "' with ", length(queue[[j]]@ARGS), " argument(s).")
+        }
         res <- lapply(res, function(z, theQ, APPLF){
             if(length(theQ) > 0){
                 for(pStep in theQ){
@@ -747,7 +784,7 @@ setMethod("clean", signature("OnDiskMSnExp"),
             return(APPLF(z))
         }, theQ=queue, APPLF=APPLYFUN)
     }
-    message("OK")
+    message("DONE (", basename(filename), ")")
     return(res)
 }
 
