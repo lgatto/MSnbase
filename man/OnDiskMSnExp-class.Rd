@@ -38,6 +38,7 @@
 %% Data manipulations.
 \alias{clean,OnDiskMSnExp-method}
 \alias{removePeaks,OnDiskMSnExp-method}
+\alias{trimMz,OnDiskMSnExp,numeric-method}
 
 \title{The 'OnDiskMSnExp' Class for MS Data And Meta-Data}
 
@@ -375,7 +376,10 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 \section{Data manipulation methods}{
   (in alphabetical order)
   See also methods for \code{\linkS4class{MSnExp}} or
-  \code{\linkS4class{pSet}} objects.
+  \code{\linkS4class{pSet}} objects. In contrast to the same-named
+  methods for \code{\linkS4class{pSet}} or \code{\linkS4class{MSnExp}}
+  classes, the actual data manipulation is not performed immediately,
+  but only on-demand, e.g. when intensity or M/Z values are loaded.
 
   \describe{
 
@@ -396,10 +400,25 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 
     \item{removePeaks}{
       \code{removePeaks(signature(object="OnDiskMSnExp"), t="min", verbose=TRUE)}:
-      add an \code{removePeaks} processing step to the lazy processing
+      add a \code{removePeaks} processing step to the lazy processing
       queue of the returned \code{OnDiskMSnExp} object.
+
+      The method returns an \code{OnDiskMSnExp} object.
+
+      For more details see documentation of the \code{\link{removePeaks}}
+      method.
     }
 
+    \item{trimMz}{
+      \code{trimMz(signature(object="OnDiskMSnExp", mzlim="numeric"),...)}:
+      add a \code{trimMz} processing step to the lazy processing queue
+      of the returned \code{OnDiskMSnExp} object.
+
+      The method returns an \code{OnDiskMSnExp} object.
+
+      For more details see documentation of the \code{\link{trimMz}}
+      method.
+    }
   }
 
 }
