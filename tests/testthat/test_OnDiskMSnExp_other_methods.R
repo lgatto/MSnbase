@@ -22,11 +22,6 @@ mzf <- .getMzMLFiles()[1:2]
 mse <- readMSData(files=mzf, msLevel=1, centroided=TRUE, backend="ram")
 ## Load the data as OnDiskMSnExp.
 odmse <- readMSData(files=mzf, msLevel=1, centroided=TRUE, backend="disk")
-## All the same with removePeaks.
-mseRemPeaks <- readMSData(files=mzf, msLevel=1, backend="ram",
-                          removePeaks=10000, clean=TRUE)
-odmseRemPeaks <- readMSData(files=mzf, msLevel=1, backend="disk",
-                            removePeaks=10000, clean=TRUE)
 
 
 ############################################################
@@ -67,3 +62,14 @@ test_that("OnDiskMSnExp trimMz", {
     expect_identical(mseTmz, odmseTmz)
 })
 
+############################################################
+## normalize
+test_that("OnDiskMSnExp normalize", {
+    ## Comparing timings and results for normalize.
+    system.time(
+        mseN <- normalize(mse)
+    )
+    system.time(
+        odmseN <- normalize(odmse)
+    )
+})

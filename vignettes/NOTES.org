@@ -1,12 +1,11 @@
 * On-disk MS data access and related objects
 
 The principal idea is to avoid reading the full MS1 spectra into memory, as this
-would require way too much memory for larger experiments. This is implemented by
-defining a =OnDiskMSnExp= class (extending =MSnExp=) that contains all relevant MS1
-data, except the actual spectra (i.e. their M/Z and intensity values). The
-related on-the-fly data access might slow down some tasks in which the full data
-is retrieved, but should be reasonably fast for extraction of individual
-spectra.
+would require way too much memory for larger experiments. This is realized by
+the =OnDiskMSnExp= class (extending =MSnExp=) that contains all relevant MS1 data,
+except the actual spectra (i.e. their M/Z and intensity values). The related
+on-the-fly data access might slow down some tasks, but should be reasonably fast
+especially if only a small number of spectra is extracted.
 
 Some requirements and ideas for the actual implementation:
 1) Retention time and other spectra relevant data should be extracted from the
@@ -128,14 +127,14 @@ Idea:
 + [X] Documentation.
 + [X] Check =[= sub-setting.
 
-*** TODO Implement additional methods defined for =MSnExp= objects [/].
+*** TODO Implement additional methods defined for =MSnExp= objects [2/11].
 
 + [ ] =plot=.
 + [ ] =plot2d=.
 + [ ] =plotDensity=.
 + [ ] =plotMzDelta=.
-+ [ ] =trimMz=.
-+ [ ] =normalize=.
++ [X] =trimMz=.
++ [X] =normalize=.
 + [ ] =bin=.
 + [ ] =compareSpectra=.
 + [ ] =pickPeaks=.

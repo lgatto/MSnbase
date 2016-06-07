@@ -548,6 +548,26 @@ setMethod("trimMz", signature("OnDiskMSnExp", "numeric"),
               return(object)
           })
 
+############################################################
+## normalize
+##
+## Handle the 'normalize' method for MSnExp objects (calls normalise_MSnExp, and applies
+## the normalization to each spectrum separately). Again we're adding a ProcessingStep
+## for later, lazy processing.
+setMethod("normalize", "OnDiskMSnExp",
+          function(object, method=c("max", "sum"), ...){
+              method <- match.arg(method)
+              ps <- ProcessingStep("normalise", list(method=method))
+              message("Adding 'normalize' to the processing queue.")
+              object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
+                                                 list(ps))
+              object@processingData@processing <- c(object@processingData@processing,
+                                                    paste0("Spectra normalised (",method,"): ",
+                                                           date()))
+              object@processingData@normalised <- TRUE
+              return(object)
+          })
+
 ##============================================================
 ##  --  HELPER FUNCTIONS  --
 ##

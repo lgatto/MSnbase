@@ -39,6 +39,8 @@
 \alias{clean,OnDiskMSnExp-method}
 \alias{removePeaks,OnDiskMSnExp-method}
 \alias{trimMz,OnDiskMSnExp,numeric-method}
+\alias{normalize,OnDiskMSnExp-method}
+\alias{normalise,OnDiskMSnExp-method}
 
 \title{The 'OnDiskMSnExp' Class for MS Data And Meta-Data}
 
@@ -396,6 +398,18 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 
       For more details see documentation of the \code{\link{clean}}
       method.
+    }
+
+    \item{normalize}{
+      \code{normalize(signature(object="OnDiskMSnExp"), method=c("max",
+	"sum"), ...)}:
+      add a \code{normalize} processing step to the lazy processing
+      queue of the returned \code{OnDiskMSnExp} object.
+
+      The method returns an \code{OnDiskMSnExp} object.
+
+      For more details see documentation of the
+    \code{\link[MSnExp]{normalize}} method.
     }
 
     \item{removePeaks}{

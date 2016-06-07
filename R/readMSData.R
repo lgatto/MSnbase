@@ -338,7 +338,7 @@ readMSData <- function(files,
     nms <- ls(assaydata)
     if (is.null(pdata)) {
         .pd <- data.frame(sampleNames = basename(files))
-        rownames(.pd) <- pd$sampleNames
+        rownames(.pd) <- .pd$sampleNames
         pdata <- new("NAnnotatedDataFrame",
                      data = .pd)
     }
