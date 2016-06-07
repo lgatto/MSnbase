@@ -70,9 +70,9 @@ c("unique", "multiple"), cv = TRUE, cv.norm = "sum", verbose = TRUE,
   \item{verbose}{ A \code{logical} indicating whether verbose output is
     to be printed out. }
 
-  \item{\dots}{ Additional arguments for the \code{fun} function. In
-    particular, for the iPQF method, additional arguments are described
-    in the details section. } }
+  \item{\dots}{ Additional arguments for the \code{fun} function. }
+  }
+}
 
 
 \value{
@@ -90,11 +90,11 @@ c("unique", "multiple"), cv = TRUE, cv.norm = "sum", verbose = TRUE,
 }
 
 \references{
-
-  iPQF: A new peptide-to-protein summarization method using peptide
-  characteristics to improve iTRAQ quantification Martina Fischer and
-  Bernhard Y. Renard, \emph{in prep}.
-
+  iPQF: a new peptide-to-protein summarization method using peptide
+  spectra characteristics to improve protein quantification. Fischer M,
+  Renard BY.  Bioinformatics. 2016 Apr
+  1;32(7):1040-7. doi:10.1093/bioinformatics/btv675. Epub 2015 Nov
+  20. PubMed PMID:26589272.
 }
 
 \seealso{
