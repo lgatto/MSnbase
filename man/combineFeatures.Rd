@@ -71,7 +71,6 @@ c("unique", "multiple"), cv = TRUE, cv.norm = "sum", verbose = TRUE,
     to be printed out. }
 
   \item{\dots}{ Additional arguments for the \code{fun} function. }
-  }
 }
 
 
