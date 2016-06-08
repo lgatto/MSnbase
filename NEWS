@@ -1,6 +1,12 @@
 CHANGES IN VERSION 1.21.7
 -------------------------
  o Update iPQF reference <2016-06-01 Wed>
+ o Fix a bug in normalize method for MSnExp objects: assigning
+   normalized spectra directly to assayData is not possible, as the
+   environment is locked. See PR #91.
+ o readMSData: if no phenodata is provided it creates an empty one
+   with rownames corresponding to the file names. See PR #91.
+ o Lock itraqdata's assaydata bindings <2016-06-08 Wed>
 
 CHANGES IN VERSION 1.21.6
 -------------------------
