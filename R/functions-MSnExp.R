@@ -148,19 +148,22 @@ clean_MSnExp <- function(object, all, verbose = TRUE) {
 
 
 normalise_MSnExp <- function(object,method) {
-  sapply(featureNames(object),
-         function(x) {
-           sp <- get(x,envir=assayData(object))
-           xx <- normalise(sp,method)
-           assign(x,xx,envir=assayData(object))
-           invisible(TRUE)
-         })
-  object@processingData@processing <- c(object@processingData@processing,
-                                        paste0("Spectra normalised (",method,"): ",
-                                              date()))
-  object@processingData@normalised <- TRUE
-  if (validObject(object))
-    return(object)
+    ## Can not directly assign to assayData, as that environment is locked!
+    e <- new.env()
+    sapply(featureNames(object),
+           function(x) {
+               sp <- get(x,envir=assayData(object))
+               xx <- normalise(sp,method)
+               assign(x,xx,envir=e)
+               invisible(TRUE)
+           })
+    object@processingData@processing <- c(object@processingData@processing,
+                                          paste0("Spectra normalised (",method,"): ",
+                                                 date()))
+    object@processingData@normalised <- TRUE
+    object@assayData <- e
+    if (validObject(object))
+        return(object)
 }
 
 bin_MSnExp <- function(object, binSize=1, verbose=TRUE) {

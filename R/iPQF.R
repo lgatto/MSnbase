@@ -193,32 +193,34 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
 ##' See also \code{\link{combineFeatures}} for a more
 ##' general overview of feature aggregation and examples.
 ##'
-##' @title iPQF: iTRAQ (and TMT) Protein Quantification based on Features
+##' @title iPQF: iTRAQ (and TMT) Protein Quantification based on
+##'     Features
 ##' @param object An instance of class \code{MSnSet} containing
-##' absolute ion intensities.
+##'     absolute ion intensities.
 ##' @param groupBy Vector defining spectra to protein
-##' matching. Generally, this is a feature variable such as
-##' \code{fData(object)$accession}.
+##'     matching. Generally, this is a feature variable such as
+##'     \code{fData(object)$accession}.
 ##' @param low.support.filter A \code{logical} specifying if proteins
-##' being supported by only 1-2 peptide spectra should be filtered
-##' out. Default is \code{FALSE}.
+##'     being supported by only 1-2 peptide spectra should be filtered
+##'     out. Default is \code{FALSE}.
 ##' @param ratio.calc Either \code{"none"} (don't calculate any
-##' ratios), \code{"sum"} (default), or a specific channel (one of
-##' \code{sampleNames(object)}) defining how to calculate relative
-##' peptides intensities.
-##' @param feature.weight Vector \code{"numeric"} giving weight to the different
-##' features. Default is the squared order of the features redundant
-##' -unique-distance metric, charge state, ion intensity, sequence length, 
-##' identification score, modification state, and mass based on a robustness 
-##' analysis.
+##'     ratios), \code{"sum"} (default), or a specific channel (one of
+##'     \code{sampleNames(object)}) defining how to calculate relative
+##'     peptides intensities.
+##' @param feature.weight Vector \code{"numeric"} giving weight to the
+##'     different features. Default is the squared order of the
+##'     features redundant -unique-distance metric, charge state, ion
+##'     intensity, sequence length, identification score, modification
+##'     state, and mass based on a robustness analysis.
 ##' @param method.combine A \code{logical} defining whether to further
-##' use median polish to combine features.
+##'     use median polish to combine features.
 ##' @return A \code{matrix} with estimated protein ratios.
 ##' @author Martina Fischer
-##' @references
-##' iPQF: A new peptide-to-protein summarization method using peptide
-##' characteristics to improve iTRAQ quantification Martina Fischer
-##' and Bernhard Y. Renard, \emph{in prep}.
+##' @references iPQF: a new peptide-to-protein summarization method
+##'     using peptide spectra characteristics to improve protein
+##'     quantification. Fischer M, Renard BY.  Bioinformatics. 2016
+##'     Apr 1;32(7):1040-7. doi:10.1093/bioinformatics/btv675. Epub
+##'     2015 Nov 20. PubMed PMID:26589272.
 ##' @examples
 ##' data(msnset2)
 ##' head(exprs(msnset2))
