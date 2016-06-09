@@ -58,6 +58,7 @@ test_that("OnDiskMSnExp trimMz", {
     odmseTsp <- lapply(odmseTsp, function(z){
         z@polarity <- integer()
         z@scanIndex <- integer()
+        return(z)
     })
     expect_identical(mseTmz, odmseTmz)
 })
@@ -68,8 +69,26 @@ test_that("OnDiskMSnExp normalize", {
     ## Comparing timings and results for normalize.
     system.time(
         mseN <- normalize(mse)
-    )
+    )  ## 14.2 sec
     system.time(
         odmseN <- normalize(odmse)
-    )
+    )  ## 0.005
+    ## Getting and comparing the spectra.
+    system.time(
+        mseNsp <- spectra(mseN)
+    )  ## 0.004
+    system.time(
+        odmseNsp <- spectra(odmseN)
+    )  ## 9.2 sec
+    odmseNsp <- lapply(odmseNsp, function(z){
+        z@polarity <- integer()
+        z@scanIndex <- integer()
+        return(z)
+    })
+    expect_identical(mseNsp, odmseNsp)
+    ## Getting and comparing intensity values.
+    mseNint <- intensity(mseN)
+    odmseNint <- intensity(odmseN)
+    expect_identical(mseNint, odmseNint)
 })
+
