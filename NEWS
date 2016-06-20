@@ -1,6 +1,8 @@
 CHANGES IN VERSION 1.21.8
 -------------------------
-
+ o Update MSnSet validity method to guard agains empty string feature
+   names <2016-06-20 Mon>
+ 
 CHANGES IN VERSION 1.21.7
 -------------------------
  o Update iPQF reference <2016-06-01 Wed>

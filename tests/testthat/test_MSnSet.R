@@ -4,6 +4,13 @@ test_that("MSnSet validity", {
     expect_true(validObject(new("MSnSet")))
 })
 
+test_that("MSnSet validity for empty feature names", {
+    data(msnset)
+    expect_true(validObject(msnset))
+    expect_error(validObject(msnset),
+                 "Empty string is not a valid feature name.")
+})
+
 test_that("MSnSet coersion", {
     library("pRolocdata")
     data(dunkley2006)
