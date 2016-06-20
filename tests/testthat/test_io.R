@@ -91,14 +91,15 @@ test_that("readMSnSet2: MSnSet from a data.frame", {
 })
 
 
-test_that("readMSnSet2: rowames and fnames", {
+test_that("readMSnSet2: rownames and fnames", {
     library("pRolocdata")
     f0 <- dir(system.file("extdata", package = "pRolocdata"),
               full.names = TRUE,
               pattern = "hyperLOPIT-SIData-ms3-rep12-intersect.csv")
-    res1 <- readMSnSet2(f0, ecol = 8:27, fnames = 1)
-    res2 <- readMSnSet2(f0, ecol = 8:27, rownames = 1)
-    expect_warning(res3 <- readMSnSet2(f0, ecol = 8:27, rownames = 1, fnames = 1))
+    res1 <- readMSnSet2(f0, ecol = 8:27, fnames = 1, skip = 1)
+    res2 <- readMSnSet2(f0, ecol = 8:27, rownames = 1, skip = 1)
+    expect_warning(res3 <- readMSnSet2(f0, ecol = 8:27,
+                                       rownames = 1, fnames = 1, skip = 1))
     expect_equal(res1, res2)
     expect_equal(res1, res3)
     f0 <- dir(system.file("extdata", package = "pRolocdata"),
