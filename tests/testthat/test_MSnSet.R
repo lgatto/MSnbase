@@ -7,6 +7,7 @@ test_that("MSnSet validity", {
 test_that("MSnSet validity for empty feature names", {
     data(msnset)
     expect_true(validObject(msnset))
+    featureNames(msnset)[1] <- ""
     expect_error(validObject(msnset),
                  "Empty string is not a valid feature name.")
 })
