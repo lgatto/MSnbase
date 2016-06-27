@@ -30,66 +30,66 @@ CHANGES IN VERSION 1.21.4
  o Speed up readMSData (PR #86 by jotsetung) <2016-05-12 Thu>
  o Replace example file URL to use github instead of googlecode
     <2016-05-12 Thu>
- 
+
 CHANGES IN VERSION 1.21.3
 -------------------------
  o No fileNames replacement method <2016-05-07 Sat>
  o fileNames unit tests <2016-05-07 Sat>
  o add fileNames to class that had fileName accessor (MSmap, MzTab)
    <2016-05-07 Sat>
- 
+
 CHANGES IN VERSION 1.21.2
 -------------------------
  o Check for rownames/fnames in readMSnSet2 and unit test
    <2016-05-05 Thu>
- 
+
 CHANGES IN VERSION 1.21.1
 -------------------------
  o Fix wrong indexing in readMSdata, msLevel==1 (PR #85 by jotsetung)
    <2016-05-04 Wed>
  o grep/getEcols have a 'n' param specifying which line to grep/get
    <2016-05-04 Wed>
- 
+
 CHANGES IN VERSION 1.21.0
 -------------------------
- o Version bump for new Bioc devel 
- 
+ o Version bump for new Bioc devel
+
 CHANGES IN VERSION 1.20.0
 -------------------------
- o Version bump for Bioc release version 3.3 
- 
+ o Version bump for Bioc release version 3.3
+
 CHANGES IN VERSION 1.19.24
 --------------------------
  o more unit tests and bug fixes <2016-04-30 Sat> <2016-05-02 Mon>
- 
+
 CHANGES IN VERSION 1.19.23
 --------------------------
  o more unit tests and bug fixes <2016-04-27 Wed> <2016-04-28 Thu>
- 
+
 CHANGES IN VERSION 1.19.22
 --------------------------
  o more unit tests <2016-04-23 Sat> <2016-04-24 Sun> <2016-04-26 Tue>
  o remove readIspyData functions <2016-04-23 Sat>
  o Fixed bug in error catching in
    utils.mergeSpectraAndIdentificationData <2016-04-23 Sat>
- 
+
 CHANGES IN VERSION 1.19.21
 --------------------------
  o nadata.R unit tests and bugs fixed <2016-04-22 Fri>
- 
+
 CHANGES IN VERSION 1.19.20
 --------------------------
  o Moved makeNaData[2] and whichNA (was in pRoloc) <2016-04-21 Thu>
-  
+
 CHANGES IN VERSION 1.19.19
 --------------------------
  o new naplot function to visualise missing values as a heatmap and
    barplots along the samples and features. <2016-04-04 Mon>
- 
+
 CHANGES IN VERSION 1.19.18
 --------------------------
  o fix typo in man <2016-04-02 Sat>
- 
+
 CHANGES IN VERSION 1.19.17
 --------------------------
  o Write support of mzTab has been dropped (writeMzTabData, makeMTD,

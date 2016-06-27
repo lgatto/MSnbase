@@ -109,7 +109,8 @@ export(MSnSet,
        readMzTabData_v0.9,
        makeMTD,
        makePEP,
-       makePRT)
+       makePRT,
+       ProcessingStep)
 
 exportClasses(pSet,
               MIAPE,
@@ -123,7 +124,9 @@ exportClasses(pSet,
               FoICollection,
               FeatComp,
               MSmap,
-              MzTab)
+              MzTab,
+              OnDiskMSnExp,
+              ProcessingStep)
 
 exportMethods(exprs,
               assayData,
