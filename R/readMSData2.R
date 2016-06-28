@@ -28,6 +28,7 @@ readMSData2 <- function(files,
         filenums <- c(filenums, filen)
         filenams <- c(filenams, f)
         msdata <- mzR::openMSfile(f)
+        on.exit(close(f))
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
         spidx <- seq_len(nrow(fullhd))
