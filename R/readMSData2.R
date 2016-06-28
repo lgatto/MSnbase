@@ -57,10 +57,7 @@ readMSData2 <- function(files,
         ## o basePeakMZ
         ## o basePeakIntensity
         ## o msLevel
-        fdData <- fullhd[spidx, c("acquisitionNum", "peaksCount", "totIonCurrent",
-                                  "retentionTime", "basePeakMZ", "basePeakIntensity",
-                                  "polarity", "msLevel"),
-                         drop = FALSE]
+        fdData <- fullhd[spidx, , drop = FALSE]
         ## Add also:
         ## o fileIdx -> links to fileNames property
         ## o spIdx -> the index of the spectrum in the file.

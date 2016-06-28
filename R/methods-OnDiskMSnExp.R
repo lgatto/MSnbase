@@ -677,7 +677,7 @@ setMethod("normalize", "OnDiskMSnExp",
 ## o APPLYFUN: the function to be applied to the Spectrum1 objects (such as ionCount etc).
 ##   If NULL the function returns the list of Spectrum1 objects.
 .applyFun2SpectraOfFileMulti <- function(fData, filenames, queue=NULL,
-                                        APPLYFUN=NULL){
+                                         APPLYFUN=NULL){
     if(missing(fData) | missing(filenames))
         stop("Both 'fData' and 'filenames' are required!")
     filename <- filenames[fData[1, "fileIdx"]]
