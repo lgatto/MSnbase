@@ -146,16 +146,17 @@ getClass("MSnExp")
 \subsection{\Rclass{OnDiskMSnExp}: a memory-efficient class for large MS1 experiments}
 \label{sec:ondiskmsnexp}
 
-The \Rclass{OnDiskMSnExp} class extends \Rclass{MSnExp} and inherits all of its
-functionality but is aimed to use as little memory as possible based on a
-balance between memory demand and performance. At present it can only hold MS
-level 1 data. Most of the spectrum-specific data, like retention time, polarity,
-total ion current are stored within the object's \Robject{featureData} slot. The
-actual M/Z and intensity values from the individual spectra are however, in
-contrast to \Rclass{MSnExp} objects not kept in memory (in the
-\Robject{assayData} slot), but are fetched from the original files
-on-demand. Because mzML files are indexed, reading the relevant information for
-a limited amount of spectra is very fast and only slightly slower than for
+The \Rclass{OnDiskMSnExp} class extends \Rclass{MSnExp} and inherits
+all of its functionality but is aimed to use as little memory as
+possible based on a balance between memory demand and
+performance. Most of the spectrum-specific data, like retention time,
+polarity, total ion current are stored within the object's
+\Robject{featureData} slot. The actual M/Z and intensity values from
+the individual spectra are however, in contrast to \Rclass{MSnExp}
+objects not kept in memory (in the \Robject{assayData} slot), but are
+fetched from the original files on-demand. Because mzML files are
+indexed, reading the relevant information for a limited amount of
+spectra is very fast and only slightly slower than for
 \Rclass{MSnExp}.
 
 To keep track of data manipulation steps that are applied to spectrum data (such
