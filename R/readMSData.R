@@ -1,5 +1,5 @@
 .testReadMSDataInput <- function(e) {
-    if (!all(e$msLevel > 0))
+    if (is.numeric(e$msLevel) && !all(e$msLevel > 0))
         stop("msLevel must be an integer > 0.")
     if (length(e$files) < 1)
         stop("At least one MS file is required.")
