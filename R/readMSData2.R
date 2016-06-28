@@ -35,28 +35,17 @@ readMSData2 <- function(files,
         ## increase vectors as needed
         ioncount <- c(ioncount, numeric(length(spidx)))
         ## MS1 level
-        if (verbose) {
+        if (verbose)
             message("Reading information of ", length(spidx),
                     " spectra from file ", basename(f), "\n",
                     sep = "")
-            pb <- txtProgressBar(min=0, max=length(spidx), style=3)
-        }
+
         ## Don't read the individual spectra, just define the names of the spectra.
         fullhdorder <- c(fullhdorder,
                          sprintf(paste0("X%0",
                                         ceiling(log10(length(spidx) + 1L)),
                                         "d.%s"), 1:length(spidx), filen))
-        ## Extract general Spectrum info from the header and put it into the featureData.
-        ## This might eventually also be interesting for in-memory MSnExp MS1 data; we might
-        ## put this below the if-else.
-        ## o acquisitionNum
-        ## o polarity
-        ## o peaksCount
-        ## o totIonCurrent
-        ## o retentionTime
-        ## o basePeakMZ
-        ## o basePeakIntensity
-        ## o msLevel
+        ## Extract all Spectrum info from the header and put it into the featureData
         fdData <- fullhd[spidx, , drop = FALSE]
         ## Add also:
         ## o fileIdx -> links to fileNames property
@@ -67,16 +56,17 @@ readMSData2 <- function(files,
                         centroided = centroided,
                         fdData, stringsAsFactors = FALSE)
         featureDataList <- c(featureDataList, list(fdData))
-
-        if (verbose) setTxtProgressBar(pb, length(spidx))
-
-        ## if (removePeaks > 0)
-        ##     sp <- removePeaks(sp, t=removePeaks)
-        ## if (clean)
-        ##     sp <- clean(sp)
-
-        if (verbose) close(pb)
+        
+        if (removePeaks > 0) {
+            warning("Currently ignored.")
+            ## sp <- removePeaks(sp, t=removePeaks)
+        }
+        if (clean) {
+            warning("Currently ignored.")
+            ## sp <- clean(sp)
+        }
     }
+
     ## new in version 1.9.8
     lockEnvironment(assaydata, bindings = TRUE)
     .cacheEnv <- setCacheEnv(list("assaydata" = assaydata,
@@ -90,14 +80,15 @@ readMSData2 <- function(files,
                    processing = paste("Data loaded:",date()),
                    files = files,
                    smoothed = smoothed)
-    if (removePeaks > 0) {
-        process@processing <- c(process@processing,
-                                paste0("Curves <= ", removePeaks, " set to '0': ", date()))
-    } else {
-        if (clean)
-            process@processing <- c(process@processing,
-                                    paste("Spectra cleaned: ", date(), sep = ""))
-    }
+
+    ## Currently ignored, as we can have different types of spectra
+    ## if (removePeaks > 0) 
+    ##     process@processing <- c(process@processing,
+    ##                             paste0("Curves <= ", removePeaks, " set to '0': ", date()))
+    ## if (clean)
+    ##     process@processing <- c(process@processing,
+    ##                             paste("Spectra cleaned: ", date(), sep = ""))
+
     ## Create 'fdata' and 'pdata' objects
     nms <- ls(assaydata)
     if (is.null(pdata)) {
