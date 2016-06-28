@@ -22,7 +22,7 @@ setMethod("show", "MSnExp",
                   rtr <- range(msnRt)
               }
               cat("Object of class \"MSnExp\" (",
-                  ifelse(isOnDisk(object), "on disk", "in ram"), ")",
+                  ifelse(isOnDisk(object), "on disk", "in memory"), ")",
                   "\n", sep = "")
               cat("Object size in memory: ")
               cat(round(sz/(1024^2),2),"Mb\n")
