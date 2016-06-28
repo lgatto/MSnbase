@@ -15,7 +15,7 @@ setMethod("show", "MSnExp",
                   sz <- object@.cache$size
               } else {
                   msLevels <- unique(msLevel(object))
-                  sz <- sum(unlist(unname(eapply(xx@assayData, object.size)))) +
+                  sz <- sum(unlist(unname(eapply(object@assayData, object.size)))) +
                       object.size(object)
                   msnRt <- unname(rtime(object))
                   nrt <- length(msnRt)

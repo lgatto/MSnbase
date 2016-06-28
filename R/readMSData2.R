@@ -1,5 +1,6 @@
 readMSData2 <- function(files,
                         pdata = NULL,
+                        msLevel,
                         verbose = TRUE,
                         centroided = FALSE,
                         smoothed = FALSE,
@@ -152,15 +153,19 @@ readMSData2 <- function(files,
                    list(ProcessingStep(FUN = "clean")))
     ## Create the OnDiskMSnExp object.
     if (verbose)
-        cat("Creating 'OnDiskMSnExp' object\n")
-    toReturn <- new("OnDiskMSnExp",
-                    assayData = assaydata,
-                    phenoData = pdata,
-                    featureData = fdata,
-                    processingData = process,
-                    experimentData = expdata,
-                    spectraProcessingQueue = queue,
-                    .cache  =  .cacheEnv)
-    return(toReturn)
+        cat("Creating 'MSnExp' object\n")
+    res <- new("OnDiskMSnExp",
+               assayData = assaydata,
+               phenoData = pdata,
+               featureData = fdata,
+               processingData = process,
+               experimentData = expdata,
+               spectraProcessingQueue = queue,
+               .cache  =  .cacheEnv)
+    if (!missing(msLevel)) {
+        msLevel <- as.integer(msLevel)
+        res <- res[fData(res)$msLevel %in% msLevel]
+    }
+    return(res)
 }
 
