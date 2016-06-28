@@ -25,3 +25,4 @@ CHANGES IN VERSION 1.99.0
    (backward compatibility) <2016-05-19 Thu>
  o Implemented a ProcessingStep class that helps to keep track how (spectra) data
    should be processed on the fly <2016-05-18 Wed>
+ o In OnDiskMSnExp validity, check that the assaydata is empty <2016-06-28 Tue>
