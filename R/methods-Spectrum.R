@@ -2,17 +2,18 @@
 ## Methods for Spectrum class and children
 setMethod("initialize",
           "Spectrum",
-          function(.Object,...,mz,intensity,peaksCount) {
+          function(.Object, ..., mz, intensity) {
             if (!missing(mz) & !missing(intensity)) {
               .Object <- callNextMethod(.Object,
                                         ...,
-                                        intensity=intensity,
-                                        mz=mz,
-                                        peaksCount=length(mz))
+                                        intensity = intensity,
+                                        mz = mz,
+                                        tic = sum(intensity),
+                                        peaksCount = length(mz))
             } else if (!missing(mz) | !missing(intensity)) {
               stop("'mz' and 'intensity' or none required.")
             } else {
-              .Object <- callNextMethod(.Object,...)
+              .Object <- callNextMethod(.Object, ...)
             }
             if (validObject(.Object))
               .Object
@@ -20,15 +21,15 @@ setMethod("initialize",
 
 setMethod("show", "Spectrum",
           function(object) {
-            if (msLevel(object)==1) show_Spectrum1(object)
+            if (msLevel(object) == 1) show_Spectrum1(object)
             else show_Spectrum2(object)
             invisible(NULL)
           })
 
-setMethod("plot",c("Spectrum","missing"),
-          function(x,y,...) {
-            if (msLevel(x)==1) plot_Spectrum1(x,...)
-            else plot_Spectrum2(x,...)
+setMethod("plot", c("Spectrum", "missing"),
+          function(x, y, ...) {
+            if (msLevel(x) == 1) plot_Spectrum1(x, ...)
+            else plot_Spectrum2(x, ...)
           })
 
 setMethod("plot", c("Spectrum", "Spectrum"),
@@ -99,7 +100,7 @@ setMethod("collisionEnergy","Spectrum",
           })
 setMethod("intensity","Spectrum",function(object) object@intensity)
 setMethod("mz","Spectrum",function(object) object@mz)
-setMethod("tic","Spectrum",function(object) object@tic)
+setMethod("tic","Spectrum",function(object) sum(object@intensity))
 
 setMethod("ionCount","Spectrum", function(object) sum(object@intensity))
 

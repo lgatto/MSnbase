@@ -11,6 +11,7 @@ removePeaks_Spectrum <- function(spectrum, t = "min") {
         ints <- utils.removePeaks(spectrum@intensity, t)
     }
     spectrum@intensity <- ints
+    spectrum@tic <- sum(ints)
     return(spectrum)
 }
 
