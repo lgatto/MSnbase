@@ -652,11 +652,10 @@ setMethod("normalize", "OnDiskMSnExp",
     message("Read data from file ", basename(filename), ".")
     fileh <- mzR::openMSfile(filename)
     on.exit(expr=mzR::close(fileh))
-
     msLevel1 <- which(fData$msLevel == 1)
     msLevelN <- which(fData$msLevel > 1)
     ## Process MS1 and MSn separately
-    if (length(msLevel1) > 1) {
+    if (length(msLevel1) >= 1) {
         ms1fd <- fData[msLevel1, , drop = FALSE]
         ## Reading all of the data in "one go".
         allSpect <- mzR::peaks(fileh, ms1fd$spIdx)
@@ -684,13 +683,13 @@ setMethod("normalize", "OnDiskMSnExp",
     } else {
         res <- list()
     }
-    if (length(msLevelN) > 1) {
+    if (length(msLevelN) >= 1) {
         msnfd <- split(fData[msLevelN, , drop = FALSE], f = 1:length(msLevelN))
         ## TODO: write/use C-constructor
         ## For now we're using the lapply, new() approach iteratively reading each
         ## spectrum from file and creating the Spectrum2.
         res2 <- lapply(msnfd, function(z) {
-            spectD <- mzR::peaks(fh, z$spIdx)
+            spectD <- mzR::peaks(fileh, z$spIdx)
             return(new("Spectrum2",
                        merged = z$mergedScan,
                        precScanNum = z$precursorScanNum,
@@ -699,11 +698,9 @@ setMethod("normalize", "OnDiskMSnExp",
                        precursorCharge = z$precursorCharge,
                        collisionEnergy = z$collisionEnergy,
                        msLevel = z$msLevel,
-                       peaksCount = nrow(spectD),
                        rt = z$retentionTime,
                        acquisitionNum = z$acquisitionNum,
                        scanIndex = z$spIdx,
-                       tic = z$totIonCurrent,
                        mz = spectD[, 1],
                        intensity = spectD[, 2],
                        fromFile = z$fileIdx,
