@@ -452,12 +452,16 @@ test_that("clean method for OnDiskMSnExp", {
     ## Get all spectra from one file using the C-constructor
     system.time(
         spC <- MSnbase:::.applyFun2SpectraOfFile(featDat, filenames=fileNames(odmse))
-    ) ## 3.7 sec.
+    ) ## 3.7 sec; 4.2 sec
     ## Get all spectra from one file using the "new" constructor
     system.time(
         spR <- MSnbase:::.applyFun2SpectraOfFileSlow(featDat, filenames=fileNames(odmse))
-    ) ## 19 sec.
+    ) ## 19 sec.; 24.2 sec
+    system.time(
+        spM <- MSnbase:::.applyFun2SpectraOfFileMulti(featDat, filenames=fileNames(odmse))
+    ) ## 19 sec.; 3.1 sec
     expect_identical(spC, spR)
+    expect_identical(spC, spM)
     ## Construct all of the spectra in one go...
 
     featDat <- fData(odmse)

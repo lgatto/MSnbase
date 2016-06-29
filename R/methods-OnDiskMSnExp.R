@@ -652,59 +652,70 @@ setMethod("normalize", "OnDiskMSnExp",
     message("Read data from file ", basename(filename), ".")
     fileh <- mzR::openMSfile(filename)
     on.exit(expr=mzR::close(fileh))
-    ## Reading all of the data in "one go".
-    allSpect <- mzR::peaks(fileh, fData$spIdx)
-    ## If we have more than one spectrum.
-    if(is(allSpect, "list")){
-        nValues <- lengths(allSpect) / 2
-        allSpect <- do.call(rbind, allSpect)
-    }else{
-        ## otherwise it's a matrix, e.g. if only a single scan index was provided.
-        nValues <- nrow(allSpect)
-    }
-    ## WHEN WE HAVE MULTIPLE SPECTRA, THIS TEST RETURNS A WARNING, AND
-    ## ONLY THE FIRST ELEMENT IS TESTED, WHICH WILL LEAD TO ERRORS IF
-    ## WE HAVE MULTIPLE SPECTRA. LEVELS 1 AND > 1 MUST BE ACCESSED
-    ## SEPARATELY.
-    if (fData$msLevel == 1) {
+
+    msLevel1 <- which(fData$msLevel == 1)
+    msLevelN <- which(fData$msLevel > 1)
+    ## Process MS1 and MSn separately
+    if (length(msLevel1) > 1) {
+        ms1fd <- fData[msLevel1, , drop = FALSE]
+        ## Reading all of the data in "one go".
+        allSpect <- mzR::peaks(fileh, ms1fd$spIdx)
+        ## If we have more than one spectrum the peaks function returns a list.
+        if (is(allSpect, "list")) {
+            nValues <- lengths(allSpect) / 2
+            allSpect <- do.call(rbind, allSpect)
+        } else {
+            ## otherwise it's a matrix, e.g. if only a single scan index was provided.
+            nValues <- nrow(allSpect)
+        }
         ## Call the C-constructor to create a list of Spectrum1 objects.
-        res <- Spectra1(peaksCount=nValues,
-                        scanIndex=fData$spIdx,
-                        rt=fData$retentionTime,
-                        acquisitionNum=fData$acquisitionNum,
-                        tic=fData$totIonCurrent,
-                        mz=allSpect[, 1],
-                        intensity=allSpect[, 2],
-                        centroided=fData$centroided,
-                        fromFile=fData$fileIdx,
-                        polarity=fData$polarity,
-                        nvalues=nValues)
+        res <- Spectra1(peaksCount = nValues,
+                        scanIndex = ms1fd$spIdx,
+                        rt = ms1fd$retentionTime,
+                        acquisitionNum = ms1fd$acquisitionNum,
+                        tic = ms1fd$totIonCurrent,
+                        mz = allSpect[, 1],
+                        intensity = allSpect[, 2],
+                        centroided = ms1fd$centroided,
+                        fromFile = ms1fd$fileIdx,
+                        polarity = ms1fd$polarity,
+                        nvalues = nValues)
+        names(res) <- rownames(ms1fd)
     } else {
-        ## TODO: write/use C-constructor
-        ## QST: why do I need a list here? If I do, i.e. when allSpect
-        ## is effectively a list, then this is wrong. But then, I
-        ## don't understand the code that checks is(allSpect, "list").      
-        res <- new("Spectrum2",
-                   merged = fData$mergedScan,
-                   precScanNum = fData$precursorScanNum,
-                   precursorMz = fData$precursorMZ,
-                   precursorIntensity = fData$precursorIntensity,
-                   precursorCharge = fData$precursorCharge,
-                   collisionEnergy = fData$collisionEnergy,
-                   msLevel = fData$msLevel,
-                   peaksCount = nValues,
-                   rt = fData$retentionTime,
-                   acquisitionNum = fData$acquisitionNum,
-                   scanIndex = fData$spIdx,
-                   tic = fData$totIonCurrent,
-                   mz = allSpect[, 1],
-                   intensity = allSpect[, 2],
-                   fromFile = fData$fileIdx,
-                   centroided = fData$centroided,
-                   polarity = fData$polarity)
-        res <- list(res)
+        res <- list()
     }
-    names(res) <- rownames(fData)
+    if (length(msLevelN) > 1) {
+        msnfd <- split(fData[msLevelN, , drop = FALSE], f = 1:length(msLevelN))
+        ## TODO: write/use C-constructor
+        ## For now we're using the lapply, new() approach iteratively reading each
+        ## spectrum from file and creating the Spectrum2.
+        res2 <- lapply(msnfd, function(z) {
+            spectD <- mzR::peaks(fh, z$spIdx)
+            return(new("Spectrum2",
+                       merged = z$mergedScan,
+                       precScanNum = z$precursorScanNum,
+                       precursorMz = z$precursorMZ,
+                       precursorIntensity = z$precursorIntensity,
+                       precursorCharge = z$precursorCharge,
+                       collisionEnergy = z$collisionEnergy,
+                       msLevel = z$msLevel,
+                       peaksCount = nrow(spectD),
+                       rt = z$retentionTime,
+                       acquisitionNum = z$acquisitionNum,
+                       scanIndex = z$spIdx,
+                       tic = z$totIonCurrent,
+                       mz = spectD[, 1],
+                       intensity = spectD[, 2],
+                       fromFile = z$fileIdx,
+                       centroided = z$centroided,
+                       polarity = z$polarity)
+                   )
+        })
+        names(res2) <- rownames(fData)[msLevelN]
+        res <- c(res, res2)
+    }
+    ## Ensure that ordering is the same than in fData:
+    res <- res[match(rownames(fData), names(res))]
     ## If we have a non-empty queue, we might want to execute that too.
     if(!is.null(APPLYFUN) | length(queue) > 0){
         if(length(queue) > 0){

@@ -145,6 +145,19 @@ Idea:
 
 Convert from =OnDiskMSnExp= to a =MSnExp= object and /vice versa/.
 The problems here are: how the heck should I track the processing steps???
+*Solution*: just do the conversion from on-disk to ram.
+
+
+*** TODO Rename =OnDiskMSnExp= into =MSnExpOnDisk=
+
+*** TODO  Code tydiing
+
++ Put whitespace after =if= and before ={=, before and after each equal sign.
++ No long lines (less than 80 chars).
+
+*** TODO Check the =quantify= methods of =MSnbase=.
+
+Implement that for the metabolomics data, e.g. /replace/ the =groupval= method?
 
 *** DONE Implement a =Spectrum1= constructor in C.
     CLOSED: [2016-05-23 Mon 17:15]
