@@ -48,6 +48,7 @@
 \alias{trimMz,Spectrum-method}
 \alias{trimMz,Spectrum,numeric-method}
 \alias{isEmpty,Spectrum-method}
+\alias{isEmpty,environment-method}
 
 \alias{coerce,Spectrum,data.frame-method}
 \alias{as.data.frame.Spectrum}
