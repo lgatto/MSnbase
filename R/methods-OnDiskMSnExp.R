@@ -697,6 +697,10 @@ setMethod("normalize", "OnDiskMSnExp",
         ## otherwise it's a matrix, e.g. if only a single scan index was provided.
         nValues <- nrow(allSpect)
     }
+    ## WHEN WE HAVE MULTIPLE SPECTRA, THIS TEST RETURNS A WARNING, AND
+    ## ONLY THE FIRST ELEMENT IS TESTED, WHICH WILL LEAD TO ERRORS IF
+    ## WE HAVE MULTIPLE SPECTRA. LEVELS 1 AND > 1 MUST BE ACCESSED
+    ## SEPARATELY.
     if (fData$msLevel == 1) {
         ## Call the C-constructor to create a list of Spectrum1 objects.
         res <- Spectra1(peaksCount=nValues,
