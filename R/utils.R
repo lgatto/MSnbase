@@ -913,3 +913,11 @@ setMethod("trimws", "MSnSet",
               x <- logging(x, "Trimmed featureData white spaces")
               x
           })
+
+setMethod("isEmpty", "environment",
+          function(x) length(ls(x)) == 0)
+
+## Simple helper to help differentiate between on disk and in
+## memory objects.
+isOnDisk <- function(object)
+    return(nrow(fData(object)) > 0 & isEmpty(object@assayData))

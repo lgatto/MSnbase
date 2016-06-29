@@ -57,12 +57,14 @@ setValidity("MSnSet", function(object) {
       msg <- validMsg(msg,
                       "number of rows in assayData and qual slots do not match.")
   }
-  if (!inherits(experimentData(object),"MIAPE"))
+  if (!inherits(experimentData(object), "MIAPE"))
     msg <- validMsg(msg,
                     "experimentData slot in MSnSet must be 'MIAPE' object")
   if (!inherits(exprs(object), "matrix"))
     msg <- validMsg(msg,
                     "exprs(.) must be a matrix")
+  if ("" %in% featureNames(object))
+      msg <- validMsg(msg, "Empty string is not a valid feature name.")
   if (is.null(msg)) TRUE else msg
 })
 

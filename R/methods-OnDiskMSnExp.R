@@ -14,81 +14,6 @@ setMethod("initialize",
           })
 
 ############################################################
-## show
-##
-setMethod("show", "OnDiskMSnExp", function(object){
-    procs <- processingQueue(object)
-    ## Gather information.
-    msLevels <- unique(msLevel(object))
-    msnRt <- unname(rtime(object))
-    nrt <- length(msnRt)
-    rtr <- range(msnRt)
-    cat("Object of class \"",class(object),"\"\n",sep="")
-    cat(" Object size in memory: ")
-    sz <- object.size(object)
-    cat(round(sz/(1024^2),2),"Mb\n")
-    cat("- - - Spectra data - - -\n")
-    if (nrow(fData(object)) == 0) {
-        cat(" none\n")
-    } else {
-        cat(" MS level(s):",msLevels,"\n")
-        if (all(msLevel(object) > 1)) {
-            ## cat(" Number of MS1 acquisitions:",nPrecScans,"\n")
-            ## cat(" Number of MSn scans:",length(ls(assayData(object))),"\n")
-            ## cat(" Number of precursor ions:",nPrecMz,"\n")
-            ## if (nPrecMz > 0) {
-            ##     cat("",uPrecMz,"unique MZs\n")
-            ##     cat(" Precursor MZ's:",paste(signif(rangePrecMz,5),collapse=" - "),"\n")
-            ## }
-            ## cat(" MSn M/Z range:",round(msnMzRange,2),"\n")
-        } else {
-            cat(" Number of MS1 scans:",length(msnRt),"\n")
-        }
-        if (nrt > 0) {
-            cat(" MSn retention times:",formatRt(rtr[1]),"-",formatRt(rtr[2]),"minutes\n")
-        }
-    }
-    show(processingData(object))
-    if(length(procs) > 0){
-        cat("- - - Lazy processing queue content  - - -\n")
-        for(i in 1:length(procs))
-            cat(" o ", procs[[i]]@FUN, "\n")
-    }
-    cat("- - - Meta data  - - -\n")
-    Biobase:::.showAnnotatedDataFrame(phenoData(object),
-                                      labels=list(object="phenoData"))
-    cat("Loaded from:\n")
-    f <- basename(processingData(object)@files)
-    nf <- length(f)
-    if (nf > 0) {
-        if (nf < 3) {
-            cat(paste0("  ", f, collapse = ", "), "\n")
-        } else {
-            cat("  [1]", paste(f[1], collapse = ", "))
-            cat("...")
-            cat("  [", nf, "] ", paste(f[nf], collapse = ", "),
-                "\n", sep = "")
-            cat("  Use 'fileNames(.)' to see all files.\n")
-        }
-    } else {
-        cat(" none\n")
-    }
-    Biobase:::.showAnnotatedDataFrame(protocolData(object),
-                                      labels=list(object="protocolData"))
-    Biobase:::.showAnnotatedDataFrame(featureData(object),
-                                      labels=list(
-                                          object="featureData",
-                                          sampleNames="featureNames",
-                                          varLabels="fvarLabels",
-                                          varMetadata="fvarMetadata"))
-    cat("experimentData: use 'experimentData(object)'\n")
-    pmids <- pubMedIds(object)
-    if (length(pmids) > 0 && all(pmids != ""))
-        cat("  pubMedIds:", paste(pmids, sep=", "), "\n")
-    invisible(NULL)
-})
-
-############################################################
 ## processingQueue
 setMethod("processingQueue", "OnDiskMSnExp", function(object){
     return(object@spectraProcessingQueue)
@@ -752,12 +677,12 @@ setMethod("normalize", "OnDiskMSnExp",
 ## o APPLYFUN: the function to be applied to the Spectrum1 objects (such as ionCount etc).
 ##   If NULL the function returns the list of Spectrum1 objects.
 .applyFun2SpectraOfFileMulti <- function(fData, filenames, queue=NULL,
-                                        APPLYFUN=NULL){
+                                         APPLYFUN=NULL){
     if(missing(fData) | missing(filenames))
         stop("Both 'fData' and 'filenames' are required!")
     filename <- filenames[fData[1, "fileIdx"]]
-    if(any(fData$msLevel > 1))
-        stop("on-the-fly import currently only supported for MS1 level data.")
+    ## if(any(fData$msLevel > 1))
+    ##     stop("on-the-fly import currently only supported for MS1 level data.")
     ## Open the file.
     message("Read data from file ", basename(filename), ".")
     fileh <- mzR::openMSfile(filename)
@@ -772,20 +697,49 @@ setMethod("normalize", "OnDiskMSnExp",
         ## otherwise it's a matrix, e.g. if only a single scan index was provided.
         nValues <- nrow(allSpect)
     }
-    ## Call the C-constructor to create a list of Spectrum1 objects.
-    res <- Spectra1(peaksCount=nValues,
-                    scanIndex=fData$spIdx,
-                    rt=fData$retentionTime,
-                    acquisitionNum=fData$acquisitionNum,
-                    tic=fData$totIonCurrent,
-                    mz=allSpect[, 1],
-                    intensity=allSpect[, 2],
-                    centroided=fData$centroided,
-                    fromFile=fData$fileIdx,
-                    polarity=fData$polarity,
-                    nvalues=nValues)
+    ## WHEN WE HAVE MULTIPLE SPECTRA, THIS TEST RETURNS A WARNING, AND
+    ## ONLY THE FIRST ELEMENT IS TESTED, WHICH WILL LEAD TO ERRORS IF
+    ## WE HAVE MULTIPLE SPECTRA. LEVELS 1 AND > 1 MUST BE ACCESSED
+    ## SEPARATELY.
+    if (fData$msLevel == 1) {
+        ## Call the C-constructor to create a list of Spectrum1 objects.
+        res <- Spectra1(peaksCount=nValues,
+                        scanIndex=fData$spIdx,
+                        rt=fData$retentionTime,
+                        acquisitionNum=fData$acquisitionNum,
+                        tic=fData$totIonCurrent,
+                        mz=allSpect[, 1],
+                        intensity=allSpect[, 2],
+                        centroided=fData$centroided,
+                        fromFile=fData$fileIdx,
+                        polarity=fData$polarity,
+                        nvalues=nValues)
+    } else {
+        ## TODO: write/use C-constructor
+        ## QST: why do I need a list here? If I do, i.e. when allSpect
+        ## is effectively a list, then this is wrong. But then, I
+        ## don't understand the code that checks is(allSpect, "list").      
+        res <- new("Spectrum2",
+                   merged = fData$mergedScan,
+                   precScanNum = fData$precursorScanNum,
+                   precursorMz = fData$precursorMZ,
+                   precursorIntensity = fData$precursorIntensity,
+                   precursorCharge = fData$precursorCharge,
+                   collisionEnergy = fData$collisionEnergy,
+                   msLevel = fData$msLevel,
+                   peaksCount = nValues,
+                   rt = fData$retentionTime,
+                   acquisitionNum = fData$acquisitionNum,
+                   scanIndex = fData$spIdx,
+                   tic = fData$totIonCurrent,
+                   mz = allSpect[, 1],
+                   intensity = allSpect[, 2],
+                   fromFile = fData$fileIdx,
+                   centroided = fData$centroided,
+                   polarity = fData$polarity)
+        res <- list(res)
+    }
     names(res) <- rownames(fData)
-
     ## If we have a non-empty queue, we might want to execute that too.
     if(!is.null(APPLYFUN) | length(queue) > 0){
         if(length(queue) > 0){

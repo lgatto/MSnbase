@@ -131,7 +131,6 @@ setGeneric("trimws", signature = "x",
         standardGeneric("trimws"),
     useAsDefault=.trimws.useAsDefault)
 
-setGeneric("isOnDisk", function(object) standardGeneric("isOnDisk"))
 setGeneric("execute", function(object, ...) standardGeneric("execute"))
 setGeneric("processingQueue", function(object) standardGeneric("processingQueue"))
 setGeneric("spectrapply", function(object, ...) standardGeneric("spectrapply"))

@@ -427,16 +427,14 @@ setClass("OnDiskMSnExp",
                  msg <- validMsg(msg, "More spectra files in assayData than in processingData.")
              if (length(sampleNames(object)) != nrow(pData(object)))
                  msg <- validMsg(msg, "Different number of samples accoring to sampleNames and pData.")
-             ## if(!isOnDisk(object))
-             ##     msg <- validMsg(msg, "The data should be 'on disk' for a OnDiskMSnExp object (assayData should be empty)!")
-             ## Done.
-             if(is.null(msg)){
+             if (!isOnDisk(object))
+                 msg <- validMsg(msg, "Object is not 'onDisk'!")
+             if (is.null(msg)) {
                  return(TRUE)
-             }else{
+             } else {
                  return(msg)
              }
-         }
-         )
+         })
 
 ############################################################
 ## Simple class defining a "processing" step, consisting of a

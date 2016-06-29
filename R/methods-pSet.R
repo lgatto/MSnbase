@@ -509,20 +509,3 @@ setMethod("processingData",
 ##                    object@featureData <- fd
 ##                    return(object)
 ##                  })
-
-############################################################
-## isOnDisk
-##
-## Simple helper to help differentiate between on disk and in
-## memory objects.
-setMethod("isOnDisk", "pSet", function(object){
-    ## Return the info from the slot if it's present, otherwise, always
-    ## return FALSE (backwards compatibility).
-    ## if(.hasSlot(object, "onDisk")){
-    ##     return(object@onDisk)
-    ## }
-    ## Guess if we have "on Disk data": assayData empty, but featureData present.
-    if(nrow(featureData(object)) > 0 & length(ls(assayData(object))) == 0)
-        return(TRUE)
-    return(FALSE)
-})

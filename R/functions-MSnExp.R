@@ -161,6 +161,7 @@ normalise_MSnExp <- function(object,method) {
                                           paste0("Spectra normalised (",method,"): ",
                                                  date()))
     object@processingData@normalised <- TRUE
+    lockEnvironment(e, bindings = TRUE)
     object@assayData <- e
     if (validObject(object))
         return(object)
