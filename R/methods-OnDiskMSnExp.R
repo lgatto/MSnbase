@@ -681,8 +681,8 @@ setMethod("normalize", "OnDiskMSnExp",
     if(missing(fData) | missing(filenames))
         stop("Both 'fData' and 'filenames' are required!")
     filename <- filenames[fData[1, "fileIdx"]]
-    if(any(fData$msLevel > 1))
-        stop("on-the-fly import currently only supported for MS1 level data.")
+    ## if(any(fData$msLevel > 1))
+    ##     stop("on-the-fly import currently only supported for MS1 level data.")
     ## Open the file.
     message("Read data from file ", basename(filename), ".")
     fileh <- mzR::openMSfile(filename)
@@ -697,20 +697,45 @@ setMethod("normalize", "OnDiskMSnExp",
         ## otherwise it's a matrix, e.g. if only a single scan index was provided.
         nValues <- nrow(allSpect)
     }
-    ## Call the C-constructor to create a list of Spectrum1 objects.
-    res <- Spectra1(peaksCount=nValues,
-                    scanIndex=fData$spIdx,
-                    rt=fData$retentionTime,
-                    acquisitionNum=fData$acquisitionNum,
-                    tic=fData$totIonCurrent,
-                    mz=allSpect[, 1],
-                    intensity=allSpect[, 2],
-                    centroided=fData$centroided,
-                    fromFile=fData$fileIdx,
-                    polarity=fData$polarity,
-                    nvalues=nValues)
+    if (fData$msLevel == 1) {
+        ## Call the C-constructor to create a list of Spectrum1 objects.
+        res <- Spectra1(peaksCount=nValues,
+                        scanIndex=fData$spIdx,
+                        rt=fData$retentionTime,
+                        acquisitionNum=fData$acquisitionNum,
+                        tic=fData$totIonCurrent,
+                        mz=allSpect[, 1],
+                        intensity=allSpect[, 2],
+                        centroided=fData$centroided,
+                        fromFile=fData$fileIdx,
+                        polarity=fData$polarity,
+                        nvalues=nValues)
+    } else {
+        ## TODO: write/use C-constructor
+        ## QST: why do I need a list here? If I do, i.e. when allSpect
+        ## is effectively a list, then this is wrong. But then, I
+        ## don't understand the code that checks is(allSpect, "list").      
+        res <- new("Spectrum2",
+                   merged = fData$mergedScan,
+                   precScanNum = fData$precursorScanNum,
+                   precursorMz = fData$precursorMZ,
+                   precursorIntensity = fData$precursorIntensity,
+                   precursorCharge = fData$precursorCharge,
+                   collisionEnergy = fData$collisionEnergy,
+                   msLevel = fData$msLevel,
+                   peaksCount = nValues,
+                   rt = fData$retentionTime,
+                   acquisitionNum = fData$acquisitionNum,
+                   scanIndex = fData$spIdx,
+                   tic = fData$totIonCurrent,
+                   mz = allSpect[, 1],
+                   intensity = allSpect[, 2],
+                   fromFile = fData$fileIdx,
+                   centroided = fData$centroided,
+                   polarity = fData$polarity)
+        res <- list(res)
+    }
     names(res) <- rownames(fData)
-
     ## If we have a non-empty queue, we might want to execute that too.
     if(!is.null(APPLYFUN) | length(queue) > 0){
         if(length(queue) > 0){
