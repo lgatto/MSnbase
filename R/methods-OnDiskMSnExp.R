@@ -300,61 +300,23 @@ setMethod("[[","OnDiskMSnExp",
 ## [
 ##
 ## Subset by [
-setMethod("[", signature(x="OnDiskMSnExp", i="logicalOrNumeric",
-                         j="logicalOrNumeric", drop="missing"),
-          function(x, i, j, drop){
-              if(!(is.logical(i) | is.numeric(i)))
+setMethod("[", signature(x = "OnDiskMSnExp",
+                         i = "logicalOrNumeric",
+                         j = "missing",
+                         drop = "missing"),
+          function(x, i, j, drop) {
+              if (!(is.logical(i) | is.numeric(i)))
                   stop("Subsetting works only with numeric or logical!")
-              if(is.logical(i)){
-                  if(length(i) != nrow(fData(x)))
+              if (is.logical(i)) {
+                  if (length(i) != nrow(fData(x)))
                       stop("If 'i' is logical its length has to match the number of spectra!")
                   i <- which(i)
               }
               i <- sort(i)  ## Force sorted!
-              ## Now subset the featureData. The function will cry if i is outside the range.
-              fd <- .subsetFeatureDataBy(featureData(x), index=i)
-              ## Process j.
-              ##  o subset the featureData
-              ##  o subset the phenoData
-              ##  o processingData
-              if(!(is.logical(j) | is.numeric(j)))
-                  stop("Subsetting works only with numeric of logical!")
-              if(is.logical(j)){
-                  if(length(j) != length(fileNames(x)))
-                      stop("If 'j' is logical its length has to match the number of data files!")
-                  j <- which(j)
-              }
-              j <- sort(j)
-              ## featureData:
-              fd <- fd[fd$fileIdx %in% j, , drop=FALSE]
-              origFileNames <- fileNames(x)
-              newFileNames <- origFileNames[j]
-              ## fix the fileIdx.
-              newIdx <- match(origFileNames[fd$fileIdx], newFileNames)
-              fd$fileIdx <- newIdx
-              ## phenoData
-              pd <- phenoData(x)[j, ]
-              ## processingData
-              procD <- processingData(x)
-              procD@files <- newFileNames
-              ## change the values.
-              x@processingData <- procD
-              x@phenoData <- pd
-              x@featureData <- fd
-              validObject(x)
+              ## Now subset the featureData. The function will
+              ## complain if i is outside the range.
+              x@featureData <- .subsetFeatureDataBy(featureData(x), index = i)
               return(x)
-          })
-setMethod("[", signature(x="OnDiskMSnExp", i="logicalOrNumeric",
-                         j="missing", drop="missing"),
-          function(x, i, j, drop="missing"){
-              j <- 1:length(fileNames(x))
-              return(x[i, j])
-          })
-setMethod("[", signature(x="OnDiskMSnExp", i="missing",
-                         j="logicalOrNumeric", drop="missing"),
-          function(x, i, j, drop="missing"){
-              i <- 1:length(featureNames(x))
-              return(x[i, j])
           })
 
 ############################################################
@@ -501,16 +463,19 @@ setMethod("normalize", "OnDiskMSnExp",
 ############################################################
 ## .subsetFeatureDataBy
 ##
-## Convenience function to subset a OnDiskMSnExp featureData based on provided
-## subsetting criteria.
-## index: subset by numeric index, logical or character. Character indices are "forwarded"
-##  to argument "name".
-## scanIdx: a numeric is expected, specifying the scan index. If a character vector
-##  is provided, it is "forwarded" to argument "name".
-## scanIdxCol: the column of the featureData containing the scan indices.
-## name: a character vector, matching is performed using the row names of fd.
-## rtlim: a numeric of length 2 specifying the retention time window from which spectra
-##  should be extracted.
+## Convenience function to subset a OnDiskMSnExp featureData based on
+## provided subsetting criteria.
+## index: subset by numeric index, logical or character. Character
+##        indices are "forwarded" to argument "name".
+## scanIdx: a numeric is expected, specifying the scan index. If a
+##          character vector is provided, it is "forwarded" to
+##          argument "name".
+## scanIdxCol: the column of the featureData containing the scan
+##             indices.
+## name: a character vector, matching is performed using the row names
+##       of fd.
+## rtlim: a numeric of length 2 specifying the retention time window
+##        from which spectra should be extracted.
 .subsetFeatureDataBy <- function(fd, index=NULL, scanIdx=NULL, scanIdxCol="spIdx",
                                  name=NULL, rtlim=NULL){
     ## First check index.
