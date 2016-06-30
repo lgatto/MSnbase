@@ -737,15 +737,17 @@ setMethod("normalize", "OnDiskMSnExp",
 
 ## Returns either NULL or a character string.
 .validateFeatureDataForOnDiskMSnExp <- function(x){
-    ## Testing if we've got all the required columns!
-    ## Note: we might drop peaksCount, as that one will anyway be calculted on the fly.
-    reqCols <- c("fileIdx", "spIdx", "acquisitionNum", "retentionTime",
-                 "polarity", "msLevel", "totIonCurrent", "peaksCount",
+    ## Testing if we've got all the required columns! See issue 105
+    ## for a discussion about originalTotIonCurrent and
+    ## originalPeaksCount.
+    reqCols <- c("fileIdx", "spIdx", "acquisitionNum",
+                 "retentionTime", "polarity", "msLevel",
+                 "originalTotIonCurrent", "originalPeaksCount",
                  "centroided")
     NotPresent <- reqCols[!(reqCols %in% colnames(x))]
-    if(length(NotPresent) > 0)
+    if (length(NotPresent) > 0)
         return(paste0("Required columns: ",
-                      paste(sQuote(NotPresent), collapse=","),
+                      paste(sQuote(NotPresent), collapse = ","),
                       " not present in featureData!"))
     return(NULL)
 }

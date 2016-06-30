@@ -36,9 +36,8 @@ readMSData2 <- function(files,
         ioncount <- c(ioncount, numeric(length(spidx)))
         ## MS1 level
         if (verbose)
-            message("Reading information of ", length(spidx),
-                    " spectra from file ", basename(f), "\n",
-                    sep = "")
+            message("Reading ", length(spidx), " spectra from file ",
+                    basename(f))
 
         ## Don't read the individual spectra, just define the names of the spectra.
         fullhdorder <- c(fullhdorder,
@@ -47,6 +46,10 @@ readMSData2 <- function(files,
                                         "d.%s"), 1:length(spidx), filen))
         ## Extract all Spectrum info from the header and put it into the featureData
         fdData <- fullhd[spidx, , drop = FALSE]
+        ## rename totIonCurrent and peaksCount, as detailed in 
+        ## https://github.com/lgatto/MSnbase/issues/105#issuecomment-229503816
+        names(fdData) <- sub("totIonCurrent", "originalTotIonCurrent", names(fdData))
+        names(fdData) <- sub("peaksCount", "originalPeaksCount", names(fdData))
         ## Add also:
         ## o fileIdx -> links to fileNames property
         ## o spIdx -> the index of the spectrum in the file.
@@ -141,8 +144,6 @@ readMSData2 <- function(files,
         queue <- c(queue,
                    list(ProcessingStep(FUN = "clean")))
     ## Create the OnDiskMSnExp object.
-    if (verbose)
-        cat("Creating 'MSnExp' object\n")
     res <- new("OnDiskMSnExp",
                assayData = assaydata,
                phenoData = pdata,
