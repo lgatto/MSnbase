@@ -110,13 +110,11 @@ readMSData <- function(files,
                     hd <- fullhd[j,]
                     pks <- mzR::peaks(msdata, j)
                     sp <- new("Spectrum1",
-                              peaksCount = hd$peaksCount,
                               rt = hd$retentionTime,
                               acquisitionNum = hd$acquisitionNum,
                               mz = pks[, 1],
                               intensity = pks[, 2],
                               fromFile = filen,
-                              tic = hd$totIonCurrent,
                               centroided = centroided)
                     ioncount[ioncounter] <- sum(pks[, 2])
                     ioncounter <- ioncounter + 1
@@ -154,8 +152,6 @@ readMSData <- function(files,
                           precursorIntensity = hd$precursorIntensity,
                           precursorCharge = hd$precursorCharge,
                           collisionEnergy = hd$collisionEnergy,
-                          ## tic = hd$totIonCurrent,
-                          ## peaksCount = hd$peaksCount,
                           rt = hd$retentionTime,
                           acquisitionNum = hd$acquisitionNum,
                           mz = .p[,1],

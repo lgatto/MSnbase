@@ -89,7 +89,7 @@ setValidity("pSet", function(object) {
 })
 
 
-setMethod("[","pSet",
+setMethod("[", "pSet",
           function(x,i,j="missing",drop="missing") {
             if (!(is.logical(i) | is.numeric(i)))
               stop("subsetting works only with numeric or logical")
@@ -136,20 +136,20 @@ setMethod("[","pSet",
         })
 
 
-setMethod("[[","pSet",
-          function(x,i,j="missing",drop="missing") {
-            if (length(i)!=1)
+setMethod("[[", "pSet",
+          function(x, i, j = "missing", drop = "missing") {
+            if (length(i) != 1)
               stop("subscript out of bounds")
             if (!is.character(i))
               i <- featureNames(x)[i]
             return(get(i, envir = assayData(x)))
           })
 
-setMethod("precursorMz","pSet",
+setMethod("precursorMz", "pSet",
           function(object) {
             ## this assumes that if first spectrum
-            ## has msLevel>1, all have
-            if (msLevel(object)[1]>1)
+            ## has msLevel > 1, all have
+            if (msLevel(object)[1] > 1)
               return(sapply(spectra(object), precursorMz))
             stop("No precursor MZ value for MS1 spectra.")
           })

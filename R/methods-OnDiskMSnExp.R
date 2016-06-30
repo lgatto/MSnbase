@@ -234,14 +234,13 @@ setMethod("mz", "OnDiskMSnExp", function(object, BPPARAM=bpparam()){
 ## [[
 ##
 ## Extract individual spectra (single ones).
-setMethod("[[","OnDiskMSnExp",
-          function(x,i,j="missing",drop="missing") {
-              if (length(i)!=1)
+setMethod("[[", "OnDiskMSnExp",
+          function(x, i, j = "missing", drop = "missing") {
+              if (length(i) != 1)
                   stop("subscript out of bounds")
-              if (!is.character(i))
-                  i <- featureNames(x)[i]
-              res <- spectra(x, scans=i)
-              return(res[[1]])
+              if (is.character(i))
+                  i <- which(featureNames(x)[i])
+              return(spectra(x[i])[[1]])
           })
 
 ############################################################
