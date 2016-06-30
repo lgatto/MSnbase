@@ -333,22 +333,13 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
     }
 
     \item{spectra}{
-      \code{spectra(signature(object="OnDiskMSnExp"), scans=NULL,
-	rtlim=NULL, BPPARAM=bpparam())}:
+      \code{spectra(signature(object="OnDiskMSnExp"), BPPARAM=bpparam())}:
       extract spectrum data from the individual files. This causes the
       spectrum data to be read from the original raw files. After that
       all processing steps defined in the \code{spectraProcessingQueue}
       are applied to it. The results are then returned as a \code{list}
       of \code{\linkS4class{Spectrum1}} objects.
 
-      Argument \code{scans}: numeric, character or logical vector
-      specifying the spectra that should be extracted (either index in
-      the data set (not scan index within the file!), name of the
-      spectrum or logical vector with length equal to the number of
-      spectra in the data set).
-      Argument \code{rtlim}: numeric vector of length 2 defining a
-      retention time window/range from which spectra should be
-      extracted.
       The \code{BPPARAM} argument can be used to define how and if
       parallel processing should be used. Information from individual
       files will be processed in parallel (one process per file).
@@ -478,13 +469,10 @@ head(acquisitionNum(odmse))
 head(spectra(odmse))
 
 ## Extracting individual spectra or a subset is much faster.
-spectra(odmse, scans=c(1, 50))
-
-## Spectra can also be extracted given a retention time window
-spectra(odmse, rtlim=c(2, 20))
+spectra(odmse[1:50])
 
 ## Alternatively, we could also subset the whole object by spectra and/or samples:
-subs <- odmse[rtime(odmse) >= 2 & rtime(odmse) <= 20, 1]
+subs <- odmse[rtime(odmse) >= 2 & rtime(odmse) <= 20, ]
 fileNames(subs)
 rtime(subs)
 
@@ -503,7 +491,7 @@ odmse <- removePeaks(odmse, t=10000)
 odmse <- clean(odmse)
 
 ## The processing steps are only applied when actual raw data is extracted.
-spectra(odmse, scans=c(1, 50))
+spectra(odmse[1:2])
 
 ## Get the polarity of the spectra.
 head(polarity(odmse))
