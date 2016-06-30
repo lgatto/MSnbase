@@ -48,7 +48,6 @@ readMSData2 <- function(files,
         fdData <- fullhd[spidx, , drop = FALSE]
         ## rename totIonCurrent and peaksCount, as detailed in 
         ## https://github.com/lgatto/MSnbase/issues/105#issuecomment-229503816
-        names(fdData) <- sub("totIonCurrent", "originalTotIonCurrent", names(fdData))
         names(fdData) <- sub("peaksCount", "originalPeaksCount", names(fdData))
         ## Add also:
         ## o fileIdx -> links to fileNames property
