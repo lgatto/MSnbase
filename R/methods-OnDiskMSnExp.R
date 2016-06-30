@@ -117,7 +117,7 @@ setMethod("rtime", "OnDiskMSnExp",
 ## be recalculated).
 setMethod("tic", "OnDiskMSnExp",
           function(object){
-              vals <- sapply(spectra(object), tic)
+              vals <- fData(object)$totIonCurrent
               names(vals) <- featureNames(object)
               return(vals)
           })
@@ -164,7 +164,7 @@ setMethod("peaksCount",
               ## parallel.
               vals <- spectrapply(object,
                                   FUN = peaksCount,
-                                  index = numeric(), 
+                                  index = numeric(),
                                   BPPARAM = BPPARAM)
               return(unlist(vals))
           })
@@ -174,14 +174,15 @@ setMethod("peaksCount",
 ##
 ## Calculate the ion count, i.e. the sum of intensities per spectrum.
 setMethod("ionCount", "OnDiskMSnExp",
-          function(object, BPPARAM=bpparam()){
-              ## Heck; reload the data.
-              message("Loading the raw data to calculate ionCount.")
-              ## An important point here is that we DON'T want to get all of the data from
-              ## all files in one go; that would require eventually lots of memory! It's better
-              ## to do that per file; that way we could also do that in parallel.
-              vals <- spectrapply(object, FUN=function(y){return(sum(y@intensity))},
-                                  BPPARAM=BPPARAM)
+          function(object, BPPARAM = bpparam()) {
+              ## An important point here is that we DON'T want to get
+              ## all of the data from all files in one go; that would
+              ## require eventually lots of memory! It's better to do
+              ## that per file; that way we could also do that in
+              ## parallel.
+              vals <- spectrapply(object,
+                                  FUN = function(y) return(sum(y@intensity)),
+                                  BPPARAM = BPPARAM)
               return(unlist(vals))
           })
 
@@ -190,20 +191,14 @@ setMethod("ionCount", "OnDiskMSnExp",
 ##
 ## Extract the spectra of an experiment by reading the raw data from
 ## the original files, applying processing steps from the queue.
-## The optional arguments "scans" allows to restrict extraction of
-## specific scans (scans being the index of the spectra in the full data
-## set, or a character vector of spectrum names or a logical vector).
-## Optional argument "rtlim" allows to extract spectra for the specified
-## retention time window.
-## Returned spectra are always sorted by scan index and file (first scan
-## first file, first scan second file, etc.).
-setMethod("spectra", "OnDiskMSnExp", function(object, scans=NULL,
-                                              BPPARAM=bpparam()){
-    ## Overwriting the BPPARAM setting if we've only got some scans!
-    if (length(scans) > 0 & length(scans) < 800)
-        BPPARAM <- SerialParam()
-    return(spectrapply(object, index = scans, BPPARAM = BPPARAM))
-})
+setMethod("spectra",
+          "OnDiskMSnExp",
+          function(object, BPPARAM = bpparam()){
+              ## Overwriting the BPPARAM setting if we've only got some scans!
+              if (length(scans) > 0 & length(scans) < 800)
+                  BPPARAM <- SerialParam()
+              return(spectrapply(object, index = numeric(), BPPARAM = BPPARAM))
+          })
 
 ############################################################
 ## assayData
@@ -695,7 +690,7 @@ setMethod("normalize", "OnDiskMSnExp",
     ## originalPeaksCount.
     reqCols <- c("fileIdx", "spIdx", "acquisitionNum",
                  "retentionTime", "polarity", "msLevel",
-                 "originalTotIonCurrent", "originalPeaksCount",
+                 "totIonCurrent", "originalPeaksCount",
                  "centroided")
     NotPresent <- reqCols[!(reqCols %in% colnames(x))]
     if (length(NotPresent) > 0)
