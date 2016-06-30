@@ -260,7 +260,7 @@ setMethod("fromFile","pSet",
           function(object) return(sapply(spectra(object),fromFile)))
 
 setMethod("header",
-          signature("pSet","missing"),
+          signature("pSet", "missing"),
           function(object) {
             ifelse(object@.cache$level > 0,
                    hd <- object@.cache$hd,

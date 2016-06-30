@@ -17,16 +17,21 @@ context("OnDiskMSnExp class")
     }
     return(mzfiles)
 }
+
 mzf <- .getMzMLFiles()[1:2]
 ## Load the data as an MSnExp into memory.
-mse <- readMSData(files=mzf, msLevel=1, centroided=TRUE, backend="ram")
+mse <- readMSData(files=mzf, msLevel=1, centroided=TRUE,
+                  backend="ram", verbose = FALSE)
 ## Load the data as OnDiskMSnExp.
-odmse <- readMSData(files=mzf, msLevel=1, centroided=TRUE, backend="disk")
+odmse <- readMSData(files=mzf, msLevel=1, centroided=TRUE,
+                    backend="disk", verbose = FALSE)
 ## All the same with removePeaks.
 mseRemPeaks <- readMSData(files=mzf, msLevel=1, backend="ram",
-                          removePeaks=10000, clean=TRUE)
+                          removePeaks=10000, clean=TRUE,
+                          verbose = FALSE)
 odmseRemPeaks <- readMSData(files=mzf, msLevel=1, backend="disk",
-                            removePeaks=10000, clean=TRUE)
+                            removePeaks=10000, clean=TRUE,
+                            verbose = FALSE)
 
 
 
@@ -44,33 +49,24 @@ test_that("compare basic contents", {
     ## OnDiskMSnExp from featureData.
     ## fromFile
     expect_identical(fromFile(mse), fromFile(odmse))
-
     ## msLevel
     expect_identical(msLevel(mse), msLevel(odmse))
-
     ## header
     hd <- header(mse)
     odhd <- header(odmse)
     commonCols <- intersect(colnames(hd), colnames(odhd))
-    expect_equal(hd[, commonCols], odhd[, commonCols])
-
+    expect_equal(hd[, commonCols], odhd[, commonCols]) 
     ## length
     expect_identical(length(mse), length(odmse))
-
 })
 
 ############################################################
 ## header
 test_that("header on OnDiskMSnExp", {
-    system.time(
-        hd1 <- header(mse)
-    )
-    system.time(
-        hd2 <- header(odmse)
-    )
+    system.time(hd1 <- header(mse))
+    system.time(hd2 <- header(odmse))
     commonCols <- intersect(colnames(hd1), colnames(hd2))
     expect_equal(hd1[, commonCols], hd2[, commonCols])
-
     ## header with scans.
     system.time(
         hd1 <- header(mse, scans=1:300)
@@ -79,7 +75,7 @@ test_that("header on OnDiskMSnExp", {
         hd2 <- header(odmse, scans=1:300)
     ) ## 0.3
     commonCols <- intersect(colnames(hd1), colnames(hd2))
-    expect_equal(hd1[, commonCols], hd2[, commonCols])
+    expect_equal(hd1[, commonCols], hd2[, commonCols]) 
 })
 
 ############################################################
@@ -128,9 +124,9 @@ test_that("polarity for OnDiskMSnExp", {
 
 ############################################################
 ## tic
-test_that("tic for OnDiskMSnExp", {
-    tc <- tic(mse)
-    tc2 <- tic(odmse)
+test_that("ionCount for OnDiskMSnExp", {
+    tc <- ionCount(mse)
+    tc2 <- ionCount(odmse)
     expect_identical(tc, tc2)
 })
 
@@ -254,7 +250,7 @@ test_that("compare spectra call", {
 
     ## Extract a single spectrum.
     sp1 <- spectra(mse)[[1]]
-    sp2 <- spectra(odmse, scans=1)[[1]]
+    sp2 <- odmse[[1]]
     sp2@polarity <- integer()
     sp2@scanIndex <- integer()
     expect_identical(sp1, sp2)
@@ -264,7 +260,7 @@ test_that("compare spectra call", {
     subs <- rtime(mse) >= rtl[1] & rtime(mse) <= rtl[2]
     sp1 <- spectra(mse)[subs]
 
-    sp2 <- spectra(odmse, rtlim=rtl)
+    sp2 <- spectra(odmse)[subs]
     sp2 <- lapply(sp2, function(z){
         z@polarity <- integer()
         z@scanIndex <- integer()
@@ -376,37 +372,6 @@ test_that("[ for OnDiskMSnExp", {
         return(z)
     })
     expect_identical(sp1, sp2)
-
-    ## subset by sample (j)
-    sub2 <- odmse[, 2]
-    ## featureData I expect to have only fileIndex 1
-    expect_equal(unique(fData(sub2)$fileIdx), 1)
-    expect_identical(fileNames(sub2), fileNames(odmse)[2])
-    expect_identical(unique(fileNames(sub2)[fData(sub2)$fileIdx]), fileNames(odmse)[2])
-    ## compare the featureData
-    fidxCol <- which(colnames(fData(sub2)) == "fileIdx")
-    expect_identical(fData(sub2)[, -fidxCol], fData(odmse)[fData(odmse)$fileIdx == 2, -fidxCol])
-    ## compare spectra
-    sp1 <- spectra(sub2)
-    sp2 <- spectra(odmse, scans=fData(odmse)$fileIdx == 2)
-    ## Fix fromFile.
-    sp2 <- lapply(sp2, function(z){
-        z@fromFile <- 1L
-        return(z)
-    })
-    expect_identical(sp1, sp2)
-
-    ## subset by i and j
-    sub1 <- odmse[1:20, 2]
-    sub2 <- odmse[1:20, ]
-    sp1 <- spectra(sub1)
-    sp2 <- spectra(sub2, scans=fData(sub2)$fileIdx == 2)
-    ## Fix fromFile.
-    sp2 <- lapply(sp2, function(z){
-        z@fromFile <- 1L
-        return(z)
-    })
-    expect_identical(sp1, sp2)
 })
 
 ############################################################
@@ -496,8 +461,3 @@ test_that("clean method for OnDiskMSnExp", {
     mseSpec <- mseSpec[fromFile(mse) == 1]
     expect_identical(mseSpec, Test)
 }
-
-
-
-
-

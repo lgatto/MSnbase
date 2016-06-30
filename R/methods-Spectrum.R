@@ -8,7 +8,6 @@ setMethod("initialize",
                                         ...,
                                         intensity = intensity,
                                         mz = mz,
-                                        tic = sum(intensity),
                                         peaksCount = length(mz))
             } else if (!missing(mz) | !missing(intensity)) {
               stop("'mz' and 'intensity' or none required.")
@@ -100,9 +99,14 @@ setMethod("collisionEnergy","Spectrum",
           })
 setMethod("intensity","Spectrum",function(object) object@intensity)
 setMethod("mz","Spectrum",function(object) object@mz)
-setMethod("tic","Spectrum",function(object) sum(object@intensity))
 
-setMethod("ionCount","Spectrum", function(object) sum(object@intensity))
+setMethod("tic", "Spectrum",
+          function(object) {
+              .Deprecated("ionCount")
+              object@tic
+          })
+
+setMethod("ionCount", "Spectrum", function(object) sum(object@intensity))
 
 setMethod("trimMz",
           signature = signature("Spectrum", "numeric"),

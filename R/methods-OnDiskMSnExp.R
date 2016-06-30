@@ -13,6 +13,21 @@ setMethod("initialize",
               callNextMethod()
           })
 
+setMethod("header",
+          c("OnDiskMSnExp", "missing"),
+          function(object) {
+              .Deprecated("fData")
+              fData(object)
+          })
+
+setMethod("header",
+          c("OnDiskMSnExp", "numeric"),
+          function(object, scans) {
+              .Deprecated("fData")
+              fData(object)[scans, ]
+          })
+
+
 ############################################################
 ## processingQueue
 setMethod("processingQueue", "OnDiskMSnExp", function(object){
@@ -239,7 +254,9 @@ setMethod("[[", "OnDiskMSnExp",
               if (length(i) != 1)
                   stop("subscript out of bounds")
               if (is.character(i))
-                  i <- which(featureNames(x)[i])
+                  i <- match(i, featureNames(x))
+              if (is.na(i))
+                  stop("subscript out of bounds")
               return(spectra(x[i])[[1]])
           })
 
