@@ -142,12 +142,6 @@ setMethod("polarity", "OnDiskMSnExp",
 setMethod("peaksCount",
           signature(object = "OnDiskMSnExp", scans = "missing"),
           function(object, scans, BPPARAM = bpparam()){
-              scans <- numeric()
-              return(peaksCount(object, scans=scans, BPPARAM=BPPARAM))
-          })
-setMethod("peaksCount",
-          signature(object = "OnDiskMSnExp", scans = "numeric"),
-          function(object, scans, BPPARAM = bpparam()){
               ## The feature data contains the original peaks
               ## count. This method fetches the peaks count from the
               ## (possibly processed) spectra.
@@ -170,7 +164,7 @@ setMethod("peaksCount",
               ## parallel.
               vals <- spectrapply(object,
                                   FUN = peaksCount,
-                                  index = scans,
+                                  index = numeric(), 
                                   BPPARAM = BPPARAM)
               return(unlist(vals))
           })
