@@ -178,42 +178,41 @@ readMgfData <- function(file,
 }
 
 extractMgfSpectrum2Info <- function(mgf, centroided) {
-  ## grep description
-  desc.idx <- grep("=", mgf)
-  desc <- mgf[desc.idx]
-  spec <- mgf[-desc.idx]
+    ## grep description
+    desc.idx <- grep("=", mgf)
+    desc <- mgf[desc.idx]
+    spec <- mgf[-desc.idx]
 
-  ms <- do.call(rbind, strsplit(spec, "[[:space:]]+"))
-  mode(ms) <- "double"
+    ms <- do.call(rbind, strsplit(spec, "[[:space:]]+"))
+    mode(ms) <- "double"
 
-  if (!length(ms))
-    ms <- matrix(numeric(), ncol=2L)
+    if (!length(ms))
+        ms <- matrix(numeric(), ncol = 2L)
 
-  desc <- do.call(rbind, strsplit(desc, "=", fixed=TRUE))
-  desc <- setNames(desc[, 2L], desc[, 1L])
-  fdata <- desc
+    desc <- do.call(rbind, strsplit(desc, "=", fixed = TRUE))
+    desc <- setNames(desc[, 2L], desc[, 1L])
+    fdata <- desc
 
-  desc[c("PEPMASSMZ", "PEPMASSINT")] <- strsplit(desc["PEPMASS"], "[[:space:]]+")[[1L]][1:2]
+    desc[c("PEPMASSMZ", "PEPMASSINT")] <-
+        strsplit(desc["PEPMASS"], "[[:space:]]+")[[1L]][1:2]
 
-  ## select only values of interest and convert to numeric
-  desc["CHARGE"] <- sub("[+-]", "", desc["CHARGE"])
-  voi <- c("RTINSECONDS", "CHARGE", "SCANS", "PEPMASSMZ", "PEPMASSINT")
-  desc <- setNames(as.numeric(desc[voi]), voi)
-  desc[is.na(desc[voi])] <- 0L
+    ## select only values of interest and convert to numeric
+    desc["CHARGE"] <- sub("[+-]", "", desc["CHARGE"])
+    voi <- c("RTINSECONDS", "CHARGE", "SCANS", "PEPMASSMZ", "PEPMASSINT")
+    desc <- setNames(as.numeric(desc[voi]), voi)
+    desc[is.na(desc[voi])] <- 0L
 
-  sp <- new("Spectrum2",
-            rt = desc["RTINSECONDS"],
-            scanIndex = as.integer(desc["SCANS"]),
-            precursorMz = desc["PEPMASSMZ"],
-            precursorIntensity = desc["PEPMASSINT"],
-            precursorCharge = as.integer(desc["CHARGE"]),
-            peaksCount = nrow(ms),
-            mz = ms[, 1L],
-            intensity = ms[, 2L],
-            fromFile = 1L,
-            centroided = centroided)
+    sp <- new("Spectrum2",
+              rt = desc["RTINSECONDS"],
+              scanIndex = as.integer(desc["SCANS"]),
+              precursorMz = desc["PEPMASSMZ"],
+              precursorIntensity = desc["PEPMASSINT"],
+              precursorCharge = as.integer(desc["CHARGE"]),
+              mz = ms[, 1L],
+              intensity = ms[, 2L],
+              fromFile = 1L,
+              centroided = centroided)
 
-  if(validObject(sp))
-    return(list(spectrum=sp, fdata=fdata))
+    if (validObject(sp))
+        return(list(spectrum = sp, fdata = fdata))
 }
-
