@@ -47,42 +47,6 @@ setMethod("fromFile", "OnDiskMSnExp", function(object){
 })
 
 ############################################################
-## header
-##
-## Extract the "header" data from the featureData, rename some
-## of the columns and return the data.frame.
-setMethod("header",
-          signature("OnDiskMSnExp","missing"),
-          function(object, BPPARAM=bpparam()){
-              return(header(object, scans=numeric(), BPPARAM=BPPARAM))
-          })
-setMethod("header",
-          signature=c("OnDiskMSnExp","numeric"),
-          function(object, scans, BPPARAM=bpparam()){
-              hd <- .subsetFeatureDataBy(fData(object), index=scans)
-              message("Loading the raw data to calculate peaksCount and ionCount.")
-              ## Need to get ionCount anyway from the raw file; peaksCount could be returned
-              ## too with the same call.
-              if(length(scans) < 800)
-                  BPPARAM <- SerialParam()
-              vals <- spectrapply(object, FUN=function(y){
-                  return(c(sum(y@intensity), length(y@intensity)))
-              }, index=scans, BPPARAM=BPPARAM)
-              numMat <- do.call(rbind, vals[rownames(hd)])
-              colnames(numMat) <- c("ionCount", "peaks.count")
-              ## Rename columns
-              colnames(hd)[colnames(hd) == "fileIdx"] <- "file"
-              colnames(hd)[colnames(hd) == "retentionTime"] <- "retention.time"
-              colnames(hd)[colnames(hd) == "totIonCurrent"] <- "tic"
-              colnames(hd)[colnames(hd) == "msLevel"] <- "ms.level"
-              colnames(hd)[colnames(hd) == "acquisitionNum"] <- "acquisition.number"
-              ## Drop the peaks count column
-              hd <- hd[, colnames(hd) != "peaksCount"]
-              hd <- cbind(hd, as.data.frame(numMat))
-              return(hd)
-          })
-
-############################################################
 ## length
 ##
 ## Get the length, i.e. the number of spectra we've got (from the
