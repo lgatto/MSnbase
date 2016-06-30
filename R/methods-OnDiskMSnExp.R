@@ -117,7 +117,7 @@ setMethod("rtime", "OnDiskMSnExp",
 ## be recalculated).
 setMethod("tic", "OnDiskMSnExp",
           function(object){
-              vals <- fData(object)$totIonCurrent
+              vals <- sapply(spectra(object), tic)
               names(vals) <- featureNames(object)
               return(vals)
           })
@@ -139,44 +139,40 @@ setMethod("polarity", "OnDiskMSnExp",
 ## Extract the peaksCount data; if the spectraProcessingQueue is empty
 ## we're just returning the peaksCount from the featureData, otherwise we
 ## check the function in there and eventually load the data and apply it.
-setMethod("peaksCount", signature(object="OnDiskMSnExp", scans="missing"),
-          function(object, scans, BPPARAM=bpparam()){
+setMethod("peaksCount",
+          signature(object = "OnDiskMSnExp", scans = "missing"),
+          function(object, scans, BPPARAM = bpparam()){
               scans <- numeric()
               return(peaksCount(object, scans=scans, BPPARAM=BPPARAM))
           })
-setMethod("peaksCount", signature(object="OnDiskMSnExp", scans="numeric"),
-          function(object, scans, BPPARAM=bpparam()){
-              ## Peaks count from the original files is available in the featureData,
-              ## thus, we only have to read the raw data again and calculate the peaksCount
-              ## if we did do some processing of the data. And here also just processing
-              ## that has an influence on the number of data duplets. So, "removePeaks" does
-              ## not change the peaksCount, only "clean" would. We thus check the methods
-              ## in 'spectraProcessingQueue' and decide whether or not we have to load
-              ## the data.
-              skipFun <- c("removePeaks")  ## Add methods here that would not require raw data reading.
-              recalc <- FALSE
-              if(length(object@spectraProcessingQueue) > 0){
+setMethod("peaksCount",
+          signature(object = "OnDiskMSnExp", scans = "numeric"),
+          function(object, scans, BPPARAM = bpparam()){
+              ## The feature data contains the original peaks
+              ## count. This method fetches the peaks count from the
+              ## (possibly processed) spectra.
+              ##
+              ## Add methods here that would not require raw data reading.
+              skipFun <- c("removePeaks", "clean", "pickPeaks")
+              
+              if (length(object@spectraProcessingQueue) > 0){
                   recalc <- any(unlist(lapply(object@spectraProcessingQueue,
-                                              function(z){
-                                                  if(any(z@FUN == skipFun))
+                                              function(z) {
+                                                  if (any(z@FUN == skipFun))
                                                       return(FALSE)
                                                   return(TRUE)
                                               })))
               }
-              if(recalc){
-                  ## Heck; reload the data.
-                  message("Loading the raw data to calculate peaksCount.")
-                  ## An important point here is that we DON'T want to get all of the data from
-                  ## all files in one go; that would require eventually lots of memory! It's better
-                  ## to do that per file; that way we could also do that in parallel.
-                  vals <- spectrapply(object, FUN=peaksCount, index=scans, BPPARAM=BPPARAM)
-                  return(unlist(vals))
-              }else{
-                  fd <- .subsetFeatureDataBy(fData(object), index=scans)
-                  vals <- fd$peaksCount
-                  names(vals) <- rownames(fd)
-              }
-              return(vals)
+              ## An important point here is that we DON'T want to get
+              ## all of the data from all files in one go; that would
+              ## require eventually lots of memory! It's better to do
+              ## that per file; that way we could also do that in
+              ## parallel.
+              vals <- spectrapply(object,
+                                  FUN = peaksCount,
+                                  index = scans,
+                                  BPPARAM = BPPARAM)
+              return(unlist(vals))
           })
 
 ############################################################
@@ -208,12 +204,11 @@ setMethod("ionCount", "OnDiskMSnExp",
 ## Returned spectra are always sorted by scan index and file (first scan
 ## first file, first scan second file, etc.).
 setMethod("spectra", "OnDiskMSnExp", function(object, scans=NULL,
-                                              rtlim=NULL,
                                               BPPARAM=bpparam()){
     ## Overwriting the BPPARAM setting if we've only got some scans!
-    if(length(scans) > 0 & length(scans) < 800)
+    if (length(scans) > 0 & length(scans) < 800)
         BPPARAM <- SerialParam()
-    return(spectrapply(object, index=scans, rtlim=rtlim, BPPARAM=BPPARAM))
+    return(spectrapply(object, index = scans, BPPARAM = BPPARAM))
 })
 
 ############################################################
@@ -298,8 +293,10 @@ setMethod("[", signature(x = "OnDiskMSnExp",
 ## rtlim: a numeric of length 2 specifying the retention time window from which spectra
 ##  should be extracted.
 setMethod("spectrapply", "OnDiskMSnExp",
-          function(object, FUN=NULL, index=NULL, scanIdx=NULL, name=NULL, rtlim=NULL,
-                   BPPARAM=bpparam(), ...){
+          function(object, FUN = NULL, index = NULL,
+                   scanIdx = NULL, name = NULL,
+                   rtlim = NULL,
+                   BPPARAM = bpparam(), ...){
               ## Sub-set the feature data based on the arguments.
               fd <- .subsetFeatureDataBy(fData(object), index=index, scanIdx=scanIdx,
                                          name=name, rtlim=rtlim)
@@ -443,27 +440,27 @@ setMethod("normalize", "OnDiskMSnExp",
 .subsetFeatureDataBy <- function(fd, index=NULL, scanIdx=NULL, scanIdxCol="spIdx",
                                  name=NULL, rtlim=NULL){
     ## First check index.
-    if(length(index) > 0){
-        if(is.logical(index)){
-            if(length(index) != nrow(fd))
+    if (length(index) > 0) {
+        if (is.logical(index)) {
+            if (length(index) != nrow(fd))
                 stop("If 'index' is a logical vector its length has to match the number of",
                      " rows of the featureData!")
             index <- which(index)
         }
-        if(is.numeric(index)){
+        if (is.numeric(index)) {
             gotIt <- index %in% 1:nrow(fd)
-            if(!any(gotIt))
+            if (!any(gotIt))
                 stop("Provided indices are outside of the allowed range.")
-            if(any(!gotIt))
+            if (any(!gotIt))
                 warning("Some of the provided indices are outside of the allowed range.")
             index <- index[gotIt]
-            return(fd[index, , drop=FALSE])
+            return(fd[index, , drop = FALSE])
         }
-        if(is.character(index))
+        if (is.character(index))
             name <- index
     }
     ## scanIdx
-    if(length(scanIdx) > 0){
+    if (length(scanIdx) > 0) {
         if(is.numeric(scanIdx)){
             gotIt <- scanIdx %in% fd[, scanIdxCol]
             if(!any(gotIt))
@@ -472,26 +469,26 @@ setMethod("normalize", "OnDiskMSnExp",
                 warning("Some of the provided scan indices are not available.")
             return(fd[which(fd[, scanIdxCol] %in% scanIdx), , drop=FALSE])
         }
-        if(is.character(scanIdx))
+        if (is.character(scanIdx))
             name <- scanIdx
     }
     ## name: subset by name, match to rownames.
-    if(length(name) > 0){
+    if (length(name) > 0) {
         gotIt <- name %in% rownames(fd)
-        if(!any(gotIt))
+        if (!any(gotIt))
             stop("None of the provided names found.")
-        if(!all(gotIt))
+        if (!all(gotIt))
             warning("Some of the provided names do not match featureData rownames.")
         name <- name[gotIt]
         return(fd[name, , drop=FALSE])
     }
     ## rtlim: subset by retention time range.
-    if(length(rtlim > 0)){
-        if(length(rtlim) > 2 | !is.numeric(rtlim))
+    if (length(rtlim > 0)){
+        if (length(rtlim) > 2 | !is.numeric(rtlim))
             stop("Argument 'rtlim' has to be a numeric vector of length 2 specifying",
                  " the retention time window (range).")
         gotIt <- which(fd$retentionTime >= rtlim[1] & fd$retentionTime <= rtlim[2])
-        if(length(gotIt) == 0)
+        if (length(gotIt) == 0)
             stop("No spectrum within the specified retention time window.")
         fd <- fd[gotIt, , drop=FALSE]
     }
@@ -533,7 +530,7 @@ setMethod("normalize", "OnDiskMSnExp",
                       spD <- mzR::peaks(fh, z[1, 2])
                       sp <- Spectrum1(peaksCount=z[1, 5], rt=z[1, 7],
                                       acquisitionNum=z[1, 4], scanIndex=z[1, 2],
-                                      tic=z[1, 6], mz=spD[, 1], intensity=spD[, 2],
+                                      mz=spD[, 1], intensity=spD[, 2],
                                       fromFile=z[1, 1], centroided=z[1, 3],
                                       polarity=z[1, 8])
                       ## Now, apply the Queue.
@@ -576,7 +573,6 @@ setMethod("normalize", "OnDiskMSnExp",
                                 centroided=z[1,3],
                                 acquisitionNum=z[1,4],
                                 peaksCount=z[1,5],
-                                tic=z[1,6],
                                 rt=z[1,7],
                                 polarity=z[1,8],
                                 mz=spD[, 1],
@@ -636,7 +632,6 @@ setMethod("normalize", "OnDiskMSnExp",
                         scanIndex = ms1fd$spIdx,
                         rt = ms1fd$retentionTime,
                         acquisitionNum = ms1fd$acquisitionNum,
-                        tic = ms1fd$totIonCurrent,
                         mz = allSpect[, 1],
                         intensity = allSpect[, 2],
                         centroided = ms1fd$centroided,
