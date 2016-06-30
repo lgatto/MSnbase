@@ -175,19 +175,19 @@ setMethod("precScanNum","pSet",
 
 
 setMethod("tic","pSet",
-          function(object) sapply(spectra(object),tic))
+          function(object) sapply(spectra(object), tic))
 
-setMethod("ionCount","pSet",
-          function(object) sapply(spectra(object),ionCount))
+setMethod("ionCount", "pSet",
+          function(object) sapply(spectra(object), ionCount))
 
-setMethod("precursorCharge","pSet",
+setMethod("precursorCharge", "pSet",
           function(object) {
             if (msLevel(object)[1]>1)
               return(sapply(spectra(object), precursorCharge))
             stop("No precursor MZ value for MS1 spectra.")
           })
 
-setMethod("precursorIntensity","pSet",
+setMethod("precursorIntensity", "pSet",
           function(object) {
             if (msLevel(object)[1]>1)
               return(sapply(spectra(object), precursorIntensity))
@@ -222,15 +222,15 @@ setReplaceMethod("centroided",
                  })
 
 setMethod("peaksCount",
-          signature("pSet","missing"),
-          function(object) sapply(spectra(object),peaksCount))
+          signature("pSet", "missing"),
+          function(object) sapply(spectra(object), peaksCount))
 
 setMethod("peaksCount",
-          signature("pSet","numeric"),
+          signature("pSet", "numeric"),
           function(object, scans) {
-            if (length(scans)==1)
+            if (length(scans) == 1)
               return(peaksCount(object[[scans]]))
-            sapply(spectra(object)[scans],peaksCount)
+            sapply(spectra(object)[scans], peaksCount)
           })
 
 setMethod("msLevel","pSet",
