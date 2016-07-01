@@ -107,13 +107,14 @@ setMethod("acquisitionNum", "OnDiskMSnExp", function(object){
 ##
 ## Getter/setter for the centroided information; extracting this from
 ## the featureData.
-setMethod("centroided","OnDiskMSnExp",
+setMethod("centroided", "OnDiskMSnExp",
           function(object){
               val <- fData(object)$centroided
               names(val) <- featureNames(object)
               return(val)
           })
-setReplaceMethod("centroided", signature(object="OnDiskMSnExp", value="logical"),
+setReplaceMethod("centroided",
+                 signature(object = "OnDiskMSnExp", value = "logical"),
                  function(object, value){
                      if (length(value) == 1)
                          value <- rep(value, length(object))
@@ -143,6 +144,18 @@ setMethod("rtime", "OnDiskMSnExp",
 setMethod("tic", "OnDiskMSnExp",
           function(object){
               vals <- fData(object)$totIonCurrent
+              names(vals) <- featureNames(object)
+              return(vals)
+          })
+
+############################################################
+## collisionEnergy
+##
+## Get the collision Energy (from the featureData, thus it will not be
+## recalculated).
+setMethod("collisionEnergy", "OnDiskMSnExp",
+          function(object) {
+              vals <- fData(object)$collisionEnergy
               names(vals) <- featureNames(object)
               return(vals)
           })
@@ -690,6 +703,7 @@ validateOnDiskMSnExp <-function(object) {
                        precursorIntensity = z$precursorIntensity,
                        precursorCharge = z$precursorCharge,
                        collisionEnergy = z$collisionEnergy,
+                       tic = z$totIonCurrent,
                        msLevel = z$msLevel,
                        rt = z$retentionTime,
                        acquisitionNum = z$acquisitionNum,
