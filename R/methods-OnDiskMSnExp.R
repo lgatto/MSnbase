@@ -312,11 +312,6 @@ setMethod("spectrapply", "OnDiskMSnExp",
     ## Check if we would do better with serial processing:
     BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
 
-    ## @lgatto: I suppose we will do the subsetting all on the object itself, thus
-    ## we don't need the subsetting code below, right?
-    ## Sub-set the feature data based on the arguments.
-    fd <- .subsetFeatureDataBy(fData(object), index=index, scanIdx=scanIdx,
-                               name=name, rtlim=rtlim)
     isOK <- .validateFeatureDataForOnDiskMSnExp(fd)
     if(!is.null(isOK))
         stop(isOK)
