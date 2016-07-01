@@ -921,3 +921,13 @@ setMethod("isEmpty", "environment",
 ## memory objects.
 isOnDisk <- function(object)
     return(nrow(fData(object)) > 0 & isEmpty(object@assayData))
+
+## Simple function to determine whether parallel or serial processing should be performed
+## Check testthat/test_OnDiskMSnExp_benchmarks.R for performance comparisons.
+## Parameter object is expected to beb a
+getBpParam <- function(object, BPPARAM=bpparam()) {
+    ## Return SerialParam if we access less than 1000 spectra per file.
+    if (mean(table(fData(object)$fileIdx)) < 1000)
+        return(SerialParam())
+    return(BPPARAM)
+}

@@ -2,18 +2,18 @@ context("OnDiskMSnExp class")
 
 ############################################################
 ## Load the required data files.
-.getMzMLFiles <- function(){
+.getMzMLFiles <- function(force.msdata = FALSE) {
     ## Return the mzML files, the ones from the XXX package, or if run
     ## locally, some of my test files.
-    HOST <- unlist(strsplit(system("hostname", intern=TRUE), split=".",
-                            perl=FALSE, fixed=TRUE))[1]
-    if(HOST == "macbookjo"){
+    HOST <- unlist(strsplit(system("hostname", intern = TRUE), split = ".",
+                            perl = FALSE, fixed = TRUE))[1]
+    if (HOST == "macbookjo" & !force.msdata) {
         mzfiles <- dir("/Users/jo/R-workspaces/EURAC/2016/2016-04-21-PolarMetabolom/data/mzML/",
-                       pattern="POS_C_O", full.names=TRUE)
-    }else{
+                       pattern = "POS_C_O", full.names = TRUE)
+    } else {
         require(msdata)
-        mzfiles <- c(system.file("microtofq/MM14.mzML", package="msdata"),
-                     system.file("microtofq/MM8.mzML", package="msdata"))
+        mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
+                     system.file("microtofq/MM8.mzML", package = "msdata"))
     }
     return(mzfiles)
 }
@@ -55,7 +55,7 @@ test_that("compare basic contents", {
     hd <- header(mse)
     odhd <- header(odmse)
     commonCols <- intersect(colnames(hd), colnames(odhd))
-    expect_equal(hd[, commonCols], odhd[, commonCols]) 
+    expect_equal(hd[, commonCols], odhd[, commonCols])
     ## length
     expect_identical(length(mse), length(odmse))
 })
@@ -75,7 +75,7 @@ test_that("header on OnDiskMSnExp", {
         hd2 <- header(odmse, scans=1:300)
     ) ## 0.3
     commonCols <- intersect(colnames(hd1), colnames(hd2))
-    expect_equal(hd1[, commonCols], hd2[, commonCols]) 
+    expect_equal(hd1[, commonCols], hd2[, commonCols])
 })
 
 ############################################################

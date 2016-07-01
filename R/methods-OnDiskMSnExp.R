@@ -156,32 +156,42 @@ setMethod("polarity", "OnDiskMSnExp",
 ## check the function in there and eventually load the data and apply it.
 setMethod("peaksCount",
           signature(object = "OnDiskMSnExp", scans = "missing"),
-          function(object, scans, BPPARAM = bpparam()){
+          function(object, scans, BPPARAM = bpparam()) {
               ## The feature data contains the original peaks
               ## count. This method fetches the peaks count from the
               ## (possibly processed) spectra.
               ##
               ## Add methods here that would not require raw data reading.
               skipFun <- c("removePeaks", "clean", "pickPeaks")
-              
-              if (length(object@spectraProcessingQueue) > 0){
+
+
+              if (length(object@spectraProcessingQueue) > 0) {
                   recalc <- any(unlist(lapply(object@spectraProcessingQueue,
                                               function(z) {
                                                   if (any(z@FUN == skipFun))
                                                       return(FALSE)
                                                   return(TRUE)
                                               })))
+              } else {
+                  ## No need to calculate the peaks count; we can use the
+                  ## information from the feature data.
+                  recalc <- FALSE
               }
               ## An important point here is that we DON'T want to get
               ## all of the data from all files in one go; that would
               ## require eventually lots of memory! It's better to do
               ## that per file; that way we could also do that in
               ## parallel.
-              vals <- spectrapply(object,
+              if (recalc) {
+                  vals <- unlist(spectrapply(object,
                                   FUN = peaksCount,
                                   index = numeric(),
-                                  BPPARAM = BPPARAM)
-              return(unlist(vals))
+                                  BPPARAM = BPPARAM))
+              } else {
+                  vals <- fData(object)$originalPeaksCount
+              }
+              names(vals) <- featureNames(object)
+              return(vals)
           })
 
 ############################################################
@@ -209,10 +219,7 @@ setMethod("ionCount", "OnDiskMSnExp",
 setMethod("spectra",
           "OnDiskMSnExp",
           function(object, BPPARAM = bpparam()){
-              ## Overwriting the BPPARAM setting if we've only got some scans!
-              if (length(scans) > 0 & length(scans) < 800)
-                  BPPARAM <- SerialParam()
-              return(spectrapply(object, index = numeric(), BPPARAM = BPPARAM))
+              return(spectrapply(object, BPPARAM = BPPARAM))
           })
 
 ############################################################
@@ -301,23 +308,28 @@ setMethod("spectrapply", "OnDiskMSnExp",
           function(object, FUN = NULL, index = NULL,
                    scanIdx = NULL, name = NULL,
                    rtlim = NULL,
-                   BPPARAM = bpparam(), ...){
-              ## Sub-set the feature data based on the arguments.
-              fd <- .subsetFeatureDataBy(fData(object), index=index, scanIdx=scanIdx,
-                                         name=name, rtlim=rtlim)
-              isOK <- .validateFeatureDataForOnDiskMSnExp(fd)
-              if(!is.null(isOK))
-                  stop(isOK)
-              fDataPerFile <- split(fd, f=fd$fileIdx)
-              vals <- bplapply(fDataPerFile, FUN=.applyFun2SpectraOfFileMulti,
-                               filenames=fileNames(object),
-                               queue=object@spectraProcessingQueue,
-                               APPLYFUN=FUN,
-                               BPPARAM=BPPARAM)
-              names(vals) <- NULL
-              vals <- unlist(vals, recursive=FALSE)
+                   BPPARAM = bpparam(), ...) {
+    ## Check if we would do better with serial processing:
+    BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
+
+    ## @lgatto: I suppose we will do the subsetting all on the object itself, thus
+    ## we don't need the subsetting code below, right?
+    ## Sub-set the feature data based on the arguments.
+    fd <- .subsetFeatureDataBy(fData(object), index=index, scanIdx=scanIdx,
+                               name=name, rtlim=rtlim)
+    isOK <- .validateFeatureDataForOnDiskMSnExp(fd)
+    if(!is.null(isOK))
+        stop(isOK)
+    fDataPerFile <- split(fd, f=fd$fileIdx)
+    vals <- bplapply(fDataPerFile, FUN=.applyFun2SpectraOfFileMulti,
+                     filenames=fileNames(object),
+                     queue=object@spectraProcessingQueue,
+                     APPLYFUN=FUN,
+                     BPPARAM=BPPARAM)
+    names(vals) <- NULL
+    vals <- unlist(vals, recursive=FALSE)
               return(vals[rownames(fd)])
-          })
+})
 
 ##============================================================
 ##  --  DATA MANIPULATION METHODS
@@ -442,7 +454,7 @@ setMethod("normalize", "OnDiskMSnExp",
 ##       of fd.
 ## rtlim: a numeric of length 2 specifying the retention time window
 ##        from which spectra should be extracted.
-.subsetFeatureDataBy <- function(fd, index=NULL, scanIdx=NULL, scanIdxCol="spIdx",
+.subsetFeatureDataBy <- function(fd, index=NULL, scanIdx=NULL, scanIdxCol="acquisitionNum",
                                  name=NULL, rtlim=NULL){
     ## First check index.
     if (length(index) > 0) {
