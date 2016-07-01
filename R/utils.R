@@ -746,7 +746,7 @@ utils.removeNoId <- function(object, fcol, keep) {
 }
 
 utils.removeMultipleAssignment <- function(object, fcol) {
-    keep <- fData(object)[, fcol] == 1
+    keep <- which(fData(object)[, fcol] == 1)
     object <- object[keep, ]
     object <- nologging(object, 1)
     object <- logging(object,

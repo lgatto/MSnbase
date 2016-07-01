@@ -184,9 +184,10 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
       examples. }
 
     \item{removeMultipleAssignment}{\code{signature(object = "MSnExp",
-	fcol = "nprot")}: Removes protein groups with more than one
-	member. The latter is defined by extracting a feature variable
-	(default is \code{"nprot"}). }
+	fcol = "nprot")}: Removes protein groups (or feature belong to
+	protein groups) with more than one member. The latter is defined
+	by extracting a feature variable (default is
+	\code{"nprot"}). Also removes non-identified features. }
 
     \item{idSummary}{\code{signature(object = "MSnExp", ...)}:
       Prints a summary that lists the percentage of identified features per
