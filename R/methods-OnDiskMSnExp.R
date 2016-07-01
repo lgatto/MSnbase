@@ -28,6 +28,16 @@ setMethod("header",
           })
 
 
+setReplaceMethod("featureNames",
+                 c("OnDiskMSnExp", "ANY"),
+                 function(object, value) {
+                     fd <- featureData(object)
+                     featureNames(fd) <- value
+                     object@featureData <- fd
+                     if (validObject(object))
+                         return(object)
+                 })
+
 ############################################################
 ## processingQueue
 setMethod("processingQueue", "OnDiskMSnExp", function(object){
@@ -184,9 +194,9 @@ setMethod("peaksCount",
               ## parallel.
               if (recalc) {
                   vals <- unlist(spectrapply(object,
-                                  FUN = peaksCount,
-                                  index = numeric(),
-                                  BPPARAM = BPPARAM))
+                                             FUN = peaksCount,
+                                             index = numeric(),
+                                             BPPARAM = BPPARAM))
               } else {
                   vals <- fData(object)$originalPeaksCount
               }
@@ -299,7 +309,7 @@ setMethod("[", signature(x = "OnDiskMSnExp",
 setMethod("spectrapply", "OnDiskMSnExp",
           function(object, FUN = NULL,
                    BPPARAM = bpparam(), ...) {
-    ## Check if we would do better with serial processing:
+              ## Check if we would do better with serial processing:
               BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
               isOK <- .validateFeatureDataForOnDiskMSnExp(fData(object))
               if(!is.null(isOK))

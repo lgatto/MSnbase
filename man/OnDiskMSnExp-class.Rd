@@ -34,6 +34,8 @@
 \alias{scanIndex,OnDiskMSnExp-method}
 \alias{spectra,OnDiskMSnExp-method}
 \alias{tic,OnDiskMSnExp-method}
+\alias{featureNames<-,OnDiskMSnExp,-method}
+\alias{featureNames,OnDiskMSnExp,-method}
 
 %% Data manipulations.
 \alias{clean,OnDiskMSnExp-method}
@@ -45,7 +47,7 @@
 %% Data validity etc
 \alias{validateOnDiskMSnExp}
 
-\title{The 'OnDiskMSnExp' Class for MS Data And Meta-Data}
+\title{The \code{OnDiskMSnExp} Class for MS Data And Meta-Data}
 
 \description{
   Like the \code{\link{MSnExp}} class, the \code{OnDiskMSnExp} class
@@ -56,8 +58,6 @@
   reduced performance, has however the advantage of a much smaller
   memory footprint.
 
-  At present only on-disk access for \code{\link{Spectrum1}} objects is
-  supported.
 }
 
 \details{
@@ -151,17 +151,14 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
   \describe{
 
     \item{[}{
-      \code{object[i, j]}: subset the \code{OnDiskMSnExp} by spectra
-      (\code{i}) or samples (\code{j}).
-      \code{i} can be a \code{numeric} or \code{logical} vector
-      specifying to which spectra the data set should be reduced (with
-      \code{i} being the index of the spectrum in the object's
+      \code{object[i]}:subset the \code{OnDiskMSnExp} by
+      spectra.  \code{i} can be a \code{numeric} or \code{logical}
+      vector specifying to which spectra the data set should be reduced
+      (with \code{i} being the index of the spectrum in the object's
       \code{featureData}).
-      \code{j} can be a \code{numeric} or \code{logical} vector defining
-      the samples/files to which the data set should be reduced.
 
-      The method returns a \code{OnDiskMSnExp} object with the data
-      sub-set.
+    The method returns a \code{OnDiskMSnExp} object with the data
+    sub-set.
     }
 
     \item{[[}{
@@ -174,10 +171,11 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 
       The method returns a \code{Spectrum1} object.
     }
+
     \item{acquisitionNum}{
-      \code{acquisitionNum(signature(object="OnDiskMSnExp"))}:
-      get the acquisition number of each spectrum in each individual
-      file. The relevant information is extracted from the object's
+      \code{acquisitionNum(signature(object="OnDiskMSnExp"))}: get the
+      acquisition number of each spectrum in each individual file. The
+      relevant information is extracted from the object's
       \code{featureData} slot.
 
       Returns a numeric vector with names corresponding to the spectrum
@@ -365,7 +363,11 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
       names.
     }
 
-  }
+    \item{featureNames}{      
+      \code{tic(signature(object="OnDiskMSnExp"))}: return a
+      \code{character} of length \code{length(object)} containing the
+      feature names. A replacement method is also available.
+    }
 
 }
 

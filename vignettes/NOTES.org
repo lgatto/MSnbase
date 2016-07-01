@@ -55,7 +55,7 @@ there shouldn't be much to add.
   - spIdx: the index of the spectrum in that file (use that in =mzR::peaks= call).
   - centroided: the argument from the =readMSData= function.
   - acquisitionNum: taken from the file header.
-  - peaksCount: taken from the file header.
+  - originalPeaksCount: (renamed from peaksCount) taken from the file header.
   - totIonCurrent: taken from the file header.
   - retentionTime: taken from the file header.
   - basePeakMZ: taken from the file header.
@@ -120,8 +120,8 @@ Idea:
 + [X] =length=.
 + [X] =msLevel=.
 + [X] =fromFile=.
-+ [X] =header= extract the required data from the =featureData= renaming some of the
-  columns.
++ [X] =header= extract the required data from the =featureData=
+  renaming some of the columns.
 + [X] =[= sub-setting.
 + [X] Test cases.
 + [X] Documentation.
@@ -147,8 +147,11 @@ Convert from =OnDiskMSnExp= to a =MSnExp= object and /vice versa/.
 The problems here are: how the heck should I track the processing steps???
 *Solution*: just do the conversion from on-disk to ram.
 
+- [ ] =inMemory(.)= function.
 
-*** TODO Rename =OnDiskMSnExp= into =MSnExpOnDisk=
+*** +TODO Rename =OnDiskMSnExp= into =MSnExpOnDisk=+
+
+I don't think this is really necessary, really. 
 
 *** TODO  Code tydiing
 
