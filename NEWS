@@ -3,7 +3,9 @@ CHANGES IN VERSION 1.21.8
  o Update MSnSet validity method to guard agains empty string feature
    names <2016-06-20 Mon>
  o Simplify show,MSnExp method to work for various MS level cases and
-   OnDiskMSnExp - addressed issue #98 <2016-06-28 Tue>   
+   OnDiskMSnExp - addressed issue #98 <2016-06-28 Tue>
+ o removeMultipleAssignment also removes features that were not
+   assigned (i.e. that have fcol (nprots) NA) <2016-07-02 Sat>
  
 CHANGES IN VERSION 1.21.7
 -------------------------
