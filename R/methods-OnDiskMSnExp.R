@@ -300,21 +300,22 @@ setMethod("spectrapply", "OnDiskMSnExp",
           function(object, FUN = NULL,
                    BPPARAM = bpparam(), ...) {
     ## Check if we would do better with serial processing:
-    BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
-
-    isOK <- .validateFeatureDataForOnDiskMSnExp(fd)
-    if(!is.null(isOK))
-        stop(isOK)
-    fDataPerFile <- split(fd, f=fd$fileIdx)
-    vals <- bplapply(fDataPerFile, FUN=.applyFun2SpectraOfFileMulti,
-                     filenames=fileNames(object),
-                     queue=object@spectraProcessingQueue,
-                     APPLYFUN=FUN,
-                     BPPARAM=BPPARAM, ...)
-    names(vals) <- NULL
-    vals <- unlist(vals, recursive=FALSE)
-              return(vals[rownames(fd)])
-})
+              BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
+              isOK <- .validateFeatureDataForOnDiskMSnExp(fData(object))
+              if(!is.null(isOK))
+                  stop(isOK)
+              fDataPerFile <- split(fData(object),
+                                    f = fData(object)$fileIdx)
+              vals <- bplapply(fDataPerFile,
+                               FUN = .applyFun2SpectraOfFileMulti,
+                               filenames = fileNames(object),
+                               queue = object@spectraProcessingQueue,
+                               APPLYFUN = FUN,
+                               BPPARAM = BPPARAM, ...)
+              names(vals) <- NULL
+              vals <- unlist(vals, recursive=FALSE)
+              return(vals[rownames(fData(object))])
+          })
 
 ##============================================================
 ##  --  DATA MANIPULATION METHODS
