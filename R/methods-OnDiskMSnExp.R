@@ -295,19 +295,9 @@ setMethod("[", signature(x = "OnDiskMSnExp",
 ##
 ## That's the main method to apply functions to the object's spectra, or
 ## to just return a list with the spectra, if FUN is empty.
-## Arguments; all are related to the sub-setting of the featureData.
-## index: subset by numeric index, logical or character. Character indices are "forwarded"
-##  to argument "name".
-## scanIdx: a numeric is expected, specifying the scan index. If a character vector
-##  is provided, it is "forwarded" to argument "name".
-## scanIdxCol: the column of the featureData containing the scan indices.
-## name: a character vector, matching is performed using the row names of fd.
-## rtlim: a numeric of length 2 specifying the retention time window from which spectra
-##  should be extracted.
+## Parallel processing by file can be enabled using BPPARAM.
 setMethod("spectrapply", "OnDiskMSnExp",
-          function(object, FUN = NULL, index = NULL,
-                   scanIdx = NULL, name = NULL,
-                   rtlim = NULL,
+          function(object, FUN = NULL,
                    BPPARAM = bpparam(), ...) {
     ## Check if we would do better with serial processing:
     BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
@@ -320,7 +310,7 @@ setMethod("spectrapply", "OnDiskMSnExp",
                      filenames=fileNames(object),
                      queue=object@spectraProcessingQueue,
                      APPLYFUN=FUN,
-                     BPPARAM=BPPARAM)
+                     BPPARAM=BPPARAM, ...)
     names(vals) <- NULL
     vals <- unlist(vals, recursive=FALSE)
               return(vals[rownames(fd)])
@@ -427,6 +417,28 @@ setMethod("normalize", "OnDiskMSnExp",
               object@processingData@normalised <- TRUE
               return(object)
           })
+
+
+############################################################
+## validateOnDiskMSnExp
+##
+## The validation method that might be called manually. In addition to the
+## validate function called by validObject this ensures also that all
+## spectra objects are valid and thus re-reads the raw data.
+setMethod("validateOnDiskMSnExp", "OnDiskMSnExp",
+          function(object) {
+    ## First call the basic validity.
+    valMsg <- validObject(object)
+    if (is(valMsg, "character"))
+        stop(valMsg)
+    ## Now check validity of the spectra; if one non-valid object is found we stop.
+    spectrapply(object, FUN=function(z) {
+        res <- validObject(z)
+        if (is(res, "character"))
+            stop(res)
+    })
+    return(TRUE)
+})
 
 ##============================================================
 ##  --  HELPER FUNCTIONS  --
@@ -707,7 +719,7 @@ setMethod("normalize", "OnDiskMSnExp",
 }
 
 ## Returns either NULL or a character string.
-.validateFeatureDataForOnDiskMSnExp <- function(x){
+.validateFeatureDataForOnDiskMSnExp <- function(x) {
     ## Testing if we've got all the required columns! See issue 105
     ## for a discussion about originalTotIonCurrent and
     ## originalPeaksCount.

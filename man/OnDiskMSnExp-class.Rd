@@ -42,6 +42,10 @@
 \alias{normalize,OnDiskMSnExp-method}
 \alias{normalise,OnDiskMSnExp-method}
 
+%% Data validity etc
+\alias{validateOnDiskMSnExp}
+\alias{validateOnDiskMSnExp,OnDiskMSnExp-method}
+
 \title{The 'OnDiskMSnExp' Class for MS Data And Meta-Data}
 
 \description{
@@ -426,6 +430,18 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
     }
   }
 
+}
+
+\section{Other methods}{
+  \describe{
+    \item{validateOnDiskMSnExp}{
+      \code{validateOnDiskMSnExp(signature(object = "OnDiskMSnExp"))}:
+      validates an \code{OnDiskMSnExp} object and all of its spectra. In
+      addition to the \emph{standard} \code{validObject} method, this
+      method reads also all spectra from the original files, applies
+      eventual processing steps and evaluates their validity.
+    }
+  }
 }
 
 \author{
