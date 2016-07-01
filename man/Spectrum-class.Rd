@@ -79,7 +79,7 @@
     \item{\code{rt}:}{Object of class \code{"numeric"} indicating the
       retention time (in seconds) for the current ions. }
     \item{\code{tic}:}{Object of class \code{"numeric"} indicating the
-      total ion current.}
+      total ion current, as reported in the original raw data file.}
     \item{\code{acquisitionNum}:}{Object of class \code{"integer"}
       corresponding to the acquisition number of the current spectrum. }
     \item{\code{scanIndex}:}{Object of class \code{"integer"} indicating
@@ -133,9 +133,12 @@
       spectrum as an integer. Additional arguments are currently
       ignored. }
     \item{\code{ionCount(object)}}{ Returns the total ion count for the
-      spectrum as a numeric. }
-    \item{\code{tic(object, ...)}}{ Returns the total ion current for the
-      spectrum as a numeric. Additional arguments are currently ignored. }
+      spectrum as a numeric. }    
+    \item{\code{tic(object, ...)}}{ Returns the total ion current for
+      the spectrum as a numeric. Additional arguments are currently
+      ignored. This is the total ion current as originally reported in
+      the raw data file. To get the current total ion count, use
+      \code{ionCount}. }    
     %% -------------------------------------------------- %%
     \item{bin}{\code{signature(object = "Spectrum")}: Bins Spectrum.
       See \code{\link{bin}} documentation for more details and examples. }
