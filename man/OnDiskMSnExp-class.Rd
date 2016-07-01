@@ -44,7 +44,6 @@
 
 %% Data validity etc
 \alias{validateOnDiskMSnExp}
-\alias{validateOnDiskMSnExp,OnDiskMSnExp-method}
 
 \title{The 'OnDiskMSnExp' Class for MS Data And Meta-Data}
 
@@ -432,7 +431,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 
 }
 
-\section{Other methods}{
+\section{Other methods and functions}{
   \describe{
     \item{validateOnDiskMSnExp}{
       \code{validateOnDiskMSnExp(signature(object = "OnDiskMSnExp"))}:

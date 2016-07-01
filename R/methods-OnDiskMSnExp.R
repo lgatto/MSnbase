@@ -425,8 +425,7 @@ setMethod("normalize", "OnDiskMSnExp",
 ## The validation method that might be called manually. In addition to the
 ## validate function called by validObject this ensures also that all
 ## spectra objects are valid and thus re-reads the raw data.
-setMethod("validateOnDiskMSnExp", "OnDiskMSnExp",
-          function(object) {
+validateOnDiskMSnExp <-function(object) {
     ## First call the basic validity.
     valMsg <- validObject(object)
     if (is(valMsg, "character"))
@@ -438,7 +437,7 @@ setMethod("validateOnDiskMSnExp", "OnDiskMSnExp",
             stop(res)
     })
     return(TRUE)
-})
+}
 
 ##============================================================
 ##  --  HELPER FUNCTIONS  --

@@ -110,7 +110,9 @@ export(MSnSet,
        makeMTD,
        makePEP,
        makePRT,
-       ProcessingStep)
+       ProcessingStep,
+       ## OnDiskMSnExp
+       validateOnDiskMSnExp)
 
 exportClasses(pSet,
               MIAPE,
@@ -203,7 +205,6 @@ exportMethods(exprs,
               width,
               reporterColours, reporterColors,
               reporterNames, "reporterNames<-",
-              validateOnDiskMSnExp,
               writeMgfData,
               write.exprs,
               combine, ## for classes MIAPE, MSnProcess and MSnSet
