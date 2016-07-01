@@ -148,6 +148,9 @@ readMSData <- function(files,
                 hd <- fullhd[j,]
                 .p <- mzR::peaks(msdata,j)
                 sp <- new("Spectrum2",
+                          scanIndex = as.integer(hd$seqNum),
+                          merged = hd$mergedScan,
+                          polarity = hd$polarity,
                           precScanNum = as.integer(scanNums[i]),
                           precursorMz = hd$precursorMZ,
                           precursorIntensity = hd$precursorIntensity,
