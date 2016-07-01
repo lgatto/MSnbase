@@ -110,8 +110,8 @@ export(MSnSet,
        makeMTD,
        makePEP,
        makePRT,
-       ProcessingStep,
        ## OnDiskMSnExp
+       ProcessingStep,
        validateOnDiskMSnExp)
 
 exportClasses(pSet,
@@ -241,8 +241,7 @@ exportMethods(exprs,
               ## MzTab
               fileName,
               metadata,
-              psms
-              )
+              psms)
 
 ## methods NOT exported
 ## curveStats
