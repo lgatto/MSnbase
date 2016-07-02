@@ -249,12 +249,9 @@ setMethod("intensity","pSet",
 setMethod("mz","pSet",
           function(object) lapply(spectra(object),mz))
 
-setMethod("polarity","pSet",
-          function(object) {
-              if (msLevel(object)[1]==1)
-                  return(sapply(spectra(object), polarity))
-              stop("No polarity for MS2 spectra.")
-          })
+setMethod("polarity", "pSet",
+          function(object) sapply(spectra(object), polarity))
+
 
 setMethod("fromFile","pSet",
           function(object) return(sapply(spectra(object),fromFile)))
