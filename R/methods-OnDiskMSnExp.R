@@ -99,7 +99,7 @@ setMethod("scanIndex", "OnDiskMSnExp", function(object) {
 setMethod("precScanNum", "OnDiskMSnExp",
           function(object) {
               pscan <- fData(object)$precursorScanNum
-              names(pscan) <- featureNames(pscan)
+              names(pscan) <- featureNames(object)
               return(pscan)
           })
 
@@ -779,6 +779,7 @@ validateOnDiskMSnExp <-function(object) {
         ## Call the C-constructor to create a list of Spectrum2 objects.
         res2 <- Spectra2(peaksCount = nValues,
                          scanIndex = msnfd$spIdx,
+                         tic = msnfd$totIonCurrent,
                          rt = msnfd$retentionTime,
                          acquisitionNum = msnfd$acquisitionNum,
                          mz = allSpect[, 1],

@@ -63,7 +63,7 @@ test_that("compare MS2 on disk and in memoery", {
     expect_identical(pData(x1), pData(x2))
     expect_identical(phenoData(x1), phenoData(x2))
     expect_identical(polarity(x1), polarity(x2))
-    expect_identical(precScanNum(x1), precScanNum(x2))
+    expect_identical(precScanNum(x1), precScanNum(x2))    
     expect_identical(precursorIntensity(x1), precursorIntensity(x2))
     expect_identical(protocolData(x1), protocolData(x2))
     expect_identical(pubMedIds(x1), pubMedIds(x2))
@@ -103,6 +103,8 @@ test_that("Write mgf", {
     mgf2@processingData <- mgf1@processingData
     mgf2@phenoData <- mgf1@phenoData
     expect_equal(mgf1, mgf2)
+    unlink(tf1)
+    unlink(tf2)
 })
 
 test_that("Adding identification data", {
@@ -123,7 +125,6 @@ test_that("Adding identification data", {
     x1nid <- removeNoId(x1)
     x2nid <- removeNoId(x2)
     expect_identical(fData(x1nid)[, fv], fData(x2nid)[, fv])
-
 })
 
 
