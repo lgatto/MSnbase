@@ -12,6 +12,7 @@
 \alias{[,OnDiskMSnExp,ANY,ANY,ANY-method}
 \alias{[,OnDiskMSnExp,logicalOrNumeric,missing,missing-method}
 \alias{[[,OnDiskMSnExp-method}
+\alias{[[,OnDiskMSnExp,ANY,ANY-method}
 \alias{[[,OnDiskMSnExp,ANY,ANY,missing-method}
 \alias{[[,OnDiskMSnExp,ANY,missing,missing-method}
 \alias{acquisitionNum,OnDiskMSnExp-method}
