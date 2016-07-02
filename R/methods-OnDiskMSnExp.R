@@ -576,42 +576,92 @@ setMethod("validateOnDiskMSnExp", "OnDiskMSnExp",
     if(missing(fData) | missing(filenames))
         stop("Both 'fData' and 'filenames' are requierd!")
     filename <- filenames[fData[1, "fileIdx"]]
-    if(any(fData$msLevel > 1))
-        stop("on-the-fly import currently only supported for MS1 level data.")
+    ## if(any(fData$msLevel > 1))
+    ##     stop("on-the-fly import currently only supported for MS1 level data.")
     ## Open the file.
     message("Reading data from file ", basename(filename), "...", appendLF=FALSE)
     fileh <- mzR::openMSfile(filename)
     on.exit(expr=mzR::close(fileh))
     on.exit(expr=message("OK"), add=TRUE)
-    ## Now run the stuff per spectrum, i.e. read data, create object, apply the fun.
-    ## Note that we're splitting the matrix not the data.frame, as that's faster.
-    res <- lapply(split(fData[, c("fileIdx", "spIdx", "centroided", "acquisitionNum",
-                                  "peaksCount", "totIonCurrent", "retentionTime",
-                                  "polarity")], rownames(fData)),
-                  FUN=function(z, theQ, fh, APPLYFUN){
-                      ## Read the data.
-                      spD <- mzR::peaks(fh, z[1, 2])
-                      sp <- new("Spectrum1",
-                                fromFile=z[1,1],
-                                scanIndex=z[1, 2],
-                                centroided=z[1,3],
-                                acquisitionNum=z[1,4],
-                                peaksCount=z[1,5],
-                                rt=z[1,7],
-                                polarity=z[1,8],
-                                mz=spD[, 1],
-                                intensity=spD[, 2])
-                      ## Now, apply the Queue.
-                      if(length(theQ) > 0){
-                          for(i in 1:length(theQ)){
-                              sp <- execute(theQ[[i]], sp)
-                          }
-                      }
-                      if(is.null(APPLYFUN))
-                          return(sp)
-                      ## Now what remains is to apply the APPLYFUN and return results.
-                      return(APPLYFUN(sp))
-                  }, theQ=queue, fh=fileh, APPLYFUN=APPLYFUN)
+
+    msLevel1 <- which(fData$msLevel == 1)
+    msLevelN <- which(fData$msLevel > 1)
+    ## Process MS1 and MSn separately
+    if (length(msLevel1) >= 1) {
+        message("MS1 level data.")
+        ms1fd <- fData[msLevel1, , drop = FALSE]
+
+        ## Now run the stuff per spectrum, i.e. read data, create object, apply the fun.
+        ## Note that we're splitting the matrix not the data.frame, as that's faster.
+        res <- lapply(split(ms1fd, rownames(ms1fd)),
+                      FUN=function(z, theQ, fh, APPLYFUN){
+            ## Read the data.
+            spD <- mzR::peaks(fh, z$spIdx)
+            sp <- new("Spectrum1",
+                      fromFile=z$fileIdx,
+                      scanIndex=z$spIdx,
+                      centroided=z$centroided,
+                      acquisitionNum=z$acquisitionNum,
+                      ## peaksCount=z[1,5],
+                      rt=z$retentionTime,
+                      polarity=z$polarity,
+                      mz=spD[, 1],
+                      intensity=spD[, 2])
+            ## Now, apply the Queue.
+            if(length(theQ) > 0){
+                for(i in 1:length(theQ)){
+                    sp <- execute(theQ[[i]], sp)
+                }
+            }
+            if(is.null(APPLYFUN))
+                return(sp)
+            ## Now what remains is to apply the APPLYFUN and return results.
+            return(APPLYFUN(sp))
+        }, theQ = queue, fh = fileh, APPLYFUN = APPLYFUN)
+    } else {
+        res <- list()
+    }
+    if (length(msLevelN) >= 1) {
+        message("MSn level data.")
+        msnfd <- fData[msLevelN, , drop=FALSE]
+
+        ## TODO: write/use C-constructor
+        ## For now we're using the lapply, new() approach iteratively reading each
+        ## spectrum from file and creating the Spectrum2.
+        res2 <- lapply(split(msnfd, rownames(msnfd)), function(z, theQ, fh, APPLYFUN) {
+            spectD <- mzR::peaks(fh, z$spIdx)
+            sp <- new("Spectrum2",
+                      merged = z$mergedScan,
+                      precScanNum = z$precursorScanNum,
+                      precursorMz = z$precursorMZ,
+                      precursorIntensity = z$precursorIntensity,
+                      precursorCharge = z$precursorCharge,
+                      collisionEnergy = z$collisionEnergy,
+                      msLevel = z$msLevel,
+                      rt = z$retentionTime,
+                      acquisitionNum = z$acquisitionNum,
+                      scanIndex = z$spIdx,
+                      mz = spectD[, 1],
+                      intensity = spectD[, 2],
+                      fromFile = z$fileIdx,
+                      centroided = z$centroided,
+                      polarity = z$polarity)
+            ## Now, apply the Queue.
+            if(length(theQ) > 0){
+                for(i in 1:length(theQ)){
+                    sp <- execute(theQ[[i]], sp)
+                }
+            }
+            if(is.null(APPLYFUN))
+                return(sp)
+            ## Now what remains is to apply the APPLYFUN and return results.
+            return(APPLYFUN(sp))
+        }, theQ = queue, fh = fileh, APPLYFUN = APPLYFUN)
+        names(res2) <- rownames(fData)[msLevelN]
+        res <- c(res, res2)
+    }
+    ## Ensure that ordering is the same than in fData:
+    res <- res[match(rownames(fData), names(res))]
     return(res)
 }
 ## Using the C constructor that takes all values at once and creates a list of
@@ -667,31 +717,36 @@ setMethod("validateOnDiskMSnExp", "OnDiskMSnExp",
         res <- list()
     }
     if (length(msLevelN) >= 1) {
-        msnfd <- split(fData[msLevelN, , drop = FALSE], f = 1:length(msLevelN))
-        ## TODO: write/use C-constructor
-        ## For now we're using the lapply, new() approach iteratively reading each
-        ## spectrum from file and creating the Spectrum2.
-        res2 <- lapply(msnfd, function(z) {
-            spectD <- mzR::peaks(fileh, z$spIdx)
-            return(new("Spectrum2",
-                       merged = z$mergedScan,
-                       precScanNum = z$precursorScanNum,
-                       precursorMz = z$precursorMZ,
-                       precursorIntensity = z$precursorIntensity,
-                       precursorCharge = z$precursorCharge,
-                       collisionEnergy = z$collisionEnergy,
-                       msLevel = z$msLevel,
-                       rt = z$retentionTime,
-                       acquisitionNum = z$acquisitionNum,
-                       scanIndex = z$spIdx,
-                       mz = spectD[, 1],
-                       intensity = spectD[, 2],
-                       fromFile = z$fileIdx,
-                       centroided = z$centroided,
-                       polarity = z$polarity)
-                   )
-        })
-        names(res2) <- rownames(fData)[msLevelN]
+        msnfd <- fData[msLevelN, , drop=FALSE]
+        ## Reading all of the data in "one go".
+        allSpect <- mzR::peaks(fileh, msnfd$spIdx)
+        ## If we have more than one spectrum the peaks function returns a list.
+        if (is(allSpect, "list")) {
+            nValues <- lengths(allSpect) / 2
+            allSpect <- do.call(rbind, allSpect)
+        } else {
+            ## otherwise it's a matrix, e.g. if only a single scan index was provided.
+            nValues <- nrow(allSpect)
+        }
+        ## Call the C-constructor to create a list of Spectrum2 objects.
+        res2 <- Spectra2(peaksCount = nValues,
+                         scanIndex = msnfd$spIdx,
+                         rt = msnfd$retentionTime,
+                         acquisitionNum = msnfd$acquisitionNum,
+                         mz = allSpect[, 1],
+                         intensity = allSpect[, 2],
+                         centroided = msnfd$centroided,
+                         fromFile = msnfd$fileIdx,
+                         polarity = msnfd$polarity,
+                         nvalues = nValues,
+                         msLevel = msnfd$msLevel,
+                         merged = msnfd$mergedScan,
+                         precScanNum = msnfd$precursorScanNum,
+                         precursorMz = msnfd$precursorMZ,
+                         precursorIntensity = msnfd$precursorIntensity,
+                         precursorCharge = msnfd$precursorCharge,
+                         collisionEnergy = msnfd$collisionEnergy)
+        names(res2) <- rownames(msnfd)
         res <- c(res, res2)
     }
     ## Ensure that ordering is the same than in fData:

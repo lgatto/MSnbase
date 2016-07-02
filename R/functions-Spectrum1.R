@@ -45,7 +45,7 @@ Spectra1 <- function(peaksCount = NULL, rt=numeric(), acquisitionNum=NA_integer_
     }
     ## acquisitionNum
     if(length(acquisitionNum) == 1){
-        rep(acquisitionNum, nvals)
+        acquisitionNum <- rep(acquisitionNum, nvals)
     }else{
         if(length(acquisitionNum) != nvals)
             stop("Length of 'acquisitionNum' has to match the length of 'nvalues'!")
@@ -59,7 +59,7 @@ Spectra1 <- function(peaksCount = NULL, rt=numeric(), acquisitionNum=NA_integer_
     }
     ## tic
     if(length(tic) == 1){
-        rep(tic, nvals)
+        tic <- rep(tic, nvals)
     }else{
         if(length(tic) != nvals)
             stop("Length of 'tic' has to match the length of 'nvalues'!")
@@ -73,7 +73,7 @@ Spectra1 <- function(peaksCount = NULL, rt=numeric(), acquisitionNum=NA_integer_
     }
     ## polarity
     if(length(polarity) == 1){
-        rep(polarity, nvals)
+        polarity <- rep(polarity, nvals)
     }else{
         if(length(polarity) != nvals)
             stop("Length of 'polarity' has to match the length of 'nvalues'!")

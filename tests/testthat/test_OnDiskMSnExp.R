@@ -33,8 +33,6 @@ odmseRemPeaks <- readMSData(files=mzf, msLevel=1, backend="disk",
                             removePeaks=10000, clean=TRUE,
                             verbose = FALSE)
 
-
-
 ############################################################
 ## Testing the on-disk MSnExp stuff.
 test_that("OnDiskMSnExp constructor", {
