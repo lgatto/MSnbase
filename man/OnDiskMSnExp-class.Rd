@@ -12,7 +12,8 @@
 \alias{[,OnDiskMSnExp,ANY,ANY,ANY-method}
 \alias{[,OnDiskMSnExp,logicalOrNumeric,missing,missing-method}
 \alias{[[,OnDiskMSnExp-method}
-\alias{[[,OnDiskMSnExp,missing,missing-method}
+\alias{[[,OnDiskMSnExp,ANY,ANY,missing-method}
+\alias{[[,OnDiskMSnExp,ANY,missing,missing-method}
 \alias{acquisitionNum,OnDiskMSnExp-method}
 \alias{assayData,OnDiskMSnExp-method}
 \alias{centroided,OnDiskMSnExp-method}
@@ -33,6 +34,7 @@
 \alias{spectra,OnDiskMSnExp-method}
 \alias{tic,OnDiskMSnExp-method}
 \alias{precScanNum,OnDiskMSnExp-method}
+\alias{featureNames<-,OnDiskMSnExp-method}
 \alias{featureNames<-,OnDiskMSnExp,ANY-method}
 \alias{featureNames,OnDiskMSnExp-method}
 \alias{precScanNum,OnDiskMSnExp-method}
