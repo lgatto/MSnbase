@@ -85,22 +85,47 @@ setMethod("length", "OnDiskMSnExp", function(x){
 ##
 ## Get the scan index for each spectrum in each file. We're extracting
 ## that from the featureData.
-setMethod("scanIndex", "OnDiskMSnExp", function(object){
+setMethod("scanIndex", "OnDiskMSnExp", function(object) {
     scIdx <- fData(object)$spIdx
     names(scIdx) <- featureNames(object)
     return(scIdx)
 })
 
 ############################################################
+## precScanNum
+##
+## Get the precursor scan index for each spectrum in each file. We're
+## extracting that from the featureData.
+setMethod("precScanNum", "OnDiskMSnExp",
+          function(object) {
+              pscan <- fData(object)$precursorScanNum
+              names(pscan) <- featureNames(pscan)
+              return(pscan)
+          })
+
+############################################################
+## precursorIntensity
+##
+## Get the precursor intensity for each spectrum in each file. We're
+## extracting that from the featureData.
+setMethod("precursorIntensity", "OnDiskMSnExp",
+          function(object) {
+              pint <- fData(object)$precursorIntensity
+              names(pint) <- featureNames(object)
+              return(pint)
+          })
+
+############################################################
 ## acquisitionNum
 ##
 ## Get the acquisition number for each spectrum in each file. We're extracting
 ## that from the featureData.
-setMethod("acquisitionNum", "OnDiskMSnExp", function(object){
-    aIdx <- fData(object)$acquisitionNum
-    names(aIdx) <- featureNames(object)
-    return(aIdx)
-})
+setMethod("acquisitionNum", "OnDiskMSnExp",
+          function(object) {
+              aIdx <- fData(object)$acquisitionNum
+              names(aIdx) <- featureNames(object)
+              return(aIdx)
+          })
 
 ############################################################
 ## centroided
