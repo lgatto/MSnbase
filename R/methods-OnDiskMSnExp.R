@@ -644,7 +644,8 @@ validateOnDiskMSnExp <-function(object) {
         res <- lapply(split(ms1fd, rownames(ms1fd)),
                       FUN=function(z, theQ, fh, APPLYFUN){
             ## Read the data.
-            spD <- mzR::peaks(fh, z$spIdx)
+            ## According to issue #103 we should use acquisitionNum, not spectrum idx.
+            spD <- mzR::peaks(fh, z$acquisitionNum)
             sp <- new("Spectrum1",
                       fromFile=z$fileIdx,
                       scanIndex=z$spIdx,
@@ -677,7 +678,7 @@ validateOnDiskMSnExp <-function(object) {
         ## For now we're using the lapply, new() approach iteratively reading each
         ## spectrum from file and creating the Spectrum2.
         res2 <- lapply(split(msnfd, rownames(msnfd)), function(z, theQ, fh, APPLYFUN) {
-            spectD <- mzR::peaks(fh, z$spIdx)
+            spectD <- mzR::peaks(fh, z$acquisitionNum)
             sp <- new("Spectrum2",
                       merged = z$mergedScan,
                       precScanNum = z$precursorScanNum,
@@ -740,7 +741,8 @@ validateOnDiskMSnExp <-function(object) {
     if (length(msLevel1) >= 1) {
         ms1fd <- fData[msLevel1, , drop = FALSE]
         ## Reading all of the data in "one go".
-        allSpect <- mzR::peaks(fileh, ms1fd$spIdx)
+        ## According to issue #103 we should use acquisitionNum, not spectrum idx.
+        allSpect <- mzR::peaks(fileh, ms1fd$acquisitionNum)
         ## If we have more than one spectrum the peaks function returns a list.
         if (is(allSpect, "list")) {
             nValues <- lengths(allSpect) / 2
@@ -767,7 +769,7 @@ validateOnDiskMSnExp <-function(object) {
     if (length(msLevelN) >= 1) {
         msnfd <- fData[msLevelN, , drop=FALSE]
         ## Reading all of the data in "one go".
-        allSpect <- mzR::peaks(fileh, msnfd$spIdx)
+        allSpect <- mzR::peaks(fileh, msnfd$acquisitionNum)
         ## If we have more than one spectrum the peaks function returns a list.
         if (is(allSpect, "list")) {
             nValues <- lengths(allSpect) / 2
