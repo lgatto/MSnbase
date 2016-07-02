@@ -60,7 +60,6 @@
   demand from the raw files. This results in some instances to a
   reduced performance, has however the advantage of a much smaller
   memory footprint.
-
 }
 
 \details{
@@ -371,7 +370,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
       \code{character} of length \code{length(object)} containing the
       feature names. A replacement method is also available.
     }
-
+  }
 }
 
 \section{Data manipulation methods}{
