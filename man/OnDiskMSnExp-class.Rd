@@ -34,8 +34,11 @@
 \alias{scanIndex,OnDiskMSnExp-method}
 \alias{spectra,OnDiskMSnExp-method}
 \alias{tic,OnDiskMSnExp-method}
+\alias{precScanNum,OnDiskMSnExp-method}
 \alias{featureNames<-,OnDiskMSnExp,-method}
 \alias{featureNames,OnDiskMSnExp,-method}
+\alias{precScanNum,OnDiskMSnExp,-method}
+\alias{precursorIntensity,OnDiskMSnExp,-method}
 
 %% Data manipulations.
 \alias{clean,OnDiskMSnExp-method}
