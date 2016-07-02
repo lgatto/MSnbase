@@ -127,19 +127,20 @@ Idea:
 + [X] Documentation.
 + [X] Check =[= sub-setting.
 
-*** TODO Implement additional methods defined for =MSnExp= objects [2/11].
+*** TODO Implement additional methods defined for =MSnExp= objects [2/12].
 
 + [ ] =plot=.
 + [ ] =plot2d=.
 + [ ] =plotDensity=.
 + [ ] =plotMzDelta=.
 + [X] =trimMz=.
-+ [X] =normalize=.
++ [X] =normalize=, =normalise=
 + [ ] =bin=.
 + [ ] =compareSpectra=.
 + [ ] =pickPeaks=.
 + [ ] =estimateNoise=.
 + [ ] =smooth=.
++ [ ] =extractPrecSpectra=
 
 *** TODO Implement a conversion function/method (Point 7)
 
