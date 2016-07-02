@@ -28,6 +28,16 @@ setMethod("header",
           })
 
 
+setReplaceMethod("featureNames",
+                 c("OnDiskMSnExp", "ANY"),
+                 function(object, value) {
+                     fd <- featureData(object)
+                     featureNames(fd) <- value
+                     object@featureData <- fd
+                     if (validObject(object))
+                         return(object)
+                 })
+
 ############################################################
 ## processingQueue
 setMethod("processingQueue", "OnDiskMSnExp", function(object){
@@ -75,35 +85,61 @@ setMethod("length", "OnDiskMSnExp", function(x){
 ##
 ## Get the scan index for each spectrum in each file. We're extracting
 ## that from the featureData.
-setMethod("scanIndex", "OnDiskMSnExp", function(object){
+setMethod("scanIndex", "OnDiskMSnExp", function(object) {
     scIdx <- fData(object)$spIdx
     names(scIdx) <- featureNames(object)
     return(scIdx)
 })
 
 ############################################################
+## precScanNum
+##
+## Get the precursor scan index for each spectrum in each file. We're
+## extracting that from the featureData.
+setMethod("precScanNum", "OnDiskMSnExp",
+          function(object) {
+              pscan <- fData(object)$precursorScanNum
+              names(pscan) <- featureNames(pscan)
+              return(pscan)
+          })
+
+############################################################
+## precursorIntensity
+##
+## Get the precursor intensity for each spectrum in each file. We're
+## extracting that from the featureData.
+setMethod("precursorIntensity", "OnDiskMSnExp",
+          function(object) {
+              pint <- fData(object)$precursorIntensity
+              names(pint) <- featureNames(object)
+              return(pint)
+          })
+
+############################################################
 ## acquisitionNum
 ##
 ## Get the acquisition number for each spectrum in each file. We're extracting
 ## that from the featureData.
-setMethod("acquisitionNum", "OnDiskMSnExp", function(object){
-    aIdx <- fData(object)$acquisitionNum
-    names(aIdx) <- featureNames(object)
-    return(aIdx)
-})
+setMethod("acquisitionNum", "OnDiskMSnExp",
+          function(object) {
+              aIdx <- fData(object)$acquisitionNum
+              names(aIdx) <- featureNames(object)
+              return(aIdx)
+          })
 
 ############################################################
 ## centroided
 ##
 ## Getter/setter for the centroided information; extracting this from
 ## the featureData.
-setMethod("centroided","OnDiskMSnExp",
+setMethod("centroided", "OnDiskMSnExp",
           function(object){
               val <- fData(object)$centroided
               names(val) <- featureNames(object)
               return(val)
           })
-setReplaceMethod("centroided", signature(object="OnDiskMSnExp", value="logical"),
+setReplaceMethod("centroided",
+                 signature(object = "OnDiskMSnExp", value = "logical"),
                  function(object, value){
                      if (length(value) == 1)
                          value <- rep(value, length(object))
@@ -133,6 +169,18 @@ setMethod("rtime", "OnDiskMSnExp",
 setMethod("tic", "OnDiskMSnExp",
           function(object){
               vals <- fData(object)$totIonCurrent
+              names(vals) <- featureNames(object)
+              return(vals)
+          })
+
+############################################################
+## collisionEnergy
+##
+## Get the collision Energy (from the featureData, thus it will not be
+## recalculated).
+setMethod("collisionEnergy", "OnDiskMSnExp",
+          function(object) {
+              vals <- fData(object)$collisionEnergy
               names(vals) <- featureNames(object)
               return(vals)
           })
@@ -184,9 +232,9 @@ setMethod("peaksCount",
               ## parallel.
               if (recalc) {
                   vals <- unlist(spectrapply(object,
-                                  FUN = peaksCount,
-                                  index = numeric(),
-                                  BPPARAM = BPPARAM))
+                                             FUN = peaksCount,
+                                             index = numeric(),
+                                             BPPARAM = BPPARAM))
               } else {
                   vals <- fData(object)$originalPeaksCount
               }
@@ -299,22 +347,23 @@ setMethod("[", signature(x = "OnDiskMSnExp",
 setMethod("spectrapply", "OnDiskMSnExp",
           function(object, FUN = NULL,
                    BPPARAM = bpparam(), ...) {
-    ## Check if we would do better with serial processing:
-    BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
-
-    isOK <- .validateFeatureDataForOnDiskMSnExp(fd)
-    if(!is.null(isOK))
-        stop(isOK)
-    fDataPerFile <- split(fd, f=fd$fileIdx)
-    vals <- bplapply(fDataPerFile, FUN=.applyFun2SpectraOfFileMulti,
-                     filenames=fileNames(object),
-                     queue=object@spectraProcessingQueue,
-                     APPLYFUN=FUN,
-                     BPPARAM=BPPARAM, ...)
-    names(vals) <- NULL
-    vals <- unlist(vals, recursive=FALSE)
-              return(vals[rownames(fd)])
-})
+              ## Check if we would do better with serial processing:
+              BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
+              isOK <- .validateFeatureDataForOnDiskMSnExp(fData(object))
+              if(!is.null(isOK))
+                  stop(isOK)
+              fDataPerFile <- split(fData(object),
+                                    f = fData(object)$fileIdx)
+              vals <- bplapply(fDataPerFile,
+                               FUN = .applyFun2SpectraOfFileMulti,
+                               filenames = fileNames(object),
+                               queue = object@spectraProcessingQueue,
+                               APPLYFUN = FUN,
+                               BPPARAM = BPPARAM, ...)
+              names(vals) <- NULL
+              vals <- unlist(vals, recursive=FALSE)
+              return(vals[rownames(fData(object))])
+          })
 
 ##============================================================
 ##  --  DATA MANIPULATION METHODS
@@ -425,8 +474,7 @@ setMethod("normalize", "OnDiskMSnExp",
 ## The validation method that might be called manually. In addition to the
 ## validate function called by validObject this ensures also that all
 ## spectra objects are valid and thus re-reads the raw data.
-setMethod("validateOnDiskMSnExp", "OnDiskMSnExp",
-          function(object) {
+validateOnDiskMSnExp <-function(object) {
     ## First call the basic validity.
     valMsg <- validObject(object)
     if (is(valMsg, "character"))
@@ -438,7 +486,7 @@ setMethod("validateOnDiskMSnExp", "OnDiskMSnExp",
             stop(res)
     })
     return(TRUE)
-})
+}
 
 ##============================================================
 ##  --  HELPER FUNCTIONS  --

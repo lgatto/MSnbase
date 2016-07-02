@@ -30,8 +30,8 @@ setValidity("pSet", function(object) {
 
     ## Skip some (most) of the tests for a OnDiskMSnExp, since we don't have
     ## spectrum data available, i.e. assayData is empty.
-    if(!isOnDisk(object)){
-        if (!all(sapply(assayData(object), function(x) inherits(x,"Spectrum"))))
+    if (!isOnDisk(object)){
+        if (!all(sapply(assayData(object), function(x) inherits(x, "Spectrum"))))
             msg <- validMsg(msg,
                             "assayData must contain 'Spectrum' objects.")
         msl <- msLevel(object)
@@ -46,7 +46,7 @@ setValidity("pSet", function(object) {
             msg <- validMsg(msg, "Unequal number of spectra in assayData and features in featureData.")
         if (length(spectra(object)) != length(ls(assayData(object))))
             msg <- validMsg(msg, "Object size inconsistence using assayData() and spectra() methods.")
-        if (!identical(featureNames(object), ## obtained as featureNames(featureData(object))
+        if (!identical(featureNames(object), 
                        ls(assayData(object))))
             msg <- validMsg(msg, "featureNames differ between assayData and featureData.")
         ## checking number of files in phenoData and
@@ -91,67 +91,67 @@ setValidity("pSet", function(object) {
 
 setMethod("[", "pSet",
           function(x,i,j="missing",drop="missing") {
-            if (!(is.logical(i) | is.numeric(i)))
-              stop("subsetting works only with numeric or logical")
-            if (is.numeric(i)) {
-              if (max(i)>length(x) | min(i)<1)
-                stop("subscript out of bounds")
-              i <- sort(i) ## crash if unsorted (because of
-                           ## (alphanumerical) order in
-                           ## ls(assayData(.))  and
-                           ## featureNames(featureData) that have to
-                           ## be indenticat - see issues #70 and #71)
-            }
-            whichElements <- ls(assayData(x))[i]
-            sel <- featureNames(x) %in% whichElements
-            orghd <- header(x)
-            olde <- assayData(x)
-            newe <- new.env(parent=emptyenv())
-            for (el in whichElements)
-                newe[[el]] <- olde[[el]]
-            if (environmentIsLocked(olde))
-                lockEnvironment(newe,
-                                bindings = bindingIsLocked(el, olde))
-            x@assayData <- newe
-            x@featureData <- featureData(x)[i, ]
-            if (is.logical(i)) {
-                x@processingData@processing <-
-                    c(processingData(x)@processing,
-                      paste("Data [logically] subsetted ",sum(i)," spectra: ",date(),sep=""))
-            } else if (is.numeric(i)) {
-                x@processingData@processing <-
-                    c(processingData(x)@processing,
-                      paste("Data [numerically] subsetted ",length(i)," spectra: ",date(),sep=""))
-            } else {
-                x@processingData@processing <-
-                    c(processingData(x)@processing,
-                      paste("Data subsetted ",i,": ",date(),sep=""))
-            }
-            if (x@.cache$level > 0)
-                x@.cache <- setCacheEnv(list(assaydata = assayData(x),
-                                             hd = orghd[sel, ]), ## faster than .header for big instances
-                                        x@.cache$level)
-            if (validObject(x))
-                return(x)
-        })
+              if (!(is.logical(i) | is.numeric(i)))
+                  stop("subsetting works only with numeric or logical")
+              if (is.numeric(i)) {
+                  if (max(i)>length(x) | min(i)<1)
+                      stop("subscript out of bounds")
+                  i <- sort(i) ## crash if unsorted (because of
+                  ## (alphanumerical) order in
+                  ## ls(assayData(.))  and
+                  ## featureNames(featureData) that have to
+                  ## be indenticat - see issues #70 and #71)
+              }
+              whichElements <- ls(assayData(x))[i]
+              sel <- featureNames(x) %in% whichElements
+              orghd <- header(x)
+              olde <- assayData(x)
+              newe <- new.env(parent=emptyenv())
+              for (el in whichElements)
+                  newe[[el]] <- olde[[el]]
+              if (environmentIsLocked(olde))
+                  lockEnvironment(newe,
+                                  bindings = bindingIsLocked(el, olde))
+              x@assayData <- newe
+              x@featureData <- featureData(x)[i, ]
+              if (is.logical(i)) {
+                  x@processingData@processing <-
+                      c(processingData(x)@processing,
+                        paste("Data [logically] subsetted ",sum(i)," spectra: ",date(),sep=""))
+              } else if (is.numeric(i)) {
+                  x@processingData@processing <-
+                      c(processingData(x)@processing,
+                        paste("Data [numerically] subsetted ",length(i)," spectra: ",date(),sep=""))
+              } else {
+                  x@processingData@processing <-
+                      c(processingData(x)@processing,
+                        paste("Data subsetted ",i,": ",date(),sep=""))
+              }
+              if (x@.cache$level > 0)
+                  x@.cache <- setCacheEnv(list(assaydata = assayData(x),
+                                               hd = orghd[sel, ]), ## faster than .header for big instances
+                                          x@.cache$level)
+              if (validObject(x))
+                  return(x)
+          })
 
 
 setMethod("[[", "pSet",
           function(x, i, j = "missing", drop = "missing") {
-            if (length(i) != 1)
-              stop("subscript out of bounds")
-            if (!is.character(i))
-              i <- featureNames(x)[i]
-            return(get(i, envir = assayData(x)))
+              if (length(i) != 1)
+                  stop("subscript out of bounds")
+              if (!is.character(i))
+                  i <- featureNames(x)[i]
+              return(get(i, envir = assayData(x)))
           })
 
 setMethod("precursorMz", "pSet",
           function(object) {
-            ## this assumes that if first spectrum
-            ## has msLevel > 1, all have
-            if (msLevel(object)[1] > 1)
-              return(sapply(spectra(object), precursorMz))
-            stop("No precursor MZ value for MS1 spectra.")
+              ## this assumes that if first spectrum
+              ## has msLevel > 1, all have
+              if (msLevel(object)[1] > 1)
+                  return(sapply(spectra(object), precursorMz))
+              stop("No precursor MZ value for MS1 spectra.")
           })
 
 ## a general version
@@ -168,9 +168,9 @@ setMethod("precursorMz", "pSet",
 
 setMethod("precScanNum","pSet",
           function(object) {
-            if (msLevel(object)[1]>1)
-              return(unlist(sapply(spectra(object), precScanNum)))
-            stop("This experiment contains MS1 spectra.")
+              if (msLevel(object)[1]>1)
+                  return(unlist(sapply(spectra(object), precScanNum)))
+              stop("This experiment contains MS1 spectra.")
           })
 
 
@@ -182,16 +182,16 @@ setMethod("ionCount", "pSet",
 
 setMethod("precursorCharge", "pSet",
           function(object) {
-            if (msLevel(object)[1]>1)
-              return(sapply(spectra(object), precursorCharge))
-            stop("No precursor MZ value for MS1 spectra.")
+              if (msLevel(object)[1]>1)
+                  return(sapply(spectra(object), precursorCharge))
+              stop("No precursor MZ value for MS1 spectra.")
           })
 
 setMethod("precursorIntensity", "pSet",
           function(object) {
-            if (msLevel(object)[1]>1)
-              return(sapply(spectra(object), precursorIntensity))
-            stop("No precursor data for MS1 spectra.")
+              if (msLevel(object)[1]>1)
+                  return(sapply(spectra(object), precursorIntensity))
+              stop("No precursor data for MS1 spectra.")
           })
 
 setMethod("acquisitionNum", "pSet",
@@ -228,9 +228,9 @@ setMethod("peaksCount",
 setMethod("peaksCount",
           signature("pSet", "numeric"),
           function(object, scans) {
-            if (length(scans) == 1)
-              return(peaksCount(object[[scans]]))
-            sapply(spectra(object)[scans], peaksCount)
+              if (length(scans) == 1)
+                  return(peaksCount(object[[scans]]))
+              sapply(spectra(object)[scans], peaksCount)
           })
 
 setMethod("msLevel","pSet",
@@ -238,9 +238,9 @@ setMethod("msLevel","pSet",
 
 setMethod("collisionEnergy","pSet",
           function(object) {
-            if (msLevel(object)[1]>1)
-              return(sapply(spectra(object),collisionEnergy))
-            stop("No collision energy for MS1 spectra.")
+              if (msLevel(object)[1]>1)
+                  return(sapply(spectra(object),collisionEnergy))
+              stop("No collision energy for MS1 spectra.")
           })
 
 setMethod("intensity","pSet",
@@ -249,12 +249,9 @@ setMethod("intensity","pSet",
 setMethod("mz","pSet",
           function(object) lapply(spectra(object),mz))
 
-setMethod("polarity","pSet",
-          function(object) {
-            if (msLevel(object)[1]==1)
-              return(sapply(spectra(object), polarity))
-            stop("No polarity for MS2 spectra.")
-          })
+setMethod("polarity", "pSet",
+          function(object) sapply(spectra(object), polarity))
+
 
 setMethod("fromFile","pSet",
           function(object) return(sapply(spectra(object),fromFile)))
@@ -262,17 +259,17 @@ setMethod("fromFile","pSet",
 setMethod("header",
           signature("pSet", "missing"),
           function(object) {
-            ifelse(object@.cache$level > 0,
-                   hd <- object@.cache$hd,
-                   hd <- .header(object))
-            return(hd)
+              ifelse(object@.cache$level > 0,
+                     hd <- object@.cache$hd,
+                     hd <- .header(object))
+              return(hd)
           })
 
 setMethod("header",
           signature=c("pSet","numeric"),
           function(object, scans) {
-            hd <- header(object)
-            return(hd[scans, ])
+              hd <- header(object)
+              return(hd[scans, ])
           })
 
 ##################################################################
@@ -292,11 +289,11 @@ setMethod("length", "pSet", function(x) length(assayData(x)))
 setMethod("assayData", "pSet", function(object) object@assayData)
 
 setMethod("spectra","MSnExp",function(object) {
-  sl <- as.list(assayData(object))
-  fnames <- featureNames(object)
-  ## reordering the spectra in the spectra list to match
-  ## their order in featureData
-  return(sl[fnames])
+    sl <- as.list(assayData(object))
+    fnames <- featureNames(object)
+    ## reordering the spectra in the spectra list to match
+    ## their order in featureData
+    return(sl[fnames])
 })
 
 ## setReplaceMethod("assayData",
@@ -343,14 +340,14 @@ setReplaceMethod("sampleNames",
                      sampleNames(pd) <- value
                      prd <- protocolData(object)
                      if (nrow(prd) == 0) {
-                       prd <- pd[,integer(0)]
+                         prd <- pd[,integer(0)]
                      } else {
-                       sampleNames(prd) <- value
+                         sampleNames(prd) <- value
                      }
                      object@phenoData <- pd
                      object@protocolData <- prd
                      if (validObject(object))
-                       return(object)
+                         return(object)
                  })
 
 setMethod("featureNames",
@@ -371,12 +368,12 @@ setMethod("featureData",
 
 setReplaceMethod("featureData",
                  signature=signature(
-                   object="pSet",
-                   value="AnnotatedDataFrame"),
+                     object="pSet",
+                     value="AnnotatedDataFrame"),
                  function(object, value) {
-                   object@featureData <- value
-                   if (validObject(object))
-                     return(object)
+                     object@featureData <- value
+                     if (validObject(object))
+                         return(object)
                  })
 
 setMethod("fData",
@@ -385,14 +382,14 @@ setMethod("fData",
 
 setReplaceMethod("fData",
                  signature=signature(
-                   object="pSet",
-                   value="data.frame"),
+                     object="pSet",
+                     value="data.frame"),
                  function(object, value) {
                      fd <- featureData(object)
                      pData(fd) <- value
                      object@featureData <- fd
                      if (validObject(object))
-                       return(object)
+                         return(object)
                  })
 
 setMethod("fvarMetadata",
@@ -444,7 +441,7 @@ setMethod("detectorType","pSet",
 
 setMethod("description", signature(object="pSet"),
           function(object, ...) {
-            experimentData(object)
+              experimentData(object)
           })
 setMethod("notes", signature(object="pSet"),
           function(object) otherInfo(experimentData(object)))
@@ -454,24 +451,24 @@ setMethod("pubMedIds", signature(object="pSet"),
 
 setReplaceMethod("pubMedIds",
                  signature=signature(
-                   object="pSet",
-                   value="character"),
+                     object="pSet",
+                     value="character"),
                  function(object, value) {
                      ed <- experimentData(object)
                      pubMedIds(ed) <- value
                      object@experimentData <- ed
                      return(object)
-                   })
+                 })
 
 setMethod("abstract", "pSet",
           function(object) abstract(experimentData(object)))
 
 setMethod("protocolData", "pSet",
           function(object) {
-            tryCatch(object@protocolData,
-                     error = function(x) {
-                       phenoData(object)[,integer(0)]
-                     })
+              tryCatch(object@protocolData,
+                       error = function(x) {
+                           phenoData(object)[,integer(0)]
+                       })
           })
 setMethod("processingData",
           signature(object="pSet"),
@@ -497,15 +494,4 @@ setMethod("processingData",
 ## - - - - - - - - - - - - - - - - - - - - - -
 ## Other TODO (based on eSet):
 
-## setMethod("combine","pSet", ## rather a combine(MSnSet, )
-
-## setReplaceMethod("featureNames",
-##                  signature=signature(object="pSet", value="ANY"),
-##                  function(object, value) {
-##                    fd <- featureData(object)
-##                    featureNames(fd) <- value
-##                    ad <- assayData(object)
-##                    featureNames(ad) <- value
-##                    object@featureData <- fd
-##                    return(object)
-##                  })
+## setMethod("combine","pSet", ## rather a combine(MSnExp, )

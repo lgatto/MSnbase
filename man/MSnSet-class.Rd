@@ -370,9 +370,10 @@
       examples. }
 
     \item{removeMultipleAssignment}{\code{signature(object = "MSnSet",
-	fcol = "nprot")}: Removes protein groups with more than one
-      member. The latter is defined by extracting a feature variable
-      (default is \code{"nprot"}). }
+	fcol = "nprot")}: Removes protein groups (or feature belong to
+	protein groups) with more than one member. The latter is defined
+	by extracting a feature variable (default is
+	\code{"nprot"}). Also removes non-identified features/ }
 
     \item{idSummary}{\code{signature(object = "MSnSet", ...)}: Prints a
       summary that lists the percentage of identified features per file
