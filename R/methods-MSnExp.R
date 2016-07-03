@@ -3,29 +3,38 @@
 
 setMethod("show", "MSnExp",
           function(object) {
-              if (object@.cache$level > 0) {
-                  msnMzRange <- object@.cache$rangeMz
-                  rangePrecMz <- object@.cache$rangePrecursorMz
-                  nPrecMz <- object@.cache$nPrecursorMz
-                  uPrecMz <- object@.cache$uPrecursorMz
-                  nrt <- object@.cache$nRtime
-                  rtr <- object@.cache$rangeRtime
-                  msLevels <- object@.cache$msLevels
-                  nPrecScans <- object@.cache$nPrecursorScans
-                  sz <- object@.cache$size
+              sz <- object.size(object)
+              if (length(object) == 0) {
+                  cat("Empty object of class \"MSnExp\" (",
+                      ifelse(isOnDisk(object), "on disk", "in memory"),
+                      ")", "\n", sep = "")
+                  show(processingData(object))
+                  return(NULL)
               } else {
-                  msLevels <- unique(msLevel(object))
-                  sz <- sum(unlist(unname(eapply(object@assayData, object.size)))) +
-                      object.size(object)
-                  msnRt <- unname(rtime(object))
-                  nrt <- length(msnRt)
-                  rtr <- range(msnRt)
+                  if (object@.cache$level > 0) {
+                      msnMzRange <- object@.cache$rangeMz
+                      rangePrecMz <- object@.cache$rangePrecursorMz
+                      nPrecMz <- object@.cache$nPrecursorMz
+                      uPrecMz <- object@.cache$uPrecursorMz
+                      nrt <- object@.cache$nRtime
+                      rtr <- object@.cache$rangeRtime
+                      msLevels <- object@.cache$msLevels
+                      nPrecScans <- object@.cache$nPrecursorScans
+                      sz <- object@.cache$size
+                  } else {
+                      msLevels <- unique(msLevel(object))
+                      sz <- sz +
+                          sum(unlist(unname(eapply(object@assayData, object.size))))
+                      msnRt <- unname(rtime(object))
+                      nrt <- length(msnRt)
+                      rtr <- range(msnRt)
+                  }
               }
               cat("Object of class \"MSnExp\" (",
                   ifelse(isOnDisk(object), "on disk", "in memory"), ")",
                   "\n", sep = "")
               cat("Object size in memory: ")
-              cat(round(sz/(1024^2),2),"Mb\n")
+              cat(round(sz / (1024^2), 2), "Mb\n")
               cat("- - - Spectra data - - -\n")
               if (length(object) == 0) {
                   cat(" none\n")

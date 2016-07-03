@@ -90,47 +90,57 @@ setValidity("pSet", function(object) {
 
 
 setMethod("[", "pSet",
-          function(x,i,j="missing",drop="missing") {
+          function(x, i, j = "missing", drop = "missing") {
               if (!(is.logical(i) | is.numeric(i)))
                   stop("subsetting works only with numeric or logical")
               if (is.numeric(i)) {
-                  if (max(i)>length(x) | min(i)<1)
+                  if (max(i) > length(x) | min(i) < 1)
                       stop("subscript out of bounds")
                   i <- sort(i) ## crash if unsorted (because of
-                  ## (alphanumerical) order in
-                  ## ls(assayData(.))  and
-                  ## featureNames(featureData) that have to
-                  ## be indenticat - see issues #70 and #71)
+                  ## (alphanumerical) order in ls(assayData(.))  and
+                  ## featureNames(featureData) that have to be
+                  ## indentical - see issues #70 and #71)
               }
               whichElements <- ls(assayData(x))[i]
               sel <- featureNames(x) %in% whichElements
               orghd <- header(x)
               olde <- assayData(x)
-              newe <- new.env(parent=emptyenv())
-              for (el in whichElements)
-                  newe[[el]] <- olde[[el]]
-              if (environmentIsLocked(olde))
-                  lockEnvironment(newe,
-                                  bindings = bindingIsLocked(el, olde))
+              newe <- new.env(parent = emptyenv())
+              if (length(whichElements) > 0) {
+                  for (el in whichElements)
+                      newe[[el]] <- olde[[el]]
+                  if (environmentIsLocked(olde))
+                      lockEnvironment(newe,
+                                      bindings = bindingIsLocked(el, olde))
+              } else {
+                      lockEnvironment(newe, bindings = TRUE)
+              }
               x@assayData <- newe
               x@featureData <- featureData(x)[i, ]
               if (is.logical(i)) {
                   x@processingData@processing <-
                       c(processingData(x)@processing,
-                        paste("Data [logically] subsetted ",sum(i)," spectra: ",date(),sep=""))
+                        paste("Data [logically] subsetted ", sum(i),
+                              " spectra: ", date(), sep = ""))
               } else if (is.numeric(i)) {
                   x@processingData@processing <-
                       c(processingData(x)@processing,
-                        paste("Data [numerically] subsetted ",length(i)," spectra: ",date(),sep=""))
+                        paste("Data [numerically] subsetted ",
+                              length(i), " spectra: ", date(),
+                              sep = ""))
               } else {
                   x@processingData@processing <-
                       c(processingData(x)@processing,
-                        paste("Data subsetted ",i,": ",date(),sep=""))
+                        paste("Data subsetted ", i ,": ", date(),
+                              sep = ""))
               }
-              if (x@.cache$level > 0)
+              if (x@.cache$level > 0) {
+                  ## no caching for empty objects
+                  .cache <- ifelse(length(x) > 1, x@.cache$level, 0)
                   x@.cache <- setCacheEnv(list(assaydata = assayData(x),
                                                hd = orghd[sel, ]), ## faster than .header for big instances
-                                          x@.cache$level)
+                                          .cache)
+              }
               if (validObject(x))
                   return(x)
           })
