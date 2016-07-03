@@ -13,8 +13,6 @@ setMethod("all.equal", c("OnDiskMSnExp", "MSnExp"),
 equalMSnExps <- function(inmem, ondisk, ...) {
     if ((l <- length(inmem)) != length(ondisk)) 
         return("Objects have different lengths.")
-    if (!isTRUE(fneq <- all.equal(featureNames(inmem), featureNames(ondisk)))) 
-        return("Object have different feature names.")
     ## access data on disk only once
     spondisk <- spectra(ondisk)
     for (i in seq_len(l)) {
@@ -36,7 +34,3 @@ setMethod("all.equal", c("OnDiskMSnExp", "OnDiskMSnExp"),
               if (is.null(msg)) TRUE
               else msg 
           })
-
-
-
-
