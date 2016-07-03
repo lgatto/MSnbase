@@ -51,6 +51,7 @@
 
 %% Data validity etc
 \alias{validateOnDiskMSnExp}
+\alias{all.equal,OnDiskMSnExp,OnDiskMSnExp-method}
 
 \title{The \code{OnDiskMSnExp} Class for MS Data And Meta-Data}
 
@@ -531,6 +532,10 @@ mzsAfter <- intensity(odmse)
 head(lengths(mzs))
 head(lengths(mzsAfter))
 
+f <- msdata::proteomics(full.names = TRUE)
+odmse <- MSnbase:::readMSData2(f)
+validObject(odmse)
+odmse[[1]]
 }
 
 \keyword{classes}

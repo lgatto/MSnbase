@@ -1,7 +1,7 @@
 setMethod("all.equal", c("MSnExp", "MSnExp"),
           function(target, current, ...) {
-              target@processingData <- new("MSnProcess")
-              current@processingData <- new("MSnProcess")
+              target@processingData@processing <- 
+                  current@processingData@processing <- NA_character_
               callNextMethod(target, current)
           })
 
@@ -27,3 +27,17 @@ equalMSnExps <- function(inmem, ondisk, ...) {
     if (is.null(msg)) TRUE
     else msg
 }
+
+
+setMethod("all.equal", c("OnDiskMSnExp", "OnDiskMSnExp"),
+          function(target, current, ...) {
+              browser()
+              current@processingData@processing <-
+                  target@processingData@processing <- NA_character_
+              sp1 <- spectra(target)
+              sp2 <- spectra(current)
+              msg <- all.equal(sp1, sp2)
+              msg <- c(msg, callNextMethod(target, current))
+              if (is.null(msg)) TRUE
+              else msg 
+          })
