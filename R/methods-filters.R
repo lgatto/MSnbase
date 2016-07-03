@@ -7,8 +7,6 @@ setMethod("filterMsLevel", "MSnExp",
               else object[msLevel(object) %in% msLevel.]
           })
 
-
-
 setMethod("filterMz", "MSnExp",
           function(object, mz, msLevel.) {
               ## TODO

@@ -920,7 +920,7 @@ setMethod("isEmpty", "environment",
 ## Simple helper to help differentiate between on disk and in
 ## memory objects.
 isOnDisk <- function(object)
-    return(nrow(fData(object)) > 0 & isEmpty(object@assayData))
+    any(grepl("spectraProcessingQueue", slotNames(tmp)))
 
 ## Simple function to determine whether parallel or serial processing should be performed
 ## Check testthat/test_OnDiskMSnExp_benchmarks.R for performance comparisons.

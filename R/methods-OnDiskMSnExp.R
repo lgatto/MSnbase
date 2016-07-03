@@ -334,7 +334,8 @@ setMethod("[", signature(x = "OnDiskMSnExp",
               i <- sort(i)  ## Force sorted!
               ## Now subset the featureData. The function will
               ## complain if i is outside the range.
-              x@featureData <- .subsetFeatureDataBy(featureData(x), index = i)
+              if (length(i) == 0) x@featureData <- x@featureData[0, ]
+              else x@featureData <- .subsetFeatureDataBy(featureData(x), index = i)
               return(x)
           })
 

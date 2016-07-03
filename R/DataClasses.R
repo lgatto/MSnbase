@@ -395,11 +395,11 @@ setClass("OnDiskMSnExp",
              ## information.
              msg <- validMsg(NULL, NULL)
              ## Elements in spectraProcessingQueue have to be ProcessingStep objects.
-             if(length(object@spectraProcessingQueue) > 0){
-                 isOK <- unlist(lapply(object@spectraProcessingQueue, function(z){
-                     return(is(z, "ProcessingStep"))
-                 }))
-                 if(any(!isOK))
+             if (length(object@spectraProcessingQueue) > 0){
+                 isOK <- unlist(lapply(object@spectraProcessingQueue,
+                                       function(z)
+                                           return(is(z, "ProcessingStep"))))
+                 if (any(!isOK))
                      msg <- validMsg(msg,
                                      paste0("Only objects of type 'ProcessingStep'",
                                             " allowed in slot 'spectraProcessingQueue'"))
@@ -408,8 +408,8 @@ setClass("OnDiskMSnExp",
              msg <- validMsg(msg, .validateFeatureDataForOnDiskMSnExp(featureData(object)))
              ## Check if the files do exist.
              theFiles <- fileNames(object)
-             for(theF in theFiles){
-                 if(!file.exists(theF))
+             for (theF in theFiles){
+                 if (!file.exists(theF))
                      msg <- validMsg(msg,
                                      paste0("Required data file '", basename(theF),
                                             "' not found!"))
@@ -428,7 +428,9 @@ setClass("OnDiskMSnExp",
              if (length(sampleNames(object)) != nrow(pData(object)))
                  msg <- validMsg(msg, "Different number of samples accoring to sampleNames and pData.")
              if (!isOnDisk(object))
-                 msg <- validMsg(msg, "Object is not 'onDisk'!")
+                 msg <- validMsg(msg, "Object is not 'onDisk'.")
+             if (!isEmpty(object@assayData))
+                 msg <- validMsg(msg, "Assaydata is not empty.")
              if (is.null(msg)) {
                  return(TRUE)
              } else {
