@@ -36,9 +36,26 @@
 \alias{trimMz,MSnExp-method}
 \alias{trimMz,MSnExp,numeric-method}
 
+\alias{filterMsLevel}
+\alias{filterMsLevel,MSnExp-method}
+\alias{filterMsLevel,OnDiskMSnExp-method}
+\alias{filterMz}
+\alias{filterMz,MSnExp-method}
+\alias{filterMz,OnDiskMSnExp-method}
+\alias{filterRt}
+\alias{filterRt,MSnExp-method}
+\alias{filterRt,OnDiskMSnExp-method}
+\alias{filterFile}
+\alias{filterFile,MSnExp-method}
+\alias{filterFile,OnDiskMSnExp-method}
+\alias{filterAcquisitionNum}
+\alias{filterAcquisitionNum,MSnExp-method}
+\alias{filterAcquisitionNum,OnDiskMSnExp-method}
+
 \alias{all.equal,MSnExp,MSnExp-method}
 \alias{all.equal,MSnExp,OnDiskMSnExp-method}
 \alias{all.equal,OnDiskMSnExp,MSnExp-method}
+\alias{all.equal,OnDiskMSnExp,OnDiskMSnExp-method}
 
 \title{The 'MSnExp' Class for MS Data And Meta-Data}
 
