@@ -724,9 +724,10 @@ validateOnDiskMSnExp <-function(object) {
 ##   applied to the created Spectrum1 objects.
 ## o APPLYFUN: the function to be applied to the Spectrum1 objects (such as ionCount etc).
 ##   If NULL the function returns the list of Spectrum1 objects.
-.applyFun2SpectraOfFileMulti <- function(fData, filenames, queue=NULL,
-                                         APPLYFUN=NULL){
-    if(missing(fData) | missing(filenames))
+.applyFun2SpectraOfFileMulti <- function(fData, filenames,
+                                         queue = NULL,
+                                         APPLYFUN = NULL) {
+    if (missing(fData) | missing(filenames))
         stop("Both 'fData' and 'filenames' are required!")
     filename <- filenames[fData[1, "fileIdx"]]
     ## if(any(fData$msLevel > 1))
@@ -734,15 +735,18 @@ validateOnDiskMSnExp <-function(object) {
     ## Open the file.
     message("Read data from file ", basename(filename), ".")
     fileh <- mzR::openMSfile(filename)
+    hd <- header(fileh)
     on.exit(expr=mzR::close(fileh))
     msLevel1 <- which(fData$msLevel == 1)
     msLevelN <- which(fData$msLevel > 1)
     ## Process MS1 and MSn separately
     if (length(msLevel1) >= 1) {
         ms1fd <- fData[msLevel1, , drop = FALSE]
-        ## Reading all of the data in "one go".
-        ## According to issue #103 we should use acquisitionNum, not spectrum idx.
-        allSpect <- mzR::peaks(fileh, ms1fd$acquisitionNum)
+        ## Reading all of the data in "one go". According to issue
+        ## #103 we should use acquisitionNum, not spectrum idx.
+        ## See issue #118 for an explanation of the match
+        allSpect <- mzR::peaks(fileh,
+                               match(ms1fd$acquisitionNum, hd$acquisitionNum))
         ## If we have more than one spectrum the peaks function returns a list.
         if (is(allSpect, "list")) {
             nValues <- lengths(allSpect) / 2
@@ -769,7 +773,9 @@ validateOnDiskMSnExp <-function(object) {
     if (length(msLevelN) >= 1) {
         msnfd <- fData[msLevelN, , drop=FALSE]
         ## Reading all of the data in "one go".
-        allSpect <- mzR::peaks(fileh, msnfd$acquisitionNum)
+        ## See issue #118 for an explanation of the match
+        allSpect <- mzR::peaks(fileh,
+                               match(msnfd$acquisitionNum, hd$acquisitionNum))
         ## If we have more than one spectrum the peaks function returns a list.
         if (is(allSpect, "list")) {
             nValues <- lengths(allSpect) / 2
