@@ -134,3 +134,9 @@ setGeneric("trimws", signature = "x",
 setGeneric("execute", function(object, ...) standardGeneric("execute"))
 setGeneric("processingQueue", function(object) standardGeneric("processingQueue"))
 setGeneric("spectrapply", function(object, ...) standardGeneric("spectrapply"))
+
+setGeneric("filterMz", function (object, ...) standardGeneric("filterMz"))
+setGeneric("filterRt", function (object, ...) standardGeneric("filterRt"))
+setGeneric("filterMsLevel", function (object, ...) standardGeneric("filterMsLevel"))
+setGeneric("filterFile", function (object, ...) standardGeneric("filterFile"))
+setGeneric("filterAcquisitionNum", function (object, ...) standardGeneric("filterAcquisitionNum"))
