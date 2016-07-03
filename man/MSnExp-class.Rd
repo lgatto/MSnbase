@@ -36,6 +36,10 @@
 \alias{trimMz,MSnExp-method}
 \alias{trimMz,MSnExp,numeric-method}
 
+\alias{all.equal,MSnExp,MSnExp-method}
+\alias{all.equal,MSnExp,OnDiskMSnExp-method}
+\alias{all.equal,OnDiskMSnExp,MSnExp-method}
+
 \title{The 'MSnExp' Class for MS Data And Meta-Data}
 
 \description{
