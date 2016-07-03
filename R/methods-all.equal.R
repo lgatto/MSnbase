@@ -37,6 +37,6 @@ setMethod("all.equal", c("OnDiskMSnExp", "OnDiskMSnExp"),
               msg <- equalMSnExps(sp1, sp2)
               ## call super to test other slots
               msg <- c(msg, callNextMethod(target, current))
-              if (is.null(msg)) TRUE
+              if (is.logical(msg) && all(msg)) TRUE
               else msg 
           })
