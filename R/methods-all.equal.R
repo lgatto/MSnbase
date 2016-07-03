@@ -11,27 +11,22 @@ setMethod("all.equal", c("OnDiskMSnExp", "MSnExp"),
           function(target, current, ...) equalMSnExps(current, target))
 
 equalMSnExps <- function(inmem, ondisk, ...) {
-    msg <- NULL
-    if ((l <- length(inmem)) != length(ondisk)) {
-        msg <- c(msg, "Objects of different length")
-    } else {
-        ## access data on disk only once
-        spondisk <- spectra(ondisk)
-        for (i in seq_len(l)) {
-            if (!isTRUE(speq <- all.equal(spondisk[[i]], inmem[[i]]))) {
-                msg <- c(msg, speq)
-                break
-            }
-        }
+    if ((l <- length(inmem)) != length(ondisk)) 
+        return("Objects have different lengths.")
+    if (!isTRUE(fneq <- all.equal(featureNames(inmem), featureNames(ondisk)))) 
+        return("Object have different feature names.")
+    ## access data on disk only once
+    spondisk <- spectra(ondisk)
+    for (i in seq_len(l)) {
+        if (!isTRUE(speq <- all.equal(spondisk[[i]], inmem[[i]]))) 
+            return("Spectra at position", i, "are different.")
     }
-    if (is.null(msg)) TRUE
-    else msg
+    return(TRUE)
 }
 
 
 setMethod("all.equal", c("OnDiskMSnExp", "OnDiskMSnExp"),
           function(target, current, ...) {
-              browser()
               current@processingData@processing <-
                   target@processingData@processing <- NA_character_
               sp1 <- spectra(target)
@@ -41,3 +36,7 @@ setMethod("all.equal", c("OnDiskMSnExp", "OnDiskMSnExp"),
               if (is.null(msg)) TRUE
               else msg 
           })
+
+
+
+
