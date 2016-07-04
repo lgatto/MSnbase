@@ -79,7 +79,7 @@ readMSData2 <- function(files,
     ## and do not close(msdata) above; rm(msdata) is OK
     ## Create 'MSnProcess' object
     process <- new("MSnProcess",
-                   processing = paste("Data loaded:",date()),
+                   processing = paste0("Data loaded [", date(), "]"),
                    files = files,
                    smoothed = smoothed)
 
