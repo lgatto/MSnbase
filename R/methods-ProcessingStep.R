@@ -30,6 +30,8 @@ setMethod("show", "ProcessingStep", function(object){
 ## execute
 ##
 ## Execute the processing step.
-setMethod("execute", "ProcessingStep", function(object, ...){
+execute <- function(object, ...) {
+    if(!is(object, "ProcessingStep"))
+        stop("'object' is supposed to be a 'ProcessingStep' object!")
     return(do.call(object@FUN, args=c(list(...), object@ARGS)))
-})
+}

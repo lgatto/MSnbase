@@ -46,7 +46,7 @@ readMSData2 <- function(files,
                                         "d.%s"), 1:length(spidx), filen))
         ## Extract all Spectrum info from the header and put it into the featureData
         fdData <- fullhd[spidx, , drop = FALSE]
-        ## rename totIonCurrent and peaksCount, as detailed in 
+        ## rename totIonCurrent and peaksCount, as detailed in
         ## https://github.com/lgatto/MSnbase/issues/105#issuecomment-229503816
         names(fdData) <- sub("peaksCount", "originalPeaksCount", names(fdData))
         ## Add also:
@@ -58,15 +58,15 @@ readMSData2 <- function(files,
                         centroided = centroided,
                         fdData, stringsAsFactors = FALSE)
         featureDataList <- c(featureDataList, list(fdData))
-        
-        if (removePeaks > 0) {
-            warning("Currently ignored.")
-            ## sp <- removePeaks(sp, t=removePeaks)
-        }
-        if (clean) {
-            warning("Currently ignored.")
-            ## sp <- clean(sp)
-        }
+
+        ## if (removePeaks > 0) {
+        ##     warning("Currently ignored.")
+        ##     ## sp <- removePeaks(sp, t=removePeaks)
+        ## }
+        ## if (clean) {
+        ##     warning("Currently ignored.")
+        ##     ## sp <- clean(sp)
+        ## }
     }
 
     ## new in version 1.9.8
@@ -75,7 +75,7 @@ readMSData2 <- function(files,
                                   "hd" = NULL),
                              level = 0,
                              lock = TRUE)
-    
+
     ## and do not close(msdata) above; rm(msdata) is OK
     ## Create 'MSnProcess' object
     process <- new("MSnProcess",
@@ -84,7 +84,7 @@ readMSData2 <- function(files,
                    smoothed = smoothed)
 
     ## Currently ignored, as we can have different types of spectra
-    ## if (removePeaks > 0) 
+    ## if (removePeaks > 0)
     ##     process@processing <- c(process@processing,
     ##                             paste0("Curves <= ", removePeaks, " set to '0': ", date()))
     ## if (clean)

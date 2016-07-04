@@ -1,6 +1,6 @@
 setMethod("all.equal", c("MSnExp", "MSnExp"),
           function(target, current, ...) {
-              target@processingData@processing <- 
+              target@processingData@processing <-
                   current@processingData@processing <- NA_character_
               callNextMethod(target, current)
           })
@@ -8,7 +8,7 @@ setMethod("all.equal", c("MSnExp", "MSnExp"),
 ## The function below work for in memory and on disk MSnExp instances
 ## and for spectra lists.
 equalMSnExps <- function(inmem, ondisk) {
-    if ((l <- length(inmem)) != length(ondisk)) 
+    if ((l <- length(inmem)) != length(ondisk))
         return("Objects have different lengths.")
     if (inherits(ondisk, "OnDiskMSnExp"))
         ondisk <- spectra(ondisk)
@@ -16,7 +16,7 @@ equalMSnExps <- function(inmem, ondisk) {
         inmem <- spectra(inmem)
     ## otherwise, expected to be a list of spectra
     for (i in seq_len(l)) {
-        if (!isTRUE(speq <- all.equal(ondisk[[i]], inmem[[i]]))) 
+        if (!isTRUE(speq <- all.equal(ondisk[[i]], inmem[[i]])))
             return("Spectra at position", i, "are different.")
     }
     return(TRUE)
@@ -38,5 +38,5 @@ setMethod("all.equal", c("OnDiskMSnExp", "OnDiskMSnExp"),
               ## call super to test other slots
               msg <- c(msg, callNextMethod(target, current))
               if (is.logical(msg) && all(msg)) TRUE
-              else msg 
+              else msg
           })

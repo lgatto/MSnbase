@@ -19,9 +19,9 @@ context("OnDiskMSnExp class, other methods")
 }
 mzf <- .getMzMLFiles()[1:2]
 ## Load the data as an MSnExp into memory.
-mse <- readMSData(files=mzf, msLevel=1, centroided=TRUE, backend="ram")
+mse <- readMSData(files=mzf, msLevel=1, centroided=TRUE)
 ## Load the data as OnDiskMSnExp.
-odmse <- readMSData(files=mzf, msLevel=1, centroided=TRUE, backend="disk")
+odmse <- MSnbase:::readMSData2(files=mzf, msLevel=1, centroided=TRUE)
 
 
 ############################################################

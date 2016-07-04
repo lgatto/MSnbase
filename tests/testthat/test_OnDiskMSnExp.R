@@ -20,18 +20,15 @@ context("OnDiskMSnExp class")
 
 mzf <- .getMzMLFiles()[1:2]
 ## Load the data as an MSnExp into memory.
-mse <- readMSData(files=mzf, msLevel=1, centroided=TRUE,
-                  backend="ram", verbose = FALSE)
+mse <- readMSData(files = mzf, msLevel = 1, centroided = TRUE, verbose = FALSE)
 ## Load the data as OnDiskMSnExp.
-odmse <- readMSData(files=mzf, msLevel=1, centroided=TRUE,
-                    backend="disk", verbose = FALSE)
+odmse <- MSnbase:::readMSData2(files = mzf, msLevel = 1, centroided=TRUE, verbose = FALSE)
+
 ## All the same with removePeaks.
-mseRemPeaks <- readMSData(files=mzf, msLevel=1, backend="ram",
-                          removePeaks=10000, clean=TRUE,
-                          verbose = FALSE)
-odmseRemPeaks <- readMSData(files=mzf, msLevel=1, backend="disk",
-                            removePeaks=10000, clean=TRUE,
-                            verbose = FALSE)
+mseRemPeaks <- readMSData(files = mzf, msLevel = 1, removePeaks = 10000,
+                          clean = TRUE, verbose = FALSE)
+odmseRemPeaks <- MSnbase:::readMSData2(files = mzf, msLevel = 1, removePeaks = 10000,
+                                       clean = TRUE, verbose = FALSE)
 
 ############################################################
 ## Testing the on-disk MSnExp stuff.
@@ -42,38 +39,13 @@ test_that("OnDiskMSnExp constructor", {
 
 ############################################################
 ## compare MSnExp against OnDiskMSnExp
-test_that("compare basic contents", {
-    ## Check if we get the same data! MSnExp will retrieve that from the spectra,
-    ## OnDiskMSnExp from featureData.
+test_that("Compare MS1 MSnExp and OnDiskMSnExp content", {
+    ## Compare spectra values.
+    expect_true(all.equal(mse, odmse))
     ## fromFile
     expect_identical(fromFile(mse), fromFile(odmse))
     ## msLevel
     expect_identical(msLevel(mse), msLevel(odmse))
-    ## header
-    hd <- header(mse)
-    odhd <- header(odmse)
-    commonCols <- intersect(colnames(hd), colnames(odhd))
-    expect_equal(hd[, commonCols], odhd[, commonCols])
-    ## length
-    expect_identical(length(mse), length(odmse))
-})
-
-############################################################
-## header
-test_that("header on OnDiskMSnExp", {
-    system.time(hd1 <- header(mse))
-    system.time(hd2 <- header(odmse))
-    commonCols <- intersect(colnames(hd1), colnames(hd2))
-    expect_equal(hd1[, commonCols], hd2[, commonCols])
-    ## header with scans.
-    system.time(
-        hd1 <- header(mse, scans=1:300)
-    ) ## 0.5
-    system.time(
-        hd2 <- header(odmse, scans=1:300)
-    ) ## 0.3
-    commonCols <- intersect(colnames(hd1), colnames(hd2))
-    expect_equal(hd1[, commonCols], hd2[, commonCols])
 })
 
 ############################################################
@@ -115,16 +87,16 @@ test_that("rtime for OnDiskMSnExp", {
 ############################################################
 ## polarity
 test_that("polarity for OnDiskMSnExp", {
-    ##pol <- polarity(mse)
+    pol <- polarity(mse)
     pol2 <- polarity(odmse)
-    ##expect_identical(pol, pol2)
+    expect_identical(pol, pol2)
 })
 
 ############################################################
 ## tic
 test_that("ionCount for OnDiskMSnExp", {
-    tc <- ionCount(mse)
-    tc2 <- ionCount(odmse)
+    tc <- tic(mse)
+    tc2 <- tic(odmse)
     expect_identical(tc, tc2)
 })
 
@@ -152,119 +124,71 @@ test_that("compare peaksCount", {
         pk2 <- peaksCount(odmse)
     )  ## 0.002
     expect_identical(pk, pk2)
-
-    ## Have a processing step "removePeaks"
-    mseRemPeaks2 <- readMSData(files=mzf, msLevel=1, backend="ram",
-                               removePeaks=100000)
-    odmseRemPeaks2 <- readMSData(files=mzf, msLevel=1, backend="disk",
-                                 removePeaks=100000)
-    system.time(
-        pk <- peaksCount(mseRemPeaks2)
-    )  ## 0.046
-    system.time(
-        pk2 <- peaksCount(odmseRemPeaks2)
-    )  ## 0 secs.
-    expect_identical(pk, pk2)
-
-    system.time(
-        pk <- peaksCount(mseRemPeaks)
-    )  ## 0.046
-    ## Apply on spectra.
-    system.time(
-        pk2 <- peaksCount(odmseRemPeaks)
-    )  ## 19 secs.
-    expect_identical(pk, pk2)
-
-    ## Peaks count with scans defined.
-    system.time(
-        ps3 <- peaksCount(mseRemPeaks, scans=c(1, 5, 9))
-    ) ## 0.006
-    system.time(
-        ps4 <- peaksCount(odmseRemPeaks, scans=c(1, 5, 9))
-    ) ## 0.05
-    expect_identical(ps3, ps4)
-
-    ## The same than pk2?
-    expect_identical(ps4, pk2[c(1, 5, 9)])
 })
 
 ############################################################
-## spectra
-test_that("compare spectra call", {
-    system.time(
-        spct <- spectra(mse)
-    )  ## 0.005 sec.
-    system.time(
-        spct1 <- spectra(odmse)
-    )  ## 5.6 sec.
-    ## Polarity and scanIndex will not match.
-    spct1 <- lapply(spct1, function(z){
-        z@polarity <- integer()
-        z@scanIndex <- integer()
-        return(z)
-    })
-    expect_identical(spct, spct1)
+## Compare cleaned data.
+## o spectra.
+## o ionCount.
+## o tic
+## o peaksCount.
+test_that("Compare cleaned MSnExp and OnDiskMSnExp", {
+    mseCleaned <- clean(mse)
+    odmseCleaned <- clean(odmse)
+    ## o spectra:
+    expect_true(all.equal(mseCleaned, odmseCleaned))
 
-    system.time(
-        spct <- spectra(mseRemPeaks)
-    )  ## 0.005 sec.
-    system.time(
-        spct1 <- spectra(odmseRemPeaks)
-    )  ## 20 sec.
-    ## Polarity and scanIndex will not match.
-    spct1 <- lapply(spct1, function(z){
-        z@polarity <- integer()
-        z@scanIndex <- integer()
-        return(z)
-    })
-    expect_identical(spct, spct1)
+    ## o ionCount.
+    expect_identical(ionCount(mseCleaned), ionCount(odmseCleaned))
 
-    ## Spectra for subsets.
-    ## Note that ordering is NOT considered.
-    subs <- c(4, 6, 13, 45, 3)
-    system.time(
-        spSub1 <- spectra(odmse, scans=subs)
-    )  ## 0.068 sec
-    ## Check if we really have the expected scans.
-    ## Compare to manually extracted ones.
-    spSub <- spectra(mse)[subs]
-    spSub1 <- lapply(spSub1, function(z){
-        z@polarity <- integer()
-        z@scanIndex <- integer()
-        return(z)
-    })
-    expect_identical(spSub, spSub1)
-    ## With the processing steps...
-    system.time(
-        spSub1 <- spectra(odmseRemPeaks, scans=subs)
-    )  ## 0.069 sec
-    spSub <- spectra(mseRemPeaks)[subs]
-    spSub1 <- lapply(spSub1, function(z){
-        z@polarity <- integer()
-        z@scanIndex <- integer()
-        return(z)
-    })
-    expect_identical(spSub, spSub1)
+    ## o tic.
+    expect_identical(tic(mseCleaned), tic(odmseCleaned))
 
-    ## Extract a single spectrum.
-    sp1 <- spectra(mse)[[1]]
-    sp2 <- odmse[[1]]
-    sp2@polarity <- integer()
-    sp2@scanIndex <- integer()
-    expect_identical(sp1, sp2)
+    ## o peaksCount
+    expect_identical(peaksCount(mseCleaned), peaksCount(odmseCleaned))
 
-    ## Extract by retention time limit.
-    rtl <- c(4, 20)
-    subs <- rtime(mse) >= rtl[1] & rtime(mse) <= rtl[2]
-    sp1 <- spectra(mse)[subs]
+})
 
-    sp2 <- spectra(odmse)[subs]
-    sp2 <- lapply(sp2, function(z){
-        z@polarity <- integer()
-        z@scanIndex <- integer()
-        return(z)
-    })
-    expect_identical(sp1, sp2)
+############################################################
+## Compare removePeaks data
+## o spectra.
+## o ionCount.
+## o tic.
+## o peaksCount.
+test_that("Compare removePeaks results between MSnExp and OnDiskMSnExp", {
+    mseRemP <- removePeaks(mse, t=1000)
+    odmseRemP <- removePeaks(odmse, t=1000)
+    ## o spectra:
+    expect_true(all.equal(mseRemP, odmseRemP))
+
+    ## o ionCount.
+    expect_identical(ionCount(mseRemP), ionCount(odmseRemP))
+
+    ## o tic.
+    expect_identical(tic(mseRemP), tic(odmseRemP))
+
+    ## o peaksCount
+    expect_identical(peaksCount(mseRemP), peaksCount(odmseRemP))
+})
+
+############################################################
+## Compare removePeaks and cleaned data
+## o spectra.
+## o ionCount.
+## o tic.
+## o peaksCount.
+test_that("Compare removePeaks and clean results between MSnExp and OnDiskMSnExp", {
+    ## o spectra:
+    expect_true(all.equal(mseRemPeaks, odmseRemPeaks))
+
+    ## o ionCount.
+    expect_identical(ionCount(mseRemPeaks), ionCount(odmseRemPeaks))
+
+    ## o tic.
+    expect_identical(tic(mseRemPeaks), tic(odmseRemPeaks))
+
+    ## o peaksCount
+    expect_identical(peaksCount(mseRemPeaks), peaksCount(odmseRemPeaks))
 })
 
 ############################################################
@@ -272,13 +196,11 @@ test_that("compare spectra call", {
 test_that("assayData on an OnDiskMSnExp", {
     env1 <- assayData(mse)
     env2 <- assayData(odmse)
-    ## Can not compare directly, because polarity and scanIndex differ.
-    expect_identical(ls(env1), ls(env2))
+    expect_equal(env1, env2)
+
     env1 <- assayData(mseRemPeaks)
     env2 <- assayData(odmseRemPeaks)
-    a <- unlist(eapply(env1, peaksCount))
-    b <- unlist(eapply(env2, peaksCount))
-    expect_identical(a, b[names(a)])
+    expect_equal(env1, env2)
 })
 
 ############################################################
@@ -290,22 +212,10 @@ test_that("intensity on an OnDiskMSnExp", {
     ) ## 5.5 sec
     expect_identical(ints, ints2)
 
-    ## Now what if we've got some processings...
-    mse2 <- removePeaks(mse)
-    odmse2 <- removePeaks(odmse)
-    ints <- intensity(mse2)
+    ints <- intensity(mseRemPeaks)
     system.time(
-        ints2 <- intensity(odmse2)
-    ) ## 6.9 sec
-    expect_identical(ints, ints2)
-
-    ## Now what if we've got some processings...
-    mse2 <- clean(mse2)
-    odmse2 <- clean(odmse2)
-    ints <- intensity(mse2)
-    system.time(
-        ints2 <- intensity(odmse2)
-    ) ## 49.9 sec; eventually we might speed up the clean at some point!
+        ints2 <- intensity(odmseRemPeaks)
+    ) ## 18.3 sec
     expect_identical(ints, ints2)
 })
 
@@ -318,23 +228,11 @@ test_that("mz on an OnDiskMSnExp", {
     ) ## 5.5 sec
     expect_identical(mzs, mzs2)
 
-    ## Now what if we've got some processings...
-    mse2 <- removePeaks(mse)
-    odmse2 <- removePeaks(odmse)
-    mzs <- mz(mse2)
+    mzs <- mz(mseRemPeaks)
     system.time(
-        mzs2 <- mz(odmse2)
-    ) ## 6.9 sec
+        mzs2 <- mz(odmseRemPeaks)
+    ) ## 18 sec
     expect_identical(mzs, mzs2)
-
-    ## Now what if we've got some processings...
-    mse2 <- clean(mse2)
-    odmse2 <- clean(odmse2)
-    mzs <- mz(mse2)
-    system.time(
-        mz2 <- mz(odmse2)
-    ) ## 49.9 sec; eventually we might speed up the clean at some point!
-    expect_identical(mzs, mz2)
 })
 
 ############################################################
@@ -342,16 +240,12 @@ test_that("mz on an OnDiskMSnExp", {
 test_that("[[ for OnDiskMSnExp", {
     sp1 <- mse[[77]]
     sp2 <- odmse[[77]]
-    sp2@polarity <- integer()
-    sp2@scanIndex <- integer()
     expect_identical(sp1, sp2)
 
     ## by name.
     theN <- featureNames(mse)[100]
     sp1 <- mse[[theN]]
     sp2 <- odmse[[theN]]
-    sp2@polarity <- integer()
-    sp2@scanIndex <- integer()
     expect_identical(sp1, sp2)
 })
 
@@ -361,49 +255,7 @@ test_that("[ for OnDiskMSnExp", {
     ## subset by row (i)
     sub1 <- mse[1:20, ]
     sub2 <- odmse[1:20, ]
-    expect_identical(featureNames(sub1), featureNames(sub2))
-    sp1 <- spectra(sub1)
-    sp2 <- spectra(sub2)
-    sp2 <- lapply(sp2, function(z){
-        z@polarity <- integer()
-        z@scanIndex <- integer()
-        return(z)
-    })
-    expect_identical(sp1, sp2)
-})
-
-############################################################
-## removePeaks
-test_that("removePeaks method for OnDiskMSnExp", {
-    odmse2 <- removePeaks(odmse, t=10000)
-    mse2 <- removePeaks(mse, t=10000)
-    spOdmse2 <- spectra(odmse2)
-    spMse2 <- spectra(mse2)
-    spOdmse2 <- lapply(spOdmse2, function(z){
-        z@polarity <- integer()
-        z@scanIndex <- integer()
-        return(z)
-    })
-    expect_identical(spMse2, spOdmse2)
-})
-
-############################################################
-## clean
-test_that("clean method for OnDiskMSnExp", {
-    odmse2 <- removePeaks(odmse)
-    mse2 <- removePeaks(mse)
-    odmse2 <- clean(odmse2)
-    mse2 <- clean(mse2)
-
-    spOdmse2 <- spectra(odmse2)
-    spMse2 <- spectra(mse2)
-    spOdmse2 <- lapply(spOdmse2, function(z){
-        z@polarity <- integer()
-        z@scanIndex <- integer()
-        return(z)
-    })
-    expect_identical(spMse2, spOdmse2)
-    ##expect_identical(spectra(mse), spOdmse2)
+    expect_true(all.equal(sub1, sub2))
 })
 
 ############################################################

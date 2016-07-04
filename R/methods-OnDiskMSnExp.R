@@ -40,9 +40,9 @@ setReplaceMethod("featureNames",
 
 ############################################################
 ## processingQueue
-setMethod("processingQueue", "OnDiskMSnExp", function(object){
+processingQueue <- function(object) {
     return(object@spectraProcessingQueue)
-})
+}
 
 ############################################################
 ## msLevel
@@ -167,11 +167,30 @@ setMethod("rtime", "OnDiskMSnExp",
 ## Get the total ion Current (from the featureData, thus it will not
 ## be recalculated).
 setMethod("tic", "OnDiskMSnExp",
-          function(object){
-              vals <- fData(object)$totIonCurrent
-              names(vals) <- featureNames(object)
-              return(vals)
-          })
+          function(object, BPPARAM = bpparam()) {
+    skipFun <- c("pickPeaks")
+    if (length(object@spectraProcessingQueue) > 0) {
+        recalc <- any(unlist(lapply(object@spectraProcessingQueue,
+                                    function(z) {
+            if (any(z@FUN == skipFun))
+                return(FALSE)
+            return(TRUE)
+        })))
+    } else {
+        ## No need to calculate the peaks count; we can use the
+        ## information from the feature data.
+        recalc <- FALSE
+    }
+    if (recalc) {
+        vals <- unlist(spectrapply(object,
+                                   FUN = tic,
+                                   BPPARAM = BPPARAM))
+    } else {
+        vals <- fData(object)$totIonCurrent
+    }
+    names(vals) <- featureNames(object)
+    return(vals)
+})
 
 ############################################################
 ## collisionEnergy
@@ -205,42 +224,40 @@ setMethod("polarity", "OnDiskMSnExp",
 setMethod("peaksCount",
           signature(object = "OnDiskMSnExp", scans = "missing"),
           function(object, scans, BPPARAM = bpparam()) {
-              ## The feature data contains the original peaks
-              ## count. This method fetches the peaks count from the
-              ## (possibly processed) spectra.
-              ##
-              ## Add methods here that would not require raw data reading.
-              skipFun <- c("removePeaks", "clean", "pickPeaks")
+    ## The feature data contains the original peaks
+    ## count. This method fetches the peaks count from the
+    ## (possibly processed) spectra.
+    ##
+    ## Add methods here that would not require raw data reading.
+    skipFun <- c("removePeaks", "pickPeaks")
 
-
-              if (length(object@spectraProcessingQueue) > 0) {
-                  recalc <- any(unlist(lapply(object@spectraProcessingQueue,
-                                              function(z) {
-                                                  if (any(z@FUN == skipFun))
+    if (length(object@spectraProcessingQueue) > 0) {
+        recalc <- any(unlist(lapply(object@spectraProcessingQueue,
+                                    function(z) {
+            if (any(z@FUN == skipFun))
                                                       return(FALSE)
-                                                  return(TRUE)
-                                              })))
-              } else {
-                  ## No need to calculate the peaks count; we can use the
-                  ## information from the feature data.
-                  recalc <- FALSE
-              }
-              ## An important point here is that we DON'T want to get
-              ## all of the data from all files in one go; that would
-              ## require eventually lots of memory! It's better to do
-              ## that per file; that way we could also do that in
-              ## parallel.
-              if (recalc) {
-                  vals <- unlist(spectrapply(object,
-                                             FUN = peaksCount,
-                                             index = numeric(),
-                                             BPPARAM = BPPARAM))
-              } else {
-                  vals <- fData(object)$originalPeaksCount
-              }
-              names(vals) <- featureNames(object)
-              return(vals)
-          })
+            return(TRUE)
+        })))
+    } else {
+        ## No need to calculate the peaks count; we can use the
+        ## information from the feature data.
+        recalc <- FALSE
+    }
+    ## An important point here is that we DON'T want to get
+    ## all of the data from all files in one go; that would
+    ## require eventually lots of memory! It's better to do
+    ## that per file; that way we could also do that in
+    ## parallel.
+    if (recalc) {
+        vals <- unlist(spectrapply(object,
+                                   FUN = peaksCount,
+                                   BPPARAM = BPPARAM))
+    } else {
+        vals <- fData(object)$originalPeaksCount
+    }
+    names(vals) <- featureNames(object)
+    return(vals)
+})
 
 ############################################################
 ## ionCount
@@ -343,26 +360,27 @@ setMethod("[", signature(x = "OnDiskMSnExp",
 ## That's the main method to apply functions to the object's spectra, or
 ## to just return a list with the spectra, if FUN is empty.
 ## Parallel processing by file can be enabled using BPPARAM.
-setMethod("spectrapply", "OnDiskMSnExp",
-          function(object, FUN = NULL,
-                   BPPARAM = bpparam(), ...) {
-              ## Check if we would do better with serial processing:
-              BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
-              isOK <- .validateFeatureDataForOnDiskMSnExp(fData(object))
-              if(!is.null(isOK))
-                  stop(isOK)
-              fDataPerFile <- split(fData(object),
-                                    f = fData(object)$fileIdx)
-              vals <- bplapply(fDataPerFile,
-                               FUN = .applyFun2SpectraOfFileMulti,
-                               filenames = fileNames(object),
-                               queue = object@spectraProcessingQueue,
-                               APPLYFUN = FUN,
-                               BPPARAM = BPPARAM, ...)
-              names(vals) <- NULL
-              vals <- unlist(vals, recursive=FALSE)
-              return(vals[rownames(fData(object))])
-          })
+spectrapply <- function(object, FUN = NULL,
+                        BPPARAM = bpparam(), ...) {
+    if(!is(object, "OnDiskMSnExp"))
+        stop("'object' is expected to be an 'OnDiskMSnExp' object!")
+    ## Check if we would do better with serial processing:
+    BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
+    isOK <- .validateFeatureDataForOnDiskMSnExp(fData(object))
+    if(!is.null(isOK))
+        stop(isOK)
+    fDataPerFile <- split(fData(object),
+                          f = fData(object)$fileIdx)
+    vals <- bplapply(fDataPerFile,
+                     FUN = .applyFun2SpectraOfFileMulti,
+                     filenames = fileNames(object),
+                     queue = processingQueue(object),
+                     APPLYFUN = FUN,
+                     BPPARAM = BPPARAM, ...)
+    names(vals) <- NULL
+    vals <- unlist(vals, recursive=FALSE)
+    return(vals[rownames(fData(object))])
+}
 
 ##============================================================
 ##  --  DATA MANIPULATION METHODS
@@ -752,6 +770,7 @@ validateOnDiskMSnExp <-function(object) {
                         centroided = ms1fd$centroided,
                         fromFile = ms1fd$fileIdx,
                         polarity = ms1fd$polarity,
+                        tic = ms1fd$totIonCurrent,
                         nvalues = nValues)
         names(res) <- rownames(ms1fd)
     } else {

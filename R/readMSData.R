@@ -21,14 +21,8 @@ readMSData <- function(files,
                        smoothed = FALSE,
                        removePeaks = 0,
                        clean = FALSE,
-                       cache = 1,
-                       backend = ifelse(msLevel==1, yes="disk", no="ram")) {
+                       cache = 1) {
     .testReadMSDataInput(environment())
-    ## Check the backend argument; we're supporting "disk" only for msLevel=1
-    backend <- match.arg(backend, c("disk", "ram"))
-    if(msLevel > 1 & backend == "disk"){
-        warning("'backend=\"disk\"' is not supported for MS level > 1. Using 'backend=\"ram\"'.")
-    }
     ## TODO: add also a trimMz argument.
     if (msLevel == 1) ## cache currently only works for MS2 level data
         cache <- 0
@@ -41,11 +35,11 @@ readMSData <- function(files,
     fullhd2 <- fullhdorder <- c()
     fullhdordercounter <- 1
     .instrumentInfo <- list()
-    ## Idea:
-    ## o initialize a featureData-data.frame,
-    featureDataList <- list()
-    ## o for each file, extract header info and put that into featureData; this might
-    ##   be usefull for MS1, but eventually also MS2.
+    ## ## Idea:
+    ## ## o initialize a featureData-data.frame,
+    ## featureDataList <- list()
+    ## ## o for each file, extract header info and put that into featureData; this might
+    ## ##   be usefull for MS1, but eventually also MS2.
     for (f in files) {
         filen <- match(f, files)
         filenums <- c(filenums, filen)
@@ -58,78 +52,43 @@ readMSData <- function(files,
                spidx <- which(fullhd$msLevel > 1))
         ## increase vectors as needed
         ioncount <- c(ioncount, numeric(length(spidx)))
+        fullhdorder <- c(fullhdorder, numeric(length(spidx)))
         ## MS1 level
         if (msLevel == 1) {
             if (length(spidx) == 0)
                 stop("No MS1 spectra in file",f)
             if (verbose) {
-                if(backend == "disk"){
-                    cat("Reading information of ", length(spidx), " MS1 spectra from file ",
-                        basename(f),"\n",sep="")
-                }else{
-                    cat("Reading ", length(spidx), " MS1 spectra from file ",
-                        basename(f),"\n",sep="")
-                }
+                cat("Reading ", length(spidx), " MS1 spectra from file ",
+                    basename(f),"\n",sep="")
                 pb <- txtProgressBar(min=0, max=length(spidx), style=3)
             }
-            if(backend == "disk"){
-                ## Don't read the individual spectra, just define the names of the spectra.
-                fullhdorder <- c(fullhdorder,
-                                 sprintf(paste0("X%0",
-                                                ceiling(log10(length(spidx) + 1L)),
-                                                "d.%s"), 1:length(spidx), filen))
-                ## Extract general Spectrum info from the header and put it into the featureData.
-                ## This might eventually also be interesting for in-memory MSnExp MS1 data; we might
-                ## put this below the if-else.
-                ## o acquisitionNum
-                ## o polarity
-                ## o peaksCount
-                ## o totIonCurrent
-                ## o retentionTime
-                ## o basePeakMZ
-                ## o basePeakIntensity
-                ## o msLevel
-                fdData <- fullhd[spidx, , drop=FALSE]
-                names(fdData) <- sub("peaksCount", "originalPeaksCount", names(fdData))
-                ## Add also:
-                ## o fileIdx -> links to fileNames property
-                ## o spIdx -> the index of the spectrum in the file.
-                ## o centroided; the parameter argument.
-                fdData <- cbind(fileIdx=filen,
-                                spIdx=spidx,
-                                centroided=centroided,
-                                fdData, stringsAsFactors=FALSE)
-                featureDataList <- c(featureDataList, list(fdData))
-
-                if(verbose) setTxtProgressBar(pb, length(spidx))
-            }else{
-                fullhdorder <- c(fullhdorder, numeric(length(spidx)))
-                for (i in 1:length(spidx)) {
-                    if (verbose) setTxtProgressBar(pb, i)
-                    j <- spidx[i]
-                    hd <- fullhd[j,]
-                    pks <- mzR::peaks(msdata, j)
-                    sp <- new("Spectrum1",
-                              rt = hd$retentionTime,
-                              acquisitionNum = hd$acquisitionNum,
-                              mz = pks[, 1],
-                              tic = hd$totIonCurrent,
-                              intensity = pks[, 2],
-                              fromFile = filen,
-                              centroided = centroided)
-                    ioncount[ioncounter] <- sum(pks[, 2])
-                    ioncounter <- ioncounter + 1
-                    if (removePeaks > 0)
-                        sp <- removePeaks(sp, t=removePeaks)
-                    if (clean)
-                        sp <- clean(sp)
-                    .fname <- sprintf(paste0("X%0",
-                                             ceiling(log10(length(spidx) + 1L)),
-                                             "d.%s"), i, filen)
-                    assign(.fname, sp, assaydata)
-                    fullhdorder[fullhdordercounter] <- .fname
-                    fullhdordercounter <- fullhdordercounter + 1
-                }
+            for (i in 1:length(spidx)) {
+                if (verbose) setTxtProgressBar(pb, i)
+                j <- spidx[i]
+                hd <- fullhd[j,]
+                pks <- mzR::peaks(msdata, j)
+                sp <- new("Spectrum1",
+                          rt = hd$retentionTime,
+                          acquisitionNum = hd$acquisitionNum,
+                          mz = pks[, 1],
+                          scanIndex = hd$seqNum,
+                          tic = hd$totIonCurrent,
+                          intensity = pks[, 2],
+                          fromFile = filen,
+                          polarity = hd$polarity,
+                          centroided = centroided)
+                ioncount[ioncounter] <- sum(pks[, 2])
+                ioncounter <- ioncounter + 1
+                if (removePeaks > 0)
+                    sp <- removePeaks(sp, t=removePeaks)
+                if (clean)
+                    sp <- clean(sp)
+                .fname <- sprintf(paste0("X%0",
+                                         ceiling(log10(length(spidx) + 1L)),
+                                         "d.%s"), i, filen)
+                assign(.fname, sp, assaydata)
+                fullhdorder[fullhdordercounter] <- .fname
+                fullhdordercounter <- fullhdordercounter + 1
             }
         } else { ## MS>2 levels
             if (length(spidx) == 0)
@@ -244,28 +203,11 @@ readMSData <- function(files,
         pdata <- new("NAnnotatedDataFrame",
                      data = .pd)
     }
-    ## If we've got the featureDataList, use that one instead; that's for MS1 basically.
-    if(length(featureDataList) > 0){
-        fdata <- do.call(rbind, featureDataList)
-        fdata <- cbind(fdata, spectrum=1:nrow(fdata), stringsAsFactors=FALSE)
-        fdata <- new("AnnotatedDataFrame", data=fdata)
-        rownames(fdata) <- fullhdorder
-        ## Re-order them
-        fdata <- fdata[sort(fullhdorder), ]
-        if(backend != "disk"){
-            ## Re-order the features.
-            ##fdata <- fdata[ls(assaydata), ]
-            ## Check if the ordering matches the environment.
-            if(!all(ls(assaydata) == rownames(fdata)))
-                 stop("Ordering of spectra in assayData does not match the order in featureData!")
-        }
-    }else{
-        fdata <- new("AnnotatedDataFrame",
-                     data=data.frame(
-                         spectrum=1:length(nms),
-                         row.names=nms))
-        fdata <- fdata[ls(assaydata)] ## reorder features
-    }
+    fdata <- new("AnnotatedDataFrame",
+                 data=data.frame(
+                     spectrum=1:length(nms),
+                     row.names=nms))
+    fdata <- fdata[ls(assaydata)] ## reorder features
     ## expriment data slot
     if (length(.instrumentInfo) > 1) {
         cmp <- sapply(.instrumentInfo[-1], function(x) identical(x, .instrumentInfo[[1]]))
@@ -284,40 +226,16 @@ readMSData <- function(files,
                    ionSource = .instrumentInfo[[1]]$ionisation,
                    analyser = .instrumentInfo[[1]]$analyzer,
                    detectorType = .instrumentInfo[[1]]$detector)
-    if(backend == "disk"){
-        ## Create ProcessingStep if needed.
-        queue <- list()
-        if(removePeaks > 0)
-            queue <- c(queue,
-                       list(ProcessingStep(FUN="removePeaks",
-                                           ARGS=list(t=removePeaks))))
-        if(clean)
-            queue <- c(queue,
-                       list(ProcessingStep(FUN="clean")))
-        ## Create the OnDiskMSnExp object.
-        if(verbose)
-            cat("Creating 'OnDiskMSnExp' object\n")
-        toReturn <- new("OnDiskMSnExp",
-                        assayData=assaydata,
-                        phenoData=pdata,
-                        featureData=fdata,
-                        processingData=process,
-                        experimentData=expdata,
-                        spectraProcessingQueue=queue,
-                        .cache = .cacheEnv
-                        )
-    }else{
-        ## Create and return 'MSnExp' object
-        if (verbose)
-            cat("Creating 'MSnExp' object\n")
-        toReturn <- new("MSnExp",
-                        assayData = assaydata,
-                        phenoData = pdata,
-                        featureData = fdata,
-                        processingData = process,
-                        experimentData = expdata,
-                        .cache = .cacheEnv)
-    }
+    ## Create and return 'MSnExp' object
+    if (verbose)
+        cat("Creating 'MSnExp' object\n")
+    toReturn <- new("MSnExp",
+                    assayData = assaydata,
+                    phenoData = pdata,
+                    featureData = fdata,
+                    processingData = process,
+                    experimentData = expdata,
+                    .cache = .cacheEnv)
     ## if (validObject(toReturn))  ## validity checks are already performed with "new", no need to perform twice.
     return(toReturn)
 }
