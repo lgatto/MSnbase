@@ -222,6 +222,27 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
       \code{\link{trimMz}} documentation for more details and
       examples. }
   }
+
+
+  Filtering functions:
+  
+  \describe{
+
+    \item{filterRt}{\code{signature(object = "MSnExp", rt = "numeric",
+      msLevel. = "numeric")}: Retains MS spectra of level
+      \code{msLevel.} with a retention times within \code{rt[1]} and
+      \code{rt[2]}. }
+
+    \item{filterMsLevel}{\code{signature(object = "MSnExp", msLevel. =
+	"numeric")}: Retains MS spectra of level \code{msLevel.}. }
+
+    \item{filterMz}{}
+
+    \item{filterFile}{}
+
+    \item{filterAcquisitionNum}{}
+
+  }
 }
 
 \references{
