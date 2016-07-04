@@ -1,14 +1,17 @@
 context("[OnDisk]MSnExp equality")
 
 f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia_1")
+inmem1 <- readMSData(f, msLevel = 1, verbose = FALSE)
 inmem2 <- readMSData(f, msLevel = 2, verbose = FALSE)
-ondisk <- readMSData2(f)
-ondisk1 <- readMSData2(f, msLevel = 1)
-ondisk2 <- readMSData2(f, msLevel = 2)
+ondisk <- readMSData2(f, verbose = FALSE)
+ondisk1 <- readMSData2(f, msLevel = 1, verbose = FALSE)
+ondisk2 <- readMSData2(f, msLevel = 2, verbose = FALSE)
 
 test_that("Equality function", {
+    expect_true(all.equal(inmem1, ondisk1))
     expect_true(all.equal(inmem2, ondisk2))
     ## postive controls
+    expect_true(all.equal(inmem1, inmem1))
     expect_true(all.equal(inmem2, inmem2))
     expect_true(all.equal(ondisk, ondisk))
     ## negative controls
