@@ -3,7 +3,7 @@
 
 setMethod("filterMsLevel", "MSnExp",
           function(object, msLevel.) {
-              if (!missing(msLevel.)) 
+              if (!missing(msLevel.))
                   object <- object[msLevel(object) %in% msLevel.]
               object <- logging(object,
                                 paste("Filter: select MS level(s)",
@@ -11,6 +11,20 @@ setMethod("filterMsLevel", "MSnExp",
                                             collapse = " ")))
               object
           })
+## filterMsLevel for OnDiskMSnExp:
+## immediate filter: apply by subsetting the featureData.
+setMethod("filterMsLevel", "OnDiskMSnExp",
+          function(object, msLevel.) {
+    if (!missing(msLevel.)) {
+        fd <- subsetFeatureDataBy(fData(object), msLevel = msLevel.)
+        fData(object) <- fd
+        object <- logging(object,
+                          paste0("Filter: select MS level(s) ",
+                                 paste(unique(msLevel.),
+                                       collapse = " "), "."))
+    }
+    return(object)
+})
 
 setMethod("filterMz", "MSnExp",
           function(object, mz, msLevel.) {
