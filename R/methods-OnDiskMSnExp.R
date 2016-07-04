@@ -274,10 +274,10 @@ setMethod("spectra",
 ## assayData
 ##
 ## Read the full data, put it into an environment and return that.
-setMethod("assayData", "OnDiskMSnExp", function(object){
-    message("Loading data from original files.")
-    return(list2env(spectra(object)))
-})
+setMethod("assayData", "OnDiskMSnExp",
+          function (object) {
+              return(list2env(spectra(object)))
+          })
 
 ############################################################
 ## intensity
@@ -285,20 +285,18 @@ setMethod("assayData", "OnDiskMSnExp", function(object){
 ## Extract the intensity values of individual spectra. This means we
 ## have to read all of the data, create Spectrum objects, apply
 ## eventual processing steps and return the intensities.
-setMethod("intensity", "OnDiskMSnExp", function(object, BPPARAM=bpparam()){
-    message("Loading data to extract intensity values.")
-    return(spectrapply(object, FUN=intensity, BPPARAM=BPPARAM))
-})
+setMethod("intensity", "OnDiskMSnExp",
+          function(object, BPPARAM = bpparam())
+              return(spectrapply(object, FUN = intensity, BPPARAM = BPPARAM)))
 
 
 ############################################################
 ## mz
 ##
 ## Extract the mz values of individual spectra.
-setMethod("mz", "OnDiskMSnExp", function(object, BPPARAM=bpparam()){
-    message("Loading data to extract M/Z values.")
-    return(spectrapply(object, FUN=mz, BPPARAM=BPPARAM))
-})
+setMethod("mz", "OnDiskMSnExp",
+          function(object, BPPARAM = bpparam())
+    return(spectrapply(object, FUN = mz, BPPARAM = BPPARAM)))
 
 ############################################################
 ## [[
@@ -377,17 +375,15 @@ setMethod("spectrapply", "OnDiskMSnExp",
 ## Add a "removePeaks" ProcessingStep to the queue and update
 ## the processingData information of the object.
 setMethod("removePeaks", signature("OnDiskMSnExp"),
-          function(object, t="min", verbose=TRUE){
-              if(missing(t))
+          function(object, t = "min", verbose = TRUE){
+              if (missing(t))
                   t <- "min"
-              if(!is.numeric(t)){
+              if (!is.numeric(t)){
                   if(t != "min")
                       stop("Argument 't' has to be either numeric or 'min'!")
               }
               ps <- ProcessingStep("removePeaks", list(t=t))
               ## Append the processing step to the queue.
-              if(verbose)
-                  message("Adding 'removePeaks' to the processing queue.")
               object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
                                                  list(ps))
               object@processingData@removedPeaks <- c(object@processingData@removedPeaks,
@@ -406,11 +402,10 @@ setMethod("removePeaks", signature("OnDiskMSnExp"),
 ## Add a "clean" ProcessingStep to the queue and update
 ## the processingData information of the object.
 setMethod("clean", signature("OnDiskMSnExp"),
-          function(object, all=FALSE, verbose=TRUE){
-              if(!is.logical(all))
+          function(object, all = FALSE, verbose = TRUE){
+              if (!is.logical(all))
                   stop("Argument 'all' is supposed to be a logical!")
               ps <- ProcessingStep("clean", list(all=all))
-              message("Adding 'clean' to the processing queue.")
               object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
                                                  list(ps))
               object@processingData@cleaned <- TRUE
@@ -431,7 +426,6 @@ setMethod("trimMz", signature("OnDiskMSnExp", "numeric"),
                   stop("Argument 'mzlim' should be a numeric vector of length 2",
                        " specifying the lower and upper M/Z value range!")
               ps <- ProcessingStep("trimMz", list(mzlim=mzlim))
-              message("Adding 'trimMz' to the processing queue.")
               object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
                                                  list(ps))
               trmd <- object@processingData@trimmed
@@ -458,7 +452,6 @@ setMethod("normalize", "OnDiskMSnExp",
           function(object, method=c("max", "sum"), ...){
               method <- match.arg(method)
               ps <- ProcessingStep("normalise", list(method=method))
-              message("Adding 'normalize' to the processing queue.")
               object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
                                                  list(ps))
               object@processingData@processing <- c(object@processingData@processing,
@@ -589,10 +582,8 @@ validateOnDiskMSnExp <-function(object) {
     if(any(fData$msLevel > 1))
         stop("on-the-fly import currently only supported for MS1 level data.")
     ## Open the file.
-    message("Reading data from file ", basename(filename), "...", appendLF=FALSE)
     fileh <- mzR::openMSfile(filename)
     on.exit(expr=mzR::close(fileh))
-    on.exit(expr=message("OK"), add=TRUE)
     ## Now run the stuff per spectrum, i.e. read data, create object, apply the fun.
     ## Note that we're splitting the matrix not the data.frame, as that's faster.
     res <- lapply(split(fData[, c("fileIdx", "spIdx", "centroided", "acquisitionNum",
@@ -628,16 +619,13 @@ validateOnDiskMSnExp <-function(object) {
     ## if(any(fData$msLevel > 1))
     ##     stop("on-the-fly import currently only supported for MS1 level data.")
     ## Open the file.
-    message("Reading data from file ", basename(filename), "...", appendLF=FALSE)
     fileh <- mzR::openMSfile(filename)
     on.exit(expr=mzR::close(fileh))
-    on.exit(expr=message("OK"), add=TRUE)
 
     msLevel1 <- which(fData$msLevel == 1)
     msLevelN <- which(fData$msLevel > 1)
     ## Process MS1 and MSn separately
     if (length(msLevel1) >= 1) {
-        message("MS1 level data.")
         ms1fd <- fData[msLevel1, , drop = FALSE]
 
         ## Now run the stuff per spectrum, i.e. read data, create object, apply the fun.
@@ -672,7 +660,6 @@ validateOnDiskMSnExp <-function(object) {
         res <- list()
     }
     if (length(msLevelN) >= 1) {
-        message("MSn level data.")
         msnfd <- fData[msLevelN, , drop=FALSE]
 
         ## TODO: write/use C-constructor
@@ -734,7 +721,6 @@ validateOnDiskMSnExp <-function(object) {
     ## if(any(fData$msLevel > 1))
     ##     stop("on-the-fly import currently only supported for MS1 level data.")
     ## Open the file.
-    message("Read data from file ", basename(filename), ".")
     fileh <- mzR::openMSfile(filename)
     hd <- header(fileh)
     on.exit(expr=mzR::close(fileh))
@@ -810,24 +796,23 @@ validateOnDiskMSnExp <-function(object) {
     ## Ensure that ordering is the same than in fData:
     res <- res[match(rownames(fData), names(res))]
     ## If we have a non-empty queue, we might want to execute that too.
-    if(!is.null(APPLYFUN) | length(queue) > 0){
-        if(length(queue) > 0){
+    if (!is.null(APPLYFUN) | length(queue) > 0){
+        if (length(queue) > 0){
             message("Apply lazy processing steps:")
-            for(j in 1:length(queue))
+            for (j in 1:length(queue))
                 message(" o '", queue[[j]]@FUN, "' with ", length(queue[[j]]@ARGS), " argument(s).")
         }
         res <- lapply(res, function(z, theQ, APPLF){
-            if(length(theQ) > 0){
+            if (length(theQ) > 0){
                 for(pStep in theQ){
                     z <- execute(pStep, z)
                 }
             }
-            if(is.null(APPLF))
+            if (is.null(APPLF))
                 return(z)
             return(APPLF(z))
         }, theQ=queue, APPLF=APPLYFUN)
     }
-    message("DONE (", basename(filename), ")")
     return(res)
 }
 
