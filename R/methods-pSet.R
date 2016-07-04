@@ -27,17 +27,16 @@ setMethod("initialize",
 
 setValidity("pSet", function(object) {
     msg <- validMsg(NULL, NULL)
-
     ## Skip some (most) of the tests for a OnDiskMSnExp, since we don't have
     ## spectrum data available, i.e. assayData is empty.
-    if (!isOnDisk(object)){
+    if (length(object)){
         if (!all(sapply(assayData(object), function(x) inherits(x, "Spectrum"))))
             msg <- validMsg(msg,
                             "assayData must contain 'Spectrum' objects.")
         msl <- msLevel(object)
         if (length(unique(msl)) > 1)
             warning(paste0("Different MS levels in ", class(object),
-                           " object: ",unique(msl)))
+                           " object: ", unique(msl)))
         ## checking number of spectra in assayData and
         ##          number of features in featureData
         nspectra  <- length(assayData(object))
@@ -84,7 +83,6 @@ setValidity("pSet", function(object) {
             msg("(Cached) header nrow and object length differ.")
         sapply(spectra(object), validObject)
     }
-
     if (is.null(msg)) TRUE else msg
 })
 
@@ -244,7 +242,7 @@ setMethod("peaksCount",
           })
 
 setMethod("msLevel","pSet",
-          function(object) sapply(spectra(object),msLevel))
+          function(object) sapply(spectra(object), msLevel))
 
 setMethod("collisionEnergy","pSet",
           function(object) {
