@@ -22,13 +22,13 @@ mzf <- .getMzMLFiles()[1:2]
 ## Load the data as an MSnExp into memory.
 mse <- readMSData(files = mzf, msLevel = 1, centroided = TRUE, verbose = FALSE)
 ## Load the data as OnDiskMSnExp.
-odmse <- MSnbase:::readMSData2(files = mzf, msLevel = 1, centroided=TRUE, verbose = FALSE)
+odmse <- readMSData2(files = mzf, msLevel = 1, centroided=TRUE, verbose = FALSE)
 
 ## All the same with removePeaks.
 mseRemPeaks <- readMSData(files = mzf, msLevel = 1, removePeaks = 10000,
                           clean = TRUE, verbose = FALSE)
-odmseRemPeaks <- MSnbase:::readMSData2(files = mzf, msLevel = 1, removePeaks = 10000,
-                                       clean = TRUE, verbose = FALSE)
+odmseRemPeaks <- readMSData2(files = mzf, msLevel = 1, removePeaks = 10000,
+                             clean = TRUE, verbose = FALSE)
 
 ############################################################
 ## Testing the on-disk MSnExp stuff.

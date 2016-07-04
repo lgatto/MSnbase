@@ -3,16 +3,16 @@ context("OnDiskMSnExp class")
 f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
 
 test_that("OnDiskMSnExp constructor", {
-    x <- MSnbase:::readMSData2(f)
+    x <- readMSData2(f)
     expect_true(validObject(x))
     expect_true(all(unique(msLevel(x)) == 1:2))
     expect_true(all(isCurrent(x)))
     expect_true(isVersioned(x))
     expect_null(show(x))
-    x1 <- MSnbase:::readMSData2(f, msLevel = 1)
+    x1 <- readMSData2(f, msLevel = 1)
     expect_true(validObject(x1))
     expect_true(unique(msLevel(x1)) == 1)
-    x2 <- MSnbase:::readMSData2(f, msLevel = 2)
+    x2 <- readMSData2(f, msLevel = 2)
     expect_true(validObject(x2))
     expect_true(unique(msLevel(x2)) == 2)
     expect_identical(length(x), length(x1) + length(x2))
@@ -24,7 +24,7 @@ test_that("OnDiskMSnExp constructor", {
 
 test_that("compare MS2 on disk and in memoery", {
     x1 <- readMSData(f, verbose = FALSE)
-    x2 <- MSnbase:::readMSData2(f, msLevel = 2)
+    x2 <- readMSData2(f, msLevel = 2)
     expect_identical(length(x1), length(x2))
     expect_false(identical(featureNames(x1), featureNames(x2)))
     featureNames(x2) <- featureNames(x1)
@@ -80,11 +80,11 @@ test_that("compare MS2 on disk and in memoery", {
 
 test_that("Default and setting centroided", {
     x1 <- readMSData(f, verbose = FALSE)
-    x2 <- MSnbase:::readMSData2(f, msLevel = 2)    
+    x2 <- readMSData2(f, msLevel = 2)    
     featureNames(x2) <- featureNames(x1)
     expect_identical(centroided(x1), centroided(x2))
     x1 <- readMSData(f, verbose = FALSE, centroided = TRUE)
-    x2 <- MSnbase:::readMSData2(f, msLevel = 2, centroided = TRUE)
+    x2 <- readMSData2(f, msLevel = 2, centroided = TRUE)
     featureNames(x2) <- featureNames(x1)
     expect_identical(centroided(x1), centroided(x2))
     centroided(x2) <- centroided(x1) <- FALSE
@@ -93,7 +93,7 @@ test_that("Default and setting centroided", {
 
 test_that("Write mgf", {
     x1 <- readMSData(f, verbose = FALSE)
-    x2 <- MSnbase:::readMSData2(f, msLevel = 2)
+    x2 <- readMSData2(f, msLevel = 2)
     tf1 <- tempfile()
     tf2 <- tempfile()
     writeMgfData(x1[2:4], con = tf1)
@@ -114,7 +114,7 @@ test_that("Adding identification data", {
                      full.name = TRUE, pattern = "dummyiTRAQ.mzid")
     x1 <- readMSData(quantFile, verbose = FALSE)
     x1 <- addIdentificationData(x1, identFile, verbose = FALSE)
-    x2 <- MSnbase:::readMSData2(quantFile, verbose = FALSE)
+    x2 <- readMSData2(quantFile, verbose = FALSE)
     x2 <- addIdentificationData(x2, identFile, verbose = FALSE)
     fv <- intersect(fvarLabels(x1), fvarLabels(x2))
     expect_identical(fData(x1)[, fv], fData(x2)[, fv])

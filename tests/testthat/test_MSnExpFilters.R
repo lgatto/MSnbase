@@ -3,8 +3,8 @@ context("MSnExp filter functions")
 f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia_1")
 inmem <- readMSData(f, verbose = FALSE)  ## That's the MS 2 data.
 inmem1 <- readMSData(f, verbose = FALSE, msLevel = 1)  ## MS 1 data.
-ondisk <- MSnbase:::readMSData2(f, verbose = FALSE)
-ondisk2 <- MSnbase:::readMSData2(f, msLevel = 2, verbose = FALSE)
+ondisk <- readMSData2(f, verbose = FALSE)
+ondisk2 <- readMSData2(f, msLevel = 2, verbose = FALSE)
 
 test_that("filterMsLevel", {
     expect_true(all.equal(inmem, filterMsLevel(inmem, msLevel. = 2)))

@@ -21,7 +21,7 @@ mzf <- .getMzMLFiles()[1:2]
 ## Load the data as an MSnExp into memory.
 mse <- readMSData(files=mzf, msLevel=1, centroided=TRUE)
 ## Load the data as OnDiskMSnExp.
-odmse <- MSnbase:::readMSData2(files=mzf, msLevel=1, centroided=TRUE)
+odmse <- readMSData2(files=mzf, msLevel=1, centroided=TRUE)
 
 
 ############################################################

@@ -21,7 +21,7 @@ context("readMSData2")
 mzf <- .getMzMLFiles()[1:2]
 
 ## Load the data with readMSData2
-odmse <- MSnbase:::readMSData2(files = mzf, centroided = TRUE, backend = "disk")
+odmse <- readMSData2(files = mzf, centroided = TRUE, backend = "disk")
 
 test_that("Constructor performance and test for MS1 only", {
     featDat <- fData(odmse)
@@ -39,7 +39,7 @@ test_that("Constructor performance and test for MSn", {
     ## Get the test data file.
     mzf <- system.file("proteomics/TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz",
                        package = "msdata")
-    odmsn <- MSnbase:::readMSData2(files = mzf, centroided = TRUE)
+    odmsn <- readMSData2(files = mzf, centroided = TRUE)
     featDat <- fData(odmsn)
     featDat <- featDat[featDat$fileIdx == 1, ]
     ## Compare the constructors, i.e. the "new" and the C-level one for Spectrum1 and Spectrum2.

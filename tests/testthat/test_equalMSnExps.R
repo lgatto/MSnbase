@@ -2,9 +2,9 @@ context("[OnDisk]MSnExp equality")
 
 f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia_1")
 inmem2 <- readMSData(f, msLevel = 2, verbose = FALSE)
-ondisk <- MSnbase:::readMSData2(f)
-ondisk1 <- MSnbase:::readMSData2(f, msLevel = 1)
-ondisk2 <- MSnbase:::readMSData2(f, msLevel = 2)
+ondisk <- readMSData2(f)
+ondisk1 <- readMSData2(f, msLevel = 1)
+ondisk2 <- readMSData2(f, msLevel = 2)
 
 test_that("Equality function", {
     expect_true(all.equal(inmem2, ondisk2))

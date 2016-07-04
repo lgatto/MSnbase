@@ -21,7 +21,7 @@ context("OnDiskMSnExp benchmarks")
 
 mzf <- .getMzMLFiles(force.msdata = TRUE)[1:2]
 suppressWarnings(
-    odmse <- MSnbase:::readMSData2(files = mzf, centroided = TRUE)
+    odmse <- readMSData2(files = mzf, centroided = TRUE)
 )
 ## Simple benchmark to evaluate whether parallel processing brings a performance gain.
 .bench_intensity_serial_parallel <- function() {
@@ -31,7 +31,7 @@ suppressWarnings(
     mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
                  system.file("microtofq/MM8.mzML", package = "msdata"))
     suppressWarnings(
-        odmse <- MSnbase:::readMSData2(files = mzfiles, centroided = TRUE)
+        odmse <- readMSData2(files = mzfiles, centroided = TRUE)
     )
     library(microbenchmark)
     microbenchmark(intensity(odmse[1:100], BPPARAM = SerialParam()),
@@ -48,7 +48,7 @@ suppressWarnings(
     ## And with large files (3670 spectra per file)
     mzfiles <- .getMzMLFiles()[1:2]
     suppressWarnings(
-        odmse <- MSnbase:::readMSData2(files = mzfiles, centroided = TRUE)
+        odmse <- readMSData2(files = mzfiles, centroided = TRUE)
     )
     ## Get 1000
     microbenchmark(intensity(odmse[1:1000], BPPARAM = SerialParam()),

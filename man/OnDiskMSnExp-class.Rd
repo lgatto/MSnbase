@@ -533,7 +533,7 @@ head(lengths(mzs))
 head(lengths(mzsAfter))
 
 f <- msdata::proteomics(full.names = TRUE)
-odmse <- MSnbase:::readMSData2(f)
+odmse <- readMSData2(f)
 validObject(odmse)
 odmse[[1]]
 }
