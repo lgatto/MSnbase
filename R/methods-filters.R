@@ -3,8 +3,13 @@
 
 setMethod("filterMsLevel", "MSnExp",
           function(object, msLevel.) {
-              if (missing(msLevel.)) return(object)
-              else object[msLevel(object) %in% msLevel.]
+              if (!missing(msLevel.)) 
+                  object <- object[msLevel(object) %in% msLevel.]
+              object <- logging(object,
+                                paste("Filter: select MS level(s)",
+                                      paste(unique(msLevel.),
+                                            collapse = " ")))
+              object
           })
 
 setMethod("filterMz", "MSnExp",
