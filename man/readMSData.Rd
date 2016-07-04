@@ -1,5 +1,6 @@
 \name{readMSData}
 \alias{readMSData}
+\alias{readMSData2}
 \concept{MSnExp}
 
 \title{
@@ -11,12 +12,19 @@
   an \code{"\linkS4class{MSnExp}"} object. This function uses the
   functionality provided by the \code{mzR} package to access data and
   meta data in \code{mzData}, \code{mzXML} and \code{mzML}.
+
+  \bold{TODO}: document \code{readMSData2}, or whatever it is going to
+  be named once stable.
+  
 }
 
 \usage{
 readMSData(files, pdata = NULL, msLevel = 2, verbose = TRUE,
 centroided = FALSE, smoothed = FALSE, removePeaks = 0, clean = FALSE,
-cache = 1, backend = ifelse(msLevel == 1, yes = "disk", no = "ram"))
+cache = 1)
+
+readMSData2(files, pdata = NULL, msLevel, verbose = TRUE, centroided =
+FALSE, smoothed = FALSE, removePeaks = 0, clean = FALSE)
 }
 
 \arguments{

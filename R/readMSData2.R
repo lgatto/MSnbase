@@ -5,8 +5,7 @@ readMSData2 <- function(files,
                         centroided = FALSE,
                         smoothed = FALSE,
                         removePeaks = 0,
-                        clean = FALSE,
-                        backend = "disk") {
+                        clean = FALSE) {
     .testReadMSDataInput(environment())
     ## Check the backend argument; we're supporting "disk" only for msLevel=1
     ## TODO: add also a trimMz argument.
