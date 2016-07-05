@@ -102,3 +102,79 @@ validateFeatureDataForOnDiskMSnExp <- function(x) {
                       " not present in featureData!"))
     return(NULL)
 }
+
+############################################################
+## validateOnDiskMSnExp
+##
+## The validation method that might be called manually. In addition to the
+## validate function called by validObject this ensures also that all
+## spectra objects are valid and thus re-reads the raw data.
+## o mzTolerance: allowed tolerance in comparison of spectras' M/Z ranges
+##    with featureData's lowMZ and highMZ.
+validateOnDiskMSnExp <- function(object, mzTolerance=1e-6) {
+    ## First call the basic validity.
+    valMsg <- validObject(object)
+    if (is(valMsg, "character"))
+        stop(valMsg)
+    ## Now check validity of the spectra; if one non-valid object is found we stop.
+    spectrapply(object, FUN = function(z) {
+        res <- validObject(z)
+        if (is(res, "character"))
+            stop(res)
+    })
+    ## Spectra M/Z range: spectra M/Z ranges should be within lowMZ and highMZ.
+    ## Get the mzrange by spectrum.
+    res <- spectrapply(object, FUN = function(x) {
+        return(range(mz(x), na.rm=TRUE))
+    })
+    ## Loop through the spectra and check that mzrange is within
+    ## lowMZ and highMZ
+    fd <- fData(object)
+    emptyMz <- FALSE
+    for (i in 1:length(res)) {
+        ## Check if lowMZ or highMZ are 0; in that case skip and throw
+        ## a warning.
+        if (identical(fd$lowMZ[i], 0) & identical(fd$highMZ[i], 0)) {
+            emptyMz <- TRUE
+            next
+        }
+        if (!(res[[i]][1] >= (fd$lowMZ[i] - mzTolerance) &
+              res[[i]][2] <= (fd$highMZ[i] + mzTolerance)))
+            stop("M/Z values of spectrum ", i, " are outside of ",
+                 "lowMZ and highMZ.")
+    }
+    if (emptyMz)
+        warning("Header value lowMZ and highMZ is 0 for one or more spectra.")
+    ## Check that msLevel of spectra matches msLevel of featureData.
+    if (any(fData(object)$msLevel != sapply(spectra(object), msLevel)))
+        stop("msLevel in featureData does not match msLevel from the spectra!")
+    return(TRUE)
+}
+
+############################################################
+## spectrapply
+##
+## That's the main method to apply functions to the object's spectra, or
+## to just return a list with the spectra, if FUN is empty.
+## Parallel processing by file can be enabled using BPPARAM.
+spectrapply <- function(object, FUN = NULL,
+                        BPPARAM = bpparam(), ...) {
+    if (!is(object, "OnDiskMSnExp"))
+        stop("'object' is expected to be an 'OnDiskMSnExp' object!")
+    ## Check if we would do better with serial processing:
+    BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
+    isOK <- validateFeatureDataForOnDiskMSnExp(fData(object))
+    if (!is.null(isOK))
+        stop(isOK)
+    fDataPerFile <- split(fData(object),
+                          f = fData(object)$fileIdx)
+    vals <- bplapply(fDataPerFile,
+                     FUN = .applyFun2SpectraOfFileMulti,
+                     filenames = fileNames(object),
+                     queue = processingQueue(object),
+                     APPLYFUN = FUN,
+                     BPPARAM = BPPARAM, ...)
+    names(vals) <- NULL
+    vals <- unlist(vals, recursive = FALSE)
+    return(vals[rownames(fData(object))])
+}

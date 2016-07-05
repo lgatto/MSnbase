@@ -259,6 +259,26 @@ test_that("[ for OnDiskMSnExp", {
 })
 
 ############################################################
+## validateOnDiskMSnExp
+test_that("validateOnDiskMSnExp", {
+    f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
+    onDisk <- readMSData2(f, verbose = FALSE)
+    expect_true(validateOnDiskMSnExp(onDisk))
+    ## Now modify the fData slightly.
+    fd <- featureData(onDisk)
+    fd$lowMZ[13] <- fd$lowMZ[13] + 3
+    onDisk@featureData <- fd
+    expect_error(validateOnDiskMSnExp(onDisk))
+    suppressWarnings(
+        expect_true(validateOnDiskMSnExp(filterFile(odmse, 1)))
+    )
+    ## That will cause an error; eventually there has been some data
+    ## manipulations in that file?
+    ## validateOnDiskMSnExp(filterFile(odmse, 2))
+})
+
+
+############################################################
 ## - other stuff -
 ## Compare the performacen of the C-contructor against the "standard" R constructor.
 .compareCconstructorPerformance <- function(){

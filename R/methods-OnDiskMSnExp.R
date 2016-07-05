@@ -367,33 +367,6 @@ setMethod("[", signature(x = "OnDiskMSnExp",
               return(x)
           })
 
-############################################################
-## spectrapply
-##
-## That's the main method to apply functions to the object's spectra, or
-## to just return a list with the spectra, if FUN is empty.
-## Parallel processing by file can be enabled using BPPARAM.
-spectrapply <- function(object, FUN = NULL,
-                        BPPARAM = bpparam(), ...) {
-    if(!is(object, "OnDiskMSnExp"))
-        stop("'object' is expected to be an 'OnDiskMSnExp' object!")
-    ## Check if we would do better with serial processing:
-    BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
-    isOK <- validateFeatureDataForOnDiskMSnExp(fData(object))
-    if(!is.null(isOK))
-        stop(isOK)
-    fDataPerFile <- split(fData(object),
-                          f = fData(object)$fileIdx)
-    vals <- bplapply(fDataPerFile,
-                     FUN = .applyFun2SpectraOfFileMulti,
-                     filenames = fileNames(object),
-                     queue = processingQueue(object),
-                     APPLYFUN = FUN,
-                     BPPARAM = BPPARAM, ...)
-    names(vals) <- NULL
-    vals <- unlist(vals, recursive=FALSE)
-    return(vals[rownames(fData(object))])
-}
 
 ##============================================================
 ##  --  DATA MANIPULATION METHODS
@@ -493,25 +466,6 @@ setMethod("normalize", "OnDiskMSnExp",
           })
 
 
-############################################################
-## validateOnDiskMSnExp
-##
-## The validation method that might be called manually. In addition to the
-## validate function called by validObject this ensures also that all
-## spectra objects are valid and thus re-reads the raw data.
-validateOnDiskMSnExp <-function(object) {
-    ## First call the basic validity.
-    valMsg <- validObject(object)
-    if (is(valMsg, "character"))
-        stop(valMsg)
-    ## Now check validity of the spectra; if one non-valid object is found we stop.
-    spectrapply(object, FUN=function(z) {
-        res <- validObject(z)
-        if (is(res, "character"))
-            stop(res)
-    })
-    return(TRUE)
-}
 
 ##============================================================
 ##  --  HELPER FUNCTIONS  --
