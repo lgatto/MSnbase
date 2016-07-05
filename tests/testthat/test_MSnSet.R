@@ -13,7 +13,6 @@ test_that("MSnSet validity for empty feature names", {
 })
 
 test_that("MSnSet coersion", {
-    library("pRolocdata")
     data(dunkley2006)
     expect_true(validObject(dunkley2006))
     es <- as(dunkley2006, "ExpressionSet")
@@ -276,7 +275,6 @@ test_that("idSummary", {
 
 
 test_that("commonFeatureNames works with lists or MSnSetLists", {
-    library("pRolocdata")
     data(tan2009r1)
     data(tan2009r2)
     data(tan2009r3)
@@ -296,7 +294,6 @@ test_that("commonFeatureNames works with lists or MSnSetLists", {
 })
 
 test_that("keeping common features", {
-    library("pRolocdata")
     data(tan2009r1)
     data(tan2009r2)
     data(tan2009r3)
@@ -344,7 +341,6 @@ test_that("Combine with fun or 'fun'", {
 })
 
 test_that("Feature variable selection", {
-    library("pRolocdata")
     data(hyperLOPIT2015)
     fv <- fvarLabels(hyperLOPIT2015)
     i <- sort(sample(length(fv), 10))

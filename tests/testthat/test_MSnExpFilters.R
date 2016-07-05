@@ -1,8 +1,8 @@
 context("MSnExp filter functions")
 
 f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia_1")
-inmem2 <- readMSData(f, verbose = FALSE)  ## That's the MS 2 data.
-inmem1 <- readMSData(f, verbose = FALSE, msLevel = 1)  ## MS 1 data.
+inmem2 <- readMSData(f, centroided = NA, verbose = FALSE)  ## That's the MS 2 data.
+inmem1 <- readMSData(f, centroided = NA, verbose = FALSE, msLevel = 1)  ## MS 1 data.
 ondisk <- readMSData2(f, verbose = FALSE)
 ondisk1 <- readMSData2(f, msLevel = 1, verbose = FALSE)
 ondisk2 <- readMSData2(f, msLevel = 2, verbose = FALSE)
@@ -37,7 +37,6 @@ test_that("filterRt", {
 
 test_that("filterFile", {
     ## Use two files.
-    require(msdata)
     mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
                  system.file("microtofq/MM8.mzML", package = "msdata"))
     oneFileInMem <- readMSData(mzfiles[2], verbose = FALSE, msLevel = 1)
@@ -57,4 +56,3 @@ test_that("filterFile", {
                           filterFile(twoFileInMem, file = 2),
                           check.names = FALSE))
 })
-

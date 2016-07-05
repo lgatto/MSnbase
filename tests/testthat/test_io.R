@@ -92,7 +92,6 @@ test_that("readMSnSet2: MSnSet from a data.frame", {
 
 
 test_that("readMSnSet2: rownames and fnames", {
-    library("pRolocdata")
     f0 <- dir(system.file("extdata", package = "pRolocdata"),
               full.names = TRUE,
               pattern = "hyperLOPIT-SIData-ms3-rep12-intersect.csv")

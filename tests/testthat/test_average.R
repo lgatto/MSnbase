@@ -69,7 +69,6 @@ test_that("averageMSnSet", {
 })
 
 test_that("averageMSnSet list of length 1", {
-    library("pRolocdata")
     data(dunkley2006)
     expect_equal(dunkley2006,
                  averageMSnSet(MSnSetList(list(dunkley2006))))
