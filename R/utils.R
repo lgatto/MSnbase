@@ -926,8 +926,11 @@ isOnDisk <- function(object)
 ## Check testthat/test_OnDiskMSnExp_benchmarks.R for performance comparisons.
 ## Parameter object is expected to beb a
 getBpParam <- function(object, BPPARAM=bpparam()) {
-    ## Return SerialParam if we access less than 1000 spectra per file.
-    if (mean(table(fData(object)$fileIdx)) < 1000)
+    parallel_thresh <- options()$MSnbase$PARALLEL_THRESH
+    if (is.null(parallel_thresh) )
+        parallel_thresh <- 1000
+    ## Return SerialParam if we access less than PARALLEL_THRESH spectra per file.
+    if (mean(table(fData(object)$fileIdx)) < parallel_thresh)
         return(SerialParam())
     return(BPPARAM)
 }
