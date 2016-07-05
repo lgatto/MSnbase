@@ -45,7 +45,7 @@ setValidity("pSet", function(object) {
             msg <- validMsg(msg, "Unequal number of spectra in assayData and features in featureData.")
         if (length(spectra(object)) != length(ls(assayData(object))))
             msg <- validMsg(msg, "Object size inconsistence using assayData() and spectra() methods.")
-        if (!identical(featureNames(object), 
+        if (!identical(featureNames(object),
                        ls(assayData(object))))
             msg <- validMsg(msg, "featureNames differ between assayData and featureData.")
         ## checking number of files in phenoData and
@@ -263,6 +263,19 @@ setMethod("polarity", "pSet",
 
 setMethod("fromFile","pSet",
           function(object) return(sapply(spectra(object),fromFile)))
+setReplaceMethod("fromFile",
+                 signature(object = "pSet",
+                           value = "integer"),
+                 function(object, value) {
+                     if (length(object) != length(value))
+                         stop("Length of replacement value is different than number of spectra.")
+                     sl <- spectra(object)
+                     for (i in 1:length(sl))
+                         sl[[i]]@fromFile <- value[i]
+                     object@assayData <- as.environment(sl)
+                     if (validObject(object))
+                         return(object)
+                 })
 
 setMethod("header",
           signature("pSet", "missing"),

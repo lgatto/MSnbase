@@ -421,6 +421,10 @@ setClass("OnDiskMSnExp",
              fFileIds <- fData(object)$file
              if (length(fFileIds) && any(aFileIds != fFileIds))
                  msg <- validMsg(msg, "Mismatch of files in assayData and processingData.")
+             ## Check if the fromFile values match to @files in processingData
+             filesProcData <- 1:length(processingData(object)@files)
+             if ( !all(unique(sort(aFileIds)) == unique(sort(filesProcData))) )
+                 msg <- validMsg(msg, "Spectra files in assayData does not match files in processinData.")
              nfilesprocData   <- length(processingData(object)@files)
              nfilesSpectra <- length(unique(aFileIds))
              if (nfilesprocData < nfilesSpectra)

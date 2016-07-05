@@ -52,6 +52,7 @@ setGeneric("instrumentCustomisations", function(object) standardGeneric("instrum
 setGeneric("ionCount", function(object, ...) standardGeneric("ionCount"))
 
 setGeneric("fromFile", function(object) standardGeneric("fromFile"))
+setGeneric("fromFile<-", function(object, value) standardGeneric("fromFile<-"))  ## This one should remain "private"
 
 setGeneric("quantify", function(object, ...) standardGeneric("quantify"))
 setGeneric("curveStats", function(object,reporters, ...) standardGeneric("curveStats"))

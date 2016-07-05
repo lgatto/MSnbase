@@ -70,6 +70,19 @@ setMethod("fromFile", "OnDiskMSnExp", function(object){
     names(fidx) <- featureNames(object)
     return(fidx)
 })
+setReplaceMethod("fromFile", signature(object = "OnDiskMSnExp",
+                                       value = "integer"),
+                 function(object, value) {
+                     if (length(object) != length(value))
+                         stop("Length of replacement value is different from the number of spectra.")
+                     object@featureData$fileIdx <- value
+                     valMsg <- validObject(object)
+                     if (valMsg) {
+                         return(object)
+                     } else {
+                         stop(valMsg)
+                     }
+                 })
 
 ############################################################
 ## length

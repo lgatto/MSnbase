@@ -34,3 +34,27 @@ test_that("filterRt", {
     expect_true(all.equal(filterRt(inmem2, rtlim, 2),
                           filterMsLevel(filterRt(ondisk, rtlim, 2), 2)))
 })
+
+test_that("filterFile", {
+    ## Use two files.
+    require(msdata)
+    mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
+                 system.file("microtofq/MM8.mzML", package = "msdata"))
+    oneFileInMem <- readMSData(mzfiles[2], verbose = FALSE, msLevel = 1)
+    suppressWarnings(
+        twoFileInMem <- readMSData(mzfiles, verbose = FALSE, msLevel = 1)
+    )
+    suppressWarnings(
+        twoFileOnDisk <- readMSData2(mzfiles, verbose = FALSE)
+    )
+    ## Note: all.equal MSnExp, MSnExp will fail because of the
+    ## experimentData and featureNames
+    ## expect_true(all.equal(filterFile(twoFileInMem, file = 2),
+    ##                      oneFileInMem, check.names = FALSE))
+    expect_true(all.equal(filterFile(twoFileOnDisk, file = 2),
+                          oneFileInMem, check.names = FALSE))
+    expect_true(all.equal(filterFile(twoFileOnDisk, file = 2),
+                          filterFile(twoFileInMem, file = 2),
+                          check.names = FALSE))
+})
+
