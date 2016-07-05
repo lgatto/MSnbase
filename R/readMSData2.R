@@ -2,10 +2,8 @@ readMSData2 <- function(files,
                         pdata = NULL,
                         msLevel,
                         verbose = TRUE,
-                        centroided = FALSE,
-                        smoothed = FALSE,
-                        removePeaks = 0,
-                        clean = FALSE) {
+                        centroided = NA,
+                        smoothed = NA) {
     .testReadMSDataInput(environment())
     ## Check the backend argument; we're supporting "disk" only for msLevel=1
     ## TODO: add also a trimMz argument.
@@ -57,17 +55,7 @@ readMSData2 <- function(files,
                         centroided = centroided,
                         fdData, stringsAsFactors = FALSE)
         featureDataList <- c(featureDataList, list(fdData))
-
-        ## if (removePeaks > 0) {
-        ##     warning("Currently ignored.")
-        ##     ## sp <- removePeaks(sp, t=removePeaks)
-        ## }
-        ## if (clean) {
-        ##     warning("Currently ignored.")
-        ##     ## sp <- clean(sp)
-        ## }
     }
-
     ## new in version 1.9.8
     lockEnvironment(assaydata, bindings = TRUE)
     .cacheEnv <- setCacheEnv(list("assaydata" = assaydata,
@@ -80,15 +68,7 @@ readMSData2 <- function(files,
     process <- new("MSnProcess",
                    processing = paste0("Data loaded [", date(), "]"),
                    files = files,
-                   smoothed = smoothed)
-
-    ## Currently ignored, as we can have different types of spectra
-    ## if (removePeaks > 0)
-    ##     process@processing <- c(process@processing,
-    ##                             paste0("Curves <= ", removePeaks, " set to '0': ", date()))
-    ## if (clean)
-    ##     process@processing <- c(process@processing,
-    ##                             paste("Spectra cleaned: ", date(), sep = ""))
+                   smoothed = NA)
 
     ## Create 'fdata' and 'pdata' objects
     nms <- ls(assaydata)
@@ -129,14 +109,6 @@ readMSData2 <- function(files,
                    analyser = .instrumentInfo[[1]]$analyzer,
                    detectorType = .instrumentInfo[[1]]$detector)
     ## Create ProcessingStep if needed.
-    queue <- list()
-    if (removePeaks > 0)
-        queue <- c(queue,
-                   list(ProcessingStep(FUN = "removePeaks",
-                                       ARGS = list(t = removePeaks))))
-    if (clean)
-        queue <- c(queue,
-                   list(ProcessingStep(FUN = "clean")))
     ## Create the OnDiskMSnExp object.
     res <- new("OnDiskMSnExp",
                assayData = assaydata,
@@ -144,7 +116,6 @@ readMSData2 <- function(files,
                featureData = fdata,
                processingData = process,
                experimentData = expdata,
-               spectraProcessingQueue = queue,
                .cache  =  .cacheEnv)
     if (!missing(msLevel)) {
         msLevel <- as.integer(msLevel)
