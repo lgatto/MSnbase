@@ -17,7 +17,7 @@ equalMSnExps <- function(inmem, ondisk, ...) {
     ## otherwise, expected to be a list of spectra
     for (i in seq_len(l)) {
         if (!isTRUE(speq <- all.equal(ondisk[[i]], inmem[[i]], ...)))
-            return("Spectra at position", i, "are different.")
+            return(paste("Spectra at position", i, "are different."))
     }
     return(TRUE)
 }
