@@ -934,3 +934,10 @@ getBpParam <- function(object, BPPARAM=bpparam()) {
         return(SerialParam())
     return(BPPARAM)
 }
+
+countAndPrint <- function(x) {
+    if (length(x) == 0)
+        return("")
+    tb <- table(x)
+    paste(paste0(names(tb), " (", tb, ")"), collapse = ", ")
+}
