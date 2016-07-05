@@ -24,7 +24,7 @@ centroided = FALSE, smoothed = FALSE, removePeaks = 0, clean = FALSE,
 cache = 1)
 
 readMSData2(files, pdata = NULL, msLevel, verbose = TRUE, centroided =
-FALSE, smoothed = FALSE, removePeaks = 0, clean = FALSE)
+NA, smoothed = NA)
 }
 
 \arguments{
