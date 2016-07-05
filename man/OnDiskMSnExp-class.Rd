@@ -51,7 +51,6 @@
 
 %% Data validity etc
 \alias{validateOnDiskMSnExp}
-\alias{all.equal,OnDiskMSnExp,OnDiskMSnExp-method}
 
 \title{The \code{OnDiskMSnExp} Class for MS Data And Meta-Data}
 

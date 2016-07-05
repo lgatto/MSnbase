@@ -61,33 +61,29 @@ NA, smoothed = NA)
     Numeric indicating caching level. Default is 0 for MS1 and 1 MS2 (or
     higher). Under development.
   }
-  \item{backend}{
-    Whether spectrum data should be kept in-memory
-    (\code{backend="ram"}) or should be fetched on-the-fly from the
-    original data files (\code{backend="disk"}). The default for MS
-    level 1 is to fetch spectrum data on-the-fly.
-  }
   \item{verbose}{
    verbosity flag.
   }
 }
 
 \details{
-  For \code{backend="ram"} the whole MS data is read from file and kept
-  in memory as \code{\linkS4class{Spectrum}} objects within the
+
+  For \code{readMSData} the whole MS data is read from file and kept in
+  memory as \code{\linkS4class{Spectrum}} objects within the
   \code{\linkS4class{MSnExp}}'s \code{assayData} slot. To reduce the
   memory footpring especially for large MS 1 data sets it is also
   possible to read only selected information from the MS files and fetch
   the actual spectrum data (i.e. the M/Z and intensity values) only on
-  demand from the original data files. This can be achieved by specifying
-  \code{backend="disk"} (the default for MS level 1 data). The function
-  returns then an \code{\linkS4class{OnDiskMSnExp}} object instead of a
-  \code{\linkS4class{MSnExp}} object.
+  demand from the original data files. This can be achieved with
+  \code{readMSData2}. The function returns then an \code{OnDiskMSnExp}
+  object instead of a \code{\linkS4class{MSnExp}} object.
+
 }
 
 \value{
-  An \code{"\linkS4class{MSnExp}"} object for \code{backend="ram"} and a
-  \code{\linkS4class{OnDiskMSnExp}} object for \code{backend="disk"}.
+  An \code{MSnExp} object for \code{readMSData} and a
+  \code{OnDiskMSnExp} object for \code{readMSData2}.
+  
 }
 
 % \references{
