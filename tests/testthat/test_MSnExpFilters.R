@@ -63,3 +63,19 @@ test_that("filterFile", {
     expect_equal(experimentData(secondFile)@instrumentManufacturer,
                  experimentData(oneFileInMem)@instrumentManufacturer)
 })
+
+test_that("filterAcquisitionNum", {
+    filtered <- filterAcquisitionNum(ondisk, n = 1000:1100)
+    expect_true(all(acquisitionNum(filtered) %in% 1000:1100))
+    spctr <- spectra(filtered)
+    expect_true(all(unlist(lapply(spctr, acquisitionNum)) %in% 1000:1100))
+    ## Use unavailable acquisition numbers
+    suppressWarnings(
+        expect_true(length(filterAcquisitionNum(ondisk, n = 1:100)) == 0)
+    )
+    ## Compare on-disk with in-mem.
+    expect_true(all.equal(filterAcquisitionNum(ondisk1, n = 1000:1100),
+                          filterAcquisitionNum(inmem1, n = 1000:1100)))
+    expect_true(all.equal(filterAcquisitionNum(ondisk2, n = 1000:1100),
+                          filterAcquisitionNum(inmem2, n = 1000:1100)))
+})

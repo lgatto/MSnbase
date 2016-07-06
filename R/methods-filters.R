@@ -85,6 +85,15 @@ setMethod("filterFile", "MSnExp",
 
 setMethod("filterAcquisitionNum", "MSnExp",
           function(object, n) {
-              ## TODO
+              if (missing(n)) return(object)
+              if (!is.integer(n)) stop("Argument 'n' has to be an integer",
+                                       " representing the acquisition",
+                                       " number(s) for sub-setting.")
+              object <- object[acquisitionNum(object) %in% n]
+              object <- logging(object, paste0("Filter: select by ", length(n),
+                                               " acquisition numbers."))
+              if (length(object) == 0)
+                  warning("No spectra with the specified acquisition number(s) found.")
+              return(object)
           })
 

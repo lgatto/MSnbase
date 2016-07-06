@@ -63,7 +63,7 @@ test_that("compare MS2 on disk and in memoery", {
     expect_identical(pData(x1), pData(x2))
     expect_identical(phenoData(x1), phenoData(x2))
     expect_identical(polarity(x1), polarity(x2))
-    expect_identical(precScanNum(x1), precScanNum(x2))    
+    expect_identical(precScanNum(x1), precScanNum(x2))
     expect_identical(precursorIntensity(x1), precursorIntensity(x2))
     expect_identical(protocolData(x1), protocolData(x2))
     expect_identical(pubMedIds(x1), pubMedIds(x2))
@@ -80,7 +80,7 @@ test_that("compare MS2 on disk and in memoery", {
 
 test_that("Default and setting centroided", {
     x1 <- readMSData(f, verbose = FALSE)
-    x2 <- readMSData2(f, msLevel = 2)    
+    x2 <- readMSData2(f, msLevel = 2)
     featureNames(x2) <- featureNames(x1)
     expect_identical(centroided(x1), centroided(x2))
     x1 <- readMSData(f, verbose = FALSE, centroided = TRUE)
@@ -88,7 +88,7 @@ test_that("Default and setting centroided", {
     featureNames(x2) <- featureNames(x1)
     expect_identical(centroided(x1), centroided(x2))
     centroided(x2) <- centroided(x1) <- FALSE
-    expect_identical(centroided(x1), centroided(x2))    
+    expect_identical(centroided(x1), centroided(x2))
 })
 
 test_that("Write mgf", {
