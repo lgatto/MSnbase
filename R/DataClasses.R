@@ -390,6 +390,9 @@ setClass("OnDiskMSnExp",
              spectraProcessingQueue=list(),
              backend=character()),
          validity=function(object){
+             ## Return true if the object is empty.
+             if (length(object) == 0)
+                 return(TRUE)
              ## Ensure that the files (returned by fileNames) are available
              ## and check also that the featureData contains all the required
              ## information.
@@ -418,13 +421,13 @@ setClass("OnDiskMSnExp",
              ## calling the pSet validate method on the MSnExp and that caused a problem since we don't
              ## have an assayData with spectra here (fromFile was trying to get that form there).
              aFileIds <- fromFile(object)
-             fFileIds <- fData(object)$file
+             fFileIds <- fData(object)$fileIdx
              if (length(fFileIds) && any(aFileIds != fFileIds))
                  msg <- validMsg(msg, "Mismatch of files in assayData and processingData.")
              ## Check if the fromFile values match to @files in processingData
              filesProcData <- 1:length(processingData(object)@files)
              if ( !all(unique(sort(aFileIds)) == unique(sort(filesProcData))) )
-                 msg <- validMsg(msg, "Spectra files in assayData does not match files in processinData.")
+                 msg <- validMsg(msg, "Spectra file indices in assayData does not match files in processinData.")
              nfilesprocData   <- length(processingData(object)@files)
              nfilesSpectra <- length(unique(aFileIds))
              if (nfilesprocData < nfilesSpectra)

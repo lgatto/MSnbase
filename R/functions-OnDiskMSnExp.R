@@ -178,3 +178,5 @@ spectrapply <- function(object, FUN = NULL,
     vals <- unlist(vals, recursive = FALSE)
     return(vals[rownames(fData(object))])
 }
+
+

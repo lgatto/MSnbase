@@ -56,27 +56,9 @@ setMethod("filterFile", "MSnExp",
               ## This will not work if we want to get the files in a different
               ## order (i.e. c(3, 1, 2, 5))
               file <- sort(unique(file))
-              ## Sub-set spectra/featureData.
+              ## Sub-set spectra/featureData; all further sub-setting of
+              ## processingData, experimentData and phenoData is done in [
               object <- object[fromFile(object) %in% file]
-              ## Sub-set the phenoData.
-              object@phenoData <- phenoData(object)[file, , drop = FALSE]
-              ## Sub-set the files.
-              object@processingData@files <- object@processingData@files[file]
-              ## Sub-set the experimentData:
-              ## o instrumentManufacturer
-              ## o instrumentModel
-              ## o ionSource
-              ## o analyser
-              ## o detectorType
-              expD <- experimentData(object)
-              expD@instrumentManufacturer <- expD@instrumentManufacturer[file]
-              expD@instrumentModel <- expD@instrumentModel[file]
-              expD@ionSource <- expD@ionSource[file]
-              expD@analyser <- expD@analyser[file]
-              expD@detectorType <- expD@detectorType[file]
-              object@experimentData <- expD
-              ## Update fromFile in spectra/featureData.
-              fromFile(object) <- match(fromFile(object), file)  ## Checks if object is valid
               object <- logging(object,
                                 paste0("Filter: select file(s) ",
                                        paste0(file, collapse = ", "), "."))
@@ -84,16 +66,26 @@ setMethod("filterFile", "MSnExp",
           })
 
 setMethod("filterAcquisitionNum", "MSnExp",
-          function(object, n) {
+          function(object, n, file) {
               if (missing(n)) return(object)
               if (!is.integer(n)) stop("Argument 'n' has to be an integer",
                                        " representing the acquisition",
                                        " number(s) for sub-setting.")
-              object <- object[acquisitionNum(object) %in% n]
+              if (missing(file))
+                  file <- sort(unique(fromFile(object)))
+              ## Select on files.
+              selFile <- fromFile(object) %in% file
+              ## Select those matching the acquisition number and file.
+              selAcqN <- acquisitionNum(object) %in% n & selFile
+              if (!any(selAcqN))
+                  warning("No spectra with the specified acquisition",
+                          " number(s) found.")
+              ## Subset: those from the selected files matching the acquisition
+              ## num and all spectra from all other files.
+              object <- object[selAcqN | !selFile]
               object <- logging(object, paste0("Filter: select by ", length(n),
-                                               " acquisition numbers."))
-              if (length(object) == 0)
-                  warning("No spectra with the specified acquisition number(s) found.")
+                                               " acquisition number(s) in ",
+                                               length(file), " file(s)."))
               return(object)
           })
 

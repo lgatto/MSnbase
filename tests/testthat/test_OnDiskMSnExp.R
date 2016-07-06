@@ -131,6 +131,10 @@ test_that("Compare subsetting between OnDiskMSnExp and MSnExp", {
     sub1 <- inMem[1:20, ]
     sub2 <- onDisk[1:20, ]
     expect_true(all.equal(sub1, sub2))
+    expect_true(all.equal(inMem[1], onDisk[1]))
+
+    ## Test subsetting with file.
+    sub1 <- filterAcquisitionNum(onDisk, n = 180:190)
 })
 
 

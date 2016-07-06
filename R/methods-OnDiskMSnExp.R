@@ -356,14 +356,40 @@ setMethod("[", signature(x = "OnDiskMSnExp",
                   stop("Subsetting works only with numeric or logical!")
               if (is.logical(i)) {
                   if (length(i) != nrow(fData(x)))
-                      stop("If 'i' is logical its length has to match the number of spectra!")
+                      stop("If 'i' is logical its length has to match",
+                           " the number of spectra!")
                   i <- which(i)
               }
               i <- sort(i)  ## Force sorted!
               ## Now subset the featureData. The function will
               ## complain if i is outside the range.
               if (length(i) == 0) x@featureData <- x@featureData[0, ]
-              else x@featureData <- subsetFeatureDataBy(featureData(x), index = i)
+              else x@featureData <- subsetFeatureDataBy(featureData(x),
+                                                        index = i)
+              ## Check also that processingData and experimentData match
+              ## the *new* featureData:
+              file <- sort(unique(fromFile(x)))
+              ## o Sub-set the phenoData.
+              pd <- phenoData(x)[file, , drop = FALSE]
+              pData(pd) <- droplevels(pData(pd))
+              x@phenoData <- pd
+              ## Sub-set the files.
+              x@processingData@files <- x@processingData@files[file]
+              ## Sub-set the experimentData:
+              ## o instrumentManufacturer
+              ## o instrumentModel
+              ## o ionSource
+              ## o analyser
+              ## o detectorType
+              expD <- experimentData(x)
+              expD@instrumentManufacturer <- expD@instrumentManufacturer[file]
+              expD@instrumentModel <- expD@instrumentModel[file]
+              expD@ionSource <- expD@ionSource[file]
+              expD@analyser <- expD@analyser[file]
+              expD@detectorType <- expD@detectorType[file]
+              x@experimentData <- expD
+              ## Update fromFile in spectra/featureData.
+              fromFile(x) <- match(fromFile(x), file)  ## Checks if object is valid
               return(x)
           })
 
