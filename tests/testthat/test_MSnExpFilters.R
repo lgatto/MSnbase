@@ -39,12 +39,15 @@ test_that("filterFile", {
     ## Use two files.
     mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
                  system.file("microtofq/MM8.mzML", package = "msdata"))
-    oneFileInMem <- readMSData(mzfiles[2], verbose = FALSE, msLevel = 1)
+    oneFileInMem <- readMSData(mzfiles[2], verbose = FALSE, msLevel = 1,
+                               centroided = TRUE)
     suppressWarnings(
-        twoFileInMem <- readMSData(mzfiles, verbose = FALSE, msLevel = 1)
+        twoFileInMem <- readMSData(mzfiles, verbose = FALSE, msLevel = 1,
+                                   centroided = TRUE)
     )
     suppressWarnings(
-        twoFileOnDisk <- readMSData2(mzfiles, verbose = FALSE)
+        twoFileOnDisk <- readMSData2(mzfiles, verbose = FALSE,
+                                     centroided = TRUE)
     )
     ## Note: all.equal MSnExp, MSnExp will fail because of the
     ## experimentData and featureNames
@@ -55,4 +58,8 @@ test_that("filterFile", {
     expect_true(all.equal(filterFile(twoFileOnDisk, file = 2),
                           filterFile(twoFileInMem, file = 2),
                           check.names = FALSE))
+    ## Check experimentData:
+    secondFile <- filterFile(twoFileOnDisk, file = 2)
+    expect_equal(experimentData(secondFile)@instrumentManufacturer,
+                 experimentData(oneFileInMem)@instrumentManufacturer)
 })

@@ -20,110 +20,57 @@ context("OnDiskMSnExp class")
 
 mzf <- .getMzMLFiles()[1:2]
 ## Load the data as an MSnExp into memory.
-mse <- readMSData(files = mzf, msLevel = 1, centroided = TRUE, verbose = FALSE)
+suppressWarnings(
+    inMem <- readMSData(files = mzf, msLevel = 1, centroided = TRUE,
+                        verbose = FALSE)
+)
 ## Load the data as OnDiskMSnExp.
-odmse <- readMSData2(files = mzf, msLevel = 1, centroided=TRUE, verbose = FALSE)
-
-## All the same with removePeaks.
-mseRemPeaks <- readMSData(files = mzf, msLevel = 1, removePeaks = 10000,
-                          clean = TRUE, verbose = FALSE)
-odmseRemPeaks <- readMSData2(files = mzf, msLevel = 1, removePeaks = 10000,
-                             clean = TRUE, verbose = FALSE)
+suppressWarnings(
+    onDisk <- readMSData2(files = mzf, msLevel = 1, centroided=TRUE,
+                          verbose = FALSE)
+)
 
 ############################################################
 ## Testing the on-disk MSnExp stuff.
 test_that("OnDiskMSnExp constructor", {
-    expect_identical(as.character(class(mse)), "MSnExp")
-    expect_identical(as.character(class(odmse)), "OnDiskMSnExp")
+    expect_identical(as.character(class(inMem)), "MSnExp")
+    expect_identical(as.character(class(onDisk)), "OnDiskMSnExp")
+    expect_true(validObject(onDisk))
 })
 
 ############################################################
 ## compare MSnExp against OnDiskMSnExp
 test_that("Compare MS1 MSnExp and OnDiskMSnExp content", {
-    ## Compare spectra values.
-    expect_true(all.equal(mse, odmse))
-    ## fromFile
-    expect_identical(fromFile(mse), fromFile(odmse))
-    ## msLevel
-    expect_identical(msLevel(mse), msLevel(odmse))
-})
-
-############################################################
-## acquisitionNum
-test_that("compare acquisitionNum", {
-    ## acquisitionNum
-    expect_identical(acquisitionNum(mse), acquisitionNum(odmse))
-})
-
-############################################################
-## scanIndex
-test_that("compare scanIndex", {
-    ## scanIndex; point is that scanIndex on an MSnExp will return 0, as it is not
-    ## set in the spectra (same as acquisitionNum?)
-    expect_identical(acquisitionNum(mse), scanIndex(odmse))
-})
-
-############################################################
-## centroided
-test_that("compare centroided", {
-    ## centroided.
-    expect_identical(centroided(mse), centroided(odmse))
-    ## Setting stuff
-    centroided(mse) <- FALSE  ## Takes quite some time.
-    centroided(odmse) <- FALSE
-    expect_identical(centroided(mse), centroided(odmse))
-    ## Check error
-    expect_that(centroided(odmse) <- c(TRUE, FALSE, TRUE), throws_error())
-})
-
-############################################################
-## rtime
-test_that("rtime for OnDiskMSnExp", {
-    rt <- rtime(mse)
-    rt2 <- rtime(odmse)
-    expect_identical(rt, rt2)
-})
-
-############################################################
-## polarity
-test_that("polarity for OnDiskMSnExp", {
-    pol <- polarity(mse)
-    pol2 <- polarity(odmse)
-    expect_identical(pol, pol2)
-})
-
-############################################################
-## tic
-test_that("ionCount for OnDiskMSnExp", {
-    tc <- tic(mse)
-    tc2 <- tic(odmse)
-    expect_identical(tc, tc2)
-})
-
-############################################################
-## ionCount
-test_that("ionCount for OnDiskMSnExp", {
-    system.time(
-        ic <- ionCount(mse)
-    ) ## 0.058
-    system.time(
-        ic2 <- ionCount(odmse)
-    ) ## 5 sec.
-    expect_identical(ic, ic2)
-})
-
-############################################################
-## peaksCount
-test_that("compare peaksCount", {
-    ## Trivial case, without any processing steps.
-    ## peaksCount
-    system.time(
-        pk <- peaksCount(mse)
-    )  ## 0.049
-    system.time(
-        pk2 <- peaksCount(odmse)
-    )  ## 0.002
-    expect_identical(pk, pk2)
+    ## o Compare spectra values.
+    expect_true(all.equal(inMem, onDisk))
+    ## o fromFile
+    expect_identical(fromFile(inMem), fromFile(onDisk))
+    ## o msLevel
+    expect_identical(msLevel(inMem), msLevel(onDisk))
+    ## o acquisitionNum
+    expect_identical(acquisitionNum(inMem), acquisitionNum(onDisk))
+    ## o scanIndex
+    expect_identical(scanIndex(inMem), scanIndex(onDisk))
+    ## o centroided
+    expect_identical(centroided(inMem), centroided(onDisk))
+    centroided(inMem) <- FALSE
+    centroided(onDisk) <- FALSE
+    expect_identical(centroided(inMem), centroided(onDisk))
+    expect_that(centroided(onDisk) <- c(TRUE, FALSE, TRUE), throws_error())
+    ## o rtime
+    expect_identical(rtime(inMem), rtime(onDisk))
+    ## o polarity
+    expect_identical(polarity(inMem), polarity(onDisk))
+    ## o tic
+    expect_identical(tic(inMem), tic(onDisk))
+    ## o ionCount
+    expect_identical(ionCount(inMem), ionCount(onDisk))
+    ## o peaksCount
+    expect_identical(peaksCount(inMem), peaksCount(onDisk))
+    ## o intensity
+    expect_identical(intensity(inMem), intensity(onDisk))
+    ## o mz
+    expect_identical(mz(inMem), mz(onDisk))
 })
 
 ############################################################
@@ -132,131 +79,60 @@ test_that("compare peaksCount", {
 ## o ionCount.
 ## o tic
 ## o peaksCount.
-test_that("Compare cleaned MSnExp and OnDiskMSnExp", {
-    mseCleaned <- clean(mse)
-    odmseCleaned <- clean(odmse)
-    ## o spectra:
-    expect_true(all.equal(mseCleaned, odmseCleaned))
+test_that("Compare removePeaks and cleaned MSnExp and OnDiskMSnExp", {
+    ## o clean
+    inMemCleaned <- clean(inMem)
+    onDiskCleaned <- clean(onDisk)
+    expect_true(all.equal(inMemCleaned, onDiskCleaned))
+    expect_identical(ionCount(inMemCleaned), ionCount(onDiskCleaned))
+    expect_identical(tic(inMemCleaned), tic(onDiskCleaned))
+    expect_identical(peaksCount(inMemCleaned), peaksCount(onDiskCleaned))
 
-    ## o ionCount.
-    expect_identical(ionCount(mseCleaned), ionCount(odmseCleaned))
+    ## o removePeaks
+    inMemRemPeaks <- removePeaks(inMem, t = 1000)
+    onDiskRemPeaks <- removePeaks(onDisk, t = 1000)
+    expect_true(all.equal(inMemRemPeaks, onDiskRemPeaks))
+    expect_identical(ionCount(inMemRemPeaks), ionCount(onDiskRemPeaks))
+    expect_identical(tic(inMemRemPeaks), tic(onDiskRemPeaks))
+    expect_identical(peaksCount(inMemRemPeaks), peaksCount(onDiskRemPeaks))
 
-    ## o tic.
-    expect_identical(tic(mseCleaned), tic(odmseCleaned))
+    ## o removePeaks and clean
+    inMemRemPeaksCleaned <- clean(inMemRemPeaks)
+    onDiskRemPeaksCleaned <- clean(onDiskRemPeaks)
+    expect_true(all.equal(inMemRemPeaksCleaned, onDiskRemPeaksCleaned))
+    expect_identical(ionCount(inMemRemPeaksCleaned),
+                     ionCount(onDiskRemPeaksCleaned))
+    expect_identical(tic(inMemRemPeaksCleaned), tic(onDiskRemPeaksCleaned))
+    expect_identical(peaksCount(inMemRemPeaksCleaned),
+                     peaksCount(onDiskRemPeaksCleaned))
 
-    ## o peaksCount
-    expect_identical(peaksCount(mseCleaned), peaksCount(odmseCleaned))
-
+    ## compare assayData, intensity and mz,
+    expect_equal(assayData(inMemRemPeaksCleaned),
+                 assayData(onDiskRemPeaksCleaned))
+    expect_equal(intensity(inMemRemPeaksCleaned),
+                 intensity(onDiskRemPeaksCleaned))
+    expect_equal(mz(inMemRemPeaksCleaned), mz(onDiskRemPeaksCleaned))
 })
 
-############################################################
-## Compare removePeaks data
-## o spectra.
-## o ionCount.
-## o tic.
-## o peaksCount.
-test_that("Compare removePeaks results between MSnExp and OnDiskMSnExp", {
-    mseRemP <- removePeaks(mse, t=1000)
-    odmseRemP <- removePeaks(odmse, t=1000)
-    ## o spectra:
-    expect_true(all.equal(mseRemP, odmseRemP))
-
-    ## o ionCount.
-    expect_identical(ionCount(mseRemP), ionCount(odmseRemP))
-
-    ## o tic.
-    expect_identical(tic(mseRemP), tic(odmseRemP))
-
-    ## o peaksCount
-    expect_identical(peaksCount(mseRemP), peaksCount(odmseRemP))
-})
-
-############################################################
-## Compare removePeaks and cleaned data
-## o spectra.
-## o ionCount.
-## o tic.
-## o peaksCount.
-test_that("Compare removePeaks and clean results between MSnExp and OnDiskMSnExp", {
-    ## o spectra:
-    expect_true(all.equal(mseRemPeaks, odmseRemPeaks))
-
-    ## o ionCount.
-    expect_identical(ionCount(mseRemPeaks), ionCount(odmseRemPeaks))
-
-    ## o tic.
-    expect_identical(tic(mseRemPeaks), tic(odmseRemPeaks))
-
-    ## o peaksCount
-    expect_identical(peaksCount(mseRemPeaks), peaksCount(odmseRemPeaks))
-})
-
-############################################################
-## assayData
-test_that("assayData on an OnDiskMSnExp", {
-    env1 <- assayData(mse)
-    env2 <- assayData(odmse)
-    expect_equal(env1, env2)
-
-    env1 <- assayData(mseRemPeaks)
-    env2 <- assayData(odmseRemPeaks)
-    expect_equal(env1, env2)
-})
-
-############################################################
-## intensity
-test_that("intensity on an OnDiskMSnExp", {
-    ints <- intensity(mse)
-    system.time(
-        ints2 <- intensity(odmse)
-    ) ## 5.5 sec
-    expect_identical(ints, ints2)
-
-    ints <- intensity(mseRemPeaks)
-    system.time(
-        ints2 <- intensity(odmseRemPeaks)
-    ) ## 18.3 sec
-    expect_identical(ints, ints2)
-})
-
-############################################################
-## mz
-test_that("mz on an OnDiskMSnExp", {
-    mzs <- mz(mse)
-    system.time(
-        mzs2 <- mz(odmse)
-    ) ## 5.5 sec
-    expect_identical(mzs, mzs2)
-
-    mzs <- mz(mseRemPeaks)
-    system.time(
-        mzs2 <- mz(odmseRemPeaks)
-    ) ## 18 sec
-    expect_identical(mzs, mzs2)
-})
 
 ############################################################
 ## [[
-test_that("[[ for OnDiskMSnExp", {
-    sp1 <- mse[[77]]
-    sp2 <- odmse[[77]]
+test_that("Compare subsetting between OnDiskMSnExp and MSnExp", {
+    sp1 <- inMem[[77]]
+    sp2 <- onDisk[[77]]
     expect_identical(sp1, sp2)
 
     ## by name.
-    theN <- featureNames(mse)[100]
-    sp1 <- mse[[theN]]
-    sp2 <- odmse[[theN]]
+    theN <- featureNames(inMem)[100]
+    sp1 <- inMem[[theN]]
+    sp2 <- onDisk[[theN]]
     expect_identical(sp1, sp2)
-})
 
-############################################################
-## [
-test_that("[ for OnDiskMSnExp", {
-    ## subset by row (i)
-    sub1 <- mse[1:20, ]
-    sub2 <- odmse[1:20, ]
+    sub1 <- inMem[1:20, ]
+    sub2 <- onDisk[1:20, ]
     expect_true(all.equal(sub1, sub2))
 })
+
 
 ############################################################
 ## validateOnDiskMSnExp

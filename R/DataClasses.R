@@ -431,6 +431,15 @@ setClass("OnDiskMSnExp",
                  msg <- validMsg(msg, "More spectra files in assayData than in processingData.")
              if (length(sampleNames(object)) != nrow(pData(object)))
                  msg <- validMsg(msg, "Different number of samples accoring to sampleNames and pData.")
+             ## Check also experimentData:
+             if (length(
+                 unique(c(length(fileNames(object)),
+                          length(experimentData(object)@instrumentManufacturer),
+                          length(experimentData(object)@instrumentModel),
+                          length(experimentData(object)@ionSource),
+                          length(experimentData(object)@analyser),
+                          length(experimentData(object)@detectorType)))) != 1)
+                 msg <- validMsg(msg, "The number of files does not match the information in experimentData.")
              if (!isOnDisk(object))
                  msg <- validMsg(msg, "Object is not 'onDisk'.")
              if (!isEmpty(object@assayData))
