@@ -211,14 +211,21 @@ readMSData <- function(files,
     ## expriment data slot
     if (length(.instrumentInfo) > 1) {
         cmp <- sapply(.instrumentInfo[-1], function(x) identical(x, .instrumentInfo[[1]]))
-        if (!all(cmp)) {
-            warning("According to the instrument information in the files, the data has been acquired on different instruments!")
-            .instrumentInfo[[1]] <- list(manufacturer = paste(sapply(.instrumentInfo, "[[", "manufacturer"), collapse = ", "),
-                                         model = paste(sapply(.instrumentInfo, "[[", "model"), collapse = ", "),
-                                         ionisation = paste(sapply(.instrumentInfo, "[[", "ionisation"), collapse = ", "),
-                                         analyzer = paste(sapply(.instrumentInfo, "[[", "analyzer"), collapse = ", "),
-                                         detector = paste(sapply(.instrumentInfo, "[[", "detector"), collapse = ", "))
-        }
+#### START ORIGINAL CODE
+        ## if (!all(cmp)) {
+        ##     warning("According to the instrument information in the files, the data has been acquired on different instruments!")
+        ##     .instrumentInfo[[1]] <- list(manufacturer = paste(sapply(.instrumentInfo, "[[", "manufacturer"), collapse = ", "),
+        ##                                  model = paste(sapply(.instrumentInfo, "[[", "model"), collapse = ", "),
+        ##                                  ionisation = paste(sapply(.instrumentInfo, "[[", "ionisation"), collapse = ", "),
+        ##                                  analyzer = paste(sapply(.instrumentInfo, "[[", "analyzer"), collapse = ", "),
+        ##                                  detector = paste(sapply(.instrumentInfo, "[[", "detector"), collapse = ", "))
+        ## }
+#### END ORIGINAL CODE
+#### START FROM readMSData2
+        for (nm in names(.instrumentInfo[[1]]))
+            .instrumentInfo[[1]][[nm]] <- sapply(.instrumentInfo, "[[", nm)
+
+#### END FROM readMSData2
     }
     expdata <- new("MIAPE",
                    instrumentManufacturer = .instrumentInfo[[1]]$manufacturer,

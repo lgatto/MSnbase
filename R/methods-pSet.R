@@ -101,12 +101,35 @@ setMethod("[", "pSet",
               }
               whichElements <- ls(assayData(x))[i]
               sel <- featureNames(x) %in% whichElements
+              ## Sub-setting also processingData, phenoData and experimentData.
+              file <- sort(unique(fromFile(x)[sel]))
+              ## o Sub-set the phenoData.
+              pd <- phenoData(x)[file, , drop = FALSE]
+              pData(pd) <- droplevels(pData(pd))
+              x@phenoData <- pd
+              ## Sub-set the files.
+              x@processingData@files <- x@processingData@files[file]
+              ## Sub-set the experimentData:
+              expD <- experimentData(x)
+              expD@instrumentManufacturer <- expD@instrumentManufacturer[file]
+              expD@instrumentModel <- expD@instrumentModel[file]
+              expD@ionSource <- expD@ionSource[file]
+              expD@analyser <- expD@analyser[file]
+              expD@detectorType <- expD@detectorType[file]
+              x@experimentData <- expD
+              ## Fix the fromFile property
+              newFromFile <- match(fromFile(x), file)
+              names(newFromFile) <- names(fromFile(x))
+              ## Proceed.
               orghd <- header(x)
               olde <- assayData(x)
               newe <- new.env(parent = emptyenv())
               if (length(whichElements) > 0) {
-                  for (el in whichElements)
-                      newe[[el]] <- olde[[el]]
+                  for (el in whichElements) {
+                      sp <- olde[[el]]
+                      sp@fromFile <- unname(newFromFile[el])
+                      newe[[el]] <- sp
+                  }
                   if (environmentIsLocked(olde))
                       lockEnvironment(newe,
                                       bindings = bindingIsLocked(el, olde))

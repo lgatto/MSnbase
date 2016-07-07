@@ -331,16 +331,31 @@ setMethod("mz", "OnDiskMSnExp",
 ############################################################
 ## [[
 ##
-## Extract individual spectra (single ones).
+## Extract individual spectra; allow extraction of multiple
+## spectra too, i.e. length i > 1.
 setMethod("[[", "OnDiskMSnExp",
           function(x, i, j = "missing", drop = "missing") {
-              if (length(i) != 1)
-                  stop("subscript out of bounds")
+              ## if (length(i) != 1)
+              ##     stop("subscript out of bounds")
               if (is.character(i))
                   i <- match(i, featureNames(x))
-              if (is.na(i))
+              if (any(is.na(i)))
                   stop("subscript out of bounds")
-              return(spectra(x[i])[[1]])
+              ## Keep the fromFile information; that would be
+              ## changed by [ subsetting.
+              fromF <- fromFile(x)[i]
+              ## Subsetting first the OnDiskMSnExp with subsequent
+              ## spectra extraction is considerably faster.
+              spctr <- spectra(x[i])
+              ## Re-setting the original fromFile values.
+              spctr <- mapply(spctr, fromF, FUN = function(y, z) {
+                  y@fromFile <- z
+                  return(y)
+              })
+              if (length(spctr) == 1)
+                  spctr <- spctr[[1]]
+              return(spctr)
+              ## return(spectra(x[i])[[1]])
           })
 
 ############################################################

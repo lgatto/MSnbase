@@ -53,14 +53,14 @@ test_that("filterFile", {
                                     centroided = TRUE)
     ## Note: all.equal MSnExp, MSnExp will fail because of the
     ## experimentData and featureNames
-    ## expect_true(all.equal(filterFile(twoFileInMem, file = 2),
-    ##                      oneFileInMem, check.names = FALSE))
+    expect_true(all.equal(spectra(filterFile(twoFileInMem, file = 2)),
+                          spectra(oneFileInMem), check.names = FALSE))
     expect_true(all.equal(filterFile(twoFileOnDisk, file = 2),
                           oneFileInMem, check.names = FALSE))
     ## Below breaks because of fromFile
-    ## expect_true(all.equal(filterFile(twoFileOnDisk, file = 2),
-    ##                       filterFile(twoFileInMem, file = 2),
-    ##                       check.names = FALSE))
+    expect_true(all.equal(filterFile(twoFileOnDisk, file = 2),
+                          filterFile(twoFileInMem, file = 2),
+                          check.names = FALSE))
     ## Check experimentData:
     secondFile <- filterFile(twoFileOnDisk, file = 2)
     expect_equal(experimentData(secondFile)@instrumentManufacturer,
@@ -96,7 +96,9 @@ test_that("filterAcquisitionNum", {
                                      centroided = TRUE)
     )
     secondFile <- readMSData2(mzfiles[2], verbose = FALSE, centroided = TRUE)
-    res <- filterAcquisitionNum(twoFileOnDisk, n = 180:190, file = 1)
+    suppressWarnings(
+        res <- filterAcquisitionNum(twoFileOnDisk, n = 180:190, file = 1)
+    )
     expect_identical(fileNames(res), fileNames(twoFileOnDisk)[2])
     ## contains basically only the second file.
     expect_true(all.equal(secondFile, res))
