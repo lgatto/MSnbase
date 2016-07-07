@@ -151,14 +151,20 @@ setMethod("centroided", "OnDiskMSnExp",
               names(val) <- featureNames(object)
               return(val)
           })
+
 setReplaceMethod("centroided",
                  signature(object = "OnDiskMSnExp", value = "logical"),
-                 function(object, value){
-                     if (length(value) == 1)
-                         value <- rep(value, length(object))
-                     if (length(object) != length(value))
-                         stop("Length of replacement value is different than number of spectra.")
-                     fData(object)$centroided <- value
+                 function(object, value, msLevel.) {
+                     if (missing(msLevel.)) {
+                         if (length(value) == 1)
+                             value <- rep(value, length(object))
+                         if (length(object) != length(value))
+                             stop("Length of replacement value is different than number of spectra.")
+                         fData(object)$centroided <- value
+                     } else {
+                         sel <- fData(object)$msLevel == msLevel.
+                         fData(object)$centroided[sel] <- value
+                     }
                      if (validObject(object))
                          return(object)
                  })
