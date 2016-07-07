@@ -158,8 +158,35 @@ test_that("Compare subsetting between OnDiskMSnExp and MSnExp", {
     expect_identical(fileNames(sp1), fileNames(sp2))
     expect_identical(fromFile(sp1), fromFile(sp2))
 
-    ## Test subsetting with file.
-    sub1 <- filterAcquisitionNum(onDisk, n = 180:190)
+    ## Some tests evaluating the correct sub-setting of phenoData etc.
+    ## Extract spectra from the first file
+    subs <- onDisk[c(1, 3, 5)]
+    expect_identical(fileNames(subs), fileNames(onDisk)[1])
+    expect_true(all(fromFile(subs) == 1))
+    expect_identical(pData(subs), droplevels(pData(onDisk)[1, , drop = FALSE]))
+    expect_identical(experimentData(subs)@instrumentManufacturer,
+                     experimentData(onDisk)@instrumentManufacturer[1])
+    ## Extract spectra from the second file
+    subs <- onDisk[c(2, 4, 6)]
+    expect_identical(fileNames(subs), fileNames(onDisk)[2])
+    expect_true(all(fromFile(subs) == 1))
+    expect_identical(pData(subs), droplevels(pData(onDisk)[2, , drop = FALSE]))
+    expect_identical(experimentData(subs)@instrumentManufacturer,
+                     experimentData(onDisk)@instrumentManufacturer[2])
+    ## The same for MSnExp:
+    subs <- inMem[c(1, 3, 5)]
+    expect_identical(fileNames(subs), fileNames(inMem)[1])
+    expect_true(all(fromFile(subs) == 1))
+    expect_identical(pData(subs), droplevels(pData(inMem)[1, , drop = FALSE]))
+    expect_identical(experimentData(subs)@instrumentManufacturer,
+                     experimentData(inMem)@instrumentManufacturer[1])
+    ## Extract spectra from the second file
+    subs <- inMem[c(2, 4, 6)]
+    expect_identical(fileNames(subs), fileNames(inMem)[2])
+    expect_true(all(fromFile(subs) == 1))
+    expect_identical(pData(subs), droplevels(pData(inMem)[2, , drop = FALSE]))
+    expect_identical(experimentData(subs)@instrumentManufacturer,
+                     experimentData(inMem)@instrumentManufacturer[2])
 })
 
 
