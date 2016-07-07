@@ -29,9 +29,19 @@ setMethod("show", "ProcessingStep", function(object){
 ############################################################
 ## execute
 ##
+## Eventually make a method execute, ProcessingStep, Spectrum
+
+############################################################
+## execute
+##
 ## Execute the processing step.
-execute <- function(object, ...) {
-    if(!is(object, "ProcessingStep"))
+execute <- function(object, x, ...) {
+    if (!is(object, "ProcessingStep"))
         stop("'object' is supposed to be a 'ProcessingStep' object!")
-    return(do.call(object@FUN, args=c(list(...), object@ARGS)))
+    ## Eventually switch based on the MSlevel?
+    ## Check if we've got an msLevel argument in object@ARGS, if so,
+    ## check that msLevel(x) matches any of the msLevel, if not,
+    ## return x, otherwise call do.call.
+    return(do.call(object@FUN, args = c(list(x),
+                                        list(...), object@ARGS)))
 }

@@ -496,18 +496,19 @@ setMethod("trimMz", signature("OnDiskMSnExp", "numeric"),
 ############################################################
 ## normalize
 ##
-## Handle the 'normalize' method for MSnExp objects (calls normalise_MSnExp, and applies
-## the normalization to each spectrum separately). Again we're adding a ProcessingStep
-## for later, lazy processing.
+## Handle the `normalize` method for OnMSnExp objects. We're adding a
+## ProcessingStep for later, lazy processing. This will cause the
+## `normalise` method to be applied to each spectrum once spectrum
+## data (or intensity etc) is extracted.
 setMethod("normalize", "OnDiskMSnExp",
-          function(object, method=c("max", "sum"), ...){
+          function(object, method = c("max", "sum"), ...) {
               method <- match.arg(method)
-              ps <- ProcessingStep("normalise", list(method=method))
+              ps <- ProcessingStep("normalise", list(method = method))
               object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
                                                  list(ps))
               object@processingData@processing <- c(object@processingData@processing,
-                                                    paste0("Spectra normalised (",method,"): ",
-                                                           date()))
+                                                    paste0("Spectra normalised (",
+                                                           method,"): ", date()))
               object@processingData@normalised <- TRUE
               return(object)
           })
@@ -758,7 +759,7 @@ setMethod("normalize", "OnDiskMSnExp",
     ## If we have a non-empty queue, we might want to execute that too.
     if (!is.null(APPLYFUN) | length(queue) > 0){
         if (length(queue) > 0){
-            message("Apply lazy processing steps:")
+            message("Apply lazy processing step(s):")
             for (j in 1:length(queue))
                 message(" o '", queue[[j]]@FUN, "' with ", length(queue[[j]]@ARGS), " argument(s).")
         }
