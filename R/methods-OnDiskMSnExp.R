@@ -455,24 +455,34 @@ setMethod("[", signature(x = "OnDiskMSnExp",
 ## Add a "removePeaks" ProcessingStep to the queue and update
 ## the processingData information of the object.
 setMethod("removePeaks", signature("OnDiskMSnExp"),
-          function(object, t = "min", verbose = TRUE){
+          function(object, t = "min", verbose = TRUE, msLevel.) {
               if (missing(t))
                   t <- "min"
-              if (!is.numeric(t)){
+              if (!is.numeric(t)) {
                   if(t != "min")
                       stop("Argument 't' has to be either numeric or 'min'!")
               }
-              ps <- ProcessingStep("removePeaks", list(t=t))
+              if (missing(msLevel.)) {
+                  msLevel. <- sort(unique(msLevel(object)))
+              } else {
+                  if (!is.numeric(msLevel.))
+                      stop("'msLevel' must be numeric!")
+              }
+              ps <- ProcessingStep("removePeaks", list(t = t,
+                                                       msLevel. = msLevel.))
               ## Append the processing step to the queue.
               object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
                                                  list(ps))
               object@processingData@removedPeaks <- c(object@processingData@removedPeaks,
                                                       as.character(t))
               object@processingData@processing <- c(object@processingData@processing,
-                                                    paste("Curves <= ",
-                                                          t
-                                                         ," set to '0': ",
-                                                          date(),sep=""))
+                                                    paste0("Curves <= ",
+                                                           t
+                                                          ," in MS level(s) ",
+                                                           paste0(msLevel.,
+                                                                  collapse = ", "),
+                                                           "set to '0': ",
+                                                           date()))
               return(object)
           })
 
@@ -482,15 +492,24 @@ setMethod("removePeaks", signature("OnDiskMSnExp"),
 ## Add a "clean" ProcessingStep to the queue and update
 ## the processingData information of the object.
 setMethod("clean", signature("OnDiskMSnExp"),
-          function(object, all = FALSE, verbose = TRUE){
+          function(object, all = FALSE, verbose = TRUE, msLevel.) {
               if (!is.logical(all))
                   stop("Argument 'all' is supposed to be a logical!")
-              ps <- ProcessingStep("clean", list(all=all))
+              if (missing(msLevel.)) {
+                  msLevel. <- sort(unique(msLevel(object)))
+              } else {
+                  if (!is.numeric(msLevel.))
+                      stop("'msLevel' must be numeric!")
+              }
+              ps <- ProcessingStep("clean", list(all = all,
+                                                 msLevel. = msLevel.))
               object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
                                                  list(ps))
               object@processingData@cleaned <- TRUE
               object@processingData@processing <- c(object@processingData@processing,
-                                                    paste0("Spectra cleaned: ", date()))
+                                                    paste0("Spectra of MS level(s) ",
+                                                           paste0(msLevel., sep = ", "),
+                                                           " cleaned: ", date()))
               return(object)
           })
 
@@ -500,26 +519,28 @@ setMethod("clean", signature("OnDiskMSnExp"),
 ## Add the "trimMz" ProcessingStep to the queue and update the
 ## processingData.
 setMethod("trimMz", signature("OnDiskMSnExp", "numeric"),
-          function(object, mzlim, ...){
-              ## Simple check on mzlim.
-              if(length(mzlim) != 2)
-                  stop("Argument 'mzlim' should be a numeric vector of length 2",
-                       " specifying the lower and upper M/Z value range!")
-              ps <- ProcessingStep("trimMz", list(mzlim=mzlim))
-              object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
-                                                 list(ps))
-              trmd <- object@processingData@trimmed
-              ifelse(length(trmd)==0,
-                     object@processingData@trimmed <- mzlim,
-                     object@processingData@trimmed <- c(max(trmd[1],mzlim[1]),
-                                                        min(trmd[2],mzlim[2])))
-              object@processingData@processing <- c(object@processingData@processing,
-                                                    paste("MZ trimmed [",
-                                                          object@processingData@trimmed[1],
-                                                          "..",
-                                                          object@processingData@trimmed[2],
-                                                          "]",sep=""))
-              return(object)
+          function(object, mzlim, ...) {
+              .Deprecated("filterMz")
+              return(filterMz(object, mz = mzlim, ...))
+              ## ## Simple check on mzlim.
+              ## if(length(mzlim) != 2)
+              ##     stop("Argument 'mzlim' should be a numeric vector of length 2",
+              ##          " specifying the lower and upper M/Z value range!")
+              ## ps <- ProcessingStep("trimMz", list(mzlim=mzlim))
+              ## object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
+              ##                                    list(ps))
+              ## trmd <- object@processingData@trimmed
+              ## ifelse(length(trmd)==0,
+              ##        object@processingData@trimmed <- mzlim,
+              ##        object@processingData@trimmed <- c(max(trmd[1],mzlim[1]),
+              ##                                           min(trmd[2],mzlim[2])))
+              ## object@processingData@processing <- c(object@processingData@processing,
+              ##                                       paste("MZ trimmed [",
+              ##                                             object@processingData@trimmed[1],
+              ##                                             "..",
+              ##                                             object@processingData@trimmed[2],
+              ##                                             "]",sep=""))
+              ## return(object)
           })
 
 ############################################################

@@ -110,3 +110,53 @@ test_that("filterAcquisitionNum", {
     expect_identical(pData(secondFile), pData(res))
     expect_identical(experimentData(secondFile), experimentData(res))
 })
+
+test_that("filterMz", {
+    ## On single, multi MS file.
+    ## o Test for MSnExp, MS 1 and 2
+    inMemF <- filterMz(inmem1, mz = c(500, 550))
+    mzr <- range(mz(inMemF))
+    expect_true(mzr[1] >= 500 & mzr[2] <= 550)
+    inMemF <- filterMz(inmem2, mz = c(300, 900))
+    mzr <- range(mz(inMemF))
+    expect_true(mzr[1] >= 300 & mzr[2] <= 900)
+
+    ## o Test for OnDiskMSnExp, MS 1, MS 2 and both.
+    onDisk1F <- filterMz(ondisk1, mz = c(500, 550))
+    mzr <- range(mz(onDisk1F))
+    expect_true(mzr[1] >= 500 & mzr[2] <= 550)
+    onDisk2F <- filterMz(ondisk2, mz = c(300, 900))
+    mzr <- range(mz(onDisk2F))
+    expect_true(mzr[1] >= 300 & mzr[2] <= 900)
+    onDiskF_all <- filterMz(ondisk, mz = c(500, 550))
+    expect_true(all.equal(onDisk1F, filterMsLevel(onDiskF_all, msLevel. = 1)))
+    ##   Do the filtering separately for MS1 and MS2 levels:
+    onDiskF <- filterMz(ondisk, mz = c(500, 550), msLevel. = 1)
+    onDiskF <- filterMz(onDiskF, mz = c(300, 900), msLevel. = 2)
+    expect_true(all.equal(onDisk1F, filterMsLevel(onDiskF, msLevel. = 1)))
+    expect_true(all.equal(onDisk2F, filterMsLevel(onDiskF, msLevel. = 2)))
+    ##   What if we're asking for an msLevel that doesn't exist.
+    Test <- filterMz(ondisk1, mz = c(500, 550), msLevel. = 2)
+    expect_true(all.equal(Test, ondisk1))
+    expect_true(is(all.equal(Test, onDisk1F), "character"))
+
+    ## o Compare between MSnExp and OnDiskMSnExp.
+    onDiskF <- filterMz(ondisk1, mz = c(500, 550))
+    inMemF <- filterMz(inmem1, mz = c(500, 550))
+    expect_true(all.equal(onDiskF, inMemF))
+    onDiskF <- filterMz(ondisk2, mz = c(300, 900))
+    inMemF <- filterMz(inmem2, mz = c(300, 900))
+    expect_true(all.equal(onDiskF, inMemF))
+
+    ## On multiple files.
+    mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
+                 system.file("microtofq/MM8.mzML", package = "msdata"))
+    suppressWarnings(
+        twoFileOnDisk <- readMSData2(mzfiles, verbose = FALSE,
+                                     centroided = TRUE)
+    )
+    twoFileOnDiskF <- filterMz(twoFileOnDisk, mz = c(300, 350))
+    mzr <- range(mz(twoFileOnDiskF))
+    expect_true(mzr[1] >= 300 & mzr[2] <= 350)
+})
+

@@ -1,5 +1,10 @@
 
-removePeaks_Spectrum <- function(spectrum, t = "min") {
+removePeaks_Spectrum <- function(spectrum, t = "min", msLevel.) {
+    ## Just remove peaks if spectrum's MS level matched msLevel.
+    if (!missing(msLevel.)) {
+        if (!(msLevel(spectrum) %in% msLevel.))
+            return(spectrum)
+    }
     if (isEmpty(spectrum)) return(spectrum)
     if (t == "min")
         t <- min(intensity(spectrum)[intensity(spectrum)>0])
@@ -16,7 +21,12 @@ removePeaks_Spectrum <- function(spectrum, t = "min") {
 }
 
 
-clean_Spectrum <- function(spectrum, all, updatePeaksCount = TRUE) {
+clean_Spectrum <- function(spectrum, all, updatePeaksCount = TRUE, msLevel.) {
+    ## Just clean the spectrum if its MS level matched msLevel.
+    if (!missing(msLevel.)) {
+        if (!(msLevel(spectrum) %in% msLevel.))
+            return(spectrum)
+    }
   keep <- utils.clean(spectrum@intensity, all)
   spectrum@intensity <- spectrum@intensity[keep]
   spectrum@mz <- spectrum@mz[keep]
@@ -239,7 +249,13 @@ getCurveWidth <- function(spectrum,reporters) {
   return(list(lwr=xlwr,upr=xupr))
 }
 
-trimMz_Spectrum <- function(x,mzlim,updatePeaksCount=TRUE) {
+trimMz_Spectrum <- function(x, mzlim, updatePeaksCount=TRUE, msLevel.) {
+    ## If msLevel. not missing, perform the trimming only if the msLevel
+    ## of the spectrum matches (any of) the specified msLevels.
+    if (!missing(msLevel.)) {
+        if (!(msLevel(x) %in% msLevel.))
+            return(x)
+    }
   mzmin <- min(mzlim)
   mzmax <- max(mzlim)
   sel <- (x@mz >= mzmin) & (x@mz <= mzmax)
