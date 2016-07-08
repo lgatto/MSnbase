@@ -39,10 +39,68 @@ setMethod("filterRt", "MSnExp",
               object
           })
 
-
+############################################################
+## filterMz for MSnExp
 setMethod("filterMz", "MSnExp",
-          function(object, mz, msLevel.) {
-              ## TODO
+          function(object, mz, msLevel., ...) {
+              if (missing(mz))
+                  return(object)
+              if (!is.numeric(mz) & length(mz) != 2)
+                  stop("'mz' must be a numeric of length 2!")
+              if (missing(msLevel.))
+                  msLevel. <- sort(unique(msLevel(object)))
+              ## Note: the msLevel. argument is passed down to the
+              ## trimMz_Spectrum function.
+              filtered <- eapply(assayData(object), filterMz, mz = mz,
+                                 msLevel. = msLevel., ...)
+              object@assayData <- list2env(filtered)
+              trmd <- object@processingData@trimmed
+              ifelse(length(trmd)==0,
+                     object@processingData@trimmed <- mz,
+                     object@processingData@trimmed <- c(max(trmd[1],mz[1]),
+                                                        min(trmd[2],mz[2])))
+              object@processingData@processing <- c(object@processingData@processing,
+                                                    paste0("Filter: trim MZ [",
+                                                          object@processingData@trimmed[1],
+                                                          "..",object@processingData@trimmed[2],
+                                                          "] on MS level(s) ",
+                                                          paste(msLevel., sep = ", "), "."))
+              if (object@.cache$level > 0) {
+                  hd <- header(object)
+                  hd$peaks.count <- peaksCount(object)
+                  hd$ionCount <- ionCount(object)
+                  object@.cache <- setCacheEnv(list(assaydata = assayData(object),
+                                                    hd = hd),
+                                               object@.cache$level)
+              }
+              if (validObject(object))
+                  return(object)
+          })
+## filterMz for OnDiskMSnExp
+setMethod("filterMz", "OnDiskMSnExp",
+          function(object, mz, msLevel., ...) {
+              if (missing(mz))
+                  return(object)
+              if (!is.numeric(mz) & length(mz) != 2)
+                  stop("'mz' must be a numeric of length 2!")
+              if (missing(msLevel.))
+                  msLevel. <- sort(unique(msLevel(object)))
+              ps <- ProcessingStep("filterMz", list(mz = mz,
+                                                    msLevel. = msLevel., ...))
+              object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
+                                                 list(ps))
+              trmd <- object@processingData@trimmed
+              ifelse(length(trmd)==0,
+                     object@processingData@trimmed <- mz,
+                     object@processingData@trimmed <- c(max(trmd[1],mz[1]),
+                                                        min(trmd[2],mz[2])))
+              object@processingData@processing <- c(object@processingData@processing,
+                                                    paste0("Filter: trim MZ [",
+                                                          object@processingData@trimmed[1],
+                                                          "..",object@processingData@trimmed[2],
+                                                          "] on MS level(s) ",
+                                                          paste(msLevel., sep = ", "), "."))
+              return(object)
           })
 
 

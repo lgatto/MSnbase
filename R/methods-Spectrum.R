@@ -106,7 +106,12 @@ setMethod("ionCount", "Spectrum", function(object) sum(object@intensity))
 
 setMethod("trimMz",
           signature = signature("Spectrum", "numeric"),
-          function(object, mzlim, ...) trimMz_Spectrum(object,mzlim))
+          function(object, mzlim, ...) trimMz_Spectrum(object, mzlim, ...))
+setMethod("filterMz", "Spectrum",
+          function(object, mz, msLevel., ...) {
+              return(trimMz_Spectrum(object, mzlim = mz,
+                                     msLevel. = msLevel., ...))
+          })
 
 setMethod("quantify",
           signature = signature("Spectrum"),
