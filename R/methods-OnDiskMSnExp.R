@@ -426,24 +426,34 @@ setMethod("[", signature(x = "OnDiskMSnExp",
 ## Add a "removePeaks" ProcessingStep to the queue and update
 ## the processingData information of the object.
 setMethod("removePeaks", signature("OnDiskMSnExp"),
-          function(object, t = "min", verbose = TRUE){
+          function(object, t = "min", verbose = TRUE, msLevel.) {
               if (missing(t))
                   t <- "min"
-              if (!is.numeric(t)){
+              if (!is.numeric(t)) {
                   if(t != "min")
                       stop("Argument 't' has to be either numeric or 'min'!")
               }
-              ps <- ProcessingStep("removePeaks", list(t=t))
+              if (missing(msLevel.)) {
+                  msLevel. <- sort(unique(msLevel(object)))
+              } else {
+                  if (!is.numeric(msLevel.))
+                      stop("'msLevel' must be numeric!")
+              }
+              ps <- ProcessingStep("removePeaks", list(t = t,
+                                                       msLevel. = msLevel.))
               ## Append the processing step to the queue.
               object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
                                                  list(ps))
               object@processingData@removedPeaks <- c(object@processingData@removedPeaks,
                                                       as.character(t))
               object@processingData@processing <- c(object@processingData@processing,
-                                                    paste("Curves <= ",
-                                                          t
-                                                         ," set to '0': ",
-                                                          date(),sep=""))
+                                                    paste0("Curves <= ",
+                                                           t
+                                                          ," in MS level(s) ",
+                                                           paste0(msLevel.,
+                                                                  collapse = ", "),
+                                                           "set to '0': ",
+                                                           date()))
               return(object)
           })
 

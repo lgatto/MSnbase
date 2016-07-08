@@ -1,5 +1,10 @@
 
-removePeaks_Spectrum <- function(spectrum, t = "min") {
+removePeaks_Spectrum <- function(spectrum, t = "min", msLevel.) {
+    ## Just remove peaks if spectrum's MS level matched msLevel.
+    if (!missing(msLevel.)) {
+        if (!(msLevel(spectrum) %in% msLevel.))
+            return(spectrum)
+    }
     if (isEmpty(spectrum)) return(spectrum)
     if (t == "min")
         t <- min(intensity(spectrum)[intensity(spectrum)>0])

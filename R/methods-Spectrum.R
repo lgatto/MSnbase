@@ -47,7 +47,7 @@ setMethod("clean",
                                                                  msLevel. = msLevel.))
 
 setMethod("removePeaks","Spectrum",
-          function(object,t) removePeaks_Spectrum(object, t))
+          function(object,t, msLevel.) removePeaks_Spectrum(object, t, msLevel.))
 
 setMethod("precursorMz","Spectrum",
           function(object) {
