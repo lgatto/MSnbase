@@ -30,6 +30,14 @@ suppressWarnings(
                           verbose = FALSE)
 )
 
+f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
+multiMsInMem1 <- readMSData(files = f, msLevel = 1, centroided = TRUE,
+                            verbose = FALSE)
+multiMsInMem2 <- readMSData(files = f, msLevel = 2, centroided = TRUE,
+                            verbose = FALSE)
+multiMsOnDisk <- readMSData2(files = f, centroided = TRUE, verbose = FALSE)
+
+
 ############################################################
 ## Testing the on-disk MSnExp stuff.
 test_that("OnDiskMSnExp constructor", {
@@ -112,6 +120,31 @@ test_that("Compare removePeaks and cleaned MSnExp and OnDiskMSnExp", {
     expect_equal(intensity(inMemRemPeaksCleaned),
                  intensity(onDiskRemPeaksCleaned))
     expect_equal(mz(inMemRemPeaksCleaned), mz(onDiskRemPeaksCleaned))
+})
+
+test_that("clean on OnDiskMSnExp with different MS levels", {
+    ## o Tests on MSnExp
+    multiMsInMem1_cleaned <- clean(multiMsInMem1)
+    expect_true(sum(unlist(intensity(multiMsInMem1_cleaned)) == 0) <
+                sum(unlist(intensity(multiMsInMem1)) == 0))
+
+    ## o Tests on OnDiskMSnExp and comparison with MSnExp.
+    multiMsOnDisk_cleaned <- clean(multiMsOnDisk)
+    expect_true(sum(unlist(intensity(multiMsOnDisk_cleaned)) == 0) <
+                sum(unlist(intensity(multiMsOnDisk)) == 0))
+    ##   Compare with MSnExp
+    expect_true(all.equal(multiMsInMem1_cleaned,
+                          filterMsLevel(multiMsOnDisk_cleaned, msLevel. = 1)))
+
+    ##   Just cleaning MS 1.
+    multiMsOnDisk_cleaned_1 <- clean(multiMsOnDisk, msLevel. = 1)
+    expect_true(all.equal(multiMsOnDisk_cleaned, multiMsOnDisk_cleaned_1))
+    ##   Just cleaning MS 2; won't do much at all.
+    multiMsOnDisk_cleaned_2 <- clean(multiMsOnDisk, msLevel. = 2)
+    expect_true(all.equal(multiMsOnDisk, multiMsOnDisk_cleaned_2))
+    ##   Same with msLevel. 4
+    multiMsOnDisk_cleaned_4 <- clean(multiMsOnDisk, msLevel. = 4)
+    expect_true(all.equal(multiMsOnDisk, multiMsOnDisk_cleaned_4))
 })
 
 

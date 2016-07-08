@@ -453,15 +453,24 @@ setMethod("removePeaks", signature("OnDiskMSnExp"),
 ## Add a "clean" ProcessingStep to the queue and update
 ## the processingData information of the object.
 setMethod("clean", signature("OnDiskMSnExp"),
-          function(object, all = FALSE, verbose = TRUE){
+          function(object, all = FALSE, verbose = TRUE, msLevel.) {
               if (!is.logical(all))
                   stop("Argument 'all' is supposed to be a logical!")
-              ps <- ProcessingStep("clean", list(all=all))
+              if (missing(msLevel.)) {
+                  msLevel. <- sort(unique(msLevel(object)))
+              } else {
+                  if (!is.numeric(msLevel.))
+                      stop("'msLevel' must be numeric!")
+              }
+              ps <- ProcessingStep("clean", list(all = all,
+                                                 msLevel. = msLevel.))
               object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
                                                  list(ps))
               object@processingData@cleaned <- TRUE
               object@processingData@processing <- c(object@processingData@processing,
-                                                    paste0("Spectra cleaned: ", date()))
+                                                    paste0("Spectra of MS level(s) ",
+                                                           paste0(msLevel., sep = ", "),
+                                                           " cleaned: ", date()))
               return(object)
           })
 

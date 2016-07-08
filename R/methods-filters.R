@@ -47,8 +47,12 @@ setMethod("filterMz", "MSnExp",
                   return(object)
               if (!is.numeric(mz) & length(mz) != 2)
                   stop("'mz' must be a numeric of length 2!")
-              if (missing(msLevel.))
+              if (missing(msLevel.)) {
                   msLevel. <- sort(unique(msLevel(object)))
+              } else {
+                  if (!is.numeric(msLevel.))
+                      stop("'msLevel' must be numeric!")
+              }
               ## Note: the msLevel. argument is passed down to the
               ## trimMz_Spectrum function.
               filtered <- eapply(assayData(object), filterMz, mz = mz,
@@ -83,8 +87,12 @@ setMethod("filterMz", "OnDiskMSnExp",
                   return(object)
               if (!is.numeric(mz) & length(mz) != 2)
                   stop("'mz' must be a numeric of length 2!")
-              if (missing(msLevel.))
+              if (missing(msLevel.)) {
                   msLevel. <- sort(unique(msLevel(object)))
+              } else {
+                  if (!is.numeric(msLevel.))
+                      stop("'msLevel' must be numeric!")
+              }
               ps <- ProcessingStep("filterMz", list(mz = mz,
                                                     msLevel. = msLevel., ...))
               object@spectraProcessingQueue <- c(object@spectraProcessingQueue,

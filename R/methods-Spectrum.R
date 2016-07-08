@@ -43,7 +43,8 @@ setMethod("plot", c("Spectrum2", "character"),
 
 setMethod("clean",
           signature=signature("Spectrum"),
-          function(object, all = FALSE) clean_Spectrum(object, all))
+          function(object, all = FALSE, msLevel.) clean_Spectrum(object, all,
+                                                                 msLevel. = msLevel.))
 
 setMethod("removePeaks","Spectrum",
           function(object,t) removePeaks_Spectrum(object, t))

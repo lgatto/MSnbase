@@ -141,7 +141,9 @@ setMethod("plotMzDelta",c("MSnExp"),
 
 setMethod("clean",
           signature=signature("MSnExp"),
-          function(object, all = FALSE, verbose = TRUE) clean_MSnExp(object, all, verbose))
+          function(object, all = FALSE, verbose = TRUE) {
+              clean_MSnExp(object, all, verbose)
+          })
 
 setMethod("removePeaks",signature("MSnExp"),
           function(object, t, verbose = TRUE) removePeaks_MSnExp(object, t, verbose))

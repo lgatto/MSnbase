@@ -16,7 +16,12 @@ removePeaks_Spectrum <- function(spectrum, t = "min") {
 }
 
 
-clean_Spectrum <- function(spectrum, all, updatePeaksCount = TRUE) {
+clean_Spectrum <- function(spectrum, all, updatePeaksCount = TRUE, msLevel.) {
+    ## Just clean the spectrum if its MS level matched msLevel.
+    if (!missing(msLevel.)) {
+        if (!(msLevel(spectrum) %in% msLevel.))
+            return(spectrum)
+    }
   keep <- utils.clean(spectrum@intensity, all)
   spectrum@intensity <- spectrum@intensity[keep]
   spectrum@mz <- spectrum@mz[keep]
