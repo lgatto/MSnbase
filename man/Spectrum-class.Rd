@@ -52,6 +52,8 @@
 \alias{smooth,Spectrum-method}
 \alias{trimMz,Spectrum-method}
 \alias{trimMz,Spectrum,numeric-method}
+\alias{filterMz,Spectrum-method}
+\alias{filtermz,Spectrum,numeric-method}
 \alias{isEmpty,Spectrum-method}
 \alias{isEmpty,environment-method}
 

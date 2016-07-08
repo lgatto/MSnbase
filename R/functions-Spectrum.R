@@ -358,7 +358,7 @@ estimateNoise_Spectrum <- function(object, method = c("MAD", "SuperSmoother"),
     return(matrix(NA, nrow=0L, ncol = 2L, dimnames = list(c(), c("mz", "intensity"))))
   }
 
-  if (length(object@centroided) && object@centroided) {
+  if (object@centroided | is.na(object@centroided)) {
     warning("Noise estimation is only supported for profile spectra.")
     return(matrix(NA, nrow=0L, ncol = 2L, dimnames = list(c(), c("mz", "intensity"))))
   }
