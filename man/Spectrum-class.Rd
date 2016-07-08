@@ -33,6 +33,11 @@
 \alias{centroided<-}
 \alias{polarity,Spectrum-method}
 \alias{polarity}
+\alias{smoothed,Spectrum-method}
+\alias{smoothed}
+\alias{smoothed<-,Spectrum,ANY-method}
+\alias{smoothed<-,Spectrum,logical-method}
+\alias{smoothed<-}
 
 %% -- other -- %%
 \alias{bin,Spectrum-method}
@@ -92,7 +97,10 @@
       datum has been measured. }
     \item{\code{centroided}:}{Object of class \code{"logical"}
       indicating if instance is centroided ('TRUE') of uncentroided
-      ('FALSE'). }
+      ('FALSE'). Default is \code{NA}. }
+    \item{\code{smoothed}:}{Object of class \code{"logical"}
+      indicating if instance is smoothed ('TRUE') of unsmoothed
+      ('FALSE'). Default is \code{NA}. }    
     \item{\code{fromFile}:}{Object of class \code{"integer"} referencing
       the file the spectrum originates. The file names are stored in the
       \code{processingData} slot of the \code{"\linkS4class{MSnExp}"} or
@@ -114,9 +122,13 @@
     \item{\code{scanIndex(object)}}{ Returns the scan index of the
       spectrum as an integer. }
     \item{\code{centroided(object)}}{ Indicates whether spectrum is
-      centroided ('TRUE') or uncentroided ('FALSE'). }
+      centroided ('TRUE') or in profile mode ('FALSE'). }
+    \item{\code{smoothed(object)}}{ Indicates whether spectrum is
+      smoothed ('TRUE') or not ('FALSE'). }    
     \item{\code{centroided(object) <- value}}{ Sets the 'centroided'
       status of the spectrum object. }
+    \item{\code{smoothed(object) <- value}}{ Sets the 'smoothed'
+      status of the spectrum object. }    
     \item{\code{fromFile(object)}}{ Returns the index of the raw data
       file from which the current instances originates as an
       integer. }

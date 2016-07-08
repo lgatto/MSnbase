@@ -28,6 +28,9 @@
 \alias{centroided,pSet-method}
 \alias{centroided<-,pSet,ANY-method}
 \alias{centroided<-,pSet,logical-method}
+\alias{smoothed,pSet-method}
+\alias{smoothed<-,pSet,ANY-method}
+\alias{smoothed<-,pSet,logical-method}
 \alias{fvarLabels,pSet-method}
 \alias{fvarMetadata,pSet-method}
 \alias{header,pSet,missing-method}
@@ -170,7 +173,12 @@
       whether individual spectra are centroided ('TRUE') of uncentroided
       ('FALSE'). Use \code{centroided(object) <- value} to update a
       whole experiment, ensuring that \code{object} and \code{value}
-      have the same length. } 
+      have the same length. }
+    \item{smoothed}{\code{signature(object = "pSet")}: Indicates
+      whether individual spectra are smoothed ('TRUE') of unsmoothed
+      ('FALSE'). Use \code{smoothed(object) <- value} to update a
+      whole experiment, ensuring that \code{object} and \code{value}
+      have the same length. }     
     \item{fvarMetadata}{\code{signature(x = "pSet")}: Access metadata
       describing features reported in \code{fData}. }
     \item{fvarLabels}{\code{signature(x = "pSet")}: Access variable
