@@ -233,12 +233,12 @@ setMethod("scanIndex", "pSet",
 setMethod("rtime", "pSet",
           function(object) sapply(spectra(object),rtime))
 
-setMethod("centroided","pSet",
-          function(object) sapply(spectra(object),centroided))
+setMethod("centroided", "pSet",
+          function(object) sapply(spectra(object), centroided))
 
 setReplaceMethod("centroided",
-                 signature(object="pSet",
-                           value="logical"),
+                 signature(object = "pSet",
+                           value = "logical"),
                  function(object, value) {
                      if (length(value) == 1)
                          value <- rep(value, length(object))
@@ -247,6 +247,25 @@ setReplaceMethod("centroided",
                      sl <- spectra(object)
                      for (i in 1:length(sl))
                          centroided(sl[[i]]) <- value[i]
+                     object@assayData <- as.environment(sl)
+                     if (validObject(object))
+                         return(object)
+                 })
+
+setMethod("smoothed", "pSet",
+          function(object) sapply(spectra(object), smoothed))
+
+setReplaceMethod("smoothed",
+                 signature(object = "pSet",
+                           value = "logical"),
+                 function(object, value) {
+                     if (length(value) == 1)
+                         value <- rep(value, length(object))
+                     if (length(object) != length(value))
+                         stop("Length of replacement value is different than number of spectra.")
+                     sl <- spectra(object)
+                     for (i in 1:length(sl))
+                         smoothed(sl[[i]]) <- value[i]
                      object@assayData <- as.environment(sl)
                      if (validObject(object))
                          return(object)

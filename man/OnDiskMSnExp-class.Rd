@@ -19,6 +19,8 @@
 \alias{assayData,OnDiskMSnExp-method}
 \alias{centroided,OnDiskMSnExp-method}
 \alias{centroided<-,OnDiskMSnExp,logical-method}
+\alias{smoothed,OnDiskMSnExp-method}
+\alias{smoothed<-,OnDiskMSnExp,logical-method}
 \alias{fromFile,OnDiskMSnExp-method}
 \alias{header,OnDiskMSnExp,missing-method}
 \alias{header,OnDiskMSnExp,numeric-method}
@@ -197,15 +199,24 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
     }
 
     \item{centroided,centroided<-}{
-      \code{centroided(signature(object="OnDiskMSnExp"))}:
-      whether individual spectra are centroided or uncentroided. The
-      relevant information is extracted from the object's
-      \code{featureData} slot. Returns a logical vector with names
-      corresponding to the spectrum names.
-      Use \code{centroided(object) <- value} to update the information,
-      with value being a logical vector of length equal to the number of
-      spectra in the experiment.
-    }
+      \code{centroided(signature(object="OnDiskMSnExp", msLevel, =
+      "numeric"))}: whether individual spectra are centroided or
+      uncentroided. The relevant information is extracted from the
+      object's \code{featureData} slot. Returns a logical vector with
+      names corresponding to the spectrum names.  Use
+      \code{centroided(object) <- value} to update the information, with
+      value being a logical vector of length equal to the number of
+      spectra in the experiment.  }
+
+    \item{smoothed,smoothed<-}{
+      \code{smoothed(signature(object="OnDiskMSnExp", msLevel. =
+      "numeric"))}: whether individual spectra are smoothed or
+      unsmoothed. The relevant information is extracted from the
+      object's \code{featureData} slot. Returns a logical vector with
+      names corresponding to the spectrum names.  Use
+      \code{smoothed(object) <- value} to update the information, with
+      value being a logical vector of length equal to the number of
+      spectra in the experiment.  }
 
     \item{fromFile}{
       \code{fromFile(signature(object = "OnDiskMSnExp"))}: get the

@@ -6,6 +6,7 @@ CHANGES IN VERSION 1.21.8
    OnDiskMSnExp - addressed issue #98 <2016-06-28 Tue>
  o removeMultipleAssignment also removes features that were not
    assigned (i.e. that have fcol (nprots) NA) <2016-07-02 Sat>
+ o New smoothed slot/accessor/replacement methods <2016-07-08 Fri>
  
 CHANGES IN VERSION 1.21.7
 -------------------------
