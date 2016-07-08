@@ -170,6 +170,35 @@ setReplaceMethod("centroided",
                  })
 
 ############################################################
+## smoothed
+##
+## Getter/setter for the centroided information; extracting this from
+## the featureData.
+setMethod("smoothed", "OnDiskMSnExp",
+          function(object){
+              val <- fData(object)$smoothed
+              names(val) <- featureNames(object)
+              return(val)
+          })
+
+setReplaceMethod("smoothed",
+                 signature(object = "OnDiskMSnExp", value = "logical"),
+                 function(object, value, msLevel.) {
+                     if (missing(msLevel.)) {
+                         if (length(value) == 1)
+                             value <- rep(value, length(object))
+                         if (length(object) != length(value))
+                             stop("Length of replacement value is different than number of spectra.")
+                         fData(object)$smoothed <- value
+                     } else {
+                         sel <- fData(object)$msLevel == msLevel.
+                         fData(object)$smoothed[sel] <- value
+                     }
+                     if (validObject(object))
+                         return(object)
+                 })
+
+############################################################
 ## rtime
 ##
 ## Get the retention time

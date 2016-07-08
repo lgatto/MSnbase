@@ -145,16 +145,26 @@ setAs("Spectrum", "data.frame",
 as.data.frame.Spectrum <- function(x, row.names=NULL, optional=FALSE, ...)
   as(x, "data.frame")
 
-setMethod("centroided","Spectrum",function(object) object@centroided)
-
+setMethod("centroided", "Spectrum", function(object) object@centroided)
 setReplaceMethod("centroided",
-                 signature(object="Spectrum",
-                           value="logical"),
+                 signature(object = "Spectrum",
+                           value = "logical"),
                  function(object, value) {
                    object@centroided <- value
                    if (validObject(object))
                      return(object)
                  })
+
+setMethod("smoothed", "Spectrum", function(object) object@smoothed)
+setReplaceMethod("smoothed",
+                 signature(object = "Spectrum",
+                           value = "logical"),
+                 function(object, value) {
+                   object@smoothed <- value
+                   if (validObject(object))
+                     return(object)
+                 })
+
 
 setMethod("normalize", "Spectrum",
           function(object, method = c("max", "sum"), ...) {
