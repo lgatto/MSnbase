@@ -534,6 +534,50 @@ setMethod("normalize", "OnDiskMSnExp",
               return(object)
           })
 
+############################################################
+## bin
+##
+## That's a little tricky; we can't just add the `bin` Spectrum-method
+## to the spectraProcessingQueue as this would be fairly inefficient (
+## the breaks are calculated on the mz of the full data set).
+## So:
+## 1) need to get the mz range (from fData?); depending on the msLevel.
+##    argument however only from those spectra matching the MS level.
+## 2) add the mz range as a parameter to the processing queue.
+## This is pretty slow, but should be robust. Eventually C-level binning might
+## be faster.
+setMethod("bin", "OnDiskMSnExp", function(object, binSize = 1L, msLevel.) {
+    if (missing(msLevel.)) {
+        msLevel. <- sort(unique(msLevel(object)))
+    } else {
+        if (!is.numeric(msLevel.))
+            stop("'msLevel' must be numeric!")
+    }
+    ## Check if we have these MS levels
+    if (!any(unique(msLevel(object)) %in% msLevel.)) {
+        warning("No spectra of the specified MS level present.")
+        return(object)
+    }
+    ## Get the M/Z range; note: calling spectrapply and returning just
+    ## the M/Z range per spectrum is about twice as fast than getting
+    ## all M/Z values and calculating the range on that (i.e.
+    ## range(mz(object)))
+    mzr <- range(unlist(spectrapply(filterMsLevel(object, msLevel. = msLevel.),
+                                    FUN = function(z) {
+                                        return(range(mz(z), na.rm = TRUE))
+                                    }, BPPARAM = bpparam())))
+    breaks <- seq(floor(mzr[1]), ceiling(mzr[2]), by = binSize)
+    ## Now add the processing step
+    ps <- ProcessingStep("bin", list(breaks = breaks, msLevel. = msLevel.))
+    object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
+                                       list(ps))
+    ## And add the processing info.
+    object@processingData@processing <- c(object@processingData@processing,
+                                          paste0("Spectra of MS level(s) ",
+                                                 paste0(msLevel., sep = ", "),
+                                                 " binned: ", date()))
+    return(object)
+})
 
 
 ##============================================================

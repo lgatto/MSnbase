@@ -289,7 +289,14 @@ bin_Spectrum <- function(object, binSize = 1L,
                          breaks = seq(floor(min(mz(object))),
                                       ceiling(max(mz(object))),
                                       by = binSize),
-                         fun=sum) {
+                         fun=sum,
+                         msLevel.) {
+    ## If msLevel. not missing, perform the trimming only if the msLevel
+    ## of the spectrum matches (any of) the specified msLevels.
+    if (!missing(msLevel.)) {
+        if (!(msLevel(object) %in% msLevel.))
+            return(object)
+    }
   fun <- match.fun(fun)
   nb <- length(breaks)
 

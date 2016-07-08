@@ -929,6 +929,9 @@ getBpParam <- function(object, BPPARAM=bpparam()) {
     parallel_thresh <- options()$MSnbase$PARALLEL_THRESH
     if (is.null(parallel_thresh) )
         parallel_thresh <- 1000
+    ## If it's empty, return SerialParam
+    if (length(object) == 0)
+        return(SerialParam())
     ## Return SerialParam if we access less than PARALLEL_THRESH spectra per file.
     if (mean(table(fData(object)$fileIdx)) < parallel_thresh)
         return(SerialParam())

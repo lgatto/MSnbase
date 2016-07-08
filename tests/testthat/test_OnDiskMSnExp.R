@@ -275,6 +275,43 @@ test_that("validateOnDiskMSnExp", {
     ## validateOnDiskMSnExp(filterFile(odmse, 2))
 })
 
+############################################################
+## bin
+test_that("bin on OnDiskMSnExp", {
+    ## o On a single-file multi MS-level file.
+    multiMsInMem1_bin <- bin(multiMsInMem1)
+    multiMsInMem2_bin <- bin(multiMsInMem2)
+    ##   bin on MS1 level only
+    multiMsOnDisk_bin_1 <- bin(multiMsOnDisk, msLevel. = 1)
+    ##   Results should be the same.
+    expect_true(all.equal(multiMsInMem1_bin,
+                          filterMsLevel(multiMsOnDisk_bin_1, msLevel. = 1)))
+    ##   bin on all levels.
+    multiMsOnDisk_bin <- bin(multiMsOnDisk)
+    ##   Results can not be the same, since the mz range was different for
+    ##   the bin.
+    expect_true(is(all.equal(
+        multiMsInMem1_bin,
+        filterMsLevel(multiMsOnDisk_bin, msLevel. = 1)
+    ), "character"))
+    ##  bin on MS2 level only
+    multiMsOnDisk_bin_2 <- bin(multiMsOnDisk, msLevel. = 2)
+    ##   Results should be the same.
+    expect_true(all.equal(multiMsInMem2_bin,
+                          filterMsLevel(multiMsOnDisk_bin_2, msLevel. = 2)))
+
+    ## o On multiple files.
+    inMem_bin <- bin(inMem)
+    onDisk_bin <- bin(onDisk)
+    expect_true(all.equal(inMem_bin, onDisk_bin))
+    ##   bin on MS 2 shouldn't do anything at all
+    suppressWarnings(
+        onDisk_bin <- bin(onDisk, msLevel. = 2)
+    )
+    expect_true(all.equal(onDisk_bin, onDisk))
+})
+
+
 
 ############################################################
 ## - other stuff -

@@ -190,8 +190,10 @@ normalise <- normalize
 setMethod("bin", "Spectrum",
           function(object, binSize = 1,
                    breaks = seq(floor(min(mz(object))),
-                                ceiling(max(mz(object))), by = binSize)) {
-            bin_Spectrum(object, binSize = binSize, breaks = breaks)
+                                ceiling(max(mz(object))), by = binSize),
+                   msLevel.) {
+              bin_Spectrum(object, binSize = binSize, breaks = breaks,
+                           msLevel. = msLevel.)
         })
 
 setMethod("calculateFragments", c("character", "Spectrum2"),
