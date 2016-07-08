@@ -10,7 +10,10 @@ removePeaks_Spectrum <- function(spectrum, t = "min", msLevel.) {
         t <- min(intensity(spectrum)[intensity(spectrum)>0])
     if (!is.numeric(t))
         stop("'t' must either be 'min' or numeric.")
-    if (centroided(spectrum)) {
+    if (is.na(centroided(spectrum))) {
+        warning("Centroided undefined (NA): keeping spectrum as is.")
+        return(spectrum)
+    } else if (centroided(spectrum)) {
         ints <- utils.removePeaks_centroided(spectrum@intensity, t)
     } else {
         ints <- utils.removePeaks(spectrum@intensity, t)

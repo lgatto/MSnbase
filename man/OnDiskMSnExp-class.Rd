@@ -47,6 +47,7 @@
 %% Data manipulations.
 \alias{clean,OnDiskMSnExp-method}
 \alias{removePeaks,OnDiskMSnExp-method}
+\alias{bin,OnDiskMSnExp-method}
 \alias{trimMz,OnDiskMSnExp,numeric-method}
 \alias{normalize,OnDiskMSnExp-method}
 \alias{normalise,OnDiskMSnExp-method}
