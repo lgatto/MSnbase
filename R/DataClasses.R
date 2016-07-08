@@ -193,7 +193,7 @@ setClass("Spectrum",
              "VIRTUAL"),
          contains=c("Versioned"),
          prototype = prototype(
-             new("Versioned", versions=c(Spectrum="0.3.0")),
+             new("Versioned", versions=c(Spectrum="0.4.0")),
              rt = numeric(),
              polarity = NA_integer_,
              acquisitionNum = NA_integer_,

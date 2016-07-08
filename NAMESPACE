@@ -131,7 +131,8 @@ exportClasses(pSet,
               OnDiskMSnExp,
               ProcessingStep)
 
-exportMethods(exprs,
+exportMethods(updateObject,
+              exprs,
               assayData,
               "assayData<-",
               coerce,
