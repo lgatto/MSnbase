@@ -161,7 +161,8 @@ test_that("spectra order and integrity", {
   int <- c(0, 2, 3, 1, 0, 0, 1)
   sp <- new("Spectrum2",
             intensity = int,
-            mz = 1:length(int))
+            mz = 1:length(int),
+            centroided = FALSE)
   rsp <- removePeaks(sp)
   expect_that(peaksCount(sp), equals(length(int)))
   expect_that(ionCount(sp), equals(sum(int)))
@@ -172,7 +173,7 @@ test_that("spectra order and integrity", {
   expect_that(peaksCount(sp), equals(peaksCount(rsp)))
   expect_that(peaksCount(clean(rsp)), equals(6))
   expect_that(peaksCount(clean(sp)), equals(7))
-  expect_that(all.equal(removePeaks(sp,0),sp), is_true())
+  expect_that(all.equal(removePeaks(sp,0), sp), is_true())
 })
 
 test_that("MSnExp normalisation", {
