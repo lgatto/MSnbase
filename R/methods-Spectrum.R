@@ -45,11 +45,12 @@ setMethod("plot", c("Spectrum2", "character"),
 
 setMethod("clean",
           signature=signature("Spectrum"),
-          function(object, all = FALSE, msLevel.) clean_Spectrum(object, all,
-                                                                 msLevel. = msLevel.))
+          function(object, all = FALSE, msLevel.)
+              clean_Spectrum(object, all, msLevel. = msLevel.))
 
 setMethod("removePeaks","Spectrum",
-          function(object,t, msLevel.) removePeaks_Spectrum(object, t, msLevel.))
+          function(object,t, msLevel.)
+              removePeaks_Spectrum(object, t, msLevel.))
 
 setMethod("precursorMz","Spectrum",
           function(object) {
@@ -109,7 +110,9 @@ setMethod("ionCount", "Spectrum", function(object) sum(object@intensity))
 
 setMethod("trimMz",
           signature = signature("Spectrum", "numeric"),
-          function(object, mzlim, ...) trimMz_Spectrum(object, mzlim, ...))
+          function(object, mzlim, ...)
+              trimMz_Spectrum(object, mzlim, ...))
+
 setMethod("filterMz", "Spectrum",
           function(object, mz, msLevel., ...) {
               return(trimMz_Spectrum(object, mzlim = mz,
