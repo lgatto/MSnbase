@@ -236,7 +236,8 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
     \item{filterMsLevel}{\code{signature(object = "MSnExp", msLevel. =
 	"numeric")}: Retains MS spectra of level \code{msLevel.}. }
 
-    \item{filterMz}{}
+    \item{filterMz}{\code{signature(object = "MSnExp", mz = "numeric",
+	msLevel. = "numeric")}}
 
     \item{filterFile}{}
 

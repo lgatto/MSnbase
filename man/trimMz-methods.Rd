@@ -22,9 +22,14 @@
       Trims all spectra in \code{MSnExp} object according to
       \code{mzlim}. Returns a cleaned \code{MSnExp} instance.
     }
-    \item{\code{signature(object = "Spectrum", mzlim = "numeric")}}{
-      Trims the \code{Spectrum} object and retruns a new trimmed object.
-    }
+    
+    \item{\code{signature(object = "Spectrum", mzlim = "numeric",
+	msLevel. = "numeric")}}{Trims the \code{Spectrum} object and
+      retruns a new trimmed object. \code{msLevel.} defines the level
+      of the spectrum, and if \code{msLevel(object) != msLevel.},
+      cleaning is ignored. Only relevant when called from
+      \code{OnDiskMSnExp} and is only relevant for developers.  }
+
   }
 }
 

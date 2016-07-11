@@ -23,13 +23,18 @@
       Displays a control bar if verbose set to \code{TRUE}
       (default). Returns a binned \code{MSnExp} instance.
     }
+
     \item{\code{signature(object = "Spectrum", binSize = "numeric",
-        breaks = "numeric")}}{
-      Bin the \code{Spectrum} object.  Use \code{binSize} to
-      control the size of a bin (in Dalton, default is \code{1}).
-      Similar to \code{\link[graphics]{hist}} you could use \code{breaks} to
-      specify the breakpoints between m/z bins.
-      Returns a binned \code{Spectrum} instance.
+        breaks = "numeric", msLevel. = "numeric")}}{ Bin the
+        \code{Spectrum} object.  Use \code{binSize} to control the size
+        of a bin (in Dalton, default is \code{1}).  Similar to
+        \code{\link[graphics]{hist}} you could use \code{breaks} to
+        specify the breakpoints between m/z bins. \code{msLevel.}
+        defines the level of the spectrum, and if \code{msLevel(object)
+        != msLevel.}, cleaning is ignored. Only relevant when called
+        from \code{OnDiskMSnExp} and is only relevant for developers.
+      
+	Returns a binned \code{Spectrum} instance.
     }
   }
 }

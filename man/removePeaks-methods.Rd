@@ -38,13 +38,18 @@
       Displays a control bar if verbose set to \code{TRUE}
       (default). Returns a new \code{MSnExp} instance. 
     }
-    \item{\code{signature(object = "Spectrum", t)}}{
-      Removes low intensity peaks of \code{Spectrum} object.  \code{t}
-      sets the minimum peak intensity. Default is "min", i.e the
-      smallest intensity in each spectrum. Other \code{numeric} values
-      are valid.
-      Returns a new \code{Spectrum} instance.
-    }
+
+    \item{\code{signature(object = "Spectrum", t, msLevel. =
+      "numeric")}}{ Removes low intensity peaks of \code{Spectrum}
+      object.  \code{t} sets the minimum peak intensity. Default is
+      "min", i.e the smallest intensity in each spectrum. Other
+      \code{numeric} values are valid. \code{msLevel.} defines the level
+      of the spectrum, and if \code{msLevel(object) != msLevel.},
+      cleaning is ignored. Only relevant when called from
+      \code{OnDiskMSnExp} and is only relevant for developers.
+
+      Returns a new \code{Spectrum} instance.  }
+    
   }
 }
 

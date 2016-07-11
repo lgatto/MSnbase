@@ -26,10 +26,15 @@
       object. Displays a control bar if verbose set to \code{TRUE}
       (default). Returns a cleaned \code{MSnExp} instance.
     }
-    \item{\code{signature(object = "Spectrum", all = "logical")}}{ 
-      Cleans the \code{Spectrum} object. Returns a cleaned
-      \code{Spectrum} instance.
-    }
+
+    \item{\code{signature(object = "Spectrum", all = "logical",
+	msLevel. = "numeric")}}{ Cleans the \code{Spectrum}
+	object. Returns a cleaned \code{Spectrum} instance. If \code{all
+	= TRUE}, then all zeros are removed. \code{msLevel.} defines the
+	level of the spectrum, and if \code{msLevel(object) !=
+	msLevel.}, cleaning is ignored. Only relevant when called from
+	\code{OnDiskMSnExp} and is only relevant for developers.  }
+    
   }
 }
 
