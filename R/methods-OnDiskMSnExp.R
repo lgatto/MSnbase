@@ -804,6 +804,7 @@ setMethod("bin", "OnDiskMSnExp", function(object, binSize = 1L, msLevel.) {
                         mz = allSpect[, 1],
                         intensity = allSpect[, 2],
                         centroided = ms1fd$centroided,
+                        smoothed = ms1fd$smoothed,
                         fromFile = ms1fd$fileIdx,
                         polarity = ms1fd$polarity,
                         tic = ms1fd$totIonCurrent,

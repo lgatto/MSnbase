@@ -78,13 +78,16 @@ removeReporters_Spectrum2 <- function(object, reporters=NULL, clean=FALSE) {
 
 ############################################################
 ## C-level constructor for multiple Spectrum2 instances (i.e. returns a list of instances)
-Spectra2 <- function(peaksCount = NULL, rt = numeric(), acquisitionNum = NA_integer_,
-                     scanIndex = integer(), tic = 0, mz = numeric(), intensity = numeric(),
-                     fromFile = integer(), centroided = FALSE, polarity = NA_integer_,
-                     msLevel = as.integer(2), merged = 1, precScanNum = NA_integer_,
+Spectra2 <- function(peaksCount = NULL, rt = numeric(),
+                     acquisitionNum = NA_integer_,
+                     scanIndex = integer(), tic = 0, mz = numeric(),
+                     intensity = numeric(), fromFile = integer(),
+                     centroided = NA, smoothed = NA,
+                     polarity = NA_integer_, msLevel = as.integer(2),
+                     merged = 1, precScanNum = NA_integer_,
                      precursorMz = NA, precursorIntensity = NA,
-                     precursorCharge = NA_integer_, collisionEnergy = NA,
-                     nvalues = integer()) {
+                     precursorCharge = NA_integer_,
+                     collisionEnergy = NA, nvalues = integer()) {
     if (length(mz) == 0 | length(intensity) == 0 | length(nvalues) == 0) {
         stop("Arguments 'mz', 'intensity' and 'nvalues' are required!")
     } else {
@@ -143,6 +146,13 @@ Spectra2 <- function(peaksCount = NULL, rt = numeric(), acquisitionNum = NA_inte
     } else {
         if (length(centroided) != nvals)
             stop("Length of 'centroided' has to match the length of 'nvalues'!")
+    }
+    ## smoothed
+    if (length(smoothed) == 1) {
+        centroided <- rep(smoothed, nvals)
+    } else {
+        if (length(smoothed) != nvals)
+            stop("Length of 'smoothed' has to match the length of 'nvalues'!")
     }
     ## msLevel
     if (length(msLevel) == 1) {
@@ -203,6 +213,7 @@ Spectra2 <- function(peaksCount = NULL, rt = numeric(), acquisitionNum = NA_inte
                  as.numeric(tic), mz, intensity,
                  as.integer(fromFile),
                  centroided,
+                 smoothed,
                  as.integer(polarity),
                  as.numeric(merged),
                  as.integer(precScanNum),
@@ -214,6 +225,3 @@ Spectra2 <- function(peaksCount = NULL, rt = numeric(), acquisitionNum = NA_inte
                  PACKAGE = "MSnbase")
     return(res)
 }
-
-
-

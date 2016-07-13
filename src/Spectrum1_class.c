@@ -11,7 +11,7 @@
 static SEXP _new_Spectrum1(SEXP msLevel, SEXP peaksCount, SEXP rt,
 			   SEXP acquisitionNum, SEXP scanIndex, SEXP tic,
 			   SEXP mz, SEXP intensity, SEXP fromFile,
-			   SEXP centroided, SEXP polarity)
+			   SEXP centroided, SEXP smoothed, SEXP polarity)
 {
   SEXP classdef, ans;
 
@@ -28,6 +28,7 @@ static SEXP _new_Spectrum1(SEXP msLevel, SEXP peaksCount, SEXP rt,
   SET_SLOT(ans, install("intensity"), intensity);
   SET_SLOT(ans, install("fromFile"), fromFile);
   SET_SLOT(ans, install("centroided"), centroided);
+  SET_SLOT(ans, install("smoothed"), smoothed);
   SET_SLOT(ans, install("polarity"), polarity);
 
   UNPROTECT(2);
@@ -37,7 +38,8 @@ static SEXP _new_Spectrum1(SEXP msLevel, SEXP peaksCount, SEXP rt,
 SEXP Spectrum1_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
 			   SEXP acquisitionNum, SEXP scanIndex, SEXP tic,
 			   SEXP mz, SEXP intensity, SEXP fromFile,
-			   SEXP centroided, SEXP polarity, SEXP check)
+			   SEXP centroided, SEXP smoothed, SEXP polarity,
+			   SEXP check)
 {
   //int nvalues;
   SEXP ans;
@@ -51,8 +53,8 @@ SEXP Spectrum1_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
   }
 
   PROTECT(ans = _new_Spectrum1(msLevel, peaksCount, rt, acquisitionNum,
-			      scanIndex, tic, mz, intensity, fromFile,
-			      centroided, polarity));
+			       scanIndex, tic, mz, intensity, fromFile,
+			       centroided, smoothed, polarity));
   UNPROTECT(1);
   return(ans);
   return R_NilValue;
@@ -72,8 +74,8 @@ SEXP Spectrum1_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
 SEXP Multi_Spectrum1_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
 				 SEXP acquisitionNum, SEXP scanIndex, SEXP tic,
 				 SEXP mz, SEXP intensity, SEXP fromFile,
-				 SEXP centroided, SEXP polarity, SEXP nvalues,
-				 SEXP check)
+				 SEXP centroided, SEXP smoothed, SEXP polarity,
+				 SEXP nvalues, SEXP check)
 {
   int n = length(nvalues);
   int currentN = 0;
@@ -82,7 +84,7 @@ SEXP Multi_Spectrum1_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
   SEXP out = PROTECT(allocVector(VECSXP, n));
   double *pRt, *pTic;
   int *pPeaksCount, *pAcquisitionNum, *pScanIndex, *pPolarity,
-    *pFromFile, *pCentroided, *pNvalues;
+    *pFromFile, *pCentroided, *pSmoothed, *pNvalues;
 
   pRt = REAL(rt);
   pTic = REAL(tic);
@@ -93,6 +95,7 @@ SEXP Multi_Spectrum1_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
   pPolarity = INTEGER(polarity);
   pNvalues = INTEGER(nvalues);
   pCentroided = LOGICAL(centroided);
+  pSmoothed = LOGICAL(smoothed);
 
   for (int i = 0; i < n; i++) {
     // Creating the mz and intensity vectors.
@@ -114,6 +117,7 @@ SEXP Multi_Spectrum1_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
 					  cIntensity,
 					  ScalarInteger(pFromFile[i]),
 					  ScalarLogical(pCentroided[i]),
+					  ScalarLogical(pSmoothed[i]),
 					  ScalarInteger(pPolarity[i])));
     UNPROTECT(2);
     startN = startN + currentN;

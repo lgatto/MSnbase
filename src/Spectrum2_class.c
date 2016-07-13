@@ -11,7 +11,7 @@
 static SEXP _new_Spectrum2(SEXP msLevel, SEXP peaksCount, SEXP rt,
 			   SEXP acquisitionNum, SEXP scanIndex, SEXP tic,
 			   SEXP mz, SEXP intensity, SEXP fromFile,
-			   SEXP centroided, SEXP polarity, SEXP merged,
+			   SEXP centroided, SEXP smoothed, SEXP polarity, SEXP merged,
 			   SEXP precScanNum, SEXP precursorMz,
 			   SEXP precursorIntensity, SEXP precursorCharge,
 			   SEXP collisionEnergy)
@@ -31,6 +31,7 @@ static SEXP _new_Spectrum2(SEXP msLevel, SEXP peaksCount, SEXP rt,
   SET_SLOT(ans, install("intensity"), intensity);
   SET_SLOT(ans, install("fromFile"), fromFile);
   SET_SLOT(ans, install("centroided"), centroided);
+  SET_SLOT(ans, install("smoothed"), smoothed);
   SET_SLOT(ans, install("polarity"), polarity);
   SET_SLOT(ans, install("merged"), merged);
   SET_SLOT(ans, install("precScanNum"), precScanNum);
@@ -46,7 +47,7 @@ static SEXP _new_Spectrum2(SEXP msLevel, SEXP peaksCount, SEXP rt,
 SEXP Spectrum2_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
 			   SEXP acquisitionNum, SEXP scanIndex, SEXP tic,
 			   SEXP mz, SEXP intensity, SEXP fromFile,
-			   SEXP centroided, SEXP polarity, SEXP merged,
+			   SEXP centroided, SEXP smoothed, SEXP polarity, SEXP merged,
 			   SEXP precScanNum, SEXP precursorMz,
 			   SEXP precursorIntensity, SEXP precursorCharge,
 			   SEXP collisionEnergy, SEXP check)
@@ -64,7 +65,7 @@ SEXP Spectrum2_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
 
   PROTECT(ans = _new_Spectrum2(msLevel, peaksCount, rt, acquisitionNum,
 			       scanIndex, tic, mz, intensity, fromFile,
-			       centroided, polarity, merged, precScanNum,
+			       centroided, smoothed, polarity, merged, precScanNum,
 			       precursorMz, precursorIntensity, precursorCharge,
 			       collisionEnergy));
   UNPROTECT(1);
@@ -86,7 +87,7 @@ SEXP Spectrum2_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
 SEXP Multi_Spectrum2_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
 				 SEXP acquisitionNum, SEXP scanIndex, SEXP tic,
 				 SEXP mz, SEXP intensity, SEXP fromFile,
-				 SEXP centroided, SEXP polarity, SEXP merged,
+				 SEXP centroided, SEXP smoothed, SEXP polarity, SEXP merged,
 				 SEXP precScanNum, SEXP precursorMz,
 				 SEXP precursorIntensity, SEXP precursorCharge,
 				 SEXP collisionEnergy, SEXP nvalues,
@@ -100,8 +101,8 @@ SEXP Multi_Spectrum2_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
   double *pRt, *pTic, *pMerged, *pPrecursorMz, *pPrecursorIntensity,
       *pCollisionEnergy;
   int *pPeaksCount, *pAcquisitionNum, *pScanIndex, *pPolarity,
-      *pFromFile, *pCentroided, *pNvalues, *pPrecScanNum, *pPrecursorCharge,
-      *pMsLevel;
+      *pFromFile, *pCentroided, *pSmoothed, *pNvalues, *pPrecScanNum,
+      *pPrecursorCharge, *pMsLevel;
 
   pRt = REAL(rt);
   pTic = REAL(tic);
@@ -119,6 +120,7 @@ SEXP Multi_Spectrum2_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
   pPrecScanNum = INTEGER(precScanNum);
   pPrecursorCharge = INTEGER(precursorCharge);
   pCentroided = LOGICAL(centroided);
+  pSmoothed = LOGICAL(smoothed);
 
   for (int i = 0; i < n; i++) {
     // Creating the mz and intensity vectors.
@@ -140,6 +142,7 @@ SEXP Multi_Spectrum2_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
 					  cIntensity,
 					  ScalarInteger(pFromFile[i]),
 					  ScalarLogical(pCentroided[i]),
+					  ScalarLogical(pSmoothed[i]),
 					  ScalarInteger(pPolarity[i]),
 					  ScalarReal(pMerged[i]),
 					  ScalarInteger(pPrecScanNum[i]),

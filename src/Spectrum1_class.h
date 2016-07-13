@@ -13,6 +13,7 @@
 /* 			   SEXP intensity, */
 /* 			   SEXP fromFile, */
 /* 			   SEXP centroided, */
+/* 			   SEXP smoothed, */
 /* 			   SEXP polarity, */
 /* 			   SEXP check */
 /* 			   ); */

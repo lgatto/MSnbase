@@ -22,60 +22,62 @@ Spectrum1 <- function(peaksCount=length(mz), rt=numeric(),
 
 ############################################################
 ##
-Spectra1 <- function(peaksCount = NULL, rt=numeric(), acquisitionNum=NA_integer_,
-                     scanIndex=integer(), tic=0, mz=numeric(), intensity=numeric(),
-                     fromFile=integer(), centroided=FALSE, polarity=NA_integer_,
-                     nvalues=integer()){
-    if(length(mz) == 0 | length(intensity) == 0 | length(nvalues) == 0){
+Spectra1 <- function(peaksCount = NULL, rt = numeric(),
+                     acquisitionNum = NA_integer_,
+                     scanIndex = integer(), tic = 0, mz = numeric(),
+                     intensity = numeric(), fromFile = integer(),
+                     centroided = NA, smoothed = NA,
+                     polarity = NA_integer_, nvalues = integer()) {
+    if (length(mz) == 0 | length(intensity) == 0 | length(nvalues) == 0){
         stop("Arguments 'mz', 'intensity' and 'nvalues' are required!")
-    }else{
-        if(length(mz) != length(intensity))
+    } else {
+        if (length(mz) != length(intensity))
             stop("Lengths of 'mz' and 'intensity' do not match!")
     }
     nvals <- length(nvalues)
     ## Now match all of the lengths to the length of nvalues.
-    if(length(peaksCount) == 0)
+    if (length(peaksCount) == 0)
         peaksCount <- nvalues
     ## rt
-    if(length(rt) == 0){
+    if (length(rt) == 0){
         rt <- rep(NA_integer_, nvals)
-    }else{
-        if(length(rt) != nvals)
+    } else {
+        if (length(rt) != nvals)
             stop("Length of 'rt' has to match the length of 'nvalues'!")
     }
     ## acquisitionNum
-    if(length(acquisitionNum) == 1){
+    if (length(acquisitionNum) == 1) {
         acquisitionNum <- rep(acquisitionNum, nvals)
-    }else{
-        if(length(acquisitionNum) != nvals)
+    } else {
+        if (length(acquisitionNum) != nvals)
             stop("Length of 'acquisitionNum' has to match the length of 'nvalues'!")
     }
     ## scanIndex
-    if(length(scanIndex) == 0){
+    if (length(scanIndex) == 0){
         scanIndex <- rep(NA_integer_, nvals)
-    }else{
-        if(length(scanIndex) != nvals)
+    } else {
+        if (length(scanIndex) != nvals)
             stop("Length of 'scanIndex' has to match the length of 'nvalues'!")
     }
     ## tic
-    if(length(tic) == 1){
+    if (length(tic) == 1){
         tic <- rep(tic, nvals)
-    }else{
-        if(length(tic) != nvals)
+    } else {
+        if (length(tic) != nvals)
             stop("Length of 'tic' has to match the length of 'nvalues'!")
     }
     ## fromFile
-    if(length(fromFile) == 0){
+    if (length(fromFile) == 0){
         fromFile <- rep(NA_integer_, nvals)
-    }else{
-        if(length(fromFile) != nvals)
+    } else {
+        if (length(fromFile) != nvals)
             stop("Length of 'fromFile' has to match the length of 'nvalues'!")
     }
     ## polarity
-    if(length(polarity) == 1){
+    if (length(polarity) == 1){
         polarity <- rep(polarity, nvals)
-    }else{
-        if(length(polarity) != nvals)
+    } else {
+        if (length(polarity) != nvals)
             stop("Length of 'polarity' has to match the length of 'nvalues'!")
     }
     ## OK, now let's call C.
@@ -86,11 +88,9 @@ Spectra1 <- function(peaksCount = NULL, rt=numeric(), acquisitionNum=NA_integer_
                  as.numeric(tic), mz, intensity,
                  as.integer(fromFile),
                  centroided,
+                 smoothed,
                  as.integer(polarity),
                  as.integer(nvalues), TRUE,
-                 PACKAGE="MSnbase")
+                 PACKAGE = "MSnbase")
     return(res)
 }
-
-
-
