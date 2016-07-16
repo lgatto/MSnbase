@@ -149,7 +149,7 @@ Spectra2 <- function(peaksCount = NULL, rt = numeric(),
     }
     ## smoothed
     if (length(smoothed) == 1) {
-        centroided <- rep(smoothed, nvals)
+        smoothed <- rep(smoothed, nvals)
     } else {
         if (length(smoothed) != nvals)
             stop("Length of 'smoothed' has to match the length of 'nvalues'!")

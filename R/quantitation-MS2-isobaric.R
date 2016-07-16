@@ -3,6 +3,7 @@ quantify_MSnExp <- function(object, method,
                             BPPARAM,
                             qual,
                             verbose) { ## ignored
+    browser()
     if (any(centroided(object)) & method == "trapezoidation")
         warning("You are quantifying using 'trapezoidation' on centroided data!",
                 immediate. = TRUE)
