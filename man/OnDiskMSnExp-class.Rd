@@ -547,6 +547,11 @@ f <- msdata::proteomics(full.names = TRUE)
 odmse <- readMSData2(f)
 validObject(odmse)
 odmse[[1]]
+
+all(is.na(centroided(odmse)))
+centroided(odmse, msLevel = 1) <- FALSE
+centroided(odmse, msLevel = 2) <- TRUE
+table(centroided(odmse), msLevel(odmse))
 }
 
 \keyword{classes}
