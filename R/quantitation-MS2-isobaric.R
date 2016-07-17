@@ -81,3 +81,26 @@ quantify_MSnExp <- function(object, method,
         return(msnset)
 }
 
+
+## quantifies peaks pk in regions [pks - wd, pks + wd] at half window
+## size hws in spectra spi in file f using max of peak (irrespective
+## if spectrum is centroided or profile mode)
+fastquant_max <- function(f, pk, spi, hws, wd = 0.5) {
+    ramp <- openMSfile(f)
+    on.exit(close(ramp))
+    pks <- peaks(ramp, spi)
+    res <- matrix(NA_real_,
+                  ncol = length(pk),
+                  nrow = length(pks))
+    for (i in seq_along(pks)) {
+        for (ii in seq_along(pk)) {
+            k <- pks[[i]][, 1] >= pk[ii] - wd & pks[[i]][, 1] <= pk[ii] + wd
+            if (any(k)) {
+                .pks <- pks[[i]][k, , drop = FALSE]
+                mx <- MALDIquant:::.localMaxima(.pks[, 2], hws)
+                res[i, ii] <- .pks[mx, 2]
+            }
+        }
+    }
+    res
+}
