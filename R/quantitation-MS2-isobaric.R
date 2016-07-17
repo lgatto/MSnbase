@@ -104,3 +104,50 @@ fastquant_max <- function(f, pk, spi, hws, wd = 0.5) {
     }
     res
 }
+
+
+quantify_OnDiskMSnExp_max <- function(object, reporters,
+                                      hws = 20L, wd = 0.05,
+                                      BPPARAM) {
+    if (missing(reporters) | !inherits(reporters, "ReporterIons"))
+        stop("Valid reporters required.")
+    fDataPerFile <- split(fData(object), f = fData(object)$fileIdx)
+    if (missing(BPPARAM)) BPPARAM <- bpparam()
+
+    res <- bplapply(fDataPerFile,
+                    FUN = function(fdf)
+                        fastquant_max(
+                            f = fileNames(object)[fdf$fileIdx[1]],
+                            pk = mz(reporters),
+                            spi = fdf$spIdx,
+                            hws, wd),
+                    BPPARAM = BPPARAM)
+    res <- do.call(rbind, res)
+    colnames(res) <- reporterNames(reporters)
+    rownames(res) <- unlist(lapply(fDataPerFile, rownames), use.names = FALSE)
+    res <- res[featureNames(object), ]
+
+    .phenoData <- new("AnnotatedDataFrame",
+                      data = data.frame(mz = mz(reporters),
+                                        reporters = names(reporters),
+                                        row.names = reporterNames(reporters)))
+
+    if (nrow(pData(object)) > 0) {
+        if (nrow(pData(object)) == length(reporters)) {
+            .phenoData <- combine(phenoData(object), .phenoData)
+        } else {
+            ## Here, something more clever should be done, like replicating
+            ## old phenoData variables length(reporters) times
+            message(paste(strwrap(paste0("Original MSnExp and new MSnSet have ",
+                                         "different number of samples in phenoData. ",
+                                         "Dropping original.")), collapse = "\n"))
+        }
+    }
+
+    ans <- new("MSnSet", exprs = res,
+               featureData = featureData(object),
+               phenoData = .phenoData)
+    ans <- MSnbase:::logging(ans, paste0("Fast ", names(reporters),
+                                         " quantitation by max"))
+    if (validObject(ans)) ans
+}
