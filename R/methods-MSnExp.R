@@ -154,26 +154,6 @@ setMethod("trimMz",
           function(object, mzlim, msLevel.) {
               .Deprecated("filterMz")
               return(filterMz(object, mz = mzlim, msLevel.))
-              ## trimmed <- eapply(assayData(object), trimMz, mzlim, ...)
-              ## object@assayData <- list2env(trimmed)
-              ## trmd <- object@processingData@trimmed
-              ## ifelse(length(trmd)==0,
-              ##        object@processingData@trimmed <- mzlim,
-              ##        object@processingData@trimmed <- c(max(trmd[1],mzlim[1]),
-              ##                                           min(trmd[2],mzlim[2])))
-              ## object@processingData@processing <- c(object@processingData@processing,
-              ##                                       paste("MZ trimmed [",object@processingData@trimmed[1],
-              ##                                             "..",object@processingData@trimmed[2],"]",sep=""))
-              ## if (object@.cache$level > 0) {
-              ##     hd <- header(object)
-              ##     hd$peaks.count <- peaksCount(object)
-              ##     hd$ionCount <- ionCount(object)
-              ##     object@.cache <- setCacheEnv(list(assaydata = assayData(object),
-              ##                                       hd = hd),
-              ##                                  object@.cache$level)
-              ## }
-              ## if (validObject(object))
-              ##     return(object)
           })
 
 setMethod("quantify",
