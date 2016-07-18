@@ -5,15 +5,19 @@ count_MSnSet <- function(object) {
     colnames(.exprs) <- sampleNames(object)
     .qual <- data.frame()
 
-    fd <- header(object)
-    if (nrow(fData(object)) > 0) {
-        if (nrow(fData(object)) == length(object)) {
-            fd <- combine(fData(object), fd)
-        } else {
-            warning("Unexpected number of features in featureData slot. Dropping it.")
+    if (inherits(object, "OnDiskMSnExp")) {
+        fd <- fData(object)
+    } else {
+        fd <- header(object)
+        if (nrow(fData(object)) > 0) {
+            if (nrow(fData(object)) == length(object)) {
+                fd <- combine(fData(object), fd)
+            } else {
+                warning("Unexpected number of features in featureData slot. Dropping it.")
+            }
         }
     }
-    ## featureData rows must be reordered to match assayData rows
+    ## featureData rows must be subset to match assayData rows
     .featureData <- new("AnnotatedDataFrame",
                         data = fd[rownames(.exprs), ])
     msnset <- new("MSnSet",
@@ -21,10 +25,10 @@ count_MSnSet <- function(object) {
                   exprs = .exprs,
                   experimentData = experimentData(object),
                   phenoData = phenoData(object),
+                  processingData = object@processingData,
                   featureData = .featureData,
                   annotation = "No annotation")
-
-    msnset@processingData <- object@processingData
+    ans <- MSnbase:::logging(ans, "Quantitation by count")
     if (validObject(msnset))
         return(msnset)
 }
@@ -35,29 +39,33 @@ tic_MSnSet <- function(object) {
     colnames(.exprs) <- sampleNames(object)
     .qual <- data.frame()
 
-    fd <- header(object)
-    if (nrow(fData(object)) > 0) {
-        if (nrow(fData(object)) == length(object)) {
-            fd <- combine(fData(object), fd)
-        } else {
-            warning("Unexpected number of features in featureData slot. Dropping it.")
+    if (inherits(object, "OnDiskMSnExp")) {
+        fd <- fData(object)
+    }  else {
+        fd <- header(object)
+        if (nrow(fData(object)) > 0) {
+            if (nrow(fData(object)) == length(object)) {
+                fd <- combine(fData(object), fd)
+            } else {
+                warning("Unexpected number of features in featureData slot. Dropping it.")
+            }
         }
     }
     ## featureData rows must be reordered to match assayData rows
     .featureData <- new("AnnotatedDataFrame", data=fd[rownames(.exprs), ])
+    
     msnset <- new("MSnSet",
                   qual = .qual,
                   exprs = .exprs,
                   experimentData = experimentData(object),
                   phenoData = phenoData(object),
+                  processingData = object@processingData,
                   featureData = .featureData,
                   annotation = "No annotation")
-
-    msnset@processingData <- object@processingData
+    ans <- MSnbase:::logging(ans, "Quantitation by total ion current")
     if (validObject(msnset))
         return(msnset)
 }
-
 
 
 ## SI Spectra Index
@@ -115,7 +123,8 @@ SAF <- function(object,
 
     object <- combineFeatures(object,
                               groupBy = groupBy,
-                              fun = length, verbose = verbose)
+                              fun = length,
+                              verbose = verbose)
 
     plength <- fData(object)[, plength]
     exprs(object) <- exprs(object)/plength
