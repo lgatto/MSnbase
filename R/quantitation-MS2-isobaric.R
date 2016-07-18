@@ -82,10 +82,10 @@ quantify_MSnExp <- function(object, method,
 }
 
 
-## quantifies peaks pk in regions [pks - wd, pks + wd] at half window
-## size hws in spectra spi in file f using max of peak (irrespective
-## if spectrum is centroided or profile mode)
-fastquant_max <- function(f, pk, spi, hws, wd = 0.5) {
+## quantifies highest peaks pk in regions [pks - wd, pks + wd] in
+## spectra spi in file f using max of peak (irrespective if spectrum
+## is centroided or profile mode)
+fastquant_max <- function(f, pk, spi, wd = 0.5) {
     ramp <- openMSfile(f)
     on.exit(close(ramp))
     pks <- peaks(ramp, spi)
