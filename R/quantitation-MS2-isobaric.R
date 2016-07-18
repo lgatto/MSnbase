@@ -96,9 +96,7 @@ fastquant_max <- function(f, pk, spi, hws, wd = 0.5) {
         for (ii in seq_along(pk)) {
             k <- pks[[i]][, 1] >= pk[ii] - wd & pks[[i]][, 1] <= pk[ii] + wd
             if (any(k)) {
-                .pks <- pks[[i]][k, , drop = FALSE]
-                mx <- MALDIquant:::.localMaxima(.pks[, 2], hws)
-                res[i, ii] <- .pks[mx, 2]
+                res[i, ii] <- max(pks[[i]][k, 2])
             }
         }
     }
