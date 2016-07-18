@@ -15,18 +15,11 @@ setMethod("initialize",
 
 setMethod("header",
           c("OnDiskMSnExp", "missing"),
-          function(object) {
-              .Deprecated("fData")
-              fData(object)
-          })
+          function(object) fData(object))
 
 setMethod("header",
           c("OnDiskMSnExp", "numeric"),
-          function(object, scans) {
-              .Deprecated("fData")
-              fData(object)[scans, ]
-          })
-
+          function(object, scans) fData(object)[scans, ])
 
 setReplaceMethod("featureNames",
                  c("OnDiskMSnExp", "ANY"),
