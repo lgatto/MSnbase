@@ -1,0 +1,39 @@
+---
+title: "MSnbase benchmarking"
+output:
+  BiocStyle::html_document:
+     toc: true
+     toc_depth: 1
+vignette: >
+  % \VignetteIndexEntry{MSnbase benchmarking}
+  % \VignetteEngine{knitr::rmarkdown}
+  % \VignetteKeyword{proteomics, mass spectrometry}
+  % \VignettePackage{MSnbase}
+---
+
+
+```{r style, echo = FALSE, results = 'asis', message=FALSE}
+BiocStyle::markdown()
+```
+
+```{r env, echo=FALSE, message=FALSE}
+suppressPackageStartupMessages(library("MSnbase"))
+```
+
+**Package**: `r Biocpkg("MSnbase")`<br />
+**Authors**: `r Laurent Gatto and Johannes Rainer<br />
+**Modified:** `r file.info("benchmarkding.Rmd")$mtime`<br />
+**Compiled**: `r date()`
+
+# Introduction
+
+In this vignette, we will document various timings and benchmarkings
+of the recent `Biocpkg("MSnbase")` development (aka `MSnbase2`), that
+focuses on *on-disk* data access (as opposed to *in-memory*). More
+details about the new implementation will be documented elsewhere.
+
+## Reading data
+
+## Data size
+
+## MS2 quantitation
