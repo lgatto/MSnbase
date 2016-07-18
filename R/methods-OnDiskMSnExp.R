@@ -519,28 +519,9 @@ setMethod("clean", signature("OnDiskMSnExp"),
 ## Add the "trimMz" ProcessingStep to the queue and update the
 ## processingData.
 setMethod("trimMz", signature("OnDiskMSnExp", "numeric"),
-          function(object, mzlim, ...) {
+          function(object, mzlim, msLevel.) {
               .Deprecated("filterMz")
-              return(filterMz(object, mz = mzlim, ...))
-              ## ## Simple check on mzlim.
-              ## if(length(mzlim) != 2)
-              ##     stop("Argument 'mzlim' should be a numeric vector of length 2",
-              ##          " specifying the lower and upper M/Z value range!")
-              ## ps <- ProcessingStep("trimMz", list(mzlim=mzlim))
-              ## object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
-              ##                                    list(ps))
-              ## trmd <- object@processingData@trimmed
-              ## ifelse(length(trmd)==0,
-              ##        object@processingData@trimmed <- mzlim,
-              ##        object@processingData@trimmed <- c(max(trmd[1],mzlim[1]),
-              ##                                           min(trmd[2],mzlim[2])))
-              ## object@processingData@processing <- c(object@processingData@processing,
-              ##                                       paste("MZ trimmed [",
-              ##                                             object@processingData@trimmed[1],
-              ##                                             "..",
-              ##                                             object@processingData@trimmed[2],
-              ##                                             "]",sep=""))
-              ## return(object)
+              return(filterMz(object, mz = mzlim, msLevel.))
           })
 
 ############################################################

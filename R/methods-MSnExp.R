@@ -151,9 +151,9 @@ setMethod("removePeaks",signature("MSnExp"),
 
 setMethod("trimMz",
           signature=signature("MSnExp","numeric"),
-          function(object, mzlim, ...) {
+          function(object, mzlim, msLevel.) {
               .Deprecated("filterMz")
-              return(filterMz(object, mz = mzlim, ...))
+              return(filterMz(object, mz = mzlim, msLevel.))
               ## trimmed <- eapply(assayData(object), trimMz, mzlim, ...)
               ## object@assayData <- list2env(trimmed)
               ## trmd <- object@processingData@trimmed
