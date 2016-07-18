@@ -370,8 +370,6 @@ setMethod("mz", "OnDiskMSnExp",
 ## spectra too, i.e. length i > 1.
 setMethod("[[", "OnDiskMSnExp",
           function(x, i, j = "missing", drop = "missing") {
-              ## if (length(i) != 1)
-              ##     stop("subscript out of bounds")
               if (is.character(i))
                   i <- match(i, featureNames(x))
               if (any(is.na(i)))
@@ -390,7 +388,6 @@ setMethod("[[", "OnDiskMSnExp",
               if (length(spctr) == 1)
                   spctr <- spctr[[1]]
               return(spctr)
-              ## return(spectra(x[i])[[1]])
           })
 
 setMethod("quantify",
