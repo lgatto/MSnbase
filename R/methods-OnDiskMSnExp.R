@@ -393,6 +393,47 @@ setMethod("[[", "OnDiskMSnExp",
               ## return(spectra(x[i])[[1]])
           })
 
+setMethod("quantify",
+          signature = signature("OnMSnExp"),
+          function(object,
+                   method = c(
+                       "trapezoidation", "max", "sum",
+                       "SI", "SIgi", "SIn",
+                       "SAF", "NSAF",
+                       "count"),
+                   reporters,
+                   strict = FALSE,
+                   BPPARAM,
+                   verbose = TRUE,
+                   ...) {
+              method <- match.arg(method)
+              ## this assumes that if first spectrum has msLevel > 1, all have
+              if (!all(msLevel(object) == 2))
+                  stop("Currently only MS2 quantitation.")
+              stop("Under development - see issue #130")
+              ## MS2 isobaric
+              if (method %in% c("trapezoidation", "max", "sum")) {
+                  if (!inherits(reporters, "ReporterIons"))
+                      stop("Argument 'reporters' must inherit from 'ReporterIons' class.")
+                  if (missing(BPPARAM)) {
+                      BPPARAM <- bpparam()
+                      if (verbose)
+                          message("Using default parallel backend: ",
+                                  class(BPPARAM)[1])
+                  }
+                  quantify_MSnExp(object, method, reporters, strict,
+                                  BPPARAM, qual, verbose)
+              } else if (method == "count") {
+                  count_MSnSet(object)
+              } else {
+                  ## the following assumes that the appropriate fcols are available
+                  object <- utils.removeNoIdAndMultipleAssignments(object)
+                  if (method %in% c("SI", "SIgi", "SIn")) SI(object, method, ...)
+                  else SAF(object, method, ...)
+              }
+          })
+
+
 ############################################################
 ## [
 ##
