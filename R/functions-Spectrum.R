@@ -252,7 +252,7 @@ getCurveWidth <- function(spectrum,reporters) {
   return(list(lwr=xlwr,upr=xupr))
 }
 
-trimMz_Spectrum <- function(x, mzlim, updatePeaksCount=TRUE, msLevel.) {
+trimMz_Spectrum <- function(x, mzlim, msLevel., updatePeaksCount = TRUE) {
     ## If msLevel. not missing, perform the trimming only if the msLevel
     ## of the spectrum matches (any of) the specified msLevels.
     if (!missing(msLevel.)) {

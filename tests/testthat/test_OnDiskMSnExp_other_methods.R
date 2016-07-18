@@ -2,15 +2,15 @@ context("OnDiskMSnExp class, other methods")
 
 ############################################################
 ## Load the required data files.
-.getMzMLFiles <- function(){
+.getMzMLFiles <- function() {
     ## Return the mzML files, the ones from the XXX package, or if run
     ## locally, some of my test files.
     HOST <- unlist(strsplit(system("hostname", intern = TRUE), split = ".",
                             perl = FALSE, fixed = TRUE))[1]
-    if(HOST == "macbookjo"){
+    if (HOST == "macbookjo") {
         mzfiles <- dir("/Users/jo/R-workspaces/EURAC/2016/2016-04-21-PolarMetabolom/data/mzML/",
                        pattern = "POS_C_O", full.names = TRUE)
-    }else{
+    } else {
         require(msdata)
         mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
                      system.file("microtofq/MM8.mzML", package = "msdata"))
@@ -25,6 +25,15 @@ suppressWarnings(
     onDisk <- readMSData2(files = mzf, msLevel = 1, centroided = TRUE)
 )
 
+## Read another mzML file.
+f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia_1")
+inmem2 <- readMSData(f, centroided = NA, verbose = FALSE)  ## That's the MS 2 data.
+inmem1 <- readMSData(f, centroided = NA, verbose = FALSE, msLevel = 1)  ## MS 1 data.
+ondisk <- readMSData2(f, verbose = FALSE)
+ondisk1 <- readMSData2(f, msLevel = 1, verbose = FALSE)
+ondisk2 <- readMSData2(f, msLevel = 2, verbose = FALSE)
+
+
 ############################################################
 ## plot
 test_that("OnDiskMSnExp plot", {
@@ -36,32 +45,15 @@ test_that("OnDiskMSnExp plot", {
 ## trimMz
 test_that("OnDiskMSnExp trimMz", {
     ## Comparing timings and results for the trimMz.
+    inMem <- inmem1
+    onDisk <- ondisk1
     system.time(
-        mseT <- trimMz(mse, mzlim=c(300, 310))
+        inMemMz <- trimMz(inMem, mzlim=c(500, 550))
     ) ## 7.3 sec.
     system.time(
-        odmseT <- trimMz(odmse, mzlim=c(300, 310))
+        onDiskMz <- trimMz(onDisk, mzlim=c(500, 550))
     ) ## woah, 0.009 sec (what a surprise ;) )
-    ## Test the results.
-    system.time(
-        mseTmz <- mz(mseT)
-    ) ## 0.04 sec
-    system.time(
-        odmseTmz <- mz(odmseT)
-    ) ##  sec
-    expect_identical(mseTmz, odmseTmz)
-    system.time(
-        mseTsp <- spectra(mseT)
-    ) ## 0.005
-    system.time(
-        odmseTsp <- spectra(odmseT)
-    ) ## 6.8
-    odmseTsp <- lapply(odmseTsp, function(z){
-        z@polarity <- integer()
-        z@scanIndex <- integer()
-        return(z)
-    })
-    expect_identical(mseTmz, odmseTmz)
+    expect_true(all.equal(inMemMz, onDiskMz))
 })
 
 ############################################################
