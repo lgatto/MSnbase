@@ -54,7 +54,7 @@ setMethod("filterMz", "MSnExp",
                       stop("'msLevel' must be numeric!")
               }
               ## Note: the msLevel. argument is passed down to the
-              ## trimMz_Spectrum function.
+              ## filterMz_Spectrum function.
               filtered <- eapply(assayData(object), filterMz, mz = mz,
                                  msLevel. = msLevel., ...)
               object@assayData <- list2env(filtered)
