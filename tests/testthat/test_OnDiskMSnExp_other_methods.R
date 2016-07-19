@@ -96,3 +96,18 @@ test_that("Compare OnDiskMSnExp and MSnExp smooth", {
         expect_true(all.equal(filterMsLevel(ondisk, msLevel. = 2), inmem2))
     )
 })
+
+############################################################
+## compareSpectra
+test_that("Compare OnDiskMSnExp and MSnExp compareSpectra", {
+    system.time(
+        csp <- compareSpectra(inmem1)
+    ) ## 39.8 sec
+    system.time(
+        csp2 <- compareSpectra(ondisk1)
+    )
+    rownames(csp) <- colnames(csp) <- NULL
+    rownames(csp2) <- colnames(csp2) <- NULL
+    expect_identical(csp, csp2)
+})
+

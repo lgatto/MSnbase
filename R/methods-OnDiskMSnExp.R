@@ -645,6 +645,33 @@ setMethod("smooth", "OnDiskMSnExp",
               return(x)
           })
 
+############################################################
+## compareSpectra
+setMethod("compareSpectra", c("OnDiskMSnExp", "missing"),
+          function(object1, fun = c("common", "cor", "dotproduct"), ...) {
+              fun <- match.arg(fun)
+              ## res <- suppressMessages(compare_MSnExp(object1, fun, ...))
+              ## return(res)
+              ## Alternatively, we could get all of the spectra and doing
+              ## the comparisons on the list; this might however turn out to
+              ## be quite memory demanding...
+              sps <- spectra(object1)
+              nm <- featureNames(object1)
+              cb <- combn(nm, 2, function(x) {
+                  compare_Spectra(sps[[x[1]]], sps[[x[2]]], fun=fun, ...)
+              })
+              m <- matrix(NA, length(object1), length(object1),
+                          dimnames=list(nm, nm))
+              ## fill lower triangle of the matrix
+              m[lower.tri(m)] <- cb
+              ## copy to upper triangle
+              for (i in 1:nrow(m)) {
+                  m[i, ] <- m[, i]
+              }
+
+              return(m)
+          })
+
 
 ##============================================================
 ##  --  HELPER FUNCTIONS  --
