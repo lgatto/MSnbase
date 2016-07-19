@@ -627,6 +627,24 @@ setMethod("bin", "OnDiskMSnExp", function(object, binSize = 1L, msLevel.) {
     return(object)
 })
 
+############################################################
+## smooth
+setMethod("smooth", "OnDiskMSnExp",
+          function(x, method = c("SavitzkyGolay", "MovingAverage"),
+                   halfWindowSize = 2L, verbose = TRUE, ...) {
+              method <- match.arg(method)
+              ps <- ProcessingStep("smooth",
+                                   list(method = method,
+                                        halfWindowSize = halfWindowSize, ...))
+              x@spectraProcessingQueue <- c(x@spectraProcessingQueue,
+                                                 list(ps))
+              x@processingData@processing <- c(x@processingData@processing,
+                                                    paste0("Spectra smoothed (",
+                                                           method,"): ", date()))
+              x@processingData@normalised <- TRUE
+              return(x)
+          })
+
 
 ##============================================================
 ##  --  HELPER FUNCTIONS  --

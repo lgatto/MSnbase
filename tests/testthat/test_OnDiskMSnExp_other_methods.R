@@ -77,3 +77,22 @@ test_that("Compare OnDiskMSnExp and MSnExp normalize", {
     expect_true(all.equal(inMemNSub, onDiskNSub))
 })
 
+############################################################
+## smooth
+test_that("Compare OnDiskMSnExp and MSnExp smooth", {
+
+    ## The same for MSn data
+    ondisk <- smooth(ondisk)
+    suppressWarnings(
+        inmem1 <- smooth(inmem1)
+    )
+    suppressWarnings(
+        inmem2 <- smooth(inmem2)
+    )
+    suppressWarnings(
+        expect_true(all.equal(filterMsLevel(ondisk, msLevel. = 1), inmem1))
+    )
+    suppressWarnings(
+        expect_true(all.equal(filterMsLevel(ondisk, msLevel. = 2), inmem2))
+    )
+})
