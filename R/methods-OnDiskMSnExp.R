@@ -405,8 +405,10 @@ setMethod("quantify",
                    ...) {
               method <- match.arg(method)
               ## this assumes that if first spectrum has msLevel > 1, all have
-              if (!all(msLevel(object) == 2))
-                  stop("Currently only MS2 quantitation.")
+              if (!all(msLevel(object) == 2)) {
+                  message("Currently only MS2 quantitation: filtering MS2 spectra.")
+                  object <- filterMsLevel(object, msLevel. = 2L)
+              }
               stop("Under development - see issue #130")
               ## MS2 isobaric
               if (method %in% c("trapezoidation", "max", "sum")) {
