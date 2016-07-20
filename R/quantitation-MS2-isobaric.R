@@ -89,26 +89,52 @@ fastquant_max <- function(f, pk, spi, wd = 0.5) {
     ramp <- openMSfile(f)
     on.exit(close(ramp))
     pks <- peaks(ramp, spi)
-    res <- matrix(NA_real_,
-                  ncol = length(pk),
-                  nrow = length(pks))
+    if (length(spi) == 1)
+        pks <- list(pks)
+    mzs <- res <- matrix(NA_real_,
+                         ncol = length(pk),
+                         nrow = length(pks))
     for (i in seq_along(pks)) {
         for (ii in seq_along(pk)) {
             k <- pks[[i]][, 1] >= pk[ii] - wd & pks[[i]][, 1] <= pk[ii] + wd
             if (any(k)) {
-                res[i, ii] <- max(pks[[i]][k, 2])
+                j <- which.max(pks[[i]][k, 2])
+                res[i, ii] <- pks[[i]][k, , drop = FALSE][j, 2]
+                mzs[i, ii] <- pks[[i]][k, , drop = FALSE][j, 1]
             }
         }
     }
-    res
+    list(exprs = res,
+         mzs = mzs)
 }
 
 
+## fastquant_max_1 <- function(f, pk, spi, wd = 0.5) {
+##     ramp <- openMSfile(f)
+##     on.exit(close(ramp))
+##     pks <- peaks(ramp, spi)
+##     if (length(spi) == 1)
+##         pks <- list(pks)
+##     res <- matrix(NA_real_,
+##                   ncol = length(pk),
+##                   nrow = length(pks))
+##     for (i in seq_along(pks)) {
+##         for (ii in seq_along(pk)) {
+##             k <- pks[[i]][, 1] >= pk[ii] - wd & pks[[i]][, 1] <= pk[ii] + wd
+##             if (any(k)) {
+##                 res[i, ii] <- max(pks[[i]][k, 2])
+##             }
+##         }
+##     }
+##     res
+## }
+
 quantify_OnDiskMSnExp_max <- function(object, reporters,
-                                      hws = 20L, wd = 0.05,
+                                      wd,
                                       BPPARAM) {
     if (missing(reporters) | !inherits(reporters, "ReporterIons"))
         stop("Valid reporters required.")
+    if (missing(wd)) wd <- width(reporters)
     fDataPerFile <- split(fData(object), f = fData(object)$fileIdx)
     if (missing(BPPARAM)) BPPARAM <- bpparam()
 
@@ -118,13 +144,19 @@ quantify_OnDiskMSnExp_max <- function(object, reporters,
                             f = fileNames(object)[fdf$fileIdx[1]],
                             pk = mz(reporters),
                             spi = fdf$spIdx,
-                            hws, wd),
+                            wd),
                     BPPARAM = BPPARAM)
-    res <- do.call(rbind, res)
-    colnames(res) <- reporterNames(reporters)
-    rownames(res) <- unlist(lapply(fDataPerFile, rownames), use.names = FALSE)
-    res <- res[featureNames(object), ]
+    e <- do.call(rbind, lapply(res, "[[", "exprs"))
+    colnames(e) <- reporterNames(reporters)
+    rownames(e) <- unlist(lapply(fDataPerFile, rownames), use.names = FALSE)
+    e <- e[featureNames(object), ]
 
+    mzs <- do.call(rbind, lapply(res, "[[", "mzs"))
+    colnames(mzs) <- reporterNames(reporters)
+    rownames(mzs) <- unlist(lapply(fDataPerFile, rownames), use.names = FALSE)
+    mzs <- mzs[featureNames(object), ]
+    rm(res)
+    
     .phenoData <- new("AnnotatedDataFrame",
                       data = data.frame(mz = mz(reporters),
                                         reporters = names(reporters),
@@ -142,9 +174,11 @@ quantify_OnDiskMSnExp_max <- function(object, reporters,
         }
     }
 
-    ans <- new("MSnSet", exprs = res,
+    ans <- new("MSnSet",
+               exprs = e,
                featureData = featureData(object),
                phenoData = .phenoData)
+    fData(ans)$reporterMzs <- mzs
     ans <- MSnbase:::logging(ans, paste0("Fast ", names(reporters),
                                          " quantitation by max"))
     if (validObject(ans)) ans
