@@ -7,6 +7,7 @@ CHANGES IN VERSION 1.21.8
  o removeMultipleAssignment also removes features that were not
    assigned (i.e. that have fcol (nprots) NA) <2016-07-02 Sat>
  o New smoothed slot/accessor/replacement methods <2016-07-08 Fri>
+ o Update reporter masses and add TMT10 ETD/HCD <2016-07-20 Wed>
  
 CHANGES IN VERSION 1.21.7
 -------------------------
