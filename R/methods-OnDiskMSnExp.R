@@ -272,40 +272,40 @@ setMethod("polarity", "OnDiskMSnExp",
 setMethod("peaksCount",
           signature(object = "OnDiskMSnExp", scans = "missing"),
           function(object, scans, BPPARAM = bpparam()) {
-    ## The feature data contains the original peaks
-    ## count. This method fetches the peaks count from the
-    ## (possibly processed) spectra.
-    ##
-    ## Add methods here that would not require raw data reading.
-    skipFun <- c("removePeaks", "pickPeaks")
+              ## The feature data contains the original peaks
+              ## count. This method fetches the peaks count from the
+              ## (possibly processed) spectra.
+              ##
+              ## Add methods here that would not require raw data reading.
+              skipFun <- c("removePeaks")
 
-    if (length(object@spectraProcessingQueue) > 0) {
-        recalc <- any(unlist(lapply(object@spectraProcessingQueue,
-                                    function(z) {
-            if (any(z@FUN == skipFun))
+              if (length(object@spectraProcessingQueue) > 0) {
+                  recalc <- any(unlist(lapply(object@spectraProcessingQueue,
+                                              function(z) {
+                                                  if (any(z@FUN == skipFun))
                                                       return(FALSE)
-            return(TRUE)
-        })))
-    } else {
-        ## No need to calculate the peaks count; we can use the
-        ## information from the feature data.
-        recalc <- FALSE
-    }
-    ## An important point here is that we DON'T want to get
-    ## all of the data from all files in one go; that would
-    ## require eventually lots of memory! It's better to do
-    ## that per file; that way we could also do that in
-    ## parallel.
-    if (recalc) {
-        vals <- unlist(spectrapply(object,
-                                   FUN = peaksCount,
-                                   BPPARAM = BPPARAM))
-    } else {
-        vals <- fData(object)$originalPeaksCount
-    }
-    names(vals) <- featureNames(object)
-    return(vals)
-})
+                                                  return(TRUE)
+                                              })))
+              } else {
+                  ## No need to calculate the peaks count; we can use the
+                  ## information from the feature data.
+                  recalc <- FALSE
+              }
+              ## An important point here is that we DON'T want to get
+              ## all of the data from all files in one go; that would
+              ## require eventually lots of memory! It's better to do
+              ## that per file; that way we could also do that in
+              ## parallel.
+              if (recalc) {
+                  vals <- unlist(spectrapply(object,
+                                             FUN = peaksCount,
+                                             BPPARAM = BPPARAM))
+              } else {
+                  vals <- fData(object)$originalPeaksCount
+              }
+              names(vals) <- featureNames(object)
+              return(vals)
+          })
 
 ############################################################
 ## ionCount
@@ -674,6 +674,44 @@ setMethod("compareSpectra", c("OnDiskMSnExp", "missing"),
               return(m)
           })
 
+############################################################
+## pickPeaks
+##
+## Add a pickPeaks step to the processing queue
+setMethod("pickPeaks", "OnDiskMSnExp",
+          function(object, halfWindowSize = 3L,
+                   method = c("MAD", "SuperSmoother"), SNR = 0L, ...) {
+              method <- match.arg(method)
+              ps <- ProcessingStep("pickPeaks", list(halfWindowSize = halfWindowSize,
+                                                     method = method, SNR = SNR, ...))
+              object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
+                                                 list(ps))
+              ## ----------------------------------------------------------
+              ## TODO: @lgatto object@processingData@centroided ?
+              ## object@processingData@smoothed <- TRUE
+              object@processingData@processing <- c(object@processingData@processing,
+                                                    paste0("Spectra centroided: ",
+                                                           date()))
+              return(object)
+          })
+
+############################################################
+## estimateNoise
+##
+## estimateNoise directly estimates the noise and returns it. We're going to
+## call the method using the spectrapply method.
+## Note: would also work directly with the MSnExp implementation, but this would
+## require that all spectra are loaded first, while here we ensure parallel processin
+## by file; should be faster and memory efficient.
+setMethod("estimateNoise", "OnDiskMSnExp",
+          function(object, method = c("MAD", "SuperSmoother"), ...) {
+              method <- match.arg(method)
+              ## Call estimateNoise_Spectrum using the spectrapply.
+              res <- spectrapply(object, FUN = estimateNoise_Spectrum,
+                                 method = method, ...)
+              return(res)
+          })
+
 
 ##============================================================
 ##  --  HELPER FUNCTIONS  --
@@ -832,9 +870,11 @@ setMethod("compareSpectra", c("OnDiskMSnExp", "missing"),
 ##   applied to the created Spectrum1 objects.
 ## o APPLYFUN: the function to be applied to the Spectrum1 objects (such as ionCount etc).
 ##   If NULL the function returns the list of Spectrum1 objects.
+## o APPLYARGS: additional arguments for the APPLYFUN
 .applyFun2SpectraOfFileMulti <- function(fData, filenames,
                                          queue = NULL,
-                                         APPLYFUN = NULL) {
+                                         APPLYFUN = NULL,
+                                         ...) {
     if (missing(fData) | missing(filenames))
         stop("Both 'fData' and 'filenames' are required!")
     filename <- filenames[fData[1, "fileIdx"]]
@@ -924,7 +964,7 @@ setMethod("compareSpectra", c("OnDiskMSnExp", "missing"),
             for (j in 1:length(queue))
                 message(" o '", queue[[j]]@FUN, "' with ", length(queue[[j]]@ARGS), " argument(s).")
         }
-        res <- lapply(res, function(z, theQ, APPLF){
+        res <- lapply(res, function(z, theQ, APPLF, ...){
             if (length(theQ) > 0){
                 for(pStep in theQ){
                     z <- execute(pStep, z)
@@ -932,8 +972,9 @@ setMethod("compareSpectra", c("OnDiskMSnExp", "missing"),
             }
             if (is.null(APPLF))
                 return(z)
-            return(APPLF(z))
-        }, theQ=queue, APPLF=APPLYFUN)
+            ## return(APPLF(z, APPLA))
+            return(do.call(APPLF, args = c(list(z), ...)))
+        }, theQ=queue, APPLF=APPLYFUN, ...)
     }
     return(res)
 }

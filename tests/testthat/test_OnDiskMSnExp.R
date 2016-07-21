@@ -366,3 +366,29 @@ test_that("bin on OnDiskMSnExp", {
     mseSpec <- mseSpec[fromFile(mse) == 1]
     expect_identical(mseSpec, Test)
 }
+
+############################################################
+## Test internal spectrapply method.
+test_that("Test internal spectrapply function", {
+    spl <- spectra(onDisk)
+    ## Test Spectrum method:
+    res1 <- lapply(spl, ionCount)
+    res2 <- MSnbase:::spectrapply(onDisk, ionCount)
+    expect_identical(res1, res2)
+
+    ## Plain function
+    res1 <- lapply(spl, function(z) {return(mean(mz(z)))})
+    res2 <- MSnbase:::spectrapply(onDisk, function(z) {
+        return(mean(mz(z)))
+    })
+    expect_identical(res1, res2)
+
+    ## Additional arguments.
+    res1 <- lapply(spl, function(z, int) {
+        return(mean(mz(z)[intensity(z) > int]))
+    }, int = 30)
+    res2 <- MSnbase:::spectrapply(onDisk, function(z, int) {
+        return(mean(mz(z)[intensity(z) > int]))
+    }, int = 30)
+    expect_identical(res1, res2)
+})

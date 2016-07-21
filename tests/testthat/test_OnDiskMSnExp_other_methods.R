@@ -111,3 +111,48 @@ test_that("Compare OnDiskMSnExp and MSnExp compareSpectra", {
     expect_identical(csp, csp2)
 })
 
+############################################################
+## pickPeaks
+test_that("Compare OnDiskMSnExp and MSnExp pickPeaks", {
+    ## Setting centroided FALSE to avoid warnings...
+    centroided(inmem1) <- FALSE
+    system.time(
+        pp <- pickPeaks(inmem1)
+    ) ## 0.5 sec
+    centroided(ondisk1) <- FALSE
+    pp2 <- pickPeaks(ondisk1)
+    expect_true(all.equal(pp, pp2))
+    pc <- peaksCount(pp)
+    pc2 <- peaksCount(pp2)
+    names(pc) <- NULL
+    names(pc2) <- NULL
+    expect_identical(pc, pc2)
+})
+
+############################################################
+## estimateNoise
+test_that("Compare OnDiskMSnExp and MSnExp estimateNoise", {
+    centroided(inmem1) <- FALSE
+    system.time(
+        en <- estimateNoise(inmem1)
+    ) ## 0.142
+    centroided(ondisk1) <- FALSE
+    system.time(
+        en2 <- estimateNoise(ondisk1)
+    ) ## 1.1
+    names(en) <- NULL
+    names(en2) <- NULL
+    expect_identical(en, en2)
+    ## Same with method = SuperSmoother
+    centroided(inmem1) <- FALSE
+    system.time(
+        en <- estimateNoise(inmem1, method = "SuperSmoother")
+    ) ## 1.149
+    centroided(ondisk1) <- FALSE
+    system.time(
+        en2 <- estimateNoise(ondisk1, method = "SuperSmoother")
+    ) ## 2.9
+    names(en) <- NULL
+    names(en2) <- NULL
+    expect_identical(en, en2)
+})

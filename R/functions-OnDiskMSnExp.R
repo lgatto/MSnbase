@@ -173,7 +173,8 @@ spectrapply <- function(object, FUN = NULL,
                      filenames = fileNames(object),
                      queue = processingQueue(object),
                      APPLYFUN = FUN,
-                     BPPARAM = BPPARAM, ...)
+                     BPPARAM = BPPARAM,
+                     ...)
     names(vals) <- NULL
     vals <- unlist(vals, recursive = FALSE)
     return(vals[rownames(fData(object))])
