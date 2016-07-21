@@ -552,6 +552,10 @@ all(is.na(centroided(odmse)))
 centroided(odmse, msLevel = 1) <- FALSE
 centroided(odmse, msLevel = 2) <- TRUE
 table(centroided(odmse), msLevel(odmse))
+
+odmse2 <- readMSData2(f, centroided = c(FALSE, TRUE))
+table(centroided(odmse), msLevel(odmse))
+
 }
 
 \keyword{classes}

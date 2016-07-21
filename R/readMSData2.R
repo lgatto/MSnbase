@@ -2,11 +2,9 @@ readMSData2 <- function(files,
                         pdata = NULL,
                         msLevel,
                         verbose = TRUE,
-                        centroided = NA,
+                        centroided,
                         smoothed = NA) {
     .testReadMSDataInput(environment())
-    ## Check the backend argument; we're supporting "disk" only for msLevel=1
-    ## TODO: add also a trimMz argument.
     ## Creating environment with Spectra objects
     assaydata <- new.env(parent = emptyenv())
     ioncount <- c()
@@ -52,7 +50,7 @@ readMSData2 <- function(files,
         ## o centroided and smoothed are parameter argument.
         fdData <- cbind(fileIdx = filen,
                         spIdx = spidx,
-                        centroided = centroided,
+                        centroided = NA,
                         smoothed = smoothed,
                         fdData, stringsAsFactors = FALSE)
         featureDataList <- c(featureDataList, list(fdData))
@@ -64,7 +62,6 @@ readMSData2 <- function(files,
                              level = 0,
                              lock = TRUE)
 
-    ## and do not close(msdata) above; rm(msdata) is OK
     ## Create 'MSnProcess' object
     process <- new("MSnProcess",
                    processing = paste0("Data loaded [", date(), "]"),
@@ -79,18 +76,20 @@ readMSData2 <- function(files,
         pdata <- new("NAnnotatedDataFrame",
                      data = .pd)
     }
-    ## If we've got the featureDataList, use that one instead; that's for MS1 basically.
+    ## If we've got the featureDataList, use that one instead; that's
+    ## for MS1 basically.
     if (length(featureDataList) > 0){
         fdata <- do.call(rbind, featureDataList)
-        fdata <- cbind(fdata, spectrum = 1:nrow(fdata), stringsAsFactors = FALSE)
+        fdata <- cbind(fdata, spectrum = 1:nrow(fdata),
+                       stringsAsFactors = FALSE)
         fdata <- new("AnnotatedDataFrame", data = fdata)
         rownames(fdata) <- fullhdorder
         ## Re-order them
         fdata <- fdata[sort(fullhdorder), ]
         ## Re-order the features.
-        ##fdata <- fdata[ls(assaydata), ]
+        ## fdata <- fdata[ls(assaydata), ]
         ## Check if the ordering matches the environment.
-        if(!all(ls(assaydata) == rownames(fdata)))
+        if (!all(ls(assaydata) == rownames(fdata)))
             stop("Ordering of spectra in assayData does not match the order in featureData!")
     }
 
@@ -98,7 +97,8 @@ readMSData2 <- function(files,
     if (length(.instrumentInfo) > 1) {
         cmp <- length(unique(sapply(.instrumentInfo, "[[", 1)))
         if (cmp > 1)
-            warning("According to the instrument information in the files, the data has been acquired on different instruments!")
+            message("According to the instrument information in the files,\n",
+                    "the data has been acquired on different instruments!")
 
         for (nm in names(.instrumentInfo[[1]]))
             .instrumentInfo[[1]][[nm]] <- sapply(.instrumentInfo, "[[", nm)
@@ -120,7 +120,12 @@ readMSData2 <- function(files,
                .cache  =  .cacheEnv)
     if (!missing(msLevel)) {
         msLevel <- as.integer(msLevel)
-        res <- res[fData(res)$msLevel %in% msLevel]
+        res <- filterMsLevel(res, msLevel)
+    }
+    if (!missing(centroided)) {
+        stopifnot(is.logical(centroided))
+        for (i in seq_along(centroided))
+            centroided(res, msLevel = i) <- centroided[i]
     }
     return(res)
 }
