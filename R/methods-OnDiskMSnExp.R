@@ -483,6 +483,61 @@ setMethod("[", signature(x = "OnDiskMSnExp",
               return(x)
           })
 
+############################################################
+## precursorMz
+setMethod("precursorMz", "OnDiskMSnExp",
+          function(object) {
+              return(precursorValue_OnDiskMSnExp(object, column="precursorMZ"))
+          })
+
+############################################################
+## precursorCharge
+setMethod("precursorCharge", "OnDiskMSnExp",
+          function(object) {
+              return(precursorValue_OnDiskMSnExp(object, column="precursorCharge"))
+          })
+
+############################################################
+## precursorIntensity
+setMethod("precursorIntensity", "OnDiskMSnExp",
+          function(object) {
+              return(precursorValue_OnDiskMSnExp(object, column="precursorIntensity"))
+          })
+
+############################################################
+## precScanNum
+setMethod("precScanNum", "OnDiskMSnExp",
+          function(object) {
+              return(precursorValue_OnDiskMSnExp(object, column="precursorScanNum"))
+          })
+
+############################################################
+## extractPrecSpectra
+##
+## Just subset the featureData based on the prec.
+setMethod("extractPrecSpectra", signature = signature(object = "OnDiskMSnExp",
+                                                      prec = "numeric"),
+          function(object, prec){
+              ## Match prec with the precursorMz.
+              gotEm <- which(precursorMz(object) %in% prec)
+              if (length(gotEm) == 0)
+                  stop("None of the precursor MZ values found in",
+                       " 'OnDiskMSnExp' object.")
+              if (length(gotEm) != length(prec))
+                  warning(length(prec) - length(gotEm), " precursor MZ",
+                          " values not found in 'OnDiskMSnExp' object.")
+              ## Subset the object; sorting the indices!
+              object <- object[sort(gotEm)]
+              ## Add processingData.
+              object@processingData@processing <- c(object@processingData@processing,
+                                                    paste(length(prec)," (",
+                                                          length(gotEm),
+                                                          ") precursors (spectra)",
+                                                          " extracted: ",
+                                                          date(),sep=""))
+              return(object)
+          })
+
 
 ##============================================================
 ##  --  DATA MANIPULATION METHODS
@@ -711,6 +766,7 @@ setMethod("estimateNoise", "OnDiskMSnExp",
                                  method = method, ...)
               return(res)
           })
+
 
 
 ##============================================================

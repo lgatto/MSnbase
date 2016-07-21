@@ -180,4 +180,19 @@ spectrapply <- function(object, FUN = NULL,
     return(vals[rownames(fData(object))])
 }
 
-
+############################################################
+## precursorValue_OnDiskMSnExp
+##
+## Returns requested information from the featureData, ensuring
+## that data for MS1 is set to NA. Throws an error if the
+## object contains only MS1 data.
+precursorValue_OnDiskMSnExp <- function(object, column) {
+    ## Throw an error if we've got only MS1:
+    if (all(unique(msLevel(object)) == 1))
+        stop("This experiment contains MS1 spectra.")
+    ps <- fData(object)[, column]
+    names(ps) <- featureNames(object)
+    ## Replacing values for MS 1 with NA.
+    ps[msLevel(object) == 1] <- NA
+    return(ps)
+}

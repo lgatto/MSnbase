@@ -156,3 +156,22 @@ test_that("Compare OnDiskMSnExp and MSnExp estimateNoise", {
     names(en2) <- NULL
     expect_identical(en, en2)
 })
+
+############################################################
+## extractPrecSpectra
+test_that("Compare OnDiskMSnExp and MSnExp extractPrecSpectra", {
+    precMzs <- precursorMz(inmem2)
+    exP <- sample(1:length(precMzs), 20)
+    extsp <- extractPrecSpectra(inmem2, prec = precMzs[exP])
+    extsp2 <- extractPrecSpectra(ondisk2, prec = precMzs[exP])
+
+    expect_true(all.equal(extsp, extsp2))
+
+    ## Now with a multi-MS-level object.
+    extsp3 <- extractPrecSpectra(ondisk, prec = precMzs[exP])
+    expect_true(all.equal(extsp2, extsp3))
+
+    ## Check that the precursorMz matches:
+    expect_identical(unname(precMzs[sort(exP)]),
+                     unname(precursorMz(extsp2)))
+})

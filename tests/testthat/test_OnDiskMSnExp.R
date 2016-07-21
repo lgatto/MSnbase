@@ -392,3 +392,52 @@ test_that("Test internal spectrapply function", {
     }, int = 30)
     expect_identical(res1, res2)
 })
+
+############################################################
+## Test precursor* methods
+test_that("Test precursor* for OnDiskMSnExp", {
+    ## o precursorMz
+    pmz <- precursorMz(ondisk)
+    pmz2 <- precursorMz(ondisk2)
+    expect_true(all(is.na(pmz[msLevel(ondisk) == 1])))
+    expect_identical(pmz2, pmz[names(pmz2)])
+
+    ##  Finally compare to inmem.
+    pmz <- precursorMz(inmem2)
+    names(pmz) <- names(pmz2) <- NULL
+    expect_identical(pmz, pmz2)
+
+    ## o precursorCharge
+    pch <- precursorCharge(ondisk)
+    pch2 <- precursorCharge(ondisk2)
+    expect_true(all(is.na(pch[msLevel(ondisk) == 1])))
+    expect_identical(pch2, pch[names(pch2)])
+
+    ##  Finally compare to inmem.
+    pch <- precursorCharge(inmem2)
+    names(pch) <- names(pch2) <- NULL
+    expect_identical(pch, pch2)
+
+    ## o precursorIntensity
+    pint <- precursorIntensity(ondisk)
+    pint2 <- precursorIntensity(ondisk2)
+    expect_true(all(is.na(pint[msLevel(ondisk) == 1])))
+    expect_identical(pint2, pint[names(pint2)])
+
+    ##  Finally compare to inmem.
+    pint <- precursorIntensity(inmem2)
+    names(pint) <- names(pint2) <- NULL
+    expect_identical(pint, pint2)
+
+    ## o precScanNum
+    pcn <- precScanNum(ondisk)
+    pcn2 <- precScanNum(ondisk2)
+    expect_true(all(is.na(pcn[msLevel(ondisk) == 1])))
+    expect_identical(pcn2, pcn[names(pcn2)])
+
+    ##  Finally compare to inmem.
+    pcn <- precScanNum(inmem2)
+    names(pcn) <- names(pcn2) <- NULL
+    expect_identical(pcn, pcn2)
+})
+
