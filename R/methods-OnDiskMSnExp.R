@@ -146,7 +146,7 @@ setMethod("acquisitionNum", "OnDiskMSnExp",
 ## Getter/setter for the centroided information; extracting this from
 ## the featureData.
 setMethod("centroided", "OnDiskMSnExp",
-          function(object){
+          function(object) {
               val <- fData(object)$centroided
               names(val) <- featureNames(object)
               return(val)
@@ -702,6 +702,29 @@ setMethod("smooth", "OnDiskMSnExp",
               return(x)
           })
 
+
+
+############################################################
+## pickPeaks
+setMethod("pickPeaks", "OnDiskMSnExp",
+          function(object, halfWindowSize = 3L,
+                   method = c("MAD", "SuperSmoother"),
+                    SNR = 0L, ...) {
+              method <- match.arg(method)
+              ps <- ProcessingStep("pickPeaks",
+                                   list(method = method,
+                                        halfWindowSize = halfWindowSize,
+                                        SNR = SNR, ...))
+              object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
+                                                 list(ps))
+              object@processingData@processing <- c(object@processingData@processing,
+                                                    paste0("Peak picking (",
+                                                           method, "): ", date()))
+              fData(object)$centroided <- TRUE
+              if (validObject(object))
+                  return(object)
+          })
+
 ############################################################
 ## compareSpectra
 setMethod("compareSpectra", c("OnDiskMSnExp", "missing"),
@@ -898,12 +921,12 @@ setMethod("estimateNoise", "OnDiskMSnExp",
                       centroided = z$centroided,
                       polarity = z$polarity)
             ## Now, apply the Queue.
-            if(length(theQ) > 0){
+            if (length(theQ) > 0){
                 for(i in 1:length(theQ)){
                     sp <- execute(theQ[[i]], sp)
                 }
             }
-            if(is.null(APPLYFUN))
+            if (is.null(APPLYFUN))
                 return(sp)
             ## Now what remains is to apply the APPLYFUN and return results.
             return(APPLYFUN(sp))
@@ -1015,7 +1038,7 @@ setMethod("estimateNoise", "OnDiskMSnExp",
     res <- res[match(rownames(fData), names(res))]
     ## If we have a non-empty queue, we might want to execute that too.
     if (!is.null(APPLYFUN) | length(queue) > 0){
-        if (length(queue) > 0){
+        if (length(queue) > 0) {
             message("Apply lazy processing step(s):")
             for (j in 1:length(queue))
                 message(" o '", queue[[j]]@FUN, "' with ", length(queue[[j]]@ARGS), " argument(s).")
@@ -1034,4 +1057,3 @@ setMethod("estimateNoise", "OnDiskMSnExp",
     }
     return(res)
 }
-
