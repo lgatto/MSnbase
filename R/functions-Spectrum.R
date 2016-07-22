@@ -259,21 +259,26 @@ trimMz_Spectrum <- function(x, mzlim, msLevel., updatePeaksCount = TRUE) {
         if (!(msLevel(x) %in% msLevel.))
             return(x)
     }
-  mzmin <- min(mzlim)
-  mzmax <- max(mzlim)
-  sel <- (x@mz >= mzmin) & (x@mz <= mzmax)
-  if (sum(sel)==0) {
-    warning(paste("No data points between ", mzmin, " and ", mzmax,
-                  " for spectrum with acquisition number ",
-                  acquisitionNum(x), ".\n Leaving data as is.",
-                  sep = ""))
+    mzmin <- min(mzlim)
+    mzmax <- max(mzlim)
+    sel <- (x@mz >= mzmin) & (x@mz <= mzmax)
+    if (sum(sel) == 0) {
+        msg <- paste0("No data points between ", mzmin,
+                      " and ", mzmax,
+                      " for spectrum with acquisition number ",
+                      acquisitionNum(x),
+                      ". Returning empty spectrum.")
+        warning(paste(strwrap(msg), collapse = "\n"))
+        x@mz <- c(mzmin, mzmax)
+        x@intensity <- c(0L, 0L)
+        x@tic <- x@peaksCount <- 0L
+        return(x)
+    }
+    x@mz <- x@mz[sel]
+    x@intensity <- x@intensity[sel]
+    if (updatePeaksCount)
+        x@peaksCount <- as.integer(length(x@intensity))
     return(x)
-  }
-  x@mz <- x@mz[sel]
-  x@intensity <- x@intensity[sel]
-  if (updatePeaksCount)
-    x@peaksCount <- as.integer(length(x@intensity))
-  return(x)
 }
 
 normalise_Spectrum <- function(object, method, value) {
