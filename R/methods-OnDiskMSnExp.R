@@ -706,20 +706,23 @@ setMethod("smooth", "OnDiskMSnExp",
 
 ############################################################
 ## pickPeaks
+## Add a pickPeaks step to the processing queue
 setMethod("pickPeaks", "OnDiskMSnExp",
           function(object, halfWindowSize = 3L,
                    method = c("MAD", "SuperSmoother"),
-                    SNR = 0L, ...) {
+                   SNR = 0L, ...) {
               method <- match.arg(method)
               ps <- ProcessingStep("pickPeaks",
                                    list(method = method,
                                         halfWindowSize = halfWindowSize,
-                                        SNR = SNR, ...))
+                                        SNR = SNR,
+                                        ignoreCentroided = TRUE, ...))
               object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
                                                  list(ps))
               object@processingData@processing <- c(object@processingData@processing,
                                                     paste0("Peak picking (",
                                                            method, "): ", date()))
+              object@processingData@smoothed <- TRUE
               fData(object)$centroided <- TRUE
               if (validObject(object))
                   return(object)
@@ -750,27 +753,6 @@ setMethod("compareSpectra", c("OnDiskMSnExp", "missing"),
               }
 
               return(m)
-          })
-
-############################################################
-## pickPeaks
-##
-## Add a pickPeaks step to the processing queue
-setMethod("pickPeaks", "OnDiskMSnExp",
-          function(object, halfWindowSize = 3L,
-                   method = c("MAD", "SuperSmoother"), SNR = 0L, ...) {
-              method <- match.arg(method)
-              ps <- ProcessingStep("pickPeaks", list(halfWindowSize = halfWindowSize,
-                                                     method = method, SNR = SNR, ...))
-              object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
-                                                 list(ps))
-              ## ----------------------------------------------------------
-              ## TODO: @lgatto object@processingData@centroided ?
-              ## object@processingData@smoothed <- TRUE
-              object@processingData@processing <- c(object@processingData@processing,
-                                                    paste0("Spectra centroided: ",
-                                                           date()))
-              return(object)
           })
 
 ############################################################
@@ -1041,11 +1023,12 @@ setMethod("estimateNoise", "OnDiskMSnExp",
         if (length(queue) > 0) {
             message("Apply lazy processing step(s):")
             for (j in 1:length(queue))
-                message(" o '", queue[[j]]@FUN, "' with ", length(queue[[j]]@ARGS), " argument(s).")
+                message(" o '", queue[[j]]@FUN, "' with ",
+                        length(queue[[j]]@ARGS), " argument(s).")
         }
         res <- lapply(res, function(z, theQ, APPLF, ...){
-            if (length(theQ) > 0){
-                for(pStep in theQ){
+            if (length(theQ) > 0) {
+                for (pStep in theQ) {
                     z <- execute(pStep, z)
                 }
             }
@@ -1053,7 +1036,7 @@ setMethod("estimateNoise", "OnDiskMSnExp",
                 return(z)
             ## return(APPLF(z, APPLA))
             return(do.call(APPLF, args = c(list(z), ...)))
-        }, theQ=queue, APPLF=APPLYFUN, ...)
+        }, theQ = queue, APPLF = APPLYFUN, ...)
     }
     return(res)
 }

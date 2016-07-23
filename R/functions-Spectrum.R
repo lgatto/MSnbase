@@ -359,14 +359,15 @@ compare_Spectra <- function(x, y,
   return(NA)
 }
 
-estimateNoise_Spectrum <- function(object, method = c("MAD", "SuperSmoother"),
-                                   ...) {
+estimateNoise_Spectrum <- function(object,
+                                   method = c("MAD", "SuperSmoother"),
+                                   ignoreCentroided = FALSE, ...) {
   if (isEmpty(object)) {
     warning("Your spectrum is empty. Nothing to estimate.")
     return(matrix(NA, nrow=0L, ncol = 2L, dimnames = list(c(), c("mz", "intensity"))))
   }
 
-  if (object@centroided | is.na(object@centroided)) {
+  if (!ignoreCentroided & (object@centroided | is.na(object@centroided))) {
     warning("Noise estimation is only supported for profile spectra.")
     return(matrix(NA, nrow=0L, ncol = 2L, dimnames = list(c(), c("mz", "intensity"))))
   }
@@ -378,38 +379,40 @@ estimateNoise_Spectrum <- function(object, method = c("MAD", "SuperSmoother"),
 
 pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
                                method = c("MAD", "SuperSmoother"),
-                               SNR = 0L, ...) {
+                               SNR = 0L, ignoreCentroided = FALSE,
+                               ...) {
+    if (isEmpty(object)) {
+        warning("Your spectrum is empty. Nothing to pick.")
+        return(object)
+    }
 
-  if (isEmpty(object)) {
-    warning("Your spectrum is empty. Nothing to pick.")
-    return(object)
-  }
+    if (!ignoreCentroided & isTRUE(object@centroided)) {
+        warning("Your spectrum is already centroided.")
+        return(object)
+    }
 
-  if (isTRUE(object@centroided)) {
-    warning("Your spectrum is already centroided.")
-    return(object)
-  }
+    ## estimate noise
+    noise <- estimateNoise_Spectrum(object, method = method,
+                                    ignoreCentroided = ignoreCentroided,
+                                    ...)[, 2L]
 
-  ## estimate noise
-  noise <- estimateNoise_Spectrum(object, method = method, ...)[, 2L]
+    ## find local maxima
+    isLocalMaxima <- MALDIquant:::.localMaxima(intensity(object),
+                                               halfWindowSize = halfWindowSize)
 
-  ## find local maxima
-  isLocalMaxima <- MALDIquant:::.localMaxima(intensity(object),
-                                             halfWindowSize = halfWindowSize)
+    ## include only local maxima which are above the noise
+    isAboveNoise <- object@intensity > (SNR * noise)
 
-  ## include only local maxima which are above the noise
-  isAboveNoise <- object@intensity > (SNR * noise)
+    peakIdx <- which(isAboveNoise & isLocalMaxima)
 
-  peakIdx <- which(isAboveNoise & isLocalMaxima)
+    object@mz <- object@mz[peakIdx]
+    object@intensity <- object@intensity[peakIdx]
+    object@peaksCount <- length(peakIdx)
+    object@centroided <- TRUE
 
-  object@mz <- object@mz[peakIdx]
-  object@intensity <- object@intensity[peakIdx]
-  object@peaksCount <- length(peakIdx)
-  object@centroided <- TRUE
-
-  if (validObject(object)) {
-    return(object)
-  }
+    if (validObject(object)) {
+        return(object)
+    }
 }
 
 smooth_Spectrum <- function(object,
