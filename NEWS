@@ -8,6 +8,8 @@ CHANGES IN VERSION 1.21.8
    assigned (i.e. that have fcol (nprots) NA) <2016-07-02 Sat>
  o New smoothed slot/accessor/replacement methods <2016-07-08 Fri>
  o Update reporter masses and add TMT10 ETD/HCD <2016-07-20 Wed>
+ o returning empty spectrum when fliterMz has empty range - see issue
+   #134 <2016-07-22 Fri>
  
 CHANGES IN VERSION 1.21.7
 -------------------------
