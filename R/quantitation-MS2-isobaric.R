@@ -146,14 +146,17 @@ quantify_OnDiskMSnExp_max <- function(object, reporters,
                             spi = fdf$spIdx,
                             wd),
                     BPPARAM = BPPARAM)
+    ## quantitation data
     e <- do.call(rbind, lapply(res, "[[", "exprs"))
     colnames(e) <- reporterNames(reporters)
-    rownames(e) <- unlist(lapply(fDataPerFile, rownames), use.names = FALSE)
+    rownames(e) <- unlist(lapply(fDataPerFile, rownames),
+                          use.names = FALSE)
     e <- e[featureNames(object), ]
-
+    ## MZ at max (for reporter accuracy QC)
     mzs <- do.call(rbind, lapply(res, "[[", "mzs"))
     colnames(mzs) <- reporterNames(reporters)
-    rownames(mzs) <- unlist(lapply(fDataPerFile, rownames), use.names = FALSE)
+    rownames(mzs) <- unlist(lapply(fDataPerFile, rownames),
+                            use.names = FALSE)
     mzs <- mzs[featureNames(object), ]
     rm(res)
     
