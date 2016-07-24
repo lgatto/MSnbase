@@ -26,6 +26,8 @@
 \alias{tic}
 \alias{ionCount,Spectrum-method}
 \alias{ionCount}
+\alias{isCentroided,Spectrum-method}
+\alias{isCentroided}
 \alias{centroided,Spectrum-method}
 \alias{centroided}
 \alias{centroided<-,Spectrum,ANY-method}
@@ -123,23 +125,39 @@
       of the spectrum as an integer. }
     \item{\code{scanIndex(object)}}{ Returns the scan index of the
       spectrum as an integer. }
+    
     \item{\code{centroided(object)}}{ Indicates whether spectrum is
-      centroided ('TRUE') or in profile mode ('FALSE'). }
+      centroided (\code{TRUE}), in profile mode (\code{FALSE}), or
+      unkown (\code{NA}). }
+
+    \item{\code{isCentroided(object, k=0.025, qtl=0.9)}}{ A heuristic
+      assessing if a spectrum is in profile or centroided mode. The
+      function takes the \code{qtl}th quantile top peaks, then
+      calculates the difference between adjacent M/Z value and returns
+      \code{TRUE} if the first quartile is greater than \code{k}. (See
+      \code{MSnbase:::.isCentroided} for the code.) The function has
+      been tuned to work for MS1 and MS2 spectra and data centroided
+      using different peak picking algorithms, but false positives can
+      occur. See \url{https://github.com/lgatto/MSnbase/issues/131} for
+      details.}
+    
+    
     \item{\code{smoothed(object)}}{ Indicates whether spectrum is
-      smoothed ('TRUE') or not ('FALSE'). }    
-    \item{\code{centroided(object) <- value}}{ Sets the 'centroided'
+      smoothed (\code{TRUE}) or not (\code{FALSE}). }
+    
+    \item{\code{centroided(object) <- value}}{ Sets the \code{centroided}
       status of the spectrum object. }
-    \item{\code{smoothed(object) <- value}}{ Sets the 'smoothed'
+    \item{\code{smoothed(object) <- value}}{ Sets the \code{smoothed}
       status of the spectrum object. }    
     \item{\code{fromFile(object)}}{ Returns the index of the raw data
       file from which the current instances originates as an
       integer. }
     \item{\code{intensity(object)}}{ Returns an object of class
-      \code{"numeric"} containing the intensities of the spectrum. }
+      \code{numeric} containing the intensities of the spectrum. }
     \item{\code{msLevel(object)}}{ Returns an MS level of the spectrum
       as an integer. }
     \item{\code{mz(object, ...)}}{ Returns an object of class
-      \code{"numeric"} containing the MZ value of the spectrum
+      \code{numeric} containing the MZ value of the spectrum
       peaks. Additional arguments are currently ignored. }
     \item{\code{peaksCount(object)}}{ Returns the number of peaks
       (possibly of 0 intensity) as an integer. }

@@ -45,7 +45,7 @@ Depends:
     Biobase (>= 2.15.2),
     mzR,
     BiocParallel,
-    ProtGenerics (>= 1.3.1)
+    ProtGenerics (>= 1.5.1)
 Imports:
     plyr,
     IRanges,

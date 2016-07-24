@@ -251,3 +251,7 @@ setMethod("removeReporters","Spectrum",
 
 setMethod("isEmpty", "Spectrum",
           function(x) length(x@mz) == 0)
+
+setMethod("isCentroided", "Spectrum",
+          function(object, ...)
+              .isCentroided(as(object, "data.frame"), ...))

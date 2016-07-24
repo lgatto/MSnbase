@@ -17,6 +17,7 @@
 \alias{[[,OnDiskMSnExp,ANY,missing,missing-method}
 \alias{acquisitionNum,OnDiskMSnExp-method}
 \alias{assayData,OnDiskMSnExp-method}
+\alias{isCentroided,OnDiskMSnExp-method}
 \alias{centroided,OnDiskMSnExp-method}
 \alias{centroided<-,OnDiskMSnExp,logical-method}
 \alias{smoothed,OnDiskMSnExp-method}
@@ -208,6 +209,24 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
       \code{centroided(object) <- value} to update the information, with
       value being a logical vector of length equal to the number of
       spectra in the experiment.  }
+
+    \item{\code{isCentroided(object, k=0.025, qtl=0.9, verbose =
+      TRUE)}}{ A heuristic assessing if the spectra in the \code{object}
+      are in profile or centroided mode. The function takes the
+      \code{qtl}th quantile top peaks, then calculates the difference
+      between adjacent M/Z value and returns \code{TRUE} if the first
+      quartile is greater than \code{k}. (See
+      \code{MSnbase:::.isCentroided} for the code.) If \code{verbose}
+      (default), a table indicating mode for all MS levels is printed.
+
+      The function has been tuned to work for MS1 and MS2 spectra and
+      data centroided using different peak picking algorithms, but false
+      positives can occur. See
+      \url{https://github.com/lgatto/MSnbase/issues/131} for
+      details. For whole experiments, where all MS1 and MS2 spectra are
+      expected to be in the same, albeit possibly different modes, it is
+      advised to assign the majority result for MS1 and MS2 spectra,
+      rather than results for individual spectra.  }
 
     \item{smoothed,smoothed<-}{
       \code{smoothed(signature(object="OnDiskMSnExp", msLevel. =

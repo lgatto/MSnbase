@@ -166,6 +166,15 @@ setReplaceMethod("centroided",
                          return(object)
                  })
 
+setMethod("isCentroided", "OnDiskMSnExp",
+          function(object, ..., verbose = TRUE) {
+              pkl <- lapply(spectra(object), as.data.frame)
+              ctrd <- lapply(pkl, .isCentroided, ...)
+              ctrd <- unlist(ctrd, use.names = FALSE)
+              if (verbose) print(table(ctrd, msLevel(object)))
+              ctrd
+          })
+
 ############################################################
 ## smoothed
 ##
