@@ -171,9 +171,11 @@ quantify_OnDiskMSnExp_max <- function(object, reporters,
         } else {
             ## Here, something more clever should be done, like replicating
             ## old phenoData variables length(reporters) times
-            message(paste(strwrap(paste0("Original MSnExp and new MSnSet have ",
-                                         "different number of samples in phenoData. ",
-                                         "Dropping original.")), collapse = "\n"))
+            msg <- paste(strwrap(paste0("Original MSnExp and new MSnSet have ",
+                                        "different number of samples in ",
+                                        "phenoData. Dropping original.")),
+                         collapse = "\n")
+            message(msg)
         }
     }
 

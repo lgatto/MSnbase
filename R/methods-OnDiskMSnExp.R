@@ -397,7 +397,7 @@ setMethod("[[", "OnDiskMSnExp",
           })
 
 setMethod("quantify",
-          signature = signature("OnMSnExp"),
+          signature = signature("OnDiskMSnExp"),
           function(object,
                    method = c(
                        "trapezoidation", "max", "sum",
@@ -405,30 +405,36 @@ setMethod("quantify",
                        "SAF", "NSAF",
                        "count"),
                    reporters,
+                   wd = width(reporters),
                    strict = FALSE,
                    BPPARAM,
                    verbose = TRUE,
                    ...) {
               method <- match.arg(method)
-              ## this assumes that if first spectrum has msLevel > 1,
-              ## all have
               if (!all(msLevel(object) == 2)) {
                   message("Currently only MS2 quantitation: filtering MS2 spectra.")
                   object <- filterMsLevel(object, msLevel. = 2L)
               }
-              stop("Under development - see issue #130")
               ## MS2 isobaric
               if (method %in% c("trapezoidation", "max", "sum")) {
                   if (!inherits(reporters, "ReporterIons"))
-                      stop("Argument 'reporters' must inherit from 'ReporterIons' class.")
+                      stop("Argument 'reporters' must inherit from ",
+                           "'ReporterIons' class.")
                   if (missing(BPPARAM)) {
                       BPPARAM <- bpparam()
                       if (verbose)
                           message("Using default parallel backend: ",
                                   class(BPPARAM)[1])
                   }
-                  quantify_MSnExp(object, method, reporters, strict,
-                                  BPPARAM, qual, verbose)
+                  if (method != "max")
+                      stop("Not yet implemented - see issue #130")
+                  if (!verbose)
+                      suppressMessages(quantify_OnDiskMSnExp_max(object,
+                                                                 reporters,
+                                                                 wd,
+                                                                 BPPARAM))
+                  else quantify_OnDiskMSnExp_max(object, reporters,
+                                                 wd, BPPARAM)
               } else if (method == "count") {
                   count_MSnSet(object)
               } else {
