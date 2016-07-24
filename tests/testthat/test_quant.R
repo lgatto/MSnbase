@@ -2,13 +2,16 @@ context("Quantitation")
 
 test_that("MS2 isobaric quantitation", {
     ## removeReporters
-    expect_true(all.equal(removeReporters(itraqdata[[1]]), itraqdata[[1]]))
+    expect_true(all.equal(removeReporters(itraqdata[[1]]),
+                          itraqdata[[1]]))
     expect_true(all.equal(removeReporters(itraqdata,
-                                          reporters=iTRAQ4,
-                                          verbose=FALSE)[[1]],
-                          removeReporters(itraqdata[[1]], reporters=iTRAQ4)))
+                                          reporters = iTRAQ4,
+                                          verbose = FALSE)[[1]],
+                          removeReporters(itraqdata[[1]],
+                                          reporters = iTRAQ4)))
     ## quantitation should be 0
-    expect_true(all(quantify(removeReporters(itraqdata[[1]], reporters=iTRAQ4),
+    expect_true(all(quantify(removeReporters(itraqdata[[1]],
+                                             reporters = iTRAQ4),
                              method = "max", reporters = iTRAQ4)[[1]] == 0))
     ## checking that quantification work for exp of length 1
     q1 <- quantify(itraqdata[1], reporters = iTRAQ4, method = "max",
@@ -28,7 +31,7 @@ test_that("Parallel quantification", {
 
 
 test_that("Counting and tic MSnSets", {
-    f <- dir(system.file(package = "MSnbase",dir = "extdata"),
+    f <- dir(system.file(package = "MSnbase", dir = "extdata"),
              full.name = TRUE, pattern = "msx.rda")
     load(f) ## msx
     ## count
@@ -77,7 +80,7 @@ test_that("MS2 labelfree quantitation: SI", {
 
 test_that("MS2 labelfree quantitation: SAF", {
     ## prepare data
-    f <- dir(system.file(package = "MSnbase",dir = "extdata"),
+    f <- dir(system.file(package = "MSnbase", dir = "extdata"),
              full.name = TRUE, pattern = "msx.rda")
     load(f) ## msx
     fData(msx)$accession[3:4] <- "protein"
@@ -86,7 +89,7 @@ test_that("MS2 labelfree quantitation: SAF", {
     fData(msx)$length[3:4] <- 100   
     msx <- MSnbase:::utils.removeNoIdAndMultipleAssignments(msx)
     ## SAF
-    saf <- MSnbase:::SAF(msx, method = "SAF")    
+    saf <- MSnbase:::SAF(msx, method = "SAF")
     m <- rep(1, length(msx))
     m <- tapply(m, fData(msx)$accession, sum, simplify = FALSE)
     m <- unlist(m)
@@ -97,4 +100,15 @@ test_that("MS2 labelfree quantitation: SAF", {
     nsaf <- MSnbase:::SAF(msx, method = "NSAF")
     m <- m/sum(m)
     expect_equal(exprs(nsaf)[, 1], m)
+})
+
+
+test_that("quantify_OnDiskMSnExp_max (fastquant_max)", {
+    f <- dir(system.file(package = "MSnbase",dir = "extdata"),
+             full.name = TRUE, pattern = "dummyiTRAQ.mzXML")
+    x1 <- readMSData(f, msLevel = 2, verbose = FALSE)
+    x2 <- readMSData2(f, msLevel = 2, verbose = FALSE)
+    e1 <- quantify(x1, method = "max", reporters = iTRAQ4, verbose = FALSE)
+    e2 <- quantify(x2, method = "max", reporters = iTRAQ4, verbose = FALSE)
+    expect_identical(exprs(e1), exprs(e2))
 })
