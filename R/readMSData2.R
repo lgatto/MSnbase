@@ -124,8 +124,12 @@ readMSData2 <- function(files,
     }
     if (!missing(centroided)) {
         stopifnot(is.logical(centroided))
+        if (length(centroided) == 1) {
+            centroided(res) <- centroided
+        } else {
         for (i in seq_along(centroided))
             centroided(res, msLevel = i) <- centroided[i]
+        }
     }
     return(res)
 }

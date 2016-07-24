@@ -1,5 +1,20 @@
 context("readMSData2")
 
+test_that("msLevel set correctly", {
+    f <- msdata::proteomics(full.names = TRUE)
+    x <- readMSData2(f, verbose = FALSE)
+    expect_equivalent(centroided(x), rep(NA, length(x)))
+    x <- readMSData2(f, centroided = TRUE, verbose = FALSE)
+    expect_equivalent(centroided(x), rep(TRUE, length(x)))
+    x <- readMSData2(f, centroided = FALSE, verbose = FALSE)
+    expect_equivalent(centroided(x), rep(FALSE, length(x)))
+    x <- readMSData2(f, centroided = c(FALSE, TRUE), verbose = FALSE)
+    expect_true(all(centroided(filterMsLevel(x, msLevel = 2))))
+    expect_true(all(!centroided(filterMsLevel(x, msLevel = 1))))
+    x2 <- readMSData2(f, centroided = c(FALSE, TRUE, NA, NA), verbose = FALSE)
+    expect_identical(centroided(x), centroided(x2))
+})
+
 ############################################################
 ## Load the required data files.
 .getMzMLFiles <- function(force.msdata = FALSE) {
