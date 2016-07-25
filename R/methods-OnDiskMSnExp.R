@@ -166,19 +166,19 @@ setReplaceMethod("centroided",
                          return(object)
                  })
 
+## setMethod("isCentroided", "OnDiskMSnExp",
+##           function(object, ..., verbose = TRUE) {
+##               pkl <- lapply(spectra(object), as.data.frame)
+##               ctrd <- lapply(pkl, .isCentroided, ...)
+##               ctrd <- unlist(ctrd, use.names = FALSE)
+##               if (verbose) print(table(ctrd, msLevel(object)))
+##               ctrd
+##           })
+
 setMethod("isCentroided", "OnDiskMSnExp",
           function(object, ..., verbose = TRUE) {
-              pkl <- lapply(spectra(object), as.data.frame)
-              ctrd <- lapply(pkl, .isCentroided, ...)
-              ctrd <- unlist(ctrd, use.names = FALSE)
-              if (verbose) print(table(ctrd, msLevel(object)))
-              ctrd
-          })
-setGeneric("isCentroided2", function(object, ...) standardGeneric("isCentroided2"))
-setMethod("isCentroided2", "OnDiskMSnExp",
-          function(object, ..., verbose = TRUE) {
               res <- spectrapply(object, function(z, ...) {
-                  return(isCentroided(z, ...))
+                  return(.isCentroided(as(z, "data.frame"), ...))
               }, ...)
               ctrd <- unlist(res, use.names = FALSE)
               if (verbose) print(table(ctrd, msLevel(object)))

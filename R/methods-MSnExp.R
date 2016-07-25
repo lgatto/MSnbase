@@ -327,3 +327,12 @@ setMethod("idSummary", "MSnExp",
               fd$spectrumFile <- basename(fileNames(object)[fromFile(object)])
               return(utils.idSummary(fd))
           })
+
+setMethod("isCentroided", "MSnExp",
+          function(object, ..., verbose = TRUE) {
+              pkl <- lapply(spectra(object), as.data.frame)
+              ctrd <- lapply(pkl, .isCentroided, ...)
+              ctrd <- unlist(ctrd, use.names = FALSE)
+              if (verbose) print(table(ctrd, msLevel(object)))
+              ctrd
+          })
