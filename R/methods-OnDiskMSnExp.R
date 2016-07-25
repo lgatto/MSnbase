@@ -174,6 +174,16 @@ setMethod("isCentroided", "OnDiskMSnExp",
               if (verbose) print(table(ctrd, msLevel(object)))
               ctrd
           })
+setGeneric("isCentroided2", function(object, ...) standardGeneric("isCentroided2"))
+setMethod("isCentroided2", "OnDiskMSnExp",
+          function(object, ..., verbose = TRUE) {
+              res <- spectrapply(object, function(z, ...) {
+                  return(isCentroided(z, ...))
+              }, ...)
+              ctrd <- unlist(res, use.names = FALSE)
+              if (verbose) print(table(ctrd, msLevel(object)))
+              ctrd
+          })
 
 ############################################################
 ## smoothed
@@ -680,11 +690,11 @@ setMethod("bin", "OnDiskMSnExp", function(object, binSize = 1L, msLevel.) {
     if (!any(unique(msLevel(object)) %in% msLevel.)) {
         warning("No spectra of the specified MS level present.")
         return(object)
-    }    
+    }
     ## Get the M/Z range; note: calling spectrapply and returning just
     ## the M/Z range per spectrum is about twice as fast than getting
     ## all M/Z values and calculating the range on that (i.e.
-    ## range(mz(object)))    
+    ## range(mz(object)))
     mzr <- range(unlist(spectrapply(filterMsLevel(object, msLevel. = msLevel.),
                                     FUN = function(z) {
                                         return(range(mz(z), na.rm = TRUE))
@@ -913,7 +923,7 @@ setMethod("estimateNoise", "OnDiskMSnExp",
     }
     if (length(msLevelN) >= 1) {
         msnfd <- fData[msLevelN, , drop = FALSE]
-        ## TODO: write/use C-constructor        
+        ## TODO: write/use C-constructor
         ## For now we're using the lapply, new() approach iteratively
         ## reading each spectrum from file and creating the Spectrum2.
         res2 <- lapply(split(msnfd, rownames(msnfd)),
