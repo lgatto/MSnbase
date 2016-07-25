@@ -35,6 +35,34 @@ setReplaceMethod("featureNames",
                          return(object)
                  })
 
+
+as.MSnExp.OnDiskMSnExp <- function(x, ...)
+    as(x, "OnDiskMSnExp")
+
+setAs("OnDiskMSnExp", "MSnExp",
+      function(from) {
+          if (length(unique(msLevel(from))) != 1) {
+              msg <- c("'MSnExp' objects don't support multiple MS levels. ",
+                       "Please use 'filterMsLevel' to keep only one level ",
+                       "before coercing. ")
+              stop(paste(msg, collapse = "\n"))
+          }
+          ans <- new("MSnExp")
+          slts <- intersect(slotNames("OnDiskMSnExp"),
+                            slotNames("MSnExp"))
+          slts <- setdiff(slts,
+                          c(".__classVersion__", ".cache", "assayData"))
+          for (sl in slts)
+              slot(ans, sl) <- slot(from, sl)
+          ans@assayData <- list2env(spectra(from))
+          lockEnvironment(ans@assayData, bindings = TRUE)
+          ans <- MSnbase:::logging(ans, "Coerced from OnDiskMSnExp")
+          if (validObject(ans))
+              return(ans)
+      })
+
+
+
 ############################################################
 ## processingQueue
 processingQueue <- function(object) {
