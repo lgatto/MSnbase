@@ -948,6 +948,6 @@ countAndPrint <- function(x) {
 ## see issue #131
 .isCentroided <- function(pk, k = 0.025, qtl = 0.9) {
         .qtl <- quantile(pk[, 2], qtl)
-        x <- sort(pk[pk[, 2] > .qtl, 1])
+        x <- pk[pk[, 2] > .qtl, 1]
         quantile(diff(x), 0.25) > k
 }
