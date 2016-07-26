@@ -210,7 +210,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
       value being a logical vector of length equal to the number of
       spectra in the experiment.  }
 
-    \item{\code{isCentroided(object, k=0.025, qtl=0.9, verbose =
+    \item{\code{isCentroided(object, k = 0.025, qtl = 0.9, verbose =
       TRUE)}}{ A heuristic assessing if the spectra in the \code{object}
       are in profile or centroided mode. The function takes the
       \code{qtl}th quantile top peaks, then calculates the difference

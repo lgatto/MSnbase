@@ -951,3 +951,42 @@ countAndPrint <- function(x) {
         x <- pk[pk[, 2] > .qtl, 1]
         quantile(diff(x), 0.25) > k
 }
+
+
+##' @title Reads profile/centroided mode from an mzML file
+##' @param x An instance of \code{MSnExp} or \code{OnDiskMSnExp}
+##' @return A \code{logical} 
+.isCentroidedFromFile <- function(x) {
+    f <- fileNames(x)
+    if (.fileExt(f) != "mzML") {
+        return(rep(NA, length(x)))
+    } else {
+        xml <- XML::xmlParse(f)
+        x <- XML::xpathSApply(xml,
+                              "//x:spectrum/x:cvParam[@accession='MS:1000127' or @accession='MS:1000128']/../@index |
+                    //x:cvParam[@accession='MS:1000127' or @accession='MS:1000128']/@name",
+                    namespaces = c(x = "http://psi.hupo.org/ms/mzml"))
+        index <- as.double(x[seq(1, length(x), by = 2)])
+        res <- rep(NA, length(index))
+        res[grepl("centroid", x[seq(2, length(x), by = 2)])] <- TRUE
+        res[grepl("profile",  x[seq(2, length(x), by = 2)])] <- FALSE
+        res
+    }
+}
+
+
+
+## Returns the extension of the file. If that extension is on of the
+## usual archive extensions, as defined in gexts, then the last part
+## after the dot is removed and the extension is extracted again.
+.fileExt <- function(f,
+                     gexts = c("gz", "gzip", "bzip", "bzip2", "xz",
+                               "zip")) {
+    ext <- tools::file_ext(f)
+    if (ext %in% gexts) {
+        f <- basename(f)
+        f <- sub("\\.[a-z]+$", "", f)
+        ext <- g.fileExt(f)
+    }
+    ext
+}
