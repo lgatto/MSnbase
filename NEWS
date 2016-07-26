@@ -10,6 +10,9 @@ CHANGES IN VERSION 1.21.8
  o Update reporter masses and add TMT10 ETD/HCD <2016-07-20 Wed>
  o returning empty spectrum when fliterMz has empty range - see issue
    #134 <2016-07-22 Fri>
+ o (mz, intensity) values are reordered based on order(mz) - see issue
+   #135 <2016-07-26 Tue>
+ 
  
 CHANGES IN VERSION 1.21.7
 -------------------------
