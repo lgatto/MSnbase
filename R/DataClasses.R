@@ -219,6 +219,8 @@ setClass("Spectrum",
                  msg <- validMsg(msg,"Unequal number of MZ and intensity values.")
              if (length(mz(object)) != peaksCount(object))
                  msg <- validMsg(msg,"Peaks count does not match up with number of MZ values.")
+             if (any(diff(mz(object)) < 0))
+                 msg <- validMsg(msg, "MZ values are out of order.")
              if (is.null(msg)) TRUE
              else msg
          })
