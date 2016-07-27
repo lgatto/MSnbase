@@ -190,6 +190,10 @@ SEXP Multi_Spectrum1_constructor_mz_sorted(SEXP msLevel, SEXP peaksCount,
   double *pRt, *pTic;
   int *pPeaksCount, *pAcquisitionNum, *pScanIndex, *pPolarity,
     *pFromFile, *pCentroided, *pSmoothed, *pNvalues;
+  double *pCurrentMz, *pCmz, *pCint, *pMz, *pInt;
+
+  double currentTic;
+  int calcTic;
 
   pRt = REAL(rt);
   pTic = REAL(tic);
@@ -201,24 +205,38 @@ SEXP Multi_Spectrum1_constructor_mz_sorted(SEXP msLevel, SEXP peaksCount,
   pNvalues = INTEGER(nvalues);
   pCentroided = LOGICAL(centroided);
   pSmoothed = LOGICAL(smoothed);
+  pMz = REAL(mz);
+  pInt = REAL(intensity);
 
   for (int i = 0; i < n; i++) {
     currentN = pNvalues[i];
+    // Check if TIC is 0
+    currentTic = pTic[i];
+    calcTic = 0;
+    if (currentTic == 0)
+      calcTic = 1;
     // Creating the mz and intensity vectors.
     PROTECT(currentMz = NEW_NUMERIC(currentN));
     PROTECT(cMz = NEW_NUMERIC(currentN));
     PROTECT(cIntensity = NEW_NUMERIC(currentN));
+    // Create pointers to enable faster access (http://adv-r.had.co.nz/C-interface.html#c-vectors)
+    pCurrentMz = REAL(currentMz);
+    pCmz = REAL(cMz);
+    pCint = REAL(cIntensity);
     // Fill the vector with the M/Z values of the current spectrum
     for (int j = 0; j < currentN; j++) {
-      REAL(currentMz)[j] = REAL(mz)[startN + j];
+      pCurrentMz[j] = pMz[startN + j];
     }
     // Get the order of the M/Z values.
     int idx[currentN];
-    _get_order_of_double_array(REAL(currentMz), currentN, 0, idx, 0);
+    _get_order_of_double_array(pCurrentMz, currentN, 0, idx, 0);
     // Sort the M/Z and intensity values for the current spectrum by M/Z
     for (int j = 0; j < currentN; j++) {
-      REAL(cMz)[j] = REAL(currentMz)[idx[j]];
-      REAL(cIntensity)[j] = REAL(intensity)[startN + (idx[j])];
+      pCmz[j] = pCurrentMz[idx[j]];
+      pCint[j] = pInt[startN + (idx[j])];
+      // Calculate TIC if provided one was 0
+      if (calcTic)
+	currentTic += pCint[j];
     }
     // Create the new Spectrum1
     SET_VECTOR_ELT(out, i, _new_Spectrum1(msLevel,
@@ -226,7 +244,8 @@ SEXP Multi_Spectrum1_constructor_mz_sorted(SEXP msLevel, SEXP peaksCount,
 					  ScalarReal(pRt[i]),
 					  ScalarInteger(pAcquisitionNum[i]),
 					  ScalarInteger(pScanIndex[i]),
-					  ScalarReal(pTic[i]),
+					  /* ScalarReal(pTic[i]), */
+					  ScalarReal(currentTic),
 					  cMz,
 					  cIntensity,
 					  ScalarInteger(pFromFile[i]),

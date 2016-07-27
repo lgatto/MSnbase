@@ -68,6 +68,10 @@ test_that("C-level multi-Spectrum1 constructor with M/Z ordering", {
     acqN <- 1:4
     nvals <- rep(5000, 4)
 
+    mzValsList <- split(mzVals, f = rep(1:4, each = 5000))
+    intValsList <- split(intVals, f = rep(1:4, each = 5000))
+    idxList <- lapply(mzValsList, order)
+
     system.time(
         spectL <- MSnbase:::Spectra1_mz_sorted(rt = rts, acquisitionNum = acqN,
                                                scanIndex = acqN, mz = mzVals,
@@ -76,10 +80,24 @@ test_that("C-level multi-Spectrum1 constructor with M/Z ordering", {
                                                polarity = rep(1L, 4),
                                                nvalues = nvals)
     ) ## 0.003
+    ## Check the TIC: should be the sum of intensities
+    ticL <- lapply(intValsList, sum)
+    expect_equal(unname(unlist(ticL)),
+                 unname(unlist(lapply(spectL, tic))))
+    ## The same with tic specified
+    system.time(
+        spectL <- MSnbase:::Spectra1_mz_sorted(rt = rts, acquisitionNum = acqN,
+                                               scanIndex = acqN, mz = mzVals,
+                                               intensity = intVals,
+                                               fromFile = rep(1, 4),
+                                               polarity = rep(1L, 4),
+                                               nvalues = nvals,
+                                               tic = rep(12, 4))
+    ) ## 0.005
+    expect_equal(rep(12, 4),
+                 unname(unlist(lapply(spectL, tic))))
+
     ## Check if we've got the M/Z and intensity values correctly sorted.
-    mzValsList <- split(mzVals, f = rep(1:4, each = 5000))
-    intValsList <- split(intVals, f = rep(1:4, each = 5000))
-    idxList <- lapply(mzValsList, order)
     for (i in 1:length(idxList)) {
         expect_identical(mz(spectL[[i]]), mzValsList[[i]][idxList[[i]]])
         expect_identical(intensity(spectL[[i]]), intValsList[[i]][idxList[[i]]])
