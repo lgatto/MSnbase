@@ -81,6 +81,7 @@ Suggests:
     imputeLCMD,
     norm,
     gplots,
+    XML,
     shiny
 LinkingTo: Rcpp
 License: Artistic-2.0

@@ -968,6 +968,8 @@ orderInteger <- function(x, decreasing=FALSE, na.last=NA)
     if (.fileExt(f) != "mzML") {
         return(rep(NA, length(x)))
     } else {
+        if (!requireNamespace("XML"))
+            stop("Please install the XML package to use this functionality.")
         xml <- XML::xmlParse(f)
         x <- XML::xpathSApply(xml,
                               "//x:spectrum/x:cvParam[@accession='MS:1000127' or @accession='MS:1000128']/../@index |

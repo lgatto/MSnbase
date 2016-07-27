@@ -56,6 +56,9 @@
 %% Data validity etc
 \alias{validateOnDiskMSnExp}
 
+\alias{coerce,OnDiskMSnExp,MSnExp-method}
+\alias{as.MSnExp.OnDiskMSnExp}
+
 \title{The \code{OnDiskMSnExp} Class for MS Data And Meta-Data}
 
 \description{
@@ -470,6 +473,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 
 \section{Other methods and functions}{
   \describe{
+
     \item{validateOnDiskMSnExp}{
       \code{validateOnDiskMSnExp(signature(object = "OnDiskMSnExp"))}:
       validates an \code{OnDiskMSnExp} object and all of its spectra. In
@@ -477,6 +481,11 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
       method reads also all spectra from the original files, applies
       eventual processing steps and evaluates their validity.
     }
+
+    \item{\code{as(from, "MSnExp")}}{Converts the \code{OnDiskMSnExp}
+      object \code{from}, to an in-memory \code{MSnExp}. Also available
+      as an S3 method \code{as.MSnExp()}.}
+    
   }
 }
 
