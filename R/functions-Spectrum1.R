@@ -15,6 +15,8 @@ Spectrum1 <- function(peaksCount = length(mz), rt = numeric(),
                       fromFile = integer(), centroided = NA,
                       smoothed = NA,
                       polarity = NA_integer_){
+    if (tic == 0)
+        tic <- sum(intensity)
     res <- .Call("Spectrum1_constructor",
                  1L, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
                  intensity, fromFile, centroided, smoothed, polarity, TRUE,
@@ -40,7 +42,7 @@ Spectrum1_mz_sorted <- function(peaksCount = length(mz), rt = numeric(),
 }
 
 ############################################################
-##
+## This one does not ensure M/Z ordering is correct!
 Spectra1 <- function(peaksCount = NULL, rt = numeric(),
                      acquisitionNum = NA_integer_,
                      scanIndex = integer(), tic = 0, mz = numeric(),
