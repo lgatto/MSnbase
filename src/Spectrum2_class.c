@@ -1,6 +1,6 @@
 #include <R.h>
 #include <Rdefines.h>
-#include "Spectrum2_class.h"
+#include "MSnbase.h"
 #include <stdio.h>
 
 /************************************************************

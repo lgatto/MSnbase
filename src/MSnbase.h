@@ -32,3 +32,18 @@
 /* 		     SEXP buflength */
 /* ); */
 
+void _get_order_of_int_array(
+	const int *x,
+	int nelt,
+	int desc,
+	int *out,
+	int out_shift
+);
+
+void _get_order_of_double_array(
+	const double *x,
+	int nelt,
+	int desc,
+	int *out,
+	int out_shift
+);

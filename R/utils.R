@@ -951,3 +951,28 @@ countAndPrint <- function(x) {
         x <- sort(pk[pk[, 2] > .qtl, 1])
         quantile(diff(x), 0.25) > k
 }
+
+orderInteger <- function(x, decreasing=FALSE, na.last=NA)
+{
+    if (!is.integer(x))
+        stop("'x' must be an integer vector or a factor")
+    ## Uses _get_order_of_int_array() at the C level which is stable.
+    return(.Call("Integer_order", x, decreasing, PACKAGE="MSnbase"))
+}
+
+orderNumeric <- function(x, decreasing=FALSE, na.last=NA)
+{
+    if (!is.numeric(x))
+        stop("'x' must be a numeric")
+    ## Uses _get_order_of_int_array() at the C level which is stable.
+    return(.Call("Double_order", x, decreasing, PACKAGE="MSnbase"))
+}
+
+
+sortNumeric <- function(x, decreasing=FALSE, na.last=NA)
+{
+    if (!is.numeric(x))
+        stop("'x' must be a numeric")
+    ## Uses _get_order_of_int_array() at the C level which is stable.
+    return(.Call("sort_numeric", x, decreasing, PACKAGE="MSnbase"))
+}
