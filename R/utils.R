@@ -993,7 +993,7 @@ orderInteger <- function(x, decreasing=FALSE, na.last=NA)
     if (ext %in% gexts) {
         f <- basename(f)
         f <- sub("\\.[a-z]+$", "", f)
-        ext <- g.fileExt(f)
+        ext <- .fileExt(f)
     }
     ext
 }
