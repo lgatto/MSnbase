@@ -43,15 +43,15 @@ test_that("OnDiskMSnExp plot", {
 
 ############################################################
 ## trimMz
-test_that("OnDiskMSnExp trimMz", {
+test_that("OnDiskMSnExp filter/trimMz", {
     ## Comparing timings and results for the trimMz.
     inMem <- inmem1
     onDisk <- ondisk1
     system.time(
-        inMemMz <- trimMz(inMem, mzlim=c(500, 550))
+        inMemMz <- filterMz(inMem, mzlim=c(500, 550))
     ) ## 7.3 sec.
     system.time(
-        onDiskMz <- trimMz(onDisk, mzlim=c(500, 550))
+        onDiskMz <- filterMz(onDisk, mzlim=c(500, 550))
     ) ## woah, 0.009 sec (what a surprise ;) )
     expect_true(all.equal(inMemMz, onDiskMz))
 })

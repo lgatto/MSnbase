@@ -281,24 +281,25 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         }
         ## Call the C-constructor to create a list of Spectrum2
         ## objects.
-        res2 <- Spectra2(peaksCount = nValues,
-                         scanIndex = msnfd$spIdx,
-                         tic = msnfd$totIonCurrent,
-                         rt = msnfd$retentionTime,
-                         acquisitionNum = msnfd$acquisitionNum,
-                         mz = allSpect[, 1],
-                         intensity = allSpect[, 2],
-                         centroided = msnfd$centroided,
-                         fromFile = msnfd$fileIdx,
-                         polarity = msnfd$polarity,
-                         nvalues = nValues,
-                         msLevel = msnfd$msLevel,
-                         merged = msnfd$mergedScan,
-                         precScanNum = msnfd$precursorScanNum,
-                         precursorMz = msnfd$precursorMZ,
-                         precursorIntensity = msnfd$precursorIntensity,
-                         precursorCharge = msnfd$precursorCharge,
-                         collisionEnergy = msnfd$collisionEnergy)
+        ## Sorting of M/Z values as discussed in issue #135
+        res2 <- Spectra2_mz_sorted(peaksCount = nValues,
+                                   scanIndex = msnfd$spIdx,
+                                   tic = msnfd$totIonCurrent,
+                                   rt = msnfd$retentionTime,
+                                   acquisitionNum = msnfd$acquisitionNum,
+                                   mz = allSpect[, 1],
+                                   intensity = allSpect[, 2],
+                                   centroided = msnfd$centroided,
+                                   fromFile = msnfd$fileIdx,
+                                   polarity = msnfd$polarity,
+                                   nvalues = nValues,
+                                   msLevel = msnfd$msLevel,
+                                   merged = msnfd$mergedScan,
+                                   precScanNum = msnfd$precursorScanNum,
+                                   precursorMz = msnfd$precursorMZ,
+                                   precursorIntensity = msnfd$precursorIntensity,
+                                   precursorCharge = msnfd$precursorCharge,
+                                   collisionEnergy = msnfd$collisionEnergy)
         names(res2) <- rownames(msnfd)
         res <- c(res, res2)
     }

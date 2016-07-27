@@ -263,6 +263,9 @@ setMethod("tic", "OnDiskMSnExp",
         ## information from the feature data.
         recalc <- FALSE
     }
+    ## Also enforce re-calculation if we've got totIonCurrent of 0!
+    if (any(fData(object)$totIonCurrent == 0))
+        recalc <- TRUE
     if (recalc) {
         vals <- unlist(spectrapply(object,
                                    FUN = tic,

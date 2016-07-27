@@ -44,6 +44,7 @@ static SEXP _new_Spectrum2(SEXP msLevel, SEXP peaksCount, SEXP rt,
   return ans;
 }
 
+/*NOTE: this one does not ensure M/Z ordering!*/
 SEXP Spectrum2_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
 			   SEXP acquisitionNum, SEXP scanIndex, SEXP tic,
 			   SEXP mz, SEXP intensity, SEXP fromFile,
@@ -83,27 +84,44 @@ SEXP Spectrum2_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
  * number of M/Z and intensity values per spectrum.
  * This function is called by the R-function: Spectra1, argument checking is supposed
  * to take place there.
+ * This constructor ensures that M/Z-intensity pairs are ordered by M/Z. Also, it
+ * calculates the TIC if not provided (0).
  */
-SEXP Multi_Spectrum2_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
-				 SEXP acquisitionNum, SEXP scanIndex, SEXP tic,
-				 SEXP mz, SEXP intensity, SEXP fromFile,
-				 SEXP centroided, SEXP smoothed, SEXP polarity, SEXP merged,
-				 SEXP precScanNum, SEXP precursorMz,
-				 SEXP precursorIntensity, SEXP precursorCharge,
-				 SEXP collisionEnergy, SEXP nvalues,
-				 SEXP check)
+SEXP Multi_Spectrum2_constructor_mz_sorted(SEXP msLevel,
+					   SEXP peaksCount,
+					   SEXP rt,
+					   SEXP acquisitionNum,
+					   SEXP scanIndex,
+					   SEXP tic,
+					   SEXP mz,
+					   SEXP intensity,
+					   SEXP fromFile,
+					   SEXP centroided,
+					   SEXP smoothed,
+					   SEXP polarity,
+					   SEXP merged,
+					   SEXP precScanNum,
+					   SEXP precursorMz,
+					   SEXP precursorIntensity,
+					   SEXP precursorCharge,
+					   SEXP collisionEnergy,
+					   SEXP nvalues,
+					   SEXP check)
 {
   int n = length(nvalues);
   int currentN = 0;
   int startN = 0;
-  SEXP cMz, cIntensity;
+  SEXP cMz, cIntensity, currentMz;
   SEXP out = PROTECT(allocVector(VECSXP, n));
   double *pRt, *pTic, *pMerged, *pPrecursorMz, *pPrecursorIntensity,
-      *pCollisionEnergy;
+    *pCollisionEnergy, *pCint, *pCurrentMz, *pCmz, *pMz, *pInt;
   int *pPeaksCount, *pAcquisitionNum, *pScanIndex, *pPolarity,
-      *pFromFile, *pCentroided, *pSmoothed, *pNvalues, *pPrecScanNum,
-      *pPrecursorCharge, *pMsLevel;
+    *pFromFile, *pCentroided, *pSmoothed, *pNvalues, *pPrecScanNum,
+    *pPrecursorCharge, *pMsLevel;
+  int calcTic;
+  double currentTic;
 
+  // Creating pointers to the C-arrays.
   pRt = REAL(rt);
   pTic = REAL(tic);
   pPrecursorMz = REAL(precursorMz);
@@ -121,23 +139,47 @@ SEXP Multi_Spectrum2_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
   pPrecursorCharge = INTEGER(precursorCharge);
   pCentroided = LOGICAL(centroided);
   pSmoothed = LOGICAL(smoothed);
+  pMz = REAL(mz);
+  pInt = REAL(intensity);
 
   for (int i = 0; i < n; i++) {
-    // Creating the mz and intensity vectors.
     currentN = pNvalues[i];
+    // Check if TIC is 0
+    currentTic = pTic[i];
+    calcTic = 0;
+    if (currentTic == 0)
+      calcTic = 1;
+    // Creating the mz and intensity vectors.
     PROTECT(cMz = NEW_NUMERIC(currentN));
     PROTECT(cIntensity = NEW_NUMERIC(currentN));
+    // And the one we need for sorting
+    PROTECT(currentMz = NEW_NUMERIC(currentN));
+    // Create pointers to enable faster access (http://adv-r.had.co.nz/C-interface.html#c-vectors)
+    pCurrentMz = REAL(currentMz);
+    pCmz = REAL(cMz);
+    pCint = REAL(cIntensity);
+    // Fill the vector with the M/Z values of the current spectrum
     for (int j = 0; j < currentN; j++) {
-      REAL(cMz)[j] = REAL(mz)[startN + j];
-      REAL(cIntensity)[j] = REAL(intensity)[startN + j];
+      pCurrentMz[j] = pMz[startN + j];
     }
-
+    // Get the order of the M/Z values.
+    int idx[currentN];
+    _get_order_of_double_array(pCurrentMz, currentN, 0, idx, 0);
+    // Sort the M/Z and intensity values.
+    for (int j = 0; j < currentN; j++) {
+      pCmz[j] = pCurrentMz[idx[j]];
+      pCint[j] = pInt[startN + idx[j]];
+      // Calculate TIC if was only 0
+      if (calcTic > 0)
+	currentTic += pCint[j];
+    }
+    // Create the new Spectrum2
     SET_VECTOR_ELT(out, i, _new_Spectrum2(ScalarInteger(pMsLevel[i]),
 					  ScalarInteger(pPeaksCount[i]),
 					  ScalarReal(pRt[i]),
 					  ScalarInteger(pAcquisitionNum[i]),
 					  ScalarInteger(pScanIndex[i]),
-					  ScalarReal(pTic[i]),
+					  ScalarReal(currentTic),
 					  cMz,
 					  cIntensity,
 					  ScalarInteger(pFromFile[i]),
@@ -150,11 +192,97 @@ SEXP Multi_Spectrum2_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
 					  ScalarReal(pPrecursorIntensity[i]),
 					  ScalarInteger(pPrecursorCharge[i]),
 					  ScalarReal(pCollisionEnergy[i])));
-    UNPROTECT(2);
+    UNPROTECT(3);
     startN = startN + currentN;
   }
 
   UNPROTECT(1);
   return(out);
 }
+
+
+/* /\************************************************************* */
+/*  * Multi_Spectrum2_constructor */
+/*  * */
+/*  * Simple C-function to create a list of Spectrum2 object based on the */
+/*  * submitted values. */
+/*  * All arguments (except mz, intensity) are supposed to be vectors of */
+/*  * length equal to the number of spectra. Argument nvalues defining the */
+/*  * number of M/Z and intensity values per spectrum. */
+/*  * This function is called by the R-function: Spectra1, argument checking is supposed */
+/*  * to take place there. */
+/*  *\/ */
+/* SEXP Multi_Spectrum2_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt, */
+/* 				 SEXP acquisitionNum, SEXP scanIndex, SEXP tic, */
+/* 				 SEXP mz, SEXP intensity, SEXP fromFile, */
+/* 				 SEXP centroided, SEXP smoothed, SEXP polarity, SEXP merged, */
+/* 				 SEXP precScanNum, SEXP precursorMz, */
+/* 				 SEXP precursorIntensity, SEXP precursorCharge, */
+/* 				 SEXP collisionEnergy, SEXP nvalues, */
+/* 				 SEXP check) */
+/* { */
+/*   int n = length(nvalues); */
+/*   int currentN = 0; */
+/*   int startN = 0; */
+/*   SEXP cMz, cIntensity; */
+/*   SEXP out = PROTECT(allocVector(VECSXP, n)); */
+/*   double *pRt, *pTic, *pMerged, *pPrecursorMz, *pPrecursorIntensity, */
+/*       *pCollisionEnergy; */
+/*   int *pPeaksCount, *pAcquisitionNum, *pScanIndex, *pPolarity, */
+/*       *pFromFile, *pCentroided, *pSmoothed, *pNvalues, *pPrecScanNum, */
+/*       *pPrecursorCharge, *pMsLevel; */
+
+/*   pRt = REAL(rt); */
+/*   pTic = REAL(tic); */
+/*   pPrecursorMz = REAL(precursorMz); */
+/*   pPrecursorIntensity = REAL(precursorIntensity); */
+/*   pMerged = REAL(merged); */
+/*   pCollisionEnergy = REAL(collisionEnergy); */
+/*   pMsLevel = INTEGER(msLevel); */
+/*   pPeaksCount = INTEGER(peaksCount); */
+/*   pAcquisitionNum = INTEGER(acquisitionNum); */
+/*   pScanIndex = INTEGER(scanIndex); */
+/*   pFromFile = INTEGER(fromFile); */
+/*   pPolarity = INTEGER(polarity); */
+/*   pNvalues = INTEGER(nvalues); */
+/*   pPrecScanNum = INTEGER(precScanNum); */
+/*   pPrecursorCharge = INTEGER(precursorCharge); */
+/*   pCentroided = LOGICAL(centroided); */
+/*   pSmoothed = LOGICAL(smoothed); */
+
+/*   for (int i = 0; i < n; i++) { */
+/*     // Creating the mz and intensity vectors. */
+/*     currentN = pNvalues[i]; */
+/*     PROTECT(cMz = NEW_NUMERIC(currentN)); */
+/*     PROTECT(cIntensity = NEW_NUMERIC(currentN)); */
+/*     for (int j = 0; j < currentN; j++) { */
+/*       REAL(cMz)[j] = REAL(mz)[startN + j]; */
+/*       REAL(cIntensity)[j] = REAL(intensity)[startN + j]; */
+/*     } */
+
+/*     SET_VECTOR_ELT(out, i, _new_Spectrum2(ScalarInteger(pMsLevel[i]), */
+/* 					  ScalarInteger(pPeaksCount[i]), */
+/* 					  ScalarReal(pRt[i]), */
+/* 					  ScalarInteger(pAcquisitionNum[i]), */
+/* 					  ScalarInteger(pScanIndex[i]), */
+/* 					  ScalarReal(pTic[i]), */
+/* 					  cMz, */
+/* 					  cIntensity, */
+/* 					  ScalarInteger(pFromFile[i]), */
+/* 					  ScalarLogical(pCentroided[i]), */
+/* 					  ScalarLogical(pSmoothed[i]), */
+/* 					  ScalarInteger(pPolarity[i]), */
+/* 					  ScalarReal(pMerged[i]), */
+/* 					  ScalarInteger(pPrecScanNum[i]), */
+/* 					  ScalarReal(pPrecursorMz[i]), */
+/* 					  ScalarReal(pPrecursorIntensity[i]), */
+/* 					  ScalarInteger(pPrecursorCharge[i]), */
+/* 					  ScalarReal(pCollisionEnergy[i]))); */
+/*     UNPROTECT(2); */
+/*     startN = startN + currentN; */
+/*   } */
+
+/*   UNPROTECT(1); */
+/*   return(out); */
+/* } */
 
