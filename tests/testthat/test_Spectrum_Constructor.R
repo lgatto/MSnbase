@@ -29,23 +29,23 @@ test_that("M/Z sorted Spectrum1 constructor", {
     mzVals <- abs(rnorm(3500, mean = 100, sd = 10))
     intVals <- abs(rnorm(3500, mean = 10, sd = 5))
 
-    sorted <- MSnbase:::sortNumeric(mzVals)
-    idx <- MSnbase:::orderNumeric(mzVals)
-    expect_identical(idx, order(mzVals))
+    ##sorted <- MSnbase:::sortNumeric(mzVals)
+    ##idx <- MSnbase:::orderNumeric(mzVals)
+    ## expect_identical(idx, order(mzVals))
+    sorted <- sort(mzVals)
+    idx <- order(mzVals)
     ## R constructor:
     system.time(
         sp1 <- new("Spectrum1", intensity = intVals, mz = mzVals,
                    polarity = 1L, fromFile = 1L, rt = 13.3, tic = 1234.3)
     ) ## 0.004
-    ## C-constructor:
+    ## unsorted C-constructor:
     system.time(
         sp2 <- MSnbase:::Spectrum1(intensity = intVals, mz = mzVals,
                                    polarity = 1L, fromFile = 1L, rt = 13.3,
                                    tic = 1234.3)
     )
-    ## We expect that to be as long identical until initialize does also M/Z
-    ## sorting.
-    expect_identical(sp1, sp2)
+    expect_identical(mz(sp1), sort(mz(sp2)))
     ## C-constructor with sorting:
     system.time(
         sp3 <- MSnbase:::Spectrum1_mz_sorted(intensity = intVals, mz = mzVals,
@@ -54,6 +54,7 @@ test_that("M/Z sorted Spectrum1 constructor", {
     ) ## 0.000
     expect_identical(mz(sp3), sort(mzVals))
     expect_identical(intensity(sp3), intVals[idx])
+    expect_identical(sp3, sp1)
 })
 
 ## Test the c-level multi-Spectrum1 constructor with M/Z ordering.

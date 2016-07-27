@@ -2,12 +2,12 @@ context("OnDiskMSnExp class, other methods")
 
 ############################################################
 ## Load the required data files.
-.getMzMLFiles <- function() {
+.getMzMLFiles <- function(force.msdata = FALSE) {
     ## Return the mzML files, the ones from the XXX package, or if run
     ## locally, some of my test files.
     HOST <- unlist(strsplit(system("hostname", intern = TRUE), split = ".",
                             perl = FALSE, fixed = TRUE))[1]
-    if (HOST == "macbookjo") {
+    if (HOST == "macbookjo" & !force.msdata) {
         mzfiles <- dir("/Users/jo/R-workspaces/EURAC/2016/2016-04-21-PolarMetabolom/data/mzML/",
                        pattern = "POS_C_O", full.names = TRUE)
     } else {
@@ -17,7 +17,7 @@ context("OnDiskMSnExp class, other methods")
     }
     return(mzfiles)
 }
-mzf <- .getMzMLFiles()[1:2]
+mzf <- .getMzMLFiles(TRUE)[1:2]
 ## Load the data as an MSnExp into memory.
 inMem <- readMSData(files = mzf, msLevel = 1, centroided = TRUE)
 ## Load the data as OnDiskMSnExp.
@@ -184,3 +184,52 @@ test_that("isCentroided on OnDiskMSnExp", {
     expect_true(all(isCentroided(ondisk2, verbose = FALSE)))
 
 })
+
+############################################################
+## Test precursor* methods
+test_that("Test precursor* for OnDiskMSnExp", {
+    ## o precursorMz
+    pmz <- precursorMz(ondisk)
+    pmz2 <- precursorMz(ondisk2)
+    expect_true(all(is.na(pmz[msLevel(ondisk) == 1])))
+    expect_identical(pmz2, pmz[names(pmz2)])
+
+    ##  Finally compare to inmem.
+    pmz <- precursorMz(inmem2)
+    names(pmz) <- names(pmz2) <- NULL
+    expect_identical(pmz, pmz2)
+
+    ## o precursorCharge
+    pch <- precursorCharge(ondisk)
+    pch2 <- precursorCharge(ondisk2)
+    expect_true(all(is.na(pch[msLevel(ondisk) == 1])))
+    expect_identical(pch2, pch[names(pch2)])
+
+    ##  Finally compare to inmem.
+    pch <- precursorCharge(inmem2)
+    names(pch) <- names(pch2) <- NULL
+    expect_identical(pch, pch2)
+
+    ## o precursorIntensity
+    pint <- precursorIntensity(ondisk)
+    pint2 <- precursorIntensity(ondisk2)
+    expect_true(all(is.na(pint[msLevel(ondisk) == 1])))
+    expect_identical(pint2, pint[names(pint2)])
+
+    ##  Finally compare to inmem.
+    pint <- precursorIntensity(inmem2)
+    names(pint) <- names(pint2) <- NULL
+    expect_identical(pint, pint2)
+
+    ## o precScanNum
+    pcn <- precScanNum(ondisk)
+    pcn2 <- precScanNum(ondisk2)
+    expect_true(all(is.na(pcn[msLevel(ondisk) == 1])))
+    expect_identical(pcn2, pcn[names(pcn2)])
+
+    ##  Finally compare to inmem.
+    pcn <- precScanNum(inmem2)
+    names(pcn) <- names(pcn2) <- NULL
+    expect_identical(pcn, pcn2)
+})
+

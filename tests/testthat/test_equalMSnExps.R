@@ -1,8 +1,9 @@
 context("[OnDisk]MSnExp equality")
 
 f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia_1")
-inmem1 <- readMSData(f, msLevel = 1, verbose = FALSE)
-inmem2 <- readMSData(f, msLevel = 2, verbose = FALSE)
+## Set centroided to NA to fit with default behaviour of readMSData2
+inmem1 <- readMSData(f, msLevel = 1, verbose = FALSE, centroided = NA)
+inmem2 <- readMSData(f, msLevel = 2, verbose = FALSE, centroided = NA)
 ondisk <- readMSData2(f, verbose = FALSE)
 ondisk1 <- readMSData2(f, msLevel = 1, verbose = FALSE)
 ondisk2 <- readMSData2(f, msLevel = 2, verbose = FALSE)

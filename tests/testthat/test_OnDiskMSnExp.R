@@ -18,7 +18,7 @@ context("OnDiskMSnExp class")
     return(mzfiles)
 }
 
-mzf <- .getMzMLFiles()[1:2]
+mzf <- .getMzMLFiles(TRUE)[1:2]
 ## Load the data as an MSnExp into memory.
 suppressWarnings(
     inMem <- readMSData(files = mzf, msLevel = 1, centroided = TRUE,
@@ -26,7 +26,7 @@ suppressWarnings(
 )
 ## Load the data as OnDiskMSnExp.
 suppressWarnings(
-    onDisk <- readMSData2(files = mzf, msLevel = 1, centroided=TRUE,
+    onDisk <- readMSData2(files = mzf, msLevel = 1, centroided = TRUE,
                           verbose = FALSE)
 )
 
@@ -283,7 +283,7 @@ test_that("validateOnDiskMSnExp", {
     onDisk@featureData <- fd
     expect_error(validateOnDiskMSnExp(onDisk))
     suppressWarnings(
-        expect_true(validateOnDiskMSnExp(filterFile(odmse, 1)))
+        expect_true(validateOnDiskMSnExp(filterFile(onDisk, 1)))
     )
     ## That will cause an error; eventually there has been some data
     ## manipulations in that file?
@@ -328,59 +328,6 @@ test_that("bin on OnDiskMSnExp", {
 
 
 
-############################################################
-## - other stuff -
-## Compare the performacen of the C-contructor against the "standard" R constructor.
-.compareCconstructorPerformance <- function(){
-    featDat <- fData(odmse)
-    featDat <- featDat[featDat$fileIdx == 1, ]
-    ## Get all spectra from one file using the C-constructor
-    system.time(
-        spC <- MSnbase:::.applyFun2SpectraOfFile(featDat, filenames=fileNames(odmse))
-    ) ## 3.7 sec; 4.2 sec
-    ## Get all spectra from one file using the "new" constructor
-    system.time(
-        spR <- MSnbase:::.applyFun2SpectraOfFileSlow(featDat, filenames=fileNames(odmse))
-    ) ## 19 sec.; 24.2 sec
-    system.time(
-        spM <- MSnbase:::.applyFun2SpectraOfFileMulti(featDat, filenames=fileNames(odmse))
-    ) ## 19 sec.; 3.1 sec
-    expect_identical(spC, spR)
-    expect_identical(spC, spM)
-    ## Construct all of the spectra in one go...
-
-    featDat <- fData(odmse)
-    featDat <- featDat[featDat$fileIdx == 1, ]
-
-    fileh <- mzR::openMSfile(fileNames(odmse)[1])
-    ## Reading all of the data in "one go".
-    allSpect <- mzR::peaks(fileh, featDat$spIdx)
-    mzR::close(fileh)
-
-    nValues <- lengths(allSpect) / 2
-    allSpect <- do.call(rbind, allSpect)
-    Test <- MSnbase:::Spectra1(peaksCount=featDat$peaksCount,
-                               rt=featDat$retentionTime,
-                               acquisitionNum=featDat$acquisitionNum,
-                               tic=featDat$totIonCurrent,
-                               mz=allSpect[, 1], intensity=allSpect[, 2],
-                               centroided=featDat$centroided,
-                               fromFile=rep(1, length(nValues)),
-                               nvalues=nValues)
-    names(Test) <- rownames(featDat)
-    ## Have to change some stuff:
-    ## o scanIndex is numeric() for the "standard" constructor
-    ## o polarity is numeric().
-    Test <- lapply(Test, function(z){
-        z@polarity <- integer()
-        z@scanIndex <- integer()
-        return(z)
-    })
-    ## This should be identical to the spectra from mse
-    mseSpec <- spectra(mse)
-    mseSpec <- mseSpec[fromFile(mse) == 1]
-    expect_identical(mseSpec, Test)
-}
 
 ############################################################
 ## Test internal spectrapply method.
@@ -406,53 +353,5 @@ test_that("Test internal spectrapply function", {
         return(mean(mz(z)[intensity(z) > int]))
     }, int = 30)
     expect_identical(res1, res2)
-})
-
-############################################################
-## Test precursor* methods
-test_that("Test precursor* for OnDiskMSnExp", {
-    ## o precursorMz
-    pmz <- precursorMz(ondisk)
-    pmz2 <- precursorMz(ondisk2)
-    expect_true(all(is.na(pmz[msLevel(ondisk) == 1])))
-    expect_identical(pmz2, pmz[names(pmz2)])
-
-    ##  Finally compare to inmem.
-    pmz <- precursorMz(inmem2)
-    names(pmz) <- names(pmz2) <- NULL
-    expect_identical(pmz, pmz2)
-
-    ## o precursorCharge
-    pch <- precursorCharge(ondisk)
-    pch2 <- precursorCharge(ondisk2)
-    expect_true(all(is.na(pch[msLevel(ondisk) == 1])))
-    expect_identical(pch2, pch[names(pch2)])
-
-    ##  Finally compare to inmem.
-    pch <- precursorCharge(inmem2)
-    names(pch) <- names(pch2) <- NULL
-    expect_identical(pch, pch2)
-
-    ## o precursorIntensity
-    pint <- precursorIntensity(ondisk)
-    pint2 <- precursorIntensity(ondisk2)
-    expect_true(all(is.na(pint[msLevel(ondisk) == 1])))
-    expect_identical(pint2, pint[names(pint2)])
-
-    ##  Finally compare to inmem.
-    pint <- precursorIntensity(inmem2)
-    names(pint) <- names(pint2) <- NULL
-    expect_identical(pint, pint2)
-
-    ## o precScanNum
-    pcn <- precScanNum(ondisk)
-    pcn2 <- precScanNum(ondisk2)
-    expect_true(all(is.na(pcn[msLevel(ondisk) == 1])))
-    expect_identical(pcn2, pcn[names(pcn2)])
-
-    ##  Finally compare to inmem.
-    pcn <- precScanNum(inmem2)
-    names(pcn) <- names(pcn2) <- NULL
-    expect_identical(pcn, pcn2)
 })
 

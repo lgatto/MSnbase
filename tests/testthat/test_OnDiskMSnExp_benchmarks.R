@@ -65,76 +65,78 @@ suppressWarnings(
 
 ## Checking performance of plain spectra generation vs spectra generation with
 ## sort by M/Z.
-.bench_auto_sort_MZ <- function() {
-    library(microbenchmark)
-    fDataPerFile <- split(fData(onDisk), f = fData(onDisk)$fileIdx)
-    BPPARAM <- SerialParam()
-    system.time(
-        spects <- bplapply(fDataPerFile,
-                           FUN = MSnbase:::.applyFun2SpectraOfFileMulti,
-                           filenames = fileNames(onDisk), queue = list(),
-                           APPLYFUN = NULL, BPPARAM = BPPARAM)
-    ) ## 5.7
+## UPDATE: does only work up to commit c60b2d110f085313253e5b6523aa4a3661adeeb7 as
+##   most of the functions have been removed afterwards!
+## .bench_auto_sort_MZ <- function() {
+##     library(microbenchmark)
+##     fDataPerFile <- split(fData(onDisk), f = fData(onDisk)$fileIdx)
+##     BPPARAM <- SerialParam()
+##     system.time(
+##         spects <- bplapply(fDataPerFile,
+##                            FUN = MSnbase:::.applyFun2SpectraOfFileMulti,
+##                            filenames = fileNames(onDisk), queue = list(),
+##                            APPLYFUN = NULL, BPPARAM = BPPARAM)
+##     ) ## 5.7
 
-    system.time(
-        spects2 <- bplapply(fDataPerFile,
-                            FUN = MSnbase:::.applyFun2SpectraOfFileMultiRadixSortMz,
-                            filenames = fileNames(onDisk), queue = list(),
-                            APPLYFUN = NULL, BPPARAM = BPPARAM)
-    ) ## 6.8
+##     system.time(
+##         spects2 <- bplapply(fDataPerFile,
+##                             FUN = MSnbase:::.applyFun2SpectraOfFileMultiRadixSortMz,
+##                             filenames = fileNames(onDisk), queue = list(),
+##                             APPLYFUN = NULL, BPPARAM = BPPARAM)
+##     ) ## 6.8
 
-    system.time(
-        spects3 <- bplapply(fDataPerFile,
-                            FUN = MSnbase:::.applyFun2SpectraOfFileMultiShellSortMz,
-                            filenames = fileNames(onDisk), queue = list(),
-                            APPLYFUN = NULL, BPPARAM = BPPARAM)
-    ) ## 6.7
+##     system.time(
+##         spects3 <- bplapply(fDataPerFile,
+##                             FUN = MSnbase:::.applyFun2SpectraOfFileMultiShellSortMz,
+##                             filenames = fileNames(onDisk), queue = list(),
+##                             APPLYFUN = NULL, BPPARAM = BPPARAM)
+##     ) ## 6.7
 
-    system.time(
-        spects4 <- bplapply(fDataPerFile,
-                            FUN = MSnbase:::.applyFun2SpectraOfFileMulti2,
-                            filenames = fileNames(onDisk), queue = list(),
-                            APPLYFUN = NULL, BPPARAM = BPPARAM)
-    ) ## 5.4
-    expect_equal(spects2, spects3)
-    expect_equal(spects2, spects4)
+##     system.time(
+##         spects4 <- bplapply(fDataPerFile,
+##                             FUN = MSnbase:::.applyFun2SpectraOfFileMulti2,
+##                             filenames = fileNames(onDisk), queue = list(),
+##                             APPLYFUN = NULL, BPPARAM = BPPARAM)
+##     ) ## 5.4
+##     ## expect_equal(spects2, spects3)
+##     expect_equal(spects2, spects4)
 
-    ## Without M/Z sorting
-    unsorted <- function() {
-        bplapply(fDataPerFile,
-                 FUN = MSnbase:::.applyFun2SpectraOfFileMulti,
-                 filenames = fileNames(onDisk), queue = list(),
-                 APPLYFUN = NULL, BPPARAM = BPPARAM)
-    }
-    ## With sorting in R using method = "radix"
-    radixSortedR <- function() {
-        bplapply(fDataPerFile,
-                 FUN = MSnbase:::.applyFun2SpectraOfFileMultiRadixSortMz,
-                 filenames = fileNames(onDisk), queue = list(),
-                 APPLYFUN = NULL, BPPARAM = BPPARAM)
-    }
-    ## With sorting in R using method = "shell"
-    shellSortedR <- function() {
-        bplapply(fDataPerFile,
-                 FUN = MSnbase:::.applyFun2SpectraOfFileMultiShellSortMz,
-                 filenames = fileNames(onDisk), queue = list(),
-                 APPLYFUN = NULL, BPPARAM = BPPARAM)
-    }
-    ## With sorting performed in the C constructor
-    constructorSorted <- function() {
-        bplapply(fDataPerFile,
-                 FUN = MSnbase:::.applyFun2SpectraOfFileMulti2,
-                 filenames = fileNames(onDisk), queue = list(),
-                 APPLYFUN = NULL, BPPARAM = BPPARAM)
-    }
+##     ## Without M/Z sorting
+##     unsorted <- function() {
+##         bplapply(fDataPerFile,
+##                  FUN = MSnbase:::.applyFun2SpectraOfFileMulti,
+##                  filenames = fileNames(onDisk), queue = list(),
+##                  APPLYFUN = NULL, BPPARAM = BPPARAM)
+##     }
+##     ## With sorting in R using method = "radix"
+##     radixSortedR <- function() {
+##         bplapply(fDataPerFile,
+##                  FUN = MSnbase:::.applyFun2SpectraOfFileMultiRadixSortMz,
+##                  filenames = fileNames(onDisk), queue = list(),
+##                  APPLYFUN = NULL, BPPARAM = BPPARAM)
+##     }
+##     ## With sorting in R using method = "shell"
+##     shellSortedR <- function() {
+##         bplapply(fDataPerFile,
+##                  FUN = MSnbase:::.applyFun2SpectraOfFileMultiShellSortMz,
+##                  filenames = fileNames(onDisk), queue = list(),
+##                  APPLYFUN = NULL, BPPARAM = BPPARAM)
+##     }
+##     With sorting performed in the C constructor
+##     constructorSorted <- function() {
+##         bplapply(fDataPerFile,
+##                  FUN = MSnbase:::.applyFun2SpectraOfFileMulti2,
+##                  filenames = fileNames(onDisk), queue = list(),
+##                  APPLYFUN = NULL, BPPARAM = BPPARAM)
+##     }
 
-    ## o Compare unsorted vs radix sorted in R
-    microbenchmark(unsorted(), radixSortedR(), times = 10)
-    ## o Compare radix sorted in R vs shell sorted in R
-    microbenchmark(radixSortedR(), shellSortedR(), times = 10)
-    ## o Compare radix sorted in R vs sorted in C constructor
-    microbenchmark(radixSortedR(), constructorSorted(), times = 10)
+##     ## o Compare unsorted vs radix sorted in R
+##     microbenchmark(unsorted(), radixSortedR(), times = 10)
+##     ## o Compare radix sorted in R vs shell sorted in R
+##     microbenchmark(radixSortedR(), shellSortedR(), times = 10)
+##     ## o Compare radix sorted in R vs sorted in C constructor
+##     microbenchmark(radixSortedR(), constructorSorted(), times = 10)
 
-    ## It is funny though that the sorted constructor is faster than the unsorted.
-}
+##     ## It is funny though that the sorted constructor is faster than the unsorted.
+## }
 

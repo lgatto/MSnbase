@@ -131,11 +131,11 @@ test_that("Adding identification data", {
 test_that("Spectrum processing", {
     ## bin
     ## clean -> test_OnDiskMSnExp.R
-    ## normalise/normalize
-    ## pickPeaks
+    ## normalise/normalize -> test_OnDiskMSnExp_other_methods.R
+    ## pickPeaks -> test_OnDiskMSnExp_other_methods.R
     ## quantify
     ## removePeaks -> test_OnDiskMSnExp.R
     ## removeReporters
-    ## smooth
-    ## trimMz
+    ## smooth -> test_OnDiskMSnExp_other_methods.R
+    ## trimMz -> test_OnDiskMSnExp_other_methods.R
 })
