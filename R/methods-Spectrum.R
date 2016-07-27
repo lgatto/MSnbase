@@ -16,6 +16,9 @@ setMethod("initialize",
               }
               if (.Object@tic == 0)
                   .Object@tic <- sum(.Object@intensity)
+              o <- order(.Object@mz, method = "radix")
+              .Object@mz <- .Object@mz[o]
+              .Object@intensity <- .Object@intensity[o]
               if (validObject(.Object))
                   .Object
           })

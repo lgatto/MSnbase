@@ -46,6 +46,21 @@ test_that("OnDiskMSnExp constructor", {
     expect_true(validObject(onDisk))
 })
 
+test_that("Coercion to MSnExp", {
+    f <- msdata:::proteomics(full.names = TRUE)
+    x <- readMSData2(f, verbose = FALSE)
+    y <- readMSData(f, msLevel = 2, centroided = NA, verbose = FALSE)
+    expect_error(as(x, "MSnExp"))
+    x <- filterMsLevel(x, msLevel = 2)
+    expect_true(all.equal(x, y))
+    ## feature names are different
+    featureNames(x) <- featureNames(y)
+    x2 <- as(x, "MSnExp")
+    ## expected to be different: processingData, fData, .cache
+    expect_identical(spectra(x2), spectra(y))
+    expect_identical(experimentData(x2), experimentData(y))
+})
+
 ############################################################
 ## compare MSnExp against OnDiskMSnExp
 test_that("Compare MS1 MSnExp and OnDiskMSnExp content", {
