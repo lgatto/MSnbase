@@ -117,10 +117,24 @@ test_that("M/Z sorted Spectrum2 constructor", {
     ## R constructor:
     system.time(
         sp1 <- new("Spectrum2", intensity = intVals, mz = mzVals,
-                   polarity = 1L, fromFile = 1L, rt = 13.3, tic = 1234.3)
+                   polarity = -1L, fromFile = 1L, rt = 13.3, tic = 1234.3)
     ) ## 0.004
     expect_identical(mz(sp1), sort(mzVals))
     expect_identical(intensity(sp1), intVals[idx])
+    ## Check other slot values...
+    expect_identical(sp1@polarity, -1L)
+    expect_identical(sp1@fromFile, 1L)
+    expect_identical(sp1@rt, 13.3)
+    expect_identical(sp1@tic, 1234.3)
+
+    ## Calculate tic within:
+    sp1 <- new("Spectrum2", intensity = intVals, mz = mzVals)
+    expect_identical(sp1@tic, sum(intVals))
+
+    ## Test some exceptions...
+    ## o Pass only intensity or mz
+    expect_error(new("Spectrum2", intensity = intVals, polarity = 1L))
+    expect_error(new("Spectrum2", mz = muVals, polarity = 1L))
 })
 
 ## Test the c-level multi-Spectrum2 constructor with M/Z ordering.
