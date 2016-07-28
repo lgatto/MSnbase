@@ -168,10 +168,12 @@ spectrapply <- function(object, FUN = NULL,
         stop(isOK)
     fDataPerFile <- split(fData(object),
                           f = fData(object)$fileIdx)
+    fNames <- fileNames(object)
+    theQ <- processingQueue(object)
     vals <- bplapply(fDataPerFile,
                      FUN = .applyFun2SpectraOfFileMulti,
-                     filenames = fileNames(object),
-                     queue = processingQueue(object),
+                     filenames = fNames,
+                     queue = theQ,
                      APPLYFUN = FUN,
                      BPPARAM = BPPARAM,
                      ...)
@@ -313,16 +315,18 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
                 message(" o '", queue[[j]]@FUN, "' with ",
                         length(queue[[j]]@ARGS), " argument(s).")
         }
-        res <- lapply(res, function(z, theQ, APPLF, ...){
+        res <- lapply(res, FUN = function(z, theQ, APPLF, ...){
+            ## Apply the processing steps.
             if (length(theQ) > 0) {
                 for (pStep in theQ) {
                     z <- execute(pStep, z)
                 }
             }
-            if (is.null(APPLF))
+            if (is.null(APPLF)) {
                 return(z)
-            ## return(APPLF(z, APPLA))
-            return(do.call(APPLF, args = c(list(z), ...)))
+            } else {
+                return(do.call(APPLF, args = c(list(z), ...)))
+            }
         }, theQ = queue, APPLF = APPLYFUN, ...)
     }
     return(res)
