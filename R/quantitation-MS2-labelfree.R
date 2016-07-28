@@ -28,7 +28,7 @@ count_MSnSet <- function(object) {
                   processingData = object@processingData,
                   featureData = .featureData,
                   annotation = "No annotation")
-    msnset <- MSnbase:::logging(msnset, "Quantitation by count")
+    msnset <- logging(msnset, "Quantitation by count")
     if (validObject(msnset))
         return(msnset)
 }
@@ -62,7 +62,7 @@ tic_MSnSet <- function(object) {
                   processingData = object@processingData,
                   featureData = .featureData,
                   annotation = "No annotation")
-    msnset <- MSnbase:::logging(msnset, "Quantitation by total ion current")
+    msnset <- logging(msnset, "Quantitation by total ion current")
     if (validObject(msnset))
         return(msnset)
 }

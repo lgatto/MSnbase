@@ -19,6 +19,7 @@
 \alias{plot,MSnExp}
 \alias{plot,MSnExp,missing-method}
 \alias{quantify,MSnExp-method}
+\alias{quantify,OnMSnExp-method}
 \alias{quantify,MSnExp,character-method}
 \alias{removePeaks,MSnExp-method}
 \alias{removeReporters,MSnExp-method}
@@ -183,7 +184,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
     \item{quantify}{\code{signature(object = "MSnExp")}: Performs
       quantification for all the MS2 spectra of the \code{MSnExp}
       instance. See \code{\link{quantify}} documentation for more
-      details. }
+      details. Also for \code{OnDiskMSnExp} objects. }
     \item{removePeaks}{\code{signature(object = "MSnExp")}: Removes
       peaks lower that a threshold \code{t}. See
       \code{\link{removePeaks}} documentation for more details and

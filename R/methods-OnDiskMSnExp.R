@@ -56,7 +56,7 @@ setAs("OnDiskMSnExp", "MSnExp",
               slot(ans, sl) <- slot(from, sl)
           ans@assayData <- list2env(spectra(from))
           lockEnvironment(ans@assayData, bindings = TRUE)
-          ans <- MSnbase:::logging(ans, "Coerced from OnDiskMSnExp")
+          ans <- logging(ans, "Coerced from OnDiskMSnExp")
           if (validObject(ans))
               return(ans)
       })
