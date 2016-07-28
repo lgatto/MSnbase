@@ -283,11 +283,8 @@ test_that("validateOnDiskMSnExp", {
     onDisk@featureData <- fd
     expect_error(validateOnDiskMSnExp(onDisk))
     suppressWarnings(
-        expect_true(validateOnDiskMSnExp(filterFile(onDisk, 1)))
+        expect_true(validateOnDiskMSnExp(filterMsLevel(onDisk, 2)))
     )
-    ## That will cause an error; eventually there has been some data
-    ## manipulations in that file?
-    ## validateOnDiskMSnExp(filterFile(odmse, 2))
 })
 
 ############################################################

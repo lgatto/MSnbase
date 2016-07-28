@@ -220,6 +220,9 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
                                          queue = NULL,
                                          APPLYFUN = NULL,
                                          ...) {
+    suppressPackageStartupMessages(
+        require(MSnbase, quietly = TRUE)
+    )
     if (missing(fData) | missing(filenames))
         stop("Both 'fData' and 'filenames' are required!")
     filename <- filenames[fData[1, "fileIdx"]]
@@ -239,7 +242,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
                                match(ms1fd$acquisitionNum, hd$acquisitionNum))
         ## If we have more than one spectrum the peaks function returns a list.
         if (is(allSpect, "list")) {
-            nValues <- lengths(allSpect) / 2
+            nValues <- base::lengths(allSpect, use.names = FALSE) / 2
             allSpect <- do.call(rbind, allSpect)
         } else {
             ## otherwise it's a matrix, e.g. if only a single scan
@@ -274,7 +277,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
                                match(msnfd$acquisitionNum, hd$acquisitionNum))
         ## If we have more than one spectrum the peaks function returns a list.
         if (is(allSpect, "list")) {
-            nValues <- lengths(allSpect) / 2
+            nValues <- base::lengths(allSpect, use.names = FALSE) / 2
             allSpect <- do.call(rbind, allSpect)
         } else {
             ## otherwise it's a matrix, e.g. if only a single scan
@@ -319,7 +322,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
             ## Apply the processing steps.
             if (length(theQ) > 0) {
                 for (pStep in theQ) {
-                    z <- execute(pStep, z)
+                    z <- MSnbase:::execute(pStep, z)
                 }
             }
             if (is.null(APPLF)) {

@@ -216,6 +216,6 @@ test_that("empty spectrum", {
 test_that("show MS1 spectrum", {
     f <- dir(system.file("threonine", package = "msdata"),
              full.names = TRUE)
-    x <- readMSData(f, msLevel = 1, backend="ram")
+    x <- readMSData(f, msLevel = 1)
     expect_null(show(x[[1]]))
 })

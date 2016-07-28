@@ -7,4 +7,7 @@ library("MSnbase")
 library("msdata")
 library("pRolocdata")
 
+library(BiocParallel)
+register(SerialParam(), default = TRUE)
+
 test_check("MSnbase")

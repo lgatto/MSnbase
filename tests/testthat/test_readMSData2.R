@@ -33,21 +33,21 @@ test_that("msLevel set correctly", {
     return(mzfiles)
 }
 
-mzf <- .getMzMLFiles()[1:2]
+mzf <- .getMzMLFiles(TRUE)[1:2]
 
 ## Load the data with readMSData2
-odmse <- readMSData2(files = mzf, centroided = TRUE, backend = "disk")
+odmse <- readMSData2(files = mzf, centroided = TRUE)
 
 test_that("Constructor performance and test for MS1 only", {
     featDat <- fData(odmse)
     featDat <- featDat[featDat$fileIdx == 1, ]
-    system.time(
-        spR <- MSnbase:::.applyFun2SpectraOfFileSlow(featDat, filenames=fileNames(odmse))
-    ) ## 19.5 sec.
+    ## system.time(
+    ##     spR <- MSnbase:::.applyFun2SpectraOfFileSlow(featDat, filenames=fileNames(odmse))
+    ## ) ## 19.5 sec.
     system.time(
         spM <- MSnbase:::.applyFun2SpectraOfFileMulti(featDat, filenames=fileNames(odmse))
     ) ## 3.2 sec.
-    expect_equal(spR, spM)
+    ## expect_equal(spR, spM)
 })
 
 test_that("Constructor performance and test for MSn", {
@@ -58,11 +58,11 @@ test_that("Constructor performance and test for MSn", {
     featDat <- fData(odmsn)
     featDat <- featDat[featDat$fileIdx == 1, ]
     ## Compare the constructors, i.e. the "new" and the C-level one for Spectrum1 and Spectrum2.
-    system.time(
-        spR <- MSnbase:::.applyFun2SpectraOfFileSlow(featDat, filenames=fileNames(odmsn))
-    ) ## 4.1 sec.
+    ## system.time(
+    ##     spR <- MSnbase:::.applyFun2SpectraOfFileSlow(featDat, filenames=fileNames(odmsn))
+    ## ) ## 4.1 sec.
     system.time(
         spM <- MSnbase:::.applyFun2SpectraOfFileMulti(featDat, filenames=fileNames(odmsn))
     ) ## 1.6 sec.
-    expect_equal(spR, spM)
+    ## expect_equal(spR, spM)
 })

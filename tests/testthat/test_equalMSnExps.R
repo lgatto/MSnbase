@@ -9,6 +9,7 @@ ondisk1 <- readMSData2(f, msLevel = 1, verbose = FALSE)
 ondisk2 <- readMSData2(f, msLevel = 2, verbose = FALSE)
 
 test_that("Equality function", {
+    ## testing it on spectra only.
     expect_true(all.equal(inmem1, ondisk1))
     expect_true(all.equal(inmem2, ondisk2))
     ## postive controls
