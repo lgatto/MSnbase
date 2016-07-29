@@ -147,8 +147,8 @@ setMethod("quantify",
 ##           function(object,reporters) curveStats_Spectrum(object,reporters))
 
 setReplaceMethod("precursorCharge",
-                 signature(object="Spectrum",
-                           value="integer"),
+                 signature(object = "Spectrum",
+                           value = "integer"),
                  function(object, value) {
                      object@precursorCharge <- value
                      if (validObject(object))
@@ -255,10 +255,10 @@ setMethod("smooth", "Spectrum",
                               halfWindowSize = halfWindowSize, ...)
           })
 
-setMethod("removeReporters","Spectrum",
-          function(object, reporters=NULL, clean=FALSE) {
-              if (msLevel(object)>1)
-                  return(removeReporters_Spectrum2(object,reporters,clean))
+setMethod("removeReporters", "Spectrum",
+          function(object, reporters = NULL, clean = FALSE) {
+              if (msLevel(object) > 1)
+                  return(removeReporters_Spectrum2(object, reporters, clean))
               stop("No reporters to remove for MS1 spectra.")
           })
 
