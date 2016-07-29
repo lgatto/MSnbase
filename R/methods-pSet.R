@@ -16,9 +16,9 @@
 setMethod("initialize",
           "pSet",
           function(.Object, ...) {
-              if(!any(names(list(...)) == ".cache")){
+              if (!any(names(list(...)) == ".cache")){
                   .cache <- new.env()
-                  assign("level", 0 ,.cache)
+                  assign("level", 0 , .cache)
                   lockEnvironment(.cache)
                   .Object@.cache <- .cache
               }
@@ -75,9 +75,9 @@ setValidity("pSet", function(object) {
         ## protocolData not checked yet - depends very much
         ## on type of assay (MS1, MS2 quant, reporter ions, ...)
         if (!cacheEnvIsLocked(object))
-            msg <- validMsg(msg,"'.cache' environment is not locked.")
-        if (!exists("level", envir=object@.cache))
-            msg <- validMsg(msg,"'.cache' level not defined.")
+            msg <- validMsg(msg, "'.cache' environment is not locked.")
+        if (!exists("level", envir = object@.cache))
+            msg <- validMsg(msg, "'.cache' level not defined.")
         hd <- header(object)
         if (nrow(hd) != length(object))
             msg("(Cached) header nrow and object length differ.")
@@ -197,7 +197,7 @@ setMethod("precursorMz", "pSet",
 ##               ans
 ##           })
 
-setMethod("precScanNum","pSet",
+setMethod("precScanNum", "pSet",
           function(object) {
               if (msLevel(object)[1]>1)
                   return(unlist(sapply(spectra(object), precScanNum)))
@@ -205,7 +205,7 @@ setMethod("precScanNum","pSet",
           })
 
 
-setMethod("tic","pSet",
+setMethod("tic", "pSet",
           function(object) sapply(spectra(object), tic))
 
 setMethod("ionCount", "pSet",
@@ -213,14 +213,14 @@ setMethod("ionCount", "pSet",
 
 setMethod("precursorCharge", "pSet",
           function(object) {
-              if (msLevel(object)[1]>1)
+              if (msLevel(object)[1] > 1)
                   return(sapply(spectra(object), precursorCharge))
               stop("No precursor MZ value for MS1 spectra.")
           })
 
 setMethod("precursorIntensity", "pSet",
           function(object) {
-              if (msLevel(object)[1]>1)
+              if (msLevel(object)[1] > 1)
                   return(sapply(spectra(object), precursorIntensity))
               stop("No precursor data for MS1 spectra.")
           })
@@ -231,7 +231,7 @@ setMethod("scanIndex", "pSet",
           function(object) sapply(spectra(object), scanIndex))
 
 setMethod("rtime", "pSet",
-          function(object) sapply(spectra(object),rtime))
+          function(object) sapply(spectra(object), rtime))
 
 setMethod("centroided", "pSet",
           function(object) sapply(spectra(object), centroided))
@@ -283,28 +283,28 @@ setMethod("peaksCount",
               sapply(spectra(object)[scans], peaksCount)
           })
 
-setMethod("msLevel","pSet",
+setMethod("msLevel", "pSet",
           function(object) sapply(spectra(object), msLevel))
 
-setMethod("collisionEnergy","pSet",
+setMethod("collisionEnergy", "pSet",
           function(object) {
-              if (msLevel(object)[1]>1)
-                  return(sapply(spectra(object),collisionEnergy))
+              if (msLevel(object)[1] > 1)
+                  return(sapply(spectra(object), collisionEnergy))
               stop("No collision energy for MS1 spectra.")
           })
 
-setMethod("intensity","pSet",
+setMethod("intensity", "pSet",
           function(object) lapply(spectra(object),intensity))
 
-setMethod("mz","pSet",
+setMethod("mz", "pSet",
           function(object) lapply(spectra(object),mz))
 
 setMethod("polarity", "pSet",
           function(object) sapply(spectra(object), polarity))
 
 
-setMethod("fromFile","pSet",
-          function(object) return(sapply(spectra(object),fromFile)))
+setMethod("fromFile", "pSet",
+          function(object) return(sapply(spectra(object), fromFile)))
 setReplaceMethod("fromFile",
                  signature(object = "pSet",
                            value = "integer"),
@@ -329,7 +329,7 @@ setMethod("header",
           })
 
 setMethod("header",
-          signature=c("pSet","numeric"),
+          signature = c("pSet", "numeric"),
           function(object, scans) {
               hd <- header(object)
               return(hd[scans, ])
@@ -351,7 +351,7 @@ setMethod("length", "pSet", function(x) length(assayData(x)))
 
 setMethod("assayData", "pSet", function(object) object@assayData)
 
-setMethod("spectra","MSnExp",function(object) {
+setMethod("spectra", "MSnExp", function(object) {
     sl <- as.list(assayData(object))
     fnames <- featureNames(object)
     ## reordering the spectra in the spectra list to match
@@ -368,21 +368,9 @@ setMethod("spectra","MSnExp",function(object) {
 ##                    return(object)
 ##                  })
 
-## No proteomicsData slot anymore since MSnbase 0.2.0 - experimentData is not MIAPE
-## setMethod("proteomicsData","MSnExp",function(object) object@proteomicsData)
-## setMethod("proteomicsData<-","MSnExp",
-##           function(object,value="MIAPE") object@proteomicsData <- value)
-## setReplaceMethod("proteomicsData",
-##                  signature(object="MSnExp",
-##                            value="MIAPE"),
-##                  function(object, value) {
-##                    object@proteomicsData = value
-##                    if (validObject(object))
-##                      return(object)
-##                  })
 
 setMethod("sampleNames",
-          signature(object="pSet"),
+          signature(object = "pSet"),
           function(object) sampleNames(phenoData(object)))
 
 setMethod("fileNames",
@@ -403,7 +391,7 @@ setReplaceMethod("sampleNames",
                      sampleNames(pd) <- value
                      prd <- protocolData(object)
                      if (nrow(prd) == 0) {
-                         prd <- pd[,integer(0)]
+                         prd <- pd[, integer(0)]
                      } else {
                          sampleNames(prd) <- value
                      }
@@ -414,25 +402,25 @@ setReplaceMethod("sampleNames",
                  })
 
 setMethod("featureNames",
-          signature=signature(object="pSet"),
+          signature = signature(object = "pSet"),
           function(object) featureNames(featureData(object)))
 
 setMethod("phenoData", "pSet", function(object) object@phenoData)
 setMethod("pData", "pSet", function(object) pData(phenoData(object)))
 setMethod("varMetadata",
-          signature=signature(object="pSet"),
+          signature = signature(object = "pSet"),
           function(object) varMetadata(phenoData(object)))
 setMethod("varLabels",
-          signature=signature(object="pSet"),
+          signature = signature(object = "pSet"),
           function(object) varLabels(phenoData(object)))
 setMethod("featureData",
-          signature(object="pSet"),
+          signature(object = "pSet"),
           function(object) object@featureData)
 
 setReplaceMethod("featureData",
-                 signature=signature(
-                     object="pSet",
-                     value="AnnotatedDataFrame"),
+                 signature = signature(
+                     object = "pSet",
+                     value = "AnnotatedDataFrame"),
                  function(object, value) {
                      object@featureData <- value
                      if (validObject(object))
@@ -440,13 +428,13 @@ setReplaceMethod("featureData",
                  })
 
 setMethod("fData",
-          signature=signature(object="pSet"),
+          signature = signature(object = "pSet"),
           function(object) pData(featureData(object)))
 
 setReplaceMethod("fData",
-                 signature=signature(
-                     object="pSet",
-                     value="data.frame"),
+                 signature = signature(
+                     object = "pSet",
+                     value = "data.frame"),
                  function(object, value) {
                      fd <- featureData(object)
                      pData(fd) <- value
@@ -456,66 +444,66 @@ setReplaceMethod("fData",
                  })
 
 setMethod("fvarMetadata",
-          signature=signature(object="pSet"),
+          signature = signature(object = "pSet"),          
           function(object) varMetadata(featureData(object)))
 setMethod("fvarLabels",
-          signature=signature(object="pSet"),
+          signature = signature(object = "pSet"),
           function(object) varLabels(featureData(object)))
 
-setMethod("experimentData", signature(object="pSet"),
+setMethod("experimentData", signature(object = "pSet"),
           function(object) object@experimentData)
 
-setMethod("msInfo","pSet",
+setMethod("msInfo", "pSet",
           function(object) msInfo(experimentData(object)))
 
-setMethod("expinfo","pSet",
+setMethod("expinfo", "pSet",
           function(object) expinfo(experimentData(object)))
 
-setMethod("exptitle","pSet",
+setMethod("exptitle", "pSet",
           function(object) exptitle(experimentData(object)))
 
-setMethod("expemail","pSet",
+setMethod("expemail", "pSet",
           function(object) expemail(experimentData(object)))
 
-setMethod("ionSource","pSet",
+setMethod("ionSource", "pSet",
           function(object) ionSource(experimentData(object)))
 
-setMethod("ionSourceDetails","pSet",
+setMethod("ionSourceDetails", "pSet",
           function(object) ionSourceDetails(experimentData(object)))
 
-setMethod("analyser","pSet",
+setMethod("analyser", "pSet",
           function(object) analyser(experimentData(object)))
-setMethod("analyzer","pSet",
+setMethod("analyzer", "pSet",
           function(object) analyzer(experimentData(object)))
-setMethod("analyzerDetails","pSet",
+setMethod("analyzerDetails", "pSet",
           function(object) analyzerDetails(experimentData(object)))
-setMethod("analyserDetails","pSet",
+setMethod("analyserDetails", "pSet",
           function(object) analyzerDetails(experimentData(object)))
 
-setMethod("instrumentModel","pSet",
+setMethod("instrumentModel", "pSet",
           function(object) instrumentModel(experimentData(object)))
-setMethod("instrumentManufacturer","pSet",
+setMethod("instrumentManufacturer", "pSet",
           function(object) instrumentManufacturer(experimentData(object)))
-setMethod("instrumentCustomisations","pSet",
+setMethod("instrumentCustomisations", "pSet",
           function(object) instrumentCustomisations(experimentData(object)))
 
-setMethod("detectorType","pSet",
+setMethod("detectorType", "pSet",
           function(object) detectorType(experimentData(object)))
 
-setMethod("description", signature(object="pSet"),
+setMethod("description", signature(object = "pSet"),
           function(object, ...) {
               experimentData(object)
           })
-setMethod("notes", signature(object="pSet"),
+setMethod("notes", signature(object = "pSet"),
           function(object) otherInfo(experimentData(object)))
 
-setMethod("pubMedIds", signature(object="pSet"),
+setMethod("pubMedIds", signature(object = "pSet"),
           function(object) pubMedIds(experimentData(object)))
 
 setReplaceMethod("pubMedIds",
-                 signature=signature(
-                     object="pSet",
-                     value="character"),
+                 signature = signature(
+                     object = "pSet",
+                     value = "character"),
                  function(object, value) {
                      ed <- experimentData(object)
                      pubMedIds(ed) <- value
@@ -530,11 +518,12 @@ setMethod("protocolData", "pSet",
           function(object) {
               tryCatch(object@protocolData,
                        error = function(x) {
-                           phenoData(object)[,integer(0)]
+                           phenoData(object)[, integer(0)]
                        })
           })
+
 setMethod("processingData",
-          signature(object="pSet"),
+          signature(object = "pSet"),
           function(object) object@processingData)
 
 
