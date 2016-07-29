@@ -287,11 +287,12 @@ test_that("feautre names are correct", {
 })
 
 test_that("Noise estimation MSnExp", {
-    expect_identical(estimateNoise(new("MSnExp")), list())
-    
+    expect_identical(estimateNoise(new("MSnExp")), list())    
     e <- new.env()
-    e$s1 <- new("Spectrum2", mz=1:5, intensity=c(1:3, 2:1), fromFile = 1L)
-    e$s2 <- new("Spectrum2", mz=3, intensity=3, centroided=TRUE, fromFile = 1L)
+    e$s1 <- new("Spectrum2", mz = 1:5, intensity = c(1:3, 2:1),
+                fromFile = 1L, centroided = FALSE)
+    e$s2 <- new("Spectrum2", mz = 3, intensity = 3, centroided = TRUE,
+                fromFile = 1L)
     fd <- data.frame(x = 1:2,
                      file = rep("1", 2),
                      row.names = c("s1", "s2"))
@@ -303,5 +304,5 @@ test_that("Noise estimation MSnExp", {
     expect_true(inherits(ns, "list"))
     expect_identical(length(ns), 2L)
     expect_identical(ns[[1]], estimateNoise(e$s1))
-    expect_identical(ns[[2]], estimateNoise(e$s2))
+    expect_identical(ns[[2]], suppressWarnings(estimateNoise(e$s2)))
 })
