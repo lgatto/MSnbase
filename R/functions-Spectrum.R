@@ -104,7 +104,7 @@ quantify_Spectrum <- function(spectrum, method,
             ## peakQuant[i] <- abs(sum(x)/2)
             ## - updated -
             peakQuant[i] <- 0.5 * sum((dfr$mz[2:n] - dfr$mz[1:(n-1)]) *
-                                          (dfr$int[2:n] + dfr$int[1:(n-1)]))
+                                      (dfr$int[2:n] + dfr$int[1:(n-1)]))
             ## area using zoo's rollmean, but seems slightly slower
             ## peakQuant[i] <- abs(sum(diff(dfr$int)*rollmean(dfr$mz,2)))
         } else if (method == "sum") {
@@ -115,12 +115,12 @@ quantify_Spectrum <- function(spectrum, method,
             peakQuant[i] <- max(dfr$int)
         }
     }
-    colnames(curveStats) <- c("maxInt","nMaxInt","baseLength",
-                              "lowerMz","upperMz",
-                              "reporter","precursor")
+    colnames(curveStats) <- c("maxInt", "nMaxInt", "baseLength",
+                              "lowerMz", "upperMz", "reporter",
+                              "precursor")
     ## curveStats <- as.data.frame(curveStats)
-    return(list(peakQuant=peakQuant,
-                curveStats=curveStats))
+    return(list(peakQuant = peakQuant,
+                curveStats = curveStats))
 }
 
 
@@ -408,6 +408,7 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
     object@mz <- object@mz[peakIdx]
     object@intensity <- object@intensity[peakIdx]
     object@peaksCount <- length(peakIdx)
+    object@tic <- sum(intensity(object))
     object@centroided <- TRUE
 
     if (validObject(object)) {
@@ -419,32 +420,27 @@ smooth_Spectrum <- function(object,
                             method = c("SavitzkyGolay", "MovingAverage"),
                             halfWindowSize = 2L, ...) {
 
-  if (!peaksCount(object)) {
-    warning("Your spectrum is empty. Nothing to change.")
-    return(object)
-  }
-
-  method <- match.arg(method)
-
-  switch(method,
-         "SavitzkyGolay" = {
-           fun <- MALDIquant:::.savitzkyGolay
-         },
-         "MovingAverage" = {
-           fun <- MALDIquant:::.movingAverage
-         })
-
-  object@intensity <- fun(object@intensity, halfWindowSize = halfWindowSize, ...)
-
-  isBelowZero <- object@intensity < 0
-
-  if (any(isBelowZero)) {
-    warning("Negative intensities generated. Replaced by zeros.")
-    object@intensity[isBelowZero] <- 0
-  }
-
-  if (validObject(object)) {
-    return(object)
-  }
+    if (!peaksCount(object)) {
+        warning("Your spectrum is empty. Nothing to change.")
+        return(object)
+    }
+    method <- match.arg(method)
+    switch(method,
+           "SavitzkyGolay" = {
+               fun <- MALDIquant:::.savitzkyGolay
+           },
+           "MovingAverage" = {
+               fun <- MALDIquant:::.movingAverage
+           })
+    object@intensity <- fun(object@intensity,
+                            halfWindowSize = halfWindowSize,
+                            ...)
+    isBelowZero <- object@intensity < 0
+    if (any(isBelowZero)) {
+        warning("Negative intensities generated. Replaced by zeros.")
+        object@intensity[isBelowZero] <- 0
+    }
+    object@tic <- sum(intensity(object))
+    if (validObject(object))
+        return(object)
 }
-
