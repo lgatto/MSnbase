@@ -159,4 +159,3 @@ test_that("filterMz", {
     mzr <- range(mz(twoFileOnDiskF))
     expect_true(mzr[1] >= 300 & mzr[2] <= 350)
 })
-
