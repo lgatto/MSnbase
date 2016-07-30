@@ -39,7 +39,7 @@ test_that("filterNA with patter", {
 })
 
 test_that("filterZero", {
-    data(naset)
+    data(naset, package = "MSnbase")
     zeroset <- naset
     exprs(zeroset)[is.na(naset)] <- 0
     nares <- filterNA(naset)
@@ -51,7 +51,7 @@ test_that("filterZero", {
 })
 
 test_that("filterZero with pNA", {
-    data(naset)
+    data(naset, package = "MSnbase")
     zeroset <- naset
     exprs(zeroset)[is.na(naset)] <- 0
     nares <- filterNA(naset, pNA = 0.5)
