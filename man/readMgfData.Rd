@@ -11,13 +11,13 @@
 }
 
 \usage{
-readMgfData(file, pdata = NULL, centroided = TRUE, smoothed = FALSE,
+readMgfData(filename, pdata = NULL, centroided = TRUE, smoothed = FALSE,
 verbose = TRUE, cache = 1)
 }
 
 
 \arguments{
-  \item{file}{
+  \item{filename}{
     character vector with file name to be read.
   }
   \item{pdata}{
@@ -82,10 +82,10 @@ verbose = TRUE, cache = 1)
   ## is TRUE
   all.equal(as.data.frame(itraqdata2[[3]]),as.data.frame(itraqdata[[11]]))
   ## is TRUE
-  file <- dir(system.file(package="MSnbase",dir="extdata"),
-              full.name=TRUE,
-              pattern="test.mgf")
-  (x <- readMgfData(file))
+  f <- dir(system.file(package="MSnbase",dir="extdata"),
+           full.name=TRUE,
+           pattern="test.mgf")
+  (x <- readMgfData(f))
   x[[2]]
   precursorMz(x[[2]])
   precursorIntensity(x[[2]])

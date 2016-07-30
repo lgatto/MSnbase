@@ -90,16 +90,16 @@ writeMgfContent <- function(sp, TITLE = NULL, con) {
 
 # Based on the code contributed by Guangchuang Yu <guangchuangyu@gmail.com>
 # Modified by Sebastian Gibb <mail@sebastiangibb.de>
-readMgfData <- function(file,
+readMgfData <- function(filename,
                         pdata = NULL,
                         centroided = TRUE,
                         smoothed = FALSE,
                         verbose = TRUE,
                         cache = 1) {
   if (verbose)
-    cat("Scanning", file, "...\n")
+    cat("Scanning", filename, "...\n")
 
-  mgf <- scan(file = file, what = "",
+  mgf <- scan(file = filename, what = "",
               sep = "\n", quote = "",
               allowEscapes = FALSE,
               quiet = TRUE)
@@ -118,19 +118,19 @@ readMgfData <- function(file,
 
   if (verbose) {
     cnt <- 1L
-    pb <- txtProgressBar(min=0L, max=n, style=3L)
+    pb <- txtProgressBar(min = 0L, max = n, style = 3L)
   }
 
-  spectra <- vector("list", length=n)
-  fdata <- vector("list", length=n)
+  spectra <- vector("list", length = n)
+  fdata <- vector("list", length = n)
 
-  for (i in seq(along=spectra)) {
+  for (i in seq(along = spectra)) {
     if (verbose) {
       setTxtProgressBar(pb, cnt)
       cnt <- cnt + 1L
     }
     specInfo <- extractMgfSpectrum2Info(mgf[begin[i]:end[i]],
-                                        centroided=centroided)
+                                        centroided = centroided)
     spectra[[i]] <- specInfo$spectrum
     fdata[[i]] <- specInfo$fdata
   }
@@ -143,11 +143,12 @@ readMgfData <- function(file,
   assaydata <- list2env(spectra)
   process <- new("MSnProcess",
                  processing = paste("Data loaded:", date()),
-                 files = file,
+                 files = filename,
                  smoothed = smoothed)
   if (is.null(pdata)) {
     pdata <- new("NAnnotatedDataFrame",
-                 data = data.frame(sampleNames = file, fileNumbers = 1))
+                 data = data.frame(sampleNames = filename,
+                                   fileNumbers = 1))
   }
   rownames(fdata) <- names(spectra)
   fdata <- AnnotatedDataFrame(data = data.frame(fdata))
