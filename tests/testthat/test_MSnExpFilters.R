@@ -143,10 +143,8 @@ test_that("filterMz", {
     ## On multiple files.
     mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
                  system.file("microtofq/MM8.mzML", package = "msdata"))
-    suppressWarnings(
-        twoFileOnDisk <- readMSData2(mzfiles, verbose = FALSE,
-                                     centroided = TRUE)
-    )
+    twoFileOnDisk <- readMSData2(mzfiles, verbose = FALSE,
+                                 centroided = TRUE)
     twoFileOnDiskF <- filterMz(twoFileOnDisk, mz = c(300, 350))
     mzr <- range(mz(twoFileOnDiskF))
     expect_true(mzr[1] >= 300 & mzr[2] <= 350)

@@ -154,4 +154,3 @@ setMethod("filterAcquisitionNum", "MSnExp",
                                                length(file), " file(s)."))
               return(object)
           })
-
