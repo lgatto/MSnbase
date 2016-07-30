@@ -75,7 +75,8 @@ test_that("filterAcquisitionNum", {
     spctr <- spectra(filtered)
     expect_true(all(unlist(lapply(spctr, acquisitionNum)) %in% 1000:1100))
     ## Use unavailable acquisition numbers
-    expect_warning(expect_true(length(filterAcquisitionNum(ondisk, n = 1:100)) == 0))
+    expect_warning(ll <- length(filterAcquisitionNum(ondisk, n = 1:100)))
+    expect_true(ll == 0)
     ## Compare on-disk with in-mem.
     expect_true(all.equal(filterAcquisitionNum(ondisk1, n = 1000:1100),
                           filterAcquisitionNum(inmem1, n = 1000:1100)))
