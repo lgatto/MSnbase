@@ -57,31 +57,31 @@ setMethod("plot", c("Spectrum2", "character"),
           })
 
 setMethod("clean",
-          signature=signature("Spectrum"),
+          signature = signature("Spectrum"),
           function(object, all = FALSE, msLevel.)
               clean_Spectrum(object, all, msLevel. = msLevel.))
 
-setMethod("removePeaks","Spectrum",
-          function(object,t, msLevel.)
+setMethod("removePeaks", "Spectrum",
+          function(object, t, msLevel.)
               removePeaks_Spectrum(object, t, msLevel.))
 
-setMethod("precursorMz","Spectrum",
+setMethod("precursorMz", "Spectrum",
           function(object) {
-              if (msLevel(object)>1)
+              if (msLevel(object) > 1)
                   return(object@precursorMz)
               stop("No precursor MZ value for MS1 spectra.")
           })
 
-setMethod("precursorCharge","Spectrum",
+setMethod("precursorCharge", "Spectrum",
           function(object) {
-              if (msLevel(object)>1)
+              if (msLevel(object) > 1)
                   return(object@precursorCharge)
               stop("No precursor charge value for MS1 spectra.")
           })
 
-setMethod("precursorIntensity","Spectrum",
+setMethod("precursorIntensity", "Spectrum",
           function(object) {
-              if (msLevel(object)>1)
+              if (msLevel(object) > 1)
                   return(object@precursorIntensity)
               stop("No precursor data for MS1 spectra.")
           })
@@ -91,31 +91,30 @@ setMethod("acquisitionNum", "Spectrum",
 setMethod("scanIndex", "Spectrum",
           function(object) object@scanIndex)
 
-setMethod("precScanNum","Spectrum",
+setMethod("precScanNum", "Spectrum",
           function(object) {
-              if (msLevel(object)>1)
+              if (msLevel(object) > 1)
                   return(object@precScanNum)
               stop("This is already an MS1 spectrum.")
           })
-setMethod("precAcquisitionNum","Spectrum",
+setMethod("precAcquisitionNum", "Spectrum",
           function(object) precScanNum(object))
 
-setMethod("rtime","Spectrum",function(object) object@rt)
+setMethod("rtime", "Spectrum", function(object) object@rt)
 
 setMethod("peaksCount",
-          signature("Spectrum","missing"),
+          signature("Spectrum", "missing"),
           function(object) object@peaksCount)
-## no singature("Spectrum","numeric") -- does not make sense
 
-setMethod("msLevel","Spectrum",function(object) object@msLevel)
-setMethod("collisionEnergy","Spectrum",
+setMethod("msLevel", "Spectrum", function(object) object@msLevel)
+setMethod("collisionEnergy", "Spectrum",
           function(object) {
-              if (msLevel(object)>1)
+              if (msLevel(object) > 1)
                   return(object@collisionEnergy)
               stop("No collision energy for MS1 spectra.")
           })
-setMethod("intensity","Spectrum",function(object) object@intensity)
-setMethod("mz","Spectrum",function(object) object@mz)
+setMethod("intensity", "Spectrum", function(object) object@intensity)
+setMethod("mz", "Spectrum", function(object) object@mz)
 
 setMethod("tic", "Spectrum", function(object) object@tic)
 
@@ -135,7 +134,7 @@ setMethod("filterMz", "Spectrum",
 setMethod("quantify",
           signature = signature("Spectrum"),
           function(object,
-                   method = c("trapezoidation","max","sum"),
+                   method = c("trapezoidation", "max", "sum"),
                    reporters,
                    strict = FALSE) {
               if (!inherits(reporters, "ReporterIons"))
@@ -155,15 +154,15 @@ setReplaceMethod("precursorCharge",
                          return(object)
                  })
 
-setMethod("fromFile","Spectrum", function(object) object@fromFile)
+setMethod("fromFile", "Spectrum", function(object) object@fromFile)
 
-setMethod("polarity","Spectrum",
+setMethod("polarity", "Spectrum",
           function(object) return(object@polarity))
 
 setAs("Spectrum", "data.frame",
       function (from)
-          data.frame(mz=mz(from),
-                     i=intensity(from))
+          data.frame(mz = mz(from),
+                     i = intensity(from))
       )
 
 as.data.frame.Spectrum <- function(x, row.names=NULL, optional=FALSE, ...)
@@ -232,7 +231,7 @@ setMethod("calculateFragments", c("character", "Spectrum2"),
 setMethod("compareSpectra", c("Spectrum", "Spectrum"),
           function(object1, object2, fun=c("common", "cor", "dotproduct"),
                    ...) {
-              compare_Spectra(object1, object2, fun=fun, ...)
+              compare_Spectra(object1, object2, fun = fun, ...)
           })
 
 setMethod("estimateNoise", "Spectrum",
