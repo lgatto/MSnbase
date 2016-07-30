@@ -96,7 +96,7 @@ readMSData2 <- function(files,
     ## expriment data slot
     if (length(.instrumentInfo) > 1) {
         cmp <- length(unique(sapply(.instrumentInfo, "[[", 1)))
-        if (cmp > 1)
+        if (cmp > 1 & verbose)
             message("According to the instrument information in the files,\n",
                     "the data has been acquired on different instruments!")
 

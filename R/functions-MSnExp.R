@@ -186,7 +186,7 @@ bin_MSnExp <- function(object, binSize=1, verbose=TRUE) {
              ._cnt <<- ._cnt+1
            }
            sp <- get(x, envir = assayData(object))
-           xx <- bin(sp, breaks=breaks)
+           xx <- bin(sp, breaks = breaks)
            assign(x, xx, envir = e)
            invisible(TRUE)
          })
