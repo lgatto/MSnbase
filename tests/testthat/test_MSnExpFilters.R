@@ -87,7 +87,6 @@ test_that("filterAcquisitionNum", {
                           filterAcquisitionNum(inmem1, n = 1000:1100)))
     expect_true(all.equal(filterAcquisitionNum(ondisk2, n = 1000:1100),
                           filterAcquisitionNum(inmem2, n = 1000:1100)))
-
     ## Torture tests. The two files have different number of spectra.
     mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
                  system.file("microtofq/MM8.mzML", package = "msdata"))
@@ -120,7 +119,6 @@ test_that("filterMz", {
     inMemF <- filterMz(inmem2, mz = c(300, 900))
     mzr <- range(mz(inMemF))
     expect_true(mzr[1] >= 300 & mzr[2] <= 900)
-
     ## o Test for OnDiskMSnExp, MS 1, MS 2 and both.
     onDisk1F <- filterMz(ondisk1, mz = c(500, 550))
     mzr <- range(mz(onDisk1F))
@@ -139,7 +137,6 @@ test_that("filterMz", {
     Test <- filterMz(ondisk1, mz = c(500, 550), msLevel. = 2)
     expect_true(all.equal(Test, ondisk1))
     expect_true(is(all.equal(Test, onDisk1F), "character"))
-
     ## o Compare between MSnExp and OnDiskMSnExp.
     onDiskF <- filterMz(ondisk1, mz = c(500, 550))
     inMemF <- filterMz(inmem1, mz = c(500, 550))
@@ -147,7 +144,6 @@ test_that("filterMz", {
     onDiskF <- filterMz(ondisk2, mz = c(300, 900))
     inMemF <- filterMz(inmem2, mz = c(300, 900))
     expect_true(all.equal(onDiskF, inMemF))
-
     ## On multiple files.
     mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
                  system.file("microtofq/MM8.mzML", package = "msdata"))

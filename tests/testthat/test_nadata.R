@@ -1,4 +1,5 @@
 context("NA data")
+library("pRolocdata")
 data(dunkley2006)
 
 test_that("makeNAdata", {

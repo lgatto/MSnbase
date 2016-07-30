@@ -1,3 +1,5 @@
+library("pRolocdata")
+
 context("Features of interest")
 
 test_that("FeaturesOfInterest", {

@@ -170,7 +170,6 @@ test_that("removePeaks on OnDiskMSnExp with different MS levels", {
     multiMsInMem2_rem <- removePeaks(multiMsInMem2)
     expect_true(sum(unlist(intensity(multiMsInMem2_rem)) == 0) >
                 sum(unlist(intensity(multiMsInMem2)) == 0))
-
     ## o Tests on OnDiskMSnExp and comparison with MSnExp.
     multiMsOnDisk_rem <- removePeaks(multiMsOnDisk)
     expect_true(sum(unlist(intensity(multiMsOnDisk_rem)) == 0) >
@@ -180,7 +179,6 @@ test_that("removePeaks on OnDiskMSnExp with different MS levels", {
                           filterMsLevel(multiMsOnDisk_rem, msLevel. = 1)))
     expect_true(all.equal(multiMsInMem2_rem,
                           filterMsLevel(multiMsOnDisk_rem, msLevel. = 2)))
-
     ##   Just processing MS 1.
     multiMsOnDisk_rem_1 <- removePeaks(multiMsOnDisk, msLevel. = 1)
     expect_true(all.equal(filterMsLevel(multiMsOnDisk_rem_1, msLevel. = 1),
@@ -324,8 +322,6 @@ test_that("bin on OnDiskMSnExp", {
 })
 
 
-
-
 ############################################################
 ## Test internal spectrapply method.
 test_that("Test internal spectrapply function", {
@@ -351,4 +347,3 @@ test_that("Test internal spectrapply function", {
     }, int = 30)
     expect_identical(res1, res2)
 })
-

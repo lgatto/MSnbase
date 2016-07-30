@@ -13,7 +13,7 @@ test_that("MSnSet validity for empty feature names", {
 })
 
 test_that("MSnSet coersion", {
-    data(dunkley2006)
+    data(dunkley2006, package = "pRolocdata")
     expect_true(validObject(dunkley2006))
     es <- as(dunkley2006, "ExpressionSet")
     expect_true(validObject(es))
@@ -272,9 +272,9 @@ test_that("idSummary", {
 
 
 test_that("commonFeatureNames works with lists or MSnSetLists", {
-    data(tan2009r1)
-    data(tan2009r2)
-    data(tan2009r3)
+    data(tan2009r1, package = "pRolocdata")
+    data(tan2009r2, package = "pRolocdata")
+    data(tan2009r3, package = "pRolocdata")
     ## both below show work exactly the same
     res1 <- commonFeatureNames(MSnSetList(list(tan2009r1, tan2009r2)))
     res2 <- commonFeatureNames(list(tan2009r1, tan2009r2))
@@ -291,9 +291,9 @@ test_that("commonFeatureNames works with lists or MSnSetLists", {
 })
 
 test_that("keeping common features", {
-    data(tan2009r1)
-    data(tan2009r2)
-    data(tan2009r3)
+    data(tan2009r1, package = "pRolocdata")
+    data(tan2009r2, package = "pRolocdata")
+    data(tan2009r3, package = "pRolocdata")
     res0 <- commonFeatureNames(tan2009r1, tan2009r1)
     ## @qual and @processingData@processing will be different
     expect_equal(res0[[1]], res0[[2]])
@@ -338,7 +338,7 @@ test_that("Combine with fun or 'fun'", {
 })
 
 test_that("Feature variable selection", {
-    data(hyperLOPIT2015)
+    data(hyperLOPIT2015, package = "pRolocdata")
     fv <- fvarLabels(hyperLOPIT2015)
     i <- sort(sample(length(fv), 10))
     k <- fv[i]
