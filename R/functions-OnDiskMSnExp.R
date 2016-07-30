@@ -322,7 +322,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
             ## Apply the processing steps.
             if (length(theQ) > 0) {
                 for (pStep in theQ) {
-                    z <- execute(pStep, z)
+                    z <- MSnbase:::execute(pStep, z)
                 }
             }
             if (is.null(APPLF)) {
