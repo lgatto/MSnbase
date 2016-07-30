@@ -17,12 +17,10 @@ test_that("filterNA for matrix", {
 })
 
 test_that("filterNA for MSnSet", {
-    xx <- quantify(itraqdata, reporters = iTRAQ4,
-                   BPPRAM = SerialParam(), method = "max",
-                   verbose = FALSE)
-    exprs(xx)[sample(prod(dim(xx)), 120)] <- NA
-    xx2 <- filterNA(xx, 1/4)
-    expect_true(nrow(xx) > nrow(xx2))
+    data(msnset, package = "MSnbase")
+    exprs(msnset)[sample(prod(dim(msnset)), 120)] <- NA
+    msnset2 <- filterNA(msnset, 1/4)
+    expect_true(nrow(msnset) > nrow(msnset2))
 })
 
 test_that("filterNA with patter", {

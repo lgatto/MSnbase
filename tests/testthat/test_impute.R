@@ -2,8 +2,7 @@ context("imputation method")
 
 test_that("all imputation methods", {
 
-    data(naset)
-  
+    data(naset)  
     m <- imputeMethods()
     m <- m[m != "mixed"]
     m <- m[m != "nbavg"] ## see next test

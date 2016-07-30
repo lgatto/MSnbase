@@ -187,36 +187,29 @@ test_that("makeImpuritiesMatrix", {
 })
 
 test_that("Normalisation and transpose", {
-    bp <- SerialParam()
-    bb <- quantify(itraqdata, method="trap", reporters=iTRAQ4,
-                   BPPARAM = bp,
-                   verbose=FALSE)
-    bb1 <- normalise(bb, "sum")
-    expect_true(all.equal(rowSums(exprs(bb1), na.rm=TRUE),
-                          rep(1,nrow(bb1)), check.attributes=FALSE))
-    bb2 <- normalise(bb,"max")
-    expect_true(all(apply(exprs(bb2), 1, max, na.rm=TRUE) == 1))
-    bb3 <- normalise(bb, "quantiles")
-    bb4 <- normalise(bb, "quantiles.robust")
-    bb5 <- normalise(bb, "vsn")
+    data(msnset)
+    msnset1 <- normalise(msnset, "sum")
+    expect_equivalent(rowSums(exprs(msnset1), na.rm = TRUE),
+                      rep(1, nrow(msnset1)))
+    msnset2 <- normalise(msnset, "max")
+    expect_true(all(apply(exprs(msnset2), 1, max, na.rm = TRUE) == 1))
+    msnset3 <- normalise(msnset, "quantiles")
+    msnset4 <- normalise(msnset, "quantiles.robust")
+    msnset5 <- normalise(msnset, "vsn")
 })
 
 
 test_that("Transpose and subset", {
-    aa <- quantify(itraqdata, method="trap", reporters=iTRAQ4,
-                   BPPARAM = SerialParam(),
-                   verbose=FALSE)
+    data(msnset)
     ## transpose
-    ##expect_warning(taa <- t(aa),"Dropping protocolData.") ## replaced by message()
-    taa <- t(aa)
-    expect_true(nrow(aa) == ncol(taa))
-    expect_true(ncol(aa) == nrow(taa))
-    expect_true(all.equal(pData(aa), fData(taa)))
-    expect_true(all.equal(pData(taa), fData(aa)))
+    tmsnset <- t(msnset)
+    expect_true(nrow(msnset) == ncol(tmsnset))
+    expect_true(ncol(msnset) == nrow(tmsnset))
+    expect_true(all.equal(pData(msnset), fData(tmsnset)))
+    expect_true(all.equal(pData(tmsnset), fData(msnset)))
     ## subset
-    bb <- aa[1:2,c(2,4)]
-    ## expect_true(all(dim(qual(bb)) == c(4,7)))
-    ## expect_true(all(qual(bb)$reporter %in% bb$mz))
+    bb <- msnset[1:2, c(2, 4)]
+    expect_identical(dim(bb), c(2L, 2L))
 })
 
 context("MSnSet identification data")
@@ -228,7 +221,7 @@ test_that("addIdentificationData", {
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "dummyiTRAQ.mzid")
 
-  aa <- readMSData(quantFile, verbose = FALSE)  
+  aa <- readMSData(quantFile, verbose = FALSE)
   msnset <- quantify(aa, method = "trap", reporters = iTRAQ4,
                      BPPARAM = SerialParam(),
                      verbose = FALSE)
@@ -257,17 +250,17 @@ test_that("idSummary", {
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "dummyiTRAQ.mzid")
   aa <- readMSData(quantFile, verbose = FALSE)
-  bp <- SerialParam()
   msnset <- quantify(aa, method = "trap", reporters = iTRAQ4,
-                     BPPARAM = bp,
+                     BPPARAM = SerialParam(), 
                      verbose = FALSE)
   bb <- addIdentificationData(msnset, identFile,
                               verbose = FALSE)
   expect_error(idSummary(aa), "No quantification/identification data found")
   expect_equal(idSummary(bb),
-               data.frame(spectrumFile="dummyiTRAQ.mzXML",
-                          idFile="dummyiTRAQ.mzid", coverage=0.6,
-                          stringsAsFactors=FALSE))
+               data.frame(spectrumFile = "dummyiTRAQ.mzXML",
+                          idFile = "dummyiTRAQ.mzid",
+                          coverage = 0.6,
+                          stringsAsFactors = FALSE))
 })
 
 

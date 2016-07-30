@@ -41,14 +41,10 @@ test_that("filterFile", {
                  system.file("microtofq/MM8.mzML", package = "msdata"))
     oneFileInMem <- readMSData(mzfiles[2], verbose = FALSE, msLevel = 1,
                                centroided = TRUE)
-    suppressWarnings(
-        twoFileInMem <- readMSData(mzfiles, verbose = FALSE, msLevel = 1,
-                                   centroided = TRUE)
-    )
-    suppressWarnings(
-        twoFileOnDisk <- readMSData2(mzfiles, verbose = FALSE,
-                                     centroided = TRUE)
-    )
+    twoFileInMem <- readMSData(mzfiles, verbose = FALSE, msLevel = 1,
+                               centroided = TRUE)
+    twoFileOnDisk <- readMSData2(mzfiles, verbose = FALSE,
+                                 centroided = TRUE)
     secondFileOnDisk <- readMSData2(mzfiles[2], verbose = FALSE,
                                     centroided = TRUE)
     ## Note: all.equal MSnExp, MSnExp will fail because of the
