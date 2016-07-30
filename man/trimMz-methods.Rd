@@ -4,26 +4,31 @@
 % \alias{trimMz,MSnExp-method}
 % \alias{trimMz,Spectrum-method}
 \alias{trimMz}
+\alias{filterMz}
+\alias{filterMz-methods}
 
 
 \title{ Trims 'MSnExp' or 'Spectrum' instances }
 
 
 \description{
+  
   This method selects a range of MZ values in a single spectrum
   (\code{Spectrum} instances) or all the spectra of an experiment
   (\code{MSnExp} instances). The regions to trim are defined by the
-  range of \code{mzlim} argument, such that MZ values < \code{min(mzlim)}
-  and MZ values > \code{max(mzlim)} are trimmed away.
+  range of \code{mz} argument, such that MZ values <= \code{min(mz)} and
+  MZ values >= \code{max(mz)} are trimmed away.
+  
 }
 \section{Methods}{
   \describe{
-    \item{\code{signature(object = "MSnExp", mzlim = "numeric")}}{
-      Trims all spectra in \code{MSnExp} object according to
-      \code{mzlim}. Returns a cleaned \code{MSnExp} instance.
-    }
     
-    \item{\code{signature(object = "Spectrum", mzlim = "numeric",
+    \item{\code{signature(object = "MSnExp", mz = "numeric", msLevel. =
+	"numeric")}}{ Trims all spectra in \code{MSnExp} object according
+      to \code{mz}. If \code{msLevel.} is defined, then only spectra of
+      that level are trimmer. }
+
+    \item{\code{signature(object = "Spectrum", mz = "numeric",
 	msLevel. = "numeric")}}{Trims the \code{Spectrum} object and
       retruns a new trimmed object. \code{msLevel.} defines the level
       of the spectrum, and if \code{msLevel(object) != msLevel.},

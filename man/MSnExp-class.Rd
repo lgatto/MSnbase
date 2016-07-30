@@ -40,7 +40,6 @@
 \alias{filterMsLevel}
 \alias{filterMsLevel,MSnExp-method}
 \alias{filterMsLevel,OnDiskMSnExp-method}
-\alias{filterMz}
 \alias{filterMz,MSnExp-method}
 \alias{filterMz,OnDiskMSnExp-method}
 \alias{filterRt}
@@ -257,7 +256,8 @@
 	"numeric")}: Retains MS spectra of level \code{msLevel.}. }
 
     \item{filterMz}{\code{signature(object = "MSnExp", mz = "numeric",
-	msLevel. = "numeric")}}
+	msLevel. = "numeric")}. See \link{\code{filterMz}} for
+	details. }
 
     \item{filterFile}{}
 

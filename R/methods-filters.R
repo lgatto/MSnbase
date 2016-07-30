@@ -59,10 +59,10 @@ setMethod("filterMz", "MSnExp",
                                  msLevel. = msLevel., ...)
               object@assayData <- list2env(filtered)
               trmd <- object@processingData@trimmed
-              ifelse(length(trmd)==0,
+              ifelse(length(trmd) == 0,
                      object@processingData@trimmed <- mz,
-                     object@processingData@trimmed <- c(max(trmd[1],mz[1]),
-                                                        min(trmd[2],mz[2])))
+                     object@processingData@trimmed <- c(max(trmd[1], mz[1]),
+                                                        min(trmd[2], mz[2])))
               object@processingData@processing <- c(object@processingData@processing,
                                                     paste0("Filter: trim MZ [",
                                                           object@processingData@trimmed[1],
