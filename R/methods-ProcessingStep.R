@@ -5,24 +5,24 @@
 ## ProcessingStep
 ##
 ## Constructor
-ProcessingStep <- function(FUN=character(), ARGS=list()){
-    if(missing(FUN))
+ProcessingStep <- function(FUN = character(), ARGS = list())  {
+    if (missing(FUN))
         FUN <- character()
-    return(new("ProcessingStep", FUN=FUN, ARGS=ARGS))
+    return(new("ProcessingStep", FUN = FUN, ARGS = ARGS))
 }
 
 ############################################################
 ## show
 ##
 setMethod("show", "ProcessingStep", function(object) {
-    cat("Object of class \"",class(object),"\"\n",sep="")
-    cat(" Function: ", object@FUN, "\n", sep="")
+    cat("Object of class \"", class(object), "\"\n", sep = "")
+    cat(" Function: ", object@FUN, "\n", sep = "")
     args <- object@ARGS
-    if (length(args) > 0){
+    if (length(args) > 0) {
         cat(" Arguments:\n")
-        for (i in 1:length(args)){
+        for (i in 1:length(args)) {
             cat("  o ", names(args)[i], " = ",
-                paste(args[[i]], collapse=", "), "\n", sep="")
+                paste(args[[i]], collapse = ", "), "\n", sep = "")
         }
     }
 })
