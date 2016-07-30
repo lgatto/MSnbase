@@ -45,6 +45,17 @@
 \alias{precursorIntensity,OnDiskMSnExp-method}
 \alias{collisionEnergy,OnDiskMSnExp-method}
 
+\alias{compareSpectra,OnDiskMSnExp,missing-method}
+\alias{estimateNoise,OnDiskMSnExp-method}
+\alias{extractPrecSpectra,OnDiskMSnExp,numeric-method}
+\alias{pickPeaks,OnDiskMSnExp-method}
+\alias{precursorCharge,OnDiskMSnExp-method}
+\alias{precursorMz,OnDiskMSnExp-method}
+\alias{quantify,OnDiskMSnExp-method}
+\alias{smooth,OnDiskMSnExp-method}
+
+
+
 %% Data manipulations.
 \alias{clean,OnDiskMSnExp-method}
 \alias{removePeaks,OnDiskMSnExp-method}

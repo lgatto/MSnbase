@@ -17,7 +17,6 @@ test_that("MSnSet coersion", {
     expect_true(validObject(dunkley2006))
     es <- as(dunkley2006, "ExpressionSet")
     expect_true(validObject(es))
-
     ## back to MSnSet
     ms <- as(es, "MSnSet")
     expect_true(validObject(ms))
@@ -108,7 +107,6 @@ test_that("Combine MSnSet features (V)", {
 
 
 test_that("Combine MSnSet features (L)", {
-
     e <- matrix(1:15, nrow = 5)
     colnames(e) <- paste0("X", 1:3)
     rownames(e) <- letters[1:5]
@@ -258,7 +256,6 @@ test_that("idSummary", {
                    full.name = TRUE, pattern = "mzXML$")
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-
   aa <- readMSData(quantFile, verbose = FALSE)
   bp <- SerialParam()
   msnset <- quantify(aa, method = "trap", reporters = iTRAQ4,
@@ -352,4 +349,3 @@ test_that("Feature variable selection", {
     expect_equal(selectFeatureData(hyperLOPIT2015, fcol = i),
                  selectFeatureData(hyperLOPIT2015, fcol = l))
 })
-
