@@ -39,9 +39,9 @@ test_that("readMSData with pdata", {
 })
 
 test_that("readMSData and dummy MSnExp msLevel 2 instance", {
-  file <- dir(system.file(package = "MSnbase",dir = "extdata"),
-              full.name = TRUE,pattern = "mzXML$")
-  aa <- readMSData(file, verbose=FALSE)
+  file <- dir(system.file(package = "MSnbase", dir = "extdata"),
+              full.name = TRUE, pattern = "mzXML$")
+  aa <- readMSData(file, verbose = FALSE)
   expect_true(class(aa) == "MSnExp")
   ## centroided get and set
   expect_false(any(centroided(aa)))

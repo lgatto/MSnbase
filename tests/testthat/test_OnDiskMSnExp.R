@@ -20,15 +20,11 @@ context("OnDiskMSnExp class")
 
 mzf <- .getMzMLFiles(TRUE)[1:2]
 ## Load the data as an MSnExp into memory.
-suppressWarnings(
-    inMem <- readMSData(files = mzf, msLevel = 1, centroided = TRUE,
-                        verbose = FALSE)
-)
+inMem <- readMSData(files = mzf, msLevel = 1, centroided = TRUE,
+                    verbose = FALSE)
 ## Load the data as OnDiskMSnExp.
-suppressWarnings(
-    onDisk <- readMSData2(files = mzf, msLevel = 1, centroided = TRUE,
-                          verbose = FALSE)
-)
+onDisk <- readMSData2(files = mzf, msLevel = 1, centroided = TRUE,
+                      verbose = FALSE)
 
 f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
 multiMsInMem1 <- readMSData(files = f, msLevel = 1, centroided = TRUE,
@@ -289,8 +285,8 @@ test_that("validateOnDiskMSnExp", {
 ## bin
 test_that("bin on OnDiskMSnExp", {
     ## o On a single-file multi MS-level file.
-    multiMsInMem1_bin <- bin(multiMsInMem1)
-    multiMsInMem2_bin <- bin(multiMsInMem2)
+    multiMsInMem1_bin <- bin(multiMsInMem1, verbose = FALSE)
+    multiMsInMem2_bin <- bin(multiMsInMem2, verbose = FALSE)
     ##   bin on MS1 level only
     multiMsOnDisk_bin_1 <- bin(multiMsOnDisk, msLevel. = 1)
     ##   Results should be the same.
@@ -311,13 +307,11 @@ test_that("bin on OnDiskMSnExp", {
                           filterMsLevel(multiMsOnDisk_bin_2, msLevel. = 2)))
 
     ## o On multiple files.
-    inMem_bin <- bin(inMem)
+    inMem_bin <- bin(inMem, verbose = FALSE)
     onDisk_bin <- bin(onDisk)
     expect_true(all.equal(inMem_bin, onDisk_bin))
     ##   bin on MS 2 shouldn't do anything at all
-    suppressWarnings(
-        onDisk_bin <- bin(onDisk, msLevel. = 2)
-    )
+    expect_warning(onDisk_bin <- bin(onDisk, msLevel. = 2))
     expect_true(all.equal(onDisk_bin, onDisk))
 })
 
@@ -332,7 +326,7 @@ test_that("Test internal spectrapply function", {
     expect_identical(res1, res2)
 
     ## Plain function
-    res1 <- lapply(spl, function(z) {return(mean(mz(z)))})
+    res1 <- lapply(spl, function(z) return(mean(mz(z))))
     res2 <- MSnbase:::spectrapply(onDisk, function(z) {
         return(mean(mz(z)))
     })
