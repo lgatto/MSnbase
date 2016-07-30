@@ -256,7 +256,7 @@
 	"numeric")}: Retains MS spectra of level \code{msLevel.}. }
 
     \item{filterMz}{\code{signature(object = "MSnExp", mz = "numeric",
-	msLevel. = "numeric")}. See \link{\code{filterMz}} for
+	msLevel. = "numeric")}. See \code{\link{filterMz}} for
 	details. }
 
     \item{filterFile}{}
