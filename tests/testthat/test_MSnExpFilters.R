@@ -75,9 +75,7 @@ test_that("filterAcquisitionNum", {
     spctr <- spectra(filtered)
     expect_true(all(unlist(lapply(spctr, acquisitionNum)) %in% 1000:1100))
     ## Use unavailable acquisition numbers
-    suppressWarnings(
-        expect_true(length(filterAcquisitionNum(ondisk, n = 1:100)) == 0)
-    )
+    expect_warning(expect_true(length(filterAcquisitionNum(ondisk, n = 1:100)) == 0))
     ## Compare on-disk with in-mem.
     expect_true(all.equal(filterAcquisitionNum(ondisk1, n = 1000:1100),
                           filterAcquisitionNum(inmem1, n = 1000:1100)))
@@ -86,14 +84,10 @@ test_that("filterAcquisitionNum", {
     ## Torture tests. The two files have different number of spectra.
     mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
                  system.file("microtofq/MM8.mzML", package = "msdata"))
-    suppressWarnings(
-        twoFileOnDisk <- readMSData2(mzfiles, verbose = FALSE,
-                                     centroided = TRUE)
-    )
+    twoFileOnDisk <- readMSData2(mzfiles, verbose = FALSE,
+                                 centroided = TRUE)
     secondFile <- readMSData2(mzfiles[2], verbose = FALSE, centroided = TRUE)
-    suppressWarnings(
-        res <- filterAcquisitionNum(twoFileOnDisk, n = 180:190, file = 1)
-    )
+    expect_warning(res <- filterAcquisitionNum(twoFileOnDisk, n = 180:190, file = 1))
     expect_identical(fileNames(res), fileNames(twoFileOnDisk)[2])
     ## contains basically only the second file.
     expect_true(all.equal(secondFile, res))
