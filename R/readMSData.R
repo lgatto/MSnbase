@@ -105,7 +105,6 @@ readMSData <- function(files,
                 j <- spidx[i]
                 hd <- fullhd[j,]
                 .p <- mzR::peaks(msdata, j)
-                browser()
                 sp <- new("Spectrum2",
                           scanIndex = as.integer(hd$seqNum),
                           merged = as.numeric(hd$mergedScan),
@@ -138,7 +137,6 @@ readMSData <- function(files,
             fullhd2 <- rbind(fullhd2, fullhd[spidx, ])
         if (verbose)
             close(pb)
-        gc() ## could this help with Error in function (x): no function to return from, jumping to top level)...
         rm(msdata)
     }
     ## new in version 1.9.8
