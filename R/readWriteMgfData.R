@@ -52,43 +52,43 @@ writeMgfDataFile <- function(splist, con, COM = NULL, TITLE = NULL,
 }
 
 writeMgfContent <- function(sp, TITLE = NULL, con) {
-  .cat <- function(..., file=con, sep="", append=TRUE) {
-    cat(..., file=file, sep=sep, append=append)
-  }
+    .cat <- function(..., file = con, sep = "", append = TRUE) {
+        cat(..., file = file, sep = sep, append = append)
+    }
 
-  .cat("\nBEGIN IONS\n",
+    .cat("\nBEGIN IONS\n",
        "SCANS=", acquisitionNum(sp))
 
-  if (is.null(TITLE)) {
-    .cat("\nTITLE=msLevel ", msLevel(sp),
-         "; retentionTime ", rtime(sp),
-         "; scanNum ", acquisitionNum(sp))
+    if (is.null(TITLE)) {
+        .cat("\nTITLE=msLevel ", msLevel(sp),
+             "; retentionTime ", rtime(sp),
+             "; scanNum ", acquisitionNum(sp))
 
-    if (length(scanIndex(sp))) {
-      .cat("; scanIndex ", scanIndex(sp))
+        if (length(scanIndex(sp))) {
+            .cat("; scanIndex ", scanIndex(sp))
+        }
+
+        if (msLevel(sp) > 1) {
+            .cat("; precMz ", precursorMz(sp),
+                 "; precCharge ", precursorCharge(sp))
+        }
+    } else {
+        .cat("\nTITLE=", TITLE)
     }
 
     if (msLevel(sp) > 1) {
-      .cat("; precMz ", precursorMz(sp),
-           "; precCharge ", precursorCharge(sp))
-    }
-  } else {
-    .cat("\nTITLE=", TITLE)
-  }
-
-  if (msLevel(sp) > 1) {
-      .cat("\nRTINSECONDS=", rtime(sp), "\nPEPMASS=", precursorMz(sp))
-      if (length(precursorCharge(sp)) && !is.na(precursorCharge(sp))) {
-          .cat("\nCHARGE=", precursorCharge(sp), "+")
-      }
-  } else .cat("\nRTINSECONDS=", rtime(sp))
+        .cat("\nRTINSECONDS=", rtime(sp), "\nPEPMASS=", precursorMz(sp))
+        if (length(precursorCharge(sp)) && !is.na(precursorCharge(sp))) {
+            .cat("\nCHARGE=", precursorCharge(sp), "+")
+        }
+    } else .cat("\nRTINSECONDS=", rtime(sp))
 
 
-  .cat("\n", paste(mz(sp), intensity(sp), collapse = "\n"))
-  .cat("\nEND IONS\n")
+    .cat("\n", paste(mz(sp), intensity(sp), collapse = "\n"))
+    .cat("\nEND IONS\n")
 }
 
-# Based on the code contributed by Guangchuang Yu <guangchuangyu@gmail.com>
+                                        # Based on the code contributed by Guangchuang Yu <guangchuangyu@gmail.com>
 # Modified by Sebastian Gibb <mail@sebastiangibb.de>
 readMgfData <- function(filename,
                         pdata = NULL,
