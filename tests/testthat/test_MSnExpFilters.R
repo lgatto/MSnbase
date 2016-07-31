@@ -85,8 +85,7 @@ test_that("filterAcquisitionNum", {
     ## Torture tests. The two files have different number of spectra.
     mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
                  system.file("microtofq/MM8.mzML", package = "msdata"))
-    twoFileOnDisk <- readMSData2(mzfiles, verbose = FALSE,
-                                 centroided = TRUE)
+    twoFileOnDisk <- readMSData2(mzfiles, centroided. = TRUE)
     secondFile <- readMSData2(mzfiles[2], verbose = FALSE, centroided = TRUE)
     expect_warning(res <- filterAcquisitionNum(twoFileOnDisk, n = 180:190, file = 1))
     expect_identical(fileNames(res), fileNames(twoFileOnDisk)[2])
