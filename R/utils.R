@@ -672,57 +672,61 @@ utils.leftJoin <- function(x, y, by, by.x=by, by.y=by,
 utils.mergeSpectraAndIdentificationData <- function(featureData, id,
                                                     fcol = c("file", "acquisition.number"),
                                                     icol = c("file", "acquisitionnum")) {
-  # mzR::acquisitionNum (stored in fData()[, "acquisition.number"] and
-  # mzID::acquisitionnum should be identical
+    ## mzR::acquisitionNum (stored in fData()[, "acquisition.number"] and
+    ## mzID::acquisitionnum should be identical
+    if (!all(fcol %in% colnames(featureData))) {
+        stop("The column(s) ", sQuote(fcol),
+             " are not all in the feature data.frame!")
+    }
 
-  if (!all(fcol %in% colnames(featureData))) {
-      stop("The column(s) ", sQuote(fcol),
-           " are not all in the feature data.frame!")
-  }
+    if (!all(icol %in% colnames(id))) {
+        stop("The column(s) ", sQuote(icol),
+             " are not all in the identification data.frame!")
+    }
 
-  if (!all(icol %in% colnames(id))) {
-    stop("The column(s) ", sQuote(icol),
-         " are not all in the identification data.frame!")
-  }
+    if (sum(fcol %in% colnames(featureData)) != sum(icol %in% colnames(id))) {
+        stop("The number of selected column(s) in the feature and identification ",
+             "data don't match!")
+    }
 
-  if (sum(fcol %in% colnames(featureData)) != sum(icol %in% colnames(id))) {
-    stop("The number of selected column(s) in the feature and identification ",
-         "data don't match!")
-  }
+    ## sort id data to ensure the best matching peptide is on top in case of
+    ## multiple matching peptides
+    o <- do.call("order", lapply(c(icol, "rank"), function(j)id[, j]))
+    id <- id[o, ]
 
-  ## sort id data to ensure the best matching peptide is on top in case of
-  ## multiple matching peptides
-  o <- do.call("order", lapply(c(icol, "rank"), function(j)id[, j]))
-  id <- id[o, ]
+    ## use flat version of accession/description if multiple ones are available
+    id$accession <- ave(id$accession, id[, icol], FUN=utils.vec2ssv)
+    id$description <- ave(id$description, id[, icol], FUN=utils.vec2ssv)
 
-  ## use flat version of accession/description if multiple ones are available
-  id$accession <- ave(id$accession, id[, icol], FUN=utils.vec2ssv)
-  id$description <- ave(id$description, id[, icol], FUN=utils.vec2ssv)
+    ## remove duplicated entries
+    id <- id[!duplicated(id[, icol]), ]
 
-  ## remove duplicated entries
-  id <- id[!duplicated(id[, icol]), ]
+    featureData <- utils.leftJoin(
+        x = featureData, y = id, by.x = fcol, by.y = icol,
+        exclude = c("spectrumid",   # vendor specific nativeIDs
+                    "spectrumFile") # is stored in fileId + MSnExp@files
+    )
 
-  featureData <- utils.leftJoin(
-    x=featureData, y=id, by.x=fcol, by.y=icol,
-    exclude=c("spectrumid",   # vendor specific nativeIDs
-              "spectrumFile") # is stored in fileId + MSnExp@files
-  )
-
-  ## number of members in the protein group
-  featureData$nprot <- sapply(utils.ssv2list(featureData$accession),
-                              function(x) {
-                                n <- length(x)
-                                if (n == 1 && is.na(x)) return(NA)
-                                n
-                       })
-  ## number of peptides observed for each protein
-  featureData$npep.prot <- as.integer(ave(featureData$accession, featureData$pepseq, FUN=length))
-  ## number of PSMs observed for each protein
-  featureData$npsm.prot <- as.integer(ave(featureData$accession, featureData$accession, FUN=length))
-  ## number of PSMs observed for each protein
-  featureData$npsm.pep <- as.integer(ave(featureData$pepseq, featureData$pepseq, FUN=length))
-
-  return(featureData)
+    ## number of members in the protein group
+    featureData$nprot <- sapply(utils.ssv2list(featureData$accession),
+                                function(x) {
+                                    n <- length(x)
+                                    if (n == 1 && is.na(x)) return(NA)
+                                    n
+                                })
+    ## number of peptides observed for each protein
+    featureData$npep.prot <- as.integer(ave(featureData$accession,
+                                            featureData$pepseq,
+                                            FUN = length))
+    ## number of PSMs observed for each protein
+    featureData$npsm.prot <- as.integer(ave(featureData$accession,
+                                            featureData$accession,
+                                            FUN = length))
+    ## number of PSMs observed for each protein
+    featureData$npsm.pep <- as.integer(ave(featureData$pepseq,
+                                           featureData$pepseq,
+                                           FUN = length))
+    return(featureData)
 }
 
 utils.removeNoId <- function(object, fcol, keep) {
@@ -763,8 +767,8 @@ utils.idSummary <- function(fd) {
   }
   idSummary <- fd[!duplicated(fd$spectrumFile), c("spectrumFile", "idFile")]
   idSummary$coverage <- sapply(idSummary$spectrumFile, function(f) {
-                          round(mean(!is.na(fd$idFile[fd$spectrumFile== f])), 3)
-                        })
+      round(mean(!is.na(fd$idFile[fd$spectrumFile == f])), 3)
+  })
   rownames(idSummary) <- NULL
   colnames(idSummary) <- c("spectrumFile", "idFile", "coverage")
   return(idSummary)
