@@ -215,9 +215,10 @@ setMethod("normalize", "Spectrum2",
 normalise <- normalize
 
 setMethod("bin", "Spectrum",
-          function(object, binSize = 1,
+          function(object, binSize = 1L,
                    breaks = seq(floor(min(mz(object))),
-                                ceiling(max(mz(object))), by = binSize),
+                                ceiling(max(mz(object))),
+                                by = binSize),
                    msLevel.) {
               bin_Spectrum(object, binSize = binSize, breaks = breaks,
                            msLevel. = msLevel.)

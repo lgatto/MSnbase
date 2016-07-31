@@ -287,7 +287,7 @@ normalise_Spectrum <- function(object, method, value) {
          max = div <- max(ints),
          sum = div <- sum(ints),
          value = div <- value)
-  normInts <- ints/div
+  normInts <- ints / div
   object@intensity <- normInts
   if (validObject(object))
     return(object)
@@ -297,7 +297,7 @@ bin_Spectrum <- function(object, binSize = 1L,
                          breaks = seq(floor(min(mz(object))),
                                       ceiling(max(mz(object))),
                                       by = binSize),
-                         fun=sum,
+                         fun = sum,
                          msLevel.) {
     ## If msLevel. not missing, perform the trimming only if the msLevel
     ## of the spectrum matches (any of) the specified msLevels.
@@ -316,7 +316,7 @@ bin_Spectrum <- function(object, binSize = 1L,
   intensity <- double(length(breaks))
   intensity[unique(idx)] <- unlist(lapply(split(intensity(object), idx), fun))
 
-  mz <- c((breaks[-nb]+breaks[-1L])/2L, breaks[nb])
+  mz <- c((breaks[-nb] + breaks[-1L]) / 2L, breaks[nb])
 
   object@mz <- mz
   object@intensity <- intensity
@@ -326,12 +326,12 @@ bin_Spectrum <- function(object, binSize = 1L,
       return(object)
 }
 
-bin_Spectra <- function(object1, object2, binSize=1L,
-                        breaks=seq(floor(min(c(mz(object1), mz(object2)))),
-                                   ceiling(max(c(mz(object1), mz(object2)))),
-                                   by=binSize)) {
-  return(list(bin_Spectrum(object1, binSize=binSize, breaks=breaks),
-              bin_Spectrum(object2, binSize=binSize, breaks=breaks)))
+bin_Spectra <- function(object1, object2, binSize = 1L,
+                        breaks = seq(floor(min(c(mz(object1), mz(object2)))),
+                                     ceiling(max(c(mz(object1), mz(object2)))),
+                                     by = binSize)) {
+  return(list(bin_Spectrum(object1, binSize = binSize, breaks = breaks),
+              bin_Spectrum(object2, binSize = binSize, breaks = breaks)))
 }
 
 #' calculate similarity between spectra (between their intensity profile)
