@@ -1,26 +1,30 @@
+########################################################################
+## **CACHING HAS BEEN SUPERSEDED BY THE OnDiskMSnExp IMPLEMENTATION** ##
+########################################################################
+
 testCacheArg <- function(cache, maxCache = 2) {
-  ## Function used to test the value of a 'cache'
-  ## parameter in a read*Data function
-  ## Parameters:
-  ##  cache: value of the cache argument to test
-  ##  maxCache: max value allowed. Generally
-  ##            3, but could be less, depending
-  ##            on the input data. maxCache is 1
-  ##            for readMgfData for instance.
-  ## Value: valid (possibly updated) cache value
-  if (!is.numeric(cache))
-    stop("'cache' must be numeric.")
-  if (cache < 0 | cache > maxCache) {
-    warning("cache must be [0:", maxCache, "]!")
-    if (cache < 0) {
-      warning("Setting cache to 0.")
-      cache <- 0
-    } else {
-      warning("Setting cache to ", maxCache, ".")
-      cache <- maxCache
+    ## Function used to test the value of a 'cache'
+    ## parameter in a read*Data function
+    ## Parameters:
+    ##  cache: value of the cache argument to test
+    ##  maxCache: max value allowed. Generally
+    ##            3, but could be less, depending
+    ##            on the input data. maxCache is 1
+    ##            for readMgfData for instance.
+    ## Value: valid (possibly updated) cache value
+    if (!is.numeric(cache))
+        stop("'cache' must be numeric.")
+    if (cache < 0 | cache > maxCache) {
+        warning("cache must be [0:", maxCache, "]!")
+        if (cache < 0) {
+            warning("Setting cache to 0.")
+            cache <- 0
+        } else {
+            warning("Setting cache to ", maxCache, ".")
+            cache <- maxCache
+        }
     }
-  }
-  return(cache)
+    return(cache)
 }
 
 setCacheEnv <- function(toCache, level = 0, lock = TRUE) {
@@ -70,14 +74,14 @@ setCacheEnv <- function(toCache, level = 0, lock = TRUE) {
 }
 
 getCacheEnv <- function(object, show = FALSE) {
-  if (show)
-    print(ls.str(object@.cache))
-  invisible(object@.cache)
+    if (show)
+        print(ls.str(object@.cache))
+    invisible(object@.cache)
 }
 
 cacheEnvIsLocked <- function(object)
-  environmentIsLocked(object@.cache)
+    environmentIsLocked(object@.cache)
 
 lockCacheEnv <- function(object) {
-  lockEnvironment(object@.cache, bindings = TRUE)
+    lockEnvironment(object@.cache, bindings = TRUE)
 }

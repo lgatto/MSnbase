@@ -44,6 +44,7 @@ readMSData <- function(files,
         filenums <- c(filenums, filen)
         filenams <- c(filenams, f)
         msdata <- mzR::openMSfile(f)
+        on.exit(mzR::close(msdata)) 
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
         ifelse(msLevel. == 1, ## later, > 1 level
@@ -138,7 +139,6 @@ readMSData <- function(files,
         if (verbose)
             close(pb)
         gc() ## could this help with Error in function (x): no function to return from, jumping to top level)...
-        mzR::close(msdata) ## DO NOT CLOSE IF CACHE LEVEL >= 2
         rm(msdata)
     }
     ## new in version 1.9.8
@@ -175,10 +175,10 @@ readMSData <- function(files,
     .cacheEnv <- setCacheEnv(list("assaydata" = assaydata,
                                   "hd" = newhd),
                              cache, lock = TRUE)
-    ## if cache==2, do not lock,
-    ## assign msdata in .cacheEnv
-    ## then lock it
-    ## and do not close(msdata) above; rm(msdata) is OK
+    ## CACHING AS BEEN SUPERSEDED BY THE OnDiskMSnExp IMPLEMENTATION
+    ## if cache==2, do not lock assign msdata in .cacheEnv then lock
+    ## it and do not close(msdata) above; rm(msdata) is OK
+    
     ## Create 'MSnProcess' object
     process <- new("MSnProcess",
                    processing = paste("Data loaded:",date()),
