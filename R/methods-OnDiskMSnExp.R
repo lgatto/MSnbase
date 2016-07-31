@@ -495,7 +495,7 @@ setMethod("[", signature(x = "OnDiskMSnExp",
                            " the number of spectra!")
                   i <- which(i)
               }
-              i <- sort(i)  ## Force sorted!
+              i <- base::sort(i)  ## Force sorted!
               ## Now subset the featureData. The function will
               ## complain if i is outside the range.
               if (length(i) == 0) x@featureData <- x@featureData[0, ]
@@ -503,7 +503,7 @@ setMethod("[", signature(x = "OnDiskMSnExp",
                                                         index = i)
               ## Check also that processingData and experimentData
               ## match the *new* featureData:
-              file <- sort(unique(fromFile(x)))
+              file <- base::sort(unique(fromFile(x)))
               ## o Sub-set the phenoData.
               pd <- phenoData(x)[file, , drop = FALSE]
               pData(pd) <- droplevels(pData(pd))
@@ -577,7 +577,7 @@ setMethod("extractPrecSpectra", signature = signature(object = "OnDiskMSnExp",
                   warning(length(prec) - length(gotEm), " precursor MZ",
                           " values not found in 'OnDiskMSnExp' object.")
               ## Subset the object; sorting the indices!
-              object <- object[sort(gotEm)]
+              object <- object[base::sort(gotEm)]
               ## Add processingData.
               object@processingData@processing <-
                   c(object@processingData@processing,
@@ -606,7 +606,7 @@ setMethod("removePeaks", signature("OnDiskMSnExp"),
                       stop("Argument 't' has to be either numeric or 'min'!")
               }
               if (missing(msLevel.)) {
-                  msLevel. <- sort(unique(msLevel(object)))
+                  msLevel. <- base::sort(unique(msLevel(object)))
               } else {
                   if (!is.numeric(msLevel.))
                       stop("'msLevel' must be numeric!")
@@ -637,7 +637,7 @@ setMethod("clean", signature("OnDiskMSnExp"),
               if (!is.logical(all))
                   stop("Argument 'all' is supposed to be a logical!")
               if (missing(msLevel.)) {
-                  msLevel. <- sort(unique(msLevel(object)))
+                  msLevel. <- base::sort(unique(msLevel(object)))
               } else {
                   if (!is.numeric(msLevel.))
                       stop("'msLevel' must be numeric!")
@@ -702,7 +702,7 @@ setMethod("normalize", "OnDiskMSnExp",
 ## binning might be faster.
 setMethod("bin", "OnDiskMSnExp", function(object, binSize = 1L, msLevel.) {
     if (missing(msLevel.)) {
-        msLevel. <- sort(unique(msLevel(object)))
+        msLevel. <- base::sort(unique(msLevel(object)))
     } else {
         if (!is.numeric(msLevel.))
             stop("'msLevel' must be numeric!")

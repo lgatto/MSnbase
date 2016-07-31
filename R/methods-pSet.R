@@ -94,7 +94,7 @@ setMethod("[", "pSet",
               if (is.numeric(i)) {
                   if (max(i) > length(x) | min(i) < 1)
                       stop("subscript out of bounds")
-                  i <- sort(i) ## crash if unsorted (because of
+                  i <- base::sort(i) ## crash if unsorted (because of
                   ## (alphanumerical) order in ls(assayData(.))  and
                   ## featureNames(featureData) that have to be
                   ## indentical - see issues #70 and #71)
@@ -102,7 +102,7 @@ setMethod("[", "pSet",
               whichElements <- ls(assayData(x))[i]
               sel <- featureNames(x) %in% whichElements
               ## Sub-setting also processingData, phenoData and experimentData.
-              file <- sort(unique(fromFile(x)[sel]))
+              file <- base::sort(unique(fromFile(x)[sel]))
               ## o Sub-set the phenoData.
               pd <- phenoData(x)[file, , drop = FALSE]
               pData(pd) <- droplevels(pData(pd))

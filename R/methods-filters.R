@@ -20,7 +20,7 @@ setMethod("filterRt", "MSnExp",
               if (length(rt) != 2 | !is.numeric(rt))
                   stop("'rt' must be a numeric of length 2")
               if (missing(msLevel.))
-                  msLevel. <- sort(unique(msLevel(object)))
+                  msLevel. <- base::sort(unique(msLevel(object)))
               msLevel. <- as.numeric(msLevel.)
               ## MS levels that need to be filtered out
               selms <- msLevel(object) %in% msLevel.
@@ -48,7 +48,7 @@ setMethod("filterMz", "MSnExp",
               if (!is.numeric(mz) & length(mz) != 2)
                   stop("'mz' must be a numeric of length 2!")
               if (missing(msLevel.)) {
-                  msLevel. <- sort(unique(msLevel(object)))
+                  msLevel. <- base::sort(unique(msLevel(object)))
               } else {
                   if (!is.numeric(msLevel.))
                       stop("'msLevel' must be numeric!")
@@ -88,7 +88,7 @@ setMethod("filterMz", "OnDiskMSnExp",
               if (!is.numeric(mz) & length(mz) != 2)
                   stop("'mz' must be a numeric of length 2!")
               if (missing(msLevel.)) {
-                  msLevel. <- sort(unique(msLevel(object)))
+                  msLevel. <- base::sort(unique(msLevel(object)))
               } else {
                   if (!is.numeric(msLevel.))
                       stop("'msLevel' must be numeric!")
@@ -121,7 +121,7 @@ setMethod("filterFile", "MSnExp",
               }
               ## This will not work if we want to get the files in a different
               ## order (i.e. c(3, 1, 2, 5))
-              file <- sort(unique(file))
+              file <- base::sort(unique(file))
               ## Sub-set spectra/featureData; all further sub-setting of
               ## processingData, experimentData and phenoData is done in [
               object <- object[fromFile(object) %in% file]
@@ -138,7 +138,7 @@ setMethod("filterAcquisitionNum", "MSnExp",
                                        " representing the acquisition",
                                        " number(s) for sub-setting.")
               if (missing(file))
-                  file <- sort(unique(fromFile(object)))
+                  file <- base::sort(unique(fromFile(object)))
               ## Select on files.
               selFile <- fromFile(object) %in% file
               ## Select those matching the acquisition number and file.

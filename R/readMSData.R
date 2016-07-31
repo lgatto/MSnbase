@@ -151,7 +151,7 @@ readMSData <- function(files,
         fl <- sapply(assaydata, function(x) x@fromFile)
         featnms <- ls(assaydata) ## feature names in final MSnExp
         fl <- fl[featnms] ## reorder file numbers
-        stopifnot(all(sort(featnms) == sort(fullhdorder)))
+        stopifnot(all(base::sort(featnms) == base::sort(fullhdorder)))
         fullhdorder <- match(featnms, fullhdorder)
         tmphd <- fullhd2[fullhdorder, ] ## reorder
         ioncount <- ioncount[fullhdorder]

@@ -81,7 +81,7 @@ readMSData2 <- function(files,
         fdata <- new("AnnotatedDataFrame", data = fdata)
         rownames(fdata) <- fullhdorder
         ## Re-order them
-        fdata <- fdata[sort(fullhdorder), ]
+        fdata <- fdata[base::sort(fullhdorder), ]
         ## Re-order the features.
         ## fdata <- fdata[ls(assaydata), ]
     }
