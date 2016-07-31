@@ -14,9 +14,9 @@ setMethod("initialize", "MSnSet",
                    ... ) {
             if (missing(assayData)) {
               if (missing(phenoData))
-                phenoData <- annotatedDataFrameFrom(exprs, byrow=FALSE)
+                phenoData <- annotatedDataFrameFrom(exprs, byrow = FALSE)
               if (missing(featureData))
-                featureData <- annotatedDataFrameFrom(exprs, byrow=TRUE)
+                featureData <- annotatedDataFrameFrom(exprs, byrow = TRUE)
               if (missing(experimentData))
                 experimentData <- new("MIAPE")
               .Object <- callNextMethod(.Object,
@@ -27,9 +27,9 @@ setMethod("initialize", "MSnSet",
                                         ...)
             } else if (missing(exprs)) {
               if (missing(phenoData))
-                phenoData <- annotatedDataFrameFrom(assayData, byrow=FALSE)
+                phenoData <- annotatedDataFrameFrom(assayData, byrow = FALSE)
               if (missing(featureData))
-                featureData <- annotatedDataFrameFrom(assayData, byrow=TRUE)
+                featureData <- annotatedDataFrameFrom(assayData, byrow = TRUE)
               if (missing(experimentData))
                 experimentData <- new("MIAPE")
               .Object <- callNextMethod(.Object,
@@ -39,7 +39,7 @@ setMethod("initialize", "MSnSet",
                                         experimentData = experimentData,
                                         ...)
             } else stop("provide at most one of 'assayData' or 'exprs' to initialize MSnSet",
-                        call.=FALSE)
+                     call. = FALSE)
             .Object@processingData <- new("MSnProcess")
             if (validObject(.Object))
               Biobase:::.harmonizeDimnames(.Object)

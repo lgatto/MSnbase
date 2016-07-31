@@ -94,12 +94,13 @@ readMSData <- function(files,
             if (length(spidx) == 0)
                 stop("No MS(n>1) spectra in file",f)
             if (verbose) {
-                cat("Reading ",length(spidx)," MS2 spectra from file ",
-                    basename(f),"\n",sep="")
-                pb <- txtProgressBar(min=0,max=length(spidx),style=3)
+                cat("Reading ", length(spidx),
+                    " MS2 spectra from file ", basename(f), "\n",
+                    sep = "")
+                pb <- txtProgressBar(min = 0, max = length(spidx), style = 3)
             }
             scanNums <- fullhd[fullhd$msLevel == 2, "precursorScanNum"]
-            if (length(scanNums)!=length(spidx))
+            if (length(scanNums) != length(spidx))
                 stop("Number of spectra and precursor scan number do not match!")
             for (i in 1:length(spidx)) {
                 if (verbose) setTxtProgressBar(pb, i)
@@ -117,9 +118,9 @@ readMSData <- function(files,
                           collisionEnergy = hd$collisionEnergy,
                           rt = hd$retentionTime,
                           acquisitionNum = hd$acquisitionNum,
-                          mz = .p[,1],
+                          mz = .p[, 1],
                           tic = hd$totIonCurrent,
-                          intensity = .p[,2],
+                          intensity = .p[, 2],
                           fromFile = filen,
                           centroided = centroided)
                 ioncount[ioncounter] <- sum(.p[,2])
