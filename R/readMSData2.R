@@ -92,7 +92,6 @@ readMSData2 <- function(files,
         if (cmp > 1 & verbose)
             message("According to the instrument information in the files,\n",
                     "the data has been acquired on different instruments!")
-
         for (nm in names(.instrumentInfo[[1]]))
             .instrumentInfo[[1]][[nm]] <- sapply(.instrumentInfo, "[[", nm)
     }

@@ -183,11 +183,14 @@ readMSData <- function(files,
                    smoothed = smoothed.)
     if (removePeaks > 0) {
         process@processing <- c(process@processing,
-                                paste("Curves <= ", removePeaks, " set to '0': ", date(), sep=""))
+                                paste("Curves <= ", removePeaks,
+                                      " set to '0': ", date(),
+                                      sep = ""))
     } else {
         if (clean)
             process@processing <- c(process@processing,
-                                    paste("Spectra cleaned: ", date(), sep=""))
+                                    paste("Spectra cleaned: ", date(),
+                                          sep = ""))
     }
     ## Create 'fdata' and 'pdata' objects
     nms <- ls(assaydata)
@@ -204,22 +207,12 @@ readMSData <- function(files,
     fdata <- fdata[ls(assaydata)] ## reorder features
     ## expriment data slot
     if (length(.instrumentInfo) > 1) {
-        cmp <- sapply(.instrumentInfo[-1], function(x) identical(x, .instrumentInfo[[1]]))
-#### START ORIGINAL CODE
-        ## if (!all(cmp)) {
-        ##     warning("According to the instrument information in the files, the data has been acquired on different instruments!")
-        ##     .instrumentInfo[[1]] <- list(manufacturer = paste(sapply(.instrumentInfo, "[[", "manufacturer"), collapse = ", "),
-        ##                                  model = paste(sapply(.instrumentInfo, "[[", "model"), collapse = ", "),
-        ##                                  ionisation = paste(sapply(.instrumentInfo, "[[", "ionisation"), collapse = ", "),
-        ##                                  analyzer = paste(sapply(.instrumentInfo, "[[", "analyzer"), collapse = ", "),
-        ##                                  detector = paste(sapply(.instrumentInfo, "[[", "detector"), collapse = ", "))
-        ## }
-#### END ORIGINAL CODE
-#### START FROM readMSData2
+        cmp <- length(unique(sapply(.instrumentInfo, "[[", 1)))
+        if (cmp > 1 & verbose)
+            message("According to the instrument information in the files,\n",
+                    "the data has been acquired on different instruments!")
         for (nm in names(.instrumentInfo[[1]]))
             .instrumentInfo[[1]][[nm]] <- sapply(.instrumentInfo, "[[", nm)
-
-#### END FROM readMSData2
     }
     expdata <- new("MIAPE",
                    instrumentManufacturer = .instrumentInfo[[1]]$manufacturer,
