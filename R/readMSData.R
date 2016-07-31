@@ -58,9 +58,11 @@ readMSData <- function(files,
             if (length(spidx) == 0)
                 stop("No MS1 spectra in file",f)
             if (verbose) {
-                cat("Reading ", length(spidx), " MS1 spectra from file ",
-                    basename(f),"\n",sep="")
-                pb <- txtProgressBar(min=0, max=length(spidx), style=3)
+                cat("Reading ", length(spidx),
+                    " MS1 spectra from file ", basename(f), "\n",
+                    sep = "")
+                pb <- txtProgressBar(min = 0, max = length(spidx),
+                                     style = 3)
             }
             for (i in 1:length(spidx)) {
                 if (verbose) setTxtProgressBar(pb, i)
@@ -78,9 +80,9 @@ readMSData <- function(files,
                           polarity = hd$polarity,
                           centroided = centroided.)
                 if (removePeaks > 0)
-                    sp <- removePeaks(sp, t=removePeaks)
+                    sp <- removePeaks(sp, t = removePeaks, verbose = FALSE)
                 if (clean)
-                    sp <- clean(sp)
+                    sp <- clean(sp, verbose = FALSE)
                 .fname <- sprintf(paste0("X%0",
                                          ceiling(log10(length(spidx) + 1L)),
                                          "d.%s"), i, filen)
@@ -103,7 +105,7 @@ readMSData <- function(files,
             for (i in 1:length(spidx)) {
                 if (verbose) setTxtProgressBar(pb, i)
                 j <- spidx[i]
-                hd <- fullhd[j,]
+                hd <- fullhd[j, ]
                 .p <- mzR::peaks(msdata, j)
                 sp <- new("Spectrum2",
                           scanIndex = as.integer(hd$seqNum),
@@ -122,9 +124,9 @@ readMSData <- function(files,
                           fromFile = filen,
                           centroided = centroided.)
                 if (removePeaks > 0)
-                    sp <- removePeaks(sp, t = removePeaks)
+                    sp <- removePeaks(sp, t = removePeaks, verbose = FALSE)
                 if (clean)
-                    sp <- clean(sp)
+                    sp <- clean(sp, verbose = FALSE)
                 .fname <- sprintf(paste0("X%0",
                                          ceiling(log10(length(spidx) + 1L)),
                                          "d.%s"), i, filen)
@@ -170,8 +172,6 @@ readMSData <- function(files,
     } else {
         newhd <- NULL ## not used anyway
     }
-    if (verbose)
-        message("Caching...")
     .cacheEnv <- setCacheEnv(list("assaydata" = assaydata,
                                   "hd" = newhd),
                              cache, lock = TRUE)
@@ -181,7 +181,7 @@ readMSData <- function(files,
     
     ## Create 'MSnProcess' object
     process <- new("MSnProcess",
-                   processing = paste("Data loaded:",date()),
+                   processing = paste("Data loaded:", date()),
                    files = files,
                    smoothed = smoothed.)
     if (removePeaks > 0) {
@@ -204,9 +204,9 @@ readMSData <- function(files,
                      data = .pd)
     }
     fdata <- new("AnnotatedDataFrame",
-                 data=data.frame(
-                     spectrum=1:length(nms),
-                     row.names=nms))
+                 data = data.frame(
+                     spectrum = 1:length(nms),
+                     row.names = nms))
     fdata <- fdata[ls(assaydata)] ## reorder features
     ## expriment data slot
     if (length(.instrumentInfo) > 1) {
@@ -233,7 +233,5 @@ readMSData <- function(files,
                     processingData = process,
                     experimentData = expdata,
                     .cache = .cacheEnv)
-    ## if (validObject(toReturn))  ## validity checks are already performed with "new", no need to perform twice.
     return(toReturn)
 }
-
