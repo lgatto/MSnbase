@@ -962,7 +962,8 @@ orderInteger <- function(x, decreasing=FALSE, na.last=NA)
 
 ##' @title Reads profile/centroided mode from an mzML file
 ##' @param x An instance of \code{MSnExp} or \code{OnDiskMSnExp}
-##' @return A \code{logical} 
+##' @return A \code{logical}
+##' @noRd 
 .isCentroidedFromFile <- function(x) {
     f <- fileNames(x)
     if (.fileExt(f) != "mzML") {
@@ -1016,3 +1017,14 @@ sortNumeric <- function(x, decreasing=FALSE, na.last=NA)
     ## Uses _get_order_of_int_array() at the C level which is stable.
     return(.Call("sort_numeric", x, decreasing, PACKAGE="MSnbase"))
 }
+
+
+##' @title MSnbase options
+##' @return A \code{list} of MSnbase options and the single option
+##'     values for the individual accessors.
+MSnbaseOptions <- function()
+    options("MSnbase")[[1]]
+
+##' @rdname MSnbaseOptions
+isMSnbaseVerbose <- function()
+    MSnbaseOptions()$verbose
