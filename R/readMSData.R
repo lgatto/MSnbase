@@ -104,6 +104,7 @@ readMSData <- function(files,
                 j <- spidx[i]
                 hd <- fullhd[j,]
                 .p <- mzR::peaks(msdata, j)
+                browser()
                 sp <- new("Spectrum2",
                           scanIndex = as.integer(hd$seqNum),
                           merged = as.numeric(hd$mergedScan),
