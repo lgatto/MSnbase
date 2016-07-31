@@ -12,7 +12,7 @@
 
 \usage{
 readMgfData(filename, pdata = NULL, centroided = TRUE, smoothed = FALSE,
-verbose = TRUE, cache = 1)
+verbose = isMSnbaseVerbose(), cache = 1)
 }
 
 
