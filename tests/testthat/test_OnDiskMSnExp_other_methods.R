@@ -35,7 +35,6 @@ test_that("Compare OnDiskMSnExp and MSnExp normalize", {
     onDiskN <- normalize(onDisk)
     ## Get and compare spectra.
     expect_true(all.equal(inMemN, onDiskN))
-
     ## Compare intensity values.
     expect_identical(intensity(inMemN), intensity(onDiskN))
     ## Compare sub-setted result.
