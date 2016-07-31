@@ -12,55 +12,70 @@
   an \code{"\linkS4class{MSnExp}"} object. This function uses the
   functionality provided by the \code{mzR} package to access data and
   meta data in \code{mzData}, \code{mzXML} and \code{mzML}.
-
-  \bold{TODO}: document \code{readMSData2}, or whatever it is going to
-  be named once stable.
   
 }
 
 \usage{
 
-readMSData(files, pdata = NULL, msLevel = 2, verbose = TRUE,
-centroided = FALSE, smoothed = FALSE, removePeaks = 0, clean = FALSE,
+readMSData(files, pdata = NULL, msLevel. = 2, verbose = TRUE,
+centroided. = FALSE, smoothed. = FALSE, removePeaks = 0, clean = FALSE,
 cache = 1)
 
-readMSData2(files, pdata = NULL, msLevel, verbose = TRUE, centroided,
-smoothed = NA)
+readMSData2(files, pdata = NULL, msLevel., verbose = TRUE, centroided.,
+smoothed. = NA)
 
 }
 
 \arguments{
+
   \item{files}{
-    character vector with file names to be read.
+    A \code{character} vector with file names to be read.
   }
+  
   \item{pdata}{
-    an object of class \code{"\linkS4class{NAnnotatedDataFrame}"}.
-  }
-  \item{msLevel}{
-    MS level spectra to be read. Use '1' for MS1 spectra or any larger
-    numeric for MSn spectra. Default is '2'.
-  }
-  \item{centroided}{
     
-    \code{Logical} indicating whether spectra are centroided or
-    not. Default is \code{FALSE} in \code{readMSData}. In
-    \code{readMSData2}, the parameter value is missing and the value is
-    set to \code{NA} in the returned object. It can be set for different
-    MS levels by a vector of logicals, where the first element is for MS
-    1, the second element is for level 2, ... See
+    An object of class \code{"\linkS4class{NAnnotatedDataFrame}"} or
+    \code{NULL}.
+    
+  }
+  
+  \item{msLevel.}{
+    
+    MS level spectra to be read. Use \code{1} for MS1 spectra or any larger
+    numeric for MSn spectra. Default is \code{2}. \code{readMSData2}
+    supports multiple levels and will, by default, read all the data.
+    
+  }
+  
+  \item{centroided.}{
+
+    A \code{logical} in \code{readMSData}, indicating whether spectra
+    are centroided or not. Default is \code{FALSE}.
+
+    In \code{readMSData2}, the parameter value is missing and the value
+    is set to \code{NA} in the returned object. It can be set for
+    different MS levels by a vector of logicals, where the first element
+    is for MS 1, the second element is for level 2, ... See
     \code{"\linkS4class{OnDiskMSnExp}"} for an example.
     
   }
   
-  \item{smoothed}{
-    \code{Logical} indicating whether spectra already smoothed or not. Default is
-    'FALSE'. Used to initialise \code{"\linkS4class{MSnProcess}"} object
-    in \code{processingData} slot.
+  \item{smoothed.}{
+
+    A \code{logical} indicating whether spectra already smoothed or
+    not. Default is \code{FALSE} in \code{readMSData} and \code{NA} in
+    \code{readMSData2}. 
+    
   }
+  
   \item{removePeaks}{
-    If > 0 (default), all peaks less or equal then value will set to
-    0. See \code{\link{removePeaks}} for more details and examples.
+
+    If > 0 , all peaks less or equal then value will set to 0. See
+    \code{\link{removePeaks}} for more details and examples. Default is
+    \code{0}.
+
   }
+  
   \item{clean}{
     Logical indicating whether 0 intensity peaks should be discarded
     from spectra. Useful is removePeaks is set. Default is 'FALSE'. See
@@ -71,7 +86,7 @@ smoothed = NA)
     higher). Under development.
   }
   \item{verbose}{
-   verbosity flag.
+    Verbosity flag. Default is \code{TRUE}.
   }
 }
 
@@ -79,34 +94,28 @@ smoothed = NA)
 
   For \code{readMSData} the whole MS data is read from file and kept in
   memory as \code{\linkS4class{Spectrum}} objects within the
-  \code{\linkS4class{MSnExp}}'s \code{assayData} slot. To reduce the
-  memory footpring especially for large MS 1 data sets it is also
-  possible to read only selected information from the MS files and fetch
-  the actual spectrum data (i.e. the M/Z and intensity values) only on
-  demand from the original data files. This can be achieved with
+  \code{\linkS4class{MSnExp}}'s \code{assayData} slot.
+
+  To reduce the memory footpring especially for large MS 1 data sets it
+  is also possible to read only selected information from the MS files
+  and fetch the actual spectrum data (i.e. the M/Z and intensity values)
+  only on demand from the original data files. This can be achieved with
   \code{readMSData2}. The function returns then an \code{OnDiskMSnExp}
   object instead of a \code{\linkS4class{MSnExp}} object.
 
 }
 
 \value{
+  
   An \code{MSnExp} object for \code{readMSData} and a
   \code{OnDiskMSnExp} object for \code{readMSData2}.
   
 }
 
-% \references{
-%   %% ~put references to the literature/web site here ~
-% }
 
 \author{
-Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto <lg390@cam.ac.uk>
 }
-
-% \note{
-% %%  ~~further notes~~
-% }
-
 
 
 \seealso{
@@ -115,14 +124,14 @@ Laurent Gatto <lg390@cam.ac.uk>
 }
 
 \examples{
-file <- dir(system.file(package="MSnbase",dir="extdata"),
-            full.name=TRUE,
-            pattern="mzXML$")
+file <- dir(system.file(package = "MSnbase", dir = "extdata"),
+            full.name = TRUE,
+            pattern = "mzXML$")
 aa <- readMSData(file)
 aa
+bb <- readMSData(file)
+bb            
 }
 
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ file }
 \keyword{ manip }

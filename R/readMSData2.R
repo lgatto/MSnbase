@@ -1,9 +1,9 @@
 readMSData2 <- function(files,
                         pdata = NULL,
-                        msLevel,
+                        msLevel.,
                         verbose = TRUE,
-                        centroided,
-                        smoothed = NA) {
+                        centroided.,
+                        smoothed. = NA) {
     .testReadMSDataInput(environment())
     ## Creating environment with Spectra objects
     assaydata <- new.env(parent = emptyenv())
@@ -51,7 +51,7 @@ readMSData2 <- function(files,
         fdData <- cbind(fileIdx = filen,
                         spIdx = spidx,
                         centroided = NA,
-                        smoothed = smoothed,
+                        smoothed = smoothed.,
                         fdData, stringsAsFactors = FALSE)
         featureDataList <- c(featureDataList, list(fdData))
     }
@@ -118,19 +118,18 @@ readMSData2 <- function(files,
                processingData = process,
                experimentData = expdata,
                .cache  =  .cacheEnv)
-    if (!missing(msLevel)) {
-        msLevel <- as.integer(msLevel)
-        res <- filterMsLevel(res, msLevel)
+    if (!missing(msLevel.)) {
+        msLevel. <- as.integer(msLevel.)
+        res <- filterMsLevel(res, msLevel.)
     }
-    if (!missing(centroided)) {
-        stopifnot(is.logical(centroided))
-        if (length(centroided) == 1) {
-            centroided(res) <- centroided
+    if (!missing(centroided.)) {
+        stopifnot(is.logical(centroided.))
+        if (length(centroided.) == 1) {
+            centroided(res) <- centroided.
         } else {
-        for (i in seq_along(centroided))
-            centroided(res, msLevel = i) <- centroided[i]
+        for (i in seq_along(centroided.))
+            centroided(res, msLevel. = i) <- centroided.[i]
         }
     }
     return(res)
 }
-

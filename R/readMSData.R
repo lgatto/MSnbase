@@ -15,18 +15,18 @@
 
 readMSData <- function(files,
                        pdata = NULL,
-                       msLevel = 2,
+                       msLevel. = 2,
                        verbose = TRUE,
-                       centroided = FALSE,
-                       smoothed = FALSE,
+                       centroided. = FALSE,
+                       smoothed. = FALSE,
                        removePeaks = 0,
                        clean = FALSE,
                        cache = 1) {
     .testReadMSDataInput(environment())
     ## TODO: add also a trimMz argument.
-    if (msLevel == 1) ## cache currently only works for MS2 level data
+    if (msLevel. == 1) ## cache currently only works for MS2 level data
         cache <- 0
-    msLevel <- as.integer(msLevel)
+    msLevel. <- as.integer(msLevel.)
     ## Creating environment with Spectra objects
     assaydata <- new.env(parent=emptyenv())
     ioncount <- c()
@@ -47,14 +47,14 @@ readMSData <- function(files,
         msdata <- mzR::openMSfile(f)
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
-        ifelse(msLevel == 1, ## later, > 1 level
+        ifelse(msLevel. == 1, ## later, > 1 level
                spidx <- which(fullhd$msLevel == 1),
                spidx <- which(fullhd$msLevel > 1))
         ## increase vectors as needed
         ioncount <- c(ioncount, numeric(length(spidx)))
         fullhdorder <- c(fullhdorder, numeric(length(spidx)))
         ## MS1 level
-        if (msLevel == 1) {
+        if (msLevel. == 1) {
             if (length(spidx) == 0)
                 stop("No MS1 spectra in file",f)
             if (verbose) {
@@ -76,7 +76,7 @@ readMSData <- function(files,
                           intensity = pks[, 2],
                           fromFile = filen,
                           polarity = hd$polarity,
-                          centroided = centroided)
+                          centroided = centroided.)
                 ioncount[ioncounter] <- sum(pks[, 2])
                 ioncounter <- ioncounter + 1
                 if (removePeaks > 0)
@@ -122,11 +122,11 @@ readMSData <- function(files,
                           tic = hd$totIonCurrent,
                           intensity = .p[, 2],
                           fromFile = filen,
-                          centroided = centroided)
-                ioncount[ioncounter] <- sum(.p[,2])
+                          centroided = centroided.)
+                ioncount[ioncounter] <- sum(.p[, 2])
                 ioncounter <- ioncounter + 1
                 if (removePeaks > 0)
-                    sp <- removePeaks(sp, t=removePeaks)
+                    sp <- removePeaks(sp, t = removePeaks)
                 if (clean)
                     sp <- clean(sp)
                 .fname <- sprintf(paste0("X%0",
@@ -187,7 +187,7 @@ readMSData <- function(files,
     process <- new("MSnProcess",
                    processing = paste("Data loaded:",date()),
                    files = files,
-                   smoothed = smoothed)
+                   smoothed = smoothed.)
     if (removePeaks > 0) {
         process@processing <- c(process@processing,
                                 paste("Curves <= ", removePeaks, " set to '0': ", date(), sep=""))
