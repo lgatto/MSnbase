@@ -4,5 +4,6 @@
 Sys.setenv("R_TESTS" = "")
 library("testthat")
 library("MSnbase")
+setMSnbaseVerbose(FALSE)
 
 test_check("MSnbase")
