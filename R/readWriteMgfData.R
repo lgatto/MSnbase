@@ -7,7 +7,7 @@ setMethod("writeMgfData",
                    COM = NULL,
                    TITLE = NULL) {
             writeMgfDataFile(list(object), con = con, COM = COM, TITLE = TITLE,
-                             verbose = FALSE)
+                             verbose = isMSnbaseVerbose())
           })
 
 setMethod("writeMgfData",
@@ -15,13 +15,13 @@ setMethod("writeMgfData",
           function(object,
                    con = "experiment.mgf",
                    COM = NULL,
-                   verbose = TRUE) {
+                   verbose = isMSnbaseVerbose()) {
             writeMgfDataFile(spectra(object), con = con, COM = COM,
                              verbose = verbose)
           })
 
 writeMgfDataFile <- function(splist, con, COM = NULL, TITLE = NULL,
-                             verbose = TRUE) {
+                             verbose = isMSnbaseVerbose()) {
   if (class(con) == "character" && file.exists(con)) {
     message("Overwriting ", con, "!")
     unlink(con)
@@ -94,7 +94,7 @@ readMgfData <- function(filename,
                         pdata = NULL,
                         centroided = TRUE,
                         smoothed = FALSE,
-                        verbose = TRUE,
+                        verbose = isMSnbaseVerbose(),
                         cache = 1) {
   if (verbose)
     cat("Scanning", filename, "...\n")

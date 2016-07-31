@@ -89,37 +89,37 @@ setMethod("show", "MSnExp",
           })
 
 
-setMethod("plot",c("MSnExp","missing"),
-          function(x,y,...) plot_MSnExp(x,...))
+setMethod("plot", c("MSnExp","missing"),
+          function(x, y ,...) plot_MSnExp(x, ...))
 
-setMethod("plot2d",c("MSnExp"),
-          function(object,z,alpha=1/3,plot=TRUE)
-              plot2d.header(header(object),z,alpha,plot))
+setMethod("plot2d", c("MSnExp"),
+          function(object, z, alpha = 1/3, plot = TRUE)
+              plot2d.header(header(object), z, alpha, plot))
 
-setMethod("plot2d",c("data.frame"),
-          function(object,z,alpha=1/3,plot=TRUE)
-              plot2d.header(object,z,alpha,plot))
+setMethod("plot2d", c("data.frame"),
+          function(object, z, alpha = 1/3, plot = TRUE)
+              plot2d.header(object, z, alpha, plot))
 
-setMethod("plotDensity",c("MSnExp"),
-          function(object,z,log=FALSE,plot=TRUE)
-              plotDensity.header(header(object),z,log,plot))
+setMethod("plotDensity", c("MSnExp"),
+          function(object, z, log = FALSE, plot = TRUE)
+              plotDensity.header(header(object), z, log, plot))
 
-setMethod("plotDensity",c("data.frame"),
-          function(object,z,log=FALSE,plot=TRUE)
-              plotDensity.header(object,z,log,plot))
+setMethod("plotDensity", c("data.frame"),
+          function(object, z, log = FALSE, plot = TRUE)
+              plotDensity.header(object, z, log, plot))
 
-setMethod("plotMzDelta",c("MSnExp"),
-          function(object, reporters=NULL,
+setMethod("plotMzDelta", c("MSnExp"),
+          function(object, reporters = NULL,
                    subset,
-                   percentage=0.1,
-                   precMz=NULL,
-                   precMzWidth=2,
-                   bw=1,
-                   xlim=c(40,200),
-                   withLabels=TRUE,
-                   size=2.5,
-                   plot=TRUE,
-                   verbose=TRUE) {
+                   percentage = 0.1,
+                   precMz = NULL,
+                   precMzWidth = 2,
+                   bw = 1,
+                   xlim = c(40,200),
+                   withLabels = TRUE,
+                   size = 2.5,
+                   plot = TRUE,
+                   verbose = isMSnbaseVerbose()) {
               if (!missing(subset)) {
                   if (subset <= 0 | subset >= 1) {
                       warning('subset must be in ]0, 1[. Ignoring ',
@@ -141,12 +141,13 @@ setMethod("plotMzDelta",c("MSnExp"),
 
 setMethod("clean",
           signature=signature("MSnExp"),
-          function(object, all = FALSE, verbose = TRUE) {
+          function(object, all = FALSE, verbose = isMSnbaseVerbose()) {
               clean_MSnExp(object, all, verbose)
           })
 
 setMethod("removePeaks",signature("MSnExp"),
-          function(object, t, verbose = TRUE) removePeaks_MSnExp(object, t, verbose))
+          function(object, t, verbose = isMSnbaseVerbose())
+              removePeaks_MSnExp(object, t, verbose))
 
 
 setMethod("trimMz",
@@ -169,7 +170,7 @@ setMethod("quantify",
                    parallel, ## replaced by BPPARAM
                    BPPARAM,
                    qual = TRUE,
-                   verbose = TRUE,
+                   verbose = isMSnbaseVerbose(),
                    ...) {
               if (!missing(parallel))
                   message("Please use BPPARAM to set a parallel framework.")
@@ -200,9 +201,9 @@ setMethod("quantify",
           })
 
 setMethod("curveStats","MSnExp",
-          function(object, reporters, verbose = TRUE) {
+          function(object, reporters, verbose = isMSnbaseVerbose()) {
               ifelse(verbose,progress <- "text",progress <- "none")
-              l <- llply(object@spectra, curveStats, reporters, .progress=progress)
+              l <- llply(object@spectra, curveStats, reporters, .progress = progress)
               qdfr <- l[[1]]
               for (i in 2:length(l))
                   qdfr <- rbind(qdfr,l[[i]])
@@ -221,7 +222,7 @@ setMethod("normalize", "MSnExp",
 normalise <- normalize
 
 setMethod("bin", "MSnExp",
-          function(object, binSize = 1, verbose = TRUE) {
+          function(object, binSize = 1, verbose = isMSnbaseVerbose()) {
               bin_MSnExp(object, binSize = binSize, verbose = verbose)
           })
 
@@ -249,14 +250,15 @@ setMethod("estimateNoise", "MSnExp",
 
 setMethod("smooth", "MSnExp",
           function(x, method = c("SavitzkyGolay", "MovingAverage"),
-                   halfWindowSize = 2L, verbose = TRUE, ...) {
+                   halfWindowSize = 2L, verbose = isMSnbaseVerbose(), ...) {
               smooth_MSnExp(x, method = match.arg(method),
                             halfWindowSize = halfWindowSize, verbose = verbose,
                             ...)
           })
 
 setMethod("removeReporters","MSnExp",
-          function(object, reporters=NULL, clean=FALSE, verbose=TRUE) {
+          function(object, reporters = NULL, clean = FALSE,
+                   verbose = isMSnbaseVerbose()) {
               if (is.null(reporters))
                   return(object)
               removeReporters_MSnExp(object, reporters, clean, verbose)
@@ -266,7 +268,7 @@ setMethod("addIdentificationData", c("MSnExp", "character"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
                    icol = c("spectrumFile", "acquisitionnum"),
-                   verbose = TRUE) {
+                   verbose = isMSnbaseVerbose()) {
               addIdentificationData(object, id = mzID(id, verbose = verbose),
                                     fcol = fcol, icol = icol)
           })
@@ -329,7 +331,7 @@ setMethod("idSummary", "MSnExp",
           })
 
 setMethod("isCentroided", "MSnExp",
-          function(object, ..., verbose = TRUE) {
+          function(object, ..., verbose = isMSnbaseVerbose()) {
               pkl <- lapply(spectra(object), as.data.frame)
               ctrd <- lapply(pkl, .isCentroided, ...)
               ctrd <- unlist(ctrd, use.names = FALSE)

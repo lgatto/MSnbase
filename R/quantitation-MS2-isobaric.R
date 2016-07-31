@@ -27,8 +27,6 @@ quantify_MSnExp <- function(object, method,
                                                 "quantification by ", method,
                                                 ": ", date(), sep=""))
     ## Creating new featureData slot or creating one
-    ## if (verbose)
-    ##     message("Preparing meta-data")
     fd <- header(object) ## Time consuming - consider caching
     if (nrow(fData(object)) > 0) {
         if (nrow(fData(object)) == length(object)) {

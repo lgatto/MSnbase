@@ -11,7 +11,7 @@
 ## Change: Spectrum2 get new slot "smoothed" slot
 
 setMethod("updateObject", signature(object = "Spectrum"),
-          function(object, ..., verbose=FALSE) {
+          function(object, ..., verbose = isMSnbaseVerbose()) {
               if (verbose) message("updateObject(object = 'Spectrum')")
               object <- asS4(object)
               if (isVersioned(object) && isCurrent(object)["Spectrum"])
@@ -32,7 +32,7 @@ setMethod("updateObject", signature(object = "Spectrum"),
 
 
 setMethod("updateObject", signature(object = "MSnExp"),
-          function(object, ..., verbose = FALSE) {
+          function(object, ..., verbose = isMSnbaseVerbose()) {
               if (verbose) message("updateObject(object = 'MSnExp')")
               object <- asS4(object)
               if (isVersioned(object) && isCurrent(object)["MSnExp"])

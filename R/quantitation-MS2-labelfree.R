@@ -74,7 +74,7 @@ SI <- function(object,
                method = c("SI", "SIgi", "SIn"),
                groupBy = "accession",
                plength = "length",
-               verbose = TRUE) {
+               verbose = isMSnbaseVerbose()) {
     method <- match.arg(method)
     if (!plength %in% fvarLabels(object))
         stop(plength,
@@ -109,7 +109,7 @@ SAF <- function(object,
                 method = c("SAF", "NSAF"),
                 groupBy = "accession",
                 plength = "length",
-                verbose = TRUE) {
+                verbose = isMSnbaseVerbose()) {
     method <- match.arg(method)
     if (!plength %in% fvarLabels(object))
         stop(plength,

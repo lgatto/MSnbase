@@ -1,7 +1,7 @@
 readMzXMLData <- function(files,
                           pdata = NULL,
                           msLevel = 2,
-                          verbose = TRUE,
+                          verbose = isMSnbaseVerbose(),
                           centroided = FALSE,
                           smoothed = FALSE,
                           removePeaks = 0,

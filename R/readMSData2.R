@@ -1,7 +1,7 @@
 readMSData2 <- function(files,
                         pdata = NULL,
                         msLevel.,
-                        verbose = TRUE,
+                        verbose = isMSnbaseVerbose(),
                         centroided.,
                         smoothed. = NA) {
     .testReadMSDataInput(environment())

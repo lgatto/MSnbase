@@ -9,7 +9,7 @@ combineFeatures <- function(object,
                             redundancy.handler = c("unique", "multiple"),
                             cv = TRUE,
                             cv.norm = "sum",
-                            verbose = TRUE,
+                            verbose = isMSnbaseVerbose(),
                             ... ## further arguments to fun
                             ) {
     if (is.character(fun))
@@ -26,10 +26,10 @@ combineFeatures <- function(object,
                 groupBy <- groupBy[featureNames(object)]
             }
         }
-        redundancy.handler <- match.arg(redundancy.handler)         
+        redundancy.handler <- match.arg(redundancy.handler)
         result <- combineFeaturesL(object, groupBy, fun,
                                    redundancy.handler,
-                                   cv, cv.norm, verbose, ...)        
+                                   cv, cv.norm, verbose, ...)
     } else { ## factor, numeric or character
         result <- combineFeaturesV(object, groupBy, fun,
                                    cv, cv.norm, verbose, ...)
@@ -44,7 +44,7 @@ combineFeaturesL <- function(object,   ## MSnSet
                              redundancy.handler,
                              cv = TRUE,
                              cv.norm = "sum",
-                             verbose = TRUE,
+                             verbose = isMSnbaseVerbose(),
                              ...    ## additional arguments to fun
                              ) {
     ## handling of the redundancy
@@ -75,7 +75,7 @@ combineFeaturesV <- function(object,   ## MSnSet
                              fun,
                              cv = TRUE,
                              cv.norm = "sum",
-                             verbose = TRUE,
+                             verbose = isMSnbaseVerbose(),
                              ...    ## additional arguments to fun
                              ) {
     groupBy <- as.character(groupBy)
@@ -134,7 +134,7 @@ combineFeaturesV <- function(object,   ## MSnSet
 combineMatrixFeatures <- function(matr,    ## matrix
                                   groupBy, ## char/factor
                                   fun,
-                                  verbose=TRUE, 
+                                  verbose = isMSnbaseVerbose(),
                                   ...) { ## additional arguments to fun
     if (is.character(fun)) {
         ## Using a predefined function

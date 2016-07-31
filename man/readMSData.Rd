@@ -17,12 +17,12 @@
 
 \usage{
 
-readMSData(files, pdata = NULL, msLevel. = 2, verbose = TRUE,
-centroided. = FALSE, smoothed. = FALSE, removePeaks = 0, clean = FALSE,
-cache = 1)
+readMSData(files, pdata = NULL, msLevel. = 2, verbose =
+isMSnbaseVerbose(), centroided. = FALSE, smoothed. = FALSE, removePeaks
+= 0, clean = FALSE, cache = 1)
 
-readMSData2(files, pdata = NULL, msLevel., verbose = TRUE, centroided.,
-smoothed. = NA)
+readMSData2(files, pdata = NULL, msLevel., verbose = isMSnbaseVerbose(),
+centroided., smoothed. = NA)
 
 }
 

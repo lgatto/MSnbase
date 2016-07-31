@@ -34,7 +34,7 @@ plotMzDelta_list <- function(object,            ## peakLists
                              withLabels = TRUE, ## add amino acide labels
                              size = 2.5,        ## labels size
                              plot = TRUE,       ## plot figure
-                             verbose = TRUE) {
+                             verbose = isMSnbaseVerbose()) {
     if (missing(precMz))
         stop("Precursor M/Z is only supported for MSnExp instances.")
     ResidueMass <- ..density.. <- NULL ## to accomodate codetools

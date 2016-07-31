@@ -195,7 +195,7 @@ setReplaceMethod("centroided",
                  })
 
 setMethod("isCentroided", "OnDiskMSnExp",
-          function(object, ..., verbose = TRUE) {
+          function(object, ..., verbose = isMSnbaseVerbose()) {
               res <- spectrapply(object, function(z, ...)
                   .isCentroided(as(z, "data.frame"), ...))
               ctrd <- unlist(res, use.names = FALSE)
@@ -439,7 +439,7 @@ setMethod("quantify",
                    wd = width(reporters),
                    strict = FALSE,
                    BPPARAM,
-                   verbose = TRUE,
+                   verbose = isMSnbaseVerbose(),
                    ...) {
               method <- match.arg(method)
               if (!all(msLevel(object) == 2)) {
@@ -598,7 +598,7 @@ setMethod("extractPrecSpectra", signature = signature(object = "OnDiskMSnExp",
 ## Add a "removePeaks" ProcessingStep to the queue and update
 ## the processingData information of the object.
 setMethod("removePeaks", signature("OnDiskMSnExp"),
-          function(object, t = "min", verbose = TRUE, msLevel.) {
+          function(object, t = "min", verbose = isMSnbaseVerbose(), msLevel.) {
               if (missing(t))
                   t <- "min"
               if (!is.numeric(t)) {
@@ -633,7 +633,7 @@ setMethod("removePeaks", signature("OnDiskMSnExp"),
 ## Add a "clean" ProcessingStep to the queue and update
 ## the processingData information of the object.
 setMethod("clean", signature("OnDiskMSnExp"),
-          function(object, all = FALSE, verbose = TRUE, msLevel.) {
+          function(object, all = FALSE, verbose = isMSnbaseVerbose(), msLevel.) {
               if (!is.logical(all))
                   stop("Argument 'all' is supposed to be a logical!")
               if (missing(msLevel.)) {
@@ -737,7 +737,7 @@ setMethod("bin", "OnDiskMSnExp", function(object, binSize = 1L, msLevel.) {
 ## smooth
 setMethod("smooth", "OnDiskMSnExp",
           function(x, method = c("SavitzkyGolay", "MovingAverage"),
-                   halfWindowSize = 2L, verbose = TRUE, ...) {
+                   halfWindowSize = 2L, verbose = isMSnbaseVerbose(), ...) {
               method <- match.arg(method)
               ps <- ProcessingStep("smooth",
                                    list(method = method,

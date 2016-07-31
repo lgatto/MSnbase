@@ -114,7 +114,12 @@ export(MSnSet,
        makePRT,
        ## OnDiskMSnExp
        ProcessingStep,
-       validateOnDiskMSnExp)
+       validateOnDiskMSnExp,
+       ##options
+       MSnbaseOptions,
+       isMSnbaseVerbose,
+       setMSnbaseVerbose,
+       setMSnbaseParallelThresh)
 
 exportClasses(pSet,
               MIAPE,

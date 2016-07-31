@@ -1,6 +1,6 @@
 ## mergeSpectra <- function(object, ## MSnExp object
-##                          fun=sum,
-##                          verbose=TRUE) {
+##                          fun = sum,
+##                          verbose = isMSnbaseVerbose()) {
 ##   spectra <- spectra(object)
 ##   prec <- sapply(spectra,function(x) x@precursorMz)
 ##   uprec <- unique(prec)
@@ -77,8 +77,8 @@ extractPrecSpectra_MSnExp <- function(object,prec) {
     return(object)
 }
 
-removePeaks_MSnExp <- function(object,t="min",verbose=TRUE) {
-  ifelse(verbose,progress <- "text",progress <- "none")
+removePeaks_MSnExp <- function(object, t = "min", verbose = isMSnbaseVerbose()) {
+  ifelse(verbose, progress <- "text", progress <- "none")
   spectraList <-  llply(spectra(object),
                         function(x) removePeaks(x,t),
                         .progress = progress)
@@ -102,7 +102,7 @@ removePeaks_MSnExp <- function(object,t="min",verbose=TRUE) {
 }
 
 
-clean_MSnExp <- function(object, all, verbose = TRUE) {
+clean_MSnExp <- function(object, all, verbose = isMSnbaseVerbose()) {
   ## -- was ---------------------------------------------------
   ##  ifelse(verbose,progress <- "text",progress <- "none")
   ##  spectra <- llply(spectra(object),function(x) clean(x),.progress=progress)
@@ -167,7 +167,7 @@ normalise_MSnExp <- function(object,method) {
         return(object)
 }
 
-bin_MSnExp <- function(object, binSize=1, verbose=TRUE) {
+bin_MSnExp <- function(object, binSize = 1, verbose = isMSnbaseVerbose()) {
     ## copied from clean_MSnExp
     e <- new.env()
 
@@ -229,7 +229,7 @@ compare_MSnExp <- function(object, fun, ...) {
 }
 
 pickPeaks_MSnExp <- function(object, halfWindowSize, method, SNR,
-                             ..., verbose = TRUE) {
+                             ..., verbose = isMSnbaseVerbose()) {
   ## copied from clean_MSnExp
   e <- new.env()
 
@@ -273,7 +273,8 @@ pickPeaks_MSnExp <- function(object, halfWindowSize, method, SNR,
     return(object)
 }
 
-smooth_MSnExp <- function(object, method, halfWindowSize, ..., verbose = TRUE) {
+smooth_MSnExp <- function(object, method, halfWindowSize, ...,
+                          verbose = isMSnbaseVerbose()) {
   ## copied from clean_MSnExp
   e <- new.env()
 
@@ -336,8 +337,9 @@ precSelectionTable <- function(object,...) {
   return(table(x))
 }
 
-removeReporters_MSnExp <- function(object, reporters=NULL, clean=FALSE, verbose=TRUE) {
-  ifelse(verbose,progress <- "text",progress <- "none")
+removeReporters_MSnExp <- function(object, reporters = NULL,
+                                   clean = FALSE, verbose = isMSnbaseVerbose()) {
+  ifelse(verbose, progress <- "text", progress <- "none")
   spectraList <-  llply(spectra(object),
                         function(x) removeReporters(x, reporters, clean),
                         .progress = progress)

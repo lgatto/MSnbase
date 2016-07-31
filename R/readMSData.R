@@ -16,7 +16,7 @@
 readMSData <- function(files,
                        pdata = NULL,
                        msLevel. = 2,
-                       verbose = TRUE,
+                       verbose = isMSnbaseVerbose(),
                        centroided. = FALSE,
                        smoothed. = FALSE,
                        removePeaks = 0,
@@ -37,8 +37,8 @@ readMSData <- function(files,
     ## ## Idea:
     ## ## o initialize a featureData-data.frame,
     ## featureDataList <- list()
-    ## ## o for each file, extract header info and put that into featureData; this might
-    ## ##   be usefull for MS1, but eventually also MS2.
+    ## ## o for each file, extract header info and put that into
+    ##      featureData;
     for (f in files) {
         filen <- match(f, files)
         filenums <- c(filenums, filen)
@@ -65,7 +65,7 @@ readMSData <- function(files,
             for (i in 1:length(spidx)) {
                 if (verbose) setTxtProgressBar(pb, i)
                 j <- spidx[i]
-                hd <- fullhd[j,]
+                hd <- fullhd[j, ]
                 pks <- mzR::peaks(msdata, j)
                 sp <- new("Spectrum1",
                           rt = hd$retentionTime,
@@ -164,6 +164,9 @@ readMSData <- function(files,
                             ms.level = tmphd$msLevel,
                             acquisition.number = tmphd$acquisitionNum,
                             collision.energy = tmphd$collisionEnergy)
+        ## fix ioncount
+        icnt <- unlist(eapply(assaydata, ionCount))
+        newhd$ionCount <- icnt[rownames(newhd)]
     } else {
         newhd <- NULL ## not used anyway
     }

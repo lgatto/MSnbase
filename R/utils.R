@@ -1001,30 +1001,17 @@ orderInteger <- function(x, decreasing=FALSE, na.last=NA)
     ext
 }
 
-orderNumeric <- function(x, decreasing=FALSE, na.last=NA)
-{
+orderNumeric <- function(x, decreasing = FALSE, na.last = NA) {
     if (!is.numeric(x))
         stop("'x' must be a numeric")
     ## Uses _get_order_of_int_array() at the C level which is stable.
-    return(.Call("Double_order", x, decreasing, PACKAGE="MSnbase"))
+    return(.Call("Double_order", x, decreasing, PACKAGE = "MSnbase"))
 }
 
 
-sortNumeric <- function(x, decreasing=FALSE, na.last=NA)
-{
+sortNumeric <- function(x, decreasing = FALSE, na.last = NA) {
     if (!is.numeric(x))
         stop("'x' must be a numeric")
     ## Uses _get_order_of_int_array() at the C level which is stable.
-    return(.Call("sort_numeric", x, decreasing, PACKAGE="MSnbase"))
+    return(.Call("sort_numeric", x, decreasing, PACKAGE = "MSnbase"))
 }
-
-
-##' @title MSnbase options
-##' @return A \code{list} of MSnbase options and the single option
-##'     values for the individual accessors.
-MSnbaseOptions <- function()
-    options("MSnbase")[[1]]
-
-##' @rdname MSnbaseOptions
-isMSnbaseVerbose <- function()
-    MSnbaseOptions()$verbose

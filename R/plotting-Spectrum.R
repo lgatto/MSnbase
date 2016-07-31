@@ -106,20 +106,20 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
 ##' @param ... further arguments passed to plot.default
 ##' @noRd
 .plotSingleSpectrum <- function(object, sequence,
-                                orientation=1, add=FALSE,
-                                col="#74ADD1", pch=NA,
-                                xlab="m/z", ylab="intensity",
-                                xlim, ylim=c(0, 1),
-                                tolerance=0.1, relative=FALSE,
-                                type=c("b", "y"),
-                                modifications=c(C=57.02146),
-                                z=1,
-                                fragments=calculateFragments_Spectrum2(object,
-                                  sequence=sequence, tolerance=tolerance,
-                                  relative=relative, type=type, z=z,
-                                  modifications=modifications,
-                                  verbose=FALSE),
-                                fragments.cex=0.75, ...) {
+                                orientation = 1, add = FALSE,
+                                col = "#74ADD1", pch = NA,
+                                xlab = "m/z", ylab = "intensity",
+                                xlim, ylim = c(0, 1),
+                                tolerance = 0.1, relative = FALSE,
+                                type = c("b", "y"),
+                                modifications = c(C = 57.02146),
+                                z = 1,
+                                fragments = calculateFragments_Spectrum2(object,
+                                  sequence = sequence, tolerance = tolerance,
+                                  relative = relative, type = type, z = z,
+                                  modifications = modifications,
+                                  verbose = isMSnbaseVerbose()),
+                                fragments.cex = 0.75, ...) {
   if (peaksCount(object) > 0 && !centroided(object)) {
     message("Your spectrum is not centroided.")
   }
@@ -133,10 +133,10 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
   }
 
   if (!add) {
-    plot(NA, type="h", col=1,
-         xlab=xlab, ylab=ylab,
-         xlim=xlim, ylim=ylim, ...)
-    abline(h=0, col="#808080")
+    plot(NA, type = "h", col = 1,
+         xlab = xlab, ylab = ylab,
+         xlim = xlim, ylim = ylim, ...)
+    abline(h = 0, col = "#808080")
   }
 
   lines(mz(object), orientation*intensity(object),

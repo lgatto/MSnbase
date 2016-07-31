@@ -29,7 +29,7 @@
 ##' head(fData(psms))
 readMzTabData <- function(file, what = c("PRT", "PEP", "PSM"),
                           version = c("1.0", "0.9"),
-                          verbose = TRUE) {
+                          verbose = isMSnbaseVerbose()) {
     version <- match.arg(version)
     what <- match.arg(what)
     if (version == "0.9") {
@@ -86,7 +86,7 @@ makePRT <- function(...) .Defunct()
 ##' pep
 readMzTabData_v0.9 <- function(file,
                                what = c("PRT", "PEP"),
-                               verbose = TRUE) {
+                               verbose = isMSnbaseVerbose()) {
     .Deprecated(msg = "Version 0.9 is deprecated. Please see '?readMzTabData' and '?MzTab' for details.")
     
     what <- match.arg(what)

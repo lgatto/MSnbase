@@ -700,7 +700,7 @@ setMethod("addIdentificationData", c("MSnSet", "character"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
                    icol = c("spectrumFile", "acquisitionnum"),
-                   verbose = TRUE) {
+                   verbose = isMSnbaseVerbose()) {
               addIdentificationData(object,
                                     id = mzID(id, verbose = verbose),
                                     fcol = fcol, icol = icol)
