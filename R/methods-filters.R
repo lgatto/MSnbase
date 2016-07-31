@@ -117,7 +117,7 @@ setMethod("filterFile", "MSnExp",
               ## file can be a character or file index
               if (missing(file)) return(object)
               if (is.character(file)) {
-                  file <- match(file, basename(fileNames(object)))
+                  file <- base::match(file, basename(fileNames(object)))
               }
               ## This will not work if we want to get the files in a different
               ## order (i.e. c(3, 1, 2, 5))

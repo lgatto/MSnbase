@@ -408,7 +408,7 @@ setMethod("mz", "OnDiskMSnExp",
 setMethod("[[", "OnDiskMSnExp",
           function(x, i, j = "missing", drop = "missing") {
               if (is.character(i))
-                  i <- match(i, featureNames(x))
+                  i <- base::match(i, featureNames(x))
               if (any(is.na(i)))
                   stop("subscript out of bounds")
               ## Keep the fromFile information; that would be
@@ -524,7 +524,7 @@ setMethod("[", signature(x = "OnDiskMSnExp",
               expD@detectorType <- expD@detectorType[file]
               x@experimentData <- expD
               ## Update fromFile in spectra/featureData.
-              fromFile(x) <- match(fromFile(x), file)
+              fromFile(x) <- base::match(fromFile(x), file)
               if (validObject(x))
                   return(x)
           })

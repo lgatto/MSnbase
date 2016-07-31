@@ -118,7 +118,7 @@ setMethod("[", "pSet",
               expD@detectorType <- expD@detectorType[file]
               x@experimentData <- expD
               ## Fix the fromFile property
-              newFromFile <- match(fromFile(x), file)
+              newFromFile <- base::match(fromFile(x), file)
               names(newFromFile) <- names(fromFile(x))
               ## Proceed.
               orghd <- header(x)
