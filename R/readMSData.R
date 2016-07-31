@@ -28,9 +28,8 @@ readMSData <- function(files,
         cache <- 0
     msLevel. <- as.integer(msLevel.)
     ## Creating environment with Spectra objects
-    assaydata <- new.env(parent=emptyenv())
+    assaydata <- new.env(parent = emptyenv())
     ioncount <- c()
-    ioncounter <- 1
     filenams <- filenums <- c()
     fullhd2 <- fullhdorder <- c()
     fullhdordercounter <- 1
@@ -77,8 +76,6 @@ readMSData <- function(files,
                           fromFile = filen,
                           polarity = hd$polarity,
                           centroided = centroided.)
-                ioncount[ioncounter] <- sum(pks[, 2])
-                ioncounter <- ioncounter + 1
                 if (removePeaks > 0)
                     sp <- removePeaks(sp, t=removePeaks)
                 if (clean)
@@ -106,7 +103,7 @@ readMSData <- function(files,
                 if (verbose) setTxtProgressBar(pb, i)
                 j <- spidx[i]
                 hd <- fullhd[j,]
-                .p <- mzR::peaks(msdata,j)
+                .p <- mzR::peaks(msdata, j)
                 sp <- new("Spectrum2",
                           scanIndex = as.integer(hd$seqNum),
                           merged = as.numeric(hd$mergedScan),
@@ -123,8 +120,6 @@ readMSData <- function(files,
                           intensity = .p[, 2],
                           fromFile = filen,
                           centroided = centroided.)
-                ioncount[ioncounter] <- sum(.p[, 2])
-                ioncounter <- ioncounter + 1
                 if (removePeaks > 0)
                     sp <- removePeaks(sp, t = removePeaks)
                 if (clean)
