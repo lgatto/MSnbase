@@ -44,7 +44,7 @@ readMSData <- function(files,
         filenums <- c(filenums, filen)
         filenams <- c(filenams, f)
         msdata <- mzR::openMSfile(f)
-        on.exit(mzR::close(msdata)) 
+        on.exit(mzR::close(msdata))
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
         ifelse(msLevel. == 1, ## later, > 1 level
@@ -137,7 +137,6 @@ readMSData <- function(files,
             fullhd2 <- rbind(fullhd2, fullhd[spidx, ])
         if (verbose)
             close(pb)
-        rm(msdata)
     }
     ## new in version 1.9.8
     lockEnvironment(assaydata, bindings = TRUE)
