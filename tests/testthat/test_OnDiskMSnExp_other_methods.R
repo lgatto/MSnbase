@@ -1,30 +1,14 @@
 context("OnDiskMSnExp class, other methods")
 
-############################################################
-## Load the required data files.
-.getMzMLFiles <- function(force.msdata = FALSE) {
-    ## Return the mzML files, the ones from the XXX package, or if run
-    ## locally, some of my test files.
-    HOST <- unlist(strsplit(system("hostname", intern = TRUE), split = ".",
-                            perl = FALSE, fixed = TRUE))[1]
-    if (HOST == "macbookjo" & !force.msdata) {
-        mzfiles <- dir("/Users/jo/R-workspaces/EURAC/2016/2016-04-21-PolarMetabolom/data/mzML/",
-                       pattern = "POS_C_O", full.names = TRUE)
-    } else {
-        require(msdata)
-        mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-                     system.file("microtofq/MM8.mzML", package = "msdata"))
-    }
-    return(mzfiles)
-}
-mzf <- .getMzMLFiles(TRUE)[1:2]
-## Load the data as an MSnExp into memory.
+library("msdata")
+mzf <-  c(system.file("microtofq/MM14.mzML", package = "msdata"),
+          system.file("microtofq/MM8.mzML", package = "msdata"))
+
 inMem <- readMSData(files = mzf, msLevel = 1, centroided = TRUE,
                     verbose = FALSE)
-## Load the data as OnDiskMSnExp.
-onDisk <- readMSData2(files = mzf, msLevel = 1, centroided = TRUE)
+onDisk <- readMSData2(files = mzf, msLevel = 1, centroided = TRUE,
+                      verbose = FALSE)
 
-## Read another mzML file.
 f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia_1")
 inmem2 <- readMSData(f, centroided = NA, verbose = FALSE)  ## That's the MS 2 data.
 inmem1 <- readMSData(f, centroided = NA, verbose = FALSE, msLevel = 1)  ## MS 1 data.
@@ -32,13 +16,6 @@ ondisk <- readMSData2(f, verbose = FALSE)
 ondisk1 <- readMSData2(f, msLevel = 1, verbose = FALSE)
 ondisk2 <- readMSData2(f, msLevel = 2, verbose = FALSE)
 
-
-############################################################
-## plot
-test_that("OnDiskMSnExp plot", {
-    ## Would be nice to know what the plot function is actually doing though...
-    ## seems I can forget that for larger experiments; takes way to long.
-})
 
 ############################################################
 ## trimMz
