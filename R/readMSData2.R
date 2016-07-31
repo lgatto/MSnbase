@@ -16,8 +16,7 @@ readMSData2 <- function(files,
     ## Idea:
     ## o initialize a featureData-data.frame,
     featureDataList <- list()
-    ## o for each file, extract header info and put that into featureData; this might
-    ##   be usefull for MS1, but eventually also MS2.
+    ## o for each file, extract header info and put that into featureData
     for (f in files) {
         filen <- match(f, files)
         filenums <- c(filenums, filen)
@@ -29,12 +28,11 @@ readMSData2 <- function(files,
         spidx <- seq_len(nrow(fullhd))
         ## increase vectors as needed
         ioncount <- c(ioncount, numeric(length(spidx)))
-        ## MS1 level
         if (verbose)
             message("Reading ", length(spidx), " spectra from file ",
                     basename(f))
-
-        ## Don't read the individual spectra, just define the names of the spectra.
+        ## Don't read the individual spectra, just define the names of
+        ## the spectra.
         fullhdorder <- c(fullhdorder,
                          sprintf(paste0("X%0",
                                         ceiling(log10(length(spidx) + 1L)),
@@ -69,16 +67,14 @@ readMSData2 <- function(files,
                    smoothed = NA)
 
     ## Create 'fdata' and 'pdata' objects
-    nms <- ls(assaydata)
     if (is.null(pdata)) {
         .pd <- data.frame(sampleNames = basename(files))
         rownames(.pd) <- .pd$sampleNames
         pdata <- new("NAnnotatedDataFrame",
                      data = .pd)
     }
-    ## If we've got the featureDataList, use that one instead; that's
-    ## for MS1 basically.
-    if (length(featureDataList) > 0){
+    ## If we've got a featureDataList, use it
+    if (length(featureDataList) > 0) {
         fdata <- do.call(rbind, featureDataList)
         fdata <- cbind(fdata, spectrum = 1:nrow(fdata),
                        stringsAsFactors = FALSE)
@@ -88,9 +84,6 @@ readMSData2 <- function(files,
         fdata <- fdata[sort(fullhdorder), ]
         ## Re-order the features.
         ## fdata <- fdata[ls(assaydata), ]
-        ## Check if the ordering matches the environment.
-        if (!all(ls(assaydata) == rownames(fdata)))
-            stop("Ordering of spectra in assayData does not match the order in featureData!")
     }
 
     ## expriment data slot
