@@ -166,8 +166,8 @@ spectrapply <- function(object, FUN = NULL,
     isOK <- validateFeatureDataForOnDiskMSnExp(fData(object))
     if (!is.null(isOK))
         stop(isOK)
-    fDataPerFile <- split(fData(object),
-                          f = fData(object)$fileIdx)
+    fDataPerFile <- base::split(fData(object),
+                                f = fData(object)$fileIdx)
     fNames <- fileNames(object)
     theQ <- processingQueue(object)
     vals <- bplapply(fDataPerFile,
