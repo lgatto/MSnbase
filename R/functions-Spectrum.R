@@ -314,7 +314,7 @@ bin_Spectrum <- function(object, binSize = 1L,
   idx[which(idx > nb)] <- nb
 
   intensity <- double(length(breaks))
-  intensity[unique(idx)] <- unlist(lapply(split(intensity(object), idx), fun))
+  intensity[unique(idx)] <- unlist(lapply(base::split(intensity(object), idx), fun))
 
   mz <- c((breaks[-nb] + breaks[-1L]) / 2L, breaks[nb])
 
