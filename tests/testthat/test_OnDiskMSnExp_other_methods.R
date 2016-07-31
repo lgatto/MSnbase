@@ -43,15 +43,10 @@ test_that("OnDiskMSnExp plot", {
 ############################################################
 ## trimMz
 test_that("OnDiskMSnExp filter/trimMz", {
-    ## Comparing timings and results for the trimMz.
     inMem <- inmem1
     onDisk <- ondisk1
-    system.time(
-        inMemMz <- filterMz(inMem, mzlim=c(500, 550))
-    ) ## 7.3 sec.
-    system.time(
-        onDiskMz <- filterMz(onDisk, mzlim=c(500, 550))
-    ) ## woah, 0.009 sec (what a surprise ;) )
+    inMemMz <- filterMz(inMem, mzlim = c(500, 550))
+    onDiskMz <- filterMz(onDisk, mzlim = c(500, 550))
     expect_true(all.equal(inMemMz, onDiskMz))
 })
 
@@ -59,12 +54,8 @@ test_that("OnDiskMSnExp filter/trimMz", {
 ## normalize
 test_that("Compare OnDiskMSnExp and MSnExp normalize", {
     ## Compare timings and results for normalize.
-    system.time(
-        inMemN <- normalize(inMem)
-    )  ## 14.2 sec
-    system.time(
-        onDiskN <- normalize(onDisk)
-    )  ## 0.005
+    inMemN <- normalize(inMem)
+    onDiskN <- normalize(onDisk)
     ## Get and compare spectra.
     expect_true(all.equal(inMemN, onDiskN))
 
@@ -92,12 +83,8 @@ test_that("Compare OnDiskMSnExp and MSnExp smooth", {
 ############################################################
 ## compareSpectra
 test_that("Compare OnDiskMSnExp and MSnExp compareSpectra", {
-    system.time(
-        csp <- compareSpectra(inmem1)
-    ) ## 39.8 sec
-    system.time(
-        csp2 <- compareSpectra(ondisk1)
-    )
+    csp <- compareSpectra(inmem1)
+    csp2 <- compareSpectra(ondisk1)
     rownames(csp) <- colnames(csp) <- NULL
     rownames(csp2) <- colnames(csp2) <- NULL
     expect_identical(csp, csp2)
@@ -108,9 +95,7 @@ test_that("Compare OnDiskMSnExp and MSnExp compareSpectra", {
 test_that("Compare OnDiskMSnExp and MSnExp pickPeaks", {
     ## Setting centroided FALSE to avoid warnings...
     centroided(inmem1) <- FALSE
-    system.time(
-        pp <- pickPeaks(inmem1)
-    ) ## 0.5 sec
+    pp <- pickPeaks(inmem1)
     centroided(ondisk1) <- FALSE
     pp2 <- pickPeaks(ondisk1)
     expect_true(all.equal(pp, pp2))
@@ -125,25 +110,17 @@ test_that("Compare OnDiskMSnExp and MSnExp pickPeaks", {
 ## estimateNoise
 test_that("Compare OnDiskMSnExp and MSnExp estimateNoise", {
     centroided(inmem1) <- FALSE
-    system.time(
-        en <- estimateNoise(inmem1)
-    ) ## 0.142
+    en <- estimateNoise(inmem1)
     centroided(ondisk1) <- FALSE
-    system.time(
-        en2 <- estimateNoise(ondisk1)
-    ) ## 1.1
+    en2 <- estimateNoise(ondisk1)
     names(en) <- NULL
     names(en2) <- NULL
     expect_identical(en, en2)
     ## Same with method = SuperSmoother
     centroided(inmem1) <- FALSE
-    system.time(
-        en <- estimateNoise(inmem1, method = "SuperSmoother")
-    ) ## 1.149
+    en <- estimateNoise(inmem1, method = "SuperSmoother")
     centroided(ondisk1) <- FALSE
-    system.time(
-        en2 <- estimateNoise(ondisk1, method = "SuperSmoother")
-    ) ## 2.9
+    en2 <- estimateNoise(ondisk1, method = "SuperSmoother")
     names(en) <- NULL
     names(en2) <- NULL
     expect_identical(en, en2)
@@ -171,7 +148,6 @@ test_that("Compare OnDiskMSnExp and MSnExp extractPrecSpectra", {
 ############################################################
 ## isCentroided
 test_that("isCentroided on OnDiskMSnExp", {
-
     expect_true(all(isCentroided(onDisk, verbose = FALSE)))
     expect_true(all(isCentroided(ondisk2, verbose = FALSE)))
 
@@ -224,4 +200,3 @@ test_that("Test precursor* for OnDiskMSnExp", {
     names(pcn) <- names(pcn2) <- NULL
     expect_identical(pcn, pcn2)
 })
-
