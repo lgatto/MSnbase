@@ -23,8 +23,8 @@ test_that("OnDiskMSnExp constructor", {
 })
 
 test_that("compare MS2 on disk and in memoery", {
-    x1 <- readMSData(f, verbose = FALSE, centroided = FALSE)
-    x2 <- readMSData2(f, msLevel = 2, centroided = FALSE)
+    x1 <- readMSData(f, verbose = FALSE, centroided. = FALSE)
+    x2 <- readMSData2(f, msLevel. = 2, centroided. = FALSE)
     expect_identical(length(x1), length(x2))
     expect_false(identical(featureNames(x1), featureNames(x2)))
     featureNames(x2) <- featureNames(x1)
@@ -79,12 +79,12 @@ test_that("compare MS2 on disk and in memoery", {
 })
 
 test_that("Default and setting centroided", {
-    x1 <- readMSData(f, verbose = FALSE, centroided = NA)
-    x2 <- readMSData2(f, msLevel = 2, centroided = NA)
+    x1 <- readMSData(f, verbose = FALSE, centroided. = NA)
+    x2 <- readMSData2(f, msLevel. = 2, centroided. = NA)
     featureNames(x2) <- featureNames(x1)
     expect_identical(centroided(x1), centroided(x2))
-    x1 <- readMSData(f, verbose = FALSE, centroided = TRUE)
-    x2 <- readMSData2(f, msLevel = 2, centroided = TRUE)
+    x1 <- readMSData(f, verbose = FALSE, centroided. = TRUE)
+    x2 <- readMSData2(f, msLevel. = 2, centroided. = TRUE)
     featureNames(x2) <- featureNames(x1)
     expect_identical(centroided(x1), centroided(x2))
     centroided(x2) <- centroided(x1) <- FALSE
@@ -93,7 +93,7 @@ test_that("Default and setting centroided", {
 
 test_that("Write mgf", {
     x1 <- readMSData(f, verbose = FALSE)
-    x2 <- readMSData2(f, msLevel = 2)
+    x2 <- readMSData2(f, msLevel. = 2)
     tf1 <- tempfile()
     tf2 <- tempfile()
     writeMgfData(x1[2:4], con = tf1)

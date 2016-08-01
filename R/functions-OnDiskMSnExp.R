@@ -223,7 +223,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     suppressPackageStartupMessages(
         require(MSnbase, quietly = TRUE)
     )
-    verbose. <- isMsnbaseVerbose()
+    verbose. <- isMSnbaseVerbose()
     if (missing(fData) | missing(filenames))
         stop("Both 'fData' and 'filenames' are required!")
     filename <- filenames[fData[1, "fileIdx"]]

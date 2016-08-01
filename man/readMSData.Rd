@@ -19,7 +19,7 @@
 
 readMSData(files, pdata = NULL, msLevel. = 2, verbose =
 isMSnbaseVerbose(), centroided. = NA, smoothed. = NA, removePeaks
-= 0, clean = FALSE, cache = 1)
+= 0, clean. = FALSE, cache. = 1)
 
 readMSData2(files, pdata = NULL, msLevel., verbose = isMSnbaseVerbose(),
 centroided., smoothed. = NA)
@@ -76,12 +76,12 @@ centroided., smoothed. = NA)
 
   }
 
-  \item{clean}{
+  \item{clean.}{
     Logical indicating whether 0 intensity peaks should be discarded
     from spectra. Useful is removePeaks is set. Default is 'FALSE'. See
     \code{\link{clean}} for more details and examples.
   }
-  \item{cache}{
+  \item{cache.}{
     Numeric indicating caching level. Default is 0 for MS1 and 1 MS2 (or
     higher). Under development.
   }
