@@ -8,6 +8,8 @@
 \alias{ProcessingStep}
 \alias{show,ProcessingStep-method}
 
+\alias{executeProcessingStep}
+
 \title{Simple processing step class}
 
 \description{
@@ -39,6 +41,18 @@
   }
 }
 
+\section{Methods and functions}{
+  \describe{
+    \item{executeProcessingStep(object, ...)}{
+      Execute the processing step \code{object}. Internally this
+      calls \code{do.call} passing all arguments defined in the
+      \code{ProcessingStep} \code{object} along with potential
+      additional arguments in \code{...} to the function
+      \code{object@FUN}.
+    }
+  }
+}
+
 \section{Extends}{
   Class \code{"\linkS4class{Versioned}"}, directly.
 }
@@ -49,6 +63,14 @@
 
 \seealso{
   \code{\linkS4class{OnDiskMSnExp}}
+}
+
+\examples{
+## Define a simple ProcessingStep
+procS <- ProcessingStep("sum", list(c(1, 3, NA, 5), na.rm= TRUE))
+
+executeProcessingStep(procS)
+
 }
 
 \keyword{classes}
