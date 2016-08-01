@@ -17,8 +17,8 @@ readMSData <- function(files,
                        pdata = NULL,
                        msLevel. = 2,
                        verbose = isMSnbaseVerbose(),
-                       centroided. = FALSE,
-                       smoothed. = FALSE,
+                       centroided. = NA,
+                       smoothed. = NA,
                        removePeaks = 0,
                        clean = FALSE,
                        cache = 1) {
@@ -178,7 +178,7 @@ readMSData <- function(files,
     ## CACHING AS BEEN SUPERSEDED BY THE OnDiskMSnExp IMPLEMENTATION
     ## if cache==2, do not lock assign msdata in .cacheEnv then lock
     ## it and do not close(msdata) above; rm(msdata) is OK
-    
+
     ## Create 'MSnProcess' object
     process <- new("MSnProcess",
                    processing = paste("Data loaded:", date()),

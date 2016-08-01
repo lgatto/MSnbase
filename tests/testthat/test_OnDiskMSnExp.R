@@ -5,14 +5,14 @@ mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
          system.file("microtofq/MM8.mzML", package = "msdata"))
 
 ## Load the data as an MSnExp into memory.
-inMem <- readMSData(files = mzf, msLevel = 1, centroided = TRUE)
+inMem <- readMSData(files = mzf, msLevel = 1, centroided. = TRUE)
 ## Load the data as OnDiskMSnExp.
-onDisk <- readMSData2(files = mzf, msLevel = 1, centroided = TRUE)
+onDisk <- readMSData2(files = mzf, msLevel = 1, centroided. = TRUE)
 
 f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
-multiMsInMem1 <- readMSData(files = f, msLevel = 1, centroided = TRUE)
-multiMsInMem2 <- readMSData(files = f, msLevel = 2, centroided = TRUE)
-multiMsOnDisk <- readMSData2(files = f, centroided = TRUE)
+multiMsInMem1 <- readMSData(files = f, msLevel = 1, centroided. = TRUE)
+multiMsInMem2 <- readMSData(files = f, msLevel = 2, centroided. = TRUE)
+multiMsOnDisk <- readMSData2(files = f, centroided. = TRUE)
 
 
 ############################################################

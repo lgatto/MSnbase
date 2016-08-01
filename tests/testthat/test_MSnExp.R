@@ -16,7 +16,7 @@ test_that("readMSData", {
     load(f) ## msx
     file <- dir(system.file(package = "MSnbase", dir = "extdata"),
                 full.name = TRUE,pattern = "mzXML$")
-    aa <- readMSData(file, verbose = FALSE)
+    aa <- readMSData(file, verbose = FALSE, centroided. = FALSE)
     expect_identical(as.list(assayData(aa)), as.list(assayData(msx)))
     ## ## removing below due to spurious error on windows
     ## ## processingData will be different
@@ -42,7 +42,7 @@ test_that("readMSData with pdata", {
 test_that("readMSData and dummy MSnExp msLevel 2 instance", {
     file <- dir(system.file(package = "MSnbase", dir = "extdata"),
                 full.name = TRUE, pattern = "mzXML$")
-    aa <- readMSData(file, verbose = FALSE)
+    aa <- readMSData(file, verbose = FALSE, centroided. = FALSE)
     expect_true(class(aa) == "MSnExp")
     ## centroided get and set
     expect_false(any(centroided(aa)))
@@ -154,7 +154,7 @@ test_that("spectra order and integrity", {
     file <- dir(system.file(package = "MSnbase", dir = "extdata"),
                 full.name = TRUE,
                 pattern = "mzXML$")
-    aa <- readMSData(file, verbose = FALSE)
+    aa <- readMSData(file, verbose = FALSE, centroided. = FALSE)
     clean.aa <- clean(aa, verbose = FALSE)
     rmpeaks.aa <- removePeaks(aa, verbose = FALSE)
     expect_that(ls(assayData(clean.aa)), equals(ls(assayData(aa))))

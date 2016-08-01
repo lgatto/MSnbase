@@ -12,13 +12,13 @@
   an \code{"\linkS4class{MSnExp}"} object. This function uses the
   functionality provided by the \code{mzR} package to access data and
   meta data in \code{mzData}, \code{mzXML} and \code{mzML}.
-  
+
 }
 
 \usage{
 
 readMSData(files, pdata = NULL, msLevel. = 2, verbose =
-isMSnbaseVerbose(), centroided. = FALSE, smoothed. = FALSE, removePeaks
+isMSnbaseVerbose(), centroided. = NA, smoothed. = NA, removePeaks
 = 0, clean = FALSE, cache = 1)
 
 readMSData2(files, pdata = NULL, msLevel., verbose = isMSnbaseVerbose(),
@@ -31,43 +31,43 @@ centroided., smoothed. = NA)
   \item{files}{
     A \code{character} vector with file names to be read.
   }
-  
+
   \item{pdata}{
-    
+
     An object of class \code{"\linkS4class{NAnnotatedDataFrame}"} or
     \code{NULL}.
-    
+
   }
-  
+
   \item{msLevel.}{
-    
+
     MS level spectra to be read. Use \code{1} for MS1 spectra or any larger
     numeric for MSn spectra. Default is \code{2}. \code{readMSData2}
     supports multiple levels and will, by default, read all the data.
-    
+
   }
-  
+
   \item{centroided.}{
 
     A \code{logical} in \code{readMSData}, indicating whether spectra
-    are centroided or not. Default is \code{FALSE}.
+    are centroided or not. Default is \code{NA}.
 
     In \code{readMSData2}, the parameter value is missing and the value
     is set to \code{NA} in the returned object. It can be set for
     different MS levels by a vector of logicals, where the first element
     is for MS 1, the second element is for level 2, ... See
     \code{"\linkS4class{OnDiskMSnExp}"} for an example.
-    
+
   }
-  
+
   \item{smoothed.}{
 
     A \code{logical} indicating whether spectra already smoothed or
-    not. Default is \code{FALSE} in \code{readMSData} and \code{NA} in
-    \code{readMSData2}. 
-    
+    not. Default is \code{NA} in \code{readMSData} and
+    \code{readMSData2}.
+
   }
-  
+
   \item{removePeaks}{
 
     If > 0 , all peaks less or equal then value will set to 0. See
@@ -75,7 +75,7 @@ centroided., smoothed. = NA)
     \code{0}.
 
   }
-  
+
   \item{clean}{
     Logical indicating whether 0 intensity peaks should be discarded
     from spectra. Useful is removePeaks is set. Default is 'FALSE'. See
@@ -106,10 +106,10 @@ centroided., smoothed. = NA)
 }
 
 \value{
-  
+
   An \code{MSnExp} object for \code{readMSData} and a
   \code{OnDiskMSnExp} object for \code{readMSData2}.
-  
+
 }
 
 
@@ -130,7 +130,7 @@ file <- dir(system.file(package = "MSnbase", dir = "extdata"),
 aa <- readMSData(file)
 aa
 bb <- readMSData(file)
-bb            
+bb
 }
 
 \keyword{ file }
