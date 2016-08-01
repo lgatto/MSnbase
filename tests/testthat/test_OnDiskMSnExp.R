@@ -160,8 +160,11 @@ test_that("removePeaks on OnDiskMSnExp with different MS levels", {
     multiMsOnDisk_rem_1 <- removePeaks(multiMsOnDisk, msLevel. = 1)
     expect_true(all.equal(filterMsLevel(multiMsOnDisk_rem_1, msLevel. = 1),
                           filterMsLevel(multiMsOnDisk_rem, msLevel. = 1)))
-    expect_true(all.equal(filterMsLevel(multiMsOnDisk_rem_1, msLevel. = 2),
-                          filterMsLevel(multiMsOnDisk, msLevel. = 2)))
+    spects1 <- spectra(filterMsLevel(multiMsOnDisk_rem_1, msLevel. = 2))
+    spects2 <- spectra(filterMsLevel(multiMsOnDisk, msLevel. = 2))
+    expect_identical(spects1, spects2)
+    ## expect_true(all.equal(filterMsLevel(multiMsOnDisk_rem_1, msLevel. = 2),
+    ##                       filterMsLevel(multiMsOnDisk, msLevel. = 2)))
     ##   Just processing MS 2.
     multiMsOnDisk_rem_2 <- removePeaks(multiMsOnDisk, msLevel. = 2)
     expect_true(all.equal(filterMsLevel(multiMsOnDisk_rem_2, msLevel. = 2),
