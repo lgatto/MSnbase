@@ -5,14 +5,14 @@ mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
          system.file("microtofq/MM8.mzML", package = "msdata"))
 
 ## Load the data as an MSnExp into memory.
-inMem <- readMSData(files = mzf, msLevel = 1, centroided = TRUE)
+inMem <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE)
 ## Load the data as OnDiskMSnExp.
-onDisk <- readMSData2(files = mzf, msLevel = 1, centroided = TRUE)
+onDisk <- readMSData2(files = mzf, msLevel. = 1, centroided. = TRUE)
 
 f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
-multiMsInMem1 <- readMSData(files = f, msLevel = 1, centroided = TRUE)
-multiMsInMem2 <- readMSData(files = f, msLevel = 2, centroided = TRUE)
-multiMsOnDisk <- readMSData2(files = f, centroided = TRUE)
+multiMsInMem1 <- readMSData(files = f, msLevel. = 1, centroided. = TRUE)
+multiMsInMem2 <- readMSData(files = f, msLevel. = 2, centroided. = TRUE)
+multiMsOnDisk <- readMSData2(files = f, centroided. = TRUE)
 
 
 ############################################################
@@ -26,7 +26,7 @@ test_that("OnDiskMSnExp constructor", {
 test_that("Coercion to MSnExp", {
     f <- msdata:::proteomics(full.names = TRUE)
     x <- readMSData2(f, verbose = FALSE)
-    y <- readMSData(f, msLevel = 2, centroided = NA, verbose = FALSE)
+    y <- readMSData(f, msLevel. = 2, centroided. = NA, verbose = FALSE)
     expect_error(as(x, "MSnExp"))
     x <- filterMsLevel(x, msLevel = 2)
     expect_true(all.equal(x, y))
@@ -160,8 +160,11 @@ test_that("removePeaks on OnDiskMSnExp with different MS levels", {
     multiMsOnDisk_rem_1 <- removePeaks(multiMsOnDisk, msLevel. = 1)
     expect_true(all.equal(filterMsLevel(multiMsOnDisk_rem_1, msLevel. = 1),
                           filterMsLevel(multiMsOnDisk_rem, msLevel. = 1)))
-    expect_true(all.equal(filterMsLevel(multiMsOnDisk_rem_1, msLevel. = 2),
-                          filterMsLevel(multiMsOnDisk, msLevel. = 2)))
+    spects1 <- spectra(filterMsLevel(multiMsOnDisk_rem_1, msLevel. = 2))
+    spects2 <- spectra(filterMsLevel(multiMsOnDisk, msLevel. = 2))
+    expect_identical(spects1, spects2)
+    ## expect_true(all.equal(filterMsLevel(multiMsOnDisk_rem_1, msLevel. = 2),
+    ##                       filterMsLevel(multiMsOnDisk, msLevel. = 2)))
     ##   Just processing MS 2.
     multiMsOnDisk_rem_2 <- removePeaks(multiMsOnDisk, msLevel. = 2)
     expect_true(all.equal(filterMsLevel(multiMsOnDisk_rem_2, msLevel. = 2),

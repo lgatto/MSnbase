@@ -119,7 +119,10 @@ export(MSnSet,
        MSnbaseOptions,
        isMSnbaseVerbose,
        setMSnbaseVerbose,
-       setMSnbaseParallelThresh)
+       setMSnbaseParallelThresh,
+       ## ProcessingStep
+       executeProcessingStep
+       )
 
 exportClasses(pSet,
               MIAPE,

@@ -223,6 +223,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     suppressPackageStartupMessages(
         require(MSnbase, quietly = TRUE)
     )
+    verbose. <- isMSnbaseVerbose()
     if (missing(fData) | missing(filenames))
         stop("Both 'fData' and 'filenames' are required!")
     filename <- filenames[fData[1, "fileIdx"]]
@@ -313,16 +314,18 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     ## If we have a non-empty queue, we might want to execute that too.
     if (!is.null(APPLYFUN) | length(queue) > 0){
         if (length(queue) > 0) {
-            message("Apply lazy processing step(s):")
-            for (j in 1:length(queue))
-                message(" o '", queue[[j]]@FUN, "' with ",
-                        length(queue[[j]]@ARGS), " argument(s).")
+            if (verbose.) {
+                message("Apply lazy processing step(s):")
+                for (j in 1:length(queue))
+                    message(" o '", queue[[j]]@FUN, "' with ",
+                            length(queue[[j]]@ARGS), " argument(s).")
+            }
         }
         res <- lapply(res, FUN = function(z, theQ, APPLF, ...){
             ## Apply the processing steps.
             if (length(theQ) > 0) {
                 for (pStep in theQ) {
-                    z <- MSnbase:::execute(pStep, z)
+                    z <- executeProcessingStep(pStep, z)
                 }
             }
             if (is.null(APPLF)) {

@@ -33,10 +33,10 @@ setMethod("show", "ProcessingStep", function(object) {
 ## Eventually make a method execute, ProcessingStep, Spectrum
 
 ############################################################
-## execute
+## executeProcessingStep
 ##
 ## Execute the processing step.
-execute <- function(object, ...) {
+executeProcessingStep <- function(object, ...) {
     if (!is(object, "ProcessingStep"))
         stop("'object' is supposed to be a 'ProcessingStep' object!")
     ## Eventually switch based on the MSlevel?

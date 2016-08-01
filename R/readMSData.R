@@ -17,15 +17,15 @@ readMSData <- function(files,
                        pdata = NULL,
                        msLevel. = 2,
                        verbose = isMSnbaseVerbose(),
-                       centroided. = FALSE,
-                       smoothed. = FALSE,
+                       centroided. = NA,
+                       smoothed. = NA,
                        removePeaks = 0,
-                       clean = FALSE,
-                       cache = 1) {
+                       clean. = FALSE,
+                       cache. = 1) {
     .testReadMSDataInput(environment())
     ## TODO: add also a trimMz argument.
     if (msLevel. == 1) ## cache currently only works for MS2 level data
-        cache <- 0
+        cache. <- 0
     msLevel. <- as.integer(msLevel.)
     ## Creating environment with Spectra objects
     assaydata <- new.env(parent = emptyenv())
@@ -81,7 +81,7 @@ readMSData <- function(files,
                           centroided = centroided.)
                 if (removePeaks > 0)
                     sp <- removePeaks(sp, t = removePeaks, verbose = FALSE)
-                if (clean)
+                if (clean.)
                     sp <- clean(sp, verbose = FALSE)
                 .fname <- sprintf(paste0("X%0",
                                          ceiling(log10(length(spidx) + 1L)),
@@ -125,7 +125,7 @@ readMSData <- function(files,
                           centroided = centroided.)
                 if (removePeaks > 0)
                     sp <- removePeaks(sp, t = removePeaks, verbose = FALSE)
-                if (clean)
+                if (clean.)
                     sp <- clean(sp, verbose = FALSE)
                 .fname <- sprintf(paste0("X%0",
                                          ceiling(log10(length(spidx) + 1L)),
@@ -135,7 +135,7 @@ readMSData <- function(files,
                 fullhdordercounter <- fullhdordercounter + 1
             }
         }
-        if (cache >= 1)
+        if (cache. >= 1)
             fullhd2 <- rbind(fullhd2, fullhd[spidx, ])
         if (verbose)
             close(pb)
@@ -143,8 +143,8 @@ readMSData <- function(files,
     ## new in version 1.9.8
     lockEnvironment(assaydata, bindings = TRUE)
     ## cache level 2 yet implemented
-    cache <- testCacheArg(cache, maxCache = 2)
-    if (cache >= 1) {
+    cache. <- testCacheArg(cache., maxCache = 2)
+    if (cache. >= 1) {
         ## results sometimes in:
         ##  Error in function (x)  : attempt to apply non-function
         ## fl <- sapply(assaydata, fromFile)
@@ -174,11 +174,11 @@ readMSData <- function(files,
     }
     .cacheEnv <- setCacheEnv(list("assaydata" = assaydata,
                                   "hd" = newhd),
-                             cache, lock = TRUE)
+                             cache., lock = TRUE)
     ## CACHING AS BEEN SUPERSEDED BY THE OnDiskMSnExp IMPLEMENTATION
     ## if cache==2, do not lock assign msdata in .cacheEnv then lock
     ## it and do not close(msdata) above; rm(msdata) is OK
-    
+
     ## Create 'MSnProcess' object
     process <- new("MSnProcess",
                    processing = paste("Data loaded:", date()),
@@ -190,7 +190,7 @@ readMSData <- function(files,
                                       " set to '0': ", date(),
                                       sep = ""))
     } else {
-        if (clean)
+        if (clean.)
             process@processing <- c(process@processing,
                                     paste("Spectra cleaned: ", date(),
                                           sep = ""))
