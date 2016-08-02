@@ -110,10 +110,32 @@ grid.arrange(plot(inmem[[200]], reporters = TMT6, full = TRUE),
 # Accessing spectra
 
 The drawback of the on-disk representation is when the spectrum data
-has to actually be accessed. To compare access time, we are going to use the microba
+has to actually be accessed. To compare access time, we are going to
+use the `r CRANpkg("microbenchmark")` and repeat access 10 times to
+compare access to all `r length(inmem)` and a single spectrum
+in-memory (i.e. pre-loaded and constructred) and on-disk
+(i.e. on-the-fly access).
 
-```{r}
-
+```{r mb, cache=TRUE}
+library("microbenchmark")
+mb <- microbenchmark(spectra(inmem),
+                     inmem[[200]],
+                     spectra(ondisk),
+                     ondisk[[200]],
+                     times = 10)
 ```
+
+While it takes order or magnitues more time to access the data
+on-the-fly rather than a pre-generated spectrum, accessing all spectra
+is only marginally slower than accessing all spectra. This is because
+most of the time is spent preparing the file for access, which is done
+only once. 
+
+Also, it is important to note that 
+- Data access does not prohibit interactive usage (about 1/2 second)
+- Accessing the data is actually not frequent
+- Caching mechanism
+- Some operations have been optimised, as for example quantitation, as
+  shown in next section.
 
 # MS2 quantitation
