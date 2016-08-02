@@ -20,7 +20,7 @@ calculateFragments_Spectrum2 <- function(sequence, object, tolerance=0.1,
   if (isValidSpectrum && isValidSequence) {
 
     fragments <- calculateFragments(sequence, ...)
-    fragments <- fragments[order(fragments$mz), ]
+    fragments <- fragments[base::order(fragments$mz), ]
 
     m <- matchPeaks(object, fragments$mz, tolerance=tolerance,
                     relative=relative, method=match.arg(method))
