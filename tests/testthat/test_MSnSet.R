@@ -221,7 +221,7 @@ test_that("addIdentificationData", {
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "dummyiTRAQ.mzid")
 
-  aa <- readMSData(quantFile, verbose = FALSE)
+  aa <- readMSData(quantFile, verbose = FALSE, centroided. = FALSE)
   msnset <- quantify(aa, method = "trap", reporters = iTRAQ4,
                      BPPARAM = SerialParam(),
                      verbose = FALSE)
@@ -241,7 +241,7 @@ test_that("addIdentificationData", {
   expect_equal(fd$npsm.prot, c(1, 1, NA, NA, 1))
   expect_equal(fd$npsm.pep, c(1, 1, NA, NA, 1))
   expect_equal(fd$npep.prot, c(1, 1, NA, NA, 1))
-  expect_equal(fd$nprot, c(2, 1, NA, NA, 1))
+  expect_equal(fd$nprot, c(2, 1, NA, NA, 1))  
 })
 
 test_that("idSummary", {
@@ -249,12 +249,10 @@ test_that("idSummary", {
                    full.name = TRUE, pattern = "mzXML$")
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-  aa <- readMSData(quantFile, verbose = FALSE)
+  aa <- readMSData(quantFile, centroided. = FALSE)
   msnset <- quantify(aa, method = "trap", reporters = iTRAQ4,
-                     BPPARAM = SerialParam(), 
-                     verbose = FALSE)
-  bb <- addIdentificationData(msnset, identFile,
-                              verbose = FALSE)
+                     BPPARAM = SerialParam())
+  bb <- addIdentificationData(msnset, identFile)
   expect_error(idSummary(aa), "No quantification/identification data found")
   expect_equal(idSummary(bb),
                data.frame(spectrumFile = "dummyiTRAQ.mzXML",

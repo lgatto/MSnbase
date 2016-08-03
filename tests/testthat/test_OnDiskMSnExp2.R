@@ -22,7 +22,7 @@ test_that("OnDiskMSnExp constructor", {
     expect_identical(fileNames(x), fileNames(x2))
 })
 
-test_that("compare MS2 on disk and in memoery", {
+test_that("compare MS2 on disk and in memory", {
     x1 <- readMSData(f, verbose = FALSE, centroided. = FALSE)
     x2 <- readMSData2(f, msLevel. = 2, centroided. = FALSE)
     expect_identical(length(x1), length(x2))
