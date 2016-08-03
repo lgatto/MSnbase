@@ -143,7 +143,7 @@ curveStats_Spectrum <- function(spectrum,reporters) {
   return(as.data.frame(curveStats))
 }
 
-curveData <- function(spectrum,reporter) {
+curveData <- function(spectrum, reporter) {
   ## Returns a data frame with mz and intensity
   ## values (as columns) for all the points (rows)
   ## in the reporter spectrum. The base of the
@@ -159,21 +159,21 @@ curveData <- function(spectrum,reporter) {
   ## 3  114.1102   3
   ## 4  114.1142   4
   ## ...
-  if (length(reporter)!=1) {
+  if (length(reporter) != 1) {
     warning("[curveData] Only returning data for first reporter ion")
     reporter <- reporter[1]
   }
-  bp <- getCurveWidth(spectrum,reporter)
+  bp <- getCurveWidth(spectrum, reporter)
   if (any(is.na(bp))) {
-    return(data.frame(mz=reporter@mz,int=NA))
+    return(data.frame(mz = reporter@mz, int = NA))
   } else {
     int <- intensity(spectrum)[bp$lwr[1]:bp$upr[1]]
     mz <- mz(spectrum)[bp$lwr[1]:bp$upr[1]]
-    return(data.frame(cbind(mz,int)))
+    return(data.frame(cbind(mz, int)))
   }
 }
 
-getCurveWidth <- function(spectrum,reporters) {
+getCurveWidth <- function(spectrum, reporters) {
   ## This function returns curve base indices
   ## from a spectrum object for all the reporter ions
   ## in the reporter object
@@ -189,22 +189,22 @@ getCurveWidth <- function(spectrum,reporters) {
   ##   - list$lwr of length(reporters) lower indices
   ##   - list$upr of length(reporters) upper indices
   m <- reporters@mz
-  lwr <- m-reporters@width
-  upr <- m+reporters@width
+  lwr <- m - reporters@width
+  upr <- m + reporters@width
   mz <- spectrum@mz
   int <- spectrum@intensity
   ## if first/last int != 0, this function crashes in the while
   ## (ylwr!=0)/(yupr!=0) loops. Adding leading/ending data points to
   ## avoid this. Return values xlwr and xupr get updated accordingly
   ## [*].
-  mz <- c(0,mz,0)
-  int <- c(0,int,0)
+  mz <- c(0, mz, 0)
+  int <- c(0, int, 0)
   ## x... vectors of _indices_ of mz values
   ## y... intensity values
   xlwr <- xupr<- c()
   for (i in 1:length(m)) {
-    region <- (mz>lwr[i] & mz<upr[i])
-    if (sum(region,na.rm=TRUE)==0) {
+    region <- (mz > lwr[i] & mz < upr[i])
+    if (sum(region, na.rm = TRUE) == 0) {
         ## warning("[getCurveData] No data for for precursor ",
         ##         spectrum@precursorMz, " reporter ", m[i])
       xlwr[i] <- xupr[i] <- NA
@@ -213,18 +213,18 @@ getCurveWidth <- function(spectrum,reporters) {
       xmax <- which((int %in% ymax) & region)
       xlwr[i] <- min(xmax) ## if several max peaks
       xupr[i] <- max(xmax) ## if several max peaks
-      if (!centroided(spectrum)) {
+      if (!is.na(centroided(spectrum)) & !centroided(spectrum)) {
         ylwr <- yupr <- ymax
-        while (ylwr!=0) {
-          xlwr[i] <- xlwr[i]-1
+        while (ylwr != 0) {
+          xlwr[i] <- xlwr[i] - 1
           ylwr <- int[xlwr[i]]
         }
-        ## if (mz[xlwr[i]]<lwr[i])
+        ## if (mz[xlwr[i]] < lwr[i])
         ##   warning("Peak base for precursor ",spectrum@precursorMz,
-        ##           " reporter ",m[i],": ",mz[xlwr[i]]," < ",m[i],"-",
-        ##           reporters@width,sep="")
-        while (yupr!=0) {
-          xupr[i] <- xupr[i]+1
+        ##           " reporter ", m[i],": ", mz[xlwr[i]], " < ",
+        ##           m[i], "-", reporters@width, sep = "")
+        while (yupr != 0) {
+          xupr[i] <- xupr[i] + 1
           yupr <- int[xupr[i]]
         }
         ## if (mz[xupr[i]]>upr[i])
@@ -241,15 +241,15 @@ getCurveWidth <- function(spectrum,reporters) {
       ##              if we have reached the last index (the 0), decrement by 2
       ##
       ## Updating xlwr, unless we reached the artificial leading 0
-      if (xlwr[i]>1)
-        xlwr[i] <- xlwr[i]-1
+      if (xlwr[i] > 1)
+        xlwr[i] <- xlwr[i] - 1
       ## Always updating xupr [*]
-      if (xupr[i]==length(mz))
-        xupr[i] <- xupr[i]-2
-      xupr[i] <- xupr[i]-1
+      if (xupr[i] == length(mz))
+        xupr[i] <- xupr[i] - 2
+      xupr[i] <- xupr[i] - 1
     }
   }
-  return(list(lwr=xlwr,upr=xupr))
+  return(list(lwr = xlwr, upr = xupr))
 }
 
 trimMz_Spectrum <- function(x, mzlim, msLevel., updatePeaksCount = TRUE) {
