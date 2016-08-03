@@ -9,7 +9,7 @@
     if (length(extensions) > 1)
         warning(paste("Reading different file formats in.",
                       "This is untested and you are welcome to try it out.",
-                      "Please report back!", sep="\n"))
+                      "Please report back!", sep = "\n"))
     invisible(TRUE)
 }
 
@@ -69,14 +69,15 @@ readMSData <- function(files,
                 pks <- mzR::peaks(msdata, j)
                 sp <- new("Spectrum1",
                           rt = hd$retentionTime,
-                          acquisitionNum = hd$acquisitionNum,
-                          mz = pks[, 1],
-                          scanIndex = hd$seqNum,
+                          acquisitionNum = as.integer(hd$acquisitionNum),
+                          scanIndex = as.integer(hd$seqNum),
                           tic = hd$totIonCurrent,
+                          mz = pks[, 1],
                           intensity = pks[, 2],
-                          fromFile = filen,
-                          polarity = hd$polarity,
-                          centroided = centroided.)
+                          fromFile = as.integer(filen),
+                          centroided = as.logical(centroided.),
+                          smoothed = as.logical(smoothed.),
+                          polarity = as.integer(hd$polarity))
                 .fname <- sprintf(paste0("X%0",
                                          ceiling(log10(length(spidx) + 1L)),
                                          "d.%s"), i, filen)
@@ -102,21 +103,22 @@ readMSData <- function(files,
                 hd <- fullhd[j, ]
                 .p <- mzR::peaks(msdata, j)
                 sp <- new("Spectrum2",
-                          scanIndex = as.integer(hd$seqNum),
                           merged = as.numeric(hd$mergedScan),
-                          polarity = hd$polarity,
                           precScanNum = as.integer(scanNums[i]),
                           precursorMz = hd$precursorMZ,
                           precursorIntensity = hd$precursorIntensity,
-                          precursorCharge = hd$precursorCharge,
+                          precursorCharge = as.integer(hd$precursorCharge),
                           collisionEnergy = hd$collisionEnergy,
                           rt = hd$retentionTime,
-                          acquisitionNum = hd$acquisitionNum,
-                          mz = .p[, 1],
+                          acquisitionNum = as.integer(hd$acquisitionNum),
+                          scanIndex = as.integer(hd$seqNum),
                           tic = hd$totIonCurrent,
+                          mz = .p[, 1],
                           intensity = .p[, 2],
-                          fromFile = filen,
-                          centroided = centroided.)
+                          fromFile = as.integer(filen),
+                          centroided = as.logical(centroided.),
+                          smoothed = as.logical(smoothed.),
+                          polarity = as.integer(hd$polarity))
                 .fname <- sprintf(paste0("X%0",
                                          ceiling(log10(length(spidx) + 1L)),
                                          "d.%s"), i, filen)
