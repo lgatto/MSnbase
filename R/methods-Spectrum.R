@@ -3,27 +3,17 @@
 setMethod("initialize",
           "Spectrum",
           function(.Object, ..., mz, intensity) {
-              ## Calling callNextMethod first and then setting/changing
-              ## values seems to fix issue #138
+              if (xor(!missing(mz), !missing(intensity)))
+                  stop("'mz' and 'intensity' or none required.")
+              ## Calling callNextMethod first and then
+              ## setting/changing values seems to fix issue #138
               .Object <- callNextMethod(.Object, ...)
               if (!missing(mz) & !missing(intensity)) {
                   o <- base::order(mz, method = "radix")
                   .Object@mz <- mz[o]
                   .Object@intensity <- intensity[o]
                   .Object@peaksCount <- length(mz)
-                  ## mz <- mz[o]
-                  ## intensity <- intensity[o]
-                  ## .Object <- callNextMethod(.Object,
-                  ##                           ...,
-                  ##                           intensity = intensity,
-                  ##                           mz = mz,
-                  ##                           peaksCount = length(mz))
-              } else if (!missing(mz) | !missing(intensity)) {
-                  stop("'mz' and 'intensity' or none required.")
               }
-              ## else {
-              ##     .Object <- callNextMethod(.Object, ...)
-              ## }
               if (.Object@tic == 0)
                   .Object@tic <- sum(.Object@intensity)
               if (validObject(.Object))
