@@ -168,7 +168,7 @@ xicplot <- function(dd, mz, width, rtlim,
         dd2$int[dd2$int < max(dd2$int)/100] <- 0
         kx <- ky <- kz<- rep(NA, npeaks)
         for (.k in 1:length(kx)) {
-            i <- order(dd2$int, decreasing = TRUE)[1]
+            i <- base::order(dd2$int, decreasing = TRUE)[1]
             kx[.k] <- dd2$rt[i]
             ky[.k] <- dd2$int[i]
             kz[.k] <- dd2$mz[i]

@@ -66,6 +66,7 @@ Imports:
     Rcpp
 Suggests:
     testthat,
+    pryr,
     zoo,
     knitr (>= 1.1.0),
     rols,

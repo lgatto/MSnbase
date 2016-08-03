@@ -7,7 +7,7 @@ setMethod("initialize",
               ## values seems to fix issue #138
               .Object <- callNextMethod(.Object, ...)
               if (!missing(mz) & !missing(intensity)) {
-                  o <- order(mz, method = "radix")
+                  o <- base::order(mz, method = "radix")
                   .Object@mz <- mz[o]
                   .Object@intensity <- intensity[o]
                   .Object@peaksCount <- length(mz)
@@ -26,9 +26,6 @@ setMethod("initialize",
               ## }
               if (.Object@tic == 0)
                   .Object@tic <- sum(.Object@intensity)
-              ## o <- order(.Object@mz, method = "radix")
-              ## .Object@mz <- .Object@mz[o]
-              ## .Object@intensity <- .Object@intensity[o]
               if (validObject(.Object))
                   .Object
           })
