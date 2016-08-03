@@ -1,5 +1,5 @@
 #include <R.h>
-#include <Rdefines.h>
+#include <Rinternals.h>
 #include <string.h>
 
 /* SEXP Spectrum1_constructor( */

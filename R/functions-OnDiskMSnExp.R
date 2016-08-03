@@ -172,6 +172,7 @@ spectrapply <- function(object, FUN = NULL,
     theQ <- processingQueue(object)
     vals <- bplapply(fDataPerFile,
                      FUN = .applyFun2SpectraOfFileMulti,
+##                     FUN = .applyFun2SpectraOfFileSingle,
                      filenames = fNames,
                      queue = theQ,
                      APPLYFUN = FUN,
@@ -255,16 +256,16 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         ## Sorting of M/Z values as discussed in issue #135
         ## Benchmarks for this: issue #136
         res <- Spectra1_mz_sorted(peaksCount = nValues,
-                                  scanIndex = ms1fd$spIdx,
                                   rt = ms1fd$retentionTime,
                                   acquisitionNum = ms1fd$acquisitionNum,
+                                  scanIndex = ms1fd$spIdx,
+                                  tic = ms1fd$totIonCurrent,
                                   mz = allSpect[, 1],
                                   intensity = allSpect[, 2],
+                                  fromFile = ms1fd$fileIdx,
                                   centroided = ms1fd$centroided,
                                   smoothed = ms1fd$smoothed,
-                                  fromFile = ms1fd$fileIdx,
                                   polarity = ms1fd$polarity,
-                                  tic = ms1fd$totIonCurrent,
                                   nvalues = nValues)
         names(res) <- rownames(ms1fd)
     } else {
@@ -278,7 +279,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
                                match(msnfd$acquisitionNum, hd$acquisitionNum))
         ## If we have more than one spectrum the peaks function returns a list.
         if (is(allSpect, "list")) {
-            nValues <- base::lengths(allSpect, use.names = FALSE) / 2
+            nValues <- as.integer(base::lengths(allSpect, use.names = FALSE) / 2)
             allSpect <- do.call(rbind, allSpect)
         } else {
             ## otherwise it's a matrix, e.g. if only a single scan
@@ -288,24 +289,146 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         ## Call the C-constructor to create a list of Spectrum2
         ## objects.
         ## Sorting of M/Z values as discussed in issue #135
-        res2 <- Spectra2_mz_sorted(peaksCount = nValues,
-                                   scanIndex = msnfd$spIdx,
-                                   tic = msnfd$totIonCurrent,
+        res2 <- Spectra2_mz_sorted(msLevel = msnfd$msLevel,
+                                   peaksCount = nValues,
                                    rt = msnfd$retentionTime,
                                    acquisitionNum = msnfd$acquisitionNum,
+                                   scanIndex = msnfd$spIdx,
+                                   tic = msnfd$totIonCurrent,
                                    mz = allSpect[, 1],
                                    intensity = allSpect[, 2],
-                                   centroided = msnfd$centroided,
                                    fromFile = msnfd$fileIdx,
+                                   centroided = msnfd$centroided,
+                                   smoothed = msnfd$smoothed,
                                    polarity = msnfd$polarity,
-                                   nvalues = nValues,
-                                   msLevel = msnfd$msLevel,
                                    merged = msnfd$mergedScan,
                                    precScanNum = msnfd$precursorScanNum,
                                    precursorMz = msnfd$precursorMZ,
                                    precursorIntensity = msnfd$precursorIntensity,
                                    precursorCharge = msnfd$precursorCharge,
-                                   collisionEnergy = msnfd$collisionEnergy)
+                                   collisionEnergy = msnfd$collisionEnergy,
+                                   nvalues = nValues)
+        names(res2) <- rownames(msnfd)
+        res <- c(res, res2)
+    }
+    ## Ensure that ordering is the same than in fData:
+    res <- res[match(rownames(fData), names(res))]
+    ## If we have a non-empty queue, we might want to execute that too.
+    if (!is.null(APPLYFUN) | length(queue) > 0){
+        if (length(queue) > 0) {
+            if (verbose.) {
+                message("Apply lazy processing step(s):")
+                for (j in 1:length(queue))
+                    message(" o '", queue[[j]]@FUN, "' with ",
+                            length(queue[[j]]@ARGS), " argument(s).")
+            }
+        }
+        res <- lapply(res, FUN = function(z, theQ, APPLF, ...){
+            ## Apply the processing steps.
+            if (length(theQ) > 0) {
+                for (pStep in theQ) {
+                    z <- executeProcessingStep(pStep, z)
+                }
+            }
+            if (is.null(APPLF)) {
+                return(z)
+            } else {
+                return(do.call(APPLF, args = c(list(z), ...)))
+            }
+        }, theQ = queue, APPLF = APPLYFUN, ...)
+    }
+    return(res)
+}
+
+
+## Same as above, but using a for loop and the C-constructor for individual
+## Spectrum objects.
+.applyFun2SpectraOfFileSingle <- function(fData, filenames,
+                                         queue = NULL,
+                                         APPLYFUN = NULL,
+                                         ...) {
+    suppressPackageStartupMessages(
+        require(MSnbase, quietly = TRUE)
+    )
+    verbose. <- isMSnbaseVerbose()
+    if (missing(fData) | missing(filenames))
+        stop("Both 'fData' and 'filenames' are required!")
+    filename <- filenames[fData[1, "fileIdx"]]
+    ## Open the file.
+    fileh <- mzR::openMSfile(filename)
+    hd <- header(fileh)
+    on.exit(expr = mzR::close(fileh))
+    msLevel1 <- which(fData$msLevel == 1)
+    msLevelN <- which(fData$msLevel > 1)
+    ## Process MS1 and MSn separately
+    if (length(msLevel1) >= 1) {
+        ms1fd <- fData[msLevel1, , drop = FALSE]
+        ## Reading all of the data in "one go". According to issue
+        ## #103 we should use acquisitionNum, not spectrum idx.
+        ## See issue #118 for an explanation of the match
+        allSpect <- mzR::peaks(fileh,
+                               match(ms1fd$acquisitionNum, hd$acquisitionNum))
+        ## If we have more than one spectrum the peaks function returns a list.
+        if (!is(allSpect, "list"))
+            allSpect <- list(allSpect)
+        ## Do it with a for loop.
+        res <- vector("list", nrow(ms1fd))
+        for (i in 1:nrow(ms1fd)) {
+            currentMat <- allSpect[[i]]
+            o <- order(currentMat[, 1], method = "radix")
+            currentMat <- currentMat[o, ]
+            res[[i]] <- Spectrum1(peaksCount = nrow(currentMat),
+                                  scanIndex = ms1fd[i, "spIdx"],
+                                  rt = ms1fd[i, "retentionTime"],
+                                  acquisitionNum = ms1fd[i, "acquisitionNum"],
+                                  mz = currentMat[, 1],
+                                  intensity = currentMat[, 2],
+                                  centroided = ms1fd[i, "centroided"],
+                                  smoothed = ms1fd[i, "smoothed"],
+                                  fromFile = ms1fd[i, "fileIdx"],
+                                  polarity = ms1fd[i, "polarity"],
+                                  tic = ms1fd[i, "totIonCurrent"]
+                                  )
+        }
+        names(res) <- rownames(ms1fd)
+    } else {
+        res <- list()
+    }
+    if (length(msLevelN) >= 1) {
+        msnfd <- fData[msLevelN, , drop = FALSE]
+        ## Reading all of the data in "one go".
+        ## See issue #118 for an explanation of the match
+        allSpect <- mzR::peaks(fileh,
+                               match(msnfd$acquisitionNum, hd$acquisitionNum))
+        ## If we have more than one spectrum the peaks function returns a list.
+        if (!is(allSpect, "list"))
+            allSpect <- list(allSpect)
+        ## Do it with a for loop.
+        res2 <- vector("list", nrow(msnfd))
+        for (i in 1:nrow(msnfd)) {
+            currentMat <- allSpect[[i]]
+            o <- order(currentMat[, 1], method = "radix")
+            currentMat <- currentMat[o, ]
+            res2[[i]] <- Spectrum2(peaksCount = nrow(currentMat),
+                                   scanIndex = msnfd[i, "spIdx"],
+                                   rt = msnfd[i, "retentionTime"],
+                                   acquisitionNum = msnfd[i, "acquisitionNum"],
+                                   mz = currentMat[, 1],
+                                   intensity = currentMat[, 2],
+                                   centroided = msnfd[i, "centroided"],
+                                   smoothed = msnfd[i, "smoothed"],
+                                   fromFile = msnfd[i, "fileIdx"],
+                                   polarity = msnfd[i, "polarity"],
+                                   tic = msnfd[i, "totIonCurrent"],
+                                   msLevel = msnfd[i, "msLevel"],
+                                   merged = msnfd[i, "mergedScan"],
+                                   precScanNum = msnfd[i, "precursorScanNum"],
+                                   precursorMz = msnfd[i, "precursorMZ"],
+                                   precursorIntensity = msnfd[i, "precursorIntensity"],
+                                   precursorCharge = msnfd[i, "precursorCharge"],
+                                   collisionEnergy = msnfd[i, "collisionEnergy"]
+                                   )
+        }
         names(res2) <- rownames(msnfd)
         res <- c(res, res2)
     }

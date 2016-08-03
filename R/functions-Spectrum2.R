@@ -76,9 +76,10 @@ removeReporters_Spectrum2 <- function(object, reporters=NULL, clean=FALSE) {
     return(object)
 }
 
+
 ############################################################
 ## C-level constructor for multiple Spectrum2 instances (i.e. returns a list of instances)
-## This enforces ordering of M/Z-intensity value pairs by M/Z.
+## This enforces ordering of M/Z-intensity value pairs by M/Z (in C).
 Spectra2_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
                                acquisitionNum = NA_integer_,
                                scanIndex = integer(), tic = 0, mz = numeric(),
@@ -89,11 +90,14 @@ Spectra2_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
                                precursorMz = NA, precursorIntensity = NA,
                                precursorCharge = NA_integer_,
                                collisionEnergy = NA, nvalues = integer()) {
+    ## Argument check; make sure all is OK before calling C.
     if (length(mz) == 0 | length(intensity) == 0 | length(nvalues) == 0) {
         stop("Arguments 'mz', 'intensity' and 'nvalues' are required!")
     } else {
-        if(length(mz) != length(intensity))
+        if (length(mz) != length(intensity))
             stop("Lengths of 'mz' and 'intensity' do not match!")
+        if (!is.numeric(mz)) mz <- as.numeric(mz)
+        if (!is.numeric(intensity)) intensity <- as.numeric(intensity)
     }
     nvals <- length(nvalues)
     ## Now match all of the lengths to the length of nvalues.
@@ -213,8 +217,8 @@ Spectra2_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
                  as.integer(scanIndex),
                  as.numeric(tic), mz, intensity,
                  as.integer(fromFile),
-                 centroided,
-                 smoothed,
+                 as.logical(centroided),
+                 as.logical(smoothed),
                  as.integer(polarity),
                  as.numeric(merged),
                  as.integer(precScanNum),
@@ -227,8 +231,167 @@ Spectra2_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
     return(res)
 }
 
+
 ############################################################
 ## C-level constructor for multiple Spectrum2 instances (i.e. returns a list of instances)
+## This enforces ordering of M/Z-intensity value pairs by M/Z (in C).
+## This version is memory save, i.e. uses lots of PROTECT calls in C; it was mainly
+## in use for testing purposes (issue #138).
+Spectra2_mz_sorted_memsafe <- function(peaksCount = NULL, rt = numeric(),
+                               acquisitionNum = NA_integer_,
+                               scanIndex = integer(), tic = 0, mz = numeric(),
+                               intensity = numeric(), fromFile = integer(),
+                               centroided = NA, smoothed = NA,
+                               polarity = NA_integer_, msLevel = as.integer(2),
+                               merged = 1, precScanNum = NA_integer_,
+                               precursorMz = NA, precursorIntensity = NA,
+                               precursorCharge = NA_integer_,
+                               collisionEnergy = NA, nvalues = integer()) {
+    ## Argument check; make sure all is OK before calling C.
+    if (length(mz) == 0 | length(intensity) == 0 | length(nvalues) == 0) {
+        stop("Arguments 'mz', 'intensity' and 'nvalues' are required!")
+    } else {
+        if (length(mz) != length(intensity))
+            stop("Lengths of 'mz' and 'intensity' do not match!")
+        if (!is.numeric(mz)) mz <- as.numeric(mz)
+        if (!is.numeric(intensity)) intensity <- as.numeric(intensity)
+    }
+    nvals <- length(nvalues)
+    ## Now match all of the lengths to the length of nvalues.
+    if (length(peaksCount) == 0)
+        peaksCount <- nvalues
+    ## rt
+    if (length(rt) == 0) {
+        rt <- rep(NA_integer_, nvals)
+    } else {
+        if (length(rt) != nvals)
+            stop("Length of 'rt' has to match the length of 'nvalues'!")
+    }
+    ## acquisitionNum
+    if (length(acquisitionNum) == 1) {
+        acquisitionNum <- rep(acquisitionNum, nvals)
+    } else {
+        if (length(acquisitionNum) != nvals)
+            stop("Length of 'acquisitionNum' has to match the length of 'nvalues'!")
+    }
+    ## scanIndex
+    if (length(scanIndex) == 0) {
+        scanIndex <- rep(NA_integer_, nvals)
+    } else {
+        if (length(scanIndex) != nvals)
+            stop("Length of 'scanIndex' has to match the length of 'nvalues'!")
+    }
+    ## tic
+    if (length(tic) == 1) {
+        tic <- rep(tic, nvals)
+    } else {
+        if (length(tic) != nvals)
+            stop("Length of 'tic' has to match the length of 'nvalues'!")
+    }
+    ## fromFile
+    if (length(fromFile) == 0) {
+        fromFile <- rep(NA_integer_, nvals)
+    } else {
+        if (length(fromFile) != nvals)
+            stop("Length of 'fromFile' has to match the length of 'nvalues'!")
+    }
+    ## polarity
+    if (length(polarity) == 1) {
+        polarity <- rep(polarity, nvals)
+    } else {
+        if (length(polarity) != nvals)
+            stop("Length of 'polarity' has to match the length of 'nvalues'!")
+    }
+    ## centroided
+    if (length(centroided) == 1) {
+        centroided <- rep(centroided, nvals)
+    } else {
+        if (length(centroided) != nvals)
+            stop("Length of 'centroided' has to match the length of 'nvalues'!")
+    }
+    ## smoothed
+    if (length(smoothed) == 1) {
+        smoothed <- rep(smoothed, nvals)
+    } else {
+        if (length(smoothed) != nvals)
+            stop("Length of 'smoothed' has to match the length of 'nvalues'!")
+    }
+    ## msLevel
+    if (length(msLevel) == 1) {
+        msLevel <- rep(msLevel, nvals)
+    } else {
+        if (length(msLevel) != nvals)
+            stop("Length of 'msLevel' has to match the length of 'nvalues'!")
+    }
+    ## merged
+    if (length(merged) == 1) {
+        merged <- rep(merged, nvals)
+    } else {
+        if (length(merged) != nvals)
+            stop("Length of 'merged' has to match the length of 'nvalues'!")
+    }
+    ## precScanNum
+    if (length(precScanNum) == 1) {
+        precScanNum <- rep(precScanNum, nvals)
+    } else {
+        if (length(precScanNum) != nvals)
+            stop("Length of 'precScanNum' has to match the length of 'nvalues'!")
+    }
+    ## precursorMz
+    if (length(precursorMz) == 1) {
+        precursorMz <- rep(precursorMz, nvals)
+    } else {
+        if (length(precursorMz) != nvals)
+            stop("Length of 'precursorMz' has to match the length of 'nvalues'!")
+    }
+    ## precursorIntensity
+    if (length(precursorIntensity) == 1) {
+        precursorIntensity <- rep(precursorIntensity, nvals)
+    } else {
+        if (length(precursorIntensity) != nvals)
+            stop("Length of 'precursorIntensity' has to match the length of 'nvalues'!")
+    }
+    ## precursorCharge
+    if (length(precursorCharge) == 1) {
+        precursorCharge <- rep(precursorCharge, nvals)
+    } else {
+        if (length(precursorCharge) != nvals)
+            stop("Length of 'precursorCharge' has to match the length of 'nvalues'!")
+    }
+    ## collisionEnergy
+    if (length(collisionEnergy) == 1) {
+        collisionEnergy <- rep(collisionEnergy, nvals)
+    } else {
+        if (length(collisionEnergy) != nvals)
+            stop("Length of 'collisionEnergy' has to match the length of 'nvalues'!")
+    }
+    ## OK, now let's call C.
+    res <- .Call("Multi_Spectrum2_constructor_mz_sorted_memsafe",
+                 as.integer(msLevel),
+                 as.integer(peaksCount),
+                 as.numeric(rt),
+                 as.integer(acquisitionNum),
+                 as.integer(scanIndex),
+                 as.numeric(tic), mz, intensity,
+                 as.integer(fromFile),
+                 as.logical(centroided),
+                 as.logical(smoothed),
+                 as.integer(polarity),
+                 as.numeric(merged),
+                 as.integer(precScanNum),
+                 as.numeric(precursorMz),
+                 as.numeric(precursorIntensity),
+                 as.integer(precursorCharge),
+                 as.numeric(collisionEnergy),
+                 as.integer(nvalues), TRUE,
+                 PACKAGE = "MSnbase")
+    return(res)
+}
+
+
+############################################################
+## C-level constructor for multiple Spectrum2 instances (i.e. returns a list of instances)
+## NOTE: Use the Spectra2_mz_sorted instead of this one!
 Spectra2 <- function(peaksCount = NULL, rt = numeric(),
                      acquisitionNum = NA_integer_,
                      scanIndex = integer(), tic = 0, mz = numeric(),
@@ -373,6 +536,29 @@ Spectra2 <- function(peaksCount = NULL, rt = numeric(),
                  as.integer(precursorCharge),
                  as.numeric(collisionEnergy),
                  as.integer(nvalues), TRUE,
+                 PACKAGE = "MSnbase")
+    return(res)
+}
+
+############################################################
+## Constructor function for Spectrum2 objects. This one uses C-code and
+## is faster than a call to "new"
+Spectrum2 <- function(msLevel = 2L, peaksCount = length(mz), rt = numeric(),
+                      acquisitionNum = NA_integer_, scanIndex = integer(),
+                      tic = 0L, mz = numeric(), intensity = numeric(),
+                      fromFile = integer(), centroided = NA,
+                      smoothed = NA, polarity = NA_integer_,
+                      merged = 1, precScanNum = NA_integer_,
+                      precursorMz = NA, precursorIntensity = NA,
+                      precursorCharge = NA_integer_, collisionEnergy = NA) {
+    if (tic == 0)
+        tic <- sum(intensity)
+    res <- .Call("Spectrum2_constructor",
+                 msLevel, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
+                 intensity, fromFile, centroided, smoothed, polarity,
+                 merged, precScanNum, precursorMz, precursorIntensity,
+                 precursorCharge, collisionEnergy,
+                 TRUE,
                  PACKAGE = "MSnbase")
     return(res)
 }

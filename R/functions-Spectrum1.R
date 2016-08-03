@@ -130,6 +130,8 @@ Spectra1_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
     } else {
         if (length(mz) != length(intensity))
             stop("Lengths of 'mz' and 'intensity' do not match!")
+        if (!is.numeric(mz)) mz <- as.numeric(mz)
+        if (!is.numeric(intensity)) intensity <- as.numeric(intensity)
     }
     nvals <- length(nvalues)
     ## Now match all of the lengths to the length of nvalues.
@@ -199,8 +201,8 @@ Spectra1_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
                  as.integer(scanIndex),
                  as.numeric(tic), mz, intensity,
                  as.integer(fromFile),
-                 centroided,
-                 smoothed,
+                 as.logical(centroided),
+                 as.logical(smoothed),
                  as.integer(polarity),
                  as.integer(nvalues), TRUE,
                  PACKAGE = "MSnbase")

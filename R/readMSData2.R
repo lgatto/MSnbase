@@ -46,10 +46,10 @@ readMSData2 <- function(files,
         ## o fileIdx -> links to fileNames property
         ## o spIdx -> the index of the spectrum in the file.
         ## o centroided and smoothed are parameter argument.
-        fdData <- cbind(fileIdx = filen,
+        fdData <- cbind(fileIdx = rep(filen, nrow(fdData)),
                         spIdx = spidx,
-                        centroided = NA,
-                        smoothed = smoothed.,
+                        centroided = rep(as.logical(NA), nrow(fdData)),
+                        smoothed = rep(as.logical(smoothed.), nrow(fdData)),
                         fdData, stringsAsFactors = FALSE)
         featureDataList <- c(featureDataList, list(fdData))
     }
