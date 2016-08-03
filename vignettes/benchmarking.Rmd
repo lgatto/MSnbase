@@ -1,9 +1,8 @@
 ---
-title: "MSnbase benchmarking"
+title: "MSnbase2 benchmarking"
 output:
   BiocStyle::html_document2:
      toc: false
-     toc_depth: 1
 vignette: >
   % \VignetteIndexEntry{MSnbase benchmarking}
   % \VignetteEngine{knitr::rmarkdown}
@@ -98,11 +97,11 @@ are not created and stored in memory; they are access on disk when
 needed, such as for example for plotting:
 
 ```{r plot0, eval=FALSE}
-plot(inmem[[200]], reporters = TMT6, full = TRUE)
-plot(ondisk[[200]], reporters = TMT6, full = TRUE)
+plot(inmem[[200]], full = TRUE)
+plot(ondisk[[200]], full = TRUE)
 ```
 
-```{r plot1, echo=FALSE}
+```{r plot1, echo=FALSE, fig.wide=TRUE, fig.cap = "Plotting in-memory and on-disk spectra"}
 suppressPackageStartupMessages(library("gridExtra"))
 grid.arrange(plot(inmem[[200]], reporters = TMT6, full = TRUE),
              plot(ondisk[[200]], reporters = TMT6, full = TRUE),
@@ -168,8 +167,8 @@ This document focuses on speed and size improvements of the new
 on-disk `MSnExp` representation. The extend of these improvements will
 substantially increase for larger data. 
 
-For general functionality about the on-disk `MSnExp` data class and `r
-Biocpkg("MSnbase")` in general, see other vignettes available with 
+For general functionality about the on-disk `MSnExp` data class and 
+`r Biocpkg("MSnbase")` in general, see other vignettes available with 
 
 ```{r vigs, eval=TRUE}
 vignette(package = "MSnbase")
