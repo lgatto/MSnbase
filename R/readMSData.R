@@ -19,8 +19,6 @@ readMSData <- function(files,
                        verbose = isMSnbaseVerbose(),
                        centroided. = NA,
                        smoothed. = NA,
-                       removePeaks = 0,
-                       clean. = FALSE,
                        cache. = 1) {
     .testReadMSDataInput(environment())
     ## TODO: add also a trimMz argument.
@@ -79,10 +77,6 @@ readMSData <- function(files,
                           fromFile = filen,
                           polarity = hd$polarity,
                           centroided = centroided.)
-                if (removePeaks > 0)
-                    sp <- removePeaks(sp, t = removePeaks, verbose = FALSE)
-                if (clean.)
-                    sp <- clean(sp, verbose = FALSE)
                 .fname <- sprintf(paste0("X%0",
                                          ceiling(log10(length(spidx) + 1L)),
                                          "d.%s"), i, filen)
@@ -123,10 +117,6 @@ readMSData <- function(files,
                           intensity = .p[, 2],
                           fromFile = filen,
                           centroided = centroided.)
-                if (removePeaks > 0)
-                    sp <- removePeaks(sp, t = removePeaks, verbose = FALSE)
-                if (clean.)
-                    sp <- clean(sp, verbose = FALSE)
                 .fname <- sprintf(paste0("X%0",
                                          ceiling(log10(length(spidx) + 1L)),
                                          "d.%s"), i, filen)
@@ -184,17 +174,6 @@ readMSData <- function(files,
                    processing = paste("Data loaded:", date()),
                    files = files,
                    smoothed = smoothed.)
-    if (removePeaks > 0) {
-        process@processing <- c(process@processing,
-                                paste("Curves <= ", removePeaks,
-                                      " set to '0': ", date(),
-                                      sep = ""))
-    } else {
-        if (clean.)
-            process@processing <- c(process@processing,
-                                    paste("Spectra cleaned: ", date(),
-                                          sep = ""))
-    }
     ## Create 'fdata' and 'pdata' objects
     nms <- ls(assaydata)
     if (is.null(pdata)) {
