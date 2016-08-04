@@ -4,18 +4,12 @@ ints <- 1:1000
 mzs <- 1:1000
 
 test_that("Spectrum1 constructor", {
-    system.time(
-        Res1 <- new("Spectrum1", intensity = ints, mz = mzs, polarity = 1L,
-                    rt = 12.4, fromFile = 3L, tic = 1234.3, centroided = TRUE)
-    ) ## 0.009 sec
-    ## The C constructor.
-    system.time(
-        Res2 <- MSnbase:::Spectrum1(intensity = ints, mz = mzs, polarity = 1L,
-                                    rt = 12.4, fromFile = 3L, tic = 1234.3,
-                                    centroided = TRUE)
-    ) ## 0?
+    Res1 <- new("Spectrum1", intensity = ints, mz = mzs, polarity = 1L,
+                rt = 12.4, fromFile = 3L, tic = 1234.3, centroided = TRUE)
+    Res2 <- MSnbase:::Spectrum1(intensity = ints, mz = mzs, polarity = 1L,
+                                rt = 12.4, fromFile = 3L, tic = 1234.3,
+                                centroided = TRUE)
     expect_identical(Res1, Res2)
-
     ## Test exception, i.e. mz specified but not intensity or vice versa.
     expect_error(Test <- MSnbase:::Spectrum1(intensity = ints, polarity = 1L,
                                              rt = 12.4, fromFile = 3L,
@@ -35,23 +29,17 @@ test_that("M/Z sorted Spectrum1 constructor", {
     sorted <- sort(mzVals)
     idx <- order(mzVals)
     ## R constructor:
-    system.time(
-        sp1 <- new("Spectrum1", intensity = intVals, mz = mzVals,
-                   polarity = 1L, fromFile = 1L, rt = 13.3, tic = 1234.3)
-    ) ## 0.004
+    sp1 <- new("Spectrum1", intensity = intVals, mz = mzVals,
+               polarity = 1L, fromFile = 1L, rt = 13.3, tic = 1234.3)
     ## unsorted C-constructor:
-    system.time(
-        sp2 <- MSnbase:::Spectrum1(intensity = intVals, mz = mzVals,
+    sp2 <- MSnbase:::Spectrum1(intensity = intVals, mz = mzVals,
                                    polarity = 1L, fromFile = 1L, rt = 13.3,
                                    tic = 1234.3)
-    )
     expect_identical(mz(sp1), sort(mz(sp2)))
     ## C-constructor with sorting:
-    system.time(
-        sp3 <- MSnbase:::Spectrum1_mz_sorted(intensity = intVals, mz = mzVals,
-                                             polarity = 1L, fromFile = 1L,
-                                             rt = 13.3, tic = 1234.3)
-    ) ## 0.000
+    sp3 <- MSnbase:::Spectrum1_mz_sorted(intensity = intVals, mz = mzVals,
+                                         polarity = 1L, fromFile = 1L,
+                                         rt = 13.3, tic = 1234.3)
     expect_identical(mz(sp3), sort(mzVals))
     expect_identical(intensity(sp3), intVals[idx])
     expect_identical(sp3, sp1)
