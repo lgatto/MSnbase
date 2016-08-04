@@ -7,8 +7,6 @@ readMSData2 <- function(files,
     .testReadMSDataInput(environment())
     ## Creating environment with Spectra objects
     assaydata <- new.env(parent = emptyenv())
-    ioncount <- c()
-    ioncounter <- 1
     filenams <- filenums <- c()
     fullhd2 <- fullhdorder <- c()
     fullhdordercounter <- 1
@@ -26,8 +24,6 @@ readMSData2 <- function(files,
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
         spidx <- seq_len(nrow(fullhd))
-        ## increase vectors as needed
-        ioncount <- c(ioncount, numeric(length(spidx)))
         if (verbose)
             message("Reading ", length(spidx), " spectra from file ",
                     basename(f))
