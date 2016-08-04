@@ -1,18 +1,3 @@
-.testReadMSDataInput <- function(e) {
-    if (is.numeric(e$msLevel) && !all(e$msLevel > 0))
-        stop("msLevel must be an integer > 0.")
-    if (length(e$files) < 1)
-        stop("At least one MS file is required.")
-    if (all(unique(e$files) != e$files))
-        stop("Non unique files provided as input. ")
-    extensions <- unique(toupper(sub("^.+\\.", "", e$files)))
-    if (length(extensions) > 1)
-        warning(paste("Reading different file formats in.",
-                      "This is untested and you are welcome to try it out.",
-                      "Please report back!", sep = "\n"))
-    invisible(TRUE)
-}
-
 readMSData <- function(files,
                        pdata = NULL,
                        msLevel. = 2,
@@ -21,20 +6,18 @@ readMSData <- function(files,
                        smoothed. = NA,
                        cache. = 1) {
     .testReadMSDataInput(environment())
-    ## TODO: add also a trimMz argument.
-    if (msLevel. == 1) ## cache currently only works for MS2 level data
-        cache. <- 0
+    if (msLevel. == 1) cache. <- 0
     msLevel. <- as.integer(msLevel.)
     ## Creating environment with Spectra objects
     assaydata <- new.env(parent = emptyenv())
     ioncount <- c()
+    ioncounter <- 1
     filenams <- filenums <- c()
     fullhd2 <- fullhdorder <- c()
     fullhdordercounter <- 1
     .instrumentInfo <- list()
     ## ## Idea:
     ## ## o initialize a featureData-data.frame,
-    ## featureDataList <- list()
     ## ## o for each file, extract header info and put that into
     ##      featureData;
     for (f in files) {
@@ -42,16 +25,14 @@ readMSData <- function(files,
         filenums <- c(filenums, filen)
         filenams <- c(filenams, f)
         msdata <- mzR::openMSfile(f)
-        on.exit(mzR::close(msdata))
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
-        ifelse(msLevel. == 1, ## later, > 1 level
+        ifelse(msLevel. == 1,
                spidx <- which(fullhd$msLevel == 1),
                spidx <- which(fullhd$msLevel > 1))
         ## increase vectors as needed
         ioncount <- c(ioncount, numeric(length(spidx)))
         fullhdorder <- c(fullhdorder, numeric(length(spidx)))
-        ## MS1 level
         if (msLevel. == 1) {
             if (length(spidx) == 0)
                 stop("No MS1 spectra in file",f)
@@ -66,18 +47,21 @@ readMSData <- function(files,
                 if (verbose) setTxtProgressBar(pb, i)
                 j <- spidx[i]
                 hd <- fullhd[j, ]
-                pks <- mzR::peaks(msdata, j)
+                .p <- mzR::peaks(msdata, j)
                 sp <- new("Spectrum1",
                           rt = hd$retentionTime,
                           acquisitionNum = as.integer(hd$acquisitionNum),
                           scanIndex = as.integer(hd$seqNum),
                           tic = hd$totIonCurrent,
-                          mz = pks[, 1],
-                          intensity = pks[, 2],
+                          mz = .p[, 1],
+                          intensity = .p[, 2],
                           fromFile = as.integer(filen),
                           centroided = as.logical(centroided.),
                           smoothed = as.logical(smoothed.),
                           polarity = as.integer(hd$polarity))
+                ## peaksCount
+                ioncount[ioncounter] <- sum(.p[, 2])
+                ioncounter <- ioncounter + 1
                 .fname <- sprintf(paste0("X%0",
                                          ceiling(log10(length(spidx) + 1L)),
                                          "d.%s"), i, filen)
@@ -85,9 +69,9 @@ readMSData <- function(files,
                 fullhdorder[fullhdordercounter] <- .fname
                 fullhdordercounter <- fullhdordercounter + 1
             }
-        } else { ## MS>2 levels
+        } else {
             if (length(spidx) == 0)
-                stop("No MS(n>1) spectra in file",f)
+                stop("No MS(n>1) spectra in file", f)
             if (verbose) {
                 cat("Reading ", length(spidx),
                     " MS2 spectra from file ", basename(f), "\n",
@@ -119,6 +103,9 @@ readMSData <- function(files,
                           centroided = as.logical(centroided.),
                           smoothed = as.logical(smoothed.),
                           polarity = as.integer(hd$polarity))
+                ## peaksCount
+                ioncount[ioncounter] <- sum(.p[, 2])
+                ioncounter <- ioncounter + 1                
                 .fname <- sprintf(paste0("X%0",
                                          ceiling(log10(length(spidx) + 1L)),
                                          "d.%s"), i, filen)
@@ -131,15 +118,14 @@ readMSData <- function(files,
             fullhd2 <- rbind(fullhd2, fullhd[spidx, ])
         if (verbose)
             close(pb)
+        gc()
+        mzR::close(msdata)
+        rm(msdata)
     }
-    ## new in version 1.9.8
     lockEnvironment(assaydata, bindings = TRUE)
     ## cache level 2 yet implemented
     cache. <- testCacheArg(cache., maxCache = 2)
     if (cache. >= 1) {
-        ## results sometimes in:
-        ##  Error in function (x)  : attempt to apply non-function
-        ## fl <- sapply(assaydata, fromFile)
         fl <- sapply(assaydata, function(x) x@fromFile)
         featnms <- ls(assaydata) ## feature names in final MSnExp
         fl <- fl[featnms] ## reorder file numbers
@@ -158,9 +144,6 @@ readMSData <- function(files,
                             ms.level = tmphd$msLevel,
                             acquisition.number = tmphd$acquisitionNum,
                             collision.energy = tmphd$collisionEnergy)
-        ## fix ioncount
-        icnt <- unlist(eapply(assaydata, ionCount))
-        newhd$ionCount <- icnt[rownames(newhd)]
     } else {
         newhd <- NULL ## not used anyway
     }
@@ -215,4 +198,19 @@ readMSData <- function(files,
                     experimentData = expdata,
                     .cache = .cacheEnv)
     return(toReturn)
+}
+
+.testReadMSDataInput <- function(e) {
+    if (is.numeric(e$msLevel) && !all(e$msLevel > 0))
+        stop("msLevel must be an integer > 0.")
+    if (length(e$files) < 1)
+        stop("At least one MS file is required.")
+    if (all(unique(e$files) != e$files))
+        stop("Non unique files provided as input. ")
+    extensions <- unique(toupper(sub("^.+\\.", "", e$files)))
+    if (length(extensions) > 1)
+        warning(paste("Reading different file formats in.",
+                      "This is untested and you are welcome to try it out.",
+                      "Please report back!", sep = "\n"))
+    invisible(TRUE)
 }
