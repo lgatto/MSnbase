@@ -6,16 +6,13 @@ setMethod("initialize",
               if (xor(!missing(mz), !missing(intensity)))
                   stop("'mz' and 'intensity' or none required.")
               if (!missing(mz) & !missing(intensity)) {
+                  o <- base::order(mz, method = "radix")
                   .Object <- callNextMethod(.Object,
                                             ...,
-                                            mz = mz,
-                                            intensity = intensity,
+                                            mz = mz[o],
+                                            intensity = intensity[o],
                                             peaksCount = length(mz))
               } else .Object <- callNextMethod(.Object, ...)
-              ## now sort mz and intensity
-              o <- base::order(.Object@mz, method = "radix")
-              .Object@mz <- .Object@mz[o]
-              .Object@intensity <- .Object@intensity[o]
               if (.Object@tic == 0)
                   .Object@tic <- sum(.Object@intensity)
               if (validObject(.Object))
