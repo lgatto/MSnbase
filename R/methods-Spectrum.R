@@ -2,18 +2,20 @@
 ## Methods for Spectrum class and children
 setMethod("initialize",
           "Spectrum",
-          function(.Object, ..., mz, intensity) {
+          function(.Object, ..., mz, intensity, peaksCount) {
               if (xor(!missing(mz), !missing(intensity)))
                   stop("'mz' and 'intensity' or none required.")
-              ## Calling callNextMethod first and then
-              ## setting/changing values seems to fix issue #138
-              .Object <- callNextMethod(.Object, ...)
               if (!missing(mz) & !missing(intensity)) {
-                  o <- base::order(mz, method = "radix")
-                  .Object@mz <- mz[o]
-                  .Object@intensity <- intensity[o]
-                  .Object@peaksCount <- length(mz)
-              }
+                  .Object <- callNextMethod(.Object,
+                                            ...,
+                                            mz = mz,
+                                            intensity = intensity,
+                                            peaksCount = length(mz))
+              } else .Object <- callNextMethod(.Object, ...)
+              ## now sort mz and intensity
+              o <- base::order(.Object@mz, method = "radix")
+              .Object@mz <- .Object@mz[o]
+              .Object@intensity <- .Object@intensity[o]
               if (.Object@tic == 0)
                   .Object@tic <- sum(.Object@intensity)
               if (validObject(.Object))
