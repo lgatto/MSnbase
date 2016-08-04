@@ -118,15 +118,16 @@ test_that("filterMz", {
     expect_true(mzr[1] >= 300 & mzr[2] <= 900)
     onDiskF_all <- filterMz(ondisk, mz = c(500, 550))
     expect_true(all.equal(onDisk1F, filterMsLevel(onDiskF_all, msLevel. = 1)))
-    ##   Do the filtering separately for MS1 and MS2 levels:
+    ##  Do the filtering separately for MS1 and MS2 levels:
     onDiskF <- filterMz(ondisk, mz = c(500, 550), msLevel. = 1)
     onDiskF <- filterMz(onDiskF, mz = c(300, 900), msLevel. = 2)
     expect_true(all.equal(onDisk1F, filterMsLevel(onDiskF, msLevel. = 1)))
     expect_true(all.equal(onDisk2F, filterMsLevel(onDiskF, msLevel. = 2)))
-    ##   What if we're asking for an msLevel that doesn't exist.
+    ##  What if we're asking for an msLevel that doesn't exist.
     Test <- filterMz(ondisk1, mz = c(500, 550), msLevel. = 2)
-    expect_true(all.equal(Test, ondisk1))
-    expect_true(is(all.equal(Test, onDisk1F), "character"))
+    expect_true(all.equal(Test, ondisk1)) ## no change
+    expect_false(isTRUE(all.equal(Test, onDisk1F)))
+    expect_is(all.equal(Test, onDisk1F), "character")
     ## o Compare between MSnExp and OnDiskMSnExp.
     onDiskF <- filterMz(ondisk1, mz = c(500, 550))
     inMemF <- filterMz(inmem1, mz = c(500, 550))
