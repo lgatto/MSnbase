@@ -111,7 +111,7 @@ test_that("Compare removePeaks and cleaned MSnExp and OnDiskMSnExp", {
                  assayData(onDiskRemPeaksCleaned))
     expect_equal(intensity(inMemRemPeaksCleaned),
                  intensity(onDiskRemPeaksCleaned))
-    expect_equal(mz(inMemRemPeaksCleaned), mz(onDiskRemPeaksCleaned))
+    expect_equal(mz(inMemRemPeaksCleaned), mz(onDiskRemPeaksCleaned))    
 })
 
 test_that("clean on OnDiskMSnExp with different MS levels", {
