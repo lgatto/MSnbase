@@ -102,10 +102,11 @@ plot(ondisk[[200]], full = TRUE)
 ```
 
 ```{r plot1, echo=FALSE, fig.wide=TRUE, fig.cap = "Plotting in-memory and on-disk spectra"}
-suppressPackageStartupMessages(library("gridExtra"))
-grid.arrange(plot(inmem[[200]], reporters = TMT6, full = TRUE),
-             plot(ondisk[[200]], reporters = TMT6, full = TRUE),
-             ncol = 2)
+requireNamespace("gridExtra")
+gridExtra::grid.arrange(plot(inmem[[200]], reporters = TMT6, full = TRUE),
+                        plot(ondisk[[200]], reporters = TMT6, full = TRUE),
+                        ncol = 2)
+
 ```
 
 # Accessing spectra
@@ -124,6 +125,7 @@ mb <- microbenchmark(spectra(inmem),
                      spectra(ondisk),
                      ondisk[[200]],
                      times = 10)
+mb
 ```
 
 While it takes order or magnitudes more time to access the data
@@ -170,6 +172,6 @@ substantially increase for larger data.
 For general functionality about the on-disk `MSnExp` data class and 
 `r Biocpkg("MSnbase")` in general, see other vignettes available with 
 
-```{r vigs, eval=TRUE}
+```{r vigs, eval=FALSE}
 vignette(package = "MSnbase")
 ```

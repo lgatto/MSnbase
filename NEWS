@@ -12,6 +12,7 @@ CHANGES IN VERSION 1.21.8
    #134 <2016-07-22 Fri>
  o (mz, intensity) values are reordered based on order(mz) - see issue
    #135 <2016-07-26 Tue>
+ o fix bug in bin,Spectrum - see issue #137 <2016-08-05 Fri>   
  
  
 CHANGES IN VERSION 1.21.7
