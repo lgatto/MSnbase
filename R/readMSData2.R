@@ -20,7 +20,6 @@ readMSData2 <- function(files,
         filenums <- c(filenums, filen)
         filenams <- c(filenams, f)
         msdata <- mzR::openMSfile(f)
-        on.exit(close(msdata))
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
         spidx <- seq_len(nrow(fullhd))
@@ -48,6 +47,8 @@ readMSData2 <- function(files,
                         smoothed = rep(as.logical(smoothed.), nrow(fdData)),
                         fdData, stringsAsFactors = FALSE)
         featureDataList <- c(featureDataList, list(fdData))
+        mzR::close(msdata)
+        rm(msdata)
     }
     ## new in version 1.9.8
     lockEnvironment(assaydata, bindings = TRUE)

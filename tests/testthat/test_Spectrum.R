@@ -59,7 +59,7 @@ test_that("Spectrum normalisation", {
     expect_equal(intensity(normalize(s2, method = "sum")), (1:5) / 15)
     expect_equal(intensity(normalize(s2, method = "precursor")), (1:5) / 10)
     expect_equal(intensity(normalize(s2, method = "precursor",
-                                     precursorIntensity = 20)), (1:5) / 20)
+                                     precursorIntensity = 20)), (1:5) / 20)    
 })
 
 test_that("Noise estimation", {
@@ -185,7 +185,7 @@ test_that("bin_Spectrum", {
 test_that("bin_Spectrum - bug fix #ecaaa324505b17ee8c4855806f7e37f14f1b27b8", {
     s <- new("Spectrum2", mz = c(1:7, 55, 78, 100), intensity = 1:10)
     s2 <- bin(s)
-    expect_equal(mz(s2), c(seq(1.5, 100, 1), 100))
+    expect_equal(mz(s2), c(seq(1.5, 100.5, 1)))
     ires <- rep(0, peaksCount(s2))
     ires[peaksCount(s2)] <- intensity(s)[peaksCount(s)]
     ires[1:7] <- 1:7
