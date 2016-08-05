@@ -14,7 +14,6 @@ multiMsInMem1 <- readMSData(files = f, msLevel. = 1, centroided. = TRUE)
 multiMsInMem2 <- readMSData(files = f, msLevel. = 2, centroided. = TRUE)
 multiMsOnDisk <- readMSData2(files = f, centroided. = TRUE)
 
-
 ############################################################
 ## Testing the on-disk MSnExp stuff.
 test_that("OnDiskMSnExp constructor", {
@@ -111,7 +110,7 @@ test_that("Compare removePeaks and cleaned MSnExp and OnDiskMSnExp", {
                  assayData(onDiskRemPeaksCleaned))
     expect_equal(intensity(inMemRemPeaksCleaned),
                  intensity(onDiskRemPeaksCleaned))
-    expect_equal(mz(inMemRemPeaksCleaned), mz(onDiskRemPeaksCleaned))    
+    expect_equal(mz(inMemRemPeaksCleaned), mz(onDiskRemPeaksCleaned))
 })
 
 test_that("clean on OnDiskMSnExp with different MS levels", {
