@@ -75,7 +75,7 @@ but also in terms of object size (see next section). We must of course
 make sure that these two datasets are equivalent:
 
 ```{r equal12}
-## all.equal(inmem, ondisk)
+all.equal(inmem, ondisk)
 ```
 
 # Data size
@@ -172,6 +172,6 @@ substantially increase for larger data.
 For general functionality about the on-disk `MSnExp` data class and 
 `r Biocpkg("MSnbase")` in general, see other vignettes available with 
 
-```{r vigs, eval=TRUE}
+```{r vigs, eval=FALSE}
 vignette(package = "MSnbase")
 ```
