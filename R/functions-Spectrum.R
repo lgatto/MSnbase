@@ -308,20 +308,26 @@ bin_Spectrum <- function(object, binSize = 1L,
   fun <- match.fun(fun)
   nb <- length(breaks)
 
+  ## assumming that mz and breaks are sorted
+  if (mz(object)[peaksCount(object)] >= breaks[nb]) {
+    breaks <- c(breaks, breaks[nb] + mean(diff(breaks)))
+    nb <- nb + 1L
+  }
+
   idx <- findInterval(mz(object), breaks)
 
   idx[which(idx < 1L)] <- 1L
-  idx[which(idx > nb)] <- nb
+  idx[which(idx >= nb)] <- nb
 
-  intensity <- double(length(breaks))
+  mz <- (breaks[-nb] + breaks[-1L]) / 2L
+  intensity <- double(nb - 1L)
+
   intensity[unique(idx)] <- unlist(lapply(base::split(intensity(object), idx), fun))
-
-  mz <- c((breaks[-nb] + breaks[-1L]) / 2L, breaks[nb])
 
   object@mz <- mz
   object@intensity <- intensity
   object@tic <- sum(intensity)
-  object@peaksCount <- nb
+  object@peaksCount <- length(mz)
   if (validObject(object))
       return(object)
 }
