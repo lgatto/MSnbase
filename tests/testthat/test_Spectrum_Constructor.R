@@ -61,19 +61,24 @@ test_that("C-level multi-Spectrum1 constructor with M/Z ordering", {
     idxList <- lapply(mzValsList, order)
 
     system.time(
+        ## Switch on gctorture to force potential memory mapping problems.
+        ## gctorture(on = TRUE)
         spectL <- MSnbase:::Spectra1_mz_sorted(rt = rts, acquisitionNum = acqN,
                                                scanIndex = acqN, mz = mzVals,
                                                intensity = intVals,
                                                fromFile = rep(1, 4),
                                                polarity = rep(1L, 4),
                                                nvalues = nvals)
+        ## gctorture(on = FALSE)
     ) ## 0.003
+    expect_true(all(unlist(lapply(spectL, validObject))))
     ## Check the TIC: should be the sum of intensities
     ticL <- lapply(intValsList, sum)
     expect_equal(unname(unlist(ticL)),
                  unname(unlist(lapply(spectL, tic))))
     ## The same with tic specified
     system.time(
+        ##gctorture(on = TRUE)
         spectL <- MSnbase:::Spectra1_mz_sorted(rt = rts, acquisitionNum = acqN,
                                                scanIndex = acqN, mz = mzVals,
                                                intensity = intVals,
@@ -81,7 +86,9 @@ test_that("C-level multi-Spectrum1 constructor with M/Z ordering", {
                                                polarity = rep(1L, 4),
                                                nvalues = nvals,
                                                tic = rep(12, 4))
+        ## gctorture(on = FALSE)
     ) ## 0.005
+    expect_true(all(unlist(lapply(spectL, validObject))))
     expect_equal(rep(12, 4),
                  unname(unlist(lapply(spectL, tic))))
 
@@ -117,7 +124,7 @@ test_that("M/Z sorted Spectrum2 constructor", {
 
     ## Calculate tic within:
     sp1 <- new("Spectrum2", intensity = intVals, mz = mzVals)
-    expect_identical(sp1@tic, sum(intVals))
+    expect_equal(sp1@tic, sum(intVals))
 
     ## Test some exceptions...
     ## o Pass only intensity or mz
@@ -141,19 +148,23 @@ test_that("C-level multi-Spectrum2 constructor with M/Z ordering", {
     idxList <- lapply(mzValsList, order)
 
     system.time(
+        ## gctorture(on = TRUE)
         spectL <- MSnbase:::Spectra2_mz_sorted(rt = rts, acquisitionNum = acqN,
                                                scanIndex = acqN, mz = mzVals,
                                                intensity = intVals,
                                                fromFile = rep(1, 4),
                                                polarity = rep(1L, 4),
                                                nvalues = nvals)
+        ## gctorture(on = FALSE)
     ) ## 0.003
+    expect_true(all(unlist(lapply(spectL, validObject))))
     ## Check the TIC: should be the sum of intensities
     ticL <- lapply(intValsList, sum)
     expect_equal(unname(unlist(ticL)),
                  unname(unlist(lapply(spectL, tic))))
     ## The same with tic specified
     system.time(
+        ## gctorture(on = TRUE)
         spectL <- MSnbase:::Spectra2_mz_sorted(rt = rts, acquisitionNum = acqN,
                                                scanIndex = acqN, mz = mzVals,
                                                intensity = intVals,
@@ -161,7 +172,9 @@ test_that("C-level multi-Spectrum2 constructor with M/Z ordering", {
                                                polarity = rep(1L, 4),
                                                nvalues = nvals,
                                                tic = rep(12, 4))
+        ## gctorture(on = FALSE)
     ) ## 0.005
+    expect_true(all(unlist(lapply(spectL, validObject))))
     expect_equal(rep(12, 4),
                  unname(unlist(lapply(spectL, tic))))
 

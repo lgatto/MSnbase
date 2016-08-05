@@ -121,6 +121,65 @@ SEXP Spectrum2_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
   return R_NilValue;
 }
 
+SEXP Spectrum2_constructor_mz_sorted(SEXP msLevel, SEXP peaksCount, SEXP rt,
+				     SEXP acquisitionNum, SEXP scanIndex, SEXP tic,
+				     SEXP mz, SEXP intensity, SEXP fromFile,
+				     SEXP centroided, SEXP smoothed, SEXP polarity, SEXP merged,
+				     SEXP precScanNum, SEXP precursorMz,
+				     SEXP precursorIntensity, SEXP precursorCharge,
+				     SEXP collisionEnergy, SEXP check)
+{
+  //int nvalues;
+  SEXP ans, oMz, oInt;
+  int nvals, i, calcTic;
+  double theTic;
+
+  calcTic = 0;
+  theTic = asReal(tic);
+  if (theTic == 0)
+    calcTic = 1;
+  //const int *lengths_p;
+  nvals = LENGTH(mz);
+
+  // Create pointers.
+  double *pOint, *pOmz, *pIntensity, *pMz;
+
+  //nvalues = LENGTH(intensity);
+  if (LOGICAL(check)[0]) {
+    if ( nvals != LENGTH(intensity)) {
+      error("'length(intensity)' != 'length(mz)'");
+    }
+  }
+  // initialize new M/Z, intensity vectors.
+  PROTECT(oMz = allocVector(REALSXP, nvals));
+  PROTECT(oInt = allocVector(REALSXP, nvals));
+  // create pointers.
+  pOmz = REAL(oMz);
+  pOint = REAL(oInt);
+  pMz = REAL(mz);
+  pIntensity = REAL(intensity);
+  int idx[nvals];
+  _get_order_of_double_array(pMz, nvals, 0, idx, 0);
+  // sort M/Z and intensity by M/Z
+  for (i = 0; i < nvals; i++) {
+    pOmz[i] = pMz[idx[i]];
+    pOint[i] = pIntensity[idx[i]];
+    if (calcTic)
+      theTic += pOint[i];
+  }
+  PROTECT(ans = _new_Spectrum2(msLevel, peaksCount, rt, acquisitionNum,
+			       scanIndex,
+			       PROTECT(ScalarReal(theTic)),
+			       oMz, oInt, fromFile,
+			       centroided, smoothed, polarity, merged,
+			       precScanNum, precursorMz, precursorIntensity,
+			       precursorCharge, collisionEnergy));
+  UNPROTECT(4);
+  return(ans);
+  return R_NilValue;
+}
+
+
 /*************************************************************
  * Multi_Spectrum2_constructor
  *

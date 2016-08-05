@@ -49,6 +49,7 @@ importClassesFrom(mzID, mzID, mzIDCollection)
 importFrom(digest, digest)
 
 export(MSnSet,
+       abstract,
        compareMSnSets,
        defaultNeutralLoss,
        readMzXMLData,

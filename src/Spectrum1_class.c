@@ -15,20 +15,21 @@ static SEXP _new_Spectrum1(SEXP msLevel, SEXP peaksCount, SEXP rt,
   PROTECT(classdef = R_getClassDef("Spectrum1"));
   PROTECT(ans = R_do_new_object(classdef));
   /* Set the slot values */
-  R_do_slot_assign(ans, install("msLevel"), msLevel);
-  R_do_slot_assign(ans, install("peaksCount"), peaksCount);
-  R_do_slot_assign(ans, install("rt"), rt);
-  R_do_slot_assign(ans, install("acquisitionNum"), acquisitionNum);
-  R_do_slot_assign(ans, install("scanIndex"), scanIndex);
-  R_do_slot_assign(ans, install("tic"), tic);
-  R_do_slot_assign(ans, install("mz"), mz);
-  R_do_slot_assign(ans, install("intensity"), intensity);
-  R_do_slot_assign(ans, install("fromFile"), fromFile);
-  R_do_slot_assign(ans, install("centroided"), centroided);
-  R_do_slot_assign(ans, install("smoothed"), smoothed);
-  R_do_slot_assign(ans, install("polarity"), polarity);
+  PROTECT(R_do_slot_assign(ans, install("msLevel"), msLevel));
+  PROTECT(R_do_slot_assign(ans, install("peaksCount"), peaksCount));
+  PROTECT(R_do_slot_assign(ans, install("rt"), rt));
+  PROTECT(R_do_slot_assign(ans, install("acquisitionNum"), acquisitionNum));
+  PROTECT(R_do_slot_assign(ans, install("scanIndex"), scanIndex));
+  PROTECT(R_do_slot_assign(ans, install("tic"), tic));
+  PROTECT(R_do_slot_assign(ans, install("mz"), mz));
+  PROTECT(R_do_slot_assign(ans, install("intensity"), intensity));
+  PROTECT(R_do_slot_assign(ans, install("fromFile"), fromFile));
+  PROTECT(R_do_slot_assign(ans, install("centroided"), centroided));
+  PROTECT(R_do_slot_assign(ans, install("smoothed"), smoothed));
+  PROTECT(R_do_slot_assign(ans, install("polarity"), polarity));
 
-  UNPROTECT(2);
+  UNPROTECT(14);
+  //  UNPROTECT(2);
   return ans;
 }
 
@@ -106,9 +107,11 @@ SEXP Spectrum1_constructor_mz_sorted(SEXP msLevel, SEXP peaksCount,
       theTic += pOint[i];
   }
   PROTECT(ans = _new_Spectrum1(msLevel, peaksCount, rt, acquisitionNum,
-			       scanIndex, ScalarReal(theTic), oMz, oInt,
-			       fromFile, centroided, smoothed, polarity));
-  UNPROTECT(3);
+			       scanIndex,
+			       PROTECT(ScalarReal(theTic)),
+			       oMz,
+			       oInt, fromFile, centroided, smoothed, polarity));
+  UNPROTECT(4);
   return(ans);
   return R_NilValue;
 }

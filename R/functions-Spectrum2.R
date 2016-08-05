@@ -96,8 +96,6 @@ Spectra2_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
     } else {
         if (length(mz) != length(intensity))
             stop("Lengths of 'mz' and 'intensity' do not match!")
-        if (!is.numeric(mz)) mz <- as.numeric(mz)
-        if (!is.numeric(intensity)) intensity <- as.numeric(intensity)
     }
     nvals <- length(nvalues)
     ## Now match all of the lengths to the length of nvalues.
@@ -208,24 +206,43 @@ Spectra2_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
         if (length(collisionEnergy) != nvals)
             stop("Length of 'collisionEnergy' has to match the length of 'nvalues'!")
     }
+    ## Ensure that we have the correct data types before passing to C
+    if (!is.integer(msLevel)) msLevel <- as.integer(msLevel)
+    if (!is.integer(peaksCount)) peaksCount <- as.integer(peaksCount)
+    if (!is.double(rt)) rt <- as.double(rt)
+    if (!is.integer(acquisitionNum)) acquisitionNum <- as.integer(acquisitionNum)
+    if (!is.integer(scanIndex)) scanIndex <- as.integer(scanIndex)
+    if (!is.double(tic)) tic <- as.double(tic)
+    if (!is.double(mz)) mz <- as.double(mz)
+    if (!is.double(intensity)) intensity <- as.double(intensity)
+    if (!is.integer(fromFile)) fromFile <- as.integer(fromFile)
+    if (!is.logical(centroided)) centroided <- as.logical(centroided)
+    if (!is.logical(smoothed)) smoothed <- as.logical(smoothed)
+    if (!is.integer(polarity)) polarity <- as.integer(polarity)
+    if (!is.double(merged)) merged <- as.double(merged)
+    if (!is.integer(precScanNum)) precScanNum <- as.integer(precScanNum)
+    if (!is.double(precursorMz)) precursorMz <- as.double(precursorMz)
+    if (!is.double(precursorIntensity)) precursorIntensity <- as.double(precursorIntensity)
+    if (!is.integer(precursorCharge)) precursorCharge <- as.integer(precursorCharge)
+    if (!is.double(collisionEnergy)) collisionEnergy <- as.double(collisionEnergy)
     ## OK, now let's call C.
     res <- .Call("Multi_Spectrum2_constructor_mz_sorted",
-                 as.integer(msLevel),
-                 as.integer(peaksCount),
-                 as.numeric(rt),
-                 as.integer(acquisitionNum),
-                 as.integer(scanIndex),
-                 as.numeric(tic), mz, intensity,
-                 as.integer(fromFile),
-                 as.logical(centroided),
-                 as.logical(smoothed),
-                 as.integer(polarity),
-                 as.numeric(merged),
-                 as.integer(precScanNum),
-                 as.numeric(precursorMz),
-                 as.numeric(precursorIntensity),
-                 as.integer(precursorCharge),
-                 as.numeric(collisionEnergy),
+                 msLevel,
+                 peaksCount,
+                 rt,
+                 acquisitionNum,
+                 scanIndex,
+                 tic, mz, intensity,
+                 fromFile,
+                 centroided,
+                 smoothed,
+                 polarity,
+                 merged,
+                 precScanNum,
+                 precursorMz,
+                 precursorIntensity,
+                 precursorCharge,
+                 collisionEnergy,
                  as.integer(nvalues), TRUE,
                  PACKAGE = "MSnbase")
     return(res)
@@ -365,24 +382,43 @@ Spectra2_mz_sorted_memsafe <- function(peaksCount = NULL, rt = numeric(),
         if (length(collisionEnergy) != nvals)
             stop("Length of 'collisionEnergy' has to match the length of 'nvalues'!")
     }
+    ## Ensure that we have the correct data types before passing to C
+    if (!is.integer(msLevel)) msLevel <- as.integer(msLevel)
+    if (!is.integer(peaksCount)) peaksCount <- as.integer(peaksCount)
+    if (!is.double(rt)) rt <- as.double(rt)
+    if (!is.integer(acquisitionNum)) acquisitionNum <- as.integer(acquisitionNum)
+    if (!is.integer(scanIndex)) scanIndex <- as.integer(scanIndex)
+    if (!is.double(tic)) tic <- as.double(tic)
+    if (!is.double(mz)) mz <- as.double(mz)
+    if (!is.double(intensity)) intensity <- as.double(intensity)
+    if (!is.integer(fromFile)) fromFile <- as.integer(fromFile)
+    if (!is.logical(centroided)) centroided <- as.logical(centroided)
+    if (!is.logical(smoothed)) smoothed <- as.logical(smoothed)
+    if (!is.integer(polarity)) polarity <- as.integer(polarity)
+    if (!is.double(merged)) merged <- as.double(merged)
+    if (!is.integer(precScanNum)) precScanNum <- as.integer(precScanNum)
+    if (!is.double(precursorMz)) precursorMz <- as.double(precursorMz)
+    if (!is.double(precursorIntensity)) precursorIntensity <- as.double(precursorIntensity)
+    if (!is.integer(precursorCharge)) precursorCharge <- as.integer(precursorCharge)
+    if (!is.double(collisionEnergy)) collisionEnergy <- as.double(collisionEnergy)
     ## OK, now let's call C.
     res <- .Call("Multi_Spectrum2_constructor_mz_sorted_memsafe",
-                 as.integer(msLevel),
-                 as.integer(peaksCount),
-                 as.numeric(rt),
-                 as.integer(acquisitionNum),
-                 as.integer(scanIndex),
-                 as.numeric(tic), mz, intensity,
-                 as.integer(fromFile),
-                 as.logical(centroided),
-                 as.logical(smoothed),
-                 as.integer(polarity),
-                 as.numeric(merged),
-                 as.integer(precScanNum),
-                 as.numeric(precursorMz),
-                 as.numeric(precursorIntensity),
-                 as.integer(precursorCharge),
-                 as.numeric(collisionEnergy),
+                 msLevel,
+                 peaksCount,
+                 rt,
+                 acquisitionNum,
+                 scanIndex,
+                 tic, mz, intensity,
+                 fromFile,
+                 centroided,
+                 smoothed,
+                 polarity,
+                 merged,
+                 precScanNum,
+                 precursorMz,
+                 precursorIntensity,
+                 precursorCharge,
+                 collisionEnergy,
                  as.integer(nvalues), TRUE,
                  PACKAGE = "MSnbase")
     return(res)
@@ -517,24 +553,43 @@ Spectra2 <- function(peaksCount = NULL, rt = numeric(),
         if (length(collisionEnergy) != nvals)
             stop("Length of 'collisionEnergy' has to match the length of 'nvalues'!")
     }
+    ## Ensure that we have the correct data types before passing to C
+    if (!is.integer(msLevel)) msLevel <- as.integer(msLevel)
+    if (!is.integer(peaksCount)) peaksCount <- as.integer(peaksCount)
+    if (!is.double(rt)) rt <- as.double(rt)
+    if (!is.integer(acquisitionNum)) acquisitionNum <- as.integer(acquisitionNum)
+    if (!is.integer(scanIndex)) scanIndex <- as.integer(scanIndex)
+    if (!is.double(tic)) tic <- as.double(tic)
+    if (!is.double(mz)) mz <- as.double(mz)
+    if (!is.double(intensity)) intensity <- as.double(intensity)
+    if (!is.integer(fromFile)) fromFile <- as.integer(fromFile)
+    if (!is.logical(centroided)) centroided <- as.logical(centroided)
+    if (!is.logical(smoothed)) smoothed <- as.logical(smoothed)
+    if (!is.integer(polarity)) polarity <- as.integer(polarity)
+    if (!is.double(merged)) merged <- as.double(merged)
+    if (!is.integer(precScanNum)) precScanNum <- as.integer(precScanNum)
+    if (!is.double(precursorMz)) precursorMz <- as.double(precursorMz)
+    if (!is.double(precursorIntensity)) precursorIntensity <- as.double(precursorIntensity)
+    if (!is.integer(precursorCharge)) precursorCharge <- as.integer(precursorCharge)
+    if (!is.double(collisionEnergy)) collisionEnergy <- as.double(collisionEnergy)
     ## OK, now let's call C.
     res <- .Call("Multi_Spectrum2_constructor",
-                 as.integer(msLevel),
-                 as.integer(peaksCount),
-                 as.numeric(rt),
-                 as.integer(acquisitionNum),
-                 as.integer(scanIndex),
-                 as.numeric(tic), mz, intensity,
-                 as.integer(fromFile),
+                 msLevel,
+                 peaksCount,
+                 rt,
+                 acquisitionNum,
+                 scanIndex,
+                 tic, mz, intensity,
+                 fromFile,
                  centroided,
                  smoothed,
-                 as.integer(polarity),
-                 as.numeric(merged),
-                 as.integer(precScanNum),
-                 as.numeric(precursorMz),
-                 as.numeric(precursorIntensity),
-                 as.integer(precursorCharge),
-                 as.numeric(collisionEnergy),
+                 polarity,
+                 merged,
+                 precScanNum,
+                 precursorMz,
+                 precursorIntensity,
+                 precursorCharge,
+                 collisionEnergy,
                  as.integer(nvalues), TRUE,
                  PACKAGE = "MSnbase")
     return(res)
@@ -553,7 +608,68 @@ Spectrum2 <- function(msLevel = 2L, peaksCount = length(mz), rt = numeric(),
                       precursorCharge = NA_integer_, collisionEnergy = NA) {
     if (tic == 0)
         tic <- sum(intensity)
+    ## Ensure that we have the correct data types before passing to C
+    if (!is.integer(msLevel)) msLevel <- as.integer(msLevel)
+    if (!is.integer(peaksCount)) peaksCount <- as.integer(peaksCount)
+    if (!is.double(rt)) rt <- as.double(rt)
+    if (!is.integer(acquisitionNum)) acquisitionNum <- as.integer(acquisitionNum)
+    if (!is.integer(scanIndex)) scanIndex <- as.integer(scanIndex)
+    if (!is.double(tic)) tic <- as.double(tic)
+    if (!is.double(mz)) mz <- as.double(mz)
+    if (!is.double(intensity)) intensity <- as.double(intensity)
+    if (!is.integer(fromFile)) fromFile <- as.integer(fromFile)
+    if (!is.logical(centroided)) centroided <- as.logical(centroided)
+    if (!is.logical(smoothed)) smoothed <- as.logical(smoothed)
+    if (!is.integer(polarity)) polarity <- as.integer(polarity)
+    if (!is.double(merged)) merged <- as.double(merged)
+    if (!is.integer(precScanNum)) precScanNum <- as.integer(precScanNum)
+    if (!is.double(precursorMz)) precursorMz <- as.double(precursorMz)
+    if (!is.double(precursorIntensity)) precursorIntensity <- as.double(precursorIntensity)
+    if (!is.integer(precursorCharge)) precursorCharge <- as.integer(precursorCharge)
+    if (!is.double(collisionEnergy)) collisionEnergy <- as.double(collisionEnergy)
     res <- .Call("Spectrum2_constructor",
+                 msLevel, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
+                 intensity, fromFile, centroided, smoothed, polarity,
+                 merged, precScanNum, precursorMz, precursorIntensity,
+                 precursorCharge, collisionEnergy,
+                 TRUE,
+                 PACKAGE = "MSnbase")
+    return(res)
+}
+
+############################################################
+## Constructor function for Spectrum2 objects. This one uses C-code and
+## is faster than a call to "new"
+Spectrum2_mz_sorted <- function(msLevel = 2L, peaksCount = length(mz), rt = numeric(),
+                                acquisitionNum = NA_integer_, scanIndex = integer(),
+                                tic = 0L, mz = numeric(), intensity = numeric(),
+                                fromFile = integer(), centroided = NA,
+                                smoothed = NA, polarity = NA_integer_,
+                                merged = 1, precScanNum = NA_integer_,
+                                precursorMz = NA, precursorIntensity = NA,
+                                precursorCharge = NA_integer_, collisionEnergy = NA) {
+    ## if (tic == 0)
+    ##     tic <- sum(intensity)
+    ## Ensure that we have the correct data types before passing to C
+    if (!is.integer(msLevel)) msLevel <- as.integer(msLevel)
+    if (!is.integer(peaksCount)) peaksCount <- as.integer(peaksCount)
+    if (!is.double(rt)) rt <- as.double(rt)
+    if (!is.integer(acquisitionNum)) acquisitionNum <- as.integer(acquisitionNum)
+    if (!is.integer(scanIndex)) scanIndex <- as.integer(scanIndex)
+    if (!is.double(tic)) tic <- as.double(tic)
+    if (!is.double(mz)) mz <- as.double(mz)
+    if (!is.double(intensity)) intensity <- as.double(intensity)
+    if (!is.integer(fromFile)) fromFile <- as.integer(fromFile)
+    if (!is.logical(centroided)) centroided <- as.logical(centroided)
+    if (!is.logical(smoothed)) smoothed <- as.logical(smoothed)
+    if (!is.integer(polarity)) polarity <- as.integer(polarity)
+    if (!is.double(merged)) merged <- as.double(merged)
+    if (!is.integer(precScanNum)) precScanNum <- as.integer(precScanNum)
+    if (!is.double(precursorMz)) precursorMz <- as.double(precursorMz)
+    if (!is.double(precursorIntensity)) precursorIntensity <- as.double(precursorIntensity)
+    if (!is.integer(precursorCharge)) precursorCharge <- as.integer(precursorCharge)
+    if (!is.double(collisionEnergy)) collisionEnergy <- as.double(collisionEnergy)
+    res <- .Call("Spectrum2_constructor_mz_sorted",
                  msLevel, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
                  intensity, fromFile, centroided, smoothed, polarity,
                  merged, precScanNum, precursorMz, precursorIntensity,
