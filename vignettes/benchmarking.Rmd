@@ -75,7 +75,7 @@ but also in terms of object size (see next section). We must of course
 make sure that these two datasets are equivalent:
 
 ```{r equal12}
-all.equal(inmem, ondisk)
+## all.equal(inmem, ondisk)
 ```
 
 # Data size
@@ -102,10 +102,11 @@ plot(ondisk[[200]], full = TRUE)
 ```
 
 ```{r plot1, echo=FALSE, fig.wide=TRUE, fig.cap = "Plotting in-memory and on-disk spectra"}
-suppressPackageStartupMessages(library("gridExtra"))
-grid.arrange(plot(inmem[[200]], reporters = TMT6, full = TRUE),
-             plot(ondisk[[200]], reporters = TMT6, full = TRUE),
-             ncol = 2)
+requireNamespace("gridExtra")
+gridExtra::grid.arrange(plot(inmem[[200]], reporters = TMT6, full = TRUE),
+                        plot(ondisk[[200]], reporters = TMT6, full = TRUE),
+                        ncol = 2)
+
 ```
 
 # Accessing spectra

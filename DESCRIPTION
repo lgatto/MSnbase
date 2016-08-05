@@ -67,6 +67,7 @@ Imports:
 Suggests:
     testthat,
     pryr,
+    gridExtra,
     zoo,
     knitr (>= 1.1.0),
     rols,
