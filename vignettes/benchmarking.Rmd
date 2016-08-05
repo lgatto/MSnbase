@@ -124,6 +124,7 @@ mb <- microbenchmark(spectra(inmem),
                      spectra(ondisk),
                      ondisk[[200]],
                      times = 10)
+mb
 ```
 
 While it takes order or magnitudes more time to access the data
