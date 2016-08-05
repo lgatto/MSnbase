@@ -1428,7 +1428,7 @@ colour.
 \begin{figure}[!ht]
 \centering
 <<plotSpectrumSpectrum, dev='pdf', fig.width=6.5, fig.height=6.5>>=
-centroided <- pickPeaks(itraqdata, verbose =FALSE)
+centroided <- pickPeaks(itraqdata, verbose = FALSE)
 (k <- which(fData(centroided)[, "PeptideSequence"] == "TAGIQIVADDLTVTNPK"))
 mzk <- precursorMz(centroided)[k]
 zk <- precursorCharge(centroided)[k]
