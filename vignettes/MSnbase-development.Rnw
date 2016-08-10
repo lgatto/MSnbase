@@ -149,7 +149,9 @@ the individual spectra are, in contrast to \Rclass{MSnExp} objects,
 not kept in memory (in the \Robject{assayData} slot), but are fetched
 from the original files on-demand. Because mzML files are indexed,
 using the \Biocpkg{mzR} package to read the relevant spectrum data is
-fast and only moderately slower than for in-memory \Rclass{MSnExp}.
+fast and only moderately slower than for in-memory
+\Rclass{MSnExp}\footnote{The \textit{benchmarking} vignette compares
+  data size and operation speed of the two implementations.}.
 
 To keep track of data manipulation steps that are applied to spectrum
 data (such as performed by methods \Rfunction{removePeaks} or
