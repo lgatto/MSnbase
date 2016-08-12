@@ -4,32 +4,46 @@ CHANGES IN VERSION 1.99.0
  o Fix bug in readMSData <2016-06-07 Tue>.
  o Added documentation and unit test for trimMz <2016-06-01 Wed>.
  o Added trimMz method for OnDiskMSnExp objects <2016-05-31 Tue>.
- o Added (internal) method spectrapply to apply a function to all spectra
-   of an OnDiskMSnExp object; does the data import, subsetting, application
-   of lazy processing steps etc. <2016-05-27 Fri>.
- o Added a section to the MSnbase-development vignette <2016-05-27 Fri>.
+ o Added (internal) method spectrapply to apply a function to all
+   spectra of an OnDiskMSnExp object; does the data import,
+   subsetting, application of lazy processing steps
+   etc. <2016-05-27 Fri>.
+ o Added a section to the MSnbase-development vignette
+   <2016-05-27 Fri>.
  o Finished with all pSet inherited methods and docs <2016-05-26 Thu>.
- o Added rtlim argument to spectra method for OnDiskMSnExp <2016-05-26 Thu>.
- o Methods rtime, tic, ionCount, polarity and acquisitionNum implemented <2016-05-25 Wed>.
+ o Added rtlim argument to spectra method for OnDiskMSnExp
+   <2016-05-26 Thu>.
+ o Methods rtime, tic, ionCount, polarity and acquisitionNum
+   implemented <2016-05-25 Wed>.
  o Documentation added for most methods <2016-05-25 Wed>.
- o Methods peaksCount and spectra for OnDiskMSnExp objects implemented <2016-05-24 Tue>.
- o Performance and validation tests for the Spectrum1 C-constructor <2016-05-23 Mon>.
- o Spectrum1 constructor implemented in C (presently not exported) <2016-05-20>
- o length, scanIndex, acquisitionNum and centroided implemented <2016-05-20>
+ o Methods peaksCount and spectra for OnDiskMSnExp objects implemented
+  <2016-05-24 Tue>.
+ o Performance and validation tests for the Spectrum1 C-constructor
+   <2016-05-23 Mon>.
+ o Spectrum1 constructor implemented in C (presently not exported)
+   <2016-05-20>
+ o length, scanIndex, acquisitionNum and centroided implemented
+   <2016-05-20>
  o Implemented fromFile and msLevel for OnDiskMSnExp <2016-05-19 Thu>
- o Implemented an OnDiskMSnExp class for on-the-fly data import <2016-05-19 Thu>
- o Fixed the validate method for pSet to play nicely with OnDiskMSnExp objects
+ o Implemented an OnDiskMSnExp class for on-the-fly data import
    <2016-05-19 Thu>
- o Added slot onDisk to pSet objects (TRUE for OnDiskMSnExp objects, FALSE otherwise).
-   The getter method isOnDisk checks for the presence of the slot in the object
-   (backward compatibility) <2016-05-19 Thu>
- o Implemented a ProcessingStep class that helps to keep track how (spectra) data
-   should be processed on the fly <2016-05-18 Wed>
- o In OnDiskMSnExp validity, check that the assaydata is empty <2016-06-28 Tue>
- o Pass neutralLoss in plot,Spectrum,Spectrum-method to .calculateFragments;
-   fixes #146 <2016-08-12 Fri>
- o Allow the user to specify the `cex`, `lwd`, `pch` for peaks and fragments in
-   plot,Spectrum,Spectrum-method; closes #148 <2016-08-12 Fri>
+ o Fixed the validate method for pSet to play nicely with OnDiskMSnExp
+   objects <2016-05-19 Thu>
+ o Added slot onDisk to pSet objects (TRUE for OnDiskMSnExp objects,
+   FALSE otherwise).  The getter method isOnDisk checks for the
+   presence of the slot in the object (backward compatibility)
+   <2016-05-19 Thu>
+ o Implemented a ProcessingStep class that helps to keep track how
+   (spectra) data should be processed on the fly <2016-05-18 Wed>
+ o In OnDiskMSnExp validity, check that the assaydata is empty
+   <2016-06-28 Tue>
+ o Pass neutralLoss in plot,Spectrum,Spectrum-method to
+   .calculateFragments; fixes #146 <2016-08-12 Fri>
+ o Allow the user to specify the `cex`, `lwd`, `pch` for peaks and
+   fragments in plot,Spectrum,Spectrum-method; closes #148
+   <2016-08-12 Fri>
+ o Update centroided with an na.fail argument (see issue #150 for
+   details) <2016-08-12 Fri>
 
 CHANGES IN VERSION 1.21.8
 -------------------------

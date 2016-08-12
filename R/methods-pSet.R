@@ -234,7 +234,8 @@ setMethod("rtime", "pSet",
           function(object) sapply(spectra(object), rtime))
 
 setMethod("centroided", "pSet",
-          function(object) sapply(spectra(object), centroided))
+          function(object, na.fail = FALSE)
+              sapply(spectra(object), centroided, na.fail))
 
 setReplaceMethod("centroided",
                  signature(object = "pSet",
