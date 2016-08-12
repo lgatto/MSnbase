@@ -370,10 +370,11 @@ estimateNoise_Spectrum <- function(object,
                                    ignoreCentroided = FALSE, ...) {
   if (isEmpty(object)) {
     warning("Your spectrum is empty. Nothing to estimate.")
-    return(matrix(NA, nrow=0L, ncol = 2L, dimnames = list(c(), c("mz", "intensity"))))
+    return(matrix(NA, nrow = 0L, ncol = 2L,
+                  dimnames = list(c(), c("mz", "intensity"))))
   }
 
-  if (!ignoreCentroided && !centroided(object)) {
+  if (!ignoreCentroided && centroided(object)) {
     warning("Noise estimation is only supported for profile spectra.")
     return(matrix(NA, nrow = 0L, ncol = 2L,
                   dimnames = list(c(), c("mz", "intensity"))))
@@ -393,7 +394,7 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
         return(object)
     }
 
-    if (!ignoreCentroided && centroided(object, na.fail = TRUE)) 
+    if (!ignoreCentroided && centroided(object, na.fail = TRUE))
         return(object)
 
     ## estimate noise
