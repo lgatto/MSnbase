@@ -240,7 +240,8 @@
       details. For whole experiments, where all MS1 and MS2 spectra are
       expected to be in the same, albeit possibly different modes, it is
       advised to assign the majority result for MS1 and MS2 spectra,
-      rather than results for individual spectra.  }    
+      rather than results for individual spectra. See an example below.
+    }    
   }  
 
   Filtering functions:
@@ -287,6 +288,6 @@ mzxmlfile <- dir(system.file("extdata",package="MSnbase"),
                  pattern="mzXML",full.names=TRUE)
 msnexp <- readMSData(mzxmlfile)
 msnexp
-		 }
+}
 
 \keyword{classes}

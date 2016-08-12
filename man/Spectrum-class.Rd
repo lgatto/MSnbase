@@ -139,7 +139,9 @@
       been tuned to work for MS1 and MS2 spectra and data centroided
       using different peak picking algorithms, but false positives can
       occur. See \url{https://github.com/lgatto/MSnbase/issues/131} for
-      details.}
+      details. It should however be safe to use is at the experiment
+      level, assuming that all MS level have the same mode. See
+      \code{class?MSnExp} for an example. }
     
     
     \item{\code{smoothed(object)}}{ Indicates whether spectrum is
