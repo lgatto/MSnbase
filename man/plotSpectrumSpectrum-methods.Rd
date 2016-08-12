@@ -44,6 +44,14 @@
       you can specifiy the type of \code{neutralLoss} (default:
       \code{defaultNeutralLoss()}).
       See \code{\link{calculateFragments}} for details.
+
+      There are a lot of graphical arguments available to control the
+      representation of the peaks and fragments. Use \code{peaks.pch} to set the
+      character on top of the peaks (default: \code{peaks.pch=19}). In a similar
+      way you can set the line width \code{peaks.lwd=1} and the magnification
+      \code{peaks.cex=0.5} of the peaks. The size of the fragment/legend labels could
+      be set using \code{fragments.cex=0.75} or \code{legend.cex} respectively.
+      See \code{\link{par}} for details about graphical parameters in general.
     }
   }
 }

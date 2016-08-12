@@ -28,6 +28,8 @@ CHANGES IN VERSION 1.99.0
  o In OnDiskMSnExp validity, check that the assaydata is empty <2016-06-28 Tue>
  o Pass neutralLoss in plot,Spectrum,Spectrum-method to .calculateFragments;
    fixes #146 <2016-08-12 Fri>
+ o Allow the user to specify the `cex`, `lwd`, `pch` for peaks and fragments in
+   plot,Spectrum,Spectrum-method; closes #148 <2016-08-12 Fri>
 
 CHANGES IN VERSION 1.21.8
 -------------------------

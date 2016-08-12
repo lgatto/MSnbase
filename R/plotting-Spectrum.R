@@ -23,6 +23,7 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
 ##' @param xlim limits for x-axis
 ##' @param ylim limits for y-axis
 ##' @param legend.cex cex for legend
+##' @param peaks.pch pch for marking peaks
 ##' @param ... additional parameters passed to \code{.plotSingleSpectrum}.
 ##' @param fragments.cex cex for fragments
 ##' @noRd
@@ -31,7 +32,8 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
                                     common,
                                     norm=TRUE,
                                     xlim, ylim,
-                                    legend.cex=1, ...) {
+                                    legend.cex=1,
+                                    peaks.pch=19, ...) {
   if (norm) {
     spectra <- lapply(spectra, normalize)
   }
@@ -60,7 +62,7 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
   legend.pos <- c("topleft", "bottomleft")
   ## colors: ColorBrewer RdYlBu c(9, 11, 3, 1)
   cols <- c("#74ADD1", "#313695", "#F46D43", "#A50026")
-  pch <- c(NA, 19)
+  pch <- c(NA, peaks.pch)
 
   for (i in seq(along=spectra)) {
     .plotSingleSpectrum(spectra[[i]], sequence=sequences[[i]],
@@ -104,6 +106,8 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
 ##' @param z fragment charge
 ##' @param fragments a data.frame produced by calculatedFragments_Spectrum2
 ##' @param fragments.cex cex for the fragment letters
+##' @param peaks.lwd lwd for the peaks
+##' @param peaks.cex cex for the points of on the top of the peaks
 ##' @param ... further arguments passed to plot.default
 ##' @noRd
 .plotSingleSpectrum <- function(object, sequence,
@@ -122,7 +126,7 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
                                   modifications = modifications,
                                   neutralLoss = neutralLoss,
                                   verbose = isMSnbaseVerbose()),
-                                fragments.cex = 0.75, ...) {
+                               fragments.cex = 0.75, peaks.lwd = 1, peaks.cex = 0.5, ...) {
   if (peaksCount(object) > 0 && !centroided(object)) {
     message("Your spectrum is not centroided.")
   }
@@ -143,9 +147,9 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
   }
 
   lines(mz(object), orientation*intensity(object),
-        type="h", col=col, lwd=1)
+        type="h", col=col, lwd=peaks.lwd)
   points(mz(object), orientation*intensity(object),
-         col=col, pch=pch, cex=0.5)
+         col=col, pch=pch, cex=peaks.cex)
 
   if (nrow(fragments)) {
     text(fragments$mz,
