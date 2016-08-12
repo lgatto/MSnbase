@@ -373,9 +373,10 @@ estimateNoise_Spectrum <- function(object,
     return(matrix(NA, nrow=0L, ncol = 2L, dimnames = list(c(), c("mz", "intensity"))))
   }
 
-  if (!ignoreCentroided & (object@centroided | is.na(object@centroided))) {
+  if (!ignoreCentroided && !centroided(object)) {
     warning("Noise estimation is only supported for profile spectra.")
-    return(matrix(NA, nrow=0L, ncol = 2L, dimnames = list(c(), c("mz", "intensity"))))
+    return(matrix(NA, nrow = 0L, ncol = 2L,
+                  dimnames = list(c(), c("mz", "intensity"))))
   }
 
   noise <- MALDIquant:::.estimateNoise(mz(object), intensity(object),
@@ -392,10 +393,8 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
         return(object)
     }
 
-    if (!ignoreCentroided & isTRUE(object@centroided)) {
-        warning("Your spectrum is already centroided.")
+    if (!ignoreCentroided && centroided(object, na.fail = TRUE)) 
         return(object)
-    }
 
     ## estimate noise
     noise <- estimateNoise_Spectrum(object, method = method,
