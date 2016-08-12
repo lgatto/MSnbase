@@ -61,6 +61,7 @@ file <- dir(system.file(package = "MSnbase", dir = "extdata"),
 
 ## create basic MSnExp
 msexp <- readMSData(file)
+centroided(msexp) <- FALSE
 
 ## centroid them
 msexp <- pickPeaks(msexp)
