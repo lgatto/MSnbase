@@ -100,6 +100,7 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
 ##' @param relative relative (or absolute) deviation
 ##' @param type fragment types, could be c("a", "b", "c", "x", "y", "z")
 ##' @param modifications a named (amino acid one-letter-code; upper case) vector
+##' @param neutralLoss list, currently water and ammonia loss are supported
 ##' @param z fragment charge
 ##' @param fragments a data.frame produced by calculatedFragments_Spectrum2
 ##' @param fragments.cex cex for the fragment letters
@@ -113,11 +114,13 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=0.1,
                                 tolerance = 0.1, relative = FALSE,
                                 type = c("b", "y"),
                                 modifications = c(C = 57.02146),
+                                neutralLoss = defaultNeutralLoss(),
                                 z = 1,
                                 fragments = calculateFragments_Spectrum2(object,
                                   sequence = sequence, tolerance = tolerance,
                                   relative = relative, type = type, z = z,
                                   modifications = modifications,
+                                  neutralLoss = neutralLoss,
                                   verbose = isMSnbaseVerbose()),
                                 fragments.cex = 0.75, ...) {
   if (peaksCount(object) > 0 && !centroided(object)) {
