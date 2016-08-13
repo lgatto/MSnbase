@@ -86,7 +86,7 @@ file <- dir(system.file(package = "MSnbase", dir = "extdata"),
             full.name = TRUE, pattern = "mzXML$")
 
 ## create basic MSnExp
-msexp <- readMSData(file)
+msexp <- readMSData(file, centroided = FALSE)
 
 ## centroid them
 msexp <- pickPeaks(msexp)
