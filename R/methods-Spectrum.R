@@ -154,7 +154,14 @@ setAs("Spectrum", "data.frame",
 as.data.frame.Spectrum <- function(x, row.names=NULL, optional=FALSE, ...)
     as(x, "data.frame")
 
-setMethod("centroided", "Spectrum", function(object) object@centroided)
+setMethod("centroided", "Spectrum",
+          function(object, na.fail = FALSE) {
+              if (na.fail & is.na(object@centroided))
+                  stop("Mode is undefined. See ?isCentroided for details.",
+                       call. = FALSE)
+              object@centroided
+          })
+
 setReplaceMethod("centroided",
                  signature(object = "Spectrum",
                            value = "logical"),

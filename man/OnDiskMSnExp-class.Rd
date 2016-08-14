@@ -586,6 +586,7 @@ validObject(odmse)
 odmse[[1]]
 
 all(is.na(centroided(odmse)))
+invisible(isCentroided(odmse))
 centroided(odmse, msLevel = 1) <- FALSE
 centroided(odmse, msLevel = 2) <- TRUE
 table(centroided(odmse), msLevel(odmse))

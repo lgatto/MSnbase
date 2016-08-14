@@ -34,15 +34,15 @@ test_that("MSnSet coersion", {
 
 test_that("Combine MSnSet features (V)", {
     aa <- new("MSnSet",
-              exprs=matrix(
+              exprs = matrix(
                   c(rnorm(10, 4, 0.0001),
                     rnorm(10, 10, 0.0001)),
-                  nrow = 10,byrow = TRUE),
+                  nrow = 10, byrow = TRUE),
               featureData = new("AnnotatedDataFrame",
                   data = data.frame(
-                      A = rep(c("A","B"), each = 5),
+                      A = rep(c("A", "B"), each = 5),
                       B = paste(
-                          rep(c("A","B"), each = 5),
+                          rep(c("A", "B"), each = 5),
                           1:10,
                           sep = "."))))
     expect_true(validObject(aa))
@@ -56,30 +56,30 @@ test_that("Combine MSnSet features (V)", {
     expect_equal(bb, bb3)
     cc <- combineFeatures(aa, gb, "sum")
     dd <- combineFeatures(aa, gb, "median")
-    ee <- combineFeatures(aa, gb, "weighted.mean", w=rep(1,10))
-    ff <- combineFeatures(aa, gb, "medpolish", verbose=FALSE)
+    ee <- combineFeatures(aa, gb, "weighted.mean", w = rep(1, 10))
+    ff <- combineFeatures(aa, gb, "medpolish", verbose = FALSE)
     expect_equal(exprs(bb),
-                 matrix(c(4,10,4,10), ncol = 2),
+                 matrix(c(4, 10, 4, 10), ncol = 2),
                  tolerance = .001,
                  check.attributes = FALSE)
     expect_equal(exprs(dd),
-                 matrix(c(4,10,4,10), ncol = 2),
+                 matrix(c(4, 10, 4, 10), ncol = 2),
                  tolerance = .001,
                  check.attributes = FALSE)
     expect_equal(exprs(ee),
-                 matrix(c(4,10,4,10), ncol = 2),
+                 matrix(c(4, 10, 4, 10), ncol = 2),
                  tolerance = .001,
                  check.attributes = FALSE)
     expect_equal(exprs(ff),
-                 matrix(c(4,10,4,10), ncol = 2),
+                 matrix(c(4, 10, 4, 10), ncol = 2),
                  tolerance = .001,
                  check.attributes = FALSE)
     expect_equal(exprs(cc),
-                 matrix(c(5*4,5*10,5*4,5*10), ncol = 2),
+                 matrix(c(5*4, 5*10, 5*4, 5*10), ncol = 2),
                  tolerance = .001,
                  check.attributes = FALSE)
-    expect_true(all(fData(bb)[,1] == c("A", "B")))
-    expect_true(all(fData(bb)[,2] == c("A.1", "B.6")))
+    expect_true(all(fData(bb)[, 1] == c("A", "B")))
+    expect_true(all(fData(bb)[, 2] == c("A.1", "B.6")))
     gb2 <- factor(c("a", "c", "z", "a", "z", "b", "b", "a", "c", "a"))
     gb3 <- factor(rev(c("a", "c", "z", "a", "z", "b", "b", "a", "c", "a")))
     fData(aa)$Z <- gb2
@@ -123,7 +123,7 @@ test_that("Combine MSnSet features (L)", {
     expect_error(combineFeatures(ee, L))
 
     ## unordered names -> warning
-    names(L) <- featureNames(ee)    
+    names(L) <- featureNames(ee)
     L <- L[sample(featureNames(ee))]
     expect_warning(combineFeatures(ee, L,
                                    redundancy.handler = "unique",
@@ -133,7 +133,7 @@ test_that("Combine MSnSet features (L)", {
     names(L) <- featureNames(ee)
     ee2 <- combineFeatures(ee, L,
                            redundancy.handler = "unique",
-                           cv = FALSE)    
+                           cv = FALSE)
     ee2 <- MSnbase:::nologging(ee2, 2)
     ## peptide a -> protein(s) A, B  DISCARD
     ## peptide b -> protein(s) B       KEEP
@@ -166,11 +166,11 @@ test_that("makeImpuritiesMatrix", {
               pattern = "iTRAQ4plexPurityCorrection",
               full.names = TRUE)
     m4 <- makeImpuritiesMatrix(filename = i4, edit = FALSE)
-    a4 <- matrix(c(0.929,0.059,0.002,0.000,
-                   0.020,0.923,0.056,0.001,
-                   0.000,0.030,0.924,0.045,
-                   0.000,0.001,0.040,0.923),
-                 nrow=4, byrow = TRUE)
+    a4 <- matrix(c(0.929, 0.059, 0.002, 0.000,
+                   0.020, 0.923, 0.056, 0.001,
+                   0.000, 0.030, 0.924, 0.045,
+                   0.000, 0.001, 0.040, 0.923),
+                 nrow = 4, byrow = TRUE)
     expect_equal(a4, m4, check.attributes = FALSE)
     t6 <- dir(system.file("extdata", package = "MSnbase"),
               pattern = "TMT6plexPurityCorrection",
@@ -241,7 +241,7 @@ test_that("addIdentificationData", {
   expect_equal(fd$npsm.prot, c(1, 1, NA, NA, 1))
   expect_equal(fd$npsm.pep, c(1, 1, NA, NA, 1))
   expect_equal(fd$npep.prot, c(1, 1, NA, NA, 1))
-  expect_equal(fd$nprot, c(2, 1, NA, NA, 1))  
+  expect_equal(fd$nprot, c(2, 1, NA, NA, 1))
 })
 
 test_that("idSummary", {
@@ -310,15 +310,15 @@ test_that("keeping common features", {
 
 test_that("Combine with fun or 'fun'", {
     aa <- new("MSnSet",
-              exprs=matrix(
+              exprs = matrix(
                   c(rnorm(10, 4, 0.0001),
                     rnorm(10, 10, 0.0001)),
-                  nrow = 10,byrow = TRUE),
+                  nrow = 10, byrow = TRUE),
               featureData = new("AnnotatedDataFrame",
                                 data = data.frame(
-                                    A = rep(c("A","B"), each = 5),
+                                    A = rep(c("A", "B"), each = 5),
                                     B = paste(
-                                        rep(c("A","B"), each = 5),
+                                        rep(c("A", "B"), each = 5),
                                         1:10,
                                         sep = "."))))
     expect_true(validObject(aa))

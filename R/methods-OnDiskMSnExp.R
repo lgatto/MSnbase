@@ -171,8 +171,11 @@ setMethod("acquisitionNum", "OnDiskMSnExp",
 ## Getter/setter for the centroided information; extracting this from
 ## the featureData.
 setMethod("centroided", "OnDiskMSnExp",
-          function(object) {
+          function(object, na.fail = FALSE) {
               val <- fData(object)$centroided
+              if (na.fail & any(is.na(val)))
+                  stop("Mode is undefined. See ?isCentroided for details.",
+                       call. = FALSE)
               names(val) <- featureNames(object)
               return(val)
           })

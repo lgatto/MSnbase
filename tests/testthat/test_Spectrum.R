@@ -42,7 +42,6 @@ test_that("Spectrum normalisation", {
     s1 <- new("Spectrum1", mz = 1:5, intensity = 1:5)
     s2 <- new("Spectrum2", mz = 1:5, intensity = 1:5,
               precursorIntensity = 10)
-
     ## Spectrum1
     ## max is default
     expect_equal(intensity(normalize(s1)), (1:5) / 5)
@@ -50,7 +49,6 @@ test_that("Spectrum normalisation", {
     expect_equal(intensity(normalize(s1, method = "max")), (1:5) / 5)
     expect_equal(intensity(normalize(s1, method = "sum")), (1:5) / 15)
     expect_error(normalize(s1, method = "precursor"), "'arg' should be one of")
-
     ## Spectrum2
     ## max is default
     expect_equal(intensity(normalize(s2)), (1:5) / 5)
@@ -80,7 +78,6 @@ test_that("Peak picking", {
     s1 <- new("Spectrum2", mz = 1:5, intensity = c(1:3, 2:1))
     s2 <- new("Spectrum2", mz = 3, intensity = 3, centroided = TRUE)
     expect_warning(pickPeaks(new("Spectrum2")), "spectrum is empty")
-    expect_warning(pickPeaks(s2), "spectrum is already centroided")
     expect_equal(suppressWarnings(pickPeaks(new("Spectrum2"))),
                  new("Spectrum2"))
     expect_equal(suppressWarnings(pickPeaks(s2)), s2)
