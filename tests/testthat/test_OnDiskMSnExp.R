@@ -3,16 +3,27 @@ context("OnDiskMSnExp class")
 library(msdata)
 mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
          system.file("microtofq/MM8.mzML", package = "msdata"))
-
-## Load the data as an MSnExp into memory.
 inMem <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE)
-## Load the data as OnDiskMSnExp.
 onDisk <- readMSData2(files = mzf, msLevel. = 1, centroided. = TRUE)
 
 f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
 multiMsInMem1 <- readMSData(files = f, msLevel. = 1, centroided. = TRUE)
 multiMsInMem2 <- readMSData(files = f, msLevel. = 2, centroided. = TRUE)
 multiMsOnDisk <- readMSData2(files = f, centroided. = TRUE)
+
+############################################################
+## validateOnDiskMSnExp
+test_that("validateOnDiskMSnExp", {
+    onDisk2 <- onDisk
+    expect_true(validateOnDiskMSnExp(onDisk2))
+    ## Now modify the fData slightly.
+    fd <- featureData(onDisk2)
+    fd$lowMZ[13] <- fd$lowMZ[13] + 3
+    onDisk2@featureData <- fd
+    expect_error(validateOnDiskMSnExp(onDisk2))
+    expect_true(validateOnDiskMSnExp(filterMsLevel(onDisk2, 2)))
+})
+
 
 ############################################################
 ## Testing the on-disk MSnExp stuff.
@@ -86,7 +97,6 @@ test_that("Compare removePeaks and cleaned MSnExp and OnDiskMSnExp", {
     expect_identical(ionCount(inMemCleaned), ionCount(onDiskCleaned))
     expect_identical(tic(inMemCleaned), tic(onDiskCleaned))
     expect_identical(peaksCount(inMemCleaned), peaksCount(onDiskCleaned))
-
     ## o removePeaks
     inMemRemPeaks <- removePeaks(inMem, t = 1000)
     onDiskRemPeaks <- removePeaks(onDisk, t = 1000)
@@ -94,7 +104,6 @@ test_that("Compare removePeaks and cleaned MSnExp and OnDiskMSnExp", {
     expect_identical(ionCount(inMemRemPeaks), ionCount(onDiskRemPeaks))
     expect_identical(tic(inMemRemPeaks), tic(onDiskRemPeaks))
     expect_identical(peaksCount(inMemRemPeaks), peaksCount(onDiskRemPeaks))
-
     ## o removePeaks and clean
     inMemRemPeaksCleaned <- clean(inMemRemPeaks)
     onDiskRemPeaksCleaned <- clean(onDiskRemPeaks)
@@ -104,7 +113,6 @@ test_that("Compare removePeaks and cleaned MSnExp and OnDiskMSnExp", {
     expect_identical(tic(inMemRemPeaksCleaned), tic(onDiskRemPeaksCleaned))
     expect_identical(peaksCount(inMemRemPeaksCleaned),
                      peaksCount(onDiskRemPeaksCleaned))
-
     ## compare assayData, intensity and mz,
     expect_equal(assayData(inMemRemPeaksCleaned),
                  assayData(onDiskRemPeaksCleaned))
@@ -118,7 +126,6 @@ test_that("clean on OnDiskMSnExp with different MS levels", {
     multiMsInMem1_cleaned <- clean(multiMsInMem1)
     expect_true(sum(unlist(intensity(multiMsInMem1_cleaned)) == 0) <
                 sum(unlist(intensity(multiMsInMem1)) == 0))
-
     ## o Tests on OnDiskMSnExp and comparison with MSnExp.
     multiMsOnDisk_cleaned <- clean(multiMsOnDisk)
     expect_true(sum(unlist(intensity(multiMsOnDisk_cleaned)) == 0) <
@@ -126,7 +133,6 @@ test_that("clean on OnDiskMSnExp with different MS levels", {
     ##   Compare with MSnExp
     expect_true(all.equal(multiMsInMem1_cleaned,
                           filterMsLevel(multiMsOnDisk_cleaned, msLevel. = 1)))
-
     ##   Just cleaning MS 1.
     multiMsOnDisk_cleaned_1 <- clean(multiMsOnDisk, msLevel. = 1)
     expect_true(all.equal(multiMsOnDisk_cleaned, multiMsOnDisk_cleaned_1))
@@ -172,97 +178,6 @@ test_that("removePeaks on OnDiskMSnExp with different MS levels", {
                           filterMsLevel(multiMsOnDisk, msLevel. = 1)))
 })
 
-
-############################################################
-## [[ and [
-test_that("Compare subsetting between OnDiskMSnExp and MSnExp", {
-    ## Extract individual spectra.
-    sp1 <- inMem[[77]]
-    sp2 <- onDisk[[77]]
-    expect_identical(sp1, sp2)
-
-    ## by name.
-    theN <- featureNames(inMem)[100]
-    sp1 <- inMem[[theN]]
-    sp2 <- onDisk[[theN]]
-    ## ?
-    expect_identical(sp1, sp2)
-    theN <- 100
-    sp1 <- inMem[[theN]]
-    sp2 <- onDisk[[theN]]
-    expect_identical(sp1, sp2)
-
-    ## Note: here we could even extract multiple spectra...
-    sp2 <- onDisk[[c(2, 4, 6)]]
-
-    ## [ subsetting.
-    sub1 <- inMem[1:20, ]
-    sub2 <- onDisk[1:20, ]
-    expect_true(all.equal(sub1, sub2))
-    expect_true(all.equal(inMem[1], onDisk[1]))
-
-    ## That forces sub-setting of processingData etc
-    sp1 <- inMem[1]
-    sp2 <- onDisk[1]
-    expect_identical(experimentData(sp1), experimentData(sp2))
-    expect_true(all.equal(sp1, sp2))
-    expect_identical(fileNames(sp1), fileNames(sp2))
-    expect_identical(fromFile(sp1), fromFile(sp2))
-    ## from second file only:
-    sp1 <- inMem[c(2, 4, 6)]
-    sp2 <- onDisk[c(2, 4, 6)]
-    expect_identical(experimentData(sp1), experimentData(sp2))
-    expect_true(all.equal(sp1, sp2))
-    expect_identical(fileNames(sp1), fileNames(sp2))
-    expect_identical(fromFile(sp1), fromFile(sp2))
-
-    ## Some tests evaluating the correct sub-setting of phenoData etc.
-    ## Extract spectra from the first file
-    subs <- onDisk[c(1, 3, 5)]
-    expect_identical(fileNames(subs), fileNames(onDisk)[1])
-    expect_true(all(fromFile(subs) == 1))
-    expect_identical(pData(subs), droplevels(pData(onDisk)[1, , drop = FALSE]))
-    expect_identical(experimentData(subs)@instrumentManufacturer,
-                     experimentData(onDisk)@instrumentManufacturer[1])
-    ## Extract spectra from the second file
-    subs <- onDisk[c(2, 4, 6)]
-    expect_identical(fileNames(subs), fileNames(onDisk)[2])
-    expect_true(all(fromFile(subs) == 1))
-    expect_identical(pData(subs), droplevels(pData(onDisk)[2, , drop = FALSE]))
-    expect_identical(experimentData(subs)@instrumentManufacturer,
-                     experimentData(onDisk)@instrumentManufacturer[2])
-    ## The same for MSnExp:
-    subs <- inMem[c(1, 3, 5)]
-    expect_identical(fileNames(subs), fileNames(inMem)[1])
-    expect_true(all(fromFile(subs) == 1))
-    expect_identical(pData(subs), droplevels(pData(inMem)[1, , drop = FALSE]))
-    expect_identical(experimentData(subs)@instrumentManufacturer,
-                     experimentData(inMem)@instrumentManufacturer[1])
-    ## Extract spectra from the second file
-    subs <- inMem[c(2, 4, 6)]
-    expect_identical(fileNames(subs), fileNames(inMem)[2])
-    expect_true(all(fromFile(subs) == 1))
-    expect_identical(pData(subs), droplevels(pData(inMem)[2, , drop = FALSE]))
-    expect_identical(experimentData(subs)@instrumentManufacturer,
-                     experimentData(inMem)@instrumentManufacturer[2])
-})
-
-
-############################################################
-## validateOnDiskMSnExp
-test_that("validateOnDiskMSnExp", {
-    f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
-    onDisk <- readMSData2(f, verbose = FALSE)
-    expect_true(validateOnDiskMSnExp(onDisk))
-    ## Now modify the fData slightly.
-    fd <- featureData(onDisk)
-    fd$lowMZ[13] <- fd$lowMZ[13] + 3
-    onDisk@featureData <- fd
-    expect_error(validateOnDiskMSnExp(onDisk))
-    suppressWarnings(
-        expect_true(validateOnDiskMSnExp(filterMsLevel(onDisk, 2)))
-    )
-})
 
 ############################################################
 ## bin
