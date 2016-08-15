@@ -46,9 +46,10 @@ readMSData2 <- function(files,
                         centroided = rep(as.logical(NA), nrow(fdData)),
                         smoothed = rep(as.logical(smoothed.), nrow(fdData)),
                         fdData, stringsAsFactors = FALSE)
-        featureDataList <- c(featureDataList, list(fdData))
+        featureDataList <- c(featureDataList, list(fdData))        
         mzR::close(msdata)
         rm(msdata)
+        gc()
     }
     ## new in version 1.9.8
     lockEnvironment(assaydata, bindings = TRUE)
