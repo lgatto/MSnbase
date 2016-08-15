@@ -410,23 +410,20 @@ setMethod("mz", "OnDiskMSnExp",
 ## spectra too, i.e. length i > 1.
 setMethod("[[", "OnDiskMSnExp",
           function(x, i, j = "missing", drop = "missing") {
+              if (length(i) != 1)
+                  stop("subscript out of bounds")
               if (is.character(i))
                   i <- base::match(i, featureNames(x))
               if (any(is.na(i)))
                   stop("subscript out of bounds")
               ## Keep the fromFile information; that would be
               ## changed by [ subsetting.
-              fromF <- fromFile(x)[i]
+              fromF <- fromFile(x)[[i]]
               ## Subsetting first the OnDiskMSnExp with subsequent
               ## spectra extraction is considerably faster.
-              spctr <- spectra(x[i])
+              spctr <- spectra(x[i])[[1]]
               ## Re-setting the original fromFile values.
-              spctr <- mapply(spctr, fromF, FUN = function(y, z) {
-                  y@fromFile <- z
-                  return(y)
-              })
-              if (length(spctr) == 1)
-                  spctr <- spctr[[1]]
+              spctr@fromFile <- fromF
               return(spctr)
           })
 
