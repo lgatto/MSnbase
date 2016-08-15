@@ -449,7 +449,7 @@ sampleNames(x)
 
 ## Visualisation
 
-library(pRolocdata)
+library("pRolocdata")
 data(dunkley2006)
 image(dunkley2006)
 ## Changing colours

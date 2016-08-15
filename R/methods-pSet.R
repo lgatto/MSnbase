@@ -16,9 +16,9 @@
 setMethod("initialize",
           "pSet",
           function(.Object, ...) {
-              if (!any(names(list(...)) == ".cache")){
+              if (!any(names(list(...)) == ".cache")) {
                   .cache <- new.env()
-                  assign("level", 0 , .cache)
+                  assign("level", 0, .cache)
                   lockEnvironment(.cache)
                   .Object@.cache <- .cache
               }
