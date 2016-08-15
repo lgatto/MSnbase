@@ -199,7 +199,7 @@ setMethod("precursorMz", "pSet",
 
 setMethod("precScanNum", "pSet",
           function(object) {
-              if (msLevel(object)[1]>1)
+              if (msLevel(object)[1] > 1)
                   return(unlist(sapply(spectra(object), precScanNum)))
               stop("This experiment contains MS1 spectra.")
           })
