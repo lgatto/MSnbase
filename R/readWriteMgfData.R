@@ -190,8 +190,8 @@ extractMgfSpectrum2Info <- function(mgf, centroided) {
     if (!length(ms))
         ms <- matrix(numeric(), ncol = 2L)
 
-    desc <- do.call(rbind, strsplit(desc, "=", fixed = TRUE))
-    desc <- setNames(desc[, 2L], desc[, 1L])
+    r <- regexpr("=", desc, fixed = TRUE)
+    desc <- setNames(substring(desc, r + 1L, nchar(desc)), substring(desc, 1L, r - 1L))
     fdata <- desc
 
     desc[c("PEPMASSMZ", "PEPMASSINT")] <-
@@ -204,11 +204,11 @@ extractMgfSpectrum2Info <- function(mgf, centroided) {
     desc[is.na(desc[voi])] <- 0L
 
     sp <- new("Spectrum2",
-              rt = desc["RTINSECONDS"],
-              scanIndex = as.integer(desc["SCANS"]),
-              precursorMz = desc["PEPMASSMZ"],
-              precursorIntensity = desc["PEPMASSINT"],
-              precursorCharge = as.integer(desc["CHARGE"]),
+              rt = unname(desc["RTINSECONDS"]),
+              scanIndex = unname(as.integer(desc["SCANS"])),
+              precursorMz = unname(desc["PEPMASSMZ"]),
+              precursorIntensity = unname(desc["PEPMASSINT"]),
+              precursorCharge = unname(as.integer(desc["CHARGE"])),
               mz = ms[, 1L],
               intensity = ms[, 2L],
               fromFile = 1L,

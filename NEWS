@@ -44,6 +44,7 @@ CHANGES IN VERSION 1.99.0
    <2016-08-12 Fri>
  o Update centroided with an na.fail argument (see issue #150 for
    details) <2016-08-12 Fri>
+ o Fix warning in readMgfData if TITLE contains multiple "=" <2016-08-24 Wed>
 
 CHANGES IN VERSION 1.21.8
 -------------------------
