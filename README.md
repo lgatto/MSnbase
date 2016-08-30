@@ -9,7 +9,10 @@ benefited from various contributions.
 
 
 ```
-Laurent Gatto with contributions from Guangchuang Yu, Samuel Wieczorek, Vasile-Cosmin Lazar, Vladislav Petyuk, Thomas Naake, Richie Cotton, Martina Fisher, Johannes Rainer and Sebastian Gibb. 
+Laurent Gatto with contributions from
+Guangchuang Yu, Samuel Wieczorek, Vasile-Cosmin Lazar,
+Vladislav Petyuk, Thomas Naake, Richie Cotton, Martina Fisher,
+Johannes Rainer and Sebastian Gibb. 
 ```
 
 The official page is the Bioconductor landing page
@@ -27,10 +30,17 @@ is the official repository for the working source code.
 To install `MSnbase`
 
 
+```r
+library("BiocInstaller")
+biocLite("MSnbase")
+```
 
 If you need the github version
 
 
+```r
+biocLite("lgato/MSnbase")
+```
 
 ## Questions
 

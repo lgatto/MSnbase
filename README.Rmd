@@ -1,5 +1,5 @@
 ```{r env, echo=FALSE}
-opts_chunk$set(comment=NA, echo=FALSE)
+opts_chunk$set(comment=NA)
 ```
 
 `MSnbase` is an R/Bioconductor package that provides infrastructure
@@ -9,11 +9,12 @@ data. The project was started by
 23:35:23 2010, according to the git log) and has, since then,
 benefited from various contributions. 
 
-```{r}
+```{r, echo=FALSE}
 auth <- packageDescription("MSnbase")$Author
-ctrb <- sub("<lg390@cam.ac.uk> ", "",
-            gsub("\t", " ", gsub("\n", " ", auth)))
-cat(gsub("  ", " ", ctrb), "\n")
+auth <- sub("<lg390@cam.ac.uk> ", "", auth)
+auth <- gsub("\n\t", "\n", auth)
+auth <- gsub("\t", " ", auth)
+cat(auth, "\n")
 ```
 
 The official page is the Bioconductor landing page
