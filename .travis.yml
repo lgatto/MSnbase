@@ -25,8 +25,6 @@ bioc_packages:
   - BiocStyle
   - rols
   - Rdisop
-  - pRoloc
-  - pRolocdata
   - msdata
     
 r_packages:
