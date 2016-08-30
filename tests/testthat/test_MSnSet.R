@@ -143,7 +143,7 @@ test_that("Combine MSnSet features (L)", {
     ## 
     ## Protein A is quantified by pep e only 
     ## Protein B is quantified by pep b only 
-    ## Protein C is quantified by pep c only
+    ## Protein C is quantified by pep c only    
     ee3 <- ee[c("e", "b", "c"), ]
     featureNames(ee3) <- LETTERS[1:3]
     ee3@processingData@merged <- TRUE

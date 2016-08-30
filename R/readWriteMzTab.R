@@ -88,7 +88,6 @@ readMzTabData_v0.9 <- function(file,
                                what = c("PRT", "PEP"),
                                verbose = isMSnbaseVerbose()) {
     .Deprecated(msg = "Version 0.9 is deprecated. Please see '?readMzTabData' and '?MzTab' for details.")
-    
     what <- match.arg(what)
     
     ## .parse1 <- function(x)
@@ -100,7 +99,7 @@ readMzTabData_v0.9 <- function(file,
     }
 
     lns <- readLines(file)
-    ans <- new("MSnSet")
+    miape <- new("MIAPE")
 
     ## metadata section
     mtd <- grep("^MTD", lns, value = TRUE)
@@ -109,71 +108,71 @@ readMzTabData_v0.9 <- function(file,
             message("Detected a metadata section")
         mtd <- sub("MTD\t", "", mtd)
         if (length(title <- grep("-title\t", mtd, value = TRUE)) > 0)
-            ans@experimentData@title <- .parse(title)
+            miape@title <- .parse(title)
         if (length(description <- grep("-description\t", mtd, value = TRUE)) > 0) {
-            ans@experimentData@other$description <- .parse(description) 
+            miape@other$description <- .parse(description) 
             ## description <- description[-grep("sub", description)] ## added later to experimentData@samples
             ## if (length(description) > 0)
-            ##   ans@experimentData@other$description <- .parse(description)
+            ##   miape@other$description <- .parse(description)
         }
         if (length(sampleProcessing <- grep("-sample_processing\t", mtd, value = TRUE)) > 0)
-            ans@experimentData@other$sampleProcessing <- .parse(sampleProcessing)
+            miape@other$sampleProcessing <- .parse(sampleProcessing)
         if (length(instrumentSource <- grep("-instrument\\[[0-9]*\\]-source\t", mtd, value = TRUE)) > 0) 
-            ans@experimentData@ionSource <- .parse(instrumentSource)
+            miape@ionSource <- .parse(instrumentSource)
         if (length(instrumentAnalyzer <- grep("-instrument\\[[0-9]*\\]-analyzer\t", mtd, value = TRUE)) > 0) 
-            ans@experimentData@analyser <- .parse(instrumentAnalyzer)
+            miape@analyser <- .parse(instrumentAnalyzer)
         if (length(instrumentDetector <- grep("-instrument\\[[0-9]*\\]-detector\t", mtd, value = TRUE)) > 0) 
-            ans@experimentData@detectorType <- .parse(instrumentDetector)
+            miape@detectorType <- .parse(instrumentDetector)
         if (length(software <- grep("-software\\[[0-9]*\\]\t", mtd, value = TRUE)) > 0) 
-            ans@experimentData@preprocessing <- as.list(.parse(software))
+            miape@preprocessing <- as.list(.parse(software))
         if (length(fdr <- grep("-false_discovery_rate\t", mtd, value = TRUE)) > 0)
-            ans@experimentData@other$fdr <- .parse(fdr)
+            miape@other$fdr <- .parse(fdr)
         if (length(publications <- grep("-publication\t", mtd, value = TRUE)) > 0)
-            ans@experimentData@pubMedIds <- .parse(publications)
+            miape@pubMedIds <- .parse(publications)
         if (length(name <- grep("-contact\\[[0-9]*\\]-name\t", mtd, value = TRUE)) > 0) 
-            ans@experimentData@name <- .parse(name)
+            miape@name <- .parse(name)
         if (length(affiliation <- grep("-contact\\[[0-9]*\\]-affiliation\t", mtd, value = TRUE)) > 0) 
-            ans@experimentData@lab <- .parse(affiliation)
+            miape@lab <- .parse(affiliation)
         if (length(email <- grep("-contact\\[[0-9]*\\]-email\t", mtd, value = TRUE)) > 0) 
-            ans@experimentData@email <- .parse(email)
+            miape@email <- .parse(email)
         if (length(uri <- grep("-uri\t", mtd, value = TRUE)) > 0) 
-            ans@experimentData@url <- .parse(uri)
+            miape@url <- .parse(uri)
         if (length(mod <- grep("-mod\t", mtd, value = TRUE)) > 0)
-            ans@experimentData@other$modifications <- .parse(mod)
+            miape@other$modifications <- .parse(mod)
         if (length(modprob <- grep("-mod-probability_method\t", mtd, value = TRUE)) > 0)
-            ans@experimentData@other$modProbabilityMethod <- .parse(modprob)
+            miape@other$modProbabilityMethod <- .parse(modprob)
         if (length(quantMethod <- grep("-quantification_method\t", mtd, value = TRUE)) > 0)
-            ans@experimentData@other$quantificationMethod <- .parse(quantMethod)
+            miape@other$quantificationMethod <- .parse(quantMethod)
         if (length(protQuantUnit <- grep("-protein-quantification_unit\t", mtd, value = TRUE)) > 0)
-            ans@experimentData@other$protQuantUnit <- .parse(protQuantUnit)
+            miape@other$protQuantUnit <- .parse(protQuantUnit)
         if (length(pepQuantUnit <- grep("-peptide-quantification_unit\t", mtd, value = TRUE)) > 0)
-            ans@experimentData@other$pepQuantUnit <- .parse(pepQuantUnit)
+            miape@other$pepQuantUnit <- .parse(pepQuantUnit)
         if (length(msFileFormat <- grep("-ms_file\\[[0-9]*\\]-format\t", mtd, value = TRUE)) > 0) 
-            ans@experimentData@other$msFileFormat <- .parse(msFileFormat)
+            miape@other$msFileFormat <- .parse(msFileFormat)
         if (length(msFile <- grep("-ms_file\\[[0-9]*\\]-location\t", mtd, value = TRUE)) > 0) 
-            ans@processingData@files <- .parse(msFile)
+            tmp@processingData@files <- .parse(msFile)
         if (length(msFileIdFormat <- grep("-ms_file\\[[0-9]*\\]-id_format\t", mtd, value = TRUE)) > 0) 
-            ans@experimentData@other$msFileIdFormat <- .parse(msFileIdFormat)
+            miape@other$msFileIdFormat <- .parse(msFileIdFormat)
         if (length(custom <- grep("-custom\t", mtd, value = TRUE)) > 0) {
             custom <- custom[-grep("sub", custom)] ## added later to experimentData@samples
             if (length(custom) > 0)
-                ans@experimentData@other$custom <- .parse(custom)
+                miape@other$custom <- .parse(custom)
         }
         ## sub metadata
         if (length(species <- grep("-species\\[[0-9]*\\]\t", mtd, value = TRUE)) > 0) 
-            ans@experimentData@samples <- append(ans@experimentData@samples, list(species = .parse(species)))
+            miape@samples <- append(miape@samples, list(species = .parse(species)))
         if (length(tissue <- grep("-tissue\\[[0-9]*\\]\t", mtd, value = TRUE)) > 0)      
-            ans@experimentData@samples <- append(ans@experimentData@samples, list(tissue = .parse(tissue)))
+            miape@samples <- append(miape@samples, list(tissue = .parse(tissue)))
         if (length(cellType <- grep("-cell_type\\[[0-9]*\\]\t", mtd, value = TRUE)) > 0)      
-            ans@experimentData@samples <- append(ans@experimentData@samples, list(cellType = .parse(cellType)))
+            miape@samples <- append(miape@samples, list(cellType = .parse(cellType)))
         if (length(disease <- grep("-disease\\[[0-9]*\\]\t", mtd, value = TRUE)) > 0)      
-            ans@experimentData@samples <- append(ans@experimentData@samples, list(disease = .parse(disease)))
+            miape@samples <- append(miape@samples, list(disease = .parse(disease)))
         if (length(description_ <- grep("-sub\\[[0-9]*\\]-description\t", mtd, value = TRUE)) > 0)      
-            ans@experimentData@samples <- append(ans@experimentData@samples, list(description = .parse(description_)))
+            miape@samples <- append(miape@samples, list(description = .parse(description_)))
         if (length(quantReagent_ <- grep("-sub\\[[0-9]*\\]-quantification_reagent\t", mtd, value = TRUE)) > 0)      
-            ans@experimentData@samples <- append(ans@experimentData@samples, list(quantReagent = .parse(quantReagent_)))
+            miape@samples <- append(miape@samples, list(quantReagent = .parse(quantReagent_)))
         if (length(custom_ <- grep("-sub\\[[0-9]*\\]-custom\t", mtd, value = TRUE)) > 0) 
-            ans@experimentData@samples <- append(ans@experimentData@samples, list(custom = .parse(custom_)))
+            miape@samples <- append(miape@samples, list(custom = .parse(custom_)))
     }
 
     if (what == "PRT") {
@@ -224,9 +223,13 @@ readMzTabData_v0.9 <- function(file,
     }
 
     rownames(eset) <- featureNames(fdata)
-    exprs(ans) <- eset
-    featureData(ans) <- fdata
-    phenoData(ans) <- pdata
+    colnames(eset) <- featureNames(pdata)
+
+    ans <- new("MSnSet",
+               exprs = eset,
+               featureData = fdata,
+               phenoData = pdata,
+               experimentData = miape)
 
     ## adding mzTab file
     ans@processingData@files <-
