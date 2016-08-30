@@ -230,7 +230,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     filename <- filenames[fData[1, "fileIdx"]]
     ## Open the file.
     fileh <- mzR::openMSfile(filename)
-    hd <- header(fileh)
+    ## hd <- header(fileh)
     on.exit(expr = mzR::close(fileh))
     ## Intermediate #151 fix. Performance-wise would be nice to get rid of this.
     on.exit(expr = gc(), add = TRUE)
@@ -242,8 +242,11 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         ## Reading all of the data in "one go". According to issue
         ## #103 we should use acquisitionNum, not spectrum idx.
         ## See issue #118 for an explanation of the match
-        allSpect <- mzR::peaks(fileh,
-                               match(ms1fd$acquisitionNum, hd$acquisitionNum))
+        ## allSpect <- mzR::peaks(fileh,
+        ##                        match(ms1fd$acquisitionNum, hd$acquisitionNum))
+        ## spIdx is the index of the spectra in the provided header, thus we
+        ## don't require to load the header and do the matching.
+        allSpect <- mzR::peaks(fileh, ms1fd$spIdx)
         ## If we have more than one spectrum the peaks function returns a list.
         if (is(allSpect, "list")) {
             nValues <- base::lengths(allSpect, use.names = FALSE) / 2
@@ -276,9 +279,10 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     if (length(msLevelN) >= 1) {
         msnfd <- fData[msLevelN, , drop = FALSE]
         ## Reading all of the data in "one go".
-        ## See issue #118 for an explanation of the match
-        allSpect <- mzR::peaks(fileh,
-                               match(msnfd$acquisitionNum, hd$acquisitionNum))
+        ## See issue #118 for an explanation of the match/no match.
+        ## allSpect <- mzR::peaks(fileh,
+        ##                        match(msnfd$acquisitionNum, hd$acquisitionNum))
+        allSpect <- mzR::peaks(fileh, msnfd$spIdx)
         ## If we have more than one spectrum the peaks function returns a list.
         if (is(allSpect, "list")) {
             nValues <- as.integer(base::lengths(allSpect, use.names = FALSE) / 2)
