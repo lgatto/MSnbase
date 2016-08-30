@@ -30,7 +30,8 @@ subsetFeatureDataBy <- function(fd, index = NULL, scanIdx = NULL,
     if (length(index) > 0) {
         if (is.logical(index)) {
             if (length(index) != nrow(fd))
-                stop("If 'index' is a logical vector its length has to match the number of",
+                stop("If 'index' is a logical vector its length has to match",
+                     " the number of",
                      " rows of the featureData!")
             index <- which(index)
         }
@@ -39,7 +40,8 @@ subsetFeatureDataBy <- function(fd, index = NULL, scanIdx = NULL,
             if (!any(gotIt))
                 stop("Provided indices are outside of the allowed range.")
             if (any(!gotIt))
-                warning("Some of the provided indices are outside of the allowed range.")
+                warning("Some of the provided indices are outside of the",
+                        " allowed range.")
             index <- index[gotIt]
             return(fd[index, , drop = FALSE])
         }
@@ -144,7 +146,7 @@ validateOnDiskMSnExp <- function(object, mzTolerance=1e-6) {
                      "lowMZ and highMZ.")
         }
     }
-    if (emptyMz > 1)
+    if (emptyMz > 0)
         warning("Header value lowMZ and highMZ is 0 for ",
                 emptyMz, " spectra.")
     
@@ -175,7 +177,6 @@ spectrapply <- function(object, FUN = NULL,
     theQ <- processingQueue(object)
     vals <- bplapply(fDataPerFile,
                      FUN = .applyFun2SpectraOfFileMulti,
-##                     FUN = .applyFun2SpectraOfFileSingle,
                      filenames = fNames,
                      queue = theQ,
                      APPLYFUN = FUN,

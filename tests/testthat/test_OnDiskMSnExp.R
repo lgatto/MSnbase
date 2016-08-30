@@ -250,3 +250,32 @@ test_that("Test internal spectrapply function", {
     }, int = 30)
     expect_identical(res1, res2)
 })
+
+############################################################
+## Test that the new sorting by acquisitionNum and extraction
+## by spIdx works (described in issue #118)
+## We're comparing spectra extracted by that between an
+## OnDiskMSnExp and an MSnExp.
+test_that("Test sorting by acquisitionNum", {
+    sp1 <- inMem[[13]]
+    sp2 <- onDisk[[13]]
+    expect_identical(sp1, sp2)
+    sp1 <- inMem[[22]]
+    sp2 <- onDisk[[22]]
+    expect_identical(sp1, sp2)
+    ## Same using multiMS
+    onDisk1 <- filterMsLevel(multiMsOnDisk, msLevel. = 1L)
+    sp1 <- multiMsInMem1[[13]]
+    sp2 <- onDisk1[[13]]
+    expect_identical(sp1, sp2)
+    sp1 <- multiMsInMem1[[22]]
+    sp2 <- onDisk1[[22]]
+    expect_identical(sp1, sp2)
+    onDisk2 <- filterMsLevel(multiMsOnDisk, msLevel. = 2L)
+    sp1 <- multiMsInMem2[[13]]
+    sp2 <- onDisk2[[13]]
+    expect_identical(sp1, sp2)
+    sp1 <- multiMsInMem2[[22]]
+    sp2 <- onDisk2[[22]]
+    expect_identical(sp1, sp2)
+})
