@@ -24,11 +24,16 @@ test_that("validateOnDiskMSnExp", {
     expect_true(validateOnDiskMSnExp(filterMsLevel(onDisk2, 2)))
 })
 
-test_that("More validateOnDiskMSnExp", {
+test_that("Empty validateOnDiskMSnExp", {
     x <- filterMsLevel(onDisk, 2) ## empty
     expect_identical(length(x), 0L)
     expect_true(validObject(x))
     expect_true(validateOnDiskMSnExp(x))
+})
+
+test_that("Warning validateOnDiskMSnExp", {
+    expect_warning(val <- validateOnDiskMSnExp(onDisk))
+    expect_true(val)
 })
 
 ############################################################

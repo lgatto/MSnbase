@@ -128,21 +128,26 @@ validateOnDiskMSnExp <- function(object, mzTolerance=1e-6) {
     ## Loop through the spectra and check that mzrange is within
     ## lowMZ and highMZ
     fd <- fData(object)
-    emptyMz <- FALSE
+    emptyMz <- 0
     for (i in seq_len(length(object))) {
         ## Check if lowMZ or highMZ are 0; in that case skip and throw
-        ## a warning.
-        if (identical(fd$lowMZ[i], 0) & identical(fd$highMZ[i], 0)) {
-            emptyMz <- TRUE
-            next
-        }        
-        if (!(res[[i]][1] >= (fd$lowMZ[i] - mzTolerance) &
-              res[[i]][2] <= (fd$highMZ[i] + mzTolerance)))
-            stop("M/Z values of spectrum ", i, " are outside of ",
-                 "lowMZ and highMZ.")
+        ## a warning, see https://github.com/lgatto/MSnbase/issues/153
+        if (fd$lowMZ[i] == 0L & fd$highMZ[i] == 0L) {
+            emptyMz <- emptyMz + 1
+        } else {
+            hgeq <- isTRUE(base::all.equal(res[[i]][2], fd$highMZ[i],
+                                           tolerance = mzTolerance))
+            lweq <- isTRUE(base::all.equal(res[[i]][1], fd$lowMZ[i],
+                                           tolerance = mzTolerance))
+            if (!(hgeq & lweq))
+                stop("M/Z values of spectrum ", i, " don't match ",
+                     "lowMZ and highMZ.")
+        }
     }
-    if (emptyMz)
-        warning("Header value lowMZ and highMZ is 0 for one or more spectra.")
+    if (emptyMz > 1)
+        warning("Header value lowMZ and highMZ is 0 for ",
+                emptyMz, " spectra.")
+    
     ## Check that msLevel of spectra matches msLevel of featureData.
     if (any(fData(object)$msLevel != sapply(spectra(object), msLevel)))
         stop("msLevel in featureData does not match msLevel from the spectra!")
