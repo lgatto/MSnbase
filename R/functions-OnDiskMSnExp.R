@@ -113,11 +113,9 @@ validateFeatureDataForOnDiskMSnExp <- function(x) {
 ##    with featureData's lowMZ and highMZ.
 validateOnDiskMSnExp <- function(object, mzTolerance=1e-6) {
     ## First call the basic validity.
-    valMsg <- validObject(object)
-    if (is(valMsg, "character"))
-        stop(valMsg)
+    validObject(object)
     ## Now check validity of the spectra; if one non-valid object is found we stop.
-    spectrapply(object, FUN = function(z) {
+    tmp <- spectrapply(object, FUN = function(z) {
         res <- validObject(z)
         if (is(res, "character"))
             stop(res)
@@ -131,13 +129,13 @@ validateOnDiskMSnExp <- function(object, mzTolerance=1e-6) {
     ## lowMZ and highMZ
     fd <- fData(object)
     emptyMz <- FALSE
-    for (i in 1:length(res)) {
+    for (i in seq_len(length(object))) {
         ## Check if lowMZ or highMZ are 0; in that case skip and throw
         ## a warning.
         if (identical(fd$lowMZ[i], 0) & identical(fd$highMZ[i], 0)) {
             emptyMz <- TRUE
             next
-        }
+        }        
         if (!(res[[i]][1] >= (fd$lowMZ[i] - mzTolerance) &
               res[[i]][2] <= (fd$highMZ[i] + mzTolerance)))
             stop("M/Z values of spectrum ", i, " are outside of ",

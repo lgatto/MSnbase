@@ -14,7 +14,7 @@ multiMsOnDisk <- readMSData2(files = f, centroided. = TRUE)
 ############################################################
 ## validateOnDiskMSnExp
 test_that("validateOnDiskMSnExp", {
-    onDisk2 <- onDisk
+    onDisk2 <- multiMsOnDisk
     expect_true(validateOnDiskMSnExp(onDisk2))
     ## Now modify the fData slightly.
     fd <- featureData(onDisk2)
@@ -24,6 +24,12 @@ test_that("validateOnDiskMSnExp", {
     expect_true(validateOnDiskMSnExp(filterMsLevel(onDisk2, 2)))
 })
 
+test_that("More validateOnDiskMSnExp", {
+    x <- filterMsLevel(onDisk, 2) ## empty
+    expect_identical(length(x), 0L)
+    expect_true(validObject(x))
+    expect_true(validateOnDiskMSnExp(x))
+})
 
 ############################################################
 ## Testing the on-disk MSnExp stuff.
