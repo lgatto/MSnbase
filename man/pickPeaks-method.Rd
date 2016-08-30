@@ -68,7 +68,8 @@ Bioinformatics 28: 2270-2271.
 \examples{
 sp1 <- new("Spectrum1",
            intensity = c(1:6, 5:1),
-           mz = 1:11)
+           mz = 1:11,
+           centroided = FALSE)
 sp2 <- pickPeaks(sp1)
 intensity(sp2)
 

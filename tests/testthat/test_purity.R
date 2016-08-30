@@ -3,11 +3,10 @@ context("Purity correction")
 test_that("Purity correction identify", {
     file <- dir(system.file(package = "MSnbase", dir = "extdata"),
                 full.name = TRUE, pattern = "mzXML$")
-    aa <- readMSData(file,verbose=FALSE)
+    aa <- readMSData(file, centroided = FALSE)
     bp <- SerialParam()
-    msnset <- quantify(aa, method="trap", reporters = iTRAQ4,
-                       BPPARAM = bp,
-                       verbose = FALSE)
+    msnset <- quantify(aa, method = "trap", reporters = iTRAQ4,
+                       BPPARAM = bp)
     impurity0 <- diag(4)
     pc <- purityCorrect(msnset, impurity0)
     expect_true(all(exprs(pc) == exprs(msnset)))

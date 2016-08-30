@@ -1,5 +1,6 @@
 \name{readMSData}
 \alias{readMSData}
+\alias{readMSData2}
 \concept{MSnExp}
 
 \title{
@@ -11,73 +12,96 @@
   an \code{"\linkS4class{MSnExp}"} object. This function uses the
   functionality provided by the \code{mzR} package to access data and
   meta data in \code{mzData}, \code{mzXML} and \code{mzML}.
+
 }
 
 \usage{
-readMSData(files, pdata = NULL, msLevel = 2, verbose = TRUE,
-centroided = FALSE, smoothed = FALSE, removePeaks = 0, clean = FALSE,
-cache = 1)  
+
+readMSData(files, pdata = NULL, msLevel. = 2, verbose =
+isMSnbaseVerbose(), centroided. = NA, smoothed. = NA, cache. = 1)
+
+readMSData2(files, pdata = NULL, msLevel., verbose = isMSnbaseVerbose(),
+centroided., smoothed. = NA)
+
 }
 
 \arguments{
+
   \item{files}{
-    character vector with file names to be read.
+    A \code{character} vector with file names to be read.
   }
+
   \item{pdata}{
-    an object of class \code{"\linkS4class{NAnnotatedDataFrame}"}.
+
+    An object of class \code{"\linkS4class{NAnnotatedDataFrame}"} or
+    \code{NULL}.
+
   }
-  \item{msLevel}{
-    MS level spectra to be read. Use '1' for MS1 spectra or any larger
-    numeric for MSn spectra. Default is '2'. 
+
+  \item{msLevel.}{
+
+    MS level spectra to be read. Use \code{1} for MS1 spectra or any larger
+    numeric for MSn spectra. Default is \code{2}. \code{readMSData2}
+    supports multiple levels and will, by default, read all the data.
+
   }
-  \item{centroided}{
-    \code{Logical} indicating whether spectra are centroided or not. Default is
-    'FALSE'. Used to initialise \code{"\linkS4class{MSnProcess}"} object
-    in \code{processingData} slot.
+
+  \item{centroided.}{
+
+    A \code{logical} in \code{readMSData}, indicating whether spectra
+    are centroided or not. Default is \code{NA}.
+
+    In \code{readMSData2}, the parameter value is missing and the value
+    is set to \code{NA} in the returned object. It can be set for
+    different MS levels by a vector of logicals, where the first element
+    is for MS 1, the second element is for level 2, ... See
+    \code{"\linkS4class{OnDiskMSnExp}"} for an example.
+
   }
-  \item{smoothed}{
-    \code{Logical} indicating whether spectra already smoothed or not. Default is
-    'FALSE'. Used to initialise \code{"\linkS4class{MSnProcess}"} object
-    in \code{processingData} slot.
+
+  \item{smoothed.}{
+
+    A \code{logical} indicating whether spectra already smoothed or
+    not. Default is \code{NA} in \code{readMSData} and
+    \code{readMSData2}.
+
   }
-  \item{removePeaks}{
-    If > 0 (default), all peaks less or equal then value will set to
-    0. See \code{\link{removePeaks}} for more details and examples.
-  }
-  \item{clean}{
-    Logical indicating whether 0 intensity peaks should be discarded
-    from spectra. Useful is removePeaks is set. Default is 'FALSE'. See
-    \code{\link{clean}} for more details and examples. 
-  }
-  \item{cache}{
+
+  \item{cache.}{
     Numeric indicating caching level. Default is 0 for MS1 and 1 MS2 (or
     higher). Under development.
   }
   \item{verbose}{
-   verbosity flag. 
+    Verbosity flag. Default is \code{TRUE}.
   }
 }
 
-% \details{
-%   %%  ~~ If necessary, more details than the description above ~~
-% }
+\details{
+
+  For \code{readMSData} the whole MS data is read from file and kept in
+  memory as \code{\linkS4class{Spectrum}} objects within the
+  \code{\linkS4class{MSnExp}}'s \code{assayData} slot.
+
+  To reduce the memory footpring especially for large MS 1 data sets it
+  is also possible to read only selected information from the MS files
+  and fetch the actual spectrum data (i.e. the M/Z and intensity values)
+  only on demand from the original data files. This can be achieved with
+  \code{readMSData2}. The function returns then an \code{OnDiskMSnExp}
+  object instead of a \code{\linkS4class{MSnExp}} object.
+
+}
 
 \value{
-  An \code{"\linkS4class{MSnExp}"} object.
+
+  An \code{MSnExp} object for \code{readMSData} and a
+  \code{OnDiskMSnExp} object for \code{readMSData2}.
+
 }
 
-% \references{
-%   %% ~put references to the literature/web site here ~
-% }
 
 \author{
-Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto <lg390@cam.ac.uk>
 }
-
-% \note{
-% %%  ~~further notes~~
-% }
-
 
 
 \seealso{
@@ -86,14 +110,14 @@ Laurent Gatto <lg390@cam.ac.uk>
 }
 
 \examples{
-file <- dir(system.file(package="MSnbase",dir="extdata"),
-            full.name=TRUE,
-            pattern="mzXML$")
+file <- dir(system.file(package = "MSnbase", dir = "extdata"),
+            full.name = TRUE,
+            pattern = "mzXML$")
 aa <- readMSData(file)
 aa
+bb <- readMSData(file)
+bb
 }
 
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ file }
 \keyword{ manip }

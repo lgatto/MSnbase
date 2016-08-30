@@ -66,7 +66,7 @@ plotMzDelta_MSnExp <- function(object,            ## MSnExp object
                                withLabels = TRUE, ## add amino acide labels
                                size = 2.5,        ## labels size
                                plot = TRUE,       ## plot figure
-                               verbose = TRUE) {
+                               verbose = isMSnbaseVerbose()) {
     if (is.null(precMz))
         precMz <- precursorMz(object)
     ## Contributed by Guangchuang Yu for the plotMzDelta QC

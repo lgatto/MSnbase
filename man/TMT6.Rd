@@ -1,18 +1,27 @@
 \name{TMT6}
 \alias{TMT6}
+\alias{TMT6b}
 \alias{TMT7}
+\alias{TMT7b}
 \alias{TMT10}
+\alias{TMT10ETD}
+\alias{TMT10HCD}
 \docType{data}
 
-\title{ TMT 6-plex set }
+\title{ TMT 6/10-plex sets }
 
 \description{
 
   This instance of class \code{"\linkS4class{ReporterIons}"} corresponds
   to the TMT 6-plex set, i.e the 126, 127, 128, 129, 130 and 131
   isobaric tags. In the \code{TMT7} data set, an unfragmented tag, i.e
-  reporter and attached isobaric tag, is also included at MZ 229. The
-  \code{TMT10} instance corresponds to the 10-plex version.
+  reporter and attached isobaric tag, is also included at MZ 229. A
+  second \code{TMT6b} has slightly different values.
+
+
+  The \code{TMT10} instance corresponds to the 10-plex version. There
+  are spectific HCD (\code{TMT10HCD}, same as \code{TMT10}) and ETD
+  (\code{TMT10ETD}) sets.
 
   These objects are used to plot the reporter ions of interest in an
   MSMS spectra (see \code{"\linkS4class{Spectrum2}"}) as well as for
@@ -22,8 +31,12 @@
 
 \usage{
 TMT6
+TMT6b
 TMT7
+TMT7b
 TMT10
+TMT10ETD
+TMT10HCD
 }
 
 \references{

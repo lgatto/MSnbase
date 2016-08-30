@@ -19,6 +19,7 @@
 \alias{plot,MSnExp}
 \alias{plot,MSnExp,missing-method}
 \alias{quantify,MSnExp-method}
+\alias{quantify,OnMSnExp-method}
 \alias{quantify,MSnExp,character-method}
 \alias{removePeaks,MSnExp-method}
 \alias{removeReporters,MSnExp-method}
@@ -35,6 +36,28 @@
 \alias{spectra,MSnExp-method}
 \alias{trimMz,MSnExp-method}
 \alias{trimMz,MSnExp,numeric-method}
+
+\alias{filterMsLevel}
+\alias{filterMsLevel,MSnExp-method}
+\alias{filterMsLevel,OnDiskMSnExp-method}
+\alias{filterMz,MSnExp-method}
+\alias{filterMz,OnDiskMSnExp-method}
+\alias{filterRt}
+\alias{filterRt,MSnExp-method}
+\alias{filterRt,OnDiskMSnExp-method}
+\alias{filterFile}
+\alias{filterFile,MSnExp-method}
+\alias{filterFile,OnDiskMSnExp-method}
+\alias{filterAcquisitionNum}
+\alias{filterAcquisitionNum,MSnExp-method}
+\alias{filterAcquisitionNum,OnDiskMSnExp-method}
+
+\alias{isCentroided,MSnExp-method}
+
+\alias{all.equal,MSnExp,MSnExp-method}
+\alias{all.equal,MSnExp,OnDiskMSnExp-method}
+\alias{all.equal,OnDiskMSnExp,MSnExp-method}
+\alias{all.equal,OnDiskMSnExp,OnDiskMSnExp-method}
 
 \title{The 'MSnExp' Class for MS Data And Meta-Data}
 
@@ -106,9 +129,9 @@
 }
 
 \section{Extends}{
-Class \code{"\linkS4class{pSet}"}, directly.
-Class \code{"\linkS4class{VersionedBiobase}"}, by class "pSet", distance 2.
-Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
+  Class \code{"\linkS4class{pSet}"}, directly.
+  Class \code{"\linkS4class{VersionedBiobase}"}, by class "pSet", distance 2.
+  Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
 }
 
 \section{Methods}{
@@ -123,7 +146,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
       intensity data points. See \code{\link{clean}} documentation
       for more details and examples. }
     \item{compareSpectra}{\code{signature(object1 = "Spectrum",
-      object2 = "missing")}: Compares spectra.  See
+	object2 = "missing")}: Compares spectra.  See
       \code{\link{compareSpectra}} documentation for more details and
       examples. }
     \item{extractPrecSpectra}{\code{signature(object = "MSnExp", prec =
@@ -162,7 +185,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
     \item{quantify}{\code{signature(object = "MSnExp")}: Performs
       quantification for all the MS2 spectra of the \code{MSnExp}
       instance. See \code{\link{quantify}} documentation for more
-      details. }
+      details. Also for \code{OnDiskMSnExp} objects. }
     \item{removePeaks}{\code{signature(object = "MSnExp")}: Removes
       peaks lower that a threshold \code{t}. See
       \code{\link{removePeaks}} documentation for more details and
@@ -184,9 +207,10 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
       examples. }
 
     \item{removeMultipleAssignment}{\code{signature(object = "MSnExp",
-	fcol = "nprot")}: Removes protein groups with more than one
-	member. The latter is defined by extracting a feature variable
-	(default is \code{"nprot"}). }
+	fcol = "nprot")}: Removes protein groups (or feature belong to
+      protein groups) with more than one member. The latter is defined
+      by extracting a feature variable (default is
+      \code{"nprot"}). Also removes non-identified features. }
 
     \item{idSummary}{\code{signature(object = "MSnExp", ...)}:
       Prints a summary that lists the percentage of identified features per
@@ -199,6 +223,47 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 3.
       range of all the spectra of the \code{MSnExp} instance. See
       \code{\link{trimMz}} documentation for more details and
       examples. }
+
+    \item{\code{isCentroided(object, k = 0.025, qtl = 0.9, verbose =
+	TRUE)}}{ A heuristic assessing if the spectra in the
+      \code{object} are in profile or centroided mode. The function
+      takes the \code{qtl}th quantile top peaks, then calculates the
+      difference between adjacent M/Z value and returns \code{TRUE} if
+      the first quartile is greater than \code{k}. (See
+      \code{MSnbase:::.isCentroided} for the code.) If \code{verbose}
+      (default), a table indicating mode for all MS levels is printed.
+
+      The function has been tuned to work for MS1 and MS2 spectra and
+      data centroided using different peak picking algorithms, but false
+      positives can occur. See
+      \url{https://github.com/lgatto/MSnbase/issues/131} for
+      details. For whole experiments, where all MS1 and MS2 spectra are
+      expected to be in the same, albeit possibly different modes, it is
+      advised to assign the majority result for MS1 and MS2 spectra,
+      rather than results for individual spectra. See an example below.
+    }    
+  }  
+
+  Filtering functions:
+  
+  \describe{
+
+    \item{filterRt}{\code{signature(object = "MSnExp", rt = "numeric",
+	msLevel. = "numeric")}: Retains MS spectra of level
+      \code{msLevel.} with a retention times within \code{rt[1]} and
+      \code{rt[2]}. }
+
+    \item{filterMsLevel}{\code{signature(object = "MSnExp", msLevel. =
+	"numeric")}: Retains MS spectra of level \code{msLevel.}. }
+
+    \item{filterMz}{\code{signature(object = "MSnExp", mz = "numeric",
+	msLevel. = "numeric")}. See \code{\link{filterMz}} for
+	details. }
+
+    \item{filterFile}{}
+
+    \item{filterAcquisitionNum}{}
+
   }
 }
 

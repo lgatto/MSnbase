@@ -27,8 +27,11 @@ setGeneric("collisionEnergy", function(object) standardGeneric("collisionEnergy"
 ## setGeneric("peaksCount", function(object) standardGeneric("peaksCount")) ## use mzR generic
 ## setGeneric("header", function(object) standardGeneric("header")) ## use mzR generic
 setGeneric("polarity", function(object) standardGeneric("polarity"))
-setGeneric("centroided", function(object) standardGeneric("centroided"))
-setGeneric("centroided<-", function(object, value) standardGeneric("centroided<-"))
+
+setGeneric("centroided", function(object, ...) standardGeneric("centroided"))
+setGeneric("centroided<-", function(object, ..., value) standardGeneric("centroided<-"))
+setGeneric("smoothed", function(object) standardGeneric("smoothed"))
+setGeneric("smoothed<-", function(object, ..., value) standardGeneric("smoothed<-"))
 
 setGeneric("processingData", function(object) standardGeneric("processingData"))
 setGeneric("processingData<-", function(object, value) standardGeneric("processingData<-"))
@@ -49,9 +52,10 @@ setGeneric("instrumentModel", function(object) standardGeneric("instrumentModel"
 setGeneric("instrumentManufacturer", function(object) standardGeneric("instrumentManufacturer"))
 setGeneric("instrumentCustomisations", function(object) standardGeneric("instrumentCustomisations"))
 
-setGeneric("ionCount", function(object) standardGeneric("ionCount"))
+setGeneric("ionCount", function(object, ...) standardGeneric("ionCount"))
 
 setGeneric("fromFile", function(object) standardGeneric("fromFile"))
+setGeneric("fromFile<-", function(object, value) standardGeneric("fromFile<-"))  ## This one should remain "private"
 
 setGeneric("quantify", function(object, ...) standardGeneric("quantify"))
 setGeneric("curveStats", function(object,reporters, ...) standardGeneric("curveStats"))
@@ -130,3 +134,9 @@ setGeneric("trimws", signature = "x",
     function(x, which = c("both", "left", "right"), ...)
         standardGeneric("trimws"),
     useAsDefault=.trimws.useAsDefault)
+
+setGeneric("filterMz", function (object, ...) standardGeneric("filterMz"))
+setGeneric("filterRt", function (object, ...) standardGeneric("filterRt"))
+setGeneric("filterMsLevel", function (object, ...) standardGeneric("filterMsLevel"))
+setGeneric("filterFile", function (object, ...) standardGeneric("filterFile"))
+setGeneric("filterAcquisitionNum", function (object, ...) standardGeneric("filterAcquisitionNum"))

@@ -1,3 +1,67 @@
+CHANGES IN VERSION 1.99.0
+-------------------------
+ o Add normalize method for OnDiskMSnExp <2016-06-07 Tue>.
+ o Fix bug in readMSData <2016-06-07 Tue>.
+ o Added documentation and unit test for trimMz <2016-06-01 Wed>.
+ o Added trimMz method for OnDiskMSnExp objects <2016-05-31 Tue>.
+ o Added (internal) method spectrapply to apply a function to all
+   spectra of an OnDiskMSnExp object; does the data import,
+   subsetting, application of lazy processing steps
+   etc. <2016-05-27 Fri>.
+ o Added a section to the MSnbase-development vignette
+   <2016-05-27 Fri>.
+ o Finished with all pSet inherited methods and docs <2016-05-26 Thu>.
+ o Added rtlim argument to spectra method for OnDiskMSnExp
+   <2016-05-26 Thu>.
+ o Methods rtime, tic, ionCount, polarity and acquisitionNum
+   implemented <2016-05-25 Wed>.
+ o Documentation added for most methods <2016-05-25 Wed>.
+ o Methods peaksCount and spectra for OnDiskMSnExp objects implemented
+  <2016-05-24 Tue>.
+ o Performance and validation tests for the Spectrum1 C-constructor
+   <2016-05-23 Mon>.
+ o Spectrum1 constructor implemented in C (presently not exported)
+   <2016-05-20>
+ o length, scanIndex, acquisitionNum and centroided implemented
+   <2016-05-20>
+ o Implemented fromFile and msLevel for OnDiskMSnExp <2016-05-19 Thu>
+ o Implemented an OnDiskMSnExp class for on-the-fly data import
+   <2016-05-19 Thu>
+ o Fixed the validate method for pSet to play nicely with OnDiskMSnExp
+   objects <2016-05-19 Thu>
+ o Added slot onDisk to pSet objects (TRUE for OnDiskMSnExp objects,
+   FALSE otherwise).  The getter method isOnDisk checks for the
+   presence of the slot in the object (backward compatibility)
+   <2016-05-19 Thu>
+ o Implemented a ProcessingStep class that helps to keep track how
+   (spectra) data should be processed on the fly <2016-05-18 Wed>
+ o In OnDiskMSnExp validity, check that the assaydata is empty
+   <2016-06-28 Tue>
+ o Pass neutralLoss in plot,Spectrum,Spectrum-method to
+   .calculateFragments; fixes #146 <2016-08-12 Fri>
+ o Allow the user to specify the `cex`, `lwd`, `pch` for peaks and
+   fragments in plot,Spectrum,Spectrum-method; closes #148
+   <2016-08-12 Fri>
+ o Update centroided with an na.fail argument (see issue #150 for
+   details) <2016-08-12 Fri>
+ o Fix warning in readMgfData if TITLE contains multiple "=" <2016-08-24 Wed>
+
+CHANGES IN VERSION 1.21.8
+-------------------------
+ o Update MSnSet validity method to guard agains empty string feature
+   names <2016-06-20 Mon>
+ o Simplify show,MSnExp method to work for various MS level cases and
+   OnDiskMSnExp - addressed issue #98 <2016-06-28 Tue>
+ o removeMultipleAssignment also removes features that were not
+   assigned (i.e. that have fcol (nprots) NA) <2016-07-02 Sat>
+ o New smoothed slot/accessor/replacement methods <2016-07-08 Fri>
+ o Update reporter masses and add TMT10 ETD/HCD <2016-07-20 Wed>
+ o returning empty spectrum when fliterMz has empty range - see issue
+   #134 <2016-07-22 Fri>
+ o (mz, intensity) values are reordered based on order(mz) - see issue
+   #135 <2016-07-26 Tue>
+ o fix bug in bin,Spectrum - see issue #137 <2016-08-05 Fri>
+
 CHANGES IN VERSION 1.21.7
 -------------------------
  o Update iPQF reference <2016-06-01 Wed>
@@ -12,79 +76,79 @@ CHANGES IN VERSION 1.21.6
 -------------------------
  o MSmap unit test <2016-05-23 Mon>
  o Fix bug in as(MSmap, "data.frame") <2016-05-23 Mon>
- 
+
 CHANGES IN VERSION 1.21.5
 -------------------------
  o Added Johannes as contributor <2016-05-12 Thu>
  o Deprecate MzTab v0.9 <2016-05-19 Thu>
  o Fix old googlecode URLs to old MzTab <2016-05-19 Thu>
- 
+
 CHANGES IN VERSION 1.21.4
 -------------------------
  o More MzTab and Spectrum1 unit testing <2016-05-08 Sun>
  o Speed up readMSData (PR #86 by jotsetung) <2016-05-12 Thu>
  o Replace example file URL to use github instead of googlecode
     <2016-05-12 Thu>
- 
+
 CHANGES IN VERSION 1.21.3
 -------------------------
  o No fileNames replacement method <2016-05-07 Sat>
  o fileNames unit tests <2016-05-07 Sat>
  o add fileNames to class that had fileName accessor (MSmap, MzTab)
    <2016-05-07 Sat>
- 
+
 CHANGES IN VERSION 1.21.2
 -------------------------
  o Check for rownames/fnames in readMSnSet2 and unit test
    <2016-05-05 Thu>
- 
+
 CHANGES IN VERSION 1.21.1
 -------------------------
  o Fix wrong indexing in readMSdata, msLevel==1 (PR #85 by jotsetung)
    <2016-05-04 Wed>
  o grep/getEcols have a 'n' param specifying which line to grep/get
    <2016-05-04 Wed>
- 
+
 CHANGES IN VERSION 1.21.0
 -------------------------
- o Version bump for new Bioc devel 
- 
+ o Version bump for new Bioc devel
+
 CHANGES IN VERSION 1.20.0
 -------------------------
- o Version bump for Bioc release version 3.3 
- 
+ o Version bump for Bioc release version 3.3
+
 CHANGES IN VERSION 1.19.24
 --------------------------
  o more unit tests and bug fixes <2016-04-30 Sat> <2016-05-02 Mon>
- 
+
 CHANGES IN VERSION 1.19.23
 --------------------------
  o more unit tests and bug fixes <2016-04-27 Wed> <2016-04-28 Thu>
- 
+
 CHANGES IN VERSION 1.19.22
 --------------------------
  o more unit tests <2016-04-23 Sat> <2016-04-24 Sun> <2016-04-26 Tue>
  o remove readIspyData functions <2016-04-23 Sat>
  o Fixed bug in error catching in
    utils.mergeSpectraAndIdentificationData <2016-04-23 Sat>
- 
+
 CHANGES IN VERSION 1.19.21
 --------------------------
  o nadata.R unit tests and bugs fixed <2016-04-22 Fri>
- 
+
 CHANGES IN VERSION 1.19.20
 --------------------------
  o Moved makeNaData[2] and whichNA (was in pRoloc) <2016-04-21 Thu>
-  
+
 CHANGES IN VERSION 1.19.19
 --------------------------
  o new naplot function to visualise missing values as a heatmap and
    barplots along the samples and features. <2016-04-04 Mon>
- 
+
 CHANGES IN VERSION 1.19.18
 --------------------------
  o fix typo in man <2016-04-02 Sat>
- 
+
 CHANGES IN VERSION 1.19.17
 --------------------------
  o Write support of mzTab has been dropped (writeMzTabData, makeMTD,

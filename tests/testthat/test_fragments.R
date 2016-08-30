@@ -39,24 +39,26 @@ test_that("calculateFragments", {
             rep(c("E", "CE", "ACE"), 3)),
     stringsAsFactors=FALSE)
 
-  expect_message(calculateFragments("PQR"),
+  expect_message(calculateFragments("PQR", verbose = TRUE),
                  "Modifications used: C=57.02146")
-  expect_message(calculateFragments("PQR", modifications=NULL),
+  expect_message(calculateFragments("PQR", modifications = NULL,
+                                    verbose = TRUE),
                  "Modifications used: None")
 
   expect_equal(pqr[1:18,],
-               calculateFragments("PQR", type=c("a", "b", "c", "x", "y", "z"),
-                                  neutralLoss=NULL, verbose=FALSE),
+               calculateFragments("PQR",
+                                  type = c("a", "b", "c", "x", "y", "z"),
+                                  neutralLoss = NULL, verbose = FALSE),
                tolerance=1e-5)
   expect_equal(pqr[1:6,],
-               calculateFragments("PQR", type=c("a", "b"), neutralLoss=NULL,
-                                  verbose=FALSE),
+               calculateFragments("PQR", type = c("a", "b"),
+                                  neutralLoss = NULL, verbose = FALSE),
                tolerance=1e-5)
   ## rownames always differ
   expect_equal(pqr[c(10:12, 16:18),],
-               calculateFragments("PQR", type=c("x", "z"), neutralLoss=NULL,
-                                  verbose=FALSE),
-               check.attributes=FALSE, tolerance=1e-5)
+               calculateFragments("PQR", type = c("x", "z"),
+                                  neutralLoss = NULL, verbose = FALSE),
+               check.attributes = FALSE, tolerance = 1e-5)
 
   ## neutral loss
   ## rownames always differ

@@ -41,7 +41,6 @@ test_that(".chomatogram function", {
 
 
 test_that("chomatogram methods", {
-    library("msdata")
     f <- dir(system.file("microtofq", package = "msdata"),
              full.names = TRUE, pattern = "MM8.mzML")
     library("mzR")
@@ -55,7 +54,6 @@ test_that("chomatogram methods", {
 })
 
 test_that("xic", {
-    library("msdata")
     f <- dir(system.file("microtofq", package = "msdata"),
              full.names = TRUE, pattern = "MM8.mzML")
     ms <- openMSfile(f)
