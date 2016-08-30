@@ -49,11 +49,13 @@ importClassesFrom(mzID, mzID, mzIDCollection)
 importFrom(digest, digest)
 
 export(MSnSet,
+       abstract,
        compareMSnSets,
        defaultNeutralLoss,
        readMzXMLData,
        readMgfData,
        readMSData,
+       readMSData2,
        readMSnSet,
        readMSnSet2,
        getEcols, grepEcols,
@@ -69,6 +71,7 @@ export(MSnSet,
        as.ExpressionSet.MSnSet,
        as.MSnSet.ExpressionSet,
        as.MIAME.MIAPE,
+       as.MSnExp.OnDiskMSnExp,
        is.na.MSnSet,
        droplevels.MSnSet,
        combineFeatures,
@@ -109,7 +112,18 @@ export(MSnSet,
        readMzTabData_v0.9,
        makeMTD,
        makePEP,
-       makePRT)
+       makePRT,
+       ## OnDiskMSnExp
+       ProcessingStep,
+       validateOnDiskMSnExp,
+       ##options
+       MSnbaseOptions,
+       isMSnbaseVerbose,
+       setMSnbaseVerbose,
+       setMSnbaseParallelThresh,
+       ## ProcessingStep
+       executeProcessingStep
+       )
 
 exportClasses(pSet,
               MIAPE,
@@ -123,9 +137,12 @@ exportClasses(pSet,
               FoICollection,
               FeatComp,
               MSmap,
-              MzTab)
+              MzTab,
+              OnDiskMSnExp,
+              ProcessingStep)
 
-exportMethods(exprs,
+exportMethods(updateObject,
+              exprs,
               assayData,
               "assayData<-",
               coerce,
@@ -149,6 +166,7 @@ exportMethods(exprs,
               qual,
               length,
               lengths,
+              all.equal,
               image,
               plot,
               plot2d,
@@ -178,7 +196,9 @@ exportMethods(exprs,
               tic,
               ionCount,
               fromFile,
-              centroided,"centroided<-",
+              centroided, "centroided<-",
+              isCentroided,
+              smoothed, "smoothed<-",
               precursorMz,
               precursorIntensity,
               precursorCharge,
@@ -212,6 +232,11 @@ exportMethods(exprs,
               impute,
               topN,
               filterNA, filterZero,
+              filterMsLevel,
+              filterMz,
+              filterRt,
+              filterFile,
+              filterAcquisitionNum,
               chromatogram,
               xic,
               ## Features of interest
@@ -236,8 +261,7 @@ exportMethods(exprs,
               ## MzTab
               fileName,
               metadata,
-              psms
-              )
+              psms)
 
 ## methods NOT exported
 ## curveStats

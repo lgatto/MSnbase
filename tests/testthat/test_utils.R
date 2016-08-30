@@ -65,7 +65,7 @@ test_that("leftJoin", {
                                           exclude=c("useless3")), z2)
 })
 
-test_that("mergeSpectraAndIdentificationData", {    
+test_that("mergeSpectraAndIdentificationData", {
     ## pseudo fData(MSnSet) output
     fd <- data.frame(spectrum = 1:4,
                      file = c(1, 2, 1, 1),
@@ -226,4 +226,20 @@ test_that("clean utils", {
     bx <- c(1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0)
     expect_identical(MSnbase:::utils.clean(x), b)
     expect_identical(x[MSnbase:::utils.clean(x)], bx)
+})
+
+test_that("getBpParam", {
+    ## Testing the global MSnbase option PARALLEL_THRESH
+    orig_val <- options()$MSnbase$PARALLEL_THRESH
+    suppressWarnings(
+        onDisk <- readMSData2(files = system.file("microtofq/MM14.mzML",
+                                                  package = "msdata"),
+                              verbose = FALSE)
+    )
+    gotParam <- MSnbase:::getBpParam(onDisk)
+    expect_true(is(gotParam, "SerialParam"))
+    options(MSnbase=list(PARALLEL_THRESH = 10))
+    gotParam <- MSnbase:::getBpParam(onDisk)
+    expect_true(is(gotParam, class(bpparam())))
+    options(MSnbase=list(PARALLEL_THRESH = orig_val))
 })

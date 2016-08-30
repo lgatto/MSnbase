@@ -38,13 +38,18 @@
       Displays a control bar if verbose set to \code{TRUE}
       (default). Returns a new \code{MSnExp} instance. 
     }
-    \item{\code{signature(object = "Spectrum", t)}}{
-      Removes low intensity peaks of \code{Spectrum} object.  \code{t}
-      sets the minimum peak intensity. Default is "min", i.e the
-      smallest intensity in each spectrum. Other \code{numeric} values
-      are valid.
-      Returns a new \code{Spectrum} instance.
-    }
+
+    \item{\code{signature(object = "Spectrum", t, msLevel. =
+      "numeric")}}{ Removes low intensity peaks of \code{Spectrum}
+      object.  \code{t} sets the minimum peak intensity. Default is
+      "min", i.e the smallest intensity in each spectrum. Other
+      \code{numeric} values are valid. \code{msLevel.} defines the level
+      of the spectrum, and if \code{msLevel(object) != msLevel.},
+      cleaning is ignored. Only relevant when called from
+      \code{OnDiskMSnExp} and is only relevant for developers.
+
+      Returns a new \code{Spectrum} instance.  }
+    
   }
 }
 
@@ -58,14 +63,15 @@
 }
 
 \examples{
-int <- c(2,0,0,0,1,5,1,0,0,1,3,1,0,0,1,4,2,1)
+int <- c(2, 0, 0, 0, 1, 5, 1, 0, 0, 1, 3, 1, 0, 0, 1, 4, 2, 1)
 sp1 <- new("Spectrum2",
-           intensity=int,
-           mz=1:length(int))
+           intensity = int,
+           mz = 1:length(int),
+           centroided = FALSE)
 sp2 <- removePeaks(sp1) ## no peaks are removed here
                         ## as min intensity is 1 and
                         ## no peak has a max int <= 1
-sp3 <- removePeaks(sp1,3)
+sp3 <- removePeaks(sp1, 3)
 intensity(sp1)
 intensity(sp2)
 intensity(sp3)
@@ -90,7 +96,7 @@ sp <- new("Spectrum2",
 
 ## unchanged, as ranges of peaks <= 500 considered
 intensity(removePeaks(sp, 500))
-
+stopifnot(identical(intensity(sp), intensity(removePeaks(sp, 500))))
 
 centroided(sp) <- TRUE
 ## different!

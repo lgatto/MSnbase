@@ -1,0 +1,177 @@
+* On-disk MS data access and related objects
+
+The principal idea is to avoid reading the full MS1 spectra into memory, as this
+would require way too much memory for larger experiments. This is realized by
+the =OnDiskMSnExp= class (extending =MSnExp=) that contains all relevant MS1 data,
+except the actual spectra (i.e. their M/Z and intensity values). The related
+on-the-fly data access might slow down some tasks, but should be reasonably fast
+especially if only a small number of spectra is extracted.
+
+Some requirements and ideas for the actual implementation:
+1) Retention time and other spectra relevant data should be extracted from the
+   header information and stored into the =OnDiskMSnExp='s =featureData=.
+2) Keeping/storing the file handles to the MS data files might be problematic
+   (e.g. for parallel processing, saving/restoring to/from RData files). Thus it
+   might be better to always open/close the connection to the file.
+3) The =validate= method should ensure that the files are actually present.
+4) Read data and create =OnDiskMSnExp= objects using =readMSDdata= with an
+   additional argument =backend= (which could be either "ram" or "disk").
+5) Think of a clever was to do /lazy processing/ of e.g. =clean= or
+   =removePeaks=. These latter two are actually easy, as they are applied to each
+   spectrum separately. Idea: a =list= with the function call name and the
+   arguments so that we can use =do.call=? Note: only processing steps working on
+   M/Z or intensity values have to be queued, since all other information
+   (retention time etc) is available in the =featureData= and can hence be changed
+   immediately. Note also that the processing should be performed on the level
+   of the data matrix (M/Z, intensity returned by the =peaks= method) and not on
+   the =Spectrum= level, as first creating the =Spectrum= objects is quite time
+   consuming.
+6) We have to implement all relevant =pSet= and =MSnExp= methods for =OnDiskMSnExp=
+   objects that will take care of reading the files; eventually using parallel
+   processing (might not bring much, as the I/O will be the bottleneck).
+7) Implement a method to convert from =MSnExp= to =OnDiskMSnExp= objects and /vice
+   versa/.
+
+
+** Implementation
+
+*** DONE Define the =OnDiskMSnExp= class [7/7]
+    CLOSED: [2016-05-27 Fri 13:28]
+    - State "DONE"       from "TODO"       [2016-05-27 Fri 13:28]
+This one should just extend the =MSnExp= and add eventually one or two slots;
+there shouldn't be much to add.
++ [X] Add slot =spectraProcessingQueue=: a list of =ProcessingStep= objects recording
+  optional processing steps that have to be applied to the spectra
+  /on-the-fly/. *NOTE*: to speed up stuff, it might be better to apply this to the
+  M/Z-intensity matrix instead of the spectrum!
++ [X] =processingQueue= to get/set the =spectraProcessingQueue= slot. We should
+  however not export that method, since this list should ideally not manipulated
+  directly. New processing steps are supposed to be added by the actual
+  processing methods.
++ [X] =featureData= contains the following info: *NOTE* this seems redundant with
+  =header= (if available in the =.cache=)! Check that!
+  - fileIdx: the index of the file (in =fileNames=) from which the spectra can be
+    read.
+  - spIdx: the index of the spectrum in that file (use that in =mzR::peaks= call).
+  - centroided: the argument from the =readMSData= function.
+  - acquisitionNum: taken from the file header.
+  - originalPeaksCount: (renamed from peaksCount) taken from the file header.
+  - totIonCurrent: taken from the file header.
+  - retentionTime: taken from the file header.
+  - basePeakMZ: taken from the file header.
+  - basePeakIntensity: taken from the file header.
+  - polarity: taken from the file header.
+  - msLevel: the MS level of the spectrum.
+
++ [X] We might get a problem in the superclasse's =validate= method; eventually
+  set a flag there that some of the checks should be skipped if it's on-disk
+  data. Solution: add a slot =onDisk= to =pSet= (for backward compatibility, the
+  getter method =isOnDisk= returns =FALSE= if that slot does not
+  exist). =OnDiskMSnExp= objects will always set that slot to =TRUE=, which skips
+  all validations that directly access the spectrum data.
++ [X] Write documentation.
++ [X] Add examples to vignette.
++ [X] Test cases.
+
+*** DONE Adapt the =readMSData= function (Point 4) [5/5]
+    CLOSED: [2016-05-26 Thu 12:46]
+    - State "DONE"       from "TODO"       [2016-05-26 Thu 12:46]
++ [X] For =backend= being =disk=, disable argument =cache=.
++ [X] Add general spectrum information to the =featureData= for MS1 (and MS2?),
+  =row.names= should be the spectra names.
++ [X] Add =ProcessingStep= to the =spectraProcessQueue= if =clean= or =removePeaks= are set.
++ [X] Write documentation.
++ [X] Test cases.
+
+*** DONE Implement the /lazy processing/ framework (Point 5)
+    CLOSED: [2016-05-25 Wed 14:45]
+    - State "DONE"       from "TODO"       [2016-05-25 Wed 14:45]
+Idea:
++ Add a slot =spectraProcessQueue= to the =OnDiskMSnExp=.
++ Implement a simple =ProcessingStep= class that has two slots =FUN= and =ARGS=.
++ If we're e.g. calling =spectra= on the =OnDiskMSnExp= object, it will first
+  read the spectra from the file and then, sequentially, using =do.call= apply all
+  of the processing steps to each spectrum.
++ *Important*: only processing steps related to intensity and M/Z values should be
+  added to this slot! Everything else can be applied to the data *without*
+  having to read the raw data (e.g. remove whole scans etc). That way we can
+  also apply the processing steps to the M/Z-intensity matrix returned by the
+  =peaks= method that reads the raw data.
++ The =execute= method executes the function.
+
+*** DONE Implement all =pSet= methods for =OnDiskMSnExp= [21/21]
+    CLOSED: [2016-05-26 Thu 12:46]
+    - State "DONE"       from "TODO"       [2016-05-26 Thu 12:46]
++ [X] =assayData=. Read all spectra from file; should hint in the documentation
+  that it might be better to do more specific calls, e.g. extract specific
+  spectra etc.
++ [X] =spectra=: allow to retrieve by ID, sample etc.
++ [X] =intensity=.
++ [X] =[[= to access directly individual spectra.
++ [X] =mz=.
++ [X] =rtime=.
++ [X] =tic=.
++ [X] =ionCount=.
++ [X] =polarity=.
++ [X] =peaksCount=.
++ [X] =centroided=, =centroided<-=.
++ [X] =acquisitionNum=.
++ [X] =scanIndex=.
++ [X] =length=.
++ [X] =msLevel=.
++ [X] =fromFile=.
++ [X] =header= extract the required data from the =featureData=
+  renaming some of the columns.
++ [X] =[= sub-setting.
++ [X] Test cases.
++ [X] Documentation.
++ [X] Check =[= sub-setting.
+
+*** TODO Implement additional methods defined for =MSnExp= objects [2/12].
+
++ [ ] =plot=.
++ [ ] =plot2d=.
++ [ ] =plotDensity=.
++ [ ] =plotMzDelta=.
++ [X] =trimMz=.
++ [X] =normalize=, =normalise=
++ [ ] =bin=.
++ [ ] =compareSpectra=.
++ [ ] =pickPeaks=.
++ [ ] =estimateNoise=.
++ [ ] =smooth=.
++ [ ] =extractPrecSpectra=
+
+*** TODO Implement a conversion function/method (Point 7)
+
+Convert from =OnDiskMSnExp= to a =MSnExp= object and /vice versa/.
+The problems here are: how the heck should I track the processing steps???
+*Solution*: just do the conversion from on-disk to ram.
+
+- [ ] =inMemory(.)= function.
+
+*** +TODO Rename =OnDiskMSnExp= into =MSnExpOnDisk=+
+
+I don't think this is really necessary, really. 
+
+*** TODO  Code tydiing
+
++ Put whitespace after =if= and before ={=, before and after each equal sign.
++ No long lines (less than 80 chars).
+
+*** TODO Check the =quantify= methods of =MSnbase=.
+
+Implement that for the metabolomics data, e.g. /replace/ the =groupval= method?
+
+*** DONE Implement a =Spectrum1= constructor in C.
+    CLOSED: [2016-05-23 Mon 17:15]
+    - State "DONE"       from "TODO"       [2016-05-23 Mon 17:15]
+    - Created a C-constructor for a single Spectrum1 class called using the
+      =Spectrum1= function and a C-constructor able to create a list of =Spectrum1=
+      objects given that all data is provided. Both are considerably faster than
+      the standard R constructor.
+Creating the =Spectrum1= classes takes way too much time; eventually we might be
+faster with a constructor implemented in C, similar to the =Rle= constructor in
+=S4Vectors=.
+
+

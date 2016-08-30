@@ -16,12 +16,12 @@ test_that("read MzTab data v 0.9 and 1.0", {
 
     testfile <- "https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"
     expect_error(readMzTabData(testfile, "PSM", version = "0.9"))
-    prot09 <- readMzTabData(testfile, "PRT", version = "0.9")
-    prot09b <- readMzTabData_v0.9(testfile, "PRT")
+    expect_warning(prot09 <- readMzTabData(testfile, "PRT", version = "0.9"))
+    expect_warning(prot09b <- readMzTabData_v0.9(testfile, "PRT"))
     expect_identical(exprs(prot09), exprs(prot09b))
     expect_identical(fData(prot09), fData(prot09b))    
-    pep09 <- readMzTabData(testfile, "PEP", version = "0.9")
-    pep09b <- readMzTabData_v0.9(testfile, "PEP")
+    expect_warning(pep09 <- readMzTabData(testfile, "PEP", version = "0.9"))
+    expect_warning(pep09b <- readMzTabData_v0.9(testfile, "PEP"))
     expect_identical(exprs(pep09), exprs(pep09b))
     expect_identical(fData(pep09), fData(pep09b))
 })

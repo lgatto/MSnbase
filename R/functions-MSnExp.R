@@ -1,6 +1,6 @@
 ## mergeSpectra <- function(object, ## MSnExp object
-##                          fun=sum,
-##                          verbose=TRUE) {
+##                          fun = sum,
+##                          verbose = isMSnbaseVerbose()) {
 ##   spectra <- spectra(object)
 ##   prec <- sapply(spectra,function(x) x@precursorMz)
 ##   uprec <- unique(prec)
@@ -77,8 +77,8 @@ extractPrecSpectra_MSnExp <- function(object,prec) {
     return(object)
 }
 
-removePeaks_MSnExp <- function(object,t="min",verbose=TRUE) {
-  ifelse(verbose,progress <- "text",progress <- "none")
+removePeaks_MSnExp <- function(object, t = "min", verbose = isMSnbaseVerbose()) {
+  ifelse(verbose, progress <- "text", progress <- "none")
   spectraList <-  llply(spectra(object),
                         function(x) removePeaks(x,t),
                         .progress = progress)
@@ -102,7 +102,7 @@ removePeaks_MSnExp <- function(object,t="min",verbose=TRUE) {
 }
 
 
-clean_MSnExp <- function(object, all, verbose = TRUE) {
+clean_MSnExp <- function(object, all, verbose = isMSnbaseVerbose()) {
   ## -- was ---------------------------------------------------
   ##  ifelse(verbose,progress <- "text",progress <- "none")
   ##  spectra <- llply(spectra(object),function(x) clean(x),.progress=progress)
@@ -161,52 +161,53 @@ normalise_MSnExp <- function(object,method) {
                                           paste0("Spectra normalised (",method,"): ",
                                                  date()))
     object@processingData@normalised <- TRUE
+    lockEnvironment(e, bindings = TRUE)
     object@assayData <- e
     if (validObject(object))
         return(object)
 }
 
-bin_MSnExp <- function(object, binSize=1, verbose=TRUE) {
-  ## copied from clean_MSnExp
-  e <- new.env()
+bin_MSnExp <- function(object, binSize = 1, verbose = isMSnbaseVerbose()) {
+    ## copied from clean_MSnExp
+    e <- new.env()
 
-  if (verbose) {
-    ._cnt <- 1
-    pb <- txtProgressBar(min = 0, max = length(object), style = 3)
-  }
+    if (verbose) {
+        ._cnt <- 1
+        pb <- txtProgressBar(min = 0, max = length(object), style = 3)
+    }
 
-  mzrange <- range(eapply(assayData(object), mz))
-  breaks <- seq(floor(mzrange[1]), ceiling(mzrange[2]), by=binSize)
+    mzrange <- range(eapply(assayData(object), mz))
+    breaks <- seq(floor(mzrange[1]), ceiling(mzrange[2]), by = binSize)
 
-  sapply(featureNames(object),
-         function(x) {
-           if (verbose) {
-             setTxtProgressBar(pb, ._cnt)
-             ._cnt <<- ._cnt+1
-           }
-           sp <- get(x, envir = assayData(object))
-           xx <- bin(sp, breaks=breaks)
-           assign(x, xx, envir = e)
-           invisible(TRUE)
-         })
-  if (verbose) {
-    close(pb)
-    rm(pb)
-    rm(._cnt)
-  }
-  ## ----------------------------------------------------------
-  object@processingData@processing <- c(object@processingData@processing,
-                                        paste0("Spectra binned: ", date()))
-  if (object@.cache$level > 0) {
-    hd <- header(object)
-    hd$peaks.count <- peaksCount(object)
-    object@.cache <- setCacheEnv(list(assaydata = assayData(object),
-                                      hd = hd),
-                                 object@.cache$level)
-  }
-  object@assayData <- e
-  if (validObject(object))
-    return(object)
+    sapply(featureNames(object),
+           function(x) {
+               if (verbose) {
+                   setTxtProgressBar(pb, ._cnt)
+                   ._cnt <<- ._cnt+1
+               }
+               sp <- get(x, envir = assayData(object))
+               xx <- bin_Spectrum(sp, breaks = breaks)
+               assign(x, xx, envir = e)
+               invisible(TRUE)
+           })
+    if (verbose) {
+        close(pb)
+        rm(pb)
+        rm(._cnt)
+    }
+    ## ----------------------------------------------------------
+    object@processingData@processing <- c(object@processingData@processing,
+                                          paste0("Spectra binned: ", date()))
+    if (object@.cache$level > 0) {
+        hd <- header(object)
+        hd$peaks.count <- peaksCount(object)
+        object@.cache <- setCacheEnv(list(assaydata = assayData(object),
+                                          hd = hd),
+                                     object@.cache$level)
+    }
+    object@assayData <- e
+    if (validObject(object))
+        return(object)
 }
 
 compare_MSnExp <- function(object, fun, ...) {
@@ -228,7 +229,7 @@ compare_MSnExp <- function(object, fun, ...) {
 }
 
 pickPeaks_MSnExp <- function(object, halfWindowSize, method, SNR,
-                             ..., verbose = TRUE) {
+                             ..., verbose = isMSnbaseVerbose()) {
   ## copied from clean_MSnExp
   e <- new.env()
 
@@ -272,7 +273,8 @@ pickPeaks_MSnExp <- function(object, halfWindowSize, method, SNR,
     return(object)
 }
 
-smooth_MSnExp <- function(object, method, halfWindowSize, ..., verbose = TRUE) {
+smooth_MSnExp <- function(object, method, halfWindowSize, ...,
+                          verbose = isMSnbaseVerbose()) {
   ## copied from clean_MSnExp
   e <- new.env()
 
@@ -335,8 +337,9 @@ precSelectionTable <- function(object,...) {
   return(table(x))
 }
 
-removeReporters_MSnExp <- function(object, reporters=NULL, clean=FALSE, verbose=TRUE) {
-  ifelse(verbose,progress <- "text",progress <- "none")
+removeReporters_MSnExp <- function(object, reporters = NULL,
+                                   clean = FALSE, verbose = isMSnbaseVerbose()) {
+  ifelse(verbose, progress <- "text", progress <- "none")
   spectraList <-  llply(spectra(object),
                         function(x) removeReporters(x, reporters, clean),
                         .progress = progress)

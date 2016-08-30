@@ -34,7 +34,7 @@ relaxedMatch <- function(x, table, nomatch=NA_integer_, tolerance=25e-6,
   m <- which(abs(x-table[potentialMatches]) < tolerance[potentialMatches])
 
   res[m] <- potentialMatches[m]
-  return(res)
+  res
 }
 
 #' similar to base::match but with tolerance
@@ -80,7 +80,7 @@ matchPeaks <- function(x, y, method=c("highest", "closest", "all"),
     m[o] <- sortedMatches
   }
 
-  return(as.integer(m))
+  as.integer(m)
 }
 
 #' common peaks
@@ -98,7 +98,7 @@ commonPeaks <- function(x, y, method=c("highest", "closest"),
 
   m[which(is.na(m))] <- 0L
 
-  return(as.logical(m))
+  as.logical(m)
 }
 
 #' number of common peaks
@@ -109,7 +109,7 @@ commonPeaks <- function(x, y, method=c("highest", "closest"),
 #' @return double, number of common peaks
 #' @noRd
 numberOfCommonPeaks <- function(x, y, tolerance=25e-6, relative=TRUE) {
-  return(sum(commonPeaks(x, y, tolerance=tolerance, relative=relative)))
+  sum(commonPeaks(x, y, tolerance=tolerance, relative=relative))
 }
 
 #' calculate the dot product between two vectors

@@ -4,7 +4,8 @@
 \alias{readMzTabData_v0.9}
 \title{Read an 'mzTab' file}
 \usage{
-readMzTabData_v0.9(file, what = c("PRT", "PEP"), verbose = TRUE)
+readMzTabData_v0.9(file, what = c("PRT", "PEP"),
+  verbose = isMSnbaseVerbose())
 }
 \arguments{
 \item{file}{A \code{character} with the \code{mzTab} file to

@@ -179,7 +179,7 @@ imageNA2 <- function(object, pcol,
 ##' @examples
 ##' data(naset)
 ##' naplot(naset)
-naplot <- function(object, verbose = TRUE, ...) {
+naplot <- function(object, verbose = isMSnbaseVerbose(), ...) {
     op <- par(no.readonly = TRUE)
     on.exit(par(op))
     zones <- matrix(c(2,0,1,3), ncol = 2, byrow = TRUE)

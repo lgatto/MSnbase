@@ -5,7 +5,7 @@
 \title{Read an 'mzTab' file}
 \usage{
 readMzTabData(file, what = c("PRT", "PEP", "PSM"), version = c("1.0",
-  "0.9"), verbose = TRUE)
+  "0.9"), verbose = isMSnbaseVerbose())
 }
 \arguments{
 \item{file}{A \code{character} with the \code{mzTab} file to

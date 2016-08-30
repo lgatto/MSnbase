@@ -60,22 +60,22 @@ setClass("MIAPE",
              ##                   provided details specific to
              ##                   different sources
              ionSource = "character", ## ESI, MALDI, ...
-             ionSourceDetails = "character", 
-             ## 3. Post-source componentry           
-             analyser = "character", ## Quad, TOF, Trap, ... 
+             ionSourceDetails = "character",
+             ## 3. Post-source componentry
+             analyser = "character", ## Quad, TOF, Trap, ...
              analyserDetails = "character",
              ## 3. Post-source componentry - (d) Collision cell
              collisionGas = "character",
              collisionPressure = "numeric",
              collisionEnergy = "character",
              ## 3. Post-source component — (f) Detectors
-             detectorType = "character", 
+             detectorType = "character",
              detectorSensitivity = "character"
-             ## 4. Spectrum and peak list generation and annotation 
-             ##    (a) Spectrum description 
+             ## 4. Spectrum and peak list generation and annotation
+             ##    (a) Spectrum description
              ##    (b) Peak list generation
              ##    (c) Quantitation for selected ions
-             ## -- see Spectrum and MSnProcess objects           
+             ## -- see Spectrum and MSnProcess objects
              ),
          contains = c("MIAxE"),
          prototype = prototype(
@@ -127,7 +127,7 @@ setClass("NAnnotatedDataFrame",
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setClass("pSet",
          representation(assayData = "environment", ## locked environment
-                        phenoData = "NAnnotatedDataFrame", 
+                        phenoData = "NAnnotatedDataFrame",
                                         # Filenames,  Fractions, replicates
                                         # file1.mzML, 1        , 1          (n1 spectra)
                                         # file2.mzML, 2        , 1          (n2 spectra)
@@ -144,19 +144,22 @@ setClass("pSet",
                         experimentData = "MIAxE",
                         protocolData   = "AnnotatedDataFrame",
                         processingData = "MSnProcess",
+                        ##onDisk         = "logical",
                         .cache = "environment", ## locked
                         "VIRTUAL"),
          contains = "Versioned",
          prototype = prototype(
-             new("Versioned", versions=c(pSet="0.1.0")),
-             assayData = new.env(parent=emptyenv()), 
+             new("Versioned", versions=c(pSet="0.1.1")),
+             assayData = new.env(parent=emptyenv()),
              experimentData = new("MIAPE"),
              phenoData = new("NAnnotatedDataFrame",
-                 dimLabels=c("sampleNames", "fileNumbers")), 
+                 dimLabels=c("sampleNames", "fileNumbers")),
              featureData = new("AnnotatedDataFrame",
                  dimLabels=c("featureNames", "featureColumns")),
              protocolData = new("AnnotatedDataFrame",
-                 dimLabels=c("sampleNames", "sampleColumns")))
+                                dimLabels=c("sampleNames", "sampleColumns"))
+             ##,onDisk = FALSE
+         )
          )
 
 ##################################################################
@@ -185,18 +188,20 @@ setClass("Spectrum",
              intensity = "numeric",
              fromFile = "integer",
              centroided = "logical",
+             smoothed = "logical",
              polarity="integer",
              "VIRTUAL"),
          contains=c("Versioned"),
          prototype = prototype(
-             new("Versioned", versions=c(Spectrum="0.3.0")),
+             new("Versioned", versions=c(Spectrum="0.4.0")),
              rt = numeric(),
              polarity = NA_integer_,
              acquisitionNum = NA_integer_,
              msLevel = NA_integer_,
-             centroided = FALSE,
+             centroided = NA,
+             smoothed = NA,
              peaksCount = 0L,
-             tic = 0L,
+             tic = 0,
              scanIndex = integer(),
              mz = numeric(),
              intensity = numeric()),
@@ -214,6 +219,8 @@ setClass("Spectrum",
                  msg <- validMsg(msg,"Unequal number of MZ and intensity values.")
              if (length(mz(object)) != peaksCount(object))
                  msg <- validMsg(msg,"Peaks count does not match up with number of MZ values.")
+             if (any(diff(mz(object)) < 0))
+                 msg <- validMsg(msg, "MZ values are out of order.")
              if (is.null(msg)) TRUE
              else msg
          })
@@ -227,11 +234,10 @@ setClass("Spectrum2",
              precursorCharge = "integer",
              collisionEnergy = "numeric"),
          contains=c("Spectrum"),
-         prototype = prototype(           
+         prototype = prototype(
              new("Versioned",
                  versions=c(classVersion("Spectrum"), Spectrum2="0.2.0")),
              merged = 1,
-             centroided = FALSE,
              acquisitionNum = integer(),
              precScanNum = integer(),
              precursorMz = numeric(),
@@ -370,3 +376,120 @@ setClass("MSnSet",
                        PSMs = "data.frame",
                        SmallMolecules = "data.frame",
                        Comments = "character"))
+
+##################################################################
+## Container for MSn Experiments Data and Meta-Data enabling/allowing
+## to process raw MS files on-the-fly (without the need to keep all
+## data in memory).
+setClass("OnDiskMSnExp",
+         representation=representation(
+             spectraProcessingQueue="list",  ## List collecting ProcessingSteps for lazy processing.
+             backend="character"  ## That's to eventually add a SQLite backend later...
+         ),
+         contains=c("MSnExp"),
+         prototype = prototype(
+             new("VersionedBiobase",
+                 versions = c(classVersion("MSnExp"), OnDiskMSnExp="0.0.1")),
+             spectraProcessingQueue=list(),
+             backend=character()),
+         validity=function(object){
+             ## Return true if the object is empty.
+             if (length(object) == 0)
+                 return(TRUE)
+             ## Ensure that the files (returned by fileNames) are available
+             ## and check also that the featureData contains all the required
+             ## information.
+             msg <- validMsg(NULL, NULL)
+             ## Elements in spectraProcessingQueue have to be ProcessingStep objects.
+             if (length(object@spectraProcessingQueue) > 0){
+                 isOK <- unlist(lapply(object@spectraProcessingQueue,
+                                       function(z)
+                                           return(is(z, "ProcessingStep"))))
+                 if (any(!isOK))
+                     msg <- validMsg(msg,
+                                     paste0("Only objects of type 'ProcessingStep'",
+                                            " allowed in slot 'spectraProcessingQueue'"))
+             }
+             ## Check that required columns are present in the featureData:
+             msg <- validMsg(msg, validateFeatureDataForOnDiskMSnExp(featureData(object)))
+             ## Check if the files do exist.
+             theFiles <- fileNames(object)
+             for (theF in theFiles){
+                 if (!file.exists(theF))
+                     msg <- validMsg(msg,
+                                     paste0("Required data file '", basename(theF),
+                                            "' not found!"))
+             }
+             ## Some last checks I had to take from the pSet as validObject on OnDiskMSnExp was first
+             ## calling the pSet validate method on the MSnExp and that caused a problem since we don't
+             ## have an assayData with spectra here (fromFile was trying to get that form there).
+             aFileIds <- fromFile(object)
+             fFileIds <- fData(object)$fileIdx
+             if (length(fFileIds) && any(aFileIds != fFileIds))
+                 msg <- validMsg(msg, "Mismatch of files in assayData and processingData.")
+             ## Check if the fromFile values match to @files in processingData
+             filesProcData <- 1:length(processingData(object)@files)
+             if ( !all(unique(sort(aFileIds)) == unique(sort(filesProcData))) )
+                 msg <- validMsg(msg, "Spectra file indices in assayData does not match files in processinData.")
+             nfilesprocData   <- length(processingData(object)@files)
+             nfilesSpectra <- length(unique(aFileIds))
+             if (nfilesprocData < nfilesSpectra)
+                 msg <- validMsg(msg, "More spectra files in assayData than in processingData.")
+             if (length(sampleNames(object)) != nrow(pData(object)))
+                 msg <- validMsg(msg, "Different number of samples accoring to sampleNames and pData.")
+             ## Check also experimentData:
+             if (length(
+                 unique(c(length(fileNames(object)),
+                          length(experimentData(object)@instrumentManufacturer),
+                          length(experimentData(object)@instrumentModel),
+                          length(experimentData(object)@ionSource),
+                          length(experimentData(object)@analyser),
+                          length(experimentData(object)@detectorType)))) != 1)
+                 msg <- validMsg(msg, "The number of files does not match the information in experimentData.")
+             if (!isOnDisk(object))
+                 msg <- validMsg(msg, "Object is not 'onDisk'.")
+             if (!isEmpty(object@assayData))
+                 msg <- validMsg(msg, "Assaydata is not empty.")
+             if (is.null(msg)) {
+                 return(TRUE)
+             } else {
+                 return(msg)
+             }
+         })
+
+############################################################
+## Simple class defining a "processing" step, consisting of a
+## function name (@FUN) and optional arguments (@ARG)
+setClass("ProcessingStep",
+         representation=representation(
+             FUN="character",
+             ARGS="list"
+         ),
+         contains="Versioned",
+         prototype=prototype(
+             new("Versioned",
+                 versions=c(ProcessingStep="0.0.1")),
+             ARGS=list(),
+             FUN=character()
+         ),
+         validity=function(object){
+             msg <- validMsg(NULL, NULL)
+             ## Check if function/method exists?
+             if(length(object@FUN) > 0){
+                 Res <- try(get(object@FUN), silent=TRUE)
+                 if(is(Res, "try-error")){
+                     msg <- validMsg(msg,
+                                     paste0("Function '", object@FUN, "' not found!"))
+                 }else{
+                     if(!is(Res, "function"))
+                         msg <- validMsg(msg,
+                                         paste0("'", object@FUN, "' is not a function!"))
+                 }
+             }
+             if(is.null(msg)){
+                 return(TRUE)
+             }else{
+                 return(msg)
+             }
+         })
+

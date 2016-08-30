@@ -1,3 +1,5 @@
+library("pRolocdata")
+
 test_that("averageMSnSet", {
     m1 <- matrix(1, ncol = 4, nrow = 4)
     m2 <- matrix(2, ncol = 4, nrow = 4)
@@ -69,8 +71,7 @@ test_that("averageMSnSet", {
 })
 
 test_that("averageMSnSet list of length 1", {
-    library("pRolocdata")
-    data(dunkley2006)
+    data(dunkley2006, package = "pRolocdata")
     expect_equal(dunkley2006,
                  averageMSnSet(MSnSetList(list(dunkley2006))))
 })
