@@ -1,1 +1,52 @@
-`MSnbase` is an R/Bioconductor package that provides infrastructure for plotting, data manipulation and processing of MS-based proteomics data. The official page is the Bioconductor landing page ([release](http://www.bioconductor.org/packages/release/bioc/html/MSnbase.html) or [devel](http://www.bioconductor.org/packages/devel/bioc/html/MSnbase.html) versions). The [github page](https://github.com/lgatto/MSnbase) page is for sharing, testing, issue tracking and forking/pulling purposes. Although it should be in sync with the code on the [Bioconductor svn server](https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/), the latter is the official repository for the working source code.
+
+
+`MSnbase` is an R/Bioconductor package that provides infrastructure
+for plotting, data manipulation and processing of MS-based proteomics
+data. The project was started by
+[Laurent Gatto](http://lgatto.github.io/) in October 2010 (Mon Oct 4
+23:35:23 2010, according to the git log) and has, since then,
+benefited from various contributions. 
+
+
+```
+Laurent Gatto with contributions from Guangchuang Yu, Samuel Wieczorek, Vasile-Cosmin Lazar, Vladislav Petyuk, Thomas Naake, Richie Cotton, Martina Fisher, Johannes Rainer and Sebastian Gibb. 
+```
+
+The official page is the Bioconductor landing page
+([release](http://www.bioconductor.org/packages/release/bioc/html/MSnbase.html)
+or
+[devel](http://www.bioconductor.org/packages/devel/bioc/html/MSnbase.html)
+versions). The [github page](https://github.com/lgatto/MSnbase) page
+is for sharing, testing, issue tracking and forking/pulling
+purposes. The
+[Bioconductor svn server](https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/),
+is the official repository for the working source code.
+
+## Installation
+
+To install `MSnbase`
+
+
+
+If you need the github version
+
+
+
+## Questions
+
+General questions should be asked on the
+[Bioconductor support forum](https://support.bioconductor.org/), using
+`MSnbase` to tag the question.
+
+## Citation
+
+To cite the MSnbase package in publications, please use:
+
+> Gatto L, Lilley KS. *`MSnbase` - an R/Bioconductor package for
+> isobaric tagged mass spectrometry data visualization, processing and
+> quantitation*. Bioinformatics. 2012 Jan
+> 15;28(2):288-9. doi:[10.1093/bioinformatics/btr645](http://bioinformatics.oxfordjournals.org/content/28/2/288.long). Epub
+> 2011 Nov 22.  PubMed
+> [PMID:22113085](http://www.ncbi.nlm.nih.gov/pubmed/22113085).
+
+

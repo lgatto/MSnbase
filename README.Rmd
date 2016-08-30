@@ -26,6 +26,28 @@ purposes. The
 [Bioconductor svn server](https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/),
 is the official repository for the working source code.
 
+## Installation
+
+To install `MSnbase`
+
+```{r install, eval = FALSE}
+library("BiocInstaller")
+biocLite("MSnbase")
+```
+
+If you need the github version
+
+```{r installgh, eval = FALSE}
+biocLite("lgato/MSnbase")
+```
+
+## Questions
+
+General questions should be asked on the
+[Bioconductor support forum](https://support.bioconductor.org/), using
+`MSnbase` to tag the question.
+
+## Citation
 
 To cite the MSnbase package in publications, please use:
 
