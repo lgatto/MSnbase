@@ -1,6 +1,6 @@
 language: r
 cache: packages
-sudo: false
+sudo: true
 apt_packages: libnetcdf-dev
 r: bioc-devel
   
