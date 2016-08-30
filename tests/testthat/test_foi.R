@@ -1,7 +1,8 @@
+library("pRolocdata")
+
 context("Features of interest")
 
 test_that("FeaturesOfInterest", {
-    library("pRolocdata")
     data(tan2009r1)
 
     fn <- featureNames(tan2009r1)[1:3]
@@ -69,7 +70,6 @@ test_that("FeaturesOfInterest", {
 
 
 test_that("FeaturesOfInterest traceable and fnamesIn", {
-    library("pRolocdata")
     data(tan2009r1)
     fn <- featureNames(tan2009r1)[1:10]
     desc <- "my description"

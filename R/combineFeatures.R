@@ -9,7 +9,7 @@ combineFeatures <- function(object,
                             redundancy.handler = c("unique", "multiple"),
                             cv = TRUE,
                             cv.norm = "sum",
-                            verbose = TRUE,
+                            verbose = isMSnbaseVerbose(),
                             ... ## further arguments to fun
                             ) {
     if (is.character(fun))
@@ -26,10 +26,10 @@ combineFeatures <- function(object,
                 groupBy <- groupBy[featureNames(object)]
             }
         }
-        redundancy.handler <- match.arg(redundancy.handler)         
+        redundancy.handler <- match.arg(redundancy.handler)
         result <- combineFeaturesL(object, groupBy, fun,
                                    redundancy.handler,
-                                   cv, cv.norm, verbose, ...)        
+                                   cv, cv.norm, verbose, ...)
     } else { ## factor, numeric or character
         result <- combineFeaturesV(object, groupBy, fun,
                                    cv, cv.norm, verbose, ...)
@@ -44,7 +44,7 @@ combineFeaturesL <- function(object,   ## MSnSet
                              redundancy.handler,
                              cv = TRUE,
                              cv.norm = "sum",
-                             verbose = TRUE,
+                             verbose = isMSnbaseVerbose(),
                              ...    ## additional arguments to fun
                              ) {
     ## handling of the redundancy
@@ -75,7 +75,7 @@ combineFeaturesV <- function(object,   ## MSnSet
                              fun,
                              cv = TRUE,
                              cv.norm = "sum",
-                             verbose = TRUE,
+                             verbose = isMSnbaseVerbose(),
                              ...    ## additional arguments to fun
                              ) {
     groupBy <- as.character(groupBy)
@@ -101,10 +101,8 @@ combineFeaturesV <- function(object,   ## MSnSet
     fdata <- fdata[order(unique(groupBy)), , drop = FALSE] ## ordering fdata according to groupBy factor
     rownames(matRes) <- rownames(fdata)
     colnames(matRes) <- sampleNames(object)
-    exprs(object) <- matRes
     if (cv)
         fdata <- cbind(fdata, cv.mat)
-    fData(object) <- fdata
     if (is.character(fun)) {
         msg <- paste("Combined ", n1, " features into ",
                      nrow(object) ," using ", fun, sep = "")
@@ -113,28 +111,27 @@ combineFeaturesV <- function(object,   ## MSnSet
                      nrow(object), " using user-defined function",
                      sep = "")
     }
-    object@qual <- object@qual[0,]
-    object@processingData@merged <- TRUE
-    if (verbose) {
+    res <- new("MSnSet", exprs = matRes,
+               featureData = new("AnnotatedDataFrame",
+                                 data = fdata))
+    res@processingData@merged <- TRUE
+    res@qual <- object@qual[0, ]
+    if (verbose)
         message(msg)
-        ## message("Dropping spectrum-level 'qual' slot.")
-    }
-    object@processingData@processing <- c(object@processingData@processing,
-                                          paste(msg,": ",
-                                                date(),
-                                                sep=""))
+    res@processingData@processing <- c(object@processingData@processing,
+                                       paste(msg, ": ", date(), sep = ""))
     ## update feature names according to the groupBy argument
     ## new in version 1.5.9
     fn <- sort(unique(groupBy))
-    featureNames(object) <- fn
-    if (validObject(object))
-        return(object)
+    featureNames(res) <- fn
+    if (validObject(res))
+        return(res)
 }
 
 combineMatrixFeatures <- function(matr,    ## matrix
                                   groupBy, ## char/factor
                                   fun,
-                                  verbose=TRUE, 
+                                  verbose = isMSnbaseVerbose(),
                                   ...) { ## additional arguments to fun
     if (is.character(fun)) {
         ## Using a predefined function

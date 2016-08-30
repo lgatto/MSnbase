@@ -4,7 +4,7 @@
 \alias{naplot}
 \title{Overview of missing value}
 \usage{
-naplot(object, verbose = TRUE, ...)
+naplot(object, verbose = isMSnbaseVerbose(), ...)
 }
 \arguments{
 \item{object}{An object of class \code{MSnSet}.}

@@ -297,7 +297,7 @@ rtsel <- hd$retentionTime[ms1] / 60 > 30 &
     hd$retentionTime[ms1] / 60 < 35
      
 ## the map
-M <- MSmap(ms, ms1[rtsel], 521, 523, .005, hd, zeroAsNA = TRUE)
+M <- MSmap(ms, ms1[rtsel], 521, 523, .005, hd, zeroIsNA = TRUE)
 @
 
 <<msmaplaod, echo=FALSE>>=
@@ -551,7 +551,7 @@ Note that \Rfunction{removeNoId} and
 
 <<calculateFragments, echo=TRUE, cache=FALSE, tidy=FALSE>>=
 calculateFragments("ACEK",
-                   type=c("a", "b", "c", "x", "y", "z"))
+                   type = c("a", "b", "c", "x", "y", "z"))
 @
 
 It is also possible to match these fragments against an \Rclass{Spectrum2}
@@ -751,9 +751,9 @@ p3 <- plot(clean(removePeaks(ppsp,t=3)), full = TRUE, plot = FALSE) +
 <<preprocPlot, dev='pdf', fig.width=3, fig.height=6, echo=FALSE>>=
 grid.newpage()
 pushViewport(viewport(layout = grid.layout(3, 1)))
-print(p1, vp=vplayout(1,1))
-print(p2, vp=vplayout(2,1))
-print(p3, vp=vplayout(3,1))
+print(p1, vp=vplayout(1, 1))
+print(p2, vp=vplayout(2, 1))
+print(p3, vp=vplayout(3, 1))
 @
 \caption{This figure illustrated the effect or the \Rfunction{removePeaks}
   and \Rfunction{clean} methods. The left-most spectrum displays two peaks,
@@ -780,7 +780,7 @@ trimmed experiment to the original \Sexpr{sz} Mb.
 
 <<trimMz, echo=TRUE, cache=FALSE>>=
 range(mz(itraqdata[["X55"]]))
-experiment <- trimMz(experiment, mzlim = c(112,120))
+experiment <- filterMz(experiment, mzlim = c(112,120))
 range(mz(experiment[["X55"]]))
 experiment
 @
@@ -831,10 +831,10 @@ and \Robject{sum} returns the sum of all intensities of the peak.  See
 \Rfunction{?quantify} for more details.
 
 <<simplesp, cache=FALSE, echo=FALSE, fig.keep='none'>>=
-int <- c(0,1,1,3,1,1,0)
-mz <- c(113.9,114.0,114.05,114.1,114.15,114.2,114.25)
-ssp <- new("Spectrum2",intensity=int,mz=mz,centroided=FALSE)
-p <- plot(ssp, full=TRUE, plot=FALSE)
+int <- c(0, 1, 1, 3, 1, 1, 0)
+mz <- c(113.9, 114.0, 114.05, 114.1, 114.15, 114.2, 114.25)
+ssp <- new("Spectrum2", intensity = int, mz = mz, centroided = FALSE)
+p <- plot(ssp, full = TRUE, plot = FALSE)
 p <- p + theme_gray(5)
 @
 
@@ -1428,7 +1428,7 @@ colour.
 \begin{figure}[!ht]
 \centering
 <<plotSpectrumSpectrum, dev='pdf', fig.width=6.5, fig.height=6.5>>=
-centroided <- pickPeaks(itraqdata, verbose=FALSE)
+centroided <- pickPeaks(itraqdata, verbose = FALSE)
 (k <- which(fData(centroided)[, "PeptideSequence"] == "TAGIQIVADDLTVTNPK"))
 mzk <- precursorMz(centroided)[k]
 zk <- precursorCharge(centroided)[k]
@@ -1599,6 +1599,7 @@ rows.
 exp1 <- quantify(itraqdata, reporters = iTRAQ4,
                  verbose = FALSE)
 sampleNames(exp1)
+centroided(rawdata) <- FALSE
 exp2 <- quantify(rawdata, reporters = iTRAQ4,
                  verbose = FALSE)
 sampleNames(exp2)

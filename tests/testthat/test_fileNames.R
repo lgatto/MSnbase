@@ -1,8 +1,8 @@
 test_that("fileNames accessor MSnExp", {
-    data(itraqdata)
+    data(itraqdata, package = "MSnbase")
     expect_identical(fileNames(itraqdata), "dummyiTRAQ.mzXML")
     expect_identical(fileNames(itraqdata),
-                     fileNames(processingData(itraqdata)))    
+                     fileNames(processingData(itraqdata)))
 })
 
 test_that("fileNames accessor MzTab", {
@@ -21,6 +21,6 @@ test_that("fileNames accessor MSmap", {
 })
 
 test_that("fileNames accessor MSnSet", {
-    data(msnset)
+    data(msnset, package = "MSnbase")
     expect_identical(fileNames(msnset), "dummyiTRAQ.mzXML")
 })

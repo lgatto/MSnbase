@@ -529,7 +529,7 @@ nologging <- function(object, n = 1) {
 
 logging <- function(object, msg, date. = TRUE) {
   if (date.)
-    msg <- paste0(msg, ": ", date())
+    msg <- paste0(msg, " [", date(), "]")
   object@processingData@processing <-
     c(object@processingData@processing, msg)
   if (validObject(object))
@@ -672,57 +672,61 @@ utils.leftJoin <- function(x, y, by, by.x=by, by.y=by,
 utils.mergeSpectraAndIdentificationData <- function(featureData, id,
                                                     fcol = c("file", "acquisition.number"),
                                                     icol = c("file", "acquisitionnum")) {
-  # mzR::acquisitionNum (stored in fData()[, "acquisition.number"] and
-  # mzID::acquisitionnum should be identical
+    ## mzR::acquisitionNum (stored in fData()[, "acquisition.number"] and
+    ## mzID::acquisitionnum should be identical
+    if (!all(fcol %in% colnames(featureData))) {
+        stop("The column(s) ", sQuote(fcol),
+             " are not all in the feature data.frame!")
+    }
 
-  if (!all(fcol %in% colnames(featureData))) {
-      stop("The column(s) ", sQuote(fcol),
-           " are not all in the feature data.frame!")
-  }
+    if (!all(icol %in% colnames(id))) {
+        stop("The column(s) ", sQuote(icol),
+             " are not all in the identification data.frame!")
+    }
 
-  if (!all(icol %in% colnames(id))) {
-    stop("The column(s) ", sQuote(icol),
-         " are not all in the identification data.frame!")
-  }
+    if (sum(fcol %in% colnames(featureData)) != sum(icol %in% colnames(id))) {
+        stop("The number of selected column(s) in the feature and identification ",
+             "data don't match!")
+    }
 
-  if (sum(fcol %in% colnames(featureData)) != sum(icol %in% colnames(id))) {
-    stop("The number of selected column(s) in the feature and identification ",
-         "data don't match!")
-  }
+    ## sort id data to ensure the best matching peptide is on top in case of
+    ## multiple matching peptides
+    o <- do.call("order", lapply(c(icol, "rank"), function(j)id[, j]))
+    id <- id[o, ]
 
-  ## sort id data to ensure the best matching peptide is on top in case of
-  ## multiple matching peptides
-  o <- do.call("order", lapply(c(icol, "rank"), function(j)id[, j]))
-  id <- id[o, ]
+    ## use flat version of accession/description if multiple ones are available
+    id$accession <- ave(id$accession, id[, icol], FUN=utils.vec2ssv)
+    id$description <- ave(id$description, id[, icol], FUN=utils.vec2ssv)
 
-  ## use flat version of accession/description if multiple ones are available
-  id$accession <- ave(id$accession, id[, icol], FUN=utils.vec2ssv)
-  id$description <- ave(id$description, id[, icol], FUN=utils.vec2ssv)
+    ## remove duplicated entries
+    id <- id[!duplicated(id[, icol]), ]
 
-  ## remove duplicated entries
-  id <- id[!duplicated(id[, icol]), ]
+    featureData <- utils.leftJoin(
+        x = featureData, y = id, by.x = fcol, by.y = icol,
+        exclude = c("spectrumid",   # vendor specific nativeIDs
+                    "spectrumFile") # is stored in fileId + MSnExp@files
+    )
 
-  featureData <- utils.leftJoin(
-    x=featureData, y=id, by.x=fcol, by.y=icol,
-    exclude=c("spectrumid",   # vendor specific nativeIDs
-              "spectrumFile") # is stored in fileId + MSnExp@files
-  )
-
-  ## number of members in the protein group
-  featureData$nprot <- sapply(utils.ssv2list(featureData$accession),
-                              function(x) {
-                                n <- length(x)
-                                if (n == 1 && is.na(x)) return(NA)
-                                n
-                       })
-  ## number of peptides observed for each protein
-  featureData$npep.prot <- as.integer(ave(featureData$accession, featureData$pepseq, FUN=length))
-  ## number of PSMs observed for each protein
-  featureData$npsm.prot <- as.integer(ave(featureData$accession, featureData$accession, FUN=length))
-  ## number of PSMs observed for each protein
-  featureData$npsm.pep <- as.integer(ave(featureData$pepseq, featureData$pepseq, FUN=length))
-
-  return(featureData)
+    ## number of members in the protein group
+    featureData$nprot <- sapply(utils.ssv2list(featureData$accession),
+                                function(x) {
+                                    n <- length(x)
+                                    if (n == 1 && is.na(x)) return(NA)
+                                    n
+                                })
+    ## number of peptides observed for each protein
+    featureData$npep.prot <- as.integer(ave(featureData$accession,
+                                            featureData$pepseq,
+                                            FUN = length))
+    ## number of PSMs observed for each protein
+    featureData$npsm.prot <- as.integer(ave(featureData$accession,
+                                            featureData$accession,
+                                            FUN = length))
+    ## number of PSMs observed for each protein
+    featureData$npsm.pep <- as.integer(ave(featureData$pepseq,
+                                           featureData$pepseq,
+                                           FUN = length))
+    return(featureData)
 }
 
 utils.removeNoId <- function(object, fcol, keep) {
@@ -746,7 +750,7 @@ utils.removeNoId <- function(object, fcol, keep) {
 }
 
 utils.removeMultipleAssignment <- function(object, fcol) {
-    keep <- fData(object)[, fcol] == 1
+    keep <- which(fData(object)[, fcol] == 1)
     object <- object[keep, ]
     object <- nologging(object, 1)
     object <- logging(object,
@@ -763,8 +767,8 @@ utils.idSummary <- function(fd) {
   }
   idSummary <- fd[!duplicated(fd$spectrumFile), c("spectrumFile", "idFile")]
   idSummary$coverage <- sapply(idSummary$spectrumFile, function(f) {
-                          round(mean(!is.na(fd$idFile[fd$spectrumFile== f])), 3)
-                        })
+      round(mean(!is.na(fd$idFile[fd$spectrumFile == f])), 3)
+  })
   rownames(idSummary) <- NULL
   colnames(idSummary) <- c("spectrumFile", "idFile", "coverage")
   return(idSummary)
@@ -913,3 +917,105 @@ setMethod("trimws", "MSnSet",
               x <- logging(x, "Trimmed featureData white spaces")
               x
           })
+
+setMethod("isEmpty", "environment",
+          function(x) length(ls(x)) == 0)
+
+## Simple helper to help differentiate between on disk and in
+## memory objects.
+isOnDisk <- function(object)
+    any(grepl("spectraProcessingQueue", slotNames(object)))
+
+## Simple function to determine whether parallel or serial processing should be performed
+## Check testthat/test_OnDiskMSnExp_benchmarks.R for performance comparisons.
+## Parameter object is expected to beb a
+getBpParam <- function(object, BPPARAM=bpparam()) {
+    parallel_thresh <- options()$MSnbase$PARALLEL_THRESH
+    if (is.null(parallel_thresh) )
+        parallel_thresh <- 1000
+    ## If it's empty, return SerialParam
+    if (length(object) == 0)
+        return(SerialParam())
+    ## Return SerialParam if we access less than PARALLEL_THRESH spectra per file.
+    if (mean(table(fData(object)$fileIdx)) < parallel_thresh)
+        return(SerialParam())
+    return(BPPARAM)
+}
+
+countAndPrint <- function(x) {
+    if (length(x) == 0)
+        return("")
+    tb <- table(x)
+    paste(paste0(names(tb), " (", tb, ")"), collapse = ", ")
+}
+
+## see issue #131
+.isCentroided <- function(pk, k = 0.025, qtl = 0.9) {
+        .qtl <- quantile(pk[, 2], qtl)
+        x <- pk[pk[, 2] > .qtl, 1]
+        quantile(diff(x), 0.25) > k
+}
+
+orderInteger <- function(x, decreasing=FALSE, na.last=NA)
+{
+    if (!is.integer(x))
+        stop("'x' must be an integer vector or a factor")
+    ## Uses _get_order_of_int_array() at the C level which is stable.
+    return(.Call("Integer_order", x, decreasing, PACKAGE="MSnbase"))
+}
+
+##' @title Reads profile/centroided mode from an mzML file
+##' @param x An instance of \code{MSnExp} or \code{OnDiskMSnExp}
+##' @return A \code{logical}
+##' @noRd 
+.isCentroidedFromFile <- function(x) {
+    f <- fileNames(x)
+    if (.fileExt(f) != "mzML") {
+        return(rep(NA, length(x)))
+    } else {
+        if (!requireNamespace("XML"))
+            stop("Please install the XML package to use this functionality.")
+        xml <- XML::xmlParse(f)
+        x <- XML::xpathSApply(xml,
+                              "//x:spectrum/x:cvParam[@accession='MS:1000127' or @accession='MS:1000128']/../@index |
+                    //x:cvParam[@accession='MS:1000127' or @accession='MS:1000128']/@name",
+                    namespaces = c(x = "http://psi.hupo.org/ms/mzml"))
+        index <- as.double(x[seq(1, length(x), by = 2)])
+        res <- rep(NA, length(index))
+        res[grepl("centroid", x[seq(2, length(x), by = 2)])] <- TRUE
+        res[grepl("profile",  x[seq(2, length(x), by = 2)])] <- FALSE
+        res
+    }
+}
+
+
+
+## Returns the extension of the file. If that extension is on of the
+## usual archive extensions, as defined in gexts, then the last part
+## after the dot is removed and the extension is extracted again.
+.fileExt <- function(f,
+                     gexts = c("gz", "gzip", "bzip", "bzip2", "xz",
+                               "zip")) {
+    ext <- tools::file_ext(f)
+    if (ext %in% gexts) {
+        f <- basename(f)
+        f <- sub("\\.[a-z]+$", "", f)
+        ext <- .fileExt(f)
+    }
+    ext
+}
+
+orderNumeric <- function(x, decreasing = FALSE, na.last = NA) {
+    if (!is.numeric(x))
+        stop("'x' must be a numeric")
+    ## Uses _get_order_of_int_array() at the C level which is stable.
+    return(.Call("Double_order", x, decreasing, PACKAGE = "MSnbase"))
+}
+
+
+sortNumeric <- function(x, decreasing = FALSE, na.last = NA) {
+    if (!is.numeric(x))
+        stop("'x' must be a numeric")
+    ## Uses _get_order_of_int_array() at the C level which is stable.
+    return(.Call("sort_numeric", x, decreasing, PACKAGE = "MSnbase"))
+}

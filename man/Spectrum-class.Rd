@@ -26,6 +26,8 @@
 \alias{tic}
 \alias{ionCount,Spectrum-method}
 \alias{ionCount}
+\alias{isCentroided,Spectrum-method}
+\alias{isCentroided}
 \alias{centroided,Spectrum-method}
 \alias{centroided}
 \alias{centroided<-,Spectrum,ANY-method}
@@ -33,6 +35,11 @@
 \alias{centroided<-}
 \alias{polarity,Spectrum-method}
 \alias{polarity}
+\alias{smoothed,Spectrum-method}
+\alias{smoothed}
+\alias{smoothed<-,Spectrum,ANY-method}
+\alias{smoothed<-,Spectrum,logical-method}
+\alias{smoothed<-}
 
 %% -- other -- %%
 \alias{bin,Spectrum-method}
@@ -47,7 +54,10 @@
 \alias{smooth,Spectrum-method}
 \alias{trimMz,Spectrum-method}
 \alias{trimMz,Spectrum,numeric-method}
+\alias{filterMz,Spectrum-method}
+\alias{filtermz,Spectrum,numeric-method}
 \alias{isEmpty,Spectrum-method}
+\alias{isEmpty,environment-method}
 
 \alias{coerce,Spectrum,data.frame-method}
 \alias{as.data.frame.Spectrum}
@@ -78,7 +88,7 @@
     \item{\code{rt}:}{Object of class \code{"numeric"} indicating the
       retention time (in seconds) for the current ions. }
     \item{\code{tic}:}{Object of class \code{"numeric"} indicating the
-      total ion current.}
+      total ion current, as reported in the original raw data file.}
     \item{\code{acquisitionNum}:}{Object of class \code{"integer"}
       corresponding to the acquisition number of the current spectrum. }
     \item{\code{scanIndex}:}{Object of class \code{"integer"} indicating
@@ -91,7 +101,10 @@
       datum has been measured. }
     \item{\code{centroided}:}{Object of class \code{"logical"}
       indicating if instance is centroided ('TRUE') of uncentroided
-      ('FALSE'). }
+      ('FALSE'). Default is \code{NA}. }
+    \item{\code{smoothed}:}{Object of class \code{"logical"}
+      indicating if instance is smoothed ('TRUE') of unsmoothed
+      ('FALSE'). Default is \code{NA}. }    
     \item{\code{fromFile}:}{Object of class \code{"integer"} referencing
       the file the spectrum originates. The file names are stored in the
       \code{processingData} slot of the \code{"\linkS4class{MSnExp}"} or
@@ -112,19 +125,41 @@
       of the spectrum as an integer. }
     \item{\code{scanIndex(object)}}{ Returns the scan index of the
       spectrum as an integer. }
+    
     \item{\code{centroided(object)}}{ Indicates whether spectrum is
-      centroided ('TRUE') or uncentroided ('FALSE'). }
-    \item{\code{centroided(object) <- value}}{ Sets the 'centroided'
+      centroided (\code{TRUE}), in profile mode (\code{FALSE}), or
+      unkown (\code{NA}). }
+
+    \item{\code{isCentroided(object, k=0.025, qtl=0.9)}}{ A heuristic
+      assessing if a spectrum is in profile or centroided mode. The
+      function takes the \code{qtl}th quantile top peaks, then
+      calculates the difference between adjacent M/Z value and returns
+      \code{TRUE} if the first quartile is greater than \code{k}. (See
+      \code{MSnbase:::.isCentroided} for the code.) The function has
+      been tuned to work for MS1 and MS2 spectra and data centroided
+      using different peak picking algorithms, but false positives can
+      occur. See \url{https://github.com/lgatto/MSnbase/issues/131} for
+      details. It should however be safe to use is at the experiment
+      level, assuming that all MS level have the same mode. See
+      \code{class?MSnExp} for an example. }
+    
+    
+    \item{\code{smoothed(object)}}{ Indicates whether spectrum is
+      smoothed (\code{TRUE}) or not (\code{FALSE}). }
+    
+    \item{\code{centroided(object) <- value}}{ Sets the \code{centroided}
       status of the spectrum object. }
+    \item{\code{smoothed(object) <- value}}{ Sets the \code{smoothed}
+      status of the spectrum object. }    
     \item{\code{fromFile(object)}}{ Returns the index of the raw data
       file from which the current instances originates as an
       integer. }
     \item{\code{intensity(object)}}{ Returns an object of class
-      \code{"numeric"} containing the intensities of the spectrum. }
+      \code{numeric} containing the intensities of the spectrum. }
     \item{\code{msLevel(object)}}{ Returns an MS level of the spectrum
       as an integer. }
     \item{\code{mz(object, ...)}}{ Returns an object of class
-      \code{"numeric"} containing the MZ value of the spectrum
+      \code{numeric} containing the MZ value of the spectrum
       peaks. Additional arguments are currently ignored. }
     \item{\code{peaksCount(object)}}{ Returns the number of peaks
       (possibly of 0 intensity) as an integer. }
@@ -132,9 +167,12 @@
       spectrum as an integer. Additional arguments are currently
       ignored. }
     \item{\code{ionCount(object)}}{ Returns the total ion count for the
-      spectrum as a numeric. }
-    \item{\code{tic(object, ...)}}{ Returns the total ion current for the
-      spectrum as a numeric. Additional arguments are currently ignored. }
+      spectrum as a numeric. }    
+    \item{\code{tic(object, ...)}}{ Returns the total ion current for
+      the spectrum as a numeric. Additional arguments are currently
+      ignored. This is the total ion current as originally reported in
+      the raw data file. To get the current total ion count, use
+      \code{ionCount}. }    
     %% -------------------------------------------------- %%
     \item{bin}{\code{signature(object = "Spectrum")}: Bins Spectrum.
       See \code{\link{bin}} documentation for more details and examples. }

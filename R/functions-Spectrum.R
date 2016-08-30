@@ -1,21 +1,35 @@
 
-removePeaks_Spectrum <- function(spectrum, t = "min") {
+removePeaks_Spectrum <- function(spectrum, t = "min", msLevel.) {
+    ## Just remove peaks if spectrum's MS level matched msLevel.
+    if (!missing(msLevel.)) {
+        if (!(msLevel(spectrum) %in% msLevel.))
+            return(spectrum)
+    }
     if (isEmpty(spectrum)) return(spectrum)
     if (t == "min")
         t <- min(intensity(spectrum)[intensity(spectrum)>0])
     if (!is.numeric(t))
         stop("'t' must either be 'min' or numeric.")
-    if (centroided(spectrum)) {
+    if (is.na(centroided(spectrum))) {
+        warning("Centroided undefined (NA): keeping spectrum as is.")
+        return(spectrum)
+    } else if (centroided(spectrum)) {
         ints <- utils.removePeaks_centroided(spectrum@intensity, t)
     } else {
         ints <- utils.removePeaks(spectrum@intensity, t)
     }
     spectrum@intensity <- ints
+    spectrum@tic <- sum(ints)
     return(spectrum)
 }
 
 
-clean_Spectrum <- function(spectrum, all, updatePeaksCount = TRUE) {
+clean_Spectrum <- function(spectrum, all, updatePeaksCount = TRUE, msLevel.) {
+    ## Just clean the spectrum if its MS level matched msLevel.
+    if (!missing(msLevel.)) {
+        if (!(msLevel(spectrum) %in% msLevel.))
+            return(spectrum)
+    }
   keep <- utils.clean(spectrum@intensity, all)
   spectrum@intensity <- spectrum@intensity[keep]
   spectrum@mz <- spectrum@mz[keep]
@@ -90,7 +104,7 @@ quantify_Spectrum <- function(spectrum, method,
             ## peakQuant[i] <- abs(sum(x)/2)
             ## - updated -
             peakQuant[i] <- 0.5 * sum((dfr$mz[2:n] - dfr$mz[1:(n-1)]) *
-                                          (dfr$int[2:n] + dfr$int[1:(n-1)]))
+                                      (dfr$int[2:n] + dfr$int[1:(n-1)]))
             ## area using zoo's rollmean, but seems slightly slower
             ## peakQuant[i] <- abs(sum(diff(dfr$int)*rollmean(dfr$mz,2)))
         } else if (method == "sum") {
@@ -101,12 +115,12 @@ quantify_Spectrum <- function(spectrum, method,
             peakQuant[i] <- max(dfr$int)
         }
     }
-    colnames(curveStats) <- c("maxInt","nMaxInt","baseLength",
-                              "lowerMz","upperMz",
-                              "reporter","precursor")
+    colnames(curveStats) <- c("maxInt", "nMaxInt", "baseLength",
+                              "lowerMz", "upperMz", "reporter",
+                              "precursor")
     ## curveStats <- as.data.frame(curveStats)
-    return(list(peakQuant=peakQuant,
-                curveStats=curveStats))
+    return(list(peakQuant = peakQuant,
+                curveStats = curveStats))
 }
 
 
@@ -129,7 +143,7 @@ curveStats_Spectrum <- function(spectrum,reporters) {
   return(as.data.frame(curveStats))
 }
 
-curveData <- function(spectrum,reporter) {
+curveData <- function(spectrum, reporter) {
   ## Returns a data frame with mz and intensity
   ## values (as columns) for all the points (rows)
   ## in the reporter spectrum. The base of the
@@ -145,21 +159,21 @@ curveData <- function(spectrum,reporter) {
   ## 3  114.1102   3
   ## 4  114.1142   4
   ## ...
-  if (length(reporter)!=1) {
+  if (length(reporter) != 1) {
     warning("[curveData] Only returning data for first reporter ion")
     reporter <- reporter[1]
   }
-  bp <- getCurveWidth(spectrum,reporter)
+  bp <- getCurveWidth(spectrum, reporter)
   if (any(is.na(bp))) {
-    return(data.frame(mz=reporter@mz,int=NA))
+    return(data.frame(mz = reporter@mz, int = NA))
   } else {
     int <- intensity(spectrum)[bp$lwr[1]:bp$upr[1]]
     mz <- mz(spectrum)[bp$lwr[1]:bp$upr[1]]
-    return(data.frame(cbind(mz,int)))
+    return(data.frame(cbind(mz, int)))
   }
 }
 
-getCurveWidth <- function(spectrum,reporters) {
+getCurveWidth <- function(spectrum, reporters) {
   ## This function returns curve base indices
   ## from a spectrum object for all the reporter ions
   ## in the reporter object
@@ -175,22 +189,22 @@ getCurveWidth <- function(spectrum,reporters) {
   ##   - list$lwr of length(reporters) lower indices
   ##   - list$upr of length(reporters) upper indices
   m <- reporters@mz
-  lwr <- m-reporters@width
-  upr <- m+reporters@width
+  lwr <- m - reporters@width
+  upr <- m + reporters@width
   mz <- spectrum@mz
   int <- spectrum@intensity
   ## if first/last int != 0, this function crashes in the while
   ## (ylwr!=0)/(yupr!=0) loops. Adding leading/ending data points to
   ## avoid this. Return values xlwr and xupr get updated accordingly
   ## [*].
-  mz <- c(0,mz,0)
-  int <- c(0,int,0)
+  mz <- c(0, mz, 0)
+  int <- c(0, int, 0)
   ## x... vectors of _indices_ of mz values
   ## y... intensity values
   xlwr <- xupr<- c()
   for (i in 1:length(m)) {
-    region <- (mz>lwr[i] & mz<upr[i])
-    if (sum(region,na.rm=TRUE)==0) {
+    region <- (mz > lwr[i] & mz < upr[i])
+    if (sum(region, na.rm = TRUE) == 0) {
         ## warning("[getCurveData] No data for for precursor ",
         ##         spectrum@precursorMz, " reporter ", m[i])
       xlwr[i] <- xupr[i] <- NA
@@ -199,18 +213,18 @@ getCurveWidth <- function(spectrum,reporters) {
       xmax <- which((int %in% ymax) & region)
       xlwr[i] <- min(xmax) ## if several max peaks
       xupr[i] <- max(xmax) ## if several max peaks
-      if (!centroided(spectrum)) {
+      if (!is.na(centroided(spectrum)) & !centroided(spectrum)) {
         ylwr <- yupr <- ymax
-        while (ylwr!=0) {
-          xlwr[i] <- xlwr[i]-1
+        while (ylwr != 0) {
+          xlwr[i] <- xlwr[i] - 1
           ylwr <- int[xlwr[i]]
         }
-        ## if (mz[xlwr[i]]<lwr[i])
+        ## if (mz[xlwr[i]] < lwr[i])
         ##   warning("Peak base for precursor ",spectrum@precursorMz,
-        ##           " reporter ",m[i],": ",mz[xlwr[i]]," < ",m[i],"-",
-        ##           reporters@width,sep="")
-        while (yupr!=0) {
-          xupr[i] <- xupr[i]+1
+        ##           " reporter ", m[i],": ", mz[xlwr[i]], " < ",
+        ##           m[i], "-", reporters@width, sep = "")
+        while (yupr != 0) {
+          xupr[i] <- xupr[i] + 1
           yupr <- int[xupr[i]]
         }
         ## if (mz[xupr[i]]>upr[i])
@@ -227,33 +241,44 @@ getCurveWidth <- function(spectrum,reporters) {
       ##              if we have reached the last index (the 0), decrement by 2
       ##
       ## Updating xlwr, unless we reached the artificial leading 0
-      if (xlwr[i]>1)
-        xlwr[i] <- xlwr[i]-1
+      if (xlwr[i] > 1)
+        xlwr[i] <- xlwr[i] - 1
       ## Always updating xupr [*]
-      if (xupr[i]==length(mz))
-        xupr[i] <- xupr[i]-2
-      xupr[i] <- xupr[i]-1
+      if (xupr[i] == length(mz))
+        xupr[i] <- xupr[i] - 2
+      xupr[i] <- xupr[i] - 1
     }
   }
-  return(list(lwr=xlwr,upr=xupr))
+  return(list(lwr = xlwr, upr = xupr))
 }
 
-trimMz_Spectrum <- function(x,mzlim,updatePeaksCount=TRUE) {
-  mzmin <- min(mzlim)
-  mzmax <- max(mzlim)
-  sel <- (x@mz >= mzmin) & (x@mz <= mzmax)
-  if (sum(sel)==0) {
-    warning(paste("No data points between ", mzmin, " and ", mzmax,
-                  " for spectrum with acquisition number ",
-                  acquisitionNum(x), ".\n Leaving data as is.",
-                  sep = ""))
+trimMz_Spectrum <- function(x, mzlim, msLevel., updatePeaksCount = TRUE) {
+    ## If msLevel. not missing, perform the trimming only if the msLevel
+    ## of the spectrum matches (any of) the specified msLevels.
+    if (!missing(msLevel.)) {
+        if (!(msLevel(x) %in% msLevel.))
+            return(x)
+    }
+    mzmin <- min(mzlim)
+    mzmax <- max(mzlim)
+    sel <- (x@mz >= mzmin) & (x@mz <= mzmax)
+    if (sum(sel) == 0) {
+        msg <- paste0("No data points between ", mzmin,
+                      " and ", mzmax,
+                      " for spectrum with acquisition number ",
+                      acquisitionNum(x),
+                      ". Returning empty spectrum.")
+        warning(paste(strwrap(msg), collapse = "\n"))
+        x@mz <- c(mzmin, mzmax)
+        x@intensity <- c(0L, 0L)
+        x@tic <- x@peaksCount <- 0L
+        return(x)
+    }
+    x@mz <- x@mz[sel]
+    x@intensity <- x@intensity[sel]
+    if (updatePeaksCount)
+        x@peaksCount <- as.integer(length(x@intensity))
     return(x)
-  }
-  x@mz <- x@mz[sel]
-  x@intensity <- x@intensity[sel]
-  if (updatePeaksCount)
-    x@peaksCount <- as.integer(length(x@intensity))
-  return(x)
 }
 
 normalise_Spectrum <- function(object, method, value) {
@@ -262,7 +287,7 @@ normalise_Spectrum <- function(object, method, value) {
          max = div <- max(ints),
          sum = div <- sum(ints),
          value = div <- value)
-  normInts <- ints/div
+  normInts <- ints / div
   object@intensity <- normInts
   if (validObject(object))
     return(object)
@@ -272,34 +297,47 @@ bin_Spectrum <- function(object, binSize = 1L,
                          breaks = seq(floor(min(mz(object))),
                                       ceiling(max(mz(object))),
                                       by = binSize),
-                         fun=sum) {
+                         fun = sum,
+                         msLevel.) {
+    ## If msLevel. not missing, perform the trimming only if the msLevel
+    ## of the spectrum matches (any of) the specified msLevels.
+    if (!missing(msLevel.)) {
+        if (!(msLevel(object) %in% msLevel.))
+            return(object)
+    }
   fun <- match.fun(fun)
   nb <- length(breaks)
+
+  ## assumming that mz and breaks are sorted
+  if (mz(object)[peaksCount(object)] >= breaks[nb]) {
+    breaks <- c(breaks, breaks[nb] + mean(diff(breaks)))
+    nb <- nb + 1L
+  }
 
   idx <- findInterval(mz(object), breaks)
 
   idx[which(idx < 1L)] <- 1L
-  idx[which(idx > nb)] <- nb
+  idx[which(idx >= nb)] <- nb
 
-  intensity <- double(length(breaks))
-  intensity[unique(idx)] <- unlist(lapply(split(intensity(object), idx), fun))
+  mz <- (breaks[-nb] + breaks[-1L]) / 2L
+  intensity <- double(nb - 1L)
 
-  mz <- c((breaks[-nb]+breaks[-1L])/2L, breaks[nb])
+  intensity[unique(idx)] <- unlist(lapply(base::split(intensity(object), idx), fun))
 
   object@mz <- mz
   object@intensity <- intensity
   object@tic <- sum(intensity)
-  object@peaksCount <- nb
+  object@peaksCount <- length(mz)
   if (validObject(object))
       return(object)
 }
 
-bin_Spectra <- function(object1, object2, binSize=1L,
-                        breaks=seq(floor(min(c(mz(object1), mz(object2)))),
-                                   ceiling(max(c(mz(object1), mz(object2)))),
-                                   by=binSize)) {
-  return(list(bin_Spectrum(object1, binSize=binSize, breaks=breaks),
-              bin_Spectrum(object2, binSize=binSize, breaks=breaks)))
+bin_Spectra <- function(object1, object2, binSize = 1L,
+                        breaks = seq(floor(min(c(mz(object1), mz(object2)))),
+                                     ceiling(max(c(mz(object1), mz(object2)))),
+                                     by = binSize)) {
+  return(list(bin_Spectrum(object1, binSize = binSize, breaks = breaks),
+              bin_Spectrum(object2, binSize = binSize, breaks = breaks)))
 }
 
 #' calculate similarity between spectra (between their intensity profile)
@@ -327,16 +365,19 @@ compare_Spectra <- function(x, y,
   return(NA)
 }
 
-estimateNoise_Spectrum <- function(object, method = c("MAD", "SuperSmoother"),
-                                   ...) {
+estimateNoise_Spectrum <- function(object,
+                                   method = c("MAD", "SuperSmoother"),
+                                   ignoreCentroided = FALSE, ...) {
   if (isEmpty(object)) {
     warning("Your spectrum is empty. Nothing to estimate.")
-    return(matrix(NA, nrow=0L, ncol = 2L, dimnames = list(c(), c("mz", "intensity"))))
+    return(matrix(NA, nrow = 0L, ncol = 2L,
+                  dimnames = list(c(), c("mz", "intensity"))))
   }
 
-  if (length(object@centroided) && object@centroided) {
+  if (!ignoreCentroided && centroided(object)) {
     warning("Noise estimation is only supported for profile spectra.")
-    return(matrix(NA, nrow=0L, ncol = 2L, dimnames = list(c(), c("mz", "intensity"))))
+    return(matrix(NA, nrow = 0L, ncol = 2L,
+                  dimnames = list(c(), c("mz", "intensity"))))
   }
 
   noise <- MALDIquant:::.estimateNoise(mz(object), intensity(object),
@@ -346,70 +387,66 @@ estimateNoise_Spectrum <- function(object, method = c("MAD", "SuperSmoother"),
 
 pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
                                method = c("MAD", "SuperSmoother"),
-                               SNR = 0L, ...) {
+                               SNR = 0L, ignoreCentroided = FALSE,
+                               ...) {
+    if (isEmpty(object)) {
+        warning("Your spectrum is empty. Nothing to pick.")
+        return(object)
+    }
 
-  if (isEmpty(object)) {
-    warning("Your spectrum is empty. Nothing to pick.")
-    return(object)
-  }
+    if (!ignoreCentroided && centroided(object, na.fail = TRUE))
+        return(object)
 
-  if (length(object@centroided) && object@centroided) {
-    warning("Your spectrum is already centroided.")
-    return(object)
-  }
+    ## estimate noise
+    noise <- estimateNoise_Spectrum(object, method = method,
+                                    ignoreCentroided = ignoreCentroided,
+                                    ...)[, 2L]
 
-  ## estimate noise
-  noise <- estimateNoise_Spectrum(object, method = method, ...)[, 2L]
+    ## find local maxima
+    isLocalMaxima <- MALDIquant:::.localMaxima(intensity(object),
+                                               halfWindowSize = halfWindowSize)
 
-  ## find local maxima
-  isLocalMaxima <- MALDIquant:::.localMaxima(intensity(object),
-                                             halfWindowSize = halfWindowSize)
+    ## include only local maxima which are above the noise
+    isAboveNoise <- object@intensity > (SNR * noise)
 
-  ## include only local maxima which are above the noise
-  isAboveNoise <- object@intensity > (SNR * noise)
+    peakIdx <- which(isAboveNoise & isLocalMaxima)
 
-  peakIdx <- which(isAboveNoise & isLocalMaxima)
+    object@mz <- object@mz[peakIdx]
+    object@intensity <- object@intensity[peakIdx]
+    object@peaksCount <- length(peakIdx)
+    object@tic <- sum(intensity(object))
+    object@centroided <- TRUE
 
-  object@mz <- object@mz[peakIdx]
-  object@intensity <- object@intensity[peakIdx]
-  object@peaksCount <- length(peakIdx)
-  object@centroided <- TRUE
-
-  if (validObject(object)) {
-    return(object)
-  }
+    if (validObject(object)) {
+        return(object)
+    }
 }
 
 smooth_Spectrum <- function(object,
                             method = c("SavitzkyGolay", "MovingAverage"),
                             halfWindowSize = 2L, ...) {
 
-  if (!peaksCount(object)) {
-    warning("Your spectrum is empty. Nothing to change.")
-    return(object)
-  }
-
-  method <- match.arg(method)
-
-  switch(method,
-         "SavitzkyGolay" = {
-           fun <- MALDIquant:::.savitzkyGolay
-         },
-         "MovingAverage" = {
-           fun <- MALDIquant:::.movingAverage
-         })
-
-  object@intensity <- fun(object@intensity, halfWindowSize = halfWindowSize, ...)
-
-  isBelowZero <- object@intensity < 0
-
-  if (any(isBelowZero)) {
-    warning("Negative intensities generated. Replaced by zeros.")
-    object@intensity[isBelowZero] <- 0
-  }
-
-  if (validObject(object)) {
-    return(object)
-  }
+    if (!peaksCount(object)) {
+        warning("Your spectrum is empty. Nothing to change.")
+        return(object)
+    }
+    method <- match.arg(method)
+    switch(method,
+           "SavitzkyGolay" = {
+               fun <- MALDIquant:::.savitzkyGolay
+           },
+           "MovingAverage" = {
+               fun <- MALDIquant:::.movingAverage
+           })
+    object@intensity <- fun(object@intensity,
+                            halfWindowSize = halfWindowSize,
+                            ...)
+    isBelowZero <- object@intensity < 0
+    if (any(isBelowZero)) {
+        warning("Negative intensities generated. Replaced by zeros.")
+        object@intensity[isBelowZero] <- 0
+    }
+    object@tic <- sum(intensity(object))
+    if (validObject(object))
+        return(object)
 }
-

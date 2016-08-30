@@ -3,7 +3,9 @@ context("trimming white spaces")
 ## make a test data
 library("pRolocdata")
 data(dunkley2006)
-fData(dunkley2006)$test0 <- fData(dunkley2006)$test <- as.character(1:nrow(dunkley2006))
+fData(dunkley2006)$test0 <-
+                     fData(dunkley2006)$test <-
+                                          as.character(1:nrow(dunkley2006))
 fData(dunkley2006)$test[1:10] <- paste0(" ", fData(dunkley2006)$test[1:10])
 fData(dunkley2006)$test[11:20] <- paste0(fData(dunkley2006)$test[11:20], " ")
 fData(dunkley2006)$test[21:30] <- paste0("  ", fData(dunkley2006)$test[21:30], " ")
@@ -36,4 +38,3 @@ test_that("check that base:::trimws still works", {
     expect_equal(trimws("  xx  ", "left"), "xx  ")
     expect_equal(trimws("  xx  ", "right"), "  xx")
 })
-

@@ -9,14 +9,14 @@ setMethod("plotMzDelta", "mzRramp",
                    withLabels = TRUE,
                    size = 2.5,
                    plot = TRUE,
-                   verbose = TRUE) {             
+                   verbose = isMSnbaseVerbose()) {
               ## keep only MS2 spectra
               hd <- header(object)
               ms2 <- which(hd$msLevel == 2)
               if (!missing(subset)) {
                   if (subset <= 0 | subset >= 1) {
                       warning('subset must be in ]0, 1[. Ignoring ',
-                              subset, '.', immediate. = TRUE) 
+                              subset, '.', immediate. = TRUE)
                   } else {
                       n <- length(ms2)
                       .subset <- sample(n, ceiling(n * subset))
