@@ -1,0 +1,66 @@
+language: r
+cache: packages
+sudo: false
+
+r:
+  - bioc-devel
+
+bioc_packages:
+  - BiocGenerics
+  - Biobase
+  - mzR
+  - BiocParallel
+  - ProtGenerics
+  - IRanges
+  - preprocessCore
+  - vsn
+  - affy
+  - impute
+  - pcaMethods
+  - mzID
+  - MALDIquant
+  - S4Vectors
+  - rpx
+  - AnnotationHub
+  - BiocStyle
+  - rols
+  - Rdisop
+  - pRoloc
+  - pRolocdata
+  - msdata
+    
+r_packages:
+  - covr
+  - Rcpp
+  - ggplot2
+  - lattice
+  - digest
+  - stats4
+  - reshape2
+  - grid
+  - testthat
+  - pryr
+  - gridExtra
+  - microbenchmark
+  - zoo
+  - knitr
+  - roxygen2
+  - rgl
+  - imputeLCMD
+  - norm
+  - gplots
+  - XML
+  - shiny    
+    
+after_success:
+  - Rscript -e 'covr::codecov()'
+
+# print timings (of examples) and sysinfo
+after_script:
+  - dump_logs_by_extension "timings"
+  - dump_sysinfo
+
+notifications:
+  email:
+    on_failure: lg390@cam.ac.uk
+
