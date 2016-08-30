@@ -49,6 +49,8 @@ readMSData2 <- function(files,
         featureDataList <- c(featureDataList, list(fdData))
         mzR::close(msdata)
         rm(msdata)
+        ## Fix for #151; would be nice if we could remove that at some point.
+        gc()
     }
     ## new in version 1.9.8
     lockEnvironment(assaydata, bindings = TRUE)
@@ -75,10 +77,12 @@ readMSData2 <- function(files,
         fdata <- do.call(rbind, featureDataList)
         fdata <- cbind(fdata, spectrum = 1:nrow(fdata),
                        stringsAsFactors = FALSE)
-        fdata <- new("AnnotatedDataFrame", data = fdata)
+        ## Setting rownames on the data.frame not on the AnnotatedDataFrame;
+        ## did get strange errors otherwise.
         rownames(fdata) <- fullhdorder
         ## Re-order them
         fdata <- fdata[base::sort(fullhdorder), ]
+        fdata <- new("AnnotatedDataFrame", data = fdata)
         ## Re-order the features.
         ## fdata <- fdata[ls(assaydata), ]
     }

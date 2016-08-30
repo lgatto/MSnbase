@@ -232,6 +232,8 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     fileh <- mzR::openMSfile(filename)
     hd <- header(fileh)
     on.exit(expr = mzR::close(fileh))
+    ## Intermediate #151 fix. Performance-wise would be nice to get rid of this.
+    on.exit(expr = gc(), add = TRUE)
     msLevel1 <- which(fData$msLevel == 1)
     msLevelN <- which(fData$msLevel > 1)
     ## Process MS1 and MSn separately
