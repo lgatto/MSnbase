@@ -102,9 +102,9 @@ plot(ondisk[[200]], full = TRUE)
 ```
 
 ```{r plot1, echo=FALSE, fig.wide=TRUE, fig.cap = "Plotting in-memory and on-disk spectra"}
-requireNamespace("gridExtra")
-gridExtra::grid.arrange(plot(inmem[[200]], reporters = TMT6, full = TRUE),
-                        plot(ondisk[[200]], reporters = TMT6, full = TRUE),
+suppressMessages(requireNamespace("gridExtra"))
+gridExtra::grid.arrange(plot(inmem[[200]],  full = TRUE),
+                        plot(ondisk[[200]], full = TRUE),
                         ncol = 2)
 
 ```
