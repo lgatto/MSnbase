@@ -3,13 +3,13 @@ r: bioc-devel
 cache: packages
 sudo: true
 
-apt_packages:
-  - libnetcdf-dev
-  - texlive-full  
-
 before_install:
   - tlmgr install index
   - tlmgr install bera
+
+apt_packages:
+  - libnetcdf-dev
+  - texlive-full  
   
 after_success:
   - Rscript -e 'covr::codecov()'
