@@ -1,5 +1,5 @@
 ```{r env, echo=FALSE}
-opts_chunk$set(comment=NA)
+knitr::opts_chunk$set(comment=NA)
 ```
 
 `MSnbase` is an R/Bioconductor package that provides infrastructure
@@ -39,8 +39,13 @@ biocLite("MSnbase")
 If you need the github version
 
 ```{r installgh, eval = FALSE}
-biocLite("lgato/MSnbase")
+biocLite("lgatto/MSnbase")
 ```
+
+## Build status
+
+This repository, `master` branch
+[![Build Status](https://travis-ci.org/lgatto/MSnbase.svg?branch=master)](https://travis-ci.org/lgatto/MSnbase)
 
 ## Questions
 
@@ -60,3 +65,17 @@ To cite the MSnbase package in publications, please use:
 > [PMID:22113085](http://www.ncbi.nlm.nih.gov/pubmed/22113085).
 
 
+## Contributing
+
+Contributions to the package are more than welcome. If you want to
+contribute to this package, you should follow the same conventions as
+the rest of the functions whenever it makes sense to do so. Feel free
+to get in touch (preferable opening a
+[github issue](https://github.com/lgatto/MSnbase/issues/)) to discuss
+any suggestions. The
+[`MSnbase` development vignette](http://bioconductor.org/packages/devel/bioc/vignettes/MSnbase/inst/doc/MSnbase-development.pdf)
+gives some background on the class infrastructure.
+
+Please note that this project is released with a
+[Contributor Code of Conduct](https://github.com/lgatto/MSnbase/blob/master/CONDUCT.md). By
+participating in this project you agree to abide by its terms.

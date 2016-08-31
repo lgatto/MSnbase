@@ -39,8 +39,13 @@ If you need the github version
 
 
 ```r
-biocLite("lgato/MSnbase")
+biocLite("lgatto/MSnbase")
 ```
+
+## Build status
+
+This repository, `master` branch
+[![Build Status](https://travis-ci.org/lgatto/MSnbase.svg?branch=master)](https://travis-ci.org/lgatto/MSnbase)
 
 ## Questions
 
@@ -58,6 +63,7 @@ To cite the MSnbase package in publications, please use:
 > 15;28(2):288-9. doi:[10.1093/bioinformatics/btr645](http://bioinformatics.oxfordjournals.org/content/28/2/288.long). Epub
 > 2011 Nov 22.  PubMed
 > [PMID:22113085](http://www.ncbi.nlm.nih.gov/pubmed/22113085).
+
 
 ## Contributing
 
