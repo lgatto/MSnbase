@@ -3,11 +3,8 @@ r: bioc-devel
 cache: packages
 sudo: true
 
-bioc_packages:
-  - BiocStyle
-
-# before_install:
-#   - tlmgr install bera nowidow parnotes marginfix
+before_install:
+  - tlmgr install bera nowidow parnotes marginfix ifthen etoolbox titlesec sectsty framed enumitem parskip authblk soul placeins ragged2e footmisc changepage xstring caption titletoc mathtools 
 
 apt_packages:
   - libnetcdf-dev

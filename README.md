@@ -59,4 +59,5 @@ To cite the MSnbase package in publications, please use:
 > 2011 Nov 22.  PubMed
 > [PMID:22113085](http://www.ncbi.nlm.nih.gov/pubmed/22113085).
 
+## Contributing
 
