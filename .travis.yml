@@ -1,8 +1,11 @@
 language: r
+r: bioc-devel
 cache: packages
 sudo: true
-apt_packages: libnetcdf-dev
-r: bioc-devel
+
+apt_packages:
+  - libnetcdf-dev
+  - texlive-fonts-extra
   
     
 after_success:
