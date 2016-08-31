@@ -4,8 +4,7 @@ cache: packages
 sudo: true
 
 before_install:
-  - tlmgr install index
-  - tlmgr install bera
+  - tlmgr install bera nowidow
 
 apt_packages:
   - libnetcdf-dev
