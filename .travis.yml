@@ -4,7 +4,7 @@ cache: packages
 sudo: true
 
 before_install:
-  - tlmgr install bera nowidow parnotes marginfix ifthen etoolbox titlesec sectsty framed enumitem parskip authblk soul placeins ragged2e footmisc changepage xstring caption titletoc mathtools 
+  - tlmgr install bera nowidow parnotes marginfix etoolbox titlesec sectsty framed enumitem parskip soul placeins footmisc changepage xstring caption mathtools 
 
 apt_packages:
   - libnetcdf-dev
