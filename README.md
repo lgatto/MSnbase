@@ -61,3 +61,15 @@ To cite the MSnbase package in publications, please use:
 
 ## Contributing
 
+Contributions to the package are more than welcome. If you want to
+contribute to this package, you should follow the same conventions as
+the rest of the functions whenever it makes sense to do so. Feel free
+to get in touch (preferable opening a
+[github issue](https://github.com/lgatto/MSnbase/issues/)) to discuss
+any suggestions. The
+[`MSnbase` development vignette](http://bioconductor.org/packages/devel/bioc/vignettes/MSnbase/inst/doc/MSnbase-development.pdf)
+gives some background on the class infrastructure.
+
+Please note that this project is released with a
+[Contributor Code of Conduct](). By participating in this project you
+agree to abide by its terms.
