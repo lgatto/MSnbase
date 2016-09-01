@@ -9,6 +9,9 @@ before_install:
 apt_packages:
   - libnetcdf-dev
   - texlive-full  
+
+r_packages:
+  - covr
   
 after_success:
   - Rscript -e 'covr::codecov()'
