@@ -56,7 +56,7 @@ General questions should be asked on the
 
 ## Citation
 
-To cite the MSnbase package in publications, please use:
+To cite the `MSnbase` package in publications, please use:
 
 > Gatto L, Lilley KS. *`MSnbase` - an R/Bioconductor package for
 > isobaric tagged mass spectrometry data visualization, processing and
