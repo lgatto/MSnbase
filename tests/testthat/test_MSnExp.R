@@ -221,6 +221,22 @@ test_that("addIdentificationData", {
     expect_equal(fd$npsm.pep, c(1, 1, NA, NA, 1))
 })
 
+
+test_that("addIdentificationData to OnDiskMSnExp", {
+    quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                     full.name = TRUE, pattern = "mzXML$")
+    identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                     full.name = TRUE, pattern = "dummyiTRAQ.mzid")
+    rw1 <- readMSData(quantFile)
+    rw2 <- readMSData2(quantFile)
+    expect_true(all.equal(rw1, rw2))
+    rw1 <- addIdentificationData(rw1, identFile)
+    rw2 <- addIdentificationData(rw2, identFile)
+    expect_true(all.equal(rw1, rw2))
+    k <- intersect(fvarLabels(rw1), fvarLabels(rw2))
+    expect_identical(fData(rw1)[ k], fData(rw2)[ k])
+})
+
 ## test_that("addIdentificationData from MSGF+ and X!TANDEM", {
 ##     rawFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
 ##                    full.name = TRUE, pattern = "mzXML$")
