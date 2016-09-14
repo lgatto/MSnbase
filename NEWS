@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.99.2
+-------------------------
+ o
+ 
 CHANGES IN VERSION 1.99.1
 -------------------------
  o Fix MS level test in quantify,OnDiskMSnExp to support MS2+ level
