@@ -1,0 +1,27 @@
+language: r
+r: bioc-devel
+cache: packages
+sudo: true
+
+before_install:
+  - tlmgr install bera nowidow parnotes marginfix etoolbox titlesec sectsty framed enumitem parskip soul placeins footmisc changepage xstring caption mathtools 
+
+apt_packages:
+  - libnetcdf-dev
+  - texlive-full  
+
+r_packages:
+  - covr
+  
+after_success:
+  - Rscript -e 'covr::codecov()'
+
+# print timings (of examples) and sysinfo
+after_script:
+  - dump_logs_by_extension "timings"
+  - dump_sysinfo
+
+notifications:
+  email:
+    on_failure: lg390@cam.ac.uk
+

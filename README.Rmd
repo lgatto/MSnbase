@@ -1,4 +1,6 @@
-
+```{r env, echo=FALSE}
+knitr::opts_chunk$set(comment=NA)
+```
 
 `MSnbase` is an R/Bioconductor package that provides infrastructure
 for plotting, data manipulation and processing of MS-based proteomics
@@ -7,12 +9,12 @@ data. The project was started by
 23:35:23 2010, according to the git log) and has, since then,
 benefited from various contributions. 
 
-
-```
-Laurent Gatto with contributions from
-Guangchuang Yu, Samuel Wieczorek, Vasile-Cosmin Lazar,
-Vladislav Petyuk, Thomas Naake, Richie Cotton, Martina Fisher,
-Johannes Rainer and Sebastian Gibb. 
+```{r, echo=FALSE}
+auth <- packageDescription("MSnbase")$Author
+auth <- sub("<lg390@cam.ac.uk> ", "", auth)
+auth <- gsub("\n\t", "\n", auth)
+auth <- gsub("\t", " ", auth)
+cat(auth, "\n")
 ```
 
 The official page is the Bioconductor landing page
@@ -29,16 +31,14 @@ is the official repository for the working source code.
 
 To install `MSnbase`
 
-
-```r
+```{r install, eval = FALSE}
 library("BiocInstaller")
 biocLite("MSnbase")
 ```
 
 If you need the github version
 
-
-```r
+```{r installgh, eval = FALSE}
 biocLite("lgatto/MSnbase")
 ```
 
