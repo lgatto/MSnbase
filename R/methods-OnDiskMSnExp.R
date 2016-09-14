@@ -442,9 +442,12 @@ setMethod("quantify",
                    verbose = isMSnbaseVerbose(),
                    ...) {
               method <- match.arg(method)
-              if (!all(msLevel(object) == 2)) {
-                  message("Currently only MS2 quantitation: filtering MS2 spectra.")
+              if (!all(msLevel(object) >= 2)) {
+                  message("Currently only MS > 1 quantitation: filtering MS2 spectra\n.",
+                          "Use filterMsLevel() to filter appropriate levels.")
                   object <- filterMsLevel(object, msLevel. = 2L)
+                  if (length(object) == 0L)
+                      stop("Empty MSnExp data.")
               }
               ## MS2 isobaric
               if (method %in% c("trapezoidation", "max", "sum")) {
