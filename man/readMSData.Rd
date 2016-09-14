@@ -115,7 +115,7 @@ file <- dir(system.file(package = "MSnbase", dir = "extdata"),
             pattern = "mzXML$")
 aa <- readMSData(file)
 aa
-bb <- readMSData(file)
+bb <- readMSData2(file)
 bb
 }
 
