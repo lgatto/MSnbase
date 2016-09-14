@@ -1,6 +1,8 @@
 CHANGES IN VERSION 1.99.1
 -------------------------
-
+ o Fix MS level test in quantify,OnDiskMSnExp to support MS2+ level
+   quantitation <2016-09-14 Wed>
+ 
 CHANGES IN VERSION 1.99.0
 -------------------------
  o Add normalize method for OnDiskMSnExp <2016-06-07 Tue>.
