@@ -132,7 +132,36 @@ While it takes order or magnitudes more time to access the data
 on-the-fly rather than a pre-generated spectrum, accessing all spectra
 is only marginally slower than accessing all spectra, as most of the
 time is spent preparing the file for access, which is done only
-once. Data access does not prohibit interactive usage, such as
+once. On-disk access performance will obviously depend on the read throughput of
+the employed hard disk. In the code chunk below we compared data import and
+spectra access speed between an internal solid state disk and an external hard
+disk drive connected through USB3.
+
+```{r ssdVsSata, eval=FALSE}
+## Reading the file from the internal SSD harddisk.
+file_name <- "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz"
+f_1 <- paste0("/Users/jo/tmp/", file_name)
+system.time(ondisk_1 <- readMSData2(f_1,
+                                    centroided = TRUE))
+## Reading the same file from an external USB3 connected HD
+f_2 <- paste0("/Volumes/jodata/tmp/", file_name)
+system.time(ondisk_2 <- readMSData2(f_2,
+                                    centroided = TRUE))
+
+mb <- microbenchmark(spectra(ondisk_1),
+                     ondisk_1[[200]],
+                     spectra(ondisk_2),
+                     ondisk_2[[200]],
+                     times = 10)
+```
+
+It took 1.07 seconds to read the file from SSD and 1.36 seconds to read it from
+the external HDD while no difference in performance could be observed for the
+subsetting operations. Thus, for this particular setup, performance of data
+import from SSD and HDD was about the same. This might however not apply to
+setting in which data import is performed in parallel from multiple files.
+
+Data access does not prohibit interactive usage, such as
 plotting, for example, as it is about 1/2 seconds, which is an
 operation that is relatively rare, compared to subsetting and
 filtering, which are faster for on-disk data:
@@ -144,7 +173,7 @@ system.time(ondisk[i])
 ```
 
 Operations on the spectra data, such as peak picking, smoothing,
-cleaning, ... is cleverly cached and only applied when the data is
+cleaning, ... are cleverly cached and only applied when the data is
 accessed, to minimise file access overhead. Finally, specific
 operations such as for example quantitation (see next section) are
 optimised for speed.
@@ -167,10 +196,10 @@ all.equal(eim, eod, check.attributes = FALSE)
 
 This document focuses on speed and size improvements of the new
 on-disk `MSnExp` representation. The extend of these improvements will
-substantially increase for larger data. 
+substantially increase for larger data.
 
-For general functionality about the on-disk `MSnExp` data class and 
-`r Biocpkg("MSnbase")` in general, see other vignettes available with 
+For general functionality about the on-disk `MSnExp` data class and
+`r Biocpkg("MSnbase")` in general, see other vignettes available with
 
 ```{r vigs, eval=FALSE}
 vignette(package = "MSnbase")
