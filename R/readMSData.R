@@ -27,9 +27,7 @@ readMSData <- function(files,
         msdata <- mzR::openMSfile(f)
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
-        ifelse(msLevel. == 1,
-               spidx <- which(fullhd$msLevel == 1),
-               spidx <- which(fullhd$msLevel > 1))
+        spidx <- which(fullhd$msLevel == msLevel.)
         ## increase vectors as needed
         ioncount <- c(ioncount, numeric(length(spidx)))
         fullhdorder <- c(fullhdorder, numeric(length(spidx)))
@@ -69,16 +67,16 @@ readMSData <- function(files,
                 fullhdorder[fullhdordercounter] <- .fname
                 fullhdordercounter <- fullhdordercounter + 1
             }
-        } else {
+        } else { ## .msLevel != 1
             if (length(spidx) == 0)
                 stop("No MS(n>1) spectra in file", f)
             if (verbose) {
-                cat("Reading ", length(spidx),
-                    " MS2 spectra from file ", basename(f), "\n",
+                cat("Reading ", length(spidx), " MS", msLevel.,
+                    " spectra from file ", basename(f), "\n",
                     sep = "")
                 pb <- txtProgressBar(min = 0, max = length(spidx), style = 3)
             }
-            scanNums <- fullhd[fullhd$msLevel == 2, "precursorScanNum"]
+            scanNums <- fullhd[fullhd$msLevel == msLevel., "precursorScanNum"]
             if (length(scanNums) != length(spidx))
                 stop("Number of spectra and precursor scan number do not match!")
             for (i in 1:length(spidx)) {
@@ -87,6 +85,7 @@ readMSData <- function(files,
                 hd <- fullhd[j, ]
                 .p <- mzR::peaks(msdata, j)
                 sp <- new("Spectrum2",
+                          msLevel = as.integer(hd$msLevel),
                           merged = as.numeric(hd$mergedScan),
                           precScanNum = as.integer(scanNums[i]),
                           precursorMz = hd$precursorMZ,

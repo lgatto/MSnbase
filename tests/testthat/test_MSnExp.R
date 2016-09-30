@@ -324,3 +324,12 @@ test_that("Noise estimation MSnExp", {
     expect_identical(ns[[1]], estimateNoise(e$s1))
     expect_identical(ns[[2]], suppressWarnings(estimateNoise(e$s2)))
 })
+
+test_that("isolation window", {
+    f <- msdata::proteomics(full.names = TRUE)
+    i1 <- isolationWindow(f, unique = FALSE)
+    i2 <- isolationWindow(readMSData2(f), unique = FALSE)
+    i3 <- isolationWindow(readMSData(f), unique = FALSE)
+    expect_identical(i1, i2)
+    expect_identical(i1, i3)
+})
