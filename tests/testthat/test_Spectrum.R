@@ -3,8 +3,9 @@ context("Spectrum class")
 test_that("Spectrum validity", {
   expect_true(validObject(new("Spectrum1")))
   expect_true(validObject(new("Spectrum2")))
+  expect_true(validObject(sp3 <- new("Spectrum2", msLevel = 3L)))
+  expect_equal(msLevel(sp3), 3L)
 })
-
 
 test_that("Spectrum processing", {
     int <- c(0, 1, 2, 3, 1, 0, 0, 0, 0, 1, 3, 10, 6, 2, 1, 0, 1, 2, 0,
