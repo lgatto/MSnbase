@@ -20,13 +20,15 @@
 \alias{removeReporters,Spectrum-method}
 \alias{calculateFragments,character,Spectrum2-method}
 
-\title{The "Spectrum2" Class for MSMS Spectra}
+\title{The "Spectrum2" Class for MSn Spectra}
 
 \description{
+  
   \code{Spectrum2} extends the \code{"\linkS4class{Spectrum}"} class and
   introduces several MS2 specific attributes in addition to the slots in
-  \code{"\linkS4class{Spectrum}"}. \code{Spectrum2} are not created
-  directly but are contained in the \code{assayData} slot of an
+  \code{"\linkS4class{Spectrum}"}. Since version 1.99.2, this class is
+  used for any MS levels > 1. \code{Spectrum2} are not created directly
+  but are contained in the \code{assayData} slot of an
   \code{"\linkS4class{MSnExp}"}.
 
   In version 1.19.12, the \code{polarity} slot had been added to the

@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for MS-based Proteomics
-Version: 1.99.1
+Version: 1.99.2
 Description: Basic plotting, data manipulation and processing
 	     of MS-based Proteomics data.
 Authors@R: c(person(given = "Laurent", family = "Gatto",
@@ -43,7 +43,7 @@ Depends:
     methods,
     BiocGenerics (>= 0.7.1),
     Biobase (>= 2.15.2),
-    mzR,
+    mzR (>= 2.7.6),
     BiocParallel,
     ProtGenerics (>= 1.5.1)
 Imports:

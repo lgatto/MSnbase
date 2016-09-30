@@ -248,9 +248,12 @@ setClass("Spectrum2",
          validity = function(object) {
              msg <- validMsg(NULL, NULL)
              msl <- object@msLevel
-             if (msl!=as.integer(2))
-                 msg <- validMsg(msg,paste("Object of class",class(object),
-                                           "but msLevel is",msl,sep=" "))
+             if (msl < as.integer(2))
+                 msg <- validMsg(msg,
+                                 paste0("Object of class ",
+                                        class(object),
+                                        " but msLevel is ", msl,
+                                        " (should be > 1)"))
              if (is.null(msg)) TRUE
              else msg
          })
