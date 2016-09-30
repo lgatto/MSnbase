@@ -338,3 +338,9 @@ setMethod("isCentroided", "MSnExp",
               if (verbose) print(table(ctrd, msLevel(object)))
               ctrd
           })
+
+setMethod("isolationWindow", "MSnExp",
+          function(object, ...) {
+              ## TODO - add to fData
+              mzR::isolationWindow(fileNames(object), ...)
+          })

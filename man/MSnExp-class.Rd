@@ -36,6 +36,7 @@
 \alias{spectra,MSnExp-method}
 \alias{trimMz,MSnExp-method}
 \alias{trimMz,MSnExp,numeric-method}
+\alias{isolationWindow,MSnExp-method}
 
 \alias{filterMsLevel}
 \alias{filterMsLevel,MSnExp-method}
@@ -219,6 +220,10 @@
     \item{show}{\code{signature(object = "MSnExp")}: Displays object
       content as text. }
 
+    \item{isolationWindow}{\code{signature(object = "MSnExp", ...)}:
+      Returns the isolation window offsets for the MS2 spectra. See
+      \code{\link[mzR]{isolationWindow}} for details. }
+    
     \item{trimMz}{\code{signature(object = "MSnExp")}: Trims the MZ
       range of all the spectra of the \code{MSnExp} instance. See
       \code{\link{trimMz}} documentation for more details and

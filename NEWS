@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.99.2
+-------------------------
+ o Added isolationWindow,MSnExp method <2016-09-23 Fri>
+ o Updated readMSData Spectrum2 class to support MS levels > 2
+   <2016-09-30 Fri>
+ 
 CHANGES IN VERSION 1.99.1
 -------------------------
  o Fix MS level test in quantify,OnDiskMSnExp to support MS2+ level
