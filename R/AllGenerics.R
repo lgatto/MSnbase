@@ -140,3 +140,6 @@ setGeneric("filterRt", function (object, ...) standardGeneric("filterRt"))
 setGeneric("filterMsLevel", function (object, ...) standardGeneric("filterMsLevel"))
 setGeneric("filterFile", function (object, ...) standardGeneric("filterFile"))
 setGeneric("filterAcquisitionNum", function (object, ...) standardGeneric("filterAcquisitionNum"))
+
+## isolationWindow generic is in mzR
+setGeneric("injectionTime", function(object, ...) standardGeneric("injectionTime"))

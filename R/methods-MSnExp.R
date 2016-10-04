@@ -344,3 +344,38 @@ setMethod("isolationWindow", "MSnExp",
               ## TODO - add to fData
               mzR::isolationWindow(fileNames(object), ...)
           })
+
+setMethod("injectionTime", "MSnExp",
+          function(object, ...) {
+              stopifnot(requireNamespace("XML"))
+              if ("injectionTime" %in% fvarLabels(object))
+                  stop("injectionTime feature variable already present.")
+              f <- fileNames(object)
+              xvals <- vector("list", length = length(f))
+              for (i in seq_along(f)) {
+                  obj <- filterFile(object, i)
+                  doc <- xmlInternalTreeParse(fileNames(obj))
+                  namespaceDef <- getDefaultNamespace(doc)
+                  ns <- c(x = namespaceDef[[1]]$uri)
+                  x <- xpathApply(doc, "//x:cvParam[@accession = 'MS:1000927']",
+                                  namespaces = ns, xmlAttrs)
+                  .xvals <- sapply(x, "[", "value")
+                  k <- length(.xvals)
+                  stopifnot(length(obj) == k)
+                  names(.xvals) <- sprintf(paste0("X%0",
+                                                  ceiling(log10(k) + 1L),
+                                                  "d.%s"),
+                                           1:k, i)
+                  ## if object only had a subset of ms levels
+                  rw <- mzR::openMSfile(fileNames(obj))
+                  hd <- mzR::header(rw)
+                  sel <- fData(obj)$msLevel %in% unique(hd$msLevel)
+                  .xvals <- .xvals[sel]
+                  xvals[[i]] <- .xvals
+              }
+              xvals <- as.numeric(unlist(xvals))
+              stopifnot(length(xvals) == length(object))
+              fData(object)$injectionTime <- xvals
+              if (validObject(object))
+                  return(object)
+          })

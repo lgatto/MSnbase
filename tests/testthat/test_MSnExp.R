@@ -326,7 +326,7 @@ test_that("Noise estimation MSnExp", {
 })
 
 test_that("isolation window", {
-    f <- msdata::proteomics(full.names = TRUE)
+    f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
     i1 <- isolationWindow(f, unique = FALSE)
     i2 <- isolationWindow(readMSData2(f), unique = FALSE)
     i3 <- isolationWindow(readMSData(f), unique = FALSE)
