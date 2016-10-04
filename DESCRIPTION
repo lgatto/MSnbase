@@ -75,7 +75,7 @@ Suggests:
     Rdisop,
     pRoloc,
     pRolocdata (>= 1.7.1),
-    msdata,
+    msdata (>= 0.12.2),
     roxygen2,
     rgl,
     rpx,
