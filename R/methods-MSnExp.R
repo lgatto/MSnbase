@@ -345,8 +345,9 @@ setMethod("isolationWindow", "MSnExp",
               mzR::isolationWindow(fileNames(object), ...)
           })
 
-setMethod("injectionTime", "MSnExp",
+setMethod("addInjectionTime", "MSnExp",
           function(object, ...) {
+              browser()
               stopifnot(requireNamespace("XML"))
               if ("injectionTime" %in% fvarLabels(object))
                   stop("injectionTime feature variable already present.")
