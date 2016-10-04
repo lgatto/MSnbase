@@ -347,7 +347,6 @@ setMethod("isolationWindow", "MSnExp",
 
 setMethod("addInjectionTime", "MSnExp",
           function(object, ...) {
-              browser()
               stopifnot(requireNamespace("XML"))
               if ("injectionTime" %in% fvarLabels(object))
                   stop("injectionTime feature variable already present.")
@@ -362,7 +361,6 @@ setMethod("addInjectionTime", "MSnExp",
                                   namespaces = ns, xmlAttrs)
                   .xvals <- sapply(x, "[", "value")
                   k <- length(.xvals)
-                  stopifnot(length(obj) == k)
                   names(.xvals) <- sprintf(paste0("X%0",
                                                   ceiling(log10(k) + 1L),
                                                   "d.%s"),
@@ -370,7 +368,9 @@ setMethod("addInjectionTime", "MSnExp",
                   ## if object only had a subset of ms levels
                   rw <- mzR::openMSfile(fileNames(obj))
                   hd <- mzR::header(rw)
-                  sel <- fData(obj)$msLevel %in% unique(hd$msLevel)
+                  sel <- hd$msLevel %in% unique(fData(obj)$msLevel)
+                  stopifnot(k == length(sel))
+                  stopifnot(length(obj) == sum(sel))                  
                   .xvals <- .xvals[sel]
                   xvals[[i]] <- .xvals
               }
