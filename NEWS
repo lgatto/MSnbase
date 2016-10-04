@@ -1,6 +1,6 @@
 CHANGES IN VERSION 1.99.3
 -------------------------
- o
+ o new injectionTime method (see issue #159) <2016-10-04 Tue>
  
 CHANGES IN VERSION 1.99.2
 -------------------------
