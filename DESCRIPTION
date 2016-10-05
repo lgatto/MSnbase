@@ -63,6 +63,7 @@ Imports:
     lattice,
     ggplot2,
     S4Vectors,
+    XML,
     Rcpp
 Suggests:
     testthat,
@@ -85,7 +86,6 @@ Suggests:
     imputeLCMD,
     norm,
     gplots,
-    XML,
     shiny
 LinkingTo: Rcpp
 License: Artistic-2.0

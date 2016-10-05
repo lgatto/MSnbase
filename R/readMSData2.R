@@ -46,11 +46,14 @@ readMSData2 <- function(files,
                         centroided = rep(as.logical(NA), nrow(fdData)),
                         smoothed = rep(as.logical(smoothed.), nrow(fdData)),
                         fdData, stringsAsFactors = FALSE)
+        injt <- injectionTimeFromFile1(f)
+        if (is.numeric(injt) && length(injt) == nrow(fdData))
+            fdData$injectionTime <- injt
         ## Order the fdData by acquisitionNum to force use of acquisitionNum
         ## as unique ID for the spectrum (issue #103). That way we can use
         ## the spIdx (is the index of the spectrum within the file) for
         ## subsetting and extracting.
-        fdData <- fdData[order(fdData$acquisitionNum), ]
+        fdData <- fdData[order(fdData$acquisitionNum), ] ## not sure this is needed
         featureDataList <- c(featureDataList, list(fdData))
         mzR::close(msdata)
         rm(msdata)
