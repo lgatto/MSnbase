@@ -1,6 +1,6 @@
 CHANGES IN VERSION 1.99.3
 -------------------------
- o Injection time is not added to the header when reading mzML files
+ o Injection time is now added to the header when reading mzML files
    using readMSData2 (see issue #159) <2016-10-04 Tue>
  
 CHANGES IN VERSION 1.99.2
