@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for MS-based Proteomics
-Version: 1.99.2
+Version: 1.99.3
 Description: Basic plotting, data manipulation and processing
 	     of MS-based Proteomics data.
 Authors@R: c(person(given = "Laurent", family = "Gatto",
@@ -63,6 +63,7 @@ Imports:
     lattice,
     ggplot2,
     S4Vectors,
+    XML,
     Rcpp
 Suggests:
     testthat,
@@ -75,7 +76,7 @@ Suggests:
     Rdisop,
     pRoloc,
     pRolocdata (>= 1.7.1),
-    msdata,
+    msdata (>= 0.12.2),
     roxygen2,
     rgl,
     rpx,
@@ -85,7 +86,6 @@ Suggests:
     imputeLCMD,
     norm,
     gplots,
-    XML,
     shiny
 LinkingTo: Rcpp
 License: Artistic-2.0
