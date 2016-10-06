@@ -1,7 +1,7 @@
 context("readMSData2")
 
 test_that("msLevel set correctly", {
-    f <- msdata::proteomics(full.names = TRUE)
+    f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
     x <- readMSData2(f, verbose = FALSE)
     expect_equivalent(centroided(x), rep(NA, length(x)))
     x <- readMSData2(f, centroided = TRUE, verbose = FALSE)
