@@ -53,7 +53,12 @@ readMSData2 <- function(files,
         ## as unique ID for the spectrum (issue #103). That way we can use
         ## the spIdx (is the index of the spectrum within the file) for
         ## subsetting and extracting.
-        fdData <- fdData[order(fdData$acquisitionNum), ] ## not sure this is needed
+        if (!all(sort(fdData$acquisitionNum) == dData$acquisitionNum))
+            warning(paste("Unexpected acquisition number order detected.",
+                          "Please contact the maintainers or open an issue",
+                          "on https://github.com/lgatto/MSnbase.",
+                          sep = "\n"))
+        fdData <- fdData[order(fdData$acquisitionNum), ]
         featureDataList <- c(featureDataList, list(fdData))
         mzR::close(msdata)
         rm(msdata)
