@@ -57,7 +57,7 @@ readMSData2 <- function(files,
             warning(paste("Unexpected acquisition number order detected.",
                           "Please contact the maintainers or open an issue",
                           "on https://github.com/lgatto/MSnbase.",
-                          sep = "\n"))
+                          sep = "\n")) ## see issue #160
         fdData <- fdData[order(fdData$acquisitionNum), ]
         featureDataList <- c(featureDataList, list(fdData))
         mzR::close(msdata)
