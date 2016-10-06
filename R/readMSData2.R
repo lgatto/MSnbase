@@ -53,7 +53,7 @@ readMSData2 <- function(files,
         ## as unique ID for the spectrum (issue #103). That way we can use
         ## the spIdx (is the index of the spectrum within the file) for
         ## subsetting and extracting.
-        if (!all(sort(fdData$acquisitionNum) == dData$acquisitionNum))
+        if (!all(sort(fdData$acquisitionNum) == fdData$acquisitionNum))
             warning(paste("Unexpected acquisition number order detected.",
                           "Please contact the maintainers or open an issue",
                           "on https://github.com/lgatto/MSnbase.",
