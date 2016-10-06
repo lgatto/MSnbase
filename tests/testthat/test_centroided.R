@@ -1,5 +1,5 @@
 test_that("centroided accessor with/without na.fail", {
-    f <- msdata::proteomics(full.names = TRUE)
+    f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
     x <- readMSData(f)
     x2 <- readMSData2(f)
     ## in-mem, single spectrum

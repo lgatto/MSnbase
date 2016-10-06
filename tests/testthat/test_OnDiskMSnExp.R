@@ -45,7 +45,7 @@ test_that("OnDiskMSnExp constructor", {
 })
 
 test_that("Coercion to MSnExp", {
-    f <- msdata:::proteomics(full.names = TRUE)
+    f <- msdata:::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
     x <- readMSData2(f, verbose = FALSE)
     y <- readMSData(f, msLevel. = 2, centroided. = NA, verbose = FALSE)
     expect_error(as(x, "MSnExp"))
