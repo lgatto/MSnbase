@@ -256,7 +256,7 @@ setMethod("smooth", "MSnExp",
                             ...)
           })
 
-setMethod("removeReporters","MSnExp",
+setMethod("removeReporters", "MSnExp",
           function(object, reporters = NULL, clean = FALSE,
                    verbose = isMSnbaseVerbose()) {
               if (is.null(reporters))

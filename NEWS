@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.99.5
+-------------------------
+ o Add removeReporters,OnDiskMSnExp (see issue #161 for details)
+   <2016-10-07 Fri>
+ 
 CHANGES IN VERSION 1.99.4
 -------------------------
  o Fix bug in readMzTabData_v0.9 <2016-10-07 Fri>
