@@ -135,7 +135,11 @@ test_that("Spectrum processing", {
     ## pickPeaks -> test_OnDiskMSnExp_other_methods.R
     ## quantify
     ## removePeaks -> test_OnDiskMSnExp.R
-    ## removeReporters
+    ## removeReporters -> here
     ## smooth -> test_OnDiskMSnExp_other_methods.R
     ## trimMz -> test_OnDiskMSnExp_other_methods.R
+})
+
+test_that("removeReporters,OnDiskMSnExp", {
+    ## Hm, lacking test data to compare with.
 })

@@ -814,8 +814,8 @@ setMethod("compareSpectra", c("OnDiskMSnExp", "missing"),
 ## estimateNoise directly estimates the noise and returns it. We're going to
 ## call the method using the spectrapply method.
 ## Note: would also work directly with the MSnExp implementation, but this would
-## require that all spectra are loaded first, while here we ensure parallel processin
-## by file; should be faster and memory efficient.
+## require that all spectra are loaded first, while here we ensure parallel
+## processing by file; should be faster and memory efficient.
 setMethod("estimateNoise", "OnDiskMSnExp",
           function(object, method = c("MAD", "SuperSmoother"), ...) {
               method <- match.arg(method)
@@ -831,9 +831,17 @@ setMethod("removeReporters", "OnMSnExp",
               if (is.null(reporters)) {
                   return(object)
               } else {
-                  ## this currently only works with the in-memory
-                  ## backend
-                  object <- as(object, "MSnExp")
-                  removeReporters_MSnExp(object, reporters, clean, verbose)
+                  ps <- ProcessingStep("removeReporters",
+                                       list(reports = reports,
+                                            clean = clean, ...))
+                  x@spectraProcessingQueue <- c(x@spectraProcessingQueue,
+                                                list(ps))
+                  repname <- names(reporters)
+                  x@processingData@processing <- c(x@processingData@processing,
+                                                   paste("Removed",
+                                                         repname,
+                                                         "reporter ions ",
+                                                         date()))
+                  return(x)
               }
           })
