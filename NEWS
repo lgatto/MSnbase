@@ -1,6 +1,7 @@
 CHANGES IN VERSION 1.99.5
 -------------------------
- o Add removeReporters,OnDiskMSnExp <2016-10-07 Fri>
+ o Add removeReporters,OnDiskMSnExp (see issue #161 for details)
+   <2016-10-07 Fri>
  
 CHANGES IN VERSION 1.99.4
 -------------------------
