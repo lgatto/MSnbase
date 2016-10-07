@@ -832,7 +832,7 @@ setMethod("removeReporters", "OnMSnExp",
                   return(object)
               } else {
                   ps <- ProcessingStep("removeReporters",
-                                       list(reports = reports,
+                                       list(reporters = reporters,
                                             clean = clean, ...))
                   x@spectraProcessingQueue <- c(x@spectraProcessingQueue,
                                                 list(ps))
