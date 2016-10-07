@@ -1,3 +1,6 @@
+CHANGES IN VERSION 1.99.6
+-------------------------
+
 CHANGES IN VERSION 1.99.5
 -------------------------
  o Add removeReporters,OnDiskMSnExp (see issue #161 for details)
