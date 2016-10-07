@@ -1,3 +1,6 @@
+CHANGES IN VERSION 1.99.4
+-------------------------
+
 CHANGES IN VERSION 1.99.3
 -------------------------
  o Injection time is now added to the header when reading mzML files
