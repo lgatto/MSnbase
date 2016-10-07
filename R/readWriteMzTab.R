@@ -98,6 +98,8 @@ readMzTabData_v0.9 <- function(file,
         x[order(names(x))]
     }
 
+    processingDataFiles <- NULL
+    
     lns <- readLines(file)
     miape <- new("MIAPE")
 
@@ -150,7 +152,7 @@ readMzTabData_v0.9 <- function(file,
         if (length(msFileFormat <- grep("-ms_file\\[[0-9]*\\]-format\t", mtd, value = TRUE)) > 0) 
             miape@other$msFileFormat <- .parse(msFileFormat)
         if (length(msFile <- grep("-ms_file\\[[0-9]*\\]-location\t", mtd, value = TRUE)) > 0) 
-            tmp@processingData@files <- .parse(msFile)
+            processingDataFiles <- .parse(msFile)
         if (length(msFileIdFormat <- grep("-ms_file\\[[0-9]*\\]-id_format\t", mtd, value = TRUE)) > 0) 
             miape@other$msFileIdFormat <- .parse(msFileIdFormat)
         if (length(custom <- grep("-custom\t", mtd, value = TRUE)) > 0) {
@@ -206,12 +208,13 @@ readMzTabData_v0.9 <- function(file,
         tabnms <- tabnms[tabnms != ""]
         names(tab) <- tabnms 
     }
-    
+
     if (any(esetCols <- grepl("_abundance_sub\\[[0-9]*\\]", names(tab)))) {
         eset <- as.matrix(tab[, esetCols])
+        eset[eset == "null"] <- NA
         mode(eset) <- "numeric"
         nms <- colnames(eset)
-        colnames(eset) <- sub("^.+_abundance_", "", colnames(eset))    
+        colnames(eset) <- sub("^.+_abundance_", "", colnames(eset))
         fdata <- new("AnnotatedDataFrame", data = tab[, !esetCols])
         pdata <- new("AnnotatedDataFrame",
                      data = data.frame(abundance = nms, row.names = colnames(eset)))
@@ -234,6 +237,7 @@ readMzTabData_v0.9 <- function(file,
     ## adding mzTab file
     ans@processingData@files <-
         c(ans@processingData@files,
+          processingDataFiles, ## possibly NULL
           file)
     ans@processingData@processing <-
         c(ans@processingData@processing,
