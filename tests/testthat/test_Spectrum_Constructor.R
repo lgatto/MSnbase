@@ -1,11 +1,11 @@
 ############################################################
 ## Compare the "conventional" constructor with the C implementation
-ints <- 1:1000
-mzs <- 1:1000
+ints <- as.numeric(1:1000)
+mzs <- as.numeric(1:1000)
 
 test_that("Spectrum1 constructor", {
     Res1 <- new("Spectrum1", intensity = ints, mz = mzs, polarity = 1L,
-                rt = 12.4, fromFile = 3L, tic = 1234.3, centroided = TRUE)
+                rt = 12.4, fromFile = 3L, tic = 1234.3, centroided = TRUE)    
     Res2 <- MSnbase:::Spectrum1(intensity = ints, mz = mzs, polarity = 1L,
                                 rt = 12.4, fromFile = 3L, tic = 1234.3,
                                 centroided = TRUE)

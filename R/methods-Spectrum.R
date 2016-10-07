@@ -1,23 +1,23 @@
 ##################################################################
 ## Methods for Spectrum class and children
-## setMethod("initialize",
-##           "Spectrum",
-##           function(.Object, ..., mz, intensity, peaksCount) {
-##               if (xor(!missing(mz), !missing(intensity)))
-##                   stop("'mz' and 'intensity' or none required.")
-##               if (!missing(mz) & !missing(intensity)) {
-##                   o <- base::order(mz, method = "radix")
-##                   .Object <- callNextMethod(.Object,
-##                                             ...,
-##                                             mz = mz[o],
-##                                             intensity = intensity[o],
-##                                             peaksCount = length(mz))
-##               } else .Object <- callNextMethod(.Object, ...)
-##               if (.Object@tic == 0)
-##                   .Object@tic <- sum(.Object@intensity)
-##               if (validObject(.Object))
-##                   .Object
-##           })
+setMethod("initialize",
+          "Spectrum",
+          function(.Object, ..., mz, intensity, peaksCount) {
+              if (xor(!missing(mz), !missing(intensity)))
+                  stop("'mz' and 'intensity' or none required.")
+              if (!missing(mz) & !missing(intensity)) {
+                  o <- base::order(mz, method = "radix")
+                  .Object <- callNextMethod(.Object,
+                                            ...,
+                                            mz = mz[o],
+                                            intensity = intensity[o],
+                                            peaksCount = length(mz))
+              } else .Object <- callNextMethod(.Object, ...)
+              if (.Object@tic == 0)
+                  .Object@tic <- sum(.Object@intensity)
+              if (validObject(.Object))
+                  .Object
+          })
 
 setMethod("show", "Spectrum",
           function(object) {

@@ -1,6 +1,8 @@
 CHANGES IN VERSION 1.99.6
 -------------------------
-
+ o Reverting to old initialize,Spectrum (see issue #163)
+   <2016-10-07 Fri>
+ 
 CHANGES IN VERSION 1.99.5
 -------------------------
  o Add removeReporters,OnDiskMSnExp (see issue #161 for details)
