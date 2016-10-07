@@ -825,5 +825,15 @@ setMethod("estimateNoise", "OnDiskMSnExp",
               return(res)
           })
 
-
-
+setMethod("removeReporters", "OnMSnExp",
+          function(object, reporters = NULL, clean = FALSE,
+                   verbose = isMSnbaseVerbose()) {
+              if (is.null(reporters)) {
+                  return(object)
+              } else {
+                  ## this currently only works with the in-memory
+                  ## backend
+                  object <- as(object, "MSnExp")
+                  removeReporters_MSnExp(object, reporters, clean, verbose)
+              }
+          })
