@@ -23,6 +23,7 @@
 \alias{quantify,MSnExp,character-method}
 \alias{removePeaks,MSnExp-method}
 \alias{removeReporters,MSnExp-method}
+\alias{removeReporters,OnMSnExp-method}
 \alias{smooth,MSnExp-method}
 \alias{addIdentificationData,MSnExp,character-method}
 \alias{addIdentificationData,MSnExp,mzIDClasses-method}
