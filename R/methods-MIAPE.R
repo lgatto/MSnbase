@@ -4,8 +4,8 @@
 ## Methods for MIAPE class
 setMethod("initialize", "MIAPE",
          function(.Object, ...) {
-             .Object <- callNextMethod(.Object, ...)
              classVersion(.Object) <- getClassVersion(.Object)
+             .Object <- callNextMethod(.Object, ...)
              if (validObject(.Object))
                  return(.Object)
          })
