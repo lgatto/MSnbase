@@ -249,10 +249,17 @@ setMethod("smooth", "Spectrum",
           })
 
 setMethod("removeReporters", "Spectrum",
-          function(object, reporters = NULL, clean = FALSE) {
+          function(object, reporters = NULL, clean = FALSE, ...) {
               if (msLevel(object) > 1)
                   return(removeReporters_Spectrum2(object, reporters, clean))
-              stop("No reporters to remove for MS1 spectra.")
+              ## stop("No reporters to remove for MS1 spectra.")
+              ## Instead of stopping we show a (conditional) warning
+              ## See also issue #161
+              dots <- list(...)
+              if (!((length(dots$suppressWarnings) > 0) && dots$suppressWarnings))
+                  warning("No reporters to remove for MS1 spectra.")
+              ## Return the Spectrum as-is for MS1
+              return(object)
           })
 
 setMethod("isEmpty", "Spectrum",

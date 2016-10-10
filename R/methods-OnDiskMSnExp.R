@@ -825,23 +825,33 @@ setMethod("estimateNoise", "OnDiskMSnExp",
               return(res)
           })
 
-setMethod("removeReporters", "OnMSnExp",
+############################################################
+## removeReporters
+##
+## Adds the removeReporters Spectrum processing step to the lazy processing
+## queue
+setMethod("removeReporters", "OnDiskMSnExp",
           function(object, reporters = NULL, clean = FALSE,
                    verbose = isMSnbaseVerbose()) {
               if (is.null(reporters)) {
                   return(object)
               } else {
+                  ## Check if we've got msLevel > 1.
+                  if (all(msLevel(object) == 1))
+                      stop("No MS level > 1 spectra present! Reporters can",
+                           " only be removed from spectra >= 2!")
                   ps <- ProcessingStep("removeReporters",
                                        list(reporters = reporters,
-                                            clean = clean))
-                  x@spectraProcessingQueue <- c(x@spectraProcessingQueue,
-                                                list(ps))
+                                            clean = clean,
+                                            suppressWarnings = TRUE))
+                  object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
+                                                     list(ps))
                   repname <- names(reporters)
-                  x@processingData@processing <- c(x@processingData@processing,
+                  object@processingData@processing <- c(object@processingData@processing,
                                                    paste("Removed",
                                                          repname,
                                                          "reporter ions ",
                                                          date()))
-                  return(x)
+                  return(object)
               }
           })
