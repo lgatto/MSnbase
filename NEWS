@@ -5,7 +5,8 @@ CHANGES IN VERSION 1.99.6
  o Setting class versions outside of prototype (see issue #163). For
    this, there is now a vector of class version in .MSnbaseEnv
    <2016-10-10 Mon>
- o MSnProcess version 0.3.0 - class set in initialize
+   - MSnProcess version 0.3.0 - class versionset in initialize
+   - MIAPE version 0.3.0 - class version set in initialize
  
 CHANGES IN VERSION 1.99.5
 -------------------------

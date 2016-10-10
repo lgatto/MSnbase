@@ -2,10 +2,12 @@
 
 ##################################################################
 ## Methods for MIAPE class
-setClass("initialize", "MIAPE",
-         function(.Object) {
-             
-
+setMethod("initialize", "MIAPE",
+         function(.Object, ...) {
+             .Object <- callNextMethod(.Object, ...)
+             classVersion(.Object) <- getClassVersion(.Object)
+             if (validObject(.Object))
+                 return(.Object)
          })
 
 setMethod("show", "MIAPE", function(object) {

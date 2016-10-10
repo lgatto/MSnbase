@@ -9,7 +9,7 @@
 
 ClassVersions <- c(
     MSnProcess = "0.3.0",
-    MIAPE = "0.2.2",
+    MIAPE = "0.3.0",
     NAnnotatedDataFrame = "0.0.3",
     pSet = "0.1.1",
     MSnExp = "0.3.1",

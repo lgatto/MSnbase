@@ -84,7 +84,6 @@ setClass("MIAPE",
              ),
          contains = c("MIAxE"),
          prototype = prototype(
-             new("Versioned", versions=c(classVersion("MIAxE"), MIAPE="0.2.2")),
              name = "",
              lab = "",
              contact = "",
@@ -95,8 +94,14 @@ setClass("MIAPE",
              email = "",
              samples = list(),
              preprocessing = list(),
-             other = list())
-         )
+             other = list()),
+         validity = function(object) {
+             msg <- validMsg(NULL, NULL)
+             if (!hasVersion(object))
+                 msg <- validMsg(msg, "Object doesn't have a class.")
+             if (is.null(msg)) TRUE
+             else msg
+         })
 
 ############################################################################
 ## NAnnotatedDataFrame: As Biobase's AnnotatedDataFrame, it is composed of
