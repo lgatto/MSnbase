@@ -3,23 +3,22 @@
 ## See online documentation for more information.
 setClass("MSnProcess",
          representation = representation(
-             files="character",
-             processing="character",
-             merged="logical",
-             cleaned="logical",
-             removedPeaks="character",
-             smoothed="logical",
-             trimmed="numeric",
-             normalised="logical",
-             MSnbaseVersion="character"),
-         contains=c("Versioned"),
-         prototype = prototype(
-             new("Versioned", versions=c(MSnProcess="0.1.3")),
-             processing=character(),
-             files=character(),
-             trimmed=numeric(),
-             removedPeaks=character(),
-             MSnbaseVersion=character()) ## set in initialize()
+             files = "character",
+             processing = "character",
+             merged = "logical",
+             cleaned = "logical",
+             removedPeaks = "character",
+             smoothed = "logical",
+             trimmed = "numeric",
+             normalised = "logical",
+             MSnbaseVersion = "character"),
+         contains = c("Versioned"),
+         prototype  =  prototype(
+             processing = character(),
+             files = character(),
+             trimmed = numeric(),
+             removedPeaks = character(),
+             MSnbaseVersion = character()) ## set in initialize()
          )
 
 #################################################################
@@ -280,27 +279,27 @@ setClass("Spectrum1",
 ## See online documentation for more information.
 setClass("ReporterIons",
          representation = representation(
-             name="character",
-             reporterNames="character",
-             description="character",
-             mz="numeric",
-             col="character",
-             width="numeric"),
-         contains=c("Versioned"),
-         prototype = prototype(
-             new("Versioned", versions=c(ReporterIons="0.1.0")),
-             name=character(),
-             reporterNames=character(),
-             description=character(),
-             mz=numeric(),
-             col=character(),
-             width=numeric()),
+             name = "character",
+             reporterNames = "character",
+             description = "character",
+             mz = "numeric",
+             col = "character",
+             width = "numeric"),
+         contains = c("Versioned"),
+         prototype  =  prototype(
+             new("Versioned", versions = c(ReporterIons = "0.1.0")),
+             name = character(),
+             reporterNames = character(),
+             description = character(),
+             mz = numeric(),
+             col = character(),
+             width = numeric()),
          validity = function(object) {
              msg <- validMsg(NULL, NULL)
-             if (length(object@mz)==0) {
-                 msg <- validMsg(msg,"No reporter ions defined.")
+             if (length(object@mz) == 0) {
+                 msg <- validMsg(msg, "No reporter ions defined.")
              } else {
-                 if (length(object@col)!=length(object@mz))
+                 if (length(object@col) != length(object@mz))
                      warning("Missing color(s) for the reporter ions.")
              }
              if (is.null(msg)) TRUE

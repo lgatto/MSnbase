@@ -1,4 +1,32 @@
-.MSnbaseEnv <- new.env(parent=emptyenv(), hash=TRUE)
+.MSnbaseEnv <- new.env(parent = emptyenv(), hash = TRUE)
+
+## As discussed in issue #163 for details, the random errors we see
+## (see issue #138) seem to come (partially at least) from using new
+## in the prototype. As a result, these will be setn (and tested in
+## validity methods) outside of the prototype. The vector below stores
+## the respective class versions. When a class doesn't have one, the
+## version should be defined as NA_character_.
+
+ClassVersions <- c(
+    MSnProcess = "0.1.3",
+    MIAPE = "0.2.2",
+    NAnnotatedDataFrame = "0.0.3",
+    pSet = "0.1.1",
+    MSnExp = "0.3.1",
+    Spectrum = "0.4.0",
+    Spectrum1 = "0.2.0",
+    Spectrum2 = "0.2.0",
+    ReporterIons = "0.1.0",
+    MSnSet = "0.4.0",
+    MSnSetList = "0.1.0",
+    FeaturesOfInterest = "0.1.0",
+    FoICollection = "0.1.0",
+    MzTab = NA_character_,
+    OnDiskMSnExp = "0.1.0",
+    ProcessingStep = "0.0.1"
+)
+
+assign("ClassVersions", ClassVersions, envir = .MSnbaseEnv)
 
 assign("amino.acids",
        data.frame(AA = c("peg","A","R","N","D","C","E",

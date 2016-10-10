@@ -1,9 +1,12 @@
 ##################################################################
 ## Methods for MSnProcess class
-setMethod("initialize","MSnProcess",          
-          function(.Object,...) {
-            .Object <- callNextMethod(.Object,...)
-            .Object@MSnbaseVersion <- as.character(packageDescription("MSnbase",fields="Version"))
+setMethod("initialize","MSnProcess",
+          function(.Object, ...) {
+            .Object <- callNextMethod(.Object, ...)
+            .Object@MSnbaseVersion <-
+                as.character(packageDescription("MSnbase",
+                                                fields = "Version"))
+            classVersion(.Object) <- getClassVersion(.Object)
             if (validObject(.Object))
               return(.Object)
           })

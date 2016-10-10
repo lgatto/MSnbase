@@ -2,6 +2,9 @@ CHANGES IN VERSION 1.99.6
 -------------------------
  o Reverting to old initialize,Spectrum (see issue #163)
    <2016-10-07 Fri>
+ o Setting class versions outside of prototype (see issue #163). For
+   this, there is now a vector of class version in .MSnbaseEnv
+   <2016-10-10 Mon>
  
 CHANGES IN VERSION 1.99.5
 -------------------------
