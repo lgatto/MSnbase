@@ -18,8 +18,14 @@ setClass("MSnProcess",
              files = character(),
              trimmed = numeric(),
              removedPeaks = character(),
-             MSnbaseVersion = character()) ## set in initialize()
-         )
+             MSnbaseVersion = character()), ## set in initialize()
+         validity = function(object) {
+             msg <- validMsg(NULL, NULL)
+             if (!hasVersion(object))
+                 msg <- validMsg(msg, "Object doesn't have a class.")
+             if (is.null(msg)) TRUE
+             else msg
+         })
 
 #################################################################
 ## The 'Minimum Information About a Proteomics Experiment' Class
@@ -35,7 +41,7 @@ setClass("MIAPE",
              samples = "list",
              preprocessing = "list",
              other = "list",
-##########################
+             ## ########################
              ## Based on MIAPE-MS 2.24
              ##  will be updated with MIAPE-MSI and MIAPE-Quant
              ## 1. General features - (a) Global descriptors
