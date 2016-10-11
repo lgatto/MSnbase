@@ -24,6 +24,7 @@
 ## Initialize method that calls Spectrum initialize and adds the version.
 setMethod("initialize",
           "Spectrum1", function(.Object, ...) {
+              classVersion(.Object)["Spectrum"] <- getClassVersion("Spectrum")
               classVersion(.Object)["Spectrum1"] <- getClassVersion("Spectrum1")
               callNextMethod(.Object, ...)
           })

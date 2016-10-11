@@ -3,7 +3,9 @@
 setMethod("initialize",
           "Spectrum",
           function(.Object, ..., mz, intensity, peaksCount) {
-              classVersion(.Object) <- getClassVersion(.Object)
+              ## Add Spectrum class version - set in Spectrum1/2 to
+              ## keep suber/sub class order
+              ## classVersion(.Object)["Spectrum"] <- getClassVersion("Spectrum")
               if (xor(!missing(mz), !missing(intensity)))
                   stop("'mz' and 'intensity' or none required.")
               if (!missing(mz) & !missing(intensity)) {
@@ -16,8 +18,6 @@ setMethod("initialize",
               } else .Object <- callNextMethod(.Object, ...)
               if (.Object@tic == 0)
                   .Object@tic <- sum(.Object@intensity)
-              ## Add the class version
-              classVersion(.Object)["Spectrum"] <- getClassVersion("Spectrum")
               if (validObject(.Object))
                   .Object
           })

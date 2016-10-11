@@ -44,9 +44,7 @@ Spectrum1 <- function(peaksCount = length(mz), rt = numeric(),
 ## .versionToNum
 ## Simple helper function to convert a character version string into an
 ## integer vector.
-.versionToNum <- function(z) {
-    return(as.integer(unlist(strsplit(z, split = ".", fixed = TRUE))))
-}
+.versionToNum <- function(z) z@.Data
 
 ############################################################
 ## Constructor for Spectrum1 that ensures ordering of M/Z-intensity

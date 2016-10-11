@@ -1,9 +1,3 @@
-## TRUE if class(object) has a version, otherwise FALSE
-hasVersion <- function(object)
-    isVersioned(object) &&
-        length(classVersion(object)) > 0 &&
-        class(object) %in% names(classVersion(object))
-
 ## Returns of class version as documented in .MSnBaseEnd$ClassVersions
 ## as and instance of class Versions.
 getClassVersion <- function(x) {
@@ -34,18 +28,12 @@ setClass("MSnProcess",
              MSnbaseVersion = "character"),
          contains = c("Versioned"),
          prototype  =  prototype(
+             new("Versioned", versions = c(MSnProcess = "0.1.3")),
              processing = character(),
              files = character(),
              trimmed = numeric(),
              removedPeaks = character(),
-             MSnbaseVersion = character()), ## set in initialize()
-         validity = function(object) {
-             msg <- validMsg(NULL, NULL)
-             if (!hasVersion(object))
-                 msg <- validMsg(msg, "Object doesn't have a class.")
-             if (is.null(msg)) TRUE
-             else msg
-         })
+             MSnbaseVersion = character())) ## set in initialize()
 
 #################################################################
 ## The 'Minimum Information About a Proteomics Experiment' Class
@@ -104,6 +92,8 @@ setClass("MIAPE",
              ),
          contains = c("MIAxE"),
          prototype = prototype(
+             new("Versioned",
+                 versions = c(classVersion("MIAxE"), MIAPE = "0.2.2")),
              name = "",
              lab = "",
              contact = "",
@@ -114,14 +104,7 @@ setClass("MIAPE",
              email = "",
              samples = list(),
              preprocessing = list(),
-             other = list()),
-         validity = function(object) {
-             msg <- validMsg(NULL, NULL)
-             if (!hasVersion(object))
-                 msg <- validMsg(msg, "Object doesn't have a class.")
-             if (is.null(msg)) TRUE
-             else msg
-         })
+             other = list()))
 
 ############################################################################
 ## NAnnotatedDataFrame: As Biobase's AnnotatedDataFrame, it is composed of
@@ -140,8 +123,6 @@ setClass("NAnnotatedDataFrame",
              multiLabels = "Single run"),
          validity = function(object) {
              msg <- validMsg(NULL, NULL)
-             ## if (!hasVersion(object))
-             ##     msg <- validMsg(msg, "Object doesn't have a class.")
              if (length(object@multiLabels) != object@multiplex)
                  msg <- validMsg(msg, "Number of multiplex does not match it's labels.")
              if (is.null(msg)) TRUE
@@ -181,7 +162,7 @@ setClass("pSet",
                         "VIRTUAL"),
          contains = "Versioned",
          prototype = prototype(
-             new("Versioned", versions=c(pSet="0.1.1")),
+             new("Versioned", versions = c(pSet = "0.1.1")),
              assayData = new.env(parent=emptyenv()),
              experimentData = new("MIAPE"),
              phenoData = new("NAnnotatedDataFrame",
