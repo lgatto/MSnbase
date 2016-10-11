@@ -7,8 +7,7 @@ CHANGES IN VERSION 1.99.6
    <2016-10-10 Mon>
    - MSnProcess version 0.3.0 - class versionset in initialize
    - MIAPE version 0.3.0 - class version set in initialize
-   - NAnnotatedDataFrame version 0.1.0 - class version set in new
-     initialize
+   - Spectrum1 and 2 version 0.3.0 - class version set in initialize
 
 CHANGES IN VERSION 1.99.5
 -------------------------
