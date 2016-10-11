@@ -229,8 +229,8 @@ Spectra2_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
     if (!is.integer(precursorCharge)) precursorCharge <- as.integer(precursorCharge)
     if (!is.double(collisionEnergy)) collisionEnergy <- as.double(collisionEnergy)
     ## Define the class versions.
-    versions <- list(Spectrum2 = getClassVersion("Spectrum2"),
-                     Spectrum = getClassVersion("Spectrum"))
+    versions <- list(Spectrum = getClassVersionString("Spectrum"),
+                     Spectrum2 = getClassVersionString("Spectrum2"))
     ## OK, now let's call C.
     res <- .Call("Multi_Spectrum2_constructor_mz_sorted",
                  msLevel,
@@ -290,8 +290,8 @@ Spectrum2 <- function(msLevel = 2L, peaksCount = length(mz), rt = numeric(),
     if (!is.integer(precursorCharge)) precursorCharge <- as.integer(precursorCharge)
     if (!is.double(collisionEnergy)) collisionEnergy <- as.double(collisionEnergy)
     ## Define the class versions.
-    versions <- list(Spectrum2 = getClassVersion("Spectrum2"),
-                     Spectrum = getClassVersion("Spectrum"))
+    versions <- list(Spectrum = getClassVersionString("Spectrum"),
+                     Spectrum2 = getClassVersionString("Spectrum2"))
     res <- .Call("Spectrum2_constructor",
                  msLevel, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
                  intensity, fromFile, centroided, smoothed, polarity,
@@ -337,8 +337,8 @@ Spectrum2_mz_sorted <- function(msLevel = 2L, peaksCount = length(mz), rt = nume
     if (!is.integer(precursorCharge)) precursorCharge <- as.integer(precursorCharge)
     if (!is.double(collisionEnergy)) collisionEnergy <- as.double(collisionEnergy)
     ## Define the class versions.
-    versions <- list(Spectrum2 = getClassVersion("Spectrum2"),
-                     Spectrum = getClassVersion("Spectrum"))
+    versions <- list(Spectrum = getClassVersionString("Spectrum"),
+                     Spectrum2 = getClassVersionString("Spectrum2"))
     res <- .Call("Spectrum2_constructor_mz_sorted",
                  msLevel, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
                  intensity, fromFile, centroided, smoothed, polarity,

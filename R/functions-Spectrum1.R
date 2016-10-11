@@ -31,8 +31,8 @@ Spectrum1 <- function(peaksCount = length(mz), rt = numeric(),
     if (!is.logical(smoothed)) smoothed <- as.logical(smoothed)
     if (!is.integer(polarity)) polarity <- as.integer(polarity)
     ## Define the class versions.
-    versions <- list(Spectrum1 = getClassVersion("Spectrum1"),
-                     Spectrum = getClassVersion("Spectrum"))
+    versions <- list(Spectrum = getClassVersionString("Spectrum"),
+                     Spectrum1 = getClassVersionString("Spectrum1"))
     res <- .Call("Spectrum1_constructor",
                  1L, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
                  intensity, fromFile, centroided, smoothed, polarity, TRUE,
@@ -44,7 +44,9 @@ Spectrum1 <- function(peaksCount = length(mz), rt = numeric(),
 ## .versionToNum
 ## Simple helper function to convert a character version string into an
 ## integer vector.
-.versionToNum <- function(z) z@.Data
+.versionToNum <- function(z) {
+    return(as.integer(unlist(strsplit(z, split = ".", fixed = TRUE))))
+}
 
 ############################################################
 ## Constructor for Spectrum1 that ensures ordering of M/Z-intensity
@@ -70,8 +72,8 @@ Spectrum1_mz_sorted <- function(peaksCount = length(mz), rt = numeric(),
     if (!is.logical(smoothed)) smoothed <- as.logical(smoothed)
     if (!is.integer(polarity)) polarity <- as.integer(polarity)
     ## Define the class versions.
-    versions <- list(Spectrum1 = getClassVersion("Spectrum1"),
-                     Spectrum = getClassVersion("Spectrum"))
+    versions <- list(Spectrum = getClassVersionString("Spectrum"),
+                     Spectrum1 = getClassVersionString("Spectrum1"))
     res <- .Call("Spectrum1_constructor_mz_sorted",
                  1L, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
                  intensity, fromFile, centroided, smoothed, polarity, TRUE,
@@ -169,8 +171,8 @@ Spectra1_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
     if (!is.logical(smoothed)) smoothed <- as.logical(smoothed)
     if (!is.integer(polarity)) polarity <- as.integer(polarity)
     ## Define the class versions.
-    versions <- list(Spectrum1 = getClassVersion("Spectrum1"),
-                     Spectrum = getClassVersion("Spectrum"))
+    versions <- list(Spectrum = getClassVersionString("Spectrum"),
+                     Spectrum1 = getClassVersionString("Spectrum1"))
     ## OK, now let's call C.
     res <- .Call("Multi_Spectrum1_constructor_mz_sorted",
                  1L,

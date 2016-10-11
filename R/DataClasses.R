@@ -7,10 +7,15 @@ getClassVersion <- function(x) {
     ver <- classVersion(x)
     ## Adds (or overwrites) x's class version to the list of class
     ## versions
-    ver[x] <- .MSnbaseEnv$ClassVersions[x]
+    ver[x] <- getClassVersionString(x)
     ver
 }
-
+## Utility to just extract the version string from the environment.
+getClassVersionString <- function(x) {
+    if (!is.character(x))
+        x <- class(x)[1]
+    return(.MSnbaseEnv$ClassVersions[x])
+}
 
 ######################################################################
 ## MSnProcess: Container for MSnExp and MSnSet processing information

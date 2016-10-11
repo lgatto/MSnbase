@@ -21,10 +21,10 @@ test_that("Spectrum1 constructor", {
                                              centroided = TRUE))
     expect_identical(classVersion(Res1)["Spectrum1"],
                      new("Versions",
-                         Spectrum1 = MSnbase:::getClassVersion("Spectrum1")))
+                         Spectrum1 = MSnbase:::getClassVersionString("Spectrum1")))
     expect_identical(classVersion(Res1)["Spectrum"],
                      new("Versions",
-                         Spectrum = MSnbase:::getClassVersion("Spectrum")))
+                         Spectrum = MSnbase:::getClassVersionString("Spectrum")))
 
 })
 
@@ -54,10 +54,10 @@ test_that("M/Z sorted Spectrum1 constructor", {
     expect_identical(sp3, sp1)
     expect_identical(classVersion(sp3)["Spectrum1"],
                      new("Versions",
-                         Spectrum1 = MSnbase:::getClassVersion("Spectrum1")))
+                         Spectrum1 = MSnbase:::getClassVersionString("Spectrum1")))
     expect_identical(classVersion(sp3)["Spectrum"],
                      new("Versions",
-                         Spectrum = MSnbase:::getClassVersion("Spectrum")))
+                         Spectrum = MSnbase:::getClassVersionString("Spectrum")))
 
 })
 
@@ -96,10 +96,10 @@ test_that("C-level multi-Spectrum1 constructor with M/Z ordering", {
     ## Check the class version for one of the spectra:
     expect_identical(classVersion(spectL[[3]])["Spectrum1"],
                      new("Versions",
-                         Spectrum1 = MSnbase:::getClassVersion("Spectrum1")))
+                         Spectrum1 = MSnbase:::getClassVersionString("Spectrum1")))
     expect_identical(classVersion(spectL[[1]])["Spectrum"],
                      new("Versions",
-                         Spectrum = MSnbase:::getClassVersion("Spectrum")))
+                         Spectrum = MSnbase:::getClassVersionString("Spectrum")))
     ## The same with tic specified
     system.time(
         ##gctorture(on = TRUE)
@@ -117,10 +117,10 @@ test_that("C-level multi-Spectrum1 constructor with M/Z ordering", {
                  unname(unlist(lapply(spectL, tic))))
     expect_identical(classVersion(spectL[[3]])["Spectrum1"],
                      new("Versions",
-                         Spectrum1 = MSnbase:::getClassVersion("Spectrum1")))
+                         Spectrum1 = MSnbase:::getClassVersionString("Spectrum1")))
     expect_identical(classVersion(spectL[[1]])["Spectrum"],
                      new("Versions",
-                         Spectrum = MSnbase:::getClassVersion("Spectrum")))
+                         Spectrum = MSnbase:::getClassVersionString("Spectrum")))
     ## Check if we've got the M/Z and intensity values correctly sorted.
     for (i in 1:length(idxList)) {
         expect_identical(mz(spectL[[i]]), mzValsList[[i]][idxList[[i]]])
@@ -154,10 +154,10 @@ test_that("M/Z sorted Spectrum2 constructor", {
     ## Check class versions
     expect_identical(classVersion(sp1)["Spectrum2"],
                      new("Versions",
-                         Spectrum2 = MSnbase:::getClassVersion("Spectrum2")))
+                         Spectrum2 = MSnbase:::getClassVersionString("Spectrum2")))
     expect_identical(classVersion(sp1)["Spectrum"],
                      new("Versions",
-                         Spectrum = MSnbase:::getClassVersion("Spectrum")))
+                         Spectrum = MSnbase:::getClassVersionString("Spectrum")))
     ## C-constructor with sorting:
     sp2 <- MSnbase:::Spectrum2_mz_sorted(intensity = intVals, mz = mzVals,
                                          polarity = -1L, fromFile = 1L,
@@ -167,10 +167,10 @@ test_that("M/Z sorted Spectrum2 constructor", {
     ## Check class versions
     expect_identical(classVersion(sp2)["Spectrum2"],
                      new("Versions",
-                         Spectrum2 = MSnbase:::getClassVersion("Spectrum2")))
+                         Spectrum2 = MSnbase:::getClassVersionString("Spectrum2")))
     expect_identical(classVersion(sp2)["Spectrum"],
                      new("Versions",
-                         Spectrum = MSnbase:::getClassVersion("Spectrum")))
+                         Spectrum = MSnbase:::getClassVersionString("Spectrum")))
 
     ## Calculate tic within:
     sp1 <- new("Spectrum2", intensity = intVals, mz = mzVals)
@@ -214,10 +214,10 @@ test_that("C-level multi-Spectrum2 constructor with M/Z ordering", {
     ## Check class versions
     expect_identical(classVersion(spectL[[1]])["Spectrum2"],
                      new("Versions",
-                         Spectrum2 = MSnbase:::getClassVersion("Spectrum2")))
+                         Spectrum2 = MSnbase:::getClassVersionString("Spectrum2")))
     expect_identical(classVersion(spectL[[3]])["Spectrum"],
                      new("Versions",
-                         Spectrum = MSnbase:::getClassVersion("Spectrum")))
+                         Spectrum = MSnbase:::getClassVersionString("Spectrum")))
     ## The same with tic specified
     system.time(
         ## gctorture(on = TRUE)
@@ -236,10 +236,10 @@ test_that("C-level multi-Spectrum2 constructor with M/Z ordering", {
     ## Check class versions
     expect_identical(classVersion(spectL[[1]])["Spectrum2"],
                      new("Versions",
-                         Spectrum2 = MSnbase:::getClassVersion("Spectrum2")))
+                         Spectrum2 = MSnbase:::getClassVersionString("Spectrum2")))
     expect_identical(classVersion(spectL[[3]])["Spectrum"],
                      new("Versions",
-                         Spectrum = MSnbase:::getClassVersion("Spectrum")))
+                         Spectrum = MSnbase:::getClassVersionString("Spectrum")))
 
     ## Check if we've got the M/Z and intensity values correctly sorted.
     for (i in 1:length(idxList)) {
