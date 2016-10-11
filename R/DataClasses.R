@@ -5,7 +5,7 @@ hasVersion <- function(object)
         class(object) %in% names(classVersion(object))
 
 ## Returns of class version as documented in .MSnBaseEnd$ClassVersions
-## as and instance of class Versions. 
+## as and instance of class Versions.
 getClassVersion <- function(x) {
     if (!is.character(x))
         x <- class(x)[1]
@@ -224,7 +224,7 @@ setClass("Spectrum",
              "VIRTUAL"),
          contains=c("Versioned"),
          prototype = prototype(
-             new("Versioned", versions=c(Spectrum="0.4.0")),
+             ## new("Versioned", versions=c(Spectrum="0.4.0")),
              rt = numeric(),
              polarity = NA_integer_,
              acquisitionNum = NA_integer_,
@@ -266,8 +266,8 @@ setClass("Spectrum2",
              collisionEnergy = "numeric"),
          contains=c("Spectrum"),
          prototype = prototype(
-             new("Versioned",
-                 versions=c(classVersion("Spectrum"), Spectrum2="0.2.0")),
+             ## new("Versioned",
+             ##     versions=c(classVersion("Spectrum"), Spectrum2="0.2.0")),
              merged = 1,
              acquisitionNum = integer(),
              precScanNum = integer(),
@@ -293,7 +293,7 @@ setClass("Spectrum2",
 setClass("Spectrum1",
          contains=c("Spectrum"),
          prototype = prototype(
-             new("Versioned", versions=c(classVersion("Spectrum"), Spectrum1="0.2.0")),
+             ## new("Versioned", versions=c(classVersion("Spectrum"), Spectrum1="0.2.0")),
              polarity=integer(),
              msLevel = as.integer(1)),
          validity = function(object) {

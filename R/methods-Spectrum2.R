@@ -21,3 +21,10 @@
 ##               if (validObject(.Object))
 ##                   .Object
 ##           })
+
+## Initialize method that calls Spectrum initialize and adds the version.
+setMethod("initialize",
+          "Spectrum2", function(.Object, ...) {
+              classVersion(.Object)["Spectrum2"] <- .MSnbaseEnv$ClassVersions["Spectrum2"]
+              callNextMethod(.Object, ...)
+          })

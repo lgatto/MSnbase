@@ -33,32 +33,69 @@ static SEXP _new_Spectrum1(SEXP msLevel, SEXP peaksCount, SEXP rt,
   return ans;
 }
 
+/* Constructor that adds the classVersion of Spectrum1 and Spectrum */
+static SEXP _new_versioned_Spectrum1(SEXP msLevel, SEXP peaksCount, SEXP rt,
+				     SEXP acquisitionNum, SEXP scanIndex,
+				     SEXP tic, SEXP mz, SEXP intensity,
+				     SEXP fromFile, SEXP centroided,
+				     SEXP smoothed, SEXP polarity,
+				     SEXP versions)
+{
+  SEXP classdef, ans, vers_classdef, vers;
+
+  PROTECT(classdef = R_getClassDef("Spectrum1"));
+  PROTECT(ans = R_do_new_object(classdef));
+  /* Set the slot values */
+  PROTECT(ans = R_do_slot_assign(ans, install("msLevel"), msLevel));
+  PROTECT(ans = R_do_slot_assign(ans, install("peaksCount"), peaksCount));
+  PROTECT(ans = R_do_slot_assign(ans, install("rt"), rt));
+  PROTECT(ans = R_do_slot_assign(ans, install("acquisitionNum"), acquisitionNum));
+  PROTECT(ans = R_do_slot_assign(ans, install("scanIndex"), scanIndex));
+  PROTECT(ans = R_do_slot_assign(ans, install("tic"), tic));
+  PROTECT(ans = R_do_slot_assign(ans, install("mz"), mz));
+  PROTECT(ans = R_do_slot_assign(ans, install("intensity"), intensity));
+  PROTECT(ans = R_do_slot_assign(ans, install("fromFile"), fromFile));
+  PROTECT(ans = R_do_slot_assign(ans, install("centroided"), centroided));
+  PROTECT(ans = R_do_slot_assign(ans, install("smoothed"), smoothed));
+  PROTECT(ans = R_do_slot_assign(ans, install("polarity"), polarity));
+
+  // Create the class version; version is supposed to be a NAMED LIST!!!
+  PROTECT(vers_classdef = R_getClassDef("Versions"));
+  PROTECT(vers = R_do_new_object(vers_classdef));
+  PROTECT(vers = R_do_slot_assign(vers, install(".Data"), versions));
+  // Assign the version
+  PROTECT(ans = R_do_slot_assign(ans, install(".__classVersion__"), vers));
+
+  UNPROTECT(18);
+  return ans;
+}
+
+/* Constructor function settings also the classVersions. 'versions' has to be
+ * a named list with names corresponding to the class name(s).
+ */
 SEXP Spectrum1_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
 			   SEXP acquisitionNum, SEXP scanIndex, SEXP tic,
 			   SEXP mz, SEXP intensity, SEXP fromFile,
 			   SEXP centroided, SEXP smoothed, SEXP polarity,
-			   SEXP check)
-{
+			   SEXP check, SEXP versions) {
   //int nvalues;
   SEXP ans;
-  //const int *lengths_p;
-
-  //nvalues = LENGTH(intensity);
   if (LOGICAL(check)[0]) {
     if (LENGTH(mz) != LENGTH(intensity)) {
       error("'length(intensity)' != 'length(mz)'");
     }
   }
-
-  PROTECT(ans = _new_Spectrum1(msLevel, peaksCount, rt, acquisitionNum,
-			       scanIndex, tic, mz, intensity, fromFile,
-			       centroided, smoothed, polarity));
+  PROTECT(ans = _new_versioned_Spectrum1(msLevel, peaksCount, rt, acquisitionNum,
+					 scanIndex, tic, mz, intensity, fromFile,
+					 centroided, smoothed, polarity,
+					 versions));
   UNPROTECT(1);
   return(ans);
-  return R_NilValue;
 }
 
+
 /* Constructor that automatically sorts M/Z and intensity values by M/Z.
+ * Adds in addition the class version(s) (see issue #163).
  */
 SEXP Spectrum1_constructor_mz_sorted(SEXP msLevel, SEXP peaksCount,
 				     SEXP rt, SEXP acquisitionNum,
@@ -66,7 +103,7 @@ SEXP Spectrum1_constructor_mz_sorted(SEXP msLevel, SEXP peaksCount,
 				     SEXP mz, SEXP intensity,
 				     SEXP fromFile, SEXP centroided,
 				     SEXP smoothed, SEXP polarity,
-				     SEXP check)
+				     SEXP check, SEXP versions)
 {
   //int nvalues;
   SEXP ans, oMz, oInt;
@@ -106,11 +143,11 @@ SEXP Spectrum1_constructor_mz_sorted(SEXP msLevel, SEXP peaksCount,
     if (calcTic)
       theTic += pOint[i];
   }
-  PROTECT(ans = _new_Spectrum1(msLevel, peaksCount, rt, acquisitionNum,
-			       scanIndex,
-			       PROTECT(ScalarReal(theTic)),
-			       oMz,
-			       oInt, fromFile, centroided, smoothed, polarity));
+  PROTECT(ans = _new_versioned_Spectrum1(msLevel, peaksCount, rt,
+					 acquisitionNum, scanIndex,
+					 PROTECT(ScalarReal(theTic)),
+					 oMz, oInt, fromFile, centroided,
+					 smoothed, polarity, versions));
   UNPROTECT(4);
   return(ans);
   return R_NilValue;
@@ -129,6 +166,7 @@ SEXP Spectrum1_constructor_mz_sorted(SEXP msLevel, SEXP peaksCount,
  * This function is called by the R-function: Spectra1, argument checking is supposed
  * to take place there.
  * This constructor ensures that M/Z-intensity pairs are ordered by M/Z.
+ * Adds in addition the class version(s), see issue #163.
  */
 SEXP Multi_Spectrum1_constructor_mz_sorted(SEXP msLevel, SEXP peaksCount,
 					   SEXP rt, SEXP acquisitionNum,
@@ -136,7 +174,8 @@ SEXP Multi_Spectrum1_constructor_mz_sorted(SEXP msLevel, SEXP peaksCount,
 					   SEXP mz, SEXP intensity,
 					   SEXP fromFile, SEXP centroided,
 					   SEXP smoothed, SEXP polarity,
-					   SEXP nvalues, SEXP check)
+					   SEXP nvalues, SEXP check,
+					   SEXP versions)
 {
   int n = LENGTH(nvalues);
   int currentN = 0;
@@ -195,19 +234,22 @@ SEXP Multi_Spectrum1_constructor_mz_sorted(SEXP msLevel, SEXP peaksCount,
 	currentTic += p_cIntensity[j];
     }
     // Create the new Spectrum1
-    SET_VECTOR_ELT(out, i, _new_Spectrum1(msLevel,
-					  PROTECT(ScalarInteger(p_peaksCount[i])),
-					  PROTECT(ScalarReal(p_rt[i])),
-					  PROTECT(ScalarInteger(p_acquisitionNum[i])),
-					  PROTECT(ScalarInteger(p_scanIndex[i])),
-					  /* ScalarReal(pTic[i]), */
-					  PROTECT(ScalarReal(currentTic)),
-					  cMz,
-					  cIntensity,
-					  PROTECT(ScalarInteger(p_fromFile[i])),
-					  PROTECT(ScalarLogical(p_centroided[i])),
-					  PROTECT(ScalarLogical(p_smoothed[i])),
-					  PROTECT(ScalarInteger(p_polarity[i]))));
+    SET_VECTOR_ELT(out,
+		   i,
+		   _new_versioned_Spectrum1(msLevel,
+					    PROTECT(ScalarInteger(p_peaksCount[i])),
+					    PROTECT(ScalarReal(p_rt[i])),
+					    PROTECT(ScalarInteger(p_acquisitionNum[i])),
+					    PROTECT(ScalarInteger(p_scanIndex[i])),
+					    /* ScalarReal(pTic[i]), */
+					    PROTECT(ScalarReal(currentTic)),
+					    cMz,
+					    cIntensity,
+					    PROTECT(ScalarInteger(p_fromFile[i])),
+					    PROTECT(ScalarLogical(p_centroided[i])),
+					    PROTECT(ScalarLogical(p_smoothed[i])),
+					    PROTECT(ScalarInteger(p_polarity[i])),
+					    versions));
     UNPROTECT(12);
     startN = startN + currentN;
   }
@@ -216,72 +258,72 @@ SEXP Multi_Spectrum1_constructor_mz_sorted(SEXP msLevel, SEXP peaksCount,
   return(out);
 }
 
-/*************************************************************
- *
- * DONT USE THIS ONE!!!
- *
- * Multi_Spectrum1_constructor
- *
- * Simple C-function to create a list of Spectrum1 object based on the
- * submitted values.
- * All arguments (except mz, intensity) are supposed to be vectors of
- * length equal to the number of spectra. Argument nvalues defining the
- * number of M/Z and intensity values per spectrum.
- * This function is called by the R-function: Spectra1, argument checking is supposed
- * to take place there.
- */
-SEXP Multi_Spectrum1_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
-				 SEXP acquisitionNum, SEXP scanIndex, SEXP tic,
-				 SEXP mz, SEXP intensity, SEXP fromFile,
-				 SEXP centroided, SEXP smoothed, SEXP polarity,
-				 SEXP nvalues, SEXP check)
-{
-  int n = length(nvalues);
-  int currentN = 0;
-  int startN = 0;
-  SEXP cMz, cIntensity;
-  SEXP out = PROTECT(allocVector(VECSXP, n));
-  double *pRt, *pTic;
-  int *pPeaksCount, *pAcquisitionNum, *pScanIndex, *pPolarity,
-    *pFromFile, *pCentroided, *pSmoothed, *pNvalues;
+/* /\************************************************************* */
+/*  * */
+/*  * DONT USE THIS ONE!!! */
+/*  * */
+/*  * Multi_Spectrum1_constructor */
+/*  * */
+/*  * Simple C-function to create a list of Spectrum1 object based on the */
+/*  * submitted values. */
+/*  * All arguments (except mz, intensity) are supposed to be vectors of */
+/*  * length equal to the number of spectra. Argument nvalues defining the */
+/*  * number of M/Z and intensity values per spectrum. */
+/*  * This function is called by the R-function: Spectra1, argument checking is supposed */
+/*  * to take place there. */
+/*  *\/ */
+/* SEXP Multi_Spectrum1_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt, */
+/* 				 SEXP acquisitionNum, SEXP scanIndex, SEXP tic, */
+/* 				 SEXP mz, SEXP intensity, SEXP fromFile, */
+/* 				 SEXP centroided, SEXP smoothed, SEXP polarity, */
+/* 				 SEXP nvalues, SEXP check) */
+/* { */
+/*   int n = length(nvalues); */
+/*   int currentN = 0; */
+/*   int startN = 0; */
+/*   SEXP cMz, cIntensity; */
+/*   SEXP out = PROTECT(allocVector(VECSXP, n)); */
+/*   double *pRt, *pTic; */
+/*   int *pPeaksCount, *pAcquisitionNum, *pScanIndex, *pPolarity, */
+/*     *pFromFile, *pCentroided, *pSmoothed, *pNvalues; */
 
-  pRt = REAL(rt);
-  pTic = REAL(tic);
-  pPeaksCount = INTEGER(peaksCount);
-  pAcquisitionNum = INTEGER(acquisitionNum);
-  pScanIndex = INTEGER(scanIndex);
-  pFromFile = INTEGER(fromFile);
-  pPolarity = INTEGER(polarity);
-  pNvalues = INTEGER(nvalues);
-  pCentroided = LOGICAL(centroided);
-  pSmoothed = LOGICAL(smoothed);
+/*   pRt = REAL(rt); */
+/*   pTic = REAL(tic); */
+/*   pPeaksCount = INTEGER(peaksCount); */
+/*   pAcquisitionNum = INTEGER(acquisitionNum); */
+/*   pScanIndex = INTEGER(scanIndex); */
+/*   pFromFile = INTEGER(fromFile); */
+/*   pPolarity = INTEGER(polarity); */
+/*   pNvalues = INTEGER(nvalues); */
+/*   pCentroided = LOGICAL(centroided); */
+/*   pSmoothed = LOGICAL(smoothed); */
 
-  for (int i = 0; i < n; i++) {
-    // Creating the mz and intensity vectors.
-    currentN = pNvalues[i];
-    PROTECT(cMz = allocVector(REALSXP, currentN));
-    PROTECT(cIntensity = allocVector(REALSXP, currentN));
-    for (int j = 0; j < currentN; j++) {
-      REAL(cMz)[j] = REAL(mz)[startN + j];
-      REAL(cIntensity)[j] = REAL(intensity)[startN + j];
-    }
+/*   for (int i = 0; i < n; i++) { */
+/*     // Creating the mz and intensity vectors. */
+/*     currentN = pNvalues[i]; */
+/*     PROTECT(cMz = allocVector(REALSXP, currentN)); */
+/*     PROTECT(cIntensity = allocVector(REALSXP, currentN)); */
+/*     for (int j = 0; j < currentN; j++) { */
+/*       REAL(cMz)[j] = REAL(mz)[startN + j]; */
+/*       REAL(cIntensity)[j] = REAL(intensity)[startN + j]; */
+/*     } */
 
-    SET_VECTOR_ELT(out, i, _new_Spectrum1(msLevel,
-					  ScalarInteger(pPeaksCount[i]),
-					  ScalarReal(pRt[i]),
-					  ScalarInteger(pAcquisitionNum[i]),
-					  ScalarInteger(pScanIndex[i]),
-					  ScalarReal(pTic[i]),
-					  cMz,
-					  cIntensity,
-					  ScalarInteger(pFromFile[i]),
-					  ScalarLogical(pCentroided[i]),
-					  ScalarLogical(pSmoothed[i]),
-					  ScalarInteger(pPolarity[i])));
-    UNPROTECT(2);
-    startN = startN + currentN;
-  }
+/*     SET_VECTOR_ELT(out, i, _new_Spectrum1(msLevel, */
+/* 					  ScalarInteger(pPeaksCount[i]), */
+/* 					  ScalarReal(pRt[i]), */
+/* 					  ScalarInteger(pAcquisitionNum[i]), */
+/* 					  ScalarInteger(pScanIndex[i]), */
+/* 					  ScalarReal(pTic[i]), */
+/* 					  cMz, */
+/* 					  cIntensity, */
+/* 					  ScalarInteger(pFromFile[i]), */
+/* 					  ScalarLogical(pCentroided[i]), */
+/* 					  ScalarLogical(pSmoothed[i]), */
+/* 					  ScalarInteger(pPolarity[i]))); */
+/*     UNPROTECT(2); */
+/*     startN = startN + currentN; */
+/*   } */
 
-  UNPROTECT(1);
-  return(out);
-}
+/*   UNPROTECT(1); */
+/*   return(out); */
+/* } */
