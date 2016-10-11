@@ -23,7 +23,7 @@
 \alias{quantify,MSnExp,character-method}
 \alias{removePeaks,MSnExp-method}
 \alias{removeReporters,MSnExp-method}
-\alias{removeReporters,OnMSnExp-method}
+\alias{removeReporters,OnDiskMSnExp-method}
 \alias{smooth,MSnExp-method}
 \alias{addIdentificationData,MSnExp,character-method}
 \alias{addIdentificationData,MSnExp,mzIDClasses-method}
@@ -224,7 +224,7 @@
     \item{isolationWindow}{\code{signature(object = "MSnExp", ...)}:
       Returns the isolation window offsets for the MS2 spectra. See
       \code{\link[mzR]{isolationWindow}} for details. }
-    
+
     \item{trimMz}{\code{signature(object = "MSnExp")}: Trims the MZ
       range of all the spectra of the \code{MSnExp} instance. See
       \code{\link{trimMz}} documentation for more details and
@@ -247,11 +247,11 @@
       expected to be in the same, albeit possibly different modes, it is
       advised to assign the majority result for MS1 and MS2 spectra,
       rather than results for individual spectra. See an example below.
-    }    
-  }  
+    }
+  }
 
   Filtering functions:
-  
+
   \describe{
 
     \item{filterRt}{\code{signature(object = "MSnExp", rt = "numeric",

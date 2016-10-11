@@ -1,23 +1,26 @@
 ##################################################################
 ## Methods for Spectrum class and children
-## setMethod("initialize",
-##           "Spectrum",
-##           function(.Object, ..., mz, intensity, peaksCount) {
-##               if (xor(!missing(mz), !missing(intensity)))
-##                   stop("'mz' and 'intensity' or none required.")
-##               if (!missing(mz) & !missing(intensity)) {
-##                   o <- base::order(mz, method = "radix")
-##                   .Object <- callNextMethod(.Object,
-##                                             ...,
-##                                             mz = mz[o],
-##                                             intensity = intensity[o],
-##                                             peaksCount = length(mz))
-##               } else .Object <- callNextMethod(.Object, ...)
-##               if (.Object@tic == 0)
-##                   .Object@tic <- sum(.Object@intensity)
-##               if (validObject(.Object))
-##                   .Object
-##           })
+setMethod("initialize",
+          "Spectrum",
+          function(.Object, ..., mz, intensity, peaksCount) {
+              ## Add Spectrum class version - set in Spectrum1/2 to
+              ## keep suber/sub class order
+              ## classVersion(.Object)["Spectrum"] <- getClassVersion("Spectrum")
+              if (xor(!missing(mz), !missing(intensity)))
+                  stop("'mz' and 'intensity' or none required.")
+              if (!missing(mz) & !missing(intensity)) {
+                  o <- base::order(mz, method = "radix")
+                  .Object <- callNextMethod(.Object,
+                                            ...,
+                                            mz = mz[o],
+                                            intensity = intensity[o],
+                                            peaksCount = length(mz))
+              } else .Object <- callNextMethod(.Object, ...)
+              if (.Object@tic == 0)
+                  .Object@tic <- sum(.Object@intensity)
+              if (validObject(.Object))
+                  .Object
+          })
 
 setMethod("show", "Spectrum",
           function(object) {
@@ -249,10 +252,17 @@ setMethod("smooth", "Spectrum",
           })
 
 setMethod("removeReporters", "Spectrum",
-          function(object, reporters = NULL, clean = FALSE) {
+          function(object, reporters = NULL, clean = FALSE, ...) {
               if (msLevel(object) > 1)
                   return(removeReporters_Spectrum2(object, reporters, clean))
-              stop("No reporters to remove for MS1 spectra.")
+              ## stop("No reporters to remove for MS1 spectra.")
+              ## Instead of stopping we show a (conditional) warning
+              ## See also issue #161
+              dots <- list(...)
+              if (!((length(dots$suppressWarnings) > 0) && dots$suppressWarnings))
+                  warning("No reporters to remove for MS1 spectra.")
+              ## Return the Spectrum as-is for MS1
+              return(object)
           })
 
 setMethod("isEmpty", "Spectrum",
