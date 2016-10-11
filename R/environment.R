@@ -10,7 +10,7 @@
 ClassVersions <- c(
     MSnProcess = "0.3.0",
     MIAPE = "0.3.0",
-    NAnnotatedDataFrame = "0.0.3",
+    NAnnotatedDataFrame = "0.1.0",
     pSet = "0.1.1",
     MSnExp = "0.3.1",
     Spectrum = "0.4.0",
@@ -27,25 +27,6 @@ ClassVersions <- c(
 )
 
 assign("ClassVersions", ClassVersions, envir = .MSnbaseEnv)
-
-## TRUE if class(object) has a version, otherwise FALSE
-hasVersion <- function(object)
-    isVersioned(object) &&
-        length(classVersion(object)) > 0 &&
-        class(object) %in% names(classVersion(object))
-
-## Returns of class version as documented in .MSnBaseEnd$ClassVersions
-## as and instance of class Versions. 
-getClassVersion <- function(x) {
-    if (!is.character(x))
-        x <- class(x)[1]
-    ## This get class versions from parent classes (if any)
-    ver <- classVersion(x)
-    ## Adds (or overwrites) x's class version to the list of class
-    ## versions
-    ver[x] <- .MSnbaseEnv$ClassVersions[x]
-    ver
-}
 
 assign("amino.acids",
        data.frame(AA = c("peg","A","R","N","D","C","E",

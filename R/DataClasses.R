@@ -1,3 +1,23 @@
+## TRUE if class(object) has a version, otherwise FALSE
+hasVersion <- function(object)
+    isVersioned(object) &&
+        length(classVersion(object)) > 0 &&
+        class(object) %in% names(classVersion(object))
+
+## Returns of class version as documented in .MSnBaseEnd$ClassVersions
+## as and instance of class Versions. 
+getClassVersion <- function(x) {
+    if (!is.character(x))
+        x <- class(x)[1]
+    ## This get class versions from parent classes (if any)
+    ver <- classVersion(x)
+    ## Adds (or overwrites) x's class version to the list of class
+    ## versions
+    ver[x] <- .MSnbaseEnv$ClassVersions[x]
+    ver
+}
+
+
 ######################################################################
 ## MSnProcess: Container for MSnExp and MSnSet processing information
 ## See online documentation for more information.
@@ -115,11 +135,12 @@ setClass("NAnnotatedDataFrame",
                         multiLabels = "character"),
          contains = c("AnnotatedDataFrame"),
          prototype = prototype(
-             new("Versioned", versions=list(NAnnotatedDataFrame="0.0.3")),
              multiplex = 1,
              multiLabels = "Single run"),
          validity = function(object) {
              msg <- validMsg(NULL, NULL)
+             ## if (!hasVersion(object))
+             ##     msg <- validMsg(msg, "Object doesn't have a class.")
              if (length(object@multiLabels) != object@multiplex)
                  msg <- validMsg(msg, "Number of multiplex does not match it's labels.")
              if (is.null(msg)) TRUE

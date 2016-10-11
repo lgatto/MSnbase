@@ -1,14 +1,23 @@
 ##################################################################
 ## Methods for NAnnotatedDataFrame class
-setMethod("dim", "NAnnotatedDataFrame", function(x) {
-  d <- c(dim(pData(x)),
-         x@multiplex)
-  names(d) <- c(dimLabels(x), "multiNames")
-  return(d)
-})
+setMethod("initialize", "NAnnotatedDataFrame",
+          function(.Object, ...) {
+              classVersion(.Object) <- getClassVersion(.Object)
+              .Object <- callNextMethod(.Object)
+              if (validObject(.Object))
+                  return(.Object)
+          })
+
+setMethod("dim", "NAnnotatedDataFrame",
+          function(x) {
+              d <- c(dim(pData(x)),
+                     x@multiplex)
+              names(d) <- c(dimLabels(x), "multiNames")
+              return(d)
+          })
 
 setMethod("show",
-          signature=signature(object="NAnnotatedDataFrame"),
+          signature = signature(object = "NAnnotatedDataFrame"),
           function(object) {
             callNextMethod(object)
             cat("  Multiplexing: ")
