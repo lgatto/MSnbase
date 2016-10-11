@@ -261,6 +261,9 @@ setMethod("removeReporters", "MSnExp",
                    verbose = isMSnbaseVerbose()) {
               if (is.null(reporters))
                   return(object)
+              ## Throw an error if only MS1 spectra present.
+              if (all(msLevel(object) == 1))
+                  stop("No reporters to remove for MS1 spectra.")
               removeReporters_MSnExp(object, reporters, clean, verbose)
           })
 

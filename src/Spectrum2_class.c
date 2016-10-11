@@ -44,6 +44,59 @@ static SEXP _new_Spectrum2(SEXP msLevel, SEXP peaksCount, SEXP rt,
   return(ans);
 }
 
+/* This constructor uses functions defined in Rinternals.h
+ * and adds also the class version of Spectrum2 and Spectrum.
+ */
+static SEXP _new_versioned_Spectrum2(SEXP msLevel, SEXP peaksCount, SEXP rt,
+				     SEXP acquisitionNum, SEXP scanIndex,
+				     SEXP tic, SEXP mz, SEXP intensity,
+				     SEXP fromFile, SEXP centroided,
+				     SEXP smoothed, SEXP polarity,
+				     SEXP merged, SEXP precScanNum,
+				     SEXP precursorMz, SEXP precursorIntensity,
+				     SEXP precursorCharge, SEXP collisionEnergy,
+				     SEXP versions)
+{
+  SEXP classdef, ans, vers_classdef, vers;
+  if (asInteger(msLevel) < 2)
+    error("_new_Spectrum2: msLevel should be >= 2, but I got: %d!\n",
+	  asInteger(msLevel));
+
+  PROTECT(classdef = R_getClassDef("Spectrum2"));
+  PROTECT(ans = R_do_new_object(classdef));
+  /* Fill with data; should I do PROTECT here for all slots too???*/
+  ans = R_do_slot_assign(ans, install("msLevel"), msLevel);
+  ans = R_do_slot_assign(ans, install("msLevel"), msLevel);
+  ans = R_do_slot_assign(ans, install("peaksCount"), peaksCount);
+  ans = R_do_slot_assign(ans, install("rt"), rt);
+  ans = R_do_slot_assign(ans, install("acquisitionNum"), acquisitionNum);
+  ans = R_do_slot_assign(ans, install("scanIndex"), scanIndex);
+  ans = R_do_slot_assign(ans, install("tic"), tic);
+  ans = R_do_slot_assign(ans, install("mz"), mz);
+  ans = R_do_slot_assign(ans, install("intensity"), intensity);
+  ans = R_do_slot_assign(ans, install("fromFile"), fromFile);
+  ans = R_do_slot_assign(ans, install("centroided"), centroided);
+  ans = R_do_slot_assign(ans, install("smoothed"), smoothed);
+  ans = R_do_slot_assign(ans, install("polarity"), polarity);
+  ans = R_do_slot_assign(ans, install("merged"), merged);
+  ans = R_do_slot_assign(ans, install("precScanNum"), precScanNum);
+  ans = R_do_slot_assign(ans, install("precursorMz"), precursorMz);
+  ans = R_do_slot_assign(ans, install("precursorIntensity"), precursorIntensity);
+  ans = R_do_slot_assign(ans, install("precursorCharge"), precursorCharge);
+  ans = R_do_slot_assign(ans, install("collisionEnergy"), collisionEnergy);
+
+  // Create the class version; version is supposed to be a NAMED LIST!!!
+  PROTECT(vers_classdef = R_getClassDef("Versions"));
+  PROTECT(vers = R_do_new_object(vers_classdef));
+  PROTECT(vers = R_do_slot_assign(vers, install(".Data"), versions));
+  // Assign the version
+  PROTECT(ans = R_do_slot_assign(ans, install(".__classVersion__"), vers));
+
+  UNPROTECT(6);
+  return(ans);
+}
+
+
 /*
  * Uses PROTECT for each newly generated SEXP
  */
@@ -95,10 +148,10 @@ static SEXP _new_Spectrum2_memsafe(SEXP msLevel, SEXP peaksCount, SEXP rt,
 SEXP Spectrum2_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
 			   SEXP acquisitionNum, SEXP scanIndex, SEXP tic,
 			   SEXP mz, SEXP intensity, SEXP fromFile,
-			   SEXP centroided, SEXP smoothed, SEXP polarity, SEXP merged,
-			   SEXP precScanNum, SEXP precursorMz,
+			   SEXP centroided, SEXP smoothed, SEXP polarity,
+			   SEXP merged, SEXP precScanNum, SEXP precursorMz,
 			   SEXP precursorIntensity, SEXP precursorCharge,
-			   SEXP collisionEnergy, SEXP check)
+			   SEXP collisionEnergy, SEXP check, SEXP versions)
 {
   //int nvalues;
   SEXP ans;
@@ -111,23 +164,26 @@ SEXP Spectrum2_constructor(SEXP msLevel, SEXP peaksCount, SEXP rt,
     }
   }
 
-  PROTECT(ans = _new_Spectrum2(msLevel, peaksCount, rt, acquisitionNum,
-			       scanIndex, tic, mz, intensity, fromFile,
-			       centroided, smoothed, polarity, merged, precScanNum,
-			       precursorMz, precursorIntensity, precursorCharge,
-			       collisionEnergy));
+  PROTECT(ans = _new_versioned_Spectrum2(msLevel, peaksCount, rt, acquisitionNum,
+					 scanIndex, tic, mz, intensity, fromFile,
+					 centroided, smoothed, polarity, merged,
+					 precScanNum, precursorMz,
+					 precursorIntensity, precursorCharge,
+					 collisionEnergy, versions));
   UNPROTECT(1);
   return(ans);
   return R_NilValue;
 }
 
 SEXP Spectrum2_constructor_mz_sorted(SEXP msLevel, SEXP peaksCount, SEXP rt,
-				     SEXP acquisitionNum, SEXP scanIndex, SEXP tic,
-				     SEXP mz, SEXP intensity, SEXP fromFile,
-				     SEXP centroided, SEXP smoothed, SEXP polarity, SEXP merged,
+				     SEXP acquisitionNum, SEXP scanIndex,
+				     SEXP tic, SEXP mz, SEXP intensity,
+				     SEXP fromFile, SEXP centroided,
+				     SEXP smoothed, SEXP polarity, SEXP merged,
 				     SEXP precScanNum, SEXP precursorMz,
-				     SEXP precursorIntensity, SEXP precursorCharge,
-				     SEXP collisionEnergy, SEXP check)
+				     SEXP precursorIntensity,
+				     SEXP precursorCharge, SEXP collisionEnergy,
+				     SEXP check, SEXP versions)
 {
   //int nvalues;
   SEXP ans, oMz, oInt;
@@ -167,13 +223,13 @@ SEXP Spectrum2_constructor_mz_sorted(SEXP msLevel, SEXP peaksCount, SEXP rt,
     if (calcTic)
       theTic += pOint[i];
   }
-  PROTECT(ans = _new_Spectrum2(msLevel, peaksCount, rt, acquisitionNum,
-			       scanIndex,
-			       PROTECT(ScalarReal(theTic)),
-			       oMz, oInt, fromFile,
-			       centroided, smoothed, polarity, merged,
-			       precScanNum, precursorMz, precursorIntensity,
-			       precursorCharge, collisionEnergy));
+  PROTECT(ans = _new_versioned_Spectrum2(msLevel, peaksCount, rt, acquisitionNum,
+					 scanIndex, PROTECT(ScalarReal(theTic)),
+					 oMz, oInt, fromFile, centroided,
+					 smoothed, polarity, merged, precScanNum,
+					 precursorMz, precursorIntensity,
+					 precursorCharge, collisionEnergy,
+					 versions));
   UNPROTECT(4);
   return(ans);
   return R_NilValue;
@@ -212,7 +268,8 @@ SEXP Multi_Spectrum2_constructor_mz_sorted(SEXP msLevel,
 					   SEXP precursorCharge,
 					   SEXP collisionEnergy,
 					   SEXP nvalues,
-					   SEXP check)
+					   SEXP check,
+					   SEXP versions)
 {
   int n = LENGTH(nvalues);
   int currentN = 0;
@@ -283,24 +340,26 @@ SEXP Multi_Spectrum2_constructor_mz_sorted(SEXP msLevel,
     	currentTic += p_cIntensity[j];
     }
     // Create the new Spectrum2
-    SET_VECTOR_ELT(out, i, _new_Spectrum2(PROTECT(ScalarInteger(p_msLevel[i])),
-					  PROTECT(ScalarInteger(p_peaksCount[i])),
-					  PROTECT(ScalarReal(p_rt[i])),
-					  PROTECT(ScalarInteger(p_acquisitionNum[i])),
-					  PROTECT(ScalarInteger(p_scanIndex[i])),
-					  PROTECT(ScalarReal(currentTic)),
-					  cMz,
-					  cIntensity,
-					  PROTECT(ScalarInteger(p_fromFile[i])),
-					  PROTECT(ScalarLogical(p_centroided[i])),
-					  PROTECT(ScalarLogical(p_smoothed[i])),
-					  PROTECT(ScalarInteger(p_polarity[i])),
-					  PROTECT(ScalarReal(p_merged[i])),
-					  PROTECT(ScalarInteger(p_precScanNum[i])),
-					  PROTECT(ScalarReal(p_precursorMz[i])),
-					  PROTECT(ScalarReal(p_precursorIntensity[i])),
-					  PROTECT(ScalarInteger(p_precursorCharge[i])),
-					  PROTECT(ScalarReal(p_collisionEnergy[i]))));
+    SET_VECTOR_ELT(out, i,
+		   _new_versioned_Spectrum2(PROTECT(ScalarInteger(p_msLevel[i])),
+					    PROTECT(ScalarInteger(p_peaksCount[i])),
+					    PROTECT(ScalarReal(p_rt[i])),
+					    PROTECT(ScalarInteger(p_acquisitionNum[i])),
+					    PROTECT(ScalarInteger(p_scanIndex[i])),
+					    PROTECT(ScalarReal(currentTic)),
+					    cMz,
+					    cIntensity,
+					    PROTECT(ScalarInteger(p_fromFile[i])),
+					    PROTECT(ScalarLogical(p_centroided[i])),
+					    PROTECT(ScalarLogical(p_smoothed[i])),
+					    PROTECT(ScalarInteger(p_polarity[i])),
+					    PROTECT(ScalarReal(p_merged[i])),
+					    PROTECT(ScalarInteger(p_precScanNum[i])),
+					    PROTECT(ScalarReal(p_precursorMz[i])),
+					    PROTECT(ScalarReal(p_precursorIntensity[i])),
+					    PROTECT(ScalarInteger(p_precursorCharge[i])),
+					    PROTECT(ScalarReal(p_collisionEnergy[i])),
+					    versions));
     UNPROTECT(19);
     startN = startN + currentN;
   }

@@ -8,7 +8,9 @@ show_Spectrum1 <- function(spectrum) {
 
 ############################################################
 ## Constructor function for Spectrum1 objects. This one uses C-code and
-## is faster than a call to "new"
+## is faster than a call to "new".
+## It calls the "versioned" constructor in C that adds also the class version(s)
+## (see issue #163).
 Spectrum1 <- function(peaksCount = length(mz), rt = numeric(),
                       acquisitionNum = NA_integer_, scanIndex = integer(),
                       tic = 0, mz = numeric(), intensity = numeric(),
@@ -28,16 +30,29 @@ Spectrum1 <- function(peaksCount = length(mz), rt = numeric(),
     if (!is.logical(centroided)) centroided <- as.logical(centroided)
     if (!is.logical(smoothed)) smoothed <- as.logical(smoothed)
     if (!is.integer(polarity)) polarity <- as.integer(polarity)
+    ## Define the class versions.
+    versions <- list(Spectrum = getClassVersionString("Spectrum"),
+                     Spectrum1 = getClassVersionString("Spectrum1"))
     res <- .Call("Spectrum1_constructor",
                  1L, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
                  intensity, fromFile, centroided, smoothed, polarity, TRUE,
-                 PACKAGE = "MSnbase")
+                 lapply(versions, .versionToNum), PACKAGE = "MSnbase")
     return(res)
+}
+
+############################################################
+## .versionToNum
+## Simple helper function to convert a character version string into an
+## integer vector.
+.versionToNum <- function(z) {
+    return(as.integer(unlist(strsplit(z, split = ".", fixed = TRUE))))
 }
 
 ############################################################
 ## Constructor for Spectrum1 that ensures ordering of M/Z-intensity
 ## pairs by M/Z value (increasing).
+## It calls the "versioned" constructor in C that adds also the class version(s)
+## (see issue #163).
 Spectrum1_mz_sorted <- function(peaksCount = length(mz), rt = numeric(),
                                 acquisitionNum = NA_integer_,
                                 scanIndex = integer(), tic = 0,
@@ -56,103 +71,22 @@ Spectrum1_mz_sorted <- function(peaksCount = length(mz), rt = numeric(),
     if (!is.logical(centroided)) centroided <- as.logical(centroided)
     if (!is.logical(smoothed)) smoothed <- as.logical(smoothed)
     if (!is.integer(polarity)) polarity <- as.integer(polarity)
+    ## Define the class versions.
+    versions <- list(Spectrum = getClassVersionString("Spectrum"),
+                     Spectrum1 = getClassVersionString("Spectrum1"))
     res <- .Call("Spectrum1_constructor_mz_sorted",
                  1L, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
                  intensity, fromFile, centroided, smoothed, polarity, TRUE,
-                 PACKAGE="MSnbase")
+                 lapply(versions, .versionToNum), PACKAGE="MSnbase")
     return(res)
 }
 
-############################################################
-## This one does not ensure M/Z ordering is correct!
-Spectra1 <- function(peaksCount = NULL, rt = numeric(),
-                     acquisitionNum = NA_integer_,
-                     scanIndex = integer(), tic = 0, mz = numeric(),
-                     intensity = numeric(), fromFile = integer(),
-                     centroided = NA, smoothed = NA,
-                     polarity = NA_integer_, nvalues = integer()) {
-    if (length(mz) == 0 | length(intensity) == 0 | length(nvalues) == 0){
-        stop("Arguments 'mz', 'intensity' and 'nvalues' are required!")
-    } else {
-        if (length(mz) != length(intensity))
-            stop("Lengths of 'mz' and 'intensity' do not match!")
-    }
-    nvals <- length(nvalues)
-    ## Now match all of the lengths to the length of nvalues.
-    if (length(peaksCount) == 0)
-        peaksCount <- nvalues
-    ## rt
-    if (length(rt) == 0){
-        rt <- rep(NA_integer_, nvals)
-    } else {
-        if (length(rt) != nvals)
-            stop("Length of 'rt' has to match the length of 'nvalues'!")
-    }
-    ## acquisitionNum
-    if (length(acquisitionNum) == 1) {
-        acquisitionNum <- rep(acquisitionNum, nvals)
-    } else {
-        if (length(acquisitionNum) != nvals)
-            stop("Length of 'acquisitionNum' has to match the length of 'nvalues'!")
-    }
-    ## scanIndex
-    if (length(scanIndex) == 0){
-        scanIndex <- rep(NA_integer_, nvals)
-    } else {
-        if (length(scanIndex) != nvals)
-            stop("Length of 'scanIndex' has to match the length of 'nvalues'!")
-    }
-    ## tic
-    if (length(tic) == 1){
-        tic <- rep(tic, nvals)
-    } else {
-        if (length(tic) != nvals)
-            stop("Length of 'tic' has to match the length of 'nvalues'!")
-    }
-    ## fromFile
-    if (length(fromFile) == 0){
-        fromFile <- rep(NA_integer_, nvals)
-    } else {
-        if (length(fromFile) != nvals)
-            stop("Length of 'fromFile' has to match the length of 'nvalues'!")
-    }
-    ## polarity
-    if (length(polarity) == 1){
-        polarity <- rep(polarity, nvals)
-    } else {
-        if (length(polarity) != nvals)
-            stop("Length of 'polarity' has to match the length of 'nvalues'!")
-    }
-    ## Ensure the arguments are in correct format
-    if (!is.integer(peaksCount)) peaksCount <- as.integer(peaksCount)
-    if (!is.double(rt)) rt <- as.double(rt)
-    if (!is.integer(acquisitionNum)) acquisitionNum <- as.integer(acquisitionNum)
-    if (!is.integer(scanIndex)) scanIndex <- as.integer(scanIndex)
-    if (!is.double(tic)) tic <- as.double(tic)
-    if (!is.double(mz)) mz <- as.double(mz)
-    if (!is.double(intensity)) intensity <- as.double(intensity)
-    if (!is.integer(fromFile)) fromFile <- as.integer(fromFile)
-    if (!is.logical(centroided)) centroided <- as.logical(centroided)
-    if (!is.logical(smoothed)) smoothed <- as.logical(smoothed)
-    if (!is.integer(polarity)) polarity <- as.integer(polarity)
-    ## OK, now let's call C.
-    res <- .Call("Multi_Spectrum1_constructor", 1L, as.integer(peaksCount),
-                 rt,
-                 acquisitionNum,
-                 scanIndex,
-                 tic, mz, intensity,
-                 fromFile,
-                 centroided,
-                 smoothed,
-                 polarity,
-                 as.integer(nvalues), TRUE,
-                 PACKAGE = "MSnbase")
-    return(res)
-}
 
 ############################################################
 ## Constructor to create multiple Spectrum1 objects ensuring that
 ## M/Z-intensity pairs are ordered by M/Z.
+## It calls the "versioned" constructor in C that adds also the class version(s)
+## (see issue #163).
 Spectra1_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
                                acquisitionNum = NA_integer_,
                                scanIndex = integer(), tic = 0, mz = numeric(),
@@ -236,6 +170,9 @@ Spectra1_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
     if (!is.logical(centroided)) centroided <- as.logical(centroided)
     if (!is.logical(smoothed)) smoothed <- as.logical(smoothed)
     if (!is.integer(polarity)) polarity <- as.integer(polarity)
+    ## Define the class versions.
+    versions <- list(Spectrum = getClassVersionString("Spectrum"),
+                     Spectrum1 = getClassVersionString("Spectrum1"))
     ## OK, now let's call C.
     res <- .Call("Multi_Spectrum1_constructor_mz_sorted",
                  1L,
@@ -249,6 +186,7 @@ Spectra1_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
                  smoothed,
                  polarity,
                  as.integer(nvalues), TRUE,
+                 lapply(versions, .versionToNum),
                  PACKAGE = "MSnbase")
     return(res)
 }
