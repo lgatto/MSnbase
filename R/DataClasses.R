@@ -135,6 +135,7 @@ setClass("NAnnotatedDataFrame",
                         multiLabels = "character"),
          contains = c("AnnotatedDataFrame"),
          prototype = prototype(
+              new("Versioned", versions = list(NAnnotatedDataFrame="0.0.3")),
              multiplex = 1,
              multiLabels = "Single run"),
          validity = function(object) {
@@ -224,7 +225,6 @@ setClass("Spectrum",
              "VIRTUAL"),
          contains=c("Versioned"),
          prototype = prototype(
-             ## new("Versioned", versions=c(Spectrum="0.4.0")),
              rt = numeric(),
              polarity = NA_integer_,
              acquisitionNum = NA_integer_,
@@ -266,8 +266,6 @@ setClass("Spectrum2",
              collisionEnergy = "numeric"),
          contains=c("Spectrum"),
          prototype = prototype(
-             ## new("Versioned",
-             ##     versions=c(classVersion("Spectrum"), Spectrum2="0.2.0")),
              merged = 1,
              acquisitionNum = integer(),
              precScanNum = integer(),
@@ -293,7 +291,6 @@ setClass("Spectrum2",
 setClass("Spectrum1",
          contains=c("Spectrum"),
          prototype = prototype(
-             ## new("Versioned", versions=c(classVersion("Spectrum"), Spectrum1="0.2.0")),
              polarity=integer(),
              msLevel = as.integer(1)),
          validity = function(object) {

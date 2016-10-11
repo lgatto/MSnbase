@@ -3,6 +3,7 @@
 setMethod("initialize",
           "Spectrum",
           function(.Object, ..., mz, intensity, peaksCount) {
+              classVersion(.Object) <- getClassVersion(.Object)
               if (xor(!missing(mz), !missing(intensity)))
                   stop("'mz' and 'intensity' or none required.")
               if (!missing(mz) & !missing(intensity)) {
