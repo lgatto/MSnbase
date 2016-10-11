@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.99.7
+-------------------------
+ o
+ 
 CHANGES IN VERSION 1.99.6
 -------------------------
  o Reverting to old initialize,Spectrum (see issue #163)
