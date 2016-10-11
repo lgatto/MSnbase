@@ -31,8 +31,8 @@ Spectrum1 <- function(peaksCount = length(mz), rt = numeric(),
     if (!is.logical(smoothed)) smoothed <- as.logical(smoothed)
     if (!is.integer(polarity)) polarity <- as.integer(polarity)
     ## Define the class versions.
-    versions <- list(Spectrum1 = .MSnbaseEnv$ClassVersions["Spectrum1"],
-                     Spectrum = .MSnbaseEnv$ClassVersions["Spectrum"])
+    versions <- list(Spectrum1 = getClassVersion("Spectrum1"),
+                     Spectrum = getClassVersion("Spectrum"))
     res <- .Call("Spectrum1_constructor",
                  1L, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
                  intensity, fromFile, centroided, smoothed, polarity, TRUE,
@@ -72,8 +72,8 @@ Spectrum1_mz_sorted <- function(peaksCount = length(mz), rt = numeric(),
     if (!is.logical(smoothed)) smoothed <- as.logical(smoothed)
     if (!is.integer(polarity)) polarity <- as.integer(polarity)
     ## Define the class versions.
-    versions <- list(Spectrum1 = .MSnbaseEnv$ClassVersions["Spectrum1"],
-                     Spectrum = .MSnbaseEnv$ClassVersions["Spectrum"])
+    versions <- list(Spectrum1 = getClassVersion("Spectrum1"),
+                     Spectrum = getClassVersion("Spectrum"))
     res <- .Call("Spectrum1_constructor_mz_sorted",
                  1L, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
                  intensity, fromFile, centroided, smoothed, polarity, TRUE,
@@ -171,8 +171,8 @@ Spectra1_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
     if (!is.logical(smoothed)) smoothed <- as.logical(smoothed)
     if (!is.integer(polarity)) polarity <- as.integer(polarity)
     ## Define the class versions.
-    versions <- list(Spectrum1 = .MSnbaseEnv$ClassVersions["Spectrum1"],
-                     Spectrum = .MSnbaseEnv$ClassVersions["Spectrum"])
+    versions <- list(Spectrum1 = getClassVersion("Spectrum1"),
+                     Spectrum = getClassVersion("Spectrum"))
     ## OK, now let's call C.
     res <- .Call("Multi_Spectrum1_constructor_mz_sorted",
                  1L,

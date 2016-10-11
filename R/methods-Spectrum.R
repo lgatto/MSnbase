@@ -17,7 +17,7 @@ setMethod("initialize",
               if (.Object@tic == 0)
                   .Object@tic <- sum(.Object@intensity)
               ## Add the class version
-              classVersion(.Object)["Spectrum"] <- .MSnbaseEnv$ClassVersions["Spectrum"]
+              classVersion(.Object)["Spectrum"] <- getClassVersion("Spectrum")
               if (validObject(.Object))
                   .Object
           })
