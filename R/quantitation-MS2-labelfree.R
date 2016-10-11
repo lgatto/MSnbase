@@ -20,24 +20,15 @@ count_MSnSet <- function(object) {
     ## featureData rows must be subset to match assayData rows
     .featureData <- new("AnnotatedDataFrame",
                         data = fd[rownames(.exprs), ])
-    if (nrow(phenoData(msexp)) == 0) {
-        msnset <- new("MSnSet",
-                      qual = .qual,
-                      exprs = .exprs,
-                      experimentData = experimentData(object),
-                      processingData = object@processingData,
-                      featureData = .featureData,
-                      annotation = "No annotation")
-    } else {
-        msnset <- new("MSnSet",
-                      qual = .qual,
-                      exprs = .exprs,
-                      experimentData = experimentData(object),
-                      phenoData = phenoData(object),
-                      processingData = object@processingData,
-                      featureData = .featureData,
-                      annotation = "No annotation")
-    }
+    msnset <- new("MSnSet",
+                  qual = .qual,
+                  exprs = .exprs,
+                  experimentData = experimentData(object),
+                  phenoData = phenoData(object),
+                  processingData = object@processingData,
+                  featureData = .featureData,
+                  annotation = "No annotation")
+
     msnset <- logging(msnset, "Quantitation by count")
     if (validObject(msnset))
         return(msnset)
@@ -64,24 +55,15 @@ tic_MSnSet <- function(object) {
     ## featureData rows must be reordered to match assayData rows
     .featureData <- new("AnnotatedDataFrame", data=fd[rownames(.exprs), ])
 
-    if (nrow(phenoData(msexp)) == 0) {
-        msnset <- new("MSnSet",
-                      qual = .qual,
-                      exprs = .exprs,
-                      experimentData = experimentData(object),
-                      processingData = object@processingData,
-                      featureData = .featureData,
-                      annotation = "No annotation")
-    } else {
-        msnset <- new("MSnSet",
-                      qual = .qual,
-                      exprs = .exprs,
-                      experimentData = experimentData(object),
-                      phenoData = phenoData(object),
-                      processingData = object@processingData,
-                      featureData = .featureData,
-                      annotation = "No annotation")
-    }
+    msnset <- new("MSnSet",
+                  qual = .qual,
+                  exprs = .exprs,
+                  experimentData = experimentData(object),
+                  phenoData = phenoData(object),
+                  processingData = object@processingData,
+                  featureData = .featureData,
+                  annotation = "No annotation")
+
     msnset <- logging(msnset, "Quantitation by total ion current")
     if (validObject(msnset))
         return(msnset)

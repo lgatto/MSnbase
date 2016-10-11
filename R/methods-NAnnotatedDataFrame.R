@@ -1,13 +1,5 @@
 ##################################################################
 ## Methods for NAnnotatedDataFrame class
-setMethod("initialize", "NAnnotatedDataFrame",
-          function(.Object, ...) {
-              classVersion(.Object) <- getClassVersion(.Object)
-              .Object <- callNextMethod(.Object)
-              if (validObject(.Object))
-                  return(.Object)
-          })
-
 setMethod("dim", "NAnnotatedDataFrame",
           function(x) {
               d <- c(dim(pData(x)),
