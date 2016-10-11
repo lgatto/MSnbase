@@ -814,8 +814,8 @@ setMethod("compareSpectra", c("OnDiskMSnExp", "missing"),
 ## estimateNoise directly estimates the noise and returns it. We're going to
 ## call the method using the spectrapply method.
 ## Note: would also work directly with the MSnExp implementation, but this would
-## require that all spectra are loaded first, while here we ensure parallel processin
-## by file; should be faster and memory efficient.
+## require that all spectra are loaded first, while here we ensure parallel
+## processing by file; should be faster and memory efficient.
 setMethod("estimateNoise", "OnDiskMSnExp",
           function(object, method = c("MAD", "SuperSmoother"), ...) {
               method <- match.arg(method)
@@ -825,15 +825,33 @@ setMethod("estimateNoise", "OnDiskMSnExp",
               return(res)
           })
 
-setMethod("removeReporters", "OnMSnExp",
+############################################################
+## removeReporters
+##
+## Adds the removeReporters Spectrum processing step to the lazy processing
+## queue
+setMethod("removeReporters", "OnDiskMSnExp",
           function(object, reporters = NULL, clean = FALSE,
                    verbose = isMSnbaseVerbose()) {
               if (is.null(reporters)) {
                   return(object)
               } else {
-                  ## this currently only works with the in-memory
-                  ## backend
-                  object <- as(object, "MSnExp")
-                  removeReporters_MSnExp(object, reporters, clean, verbose)
+                  ## Check if we've got msLevel > 1.
+                  if (all(msLevel(object) == 1))
+                      stop("No MS level > 1 spectra present! Reporters can",
+                           " only be removed from spectra >= 2!")
+                  ps <- ProcessingStep("removeReporters",
+                                       list(reporters = reporters,
+                                            clean = clean,
+                                            suppressWarnings = TRUE))
+                  object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
+                                                     list(ps))
+                  repname <- names(reporters)
+                  object@processingData@processing <- c(object@processingData@processing,
+                                                   paste("Removed",
+                                                         repname,
+                                                         "reporter ions ",
+                                                         date()))
+                  return(object)
               }
           })

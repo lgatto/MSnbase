@@ -6,5 +6,6 @@ test_that("update MSnExp version 0.3.0 -> 0.3.1", {
               full.name = TRUE, pattern = "msx0.rda")
     load(f0) ## msx0
     expect_error(validObject(msx0))
-    expect_true(validObject(updateObject(msx0)))
+    ## See issue #166 why this is disabled
+    ## expect_true(validObject(updateObject(msx0)))
 })

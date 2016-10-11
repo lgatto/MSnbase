@@ -2,49 +2,49 @@
 
 ##################################################################
 ## Methods for MIAPE class
-setMethod("show","MIAPE",function(object) {
+setMethod("show", "MIAPE", function(object) {
   show_MIAPE(object)
   invisible(NULL)
 })
 
-setMethod("msInfo","MIAPE",
+setMethod("msInfo", "MIAPE",
           function(object) msInfo_MIAPE(object))
 
 
-setMethod("abstract","MIAPE",function(object) object@abstract)
-setMethod("samples","MIAPE",function(object) object@samples)
-setMethod("pubMedIds","MIAPE",function(object) object@pubMedIds)
+setMethod("abstract", "MIAPE", function(object) object@abstract)
+setMethod("samples", "MIAPE", function(object) object@samples)
+setMethod("pubMedIds", "MIAPE", function(object) object@pubMedIds)
 
-setReplaceMethod("pubMedIds","MIAPE",function(object,value){
+setReplaceMethod("pubMedIds", "MIAPE", function(object,value){
    object@pubMedIds = value
    object
 })
 
-setMethod("expemail","MIAPE", function(object) object@email)
-setMethod("exptitle","MIAPE", function(object) object@title)
-setMethod("ionSource","MIAPE", function(object) object@ionSource)
-setMethod("ionSourceDetails","MIAPE", function(object) object@ionSourceDetails)
+setMethod("expemail", "MIAPE", function(object) object@email)
+setMethod("exptitle", "MIAPE", function(object) object@title)
+setMethod("ionSource", "MIAPE", function(object) object@ionSource)
+setMethod("ionSourceDetails", "MIAPE", function(object) object@ionSourceDetails)
 
-setMethod("analyser","MIAPE", function(object) object@analyser)
-setMethod("analyzer","MIAPE", function(object) object@analyser)
-setMethod("analyzerDetails","MIAPE", function(object) object@analyserDetails)
-setMethod("analyserDetails","MIAPE", function(object) object@analyserDetails)
+setMethod("analyser", "MIAPE", function(object) object@analyser)
+setMethod("analyzer", "MIAPE", function(object) object@analyser)
+setMethod("analyzerDetails", "MIAPE", function(object) object@analyserDetails)
+setMethod("analyserDetails", "MIAPE", function(object) object@analyserDetails)
 
-setMethod("detectorType","MIAPE", function(object) object@detectorType)
+setMethod("detectorType", "MIAPE", function(object) object@detectorType)
 
-setMethod("instrumentModel","MIAPE", function(object) object@instrumentModel)
-setMethod("instrumentManufacturer","MIAPE", function(object) object@instrumentManufacturer)
-setMethod("instrumentCustomisations","MIAPE", function(object) object@instrumentCustomisations)
+setMethod("instrumentModel", "MIAPE", function(object) object@instrumentModel)
+setMethod("instrumentManufacturer", "MIAPE", function(object) object@instrumentManufacturer)
+setMethod("instrumentCustomisations", "MIAPE", function(object) object@instrumentCustomisations)
 
-setReplaceMethod("pubMedIds","MIAPE",function(object, value){
+setReplaceMethod("pubMedIds", "MIAPE", function(object, value){
    object@pubMedIds = value
    object
 })
 
 
-setMethod("otherInfo","MIAPE",function(object) object@other)
+setMethod("otherInfo", "MIAPE", function(object) object@other)
 
-setMethod("expinfo","MIAPE",
+setMethod("expinfo", "MIAPE",
    function(object) {
       tmp <- c(object@name, object@lab, object@contact,
                object@email, object@title, object@url)

@@ -1,26 +1,44 @@
+## Returns of class version as documented in .MSnBaseEnd$ClassVersions
+## as and instance of class Versions.
+getClassVersion <- function(x) {
+    if (!is.character(x))
+        x <- class(x)[1]
+    ## This get class versions from parent classes (if any)
+    ver <- classVersion(x)
+    ## Adds (or overwrites) x's class version to the list of class
+    ## versions
+    ver[x] <- getClassVersionString(x)
+    ver
+}
+## Utility to just extract the version string from the environment.
+getClassVersionString <- function(x) {
+    if (!is.character(x))
+        x <- class(x)[1]
+    return(.MSnbaseEnv$ClassVersions[x])
+}
+
 ######################################################################
 ## MSnProcess: Container for MSnExp and MSnSet processing information
 ## See online documentation for more information.
 setClass("MSnProcess",
          representation = representation(
-             files="character",
-             processing="character",
-             merged="logical",
-             cleaned="logical",
-             removedPeaks="character",
-             smoothed="logical",
-             trimmed="numeric",
-             normalised="logical",
-             MSnbaseVersion="character"),
-         contains=c("Versioned"),
-         prototype = prototype(
-             new("Versioned", versions=c(MSnProcess="0.1.3")),
-             processing=character(),
-             files=character(),
-             trimmed=numeric(),
-             removedPeaks=character(),
-             MSnbaseVersion=character()) ## set in initialize()
-         )
+             files = "character",
+             processing = "character",
+             merged = "logical",
+             cleaned = "logical",
+             removedPeaks = "character",
+             smoothed = "logical",
+             trimmed = "numeric",
+             normalised = "logical",
+             MSnbaseVersion = "character"),
+         contains = c("Versioned"),
+         prototype  =  prototype(
+             new("Versioned", versions = c(MSnProcess = "0.1.3")),
+             processing = character(),
+             files = character(),
+             trimmed = numeric(),
+             removedPeaks = character(),
+             MSnbaseVersion = character())) ## set in initialize()
 
 #################################################################
 ## The 'Minimum Information About a Proteomics Experiment' Class
@@ -36,7 +54,7 @@ setClass("MIAPE",
              samples = "list",
              preprocessing = "list",
              other = "list",
-##########################
+             ## ########################
              ## Based on MIAPE-MS 2.24
              ##  will be updated with MIAPE-MSI and MIAPE-Quant
              ## 1. General features - (a) Global descriptors
@@ -79,7 +97,8 @@ setClass("MIAPE",
              ),
          contains = c("MIAxE"),
          prototype = prototype(
-             new("Versioned", versions=c(classVersion("MIAxE"), MIAPE="0.2.2")),
+             new("Versioned",
+                 versions = c(classVersion("MIAxE"), MIAPE = "0.2.2")),
              name = "",
              lab = "",
              contact = "",
@@ -90,8 +109,7 @@ setClass("MIAPE",
              email = "",
              samples = list(),
              preprocessing = list(),
-             other = list())
-         )
+             other = list()))
 
 ############################################################################
 ## NAnnotatedDataFrame: As Biobase's AnnotatedDataFrame, it is composed of
@@ -105,7 +123,7 @@ setClass("NAnnotatedDataFrame",
                         multiLabels = "character"),
          contains = c("AnnotatedDataFrame"),
          prototype = prototype(
-             new("Versioned", versions=list(NAnnotatedDataFrame="0.0.3")),
+              new("Versioned", versions = list(NAnnotatedDataFrame="0.0.3")),
              multiplex = 1,
              multiLabels = "Single run"),
          validity = function(object) {
@@ -149,7 +167,7 @@ setClass("pSet",
                         "VIRTUAL"),
          contains = "Versioned",
          prototype = prototype(
-             new("Versioned", versions=c(pSet="0.1.1")),
+             new("Versioned", versions = c(pSet = "0.1.1")),
              assayData = new.env(parent=emptyenv()),
              experimentData = new("MIAPE"),
              phenoData = new("NAnnotatedDataFrame",
@@ -193,7 +211,6 @@ setClass("Spectrum",
              "VIRTUAL"),
          contains=c("Versioned"),
          prototype = prototype(
-             new("Versioned", versions=c(Spectrum="0.4.0")),
              rt = numeric(),
              polarity = NA_integer_,
              acquisitionNum = NA_integer_,
@@ -235,8 +252,6 @@ setClass("Spectrum2",
              collisionEnergy = "numeric"),
          contains=c("Spectrum"),
          prototype = prototype(
-             new("Versioned",
-                 versions=c(classVersion("Spectrum"), Spectrum2="0.2.0")),
              merged = 1,
              acquisitionNum = integer(),
              precScanNum = integer(),
@@ -262,7 +277,6 @@ setClass("Spectrum2",
 setClass("Spectrum1",
          contains=c("Spectrum"),
          prototype = prototype(
-             new("Versioned", versions=c(classVersion("Spectrum"), Spectrum1="0.2.0")),
              polarity=integer(),
              msLevel = as.integer(1)),
          validity = function(object) {
@@ -280,27 +294,27 @@ setClass("Spectrum1",
 ## See online documentation for more information.
 setClass("ReporterIons",
          representation = representation(
-             name="character",
-             reporterNames="character",
-             description="character",
-             mz="numeric",
-             col="character",
-             width="numeric"),
-         contains=c("Versioned"),
-         prototype = prototype(
-             new("Versioned", versions=c(ReporterIons="0.1.0")),
-             name=character(),
-             reporterNames=character(),
-             description=character(),
-             mz=numeric(),
-             col=character(),
-             width=numeric()),
+             name = "character",
+             reporterNames = "character",
+             description = "character",
+             mz = "numeric",
+             col = "character",
+             width = "numeric"),
+         contains = c("Versioned"),
+         prototype  =  prototype(
+             new("Versioned", versions = c(ReporterIons = "0.1.0")),
+             name = character(),
+             reporterNames = character(),
+             description = character(),
+             mz = numeric(),
+             col = character(),
+             width = numeric()),
          validity = function(object) {
              msg <- validMsg(NULL, NULL)
-             if (length(object@mz)==0) {
-                 msg <- validMsg(msg,"No reporter ions defined.")
+             if (length(object@mz) == 0) {
+                 msg <- validMsg(msg, "No reporter ions defined.")
              } else {
-                 if (length(object@col)!=length(object@mz))
+                 if (length(object@col) != length(object@mz))
                      warning("Missing color(s) for the reporter ions.")
              }
              if (is.null(msg)) TRUE

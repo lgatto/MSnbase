@@ -135,7 +135,25 @@ test_that("Spectrum processing", {
     ## pickPeaks -> test_OnDiskMSnExp_other_methods.R
     ## quantify
     ## removePeaks -> test_OnDiskMSnExp.R
-    ## removeReporters
+    ## removeReporters -> here
     ## smooth -> test_OnDiskMSnExp_other_methods.R
     ## trimMz -> test_OnDiskMSnExp_other_methods.R
+})
+
+test_that("removeReporters,OnDiskMSnExp", {
+    in_mem <- readMSData(f, msLevel. = 2)
+    in_mem_rem <- removeReporters(in_mem, TMT6)
+
+    on_disk <- readMSData2(f)
+    on_disk_2 <- filterMsLevel(on_disk, msLevel. = 2)
+    on_disk_2_rem <- removeReporters(on_disk_2, TMT6)
+    sp_rem <- spectra(on_disk_2_rem)
+    expect_identical(unname(spectra(in_mem_rem)), unname(sp_rem))
+
+    ## Do the call on the full data set.
+    on_disk_rem <- removeReporters(on_disk, TMT6)
+    sp_rem <- spectra(on_disk_rem)
+    ## Subset to MS2 spectra
+    sp_rem <- sp_rem[unlist(lapply(sp_rem, msLevel)) > 1]
+    expect_identical(unname(spectra(in_mem_rem)), unname(sp_rem))
 })
