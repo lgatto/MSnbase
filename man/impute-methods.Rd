@@ -60,7 +60,7 @@
       \code{\link[norm]{em.norm}} function, rather to the actual
       imputation function \code{imp.norm}. }
     
-    \item{bcpa}{Bayesian missing value imputation are available, as
+    \item{bpca}{Bayesian missing value imputation are available, as
     implemented in the and \code{pcaMethods::pca} functions. See
     \code{\link[pcaMethods]{pca}} for details and additional
     parameters. }
