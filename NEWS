@@ -1,6 +1,14 @@
-CHANGES IN VERSION 1.99.7
--------------------------
- o
+CHANGES IN VERSION 2.1.1
+------------------------
+ o Fix typo in impute man page <2016-10-19 Wed>
+ 
+CHANGES IN VERSION 2.1.0
+------------------------
+ o New version for Bioconductor devel
+ 
+CHANGES IN VERSION 2.0.0
+------------------------
+ o New version for Bioconductor release version 3.4
  
 CHANGES IN VERSION 1.99.6
 -------------------------
