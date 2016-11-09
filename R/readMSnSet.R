@@ -98,7 +98,8 @@ readMSnSet2 <- function(file, ecol, fnames, ...) {
                  paste(colnames(xx), paste = ", "))
         featureNames(ans) <- fdata[, fnames]
     }
-    ans@processingData@files <- file
+    if (is.character(file)) ## not a data.frame
+        ans@processingData@files <- file
     if (validObject(ans))
         return(ans)
 }
