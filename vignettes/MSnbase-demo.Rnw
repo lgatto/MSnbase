@@ -1064,8 +1064,8 @@ table(is.na(x))
 @
 
 
-There are two types of mechanisms resulting in missing values in
-LC/MSMS experiments.
+As described in more details in \cite{Lazar:2016}, there are two types
+of mechanisms resulting in missing values in LC/MSMS experiments.
 
 \begin{itemize}
 \item Missing values resulting from absence of detection of a feature,
