@@ -38,6 +38,7 @@
 \alias{spectra,OnDiskMSnExp-method}
 \alias{tic,OnDiskMSnExp-method}
 \alias{bpi,OnDiskMSnExp-method}
+\alias{bpi}
 \alias{precScanNum,OnDiskMSnExp-method}
 \alias{featureNames<-,OnDiskMSnExp-method}
 \alias{featureNames<-,OnDiskMSnExp,ANY-method}
