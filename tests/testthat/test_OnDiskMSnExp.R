@@ -281,3 +281,13 @@ test_that("Test sorting by acquisitionNum", {
     sp2 <- onDisk2[[22]]
     expect_identical(sp1, sp2)
 })
+
+test_that("spectrapply,OnDiskMSnExp", {
+    sps <- spectra(onDisk)
+    sps_2 <- spectrapply(onDisk)
+    expect_identical(sps, sps_2)
+    ## apply a function.
+    dfs <- spectrapply(onDisk, FUN = as, Class = "data.frame")
+    dfs_2 <- lapply(sps, FUN = as, Class = "data.frame")
+    expect_identical(dfs, dfs_2)
+})

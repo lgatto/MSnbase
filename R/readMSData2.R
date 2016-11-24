@@ -19,7 +19,7 @@ readMSData2 <- function(files,
         filen <- match(f, files)
         filenums <- c(filenums, filen)
         filenams <- c(filenams, f)
-        msdata <- mzR::openMSfile(f)
+        msdata <- mzR::openMSfile(f, backend = getBackend())
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
         spidx <- seq_len(nrow(fullhd))
@@ -60,10 +60,10 @@ readMSData2 <- function(files,
                           sep = "\n")) ## see issue #160
         fdData <- fdData[order(fdData$acquisitionNum), ]
         featureDataList <- c(featureDataList, list(fdData))
-        mzR::close(msdata)
-        rm(msdata)
         ## Fix for #151; would be nice if we could remove that at some point.
         gc()
+        mzR::close(msdata)
+        rm(msdata)
     }
     ## new in version 1.9.8
     lockEnvironment(assaydata, bindings = TRUE)

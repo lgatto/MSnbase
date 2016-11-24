@@ -243,6 +243,7 @@ exportMethods(updateObject,
               filterAcquisitionNum,
               chromatogram,
               xic,
+              spectrapply,
               ## Features of interest
               FeaturesOfInterest,
               foi,

@@ -56,6 +56,7 @@
 \alias{quantify,OnDiskMSnExp-method}
 \alias{smooth,OnDiskMSnExp-method}
 
+\alias{spectrapply,OnDiskMSnExp-method}
 
 
 %% Data manipulations.
@@ -439,6 +440,18 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
       \code{character} of length \code{length(object)} containing the
       feature names. A replacement method is also available.
     }
+
+    \item{spectrapply}{
+      \code{spectrapply(signature(object = "OnDiskMSnExp"), FUN = NULL,
+	BPPARAM = bpparam(), ...)}: applies the function \code{FUN} to each
+      spectrum passing additional parameters in \code{...} to that
+      function and return its results. For \code{FUN = NULL} it returns
+      the list of spectra (same as a call to \code{spectra}). Parameter
+      \code{BPPARAM} allows to specify how and if parallel processing
+      should be enabled.
+
+      Returns a list with the result for each of spectrum.
+    }
   }
 }
 
@@ -575,6 +588,9 @@ rtime(subs)
 ints <- intensity(odmse)
 mzs <- mz(odmse)
 
+## Return a data.frame with mz and intensity pairs for each spectrum from the
+## object
+res <- spectrapply(odmse, FUN = as, Class = "data.frame")
 
 ## Calling removePeaks, i.e. setting intensity values below a certain threshold to 0.
 ## Unlike the name suggests, this is not actually removing peaks. Such peaks with a 0
