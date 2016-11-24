@@ -24,7 +24,7 @@ readMSData <- function(files,
         filen <- match(f, files)
         filenums <- c(filenums, filen)
         filenams <- c(filenams, f)
-        msdata <- mzR::openMSfile(f)
+        msdata <- mzR::openMSfile(f, backend = getBackend())
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
         spidx <- which(fullhd$msLevel == msLevel.)
@@ -104,7 +104,7 @@ readMSData <- function(files,
                           polarity = as.integer(hd$polarity))
                 ## peaksCount
                 ioncount[ioncounter] <- sum(.p[, 2])
-                ioncounter <- ioncounter + 1                
+                ioncounter <- ioncounter + 1
                 .fname <- sprintf(paste0("X%0",
                                          ceiling(log10(length(spidx) + 1L)),
                                          "d.%s"), i, filen)

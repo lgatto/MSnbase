@@ -936,10 +936,22 @@ getBpParam <- function(object, BPPARAM=bpparam()) {
     ## If it's empty, return SerialParam
     if (length(object) == 0)
         return(SerialParam())
-    ## Return SerialParam if we access less than PARALLEL_THRESH spectra per file.
-    if (mean(table(fData(object)$fileIdx)) < parallel_thresh)
-        return(SerialParam())
+    if (is(object, "OnDiskMSnExp")) {
+        ## Return SerialParam if we access less than PARALLEL_THRESH spectra per file.
+        if (mean(table(fData(object)$fileIdx)) < parallel_thresh)
+            return(SerialParam())
+    } else {
+        if (length(object) < parallel_thresh)
+            return(SerialParam())
+    }
     return(BPPARAM)
+}
+
+getBackend <- function() {
+    res <- options()$MSnbase$backend
+    if (length(res) == 0)
+        res <- "Ramp"
+    return(res)
 }
 
 countAndPrint <- function(x) {
@@ -967,7 +979,7 @@ orderInteger <- function(x, decreasing=FALSE, na.last=NA)
 ##' @title Reads profile/centroided mode from an mzML file
 ##' @param x An instance of \code{MSnExp} or \code{OnDiskMSnExp}
 ##' @return A \code{logical}
-##' @noRd 
+##' @noRd
 .isCentroidedFromFile <- function(x) {
     f <- fileNames(x)
     if (.fileExt(f) != "mzML") {

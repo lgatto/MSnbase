@@ -80,6 +80,9 @@
 \alias{detectorType,pSet-method}
 \alias{description,pSet-method}
 
+\alias{spectrapply}
+\alias{spectrapply,pSet-method}
+
 \title{
   Class to Contain Raw Mass-Spectrometry Assays and Experimental
   Metadata
@@ -90,11 +93,11 @@
   experimental metadata. This class is based on Biobase's
   \code{"\linkS4class{eSet}"} virtual class, with the notable exception
   that 'assayData' slot is an environment contain objects of class
-  \code{"\linkS4class{Spectrum}"}. 
+  \code{"\linkS4class{Spectrum}"}.
 }
 
 \section{Objects from the Class}{
-  A virtual Class: No objects may be created from it.  
+  A virtual Class: No objects may be created from it.
   See \code{"\linkS4class{MSnExp}"} for instantiatable sub-classes.
 }
 
@@ -105,7 +108,7 @@
       containing the MS spectra (see \code{"\linkS4class{Spectrum1}"}
       and \code{"\linkS4class{Spectrum2}"}). }
     \item{\code{phenoData}:}{Object of class
-      \code{"\linkS4class{NAnnotatedDataFrame}"} containing 
+      \code{"\linkS4class{NAnnotatedDataFrame}"} containing
       experimenter-supplied variables describing sample (i.e the
       individual tags for an labelled MS experiment)
       See \code{\link{phenoData}} for more details.}
@@ -128,7 +131,7 @@
     \item{\code{.cache}:}{Object of class \code{environment} used to
       cache data. Under development. }
     \item{\code{.__classVersion__}:}{Object of class
-      \code{"\linkS4class{Versions}"} describing the versions of the class. 
+      \code{"\linkS4class{Versions}"} describing the versions of the class.
     }
   }
 }
@@ -141,8 +144,8 @@
 
 \section{Methods}{
   Methods defined in derived classes may override the methods described
-  here. 
-  
+  here.
+
   \describe{
     \item{[}{\code{signature(x = "pSet")}: Subset current object and
       return object of same class. }
@@ -150,12 +153,12 @@
       spectra. }
     \item{abstract}{Access abstract in \code{experimentData}. }
     \item{assayData}{\code{signature(object = "pSet")}: Access the
-      \code{assayData} slot. Returns an \code{environment}. }    
+      \code{assayData} slot. Returns an \code{environment}. }
     \item{desciption}{\code{signature(x = "pSet")}: Synonymous with
-      experimentData. } 
+      experimentData. }
     \item{dim}{\code{signature(x = "pSet")}: Returns the dimensions of
       the \code{phenoData} slot. }
-    \item{experimentData}{\code{signature(x = "pSet")}: Access details 
+    \item{experimentData}{\code{signature(x = "pSet")}: Access details
       of experimental methods. }
     \item{featureData}{\code{signature(x = "pSet")}: Access the
       \code{featureData} slot. }
@@ -178,31 +181,31 @@
       whether individual spectra are smoothed ('TRUE') of unsmoothed
       ('FALSE'). Use \code{smoothed(object) <- value} to update a
       whole experiment, ensuring that \code{object} and \code{value}
-      have the same length. }     
+      have the same length. }
     \item{fvarMetadata}{\code{signature(x = "pSet")}: Access metadata
       describing features reported in \code{fData}. }
     \item{fvarLabels}{\code{signature(x = "pSet")}: Access variable
-      labels in \code{featureData}. }    
+      labels in \code{featureData}. }
     \item{length}{\code{signature(x = "pSet")}: Returns the number of
       features in the \code{assayData} slot. }
     \item{notes}{\code{signature(x = "pSet")}:  Retrieve and
       unstructured notes associated with \code{pSet} in the
     \code{experimentData} slot. }
     \item{pData}{\code{signature(x = "pSet")}: Access sample data
-      information. } 
+      information. }
     \item{phenoData}{\code{signature(x = "pSet")}: Access the
       \code{phenoData} slot. }
     \item{processingData}{\code{signature(object = "pSet")}: Access the
-      \code{processingData} slot. }    
+      \code{processingData} slot. }
     \item{protocolData}{\code{signature(x = "pSet")}: Access the
       \code{protocolData} slot. }
     \item{pubMedIds}{\code{signature(x = "pSet")}: Access PMIDs in
-      \code{experimentData}. } 
+      \code{experimentData}. }
     \item{sampleNames}{\code{signature(x = "pSet")}: Access sample names
       in \code{phenoData}. A replacement method is also available. }
     \item{spectra}{\code{signature(x = "pSet", ...)}: Access the
       \code{assayData} slot, returning the features as a \code{list}.
-      Additional arguments are currently ignored. } 
+      Additional arguments are currently ignored. }
     \item{varMetadata}{\code{signature(x = "pSet")}: Access metadata
       describing variables reported in \code{pData}. }
     \item{varLabels}{\code{signature(x = "pSet")}: Access variable
@@ -215,7 +218,7 @@
       for MS2 spectra collision energies. }
     \item{intensity}{\code{signature(object = "pSet", ...)}: Accessor
       for spectra instenities, returned as named list. Additional
-      arguments are currently ignored. } 
+      arguments are currently ignored. }
     \item{msInfo}{\code{signature(object = "pSet")}: Prints the MIAPE-MS
       meta-data stored in the \code{experimentData} slot. }
     \item{msLevel}{\code{signature(object = "pSet")}: Accessor for
@@ -226,7 +229,7 @@
     \item{peaksCount}{\code{signature(object = "pSet")}: Accessor for
       spectra preak counts. }
     \item{peaksCount}{\code{signature(object = "pSet", scans =
-	"numeric")}: Accessor to \code{scans} spectra preak counts. }  
+	"numeric")}: Accessor to \code{scans} spectra preak counts. }
     \item{polarity}{\code{signature(object = "pSet")}: Accessor for MS1
       spectra polarities. }
     \item{precursorCharge}{\code{signature(object = "pSet")}: Accessor
@@ -248,7 +251,18 @@
       frame containing all available spectra parameters (MSn only). }
     \item{header}{\code{signature(object = "pSet", scans = "numeric")}:
       Returns a data frame containing \code{scans} spectra parameters
-      (MSn only). } 
+      (MSn only). }
+    \item{spectrapply}{
+      \code{spectrapply(signature(object = "pSet"), FUN = NULL,
+	BPPARAM = bpparam(), ...)}: applies the function \code{FUN} to each
+      spectrum passing additional parameters in \code{...} to that
+      function and return its results. For \code{FUN = NULL} it returns
+      the list of spectra (same as a call to \code{spectra}). Parameter
+      \code{BPPARAM} allows to specify how and if parallel processing
+      should be enabled.
+
+      Returns a list with the result for each of spectrum.
+    }
   }
 
   Additional accessors for the experimental metadata
@@ -267,7 +281,7 @@
 
 \seealso{
   \code{"\linkS4class{MSnExp}"} for an instantiatable application of
-  \code{pSet}. 
+  \code{pSet}.
 }
 
 \examples{
