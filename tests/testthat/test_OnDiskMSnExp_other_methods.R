@@ -176,3 +176,34 @@ test_that("Test precursor* for OnDiskMSnExp", {
     names(pcn) <- names(pcn2) <- NULL
     expect_identical(pcn, pcn2)
 })
+
+############################################################
+## bpi
+test_that("bpi,OnDiskMSnExp", {
+    ## Get the "initial" one.
+    basepi <- bpi(ondisk)
+    expect_identical(unname(basepi), fData(ondisk)$basePeakIntensity)
+    expect_identical(names(basepi), featureNames(ondisk))
+    ## Calculate:
+    basepi <- bpi(ondisk, initial = FALSE)
+    expect_identical(names(basepi), featureNames(ondisk))
+    sp <- spectra(ondisk)
+    basepi_calc <- unlist(lapply(sp, FUN = function(z) max(intensity(z))))
+    expect_identical(basepi, basepi_calc)
+})
+
+
+############################################################
+## tic
+test_that("tic,OnDiskMSnExp", {
+    ## Get the "initial" one.
+    totic <- tic(ondisk)
+    expect_identical(unname(totic), fData(ondisk)$totIonCurrent)
+    expect_identical(names(totic), featureNames(ondisk))
+    ## Calculate:
+    totic <- tic(ondisk, initial = FALSE)
+    expect_identical(names(totic), featureNames(ondisk))
+    sp <- spectra(ondisk)
+    totic_calc <- unlist(lapply(sp, FUN = tic))
+    expect_identical(totic, totic_calc)
+})

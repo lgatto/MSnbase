@@ -252,33 +252,41 @@ setMethod("rtime", "OnDiskMSnExp",
 ## Get the total ion Current (from the featureData, thus it will not
 ## be recalculated).
 setMethod("tic", "OnDiskMSnExp",
-          function(object, BPPARAM = bpparam()) {
-    skipFun <- c("pickPeaks")
-    if (length(object@spectraProcessingQueue) > 0) {
-        recalc <- any(unlist(lapply(object@spectraProcessingQueue,
-                                    function(z) {
-            if (any(z@FUN == skipFun))
-                return(FALSE)
-            return(TRUE)
-        })))
-    } else {
-        ## No need to calculate the peaks count; we can use the
-        ## information from the feature data.
-        recalc <- FALSE
-    }
-    ## Also enforce re-calculation if we've got totIonCurrent of 0!
-    if (any(fData(object)$totIonCurrent == 0))
-        recalc <- TRUE
-    if (recalc) {
-        vals <- unlist(spectrapply(object,
-                                   FUN = tic,
-                                   BPPARAM = BPPARAM))
-    } else {
-        vals <- fData(object)$totIonCurrent
-    }
-    names(vals) <- featureNames(object)
-    return(vals)
-})
+          function(object, initial = TRUE, BPPARAM = bpparam()) {
+              if (initial) {
+                  vals <- fData(object)$totIonCurrent
+              } else {
+                  ## Calculate the value.
+                  vals <- unlist(spectrapply(object, FUN = tic,
+                                             BPPARAM = BPPARAM))
+              }
+              names(vals) <- featureNames(object)
+              return(vals)
+          })
+
+############################################################
+## bpi
+##
+## Get the base peak intensity from each spectrum. If initial = TRUE
+## the basePeakIntensity from the feaureData is returned, i.e. the value
+## extracted from the header of the raw mzML file. If initial = FALSE the
+## actual base peak intensity will be calculated for each spectrum by first
+## applying all eventual data manipulation operations.
+setMethod("bpi", "OnDiskMSnExp",
+          function(object, initial = TRUE, BPPARAM = bpparam()) {
+              if (initial) {
+                  vals <- fData(object)$basePeakIntensity
+              } else {
+                  ## Calculate the value.
+                  vals <- unlist(spectrapply(object,
+                                             FUN = function(z) {
+                                                 return(max(intensity(z)))
+                                             }, BPPARAM = BPPARAM))
+              }
+              names(vals) <- featureNames(object)
+              return(vals)
+          })
+
 
 ############################################################
 ## collisionEnergy

@@ -142,3 +142,5 @@ setGeneric("filterFile", function (object, ...) standardGeneric("filterFile"))
 setGeneric("filterAcquisitionNum", function (object, ...) standardGeneric("filterAcquisitionNum"))
 
 ## isolationWindow generic is in mzR
+
+setGeneric("bpi", function(object, ...) standardGeneric("bpi"))
