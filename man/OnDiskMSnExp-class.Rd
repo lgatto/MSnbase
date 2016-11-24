@@ -37,6 +37,7 @@
 \alias{scanIndex,OnDiskMSnExp-method}
 \alias{spectra,OnDiskMSnExp-method}
 \alias{tic,OnDiskMSnExp-method}
+\alias{bpi,OnDiskMSnExp-method}
 \alias{precScanNum,OnDiskMSnExp-method}
 \alias{featureNames<-,OnDiskMSnExp-method}
 \alias{featureNames<-,OnDiskMSnExp,ANY-method}
@@ -400,17 +401,39 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
     }
 
     \item{tic}{
-      \code{tic(signature(object="OnDiskMSnExp"))}:
-      get the total ion current of each spectrum in the data
-      set. This information is extracted from the object's
-      \code{featureData} and represents the tic provided in the original
-      raw data files.
+      \code{tic(signature(object="OnDiskMSnExp"), initial = TRUE,
+      BPPARAM = bpparam())}:
+      get the total ion current (TIC) of each spectrum in the data
+      set. If \code{initial = TRUE}, the information is extracted from
+      the object's \code{featureData} and represents the tic provided in
+      the header of the original raw data files. For \code{initial =
+      FALSE}, the TIC is calculated from the actual intensity values in
+      each spectrum after applying all eventual data manipulation methods.
+
+      \code{BPPARAM} parameter: see \code{spectra} method above.
 
       Returns a numeric vector with names corresponding to the spectrum
       names.
     }
 
-    \item{featureNames}{      
+    \item{bpi}{
+      \code{bpi(signature(object="OnDiskMSnExp"), initial = TRUE,
+      BPPARAM = bpparam())}:
+      get the base peak intensity (BPI), i.e. the maximum intensity from
+      each spectrum in the data set. If \code{initial = TRUE}, the
+      information is extracted from the object's \code{featureData} and
+      represents the tic provided in the header of the original raw data
+      files. For \code{initial = FALSE}, the TIC is calculated from the
+      actual intensity values in each spectrum after applying all
+      eventual data manipulation methods.
+
+      \code{BPPARAM} parameter: see \code{spectra} method above.
+
+      Returns a numeric vector with names corresponding to the spectrum
+      names.
+    }
+
+    \item{featureNames}{
       \code{tic(signature(object="OnDiskMSnExp"))}: return a
       \code{character} of length \code{length(object)} containing the
       feature names. A replacement method is also available.
@@ -494,7 +517,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
     \item{\code{as(from, "MSnExp")}}{Converts the \code{OnDiskMSnExp}
       object \code{from}, to an in-memory \code{MSnExp}. Also available
       as an S3 method \code{as.MSnExp()}.}
-    
+
   }
 }
 
