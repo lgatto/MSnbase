@@ -1,6 +1,8 @@
 CHANGES IN VERSION 2.1.2
 ------------------------
  o Update readMSnSet2 to save filename <2016-11-09 Wed>
+ o Ensure that header information is read too if spectra data is
+   loaded for OnDiskMSnExp objects (see issue #170) <2016-11-24 Thu>
  
 CHANGES IN VERSION 2.1.1
 ------------------------
