@@ -82,8 +82,9 @@ test_that("Compare MS1 MSnExp and OnDiskMSnExp content", {
     expect_identical(rtime(inMem), rtime(onDisk))
     ## o polarity
     expect_identical(polarity(inMem), polarity(onDisk))
-    ## o tic
-    expect_identical(tic(inMem), tic(onDisk))
+    ## o tic: Note: have to calculate as one of the two doesn't provide the
+    ##        initial values.
+    expect_identical(tic(inMem), tic(onDisk, initial = FALSE))
     ## o ionCount
     expect_identical(ionCount(inMem), ionCount(onDisk))
     ## o peaksCount
@@ -106,14 +107,14 @@ test_that("Compare removePeaks and cleaned MSnExp and OnDiskMSnExp", {
     onDiskCleaned <- clean(onDisk)
     expect_true(all.equal(inMemCleaned, onDiskCleaned))
     expect_identical(ionCount(inMemCleaned), ionCount(onDiskCleaned))
-    expect_identical(tic(inMemCleaned), tic(onDiskCleaned))
+    expect_identical(tic(inMemCleaned), tic(onDiskCleaned, initial = FALSE))
     expect_identical(peaksCount(inMemCleaned), peaksCount(onDiskCleaned))
     ## o removePeaks
     inMemRemPeaks <- removePeaks(inMem, t = 1000)
     onDiskRemPeaks <- removePeaks(onDisk, t = 1000)
     expect_true(all.equal(inMemRemPeaks, onDiskRemPeaks))
     expect_identical(ionCount(inMemRemPeaks), ionCount(onDiskRemPeaks))
-    expect_identical(tic(inMemRemPeaks), tic(onDiskRemPeaks))
+    expect_identical(tic(inMemRemPeaks), tic(onDiskRemPeaks, initial = FALSE))
     expect_identical(peaksCount(inMemRemPeaks), peaksCount(onDiskRemPeaks))
     ## o removePeaks and clean
     inMemRemPeaksCleaned <- clean(inMemRemPeaks)
@@ -121,7 +122,8 @@ test_that("Compare removePeaks and cleaned MSnExp and OnDiskMSnExp", {
     expect_true(all.equal(inMemRemPeaksCleaned, onDiskRemPeaksCleaned))
     expect_identical(ionCount(inMemRemPeaksCleaned),
                      ionCount(onDiskRemPeaksCleaned))
-    expect_identical(tic(inMemRemPeaksCleaned), tic(onDiskRemPeaksCleaned))
+    expect_identical(tic(inMemRemPeaksCleaned), tic(onDiskRemPeaksCleaned,
+                                                    initial = FALSE))
     expect_identical(peaksCount(inMemRemPeaksCleaned),
                      peaksCount(onDiskRemPeaksCleaned))
     ## compare assayData, intensity and mz,
