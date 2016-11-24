@@ -240,6 +240,10 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     on.exit(expr = gc(), add = TRUE)
     msLevel1 <- which(fData$msLevel == 1)
     msLevelN <- which(fData$msLevel > 1)
+    ## Reading the header for the selecte spectra. This is to avoid getting
+    ## "memory not mapped" errors when reading mz and intensity values from
+    ## certain mzML files (issue #170).
+    hd_spectra <- mzR::header(fileh, fData$spIdx)
     ## Process MS1 and MSn separately
     if (length(msLevel1) >= 1) {
         ms1fd <- fData[msLevel1, , drop = FALSE]
