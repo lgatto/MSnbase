@@ -445,7 +445,7 @@ setReplaceMethod("fData",
                  })
 
 setMethod("fvarMetadata",
-          signature = signature(object = "pSet"),          
+          signature = signature(object = "pSet"),
           function(object) varMetadata(featureData(object)))
 setMethod("fvarLabels",
           signature = signature(object = "pSet"),
@@ -526,6 +526,15 @@ setMethod("protocolData", "pSet",
 setMethod("processingData",
           signature(object = "pSet"),
           function(object) object@processingData)
+
+setMethod("spectrapply", "pSet", function(object, FUN = NULL,
+                                          BPPARAM = bpparam(), ...) {
+    BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
+    if (is.null(FUN))
+        return(spectra(object))
+    vals <- bplapply(spectra(object), FUN = FUN, BPPARAM = BPPARAM, ...)
+    return(vals)
+})
 
 
 ################################

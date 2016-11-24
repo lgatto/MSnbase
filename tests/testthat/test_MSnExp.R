@@ -333,3 +333,18 @@ test_that("isolation window", {
     expect_identical(i1, i2)
     expect_identical(i1, i3)
 })
+
+test_that("spectrapply,MSnExp", {
+    library(msdata)
+    mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
+             system.file("microtofq/MM8.mzML", package = "msdata"))
+    inMem <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE)
+
+    sps <- spectra(inMem)
+    sps_2 <- spectrapply(inMem)
+    expect_identical(sps, sps_2)
+    ## apply a function.
+    dfs <- spectrapply(inMem, FUN = as, Class = "data.frame")
+    dfs_2 <- lapply(sps, FUN = as, Class = "data.frame")
+    expect_identical(dfs, dfs_2)
+})

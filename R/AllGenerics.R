@@ -144,3 +144,4 @@ setGeneric("filterAcquisitionNum", function (object, ...) standardGeneric("filte
 ## isolationWindow generic is in mzR
 
 setGeneric("bpi", function(object, ...) standardGeneric("bpi"))
+setGeneric("spectrapply", function(object, ...) standardGeneric("spectrapply"))

@@ -149,43 +149,43 @@ validateOnDiskMSnExp <- function(object, mzTolerance=1e-6) {
     if (emptyMz > 0)
         warning("Header value lowMZ and highMZ is 0 for ",
                 emptyMz, " spectra.")
-    
+
     ## Check that msLevel of spectra matches msLevel of featureData.
     if (any(fData(object)$msLevel != sapply(spectra(object), msLevel)))
         stop("msLevel in featureData does not match msLevel from the spectra!")
     return(TRUE)
 }
 
-############################################################
-## spectrapply
-##
-## That's the main method to apply functions to the object's spectra, or
-## to just return a list with the spectra, if FUN is empty.
-## Parallel processing by file can be enabled using BPPARAM.
-spectrapply <- function(object, FUN = NULL,
-                        BPPARAM = bpparam(), ...) {
-    if (!is(object, "OnDiskMSnExp"))
-        stop("'object' is expected to be an 'OnDiskMSnExp' object!")
-    ## Check if we would do better with serial processing:
-    BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
-    isOK <- validateFeatureDataForOnDiskMSnExp(fData(object))
-    if (!is.null(isOK))
-        stop(isOK)
-    fDataPerFile <- base::split(fData(object),
-                                f = fData(object)$fileIdx)
-    fNames <- fileNames(object)
-    theQ <- processingQueue(object)
-    vals <- bplapply(fDataPerFile,
-                     FUN = .applyFun2SpectraOfFileMulti,
-                     filenames = fNames,
-                     queue = theQ,
-                     APPLYFUN = FUN,
-                     BPPARAM = BPPARAM,
-                     ...)
-    names(vals) <- NULL
-    vals <- unlist(vals, recursive = FALSE)
-    return(vals[rownames(fData(object))])
-}
+## ############################################################
+## ## spectrapply
+## ##
+## ## That's the main method to apply functions to the object's spectra, or
+## ## to just return a list with the spectra, if FUN is empty.
+## ## Parallel processing by file can be enabled using BPPARAM.
+## spectrapply <- function(object, FUN = NULL,
+##                         BPPARAM = bpparam(), ...) {
+##     if (!is(object, "OnDiskMSnExp"))
+##         stop("'object' is expected to be an 'OnDiskMSnExp' object!")
+##     ## Check if we would do better with serial processing:
+##     BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
+##     isOK <- validateFeatureDataForOnDiskMSnExp(fData(object))
+##     if (!is.null(isOK))
+##         stop(isOK)
+##     fDataPerFile <- base::split(fData(object),
+##                                 f = fData(object)$fileIdx)
+##     fNames <- fileNames(object)
+##     theQ <- processingQueue(object)
+##     vals <- bplapply(fDataPerFile,
+##                      FUN = .applyFun2SpectraOfFileMulti,
+##                      filenames = fNames,
+##                      queue = theQ,
+##                      APPLYFUN = FUN,
+##                      BPPARAM = BPPARAM,
+##                      ...)
+##     names(vals) <- NULL
+##     vals <- unlist(vals, recursive = FALSE)
+##     return(vals[rownames(fData(object))])
+## }
 
 ############################################################
 ## precursorValue_OnDiskMSnExp
@@ -233,7 +233,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         stop("Both 'fData' and 'filenames' are required!")
     filename <- filenames[fData[1, "fileIdx"]]
     ## Open the file.
-    fileh <- mzR::openMSfile(filename)
+    fileh <- mzR::openMSfile(filename, backend = getBackend())
     ## hd <- header(fileh)
     on.exit(expr = mzR::close(fileh))
     ## Intermediate #151 fix. Performance-wise would be nice to get rid of this.
@@ -365,7 +365,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         stop("Both 'fData' and 'filenames' are required!")
     filename <- filenames[fData[1, "fileIdx"]]
     ## Open the file.
-    fileh <- mzR::openMSfile(filename)
+    fileh <- mzR::openMSfile(filename, backend = getBackend())
     hd <- header(fileh)
     on.exit(expr = mzR::close(fileh))
     msLevel1 <- which(fData$msLevel == 1)

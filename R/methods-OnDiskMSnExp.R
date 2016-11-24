@@ -863,3 +863,31 @@ setMethod("removeReporters", "OnDiskMSnExp",
                   return(object)
               }
           })
+
+############################################################
+## spectrapply
+##
+## That's the main method to apply functions to the object's spectra, or
+## to just return a list with the spectra, if FUN is empty.
+## Parallel processing by file can be enabled using BPPARAM.
+setMethod("spectrapply", "OnDiskMSnExp", function(object, FUN = NULL,
+                                                  BPPARAM = bpparam(), ...) {
+    BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
+    isOK <- validateFeatureDataForOnDiskMSnExp(fData(object))
+    if (!is.null(isOK))
+        stop(isOK)
+    fDataPerFile <- base::split(fData(object),
+                                f = fData(object)$fileIdx)
+    fNames <- fileNames(object)
+    theQ <- processingQueue(object)
+    vals <- bplapply(fDataPerFile,
+                     FUN = .applyFun2SpectraOfFileMulti,
+                     filenames = fNames,
+                     queue = theQ,
+                     APPLYFUN = FUN,
+                     BPPARAM = BPPARAM,
+                     ...)
+    names(vals) <- NULL
+    vals <- unlist(vals, recursive = FALSE)
+    return(vals[rownames(fData(object))])
+})
