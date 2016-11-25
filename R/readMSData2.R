@@ -11,6 +11,11 @@ readMSData2 <- function(files,
     fullhd2 <- fullhdorder <- c()
     fullhdordercounter <- 1
     .instrumentInfo <- list()
+    ## List eventual limitations
+    if (isCdfFile(files)) {
+        message("Polarity can not be extracted from netCDF files, please set ",
+                "manually the polarity with the 'polarity' method.")
+    }
     ## Idea:
     ## o initialize a featureData-data.frame,
     featureDataList <- list()
@@ -19,7 +24,10 @@ readMSData2 <- function(files,
         filen <- match(f, files)
         filenums <- c(filenums, filen)
         filenams <- c(filenams, f)
-        msdata <- mzR::openMSfile(f, backend = getBackend())
+        if (isCdfFile(f))
+            msdata <- mzR::openMSfile(f, backend = "netCDF")
+        else
+            msdata <- mzR::openMSfile(f, backend = getBackend())
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
         spidx <- seq_len(nrow(fullhd))
@@ -46,9 +54,16 @@ readMSData2 <- function(files,
                         centroided = rep(as.logical(NA), nrow(fdData)),
                         smoothed = rep(as.logical(smoothed.), nrow(fdData)),
                         fdData, stringsAsFactors = FALSE)
-        injt <- injectionTimeFromFile1(f)
-        if (is.numeric(injt) && length(injt) == nrow(fdData))
-            fdData$injectionTime <- injt
+        if (!isCdfFile(f)) {
+            injt <- injectionTimeFromFile1(f)
+            if (is.numeric(injt) && length(injt) == nrow(fdData))
+                fdData$injectionTime <- injt
+        } else {
+            ## Add the polarity columns if missing in netCDF
+            if (!any(colnames(fdData) == "polarity"))
+                fdData <- cbind(fdData, polarity = rep(as.integer(NA),
+                                                       nrow(fdData)))
+        }
         ## Order the fdData by acquisitionNum to force use of acquisitionNum
         ## as unique ID for the spectrum (issue #103). That way we can use
         ## the spIdx (is the index of the spectrum within the file) for
@@ -113,7 +128,7 @@ readMSData2 <- function(files,
                    instrumentManufacturer = .instrumentInfo[[1]]$manufacturer,
                    instrumentModel = .instrumentInfo[[1]]$model,
                    ionSource = .instrumentInfo[[1]]$ionisation,
-                   analyser = .instrumentInfo[[1]]$analyzer,
+                   analyser = as.character(.instrumentInfo[[1]]$analyzer),
                    detectorType = .instrumentInfo[[1]]$detector)
     ## Create ProcessingStep if needed.
     ## Create the OnDiskMSnExp object.
@@ -138,4 +153,18 @@ readMSData2 <- function(files,
         }
     }
     return(res)
+}
+
+############################################################
+## isCdfFile
+##
+## Just guessing whether the file is a CDF file based on its ending.
+isCdfFile <- function(x) {
+    fileEnds <- c("cdf", "nc")
+    ## check for endings and and ending followed by a . (e.g. cdf.gz)
+    patts <- paste0("\\.", fileEnds, "($|\\.)")
+    res <- sapply(patts, function(z) {
+        grep(z, x, ignore.case = TRUE)
+    })
+    return(any(unlist(res)))
 }

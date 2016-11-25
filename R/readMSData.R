@@ -16,6 +16,11 @@ readMSData <- function(files,
     fullhd2 <- fullhdorder <- c()
     fullhdordercounter <- 1
     .instrumentInfo <- list()
+    ## List eventual limitations
+    if (isCdfFile(files)) {
+        message("Polarity can not be extracted from netCDF files, please set ",
+                "manually the polarity with the 'polarity' method.")
+    }
     ## ## Idea:
     ## ## o initialize a featureData-data.frame,
     ## ## o for each file, extract header info and put that into
@@ -24,7 +29,10 @@ readMSData <- function(files,
         filen <- match(f, files)
         filenums <- c(filenums, filen)
         filenams <- c(filenams, f)
-        msdata <- mzR::openMSfile(f, backend = getBackend())
+        if (isCdfFile(f))
+            msdata <- mzR::openMSfile(f, backend = "netCDF")
+        else
+            msdata <- mzR::openMSfile(f, backend = getBackend())
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
         spidx <- which(fullhd$msLevel == msLevel.)
@@ -45,6 +53,10 @@ readMSData <- function(files,
                 if (verbose) setTxtProgressBar(pb, i)
                 j <- spidx[i]
                 hd <- fullhd[j, ]
+                ## Fix missing polarity from netCDF
+                pol <- hd$polarity
+                if (length(pol) == 0)
+                    pol <- NA
                 .p <- mzR::peaks(msdata, j)
                 sp <- new("Spectrum1",
                           rt = hd$retentionTime,
@@ -56,7 +68,7 @@ readMSData <- function(files,
                           fromFile = as.integer(filen),
                           centroided = as.logical(centroided.),
                           smoothed = as.logical(smoothed.),
-                          polarity = as.integer(hd$polarity))
+                          polarity = as.integer(pol))
                 ## peaksCount
                 ioncount[ioncounter] <- sum(.p[, 2])
                 ioncounter <- ioncounter + 1
@@ -184,7 +196,7 @@ readMSData <- function(files,
                    instrumentManufacturer = .instrumentInfo[[1]]$manufacturer,
                    instrumentModel = .instrumentInfo[[1]]$model,
                    ionSource = .instrumentInfo[[1]]$ionisation,
-                   analyser = .instrumentInfo[[1]]$analyzer,
+                   analyser = as.character(.instrumentInfo[[1]]$analyzer),
                    detectorType = .instrumentInfo[[1]]$detector)
     ## Create and return 'MSnExp' object
     if (verbose)
