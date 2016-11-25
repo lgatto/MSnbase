@@ -38,6 +38,8 @@
 \alias{rmFeaturesOfInterest-methods}
 \alias{rmFeaturesOfInterest,FoICollection,numeric-method}
 \alias{show,FoICollection-method}
+\alias{names,FoICollection-method}
+\alias{names<-,FoICollection-method}
 
 \title{Features of Interest}
 
