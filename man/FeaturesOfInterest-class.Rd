@@ -242,9 +242,9 @@ names(xx) <- LETTERS[1:2]
 xx
 
 ## Sub-setting
-x[1]
-x[[1]]
-x[["A"]]
+xx[1]
+xx[[1]]
+xx[["A"]]
 
 description(xx)
 foi(xx)
