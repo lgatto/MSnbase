@@ -193,3 +193,10 @@ setReplaceMethod("names",
                      names(x@foic) <- value
                      x
                  })
+setMethod("[[", "FoICollection",
+          function(x, i, j = "missing", drop = "missing")
+              x@foic[[i]])
+
+setMethod("[", "FoICollection",
+          function(x, i, j = "missing", drop = "missing")
+              FoICollection(x@foic[i]))
