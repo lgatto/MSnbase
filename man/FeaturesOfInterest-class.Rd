@@ -38,6 +38,13 @@
 \alias{rmFeaturesOfInterest-methods}
 \alias{rmFeaturesOfInterest,FoICollection,numeric-method}
 \alias{show,FoICollection-method}
+\alias{names,FoICollection-method}
+\alias{names<-,FoICollection,character-method}
+\alias{[,FoICollection-method}
+\alias{[,FoICollection,ANY,ANY-method}
+\alias{[,FoICollection,ANY,ANY,ANY-method}
+\alias{[[,FoICollection-method}
+\alias{[[,FoICollection,ANY,ANY-method}
 
 \title{Features of Interest}
 
@@ -149,7 +156,13 @@
 	(default), return a logical indicating whether there is at least
 	one feautre of interest present in \code{x}? Otherwise, returns
 	the number of such features. Works also with matrices and
-	data.frames. } 
+	data.frames. }
+
+    \item{[}{Subsetting works like lists. Returns a new
+      \code{FoICollection}.}
+    
+    \item{[[}{Subsetting works like lists. Returns a new
+      \code{FeatureOfInterest}.}         
     
   }
 
@@ -225,7 +238,13 @@ xx
 
 xx <- addFeaturesOfInterest(x, xx)
 xx <- addFeaturesOfInterest(y, xx)
+names(xx) <- LETTERS[1:2]
 xx
+
+## Sub-setting
+xx[1]
+xx[[1]]
+xx[["A"]]
 
 description(xx)
 foi(xx)

@@ -184,3 +184,19 @@ setAs("FoICollection", "matrix",
               res[foi(k), description(k)] <- 1
           return(res)
       })
+
+setMethod("names", "FoICollection", function(x) names(x@foic))
+
+setReplaceMethod("names",
+                 c("FoICollection", "character"),
+                 function(x, value) {
+                     names(x@foic) <- value
+                     x
+                 })
+setMethod("[[", "FoICollection",
+          function(x, i, j = "missing", drop = "missing")
+              x@foic[[i]])
+
+setMethod("[", "FoICollection",
+          function(x, i, j = "missing", drop = "missing")
+              FoICollection(x@foic[i]))
