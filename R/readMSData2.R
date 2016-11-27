@@ -19,7 +19,7 @@ readMSData2 <- function(files,
         filen <- match(f, files)
         filenums <- c(filenums, filen)
         filenams <- c(filenams, f)
-        msdata <- mzR::openMSfile(f, backend = getBackend())
+        msdata <- mzR::openMSfile(f)
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
         spidx <- seq_len(nrow(fullhd))
