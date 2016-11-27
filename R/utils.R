@@ -947,13 +947,6 @@ getBpParam <- function(object, BPPARAM=bpparam()) {
     return(BPPARAM)
 }
 
-getBackend <- function() {
-    res <- options()$MSnbase$backend
-    if (length(res) == 0)
-        res <- "Ramp"
-    return(res)
-}
-
 countAndPrint <- function(x) {
     if (length(x) == 0)
         return("")
