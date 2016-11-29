@@ -32,7 +32,7 @@ readMSData <- function(files,
         if (isCdfFile(f))
             msdata <- mzR::openMSfile(f, backend = "netCDF")
         else
-            msdata <- mzR::openMSfile(f, backend = getBackend())
+            msdata <- mzR::openMSfile(f)
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
         spidx <- which(fullhd$msLevel == msLevel.)

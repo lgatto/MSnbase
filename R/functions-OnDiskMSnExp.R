@@ -236,7 +236,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     if (isCdfFile(filename))
         fileh <- mzR::openMSfile(filename, backend = "netCDF")
     else
-        fileh <- mzR::openMSfile(filename, backend = getBackend())
+        fileh <- mzR::openMSfile(filename)
     ## hd <- header(fileh)
     on.exit(expr = mzR::close(fileh))
     ## Intermediate #151 fix. Performance-wise would be nice to get rid of this.
@@ -372,7 +372,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         stop("Both 'fData' and 'filenames' are required!")
     filename <- filenames[fData[1, "fileIdx"]]
     ## Open the file.
-    fileh <- mzR::openMSfile(filename, backend = getBackend())
+    fileh <- mzR::openMSfile(filename)
     hd <- header(fileh)
     on.exit(expr = mzR::close(fileh))
     msLevel1 <- which(fData$msLevel == 1)
