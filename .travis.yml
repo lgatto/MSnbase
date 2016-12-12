@@ -12,6 +12,16 @@ apt_packages:
 
 r_packages:
   - covr
+  - Rcpp
+  - progress
+  - DBI
+  - ggplot2
+  - RSQLite
+  - XML
+
+bioc_packages:
+  - AnnotationDbi
+  - annotate
   
 after_success:
   - Rscript -e 'covr::codecov()'
