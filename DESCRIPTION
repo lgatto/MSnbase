@@ -58,7 +58,7 @@ Imports:
     impute,
     pcaMethods,
     mzID (>= 1.5.2),
-    MALDIquant (>= 1.12),
+    MALDIquant (>= 1.16),
     digest,
     lattice,
     ggplot2,

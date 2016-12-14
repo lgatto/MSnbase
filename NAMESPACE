@@ -34,7 +34,7 @@ importFrom(ggplot2, geom_histogram, geom_text, geom_line, geom_point,
 
 import(reshape2) ## try to reduce this
 
-importFrom(MALDIquant, binPeaks) ## only using ::: functions
+importFrom(MALDIquant, binPeaks, match.closest) ## only using ::: functions
 importFrom(S4Vectors, isEmpty, metadata)
 
 ## importFrom(rols, olsQuery, term)
