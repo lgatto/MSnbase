@@ -66,3 +66,11 @@ test_that("Constructor performance and test for MSn", {
     ) ## 1.6 sec.
     ## expect_equal(spR, spM)
 })
+
+test_that("readMSData and readMSData2 reading CDF", {
+    library(msdata)
+    f <- system.file("cdf/ko15.CDF",  package = "msdata")
+    odmse <- readMSData2(f)
+    mse <- readMSData(f, msLevel. = 1)
+    all.equal(spectra(odmse), spectra(mse))
+})
