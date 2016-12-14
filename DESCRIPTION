@@ -29,10 +29,10 @@ Authors@R: c(person(given = "Laurent", family = "Gatto",
 		    role = "ctb"),
              person(given = "Johannes", family ="Rainer",
 	            email = "Johannes.Rainer@eurac.edu",
-		    role = "ctb"),
+		    role = c(aut", "cre"),
              person(given = "Gibb", family ="Sebastian",
 	            email = "mail@sebastiangibb.de",
-		    role = "ctb"))
+		    role = c("aut", "cre"))
 Author: Laurent Gatto <lg390@cam.ac.uk> with contributions from
 	Guangchuang Yu, Samuel Wieczorek, Vasile-Cosmin Lazar,
 	Vladislav Petyuk, Thomas Naake, Richie Cotton, Martina Fisher,
