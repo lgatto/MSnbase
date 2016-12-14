@@ -18,11 +18,15 @@ r_packages:
   - ggplot2
   - RSQLite
   - XML
-
+  - MALDIquant
+  
 bioc_packages:
   - AnnotationDbi
   - annotate
-  
+  - mzR
+  - BiocParallel
+  - mzID
+
 after_success:
   - Rscript -e 'covr::codecov()'
 
