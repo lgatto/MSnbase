@@ -8,6 +8,7 @@ before_install:
 
 apt_packages:
   - libnetcdf-dev
+  - netcdf-bin
   - texlive-full  
 
 r_packages:
