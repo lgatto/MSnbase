@@ -6,7 +6,7 @@
 \alias{prevMS}
 \title{Navigate an \code{MSnExp} object}
 \usage{
-navMS(i, object, msLevel, nav = c("nextMS", "prevMS"))
+navMS(i, object, msLevel, nav = c("nextMS", "prevMS"), ...)
 
 nextMS(...)
 
@@ -23,6 +23,8 @@ used.}
 
 \item{nav}{One of \code{"nextMS"} or \code{"prevMS"}, to obtain
 the next or previous spectrum of level \code{msLevel}.}
+
+\item{...}{Additional parameters. Currently ignored.}
 }
 \value{
 An object of class \code{Spectrum1} or \code{Spectrum2},
@@ -38,10 +40,10 @@ f <- msdata::proteomics(full.names = TRUE)[1]
 x <- readMSData2(f, centroided = c(FALSE, TRUE, FALSE))
 sp <- "X009.1"
 x[[sp]] ## curent MS3
-nextMS(sp, x) ## next MS3
-prevMS(sp, x) ## prev MS3
-prevMS(sp, x, 2L) ## prev MS2
-prevMS(sp, x, 1L) ## prev MS1
+MSnbase:::nextMS(sp, x) ## next MS3
+MSnbase:::prevMS(sp, x) ## prev MS3
+MSnbase:::prevMS(sp, x, 2L) ## prev MS2
+MSnbase:::prevMS(sp, x, 1L) ## prev MS1
 }
 \author{
 Laurent Gatto
