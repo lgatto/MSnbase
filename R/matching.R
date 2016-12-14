@@ -13,28 +13,15 @@
 relaxedMatch <- function(x, table, nomatch=NA_integer_, tolerance=25e-6,
                          relative=TRUE) {
 
-  res <- rep(nomatch, length(x))
-
-  if (tolerance < 0L) {
-    warning(sQuote("tolerance"), " < 0 is meaningless. Set to zero.")
-    tolerance <- 0L
-  }
-
   if (relative) {
     if (tolerance > 1L) {
       stop(sQuote("tolerance"),
            " must be smaller than 1 for relative deviations.")
     }
     tolerance <- table*tolerance
-  } else {
-    tolerance <- rep_len(tolerance, length(table))
   }
 
-  potentialMatches <- MALDIquant:::.which.closest(x, table)
-  m <- which(abs(x-table[potentialMatches]) < tolerance[potentialMatches])
-
-  res[m] <- potentialMatches[m]
-  res
+  match.closest(x, table, tolerance=tolerance, nomatch=nomatch)
 }
 
 #' similar to base::match but with tolerance
