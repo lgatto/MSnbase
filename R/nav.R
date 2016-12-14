@@ -12,6 +12,7 @@
 ##'     used.
 ##' @param nav One of \code{"nextMS"} or \code{"prevMS"}, to obtain
 ##'     the next or previous spectrum of level \code{msLevel}.
+##' @param ... Additional parameters. Currently ignored.
 ##' @return An object of class \code{Spectrum1} or \code{Spectrum2},
 ##'     depending on the value of \code{msLevel} or \code{NULL}, of no
 ##'     spectrum is found.
@@ -21,14 +22,15 @@
 ##' x <- readMSData2(f, centroided = c(FALSE, TRUE, FALSE))
 ##' sp <- "X009.1"
 ##' x[[sp]] ## curent MS3
-##' nextMS(sp, x) ## next MS3
-##' prevMS(sp, x) ## prev MS3
-##' prevMS(sp, x, 2L) ## prev MS2
-##' prevMS(sp, x, 1L) ## prev MS1
+##' MSnbase:::nextMS(sp, x) ## next MS3
+##' MSnbase:::prevMS(sp, x) ## prev MS3
+##' MSnbase:::prevMS(sp, x, 2L) ## prev MS2
+##' MSnbase:::prevMS(sp, x, 1L) ## prev MS1
 navMS <- function(i,
                   object,
                   msLevel,
-                  nav = c("nextMS", "prevMS")) {
+                  nav = c("nextMS", "prevMS"),
+                  ...) {
     nav <- match.arg(nav)
     if (is.character(i))
         i <- which(featureNames(object) == i)
