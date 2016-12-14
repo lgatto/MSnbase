@@ -1,15 +1,19 @@
 language: r
 r: bioc-devel
 cache: packages
-sudo: true
+sudo: false       # use container based build system
+warnings_are_errors: true
 
 before_install:
   - tlmgr install bera nowidow parnotes marginfix etoolbox titlesec sectsty framed enumitem parskip soul placeins footmisc changepage xstring caption mathtools 
 
-apt_packages:
-  - libnetcdf-dev
-  - netcdf-bin
-  - texlive-full  
+addons:
+  apt:
+    packages:
+      - texlive-latex-extra
+      - texlive-fonts-extra
+      - libnetcdf-dev
+      - netcdf-bin # libnetcdf-dev doesn't contain nc-config in ubuntu 12.04 (in 16.04 it is part of libnetcdf-dev)
 
 r_packages:
   - covr
@@ -20,7 +24,7 @@ r_packages:
   - RSQLite
   - XML
   - MALDIquant
-  
+
 bioc_packages:
   - AnnotationDbi
   - annotate
