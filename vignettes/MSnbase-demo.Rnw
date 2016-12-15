@@ -54,6 +54,8 @@ suppressPackageStartupMessages(require("pRolocdata"))
 suppressPackageStartupMessages(require("pRoloc"))
 library("grid")
 library("reshape2")
+suppressPackageStartupMessages(library("BiocParallel"))
+register(SerialParam())
 @
 
 \newpage
