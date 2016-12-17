@@ -12,6 +12,7 @@ warnings_are_errors: true
 before_install:
   - tlmgr install bera nowidow parnotes marginfix etoolbox titlesec sectsty framed enumitem parskip soul placeins footmisc changepage xstring caption mathtools   
   - if [[ "$TRAVIS_R_VERSION_STRING" = 'bioc-devel' ]]; then mkdir ~/.R && echo 'CXX1X=g++ -std=c++0x -g -O2 -fPIC' > ~/.R/Makevars; fi
+  - echo 'BiocParallel::register(SerialParam())' > ~/.Rprofile.site
 
 addons:
   apt:

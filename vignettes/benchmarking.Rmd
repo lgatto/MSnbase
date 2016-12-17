@@ -18,7 +18,6 @@ BiocStyle::markdown()
 ```{r env, echo=FALSE, message=FALSE}
 suppressPackageStartupMessages(library("MSnbase"))
 suppressPackageStartupMessages(library("BiocParallel"))
-register(SerialParam())
 ```
 
 **Package**: `r Biocpkg("MSnbase")`<br />
