@@ -1,0 +1,381 @@
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{MSnbase IO capabilities}
+%\VignetteKeywords{Mass Spectrometry, Proteomics, Infrastructure }
+%\VignettePackage{MSnbase-io}
+
+\documentclass[12pt, oneside]{article}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,shadows,fit}
+
+%% pgf setup
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+% Define block styles
+\tikzstyle{input} = [rectangle, draw, fill=blue!20,
+text width=6em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{fun} = [rectangle, draw, fill=white, drop shadow,
+text width=7em, text centered, rounded corners, minimum height=2em]
+\tikzstyle{obj} = [rectangle, draw, fill=red!20,
+text width=5em, text centered, rounded corners, minimum height=5em]
+
+<<style, eval=TRUE, echo=FALSE, results="asis">>=
+BiocStyle::latex()
+@
+
+\author{
+  Laurent Gatto\footnote{\email{lg390@cam.ac.uk}}
+}
+
+\bioctitle[\Biocpkg{MSnbase} I/O]{  
+  \Biocpkg{MSnbase} input/output capabilities
+}
+
+\begin{document}
+
+\maketitle
+
+%% Abstract and keywords %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vskip 0.3in minus 0.1in
+\hrule
+\begin{abstract}
+  This vignette describes \Biocpkg{MSnbase}'s input and output 
+  capabilities.
+\end{abstract}
+\textit{Keywords}: Mass Spectrometry (MS), proteomics, infrastructure, IO.
+\vskip 0.1in minus 0.05in
+\hrule
+\vskip 0.2in minus 0.1in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% \tableofcontents
+
+\vspace{10mm}
+
+<<knitr, include=FALSE, cache=FALSE>>=
+library("knitr")
+suppressPackageStartupMessages(library("MSnbase"))
+suppressPackageStartupMessages(library("pRolocdata"))
+opts_chunk$set(fig.align = 'center', 
+               fig.show = 'hold', 
+               par = TRUE,
+               prompt = TRUE,
+               comment = NA)
+options(replace.assign = TRUE, 
+        width = 70)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{Foreword.tex}
+
+\input{Bugs.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Overview}
+
+\Biocpkg{MSnbase}'s aims are to facilitate the reproducible analysis of 
+mass spectrometry data within the \R environment, from raw data import and processing, 
+feature quantification, quantification and statistical analysis of the results \cite{Gatto2012}.
+Data import functions for several formats are provided and intermediate or final 
+results can also be saved or exported. 
+These capabilities are presented below.
+
+\section{Data input}
+
+\paragraph{Raw data} Data stored in one of the published \texttt{XML}-based 
+formats. i.e. \texttt{mzXML} \cite{Pedrioli2004}, \texttt{mzData} \cite{Orchard2007} 
+or \texttt{mzML} \cite{Martens2010}, 
+can be imported with the \Rfunction{readMSData} method, which makes use of 
+the \Biocpkg{mzR} package to create \Robject{MSnExp} objects. 
+The files can be in profile or centroided mode. 
+See \Rfunction{?readMSData} for details. 
+ 
+\paragraph{Peak lists} Peak lists in the \texttt{mgf} 
+format\footnote{\url{http://www.matrixscience.com/help/data\_file\_help.html\#GEN}} 
+can be imported using the \Rfunction{readMgfData}. 
+In this case, the peak data has generally been pre-processed by other software.
+See \Rfunction{?readMgfData} for details.
+
+\paragraph{Quantitation data} Third party software can be used to generate 
+quantitative data and exported as a spreadsheet (generally comma or tab separated format). 
+This data as well as any additional meta-data can be imported with the 
+\Rfunction{readMSnSet} function. See \Rfunction{?readMSnSet} for details.
+
+\Biocpkg{MSnbase} also supports the \texttt{mzTab} 
+format\footnote{\url{https://github.com/HUPO-PSI/mzTab}}, a light-weight, tab-delimited 
+file format for proteomics data developed within the Proteomics Standards Initiative (PSI).
+\texttt{mzTab} files can be read into \R with \Rfunction{readMzTabData} to create and \Robject{MSnSet} instance. 
+
+\begin{figure}[!htb] %% input
+  \begin{center}
+    \begin{tikzpicture}[node distance = 2cm, auto]
+      % Place nodes
+      \node [input] (raw) {Raw data in an open \texttt{XML} format};
+      \node [fun, left of=raw, node distance=4cm] (readMSData) {\Rfunction{readMSData}};
+      \node [input, below of=raw] (mgf) {Peak list in \texttt{mgf} format};
+      \node [fun, left of=mgf, node distance=4cm] (readMgfData) {\Rfunction{readMgfData}};
+      \node [input, below of=mgf] (spreadsheet) {Quantitation data as a spreadsheet};
+      \node [input, below of=spreadsheet] (mztab) {\texttt{mzTab} format};
+      \node [fun, left of=spreadsheet, node distance=4cm] (readMSnSet) {\Rfunction{readMSnSet}};
+      \node [fun, left of=mztab, node distance=4cm] (readMzTabData) {\Rfunction{readMzTabData}};
+      \node [obj, left of=readMSData, yshift=-2.5mm, node distance=4cm] (MSnExp) {\Robject{MSnExp}};
+      \node [obj, left of=readMSnSet, node distance=4cm] (MSnSet) {\Robject{MSnSet}};
+      \node [fun, below of=MSnExp] (quantify) {\Rfunction{quantify}};
+      % Background
+      \begin{pgfonlayer}{background}
+        \node [fill=yellow!20,rounded corners, draw=black!50, dashed, fit=(MSnExp) (quantify) (MSnSet)] {};
+      \end{pgfonlayer}
+      % Draw edges
+      \draw  (raw) -- (readMSData);
+      \draw  (mgf) -- (readMgfData);
+      \draw  (spreadsheet) -- (readMSnSet);
+      \draw [->] (readMSData) -- (MSnExp);
+      \draw [->] (readMgfData) -- (MSnExp);
+      \draw [->] (readMSnSet) -- (MSnSet);
+      \draw  (MSnExp) -- (quantify);
+      \draw [->] (quantify) -- (MSnSet);
+      \draw (mztab) -- (readMzTabData);
+      \draw [->] (readMzTabData) -- (MSnSet);
+    \end{tikzpicture}
+    \caption{Illustration of \texttt{MSnbase} input capabilities. 
+      The white and red boxes represent \R functions/methods and objects respectively. 
+      The blue boxes represent different disk storage formats.}
+    \label{fig:input}
+  \end{center}
+\end{figure}
+
+\section{Data output}
+
+\paragraph{RData files} \R objects can most easily be stored on disk with the \Rfunction{save} function.
+It creates compressed binary images of the data representation that can later be read back from the file 
+with the \Rfunction{load} function. 
+
+\paragraph{Peak lists} \Robject{MSnExp} instances as well as individual spectra can be written 
+as \texttt{mgf} files with the \Rfunction{writeMgfData} method. Note that the meta-data in the original 
+\R object can not be included in the file. See \Rfunction{?writeMgfData} for details. 
+
+\paragraph{Quantitation data} Quantitation data can be exported to spreadsheet files with 
+the \Rfunction{write.exprs} method. Feature meta-data can be appended to the feature 
+intensity values. See \Rfunction{?writeMgfData} for details. 
+
+\Robject{MSnSet} instances can also be exported to \texttt{mzTab} files using the 
+\Rfunction{writeMzTabData} function.
+
+\begin{figure}[!htb] %% out
+  \begin{center}
+    \begin{tikzpicture}[node distance = 2cm, auto]
+      % Place nodes
+      \node [input] (raw) {Raw data in an open \texttt{XML} format};
+      \node [input, below of=raw] (mgf) {Peak list in \texttt{mgf} format};
+      \node [fun, right of=mgf, node distance=4cm, yshift=1cm] (writeMgfData) {\Rfunction{writeMgfData}};
+      \node [input, below of=mgf] (spreadsheet) {Quantitation data as a spreadsheet};
+      \node [input, below of=spreadsheet] (mztab) {\texttt{mzTab} format};
+      \node [fun, right of=spreadsheet, node distance=4cm] (writeexprs) {\Rfunction{write.exprs}};
+      \node [fun, right of=mztab, node distance=4cm] (writeMzTabData) {\Rfunction{writeMzTabData}};
+      \node [obj, right of=writeMgfData, yshift=1.25cm, node distance=4cm] (MSnExp) {\Robject{MSnExp}};
+      \node [obj, right of=writeexprs, node distance=4cm] (MSnSet) {\Robject{MSnSet}};
+      \node [fun, below of=MSnExp] (quantify) {\Rfunction{quantify}};
+      % Background
+      \begin{pgfonlayer}{background}
+        \node [fill=yellow!20,rounded corners, draw=black!50, dashed, fit=(MSnExp) (quantify) (MSnSet)] {};
+      \end{pgfonlayer}
+      % Draw edges
+      \draw  (MSnExp) -- (writeMgfData);
+      \draw [->] (writeMgfData) -- (mgf);
+      \draw (MSnSet) -- (writeexprs);
+      \draw [->] (writeexprs) -- (spreadsheet);
+      \draw  (MSnExp) -- (quantify);
+      \draw [->] (quantify) -- (MSnSet);
+      \draw (MSnSet) -- (writeMzTabData);
+      \draw [->] (writeMzTabData) -- (mztab);
+    \end{tikzpicture}
+    \caption{Illustration of \texttt{MSnbase} output capabilities.
+      The white and red boxes represent \R functions/methods and objects respectively. 
+      The blue boxes represent different disk storage formats.}
+    \label{fig:output}
+  \end{center}
+\end{figure}
+
+\clearpage
+
+\section{Creating \Robject{MSnSet} from text spread sheets}
+
+This section describes the generation of \Robject{MSnSet} objects using 
+data available in a text-based spreadsheet. This entry point into \R and 
+\Biocpkg{MSnbase} allows to import data processed by any of the 
+third party mass-spectrometry processing software available and proceed 
+with data exploration, normalisation and statistical analysis using 
+functions available in \R and the numerous Bioconductor packages.
+
+\subsection{A complete work flow}
+
+The following section describes a work flow that uses three input files to 
+create the \Robject{MSnSet}. These files respectively describe the quantitative 
+expression data, the sample meta-data and the feature meta-data. 
+It is taken from the \Biocpkg{pRoloc} tutorial and uses example files from 
+the \Biocpkg{pRolocdata} package.
+
+\subsubsection{The original data file}\label{sec:orgcsv}
+
+We start by describing the  \texttt{csv} to be used as input using the \Rfunction{read.csv} function.
+
+
+<<readCsvData0, tidy = FALSE>>=
+## The original data for replicate 1, available
+## from the pRolocdata package
+f0 <- dir(system.file("extdata", package = "pRolocdata"), 
+          full.names = TRUE, 
+          pattern = "pr800866n_si_004-rep1.csv")
+csv <- read.csv(f0)
+@ 
+
+The three first lines of the original spreadsheet, containing the data for replicate one, are illustrated below (using the function \Rfunction{head}). It contains \Sexpr{nrow(csv)} rows (proteins) and \Sexpr{ncol(csv)} columns, including protein identifiers, database accession numbers, gene symbols, reporter ion quantitation values, information related to protein identification, \ldots
+
+<<showOrgCsv>>=
+head(csv, n=3)
+@ 
+
+Below read in turn the spread sheets that contain the quantitation data (\texttt{exprsFile.csv}),
+feature meta-data (\texttt{fdataFile.csv}) and sample meta-data (\texttt{pdataFile.csv}).
+
+<<readCsvData1, tidy = FALSE>>=
+## The quantitation data, from the original data
+f1 <- dir(system.file("extdata", package = "pRolocdata"), 
+          full.names = TRUE, pattern = "exprsFile.csv")
+exprsCsv <- read.csv(f1)
+## Feature meta-data, from the original data
+f2 <- dir(system.file("extdata", package = "pRolocdata"), 
+          full.names = TRUE, pattern = "fdataFile.csv")
+fdataCsv <- read.csv(f2)
+## Sample meta-data, a new file
+f3 <- dir(system.file("extdata", package = "pRolocdata"), 
+          full.names = TRUE, pattern = "pdataFile.csv")
+pdataCsv <- read.csv(f3)
+@ 
+
+\begin{description}
+
+\item[\texttt{exprsFile.csv}] containing the quantitation (expression)
+  data for the \Sexpr{nrow(exprsCsv)} proteins and 4 reporter tags.
+<<showExprsFile>>=
+head(exprsCsv, n=3)
+@
+
+\item[\texttt{fdataFile.csv}] containing meta-data for the
+  \Sexpr{nrow(fdataCsv)} features (here proteins).
+
+<<showFdFile>>=
+head(fdataCsv, n=3)
+@
+
+\item[\texttt{pdataFile.csv}] containing samples (here fractions)
+  meta-data. This simple file has been created manually.
+<<showPdFile>>=
+pdataCsv
+@
+\end{description}
+
+The self-contained \Robject{MSnSet} can now easily be generated using
+the \Rfunction{readMSnSet} constructor, providing the respective
+\texttt{csv} file names shown above and specifying that the data is
+comma-separated (with \Robject{sep = ","}). Below, we call that object
+\Robject{res} and display its content.
+
+<<makeMSnSet, tidy = FALSE>>=
+library("MSnbase")
+res <- readMSnSet(exprsFile = f1,
+                  featureDataFile = f2,
+                  phenoDataFile = f3,
+                  sep = ",")
+res
+@ 
+
+\subsubsection{The \Robject{MSnSet} class}
+
+Although there are additional specific sub-containers for additional meta-data 
+(for instance to make the object MIAPE compliant), the feature 
+(the sub-container, or slot \Robject{featureData}) and sample (the \Robject{phenoData} slot) 
+are the most important ones. They need to meet the following validity requirements 
+(see figure \ref{fig:msnset}): 
+
+\begin{itemize}
+\item the number of row in the expression/quantitation data and feature data must 
+  be equal and the row names must match exactly, and  
+\item the number of columns in the expression/quantitation data and number of row 
+  in the sample meta-data must be equal and the column/row names must match exactly. 
+\end{itemize}
+
+A detailed description of the \Robject{MSnSet} class is available by typing \Rfunction{?MSnSet} in the \R console. 
+
+\begin{figure}[!hbt]
+\centering
+    \includegraphics[width=0.5\textwidth]{msnset.png}
+\caption{Dimension requirements for the respective expression, feature and sample meta-data slots. }
+\label{fig:msnset}
+\end{figure}
+
+
+The individual parts of this data object can be accessed with their respective accessor methods: 
+
+\begin{itemize}
+\item the quantitation data can be retrieved with \Rfunction{exprs(res)}, 
+\item the feature meta-data with \Rfunction{fData(res)} and 
+\item the sample meta-data with \Rfunction{pData(res)}. 
+\end{itemize}
+
+\subsection{A shorter work flow}
+
+The \Rfunction{readMSnSet2} function provides a simplified import workforce. 
+It takes a single spreadsheet as input (default is \texttt{csv}) and extract the 
+columns identified by \Robject{ecol} to create the expression data, while the 
+others are used as feature meta-data. \Robject{ecol} can be a \Robject{character} with 
+the respective column labels or a numeric with their indices. In the former case, 
+it is important to make sure that the names match exactly. Special characters like 
+\texttt{'-'} or \texttt{'('} will be transformed by \R into \texttt{'.'} when the 
+\texttt{csv} file is read in.
+Optionally, one can also specify a column to be used as feature names. 
+Note that these must be unique to guarantee the final object validity.
+
+<<readMSnSet2>>=
+ecol <- paste("area", 114:117, sep = ".")
+fname <- "Protein.ID"
+eset <- readMSnSet2(f0, ecol, fname)
+eset
+@ 
+
+The \texttt{ecol} columns can also be queried interactively from \R
+using the \Rfunction{getEcols} and \Rfunction{grepEcols} function. The
+former return a character with all column names, given a splitting
+character, i.e. the separation value of the spreadsheet (typically
+\texttt{","} for \texttt{csv}, \texttt{"\t"} for \texttt{tsv},
+...). The latter can be used to grep a pattern of interest to obtain
+the relevant column indices.
+
+<<ecols>>=
+getEcols(f0, ",")
+grepEcols(f0, "area", ",")
+e <- grepEcols(f0, "area", ",")
+readMSnSet2(f0, e)
+@
+
+The \Robject{phenoData} slot can now be updated accordingly using the
+replacement functions \Rfunction{phenoData<-} or \Rfunction{pData<-}
+(see \Rfunction{?MSnSet} for details).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Session information}
+\label{sec:sessionInfo} 
+
+<<label=sessioninfo,results='asis',echo=FALSE,cache=FALSE>>=
+toLatex(sessionInfo())
+@
+
+\bibliography{MSnbase}
+
+\end{document}

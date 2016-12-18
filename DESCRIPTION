@@ -30,7 +30,7 @@ Authors@R: c(person(given = "Laurent", family = "Gatto",
              person(given = "Johannes", family ="Rainer",
 	            email = "Johannes.Rainer@eurac.edu",
 		    role = c("aut", "cre")),
-             person(given = "Gibb", family ="Sebastian",
+             person(given = "Sebastian", family = "Gibb",
 	            email = "mail@sebastiangibb.de",
 		    role = c("aut", "cre")))
 Author: Laurent Gatto <lg390@cam.ac.uk> with contributions from

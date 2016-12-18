@@ -1,0 +1,399 @@
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{MSnbase development}
+%\VignetteKeywords{Mass Spectrometry, Proteomics, Infrastructure }
+%\VignettePackage{MSnbase-development}
+
+\documentclass[12pt, oneside]{article}
+
+<<style, eval=TRUE, echo=FALSE, results="asis">>=
+BiocStyle::latex2()
+@
+
+
+\author{
+  Laurent Gatto and Johannes Rainer
+}
+
+\bioctitle[\Biocpkg{MSnbase} devel]{\Biocpkg{MSnbase} development }
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  This vignette describes the classes implemented in \Biocpkg{MSnbase}
+  package.  It is intended as a starting point for developers or users
+  who would like to learn more or further develop/extend mass
+  spectrometry and proteomics data structures.
+\end{abstract}
+
+
+<<'setup', include = FALSE, cache = FALSE>>=
+library("knitr")
+opts_chunk$set(fig.align = 'center',
+               fig.show = 'hold',
+               par = TRUE,
+               prompt = FALSE,
+               comment = NA)
+options(replace.assign = TRUE,
+        width = 65)
+@
+
+<<environment, cache=FALSE, echo=FALSE>>=
+suppressPackageStartupMessages(library(MSnbase))
+@
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\newpage
+
+\input{Foreword.tex}
+
+\input{Bugs.tex}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+This document is not a replacement for the individual manual pages, that
+document the slots of the \Biocpkg{MSnbase} classes. It is a centralised high-level
+description of the package design.
+
+\Biocpkg{MSnbase} aims at being compatible with the \Biocpkg{Biobase}
+infrastructure \cite{Gentleman2004}.  Many meta data structures that
+are used in \Rclass{eSet} and associated classes are also used
+here. As such, knowledge of the \textit{Biobase development and the
+  new eSet} vignette would be beneficial; the vignette can directly be
+accessed with
+\texttt{vignette("BiobaseDevelopment", package="Biobase")}.
+
+The initial goal is to use the \Biocpkg{MSnbase} infrastructure for
+MS$^2$ labelled (iTRAQ \cite{Ross2004} and TMT \cite{Thompson2003})
+and label-free (spectral counting, index and abundance ) quantitation
+- see the documentation for the \Rfunction{quantify} function for
+details.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\Biocpkg{MSnbase} classes}
+
+All classes have a \Rclass{.\_\_classVersion\_\_} slot, of class
+\Rclass{Versioned} from the \Biocpkg{Biobase} package. This slot
+documents the class version for any instance to be used for debugging
+and object update purposes. Any change in a class implementation
+should trigger a version change.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\Rclass{pSet}: a virtual class for raw mass spectrometry data and meta data}
+\label{sec:pset}
+
+This virtual class is the main container for mass spectrometry data,
+i.e spectra, and meta data. It is based on the \Rclass{eSet}
+implementation for genomic data. The main difference with
+\Rclass{eSet} is that the \Robject{assayData} slot is an environment
+containing any number of \Rclass{Spectrum} instances (see section
+\ref{sec:spectrum}).
+
+One new slot is introduced, namely \Robject{processingData}, that
+contains one \Rclass{MSnProcess} instance (see section
+\ref{sec:msnprocess}).  and the \Robject{experimentData} slot is now
+expected to contain \Rclass{MIAPE} data (see section \ref{sec:miape}).
+The \Robject{annotation} slot has not been implemented, as no prior
+feature annotation is known in shotgun proteomics.
+
+<<pSet>>=
+getClass("pSet")
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\Rclass{MSnExp}: a class for MS experiments}
+\label{sec:msnexp}
+
+\Rclass{MSnExp} extends \Rclass{pSet} to store MS experiments.
+It does not add any new slots
+to \Rclass{pSet}. Accessors and setters are all inherited from
+\Rclass{pSet} and new ones should be implemented for \Rclass{pSet}.
+Methods that manipulate actual data in experiments are implemented
+for \Rclass{MSnExp} objects.
+
+<<MSnExp>>=
+getClass("MSnExp")
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\Rclass{OnDiskMSnExp}: a on-disk implementation of the \Rclass{MSnExp} class}
+\label{sec:ondiskmsnexp}
+
+The \Rclass{OnDiskMSnExp} class extends \Rclass{MSnExp} and inherits
+all of its functionality but is aimed to use as little memory as
+possible based on a balance between memory demand and
+performance. Most of the spectrum-specific data, like retention time,
+polarity, total ion current are stored within the object's
+\Robject{featureData} slot. The actual M/Z and intensity values from
+the individual spectra are, in contrast to \Rclass{MSnExp} objects,
+not kept in memory (in the \Robject{assayData} slot), but are fetched
+from the original files on-demand. Because mzML files are indexed,
+using the \Biocpkg{mzR} package to read the relevant spectrum data is
+fast and only moderately slower than for in-memory
+\Rclass{MSnExp}\footnote{The \textit{benchmarking} vignette compares
+  data size and operation speed of the two implementations.}.
+
+To keep track of data manipulation steps that are applied to spectrum
+data (such as performed by methods \Rfunction{removePeaks} or
+\Rfunction{clean}) a \textit{lazy execution} framework was
+implemented. Methods that manipulate or subset a spectrum's M/Z or
+intensity values can not be applied directly to a
+\Rclass{OnDiskMSnExp} object, since the relevant data is not kept in
+memory. Thus, any call to a processing method that changes or subset
+M/Z or intensity values are added as \Rclass{ProcessingStep} items to
+the object's \Robject{spectraProcessingQueue}. When the spectrum data
+is then queried from an \Rclass{OnDiskMSnExp}, the spectra are read in
+from the file and all these processing steps are applied on-the-fly to
+the spectrum data before being returned to the user.
+
+% This has obviously a negative impact on the performance (e.g. for
+% repeated function calls), would however also allow to remove certain
+% processing steps at a later stage.
+
+The operations involving extracting or manipulating spectrum data are
+applied on a per-file basis, which enables parallel processing. Thus,
+all corresponding method implementations for \Rclass{OnDiskMSnExp}
+objects have an argument \Robject{BPPARAM} and users can set a
+\Rcode{PARALLEL\_THRESH} option flag \footnote{see
+  \Rfunction{?MSnbaseOptions} for details.} that enables to define how
+and when parallel processing should be performed (using the
+\Biocpkg{BiocParallel} package).
+
+Note that all data manipulations that are not applied to M/Z or
+intensity values of a spectrum (e.g. sub-setting by retention time
+etc) are very fast as they operate directly to the object's
+\Rclass{featureData} slot.
+
+<<OnDiskMSnExp>>=
+getClass("OnDiskMSnExp")
+@
+
+The distinction between \Rclass{MSnExp} and \Rclass{OnDiskMSnExp} is
+often not explicitly stated as it should not matter, from a user's
+perspective, which data structure they are working with, as both
+behave in equivalent ways. Often, they are referred to as
+\textit{in-memory} and \textit{on-disk} \Rclass{MSnExp}
+implementations.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\Rclass{MSnSet}: a class for quantitative proteomics data}
+\label{sec:msnset}
+
+This class stores quantitation data and meta data after running
+\Rfunction{quantify} on an \Rclass{MSnExp} object or by creating an
+\Rclass{MSnSet} instance from an external file, as described in the
+\texttt{MSnbase-io} vignette and in \Rfunction{?readMSnSet},
+\Rfunction{readMzTabData}, etc. The quantitative data is in form of a
+$m \times n$ matrix, where $m$ is the number of features/spectra
+originally in the \Rclass{MSnExp} used as parameter in
+\Rfunction{quantify} and $m$ is the number of reporter ions (see
+section \ref{sec:reporterions}). If read from an external file, $n$
+corresponds to the number of features (protein groups, proteins,
+peptides, spectra) in the file and $m$ is the number of columns with
+quantitative data (samples) in the file.
+
+This prompted to keep a similar implementation as the
+\Rclass{ExpressionSet} class, while adding the proteomics-specific
+annotation slot introduced in the \Rclass{pSet} class, namely
+\Robject{processingData} for objects of class \Rclass{MSnProcess} (see
+section \ref{sec:msnprocess}).
+
+<<MSnSet>>=
+getClass("MSnSet")
+@
+
+The \Rclass{MSnSet} class extends the virtual \Rclass{eSet} class to
+provide compatibility for \Rclass{ExpressionSet}-like behaviour.  The
+experiment meta-data in \Robject{experimentData} is also of class
+\Rclass{MIAPE} (see section \ref{sec:miape}).  The
+\Robject{annotation} slot, inherited from \Rclass{eSet} is not
+used. As a result, it is easy to convert \Rclass{ExpressionSet} data
+from/to \Rclass{MSnSet} objects with the coersion method
+\Rfunction{as}.
+
+<<as>>=
+data(msnset)
+class(msnset)
+class(as(msnset, "ExpressionSet"))
+
+data(sample.ExpressionSet)
+class(sample.ExpressionSet)
+class(as(sample.ExpressionSet, "MSnSet"))
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\Rclass{MSnProcess}: a class for logging processing meta data}
+\label{sec:msnprocess}
+
+This class aims at recording specific manipulations applied to
+\Rclass{MSnExp} or \Rclass{MSnSet} instances. The \Robject{processing}
+slot is a \Robject{character} vector that describes major
+processing. Most other slots are of class \Robject{logical} that
+indicate whether the data has been centroided, smoothed, \ldots
+although many of the functionality is not implemented yet.  Any new
+processing that is implemented should be documented and logged here.
+
+It also documents the raw data file from which the data originates
+(\Robject{files} slot) and the \Biocpkg{MSnbase} version that was in
+use when the \Rclass{MSnProcess} instance, and hence the
+\Rclass{MSnExp}/\Rclass{MSnSet} objects, were originally created.
+
+
+<<MSnProcess>>=
+getClass("MSnProcess")
+@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\Rclass{MIAPE}: Minimum Information About a Proteomics Experiment}
+\label{sec:miape}
+
+The Minimum Information About a Proteomics
+Experiment \cite{Taylor2007, Taylor2008} \Rclass{MIAPE} class
+describes the experiment, including contact details,
+information about the mass spectrometer and control
+and analysis software.
+
+<<MIAPE>>=
+getClass("MIAPE")
+@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\Rclass{Spectrum} \textit{et al.}: classes for MS spectra}
+\label{sec:spectrum}
+
+\Rclass{Spectrum} is a virtual class that defines
+common attributes to all types of spectra. MS1 and MS2 specific attributes
+are defined in the \Rclass{Spectrum1} and \Rclass{Spectrum2} classes,
+that directly extend \Rclass{Spectrum}.
+
+%% The choices of attributes has been dictated by the \Rfunction{xcms:::rampRawData}
+%% and \Rfunction{xcms:::rampRawDataMSn} functions and what data from the
+%% \texttt{mzXML} file they gave access to.
+%% It is expected that some hopefully minor changes might
+%% come up here when migrating to other data import packages, that allow random access
+%% to \texttt{mzXML} data and support \texttt{mzML} \cite{Martens2010}.
+
+<<Spectrum>>=
+getClass("Spectrum")
+@
+
+<<Spectrum1>>=
+getClass("Spectrum1")
+@
+
+<<Spectrum2>>=
+getClass("Spectrum2")
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\Rclass{ReporterIons}: a class for isobaric tags}
+\label{sec:reporterions}
+
+The iTRAQ and TMT (or any other peak of interest)
+are implemented \Rclass{ReporterIons} instances,
+that essentially defines an expected MZ position for the peak and a width around
+this value as well a names for the reporters.
+
+<<ReporterIons>>=
+getClass("ReporterIons")
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\Rclass{NAnnotatedDataFrame}: multiplexed \Rclass{AnnotatedDataFrame}s}
+\label{sec:nannotateddataframe}
+
+The simple expansion of the \Rclass{AnnotatedDataFrame}
+classes adds the \Robject{multiplex} and \Robject{multiLabel} slots to
+document the number and names of multiplexed samples.
+
+<<NAnnotatedDF>>=
+getClass("NAnnotatedDataFrame")
+@
+
+\subsection{Other classes}\label{sec:other}
+
+\subsubsection*{Lists of \Rclass{MSnSet} instances}\label{sec:msnl}
+
+When several \Rclass{MSnSet} instances are related to each other and
+should be stored together as different objects, they can be grouped as
+a list into and \Rclass{MSnSetList} object. In addition to the actual
+\Rclass{list} slot, this class also has basic logging functionality
+and enables iteration over the \Rclass{MSnSet} instances using a
+dedicated \Rfunction{lapply} methods.
+
+<<msl>>=
+getClass("MSnSetList")
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Miscellaneous}
+
+\paragraph{Unit tests} \Biocpkg{MSnbase} implements unit tests with
+the \CRANpkg{testthat} package.
+
+\paragraph{Processing methods} Methods that process raw data, i.e. spectra
+should be implemented for \Rclass{Spectrum} objects first and then
+\texttt{eapply}'ed (or similar) to the \Robject{assayData} slot of an
+\Rclass{MSnExp} instance in the specific method.
+
+
+%% \paragraph{Why this MIAME slot?} \label{misc:whymiame} While it
+%% would have been possible to transfer all data stored in
+%% \Biocpkg{Biobase}'s \Rclass{MIAME} to a new \Rclass{MIAPE} class
+%% and use the latter for \Robject{experimentData} slots in the
+%% \Rclass{pSet} class, it would not have been possible to directly
+%% transfer this to \Rclass{MSnSet} instances, as \Rclass{MSnSet}
+%% classes directly inherit from the \Rclass{ExpressionSet}, whose
+%% \Robject{experimentData} slot must be of class \Rclass{MIAME}.
+
+%% \input{NoteAboutSpeedAndMemory.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Session information}
+\label{sec:sessionInfo}
+
+<<sessioninfo, results='asis', echo=FALSE>>=
+toLatex(sessionInfo())
+@
+
+\bibliography{MSnbase}
+
+\end{document}
