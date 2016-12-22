@@ -5,7 +5,7 @@ setMethod("show", "MSnExp",
           function(object) {
               sz <- object.size(object)
               if (length(object) == 0) {
-                  cat("Empty object of class \"MSnExp\" (",
+                  cat("Empty object of class \"", class(object), "\" (",
                       ifelse(isOnDisk(object), "on disk", "in memory"),
                       ")", "\n", sep = "")
                   show(processingData(object))
@@ -30,7 +30,7 @@ setMethod("show", "MSnExp",
                       rtr <- range(msnRt)
                   }
               }
-              cat("Object of class \"MSnExp\" (",
+              cat("Object of class \"", class(object), "\" (",
                   ifelse(isOnDisk(object), "on disk", "in memory"), ")",
                   "\n", sep = "")
               cat("Object size in memory: ")
