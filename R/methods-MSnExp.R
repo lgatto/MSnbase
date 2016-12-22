@@ -3,11 +3,9 @@
 
 setMethod("show", "MSnExp",
           function(object) {
+              cat("MSn experiment data (\"", class(object), "\")\n", sep = "")
               sz <- object.size(object)
               if (length(object) == 0) {
-                  cat("Empty object of class \"", class(object), "\" (",
-                      ifelse(isOnDisk(object), "on disk", "in memory"),
-                      ")", "\n", sep = "")
                   show(processingData(object))
                   return(NULL)
               } else {
@@ -30,9 +28,6 @@ setMethod("show", "MSnExp",
                       rtr <- range(msnRt)
                   }
               }
-              cat("Object of class \"", class(object), "\" (",
-                  ifelse(isOnDisk(object), "on disk", "in memory"), ")",
-                  "\n", sep = "")
               cat("Object size in memory: ")
               cat(round(sz / (1024^2), 2), "Mb\n")
               cat("- - - Spectra data - - -\n")
