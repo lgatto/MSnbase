@@ -1,19 +1,15 @@
+[![Build Status](https://travis-ci.org/lgatto/MSnbase.svg?branch=master)](https://travis-ci.org/lgatto/MSnbase) [![codecov.io](https://codecov.io/github/lgatto/MSnbase/coverage.svg?branch=master)](https://codecov.io/github/lgatto/MSnbase?branch=master)
 
 
-`MSnbase` is an R/Bioconductor package that provides infrastructure
-for plotting, data manipulation and processing of MS-based proteomics
-data. The project was started by
-[Laurent Gatto](http://lgatto.github.io/) in October 2010 (Mon Oct 4
-23:35:23 2010, according to the git log) and has, since then,
-benefited from various contributions. 
 
 
-```
-Laurent Gatto with contributions from
-Guangchuang Yu, Samuel Wieczorek, Vasile-Cosmin Lazar,
-Vladislav Petyuk, Thomas Naake, Richie Cotton, Martina Fisher,
-Johannes Rainer and Sebastian Gibb. 
-```
+[**MSnbase**](http://lgatto.github.io/MSnbase/) is an R/Bioconductor
+package that provides infrastructure for plotting, data manipulation
+and processing of mass spectrometry and proteomics data. The project
+was started by [Laurent Gatto](http://lgatto.github.io/) in October
+2010 (Mon Oct 4 23:35:23 2010, according to the git log) and has,
+since then, benefited from
+[various contributions](http://lgatto.github.io/msnbase-contribs/).
 
 The official page is the Bioconductor landing page
 ([release](http://www.bioconductor.org/packages/release/bioc/html/MSnbase.html)
@@ -27,7 +23,7 @@ is the official repository for the working source code.
 
 ## Installation
 
-To install `MSnbase`
+To install *[MSnbase](http://bioconductor.org/packages/MSnbase)*
 
 
 ```r
@@ -35,24 +31,20 @@ library("BiocInstaller")
 biocLite("MSnbase")
 ```
 
-If you need the github version
+If you need the github version (not recommended unless you know what
+you are doing)
 
 
 ```r
 biocLite("lgatto/MSnbase")
 ```
 
-## Build status
-
-[![Build Status](https://travis-ci.org/lgatto/MSnbase.svg?branch=master)](https://travis-ci.org/lgatto/MSnbase) [![codecov.io](https://codecov.io/github/lgatto/MSnbase/coverage.svg?branch=master)](https://codecov.io/github/lgatto/MSnbase?branch=master)
-
-
-
 ## Questions
 
 General questions should be asked on the
 [Bioconductor support forum](https://support.bioconductor.org/), using
-`MSnbase` to tag the question.
+`MSnbase` to tag the question. Feel also free to open a GitHub
+[issue](https://github.com/lgatto/MSnbase/issues).
 
 ## Citation
 
@@ -74,7 +66,7 @@ the rest of the functions whenever it makes sense to do so. Feel free
 to get in touch (preferable opening a
 [github issue](https://github.com/lgatto/MSnbase/issues/)) to discuss
 any suggestions. The
-[`MSnbase` development vignette](http://bioconductor.org/packages/devel/bioc/vignettes/MSnbase/inst/doc/MSnbase-development.pdf)
+[`MSnbase` development vignette](http://lgatto.github.io/MSnbase/articles/MSnbase-development.html)
 gives some background on the class infrastructure.
 
 Please note that this project is released with a

@@ -1,0 +1,17 @@
+\paragraph{Speed and memory requirements} Raw mass spectrometry file are generally several 
+hundreds of MB large and most of this is used for binary raw spectrum data. As such, 
+data containers can easily grow very large and thus require large amounts of RAM. 
+This requirement is being tackled by avoiding to load the raw data into memory
+and using on-disk random access to the content of \texttt{mzXML}/\texttt{mzML} data files on demand. 
+When focusing on reporter ion quantitation, a direct solution for this is to trim the 
+spectra using the \Robject{trimMz} method to select the area of interest and thus 
+substantially reduce the size of the \Robject{Spectrum} objects. This is illustrated in 
+section \ref{sec:trim} on page \pageref{trimMz-example} of the \texttt{MSnbase-demo} vignette.
+
+The independent handling of spectra is ideally suited for parallel processing. 
+The \Rfunction{quantify} method now performs reporter peaks quantitation in parallel. 
+More functions are being updated.
+
+
+
+
