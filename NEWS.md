@@ -5,6 +5,7 @@
  - Migrate io and dev vignettes to BiocStyle's html_document2 style
    <2016-12-23 Fri>
  - Update show method to display class.
+ - Migrated to NEWS.md <2016-12-23 Fri>
  
 ## Changes in version 2.1.5
 
