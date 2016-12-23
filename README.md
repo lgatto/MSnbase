@@ -3,12 +3,12 @@
 
 
 
-*[MSnbase](http://bioconductor.org/packages/MSnbase)* is an R/Bioconductor package that provides
-infrastructure for plotting, data manipulation and processing of
-MS-based proteomics data. The project was started by
-[Laurent Gatto](http://lgatto.github.io/) in October 2010 (Mon Oct 4
-23:35:23 2010, according to the git log) and has, since then,
-benefited from
+[**MSbase**](http://lgatto.github.io/MSnbase/) is an R/Bioconductor
+package that provides infrastructure for plotting, data manipulation
+and processing of mass spectrometry and proteomics data. The project
+was started by [Laurent Gatto](http://lgatto.github.io/) in October
+2010 (Mon Oct 4 23:35:23 2010, according to the git log) and has,
+since then, benefited from
 [various contributions](http://lgatto.github.io/msnbase-contribs/).
 
 The official page is the Bioconductor landing page

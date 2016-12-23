@@ -1,8 +1,8 @@
 Package: MSnbase
-Title: Base Functions and Classes for MS-based Proteomics
+Title: Base Functions and Classes for Mass Spectrometry and Proteomics
 Version: 2.1.6
-Description: Basic plotting, data manipulation and processing
-	     of MS-based Proteomics data.
+Description: Manipulation, processing and visualisation
+	     of mass spectrometry and proteomics data.
 Authors@R: c(person(given = "Laurent", family = "Gatto",
 	            email = "lg390@cam.ac.uk",
  		    role = c("aut","cre")),
