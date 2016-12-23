@@ -6,7 +6,7 @@ suppressPackageStartupMessages(library("BiocStyle"))
 knitr::opts_chunk$set(comment=NA)
 ```
 
-[**MSbase**](http://lgatto.github.io/MSnbase/) is an R/Bioconductor
+[**MSnbase**](http://lgatto.github.io/MSnbase/) is an R/Bioconductor
 package that provides infrastructure for plotting, data manipulation
 and processing of mass spectrometry and proteomics data. The project
 was started by [Laurent Gatto](http://lgatto.github.io/) in October
@@ -26,7 +26,7 @@ is the official repository for the working source code.
 
 ## Installation
 
-To install `r Biocpkg("MSnbase")` 
+To install `r Biocpkg("MSnbase")`
 
 ```{r install, eval = FALSE}
 library("BiocInstaller")
