@@ -3,7 +3,7 @@
 
 
 
-[**MSbase**](http://lgatto.github.io/MSnbase/) is an R/Bioconductor
+[**MSnbase**](http://lgatto.github.io/MSnbase/) is an R/Bioconductor
 package that provides infrastructure for plotting, data manipulation
 and processing of mass spectrometry and proteomics data. The project
 was started by [Laurent Gatto](http://lgatto.github.io/) in October
@@ -23,7 +23,7 @@ is the official repository for the working source code.
 
 ## Installation
 
-To install *[MSnbase](http://bioconductor.org/packages/MSnbase)* 
+To install *[MSnbase](http://bioconductor.org/packages/MSnbase)*
 
 
 ```r
