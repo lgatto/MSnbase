@@ -179,7 +179,8 @@
 #&gt; X22   8635.316  10036.529   9254.432   7769.749</div><div class='input'>
 <span class='co'>## arbitrary grouping into two groups</span>
 <span class='no'>grp</span> <span class='kw'>&lt;-</span> <span class='fu'>as.factor</span>(<span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>))
-<span class='no'>msnset.comb</span> <span class='kw'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grp</span>, <span class='st'>"sum"</span>)</div><div class='output co'>#&gt; <span class='message'>Combined 5 features into 5 using sum</span></div><div class='input'><span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='no'>msnset.comb</span>)</div><div class='output co'>#&gt; [1] 2 4</div><div class='input'><span class='fu'>exprs</span>(<span class='no'>msnset.comb</span>)</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
+<span class='no'>msnset.comb</span> <span class='kw'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grp</span>, <span class='st'>"sum"</span>)
+<span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='no'>msnset.comb</span>)</div><div class='output co'>#&gt; [1] 2 4</div><div class='input'><span class='fu'>exprs</span>(<span class='no'>msnset.comb</span>)</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; 1   36553.13   41320.38   46178.09   44950.38
 #&gt; 2   64407.15   68134.01   76572.53   76563.54</div><div class='input'><span class='fu'>fvarLabels</span>(<span class='no'>msnset.comb</span>)</div><div class='output co'>#&gt;  [1] &quot;spectrum&quot;            &quot;ProteinAccession&quot;    &quot;ProteinDescription&quot; 
 #&gt;  [4] &quot;PeptideSequence&quot;     &quot;file&quot;                &quot;retention.time&quot;     
@@ -192,9 +193,9 @@
 <span class='no'>grpl</span> <span class='kw'>&lt;-</span> <span class='fu'>list</span>(<span class='fu'>c</span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>), <span class='st'>"A"</span>, <span class='st'>"A"</span>, <span class='st'>"C"</span>, <span class='fu'>c</span>(<span class='st'>"C"</span>, <span class='st'>"B"</span>))
 <span class='co'>## optional naming</span>
 <span class='fu'>names</span>(<span class='no'>grpl</span>) <span class='kw'>&lt;-</span> <span class='fu'>featureNames</span>(<span class='no'>msnset</span>)
-<span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grpl</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"sum"</span>, <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='st'>"unique"</span>))</div><div class='output co'>#&gt; <span class='message'>Combined 3 features into 3 using sum</span></div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
+<span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grpl</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"sum"</span>, <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='st'>"unique"</span>))</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; A   38224.78   39183.07   46659.49   48093.74
-#&gt; C   21262.15   23168.73   25407.07   25949.95</div><div class='input'><span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grpl</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"sum"</span>, <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='st'>"multiple"</span>))</div><div class='output co'>#&gt; <span class='message'>Combined 7 features into 7 using sum</span></div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
+#&gt; C   21262.15   23168.73   25407.07   25949.95</div><div class='input'><span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grpl</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"sum"</span>, <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='st'>"multiple"</span>))</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; A   71062.82   76249.13   88089.12   87794.22
 #&gt; B   41473.36   47102.59   50684.06   47470.22
 #&gt; C   29897.46   33205.26   34661.50   33719.70</div><div class='input'>
@@ -207,10 +208,10 @@
 #&gt; X20  34509.686   34928.75  41911.032  42843.839
 #&gt; X21  21262.148   23168.73  25407.068         NA
 #&gt; X22   8635.316   10036.53   9254.432   7769.749</div><div class='input'><span class='co'>## NAs propagate in the 115 and 117 channels </span>
-<span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grp</span>, <span class='st'>"sum"</span>))</div><div class='output co'>#&gt; <span class='message'>Combined 5 features into 5 using sum</span></div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
+<span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grp</span>, <span class='st'>"sum"</span>))</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; 1   36553.13         NA   46178.09   44950.38
 #&gt; 2   64407.15   68134.01   76572.53         NA</div><div class='input'><span class='co'>## NAs are removed before summing </span>
-<span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grp</span>, <span class='st'>"sum"</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='message'>Combined 5 features into 5 using sum</span></div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
+<span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grp</span>, <span class='st'>"sum"</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; 1   36553.13   37066.06   46178.09   44950.38
 #&gt; 2   64407.15   68134.01   76572.53   50613.59</div><div class='input'>
 <span class='co'>## using iPQF</span>
@@ -224,7 +225,7 @@
                        <span class='kw'>method.combine</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The following 1 proteins are only supported by 1 or 2 peptide spectra,</span>
 #&gt; <span class='message'>hence, protein quantification is not reliable and can only be calculated</span>
 #&gt; <span class='message'>by the &#39;mean&#39; in these cases, corresponding protein accessions are:</span>
-#&gt; <span class='message'>  O95678</span></div><div class='output co'>#&gt; <span class='message'>Combined 614 features into 614 using iPQF</span></div><div class='input'><span class='fu'>head</span>(<span class='fu'>exprs</span>(<span class='no'>res</span>))</div><div class='output co'>#&gt;        X114.ions X115.ions X116.ions X117.ions
+#&gt; <span class='message'>  O95678</span></div><div class='input'><span class='fu'>head</span>(<span class='fu'>exprs</span>(<span class='no'>res</span>))</div><div class='output co'>#&gt;        X114.ions X115.ions X116.ions X117.ions
 #&gt; O95678 0.2404726 0.2682764 0.2584247 0.2328263
 #&gt; P01766 0.2610278 0.2467206 0.2544715 0.2377801
 #&gt; P01776 0.2678859 0.2591250 0.2423396 0.2306495

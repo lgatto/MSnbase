@@ -117,7 +117,8 @@ the next or previous spectrum of level <code>msLevel</code>.</dd>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>msdata</span><span class='kw'>::</span><span class='fu'>proteomics</span>(<span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)[<span class='fl'>1</span>]
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData2</a></span>(<span class='no'>f</span>, <span class='kw'>centroided</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>, <span class='fl'>FALSE</span>))</div><div class='output co'>#&gt; <span class='message'>Reading 565 spectra from file MS3TMT10_01022016_32917-33481.mzML.gz</span></div><div class='input'><span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='st'>"X009.1"</span>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData2</a></span>(<span class='no'>f</span>, <span class='kw'>centroided</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>, <span class='fl'>FALSE</span>))
+<span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='st'>"X009.1"</span>
 <span class='no'>x</span><span class='kw'>[[</span><span class='no'>sp</span>]] <span class='co'>## curent MS3</span></div><div class='output co'>#&gt; Object of class &quot;Spectrum2&quot;
 #&gt;  Precursor: 756.4332 
 #&gt;  Retention time: 73:43 
