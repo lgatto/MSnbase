@@ -1,6 +1,9 @@
 CHANGES IN VERSION 2.1.6
 ------------------------
-
+ o Migrate io and dev vignettes to BiocStyle's html_document2 style
+   <2016-12-23 Fri>
+ o Update show method to display class.
+ 
 CHANGES IN VERSION 2.1.5
 ------------------------
  o Fix (unexported) navMS example code <2016-12-14 Wed>

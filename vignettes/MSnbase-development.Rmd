@@ -1,5 +1,5 @@
 ---
-title: "A short introduction to `MSnbase` development"
+title: "A short introduction to *MSnbase* development"
 author: 
 - name: Laurent Gatto
   affiliation: Computational Proteomics Unit, Cambridge, UK.
@@ -20,7 +20,6 @@ output:
 vignette: >
   %\VignetteIndexEntry{A short introduction to `MSnbase` development}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEngine{knitr::knitr}
   %\VignetteKeywords{Mass Spectrometry, Proteomics, Infrastructure }
   %\VignetteEncoding{UTF-8}
 ---

@@ -601,7 +601,7 @@ produced for only a subset of proteins.  See the method documentation
 for more details.
 
 \begin{figure}[htb]
-    \includegraphics[width=\linewidth]{./plot2d-figure.png}
+    \includegraphics[width=\linewidth]{./Figures/plot2d-figure.png}
 \caption{Illustration of the \Rfunction{plot2d} output. }
 \label{fig:plot2d}
 \end{figure}
@@ -615,7 +615,7 @@ whose density will be plotted.  An optional third argument specifies
 whether the x axes should be logged.
 
 \begin{figure}[htb]
-    \includegraphics[width=\linewidth]{./plotDensity-figure.png}
+    \includegraphics[width=\linewidth]{./Figures/plotDensity-figure.png}
 \caption{ Illustration of the \Rfunction{plotDensity} output. }
 \label{fig:plotDensity}
 \end{figure}
@@ -655,7 +655,7 @@ has been generated using the PRIDE experiment 12011, as in
 
 \begin{figure}[htb]
   \begin{center}
-    \includegraphics[width=.7\linewidth]{./plotMzDelta-pride12011.pdf}
+    \includegraphics[width=.7\linewidth]{./Figures/plotMzDelta-pride12011.pdf}
     \caption{Illustration of the \Rfunction{plotMzDelta} output for
       the PRIDE experiment 12011, as in figure 4A from
       \cite{Foster11}. }
@@ -922,7 +922,7 @@ correlation.
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=.6\linewidth]{./tmt10comp.pdf}
+  \includegraphics[width=.6\linewidth]{./Figures/tmt10comp.pdf}
 \caption{TMT 10-plex quantitation. }
 \label{fig:tmt10}
 \end{figure}
@@ -1499,7 +1499,7 @@ groups) specific peaks.
 
 \begin{figure}[h]
   \begin{center}
-    \includegraphics[width=4cm]{./itraqchem.pdf}
+    \includegraphics[width=4cm]{./Figures/itraqchem.pdf}
     \caption{ iTRAQ 4-plex isobaric tags reagent consist of three
       parts: (1) a charged reporter group (MZ of 114, 115, 116 and
       117) that is unique to each of the four reagents (red), (2) an
