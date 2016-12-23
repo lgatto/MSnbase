@@ -54,6 +54,9 @@
 <li>
   <a href="../articles/index.html">Articles</a>
 </li>
+<li>
+  <a href="../news/index.html">News</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -264,7 +267,7 @@
 #&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#&gt; iTRAQ4 quantification by trapezoidation: Sun Dec 18 17:17:00 2016 
+#&gt; iTRAQ4 quantification by trapezoidation: Fri Dec 23 15:13:54 2016 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
 <span class='co'>## specifying a custom parallel framework</span>
 <span class='co'>## bp &lt;- MulticoreParam(2L) # on Linux/OSX</span>
@@ -291,16 +294,16 @@
 #&gt; Creating &#39;MSnExp&#39; object</div><div class='input'><span class='no'>msexp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='addIdentificationData-methods.html'>addIdentificationData</a></span>(<span class='no'>msexp</span>, <span class='no'>identFile</span>)</div><div class='output co'>#&gt; reading dummyiTRAQ.mzid... DONE!</div><div class='input'><span class='fu'>fData</span>(<span class='no'>msexp</span>)$<span class='no'>accession</span></div><div class='output co'>#&gt; [1] &quot;ECA0984;ECA3829&quot; &quot;ECA1028&quot;         NA                NA               
 #&gt; [5] &quot;ECA0510&quot;        </div><div class='input'>
 <span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'>quantify</span>(<span class='no'>msexp</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"SIn"</span>)</div><div class='output co'>#&gt; <span class='message'>Combined 2 features into 2 using sum</span></div><div class='input'><span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>si</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Quantitation by total ion current [Sun Dec 18 17:17:01 2016] 
-#&gt; Combined 2 features into 2 using sum: Sun Dec 18 17:17:01 2016 
-#&gt; Quantification by SIn [Sun Dec 18 17:17:01 2016] 
+#&gt; Quantitation by total ion current [Fri Dec 23 15:13:55 2016] 
+#&gt; Combined 2 features into 2 using sum: Fri Dec 23 15:13:56 2016 
+#&gt; Quantification by SIn [Fri Dec 23 15:13:56 2016] 
 #&gt;  MSnbase version: 2.1.6 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>si</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
 #&gt; ECA0510      0.003588641
 #&gt; ECA1028      0.001470129</div><div class='input'>
 <span class='no'>saf</span> <span class='kw'>&lt;-</span> <span class='fu'>quantify</span>(<span class='no'>msexp</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"NSAF"</span>)</div><div class='output co'>#&gt; <span class='message'>Combined 2 features into 2 using user-defined function</span></div><div class='input'><span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>saf</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Quantitation by count [Sun Dec 18 17:17:01 2016] 
-#&gt; Combined 2 features into 2 using user-defined function: Sun Dec 18 17:17:01 2016 
-#&gt; Quantification by NSAF [Sun Dec 18 17:17:01 2016] 
+#&gt; Quantitation by count [Fri Dec 23 15:13:56 2016] 
+#&gt; Combined 2 features into 2 using user-defined function: Fri Dec 23 15:13:56 2016 
+#&gt; Quantification by NSAF [Fri Dec 23 15:13:56 2016] 
 #&gt;  MSnbase version: 2.1.6 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>saf</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
 #&gt; ECA0510        0.6235828
 #&gt; ECA1028        0.3764172</div><div class='input'>

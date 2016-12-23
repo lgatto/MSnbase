@@ -21,6 +21,9 @@
 <li>
   <a href="../articles/index.html">Articles</a>
 </li>
+<li>
+  <a href="../news/index.html">News</a>
+</li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/lgatto/MSnbase">
     <span class="fa fa-github fa-lg"></span>
@@ -36,24 +39,15 @@
   <div class="col-md-9">
     <div class="page-header toc-ignore">
       <h1>MSnbase2 benchmarking</h1>
-            
-          </div>
+                        <h4 class="author">Laurent Gatto</h4>
+            <address class="author_afil">
+      Computational Proteomics Unit, Cambridge, UK<br><h4 class="author">Johannes Rainer</h4>
+            <address class="author_afil">
+      Center for Biomedicine, EURAC, Bolzano, Italy<br></address></address></div>
 
     
     
 <div class="contents">
-<script type="text/javascript">
-document.addEventListener("DOMContentLoaded", function() {
-  document.querySelector("h1").className = "title";
-});
-</script><script type="text/javascript">
-document.addEventListener("DOMContentLoaded", function() {
-  var links = document.links;  
-  for (var i = 0, linksLength = links.length; i < linksLength; i++)
-    if (links[i].hostname != window.location.hostname)
-      links[i].target = '_blank';
-});
-</script><p><strong>Package</strong>: <em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em><br><strong>Authors</strong>: Laurent Gatto and Johannes Rainer<br><strong>Modified:</strong> NA<br><strong>Compiled</strong>: Sun Dec 18 17:08:19 2016</p>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor"><html><body><a href="#introduction" class="anchor"> </a></body></html>Introduction</h1>
 <p>In this vignette, we will document various timings and benchmarkings of the recent <em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> development (aka <code>MSnbase2</code>), that focuses on <em>on-disk</em> data access (as opposed to <em>in-memory</em>). More details about the new implementation will be documented elsewhere.</p>
@@ -72,12 +66,12 @@ f &lt;-<span class="st"> </span>msdata::<span class="kw">proteomics</span>(<span
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(inmem &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readMSData.html">readMSData</a></span>(f, <span class="dt">msLevel =</span> <span class="dv">2</span>,
                                 <span class="dt">centroided =</span> <span class="ot">TRUE</span>))</code></pre>
 <pre><code>##    user  system elapsed 
-##   5.302   0.027   5.337</code></pre>
+##   5.261   0.024   5.295</code></pre>
 <p>Next, we use the <code>readMSData2</code> function to generate an on-disk representation of the same data.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(ondisk &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readMSData.html">readMSData2</a></span>(f, <span class="dt">msLevel =</span> <span class="dv">2</span>,
                                   <span class="dt">centroided =</span> <span class="ot">TRUE</span>))</code></pre>
 <pre><code>##    user  system elapsed 
-##   1.375   0.015   1.392</code></pre>
+##   1.382   0.015   1.398</code></pre>
 <p>Creating the on-disk experiment is considerable faster and scales to much bigger, multi-file data, both in terms of object creation time, but also in terms of object size (see next section). We must of course make sure that these two datasets are equivalent:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all.equal</span>(inmem, ondisk)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
@@ -144,10 +138,10 @@ mb</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">i &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw"><a href="../reference/pSet-class.html">length</a></span>(inmem), <span class="dv">100</span>)
 <span class="kw">system.time</span>(inmem[i])</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.134   0.000   0.134</code></pre>
+##   0.144   0.000   0.145</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(ondisk[i])</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.020   0.001   0.020</code></pre>
+##   0.025   0.000   0.026</code></pre>
 <p>Operations on the spectra data, such as peak picking, smoothing, cleaning, &hellip; are cleverly cached and only applied when the data is accessed, to minimise file access overhead. Finally, specific operations such as for example quantitation (see next section) are optimised for speed.</p>
 </div>
 <div id="ms2-quantitation" class="section level1">
