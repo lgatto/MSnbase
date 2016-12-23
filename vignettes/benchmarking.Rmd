@@ -1,28 +1,26 @@
 ---
 title: "MSnbase2 benchmarking"
+author: 
+- name: Laurent Gatto
+  affiliation: Computational Proteomics Unit, Cambridge, UK
+- name: Johannes Rainer
+  affiliation: Center for Biomedicine, EURAC, Bolzano, Italy
+package: MSnbase
 output:
   BiocStyle::html_document2:
-     toc: false
+    toc_float: true
 vignette: >
-  % \VignetteIndexEntry{MSnbase benchmarking}
-  % \VignetteEngine{knitr::rmarkdown}
-  % \VignetteKeyword{proteomics, mass spectrometry}
-  % \VignettePackage{MSnbase}
+  %\VignetteIndexEntry{MSnbase2 benchmarking}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteKeyword{proteomics, mass spectrometry}
+  %\VignetteEncoding{UTF-8}
 ---
 
-
-```{r style, echo = FALSE, results = 'asis', message=FALSE}
-BiocStyle::markdown()
-```
-
 ```{r env, echo=FALSE, message=FALSE}
+suppressPackageStartupMessages(library("BiocStyle"))
 suppressPackageStartupMessages(library("MSnbase"))
+suppressPackageStartupMessages(library("BiocParallel"))
 ```
-
-**Package**: `r Biocpkg("MSnbase")`<br />
-**Authors**: Laurent Gatto and Johannes Rainer<br />
-**Modified:** `r file.info("benchmarkding.Rmd")$mtime`<br />
-**Compiled**: `r date()`
 
 # Introduction
 
