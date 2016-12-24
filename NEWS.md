@@ -1,5 +1,8 @@
 # MSnbase 2.1
 
+## Changes in version 2.1.7
+- 
+
 ## Changes in version 2.1.6
 
 - Migrate io and dev vignettes to BiocStyle's html_document2 style
