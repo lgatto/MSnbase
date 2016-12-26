@@ -85,6 +85,10 @@
     <div id="msnbase-2-1" class="section level1">
 <h1 class="hasAnchor">
 <a href="#msnbase-2-1" class="anchor"> </a>MSnbase 2.1</h1>
+<div id="changes-in-version-2-1-7" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-in-version-2-1-7" class="anchor"> </a>## Changes in version 2.1.7</h2>
+</div>
 <div id="changes-in-version-2-1-6" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-1-6" class="anchor"> </a>Changes in version 2.1.6</h2>
@@ -112,7 +116,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-1-2" class="anchor"> </a>Changes in version 2.1.2</h2>
 <ul><li>Update readMSnSet2 to save filename &lt;2016-11-09 Wed&gt;</li>
-<li>Ensure that header information is read too if spectra data is loaded for -nDiskMSnExp -bjects (see issue #170) &lt;2016-11-24 Thu&gt;</li>
+<li>Ensure that header information is read too if spectra data is loaded for onDiskMSnExp objects (see issue #170) &lt;2016-11-24 Thu&gt;</li>
 </ul></div>
 <div id="changes-in-version-2-1-1" class="section level2">
 <h2 class="hasAnchor">
@@ -137,8 +141,8 @@
 <div id="changes-in-version-1-99-6" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-99-6" class="anchor"> </a>Changes in version 1.99.6</h2>
-<ul><li>Reverting to -ld initialize,Spectrum (see issue #163) &lt;2016-10-07 Fri&gt;</li>
-<li>Setting Spectrum class versions -utside -f prototype (see issue #163). For this, there is now a vector -f class version in .MSnbaseEnv &lt;2016-10-10 Mon&gt;</li>
+<ul><li>Reverting to old initialize,Spectrum (see issue #163) &lt;2016-10-07 Fri&gt;</li>
+<li>Setting Spectrum class versions outside of prototype (see issue #163). For this, there is now a vector of class version in .MSnbaseEnv &lt;2016-10-10 Mon&gt;</li>
 </ul></div>
 <div id="changes-in-version-1-99-5" class="section level2">
 <h2 class="hasAnchor">
@@ -169,26 +173,26 @@
 <div id="changes-in-version-1-99-0" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-99-0" class="anchor"> </a>Changes in version 1.99.0</h2>
-<ul><li>Add normalize method for -nDiskMSnExp &lt;2016-06-07 Tue&gt;.</li>
+<ul><li>Add normalize method for onDiskMSnExp &lt;2016-06-07 Tue&gt;.</li>
 <li>Fix bug in readMSData &lt;2016-06-07 Tue&gt;.</li>
 <li>Added documentation and unit test for trimMz &lt;2016-06-01 Wed&gt;.</li>
-<li>Added trimMz method for -nDiskMSnExp -bjects &lt;2016-05-31 Tue&gt;.</li>
-<li>Added (internal) method spectrapply to apply a function to all spectra -f an -nDiskMSnExp -bject; does the data import, subsetting, application -f lazy processing steps etc. &lt;2016-05-27 Fri&gt;.</li>
+<li>Added trimMz method for onDiskMSnExp objects &lt;2016-05-31 Tue&gt;.</li>
+<li>Added (internal) method spectrapply to apply a function to all spectra of an onDiskMSnExp object; does the data import, subsetting, application of lazy processing steps etc. &lt;2016-05-27 Fri&gt;.</li>
 <li>Added a section to the MSnbase-development vignette &lt;2016-05-27 Fri&gt;.</li>
 <li>Finished with all pSet inherited methods and docs &lt;2016-05-26 Thu&gt;.</li>
-<li>Added rtlim argument to spectra method for -nDiskMSnExp &lt;2016-05-26 Thu&gt;.</li>
+<li>Added rtlim argument to spectra method for onDiskMSnExp &lt;2016-05-26 Thu&gt;.</li>
 <li>Methods rtime, tic, ionCount, polarity and acquisitionNum implemented &lt;2016-05-25 Wed&gt;.</li>
 <li>Documentation added for most methods &lt;2016-05-25 Wed&gt;.</li>
-<li>Methods peaksCount and spectra for -nDiskMSnExp -bjects implemented &lt;2016-05-24 Tue&gt;.</li>
+<li>Methods peaksCount and spectra for onDiskMSnExp objects implemented &lt;2016-05-24 Tue&gt;.</li>
 <li>Performance and validation tests for the Spectrum1 C-constructor &lt;2016-05-23 Mon&gt;.</li>
 <li>Spectrum1 constructor implemented in C (presently not exported) &lt;2016-05-20&gt;</li>
 <li>length, scanIndex, acquisitionNum and centroided implemented &lt;2016-05-20&gt;</li>
-<li>Implemented fromFile and msLevel for -nDiskMSnExp &lt;2016-05-19 Thu&gt;</li>
-<li>Implemented an -nDiskMSnExp class for -n-the-fly data import &lt;2016-05-19 Thu&gt;</li>
-<li>Fixed the validate method for pSet to play nicely with -nDiskMSnExp -bjects &lt;2016-05-19 Thu&gt;</li>
-<li>Added slot -nDisk to pSet -bjects (TRUE for -nDiskMSnExp -bjects, FALSE -therwise). The getter method isOnDisk checks for the presence -f the slot in the -bject (backward compatibility) &lt;2016-05-19 Thu&gt;</li>
-<li>Implemented a ProcessingStep class that helps to keep track how (spectra) data should be processed -n the fly &lt;2016-05-18 Wed&gt;</li>
-<li>In -nDiskMSnExp validity, check that the assaydata is empty &lt;2016-06-28 Tue&gt;</li>
+<li>Implemented fromFile and msLevel for onDiskMSnExp &lt;2016-05-19 Thu&gt;</li>
+<li>Implemented an onDiskMSnExp class for on-the-fly data import &lt;2016-05-19 Thu&gt;</li>
+<li>Fixed the validate method for pSet to play nicely with onDiskMSnExp objects &lt;2016-05-19 Thu&gt;</li>
+<li>Added slot onDisk to pSet objects (TRUE for onDiskMSnExp objects, FALSE otherwise). The getter method isOnDisk checks for the presence of the slot in the object (backward compatibility) &lt;2016-05-19 Thu&gt;</li>
+<li>Implemented a ProcessingStep class that helps to keep track how (spectra) data should be processed on the fly &lt;2016-05-18 Wed&gt;</li>
+<li>In onDiskMSnExp validity, check that the assaydata is empty &lt;2016-06-28 Tue&gt;</li>
 <li>Pass neutralLoss in plot,Spectrum,Spectrum-method to .calculateFragments; fixes #146 &lt;2016-08-12 Fri&gt;</li>
 <li>Allow the user to specify the <code>cex</code>, <code>lwd</code>, <code>pch</code> for peaks and fragments in plot,Spectrum,Spectrum-method; closes #148 &lt;2016-08-12 Fri&gt;</li>
 <li>Update centroided with an na.fail argument (see issue #150 for details) &lt;2016-08-12 Fri&gt;</li>
@@ -202,20 +206,20 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-21-8" class="anchor"> </a>Changes in version 1.21.8</h2>
 <ul><li>Update MSnSet validity method to guard agains empty string feature names &lt;2016-06-20 Mon&gt;</li>
-<li>Simplify show,MSnExp method to work for various MS level cases and -nDiskMSnExp - addressed issue #98 &lt;2016-06-28 Tue&gt;</li>
+<li>Simplify show,MSnExp method to work for various MS level cases and onDiskMSnExp - addressed issue #98 &lt;2016-06-28 Tue&gt;</li>
 <li>removeMultipleAssignment also removes features that were not assigned (i.e. that have fcol (nprots) NA) &lt;2016-07-02 Sat&gt;</li>
 <li>New smoothed slot/accessor/replacement methods &lt;2016-07-08 Fri&gt;</li>
 <li>Update reporter masses and add TMT10 ETD/HCD &lt;2016-07-20 Wed&gt;</li>
 <li>returning empty spectrum when fliterMz has empty range - see issue #134 &lt;2016-07-22 Fri&gt;</li>
-<li>(mz, intensity) values are reordered based -n -rder(mz) - see issue #135 &lt;2016-07-26 Tue&gt;</li>
+<li>(mz, intensity) values are reordered based on order(mz) - see issue #135 &lt;2016-07-26 Tue&gt;</li>
 <li>fix bug in bin,Spectrum - see issue #137 &lt;2016-08-05 Fri&gt;</li>
 </ul></div>
 <div id="changes-in-version-1-21-7" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-21-7" class="anchor"> </a>Changes in version 1.21.7</h2>
 <ul><li>Update iPQF reference &lt;2016-06-01 Wed&gt;</li>
-<li>Fix a bug in normalize method for MSnExp -bjects: assigning normalized spectra directly to assayData is not possible, as the environment is locked. See PR #91.</li>
-<li>readMSData: if no phenodata is provided it creates an empty -ne with rownames corresponding to the file names. See PR #91.</li>
+<li>Fix a bug in normalize method for MSnExp objects: assigning normalized spectra directly to assayData is not possible, as the environment is locked. See PR #91.</li>
+<li>readMSData: if no phenodata is provided it creates an empty one with rownames corresponding to the file names. See PR #91.</li>
 <li>Lock itraqdata’s assaydata bindings &lt;2016-06-08 Wed&gt;</li>
 </ul></div>
 <div id="changes-in-version-1-21-6" class="section level2">
@@ -229,14 +233,14 @@
 <a href="#changes-in-version-1-21-5" class="anchor"> </a>Changes in version 1.21.5</h2>
 <ul><li>Added Johannes as contributor &lt;2016-05-12 Thu&gt;</li>
 <li>Deprecate MzTab v0.9 &lt;2016-05-19 Thu&gt;</li>
-<li>Fix -ld googlecode URLs to -ld MzTab &lt;2016-05-19 Thu&gt;</li>
+<li>Fix old googlecode URLs to old MzTab &lt;2016-05-19 Thu&gt;</li>
 </ul></div>
 <div id="changes-in-version-1-21-4" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-21-4" class="anchor"> </a>Changes in version 1.21.4</h2>
 <ul><li>More MzTab and Spectrum1 unit testing &lt;2016-05-08 Sun&gt;</li>
 <li>Speed up readMSData (PR #86 by jotsetung) &lt;2016-05-12 Thu&gt;</li>
-<li>Replace example file URL to use github instead -f googlecode &lt;2016-05-12 Thu&gt;</li>
+<li>Replace example file URL to use github instead of googlecode &lt;2016-05-12 Thu&gt;</li>
 </ul></div>
 <div id="changes-in-version-1-21-3" class="section level2">
 <h2 class="hasAnchor">
@@ -314,13 +318,13 @@
 <div id="changes-in-version-1-19-17" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-19-17" class="anchor"> </a>Changes in version 1.19.17</h2>
-<ul><li>Write support -f mzTab has been dropped (writeMzTabData, makeMTD, makePEP and makePRT are now defunct) &lt;2016-03-18 Fri&gt;</li>
+<ul><li>Write support of mzTab has been dropped (writeMzTabData, makeMTD, makePEP and makePRT are now defunct) &lt;2016-03-18 Fri&gt;</li>
 </ul></div>
 <div id="changes-in-version-1-19-16" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-19-16" class="anchor"> </a>Changes in version 1.19.16</h2>
 <ul><li>add estimateNoise,[Spectrum|MSnExp]-method; closes #78 &lt;2016-03-10&gt;</li>
-<li>import a lot -f functions from recommended packages, namely graphics, stats and utils to avoid many “Undefined global functions -r variables” NOTEs in R CMD check &lt;2016-03-10&gt;</li>
+<li>import a lot of functions from recommended packages, namely graphics, stats and utils to avoid many “Undefined global functions or variables” NOTEs in R CMD check &lt;2016-03-10&gt;</li>
 </ul></div>
 <div id="changes-in-version-1-19-15" class="section level2">
 <h2 class="hasAnchor">
@@ -371,14 +375,14 @@
 <div id="changes-in-version-1-19-7" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-19-7" class="anchor"> </a>Changes in version 1.19.7</h2>
-<ul><li>new sampleNames&lt;- for pSet and MSnExp -bjects &lt;2015-12-15 Tue&gt;</li>
+<ul><li>new sampleNames&lt;- for pSet and MSnExp objects &lt;2015-12-15 Tue&gt;</li>
 <li>Fix bug preventing to write MS1 to mgf (fixes issue #73 reported by meowcat) &lt;2015-12-18 Fri&gt;</li>
 </ul></div>
 <div id="changes-in-version-1-19-6" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-19-6" class="anchor"> </a>Changes in version 1.19.6</h2>
-<ul><li>MSnExp feautreNames are now X01, X02 (0 after X) to maintain numerical sorting -f ASCII characters; contributed by sgibb &lt;2015-12-14 Mon&gt;</li>
-<li>Update MSnbase:::subsetBy to use split instead -f lapply, which makes topN faster. This nevertheless changes the -rder -f the resulting MSnSet (see issue #63 for details and background); contributed by sgibb &lt;2015-12-14 Mon&gt;</li>
+<ul><li>MSnExp feautreNames are now X01, X02 (0 after X) to maintain numerical sorting of ASCII characters; contributed by sgibb &lt;2015-12-14 Mon&gt;</li>
+<li>Update MSnbase:::subsetBy to use split instead of lapply, which makes topN faster. This nevertheless changes the order of the resulting MSnSet (see issue #63 for details and background); contributed by sgibb &lt;2015-12-14 Mon&gt;</li>
 </ul></div>
 <div id="changes-in-version-1-19-5" class="section level2">
 <h2 class="hasAnchor">
@@ -444,20 +448,20 @@
 <ul><li>partly rewrite writeMgfData &lt;2015-05-16 Thu&gt;</li>
 <li>initial hmap function &lt;2015-07-16 Thu&gt;</li>
 <li>fix bug in plotting MS1 spectra (closes issue #59) &lt;2015-07-16 Thu&gt;</li>
-<li>new image implementation, based -n @vladpetyuk’s vp.misc::image_msnset &lt;2015-07-25 Sat&gt;</li>
-<li>Changed the deprecated warning to a message when reading MzTab data version 0.9, as using the -ld reader can not -nly be achived by accident and will be kept for backwards file format compatibility &lt;2015-07-30 Thu&gt;</li>
+<li>new image implementation, based on @vladpetyuk’s vp.misc::image_msnset &lt;2015-07-25 Sat&gt;</li>
+<li>Changed the deprecated warning to a message when reading MzTab data version 0.9, as using the old reader can not only be achived by accident and will be kept for backwards file format compatibility &lt;2015-07-30 Thu&gt;</li>
 </ul></div>
 <div id="changes-in-version-1-17-12" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-17-12" class="anchor"> </a>Changes in version 1.17.12</h2>
-<ul><li>fix show MIAPE when some -therInfo at NA &lt;2015-07-15 Wed&gt;</li>
+<ul><li>fix show MIAPE when some otherInfo at NA &lt;2015-07-15 Wed&gt;</li>
 </ul></div>
 <div id="changes-in-version-1-17-11" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-17-11" class="anchor"> </a>Changes in version 1.17.11</h2>
 <ul><li>adding unit tests &lt;2015-07-01 Wed&gt;</li>
 <li>fix abundance column selection when creating MSnSet form MzTab &lt;2015-07-01 Wed&gt;</li>
-<li>new mzTabMode and mzTabType shortcut accessors for mode and type -f an mzTab data &lt;2015-07-01 Wed&gt;</li>
+<li>new mzTabMode and mzTabType shortcut accessors for mode and type of an mzTab data &lt;2015-07-01 Wed&gt;</li>
 </ul></div>
 <div id="changes-in-version-1-17-10" class="section level2">
 <h2 class="hasAnchor">
@@ -479,27 +483,27 @@
 <div id="changes-in-version-1-17-7" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-17-7" class="anchor"> </a>Changes in version 1.17.7</h2>
-<ul><li>Fix support -f identification-only mzTab files &lt;2015-06-22 Mon&gt;</li>
+<ul><li>Fix support of identification-only mzTab files &lt;2015-06-22 Mon&gt;</li>
 </ul></div>
 <div id="changes-in-version-1-17-6" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-17-6" class="anchor"> </a>Changes in version 1.17.6</h2>
 <ul><li>Export metadata,MzTab-method &lt;2015-06-19 Fri&gt;</li>
 <li>Replace spectra,MzTab-method by psms,MzTab-method &lt;2015-06-20 Sat&gt;</li>
-<li>Change the meaning -f calculateFragments’ “modifications” argument. Now the modification is added to the mass -f the amino acid/peptide. Before it was replaced. &lt;2015-06-21 Sun&gt;</li>
+<li>Change the meaning of calculateFragments’ “modifications” argument. Now the modification is added to the mass of the amino acid/peptide. Before it was replaced. &lt;2015-06-21 Sun&gt;</li>
 <li>calculateFragments gains the feature to handle N-/C-terminal modifications, see #47. &lt;2015-06-21 Sun&gt;</li>
 <li>update readMzTabData example &lt;2015-06-22 Mon&gt;</li>
 </ul></div>
 <div id="changes-in-version-1-17-5" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-17-5" class="anchor"> </a>Changes in version 1.17.5</h2>
-<ul><li>new MzTab class to store a simple parsing -f an mzTab version 1 data file. See ?MzTab for details. &lt;2015-06-16 Tue&gt;</li>
+<ul><li>new MzTab class to store a simple parsing of an mzTab version 1 data file. See ?MzTab for details. &lt;2015-06-16 Tue&gt;</li>
 </ul></div>
 <div id="changes-in-version-1-17-4" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-17-4" class="anchor"> </a>Changes in version 1.17.4</h2>
 <ul><li>New lengths method for FoICollection instances &lt;2015-06-06 Sat&gt;</li>
-<li>New image2 function for matrix -bject, that behaves like the method for MSnSets &lt;2015-06-10 Wed&gt;</li>
+<li>New image2 function for matrix object, that behaves like the method for MSnSets &lt;2015-06-10 Wed&gt;</li>
 <li>image,MSnSet labels x and y axis as Samples and Features &lt;2015-06-10 Wed&gt;</li>
 <li>fixed bug in purityCorrect, reported by Dario Strbenac &lt;2015-06-11 Thu&gt;</li>
 </ul></div>
@@ -533,8 +537,8 @@
 <div id="changes-in-version-1-15-18" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-15-18" class="anchor"> </a>Changes in version 1.15.18</h2>
-<ul><li>fix failing test_MSnExp::readMSData unit test -n Windows i386 (@.cache$size being different -n that arch) [2015-04-14 Tue]</li>
-<li>merge @vladpetyuk PR #50 fix -f combine features bug [2015-04-14 Tue]</li>
+<ul><li>fix failing test_MSnExp::readMSData unit test on Windows i386 (@.cache$size being different on that arch) [2015-04-14 Tue]</li>
+<li>merge @vladpetyuk PR #50 fix of combine features bug [2015-04-14 Tue]</li>
 </ul></div>
 <div id="changes-in-version-1-15-17" class="section level2">
 <h2 class="hasAnchor">
@@ -554,7 +558,7 @@
 <div id="changes-in-version-1-15-14" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-15-14" class="anchor"> </a>Changes in version 1.15.14</h2>
-<ul><li>new msnset data, used in various examples instead -f quantifying the itraqdata experiment -ver and -ver again [2015-04-01 Wed]</li>
+<ul><li>new msnset data, used in various examples instead of quantifying the itraqdata experiment over and over again [2015-04-01 Wed]</li>
 </ul></div>
 <div id="changes-in-version-1-15-13" class="section level2">
 <h2 class="hasAnchor">
@@ -565,7 +569,7 @@
 <div id="changes-in-version-1-15-12" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-15-12" class="anchor"> </a>Changes in version 1.15.12</h2>
-<ul><li>average neighbour imputation for -rdered fractions along a gradient [2015-03-21 Sat]</li>
+<ul><li>average neighbour imputation for ordered fractions along a gradient [2015-03-21 Sat]</li>
 </ul></div>
 <div id="changes-in-version-1-15-11" class="section level2">
 <h2 class="hasAnchor">
@@ -592,14 +596,14 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-15-7" class="anchor"> </a>Changes in version 1.15.7</h2>
 <ul><li>Importing ProtGenerics [2015-02-28 Sat]</li>
-<li>selective import -f MALDIquant [2015-03-02 Mon]</li>
+<li>selective import of MALDIquant [2015-03-02 Mon]</li>
 </ul></div>
 <div id="changes-in-version-1-15-6" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-15-6" class="anchor"> </a>Changes in version 1.15.6</h2>
-<ul><li>add intensity column to the calculateFragments -utput; closes #47;1 [2015-02-02 Mon]</li>
-<li>add method argument to calculateFragments to allow the user choosing the highest/closest peak -r all peaks in the tolerance range; closes #47;2 [2015-02-09 Mon]</li>
-<li>add neutralLoss argument to calculateFragments and calculate loss -f water and ammonia; closes #47:3 [2015-02-19 Thu]</li>
+<ul><li>add intensity column to the calculateFragments output; closes #47;1 [2015-02-02 Mon]</li>
+<li>add method argument to calculateFragments to allow the user choosing the highest/closest peak or all peaks in the tolerance range; closes #47;2 [2015-02-09 Mon]</li>
+<li>add neutralLoss argument to calculateFragments and calculate loss of water and ammonia; closes #47:3 [2015-02-19 Thu]</li>
 <li>new imputation methods via imputeLCMD and norm [2015-02-09 Mon]</li>
 <li>vignette updates [2015-02-09 Mon]</li>
 <li>imputation unit test [2015-02-24 Tue]</li>
@@ -609,9 +613,9 @@
 <a href="#changes-in-version-1-15-5" class="anchor"> </a>Changes in version 1.15.5</h2>
 <ul><li>update dependency to mzID &gt;= 1.5.2 [2015-01-28 Wed]</li>
 <li>rewrite addIdentificationData and change its signature [2015-01-28 Wed]</li>
-<li>add methods addIdentificationData which work -n MSnExp and MSnSets using filenames (characters), mzID -bjects and data.frames; see #42; closes #45; [2015-01-28 Wed]</li>
+<li>add methods addIdentificationData which work on MSnExp and MSnSets using filenames (characters), mzID objects and data.frames; see #42; closes #45; [2015-01-28 Wed]</li>
 <li>add a section about MSmaps in the vignette [2015-02-02 Mon]</li>
-<li>MSmap has a new zeroIsNA argument to set all 0 values -f the map to NA. This simplifies the resulting plot3D figure. [2015-02-02 Mon]</li>
+<li>MSmap has a new zeroIsNA argument to set all 0 values of the map to NA. This simplifies the resulting plot3D figure. [2015-02-02 Mon]</li>
 </ul></div>
 <div id="changes-in-version-1-15-4" class="section level2">
 <h2 class="hasAnchor">
@@ -624,21 +628,21 @@
 <div id="changes-in-version-1-15-3" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-15-3" class="anchor"> </a>Changes in version 1.15.3</h2>
-<ul><li>plot,Spectrum2,character to add fragment ions based -n peptide sequence [2014-11-20 Thu]</li>
+<ul><li>plot,Spectrum2,character to add fragment ions based on peptide sequence [2014-11-20 Thu]</li>
 <li>update vignette with above [2014-11-20 Thu]</li>
 <li>comment parallel code in quantify man [2015-01-09 Fri]</li>
 </ul></div>
 <div id="changes-in-version-1-15-2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-15-2" class="anchor"> </a>Changes in version 1.15.2</h2>
-<ul><li>merged sgibb’s pull request exporting -verloaded methods as well [2014-11-02 Sun]</li>
+<ul><li>merged sgibb’s pull request exporting overloaded methods as well [2014-11-02 Sun]</li>
 <li>updated MSnSet validity, checking that exprs(.) is a matrix [2014-11-12 Wed]</li>
 <li>fix error (missing header extraction) is MSmap example [2014-11-18 Tue]</li>
 </ul></div>
 <div id="changes-in-version-1-15-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-15-1" class="anchor"> </a>Changes in version 1.15.1</h2>
-<ul><li>Fixing error when id file has no spectrumFile info (see issue #39) and return a warning (instead -f an error) when the file used to create the MSnExp/MSnSet and mzid file were different [2014-10-15 Wed]</li>
+<ul><li>Fixing error when id file has no spectrumFile info (see issue #39) and return a warning (instead of an error) when the file used to create the MSnExp/MSnSet and mzid file were different [2014-10-15 Wed]</li>
 </ul></div>
 <div id="changes-in-version-1-15-0" class="section level2">
 <h2 class="hasAnchor">
@@ -696,8 +700,8 @@
 <div id="changes-in-version-1-13-10" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-13-10" class="anchor"> </a>Changes in version 1.13.10</h2>
-<ul><li>new averageMSnSet function to generate an average -ver a list -f MSnSets. [2014-06-17 Tue]</li>
-<li>new non-parametric coefficent -f variation function [2014-06-17 Tue]</li>
+<ul><li>new averageMSnSet function to generate an average over a list of MSnSets. [2014-06-17 Tue]</li>
+<li>new non-parametric coefficent of variation function [2014-06-17 Tue]</li>
 <li>Using/importing IRanges::width [2014-06-18 Wed]</li>
 </ul></div>
 <div id="changes-in-version-1-13-9" class="section level2">
@@ -730,7 +734,7 @@
 <ul><li>export .get.amino.acids function [2014-05-08 Thu]</li>
 <li>removePeaks for centroided data [2014-05-08 Thu]</li>
 <li>add new exported function get.atomic.mass [2014-05-08 Thu]</li>
-<li>Spectrum[2] prototype sets centroided=FALSE by default (instead -f logical()) [2014-05-08 Thu]</li>
+<li>Spectrum[2] prototype sets centroided=FALSE by default (instead of logical()) [2014-05-08 Thu]</li>
 <li>fnamesIn also supports y = “data.frame” [2014-05-14 Wed]</li>
 <li>Using BiocParallel for parallel support; replaced parallel argument with BPPARAM [2014-05-14 Wed]</li>
 </ul></div>
@@ -748,12 +752,12 @@
 <div id="changes-in-version-1-13-2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-13-2" class="anchor"> </a>Changes in version 1.13.2</h2>
-<ul><li>add compareSpectra to compare Spectrum -bjects [2014-04-09 Wed]</li>
-<li>add bin method for Spectrum -bjects [2014-04-09 Wed]</li>
+<ul><li>add compareSpectra to compare Spectrum objects [2014-04-09 Wed]</li>
+<li>add bin method for Spectrum objects [2014-04-09 Wed]</li>
 <li>recreate inst/extdata/msx.rda for R 3.1 and Biobase 2.24 [2014-04-13 Sun]</li>
 <li>add plot,Spectrum,Spectrum method [2014-04-14 Mon]</li>
 <li>add calculateFragments,character,Spectrum and calculateFragments,character,missing methods [2014-04-15 Tue]</li>
-<li>updated readMSData test unit to ignore -bject@.<strong>classVersion</strong> that fails with latest R/Bioc versions [2014-04-15 Tue]</li>
+<li>updated readMSData test unit to ignore object@.<strong>classVersion</strong> that fails with latest R/Bioc versions [2014-04-15 Tue]</li>
 <li>formatRt conversion from ‘mm:sec’ to sec and unit test [2014-04-17 Thu]</li>
 <li>Update nprot/npsm.prot/npsm.pep/npep.prot feature variables and relevant man/tests/argument defaults [2014-04-17 Thu]</li>
 </ul></div>
@@ -763,7 +767,7 @@
 <ul><li>add precursor method to Spectrum2 normalisation method [2014-04-08 Tue]</li>
 <li>add smooth for MSnExp and Spectrum classes [2014-04-10 Thu]</li>
 <li>add pickPeaks for MSnExp and Spectrum classes [2014-04-10 Thu]</li>
-<li>updated show,MSnExp to display -nly first/last files when &gt; 2 [2014-04-11 Fri]</li>
+<li>updated show,MSnExp to display only first/last files when &gt; 2 [2014-04-11 Fri]</li>
 </ul></div>
 <div id="changes-in-version-1-13-0" class="section level2">
 <h2 class="hasAnchor">
@@ -814,7 +818,7 @@
 <div id="changes-in-version-1-11-9" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-11-9" class="anchor"> </a>Changes in version 1.11.9</h2>
-<ul><li>write.exprs can have fDataCol -r fcol (for consistence) [2014-03-17 Mon]</li>
+<ul><li>write.exprs can have fDataCol or fcol (for consistence) [2014-03-17 Mon]</li>
 <li>Fixing bug in combineFeatures(…, is.character(groupBy)) [2014-03-19 Wed]</li>
 <li>fixed combineFeatures [2014-03-20 Thu]</li>
 <li>added example, test and doc for combineFeatures with list [2014-03-20 Thu]</li>
@@ -836,7 +840,7 @@
 <a href="#changes-in-version-1-11-6" class="anchor"> </a>Changes in version 1.11.6</h2>
 <ul><li>add corresponding xcms functions to the chromatogram and xic manual page [2014-02-21 Fri]</li>
 <li>new bpca imputation methods [2014-02-27 Thu]</li>
-<li>replacing stop_on_error with -ption in vignette [2014-02-27 Thu]</li>
+<li>replacing stop_on_error with option in vignette [2014-02-27 Thu]</li>
 </ul></div>
 <div id="changes-in-version-1-11-5" class="section level2">
 <h2 class="hasAnchor">
@@ -849,7 +853,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-11-4" class="anchor"> </a>Changes in version 1.11.4</h2>
 <ul><li>passing … to sweep when normalising [2013-12-08 Sun]</li>
-<li>updated makeMTD to accomodate new MS -ntology [2013-12-23 Mon]</li>
+<li>updated makeMTD to accomodate new MS ontology [2013-12-23 Mon]</li>
 </ul></div>
 <div id="changes-in-version-1-11-3" class="section level2">
 <h2 class="hasAnchor">
@@ -909,7 +913,7 @@
 <div id="changes-in-version-1-9-8" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-9-8" class="anchor"> </a>Changes in version 1.9.8</h2>
-<ul><li>using new.env(parent=emptyenv()) to get rid -f enclosing env when creating new MSnExps [2013-09-17 Tue]</li>
+<ul><li>using new.env(parent=emptyenv()) to get rid of enclosing env when creating new MSnExps [2013-09-17 Tue]</li>
 <li>new (private) MSnExp.size function [2013-09-17 Tue]</li>
 </ul></div>
 <div id="changes-in-version-1-9-7" class="section level2">
@@ -947,7 +951,7 @@
 <div id="changes-in-version-1-9-2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-9-2" class="anchor"> </a>Changes in version 1.9.2</h2>
-<ul><li>clean has now a all param (default FALSE is retain -riginal behavious) to remove all 0 intensity values [2013-04-17 Wed]</li>
+<ul><li>clean has now a all param (default FALSE is retain original behavious) to remove all 0 intensity values [2013-04-17 Wed]</li>
 <li>using BiocGenerics::normalize [2013-04-25 Thu]</li>
 </ul></div>
 <div id="changes-in-version-1-9-1" class="section level2">
@@ -989,7 +993,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-7-23" class="anchor"> </a>Changes in version 1.7.23</h2>
 <ul><li>new private nologging function [2013-02-21 Thu]</li>
-<li>adding total number -f features -n plotNA [2013-02-22 Fri]</li>
+<li>adding total number of features on plotNA [2013-02-22 Fri]</li>
 <li>updated msnbase.r [2013-02-26 Tue]</li>
 </ul></div>
 <div id="changes-in-version-1-7-22" class="section level2">
@@ -1045,8 +1049,8 @@
 <div id="changes-in-version-1-7-13" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-7-13" class="anchor"> </a>Changes in version 1.7.13</h2>
-<ul><li>msnbase.r v0.1.1 with -h (help) arg [2013-01-08 Tue]</li>
-<li>msnbase.r coerce -b arg to numeric [2013-01-08 Tue]</li>
+<ul><li>msnbase.r v0.1.1 with oh (help) arg [2013-01-08 Tue]</li>
+<li>msnbase.r coerce ob arg to numeric [2013-01-08 Tue]</li>
 <li>testing if any features left in readIspyData [2013-01-08 Tue]</li>
 </ul></div>
 <div id="changes-in-version-1-7-12" class="section level2">
@@ -1054,7 +1058,7 @@
 <a href="#changes-in-version-1-7-12" class="anchor"> </a>Changes in version 1.7.12</h2>
 <ul><li>updated makeImpuritiesMatrix to create matrix from csv file with correction factors [2012-12-23 Sun]</li>
 <li>makeImpuritiesMatrix test [2012-12-23 Sun]</li>
-<li>readIspyData: message instead -f warning if NA in featureData [2012-12-24 Mon]</li>
+<li>readIspyData: message instead of warning if NA in featureData [2012-12-24 Mon]</li>
 <li>Added msnbase.r script [2012-12-24 Mon]</li>
 </ul></div>
 <div id="changes-in-version-1-7-11" class="section level2">
@@ -1069,12 +1073,12 @@
 <a href="#changes-in-version-1-7-10" class="anchor"> </a>Changes in version 1.7.10</h2>
 <ul><li>new droplevels.MSnSet S3 method [2012-12-14 Fri]</li>
 <li>fixed errors in vignette and udpates [2012-12-14 Fri]</li>
-<li>vignette build stops in case -f error [2012-12-14 Fri]</li>
+<li>vignette build stops in case of error [2012-12-14 Fri]</li>
 </ul></div>
 <div id="changes-in-version-1-7-9" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-7-9" class="anchor"> </a>Changes in version 1.7.9</h2>
-<ul><li>Updating processing data -n readIspyData [2012-12-05 Wed]</li>
+<ul><li>Updating processing data on readIspyData [2012-12-05 Wed]</li>
 <li>filterNA has a droplevels arg [2012-12-05 Wed]</li>
 <li>featureCV’s default cv.norm is ‘sum’ now [2012-12-11 Tue]</li>
 <li>fixed featureCV for 1 sample [2012-12-11 Tue]</li>
@@ -1087,7 +1091,7 @@
 <li>new TMT6 impurity matrix and fixed purityCorrect [2012-12-05 Wed]</li>
 <li>combineFeatures now automatically computes feature CVs (using featureCV) and collates this in featureData [2012-12-05 Wed]</li>
 <li>new exprsToRatios method (moved from pRoloc) [2012-12-05 Wed]</li>
-<li>initial implementation -f impurity correction using Cramer’s rule (see MSnbase:::cramer4) [2012-12-05 Wed]</li>
+<li>initial implementation of impurity correction using Cramer’s rule (see MSnbase:::cramer4) [2012-12-05 Wed]</li>
 </ul></div>
 <div id="changes-in-version-1-7-7" class="section level2">
 <h2 class="hasAnchor">
@@ -1142,7 +1146,7 @@
 <div id="changes-in-version-1-5-25" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-5-25" class="anchor"> </a>Changes in version 1.5.25</h2>
-<ul><li>fixed bug when quantifying exp -f length 1 (reported by Colin Archer), added test [2012-09-26 Wed]</li>
+<ul><li>fixed bug when quantifying exp of length 1 (reported by Colin Archer), added test [2012-09-26 Wed]</li>
 <li>fixed parallel default to FALSE [2012-09-26 Wed]</li>
 </ul></div>
 <div id="changes-in-version-1-5-24" class="section level2">
@@ -1197,7 +1201,7 @@
 <div id="changes-in-version-1-5-16" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-5-16" class="anchor"> </a>Changes in version 1.5.16</h2>
-<ul><li>parallel quantify is now always set to FALSE -n Windows, fixing example checking issues [2012-09-11 Tue]</li>
+<ul><li>parallel quantify is now always set to FALSE on Windows, fixing example checking issues [2012-09-11 Tue]</li>
 <li>fixed types in plotMzDelta man [2012-09-11 Tue]</li>
 </ul></div>
 <div id="changes-in-version-1-5-15" class="section level2">
@@ -1215,12 +1219,12 @@
 <a href="#changes-in-version-1-5-13" class="anchor"> </a>Changes in version 1.5.13</h2>
 <ul><li>updated fillUp function [2012-08-15 Wed]</li>
 <li>added tikzDevice to suggests [2012-08-16 Thu]</li>
-<li>tikzDevice no longer -n CRAN - removing from Suggests and using pdf as device in vignette [2012-08-16 Thu]</li>
+<li>tikzDevice no longer on CRAN - removing from Suggests and using pdf as device in vignette [2012-08-16 Thu]</li>
 </ul></div>
 <div id="changes-in-version-1-5-12" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-5-12" class="anchor"> </a>Changes in version 1.5.12</h2>
-<ul><li>using knitr instead -f pgfSweave and misc vignette updated[2012-08-13 Mon]</li>
+<ul><li>using knitr instead of pgfSweave and misc vignette updated[2012-08-13 Mon]</li>
 <li>spectrum2 reporter plotting params updates [2012-08-14 Tue]</li>
 <li>added reporterNames to NAMESPACE [2012-08-14 Tue]</li>
 </ul></div>
@@ -1228,7 +1232,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-5-11" class="anchor"> </a>Changes in version 1.5.11</h2>
 <ul><li>type in filterNA log messaging and also rounding pNA [2012-06-07 Thu]</li>
-<li>typo in demo vignette - Gb instead -f Mb [2012-07-15 Sun]</li>
+<li>typo in demo vignette - Gb instead of Mb [2012-07-15 Sun]</li>
 </ul></div>
 <div id="changes-in-version-1-5-10" class="section level2">
 <h2 class="hasAnchor">
@@ -1240,7 +1244,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-5-9" class="anchor"> </a>Changes in version 1.5.9</h2>
 <ul><li>topN now properly updates processingData [2012-06-01 Fri]</li>
-<li>combineFeatures updates featureNames based -n the groupBy argument - updated demo vignette and man accordinlgy [2012-06-01 Fri]</li>
+<li>combineFeatures updates featureNames based on the groupBy argument - updated demo vignette and man accordinlgy [2012-06-01 Fri]</li>
 <li>additional parameters were not passed when normalise using vsn [2012-06-01 Fri]</li>
 </ul></div>
 <div id="changes-in-version-1-5-8" class="section level2">
@@ -1263,7 +1267,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-5-6" class="anchor"> </a>Changes in version 1.5.6</h2>
 <ul><li>new ionSource, analyser, detectorType, title accessor methods for MIAPE, pSet and MSnSet classes [2012-05-06 Sun]</li>
-<li>updated quantify example to use data(itraqdata) instead -f reading dummyiTRAQ.mzXML [2012-05-09 Wed]</li>
+<li>updated quantify example to use data(itraqdata) instead of reading dummyiTRAQ.mzXML [2012-05-09 Wed]</li>
 <li>initial mzTab write support [2012-05-10 Thu]</li>
 <li>mzTab read support [2012-05-10 Thu]</li>
 <li>updated demo and io vignettes with mzTab info [2012-05-10 Thu]</li>
@@ -1288,14 +1292,14 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-5-3" class="anchor"> </a>Changes in version 1.5.3</h2>
 <ul><li>extractSpectra is now defunct [2012-04-20 Fri]</li>
-<li>caching full header in level 1; this is required when and MSnExp instance with <em>many</em> spectra (created from many raw files) is quantified - calling header(object) is a too big -verhead compared to actual reporter quantification. [2012-04-20 Fri]</li>
+<li>caching full header in level 1; this is required when and MSnExp instance with <em>many</em> spectra (created from many raw files) is quantified - calling header(object) is a too big overhead compared to actual reporter quantification. [2012-04-20 Fri]</li>
 <li>The header() method now uses the cached dataframe if level ]= 1; the (unexported) .header function can be used to generate the dataframe using the assayData slot data. [2012-04-20 Fri]</li>
 <li>Setting processingData in MSnSet initialisation. [2012-04-20 Fri]</li>
 <li>Dropping index column from header. [2012-04-20 Fri]</li>
 <li>new Spectrum class v0.2.0 has tic slot. [2012-04-21 Sat]</li>
 <li>
-<em>tic</em> method (data stored as a Spectrum slot) now returns <em>total ion current</em> (as commonly used) and <em>total ion count</em> is -btain using <em>ionCount</em>. [2012-04-21 Sat]</li>
-<li>fixed normalisation boxplot titles and -ther tic/ionCount changes in demo vignette. [2012-04-21 Sat]</li>
+<em>tic</em> method (data stored as a Spectrum slot) now returns <em>total ion current</em> (as commonly used) and <em>total ion count</em> is obtain using <em>ionCount</em>. [2012-04-21 Sat]</li>
+<li>fixed normalisation boxplot titles and other tic/ionCount changes in demo vignette. [2012-04-21 Sat]</li>
 <li>removed qual subetting in MSnSet’s “[” method [2012-04-24 Tue]</li>
 </ul></div>
 <div id="changes-in-version-1-5-2" class="section level2">
@@ -1303,11 +1307,11 @@
 <a href="#changes-in-version-1-5-2" class="anchor"> </a>Changes in version 1.5.2</h2>
 <ul><li>transposing and MSnSet does <em>silently</em> drop the protocolData now [2012-04-03 Tue]</li>
 <li>fixed MSnExp pData creation for multiple files, feature names have a .fileNumber extension now. [2012-04-19 Thu]</li>
-<li>testing for uniqueness -f files (filenames) in readMSData [2012-04-19 Thu]</li>
+<li>testing for uniqueness of files (filenames) in readMSData [2012-04-19 Thu]</li>
 <li>updated itraqdata.RData [2012-04-19 Thu]</li>
-<li>added a paralle argument to quantify and using paralle = FALSE in vignette, to avoid duplicated display -f the command [2012-04-19 Thu]</li>
+<li>added a paralle argument to quantify and using paralle = FALSE in vignette, to avoid duplicated display of the command [2012-04-19 Thu]</li>
 <li>defined “reporterNames&lt;-” generics [2012-04-19 Thu]</li>
-<li>fixed warning in readMSData where all not used for comparison -f verctors -f length ] 1 [2012-04-20 Fri]</li>
+<li>fixed warning in readMSData where all not used for comparison of verctors of length ] 1 [2012-04-20 Fri]</li>
 </ul></div>
 <div id="changes-in-version-1-5-1" class="section level2">
 <h2 class="hasAnchor">
@@ -1347,7 +1351,7 @@
 <a href="#changes-in-version-1-3-13" class="anchor"> </a>Changes in version 1.3.13</h2>
 <ul><li>new plotNA method + doc [2012-02-15 Wed]</li>
 <li>new filterNA method + doc + tests [2012-02-15 Wed]</li>
-<li>added a check -n ‘n’ in topN [2012-02-16 Thu]</li>
+<li>added a check on ‘n’ in topN [2012-02-16 Thu]</li>
 <li>created a .Rinstignore [2012-02-16 Thu]</li>
 <li>Update package Rd [2012-02-16 Thu]</li>
 </ul></div>
@@ -1359,7 +1363,7 @@
 <div id="changes-in-version-1-3-11" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-3-11" class="anchor"> </a>Changes in version 1.3.11</h2>
-<ul><li>changed explicit close(file) in writeMgf methods to -n.exit(close(file)) [2012-02-12 Sun]</li>
+<ul><li>changed explicit close(file) in writeMgf methods to on.exit(close(file)) [2012-02-12 Sun]</li>
 <li>typo in vignette [2012-02-13 Mon]</li>
 </ul></div>
 <div id="changes-in-version-1-3-10" class="section level2">
@@ -1393,7 +1397,7 @@
 <ul><li>Speeded up writeMgfData [2012-01-28 Sat]</li>
 <li>fixes for ggplot2 0.9.0</li>
 <li>added import(grid) and import(reshape) [2012-01-30 Mon]</li>
-<li>importFrom(plyr, …) instead -f -nly llply [2012-01-31 Tue]</li>
+<li>importFrom(plyr, …) instead of only llply [2012-01-31 Tue]</li>
 <li>loading reshape and grid in vignette [2012-01-31 Tue]</li>
 <li>fixed chunk 21 (label = quantitation-plot) [2012-01-31 Tue]</li>
 </ul></div>
@@ -1402,7 +1406,7 @@
 <a href="#changes-in-version-1-3-6" class="anchor"> </a>Changes in version 1.3.6</h2>
 <ul><li>Updated NoteAboutSpeedAndMemory since parallel processing has been added. [2011-12-18 Sun]</li>
 <li>Added CITATION [2012-01-27 Fri]</li>
-<li>Added information to header -utput: acquisition number and precursor intensity [2012-01-27 Fri]</li>
+<li>Added information to header output: acquisition number and precursor intensity [2012-01-27 Fri]</li>
 <li>Added a test in plot.Spectrum2 for empty dataframe [2012-01-27 Fri]</li>
 <li>moved foreach, doMC to enhances [2012-01-27 Fri]</li>
 </ul></div>
@@ -1410,7 +1414,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-3-5" class="anchor"> </a>Changes in version 1.3.5</h2>
 <ul><li>added a gc() before mzR::close(msdata)… seems to help with Rcpp and ref classes issue. [2011-12-09 Fri]</li>
-<li>added a show parameter to getCacheEnv to define .cache should be printed -ut before being returned. [2011-12-09 Fri]</li>
+<li>added a show parameter to getCacheEnv to define .cache should be printed out before being returned. [2011-12-09 Fri]</li>
 <li>added cache unit test [2011-12-09 Fri]</li>
 <li>readMzXMLData is now defunct and remove xcms from Imports [2011-12-16 Fri]</li>
 </ul></div>
@@ -1433,14 +1437,14 @@
 <div id="changes-in-version-1-3-2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-3-2" class="anchor"> </a>Changes in version 1.3.2</h2>
-<ul><li>\dontrun{} extractSpectrum example, as this seems to be a major -ffender producing the intermittent check ‘Error in function (x) : attempt to apply non-function’ error [2011-11-07 Mon]</li>
+<ul><li>\dontrun{} extractSpectrum example, as this seems to be a major offender producing the intermittent check ‘Error in function (x) : attempt to apply non-function’ error [2011-11-07 Mon]</li>
 <li>typo in <script type="text/javascript"><![CDATA[
 <!--
 h='&#82;';a='&#64;';n='&#x41;&#x75;&#116;&#104;&#x6f;&#114;';e=n+a+h;
 document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
 // -->
 ]]></script><noscript>Author at R</noscript> [2011-11-14 Mon]</li>
-<li>modified utils.removePeaks and utils.clean to call sapply instead -f IRanges:sapply [2011-12-01 Thu]</li>
+<li>modified utils.removePeaks and utils.clean to call sapply instead of IRanges:sapply [2011-12-01 Thu]</li>
 </ul></div>
 <div id="changes-in-version-1-3-1" class="section level2">
 <h2 class="hasAnchor">
@@ -1500,7 +1504,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
 <li>changed readMzXMLData to readMSData in man [2011-10-03 Mon]</li>
 <li>updated show MSnExp for speed [2011-10-03 Mon]</li>
 <li>updated read*Data is support cache = [0|1]. [2011-10-03 Mon]</li>
-<li>updated precScanNum to use sapply(spectra(…), precScanNum) instead -f unlist(eapply(assayData(…), precScanNum)) to preserve splectra -rder. [2011-10-03 Mon]</li>
+<li>updated precScanNum to use sapply(spectra(…), precScanNum) instead of unlist(eapply(assayData(…), precScanNum)) to preserve splectra order. [2011-10-03 Mon]</li>
 <li>new cache.R file with @.cache related code [2011-10-03 Mon]</li>
 </ul></div>
 <div id="changes-in-version-1-1-24" class="section level2">
@@ -1518,14 +1522,14 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
 <li>show(“MSnExp”) now works without retention time [2011-09-21 Wed]</li>
 <li>updated mgf2Spectrum2 to make it faster [2011-09-21 Wed]</li>
 <li>fixed missing fromFile slot in data created from readMgfData that prevented calling header [2011-09-21 Wed]</li>
-<li>readMgfData now creates a fData based -n the peak header [2011-09-21 Wed]</li>
+<li>readMgfData now creates a fData based on the peak header [2011-09-21 Wed]</li>
 <li>modified getCurveWidth to work with centroided data [2011-09-21 Wed]</li>
 <li>fixed bug getCurveWidth [2011-09-21 Wed]</li>
 </ul></div>
 <div id="changes-in-version-1-1-22" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-1-22" class="anchor"> </a>Changes in version 1.1.22</h2>
-<ul><li>removed (internal) Mascot query link column in readIspyData to work with latest -uput version [2011-09-12 Mon]</li>
+<ul><li>removed (internal) Mascot query link column in readIspyData to work with latest ouput version [2011-09-12 Mon]</li>
 <li>removed the fillUp part in readIspyData [2011-09-14 Wed]</li>
 <li>exported readIspyData [2011-09-20 Tue]</li>
 <li>removed link to proteomics sig list [2011-09-20 Tue]</li>
@@ -1546,7 +1550,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
 <li><p>vignette/man updates - mainly data import section documenting readMSData and readMgfData [2011-09-08 Thu]</p></li>
 <li>incorporating mzR io frame work [2011-09-05 Mon]</li>
 <li>use mzR’s peaksCount and header generics [2011-09-05 Mon]</li>
-<li>added test to check that readMzXMLData and readMSData give same -utput [2011-09-05 Mon]</li>
+<li>added test to check that readMzXMLData and readMSData give same output [2011-09-05 Mon]</li>
 <li>added readMSData.Rd doc file [2011-09-05 Mon]</li>
 <li>added <script type="text/javascript"><![CDATA[
 <!--
@@ -1564,8 +1568,8 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
 <li>fixed read/write mgf compatibility [2011-09-01 Thu]</li>
 <li>added mgf io test [2011-09-01 Thu]</li>
 <li>exported and document mfg read/write support [2011-09-01 Thu]</li>
-<li>added centroided parameter to rawToSpectrum[1|2] to set this directly at -bject creation in readMzXmlData [2011-09-01 Thu]</li>
-<li>-ther minor changes in Rd files [2011-09-01 Thu]</li>
+<li>added centroided parameter to rawToSpectrum[1|2] to set this directly at object creation in readMzXmlData [2011-09-01 Thu]</li>
+<li>other minor changes in Rd files [2011-09-01 Thu]</li>
 <li>added warning checks for combineFeatures when verbose=TRUE in test_MSnSet.R [2011-09-02 Fri]</li>
 </ul></div>
 <div id="changes-in-version-1-1-17" class="section level2">
@@ -1621,7 +1625,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
 <a href="#changes-in-version-1-1-11" class="anchor"> </a>Changes in version 1.1.11</h2>
 <ul><li>harmonised MSnExp and Spectrum plot axes labels [2011-05-18 Wed]</li>
 <li>Added plotting customisation section in vignette [2011-05-18 Wed]</li>
-<li>updated signature -f plot2d method to “MSnExp” -nly [2011-05-18 Wed]</li>
+<li>updated signature of plot2d method to “MSnExp” only [2011-05-18 Wed]</li>
 <li>added/exported plotDensity methods [2011-05-18 Wed]</li>
 <li>started QC vignette section [2011-05-18 Wed]</li>
 <li>added preprocSelection and preprocSelectionTable functions [2011-05-18 Wed]</li>
@@ -1702,18 +1706,18 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
 <div id="changes-in-version-1-1-2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-1-2" class="anchor"> </a>Changes in version 1.1.2</h2>
-<ul><li>Simplified quantify generic signature - now -nly -bject argument [2011-04-19 Tue]</li>
+<ul><li>Simplified quantify generic signature - now only object argument [2011-04-19 Tue]</li>
 <li>Added strict parameter to quantify method, man updated, added relevant test</li>
 <li>Added illustrative plot for quantitation methods in MSnbase-demo vignette [2011-04-19 Tue]</li>
 <li>Added illustrative plot for data pre-processing (removePeaks and clean) in MSnbase-demo vignette [2011-04-20 Wed]</li>
-<li>No warnings are issued anymore when peaks expands -utside -f mz(reporters) +/- width(reporters). See ?quantify -n how to check this manually. [2011-04-19 Tue]</li>
-<li>No warnings are issued anymore when reporter peaks are missing. See ?quantify -n how to check this manually. [2011-04-20 Wed]</li>
+<li>No warnings are issued anymore when peaks expands outside of mz(reporters) +/- width(reporters). See ?quantify on how to check this manually. [2011-04-19 Tue]</li>
+<li>No warnings are issued anymore when reporter peaks are missing. See ?quantify on how to check this manually. [2011-04-20 Wed]</li>
 <li>pSet validity warns if length(unique(msLevel(object))) ] 1, rather than != 1. The latter triggered a warning for a new(“MSnExp”). [2011-04-20 Wed]</li>
 </ul></div>
 <div id="changes-in-version-1-1-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-1-1" class="anchor"> </a>Changes in version 1.1.1</h2>
-<ul><li>added setAs data.frame and as.data.frame methods for Spectrum -bjects [2011-03-29 Tue]</li>
+<ul><li>added setAs data.frame and as.data.frame methods for Spectrum objects [2011-03-29 Tue]</li>
 <li>support for uncentroided MS2 spectra plots [2011-03-31 Thu] [2011-04-02 Sat]</li>
 <li>support for uncentroided MS1 spectra plots [2011-04-02 Sat]</li>
 <li>minor modification to readIspyData [2011-04-04 Mon]</li>
@@ -1735,18 +1739,18 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
 <div id="changes-in-version-0-99-3" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-0-99-3" class="anchor"> </a>Changes in version 0.99.3</h2>
-<ul><li>Using Sweave rather than pgfSweave to build -n lamb1. [2011-03-28 Mon]</li>
+<ul><li>Using Sweave rather than pgfSweave to build on lamb1. [2011-03-28 Mon]</li>
 </ul></div>
 <div id="changes-in-version-0-99-2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-0-99-2" class="anchor"> </a>Changes in version 0.99.2</h2>
 <ul><li>updated references in package Rd [2011-03-24 Thu]</li>
 <li>added readIspyData.Rd [2011-03-24 Thu]</li>
-<li>removed -ld readMzXMLData function [2011-03-24 Thu]</li>
+<li>removed old readMzXMLData function [2011-03-24 Thu]</li>
 <li>cleaning up code [2011-03-24 Thu]</li>
 <li>fixed MSnSet initialize: setting experimentData as MIAPE [2011-03-25 Fri]</li>
 <li>fixed MSnSet initialize: identical featureNames in assayData and featureData for empty MSnExp istances [2011-03-25 Fri]</li>
-<li>better test -rganisation and added -bject validity tests [2011-03-25 Fri]</li>
+<li>better test organisation and added object validity tests [2011-03-25 Fri]</li>
 <li>updated readIspyData function [2011-03-25 Fri]</li>
 </ul></div>
 <div id="changes-in-version-0-99-1" class="section level2">
@@ -1764,7 +1768,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
 h='&#112;&#114;&#x6f;&#x63;&#x65;&#x73;&#x73;';a='&#64;';n='&#x4d;&#x53;&#110;&#80;&#114;&#x6f;&#x63;&#x65;&#x73;&#x73;';e=n+a+h;
 document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
 // -->
-]]></script><noscript>MSnProcess at process</noscript> get’s -ne line when subsetting and MSnExp -bject [2011-03-21 Mon]</li>
+]]></script><noscript>MSnProcess at process</noscript> get’s one line when subsetting and MSnExp object [2011-03-21 Mon]</li>
 <li>Updated vignette Makefile [2011-03-22 Tue]</li>
 <li>Added fake vignettes [2011-03-22 Tue]</li>
 <li>Version set to 0.99.0 [2011-03-22 Tue]</li>
@@ -1781,7 +1785,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
 <div id="changes-in-version-0-2-0-2011-03-17-thu" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-0-2-0-2011-03-17-thu" class="anchor"> </a>Changes in version 0.2.0 [2011-03-17 Thu]</h2>
-<ul><li>MSnSet now extends eSet, reimplementing the ExpressionSet class with exception -f the experimentData slot, that must now be a MIAPE instance.</li>
+<ul><li>MSnSet now extends eSet, reimplementing the ExpressionSet class with exception of the experimentData slot, that must now be a MIAPE instance.</li>
 <li>updated MIAPE substantially and added accessor methods.</li>
 <li>updated docs and vignettes to reflect above changes.</li>
 </ul></div>
@@ -1793,7 +1797,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
 <h2 class="hasAnchor">
 <a href="#changes-in-version-0-1-5" class="anchor"> </a>Changes in version 0.1.5</h2>
 <ul><li>added zoo to Suggest, as zoo::rollapply is used in vignette.</li>
-<li>changes rollapply call to zoo:::rollapply.zoo, to make it work with zoo_1.6-4, rather that depending -n zoo_1.7-0, which is not yet -n CRAN (only r-forge).</li>
+<li>changes rollapply call to zoo:::rollapply.zoo, to make it work with zoo_1.6-4, rather that depending on zoo_1.7-0, which is not yet on CRAN (only r-forge).</li>
 <li>added vns to Suggests, as it is used in the demo vignette.</li>
 </ul></div>
 <div id="changes-in-version-0-1-4" class="section level2">
@@ -1806,7 +1810,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
 <a href="#changes-in-version-0-1-3" class="anchor"> </a>Changes in version 0.1.3</h2>
 <ul><li>Updates to ReporterIons man page</li>
 <li>Moved some Depends to Imports and updated NAMESPACE</li>
-<li>corrected a IRanges:::sapply -t IRanges::sapply in utils.R</li>
+<li>corrected a IRanges:::sapply ot IRanges::sapply in utils.R</li>
 <li>added inst/tests/test_MSnProcess.R</li>
 </ul></div>
 <div id="changes-in-version-0-1-2" class="section level2">
@@ -1822,8 +1826,8 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
 <li>changed R CMD to $(R_HOME)/bin/R CMD in inst/doc/Makefile</li>
 <li>removed first and last (was 5th) MS1 spectra and associated MS2 spectra from dummy file to reduce size below 2MB.</li>
 <li>Updated tests to reflect new dummy data set</li>
-<li>Edition -f dummy brakes readMzXMLData with msLevel=1 – comment related tests</li>
-<li>Updated MSnbase-demo vignette and man to use good spectra un plots (i.e “X43” instead -f “X64”)</li>
+<li>Edition of dummy brakes readMzXMLData with msLevel=1 – comment related tests</li>
+<li>Updated MSnbase-demo vignette and man to use good spectra un plots (i.e “X43” instead of “X64”)</li>
 </ul></div>
 <div id="changes-in-version-0-1-1" class="section level2">
 <h2 class="hasAnchor">
