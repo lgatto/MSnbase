@@ -1,4 +1,5 @@
 .travis.yml
 Makefile
 README.Rmd
+NEWS.md
 docs
