@@ -12,6 +12,7 @@
 
 .onLoad <- function(libname, pkgname) {
     ## Add MSnbase options.
+    register(SerialParam())
     msOps <- list(PARALLEL_THRESH = 1000,
                   verbose = FALSE)
     options(MSnbase = msOps)
