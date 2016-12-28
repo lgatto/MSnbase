@@ -24,10 +24,10 @@ addons:
 r_packages:
   - covr
 
-script: 
-  - | 
-    R CMD build .
-    travis_wait 40 R CMD check MSnbase*tar.gz
+# script: 
+#   - | 
+#     R CMD build .
+#     travis_wait 40 R CMD check MSnbase*tar.gz
     
 after_failure:
   find *Rcheck -name '*.fail' -print -exec cat '{}' \;
