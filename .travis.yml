@@ -21,9 +21,17 @@ addons:
       - libnetcdf-dev
       - netcdf-bin # libnetcdf-dev doesn't contain nc-config in ubuntu 12.04 (in 16.04 it is part of libnetcdf-dev)
 
+
+script: -|
+  R CMD build .
+  travis_wait 30 R CMD check MSnbase*tar.gz
+  
 r_packages:
   - covr
 
+after_failure:
+  find *Rcheck -name '*.fail' -print -exec cat '{}' \;
+  
 after_success:
   - Rscript -e 'covr::codecov()'
 
