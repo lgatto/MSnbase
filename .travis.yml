@@ -33,7 +33,7 @@ after_failure:
   find *Rcheck -name '*.fail' -print -exec cat '{}' \;
   
 after_success:
-  - Rscript -e 'covr::codecov()'
+  - travis_wait 20 Rscript -e 'covr::codecov()'
 
 # # print timings (of examples) and sysinfo
 # after_script:
