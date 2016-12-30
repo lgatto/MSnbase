@@ -24,6 +24,9 @@ addons:
 r_packages:
   - covr
 
+before_script:
+  - echo "BiocParallel::register(BiocParallel::SerialParam())" > ~/.Rprofile
+  
 script: 
   - | 
     R CMD build .
