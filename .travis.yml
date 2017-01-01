@@ -25,7 +25,7 @@ r_packages:
   - covr
 
 before_script:
-   - echo "options(bphost=Sys.info()[['nodename']])" > ~/.Rprofile
+   - echo "options(ports = 11000)" > ~/.Rprofile
 #  - echo "BiocParallel::register(BiocParallel::SerialParam())" > ~/.Rprofile
   
 script: 
