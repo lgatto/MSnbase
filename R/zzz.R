@@ -12,7 +12,12 @@
 
 .onLoad <- function(libname, pkgname) {
     ## Add MSnbase options.
+    ## Use radix sorting for R >= 3.3
+    sortMeth <- "auto"
+    if (as.numeric(R.Version()$major) >= 3 & as.numeric(R.Version()$minor) >= 3)
+        sortMeth <- "radix"
     msOps <- list(PARALLEL_THRESH = 1000,
+                  sortMethod = sortMeth,
                   verbose = FALSE)
     options(MSnbase = msOps)
 }
