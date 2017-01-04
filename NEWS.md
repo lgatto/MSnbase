@@ -1,7 +1,9 @@
 # MSnbase 2.1
 
 ## Changes in version 2.1.7
-- 
+
+- Default sorting using "auto" on R < 3.3 and "radix" otherwise
+  <2017-01-03 Tue>
 
 ## Changes in version 2.1.6
 
