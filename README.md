@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.org/lgatto/MSnbase.svg?branch=master)](https://travis-ci.org/lgatto/MSnbase) [![codecov.io](https://codecov.io/github/lgatto/MSnbase/coverage.svg?branch=master)](https://codecov.io/github/lgatto/MSnbase?branch=master)
+[![Build Status](https://travis-ci.org/lgatto/MSnbase.svg?branch=master)](https://travis-ci.org/lgatto/MSnbase) 
+[![codecov.io](https://codecov.io/github/lgatto/MSnbase/coverage.svg?branch=master)](https://codecov.io/github/lgatto/MSnbase?branch=master)
+[![Bioconductor devel build Status](http://bioconductor.org/shields/build/devel/bioc/MSnbase.svg)](http://bioconductor.org/packages/devel/bioc/html/MSnbase.html) 
+[![Test coverage](https://bioconductor.org/shields/coverage/devel/MSnbase.svg)](https://codecov.io/github/Bioconductor-mirror/MSnbase/branch/master)
 
 
 
@@ -53,10 +56,8 @@ To cite the `MSnbase` package in publications, please use:
 > Gatto L, Lilley KS. *`MSnbase` - an R/Bioconductor package for
 > isobaric tagged mass spectrometry data visualization, processing and
 > quantitation*. Bioinformatics. 2012 Jan
-> 15;28(2):288-9. doi:[10.1093/bioinformatics/btr645](http://bioinformatics.oxfordjournals.org/content/28/2/288.long). Epub
-> 2011 Nov 22.  PubMed
+> 15;28(2):288-9. doi:10.1093/bioinformatics/btr645. PubMed
 > [PMID:22113085](http://www.ncbi.nlm.nih.gov/pubmed/22113085).
-
 
 ## Contributing
 

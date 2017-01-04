@@ -12,7 +12,7 @@
 ##' There are also setters to set options individually. When run
 ##' without argument, the verbosity setter inverts the current value
 ##' of the option.
-##' 
+##'
 ##' @title MSnbase options
 ##' @param opt The value of the new option
 ##' @return A \code{list} of MSnbase options and the single option

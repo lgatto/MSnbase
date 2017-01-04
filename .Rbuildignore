@@ -1,4 +1,7 @@
 .travis.yml
+.gitignore
+.gitignores
 Makefile
 README.Rmd
+NEWS.md
 docs

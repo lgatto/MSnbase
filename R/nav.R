@@ -5,7 +5,7 @@
 ##' spectrum.
 ##'
 ##' @title Navigate an \code{MSnExp} object
-##' @param i The name of index of the current spectrum
+##' @param i The name or index of the current spectrum
 ##' @param object The \code{MSnExp} object
 ##' @param msLevel The MS level of the next or previous spectrum. If
 ##'     missing (default), then the level of the current spectrum is

@@ -1,0 +1,5 @@
+# This is an automatically generated file. Ammend in .gitignores/ and
+# read  http://lgatto.github.io/branch-specific-gitignore/ for details
+Makefile
+.gitignore
+NEWS

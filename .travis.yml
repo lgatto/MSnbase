@@ -20,31 +20,28 @@ addons:
       - texlive-fonts-extra
       - libnetcdf-dev
       - netcdf-bin # libnetcdf-dev doesn't contain nc-config in ubuntu 12.04 (in 16.04 it is part of libnetcdf-dev)
-
+  
 r_packages:
   - covr
-  - Rcpp
-  - progress
-  - DBI
-  - ggplot2
-  - RSQLite
-  - XML
-  - MALDIquant
 
-bioc_packages:
-  - AnnotationDbi
-  - annotate
-  - mzR
-  - BiocParallel
-  - mzID
+before_script:
+  - echo "BiocParallel::register(BiocParallel::SerialParam())" > ~/.Rprofile
+  
+script: 
+  - | 
+    R CMD build .
+    travis_wait 30 R CMD check MSnbase*tar.gz
 
+after_failure:
+  find *Rcheck -name '*.fail' -print -exec cat '{}' \;
+  
 after_success:
-  - Rscript -e 'covr::codecov()'
+  - travis_wait 20 Rscript -e 'covr::codecov()'
 
-# print timings (of examples) and sysinfo
-after_script:
-  - dump_logs_by_extension "timings"
-  - dump_sysinfo
+# # print timings (of examples) and sysinfo
+# after_script:
+#   - dump_logs_by_extension "timings"
+#   - dump_sysinfo
 
 notifications:
   email:

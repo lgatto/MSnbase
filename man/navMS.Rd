@@ -13,7 +13,7 @@ nextMS(...)
 prevMS(...)
 }
 \arguments{
-\item{i}{The name of index of the current spectrum}
+\item{i}{The name or index of the current spectrum}
 
 \item{object}{The \code{MSnExp} object}
 
