@@ -9,7 +9,9 @@ setMethod("initialize",
               if (xor(!missing(mz), !missing(intensity)))
                   stop("'mz' and 'intensity' or none required.")
               if (!missing(mz) & !missing(intensity)) {
-                  o <- base::order(mz, method = "radix")
+                  ## issue #180: use radix sorting for R >= 3.3
+                  ## o <- base::order(mz, method = "radix")
+                  o <- base::order(mz, method = MSnbaseOptions()$sortMethod)
                   .Object <- callNextMethod(.Object,
                                             ...,
                                             mz = mz[o],
