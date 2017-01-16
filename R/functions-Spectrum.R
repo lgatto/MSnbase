@@ -269,9 +269,8 @@ trimMz_Spectrum <- function(x, mzlim, msLevel., updatePeaksCount = TRUE) {
                       acquisitionNum(x),
                       ". Returning empty spectrum.")
         warning(paste(strwrap(msg), collapse = "\n"))
-        x@mz <- c(mzmin, mzmax)
-        x@intensity <- c(0L, 0L)
-        x@tic <- x@peaksCount <- 0L
+        x@mz <- x@intensity <- numeric()
+        x@tic <- x@peaksCount <- integer()
         return(x)
     }
     x@mz <- x@mz[sel]
