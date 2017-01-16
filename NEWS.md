@@ -4,6 +4,8 @@
 
 - Default sorting using "auto" on R < 3.3 and "radix" otherwise
   <2017-01-03 Tue>
+- filterMz returns an empty spectrum when no data is within the mz
+  range (see issue #181) <2017-01-16 Mon>
 
 ## Changes in version 2.1.6
 
