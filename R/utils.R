@@ -1024,3 +1024,12 @@ sortNumeric <- function(x, decreasing = FALSE, na.last = NA) {
     ## Uses _get_order_of_int_array() at the C level which is stable.
     return(.Call("sort_numeric", x, decreasing, PACKAGE = "MSnbase"))
 }
+
+
+## see this comment
+## https://github.com/lgatto/MSnbase/issues/183#issuecomment-273512931
+## for some background about this function
+.firstMsLevel <- function(object) {
+  if (inherits(object, "OnDiskMSnExp")) msLevel(object)[1]
+  else msLevel(object[[1]])
+}
