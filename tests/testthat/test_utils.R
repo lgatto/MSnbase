@@ -245,9 +245,10 @@ test_that("getBpParam", {
 })
 
 test_that("Get first MS level", {
+    library("msdata")
     f <- msdata::proteomics(full.names = TRUE)[1]
-    x <- readMSData(f, msLevel = 2L)
-    y <- readMSData2(f, msLevel = 2L)
+    x <- readMSData(f, msLevel. = 2L)
+    y <- readMSData2(f, msLevel. = 2L)
     ## in memory
     tx1 <- system.time(x1 <- msLevel(x)[1])[["elapsed"]]
     tx2 <- system.time(x2 <- .firstMsLevel(x))[["elapsed"]]

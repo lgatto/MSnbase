@@ -6,6 +6,9 @@
   <2017-01-03 Tue>
 - filterMz returns an empty spectrum when no data is within the mz
   range (see issue #181) <2017-01-16 Mon>
+- Performance improvement: a new private .firstMsLevel will
+  efficiently return the first MS level in an MSnExp and
+  OnDiskMSnExp. See issue #183 for details/background <2017-01-18 Wed>
 
 ## Changes in version 2.1.6
 
