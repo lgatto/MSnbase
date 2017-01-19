@@ -154,3 +154,13 @@ setMethod("filterAcquisitionNum", "MSnExp",
                                                length(file), " file(s)."))
               return(object)
           })
+
+
+setMethod("filterEmptySpectra", "MSnExp",
+          function(object, ...) {
+              emptyspecs <- unlist(spectrapply(object, isEmpty))
+              object <- object[!emptyspecs, ]
+              msg <- paste("Removed", sum(emptyspecs), "empty spectra.")
+              object <- MSnbase:::logging(object, msg)
+              object
+          })
