@@ -1,5 +1,8 @@
 # MSnbase 2.1
 
+## Changes in version 2.1.9
+- (nothing for now)
+
 ## Changes in version 2.1.8
 - Remove order option altogether <2017-01-19 Thu> (superseeds setting
   default sorting using "auto" on R < 3.3 and "radix" otherwise
