@@ -171,7 +171,7 @@ setMethod("quantify",
                   message("Please use BPPARAM to set a parallel framework.")
               method <- match.arg(method)
               ## this assumes that if first spectrum has msLevel > 1, all have
-              if (msLevel(object)[1] < 2)
+              if (.firstMsLevel(object) < 2)
                   stop("MS1-level quantification not implemented yet.")
               ## MS2 isobaric
               if (method %in% c("trapezoidation", "max", "sum")) {

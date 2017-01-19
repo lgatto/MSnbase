@@ -1,7 +1,7 @@
 # Foreword {-}
 
 [*MSnbase*](http://bioconductor.org/packages/MSnbase) is under active
-developed; current functionality is evolving and new features will be
+development; current functionality is evolving and new features will be
 added. This software is free and open-source software.  If you use it,
 please support the project by citing it in publications:
 
