@@ -1,9 +1,18 @@
 # MSnbase 2.1
 
-## Changes in version 2.1.7
+## Changes in version 2.1.8
+- Remove order option altogether <2017-01-19 Thu> (superseeds setting
+  default sorting using "auto" on R < 3.3 and "radix" otherwise
+  <2017-01-03 Tue>)
 
-- Default sorting using "auto" on R < 3.3 and "radix" otherwise
-  <2017-01-03 Tue>
+## Changes in version 2.1.7
+- Setting default sorting using "auto" on R < 3.3 and "radix"
+  otherwise <2017-01-03 Tue>  
+- filterMz returns an empty spectrum when no data is within the mz
+  range (see issue #181) <2017-01-16 Mon>
+- Performance improvement: a new private .firstMsLevel will
+  efficiently return the first MS level in an MSnExp and
+  OnDiskMSnExp. See issue #183 for details/background <2017-01-18 Wed>
 
 ## Changes in version 2.1.6
 

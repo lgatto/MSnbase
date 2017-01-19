@@ -180,7 +180,7 @@ setMethod("precursorMz", "pSet",
           function(object) {
               ## this assumes that if first spectrum
               ## has msLevel > 1, all have
-              if (msLevel(object)[1] > 1)
+              if (.firstMsLevel(object) > 1)
                   return(sapply(spectra(object), precursorMz))
               stop("No precursor MZ value for MS1 spectra.")
           })
@@ -199,7 +199,7 @@ setMethod("precursorMz", "pSet",
 
 setMethod("precScanNum", "pSet",
           function(object) {
-              if (msLevel(object)[1] > 1)
+              if (.firstMsLevel(object) > 1)
                   return(unlist(sapply(spectra(object), precScanNum)))
               stop("This experiment contains MS1 spectra.")
           })
@@ -213,14 +213,14 @@ setMethod("ionCount", "pSet",
 
 setMethod("precursorCharge", "pSet",
           function(object) {
-              if (msLevel(object)[1] > 1)
+              if (.firstMsLevel(object) > 1)
                   return(sapply(spectra(object), precursorCharge))
               stop("No precursor MZ value for MS1 spectra.")
           })
 
 setMethod("precursorIntensity", "pSet",
           function(object) {
-              if (msLevel(object)[1] > 1)
+              if (.firstMsLevel(object) > 1)
                   return(sapply(spectra(object), precursorIntensity))
               stop("No precursor data for MS1 spectra.")
           })
@@ -289,7 +289,7 @@ setMethod("msLevel", "pSet",
 
 setMethod("collisionEnergy", "pSet",
           function(object) {
-              if (msLevel(object)[1] > 1)
+              if (.firstMsLevel(object) > 1)
                   return(sapply(spectra(object), collisionEnergy))
               stop("No collision energy for MS1 spectra.")
           })

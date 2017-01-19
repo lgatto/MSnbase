@@ -1,0 +1,49 @@
+language: r
+r: bioc-devel
+cache: packages
+sudo: false       # use container based build system
+warnings_are_errors: true
+
+
+# Set CXX1X for R-devel, as R-devel does not detect CXX1X support for gcc 4.6.3,
+# this was causing mzR installation to fail
+# see https://bugs.r-project.org/bugzilla3/show_bug.cgi?id=17189
+# workaround stolen from https://github.com/hadley/devtools/blob/1ce84b04568ff7846c3da754f28e7e22a23c8737/.travis.yml#L23-L26
+before_install:
+  - tlmgr install bera nowidow parnotes marginfix etoolbox titlesec sectsty framed enumitem parskip soul placeins footmisc changepage xstring caption mathtools   
+  - if [[ "$TRAVIS_R_VERSION_STRING" = 'bioc-devel' ]]; then mkdir ~/.R && echo 'CXX1X=g++ -std=c++0x -g -O2 -fPIC' > ~/.R/Makevars; fi
+
+addons:
+  apt:
+    packages:
+      - texlive-latex-extra
+      - texlive-fonts-extra
+      - libnetcdf-dev
+      - netcdf-bin # libnetcdf-dev doesn't contain nc-config in ubuntu 12.04 (in 16.04 it is part of libnetcdf-dev)
+  
+r_packages:
+  - covr
+
+before_script:
+  - echo "BiocParallel::register(BiocParallel::SerialParam())" > ~/.Rprofile
+  
+script: 
+  - | 
+    R CMD build .
+    travis_wait 30 R CMD check MSnbase*tar.gz
+
+after_failure:
+  find *Rcheck -name '*.fail' -print -exec cat '{}' \;
+  
+after_success:
+  - travis_wait 20 Rscript -e 'covr::codecov()'
+
+# # print timings (of examples) and sysinfo
+# after_script:
+#   - dump_logs_by_extension "timings"
+#   - dump_sysinfo
+
+notifications:
+  email:
+    on_failure: lg390@cam.ac.uk
+
