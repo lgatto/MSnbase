@@ -393,7 +393,9 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         for (i in 1:nrow(ms1fd)) {
             currentMat <- allSpect[[i]]
             ## issue #180: use radix sorting for R >= 3.3
-            o <- order(currentMat[, 1], method = MSnbaseOptions()$sortMethod)
+            ## o <- order(currentMat[, 1], method = MSnbaseOptions()$sortMethod)
+            ## Fix for real: drop method parameter
+            o <- order(currentMat[, 1])
             currentMat <- currentMat[o, ]
             res[[i]] <- Spectrum1(peaksCount = nrow(currentMat),
                                   scanIndex = ms1fd[i, "spIdx"],
@@ -427,7 +429,8 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
             currentMat <- allSpect[[i]]
             ## issue #180: use radix sorting for R >= 3.3
             ## o <- order(currentMat[, 1], method = "radix")
-            o <- order(currentMat[, 1], method = MSnbaseOptions()$sortMethod)
+            ## o <- order(currentMat[, 1], method = MSnbaseOptions()$sortMethod)
+            o <- order(currentMat[, 1])
             currentMat <- currentMat[o, ]
             res2[[i]] <- Spectrum2(peaksCount = nrow(currentMat),
                                    scanIndex = msnfd[i, "spIdx"],
