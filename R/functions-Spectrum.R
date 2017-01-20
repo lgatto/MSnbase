@@ -270,7 +270,8 @@ trimMz_Spectrum <- function(x, mzlim, msLevel., updatePeaksCount = TRUE) {
                       ". Returning empty spectrum.")
         warning(paste(strwrap(msg), collapse = "\n"))
         x@mz <- x@intensity <- numeric()
-        x@tic <- x@peaksCount <- integer()
+        x@tic <- integer()
+        x@peaksCount <- 0L
         return(x)
     }
     x@mz <- x@mz[sel]
