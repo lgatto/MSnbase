@@ -450,3 +450,28 @@ smooth_Spectrum <- function(object,
     if (validObject(object))
         return(object)
 }
+
+
+## A fast validity check that desn't check the validity of all
+## inherited/inheriting objects. See
+## https://github.com/lgatto/MSnbase/issues/184#issuecomment-274058543
+## for details and background
+validSpectrum <- function(object) {
+    msg <- validMsg(NULL, NULL)
+    if (any(is.na(intensity(object))))
+        msg <- validMsg(msg, "'NA' intensities found.")
+    if (any(is.na(mz(object))))
+        msg <- validMsg(msg, "'NA' M/Z found.")
+    if (any(intensity(object) < 0))
+        msg <- validMsg(msg, "Negative intensities found.")
+    if (any(mz(object)<0))
+        msg <- validMsg(msg, "Negative M/Z found.")
+    if (length(object@mz) != length(object@intensity))
+        msg <- validMsg(msg, "Unequal number of MZ and intensity values.")
+    if (length(mz(object)) != peaksCount(object))
+        msg <- validMsg(msg, "Peaks count does not match up with number of MZ values.")
+    if (any(diff(mz(object)) < 0))
+        msg <- validMsg(msg, "MZ values are out of order.")
+    if (is.null(msg)) TRUE
+    else stop(msg)
+}
