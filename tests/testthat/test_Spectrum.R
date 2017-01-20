@@ -7,6 +7,18 @@ test_that("Spectrum validity", {
   expect_equal(msLevel(sp3), 3L)
 })
 
+test_that("Empty spectrum after trimming/filterrMz", {
+  int <- c(0, 1, 2, 3, 1, 0, 0, 0, 0, 1, 3, 10, 6, 2, 1, 0, 1, 2, 0,
+           0, 1, 5, 10, 5, 1)
+  sp <- new("Spectrum2",
+            intensity = int,
+            mz = 1:length(int))
+  expect_true(validObject(sp))
+  expect_warning(emptysp <- filterMz(sp, c(100, 110)))
+  expect_true(validObject(emptysp))
+  expect_true(isEmpty(emptysp))
+})
+
 test_that("Spectrum processing", {
     int <- c(0, 1, 2, 3, 1, 0, 0, 0, 0, 1, 3, 10, 6, 2, 1, 0, 1, 2, 0,
              0, 1, 5, 10, 5, 1)

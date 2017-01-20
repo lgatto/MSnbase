@@ -92,7 +92,30 @@ data structures. More details can be found in the package, classes,
 method and function documentations. A description of the classes is
 provided in the \texttt{MSnbase-development} vignette.
 
-\input{NoteAboutSpeedAndMemory.tex}
+\subsection{Speed and memory requirements} 
+
+Raw mass spectrometry file are generally several hundreds of MB large
+and most of this is used for binary raw spectrum data. As such, data
+containers can easily grow very large and thus require large amounts
+of RAM.  This requirement is being tackled by avoiding to load the raw
+data into memory and using on-disk random access to the content of
+\texttt{mzXML}/\texttt{mzML} data files on demand.  When focusing on
+reporter ion quantitation, a direct solution for this is to trim the
+spectra using the \Robject{trimMz} method to select the area of
+interest and thus substantially reduce the size of the
+\Robject{Spectrum} objects. This is illustrated in section
+\ref{sec:trim} on page \pageref{trimMz-example}.
+
+The independent handling of spectra is ideally suited for parallel
+processing.  The \Rfunction{quantify} method now performs reporter
+peaks quantitation in parallel.  More functions are being updated.
+
+Finally, recent developmenets in version 2 of the package have solved
+the memory issue by implementing and \textit{on-disk} version the of
+data class storing raw data (\Rclass{MSnExp}, see
+section~\ref{sec:msnexp}), where the spectra a accessed on-disk only
+when required. The \textit{benchmarking} vignette compares the on-disk
+and in-memory implemenatations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Section

@@ -85,10 +85,23 @@
     <div id="msnbase-2-1" class="section level1">
 <h1 class="hasAnchor">
 <a href="#msnbase-2-1" class="anchor"> </a>MSnbase 2.1</h1>
+<div id="changes-in-version-2-1-9" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-in-version-2-1-9" class="anchor"> </a>Changes in version 2.1.9</h2>
+<ul><li>When fully trimmed, an (empty) spectrum has peaksCount of 0L - see <a href="https://github.com/lgatto/MSnbase/issues/184">https://github.com/lgatto/MSnbase/issues/184</a> &lt;2017-01-20 Fri&gt;</li>
+</ul></div>
+<div id="changes-in-version-2-1-8" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-in-version-2-1-8" class="anchor"> </a>Changes in version 2.1.8</h2>
+<ul><li>Remove order option altogether &lt;2017-01-19 Thu&gt; (superseeds setting default sorting using “auto” on R &lt; 3.3 and “radix” otherwise &lt;2017-01-03 Tue&gt;)</li>
+</ul></div>
 <div id="changes-in-version-2-1-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-in-version-2-1-7" class="anchor"> </a>## Changes in version 2.1.7</h2>
-</div>
+<a href="#changes-in-version-2-1-7" class="anchor"> </a>Changes in version 2.1.7</h2>
+<ul><li>Setting default sorting using “auto” on R &lt; 3.3 and “radix” otherwise &lt;2017-01-03 Tue&gt;<br/></li>
+<li>filterMz returns an empty spectrum when no data is within the mz range (see issue #181) &lt;2017-01-16 Mon&gt;</li>
+<li>Performance improvement: a new private .firstMsLevel will efficiently return the first MS level in an MSnExp and OnDiskMSnExp. See issue #183 for details/background &lt;2017-01-18 Wed&gt;</li>
+</ul></div>
 <div id="changes-in-version-2-1-6" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-1-6" class="anchor"> </a>Changes in version 2.1.6</h2>
