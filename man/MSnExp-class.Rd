@@ -53,6 +53,9 @@
 \alias{filterAcquisitionNum}
 \alias{filterAcquisitionNum,MSnExp-method}
 \alias{filterAcquisitionNum,OnDiskMSnExp-method}
+\alias{filterEmptySpectra}
+\alias{filterEmptySpecetra,MSnExp-method}
+\alias{filterEmptySpecetra,OnDiskMSnExp-method}
 
 \alias{isCentroided,MSnExp-method}
 
@@ -270,6 +273,8 @@
 
     \item{filterAcquisitionNum}{}
 
+    \item{filterEmptySpectra}{\code{signature(object = "MSnExp")}:
+      Remove empty spectra from \code{object} (see \code{isEmpty}). }
   }
 }
 
