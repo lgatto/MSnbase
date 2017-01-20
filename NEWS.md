@@ -5,6 +5,8 @@
   https://github.com/lgatto/MSnbase/issues/184 <2017-01-20 Fri>
 - Add filterEmptySpectra,MSnExp method (see issue #181)
   <2017-01-20 Fri>
+- Add a section about notable on-disk and in-memory differences (was
+  issue #165) <2017-01-20 Fri>  
 
 ## Changes in version 2.1.8
 - Remove order option altogether <2017-01-19 Thu> (superseeds setting
