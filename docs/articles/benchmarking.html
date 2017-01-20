@@ -83,26 +83,29 @@ f &lt;-<span class="st"> </span>msdata::<span class="kw">proteomics</span>(<span
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"MSnbase"</span>)
 <span class="kw"><a href="../reference/MSnbaseOptions.html">setMSnbaseVerbose</a></span>(<span class="ot">FALSE</span>)</code></pre>
 </div>
-<div id="reading-data" class="section level1">
+<div id="benchmarking" class="section level1">
 <h1 class="hasAnchor">
-<html><body><a href="#reading-data" class="anchor"> </a></body></html>Reading data</h1>
+<html><body><a href="#benchmarking" class="anchor"> </a></body></html>Benchmarking</h1>
+<div id="reading-data" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#reading-data" class="anchor"> </a></body></html>Reading data</h2>
 <p>We first read the data using the original <code>readMSData</code> function that generates an in-memory representation of the MS2-level raw data and measure the time needed for this operation.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(inmem &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readMSData.html">readMSData</a></span>(f, <span class="dt">msLevel =</span> <span class="dv">2</span>,
                                 <span class="dt">centroided =</span> <span class="ot">TRUE</span>))</code></pre>
 <pre><code>##    user  system elapsed 
-##   5.402   0.032   5.446</code></pre>
+##   5.589   0.035   5.635</code></pre>
 <p>Next, we use the <code>readMSData2</code> function to generate an on-disk representation of the same data.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(ondisk &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readMSData.html">readMSData2</a></span>(f, <span class="dt">msLevel =</span> <span class="dv">2</span>,
                                   <span class="dt">centroided =</span> <span class="ot">TRUE</span>))</code></pre>
 <pre><code>##    user  system elapsed 
-##   1.424   0.027   1.453</code></pre>
+##   1.418   0.044   1.448</code></pre>
 <p>Creating the on-disk experiment is considerable faster and scales to much bigger, multi-file data, both in terms of object creation time, but also in terms of object size (see next section). We must of course make sure that these two datasets are equivalent:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all.equal</span>(inmem, ondisk)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 </div>
-<div id="data-size" class="section level1">
-<h1 class="hasAnchor">
-<html><body><a href="#data-size" class="anchor"> </a></body></html>Data size</h1>
+<div id="data-size" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#data-size" class="anchor"> </a></body></html>Data size</h2>
 <p>To compare the size occupied in memory of these two objects, we are going to use the <code>object_size</code> function from the <em><a href="http://cran.fhcrc.org/web/packages/pryr/index.html">pryr</a></em> package, which accounts for the data (the spectra) in the <code>assayData</code> environment (as opposed to the <code>object.size</code> function from the <code>utils</code> package).</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"pryr"</span>)
 <span class="kw">object_size</span>(inmem)</code></pre>
@@ -118,9 +121,9 @@ Plotting in-memory and on-disk spectra
 </p>
 </div>
 </div>
-<div id="accessing-spectra" class="section level1">
-<h1 class="hasAnchor">
-<html><body><a href="#accessing-spectra" class="anchor"> </a></body></html>Accessing spectra</h1>
+<div id="accessing-spectra" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#accessing-spectra" class="anchor"> </a></body></html>Accessing spectra</h2>
 <p>The drawback of the on-disk representation is when the spectrum data has to actually be accessed. To compare access time, we are going to use the <em><a href="http://cran.fhcrc.org/web/packages/microbenchmark/index.html">microbenchmark</a></em> and repeat access 10 times to compare access to all 451 and a single spectrum in-memory (i.e. pre-loaded and constructed) and on-disk (i.e. on-the-fly access).</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"microbenchmark"</span>)
 mb &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(<span class="kw"><a href="../reference/pSet-class.html">spectra</a></span>(inmem),
@@ -164,15 +167,15 @@ mb</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">i &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw"><a href="../reference/pSet-class.html">length</a></span>(inmem), <span class="dv">100</span>)
 <span class="kw">system.time</span>(inmem[i])</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.111   0.001   0.112</code></pre>
+##   0.111   0.000   0.112</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(ondisk[i])</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.017   0.000   0.018</code></pre>
+##   0.018   0.000   0.019</code></pre>
 <p>Operations on the spectra data, such as peak picking, smoothing, cleaning, … are cleverly cached and only applied when the data is accessed, to minimise file access overhead. Finally, specific operations such as for example quantitation (see next section) are optimised for speed.</p>
 </div>
-<div id="ms2-quantitation" class="section level1">
-<h1 class="hasAnchor">
-<html><body><a href="#ms2-quantitation" class="anchor"> </a></body></html>MS2 quantitation</h1>
+<div id="ms2-quantitation" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#ms2-quantitation" class="anchor"> </a></body></html>MS2 quantitation</h2>
 <p>Below, we perform TMT 6-plex reporter ions quantitation on the first 100 spectra and verify that the results are identical (ignoring feature names).</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(eim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(inmem[<span class="dv">1</span>:<span class="dv">100</span>], <span class="dt">reporters =</span> TMT6,
                             <span class="dt">method =</span> <span class="st">"max"</span>))</code></pre>
@@ -184,6 +187,32 @@ mb</code></pre>
 ##   0.410   0.015   0.424</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all.equal</span>(eim, eod, <span class="dt">check.attributes =</span> <span class="ot">FALSE</span>)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
+</div>
+</div>
+<div id="notable-differences-on-disk-and-in-memory-implementations" class="section level1">
+<h1 class="hasAnchor">
+<html><body><a href="#notable-differences-on-disk-and-in-memory-implementations" class="anchor"> </a></body></html>Notable differences <em>on-disk</em> and <em>in-memory</em> implementations</h1>
+<p>The <code>MSnExp</code> and <code>OnDiskMSnExp</code> documentation files and the <em>MSnbase developement</em> vignette provide more information about implementation details.</p>
+<div id="ms-levels" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#ms-levels" class="anchor"> </a></body></html>MS levels</h2>
+<p><em>On-disk</em> support multiple MS levels in one object, while <em>in-memory</em> only supports a single level. While support for multiple MS levels could be added to the in-memory back-end, memory constrains make this pretty-much useless and will most likely never happen.</p>
+</div>
+<div id="serialisation" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#serialisation" class="anchor"> </a></body></html>Serialisation</h2>
+<p><em>In-memory</em> objects can be <code>save()</code>ed and <code>load()</code>ed, while <em>on-disk</em> can’t. As a workaround, the latter can be coerced to <em>in-memory</em> instances with <code>as(, "MSnExp")</code>. We would need <code>mzML</code> write support in <em><a href="http://bioconductor.org/packages/mzR">mzR</a></em> to be able to implement serialisation for <em>on-disk</em> data.</p>
+</div>
+<div id="data-processing" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#data-processing" class="anchor"> </a></body></html>Data processing</h2>
+<p>Whenever possible, accessing and processing <em>on-disk</em> data is delayed (<em>lazy</em> processing). These operations are stored in a <em>processing queue</em> until the spectra are effectively instantiated.</p>
+</div>
+<div id="validity" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#validity" class="anchor"> </a></body></html>Validity</h2>
+<p>The <em>on-disk</em> <code>validObject</code> method doesn’t verify the validity on the spectra (as there aren’t any to check). The <code>validateOnDiskMSnExp</code> function, on the other hand, instantiates all spectra and checks their validity (in addition to calling <code>validObject</code>).</p>
+</div>
 </div>
 <div id="conclusions" class="section level1">
 <h1 class="hasAnchor">
@@ -200,10 +229,22 @@ mb</code></pre>
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction">Introduction</a></li>
-      <li><a href="#reading-data">Reading data</a></li>
+      <li>
+<a href="#benchmarking">Benchmarking</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#reading-data">Reading data</a></li>
       <li><a href="#data-size">Data size</a></li>
       <li><a href="#accessing-spectra">Accessing spectra</a></li>
       <li><a href="#ms2-quantitation">MS2 quantitation</a></li>
+      </ul>
+</li>
+      <li>
+<a href="#notable-differences-on-disk-and-in-memory-implementations">Notable differences <em>on-disk</em> and <em>in-memory</em> implementations</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#ms-levels">MS levels</a></li>
+      <li><a href="#serialisation">Serialisation</a></li>
+      <li><a href="#data-processing">Data processing</a></li>
+      <li><a href="#validity">Validity</a></li>
+      </ul>
+</li>
       <li><a href="#conclusions">Conclusions</a></li>
       </ul>
 </div>
