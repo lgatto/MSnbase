@@ -48,7 +48,8 @@ library("MSnbase")
 setMSnbaseVerbose(FALSE)
 ```
 
-# Reading data
+# Benchmarking
+## Reading data
 
 We first read the data using the original `readMSData` function that
 generates an in-memory representation of the MS2-level raw data and
@@ -76,7 +77,7 @@ make sure that these two datasets are equivalent:
 all.equal(inmem, ondisk)
 ```
 
-# Data size
+## Data size
 
 To compare the size occupied in memory of these two objects, we are
 going to use the `object_size` function from the `r CRANpkg("pryr")`
@@ -107,7 +108,7 @@ gridExtra::grid.arrange(plot(inmem[[200]],  full = TRUE),
 
 ```
 
-# Accessing spectra
+## Accessing spectra
 
 The drawback of the on-disk representation is when the spectrum data
 has to actually be accessed. To compare access time, we are going to
@@ -176,7 +177,7 @@ accessed, to minimise file access overhead. Finally, specific
 operations such as for example quantitation (see next section) are
 optimised for speed.
 
-# MS2 quantitation
+## MS2 quantitation
 
 Below, we perform TMT 6-plex reporter ions quantitation on the first
 100 spectra and verify that the results are identical (ignoring
@@ -189,6 +190,41 @@ system.time(eod <- quantify(ondisk[1:100], reporters = TMT6,
                             method = "max"))
 all.equal(eim, eod, check.attributes = FALSE)
 ```
+
+# Notable differences *on-disk* and *in-memory* implementations
+
+The `MSnExp` and `OnDiskMSnExp` documentation files and the *MSnbase
+developement* vignette provide more information about implementation
+details.
+
+## MS levels
+
+*On-disk* support multiple MS levels in one object, while *in-memory*
+only supports a single level. While support for multiple MS levels
+could be added to the in-memory back-end, memory constrains make this
+pretty-much useless and will most likely never happen.
+
+## Serialisation
+
+*In-memory* objects can be `save()`ed and `load()`ed, while *on-disk*
+can't. As a workaround, the latter can be coerced to *in-memory*
+instances with `as(, "MSnExp")`. We would need `mzML` write support in
+`r Biocpkg("mzR")` to be able to implement serialisation for *on-disk*
+data.
+
+## Data processing
+
+Whenever possible, accessing and processing *on-disk* data is delayed
+(*lazy* processing). These operations are stored in a *processing
+queue* until the spectra are effectively instantiated. 
+
+## Validity
+
+The *on-disk* `validObject` method doesn't verify the validity on the
+spectra (as there aren't any to check). The `validateOnDiskMSnExp`
+function, on the other hand, instantiates all spectra and checks their
+validity (in addition to calling `validObject`).
+
 
 # Conclusions
 
