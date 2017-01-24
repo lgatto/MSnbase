@@ -29,7 +29,7 @@ setValidity("pSet", function(object) {
     msg <- validMsg(NULL, NULL)
     ## Skip some (most) of the tests for a OnDiskMSnExp, since we don't have
     ## spectrum data available, i.e. assayData is empty.
-    if (length(object)){
+    if (length(object)) {
         if (!all(sapply(assayData(object), function(x) inherits(x, "Spectrum"))))
             msg <- validMsg(msg,
                             "assayData must contain 'Spectrum' objects.")
