@@ -1,5 +1,8 @@
 # MSnbase 2.1
 
+## Changes in version 2.1.10
+- (nothing yet)
+
 ## Changes in version 2.1.9
 - When fully trimmed, an (empty) spectrum has peaksCount of 0L - see
   https://github.com/lgatto/MSnbase/issues/184 <2017-01-20 Fri>
