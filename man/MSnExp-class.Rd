@@ -64,6 +64,9 @@
 \alias{all.equal,OnDiskMSnExp,MSnExp-method}
 \alias{all.equal,OnDiskMSnExp,OnDiskMSnExp-method}
 
+\alias{splitByFile}
+\alias{splitByFile,MSnExp,factor-method}
+
 \title{The 'MSnExp' Class for MS Data And Meta-Data}
 
 \description{
@@ -251,9 +254,10 @@
       advised to assign the majority result for MS1 and MS2 spectra,
       rather than results for individual spectra. See an example below.
     }
+
   }
 
-  Filtering functions:
+  Filtering and subsetting functions:
 
   \describe{
 
@@ -269,12 +273,20 @@
 	msLevel. = "numeric")}. See \code{\link{filterMz}} for
 	details. }
 
-    \item{filterFile}{}
+    \item{filterFile}{\code{signature(object = "MSnExp", file)}: Retains
+      MS data of files matching the file index or file name provided
+      with parameter \code{file}.}
 
     \item{filterAcquisitionNum}{}
 
     \item{filterEmptySpectra}{\code{signature(object = "MSnExp")}:
       Remove empty spectra from \code{object} (see \code{isEmpty}). }
+
+    \item{splitByFile}{\code{signature(object = "MSnExp", f =
+	"factor")}: split a \code{MSnExp} object by file into a
+      \code{list} of \code{MSnExp} objects given the grouping in
+      \code{factor} \code{f}.
+    }
   }
 }
 
