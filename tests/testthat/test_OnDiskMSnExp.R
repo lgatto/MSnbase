@@ -291,3 +291,14 @@ test_that("spectrapply,OnDiskMSnExp", {
     dfs_2 <- lapply(sps, FUN = as, Class = "data.frame")
     expect_identical(dfs, dfs_2)
 })
+
+test_that("splitByFile,OnDiskMSnExp", {
+    library(msdata)
+    mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
+             system.file("microtofq/MM8.mzML", package = "msdata"))
+    od <- readMSData2(files = mzf, msLevel. = 1, centroided. = TRUE)
+    expect_error(splitByFile(od, f = factor(1:3)))
+    spl <- splitByFile(od, f = factor(c("b", "a")))
+    expect_equal(pData(spl[[1]]), pData(filterFile(od, 2)))
+    expect_equal(pData(spl[[2]]), pData(filterFile(od, 1)))    
+})

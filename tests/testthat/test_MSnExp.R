@@ -348,3 +348,16 @@ test_that("spectrapply,MSnExp", {
     dfs_2 <- lapply(sps, FUN = as, Class = "data.frame")
     expect_identical(dfs, dfs_2)
 })
+
+test_that("splitByFile,MSnExp", {
+    library(msdata)
+    mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
+             system.file("microtofq/MM8.mzML", package = "msdata"))
+    inMem <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE)
+    expect_error(splitByFile(inMem, f = factor(1:3)))
+    spl <- splitByFile(inMem, f = factor(c("b", "a")))
+    expect_equal(spectra(spl[[1]]), spectra(filterFile(inMem, 2)))
+    expect_equal(pData(spl[[1]]), pData(filterFile(inMem, 2)))
+    expect_equal(spectra(spl[[2]]), spectra(filterFile(inMem, 1)))
+    expect_equal(pData(spl[[2]]), pData(filterFile(inMem, 1)))    
+})
