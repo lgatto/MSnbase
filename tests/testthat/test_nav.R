@@ -1,7 +1,7 @@
 context("Navigating MSnExp data")
 
 library("msdata")
-f <- proteomics(full.names = TRUE)[1]
+f <- proteomics(full.names = TRUE, pattern = "MS3TMT10")
 
 
 test_that("nextMS and prevMS", {
