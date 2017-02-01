@@ -244,6 +244,7 @@ exportMethods(updateObject,
               chromatogram,
               xic,
               spectrapply,
+              splitByFile,
               ## Features of interest
               FeaturesOfInterest,
               foi,

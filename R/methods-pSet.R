@@ -536,7 +536,6 @@ setMethod("spectrapply", "pSet", function(object, FUN = NULL,
     return(vals)
 })
 
-
 ################################
 ## TODO: setReplaceMethods for
 ##  phenoData

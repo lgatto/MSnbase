@@ -146,3 +146,4 @@ setGeneric("filterEmptySpectra", function (object, ...) standardGeneric("filterE
 
 setGeneric("bpi", function(object, ...) standardGeneric("bpi"))
 setGeneric("spectrapply", function(object, ...) standardGeneric("spectrapply"))
+setGeneric("splitByFile", function(object, f, ...) standardGeneric("splitByFile"))

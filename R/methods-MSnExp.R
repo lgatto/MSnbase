@@ -342,3 +342,15 @@ setMethod("isolationWindow", "MSnExp",
               ## TODO - add to fData
               mzR::isolationWindow(fileNames(object), ...)
           })
+
+setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
+    if (length(f) != length(fileNames(object)))
+        stop("length of 'f' has to match the length of samples/files in 'object'.")
+    idxs <- lapply(levels(f), function(z) which(f == z))
+    ## Use filterFile to split them.
+    res <- lapply(idxs, function(z) {
+        return(filterFile(object, file = z))
+    })
+    names(res) <- levels(f)
+    return(res)
+})

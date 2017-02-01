@@ -103,19 +103,19 @@ combineFeaturesV <- function(object,   ## MSnSet
     colnames(matRes) <- sampleNames(object)
     if (cv)
         fdata <- cbind(fdata, cv.mat)
-    if (is.character(fun)) {
-        msg <- paste("Combined ", n1, " features into ",
-                     nrow(object) ," using ", fun, sep = "")
-    } else {
-        msg <- paste("Combined ", n1, " features into ",
-                     nrow(object), " using user-defined function",
-                     sep = "")
-    }
     res <- new("MSnSet", exprs = matRes,
                featureData = new("AnnotatedDataFrame",
                                  data = fdata))
     res@processingData@merged <- TRUE
     res@qual <- object@qual[0, ]
+    if (is.character(fun)) {
+        msg <- paste("Combined ", n1, " features into ",
+                     nrow(res), " using ", fun, sep = "")
+    } else {
+        msg <- paste("Combined ", n1, " features into ",
+                     nrow(res), " using user-defined function",
+                     sep = "")
+    }
     if (verbose)
         message(msg)
     res@processingData@processing <- c(object@processingData@processing,
