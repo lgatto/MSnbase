@@ -246,7 +246,7 @@ test_that("getBpParam", {
 
 test_that("Get first MS level", {
     MSnbase::setMSnbaseVerbose(FALSE)
-    f <- msdata::proteomics(full.names = TRUE)[1]
+    f <- msdata::proteomics(full.names = TRUE, pattern = "MS3TMT10")
     x <- readMSData(f, msLevel. = 2L)
     y <- readMSData2(f, msLevel. = 2L)
     ## in memory
