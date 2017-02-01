@@ -36,7 +36,7 @@ Navigate an \code{MSnExp} object by moving to the next or previous
 spectrum.
 }
 \examples{
-f <- msdata::proteomics(full.names = TRUE)[1]
+f <- msdata::proteomics(full.names = TRUE, pattern = "MS3TMT10")
 x <- readMSData2(f, centroided = c(FALSE, TRUE, FALSE))
 sp <- "X009.1"
 x[[sp]] ## curent MS3
