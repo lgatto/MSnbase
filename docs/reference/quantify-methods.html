@@ -268,7 +268,7 @@
 #&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#&gt; iTRAQ4 quantification by trapezoidation: Fri Dec 23 21:11:01 2016 
+#&gt; iTRAQ4 quantification by trapezoidation: Wed Feb  1 15:38:41 2017 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
 <span class='co'>## specifying a custom parallel framework</span>
 <span class='co'>## bp &lt;- MulticoreParam(2L) # on Linux/OSX</span>
@@ -296,18 +296,18 @@
 #&gt; [5] &quot;ECA0510&quot;        </div><div class='input'>
 <span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'>quantify</span>(<span class='no'>msexp</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"SIn"</span>)
 <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>si</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Quantitation by total ion current [Fri Dec 23 21:11:02 2016] 
-#&gt; Combined 2 features into 2 using sum: Fri Dec 23 21:11:02 2016 
-#&gt; Quantification by SIn [Fri Dec 23 21:11:03 2016] 
-#&gt;  MSnbase version: 2.1.6 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>si</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
+#&gt; Quantitation by total ion current [Wed Feb  1 15:38:42 2017] 
+#&gt; Combined 2 features into 2 using sum: Wed Feb  1 15:38:43 2017 
+#&gt; Quantification by SIn [Wed Feb  1 15:38:43 2017] 
+#&gt;  MSnbase version: 2.1.10 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>si</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
 #&gt; ECA0510      0.003588641
 #&gt; ECA1028      0.001470129</div><div class='input'>
 <span class='no'>saf</span> <span class='kw'>&lt;-</span> <span class='fu'>quantify</span>(<span class='no'>msexp</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"NSAF"</span>)
 <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>saf</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Quantitation by count [Fri Dec 23 21:11:03 2016] 
-#&gt; Combined 2 features into 2 using user-defined function: Fri Dec 23 21:11:03 2016 
-#&gt; Quantification by NSAF [Fri Dec 23 21:11:03 2016] 
-#&gt;  MSnbase version: 2.1.6 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>saf</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
+#&gt; Quantitation by count [Wed Feb  1 15:38:43 2017] 
+#&gt; Combined 2 features into 2 using user-defined function: Wed Feb  1 15:38:43 2017 
+#&gt; Quantification by NSAF [Wed Feb  1 15:38:43 2017] 
+#&gt;  MSnbase version: 2.1.10 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>saf</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
 #&gt; ECA0510        0.6235828
 #&gt; ECA1028        0.3764172</div><div class='input'>
 </div></pre>

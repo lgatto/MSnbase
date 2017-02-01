@@ -255,9 +255,9 @@
       expected to be in the same, albeit possibly different modes, it is
       advised to assign the majority result for MS1 and MS2 spectra,
       rather than results for individual spectra. See an example below.
-    </dd>
-  </dl></p>
-    <p>Filtering functions:</p>
+    </dd></p>
+    <p></dl></p>
+    <p>Filtering and subsetting functions:</p>
     <p><dl class='dl-horizontal'></p>
     <p><dt>filterRt</dt><dd><code>signature(object = &quot;MSnExp&quot;, rt = &quot;numeric&quot;,
 	msLevel. = &quot;numeric&quot;)</code>: Retains MS spectra of level
@@ -268,9 +268,18 @@
     <p><dt>filterMz</dt><dd><code>signature(object = &quot;MSnExp&quot;, mz = &quot;numeric&quot;,
 	msLevel. = &quot;numeric&quot;)</code>. See <code><a href='trimMz-methods.html'>filterMz</a></code> for
 	details. </dd></p>
-    <p><dt>filterFile</dt><dd></dd></p>
+    <p><dt>filterFile</dt><dd><code>signature(object = &quot;MSnExp&quot;, file)</code>: Retains
+      MS data of files matching the file index or file name provided
+      with parameter <code>file</code>.</dd></p>
     <p><dt>filterAcquisitionNum</dt><dd></dd></p>
-    <p></dl></p>
+    <p><dt>filterEmptySpectra</dt><dd><code>signature(object = &quot;MSnExp&quot;)</code>:
+      Remove empty spectra from <code>object</code> (see <code>isEmpty</code>). </dd></p>
+    <p><dt>splitByFile</dt><dd><code>signature(object = &quot;MSnExp&quot;, f =
+	&quot;factor&quot;)</code>: split a <code>MSnExp</code> object by file into a
+      <code>list</code> of <code>MSnExp</code> objects given the grouping in
+      <code>factor</code> <code>f</code>.
+    </dd>
+  </dl></p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -296,8 +305,8 @@
 #&gt;  Number of spectra: 5 
 #&gt;  MSn retention times: 25:1 - 25:2 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded: Fri Jan 20 12:22:45 2017 
-#&gt;  MSnbase version: 2.1.9 
+#&gt; Data loaded: Wed Feb  1 15:38:06 2017 
+#&gt;  MSnbase version: 2.1.10 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
 #&gt;   rowNames: dummyiTRAQ.mzXML
