@@ -2,6 +2,7 @@
 
 ## Changes in version 2.1.10
 - New `diff.median` normalisation for `MSnSet`s. <2017-01-26 Thu>
+- Fix combineFeatures message <2017-02-01 Wed>
 
 ## Changes in version 2.1.9
 - When fully trimmed, an (empty) spectrum has peaksCount of 0L - see
