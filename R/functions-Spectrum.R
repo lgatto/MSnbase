@@ -299,12 +299,12 @@ bin_Spectrum <- function(object, binSize = 1L,
                                       by = binSize),
                          fun = sum,
                          msLevel.) {
-    ## If msLevel. not missing, perform the trimming only if the msLevel
-    ## of the spectrum matches (any of) the specified msLevels.
-    if (!missing(msLevel.)) {
-        if (!(msLevel(object) %in% msLevel.))
-            return(object)
-    }
+  ## If msLevel. not missing, perform the trimming only if the msLevel
+  ## of the spectrum matches (any of) the specified msLevels.
+  if (!missing(msLevel.)) {
+      if (!(msLevel(object) %in% msLevel.))
+          return(object)
+  }
   fun <- match.fun(fun)
   nb <- length(breaks)
 
@@ -336,8 +336,8 @@ bin_Spectra <- function(object1, object2, binSize = 1L,
                         breaks = seq(floor(min(c(mz(object1), mz(object2)))),
                                      ceiling(max(c(mz(object1), mz(object2)))),
                                      by = binSize)) {
-  return(list(bin_Spectrum(object1, binSize = binSize, breaks = breaks),
-              bin_Spectrum(object2, binSize = binSize, breaks = breaks)))
+  list(bin_Spectrum(object1, binSize = binSize, breaks = breaks),
+       bin_Spectrum(object2, binSize = binSize, breaks = breaks))
 }
 
 #' calculate similarity between spectra (between their intensity profile)
