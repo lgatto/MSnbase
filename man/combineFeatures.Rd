@@ -97,8 +97,12 @@ isMSnbaseVerbose(), ...)
 }
 
 \seealso{
-  \code{\link{featureCV}}
+
+  \code{\link{featureCV}} to calculate coefficient of raviation and the
+  \code{\link{agg}} to explore variability within protein groups.
+
 }
+
 
 \examples{
 data(msnset)
