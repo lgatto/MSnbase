@@ -201,7 +201,7 @@ combineMatrixFeatures <- function(matr,    ## matrix
 ##' @param fun A function the summarise the distance between features
 ##'     within protein groups, typically \code{max} or
 ##'     \code{mean}.\code{median}.
-##' @return A \code{data.frame} providing the number of features per
+##' @return A \code{matrix} providing the number of features per
 ##'     protein group (\code{nb_feats} column) and the aggregation
 ##'     summarising distance (\code{agg_dist} column).
 ##' @author Laurent Gatto

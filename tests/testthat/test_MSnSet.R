@@ -340,3 +340,17 @@ test_that("Feature variable selection", {
     expect_equal(selectFeatureData(hyperLOPIT2015, fcol = i),
                  selectFeatureData(hyperLOPIT2015, fcol = l))
 })
+
+test_that("aggvar, son of ragnar", {
+    e <- matrix(1:9, nrow = 3)
+    colnames(e) <- letters[1:3]
+    rownames(e) <- 1:3
+    f <- data.frame(gb = c("A", "A", "B"),
+                    row.names = rownames(e))
+    p <- data.frame(row.names = colnames(e))
+    x <- MSnSet(exprs = e, fData = f, pData = p)
+    res1 <- aggvar(x, "gb", max)
+    expect_identical(max(dist(exprs(x)[1:2, ])), res1[1, 1])
+    expect_true(is.na(res1[2, 1]))
+    expect_identical(res1[, 2], c(A = 2, B = 1))
+})
