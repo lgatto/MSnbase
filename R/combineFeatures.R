@@ -179,3 +179,55 @@ combineMatrixFeatures <- function(matr,    ## matrix
     }
     return(do.call(rbind, as.list(summarisedFeatures)))
 }
+
+
+##' This function evaluates the variability within all protein group
+##' of an \code{MSnSet}. If a protein group is composed only of a
+##' single feature, \code{NA} is returned.
+##'
+##' This function can be used to identify protein groups with
+##' incoherent feature (petides or PSMs) expression patterns. Using
+##' \code{max} as a function, one can identify protein groups with
+##' single extreme outliers, such as, for example, a mis-identified
+##' peptide that was erroneously assigned to that protein group. Using
+##' \code{mean} identifies more systematic inconsistencies where, for
+##' example, the subsets of peptide (or PSM) feautres correspond to
+##' proteins with different expression patterns.
+##'
+##' @title Identify aggregation outliers
+##' @param object An object of class \code{MSnSet}.
+##' @param groupBy A \code{character} containing the protein grouping
+##'     feature variable name.
+##' @param fun A function the summarise the distance between features
+##'     within protein groups, typically \code{max} or
+##'     \code{mean}.\code{median}.
+##' @return A \code{data.frame} providing the number of features per
+##'     protein group (\code{nb_feats} column) and the aggregation
+##'     summarising distance (\code{agg_dist} column).
+##' @author Laurent Gatto
+##' @examples
+##' library("pRolocdata")
+##' data(hyperLOPIT2015ms3r1psm)
+##' groupBy <- "Protein.Group.Accessions"
+##' res1 <- aggvar(hyperLOPIT2015ms3r1psm, groupBy, fun = max)
+##' res2 <- aggvar(hyperLOPIT2015ms3r1psm, groupBy, fun = mean)
+##' par(mfrow = c(1, 3))
+##' plot(res1, log = "y", main = "Single outliers (max)")
+##' plot(res2, log = "y", main = "Overall inconsistency (mean)")
+##' plot(res1[, "agg_dist"], res2[, "agg_dist"],
+##'      xlab = "max", ylab = "mean")
+aggvar <- function(object, groupBy, fun) {
+    stopifnot(inherits(object, "MSnSet"))
+    stopifnot(groupBy %in% fvarLabels(object))    
+    .d <- function(x, fun. = fun) {
+        dx <- dist(as.matrix(x))
+        if (length(dx) == 0) return(NA)
+        do.call(fun., list(dx))
+    }
+    gb <- fData(object)[, groupBy]
+    nr <- by(exprs(object), gb, nrow)
+    d <-  by(exprs(object), gb, .d, fun)
+    ans <- cbind(agg_dist = d, nb_feats = nr)
+    attr(ans, "agg_dist") <- fun
+    ans
+}
