@@ -70,7 +70,7 @@ test_that("Spectrum normalisation", {
     expect_equal(intensity(normalize(s2, method = "sum")), (1:5) / 15)
     expect_equal(intensity(normalize(s2, method = "precursor")), (1:5) / 10)
     expect_equal(intensity(normalize(s2, method = "precursor",
-                                     precursorIntensity = 20)), (1:5) / 20)    
+                                     precursorIntensity = 20)), (1:5) / 20)
 })
 
 test_that("Noise estimation", {
@@ -162,7 +162,7 @@ test_that("Spectrum strict quantification", {
         (mz.[6] - mz.[5]) * int[6] +
         (mz.[7] - mz.[6]) * (int[6] - int[7]) / 2)
     ## changing width to keep calculation below correct, since
-    ## reporter ions mz changed in commit 
+    ## reporter ions mz changed in commit
     ## c82c82bd20af5840375abca0f7f41f7f36e8e4ef
     iTRAQ4@width <- 0.065
     expect_equivalent(
@@ -173,11 +173,33 @@ test_that("Spectrum strict quantification", {
         (mz.[5] - mz.[4]) * (int[4] - int[5]) / 2)
 })
 
+test_that("breaks_Spectrum", {
+    s1 <- new("Spectrum2", mz = 1:4, intensity = 1:4)
+    ## issue 191
+    expect_equal(MSnbase:::breaks_Spectrum(s1), 1:5)
+    expect_equal(MSnbase:::breaks_Spectrum(s1, breaks = 1:2), c(1, 2, 5))
+    expect_equal(MSnbase:::breaks_Spectrum(s1, binSize = 2), c(1, 3, 6))
+})
+
+test_that("breaks_Spectra", {
+    s1 <- new("Spectrum2", mz = 1:4, intensity = 1:4)
+    s2 <- new("Spectrum2", mz = 1:5, intensity = 1:5)
+    expect_equal(MSnbase:::breaks_Spectra(s1, s1), 1:5)
+    expect_equal(MSnbase:::breaks_Spectra(s2, s2), 1:6)
+    ## issue 190
+    expect_equal(MSnbase:::breaks_Spectra(s1, s2), 1:6)
+    expect_equal(MSnbase:::breaks_Spectra(s1, s2, binSize = 2), c(1, 3, 5, 7))
+
+    s3 <- new("Spectrum2", mz = 1:4, intensity = 1:4)
+    s4 <- new("Spectrum2", mz = 11:15, intensity = 1:5)
+    expect_equal(MSnbase:::breaks_Spectra(s3, s4), 1:16)
+    expect_equal(MSnbase:::breaks_Spectra(s3, s4, binSize = 2), seq(1, 17, by=2))
+})
 
 test_that("bin_Spectrum", {
     s1 <- new("Spectrum2", mz = 1:5, intensity = 1:5)
-    s2 <- new("Spectrum2", mz = (1:5)+0.1, intensity = 1:5)
-    r1 <- new("Spectrum2", mz = c(1.5, 2.5, 3.5, 4.5, 5.5), intensity = 1:5, tic = 15)
+    s2 <- new("Spectrum2", mz = 1:5 + 0.1, intensity = 1:5)
+    r1 <- new("Spectrum2", mz = 1:5 + 0.5, intensity = 1:5, tic = 15)
     r2 <- new("Spectrum2", mz = c(2, 4, 6), intensity = c(3, 7, 5), tic = 15)
     r3 <- new("Spectrum2", mz = c(2, 4, 6), intensity = c(1.5, 3.5, 5), tic = 10)
     r4 <- new("Spectrum2", mz = c(1, 3, 5), intensity = c(1, 5, 9), tic = 15)
@@ -186,11 +208,9 @@ test_that("bin_Spectrum", {
     expect_equal(MSnbase:::bin_Spectrum(s1, binSize = 2, fun = mean), r3)
     expect_equal(MSnbase:::bin_Spectrum(s1, breaks = seq(0, 7, by = 2)), r4)
     expect_equal(MSnbase:::bin_Spectrum(s2, binSize = 1), r1)
-    expect_equal(MSnbase:::bin_Spectrum(s2, binSize = 2), r2)
     expect_equal(MSnbase:::bin_Spectrum(s2, binSize = 2, fun = mean), r3)
     expect_equal(MSnbase:::bin_Spectrum(s2, breaks = seq(0, 7, by = 2)), r4)
 })
-
 
 test_that("bin_Spectrum - bug fix #ecaaa324505b17ee8c4855806f7e37f14f1b27b8", {
     s <- new("Spectrum2", mz = c(1:7, 55, 78, 100), intensity = 1:10)
@@ -204,8 +224,19 @@ test_that("bin_Spectrum - bug fix #ecaaa324505b17ee8c4855806f7e37f14f1b27b8", {
     expect_equal(intensity(s2), ires)
 })
 
+test_that("bin_Spectra", {
+    # issue 190
+    s1 <- new("Spectrum2", mz = 1:4, intensity = 1:4)
+    s2 <- new("Spectrum2", mz = 1:5, intensity = 1:5)
+    r1 <- new("Spectrum2", mz = 1:5 + 0.5, intensity = c(1:4, 0))
+    r2 <- new("Spectrum2", mz = 1:5 + 0.5, intensity = 1:5)
+    r3 <- new("Spectrum2", mz = 1:4 + 0.5, intensity = 1:4)
+    expect_equal(MSnbase:::bin_Spectra(s1, s2), list(r1, r2))
+    expect_equal(MSnbase:::bin_Spectra(s1, s1), list(r3, r3))
+})
+
 test_that("removePeaks profile vs centroided", {
-    int <- c(2, 0, 0, 0, 1, 5, 1, 0, 0, 1, 3, 1, 0, 0, 1, 4, 2, 1)    
+    int <- c(2, 0, 0, 0, 1, 5, 1, 0, 0, 1, 3, 1, 0, 0, 1, 4, 2, 1)
     sp1 <- new("Spectrum2",
                intensity = int,
                centroided = FALSE,
@@ -214,7 +245,7 @@ test_that("removePeaks profile vs centroided", {
     expect_identical(intensity(removePeaks(sp1, 4)), res1)
 
     res2 <- int <- c(104, 57, 32, 33, 118, 76, 38, 39, 52, 140, 52,
-                     88, 394, 71, 408, 94, 2032)    
+                     88, 394, 71, 408, 94, 2032)
     sp2 <- new("Spectrum2",
                intensity = int,
                centroided = FALSE,
