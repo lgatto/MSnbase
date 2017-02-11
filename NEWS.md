@@ -1,7 +1,9 @@
 # MSnbase 2.1
 
 ## Changes in version 2.1.11
-- (Nothing yet)
+- Fix breaks calculation for binning single (closes #191) and multiple
+  (closes #190) spectra. The fix for single spectra (#191) could result in
+  slightly different breaks on the upper end of the m/z values. <2017-02-10 Fri>
 
 ## Changes in version 2.1.10
 - New `diff.median` normalisation for `MSnSet`s. <2017-01-26 Thu>
