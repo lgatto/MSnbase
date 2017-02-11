@@ -205,6 +205,8 @@ combineMatrixFeatures <- function(matr,    ## matrix
 ##'     protein group (\code{nb_feats} column) and the aggregation
 ##'     summarising distance (\code{agg_dist} column).
 ##' @author Laurent Gatto
+##' @seealso \code{\link{combineFeatures}} to combine PSMs
+##'     quantitation into peptides and/or into proteins.
 ##' @examples
 ##' library("pRolocdata")
 ##' data(hyperLOPIT2015ms3r1psm)
