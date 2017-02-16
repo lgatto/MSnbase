@@ -13,7 +13,7 @@ combineFeatures <- function(object,
                             ... ## further arguments to fun
                             ) {
     if (is.character(fun))
-        fun <- match.arg(fun)
+        fun <- match.arg(fun)    
     if (is.list(groupBy)) {
         if (length(groupBy) != nrow(object))
             stop("'length(groupBy)' must be equal to 'nrow(object)': ",
@@ -31,6 +31,7 @@ combineFeatures <- function(object,
                                    redundancy.handler,
                                    cv, cv.norm, verbose, ...)
     } else { ## factor, numeric or character
+        object <- nFeatures(object, groupBy)
         result <- combineFeaturesV(object, groupBy, fun,
                                    cv, cv.norm, verbose, ...)
     }
