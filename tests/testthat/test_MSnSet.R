@@ -354,3 +354,17 @@ test_that("aggvar, son of ragnar", {
     expect_true(is.na(res1[2, 1]))
     expect_identical(res1[, 2], c(A = 2, B = 1))
 })
+
+test_that("nFeatures are added correctly", {
+    data("hyperLOPIT2015ms3r1psm", package = "pRolocdata")
+    k0 <- k <- table(fData(hyperLOPIT2015ms3r1psm)$Protein.Group.Accessions)
+    k <- k[as.character(fData(hyperLOPIT2015ms3r1psm)[, "Protein.Group.Accessions"])]
+    res <- nFeatures(hyperLOPIT2015ms3r1psm, "Protein.Group.Accessions")
+    expect_identical(k, fData(res)$Protein.Group.Accessions.nFeatures)
+    expect_error(nFeatures(res, "Protein.Group.Accessions"),
+                 "'Protein.Group.Accessions.nFeatures' already present.")
+    expect_error(nFeatures(hyperLOPIT2015ms3r1psm, "foo"))
+    sel <- !duplicated(names(fData(res)$Protein.Group.Accessions.nFeatures))
+    g <- fData(res)$Protein.Group.Accessions.nFeatures[sel]
+    expect_identical(g[order(names(g))], k0[order(names(k0))])
+})

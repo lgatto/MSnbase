@@ -98,8 +98,10 @@ isMSnbaseVerbose(), ...)
 
 \seealso{
 
-  \code{\link{featureCV}} to calculate coefficient of raviation and the
-  \code{\link{aggvar}} to explore variability within protein groups.
+  \code{\link{featureCV}} to calculate coefficient of variation,
+  \code{\link{nFeatures}} to document the number of features per group
+  in the feature data, and the \code{\link{aggvar}} to explore
+  variability within protein groups.
 
 }
 
