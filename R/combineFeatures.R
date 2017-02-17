@@ -31,7 +31,6 @@ combineFeatures <- function(object,
                                    redundancy.handler,
                                    cv, cv.norm, verbose, ...)
     } else { ## factor, numeric or character
-        object <- nFeatures(object, groupBy)
         result <- combineFeaturesV(object, groupBy, fun,
                                    cv, cv.norm, verbose, ...)
     }
@@ -221,7 +220,7 @@ combineMatrixFeatures <- function(matr,    ## matrix
 ##'      xlab = "max", ylab = "mean")
 aggvar <- function(object, groupBy, fun) {
     stopifnot(inherits(object, "MSnSet"))
-    stopifnot(groupBy %in% fvarLabels(object))    
+    stopifnot(groupBy %in% fvarLabels(object))
     .d <- function(x, fun. = fun) {
         dx <- dist(as.matrix(x))
         if (length(dx) == 0) return(NA)
