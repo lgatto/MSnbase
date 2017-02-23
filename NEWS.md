@@ -1,5 +1,8 @@
 # MSnbase 2.1
 
+## Changes in version 2.1.12
+- (nothing yet)
+
 ## Changes in version 2.1.11
 - Fix breaks calculation for binning single (closes #191) and multiple
   (closes #190) spectra. The fix for single spectra (#191) could result in
