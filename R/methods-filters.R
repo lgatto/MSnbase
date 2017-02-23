@@ -161,6 +161,6 @@ setMethod("filterEmptySpectra", "MSnExp",
               emptyspecs <- unlist(spectrapply(object, isEmpty))
               object <- object[!emptyspecs, ]
               msg <- paste("Removed", sum(emptyspecs), "empty spectra.")
-              object <- MSnbase:::logging(object, msg)
+              object <- logging(object, msg)
               object
           })

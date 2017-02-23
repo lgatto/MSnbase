@@ -278,3 +278,35 @@ selectFeatureData <- function(object,
     app <- list(ui=ui, server=server)
     shiny::runApp(app)
 }
+
+
+##' This function computes the number of features in the group defined
+##' by the feature variable \code{fcol} and appends this information
+##' in the feature data of \code{object}.
+##'
+##' @title How many features in a group?
+##' @param object An instance of class \code{MSnSet}.
+##' @param fcol Feature variable defining the feature grouping
+##'     structure.
+##' @return An updated \code{MSnSet} with a new feature variable
+##'     \code{fcol.nFeatures}.
+##' @author Laurent Gatto
+##' @examples
+##' library(pRolocdata)
+##' data("hyperLOPIT2015ms3r1psm")
+##' hyperLOPIT2015ms3r1psm <- nFeatures(hyperLOPIT2015ms3r1psm,
+##'                                     "Protein.Group.Accessions")
+##' i <- c("Protein.Group.Accessions", "Protein.Group.Accessions.nFeatures")
+##' fData(hyperLOPIT2015ms3r1psm)[1:10, i]
+nFeatures <- function(object, fcol) {
+    stopifnot(inherits(object, "MSnSet"))
+    stopifnot(fcol %in% fvarLabels(object))    
+    fcol2 <- paste0(fcol, ".nFeatures")
+    if (fcol2 %in% fvarLabels(object))
+        stop("'", fcol2, "' already present.")
+    k <- table(fData(object)[, fcol])
+    k <- k[as.character(fData(object)[, fcol])]
+    fData(object)[, fcol2] <- k
+    if (validObject(object))
+        return(object)
+}

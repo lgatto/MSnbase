@@ -340,3 +340,31 @@ test_that("Feature variable selection", {
     expect_equal(selectFeatureData(hyperLOPIT2015, fcol = i),
                  selectFeatureData(hyperLOPIT2015, fcol = l))
 })
+
+test_that("aggvar, son of ragnar", {
+    e <- matrix(1:9, nrow = 3)
+    colnames(e) <- letters[1:3]
+    rownames(e) <- 1:3
+    f <- data.frame(gb = c("A", "A", "B"),
+                    row.names = rownames(e))
+    p <- data.frame(row.names = colnames(e))
+    x <- MSnSet(exprs = e, fData = f, pData = p)
+    res1 <- aggvar(x, "gb", max)
+    expect_identical(max(dist(exprs(x)[1:2, ])), res1[1, 1])
+    expect_true(is.na(res1[2, 1]))
+    expect_identical(res1[, 2], c(A = 2, B = 1))
+})
+
+test_that("nFeatures are added correctly", {
+    data("hyperLOPIT2015ms3r1psm", package = "pRolocdata")
+    k0 <- k <- table(fData(hyperLOPIT2015ms3r1psm)$Protein.Group.Accessions)
+    k <- k[as.character(fData(hyperLOPIT2015ms3r1psm)[, "Protein.Group.Accessions"])]
+    res <- nFeatures(hyperLOPIT2015ms3r1psm, "Protein.Group.Accessions")
+    expect_identical(k, fData(res)$Protein.Group.Accessions.nFeatures)
+    expect_error(nFeatures(res, "Protein.Group.Accessions"),
+                 "'Protein.Group.Accessions.nFeatures' already present.")
+    expect_error(nFeatures(hyperLOPIT2015ms3r1psm, "foo"))
+    sel <- !duplicated(names(fData(res)$Protein.Group.Accessions.nFeatures))
+    g <- fData(res)$Protein.Group.Accessions.nFeatures[sel]
+    expect_identical(g[order(names(g))], k0[order(names(k0))])
+})
