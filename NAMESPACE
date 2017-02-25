@@ -18,7 +18,7 @@ importFrom(XML, xmlInternalTreeParse, getDefaultNamespace, xpathApply,
 importFrom(graphics, abline, axis, grid, legend, lines, points, text,
            barplot, layout, par)
 importFrom(stats, ave, median, medpolish, quantile, reorder, setNames,
-           weighted.mean)
+           weighted.mean, dist)
 importFrom(utils, combn, head, ls.str, object.size,
            packageDescription, packageVersion, read.csv, read.delim,
            read.table, select.list, setTxtProgressBar, tail,

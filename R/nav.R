@@ -18,7 +18,7 @@
 ##'     spectrum is found.
 ##' @author Laurent Gatto
 ##' @examples
-##' f <- msdata::proteomics(full.names = TRUE)[1]
+##' f <- msdata::proteomics(full.names = TRUE)[2]
 ##' x <- readMSData2(f, centroided = c(FALSE, TRUE, FALSE))
 ##' sp <- "X009.1"
 ##' x[[sp]] ## curent MS3
