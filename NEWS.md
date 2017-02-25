@@ -2,6 +2,7 @@
 
 ## Changes in version 2.1.12
 - Import dist from stats <2017-02-25 Sat>
+- Fix filing example <2017-02-25 Sat>
 
 ## Changes in version 2.1.11
 - Fix breaks calculation for binning single (closes #191) and multiple
