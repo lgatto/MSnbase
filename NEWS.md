@@ -1,7 +1,7 @@
 # MSnbase 2.1
 
 ## Changes in version 2.1.13
-- (nothing yet)
+- Internal rewrite and speedup of plotNA <2017-02-26 Sun>
 
 ## Changes in version 2.1.12
 - Import dist from stats <2017-02-25 Sat>
