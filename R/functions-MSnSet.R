@@ -300,7 +300,7 @@ selectFeatureData <- function(object,
 ##' fData(hyperLOPIT2015ms3r1psm)[1:10, i]
 nFeatures <- function(object, fcol) {
     stopifnot(inherits(object, "MSnSet"))
-    stopifnot(fcol %in% fvarLabels(object))    
+    stopifnot(fcol %in% fvarLabels(object))
     fcol2 <- paste0(fcol, ".nFeatures")
     if (fcol2 %in% fvarLabels(object))
         stop("'", fcol2, "' already present.")

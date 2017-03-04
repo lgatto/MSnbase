@@ -1,35 +1,35 @@
 ## set plotNA method
-plotNA_matrix <- function(X, pNA) {
-  ## no visible binding for global variable ...
-  x <- value <- variable <- proteins <- y <- z <- NULL
-  ## X: matrix
+.preparePlotNAData <- function(x) {
   ## pNA: percentrage of NAs allowed per feature
-  pNA <- pNA[1]
-  calcNApp <- function(x) {
-    nbna <- sum(is.na(x))
-    if (is.null(dim(x)))
-      nbcells <- length(x)
-    else 
-      nbcells <- prod(dim(x))
-    return(nbna/nbcells)
-  }
-  ocol <- apply(X,2, function(x) sum(is.na(x)))
-  orow <- apply(X,1, function(x) sum(is.na(x)))
-  X <- X[order(orow), order(ocol)]
+  nnacol <- colSums(is.na(x))
+  nnarow <- rowSums(is.na(x))
+
+  ocol <- order(nnacol)
+  orow <- order(nnarow)
+
+  nnacol <- nnacol[ocol]
+  nnarow <- nnarow[orow]
+  x <- x[orow, ocol]
+
+  nc <- ncol(x)
+
   ## percentage of NA for each protein
-  k <- apply(X, 1,
-             function(x) 1-sum(is.na(x))/length(x))
-  ## percentage of NA in data set 
-  t <- sapply(1:nrow(X),
-              function(x) calcNApp(X[1:x, ]))
-  nkeep <- sum( k >= (1 - pNA) )
-  kkeep <- 1-calcNApp(X[1:nkeep, ])  
-  dfr1 <- data.frame(x = 1:length(k),
-                    proteins = k,
-                    data = 1 - t)
+  p <- 1 - nnarow / nc
+  ## percentage of NA in data set
+  d <- 1 - cumsum(nnarow) / (1:nrow(x) * nc)
+
+  data.frame(x = seq_along(p), proteins = p, data = d)
+}
+
+plotNA_matrix <- function(X, pNA) {
+  pNA <- pNA[1]
+  dfr1 <- .preparePlotNAData(X)
   dfr2 <- melt(dfr1, measure.vars=c("proteins", "data"))
-  p <- ggplot() + 
-    geom_line(data = dfr2, aes(x = x, y = value, colour = variable)) + 
+  nkeep <- sum(dfr1$proteins >= (1 - pNA))
+  kkeep <- dfr1$data[nkeep]
+
+  p <- ggplot() +
+    geom_line(data = dfr2, aes(x = x, y = value, colour = variable)) +
       labs(x = "Protein index (ordered by data completeness)",
            y = "Data completeness") +
              theme(legend.position=c(0.23, 0.18),
