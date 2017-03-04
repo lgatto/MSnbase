@@ -1,5 +1,8 @@
 # MSnbase 2.1
 
+## Changes in version 2.1.14
+- (nothing yet)
+
 ## Changes in version 2.1.13
 - Internal rewrite and speedup of plotNA <2017-02-26 Sun>
 
