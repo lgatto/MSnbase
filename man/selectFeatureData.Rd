@@ -39,4 +39,3 @@ fvarLabels(x)
 \author{
 Laurent Gatto
 }
-
