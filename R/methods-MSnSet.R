@@ -345,15 +345,7 @@ setMethod("topN", signature(object = "matrix"),
               if (ncol(object) > 1)
                 message("Ranking features using their sum.")
             }
-            rn <- rownames(object)
-            idx <- by(object, groupBy, getTopIdx, n, fun, ...)
-            object <- subsetBy(object, groupBy, idx)
-            if (!is.null(rn)) {
-              rownames(object) <- subsetBy(rn, groupBy, idx)
-            } else {
-              rownames(object) <- NULL
-            }
-            return(object)
+            object[.topIdx(object, groupBy=groupBy, n=n, fun=fun, ...), ]
           })
 
 setMethod("topN", signature(object = "MSnSet"),
@@ -365,28 +357,7 @@ setMethod("topN", signature(object = "MSnSet"),
               if (ncol(object) > 1)
                 message("Ranking features using their sum.")
             }
-            idx <- by(exprs(object), groupBy, getTopIdx, n, fun, ...)
-            fn <- subsetBy(featureNames(object), groupBy, idx)
-            .eset <- subsetBy(exprs(object), groupBy, idx)
-            if (!is.matrix(.eset))
-              .eset <- matrix(.eset, ncol = 1)
-            rownames(.eset) <- fn
-            .proc <- processingData(object)
-            .proc@processing <- c(.proc@processing,
-                                  paste0("Selected top ", n,
-                                         " features: ", date()))
-            .fdata <- subsetBy(fData(object), groupBy, idx)
-            ans <- new("MSnSet",
-                       experimentData = experimentData(object),
-                       exprs = .eset,
-                       phenoData = phenoData(object),
-                       featureData = new("AnnotatedDataFrame", data = .fdata),
-                       annotation = object@annotation,
-                       protocolData = protocolData(object))
-            ans@processingData <- .proc
-            featureNames(ans) <- fn
-            if (validObject(ans))
-              return(ans)
+            object[.topIdx(object, groupBy=groupBy, n=n, fun=fun, ...)]
           })
 
 
