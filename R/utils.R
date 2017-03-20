@@ -329,7 +329,7 @@ getVariableName <- function(match_call, varname) {
          " have to be equal.")
   }
   rs <- .summariseRows(x, fun, ...)
-  o <- orderNumeric(as.double(rs), decreasing=TRUE, na.last=TRUE)
+  o <- order(as.double(rs), decreasing=TRUE, na.last=TRUE)
   idx <- unlist(lapply(split(o, groupBy[o]), "[", 1:n), use.names=FALSE)
   idx[!is.na(idx)]
 }
