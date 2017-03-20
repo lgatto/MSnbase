@@ -272,3 +272,19 @@ test_that(".summariseRows", {
   expect_equal(MSnbase:::.summariseRows(m, fun=mean, na.rm=TRUE), rowMeans(m, na.rm=TRUE))
   expect_equal(MSnbase:::.summariseRows(m, fun=max, na.rm=TRUE), c(21, 22, 13, 24, 25, 16, 27, 28, 19, 30))
 })
+
+test_that(".topIdx", {
+  m <- matrix(1:30, nrow=10)
+  g <- rep_len(LETTERS[1:3], 10)
+  expect_error(MSnbase:::.topIdx(m, groupBy=g, fun=sum)) # n missing
+  expect_error(MSnbase:::.topIdx(1:10, groupBy=g, fun=sum, n=3))
+  expect_error(MSnbase:::.topIdx(m, groupBy=g, fun=1:10, n=3))
+  expect_error(MSnbase:::.topIdx(m, groupBy=g, fun=sum, n=-1),
+               ".*n.* has to be greater or equal than 1.")
+  expect_error(MSnbase:::.topIdx(m, groupBy=1:3, fun=sum, n=3),
+               ".*nrow.*x.* and .*length.*groupBy.* have to be equal.")
+  expect_equal(MSnbase:::.topIdx(m, groupBy=g, fun=sum, n=3),
+               c(10, 7, 4, 8, 5, 2, 9, 6, 3))
+  expect_equal(MSnbase:::.topIdx(m, groupBy=g, fun=sum, n=2),
+               c(10, 7, 8, 5, 9, 6))
+})
