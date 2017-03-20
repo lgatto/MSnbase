@@ -261,3 +261,4 @@ test_that("Get first MS level", {
     y2 <- .firstMsLevel(y)
     expect_equivalent(y1, y2)
 })
+

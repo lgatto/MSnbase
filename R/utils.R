@@ -963,8 +963,12 @@ countAndPrint <- function(x) {
 
 orderInteger <- function(x, decreasing=FALSE, na.last=NA)
 {
+    .Deprecated(msg = "Use base::order instead.")
     if (!is.integer(x))
         stop("'x' must be an integer vector or a factor")
+    ## Add warning if na.last is used; issue #198
+    if (!is.na(na.last))
+        warning("'na.last' parameter not supported.")
     ## Uses _get_order_of_int_array() at the C level which is stable.
     return(.Call("Integer_order", x, decreasing, PACKAGE="MSnbase"))
 }
@@ -1011,20 +1015,26 @@ orderInteger <- function(x, decreasing=FALSE, na.last=NA)
 }
 
 orderNumeric <- function(x, decreasing = FALSE, na.last = NA) {
+    .Deprecated(msg = "Use base::order instead.")
     if (!is.numeric(x))
         stop("'x' must be a numeric")
+    ## Add warning if na.last is used; issue #198
+    if (!is.na(na.last))
+        warning("'na.last' parameter not supported.")
     ## Uses _get_order_of_int_array() at the C level which is stable.
     return(.Call("Double_order", x, decreasing, PACKAGE = "MSnbase"))
 }
 
-
 sortNumeric <- function(x, decreasing = FALSE, na.last = NA) {
+    .Deprecated(msg = "Use base::sort instead.")
     if (!is.numeric(x))
         stop("'x' must be a numeric")
+    ## Add warning if na.last is used; issue #198
+    if (!is.na(na.last))
+        warning("'na.last' parameter not supported.")
     ## Uses _get_order_of_int_array() at the C level which is stable.
     return(.Call("sort_numeric", x, decreasing, PACKAGE = "MSnbase"))
 }
-
 
 ## see this comment
 ## https://github.com/lgatto/MSnbase/issues/183#issuecomment-273512931
