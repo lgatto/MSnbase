@@ -325,6 +325,28 @@ subsetBy <- function(X, groups, byIdx) {
   }
 }
 
+#' summarise rows by an user-given function
+#'
+#' @param x matrix
+#' @param fun function to summarise rows, if \code{fun} equals
+#' \code{sum}/\code{mean} the more efficient \code{rowSums}/\code{rowMeans} are
+#' used.
+#' @param ... further arguments passed to \code{fun}
+#' @return double, summarised rows
+#' @noRd
+.summariseRows <- function(x, fun, ...) {
+  stopifnot(is.matrix(x))
+  stopifnot(is.function(fun))
+
+  if (identical(fun, sum)) {
+    rowSums(x, ...)
+  } else if (identical(fun, mean)) {
+    rowMeans(x, ...)
+  } else {
+    apply(x, 1L, fun, ...)
+  }
+}
+
 ## Computes header from assay data by-passing cache
 .header <- function(object) {
   if (length(object) == 0)
