@@ -337,24 +337,25 @@ setMethod("combine",
 
 
 setMethod("topN", signature(object = "matrix"),
-          function(object, groupBy, n=3, fun, ...) {
+          function(object, groupBy, n=3, fun, ..., verbose=isMSnbaseVerbose()) {
             if (missing(groupBy))
               stop("Specify how to group features to select top ", n, ".")
             if (missing(fun)) {
               fun <- sum
-              if (ncol(object) > 1)
+              if (ncol(object) > 1 && verbose)
                 message("Ranking features using their sum.")
             }
             object[.topIdx(object, groupBy=groupBy, n=n, fun=fun, ...), ]
           })
 
+
 setMethod("topN", signature(object = "MSnSet"),
-          function(object, groupBy, n=3, fun, ...) {
+          function(object, groupBy, n=3, fun, ..., verbose=isMSnbaseVerbose()) {
             if (missing(groupBy))
               stop("Specify how to group features to select top ", n, ".")
             if (missing(fun)) {
               fun <- sum
-              if (ncol(object) > 1)
+              if (ncol(object) > 1 && verbose)
                 message("Ranking features using their sum.")
             }
             object[.topIdx(object, groupBy=groupBy, n=n, fun=fun, ...)]
