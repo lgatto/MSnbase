@@ -961,18 +961,6 @@ countAndPrint <- function(x) {
         quantile(diff(x), 0.25) > k
 }
 
-orderInteger <- function(x, decreasing=FALSE, na.last=NA)
-{
-    .Deprecated(msg = "Use base::order instead.")
-    if (!is.integer(x))
-        stop("'x' must be an integer vector or a factor")
-    ## Add warning if na.last is used; issue #198
-    if (!is.na(na.last))
-        warning("'na.last' parameter not supported.")
-    ## Uses _get_order_of_int_array() at the C level which is stable.
-    return(.Call("Integer_order", x, decreasing, PACKAGE="MSnbase"))
-}
-
 ##' @title Reads profile/centroided mode from an mzML file
 ##' @param x An instance of \code{MSnExp} or \code{OnDiskMSnExp}
 ##' @return A \code{logical}
@@ -1012,28 +1000,6 @@ orderInteger <- function(x, decreasing=FALSE, na.last=NA)
         ext <- .fileExt(f)
     }
     ext
-}
-
-orderNumeric <- function(x, decreasing = FALSE, na.last = NA) {
-    .Deprecated(msg = "Use base::order instead.")
-    if (!is.numeric(x))
-        stop("'x' must be a numeric")
-    ## Add warning if na.last is used; issue #198
-    if (!is.na(na.last))
-        warning("'na.last' parameter not supported.")
-    ## Uses _get_order_of_int_array() at the C level which is stable.
-    return(.Call("Double_order", x, decreasing, PACKAGE = "MSnbase"))
-}
-
-sortNumeric <- function(x, decreasing = FALSE, na.last = NA) {
-    .Deprecated(msg = "Use base::sort instead.")
-    if (!is.numeric(x))
-        stop("'x' must be a numeric")
-    ## Add warning if na.last is used; issue #198
-    if (!is.na(na.last))
-        warning("'na.last' parameter not supported.")
-    ## Uses _get_order_of_int_array() at the C level which is stable.
-    return(.Call("sort_numeric", x, decreasing, PACKAGE = "MSnbase"))
 }
 
 ## see this comment
