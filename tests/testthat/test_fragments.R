@@ -107,6 +107,21 @@ test_that("calculateFragments", {
                calculateFragments("ACE", type=letters[1:3], z=2, verbose=FALSE),
                tolerance=1e-5)
 
+  ## issue #200 (mz are not calculated correctly for terminal modifications
+  ## and z > 1)
+  p <- MSnbase:::get.atomic.mass()["p"]
+  expect_equal(calculateFragments("A", z=2,
+                                  modifications=c(Nterm=10),
+                                  type="b")$mz - p,
+               (calculateFragments("A", z=1,
+                                   modifications=c(Nterm=10),
+                                   type="b")$mz - p )/ 2)
+  expect_equal(calculateFragments("A", z=2, neutralLoss=NULL,
+                                  modifications=c(Cterm=10),
+                                  type="y")$mz - p,
+               (calculateFragments("A", z=1, neutralLoss=NULL,
+                                   modifications=c(Cterm=10),
+                                   type="y")$mz - p) / 2)
 })
 
 test_that("defaultNeutralLoss", {

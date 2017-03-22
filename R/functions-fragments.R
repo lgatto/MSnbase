@@ -198,7 +198,7 @@
     isABC <- grep("[abc]", df$type)
 
     if (length(isABC)) {
-      df$mz[isABC] <- df$mz[isABC] + modifications["Nterm"]
+      df$mz[isABC] <- df$mz[isABC] + modifications["Nterm"] / df$z[isABC]
     }
   }
 
@@ -206,7 +206,7 @@
     isXYZ <- grep("[xyz]", df$type)
 
     if (length(isXYZ)) {
-      df$mz[isXYZ] <- df$mz[isXYZ] + modifications["Cterm"]
+      df$mz[isXYZ] <- df$mz[isXYZ] + modifications["Cterm"] / df$z[isXYZ]
     }
   }
 
