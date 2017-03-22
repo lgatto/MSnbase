@@ -337,56 +337,34 @@ setMethod("combine",
 
 
 setMethod("topN", signature(object = "matrix"),
-          function(object, groupBy, n=3, fun, ...) {
+          function(object, groupBy, n=3, fun, ..., verbose=isMSnbaseVerbose()) {
             if (missing(groupBy))
               stop("Specify how to group features to select top ", n, ".")
             if (missing(fun)) {
               fun <- sum
-              if (ncol(object) > 1)
+              if (ncol(object) > 1 && verbose)
                 message("Ranking features using their sum.")
             }
-            rn <- rownames(object)
-            idx <- by(object, groupBy, getTopIdx, n, fun, ...)
-            object <- subsetBy(object, groupBy, idx)
-            if (!is.null(rn)) {
-              rownames(object) <- subsetBy(rn, groupBy, idx)
-            } else {
-              rownames(object) <- NULL
-            }
-            return(object)
+            object[.topIdx(object, groupBy=groupBy, n=n, fun=fun, ...), ]
           })
 
+
 setMethod("topN", signature(object = "MSnSet"),
-          function(object, groupBy, n=3, fun, ...) {
+          function(object, groupBy, n=3, fun, ..., verbose=isMSnbaseVerbose()) {
             if (missing(groupBy))
               stop("Specify how to group features to select top ", n, ".")
             if (missing(fun)) {
               fun <- sum
-              if (ncol(object) > 1)
+              if (ncol(object) > 1 && verbose)
                 message("Ranking features using their sum.")
             }
-            idx <- by(exprs(object), groupBy, getTopIdx, n, fun, ...)
-            fn <- subsetBy(featureNames(object), groupBy, idx)
-            .eset <- subsetBy(exprs(object), groupBy, idx)
-            if (!is.matrix(.eset))
-              .eset <- matrix(.eset, ncol = 1)
-            rownames(.eset) <- fn
-            .proc <- processingData(object)
-            .proc@processing <- c(.proc@processing,
-                                  paste0("Selected top ", n,
-                                         " features: ", date()))
-            .fdata <- subsetBy(fData(object), groupBy, idx)
-            ans <- new("MSnSet",
-                       experimentData = experimentData(object),
-                       exprs = .eset,
-                       phenoData = phenoData(object),
-                       featureData = new("AnnotatedDataFrame", data = .fdata),
-                       annotation = object@annotation,
-                       protocolData = protocolData(object))
-            ans@processingData <- .proc
-            featureNames(ans) <- fn
-            if (validObject(ans))
-              return(ans)
+            idx <- .topIdx(exprs(object), groupBy=groupBy, n=n, fun=fun, ...)
+            object@processingData@processing <- c(processingData(object)@processing,
+                                                  paste0("Selected top ", n,
+                                                  " features: ", date()))
+            object <- object[idx]
+            if (validObject(object))
+              return(object)
           })
 
 

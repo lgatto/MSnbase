@@ -289,40 +289,49 @@ getVariableName <- function(match_call, varname) {
   tail(as.character(mcx), n = 1)
 }
 
+#' summarise rows by an user-given function
+#'
+#' @param x matrix
+#' @param fun function to summarise rows, if \code{fun} equals
+#' \code{sum}/\code{mean} the more efficient \code{rowSums}/\code{rowMeans} are
+#' used.
+#' @param ... further arguments passed to \code{fun}
+#' @return double, summarised rows
+#' @noRd
+.summariseRows <- function(x, fun, ...) {
+  stopifnot(is.matrix(x))
+  stopifnot(is.function(fun))
 
-
-##
-## utils for topN method: getTopIdx and subsetBy
-##
-
-getTopIdx <- function(X, n, fun, ...) {
-  ## Rows of X are first summerised using fun.
-  ## Indices of the n highest values of vector X
-  ## are then returned.
-  ## input X: matrix [m,l]
-  ## output: numeric of length min(n, nrow(x))
-  ## If (l == 1), fun does not have any effect.
-  ## Otherwise, fun is required to keep the features
-  ## grouped into rows.
-  if (n < 1)
-    stop("'n' must be greater or equal than 1.")
-  n <- min(n, nrow(X))
-  X <- apply(X, 1, fun, ...)
-  base::order(X, decreasing = TRUE)[1:n]
+  if (identical(fun, sum)) {
+    rowSums(x, ...)
+  } else if (identical(fun, mean)) {
+    rowMeans(x, ...)
+  } else {
+    apply(x, 1L, fun, ...)
+  }
 }
 
-subsetBy <- function(X, groups, byIdx) {
-  if ( is.null(dim(X)) || ncol(X) == 1 ) {
-    ## vector
-    unlist(mapply("[", x=split(as.vector(X), groups), i=byIdx,
-                  SIMPLIFY=FALSE, USE.NAMES=FALSE))
-  } else {
-    ## matrix
-    ans <- mapply(function(i, j) {
-      X[i, , drop=FALSE][j, , drop=FALSE]
-    }, i=split(1:nrow(X), groups), j=byIdx, SIMPLIFY=FALSE, USE.NAMES=FALSE)
-    do.call(rbind, ans)
+#' find top n indices of each group
+#'
+#' @param x matrix
+#' @param groupBy factor/character of length \code{nrow(x)}
+#' @param n consider just the top \code{n} values
+#' @param fun function to summarise rows
+#' @param ... further arguments passed to \code{fun}
+#' @return double, indices sorted by summarising function \code{fun}
+#' @noRd
+.topIdx <- function(x, groupBy, n, fun, ...) {
+  if (n < 1) {
+    stop(sQuote("n"), " has to be greater or equal than 1.")
   }
+  if (nrow(x) != length(groupBy)) {
+    stop(sQuote("nrow(x)"), " and ", sQuote("length(groupBy)"),
+         " have to be equal.")
+  }
+  rs <- .summariseRows(x, fun, ...)
+  o <- order(as.double(rs), decreasing=TRUE, na.last=TRUE)
+  idx <- unlist(lapply(split(o, groupBy[o]), "[", 1:n), use.names=FALSE)
+  idx[!is.na(idx)]
 }
 
 ## Computes header from assay data by-passing cache
