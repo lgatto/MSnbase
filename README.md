@@ -6,6 +6,8 @@
 
 
 
+# The `MSnbase` package
+
 <img align = "right" src="https://rawgit.com/Bioconductor/BiocStickers/master/MSnbase/MSnbase.png" height="200">
 
 [**MSnbase**](http://lgatto.github.io/MSnbase/) is an R/Bioconductor
