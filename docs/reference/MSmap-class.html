@@ -172,7 +172,8 @@
 <span class='co'>#     ## downloads the data</span>
 <span class='co'>#     library("rpx")</span>
 <span class='co'>#     px1 &lt;- PXDataset("PXD000001")</span>
-<span class='co'>#     mzf &lt;- pxget(px1, 6)</span>
+<span class='co'>#     (i &lt;- grep("TMT.+mzML", pxfiles(px1), value = TRUE))</span>
+<span class='co'>#     mzf &lt;- pxget(px1, i)</span>
 <span class='co'># </span>
 <span class='co'>#     ## reads the data </span>
 <span class='co'>#     ms &lt;- openMSfile(mzf)</span>

@@ -85,18 +85,50 @@
     <div id="msnbase-2-1" class="section level1">
 <h1 class="hasAnchor">
 <a href="#msnbase-2-1" class="anchor"> </a>MSnbase 2.1</h1>
+<div id="changes-in-version-2-1-14" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-in-version-2-1-14" class="anchor"> </a>Changes in version 2.1.14</h2>
+<ul>
+<li>Internal rewrite and speedup of topN; Briefly multiple apply calls are avoided, <code>getTopIdx</code> and <code>subsetById</code> are replaced by <code>.topIdx</code>. See PR #199 for details. &lt;2017-03-20 Mon&gt;</li>
+<li>Fix mz calculation for terminal modifications and z &gt; 1 in <code>calculateFragments</code>; closes #200 &lt;2017-03-22 Wed&gt;</li>
+</ul>
+</div>
+<div id="changes-in-version-2-1-13" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-in-version-2-1-13" class="anchor"> </a>Changes in version 2.1.13</h2>
+<ul>
+<li>Internal rewrite and speedup of plotNA &lt;2017-02-26 Sun&gt;</li>
+</ul>
+</div>
+<div id="changes-in-version-2-1-12" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-in-version-2-1-12" class="anchor"> </a>Changes in version 2.1.12</h2>
+<ul>
+<li>Import dist from stats &lt;2017-02-25 Sat&gt;</li>
+<li>Fix filing example &lt;2017-02-25 Sat&gt;</li>
+</ul>
+</div>
+<div id="changes-in-version-2-1-11" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-in-version-2-1-11" class="anchor"> </a>Changes in version 2.1.11</h2>
+<ul>
+<li>Fix breaks calculation for binning single (closes #191) and multiple (closes #190) spectra. The fix for single spectra (#191) could result in slightly different breaks on the upper end of the m/z values. &lt;2017-02-10 Fri&gt;</li>
+<li>New <code>aggvar</code> function, to assess aggregation variability &lt;2017-02-11 Sat&gt;</li>
+</ul>
+</div>
 <div id="changes-in-version-2-1-10" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-1-10" class="anchor"> </a>Changes in version 2.1.10</h2>
 <ul>
 <li>New <code>diff.median</code> normalisation for <code>MSnSet</code>s. &lt;2017-01-26 Thu&gt;</li>
+<li>Fix combineFeatures message &lt;2017-02-01 Wed&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-1-9" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-1-9" class="anchor"> </a>Changes in version 2.1.9</h2>
 <ul>
-<li>When fully trimmed, an (empty) spectrum has peaksCount of 0L - see <a href="https://github.com/lgatto/MSnbase/issues/184">https://github.com/lgatto/MSnbase/issues/184</a> &lt;2017-01-20 Fri&gt;</li>
+<li>When fully trimmed, an (empty) spectrum has peaksCount of 0L - see <a href="https://github.com/lgatto/MSnbase/issues/184" class="uri">https://github.com/lgatto/MSnbase/issues/184</a> &lt;2017-01-20 Fri&gt;</li>
 <li>Add filterEmptySpectra,MSnExp method (see issue #181) &lt;2017-01-20 Fri&gt;</li>
 <li>Add a section about notable on-disk and in-memory differences (was issue #165) &lt;2017-01-20 Fri&gt;</li>
 </ul>
@@ -1866,12 +1898,7 @@
 <a href="#changes-in-version-1-3-2" class="anchor"> </a>Changes in version 1.3.2</h2>
 <ul>
 <li>\dontrun{} extractSpectrum example, as this seems to be a major offender producing the intermittent check ‘Error in function (x) : attempt to apply non-function’ error [2011-11-07 Mon]</li>
-<li>typo in <script type="text/javascript">
-<!--
-h='&#82;';a='&#64;';n='&#x41;&#x75;&#116;&#104;&#x6f;&#114;';e=n+a+h;
-document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
-// -->
-</script><noscript>Author at R</noscript> [2011-11-14 Mon]</li>
+<li>typo in <a href="mailto:Author@R">Author@R</a> [2011-11-14 Mon]</li>
 <li>modified utils.removePeaks and utils.clean to call sapply instead of IRanges:sapply [2011-12-01 Thu]</li>
 </ul>
 </div>
@@ -2004,12 +2031,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
 <li>use mzR’s peaksCount and header generics [2011-09-05 Mon]</li>
 <li>added test to check that readMzXMLData and readMSData give same output [2011-09-05 Mon]</li>
 <li>added readMSData.Rd doc file [2011-09-05 Mon]</li>
-<li>added <script type="text/javascript">
-<!--
-h='&#82;';a='&#64;';n='&#x41;&#x75;&#116;&#104;&#x6f;&#114;';e=n+a+h;
-document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
-// -->
-</script><noscript>Author at R</noscript> field in DESCRIPTION [2011-09-07 Wed]</li>
+<li>added <a href="mailto:Author@R">Author@R</a> field in DESCRIPTION [2011-09-07 Wed]</li>
 <li><p>compressed/resaved (using resaveRdaFiles) itraqdata.RData file to [2011-09-07 Wed]</p></li>
 </ul>
 </div>
@@ -2261,12 +2283,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
 <a href="#changes-in-version-0-99-0" class="anchor"> </a>Changes in version 0.99.0</h2>
 <ul>
 <li>
-<script type="text/javascript">
-<!--
-h='&#112;&#114;&#x6f;&#x63;&#x65;&#x73;&#x73;';a='&#64;';n='&#x4d;&#x53;&#110;&#80;&#114;&#x6f;&#x63;&#x65;&#x73;&#x73;';e=n+a+h;
-document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
-// -->
-</script><noscript>MSnProcess at process</noscript> get’s one line when subsetting and MSnExp object [2011-03-21 Mon]</li>
+<a href="mailto:MSnProcess@process">MSnProcess@process</a> get’s one line when subsetting and MSnExp object [2011-03-21 Mon]</li>
 <li>Updated vignette Makefile [2011-03-22 Tue]</li>
 <li>Added fake vignettes [2011-03-22 Tue]</li>
 <li>Version set to 0.99.0 [2011-03-22 Tue]</li>
@@ -2325,12 +2342,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
 <a href="#changes-in-version-0-1-2" class="anchor"> </a>Changes in version 0.1.2</h2>
 <ul>
 <li>
-<script type="text/javascript">
-<!--
-h='&#x4d;&#x53;&#110;&#98;&#x61;&#x73;&#x65;&#86;&#x65;&#114;&#x73;&#x69;&#x6f;&#110;';a='&#64;';n='&#x4d;&#x53;&#110;&#80;&#114;&#x6f;&#x63;&#x65;&#x73;&#x73;';e=n+a+h;
-document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
-// -->
-</script><noscript>MSnProcess at MSnbaseVersion</noscript> is not set in the initialize method instead to the prototype</li>
+<a href="mailto:MSnProcess@MSnbaseVersion">MSnProcess@MSnbaseVersion</a> is not set in the initialize method instead to the prototype</li>
 <li>changed R CMD to $(R_HOME)/bin/R CMD in inst/doc/Makefile</li>
 <li>removed first and last (was 5th) MS1 spectra and associated MS2 spectra from dummy file to reduce size below 2MB.</li>
 <li>Updated tests to reflect new dummy data set</li>

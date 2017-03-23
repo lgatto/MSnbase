@@ -223,7 +223,8 @@
       2 or more <code>MSnSet</code> instances according to their feature names.
       Note that the <code>qual</code> slot and the processing information are
       silently dropped. 
-    <dt>topN</dt><dd>signature(object = &quot;MSnSet&quot;, groupBy, n = 3, fun, ...)</dd>
+    <dt>topN</dt><dd>signature(object = &quot;MSnSet&quot;, groupBy, n = 3, fun, ..., verbose =
+      isMSnbaseVerbose())</dd>
       Selects the <code>n</code> most intense features (typically peptides or
       spectra) out of all available for each set defined by
       <code>groupBy</code> (typically proteins) and creates a new instance of
@@ -233,8 +234,6 @@
       decreasing order. Additional parameters can be passed to
       <code>fun</code> through <code>...</code>, for instance to control the
       behaviour of <code>topN</code> in case of <code>NA</code> values.
-      Note that the <code>qual</code> slot and the processing information are
-      silently dropped.
       (Works also with <code>matrix</code> instances.)</p>
     <p>See also the <code><a href='nQuants.html'>nQuants</a></code> function to retrieve the
       actual number of retained peptides out of <code>n</code>.</p>
