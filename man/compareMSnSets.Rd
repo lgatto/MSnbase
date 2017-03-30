@@ -27,4 +27,3 @@ Compares two \code{\linkS4class{MSnSet}} instances. The
 \author{
 Laurent Gatto
 }
-
