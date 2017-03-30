@@ -120,7 +120,8 @@
     ## downloads the data
     library("rpx")
     px1 <- PXDataset("PXD000001")
-    mzf <- pxget(px1, 6)
+    (i <- grep("TMT.+mzML", pxfiles(px1), value = TRUE))
+    mzf <- pxget(px1, i)
 
     ## reads the data 
     ms <- openMSfile(mzf)
