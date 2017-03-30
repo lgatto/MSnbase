@@ -358,7 +358,7 @@ setMethod("topN", signature(object = "MSnSet"),
               if (ncol(object) > 1 && verbose)
                 message("Ranking features using their sum.")
             }
-            object[.topIdx(object, groupBy=groupBy, n=n, fun=fun, ...)]
+            object[.topIdx(exprs(object), groupBy=groupBy, n=n, fun=fun, ...)]
           })
 
 
