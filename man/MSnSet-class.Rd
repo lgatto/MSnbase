@@ -229,7 +229,8 @@
       2 or more \code{MSnSet} instances according to their feature names.
       Note that the \code{qual} slot and the processing information are
       silently dropped. }
-    \item{topN}{signature(object = "MSnSet", groupBy, n = 3, fun, ...)}{
+    \item{topN}{signature(object = "MSnSet", groupBy, n = 3, fun, ..., verbose =
+      isMSnbaseVerbose())}{
       Selects the \code{n} most intense features (typically peptides or
       spectra) out of all available for each set defined by
       \code{groupBy} (typically proteins) and creates a new instance of
@@ -239,8 +240,6 @@
       decreasing order. Additional parameters can be passed to
       \code{fun} through \code{...}, for instance to control the
       behaviour of \code{topN} in case of \code{NA} values.
-      Note that the \code{qual} slot and the processing information are
-      silently dropped.
       (Works also with \code{matrix} instances.)
 
       See also the \code{\link{nQuants}} function to retrieve the
