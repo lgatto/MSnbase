@@ -27,6 +27,7 @@ plotNA_matrix <- function(X, pNA) {
   dfr2 <- melt(dfr1, measure.vars=c("proteins", "data"))
   nkeep <- sum(dfr1$proteins >= (1 - pNA))
   kkeep <- dfr1$data[nkeep]
+  x <- y <- z <- value <- variable <- NULL
 
   p <- ggplot() +
     geom_line(data = dfr2, aes(x = x, y = value, colour = variable)) +

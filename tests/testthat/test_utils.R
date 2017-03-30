@@ -287,4 +287,8 @@ test_that(".topIdx", {
                c(10, 7, 4, 8, 5, 2, 9, 6, 3))
   expect_equal(MSnbase:::.topIdx(m, groupBy=g, fun=sum, n=2),
                c(10, 7, 8, 5, 9, 6))
+<<<<<<< HEAD
 })
+=======
+})
+>>>>>>> master
