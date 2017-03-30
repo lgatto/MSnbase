@@ -261,3 +261,14 @@ test_that("Get first MS level", {
     y2 <- .firstMsLevel(y)
     expect_equivalent(y1, y2)
 })
+
+test_that(".summariseRows", {
+  m <- matrix(1:30, nrow=10)
+  m[seq(2, 30, by=3)] <- NA
+  expect_error(MSnbase:::.summariseRows(1:10, fun=sum))
+  expect_error(MSnbase:::.summariseRows(m, fun=1:10))
+  expect_equal(MSnbase:::.summariseRows(m, fun=sum), rep.int(NA_real_, 10))
+  expect_equal(MSnbase:::.summariseRows(m, fun=sum, na.rm=TRUE), rowSums(m, na.rm=TRUE))
+  expect_equal(MSnbase:::.summariseRows(m, fun=mean, na.rm=TRUE), rowMeans(m, na.rm=TRUE))
+  expect_equal(MSnbase:::.summariseRows(m, fun=max, na.rm=TRUE), c(21, 22, 13, 24, 25, 16, 27, 28, 19, 30))
+})
