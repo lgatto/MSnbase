@@ -6,6 +6,8 @@
 
 
 
+<img align = "right", src="MSnbase/MSnbase.png" height="100">
+
 [**MSnbase**](http://lgatto.github.io/MSnbase/) is an R/Bioconductor
 package that provides infrastructure for plotting, data manipulation
 and processing mass spectrometry and proteomics data. The project was
