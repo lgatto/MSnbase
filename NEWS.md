@@ -5,7 +5,8 @@
   avoided, `getTopIdx` and `subsetById` are replaced by `.topIdx`.
   See PR #199 for details. <2017-03-20 Mon>
 - Fix mz calculation for terminal modifications and z > 1 in
-    `calculateFragments`; closes #200 <2017-03-22 Wed>
+  `calculateFragments`; closes #200 <2017-03-22 Wed>
+- Fix errors and notes <2017-03-30 Thu>
 
 ## Changes in version 2.1.13
 - Internal rewrite and speedup of plotNA <2017-02-26 Sun>
