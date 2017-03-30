@@ -6,7 +6,7 @@
 
 
 
-<img align = "right", src="MSnbase/MSnbase.png" height="100">
+<img align = "right" src="MSnbase/MSnbase.png" height="100">
 
 [**MSnbase**](http://lgatto.github.io/MSnbase/) is an R/Bioconductor
 package that provides infrastructure for plotting, data manipulation
