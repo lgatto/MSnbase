@@ -289,42 +289,6 @@ getVariableName <- function(match_call, varname) {
   tail(as.character(mcx), n = 1)
 }
 
-
-
-##
-## utils for topN method: getTopIdx and subsetBy
-##
-
-getTopIdx <- function(X, n, fun, ...) {
-  ## Rows of X are first summerised using fun.
-  ## Indices of the n highest values of vector X
-  ## are then returned.
-  ## input X: matrix [m,l]
-  ## output: numeric of length min(n, nrow(x))
-  ## If (l == 1), fun does not have any effect.
-  ## Otherwise, fun is required to keep the features
-  ## grouped into rows.
-  if (n < 1)
-    stop("'n' must be greater or equal than 1.")
-  n <- min(n, nrow(X))
-  X <- apply(X, 1, fun, ...)
-  base::order(X, decreasing = TRUE)[1:n]
-}
-
-subsetBy <- function(X, groups, byIdx) {
-  if ( is.null(dim(X)) || ncol(X) == 1 ) {
-    ## vector
-    unlist(mapply("[", x=split(as.vector(X), groups), i=byIdx,
-                  SIMPLIFY=FALSE, USE.NAMES=FALSE))
-  } else {
-    ## matrix
-    ans <- mapply(function(i, j) {
-      X[i, , drop=FALSE][j, , drop=FALSE]
-    }, i=split(1:nrow(X), groups), j=byIdx, SIMPLIFY=FALSE, USE.NAMES=FALSE)
-    do.call(rbind, ans)
-  }
-}
-
 #' summarise rows by an user-given function
 #'
 #' @param x matrix
