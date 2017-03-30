@@ -48,4 +48,3 @@ MSnbase:::prevMS(sp, x, 1L) ## prev MS1
 \author{
 Laurent Gatto
 }
-

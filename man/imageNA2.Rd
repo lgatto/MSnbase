@@ -57,4 +57,3 @@ MSnbase:::imageNA2(nax, pcol, Colv = FALSE, useGroupMean = TRUE)
 \author{
 Laurent Gatto, Samuel Wieczorek and Thomas Burger
 }
-
