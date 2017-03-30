@@ -347,6 +347,29 @@ subsetBy <- function(X, groups, byIdx) {
   }
 }
 
+#' find top n indices of each group
+#'
+#' @param x matrix
+#' @param groupBy factor/character of length \code{nrow(x)}
+#' @param n consider just the top \code{n} values
+#' @param fun function to summarise rows
+#' @param ... further arguments passed to \code{fun}
+#' @return double, indices sorted by summarising function \code{fun}
+#' @noRd
+.topIdx <- function(x, groupBy, n, fun, ...) {
+  if (n < 1) {
+    stop(sQuote("n"), " has to be greater or equal than 1.")
+  }
+  if (nrow(x) != length(groupBy)) {
+    stop(sQuote("nrow(x)"), " and ", sQuote("length(groupBy)"),
+         " have to be equal.")
+  }
+  rs <- .summariseRows(x, fun, ...)
+  o <- orderNumeric(as.double(rs), decreasing=TRUE, na.last=TRUE)
+  idx <- unlist(lapply(split(o, groupBy[o]), "[", 1:n), use.names=FALSE)
+  idx[!is.na(idx)]
+}
+
 ## Computes header from assay data by-passing cache
 .header <- function(object) {
   if (length(object) == 0)
