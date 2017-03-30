@@ -1,7 +1,9 @@
 # MSnbase 2.1
 
 ## Changes in version 2.1.14
-- Internal rewrite and speedup of topN <2017-03-20 Mon>
+- Internal rewrite and speedup of topN; Briefly multiple apply calls are
+  avoided, `getTopIdx` and `subsetById` are replaced by `.topIdx`.
+  See PR #199 for details. <2017-03-20 Mon>
 
 ## Changes in version 2.1.13
 - Internal rewrite and speedup of plotNA <2017-02-26 Sun>
