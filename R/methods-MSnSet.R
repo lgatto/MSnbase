@@ -358,7 +358,13 @@ setMethod("topN", signature(object = "MSnSet"),
               if (ncol(object) > 1 && verbose)
                 message("Ranking features using their sum.")
             }
-            object[.topIdx(exprs(object), groupBy=groupBy, n=n, fun=fun, ...)]
+            idx <- .topIdx(exprs(object), groupBy=groupBy, n=n, fun=fun, ...)
+            object@processingData@processing <- c(processingData(object)@processing,
+                                                  paste0("Selected top ", n,
+                                                  " features: ", date()))
+            object <- object[idx]
+            if (validObject(object))
+              return(object)
           })
 
 
