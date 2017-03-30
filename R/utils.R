@@ -936,14 +936,14 @@ getBpParam <- function(object, BPPARAM=bpparam()) {
     ## If it's empty, return SerialParam
     if (length(object) == 0)
         return(SerialParam())
-    if (is(object, "OnDiskMSnExp")) {
-        ## Return SerialParam if we access less than PARALLEL_THRESH spectra per file.
-        if (mean(table(fData(object)$fileIdx)) < parallel_thresh)
-            return(SerialParam())
-    } else {
+    ## if (is(object, "OnDiskMSnExp")) {
+    ##     ## Return SerialParam if we access less than PARALLEL_THRESH spectra per file.
+    ##     if (mean(table(fData(object)$fileIdx)) < parallel_thresh)
+    ##         return(SerialParam())
+    ## } else {
         if (length(object) < parallel_thresh)
             return(SerialParam())
-    }
+    ## }
     return(BPPARAM)
 }
 
