@@ -56,6 +56,9 @@ prot <- combineFeatures(msnset2,
                         fun = "iPQF")
 head(exprs(prot))
 }
+\author{
+Martina Fischer
+}
 \references{
 iPQF: a new peptide-to-protein summarization method
     using peptide spectra characteristics to improve protein
@@ -63,6 +66,4 @@ iPQF: a new peptide-to-protein summarization method
     Apr 1;32(7):1040-7. doi:10.1093/bioinformatics/btv675. Epub
     2015 Nov 20. PubMed PMID:26589272.
 }
-\author{
-Martina Fischer
-}
+
