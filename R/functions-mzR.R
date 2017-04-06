@@ -68,8 +68,8 @@ plotMzDelta_list <- function(object,            ## peakLists
     }
     delta <- unlist(delta)
     ## could round deltas to speed up?
-    delta <- melt(delta)
-    p <- ggplot(delta, aes(x = value)) + 
+    delta <- data.frame(value = delta)
+    p <- ggplot(delta, aes(x = value)) +
         geom_histogram(aes(y = ..density..), stat = "bin", binwidth = bw) +
             scale_x_continuous(limits = xlim) +
                     xlab("m/z delta") + ylab("Density") +

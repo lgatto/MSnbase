@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for Mass Spectrometry and Proteomics
-Version: 2.1.14
+Version: 2.1.15
 Description: Manipulation, processing and visualisation
     of mass spectrometry and proteomics data.
 Authors@R: c(person(given = "Laurent", family = "Gatto",
@@ -52,7 +52,6 @@ Imports:
     preprocessCore,
     vsn,
     grid,
-    reshape2,
     stats4,
     affy,
     impute,
