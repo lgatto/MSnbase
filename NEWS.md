@@ -1,5 +1,8 @@
 # MSnbase 2.1
 
+## Changes in version 2.1.15
+- Remove reshape2 dependency; see #201 <2017-04-06 Thu>
+
 ## Changes in version 2.1.14
 - Internal rewrite and speedup of topN; Briefly multiple apply calls are
   avoided, `getTopIdx` and `subsetById` are replaced by `.topIdx`.
