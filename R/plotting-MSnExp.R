@@ -102,8 +102,7 @@ plotMzDelta_MSnExp <- function(object,            ## MSnExp object
         close(pb)
         message(" Plotting...\n")
     }
-    delta <- unlist(delta)
-    delta <- melt(delta)
+    delta <- data.frame(value = unlist(delta))
     p <- ggplot(delta, aes(x = value)) +
         geom_histogram(aes(y = ..density..), stat = "bin", binwidth = bw) +
             scale_x_continuous(limits = xlim) +

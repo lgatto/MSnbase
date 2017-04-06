@@ -24,7 +24,9 @@
 plotNA_matrix <- function(X, pNA) {
   pNA <- pNA[1]
   dfr1 <- .preparePlotNAData(X)
-  dfr2 <- melt(dfr1, measure.vars=c("proteins", "data"))
+  dfr2 <- data.frame(x = 1:nrow(dfr1),
+                     variable = rep(c("proteins", "data"), each = nrow(dfr1)),
+                     value = c(dfr1$proteins, dfr1$data))
   nkeep <- sum(dfr1$proteins >= (1 - pNA))
   kkeep <- dfr1$data[nkeep]
   x <- y <- z <- value <- variable <- NULL

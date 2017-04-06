@@ -451,10 +451,10 @@ setMethod("image", "MSnSet",
               ## get rid of 'no visible global function definition' note
               sample.name <- feature.id <- Expression <- NULL
               isFC <- any(exprs(x) < 0, na.rm = TRUE)
-              xlong <- melt(exprs(x))
-              colnames(xlong) <- c("feature.id", "sample.name", "Expression")
-              xlong[['feature.id']] <- as.character(xlong[['feature.id']])
-              xlong[['sample.name']] <- as.character(xlong[['sample.name']])
+              xlong <- cbind(expand.grid("feature.id" = featureNames(x),
+                                         "sample.name" = sampleNames(x),
+                                         stringsAsFactors=FALSE),
+                             "Expression" = as.vector(exprs(x)))
               xlong <- merge(xlong, fData(x), by.x = "feature.id", by.y = 0)
               xlong <- merge(xlong, pData(x), by.x = "sample.name", by.y = 0)
               x <- xlong
