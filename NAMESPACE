@@ -32,8 +32,6 @@ importFrom(ggplot2, geom_histogram, geom_text, geom_line, geom_point,
            scale_x_continuous, scale_x_log10, coord_cartesian,
            facet_grid)
 
-import(reshape2) ## try to reduce this
-
 importFrom(MALDIquant, binPeaks, match.closest) ## only using ::: functions
 importFrom(S4Vectors, isEmpty, metadata)
 
