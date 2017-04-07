@@ -267,7 +267,10 @@ exportMethods(updateObject,
               ## MzTab
               fileName,
               metadata,
-              psms)
+              psms,
+              pData, "pData<-",
+              "$",
+              "$<-")
 
 ## methods NOT exported
 ## curveStats

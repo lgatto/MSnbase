@@ -361,3 +361,28 @@ test_that("splitByFile,MSnExp", {
     expect_equal(spectra(spl[[2]]), spectra(filterFile(inMem, 1)))
     expect_equal(pData(spl[[2]]), pData(filterFile(inMem, 1)))    
 })
+
+test_that("$ operator on MSnExp works", {
+    f <- dir(system.file(package = "MSnbase", dir = "extdata"),
+             full.name = TRUE, pattern = "msx.rda")
+    load(f) ## msx
+    expect_equal(pData(msx)$sampleNames, msx$sampleNames)
+    ## replace.
+    msx$sampleNames <- "b"
+    expect_equal("b", msx$sampleNames)
+    expect_equal(msx$bla, NULL)
+    ## Add a new column
+    msx$newCol <- 5
+    expect_equal(msx$newCol, 5)
+})
+
+test_that("pData<- on MSnExp works", {
+    f <- dir(system.file(package = "MSnbase", dir = "extdata"),
+             full.name = TRUE, pattern = "msx.rda")
+    load(f) ## msx
+
+    newDf <- data.frame(sampleName = "b", otherCol = 3)
+    ## replace.
+    pData(msx) <- newDf
+    expect_equal(pData(msx), newDf)
+})
