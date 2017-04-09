@@ -251,14 +251,14 @@ test_that("Get first MS level", {
     y <- readMSData2(f, msLevel. = 2L)
     ## in memory
     tx1 <- system.time(x1 <- msLevel(x)[1])[["elapsed"]]
-    tx2 <- system.time(x2 <- .firstMsLevel(x))[["elapsed"]]
+    tx2 <- system.time(x2 <- MSnbase:::.firstMsLevel(x))[["elapsed"]]
     expect_equivalent(x1, x2)
-    expect_lt(tx2, tx1)
+    ## expect_lt(tx2, tx1)
     ## on disk - no timing here, as msLevel is extracted from fData
     ## and hence already fast; same implementation in msLevel and
     ## .firstMsLevel
     y1 <- msLevel(y)[1]
-    y2 <- .firstMsLevel(y)
+    y2 <- MSnbase:::.firstMsLevel(y)
     expect_equivalent(y1, y2)
 })
 
