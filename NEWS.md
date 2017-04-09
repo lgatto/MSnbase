@@ -1,5 +1,9 @@
 # MSnbase 2.1
 
+## Changes in version 2.1.16
+- Remove timing test as it fails occasionally on the Bioconductor
+  servers <2017-04-09 Sun>
+
 ## Changes in version 2.1.15
 - Remove reshape2 dependency; see #201 <2017-04-06 Thu>
 
