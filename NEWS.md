@@ -1,5 +1,8 @@
 # MSnbase 2.1
 
+## Changes in version 2.1.17
+- Update NEWS file <2017-04-11 Tue>
+ 
 ## Changes in version 2.1.16
 - Remove timing test as it fails occasionally on the Bioconductor
   servers <2017-04-09 Sun>
