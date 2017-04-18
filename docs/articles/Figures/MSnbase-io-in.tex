@@ -1,0 +1,64 @@
+\documentclass{minimal}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,shadows,fit,automata}
+
+%%% <
+\usepackage{verbatim}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}%
+%%% >
+
+\begin{comment}
+  :Title:  MSnbase Input
+  :Author: Laurent Gatto
+\end{comment}
+
+
+%% pgf setup
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+% Define block styles
+\tikzstyle{input} = [rectangle, draw, fill=blue!20,
+text width=6em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{fun} = [rectangle, draw, fill=white, drop shadow,
+text width=7em, text centered, rounded corners, minimum height=2em]
+\tikzstyle{obj} = [rectangle, draw, fill=red!20,
+text width=5em, text centered, rounded corners, minimum height=5em]
+
+
+\begin{document}
+
+\begin{tikzpicture}[node distance = 2cm, auto]
+  % Place nodes
+  \node [input] (raw) {Raw data in an open \texttt{XML} format};
+  \node [fun, left of=raw, node distance=4cm] (readMSData) {\texttt{readMSData}};
+  \node [input, below of=raw] (mgf) {Peak list in \texttt{mgf} format};
+  \node [fun, left of=mgf, node distance=4cm] (readMgfData) {\texttt{readMgfData}};
+  \node [input, below of=mgf] (spreadsheet) {Quantitation data as a spreadsheet};
+  \node [input, below of=spreadsheet] (mztab) {\texttt{mzTab} format};
+  \node [fun, left of=spreadsheet, node distance=4cm] (readMSnSet) {\texttt{readMSnSet}};
+  \node [fun, left of=mztab, node distance=4cm] (readMzTabData) {\texttt{readMzTabData}};
+  \node [obj, left of=readMSData, yshift=-2.5mm, node distance=4cm] (MSnExp) {\texttt{MSnExp}};
+  \node [obj, left of=readMSnSet, node distance=4cm] (MSnSet) {\texttt{MSnSet}};
+  \node [fun, below of=MSnExp] (quantify) {\texttt{quantify}};
+  % Background
+  \begin{pgfonlayer}{background}
+    \node [fill=yellow!20,rounded corners, draw=black!50, dashed, fit=(MSnExp) (quantify) (MSnSet)] {};
+  \end{pgfonlayer}
+  % Draw edges
+  \draw  (raw) -- (readMSData);
+  \draw  (mgf) -- (readMgfData);
+  \draw  (spreadsheet) -- (readMSnSet);
+  \draw [->] (readMSData) -- (MSnExp);
+  \draw [->] (readMgfData) -- (MSnExp);
+  \draw [->] (readMSnSet) -- (MSnSet);
+  \draw  (MSnExp) -- (quantify);
+  \draw [->] (quantify) -- (MSnSet);
+  \draw (mztab) -- (readMzTabData);
+  \draw [->] (readMzTabData) -- (MSnSet);
+\end{tikzpicture}
+
+\end{document}
