@@ -1,5 +1,8 @@
 # MSnbase 2.1
 
+## Changes in version 2.1.18
+- suggest reshape2, as it's used in vignette <2017-04-18 Tue>
+
 ## Changes in version 2.1.17
 - Update NEWS file <2017-04-11 Tue>
  
