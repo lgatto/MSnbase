@@ -289,6 +289,22 @@ getVariableName <- function(match_call, varname) {
   tail(as.character(mcx), n = 1)
 }
 
+#' rowwise max, similar to rowwise mean via rowMeans
+#'
+#' @param x matrix
+#' @param na.rm logical
+#' @return double vector with maximum values per row
+#' @seealso Biobase::rowMax (could not handle missing values/NA)
+#' @noRd
+.rowMaxs <- function(x, na.rm=FALSE) {
+  stopifnot(is.matrix(x))
+  if (na.rm) {
+    x[is.na(x)] <- -Inf
+  }
+  nr <- nrow(x)
+  x[(max.col(x, ties.method="first") - 1L) * nr + 1L:nr]
+}
+
 #' summarise rows by an user-given function
 #'
 #' @param x matrix

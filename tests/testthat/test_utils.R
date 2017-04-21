@@ -262,6 +262,15 @@ test_that("Get first MS level", {
     expect_equivalent(y1, y2)
 })
 
+test_that(".rowMaxs", {
+  m <- matrix(1:30, nrow=10)
+  m[c(2, 5:6, 10, 12:14, 21:25)] <- NA
+  expect_error(MSnbase:::.rowMaxs(1:10))
+  expect_equal(MSnbase:::.rowMaxs(m), apply(m, 1, max))
+  expect_equal(MSnbase:::.rowMaxs(m, na.rm=TRUE),
+               suppressWarnings(apply(m, 1, max, na.rm=TRUE)))
+})
+
 test_that(".summariseRows", {
   m <- matrix(1:30, nrow=10)
   m[seq(2, 30, by=3)] <- NA
