@@ -33,7 +33,7 @@ normalise_MSnSet <- function(object, method, ...) {
       e <- sweep(e, 2L, cmeds - med)
   } else {
     switch(method,
-           max = div <- apply(exprs(object), 1L, max, na.rm = TRUE),
+           max = div <- .rowMaxs(exprs(object), na.rm = TRUE),
            sum = div <- rowSums(exprs(object), na.rm = TRUE))
     e <- exprs(object)/div
   }
