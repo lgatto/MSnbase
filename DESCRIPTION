@@ -67,7 +67,6 @@ Imports:
 Suggests:
     testthat,
     pryr,
-    reshape2,
     gridExtra,
     microbenchmark,
     zoo,

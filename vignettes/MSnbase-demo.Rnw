@@ -53,7 +53,6 @@ suppressPackageStartupMessages(require("Rdisop"))
 suppressPackageStartupMessages(require("pRolocdata"))
 suppressPackageStartupMessages(require("pRoloc"))
 library("grid")
-library("reshape2")
 suppressPackageStartupMessages(library("BiocParallel"))
 @
 
@@ -1555,10 +1554,12 @@ Figure \ref{fig:incompdiss} compares these intensities for the whole experiment.
 \begin{figure}[!hbt]
 \centering
 <<incompdissPlot, dev='pdf', fig.width=5, fig.height=2.5, echo=FALSE, warning=FALSE>>=
-dfr <- melt(exprs(incompdiss))
-colnames(dfr) <- c("feature", "reporters", "intensity")
-dfr$reporters <- sub("iTRAQ5.", "", dfr$reporters)
-repsum <- apply(exprs(incompdiss), 1, function(x) sum(x[1:4]))
+dfr <- cbind(expand.grid("feature" = featureNames(incompdiss),
+                         "reporters" = sub("iTRAQ5\\.", "",
+                                           sampleNames(incompdiss)),
+                         stringsAsFactors=FALSE),
+             "intensity" = as.vector(exprs(incompdiss)))
+repsum <- rowSums(exprs(incompdiss)[, 1:4])
 dfr2 <- data.frame(iTRAQ1to4 = repsum, iTRAQ5 = exprs(incompdiss)[,5])
 p1 <- ggplot(data = dfr, aes(x = reporters,y = log10(intensity))) +
   geom_boxplot() +
