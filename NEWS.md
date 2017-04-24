@@ -1,5 +1,9 @@
 # MSnbase 2.1
 
+## Changes in version 2.1.19
+- Set SerialParams() in an attempt to avoid random errors in tests -
+  see issue #205 <2017-04-24 Mon>
+
 ## Changes in version 2.1.18
 - suggest reshape2, as it's used in vignette <2017-04-18 Tue>
 

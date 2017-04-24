@@ -5,5 +5,6 @@ Sys.setenv("R_TESTS" = "")
 library("testthat")
 library("MSnbase")
 setMSnbaseVerbose(FALSE)
+register(SerialParam()) ## see issue 205
 
 test_check("MSnbase")
