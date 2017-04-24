@@ -391,7 +391,7 @@ getVariableName <- function(match_call, varname) {
   r <- rowsum(x, group=group, reorder=FALSE, na.rm=TRUE) /
         rowsum(mRef, group=group, reorder=FALSE, na.rm=TRUE)
   if (norm) {
-    r <- r/rowSums(r)
+    r <- r/rowSums(r, na.rm=TRUE)
   }
   r
 }

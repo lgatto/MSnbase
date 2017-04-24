@@ -326,4 +326,10 @@ test_that(".normToReferenceFraction", {
 
   expect_equal(MSnbase:::.normToReferenceFraction(m, group), r/c(38/15, 43/12))
   expect_equal(MSnbase:::.normToReferenceFraction(m, group, norm=FALSE), r)
+  expect_equal(as.vector(MSnbase:::.normToReferenceFraction(m[1,, drop=FALSE],
+                                                            1, norm=FALSE)),
+               c(1/2, 1/2, 1, NA))
+  expect_equal(as.vector(MSnbase:::.normToReferenceFraction(m[1,, drop=FALSE],
+                                                            1)),
+               c(1/4, 1/4, 1/2, NA))
 })
