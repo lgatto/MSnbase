@@ -262,6 +262,15 @@ test_that("Get first MS level", {
     expect_equivalent(y1, y2)
 })
 
+test_that(".rowMaxs", {
+  m <- matrix(1:30, nrow=10)
+  m[c(2, 5:6, 10, 12:14, 21:25)] <- NA
+  expect_error(MSnbase:::.rowMaxs(1:10))
+  expect_equal(MSnbase:::.rowMaxs(m), apply(m, 1, max))
+  expect_equal(MSnbase:::.rowMaxs(m, na.rm=TRUE),
+               suppressWarnings(apply(m, 1, max, na.rm=TRUE)))
+})
+
 test_that(".summariseRows", {
   m <- matrix(1:30, nrow=10)
   m[seq(2, 30, by=3)] <- NA
@@ -287,4 +296,34 @@ test_that(".topIdx", {
                c(10, 7, 4, 8, 5, 2, 9, 6, 3))
   expect_equal(MSnbase:::.topIdx(m, groupBy=g, fun=sum, n=2),
                c(10, 7, 8, 5, 9, 6))
+})
+
+test_that(".referenceFraction", {
+  m <- matrix(c(1, 1, 2, NA,
+                2, 2, 3, 1,
+                1, NA, NA, NA,
+                2, 2, NA, 2,
+                NA, 3, 3, 4), nrow=5, byrow=TRUE,
+              dimnames = list(paste0("P", 1:5), paste0("F", 1:4)))
+
+  group <- c("J", "J", "G", "G", "G")
+  expect_equal(MSnbase:::.referenceFraction(m, group), c(J=3, G=4))
+})
+
+test_that(".normToReferenceFraction", {
+  m <- matrix(c(1, 1, 2, NA,
+                2, 2, 3, 1,
+                1, NA, NA, NA,
+                2, 2, NA, 2,
+                NA, 3, 3, 4), nrow=5, byrow=TRUE,
+              dimnames = list(paste0("P", 1:5), paste0("F", 1:4)))
+
+  group <- c("J", "J", "G", "G", "G")
+
+  r <- matrix(c(3/5, 3/5, 1, 1/3,
+                1, 5/6, 3/4, 1), nrow=2, byrow=TRUE,
+              dimnames = list(c("J", "G"), paste0("F", 1:4)))
+
+  expect_equal(MSnbase:::.normToReferenceFraction(m, group), r/c(38/15, 43/12))
+  expect_equal(MSnbase:::.normToReferenceFraction(m, group, norm=FALSE), r)
 })
