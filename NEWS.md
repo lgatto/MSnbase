@@ -1,3 +1,19 @@
+# MSnbase 2.3
+
+## Changes in version 2.3.1
+
+- Introduce "NTR" method for `combineFeatures` <2017-04-26 Wed>.
+
+## Changes in version 2.3.0
+
+- Version bump for new Bioc devel.
+
+# MSnbase 2.2
+
+## Changes in version 2.2.0
+
+- Version bump for Bioc release version 3.5.
+
 # MSnbase 2.1
 
 ## Changes in version 2.1.18
@@ -5,7 +21,7 @@
 
 ## Changes in version 2.1.17
 - Update NEWS file <2017-04-11 Tue>
- 
+
 ## Changes in version 2.1.16
 - Remove timing test as it fails occasionally on the Bioconductor
   servers <2017-04-09 Sun>
@@ -45,7 +61,7 @@
 - Add filterEmptySpectra,MSnExp method (see issue #181)
   <2017-01-20 Fri>
 - Add a section about notable on-disk and in-memory differences (was
-  issue #165) <2017-01-20 Fri>  
+  issue #165) <2017-01-20 Fri>
 
 ## Changes in version 2.1.8
 - Remove order option altogether <2017-01-19 Thu> (superseeds setting
@@ -54,7 +70,7 @@
 
 ## Changes in version 2.1.7
 - Setting default sorting using "auto" on R < 3.3 and "radix"
-  otherwise <2017-01-03 Tue>  
+  otherwise <2017-01-03 Tue>
 - filterMz returns an empty spectrum when no data is within the mz
   range (see issue #181) <2017-01-16 Mon>
 - Performance improvement: a new private .firstMsLevel will
@@ -70,39 +86,39 @@
 - Update DESCRIPTION (and README) to reflect wider usage of MSnbase
   (replaced MS-based proteomics by mass spectrometry and proteomics)
   <2016-12-23 Fri>
- 
+
 ## Changes in version 2.1.5
 
  - Fix (unexported) navMS example code <2016-12-14 Wed>
- 
+
 ## Changes in version 2.1.4
 
  - Jo added netCDF support <2016-11-30 Wed>
- 
+
 ## Changes in version 2.1.3
 
  - FeaturesOfInterest collections can now be assigned names -
    addresses issue #172 <2016-11-25 Fri>
- 
+
 ## Changes in version 2.1.2
 
  - Update readMSnSet2 to save filename <2016-11-09 Wed>
  - Ensure that header information is read too if spectra data is
    loaded for onDiskMSnExp objects (see issue #170) <2016-11-24 Thu>
- 
+
 ## Changes in version 2.1.1
 
  - Fix typo in impute man page <2016-10-19 Wed>
  - Cite Lazar 2016 in vignette imputation section <2016-10-28 Fri>
- 
+
 ## Changes in version 2.1.0
 
  - New version for Bioconductor devel
- 
+
 # MSnbase 2.0.0
 
  - New version for Bioconductor release version 3.4
- 
+
 # MSnbase 1.99
 
 ## Changes in version 1.99.6
@@ -116,27 +132,27 @@
 
  - Add removeReporters,OnDiskMSnExp (see issue #161 for details)
    <2016-10-07 Fri>
- 
+
 ## Changes in version 1.99.4
 
  - Fix bug in readMzTabData_v0.9 <2016-10-07 Fri>
- 
+
 ## Changes in version 1.99.3
 
  - Injection time is now added to the header when reading mzML files
    using readMSData2 (see issue #159) <2016-10-04 Tue>
- 
+
 ## Changes in version 1.99.2
 
  - Added isolationWindow,MSnExp method <2016-09-23 Fri>
  - Updated readMSData Spectrum2 class to support MS levels > 2
    <2016-09-30 Fri>
- 
+
 ## Changes in version 1.99.1
 
  - Fix MS level test in quantify,OnDiskMSnExp to support MS2+ level
    quantitation <2016-09-14 Wed>
- 
+
 ## Changes in version 1.99.0
 
  - Add normalize method for onDiskMSnExp <2016-06-07 Tue>.

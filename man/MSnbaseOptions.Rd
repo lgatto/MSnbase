@@ -3,8 +3,8 @@
 \name{MSnbaseOptions}
 \alias{MSnbaseOptions}
 \alias{isMSnbaseVerbose}
-\alias{setMSnbaseParallelThresh}
 \alias{setMSnbaseVerbose}
+\alias{setMSnbaseParallelThresh}
 \title{MSnbase options}
 \usage{
 MSnbaseOptions()
@@ -39,4 +39,3 @@ There are also setters to set options individually. When run
 without argument, the verbosity setter inverts the current value
 of the option.
 }
-
