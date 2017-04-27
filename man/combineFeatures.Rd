@@ -19,13 +19,13 @@
   NB: All the functions available as \code{fun} take a \code{na.rm}
   argument. This argument is \code{FALSE} by default. This will have as
   effect that \code{NA} get propagated at the higher level. It is
-  generally advised to set \code{na.rm = TRUE}. See the example below.   
+  generally advised to set \code{na.rm = TRUE}. See the example below.
 }
 
 \usage{
 
 combineFeatures(object, groupBy, fun = c("mean", "median",
-"weighted.mean", "sum", "medpolish", "iPQF"), redundancy.handler =
+"weighted.mean", "sum", "medpolish", "iPQF", "NTR"), redundancy.handler =
 c("unique", "multiple"), cv = TRUE, cv.norm = "sum", verbose =
 isMSnbaseVerbose(), ...)
 
@@ -44,10 +44,11 @@ isMSnbaseVerbose(), ...)
     \code{redundancy.handler} for details about the latter.}
 
   \item{fun}{ The summerising function. Currently, mean, median,
-    weighted mean, sum and median polish and iPQF (see
-    \code{\link{iPQF}} for details) are implemented, but user-defined
-    functions can also be supplied. }
-    
+    weighted mean, sum, median polish, iPQF (see
+    \code{\link{iPQF}} for details) and NTR (see \code{\link[MSnbase]{NTR}}
+    for details) are implemented, but user-defined functions can also be
+    supplied. }
+
   \item{redundancy.handler}{ If \code{groupBy} is a \code{list}, one of
     \code{"unique"} (default) or \code{"multiple"} (ignored otherwise)
     defining how to handle peptides that can be associated to multiple
@@ -57,7 +58,7 @@ isMSnbaseVerbose(), ...)
     \code{"multiple"} will allow matching to multiple proteins and each
     feature will be repeatedly tallied for each possible matching
     protein. }
-  
+
   \item{cv}{ A \code{logical} defining if feature coefficients of
     variation should be computed and stored as feature
     meta-data. Default is \code{TRUE}. }
@@ -80,7 +81,7 @@ isMSnbaseVerbose(), ...)
   (i.e. the number od features) is now equals to the number of levels in
   \code{groupBy}. The feature metadata (\code{featureData} slot) is
   updated accordingly and only the first occurrence of a feature in
-  the original feature meta-data is kept. 
+  the original feature meta-data is kept.
 }
 
 
@@ -103,6 +104,9 @@ isMSnbaseVerbose(), ...)
   in the feature data, and the \code{\link{aggvar}} to explore
   variability within protein groups.
 
+  \code{\link[MSnbase]{iPQF}} for iPQF summarisation.
+
+  \code{\link[MSnbase]{NTR}} for normalisation to reference summarisation.
 }
 
 
@@ -126,12 +130,12 @@ exprs(combineFeatures(msnset, grpl, fun = "sum", redundancy.handler = "unique"))
 exprs(combineFeatures(msnset, grpl, fun = "sum", redundancy.handler = "multiple"))
 
 ## missing data
-exprs(msnset)[4, 4] <- 
+exprs(msnset)[4, 4] <-
     exprs(msnset)[2, 2] <- NA
 exprs(msnset)
-## NAs propagate in the 115 and 117 channels 
+## NAs propagate in the 115 and 117 channels
 exprs(combineFeatures(msnset, grp, "sum"))
-## NAs are removed before summing 
+## NAs are removed before summing
 exprs(combineFeatures(msnset, grp, "sum", na.rm = TRUE))
 
 ## using iPQF
