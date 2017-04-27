@@ -5,7 +5,8 @@ combineFeatures <- function(object,
                                 "weighted.mean",
                                 "sum",
                                 "medpolish",
-                                "iPQF"),
+                                "iPQF",
+                                "NTR"),
                             redundancy.handler = c("unique", "multiple"),
                             cv = TRUE,
                             cv.norm = "sum",
@@ -13,12 +14,12 @@ combineFeatures <- function(object,
                             ... ## further arguments to fun
                             ) {
     if (is.character(fun))
-        fun <- match.arg(fun)    
+        fun <- match.arg(fun)
     if (is.list(groupBy)) {
         if (length(groupBy) != nrow(object))
             stop("'length(groupBy)' must be equal to 'nrow(object)': ",
                  length(groupBy), " != ", nrow(object), ".")
-        if (!is.null(names(groupBy))) {          
+        if (!is.null(names(groupBy))) {
             if (!all(names(groupBy) %in% featureNames(object)))
                 stop("'groupBy' names and 'featureNames(object)' don't match.")
             if (!all(names(groupBy) == featureNames(object))) {
@@ -48,16 +49,16 @@ combineFeaturesL <- function(object,   ## MSnSet
                              ...    ## additional arguments to fun
                              ) {
     ## handling of the redundancy
-    if (redundancy.handler == "multiple") { 
+    if (redundancy.handler == "multiple") {
         expansion.index <- rep(seq_len(nrow(object)), sapply(groupBy, length))
         new.exprs <- exprs(object)[expansion.index, , drop = FALSE]
         rownames(new.exprs) <- NULL
         new.feature.data <- fData(object)[expansion.index, , drop = FALSE]
         rownames(new.feature.data) <- NULL
         ## TODO: check this
-        object <- new("MSnSet", exprs = new.exprs, 
+        object <- new("MSnSet", exprs = new.exprs,
                       featureData = new(
-                          "AnnotatedDataFrame", 
+                          "AnnotatedDataFrame",
                           data = new.feature.data),
                       phenoData = phenoData(object))
         groupBy <- unlist(groupBy)
@@ -85,15 +86,20 @@ combineFeaturesV <- function(object,   ## MSnSet
     }
     n1 <- nrow(object)
     ## !! order of features in matRes is defined by the groupBy factor !!
-    if (is.character(fun) && fun == "iPQF") { 
+    if (is.character(fun) && fun == "iPQF") {
         ## NB: here, we pass the object, not only assay data,
         ##     because iPGF also needs the feature data, otherwise
         ##     not passed and used in combineFeatureMatrix
         ##     iPQF still returns a matrix, though.
         matRes <- iPQF(object, groupBy, ...)
+    } else if (is.character(fun) && fun == "NTR") {
+        matRes <- normToReference(exprs(object), group=groupBy, ...)
+        ## order matrix according to groupBy (is important because rownames are
+        ## overwritten a few lines below
+        matRes <- matRes[order(unique(groupBy)), , drop=FALSE]
     } else {
         matRes <- as.matrix(combineMatrixFeatures(exprs(object),
-                                                  groupBy, fun, 
+                                                  groupBy, fun,
                                                   verbose = verbose,
                                                   ...))
     }
