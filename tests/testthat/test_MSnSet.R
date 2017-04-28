@@ -247,6 +247,31 @@ test_that("nQuants", {
     expect_equal(nQuants(msnset[1:10], pa[1:10]), qu)
 })
 
+test_that("featureCV", {
+    m <- new("MSnSet",
+             exprs=matrix(1:10, nrow=5, ncol=2),
+             featureData=new("AnnotatedDataFrame",
+                             data=data.frame(accession=
+                                             factor(c("A", "A", "A", "B", "B")))))
+    cv <- matrix(c(0.5, 1/4.5, 1/7, 1/9.5),
+                 nrow=2, ncol=2, dimnames=list(c("A", "B"), c("CV.1", "CV.2"))
+    expect_equal(featureCV(m, group=fData(m)$accession, norm="none"), cv)
+
+    ## more levels than items present in the factor
+    m@featureData <- new("AnnotatedDataFrame",
+                         data=data.frame(accession=
+                                         factor(c("A", "A", "A", "B", "B"),
+                                                    levels=LETTERS[1:10])))
+    expect_equal(featureCV(m, group=fData(m)$accession, norm="none"), cv)
+
+    i <- list(1:3, 4:5, 6:8, 9:10)
+    div <- rowSums(exprs(m))
+    cv <- matrix(sapply(i, function(ii) {
+                   sd((exprs(m)/div)[ii]/mean((exprs(m)/div)[ii])) }),
+                 nrow=2, ncol=2, dimnames=list(c("A", "B"), c("CV.1", "CV.2")))
+    expect_equal(featureCV(m, group=fData(m)$accession, norm="sum"), cv)
+})
+
 context("MSnSet identification data")
 
 test_that("addIdentificationData", {
