@@ -213,6 +213,22 @@ test_that("Transpose and subset", {
 })
 
 test_that("nQuants", {
+    m <- new("MSnSet",
+             exprs=matrix(1:10, nrow=5, ncol=2),
+             featureData=new("AnnotatedDataFrame",
+                             data=data.frame(accession=
+                                             factor(c("A", "A", "A", "B", "B")))))
+    qu <- matrix(3:2, nrow=2, ncol=2, dimnames=list(c("A", "B"), 1:2))
+    expect_equal(nQuants(m, group=fData(m)$accession), qu)
+
+    ## more levels than items present in the factor
+    m@featureData <- new("AnnotatedDataFrame",
+                         data=data.frame(accession=
+                                         factor(c("A", "A", "A", "B", "B"),
+                                                    levels=LETTERS[1:10])))
+    expect_equal(nQuants(m, group=fData(m)$accession), qu)
+
+    ## real world example
     data(msnset)
     pa <- fData(msnset)$ProteinAccession
     upa <- unique(pa)
@@ -223,6 +239,12 @@ test_that("nQuants", {
     qu["ENO",] <- c(4, 4, 3, 4)
     qu["ECA4514",] <- 6
     expect_equal(nQuants(msnset, pa), qu)
+
+    ## more levels than items present in the factor
+    qu <- matrix(1, nrow=10, ncol=4,
+                 dimnames=list(as.character(pa[order(pa[1:10])]),
+                                            sampleNames(msnset)))
+    expect_equal(nQuants(msnset[1:10], pa[1:10]), qu)
 })
 
 context("MSnSet identification data")
