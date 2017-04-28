@@ -212,6 +212,19 @@ test_that("Transpose and subset", {
     expect_identical(dim(bb), c(2L, 2L))
 })
 
+test_that("nQuants", {
+    data(msnset)
+    pa <- fData(msnset)$ProteinAccession
+    upa <- unique(pa)
+    qu <- matrix(1, nrow=length(upa), ncol=ncol(msnset),
+                 dimnames=list(upa[order(upa)], sampleNames(msnset)))
+    qu[c("ECA0435", "ECA0469", "ECA3349", "ECA3566", "ECA4026"),] <- 2
+    qu["BSA",] <- 3
+    qu["ENO",] <- c(4, 4, 3, 4)
+    qu["ECA4514",] <- 6
+    expect_equal(nQuants(msnset, pa), qu)
+})
+
 context("MSnSet identification data")
 
 test_that("addIdentificationData", {
