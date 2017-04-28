@@ -210,18 +210,6 @@ test_that("rowsd", {
     expect_equal(MSnbase:::rowsd(mna, group=group, na.rm=TRUE), rnarm)
 })
 
-test_that("applyColumnwiseByGroup", {
-    m <- matrix(1:20, nrow=4, byrow=TRUE,
-                dimnames=list(1:4, LETTERS[1:5]))
-    r <- matrix(c(seq(7, 15, by=2), seq(27, 35, by=2)), nrow=2, byrow=TRUE,
-                dimnames=list(1:2, LETTERS[1:5]))
-    expect_error(MSnbase:::utils.applyColumnwiseByGroup(1:10, 1:2, sum),
-                 "x has to be a matrix")
-    expect_equal(MSnbase:::utils.applyColumnwiseByGroup(m,
-                                                        rep(1:2, each=2),
-                                                        colSums), r)
-})
-
 test_that("get.amino.acids", {
     aa <- get.amino.acids()
     cn <- c("AA", "ResidueMass", "Abbrev3", "ImmoniumIonMass", "Name",

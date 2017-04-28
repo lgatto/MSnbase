@@ -943,36 +943,6 @@ rowsd <- function(x, group, reorder=FALSE, na.rm=FALSE) {
   sqrt(var * nna/(nna - 1L))
 }
 
-##' Apply a function groupwise. Similar to tapply but takes a matrix as input
-##' and preserve its structure and order.
-##' @title applyColumnwiseByGroup
-##' @param x matrix
-##' @param groupBy factor/grouping index
-##' @param FUN function to be applied; must work on columns, e.g. colSums
-##' @param ... further arguments to FUN
-##' @return modified matrix
-##' @author Sebastian Gibb <mail@@sebastiangibb.de>
-##' @noRd
-utils.applyColumnwiseByGroup <- function(x, groupBy, FUN, ...) {
-  if (!is.matrix(x)) {
-    stop("x has to be a matrix!")
-  }
-
-  groupBy <- as.factor(groupBy)
-  FUN <- match.fun(FUN)
-
-  j <- split(1L:nrow(x), groupBy)
-  ans <- matrix(NA_real_, nrow = nlevels(groupBy), ncol = ncol(x),
-                dimnames = list(levels(groupBy), colnames(x)))
-
-  for (i in seq(along = j)) {
-    subexprs <- x[j[[i]], , drop = FALSE]
-    ans[i, ] <- do.call(FUN, list(subexprs, ...))
-  }
-
-  ans
-}
-
 setMethod("trimws", "data.frame",
           function(x, which, ...) {
               for (i in 1:ncol(x)) {
