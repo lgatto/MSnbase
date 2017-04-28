@@ -3,6 +3,8 @@
 ## Changes in version 2.3.1
 
 - Introduce "NTR" method for `combineFeatures` <2017-04-26 Wed>.
+- Rewrite `nQuants` and `featureCV` to avoid returning of rows for empty
+    factors; see PR #208 for details <2017-04-28 Fri>.
 
 ## Changes in version 2.3.0
 
