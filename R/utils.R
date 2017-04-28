@@ -877,26 +877,6 @@ compareMSnSets <- function(x, y, qual = FALSE, proc = FALSE) {
     all.equal(x, y)
 }
 
-##' Similar to colMeans but calculates the sd. Should be identical to
-##' apply(x, 2, sd, na.rm).
-##' based on: http://stackoverflow.com/questions/17549762/is-there-such-colsd-in-r/17551600#17551600
-##' @title colSd
-##' @param x matrix/data.frame
-##' @param na.rm logical. Should missing values (including ‘NaN’) be omitted
-##' from the calculations?
-##' @return double
-##' @author Sebastian Gibb <mail@@sebastiangibb.de>
-##' @noRd
-utils.colSd <- function(x, na.rm = TRUE) {
-  if (na.rm) {
-    n <- colSums(!is.na(x))
-  } else {
-    n <- nrow(x)
-  }
-  colVar <- colMeans(x*x, na.rm = na.rm) - (colMeans(x, na.rm = na.rm))^2L
-  sqrt(colVar * n/(n - 1L))
-}
-
 ##' Similar to rowsum but calculates the mean. It is slower than colMeans but
 ##' supports grouping variables. See ?rowsum for details.
 ##' @param x matrix
