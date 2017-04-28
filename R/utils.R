@@ -897,6 +897,28 @@ utils.colSd <- function(x, na.rm = TRUE) {
   sqrt(colVar * n/(n - 1L))
 }
 
+##' Similar to rowsum but calculates the mean. It is slower than colMeans but
+##' supports grouping variables. See ?rowsum for details.
+##' @param x matrix
+##' @param group a vector/factor of grouping
+##' @param reorder if TRUE the rows are ordered by `sort(unique(group))`
+##' @param na.rm logical. Should missing values (including ‘NaN’) be omitted
+##' @return matrix
+##' @author Sebastian Gibb <mail@@sebastiangibb.de>
+##' @noRd
+rowmean <- function(x, group, reorder=FALSE, na.rm=FALSE) {
+  if (na.rm) {
+    nna <- !is.na(x)
+    mode(nna) <- "numeric"
+  } else {
+    nna <- x
+    nna[] <- 1
+  }
+  nna <- rowsum(nna, group=group, reorder=reorder, na.rm=na.rm)
+  rs <- rowsum(x, group=group, reorder=reorder, na.rm=na.rm)
+  rs/nna
+}
+
 ##' Apply a function groupwise. Similar to tapply but takes a matrix as input
 ##' and preserve its structure and order.
 ##' @title applyColumnwiseByGroup

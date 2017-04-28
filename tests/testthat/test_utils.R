@@ -172,6 +172,21 @@ test_that("colSd", {
                  apply(mna, 2, sd, na.rm=TRUE))
 })
 
+test_that("rowmean", {
+    m <- matrix(1:10, ncol=2)
+    mna <- m
+    mna[c(2, 8)] <- NA
+    group <- c("B", "B", "A", "A", "B")
+    r <- matrix(c(8/3, 3.5, 23/3, 8.5), ncol=2, dimnames=list(c("B", "A"), c()))
+    rna <- matrix(c(NA, 3.5, 23/3, NA), ncol=2, dimnames=list(c("B", "A"), c()))
+    rnarm <- matrix(c(3, 3.5, 23/3, 9), ncol=2, dimnames=list(c("B", "A"), c()))
+    expect_equal(MSnbase:::rowmean(m, group=group), r)
+    expect_equal(MSnbase:::rowmean(m, group=group, reorder=TRUE), r[2:1,])
+    expect_equal(MSnbase:::rowmean(mna, group=group), rna)
+    expect_equal(MSnbase:::rowmean(mna, group=group, reorder=TRUE), rna[2:1,])
+    expect_equal(MSnbase:::rowmean(mna, group=group, na.rm=TRUE), rnarm)
+})
+
 test_that("applyColumnwiseByGroup", {
     m <- matrix(1:20, nrow=4, byrow=TRUE,
                 dimnames=list(1:4, LETTERS[1:5]))
