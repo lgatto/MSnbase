@@ -919,6 +919,30 @@ rowmean <- function(x, group, reorder=FALSE, na.rm=FALSE) {
   rs/nna
 }
 
+##' Similar to rowsum but calculates the sd.
+##' See ?rowsum for details.
+##' @param x matrix
+##' @param group a vector/factor of grouping
+##' @param reorder if TRUE the rows are ordered by `sort(unique(group))`
+##' @param na.rm logical. Should missing values (including ‘NaN’) be omitted
+##' @return matrix
+##' @author Sebastian Gibb <mail@@sebastiangibb.de>
+##' @noRd
+rowsd <- function(x, group, reorder=FALSE, na.rm=FALSE) {
+  if (na.rm) {
+    nna <- !is.na(x)
+    mode(nna) <- "numeric"
+  } else {
+    nna <- x
+    nna[] <- 1
+  }
+  nna <- rowsum(nna, group=group, reorder=reorder, na.rm=na.rm)
+  nna[nna == 1] <- NA_real_            # return NA if n == 1 (similar to sd)
+  var <- rowmean(x*x, group=group, reorder=reorder, na.rm=na.rm) -
+    rowmean(x, group=group, reorder=reorder, na.rm=na.rm)^2L
+  sqrt(var * nna/(nna - 1L))
+}
+
 ##' Apply a function groupwise. Similar to tapply but takes a matrix as input
 ##' and preserve its structure and order.
 ##' @title applyColumnwiseByGroup
