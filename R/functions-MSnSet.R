@@ -158,11 +158,9 @@ nQuants <- function(x, groupBy) {
   if (class(x) != "MSnSet")
     stop("'x' must be of class 'MSnSet'.")
 
-  ans <- utils.applyColumnwiseByGroup(exprs(x), groupBy=groupBy,
-                                      FUN=function(y) {
-                                        nrow(y)-colSums(is.na(y))})
-  colnames(ans) <- sampleNames(x)
-  ans
+  e <- !is.na(exprs(x))
+  mode(e) <- "numeric"
+  rowsum(e, group=groupBy, reorder=TRUE)
 }
 
 ##' Subsets \code{MSnSet} instances to their common feature names.
