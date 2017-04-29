@@ -536,6 +536,19 @@ setMethod("spectrapply", "pSet", function(object, FUN = NULL,
     return(vals)
 })
 
+setMethod("$", "pSet", function(x, name) {
+    eval(substitute(pData(x)$NAME_ARG, list(NAME_ARG = name)))
+})
+setReplaceMethod("$", "pSet", function(x, name, value) {
+    pData(x)[[name]] <- value
+    x
+})
+
+setReplaceMethod("pData", "pSet", function(object, value) {
+    pData(object@phenoData) <- value
+    object
+})
+
 ################################
 ## TODO: setReplaceMethods for
 ##  phenoData
