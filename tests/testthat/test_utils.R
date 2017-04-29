@@ -162,26 +162,42 @@ test_that("formatRt", {
     expect_warning(is.na(formatRt(TRUE)))
 })
 
-test_that("colSd", {
-    set.seed(1)
-    m <- matrix(rnorm(10), ncol=2)
+test_that("rowmean", {
+    m <- matrix(1:10, ncol=2)
     mna <- m
-    mna[c(1, 8)] <- NA
-    expect_equal(MSnbase:::utils.colSd(m), apply(m, 2, sd))
-    expect_equal(MSnbase:::utils.colSd(mna, na.rm=TRUE),
-                 apply(mna, 2, sd, na.rm=TRUE))
+    mna[c(2, 8)] <- NA
+    group <- c("B", "B", "A", "A", "B")
+    r <- matrix(c(8/3, 3.5, 23/3, 8.5), ncol=2, dimnames=list(c("B", "A"), c()))
+    rna <- r
+    rna[c(1, 4)] <- NA
+    rnarm <- matrix(c(3, 3.5, 23/3, 9), ncol=2, dimnames=list(c("B", "A"), c()))
+    expect_error(MSnbase:::rowmean(m, group=1:2))
+    expect_equal(MSnbase:::rowmean(m, group=group), r)
+    expect_equal(MSnbase:::rowmean(m, group=group, reorder=TRUE), r[2:1,])
+    expect_equal(MSnbase:::rowmean(mna, group=group), rna)
+    expect_equal(MSnbase:::rowmean(mna, group=group, reorder=TRUE), rna[2:1,])
+    expect_equal(MSnbase:::rowmean(mna, group=group, na.rm=TRUE), rnarm)
 })
 
-test_that("applyColumnwiseByGroup", {
-    m <- matrix(1:20, nrow=4, byrow=TRUE,
-                dimnames=list(1:4, LETTERS[1:5]))
-    r <- matrix(c(seq(7, 15, by=2), seq(27, 35, by=2)), nrow=2, byrow=TRUE,
-                dimnames=list(1:2, LETTERS[1:5]))
-    expect_error(MSnbase:::utils.applyColumnwiseByGroup(1:10, 1:2, sum),
-                 "x has to be a matrix")
-    expect_equal(MSnbase:::utils.applyColumnwiseByGroup(m,
-                                                        rep(1:2, each=2),
-                                                        colSums), r)
+test_that("rowsd", {
+    m <- matrix(1:10, ncol=2)
+    mna <- m
+    mna[c(2, 8)] <- NA
+    group <- c("B", "B", "A", "A", "B")
+    r <- matrix(c(sd(m[c(1, 2, 5), 1]), sd(m[3:4, 1]),
+                  sd(m[c(1, 2, 5), 2]), sd(m[3:4, 2])),
+                  ncol=2, dimnames=list(c("B", "A"), c()))
+    rna <- r
+    rna[c(1, 4)] <- NA
+    rnarm <- matrix(c(sd(mna[c(1, 2, 5), 1], na.rm=TRUE), r[2],
+                      r[3], sd(mna[3:4, 2], na.rm=TRUE)),
+          ncol=2, dimnames=list(c("B", "A"), c()))
+    expect_error(MSnbase:::rowsd(m, group=1:2))
+    expect_equal(MSnbase:::rowsd(m, group=group), r)
+    expect_equal(MSnbase:::rowsd(m, group=group, reorder=TRUE), r[2:1,])
+    expect_equal(MSnbase:::rowsd(mna, group=group), rna)
+    expect_equal(MSnbase:::rowsd(mna, group=group, reorder=TRUE), rna[2:1,])
+    expect_equal(MSnbase:::rowsd(mna, group=group, na.rm=TRUE), rnarm)
 })
 
 test_that("get.amino.acids", {
