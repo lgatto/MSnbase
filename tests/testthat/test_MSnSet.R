@@ -85,9 +85,8 @@ test_that("Combine MSnSet features (V)", {
     fData(aa)$Z <- gb2
     zz <- combineFeatures(aa, gb2, fun = "sum")
     zz3 <- combineFeatures(aa[10:1, ], gb3, fun = "sum")
-    expect_true(all.equal(exprs(zz), exprs(zz3)))
-    expect_true(all.equal(fData(zz)[, 3:5],
-                          fData(zz3)[, 3:5]))
+    expect_equal(exprs(zz), exprs(zz3))
+    expect_equal(fData(zz)[, 3:5], fData(zz3)[, 3:5], tolerance=1e-5)
     expect_true(all.equal(as.numeric(exprs(zz["a", ])),
                           colSums(exprs(aa)[gb2 == "a", ]),
                           check.attributes = FALSE))
@@ -140,10 +139,10 @@ test_that("Combine MSnSet features (L)", {
     ## peptide c -> protein(s) C       KEEP
     ## peptide d -> protein(s) A, B, C DISCARD
     ## peptide e -> protein(s) A       KEEP
-    ## 
-    ## Protein A is quantified by pep e only 
-    ## Protein B is quantified by pep b only 
-    ## Protein C is quantified by pep c only    
+    ##
+    ## Protein A is quantified by pep e only
+    ## Protein B is quantified by pep b only
+    ## Protein C is quantified by pep c only
     ee3 <- ee[c("e", "b", "c"), ]
     featureNames(ee3) <- LETTERS[1:3]
     ee3@processingData@merged <- TRUE
@@ -253,8 +252,8 @@ test_that("featureCV", {
              featureData=new("AnnotatedDataFrame",
                              data=data.frame(accession=
                                              factor(c("A", "A", "A", "B", "B")))))
-    cv <- matrix(c(0.5, 1/4.5, 1/7, 1/9.5),
-                 nrow=2, ncol=2, dimnames=list(c("A", "B"), c("CV.1", "CV.2"))
+    cv <- matrix(c(0.5, sqrt(0.5)/4.5, 1/7, sqrt(0.5)/9.5),
+                 nrow=2, ncol=2, dimnames=list(c("A", "B"), c("CV.1", "CV.2")))
     expect_equal(featureCV(m, group=fData(m)$accession, norm="none"), cv)
 
     ## more levels than items present in the factor
