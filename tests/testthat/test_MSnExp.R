@@ -157,24 +157,24 @@ test_that("spectra order and integrity", {
     aa <- readMSData(file, verbose = FALSE, centroided. = FALSE)
     clean.aa <- clean(aa, verbose = FALSE)
     rmpeaks.aa <- removePeaks(aa, verbose = FALSE)
-    expect_that(ls(assayData(clean.aa)), equals(ls(assayData(aa))))
-    expect_that(ls(assayData(rmpeaks.aa)), equals(ls(assayData(aa))))
+    expect_equal(ls(assayData(clean.aa)), ls(assayData(aa)))
+    expect_equal(ls(assayData(rmpeaks.aa)), ls(assayData(aa)))
     int <- c(0, 2, 3, 1, 0, 0, 1)
     sp <- new("Spectrum2",
               intensity = int,
               mz = 1:length(int),
               centroided = FALSE)
     rsp <- removePeaks(sp)
-    expect_that(peaksCount(sp), equals(length(int)))
-    expect_that(ionCount(sp), equals(sum(int)))
-    expect_that(all.equal(removePeaks(sp),rsp), is_true())
-    expect_that(ionCount(removePeaks(sp,1)), equals(6))
-    expect_that(ionCount(removePeaks(sp,3)), equals(0))
-    expect_that(ionCount(removePeaks(sp,max(intensity(sp)))), equals(0))
-    expect_that(peaksCount(sp), equals(peaksCount(rsp)))
-    expect_that(peaksCount(clean(rsp)), equals(6))
-    expect_that(peaksCount(clean(sp)), equals(7))
-    expect_that(all.equal(removePeaks(sp,0), sp), is_true())
+    expect_equal(peaksCount(sp), length(int))
+    expect_equal(ionCount(sp), sum(int))
+    expect_equal(removePeaks(sp), rsp)
+    expect_equal(ionCount(removePeaks(sp, 1)), 6)
+    expect_equal(ionCount(removePeaks(sp, 3)), 0)
+    expect_equal(ionCount(removePeaks(sp, max(intensity(sp)))), 0)
+    expect_equal(peaksCount(sp), peaksCount(rsp))
+    expect_equal(peaksCount(clean(rsp)), 5)
+    expect_equal(peaksCount(clean(sp)), 7)
+    expect_equal(removePeaks(sp, 0), sp)
 })
 
 test_that("MSnExp normalisation", {
@@ -359,7 +359,7 @@ test_that("splitByFile,MSnExp", {
     expect_equal(spectra(spl[[1]]), spectra(filterFile(inMem, 2)))
     expect_equal(pData(spl[[1]]), pData(filterFile(inMem, 2)))
     expect_equal(spectra(spl[[2]]), spectra(filterFile(inMem, 1)))
-    expect_equal(pData(spl[[2]]), pData(filterFile(inMem, 1)))    
+    expect_equal(pData(spl[[2]]), pData(filterFile(inMem, 1)))
 })
 
 test_that("$ operator on MSnExp works", {

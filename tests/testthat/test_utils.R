@@ -234,14 +234,35 @@ test_that("remove precursor MZ", {
 
 
 test_that("clean utils", {
-    ## from description
-    x <- c(1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0)
-    b <- c(TRUE,  TRUE,  FALSE,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,
-           TRUE, TRUE,  TRUE,  TRUE,  FALSE,  TRUE,  TRUE,  TRUE,
-           FALSE,  TRUE)
-    bx <- c(1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0)
-    expect_identical(MSnbase:::utils.clean(x), b)
-    expect_identical(x[MSnbase:::utils.clean(x)], bx)
+    x <- list(c(0, 0, 0, 1, 0, 1, 0, 0, 0),
+              c(0, 0, 0, 1, 0, 0, 1, 0, 0, 0),
+              c(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+              c(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+              c(1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0))
+    a <- list(c(FALSE, FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE),
+              c(FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, FALSE, FALSE,
+                FALSE),
+              c(FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, TRUE, FALSE,
+                FALSE, FALSE), c(FALSE, FALSE, FALSE, TRUE, FALSE, FALSE,
+                FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE),
+              c(TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE,
+                TRUE, TRUE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE))
+    b <- list(c(FALSE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
+              c(FALSE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE,
+                FALSE),
+              c(FALSE, FALSE, TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE,
+                FALSE, FALSE),
+              c(FALSE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE,
+                TRUE, TRUE, TRUE, FALSE, FALSE),
+              c(TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
+                TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE))
+
+    for (i in seq(along=x)) {
+      expect_identical(MSnbase:::utils.clean(x[[i]], all=TRUE), a[[i]],
+                       label=paste0("all=TRUE, i=", i))
+      expect_identical(MSnbase:::utils.clean(x[[i]], all=FALSE), b[[i]],
+                       label=paste0("all=FALSE, i=", i))
+    }
 })
 
 test_that("getBpParam", {
