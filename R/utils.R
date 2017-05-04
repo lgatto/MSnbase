@@ -350,52 +350,6 @@ getVariableName <- function(match_call, varname) {
   idx[!is.na(idx)]
 }
 
-#' find reference run/sample of each group
-#'
-#' @param x exprs matrix
-#' @param group grouping variable, i.e. protein accession
-#' @return column index of reference fraction per group
-#' @noRd
-.referenceFraction <- function(x, group) {
-  notNA <- !is.na(x)
-  mode(notNA) <- "numeric"
-  rs <- rowsum(x, group=group, reorder=FALSE, na.rm=TRUE)
-  rsNA <- rowsum(notNA, group=group, reorder=FALSE, na.rm=TRUE)
-  setNames(max.col((.rowMaxs(rsNA) == rsNA) * rs), rownames(rs))
-}
-
-#' norm to reference run/sample for each protein
-#'
-#' described in: https://doi.org/10.1104/pp.114.245589
-#' The peptide data were converted to protein intensities as follows. For each
-#' protein, a fraction with the highest number of peptides quantified was
-#' nominated as a reference fraction. The protein abundance in that reference
-#' fraction was taken as one. Then, other fractions were quantified against the
-#' reference fraction by finding the ratio of the combined intensity for
-#' peptides shared between the interrogated and reference fractions. When the
-#' quantities in all fractions for a given protein were computed, the values
-#' were renormalized to give a sum = 1 across all 10 fractions.
-#'
-#' @param x exprs matrix
-#' @param group grouping variable, i.e. protein accession
-#' @param norm normalise proteins to sum 1?
-#' @return column index of reference fraction per group
-#' @noRd
-.normToReferenceFraction <- function(x, group, norm=TRUE) {
-  ref <- .referenceFraction(x, group)
-  nr <- nrow(x)
-  mRef <- x
-  mRef[] <- x[(ref[group] - 1L) * nr + 1L:nr]
-  x[is.na(mRef)] <- NA_real_ # mark all values as NA where reference is NA
-  mRef[is.na(x)] <- NA_real_
-  r <- rowsum(x, group=group, reorder=FALSE, na.rm=TRUE) /
-        rowsum(mRef, group=group, reorder=FALSE, na.rm=TRUE)
-  if (norm) {
-    r <- r/rowSums(r)
-  }
-  r
-}
-
 ## Computes header from assay data by-passing cache
 .header <- function(object) {
   if (length(object) == 0)
@@ -923,54 +877,50 @@ compareMSnSets <- function(x, y, qual = FALSE, proc = FALSE) {
     all.equal(x, y)
 }
 
-##' Similar to colMeans but calculates the sd. Should be identical to
-##' apply(x, 2, sd, na.rm).
-##' based on: http://stackoverflow.com/questions/17549762/is-there-such-colsd-in-r/17551600#17551600
-##' @title colSd
-##' @param x matrix/data.frame
+##' Similar to rowsum but calculates the mean. It is slower than colMeans but
+##' supports grouping variables. See ?rowsum for details.
+##' @param x matrix
+##' @param group a vector/factor of grouping
+##' @param reorder if TRUE the rows are ordered by `sort(unique(group))`
 ##' @param na.rm logical. Should missing values (including ‘NaN’) be omitted
-##' from the calculations?
-##' @return double
+##' @return matrix
 ##' @author Sebastian Gibb <mail@@sebastiangibb.de>
 ##' @noRd
-utils.colSd <- function(x, na.rm = TRUE) {
+rowmean <- function(x, group, reorder=FALSE, na.rm=FALSE) {
   if (na.rm) {
-    n <- colSums(!is.na(x))
+    nna <- !is.na(x)
+    mode(nna) <- "numeric"
   } else {
-    n <- nrow(x)
+    nna <- x
+    nna[] <- 1
   }
-  colVar <- colMeans(x*x, na.rm = na.rm) - (colMeans(x, na.rm = na.rm))^2L
-  sqrt(colVar * n/(n - 1L))
+  nna <- rowsum(nna, group=group, reorder=reorder, na.rm=na.rm)
+  rs <- rowsum(x, group=group, reorder=reorder, na.rm=na.rm)
+  rs/nna
 }
 
-##' Apply a function groupwise. Similar to tapply but takes a matrix as input
-##' and preserve its structure and order.
-##' @title applyColumnwiseByGroup
+##' Similar to rowsum but calculates the sd.
+##' See ?rowsum for details.
 ##' @param x matrix
-##' @param groupBy factor/grouping index
-##' @param FUN function to be applied; must work on columns, e.g. colSums
-##' @param ... further arguments to FUN
-##' @return modified matrix
+##' @param group a vector/factor of grouping
+##' @param reorder if TRUE the rows are ordered by `sort(unique(group))`
+##' @param na.rm logical. Should missing values (including ‘NaN’) be omitted
+##' @return matrix
 ##' @author Sebastian Gibb <mail@@sebastiangibb.de>
 ##' @noRd
-utils.applyColumnwiseByGroup <- function(x, groupBy, FUN, ...) {
-  if (!is.matrix(x)) {
-    stop("x has to be a matrix!")
+rowsd <- function(x, group, reorder=FALSE, na.rm=FALSE) {
+  if (na.rm) {
+    nna <- !is.na(x)
+    mode(nna) <- "numeric"
+  } else {
+    nna <- x
+    nna[] <- 1
   }
-
-  groupBy <- as.factor(groupBy)
-  FUN <- match.fun(FUN)
-
-  j <- split(1L:nrow(x), groupBy)
-  ans <- matrix(NA_real_, nrow = nlevels(groupBy), ncol = ncol(x),
-                dimnames = list(levels(groupBy), colnames(x)))
-
-  for (i in seq(along = j)) {
-    subexprs <- x[j[[i]], , drop = FALSE]
-    ans[i, ] <- do.call(FUN, list(subexprs, ...))
-  }
-
-  ans
+  nna <- rowsum(nna, group=group, reorder=reorder, na.rm=na.rm)
+  nna[nna == 1] <- NA_real_            # return NA if n == 1 (similar to sd)
+  var <- rowmean(x*x, group=group, reorder=reorder, na.rm=na.rm) -
+    rowmean(x, group=group, reorder=reorder, na.rm=na.rm)^2L
+  sqrt(var * nna/(nna - 1L))
 }
 
 setMethod("trimws", "data.frame",

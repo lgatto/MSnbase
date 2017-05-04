@@ -18,4 +18,3 @@ get.atomic.mass()
 \author{
 Sebastian Gibb
 }
-

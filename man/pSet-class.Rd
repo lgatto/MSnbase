@@ -10,6 +10,8 @@
 \alias{[,pSet,ANY,ANY,ANY-method}
 \alias{[[,pSet-method}
 \alias{[[,pSet,ANY,ANY-method}
+\alias{$,pSet-method}
+\alias{$<-,pSet-method}
 \alias{abstract,pSet-method}
 \alias{acquisitionNum,pSet-method}
 \alias{scanIndex,pSet-method}
@@ -44,6 +46,7 @@
 \alias{mz,pSet-method}
 \alias{notes,pSet-method}
 \alias{pData,pSet-method}
+\alias{pData<-,pSet,ANY-method}
 \alias{peaksCount,pSet,missing-method}
 \alias{peaksCount,pSet,numeric-method}
 \alias{phenoData,pSet-method}
@@ -151,6 +154,10 @@
       return object of same class. }
     \item{[[}{\code{signature(x = "pSet")}: Direct access to individual
       spectra. }
+    \item{$}{\code{signature(x = "pSet")}: directly access a specific
+    sample annotation column from the \code{pData}.}
+    \item{$<-}{\code{signature(x = "pSet")}: replace or add a
+    sample annotation column in the \code{pData}.}
     \item{abstract}{Access abstract in \code{experimentData}. }
     \item{assayData}{\code{signature(object = "pSet")}: Access the
       \code{assayData} slot. Returns an \code{environment}. }
@@ -193,6 +200,8 @@
     \code{experimentData} slot. }
     \item{pData}{\code{signature(x = "pSet")}: Access sample data
       information. }
+    \item{pData<-}{\code{signature(x = "pSet", value)}: Replace sample data
+      information with \code{value}. }
     \item{phenoData}{\code{signature(x = "pSet")}: Access the
       \code{phenoData} slot. }
     \item{processingData}{\code{signature(object = "pSet")}: Access the

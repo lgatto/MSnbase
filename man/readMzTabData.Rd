@@ -41,11 +41,10 @@ psms <- readMzTabData(testfile, "PSM")
 psms
 head(fData(psms))
 }
-\author{
-Laurent Gatto
-}
 \seealso{
 See \code{\link{MzTab}} and \code{\link{MSnSetList}} for
 details about the inners of \code{readMzTabData}.
 }
-
+\author{
+Laurent Gatto
+}
