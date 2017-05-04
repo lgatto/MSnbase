@@ -42,4 +42,3 @@ length(cmn)
 \author{
 Laurent Gatto
 }
-

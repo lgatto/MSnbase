@@ -29,4 +29,3 @@ listOf(list("a", 1), "character")
 \author{
 Laurent Gatto
 }
-

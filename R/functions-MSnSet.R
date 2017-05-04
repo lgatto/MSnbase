@@ -81,12 +81,10 @@ featureCV <- function(x, groupBy, na.rm = TRUE,
   if (norm != "none")
     x <- normalise(x, method = norm)
 
-  ans <- utils.applyColumnwiseByGroup(exprs(x), groupBy=groupBy,
-                                      FUN=function(y, ...) {
-                                        utils.colSd(y, ...)/
-                                          colMeans(y, ...)}, na.rm=na.rm)
-  colnames(ans) <- paste("CV", colnames(ans), sep = ".")
-  ans
+  cv <- rowsd(exprs(x), group=groupBy, reorder=TRUE, na.rm=na.rm) /
+          rowmean(exprs(x), group=groupBy, reorder=TRUE, na.rm=na.rm)
+  colnames(cv) <- paste("CV", colnames(cv), sep=".")
+  cv
 }
 
 updateFvarLabels <- function(object, label, sep = ".") {
@@ -158,11 +156,9 @@ nQuants <- function(x, groupBy) {
   if (class(x) != "MSnSet")
     stop("'x' must be of class 'MSnSet'.")
 
-  ans <- utils.applyColumnwiseByGroup(exprs(x), groupBy=groupBy,
-                                      FUN=function(y) {
-                                        nrow(y)-colSums(is.na(y))})
-  colnames(ans) <- sampleNames(x)
-  ans
+  e <- !is.na(exprs(x))
+  mode(e) <- "numeric"
+  rowsum(e, group=groupBy, reorder=TRUE)
 }
 
 ##' Subsets \code{MSnSet} instances to their common feature names.

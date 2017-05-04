@@ -32,4 +32,3 @@ fData(hyperLOPIT2015ms3r1psm)[1:10, i]
 \author{
 Laurent Gatto
 }
-
