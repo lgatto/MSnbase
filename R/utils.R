@@ -107,32 +107,28 @@ utils.removePrecMz_list <- function(object,
     return(object)
 }
 
+#' Removes zeros from input except the ones that in the direct neighbourhood of
+#' non-zero values.
+#'
+#' @param x \code{numeric}, vector to be cleaned
+#' @param all \code{logical}, should all zeros be removed?
+#' @return logical vector, \code{TRUE} for keeping the value
+#' @note The return value for \code{NA} is always \code{FALSE}.
+#' @examples
+#' x <- c(1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0)
+#' #      T, T, F, T, T, T, T, T, T, T, T, F, F
+#' r <- c(TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
+#'        FALSE, FALSE)
+#' stopifnot(utils.clean(x) == r)
+#' @noRd
+utils.clean <- function(x, all=FALSE) {
+  notZero <- x != 0 & !is.na(x)
 
-utils.clean <- function(x, all = FALSE) {
-  ## Given an numeric x, this function
-  ## returns a logical b of length(x) where
-  ## non-zero values and their direct
-  ## 0s are TRUE so that x[b] has only
-  ## non-zero values surrounded by it's
-  ## original direct zero neighbours.
-  ## Example
-  ## x: 1 0 0 0 1 1 1 0 0 1 1 0 0 0 1 0 0 0
-  ## b: T T F T T T T T T T T T F T T T F T
-  ##
-  ## x[b]:  1 0 0 1 1 1 0 0 1 1 0 0 1 0 0
-
-  n <- length(x)
-  b <- rep(TRUE, n)
   if (all) {
-    b[x == 0] <- FALSE
+    notZero
   } else {
-    zeroRanges <- IRanges(sapply(x,"==",0))
-    sapply(zeroRanges, function(x) {
-      if (length(x) > 2)
-        b[x[2:(length(x) - 1)]] <<- FALSE
-    })
+    notZero | c(notZero[-1], FALSE) | c(FALSE, notZero[-length(notZero)])
   }
-  return(b)
 }
 
 zoom <- function(x, w = 0.05) {
