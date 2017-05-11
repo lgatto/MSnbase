@@ -23,7 +23,7 @@ test_that("filterNA for MSnSet", {
     expect_true(nrow(msnset) > nrow(msnset2))
 })
 
-test_that("filterNA with patter", {
+test_that("filterNA with pattern", {
     M <- matrix(rnorm(40), ncol = 4)
     rownames(M) <- 1:10
     M[1:5, 1] <- NA

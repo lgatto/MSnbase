@@ -542,6 +542,30 @@ getRowsFromPattern <- function(x, pattern) {
   rowSums(is.na(x)) == 0
 }
 
+.filterNA <- function(x, pNA=0L, pattern) {
+  if (!is.matrix(x)) {
+    stop(sQuote("x"), " must be a matrix.")
+  }
+  if (!is.numeric(pNA)) {
+    stop(sQuote("pNA"), " must be numeric.")
+  }
+  if (length(pNA) > 1) {
+    stop(sQuote("pNA"), " must be of length one.")
+  }
+
+  if (missing(pattern)) { ## using pNA
+    if (pNA > 1) {
+      pNA <- 1
+    }
+    if (pNA < 0) {
+      pNA <- 0
+    }
+    k <- rowSums(is.na(x)) / ncol(x)
+    k <= pNA
+  } else { ## using pattern
+    getRowsFromPattern(x, pattern)
+  }
+}
 
 nologging <- function(object, n = 1) {
   ## removes the last n entries from

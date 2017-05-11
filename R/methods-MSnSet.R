@@ -460,7 +460,7 @@ setMethod("image", "MSnSet",
               x <- xlong
               if (!is.null(sOrderBy))
                   x[['sample.name']] <- reorder(x[['sample.name']], x[[sOrderBy]])
-    
+
               if (!is.null(facetBy)) x$facetBy <- x[[facetBy]]
               p <- ggplot(x, aes(x = `sample.name`, y = `feature.id`,
                                  fill = `Expression`)) +
@@ -513,7 +513,7 @@ image2 <- function(x,
     nr <- nrow(x)
     lab <- colnames(x)
     if (is.null(lab))
-        lab <- 1:nc 
+        lab <- 1:nc
     graphics::image(t(x),
                     xlab = xlab, ylab = ylab,
                     xaxt = "n", yaxt = "n", ...)
@@ -551,25 +551,7 @@ setMethod("plotNA", signature(object = "matrix"),
 
 setMethod("filterNA", signature(object = "matrix"),
           function(object, pNA = 0, pattern) {
-              if (missing(pattern)) { ## using pNA
-                  if (pNA > 1)
-                      pNA <- 1
-                  if (pNA < 0)
-                      pNA <- 0
-                  k <- apply(object, 1,
-                             function(x) sum(is.na(x)) / length(x))
-                  accept <- k <= pNA
-                  if (sum(accept) == 1) {
-                      ans <- matrix(object[accept, ], nrow = 1)
-                      rownames(ans) <- rownames(object)[accept]
-                  } else {
-                      ans <- object[accept, ]
-                  }
-              } else { ## using pattern
-                  accept <- getRowsFromPattern(object, pattern)
-                  ans <- object[accept, ]
-              }
-              return(ans)
+              object[.filterNA(object, pNA=pNA, pattern=pattern), , drop=FALSE]
           })
 
 setMethod("filterZero", "matrix",
@@ -583,31 +565,23 @@ setMethod("filterZero", "matrix",
 
 setMethod("filterNA", signature(object = "MSnSet"),
           function(object, pNA = 0, pattern, droplevels = TRUE) {
+              object <- object[.filterNA(exprs(object), pNA=pNA, pattern=pattern), ]
+
               if (missing(pattern)) { ## using pNA
-                  if (pNA > 1)
-                      pNA <- 1
-                  if (pNA < 0)
-                      pNA <- 0
-                  k <- apply(exprs(object), 1,
-                             function(x) sum(is.na(x)) / length(x))
-                  accept <- k <= pNA
-                  ans <- object[accept, ]
-                  ans@processingData@processing <-
-                      c(processingData(ans)@processing,
-                        paste0("Removed features with more than ",
-                               round(pNA, 3), " NAs: ", date()))
+                  object@processingData@processing <-
+                    c(processingData(object)@processing,
+                      paste0("Removed features with more than ",
+                      round(pNA, 3), " NAs: ", date()))
               } else { ## using pattern
-                  accept <- getRowsFromPattern(exprs(object), pattern)
-                  ans <- object[accept, ]
-                  ans@processingData@processing <-
-                      c(processingData(ans)@processing,
-                        paste0("Removed features with according to pattern ",
-                               pattern, " ", date()))
+                  object@processingData@processing <-
+                    c(processingData(object)@processing,
+                      paste0("Removed features with according to pattern ",
+                      pattern, " ", date()))
               }
               if (droplevels)
-                  ans <- droplevels(ans)
-              if (validObject(ans))
-                  return(ans)
+                  object <- droplevels(object)
+              if (validObject(object))
+                  return(object)
           })
 
 setMethod("filterZero", signature = "MSnSet",
@@ -793,5 +767,5 @@ as.IBSpectra.MSnSet <- function(x) {
 ##       function (from, to = "IBSpectra") {
 ##           ## see IBSpectraTypes() for possible types
 ##           ## if (ncol(from)) == 2) ...
-##           ## if (ncol(from)) == 2) ...      
+##           ## if (ncol(from)) == 2) ...
 ##       })
