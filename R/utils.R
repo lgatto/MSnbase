@@ -519,20 +519,27 @@ cramer4 <- function(object, imp) {
 ## }
 
 getColsFromPattern <- function(x, pattern) {
-  if (missing(pattern))
-    stop("Pattern must not be missing.")
-  if (nchar(pattern) != ncol(x))
-    stop("The pattern must be equal to the number of columns.")
-  pattern <- strsplit(pattern, "")[[1]]
-  if (!all(unique(pattern) %in% c("0", "1")))
-    stop("Pattern must be composed of '0' or '1' defining columns with or without 'NA's.")
-  return(pattern == "1")
+  if (missing(pattern)) {
+    stop(sQuote("pattern"), " must not be missing.")
+  }
+  if (!is.matrix(x)) {
+    stop(sQuote("x"), " must be a matrix.")
+  }
+  if (nchar(pattern) != ncol(x)) {
+    stop("The ", sQuote("pattern"), " must be equal to the number of columns.")
+  }
+  pattern <- strsplit(pattern, "")[[1L]]
+  if (!all(unique(pattern) %in% c("0", "1"))) {
+    stop(sQuote("pattern"), " must be composed of '0' or '1' defining columns",
+         " with or without 'NA's.")
+  }
+  pattern == "1"
 }
 
 getRowsFromPattern <- function(x, pattern) {
   cols <- getColsFromPattern(x, pattern)
-  x2 <- x[, cols]
-  apply(x2, 1, function(xx) !any(is.na(xx)))
+  x <- x[, cols, drop=FALSE]
+  rowSums(is.na(x)) == 0
 }
 
 
