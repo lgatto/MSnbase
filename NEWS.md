@@ -1,7 +1,10 @@
 # MSnbase 2.3
 
 ## Changes in version 2.3.3
-- Nothing yet
+- Rewrite `getColsFromPattern` and `getRowsFromPattern` and add unit tests
+    <2017-05-11 Thu>.
+- Add `.filterNA` and rewrite `filterNA` for `matrix` and `MSnSet`
+  <2017-05-11 Thu>.
 
 ## Changes in version 2.3.2
 - Rewrite `utils.clean`. It now keeps just the zeros in the direct

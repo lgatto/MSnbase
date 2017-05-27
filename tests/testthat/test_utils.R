@@ -1,5 +1,52 @@
 context("utils")
 
+test_that("getColsFromPattern", {
+  m <- matrix(1:12, nrow=4)
+  expect_error(MSnbase:::getColsFromPattern(1:10, "101"),
+               "must be a matrix")
+  expect_error(MSnbase:::getColsFromPattern(m),
+               ".*pattern.* must not be missing")
+  expect_error(MSnbase:::getColsFromPattern(m, "1011"),
+               "must be equal to the number of columns")
+  expect_equal(MSnbase:::getColsFromPattern(m, "111"), rep(TRUE, 3))
+  expect_equal(MSnbase:::getColsFromPattern(m, "000"), rep(FALSE, 3))
+  expect_equal(MSnbase:::getColsFromPattern(m, "101"), c(TRUE, FALSE, TRUE))
+  expect_equal(MSnbase:::getColsFromPattern(m, "010"), c(FALSE, TRUE, FALSE))
+})
+
+test_that("getRowsFromPattern", {
+  m <- matrix(1:12, nrow=4)
+  m[c(2, 12)] <- NA_real_
+  expect_error(MSnbase:::getRowsFromPattern(1:10, "101"),
+               "must be a matrix")
+  expect_error(MSnbase:::getRowsFromPattern(m),
+               ".*pattern.* must not be missing")
+  expect_error(MSnbase:::getRowsFromPattern(m, "1011"),
+               "must be equal to the number of columns")
+  expect_equal(MSnbase:::getRowsFromPattern(m, "000"), rep(TRUE, 4))
+  expect_equal(MSnbase:::getRowsFromPattern(m, "111"),
+               c(TRUE, FALSE, TRUE, FALSE))
+  expect_equal(MSnbase:::getRowsFromPattern(m, "101"),
+               c(TRUE, FALSE, TRUE, FALSE))
+  expect_equal(MSnbase:::getRowsFromPattern(m, "010"),
+               rep(TRUE, 4))
+  expect_equal(MSnbase:::getRowsFromPattern(m, "110"),
+               c(TRUE, FALSE, TRUE, TRUE))
+})
+
+test_that(".filterNA", {
+  m <- matrix(1:12, nrow=4)
+  m[c(2, 12)] <- NA_real_
+  expect_error(MSnbase:::.filterNA(1:10, 1, "110"), "must be a matrix")
+  expect_error(MSnbase:::.filterNA(m, pNA="110"), "must be numeric")
+  expect_error(MSnbase:::.filterNA(m, 1:10), "must be of length one")
+  expect_equal(MSnbase:::.filterNA(m), c(TRUE, FALSE, TRUE, FALSE))
+  expect_equal(MSnbase:::.filterNA(m, pNA=1), c(TRUE, TRUE, TRUE, TRUE))
+  expect_equal(MSnbase:::.filterNA(m, pNA=0.4), c(TRUE, TRUE, TRUE, TRUE))
+  expect_equal(MSnbase:::.filterNA(m, pNA=0.3), c(TRUE, FALSE, TRUE, FALSE))
+  expect_equal(MSnbase:::.filterNA(m, pattern="101"), c(TRUE, FALSE, TRUE, FALSE))
+})
+
 test_that("vec2ssv & ssv2vec", {
   numbers <- 1:3
   string1 <- "1;2;3"
