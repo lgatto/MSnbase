@@ -196,9 +196,9 @@ naplot <- function(object, verbose = isMSnbaseVerbose(), ...) {
     par(mar = c(3,3,1,1))
     image2(object, ...)
     par(mar = c(0,3,1,1))
-    barplot(sort(samples.na), space=0, xaxt = "n")
+    barplot(sort(samples.na), space=0, xaxt = "n", xaxs = "i")
     par(mar = c(3,0,1,1))
-    barplot(sort(features.na), space=0, horiz=TRUE, yaxt = "n")
+    barplot(sort(features.na), space=0, horiz=TRUE, yaxt = "n", yaxs="i")
     if (verbose) {
         print(table(features.na))
         print(table(samples.na))
