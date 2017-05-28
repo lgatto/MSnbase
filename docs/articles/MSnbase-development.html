@@ -9,7 +9,7 @@
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
@@ -79,34 +79,32 @@
 <div class="contents">
 <div id="foreword" class="section level1 unnumbered">
 <h1 class="hasAnchor">
-<html><body><a href="#foreword" class="anchor"> </a></body></html>Foreword</h1>
+<a href="#foreword" class="anchor"></a>Foreword</h1>
 <p><a href="http://bioconductor.org/packages/MSnbase"><em>MSnbase</em></a> is under active development; current functionality is evolving and new features will be added. This software is free and open-source software. If you use it, please support the project by citing it in publications:</p>
 <blockquote>
-<p>Laurent Gatto and Kathryn S. Lilley. <em>MSnbase - an R/Bioconductor package for isobaric tagged mass spectrometry data visualization, processing and quantitation.</em> Bioinformatics 28, 288-289 (2011).</p>
+<p>Gatto L, Lilley KS. MSnbase-an R/Bioconductor package for isobaric tagged mass spectrometry data visualization, processing and quantitation. Bioinformatics. 2012 Jan 15;28(2):288-9. doi: <a href="https://doi.org/10.1093/bioinformatics/btr645">10.1093/bioinformatics/btr645</a>. PMID: <a href="https://www.ncbi.nlm.nih.gov/pubmed/22113085">22113085</a>.</p>
 </blockquote>
 </div>
 <div id="questions-and-bugs" class="section level1 unnumbered">
 <h1 class="hasAnchor">
-<html><body><a href="#questions-and-bugs" class="anchor"> </a></body></html>Questions and bugs</h1>
+<a href="#questions-and-bugs" class="anchor"></a>Questions and bugs</h1>
 <p>For bugs, typos, suggestions or other questions, please file an issue in our tracking system (<a href="https://github.com/lgatto/MSnbase/issues" class="uri">https://github.com/lgatto/MSnbase/issues</a>) providing as much information as possible, a reproducible example and the output of <code>sessionInfo()</code>.</p>
 <p>If you don’t have a GitHub account or wish to reach a broader audience for general questions about proteomics analysis using R, you may want to use the Bioconductor support site: <a href="https://support.bioconductor.org/" class="uri">https://support.bioconductor.org/</a>.</p>
 </div>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
-<html><body><a href="#introduction" class="anchor"> </a></body></html>Introduction</h1>
+<a href="#introduction" class="anchor"></a>Introduction</h1>
 <p>This document is not a replacement for the individual manual pages, that document the slots of the <em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> classes. It is a centralised high-level description of the package design.</p>
-<p><em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> aims at being compatible with the <em><a href="http://bioconductor.org/packages/Biobase">Biobase</a></em> infrastructure <span class="citation">(Gentleman et al. 2004)</span>. Many meta data structures that are used in <code>eSet</code> and associated classes are also used here. As such, knowledge of the <em>Biobase development and the new eSet</em> vignette would be beneficial; the vignette can directly be accessed with <code><a href="../articles/BiobaseDevelopment.html">vignette("BiobaseDevelopment", package="Biobase")</a></code>.</p>
+<p><em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> aims at being compatible with the <em><a href="http://bioconductor.org/packages/Biobase">Biobase</a></em> infrastructure <span class="citation">(Gentleman et al. 2004)</span>. Many meta data structures that are used in <code>eSet</code> and associated classes are also used here. As such, knowledge of the <em>Biobase development and the new eSet</em> vignette would be beneficial; the vignette can directly be accessed with <code>vignette("BiobaseDevelopment", package="Biobase")</code>.</p>
 <p>The initial goal is to use the <em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> infrastructure for MS2 labelled (iTRAQ <span class="citation">(Ross et al. 2004)</span> and TMT <span class="citation">(Thompson et al. 2003)</span>) and label-free (spectral counting, index and abundance) quantitation - see the documentation for the <code>quantify</code> function for details. The infrastructure is currently extended to support a wider range of technologies, including metabolomics.</p>
 </div>
 <div id="msnbase-classes" class="section level1">
 <h1 class="hasAnchor">
-<html><body><a href="#msnbase-classes" class="anchor"> </a></body></html>
-<em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> classes</h1>
+<a href="#msnbase-classes" class="anchor"></a><em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> classes</h1>
 <p>All classes have a <code>.__classVersion__</code> slot, of class <code>Versioned</code> from the <em><a href="http://bioconductor.org/packages/Biobase">Biobase</a></em> package. This slot documents the class version for any instance to be used for debugging and object update purposes. Any change in a class implementation should trigger a version change.</p>
 <div id="pset-a-virtual-class-for-raw-mass-spectrometry-data-and-meta-data" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#pset-a-virtual-class-for-raw-mass-spectrometry-data-and-meta-data" class="anchor"> </a></body></html>
-<code>pSet</code>: a virtual class for raw mass spectrometry data and meta data</h2>
+<a href="#pset-a-virtual-class-for-raw-mass-spectrometry-data-and-meta-data" class="anchor"></a><code>pSet</code>: a virtual class for raw mass spectrometry data and meta data</h2>
 <p>This virtual class is the main container for mass spectrometry data, i.e spectra, and meta data. It is based on the <code>eSet</code> implementation for genomic data. The main difference with <code>eSet</code> is that the <code>assayData</code> slot is an environment containing any number of <code>Spectrum</code> instances (see the <a href="#Spectrum"><code>Spectrum</code> section</a>).</p>
 <p>One new slot is introduced, namely <code>processingData</code>, that contains one <code>MSnProcess</code> instance (see the <a href="#MSnProcess"><code>MSnProcess</code> section</a>). and the <code>experimentData</code> slot is now expected to contain <code>MIAPE</code> data. The <code>annotation</code> slot has not been implemented, as no prior feature annotation is known in shotgun proteomics.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getClass</span>(<span class="st">"pSet"</span>)</code></pre></div>
@@ -131,8 +129,7 @@
 </div>
 <div id="msnexp-a-class-for-ms-experiments" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#msnexp-a-class-for-ms-experiments" class="anchor"> </a></body></html>
-<code>MSnExp</code>: a class for MS experiments</h2>
+<a href="#msnexp-a-class-for-ms-experiments" class="anchor"></a><code>MSnExp</code>: a class for MS experiments</h2>
 <p><code>MSnExp</code> extends <code>pSet</code> to store MS experiments. It does not add any new slots to <code>pSet</code>. Accessors and setters are all inherited from <code>pSet</code> and new ones should be implemented for <code>pSet</code>. Methods that manipulate actual data in experiments are implemented for <code>MSnExp</code> objects.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getClass</span>(<span class="st">"MSnExp"</span>)</code></pre></div>
 <pre><code>## Class "MSnExp" [package "MSnbase"]
@@ -157,8 +154,7 @@
 </div>
 <div id="ondiskmsnexp-a-on-disk-implementation-of-the-msnexp-class" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#ondiskmsnexp-a-on-disk-implementation-of-the-msnexp-class" class="anchor"> </a></body></html>
-<code>OnDiskMSnExp</code>: a on-disk implementation of the <code>MSnExp</code> class</h2>
+<a href="#ondiskmsnexp-a-on-disk-implementation-of-the-msnexp-class" class="anchor"></a><code>OnDiskMSnExp</code>: a on-disk implementation of the <code>MSnExp</code> class</h2>
 <p>The <code>OnDiskMSnExp</code> class extends <code>MSnExp</code> and inherits all of its functionality but is aimed to use as little memory as possible based on a balance between memory demand and performance. Most of the spectrum-specific data, like retention time, polarity, total ion current are stored within the object’s <code>featureData</code> slot. The actual M/Z and intensity values from the individual spectra are, in contrast to <code>MSnExp</code> objects, not kept in memory (in the <code>assayData</code> slot), but are fetched from the original files on-demand. Because mzML files are indexed, using the <em><a href="http://bioconductor.org/packages/mzR">mzR</a></em> package to read the relevant spectrum data is fast and only moderately slower than for in-memory <code>MSnExp</code><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>.</p>
 <p>To keep track of data manipulation steps that are applied to spectrum data (such as performed by methods <code>removePeaks</code> or <code>clean</code>) a <em>lazy execution</em> framework was implemented. Methods that manipulate or subset a spectrum’s M/Z or intensity values can not be applied directly to a <code>OnDiskMSnExp</code> object, since the relevant data is not kept in memory. Thus, any call to a processing method that changes or subset M/Z or intensity values are added as <code>ProcessingStep</code> items to the object’s <code>spectraProcessingQueue</code>. When the spectrum data is then queried from an <code>OnDiskMSnExp</code>, the spectra are read in from the file and all these processing steps are applied on-the-fly to the spectrum data before being returned to the user.</p>
 <p>The operations involving extracting or manipulating spectrum data are applied on a per-file basis, which enables parallel processing. Thus, all corresponding method implementations for <code>OnDiskMSnExp</code> objects have an argument <code>BPPARAM</code> and users can set a <code>PARALLEL_THRESH</code> option flag<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> that enables to define how and when parallel processing should be performed (using the <em><a href="http://bioconductor.org/packages/BiocParallel">BiocParallel</a></em> package).</p>
@@ -191,8 +187,7 @@
 </div>
 <div id="msnset-a-class-for-quantitative-proteomics-data" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#msnset-a-class-for-quantitative-proteomics-data" class="anchor"> </a></body></html>
-<code>MSnSet</code>: a class for quantitative proteomics data</h2>
+<a href="#msnset-a-class-for-quantitative-proteomics-data" class="anchor"></a><code>MSnSet</code>: a class for quantitative proteomics data</h2>
 <p>This class stores quantitation data and meta data after running <code>quantify</code> on an <code>MSnExp</code> object or by creating an <code>MSnSet</code> instance from an external file, as described in the <em>MSnbase-io</em> vignette and in <code><a href="../reference/readMSnSet.html">?readMSnSet</a></code>, <code>readMzTabData</code>, etc. The quantitative data is in form of a <em>n</em> by <em>p</em> matrix, where <em>n</em> is the number of features/spectra originally in the <code>MSnExp</code> used as parameter in <code>quantify</code> and <em>p</em> is the number of reporter ions. If read from an external file, <em>n</em> corresponds to the number of features (protein groups, proteins, peptides, spectra) in the file and <span class="math inline">\(p\)</span> is the number of columns with quantitative data (samples) in the file.</p>
 <p>This prompted to keep a similar implementation as the <code>ExpressionSet</code> class, while adding the proteomics-specific annotation slot introduced in the <code>pSet</code> class, namely <code>processingData</code> for objects of class <code>MSnProcess</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getClass</span>(<span class="st">"MSnSet"</span>)</code></pre></div>
@@ -235,8 +230,7 @@
 </div>
 <div id="MSnProcess" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#MSnProcess" class="anchor"> </a></body></html>
-<code>MSnProcess</code>: a class for logging processing meta data</h2>
+<a href="#MSnProcess" class="anchor"></a><code>MSnProcess</code>: a class for logging processing meta data</h2>
 <p>This class aims at recording specific manipulations applied to <code>MSnExp</code> or <code>MSnSet</code> instances. The <code>processing</code> slot is a <code>character</code> vector that describes major processing. Most other slots are of class <code>logical</code> that indicate whether the data has been centroided, smoothed, although many of the functionality is not implemented yet. Any new processing that is implemented should be documented and logged here.</p>
 <p>It also documents the raw data file from which the data originates (<code>files</code> slot) and the <em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> version that was in use when the <code>MSnProcess</code> instance, and hence the <code>MSnExp</code>/<code>MSnSet</code> objects, were originally created.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getClass</span>(<span class="st">"MSnProcess"</span>)</code></pre></div>
@@ -260,8 +254,7 @@
 </div>
 <div id="miape-minimum-information-about-a-proteomics-experiment" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#miape-minimum-information-about-a-proteomics-experiment" class="anchor"> </a></body></html>
-<code>MIAPE</code>: Minimum Information About a Proteomics Experiment</h2>
+<a href="#miape-minimum-information-about-a-proteomics-experiment" class="anchor"></a><code>MIAPE</code>: Minimum Information About a Proteomics Experiment</h2>
 <p>The Minimum Information About a Proteomics Experiment <span class="citation">(Chris F. Taylor et al. 2007; Chris F Taylor et al. 2008)</span> <code>MIAPE</code> class describes the experiment, including contact details, information about the mass spectrometer and control and analysis software.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getClass</span>(<span class="st">"MIAPE"</span>)</code></pre></div>
 <pre><code>## Class "MIAPE" [package "MSnbase"]
@@ -319,8 +312,7 @@
 </div>
 <div id="Spectum" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#Spectum" class="anchor"> </a></body></html>
-<code>Spectrum</code> <em>et al.</em>: classes for MS spectra</h2>
+<a href="#Spectum" class="anchor"></a><code>Spectrum</code> <em>et al.</em>: classes for MS spectra</h2>
 <p><code>Spectrum</code> is a virtual class that defines common attributes to all types of spectra. MS1 and MS2 specific attributes are defined in the <code>Spectrum1</code> and <code>Spectrum2</code> classes, that directly extend <code>Spectrum</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getClass</span>(<span class="st">"Spectrum"</span>)</code></pre></div>
 <pre><code>## Virtual Class "Spectrum" [package "MSnbase"]
@@ -400,8 +392,7 @@
 </div>
 <div id="reporterions-a-class-for-isobaric-tags" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#reporterions-a-class-for-isobaric-tags" class="anchor"> </a></body></html>
-<code>ReporterIons</code>: a class for isobaric tags</h2>
+<a href="#reporterions-a-class-for-isobaric-tags" class="anchor"></a><code>ReporterIons</code>: a class for isobaric tags</h2>
 <p>The iTRAQ and TMT (or any other peak of interest) are implemented <code>ReporterIons</code> instances, that essentially defines an expected MZ position for the peak and a width around this value as well a names for the reporters.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getClass</span>(<span class="st">"ReporterIons"</span>)</code></pre></div>
 <pre><code>## Class "ReporterIons" [package "MSnbase"]
@@ -421,8 +412,7 @@
 </div>
 <div id="nannotateddataframe-multiplexed-annotateddataframes" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#nannotateddataframe-multiplexed-annotateddataframes" class="anchor"> </a></body></html>
-<code>NAnnotatedDataFrame</code>: multiplexed <code>AnnotatedDataFrame</code>s</h2>
+<a href="#nannotateddataframe-multiplexed-annotateddataframes" class="anchor"></a><code>NAnnotatedDataFrame</code>: multiplexed <code>AnnotatedDataFrame</code>s</h2>
 <p>The simple expansion of the <code>AnnotatedDataFrame</code> classes adds the <code>multiplex</code> and <code>multiLabel</code> slots to document the number and names of multiplexed samples.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getClass</span>(<span class="st">"NAnnotatedDataFrame"</span>)</code></pre></div>
 <pre><code>## Class "NAnnotatedDataFrame" [package "MSnbase"]
@@ -441,10 +431,10 @@
 </div>
 <div id="other-classes" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#other-classes" class="anchor"> </a></body></html>Other classes</h2>
+<a href="#other-classes" class="anchor"></a>Other classes</h2>
 <div id="lists-of-msnset-instances" class="section level3 unnumbered">
 <h3 class="hasAnchor">
-<html><body><a href="#lists-of-msnset-instances" class="anchor"> </a></body></html>Lists of <code>MSnSet</code> instances</h3>
+<a href="#lists-of-msnset-instances" class="anchor"></a>Lists of <code>MSnSet</code> instances</h3>
 <p>When several <code>MSnSet</code> instances are related to each other and should be stored together as different objects, they can be grouped as a list into and <code>MSnSetList</code> object. In addition to the actual <code>list</code> slot, this class also has basic logging functionality and enables iteration over the <code>MSnSet</code> instances using a dedicated <code>lapply</code> methods.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getClass</span>(<span class="st">"MSnSetList"</span>)</code></pre></div>
 <pre><code>## Class "MSnSetList" [package "MSnbase"]
@@ -460,21 +450,21 @@
 </div>
 <div id="miscellaneous" class="section level1">
 <h1 class="hasAnchor">
-<html><body><a href="#miscellaneous" class="anchor"> </a></body></html>Miscellaneous</h1>
+<a href="#miscellaneous" class="anchor"></a>Miscellaneous</h1>
 <div id="unit-tests" class="section level4 unnumbered">
 <h4 class="hasAnchor">
-<html><body><a href="#unit-tests" class="anchor"> </a></body></html>Unit tests</h4>
+<a href="#unit-tests" class="anchor"></a>Unit tests</h4>
 <p><em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> implements unit tests with the <em><a href="https://CRAN.R-project.org/package=testthat">testthat</a></em> package.</p>
 </div>
 <div id="processing-methods" class="section level4 unnumbered">
 <h4 class="hasAnchor">
-<html><body><a href="#processing-methods" class="anchor"> </a></body></html>Processing methods</h4>
+<a href="#processing-methods" class="anchor"></a>Processing methods</h4>
 <p>Methods that process raw data, i.e. spectra should be implemented for <code>Spectrum</code> objects first and then <code>eapply</code>ed (or similar) to the <code>assayData</code> slot of an <code>MSnExp</code> instance in the specific method.</p>
 </div>
 </div>
 <div id="session-information" class="section level1">
 <h1 class="hasAnchor">
-<html><body><a href="#session-information" class="anchor"> </a></body></html>Session information</h1>
+<a href="#session-information" class="anchor"></a>Session information</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
 <pre><code>## R Under development (unstable) (2017-02-25 r72256)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
@@ -497,35 +487,30 @@
 ## [8] base     
 ## 
 ## other attached packages:
-##  [1] pryr_0.1.2          msdata_0.15.1       MSnbase_2.3.1      
-##  [4] ProtGenerics_1.9.0  BiocParallel_1.11.1 mzR_2.11.0         
-##  [7] Rcpp_0.12.10        Biobase_2.37.2      BiocGenerics_0.23.0
-## [10] BiocStyle_2.5.0     pkgdown_0.1.0.9000 
+## [1] BiocStyle_2.5.0     MSnbase_2.3.2       ProtGenerics_1.9.0 
+## [4] BiocParallel_1.11.1 mzR_2.11.0          Rcpp_0.12.11       
+## [7] Biobase_2.37.2      BiocGenerics_0.23.0
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] purrr_0.2.2           lattice_0.20-35       colorspace_1.3-2     
-##  [4] htmltools_0.3.6       stats4_3.4.0          yaml_2.1.14          
-##  [7] vsn_3.45.0            XML_3.98-1.7          withr_1.0.2          
-## [10] affy_1.55.0           foreach_1.4.3         affyio_1.47.0        
-## [13] plyr_1.8.4            mzID_1.15.0           stringr_1.2.0        
-## [16] zlibbioc_1.23.0       munsell_0.4.3         pcaMethods_1.69.0    
-## [19] commonmark_1.2        gtable_0.2.0          codetools_0.2-15     
-## [22] evaluate_0.10         labeling_0.3          knitr_1.15.1         
-## [25] IRanges_2.11.1        doParallel_1.0.10     BiocInstaller_1.27.2 
-## [28] highr_0.6             preprocessCore_1.39.0 backports_1.0.5      
-## [31] scales_0.4.1          limma_3.33.2          desc_1.1.0           
-## [34] S4Vectors_0.15.0      pkgload_0.0.0.9000    gridExtra_2.2.1      
-## [37] impute_1.51.0         ggplot2_2.2.1         digest_0.6.12        
-## [40] stringi_1.1.5         grid_3.4.0            rprojroot_1.2        
-## [43] tools_3.4.0           magrittr_1.5          lazyeval_0.2.0       
-## [46] tibble_1.3.0          crayon_1.3.2          whisker_0.3-2        
-## [49] xml2_1.1.1            iterators_1.0.8       assertthat_0.2.0     
-## [52] rmarkdown_1.5         roxygen2_6.0.1        R6_2.2.0             
-## [55] MALDIquant_1.16.2     compiler_3.4.0</code></pre>
+##  [1] BiocInstaller_1.27.2  compiler_3.4.0        plyr_1.8.4           
+##  [4] iterators_1.0.8       zlibbioc_1.23.0       tools_3.4.0          
+##  [7] MALDIquant_1.16.2     digest_0.6.12         evaluate_0.10        
+## [10] tibble_1.3.1          preprocessCore_1.39.0 gtable_0.2.0         
+## [13] lattice_0.20-35       rlang_0.1.1.9000      foreach_1.4.3        
+## [16] yaml_2.1.14           stringr_1.2.0         knitr_1.16           
+## [19] IRanges_2.11.3        S4Vectors_0.15.2      stats4_3.4.0         
+## [22] rprojroot_1.2         grid_3.4.0            impute_1.51.0        
+## [25] XML_3.98-1.7          rmarkdown_1.5         limma_3.33.2         
+## [28] ggplot2_2.2.1         magrittr_1.5          backports_1.1.0      
+## [31] scales_0.4.1          pcaMethods_1.69.0     codetools_0.2-15     
+## [34] htmltools_0.3.6       mzID_1.15.0           colorspace_1.3-2     
+## [37] stringi_1.1.5         affy_1.55.0           doParallel_1.0.10    
+## [40] lazyeval_0.2.0        munsell_0.4.3         vsn_3.45.0           
+## [43] affyio_1.47.0</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
-<html><body><a href="#references" class="anchor"> </a></body></html>References</h1>
+<a href="#references" class="anchor"></a>References</h1>
 <div id="refs" class="references">
 <div id="ref-Gentleman2004">
 <p>Gentleman, Robert C., Vincent J. Carey, Douglas M. Bates, Ben Bolstad, Marcel Dettling, Sandrine Dudoit, Byron Ellis, et al. 2004. “Bioconductor: Open Software Development for Computational Biology and Bioinformatics.” <em>Genome Biol</em> 5 (10): –80. doi:<a href="https://doi.org/10.1186/gb-2004-5-10-r80">10.1186/gb-2004-5-10-r80</a>.</p>

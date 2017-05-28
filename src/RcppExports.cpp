@@ -17,3 +17,26 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+
+RcppExport SEXP Multi_Spectrum1_constructor_mz_sorted(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+RcppExport SEXP Multi_Spectrum2_constructor_mz_sorted(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+RcppExport SEXP Spectrum1_constructor(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+RcppExport SEXP Spectrum1_constructor_mz_sorted(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+RcppExport SEXP Spectrum2_constructor(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+RcppExport SEXP Spectrum2_constructor_mz_sorted(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+
+static const R_CallMethodDef CallEntries[] = {
+    {"MSnbase_imp_neighbour_avg", (DL_FUNC) &MSnbase_imp_neighbour_avg, 2},
+    {"Multi_Spectrum1_constructor_mz_sorted", (DL_FUNC) &Multi_Spectrum1_constructor_mz_sorted, 15},
+    {"Multi_Spectrum2_constructor_mz_sorted", (DL_FUNC) &Multi_Spectrum2_constructor_mz_sorted, 21},
+    {"Spectrum1_constructor",                 (DL_FUNC) &Spectrum1_constructor,                 14},
+    {"Spectrum1_constructor_mz_sorted",       (DL_FUNC) &Spectrum1_constructor_mz_sorted,       14},
+    {"Spectrum2_constructor",                 (DL_FUNC) &Spectrum2_constructor,                 20},
+    {"Spectrum2_constructor_mz_sorted",       (DL_FUNC) &Spectrum2_constructor_mz_sorted,       20},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_MSnbase(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}
