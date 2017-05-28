@@ -187,9 +187,10 @@ naplot <- function(object, verbose = isMSnbaseVerbose(), ...) {
     on.exit(par(op))
     zones <- matrix(c(2,0,1,3), ncol = 2, byrow = TRUE)
     layout(zones, widths = c(4/5, 1/5), heights = c(1/5, 4/5))
-    features.na <- apply(exprs(object), 1, function(x) sum(is.na(x)))
+    mNA <- is.na(exprs(object))
+    features.na <- rowSums(mNA)
+    samples.na <- colSums(mNA)
     xo <- order(features.na)
-    samples.na <- apply(exprs(object), 2, function(x) sum(is.na(x)))
     yo <- order(samples.na)
     object <- object[xo, yo]
     par(mar = c(3,3,1,1))
