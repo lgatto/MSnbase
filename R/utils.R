@@ -1057,3 +1057,30 @@ countAndPrint <- function(x) {
   if (inherits(object, "OnDiskMSnExp")) msLevel(object)[1]
   else msLevel(object[[1]])
 }
+
+#' @title Define the type of mzR backend to use based on the file name
+#'
+#' @description Simple helper to define the mzR backend that should/can be used
+#'     to read the file.
+#'
+#' @param x \code{character(1)} representing the file name.
+#'
+#' @return A \code{character(1)} with the name of the backend (either
+#'     \code{"netCDF"}, \code{"Ramp"} or \code{"pwiz"}.
+#' 
+#' @author Johannes Rainer
+#'
+#' @noRd
+mzRBackend <- function(x) {
+    backends <- c(pwiz = "\\.mzml($|\\.)|\\.mzxml($|\\.)",
+                  Ramp = "\\.mzdata($|\\.)",
+                  netCDF = "\\.cdf($|\\.)|\\.nc($|\\.)")
+    matches <- sapply(backends, function(z) grep(z, x, ignore.case = TRUE),
+                      simplify = FALSE)
+    backend <- names(matches)[lengths(matches) > 0]
+    if (length(backend))
+        backend
+    else
+        stop("Unknown file type for ", x)
+}
+
