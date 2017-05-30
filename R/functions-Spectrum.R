@@ -404,6 +404,9 @@ estimateNoise_Spectrum <- function(object,
 pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
                                method = c("MAD", "SuperSmoother"),
                                SNR = 0L, ignoreCentroided = FALSE,
+                               refineMethod = c("none", "neighbors",
+                                                "descendPeak"),
+                               n = 2L, signalPercentage = 33, stopAtTwo = FALSE,
                                ...) {
     if (isEmpty(object)) {
         warning("Your spectrum is empty. Nothing to pick.")
@@ -427,8 +430,12 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
 
     peakIdx <- which(isAboveNoise & isLocalMaxima)
 
-    object@mz <- object@mz[peakIdx]
-    object@intensity <- object@intensity[peakIdx]
+    pks <- .refinePeaks(mz = object@mz, intensity = object@intensity,
+                        peakIdx = peakIdx, refineMethod = refineMethod,
+                        n = n, signalPercentage = signalPercentage,
+                        stopAtTwo = stopAtTwo)
+    object@mz <- pks[, 1]
+    object@intensity <- pks[, 2]
     object@peaksCount <- length(peakIdx)
     object@tic <- sum(intensity(object))
     object@centroided <- TRUE
@@ -493,4 +500,178 @@ validSpectrum <- function(object) {
         msg <- validMsg(msg, "MZ values are out of order.")
     if (is.null(msg)) TRUE
     else stop(msg)
+}
+
+#' @description Refine mass peaks centroids.
+#'
+#' @details \code{refineMethod = "none"} does just return the mz value at the
+#'     peak position while all other methods calculate an intensity-weighted
+#'     mean of mz values of the mass peak. The methods differ in the definition
+#'     of which mz values are considered in the weighted mean calculation.
+#'     \code{refineMethod = "neighbors"} uses the \code{n} neighboring mz values
+#'     with \code{n} defining the number of mz values on each side of the peak
+#'     position.
+#'     \code{refineMethod = "descendPeak"}: the peak region is defined by
+#'     descending the peak position on both sides and stoping once the signal
+#'     increases again. Within that region all measurements with an intensity
+#'     at least \code{signalPercentage} of the peak intensity are used for the
+#'     peak integration.
+#' 
+#' @param mz \code{numeric} with the mz values within a spectrum.
+#'
+#' @param peakIdx \code{integer} with the indices of the identified mass peaks.
+#'
+#' @param intensity \code{numeric} with the intensities within the spectrum.
+#'
+#' @param refineMethod \code{character} specifying the method to be used for
+#'     mz value refinement. See details for more information.
+#' 
+#' @param n \code{integer(1)}: number of values left and right of the
+#'     peak that should be considered in the weighted mean calculation. Only
+#'     used if \code{refineMethod = "neighbors"}.
+#'
+#' @param signalPercentage \code{numeric(1)} with the percentage of the peak
+#'     intensity above which neighboring mz values are included in the weighted
+#'     mean calculation. Only used if \code{refineMethod = "descendPeak"}.
+#'
+#' @param stopAtTwo for \code{refineMethod = "descendPeak"}: \code{logical(1)}
+#'     indicating whether the peak descending should only stop if two
+#'     consecutive measurements with increasing (or same) signal are
+#'     encountered.
+#'
+#' @param aggregateIntensity \code{function} to be used to aggregate the
+#'     intensity values for a peak.
+#' 
+#' @return A \code{matrix} with columns \code{"mz"} and \code{"intensity"}
+#'     with the mz and intensity values of the refined peaks.
+#' 
+#' @author Johannes Rainer
+#'
+#' @noRd
+#'
+#' @examples
+#' ints <- c(5, 8, 12, 7, 4, 9, 15, 16, 11, 8, 3, 2, 3, 9, 12, 14, 13, 8, 3)
+#' mzs <- 1:length(ints)
+#'
+#' plot(mzs, ints, type = "l")
+#'
+#' peak_idx <- c(3, 8, 16)
+#' points(mzs[peak_idx], ints[peak_idx])
+#'
+#' ## Just extract the mz for the peaks
+#' .refinePeaks(mz = mzs, peakIdx = peak_idx, intensity = ints)
+#'
+#' ## Use the weighted average considering the adjacent mz
+#' mzs_2 <- .refinePeaks(mz = mzs, peakIdx = peak_idx, intensity = ints,
+#'     refineMethod = "neighbors", n = 1)
+#' abline(v = mzs_2[, 1], col = "red")
+#'
+#' ## Use the weighted average considering the neighboring values above a
+#' ## certain threshold
+#' mzs_3 <- .refinePeaks(mz = mzs, peakIdx = peak_idx, intensity = ints,
+#'     refineMethod = "descendPeak", signalPercentage = 50)
+#' abline(v = mzs_3[, 1], col = "blue")
+#'
+#' mzs_3
+#' ## Data points to be considered for the second peak:
+#' ## 1) descending the peak:
+#' idx <- c(5, 6, 7, 8, 9, 10, 11, 12)
+#'
+#' ## Check if that is correct:
+#' a <- .refinePeaks(mz = mzs, peakIdx = peak_idx[2], intensity = ints,
+#'     refineMethod = "descendPeak", signalPercentage = 0)
+#' b <- weighted.mean(mzs[idx], ints[idx])
+#' a[1, 1] == b
+#'
+#' ## 2) measurements with a signal > 50% of max signal
+#' idx <- idx[ints[idx] > ints[peak_idx[2]] * 50/100]
+#' b <- weighted.mean(mzs[idx], ints[idx])
+#' mzs_3[2, 1] == b
+#'
+#'
+#' ## Second example to illustrate "stopAtTwo"
+#' ints <- c(5, 3, 2, 3, 1, 2, 4, 6, 8, 11, 4, 7, 5, 2, 1, 0, 1, 0, 1, 1, 1, 0)
+#' mzs <- 1:length(ints)
+#'
+#' plot(mzs, ints, type = "l")
+#' ## The up-down at the end will prevent the descending to stop, but, in the
+#' ## worst case scenario (no two incresing intensities) the peak region will
+#' ## stop after 30 measurments.
+#'
+#' ## Stopping at the first increasing signal
+#' pks <- .refinePeaks(mzs, intensity = ints, peakIdx = 10,
+#'     refineMethod = "descendPeak", signalPercentage = 0, stopAtTwo = FALSE)
+#' abline(v = pks[, 1], col = "blue")
+#' idx <- 5:11
+#' abline(v = range(idx), col = "blue", lty = 3)
+#' a <- weighted.mean(mzs[idx], ints[idx])
+#' a == pks[1, 1]
+#'
+#' ## Repeat with stopAtTwo = TRUE
+#' pks <- .refinePeaks(mzs, intensity = ints, peakIdx = 10,
+#'     refineMethod = "descendPeak", signalPercentage = 0, stopAtTwo = TRUE)
+#' abline(v = pks[, 1], col = "red")
+#'
+#' idx <- 3:18
+#' abline(v = range(idx), col = "red", lty = 3)
+#' b <- weighted.mean(mzs[idx], ints[idx])
+#' b == pks[1, 1]
+.refinePeaks <- function(mz, intensity, peakIdx,
+                         refineMethod = c("none", "neighbors", "descendPeak"),
+                         n = 2, signalPercentage = 33, stopAtTwo = FALSE,
+                         aggregateIntensity = max) {
+    refineMethod <- match.arg(refineMethod)
+    if (length(peakIdx) == 0)
+        return(cbind(mz = mz[peakIdx], intensity = intensity[peakIdx]))
+    if (refineMethod == "none")
+        return(cbind(mz = mz[peakIdx], intensity = intensity[peakIdx]))
+    if (refineMethod == "neighbors") {
+        len <- length(mz)
+        mzs <- lapply(peakIdx, function(z) {
+            idxs <- max(1, z - n):min(len, z + n)
+            c(mz = weighted.mean(x = mz[idxs], w = intensity[idxs]),
+              intensity = aggregateIntensity(intensity[idxs], na.rm = TRUE))
+        })
+        return(do.call(rbind, mzs))
+    }
+    if (refineMethod == "descendPeak") {
+        len <- length(mz)
+        signalPercentage = signalPercentage / 100
+        ## Define the index of values to include.
+        mzs <- lapply(peakIdx, function(z) {
+            ## Define the region of interest in which we will search for signal
+            ## larger than the threshold.
+            ## 1) Ensure that the region we consider is symmetric around the
+            ##    peak - important at the edges.
+            from_to <- c(max(1, z - 30), min(len, z + 30))
+            radius <- min(abs(from_to - z))
+            to_idx <- z + radius
+            ## 2) Restrict the region to the area with monotonically decreasing
+            ##    signal (from the apex).
+            tmp_idx <- z:to_idx
+            sign_change <- diff(intensity[tmp_idx]) >= 0
+            ## Allow a single increasing measurement and stop descending if
+            ## there are two consecutive increasing values.
+            if (stopAtTwo)
+                sign_change <- sign_change & c(sign_change[-1], TRUE)
+            if (any(sign_change))
+                to_idx <- tmp_idx[which.max(sign_change)]
+            ## Same for the first half.
+            from_idx <- z - radius
+            tmp_idx <- z:from_idx
+            sign_change <- diff(intensity[tmp_idx]) >= 0
+            if (stopAtTwo)
+                sign_change <- sign_change & c(sign_change[-1], TRUE)
+            if (any(sign_change))
+                from_idx <- tmp_idx[which.max(sign_change)]
+            ## Define the peak threshold
+            peak_thr <- intensity[z] * signalPercentage
+            ## Define which values in the region are above the threshold.
+            roi <- from_idx:to_idx
+            idxs <- roi[which(intensity[roi] > peak_thr)]
+            c(mz = weighted.mean(x = mz[idxs], w = intensity[idxs]),
+              intensity = aggregateIntensity(intensity[idxs], na.rm = TRUE))
+        })
+        return(do.call(rbind, mzs))        
+    }
 }
