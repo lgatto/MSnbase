@@ -382,27 +382,53 @@ test_that(".topIdx", {
                c(10, 7, 8, 5, 9, 6))
 })
 
-test_that("mzRBackend works", {
-    res <- MSnbase:::mzRBackend("test.mzml")
+test_that(".mzRBackend works", {
+    res <- MSnbase:::.mzRBackend("test.mzml")
     expect_equal(res, "pwiz")
-    res <- MSnbase:::mzRBackend("test.mzml.gz")
+    res <- MSnbase:::.mzRBackend("test.mzml.gz")
     expect_equal(res, "pwiz")
-    res <- MSnbase:::mzRBackend("test.mzML")
+    res <- MSnbase:::.mzRBackend("test.mzML")
     expect_equal(res, "pwiz")
-    res <- MSnbase:::mzRBackend("test.mzML.bz2")
+    res <- MSnbase:::.mzRBackend("test.mzML.bz2")
     expect_equal(res, "pwiz")
-    res <- MSnbase:::mzRBackend("test.mzXML")
+    res <- MSnbase:::.mzRBackend("test.mzXML")
     expect_equal(res, "pwiz")
 
-    res <- MSnbase:::mzRBackend("test.mzdata")
+    res <- MSnbase:::.mzRBackend("test.mzdata")
     expect_equal(res, "Ramp")
-    res <- MSnbase:::mzRBackend("test.mzdata.gz")
+    res <- MSnbase:::.mzRBackend("test.mzdata.gz")
     expect_equal(res, "Ramp")
     
-    res <- MSnbase:::mzRBackend("test.cdf")
+    res <- MSnbase:::.mzRBackend("test.cdf")
     expect_equal(res, "netCDF")
-    res <- MSnbase:::mzRBackend("test.cdf.gz")
+    res <- MSnbase:::.mzRBackend("test.cdf.gz")
     expect_equal(res, "netCDF")
 
-    expect_error(MSnbase:::mzRBackend("unsupported.txt"))
+    expect_error(MSnbase:::.mzRBackend("unsupported.txt"))
+    expect_error(MSnbase:::.mzRBackend())
+    expect_error(MSnbase:::.mzRBackend(""))
+    expect_error(MSnbase:::.mzRBackend(c("a.mzML", "b.mzML")))
 })
+
+test_that(".openMSfile works", {
+    file <- system.file("microtofq", "MM14.mzML", package = "msdata")
+    res <- MSnbase:::.openMSfile(file)
+    expect_true(is(res, "mzRpwiz"))
+    close(res)
+    file <- system.file("threonine", "threonine_i2_e35_pH_tree.mzXML",
+                        package = "msdata")
+    res <- MSnbase:::.openMSfile(file)
+    expect_true(is(res, "mzRpwiz"))
+    close(res)
+    file <- system.file("microtofq", "MM14.mzdata", package = "msdata")
+    res <- MSnbase:::.openMSfile(file)
+    expect_true(is(res, "mzRramp"))
+    close(res)
+
+    ## Errors
+    expect_error(MSnbase:::.openMSfile(c("a", "b")))
+    file <- c(system.file("microtofq", "MM14.mzML", package = "msdata"),
+              system.file("microtofq", "MM14.mzdata", package = "msdata"))
+    expect_error(MSnbase:::.openMSfile(file))
+})
+

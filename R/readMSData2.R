@@ -25,7 +25,7 @@ readMSData2 <- function(files,
         filenums <- c(filenums, filen)
         filenams <- c(filenams, f)
         ## issue #214: define backend based on file format.
-        msdata <- mzR::openMSfile(f, backend = mzRBackend(f))
+        msdata <- .openMSfile(f)
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
         spidx <- seq_len(nrow(fullhd))

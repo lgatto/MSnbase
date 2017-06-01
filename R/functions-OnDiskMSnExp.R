@@ -233,7 +233,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         stop("Both 'fData' and 'filenames' are required!")
     filename <- filenames[fData[1, "fileIdx"]]
     ## issue #214: define backend based on file format.
-    fileh <- mzR::openMSfile(filename, backend = mzRBackend(filename))
+    fileh <- .openMSfile(filename)
     ## hd <- header(fileh)
     on.exit(expr = mzR::close(fileh))
     ## Intermediate #151 fix. Performance-wise would be nice to get rid of this.
@@ -369,7 +369,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         stop("Both 'fData' and 'filenames' are required!")
     filename <- filenames[fData[1, "fileIdx"]]
     ## Open the file.
-    fileh <- mzR::openMSfile(filename)
+    fileh <- .openMSfile(filename)
     hd <- header(fileh)
     on.exit(expr = mzR::close(fileh))
     msLevel1 <- which(fData$msLevel == 1)

@@ -1068,19 +1068,39 @@ countAndPrint <- function(x) {
 #' @return A \code{character(1)} with the name of the backend (either
 #'     \code{"netCDF"}, \code{"Ramp"} or \code{"pwiz"}.
 #' 
-#' @author Johannes Rainer
+#' @author Johannes Rainer, Sebastian Gibb
 #'
 #' @noRd
-mzRBackend <- function(x) {
-    backends <- c(pwiz = "\\.mzml($|\\.)|\\.mzxml($|\\.)",
-                  Ramp = "\\.mzdata($|\\.)",
-                  netCDF = "\\.cdf($|\\.)|\\.nc($|\\.)")
-    matches <- sapply(backends, function(z) grep(z, x, ignore.case = TRUE),
-                      simplify = FALSE)
-    backend <- names(matches)[lengths(matches) > 0]
-    if (length(backend))
-        backend
-    else
-        stop("Unknown file type for ", x)
+.mzRBackend <- function(x = character()) {
+    if (length(x) != 1)
+        stop("parameter 'x' has to be of length 1")
+    ## Use if/else conditions based on a suggestion from sgibb to avoid loops.
+    if (grepl("\\.mzml($|\\.)|\\.mzxml($|\\.)", x, ignore.case = TRUE)) {
+        return("pwiz")
+    } else if (grepl("\\.mzdata($|\\.)", x, ignore.case = TRUE)) {
+        return("Ramp")
+    } else if (grepl("\\.cdf($|\\.)|\\.nc($|\\.)", x, ignore.case = TRUE)) {
+        return("netCDF")
+    } else {
+        stop("Could not determine file type for ", x)
+    }
+}
+
+#' @title Open an MS file using the mzR package
+#'
+#' @description Opens an MS file using the mzR package determining the corrent
+#'     backend based on the file ending of the specified file.
+#'
+#' @param x \code{character(1)}: the file name.
+#'
+#' @return A file handle to the opened MS file.
+#'
+#' @author Johannes Rainer
+#' 
+#' @noRd
+.openMSfile <- function(x) {
+    if(missing(x) || length(x) != 1)
+        stop("parameter 'x' has to be of length 1")
+    mzR::openMSfile(x, backend = .mzRBackend(x))
 }
 
