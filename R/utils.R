@@ -1099,7 +1099,7 @@ countAndPrint <- function(x) {
 #' 
 #' @noRd
 .openMSfile <- function(x) {
-    if(missing(x) || length(x) != 1)
+    if (missing(x) || length(x) != 1)
         stop("parameter 'x' has to be of length 1")
     mzR::openMSfile(x, backend = .mzRBackend(x))
 }

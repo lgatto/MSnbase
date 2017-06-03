@@ -45,7 +45,7 @@ test_that("chomatogram methods", {
     f <- dir(system.file("microtofq", package = "msdata"),
              full.names = TRUE, pattern = "MM8.mzML")
     library("mzR")
-    ## Note: this does NOT work yet with backend = "pwiz"!
+    ## Note: this does NOT work yet with backend = "pwiz"! (issue #218)
     ms <- openMSfile(f, backend = "Ramp")
     ch1 <- chromatogram(f, plot = FALSE)
     ch2 <- chromatogram(ms, plot = FALSE)
@@ -59,7 +59,7 @@ test_that("chomatogram methods", {
 test_that("xic", {
     f <- dir(system.file("microtofq", package = "msdata"),
              full.names = TRUE, pattern = "MM8.mzML")
-    ## Note: this does NOT work yet with backend = "pwiz"!
+    ## Note: this does NOT work yet with backend = "pwiz"! (issue #218)
     ms <- openMSfile(f, backend = "Ramp")
 
     expect_error(xic(ms))
