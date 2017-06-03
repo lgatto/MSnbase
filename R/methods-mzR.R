@@ -43,7 +43,7 @@ setMethod("chromatogram", "character",
                    plot = TRUE,
                    ms = 1L,
                    ...) {
-              object <- openMSfile(object)
+              object <- .openMSfile(object)
               on.exit(close(object))
               hd <- header(object)
               f <- basename(fileName(object))
@@ -88,6 +88,6 @@ setMethod("xic", "mzRramp",
 
 setMethod("xic", "character",
           function(object, ...) {
-              object <- openMSfile(object)
+              object <- .openMSfile(object)
               xic_1(object, ...)
           })

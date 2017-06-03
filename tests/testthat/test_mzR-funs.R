@@ -36,7 +36,8 @@ test_that(".chomatogram function", {
     expect_identical(nrow(x), length(ms))
     expect_identical(colnames(x), c("rt", "tic"))
     expect_identical(x$rt, hd$retentionTime)
-    expect_equal(x$tic, 100 * hd$totIonCurrent/ max(hd$totIonCurrent))    
+    expect_equal(x$tic, 100 * hd$totIonCurrent/ max(hd$totIonCurrent))
+    close(ms)
 })
 
 
@@ -44,23 +45,27 @@ test_that("chomatogram methods", {
     f <- dir(system.file("microtofq", package = "msdata"),
              full.names = TRUE, pattern = "MM8.mzML")
     library("mzR")
-    ms <- openMSfile(f)
+    ## Note: this does NOT work yet with backend = "pwiz"!
+    ms <- openMSfile(f, backend = "Ramp")
     ch1 <- chromatogram(f, plot = FALSE)
     ch2 <- chromatogram(ms, plot = FALSE)
     expect_identical(ch1, ch2)
     hd <- header(ms)
     ch3 <- MSnbase:::.chromatogram(hd, plot = FALSE)
     expect_identical(ch1, ch3)
+    close(ms)
 })
 
 test_that("xic", {
     f <- dir(system.file("microtofq", package = "msdata"),
              full.names = TRUE, pattern = "MM8.mzML")
-    ms <- openMSfile(f)
+    ## Note: this does NOT work yet with backend = "pwiz"!
+    ms <- openMSfile(f, backend = "Ramp")
 
     expect_error(xic(ms))
     expect_warning(xicres <- xic(ms, mz = 636.925, width = 0.01, plot = FALSE))
     xicres1 <- xic(ms, mz = 636.925)
     xicres2 <- xic(f, mz = 636.925)
     expect_identical(xicres1, xicres2)
+    close(ms)
 })
