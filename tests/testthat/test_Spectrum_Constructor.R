@@ -126,6 +126,46 @@ test_that("C-level multi-Spectrum1 constructor with M/Z ordering", {
         expect_identical(mz(spectL[[i]]), mzValsList[[i]][idxList[[i]]])
         expect_identical(intensity(spectL[[i]]), intValsList[[i]][idxList[[i]]])
     }
+
+    ## Check empty spectra.
+    ## Spectrum1
+    mzVals <- sort(abs(rnorm(200, mean = 100, sd = 10)))
+    intVals <- abs(rnorm(200, mean = 10, sd = 5))
+    nVals <- c(50, 0, 0, 20, 0, 100, 0, 30, 0)
+    rts <- c(1, 2, 3, 4, 5, 6, 7, 8, 9)
+    res <- MSnbase:::Spectra1_mz_sorted(rt = rts,
+                                        acquisitionNum = 1:length(nVals),
+                                        mz = mzVals, intensity = intVals,
+                                        nvalues = nVals)
+    expect_equal(length(res), length(nVals))
+    expect_equal(length(mz(res[[2]])), 0)
+    expect_equal(length(mz(res[[4]])), 20)
+    expect_equal(mz(res[[4]]), mzVals[51:70])
+
+    ## If nVals does NOT match mz
+    nVals_err <- c(50, 0, 0, 20, 0, 100, 0, 30, 4)
+    expect_error(MSnbase:::Spectra1_mz_sorted(rt = rts,
+                                              acquisitionNum = 1:length(nVals),
+                                              mz = mzVals, intensity = intVals,
+                                              nvalues = nVals_err))
+    
+    ## Spectrum2
+    mzVals <- sort(abs(rnorm(200, mean = 100, sd = 10)))
+    intVals <- abs(rnorm(200, mean = 10, sd = 5))
+    nVals <- c(50, 0, 0, 20, 0, 100, 0, 30, 0)
+    rts <- c(1, 2, 3, 4, 5, 6, 7, 8, 9)
+    res <- MSnbase:::Spectra2_mz_sorted(rt = rts,
+                                        acquisitionNum = 1:length(nVals),
+                                        mz = mzVals, intensity = intVals,
+                                        nvalues = nVals)
+    expect_equal(length(res), length(nVals))
+    expect_equal(length(mz(res[[2]])), 0)
+    expect_equal(length(mz(res[[4]])), 20)
+    expect_equal(mz(res[[4]]), mzVals[51:70])
+    expect_error(MSnbase:::Spectra2_mz_sorted(rt = rts,
+                                              acquisitionNum = 1:length(nVals),
+                                              mz = mzVals, intensity = intVals,
+                                              nvalues = nVals_err))
 })
 
 
