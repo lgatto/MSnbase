@@ -174,31 +174,44 @@ imageNA2 <- function(object, pcol,
 ##'
 ##' @title Overview of missing value
 ##' @param object An object of class \code{MSnSet}.
-##' @param verbose If verbose (default is \code{TRUE}), print a table
-##'     of missing values.
+##' @param verbose If verbose (default is \code{isMSnbaseVerbose()}), print a
+##'     table of missing values.
+##' @param reorderRows If reorderRows (default is \code{TRUE}) rows are ordered
+##'     by number of NA.
+##' @param reorderColumns If reorderColumns (default is \code{TRUE}) columns
+##'     are ordered by number of NA.
 ##' @param ... Additional parameters passed to \code{image2}.
 ##' @return Used for its side effect. Invisibly returns \code{NULL}
 ##' @author Laurent Gatto
 ##' @examples
 ##' data(naset)
 ##' naplot(naset)
-naplot <- function(object, verbose = isMSnbaseVerbose(), ...) {
-    op <- par(no.readonly = TRUE)
+naplot <- function(object, verbose=isMSnbaseVerbose(),
+                   reorderRows=TRUE, reorderColumns=TRUE, ...) {
+    op <- par(no.readonly=TRUE)
     on.exit(par(op))
-    zones <- matrix(c(2,0,1,3), ncol = 2, byrow = TRUE)
-    layout(zones, widths = c(4/5, 1/5), heights = c(1/5, 4/5))
+    zones <- matrix(c(2,0,1,3), ncol=2, byrow=TRUE)
+    layout(zones, widths=c(4/5, 1/5), heights=c(1/5, 4/5))
     mNA <- is.na(exprs(object))
     features.na <- rowSums(mNA)
     samples.na <- colSums(mNA)
-    xo <- order(features.na)
-    yo <- order(samples.na)
+    if (reorderRows) {
+      xo <- order(features.na)
+    } else {
+      xo <- 1L:nrow(object)
+    }
+    if (reorderColumns) {
+      yo <- order(samples.na)
+    } else {
+      yo <- 1L:ncol(object)
+    }
     object <- object[xo, yo]
-    par(mar = c(3,3,1,1))
+    par(mar=c(3,3,1,1))
     image2(object, ...)
-    par(mar = c(0,3,1,1))
-    barplot(sort(samples.na), space=0, xaxt = "n", xaxs = "i")
-    par(mar = c(3,0,1,1))
-    barplot(sort(features.na), space=0, horiz=TRUE, yaxt = "n", yaxs="i")
+    par(mar=c(0,3,1,1))
+    barplot(sort(samples.na), space=0, xaxt="n", xaxs="i")
+    par(mar=c(3,0,1,1))
+    barplot(sort(features.na), space=0, horiz=TRUE, yaxt="n", yaxs="i")
     if (verbose) {
         print(table(features.na))
         print(table(samples.na))
