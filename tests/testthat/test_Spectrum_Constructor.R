@@ -30,6 +30,7 @@ test_that("Spectrum1 constructor", {
 })
 
 test_that("M/Z sorted Spectrum1 constructor", {
+    set.seed(123)
     mzVals <- abs(rnorm(3500, mean = 100, sd = 10))
     intVals <- abs(rnorm(3500, mean = 10, sd = 5))
 
@@ -69,6 +70,7 @@ test_that("M/Z sorted Spectrum1 constructor", {
 ## o Check that classVersions are properly set.
 test_that("C-level multi-Spectrum1 constructor with M/Z ordering", {
     ## Use Spectra1_mz_sorted constructor.
+    set.seed(123)
     mzVals <- abs(rnorm(20000, mean = 10, sd = 10))
     intVals <- abs(rnorm(20000, mean = 1000, sd = 1000))
     rts <- c(1.3, 1.4, 1.5, 1.6)
@@ -160,6 +162,7 @@ test_that("C-level multi-Spectrum1 constructor with M/Z ordering", {
 
 ## M/Z sorted Spectrum2 constructor.
 test_that("M/Z sorted Spectrum2 constructor", {
+    set.seed(123)
     mzVals <- abs(rnorm(3500, mean = 100, sd = 10))
     intVals <- abs(rnorm(3500, mean = 10, sd = 5))
 
@@ -216,6 +219,7 @@ test_that("M/Z sorted Spectrum2 constructor", {
 ## o Check that the Spectrum values are as expected.
 test_that("C-level multi-Spectrum2 constructor with M/Z ordering", {
     ## Use Spectra2_mz_sorted constructor.
+    set.seed(123)
     mzVals <- abs(rnorm(20000, mean = 10, sd = 10))
     intVals <- abs(rnorm(20000, mean = 1000, sd = 1000))
     rts <- c(1.3, 1.4, 1.5, 1.6)
