@@ -205,13 +205,12 @@ naplot <- function(object, verbose=isMSnbaseVerbose(),
     } else {
       yo <- 1L:ncol(object)
     }
-    object <- object[xo, yo]
     par(mar=c(3,3,1,1))
-    image2(object, ...)
+    image2(object[xo, yo], ...)
     par(mar=c(0,3,1,1))
-    barplot(sort(samples.na), space=0, xaxt="n", xaxs="i")
+    barplot(samples.na[yo], space=0, xaxt="n", xaxs="i")
     par(mar=c(3,0,1,1))
-    barplot(sort(features.na), space=0, horiz=TRUE, yaxt="n", yaxs="i")
+    barplot(features.na[xo], space=0, horiz=TRUE, yaxt="n", yaxs="i")
     if (verbose) {
         print(table(features.na))
         print(table(samples.na))
