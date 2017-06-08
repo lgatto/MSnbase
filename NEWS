@@ -1,3 +1,7 @@
+Changes in version 2.3.4
+------------------------
+- Nothing yet
+
 Changes in version 2.3.3
 ------------------------
 - Rewrite `getColsFromPattern` and `getRowsFromPattern` and add unit tests

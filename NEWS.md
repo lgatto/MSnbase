@@ -1,5 +1,8 @@
 # MSnbase 2.3
 
+## Changes in version 2.3.4
+- Nothing yet
+
 ## Changes in version 2.3.3
 - Rewrite `getColsFromPattern` and `getRowsFromPattern` and add unit tests
     <2017-05-11 Thu>.
