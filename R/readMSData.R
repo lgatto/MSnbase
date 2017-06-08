@@ -29,10 +29,8 @@ readMSData <- function(files,
         filen <- match(f, files)
         filenums <- c(filenums, filen)
         filenams <- c(filenams, f)
-        if (isCdfFile(f))
-            msdata <- mzR::openMSfile(f, backend = "netCDF")
-        else
-            msdata <- mzR::openMSfile(f)
+        ## issue #214: define backend based on file format.
+        msdata <- .openMSfile(f)
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
         spidx <- which(fullhd$msLevel == msLevel.)

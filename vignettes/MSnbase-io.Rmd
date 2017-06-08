@@ -1,11 +1,11 @@
 ---
-title: "*MSnbase* IO capabilities"
+title: "MSnbase IO capabilities"
 author: 
 - name: Laurent Gatto
   affiliation: Computational Proteomics Unit, Cambridge, UK.
 package: MSnbase
 abstract: >
-  This vignette describes `r Biocpkg("MSnbase")`'s input and output capabilities.
+  This vignette describes *MSnbase*'s input and output capabilities.
 bibliography: MSnbase.bib
 output:
   BiocStyle::html_document2:
