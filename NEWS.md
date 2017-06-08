@@ -1,5 +1,14 @@
 # MSnbase 2.3
 
+## Changes in version 2.3.3
+- Rewrite `getColsFromPattern` and `getRowsFromPattern` and add unit tests
+    <2017-05-11 Thu>.
+- Add `.filterNA` and rewrite `filterNA` for `matrix` and `MSnSet`
+  <2017-05-11 Thu>.
+- Convert main MSnbase-demo vignette to Rmd/html <2017-05-27 Sat>
+- `naplot` gains a `reorderRows` and `reorderColumns` argument
+  <2017-06-05 Mon>.
+
 ## Changes in version 2.3.2
 - Rewrite `utils.clean`. It now keeps just the zeros in the direct
   neighbourhood (see #210) <2017-05-04 Thu>.
