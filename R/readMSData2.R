@@ -53,10 +53,6 @@ readMSData2 <- function(files,
                         smoothed = rep(as.logical(smoothed.), nrow(fdData)),
                         fdData, stringsAsFactors = FALSE)
         if (!isCdfFile(f)) {
-            injt <- injectionTimeFromFile1(f)
-            if (is.numeric(injt) && length(injt) == nrow(fdData))
-                fdData$injectionTime <- injt
-        } else {
             ## Add the polarity columns if missing in netCDF
             if (!any(colnames(fdData) == "polarity"))
                 fdData <- cbind(fdData, polarity = rep(as.integer(NA),

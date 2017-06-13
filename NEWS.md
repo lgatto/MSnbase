@@ -1,7 +1,8 @@
 # MSnbase 2.3
 
 ## Changes in version 2.3.4
-- Nothing yet
+- Use the injection time from mzR (see PR #109) which in now in
+  seconds (was in milliseconds) <2017-06-13 Tue>
 
 ## Changes in version 2.3.3
 - Rewrite `getColsFromPattern` and `getRowsFromPattern` and add unit tests
