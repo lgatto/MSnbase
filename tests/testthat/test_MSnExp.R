@@ -386,3 +386,10 @@ test_that("pData<- on MSnExp works", {
     pData(msx) <- newDf
     expect_equal(pData(msx), newDf)
 })
+
+test_that("injection time", {
+    f <- msdata::proteomics(full.names = TRUE, pattern = "MS3")
+    it1 <- MSnbase:::injectionTimeFromFile1(f) ## in millisecs
+    it2 <- fData(readMSData2(f))$injectionTime ## in secs
+    expect_equal(it1/1000, it2)
+})

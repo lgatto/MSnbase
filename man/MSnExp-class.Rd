@@ -84,6 +84,10 @@
   spectra will be missing the \code{polarity} slot. Object can be
   appropriately updated using the \code{updateObject} method.
 
+  The feature variables in the feature data slot will depend on the
+  file. See also the documentation in the \code{mzR} package that parses
+  the raw data files and produces these data. 
+
 }
 
 
