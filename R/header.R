@@ -1,7 +1,7 @@
-## These data should eventually be extracted in mzR and added to the
-## default header
+## The injection time is now calculated in mzR and this function is
+## not used anymore. Keeping it for now.
 
-injectionTimeFromFile1 <- function(f) {
+injectionTimeFromFile1 <- function(f) { ## in milliseconds
     xvals <- vector("list", length = length(f))
     doc <- XML::xmlInternalTreeParse(f)
     namespaceDef <- XML::getDefaultNamespace(doc)
