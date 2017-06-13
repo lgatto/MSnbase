@@ -52,7 +52,7 @@ readMSData2 <- function(files,
                         centroided = rep(as.logical(NA), nrow(fdData)),
                         smoothed = rep(as.logical(smoothed.), nrow(fdData)),
                         fdData, stringsAsFactors = FALSE)
-        if (!isCdfFile(f)) {
+        if (isCdfFile(f)) {
             ## Add the polarity columns if missing in netCDF
             if (!any(colnames(fdData) == "polarity"))
                 fdData <- cbind(fdData, polarity = rep(as.integer(NA),
