@@ -1,5 +1,8 @@
 # MSnbase 2.3
 
+## Changes in version 2.3.5
+- Fix superscript syntax in demo vignette <2017-06-14 Wed>
+
 ## Changes in version 2.3.4
 - Use the injection time from mzR (see PR #109) which in now in
   seconds (was in milliseconds) <2017-06-13 Tue>
