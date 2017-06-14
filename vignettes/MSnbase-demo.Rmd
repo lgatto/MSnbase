@@ -267,7 +267,7 @@ by `r Biocpkg("mzR")`'s `openMSfile` (`mzML`,
 PRIDE repository and create\footnote{This code chunk is not evaluated
   to avoid repeated downloaded of the raw data file. The `M`
   map is provided with the package and loaded to evaluate subsequent
-  code chunks.} an *MSmap* containing all the MS$^1$ spectra
+  code chunks.} an *MSmap* containing all the MS1 spectra
 between acquired between 30 and 35 minutes and peaks between 521 and
 523 $m/z$. See `?MSmap` for details.
 
@@ -321,8 +321,8 @@ plot3D(M)
 
 
 To produce figure \@ref(fig:map3d2), we create a second *MSmap*
-object containing the first two MS$^1$ spectra of the first map
-(object `M` above) and all intermediate MS$^2$ spectra and
+object containing the first two MS1 spectra of the first map
+(object `M` above) and all intermediate MS2 spectra and
 display $m/z$ values between 100 and 1000.
 
 ```{r msmap2, eval=FALSE}
@@ -335,7 +335,7 @@ M2 <- MSmap(ms, i:j, 100, 1000, 1, hd)
 M2
 ```
 
-```{r map3d2, fig.cap = "3 dimensional represention of MS map data. MS$^1$ and MS$^2$ spectra are coloured in blue and magenta respectively."}
+```{r map3d2, fig.cap = "3 dimensional represention of MS map data. MS1 and MS2 spectra are coloured in blue and magenta respectively."}
 plot3D(M2)
 ```
 
@@ -670,7 +670,7 @@ spectrum/spectra, and return a updated, processed, object. The
 implementations originate from the \CRANpkg{MALDIquant} package
 [@Gibb2012].
 
-# MS$^2$ isobaric tagging quantitation {#sec:isoquant}
+# MS2 isobaric tagging quantitation {#sec:isoquant}
 
 ## Reporter ions quantitation {#sec:quant}
 
@@ -1083,7 +1083,7 @@ print(p)
 ```
 
 
-Additional dedicated normalisation method are available for MS$^2$
+Additional dedicated normalisation method are available for MS2
 label-free quantitation, as described in section \@ref(sec:lf) and in
 the `quantify` documentation.
 
@@ -1137,11 +1137,11 @@ qnt2 <- combineFeatures(qnt, groupBy = gb, fun = "median")
 qnt2
 ```
 
-# Label-free MS$^2$ quantitation {#sec:lf}
+# Label-free MS2 quantitation {#sec:lf}
 
 ## Peptide counting
 
-Note that if samples are not multiplexed, label-free MS$^2$
+Note that if samples are not multiplexed, label-free MS2
 quantitation by spectral counting is possible using
 `r Biocpkg("MSnbase")`. Once individual spectra have been assigned to
 peptides and proteins (see section \@ref(sec:id)), it becomes
@@ -1219,7 +1219,7 @@ two plots: the upper and lower panel contain respectively the first
 and second spectrum. Common peaks are drawn in a slightly darker
 colour.
 
-```{r compms2plot, fig.cap = "Comparing two MS$^2$ spectra."}		
+```{r compms2plot, fig.cap = "Comparing two MS2 spectra."}		
 centroided <- pickPeaks(itraqdata, verbose = FALSE)
 (k <- which(fData(centroided)[, "PeptideSequence"] == "TAGIQIVADDLTVTNPK"))
 mzk <- precursorMz(centroided)[k]
@@ -1593,10 +1593,10 @@ plot2D(avgtan, cex = 3 * disp)
 ```
 
 
-# MS$^E$ data processing {#sec:mse}
+# MS^E^ data processing {#sec:mse}
 
-`r Biocpkg("MSnbase")` can also be used for MS$^E$ data independent
-acquisition from Waters instrument.  The MS$^E$ pipeline depends on
+`r Biocpkg("MSnbase")` can also be used for MS^E^ data independent
+acquisition from Waters instrument.  The MS^E^ pipeline depends on
 the Bioconductor `r Biocpkg("synapter")` package [@Bond2013] that
 produces *MSnSet* instances for indvidual acquisitions. 
 The `r Biocpkg("MSnbase")` infrastructure can subsequently be used to
