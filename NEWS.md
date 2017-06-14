@@ -1,5 +1,8 @@
 # MSnbase 2.3
 
+## Changes in version 2.3.6
+- Nothing yet
+
 ## Changes in version 2.3.5
 - Fix superscript syntax in demo vignette <2017-06-14 Wed>
 
