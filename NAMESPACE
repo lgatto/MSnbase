@@ -241,8 +241,6 @@ exportMethods(updateObject,
               filterRt,
               filterFile,
               filterAcquisitionNum,
-              chromatogram,
-              xic,
               spectrapply,
               splitByFile,
               ## Features of interest
