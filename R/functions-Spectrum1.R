@@ -93,12 +93,15 @@ Spectra1_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
                                intensity = numeric(), fromFile = integer(),
                                centroided = NA, smoothed = NA,
                                polarity = NA_integer_, nvalues = integer()) {
-    if (length(mz) == 0 | length(intensity) == 0 | length(nvalues) == 0) {
-        stop("Arguments 'mz', 'intensity' and 'nvalues' are required!")
-    } else {
-        if (length(mz) != length(intensity))
-            stop("Lengths of 'mz' and 'intensity' do not match!")
-    }
+    ## Fix issue #215: remove check to allow empty spectra
+    ## if (length(mz) == 0 | length(intensity) == 0 | length(nvalues) == 0) {
+    ##     stop("Arguments 'mz', 'intensity' and 'nvalues' are required!")
+    ## }
+    if (sum(nvalues) != length(mz))
+        stop("Length of 'mz' does not match with the number of values per ",
+             "spectrum")
+    if (length(mz) != length(intensity))
+        stop("Lengths of 'mz' and 'intensity' do not match!")
     nvals <- length(nvalues)
     ## Now match all of the lengths to the length of nvalues.
     if (length(peaksCount) == 0)
