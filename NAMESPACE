@@ -125,7 +125,8 @@ export(MSnSet,
        setMSnbaseVerbose,
        setMSnbaseParallelThresh,
        ## ProcessingStep
-       executeProcessingStep
+       executeProcessingStep,
+       Chromatogram
        )
 
 exportClasses(pSet,
@@ -142,7 +143,8 @@ exportClasses(pSet,
               MSmap,
               MzTab,
               OnDiskMSnExp,
-              ProcessingStep)
+              ProcessingStep,
+              Chromatogram)
 
 exportMethods(updateObject,
               exprs,
@@ -268,7 +270,9 @@ exportMethods(updateObject,
               psms,
               pData, "pData<-",
               "$",
-              "$<-")
+              "$<-",
+              productMz,
+              aggregationFun)
 
 ## methods NOT exported
 ## curveStats
