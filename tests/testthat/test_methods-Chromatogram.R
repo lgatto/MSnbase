@@ -58,4 +58,47 @@ test_that("clean,Chromatogram works", {
     expect_equal(rtime(chr_2), c(2, 3, 7, 8, 10))
     chr_2 <- clean(chr, all = FALSE)
     expect_equal(intensity(chr_2), c(0, 3, 5, 0, 0, 8, 9, 0, 9))
+    
+    chr <- Chromatogram(
+        rtime = 1:12,
+        intensity = c(0, 0, 20, 0, 0, 0, 123, 124343, 3432, 0, 0, 0))
+    chr_clnd <- clean(chr)
+    expect_equal(rtime(chr_clnd), c(2, 3, 4, 6, 7, 8, 9,10))
+
+    chr_clnd <- clean(chr, all = TRUE)
+    checkTrue(length(chr_clnd) == 4)
+    expect_equal(rtime(chr_clnd), c(3, 7, 8, 9))
+
+    ## With NA
+    chr <- Chromatogram(
+        rtime = 1:12,
+        intensity = c(0, NA, 20, 0, 0, 0, 123, 124343, 3432, 0, 0, 0))
+    chr_clnd <- clean(chr)
+    expect_equal(rtime(chr_clnd), c(3, 4, 6, 7, 8, 9, 10))
+    chr <- Chromatogram(
+        rtime = 1:12,
+        intensity = c(NA, NA, 20, NA, NA, NA, 123, 124343, 3432, NA, NA, NA))
+    chr_clnd <- clean(chr)
+    expect_equal(rtime(chr_clnd), c(3, 7, 8, 9))
+})
+
+test_that("filterRt,Chromatogram works", {
+    int <- rnorm(100, mean = 200, sd = 2)
+    rt <- rnorm(100, mean = 300, sd = 3)
+    chr <- Chromatogram(intensity = int, rtime = sort(rt))
+
+    chr_2 <- filterRt(chr, rt = c(200, 300))
+    expect_true(all(rtime(chr_2) >= 200))
+    expect_true(all(rtime(chr_2) <= 300))
+    ints <- intensity(chr_2)
+    expect_equal(ints, intensity(chr)[rtime(chr) >= 200 & rtime(chr) <= 300])
+
+    ## No rt
+    expect_equal(chr, filterRt(chr))
+
+    ## Outside range
+    chr_2 <- filterRt(chr, rt = c(400, 500))
+    expect_true(length(chr_2) == 0)
+    expect_equal(intensity(chr_2), numeric())
+    expect_equal(rtime(chr_2), numeric())
 })
