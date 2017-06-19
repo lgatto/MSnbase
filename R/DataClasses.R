@@ -519,14 +519,11 @@ setClass("ProcessingStep",
 #' @rdname Chromatogram-class
 #' 
 #' @export
+#'
+#' @seealso \code{\link{Chromatograms}} for combining \code{Chromatogram} in
+#'     a two-dimensional matrix (rows being mz-rt ranges, columns samples).
 #' 
 #' @author Johannes Rainer
-#'
-#' @seealso \code{\link{extractChromatograms}} for the method to extract
-#'     \code{Chromatogram} objects from \code{\link{XCMSnExp}} or
-#'     \code{\link[MSnbase]{OnDiskMSnExp}} objects.
-#'
-#'     \code{\link{plotChromatogram}} to plot \code{Chromatogram} objects.
 setClass("Chromatogram",
          slots = c(
              rtime = "numeric",
@@ -550,5 +547,30 @@ setClass("Chromatogram",
              aggregationFun = character()
          ),
          validity = function(object)
-             validChromatogram(object)
+             .validChromatogram(object)
+         )
+
+#' @title Container for multiple Chromatogram objects
+#'
+#' @description The \code{Chromatograms} class allows to store
+#'     \code{\link{Chromatogram}} objects in a \code{matrix}-like
+#'     two-dimensional structure.
+#'
+#' @details The \code{Chromatograms} class extends the base \code{matrix} class
+#'     and hence allows to store \code{\link{Chromatogram}} objects in a
+#'     two-dimensional array. Each row is supposed to contain
+#'     \code{Chromatogram} objects for one MS data \code{slice} with a common
+#'     mz and rt range. Columns contain \code{Chromatogram} objects from the
+#'     same sample.
+#'
+#' @export
+#'
+#' @rdname Chromatograms-class
+#' 
+#' @author Johannes Rainer
+setClass("Chromatograms",
+         contains = "matrix",
+         prototype = matrix(ncol = 0, nrow = 0),
+         validity = function(object)
+             .validChromatograms(object)
          )

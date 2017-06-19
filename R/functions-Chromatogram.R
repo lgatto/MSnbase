@@ -18,7 +18,7 @@ names(.SUPPORTED_AGG_FUN_CHROM) <-
 #' @author Johannes Rainer
 #' 
 #' @noRd
-validChromatogram <- function(object) {
+.validChromatogram <- function(object) {
     msg <- character()
     if (length(object@rtime) != length(object@intensity))
         msg <- c(msg, "Length of 'rt' and 'intensity' have to match!")

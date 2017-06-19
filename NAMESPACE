@@ -126,7 +126,8 @@ export(MSnSet,
        setMSnbaseParallelThresh,
        ## ProcessingStep
        executeProcessingStep,
-       Chromatogram
+       Chromatogram,
+       Chromatograms
        )
 
 exportClasses(pSet,
@@ -144,7 +145,8 @@ exportClasses(pSet,
               MzTab,
               OnDiskMSnExp,
               ProcessingStep,
-              Chromatogram)
+              Chromatogram,
+              Chromatograms)
 
 exportMethods(updateObject,
               exprs,

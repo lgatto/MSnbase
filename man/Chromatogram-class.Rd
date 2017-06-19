@@ -203,13 +203,6 @@ intensity(chr)
 chr <- clean(chr, all = TRUE)
 intensity(chr)
 }
-\seealso{
-\code{\link{extractChromatograms}} for the method to extract
-    \code{Chromatogram} objects from \code{\link{XCMSnExp}} or
-    \code{\link[MSnbase]{OnDiskMSnExp}} objects.
-
-    \code{\link{plotChromatogram}} to plot \code{Chromatogram} objects.
-}
 \author{
 Johannes Rainer
 }
