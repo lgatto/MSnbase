@@ -48,7 +48,7 @@ Chromatogram(rtime = numeric(), intensity = numeric(), mz = c(NA_real_,
 
 \S4method{filterRt}{Chromatogram}(object, rt)
 
-\S4method{clean}{Chromatogram}(object, all = FALSE)
+\S4method{clean}{Chromatogram}(object, all = FALSE, na.rm = FALSE)
 }
 \arguments{
 \item{rtime}{\code{numeric} with the retention times (length has to be equal
@@ -95,6 +95,10 @@ upper retention time for the filtering.}
 
 \item{all}{For \code{clean}: \code{logical(1)} whether all \code{0} intensity
 value pairs should be removed (defaults to \code{FALSE}).}
+
+\item{na.rm}{For \code{clean}: \code{logical(1)} whether \code{NA} values
+should be removed before cleaning the chromatogram. Defaults to
+\code{FALSE}.}
 }
 \value{
 For \code{clean}: a \emph{cleaned} \code{Chromatogram} object.

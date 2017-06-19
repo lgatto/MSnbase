@@ -64,9 +64,9 @@ test_that("clean,Chromatogram works", {
         intensity = c(0, 0, 20, 0, 0, 0, 123, 124343, 3432, 0, 0, 0))
     chr_clnd <- clean(chr)
     expect_equal(rtime(chr_clnd), c(2, 3, 4, 6, 7, 8, 9,10))
-
+    expect_equal(intensity(chr_clnd), c(0, 20, 0, 0, 123, 124343, 3432, 0))
     chr_clnd <- clean(chr, all = TRUE)
-    checkTrue(length(chr_clnd) == 4)
+    expect_true(length(chr_clnd) == 4)
     expect_equal(rtime(chr_clnd), c(3, 7, 8, 9))
 
     ## With NA
@@ -74,11 +74,19 @@ test_that("clean,Chromatogram works", {
         rtime = 1:12,
         intensity = c(0, NA, 20, 0, 0, 0, 123, 124343, 3432, 0, 0, 0))
     chr_clnd <- clean(chr)
-    expect_equal(rtime(chr_clnd), c(3, 4, 6, 7, 8, 9, 10))
+    expect_equal(intensity(chr_clnd), c(NA, 20, 0, 0, 123, 124343, 3432, 0))
+    expect_equal(rtime(chr_clnd), c(2, 3, 4, 6, 7, 8, 9, 10))
+    chr_clnd <- clean(chr, na.rm = TRUE)
+    expect_equal(intensity(chr_clnd), c(0, 20, 0, 0, 123, 124343, 3432, 0))
+    expect_equal(rtime(chr_clnd), c(1, 3, 4, 6, 7, 8, 9, 10))
     chr <- Chromatogram(
         rtime = 1:12,
         intensity = c(NA, NA, 20, NA, NA, NA, 123, 124343, 3432, NA, NA, NA))
     chr_clnd <- clean(chr)
+    expect_equal(intensity(chr_clnd), c(NA, 20, NA, NA, 123, 124343, 3432, NA))
+    expect_equal(rtime(chr_clnd), c(2, 3, 4, 6, 7, 8, 9, 10))
+    chr_clnd <- clean(chr, na.rm = TRUE)
+    expect_equal(intensity(chr_clnd), c(20, 123, 124343, 3432))
     expect_equal(rtime(chr_clnd), c(3, 7, 8, 9))
 })
 

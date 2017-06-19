@@ -171,6 +171,10 @@ setMethod("filterRt", "Chromatogram", function(object, rt) {
 #' @param all For \code{clean}: \code{logical(1)} whether all \code{0} intensity
 #'     value pairs should be removed (defaults to \code{FALSE}).
 #'
+#' @param na.rm For \code{clean}: \code{logical(1)} whether \code{NA} values
+#'     should be removed before cleaning the chromatogram. Defaults to
+#'     \code{FALSE}.
+#' 
 #' @return For \code{clean}: a \emph{cleaned} \code{Chromatogram} object.
 #'
 #' @rdname Chromatogram-class
@@ -190,7 +194,12 @@ setMethod("filterRt", "Chromatogram", function(object, rt) {
 #' chr <- clean(chr, all = TRUE)
 #' intensity(chr)
 setMethod("clean", signature = signature("Chromatogram"),
-          function(object, all = FALSE) {
+          function(object, all = FALSE, na.rm = FALSE) {
+              if (na.rm) {
+                  not_na <- !is.na(object@intensity)
+                  object@intensity <- object@intensity[not_na]
+                  object@rtime <- object@rtime[not_na]
+              }
               keep <- utils.clean(object@intensity, all)
               object@intensity <- object@intensity[keep]
               object@rtime <- object@rtime[keep]
