@@ -8,8 +8,10 @@ setMethod("initialize", "Chromatogram", function(.Object, ...) {
 setMethod("show", "Chromatogram", function(object) {
     cat("Object of class: ", class(object), "\n", sep = "")
     if (length(object@aggregationFun))
-        cat(names(.SUPPORTED_AGG_FUN_CHROM)[.SUPPORTED_AGG_FUN_CHROM ==
-                                            object@aggregationFun], "\n")
+        cat("Intensity values aggregated using:", object@aggregationFun, "\n")
+    ## if (length(object@aggregationFun))
+    ##     cat(names(.SUPPORTED_AGG_FUN_CHROM)[.SUPPORTED_AGG_FUN_CHROM ==
+    ##                                         object@aggregationFun], "\n")
     cat("length of object: ", length(object@rtime), "\n", sep = "")
     cat("from file: ", object@fromFile, "\n", sep = "")
     cat("mz range: [", object@mz[1], ", ", object@mz[2], "]\n", sep = "")
