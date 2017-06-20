@@ -1,7 +1,8 @@
 context("readMSData2")
 
 test_that("msLevel set correctly", {
-    f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
+    f <- msdata::proteomics(full.names = TRUE,
+                            pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
     x <- readMSData2(f, verbose = FALSE)
     expect_equivalent(centroided(x), rep(NA, length(x)))
     x <- readMSData2(f, centroided = TRUE, verbose = FALSE)
@@ -52,8 +53,8 @@ test_that("Constructor performance and test for MS1 only", {
 
 test_that("Constructor performance and test for MSn", {
     ## Get the test data file.
-    mzf <- system.file("proteomics/TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz",
-                       package = "msdata")
+    mzf <- proteomics(full.name = TRUE,
+                      pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
     odmsn <- readMSData2(files = mzf, centroided = TRUE)
     featDat <- fData(odmsn)
     featDat <- featDat[featDat$fileIdx == 1, ]
