@@ -33,10 +33,10 @@ Authors@R: c(person(given = "Laurent", family = "Gatto",
              person(given = "Sebastian", family = "Gibb",
 	            email = "mail@sebastiangibb.de",
 		    role = c("aut", "cre")))
-Author: Laurent Gatto <lg390@cam.ac.uk> with contributions from
-    Guangchuang Yu, Samuel Wieczorek, Vasile-Cosmin Lazar,
-    Vladislav Petyuk, Thomas Naake, Richie Cotton, Martina Fisher,
-    Johannes Rainer	and Sebastian Gibb.
+Author: Laurent Gatto, Johannes Rainer and Sebastian Gibb with
+    contributions from Guangchuang Yu, Samuel Wieczorek, Vasile-Cosmin
+    Lazar, Vladislav Petyuk, Thomas Naake, Richie Cotton and Martina
+    Fisher.
 Maintainer: Laurent Gatto <lg390@cam.ac.uk>
 Depends:
     R (>= 3.1),
