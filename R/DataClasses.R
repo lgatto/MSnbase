@@ -597,6 +597,35 @@ setClass("Chromatogram",
 #'     \code{\linkS4class{OnDiskMSnExp}} object.
 #' 
 #' @author Johannes Rainer
+#'
+#' @examples
+#' ## Creating some chromatogram objects to put them into a Chromatograms object
+#' ints <- abs(rnorm(25, sd = 200))
+#' ch1 <- Chromatogram(rtime = 1:length(ints), ints)
+#' ints <- abs(rnorm(32, sd = 90))
+#' ch2 <- Chromatogram(rtime = 1:length(ints), ints)
+#' ints <- abs(rnorm(19, sd = 120))
+#' ch3 <- Chromatogram(rtime = 1:length(ints), ints)
+#' ints <- abs(rnorm(21, sd = 40))
+#' ch4 <- Chromatogram(rtime = 1:length(ints), ints)
+#'
+#' ## Create a Chromatograms object with 2 rows and 2 columns
+#' chrs <- Chromatograms(list(ch1, ch2, ch3, ch4), nrow = 2)
+#' chrs
+#'
+#' ## Extract the first element from the second column:
+#' chrs[1, 2]
+#'
+#' ## Extract the second row
+#' chrs[2, ]
+#'
+#' ## Extract the second row with drop = FALSE, i.e. return a Chromatograms
+#' ## object
+#' chrs[2, , drop = FALSE]
+#'
+#' ## Replace the first element
+#' chrs[1, 1] <- ch3
+#' chrs
 setClass("Chromatograms",
          contains = "matrix",
          prototype = matrix(ncol = 0, nrow = 0),

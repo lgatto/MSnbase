@@ -6,11 +6,17 @@
 \alias{Chromatograms-class}
 \alias{Chromatograms}
 \alias{show,Chromatograms-method}
+\alias{[,Chromatograms,ANY,ANY,ANY-method}
+\alias{[<-,Chromatograms-method}
 \title{Container for multiple Chromatogram objects}
 \usage{
 Chromatograms(data, ...)
 
 \S4method{show}{Chromatograms}(object)
+
+\S4method{[}{Chromatograms,ANY,ANY,ANY}(x, i, j, drop = TRUE)
+
+\S4method{[}{Chromatograms}(x, i, j) <- value
 }
 \arguments{
 \item{data}{A \code{list} of \code{\link{Chromatogram}} objects.}
@@ -19,6 +25,29 @@ Chromatograms(data, ...)
 constructor, such as \code{nrow}, \code{ncol} and \code{byrow}.}
 
 \item{object}{For \code{show}: a \code{Chromatograms} object.}
+
+\item{x}{For \code{[}: the \code{Chromatograms} object to subset.}
+
+\item{i}{For \code{[}: \code{numeric}, \code{logical} or \code{character}
+defining which row(s) to extract.}
+
+\item{j}{For \code{[}: \code{numeric}, \code{logical} or \code{character}
+defining which columns(s) to extract.}
+
+\item{drop}{For \code{[}: \code{logical(1)} whether to drop the
+dimensionality of the returned object (if possible).}
+
+\item{value}{For \code{[<-}: the replacement object(s). Can be a \code{list}
+of \code{\link{Chromatogram}} objects or, if length of \code{i} and
+\code{j} are 1, a single \code{\link{Chromatogram}} object.}
+}
+\value{
+For \code{[}: the subset of the \code{Chromatograms} object. If a
+    single element is extracted (e.g. if \code{i} and \code{j} are of length
+    1) a \code{\link{Chromatogram}} object is returned. Otherwise a
+    \code{list} of \code{\link{Chromatogram}} objects is returned, except
+    if \code{drop = FALSE} in which case \emph{always} a \code{Chromatograms}
+    object is returned.
 }
 \description{
 The \code{Chromatograms} class allows to store
@@ -27,6 +56,11 @@ The \code{Chromatograms} class allows to store
 
 \code{Chromatograms}: create an instance of class
     \code{Chromatograms}.
+
+\code{Chromatograms} objects can, just like a \code{matrix},
+    be subsetted using the \code{[} method. Single elements, rows or columns
+    can be replaced using e.g. \code{x[1, 1] <- value} where \code{value}
+    has to be a \code{Chromatogram} object or a \code{list} of such objects.
 }
 \details{
 The \code{Chromatograms} class extends the base \code{matrix} class
@@ -35,6 +69,35 @@ The \code{Chromatograms} class extends the base \code{matrix} class
     \code{Chromatogram} objects for one MS data \code{slice} with a common
     mz and rt range. Columns contain \code{Chromatogram} objects from the
     same sample.
+}
+\examples{
+## Creating some chromatogram objects to put them into a Chromatograms object
+ints <- abs(rnorm(25, sd = 200))
+ch1 <- Chromatogram(rtime = 1:length(ints), ints)
+ints <- abs(rnorm(32, sd = 90))
+ch2 <- Chromatogram(rtime = 1:length(ints), ints)
+ints <- abs(rnorm(19, sd = 120))
+ch3 <- Chromatogram(rtime = 1:length(ints), ints)
+ints <- abs(rnorm(21, sd = 40))
+ch4 <- Chromatogram(rtime = 1:length(ints), ints)
+
+## Create a Chromatograms object with 2 rows and 2 columns
+chrs <- Chromatograms(list(ch1, ch2, ch3, ch4), nrow = 2)
+chrs
+
+## Extract the first element from the second column:
+chrs[1, 2]
+
+## Extract the second row
+chrs[2, ]
+
+## Extract the second row with drop = FALSE, i.e. return a Chromatograms
+## object
+chrs[2, , drop = FALSE]
+
+## Replace the first element
+chrs[1, 1] <- ch3
+chrs
 }
 \seealso{
 \code{\link{Chromatogram}} for the class representing chromatogram

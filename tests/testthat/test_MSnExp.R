@@ -439,20 +439,20 @@ test_that("chromatogram,MSnExp works", {
     ## Check fromFile
     for (i in 1:ncol(res))
         expect_true(all(sapply(res[, i], fromFile) == i))
-    expect_equal(length(res[2, 1][[1]]), 0)
-    expect_equal(length(res[1, 2][[1]]), 0)
+    expect_equal(length(res[2, 1]), 0)
+    expect_equal(length(res[1, 2]), 0)
     ## Check rtime
-    expect_true(all(rtime(res[1, 1][[1]]) >= rtr[1, 1] &
-                    rtime(res[1, 1][[1]]) <= rtr[1, 2]))
-    expect_true(all(rtime(res[2, 2][[1]]) >= rtr[2, 1] &
-                    rtime(res[2, 2][[1]]) <= rtr[2, 2]))
+    expect_true(all(rtime(res[1, 1]) >= rtr[1, 1] &
+                    rtime(res[1, 1]) <= rtr[1, 2]))
+    expect_true(all(rtime(res[2, 2]) >= rtr[2, 1] &
+                    rtime(res[2, 2]) <= rtr[2, 2]))
     ## Check intensity
     flt <- filterRt(inMem, rt = rtr[1, ])
     spctr <- split(spectra(flt), fromFile(flt))
     ints <- unlist(lapply(spctr[[1]], function(z) sum(intensity(z))))
-    expect_equal(ints, intensity(res[1, 1][[1]]))
+    expect_equal(ints, intensity(res[1, 1]))
     flt <- filterRt(inMem, rt = rtr[2, ])
     spctr <- split(spectra(flt), fromFile(flt))
     ints <- unlist(lapply(spctr[[1]], function(z) sum(intensity(z))))
-    expect_equal(ints, intensity(res[2, 2][[1]]))
+    expect_equal(ints, intensity(res[2, 2]))
 })

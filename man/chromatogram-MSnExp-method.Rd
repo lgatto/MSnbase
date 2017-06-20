@@ -91,7 +91,7 @@ tic
 tic[1, 2]
 
 ## Plot the TIC for the first file
-plot(rtime(tic[1, 1][[1]]), intensity(tic[1, 1][[1]]), type = "l",
+plot(rtime(tic[1, 1]), intensity(tic[1, 1]), type = "l",
     xlab = "rtime", ylab = "intensity", main = "TIC")
 
 ## Extract chromatograms for a MS data slices defined by retention time
@@ -109,10 +109,14 @@ chrs[1, 1]
 chrs[2, 2]
 
 ## Get the extracted chromatogram for the first range in the second file
-chr <- chrs[1, 2][[1]]
+chr <- chrs[1, 2]
 chr
 
 plot(rtime(chr), intensity(chr), xlab = "rtime", ylab = "intensity")
+}
+\seealso{
+\code{\link{Chromatogram}} and \code{\link{Chromatograms}} for the
+    classes that represent single and multiple chromatograms.
 }
 \author{
 Johannes Rainer
