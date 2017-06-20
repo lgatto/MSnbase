@@ -5,3 +5,4 @@ Makefile
 README.Rmd
 NEWS.md
 docs
+^docs$
