@@ -8,7 +8,12 @@ setMSnbaseVerbose(FALSE)
 register(SerialParam()) ## see issue 205
 
 ## Erwinia
+<<<<<<< HEAD
 f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
+=======
+f <- msdata::proteomics(full.names = TRUE,
+                        pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
+>>>>>>> master
 tmt_erwinia_in_mem_ms1 <- readMSData(f, msLevel = 1)
 tmt_erwinia_in_mem_ms2 <- readMSData(f, msLevel = 2)
 tmt_erwinia_on_disk <- readMSData2(f)
