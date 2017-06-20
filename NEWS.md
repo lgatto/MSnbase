@@ -1,6 +1,9 @@
 # MSnbase 2.3
 
 ## Changes in version 2.3.6
+- Nothinh yet
+
+## Changes in version 2.3.6
 - Brutally remove xic and chromatogram functions/methods, to be
   replaced by the Chromatogram[s] infrastructure <2017-06-15 Thu>
 
