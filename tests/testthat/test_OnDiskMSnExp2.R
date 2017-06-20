@@ -1,6 +1,7 @@
 context("OnDiskMSnExp class")
 
-f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
+f <- msdata::proteomics(full.names = TRUE,
+                        pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
 
 test_that("OnDiskMSnExp constructor", {
     x <- tmt_erwinia_on_disk
