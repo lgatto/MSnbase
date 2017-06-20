@@ -1,7 +1,7 @@
 # MSnbase 2.3
 
 ## Changes in version 2.3.6
-- Nothinh yet
+- export filterEmptySpectra
 
 ## Changes in version 2.3.6
 - Brutally remove xic and chromatogram functions/methods, to be

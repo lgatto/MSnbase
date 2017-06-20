@@ -7,7 +7,7 @@ test_that("filterEmptySpectra", {
     
     ## inmem
     im <- filterFile(microtofq_in_mem_ms1, file = 1)
-    im2 <- filterMz(im, mz = c(1005, 1006))
+    expect_warning(im2 <- filterMz(im, mz = c(1005, 1006)))
     expect_identical(length(im), length(im2))
     expect_identical(length(filterEmptySpectra(im2)), 0L)
 })
