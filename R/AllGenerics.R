@@ -92,9 +92,6 @@ setGeneric("topN", function(object, ...) standardGeneric("topN"))
 setGeneric("exprsToRatios", function(object, ...) standardGeneric("exprsToRatios"))
 setGeneric("impute", function(object, ...) standardGeneric("impute"))
 
-## mzR
-setGeneric("xic", function(object, ...) standardGeneric("xic"))
-
 ## identification
 setGeneric("addIdentificationData", function(object, id, ...) standardGeneric("addIdentificationData"))
 setGeneric("idSummary", function(object, ...) standardGeneric("idSummary"))
@@ -124,7 +121,6 @@ setGeneric("fnamesIn", function(x, y, ...) standardGeneric("fnamesIn"))
 ## setGeneric("spectra", function(object, ...) standardGeneric("spectra"))
 ## setGeneric("mz", function(object, ...) standardGeneric("mz"))
 ## setGeneric("intensity", function(object, ...) standardGeneric("intensity"))
-## setGeneric("chromatogram", function(object, ...) standardGeneric("chromatogram"))
 
 ## base::trimws
 .trimws.useAsDefault <- function (x, which = c("both", "left", "right"), ...)
