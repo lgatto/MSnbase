@@ -522,8 +522,31 @@ setClass("ProcessingStep",
 #'
 #' @seealso \code{\link{Chromatograms}} for combining \code{Chromatogram} in
 #'     a two-dimensional matrix (rows being mz-rt ranges, columns samples).
+#'     \code{\link{chromatogram}} for the method to extract chromatogram data
+#'     from a \code{\linkS4class{MSnExp}} or \code{\likS4class{OnDiskMSnExp}}
+#'     object.
+#'     \code{\link{clean}} for the method to \emph{clean} a \code{Chromatogram}
+#'     object.
 #' 
 #' @author Johannes Rainer
+#'
+#' @examples
+#'
+#' ## Create a simple Chromatogram object.
+#' ints <- abs(rnorm(100, sd = 100))
+#' rts <- seq_len(length(ints))
+#' chr <- Chromatogram(rtime = rts, intensity = ints)
+#' chr
+#'
+#' ## Extract intensities
+#' intensity(chr)
+#'
+#' ## Extract retention times
+#' rtime(chr)
+#'
+#' ## Extract the mz range - is NA for the present example
+#' mz(chr)
+#'
 setClass("Chromatogram",
          slots = c(
              rtime = "numeric",
@@ -566,6 +589,12 @@ setClass("Chromatogram",
 #' @export
 #'
 #' @rdname Chromatograms-class
+#'
+#' @seealso \code{\link{Chromatogram}} for the class representing chromatogram
+#'     data.
+#'     \code{\link{chromatogram}} for the method to extract a
+#'     \code{Chromatograms} object from a \code{\linkS4class{MSnExp}} or
+#'     \code{\linkS4class{OnDiskMSnExp}} object.
 #' 
 #' @author Johannes Rainer
 setClass("Chromatograms",

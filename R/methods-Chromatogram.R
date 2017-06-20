@@ -162,37 +162,6 @@ setMethod("filterRt", "Chromatogram", function(object, rt) {
         object
 })
 
-#' @description \code{clean}: \emph{cleans} a \code{Chromatogram} class by
-#'     removing all \code{0} and \code{NA} intensity signals (along with the
-#'     associates retention times). By default (if \code{all = FALSE}) \code{0}
-#'     values that are directly adjacent to peaks are kept too. \code{NA}
-#'     values are always removed.
-#'
-#' @param all For \code{clean}: \code{logical(1)} whether all \code{0} intensity
-#'     value pairs should be removed (defaults to \code{FALSE}).
-#'
-#' @param na.rm For \code{clean}: \code{logical(1)} whether \code{NA} values
-#'     should be removed before cleaning the chromatogram. Defaults to
-#'     \code{FALSE}.
-#' 
-#' @return For \code{clean}: a \emph{cleaned} \code{Chromatogram} object.
-#'
-#' @rdname Chromatogram-class
-#' 
-#' @examples
-#'
-#' ## Create a simple Chromatogram object
-#'
-#' chr <- Chromatogram(rtime = 1:12,
-#'     intensity = c(0, 0, 20, 0, 0, 0, 123, 124343, 3432, 0, 0, 0))
-#'
-#' ## Remove 0-intensity values keeping those adjacent to peaks
-#' chr <- clean(chr)
-#' intensity(chr)
-#'
-#' ## Remove all 0-intensity values
-#' chr <- clean(chr, all = TRUE)
-#' intensity(chr)
 setMethod("clean", signature = signature("Chromatogram"),
           function(object, all = FALSE, na.rm = FALSE) {
               if (na.rm) {
