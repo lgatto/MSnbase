@@ -1,5 +1,8 @@
 # MSnbase 2.3
 
+## Changes in version 2.3.8
+- Nothing yet
+
 ## Changes in version 2.3.7
 - export filterEmptySpectra
 
