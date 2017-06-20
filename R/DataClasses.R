@@ -500,9 +500,9 @@ setClass("ProcessingStep",
 #'     chromatographic MS data, i.e. pairs of retention time and intensity
 #'     values. Instances of the class can be created with the
 #'     \code{Chromatogram} constructor function but in most cases the dedicated
-#'     methods for \code{\link{OnDiskMSnExp}} and \code{\link{XCMSnExp}}
-#'     objects extracting chromatograms should be used instead (i.e. the
-#'     \code{\link{extractChromatograms}}).
+#'     methods for \code{\linkS4class{OnDiskMSnExp}} and
+#'     \code{\linkS4class{MSnExp}} objects extracting chromatograms should be
+#'     used instead (i.e. the \code{\link{chromatogram}} method).
 #'
 #' @details The \code{mz}, \code{filterMz}, \code{precursorMz} and
 #'     \code{productMz} are stored as a \code{numeric(2)} representing a range
@@ -523,7 +523,7 @@ setClass("ProcessingStep",
 #' @seealso \code{\link{Chromatograms}} for combining \code{Chromatogram} in
 #'     a two-dimensional matrix (rows being mz-rt ranges, columns samples).
 #'     \code{\link{chromatogram}} for the method to extract chromatogram data
-#'     from a \code{\linkS4class{MSnExp}} or \code{\likS4class{OnDiskMSnExp}}
+#'     from a \code{\linkS4class{MSnExp}} or \code{\linkS4class{OnDiskMSnExp}}
 #'     object.
 #'     \code{\link{clean}} for the method to \emph{clean} a \code{Chromatogram}
 #'     object.

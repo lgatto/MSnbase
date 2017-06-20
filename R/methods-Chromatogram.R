@@ -162,14 +162,22 @@ setMethod("filterRt", "Chromatogram", function(object, rt) {
         object
 })
 
+#' @description \code{clean}: Removes unused 0-intensity data points. See
+#'     \code{\link{clean}} documentation for more details and examples.
+#'
+#' @param all For \code{clean}: \code{logical(1)} whether all 0 intensities
+#'     should be removed (default is \code{FALSE}). See \code{\link{clean}} for
+#'     more details and examples.
+#'
+#' @param na.rm For \code{clean}: \code{logical(1)} whether all \code{NA}
+#'     intensities should be removed before cleaning the \code{Chromatogram}.
+#'     Defaults to \code{FALSE}. See \code{\link{clean}} for more details and
+#'     examples.
+#' 
+#' @rdname Chromatogram-class
 setMethod("clean", signature = signature("Chromatogram"),
           function(object, all = FALSE, na.rm = FALSE) {
-              if (na.rm) {
-                  not_na <- !is.na(object@intensity)
-                  object@intensity <- object@intensity[not_na]
-                  object@rtime <- object@rtime[not_na]
-              }
-              keep <- utils.clean(object@intensity, all)
+              keep <- utils.clean(object@intensity, all, na.rm = na.rm)
               object@intensity <- object@intensity[keep]
               object@rtime <- object@rtime[keep]
               if (validObject(object))

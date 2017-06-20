@@ -1,4 +1,6 @@
 #' @rdname Chromatograms-class
+#'
+#' @param object For \code{show}: a \code{Chromatograms} object.
 setMethod("show", "Chromatograms", function(object) {
     nr <- nrow(object)
     nc <- ncol(object)

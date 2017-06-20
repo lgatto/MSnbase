@@ -394,7 +394,7 @@ test_that("injection time", {
     expect_equal(it1/1000, it2)
 })
 
-test_that("chromatogram,MSnExp works" {
+test_that("chromatogram,MSnExp works", {
     library(msdata)
     mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
              system.file("microtofq/MM8.mzML", package = "msdata"))

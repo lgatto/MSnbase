@@ -81,8 +81,8 @@ names(.SUPPORTED_AGG_FUN_CHROM) <-
 #'     Represents the mz of the product. See details for more information.
 #' 
 #' @param fromFile \code{integer(1)} the index of the file within the
-#'     \code{\link{OnDiskMSnExp}} or \code{\link{XCMSnExp}} from which the
-#'     chromatogram was extracted.
+#'     \code{\linkS4class{OnDiskMSnExp}} or \code{\linkS4class{MSnExp}}
+#'     from which the chromatogram was extracted.
 #'
 #' @param aggregationFun \code{character} string specifying the function that
 #'     was used to aggregate intensity values for the same retention time across

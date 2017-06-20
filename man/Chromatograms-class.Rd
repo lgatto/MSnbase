@@ -17,6 +17,8 @@ Chromatograms(data, ...)
 
 \item{...}{Additional parameters to be passed to the \code{\link{matrix}}
 constructor, such as \code{nrow}, \code{ncol} and \code{byrow}.}
+
+\item{object}{For \code{show}: a \code{Chromatograms} object.}
 }
 \description{
 The \code{Chromatograms} class allows to store

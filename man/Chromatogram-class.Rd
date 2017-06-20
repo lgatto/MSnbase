@@ -18,6 +18,7 @@
 \alias{length,Chromatogram-method}
 \alias{as.data.frame,Chromatogram-method}
 \alias{filterRt,Chromatogram-method}
+\alias{clean,Chromatogram-method}
 \title{Representation of chromatographic MS data}
 \usage{
 Chromatogram(rtime = numeric(), intensity = numeric(), mz = c(NA_real_,
@@ -46,6 +47,8 @@ Chromatogram(rtime = numeric(), intensity = numeric(), mz = c(NA_real_,
 \S4method{as.data.frame}{Chromatogram}(x)
 
 \S4method{filterRt}{Chromatogram}(object, rt)
+
+\S4method{clean}{Chromatogram}(object, all = FALSE, na.rm = FALSE)
 }
 \arguments{
 \item{rtime}{\code{numeric} with the retention times (length has to be equal
@@ -70,8 +73,8 @@ Represents the mz of the precursor ion. See details for more information.}
 Represents the mz of the product. See details for more information.}
 
 \item{fromFile}{\code{integer(1)} the index of the file within the
-\code{\link{OnDiskMSnExp}} or \code{\link{XCMSnExp}} from which the
-chromatogram was extracted.}
+\code{\linkS4class{OnDiskMSnExp}} or \code{\linkS4class{MSnExp}}
+from which the chromatogram was extracted.}
 
 \item{aggregationFun}{\code{character} string specifying the function that
 was used to aggregate intensity values for the same retention time across
@@ -89,15 +92,24 @@ object.}
 
 \item{rt}{For \code{filterRt}: \code{numeric(2)} defining the lower and
 upper retention time for the filtering.}
+
+\item{all}{For \code{clean}: \code{logical(1)} whether all 0 intensities
+should be removed (default is \code{FALSE}). See \code{\link{clean}} for
+more details and examples.}
+
+\item{na.rm}{For \code{clean}: \code{logical(1)} whether all \code{NA}
+intensities should be removed before cleaning the \code{Chromatogram}.
+Defaults to \code{FALSE}. See \code{\link{clean}} for more details and
+examples.}
 }
 \description{
 The \code{Chromatogram} class is designed to store
     chromatographic MS data, i.e. pairs of retention time and intensity
     values. Instances of the class can be created with the
     \code{Chromatogram} constructor function but in most cases the dedicated
-    methods for \code{\link{OnDiskMSnExp}} and \code{\link{XCMSnExp}}
-    objects extracting chromatograms should be used instead (i.e. the
-    \code{\link{extractChromatograms}}).
+    methods for \code{\linkS4class{OnDiskMSnExp}} and
+    \code{\linkS4class{MSnExp}} objects extracting chromatograms should be
+    used instead (i.e. the \code{\link{chromatogram}} method).
 
 \code{Chromatogram}: create an instance of the
     \code{Chromatogram} class.
@@ -130,6 +142,9 @@ The \code{Chromatogram} class is designed to store
 
 \code{filterRt}: filters the chromatogram based on the provided
     retention time range.
+
+\code{clean}: Removes unused 0-intensity data points. See
+    \code{\link{clean}} documentation for more details and examples.
 }
 \details{
 The \code{mz}, \code{filterMz}, \code{precursorMz} and
@@ -191,7 +206,7 @@ range(rtime(chr2))
 \code{\link{Chromatograms}} for combining \code{Chromatogram} in
     a two-dimensional matrix (rows being mz-rt ranges, columns samples).
     \code{\link{chromatogram}} for the method to extract chromatogram data
-    from a \code{\linkS4class{MSnExp}} or \code{\likS4class{OnDiskMSnExp}}
+    from a \code{\linkS4class{MSnExp}} or \code{\linkS4class{OnDiskMSnExp}}
     object.
     \code{\link{clean}} for the method to \emph{clean} a \code{Chromatogram}
     object.
