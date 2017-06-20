@@ -20,7 +20,8 @@ constructor, such as \code{nrow}, \code{ncol} and \code{byrow}.}
 }
 \description{
 The \code{Chromatograms} class allows to store
-    \code{\link{Chromatogram}} objects in a \code{matrix}-like structure.
+    \code{\link{Chromatogram}} objects in a \code{matrix}-like
+    two-dimensional structure.
 
 \code{Chromatograms}: create an instance of class
     \code{Chromatograms}.
@@ -32,6 +33,13 @@ The \code{Chromatograms} class extends the base \code{matrix} class
     \code{Chromatogram} objects for one MS data \code{slice} with a common
     mz and rt range. Columns contain \code{Chromatogram} objects from the
     same sample.
+}
+\seealso{
+\code{\link{Chromatogram}} for the class representing chromatogram
+    data.
+    \code{\link{chromatogram}} for the method to extract a
+    \code{Chromatograms} object from a \code{\linkS4class{MSnExp}} or
+    \code{\linkS4class{OnDiskMSnExp}} object.
 }
 \author{
 Johannes Rainer

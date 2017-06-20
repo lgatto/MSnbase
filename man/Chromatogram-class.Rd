@@ -18,7 +18,6 @@
 \alias{length,Chromatogram-method}
 \alias{as.data.frame,Chromatogram-method}
 \alias{filterRt,Chromatogram-method}
-\alias{clean,Chromatogram-method}
 \title{Representation of chromatographic MS data}
 \usage{
 Chromatogram(rtime = numeric(), intensity = numeric(), mz = c(NA_real_,
@@ -47,8 +46,6 @@ Chromatogram(rtime = numeric(), intensity = numeric(), mz = c(NA_real_,
 \S4method{as.data.frame}{Chromatogram}(x)
 
 \S4method{filterRt}{Chromatogram}(object, rt)
-
-\S4method{clean}{Chromatogram}(object, all = FALSE, na.rm = FALSE)
 }
 \arguments{
 \item{rtime}{\code{numeric} with the retention times (length has to be equal
@@ -92,16 +89,6 @@ object.}
 
 \item{rt}{For \code{filterRt}: \code{numeric(2)} defining the lower and
 upper retention time for the filtering.}
-
-\item{all}{For \code{clean}: \code{logical(1)} whether all \code{0} intensity
-value pairs should be removed (defaults to \code{FALSE}).}
-
-\item{na.rm}{For \code{clean}: \code{logical(1)} whether \code{NA} values
-should be removed before cleaning the chromatogram. Defaults to
-\code{FALSE}.}
-}
-\value{
-For \code{clean}: a \emph{cleaned} \code{Chromatogram} object.
 }
 \description{
 The \code{Chromatogram} class is designed to store
@@ -143,12 +130,6 @@ The \code{Chromatogram} class is designed to store
 
 \code{filterRt}: filters the chromatogram based on the provided
     retention time range.
-
-\code{clean}: \emph{cleans} a \code{Chromatogram} class by
-    removing all \code{0} and \code{NA} intensity signals (along with the
-    associates retention times). By default (if \code{all = FALSE}) \code{0}
-    values that are directly adjacent to peaks are kept too. \code{NA}
-    values are always removed.
 }
 \details{
 The \code{mz}, \code{filterMz}, \code{precursorMz} and
@@ -171,6 +152,22 @@ The \code{mz}, \code{filterMz}, \code{precursorMz} and
 
 \examples{
 
+## Create a simple Chromatogram object.
+ints <- abs(rnorm(100, sd = 100))
+rts <- seq_len(length(ints))
+chr <- Chromatogram(rtime = rts, intensity = ints)
+chr
+
+## Extract intensities
+intensity(chr)
+
+## Extract retention times
+rtime(chr)
+
+## Extract the mz range - is NA for the present example
+mz(chr)
+
+
 ## Create a simple Chromatogram object based on random values.
 chr <- Chromatogram(intensity = abs(rnorm(1000, mean = 2000, sd = 200)),
         rtime = sort(abs(rnorm(1000, mean = 10, sd = 5))))
@@ -189,19 +186,15 @@ range(rtime(chr))
 chr2 <- filterRt(chr, rt = c(4, 10))
 
 range(rtime(chr2))
-
-## Create a simple Chromatogram object
-
-chr <- Chromatogram(rtime = 1:12,
-    intensity = c(0, 0, 20, 0, 0, 0, 123, 124343, 3432, 0, 0, 0))
-
-## Remove 0-intensity values keeping those adjacent to peaks
-chr <- clean(chr)
-intensity(chr)
-
-## Remove all 0-intensity values
-chr <- clean(chr, all = TRUE)
-intensity(chr)
+}
+\seealso{
+\code{\link{Chromatograms}} for combining \code{Chromatogram} in
+    a two-dimensional matrix (rows being mz-rt ranges, columns samples).
+    \code{\link{chromatogram}} for the method to extract chromatogram data
+    from a \code{\linkS4class{MSnExp}} or \code{\likS4class{OnDiskMSnExp}}
+    object.
+    \code{\link{clean}} for the method to \emph{clean} a \code{Chromatogram}
+    object.
 }
 \author{
 Johannes Rainer
