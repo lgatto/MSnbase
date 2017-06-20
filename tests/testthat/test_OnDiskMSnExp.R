@@ -1,15 +1,15 @@
 context("OnDiskMSnExp class")
 
-library(msdata)
-mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-         system.file("microtofq/MM8.mzML", package = "msdata"))
-inMem <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE)
-onDisk <- readMSData2(files = mzf, msLevel. = 1, centroided. = TRUE)
-
-f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
-multiMsInMem1 <- readMSData(files = f, msLevel. = 1, centroided. = TRUE)
-multiMsInMem2 <- readMSData(files = f, msLevel. = 2, centroided. = TRUE)
-multiMsOnDisk <- readMSData2(files = f, centroided. = TRUE)
+inMem <- microtofq_in_mem_ms1
+onDisk <- microtofq_on_disk_ms1
+multiMsInMem1 <- tmt_erwinia_in_mem_ms1
+multiMsInMem2 <- tmt_erwinia_in_mem_ms2
+multiMsOnDisk <- tmt_erwinia_on_disk
+centroided(inMem) <- TRUE
+centroided(onDisk) <- TRUE
+centroided(multiMsInMem1) <- TRUE
+centroided(multiMsInMem2) <- TRUE
+centroided(multiMsOnDisk) <- TRUE
 
 ############################################################
 ## validateOnDiskMSnExp
@@ -45,9 +45,8 @@ test_that("OnDiskMSnExp constructor", {
 })
 
 test_that("Coercion to MSnExp", {
-    f <- msdata:::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
-    x <- readMSData2(f, verbose = FALSE)
-    y <- readMSData(f, msLevel. = 2, centroided. = NA, verbose = FALSE)
+    x <- tmt_erwinia_on_disk
+    y <- tmt_erwinia_in_mem_ms2
     expect_error(as(x, "MSnExp"))
     x <- filterMsLevel(x, msLevel = 2)
     expect_true(all.equal(x, y))
@@ -293,10 +292,7 @@ test_that("spectrapply,OnDiskMSnExp", {
 })
 
 test_that("splitByFile,OnDiskMSnExp", {
-    library(msdata)
-    mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-             system.file("microtofq/MM8.mzML", package = "msdata"))
-    od <- readMSData2(files = mzf, msLevel. = 1, centroided. = TRUE)
+    od <- microtofq_on_disk_ms1
     expect_error(splitByFile(od, f = factor(1:3)))
     spl <- splitByFile(od, f = factor(c("b", "a")))
     expect_equal(pData(spl[[1]]), pData(filterFile(od, 2)))
