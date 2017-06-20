@@ -274,7 +274,8 @@ exportMethods(updateObject,
               "$",
               "$<-",
               productMz,
-              aggregationFun)
+              aggregationFun,
+              chromatogram)
 
 ## methods NOT exported
 ## curveStats
