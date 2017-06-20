@@ -105,10 +105,8 @@ test_that("MS2 labelfree quantitation: SAF", {
 
 
 test_that("quantify_OnDiskMSnExp_max (fastquant_max)", {
-    f <- dir(system.file(package = "MSnbase",dir = "extdata"),
-             full.name = TRUE, pattern = "dummyiTRAQ.mzXML")
-    x1 <- readMSData(f, msLevel = 2, verbose = FALSE)
-    x2 <- readMSData2(f, msLevel = 2, verbose = FALSE)
+    x1 <- extdata_mzXML_in_mem_ms2
+    x2 <- extdata_mzXML_on_disk_ms2
     e1 <- quantify(x1, method = "max", reporters = iTRAQ4, verbose = FALSE)
     e2 <- quantify(x2, method = "max", reporters = iTRAQ4, verbose = FALSE)
     expect_identical(exprs(e1), exprs(e2))

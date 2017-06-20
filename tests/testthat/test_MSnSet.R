@@ -280,7 +280,7 @@ test_that("addIdentificationData", {
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "dummyiTRAQ.mzid")
 
-  aa <- readMSData(quantFile, verbose = FALSE, centroided. = FALSE)
+  aa <- extdata_mzXML_in_mem_ms2
   msnset <- quantify(aa, method = "trap", reporters = iTRAQ4,
                      BPPARAM = SerialParam(),
                      verbose = FALSE)
@@ -308,7 +308,8 @@ test_that("idSummary", {
                    full.name = TRUE, pattern = "mzXML$")
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-  aa <- readMSData(quantFile, centroided. = FALSE)
+  ## aa <- readMSData(quantFile, centroided. = FALSE)
+  aa <- extdata_mzXML_in_mem_ms2
   msnset <- quantify(aa, method = "trap", reporters = iTRAQ4,
                      BPPARAM = SerialParam())
   bb <- addIdentificationData(msnset, identFile)
