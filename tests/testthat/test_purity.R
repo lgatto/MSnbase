@@ -1,9 +1,7 @@
 context("Purity correction")
 
 test_that("Purity correction identify", {
-    file <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                full.name = TRUE, pattern = "mzXML$")
-    aa <- readMSData(file, centroided = FALSE)
+    aa <- extdata_mzXML_in_mem_ms2
     bp <- SerialParam()
     msnset <- quantify(aa, method = "trap", reporters = iTRAQ4,
                        BPPARAM = bp)
