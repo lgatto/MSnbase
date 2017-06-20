@@ -1,11 +1,10 @@
 context("MSnExp filter functions")
 
-f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia_1")
-inmem2 <- readMSData(f, centroided = NA, verbose = FALSE)  ## That's the MS 2 data.
-inmem1 <- readMSData(f, centroided = NA, verbose = FALSE, msLevel = 1)  ## MS 1 data.
-ondisk <- readMSData2(f, verbose = FALSE)
-ondisk1 <- readMSData2(f, msLevel = 1, verbose = FALSE)
-ondisk2 <- readMSData2(f, msLevel = 2, verbose = FALSE)
+inmem1 <- tmt_erwinia_in_mem_ms1
+inmem2 <- tmt_erwinia_in_mem_ms2
+ondisk <- tmt_erwinia_on_disk
+ondisk1 <- tmt_erwinia_on_disk_ms1
+ondisk2 <- tmt_erwinia_on_disk_ms2
 
 test_that("filterMsLevel", {
     expect_true(all.equal(inmem2, filterMsLevel(inmem2, msLevel. = 2)))
@@ -39,14 +38,10 @@ test_that("filterFile", {
     ## Use two files.
     mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
                  system.file("microtofq/MM8.mzML", package = "msdata"))
-    oneFileInMem <- readMSData(mzfiles[2], verbose = FALSE, msLevel = 1,
-                               centroided = TRUE)
-    twoFileInMem <- readMSData(mzfiles, verbose = FALSE, msLevel = 1,
-                               centroided = TRUE)
-    twoFileOnDisk <- readMSData2(mzfiles, verbose = FALSE,
-                                 centroided = TRUE)
-    secondFileOnDisk <- readMSData2(mzfiles[2], verbose = FALSE,
-                                    centroided = TRUE)
+    oneFileInMem <- readMSData(mzfiles[2], verbose = FALSE, msLevel = 1)
+    twoFileInMem <- microtofq_in_mem_ms1
+    twoFileOnDisk <- microtofq_on_disk
+    secondFileOnDisk <- readMSData2(mzfiles[2], verbose = FALSE)
     ## Note: all.equal MSnExp, MSnExp will fail because of the
     ## experimentData and featureNames
     expect_true(all.equal(spectra(filterFile(twoFileInMem, file = 2)),
@@ -85,7 +80,8 @@ test_that("filterAcquisitionNum", {
     ## Torture tests. The two files have different number of spectra.
     mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
                  system.file("microtofq/MM8.mzML", package = "msdata"))
-    twoFileOnDisk <- readMSData2(mzfiles, centroided. = TRUE)
+    twoFileOnDisk <- microtofq_on_disk
+    centroided(twoFileOnDisk) <- TRUE
     secondFile <- readMSData2(mzfiles[2], verbose = FALSE, centroided = TRUE)
     expect_warning(res <- filterAcquisitionNum(twoFileOnDisk, n = 180:190, file = 1))
     expect_identical(fileNames(res), fileNames(twoFileOnDisk)[2])
@@ -138,8 +134,7 @@ test_that("filterMz", {
     ## On multiple files.
     mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
                  system.file("microtofq/MM8.mzML", package = "msdata"))
-    twoFileOnDisk <- readMSData2(mzfiles, verbose = FALSE,
-                                 centroided = TRUE)
+    twoFileOnDisk <- microtofq_on_disk
     twoFileOnDiskF <- filterMz(twoFileOnDisk, mz = c(300, 350))
     mzr <- range(mz(twoFileOnDiskF))
     expect_true(mzr[1] >= 300 & mzr[2] <= 350)
