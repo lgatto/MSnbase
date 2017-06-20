@@ -112,6 +112,7 @@ utils.removePrecMz_list <- function(object,
 #'
 #' @param x \code{numeric}, vector to be cleaned
 #' @param all \code{logical}, should all zeros be removed?
+#' @param na.rm \code{logical}, should NAs removed before looking for zeros?
 #' @return logical vector, \code{TRUE} for keeping the value
 #' @note The return value for \code{NA} is always \code{FALSE}.
 #' @examples
@@ -121,14 +122,35 @@ utils.removePrecMz_list <- function(object,
 #'        FALSE, FALSE)
 #' stopifnot(utils.clean(x) == r)
 #' @noRd
-utils.clean <- function(x, all=FALSE) {
-  notZero <- x != 0 & !is.na(x)
+utils.clean <- function(x, all=FALSE, na.rm=FALSE) {
+  notNA <- !is.na(x)
+  notZero <- x != 0 & notNA
 
   if (all) {
     notZero
+  } else if (na.rm) {
+    notNA[notNA] <- utils.enableNeighbours(notZero[notNA])
+    notNA
   } else {
-    notZero | c(notZero[-1], FALSE) | c(FALSE, notZero[-length(notZero)])
+    utils.enableNeighbours(notZero)
   }
+}
+
+#' Switch FALSE to TRUE in the direct neighborhod of TRUE.
+#' (used in utils.clean)
+#'
+#' @param x logical
+#' @return logical
+#' @examples
+#' x <- c(TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
+#'        FALSE, FALSE)
+#' r <- c(TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
+#'        FALSE, FALSE)
+#' stopifnot(utils.enableNeighbours(x) == r)
+#' @noRd
+utils.enableNeighbours <- function(x) {
+  stopifnot(is.logical(x))
+  x | c(x[-1], FALSE) | c(FALSE, x[-length(x)])
 }
 
 zoom <- function(x, w = 0.05) {

@@ -285,13 +285,16 @@ test_that("clean utils", {
               c(0, 0, 0, 1, 0, 0, 1, 0, 0, 0),
               c(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
               c(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
-              c(1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0))
+              c(1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0),
+              c(1, NA, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, NA, 1, 0, 0, 0))
     a <- list(c(FALSE, FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE),
               c(FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, FALSE, FALSE,
                 FALSE),
               c(FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, TRUE, FALSE,
                 FALSE, FALSE), c(FALSE, FALSE, FALSE, TRUE, FALSE, FALSE,
                 FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE),
+              c(TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE,
+                TRUE, TRUE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE),
               c(TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE,
                 TRUE, TRUE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE))
     b <- list(c(FALSE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
@@ -302,14 +305,37 @@ test_that("clean utils", {
               c(FALSE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE,
                 TRUE, TRUE, TRUE, FALSE, FALSE),
               c(TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
+                TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE),
+              c(TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
                 TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE))
-
+    d <- list(c(FALSE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
+              c(FALSE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE,
+                FALSE),
+              c(FALSE, FALSE, TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE,
+                FALSE, FALSE),
+              c(FALSE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE,
+                TRUE, TRUE, TRUE, FALSE, FALSE),
+              c(TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
+                TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE),
+              c(TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
+                TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, FALSE, FALSE))
     for (i in seq(along=x)) {
       expect_identical(MSnbase:::utils.clean(x[[i]], all=TRUE), a[[i]],
                        label=paste0("all=TRUE, i=", i))
       expect_identical(MSnbase:::utils.clean(x[[i]], all=FALSE), b[[i]],
                        label=paste0("all=FALSE, i=", i))
+      expect_identical(MSnbase:::utils.clean(x[[i]], na.rm=TRUE), d[[i]],
+                       label=paste0("na.rm=TRUE, i=", i))
     }
+})
+
+test_that("enableNeighbours utils", {
+    expect_error(MSnbase:::utils.enableNeighbours(1:10))
+    expect_error(MSnbase:::utils.enableNeighbours(LETTERS[1:10]))
+    expect_equal(MSnbase:::utils.enableNeighbours(c(FALSE, TRUE, FALSE)),
+                 rep(TRUE, 3))
+    expect_equal(MSnbase:::utils.enableNeighbours(c(FALSE, TRUE, FALSE, FALSE)),
+                 c(rep(TRUE, 3), FALSE))
 })
 
 test_that("getBpParam", {
