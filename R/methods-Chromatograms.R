@@ -8,11 +8,22 @@ setMethod("show", "Chromatograms", function(object) {
         nr, ifelse(nr == 1, " row and ", " rows and "),
         nc, ifelse(nc == 1, " column\n", " columns\n"),
         sep = "")
+    sumFun <- function(z) {
+        paste0("length: ", length(z[[1]]))
+    }
     if (nr > 0 && nc > 0) {
         nms <- rownames(object)
-        out <- apply(object, MARGIN = c(1, 2), function(z) {
-            paste0("Chromatogram (", length(z[[1]]), ")")
-        })
+        if (nr <= 4)
+            out <- apply(object, MARGIN = c(1, 2), sumFun)
+        else {
+            out <- rbind(
+                apply(object[c(1, 2), , drop = FALSE], MARGIN = c(1, 2), sumFun),
+                rep(" ... ", ncol(object)),
+                apply(object[nrow(object) - c(1, 0), , drop = FALSE],
+                      MARGIN = c(1, 2), sumFun)
+                )
+        }
+        out <- rbind(rep("<Chromatogram>", ncol(out)), out)
         if (!is.null(nms))
             rownames(out) <- nms
         print(out, quote = FALSE, right = TRUE)

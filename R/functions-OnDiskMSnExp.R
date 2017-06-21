@@ -567,7 +567,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         if (return.type == "list")
             return(list())
         else
-            return(matrix(ncol = 0, nrow = 0))
+            return(matrix(ncol = length(fileNames(x)), nrow = 0))
     }
     subs <- x[keep_idx]
     fns <- fileNames(x)
