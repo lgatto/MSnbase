@@ -54,8 +54,8 @@
 \alias{filterAcquisitionNum,MSnExp-method}
 \alias{filterAcquisitionNum,OnDiskMSnExp-method}
 \alias{filterEmptySpectra}
-\alias{filterEmptySpecetra,MSnExp-method}
-\alias{filterEmptySpecetra,OnDiskMSnExp-method}
+\alias{filterEmptySpectra,MSnExp-method}
+\alias{filterEmptySpectra,OnDiskMSnExp-method}
 
 \alias{isCentroided,MSnExp-method}
 

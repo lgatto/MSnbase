@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -85,21 +87,30 @@
 <code>qual</code> and <code>processingData</code> slots are generally omitted.</p>
     
 
-    <pre><span class='fu'>compareMSnSets</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>qual</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>proc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>compareMSnSets</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>qual</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>proc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>x</dt>
-      <dd>First MSnSet</dd>
-      <dt>y</dt>
-      <dd>Second MSnSet</dd>
-      <dt>qual</dt>
-      <dd>Should the <code>qual</code> slots be compared? Default is
-<code>FALSE</code>.</dd>
-      <dt>proc</dt>
-      <dd>Should the <code>processingData</code> slots be compared?
-Default is <code>FALSE</code>.</dd>
-    </dl>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>First MSnSet</p></td>
+    </tr>
+    <tr>
+      <th>y</th>
+      <td><p>Second MSnSet</p></td>
+    </tr>
+    <tr>
+      <th>qual</th>
+      <td><p>Should the <code>qual</code> slots be compared? Default is
+<code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>proc</th>
+      <td><p>Should the <code>processingData</code> slots be compared?
+Default is <code>FALSE</code>.</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 

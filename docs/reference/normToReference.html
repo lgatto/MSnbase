@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -85,21 +87,28 @@
 intensity values to a reference run/sample for each protein.</p>
     
 
-    <pre><span class='fu'>normToReference</span>(<span class='no'>x</span>, <span class='no'>group</span>, <span class='kw'>reference</span> <span class='kw'>=</span> <span class='fu'>.referenceFractionValues</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>group</span> <span class='kw'>=</span>
+    <pre class="usage"><span class='fu'>normToReference</span>(<span class='no'>x</span>, <span class='no'>group</span>, <span class='kw'>reference</span> <span class='kw'>=</span> <span class='fu'>.referenceFractionValues</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>group</span> <span class='kw'>=</span>
   <span class='no'>group</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>x</dt>
-      <dd><code>matrix</code>, <code>exprs</code> matrix of an
-<a href='MSnSet-class.html'>MSnSet</a> object.</dd>
-      <dt>group</dt>
-      <dd><code>double</code> or <code>factor</code>, grouping variable,
-i.e. protein accession; has to be of length equal <code>nrow(x)</code>.</dd>
-      <dt>reference</dt>
-      <dd><code>double</code>, vector of reference values, has to be of the
-same length as <code>group</code> and <code>nrow(x)</code>.</dd>
-    </dl>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p><code>matrix</code>, <code>exprs</code> matrix of an
+<a href='MSnSet-class.html'>MSnSet</a> object.</p></td>
+    </tr>
+    <tr>
+      <th>group</th>
+      <td><p><code>double</code> or <code>factor</code>, grouping variable,
+i.e. protein accession; has to be of length equal <code>nrow(x)</code>.</p></td>
+    </tr>
+    <tr>
+      <th>reference</th>
+      <td><p><code>double</code>, vector of reference values, has to be of the
+same length as <code>group</code> and <code>nrow(x)</code>.</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
@@ -107,33 +116,26 @@ same length as <code>group</code> and <code>nrow(x)</code>.</dd>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is not intented to be used directly (that&#39;s why it is not
+    <p>This function is not intented to be used directly (that's why it is not
 exported via <code>NAMESPACE</code>). Instead the user should use
 <code><a href='combineFeatures.html'>combineFeatures</a></code>.</p>
-    <p>The algorithm is described in Nikolovski et al., briefly it works as
-follows:</p>
-    <p><ol>
-<li> Find reference run (column) for each protein (grouped rows).
+<p>The algorithm is described in Nikolovski et al., briefly it works as
+follows:</p><ol>
+<li><p>Find reference run (column) for each protein (grouped rows).
  We use the run (column) with the lowest number of <code>NA</code>.
  If multiple candidates are available we use the one with the highest
  intensity. This step is skipped if the user use his own <code>reference</code>
- vector.
- </li>
-<li> For each protein (grouped rows) and each run (column):
- <ol>
-<li> Find peptides (grouped rows) shared by the current run (column) and
-   the reference run (column).
-   </li>
-<li> Sum the shared peptides (grouped rows) for the current run (column)
-   and the reference run (column).
-   </li>
-<li> The ratio of the shared peptides (grouped rows) of the current run
+ vector.</p></li>
+<li><p>For each protein (grouped rows) and each run (column):</p><ol>
+<li><p>Find peptides (grouped rows) shared by the current run (column) and
+   the reference run (column).</p></li>
+<li><p>Sum the shared peptides (grouped rows) for the current run (column)
+   and the reference run (column).</p></li>
+<li><p>The ratio of the shared peptides (grouped rows) of the current run
    (column) and the reference run (column) is the new intensity for the
-   current protein for the current run.
- </li>
-</ol></p>
-    <p></li>
-</ol></p>
+   current protein for the current run.</p></li>
+</ol></li>
+</ol>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -160,13 +162,13 @@ quantification for plant Golgi protein localization and abundance. Plant Physiol
 #&gt;   featureNames: BSA ECA0172 ... ENO (40 total)
 #&gt;   fvarLabels: spectrum ProteinAccession ... CV.iTRAQ4.117 (19 total)
 #&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use &#39;experimentData(object)&#39;
+#&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#&gt; Combined 55 features into 40 using mean: Thu May  4 19:57:35 2017 
-#&gt;  MSnbase version: 2.3.3 </div><div class='input'>
+#&gt; Combined 55 features into 40 using mean: Tue Jun 20 20:37:53 2017 
+#&gt;  MSnbase version: 2.3.8 </div><div class='input'>
 <span class='co'># use a user-given reference</span>
 <span class='fu'><a href='combineFeatures.html'>combineFeatures</a></span>(<span class='no'>msnset</span>, <span class='kw'>groupBy</span><span class='kw'>=</span><span class='fu'>fData</span>(<span class='no'>msnset</span>)$<span class='no'>ProteinAccession</span>,
  <span class='kw'>reference</span><span class='kw'>=</span><span class='fu'>rep</span>(<span class='fl'>2</span>, <span class='fl'>55</span>))</div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
@@ -178,13 +180,13 @@ quantification for plant Golgi protein localization and abundance. Plant Physiol
 #&gt;   featureNames: BSA ECA0172 ... ENO (40 total)
 #&gt;   fvarLabels: spectrum ProteinAccession ... CV.iTRAQ4.117 (19 total)
 #&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use &#39;experimentData(object)&#39;
+#&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#&gt; Combined 55 features into 40 using mean: Thu May  4 19:57:36 2017 
-#&gt;  MSnbase version: 2.3.3 </div><div class='input'>
+#&gt; Combined 55 features into 40 using mean: Tue Jun 20 20:37:53 2017 
+#&gt;  MSnbase version: 2.3.8 </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -1,3 +1,11 @@
+Changes in version 2.3.8
+------------------------
+- Nothing yet
+
+Changes in version 2.3.7
+------------------------
+- export filterEmptySpectra
+
 Changes in version 2.3.6
 ------------------------
 - Brutally remove xic and chromatogram functions/methods, to be

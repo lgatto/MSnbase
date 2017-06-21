@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title> Removes low intensity peaks  — removePeaks-methods • MSnbase</title>
+<title>Removes low intensity peaks — removePeaks-methods • MSnbase</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -77,24 +79,23 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1> Removes low intensity peaks </h1>
+    <h1>Removes low intensity peaks</h1>
     </div>
 
     
     <p>This method sets low intensity peaks from individual spectra
   (<code>Spectrum</code> instances) or whole experiments (<code>MSnExp</code>
   instances) to 0. The intensity threshold is set with the <code>t</code>
-  parameter. Default is the <code>&quot;min&quot;</code> character. The threshold is
+  parameter. Default is the <code>"min"</code> character. The threshold is
   then set as the non-0 minimum intensity found in the spectrum. Any
   other numeric values is valid. All peaks with maximum intensity
   smaller or equal to <code>t</code> are set to 0.</p>
-
-    <p>If the spectrum is in profile mode, ranges of successive non-0 peaks
+<p>If the spectrum is in profile mode, ranges of successive non-0 peaks
   &lt;= <code>t</code> are set to 0. If the spectrum is centroided, then
   individual peaks &lt;= <code>t</code> are set to 0. See the example below for
-  an illustration.</p>
+  an illustration.
 
-    <p>Note that the number of peaks is not changed; the peaks below the
+    Note that the number of peaks is not changed; the peaks below the
   threshold are set to 0 and the object is not cleanded out (see
   <code><a href='clean-methods.html'>clean</a></code>). An illustrative example is shown below.</p>
     
@@ -102,25 +103,23 @@
         
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
-    <p><dl class='dl-horizontal'>
-    <dt><code>signature(object = &quot;MSnExp&quot;, t, verbose = &quot;logical&quot; )</code></dt><dd>
-      Removes low intensity peaks of all spectra in <code>MSnExp</code>
+    <p></p><dl class='dl-horizontal'>
+    <dt><code>signature(object = "MSnExp", t, verbose = "logical" )</code></dt><dd><p>Removes low intensity peaks of all spectra in <code>MSnExp</code>
       object. <code>t</code> sets the minimum peak intensity. Default is
-      &quot;min&quot;, i.e the smallest intensity in each spectrum. Other
+      "min", i.e the smallest intensity in each spectrum. Other
       <code>numeric</code> values are valid.
       Displays a control bar if verbose set to <code>TRUE</code>
-      (default). Returns a new <code>MSnExp</code> instance. 
-    </dd></p>
-    <p><dt><code>signature(object = &quot;Spectrum&quot;, t, msLevel. =
-      &quot;numeric&quot;)</code></dt><dd> Removes low intensity peaks of <code>Spectrum</code>
+      (default). Returns a new <code>MSnExp</code> instance.</p></dd>
+    <dt><code>signature(object = "Spectrum", t, msLevel. =
+      "numeric")</code></dt><dd><p>Removes low intensity peaks of <code>Spectrum</code>
       object.  <code>t</code> sets the minimum peak intensity. Default is
-      &quot;min&quot;, i.e the smallest intensity in each spectrum. Other
+      "min", i.e the smallest intensity in each spectrum. Other
       <code>numeric</code> values are valid. <code>msLevel.</code> defines the level
       of the spectrum, and if <code>msLevel(object) != msLevel.</code>,
       cleaning is ignored. Only relevant when called from
-      <code>OnDiskMSnExp</code> and is only relevant for developers.</p>
-    <p>Returns a new <code>Spectrum</code> instance.  </dd></p>
-    <p></dl></p>
+      <code>OnDiskMSnExp</code> and is only relevant for developers.
+    Returns a new <code>Spectrum</code> instance.</p></dd>
+    </dl>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -149,7 +148,7 @@
 #&gt; 10280 96009 </div><div class='input'><span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>itraqdata2</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#&gt; Curves &lt;= 250000 set to &#39;0&#39;: Tue Apr 18 22:17:51 2017 
+#&gt; Curves &lt;= 250000 set to '0': Tue Jun 20 20:38:33 2017 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
 <span class='co'>## difference between centroided and profile peaks</span>
 

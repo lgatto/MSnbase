@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -86,16 +88,21 @@ by the feature variable <code>fcol</code> and appends this information
 in the feature data of <code>object</code>.</p>
     
 
-    <pre><span class='fu'>nFeatures</span>(<span class='no'>object</span>, <span class='no'>fcol</span>)</pre>
+    <pre class="usage"><span class='fu'>nFeatures</span>(<span class='no'>object</span>, <span class='no'>fcol</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>object</dt>
-      <dd>An instance of class <code>MSnSet</code>.</dd>
-      <dt>fcol</dt>
-      <dd>Feature variable defining the feature grouping
-structure.</dd>
-    </dl>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>An instance of class <code>MSnSet</code>.</p></td>
+    </tr>
+    <tr>
+      <th>fcol</th>
+      <td><p>Feature variable defining the feature grouping
+structure.</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
@@ -105,8 +112,8 @@ structure.</dd>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>pRolocdata</span>)</div><div class='output co'>#&gt; <span class='error'>Error: package ‘MSnbase’ required by ‘pRolocdata’ could not be found</span></div><div class='input'><span class='fu'>data</span>(<span class='st'>"hyperLOPIT2015ms3r1psm"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘hyperLOPIT2015ms3r1psm’ not found</span></div><div class='input'><span class='no'>hyperLOPIT2015ms3r1psm</span> <span class='kw'>&lt;-</span> <span class='fu'>nFeatures</span>(<span class='no'>hyperLOPIT2015ms3r1psm</span>,
-                                    <span class='st'>"Protein.Group.Accessions"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in inherits(object, &quot;MSnSet&quot;): object &#39;hyperLOPIT2015ms3r1psm&#39; not found</span></div><div class='input'><span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"Protein.Group.Accessions"</span>, <span class='st'>"Protein.Group.Accessions.nFeatures"</span>)
-<span class='fu'>fData</span>(<span class='no'>hyperLOPIT2015ms3r1psm</span>)[<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='no'>i</span>]</div><div class='output co'>#&gt; <span class='error'>Error in fData(hyperLOPIT2015ms3r1psm): object &#39;hyperLOPIT2015ms3r1psm&#39; not found</span></div></pre>
+                                    <span class='st'>"Protein.Group.Accessions"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in inherits(object, "MSnSet"): object 'hyperLOPIT2015ms3r1psm' not found</span></div><div class='input'><span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"Protein.Group.Accessions"</span>, <span class='st'>"Protein.Group.Accessions.nFeatures"</span>)
+<span class='fu'>fData</span>(<span class='no'>hyperLOPIT2015ms3r1psm</span>)[<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='no'>i</span>]</div><div class='output co'>#&gt; <span class='error'>Error in fData(hyperLOPIT2015ms3r1psm): object 'hyperLOPIT2015ms3r1psm' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
