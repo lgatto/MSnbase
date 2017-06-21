@@ -547,6 +547,8 @@ setClass("ProcessingStep",
 #' ## Extract the mz range - is NA for the present example
 #' mz(chr)
 #'
+#' ## plot the Chromatogram
+#' plot(chr)
 setClass("Chromatogram",
          slots = c(
              rtime = "numeric",
@@ -613,17 +615,19 @@ setClass("Chromatogram",
 #' chrs <- Chromatograms(list(ch1, ch2, ch3, ch4), nrow = 2)
 #' chrs
 #'
-#' ## Extract the first element from the second column:
+#' ## Extract the first element from the second column. Extracting a single
+#' ## element always returns a Chromatogram object.
 #' chrs[1, 2]
 #'
-#' ## Extract the second row
+#' ## Extract the second row. Extracting a row or column (i.e. multiple elements
+#' ## returns by default a list of Chromatogram objects.
 #' chrs[2, ]
 #'
 #' ## Extract the second row with drop = FALSE, i.e. return a Chromatograms
-#' ## object
+#' ## object.
 #' chrs[2, , drop = FALSE]
 #'
-#' ## Replace the first element
+#' ## Replace the first element.
 #' chrs[1, 1] <- ch3
 #' chrs
 setClass("Chromatograms",

@@ -33,3 +33,8 @@ test_that("Chromatogram construction works", {
     expect_true(validObject(chr))
 })
 
+test_that(".plotChromatogram works", {
+    chr <- Chromatogram(rtime = 1:20, 1:20)
+    MSnbase:::.plotChromatogram(chr, main = "dummy")
+    plot(chr)
+})

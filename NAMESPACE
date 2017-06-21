@@ -16,7 +16,7 @@ importFrom(XML, xmlInternalTreeParse, getDefaultNamespace, xpathApply,
            xmlAttrs)
 
 importFrom(graphics, abline, axis, grid, legend, lines, points, text,
-           barplot, layout, par)
+           barplot, layout, par, matplot)
 importFrom(stats, ave, median, medpolish, quantile, reorder, setNames,
            weighted.mean, dist)
 importFrom(utils, combn, head, ls.str, object.size,

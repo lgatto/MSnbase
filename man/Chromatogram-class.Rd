@@ -19,6 +19,7 @@
 \alias{as.data.frame,Chromatogram-method}
 \alias{filterRt,Chromatogram-method}
 \alias{clean,Chromatogram-method}
+\alias{plot,Chromatogram,ANY-method}
 \title{Representation of chromatographic MS data}
 \usage{
 Chromatogram(rtime = numeric(), intensity = numeric(), mz = c(NA_real_,
@@ -49,6 +50,10 @@ Chromatogram(rtime = numeric(), intensity = numeric(), mz = c(NA_real_,
 \S4method{filterRt}{Chromatogram}(object, rt)
 
 \S4method{clean}{Chromatogram}(object, all = FALSE, na.rm = FALSE)
+
+\S4method{plot}{Chromatogram,ANY}(x, col = "#00000060", lty = 1,
+  type = "l", xlab = "retention time", ylab = "intensity", main = NULL,
+  ...)
 }
 \arguments{
 \item{rtime}{\code{numeric} with the retention times (length has to be equal
@@ -101,6 +106,24 @@ more details and examples.}
 intensities should be removed before cleaning the \code{Chromatogram}.
 Defaults to \code{FALSE}. See \code{\link{clean}} for more details and
 examples.}
+
+\item{col}{For \code{plot}: the color to be used for plotting.}
+
+\item{lty}{For \code{plot}: the line type. See \code{\link[graphics]{plot}}
+for more details.}
+
+\item{type}{For \code{plot}: the type of plot. See
+\code{\link[graphics]{plot}} for more details.}
+
+\item{xlab}{For \code{plot}: the x-axis label.}
+
+\item{ylab}{For \code{plot}: the y-axis label.}
+
+\item{main}{For \code{plot}: the plot title. If not provided the mz range
+will be used as plot title.}
+
+\item{...}{For \code{plot}: additional arguments to be passed to the
+\code{\link[graphics]{plot}} function.}
 }
 \description{
 The \code{Chromatogram} class is designed to store
@@ -145,6 +168,8 @@ The \code{Chromatogram} class is designed to store
 
 \code{clean}: Removes unused 0-intensity data points. See
     \code{\link{clean}} documentation for more details and examples.
+
+\code{plot}: plots a \code{Chromatogram} object.
 }
 \details{
 The \code{mz}, \code{filterMz}, \code{precursorMz} and
@@ -182,6 +207,8 @@ rtime(chr)
 ## Extract the mz range - is NA for the present example
 mz(chr)
 
+## plot the Chromatogram
+plot(chr)
 
 ## Create a simple Chromatogram object based on random values.
 chr <- Chromatogram(intensity = abs(rnorm(1000, mean = 2000, sd = 200)),

@@ -185,3 +185,32 @@ setMethod("clean", signature = signature("Chromatogram"),
               if (validObject(object))
                   object
           })
+
+#' @rdname Chromatogram-class
+#' 
+#' @description \code{plot}: plots a \code{Chromatogram} object.
+#'
+#' @param col For \code{plot}: the color to be used for plotting.
+#'
+#' @param lty For \code{plot}: the line type. See \code{\link[graphics]{plot}}
+#'     for more details.
+#'
+#' @param type For \code{plot}: the type of plot. See
+#'     \code{\link[graphics]{plot}} for more details.
+#'
+#' @param xlab For \code{plot}: the x-axis label.
+#'
+#' @param ylab For \code{plot}: the y-axis label.
+#'
+#' @param main For \code{plot}: the plot title. If not provided the mz range
+#'     will be used as plot title.
+#'
+#' @param ... For \code{plot}: additional arguments to be passed to the
+#'     \code{\link[graphics]{plot}} function.
+setMethod("plot", signature = signature("Chromatogram"),
+          function(x, col = "#00000060", lty = 1, type = "l",
+                   xlab = "retention time", ylab = "intensity",
+                   main = NULL, ...) {
+              .plotChromatogram(x = x, col = col, lty = lty, type = type,
+                                xlab = xlab, ylab = ylab, main = main, ...)
+          })

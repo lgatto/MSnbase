@@ -8,6 +8,7 @@
 \alias{show,Chromatograms-method}
 \alias{[,Chromatograms,ANY,ANY,ANY-method}
 \alias{[<-,Chromatograms-method}
+\alias{plot,Chromatograms,ANY-method}
 \title{Container for multiple Chromatogram objects}
 \usage{
 Chromatograms(data, ...)
@@ -17,6 +18,10 @@ Chromatograms(data, ...)
 \S4method{[}{Chromatograms,ANY,ANY,ANY}(x, i, j, drop = TRUE)
 
 \S4method{[}{Chromatograms}(x, i, j) <- value
+
+\S4method{plot}{Chromatograms,ANY}(x, col = "#00000060", lty = 1,
+  type = "l", xlab = "retention time", ylab = "intensity", main = NULL,
+  ...)
 }
 \arguments{
 \item{data}{A \code{list} of \code{\link{Chromatogram}} objects.}
@@ -40,6 +45,24 @@ dimensionality of the returned object (if possible).}
 \item{value}{For \code{[<-}: the replacement object(s). Can be a \code{list}
 of \code{\link{Chromatogram}} objects or, if length of \code{i} and
 \code{j} are 1, a single \code{\link{Chromatogram}} object.}
+
+\item{col}{For \code{plot}: the color to be used for plotting. Either a
+vector of length 1 or equal to \code{ncol(x)}.}
+
+\item{lty}{For \code{plot}: the line type (see \code{\link[graphics]{plot}}
+for more details. Can be either a vector of length 1 or of length equal
+to \code{ncol(x)}.}
+
+\item{type}{For \code{plot}: the type of plot (see
+\code{\link[graphics]{plot}} for more details. Can be either a vector
+of length 1 or of length equal to \code{ncol(x)}.}
+
+\item{xlab}{For \code{plot}: the x-axis label.}
+
+\item{ylab}{For \code{plot}: the y-axis label.}
+
+\item{main}{For \code{plot}: the plot title. If not provided the mz range
+will be used as plot title.}
 }
 \value{
 For \code{[}: the subset of the \code{Chromatograms} object. If a
@@ -61,6 +84,10 @@ The \code{Chromatograms} class allows to store
     be subsetted using the \code{[} method. Single elements, rows or columns
     can be replaced using e.g. \code{x[1, 1] <- value} where \code{value}
     has to be a \code{Chromatogram} object or a \code{list} of such objects.
+
+\code{plot}: plots a \code{Chromatograms} object. For each row
+    in the object one plot is created, i.e. all \code{\link{Chromatogram}}
+    objects in the same row are added to the same plot.
 }
 \details{
 The \code{Chromatograms} class extends the base \code{matrix} class
@@ -69,6 +96,10 @@ The \code{Chromatograms} class extends the base \code{matrix} class
     \code{Chromatogram} objects for one MS data \code{slice} with a common
     mz and rt range. Columns contain \code{Chromatogram} objects from the
     same sample.
+
+\code{plot}: if \code{nrow(x) > 1} the plot area is split into
+    \code{nrow(x)} sub-plots and the chromatograms of one row are plotted in
+    each.
 }
 \examples{
 ## Creating some chromatogram objects to put them into a Chromatograms object
@@ -85,19 +116,40 @@ ch4 <- Chromatogram(rtime = 1:length(ints), ints)
 chrs <- Chromatograms(list(ch1, ch2, ch3, ch4), nrow = 2)
 chrs
 
-## Extract the first element from the second column:
+## Extract the first element from the second column. Extracting a single
+## element always returns a Chromatogram object.
 chrs[1, 2]
 
-## Extract the second row
+## Extract the second row. Extracting a row or column (i.e. multiple elements
+## returns by default a list of Chromatogram objects.
 chrs[2, ]
 
 ## Extract the second row with drop = FALSE, i.e. return a Chromatograms
-## object
+## object.
 chrs[2, , drop = FALSE]
 
-## Replace the first element
+## Replace the first element.
 chrs[1, 1] <- ch3
 chrs
+
+## Create some random Chromatogram objects
+ints <- abs(rnorm(123, mean = 200, sd = 32))
+ch1 <- Chromatogram(rtime = seq_along(ints), intensity = ints, mz = 231)
+ints <- abs(rnorm(122, mean = 250, sd = 43))
+ch2 <- Chromatogram(rtime = seq_along(ints), intensity = ints, mz = 231)
+ints <- abs(rnorm(125, mean = 590, sd = 120))
+ch3 <- Chromatogram(rtime = seq_along(ints), intensity = ints, mz = 542)
+ints <- abs(rnorm(124, mean = 1200, sd = 509))
+ch4 <- Chromatogram(rtime = seq_along(ints), intensity = ints, mz = 542)
+
+## Combine into a 2x2 Chromatograms object
+chrs <- Chromatograms(list(ch1, ch2, ch3, ch4), byrow = TRUE, ncol = 2)
+
+## Plot the second row
+plot(chrs[2, , drop = FALSE])
+
+## Plot all chromatograms
+plot(chrs, col = c("#ff000080", "#00ff0080"))
 }
 \seealso{
 \code{\link{Chromatogram}} for the class representing chromatogram

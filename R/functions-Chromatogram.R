@@ -111,3 +111,22 @@ Chromatogram <- function(rtime = numeric(), intensity = numeric(),
         fromFile = as.integer(fromFile), aggregationFun = aggregationFun)
 }
 
+#' @description Plot a single Chromatogram object
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+.plotChromatogram <- function(x, rt, col = "#00000060", lty = 1, type = "l",
+                              xlab = "retention time", ylab = "intensity",
+                              main = NULL, ...) {
+    if (is.null(main)) {
+        suppressWarnings(
+            mzr <- range(mz(x), na.rm = TRUE, finite = TRUE)
+        )
+        main <- paste0(format(mzr, digits = 7), collapse = " - ")
+    }
+    if (!missing(rt))
+        x <- filterRt(x, rt = rt)
+    plot(x = rtime(x), y = intensity(x), main = main, col = col, lty = lty,
+         type = type, xlab = xlab, ylab = ylab, ...)
+}

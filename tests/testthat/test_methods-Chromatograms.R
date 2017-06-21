@@ -82,3 +82,20 @@ test_that("[<-,Chromatograms works", {
     
 })
 
+test_that("plot,Chromatograms works", {
+    ints <- abs(rnorm(123, mean = 200, sd = 19))
+    ch1 <- Chromatogram(rtime = seq_along(ints), intensity = ints, mz = 231)
+    ints <- abs(rnorm(122, mean = 300, sd = 35))
+    ch2 <- Chromatogram(rtime = seq_along(ints), intensity = ints, mz = 231)
+    ints <- abs(rnorm(124, mean = 214, sd = 49))
+    ch3 <- Chromatogram(rtime = seq_along(ints) + 300, intensity = ints,
+                        mz = 403)
+    ints <- abs(rnorm(123, mean = 530, sd = 89))
+    ch4 <- Chromatogram(rtime = seq_along(ints) + 300, intensity = ints,
+                        mz = 403)
+    chrs <- Chromatograms(list(ch1, ch2, ch3, ch4, ch1, ch2), ncol = 2,
+                          byrow = TRUE)
+    plot(chrs)
+    plot(chrs[1, , drop = FALSE])
+    plot(chrs[1, 1, drop = FALSE])
+})

@@ -100,3 +100,67 @@ setReplaceMethod("[", "Chromatograms",
                      if (validObject(x))
                          x
                  })
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{plot}: plots a \code{Chromatograms} object. For each row
+#'     in the object one plot is created, i.e. all \code{\link{Chromatogram}}
+#'     objects in the same row are added to the same plot.
+#'
+#' @details \code{plot}: if \code{nrow(x) > 1} the plot area is split into
+#'     \code{nrow(x)} sub-plots and the chromatograms of one row are plotted in
+#'     each.
+#'
+#' @param col For \code{plot}: the color to be used for plotting. Either a
+#'     vector of length 1 or equal to \code{ncol(x)}.
+#'
+#' @param lty For \code{plot}: the line type (see \code{\link[graphics]{plot}}
+#'     for more details. Can be either a vector of length 1 or of length equal
+#'     to \code{ncol(x)}.
+#'
+#' @param type For \code{plot}: the type of plot (see
+#'     \code{\link[graphics]{plot}} for more details. Can be either a vector
+#'     of length 1 or of length equal to \code{ncol(x)}.
+#' 
+#' @inheritParams Chromatogram-class
+#'
+#' @examples
+#' 
+#' ## Create some random Chromatogram objects
+#' ints <- abs(rnorm(123, mean = 200, sd = 32))
+#' ch1 <- Chromatogram(rtime = seq_along(ints), intensity = ints, mz = 231)
+#' ints <- abs(rnorm(122, mean = 250, sd = 43))
+#' ch2 <- Chromatogram(rtime = seq_along(ints), intensity = ints, mz = 231)
+#' ints <- abs(rnorm(125, mean = 590, sd = 120))
+#' ch3 <- Chromatogram(rtime = seq_along(ints), intensity = ints, mz = 542)
+#' ints <- abs(rnorm(124, mean = 1200, sd = 509))
+#' ch4 <- Chromatogram(rtime = seq_along(ints), intensity = ints, mz = 542)
+#'
+#' ## Combine into a 2x2 Chromatograms object
+#' chrs <- Chromatograms(list(ch1, ch2, ch3, ch4), byrow = TRUE, ncol = 2)
+#'
+#' ## Plot the second row
+#' plot(chrs[2, , drop = FALSE])
+#'
+#' ## Plot all chromatograms
+#' plot(chrs, col = c("#ff000080", "#00ff0080"))
+setMethod("plot", signature = signature("Chromatograms"),
+          function(x, col = "#00000060", lty = 1, type = "l",
+                   xlab = "retention time", ylab = "intensity",
+                   main = NULL, ...){
+              nr <- nrow(x)
+              nc <- ncol(x)
+              ## Initialize plot if we've got more than one row.
+              if (nr > 1) {
+                  par(mfrow = c(round(sqrt(nr)), ceiling(sqrt(nr))))
+              }
+              for (i in seq_len(nr)) {
+                  if (nc > 1)
+                      .plotChromatogramList(x[i, ], col = col, lty = lty,
+                                            type = type, xlab = xlab,
+                                            ylab = ylab, main = main, ...)
+                  else
+                      plot(x[i, 1], col = col, lty = lty, type = type,
+                           xlab = xlab, ylab = ylab, main = main, ...)
+              }
+          })
