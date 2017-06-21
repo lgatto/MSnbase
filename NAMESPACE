@@ -245,6 +245,7 @@ exportMethods(updateObject,
               filterRt,
               filterFile,
               filterAcquisitionNum,
+	      filterEmptySpectra,
               spectrapply,
               splitByFile,
               ## Features of interest

@@ -44,7 +44,6 @@ test_that("all imputation methods", {
 
 
 test_that("nbavg methods", {
-    
     m <- matrix(1:25, 5)
     ## default min value
     m[1, 2] <- 0.1 

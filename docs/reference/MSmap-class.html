@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Class  — MSmap-class • MSnbase</title>
+<title>Class <code>MSmap</code> — MSmap-class • MSnbase</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -77,7 +79,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Class </h1>
+    <h1>Class <code>MSmap</code></h1>
     </div>
 
     
@@ -90,115 +92,114 @@
     <h2 class="hasAnchor" id="objects-from-the-class"><a class="anchor" href="#objects-from-the-class"></a>Objects from the Class</h2>
 
     <p>Objects can be created with the <code>MSmap</code> constructor. The
-  constructor has the following arguments:
-  <dl class='dl-horizontal'>
-    <dt>object</dt><dd>An object created by <code>mzR::openMSfile</code>.</dd>
-    <dt>scans</dt><dd>A <code>numeric</code> indicating the scan indices to be
+  constructor has the following arguments:</p><dl class='dl-horizontal'>
+    <dt>object</dt><dd><p>An object created by <code>mzR::openMSfile</code>.</p></dd>
+    <dt>scans</dt><dd><p>A <code>numeric</code> indicating the scan indices to be
       extracted from <code>object</code> to create the MS map. If missing, all
-      MS1 spectra will be used. </dd>
-    <dt>lowMz</dt><dd>A <code>numeric</code> of length 1 defining the lower bound
-      of the M/Z range of the MS map. </dd>
-    <dt>highMz</dt><dd>A <code>numeric</code> of length 1 defining the upper bound
-      of the M/Z range of the MS map. </dd>
-    <dt>resMz</dt><dd>The resolution along the M/Z range. </dd>
-    <dt>hd</dt><dd>An optional <code>data.frame</code> as produced by
+      MS1 spectra will be used.</p></dd>
+    <dt>lowMz</dt><dd><p>A <code>numeric</code> of length 1 defining the lower bound
+      of the M/Z range of the MS map.</p></dd>
+    <dt>highMz</dt><dd><p>A <code>numeric</code> of length 1 defining the upper bound
+      of the M/Z range of the MS map.</p></dd>
+    <dt>resMz</dt><dd><p>The resolution along the M/Z range.</p></dd>
+    <dt>hd</dt><dd><p>An optional <code>data.frame</code> as produced by
       <code>mzR::header(object)</code>. If missing, will be computer within
-      the function. </dd>
-    <dt>zeroIsNA</dt><dd>Set 0 intensities to <code>NA</code>. This can be used
-      to clarify the 3 dimensional plot produce by <code>plot3D</code>.</dd>
-  </dl></p>
+      the function.</p></dd>
+    <dt>zeroIsNA</dt><dd><p>Set 0 intensities to <code>NA</code>. This can be used
+      to clarify the 3 dimensional plot produce by <code>plot3D</code>.</p></dd>
+  </dl>
     
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
-    <p><dl class='dl-horizontal'>
-    <dt><code>call</code>:</dt><dd>Object of class <code>&quot;call&quot;</code> - the call used to
-      generate the instance. </dd>
-    <dt><code>map</code>:</dt><dd>Object of class <code>&quot;matrix&quot;</code> containing the
-      actual MS map. </dd>
-    <dt><code>mz</code>:</dt><dd>Object of class <code>&quot;numeric&quot;</code> with the M/Z
-      sampling bins. </dd>
-    <dt><code>res</code>:</dt><dd>Object of class <code>&quot;numeric&quot;</code> storing the the M/Z
-      resolution used to create the map. </dd>
-    <dt><code>rt</code>:</dt><dd>Object of class <code>&quot;numeric&quot;</code> with the
-      retention times of the map spectra. </dd>
-    <dt><code>ms</code>:</dt><dd>Object of class <code>&quot;numeric&quot;</code> with the MS
-      levels of the spectra. </dd>    
-    <dt><code>t</code>:</dt><dd>Object of class <code>&quot;logical&quot;</code> indicating if the
-    instance has been transposed. </dd>
-    <dt><code>filename</code>:</dt><dd>Object of class <code>&quot;character&quot;</code>
-      specifying the filename of the original raw MS data.  </dd>
-  </dl></p>
+    <p></p><dl class='dl-horizontal'>
+    <dt><code>call</code>:</dt><dd><p>Object of class <code>"call"</code> - the call used to
+      generate the instance.</p></dd>
+    <dt><code>map</code>:</dt><dd><p>Object of class <code>"matrix"</code> containing the
+      actual MS map.</p></dd>
+    <dt><code>mz</code>:</dt><dd><p>Object of class <code>"numeric"</code> with the M/Z
+      sampling bins.</p></dd>
+    <dt><code>res</code>:</dt><dd><p>Object of class <code>"numeric"</code> storing the the M/Z
+      resolution used to create the map.</p></dd>
+    <dt><code>rt</code>:</dt><dd><p>Object of class <code>"numeric"</code> with the
+      retention times of the map spectra.</p></dd>
+    <dt><code>ms</code>:</dt><dd><p>Object of class <code>"numeric"</code> with the MS
+      levels of the spectra.</p></dd>    
+    <dt><code>t</code>:</dt><dd><p>Object of class <code>"logical"</code> indicating if the
+    instance has been transposed.</p></dd>
+    <dt><code>filename</code>:</dt><dd><p>Object of class <code>"character"</code>
+      specifying the filename of the original raw MS data.</p></dd>
+  </dl>
     
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
-    <p><dl class='dl-horizontal'>
-    <dt>coerce</dt><dd><code>signature(from = &quot;MSmap&quot;, to = &quot;data.frame&quot;)</code>:
+    <p></p><dl class='dl-horizontal'>
+    <dt>coerce</dt><dd><p><code>signature(from = "MSmap", to = "data.frame")</code>:
       convert the <code>MSmap</code> instance in a <code>data.frame</code>. Useful
-      for plotting with <code>lattice</code> or <code>ggplot2</code>. </dd>
-    <dt>fileName</dt><dd><code>signature(object = &quot;MSmap&quot;)</code>: returns the raw
-      data filename. </dd> 
-    <dt>msLevel</dt><dd><code>signature(object = &quot;MSmap&quot;)</code>: returns the MS
-      level of the map spectra. </dd>
-    <dt>msMap</dt><dd><code>signature(object = &quot;MSmap&quot;)</code>: returns the actual
-      map <code>matrix</code>. </dd>
-    <dt>mz</dt><dd><code>signature(object = &quot;MSmap&quot;, ...)</code>: returns the M/Z values
-      of the map. Additional arguments are currently ignored. </dd>
-    <dt>rtime</dt><dd><code>signature(object = &quot;MSmap&quot;, ...)</code>: returns retention
-      time values of the map. Additional arguments are currently ignored.</dd>	
-    <dt>mzRes</dt><dd><code>signature(object = &quot;MSmap&quot;)</code>: returns the
-      resolution with which the sample along the M/Z range was done. </dd>
-    <dt>dim</dt><dd><code>signature(x = &quot;MSmap&quot;)</code>: returns the dimensions of
+      for plotting with <code>lattice</code> or <code>ggplot2</code>.</p></dd>
+    <dt>fileName</dt><dd><p><code>signature(object = "MSmap")</code>: returns the raw
+      data filename.</p></dd> 
+    <dt>msLevel</dt><dd><p><code>signature(object = "MSmap")</code>: returns the MS
+      level of the map spectra.</p></dd>
+    <dt>msMap</dt><dd><p><code>signature(object = "MSmap")</code>: returns the actual
+      map <code>matrix</code>.</p></dd>
+    <dt>mz</dt><dd><p><code>signature(object = "MSmap", ...)</code>: returns the M/Z values
+      of the map. Additional arguments are currently ignored.</p></dd>
+    <dt>rtime</dt><dd><p><code>signature(object = "MSmap", ...)</code>: returns retention
+      time values of the map. Additional arguments are currently ignored.</p></dd>	
+    <dt>mzRes</dt><dd><p><code>signature(object = "MSmap")</code>: returns the
+      resolution with which the sample along the M/Z range was done.</p></dd>
+    <dt>dim</dt><dd><p><code>signature(x = "MSmap")</code>: returns the dimensions of
       the map. <code>ncol</code> and <code>nrow</code> return the number of columns
-      and rows respectively. </dd>
-    <dt>t</dt><dd><code>signature(x = &quot;MSmap&quot;)</code>: transposes the map. </dd>
-    <dt>show</dt><dd><code>signature(object = &quot;MSmap&quot;)</code>: prints a summary of
-      the map. </dd>
-    <dt>plot</dt><dd><code>signature(x = &quot;MSmap&quot;, allTicks = &quot;logical&quot;)</code>:
+      and rows respectively.</p></dd>
+    <dt>t</dt><dd><p><code>signature(x = "MSmap")</code>: transposes the map.</p></dd>
+    <dt>show</dt><dd><p><code>signature(object = "MSmap")</code>: prints a summary of
+      the map.</p></dd>
+    <dt>plot</dt><dd><p><code>signature(x = "MSmap", allTicks = "logical")</code>:
       produces an image of the map using <code>lattice::levelplot</code>. By
       default, <code>allTicks</code> is <code>TRUE</code> and all M/Z and retention
       times ticks of drawn. If set to <code>FALSE</code>, only 10 ticks in
-      each dimension are plotted. </dd>
-    <dt>plot3D</dt><dd><code>signature(object = &quot;MSmap&quot;, rgl = &quot;logical&quot;)</code>:
+      each dimension are plotted.</p></dd>
+    <dt>plot3D</dt><dd><p><code>signature(object = "MSmap", rgl = "logical")</code>:
       produces an three dimensional view of the map using
-      <code>lattice::cloude(..., type = &quot;h&quot;)</code>. If <code>rgl</code> is
+      <code>lattice::cloude(..., type = "h")</code>. If <code>rgl</code> is
       <code>TRUE</code>, the map is visualised on a <code>rgl</code> device and can
-      be rotated with the mouse. </dd>
-  </dl></p>
+      be rotated with the mouse.</p></dd>
+  </dl>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='co'>## Not run: ------------------------------------</span>
-<span class='co'>#     ## downloads the data</span>
-<span class='co'>#     library("rpx")</span>
-<span class='co'>#     px1 &lt;- PXDataset("PXD000001")</span>
-<span class='co'>#     (i &lt;- grep("TMT.+mzML", pxfiles(px1), value = TRUE))</span>
-<span class='co'>#     mzf &lt;- pxget(px1, i)</span>
-<span class='co'># </span>
-<span class='co'>#     ## reads the data </span>
-<span class='co'>#     ms &lt;- openMSfile(mzf)</span>
-<span class='co'>#     hd &lt;- header(ms)</span>
-<span class='co'># </span>
-<span class='co'>#     ## a set of spectra of interest: MS1 spectra eluted</span>
-<span class='co'>#     ## between 30 and 35 minutes retention time</span>
-<span class='co'>#     ms1 &lt;- which(hd$msLevel == 1)</span>
-<span class='co'>#     rtsel &lt;- hd$retentionTime[ms1] / 60 &gt; 30 &amp;</span>
-<span class='co'>#         hd$retentionTime[ms1] / 60 &lt; 35</span>
-<span class='co'># </span>
-<span class='co'>#     ## the map</span>
-<span class='co'>#     M &lt;- MSmap(ms, ms1[rtsel], 521, 523, .005, hd)</span>
-<span class='co'># </span>
-<span class='co'>#     plot(M, aspect = 1, allTicks = FALSE)</span>
-<span class='co'>#     plot3D(M)</span>
-<span class='co'>#     if (require("rgl") &amp; interactive())</span>
-<span class='co'>#         plot3D(M, rgl = TRUE)</span>
-<span class='co'># </span>
-<span class='co'>#     ## With some MS2 spectra</span>
-<span class='co'>#     i &lt;- ms1[which(rtsel)][1]</span>
-<span class='co'>#     j &lt;- ms1[which(rtsel)][2]</span>
-<span class='co'>#     M2 &lt;- MSmap(ms, i:j, 100, 1000, 1, hd)</span>
-<span class='co'>#     plot3D(M2)</span>
-<span class='co'>## ---------------------------------------------</span></div></pre>
+<span class='fu'>not_run</span>({
+      <span class='co'>## downloads the data</span>
+      <span class='fu'>library</span>(<span class='st'>"rpx"</span>)
+      <span class='no'>px1</span> <span class='kw'>&lt;-</span> <span class='fu'>PXDataset</span>(<span class='st'>"PXD000001"</span>)
+      (<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'>grep</span>(<span class='st'>"TMT.+mzML"</span>, <span class='fu'>pxfiles</span>(<span class='no'>px1</span>), <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
+      <span class='no'>mzf</span> <span class='kw'>&lt;-</span> <span class='fu'>pxget</span>(<span class='no'>px1</span>, <span class='no'>i</span>)
+
+      <span class='co'>## reads the data </span>
+      <span class='no'>ms</span> <span class='kw'>&lt;-</span> <span class='fu'>openMSfile</span>(<span class='no'>mzf</span>)
+      <span class='no'>hd</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pSet-class.html'>header</a></span>(<span class='no'>ms</span>)
+
+      <span class='co'>## a set of spectra of interest: MS1 spectra eluted</span>
+      <span class='co'>## between 30 and 35 minutes retention time</span>
+      <span class='no'>ms1</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='no'>hd</span>$<span class='no'>msLevel</span> <span class='kw'>==</span> <span class='fl'>1</span>)
+      <span class='no'>rtsel</span> <span class='kw'>&lt;-</span> <span class='no'>hd</span>$<span class='no'>retentionTime</span>[<span class='no'>ms1</span>] / <span class='fl'>60</span> <span class='kw'>&gt;</span> <span class='fl'>30</span> <span class='kw'>&amp;</span>
+          <span class='no'>hd</span>$<span class='no'>retentionTime</span>[<span class='no'>ms1</span>] / <span class='fl'>60</span> <span class='kw'>&lt;</span> <span class='fl'>35</span>
+
+      <span class='co'>## the map</span>
+      <span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='no'>ms</span>, <span class='no'>ms1</span>[<span class='no'>rtsel</span>], <span class='fl'>521</span>, <span class='fl'>523</span>, <span class='fl'>.005</span>, <span class='no'>hd</span>)
+
+      <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>M</span>, <span class='kw'>aspect</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>allTicks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+      <span class='fu'>plot3D</span>(<span class='no'>M</span>)
+      <span class='kw'>if</span> (<span class='fu'>require</span>(<span class='st'>"rgl"</span>) <span class='kw'>&amp;</span> <span class='fu'>interactive</span>())
+          <span class='fu'>plot3D</span>(<span class='no'>M</span>, <span class='kw'>rgl</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+      <span class='co'>## With some MS2 spectra</span>
+      <span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='no'>ms1</span>[<span class='fu'>which</span>(<span class='no'>rtsel</span>)][<span class='fl'>1</span>]
+      <span class='no'>j</span> <span class='kw'>&lt;-</span> <span class='no'>ms1</span>[<span class='fu'>which</span>(<span class='no'>rtsel</span>)][<span class='fl'>2</span>]
+      <span class='no'>M2</span> <span class='kw'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='no'>ms</span>, <span class='no'>i</span>:<span class='no'>j</span>, <span class='fl'>100</span>, <span class='fl'>1000</span>, <span class='fl'>1</span>, <span class='no'>hd</span>)
+      <span class='fu'>plot3D</span>(<span class='no'>M2</span>)
+})</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

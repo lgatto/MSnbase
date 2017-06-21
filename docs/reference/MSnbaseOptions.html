@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -90,7 +92,7 @@ not set. The <code>PARALLEL_THRESH</code> defines the minimum number of
 spectra per file necessary before using parallel processing.</p>
     
 
-    <pre><span class='fu'>MSnbaseOptions</span>()
+    <pre class="usage"><span class='fu'>MSnbaseOptions</span>()
 
 <span class='fu'>isMSnbaseVerbose</span>()
 
@@ -99,10 +101,13 @@ spectra per file necessary before using parallel processing.</p>
 <span class='fu'>setMSnbaseParallelThresh</span>(<span class='kw'>opt</span> <span class='kw'>=</span> <span class='fl'>1000</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>opt</dt>
-      <dd>The value of the new option</dd>
-    </dl>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>opt</th>
+      <td><p>The value of the new option</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
@@ -112,8 +117,8 @@ spectra per file necessary before using parallel processing.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>isMSnbaseVerbose</code> is one wrapper for the verbosity flag,
-also available through <code>options(&quot;MSnbase&quot;)$verbose</code>.</p>
-    <p>There are also setters to set options individually. When run
+also available through <code>options("MSnbase")$verbose</code>.</p>
+<p>There are also setters to set options individually. When run
 without argument, the verbosity setter inverts the current value
 of the option.</p>
     

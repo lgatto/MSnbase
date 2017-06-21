@@ -1,5 +1,4 @@
 base
-pkgdown
 BiocStyle
 BiocGenerics
 Biobase
@@ -8,16 +7,6 @@ mzR
 BiocParallel
 ProtGenerics
 MSnbase
-mvtnorm
-Matrix
-sandwich
-gmm
-tmvtnorm
-norm
-pcaMethods
-impute
-imputeLCMD
-ggplot2
 msdata
 pryr
 microbenchmark
