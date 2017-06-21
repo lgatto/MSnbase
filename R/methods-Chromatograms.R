@@ -12,20 +12,23 @@ setMethod("show", "Chromatograms", function(object) {
         paste0("length: ", length(z[[1]]))
     }
     if (nr > 0 && nc > 0) {
-        nms <- rownames(object)
-        if (nr <= 4)
+        if (nr <= 4) {
             out <- apply(object, MARGIN = c(1, 2), sumFun)
+            rownames(out) <- paste0("[", 1:nrow(out), ",]")
+        }
         else {
             out <- rbind(
                 apply(object[c(1, 2), , drop = FALSE], MARGIN = c(1, 2), sumFun),
                 rep(" ... ", ncol(object)),
                 apply(object[nrow(object) - c(1, 0), , drop = FALSE],
                       MARGIN = c(1, 2), sumFun)
-                )
+            )
+            rownames(out) <- c("[1,]", "[2,]", "...",
+                               paste0("[", c(nrow(object) - c(1, 0)), ",]"))
         }
+        rn <- rownames(out)
         out <- rbind(rep("<Chromatogram>", ncol(out)), out)
-        if (!is.null(nms))
-            rownames(out) <- nms
+        rownames(out) <- c("", rn)        
         print(out, quote = FALSE, right = TRUE)
     }
 })
