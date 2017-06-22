@@ -107,7 +107,9 @@ setReplaceMethod("[", "Chromatograms",
                      ## Check value.
                      if (is(value, "Chromatogram"))
                          value <- list(value)
-                     if (!all(sapply(value, function(z) is(z, "Chromatogram"))))
+                     res <- vapply(value, FUN = is, FUN.VALUE = logical(1),
+                                   "Chromatogram")
+                     if(!all(res))
                          stop("All elements in 'value' have to be of type ",
                               "'Chromatogram'")
                      x@.Data[i, j] <- value

@@ -316,10 +316,10 @@ test_that("chromatogram,OnDiskMSnExp works", {
     flt <- filterMz(onDisk, mz = mzr[1, ])
     ints <- split(unlist(lapply(spectra(flt), function(z) sum(intensity(z)))),
                   fromFile(flt))
-    expect_equal(ints[[1]], intensity(res[[1]]))
-    expect_equal(ints[[2]], intensity(res[[2]]))
-    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[[1]]))
-    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[[2]]))
+    expect_equal(ints[[1]], intensity(res[1, 1][[1]]))
+    expect_equal(ints[[2]], intensity(res[1, 2][[1]]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[1, 1][[1]]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[1, 2][[1]]))
 
     ## Multiple mz ranges.
     mzr <- matrix(c(100, 120, 200, 220, 300, 320), nrow = 3, byrow = TRUE)
@@ -327,23 +327,23 @@ test_that("chromatogram,OnDiskMSnExp works", {
     res <- MSnbase:::.extractMultipleChromatograms(onDisk, mz = mzr, rt = rtr)
     ## Check that the values for all ranges is within the specified ranges
     for (i in 1:nrow(mzr)) {
-        expect_true(all(mz(res[[i]][[1]]) >= mzr[i, 1] &
-                        mz(res[[i]][[1]]) <= mzr[i, 2]))
-        expect_true(all(mz(res[[i]][[2]]) >= mzr[i, 1] &
-                        mz(res[[i]][[2]]) <= mzr[i, 2]))
-        expect_true(all(rtime(res[[i]][[1]]) >= rtr[1, 1] &
-                        rtime(res[[i]][[1]]) <= rtr[1, 2]))
-        expect_true(all(rtime(res[[i]][[2]]) >= rtr[1, 1] &
-                        rtime(res[[i]][[2]]) <= rtr[1, 2]))
+        expect_true(all(mz(res[i, 1][[1]]) >= mzr[i, 1] &
+                        mz(res[i, 1][[1]]) <= mzr[i, 2]))
+        expect_true(all(mz(res[i, 2][[1]]) >= mzr[i, 1] &
+                        mz(res[i, 2][[1]]) <= mzr[i, 2]))
+        expect_true(all(rtime(res[i, 1][[1]]) >= rtr[1, 1] &
+                        rtime(res[i, 1][[1]]) <= rtr[1, 2]))
+        expect_true(all(rtime(res[i, 2][[1]]) >= rtr[1, 1] &
+                        rtime(res[i, 2][[1]]) <= rtr[1, 2]))
     }
     ## Check that values are correct.
     flt <- filterMz(filterRt(onDisk, rt = rtr[1, ]), mz = mzr[2, ])
     ints <- split(unlist(lapply(spectra(flt), function(z) sum(intensity(z)))),
                   fromFile(flt))
-    expect_equal(ints[[1]], intensity(res[[2]][[1]]))
-    expect_equal(ints[[2]], intensity(res[[2]][[2]]))
-    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[[2]][[1]]))
-    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[[2]][[2]]))
+    expect_equal(ints[[1]], intensity(res[2, 1][[1]]))
+    expect_equal(ints[[2]], intensity(res[2, 2][[1]]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[2, 1][[1]]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[2, 2][[1]]))
 
     ## Now with ranges for which we don't have values in one or the other.
     rtr <- matrix(c(280, 300, 20, 40), nrow = 2,
@@ -369,3 +369,4 @@ test_that("chromatogram,OnDiskMSnExp works", {
     ints <- unlist(lapply(spctr[[1]], function(z) sum(intensity(z))))
     expect_equal(ints, intensity(res[2, 2]))
 })
+

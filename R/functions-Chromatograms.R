@@ -4,7 +4,7 @@
     msg <- character()
     ## All elements have to be of type Chromatogram
     if (length(x)) {
-        res <- sapply(x, FUN = function(z) is(z, "Chromatogram"))
+        res <- vapply(x, FUN = is, FUN.VALUE = logical(1L), "Chromatogram")
         if (!all(res))
             msg <- c(msg, paste0("All elements have to be of type ",
                                  "'Chromatogram'."))
@@ -46,7 +46,8 @@ Chromatograms <- function(data, ...) {
 .plotChromatogramList <- function(x, col = "#00000060", lty = 1, type = "l",
                                   xlab = "retention time", ylab = "intensity",
                                   main = NULL, ...) {
-    if (!is.list(x) & !all(sapply(x, function(z) is(z, "Chromatogram"))))
+    if (!is.list(x) & !all(vapply(x, FUN = is, FUN.VALUE = logical(1L),
+                                  "Chromatogram")))
         stop("'x' has to be a list of Chromatogram objects")
     ## Check col, lty and type parameters
     if (length(col) != length(x))
@@ -64,41 +65,34 @@ Chromatograms <- function(data, ...) {
     ## Number of measurements we've got per chromatogram. This can be different
     ## between samples, from none (if not a single measurement in the rt/mz)
     ## to the number of data points that were actually measured.
-    lens <- unique(lengths(x))
-    max_len <- max(lens)
-    max_len_vec <- rep_len(NA, max_len)
-    ## Generate the matrix of rt values, columns are samples, rows retention
-    ## time values. Fill each column with NAs up to the maximum number of values
-    ## we've got in a sample/file.
-    rts <- do.call(cbind, lapply(x, function(z) {
-        cur_len <- length(z)
-        if (cur_len == 0)
-            max_len_vec
-        else {
-            max_len_vec[seq_len(cur_len)] <- rtime(z)
-            max_len_vec
+    lens <- lengths(x)
+    maxLens <- max(lens)
+    
+    ints <- rts <- matrix(NA_real_, nrow = maxLens, ncol = length(x))
+    for (i in seq(along = x)) {
+        if (lens[i]) {
+            rows <- seq_len(lens[i])
+            rts[rows, i] <- rtime(x[[i]])
+            ints[rows, i] <- intensity(x[[i]])
         }
-    }))
-    ## Same for the intensities.
-    ints <- do.call(cbind, lapply(x, function(z) {
-        cur_len <- length(z)
-        if (length(z) == 0)
-            max_len_vec
-        else {
-            max_len_vec[seq_len(cur_len)] <- intensity(z)
-            max_len_vec
-        }
-    }))
-    ## Identify columns that have only NAs in either intensity or rt - these
-    ## will not be plotted.
-    keepCol <- which(apply(ints, MARGIN = 2, function(z) any(!is.na(z))) |
-                     apply(rts, MARGIN = 2, function(z) any(!is.na(z))))
+    }
+    ## Identify columns/samples that have only NAs in the intensity matrix.
+    ## Such columns represent samples for which no valid intensity was measured
+    ## in the respective mz slice (these would still have valid retention time
+    ## values), or samples that don't have a single scan in the respective rt
+    ## range.
+    keep <- colSums(!is.na(rts)) > 0
+
     ## Finally plot the data.
-    if (length(keepCol)) {
-        matplot(x = rts[, keepCol, drop = FALSE],
-                y = ints[, keepCol, drop = FALSE], type = type[keepCol],
-                lty = lty[keepCol], col = col[keepCol], xlab = xlab,
+    if (any(keep)) {
+        matplot(x = rts[, keep, drop = FALSE],
+                y = ints[, keep, drop = FALSE], type = type[keep],
+                lty = lty[keep], col = col[keep], xlab = xlab,
                 ylab = ylab, main = main, ...)
-    } else
+    } else {
+        warning("No chromatographic data to plot")
         plot(x = 3, y = 3, pch = NA, xlab = xlab, ylab = ylab, main = main, ...)
+    }
 }
+
+

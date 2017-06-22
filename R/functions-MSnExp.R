@@ -351,28 +351,3 @@ removeReporters_MSnExp <- function(object, reporters = NULL,
     return(object)
 }
 
-.chromatogram <- function(x, rt, mz, aggregationFun = "sum",
-                          missingValue = NA_real_) {
-    missingValue <- as.numeric(missingValue)
-    if (!any(.SUPPORTED_AGG_FUN_CHROM == aggregationFun))
-        stop("'aggregationFun' should be one of ",
-             paste0("'", .SUPPORTED_AGG_FUN_CHROM, "'", collapse = ", "))
-    if (missing(rt))
-        rt <- matrix(c(-Inf, Inf), nrow = 1)
-    if (missing(mz))
-        mz <- matrix(c(-Inf, Inf), nrow = 1)
-    ## Check rt
-    ## Calculate the range for each row in rt 
-    if (ncol(rt) != 2)
-        rt <- t(apply(rt, MARGIN = 1, range))
-    ## Replicate if nrow rt is 1 to match nrow of mz.
-    if (nrow(rt) == 1)
-        rt <- matrix(rep(rt, nrow(mz)), ncol = 2, byrow = TRUE)
-    if (ncol(mz) != 2)
-        mz <- t(apply(mz, MARGIN = 1, range))
-    if (nrow(mz) == 1)
-        mz <- matrix(rep(mz, nrow(rt)), ncol = 2, byrow = TRUE)
-    if (nrow(rt) != nrow(mz))
-        stop("dimensions of 'rt' and 'mz' have to match")
-    ## Check mz
-}

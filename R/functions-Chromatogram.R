@@ -52,8 +52,10 @@ names(.SUPPORTED_AGG_FUN_CHROM) <-
                                  paste0("'", .SUPPORTED_AGG_FUN_CHROM,"'",
                                         collapse = ","), " are allowed!"))
     }
-    if (length(msg) == 0) TRUE
-    else msg
+    if (length(msg))
+        msg
+    else
+        TRUE
 }
 
 #' @description \code{Chromatogram}: create an instance of the

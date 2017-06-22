@@ -475,8 +475,7 @@ setMethod("chromatogram", "MSnExp", function(object, rt, mz,
             mz <- matrix(range(mz), ncol = 2, byrow = TRUE)
     res <- .extractMultipleChromatograms(object, rt = rt, mz = mz,
                                          aggregationFun = aggregationFun,
-                                         missingValue = missing,
-                                         return.type = "matrix")
+                                         missingValue = missing)
     res <- as(res, "Chromatograms")
     colnames(res) <- basename(fileNames(object))
     if (validObject(res))

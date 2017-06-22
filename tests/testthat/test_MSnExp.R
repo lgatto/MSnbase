@@ -399,38 +399,38 @@ test_that("chromatogram,MSnExp works", {
 
     ## Full rt range.
     mzr <- matrix(c(100, 120), nrow = 1)
-    res <- MSnbase:::.extractMultipleChromatograms(inMem, mz = mzr)
+    res <- chromatogram(inMem, mz = mzr)
     flt <- filterMz(inMem, mz = mzr[1, ])
     ints <- split(unlist(lapply(spectra(flt), function(z) sum(intensity(z)))),
                   fromFile(flt))
-    expect_equal(ints[[1]], intensity(res[[1]]))
-    expect_equal(ints[[2]], intensity(res[[2]]))
-    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[[1]]))
-    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[[2]]))
+    expect_equal(ints[[1]], intensity(res[1, 1]))
+    expect_equal(ints[[2]], intensity(res[1, 2]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[1, 1]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[1, 2]))
 
     ## Multiple mz ranges.
     mzr <- matrix(c(100, 120, 200, 220, 300, 320), nrow = 3, byrow = TRUE)
     rtr <- matrix(c(50, 300), nrow = 1)
-    res <- MSnbase:::.extractMultipleChromatograms(inMem, mz = mzr, rt = rtr)
+    res <- chromatogram(inMem, mz = mzr, rt = rtr)
     ## Check that the values for all ranges is within the specified ranges
     for (i in 1:nrow(mzr)) {
-        expect_true(all(mz(res[[i]][[1]]) >= mzr[i, 1] &
-                        mz(res[[i]][[1]]) <= mzr[i, 2]))
-        expect_true(all(mz(res[[i]][[2]]) >= mzr[i, 1] &
-                        mz(res[[i]][[2]]) <= mzr[i, 2]))
-        expect_true(all(rtime(res[[i]][[1]]) >= rtr[1, 1] &
-                        rtime(res[[i]][[1]]) <= rtr[1, 2]))
-        expect_true(all(rtime(res[[i]][[2]]) >= rtr[1, 1] &
-                        rtime(res[[i]][[2]]) <= rtr[1, 2]))
+        expect_true(all(mz(res[i, 1]) >= mzr[i, 1] &
+                        mz(res[i, 1]) <= mzr[i, 2]))
+        expect_true(all(mz(res[i, 2]) >= mzr[i, 1] &
+                        mz(res[i, 2]) <= mzr[i, 2]))
+        expect_true(all(rtime(res[i, 1]) >= rtr[1, 1] &
+                        rtime(res[i, 1]) <= rtr[1, 2]))
+        expect_true(all(rtime(res[i, 2]) >= rtr[1, 1] &
+                        rtime(res[i, 2]) <= rtr[1, 2]))
     }
     ## Check that values are correct.
     flt <- filterMz(filterRt(inMem, rt = rtr[1, ]), mz = mzr[2, ])
     ints <- split(unlist(lapply(spectra(flt), function(z) sum(intensity(z)))),
                   fromFile(flt))
-    expect_equal(ints[[1]], intensity(res[[2]][[1]]))
-    expect_equal(ints[[2]], intensity(res[[2]][[2]]))
-    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[[2]][[1]]))
-    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[[2]][[2]]))
+    expect_equal(ints[[1]], intensity(res[2, 1]))
+    expect_equal(ints[[2]], intensity(res[2, 2]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[2, 1]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[2, 2]))
 
     ## Now with ranges for which we don't have values in one or the other.
     rtr <- matrix(c(280, 300, 20, 40), nrow = 2,
