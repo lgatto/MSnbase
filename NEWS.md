@@ -1,7 +1,7 @@
 # MSnbase 2.3
 
 ## Changes in version 2.3.8
-- Nothing yet
+- New infrastructure for chromatogram data <2017-06-24 Sat>
 
 ## Changes in version 2.3.7
 - export filterEmptySpectra
