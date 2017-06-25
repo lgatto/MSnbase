@@ -3,6 +3,9 @@
 ## Changes in version 2.3.6
 - Brutally remove xic and chromatogram functions/methods, to be
   replaced by the Chromatogram[s] infrastructure <2017-06-15 Thu>
+- Change naming scheme for spectra: FFILEID.SSPECTRUMID, e.g. F01.S0001. Before
+  it has been XSPECTRUMID.FILEID. The new naming scheme changes the order of
+  the spectra. See #255 (and PR #256) for details <2017-06-25 Sun>.
 
 ## Changes in version 2.3.5
 - Fix superscript syntax in demo vignette <2017-06-14 Wed>
