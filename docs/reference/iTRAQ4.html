@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title> iTRAQ 4-plex set  — iTRAQ4 • MSnbase</title>
+<title>iTRAQ 4-plex set — iTRAQ4 • MSnbase</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -77,20 +79,20 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1> iTRAQ 4-plex set </h1>
+    <h1>iTRAQ 4-plex set</h1>
     </div>
 
     
-    <p>This instance of class <code>&quot;<a href='ReporterIons-class.html'>ReporterIons</a>&quot;</code> corresponds
+    <p>This instance of class <code>"<a href='ReporterIons-class.html'>ReporterIons</a>"</code> corresponds
   to the iTRAQ 4-plex set, i.e the 114, 115, 116 and 117 isobaric
   tags. In the iTRAQ5 data set, an unfragmented tag, i.e reporter and
   attached isobaric tag, is also included at MZ 145.
   These objects are used to plot the reporter ions of interest in an
-  MSMS spectra (see <code>&quot;<a href='Spectrum2-class.html'>Spectrum2</a>&quot;</code>) as well as for
+  MSMS spectra (see <code>"<a href='Spectrum2-class.html'>Spectrum2</a>"</code>) as well as for
   quantification (see <code><a href='quantify-methods.html'>quantify</a></code>).</p>
     
 
-    <pre><span class='no'>iTRAQ4</span>
+    <pre class="usage"><span class='no'>iTRAQ4</span>
 <span class='no'>iTRAQ5</span>
 <span class='no'>iTRAQ8</span>
 <span class='no'>iTRAQ9</span></pre>
@@ -100,8 +102,8 @@
     <p>Ross PL, Huang YN, Marchese JN, Williamson B, Parker K, Hattan S,
   Khainovski N, Pillai S, Dey S, Daniels S, Purkayastha S, Juhasz P,
   Martin S, Bartlet-Jones M, He F, Jacobson A, Pappin DJ.
-  &quot;Multiplexed protein quantitation in Saccharomyces cerevisiae using
-  amine-reactive isobaric tagging reagents.&quot;
+  "Multiplexed protein quantitation in Saccharomyces cerevisiae using
+  amine-reactive isobaric tagging reagents."
   <em>Mol Cell Proteomics</em>, 2004 Dec;3(12):1154-69.
   Epub 2004 Sep 22. PubMed PMID: 15385600.</p>
     
@@ -111,13 +113,13 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>iTRAQ4</span></div><div class='output co'>#&gt; Object of class &quot;ReporterIons&quot;
-#&gt; iTRAQ4: &#39;4-plex iTRAQ&#39; with 4 reporter ions
+    <pre class="examples"><div class='input'><span class='no'>iTRAQ4</span></div><div class='output co'>#&gt; Object of class "ReporterIons"
+#&gt; iTRAQ4: '4-plex iTRAQ' with 4 reporter ions
 #&gt;  - 114.1112 +/- 0.05 (red)
 #&gt;  - 115.1083 +/- 0.05 (green)
 #&gt;  - 116.1116 +/- 0.05 (blue)
-#&gt;  - 117.115 +/- 0.05 (yellow)</div><div class='input'><span class='no'>iTRAQ4</span>[<span class='fl'>1</span>:<span class='fl'>2</span>]</div><div class='output co'>#&gt; Object of class &quot;ReporterIons&quot;
-#&gt; iTRAQ4[1:2]: &#39;subset of 4-plex iTRAQ&#39; with 2 reporter ions
+#&gt;  - 117.115 +/- 0.05 (yellow)</div><div class='input'><span class='no'>iTRAQ4</span>[<span class='fl'>1</span>:<span class='fl'>2</span>]</div><div class='output co'>#&gt; Object of class "ReporterIons"
+#&gt; iTRAQ4[1:2]: 'subset of 4-plex iTRAQ' with 2 reporter ions
 #&gt;  - 114.1112 +/- 0.05 (red)
 #&gt;  - 115.1083 +/- 0.05 (green)</div><div class='input'>
 <span class='no'>newReporter</span> <span class='kw'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"ReporterIons"</span>,
@@ -127,8 +129,8 @@
                    <span class='kw'>mz</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='fl'>121</span>,<span class='fl'>122</span>),
                    <span class='kw'>col</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>"red"</span>,<span class='st'>"blue"</span>),
                    <span class='kw'>width</span><span class='kw'>=</span><span class='fl'>0.05</span>)
-<span class='no'>newReporter</span></div><div class='output co'>#&gt; Object of class &quot;ReporterIons&quot;
-#&gt; my reporter ions: &#39;an example&#39; with 2 reporter ions
+<span class='no'>newReporter</span></div><div class='output co'>#&gt; Object of class "ReporterIons"
+#&gt; my reporter ions: 'an example' with 2 reporter ions
 #&gt;  - 121 +/- 0.05 (red)
 #&gt;  - 122 +/- 0.05 (blue)</div></pre>
   </div>

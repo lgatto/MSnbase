@@ -151,10 +151,7 @@ context("MSnExp processing")
 context("MSnExp data")
 
 test_that("spectra order and integrity", {
-    file <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                full.name = TRUE,
-                pattern = "mzXML$")
-    aa <- readMSData(file, verbose = FALSE, centroided. = FALSE)
+    aa <- extdata_mzXML_in_mem_ms2
     clean.aa <- clean(aa, verbose = FALSE)
     rmpeaks.aa <- removePeaks(aa, verbose = FALSE)
     expect_equal(ls(assayData(clean.aa)), ls(assayData(aa)))
@@ -198,7 +195,7 @@ test_that("addIdentificationData", {
                                        identFile, verbose = FALSE),
                  "No feature data found.")
 
-    aa <- readMSData(quantFile, verbose = FALSE)
+    aa <- extdata_mzXML_in_mem_ms2
 
     expect_error(addIdentificationData(aa, "foobar.mzid",
                                        verbose = FALSE),
@@ -227,8 +224,8 @@ test_that("addIdentificationData to OnDiskMSnExp", {
                      full.name = TRUE, pattern = "mzXML$")
     identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                      full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-    rw1 <- readMSData(quantFile)
-    rw2 <- readMSData2(quantFile)
+    rw1 <- extdata_mzXML_in_mem_ms2
+    rw2 <- extdata_mzXML_on_disk_ms2
     expect_true(all.equal(rw1, rw2))
     rw1 <- addIdentificationData(rw1, identFile)
     rw2 <- addIdentificationData(rw2, identFile)
@@ -250,12 +247,10 @@ test_that("addIdentificationData to OnDiskMSnExp", {
 
 
 test_that("idSummary", {
-    quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                     full.name = TRUE, pattern = "mzXML$")
     identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                      full.name = TRUE, pattern = "dummyiTRAQ.mzid")
 
-    aa <- readMSData(quantFile, verbose = FALSE)
+    aa <- extdata_mzXML_in_mem_ms2
     bb <- addIdentificationData(aa, identFile, verbose = FALSE)
 
     expect_error(idSummary(aa), "No quantification/identification data found")
@@ -326,20 +321,19 @@ test_that("Noise estimation MSnExp", {
 })
 
 test_that("isolation window", {
-    f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
+    f <- msdata::proteomics(full.names = TRUE,
+                            pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
     i1 <- isolationWindow(f, unique = FALSE)
-    i2 <- isolationWindow(readMSData2(f), unique = FALSE)
-    i3 <- isolationWindow(readMSData(f), unique = FALSE)
+    i2 <- isolationWindow(tmt_erwinia_on_disk, unique = FALSE)
+    i3 <- isolationWindow(tmt_erwinia_in_mem_ms2, unique = FALSE)
     expect_identical(i1, i2)
     expect_identical(i1, i3)
 })
 
 test_that("spectrapply,MSnExp", {
     library(msdata)
-    mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-             system.file("microtofq/MM8.mzML", package = "msdata"))
-    inMem <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE)
-
+    inMem <- microtofq_in_mem_ms1
+    
     sps <- spectra(inMem)
     sps_2 <- spectrapply(inMem)
     expect_identical(sps, sps_2)
@@ -351,9 +345,7 @@ test_that("spectrapply,MSnExp", {
 
 test_that("splitByFile,MSnExp", {
     library(msdata)
-    mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-             system.file("microtofq/MM8.mzML", package = "msdata"))
-    inMem <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE)
+    inMem <- microtofq_in_mem_ms1
     expect_error(splitByFile(inMem, f = factor(1:3)))
     spl <- splitByFile(inMem, f = factor(c("b", "a")))
     expect_equal(spectra(spl[[1]]), spectra(filterFile(inMem, 2)))

@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -85,18 +87,36 @@
 samples and features.</p>
     
 
-    <pre><span class='fu'>naplot</span>(<span class='no'>object</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span>(), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>naplot</span>(<span class='no'>object</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span>(), <span class='kw'>reorderRows</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>reorderColumns</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>object</dt>
-      <dd>An object of class <code>MSnSet</code>.</dd>
-      <dt>verbose</dt>
-      <dd>If verbose (default is <code>TRUE</code>), print a table
-of missing values.</dd>
-      <dt>...</dt>
-      <dd>Additional parameters passed to <code>image2</code>.</dd>
-    </dl>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>An object of class <code>MSnSet</code>.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>If verbose (default is <code>isMSnbaseVerbose()</code>), print a
+table of missing values.</p></td>
+    </tr>
+    <tr>
+      <th>reorderRows</th>
+      <td><p>If reorderRows (default is <code>TRUE</code>) rows are ordered
+by number of NA.</p></td>
+    </tr>
+    <tr>
+      <th>reorderColumns</th>
+      <td><p>If reorderColumns (default is <code>TRUE</code>) columns
+are ordered by number of NA.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional parameters passed to <code>image2</code>.</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 

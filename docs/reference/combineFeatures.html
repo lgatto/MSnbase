@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title> Combines features in an  — combineFeatures • MSnbase</title>
+<title>Combines features in an <code>MSnSet</code> object — combineFeatures • MSnbase</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -77,78 +79,94 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1> Combines features in an </h1>
+    <h1>Combines features in an <code>MSnSet</code> object</h1>
     </div>
 
     
     <p>This function combines the features in an
-  <code>&quot;<a href='MSnSet-class.html'>MSnSet</a>&quot;</code> instance applying a summarisation
+  <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> instance applying a summarisation
   function (see <code>fun</code> argument) to sets of features as
   defined by a factor (see <code>groupBy</code> argument).
   Note that the feature names are automatically updated based on the
   <code>groupBy</code> parameter.</p>
-
-    <p>The coefficient of variations are automatically computed and collated
+<p>The coefficient of variations are automatically computed and collated
   to the featureData slot. See <code>cv</code> and <code>cv.norm</code> arguments
   for details.</p>
-
-    <p>NB: All the functions available as <code>fun</code> take a <code>na.rm</code>
+<p>NB: All the functions available as <code>fun</code> take a <code>na.rm</code>
   argument. This argument is <code>FALSE</code> by default. This will have as
   effect that <code>NA</code> get propagated at the higher level. It is
   generally advised to set <code>na.rm = TRUE</code>. See the example below.</p>
     
 
-    <pre><span class='fu'>combineFeatures</span>(<span class='no'>object</span>, <span class='no'>groupBy</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"mean"</span>, <span class='st'>"median"</span>,
-<span class='st'>"weighted.mean"</span>, <span class='st'>"sum"</span>, <span class='st'>"medpolish"</span>, <span class='st'>"iPQF"</span>), <span class='kw'>redundancy.handler</span> <span class='kw'>=</span>
+    <pre class="usage"><span class='fu'>combineFeatures</span>(<span class='no'>object</span>, <span class='no'>groupBy</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"mean"</span>, <span class='st'>"median"</span>,
+<span class='st'>"weighted.mean"</span>, <span class='st'>"sum"</span>, <span class='st'>"medpolish"</span>, <span class='st'>"iPQF"</span>, <span class='st'>"NTR"</span>), <span class='kw'>redundancy.handler</span> <span class='kw'>=</span>
 <span class='fu'>c</span>(<span class='st'>"unique"</span>, <span class='st'>"multiple"</span>), <span class='kw'>cv</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>cv.norm</span> <span class='kw'>=</span> <span class='st'>"sum"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span>
 <span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span>(), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>object</dt>
-      <dd> An instance of class <code>&quot;<a href='MSnSet-class.html'>MSnSet</a>&quot;</code>
-    whose features will be summerised. </dd>
-      <dt>groupBy</dt>
-      <dd> A <code>factor</code>, <code>character</code>, <code>numeric</code> or a
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>An instance of class <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code>
+    whose features will be summerised.</p></td>
+    </tr>
+    <tr>
+      <th>groupBy</th>
+      <td><p>A <code>factor</code>, <code>character</code>, <code>numeric</code> or a
     <code>list</code> of the above defining how to summerise the features. The
     list must be of length <code>nrow(object)</code>. Each element of the list
     is a vector describing the feature mapping. If the list can be
     named, its names must match <code>fetureNames(object)</code>. See
-    <code>redundancy.handler</code> for details about the latter.</dd>
-      <dt>fun</dt>
-      <dd> The summerising function. Currently, mean, median,
-    weighted mean, sum and median polish and iPQF (see
-    <code><a href='iPQF.html'>iPQF</a></code> for details) are implemented, but user-defined
-    functions can also be supplied. </dd>
-      <dt>redundancy.handler</dt>
-      <dd> If <code>groupBy</code> is a <code>list</code>, one of
-    <code>&quot;unique&quot;</code> (default) or <code>&quot;multiple&quot;</code> (ignored otherwise)
+    <code>redundancy.handler</code> for details about the latter.</p></td>
+    </tr>
+    <tr>
+      <th>fun</th>
+      <td><p>The summerising function. Currently, mean, median,
+    weighted mean, sum, median polish, iPQF (see
+    <code><a href='iPQF.html'>iPQF</a></code> for details) and NTR (see <code><a href='normToReference.html'>NTR</a></code>
+    for details) are implemented, but user-defined functions can also be
+    supplied.</p></td>
+    </tr>
+    <tr>
+      <th>redundancy.handler</th>
+      <td><p>If <code>groupBy</code> is a <code>list</code>, one of
+    <code>"unique"</code> (default) or <code>"multiple"</code> (ignored otherwise)
     defining how to handle peptides that can be associated to multiple
     higher-level features (proteins) upon combination. Using
-    <code>&quot;unique&quot;</code> will only consider uniquely matching features
+    <code>"unique"</code> will only consider uniquely matching features
     (features matching multiple proteins will be discarded).
-    <code>&quot;multiple&quot;</code> will allow matching to multiple proteins and each
+    <code>"multiple"</code> will allow matching to multiple proteins and each
     feature will be repeatedly tallied for each possible matching
-    protein. </dd>
-      <dt>cv</dt>
-      <dd> A <code>logical</code> defining if feature coefficients of
+    protein.</p></td>
+    </tr>
+    <tr>
+      <th>cv</th>
+      <td><p>A <code>logical</code> defining if feature coefficients of
     variation should be computed and stored as feature
-    meta-data. Default is <code>TRUE</code>. </dd>
-      <dt>cv.norm</dt>
-      <dd> A <code>character</code> defining how to normalise the
+    meta-data. Default is <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>cv.norm</th>
+      <td><p>A <code>character</code> defining how to normalise the
     feature intensitites prior to CV calculation. Default is
     <code>sum</code>. Use <code>none</code> to keep intensities as is. See
-    <code><a href='featureCV.html'>featureCV</a></code> for more details. </dd>
-      <dt>verbose</dt>
-      <dd> A <code>logical</code> indicating whether verbose output is
-    to be printed out. </dd>
-      <dt>&#8230;</dt>
-      <dd> Additional arguments for the <code>fun</code> function. </dd>
-    </dl>
+    <code><a href='featureCV.html'>featureCV</a></code> for more details.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>A <code>logical</code> indicating whether verbose output is
+    to be printed out.</p></td>
+    </tr>
+    <tr>
+      <th>&#8230;</th>
+      <td><p>Additional arguments for the <code>fun</code> function.</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A new <code>&quot;<a href='MSnSet-class.html'>MSnSet</a>&quot;</code> instance is returned with
+    <p>A new <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> instance is returned with
   <code>ncol</code> (i.e. number of samples) is unchanged, but <code>nrow</code>
   (i.e. the number od features) is now equals to the number of levels in
   <code>groupBy</code>. The feature metadata (<code>featureData</code> slot) is
@@ -165,11 +183,13 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p></p>
+    
     <p><code><a href='featureCV.html'>featureCV</a></code> to calculate coefficient of variation,
   <code><a href='nFeatures.html'>nFeatures</a></code> to document the number of features per group
   in the feature data, and the <code><a href='aggvar.html'>aggvar</a></code> to explore
   variability within protein groups.</p>
+<p><code><a href='iPQF.html'>iPQF</a></code> for iPQF summarisation.</p>
+<p><code><a href='normToReference.html'>NTR</a></code> for normalisation to reference summarisation.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -186,13 +206,13 @@
 <span class='no'>msnset.comb</span> <span class='kw'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grp</span>, <span class='st'>"sum"</span>)
 <span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='no'>msnset.comb</span>)</div><div class='output co'>#&gt; [1] 2 4</div><div class='input'><span class='fu'>exprs</span>(<span class='no'>msnset.comb</span>)</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; 1   36553.13   41320.38   46178.09   44950.38
-#&gt; 2   64407.15   68134.01   76572.53   76563.54</div><div class='input'><span class='fu'>fvarLabels</span>(<span class='no'>msnset.comb</span>)</div><div class='output co'>#&gt;  [1] &quot;spectrum&quot;            &quot;ProteinAccession&quot;    &quot;ProteinDescription&quot; 
-#&gt;  [4] &quot;PeptideSequence&quot;     &quot;file&quot;                &quot;retention.time&quot;     
-#&gt;  [7] &quot;precursor.mz&quot;        &quot;precursor.intensity&quot; &quot;charge&quot;             
-#&gt; [10] &quot;peaks.count&quot;         &quot;tic&quot;                 &quot;ionCount&quot;           
-#&gt; [13] &quot;ms.level&quot;            &quot;acquisition.number&quot;  &quot;collision.energy&quot;   
-#&gt; [16] &quot;CV.iTRAQ4.114&quot;       &quot;CV.iTRAQ4.115&quot;       &quot;CV.iTRAQ4.116&quot;      
-#&gt; [19] &quot;CV.iTRAQ4.117&quot;      </div><div class='input'>
+#&gt; 2   64407.15   68134.01   76572.53   76563.54</div><div class='input'><span class='fu'>fvarLabels</span>(<span class='no'>msnset.comb</span>)</div><div class='output co'>#&gt;  [1] "spectrum"            "ProteinAccession"    "ProteinDescription" 
+#&gt;  [4] "PeptideSequence"     "file"                "retention.time"     
+#&gt;  [7] "precursor.mz"        "precursor.intensity" "charge"             
+#&gt; [10] "peaks.count"         "tic"                 "ionCount"           
+#&gt; [13] "ms.level"            "acquisition.number"  "collision.energy"   
+#&gt; [16] "CV.iTRAQ4.114"       "CV.iTRAQ4.115"       "CV.iTRAQ4.116"      
+#&gt; [19] "CV.iTRAQ4.117"      </div><div class='input'>
 <span class='co'>## grouping with a list</span>
 <span class='no'>grpl</span> <span class='kw'>&lt;-</span> <span class='fu'>list</span>(<span class='fu'>c</span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>), <span class='st'>"A"</span>, <span class='st'>"A"</span>, <span class='st'>"C"</span>, <span class='fu'>c</span>(<span class='st'>"C"</span>, <span class='st'>"B"</span>))
 <span class='co'>## optional naming</span>
@@ -211,10 +231,10 @@
 #&gt; X2    3715.089         NA   4748.462   5249.904
 #&gt; X20  34509.686   34928.75  41911.032  42843.839
 #&gt; X21  21262.148   23168.73  25407.068         NA
-#&gt; X22   8635.316   10036.53   9254.432   7769.749</div><div class='input'><span class='co'>## NAs propagate in the 115 and 117 channels </span>
+#&gt; X22   8635.316   10036.53   9254.432   7769.749</div><div class='input'><span class='co'>## NAs propagate in the 115 and 117 channels</span>
 <span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grp</span>, <span class='st'>"sum"</span>))</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; 1   36553.13         NA   46178.09   44950.38
-#&gt; 2   64407.15   68134.01   76572.53         NA</div><div class='input'><span class='co'>## NAs are removed before summing </span>
+#&gt; 2   64407.15   68134.01   76572.53         NA</div><div class='input'><span class='co'>## NAs are removed before summing</span>
 <span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grp</span>, <span class='st'>"sum"</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; 1   36553.13   37066.06   46178.09   44950.38
 #&gt; 2   64407.15   68134.01   76572.53   50613.59</div><div class='input'>
@@ -228,7 +248,7 @@
                        <span class='kw'>ratio.calc</span> <span class='kw'>=</span> <span class='st'>"sum"</span>,
                        <span class='kw'>method.combine</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The following 1 proteins are only supported by 1 or 2 peptide spectra,</span>
 #&gt; <span class='message'>hence, protein quantification is not reliable and can only be calculated</span>
-#&gt; <span class='message'>by the &#39;mean&#39; in these cases, corresponding protein accessions are:</span>
+#&gt; <span class='message'>by the 'mean' in these cases, corresponding protein accessions are:</span>
 #&gt; <span class='message'>  O95678</span></div><div class='input'><span class='fu'>head</span>(<span class='fu'>exprs</span>(<span class='no'>res</span>))</div><div class='output co'>#&gt;        X114.ions X115.ions X116.ions X117.ions
 #&gt; O95678 0.2404726 0.2682764 0.2584247 0.2328263
 #&gt; P01766 0.2610278 0.2467206 0.2544715 0.2377801

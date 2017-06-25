@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -84,21 +86,28 @@
     <p>Select feature variables to be retained.</p>
     
 
-    <pre><span class='fu'>selectFeatureData</span>(<span class='no'>object</span>, <span class='kw'>graphics</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>fcol</span>)</pre>
+    <pre class="usage"><span class='fu'>selectFeatureData</span>(<span class='no'>object</span>, <span class='kw'>graphics</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>fcol</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>object</dt>
-      <dd>An <code>MSnSet</code>.</dd>
-      <dt>graphics</dt>
-      <dd>A <code>logical</code> (default is <code>TRUE</code>)
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>An <code>MSnSet</code>.</p></td>
+    </tr>
+    <tr>
+      <th>graphics</th>
+      <td><p>A <code>logical</code> (default is <code>TRUE</code>)
 indicating whether a shiny application should be used if
 available. Otherwise, a text menu is used. Ignored if <code>k</code>
-is not missing.</dd>
-      <dt>fcol</dt>
-      <dd>A <code>numeric</code>, <code>local</code> or <code>character</code> of
-valid feature variables to be passed directly.</dd>
-    </dl>
+is not missing.</p></td>
+    </tr>
+    <tr>
+      <th>fcol</th>
+      <td><p>A <code>numeric</code>, <code>local</code> or <code>character</code> of
+valid feature variables to be passed directly.</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
@@ -108,11 +117,11 @@ valid feature variables to be passed directly.</dd>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='st'>"pRolocdata"</span>)</div><div class='output co'>#&gt; <span class='error'>Error: package ‘MSnbase’ required by ‘pRolocdata’ could not be found</span></div><div class='input'><span class='fu'>data</span>(<span class='no'>hyperLOPIT2015</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘hyperLOPIT2015’ not found</span></div><div class='input'><span class='co'>## 5 first feature variables</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>selectFeatureData</span>(<span class='no'>hyperLOPIT2015</span>, <span class='kw'>fcol</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>5</span>)</div><div class='output co'>#&gt; <span class='error'>Error in fData(object): object &#39;hyperLOPIT2015&#39; not found</span></div><div class='input'><span class='fu'>fvarLabels</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; <span class='error'>Error in fvarLabels(x): object &#39;x&#39; not found</span></div><div class='input'><span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># ## select via GUI</span>
-<span class='co'># x &lt;- selectFeatureData(hyperLOPIT2015)</span>
-<span class='co'># fvarLabels(x)</span>
-<span class='co'>## ---------------------------------------------</span></div></pre>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>selectFeatureData</span>(<span class='no'>hyperLOPIT2015</span>, <span class='kw'>fcol</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>5</span>)</div><div class='output co'>#&gt; <span class='error'>Error in fData(object): object 'hyperLOPIT2015' not found</span></div><div class='input'><span class='fu'>fvarLabels</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; <span class='error'>Error in fvarLabels(x): object 'x' not found</span></div><div class='input'><span class='fu'>not_run</span>({
+  <span class='co'>## select via GUI</span>
+  <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>selectFeatureData</span>(<span class='no'>hyperLOPIT2015</span>)
+  <span class='fu'>fvarLabels</span>(<span class='no'>x</span>)
+})</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

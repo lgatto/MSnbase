@@ -238,7 +238,7 @@ sp</code></pre></div>
 <div id="sec:msmaps" class="section level2">
 <h2 class="hasAnchor">
 <a href="#sec:msmaps" class="anchor"></a>MS data space</h2>
-<p>The <em>MSmap</em> class can be used to isolate specific slices of interest from a complete MS acquisition by specifying <span class="math inline">\(m/z\)</span> and retention time ranges. One needs a raw data file in a format supported by <em><a href="http://bioconductor.org/packages/mzR">mzR</a></em>’s <code>openMSfile</code> (<code>mzML</code>, <code>mzXML</code>, …). Below we first download a raw data file from the PRIDE repository and create an <em>MSmap</em> containing all the MS<span class="math inline">\(^1\)</span> spectra between acquired between 30 and 35 minutes and peaks between 521 and 523 <span class="math inline">\(m/z\)</span>. See <code><a href="../reference/MSmap-class.html">?MSmap</a></code> for details.</p>
+<p>The <em>MSmap</em> class can be used to isolate specific slices of interest from a complete MS acquisition by specifying <span class="math inline">\(m/z\)</span> and retention time ranges. One needs a raw data file in a format supported by <em><a href="http://bioconductor.org/packages/mzR">mzR</a></em>’s <code>openMSfile</code> (<code>mzML</code>, <code>mzXML</code>, …). Below we first download a raw data file from the PRIDE repository and create an <em>MSmap</em> containing all the MS1 spectra between acquired between 30 and 35 minutes and peaks between 521 and 523 <span class="math inline">\(m/z\)</span>. See <code><a href="../reference/MSmap-class.html">?MSmap</a></code> for details.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## downloads the data
 <span class="kw">library</span>(<span class="st">"rpx"</span>)
 px1 &lt;-<span class="st"> </span><span class="kw">PXDataset</span>(<span class="st">"PXD000001"</span>)
@@ -275,7 +275,7 @@ Heat map of a chunk of the MS data.
 3 dimensional represention of MS map data.
 </p>
 </div>
-<p>To produce figure @ref(fig:map3d2), we create a second <em>MSmap</em> object containing the first two MS<span class="math inline">\(^1\)</span> spectra of the first map (object <code>M</code> above) and all intermediate MS<span class="math inline">\(^2\)</span> spectra and display <span class="math inline">\(m/z\)</span> values between 100 and 1000.</p>
+<p>To produce figure @ref(fig:map3d2), we create a second <em>MSmap</em> object containing the first two MS1 spectra of the first map (object <code>M</code> above) and all intermediate MS2 spectra and display <span class="math inline">\(m/z\)</span> values between 100 and 1000.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i &lt;-<span class="st"> </span>ms1[<span class="kw">which</span>(rtsel)][<span class="dv">1</span>]
 j &lt;-<span class="st"> </span>ms1[<span class="kw">which</span>(rtsel)][<span class="dv">2</span>]
 M2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MSmap-class.html">MSmap</a></span>(ms, i<span class="op">:</span>j, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">1</span>, hd)</code></pre></div>
@@ -286,8 +286,8 @@ M2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MSmap-cl
 ##   [2]  M/Z: 100 - 1000 (res 1)</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/MSmap-class.html">plot3D</a></span>(M2)</code></pre></div>
 <div class="figure">
-<img src="MSnbase-demo_files/figure-html/map3d2-1.png" alt="3 dimensional represention of MS map data. MS$^1$ and MS$^2$ spectra are coloured in blue and magenta respectively." width="672"><p class="caption">
-3 dimensional represention of MS map data. MS<span class="math inline">\(^1\)</span> and MS<span class="math inline">\(^2\)</span> spectra are coloured in blue and magenta respectively.
+<img src="MSnbase-demo_files/figure-html/map3d2-1.png" alt="3 dimensional represention of MS map data. MS1 and MS2 spectra are coloured in blue and magenta respectively." width="672"><p class="caption">
+3 dimensional represention of MS map data. MS1 and MS2 spectra are coloured in blue and magenta respectively.
 </p>
 </div>
 </div>
@@ -314,7 +314,7 @@ bsa</code></pre></div>
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Data [logically] subsetted 3 spectra: Sat May 27 21:18:04 2017 
+## Data [logically] subsetted 3 spectra: Tue Jun 20 21:39:12 2017 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -419,7 +419,6 @@ Annotated MS2 spectrum.
 <pre><code>##       spectrumFile          idFile coverage
 ## 1 dummyiTRAQ.mzXML dummyiTRAQ.mzid        1</code></pre>
 <p>Similarly, the <code>removeMultipleAssignment</code> method can be used to filter out non-unique features, i.e. that have been assigned to protein groups with more than one member. This function uses by default the <code>nprot</code> feature variable.</p>
-
 <p>Note that <code>removeNoId</code> and <code>removeMultipleAssignment</code> methods can also be called on <em>MSnExp</em> instances.</p>
 </div>
 <div id="sec:calcfrag" class="section level2">
@@ -554,8 +553,8 @@ This figure illustrated the effect or the <code>removePeaks</code> and <code>cle
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Sat May 27 21:18:08 2017 
-## Spectra cleaned: Sat May 27 21:18:08 2017 
+## Curves &lt;= 400 set to '0': Tue Jun 20 21:39:16 2017 
+## Spectra cleaned: Tue Jun 20 21:39:16 2017 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -581,7 +580,7 @@ This figure illustrated the effect or the <code>removePeaks</code> and <code>cle
 </div>
 <div id="sec:isoquant" class="section level1">
 <h1 class="hasAnchor">
-<a href="#sec:isoquant" class="anchor"></a>MS<span class="math inline">\(^2\)</span> isobaric tagging quantitation</h1>
+<a href="#sec:isoquant" class="anchor"></a>MS2 isobaric tagging quantitation</h1>
 <div id="sec:quant" class="section level2">
 <h2 class="hasAnchor">
 <a href="#sec:quant" class="anchor"></a>Reporter ions quantitation</h2>
@@ -621,9 +620,9 @@ qnt</code></pre></div>
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Sat May 27 21:18:08 2017 
-## Spectra cleaned: Sat May 27 21:18:08 2017 
-## iTRAQ4 quantification by trapezoidation: Sat May 27 21:18:13 2017 
+## Curves &lt;= 400 set to '0': Tue Jun 20 21:39:16 2017 
+## Spectra cleaned: Tue Jun 20 21:39:16 2017 
+## iTRAQ4 quantification by trapezoidation: Tue Jun 20 21:39:21 2017 
 ##  MSnbase version: 1.1.22</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">exprs</span>(qnt))</code></pre></div>
 <pre><code>##     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
@@ -723,7 +722,7 @@ qnt.crct &lt;-<span class="st"> </span><span class="kw"><a href="../reference/pu
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/impute-methods.html">impute</a></span>(naset, <span class="st">"min"</span>)
 <span class="kw"><a href="../reference/pSet-class.html">processingData</a></span>(x)</code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data imputation using min Sat May 27 21:18:13 2017 
+## Data imputation using min Tue Jun 20 21:39:21 2017 
 ##  MSnbase version: 1.15.6</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(<span class="kw">is.na</span>(x))</code></pre></div>
 <pre><code>## 
@@ -760,7 +759,7 @@ x</code></pre></div>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Data imputation using mixed Sat May 27 21:18:14 2017 
+## Data imputation using mixed Tue Jun 20 21:39:22 2017 
 ##   Using default parameters 
 ##  MSnbase version: 1.15.6</code></pre>
 <p>Please read <code><a href="../reference/impute-methods.html">?impute</a></code> for a description of the different methods.</p>
@@ -799,7 +798,7 @@ CV versus signal intensity comparison for log2 and vsn transformed data. Lines i
 Experiment-wide normalised MS2 spectra. The y-axes of the individual spectra is now rescaled between 0 and 1 (highest peak), as opposed to figure @ref(fig:msnexpPlot).
 </p>
 </div>
-<p>Additional dedicated normalisation method are available for MS<span class="math inline">\(^2\)</span> label-free quantitation, as described in section @ref(sec:lf) and in the <code>quantify</code> documentation.</p>
+<p>Additional dedicated normalisation method are available for MS2 label-free quantitation, as described in section @ref(sec:lf) and in the <code>quantify</code> documentation.</p>
 </div>
 </div>
 <div id="sec:feataggregation" class="section level1">
@@ -841,22 +840,22 @@ qnt2</code></pre></div>
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Sat May 27 21:18:08 2017 
-## Spectra cleaned: Sat May 27 21:18:08 2017 
-## iTRAQ4 quantification by trapezoidation: Sat May 27 21:18:13 2017 
-## Subset [55,4][54,4] Sat May 27 21:18:13 2017 
-## Removed features with more than 0 NAs: Sat May 27 21:18:13 2017 
-## Dropped featureData's levels Sat May 27 21:18:13 2017 
-## Combined 54 features into 40 using median: Sat May 27 21:18:16 2017 
-##  MSnbase version: 2.3.2</code></pre>
+## Curves &lt;= 400 set to '0': Tue Jun 20 21:39:16 2017 
+## Spectra cleaned: Tue Jun 20 21:39:16 2017 
+## iTRAQ4 quantification by trapezoidation: Tue Jun 20 21:39:21 2017 
+## Subset [55,4][54,4] Tue Jun 20 21:39:21 2017 
+## Removed features with more than 0 NAs: Tue Jun 20 21:39:21 2017 
+## Dropped featureData's levels Tue Jun 20 21:39:21 2017 
+## Combined 54 features into 40 using median: Tue Jun 20 21:39:24 2017 
+##  MSnbase version: 2.3.7</code></pre>
 </div>
 <div id="sec:lf" class="section level1">
 <h1 class="hasAnchor">
-<a href="#sec:lf" class="anchor"></a>Label-free MS<span class="math inline">\(^2\)</span> quantitation</h1>
+<a href="#sec:lf" class="anchor"></a>Label-free MS2 quantitation</h1>
 <div id="peptide-counting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#peptide-counting" class="anchor"></a>Peptide counting</h2>
-<p>Note that if samples are not multiplexed, label-free MS<span class="math inline">\(^2\)</span> quantitation by spectral counting is possible using <em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em>. Once individual spectra have been assigned to peptides and proteins (see section @ref(sec:id)), it becomes straightforward to estimate protein quantities using the simple peptide counting method, as illustrated in section @ref(sec:feataggregation).</p>
+<p>Note that if samples are not multiplexed, label-free MS2 quantitation by spectral counting is possible using <em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em>. Once individual spectra have been assigned to peptides and proteins (see section @ref(sec:id)), it becomes straightforward to estimate protein quantities using the simple peptide counting method, as illustrated in section @ref(sec:feataggregation).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(msexp, <span class="dt">method =</span> <span class="st">"count"</span>)
 ## lets modify out data for demonstration purposes
 <span class="kw">fData</span>(sc)<span class="op">$</span>accession[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">fData</span>(sc)<span class="op">$</span>accession[<span class="dv">2</span>]
@@ -885,10 +884,10 @@ qnt2</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">siquant &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(msexp, <span class="dt">method =</span> <span class="st">"SIn"</span>)
 <span class="kw"><a href="../reference/pSet-class.html">processingData</a></span>(siquant)</code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Quantitation by total ion current [Sat May 27 21:18:16 2017] 
-## Combined 2 features into 2 using sum: Sat May 27 21:18:16 2017 
-## Quantification by SIn [Sat May 27 21:18:16 2017] 
-##  MSnbase version: 2.3.2</code></pre>
+## Quantitation by total ion current [Tue Jun 20 21:39:25 2017] 
+## Combined 2 features into 2 using sum: Tue Jun 20 21:39:25 2017 
+## Quantification by SIn [Tue Jun 20 21:39:25 2017] 
+##  MSnbase version: 2.3.7</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">exprs</span>(siquant)</code></pre></div>
 <pre><code>##         dummyiTRAQ.mzXML
 ## ECA0510      0.003588641
@@ -913,8 +912,8 @@ mzk <span class="op">*</span><span class="st"> </span>zk</code></pre></div>
 ## 2046.175 2045.169</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot-methods.html">plot</a></span>(centroided[[k[<span class="dv">1</span>]]], centroided[[k[<span class="dv">2</span>]]])</code></pre></div>
 <div class="figure">
-<img src="MSnbase-demo_files/figure-html/compms2plot-1.png" alt="Comparing two MS$^2$ spectra." width="672"><p class="caption">
-Comparing two MS<span class="math inline">\(^2\)</span> spectra.
+<img src="MSnbase-demo_files/figure-html/compms2plot-1.png" alt="Comparing two MS2 spectra." width="672"><p class="caption">
+Comparing two MS2 spectra.
 </p>
 </div>
 </div>
@@ -1054,7 +1053,6 @@ exp2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/combin
 <pre><code>## [1] "BSA"     "ECA0172" "ECA0435" "ECA0452" "ECA0469" "ECA0621"</code></pre>
 <p>The <code>droplevels</code> drops the unused <code>featureData</code> levels. This is required to avoid passing absent levels as <code>groupBy</code> in <code>combineFeatures</code>. Alternatively, one could also use <code>factor(fData(exp1)\$ProteinAccession)</code> as <code>groupBy</code> argument.</p>
 <p>The feature names are updated automatically by <code>combineFeatures</code>, using the <code>groupBy</code> argument. Proper feature names, reflecting the nature of the features (spectra, peptides or proteins) is critical when multiple experiments are to be combined, as this is done using common features as defined by their names (see below).</p>
-
 <p>Sample names should also be updated to replace anonymous reporter names with relevant identifiers; the individual reporter data is stored in the <code>phenoData</code> and is not lost. A convenience function <code>updateSampleNames</code> is provided to append the <em>MSnSet</em>’s variable name to the already defined names, although in general, biologically relevant identifiers are preferred.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sampleNames</span>(exp1)</code></pre></div>
 <pre><code>## [1] "iTRAQ4.114" "iTRAQ4.115" "iTRAQ4.116" "iTRAQ4.117"</code></pre>
@@ -1113,9 +1111,8 @@ exp2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MSnSet
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Combined [35,8] and [27,4] MSnSets Sat May 27 21:18:35 2017 
-##  MSnbase version: 2.3.2</code></pre>
-
+## Combined [35,8] and [27,4] MSnSets Tue Jun 20 21:39:48 2017 
+##  MSnbase version: 2.3.7</code></pre>
 <p>In summary, when experiments with different samples need to be combined (along the columns), one needs to (1) clarify the sample names using <code>updateSampleNames</code> or better manually, for biological relevance and (2) update the feature data variable labels with <code>updateFvarLabels</code>. The individual experiments (there can be more than 2) can then easily be combined with the <code>combine</code> method while retaining the meta-data.</p>
 <p>If runs for the same sample (different fractions for example) need to be combines, one needs to (1) differentiate the feature provenance with <code>updateFeatureNames</code> prior to use <code>combine</code>.</p>
 </div>
@@ -1194,13 +1191,13 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 </div>
 <div id="sec:mse" class="section level1">
 <h1 class="hasAnchor">
-<a href="#sec:mse" class="anchor"></a>MS<span class="math inline">\(^E\)</span> data processing</h1>
-<p><em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> can also be used for MS<span class="math inline">\(^E\)</span> data independent acquisition from Waters instrument. The MS<span class="math inline">\(^E\)</span> pipeline depends on the Bioconductor <em><a href="http://bioconductor.org/packages/synapter">synapter</a></em> package <span class="citation">(Bond et al. 2013)</span> that produces <em>MSnSet</em> instances for indvidual acquisitions. The <em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> infrastructure can subsequently be used to further combine experiments, as shown in section @ref(sec:comb2) and apply <em>top3</em> quantitation using the <code>topN</code> method.</p>
+<a href="#sec:mse" class="anchor"></a>MS<sup>E</sup> data processing</h1>
+<p><em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> can also be used for MS<sup>E</sup> data independent acquisition from Waters instrument. The MS<sup>E</sup> pipeline depends on the Bioconductor <em><a href="http://bioconductor.org/packages/synapter">synapter</a></em> package <span class="citation">(Bond et al. 2013)</span> that produces <em>MSnSet</em> instances for indvidual acquisitions. The <em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> infrastructure can subsequently be used to further combine experiments, as shown in section @ref(sec:comb2) and apply <em>top3</em> quantitation using the <code>topN</code> method.</p>
 </div>
 <div id="session-information" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
-<pre><code>## R Under development (unstable) (2017-02-25 r72256)
+<pre><code>## R version 3.4.0 Patched (2017-06-12 r72786)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
@@ -1222,54 +1219,55 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 ## 
 ## other attached packages:
 ##  [1] gplots_3.0.1         pRoloc_1.17.3        MLInterfaces_1.57.0 
-##  [4] cluster_2.0.6        annotate_1.55.0      XML_3.98-1.7        
-##  [7] AnnotationDbi_1.39.0 IRanges_2.11.3       S4Vectors_0.15.2    
+##  [4] cluster_2.0.6        annotate_1.55.0      XML_3.98-1.9        
+##  [7] AnnotationDbi_1.39.1 IRanges_2.11.5       S4Vectors_0.15.4    
 ## [10] pRolocdata_1.15.0    Rdisop_1.37.0        RcppClassic_0.9.6   
-## [13] zoo_1.8-0            MSnbase_2.3.2        ProtGenerics_1.9.0  
-## [16] BiocParallel_1.11.1  mzR_2.11.0           Rcpp_0.12.11        
+## [13] zoo_1.8-0            MSnbase_2.3.7        ProtGenerics_1.9.0  
+## [16] BiocParallel_1.11.2  mzR_2.11.3           Rcpp_0.12.11        
 ## [19] Biobase_2.37.2       BiocGenerics_0.23.0  ggplot2_2.2.1       
-## [22] BiocStyle_2.5.0     
+## [22] BiocStyle_2.5.2     
 ## 
 ## loaded via a namespace (and not attached):
 ##   [1] backports_1.1.0       plyr_1.8.4            lazyeval_0.2.0       
 ##   [4] splines_3.4.0         ggvis_0.4.3           digest_0.6.12        
 ##   [7] foreach_1.4.3         BiocInstaller_1.27.2  htmltools_0.3.6      
-##  [10] viridis_0.4.0         gdata_2.17.0          magrittr_1.5         
-##  [13] memoise_1.1.0         doParallel_1.0.10     sfsmisc_1.1-0        
-##  [16] limma_3.33.2          rda_1.0.2-2           lpSolve_5.6.13       
-##  [19] prettyunits_1.0.2     colorspace_1.3-2      dplyr_0.5.0          
-##  [22] RCurl_1.95-4.8        jsonlite_1.4          hexbin_1.27.1        
-##  [25] genefilter_1.59.0     lme4_1.1-13           impute_1.51.0        
-##  [28] survival_2.41-3       iterators_1.0.8       gtable_0.2.0         
-##  [31] zlibbioc_1.23.0       MatrixModels_0.4-1    car_2.1-4            
-##  [34] kernlab_0.9-25        prabclus_2.2-6        DEoptimR_1.0-8       
-##  [37] SparseM_1.77          scales_0.4.1          vsn_3.45.0           
-##  [40] mvtnorm_1.0-6         DBI_0.6-1             viridisLite_0.2.0    
-##  [43] xtable_1.8-2          progress_1.1.2        proxy_0.4-17         
-##  [46] mclust_5.3            preprocessCore_1.39.0 htmlwidgets_0.8      
-##  [49] sampling_2.8          threejs_0.2.2         FNN_1.1              
-##  [52] RColorBrewer_1.1-2    fpc_2.1-10            modeltools_0.2-21    
-##  [55] flexmix_2.3-14        nnet_7.3-12           caret_6.0-76         
-##  [58] labeling_0.3          rlang_0.1.1.9000      reshape2_1.4.2       
-##  [61] munsell_0.4.3         mlbench_2.1-1         tools_3.4.0          
-##  [64] RSQLite_1.1-2         pls_2.6-0             evaluate_0.10        
-##  [67] stringr_1.2.0         mzID_1.15.0           yaml_2.1.14          
-##  [70] ModelMetrics_1.1.0    knitr_1.16            robustbase_0.92-7    
-##  [73] caTools_1.17.1        randomForest_4.6-12   dendextend_1.5.2     
-##  [76] nlme_3.1-131          whisker_0.3-2         mime_0.5             
-##  [79] quantreg_5.33         biomaRt_2.33.1        compiler_3.4.0       
-##  [82] pbkrtest_0.4-7        e1071_1.6-8           affyio_1.47.0        
-##  [85] tibble_1.3.1          stringi_1.1.5         highr_0.6            
-##  [88] lattice_0.20-35       trimcluster_0.1-2     Matrix_1.2-10        
-##  [91] nloptr_1.0.4          gbm_2.1.3             MALDIquant_1.16.2    
-##  [94] bitops_1.0-6          httpuv_1.3.3          R6_2.2.1             
-##  [97] pcaMethods_1.69.0     affy_1.55.0           hwriter_1.3.2        
-## [100] KernSmooth_2.23-15    gridExtra_2.2.1       codetools_0.2-15     
-## [103] MASS_7.3-47           gtools_3.5.0          assertthat_0.2.0     
-## [106] rprojroot_1.2         diptest_0.75-7        mgcv_1.8-17          
-## [109] rpart_4.1-11          class_7.3-14          minqa_1.2.4          
-## [112] rmarkdown_1.5         Rtsne_0.13            shiny_1.0.3          
-## [115] base64enc_0.1-3</code></pre>
+##  [10] viridis_0.4.0         gdata_2.18.0          magrittr_1.5         
+##  [13] memoise_1.1.0         doParallel_1.0.10     sfsmisc_1.1-1        
+##  [16] limma_3.33.3          rda_1.0.2-2           lpSolve_5.6.13       
+##  [19] prettyunits_1.0.2     colorspace_1.3-2      blob_1.1.0           
+##  [22] dplyr_0.7.0           RCurl_1.95-4.8        jsonlite_1.5         
+##  [25] hexbin_1.27.1         genefilter_1.59.0     lme4_1.1-13          
+##  [28] impute_1.51.0         survival_2.41-3       iterators_1.0.8      
+##  [31] glue_1.1.0            gtable_0.2.0          zlibbioc_1.23.0      
+##  [34] MatrixModels_0.4-1    car_2.1-4             kernlab_0.9-25       
+##  [37] prabclus_2.2-6        DEoptimR_1.0-8        SparseM_1.77         
+##  [40] scales_0.4.1          vsn_3.45.0            mvtnorm_1.0-6        
+##  [43] DBI_0.7               viridisLite_0.2.0     xtable_1.8-2         
+##  [46] progress_1.1.2        bit_1.1-12            proxy_0.4-17         
+##  [49] mclust_5.3            preprocessCore_1.39.0 htmlwidgets_0.8      
+##  [52] sampling_2.8          threejs_0.2.2         FNN_1.1              
+##  [55] RColorBrewer_1.1-2    fpc_2.1-10            modeltools_0.2-21    
+##  [58] flexmix_2.3-14        nnet_7.3-12           caret_6.0-76         
+##  [61] labeling_0.3          rlang_0.1.1.9000      reshape2_1.4.2       
+##  [64] munsell_0.4.3         mlbench_2.1-1         tools_3.4.0          
+##  [67] RSQLite_2.0           pls_2.6-0             evaluate_0.10        
+##  [70] stringr_1.2.0         mzID_1.15.0           yaml_2.1.14          
+##  [73] ModelMetrics_1.1.0    knitr_1.16            bit64_0.9-7          
+##  [76] robustbase_0.92-7     caTools_1.17.1        randomForest_4.6-12  
+##  [79] dendextend_1.5.2      nlme_3.1-131          whisker_0.3-2        
+##  [82] mime_0.5              quantreg_5.33         biomaRt_2.33.3       
+##  [85] compiler_3.4.0        pbkrtest_0.4-7        e1071_1.6-8          
+##  [88] affyio_1.47.0         tibble_1.3.3          stringi_1.1.5        
+##  [91] highr_0.6             lattice_0.20-35       trimcluster_0.1-2    
+##  [94] Matrix_1.2-10         nloptr_1.0.4          gbm_2.1.3            
+##  [97] MALDIquant_1.16.2     bitops_1.0-6          httpuv_1.3.3         
+## [100] R6_2.2.2              pcaMethods_1.69.0     affy_1.55.0          
+## [103] hwriter_1.3.2         KernSmooth_2.23-15    gridExtra_2.2.1      
+## [106] codetools_0.2-15      MASS_7.3-47           gtools_3.5.0         
+## [109] assertthat_0.2.0      rprojroot_1.2         diptest_0.75-7       
+## [112] mgcv_1.8-17           rpart_4.1-11          class_7.3-14         
+## [115] minqa_1.2.4           rmarkdown_1.6         Rtsne_0.13           
+## [118] shiny_1.0.3           base64enc_0.1-3</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
@@ -1395,7 +1393,7 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
       </ul>
 </li>
       <li>
-<a href="#sec:isoquant">MS<span class="math inline">\(^2\)</span> isobaric tagging quantitation</a><ul class="nav nav-pills nav-stacked">
+<a href="#sec:isoquant">MS2 isobaric tagging quantitation</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#sec:quant">Reporter ions quantitation</a></li>
       <li><a href="#sec:io2">Importing quantitation data</a></li>
       <li><a href="#sec:purcor">Peak adjustments</a></li>
@@ -1409,7 +1407,7 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 </li>
       <li><a href="#sec:feataggregation">Feature aggregation</a></li>
       <li>
-<a href="#sec:lf">Label-free MS<span class="math inline">\(^2\)</span> quantitation</a><ul class="nav nav-pills nav-stacked">
+<a href="#sec:lf">Label-free MS2 quantitation</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#peptide-counting">Peptide counting</a></li>
       <li><a href="#spectral-counting-and-intensity-methods">Spectral counting and intensity methods</a></li>
       </ul>
@@ -1429,7 +1427,7 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
       <li><a href="#sec:avg">Averaging <em>MSnSet</em> instances</a></li>
       </ul>
 </li>
-      <li><a href="#sec:mse">MS<span class="math inline">\(^E\)</span> data processing</a></li>
+      <li><a href="#sec:mse">MS<sup>E</sup> data processing</a></li>
       <li><a href="#session-information">Session information</a></li>
       <li><a href="#references">References</a></li>
       </ul>

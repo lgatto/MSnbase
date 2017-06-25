@@ -36,7 +36,8 @@ distributed with the `r Biocexptpkg("msdata")` package
 
 ```{r msdata}
 library("msdata")
-f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
+f <- msdata::proteomics(full.names = TRUE,
+                        pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
 basename(f)
 ```
 
@@ -141,24 +142,6 @@ seconds), while no difference were observed for accessing individual
 or all spectra. Thus, for this particular setup, performance was about
 the same for SSD and HDD. This might however not apply to setting in
 which data import is performed in parallel from multiple files.
-
-<!-- ```{r ssdVsSata, eval = FALSE, echo = FALSE} -->
-<!-- ## Reading the file from the internal SSD harddisk. -->
-<!-- file_name <- "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz" -->
-<!-- f_1 <- paste0("/Users/jo/tmp/", file_name) -->
-<!-- system.time(ondisk_1 <- readMSData2(f_1, -->
-<!--                                     centroided = TRUE)) -->
-<!-- ## Reading the same file from an external USB3 connected HD -->
-<!-- f_2 <- paste0("/Volumes/jodata/tmp/", file_name) -->
-<!-- system.time(ondisk_2 <- readMSData2(f_2, -->
-<!--                                     centroided = TRUE)) -->
-
-<!-- mb <- microbenchmark(spectra(ondisk_1), -->
-<!--                      ondisk_1[[200]], -->
-<!--                      spectra(ondisk_2), -->
-<!--                      ondisk_2[[200]], -->
-<!--                      times = 10) -->
-<!-- ``` -->
 
 Data access does not prohibit interactive usage, such as
 plotting, for example, as it is about 1/2 seconds, which is an
