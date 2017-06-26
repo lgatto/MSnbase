@@ -298,3 +298,75 @@ test_that("splitByFile,OnDiskMSnExp", {
     expect_equal(pData(spl[[1]]), pData(filterFile(od, 2)))
     expect_equal(pData(spl[[2]]), pData(filterFile(od, 1)))    
 })
+
+test_that("chromatogram,OnDiskMSnExp works", {
+    library(msdata)
+    mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
+             system.file("microtofq/MM8.mzML", package = "msdata"))
+    tmpd <- tempdir()
+    file.copy(mzf[1], paste0(tmpd, "a.mzML"))
+    file.copy(mzf[2], paste0(tmpd, "b.mzML"))
+    mzf <- c(mzf, paste0(tmpd, c("a.mzML", "b.mzML")))
+    
+    onDisk <- readMSData2(files = mzf, msLevel. = 1, centroided. = TRUE)
+
+    ## Full rt range.
+    mzr <- matrix(c(100, 120), nrow = 1)
+    res <- MSnbase:::.extractMultipleChromatograms(onDisk, mz = mzr)
+    flt <- filterMz(onDisk, mz = mzr[1, ])
+    ints <- split(unlist(lapply(spectra(flt), function(z) sum(intensity(z)))),
+                  fromFile(flt))
+    expect_equal(ints[[1]], intensity(res[1, 1][[1]]))
+    expect_equal(ints[[2]], intensity(res[1, 2][[1]]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[1, 1][[1]]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[1, 2][[1]]))
+
+    ## Multiple mz ranges.
+    mzr <- matrix(c(100, 120, 200, 220, 300, 320), nrow = 3, byrow = TRUE)
+    rtr <- matrix(c(50, 300), nrow = 1)
+    res <- MSnbase:::.extractMultipleChromatograms(onDisk, mz = mzr, rt = rtr)
+    ## Check that the values for all ranges is within the specified ranges
+    for (i in 1:nrow(mzr)) {
+        expect_true(all(mz(res[i, 1][[1]]) >= mzr[i, 1] &
+                        mz(res[i, 1][[1]]) <= mzr[i, 2]))
+        expect_true(all(mz(res[i, 2][[1]]) >= mzr[i, 1] &
+                        mz(res[i, 2][[1]]) <= mzr[i, 2]))
+        expect_true(all(rtime(res[i, 1][[1]]) >= rtr[1, 1] &
+                        rtime(res[i, 1][[1]]) <= rtr[1, 2]))
+        expect_true(all(rtime(res[i, 2][[1]]) >= rtr[1, 1] &
+                        rtime(res[i, 2][[1]]) <= rtr[1, 2]))
+    }
+    ## Check that values are correct.
+    flt <- filterMz(filterRt(onDisk, rt = rtr[1, ]), mz = mzr[2, ])
+    ints <- split(unlist(lapply(spectra(flt), function(z) sum(intensity(z)))),
+                  fromFile(flt))
+    expect_equal(ints[[1]], intensity(res[2, 1][[1]]))
+    expect_equal(ints[[2]], intensity(res[2, 2][[1]]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[2, 1][[1]]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[2, 2][[1]]))
+
+    ## Now with ranges for which we don't have values in one or the other.
+    rtr <- matrix(c(280, 300, 20, 40), nrow = 2,
+                  byrow = TRUE)  ## Only present in first, or 2nd file
+    res <- chromatogram(onDisk, rt = rtr)
+    ## Check fromFile
+    for (i in 1:ncol(res))
+        expect_true(all(sapply(res[, i], fromFile) == i))
+    expect_equal(length(res[2, 1]), 0)
+    expect_equal(length(res[1, 2]), 0)
+    ## Check rtime
+    expect_true(all(rtime(res[1, 1]) >= rtr[1, 1] &
+                    rtime(res[1, 1]) <= rtr[1, 2]))
+    expect_true(all(rtime(res[2, 2]) >= rtr[2, 1] &
+                    rtime(res[2, 2]) <= rtr[2, 2]))
+    ## Check intensity
+    flt <- filterRt(onDisk, rt = rtr[1, ])
+    spctr <- split(spectra(flt), fromFile(flt))
+    ints <- unlist(lapply(spctr[[1]], function(z) sum(intensity(z))))
+    expect_equal(ints, intensity(res[1, 1]))
+    flt <- filterRt(onDisk, rt = rtr[2, ])
+    spctr <- split(spectra(flt), fromFile(flt))
+    ints <- unlist(lapply(spctr[[1]], function(z) sum(intensity(z))))
+    expect_equal(ints, intensity(res[2, 2]))
+})
+

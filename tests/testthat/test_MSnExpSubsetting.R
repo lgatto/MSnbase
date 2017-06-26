@@ -67,21 +67,21 @@ test_that("Subsetting between OnDiskMSnExp and MSnExp - [ and phenoData", {
 
 test_that("Subsetting between OnDiskMSnExp and MSnExp - second file", {
     ## Extract spectra from the second file
-    subs <- onDisk[c(2, 4, 6)]
+    subs <- onDisk[113:115]
     expect_identical(fileNames(subs), fileNames(onDisk)[2])
     expect_true(all(fromFile(subs) == 1))
     expect_identical(pData(subs), droplevels(pData(onDisk)[2, , drop = FALSE]))
     expect_identical(experimentData(subs)@instrumentManufacturer,
                      experimentData(onDisk)@instrumentManufacturer[2])
-    ## The same for MSnExp:
-    subs <- inMem[c(1, 3, 5)]
+    ## The same for MSnExp: first file
+    subs <- inMem[1:3]
     expect_identical(fileNames(subs), fileNames(inMem)[1])
     expect_true(all(fromFile(subs) == 1))
     expect_identical(pData(subs), droplevels(pData(inMem)[1, , drop = FALSE]))
     expect_identical(experimentData(subs)@instrumentManufacturer,
                      experimentData(inMem)@instrumentManufacturer[1])
     ## Extract spectra from the second file
-    subs <- inMem[c(2, 4, 6)]
+    subs <- inMem[113:115]
     expect_identical(fileNames(subs), fileNames(inMem)[2])
     expect_true(all(fromFile(subs) == 1))
     expect_identical(pData(subs), droplevels(pData(inMem)[2, , drop = FALSE]))

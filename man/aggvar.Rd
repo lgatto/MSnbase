@@ -48,10 +48,11 @@ plot(res2, log = "y", main = "Overall inconsistency (mean)")
 plot(res1[, "agg_dist"], res2[, "agg_dist"],
      xlab = "max", ylab = "mean")
 }
+\author{
+Laurent Gatto
+}
 \seealso{
 \code{\link{combineFeatures}} to combine PSMs
     quantitation into peptides and/or into proteins.
 }
-\author{
-Laurent Gatto
-}
+

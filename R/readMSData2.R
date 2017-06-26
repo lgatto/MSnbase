@@ -35,9 +35,9 @@ readMSData2 <- function(files,
         ## Don't read the individual spectra, just define the names of
         ## the spectra.
         fullhdorder <- c(fullhdorder,
-                         sprintf(paste0("X%0",
-                                        ceiling(log10(length(spidx) + 1L)),
-                                        "d.%s"), 1:length(spidx), filen))
+                          formatFileSpectrumNames(fileIds=filen,
+                                                  spectrumIds=seq_along(spidx),
+                                                  nSpectra=length(spidx)))
         ## Extract all Spectrum info from the header and put it into the featureData
         fdData <- fullhd[spidx, , drop = FALSE]
         ## rename totIonCurrent and peaksCount, as detailed in

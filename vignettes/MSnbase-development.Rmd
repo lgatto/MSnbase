@@ -265,6 +265,26 @@ multiplexed samples.
 getClass("NAnnotatedDataFrame")
 ```
 
+## `Chromatogram` and `Chromatograms`: classes to handle chromatographic data
+
+The `Chromatogram` class represents chromatographic MS data, i.e. retention time
+and intensity duplets for one file/sample. The `Chromatograms` class allows to
+arrange multiple `Chromatogram` instances in a two-dimensional grid, with
+columns supposed to represent different samples and rows two-dimensional areas
+in the plane spanned by the m/z and retention time dimensions from which the
+intensities are extracted (e.g. an extracted ion chromatogram for a specific
+ion). The `Chromatograms` class extends the base `matrix` class. `Chromatograms`
+objects can be extracted from an `MSnExp` or `OnDiskMSnExp` object using the
+`chromatogram` method.
+
+```{r Chromatogram}
+getClass("Chromatogram")
+```
+
+```{r Chromatograms}
+getClass("Chromatograms")
+```
+
 ## Other classes
 
 ### Lists of `MSnSet` instances {-}

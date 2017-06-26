@@ -39,15 +39,15 @@ test_that("Counting and tic MSnSets", {
     n <- !is.na(fData(msx)$pepseq)
     m1 <- matrix(1, nrow = sum(n), ncol = 1)
     colnames(m1) <- "dummyiTRAQ.mzXML"
-    rownames(m1) <- paste0("X", (1:length(msx))[n], ".1")
+    rownames(m1) <- paste0("F1.S", (1:length(msx))[n])
     expect_equal(exprs(.cnt), m1)
     ## tic
     .tic <- MSnbase:::tic_MSnSet(msx)
     mtic <- matrix(tic(msx), ncol = 1)
     colnames(mtic) <- "1"
     colnames(mtic) <- "dummyiTRAQ.mzXML"
-    rownames(mtic) <- paste0("X", 1:length(msx), ".1")
-    expect_equal(exprs(.tic), mtic)  
+    rownames(mtic) <- paste0("F1.S", 1:length(msx))
+    expect_equal(exprs(.tic), mtic)
 })
 
 test_that("MS2 labelfree quantitation: SI", {

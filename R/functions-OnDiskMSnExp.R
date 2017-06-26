@@ -481,3 +481,168 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     return(res)
 }
 
+## Extract chromatogram(s).
+#' @description This function extracts chromatograms efficiently for multiple
+#'     rt and mz ranges by loading the data per file only once and performing
+#'     the mz subsetting on the already loaded Spectrum1 classes.
+#'
+#' @note x has to be an MSnExp or OnDiskMSnExp object. The function is optimized
+#'     for OnDiskMSnExp objects such that extraction is performed in parallel
+#'     for each file.
+#' 
+#' @param rt \code{matrix} with two columns and number of rows corresponding to
+#'     the number of ranges to extract. If the number of columns of the matrix
+#'     is not equal to 2, \code{range} is called on each row.
+#'
+#' @param mz \code{matrix} with two columns and number of rows corresponding to
+#'     the number of ranges to extract. nrow of rt and mz have to match. If the
+#'     number of columns of the matrix is not equal to 2, \code{range} is
+#'     called on each row.
+#'
+#' @param x OnDiskMSnExp object from which to extract the chromatograms.
+#'
+#' @param missingValue value to be used as intensity if no signal was measured
+#'     for a given rt.
+#'
+#' @param msLevel \code{integer(1)} ensuring that the chromatogram is extracted
+#'     only for a specified MS level.
+#' 
+#' @return A \code{matrix} with the \code{Chromatogram} objects with rows
+#'     corresponding to ranges and columns to files/samples. \code{result[, 1]}
+#'     will thus return a \code{list} of \code{Chromatogram} objects for the
+#'     first sample/file, while \code{result[1, ]} returns a \code{list} of
+#'     \code{Chromatogram} objects for the same rt/mz range for all files.
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+.extractMultipleChromatograms <- function(x, rt, mz, aggregationFun = "sum",
+                                          BPPARAM = bpparam(),
+                                          missingValue = NA_real_,
+                                          msLevel = 1L) {
+    missingValue <- as.numeric(missingValue)
+    if (!any(.SUPPORTED_AGG_FUN_CHROM == aggregationFun))
+        stop("'aggregationFun' should be one of ",
+             paste0("'", .SUPPORTED_AGG_FUN_CHROM, "'", collapse = ", "))
+    ## Ensure we're working on one MS level only!
+    x <- filterMsLevel(x, msLevel)
+    if (length(x) == 0)
+        return(list())
+    if (missing(rt))
+        rt <- matrix(c(-Inf, Inf), nrow = 1)
+    if (missing(mz))
+        mz <- matrix(c(-Inf, Inf), nrow = 1)
+    ## Calculate the range for each row in rt 
+    if (ncol(rt) != 2)
+        rt <- t(apply(rt, MARGIN = 1, range))
+    ## Replicate if nrow rt is 1 to match nrow of mz.
+    if (nrow(rt) == 1)
+        rt <- matrix(rep(rt, nrow(mz)), ncol = 2, byrow = TRUE)
+    if (ncol(mz) != 2)
+        mz <- t(apply(mz, MARGIN = 1, range))
+    if (nrow(mz) == 1)
+        mz <- matrix(rep(mz, nrow(rt)), ncol = 2, byrow = TRUE)
+    if (nrow(rt) != nrow(mz))
+        stop("dimensions of 'rt' and 'mz' have to match")
+
+    ## Identify indices of all spectra that are within the rt ranges.
+    rtimes <- rtime(x)
+    keep_idx <- unlist(apply(rt, MARGIN = 1, function(z)
+        which(rtimes >= z[1] & rtimes <= z[2])), use.names = FALSE)
+    keep_idx <- sort(unique(as.integer(keep_idx)))
+    if (length(keep_idx) == 0)
+        return(matrix(ncol = length(fileNames(x)), nrow = 0))
+    ## 1) Subset x keeping all spectra that fall into any of the provided rt
+    ##    ranges.
+    subs <- x[keep_idx]
+    fns <- fileNames(x)
+
+    ## 2) Call the final subsetting on each file separately.
+    subs_by_file <- splitByFile(subs, f = factor(seq_along(fileNames(subs))))
+    suppressWarnings(
+        res <- bpmapply(
+            subs_by_file,
+            match(fileNames(subs), fns),
+            FUN = function(cur_sample, cur_file, rtm, mzm, aggFun) {
+                ## Load all spectra for that file. applies also any proc steps
+                sps <- spectra(cur_sample)
+                rts <- rtime(cur_sample)
+                cur_res <- vector("list", nrow(rtm))
+                ## Loop through rt and mz.
+                for (i in 1:nrow(rtm)) {
+                    ## - Select all spectra within that range and call a
+                    ##   function on them that does first filterMz and then
+                    ##   aggregate the values per spectrum.
+                    in_rt <- rts >= rtm[i, 1] & rts <= rtm[i, 2]
+                    ## Return an empty Chromatogram if there is no spectrum/scan
+                    ## within the retention time range.
+                    if (!any(in_rt)) {
+                        cur_res[[i]] <- Chromatogram(
+                            filterMz = mzm[i, ],
+                            fromFile = as.integer(cur_file),
+                            aggregationFun = aggFun)
+                        next
+                    }
+                    cur_sps <- lapply(
+                        sps[in_rt],
+                        function(spct, filter_mz, aggFun) {
+                            spct <- filterMz(spct, filter_mz)
+                            ## Now aggregate the values.
+                            if (!spct@peaksCount)
+                                return(c(NA_real_, NA_real_, missingValue))
+                            c(range(spct@mz, na.rm = TRUE, finite = TRUE),
+                              do.call(aggFun, list(spct@intensity,
+                                                   na.rm = TRUE)))
+                        }, filter_mz = mzm[i, ], aggFun = aggFun)
+                    ## Now build the Chromatogram class.
+                    allVals <- unlist(cur_sps, use.names = FALSE)
+                    idx <- seq(3, length(allVals), by = 3)
+                    ## Or should we drop the names completely?
+                    ints <- allVals[idx]
+                    names(ints) <- names(cur_sps)
+                    ## If no measurement is non-NA, still report the NAs and
+                    ## use the filter mz as mz. We hence return a
+                    ## Chromatogram with retention times of all spectra
+                    ## within the mz/rt slice, but with all intensity
+                    ## values being NA
+                    mz_range <- mzm[i, ]
+                    if (!all(is.na(ints)))
+                        mz_range <- range(allVals[-idx], na.rm = TRUE,
+                                          finite = TRUE)
+                    cur_res[[i]] <- Chromatogram(
+                        rtime = rts[in_rt],
+                        intensity = ints,
+                        mz = mz_range,
+                        filterMz = mzm[i, ],
+                        fromFile = as.integer(cur_file),
+                        aggregationFun = aggFun)
+                }
+                cur_res
+            }, MoreArgs = list(rtm = rt, mzm = mz, aggFun = aggregationFun),
+            BPPARAM = BPPARAM, SIMPLIFY = FALSE)
+    )
+    ## Ensure that the lists have the same length than there are samples!
+    fromF <- base::match(fileNames(subs), fns)
+
+    ## Jumping here if we have a file with no spectra within the rt range.
+    ## If we've got some files in which we don't have any signal in any range,
+    ## fill it with empty Chromatograms. This ensures that the result has
+    ## ALWAYS the same length/number of columns than there are samples.
+    if (length(res) != length(fns)) {
+        res_all_files <- vector(mode = "list", length = length(fns))
+        res_all_files[fromF] <- res
+        empties <- which(lengths(res_all_files) == 0)
+        ## fill these
+        for (i in empties) {
+            empty_list <- vector(mode = "list", length = nrow(rt))
+            for(j in 1:nrow(rt)) {
+                empty_list[[j]] <- Chromatogram(filterMz = mz[j, ],
+                                                fromFile = as.integer(i),
+                                                aggregationFun = aggregationFun)
+            }
+            res_all_files[[i]] <- empty_list
+        }
+        res <- res_all_files
+    }
+    do.call(cbind, res)
+}
