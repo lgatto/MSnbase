@@ -70,9 +70,9 @@ readMSData <- function(files,
                 ## peaksCount
                 ioncount[ioncounter] <- sum(.p[, 2])
                 ioncounter <- ioncounter + 1
-                .fname <- sprintf(paste0("X%0",
-                                         ceiling(log10(length(spidx) + 1L)),
-                                         "d.%s"), i, filen)
+                .fname <- formatFileSpectrumNames(fileIds=filen,
+                                                  spectrumIds=i,
+                                                  nSpectra=length(spidx))
                 assign(.fname, sp, assaydata)
                 fullhdorder[fullhdordercounter] <- .fname
                 fullhdordercounter <- fullhdordercounter + 1
@@ -115,9 +115,9 @@ readMSData <- function(files,
                 ## peaksCount
                 ioncount[ioncounter] <- sum(.p[, 2])
                 ioncounter <- ioncounter + 1
-                .fname <- sprintf(paste0("X%0",
-                                         ceiling(log10(length(spidx) + 1L)),
-                                         "d.%s"), i, filen)
+                .fname <- formatFileSpectrumNames(fileIds=filen,
+                                                  spectrumIds=i,
+                                                  nSpectra=length(spidx))
                 assign(.fname, sp, assaydata)
                 fullhdorder[fullhdordercounter] <- .fname
                 fullhdordercounter <- fullhdordercounter + 1

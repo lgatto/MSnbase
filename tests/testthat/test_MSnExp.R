@@ -86,19 +86,22 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
     expect_equal(dim(fData(aa)), c(5, 1))
     expect_equal(dim(pData(aa)), c(1, 1))
     ## subsetting
-    expect_true(all.equal(aa[["X4.1"]], assayData(aa)[["X4.1"]]))
+    k <- k1 <- featureNames(aa)[1]
+    k2 <- featureNames(aa)[2]
+    expect_true(all.equal(aa[[k]], assayData(aa)[[k]]))
     sub.aa <- aa[1:2]
-    expect_true(all.equal(sub.aa[["X1.1"]], assayData(sub.aa)[["X1.1"]]))
-    expect_true(all.equal(sub.aa[["X2.1"]], assayData(sub.aa)[["X2.1"]]))
+    expect_true(all.equal(sub.aa[[k1]], assayData(sub.aa)[[k1]]))
+    expect_true(all.equal(sub.aa[[k2]], assayData(sub.aa)[[k2]]))
     expect_equal(fData(sub.aa), fData(aa)[1:2, , drop = FALSE])
     my.prec <- precursorMz(aa)[1]
     my.prec.aa <- extractPrecSpectra(aa, my.prec)
     expect_true(all(precursorMz(my.prec.aa) == my.prec))
     expect_equal(length(my.prec.aa), 2)
-    expect_equal(ls(assayData(my.prec.aa)), paste0("X", c(1,3), ".1"))
+    expect_equal(ls(assayData(my.prec.aa)), paste0("F1.S", c(1,3)))
     ## subsetting errors
     expect_error(aa[[1:3]], "subscript out of bounds")
-    expect_error(aa[c("X1.1","X2.1")], "subsetting works only with numeric or logical")
+    expect_error(aa[c("F1.S1","F1.S2")],
+                 "subsetting works only with numeric or logical")
     expect_error(aa[["AA"]], "object 'AA' not found")
     expect_error(aa[1:10], "subscript out of bounds")
     ## testing that accessors return always attributes in same order

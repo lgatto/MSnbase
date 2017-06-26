@@ -2,8 +2,8 @@
 % Please edit documentation in R/methods-MSnExp.R
 \docType{methods}
 \name{chromatogram,MSnExp-method}
-\alias{chromatogram,MSnExp-method}
 \alias{chromatogram}
+\alias{chromatogram,MSnExp-method}
 \title{Extract chromatogram object(s)}
 \usage{
 \S4method{chromatogram}{MSnExp}(object, rt, mz, aggregationFun = "sum",
@@ -114,10 +114,11 @@ chr
 
 plot(rtime(chr), intensity(chr), xlab = "rtime", ylab = "intensity")
 }
+\author{
+Johannes Rainer
+}
 \seealso{
 \code{\link{Chromatogram}} and \code{\link{Chromatograms}} for the
     classes that represent single and multiple chromatograms.
 }
-\author{
-Johannes Rainer
-}
+
