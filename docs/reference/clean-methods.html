@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cleans 'MSnExp' or 'Spectrum' instances — clean-methods • MSnbase</title>
+<title>Clean 'MSnExp', 'Spectrum' or 'Chromatogram' instances — clean-methods • MSnbase</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -79,13 +79,14 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Cleans 'MSnExp' or 'Spectrum' instances</h1>
+    <h1>Clean 'MSnExp', 'Spectrum' or 'Chromatogram' instances</h1>
     </div>
 
     
-    <p>This method cleans out individual spectra (<code>Spectrum</code> instances)
+    <p>This method cleans out individual spectra (<code>Spectrum</code> instances),
+  chromatograms (<code><a href='Chromatogram-class.html'>Chromatogram</a></code> instances)
   or whole experiments (<code>MSnExp</code> instances) of 0-intensity
-  peaks. Unless <code>all</code> is set to <code>FALSE</code>, origninal 0-intensity
+  peaks. Unless <code>all</code> is set to <code>FALSE</code>, original 0-intensity
   values are retained only around peaks. If more than two 0's were
   separating two peaks, only the first and last ones, those directly
   adjacent to the peak ranges are kept. If two peaks are separated by
@@ -97,18 +98,23 @@
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     <p></p><dl class='dl-horizontal'>
-    <dt><code>signature(object = "MSnExp", all = "logical" verbose =
+    <dt><code>signature(object = "MSnExp", all = "logical", verbose =
 	"logical")</code></dt><dd><p>Cleans all spectra in <code>MSnExp</code>
       object. Displays a control bar if verbose set to <code>TRUE</code>
       (default). Returns a cleaned <code>MSnExp</code> instance.</p></dd>
     <dt><code>signature(object = "Spectrum", all = "logical",
 	msLevel. = "numeric")</code></dt><dd><p>Cleans the <code>Spectrum</code>
-	object. Returns a cleaned <code>Spectrum</code> instance. If <code>all
+      object. Returns a cleaned <code>Spectrum</code> instance. If <code>all
 	= TRUE</code>, then all zeros are removed. <code>msLevel.</code> defines the
-	level of the spectrum, and if <code>msLevel(object) !=
+      level of the spectrum, and if <code>msLevel(object) !=
 	msLevel.</code>, cleaning is ignored. Only relevant when called from
-	<code>OnDiskMSnExp</code> and is only relevant for developers.</p></dd>
-    </dl>
+      <code>OnDiskMSnExp</code> and is only relevant for developers.</p></dd>
+    <dt><code>signature(object = "Chromatogram", all = "logical",
+	na.rm = "logical")</code></dt><dd><p>Cleans the <code><a href='Chromatogram-class.html'>Chromatogram</a></code> instance and returns
+      a cleaned <code><a href='Chromatogram-class.html'>Chromatogram</a></code> object. If
+      <code>na.rm</code> is <code>TRUE</code> (default is <code>FALSE</code>) all
+      <code>NA</code> intensities are removed before cleaning the chromatogram.</p></dd>
+  </dl>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -130,8 +136,24 @@
 <span class='fu'>sum</span>(<span class='fu'><a href='Spectrum-class.html'>peaksCount</a></span>(<span class='no'>itraqdata</span>))</div><div class='output co'>#&gt; [1] 106289</div><div class='input'><span class='fu'>sum</span>(<span class='fu'><a href='Spectrum-class.html'>peaksCount</a></span>(<span class='no'>itraqdata2</span>))</div><div class='output co'>#&gt; [1] 59747</div><div class='input'><span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>itraqdata2</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#&gt; Spectra cleaned: Tue Jun 20 20:37:27 2017 
-#&gt;  MSnbase version: 1.1.22 </div></pre>
+#&gt; Spectra cleaned: Sat Jul  1 07:14:44 2017 
+#&gt;  MSnbase version: 1.1.22 </div><div class='input'>
+<span class='co'>## Create a simple Chromatogram object</span>
+<span class='no'>chr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>12</span>,
+                    <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>20</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>123</span>, <span class='fl'>124343</span>, <span class='fl'>3432</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>))
+
+<span class='co'>## Remove 0-intensity values keeping those adjacent to peaks</span>
+<span class='no'>chr</span> <span class='kw'>&lt;-</span> <span class='fu'>clean</span>(<span class='no'>chr</span>)
+<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>chr</span>)</div><div class='output co'>#&gt; [1]      0     20      0      0    123 124343   3432      0</div><div class='input'>
+<span class='co'>## Remove all 0-intensity values</span>
+<span class='no'>chr</span> <span class='kw'>&lt;-</span> <span class='fu'>clean</span>(<span class='no'>chr</span>, <span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>chr</span>)</div><div class='output co'>#&gt; [1]     20    123 124343   3432</div><div class='input'>
+<span class='co'>## Clean a Chromatogram with NAs.</span>
+<span class='no'>chr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>12</span>,
+                    <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>20</span>, <span class='fl'>NA</span>, <span class='fl'>NA</span>, <span class='fl'>0</span>, <span class='fl'>123</span>, <span class='fl'>124343</span>, <span class='fl'>3432</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>))
+<span class='no'>chr</span> <span class='kw'>&lt;-</span> <span class='fu'>clean</span>(<span class='no'>chr</span>, <span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>chr</span>)</div><div class='output co'>#&gt; [1]      0     20      0    123 124343   3432      0</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
