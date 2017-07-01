@@ -72,7 +72,8 @@ readMSData <- function(files,
                 ioncounter <- ioncounter + 1
                 .fname <- formatFileSpectrumNames(fileIds=filen,
                                                   spectrumIds=i,
-                                                  nSpectra=length(spidx))
+                                                  nSpectra=length(spidx),
+                                                  nFiles=length(files))
                 assign(.fname, sp, assaydata)
                 fullhdorder[fullhdordercounter] <- .fname
                 fullhdordercounter <- fullhdordercounter + 1
@@ -117,7 +118,8 @@ readMSData <- function(files,
                 ioncounter <- ioncounter + 1
                 .fname <- formatFileSpectrumNames(fileIds=filen,
                                                   spectrumIds=i,
-                                                  nSpectra=length(spidx))
+                                                  nSpectra=length(spidx),
+                                                  nFiles=length(files))
                 assign(.fname, sp, assaydata)
                 fullhdorder[fullhdordercounter] <- .fname
                 fullhdordercounter <- fullhdordercounter + 1
