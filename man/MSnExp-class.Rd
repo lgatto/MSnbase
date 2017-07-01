@@ -308,6 +308,9 @@
   \code{"\linkS4class{pSet}"} and \code{\link{readMSData}} for loading
   \code{mzXML}, \code{mzData} or \code{mzML} files to generate an
   instance of \code{MSnExp}.
+
+  \code{\link{chromatogram}} to extract chromatographic data from a
+  \code{MSnExp} or \code{OnDiskMSnExp} object.
 }
 
 \examples{

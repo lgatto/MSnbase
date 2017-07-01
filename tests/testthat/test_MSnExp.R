@@ -86,19 +86,22 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
     expect_equal(dim(fData(aa)), c(5, 1))
     expect_equal(dim(pData(aa)), c(1, 1))
     ## subsetting
-    expect_true(all.equal(aa[["X4.1"]], assayData(aa)[["X4.1"]]))
+    k <- k1 <- featureNames(aa)[1]
+    k2 <- featureNames(aa)[2]
+    expect_true(all.equal(aa[[k]], assayData(aa)[[k]]))
     sub.aa <- aa[1:2]
-    expect_true(all.equal(sub.aa[["X1.1"]], assayData(sub.aa)[["X1.1"]]))
-    expect_true(all.equal(sub.aa[["X2.1"]], assayData(sub.aa)[["X2.1"]]))
+    expect_true(all.equal(sub.aa[[k1]], assayData(sub.aa)[[k1]]))
+    expect_true(all.equal(sub.aa[[k2]], assayData(sub.aa)[[k2]]))
     expect_equal(fData(sub.aa), fData(aa)[1:2, , drop = FALSE])
     my.prec <- precursorMz(aa)[1]
     my.prec.aa <- extractPrecSpectra(aa, my.prec)
     expect_true(all(precursorMz(my.prec.aa) == my.prec))
     expect_equal(length(my.prec.aa), 2)
-    expect_equal(ls(assayData(my.prec.aa)), paste0("X", c(1,3), ".1"))
+    expect_equal(ls(assayData(my.prec.aa)), paste0("F1.S", c(1,3)))
     ## subsetting errors
     expect_error(aa[[1:3]], "subscript out of bounds")
-    expect_error(aa[c("X1.1","X2.1")], "subsetting works only with numeric or logical")
+    expect_error(aa[c("F1.S1","F1.S2")],
+                 "subsetting works only with numeric or logical")
     expect_error(aa[["AA"]], "object 'AA' not found")
     expect_error(aa[1:10], "subscript out of bounds")
     ## testing that accessors return always attributes in same order
@@ -384,4 +387,75 @@ test_that("injection time", {
     it1 <- MSnbase:::injectionTimeFromFile1(f) ## in millisecs
     it2 <- fData(readMSData2(f))$injectionTime ## in secs
     expect_equal(it1/1000, it2)
+})
+
+test_that("chromatogram,MSnExp works", {
+    library(msdata)
+    mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
+             system.file("microtofq/MM8.mzML", package = "msdata"))
+    tmpd <- tempdir()
+    file.copy(mzf[1], paste0(tmpd, "a.mzML"))
+    file.copy(mzf[2], paste0(tmpd, "b.mzML"))
+    mzf <- c(mzf, paste0(tmpd, c("a.mzML", "b.mzML")))
+    
+    inMem <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE)
+
+    ## Full rt range.
+    mzr <- matrix(c(100, 120), nrow = 1)
+    res <- chromatogram(inMem, mz = mzr)
+    flt <- filterMz(inMem, mz = mzr[1, ])
+    ints <- split(unlist(lapply(spectra(flt), function(z) sum(intensity(z)))),
+                  fromFile(flt))
+    expect_equal(ints[[1]], intensity(res[1, 1]))
+    expect_equal(ints[[2]], intensity(res[1, 2]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[1, 1]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[1, 2]))
+
+    ## Multiple mz ranges.
+    mzr <- matrix(c(100, 120, 200, 220, 300, 320), nrow = 3, byrow = TRUE)
+    rtr <- matrix(c(50, 300), nrow = 1)
+    res <- chromatogram(inMem, mz = mzr, rt = rtr)
+    ## Check that the values for all ranges is within the specified ranges
+    for (i in 1:nrow(mzr)) {
+        expect_true(all(mz(res[i, 1]) >= mzr[i, 1] &
+                        mz(res[i, 1]) <= mzr[i, 2]))
+        expect_true(all(mz(res[i, 2]) >= mzr[i, 1] &
+                        mz(res[i, 2]) <= mzr[i, 2]))
+        expect_true(all(rtime(res[i, 1]) >= rtr[1, 1] &
+                        rtime(res[i, 1]) <= rtr[1, 2]))
+        expect_true(all(rtime(res[i, 2]) >= rtr[1, 1] &
+                        rtime(res[i, 2]) <= rtr[1, 2]))
+    }
+    ## Check that values are correct.
+    flt <- filterMz(filterRt(inMem, rt = rtr[1, ]), mz = mzr[2, ])
+    ints <- split(unlist(lapply(spectra(flt), function(z) sum(intensity(z)))),
+                  fromFile(flt))
+    expect_equal(ints[[1]], intensity(res[2, 1]))
+    expect_equal(ints[[2]], intensity(res[2, 2]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[2, 1]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[2, 2]))
+
+    ## Now with ranges for which we don't have values in one or the other.
+    rtr <- matrix(c(280, 300, 20, 40), nrow = 2,
+                  byrow = TRUE)  ## Only present in first, or 2nd file
+    res <- chromatogram(inMem, rt = rtr)
+    ## Check fromFile
+    for (i in 1:ncol(res))
+        expect_true(all(sapply(res[, i], fromFile) == i))
+    expect_equal(length(res[2, 1]), 0)
+    expect_equal(length(res[1, 2]), 0)
+    ## Check rtime
+    expect_true(all(rtime(res[1, 1]) >= rtr[1, 1] &
+                    rtime(res[1, 1]) <= rtr[1, 2]))
+    expect_true(all(rtime(res[2, 2]) >= rtr[2, 1] &
+                    rtime(res[2, 2]) <= rtr[2, 2]))
+    ## Check intensity
+    flt <- filterRt(inMem, rt = rtr[1, ])
+    spctr <- split(spectra(flt), fromFile(flt))
+    ints <- unlist(lapply(spctr[[1]], function(z) sum(intensity(z))))
+    expect_equal(ints, intensity(res[1, 1]))
+    flt <- filterRt(inMem, rt = rtr[2, ])
+    spctr <- split(spectra(flt), fromFile(flt))
+    ints <- unlist(lapply(spctr[[1]], function(z) sum(intensity(z))))
+    expect_equal(ints, intensity(res[2, 2]))
 })

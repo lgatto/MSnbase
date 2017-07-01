@@ -198,7 +198,6 @@ test_that("utils.idSummary", {
     expect_equal(MSnbase:::utils.idSummary(fd), rdf)
 })
 
-
 test_that("formatRt", {
     tc <- c("1:1", "25:24")
     tn <- c(61, 25 * 60 + 24)
@@ -207,6 +206,21 @@ test_that("formatRt", {
     expect_true(is.na(formatRt("")))
     expect_warning(is.na(formatRt("aaa")))
     expect_warning(is.na(formatRt(TRUE)))
+})
+
+test_that("formatFileSpectrumNames", {
+    expect_error(MSnbase:::formatFileSpectrumNames(1:10, 1:3),
+                 "has to be one or equal")
+    expect_equal(MSnbase:::formatFileSpectrumNames(1, 1), "F1.S1")
+    expect_equal(MSnbase:::formatFileSpectrumNames(1, 1:10),
+                 sprintf("F1.S%02d", 1:10))
+    expect_equal(MSnbase:::formatFileSpectrumNames(1:10, 1:10),
+                 sprintf("F%02d.S%02d", 1:10, 1:10))
+    expect_equal(MSnbase:::formatFileSpectrumNames(1:10, 1:10, nSpectra=1000),
+                 sprintf("F%02d.S%04d", 1:10, 1:10))
+    expect_equal(MSnbase:::formatFileSpectrumNames(1:10, 1:10,
+                                                   nSpectra=1000, nFiles=1000),
+                 sprintf("F%04d.S%04d", 1:10, 1:10))
 })
 
 test_that("rowmean", {

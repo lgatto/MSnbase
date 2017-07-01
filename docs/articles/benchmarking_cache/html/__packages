@@ -1,0 +1,12 @@
+base
+BiocStyle
+BiocGenerics
+Biobase
+Rcpp
+mzR
+BiocParallel
+ProtGenerics
+MSnbase
+msdata
+pryr
+microbenchmark

@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for Mass Spectrometry and Proteomics
-Version: 2.3.7
+Version: 2.3.8
 Description: Manipulation, processing and visualisation
     of mass spectrometry and proteomics data.
 Authors@R: c(person(given = "Laurent", family = "Gatto",
@@ -94,4 +94,4 @@ BugReports: https://github.com/lgatto/MSnbase/issues
 URL: https://github.com/lgatto/MSnbase
 biocViews: Infrastructure, Proteomics, MassSpectrometry,
     QualityControl, DataImport
-RoxygenNote: 6.0.1
+RoxygenNote: 5.0.1

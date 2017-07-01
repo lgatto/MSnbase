@@ -100,6 +100,7 @@ test_that("Compare OnDiskMSnExp and MSnExp estimateNoise", {
 ############################################################
 ## extractPrecSpectra
 test_that("Compare OnDiskMSnExp and MSnExp extractPrecSpectra", {
+    set.seed(432)
     precMzs <- precursorMz(inmem2)
     exP <- sample(1:length(precMzs), 20)
     extsp <- extractPrecSpectra(inmem2, prec = precMzs[exP])
