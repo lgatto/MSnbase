@@ -1,5 +1,6 @@
 Changes in version 2.3.8
 ------------------------
+- New infrastructure for chromatogram data <2017-06-24 Sat>
 - Change naming scheme for spectra: FFILEID.SSPECTRUMID, e.g. F01.S0001. Before
   it has been XSPECTRUMID.FILEID. The new naming scheme changes the order of
   the spectra. See #255 (and PR #256) for details <2017-06-25 Sun>.
