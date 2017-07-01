@@ -1,5 +1,8 @@
 # MSnbase 2.3
 
+## Changes in version 2.3.9
+- Nothing yet
+
 ## Changes in version 2.3.8
 - New infrastructure for chromatogram data <2017-06-24 Sat>
 - Change naming scheme for spectra: FFILEID.SSPECTRUMID, e.g. F01.S0001. Before
