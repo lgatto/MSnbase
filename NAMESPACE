@@ -126,6 +126,8 @@ export(MSnSet,
        setMSnbaseParallelThresh,
        ## ProcessingStep
        executeProcessingStep,
+       productMz,
+       aggregationFun,
        Chromatogram,
        Chromatograms
        )
@@ -274,8 +276,6 @@ exportMethods(updateObject,
               pData, "pData<-",
               "$",
               "$<-",
-              productMz,
-              aggregationFun,
               chromatogram)
 
 ## methods NOT exported

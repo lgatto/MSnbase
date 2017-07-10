@@ -67,32 +67,6 @@ setMethod("precursorMz", "Chromatogram", function(object) {
     object@precursorMz
 })
 
-#' @aliases productMz
-#' 
-#' @description \code{productMz} get the mz of the product chromatogram/ion. The
-#'     function returns a \code{numeric(2)} with the lower and upper mz value.
-#' 
-#' @rdname Chromatogram-class
-setMethod("productMz", "Chromatogram", function(object) {
-    object@productMz
-})
-
-#' @aliases aggregationFun
-#'
-#' @description \code{aggregationFun,aggregationFun<-} get or set the
-#'     aggregation function.
-#' 
-#' @rdname Chromatogram-class
-setMethod("aggregationFun", "Chromatogram", function(object) {
-    object@aggregationFun
-})
-## #' @rdname Chromatogram-class
-## setReplaceMethod("aggregationFun", "CentWaveParam", function(object, value) {
-##     object@aggregationFun <- value
-##     if (validObject(object))
-##         return(object)
-## })
-
 #' @description \code{fromFile} returns the value from the \code{fromFile} slot.
 #' 
 #' @rdname Chromatogram-class

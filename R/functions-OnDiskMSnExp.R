@@ -525,9 +525,12 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         stop("'aggregationFun' should be one of ",
              paste0("'", .SUPPORTED_AGG_FUN_CHROM, "'", collapse = ", "))
     ## Ensure we're working on one MS level only!
+    fns <- fileNames(x)
     x <- filterMsLevel(x, msLevel)
-    if (length(x) == 0)
-        return(list())
+    if (length(x) == 0) {
+        warning("No MS ", msLevel, " data present.")
+        return(matrix(ncol = length(fns), nrow = 0))
+    }
     if (missing(rt))
         rt <- matrix(c(-Inf, Inf), nrow = 1)
     if (missing(mz))
@@ -551,11 +554,10 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         which(rtimes >= z[1] & rtimes <= z[2])), use.names = FALSE)
     keep_idx <- sort(unique(as.integer(keep_idx)))
     if (length(keep_idx) == 0)
-        return(matrix(ncol = length(fileNames(x)), nrow = 0))
+        return(matrix(ncol = length(fns), nrow = 0))
     ## 1) Subset x keeping all spectra that fall into any of the provided rt
     ##    ranges.
     subs <- x[keep_idx]
-    fns <- fileNames(x)
 
     ## 2) Call the final subsetting on each file separately.
     subs_by_file <- splitByFile(subs, f = factor(seq_along(fileNames(subs))))
