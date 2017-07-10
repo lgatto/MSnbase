@@ -94,6 +94,12 @@
     <code>Chromatogram</code>: create an instance of the
     <code>Chromatogram</code> class.
 
+    <code>aggregationFun,aggregationFun&lt;-</code> get or set the
+    aggregation function.
+
+    <code>productMz</code> get the mz of the product chromatogram/ion. The
+    function returns a <code>numeric(2)</code> with the lower and upper mz value.
+
     <code>rtime</code> returns the retention times for the rentention time
     - intensity pairs stored in the chromatogram.
 
@@ -105,12 +111,6 @@
 
     <code>precursorMz</code> get the mz of the precursor ion. The
     function returns a <code>numeric(2)</code> with the lower and upper mz value.
-
-    <code>productMz</code> get the mz of the product chromatogram/ion. The
-    function returns a <code>numeric(2)</code> with the lower and upper mz value.
-
-    <code>aggregationFun,aggregationFun&lt;-</code> get or set the
-    aggregation function.
 
     <code>fromFile</code> returns the value from the <code>fromFile</code> slot.
 
@@ -134,6 +134,10 @@
   <span class='fl'>NA_real_</span>), <span class='kw'>productMz</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>NA_real_</span>, <span class='fl'>NA_real_</span>), <span class='kw'>fromFile</span> <span class='kw'>=</span> <span class='fu'>integer</span>(),
   <span class='kw'>aggregationFun</span> <span class='kw'>=</span> <span class='fu'>character</span>())
 
+<span class='fu'>aggregationFun</span>(<span class='no'>object</span>)
+
+<span class='fu'>productMz</span>(<span class='no'>object</span>)
+
 <span class='co'># S4 method for Chromatogram</span>
 <span class='fu'>show</span>(<span class='no'>object</span>)
 
@@ -148,12 +152,6 @@
 
 <span class='co'># S4 method for Chromatogram</span>
 <span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span>(<span class='no'>object</span>)
-
-<span class='co'># S4 method for Chromatogram</span>
-<span class='fu'>productMz</span>(<span class='no'>object</span>)
-
-<span class='co'># S4 method for Chromatogram</span>
-<span class='fu'>aggregationFun</span>(<span class='no'>object</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
 <span class='fu'><a href='Spectrum-class.html'>fromFile</a></span>(<span class='no'>object</span>)

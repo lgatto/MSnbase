@@ -429,6 +429,40 @@
 ## Class "AnnotatedDataFrame", directly
 ## Class "Versioned", by class "AnnotatedDataFrame", distance 2</code></pre>
 </div>
+<div id="chromatogram-and-chromatograms-classes-to-handle-chromatographic-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#chromatogram-and-chromatograms-classes-to-handle-chromatographic-data" class="anchor"></a><code>Chromatogram</code> and <code>Chromatograms</code>: classes to handle chromatographic data</h2>
+<p>The <code>Chromatogram</code> class represents chromatographic MS data, i.e. retention time and intensity duplets for one file/sample. The <code>Chromatograms</code> class allows to arrange multiple <code>Chromatogram</code> instances in a two-dimensional grid, with columns supposed to represent different samples and rows two-dimensional areas in the plane spanned by the m/z and retention time dimensions from which the intensities are extracted (e.g. an extracted ion chromatogram for a specific ion). The <code>Chromatograms</code> class extends the base <code>matrix</code> class. <code>Chromatograms</code> objects can be extracted from an <code>MSnExp</code> or <code>OnDiskMSnExp</code> object using the <code>chromatogram</code> method.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getClass</span>(<span class="st">"Chromatogram"</span>)</code></pre></div>
+<pre><code>## Class "Chromatogram" [package "MSnbase"]
+## 
+## Slots:
+##                                                             
+## Name:              rtime         intensity                mz
+## Class:           numeric           numeric           numeric
+##                                                             
+## Name:           filterMz       precursorMz         productMz
+## Class:           numeric           numeric           numeric
+##                                                             
+## Name:           fromFile    aggregationFun .__classVersion__
+## Class:           integer         character          Versions
+## 
+## Extends: "Versioned"</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getClass</span>(<span class="st">"Chromatograms"</span>)</code></pre></div>
+<pre><code>## Class "Chromatograms" [package "MSnbase"]
+## 
+## Slots:
+##              
+## Name:   .Data
+## Class: matrix
+## 
+## Extends: 
+## Class "matrix", from data part
+## Class "array", by class "matrix", distance 2
+## Class "structure", by class "matrix", distance 3
+## Class "vector", by class "matrix", distance 4, with explicit coerce
+## Class "vector_OR_factor", by class "matrix", distance 5, with explicit coerce</code></pre>
+</div>
 <div id="other-classes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#other-classes" class="anchor"></a>Other classes</h2>
@@ -487,18 +521,18 @@
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] BiocStyle_2.5.2     MSnbase_2.3.7       ProtGenerics_1.9.0 
-## [4] BiocParallel_1.11.2 mzR_2.11.3          Rcpp_0.12.11       
+## [1] BiocStyle_2.5.4     MSnbase_2.3.8       ProtGenerics_1.9.0 
+## [4] BiocParallel_1.11.4 mzR_2.11.4          Rcpp_0.12.11       
 ## [7] Biobase_2.37.2      BiocGenerics_0.23.0
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] BiocInstaller_1.27.2  compiler_3.4.0        plyr_1.8.4           
 ##  [4] iterators_1.0.8       zlibbioc_1.23.0       tools_3.4.0          
-##  [7] MALDIquant_1.16.2     digest_0.6.12         evaluate_0.10        
+##  [7] MALDIquant_1.16.2     digest_0.6.12         evaluate_0.10.1      
 ## [10] tibble_1.3.3          preprocessCore_1.39.0 gtable_0.2.0         
 ## [13] lattice_0.20-35       rlang_0.1.1.9000      foreach_1.4.3        
 ## [16] yaml_2.1.14           stringr_1.2.0         knitr_1.16           
-## [19] IRanges_2.11.5        S4Vectors_0.15.4      stats4_3.4.0         
+## [19] IRanges_2.11.6        S4Vectors_0.15.5      stats4_3.4.0         
 ## [22] rprojroot_1.2         grid_3.4.0            impute_1.51.0        
 ## [25] XML_3.98-1.9          rmarkdown_1.6         limma_3.33.3         
 ## [28] ggplot2_2.2.1         magrittr_1.5          backports_1.1.0      
@@ -557,6 +591,7 @@
       <li><a href="#Spectum"><code>Spectrum</code> <em>et al.</em>: classes for MS spectra</a></li>
       <li><a href="#reporterions-a-class-for-isobaric-tags"><code>ReporterIons</code>: a class for isobaric tags</a></li>
       <li><a href="#nannotateddataframe-multiplexed-annotateddataframes"><code>NAnnotatedDataFrame</code>: multiplexed <code>AnnotatedDataFrame</code>s</a></li>
+      <li><a href="#chromatogram-and-chromatograms-classes-to-handle-chromatographic-data"><code>Chromatogram</code> and <code>Chromatograms</code>: classes to handle chromatographic data</a></li>
       <li><a href="#other-classes">Other classes</a></li>
       </ul>
 </li>

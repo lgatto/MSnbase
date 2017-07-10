@@ -1,5 +1,5 @@
 ---
-title: "MSnbase: labelled and label-free MS2 data processing, visualisation and quantification"
+title: "MSnbase: MS data processing, visualisation and quantification"
 author: 
 - name: Laurent Gatto
 - name: Johannes Rainer
