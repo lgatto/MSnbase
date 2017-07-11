@@ -2,12 +2,12 @@
 % Please edit documentation in R/methods-MSnExp.R
 \docType{methods}
 \name{chromatogram,MSnExp-method}
-\alias{chromatogram,MSnExp-method}
 \alias{chromatogram}
+\alias{chromatogram,MSnExp-method}
 \title{Extract chromatogram object(s)}
 \usage{
 \S4method{chromatogram}{MSnExp}(object, rt, mz, aggregationFun = "sum",
-  missing = NA_real_)
+  missing = NA_real_, BPPARAM = bpparam())
 }
 \arguments{
 \item{object}{For \code{chromatogram}: a \code{\linkS4class{MSnExp}} or
@@ -34,6 +34,10 @@ intensity value aggregation along the mz dimension. Allowed values are
 \item{missing}{\code{numeric(1)} allowing to specify the intensity value for
 if for a given retention time (spectrum) no signal was measured within
 the mz range. Defaults to \code{NA_real_}.}
+
+\item{BPPARAM}{Parallelisation backend to be used, which will
+depend on the architecture. Default is
+\code{BiocParallel::bparam()}.}
 }
 \value{
 \code{chromatogram} returns a \code{\link{Chromatograms}} object with
@@ -114,10 +118,11 @@ chr
 
 plot(rtime(chr), intensity(chr), xlab = "rtime", ylab = "intensity")
 }
+\author{
+Johannes Rainer
+}
 \seealso{
 \code{\link{Chromatogram}} and \code{\link{Chromatograms}} for the
     classes that represent single and multiple chromatograms.
 }
-\author{
-Johannes Rainer
-}
+

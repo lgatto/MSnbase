@@ -413,6 +413,10 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #'     if for a given retention time (spectrum) no signal was measured within
 #'     the mz range. Defaults to \code{NA_real_}.
 #'
+#' @param BPPARAM Parallelisation backend to be used, which will
+#'     depend on the architecture. Default is
+#'     \code{BiocParallel::bparam()}.
+#'
 #' @return \code{chromatogram} returns a \code{\link{Chromatograms}} object with
 #'     the number of columns corresponding to the number of files in
 #'     \code{object} and number of rows the number of specified ranges (i.e.
@@ -466,7 +470,8 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #' plot(rtime(chr), intensity(chr), xlab = "rtime", ylab = "intensity")
 setMethod("chromatogram", "MSnExp", function(object, rt, mz,
                                              aggregationFun = "sum",
-                                             missing = NA_real_){
+                                             missing = NA_real_,
+                                             BPPARAM = bpparam()){
     if (!missing(rt))
         if (is.null(ncol(rt)))
             rt <- matrix(range(rt), ncol = 2, byrow = TRUE)
@@ -475,7 +480,8 @@ setMethod("chromatogram", "MSnExp", function(object, rt, mz,
             mz <- matrix(range(mz), ncol = 2, byrow = TRUE)
     res <- .extractMultipleChromatograms(object, rt = rt, mz = mz,
                                          aggregationFun = aggregationFun,
-                                         missingValue = missing)
+                                         missingValue = missing,
+                                         BPPARAM = BPPARAM)
     res <- as(res, "Chromatograms")
     colnames(res) <- basename(fileNames(object))
     if (validObject(res))
