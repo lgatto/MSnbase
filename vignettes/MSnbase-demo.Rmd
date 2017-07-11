@@ -280,7 +280,7 @@ stored in the `Chromatogram` object. The `chromatogram` method returns a
 objects and arranges them in a two-dimensional grid with columns representing
 files/samples of the `MSnExp` or `OnDiskMSnExp` object and rows $m/z$-retention
 time ranges. In the example above the `Chromatograms` object contains only a
-single `Chromatogram` object. Below we access the chromatogram object. Similar
+single `Chromatogram` object. Below we access this chromatogram object. Similar
 to the `Spectrum` objects, `Chromatogram` objects provide the accessor functions
 `intensity` and `rtime` to access the data, as well as the `mz` function, that
 returns the $m/z$ range of the chromatogram.
@@ -302,8 +302,10 @@ mtof_bpc <- chromatogram(mtof, aggregationFun = "max")
 
 ```
 
-See the `Chromatogram` help page for more details, also on how to extract
+See the `Chromatogram` help page and the vignettes from the `r Biocpkg("xcms")`
+package for more details and use cases, also on how to extract
 chromatograms for specific ions.
+
 
 # Plotting raw data {#sec:plotting}
 
@@ -440,6 +442,19 @@ about \CRANpkg{ggplot2} can be found in [@ggplot2] (especially chapter
 been saved in a variable `p`, it is possible to obtain a summary of
 the object with `summary(p)`.  To view the data frame used to generate
 the plot, use `p$data`.
+
+## MS Chromatogram {#sec:chromplots}
+
+Chromatographic data can be plotted using the `plot` method which, in contrast
+to the `plot` method for `Spectrum` classes, uses R base graphics. The `plot`
+method is implemented for `Chromatogram` and `Chromatograms` classes. The latter
+plots all chromatograms for the same $m/z$-rt range of all files in an
+experiment (i.e. for one row in the `Chromatograms` object) into one plot.
+
+```{r chromPlot, fig.keep='high', fig.cap = "Base peak chromatogram."}
+plot(mtof_bpc)
+```
+
 
 # Tandem MS identification data {#sec:id}
 
