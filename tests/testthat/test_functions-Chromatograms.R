@@ -15,7 +15,7 @@ test_that("Chromatograms works", {
     expect_equal(length(chs[1, 1]), 0)
     chs[2, 1] <- list(Chromatogram(1:10, 1:10))
     expect_equal(length(chs[2, 1]), 10)
-    expect_equal(chs[, 1], c(ch, Chromatogram(1:10, 1:10)))
+    expect_equal(chs[, 1, drop = TRUE], c(ch, Chromatogram(1:10, 1:10)))
 })
 
 test_that(".plotChromatogramList works", {

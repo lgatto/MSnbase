@@ -40,6 +40,11 @@ setMethod("show", "Chromatograms", function(object) {
 #'     can be replaced using e.g. \code{x[1, 1] <- value} where \code{value}
 #'     has to be a \code{Chromatogram} object or a \code{list} of such objects.
 #'
+#' @note Subsetting with \code{[} will always return a \code{Chromatograms}
+#'     object (with the exception of extracting a single element)
+#'     unless \code{drop = TRUE} is specified. This is different from the
+#'     default subsetting behaviour of \code{matrix}-like objects.
+#' 
 #' @param x For \code{[}: the \code{Chromatograms} object to subset.
 #' 
 #' @param i For \code{[}: \code{numeric}, \code{logical} or \code{character}
@@ -49,16 +54,19 @@ setMethod("show", "Chromatograms", function(object) {
 #'     defining which columns(s) to extract.
 #'
 #' @param drop For \code{[}: \code{logical(1)} whether to drop the
-#'     dimensionality of the returned object (if possible).
+#'     dimensionality of the returned object (if possible). The default is
+#'     \code{drop = FALSE}, i.e. each subsetting returns a \code{Chromatograms}
+#'     object (or a \code{Chromatogram} object if a single element is
+#'     extracted).
 #'
 #' @return For \code{[}: the subset of the \code{Chromatograms} object. If a
 #'     single element is extracted (e.g. if \code{i} and \code{j} are of length
-#'     1) a \code{\link{Chromatogram}} object is returned. Otherwise a
-#'     \code{list} of \code{\link{Chromatogram}} objects is returned, except
-#'     if \code{drop = FALSE} in which case \emph{always} a \code{Chromatograms}
-#'     object is returned.
+#'     1) a \code{\link{Chromatogram}} object is returned. Otherwise (if
+#'     \code{drop = FALSE}, the default, is specified) a \code{Chromatograms}
+#'     object is returned. If \code{drop = TRUE} is specified, the method
+#'     returns a \code{list} of \code{Chromatogram} objects.
 setMethod("[", "Chromatograms",
-          function(x, i, j, drop = TRUE) {
+          function(x, i, j, drop = FALSE) {
               if (missing(i) & missing(j))
                   return(x)
               if (missing(i))
@@ -69,13 +77,15 @@ setMethod("[", "Chromatograms",
                   i <- which(i)
               if (is.logical(j))
                   j <- which(j)
+              ## Return a single element as a Chromatogram
+              if (length(i) == 1 & length(j) == 1)
+                  return(x@.Data[i, j, drop = TRUE][[1]])
+              ## Multiple elements, return type depends on drop.
               x <- x@.Data[i = i, j = j, drop = drop]
-              if (length(i) == 1 & length(j) == 1 & drop)
-                  x <- x[[1]]
               if (!drop)
                   x <- as(x, "Chromatograms")
               if (validObject(x))
-              x
+                  x
           })
 
 #' @rdname Chromatograms-class
@@ -172,8 +182,8 @@ setMethod("plot", signature = signature("Chromatograms"),
               }
               for (i in seq_len(nr)) {
                   if (nc > 1)
-                      .plotChromatogramList(x[i, ], col = col, lty = lty,
-                                            type = type, xlab = xlab,
+                      .plotChromatogramList(x[i, , drop = TRUE], col = col,
+                                            lty = lty, type = type, xlab = xlab,
                                             ylab = ylab, main = main, ...)
                   else
                       plot(x[i, 1], col = col, lty = lty, type = type,
