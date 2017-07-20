@@ -873,6 +873,8 @@ setMethod("removeReporters", "OnDiskMSnExp",
 setMethod("spectrapply", "OnDiskMSnExp", function(object, FUN = NULL,
                                                   BPPARAM = bpparam(), ...) {
     BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
+    ## Get the fastLoad option.
+    fast_load <- isMSnbaseFastLoad()
     isOK <- validateFeatureDataForOnDiskMSnExp(fData(object))
     if (!is.null(isOK))
         stop(isOK)
@@ -885,31 +887,10 @@ setMethod("spectrapply", "OnDiskMSnExp", function(object, FUN = NULL,
                      filenames = fNames,
                      queue = theQ,
                      APPLYFUN = FUN,
+                     fastLoad = fast_load,
                      BPPARAM = BPPARAM,
                      ...)
     names(vals) <- NULL
     vals <- unlist(vals, recursive = FALSE)
-    return(vals[rownames(fData(object))])
-})
-
-spectrapply2 <- function(object, FUN = NULL, BPPARAM = bpparam(), ...) {
-    BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
-    fd <- fData(object)
-    isOK <- validateFeatureDataForOnDiskMSnExp(fd)
-    if (!is.null(isOK))
-        stop(isOK)
-    fDataPerFile <- base::split(fd, f = fd$fileIdx)
-    fNames <- fileNames(object)
-    theQ <- processingQueue(object)
-    vals <- bplapply(fDataPerFile,
-                     FUN = .applyFun2SpectraOfFileMulti_2,
-                     filenames = fNames,
-                     queue = theQ,
-                     APPLYFUN = FUN,
-                     BPPARAM = BPPARAM,
-                     ...)
-    names(vals) <- NULL
-    vals <- unlist(vals, recursive = FALSE)
-    gc()
     vals[rownames(fData(object))]
-}
+})

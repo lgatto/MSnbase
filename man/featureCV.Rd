@@ -35,11 +35,10 @@ msnset <- msnset[1:4]
 gb <- factor(rep(1:2, each = 2))
 featureCV(msnset, gb)
 }
+\seealso{
+\code{\link{combineFeatures}}
+}
 \author{
 Laurent Gatto <lg390@cam.ac.uk>,
 Sebastian Gibb <mail@sebastiangibb.de>
 }
-\seealso{
-\code{\link{combineFeatures}}
-}
-

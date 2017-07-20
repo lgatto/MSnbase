@@ -17,6 +17,7 @@
     ## if (as.numeric(R.Version()$major) >= 3 & as.numeric(R.Version()$minor) >= 3)
     ##     sortMeth <- "radix"
     msOps <- list(PARALLEL_THRESH = 1000,
+                  fastLoad = TRUE,      # disable reading header before peaks.
                   ## sortMethod = sortMeth,
                   verbose = FALSE)
     options(MSnbase = msOps)
