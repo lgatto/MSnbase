@@ -28,19 +28,55 @@ for (i in 1:7500) {
 ## things down.
 
 library(MSnbase)
+
+torturing <- function(x) {
+    tmp <- readMSData2(x, msLevel. = 1)
+    register(SerialParam())
+    for (i in 1:10) {
+        cat("--- ", i, " ---", "\n")
+        cat("first spectrapply\n")
+        sp <- MSnbase::spectrapply(tmp)
+        cat("second spectrapply\n")
+        sp <- MSnbase::spectrapply(tmp)
+        tmp <- filterRt(tmp, rt = c(5, 500))
+        cat("third spectrapply after filter rt\n")
+        sp <- MSnbase::spectrapply(tmp)
+        cat("\n\n")
+    }
+}
+
 SN <- "/Users/jo/data/2016/2016-11/NoSN/"
 fl <- dir(SN, full.names = TRUE)
-tmp <- readMSData2(fl, msLevel. = 1)
 
-register(SerialParam())
-for (i in 1:10) {
-    cat("--- ", i, " ---", "\n")
-    cat("first spectrapply\n")
-    sp <- MSnbase:::spectrapply2(tmp)
-    cat("second spectrapply\n")
-    sp <- MSnbase:::spectrapply2(tmp)
-    tmp <- filterRt(tmp, rt = c(5, 500))
-    cat("third spectrapply after filter rt\n")
-    sp <- MSnbase:::spectrapply2(tmp)
-    cat("\n\n")
-}
+torturing(fl)
+## macOS: 2X FAIL
+## ---  1  --- 
+## first spectrapply
+## Error in object@backend$getPeakList(x) : 
+##   [MSData::Spectrum::getMZIntensityPairs()] Sizes do not match.
+
+setMSnbaseFastLoad(FALSE)
+torturing(fl)
+
+fl <- dir("/Users/jo/data/2017/2017_02/", full.names = TRUE)
+setMSnbaseFastLoad(TRUE)
+torturing(fl)
+## macOS: 2X FAIL
+## ---  1  --- 
+## first spectrapply
+## Error in object@backend$getPeakList(x) : 
+##   [MSData::Spectrum::getMZIntensityPairs()] Sizes do not match.
+
+fl <- dir("/Users/jo/data/2017/nalden01/", full.names = TRUE)
+setMSnbaseFastLoad(TRUE)
+torturing(fl)
+## macOS: 1X FAIL
+## ---  8  --- 
+## first spectrapply
+## second spectrapply
+## third spectrapply after filter rt
+## Error in object@backend$getPeakList(x) : 
+##   [MSData::Spectrum::getMZIntensityPairs()] Sizes do not match.
+
+
+fl <- dir("/Users/jo/data/2016/2016_06/", full.names = TRUE)
