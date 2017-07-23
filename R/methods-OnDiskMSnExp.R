@@ -894,3 +894,28 @@ setMethod("spectrapply", "OnDiskMSnExp", function(object, FUN = NULL,
     vals <- unlist(vals, recursive = FALSE)
     vals[rownames(fData(object))]
 })
+
+spectrapply2 <- function(object, FUN = NULL,
+                         BPPARAM = bpparam(), ...) {
+    BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
+    ## Get the fastLoad option.
+    fast_load <- isMSnbaseFastLoad()
+    isOK <- validateFeatureDataForOnDiskMSnExp(fData(object))
+    if (!is.null(isOK))
+        stop(isOK)
+    fDataPerFile <- base::split(fData(object),
+                                f = fData(object)$fileIdx)
+    fNames <- fileNames(object)
+    theQ <- processingQueue(object)
+    vals <- bplapply(fDataPerFile,
+                     FUN = .applyFun2IndividualSpectraOfFile,
+                     filenames = fNames,
+                     queue = theQ,
+                     APPLYFUN = FUN,
+                     fastLoad = fast_load,
+                     BPPARAM = BPPARAM,
+                     ...)
+    names(vals) <- NULL
+    vals <- unlist(vals, recursive = FALSE)
+    vals[rownames(fData(object))]
+}

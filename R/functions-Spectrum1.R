@@ -74,11 +74,10 @@ Spectrum1_mz_sorted <- function(peaksCount = length(mz), rt = numeric(),
     ## Define the class versions.
     versions <- list(Spectrum = getClassVersionString("Spectrum"),
                      Spectrum1 = getClassVersionString("Spectrum1"))
-    res <- .Call("Spectrum1_constructor_mz_sorted",
-                 1L, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
-                 intensity, fromFile, centroided, smoothed, polarity, TRUE,
-                 lapply(versions, .versionToNum), PACKAGE="MSnbase")
-    return(res)
+    .Call("Spectrum1_constructor_mz_sorted",
+          1L, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
+          intensity, fromFile, centroided, smoothed, polarity, TRUE,
+          lapply(versions, .versionToNum), PACKAGE="MSnbase")
 }
 
 
@@ -177,19 +176,18 @@ Spectra1_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
     versions <- list(Spectrum = getClassVersionString("Spectrum"),
                      Spectrum1 = getClassVersionString("Spectrum1"))
     ## OK, now let's call C.
-    res <- .Call("Multi_Spectrum1_constructor_mz_sorted",
-                 1L,
-                 peaksCount,
-                 rt,
-                 acquisitionNum,
-                 scanIndex,
-                 tic, mz, intensity,
-                 fromFile,
-                 centroided,
-                 smoothed,
-                 polarity,
-                 as.integer(nvalues), TRUE,
-                 lapply(versions, .versionToNum),
-                 PACKAGE = "MSnbase")
-    return(res)
+    .Call("Multi_Spectrum1_constructor_mz_sorted",
+          1L,
+          peaksCount,
+          rt,
+          acquisitionNum,
+          scanIndex,
+          tic, mz, intensity,
+          fromFile,
+          centroided,
+          smoothed,
+          polarity,
+          as.integer(nvalues), TRUE,
+          lapply(versions, .versionToNum),
+          PACKAGE = "MSnbase")
 }

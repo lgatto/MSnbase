@@ -342,12 +342,11 @@ Spectrum2_mz_sorted <- function(msLevel = 2L, peaksCount = length(mz), rt = nume
     ## Define the class versions.
     versions <- list(Spectrum = getClassVersionString("Spectrum"),
                      Spectrum2 = getClassVersionString("Spectrum2"))
-    res <- .Call("Spectrum2_constructor_mz_sorted",
-                 msLevel, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
-                 intensity, fromFile, centroided, smoothed, polarity,
-                 merged, precScanNum, precursorMz, precursorIntensity,
-                 precursorCharge, collisionEnergy,
-                 TRUE, lapply(versions, .versionToNum),
-                 PACKAGE = "MSnbase")
-    return(res)
+    .Call("Spectrum2_constructor_mz_sorted",
+          msLevel, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
+          intensity, fromFile, centroided, smoothed, polarity,
+          merged, precScanNum, precursorMz, precursorIntensity,
+          precursorCharge, collisionEnergy,
+          TRUE, lapply(versions, .versionToNum),
+          PACKAGE = "MSnbase")
 }

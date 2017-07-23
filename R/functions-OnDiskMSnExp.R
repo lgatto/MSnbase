@@ -322,7 +322,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     mzR::close(fileh)
     rm(fileh)
     ## Intermediate #151 fix. Performance-wise would be nice to get rid of this.
-    gc()
+    ## gc()
     ## If we have a non-empty queue, we might want to execute that too.
     if (!is.null(APPLYFUN) | length(queue) > 0){
         if (length(queue) > 0) {
@@ -349,6 +349,128 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     }
     ## Ensure that ordering is the same than in fData:
     res[match(rownames(fData), names(res))]
+}
+
+#' @description Less memory demanding version of `applyFun2SpectraOfFileMulti`.
+#'
+#' @details This function loops through the rows of the `data.frame` passed
+#'     with argument `fData`, loads the mz and intensity values of the
+#'     respective spectrum from the original file, creates a `Spectrum` object,
+#'     executes eventual *lazy evaluation* steps (argument `queue`) and
+#'     executes, if provided, the `APPLYFUN` to the `Spectrum`.
+#'
+#' @note The function uses the *C* constructor for `Spectrum` objects that
+#'     enforces also ordering of M/Z-intensity pairs by M/Z.
+#' 
+#' @param fData: either a full `data.frame` (returned by `fData(OnDiskMSnExp))`
+#'     or a sub-set forspecific spectra. The data.frame should ONLY
+#'     CONTAIN VALUES FOR SPECTRA OF ONE FILE!
+#'
+#' @param filenames: `fileNames(object)` with `object` being an `OnDiskMSnExp`.
+#'
+#' @param queue: `object@spectraProcessingQueue`; if `lenght > 0` all
+#'     processing steps will be applied to the created spectrum
+#'     objects.
+#' 
+#' @param APPLYFUN: the function to be applied to the spectrum objects
+#'     (such as `ionCount` etc). If `NULL` the function returns the list of
+#'     spectrum objects.
+#' 
+#' @param fastLoad: `logical(1)` whether reading the spectras' header data
+#'     should be omitted prior to retrieving the data (i.e. skip the
+#'     `mzR::header` call before calling `mzR::peaks`. The former call might be
+#'     required on some systems (so far macOS) for some files.
+#' 
+#' @param ...: additional arguments for the APPLYFUN
+#'
+#' @return `list` with either spectrum objects or the results of the function
+#'     provided with argument `APPLYFUN`.
+#'
+#' @author Johannes Rainer
+#' 
+#' @noRd
+#' @md
+.applyFun2IndividualSpectraOfFile <- function(fData, filenames,
+                                                  queue = NULL,
+                                                  APPLYFUN = NULL,
+                                                  fastLoad = TRUE,
+                                                  ...) {
+    suppressPackageStartupMessages(
+        require(MSnbase, quietly = TRUE)
+    )
+    verbose. <- isMSnbaseVerbose()
+    if (missing(fData) | missing(filenames))
+        stop("Both 'fData' and 'filenames' are required!")
+    if (length(queue) > 0) {
+        if (verbose.) {
+            message("Apply lazy processing step(s):")
+            for (j in 1:length(queue))
+                message(" o '", queue[[j]]@FUN, "' with ",
+                        length(queue[[j]]@ARGS), " argument(s).")
+        }
+    }
+    filename <- filenames[fData[1, "fileIdx"]]
+    ## issue #214: define backend based on file format.
+    fileh <- .openMSfile(filename)
+    ## Reading the header for the selecte spectra. This is to avoid getting
+    ## "memory not mapped" errors when reading mz and intensity values from
+    ## certain mzML files (issue #170). Since this problem seems to be absent
+    ## on linux and Windows systems we allow the user to disable it.
+    ## Also we are just reading the header for the last spectrum since that
+    ## seems to fix it too.
+    if (!fastLoad)
+        hd_spectra <- mzR::header(fileh, max(fData$spIdx))
+    n_rows <- nrow(fData)
+    res <- vector("list", n_rows)
+    for (i in 1:n_rows) {
+        pks <- mzR::peaks(fileh, fData$spIdx[i])
+        if (fData$msLevel[i] == 1) {
+            sp <- Spectrum1_mz_sorted(rt = fData$retentionTime[i],
+                                      acquisitionNum = fData$acquisitionNum[i],
+                                      scanIndex = fData$spIdx[i],
+                                      tic = fData$totIonCurrent[i],
+                                      mz = pks[, 1],
+                                      intensity = pks[, 2],
+                                      fromFile = fData$fileIdx[i],
+                                      centroided = fData$centroided[i],
+                                      smoothed = fData$smoothed[i],
+                                      polarity = fData$polarity[i])
+        } else {
+            sp <- Spectrum2_mz_sorted(msLevel = fData$msLevel[i],
+                                      rt = fData$retentionTime[i],
+                                      acquisitionNum = fData$acquisitionNum[i],
+                                      scanIndex = fData$spIdx[i],
+                                      tic = fData$totIonCurrent[i],
+                                      mz = pks[, 1],
+                                      intensity = pks[, 2],
+                                      fromFile = fData$fileIdx[i],
+                                      centroided = fData$centroided[i],
+                                      smoothed = fData$smoothed[i],
+                                      polarity = fData$polarity[i],
+                                      merged = fData$mergedScan[i],
+                                      precScanNum = fData$precursorScanNum[i],
+                                      precursorMz = fData$precursorMZ[i],
+                                      precursorIntensity = fData$precursorIntensity[i],
+                                      precursorCharge = fData$precursorCharge[i],
+                                      collisionEnergy = fData$collisionEnergy[i])
+        }
+        ## And now go through the processing queue - if not empty...
+        if (length(queue) > 0) {
+            for (pStep in queue) {
+                sp <- executeProcessingStep(pStep, sp)
+            }
+        }
+        ## Apply the function, if provided
+        if (!is.null(APPLYFUN))
+            sp <- APPLYFUN(sp, ...)
+        res[[i]] <- sp
+    }
+    names(res) <- rownames(fData)
+    mzR::close(fileh)
+    rm(fileh)
+    ## Intermediate #151 fix. Performance-wise would be nice to get rid of this.
+    ## gc()
+    res
 }
 
 
