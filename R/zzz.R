@@ -16,8 +16,12 @@
     ## sortMeth <- "auto"
     ## if (as.numeric(R.Version()$major) >= 3 & as.numeric(R.Version()$minor) >= 3)
     ##     sortMeth <- "radix"
+    fast_load <- TRUE
+    ## Disable "fast reading" on macOS. See issue #170
+    if (Sys.info()["sysname"] == "Darwin")
+        fast_load <- FALSE
     msOps <- list(PARALLEL_THRESH = 1000,
-                  fastLoad = TRUE,      # disable reading header before peaks.
+                  fastLoad = fast_load,      # disable reading header before peaks.
                   ## sortMethod = sortMeth,
                   verbose = FALSE)
     options(MSnbase = msOps)

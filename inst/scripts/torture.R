@@ -78,6 +78,29 @@ torturing <- function(x) {
     }
 }
 
+torturing2 <- function(x) {
+    tmp <- readMSData2(x, msLevel. = 1)
+    register(SerialParam())
+    for (i in 1:10) {
+        cat("--- ", i, " ---", "\n")
+        cat("first spectrapply\n")
+        sp <- MSnbase:::spectrapply2(tmp, FUN = function(z) {max(mz(z))})
+        ## sp has a size of 21.9GB!!!
+        rm(sp)
+        gc()
+        cat("second spectrapply\n")
+        sp <- MSnbase:::spectrapply2(tmp, FUN = function(z) {max(mz(z))})
+        rm(sp)
+        gc()
+        tmp <- filterRt(tmp, rt = c(5, 500))
+        cat("third spectrapply after filter rt\n")
+        sp <- MSnbase:::spectrapply2(tmp, FUN = function(z) {max(mz(z))})
+        cat("\n\n")
+    }
+}
+
+## All tests are now WITHOUT gc().
+
 SN <- "/Users/jo/data/2016/2016-11/NoSN/"
 fl <- dir(SN, full.names = TRUE)
 
@@ -88,24 +111,18 @@ torturing(fl)
 ## Error in object@backend$getPeakList(x) : 
 ##   [MSData::Spectrum::getMZIntensityPairs()] Sizes do not match.
 
-## Linux: 1x FAIL:
-## ---  1  ---
-## first spectrapply
-## Killed
+## Linux: 2x OK.
+
+## Windows: 1x OK, 1x RUNNING.
 
 setMSnbaseFastLoad(FALSE)
 torturing(fl)
-## macOS: 1x FAIL
-## ---  1  --- 
-## first spectrapply
-## Killed: 9
+## macOS without gc(): 1x OK
 
-## Linux: 1x FAIL
-## ---  1  --- 
-## first spectrapply
-## Killed: 9
-
-## macOS without gc(): 1x RUNNING
+## spectrapply2
+setMSnbaseFastLoad(FALSE)
+torturing2(fl)
+## macOS without gc(): 1x OK
 
 fl <- dir("/Users/jo/data/2017/2017_02/", full.names = TRUE)
 setMSnbaseFastLoad(TRUE)
@@ -116,11 +133,20 @@ torturing(fl)
 ## Error in object@backend$getPeakList(x) : 
 ##   [MSData::Spectrum::getMZIntensityPairs()] Sizes do not match.
 
-## Linux: 1x FAIL:
-## ---  1  ---
-## first spectrapply
-## second spectrapply
-## Killed
+## Linux: 2x OK.
+
+## Windows: 1x OK, 1x RUNNING
+
+
+fl <- dir("/Users/jo/data/2017/2017_02/", full.names = TRUE)
+setMSnbaseFastLoad(FALSE)
+torturing(fl)
+## macOS: 2x OK.
+
+fl <- dir("/Users/jo/data/2017/2017_02/", full.names = TRUE)
+setMSnbaseFastLoad(FALSE)
+torturing2(fl)
+## maxOS: 2x OK.
 
 
 fl <- dir("/Users/jo/data/2017/nalden01/", full.names = TRUE)
@@ -139,6 +165,8 @@ torturing(fl)
 ## Error in object@backend$getPeakList(x) : 
 ##   [MSData::Spectrum::getMZIntensityPairs()] Sizes do not match.
 
+## Linux: 2x OK.
+
 fl <- dir("/Users/jo/data/2017/nalden01/", full.names = TRUE)
 setMSnbaseFastLoad(FALSE)
 torturing(fl)
@@ -149,7 +177,15 @@ torturing(fl)
 ## Error in object@backend$getPeakList(x) : 
 ##   [MSData::Spectrum::getMZIntensityPairs()] Sizes do not match.
 
-## macOS without gc(): 1x RUNNING
+## macOS without gc(): 1x FAIL, like above!
+## Instead of reading the last header we read ALL header for spectrapply
+## macOS with header(all): 1x OK, 1x FAILED (like above).
+
+fl <- dir("/Users/jo/data/2017/nalden01/", full.names = TRUE)
+setMSnbaseFastLoad(FALSE)
+torturing2(fl)
+## macOS without gc(): 3x OK.
+
 
 fl <- dir("/Users/jo/data/2016/2016_06/", full.names = TRUE)
 setMSnbaseFastLoad(TRUE)
@@ -160,14 +196,19 @@ torturing(fl)
 ## Error in object@backend$getPeakList(x) : 
 ##   [MSData::Spectrum::getMZIntensityPairs()] Sizes do not match.
 
+## Linux: 1x OK, 1x RUNNING.
+
 fl <- dir("/Users/jo/data/2016/2016_06/", full.names = TRUE)
 setMSnbaseFastLoad(FALSE)
 torturing(fl)
-## macOS: 1x FAIL
-## ---  1  --- 
-## first spectrapply
-## second spectrapply
-## Killed: 9
+## macOS: 1x OK.
+
+fl <- dir("/Users/jo/data/2016/2016_06/", full.names = TRUE)
+setMSnbaseFastLoad(TRUE)
+torturing2(fl)
+## macOS: 1x FAIL (typical error).
+
+## macOS: 1x OK, 1x RUNNING
 
 
 
@@ -212,23 +253,23 @@ sp_2 <- MSnbase:::spectrapply2(od, FUN = mz)
 expect_equal(sp_1, sp_2)
 microbenchmark(spectrapply(od), MSnbase:::spectrapply2(od), times = 5)
 ## Unit: milliseconds
-##                        expr      min       lq     mean   median       uq
-##             spectrapply(od) 166.3859 196.2183 191.8018 196.4440 198.3084
-##  MSnbase:::spectrapply2(od) 204.4279 206.6654 207.9754 208.4293 209.3346
+##                        expr      min       lq      mean   median        uq
+##             spectrapply(od) 85.15372 88.22235 109.80866 88.24776  89.24869
+##  MSnbase:::spectrapply2(od) 95.21179 96.86848  99.96095 98.65392 103.79570
 ##       max neval cld
-##  201.6526     5  a 
-##  211.0201     5   b
+##  198.1708     5   a
+##  105.2749     5   a
 
 ## With a method
 microbenchmark(spectrapply(od, FUN = mz), MSnbase:::spectrapply2(od, FUN = mz),
                times = 5)
 ## Unit: milliseconds
-##                                  expr      min       lq     mean   median
-##             spectrapply(od, FUN = mz) 259.0931 259.4859 260.4230 259.5214
-##  MSnbase:::spectrapply2(od, FUN = mz) 269.3629 273.4123 276.2432 275.1020
-##        uq      max neval cld
-##  260.4673 263.5475     5  a 
-##  277.9313 285.4074     5   b
+##                                  expr      min        lq      mean    median
+##             spectrapply(od, FUN = mz) 82.87224  95.75993  96.40574  97.41207
+##  MSnbase:::spectrapply2(od, FUN = mz) 96.75382 101.77152 104.28466 101.86804
+##         uq      max neval cld
+##   99.92526 106.0592     5   a
+##  109.38800 111.6419     5   a
 
 ## Large file:
 fl <- "/Users/jo/data/2017/2017_02/090217_111m_RT_-80_24h_a.mzML"
@@ -238,23 +279,23 @@ sp_2 <- MSnbase:::spectrapply2(od)
 expect_equal(sp_1, sp_2)
 setMSnbaseFastLoad(FALSE)
 microbenchmark(spectrapply(od), MSnbase:::spectrapply2(od), times = 5)
-## Unit: seconds
-##                        expr      min       lq     mean   median       uq
-##             spectrapply(od) 1.186034 1.193843 1.289523 1.205818 1.411478
-##  MSnbase:::spectrapply2(od) 1.337296 1.350252 1.369661 1.371066 1.378367
+## Unit: milliseconds
+##                        expr       min        lq     mean   median       uq
+##             spectrapply(od)  969.9947  992.4444 1161.431 1166.618 1187.340
+##  MSnbase:::spectrapply2(od) 1177.2195 1190.1962 1345.919 1380.541 1458.512
 ##       max neval cld
-##  1.450443     5   a
-##  1.411325     5   a
+##  1490.758     5   a
+##  1523.124     5   a
 
 microbenchmark(spectrapply(od, FUN = mz), MSnbase:::spectrapply2(od, FUN = mz),
                times = 5)
-## Unit: seconds
-##                                  expr      min       lq     mean   median
-##             spectrapply(od, FUN = mz) 1.184725 1.208542 1.207812 1.208744
-##  MSnbase:::spectrapply2(od, FUN = mz) 1.333628 1.355051 1.380853 1.391359
+## Unit: milliseconds
+##                                  expr       min        lq     mean   median
+##             spectrapply(od, FUN = mz)  970.0606  986.7927 1033.393 1015.398
+##  MSnbase:::spectrapply2(od, FUN = mz) 1163.2397 1181.7938 1291.004 1197.522
 ##        uq      max neval cld
-##  1.217936 1.219111     5  a 
-##  1.398276 1.425948     5   b
+##  1017.076 1177.636     5  a 
+##  1384.279 1528.184     5   b
 
 ## gzipped mzML
 fl <- system.file("proteomics/TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz", package = "msdata")
@@ -265,11 +306,12 @@ expect_equal(sp_1, sp_2)
 microbenchmark(spectrapply(od), MSnbase:::spectrapply2(od), times = 5)
 ## Unit: seconds
 ##                        expr      min       lq     mean   median       uq
-##             spectrapply(od) 22.16420 22.52596 22.55925 22.55297 22.75131
-##  MSnbase:::spectrapply2(od) 19.08312 19.69682 19.94403 20.26291 20.29765
+##             spectrapply(od) 23.77440 24.01636 25.46504 24.95036 27.19821
+##  MSnbase:::spectrapply2(od) 20.35279 20.77263 21.26155 21.26453 21.90014
 ##       max neval cld
-##  22.80183     5   b
-##  20.37965     5  a 
+##  27.38587     5   b
+##  22.01765     5  a 
+
 
 ## mzXML
 fl <- system.file("lockmass/LockMass_test.mzXML", package = "msdata")
@@ -280,11 +322,11 @@ expect_equal(sp_1, sp_2)
 microbenchmark(spectrapply(od), MSnbase:::spectrapply2(od), times = 5)
 ## Unit: milliseconds
 ##                        expr      min       lq     mean   median       uq
-##             spectrapply(od) 326.3817 334.5355 341.2993 346.4015 349.5263
-##  MSnbase:::spectrapply2(od) 377.3414 383.2008 385.2446 387.4712 388.8911
+##             spectrapply(od) 177.9468 181.9812 195.6146 186.8247 205.5001
+##  MSnbase:::spectrapply2(od) 224.5103 259.7205 279.5995 271.8644 313.5613
 ##       max neval cld
-##  349.6515     5  a 
-##  389.3184     5   b
+##  225.8203     5  a 
+##  328.3411     5   b
 
 ## At last with the same file but gzipped...
 fl <- "/Users/jo/data/2017/mzXML/1405_blk1.mzXML.gz"
@@ -295,8 +337,22 @@ expect_equal(sp_1, sp_2)
 microbenchmark(spectrapply(od), MSnbase:::spectrapply2(od), times = 5)
 ## Unit: seconds
 ##                        expr      min       lq     mean   median       uq
-##             spectrapply(od) 28.92022 28.94184 29.23785 29.20040 29.38479
-##  MSnbase:::spectrapply2(od) 29.15081 29.16656 29.43833 29.17894 29.56303
+##             spectrapply(od) 41.49147 41.94676 43.41425 42.21200 42.23053
+##  MSnbase:::spectrapply2(od) 39.08837 43.56239 44.41015 45.10258 47.06231
 ##       max neval cld
-##  29.74202     5   a
-##  30.13233     5   a
+##  49.19049     5   a
+##  47.23510     5   a
+
+fl <- system.file("cdf/ko15.CDF", package = "msdata")
+od <- readMSData2(fl)
+sp_1 <- spectrapply(od)
+sp_2 <- MSnbase:::spectrapply2(od)
+expect_equal(sp_1, sp_2)
+microbenchmark(spectrapply(od), MSnbase:::spectrapply2(od), times = 5)
+## Unit: milliseconds
+##                        expr        min         lq       mean     median
+##             spectrapply(od)   266.9588   268.5773   338.2803   269.8898
+##  MSnbase:::spectrapply2(od) 13483.9753 13582.1238 13843.0532 13800.6454
+##         uq        max neval cld
+##    402.648   483.3276     5  a 
+##  14100.982 14247.5391     5   b

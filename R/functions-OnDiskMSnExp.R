@@ -179,6 +179,14 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
 #'     the specicied spectra in one file and applies the provided function to
 #'     each of them.
 #'
+#' @details The function processes MS level 1 and > 1 separately, first reading
+#'     all mz/intensity values for each spectrum and creating then the list
+#'     of `Spectrum1` or `Spectrum2` objects using a constructor written in C
+#'     that creates all spectra in one call (i.e. using a for loop in C).
+#'     After that, depending on the arguments `queue` and `APPLYFUN` a `lapply`
+#'     call is performed applying the respective calls to each spectrum. Finally
+#'     results are ordered and returned.
+#' 
 #' @note Using the C constructor that takes all values at once and creates a
 #'     list of `Spectrum1` objects, applies processing steps, applies the
 #'     provided function and returns its results - or the list of
@@ -209,6 +217,8 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
 #'
 #' @return `list` with either spectrum objects or the results of the function
 #'     provided with argument `APPLYFUN`.
+#'
+#' @author Johannes Rainer
 #' 
 #' @noRd
 #'
@@ -324,8 +334,10 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     ## Intermediate #151 fix. Performance-wise would be nice to get rid of this.
     ## gc()
     ## If we have a non-empty queue, we might want to execute that too.
-    if (!is.null(APPLYFUN) | length(queue) > 0){
-        if (length(queue) > 0) {
+    do_queue <- length(queue) > 0
+    do_apply <- !is.null(APPLYFUN)
+    if (do_apply | do_queue){
+        if (do_queue) {
             if (verbose.) {
                 message("Apply lazy processing step(s):")
                 for (j in 1:length(queue))
@@ -335,15 +347,15 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         }
         res <- lapply(res, FUN = function(z, theQ, APPLF, ...){
             ## Apply the processing steps.
-            if (length(theQ) > 0) {
+            if (do_queue) {
                 for (pStep in theQ) {
                     z <- executeProcessingStep(pStep, z)
                 }
             }
-            if (is.null(APPLF)) {
-                return(z)
-            } else {
+            if (do_apply) {
                 return(do.call(APPLF, args = c(list(z), ...)))
+            } else {
+                return(z)
             }
         }, theQ = queue, APPLF = APPLYFUN, ...)
     }
@@ -361,6 +373,8 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
 #'
 #' @note The function uses the *C* constructor for `Spectrum` objects that
 #'     enforces also ordering of M/Z-intensity pairs by M/Z.
+#'     Performance wise, this function is fast on gzipped mzML files but should
+#'     not be used on CDF files!
 #' 
 #' @param fData: either a full `data.frame` (returned by `fData(OnDiskMSnExp))`
 #'     or a sub-set forspecific spectra. The data.frame should ONLY
@@ -409,7 +423,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
                         length(queue[[j]]@ARGS), " argument(s).")
         }
     }
-    filename <- filenames[fData[1, "fileIdx"]]
+    filename <- filenames[fData$fileIdx[1]]
     ## issue #214: define backend based on file format.
     fileh <- .openMSfile(filename)
     ## Reading the header for the selecte spectra. This is to avoid getting
@@ -421,6 +435,8 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     if (!fastLoad)
         hd_spectra <- mzR::header(fileh, max(fData$spIdx))
     n_rows <- nrow(fData)
+    do_queue <- length(queue) > 0
+    do_apply <- !is.null(APPLYFUN)
     res <- vector("list", n_rows)
     for (i in 1:n_rows) {
         pks <- mzR::peaks(fileh, fData$spIdx[i])
@@ -455,15 +471,16 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
                                       collisionEnergy = fData$collisionEnergy[i])
         }
         ## And now go through the processing queue - if not empty...
-        if (length(queue) > 0) {
+        if (do_queue) {
             for (pStep in queue) {
                 sp <- executeProcessingStep(pStep, sp)
             }
         }
         ## Apply the function, if provided
-        if (!is.null(APPLYFUN))
-            sp <- APPLYFUN(sp, ...)
-        res[[i]] <- sp
+        if (do_apply)
+            res[[i]] <- do.call(APPLYFUN, args = c(list(sp), ...))
+        else
+            res[[i]] <- sp
     }
     names(res) <- rownames(fData)
     mzR::close(fileh)
