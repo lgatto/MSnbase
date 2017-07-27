@@ -75,7 +75,7 @@ tic_MSnSet <- function(object) {
 SI <- function(object,
                method = c("SI", "SIgi", "SIn"),
                groupBy = "accession",
-               plength = "length",
+               plength = "DBSeqLength",
                verbose = isMSnbaseVerbose()) {
     method <- match.arg(method)
     if (!plength %in% fvarLabels(object))
@@ -110,7 +110,7 @@ SI <- function(object,
 SAF <- function(object,
                 method = c("SAF", "NSAF"),
                 groupBy = "accession",
-                plength = "length",
+                plength = "DBSeqLength",
                 verbose = isMSnbaseVerbose()) {
     method <- match.arg(method)
     if (!plength %in% fvarLabels(object))
