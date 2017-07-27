@@ -270,8 +270,14 @@ setMethod("addIdentificationData", c("MSnExp", "character"),
                    desc = "DatabaseDescription",
                    pepseq = "sequence",
                    verbose = isMSnbaseVerbose()) {
-              ## TODO: handle case with multiple mzid files
-              id <- mzR::openIDfile(id)
+              if (length(id) == 1 && file.exists(id)) {
+                  id <- mzR::openIDfile(id)
+              } else {
+                  if (!all(flex <- file.exists(id)))
+                      stop(paste(id[!flex], collapse = ", "), " not found.")
+                  id <- lapply(id, function(x) as(openIDfile(x), "data.frame"))
+                  id <- do.call(rbind, id)
+              }
               addIdentificationData(object, id = id,
                                     fcol = fcol, icol = icol,
                                     acc, desc, pepseq)
