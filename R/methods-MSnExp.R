@@ -265,24 +265,46 @@ setMethod("removeReporters", "MSnExp",
 setMethod("addIdentificationData", c("MSnExp", "character"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"),
+                   icol = c("spectrumID", "acquisitionNum"), 
+                   acc = "DatabaseAccess",
+                   desc = "DatabaseDescription",
+                   pepseq = "sequence",
                    verbose = isMSnbaseVerbose()) {
-              addIdentificationData(object, id = mzID(id, verbose = verbose),
-                                    fcol = fcol, icol = icol)
+              addIdentificationData(object, id = mzR::openIDfile(id),
+                                    fcol = fcol, icol = icol,
+                                    acc, desc, pepseq)
+          })
+
+setMethod("addIdentificationData", c("MSnExp", "mzRident"),
+          function(object, id,
+                   fcol = c("spectrum.file", "acquisition.number"),
+                   icol = c("spectrumID", "acquisitionNum"),
+                   acc = "DatabaseAccess",
+                   desc = "DatabaseDescription",
+                   pepseq = "sequence",
+                   ...) {
+              ## prepare id
+              addIdentificationData(object, id,
+                                    fcol = fcol, icol = icol,
+                                    acc, desc, pepseq)
           })
 
 setMethod("addIdentificationData", c("MSnExp", "mzIDClasses"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"), ...) {
+                   icol = c("spectrumFile", "acquisitionnum"),
+                   acc = "accession",
+                   desc = "description",
+                   pepseq = "pepseq",
+                   ...) {
               addIdentificationData(object, id = flatten(id),
-                                    fcol = fcol, icol = icol)
+                                    fcol = fcol, icol = icol,
+                                    acc, desc, pepseq)
           })
 
 setMethod("addIdentificationData", c("MSnExp", "data.frame"),
-          function(object, id,
-                   fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"), ...) {
+          function(object, id, fcol, icol, acc, desc, pepseq,
+                   ...) {
               ## we temporaly add the spectrum.file/acquisition.number information
               ## to our fData data.frame because
               ## utils.mergeSpectraAndIdentificationData needs this information
@@ -297,7 +319,10 @@ setMethod("addIdentificationData", c("MSnExp", "data.frame"),
 
               fd <- utils.mergeSpectraAndIdentificationData(fd, id,
                                                             fcol = fcol,
-                                                            icol = icol)
+                                                            icol = icol,
+                                                            acc = acc,
+                                                            desc = desc,
+                                                            pepseq = pepseq)
 
               ## after adding the identification data we remove the
               ## temporary data to avoid duplication and problems in quantify
