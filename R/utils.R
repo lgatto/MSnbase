@@ -764,8 +764,7 @@ utils.leftJoin <- function(x, y, by, by.x=by, by.y=by,
 # @param icol column name of idData data.frame used for merging
 # @noRd
 utils.mergeSpectraAndIdentificationData <- function(featureData, id,
-                                                    fcol = c("file", "acquisition.number"),
-                                                    icol = c("file", "acquisitionnum"),
+                                                    fcol, icol,
                                                     acc, desc, pepseq) {
     ## mzR::acquisitionNum (stored in fData()[, "acquisition.number"] and
     ## mzID::acquisitionnum should be identical

@@ -270,7 +270,9 @@ setMethod("addIdentificationData", c("MSnExp", "character"),
                    desc = "DatabaseDescription",
                    pepseq = "sequence",
                    verbose = isMSnbaseVerbose()) {
-              addIdentificationData(object, id = mzR::openIDfile(id),
+              ## TODO: handle case with multiple mzid files
+              id <- mzR::openIDfile(id)
+              addIdentificationData(object, id = id,
                                     fcol = fcol, icol = icol,
                                     acc, desc, pepseq)
           })
@@ -283,11 +285,7 @@ setMethod("addIdentificationData", c("MSnExp", "mzRident"),
                    desc = "DatabaseDescription",
                    pepseq = "sequence",
                    ...) {
-              iddf <- psms(id)
-              iddf$spectrumFile <- basename(sourceInfo(id))
-              iddf <- utils.leftJoin(iddf, score(id),
-                                     by.x = "spectrumID", 
-                                     by.y = "spectrumID")
+              iddf <- as(id, "data.frame")
               addIdentificationData(object, iddf,
                                     fcol = fcol, icol = icol,
                                     acc, desc, pepseq)
@@ -326,7 +324,6 @@ setMethod("addIdentificationData", c("MSnExp", "data.frame"),
                                                             acc = acc,
                                                             desc = desc,
                                                             pepseq = pepseq)
-
               ## after adding the identification data we remove the
               ## temporary data to avoid duplication and problems in quantify
               cn <- colnames(fd)
