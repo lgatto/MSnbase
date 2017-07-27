@@ -341,7 +341,7 @@ setMethod("addIdentificationData", c("MSnExp", "data.frame"),
           })
 
 setMethod("removeNoId", "MSnExp",
-          function(object, fcol = "pepseq", keep=NULL)
+          function(object, fcol = "sequence", keep=NULL)
               utils.removeNoId(object, fcol, keep))
 
 setMethod("removeMultipleAssignment", "MSnExp",

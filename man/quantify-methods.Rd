@@ -132,9 +132,9 @@
       and normalisations are applied to the spectra. These methods
       require two additional arguments (\code{...}), namely the protein
       accession of identifiers (\code{fcol}, with detault value
-      \code{"accession"}) and the protein lengths (\code{plength}, with
-      default value \code{"length"}). These values are available of the
-      identification data had been collated using
+      \code{"DatabaseAccess"}) and the protein lengths (\code{plength},
+      with default value \code{"DBseqLength"}). These values are
+      available of the identification data had been collated using
       \code{\link{addIdentificationData}}.
 
       An object of class \code{"\linkS4class{MSnSet}"} is returned
@@ -219,7 +219,7 @@ identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
 
 msexp <- readMSData(quantFile)
 msexp <- addIdentificationData(msexp, identFile)
-fData(msexp)$accession
+fData(msexp)$DatabaseAccess
 
 si <- quantify(msexp, method = "SIn")
 processingData(si)

@@ -116,24 +116,23 @@ setAs("mzRident", "data.frame",
           iddf <- psms(from)
           iddf$spectrumFile <- basename(sourceInfo(from))
           iddf$idFile <- basename(fileName(from))
-          iddf <- MSnbase:::utils.leftJoin(iddf, score(from),
-                                           by.x = "spectrumID", 
-                                           by.y = "spectrumID")    
+          iddf <- utils.leftJoin(iddf, score(from),
+                                 by.x = "spectrumID",
+                                 by.y = "spectrumID")
           mods <- modifications(from)
           names(mods)[-1] <- paste0("mod.", names(mods)[-1])
           names(mods)[-1] <- gsub('\\.(\\w?)', '\\U\\1', names(mods)[-1], perl = TRUE)
-          iddf <- MSnbase:::utils.leftJoin(iddf, mods,
-                                           by.x = "spectrumID", 
-                                           by.y = "spectrumID")    
+          iddf <- utils.leftJoin(iddf, mods,
+                                 by.x = "spectrumID",
+                                 by.y = "spectrumID")
           subs <- substitutions(from)
           names(subs)[-1] <- paste0("sub.", names(subs)[-1])
           names(subs)[-1] <- gsub('\\.(\\w?)', '\\U\\1', names(subs)[-1], perl = TRUE)
-          iddf <- MSnbase:::utils.leftJoin(iddf, subs,
-                                           by.x = "spectrumID", 
-                                           by.y = "spectrumID")
+          iddf <- utils.leftJoin(iddf, subs,
+                                 by.x = "spectrumID",
+                                 by.y = "spectrumID")
           iddf <- lapply(iddf,
                          function(x) {
-                     if (is.factor(x)) as.character(x)
                      else x
                          })
           data.frame(iddf, stringsAsFactors = FALSE)
