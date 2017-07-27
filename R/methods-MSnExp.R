@@ -265,7 +265,7 @@ setMethod("removeReporters", "MSnExp",
 setMethod("addIdentificationData", c("MSnExp", "character"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumID", "acquisitionNum"), 
+                   icol = c("spectrumFile", "acquisitionNum"), 
                    acc = "DatabaseAccess",
                    desc = "DatabaseDescription",
                    pepseq = "sequence",
@@ -278,13 +278,17 @@ setMethod("addIdentificationData", c("MSnExp", "character"),
 setMethod("addIdentificationData", c("MSnExp", "mzRident"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumID", "acquisitionNum"),
+                   icol = c("spectrumFile", "acquisitionNum"),
                    acc = "DatabaseAccess",
                    desc = "DatabaseDescription",
                    pepseq = "sequence",
                    ...) {
-              ## prepare id
-              addIdentificationData(object, id,
+              iddf <- psms(id)
+              iddf$spectrumFile <- basename(sourceInfo(id))
+              iddf <- utils.leftJoin(iddf, score(id),
+                                     by.x = "spectrumID", 
+                                     by.y = "spectrumID")
+              addIdentificationData(object, iddf,
                                     fcol = fcol, icol = icol,
                                     acc, desc, pepseq)
           })
@@ -303,8 +307,7 @@ setMethod("addIdentificationData", c("MSnExp", "mzIDClasses"),
           })
 
 setMethod("addIdentificationData", c("MSnExp", "data.frame"),
-          function(object, id, fcol, icol, acc, desc, pepseq,
-                   ...) {
+          function(object, id, fcol, icol, acc, desc, pepseq, ...) {
               ## we temporaly add the spectrum.file/acquisition.number information
               ## to our fData data.frame because
               ## utils.mergeSpectraAndIdentificationData needs this information

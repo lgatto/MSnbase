@@ -790,8 +790,8 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, id,
     id <- id[o, ]
 
     ## use flat version of accession/description if multiple ones are available
-    id[, acc] <- ave(id[, acc], id[, icol], FUN=utils.vec2ssv)
-    id[, desc] <- ave(id[, desc], id[, icol], FUN=utils.vec2ssv)
+    id[, acc] <- ave(as.character(id[, acc]), id[, icol], FUN=utils.vec2ssv)
+    id[, desc] <- ave(as.character(id[, desc]), id[, icol], FUN=utils.vec2ssv)
 
     ## remove duplicated entries
     id <- id[!duplicated(id[, icol]), ]
@@ -799,6 +799,7 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, id,
     featureData <- utils.leftJoin(
         x = featureData, y = id, by.x = fcol, by.y = icol,
         exclude = c("spectrumid",   # vendor specific nativeIDs
+                    "spectrumID",
                     "spectrumFile") # is stored in fileId + MSnExp@files
     )
 
