@@ -133,7 +133,8 @@ setAs("mzRident", "data.frame",
                                  by.y = "spectrumID")
           iddf <- lapply(iddf,
                          function(x) {
-                     else x
+                             if (is.factor(x)) as.character(x)
+                             else x
                          })
           data.frame(iddf, stringsAsFactors = FALSE)
       })
