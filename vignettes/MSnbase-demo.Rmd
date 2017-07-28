@@ -271,7 +271,6 @@ f <- c(system.file("microtofq/MM14.mzML", package = "msdata"))
 mtof <- readMSData2(f)
 mtof_tic <- chromatogram(mtof)
 mtof_tic
-
 ```
 
 Chromatographic data, represented by the intensity-retention time duplets, is
@@ -299,7 +298,6 @@ along the $m/z$ dimension for each retention time/spectrum) we set the
 
 ```{r Chromatogram-bpc}
 mtof_bpc <- chromatogram(mtof, aggregationFun = "max")
-
 ```
 
 See the `Chromatogram` help page and the vignettes from the `r Biocpkg("xcms")`
@@ -327,7 +325,7 @@ between acquired between 30 and 35 minutes and peaks between 521 and
 ## downloads the data
 library("rpx")
 px1 <- PXDataset("PXD000001")
-mzf <- pxget(px1, 6)
+mzf <- pxget(px1, 7)
      
 ## reads the data 
 ms <- openMSfile(mzf)
@@ -463,14 +461,14 @@ plot(mtof_bpc)
 `r Biocpkg("MSnbase")` is able to integrate identification data from
 `mzIdentML` [@Jones2012] files.
 
-We first load two example files shipped with the `r Biocpkg("MSnbase")`
-containing raw data (as above) and the corresponding identification
-results respectively. The raw data is read with the
-`readMSData`, as demonstrated above. As can be seen, the
-default feature data only contain spectra numbers\footnote{More data
-  about the spectra is of course available in an *MSnExp*
-  object, as illustrated in the previous sections. See also
-  `?pSet` and `?MSnExp` for more details.}.
+We first load two example files shipped with the 
+`r Biocpkg("MSnbase")` containing raw data (as above) and the
+corresponding identification results respectively. The raw data is
+read with the `readMSData`, as demonstrated above. As can be seen, the
+default feature data only contain spectra numbers. More data about the
+spectra is of course available in an *MSnExp* object, as illustrated
+in the previous sections. See also `?pSet` and `?MSnExp` for more
+details.
 
 ```{r msnexpIdentification, echo=TRUE, cache=FALSE, tidy=FALSE}
 ## find path to a mzXML file
@@ -494,8 +492,7 @@ file names (as a character vector) as second one and updates the
 
 ```{r msnexpIdentification2, echo=TRUE, cache=FALSE, tidy=FALSE}
 ## add identification information
-msexp <- addIdentificationData(msexp, id = identFile,
-                               verbose = FALSE)
+msexp <- addIdentificationData(msexp, id = identFile)
 head(fData(msexp), n = 2)
 ```
 
@@ -531,9 +528,9 @@ One can remove the features that have not been identified using
 (`NA` values) and then filter these non-identified spectra.
 
 ```{r msnexpIdentification4, echo=TRUE, cache=FALSE, tidy=FALSE}
-fData(msexp)$pepseq
+fData(msexp)$sequence
 msexp <- removeNoId(msexp)
-fData(msexp)$pepseq
+fData(msexp)$sequence
 idSummary(msexp)
 ```
 
@@ -558,8 +555,9 @@ calculateFragments("ACEK",
 
 It is also possible to match these fragments against an *Spectrum2*
 object.
+
 ```{r msnexpcalculateFragments, echo=TRUE, cache=FALSE, tidy=FALSE}
-pepseq <- fData(msexp)$pepseq[1]
+pepseq <- fData(msexp)$sequence[1]
 calculateFragments(pepseq, msexp[[1]], type=c("b", "y"))
 ```
 
@@ -653,8 +651,6 @@ vplayout <- function(x, y)
 print(p1,vp=vplayout(1,1))
 print(p2,vp=vplayout(1,2))
 ```
-
-
 
 Unlike the name might suggest, the `removePeaks` method does not
 actually remove peaks from the spectrum; they are set to 0. This can
@@ -798,7 +794,7 @@ print(p +
 print(p +
       ggtitle("Trapezoidation and strict=TRUE") +
       geom_polygon(aes(x = c(NA, 114.05, 114.05, 114.1, 114.15, 114.15, NA),
-                       y=c(NA, 0, 1, 3, 1, 0, NA)), fill = "red", alpha = I(1/5)),
+                       y = c(NA, 0, 1, 3, 1, 0, NA)), fill = "red", alpha = I(1/5)),
       vp = vplayout(2,2))
 ```
 
@@ -828,8 +824,8 @@ The [next figure](#fig:tmt10) illustrates the quantitation of the TMT
 reporter instance. The data on the $x$ axis has been quantified using
 `method = "max"` and centroided data (as generated using
 ProteoWizard's `msconvert` with vendor libraries' peak picking); on
-the $y$ axis, the quantitation method was `trapezoidation` and `strict
-= TRUE` (that's important for TMT 10-plex) and the profile data. We
+the $y$ axis, the quantitation method was `trapezoidation` and 
+`strict = TRUE` (that's important for TMT 10-plex) and the profile data. We
 observe a very good correlation.
 
 
@@ -893,7 +889,7 @@ See the *MSnbase-io* vignette for a general overview of
 
 ## Peak adjustments {#sec:purcor}
 
-\paragraph{Single peak adjustment} In certain cases, peak intensities
+**Single peak adjustment** In certain cases, peak intensities
 need to be adjusted as a result of peak interferance. For example, the
 $+1$ peak of the phenylalanine (F, Phe) immonium ion (with $m/z$ 120.03)
 inteferes with the 121.1 TMT reporter ion.  Below, we calculate the
@@ -918,16 +914,16 @@ value from the 121.1 TMT reporter intensity.
 The above principle can also be generalised for a set of overlapping
 peaks, as described below.
 
-\paragraph{Reporter ions purity correction} Impurities in the reporter
+**Reporter ions purity correction** Impurities in the reporter
 reagents can also bias the results and can be corrected when
 manufacturers provide correction coefficients.  These generally come
 as percentages of each reporter ion that have masses differing by -2,
 -1, +1 and +2 Da from the nominal reporter ion mass due to isotopic
-variants.  The `purityCorrect` method applies such
-correction to *MSnSet* instances. It also requires a square
-matrix as second argument, `impurities`, that defines the
-relative percentage of reporter in the quantified each peak.  See
-`?purityCorrect` for more details.
+variants.  The `purityCorrect` method applies such correction to
+*MSnSet* instances. It also requires a square matrix as second
+argument, `impurities`, that defines the relative percentage of
+reporter in the quantified each peak.  See `?purityCorrect` for more
+details.
 
 ```{r purityCorrect, echo=TRUE, cache=FALSE, tidy = FALSE}
 impurities <- matrix(c(0.929, 0.059, 0.002, 0.000,
@@ -935,7 +931,7 @@ impurities <- matrix(c(0.929, 0.059, 0.002, 0.000,
                        0.000, 0.030, 0.924, 0.045,
                        0.000, 0.001, 0.040, 0.923),
                      nrow = 4)
-qnt.crct <- purityCorrect(qnt, impurities)
+qnt.crct <- purityCorrect(qnt, impurities) 
 head(exprs(qnt))
 head(exprs(qnt.crct))
 ```
@@ -1217,9 +1213,9 @@ peptide counting method, as illustrated in section
 ```{r count}
 sc <- quantify(msexp, method = "count")
 ## lets modify out data for demonstration purposes
-fData(sc)$accession[1] <- fData(sc)$accession[2]
-fData(sc)$accession
-sc <- combineFeatures(sc, groupBy = fData(sc)$accession,
+fData(sc)$DatabaseAccess[1] <- fData(sc)$DatabaseAccess[2]
+fData(sc)$DatabaseAccess
+sc <- combineFeatures(sc, groupBy = fData(sc)$DatabaseAccess,
                       fun = "sum")
 exprs(sc)
 ```
@@ -1248,7 +1244,7 @@ to proteins (as defined by the `nprot` feature variable column)
 with the `removeMultipleAssignment` method.
 
 ```{r labelfree}
-fData(msexp)[, c("accession", "nprot")]
+fData(msexp)[, c("DatabaseAccess", "nprot")]
 ```
 
 Note that the label-free methods implicitely apply feature aggregation
