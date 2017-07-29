@@ -1,10 +1,10 @@
-readMSData <- function(files,
-                       pdata = NULL,
-                       msLevel. = 2,
-                       verbose = isMSnbaseVerbose(),
-                       centroided. = NA,
-                       smoothed. = NA,
-                       cache. = 1) {
+readInMemMSData <- readMSData <- function(files,
+                                          pdata = NULL,
+                                          msLevel. = 2,
+                                          verbose = isMSnbaseVerbose(),
+                                          centroided. = NA,
+                                          smoothed. = NA,
+                                          cache. = 1) {
     .testReadMSDataInput(environment())
     if (msLevel. == 1) cache. <- 0
     msLevel. <- as.integer(msLevel.)

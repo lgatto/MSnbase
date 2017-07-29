@@ -1,9 +1,9 @@
-readMSData2 <- function(files,
-                        pdata = NULL,
-                        msLevel.,
-                        verbose = isMSnbaseVerbose(),
-                        centroided.,
-                        smoothed. = NA) {
+readOnDiskMSData <- readMSData2 <- function(files,
+                                            pdata = NULL,
+                                            msLevel.,
+                                            verbose = isMSnbaseVerbose(),
+                                            centroided.,
+                                            smoothed. = NA) {
     .testReadMSDataInput(environment())
     ## Creating environment with Spectra objects
     assaydata <- new.env(parent = emptyenv())
