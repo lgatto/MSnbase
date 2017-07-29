@@ -113,7 +113,7 @@ torturing(fl)
 
 ## Linux: 2x OK.
 
-## Windows: 1x OK, 1x RUNNING.
+## Windows: 2x OK.
 
 setMSnbaseFastLoad(FALSE)
 torturing(fl)
@@ -135,7 +135,7 @@ torturing(fl)
 
 ## Linux: 2x OK.
 
-## Windows: 1x OK, 1x RUNNING
+## Windows: 2x OK.
 
 
 fl <- dir("/Users/jo/data/2017/2017_02/", full.names = TRUE)
@@ -166,6 +166,7 @@ torturing(fl)
 ##   [MSData::Spectrum::getMZIntensityPairs()] Sizes do not match.
 
 ## Linux: 2x OK.
+## Windows: 2x OK.
 
 fl <- dir("/Users/jo/data/2017/nalden01/", full.names = TRUE)
 setMSnbaseFastLoad(FALSE)
@@ -196,19 +197,24 @@ torturing(fl)
 ## Error in object@backend$getPeakList(x) : 
 ##   [MSData::Spectrum::getMZIntensityPairs()] Sizes do not match.
 
-## Linux: 1x OK, 1x RUNNING.
+## Linux: 2x OK.
+
+## Windows: 2x OK.
 
 fl <- dir("/Users/jo/data/2016/2016_06/", full.names = TRUE)
 setMSnbaseFastLoad(FALSE)
 torturing(fl)
-## macOS: 1x OK.
+## macOS: 2x OK.
 
 fl <- dir("/Users/jo/data/2016/2016_06/", full.names = TRUE)
 setMSnbaseFastLoad(TRUE)
 torturing2(fl)
 ## macOS: 1x FAIL (typical error).
 
-## macOS: 1x OK, 1x RUNNING
+fl <- dir("/Users/jo/data/2016/2016_06/", full.names = TRUE)
+setMSnbaseFastLoad(FALSE)
+torturing2(fl)
+## macOS: 2x OK
 
 
 
