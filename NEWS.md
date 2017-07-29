@@ -1,7 +1,10 @@
 # MSnbase 2.3
 
 ## Changes in version 2.3.9
-- Nothing yet
+- Using new mzR::openIdfile backend to add identifcation data to raw
+  and quantitative data (see issue #232) <2017-07-28 Fri>
+- New utils functions: factorsAsStrings, makeCamelCase and
+  reduce,data.frame <2017-07-29 Sat>
 
 ## Changes in version 2.3.8
 - New infrastructure for chromatogram data <2017-06-24 Sat>

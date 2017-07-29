@@ -472,3 +472,18 @@ test_that(".openMSfile works", {
     expect_error(MSnbase:::.openMSfile(file))
 })
 
+test_that("camel case", {
+    k0 <- c("aa.bb", "cc.dd")
+    expect_identical(makeCamelCase(k0), c("aaBb", "ccDd"))
+    expect_identical(makeCamelCase(k0, prefix = "x"),
+                     c("xAaBb", "xCcDd"))
+})
+
+test_that("factorsAsStrings",{
+    data(iris)
+    expect_true(is.factor(iris$Species))
+    iris2 <- factorsAsStrings(iris)
+    expect_true(is.character(iris2$Species))
+    expect_identical(dim(iris), dim(iris2))
+    expect_identical(iris[, -5], iris2[, -5])
+})

@@ -48,6 +48,7 @@ Depends:
     ProtGenerics (>= 1.5.1)
 Imports:
     plyr,
+    dplyr,
     IRanges,
     preprocessCore,
     vsn,
@@ -57,7 +58,7 @@ Imports:
     impute,
     pcaMethods,
     MALDIquant (>= 1.16),
-    mzID (>= 1.5.2),    
+    mzID (>= 1.5.2),
     digest,
     lattice,
     ggplot2,

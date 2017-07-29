@@ -38,11 +38,12 @@ importFrom(S4Vectors, isEmpty, metadata)
 ## importFrom(rols, olsQuery, term)
 ## importClassesFrom(rols, CVParam)
 importFrom(pcaMethods, pca, completeObs)
-importFrom(plyr, ddply, llply, adply, summarise, summarize)
+importFrom(plyr, ddply, llply)
+importFrom(dplyr, left_join)
 importFrom(stats4, plot)
 importFrom(preprocessCore, normalize.quantiles)
 importFrom(vsn, vsn2, meanSdPlot)
-importFrom(IRanges, IRanges)
+importFrom(IRanges, IRanges, reduce)
 importClassesFrom(IRanges, IRanges)
 importFrom(affy, MAplot, ma.plot, mva.pairs)
 importFrom(mzID, mzID, flatten)
@@ -67,9 +68,9 @@ export(MSnSet,
        ## extractSpectra, defunct in v 1.5.3
        extractPrecSpectra,
        as.matrix.FoICollection,
+       as.data.frame.mzRident,
        as.data.frame.Spectrum,
        as.data.frame.MSnSet, ms2df,
-       as.data.frame.mzRident,       
        as.ExpressionSet.MSnSet,
        as.MSnSet.ExpressionSet,
        as.MIAME.MIAPE,
@@ -130,7 +131,8 @@ export(MSnSet,
        productMz,
        aggregationFun,
        Chromatogram,
-       Chromatograms
+       Chromatograms,
+       factorsAsStrings
        )
 
 exportClasses(pSet,
@@ -277,7 +279,8 @@ exportMethods(updateObject,
               pData, "pData<-",
               "$",
               "$<-",
-              chromatogram)
+              chromatogram,
+              reduce)
 
 ## methods NOT exported
 ## curveStats

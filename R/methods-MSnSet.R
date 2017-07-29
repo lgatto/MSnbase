@@ -656,10 +656,12 @@ setMethod("addIdentificationData", c("MSnSet", "character"),
                    verbose = isMSnbaseVerbose()) {
               if (length(id) == 1 && file.exists(id)) {
                   id <- mzR::openIDfile(id)
+                  id <- reduce(id, key = "spectrumID")
               } else {
                   if (!all(flex <- file.exists(id)))
                       stop(paste(id[!flex], collapse = ", "), " not found.")
                   id <- lapply(id, function(x) as(openIDfile(x), "data.frame"))
+                  id <- lapply(id, reduce, key = "spectrumID")
                   id <- do.call(rbind, id)
               }
               addIdentificationData(object, id = id,
@@ -676,6 +678,7 @@ setMethod("addIdentificationData", c("MSnSet", "mzRident"),
                    pepseq = "sequence",
                    ...) {
               iddf <- as(id, "data.frame")
+              iddf <- reduce(iddf)
               addIdentificationData(object, iddf,
                                     fcol = fcol, icol = icol,
                                     acc, desc, pepseq)

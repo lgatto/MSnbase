@@ -111,33 +111,48 @@ plotMzDelta_list <- function(object,            ## peakLists
     invisible(p)
 }
 
+##' A function to convert the identification data contained in an
+##' \code{mzRident} object to a \code{data.frame}. Each row represents
+##' a scan, which can however be repeated several times if the PSM
+##' matches multiple proteins and/or contains two or more
+##' modifications. To reduce the \code{data.frame} so that rows/scans
+##' are unique, use \link{\code{reduce}}.
+##' 
+##' @title Coerce identification data to a \code{data.frame}
+##' @param from An object of class \code{mzRident} defined in the
+##'     \code{mzR} package.
+##' @return A \code{data.frame}
+##' @author Laurent Gatto
+##' @name as
+##' @rdname mzRident2dfr
+##' @examples
+##' ## find path to a mzIdentML file
+##' identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+##'                  full.name = TRUE, pattern = "dummyiTRAQ.mzid")
+##' library("mzR")
+##' x <- openIDfile(identFile)
+##' x
+##' as(x, "data.frame")
 setAs("mzRident", "data.frame",
       function(from) {
-          iddf <- psms(from)
+          ## peptide spectrum matching
+          iddf <- factorsAsStrings(psms(from))
+          ## add file raw and mzid provenances      
           iddf$spectrumFile <- basename(sourceInfo(from))
           iddf$idFile <- basename(fileName(from))
-          iddf <- utils.leftJoin(iddf, score(from),
-                                 by.x = "spectrumID",
-                                 by.y = "spectrumID")
-          mods <- modifications(from)
-          names(mods)[-1] <- paste0("mod.", names(mods)[-1])
-          names(mods)[-1] <- gsub('\\.(\\w?)', '\\U\\1', names(mods)[-1], perl = TRUE)
-          iddf <- utils.leftJoin(iddf, mods,
-                                 by.x = "spectrumID",
-                                 by.y = "spectrumID")
-          subs <- substitutions(from)
-          names(subs)[-1] <- paste0("sub.", names(subs)[-1])
-          names(subs)[-1] <- gsub('\\.(\\w?)', '\\U\\1', names(subs)[-1], perl = TRUE)
-          iddf <- utils.leftJoin(iddf, subs,
-                                 by.x = "spectrumID",
-                                 by.y = "spectrumID")
-          iddf <- lapply(iddf,
-                         function(x) {
-                             if (is.factor(x)) as.character(x)
-                             else x
-                         })
-          data.frame(iddf, stringsAsFactors = FALSE)
+          ## add scores
+          scores <- factorsAsStrings(score(from))
+          iddf <- suppressMessages(left_join(iddf, scores))
+          ## add modification
+          mods <- factorsAsStrings(modifications(from))
+          names(mods)[-1] <- makeCamelCase(names(mods), prefix = "mod")[-1]
+          iddf <- suppressMessages(left_join(iddf, mods))
+          ## add substitutions 
+          subs <- factorsAsStrings(substitutions(from))
+          names(subs)[-1] <- makeCamelCase(names(subs), prefix = "sub")[-1]
+          suppressMessages(left_join(iddf, subs))
       })
 
 as.data.frame.mzRident <-
     function(x, row.names = NULL, optional = FALSE, ...) as(x, "data.frame")
+
