@@ -289,10 +289,10 @@ test_that("addIdentificationData", {
   expect_equal(fd$spectrum, 1:5)
   expect_equal(fd$file, rep(1, 5))
   expect_equal(fd$acquisition.number, 1:5)
-  expect_equal(fd$pepseq,
+  expect_equal(fd$sequence,
                c("VESITARHGEVLQLRPK", "IDGQWVTHQWLKK",
                  NA, NA, "LVILLFR"))
-  expect_equal(fd$accession,
+  expect_equal(fd$DatabaseAccess,
                c("ECA0984;ECA3829", "ECA1028",
                  NA, NA, "ECA0510"))
   expect_equal(fd$idFile, c("dummyiTRAQ.mzid", "dummyiTRAQ.mzid", NA, NA,

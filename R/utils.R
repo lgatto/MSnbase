@@ -764,8 +764,8 @@ utils.leftJoin <- function(x, y, by, by.x=by, by.y=by,
 # @param icol column name of idData data.frame used for merging
 # @noRd
 utils.mergeSpectraAndIdentificationData <- function(featureData, id,
-                                                    fcol = c("file", "acquisition.number"),
-                                                    icol = c("file", "acquisitionnum")) {
+                                                    fcol, icol,
+                                                    acc, desc, pepseq) {
     ## mzR::acquisitionNum (stored in fData()[, "acquisition.number"] and
     ## mzID::acquisitionnum should be identical
     if (!all(fcol %in% colnames(featureData))) {
@@ -789,8 +789,8 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, id,
     id <- id[o, ]
 
     ## use flat version of accession/description if multiple ones are available
-    id$accession <- ave(id$accession, id[, icol], FUN=utils.vec2ssv)
-    id$description <- ave(id$description, id[, icol], FUN=utils.vec2ssv)
+    id[, acc] <- ave(as.character(id[, acc]), id[, icol], FUN=utils.vec2ssv)
+    id[, desc] <- ave(as.character(id[, desc]), id[, icol], FUN=utils.vec2ssv)
 
     ## remove duplicated entries
     id <- id[!duplicated(id[, icol]), ]
@@ -798,27 +798,28 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, id,
     featureData <- utils.leftJoin(
         x = featureData, y = id, by.x = fcol, by.y = icol,
         exclude = c("spectrumid",   # vendor specific nativeIDs
+                    "spectrumID",
                     "spectrumFile") # is stored in fileId + MSnExp@files
     )
 
     ## number of members in the protein group
-    featureData$nprot <- sapply(utils.ssv2list(featureData$accession),
+    featureData$nprot <- sapply(utils.ssv2list(featureData[, acc]),
                                 function(x) {
                                     n <- length(x)
                                     if (n == 1 && is.na(x)) return(NA)
                                     n
                                 })
     ## number of peptides observed for each protein
-    featureData$npep.prot <- as.integer(ave(featureData$accession,
-                                            featureData$pepseq,
+    featureData$npep.prot <- as.integer(ave(featureData[, acc],
+                                            featureData[, pepseq],
                                             FUN = length))
     ## number of PSMs observed for each protein
-    featureData$npsm.prot <- as.integer(ave(featureData$accession,
-                                            featureData$accession,
+    featureData$npsm.prot <- as.integer(ave(featureData[, acc],
+                                            featureData[, acc],
                                             FUN = length))
     ## number of PSMs observed for each protein
-    featureData$npsm.pep <- as.integer(ave(featureData$pepseq,
-                                           featureData$pepseq,
+    featureData$npsm.pep <- as.integer(ave(featureData[, pepseq],
+                                           featureData[, pepseq],
                                            FUN = length))
     return(featureData)
 }

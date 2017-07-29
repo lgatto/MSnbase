@@ -52,6 +52,7 @@
 \alias{addIdentificationData,MSnSet,character-method}
 \alias{addIdentificationData,MSnSet,mzIDClasses-method}
 \alias{addIdentificationData,MSnSet,mzID-method}
+\alias{addIdentificationData,MSnSet,mzRident-method}
 \alias{addIdentificationData,MSnSet,mzIDCollection-method}
 \alias{addIdentificationData,MSnSet,data.frame-method}
 \alias{removeNoId,MSnSet-method}

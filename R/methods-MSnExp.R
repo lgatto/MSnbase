@@ -265,24 +265,53 @@ setMethod("removeReporters", "MSnExp",
 setMethod("addIdentificationData", c("MSnExp", "character"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"),
+                   icol = c("spectrumFile", "acquisitionNum"), 
+                   acc = "DatabaseAccess",
+                   desc = "DatabaseDescription",
+                   pepseq = "sequence",
                    verbose = isMSnbaseVerbose()) {
-              addIdentificationData(object, id = mzID(id, verbose = verbose),
-                                    fcol = fcol, icol = icol)
+              if (length(id) == 1 && file.exists(id)) {
+                  id <- mzR::openIDfile(id)
+              } else {
+                  if (!all(flex <- file.exists(id)))
+                      stop(paste(id[!flex], collapse = ", "), " not found.")
+                  id <- lapply(id, function(x) as(openIDfile(x), "data.frame"))
+                  id <- do.call(rbind, id)
+              }
+              addIdentificationData(object, id = id,
+                                    fcol = fcol, icol = icol,
+                                    acc, desc, pepseq)
+          })
+
+setMethod("addIdentificationData", c("MSnExp", "mzRident"),
+          function(object, id,
+                   fcol = c("spectrum.file", "acquisition.number"),
+                   icol = c("spectrumFile", "acquisitionNum"),
+                   acc = "DatabaseAccess",
+                   desc = "DatabaseDescription",
+                   pepseq = "sequence",
+                   ...) {
+              iddf <- as(id, "data.frame")
+              addIdentificationData(object, iddf,
+                                    fcol = fcol, icol = icol,
+                                    acc, desc, pepseq)
           })
 
 setMethod("addIdentificationData", c("MSnExp", "mzIDClasses"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"), ...) {
+                   icol = c("spectrumFile", "acquisitionnum"),
+                   acc = "accession",
+                   desc = "description",
+                   pepseq = "pepseq",
+                   ...) {
               addIdentificationData(object, id = flatten(id),
-                                    fcol = fcol, icol = icol)
+                                    fcol = fcol, icol = icol,
+                                    acc, desc, pepseq)
           })
 
 setMethod("addIdentificationData", c("MSnExp", "data.frame"),
-          function(object, id,
-                   fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"), ...) {
+          function(object, id, fcol, icol, acc, desc, pepseq, ...) {
               ## we temporaly add the spectrum.file/acquisition.number information
               ## to our fData data.frame because
               ## utils.mergeSpectraAndIdentificationData needs this information
@@ -297,8 +326,10 @@ setMethod("addIdentificationData", c("MSnExp", "data.frame"),
 
               fd <- utils.mergeSpectraAndIdentificationData(fd, id,
                                                             fcol = fcol,
-                                                            icol = icol)
-
+                                                            icol = icol,
+                                                            acc = acc,
+                                                            desc = desc,
+                                                            pepseq = pepseq)
               ## after adding the identification data we remove the
               ## temporary data to avoid duplication and problems in quantify
               cn <- colnames(fd)
@@ -310,7 +341,7 @@ setMethod("addIdentificationData", c("MSnExp", "data.frame"),
           })
 
 setMethod("removeNoId", "MSnExp",
-          function(object, fcol = "pepseq", keep=NULL)
+          function(object, fcol = "sequence", keep=NULL)
               utils.removeNoId(object, fcol, keep))
 
 setMethod("removeMultipleAssignment", "MSnExp",

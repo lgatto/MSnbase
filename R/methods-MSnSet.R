@@ -649,27 +649,53 @@ setMethod("MAplot",
 setMethod("addIdentificationData", c("MSnSet", "character"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"),
+                   icol = c("spectrumFile", "acquisitionNum"), 
+                   acc = "DatabaseAccess",
+                   desc = "DatabaseDescription",
+                   pepseq = "sequence",
                    verbose = isMSnbaseVerbose()) {
-              addIdentificationData(object,
-                                    id = mzID(id, verbose = verbose),
-                                    fcol = fcol, icol = icol)
+              if (length(id) == 1 && file.exists(id)) {
+                  id <- mzR::openIDfile(id)
+              } else {
+                  if (!all(flex <- file.exists(id)))
+                      stop(paste(id[!flex], collapse = ", "), " not found.")
+                  id <- lapply(id, function(x) as(openIDfile(x), "data.frame"))
+                  id <- do.call(rbind, id)
+              }
+              addIdentificationData(object, id = id,
+                                    fcol = fcol, icol = icol,
+                                    acc, desc, pepseq)
+          })
+
+setMethod("addIdentificationData", c("MSnSet", "mzRident"),
+          function(object, id,
+                   fcol = c("spectrum.file", "acquisition.number"),
+                   icol = c("spectrumFile", "acquisitionNum"),
+                   acc = "DatabaseAccess",
+                   desc = "DatabaseDescription",
+                   pepseq = "sequence",
+                   ...) {
+              iddf <- as(id, "data.frame")
+              addIdentificationData(object, iddf,
+                                    fcol = fcol, icol = icol,
+                                    acc, desc, pepseq)
           })
 
 setMethod("addIdentificationData", c("MSnSet", "mzIDClasses"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"), ...) {
-                       addIdentificationData(object, id = flatten(id),
-                                             fcol = fcol, icol = icol)
-                   })
+                   icol = c("spectrumFile", "acquisitionnum"),
+                   acc = "accession",
+                   desc = "description",
+                   pepseq = "pepseq",
+                   ...) {
+              addIdentificationData(object, id = flatten(id),
+                                    fcol = fcol, icol = icol)
+          })
 
 setMethod("addIdentificationData", c("MSnSet", "data.frame"),
-          function(object, id,
-                   fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"), ...) {
+          function(object, id, fcol, icol, acc, desc, pepseq, ...) {
                        fd <- fData(object)
-
                        if (!nrow(fd))
                            stop("No feature data found.")
 
@@ -677,8 +703,10 @@ setMethod("addIdentificationData", c("MSnSet", "data.frame"),
 
                        fd <- utils.mergeSpectraAndIdentificationData(fd, id,
                                                                      fcol = fcol,
-                                                                     icol = icol)
-
+                                                                     icol = icol,
+                                                                     acc = acc,
+                                                                     desc = desc,
+                                                                     pepseq = pepseq) 
                        ## after adding the identification data we remove the
                        ## temporary data to avoid duplication and problems in quantify
                        cn <- colnames(fd)
@@ -689,7 +717,7 @@ setMethod("addIdentificationData", c("MSnSet", "data.frame"),
           })
 
 setMethod("removeNoId", "MSnSet",
-          function(object, fcol = "pepseq", keep = NULL)
+          function(object, fcol = "sequence", keep = NULL)
               utils.removeNoId(object, fcol, keep))
 
 setMethod("removeMultipleAssignment", "MSnSet",

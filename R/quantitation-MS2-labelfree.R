@@ -74,8 +74,8 @@ tic_MSnSet <- function(object) {
 ## Griffin et al. 2010, PMID: 20010810
 SI <- function(object,
                method = c("SI", "SIgi", "SIn"),
-               groupBy = "accession",
-               plength = "length",
+               groupBy = "DatabaseAccess",
+               plength = "DBseqLength",
                verbose = isMSnbaseVerbose()) {
     method <- match.arg(method)
     if (!plength %in% fvarLabels(object))
@@ -109,8 +109,8 @@ SI <- function(object,
 ## Paoletti et al. 2006, PMID: 17138671
 SAF <- function(object,
                 method = c("SAF", "NSAF"),
-                groupBy = "accession",
-                plength = "length",
+                groupBy = "DatabaseAccess",
+                plength = "DBseqLength",
                 verbose = isMSnbaseVerbose()) {
     method <- match.arg(method)
     if (!plength %in% fvarLabels(object))

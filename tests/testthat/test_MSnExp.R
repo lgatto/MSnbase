@@ -200,17 +200,16 @@ test_that("addIdentificationData", {
 
     aa <- extdata_mzXML_in_mem_ms2
 
-    expect_error(addIdentificationData(aa, "foobar.mzid",
-                                       verbose = FALSE),
-                 "does not exist")
+    expect_error(addIdentificationData(aa, "foobar.mzid"),
+                 "not found")
 
     fd <- fData(addIdentificationData(aa, identFile, verbose = FALSE))
 
     expect_equal(fd$spectrum, 1:5)
-    expect_equal(fd$pepseq,
+    expect_equal(fd$sequence,
                  c("VESITARHGEVLQLRPK", "IDGQWVTHQWLKK",
                    NA, NA, "LVILLFR"))
-    expect_equal(fd$accession,
+    expect_equal(fd$DatabaseAccess,
                  c("ECA0984;ECA3829", "ECA1028",
                    NA, NA, "ECA0510"))
     expect_equal(fd$idFile, c("dummyiTRAQ.mzid", "dummyiTRAQ.mzid", NA, NA,
@@ -252,10 +251,8 @@ test_that("addIdentificationData to OnDiskMSnExp", {
 test_that("idSummary", {
     identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                      full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-
     aa <- extdata_mzXML_in_mem_ms2
-    bb <- addIdentificationData(aa, identFile, verbose = FALSE)
-
+    bb <- addIdentificationData(aa, identFile)
     expect_error(idSummary(aa), "No quantification/identification data found")
     expect_equal(idSummary(bb),
                  data.frame(spectrumFile="dummyiTRAQ.mzXML",
