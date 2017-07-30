@@ -118,7 +118,7 @@ plotMzDelta_list <- function(object,            ## peakLists
 ##' modifications. To reduce the \code{data.frame} so that rows/scans
 ##' are unique and use semicolon-separated values to combine
 ##' information pertaining a scan, use
-##' \code{\link[reduce-data.frame-method]{reduce}}.
+##' \code{\link[=reduce,data.frame-method]{reduce}}.
 ##'
 ##' See also the \emph{Tandem MS identification data} section in the
 ##' \emph{MSnbase-demo} vignette.
