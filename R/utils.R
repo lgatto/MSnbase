@@ -791,11 +791,11 @@ utils.leftJoin <- function(x, y, by, by.x=by, by.y=by,
     return(joined)
 }
 
-                                        # @param featureData fData(msexp)/fData(msset)
-                                        # @param id output of mzID::flatten(mzID(filename))
-                                        # @param fcol column name of fData data.frame used for merging
-                                        # @param icol column name of idData data.frame used for merging
-                                        # @noRd
+## @param featureData fData(msexp)/fData(msset)
+## @param id output of mzID::flatten(mzID(filename))
+## @param fcol column name of fData data.frame used for merging
+## @param icol column name of idData data.frame used for merging
+## @noRd
 utils.mergeSpectraAndIdentificationData <- function(featureData, id,
                                                     fcol, icol,
                                                     acc, desc, pepseq) {
@@ -814,116 +814,116 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, id,
     if (sum(fcol %in% colnames(featureData)) != sum(icol %in% colnames(id))) {
         stop("The number of selected column(s) in the feature and identification ",
              "data don't match!")
-        }
-
-        ## sort id data to ensure the best matching peptide is on top in case of
-        ## multiple matching peptides
-        o <- do.call("order", lapply(c(icol, "rank"), function(j)id[, j]))
-        id <- id[o, ]
-
-        ## use flat version of accession/description if multiple ones are available
-        id[, acc] <- ave(as.character(id[, acc]), id[, icol], FUN=utils.vec2ssv)
-        id[, desc] <- ave(as.character(id[, desc]), id[, icol], FUN=utils.vec2ssv)
-
-        ## remove duplicated entries
-        id <- id[!duplicated(id[, icol]), ]
-
-        featureData <- utils.leftJoin(
-            x = featureData, y = id, by.x = fcol, by.y = icol,
-            exclude = c("spectrumid",   # vendor specific nativeIDs
-                        "spectrumID",
-                        "spectrumFile") # is stored in fileId + MSnExp@files
-        )
-
-        ## number of members in the protein group
-        featureData$nprot <- sapply(utils.ssv2list(featureData[, acc]),
-                                    function(x) {
-                                        n <- length(x)
-                                        if (n == 1 && is.na(x)) return(NA)
-                                        n
-                                    })
-        ## number of peptides observed for each protein
-        featureData$npep.prot <- as.integer(ave(featureData[, acc],
-                                                featureData[, pepseq],
-                                                FUN = length))
-        ## number of PSMs observed for each protein
-        featureData$npsm.prot <- as.integer(ave(featureData[, acc],
-                                                featureData[, acc],
-                                                FUN = length))
-        ## number of PSMs observed for each protein
-        featureData$npsm.pep <- as.integer(ave(featureData[, pepseq],
-                                               featureData[, pepseq],
-                                               FUN = length))
-        return(featureData)
     }
 
-    utils.removeNoId <- function(object, fcol, keep) {
-        if (!fcol %in% fvarLabels(object))
+    ## sort id data to ensure the best matching peptide is on top in case of
+    ## multiple matching peptides
+    o <- do.call("order", lapply(c(icol, "rank"), function(j)id[, j]))
+    id <- id[o, ]
+
+    ## use flat version of accession/description if multiple ones are available
+    id[, acc] <- ave(as.character(id[, acc]), id[, icol], FUN=utils.vec2ssv)
+    id[, desc] <- ave(as.character(id[, desc]), id[, icol], FUN=utils.vec2ssv)
+
+    ## remove duplicated entries
+    id <- id[!duplicated(id[, icol]), ]
+
+    featureData <- utils.leftJoin(
+        x = featureData, y = id, by.x = fcol, by.y = icol,
+        exclude = c("spectrumid",   # vendor specific nativeIDs
+                    "spectrumID",
+                    "spectrumFile") # is stored in fileId + MSnExp@files
+    )
+
+    ## number of members in the protein group
+    featureData$nprot <- sapply(utils.ssv2list(featureData[, acc]),
+                                function(x) {
+                                    n <- length(x)
+                                    if (n == 1 && is.na(x)) return(NA)
+                                    n
+                                })
+    ## number of peptides observed for each protein
+    featureData$npep.prot <- as.integer(ave(featureData[, acc],
+                                            featureData[, pepseq],
+                                            FUN = length))
+    ## number of PSMs observed for each protein
+    featureData$npsm.prot <- as.integer(ave(featureData[, acc],
+                                            featureData[, acc],
+                                            FUN = length))
+    ## number of PSMs observed for each protein
+    featureData$npsm.pep <- as.integer(ave(featureData[, pepseq],
+                                           featureData[, pepseq],
+                                           FUN = length))
+    return(featureData)
+}
+
+utils.removeNoId <- function(object, fcol, keep) {
+    if (!fcol %in% fvarLabels(object))
             stop(fcol, " not in fvarLabels(",
                  getVariableName(match.call(), 'object'), ").")
-        if (is.null(keep)) noid <- is.na(fData(object)[, fcol])
-        else {
-            if (!is.logical(keep))
-                stop("'keep must be a logical.'")
-            if (length(keep) != nrow(fData(object)))
-                stop("The length of 'keep' does not match the number of spectra.")
-            noid <- !keep
-        }
-        object <- object[!noid, ]
-        object <- nologging(object, 1)
-        object <- logging(object, paste0("Filtered ", sum(noid),
-                                         " unidentified peptides out"))
-        if (validObject(object))
+    if (is.null(keep)) noid <- is.na(fData(object)[, fcol])
+    else {
+        if (!is.logical(keep))
+            stop("'keep must be a logical.'")
+        if (length(keep) != nrow(fData(object)))
+            stop("The length of 'keep' does not match the number of spectra.")
+        noid <- !keep
+    }
+    object <- object[!noid, ]
+    object <- nologging(object, 1)
+    object <- logging(object, paste0("Filtered ", sum(noid),
+                                     " unidentified peptides out"))
+    if (validObject(object))
             return(object)
-    }
+}
 
-    utils.removeMultipleAssignment <- function(object, fcol) {
-        keep <- which(fData(object)[, fcol] == 1)
-        object <- object[keep, ]
-        object <- nologging(object, 1)
-        object <- logging(object,
-                          paste0("Removed ", sum(!keep),
-                                 " features assigned to multiple proteins"))
-        if (validObject(object))
-            return(object)
-    }
-
-    utils.idSummary <- function(fd) {
-        if (any(!c("spectrumFile", "idFile") %in% colnames(fd))) {
-            stop("No quantification/identification data found! Did you run ",
-                 sQuote("addIdentificationData"), "?")
-        }
-        idSummary <- fd[!duplicated(fd$spectrumFile), c("spectrumFile", "idFile")]
-        idSummary$coverage <- sapply(idSummary$spectrumFile, function(f) {
-            round(mean(!is.na(fd$idFile[fd$spectrumFile == f])), 3)
-        })
-        rownames(idSummary) <- NULL
-        colnames(idSummary) <- c("spectrumFile", "idFile", "coverage")
-        return(idSummary)
-    }
-
-    utils.removeNoIdAndMultipleAssignments <- function(object) {
-        if (anyNA(fData(object)$pepseq))
-            object <- removeNoId(object)
-        if (any(fData(object)$nprot > 1))
-            object <- removeMultipleAssignment(object)
+utils.removeMultipleAssignment <- function(object, fcol) {
+    keep <- which(fData(object)[, fcol] == 1)
+    object <- object[keep, ]
+    object <- nologging(object, 1)
+    object <- logging(object,
+                      paste0("Removed ", sum(!keep),
+                             " features assigned to multiple proteins"))
+    if (validObject(object))
         return(object)
-    }
+}
 
-    ##' Compares equality of all members of a list.
-    ##'
-    ##' @title Tests equality of list elements class
-    ##' @param x A code{list}.
-    ##' @param class A \code{character} defining the expected class.
-    ##' @param valid A \code{logical} defining if all elements should be
-    ##' tested for validity. Default is \code{TRUE}.
-    ##' @return \code{TRUE} is all elements of \code{x} inherit from
-    ##' \code{class}.
-    ##' @author Laurent Gatto
-    ##' @examples
-    ##' listOf(list(), "foo")
-    ##' listOf(list("a", "b"), "character")
-    ##' listOf(list("a", 1), "character")
+utils.idSummary <- function(fd) {
+    if (any(!c("spectrumFile", "idFile") %in% colnames(fd))) {
+        stop("No quantification/identification data found! Did you run ",
+             sQuote("addIdentificationData"), "?")
+    }
+    idSummary <- fd[!duplicated(fd$spectrumFile), c("spectrumFile", "idFile")]
+    idSummary$coverage <- sapply(idSummary$spectrumFile, function(f) {
+        round(mean(!is.na(fd$idFile[fd$spectrumFile == f])), 3)
+    })
+    rownames(idSummary) <- NULL
+    colnames(idSummary) <- c("spectrumFile", "idFile", "coverage")
+    return(idSummary)
+}
+
+utils.removeNoIdAndMultipleAssignments <- function(object) {
+    if (anyNA(fData(object)$pepseq))
+        object <- removeNoId(object)
+    if (any(fData(object)$nprot > 1))
+        object <- removeMultipleAssignment(object)
+    return(object)
+}
+
+##' Compares equality of all members of a list.
+##'
+##' @title Tests equality of list elements class
+##' @param x A code{list}.
+##' @param class A \code{character} defining the expected class.
+##' @param valid A \code{logical} defining if all elements should be
+##' tested for validity. Default is \code{TRUE}.
+##' @return \code{TRUE} is all elements of \code{x} inherit from
+##' \code{class}.
+##' @author Laurent Gatto
+##' @examples
+##' listOf(list(), "foo")
+##' listOf(list("a", "b"), "character")
+##' listOf(list("a", 1), "character")
 listOf <- function(x, class, valid = TRUE) {
     cla <- all(sapply(x, inherits, class))
     if (valid) val <- all(sapply(x, validObject))
