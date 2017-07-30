@@ -132,7 +132,8 @@ export(MSnSet,
        aggregationFun,
        Chromatogram,
        Chromatograms,
-       factorsAsStrings
+       factorsAsStrings,
+       makeCamelCase
        )
 
 exportClasses(pSet,
