@@ -456,6 +456,85 @@ plot(mtof_bpc)
 
 # Tandem MS identification data {#sec:id}
 
+Typically, identification data is produced by a search engine and
+serialised to disk in the `mzIdentML` (or `mzid`) file format. This
+format can be parsed by `openIDfile` from the `r Biocpkg("mzR")`
+package or `mzID` from the `r Biocpkg("mzID")` package. The `MSnbase`
+package relies on the former (which is faster) and offers a simplified
+interface by converting the dedicated identification data objects into
+`data.frames`. Below, we demonstrate how to do that using an `mzid`
+file from the `r Biocexptpkg("msdata")` package.
+
+```{r iddf0}
+library("msdata")
+f <- "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"
+idf <- msdata::ident(full.names = TRUE, pattern = f)
+idx <- openIDfile(idf)
+idx
+```
+
+The `idx` identifcation object can then be converted into a `data.frame`:
+
+```{r iddf}
+iddf <- as(idx, "data.frame")
+str(iddf)
+```
+
+The spectra along the rows are duplicated when the PSM can be assigned
+to multiple proteins, such as 
+
+```{r dups1, echo=FALSE}
+iddf[grep("scan=5291", iddf[, "spectrumID"]),
+     c("spectrumID", "sequence", "DatabaseAccess")]
+```
+
+of when there are multiple modifications in a PSM, such as
+
+```{r dups2, echo=FALSE}
+iddf[grep("scan=4936", iddf[, "spectrumID"]),
+     c("spectrumID", "sequence", "modName", "modLocation")]
+```
+
+At this stage, it is useful to perform some exploratory data analysis
+and visualisation on the identification data. For example
+
+```{r ideda}
+table(iddf$isDecoy)
+table(iddf$chargeState)
+```
+
+```{r idvis}
+library("ggplot2")
+ggplot(data = iddf, aes(x = MS.GF.RawScore, colour = isDecoy)) +
+    geom_density() +
+    facet_wrap(~chargeState)
+```
+
+This `data.frame` can be reduced so that row represent unique scans,
+which can be done with the `reduce` method:
+
+```{r rediddf}
+iddf2 <- reduce(iddf, key = "spectrumID")
+```
+
+This reduces the number of rows from `r nrow(iddf)` to `r nrow(iddf2)`. 
+
+The information for scans that had multiple entries in `iddf` are now
+combined as semicolon-separated values:
+
+```{r dups3, echo=FALSE}
+iddf2[grep("scan=5291", iddf2[, "spectrumID"]),
+      c("spectrumID", "sequence", "DatabaseAccess")]
+```
+
+```{r dups4, echo=FALSE}
+iddf2[grep("scan=4936", iddf2[, "spectrumID"]),
+     c("spectrumID", "sequence", "modName", "modLocation")]
+```
+
+This is the form that is used when combined to raw data, as described
+in the next section.
+
 ## Adding identification data
 
 `r Biocpkg("MSnbase")` is able to integrate identification data from
@@ -486,12 +565,11 @@ head(fData(msexp), n = 2)
 The `addIdentificationData` method takes an *MSnExp* instance (or an
 *MSnSet* instance storing quantitation data, see section
 \@ref(sec:quant)) as first argument and one or multiple `mzIdentML`
-file names (as a character vector) as second one and updates the
+file names (as a character vector) as second one^[The identification data can also be passed as dedicated identification objects such as `mzRident` from the `r Biocpkg("mzR")` package or `mzID` from thr `r Biocpkg("mzID")` package, or as a `data.frame` - see `?addIdentifionData` for details.] and updates the
 *MSnExp* feature data using the identification data read from the
 `mzIdentML` file(s).
 
 ```{r msnexpIdentification2, echo=TRUE, cache=FALSE, tidy=FALSE}
-## add identification information
 msexp <- addIdentificationData(msexp, id = identFile)
 head(fData(msexp), n = 2)
 ```
@@ -636,7 +714,6 @@ spectra are shown on figure \@ref(fig:spectrum-clean-plot).
 
 ```{r removePeaks, echo=TRUE, cache=FALSE}
 experiment <- removePeaks(itraqdata, t = 400, verbose = FALSE)
-## total ion current
 ionCount(itraqdata[["X55"]])
 ionCount(experiment[["X55"]])
 ```
@@ -661,7 +738,6 @@ set, one can use the `clean` method.  The effect of the `removePeaks`
 and `clean` methods are illustrated on figure \@ref(fig:preprocPlot).
 
 ```{r clean, echo=TRUE, cache=FALSE}
-## number of peaks
 peaksCount(itraqdata[["X55"]])
 peaksCount(experiment[["X55"]])
 experiment <- clean(experiment, verbose = FALSE)
