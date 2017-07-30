@@ -48,7 +48,6 @@ Depends:
     ProtGenerics (>= 1.5.1)
 Imports:
     plyr,
-    dplyr,
     IRanges,
     preprocessCore,
     vsn,

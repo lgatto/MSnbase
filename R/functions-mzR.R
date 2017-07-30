@@ -147,13 +147,17 @@ setAs("mzRident", "data.frame",
           ## add modification
           mods <- factorsAsStrings(modifications(from))
           names(mods)[-1] <- makeCamelCase(names(mods), prefix = "mod")[-1]
-          iddf <- left_join(iddf, mods, by = c("spectrumID" = "spectrumID",
-                                               "sequence" = "modSequence"))
+          iddf <- merge(iddf, mods,
+                        by.x = c("spectrumID", "sequence"),
+                        by.y = c("spectrumID",  "modSequence"),
+                        all = TRUE, sort = FALSE)
           ## add substitutions 
           subs <- factorsAsStrings(substitutions(from))
           names(subs)[-1] <- makeCamelCase(names(subs), prefix = "sub")[-1]
-          iddf <- left_join(iddf, subs, by = c("spectrumID" = "spectrumID",
-                                               "sequence" = "subSequence"))
+          iddf <- merge(iddf, subs,
+                        by.x = c("spectrumID" = "sequence"),
+                        by.y = c("spectrumID" = "subSequence"),
+                        all = TRUE, sort = FALSE)                        
           iddf
       })
 
