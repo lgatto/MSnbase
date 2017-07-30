@@ -116,7 +116,11 @@ plotMzDelta_list <- function(object,            ## peakLists
 ##' a scan, which can however be repeated several times if the PSM
 ##' matches multiple proteins and/or contains two or more
 ##' modifications. To reduce the \code{data.frame} so that rows/scans
-##' are unique, use \link{\code{reduce}}.
+##' are unique and use semicolon-separated values to combine
+##' information pertaining a scan, use \code{reduce}.
+##'
+##' See also the \emph{Tandem MS identification data} section in the
+##' \emph{MSnbase-demo} vignette.
 ##' 
 ##' @title Coerce identification data to a \code{data.frame}
 ##' @param from An object of class \code{mzRident} defined in the
@@ -150,14 +154,18 @@ setAs("mzRident", "data.frame",
           iddf <- merge(iddf, mods,
                         by.x = c("spectrumID", "sequence"),
                         by.y = c("spectrumID",  "modSequence"),
+                        suffixes = c("", ".y"),
                         all = TRUE, sort = FALSE)
+          iddf[, "spectrumID.y"] <- NULL
           ## add substitutions 
           subs <- factorsAsStrings(substitutions(from))
           names(subs)[-1] <- makeCamelCase(names(subs), prefix = "sub")[-1]
           iddf <- merge(iddf, subs,
                         by.x = c("spectrumID" = "sequence"),
                         by.y = c("spectrumID" = "subSequence"),
-                        all = TRUE, sort = FALSE)                        
+                        suffixes = c("", ".y"), 
+                        all = TRUE, sort = FALSE)
+          iddf[, "spectrumID.y"] <- NULL 
           iddf
       })
 
