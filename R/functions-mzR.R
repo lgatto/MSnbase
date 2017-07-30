@@ -142,7 +142,8 @@ setAs("mzRident", "data.frame",
           iddf$idFile <- basename(fileName(from))
           ## add scores
           scores <- factorsAsStrings(score(from))
-          iddf <- suppressMessages(left_join(iddf, scores))
+          stopifnot(identical(iddf[, 1], scores[, 1]))
+          iddf <- cbind(iddf, scores[, -1])
           ## add modification
           mods <- factorsAsStrings(modifications(from))
           names(mods)[-1] <- makeCamelCase(names(mods), prefix = "mod")[-1]
