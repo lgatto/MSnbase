@@ -1223,6 +1223,24 @@ makeCamelCase <- function(x, prefix) {
 }
 
 
+##' Reduce a data.frame so that the (primary) key column contains only
+##' unique entries and other columns pertaining to that entry are
+##' combined into semicolon-separated values into a single
+##' row/observation.
+##'
+##' @title Reduce a data.frame
+##' @param x A \code{data.frame}.
+##' @param key The column name (currenly only one is supported) to be
+##'     used as primary key.
+##' @param sep The separator. Default is \code{;}.
+##' @return A reduced \code{data.frame}.
+##' @author Laurent Gatto
+##' @examples
+##' dfr <- data.frame(A = c(1, 1, 2),
+##'                   B = c("x", "y", "z"),
+##'                   C = LETTERS[1:3])
+##' dfr
+##' reduce(dfr, key = "A")
 setMethod("reduce", "data.frame", 
           function(x, key, sep = ";") {
               if (nrow(x) %in% c(0, 1))

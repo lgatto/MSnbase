@@ -117,7 +117,8 @@ plotMzDelta_list <- function(object,            ## peakLists
 ##' matches multiple proteins and/or contains two or more
 ##' modifications. To reduce the \code{data.frame} so that rows/scans
 ##' are unique and use semicolon-separated values to combine
-##' information pertaining a scan, use \code{reduce}.
+##' information pertaining a scan, use
+##' \code{\link[reduce-data.frame-method]{reduce}}.
 ##'
 ##' See also the \emph{Tandem MS identification data} section in the
 ##' \emph{MSnbase-demo} vignette.
@@ -129,6 +130,7 @@ plotMzDelta_list <- function(object,            ## peakLists
 ##' @author Laurent Gatto
 ##' @name as
 ##' @rdname mzRident2dfr
+##' @aliases as.data.frame.mzRident
 ##' @examples
 ##' ## find path to a mzIdentML file
 ##' identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),

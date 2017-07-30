@@ -2,6 +2,7 @@
 % Please edit documentation in R/functions-mzR.R
 \name{as}
 \alias{as}
+\alias{as.data.frame.mzRident}
 \title{Coerce identification data to a \code{data.frame}}
 \arguments{
 \item{from}{An object of class \code{mzRident} defined in the
@@ -16,7 +17,13 @@ A function to convert the identification data contained in an
 a scan, which can however be repeated several times if the PSM
 matches multiple proteins and/or contains two or more
 modifications. To reduce the \code{data.frame} so that rows/scans
-are unique, use \link{\code{reduce}}.
+are unique and use semicolon-separated values to combine
+information pertaining a scan, use
+\code{\link[reduce-data.frame-method]{reduce}}.
+}
+\details{
+See also the \emph{Tandem MS identification data} section in the
+\emph{MSnbase-demo} vignette.
 }
 \examples{
 ## find path to a mzIdentML file
