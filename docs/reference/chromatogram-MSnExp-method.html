@@ -92,7 +92,7 @@
 
     <pre class="usage"><span class='co'># S4 method for MSnExp</span>
 <span class='fu'>chromatogram</span>(<span class='no'>object</span>, <span class='no'>rt</span>, <span class='no'>mz</span>, <span class='kw'>aggregationFun</span> <span class='kw'>=</span> <span class='st'>"sum"</span>,
-  <span class='kw'>missing</span> <span class='kw'>=</span> <span class='fl'>NA_real_</span>)</pre>
+  <span class='kw'>missing</span> <span class='kw'>=</span> <span class='fl'>NA_real_</span>, <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>bpparam</span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -131,6 +131,12 @@ intensity value aggregation along the mz dimension. Allowed values are
       <td><p><code>numeric(1)</code> allowing to specify the intensity value for
 if for a given retention time (spectrum) no signal was measured within
 the mz range. Defaults to <code>NA_real_</code>.</p></td>
+    </tr>
+    <tr>
+      <th>BPPARAM</th>
+      <td><p>Parallelisation backend to be used, which will
+depend on the architecture. Default is
+<code>BiocParallel::bparam()</code>.</p></td>
     </tr>
     </table>
     

@@ -201,9 +201,9 @@
       and normalisations are applied to the spectra. These methods
       require two additional arguments (<code>...</code>), namely the protein
       accession of identifiers (<code>fcol</code>, with detault value
-      <code>"accession"</code>) and the protein lengths (<code>plength</code>, with
-      default value <code>"length"</code>). These values are available of the
-      identification data had been collated using
+      <code>"DatabaseAccess"</code>) and the protein lengths (<code>plength</code>,
+      with default value <code>"DBseqLength"</code>). These values are
+      available of the identification data had been collated using
       <code><a href='addIdentificationData-methods.html'>addIdentificationData</a></code>.
     An object of class <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> is returned
       containing the quantified feature expression and all meta data
@@ -263,7 +263,7 @@
 #&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#&gt; iTRAQ4 quantification by trapezoidation: Tue Jun 20 20:38:20 2017 
+#&gt; iTRAQ4 quantification by trapezoidation: Mon Jul 31 01:00:50 2017 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
 <span class='co'>## specifying a custom parallel framework</span>
 <span class='co'>## bp &lt;- MulticoreParam(2L) # on Linux/OSX</span>
@@ -287,22 +287,22 @@
 
 <span class='no'>msexp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>quantFile</span>)
 <span class='no'>msexp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='addIdentificationData-methods.html'>addIdentificationData</a></span>(<span class='no'>msexp</span>, <span class='no'>identFile</span>)
-<span class='fu'>fData</span>(<span class='no'>msexp</span>)$<span class='no'>accession</span></div><div class='output co'>#&gt; [1] "ECA0984;ECA3829" "ECA1028"         NA                NA               
+<span class='fu'>fData</span>(<span class='no'>msexp</span>)$<span class='no'>DatabaseAccess</span></div><div class='output co'>#&gt; [1] "ECA0984;ECA3829" "ECA1028"         NA                NA               
 #&gt; [5] "ECA0510"        </div><div class='input'>
 <span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'>quantify</span>(<span class='no'>msexp</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"SIn"</span>)
 <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>si</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Quantitation by total ion current [Tue Jun 20 20:38:21 2017] 
-#&gt; Combined 2 features into 2 using sum: Tue Jun 20 20:38:21 2017 
-#&gt; Quantification by SIn [Tue Jun 20 20:38:22 2017] 
-#&gt;  MSnbase version: 2.3.8 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>si</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
+#&gt; Quantitation by total ion current [Mon Jul 31 01:00:51 2017] 
+#&gt; Combined 2 features into 2 using sum: Mon Jul 31 01:00:51 2017 
+#&gt; Quantification by SIn [Mon Jul 31 01:00:51 2017] 
+#&gt;  MSnbase version: 2.3.9 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>si</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
 #&gt; ECA0510      0.003588641
 #&gt; ECA1028      0.001470129</div><div class='input'>
 <span class='no'>saf</span> <span class='kw'>&lt;-</span> <span class='fu'>quantify</span>(<span class='no'>msexp</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"NSAF"</span>)
 <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>saf</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Quantitation by count [Tue Jun 20 20:38:22 2017] 
-#&gt; Combined 2 features into 2 using user-defined function: Tue Jun 20 20:38:22 2017 
-#&gt; Quantification by NSAF [Tue Jun 20 20:38:22 2017] 
-#&gt;  MSnbase version: 2.3.8 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>saf</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
+#&gt; Quantitation by count [Mon Jul 31 01:00:51 2017] 
+#&gt; Combined 2 features into 2 using user-defined function: Mon Jul 31 01:00:51 2017 
+#&gt; Quantification by NSAF [Mon Jul 31 01:00:51 2017] 
+#&gt;  MSnbase version: 2.3.9 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>saf</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
 #&gt; ECA0510        0.6235828
 #&gt; ECA1028        0.3764172</div><div class='input'>
 </div></pre>

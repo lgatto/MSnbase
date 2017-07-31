@@ -106,7 +106,7 @@
 show(object)
 
 # S4 method for Chromatograms,ANY,ANY,ANY
-[(x, i, j, drop = TRUE)
+[(x, i, j, drop = FALSE)
 
 # S4 method for Chromatograms
 [(x, i, j) <- value
@@ -149,7 +149,10 @@ defining which columns(s) to extract.</p></td>
     <tr>
       <th>drop</th>
       <td><p>For <code>[</code>: <code>logical(1)</code> whether to drop the
-dimensionality of the returned object (if possible).</p></td>
+dimensionality of the returned object (if possible). The default is
+<code>drop = FALSE</code>, i.e. each subsetting returns a <code>Chromatograms</code>
+object (or a <code>Chromatogram</code> object if a single element is
+extracted).</p></td>
     </tr>
     <tr>
       <th>value</th>
@@ -193,10 +196,10 @@ will be used as plot title.</p></td>
 
     <p>For <code>[</code>: the subset of the <code>Chromatograms</code> object. If a
     single element is extracted (e.g. if <code>i</code> and <code>j</code> are of length
-    1) a <code><a href='Chromatogram-class.html'>Chromatogram</a></code> object is returned. Otherwise a
-    <code>list</code> of <code><a href='Chromatogram-class.html'>Chromatogram</a></code> objects is returned, except
-    if <code>drop = FALSE</code> in which case <em>always</em> a <code>Chromatograms</code>
-    object is returned.</p>
+    1) a <code><a href='Chromatogram-class.html'>Chromatogram</a></code> object is returned. Otherwise (if
+    <code>drop = FALSE</code>, the default, is specified) a <code>Chromatograms</code>
+    object is returned. If <code>drop = TRUE</code> is specified, the method
+    returns a <code>list</code> of <code>Chromatogram</code> objects.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -209,6 +212,13 @@ will be used as plot title.</p></td>
     <code>plot</code>: if <code>nrow(x) &gt; 1</code> the plot area is split into
     <code>nrow(x)</code> sub-plots and the chromatograms of one row are plotted in
     each.</p>
+    
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>Subsetting with <code>[</code> will always return a <code>Chromatograms</code>
+    object (with the exception of extracting a single element)
+    unless <code>drop = TRUE</code> is specified. This is different from the
+    default subsetting behaviour of <code>matrix</code>-like objects.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -246,20 +256,10 @@ will be used as plot title.</p></td>
 #&gt; rt range: [1, 19]</div><div class='input'>
 <span class='co'>## Extract the second row. Extracting a row or column (i.e. multiple elements</span>
 <span class='co'>## returns by default a list of Chromatogram objects.</span>
-<span class='no'>chrs</span>[<span class='fl'>2</span>, ]</div><div class='output co'>#&gt; [[1]]
-#&gt; Object of class: Chromatogram
-#&gt; length of object: 32
-#&gt; from file: 
-#&gt; mz range: [NA, NA]
-#&gt; rt range: [1, 32]
-#&gt; 
-#&gt; [[2]]
-#&gt; Object of class: Chromatogram
-#&gt; length of object: 21
-#&gt; from file: 
-#&gt; mz range: [NA, NA]
-#&gt; rt range: [1, 21]
-#&gt; </div><div class='input'>
+<span class='no'>chrs</span>[<span class='fl'>2</span>, ]</div><div class='output co'>#&gt; Chromatograms with 1 row and 2 columns
+#&gt;      [,1]           [,2]          
+#&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
+#&gt; [1,]     length: 32     length: 21</div><div class='input'>
 <span class='co'>## Extract the second row with drop = FALSE, i.e. return a Chromatograms</span>
 <span class='co'>## object.</span>
 <span class='no'>chrs</span>[<span class='fl'>2</span>, , <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>]</div><div class='output co'>#&gt; Chromatograms with 1 row and 2 columns
@@ -299,6 +299,8 @@ will be used as plot title.</p></td>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#note">Note</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
