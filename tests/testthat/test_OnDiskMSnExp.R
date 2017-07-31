@@ -370,3 +370,43 @@ test_that("chromatogram,OnDiskMSnExp works", {
     expect_equal(ints, intensity(res[2, 2]))
 })
 
+## Test the two versions that could/might be called by the
+## spectrapply,OnDiskMSnExp method. Each has its own pros and cons and cases
+## in which it outperforms the other function.
+test_that("low memory spectrapply function works", {
+    fl <- system.file("lockmass/LockMass_test.mzXML", package = "msdata")
+    fh <- mzR::openMSfile(fl)
+    hdr <- mzR::header(fh)
+    mzR::close(fh)
+    fData <- hdr
+    fData$spIdx <- hdr$seqNum
+    fData$fileIdx <- 1L
+    fData$smoothed <- FALSE
+    fData$centroided <- TRUE
+    
+    fastLoad <- FALSE
+    
+    expect_equal(
+        MSnbase:::.applyFun2SpectraOfFileMulti(fData, filenames = fl,
+                                               fastLoad = fastLoad),
+        MSnbase:::.applyFun2IndividualSpectraOfFile(fData,
+                                                    filenames = fl,
+                                                    fastLoad = fastLoad))
+    fd <- fData[c(4, 8, 32, 123), ]
+    expect_equal(
+        MSnbase:::.applyFun2SpectraOfFileMulti(fd, filenames = fl,
+                                               fastLoad = fastLoad),
+        MSnbase:::.applyFun2IndividualSpectraOfFile(fd,
+                                                    filenames = fl,
+                                                    fastLoad = fastLoad))
+    ## With an function to apply.
+    expect_equal(
+        MSnbase:::.applyFun2SpectraOfFileMulti(fd, filenames = fl,
+                                               fastLoad = fastLoad,
+                                               APPLYFUN = mz),
+        MSnbase:::.applyFun2IndividualSpectraOfFile(fd,
+                                                    filenames = fl,
+                                                    fastLoad = fastLoad,
+                                                    APPLYFUN = mz))
+})
+

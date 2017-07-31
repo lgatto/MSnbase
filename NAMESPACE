@@ -125,6 +125,8 @@ export(MSnSet,
        isMSnbaseVerbose,
        setMSnbaseVerbose,
        setMSnbaseParallelThresh,
+       isMSnbaseFastLoad,
+       setMSnbaseFastLoad,
        ## ProcessingStep
        executeProcessingStep,
        productMz,
