@@ -21,8 +21,8 @@
                                  })
                   iddf <- do.call(rbind, iddf)
               }
-              addIdentificationData(object, iddf, fcol, icol, acc, desc,
-                                    pepseq, verbose)
+              addIdentificationData(object, iddf, fcol, icol, acc,
+                                    desc, pepseq, verbose = verbose)
           }
 
 .addMzRidentIdentificationData <-
@@ -31,16 +31,17 @@
         iddf <- as(id, "data.frame")
         iddf <- reduce(iddf, key = key)
         addIdentificationData(object, iddf, fcol, icol, acc, desc,
-                              pepseq, verbose)
+                              pepseq, verbose = verbose)
     }
 
 .addMzIDIdentificationData <-
     function(object, id, fcol, icol, acc, desc, pepseq, key,
              verbose, ...) {
         iddf <- flatten(id)
-        iddf <- reduce(iddf, key = key)              
+        names(iddf) <- make.names(names(iddf))
+        iddf <- reduce(iddf, key = key)
         addIdentificationData(object, iddf, fcol, icol, acc, desc,
-                              pepseq, verbosea)
+                              pepseq, verbose = verbosea)
     }
 
 ## There is no common .addDataFrameIdentificationData function as he

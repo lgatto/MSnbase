@@ -36,13 +36,13 @@ test_that("adding compatible ident with mzID and mzR", {
      ## expect_equal(fData(msexp1)[, "DatabaseDescription"],
      ##              fData(msexp2)[, "description"]) ## checked manually
      expect_equal(fData(msexp1)[, "MS.GF.EValue"],
-                  fData(msexp2)[, "ms-gf:evalue"])
+                  fData(msexp2)[, "ms.gf.evalue"])
      expect_equal(fData(msexp1)[, "MS.GF.DeNovoScore"],
-                  fData(msexp2)[, "ms-gf:denovoscore"])
+                  fData(msexp2)[, "ms.gf.denovoscore"])
      expect_equal(fData(msexp1)[, "MS.GF.RawScore"],
-                  fData(msexp2)[, "ms-gf:rawscore"])
+                  fData(msexp2)[, "ms.gf.rawscore"])
      expect_equal(fData(msexp1)[, "MS.GF.SpecEValue"],
-                  fData(msexp2)[, "ms-gf:specevalue"])
+                  fData(msexp2)[, "ms.gf.specevalue"])
      expect_equal(fData(msexp1)[, "isDecoy"], fData(msexp2)[, "isdecoy"])
-     expect_equal(fData(msexp1)[, "DBseqLength"], fData(msexp2)[, "length"])
+     expect_equal(fData(msexp1)[, "DBseqLength"], fData(msexp2)[, "length"])     
 })
