@@ -85,11 +85,17 @@
     
     <p>MSnbase defined a few options globally using the standard R
 options mechanism. The current values of these options can be
-queried with <code>MSnbaseOptions</code>. The options are
-<code>verbose</code>, that defines a session-wide verbosity flag, that
+queried with <code>MSnbaseOptions</code>. The options are:</p><ul>
+<li><p><code>verbose</code>: defines a session-wide verbosity flag, that
 is used if the <code>verbose</code> argument in individual functions is
-not set. The <code>PARALLEL_THRESH</code> defines the minimum number of
-spectra per file necessary before using parallel processing.</p>
+not set.</p></li>
+<li><p><code>PARALLEL_THRESH</code>: defines the minimum number of spectra per file
+necessary before using parallel processing.</p></li>
+<li><p><code>fastLoad</code>: <code>logical(1)</code>. If <code>TRUE</code> performs faster data loading for all
+methods of <a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a> that load data from the original files (such as
+<code><a href='pSet-class.html'>spectrapply()</a></code>). Users experiencing data I/O errors (observed mostly
+on macOS systems) should set this option to <code>FALSE</code>.</p></li>
+</ul>
     
 
     <pre class="usage"><span class='fu'>MSnbaseOptions</span>()
@@ -98,7 +104,11 @@ spectra per file necessary before using parallel processing.</p>
 
 <span class='fu'>setMSnbaseVerbose</span>(<span class='no'>opt</span>)
 
-<span class='fu'>setMSnbaseParallelThresh</span>(<span class='kw'>opt</span> <span class='kw'>=</span> <span class='fl'>1000</span>)</pre>
+<span class='fu'>setMSnbaseParallelThresh</span>(<span class='kw'>opt</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
+
+<span class='fu'>setMSnbaseFastLoad</span>(<span class='kw'>opt</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='fu'>isMSnbaseFastLoad</span>()</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -112,7 +122,7 @@ spectra per file necessary before using parallel processing.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A <code>list</code> of MSnbase options and the single option
-    values for the individual accessors.</p>
+values for the individual accessors.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
