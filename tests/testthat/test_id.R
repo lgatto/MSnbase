@@ -1,4 +1,4 @@
-expect_that("mzRident to data.frame", {
+test_that("mzRident to data.frame", {
     idf <- "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"
     f <- msdata::ident(full.names = TRUE, pattern = idf)
     x <- openIDfile(f)
@@ -9,7 +9,7 @@ expect_that("mzRident to data.frame", {
     expect_identical(anyDuplicated(iddf2$spectrumID), 0L)
 })
 
-expect_that("adding compatible ident with mzID and mzR", {
+test_that("adding compatible ident with mzID and mzR", {
      quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                       full.name = TRUE, pattern = "mzXML$")
      identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
