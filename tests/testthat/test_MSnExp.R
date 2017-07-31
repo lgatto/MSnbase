@@ -193,8 +193,7 @@ test_that("addIdentificationData", {
                      full.name = TRUE, pattern = "mzXML$")
     identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                      full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-    expect_error(addIdentificationData(new("MSnExp"),
-                                       identFile, verbose = FALSE),
+    expect_error(addIdentificationData(new("MSnExp"), identFile),
                  "No feature data found.")
     aa <- extdata_mzXML_in_mem_ms2
     expect_error(addIdentificationData(aa, "foobar.mzid"),

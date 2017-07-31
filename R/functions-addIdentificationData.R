@@ -5,43 +5,29 @@
 ## addIdentificationData,[MSnExp|MSnSet],data.frame method.
 
 .addCharacterIdentificationData <-
-    function(object, id,
-             fcol = c("spectrum.file", "acquisition.number"),
-             icol = c("spectrumFile", "acquisitionNum"), 
-             acc = "DatabaseAccess",
-             desc = "DatabaseDescription",
-             pepseq = "sequence",
-             key = "spectrumID",
-             verbose = isMSnbaseVerbose(),
-             ...) {
-        if (length(id) == 1 && file.exists(id)) {
-            id <- mzR::openIDfile(id)
-            iddf <- as(id, "data.frame")
-            iddf <- reduce(iddf, key = key)
-        } else {
-            if (!all(flex <- file.exists(id)))
+          function(object, id, fcol, icol, acc, desc, pepseq, key,
+                   verbose, ...) {
+              if (length(id) == 1 && file.exists(id)) {
+                  id <- mzR::openIDfile(id)
+                  iddf <- as(id, "data.frame")
+                  iddf <- reduce(iddf, key = key)
+              } else {
+                  if (!all(flex <- file.exists(id)))
                 stop(paste(id[!flex], collapse = ", "), " not found.")
-            iddf <- lapply(id,
-                           function(x) {
-                               iddf <- as(openIDfile(x), "data.frame")
-                               iddf <- reduce(iddf, key = key)
-                           })
-            iddf <- do.call(rbind, iddf)
-        }
-        addIdentificationData(object, iddf, fcol, icol, acc, desc,
-                              pepseq, verbose)
-    }
+                  iddf <- lapply(id,
+                                 function(x) {
+                                     iddf <- as(openIDfile(x), "data.frame")
+                                     iddf <- reduce(iddf, key = key)
+                                 })
+                  iddf <- do.call(rbind, iddf)
+              }
+              addIdentificationData(object, iddf, fcol, icol, acc, desc,
+                                    pepseq, verbose)
+          }
 
 .addMzRidentIdentificationData <-
-    function(object, id,
-             fcol = c("spectrum.file", "acquisition.number"),
-             icol = c("spectrumFile", "acquisitionNum"),
-             acc = "DatabaseAccess",
-             desc = "DatabaseDescription",
-             pepseq = "sequence",
-             key = "spectrumID",
-             verbose = isMSnbaseVerbose(),
-             ...) {
+    function(object, id, fcol, icol, acc, desc, pepseq, key,
+             verbose, ...) {
         iddf <- as(id, "data.frame")
         iddf <- reduce(iddf, key = key)
         addIdentificationData(object, iddf, fcol, icol, acc, desc,
@@ -49,15 +35,8 @@
     }
 
 .addMzIDIdentificationData <-
-    function(object, id,
-             fcol = c("spectrum.file", "acquisition.number"),
-             icol = c("spectrumFile", "acquisitionnum"),
-             acc = "accession",
-             desc = "description",
-             pepseq = "pepseq",
-             key = "spectrumid",
-             verbose = isMSnbaseVerbose(),             
-             ...) {
+    function(object, id, fcol, icol, acc, desc, pepseq, key,
+             verbose, ...) {
         iddf <- flatten(id)
         iddf <- reduce(iddf, key = key)              
         addIdentificationData(object, iddf, fcol, icol, acc, desc,

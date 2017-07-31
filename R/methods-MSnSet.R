@@ -647,25 +647,46 @@ setMethod("MAplot",
           })
 
 setMethod("addIdentificationData", c("MSnSet", "character"),
-          function(object, id, fcol, icol, acc, desc, pepseq, key,
-                   verbose, ...) 
-              .addCharacterIdentificationData(object, id, fcol, icol,
-                                              acc, desc, pepseq, key,
-                                              verbose, ...))
+    function(object, id,
+             fcol = c("spectrum.file", "acquisition.number"),
+             icol = c("spectrumFile", "acquisitionNum"), 
+             acc = "DatabaseAccess",
+             desc = "DatabaseDescription",
+             pepseq = "sequence",
+             key = "spectrumID",
+             verbose = isMSnbaseVerbose(),
+             ...)
+        .addCharacterIdentificationData(object, id, fcol, icol,
+                                        acc, desc, pepseq, key,
+                                        verbose, ...))
 
 setMethod("addIdentificationData", c("MSnSet", "mzRident"),
-          function(object, id, fcol, icol, acc, desc, pepseq, key,
-                   verbose, ...)
-              .addMzRidentIdentificationData(object, id, fcol, icol,
-                                             acc, desc, pepseq, key,
-                                             verbose, ...)) 
+        function(object, id,
+                 fcol = c("spectrum.file", "acquisition.number"),
+                 icol = c("spectrumFile", "acquisitionNum"),
+                 acc = "DatabaseAccess",
+                 desc = "DatabaseDescription",
+                 pepseq = "sequence",
+                 key = "spectrumID",
+                 verbose = isMSnbaseVerbose(),
+                 ...)
+            .addMzRidentIdentificationData(object, id, fcol, icol,
+                                           acc, desc, pepseq, key,
+                                           verbose, ...)) 
 
 setMethod("addIdentificationData", c("MSnSet", "mzIDClasses"),
-          function(object, id, fcol, icol, acc, desc, pepseq, key,
-                   verbose, ...)
-              .addMzIDIdentificationData(object, id, fcol, icol, acc,
-                                         desc, pepseq, key, verbose,
-                                         ...))
+        function(object, id,
+                 fcol = c("spectrum.file", "acquisition.number"),
+                 icol = c("spectrumFile", "acquisitionnum"),
+                 acc = "accession",
+                 desc = "description",
+                 pepseq = "pepseq",
+                 key = "spectrumid",
+                 verbose = isMSnbaseVerbose(),             
+                 ...)
+            .addMzIDIdentificationData(object, id, fcol, icol, acc,
+                                       desc, pepseq, key, verbose,
+                                       ...))
 
 setMethod("addIdentificationData", c("MSnSet", "data.frame"),
           function(object, id, fcol, icol, acc, desc, pepseq, key, ...) {
