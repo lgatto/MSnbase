@@ -263,55 +263,31 @@ setMethod("removeReporters", "MSnExp",
           })
 
 setMethod("addIdentificationData", c("MSnExp", "character"),
-          function(object, id,
-                   fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionNum"), 
-                   acc = "DatabaseAccess",
-                   desc = "DatabaseDescription",
-                   pepseq = "sequence",
-                   verbose = isMSnbaseVerbose()) {
-              if (length(id) == 1 && file.exists(id)) {
-                  id <- mzR::openIDfile(id)
-              } else {
-                  if (!all(flex <- file.exists(id)))
-                      stop(paste(id[!flex], collapse = ", "), " not found.")
-                  id <- lapply(id, function(x) as(openIDfile(x), "data.frame"))
-                  id <- do.call(rbind, id)
-              }
-              addIdentificationData(object, id = id,
-                                    fcol = fcol, icol = icol,
-                                    acc, desc, pepseq)
-          })
+          function(object, id, fcol, icol, acc, desc, pepseq, key,
+                   verbose, ...)
+              .addCharacterIdentificationData(object, id, fcol, icol,
+                                              acc, desc, pepseq, key,
+                                              verbose, ...))
 
 setMethod("addIdentificationData", c("MSnExp", "mzRident"),
-          function(object, id,
-                   fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionNum"),
-                   acc = "DatabaseAccess",
-                   desc = "DatabaseDescription",
-                   pepseq = "sequence",
-                   ...) {
-              iddf <- as(id, "data.frame")
-              addIdentificationData(object, iddf,
-                                    fcol = fcol, icol = icol,
-                                    acc, desc, pepseq)
-          })
+          function(object, id, fcol, icol, acc, desc, pepseq, key,
+                   verbose, ...)
+              .addMzRidentIdentificationData(object, id, fcol, icol,
+                                             acc, desc, pepseq, key,
+                                             verbose, ...))
 
 setMethod("addIdentificationData", c("MSnExp", "mzIDClasses"),
-          function(object, id,
-                   fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"),
-                   acc = "accession",
-                   desc = "description",
-                   pepseq = "pepseq",
-                   ...) {
-              addIdentificationData(object, id = flatten(id),
-                                    fcol = fcol, icol = icol,
-                                    acc, desc, pepseq)
-          })
+          function(object, id, fcol, icol, acc, desc, pepseq, key,
+                   verbose, ...)          
+              .addMzIDIdentificationData(object, id, fcol, icol, acc,
+                                         desc, pepseq, key, verbose,
+                                         ...))
 
 setMethod("addIdentificationData", c("MSnExp", "data.frame"),
-          function(object, id, fcol, icol, acc, desc, pepseq, ...) {
+          function(object, id, fcol, icol, acc, desc, pepseq, key, ...) {
+              if (!missing(key)) { ## otherwise, id is reduced
+                  id <- reduce(id, key)
+              }
               ## we temporaly add the spectrum.file/acquisition.number information
               ## to our fData data.frame because
               ## utils.mergeSpectraAndIdentificationData needs this information

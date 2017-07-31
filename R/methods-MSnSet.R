@@ -647,76 +647,52 @@ setMethod("MAplot",
           })
 
 setMethod("addIdentificationData", c("MSnSet", "character"),
-          function(object, id,
-                   fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionNum"), 
-                   acc = "DatabaseAccess",
-                   desc = "DatabaseDescription",
-                   pepseq = "sequence",
-                   verbose = isMSnbaseVerbose()) {
-              if (length(id) == 1 && file.exists(id)) {
-                  id <- mzR::openIDfile(id)
-                  id <- reduce(id, key = "spectrumID")
-              } else {
-                  if (!all(flex <- file.exists(id)))
-                      stop(paste(id[!flex], collapse = ", "), " not found.")
-                  id <- lapply(id, function(x) as(openIDfile(x), "data.frame"))
-                  id <- lapply(id, reduce, key = "spectrumID")
-                  id <- do.call(rbind, id)
-              }
-              addIdentificationData(object, id = id,
-                                    fcol = fcol, icol = icol,
-                                    acc, desc, pepseq)
-          })
+          function(object, id, fcol, icol, acc, desc, pepseq, key,
+                   verbose, ...) 
+              .addCharacterIdentificationData(object, id, fcol, icol,
+                                              acc, desc, pepseq, key,
+                                              verbose, ...))
 
 setMethod("addIdentificationData", c("MSnSet", "mzRident"),
-          function(object, id,
-                   fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionNum"),
-                   acc = "DatabaseAccess",
-                   desc = "DatabaseDescription",
-                   pepseq = "sequence",
-                   ...) {
-              iddf <- as(id, "data.frame")
-              iddf <- reduce(iddf)
-              addIdentificationData(object, iddf,
-                                    fcol = fcol, icol = icol,
-                                    acc, desc, pepseq)
-          })
+          function(object, id, fcol, icol, acc, desc, pepseq, key,
+                   verbose, ...)
+              .addMzRidentIdentificationData(object, id, fcol, icol,
+                                             acc, desc, pepseq, key,
+                                             verbose, ...)) 
 
 setMethod("addIdentificationData", c("MSnSet", "mzIDClasses"),
-          function(object, id,
-                   fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"),
-                   acc = "accession",
-                   desc = "description",
-                   pepseq = "pepseq",
-                   ...) {
-              addIdentificationData(object, id = flatten(id),
-                                    fcol = fcol, icol = icol)
-          })
+          function(object, id, fcol, icol, acc, desc, pepseq, key,
+                   verbose, ...)
+              .addMzIDIdentificationData(object, id, fcol, icol, acc,
+                                         desc, pepseq, key, verbose,
+                                         ...))
 
 setMethod("addIdentificationData", c("MSnSet", "data.frame"),
-          function(object, id, fcol, icol, acc, desc, pepseq, ...) {
-                       fd <- fData(object)
-                       if (!nrow(fd))
-                           stop("No feature data found.")
+          function(object, id, fcol, icol, acc, desc, pepseq, key, ...) {
+              if (!missing(key)) { ## otherwise, id is reduced
+                  id <- reduce(id, key)
+              }              
+              fd <- fData(object)
+              if (!nrow(fd))
+                  stop("No feature data found.")
 
-                       fd$spectrum.file <- basename(fileNames(object)[fd$file])
-
-                       fd <- utils.mergeSpectraAndIdentificationData(fd, id,
-                                                                     fcol = fcol,
-                                                                     icol = icol,
-                                                                     acc = acc,
-                                                                     desc = desc,
-                                                                     pepseq = pepseq) 
-                       ## after adding the identification data we remove the
-                       ## temporary data to avoid duplication and problems in quantify
-                       cn <- colnames(fd)
-                       keep <- cn[!(cn %in% c("spectrum.file"))]
-                       fData(object)[, keep] <- fd[, keep, drop = FALSE]
-                       if (validObject(object))
-                           return(object)
+              fd$spectrum.file <- basename(fileNames(object)[fd$file])
+              ## FIXME why no acquisition number here?
+              
+              fd <- utils.mergeSpectraAndIdentificationData(fd, id,
+                                                            fcol = fcol,
+                                                            icol = icol,
+                                                            acc = acc,
+                                                            desc = desc,
+                                                            pepseq = pepseq) 
+              ## after adding the identification data we remove the
+              ## temporary data to avoid duplication and problems in quantify
+              cn <- colnames(fd)
+              ## FIXME why no acquisition number here?
+              keep <- cn[!(cn %in% c("spectrum.file"))] 
+              fData(object)[, keep] <- fd[, keep, drop = FALSE]
+              if (validObject(object))
+                  return(object)
           })
 
 setMethod("removeNoId", "MSnSet",
@@ -768,35 +744,35 @@ setAs("IBSpectra", "MSnSet",
       function (from, to = "MSnSet") {
           ans <- MSnSet(exprs = assayData(from)$ions,
                         fData = fData(from),
-                        pData = pData(from))
-          exp <- experimentData(from)
-          ## the example data in isobar has MIAME
-          ## experimental data ?!?!
-          if (inherits(exp, "MIAPE"))
-              ans@experimentData <- exp
-          ans@protocolData <- protocolData(from)
-          if (validObject(ans))
-              return(ans)
-      })
+                                      pData = pData(from))
+                        exp <- experimentData(from)
+                        ## the example data in isobar has MIAME
+                        ## experimental data ?!?!
+                        if (inherits(exp, "MIAPE"))
+                            ans@experimentData <- exp
+                        ans@protocolData <- protocolData(from)
+                        if (validObject(ans))
+                            return(ans)
+                    })
 
-as.IBSpectra.MSnSet <- function(x) {
-    ans <- MSnSet(exprs = assayData(x)$ions,
-                  fData = fData(x),
-                  pData = pData(x))
-    exp <- experimentData(x)
-    ## the example data in isobar has MIAME
-    ## experimental data ?!?!
-    if (inherits(exp, "MIAPE"))
-        ans@experimentData <- exp
-    ans@protocolData <- protocolData(x)
-    if (validObject(ans))
-        return(ans)
-}
+              as.IBSpectra.MSnSet <- function(x) {
+                  ans <- MSnSet(exprs = assayData(x)$ions,
+                                fData = fData(x),
+                                pData = pData(x))
+                  exp <- experimentData(x)
+                  ## the example data in isobar has MIAME
+                  ## experimental data ?!?!
+                  if (inherits(exp, "MIAPE"))
+                      ans@experimentData <- exp
+                  ans@protocolData <- protocolData(x)
+                  if (validObject(ans))
+                      return(ans)
+              }
 
 
-## setAs("MSnSet", "IBSpectra",
-##       function (from, to = "IBSpectra") {
-##           ## see IBSpectraTypes() for possible types
-##           ## if (ncol(from)) == 2) ...
-##           ## if (ncol(from)) == 2) ...
-##       })
+              ## setAs("MSnSet", "IBSpectra",
+              ##       function (from, to = "IBSpectra") {
+              ##           ## see IBSpectraTypes() for possible types
+              ##           ## if (ncol(from)) == 2) ...
+              ##           ## if (ncol(from)) == 2) ...
+              ##       })
