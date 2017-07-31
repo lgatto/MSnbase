@@ -56,7 +56,7 @@
              desc = "description",
              pepseq = "pepseq",
              key = "spectrumid",
-             key = "spectrumid",
+             verbose = isMSnbaseVerbose(),             
              ...) {
         iddf <- flatten(id)
         iddf <- reduce(iddf, key = key)              
