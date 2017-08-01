@@ -69,6 +69,16 @@ setValidity("MSnSet", function(object) {
   if (is.null(msg)) TRUE else msg
 })
 
+setMethod("acquisitionNum", signature(object = "MSnSet"),
+          function(object) {
+              fcol <- "acquisition.number"
+              if (!fcol %in% fvarLabels(object)) {
+                  stop("'featureData' has no column '", fcol, "'.")
+              }
+              setNames(featureData(object)[[fcol]],
+                       featureNames(object))
+          })
+
 setMethod("exprs", signature(object = "MSnSet"),
           function(object) assayDataElement(object, "exprs"))
 
