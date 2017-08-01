@@ -44,7 +44,39 @@
                               pepseq, verbose = verbosea)
     }
 
-## There is no common .addDataFrameIdentificationData function as he
-## implementations for MSnExp and MSnSet objects are different. Might
-## need to be revised though -- see FIXME in
-## addIdentificationData,MSnSet,data.frame.
+.addDataFrameIdentificationData <-
+    function(object, id, fcol, icol, acc, desc, pepseq, key,
+             verbose, ...) {
+        if (!missing(key)) { ## otherwise, id is reduced
+            id <- reduce(id, key)
+        }
+        ## we temporaly add the spectrum.file/acquisition.number information
+        ## to our fData data.frame because
+        ## utils.mergeSpectraAndIdentificationData needs this information
+        ## for matching
+        fd <- fData(object)
+
+        if (!nrow(fd))
+            stop("No feature data found.")
+
+        fd$spectrum.file <- basename(fileNames(object)[fromFile(object)])
+        fd$acquisition.number <- acquisitionNum(object)
+
+        fd <- utils.mergeSpectraAndIdentificationData(fd, id,
+                                                            fcol = fcol,
+                                                            icol = icol,
+                                                            acc = acc,
+                                                            desc = desc,
+                                                            pepseq = pepseq)
+        ## after adding the identification data we remove the
+        ## temporary data to avoid duplication and problems in quantify
+        ## (We don't remove acquisition.number here because the featureData slot
+        ## is the only place where this information is stored in an MSnSet
+        ## object; see also https://github.com/lgatto/MSnbase/issues/235.)
+        cn <- colnames(fd)
+        keep <- cn[cn != "spectrum.file"]
+        fData(object)[, keep] <- fd[, keep, drop=FALSE]
+
+        if (validObject(object))
+            object
+    }
