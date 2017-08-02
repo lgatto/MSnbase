@@ -6,6 +6,7 @@
 \alias{MSnSet}
 
 %% TODO add methods
+\alias{acquisitionNum,MSnSet-method}
 \alias{exprs,MSnSet-method}
 \alias{dim,MSnSet-method}
 \alias{fileNames,MSnSet-method}
@@ -185,6 +186,12 @@
     %% \item{$name}{\code{signature(x = "pSet")}: Access \code{name} column
     %%   in \code{featureData}. Note that this behaviour is different to
     %%   the \code{eSet}, where \code{$} accesses the \code{phenoData}. }
+    \item{acquisitionNum}{
+      \code{acquisitionNum(signature(object = "MSnSet"))}: Returns the
+      a numeric vector with acquisition number of each spectrum. The vector
+      names are the corresponding spectrum names.
+      The information is extracted from the object's \code{featureData} slot.
+    }
     \item{dim}{\code{signature(x = "MSnSet")}: Returns the dimensions of
       object's assay data, i.e the number of samples and the number of
       features. }

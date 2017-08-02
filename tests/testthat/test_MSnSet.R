@@ -4,6 +4,15 @@ test_that("MSnSet validity", {
     expect_true(validObject(new("MSnSet")))
 })
 
+test_that("MSnSet acquisitionNum", {
+    data(msnset)
+    expect_equal(acquisitionNum(msnset),
+                 setNames(featureData(msnset)$acquisition.number,
+                          featureNames(msnset)))
+    featureData(msnset)$acquisition.number <- NULL
+    expect_error(acquisitionNum(msnset), "has no column")
+})
+
 test_that("MSnSet validity for empty feature names", {
     data(msnset)
     expect_true(validObject(msnset))
