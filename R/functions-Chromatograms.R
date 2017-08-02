@@ -10,6 +10,19 @@
                                  "'Chromatogram'."))
         ## Shall we also ensure that fromFile in each column is the same?
     }
+    if (nrow(x@phenoData) != ncol(x))
+        msg <- c(msg, paste0("nrow of phenoData has to match ncol ",
+                             "of the Chromatograms object"))
+    ## Check colnames .Data with rownames phenoData.
+    if (!is.null(colnames(x))) {
+        if (any(colnames(x) != rownames(x@phenoData)))
+            msg <- c(msg, paste0("colnames of object has to match rownames of",
+                                 " phenoData"))
+    } else {
+        if (any(rownames(x@phenoData) != as.character(1:ncol(x))))
+            msg <- c(msg, paste0("rownames of phenoData does not match ",
+                                 "colnames of object"))
+    }
     if (length(msg))
         msg
     else TRUE
@@ -20,14 +33,37 @@
 #'
 #' @param data A \code{list} of \code{\link{Chromatogram}} objects.
 #'
-#' @param ... Additional parameters to be passed to the \code{\link{matrix}}
-#'     constructor, such as \code{nrow}, \code{ncol} and \code{byrow}.
+#' @param phenoData either a \code{data.frame}, \code{AnnotatedDataFrame} or
+#'     \code{NAnnotatedDataFrame} describing the phenotypical information of the
+#'     samples.
+#'
+#' @param ... Additional parameters to be passed to the
+#'     \code{\link[base]{matrix}} constructor, such as \code{nrow}, \code{ncol}
+#'     and \code{byrow}.
 #' 
 #' @rdname Chromatograms-class
-Chromatograms <- function(data, ...) {
+Chromatograms <- function(data, phenoData, ...) {
     if (missing(data))
         return(new("Chromatograms"))
-    res <- as(matrix(data, ...), "Chromatograms")
+    datmat <- matrix(data, ...)
+    if (missing(phenoData))
+        phenoData <- annotatedDataFrameFrom(datmat, byrow = FALSE)
+    if (ncol(datmat) != nrow(phenoData))
+        stop("Dimensions of the data matrix and the  phenoData do not match")
+    ## Convert phenoData...
+    if (is(phenoData, "data.frame"))
+        phenoData <- AnnotatedDataFrame(phenoData)
+    if (is(phenoData, "AnnotatedDataFrame"))
+        phenoData <- as(phenoData, "NAnnotatedDataFrame")
+    ## Set colnames if we have some
+    if (any(rownames(phenoData) != as.character(1:nrow(phenoData))))
+        colnames(datmat) <- rownames(phenoData)
+    else
+        rownames(phenoData) <- colnames(datmat)
+    res <- new("Chromatograms", .Data = datmat, phenoData = phenoData)
+    ## res@.Data <- datmat
+    ## res@phenoData <- phenoData
+    ## res <- as(matrix(data, ...), "Chromatograms")
     if (validObject(res))
         res
 }

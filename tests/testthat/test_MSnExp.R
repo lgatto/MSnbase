@@ -401,7 +401,8 @@ test_that("chromatogram,MSnExp works", {
     expect_equal(ints[[2]], intensity(res[1, 2]))
     expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[1, 1]))
     expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[1, 2]))
-
+    expect_equal(pData(inMem), pData(res))
+    
     ## Multiple mz ranges.
     mzr <- matrix(c(100, 120, 200, 220, 300, 320), nrow = 3, byrow = TRUE)
     rtr <- matrix(c(50, 300), nrow = 1)
@@ -449,4 +450,11 @@ test_that("chromatogram,MSnExp works", {
     spctr <- split(spectra(flt), fromFile(flt))
     ints <- unlist(lapply(spctr[[1]], function(z) sum(intensity(z))))
     expect_equal(ints, intensity(res[2, 2]))
+
+    ## Check that phenoType is correctly passed.
+    pd <- data.frame(name = c("first", "second", "third", "fourth"), idx = 1:4)
+    pData(inMem) <- pd
+    chrs <- chromatogram(inMem)
+    rownames(pd) <- colnames(chrs)
+    expect_equal(pData(chrs), pd)
 })

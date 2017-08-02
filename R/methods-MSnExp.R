@@ -511,6 +511,7 @@ setMethod("chromatogram", "MSnExp", function(object, rt, mz,
                                          missingValue = missing,
                                          BPPARAM = BPPARAM)
     res <- as(res, "Chromatograms")
+    res@phenoData <- object@phenoData
     colnames(res) <- basename(fileNames(object))
     if (validObject(res))
         res

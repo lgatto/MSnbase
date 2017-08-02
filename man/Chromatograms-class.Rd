@@ -9,9 +9,15 @@
 \alias{[,Chromatograms,ANY,ANY,ANY-method}
 \alias{[<-,Chromatograms-method}
 \alias{plot,Chromatograms,ANY-method}
+\alias{phenoData,Chromatograms-method}
+\alias{pData,Chromatograms-method}
+\alias{pData<-,Chromatograms,ANY-method}
+\alias{$,Chromatograms-method}
+\alias{$<-,Chromatograms-method}
+\alias{colnames<-,Chromatograms-method}
 \title{Container for multiple Chromatogram objects}
 \usage{
-Chromatograms(data, ...)
+Chromatograms(data, phenoData, ...)
 
 \S4method{show}{Chromatograms}(object)
 
@@ -22,16 +28,33 @@ Chromatograms(data, ...)
 \S4method{plot}{Chromatograms,ANY}(x, col = "#00000060", lty = 1,
   type = "l", xlab = "retention time", ylab = "intensity", main = NULL,
   ...)
+
+\S4method{phenoData}{Chromatograms}(object)
+
+\S4method{pData}{Chromatograms}(object)
+
+\S4method{pData}{Chromatograms,ANY}(object) <- value
+
+\S4method{$}{Chromatograms}(x, name)
+
+\S4method{$}{Chromatograms}(x, name) <- value
+
+\S4method{colnames}{Chromatograms}(x) <- value
 }
 \arguments{
 \item{data}{A \code{list} of \code{\link{Chromatogram}} objects.}
 
-\item{...}{Additional parameters to be passed to the \code{\link{matrix}}
-constructor, such as \code{nrow}, \code{ncol} and \code{byrow}.}
+\item{phenoData}{either a \code{data.frame}, \code{AnnotatedDataFrame} or
+\code{NAnnotatedDataFrame} describing the phenotypical information of the
+samples.}
 
-\item{object}{For \code{show}: a \code{Chromatograms} object.}
+\item{...}{Additional parameters to be passed to the
+\code{\link[base]{matrix}} constructor, such as \code{nrow}, \code{ncol}
+and \code{byrow}.}
 
-\item{x}{For \code{[}: the \code{Chromatograms} object to subset.}
+\item{object}{a \code{Chromatograms} object.}
+
+\item{x}{For all methods: a \code{Chromatograms} object.}
 
 \item{i}{For \code{[}: \code{numeric}, \code{logical} or \code{character}
 defining which row(s) to extract.}
@@ -46,8 +69,13 @@ object (or a \code{Chromatogram} object if a single element is
 extracted).}
 
 \item{value}{For \code{[<-}: the replacement object(s). Can be a \code{list}
-of \code{\link{Chromatogram}} objects or, if length of \code{i} and
-\code{j} are 1, a single \code{\link{Chromatogram}} object.}
+    of \code{\link{Chromatogram}} objects or, if length of \code{i} and
+    \code{j} are 1, a single \code{\link{Chromatogram}} object.
+
+    For \code{pData<-}: a \code{data.frame} with the number of rows matching
+    the number of columns of \code{object}.
+
+    For \code{colnames}: a \code{character} with the new column names.}
 
 \item{col}{For \code{plot}: the color to be used for plotting. Either a
 vector of length 1 or equal to \code{ncol(x)}.}
@@ -66,6 +94,8 @@ of length 1 or of length equal to \code{ncol(x)}.}
 
 \item{main}{For \code{plot}: the plot title. If not provided the mz range
 will be used as plot title.}
+
+\item{name}{For \code{$}, the name of the pheno data column.}
 }
 \value{
 For \code{[}: the subset of the \code{Chromatograms} object. If a
@@ -74,6 +104,15 @@ For \code{[}: the subset of the \code{Chromatograms} object. If a
     \code{drop = FALSE}, the default, is specified) a \code{Chromatograms}
     object is returned. If \code{drop = TRUE} is specified, the method
     returns a \code{list} of \code{Chromatogram} objects.
+
+    For \code{phenoData}: an \code{NAnnotatedDataFrame} representing the
+    pheno data of the object.
+
+    For \code{pData}: a \code{data.frame} representing the pheno data of
+    the object.
+
+    For \code{$}: the value of the corresponding column in the pheno data
+    table of the object.
 }
 \description{
 The \code{Chromatograms} class allows to store
@@ -91,12 +130,27 @@ The \code{Chromatograms} class allows to store
 \code{plot}: plots a \code{Chromatograms} object. For each row
     in the object one plot is created, i.e. all \code{\link{Chromatogram}}
     objects in the same row are added to the same plot.
+
+\code{phenoData}: accesses the phenotypical desccription of the
+    samples. Returns an \code{NAnnotatedDataFrame} object.
+
+\code{pData}: accesses the phenotypical description of the
+    samples. Returns a \code{data.frame}.
+
+\code{pData<-}: replace the phenotype data.
+
+\code{$} and \code{$<-}: get or replace individual columns of
+    the object's pheno data.
+
+\code{colnames<-}: replace or set the column names of the
+    \code{Chromatograms} object. Does also set the \code{rownames} of the
+    \code{phenoData}.
 }
 \details{
 The \code{Chromatograms} class extends the base \code{matrix} class
     and hence allows to store \code{\link{Chromatogram}} objects in a
     two-dimensional array. Each row is supposed to contain
-    \code{Chromatogram} objects for one MS data \code{slice} with a common
+    \code{Chromatogram} objects for one MS data \emph{slice} with a common
     mz and rt range. Columns contain \code{Chromatogram} objects from the
     same sample.
 
@@ -140,6 +194,18 @@ chrs[2, , drop = FALSE]
 ## Replace the first element.
 chrs[1, 1] <- ch3
 chrs
+
+## Add a pheno data.
+pd <- data.frame(name = c("first sample", "second sample"),
+    idx = 1:2)
+rownames(pd) <- c("first", "second")
+pData(chrs) <- pd
+
+## Column names correspond to the row names of the pheno data
+chrs
+
+## Access a column within the pheno data
+chrs$name
 
 ## Create some random Chromatogram objects
 ints <- abs(rnorm(123, mean = 200, sd = 32))

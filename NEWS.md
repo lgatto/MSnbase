@@ -6,6 +6,7 @@
 - New utils functions: factorsAsStrings, makeCamelCase and
   reduce,data.frame <2017-07-29 Sat>
 - Coerce mzRident to data.frames <2017-07-29 Sat>
+- Add phenoData slot to Chromatograms class<2017-08-02 Wed>
 
 ## Changes in version 2.3.8
 - New infrastructure for chromatogram data <2017-06-24 Sat>
