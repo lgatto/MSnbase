@@ -462,21 +462,13 @@ format can be parsed by `openIDfile` from the `r Biocpkg("mzR")`
 package or `mzID` from the `r Biocpkg("mzID")` package. The `MSnbase`
 package relies on the former (which is faster) and offers a simplified
 interface by converting the dedicated identification data objects into
-`data.frames`. Below, we demonstrate how to do that using an `mzid`
-file from the `r Biocexptpkg("msdata")` package.
+`data.frames`. 
 
 ```{r iddf0}
 library("msdata")
 f <- "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"
 idf <- msdata::ident(full.names = TRUE, pattern = f)
-idx <- openIDfile(idf)
-idx
-```
-
-The `idx` identifcation object can then be converted into a `data.frame`:
-
-```{r iddf}
-iddf <- as(idx, "data.frame")
+iddf <- readMzIdData(idf)
 str(iddf)
 ```
 
@@ -510,8 +502,18 @@ ggplot(data = iddf, aes(x = MS.GF.RawScore, colour = isDecoy)) +
     facet_wrap(~chargeState)
 ```
 
-This `data.frame` can be reduced so that row represent unique scans,
-which can be done with the `reduce` method:
+The `filterIdentificationDataFrame` function can be used to remove
+- PSMs that match decoy entries
+- PSMs of rank > 1
+- PSMs that match non-proteotypic proteins
+
+```{r}
+iddf <- filterIdentificationDataFrame(iddf)
+```
+
+This `data.frame` can be now be further reduced so that individual
+rows represent unique spectra, which can be done with the `reduce`
+method. 
 
 ```{r rediddf}
 iddf2 <- reduce(iddf, key = "spectrumID")
@@ -519,13 +521,18 @@ iddf2 <- reduce(iddf, key = "spectrumID")
 
 This reduces the number of rows from `r nrow(iddf)` to `r nrow(iddf2)`. 
 
-The information for scans that had multiple entries in `iddf` are now
-combined as semicolon-separated values:
+The first duplicated spectrum mentioned above is now unique as is
+matched a decoy protein that was filtered out with
+`filterIdentificationDataFrame`. 
 
 ```{r dups3, echo=FALSE}
 iddf2[grep("scan=5291", iddf2[, "spectrumID"]),
       c("spectrumID", "sequence", "DatabaseAccess")]
 ```
+
+The matches to multiple modification in the same peptide are now
+combined into a single row and documented as semicolon-separated
+values.
 
 ```{r dups4, echo=FALSE}
 iddf2[grep("scan=4936", iddf2[, "spectrumID"]),

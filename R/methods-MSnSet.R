@@ -664,11 +664,13 @@ setMethod("addIdentificationData", c("MSnSet", "character"),
              desc = "DatabaseDescription",
              pepseq = "sequence",
              key = "spectrumID",
+             rank = "rank",
+             decoy = "isDecoy", 
              verbose = isMSnbaseVerbose(),
              ...)
-        .addCharacterIdentificationData(object, id, fcol, icol,
-                                        acc, desc, pepseq, key,
-                                        verbose, ...))
+        .addCharacterIdentificationData(object, id, fcol, icol, acc,
+                                        desc, pepseq, key, rank,
+                                        decoy, verbose, ...))
 
 setMethod("addIdentificationData", c("MSnSet", "mzRident"),
         function(object, id,
@@ -678,11 +680,13 @@ setMethod("addIdentificationData", c("MSnSet", "mzRident"),
                  desc = "DatabaseDescription",
                  pepseq = "sequence",
                  key = "spectrumID",
+                 rank = "rank",
+                 decoy = "isDecoy",
                  verbose = isMSnbaseVerbose(),
                  ...)
             .addMzRidentIdentificationData(object, id, fcol, icol,
                                            acc, desc, pepseq, key,
-                                           verbose, ...))
+                                           rank, decoy, verbose, ...))
 
 setMethod("addIdentificationData", c("MSnSet", "mzIDClasses"),
         function(object, id,
@@ -692,21 +696,23 @@ setMethod("addIdentificationData", c("MSnSet", "mzIDClasses"),
                  desc = "description",
                  pepseq = "pepseq",
                  key = "spectrumid",
+                 rank = "rank",
+                 decoy = "isdecoy", 
                  verbose = isMSnbaseVerbose(),
                  ...)
             .addMzIDIdentificationData(object, id, fcol, icol, acc,
-                                       desc, pepseq, key, verbose,
-                                       ...))
+                                       desc, pepseq, key, rank, decoy,
+                                       verbose, ...))
 
 setMethod("addIdentificationData", c("MSnSet", "data.frame"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
-                   icol, acc, desc, pepseq, key,
-                   verbose = isMSnbaseVerbose(),
-                   ...)
-            .addDataFrameIdentificationData(object, id, fcol, icol, acc,
-                                            desc, pepseq, key, verbose,
-                                            ...))
+                   icol, acc, desc, pepseq, key, rank, decoy,
+                   verbose = isMSnbaseVerbose(), ...)
+              .addDataFrameIdentificationData(object, id, fcol, icol,
+                                              acc, desc, pepseq, key,
+                                              rank, decoy, verbose,
+                                              ...))
 
 setMethod("removeNoId", "MSnSet",
           function(object, fcol = "sequence", keep = NULL)

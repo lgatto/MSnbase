@@ -59,6 +59,7 @@ export(MSnSet,
        readMSData2,
        readMSnSet,
        readMSnSet2,
+       readMzIdData,
        getEcols, grepEcols,
        formatRt,
        fillUp,
@@ -134,7 +135,8 @@ export(MSnSet,
        Chromatogram,
        Chromatograms,
        factorsAsStrings,
-       makeCamelCase
+       makeCamelCase,
+       filterIdentificationDataFrame
        )
 
 exportClasses(pSet,
