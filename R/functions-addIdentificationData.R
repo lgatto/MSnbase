@@ -122,6 +122,7 @@ filterIdentificationDataFrame <- function(x,
                            })
             iddf <- do.call(rbind, iddf)
         }
+        ## Filtering already done - set these args to NULL
         .addDataFrameIdentificationData(object, iddf, fcol, icol, acc,
                                         desc, pepseq, decoy = NULL,
                                         rank = NULL, accession = NULL,
@@ -136,6 +137,7 @@ filterIdentificationDataFrame <- function(x,
                                               rank = rank, accession = accession,
                                               verbose = verbose)
         iddf <- reduce(iddf, key = key)
+        ## Filtering already done - set these args to NULL
         .addIDataFramedentificationData(object, iddf, fcol, icol, acc,
                                         desc, pepseq, decoy = NULL,
                                         rank = NULL, accession = NULL,
@@ -149,11 +151,12 @@ filterIdentificationDataFrame <- function(x,
         names(iddf) <- make.names(names(iddf))
         iddf <- filterIdentificationDataFrame(iddf, decoy = decoy,
                                               rank = rank, accession = accession,
-                                              verbose = verboase)
+                                              verbose = verbose)
         iddf <- reduce(iddf, key = key)
+        ## Filtering already done - set these args to NULL 
         addIdentificationData(object, iddf, fcol, icol, acc, desc,
                               pepseq, decoy = NULL, rank = NULL,
-                              accession = NULL, verbose = verbosea)
+                              accession = NULL, verbose = verbose)
     }
 
 .addDataFrameIdentificationData <-
@@ -162,8 +165,8 @@ filterIdentificationDataFrame <- function(x,
         if (!missing(key)) { ## otherwise, id is reduced
             id <- reduce(id, key)
         }
-        ## arguments could all be NULL for not filtering, as called in
-        ## the function above
+        ## Filtering arguments could all be NULL to bypass filtering,
+        ## as in the other .addClassIdentificationData function above
         id <- filterIdentificationDataFrame(id, accession = accession,
                                             rank = rank,
                                             decoy = isDecoy,
