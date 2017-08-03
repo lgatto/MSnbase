@@ -95,14 +95,18 @@ filterIdentificationDataFrame <- function(x,
 ## .addDataFrameIdentificationData.
 
 .addCharacterIdentificationData <-
-    function(object, id, fcol, icol, acc, desc, pepseq, key, rank,
-             decoy, verbose, ...) {
-        ## The code below is the same as in readMzIdData but
-        ## adds calls to reduce after each mzId file is read and
-        ## converted to a data.frame.
+    function(object, id, fcol, icol, acc, desc, pepseq, key, decoy,
+             rank, accession, verbose, ...) {
+        ## The code below is the same as in readMzIdData but filters
+        ## and reduces after each mzId file is read and converted to a
+        ## data.frame.
         if (length(id) == 1 && file.exists(id)) {
             id <- mzR::openIDfile(id)
             iddf <- as(id, "data.frame")
+            iddf <- filterIdentificationDataFrame(iddf, decoy = decoy,
+                                                  rank = rank,
+                                                  accession = accession,
+                                                  verbose = verbose)
             iddf <- reduce(iddf, key = key)
         } else {
             if (!all(flex <- file.exists(id)))
@@ -110,41 +114,59 @@ filterIdentificationDataFrame <- function(x,
             iddf <- lapply(id,
                            function(x) {
                                iddf <- as(openIDfile(x), "data.frame")
+                               iddf <- filterIdentificationDataFrame(iddf, decoy = decoy,
+                                                                     rank = rank,
+                                                                     accession = accession,
+                                                                     verbose = verbose)
                                iddf <- reduce(iddf, key = key)
                            })
             iddf <- do.call(rbind, iddf)
         }
-        addIdentificationData(object, iddf, fcol, icol, acc,
-                              desc, pepseq, verbose = verbose)
-          }
+        .addDataFrameIdentificationData(object, iddf, fcol, icol, acc,
+                                        desc, pepseq, decoy = NULL,
+                                        rank = NULL, accession = NULL,
+                                        verbose = verbose)
+    }
 
 .addMzRidentIdentificationData <-
-    function(object, id, fcol, icol, acc, desc, pepseq, key, rank,
-             decoy, verbose, ...) {
+    function(object, id, fcol, icol, acc, desc, pepseq, key, decoy,
+             rank, accession, verbose, ...) {
         iddf <- as(id, "data.frame")
+        addf <- filterIdentificationDataFrame(iddf, decoy = decoy,
+                                              rank = rank, accession = accession,
+                                              verbose = verbose)
         iddf <- reduce(iddf, key = key)
-        addIdentificationData(object, iddf, fcol, icol, acc, desc,
-                              pepseq, verbose = verbose)
+        .addIDataFramedentificationData(object, iddf, fcol, icol, acc,
+                                        desc, pepseq, decoy = NULL,
+                                        rank = NULL, accession = NULL,
+                                        verbose = verbose)
     }
 
 .addMzIDIdentificationData <-
-    function(object, id, fcol, icol, acc, desc, pepseq, key, rank,
-             decoy, verbose, ...) {
+    function(object, id, fcol, icol, acc, desc, pepseq, key, decoy,
+             rank, accession, verbose, ...) {
         iddf <- flatten(id)
         names(iddf) <- make.names(names(iddf))
+        iddf <- filterIdentificationDataFrame(iddf, decoy = decoy,
+                                              rank = rank, accession = accession,
+                                              verbose = verboase)
         iddf <- reduce(iddf, key = key)
         addIdentificationData(object, iddf, fcol, icol, acc, desc,
-                              pepseq, verbose = verbosea)
+                              pepseq, decoy = NULL, rank = NULL,
+                              accession = NULL, verbose = verbosea)
     }
 
 .addDataFrameIdentificationData <-
-    function(object, id, fcol, icol, acc, desc, pepseq, key, rank,
-             decoy, verbose, ...) {
+    function(object, id, fcol, icol, acc, desc, pepseq, key, decoy,
+             rank, accession, verbose, ...) {
         if (!missing(key)) { ## otherwise, id is reduced
             id <- reduce(id, key)
         }
-        id <- filterIdentificationDataFrame(id, acc = accession,
-                                            rank = rank, decoy = isDecoy,
+        ## arguments could all be NULL for not filtering, as called in
+        ## the function above
+        id <- filterIdentificationDataFrame(id, accession = accession,
+                                            rank = rank,
+                                            decoy = isDecoy,
                                             verbose = verbose)
         ## we temporaly add the spectrum.file/acquisition.number information
         ## to our fData data.frame because
@@ -159,11 +181,11 @@ filterIdentificationDataFrame <- function(x,
         fd$acquisition.number <- acquisitionNum(object)
 
         fd <- utils.mergeSpectraAndIdentificationData(fd, id,
-                                                            fcol = fcol,
-                                                            icol = icol,
-                                                            acc = acc,
-                                                            desc = desc,
-                                                            pepseq = pepseq)
+                                                      fcol = fcol,
+                                                      icol = icol,
+                                                      acc = acc,
+                                                      desc = desc,
+                                                      pepseq = pepseq)
         ## after adding the identification data we remove the
         ## temporary data to avoid duplication and problems in quantify
         ## (We don't remove acquisition.number here because the featureData slot
