@@ -634,7 +634,6 @@ setClass("Chromatogram",
 #' ## Add a pheno data.
 #' pd <- data.frame(name = c("first sample", "second sample"),
 #'     idx = 1:2)
-#' rownames(pd) <- c("first", "second")
 #' pData(chrs) <- pd
 #'
 #' ## Column names correspond to the row names of the pheno data

@@ -20,10 +20,13 @@ test_that("Chromatograms works", {
     expect_equal(length(chs[2, 1]), 10)
     expect_equal(chs[, 1, drop = TRUE], c(ch, Chromatogram(1:10, 1:10)))
     expect_equal(unname(nrow(chs@phenoData)), ncol(chs))
+    expect_equal(colnames(chs), rownames(pData(chs)))
+    expect_equal(colnames(chs), as.character(1:ncol(chs)))
     ## Chromatograms with a phenoData.
     pheno <- AnnotatedDataFrame(data.frame(idx = 1:4, name = letters[1:4]))
     chs <- Chromatograms(ch_list, nrow = 2, phenoData = pheno)
     expect_equal(chs@phenoData, as(pheno, "NAnnotatedDataFrame"))
+    expect_equal(colnames(chs), as.character(1:ncol(chs)))
     rownames(pheno) <- letters[1:4]
     chs <- Chromatograms(ch_list, nrow = 2, phenoData = pheno)
     expect_equal(chs@phenoData, as(pheno, "NAnnotatedDataFrame"))

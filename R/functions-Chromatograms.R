@@ -14,15 +14,9 @@
         msg <- c(msg, paste0("nrow of phenoData has to match ncol ",
                              "of the Chromatograms object"))
     ## Check colnames .Data with rownames phenoData.
-    if (!is.null(colnames(x))) {
-        if (any(colnames(x) != rownames(x@phenoData)))
-            msg <- c(msg, paste0("colnames of object has to match rownames of",
-                                 " phenoData"))
-    } else {
-        if (any(rownames(x@phenoData) != as.character(1:ncol(x))))
-            msg <- c(msg, paste0("rownames of phenoData does not match ",
-                                 "colnames of object"))
-    }
+    if (any(colnames(x) != rownames(x@phenoData)))
+        msg <- c(msg, paste0("colnames of object has to match rownames of",
+                             " phenoData"))
     if (length(msg))
         msg
     else TRUE
@@ -50,20 +44,15 @@ Chromatograms <- function(data, phenoData, ...) {
         phenoData <- annotatedDataFrameFrom(datmat, byrow = FALSE)
     if (ncol(datmat) != nrow(phenoData))
         stop("Dimensions of the data matrix and the  phenoData do not match")
+    ## If colnames of datmat are NULL, use the rownames of phenoData
+    if (is.null(colnames(datmat)))
+        colnames(datmat) <- rownames(phenoData)
     ## Convert phenoData...
     if (is(phenoData, "data.frame"))
         phenoData <- AnnotatedDataFrame(phenoData)
     if (is(phenoData, "AnnotatedDataFrame"))
         phenoData <- as(phenoData, "NAnnotatedDataFrame")
-    ## Set colnames if we have some
-    if (any(rownames(phenoData) != as.character(1:nrow(phenoData))))
-        colnames(datmat) <- rownames(phenoData)
-    else
-        rownames(phenoData) <- colnames(datmat)
     res <- new("Chromatograms", .Data = datmat, phenoData = phenoData)
-    ## res@.Data <- datmat
-    ## res@phenoData <- phenoData
-    ## res <- as(matrix(data, ...), "Chromatograms")
     if (validObject(res))
         res
 }

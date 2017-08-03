@@ -15,6 +15,8 @@
 \alias{$,Chromatograms-method}
 \alias{$<-,Chromatograms-method}
 \alias{colnames<-,Chromatograms-method}
+\alias{sampleNames,Chromatograms-method}
+\alias{sampleNames<-,Chromatograms,ANY-method}
 \title{Container for multiple Chromatogram objects}
 \usage{
 Chromatograms(data, phenoData, ...)
@@ -40,6 +42,10 @@ Chromatograms(data, phenoData, ...)
 \S4method{$}{Chromatograms}(x, name) <- value
 
 \S4method{colnames}{Chromatograms}(x) <- value
+
+\S4method{sampleNames}{Chromatograms}(object)
+
+\S4method{sampleNames}{Chromatograms,ANY}(object) <- value
 }
 \arguments{
 \item{data}{A \code{list} of \code{\link{Chromatogram}} objects.}
@@ -145,6 +151,12 @@ The \code{Chromatograms} class allows to store
 \code{colnames<-}: replace or set the column names of the
     \code{Chromatograms} object. Does also set the \code{rownames} of the
     \code{phenoData}.
+
+\code{sampleNames}: get the sample names.
+
+\code{sampleNames<-}: replace or set the sample names of the
+    \code{Chromatograms} object (i.e. the \code{rownames} of the pheno data
+    and \code{colnames} of the data matrix.
 }
 \details{
 The \code{Chromatograms} class extends the base \code{matrix} class
@@ -198,7 +210,6 @@ chrs
 ## Add a pheno data.
 pd <- data.frame(name = c("first sample", "second sample"),
     idx = 1:2)
-rownames(pd) <- c("first", "second")
 pData(chrs) <- pd
 
 ## Column names correspond to the row names of the pheno data

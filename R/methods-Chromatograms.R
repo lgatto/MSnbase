@@ -31,6 +31,7 @@ setMethod("show", "Chromatograms", function(object) {
         rownames(out) <- c("", rn)        
         print(out, quote = FALSE, right = TRUE)
     }
+    cat("phenoData with", length(varLabels(object@phenoData)), "variables\n")
 })
 
 #' @rdname Chromatograms-class
@@ -97,8 +98,8 @@ setMethod("[", "Chromatograms",
                   pd <- pd[j, ]
                   ## Drop levels
                   pData(pd) <- droplevels(pData(pd))
-                  ## set row names
-                  rownames(pd) <- colnames(x)
+                  ## ## set row names
+                  ## rownames(pd) <- colnames(x)
                   x@phenoData <- pd
               }
               if (validObject(x))
@@ -230,8 +231,6 @@ setMethod("pData", "Chromatograms", function(object) pData(phenoData(object)))
 #' @description \code{pData<-}: replace the phenotype data.
 setReplaceMethod("pData", "Chromatograms", function(object, value) {
     pData(object@phenoData) <- value
-    if (any(rownames(value) != as.character(1:nrow(value))))
-        colnames(object@.Data) <- rownames(value)
     if (validObject(object))
         object
 })
@@ -243,12 +242,14 @@ setReplaceMethod("pData", "Chromatograms", function(object, value) {
 #'
 #' @param name For \code{$}, the name of the pheno data column.
 setMethod("$", "Chromatograms", function(x, name) {
-    eval(substitute(pData(x)$NAME_ARG, list(NAME_ARG = name)))
+    ## eval(substitute(pData(x)$NAME_ARG, list(NAME_ARG = name)))
+    pData(x)[[name]]
 })
 #' @rdname Chromatograms-class
 setReplaceMethod("$", "Chromatograms", function(x, name, value) {
     pData(x)[[name]] <- value
-    x
+    if(validObject(x))
+        x
 })
 
 #' @rdname Chromatograms-class
@@ -257,7 +258,25 @@ setReplaceMethod("$", "Chromatograms", function(x, name, value) {
 #'     \code{Chromatograms} object. Does also set the \code{rownames} of the
 #'     \code{phenoData}.
 setReplaceMethod("colnames", "Chromatograms", function(x, value) {
+    colnames(x@.Data) <- value
     rownames(pData(x)) <- value
     if (validObject(x))
         x
 })
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{sampleNames}: get the sample names.
+setMethod("sampleNames", "Chromatograms", function(object)
+    sampleNames(object@phenoData))
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{sampleNames<-}: replace or set the sample names of the
+#'     \code{Chromatograms} object (i.e. the \code{rownames} of the pheno data
+#'     and \code{colnames} of the data matrix.
+setReplaceMethod("sampleNames", "Chromatograms",
+                 function(object, value) {
+                     colnames(object) <- value
+                     object
+                 })
