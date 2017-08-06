@@ -174,6 +174,28 @@ setMethod("fileNames",
 ##             return(object)
 ##           })
 
+setMethod("fromFile", "MSnSet",
+          function(object) {
+              fidx <- fData(object)$fileIdx
+              names(fidx) <- featureNames(object)
+              return(fidx)
+          })
+
+setReplaceMethod("fromFile", signature(object = "MSnSet",
+                                       value = "integer"),
+                 function(object, value) {
+                     if (length(object) != length(value))
+                         stop("Length of replacement value is different from the number of spectra.")
+                     object@featureData$fileIdx <- value
+                     valMsg <- validObject(object)
+                     if (valMsg) {
+                         return(object)
+                     } else {
+                         stop(valMsg)
+                     }
+                 })
+
+
 setMethod("processingData",
           signature(object="MSnSet"),
           function(object) object@processingData)
