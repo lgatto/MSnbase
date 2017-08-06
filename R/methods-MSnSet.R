@@ -69,6 +69,16 @@ setValidity("MSnSet", function(object) {
   if (is.null(msg)) TRUE else msg
 })
 
+setMethod("acquisitionNum", signature(object = "MSnSet"),
+          function(object) {
+              fcol <- "acquisition.number"
+              if (!fcol %in% fvarLabels(object)) {
+                  stop("'featureData' has no column '", fcol, "'.")
+              }
+              setNames(featureData(object)[[fcol]],
+                       featureNames(object))
+          })
+
 setMethod("exprs", signature(object = "MSnSet"),
           function(object) assayDataElement(object, "exprs"))
 
@@ -649,16 +659,20 @@ setMethod("MAplot",
 setMethod("addIdentificationData", c("MSnSet", "character"),
     function(object, id,
              fcol = c("spectrum.file", "acquisition.number"),
-             icol = c("spectrumFile", "acquisitionNum"), 
+             icol = c("spectrumFile", "acquisitionNum"),
              acc = "DatabaseAccess",
              desc = "DatabaseDescription",
              pepseq = "sequence",
              key = "spectrumID",
+             decoy = "isDecoy",
+             rank = "rank",
+             accession = acc,
              verbose = isMSnbaseVerbose(),
              ...)
-        .addCharacterIdentificationData(object, id, fcol, icol,
-                                        acc, desc, pepseq, key,
-                                        verbose, ...))
+        .addCharacterIdentificationData(object, id, fcol, icol, acc,
+                                        desc, pepseq, key, decoy,
+                                        rank, accession, verbose, ...))
+
 
 setMethod("addIdentificationData", c("MSnSet", "mzRident"),
         function(object, id,
@@ -668,11 +682,16 @@ setMethod("addIdentificationData", c("MSnSet", "mzRident"),
                  desc = "DatabaseDescription",
                  pepseq = "sequence",
                  key = "spectrumID",
+                 decoy = "isDecoy",
+                 rank = "rank",
+                 accession = acc,
                  verbose = isMSnbaseVerbose(),
                  ...)
             .addMzRidentIdentificationData(object, id, fcol, icol,
                                            acc, desc, pepseq, key,
-                                           verbose, ...)) 
+                                           decoy, rank, accession,
+                                           verbose, ...))
+
 
 setMethod("addIdentificationData", c("MSnSet", "mzIDClasses"),
         function(object, id,
@@ -682,39 +701,24 @@ setMethod("addIdentificationData", c("MSnSet", "mzIDClasses"),
                  desc = "description",
                  pepseq = "pepseq",
                  key = "spectrumid",
-                 verbose = isMSnbaseVerbose(),             
+                 decoy = "isdecoy",
+                 rank = "rank",
+                 accession = acc,
+                 verbose = isMSnbaseVerbose(),
                  ...)
             .addMzIDIdentificationData(object, id, fcol, icol, acc,
-                                       desc, pepseq, key, verbose,
-                                       ...))
+                                       desc, pepseq, key, decoy, rank,
+                                       accession, verbose,...))
 
 setMethod("addIdentificationData", c("MSnSet", "data.frame"),
-          function(object, id, fcol, icol, acc, desc, pepseq, key, ...) {
-              if (!missing(key)) { ## otherwise, id is reduced
-                  id <- reduce(id, key)
-              }              
-              fd <- fData(object)
-              if (!nrow(fd))
-                  stop("No feature data found.")
-
-              fd$spectrum.file <- basename(fileNames(object)[fd$file])
-              ## FIXME why no acquisition number here?
-              
-              fd <- utils.mergeSpectraAndIdentificationData(fd, id,
-                                                            fcol = fcol,
-                                                            icol = icol,
-                                                            acc = acc,
-                                                            desc = desc,
-                                                            pepseq = pepseq) 
-              ## after adding the identification data we remove the
-              ## temporary data to avoid duplication and problems in quantify
-              cn <- colnames(fd)
-              ## FIXME why no acquisition number here?
-              keep <- cn[!(cn %in% c("spectrum.file"))] 
-              fData(object)[, keep] <- fd[, keep, drop = FALSE]
-              if (validObject(object))
-                  return(object)
-          })
+          function(object, id,
+                   fcol = c("spectrum.file", "acquisition.number"),
+                   icol, acc, desc, pepseq, key, decoy, rank,
+                   accession = acc, verbose = isMSnbaseVerbose(), ...)
+              .addDataFrameIdentificationData(object, id, fcol, icol,
+                                              acc, desc, pepseq, key,
+                                              decoy, rank, accession,
+                                              verbose, ...))
 
 setMethod("removeNoId", "MSnSet",
           function(object, fcol = "sequence", keep = NULL)

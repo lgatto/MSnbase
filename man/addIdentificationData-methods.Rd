@@ -6,8 +6,10 @@
 \title{ Adds Identification Data }
 
 \description{
+
   This methods add identification data to an experiment
   \code{"\linkS4class{MSnExp}"} or to a \code{"\linkS4class{MSnSet}"}.
+  
 }
 
 \section{Methods}{

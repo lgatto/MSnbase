@@ -7,6 +7,11 @@
   reduce,data.frame <2017-07-29 Sat>
 - Coerce mzRident to data.frames <2017-07-29 Sat>
 - Add phenoData slot to Chromatograms class<2017-08-02 Wed>
+- new readMzIdData function to read mzId files as data.frames (uses
+  the new coerce,mzRident,data.frame method) <2017-08-03 Thu>
+- new filterIdentificationDataFrame function to filter PSM data.frames
+  as produced by readMzIdData. Also used in the addIdentificationData
+  methods. <2017-08-03 Thu>
 
 ## Changes in version 2.3.8
 - New infrastructure for chromatogram data <2017-06-24 Sat>
