@@ -202,7 +202,7 @@ commonFeatureNames <- function(x, y) {
     nms <- names(x)
     cmn <- Reduce(intersect, lapply(x, featureNames))
     message(paste(length(cmn), "features in common"))
-    res <- lapply(x, "[", cmn)
+    res <- lapply(x, function(xx) xx[cmn, ])
     if (!is.null(nms))
         names(res) <- nms
     return(MSnSetList(x = res,

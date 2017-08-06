@@ -877,8 +877,8 @@ utils.removeNoId <- function(object, fcol, keep) {
             return(object)
 }
 
-utils.removeMultipleAssignment <- function(object, fcol) {
-    keep <- which(fData(object)[, fcol] == 1)
+utils.removeMultipleAssignment <- function(object, nprot = "nprot") {
+    keep <- which(fData(object)[, nprot] == 1)
     object <- object[keep, ]
     object <- nologging(object, 1)
     object <- logging(object,
@@ -903,11 +903,11 @@ utils.idSummary <- function(fd) {
 }
 
 utils.removeNoIdAndMultipleAssignments <-
-    function(object, pepseq = "sequence") {
+    function(object, pepseq = "sequence", nprot = "nprot") {
         if (anyNA(fData(object)[, pepseq]))
-            object <- removeNoId(object)
-        if (any(fData(object)$nprot > 1))
-            object <- removeMultipleAssignment(object)
+            object <- removeNoId(object, pepseq)
+        if (any(fData(object)[, nprot] > 1))
+            object <- removeMultipleAssignment(object, nprot)
         return(object)
     }
 

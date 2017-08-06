@@ -59,7 +59,7 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
     expect_equal(length(aa), 5)
     expect_that(nrow(header(aa)), equals(length(aa)))
     expect_that(names(header(aa)),
-                equals(c("file", "retention.time",
+                equals(c("fileIdx", "retention.time",
                          "precursor.mz", "precursor.intensity",
                          "charge", "peaks.count","tic","ionCount",
                          "ms.level", "acquisition.number",

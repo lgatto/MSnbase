@@ -747,8 +747,8 @@ setMethod("removeNoId", "MSnSet",
               utils.removeNoId(object, fcol, keep))
 
 setMethod("removeMultipleAssignment", "MSnSet",
-          function(object, fcol = "nprot")
-              utils.removeMultipleAssignment(object, fcol))
+          function(object, nprot = "nprot")
+              utils.removeMultipleAssignment(object, nprot))
 
 setMethod("idSummary",
           signature = "MSnSet",

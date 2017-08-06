@@ -57,6 +57,7 @@ filterIdentificationDataFrame <- function(x,
                                           decoy = "isDecoy",
                                           rank = "rank",
                                           accession = "DatabaseAccess",
+                                          spectrumID = "spectrumID",
                                           verbose = isMSnbaseVerbose()) {
     n0 <- nrow(x)
     if (verbose)
@@ -75,7 +76,7 @@ filterIdentificationDataFrame <- function(x,
     }
     if (!is.null(accession)) {
         keep <- tapply(x[, accession],
-                       x[, "spectrumID"],
+                       x[, spectrumID],
                        function(xx) length(unique(xx))) == 1
         x <- x[keep, ]
         n3 <- nrow(x)
@@ -151,6 +152,7 @@ filterIdentificationDataFrame <- function(x,
         names(iddf) <- make.names(names(iddf))
         iddf <- filterIdentificationDataFrame(iddf, decoy = decoy,
                                               rank = rank, accession = accession,
+                                              spectrumID = "spectrumid",
                                               verbose = verbose)
         iddf <- reduce(iddf, key = key)
         ## Filtering already done - set these args to NULL 
