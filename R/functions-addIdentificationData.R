@@ -31,7 +31,7 @@ readMzIdData <- function(files) {
 ##' rank greater than one and matching non-proteotypic peptides.
 ##'
 ##' The PSMs should be stored in a `data.frame` such as those produced
-##' by [readPsmData()]. Note that this function should be called
+##' by [readMzIdData()]. Note that this function should be called
 ##' before calling the [reduce][reduce,data.frame-method] method on a
 ##' PSM `data.frame`.
 ##'
@@ -138,7 +138,7 @@ filterIdentificationDataFrame <- function(x,
                                               verbose = verbose)
         iddf <- reduce(iddf, key = key)
         ## Filtering already done - set these args to NULL
-        .addIDataFramedentificationData(object, iddf, fcol, icol, acc,
+        .addDataFrameIdentificationData(object, iddf, fcol, icol, acc,
                                         desc, pepseq, decoy = NULL,
                                         rank = NULL, accession = NULL,
                                         verbose = verbose)
@@ -154,9 +154,10 @@ filterIdentificationDataFrame <- function(x,
                                               verbose = verbose)
         iddf <- reduce(iddf, key = key)
         ## Filtering already done - set these args to NULL 
-        addIdentificationData(object, iddf, fcol, icol, acc, desc,
-                              pepseq, decoy = NULL, rank = NULL,
-                              accession = NULL, verbose = verbose)
+        .addDataFrameIdentificationData(object, iddf, fcol, icol, acc,
+                                        desc, pepseq, decoy = NULL,
+                                        rank = NULL, accession = NULL,
+                                        verbose = verbose)
     }
 
 .addDataFrameIdentificationData <-
@@ -169,7 +170,7 @@ filterIdentificationDataFrame <- function(x,
         ## as in the other .addClassIdentificationData function above
         id <- filterIdentificationDataFrame(id, accession = accession,
                                             rank = rank,
-                                            decoy = isDecoy,
+                                            decoy = decoy,
                                             verbose = verbose)
         ## we temporaly add the spectrum.file/acquisition.number information
         ## to our fData data.frame because

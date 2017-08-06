@@ -36,7 +36,7 @@ rank greater than one and matching non-proteotypic peptides.
 }
 \details{
 The PSMs should be stored in a \code{data.frame} such as those produced
-by \code{\link[=readPsmData]{readPsmData()}}. Note that this function should be called
+by \code{\link[=readMzIdData]{readMzIdData()}}. Note that this function should be called
 before calling the \link[=reduce,data.frame-method]{reduce} method on a
 PSM \code{data.frame}.
 }

@@ -204,13 +204,12 @@ test_that("addIdentificationData", {
                  c("VESITARHGEVLQLRPK", "IDGQWVTHQWLKK",
                    NA, NA, "LVILLFR"))
     expect_equal(fd$DatabaseAccess,
-                 c("ECA0984;ECA3829", "ECA1028",
-                   NA, NA, "ECA0510"))
+                 c("ECA0984", "ECA1028", NA, NA, "ECA0510"))
     expect_equal(fd$idFile, c("dummyiTRAQ.mzid", "dummyiTRAQ.mzid", NA, NA,
                               "dummyiTRAQ.mzid"))
     expect_equal(fd$npsm.prot, c(1, 1, NA, NA, 1))
     expect_equal(fd$npep.prot, c(1, 1, NA, NA, 1))
-    expect_equal(fd$nprot, c(2, 1, NA, NA, 1))
+    expect_equal(fd$nprot, c(1, 1, NA, NA, 1))
     expect_equal(fd$npsm.pep, c(1, 1, NA, NA, 1))
 })
 

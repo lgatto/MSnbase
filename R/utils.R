@@ -902,13 +902,14 @@ utils.idSummary <- function(fd) {
     return(idSummary)
 }
 
-utils.removeNoIdAndMultipleAssignments <- function(object) {
-    if (anyNA(fData(object)$pepseq))
-        object <- removeNoId(object)
-    if (any(fData(object)$nprot > 1))
-        object <- removeMultipleAssignment(object)
-    return(object)
-}
+utils.removeNoIdAndMultipleAssignments <-
+    function(object, pepseq = "sequence") {
+        if (anyNA(fData(object)[, pepseq]))
+            object <- removeNoId(object)
+        if (any(fData(object)$nprot > 1))
+            object <- removeMultipleAssignment(object)
+        return(object)
+    }
 
 ##' Compares equality of all members of a list.
 ##'
