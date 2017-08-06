@@ -395,7 +395,7 @@ getVariableName <- function(match_call, varname) {
   if (all(msLevel(object) == 1)) {
     ln <- length(object)
     nas <- rep(NA, ln)
-    hd <- list(file = fromFile(object),
+    hd <- list(fileIdx = fromFile(object),
                retention.time = rtime(object),
                precursor.mz = nas,
                precursor.intensity = nas,
@@ -409,7 +409,7 @@ getVariableName <- function(match_call, varname) {
   } else {
     ## tbl <- table(fromFile(object))
     ## idx <- as.numeric(unlist(apply(tbl, 1, function(x) 1:x)))
-    hd <- list(file = fromFile(object),
+    hd <- list(fileIdx = fromFile(object),
                retention.time = rtime(object),
                precursor.mz = precursorMz(object),
                precursor.intensity = precursorIntensity(object),

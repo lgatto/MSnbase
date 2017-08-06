@@ -144,7 +144,7 @@ readInMemMSData <- readMSData <- function(files,
         fullhdorder <- match(featnms, fullhdorder)
         tmphd <- fullhd2[fullhdorder, ] ## reorder
         ioncount <- ioncount[fullhdorder]
-        newhd <- data.frame(file = fl,
+        newhd <- data.frame(fileIdx = fl,
                             retention.time = tmphd$retentionTime,
                             precursor.mz = tmphd$precursorMZ,
                             precursor.intensity = tmphd$precursorIntensity,
