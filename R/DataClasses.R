@@ -584,7 +584,7 @@ setClass("Chromatogram",
 #' @details The \code{Chromatograms} class extends the base \code{matrix} class
 #'     and hence allows to store \code{\link{Chromatogram}} objects in a
 #'     two-dimensional array. Each row is supposed to contain
-#'     \code{Chromatogram} objects for one MS data \code{slice} with a common
+#'     \code{Chromatogram} objects for one MS data \emph{slice} with a common
 #'     mz and rt range. Columns contain \code{Chromatogram} objects from the
 #'     same sample.
 #'
@@ -599,7 +599,7 @@ setClass("Chromatogram",
 #'     \code{\linkS4class{OnDiskMSnExp}} object.
 #' 
 #' @author Johannes Rainer
-#'
+#' 
 #' @examples
 #' ## Creating some chromatogram objects to put them into a Chromatograms object
 #' ints <- abs(rnorm(25, sd = 200))
@@ -630,8 +630,20 @@ setClass("Chromatogram",
 #' ## Replace the first element.
 #' chrs[1, 1] <- ch3
 #' chrs
+#'
+#' ## Add a pheno data.
+#' pd <- data.frame(name = c("first sample", "second sample"),
+#'     idx = 1:2)
+#' pData(chrs) <- pd
+#'
+#' ## Column names correspond to the row names of the pheno data
+#' chrs
+#'
+#' ## Access a column within the pheno data
+#' chrs$name
 setClass("Chromatograms",
          contains = "matrix",
+         slots = c(phenoData = "NAnnotatedDataFrame"),
          prototype = matrix(ncol = 0, nrow = 0),
          validity = function(object)
              .validChromatograms(object)
