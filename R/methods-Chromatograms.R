@@ -1,6 +1,6 @@
 #' @rdname Chromatograms-class
 #'
-#' @param object For \code{show}: a \code{Chromatograms} object.
+#' @param object a \code{Chromatograms} object.
 setMethod("show", "Chromatograms", function(object) {
     nr <- nrow(object)
     nc <- ncol(object)
@@ -31,6 +31,7 @@ setMethod("show", "Chromatograms", function(object) {
         rownames(out) <- c("", rn)        
         print(out, quote = FALSE, right = TRUE)
     }
+    cat("phenoData with", length(varLabels(object@phenoData)), "variables\n")
 })
 
 #' @rdname Chromatograms-class
@@ -45,7 +46,7 @@ setMethod("show", "Chromatograms", function(object) {
 #'     unless \code{drop = TRUE} is specified. This is different from the
 #'     default subsetting behaviour of \code{matrix}-like objects.
 #' 
-#' @param x For \code{[}: the \code{Chromatograms} object to subset.
+#' @param x For all methods: a \code{Chromatograms} object.
 #' 
 #' @param i For \code{[}: \code{numeric}, \code{logical} or \code{character}
 #'     defining which row(s) to extract.
@@ -65,6 +66,15 @@ setMethod("show", "Chromatograms", function(object) {
 #'     \code{drop = FALSE}, the default, is specified) a \code{Chromatograms}
 #'     object is returned. If \code{drop = TRUE} is specified, the method
 #'     returns a \code{list} of \code{Chromatogram} objects.
+#'
+#'     For \code{phenoData}: an \code{NAnnotatedDataFrame} representing the
+#'     pheno data of the object.
+#'
+#'     For \code{pData}: a \code{data.frame} representing the pheno data of
+#'     the object.
+#'
+#'     For \code{$}: the value of the corresponding column in the pheno data
+#'     table of the object.
 setMethod("[", "Chromatograms",
           function(x, i, j, drop = FALSE) {
               if (missing(i) & missing(j))
@@ -80,10 +90,18 @@ setMethod("[", "Chromatograms",
               ## Return a single element as a Chromatogram
               if (length(i) == 1 & length(j) == 1)
                   return(x@.Data[i, j, drop = TRUE][[1]])
+              pd <- x@phenoData
               ## Multiple elements, return type depends on drop.
               x <- x@.Data[i = i, j = j, drop = drop]
-              if (!drop)
+              if (!drop) {
                   x <- as(x, "Chromatograms")
+                  pd <- pd[j, ]
+                  ## Drop levels
+                  pData(pd) <- droplevels(pData(pd))
+                  ## ## set row names
+                  ## rownames(pd) <- colnames(x)
+                  x@phenoData <- pd
+              }
               if (validObject(x))
                   x
           })
@@ -93,6 +111,11 @@ setMethod("[", "Chromatograms",
 #' @param value For \code{[<-}: the replacement object(s). Can be a \code{list}
 #'     of \code{\link{Chromatogram}} objects or, if length of \code{i} and
 #'     \code{j} are 1, a single \code{\link{Chromatogram}} object.
+#' 
+#'     For \code{pData<-}: a \code{data.frame} with the number of rows matching
+#'     the number of columns of \code{object}.
+#'
+#'     For \code{colnames}: a \code{character} with the new column names.
 setReplaceMethod("[", "Chromatograms",
                  function(x, i, j, value) {
                      if(missing(i) & missing(j))
@@ -128,7 +151,7 @@ setReplaceMethod("[", "Chromatograms",
                  })
 
 #' @rdname Chromatograms-class
-#'
+#' 
 #' @description \code{plot}: plots a \code{Chromatograms} object. For each row
 #'     in the object one plot is created, i.e. all \code{\link{Chromatogram}}
 #'     objects in the same row are added to the same plot.
@@ -190,3 +213,70 @@ setMethod("plot", signature = signature("Chromatograms"),
                            xlab = xlab, ylab = ylab, main = main, ...)
               }
           })
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{phenoData}: accesses the phenotypical desccription of the
+#'     samples. Returns an \code{NAnnotatedDataFrame} object.
+setMethod("phenoData", "Chromatograms", function(object) object@phenoData)
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{pData}: accesses the phenotypical description of the
+#'     samples. Returns a \code{data.frame}.
+setMethod("pData", "Chromatograms", function(object) pData(phenoData(object)))
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{pData<-}: replace the phenotype data.
+setReplaceMethod("pData", "Chromatograms", function(object, value) {
+    pData(object@phenoData) <- value
+    if (validObject(object))
+        object
+})
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{$} and \code{$<-}: get or replace individual columns of
+#'     the object's pheno data.
+#'
+#' @param name For \code{$}, the name of the pheno data column.
+setMethod("$", "Chromatograms", function(x, name) {
+    ## eval(substitute(pData(x)$NAME_ARG, list(NAME_ARG = name)))
+    pData(x)[[name]]
+})
+#' @rdname Chromatograms-class
+setReplaceMethod("$", "Chromatograms", function(x, name, value) {
+    pData(x)[[name]] <- value
+    if(validObject(x))
+        x
+})
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{colnames<-}: replace or set the column names of the
+#'     \code{Chromatograms} object. Does also set the \code{rownames} of the
+#'     \code{phenoData}.
+setReplaceMethod("colnames", "Chromatograms", function(x, value) {
+    colnames(x@.Data) <- value
+    rownames(pData(x)) <- value
+    if (validObject(x))
+        x
+})
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{sampleNames}: get the sample names.
+setMethod("sampleNames", "Chromatograms", function(object)
+    sampleNames(object@phenoData))
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{sampleNames<-}: replace or set the sample names of the
+#'     \code{Chromatograms} object (i.e. the \code{rownames} of the pheno data
+#'     and \code{colnames} of the data matrix.
+setReplaceMethod("sampleNames", "Chromatograms",
+                 function(object, value) {
+                     colnames(object) <- value
+                     object
+                 })

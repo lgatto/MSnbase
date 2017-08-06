@@ -284,6 +284,7 @@ exportMethods(updateObject,
               "$",
               "$<-",
               chromatogram,
+              "colnames<-",
               reduce)
 
 ## methods NOT exported
