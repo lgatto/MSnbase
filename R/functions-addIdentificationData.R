@@ -1,12 +1,16 @@
 ##' Reads as set of `mzId` files containing PSMs an generates a
-##' `data.frame`. This function uses the functionality provided by the
-##' \code{mzR} package to access data in the `mzId` files.
+##' `data.frame`. 
 ##'
+##' This function uses the functionality provided by the `mzR` package
+##' to access data in the `mzId` files. An object of class `mzRident`
+##' can also be coerced to a `data.frame` using `as(, "data.frame")`.
+##' 
 ##' @title Import peptide-spectrum matches
 ##' @param files A `character` of `mzid` files.
 ##' @return A `data.frame` containing the PSMs stored in the `mzId`
 ##'     files.
 ##' @md
+##' @aliases coerce,mzRident,data.frame-method
 ##' @author Laurent Gatto
 ##' @examples
 ##' idf <- "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"
