@@ -182,6 +182,7 @@ quantify_OnDiskMSnExp_max <- function(object, reporters,
                featureData = featureData(object),
                phenoData = .phenoData)
     fData(ans)$reporterMzs <- mzs
+    ans@processingData <- object@processingData
     ans <- logging(ans, paste0("Fast ", names(reporters),
                                " quantitation by max"))
     if (validObject(ans)) ans
