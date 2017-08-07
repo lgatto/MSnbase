@@ -71,10 +71,11 @@ setValidity("MSnSet", function(object) {
 
 setMethod("acquisitionNum", signature(object = "MSnSet"),
           function(object) {
-              fcol <- "acquisition.number"
-              if (!fcol %in% fvarLabels(object)) {
+              fcol <- c("acquisitionNum", "acquisition.number")
+              if (!any(fcol %in% fvarLabels(object))) {
                   stop("'featureData' has no column '", fcol, "'.")
               }
+              fcol <- which(fcol %in% fvarLabels(object))[1]
               setNames(featureData(object)[[fcol]],
                        featureNames(object))
           })
