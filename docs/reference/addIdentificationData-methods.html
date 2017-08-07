@@ -83,6 +83,8 @@
     </div>
 
     
+    
+
     <p>This methods add identification data to an experiment
   <code>"<a href='MSnExp-class.html'>MSnExp</a>"</code> or to a <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code>.</p>
     
@@ -172,22 +174,22 @@
 
 <span class='co'>## access featureData; please note the multiple identification data</span>
 <span class='co'>## for spectrum 1 (row 1)</span>
-<span class='fu'>fData</span>(<span class='no'>msexp</span>)</div><div class='output co'>#&gt;       spectrum          sequence chargeState rank passThreshold
-#&gt; F1.S1        1 VESITARHGEVLQLRPK           3    1          TRUE
-#&gt; F1.S2        2     IDGQWVTHQWLKK           3    1          TRUE
-#&gt; F1.S3        3              &lt;NA&gt;          NA   NA            NA
-#&gt;       experimentalMassToCharge calculatedMassToCharge modNum isDecoy post  pre
-#&gt; F1.S1                 645.3741               645.0375      0   FALSE    A    R
-#&gt; F1.S2                 546.9586               546.9633      0   FALSE    A    K
-#&gt; F1.S3                       NA                     NA     NA      NA &lt;NA&gt; &lt;NA&gt;
-#&gt;       start end  DatabaseAccess DBseqLength DatabaseSeq
-#&gt; F1.S1   170 186 ECA0984;ECA3829         231            
-#&gt; F1.S2    50  62         ECA1028         275            
-#&gt; F1.S3    NA  NA            &lt;NA&gt;          NA        &lt;NA&gt;
-#&gt;                                                                               DatabaseDescription
-#&gt; F1.S1 ECA0984 DNA mismatch repair protein;ECA3829 acetolactate synthase isozyme III large subunit
-#&gt; F1.S2                  ECA1028 2,3,4,5-tetrahydropyridine-2,6-dicarboxylate N-succinyltransferase
-#&gt; F1.S3                                                                                        &lt;NA&gt;
+<span class='fu'>fData</span>(<span class='no'>msexp</span>)</div><div class='output co'>#&gt;       spectrum acquisition.number          sequence chargeState rank
+#&gt; F1.S1        1                  1 VESITARHGEVLQLRPK           3    1
+#&gt; F1.S2        2                  2     IDGQWVTHQWLKK           3    1
+#&gt; F1.S3        3                  3              &lt;NA&gt;          NA   NA
+#&gt;       passThreshold experimentalMassToCharge calculatedMassToCharge modNum
+#&gt; F1.S1          TRUE                 645.3741               645.0375      0
+#&gt; F1.S2          TRUE                 546.9586               546.9633      0
+#&gt; F1.S3            NA                       NA                     NA     NA
+#&gt;       isDecoy post  pre start end DatabaseAccess DBseqLength DatabaseSeq
+#&gt; F1.S1   FALSE    A    R   170 186        ECA0984         231            
+#&gt; F1.S2   FALSE    A    K    50  62        ECA1028         275            
+#&gt; F1.S3      NA &lt;NA&gt; &lt;NA&gt;    NA  NA           &lt;NA&gt;          NA        &lt;NA&gt;
+#&gt;                                                              DatabaseDescription
+#&gt; F1.S1                                        ECA0984 DNA mismatch repair protein
+#&gt; F1.S2 ECA1028 2,3,4,5-tetrahydropyridine-2,6-dicarboxylate N-succinyltransferase
+#&gt; F1.S3                                                                       &lt;NA&gt;
 #&gt;                idFile MS.GF.RawScore MS.GF.DeNovoScore MS.GF.SpecEValue
 #&gt; F1.S1 dummyiTRAQ.mzid            -39                77     5.527468e-05
 #&gt; F1.S2 dummyiTRAQ.mzid            -30                39     9.399048e-06
@@ -197,7 +199,7 @@
 #&gt; F1.S2     13.46615    &lt;NA&gt;      NA          NA               &lt;NA&gt;
 #&gt; F1.S3           NA    &lt;NA&gt;      NA          NA               &lt;NA&gt;
 #&gt;       subReplacementResidue subLocation nprot npep.prot npsm.prot npsm.pep
-#&gt; F1.S1                  &lt;NA&gt;          NA     2         1         1        1
+#&gt; F1.S1                  &lt;NA&gt;          NA     1         1         1        1
 #&gt; F1.S2                  &lt;NA&gt;          NA     1         1         1        1
 #&gt; F1.S3                  &lt;NA&gt;          NA    NA        NA        NA       NA
 #&gt;  [ reached getOption("max.print") -- omitted 2 rows ]</div><div class='input'>

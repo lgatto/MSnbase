@@ -97,10 +97,31 @@
 
     <code>plot</code>: plots a <code>Chromatograms</code> object. For each row
     in the object one plot is created, i.e. all <code><a href='Chromatogram-class.html'>Chromatogram</a></code>
-    objects in the same row are added to the same plot.</p>
+    objects in the same row are added to the same plot.
+
+    <code>phenoData</code>: accesses the phenotypical desccription of the
+    samples. Returns an <code>NAnnotatedDataFrame</code> object.
+
+    <code>pData</code>: accesses the phenotypical description of the
+    samples. Returns a <code>data.frame</code>.
+
+    <code>pData&lt;-</code>: replace the phenotype data.
+
+    <code>$</code> and <code>$&lt;-</code>: get or replace individual columns of
+    the object's pheno data.
+
+    <code>colnames&lt;-</code>: replace or set the column names of the
+    <code>Chromatograms</code> object. Does also set the <code>rownames</code> of the
+    <code>phenoData</code>.
+
+    <code>sampleNames</code>: get the sample names.
+
+    <code>sampleNames&lt;-</code>: replace or set the sample names of the
+    <code>Chromatograms</code> object (i.e. the <code>rownames</code> of the pheno data
+    and <code>colnames</code> of the data matrix.</p>
     
 
-    <pre class="usage">Chromatograms(data, ...)
+    <pre class="usage">Chromatograms(data, phenoData, ...)
 
 # S4 method for Chromatograms
 show(object)
@@ -114,7 +135,31 @@ show(object)
 # S4 method for Chromatograms,ANY
 plot(x, col = "#00000060", lty = 1,
   type = "l", xlab = "retention time", ylab = "intensity", main = NULL,
-  ...)</pre>
+  ...)
+
+# S4 method for Chromatograms
+phenoData(object)
+
+# S4 method for Chromatograms
+pData(object)
+
+# S4 method for Chromatograms,ANY
+pData(object) <- value
+
+# S4 method for Chromatograms
+$(x, name)
+
+# S4 method for Chromatograms
+$(x, name) <- value
+
+# S4 method for Chromatograms
+colnames(x) <- value
+
+# S4 method for Chromatograms
+sampleNames(object)
+
+# S4 method for Chromatograms,ANY
+sampleNames(object) <- value</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -124,17 +169,24 @@ plot(x, col = "#00000060", lty = 1,
       <td><p>A <code>list</code> of <code><a href='Chromatogram-class.html'>Chromatogram</a></code> objects.</p></td>
     </tr>
     <tr>
+      <th>phenoData</th>
+      <td><p>either a <code>data.frame</code>, <code>AnnotatedDataFrame</code> or
+<code>NAnnotatedDataFrame</code> describing the phenotypical information of the
+samples.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
-      <td><p>Additional parameters to be passed to the <code>matrix</code>
-constructor, such as <code>nrow</code>, <code>ncol</code> and <code>byrow</code>.</p></td>
+      <td><p>Additional parameters to be passed to the
+<code><a href='http://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></code> constructor, such as <code>nrow</code>, <code>ncol</code>
+and <code>byrow</code>.</p></td>
     </tr>
     <tr>
       <th>object</th>
-      <td><p>For <code>show</code>: a <code>Chromatograms</code> object.</p></td>
+      <td><p>a <code>Chromatograms</code> object.</p></td>
     </tr>
     <tr>
       <th>x</th>
-      <td><p>For <code>[</code>: the <code>Chromatograms</code> object to subset.</p></td>
+      <td><p>For all methods: a <code>Chromatograms</code> object.</p></td>
     </tr>
     <tr>
       <th>i</th>
@@ -157,8 +209,11 @@ extracted).</p></td>
     <tr>
       <th>value</th>
       <td><p>For <code>[&lt;-</code>: the replacement object(s). Can be a <code>list</code>
-of <code><a href='Chromatogram-class.html'>Chromatogram</a></code> objects or, if length of <code>i</code> and
-<code>j</code> are 1, a single <code><a href='Chromatogram-class.html'>Chromatogram</a></code> object.</p></td>
+    of <code><a href='Chromatogram-class.html'>Chromatogram</a></code> objects or, if length of <code>i</code> and
+    <code>j</code> are 1, a single <code><a href='Chromatogram-class.html'>Chromatogram</a></code> object.</p>
+<p>For <code>pData&lt;-</code>: a <code>data.frame</code> with the number of rows matching
+    the number of columns of <code>object</code>.</p>
+<p>For <code>colnames</code>: a <code>character</code> with the new column names.</p></td>
     </tr>
     <tr>
       <th>col</th>
@@ -190,6 +245,10 @@ of length 1 or of length equal to <code>ncol(x)</code>.</p></td>
       <td><p>For <code>plot</code>: the plot title. If not provided the mz range
 will be used as plot title.</p></td>
     </tr>
+    <tr>
+      <th>name</th>
+      <td><p>For <code>$</code>, the name of the pheno data column.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -200,13 +259,19 @@ will be used as plot title.</p></td>
     <code>drop = FALSE</code>, the default, is specified) a <code>Chromatograms</code>
     object is returned. If <code>drop = TRUE</code> is specified, the method
     returns a <code>list</code> of <code>Chromatogram</code> objects.</p>
+<p>For <code>phenoData</code>: an <code>NAnnotatedDataFrame</code> representing the
+    pheno data of the object.</p>
+<p>For <code>pData</code>: a <code>data.frame</code> representing the pheno data of
+    the object.</p>
+<p>For <code>$</code>: the value of the corresponding column in the pheno data
+    table of the object.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>Chromatograms</code> class extends the base <code>matrix</code> class
     and hence allows to store <code><a href='Chromatogram-class.html'>Chromatogram</a></code> objects in a
     two-dimensional array. Each row is supposed to contain
-    <code>Chromatogram</code> objects for one MS data <code>slice</code> with a common
+    <code>Chromatogram</code> objects for one MS data <em>slice</em> with a common
     mz and rt range. Columns contain <code>Chromatogram</code> objects from the
     same sample.
     <code>plot</code>: if <code>nrow(x) &gt; 1</code> the plot area is split into
@@ -243,10 +308,11 @@ will be used as plot title.</p></td>
 <span class='co'>## Create a Chromatograms object with 2 rows and 2 columns</span>
 <span class='no'>chrs</span> <span class='kw'>&lt;-</span> <span class='fu'>Chromatograms</span>(<span class='fu'>list</span>(<span class='no'>ch1</span>, <span class='no'>ch2</span>, <span class='no'>ch3</span>, <span class='no'>ch4</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 <span class='no'>chrs</span></div><div class='output co'>#&gt; Chromatograms with 2 rows and 2 columns
-#&gt;      [,1]           [,2]          
+#&gt;                   1              2
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]     length: 25     length: 19
-#&gt; [2,]     length: 32     length: 21</div><div class='input'>
+#&gt; [2,]     length: 32     length: 21
+#&gt; phenoData with 0 variables</div><div class='input'>
 <span class='co'>## Extract the first element from the second column. Extracting a single</span>
 <span class='co'>## element always returns a Chromatogram object.</span>
 <span class='no'>chrs</span>[<span class='fl'>1</span>, <span class='fl'>2</span>]</div><div class='output co'>#&gt; Object of class: Chromatogram
@@ -257,22 +323,40 @@ will be used as plot title.</p></td>
 <span class='co'>## Extract the second row. Extracting a row or column (i.e. multiple elements</span>
 <span class='co'>## returns by default a list of Chromatogram objects.</span>
 <span class='no'>chrs</span>[<span class='fl'>2</span>, ]</div><div class='output co'>#&gt; Chromatograms with 1 row and 2 columns
-#&gt;      [,1]           [,2]          
+#&gt;                   1              2
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
-#&gt; [1,]     length: 32     length: 21</div><div class='input'>
+#&gt; [1,]     length: 32     length: 21
+#&gt; phenoData with 0 variables</div><div class='input'>
 <span class='co'>## Extract the second row with drop = FALSE, i.e. return a Chromatograms</span>
 <span class='co'>## object.</span>
 <span class='no'>chrs</span>[<span class='fl'>2</span>, , <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>]</div><div class='output co'>#&gt; Chromatograms with 1 row and 2 columns
-#&gt;      [,1]           [,2]          
+#&gt;                   1              2
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
-#&gt; [1,]     length: 32     length: 21</div><div class='input'>
+#&gt; [1,]     length: 32     length: 21
+#&gt; phenoData with 0 variables</div><div class='input'>
 <span class='co'>## Replace the first element.</span>
 <span class='no'>chrs</span>[<span class='fl'>1</span>, <span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='no'>ch3</span>
 <span class='no'>chrs</span></div><div class='output co'>#&gt; Chromatograms with 2 rows and 2 columns
-#&gt;      [,1]           [,2]          
+#&gt;                   1              2
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]     length: 19     length: 19
-#&gt; [2,]     length: 32     length: 21</div><div class='input'>
+#&gt; [2,]     length: 32     length: 21
+#&gt; phenoData with 0 variables</div><div class='input'>
+<span class='co'>## Add a pheno data.</span>
+<span class='no'>pd</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"first sample"</span>, <span class='st'>"second sample"</span>),
+    <span class='kw'>idx</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>)
+<span class='fu'>pData</span>(<span class='no'>chrs</span>) <span class='kw'>&lt;-</span> <span class='no'>pd</span>
+
+<span class='co'>## Column names correspond to the row names of the pheno data</span>
+<span class='no'>chrs</span></div><div class='output co'>#&gt; Chromatograms with 2 rows and 2 columns
+#&gt;                   1              2
+#&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
+#&gt; [1,]     length: 19     length: 19
+#&gt; [2,]     length: 32     length: 21
+#&gt; phenoData with 2 variables</div><div class='input'>
+<span class='co'>## Access a column within the pheno data</span>
+<span class='no'>chrs</span>$<span class='no'>name</span></div><div class='output co'>#&gt; [1] first sample  second sample
+#&gt; Levels: first sample second sample</div><div class='input'>
 <span class='co'>## Create some random Chromatogram objects</span>
 <span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'>abs</span>(<span class='fu'>rnorm</span>(<span class='fl'>123</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>32</span>))
 <span class='no'>ch1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fu'>seq_along</span>(<span class='no'>ints</span>), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fl'>231</span>)
