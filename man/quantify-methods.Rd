@@ -80,6 +80,12 @@
   \item{qual}{
     Should the \code{qual} slot be populated. Default is \code{TRUE}.
   }
+
+  \item{pepseq}{
+    A \code{character} giving the peptide sequence column in the feature
+    data. Default is \code{"sequence"}.
+  }
+
   
   \item{verbose}{
     Verbose of the output (only for \code{MSnExp} objects).
