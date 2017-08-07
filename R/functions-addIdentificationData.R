@@ -136,7 +136,7 @@ filterIdentificationDataFrame <- function(x,
     function(object, id, fcol, icol, acc, desc, pepseq, key, decoy,
              rank, accession, verbose, ...) {
         iddf <- as(id, "data.frame")
-        addf <- filterIdentificationDataFrame(iddf, decoy = decoy,
+        iddf <- filterIdentificationDataFrame(iddf, decoy = decoy,
                                               rank = rank, accession = accession,
                                               verbose = verbose)
         iddf <- reduce(iddf, key = key)
