@@ -46,3 +46,14 @@ test_that("adding compatible ident with mzID and mzR", {
      expect_equal(fData(msexp1)[, "isDecoy"], fData(msexp2)[, "isdecoy"])
      expect_equal(fData(msexp1)[, "DBseqLength"], fData(msexp2)[, "length"])     
 })
+
+test_that("adding compatible ident to MSnExp and MSnSet", {
+     quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                      full.name = TRUE, pattern = "mzXML$")
+     identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                      full.name = TRUE, pattern = "dummyiTRAQ.mzid")
+     msexp <- readMSData2(quantFile)
+     msset <- quantify(msexp, method = "max", reporters = iTRAQ4)
+     msexp <- addIdentificationData(msexp, identFile)
+     msset <- addIdentificationData(msset, identFile) 
+})

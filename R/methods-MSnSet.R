@@ -75,7 +75,7 @@ setMethod("acquisitionNum", signature(object = "MSnSet"),
               if (!any(fcol %in% fvarLabels(object))) {
                   stop("'featureData' has no column '", fcol, "'.")
               }
-              fcol <- which(fcol %in% fvarLabels(object))[1]
+              fcol <- fcol[which(fcol %in% fvarLabels(object))[1]]
               setNames(featureData(object)[[fcol]],
                        featureNames(object))
           })
