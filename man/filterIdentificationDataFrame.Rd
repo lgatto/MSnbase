@@ -5,7 +5,8 @@
 \title{Filter out unreliable PSMs.}
 \usage{
 filterIdentificationDataFrame(x, decoy = "isDecoy", rank = "rank",
-  accession = "DatabaseAccess", verbose = isMSnbaseVerbose())
+  accession = "DatabaseAccess", spectrumID = "spectrumID",
+  verbose = isMSnbaseVerbose())
 }
 \arguments{
 \item{x}{A \code{data.frame} containing PSMs.}
@@ -22,6 +23,9 @@ having rank equal to 1 are retained. Ignored is set to \code{NULL}.}
 \item{accession}{The column name holding the protein (groups)
 accession. Default is \code{"DatabaseAccess"}. Ignored is set to
 \code{NULL}.}
+
+\item{spectrumID}{The name of the spectrum identifier
+column. Default is \code{spectrumID}.}
 
 \item{verbose}{A \code{logical} verbosity flag. Default is to take
 \code{isMSnbaseVerbose()}.}

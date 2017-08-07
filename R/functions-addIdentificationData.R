@@ -37,7 +37,7 @@ readMzIdData <- function(files) {
 ##'
 ##' @md
 ##' @title Filter out unreliable PSMs.
-##' @param x A `data.frame` containing PSMs. 
+##' @param x A `data.frame` containing PSMs.
 ##' @param decoy The column name defining whether entries match the
 ##'     decoy database. Default is `"isDecoy"`. The column should be a
 ##'     `logical` and only PSMs holding a `FALSE` are
@@ -48,6 +48,8 @@ readMzIdData <- function(files) {
 ##' @param accession The column name holding the protein (groups)
 ##'     accession. Default is `"DatabaseAccess"`. Ignored is set to
 ##'     `NULL`.
+##' @param spectrumID The name of the spectrum identifier
+##'     column. Default is `spectrumID`.
 ##' @param verbose A `logical` verbosity flag. Default is to take
 ##'     `isMSnbaseVerbose()`.
 ##' @return A new `data.frame` with filtered out peptides and with the
