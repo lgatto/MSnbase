@@ -7,6 +7,8 @@ test_that("mzRident to data.frame", {
     expect_true(nrow(iddf) >= length(x))
     iddf2 <- reduce(iddf, key = "spectrumID")
     expect_identical(anyDuplicated(iddf2$spectrumID), 0L)
+    iddf0 <- readMzIdData(f)
+    expect_identical(iddf, iddf0)
 })
 
 test_that("adding compatible ident with mzID and mzR", {
@@ -62,5 +64,22 @@ test_that("adding compatible ident to MSnExp and MSnSet", {
 
 
 test_that("filterIdenticicationDataFrame function", {
-    ## see https://github.com/lgatto/MSnbase/issues/241#event-1195302281
+    idf <- "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"
+    f <- msdata::ident(full.names = TRUE, pattern = idf)
+    x <- readMzIdData(f)
+    n <- nrow(x)
+    ## need verbose for testing, as reported here
+    ## https://github.com/lgatto/MSnbase/issues/241#issuecomment-320653627
+    setMSnbaseVerbose(TRUE) 
+    x0 <- filterIdentificationDataFrame(x, decoy = NULL,
+                                        rank = NULL, accession = NULL)    
+    expect_identical(x, x0)    
+    expect_true(nrow(filterIdentificationDataFrame(x)) < n)
+    expect_true(nrow(filterIdentificationDataFrame(x, decoy = NULL)) < n)
+    expect_true(nrow(filterIdentificationDataFrame(x, rank = NULL)) < n)
+    expect_true(nrow(filterIdentificationDataFrame(x, accession = NULL)) < n)
+    expect_true(nrow(filterIdentificationDataFrame(x, decoy = NULL, rank = NULL)) < n)
+    expect_true(nrow(filterIdentificationDataFrame(x, decoy = NULL, accession = NULL)) < n)
+    expect_true(nrow(filterIdentificationDataFrame(x, rank = NULL, accession = NULL)) < n)
+    setMSnbaseVerbose(FALSE)    
 })

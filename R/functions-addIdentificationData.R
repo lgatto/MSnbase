@@ -73,12 +73,14 @@ filterIdentificationDataFrame <- function(x,
         n1 <- nrow(x)
         if (verbose)
             message(" removed ", n0 - n1, " decoy hits")
+        n0 <- n1
     }
     if (!is.null(rank)) {
         x <- x[x[, rank] == 1, ]
         n2 <- nrow(x)
         if (verbose)
-            message(" removed ", n1 - n2, " PSMs with rank > 1")
+            message(" removed ", n0 - n2, " PSMs with rank > 1")
+        n0 <- n2
     }
     if (!is.null(accession)) {
         keep <- tapply(x[, accession],
@@ -87,7 +89,7 @@ filterIdentificationDataFrame <- function(x,
         x <- x[keep, ]
         n3 <- nrow(x)
         if (verbose)
-            message(" removed ", n2 - n3, " non-proteotypic peptides")
+            message(" removed ", n0 - n3, " non-proteotypic peptides")
     }
     if (verbose)
         message(nrow(x), " PSMs left.")
