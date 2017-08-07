@@ -165,6 +165,7 @@ setMethod("quantify",
                    parallel, ## replaced by BPPARAM
                    BPPARAM,
                    qual = TRUE,
+                   pepseq = "sequence",
                    verbose = isMSnbaseVerbose(),
                    ...) {
               if (!missing(parallel))
@@ -186,7 +187,7 @@ setMethod("quantify",
                   quantify_MSnExp(object, method, reporters, strict,
                                   BPPARAM, qual, verbose)
               } else if (method == "count") {
-                  count_MSnSet(object)
+                  count_MSnSet(object, pepseq)
               } else {
                   ## the following assumes that the appropriate fcols are available
                   object <- utils.removeNoIdAndMultipleAssignments(object)
