@@ -62,6 +62,7 @@
 \alias{removeMultipleAssignment}
 \alias{idSummary,MSnSet-method}
 \alias{idSummary}
+\alias{fromFile,MSnSet-method}
 
 \alias{trimws}
 \alias{trimws,MSnSet-method}
@@ -192,6 +193,19 @@
       names are the corresponding spectrum names.
       The information is extracted from the object's \code{featureData} slot.
     }
+
+    \item{fromFile}{    
+      \code{fromFile(signature(object = "MSnSet"))}: get the index of
+      the file (in \code{fileNames(object)}) from which the raw
+      spectra from which the corresponding feature were originally
+      read. The relevant information is extracted from the object's
+      \code{featureData} slot.
+
+      Returns a numeric vector with names corresponding to the spectrum
+      names.
+    }
+
+
     \item{dim}{\code{signature(x = "MSnSet")}: Returns the dimensions of
       object's assay data, i.e the number of samples and the number of
       features. }
