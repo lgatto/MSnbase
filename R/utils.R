@@ -797,8 +797,8 @@ utils.leftJoin <- function(x, y, by, by.x=by, by.y=by,
 ## @param icol column name of idData data.frame used for merging
 ## @noRd
 utils.mergeSpectraAndIdentificationData <- function(featureData, id,
-                                                    fcol, icol,
-                                                    acc, desc, pepseq) {
+                                                    fcol, icol, acc,
+                                                    desc, pepseq) {
     ## mzR::acquisitionNum (stored in fData()[, "acquisition.number"] and
     ## mzID::acquisitionnum should be identical
     if (!all(fcol %in% colnames(featureData))) {
@@ -818,12 +818,12 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, id,
 
     ## sort id data to ensure the best matching peptide is on top in case of
     ## multiple matching peptides
-    o <- do.call("order", lapply(c(icol, "rank"), function(j)id[, j]))
+    o <- do.call("order", lapply(c(icol, "rank"), function(j) id[, j]))
     id <- id[o, ]
 
     ## use flat version of accession/description if multiple ones are available
-    id[, acc] <- ave(as.character(id[, acc]), id[, icol], FUN=utils.vec2ssv)
-    id[, desc] <- ave(as.character(id[, desc]), id[, icol], FUN=utils.vec2ssv)
+    id[, acc] <- ave(as.character(id[, acc]), id[, icol], FUN = utils.vec2ssv)
+    id[, desc] <- ave(as.character(id[, desc]), id[, icol], FUN = utils.vec2ssv)
 
     ## remove duplicated entries
     id <- id[!duplicated(id[, icol]), ]
@@ -842,18 +842,22 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, id,
                                     if (n == 1 && is.na(x)) return(NA)
                                     n
                                 })
+    
     ## number of peptides observed for each protein
     featureData$npep.prot <- as.integer(ave(featureData[, acc],
                                             featureData[, pepseq],
                                             FUN = length))
+
     ## number of PSMs observed for each protein
     featureData$npsm.prot <- as.integer(ave(featureData[, acc],
                                             featureData[, acc],
-                                            FUN = length))
+                                            FUN = length)) 
+
     ## number of PSMs observed for each protein
     featureData$npsm.pep <- as.integer(ave(featureData[, pepseq],
                                            featureData[, pepseq],
                                            FUN = length))
+        
     return(featureData)
 }
 

@@ -176,13 +176,21 @@ test_that("mergeSpectraAndIdentificationData", {
                                                                    fcol = c("file", "acquisition.number"),
                                                                    icol = c("file", "acquisitionnum", "rank")))
     ## first run
-    expect_equal(MSnbase:::utils.mergeSpectraAndIdentificationData(fd, id1,
-                                                                   fcol = c("file", "acquisition.number"),
-                                                                   icol = c("file", "acquisitionnum")), rfd1)
+    ans1 <-
+        MSnbase:::utils.mergeSpectraAndIdentificationData(fd, id1,
+                                                          fcol = c("file", "acquisition.number"),
+                                                          icol = c("file", "acquisitionnum"),
+                                                          acc = "accession",
+                                                          desc = "description", pepseq = "pepseq")
+    expect_equal(ans1, rfd1)    
     ## second run
-    expect_equal(MSnbase:::utils.mergeSpectraAndIdentificationData(rfd1, id2,
-                                                                   fcol = c("file", "acquisition.number"),
-                                                                   icol = c("file", "acquisitionnum")), rfd2)
+    ans2 <-
+        MSnbase:::utils.mergeSpectraAndIdentificationData(rfd1, id2,
+                                                          fcol = c("file", "acquisition.number"),
+                                                          icol = c("file", "acquisitionnum"),
+                                                          acc = "accession",
+                                                          desc = "description", pepseq = "pepseq")
+    expect_equal(ans2, rfd2)    
 })
 
 test_that("utils.idSummary", {
