@@ -191,7 +191,6 @@ filterIdentificationDataFrame <- function(x,
 
         fd$spectrum.file <- basename(fileNames(object)[fromFile(object)])
         fd$acquisition.number <- acquisitionNum(object)
-
         fd <- utils.mergeSpectraAndIdentificationData(fd, id,
                                                       fcol = fcol,
                                                       icol = icol,

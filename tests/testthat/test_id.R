@@ -54,6 +54,13 @@ test_that("adding compatible ident to MSnExp and MSnSet", {
                       full.name = TRUE, pattern = "dummyiTRAQ.mzid")
      msexp <- readMSData2(quantFile)
      msset <- quantify(msexp, method = "max", reporters = iTRAQ4)
-     msexp <- addIdentificationData(msexp, identFile)
-     msset <- addIdentificationData(msset, identFile) 
+     msexp <- addIdentificationData(msexp, identFile)     
+     msset <- addIdentificationData(msset, identFile)
+     k <- intersect(fvarLabels(msset), fvarLabels(msexp))
+     expect_identical(fData(msset)[, k], fData(msexp)[, k])
+})
+
+
+test_that("filterIdenticicationDataFrame function", {
+    ## see https://github.com/lgatto/MSnbase/issues/241#event-1195302281
 })
