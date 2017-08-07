@@ -5,7 +5,7 @@ Sys.setenv("R_TESTS" = "")
 library("testthat")
 library("MSnbase")
 setMSnbaseVerbose(FALSE)
-register(SerialParam()) ## see issue 205
+## register(SerialParam()) ## see issue 205
 
 ## Erwinia
 f <- msdata::proteomics(full.names = TRUE,
