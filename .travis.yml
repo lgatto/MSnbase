@@ -27,13 +27,13 @@ r_packages:
 script: 
   - | 
     R CMD build .
-    R CMD check MSnbase*tar.gz
+    travis wait 20 R CMD check MSnbase*tar.gz
 
 after_failure:
   find *Rcheck -name '*.fail' -print -exec cat '{}' \;
   
 after_success:
-  - travis_wait 20 Rscript -e 'covr::codecov()'
+  - Rscript -e 'covr::codecov()'
 
 # # print timings (of examples) and sysinfo
 # after_script:
