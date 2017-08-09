@@ -26,14 +26,14 @@ r_packages:
   
 script: 
   - | 
-    R CMD build --no-build-vignettes .
+    R CMD build .
     R CMD check --no-build-vignettes --no-vignettes --no-tests MSnbase*tar.gz
 
 after_failure:
   find *Rcheck -name '*.fail' -print -exec cat '{}' \;
   
 after_success:
-  - Rscript -e 'covr::codecov()'
+  - travis_wait 20 Rscript -e 'covr::codecov()'
 
 # # print timings (of examples) and sysinfo
 # after_script:
