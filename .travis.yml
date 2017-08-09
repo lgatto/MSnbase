@@ -26,8 +26,8 @@ r_packages:
   
 script: 
   - | 
-    R CMD build .
-    travis_wait 30 R CMD check MSnbase*tar.gz
+    R CMD build --no-build-vignettes .
+    R CMD check --no-build-vignettes --no-vignettes --no-tests MSnbase*tar.gz
 
 after_failure:
   find *Rcheck -name '*.fail' -print -exec cat '{}' \;
