@@ -27,7 +27,7 @@ r_packages:
 script: 
   - | 
     R CMD build .
-    travis wait 20 R CMD check MSnbase*tar.gz
+    travis_wait 20 R CMD check MSnbase*tar.gz
 
 after_failure:
   find *Rcheck -name '*.fail' -print -exec cat '{}' \;
