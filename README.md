@@ -1,7 +1,5 @@
 [![Build Status](https://travis-ci.org/lgatto/MSnbase.svg?branch=master)](https://travis-ci.org/lgatto/MSnbase) 
 [![codecov.io](https://codecov.io/github/lgatto/MSnbase/coverage.svg?branch=master)](https://codecov.io/github/lgatto/MSnbase?branch=master)
-[![Bioconductor devel build Status](http://bioconductor.org/shields/build/devel/bioc/MSnbase.svg)](http://bioconductor.org/packages/devel/bioc/html/MSnbase.html) 
-[![Test coverage](https://bioconductor.org/shields/coverage/devel/MSnbase.svg)](https://codecov.io/github/Bioconductor-mirror/MSnbase/branch/master)
 
 
 

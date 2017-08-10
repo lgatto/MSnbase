@@ -94,12 +94,12 @@ f &lt;-<span class="st"> </span>msdata<span class="op">::</span><span class="kw"
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(inmem &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readMSData.html">readMSData</a></span>(f, <span class="dt">msLevel =</span> <span class="dv">2</span>,
                                 <span class="dt">centroided =</span> <span class="ot">TRUE</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   4.676   0.040   4.711</code></pre>
+##   4.928   0.040   4.971</code></pre>
 <p>Next, we use the <code>readMSData2</code> function to generate an on-disk representation of the same data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(ondisk &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readMSData.html">readMSData2</a></span>(f, <span class="dt">msLevel =</span> <span class="dv">2</span>,
                                   <span class="dt">centroided =</span> <span class="ot">TRUE</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.425   0.020   1.442</code></pre>
+##   1.442   0.016   1.454</code></pre>
 <p>Creating the on-disk experiment is considerable faster and scales to much bigger, multi-file data, both in terms of object creation time, but also in terms of object size (see next section). We must of course make sure that these two datasets are equivalent:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all.equal</span>(inmem, ondisk)</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
@@ -150,7 +150,7 @@ mb</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw"><a href="../reference/pSet-class.html">length</a></span>(inmem), <span class="dv">100</span>)
 <span class="kw">system.time</span>(inmem[i])</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.104   0.000   0.104</code></pre>
+##   0.103   0.000   0.103</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(ondisk[i])</code></pre></div>
 <pre><code>##    user  system elapsed 
 ##   0.016   0.000   0.016</code></pre>
