@@ -12,6 +12,8 @@
 - new filterIdentificationDataFrame function to filter PSM data.frames
   as produced by readMzIdData. Also used in the addIdentificationData
   methods. <2017-08-03 Thu>
+- readMSData has a new mode argument to set onDisk or inMemory
+  (default) mode <2017-08-10 Thu>
 
 ## Changes in version 2.3.8
 - New infrastructure for chromatogram data <2017-06-24 Sat>

@@ -308,7 +308,7 @@ test_that("chromatogram,OnDiskMSnExp works", {
     file.copy(mzf[2], paste0(tmpd, "b.mzML"))
     mzf <- c(mzf, paste0(tmpd, c("a.mzML", "b.mzML")))
     
-    onDisk <- readMSData2(files = mzf, msLevel. = 1, centroided. = TRUE)
+    onDisk <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE, mode = "onDisk")
 
     ## Full rt range.
     mzr <- matrix(c(100, 120), nrow = 1)

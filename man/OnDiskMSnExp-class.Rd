@@ -620,8 +620,9 @@ mzsAfter <- intensity(odmse)
 head(lengths(mzs))
 head(lengths(mzsAfter))
 
-f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
-odmse <- readMSData2(f)
+f <- msdata::proteomics(full.names = TRUE,
+                        pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
+odmse <- readMSData(f, mode = "onDisk")
 validObject(odmse)
 odmse[[1]]
 
@@ -631,7 +632,8 @@ centroided(odmse, msLevel = 1) <- FALSE
 centroided(odmse, msLevel = 2) <- TRUE
 table(centroided(odmse), msLevel(odmse))
 
-odmse2 <- readMSData2(f, centroided = c(FALSE, TRUE))
+odmse2 <- readMSData(f, centroided = c(FALSE, TRUE),
+                     mode = "onDisk")
 table(centroided(odmse), msLevel(odmse))
 
 }

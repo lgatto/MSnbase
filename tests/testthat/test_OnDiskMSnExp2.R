@@ -83,11 +83,11 @@ test_that("compare MS2 on disk and in memory", {
 
 test_that("Default and setting centroided", {
     x1 <- readMSData(f, verbose = FALSE, centroided. = NA)
-    x2 <- readMSData2(f, msLevel. = 2, centroided. = NA)
+    x2 <- readMSData(f, msLevel. = 2, centroided. = NA, mode = "onDisk")
     featureNames(x2) <- featureNames(x1)
     expect_identical(centroided(x1), centroided(x2))
     x1 <- readMSData(f, verbose = FALSE, centroided. = TRUE)
-    x2 <- readMSData2(f, msLevel. = 2, centroided. = TRUE)
+    x2 <- readMSData(f, msLevel. = 2, centroided. = TRUE, mode = "onDisk")
     featureNames(x2) <- featureNames(x1)
     expect_identical(centroided(x1), centroided(x2))
     centroided(x2) <- centroided(x1) <- FALSE

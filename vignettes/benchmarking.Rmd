@@ -52,20 +52,23 @@ setMSnbaseVerbose(FALSE)
 # Benchmarking
 ## Reading data
 
-We first read the data using the original `readMSData` function that
-generates an in-memory representation of the MS2-level raw data and
-measure the time needed for this operation.
+We first read the data using the original behaviour `readMSData`
+function by setting the `mode` argument to `"inMemory"` to generates
+an in-memory representation of the MS2-level raw data and measure the
+time needed for this operation.
 
 ```{r read1}
 system.time(inmem <- readMSData(f, msLevel = 2,
+                                mode = "inMemory",
                                 centroided = TRUE))
 ```
 
-Next, we use the `readMSData2` function to generate an on-disk
-representation of the same data.
+Next, we use the `readMSData` function to generate an on-disk
+representation of the same data by setting `mode = "onDisk"`.
 
 ```{r read2}
-system.time(ondisk <- readMSData2(f, msLevel = 2,
+system.time(ondisk <- readMSData(f, msLevel = 2,
+                                  mode = "onDisk",
                                   centroided = TRUE))
 ```
 
@@ -137,11 +140,11 @@ file for access, which is done only once.
 On-disk access performance will depend on the read throughput of the
 disk. A comparison of the data import of the above file from an
 internal solid state drive and from an USB3 connected hard disk showed
-only small differences for the `readMSData2` call (1.07 *vs* 1.36
-seconds), while no difference were observed for accessing individual
-or all spectra. Thus, for this particular setup, performance was about
-the same for SSD and HDD. This might however not apply to setting in
-which data import is performed in parallel from multiple files.
+only small differences for the `onDisk` mode (1.07 *vs* 1.36 seconds),
+while no difference were observed for accessing individual or all
+spectra. Thus, for this particular setup, performance was about the
+same for SSD and HDD. This might however not apply to setting in which
+data import is performed in parallel from multiple files.
 
 Data access does not prohibit interactive usage, such as
 plotting, for example, as it is about 1/2 seconds, which is an

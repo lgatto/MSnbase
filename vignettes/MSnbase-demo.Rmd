@@ -105,8 +105,9 @@ format^[Mascot Generic Format, see <http://www.matrixscience.com/help/data_file_
 **Raw data** The `XML`-based formats, `mzXML` [@Pedrioli2004],
 `mzData` [@Orchard2007] and `mzML` [@Martens2010] can be imported with
 the `readMSData` function, as illustrated below (see `?readMSData` for
-more details). To make use of the new *on-disk* implementation, use
-`readMSData2` instead.
+more details). To make use of the new *on-disk* implementation, set
+`mode = "onDisk"` in `readMSData` rather than using the default `mode
+= "inMemory"`.
 
 ```{r readdata, echo=TRUE, cache=FALSE, tidy=FALSE}
 file <- dir(system.file(package = "MSnbase", dir = "extdata"),
@@ -126,9 +127,10 @@ for the `r length(itraqdata)` MS2 spectra.
 new *on-disk* data storage model (see the *benchmarking* vignette for
 more details). The new data backend is compatible with the orignal
 *in-memory* model. To make use of the new infrastructure, read your
-raw data using `readMSData2`, rather than `readMSData`. The new
-*on-disk* implementation supports several MS levels in a single raw
-data object. All existing operations work irrespective of the backend.
+raw data by setting the `mode` argument to `"onDisk"` (the default in
+`"inMemory"`). The new *on-disk* implementation supports several MS
+levels in a single raw data object. All existing operations work
+irrespective of the backend.
 
 **Peak lists** Peak lists can often be exported after spectrum
 processing from vendor-specific software and are also used as input to
@@ -268,7 +270,7 @@ function returns the total ion chromatogram (TIC) for each file within the
 
 ```{r Chromatogram}
 f <- c(system.file("microtofq/MM14.mzML", package = "msdata"))
-mtof <- readMSData2(f)
+mtof <- readMSData(f, mode = "onDisk")
 mtof_tic <- chromatogram(mtof)
 mtof_tic
 ```

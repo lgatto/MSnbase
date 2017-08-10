@@ -1,9 +1,23 @@
-readOnDiskMSData <- readMSData2 <- function(files,
-                                            pdata = NULL,
-                                            msLevel.,
-                                            verbose = isMSnbaseVerbose(),
-                                            centroided.,
-                                            smoothed. = NA) {
+readMSData2 <- function(files,
+                        pdata = NULL,
+                        msLevel.,
+                        verbose = isMSnbaseVerbose(),
+                        centroided.,
+                        smoothed. = NA) {
+    msg <- paste('Please use readMSData with mode = "onDisk"',
+                 'rather than readMSData2, which will be deprecated',
+                 'in the future.', collapse = " ")
+    message(paste(strwrap(msg), collapse = "\n"))
+    if (missing(msLevel.)) msLevel. <- NULL
+    if (missing(centroided.)) centroided. <- NA
+    readOnDiskMSData(files = files, pdata = pdata,
+                     msLevel. = msLevel., verbose = verbose,
+                     centroided. = centroided., smoothed. = smoothed.)
+}
+
+
+readOnDiskMSData <- function(files, pdata, msLevel., verbose,
+                             centroided., smoothed.) {
     .testReadMSDataInput(environment())
     ## Creating environment with Spectra objects
     assaydata <- new.env(parent = emptyenv())
@@ -50,7 +64,7 @@ readOnDiskMSData <- readMSData2 <- function(files,
         ## o centroided and smoothed are parameter argument.
         fdData <- cbind(fileIdx = rep(filen, nrow(fdData)),
                         spIdx = spidx,
-                        centroided = rep(as.logical(NA), nrow(fdData)),
+                        centroided = rep(as.logical(centroided.), nrow(fdData)),
                         smoothed = rep(as.logical(smoothed.), nrow(fdData)),
                         fdData, stringsAsFactors = FALSE)
         if (isCdfFile(f)) {
@@ -134,11 +148,11 @@ readOnDiskMSData <- readMSData2 <- function(files,
                processingData = process,
                experimentData = expdata,
                .cache  =  .cacheEnv)
-    if (!missing(msLevel.)) {
+    if (!is.null(msLevel.)) {
         msLevel. <- as.integer(msLevel.)
         res <- filterMsLevel(res, msLevel.)
     }
-    if (!missing(centroided.)) {
+    if (!is.null(centroided.)) {
         stopifnot(is.logical(centroided.))
         if (length(centroided.) == 1) {
             centroided(res) <- centroided.

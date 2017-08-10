@@ -364,9 +364,9 @@ test_that("getBpParam", {
     ## Testing the global MSnbase option PARALLEL_THRESH
     orig_val <- options()$MSnbase$PARALLEL_THRESH
     suppressWarnings(
-        onDisk <- readMSData2(files = system.file("microtofq/MM14.mzML",
-                                                  package = "msdata"),
-                              verbose = FALSE)
+        onDisk <- readMSData(files = system.file("microtofq/MM14.mzML",
+                                                 package = "msdata"),
+                              verbose = FALSE, mode = "onDisk")
     )
     gotParam <- MSnbase:::getBpParam(onDisk)
     expect_true(is(gotParam, "SerialParam"))
@@ -379,8 +379,8 @@ test_that("getBpParam", {
 test_that("Get first MS level", {
     MSnbase::setMSnbaseVerbose(FALSE)
     f <- msdata::proteomics(full.names = TRUE, pattern = "MS3TMT10")
-    x <- readMSData(f, msLevel. = 2L)
-    y <- readMSData2(f, msLevel. = 2L)
+    x <- readMSData(f, msLevel. = 2L, mode = "inMemory")
+    y <- readMSData(f, msLevel. = 2L, mode = "onDisk")
     ## in memory
     tx1 <- system.time(x1 <- msLevel(x)[1])[["elapsed"]]
     tx2 <- system.time(x2 <- MSnbase:::.firstMsLevel(x))[["elapsed"]]

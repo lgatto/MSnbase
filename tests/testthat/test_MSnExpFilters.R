@@ -41,7 +41,7 @@ test_that("filterFile", {
     oneFileInMem <- readMSData(mzfiles[2], verbose = FALSE, msLevel = 1)
     twoFileInMem <- microtofq_in_mem_ms1
     twoFileOnDisk <- microtofq_on_disk
-    secondFileOnDisk <- readMSData2(mzfiles[2], verbose = FALSE)
+    secondFileOnDisk <- readMSData(mzfiles[2], verbose = FALSE, mode = "onDisk")
     ## Note: all.equal MSnExp, MSnExp will fail because of the
     ## experimentData and featureNames
     expect_true(all.equal(spectra(filterFile(twoFileInMem, file = 2)),
@@ -82,7 +82,7 @@ test_that("filterAcquisitionNum", {
                  system.file("microtofq/MM8.mzML", package = "msdata"))
     twoFileOnDisk <- microtofq_on_disk
     centroided(twoFileOnDisk) <- TRUE
-    secondFile <- readMSData2(mzfiles[2], verbose = FALSE, centroided = TRUE)
+    secondFile <- readMSData(mzfiles[2], verbose = FALSE, centroided = TRUE, mode = "onDisk")
     expect_warning(res <- filterAcquisitionNum(twoFileOnDisk, n = 180:190, file = 1))
     expect_identical(fileNames(res), fileNames(twoFileOnDisk)[2])
     ## contains basically only the second file.
