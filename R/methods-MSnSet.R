@@ -69,6 +69,14 @@ setValidity("MSnSet", function(object) {
   if (is.null(msg)) TRUE else msg
 })
 
+setReplaceMethod("pData",
+                 c("MSnSet", "data.frame"),
+                 function(object, value) {
+                     pData(object@phenoData) <- value
+                     if (validObject(object))
+                         object
+                 })
+
 setMethod("acquisitionNum", signature(object = "MSnSet"),
           function(object) {
               fcol <- c("acquisitionNum", "acquisition.number")
