@@ -5,7 +5,7 @@
 \alias{class:MSnSet}
 \alias{MSnSet}
 
-%% TODO add methods
+
 \alias{acquisitionNum,MSnSet-method}
 \alias{exprs,MSnSet-method}
 \alias{dim,MSnSet-method}
@@ -35,6 +35,7 @@
 \alias{write.exprs}
 \alias{write.exprs,MSnSet-method}
 \alias{experimentData<-,MSnSet,MIAPE-method}
+\alias{pData<-,MSnSet,data.frame-method}
 \alias{combine,MSnSet,MSnSet-method}
 \alias{topN,MSnSet,MSnSet-method}
 \alias{topN,MSnSet-method}
