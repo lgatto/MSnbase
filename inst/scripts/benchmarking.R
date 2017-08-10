@@ -11,11 +11,11 @@ fmsn <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
 
 ## Read files.
 multiFilesInMem <- readMSData(fms1, msLevel. = 1, centroided. = TRUE)
-multiFilesOnDisk <- readMSData2(fms1, centroided. = TRUE)
+multiFilesOnDisk <- readMSData(fms1, centroided. = TRUE, mode = "onDisk")
 
 multiMsInMem1 <- readMSData(fmsn, msLevel. = 1)
 multiMsInMem2 <- readMSData(fmsn, msLevel. = 2)
-multiMsOnDisk <- readMSData2(fmsn)
+multiMsOnDisk <- readMSData(fmsn, mode = "onDisk")
 multiMsOnDisk1 <- filterMsLevel(multiMsOnDisk, msLevel. = 1)
 
 ## Extract all spectra.

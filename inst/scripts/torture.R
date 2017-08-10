@@ -12,19 +12,19 @@ for (i in 1:10000) {
     sp <- spectra(res)
 }
 
-## readMSData2
+## readMSData onDisk
 for (i in 1:7500) {
     if (i %% 200 == 0)
         cat(i, "\n")
-    res <- readMSData2(f[4], verbose = FALSE)
+    res <- readMSData(f[4], verbose = FALSE, mode = "onDisk")
     sp <- res[[6]]
-    res <- readMSData2(f[4], verbose = FALSE)
+    res <- readMSData(f[4], verbose = FALSE, mode = "onDisk")
     sp <- spectra(res)
 }
 ## OK without gc()
 
 ## spectrapply2
-res <- readMSData2(f[4], verbose = FALSE)
+res <- readMSData(f[4], verbose = FALSE, mode = "onDisk")
 for (i in 1:10000) {
     if (i %% 200 == 0)
         cat(i, "\n")
@@ -37,12 +37,12 @@ for (i in 1:10000) {
 ## OK without gc()
 
 ## spectrapply2
-res <- readMSData2(f[4], verbose = FALSE)
+res <- readMSData(f[4], verbose = FALSE, mode = "onDisk")
 for (i in 1:10000) {
     if (i %% 200 == 0)
         cat(i, "\n")
     ## sp <- res[[6]]
-    res <- readMSData2(f[4], verbose = FALSE)
+    res <- readMSData(f[4], verbose = FALSE, mode = "onDisk")
     sp <- MSnbase:::spectrapply2(res)
     sp <- MSnbase:::spectrapply2(res, FUN = mz)
     tmp <- filterRt(res, rt = c(1108, 1109))
@@ -58,7 +58,7 @@ for (i in 1:10000) {
 library(MSnbase)
 
 torturing <- function(x) {
-    tmp <- readMSData2(x, msLevel. = 1)
+    tmp <- readMSData(x, msLevel. = 1, mode = "onDisk")
     register(SerialParam())
     for (i in 1:10) {
         cat("--- ", i, " ---", "\n")
@@ -79,7 +79,7 @@ torturing <- function(x) {
 }
 
 torturing2 <- function(x) {
-    tmp <- readMSData2(x, msLevel. = 1)
+    tmp <- readMSData(x, msLevel. = 1, mode = "onDisk")
     register(SerialParam())
     for (i in 1:10) {
         cat("--- ", i, " ---", "\n")
@@ -236,7 +236,7 @@ register(SerialParam())
 setMSnbaseFastLoad(FALSE)
 
 fl <- dir("/Users/jo/data/2016/2016-11/NoSN", full.names = TRUE)
-tmp <- readMSData2(fl)
+tmp <- readMSData(fl, mode = "onDisk")
 
 for (i in 1:10) {
     cat("\nIteration", i, "\n\n")
@@ -250,7 +250,7 @@ library(testthat)
 
 ## mzML
 fl <- system.file("microtofq/MM14.mzML", package = "msdata")
-od <- readMSData2(fl)
+od <- readMSData(fl, mode = "onDisk")
 sp_1 <- spectrapply(od)
 sp_2 <- MSnbase:::spectrapply2(od)
 expect_equal(sp_1, sp_2)
@@ -279,7 +279,7 @@ microbenchmark(spectrapply(od, FUN = mz), MSnbase:::spectrapply2(od, FUN = mz),
 
 ## Large file:
 fl <- "/Users/jo/data/2017/2017_02/090217_111m_RT_-80_24h_a.mzML"
-od <- readMSData2(fl)
+od <- readMSData(fl, mode = "onDisk")
 sp_1 <- spectrapply(od)
 sp_2 <- MSnbase:::spectrapply2(od)
 expect_equal(sp_1, sp_2)
@@ -305,7 +305,7 @@ microbenchmark(spectrapply(od, FUN = mz), MSnbase:::spectrapply2(od, FUN = mz),
 
 ## gzipped mzML
 fl <- system.file("proteomics/TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz", package = "msdata")
-od <- readMSData2(fl)
+od <- readMSData(fl, mode = "onDisk")
 sp_1 <- spectrapply(od)
 sp_2 <- MSnbase:::spectrapply2(od)
 expect_equal(sp_1, sp_2)
@@ -321,7 +321,7 @@ microbenchmark(spectrapply(od), MSnbase:::spectrapply2(od), times = 5)
 
 ## mzXML
 fl <- system.file("lockmass/LockMass_test.mzXML", package = "msdata")
-od <- readMSData2(fl)
+od <- readMSData(fl, mode = "onDisk")
 sp_1 <- spectrapply(od)
 sp_2 <- MSnbase:::spectrapply2(od)
 expect_equal(sp_1, sp_2)
@@ -336,7 +336,7 @@ microbenchmark(spectrapply(od), MSnbase:::spectrapply2(od), times = 5)
 
 ## At last with the same file but gzipped...
 fl <- "/Users/jo/data/2017/mzXML/1405_blk1.mzXML.gz"
-od <- readMSData2(fl)
+od <- readMSData(fl, mode = "onDisk")
 sp_1 <- spectrapply(od)
 sp_2 <- MSnbase:::spectrapply2(od)
 expect_equal(sp_1, sp_2)
@@ -350,7 +350,7 @@ microbenchmark(spectrapply(od), MSnbase:::spectrapply2(od), times = 5)
 ##  47.23510     5   a
 
 fl <- system.file("cdf/ko15.CDF", package = "msdata")
-od <- readMSData2(fl)
+od <- readMSData(fl, mode = "onDisk")
 sp_1 <- spectrapply(od)
 sp_2 <- MSnbase:::spectrapply2(od)
 expect_equal(sp_1, sp_2)
