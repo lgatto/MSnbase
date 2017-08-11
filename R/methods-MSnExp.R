@@ -350,6 +350,7 @@ setMethod("isCentroided", "MSnExp",
               ctrd <- lapply(pkl, .isCentroided, ...)
               ctrd <- unlist(ctrd, use.names = FALSE)
               if (verbose) print(table(ctrd, msLevel(object)))
+              names(ctrd) <- featureNames(object)
               ctrd
           })
 
