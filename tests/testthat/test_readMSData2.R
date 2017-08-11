@@ -11,7 +11,7 @@ test_that("msLevel set correctly", {
     expect_equivalent(centroided(x), rep(FALSE, length(x)))
     x <- readMSData(f, centroided = c(FALSE, TRUE), verbose = FALSE, mode = "onDisk")
     expect_true(all(centroided(filterMsLevel(x, msLevel = 2))))
-    expect_true(all(!centroided(filterMsLevel(x, msLevel = 1))))
+    expect_true(all(!centroided(filterMsLevel(x, msLevel = 1))))    
     x2 <- readMSData(f, centroided = c(FALSE, TRUE, NA, NA), verbose = FALSE, mode = "onDisk")
     expect_identical(centroided(x), centroided(x2))
 })
