@@ -64,7 +64,7 @@ readOnDiskMSData <- function(files, pdata, msLevel., verbose,
         ## o centroided and smoothed are parameter argument.
         fdData <- cbind(fileIdx = rep(filen, nrow(fdData)),
                         spIdx = spidx,
-                        centroided = rep(as.logical(centroided.), nrow(fdData)),
+                        centroided = rep(NA, nrow(fdData)),
                         smoothed = rep(as.logical(smoothed.), nrow(fdData)),
                         fdData, stringsAsFactors = FALSE)
         if (isCdfFile(f)) {
