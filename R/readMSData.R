@@ -1,10 +1,82 @@
-readMSData <- function(files,
-                       pdata = NULL,
-                       msLevel. = 2,
-                       verbose = isMSnbaseVerbose(),
-                       centroided. = NA,
-                       smoothed. = NA,
-                       cache. = 1) {
+##' Reads as set of XML-based mass-spectrometry data files and
+##' generates an [MSnExp-class] object. This function uses the
+##' functionality provided by the `mzR` package to access data and
+##' meta data in `mzData`, `mzXML` and `mzML`.
+##'
+##' When using the `inMemory` mode, the whole MS data is read from
+##' file and kept in memory as [Spectrum-class] objects within the
+##' [MSnExp-class]'es `assayData` slot.
+##'
+##' To reduce the memory footpring especially for large MS1 data sets
+##' it is also possible to read only selected information from the MS
+##' files and fetch the actual spectrum data (i.e. the M/Z and
+##' intensity values) only on demand from the original data
+##' files. This can be achieved by setting `mode = "onDisk"`. The
+##' function returns then an [OnDiskMSnExp-class] object instead of a
+##' [MSnExp-class] object.
+##' 
+##' @title Imports mass-spectrometry raw data files as 'MSnExp'
+##'     instances.
+##' @aliases readMSData2
+##' @md
+##' @param files A `character` with file names to be read and parsed.
+##' @param pdata An object of class [NAnnotatedDataFrame-class] or
+##'     `NULL` (default).
+##' @param msLevel. MS level spectra to be read. In `inMemory` mode,
+##'     use `1` for MS1 spectra or any larger numeric for MSn
+##'     spectra. Default is `2` for `InMemory` mode. `onDisk` mode
+##'     supports multiple levels and will, by default, read all the
+##'     data.
+##' @param verbose Verbosity flag. Default is to use
+##'     [isMSnbaseVerbose()].
+##' @param centroided. A `logical`, indicating whether spectra are
+##'     centroided or not. Default is `NA`. In `onDisk`, it can also
+##'     be set for different MS levels by a vector of logicals, where
+##'     the first element is for MS1, the second element is for MS2,
+##'     ... See [OnDiskMSnExp-class] for an example.
+##' @param smoothed. A `logical` indicating whether spectra already
+##'     smoothed or not. Default is `NA`.
+##' @param cache. Numeric indicating caching level. Default is 0 for
+##'     MS1 and 1 MS2 (or higher). Only relevant for `inMemory` mode.
+##' @param mode On of `"inMemory"` (default) or `"onDisk"`. The former
+##'     loads the raw data in memory, while the latter only generates
+##'     the object and the raw data is accessed on disk when
+##'     needed. See the *benchmarking* vignette for memory and speed
+##'     implications.
+##' @return An [MSnExp-class] object for `inMemory` mode and a
+##'     [OnDiskMSnExp-class] object for `onDisk` mode.
+##' @author Laurent Gatto
+##' @seealso [readMgfData()] to read `mgf` peak lists.
+##' @examples
+##' file <- dir(system.file(package = "MSnbase", dir = "extdata"),
+##'             full.name = TRUE,
+##'             pattern = "mzXML$")
+##' mem <- readMSData(file, mode = "inMemory")
+##' mem
+##' dsk <- readMSData(file, mode = "onDisk")
+##' dsk
+readMSData <- function(files, pdata = NULL, msLevel. = NULL,
+                       verbose = isMSnbaseVerbose(), centroided. = NA,
+                       smoothed. = NA, cache. = 1L,
+                       mode = c("inMemory", "onDisk")) {
+    mode <- match.arg(mode)
+    if (mode == "inMemory") {
+        if (is.null(msLevel.)) msLevel. <- 2L
+        readInMemMSData(files, pdata = pdata, msLevel. = msLevel.,
+                        verbose = verbose, centroided. = centroided.,
+                        smoothed. = smoothed., cache. = cache.)
+    } else { ## onDisk
+        readOnDiskMSData(files = files, pdata = pdata,
+                         msLevel. = msLevel., verbose = verbose,
+                         centroided. = centroided.,
+                         smoothed. = smoothed.)
+    }
+
+}
+
+
+readInMemMSData <- function(files, pdata, msLevel., verbose,
+                            centroided., smoothed., cache. = 1) {
     .testReadMSDataInput(environment())
     if (msLevel. == 1) cache. <- 0
     msLevel. <- as.integer(msLevel.)
@@ -144,7 +216,7 @@ readMSData <- function(files,
         fullhdorder <- match(featnms, fullhdorder)
         tmphd <- fullhd2[fullhdorder, ] ## reorder
         ioncount <- ioncount[fullhdorder]
-        newhd <- data.frame(file = fl,
+        newhd <- data.frame(fileIdx = fl,
                             retention.time = tmphd$retentionTime,
                             precursor.mz = tmphd$precursorMZ,
                             precursor.intensity = tmphd$precursorIntensity,

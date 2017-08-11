@@ -110,3 +110,67 @@ plotMzDelta_list <- function(object,            ## peakLists
         print(p)
     invisible(p)
 }
+
+##' A function to convert the identification data contained in an
+##' \code{mzRident} object to a \code{data.frame}. Each row represents
+##' a scan, which can however be repeated several times if the PSM
+##' matches multiple proteins and/or contains two or more
+##' modifications. To reduce the \code{data.frame} so that rows/scans
+##' are unique and use semicolon-separated values to combine
+##' information pertaining a scan, use
+##' \code{\link[=reduce,data.frame-method]{reduce}}.
+##'
+##' See also the \emph{Tandem MS identification data} section in the
+##' \emph{MSnbase-demo} vignette.
+##' 
+##' @title Coerce identification data to a \code{data.frame}
+##' @param from An object of class \code{mzRident} defined in the
+##'     \code{mzR} package.
+##' @return A \code{data.frame}
+##' @author Laurent Gatto
+##' @name as
+##' @rdname mzRident2dfr
+##' @aliases as.data.frame.mzRident
+##' @examples
+##' ## find path to a mzIdentML file
+##' identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+##'                  full.name = TRUE, pattern = "dummyiTRAQ.mzid")
+##' library("mzR")
+##' x <- openIDfile(identFile)
+##' x
+##' as(x, "data.frame")
+setAs("mzRident", "data.frame",
+      function(from) {
+          ## peptide spectrum matching
+          iddf <- factorsAsStrings(psms(from))
+          ## add file raw and mzid provenances      
+          iddf$spectrumFile <- basename(sourceInfo(from))
+          iddf$idFile <- basename(fileName(from))
+          ## add scores
+          scores <- factorsAsStrings(score(from))
+          stopifnot(identical(iddf[, 1], scores[, 1]))
+          iddf <- cbind(iddf, scores[, -1])
+          ## add modification
+          mods <- factorsAsStrings(modifications(from))
+          names(mods)[-1] <- makeCamelCase(names(mods), prefix = "mod")[-1]
+          iddf <- merge(iddf, mods,
+                        by.x = c("spectrumID", "sequence"),
+                        by.y = c("spectrumID",  "modSequence"),
+                        suffixes = c("", ".y"),
+                        all = TRUE, sort = FALSE)
+          iddf[, "spectrumID.y"] <- NULL
+          ## add substitutions 
+          subs <- factorsAsStrings(substitutions(from))
+          names(subs)[-1] <- makeCamelCase(names(subs), prefix = "sub")[-1]
+          iddf <- merge(iddf, subs,
+                        by.x = c("spectrumID" = "sequence"),
+                        by.y = c("spectrumID" = "subSequence"),
+                        suffixes = c("", ".y"), 
+                        all = TRUE, sort = FALSE)
+          iddf[, "spectrumID.y"] <- NULL 
+          iddf
+      })
+
+as.data.frame.mzRident <-
+    function(x, row.names = NULL, optional = FALSE, ...) as(x, "data.frame")
+

@@ -40,22 +40,22 @@
                      full.name = TRUE, pattern = "dummyiTRAQ.mzid")
   msexp <- readMSData(quantFile)
   msexp <- addIdentificationData(msexp, identFile)
-  fData(msexp)$pepseq
+  fData(msexp)$sequence
   length(msexp)
 
   ## using default fcol
   msexp2 <- removeNoId(msexp)
   length(msexp2)
-  fData(msexp2)$pepseq
+  fData(msexp2)$sequence
 
   ## using keep
   print(fvarLabels(msexp))
-  (k <- fData(msexp)$'ms-gf:evalue' > 75)
+  (k <- fData(msexp)$'MS.GF.EValue' > 75)
   k[is.na(k)] <- FALSE
   k
   msexp3 <- removeNoId(msexp, keep = k)
   length(msexp3)
-  fData(msexp3)$pepseq
+  fData(msexp3)$sequence
 }
 
 \keyword{methods}

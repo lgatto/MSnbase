@@ -41,8 +41,8 @@ quantify_MSnExp <- function(object, method,
     ## Creating new phenoData slot or creating one
     .phenoData <- new("AnnotatedDataFrame",
                       data = data.frame(mz = reporters@mz,
-                          reporters = reporters@name,
-                          row.names = reporters@reporterNames))
+                                        reporters = reporters@name,
+                                        row.names = reporters@reporterNames))
     if (nrow(pData(object)) > 0) {
         if (nrow(pData(object)) == length(reporters)) {
             .phenoData <- combine(phenoData(object), .phenoData)
@@ -182,6 +182,7 @@ quantify_OnDiskMSnExp_max <- function(object, reporters,
                featureData = featureData(object),
                phenoData = .phenoData)
     fData(ans)$reporterMzs <- mzs
+    ans@processingData <- object@processingData
     ans <- logging(ans, paste0("Fast ", names(reporters),
                                " quantitation by max"))
     if (validObject(ans)) ans

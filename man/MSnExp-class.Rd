@@ -26,6 +26,7 @@
 \alias{removeReporters,OnDiskMSnExp-method}
 \alias{smooth,MSnExp-method}
 \alias{addIdentificationData,MSnExp,character-method}
+\alias{addIdentificationData,MSnExp,mzRident-method}
 \alias{addIdentificationData,MSnExp,mzIDClasses-method}
 \alias{addIdentificationData,MSnExp,mzID-method}
 \alias{addIdentificationData,MSnExp,mzIDCollection-method}

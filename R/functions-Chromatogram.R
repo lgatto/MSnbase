@@ -132,3 +132,27 @@ Chromatogram <- function(rtime = numeric(), intensity = numeric(),
     plot(x = rtime(x), y = intensity(x), main = main, col = col, lty = lty,
          type = type, xlab = xlab, ylab = ylab, ...)
 }
+
+#' @aliases aggregationFun
+#'
+#' @description \code{aggregationFun,aggregationFun<-} get or set the
+#'     aggregation function.
+#' 
+#' @rdname Chromatogram-class
+aggregationFun <- function(object) {
+    if (!is(object, "Chromatogram"))
+        stop("'object' is supposed to be a 'Chromatogram' class")
+    object@aggregationFun
+}
+
+#' @aliases productMz
+#' 
+#' @description \code{productMz} get the mz of the product chromatogram/ion. The
+#'     function returns a \code{numeric(2)} with the lower and upper mz value.
+#' 
+#' @rdname Chromatogram-class
+productMz <- function(object) {
+    if (!is(object, "Chromatogram"))
+        stop("'object' is supposed to be a 'Chromatogram' class")
+    object@productMz
+}

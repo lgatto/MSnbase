@@ -445,435 +445,435 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 <span class='co'>## Get the length of data, i.e. the total number of spectra.</span>
 <span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>odmse</span>)</div><div class='output co'>#&gt; [1] 310</div><div class='input'>
 <span class='co'>## Get the MS level</span>
-<span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; X001.1 X001.2 X002.1 X002.2 X003.1 X003.2 
-#&gt;      1      1      1      1      1      1 </div><div class='input'>
+<span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
+#&gt;       1       1       1       1       1       1 </div><div class='input'>
 <span class='co'>## Get the featureData, use fData to return as a data.frame</span>
-<span class='fu'>head</span>(<span class='fu'>fData</span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt;        spectrum
-#&gt; X001.1        1
-#&gt; X001.2        2
-#&gt; X002.1        3
-#&gt; X002.2        4
-#&gt; X003.1        5
-#&gt; X003.2        6</div><div class='input'>
+<span class='fu'>head</span>(<span class='fu'>fData</span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt;         spectrum
+#&gt; F1.S001        1
+#&gt; F1.S002        2
+#&gt; F1.S003        3
+#&gt; F1.S004        4
+#&gt; F1.S005        5
+#&gt; F1.S006        6</div><div class='input'>
 <span class='co'>## Get to know from which file the spectra are</span>
-<span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>fromFile</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; X001.1 X001.2 X002.1 X002.2 X003.1 X003.2 
-#&gt;      1      2      1      2      1      2 </div><div class='input'>
+<span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>fromFile</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
+#&gt;       1       1       1       1       1       1 </div><div class='input'>
 <span class='co'>## And the file names:</span>
 <span class='fu'><a href='pSet-class.html'>fileNames</a></span>(<span class='no'>odmse</span>)</div><div class='output co'>#&gt; [1] "/home/lg390/R/x86_64-pc-linux-gnu-library/3.4/msdata/microtofq/MM14.mzML"
 #&gt; [2] "/home/lg390/R/x86_64-pc-linux-gnu-library/3.4/msdata/microtofq/MM8.mzML" </div><div class='input'>
 <span class='co'>## Scan index and acquisitionNum</span>
-<span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>scanIndex</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; X001.1 X001.2 X002.1 X002.2 X003.1 X003.2 
-#&gt;      1      1      2      2      3      3 </div><div class='input'><span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>acquisitionNum</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; X001.1 X001.2 X002.1 X002.2 X003.1 X003.2 
-#&gt;      1      1      2      2      3      3 </div><div class='input'>
+<span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>scanIndex</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
+#&gt;       1       2       3       4       5       6 </div><div class='input'><span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>acquisitionNum</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
+#&gt;       1       2       3       4       5       6 </div><div class='input'>
 <span class='co'>## Extract the spectra; the data is retrieved from the raw files.</span>
-<span class='fu'>head</span>(<span class='fu'><a href='pSet-class.html'>spectra</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; $X001.1
+<span class='fu'>head</span>(<span class='fu'><a href='pSet-class.html'>spectra</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; $F1.S001
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:30 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1378 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X001.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:0 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1743 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X002.1
+#&gt; $F1.S002
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:31 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1356 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X002.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:1 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1708 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X003.1
+#&gt; $F1.S003
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:31 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1404 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X003.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:1 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1708 
-#&gt;  Polarity: 1 
-#&gt; </div><div class='input'>
-<span class='co'>## Extracting individual spectra or a subset is much faster.</span>
-<span class='fu'><a href='pSet-class.html'>spectra</a></span>(<span class='no'>odmse</span>[<span class='fl'>1</span>:<span class='fl'>50</span>])</div><div class='output co'>#&gt; $X001.1
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:30 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1378 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X001.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:0 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1743 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X002.1
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:31 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1356 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X002.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:1 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1708 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X003.1
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:31 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1404 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X003.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:1 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1708 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X004.1
+#&gt; $F1.S004
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:31 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1496 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X004.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:1 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1747 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X005.1
+#&gt; $F1.S005
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:32 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1525 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X005.2
+#&gt; $F1.S006
 #&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:2 
+#&gt;  Retention time: 4:32 
 #&gt;  MSn level: 1 
-#&gt;  Total ion count: 1730 
+#&gt;  Total ion count: 1498 
+#&gt;  Polarity: 1 
+#&gt; </div><div class='input'>
+<span class='co'>## Extracting individual spectra or a subset is much faster.</span>
+<span class='fu'><a href='pSet-class.html'>spectra</a></span>(<span class='no'>odmse</span>[<span class='fl'>1</span>:<span class='fl'>50</span>])</div><div class='output co'>#&gt; $F1.S001
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:30 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1378 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X006.1
+#&gt; $F1.S002
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:31 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1356 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S003
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:31 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1404 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S004
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:31 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1496 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S005
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:32 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1525 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S006
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:32 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1498 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X006.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:2 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1708 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X007.1
+#&gt; $F1.S007
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:32 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1484 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X007.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:3 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1692 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X008.1
+#&gt; $F1.S008
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:33 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1532 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X008.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:3 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1747 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X009.1
+#&gt; $F1.S009
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:33 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1532 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X009.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:3 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1758 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X010.1
+#&gt; $F1.S010
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:33 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1513 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X010.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:4 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1688 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X011.1
+#&gt; $F1.S011
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:34 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1563 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X011.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:4 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1706 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X012.1
+#&gt; $F1.S012
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:34 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1522 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X012.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:4 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1677 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X013.1
+#&gt; $F1.S013
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:34 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1571 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X013.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:5 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1655 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X014.1
+#&gt; $F1.S014
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:35 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1553 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X014.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:5 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1689 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X015.1
+#&gt; $F1.S015
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:35 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1606 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X015.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:5 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1691 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X016.1
+#&gt; $F1.S016
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:35 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1583 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X016.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:6 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1702 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X017.1
+#&gt; $F1.S017
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:36 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1567 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X017.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:6 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1718 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X018.1
+#&gt; $F1.S018
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:36 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1662 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X018.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:6 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1633 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X019.1
+#&gt; $F1.S019
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:36 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1628 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X019.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:7 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1687 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X020.1
+#&gt; $F1.S020
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:37 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1604 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X020.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:7 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1665 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X021.1
+#&gt; $F1.S021
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:37 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1647 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X021.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:7 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1695 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X022.1
+#&gt; $F1.S022
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:37 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1594 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X022.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:8 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1683 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X023.1
+#&gt; $F1.S023
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:38 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1643 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X023.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:8 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1657 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X024.1
+#&gt; $F1.S024
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:38 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1673 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X024.2
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:8 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1662 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $X025.1
+#&gt; $F1.S025
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:38 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1695 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X025.2
+#&gt; $F1.S026
 #&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:9 
+#&gt;  Retention time: 4:39 
 #&gt;  MSn level: 1 
-#&gt;  Total ion count: 1702 
+#&gt;  Total ion count: 1595 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S027
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:39 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1592 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S028
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:39 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1614 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S029
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:40 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1558 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S030
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:40 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1539 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S031
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:40 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1532 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S032
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:41 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1546 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S033
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:41 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1506 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S034
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:41 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1428 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S035
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:42 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1448 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S036
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:42 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1431 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S037
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:42 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1393 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S038
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:43 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1409 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S039
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:43 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1410 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S040
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:43 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1342 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S041
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:44 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1366 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S042
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:44 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1351 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S043
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:44 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1367 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S044
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:45 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1342 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S045
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:45 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1365 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S046
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:45 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1379 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S047
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:46 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1325 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S048
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:46 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1349 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S049
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:46 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1383 
+#&gt;  Polarity: 1 
+#&gt; 
+#&gt; $F1.S050
+#&gt; Object of class "Spectrum1"
+#&gt;  Retention time: 4:47 
+#&gt;  MSn level: 1 
+#&gt;  Total ion count: 1342 
 #&gt;  Polarity: 1 
 #&gt; </div><div class='input'>
 <span class='co'>## Alternatively, we could also subset the whole object by spectra and/or samples:</span>
 <span class='no'>subs</span> <span class='kw'>&lt;-</span> <span class='no'>odmse</span>[<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>odmse</span>) <span class='kw'>&gt;=</span> <span class='fl'>2</span> <span class='kw'>&amp;</span> <span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>odmse</span>) <span class='kw'>&lt;=</span> <span class='fl'>20</span>, ]
-<span class='fu'><a href='pSet-class.html'>fileNames</a></span>(<span class='no'>subs</span>)</div><div class='output co'>#&gt; [1] "/home/lg390/R/x86_64-pc-linux-gnu-library/3.4/msdata/microtofq/MM8.mzML"</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>subs</span>)</div><div class='output co'>#&gt;    X006.2    X007.2    X008.2    X009.2    X010.2    X011.2    X012.2    X013.2 
+<span class='fu'><a href='pSet-class.html'>fileNames</a></span>(<span class='no'>subs</span>)</div><div class='output co'>#&gt; [1] "/home/lg390/R/x86_64-pc-linux-gnu-library/3.4/msdata/microtofq/MM8.mzML"</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>subs</span>)</div><div class='output co'>#&gt;   F2.S006   F2.S007   F2.S008   F2.S009   F2.S010   F2.S011   F2.S012   F2.S013 
 #&gt;  2.169000  2.506002  2.842998  3.178998  3.516000  3.852000  4.188000  4.525002 
-#&gt;    X014.2    X015.2    X016.2    X017.2    X018.2    X019.2    X020.2    X021.2 
+#&gt;   F2.S014   F2.S015   F2.S016   F2.S017   F2.S018   F2.S019   F2.S020   F2.S021 
 #&gt;  4.861002  5.197998  5.533998  5.871000  6.207000  6.544020  6.880020  7.216980 
-#&gt;    X022.2    X023.2    X024.2    X025.2    X026.2    X027.2    X028.2    X029.2 
+#&gt;   F2.S022   F2.S023   F2.S024   F2.S025   F2.S026   F2.S027   F2.S028   F2.S029 
 #&gt;  7.554000  7.891020  8.227020  8.563980  8.899980  9.237000  9.573000  9.910020 
-#&gt;    X030.2    X031.2    X032.2    X033.2    X034.2    X035.2    X036.2    X037.2 
+#&gt;   F2.S030   F2.S031   F2.S032   F2.S033   F2.S034   F2.S035   F2.S036   F2.S037 
 #&gt; 10.246020 10.582020 10.918980 11.254980 11.592000 11.928000 12.265020 12.601020 
-#&gt;    X038.2    X039.2    X040.2    X041.2    X042.2    X043.2    X044.2    X045.2 
+#&gt;   F2.S038   F2.S039   F2.S040   F2.S041   F2.S042   F2.S043   F2.S044   F2.S045 
 #&gt; 12.937020 13.273980 13.609980 13.947000 14.283000 14.620020 14.956020 15.292020 
-#&gt;    X046.2    X047.2    X048.2    X049.2    X050.2    X051.2    X052.2    X053.2 
+#&gt;   F2.S046   F2.S047   F2.S048   F2.S049   F2.S050   F2.S051   F2.S052   F2.S053 
 #&gt; 15.628980 15.964980 16.302000 16.638000 16.975020 17.311020 17.649000 17.986020 
-#&gt;    X054.2    X055.2    X056.2    X057.2    X058.2 
+#&gt;   F2.S054   F2.S055   F2.S056   F2.S057   F2.S058 
 #&gt; 18.322980 18.660000 18.996000 19.333020 19.669020 </div><div class='input'>
 <span class='co'>## Extract intensities and M/Z values per spectrum; the methods return a list,</span>
 <span class='co'>## each element representing the values for one spectrum.</span>
@@ -892,39 +892,40 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 <span class='no'>odmse</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='removePeaks-methods.html'>removePeaks</a></span>(<span class='no'>odmse</span>, <span class='kw'>t</span><span class='kw'>=</span><span class='fl'>10000</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Centroided undefined (NA): keeping spectrum as is.</span></div><div class='input'><span class='no'>odmse</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='clean-methods.html'>clean</a></span>(<span class='no'>odmse</span>)
 
 <span class='co'>## The processing steps are only applied when actual raw data is extracted.</span>
-<span class='fu'><a href='pSet-class.html'>spectra</a></span>(<span class='no'>odmse</span>[<span class='fl'>1</span>:<span class='fl'>2</span>])</div><div class='output co'>#&gt; $X001.1
+<span class='fu'><a href='pSet-class.html'>spectra</a></span>(<span class='no'>odmse</span>[<span class='fl'>1</span>:<span class='fl'>2</span>])</div><div class='output co'>#&gt; $F1.S001
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:30 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 1378 
 #&gt;  Polarity: 1 
 #&gt; 
-#&gt; $X001.2
+#&gt; $F1.S002
 #&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 0:0 
+#&gt;  Retention time: 4:31 
 #&gt;  MSn level: 1 
-#&gt;  Total ion count: 1743 
+#&gt;  Total ion count: 1356 
 #&gt;  Polarity: 1 
 #&gt; </div><div class='input'>
 <span class='co'>## Get the polarity of the spectra.</span>
-<span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>polarity</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; X001.1 X001.2 X002.1 X002.2 X003.1 X003.2 
-#&gt;      1      1      1      1      1      1 </div><div class='input'>
+<span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>polarity</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
+#&gt;       1       1       1       1       1       1 </div><div class='input'>
 <span class='co'>## Get the retention time of all spectra</span>
-<span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt;     X001.1     X001.2     X002.1     X002.2     X003.1     X003.2 
-#&gt; 270.334000   0.486000 270.671000   0.822000 271.007000   1.159002 </div><div class='input'>
+<span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
+#&gt; 270.334 270.671 271.007 271.343 271.680 272.016 </div><div class='input'>
 <span class='co'>## Get the intensities after removePeaks and clean</span>
 <span class='no'>intsAfter</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>odmse</span>)
 
-<span class='fu'>head</span>(<span class='fu'>lengths</span>(<span class='no'>ints</span>))</div><div class='output co'>#&gt; X001.1 X001.2 X002.1 X002.2 X003.1 X003.2 
-#&gt;   1378   1743   1356   1708   1404   1708 </div><div class='input'><span class='fu'>head</span>(<span class='fu'>lengths</span>(<span class='no'>intsAfter</span>))</div><div class='output co'>#&gt; X001.1 X001.2 X002.1 X002.2 X003.1 X003.2 
-#&gt;   1378   1743   1356   1708   1404   1708 </div><div class='input'>
+<span class='fu'>head</span>(<span class='fu'>lengths</span>(<span class='no'>ints</span>))</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
+#&gt;    1378    1356    1404    1496    1525    1498 </div><div class='input'><span class='fu'>head</span>(<span class='fu'>lengths</span>(<span class='no'>intsAfter</span>))</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
+#&gt;    1378    1356    1404    1496    1525    1498 </div><div class='input'>
 <span class='co'>## The same for the M/Z values</span>
 <span class='no'>mzsAfter</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>odmse</span>)
-<span class='fu'>head</span>(<span class='fu'>lengths</span>(<span class='no'>mzs</span>))</div><div class='output co'>#&gt; X001.1 X001.2 X002.1 X002.2 X003.1 X003.2 
-#&gt;   1378   1743   1356   1708   1404   1708 </div><div class='input'><span class='fu'>head</span>(<span class='fu'>lengths</span>(<span class='no'>mzsAfter</span>))</div><div class='output co'>#&gt; X001.1 X001.2 X002.1 X002.2 X003.1 X003.2 
-#&gt;   1378   1743   1356   1708   1404   1708 </div><div class='input'>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>msdata</span><span class='kw'>::</span><span class='fu'>proteomics</span>(<span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz"</span>)
-<span class='no'>odmse</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData2</a></span>(<span class='no'>f</span>)
+<span class='fu'>head</span>(<span class='fu'>lengths</span>(<span class='no'>mzs</span>))</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
+#&gt;    1378    1356    1404    1496    1525    1498 </div><div class='input'><span class='fu'>head</span>(<span class='fu'>lengths</span>(<span class='no'>mzsAfter</span>))</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
+#&gt;    1378    1356    1404    1496    1525    1498 </div><div class='input'>
+<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>msdata</span><span class='kw'>::</span><span class='fu'>proteomics</span>(<span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+                        <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz"</span>)
+<span class='no'>odmse</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>f</span>, <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)
 <span class='fu'>validObject</span>(<span class='no'>odmse</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>odmse</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 18:28 
 #&gt;  MSn level: 1 
@@ -937,8 +938,10 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt;           1   2
 #&gt;   FALSE  58   0
 #&gt;   TRUE    0 451</div><div class='input'>
-<span class='no'>odmse2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData2</a></span>(<span class='no'>f</span>, <span class='kw'>centroided</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>))
-<span class='fu'>table</span>(<span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='no'>odmse</span>), <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt;        
+<span class='no'>odmse2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>f</span>, <span class='kw'>centroided</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>),
+                     <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: row names were found from a short variable and have been discarded</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Unexpected acquisition number order detected.</span>
+#&gt; <span class='warning'>Please contact the maintainers or open an issue</span>
+#&gt; <span class='warning'>on https://github.com/lgatto/MSnbase.</span></div><div class='output co'>#&gt; <span class='error'>Error in `row.names&lt;-.data.frame`(`*tmp*`, value = value): invalid 'row.names' length</span></div><div class='input'><span class='fu'>table</span>(<span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='no'>odmse</span>), <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt;        
 #&gt;           1   2
 #&gt;   FALSE  58   0
 #&gt;   TRUE    0 451</div><div class='input'>

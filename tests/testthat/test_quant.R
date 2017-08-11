@@ -35,7 +35,7 @@ test_that("Counting and tic MSnSets", {
              full.name = TRUE, pattern = "msx.rda")
     load(f) ## msx
     ## count
-    .cnt <- MSnbase:::count_MSnSet(msx)
+    .cnt <- MSnbase:::count_MSnSet(msx, pepseq = "pepseq")
     n <- !is.na(fData(msx)$pepseq)
     m1 <- matrix(1, nrow = sum(n), ncol = 1)
     colnames(m1) <- "dummyiTRAQ.mzXML"
@@ -59,22 +59,22 @@ test_that("MS2 labelfree quantitation: SI", {
     fData(msx)$nprot[3:4] <- 1
     fData(msx)$pepseq[3:4] <- c("ABCDEFG", "1234567")
     fData(msx)$length[3:4] <- 100   
-    msx <- MSnbase:::utils.removeNoIdAndMultipleAssignments(msx)
+    msx <- MSnbase:::utils.removeNoIdAndMultipleAssignments(msx, pepseq = "pepseq")
     ## SI
-    si <- MSnbase:::SI(msx, "SI")
+    si <- MSnbase:::SI(msx, "SI", groupBy = "accession", plength = "length")
     m <- tic(msx)
     names(m) <- fData(msx)$accession
     expect_equal(exprs(si)["ECA0510", 1], as.numeric(m["ECA0510"]))
     expect_equal(exprs(si)["ECA1028", 1], as.numeric(m["ECA1028"]))
     expect_equal(exprs(si)["protein", 1], sum(m[2:3]))
     ## SIgi
-    sigi <- MSnbase:::SI(msx, "SIgi")
+    sigi <- MSnbase:::SI(msx, "SIgi", groupBy = "accession", plength = "length")
     m <- c(m[1], protein = sum(m[2:3]), m[4])
     m <- m/sum(m)
     m <- m[order(names(m))]
     expect_equal(exprs(sigi)[, 1], m)
     ## SIn
-    sin <- MSnbase:::SI(msx, "SIn")
+    sin <- MSnbase:::SI(msx, "SIn", groupBy = "accession", plength = "length")
     m <- m/fData(sin)$length
     expect_equal(exprs(sin)[, 1], m)
 })
@@ -88,9 +88,12 @@ test_that("MS2 labelfree quantitation: SAF", {
     fData(msx)$nprot[3:4] <- 1
     fData(msx)$pepseq[3:4] <- c("ABCDEFG", "1234567")
     fData(msx)$length[3:4] <- 100   
-    msx <- MSnbase:::utils.removeNoIdAndMultipleAssignments(msx)
+    msx <-
+        MSnbase:::utils.removeNoIdAndMultipleAssignments(msx, pepseq = "length")
     ## SAF
-    saf <- MSnbase:::SAF(msx, method = "SAF")
+    saf <- MSnbase:::SAF(msx, method = "SAF",
+                         groupBy = "accession", plength = "length",
+                         pepseq = "pepseq")
     m <- rep(1, length(msx))
     m <- tapply(m, fData(msx)$accession, sum, simplify = FALSE)
     m <- unlist(m)
@@ -98,7 +101,9 @@ test_that("MS2 labelfree quantitation: SAF", {
     m <- m/fData(saf)$length
     expect_equal(exprs(saf)[, 1], m)
     ## NSAF
-    nsaf <- MSnbase:::SAF(msx, method = "NSAF")
+    nsaf <- MSnbase:::SAF(msx, method = "NSAF",
+                         groupBy = "accession", plength = "length",
+                         pepseq = "pepseq")                          
     m <- m/sum(m)
     expect_equal(exprs(nsaf)[, 1], m)
 })

@@ -3,8 +3,10 @@
 \name{MSnbaseOptions}
 \alias{MSnbaseOptions}
 \alias{isMSnbaseVerbose}
-\alias{setMSnbaseParallelThresh}
 \alias{setMSnbaseVerbose}
+\alias{setMSnbaseParallelThresh}
+\alias{setMSnbaseFastLoad}
+\alias{isMSnbaseFastLoad}
 \title{MSnbase options}
 \usage{
 MSnbaseOptions()
@@ -14,22 +16,33 @@ isMSnbaseVerbose()
 setMSnbaseVerbose(opt)
 
 setMSnbaseParallelThresh(opt = 1000)
+
+setMSnbaseFastLoad(opt = TRUE)
+
+isMSnbaseFastLoad()
 }
 \arguments{
 \item{opt}{The value of the new option}
 }
 \value{
 A \code{list} of MSnbase options and the single option
-    values for the individual accessors.
+values for the individual accessors.
 }
 \description{
 MSnbase defined a few options globally using the standard R
 options mechanism. The current values of these options can be
-queried with \code{MSnbaseOptions}. The options are
-\code{verbose}, that defines a session-wide verbosity flag, that
+queried with \code{MSnbaseOptions}. The options are:
+\itemize{
+\item \code{verbose}: defines a session-wide verbosity flag, that
 is used if the \code{verbose} argument in individual functions is
-not set. The \code{PARALLEL_THRESH} defines the minimum number of
-spectra per file necessary before using parallel processing.
+not set.
+\item \code{PARALLEL_THRESH}: defines the minimum number of spectra per file
+necessary before using parallel processing.
+\item \code{fastLoad}: \code{logical(1)}. If \code{TRUE} performs faster data loading for all
+methods of \link{OnDiskMSnExp} that load data from the original files (such as
+\code{\link[=spectrapply]{spectrapply()}}). Users experiencing data I/O errors (observed mostly
+on macOS systems) should set this option to \code{FALSE}.
+}
 }
 \details{
 \code{isMSnbaseVerbose} is one wrapper for the verbosity flag,
@@ -39,4 +52,3 @@ There are also setters to set options individually. When run
 without argument, the verbosity setter inverts the current value
 of the option.
 }
-

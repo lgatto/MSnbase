@@ -165,6 +165,7 @@ setMethod("quantify",
                    parallel, ## replaced by BPPARAM
                    BPPARAM,
                    qual = TRUE,
+                   pepseq = "sequence",
                    verbose = isMSnbaseVerbose(),
                    ...) {
               if (!missing(parallel))
@@ -186,7 +187,7 @@ setMethod("quantify",
                   quantify_MSnExp(object, method, reporters, strict,
                                   BPPARAM, qual, verbose)
               } else if (method == "count") {
-                  count_MSnSet(object)
+                  count_MSnSet(object, pepseq)
               } else {
                   ## the following assumes that the appropriate fcols are available
                   object <- utils.removeNoIdAndMultipleAssignments(object)
@@ -263,59 +264,74 @@ setMethod("removeReporters", "MSnExp",
           })
 
 setMethod("addIdentificationData", c("MSnExp", "character"),
-          function(object, id,
-                   fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"),
-                   verbose = isMSnbaseVerbose()) {
-              addIdentificationData(object, id = mzID(id, verbose = verbose),
-                                    fcol = fcol, icol = icol)
-          })
+    function(object, id,
+             fcol = c("spectrum.file", "acquisition.number"),
+             icol = c("spectrumFile", "acquisitionNum"),
+             acc = "DatabaseAccess",
+             desc = "DatabaseDescription",
+             pepseq = "sequence",
+             key = "spectrumID",
+             decoy = "isDecoy",
+             rank = "rank",
+             accession = acc,
+             verbose = isMSnbaseVerbose(),
+             ...)
+        .addCharacterIdentificationData(object, id, fcol, icol, acc,
+                                        desc, pepseq, key, decoy,
+                                        rank, accession, verbose, ...))
+
+setMethod("addIdentificationData", c("MSnExp", "mzRident"),
+        function(object, id,
+                 fcol = c("spectrum.file", "acquisition.number"),
+                 icol = c("spectrumFile", "acquisitionNum"),
+                 acc = "DatabaseAccess",
+                 desc = "DatabaseDescription",
+                 pepseq = "sequence",
+                 key = "spectrumID",
+                 decoy = "isDecoy",
+                 rank = "rank",
+                 accession = acc,
+                 verbose = isMSnbaseVerbose(),
+                 ...)
+            .addMzRidentIdentificationData(object, id, fcol, icol,
+                                           acc, desc, pepseq, key,
+                                           decoy, rank, accession,
+                                           verbose, ...))
 
 setMethod("addIdentificationData", c("MSnExp", "mzIDClasses"),
-          function(object, id,
-                   fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"), ...) {
-              addIdentificationData(object, id = flatten(id),
-                                    fcol = fcol, icol = icol)
-          })
+        function(object, id,
+                 fcol = c("spectrum.file", "acquisition.number"),
+                 icol = c("spectrumFile", "acquisitionnum"),
+                 acc = "accession",
+                 desc = "description",
+                 pepseq = "pepseq",
+                 key = "spectrumid",
+                 decoy = "isdecoy",
+                 rank = "rank",
+                 accession = acc,
+                 verbose = isMSnbaseVerbose(),
+                 ...)
+            .addMzIDIdentificationData(object, id, fcol, icol, acc,
+                                       desc, pepseq, key, decoy, rank,
+                                       accession, verbose,...))
 
 setMethod("addIdentificationData", c("MSnExp", "data.frame"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"), ...) {
-              ## we temporaly add the spectrum.file/acquisition.number information
-              ## to our fData data.frame because
-              ## utils.mergeSpectraAndIdentificationData needs this information
-              ## for matching (it is present in MSnSet)
-              fd <- fData(object)
-
-              if (!nrow(fd))
-                  stop("No feature data found.")
-
-              fd$spectrum.file <- basename(fileNames(object)[fromFile(object)])
-              fd$acquisition.number <- acquisitionNum(object)
-
-              fd <- utils.mergeSpectraAndIdentificationData(fd, id,
-                                                            fcol = fcol,
-                                                            icol = icol)
-
-              ## after adding the identification data we remove the
-              ## temporary data to avoid duplication and problems in quantify
-              cn <- colnames(fd)
-              keep <- cn[!(cn %in% c("spectrum.file", "acquisition.number"))]
-              fData(object)[, keep] <- fd[, keep, drop=FALSE]
-
-              if (validObject(object))
-                  return(object)
-          })
+                   icol, acc, desc, pepseq, key, decoy, rank,
+                   accession = acc, verbose = isMSnbaseVerbose(), ...)
+              .addDataFrameIdentificationData(object, id, fcol, icol,
+                                              acc, desc, pepseq, key,
+                                              decoy, rank, accession,
+                                              verbose, ...))
 
 setMethod("removeNoId", "MSnExp",
-          function(object, fcol = "pepseq", keep=NULL)
+          function(object, fcol = "sequence", keep=NULL)
               utils.removeNoId(object, fcol, keep))
 
 setMethod("removeMultipleAssignment", "MSnExp",
-          function(object, fcol = "nprot")
-              utils.removeMultipleAssignment(object, fcol))
+          function(object, nprot = "nprot")
+              utils.removeMultipleAssignment(object, nprot))
 
 
 setMethod("idSummary", "MSnExp",
@@ -413,6 +429,10 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #'     if for a given retention time (spectrum) no signal was measured within
 #'     the mz range. Defaults to \code{NA_real_}.
 #'
+#' @param BPPARAM Parallelisation backend to be used, which will
+#'     depend on the architecture. Default is
+#'     \code{BiocParallel::bparam()}.
+#'
 #' @return \code{chromatogram} returns a \code{\link{Chromatograms}} object with
 #'     the number of columns corresponding to the number of files in
 #'     \code{object} and number of rows the number of specified ranges (i.e.
@@ -466,7 +486,8 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #' plot(rtime(chr), intensity(chr), xlab = "rtime", ylab = "intensity")
 setMethod("chromatogram", "MSnExp", function(object, rt, mz,
                                              aggregationFun = "sum",
-                                             missing = NA_real_){
+                                             missing = NA_real_,
+                                             BPPARAM = bpparam()){
     if (!missing(rt))
         if (is.null(ncol(rt)))
             rt <- matrix(range(rt), ncol = 2, byrow = TRUE)
@@ -475,9 +496,11 @@ setMethod("chromatogram", "MSnExp", function(object, rt, mz,
             mz <- matrix(range(mz), ncol = 2, byrow = TRUE)
     res <- .extractMultipleChromatograms(object, rt = rt, mz = mz,
                                          aggregationFun = aggregationFun,
-                                         missingValue = missing)
+                                         missingValue = missing,
+                                         BPPARAM = BPPARAM)
     res <- as(res, "Chromatograms")
-    colnames(res) <- basename(fileNames(object))
+    res@phenoData <- object@phenoData
+    colnames(res) <- rownames(pData(object))
     if (validObject(res))
         res
 })

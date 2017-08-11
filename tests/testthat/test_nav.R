@@ -5,7 +5,7 @@ f <- proteomics(full.names = TRUE, pattern = "MS3TMT10")
 
 
 test_that("nextMS and prevMS", {
-    x <- readMSData2(f)
+    x <- readMSData(f, mode = "onDisk")
     sp <- "F1.S009"
     expect_identical(acquisitionNum(x[[sp]]), 32926L)
     expect_identical(acquisitionNum(MSnbase:::nextMS(sp, x, 3L)), 32929L)

@@ -87,6 +87,19 @@
     <div id="msnbase-2-3" class="section level1">
 <h1 class="hasAnchor">
 <a href="#msnbase-2-3" class="anchor"></a>MSnbase 2.3</h1>
+<div id="changes-in-version-2-3-9" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-in-version-2-3-9" class="anchor"></a>Changes in version 2.3.9</h2>
+<ul>
+<li>Using new mzR::openIdfile backend to add identifcation data to raw and quantitative data (see issue #232) &lt;2017-07-28 Fri&gt;</li>
+<li>New utils functions: factorsAsStrings, makeCamelCase and reduce,data.frame &lt;2017-07-29 Sat&gt;</li>
+<li>Coerce mzRident to data.frames &lt;2017-07-29 Sat&gt;</li>
+<li>Add phenoData slot to Chromatograms class&lt;2017-08-02 Wed&gt;</li>
+<li>new readMzIdData function to read mzId files as data.frames (uses the new coerce,mzRident,data.frame method) &lt;2017-08-03 Thu&gt;</li>
+<li>new filterIdentificationDataFrame function to filter PSM data.frames as produced by readMzIdData. Also used in the addIdentificationData methods. &lt;2017-08-03 Thu&gt;</li>
+<li>readMSData has a new mode argument to set onDisk or inMemory (default) mode &lt;2017-08-10 Thu&gt;</li>
+</ul>
+</div>
 <div id="changes-in-version-2-3-8" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-3-8" class="anchor"></a>Changes in version 2.3.8</h2>

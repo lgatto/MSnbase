@@ -176,13 +176,21 @@ test_that("mergeSpectraAndIdentificationData", {
                                                                    fcol = c("file", "acquisition.number"),
                                                                    icol = c("file", "acquisitionnum", "rank")))
     ## first run
-    expect_equal(MSnbase:::utils.mergeSpectraAndIdentificationData(fd, id1,
-                                                                   fcol = c("file", "acquisition.number"),
-                                                                   icol = c("file", "acquisitionnum")), rfd1)
+    ans1 <-
+        MSnbase:::utils.mergeSpectraAndIdentificationData(fd, id1,
+                                                          fcol = c("file", "acquisition.number"),
+                                                          icol = c("file", "acquisitionnum"),
+                                                          acc = "accession",
+                                                          desc = "description", pepseq = "pepseq")
+    expect_equal(ans1, rfd1)    
     ## second run
-    expect_equal(MSnbase:::utils.mergeSpectraAndIdentificationData(rfd1, id2,
-                                                                   fcol = c("file", "acquisition.number"),
-                                                                   icol = c("file", "acquisitionnum")), rfd2)
+    ans2 <-
+        MSnbase:::utils.mergeSpectraAndIdentificationData(rfd1, id2,
+                                                          fcol = c("file", "acquisition.number"),
+                                                          icol = c("file", "acquisitionnum"),
+                                                          acc = "accession",
+                                                          desc = "description", pepseq = "pepseq")
+    expect_equal(ans2, rfd2)    
 })
 
 test_that("utils.idSummary", {
@@ -356,9 +364,9 @@ test_that("getBpParam", {
     ## Testing the global MSnbase option PARALLEL_THRESH
     orig_val <- options()$MSnbase$PARALLEL_THRESH
     suppressWarnings(
-        onDisk <- readMSData2(files = system.file("microtofq/MM14.mzML",
-                                                  package = "msdata"),
-                              verbose = FALSE)
+        onDisk <- readMSData(files = system.file("microtofq/MM14.mzML",
+                                                 package = "msdata"),
+                              verbose = FALSE, mode = "onDisk")
     )
     gotParam <- MSnbase:::getBpParam(onDisk)
     expect_true(is(gotParam, "SerialParam"))
@@ -371,8 +379,8 @@ test_that("getBpParam", {
 test_that("Get first MS level", {
     MSnbase::setMSnbaseVerbose(FALSE)
     f <- msdata::proteomics(full.names = TRUE, pattern = "MS3TMT10")
-    x <- readMSData(f, msLevel. = 2L)
-    y <- readMSData2(f, msLevel. = 2L)
+    x <- readMSData(f, msLevel. = 2L, mode = "inMemory")
+    y <- readMSData(f, msLevel. = 2L, mode = "onDisk")
     ## in memory
     tx1 <- system.time(x1 <- msLevel(x)[1])[["elapsed"]]
     tx2 <- system.time(x2 <- MSnbase:::.firstMsLevel(x))[["elapsed"]]
@@ -472,3 +480,18 @@ test_that(".openMSfile works", {
     expect_error(MSnbase:::.openMSfile(file))
 })
 
+test_that("camel case", {
+    k0 <- c("aa.bb", "cc.dd")
+    expect_identical(makeCamelCase(k0), c("aaBb", "ccDd"))
+    expect_identical(makeCamelCase(k0, prefix = "x"),
+                     c("xAaBb", "xCcDd"))
+})
+
+test_that("factorsAsStrings",{
+    data(iris)
+    expect_true(is.factor(iris$Species))
+    iris2 <- factorsAsStrings(iris)
+    expect_true(is.character(iris2$Species))
+    expect_identical(dim(iris), dim(iris2))
+    expect_identical(iris[, -5], iris2[, -5])
+})

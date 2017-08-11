@@ -83,71 +83,145 @@
     </div>
 
     
-    <p>This methods add identification data to an experiment
-  <code>"<a href='MSnExp-class.html'>MSnExp</a>"</code> or to a <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code>.</p>
+    
+
+    <p>These methods add identification data to a raw MS experiment (an
+  <code>"<a href='MSnExp-class.html'>MSnExp</a>"</code> object) or to quantitative data (an
+  <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> object). The identification data needs
+  to be available as a <code>mzIdentML</code> file (and passed as filenames,
+  or directly as identification object) or, alternatively, can be passed
+  as an arbitrary <code>data.frame</code>. See details in the <em>Methods</em>
+  section.</p>
     
 
         
-    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
-
-    <p></p><dl class='dl-horizontal'>
-    <dt><code>signature(object = "MSnExp", id = "character",
-        fcol = "character", icol = "character", verbose = "logical")</code></dt><dd><p>Adds the identification data stored in mzIdentML files to a
-      <code>"<a href='MSnExp-class.html'>MSnExp</a>"</code> instance. The method handles
-      one or multiple mzIdentML files provided via <code>id</code>. <code>id</code> has to
-      be a <code>character</code> vector of valid filenames.
-      <code>fcol</code> and <code>icol</code> specify the columns in the <code>featureData</code>
-      slot and the identification <code>data.frame</code> that are used to merge both
-      data together as <code>character</code> vectors
-      (defaults are <code>fcol = c("spectrum.file", "acquisition.number")</code> and
-      <code>icol = c("spectrumFile", "acquisitionnum")</code>).
-      The <code>verbose</code> argument (default is
-      <code>TRUE</code>) defines whether status messages should be showed.</p></dd>
-    <dt><code>signature(object = "MSnExp", id = "mzID",
-        fcol = "character", icol = "character", verbose = "logical")</code></dt><dd><p>Same as above but <code>id</code> could be an <code>mzID</code> object.</p></dd>
-    <dt><code>signature(object = "MSnExp", id = "mzIDCollection",
-        fcol = "character", icol = "character", verbose = "logical")</code></dt><dd><p>Same as above but <code>id</code> could be an <code>mzIDCollection</code> object.</p></dd>
-    <dt><code>signature(object = "MSnExp", id = "data.frame",
-        fcol = "character", icol = "character", verbose = "logical")</code></dt><dd><p>Same as above but <code>id</code> could be a <code>data.frame</code>.</p></dd>
-    <dt><code>signature(object = "MSnSet", id = "character",
-	    verbose = "logical")</code></dt><dd><p>Adds the identification data stored in mzIdentML files to an
-      <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> instance.
-      The method handles one or multiple mzIdentML files provided via
-      <code>id</code>. <code>id</code> has to be a <code>character</code> vector of valid
-      filenames.
-    <code>fcol</code> and <code>icol</code> specify the columns in the <code>featureData</code>
-      slot and the identification <code>data.frame</code> that are used to merge both
-      data together as <code>character</code> vectors
-      (defaults are <code>fcol = c("spectrum.file", "acquisition.number")</code> and
-      <code>icol = c("spectrumFile", "acquisitionnum")</code>).
-    The <code>verbose</code> argument (default is
-      <code>TRUE</code>) defines whether status messages should be showed.</p></dd>
-    <dt><code>signature(object = "MSnSet", id = "mzID",
-        fcol = "character", icol = "character", verbose = "logical")</code></dt><dd><p>Same as above but <code>id</code> could be an <code>mzID</code> object.</p></dd>
-    <dt><code>signature(object = "MSnSet", id = "mzIDCollection",
-        fcol = "character", icol = "character", verbose = "logical")</code></dt><dd><p>Same as above but <code>id</code> could be an <code>mzIDCollection</code> object.</p></dd>
-    <dt><code>signature(object = "MSnSet", id = "data.frame",
-        fcol = "character", icol = "character", verbose = "logical")</code></dt><dd><p>Same as above but <code>id</code> could be a <code>data.frame</code>.</p></dd>
-  </dl>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The <code>featureData</code> slots in an <code>"<a href='MSnExp-class.html'>MSnExp</a>"</code> or an
+    
+    <p>The <code>featureData</code> slots in a <code>"<a href='MSnExp-class.html'>MSnExp</a>"</code> or a
   <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> instance provides only one row per MS2
-  spectrum but the identification is not always bijective. If multiple
-  possible matches are present only the highest ranked identification is
-  added.</p>
-<p>The column <code>nprot</code> contains the number of members in the protein
-  group; the columns <code>accession</code> and <code>description</code> contain a
-  semicolon separated list of all matches sorted by their <code>rank</code>
-  values. The columns <code>npsm.prot</code> and <code>npep.prot</code> represent
-  the number of PSMs and peptides that were matched to a particular
-  protein group. The column <code>npsm.pep</code> indicates how many PSMs were
-  attributed to a peptide (as defined by its sequence <code>pepseq</code>).</p>
+  spectrum but the identification is not always bijective. Prior to
+  addition, the identification data is filtered as documented in the
+  <code><a href='filterIdentificationDataFrame.html'>filterIdentificationDataFrame</a></code> function: (1) only PSMs
+  matching the regular (non-decoy) database are retained; (2) PSMs or
+  rank greater than 1 are discarded; and (3) only proteotypic peptides
+  are kept.</p>
+<p>If after filtering, more then one PSM per spectrum are still present,
+  these are combined (reduced, see
+  <code><a href='reduce-data.frame-method.html'>reduce,data.frame-method</a></code>) into a single row and
+  separated by a semi-colon.</p>
+<p>See also the section about identification data in the
+  <em>MSnbase-demo</em> vignette for details and additional examples.</p>
+<p>After addition of the identification data, new feature variables are
+  created. The column <code>nprot</code> contains the number of members in the
+  protein group; the columns <code>accession</code> and <code>description</code>
+  contain a semicolon separated list of all matches. The columns
+  <code>npsm.prot</code> and <code>npep.prot</code> represent the number of PSMs and
+  peptides that were matched to a particular protein group. The column
+  <code>npsm.pep</code> indicates how many PSMs were attributed to a peptide
+  (as defined by its sequence <code>pepseq</code>). All these values are
+  re-calculated after filtering and reduction.</p>
+    
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+    <p></p><dl class='dl-horizontal'>
+    <dt><code>signature(object = "MSnExp", id = "character", ...</code></dt><dd><p>Adds the identification data stored in mzIdentML files to a
+      <code>"<a href='MSnExp-class.html'>MSnExp</a>"</code> instance. The method handles one or
+      multiple mzIdentML files provided via <code>id</code>. <code>id</code> has to
+      be a <code>character</code> vector of valid filenames. See below for
+      additional arguments.</p></dd>
+    <dt><code>signature(object = "MSnExp", id = "mzID", ...)</code></dt><dd><p>Same
+      as above but <code>id</code> is a <code>mzID</code> object generated by
+      <code>mzID::mzID</code>. See below for additional arguments.</p></dd>
+    <dt><code>signature(object = "MSnExp", id = "mzIDCollection",
+	...)</code></dt><dd><p>Same as above but <code>id</code> is a <code>mzIDCollection</code>
+      object. See below for additional arguments.</p></dd>
+    <dt><code>signature(object = "MSnExp", id = "mzRident", ...</code></dt><dd><p>Same as above but <code>id</code> is a <code>mzRident</code> object generated
+      by <code>mzR::openIdfile</code>. See below for additional arguments.</p></dd>
+    <dt><code>signature(object = "MSnExp", id = "data.frame", ...</code></dt><dd><p>Same as above but <code>id</code> could be a <code>data.frame</code>. See
+      below for additional arguments.</p></dd>
+    <dt><code>signature(object = "MSnSet", id = "character", ...)</code></dt><dd><p>Adds the identification data stored in mzIdentML files to an
+      <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> instance.  The method handles one or
+      multiple mzIdentML files provided via <code>id</code>. <code>id</code> has to
+      be a <code>character</code> vector of valid filenames. See below for
+      additional arguments.</p></dd>
+    <dt><code>signature(object = "MSnSet", id = "mzID", ...)</code></dt><dd><p>Same
+      as above but <code>id</code> is a <code>mzID</code> object. See below for
+      additional arguments.</p></dd>
+    <dt><code>signature(object = "MSnSet", id = "mzIDCollection",
+	...)</code></dt><dd><p>Same as above but <code>id</code> is a <code>mzIDCollection</code>
+      object. See below for additional arguments.</p></dd>
+    <dt><code>signature(object = "MSnSet", id = "data.frame", ...)</code></dt><dd><p>Same as above but <code>id</code> is a <code>data.frame</code>.  See below for
+      additional arguments.</p></dd>
+    </dl>
+    <p>The methods above take the following additional argument. These need
+  to be set when adding identification data as a <code>data.frame</code>. In
+  all other cases, the defaults are set automatically.</p>
+    <p></p><dl class='dl-horizontal'>
+    <dt>fcol</dt><dd><p>The matching between the features (raw spectra or quantiative
+      features) and identification results is done by matching columns
+      in the featue data (the <code>featureData</code> slot) and the
+      identification data. These values are the spectrum file index and
+      the acquisition number, passed as a <code>character</code> of length
+      2. The default values for these variables in the <code>object</code>'s
+      feature data are <code>"spectrum.file"</code> and
+      <code>"acquisition.num"</code>. Values need to be provided when
+      <code>id</code> is a <code>data.frame</code>.</p></dd>
+    <dt>icol</dt><dd><p>The default values for the spectrum file and acquisition numbers
+      in the identification data (the <code>id</code> argument) are
+      <code>"spectrumFile"</code> and <code>"acquisitionNum"</code>. Values need to
+      be provided when <code>id</code> is a <code>data.frame</code>.</p></dd>
+    <dt>acc</dt><dd><p>The protein (group) accession number or identifier. Defaults are
+      <code>"DatabaseAccess"</code> when passing filenames or <code>mzRident</code>
+      objects and <code>"accession"</code> when passing <code>mzID</code> or
+      <code>mzIDCollection</code> objects. A value needs to be provided when
+      <code>id</code> is a <code>data.frame</code>.</p></dd>
+    <dt>desc</dt><dd><p>The protein (group) description. Defaults are
+      <code>"DatabaseDescription"</code> when passing filenames or
+      <code>mzRident</code> objects and <code>"description"</code> when passing
+      <code>mzID</code> or <code>mzIDCollection</code> objects. A value needs to be
+      provided when <code>id</code> is a <code>data.frame</code>.</p></dd>
+    <dt>pepseq</dt><dd><p>The peptide sequence variable name. Defaults are <code>"sequence"</code>
+      when passing filenames or <code>mzRident</code> objects and
+      <code>"pepseq"</code> when passing <code>mzID</code> or <code>mzIDCollection</code>
+      objects. A value needs to be provided when <code>id</code> is a
+      <code>data.frame</code>.</p></dd>
+    <dt>key</dt><dd><p>The key to be used when the identification data need to be reduced
+      (see details section). Defaults are <code>"spectrumID"</code> when
+      passing filenames or <code>mzRident</code> objects and
+      <code>"spectrumid"</code> when passing <code>mzID</code> or
+      <code>mzIDCollection</code> objects. A value needs to be provided when
+      <code>id</code> is a <code>data.frame</code>.</p></dd>
+    <dt>decoy</dt><dd><p>The feature variable used to define whether the PSM was matched in
+      the decoy of regular fasta database for PSM filtering. Defaults
+      are <code>"isDecoy"</code> when passing filenames or <code>mzRident</code>
+      objects and <code>"isdecoy"</code> when passing <code>mzID</code> or
+      <code>mzIDCollection</code> objects. A value needs to be provided when
+      <code>id</code> is a <code>data.frame</code>. See
+      <code><a href='filterIdentificationDataFrame.html'>filterIdentificationDataFrame</a></code> for details.</p></dd>
+    <dt>rank</dt><dd><p>The feature variable used to defined the rank of the PSM for
+      filtering. Defaults is <code>"rank"</code>. A value needs to be provided
+      when <code>id</code> is a <code>data.frame</code>. See
+      <code><a href='filterIdentificationDataFrame.html'>filterIdentificationDataFrame</a></code> for details.</p></dd>
+    <dt>accession</dt><dd><p>The feature variable used to defined the protein (groupo)
+      accession or identifier for PSM filterin. Defaults is to use the
+      same value as <code>acc</code> . A value needs to be provided when
+      <code>id</code> is a <code>data.frame</code>. See
+      <code><a href='filterIdentificationDataFrame.html'>filterIdentificationDataFrame</a></code> for details.</p></dd>
+    <dt>verbose</dt><dd><p>A <code>logical</code> defining whether to print out
+      messages or not. Default is to use the session-wide open from
+      <code><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></code>.</p></dd>
+    </dl><p></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='MSnExp-class.html'>MSnExp</a></code> and <code><a href='MSnSet-class.html'>MSnSet</a></code>.</p>
+    
+    <p><code><a href='filterIdentificationDataFrame.html'>filterIdentificationDataFrame</a></code> for the function that
+  filters identification data, <code><a href='readMzIdData.html'>readMzIdData</a></code> to read the
+  identification data as a unfiltered <code>data.frame</code> and
+  <code><a href='reduce-data.frame-method.html'>reduce,data.frame-method</a></code> to reduce it to a
+  <code>data.frame</code> that contains only unique PSMs per row.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -166,34 +240,34 @@
 
 <span class='co'>## access featureData; please note the multiple identification data</span>
 <span class='co'>## for spectrum 1 (row 1)</span>
-<span class='fu'>fData</span>(<span class='no'>msexp</span>)</div><div class='output co'>#&gt;      spectrum scan number(s) passthreshold rank calculatedmasstocharge
-#&gt; X1.1        1              1          TRUE    1               645.0375
-#&gt; X2.1        2              2          TRUE    1               546.9633
-#&gt; X3.1        3             NA            NA   NA                     NA
-#&gt;      experimentalmasstocharge chargestate ms-gf:denovoscore ms-gf:evalue
-#&gt; X1.1                 645.3741           3                77     79.36958
-#&gt; X2.1                 546.9586           3                39     13.46615
-#&gt; X3.1                       NA          NA                NA           NA
-#&gt;      ms-gf:rawscore ms-gf:specevalue assumeddissociationmethod isotopeerror
-#&gt; X1.1            -39     5.527468e-05                       CID            1
-#&gt; X2.1            -30     9.399048e-06                       CID            0
-#&gt; X3.1             NA               NA                      &lt;NA&gt;         &lt;NA&gt;
-#&gt;      isdecoy post  pre end start       accession length
-#&gt; X1.1   FALSE    A    R 186   170 ECA0984;ECA3829    231
-#&gt; X2.1   FALSE    A    K  62    50         ECA1028    275
-#&gt; X3.1      NA &lt;NA&gt; &lt;NA&gt;  NA    NA            &lt;NA&gt;     NA
-#&gt;                                                                      description
-#&gt; X1.1 DNA mismatch repair protein;acetolactate synthase isozyme III large subunit
-#&gt; X2.1          2,3,4,5-tetrahydropyridine-2,6-dicarboxylate N-succinyltransferase
-#&gt; X3.1                                                                        &lt;NA&gt;
-#&gt;                 pepseq modified modification          idFile
-#&gt; X1.1 VESITARHGEVLQLRPK    FALSE           NA dummyiTRAQ.mzid
-#&gt; X2.1     IDGQWVTHQWLKK    FALSE           NA dummyiTRAQ.mzid
-#&gt; X3.1              &lt;NA&gt;       NA           NA            &lt;NA&gt;
-#&gt;                  databaseFile nprot npep.prot npsm.prot npsm.pep
-#&gt; X1.1 erwinia_carotovora.fasta     2         1         1        1
-#&gt; X2.1 erwinia_carotovora.fasta     1         1         1        1
-#&gt; X3.1                     &lt;NA&gt;    NA        NA        NA       NA
+<span class='fu'>fData</span>(<span class='no'>msexp</span>)</div><div class='output co'>#&gt;       spectrum acquisition.number          sequence chargeState rank
+#&gt; F1.S1        1                  1 VESITARHGEVLQLRPK           3    1
+#&gt; F1.S2        2                  2     IDGQWVTHQWLKK           3    1
+#&gt; F1.S3        3                  3              &lt;NA&gt;          NA   NA
+#&gt;       passThreshold experimentalMassToCharge calculatedMassToCharge modNum
+#&gt; F1.S1          TRUE                 645.3741               645.0375      0
+#&gt; F1.S2          TRUE                 546.9586               546.9633      0
+#&gt; F1.S3            NA                       NA                     NA     NA
+#&gt;       isDecoy post  pre start end DatabaseAccess DBseqLength DatabaseSeq
+#&gt; F1.S1   FALSE    A    R   170 186        ECA0984         231            
+#&gt; F1.S2   FALSE    A    K    50  62        ECA1028         275            
+#&gt; F1.S3      NA &lt;NA&gt; &lt;NA&gt;    NA  NA           &lt;NA&gt;          NA        &lt;NA&gt;
+#&gt;                                                              DatabaseDescription
+#&gt; F1.S1                                        ECA0984 DNA mismatch repair protein
+#&gt; F1.S2 ECA1028 2,3,4,5-tetrahydropyridine-2,6-dicarboxylate N-succinyltransferase
+#&gt; F1.S3                                                                       &lt;NA&gt;
+#&gt;                idFile MS.GF.RawScore MS.GF.DeNovoScore MS.GF.SpecEValue
+#&gt; F1.S1 dummyiTRAQ.mzid            -39                77     5.527468e-05
+#&gt; F1.S2 dummyiTRAQ.mzid            -30                39     9.399048e-06
+#&gt; F1.S3            &lt;NA&gt;             NA                NA               NA
+#&gt;       MS.GF.EValue modName modMass modLocation subOriginalResidue
+#&gt; F1.S1     79.36958    &lt;NA&gt;      NA          NA               &lt;NA&gt;
+#&gt; F1.S2     13.46615    &lt;NA&gt;      NA          NA               &lt;NA&gt;
+#&gt; F1.S3           NA    &lt;NA&gt;      NA          NA               &lt;NA&gt;
+#&gt;       subReplacementResidue subLocation nprot npep.prot npsm.prot npsm.pep
+#&gt; F1.S1                  &lt;NA&gt;          NA     1         1         1        1
+#&gt; F1.S2                  &lt;NA&gt;          NA     1         1         1        1
+#&gt; F1.S3                  &lt;NA&gt;          NA    NA        NA        NA       NA
 #&gt;  [ reached getOption("max.print") -- omitted 2 rows ]</div><div class='input'>
 <span class='fu'><a href='MSnSet-class.html'>idSummary</a></span>(<span class='no'>msexp</span>)</div><div class='output co'>#&gt;       spectrumFile          idFile coverage
 #&gt; 1 dummyiTRAQ.mzXML dummyiTRAQ.mzid      0.6</div></pre>
@@ -202,9 +276,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#methods">Methods</a></li>
-
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#methods">Methods</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
@@ -213,7 +287,7 @@
 
     <h2>Author</h2>
     
-  Sebastian Gibb &lt;mail@sebastiangibb.de&gt;
+  Sebastian Gibb &lt;mail@sebastiangibb.de&gt; and Laurent Gatto
 
   </div>
 </div>

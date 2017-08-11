@@ -81,7 +81,7 @@
     <div class="page-header">
       <h1>
         Reference
-        <small>version&nbsp;2.3.8</small>
+        <small>version&nbsp;2.3.9</small>
       </h1>
     </div>
 
@@ -133,7 +133,7 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="Chromatogram-class.html">Chromatogram</a></code> <code><a href="Chromatogram-class.html">show</a></code> <code><a href="Chromatogram-class.html">rtime</a></code> <code><a href="Chromatogram-class.html">intensity</a></code> <code><a href="Chromatogram-class.html">mz</a></code> <code><a href="Chromatogram-class.html">precursorMz</a></code> <code><a href="Chromatogram-class.html">productMz</a></code> <code><a href="Chromatogram-class.html">aggregationFun</a></code> <code><a href="Chromatogram-class.html">fromFile</a></code> <code><a href="Chromatogram-class.html">length</a></code> <code><a href="Chromatogram-class.html">as.data.frame</a></code> <code><a href="Chromatogram-class.html">filterRt</a></code> <code><a href="Chromatogram-class.html">clean</a></code> <code><a href="Chromatogram-class.html">plot</a></code> </p>
+            <p><code><a href="Chromatogram-class.html">Chromatogram</a></code> <code><a href="Chromatogram-class.html">aggregationFun</a></code> <code><a href="Chromatogram-class.html">productMz</a></code> <code><a href="Chromatogram-class.html">show</a></code> <code><a href="Chromatogram-class.html">rtime</a></code> <code><a href="Chromatogram-class.html">intensity</a></code> <code><a href="Chromatogram-class.html">mz</a></code> <code><a href="Chromatogram-class.html">precursorMz</a></code> <code><a href="Chromatogram-class.html">fromFile</a></code> <code><a href="Chromatogram-class.html">length</a></code> <code><a href="Chromatogram-class.html">as.data.frame</a></code> <code><a href="Chromatogram-class.html">filterRt</a></code> <code><a href="Chromatogram-class.html">clean</a></code> <code><a href="Chromatogram-class.html">plot</a></code> </p>
           </td>
           <td><p>Representation of chromatographic MS data</p></td>
         </tr><tr>
@@ -199,6 +199,12 @@
         </tr><tr>
           <!--  -->
           <td>
+            <p><code><a href="factorsAsStrings.html">factorsAsStrings</a></code> </p>
+          </td>
+          <td><p>Converts factors to strings</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
             <p><code><a href="FeatComp-class.html">FeatComp-class</a></code> </p>
           </td>
           <td><p>Class <code>"FeatComp"</code></p></td>
@@ -220,6 +226,12 @@
             <p><code><a href="fillUp.html">fillUp</a></code> </p>
           </td>
           <td><p>Fills up a vector</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="filterIdentificationDataFrame.html">filterIdentificationDataFrame</a></code> </p>
+          </td>
+          <td><p>Filter out unreliable PSMs.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -290,6 +302,12 @@
         </tr><tr>
           <!--  -->
           <td>
+            <p><code><a href="makeCamelCase.html">makeCamelCase</a></code> </p>
+          </td>
+          <td><p>Convert to camel case by replacing dots by captial letters</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
             <p><code><a href="makeNaData.html">makeNaData</a></code> <code><a href="makeNaData.html">makeNaData2</a></code> <code><a href="makeNaData.html">whichNA</a></code> </p>
           </td>
           <td><p>Create a data with missing values</p></td>
@@ -314,7 +332,7 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="MSnbaseOptions.html">MSnbaseOptions</a></code> <code><a href="MSnbaseOptions.html">isMSnbaseVerbose</a></code> <code><a href="MSnbaseOptions.html">setMSnbaseVerbose</a></code> <code><a href="MSnbaseOptions.html">setMSnbaseParallelThresh</a></code> </p>
+            <p><code><a href="MSnbaseOptions.html">MSnbaseOptions</a></code> <code><a href="MSnbaseOptions.html">isMSnbaseVerbose</a></code> <code><a href="MSnbaseOptions.html">setMSnbaseVerbose</a></code> <code><a href="MSnbaseOptions.html">setMSnbaseParallelThresh</a></code> <code><a href="MSnbaseOptions.html">setMSnbaseFastLoad</a></code> <code><a href="MSnbaseOptions.html">isMSnbaseFastLoad</a></code> </p>
           </td>
           <td><p>MSnbase options</p></td>
         </tr><tr>
@@ -347,6 +365,12 @@
             <p><code><a href="MSnSetList-class.html">MSnSetList-class</a></code> </p>
           </td>
           <td><p>Storing multiple related MSnSets</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mzRident2dfr.html">as</a></code> </p>
+          </td>
+          <td><p>Coerce identification data to a <code>data.frame</code></p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -491,15 +515,22 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="readMSData.html">readMSData</a></code> <code><a href="readMSData.html">readMSData2</a></code> </p>
+            <p><code><a href="readMSData.html">readMSData</a></code> </p>
           </td>
-          <td><p>Imports mass-spectrometry raw data files as 'MSnExp' instances.</p></td>
+          <td><p>Imports mass-spectrometry raw data files as 'MSnExp'
+instances.</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="readMSnSet.html">readMSnSet</a></code> <code><a href="readMSnSet.html">readMSnSet2</a></code> </p>
           </td>
           <td><p>Read 'MSnSet'</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="readMzIdData.html">readMzIdData</a></code> </p>
+          </td>
+          <td><p>Import peptide-spectrum matches</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -512,6 +543,12 @@
             <p><code><a href="readMzTabData_v0.9.html">readMzTabData_v0.9</a></code> </p>
           </td>
           <td><p>Read an 'mzTab' file</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="reduce-data.frame-method.html">reduce</a></code> </p>
+          </td>
+          <td><p>Reduce a data.frame</p></td>
         </tr><tr>
           <!--  -->
           <td>

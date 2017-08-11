@@ -59,7 +59,7 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
     expect_equal(length(aa), 5)
     expect_that(nrow(header(aa)), equals(length(aa)))
     expect_that(names(header(aa)),
-                equals(c("file", "retention.time",
+                equals(c("fileIdx", "retention.time",
                          "precursor.mz", "precursor.intensity",
                          "charge", "peaks.count","tic","ionCount",
                          "ms.level", "acquisition.number",
@@ -193,31 +193,23 @@ test_that("addIdentificationData", {
                      full.name = TRUE, pattern = "mzXML$")
     identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                      full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-
-    expect_error(addIdentificationData(new("MSnExp"),
-                                       identFile, verbose = FALSE),
+    expect_error(addIdentificationData(new("MSnExp"), identFile),
                  "No feature data found.")
-
     aa <- extdata_mzXML_in_mem_ms2
-
-    expect_error(addIdentificationData(aa, "foobar.mzid",
-                                       verbose = FALSE),
-                 "does not exist")
-
+    expect_error(addIdentificationData(aa, "foobar.mzid"),
+                 "not found")
     fd <- fData(addIdentificationData(aa, identFile, verbose = FALSE))
-
     expect_equal(fd$spectrum, 1:5)
-    expect_equal(fd$pepseq,
+    expect_equal(fd$sequence,
                  c("VESITARHGEVLQLRPK", "IDGQWVTHQWLKK",
                    NA, NA, "LVILLFR"))
-    expect_equal(fd$accession,
-                 c("ECA0984;ECA3829", "ECA1028",
-                   NA, NA, "ECA0510"))
+    expect_equal(fd$DatabaseAccess,
+                 c("ECA0984", "ECA1028", NA, NA, "ECA0510"))
     expect_equal(fd$idFile, c("dummyiTRAQ.mzid", "dummyiTRAQ.mzid", NA, NA,
                               "dummyiTRAQ.mzid"))
     expect_equal(fd$npsm.prot, c(1, 1, NA, NA, 1))
     expect_equal(fd$npep.prot, c(1, 1, NA, NA, 1))
-    expect_equal(fd$nprot, c(2, 1, NA, NA, 1))
+    expect_equal(fd$nprot, c(1, 1, NA, NA, 1))
     expect_equal(fd$npsm.pep, c(1, 1, NA, NA, 1))
 })
 
@@ -252,10 +244,8 @@ test_that("addIdentificationData to OnDiskMSnExp", {
 test_that("idSummary", {
     identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                      full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-
     aa <- extdata_mzXML_in_mem_ms2
-    bb <- addIdentificationData(aa, identFile, verbose = FALSE)
-
+    bb <- addIdentificationData(aa, identFile)
     expect_error(idSummary(aa), "No quantification/identification data found")
     expect_equal(idSummary(bb),
                  data.frame(spectrumFile="dummyiTRAQ.mzXML",
@@ -385,7 +375,7 @@ test_that("pData<- on MSnExp works", {
 test_that("injection time", {
     f <- msdata::proteomics(full.names = TRUE, pattern = "MS3")
     it1 <- MSnbase:::injectionTimeFromFile1(f) ## in millisecs
-    it2 <- fData(readMSData2(f))$injectionTime ## in secs
+    it2 <- fData(readMSData(f, mode = "onDisk"))$injectionTime ## in secs
     expect_equal(it1/1000, it2)
 })
 
@@ -410,7 +400,8 @@ test_that("chromatogram,MSnExp works", {
     expect_equal(ints[[2]], intensity(res[1, 2]))
     expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[1, 1]))
     expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[1, 2]))
-
+    expect_equal(pData(inMem), pData(res))
+    
     ## Multiple mz ranges.
     mzr <- matrix(c(100, 120, 200, 220, 300, 320), nrow = 3, byrow = TRUE)
     rtr <- matrix(c(50, 300), nrow = 1)
@@ -458,4 +449,11 @@ test_that("chromatogram,MSnExp works", {
     spctr <- split(spectra(flt), fromFile(flt))
     ints <- unlist(lapply(spctr[[1]], function(z) sum(intensity(z))))
     expect_equal(ints, intensity(res[2, 2]))
+
+    ## Check that phenoType is correctly passed.
+    pd <- data.frame(name = c("first", "second", "third", "fourth"), idx = 1:4)
+    pData(inMem) <- pd
+    chrs <- chromatogram(inMem)
+    rownames(pd) <- colnames(chrs)
+    expect_equal(pData(chrs), pd)
 })

@@ -2,7 +2,7 @@ library(msdata)
 mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
          system.file("microtofq/MM8.mzML", package = "msdata"))
 inMem <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE)
-onDisk <- readMSData2(files = mzf, msLevel. = 1, centroided. = TRUE)
+onDisk <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE, mode = "onDisk")
 
 test_that("Subsetting between OnDiskMSnExp and MSnExp - [[", {
     ## Extract individual spectra.
