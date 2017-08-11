@@ -130,37 +130,7 @@ the next or previous spectrum of level <code>msLevel</code>.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>msdata</span><span class='kw'>::</span><span class='fu'>proteomics</span>(<span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"MS3"</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData2</a></span>(<span class='no'>f</span>, <span class='kw'>centroided</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>, <span class='fl'>FALSE</span>))
-(<span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>x</span>) <span class='kw'>==</span> <span class='fl'>3</span>)[<span class='fl'>2</span>]) <span class='co'>## 2nd MS3 spectrum</span></div><div class='output co'>#&gt; F1.S009 
-#&gt;       9 </div><div class='input'><span class='no'>x</span><span class='kw'>[[</span><span class='no'>sp</span>]] <span class='co'>## curent MS3</span></div><div class='output co'>#&gt; Object of class "Spectrum2"
-#&gt;  Precursor: 756.4332 
-#&gt;  Retention time: 73:43 
-#&gt;  Charge: 1 
-#&gt;  MSn level: 3 
-#&gt;  Peaks count: 1422 
-#&gt;  Total ion count: 972514 </div><div class='input'><span class='kw'>MSnbase</span><span class='kw'>:::</span><span class='fu'>nextMS</span>(<span class='no'>sp</span>, <span class='no'>x</span>) <span class='co'>## next MS3</span></div><div class='output co'>#&gt; Object of class "Spectrum2"
-#&gt;  Precursor: 466.1647 
-#&gt;  Retention time: 73:44 
-#&gt;  Charge: 0 
-#&gt;  MSn level: 3 
-#&gt;  Peaks count: 2281 
-#&gt;  Total ion count: 3908748 </div><div class='input'><span class='kw'>MSnbase</span><span class='kw'>:::</span><span class='fu'>prevMS</span>(<span class='no'>sp</span>, <span class='no'>x</span>) <span class='co'>## prev MS3</span></div><div class='output co'>#&gt; Object of class "Spectrum2"
-#&gt;  Precursor: 490.2629 
-#&gt;  Retention time: 73:43 
-#&gt;  Charge: 0 
-#&gt;  MSn level: 3 
-#&gt;  Peaks count: 2540 
-#&gt;  Total ion count: 9311294 </div><div class='input'><span class='kw'>MSnbase</span><span class='kw'>:::</span><span class='fu'>prevMS</span>(<span class='no'>sp</span>, <span class='no'>x</span>, <span class='fl'>2L</span>) <span class='co'>## prev MS2</span></div><div class='output co'>#&gt; Object of class "Spectrum2"
-#&gt;  Precursor: 675.6938 
-#&gt;  Retention time: 73:43 
-#&gt;  Charge: 3 
-#&gt;  MSn level: 2 
-#&gt;  Peaks count: 858 
-#&gt;  Total ion count: 627600.3 </div><div class='input'><span class='kw'>MSnbase</span><span class='kw'>:::</span><span class='fu'>prevMS</span>(<span class='no'>sp</span>, <span class='no'>x</span>, <span class='fl'>1L</span>) <span class='co'>## prev MS1</span></div><div class='output co'>#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 73:43 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 48304 
-#&gt;  Polarity: 1 </div></pre>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>f</span>, <span class='kw'>centroided.</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>, <span class='fl'>FALSE</span>), <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"inDisk"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in match.arg(mode): 'arg' should be one of “inMemory”, “onDisk”</span></div><div class='input'>(<span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>x</span>) <span class='kw'>==</span> <span class='fl'>3</span>)[<span class='fl'>2</span>]) <span class='co'>## 2nd MS3 spectrum</span></div><div class='output co'>#&gt; <span class='error'>Error in msLevel(x): object 'x' not found</span></div><div class='input'><span class='no'>x</span><span class='kw'>[[</span><span class='no'>sp</span>]] <span class='co'>## curent MS3</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'x' not found</span></div><div class='input'><span class='kw'>MSnbase</span><span class='kw'>:::</span><span class='fu'>nextMS</span>(<span class='no'>sp</span>, <span class='no'>x</span>) <span class='co'>## next MS3</span></div><div class='output co'>#&gt; <span class='error'>Error in navMS(..., nav = "nextMS"): object 'sp' not found</span></div><div class='input'><span class='kw'>MSnbase</span><span class='kw'>:::</span><span class='fu'>prevMS</span>(<span class='no'>sp</span>, <span class='no'>x</span>) <span class='co'>## prev MS3</span></div><div class='output co'>#&gt; <span class='error'>Error in navMS(..., nav = "prevMS"): object 'sp' not found</span></div><div class='input'><span class='kw'>MSnbase</span><span class='kw'>:::</span><span class='fu'>prevMS</span>(<span class='no'>sp</span>, <span class='no'>x</span>, <span class='fl'>2L</span>) <span class='co'>## prev MS2</span></div><div class='output co'>#&gt; <span class='error'>Error in navMS(..., nav = "prevMS"): object 'sp' not found</span></div><div class='input'><span class='kw'>MSnbase</span><span class='kw'>:::</span><span class='fu'>prevMS</span>(<span class='no'>sp</span>, <span class='no'>x</span>, <span class='fl'>1L</span>) <span class='co'>## prev MS1</span></div><div class='output co'>#&gt; <span class='error'>Error in navMS(..., nav = "prevMS"): object 'sp' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -119,12 +119,12 @@ document.addEventListener("DOMContentLoaded", function() {
 <h2 class="hasAnchor">
 <a href="#sec:io" class="anchor"></a>Importing experiments</h2>
 <p><em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> is able to import raw MS data stored in one of the <code>XML</code>-based formats as well as peak lists in the <code>mfg</code> format<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>.</p>
-<p><strong>Raw data</strong> The <code>XML</code>-based formats, <code>mzXML</code> <span class="citation">(Pedrioli et al. 2004)</span>, <code>mzData</code> <span class="citation">(Orchard et al. 2007)</span> and <code>mzML</code> <span class="citation">(Martens et al. 2010)</span> can be imported with the <code>readMSData</code> function, as illustrated below (see <code><a href="../reference/readMSData.html">?readMSData</a></code> for more details). To make use of the new <em>on-disk</em> implementation, use <code>readMSData2</code> instead.</p>
+<p><strong>Raw data</strong> The <code>XML</code>-based formats, <code>mzXML</code> <span class="citation">(Pedrioli et al. 2004)</span>, <code>mzData</code> <span class="citation">(Orchard et al. 2007)</span> and <code>mzML</code> <span class="citation">(Martens et al. 2010)</span> can be imported with the <code>readMSData</code> function, as illustrated below (see <code><a href="../reference/readMSData.html">?readMSData</a></code> for more details). To make use of the new <em>on-disk</em> implementation, set <code>mode = "onDisk"</code> in <code>readMSData</code> rather than using the default <code>mode = "inMemory"</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">file &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="kw">system.file</span>(<span class="dt">package =</span> <span class="st">"MSnbase"</span>, <span class="dt">dir =</span> <span class="st">"extdata"</span>),
             <span class="dt">full.names =</span> <span class="ot">TRUE</span>, <span class="dt">pattern =</span> <span class="st">"mzXML$"</span>)
 rawdata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readMSData.html">readMSData</a></span>(file, <span class="dt">msLevel =</span> <span class="dv">2</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p>Only spectra of a given MS level can be loaded at a time by setting the <code>msLevel</code> parameter accordingly in <code>readMSData</code> and <em>in-memory</em> data. In this document, we will use the <code>itraqdata</code> data set, provided with <em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em>. It includes feature metadata, accessible with the <code>fData</code> accessor. The metadata includes identification data for the 55 MS2 spectra.</p>
-<p><strong>MSnbase 2.0</strong> Version 2.0 and later of <em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> use a new <em>on-disk</em> data storage model (see the <em>benchmarking</em> vignette for more details). The new data backend is compatible with the orignal <em>in-memory</em> model. To make use of the new infrastructure, read your raw data using <code>readMSData2</code>, rather than <code>readMSData</code>. The new <em>on-disk</em> implementation supports several MS levels in a single raw data object. All existing operations work irrespective of the backend.</p>
+<p><strong>MSnbase 2.0</strong> Version 2.0 and later of <em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> use a new <em>on-disk</em> data storage model (see the <em>benchmarking</em> vignette for more details). The new data backend is compatible with the orignal <em>in-memory</em> model. To make use of the new infrastructure, read your raw data by setting the <code>mode</code> argument to <code>"onDisk"</code> (the default in <code>"inMemory"</code>). The new <em>on-disk</em> implementation supports several MS levels in a single raw data object. All existing operations work irrespective of the backend.</p>
 <p><strong>Peak lists</strong> Peak lists can often be exported after spectrum processing from vendor-specific software and are also used as input to search engines. Peak lists in <code>mgf</code> format can be imported with the function <code>readMgfData</code> (see <code><a href="../reference/readMgfData.html">?readMgfData</a></code> for details) to create experiment objects. Experiments or individual spectra can be exported to an <code>mgf</code> file with the <code>writeMgfData</code> methods (see <code><a href="../reference/writeMgfData-methods.html">?writeMgfData</a></code> for details and examples).</p>
 <p><strong>Experiments with multiple runs</strong> Although it is possible to load and process multiple files serially and later merge the resulting quantitation data as show in section @ref(sec:combine), it is also feasible to load several raw data files at once. Here, we report the analysis of an LC-MSMS experiment were 14 liquid chromatography (LC) fractions were loaded using <code>readMSData</code> on a 32-cores servers with 128 Gb of RAM. It took about 90 minutes to read the 14 uncentroided <code>mzXML</code> raw files (4.9 Gb on disk in total) and create a 3.3 Gb raw data object (an <em>MSnExp</em> instance, see next section). Quantitation of 9 reporter ions (<em>iTRAQ9</em> object, see @ref(sec:reporterions)) for 88690 features was performed in parallel on 16 processors<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a> and took 76 minutes. The resulting quantitation data was only 22.1 Mb and could easily be further processed and analysed on a standard laptop computer. These number as based on the older <em>in-memory</em> implementation. As shown in the <em>benchmarking</em> vignette, using <em>on-disk</em> data greatly reduces memory requirement and computation time.</p>
 <p>See also section @ref(sec:io2) to import quantitative data stored in spreadsheets into R for further processing using <em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em>. The <em>MSnbase-io</em>vignette[in R, open it with <code><a href="../articles/MSnbase-io.html">vignette("MSnbase-io")</a></code> or read it online <a href="https://bioconductor.org/packages/devel/bioc/vignettes/MSnbase/inst/doc/MSnbase-io.html">here</a>] gives a general overview of <em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em>’s input/ouput capabilites.</p>
@@ -237,7 +237,7 @@ sp</code></pre></div>
 <a href="#sec:chromatograms" class="anchor"></a>Chromatogram objects</h2>
 <p>Chromatographic data, i.e. intensity values along the retention time dimension for a given <span class="math inline">\(m/z\)</span> range/slice, can be extracted with the <code>chromatogram</code> method. Below we read a file from the <code>msdata</code> package and extract the (MS level 1) chromatogram. Without providing an <span class="math inline">\(m/z\)</span> and a retention time range the function returns the total ion chromatogram (TIC) for each file within the <code>MSnExp</code> or <code>OnDiskMSnExp</code> object.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">system.file</span>(<span class="st">"microtofq/MM14.mzML"</span>, <span class="dt">package =</span> <span class="st">"msdata"</span>))
-mtof &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readMSData.html">readMSData2</a></span>(f)
+mtof &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readMSData.html">readMSData</a></span>(f, <span class="dt">mode =</span> <span class="st">"onDisk"</span>)
 mtof_tic &lt;-<span class="st"> </span><span class="kw"><a href="../reference/chromatogram-MSnExp-method.html">chromatogram</a></span>(mtof)
 mtof_tic</code></pre></div>
 <pre><code>## Chromatograms with 1 row and 1 column
@@ -348,7 +348,7 @@ bsa</code></pre></div>
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Data [logically] subsetted 3 spectra: Thu Aug 10 13:06:05 2017 
+## Data [logically] subsetted 3 spectra: Thu Aug 10 18:10:23 2017 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -679,8 +679,8 @@ This figure illustrated the effect or the <code>removePeaks</code> and <code>cle
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Thu Aug 10 13:06:12 2017 
-## Spectra cleaned: Thu Aug 10 13:06:13 2017 
+## Curves &lt;= 400 set to '0': Thu Aug 10 18:10:31 2017 
+## Spectra cleaned: Thu Aug 10 18:10:31 2017 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -746,9 +746,9 @@ qnt</code></pre></div>
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Thu Aug 10 13:06:12 2017 
-## Spectra cleaned: Thu Aug 10 13:06:13 2017 
-## iTRAQ4 quantification by trapezoidation: Thu Aug 10 13:06:16 2017 
+## Curves &lt;= 400 set to '0': Thu Aug 10 18:10:31 2017 
+## Spectra cleaned: Thu Aug 10 18:10:31 2017 
+## iTRAQ4 quantification by trapezoidation: Thu Aug 10 18:10:35 2017 
 ##  MSnbase version: 1.1.22</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">exprs</span>(qnt))</code></pre></div>
 <pre><code>##     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
@@ -846,7 +846,7 @@ qnt.crct &lt;-<span class="st"> </span><span class="kw"><a href="../reference/pu
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/impute-methods.html">impute</a></span>(naset, <span class="st">"min"</span>)
 <span class="kw"><a href="../reference/pSet-class.html">processingData</a></span>(x)</code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data imputation using min Thu Aug 10 13:06:16 2017 
+## Data imputation using min Thu Aug 10 18:10:35 2017 
 ##  MSnbase version: 1.15.6</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(<span class="kw">is.na</span>(x))</code></pre></div>
 <pre><code>## 
@@ -883,7 +883,7 @@ x</code></pre></div>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Data imputation using mixed Thu Aug 10 13:06:17 2017 
+## Data imputation using mixed Thu Aug 10 18:10:36 2017 
 ##   Using default parameters 
 ##  MSnbase version: 1.15.6</code></pre>
 <p>Please read <code><a href="../reference/impute-methods.html">?impute</a></code> for a description of the different methods.</p>
@@ -964,13 +964,13 @@ qnt2</code></pre></div>
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Thu Aug 10 13:06:12 2017 
-## Spectra cleaned: Thu Aug 10 13:06:13 2017 
-## iTRAQ4 quantification by trapezoidation: Thu Aug 10 13:06:16 2017 
-## Subset [55,4][54,4] Thu Aug 10 13:06:16 2017 
-## Removed features with more than 0 NAs: Thu Aug 10 13:06:16 2017 
-## Dropped featureData's levels Thu Aug 10 13:06:16 2017 
-## Combined 54 features into 40 using median: Thu Aug 10 13:06:19 2017 
+## Curves &lt;= 400 set to '0': Thu Aug 10 18:10:31 2017 
+## Spectra cleaned: Thu Aug 10 18:10:31 2017 
+## iTRAQ4 quantification by trapezoidation: Thu Aug 10 18:10:35 2017 
+## Subset [55,4][54,4] Thu Aug 10 18:10:35 2017 
+## Removed features with more than 0 NAs: Thu Aug 10 18:10:35 2017 
+## Dropped featureData's levels Thu Aug 10 18:10:35 2017 
+## Combined 54 features into 40 using median: Thu Aug 10 18:10:39 2017 
 ##  MSnbase version: 2.3.9</code></pre>
 </div>
 <div id="sec:lf" class="section level1">
@@ -1008,9 +1008,9 @@ qnt2</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">siquant &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(msexp, <span class="dt">method =</span> <span class="st">"SIn"</span>)
 <span class="kw"><a href="../reference/pSet-class.html">processingData</a></span>(siquant)</code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Quantitation by total ion current [Thu Aug 10 13:06:19 2017] 
-## Combined 3 features into 3 using sum: Thu Aug 10 13:06:19 2017 
-## Quantification by SIn [Thu Aug 10 13:06:19 2017] 
+## Quantitation by total ion current [Thu Aug 10 18:10:39 2017] 
+## Combined 3 features into 3 using sum: Thu Aug 10 18:10:39 2017 
+## Quantification by SIn [Thu Aug 10 18:10:39 2017] 
 ##  MSnbase version: 2.3.9</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">exprs</span>(siquant)</code></pre></div>
 <pre><code>##         dummyiTRAQ.mzXML
@@ -1236,7 +1236,7 @@ exp2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MSnSet
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Combined [35,8] and [27,4] MSnSets Thu Aug 10 13:06:31 2017 
+## Combined [35,8] and [27,4] MSnSets Thu Aug 10 18:10:55 2017 
 ##  MSnbase version: 2.3.9</code></pre>
 <p>In summary, when experiments with different samples need to be combined (along the columns), one needs to (1) clarify the sample names using <code>updateSampleNames</code> or better manually, for biological relevance and (2) update the feature data variable labels with <code>updateFvarLabels</code>. The individual experiments (there can be more than 2) can then easily be combined with the <code>combine</code> method while retaining the meta-data.</p>
 <p>If runs for the same sample (different fractions for example) need to be combines, one needs to (1) differentiate the feature provenance with <code>updateFeatureNames</code> prior to use <code>combine</code>.</p>
