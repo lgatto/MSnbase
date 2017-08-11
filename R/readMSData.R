@@ -58,8 +58,7 @@
 readMSData <- function(files, pdata = NULL, msLevel. = NULL,
                        verbose = isMSnbaseVerbose(), centroided. = NA,
                        smoothed. = NA, cache. = 1L,
-                       mode = c("inMemory",
-                                "onDisk")) {
+                       mode = c("inMemory", "onDisk")) {
     mode <- match.arg(mode)
     if (mode == "inMemory") {
         if (is.null(msLevel.)) msLevel. <- 2L

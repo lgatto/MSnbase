@@ -4,10 +4,8 @@ readMSData2 <- function(files,
                         verbose = isMSnbaseVerbose(),
                         centroided.,
                         smoothed. = NA) {
-    msg <- paste('Please use readMSData with mode = "onDisk"',
-                 'rather than readMSData2, which will be deprecated',
-                 'in the future.', collapse = " ")
-    message(paste(strwrap(msg), collapse = "\n"))
+    msg <- 'readMSData(..., mode = "onDisk")'
+    .Deprecated(paste(strwrap(msg), collapse = "\n"))
     if (missing(msLevel.)) msLevel. <- NULL
     if (missing(centroided.)) centroided. <- NA
     readOnDiskMSData(files = files, pdata = pdata,
