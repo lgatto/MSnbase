@@ -229,11 +229,12 @@ setMethod("pData", "Chromatograms", function(object) pData(phenoData(object)))
 #' @rdname Chromatograms-class
 #'
 #' @description \code{pData<-}: replace the phenotype data.
-setReplaceMethod("pData", "Chromatograms", function(object, value) {
-    pData(object@phenoData) <- value
-    if (validObject(object))
-        object
-})
+setReplaceMethod("pData", c("Chromatograms", "data.frame"),
+                 function(object, value) {
+                     pData(object@phenoData) <- value
+                     if (validObject(object))
+                         object
+                 })
 
 #' @rdname Chromatograms-class
 #'

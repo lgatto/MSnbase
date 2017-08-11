@@ -11,7 +11,7 @@
 \alias{plot,Chromatograms,ANY-method}
 \alias{phenoData,Chromatograms-method}
 \alias{pData,Chromatograms-method}
-\alias{pData<-,Chromatograms,ANY-method}
+\alias{pData<-,Chromatograms,data.frame-method}
 \alias{$,Chromatograms-method}
 \alias{$<-,Chromatograms-method}
 \alias{colnames<-,Chromatograms-method}
@@ -35,7 +35,7 @@ Chromatograms(data, phenoData, ...)
 
 \S4method{pData}{Chromatograms}(object)
 
-\S4method{pData}{Chromatograms,ANY}(object) <- value
+\S4method{pData}{Chromatograms,data.frame}(object) <- value
 
 \S4method{$}{Chromatograms}(x, name)
 
