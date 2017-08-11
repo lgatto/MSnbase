@@ -225,7 +225,9 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       details. For whole experiments, where all MS1 and MS2 spectra are
       expected to be in the same, albeit possibly different modes, it is
       advised to assign the majority result for MS1 and MS2 spectra,
-      rather than results for individual spectra.</p></dd>
+      rather than results for individual spectra.
+    See also <code><a href='isCentroidedFromFile.html'>isCentroidedFromFile</a></code> that accessed the mode
+      directly from the raw data file.</p></dd>
     <dt>smoothed,smoothed&lt;-</dt><dd><p><code>smoothed(signature(object="OnDiskMSnExp", msLevel. =
       "numeric"))</code>: whether individual spectra are smoothed or
       unsmoothed. The relevant information is extracted from the
@@ -939,9 +941,8 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt;   FALSE  58   0
 #&gt;   TRUE    0 451</div><div class='input'>
 <span class='no'>odmse2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>f</span>, <span class='kw'>centroided</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>),
-                     <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: row names were found from a short variable and have been discarded</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Unexpected acquisition number order detected.</span>
-#&gt; <span class='warning'>Please contact the maintainers or open an issue</span>
-#&gt; <span class='warning'>on https://github.com/lgatto/MSnbase.</span></div><div class='output co'>#&gt; <span class='error'>Error in `row.names&lt;-.data.frame`(`*tmp*`, value = value): invalid 'row.names' length</span></div><div class='input'><span class='fu'>table</span>(<span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='no'>odmse</span>), <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt;        
+                     <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)
+<span class='fu'>table</span>(<span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='no'>odmse</span>), <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt;        
 #&gt;           1   2
 #&gt;   FALSE  58   0
 #&gt;   TRUE    0 451</div><div class='input'>
