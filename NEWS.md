@@ -1,5 +1,8 @@
 # MSnbase 2.3
 
+## Changes in version 2.3.10
+- Nothing yet
+
 ## Changes in version 2.3.9
 - Using new mzR::openIdfile backend to add identifcation data to raw
   and quantitative data (see issue #232) <2017-07-28 Fri>
