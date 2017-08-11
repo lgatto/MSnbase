@@ -660,3 +660,46 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     }
     do.call(cbind, res)
 }
+
+##' The function extracts the mode (profile or centroided) from the
+##' raw mass spectrometry file by parsing the mzML file directly. If
+##' the object `x` stems from any other type of file, `NA`s are
+##' returned.
+##'
+##' This function is much faster than [isCentroided()], which
+##' estimates mode from the data, but is limited to data stemming from
+##' mzML files which are still available in their original location
+##' (and accessed with `fileNames(x)`).
+##' 
+##' @title Get mode from mzML data file
+##' @param x An object of class [OnDiskMSnExp-class].
+##' @return A named `logical` vector of the same length as `x`.
+##' @md
+##' @author Laurent Gatto
+##' @examples
+##' library("msdata")
+##' f <- proteomics(full.names = TRUE,
+##'                 pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
+##' x <- readMSData(f, mode = "onDisk")
+##' table(isCentroidedFromFile(x), msLevel(x))
+isCentroidedFromFile <- function(x) {
+    stopifnot(inherits(x, "OnDiskMSnExp"))
+    fs <- fileNames(x)
+    if (!all(fex <- file.exists(fs)))
+        stop(sum(!fex), " files not found.")
+    ## iterate over all files
+    res <- vector("list", length = length(fs))
+    for (i in seq_along(fs)) {
+        f <- fs[i]
+        if (.fileExt(f) != "mzML")
+            .res <- rep(NA, length(x))
+        else .res <- .isCentroidedFromFile(f)
+        names(.res) <- MSnbase:::formatFileSpectrumNames(i, seq(length(.res)))
+        ## keep only features in x
+        k <- match(featureNames(filterFile(x, i)), names(.res))
+        res[[i]] <- .res[k]
+    }
+    res <- unlist(res)
+    ## reorder
+    res[featureNames(x)]
+}

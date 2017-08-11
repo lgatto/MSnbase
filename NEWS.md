@@ -1,7 +1,7 @@
 # MSnbase 2.3
 
 ## Changes in version 2.3.10
-- Nothing yet
+- New isCentroidedFromFile function <2017-08-11 Fri>
 
 ## Changes in version 2.3.9
 - Using new mzR::openIdfile backend to add identifcation data to raw

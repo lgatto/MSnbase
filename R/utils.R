@@ -1094,27 +1094,20 @@ countAndPrint <- function(x) {
 ##' @param x An instance of \code{MSnExp} or \code{OnDiskMSnExp}
 ##' @return A \code{logical}
 ##' @noRd
-.isCentroidedFromFile <- function(x) {
-    f <- fileNames(x)
-    if (.fileExt(f) != "mzML") {
-        return(rep(NA, length(x)))
-    } else {
-        if (!requireNamespace("XML"))
-            stop("Please install the XML package to use this functionality.")
-        xml <- XML::xmlParse(f)
-        x <- XML::xpathSApply(xml,
-                              "//x:spectrum/x:cvParam[@accession='MS:1000127' or @accession='MS:1000128']/../@index |
+.isCentroidedFromFile <- function(f) {
+    if (!requireNamespace("XML"))
+        stop("Please install the XML package to use this functionality.")
+    xml <- XML::xmlParse(f)
+    x <- XML::xpathSApply(xml,
+                          "//x:spectrum/x:cvParam[@accession='MS:1000127' or @accession='MS:1000128']/../@index |
                     //x:cvParam[@accession='MS:1000127' or @accession='MS:1000128']/@name",
                     namespaces = c(x = "http://psi.hupo.org/ms/mzml"))
-        index <- as.double(x[seq(1, length(x), by = 2)])
-        res <- rep(NA, length(index))
-        res[grepl("centroid", x[seq(2, length(x), by = 2)])] <- TRUE
-        res[grepl("profile",  x[seq(2, length(x), by = 2)])] <- FALSE
-        res
-    }
+    index <- as.double(x[seq(1, length(x), by = 2)])
+    res <- rep(NA, length(index))
+    res[grepl("centroid", x[seq(2, length(x), by = 2)])] <- TRUE
+    res[grepl("profile",  x[seq(2, length(x), by = 2)])] <- FALSE
+    res
 }
-
-
 
 ## Returns the extension of the file. If that extension is on of the
 ## usual archive extensions, as defined in gexts, then the last part
