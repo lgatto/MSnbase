@@ -1135,11 +1135,6 @@ character to describe the `method` to be used:
 * `sum`: Each feature's reporter intensity is divided by the sum of the
   reporter ions intensities.
 
-* `iPQF`: A spectra-to-protein summarisation method integrates peptide
-  spectra characteristics and quantitative values for protein
-  quantitation estimation. See `?iPQF` and references therein for
-  details.
-
 See `?normalise` for more methods. A `scale` method for *MSnSet*
 instances, that relies on the `base::scale` function.
 
@@ -1285,6 +1280,11 @@ defined functions with `fun=function(x) { ... }`. We will use the
 qnt2 <- combineFeatures(qnt, groupBy = gb, fun = "median")
 qnt2
 ```
+
+Of interest is also the `iPQF` spectra-to-protein summarisation
+method, which integrates peptide spectra characteristics and
+quantitative values for protein quantitation estimation. See `?iPQF`
+and references therein for details.
 
 # Label-free MS2 quantitation {#sec:lf}
 
