@@ -256,16 +256,18 @@ selectFeatureData <- function(object,
 .selectShinyFeatureData <- function(object) {
     sel <- fv <- fvarLabels(object)
     on.exit(return(sel))
-
     ui <- shiny::fluidPage(
         title = 'Examples of DataTables',
         shiny::sidebarLayout(
-            shiny::sidebarPanel(
-                shiny::checkboxGroupInput('vars', 'Feature variables',
-                               as.list(fv), selected = sel)),
-            shiny::mainPanel(shiny::dataTableOutput('fd'))))
-
+                   shiny::sidebarPanel(
+                              actionButton("stop", "Stop app"),
+                              shiny::checkboxGroupInput('vars', 'Feature variables',
+                                                        as.list(fv), selected = sel)),
+                   shiny::mainPanel(shiny::dataTableOutput('fd'))))    
     server <- function(input, output) {
+        observeEvent(input$stop, {
+            stopApp(returnValue = sel)
+        })        
         output$fd <- shiny::renderDataTable({
             sel <<- input$vars
             fData(object)[, input$vars, drop = FALSE]
