@@ -237,8 +237,7 @@ msexp <- readMSData(quantFile)
 ## add identification information
 msexp <- addIdentificationData(msexp, identFile)
 
-## access featureData; please note the multiple identification data
-## for spectrum 1 (row 1)
+## access featureData
 fData(msexp)
 
 idSummary(msexp)
