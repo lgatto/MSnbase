@@ -260,13 +260,13 @@ selectFeatureData <- function(object,
         title = 'Examples of DataTables',
         shiny::sidebarLayout(
                    shiny::sidebarPanel(
-                              actionButton("stop", "Stop app"),
+                              shiny::actionButton("stop", "Stop app"),
                               shiny::checkboxGroupInput('vars', 'Feature variables',
                                                         as.list(fv), selected = sel)),
                    shiny::mainPanel(shiny::dataTableOutput('fd'))))    
     server <- function(input, output) {
-        observeEvent(input$stop, {
-            stopApp(returnValue = sel)
+        shiny::observeEvent(input$stop, {
+            shiny::stopApp(returnValue = sel)
         })        
         output$fd <- shiny::renderDataTable({
             sel <<- input$vars
