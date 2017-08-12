@@ -31,7 +31,9 @@
   If after filtering, more then one PSM per spectrum are still present,
   these are combined (reduced, see
   \code{\link{reduce,data.frame-method}}) into a single row and
-  separated by a semi-colon.
+  separated by a semi-colon. This has as side-effect that feature
+  variables that are being reduced are converted to characters. See the
+  \code{reduce} manual page for examples.
 
   See also the section about identification data in the
   \emph{MSnbase-demo} vignette for details and additional examples.
