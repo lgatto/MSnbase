@@ -694,7 +694,7 @@ isCentroidedFromFile <- function(x) {
         if (.fileExt(f) != "mzML")
             .res <- rep(NA, length(x))
         else .res <- .isCentroidedFromFile(f)
-        names(.res) <- MSnbase:::formatFileSpectrumNames(i, seq(length(.res)))
+        names(.res) <- formatFileSpectrumNames(i, seq(length(.res)))
         ## keep only features in x
         k <- match(featureNames(filterFile(x, i)), names(.res))
         res[[i]] <- .res[k]
