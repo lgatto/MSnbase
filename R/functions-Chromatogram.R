@@ -90,8 +90,11 @@ names(.SUPPORTED_AGG_FUN_CHROM) <-
 #'     was used to aggregate intensity values for the same retention time across
 #'     the mz range. Supported are \code{"sum"} (total ion chromatogram),
 #'     \code{"max"} (base peak chromatogram), \code{"min"} and \code{"mean"}.
+#'
+#' @param msLevel \code{integer} with the MS level from which the chromatogram
+#'     was extracted.
 #' 
-#' @slot .__classVersion__,rtime,intensity,mz,filterMz,precursorMz,productMz,fromFile,aggregationFun See corresponding parameter above.
+#' @slot .__classVersion__,rtime,intensity,mz,filterMz,precursorMz,productMz,fromFile,aggregationFun,msLevel See corresponding parameter above.
 #' 
 #' @rdname Chromatogram-class
 Chromatogram <- function(rtime = numeric(), intensity = numeric(),
@@ -100,7 +103,8 @@ Chromatogram <- function(rtime = numeric(), intensity = numeric(),
                          precursorMz = c(NA_real_, NA_real_),
                          productMz = c(NA_real_, NA_real_),
                          fromFile = integer(),
-                         aggregationFun = character()) {
+                         aggregationFun = character(),
+                         msLevel = 1L) {
     ## Check if we have to re-order the data (issue #145).
     if (is.unsorted(rtime)) {
         idx <- order(rtime)
@@ -110,7 +114,8 @@ Chromatogram <- function(rtime = numeric(), intensity = numeric(),
     new("Chromatogram", rtime = rtime, intensity = intensity,
         mz = range(mz), filterMz = range(filterMz),
         precursorMz = range(precursorMz), productMz = range(productMz),
-        fromFile = as.integer(fromFile), aggregationFun = aggregationFun)
+        fromFile = as.integer(fromFile), aggregationFun = aggregationFun,
+        msLevel = msLevel)
 }
 
 #' @description Plot a single Chromatogram object

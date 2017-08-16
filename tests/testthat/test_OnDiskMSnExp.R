@@ -349,6 +349,7 @@ test_that("chromatogram,OnDiskMSnExp works", {
     rtr <- matrix(c(280, 300, 20, 40), nrow = 2,
                   byrow = TRUE)  ## Only present in first, or 2nd file
     res <- chromatogram(onDisk, rt = rtr)
+    expect_true(all(unlist(lapply(res, msLevel)) == 1))
     ## Check fromFile
     for (i in 1:ncol(res))
         expect_true(all(sapply(res[, i], fromFile) == i))
@@ -368,6 +369,12 @@ test_that("chromatogram,OnDiskMSnExp works", {
     spctr <- split(spectra(flt), fromFile(flt))
     ints <- unlist(lapply(spctr[[1]], function(z) sum(intensity(z))))
     expect_equal(ints, intensity(res[2, 2]))
+
+    ## Check chromatogram with non-present MS level
+    expect_warning(tmp <- chromatogram(onDisk, rt = rtr, msLevel = 2L))
+    expect_equal(nrow(tmp), 0)
+    tmp <- chromatogram(onDisk, rt = rtr, msLevel = 1:10)
+    expect_equal(tmp, res)
 })
 
 ## Test the two versions that could/might be called by the

@@ -18,12 +18,13 @@
 \alias{filterRt,Chromatogram-method}
 \alias{clean,Chromatogram-method}
 \alias{plot,Chromatogram,ANY-method}
+\alias{msLevel,Chromatogram-method}
 \title{Representation of chromatographic MS data}
 \usage{
 Chromatogram(rtime = numeric(), intensity = numeric(), mz = c(NA_real_,
   NA_real_), filterMz = c(NA_real_, NA_real_), precursorMz = c(NA_real_,
   NA_real_), productMz = c(NA_real_, NA_real_), fromFile = integer(),
-  aggregationFun = character())
+  aggregationFun = character(), msLevel = 1L)
 
 aggregationFun(object)
 
@@ -52,6 +53,8 @@ productMz(object)
 \S4method{plot}{Chromatogram,ANY}(x, col = "#00000060", lty = 1,
   type = "l", xlab = "retention time", ylab = "intensity", main = NULL,
   ...)
+
+\S4method{msLevel}{Chromatogram}(object)
 }
 \arguments{
 \item{rtime}{\code{numeric} with the retention times (length has to be equal
@@ -83,6 +86,9 @@ from which the chromatogram was extracted.}
 was used to aggregate intensity values for the same retention time across
 the mz range. Supported are \code{"sum"} (total ion chromatogram),
 \code{"max"} (base peak chromatogram), \code{"min"} and \code{"mean"}.}
+
+\item{msLevel}{\code{integer} with the MS level from which the chromatogram
+was extracted.}
 
 \item{object}{A \code{Chromatogram} object.}
 
@@ -168,6 +174,8 @@ The \code{Chromatogram} class is designed to store
     \code{\link{clean}} documentation for more details and examples.
 
 \code{plot}: plots a \code{Chromatogram} object.
+
+\code{msLevel} returns the MS level of the chromatogram.
 }
 \details{
 The \code{mz}, \code{filterMz}, \code{precursorMz} and
@@ -185,7 +193,7 @@ The \code{mz}, \code{filterMz}, \code{precursorMz} and
 \section{Slots}{
 
 \describe{
-\item{\code{.__classVersion__,rtime,intensity,mz,filterMz,precursorMz,productMz,fromFile,aggregationFun}}{See corresponding parameter above.}
+\item{\code{.__classVersion__,rtime,intensity,mz,filterMz,precursorMz,productMz,fromFile,aggregationFun,msLevel}}{See corresponding parameter above.}
 }}
 
 \examples{
