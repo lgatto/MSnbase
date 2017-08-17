@@ -55,7 +55,9 @@ test_that("Chromatogram accessors", {
     chr@msLevel <- 1:4
     expect_equal(msLevel(chr), 1:4)
     expect_true(validObject(chr))
-    
+
+    chr <- Chromatogram(intensity = int, rt = rt, msLevel = 4)
+    expect_equal(msLevel(chr), 4L)
 })
 
 test_that("clean,Chromatogram works", {

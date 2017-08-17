@@ -115,7 +115,7 @@ Chromatogram <- function(rtime = numeric(), intensity = numeric(),
         mz = range(mz), filterMz = range(filterMz),
         precursorMz = range(precursorMz), productMz = range(productMz),
         fromFile = as.integer(fromFile), aggregationFun = aggregationFun,
-        msLevel = msLevel)
+        msLevel = as.integer(msLevel))
 }
 
 #' @description Plot a single Chromatogram object
