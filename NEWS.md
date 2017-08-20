@@ -1,7 +1,9 @@
 # MSnbase 2.3
 
 ## Changes in version 2.3.10
-- New isCentroidedFromFile function <2017-08-11 Fri>
+- New `isCentroidedFromFile` function <2017-08-11 Fri>
+- `calculateFragments` now just calculate fragments for all `n - 1L` bonds
+    (before it incorrectly adds an additional bond; fixes #248) <2017-08-20 Sun>
 
 ## Changes in version 2.3.9
 - Using new mzR::openIdfile backend to add identifcation data to raw
