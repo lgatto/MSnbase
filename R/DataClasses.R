@@ -558,7 +558,8 @@ setClass("Chromatogram",
              precursorMz = "numeric", ## Or call that Q1mz?
              productMz = "numeric",   ## Or call that Q3mz?
              fromFile = "integer",
-             aggregationFun = "character"
+             aggregationFun = "character",
+             msLevel = "integer"
          ),
          contains = "Versioned",
          prototype = prototype(
@@ -569,7 +570,8 @@ setClass("Chromatogram",
              precursorMz = c(NA_real_, NA_real_),
              productMz = c(NA_real_, NA_real_),
              fromFile = integer(),
-             aggregationFun = character()
+             aggregationFun = character(),
+             msLevel = 1L
          ),
          validity = function(object)
              .validChromatogram(object)

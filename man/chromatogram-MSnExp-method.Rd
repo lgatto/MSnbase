@@ -7,7 +7,7 @@
 \title{Extract chromatogram object(s)}
 \usage{
 \S4method{chromatogram}{MSnExp}(object, rt, mz, aggregationFun = "sum",
-  missing = NA_real_, BPPARAM = bpparam())
+  missing = NA_real_, msLevel = 1L, BPPARAM = bpparam())
 }
 \arguments{
 \item{object}{For \code{chromatogram}: a \code{\linkS4class{MSnExp}} or
@@ -34,6 +34,9 @@ intensity value aggregation along the mz dimension. Allowed values are
 \item{missing}{\code{numeric(1)} allowing to specify the intensity value for
 if for a given retention time (spectrum) no signal was measured within
 the mz range. Defaults to \code{NA_real_}.}
+
+\item{msLevel}{\code{integer} specifying the MS level from which the
+chromatogram should be extracted. Defaults to \code{msLevel = 1L}.}
 
 \item{BPPARAM}{Parallelisation backend to be used, which will
 depend on the architecture. Default is
