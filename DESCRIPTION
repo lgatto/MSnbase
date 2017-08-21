@@ -80,7 +80,7 @@ Suggests:
     rgl,
     rpx,
     AnnotationHub,
-    BiocStyle,
+    BiocStyle (>= 2.5.19),
     rmarkdown,
     imputeLCMD,
     norm,

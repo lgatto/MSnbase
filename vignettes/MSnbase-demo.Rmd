@@ -14,7 +14,7 @@ abstract: >
  throughput-high data analysis pipelines provided by the Bioconductor
  [@Gentleman2004] project.
 output:
-  BiocStyle::html_document2:
+  BiocStyle::html_document:
     toc_float: true
 bibliography: MSnbase.bib	
 vignette: >
