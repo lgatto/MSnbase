@@ -430,6 +430,9 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #'     if for a given retention time (spectrum) no signal was measured within
 #'     the mz range. Defaults to \code{NA_real_}.
 #'
+#' @param msLevel \code{integer} specifying the MS level from which the
+#'     chromatogram should be extracted. Defaults to \code{msLevel = 1L}.
+#'
 #' @param BPPARAM Parallelisation backend to be used, which will
 #'     depend on the architecture. Default is
 #'     \code{BiocParallel::bparam()}.
@@ -488,6 +491,7 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 setMethod("chromatogram", "MSnExp", function(object, rt, mz,
                                              aggregationFun = "sum",
                                              missing = NA_real_,
+                                             msLevel = 1L,
                                              BPPARAM = bpparam()){
     if (!missing(rt))
         if (is.null(ncol(rt)))
@@ -498,6 +502,7 @@ setMethod("chromatogram", "MSnExp", function(object, rt, mz,
     res <- .extractMultipleChromatograms(object, rt = rt, mz = mz,
                                          aggregationFun = aggregationFun,
                                          missingValue = missing,
+                                         msLevel = msLevel,
                                          BPPARAM = BPPARAM)
     res <- as(res, "Chromatograms")
     res@phenoData <- object@phenoData

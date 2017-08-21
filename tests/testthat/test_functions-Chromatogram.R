@@ -31,6 +31,9 @@ test_that("Chromatogram construction works", {
     expect_error(Chromatogram(aggregationFun = "other"))
     chr@aggregationFun <- "max"
     expect_true(validObject(chr))
+
+    chr_2 <- Chromatogram(intensity = int, rtime = rt, msLevel = 2L)
+    expect_equal(chr_2@msLevel, 2L)
 })
 
 test_that(".plotChromatogram works", {

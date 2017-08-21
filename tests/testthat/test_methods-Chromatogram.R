@@ -47,6 +47,17 @@ test_that("Chromatogram accessors", {
     expect_equal(productMz(chr), 432)
     chr <- Chromatogram(intensity = int, rt = rt, productMz = 432)
     expect_equal(productMz(chr), c(432, 432))
+
+    ## msLevel
+    chr@msLevel <- 2L
+    expect_equal(msLevel(chr), 2L)
+    expect_true(validObject(chr))
+    chr@msLevel <- 1:4
+    expect_equal(msLevel(chr), 1:4)
+    expect_true(validObject(chr))
+
+    chr <- Chromatogram(intensity = int, rt = rt, msLevel = 4)
+    expect_equal(msLevel(chr), 4L)
 })
 
 test_that("clean,Chromatogram works", {

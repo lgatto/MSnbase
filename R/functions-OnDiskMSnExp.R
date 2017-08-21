@@ -603,16 +603,20 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
                             spct <- filterMz(spct, filter_mz)
                             ## Now aggregate the values.
                             if (!spct@peaksCount)
-                                return(c(NA_real_, NA_real_, missingValue))
+                                return(c(NA_real_, NA_real_, missingValue,
+                                         NA_real_))
                             c(range(spct@mz, na.rm = TRUE, finite = TRUE),
                               do.call(aggFun, list(spct@intensity,
-                                                   na.rm = TRUE)))
+                                                   na.rm = TRUE)),
+                              spct@msLevel)
                         }, filter_mz = mzm[i, ], aggFun = aggFun)
                     ## Now build the Chromatogram class.
                     allVals <- unlist(cur_sps, use.names = FALSE)
-                    idx <- seq(3, length(allVals), by = 3)
-                    ## Or should we drop the names completely?
-                    ints <- allVals[idx]
+                    ## Index for intensity values.
+                    int_idx <- seq(3, length(allVals), by = 4)
+                    ## Index for MS level
+                    mslevel_idx <- seq(4, length(allVals), by = 4)
+                    ints <- allVals[int_idx]
                     names(ints) <- names(cur_sps)
                     ## If no measurement is non-NA, still report the NAs and
                     ## use the filter mz as mz. We hence return a
@@ -621,15 +625,17 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
                     ## values being NA
                     mz_range <- mzm[i, ]
                     if (!all(is.na(ints)))
-                        mz_range <- range(allVals[-idx], na.rm = TRUE,
-                                          finite = TRUE)
+                        mz_range <- range(allVals[-c(int_idx, mslevel_idx)],
+                                          na.rm = TRUE, finite = TRUE)
                     cur_res[[i]] <- Chromatogram(
                         rtime = rts[in_rt],
                         intensity = ints,
                         mz = mz_range,
                         filterMz = mzm[i, ],
                         fromFile = as.integer(cur_file),
-                        aggregationFun = aggFun)
+                        aggregationFun = aggFun,
+                        msLevel = as.integer(unique(allVals[mslevel_idx]))
+                        )
                 }
                 cur_res
             }, MoreArgs = list(rtm = rt, mzm = mz, aggFun = aggregationFun),

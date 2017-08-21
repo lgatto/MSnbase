@@ -19,6 +19,7 @@ setMethod("show", "Chromatogram", function(object) {
         rtr <- range(object@rtime)
         cat("rt range: [", rtr[1], ", ", rtr[2], "]\n", sep = "")
     }
+    cat("MS level: ", paste(object@msLevel, collapse = ", "), "\n", sep = "")
 })
 
 #' @description \code{rtime} returns the retention times for the rentention time
@@ -188,3 +189,10 @@ setMethod("plot", signature = signature("Chromatogram"),
               .plotChromatogram(x = x, col = col, lty = lty, type = type,
                                 xlab = xlab, ylab = ylab, main = main, ...)
           })
+
+#' @description \code{msLevel} returns the MS level of the chromatogram.
+#' 
+#' @rdname Chromatogram-class
+setMethod("msLevel", "Chromatogram", function(object) {
+    object@msLevel
+})
