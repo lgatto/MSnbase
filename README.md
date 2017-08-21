@@ -23,8 +23,7 @@ The official page is the Bioconductor landing page
 ([release](http://www.bioconductor.org/packages/release/bioc/html/MSnbase.html) or
 [devel](http://www.bioconductor.org/packages/devel/bioc/html/MSnbase.html) versions). The
 [github page](https://github.com/lgatto/MSnbase) page is for active
-development, issue tracking and forking/pulling
-purposes. 
+development, issue tracking and forking/pulling purposes. 
 
 To get an overview of the package, see
 the
