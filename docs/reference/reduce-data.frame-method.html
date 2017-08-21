@@ -114,15 +114,28 @@ used as primary key.</p></td>
 
     <p>A reduced <code>data.frame</code>.</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>An important side-effect of reducing a `data.frame` is that all
+columns other than the key are converted to characters when they
+are collapsed to a semi-column separated value (even if only one
+value is present) as soon as one observation of transformed.</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>dfr</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>A</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>),
-                  <span class='kw'>B</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"x"</span>, <span class='st'>"y"</span>, <span class='st'>"z"</span>),
+                  <span class='kw'>B</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"x"</span>, <span class='st'>"x"</span>, <span class='st'>"z"</span>),
                   <span class='kw'>C</span> <span class='kw'>=</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>3</span>])
 <span class='no'>dfr</span></div><div class='output co'>#&gt;   A B C
 #&gt; 1 1 x A
-#&gt; 2 1 y B
-#&gt; 3 2 z C</div><div class='input'><span class='fu'>reduce</span>(<span class='no'>dfr</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"A"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in reduce(dfr, key = "A"): could not find function "reduce"</span></div></pre>
+#&gt; 2 1 x B
+#&gt; 3 2 z C</div><div class='input'><span class='no'>dfr2</span> <span class='kw'>&lt;-</span> <span class='fu'>reduce</span>(<span class='no'>dfr</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"A"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in reduce(dfr, key = "A"): could not find function "reduce"</span></div><div class='input'><span class='no'>dfr2</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'dfr2' not found</span></div><div class='input'><span class='co'>## column A used as key is still num</span>
+<span class='fu'>str</span>(<span class='no'>dfr2</span>)</div><div class='output co'>#&gt; <span class='error'>Error in str(dfr2): object 'dfr2' not found</span></div><div class='input'><span class='no'>dfr3</span> <span class='kw'>&lt;-</span> <span class='fu'>reduce</span>(<span class='no'>dfr</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"B"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in reduce(dfr, key = "B"): could not find function "reduce"</span></div><div class='input'><span class='no'>dfr3</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'dfr3' not found</span></div><div class='input'><span class='co'>## A is converted to chr; B remains factor</span>
+<span class='fu'>str</span>(<span class='no'>dfr3</span>)</div><div class='output co'>#&gt; <span class='error'>Error in str(dfr3): object 'dfr3' not found</span></div><div class='input'><span class='no'>dfr4</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>A</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>,
+                   <span class='kw'>B</span> <span class='kw'>=</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>3</span>],
+                   <span class='kw'>C</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>TRUE</span>, <span class='fl'>FALSE</span>, <span class='fl'>NA</span>))
+<span class='co'>## No effect of reducing, column classes are maintained</span>
+<span class='fu'>str</span>(<span class='fu'>reduce</span>(<span class='no'>dfr4</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"B"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in reduce(dfr4, key = "B"): could not find function "reduce"</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -130,6 +143,8 @@ used as primary key.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

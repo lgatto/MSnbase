@@ -92,7 +92,7 @@
 
     <pre class="usage"><span class='co'># S4 method for MSnExp</span>
 <span class='fu'>chromatogram</span>(<span class='no'>object</span>, <span class='no'>rt</span>, <span class='no'>mz</span>, <span class='kw'>aggregationFun</span> <span class='kw'>=</span> <span class='st'>"sum"</span>,
-  <span class='kw'>missing</span> <span class='kw'>=</span> <span class='fl'>NA_real_</span>, <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>bpparam</span>())</pre>
+  <span class='kw'>missing</span> <span class='kw'>=</span> <span class='fl'>NA_real_</span>, <span class='kw'>msLevel</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>bpparam</span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -131,6 +131,11 @@ intensity value aggregation along the mz dimension. Allowed values are
       <td><p><code>numeric(1)</code> allowing to specify the intensity value for
 if for a given retention time (spectrum) no signal was measured within
 the mz range. Defaults to <code>NA_real_</code>.</p></td>
+    </tr>
+    <tr>
+      <th>msLevel</th>
+      <td><p><code>integer</code> specifying the MS level from which the
+chromatogram should be extracted. Defaults to <code>msLevel = 1L</code>.</p></td>
     </tr>
     <tr>
       <th>BPPARAM</th>
@@ -201,7 +206,8 @@ depend on the architecture. Default is
 #&gt; length of object: 198
 #&gt; from file: 2
 #&gt; mz range: [95.51765, 1005.043]
-#&gt; rt range: [0.486, 66.7818]</div><div class='input'>
+#&gt; rt range: [0.486, 66.7818]
+#&gt; MS level: 1</div><div class='input'>
 <span class='co'>## Plot the TIC for the first file</span>
 <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>tic</span>[<span class='fl'>1</span>, <span class='fl'>1</span>]), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>tic</span>[<span class='fl'>1</span>, <span class='fl'>1</span>]), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>,
     <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"rtime"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"intensity"</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"TIC"</span>)</div><img src='chromatogram-MSnExp-method-6.png' alt='' width='540' height='400' /><div class='input'>
@@ -218,13 +224,15 @@ depend on the architecture. Default is
 #&gt; Intensity values aggregated using: sum 
 #&gt; length of object: 0
 #&gt; from file: 1
-#&gt; mz range: [NA, NA]</div><div class='input'>
+#&gt; mz range: [NA, NA]
+#&gt; MS level: 1</div><div class='input'>
 <span class='co'>## Also the Chromatogram for the second range in the second file is empty</span>
 <span class='no'>chrs</span>[<span class='fl'>2</span>, <span class='fl'>2</span>]</div><div class='output co'>#&gt; Object of class: Chromatogram
 #&gt; Intensity values aggregated using: sum 
 #&gt; length of object: 0
 #&gt; from file: 2
-#&gt; mz range: [NA, NA]</div><div class='input'>
+#&gt; mz range: [NA, NA]
+#&gt; MS level: 1</div><div class='input'>
 <span class='co'>## Get the extracted chromatogram for the first range in the second file</span>
 <span class='no'>chr</span> <span class='kw'>&lt;-</span> <span class='no'>chrs</span>[<span class='fl'>1</span>, <span class='fl'>2</span>]
 <span class='no'>chr</span></div><div class='output co'>#&gt; Object of class: Chromatogram
@@ -232,7 +240,8 @@ depend on the architecture. Default is
 #&gt; length of object: 148
 #&gt; from file: 2
 #&gt; mz range: [140.0022, 159.9989]
-#&gt; rt range: [10.24602, 59.71602]</div><div class='input'>
+#&gt; rt range: [10.24602, 59.71602]
+#&gt; MS level: 1</div><div class='input'>
 <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>chr</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>chr</span>), <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"rtime"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"intensity"</span>)</div><img src='chromatogram-MSnExp-method-14.png' alt='' width='540' height='400' /></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

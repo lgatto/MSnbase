@@ -126,13 +126,15 @@
     <code>clean</code>: Removes unused 0-intensity data points. See
     <code><a href='clean-methods.html'>clean</a></code> documentation for more details and examples.
 
-    <code>plot</code>: plots a <code>Chromatogram</code> object.</p>
+    <code>plot</code>: plots a <code>Chromatogram</code> object.
+
+    <code>msLevel</code> returns the MS level of the chromatogram.</p>
     
 
     <pre class="usage"><span class='fu'>Chromatogram</span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fu'>numeric</span>(), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'>numeric</span>(), <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>NA_real_</span>,
   <span class='fl'>NA_real_</span>), <span class='kw'>filterMz</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>NA_real_</span>, <span class='fl'>NA_real_</span>), <span class='kw'>precursorMz</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>NA_real_</span>,
   <span class='fl'>NA_real_</span>), <span class='kw'>productMz</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>NA_real_</span>, <span class='fl'>NA_real_</span>), <span class='kw'>fromFile</span> <span class='kw'>=</span> <span class='fu'>integer</span>(),
-  <span class='kw'>aggregationFun</span> <span class='kw'>=</span> <span class='fu'>character</span>())
+  <span class='kw'>aggregationFun</span> <span class='kw'>=</span> <span class='fu'>character</span>(), <span class='kw'>msLevel</span> <span class='kw'>=</span> <span class='fl'>1L</span>)
 
 <span class='fu'>aggregationFun</span>(<span class='no'>object</span>)
 
@@ -171,7 +173,10 @@
 <span class='co'># S4 method for Chromatogram,ANY</span>
 <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"#00000060"</span>, <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"retention time"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"intensity"</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>)</pre>
+  <span class='no'>...</span>)
+
+<span class='co'># S4 method for Chromatogram</span>
+<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>object</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -221,6 +226,11 @@ from which the chromatogram was extracted.</p></td>
 was used to aggregate intensity values for the same retention time across
 the mz range. Supported are <code>"sum"</code> (total ion chromatogram),
 <code>"max"</code> (base peak chromatogram), <code>"min"</code> and <code>"mean"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>msLevel</th>
+      <td><p><code>integer</code> with the MS level from which the chromatogram
+was extracted.</p></td>
     </tr>
     <tr>
       <th>object</th>
@@ -306,7 +316,7 @@ will be used as plot title.</p></td>
 
     
     <dl class='dl-horizontal'>
-<dt><code>.__classVersion__,rtime,intensity,mz,filterMz,precursorMz,productMz,fromFile,aggregationFun</code></dt><dd><p>See corresponding parameter above.</p></dd>
+<dt><code>.__classVersion__,rtime,intensity,mz,filterMz,precursorMz,productMz,fromFile,aggregationFun,msLevel</code></dt><dd><p>See corresponding parameter above.</p></dd>
 </dl>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -330,7 +340,8 @@ will be used as plot title.</p></td>
 #&gt; length of object: 100
 #&gt; from file: 
 #&gt; mz range: [NA, NA]
-#&gt; rt range: [1, 100]</div><div class='input'>
+#&gt; rt range: [1, 100]
+#&gt; MS level: 1</div><div class='input'>
 <span class='co'>## Extract intensities</span>
 <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>chr</span>)</div><div class='output co'>#&gt;   [1] 140.0043517  25.5317055 243.7263611   0.5571287  62.1552721 114.8411606
 #&gt;   [7] 182.1817661  24.7325302  24.4199607  28.2705449  55.3699384  62.8982042
@@ -367,7 +378,8 @@ will be used as plot title.</p></td>
 #&gt; length of object: 1000
 #&gt; from file: 
 #&gt; mz range: [NA, NA]
-#&gt; rt range: [0.002530252, 23.75382]</div><div class='input'>
+#&gt; rt range: [0.002530252, 23.75382]
+#&gt; MS level: 1</div><div class='input'>
 <span class='co'>## Get the intensities</span>
 <span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>chr</span>))</div><div class='output co'>#&gt; [1] 1658.884 1828.917 1971.020 1935.111 1965.487 1752.787</div><div class='input'>
 <span class='co'>## Get the retention time</span>

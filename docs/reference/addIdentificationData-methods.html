@@ -109,7 +109,9 @@
 <p>If after filtering, more then one PSM per spectrum are still present,
   these are combined (reduced, see
   <code><a href='reduce-data.frame-method.html'>reduce,data.frame-method</a></code>) into a single row and
-  separated by a semi-colon.</p>
+  separated by a semi-colon. This has as side-effect that feature
+  variables that are being reduced are converted to characters. See the
+  <code>reduce</code> manual page for examples.</p>
 <p>See also the section about identification data in the
   <em>MSnbase-demo</em> vignette for details and additional examples.</p>
 <p>After addition of the identification data, new feature variables are
@@ -238,8 +240,7 @@
 <span class='co'>## add identification information</span>
 <span class='no'>msexp</span> <span class='kw'>&lt;-</span> <span class='fu'>addIdentificationData</span>(<span class='no'>msexp</span>, <span class='no'>identFile</span>)
 
-<span class='co'>## access featureData; please note the multiple identification data</span>
-<span class='co'>## for spectrum 1 (row 1)</span>
+<span class='co'>## access featureData</span>
 <span class='fu'>fData</span>(<span class='no'>msexp</span>)</div><div class='output co'>#&gt;       spectrum acquisition.number          sequence chargeState rank
 #&gt; F1.S1        1                  1 VESITARHGEVLQLRPK           3    1
 #&gt; F1.S2        2                  2     IDGQWVTHQWLKK           3    1
