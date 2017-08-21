@@ -21,6 +21,9 @@ addons:
 r_packages:
   - covr
 
+r_github_packages:
+  - Bioconductor/BiocStyle
+
 # before_script:
 #   - echo "BiocParallel::register(BiocParallel::SerialParam())" > ~/.Rprofile
   
