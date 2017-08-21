@@ -26,6 +26,11 @@ The official page is the Bioconductor landing page
 development, issue tracking and forking/pulling
 purposes. 
 
+To get an overview of the package, see
+the
+[*MSnbase-demo*](https://lgatto.github.io/MSnbase/articles/MSnbase-demo.html) vignette. More
+vignettes are available in the *Articles* tab. 
+
 ## Installation
 
 To install *[MSnbase](http://bioconductor.org/packages/MSnbase)*
@@ -46,10 +51,11 @@ biocLite("lgatto/MSnbase")
 
 ## Questions
 
-General questions should be asked on the
-[Bioconductor support forum](https://support.bioconductor.org/), using
-`MSnbase` to tag the question. Feel also free to open a GitHub
-[issue](https://github.com/lgatto/MSnbase/issues).
+General questions should be asked on
+the [Bioconductor support forum](https://support.bioconductor.org/),
+using `MSnbase` to tag the question. Feel also free to open a
+GitHub [issue](https://github.com/lgatto/MSnbase/issues), in
+particular for bug reports.
 
 ## Citation
 
@@ -75,3 +81,4 @@ some background on the class infrastructure.
 Please note that this project is released with a
 [Contributor Code of Conduct](https://github.com/lgatto/MSnbase/blob/master/CONDUCT.md). By
 participating in this project you agree to abide by its terms.
+
