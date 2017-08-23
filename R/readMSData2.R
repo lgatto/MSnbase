@@ -4,6 +4,18 @@ readMSData2 <- function(files,
                         verbose = isMSnbaseVerbose(),
                         centroided.,
                         smoothed. = NA) {
+    msg <- 'readMSData(..., mode = "onDisk")'
+    .Deprecated(paste(strwrap(msg), collapse = "\n"))
+    if (missing(msLevel.)) msLevel. <- NULL
+    if (missing(centroided.)) centroided. <- NA
+    readOnDiskMSData(files = files, pdata = pdata,
+                     msLevel. = msLevel., verbose = verbose,
+                     centroided. = centroided., smoothed. = smoothed.)
+}
+
+
+readOnDiskMSData <- function(files, pdata, msLevel., verbose,
+                             centroided., smoothed.) {
     .testReadMSDataInput(environment())
     ## Creating environment with Spectra objects
     assaydata <- new.env(parent = emptyenv())
@@ -24,10 +36,8 @@ readMSData2 <- function(files,
         filen <- match(f, files)
         filenums <- c(filenums, filen)
         filenams <- c(filenams, f)
-        if (isCdfFile(f))
-            msdata <- mzR::openMSfile(f, backend = "netCDF")
-        else
-            msdata <- mzR::openMSfile(f)
+        ## issue #214: define backend based on file format.
+        msdata <- .openMSfile(f)
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
         spidx <- seq_len(nrow(fullhd))
@@ -37,9 +47,10 @@ readMSData2 <- function(files,
         ## Don't read the individual spectra, just define the names of
         ## the spectra.
         fullhdorder <- c(fullhdorder,
-                         sprintf(paste0("X%0",
-                                        ceiling(log10(length(spidx) + 1L)),
-                                        "d.%s"), 1:length(spidx), filen))
+                          formatFileSpectrumNames(fileIds=filen,
+                                                  spectrumIds=seq_along(spidx),
+                                                  nSpectra=length(spidx),
+                                                  nFiles=length(files)))
         ## Extract all Spectrum info from the header and put it into the featureData
         fdData <- fullhd[spidx, , drop = FALSE]
         ## rename totIonCurrent and peaksCount, as detailed in
@@ -51,14 +62,10 @@ readMSData2 <- function(files,
         ## o centroided and smoothed are parameter argument.
         fdData <- cbind(fileIdx = rep(filen, nrow(fdData)),
                         spIdx = spidx,
-                        centroided = rep(as.logical(NA), nrow(fdData)),
+                        centroided = rep(NA, nrow(fdData)),
                         smoothed = rep(as.logical(smoothed.), nrow(fdData)),
                         fdData, stringsAsFactors = FALSE)
-        if (!isCdfFile(f)) {
-            injt <- injectionTimeFromFile1(f)
-            if (is.numeric(injt) && length(injt) == nrow(fdData))
-                fdData$injectionTime <- injt
-        } else {
+        if (isCdfFile(f)) {
             ## Add the polarity columns if missing in netCDF
             if (!any(colnames(fdData) == "polarity"))
                 fdData <- cbind(fdData, polarity = rep(as.integer(NA),
@@ -139,11 +146,11 @@ readMSData2 <- function(files,
                processingData = process,
                experimentData = expdata,
                .cache  =  .cacheEnv)
-    if (!missing(msLevel.)) {
+    if (!is.null(msLevel.)) {
         msLevel. <- as.integer(msLevel.)
         res <- filterMsLevel(res, msLevel.)
     }
-    if (!missing(centroided.)) {
+    if (!is.null(centroided.)) {
         stopifnot(is.logical(centroided.))
         if (length(centroided.) == 1) {
             centroided(res) <- centroided.

@@ -59,7 +59,7 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
     expect_equal(length(aa), 5)
     expect_that(nrow(header(aa)), equals(length(aa)))
     expect_that(names(header(aa)),
-                equals(c("file", "retention.time",
+                equals(c("fileIdx", "retention.time",
                          "precursor.mz", "precursor.intensity",
                          "charge", "peaks.count","tic","ionCount",
                          "ms.level", "acquisition.number",
@@ -86,19 +86,22 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
     expect_equal(dim(fData(aa)), c(5, 1))
     expect_equal(dim(pData(aa)), c(1, 1))
     ## subsetting
-    expect_true(all.equal(aa[["X4.1"]], assayData(aa)[["X4.1"]]))
+    k <- k1 <- featureNames(aa)[1]
+    k2 <- featureNames(aa)[2]
+    expect_true(all.equal(aa[[k]], assayData(aa)[[k]]))
     sub.aa <- aa[1:2]
-    expect_true(all.equal(sub.aa[["X1.1"]], assayData(sub.aa)[["X1.1"]]))
-    expect_true(all.equal(sub.aa[["X2.1"]], assayData(sub.aa)[["X2.1"]]))
+    expect_true(all.equal(sub.aa[[k1]], assayData(sub.aa)[[k1]]))
+    expect_true(all.equal(sub.aa[[k2]], assayData(sub.aa)[[k2]]))
     expect_equal(fData(sub.aa), fData(aa)[1:2, , drop = FALSE])
     my.prec <- precursorMz(aa)[1]
     my.prec.aa <- extractPrecSpectra(aa, my.prec)
     expect_true(all(precursorMz(my.prec.aa) == my.prec))
     expect_equal(length(my.prec.aa), 2)
-    expect_equal(ls(assayData(my.prec.aa)), paste0("X", c(1,3), ".1"))
+    expect_equal(ls(assayData(my.prec.aa)), paste0("F1.S", c(1,3)))
     ## subsetting errors
     expect_error(aa[[1:3]], "subscript out of bounds")
-    expect_error(aa[c("X1.1","X2.1")], "subsetting works only with numeric or logical")
+    expect_error(aa[c("F1.S1","F1.S2")],
+                 "subsetting works only with numeric or logical")
     expect_error(aa[["AA"]], "object 'AA' not found")
     expect_error(aa[1:10], "subscript out of bounds")
     ## testing that accessors return always attributes in same order
@@ -151,10 +154,7 @@ context("MSnExp processing")
 context("MSnExp data")
 
 test_that("spectra order and integrity", {
-    file <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                full.name = TRUE,
-                pattern = "mzXML$")
-    aa <- readMSData(file, verbose = FALSE, centroided. = FALSE)
+    aa <- extdata_mzXML_in_mem_ms2
     clean.aa <- clean(aa, verbose = FALSE)
     rmpeaks.aa <- removePeaks(aa, verbose = FALSE)
     expect_equal(ls(assayData(clean.aa)), ls(assayData(aa)))
@@ -193,31 +193,23 @@ test_that("addIdentificationData", {
                      full.name = TRUE, pattern = "mzXML$")
     identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                      full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-
-    expect_error(addIdentificationData(new("MSnExp"),
-                                       identFile, verbose = FALSE),
+    expect_error(addIdentificationData(new("MSnExp"), identFile),
                  "No feature data found.")
-
-    aa <- readMSData(quantFile, verbose = FALSE)
-
-    expect_error(addIdentificationData(aa, "foobar.mzid",
-                                       verbose = FALSE),
-                 "does not exist")
-
+    aa <- extdata_mzXML_in_mem_ms2
+    expect_error(addIdentificationData(aa, "foobar.mzid"),
+                 "not found")
     fd <- fData(addIdentificationData(aa, identFile, verbose = FALSE))
-
     expect_equal(fd$spectrum, 1:5)
-    expect_equal(fd$pepseq,
+    expect_equal(fd$sequence,
                  c("VESITARHGEVLQLRPK", "IDGQWVTHQWLKK",
                    NA, NA, "LVILLFR"))
-    expect_equal(fd$accession,
-                 c("ECA0984;ECA3829", "ECA1028",
-                   NA, NA, "ECA0510"))
+    expect_equal(fd$DatabaseAccess,
+                 c("ECA0984", "ECA1028", NA, NA, "ECA0510"))
     expect_equal(fd$idFile, c("dummyiTRAQ.mzid", "dummyiTRAQ.mzid", NA, NA,
                               "dummyiTRAQ.mzid"))
     expect_equal(fd$npsm.prot, c(1, 1, NA, NA, 1))
     expect_equal(fd$npep.prot, c(1, 1, NA, NA, 1))
-    expect_equal(fd$nprot, c(2, 1, NA, NA, 1))
+    expect_equal(fd$nprot, c(1, 1, NA, NA, 1))
     expect_equal(fd$npsm.pep, c(1, 1, NA, NA, 1))
 })
 
@@ -227,8 +219,8 @@ test_that("addIdentificationData to OnDiskMSnExp", {
                      full.name = TRUE, pattern = "mzXML$")
     identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                      full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-    rw1 <- readMSData(quantFile)
-    rw2 <- readMSData2(quantFile)
+    rw1 <- extdata_mzXML_in_mem_ms2
+    rw2 <- extdata_mzXML_on_disk_ms2
     expect_true(all.equal(rw1, rw2))
     rw1 <- addIdentificationData(rw1, identFile)
     rw2 <- addIdentificationData(rw2, identFile)
@@ -250,14 +242,10 @@ test_that("addIdentificationData to OnDiskMSnExp", {
 
 
 test_that("idSummary", {
-    quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                     full.name = TRUE, pattern = "mzXML$")
     identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                      full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-
-    aa <- readMSData(quantFile, verbose = FALSE)
-    bb <- addIdentificationData(aa, identFile, verbose = FALSE)
-
+    aa <- extdata_mzXML_in_mem_ms2
+    bb <- addIdentificationData(aa, identFile)
     expect_error(idSummary(aa), "No quantification/identification data found")
     expect_equal(idSummary(bb),
                  data.frame(spectrumFile="dummyiTRAQ.mzXML",
@@ -326,20 +314,19 @@ test_that("Noise estimation MSnExp", {
 })
 
 test_that("isolation window", {
-    f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
+    f <- msdata::proteomics(full.names = TRUE,
+                            pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
     i1 <- isolationWindow(f, unique = FALSE)
-    i2 <- isolationWindow(readMSData2(f), unique = FALSE)
-    i3 <- isolationWindow(readMSData(f), unique = FALSE)
+    i2 <- isolationWindow(tmt_erwinia_on_disk, unique = FALSE)
+    i3 <- isolationWindow(tmt_erwinia_in_mem_ms2, unique = FALSE)
     expect_identical(i1, i2)
     expect_identical(i1, i3)
 })
 
 test_that("spectrapply,MSnExp", {
     library(msdata)
-    mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-             system.file("microtofq/MM8.mzML", package = "msdata"))
-    inMem <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE)
-
+    inMem <- microtofq_in_mem_ms1
+    
     sps <- spectra(inMem)
     sps_2 <- spectrapply(inMem)
     expect_identical(sps, sps_2)
@@ -351,9 +338,7 @@ test_that("spectrapply,MSnExp", {
 
 test_that("splitByFile,MSnExp", {
     library(msdata)
-    mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-             system.file("microtofq/MM8.mzML", package = "msdata"))
-    inMem <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE)
+    inMem <- microtofq_in_mem_ms1
     expect_error(splitByFile(inMem, f = factor(1:3)))
     spl <- splitByFile(inMem, f = factor(c("b", "a")))
     expect_equal(spectra(spl[[1]]), spectra(filterFile(inMem, 2)))
@@ -385,4 +370,93 @@ test_that("pData<- on MSnExp works", {
     ## replace.
     pData(msx) <- newDf
     expect_equal(pData(msx), newDf)
+})
+
+test_that("injection time", {
+    f <- msdata::proteomics(full.names = TRUE, pattern = "MS3")
+    it1 <- MSnbase:::injectionTimeFromFile1(f) ## in millisecs
+    it2 <- fData(readMSData(f, mode = "onDisk"))$injectionTime ## in secs
+    expect_equal(it1/1000, it2)
+})
+
+test_that("chromatogram,MSnExp works", {
+    library(msdata)
+    mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
+             system.file("microtofq/MM8.mzML", package = "msdata"))
+    tmpd <- tempdir()
+    file.copy(mzf[1], paste0(tmpd, "a.mzML"))
+    file.copy(mzf[2], paste0(tmpd, "b.mzML"))
+    mzf <- c(mzf, paste0(tmpd, c("a.mzML", "b.mzML")))
+    
+    inMem <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE)
+
+    ## Full rt range.
+    mzr <- matrix(c(100, 120), nrow = 1)
+    res <- chromatogram(inMem, mz = mzr)
+    flt <- filterMz(inMem, mz = mzr[1, ])
+    ints <- split(unlist(lapply(spectra(flt), function(z) sum(intensity(z)))),
+                  fromFile(flt))
+    expect_equal(ints[[1]], intensity(res[1, 1]))
+    expect_equal(ints[[2]], intensity(res[1, 2]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[1, 1]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[1, 2]))
+    expect_equal(pData(inMem), pData(res))
+    
+    ## Multiple mz ranges.
+    mzr <- matrix(c(100, 120, 200, 220, 300, 320), nrow = 3, byrow = TRUE)
+    rtr <- matrix(c(50, 300), nrow = 1)
+    res <- chromatogram(inMem, mz = mzr, rt = rtr)
+    ## Check that the values for all ranges is within the specified ranges
+    for (i in 1:nrow(mzr)) {
+        expect_true(all(mz(res[i, 1]) >= mzr[i, 1] &
+                        mz(res[i, 1]) <= mzr[i, 2]))
+        expect_true(all(mz(res[i, 2]) >= mzr[i, 1] &
+                        mz(res[i, 2]) <= mzr[i, 2]))
+        expect_true(all(rtime(res[i, 1]) >= rtr[1, 1] &
+                        rtime(res[i, 1]) <= rtr[1, 2]))
+        expect_true(all(rtime(res[i, 2]) >= rtr[1, 1] &
+                        rtime(res[i, 2]) <= rtr[1, 2]))
+    }
+    ## Check that values are correct.
+    flt <- filterMz(filterRt(inMem, rt = rtr[1, ]), mz = mzr[2, ])
+    ints <- split(unlist(lapply(spectra(flt), function(z) sum(intensity(z)))),
+                  fromFile(flt))
+    expect_equal(ints[[1]], intensity(res[2, 1]))
+    expect_equal(ints[[2]], intensity(res[2, 2]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[2, 1]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[2, 2]))
+
+    ## Now with ranges for which we don't have values in one or the other.
+    rtr <- matrix(c(280, 300, 20, 40), nrow = 2,
+                  byrow = TRUE)  ## Only present in first, or 2nd file
+    res <- chromatogram(inMem, rt = rtr)
+    ## Check fromFile
+    for (i in 1:ncol(res))
+        expect_true(all(sapply(res[, i], fromFile) == i))
+    expect_equal(length(res[2, 1]), 0)
+    expect_equal(length(res[1, 2]), 0)
+    ## Check rtime
+    expect_true(all(rtime(res[1, 1]) >= rtr[1, 1] &
+                    rtime(res[1, 1]) <= rtr[1, 2]))
+    expect_true(all(rtime(res[2, 2]) >= rtr[2, 1] &
+                    rtime(res[2, 2]) <= rtr[2, 2]))
+    ## Check intensity
+    flt <- filterRt(inMem, rt = rtr[1, ])
+    spctr <- split(spectra(flt), fromFile(flt))
+    ints <- unlist(lapply(spctr[[1]], function(z) sum(intensity(z))))
+    expect_equal(ints, intensity(res[1, 1]))
+    flt <- filterRt(inMem, rt = rtr[2, ])
+    spctr <- split(spectra(flt), fromFile(flt))
+    ints <- unlist(lapply(spctr[[1]], function(z) sum(intensity(z))))
+    expect_equal(ints, intensity(res[2, 2]))
+
+    ## Check that phenoType is correctly passed.
+    pd <- data.frame(name = c("first", "second", "third", "fourth"), idx = 1:4)
+    pData(inMem) <- pd
+    chrs <- chromatogram(inMem)
+    rownames(pd) <- colnames(chrs)
+    expect_equal(pData(chrs), pd)
+
+    chrs_2 <- chromatogram(inMem, msLevel = 1:4)
+    expect_equal(chrs, chrs_2)
 })

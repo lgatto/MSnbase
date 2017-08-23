@@ -26,6 +26,7 @@
 \alias{removeReporters,OnDiskMSnExp-method}
 \alias{smooth,MSnExp-method}
 \alias{addIdentificationData,MSnExp,character-method}
+\alias{addIdentificationData,MSnExp,mzRident-method}
 \alias{addIdentificationData,MSnExp,mzIDClasses-method}
 \alias{addIdentificationData,MSnExp,mzID-method}
 \alias{addIdentificationData,MSnExp,mzIDCollection-method}
@@ -54,8 +55,8 @@
 \alias{filterAcquisitionNum,MSnExp-method}
 \alias{filterAcquisitionNum,OnDiskMSnExp-method}
 \alias{filterEmptySpectra}
-\alias{filterEmptySpecetra,MSnExp-method}
-\alias{filterEmptySpecetra,OnDiskMSnExp-method}
+\alias{filterEmptySpectra,MSnExp-method}
+\alias{filterEmptySpectra,OnDiskMSnExp-method}
 
 \alias{isCentroided,MSnExp-method}
 
@@ -83,6 +84,10 @@
   created prior to this change will not be valid anymore, since all MS2
   spectra will be missing the \code{polarity} slot. Object can be
   appropriately updated using the \code{updateObject} method.
+
+  The feature variables in the feature data slot will depend on the
+  file. See also the documentation in the \code{mzR} package that parses
+  the raw data files and produces these data. 
 
 }
 
@@ -253,6 +258,7 @@
       expected to be in the same, albeit possibly different modes, it is
       advised to assign the majority result for MS1 and MS2 spectra,
       rather than results for individual spectra. See an example below.
+      
     }
 
   }
@@ -304,6 +310,9 @@
   \code{"\linkS4class{pSet}"} and \code{\link{readMSData}} for loading
   \code{mzXML}, \code{mzData} or \code{mzML} files to generate an
   instance of \code{MSnExp}.
+
+  \code{\link{chromatogram}} to extract chromatographic data from a
+  \code{MSnExp} or \code{OnDiskMSnExp} object.
 }
 
 \examples{

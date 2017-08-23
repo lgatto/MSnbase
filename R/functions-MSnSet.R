@@ -202,7 +202,7 @@ commonFeatureNames <- function(x, y) {
     nms <- names(x)
     cmn <- Reduce(intersect, lapply(x, featureNames))
     message(paste(length(cmn), "features in common"))
-    res <- lapply(x, "[", cmn)
+    res <- lapply(x, function(xx) xx[cmn, ])
     if (!is.null(nms))
         names(res) <- nms
     return(MSnSetList(x = res,
@@ -256,16 +256,18 @@ selectFeatureData <- function(object,
 .selectShinyFeatureData <- function(object) {
     sel <- fv <- fvarLabels(object)
     on.exit(return(sel))
-
     ui <- shiny::fluidPage(
         title = 'Examples of DataTables',
         shiny::sidebarLayout(
-            shiny::sidebarPanel(
-                shiny::checkboxGroupInput('vars', 'Feature variables',
-                               as.list(fv), selected = sel)),
-            shiny::mainPanel(shiny::dataTableOutput('fd'))))
-
+                   shiny::sidebarPanel(
+                              shiny::actionButton("stop", "Stop app"),
+                              shiny::checkboxGroupInput('vars', 'Feature variables',
+                                                        as.list(fv), selected = sel)),
+                   shiny::mainPanel(shiny::dataTableOutput('fd'))))    
     server <- function(input, output) {
+        shiny::observeEvent(input$stop, {
+            shiny::stopApp(returnValue = sel)
+        })        
         output$fd <- shiny::renderDataTable({
             sel <<- input$vars
             fData(object)[, input$vars, drop = FALSE]

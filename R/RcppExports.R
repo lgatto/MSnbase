@@ -2,6 +2,6 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 imp_neighbour_avg <- function(x, k) {
-    .Call('MSnbase_imp_neighbour_avg', PACKAGE = 'MSnbase', x, k)
+    .Call('_MSnbase_imp_neighbour_avg', PACKAGE = 'MSnbase', x, k)
 }
 

@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -83,30 +85,35 @@
     
     <p>This function counts the number of quantified features, i.e
 non NA quantitation values, for each group of features
-for all the samples in an <code>&quot;<a href='MSnSet-class.html'>MSnSet</a>&quot;</code> object.
+for all the samples in an <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> object.
 The group of features are defined by a feature variable names, i.e
 the name of a column of <code>fData(object)</code>.</p>
     
 
-    <pre><span class='fu'>nQuants</span>(<span class='no'>x</span>, <span class='no'>groupBy</span>)</pre>
+    <pre class="usage"><span class='fu'>nQuants</span>(<span class='no'>x</span>, <span class='no'>groupBy</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>x</dt>
-      <dd>An instance of class <code>&quot;<a href='MSnSet-class.html'>MSnSet</a>&quot;</code>.</dd>
-      <dt>groupBy</dt>
-      <dd>An object of class <code>factor</code> defining how to
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>An instance of class <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>groupBy</th>
+      <td><p>An object of class <code>factor</code> defining how to
 summerise the features. (Note that this parameter was
 previously named <code>fcol</code> and referred to a feature
 variable label. This has been updated in version 1.19.12 for
-consistency with other functions.)</dd>
-    </dl>
+consistency with other functions.)</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A <code>matrix</code> of dimensions
     <code>length(levels(groupBy))</code> by <code>ncol(x)</code></p>
-    <p>A <code>matrix</code> of dimensions
+<p>A <code>matrix</code> of dimensions
     <code>length(levels(factor(fData(object)[, fcol])))</code> by
     <code>ncol(object)</code> of integers.</p>
     
@@ -117,7 +124,7 @@ consistency with other functions.)</dd>
 <code>sum</code>, or any function that does not normalise to the number of
 features aggregated. In the former case, sums of features might
 be the result of 0 (if no feature was quantified) to <code>n</code>
-(if all <code>topN</code>&#39;s <code>n</code> features were quantified) features,
+(if all <code>topN</code>'s <code>n</code> features were quantified) features,
 and one might want to rescale the sums based on the number of
 non-NA features effectively summed.</p>
     

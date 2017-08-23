@@ -243,7 +243,12 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
       details. For whole experiments, where all MS1 and MS2 spectra are
       expected to be in the same, albeit possibly different modes, it is
       advised to assign the majority result for MS1 and MS2 spectra,
-      rather than results for individual spectra.  }
+      rather than results for individual spectra.
+
+      See also \code{\link{isCentroidedFromFile}} that accessed the mode
+      directly from the raw data file.
+
+    }
 
     \item{smoothed,smoothed<-}{
       \code{smoothed(signature(object="OnDiskMSnExp", msLevel. =
@@ -620,8 +625,9 @@ mzsAfter <- intensity(odmse)
 head(lengths(mzs))
 head(lengths(mzsAfter))
 
-f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
-odmse <- readMSData2(f)
+f <- msdata::proteomics(full.names = TRUE,
+                        pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
+odmse <- readMSData(f, mode = "onDisk")
 validObject(odmse)
 odmse[[1]]
 
@@ -631,7 +637,8 @@ centroided(odmse, msLevel = 1) <- FALSE
 centroided(odmse, msLevel = 2) <- TRUE
 table(centroided(odmse), msLevel(odmse))
 
-odmse2 <- readMSData2(f, centroided = c(FALSE, TRUE))
+odmse2 <- readMSData(f, centroided = c(FALSE, TRUE),
+                     mode = "onDisk")
 table(centroided(odmse), msLevel(odmse))
 
 }

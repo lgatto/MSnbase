@@ -1,17 +1,18 @@
-context("readMSData2")
+context("readMSData onDisk mode")
 
 test_that("msLevel set correctly", {
-    f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
-    x <- readMSData2(f, verbose = FALSE)
+    f <- msdata::proteomics(full.names = TRUE,
+                            pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
+    x <- readMSData(f, verbose = FALSE, mode = "onDisk")
     expect_equivalent(centroided(x), rep(NA, length(x)))
-    x <- readMSData2(f, centroided = TRUE, verbose = FALSE)
+    x <- readMSData(f, centroided = TRUE, verbose = FALSE, mode = "onDisk")
     expect_equivalent(centroided(x), rep(TRUE, length(x)))
-    x <- readMSData2(f, centroided = FALSE, verbose = FALSE)
+    x <- readMSData(f, centroided = FALSE, verbose = FALSE, mode = "onDisk")
     expect_equivalent(centroided(x), rep(FALSE, length(x)))
-    x <- readMSData2(f, centroided = c(FALSE, TRUE), verbose = FALSE)
+    x <- readMSData(f, centroided = c(FALSE, TRUE), verbose = FALSE, mode = "onDisk")
     expect_true(all(centroided(filterMsLevel(x, msLevel = 2))))
-    expect_true(all(!centroided(filterMsLevel(x, msLevel = 1))))
-    x2 <- readMSData2(f, centroided = c(FALSE, TRUE, NA, NA), verbose = FALSE)
+    expect_true(all(!centroided(filterMsLevel(x, msLevel = 1))))    
+    x2 <- readMSData(f, centroided = c(FALSE, TRUE, NA, NA), verbose = FALSE, mode = "onDisk")
     expect_identical(centroided(x), centroided(x2))
 })
 
@@ -35,8 +36,8 @@ test_that("msLevel set correctly", {
 
 mzf <- .getMzMLFiles(TRUE)[1:2]
 
-## Load the data with readMSData2
-odmse <- readMSData2(files = mzf, centroided = TRUE)
+## Load the data with readMSData mode = onDisk
+odmse <- readMSData(files = mzf, centroided = TRUE, mode = "onDisk")
 
 test_that("Constructor performance and test for MS1 only", {
     featDat <- fData(odmse)
@@ -52,9 +53,9 @@ test_that("Constructor performance and test for MS1 only", {
 
 test_that("Constructor performance and test for MSn", {
     ## Get the test data file.
-    mzf <- system.file("proteomics/TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz",
-                       package = "msdata")
-    odmsn <- readMSData2(files = mzf, centroided = TRUE)
+    mzf <- proteomics(full.name = TRUE,
+                      pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
+    odmsn <- readMSData(files = mzf, centroided = TRUE, mode = "onDisk")
     featDat <- fData(odmsn)
     featDat <- featDat[featDat$fileIdx == 1, ]
     ## Compare the constructors, i.e. the "new" and the C-level one for Spectrum1 and Spectrum2.
@@ -67,10 +68,10 @@ test_that("Constructor performance and test for MSn", {
     ## expect_equal(spR, spM)
 })
 
-test_that("readMSData and readMSData2 reading CDF", {
+test_that("readMSData inMemory and onDisk reading CDF", {
     library(msdata)
     f <- system.file("cdf/ko15.CDF",  package = "msdata")
-    odmse <- readMSData2(f)
-    mse <- readMSData(f, msLevel. = 1)
+    odmse <- readMSData(f, mode = "onDisk")
+    mse <- readMSData(f, msLevel. = 1, mode = "inMemory")
     all.equal(spectra(odmse), spectra(mse))
 })

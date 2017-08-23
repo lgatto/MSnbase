@@ -4,6 +4,15 @@ test_that("MSnSet validity", {
     expect_true(validObject(new("MSnSet")))
 })
 
+test_that("MSnSet acquisitionNum", {
+    data(msnset)
+    expect_equal(acquisitionNum(msnset),
+                 setNames(featureData(msnset)$acquisition.number,
+                          featureNames(msnset)))
+    featureData(msnset)$acquisition.number <- NULL
+    expect_error(acquisitionNum(msnset), "has no column")
+})
+
 test_that("MSnSet validity for empty feature names", {
     data(msnset)
     expect_true(validObject(msnset))
@@ -276,31 +285,27 @@ context("MSnSet identification data")
 test_that("addIdentificationData", {
   quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "mzXML$")
-
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-
-  aa <- readMSData(quantFile, verbose = FALSE, centroided. = FALSE)
+  aa <- extdata_mzXML_in_mem_ms2
   msnset <- quantify(aa, method = "trap", reporters = iTRAQ4,
                      BPPARAM = SerialParam(),
                      verbose = FALSE)
   fd <- fData(addIdentificationData(msnset, identFile, verbose = FALSE))
-
   expect_equal(fd$spectrum, 1:5)
   expect_equal(fd$file, rep(1, 5))
   expect_equal(fd$acquisition.number, 1:5)
-  expect_equal(fd$pepseq,
+  expect_equal(fd$sequence,
                c("VESITARHGEVLQLRPK", "IDGQWVTHQWLKK",
                  NA, NA, "LVILLFR"))
-  expect_equal(fd$accession,
-               c("ECA0984;ECA3829", "ECA1028",
-                 NA, NA, "ECA0510"))
+  expect_equal(fd$DatabaseAccess,
+               c("ECA0984", "ECA1028", NA, NA, "ECA0510"))
   expect_equal(fd$idFile, c("dummyiTRAQ.mzid", "dummyiTRAQ.mzid", NA, NA,
                             "dummyiTRAQ.mzid"))
   expect_equal(fd$npsm.prot, c(1, 1, NA, NA, 1))
   expect_equal(fd$npsm.pep, c(1, 1, NA, NA, 1))
   expect_equal(fd$npep.prot, c(1, 1, NA, NA, 1))
-  expect_equal(fd$nprot, c(2, 1, NA, NA, 1))
+  expect_equal(fd$nprot, c(1, 1, NA, NA, 1))
 })
 
 test_that("idSummary", {
@@ -308,7 +313,8 @@ test_that("idSummary", {
                    full.name = TRUE, pattern = "mzXML$")
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-  aa <- readMSData(quantFile, centroided. = FALSE)
+  ## aa <- readMSData(quantFile, centroided. = FALSE)
+  aa <- extdata_mzXML_in_mem_ms2
   msnset <- quantify(aa, method = "trap", reporters = iTRAQ4,
                      BPPARAM = SerialParam())
   bb <- addIdentificationData(msnset, identFile)

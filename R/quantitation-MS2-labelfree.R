@@ -1,5 +1,5 @@
-count_MSnSet <- function(object) {
-    object <- removeNoId(object)
+count_MSnSet <- function(object, pepseq) {
+    object <- removeNoId(object, pepseq)
     .exprs <- matrix(1, ncol = 1, nrow = length(object))
     rownames(.exprs) <- featureNames(object)
     colnames(.exprs) <- sampleNames(object)
@@ -74,8 +74,8 @@ tic_MSnSet <- function(object) {
 ## Griffin et al. 2010, PMID: 20010810
 SI <- function(object,
                method = c("SI", "SIgi", "SIn"),
-               groupBy = "accession",
-               plength = "length",
+               groupBy = "DatabaseAccess",
+               plength = "DBseqLength",
                verbose = isMSnbaseVerbose()) {
     method <- match.arg(method)
     if (!plength %in% fvarLabels(object))
@@ -109,8 +109,9 @@ SI <- function(object,
 ## Paoletti et al. 2006, PMID: 17138671
 SAF <- function(object,
                 method = c("SAF", "NSAF"),
-                groupBy = "accession",
-                plength = "length",
+                groupBy = "DatabaseAccess",
+                plength = "DBseqLength",
+                pepseq = "sequence",
                 verbose = isMSnbaseVerbose()) {
     method <- match.arg(method)
     if (!plength %in% fvarLabels(object))
@@ -119,7 +120,7 @@ SAF <- function(object,
     if (!groupBy %in% fvarLabels(object))
         stop(groupBy,
              " not found in fvarLabel(.). 'groupBy' must a feature variable")
-    object <- count_MSnSet(object)
+    object <- count_MSnSet(object, pepseq)
 
     groupBy <- as.factor(fData(object)[, groupBy])
 

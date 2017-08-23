@@ -94,12 +94,15 @@ Spectra2_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
                                precursorCharge = NA_integer_,
                                collisionEnergy = NA, nvalues = integer()) {
     ## Argument check; make sure all is OK before calling C.
-    if (length(mz) == 0 | length(intensity) == 0 | length(nvalues) == 0) {
-        stop("Arguments 'mz', 'intensity' and 'nvalues' are required!")
-    } else {
-        if (length(mz) != length(intensity))
-            stop("Lengths of 'mz' and 'intensity' do not match!")
-    }
+    ## Fix issue #215: remove check to allow empty spectra
+    ## if (length(mz) == 0 | length(intensity) == 0 | length(nvalues) == 0) {
+    ##     stop("Arguments 'mz', 'intensity' and 'nvalues' are required!")
+    ## }
+    if (sum(nvalues) != length(mz))
+        stop("Length of 'mz' does not match with the number of values per ",
+             "spectrum")
+    if (length(mz) != length(intensity))
+        stop("Lengths of 'mz' and 'intensity' do not match!")
     nvals <- length(nvalues)
     ## Now match all of the lengths to the length of nvalues.
     if (length(peaksCount) == 0)
@@ -339,12 +342,11 @@ Spectrum2_mz_sorted <- function(msLevel = 2L, peaksCount = length(mz), rt = nume
     ## Define the class versions.
     versions <- list(Spectrum = getClassVersionString("Spectrum"),
                      Spectrum2 = getClassVersionString("Spectrum2"))
-    res <- .Call("Spectrum2_constructor_mz_sorted",
-                 msLevel, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
-                 intensity, fromFile, centroided, smoothed, polarity,
-                 merged, precScanNum, precursorMz, precursorIntensity,
-                 precursorCharge, collisionEnergy,
-                 TRUE, lapply(versions, .versionToNum),
-                 PACKAGE = "MSnbase")
-    return(res)
+    .Call("Spectrum2_constructor_mz_sorted",
+          msLevel, peaksCount, rt, acquisitionNum, scanIndex, tic, mz,
+          intensity, fromFile, centroided, smoothed, polarity,
+          merged, precScanNum, precursorMz, precursorIntensity,
+          precursorCharge, collisionEnergy,
+          TRUE, lapply(versions, .versionToNum),
+          PACKAGE = "MSnbase")
 }

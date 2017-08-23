@@ -165,6 +165,7 @@ setMethod("quantify",
                    parallel, ## replaced by BPPARAM
                    BPPARAM,
                    qual = TRUE,
+                   pepseq = "sequence",
                    verbose = isMSnbaseVerbose(),
                    ...) {
               if (!missing(parallel))
@@ -186,7 +187,7 @@ setMethod("quantify",
                   quantify_MSnExp(object, method, reporters, strict,
                                   BPPARAM, qual, verbose)
               } else if (method == "count") {
-                  count_MSnSet(object)
+                  count_MSnSet(object, pepseq)
               } else {
                   ## the following assumes that the appropriate fcols are available
                   object <- utils.removeNoIdAndMultipleAssignments(object)
@@ -263,59 +264,74 @@ setMethod("removeReporters", "MSnExp",
           })
 
 setMethod("addIdentificationData", c("MSnExp", "character"),
-          function(object, id,
-                   fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"),
-                   verbose = isMSnbaseVerbose()) {
-              addIdentificationData(object, id = mzID(id, verbose = verbose),
-                                    fcol = fcol, icol = icol)
-          })
+    function(object, id,
+             fcol = c("spectrum.file", "acquisition.number"),
+             icol = c("spectrumFile", "acquisitionNum"),
+             acc = "DatabaseAccess",
+             desc = "DatabaseDescription",
+             pepseq = "sequence",
+             key = "spectrumID",
+             decoy = "isDecoy",
+             rank = "rank",
+             accession = acc,
+             verbose = isMSnbaseVerbose(),
+             ...)
+        .addCharacterIdentificationData(object, id, fcol, icol, acc,
+                                        desc, pepseq, key, decoy,
+                                        rank, accession, verbose, ...))
+
+setMethod("addIdentificationData", c("MSnExp", "mzRident"),
+        function(object, id,
+                 fcol = c("spectrum.file", "acquisition.number"),
+                 icol = c("spectrumFile", "acquisitionNum"),
+                 acc = "DatabaseAccess",
+                 desc = "DatabaseDescription",
+                 pepseq = "sequence",
+                 key = "spectrumID",
+                 decoy = "isDecoy",
+                 rank = "rank",
+                 accession = acc,
+                 verbose = isMSnbaseVerbose(),
+                 ...)
+            .addMzRidentIdentificationData(object, id, fcol, icol,
+                                           acc, desc, pepseq, key,
+                                           decoy, rank, accession,
+                                           verbose, ...))
 
 setMethod("addIdentificationData", c("MSnExp", "mzIDClasses"),
-          function(object, id,
-                   fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"), ...) {
-              addIdentificationData(object, id = flatten(id),
-                                    fcol = fcol, icol = icol)
-          })
+        function(object, id,
+                 fcol = c("spectrum.file", "acquisition.number"),
+                 icol = c("spectrumFile", "acquisitionnum"),
+                 acc = "accession",
+                 desc = "description",
+                 pepseq = "pepseq",
+                 key = "spectrumid",
+                 decoy = "isdecoy",
+                 rank = "rank",
+                 accession = acc,
+                 verbose = isMSnbaseVerbose(),
+                 ...)
+            .addMzIDIdentificationData(object, id, fcol, icol, acc,
+                                       desc, pepseq, key, decoy, rank,
+                                       accession, verbose,...))
 
 setMethod("addIdentificationData", c("MSnExp", "data.frame"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"), ...) {
-              ## we temporaly add the spectrum.file/acquisition.number information
-              ## to our fData data.frame because
-              ## utils.mergeSpectraAndIdentificationData needs this information
-              ## for matching (it is present in MSnSet)
-              fd <- fData(object)
-
-              if (!nrow(fd))
-                  stop("No feature data found.")
-
-              fd$spectrum.file <- basename(fileNames(object)[fromFile(object)])
-              fd$acquisition.number <- acquisitionNum(object)
-
-              fd <- utils.mergeSpectraAndIdentificationData(fd, id,
-                                                            fcol = fcol,
-                                                            icol = icol)
-
-              ## after adding the identification data we remove the
-              ## temporary data to avoid duplication and problems in quantify
-              cn <- colnames(fd)
-              keep <- cn[!(cn %in% c("spectrum.file", "acquisition.number"))]
-              fData(object)[, keep] <- fd[, keep, drop=FALSE]
-
-              if (validObject(object))
-                  return(object)
-          })
+                   icol, acc, desc, pepseq, key, decoy, rank,
+                   accession = acc, verbose = isMSnbaseVerbose(), ...)
+              .addDataFrameIdentificationData(object, id, fcol, icol,
+                                              acc, desc, pepseq, key,
+                                              decoy, rank, accession,
+                                              verbose, ...))
 
 setMethod("removeNoId", "MSnExp",
-          function(object, fcol = "pepseq", keep=NULL)
+          function(object, fcol = "sequence", keep=NULL)
               utils.removeNoId(object, fcol, keep))
 
 setMethod("removeMultipleAssignment", "MSnExp",
-          function(object, fcol = "nprot")
-              utils.removeMultipleAssignment(object, fcol))
+          function(object, nprot = "nprot")
+              utils.removeMultipleAssignment(object, nprot))
 
 
 setMethod("idSummary", "MSnExp",
@@ -334,6 +350,7 @@ setMethod("isCentroided", "MSnExp",
               ctrd <- lapply(pkl, .isCentroided, ...)
               ctrd <- unlist(ctrd, use.names = FALSE)
               if (verbose) print(table(ctrd, msLevel(object)))
+              names(ctrd) <- featureNames(object)
               ctrd
           })
 
@@ -353,4 +370,143 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
     })
     names(res) <- levels(f)
     return(res)
+})
+
+#' @title Extract chromatogram object(s)
+#'
+#' @aliases chromatogram
+#'
+#' @description The \code{chromatogram} method extracts chromatogram(s) from an
+#'     \code{\linkS4class{MSnExp}} or \code{\linkS4class{OnDiskMSnExp}} object.
+#'     Depending on the provided parameters this can be a total ion chromatogram
+#'     (TIC), a base peak chromatogram (BPC) or an extracted ion chromatogram
+#'     (XIC) extracted from each sample/file.
+#'
+#' @details Arguments \code{rt} and \code{mz} allow to specify the MS
+#'     data slice from which the chromatogram should be extracted.
+#'     The parameter \code{aggregationSum} allows to specify the function to be
+#'     used to aggregate the intensities across the mz range for the same
+#'     retention time. Setting \code{aggregationFun = "sum"} would e.g. allow
+#'     to calculate the \emph{total ion chromatogram} (TIC),
+#'     \code{aggregationFun = "max"} the \emph{base peak chromatogram} (BPC).
+#'     The length of the extracted \code{\link[MSnbase]{Chromatogram}} object,
+#'     i.e. the number of available data points, corresponds to the number of
+#'     scans/spectra measured in the specified retention time range. If in a
+#'     specific scan (for a give retention time) no signal was measured in the
+#'     specified mz range, a \code{NA_real_} is reported as intensity for the
+#'     retention time (see Notes for more information). This can be changed
+#'     using the \code{missing} parameter.
+#'
+#'     By default or if \code{mz} and/or \code{rt} are numeric vectors, the
+#'     function extracts one \code{\link{Chromatogram}} object for each file
+#'     in the \code{\linkS4class{MSnExp}} or \code{\linkS4class{OnDiskMSnExp}}
+#'     object. Providing a numeric matrix with argument \code{mz} or \code{rt}
+#'     enables to extract multiple chromatograms per file, one for each row in
+#'     the matrix. If the number of columns of \code{mz} or \code{rt} are not
+#'     equal to 2, \code{range} is called on each row of the matrix.
+#' 
+#' @param object For \code{chromatogram}: a \code{\linkS4class{MSnExp}} or
+#'     \code{\linkS4class{OnDiskMSnExp}} object from which the chromatogram
+#'     should be extracted.
+#'
+#' @param rt A \code{numeric(2)} or two-column \code{matrix} defining the lower
+#'     and upper boundary for the retention time range/window(s) for the
+#'     chromatogram(s). If a \code{matrix} is provided, a chromatogram is
+#'     extracted for each row. If not specified, a chromatogram representing the
+#'     full retention time range is extracted. See examples below for details.
+#'
+#' @param mz A \code{numeric(2)} or two-column \code{matrix} defining the
+#'     mass-to-charge (mz) range(s) for the chromatogram(s). For each
+#'     spectrum/retention time, all intensity values within this mz range are
+#'     aggregated to result in the intensity value for the spectrum/retention
+#'     time. If not specified, the full mz range is considered. See examples
+#'     below for details.
+#'
+#' @param aggregationFun \code{character} defining the function to be used for
+#'     intensity value aggregation along the mz dimension. Allowed values are
+#'     \code{"sum"} (TIC), \code{"max"} (BPC), \code{"min"} and \code{"mean"}.
+#'
+#' @param missing \code{numeric(1)} allowing to specify the intensity value for
+#'     if for a given retention time (spectrum) no signal was measured within
+#'     the mz range. Defaults to \code{NA_real_}.
+#'
+#' @param msLevel \code{integer} specifying the MS level from which the
+#'     chromatogram should be extracted. Defaults to \code{msLevel = 1L}.
+#'
+#' @param BPPARAM Parallelisation backend to be used, which will
+#'     depend on the architecture. Default is
+#'     \code{BiocParallel::bparam()}.
+#'
+#' @return \code{chromatogram} returns a \code{\link{Chromatograms}} object with
+#'     the number of columns corresponding to the number of files in
+#'     \code{object} and number of rows the number of specified ranges (i.e.
+#'     number of rows of matrices provided with arguments \code{mz} and/or
+#'     \code{rt}).
+#' 
+#' @author Johannes Rainer
+#'
+#' @seealso \code{\link{Chromatogram}} and \code{\link{Chromatograms}} for the
+#'     classes that represent single and multiple chromatograms.
+#'
+#' @examples
+#' ## Read a test data file.
+#' library(msdata)
+#' f <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
+#'      system.file("microtofq/MM8.mzML", package = "msdata"))
+#'
+#' ## Read the data as an MSnExp
+#' msd <- readMSData(f, msLevel = 1)
+#'
+#' ## Extract the total ion chromatogram for each file:
+#' tic <- chromatogram(msd)
+#'
+#' tic
+#'
+#' ## Extract the TIC for the second file:
+#' tic[1, 2]
+#'
+#' ## Plot the TIC for the first file
+#' plot(rtime(tic[1, 1]), intensity(tic[1, 1]), type = "l",
+#'     xlab = "rtime", ylab = "intensity", main = "TIC")
+#'
+#' ## Extract chromatograms for a MS data slices defined by retention time
+#' ## and mz ranges.
+#' rtr <- rbind(c(10, 60), c(280, 300))
+#' mzr <- rbind(c(140, 160), c(300, 320))
+#' chrs <- chromatogram(msd, rt = rtr, mz = mzr)
+#'
+#' ## Each row of the returned Chromatograms object corresponds to one mz-rt
+#' ## range. The Chromatogram for the first range in the first file is empty,
+#' ## because the retention time range is outside of the file's rt range:
+#' chrs[1, 1]
+#'
+#' ## Also the Chromatogram for the second range in the second file is empty
+#' chrs[2, 2]
+#'
+#' ## Get the extracted chromatogram for the first range in the second file
+#' chr <- chrs[1, 2]
+#' chr
+#'
+#' plot(rtime(chr), intensity(chr), xlab = "rtime", ylab = "intensity")
+setMethod("chromatogram", "MSnExp", function(object, rt, mz,
+                                             aggregationFun = "sum",
+                                             missing = NA_real_,
+                                             msLevel = 1L,
+                                             BPPARAM = bpparam()){
+    if (!missing(rt))
+        if (is.null(ncol(rt)))
+            rt <- matrix(range(rt), ncol = 2, byrow = TRUE)
+    if (!missing(mz))
+        if (is.null(ncol(mz)))
+            mz <- matrix(range(mz), ncol = 2, byrow = TRUE)
+    res <- .extractMultipleChromatograms(object, rt = rt, mz = mz,
+                                         aggregationFun = aggregationFun,
+                                         missingValue = missing,
+                                         msLevel = msLevel,
+                                         BPPARAM = BPPARAM)
+    res <- as(res, "Chromatograms")
+    res@phenoData <- object@phenoData
+    colnames(res) <- rownames(pData(object))
+    if (validObject(res))
+        res
 })

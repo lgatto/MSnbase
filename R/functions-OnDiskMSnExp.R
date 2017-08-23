@@ -156,37 +156,6 @@ validateOnDiskMSnExp <- function(object, mzTolerance=1e-6) {
     return(TRUE)
 }
 
-## ############################################################
-## ## spectrapply
-## ##
-## ## That's the main method to apply functions to the object's spectra, or
-## ## to just return a list with the spectra, if FUN is empty.
-## ## Parallel processing by file can be enabled using BPPARAM.
-## spectrapply <- function(object, FUN = NULL,
-##                         BPPARAM = bpparam(), ...) {
-##     if (!is(object, "OnDiskMSnExp"))
-##         stop("'object' is expected to be an 'OnDiskMSnExp' object!")
-##     ## Check if we would do better with serial processing:
-##     BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
-##     isOK <- validateFeatureDataForOnDiskMSnExp(fData(object))
-##     if (!is.null(isOK))
-##         stop(isOK)
-##     fDataPerFile <- base::split(fData(object),
-##                                 f = fData(object)$fileIdx)
-##     fNames <- fileNames(object)
-##     theQ <- processingQueue(object)
-##     vals <- bplapply(fDataPerFile,
-##                      FUN = .applyFun2SpectraOfFileMulti,
-##                      filenames = fNames,
-##                      queue = theQ,
-##                      APPLYFUN = FUN,
-##                      BPPARAM = BPPARAM,
-##                      ...)
-##     names(vals) <- NULL
-##     vals <- unlist(vals, recursive = FALSE)
-##     return(vals[rownames(fData(object))])
-## }
-
 ############################################################
 ## precursorValue_OnDiskMSnExp
 ##
@@ -204,26 +173,60 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     return(ps)
 }
 
-## Using the C constructor that takes all values at once and creates a
-## list of Spectrum1 objects, applies processing steps, applies the
-## provided function and returns its results - or the list of
-## Spectrum1 objects if APPLYFUN = NULL.
-## Note: enforces ordering of M/Z-intensity pairs by M/Z.
-## Arguments:
-## o fData: either a full data.frame (returned by fData(OnDiskMSnExp))
-##   or a sub-set forspecific spectra. The data.frame should ONLY
-##   CONTAIN VALUES FOR SPECTRA OF ONE FILE!
-## o filenames: fileNames(object)
-## o queue: object@spectraProcessingQueue; if lenght > 0 all
-##   processing steps will be applied to the created Spectrum1
-##   objects.
-## o APPLYFUN: the function to be applied to the Spectrum1 objects
-##   (such as ionCount etc).  If NULL the function returns the list of
-##   Spectrum1 objects.
-## o ...: additional arguments for the APPLYFUN
+#' @title Apply a function to spectra loaded from a single file
+#' 
+#' @description This function creates `Spectrum1` and `Spectrum2` objects for
+#'     the specicied spectra in one file and applies the provided function to
+#'     each of them.
+#'
+#' @details The function processes MS level 1 and > 1 separately, first reading
+#'     all mz/intensity values for each spectrum and creating then the list
+#'     of `Spectrum1` or `Spectrum2` objects using a constructor written in C
+#'     that creates all spectra in one call (i.e. using a for loop in C).
+#'     After that, depending on the arguments `queue` and `APPLYFUN` a `lapply`
+#'     call is performed applying the respective calls to each spectrum. Finally
+#'     results are ordered and returned.
+#' 
+#' @note Using the C constructor that takes all values at once and creates a
+#'     list of `Spectrum1` objects, applies processing steps, applies the
+#'     provided function and returns its results - or the list of
+#'     `Spectrum1` objects if `APPLYFUN = NULL`.
+#'
+#'     Note: enforces ordering of M/Z-intensity pairs by M/Z.
+#' 
+#' @param fData: either a full `data.frame` (returned by `fData(OnDiskMSnExp))`
+#'     or a sub-set forspecific spectra. The data.frame should ONLY
+#'     CONTAIN VALUES FOR SPECTRA OF ONE FILE!
+#'
+#' @param filenames: `fileNames(object)` with `object` being an `OnDiskMSnExp`.
+#'
+#' @param queue: `object@spectraProcessingQueue`; if `lenght > 0` all
+#'     processing steps will be applied to the created spectrum
+#'     objects.
+#' 
+#' @param APPLYFUN: the function to be applied to the spectrum objects
+#'     (such as `ionCount` etc). If `NULL` the function returns the list of
+#'     spectrum objects.
+#' 
+#' @param fastLoad: `logical(1)` whether reading the spectras' header data
+#'     should be omitted prior to retrieving the data (i.e. skip the
+#'     `mzR::header` call before calling `mzR::peaks`. The former call might be
+#'     required on some systems (so far macOS) for some files.
+#' 
+#' @param ...: additional arguments for the APPLYFUN
+#'
+#' @return `list` with either spectrum objects or the results of the function
+#'     provided with argument `APPLYFUN`.
+#'
+#' @author Johannes Rainer
+#' 
+#' @noRd
+#'
+#' @md
 .applyFun2SpectraOfFileMulti <- function(fData, filenames,
                                          queue = NULL,
                                          APPLYFUN = NULL,
+                                         fastLoad = TRUE,
                                          ...) {
     suppressPackageStartupMessages(
         require(MSnbase, quietly = TRUE)
@@ -232,21 +235,18 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     if (missing(fData) | missing(filenames))
         stop("Both 'fData' and 'filenames' are required!")
     filename <- filenames[fData[1, "fileIdx"]]
-    ## Open the file.
-    if (isCdfFile(filename))
-        fileh <- mzR::openMSfile(filename, backend = "netCDF")
-    else
-        fileh <- mzR::openMSfile(filename)
-    ## hd <- header(fileh)
-    on.exit(expr = mzR::close(fileh))
-    ## Intermediate #151 fix. Performance-wise would be nice to get rid of this.
-    on.exit(expr = gc(), add = TRUE)
+    ## issue #214: define backend based on file format.
+    fileh <- .openMSfile(filename)
     msLevel1 <- which(fData$msLevel == 1)
     msLevelN <- which(fData$msLevel > 1)
     ## Reading the header for the selecte spectra. This is to avoid getting
     ## "memory not mapped" errors when reading mz and intensity values from
-    ## certain mzML files (issue #170).
-    hd_spectra <- mzR::header(fileh, fData$spIdx)
+    ## certain mzML files (issue #170). Since this problem seems to be absent
+    ## on linux and Windows systems we allow the user to disable it.
+    ## Also we are just reading the header for the last spectrum since that
+    ## seems to fix it too.
+    if (!fastLoad)
+        hd_spectra <- mzR::header(fileh, max(fData$spIdx))
     ## Process MS1 and MSn separately
     if (length(msLevel1) >= 1) {
         ms1fd <- fData[msLevel1, , drop = FALSE]
@@ -327,12 +327,17 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
                                    nvalues = nValues)
         names(res2) <- rownames(msnfd)
         res <- c(res, res2)
+        rm(res2)
     }
-    ## Ensure that ordering is the same than in fData:
-    res <- res[match(rownames(fData), names(res))]
+    mzR::close(fileh)
+    rm(fileh)
+    ## Intermediate #151 fix. Performance-wise would be nice to get rid of this.
+    ## gc()
     ## If we have a non-empty queue, we might want to execute that too.
-    if (!is.null(APPLYFUN) | length(queue) > 0){
-        if (length(queue) > 0) {
+    do_queue <- length(queue) > 0
+    do_apply <- !is.null(APPLYFUN)
+    if (do_apply | do_queue){
+        if (do_queue) {
             if (verbose.) {
                 message("Apply lazy processing step(s):")
                 for (j in 1:length(queue))
@@ -342,145 +347,365 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         }
         res <- lapply(res, FUN = function(z, theQ, APPLF, ...){
             ## Apply the processing steps.
-            if (length(theQ) > 0) {
+            if (do_queue) {
                 for (pStep in theQ) {
                     z <- executeProcessingStep(pStep, z)
                 }
             }
-            if (is.null(APPLF)) {
-                return(z)
-            } else {
+            if (do_apply) {
                 return(do.call(APPLF, args = c(list(z), ...)))
+            } else {
+                return(z)
             }
         }, theQ = queue, APPLF = APPLYFUN, ...)
     }
-    return(res)
+    ## Ensure that ordering is the same than in fData:
+    res[match(rownames(fData), names(res))]
 }
 
-
-## Same as above, but using a for loop and the C-constructor for individual
-## Spectrum objects.
-.applyFun2SpectraOfFileSingle <- function(fData, filenames,
-                                         queue = NULL,
-                                         APPLYFUN = NULL,
-                                         ...) {
+#' @description Less memory demanding version of `applyFun2SpectraOfFileMulti`.
+#'
+#' @details This function loops through the rows of the `data.frame` passed
+#'     with argument `fData`, loads the mz and intensity values of the
+#'     respective spectrum from the original file, creates a `Spectrum` object,
+#'     executes eventual *lazy evaluation* steps (argument `queue`) and
+#'     executes, if provided, the `APPLYFUN` to the `Spectrum`.
+#'
+#' @note The function uses the *C* constructor for `Spectrum` objects that
+#'     enforces also ordering of M/Z-intensity pairs by M/Z.
+#'     Performance wise, this function is fast on gzipped mzML files but should
+#'     not be used on CDF files!
+#' 
+#' @param fData: either a full `data.frame` (returned by `fData(OnDiskMSnExp))`
+#'     or a sub-set forspecific spectra. The data.frame should ONLY
+#'     CONTAIN VALUES FOR SPECTRA OF ONE FILE!
+#'
+#' @param filenames: `fileNames(object)` with `object` being an `OnDiskMSnExp`.
+#'
+#' @param queue: `object@spectraProcessingQueue`; if `lenght > 0` all
+#'     processing steps will be applied to the created spectrum
+#'     objects.
+#' 
+#' @param APPLYFUN: the function to be applied to the spectrum objects
+#'     (such as `ionCount` etc). If `NULL` the function returns the list of
+#'     spectrum objects.
+#' 
+#' @param fastLoad: `logical(1)` whether reading the spectras' header data
+#'     should be omitted prior to retrieving the data (i.e. skip the
+#'     `mzR::header` call before calling `mzR::peaks`. The former call might be
+#'     required on some systems (so far macOS) for some files.
+#' 
+#' @param ...: additional arguments for the APPLYFUN
+#'
+#' @return `list` with either spectrum objects or the results of the function
+#'     provided with argument `APPLYFUN`.
+#'
+#' @author Johannes Rainer
+#' 
+#' @noRd
+#' @md
+.applyFun2IndividualSpectraOfFile <- function(fData, filenames,
+                                                  queue = NULL,
+                                                  APPLYFUN = NULL,
+                                                  fastLoad = TRUE,
+                                                  ...) {
     suppressPackageStartupMessages(
         require(MSnbase, quietly = TRUE)
     )
     verbose. <- isMSnbaseVerbose()
     if (missing(fData) | missing(filenames))
         stop("Both 'fData' and 'filenames' are required!")
-    filename <- filenames[fData[1, "fileIdx"]]
-    ## Open the file.
-    fileh <- mzR::openMSfile(filename)
-    hd <- header(fileh)
-    on.exit(expr = mzR::close(fileh))
-    msLevel1 <- which(fData$msLevel == 1)
-    msLevelN <- which(fData$msLevel > 1)
-    ## Process MS1 and MSn separately
-    if (length(msLevel1) >= 1) {
-        ms1fd <- fData[msLevel1, , drop = FALSE]
-        ## Reading all of the data in "one go". According to issue
-        ## #103 we should use acquisitionNum, not spectrum idx.
-        ## See issue #118 for an explanation of the match
-        allSpect <- mzR::peaks(fileh,
-                               match(ms1fd$acquisitionNum, hd$acquisitionNum))
-        ## If we have more than one spectrum the peaks function returns a list.
-        if (!is(allSpect, "list"))
-            allSpect <- list(allSpect)
-        ## Do it with a for loop.
-        res <- vector("list", nrow(ms1fd))
-        for (i in 1:nrow(ms1fd)) {
-            currentMat <- allSpect[[i]]
-            ## issue #180: use radix sorting for R >= 3.3
-            ## o <- order(currentMat[, 1], method = MSnbaseOptions()$sortMethod)
-            ## Fix for real: drop method parameter
-            o <- order(currentMat[, 1])
-            currentMat <- currentMat[o, ]
-            res[[i]] <- Spectrum1(peaksCount = nrow(currentMat),
-                                  scanIndex = ms1fd[i, "spIdx"],
-                                  rt = ms1fd[i, "retentionTime"],
-                                  acquisitionNum = ms1fd[i, "acquisitionNum"],
-                                  mz = currentMat[, 1],
-                                  intensity = currentMat[, 2],
-                                  centroided = ms1fd[i, "centroided"],
-                                  smoothed = ms1fd[i, "smoothed"],
-                                  fromFile = ms1fd[i, "fileIdx"],
-                                  polarity = ms1fd[i, "polarity"],
-                                  tic = ms1fd[i, "totIonCurrent"]
-                                  )
+    if (length(queue) > 0) {
+        if (verbose.) {
+            message("Apply lazy processing step(s):")
+            for (j in 1:length(queue))
+                message(" o '", queue[[j]]@FUN, "' with ",
+                        length(queue[[j]]@ARGS), " argument(s).")
         }
-        names(res) <- rownames(ms1fd)
-    } else {
-        res <- list()
     }
-    if (length(msLevelN) >= 1) {
-        msnfd <- fData[msLevelN, , drop = FALSE]
-        ## Reading all of the data in "one go".
-        ## See issue #118 for an explanation of the match
-        allSpect <- mzR::peaks(fileh,
-                               match(msnfd$acquisitionNum, hd$acquisitionNum))
-        ## If we have more than one spectrum the peaks function returns a list.
-        if (!is(allSpect, "list"))
-            allSpect <- list(allSpect)
-        ## Do it with a for loop.
-        res2 <- vector("list", nrow(msnfd))
-        for (i in 1:nrow(msnfd)) {
-            currentMat <- allSpect[[i]]
-            ## issue #180: use radix sorting for R >= 3.3
-            ## o <- order(currentMat[, 1], method = "radix")
-            ## o <- order(currentMat[, 1], method = MSnbaseOptions()$sortMethod)
-            o <- order(currentMat[, 1])
-            currentMat <- currentMat[o, ]
-            res2[[i]] <- Spectrum2(peaksCount = nrow(currentMat),
-                                   scanIndex = msnfd[i, "spIdx"],
-                                   rt = msnfd[i, "retentionTime"],
-                                   acquisitionNum = msnfd[i, "acquisitionNum"],
-                                   mz = currentMat[, 1],
-                                   intensity = currentMat[, 2],
-                                   centroided = msnfd[i, "centroided"],
-                                   smoothed = msnfd[i, "smoothed"],
-                                   fromFile = msnfd[i, "fileIdx"],
-                                   polarity = msnfd[i, "polarity"],
-                                   tic = msnfd[i, "totIonCurrent"],
-                                   msLevel = msnfd[i, "msLevel"],
-                                   merged = msnfd[i, "mergedScan"],
-                                   precScanNum = msnfd[i, "precursorScanNum"],
-                                   precursorMz = msnfd[i, "precursorMZ"],
-                                   precursorIntensity = msnfd[i, "precursorIntensity"],
-                                   precursorCharge = msnfd[i, "precursorCharge"],
-                                   collisionEnergy = msnfd[i, "collisionEnergy"]
-                                   )
+    filename <- filenames[fData$fileIdx[1]]
+    ## issue #214: define backend based on file format.
+    fileh <- .openMSfile(filename)
+    ## Reading the header for the selecte spectra. This is to avoid getting
+    ## "memory not mapped" errors when reading mz and intensity values from
+    ## certain mzML files (issue #170). Since this problem seems to be absent
+    ## on linux and Windows systems we allow the user to disable it.
+    ## Also we are just reading the header for the last spectrum since that
+    ## seems to fix it too.
+    if (!fastLoad)
+        hd_spectra <- mzR::header(fileh, max(fData$spIdx))
+    n_rows <- nrow(fData)
+    do_queue <- length(queue) > 0
+    do_apply <- !is.null(APPLYFUN)
+    res <- vector("list", n_rows)
+    for (i in 1:n_rows) {
+        pks <- mzR::peaks(fileh, fData$spIdx[i])
+        if (fData$msLevel[i] == 1) {
+            sp <- Spectrum1_mz_sorted(rt = fData$retentionTime[i],
+                                      acquisitionNum = fData$acquisitionNum[i],
+                                      scanIndex = fData$spIdx[i],
+                                      tic = fData$totIonCurrent[i],
+                                      mz = pks[, 1],
+                                      intensity = pks[, 2],
+                                      fromFile = fData$fileIdx[i],
+                                      centroided = fData$centroided[i],
+                                      smoothed = fData$smoothed[i],
+                                      polarity = fData$polarity[i])
+        } else {
+            sp <- Spectrum2_mz_sorted(msLevel = fData$msLevel[i],
+                                      rt = fData$retentionTime[i],
+                                      acquisitionNum = fData$acquisitionNum[i],
+                                      scanIndex = fData$spIdx[i],
+                                      tic = fData$totIonCurrent[i],
+                                      mz = pks[, 1],
+                                      intensity = pks[, 2],
+                                      fromFile = fData$fileIdx[i],
+                                      centroided = fData$centroided[i],
+                                      smoothed = fData$smoothed[i],
+                                      polarity = fData$polarity[i],
+                                      merged = fData$mergedScan[i],
+                                      precScanNum = fData$precursorScanNum[i],
+                                      precursorMz = fData$precursorMZ[i],
+                                      precursorIntensity = fData$precursorIntensity[i],
+                                      precursorCharge = fData$precursorCharge[i],
+                                      collisionEnergy = fData$collisionEnergy[i])
         }
-        names(res2) <- rownames(msnfd)
-        res <- c(res, res2)
-    }
-    ## Ensure that ordering is the same than in fData:
-    res <- res[match(rownames(fData), names(res))]
-    ## If we have a non-empty queue, we might want to execute that too.
-    if (!is.null(APPLYFUN) | length(queue) > 0){
-        if (length(queue) > 0) {
-            if (verbose.) {
-                message("Apply lazy processing step(s):")
-                for (j in 1:length(queue))
-                    message(" o '", queue[[j]]@FUN, "' with ",
-                            length(queue[[j]]@ARGS), " argument(s).")
+        ## And now go through the processing queue - if not empty...
+        if (do_queue) {
+            for (pStep in queue) {
+                sp <- executeProcessingStep(pStep, sp)
             }
         }
-        res <- lapply(res, FUN = function(z, theQ, APPLF, ...){
-            ## Apply the processing steps.
-            if (length(theQ) > 0) {
-                for (pStep in theQ) {
-                    z <- executeProcessingStep(pStep, z)
-                }
-            }
-            if (is.null(APPLF)) {
-                return(z)
-            } else {
-                return(do.call(APPLF, args = c(list(z), ...)))
-            }
-        }, theQ = queue, APPLF = APPLYFUN, ...)
+        ## Apply the function, if provided
+        if (do_apply)
+            res[[i]] <- do.call(APPLYFUN, args = c(list(sp), ...))
+        else
+            res[[i]] <- sp
     }
-    return(res)
+    names(res) <- rownames(fData)
+    mzR::close(fileh)
+    rm(fileh)
+    ## Intermediate #151 fix. Performance-wise would be nice to get rid of this.
+    ## gc()
+    res
 }
 
+
+## Extract chromatogram(s).
+#' @description This function extracts chromatograms efficiently for multiple
+#'     rt and mz ranges by loading the data per file only once and performing
+#'     the mz subsetting on the already loaded Spectrum1 classes.
+#'
+#' @note x has to be an MSnExp or OnDiskMSnExp object. The function is optimized
+#'     for OnDiskMSnExp objects such that extraction is performed in parallel
+#'     for each file.
+#' 
+#' @param rt \code{matrix} with two columns and number of rows corresponding to
+#'     the number of ranges to extract. If the number of columns of the matrix
+#'     is not equal to 2, \code{range} is called on each row.
+#'
+#' @param mz \code{matrix} with two columns and number of rows corresponding to
+#'     the number of ranges to extract. nrow of rt and mz have to match. If the
+#'     number of columns of the matrix is not equal to 2, \code{range} is
+#'     called on each row.
+#'
+#' @param x OnDiskMSnExp object from which to extract the chromatograms.
+#'
+#' @param missingValue value to be used as intensity if no signal was measured
+#'     for a given rt.
+#'
+#' @param msLevel \code{integer(1)} ensuring that the chromatogram is extracted
+#'     only for a specified MS level.
+#' 
+#' @return A \code{matrix} with the \code{Chromatogram} objects with rows
+#'     corresponding to ranges and columns to files/samples. \code{result[, 1]}
+#'     will thus return a \code{list} of \code{Chromatogram} objects for the
+#'     first sample/file, while \code{result[1, ]} returns a \code{list} of
+#'     \code{Chromatogram} objects for the same rt/mz range for all files.
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+.extractMultipleChromatograms <- function(x, rt, mz, aggregationFun = "sum",
+                                          BPPARAM = bpparam(),
+                                          missingValue = NA_real_,
+                                          msLevel = 1L) {
+    missingValue <- as.numeric(missingValue)
+    if (!any(.SUPPORTED_AGG_FUN_CHROM == aggregationFun))
+        stop("'aggregationFun' should be one of ",
+             paste0("'", .SUPPORTED_AGG_FUN_CHROM, "'", collapse = ", "))
+    ## Ensure we're working on one MS level only!
+    fns <- fileNames(x)
+    x <- filterMsLevel(x, msLevel)
+    if (length(x) == 0) {
+        warning("No MS ", msLevel, " data present.")
+        return(matrix(ncol = length(fns), nrow = 0))
+    }
+    if (missing(rt))
+        rt <- matrix(c(-Inf, Inf), nrow = 1)
+    if (missing(mz))
+        mz <- matrix(c(-Inf, Inf), nrow = 1)
+    ## Calculate the range for each row in rt 
+    if (ncol(rt) != 2)
+        rt <- t(apply(rt, MARGIN = 1, range))
+    ## Replicate if nrow rt is 1 to match nrow of mz.
+    if (nrow(rt) == 1)
+        rt <- matrix(rep(rt, nrow(mz)), ncol = 2, byrow = TRUE)
+    if (ncol(mz) != 2)
+        mz <- t(apply(mz, MARGIN = 1, range))
+    if (nrow(mz) == 1)
+        mz <- matrix(rep(mz, nrow(rt)), ncol = 2, byrow = TRUE)
+    if (nrow(rt) != nrow(mz))
+        stop("dimensions of 'rt' and 'mz' have to match")
+
+    ## Identify indices of all spectra that are within the rt ranges.
+    rtimes <- rtime(x)
+    keep_idx <- unlist(apply(rt, MARGIN = 1, function(z)
+        which(rtimes >= z[1] & rtimes <= z[2])), use.names = FALSE)
+    keep_idx <- sort(unique(as.integer(keep_idx)))
+    if (length(keep_idx) == 0)
+        return(matrix(ncol = length(fns), nrow = 0))
+    ## 1) Subset x keeping all spectra that fall into any of the provided rt
+    ##    ranges.
+    subs <- x[keep_idx]
+
+    ## 2) Call the final subsetting on each file separately.
+    subs_by_file <- splitByFile(subs, f = factor(seq_along(fileNames(subs))))
+    suppressWarnings(
+        res <- bpmapply(
+            subs_by_file,
+            match(fileNames(subs), fns),
+            FUN = function(cur_sample, cur_file, rtm, mzm, aggFun) {
+                ## Load all spectra for that file. applies also any proc steps
+                sps <- spectra(cur_sample)
+                ## Related to issue #229: can we avoid getting all spectra and
+                ## just return the intensity values for each spectrum instead?
+                rts <- rtime(cur_sample)
+                cur_res <- vector("list", nrow(rtm))
+                ## Loop through rt and mz.
+                for (i in 1:nrow(rtm)) {
+                    ## - Select all spectra within that range and call a
+                    ##   function on them that does first filterMz and then
+                    ##   aggregate the values per spectrum.
+                    in_rt <- rts >= rtm[i, 1] & rts <= rtm[i, 2]
+                    ## Return an empty Chromatogram if there is no spectrum/scan
+                    ## within the retention time range.
+                    if (!any(in_rt)) {
+                        cur_res[[i]] <- Chromatogram(
+                            filterMz = mzm[i, ],
+                            fromFile = as.integer(cur_file),
+                            aggregationFun = aggFun)
+                        next
+                    }
+                    cur_sps <- lapply(
+                        sps[in_rt],
+                        function(spct, filter_mz, aggFun) {
+                            spct <- filterMz(spct, filter_mz)
+                            ## Now aggregate the values.
+                            if (!spct@peaksCount)
+                                return(c(NA_real_, NA_real_, missingValue,
+                                         NA_real_))
+                            c(range(spct@mz, na.rm = TRUE, finite = TRUE),
+                              do.call(aggFun, list(spct@intensity,
+                                                   na.rm = TRUE)),
+                              spct@msLevel)
+                        }, filter_mz = mzm[i, ], aggFun = aggFun)
+                    ## Now build the Chromatogram class.
+                    allVals <- unlist(cur_sps, use.names = FALSE)
+                    ## Index for intensity values.
+                    int_idx <- seq(3, length(allVals), by = 4)
+                    ## Index for MS level
+                    mslevel_idx <- seq(4, length(allVals), by = 4)
+                    ints <- allVals[int_idx]
+                    names(ints) <- names(cur_sps)
+                    ## If no measurement is non-NA, still report the NAs and
+                    ## use the filter mz as mz. We hence return a
+                    ## Chromatogram with retention times of all spectra
+                    ## within the mz/rt slice, but with all intensity
+                    ## values being NA
+                    mz_range <- mzm[i, ]
+                    if (!all(is.na(ints)))
+                        mz_range <- range(allVals[-c(int_idx, mslevel_idx)],
+                                          na.rm = TRUE, finite = TRUE)
+                    cur_res[[i]] <- Chromatogram(
+                        rtime = rts[in_rt],
+                        intensity = ints,
+                        mz = mz_range,
+                        filterMz = mzm[i, ],
+                        fromFile = as.integer(cur_file),
+                        aggregationFun = aggFun,
+                        msLevel = as.integer(unique(allVals[mslevel_idx]))
+                        )
+                }
+                cur_res
+            }, MoreArgs = list(rtm = rt, mzm = mz, aggFun = aggregationFun),
+            BPPARAM = BPPARAM, SIMPLIFY = FALSE)
+    )
+    ## Ensure that the lists have the same length than there are samples!
+    fromF <- base::match(fileNames(subs), fns)
+
+    ## Jumping here if we have a file with no spectra within the rt range.
+    ## If we've got some files in which we don't have any signal in any range,
+    ## fill it with empty Chromatograms. This ensures that the result has
+    ## ALWAYS the same length/number of columns than there are samples.
+    if (length(res) != length(fns)) {
+        res_all_files <- vector(mode = "list", length = length(fns))
+        res_all_files[fromF] <- res
+        empties <- which(lengths(res_all_files) == 0)
+        ## fill these
+        for (i in empties) {
+            empty_list <- vector(mode = "list", length = nrow(rt))
+            for(j in 1:nrow(rt)) {
+                empty_list[[j]] <- Chromatogram(filterMz = mz[j, ],
+                                                fromFile = as.integer(i),
+                                                aggregationFun = aggregationFun)
+            }
+            res_all_files[[i]] <- empty_list
+        }
+        res <- res_all_files
+    }
+    do.call(cbind, res)
+}
+
+##' The function extracts the mode (profile or centroided) from the
+##' raw mass spectrometry file by parsing the mzML file directly. If
+##' the object `x` stems from any other type of file, `NA`s are
+##' returned.
+##'
+##' This function is much faster than [isCentroided()], which
+##' estimates mode from the data, but is limited to data stemming from
+##' mzML files which are still available in their original location
+##' (and accessed with `fileNames(x)`).
+##' 
+##' @title Get mode from mzML data file
+##' @param x An object of class [OnDiskMSnExp-class].
+##' @return A named `logical` vector of the same length as `x`.
+##' @md
+##' @author Laurent Gatto
+##' @examples
+##' library("msdata")
+##' f <- proteomics(full.names = TRUE,
+##'                 pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
+##' x <- readMSData(f, mode = "onDisk")
+##' table(isCentroidedFromFile(x), msLevel(x))
+isCentroidedFromFile <- function(x) {
+    stopifnot(inherits(x, "OnDiskMSnExp"))
+    fs <- fileNames(x)
+    if (!all(fex <- file.exists(fs)))
+        stop(sum(!fex), " files not found.")
+    ## iterate over all files
+    res <- vector("list", length = length(fs))
+    for (i in seq_along(fs)) {
+        f <- fs[i]
+        if (.fileExt(f) != "mzML")
+            .res <- rep(NA, length(x))
+        else .res <- .isCentroidedFromFile(f)
+        names(.res) <- formatFileSpectrumNames(i, seq(length(.res)))
+        ## keep only features in x
+        k <- match(featureNames(filterFile(x, i)), names(.res))
+        res[[i]] <- .res[k]
+    }
+    res <- unlist(res)
+    ## reorder
+    res[featureNames(x)]
+}

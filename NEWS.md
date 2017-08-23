@@ -1,10 +1,55 @@
 # MSnbase 2.3
 
+## Changes in version 2.3.10
+- New `isCentroidedFromFile` function <2017-08-11 Fri>
+- Add msLevel slot to Chromatogram object <2017-08-16 Wed>
+- Add msLevel argument to chromatogram,MSnExp method <2017-08-16 Wed>
+- `calculateFragments` now just calculate fragments for all `n - 1L` bonds
+    (before it incorrectly adds an additional bond; fixes #248) <2017-08-20 Sun>
+
+## Changes in version 2.3.9
+- Using new mzR::openIdfile backend to add identifcation data to raw
+  and quantitative data (see issue #232) <2017-07-28 Fri>
+- New utils functions: factorsAsStrings, makeCamelCase and
+  reduce,data.frame <2017-07-29 Sat>
+- Coerce mzRident to data.frames <2017-07-29 Sat>
+- Add phenoData slot to Chromatograms class<2017-08-02 Wed>
+- new readMzIdData function to read mzId files as data.frames (uses
+  the new coerce,mzRident,data.frame method) <2017-08-03 Thu>
+- new filterIdentificationDataFrame function to filter PSM data.frames
+  as produced by readMzIdData. Also used in the addIdentificationData
+  methods. <2017-08-03 Thu>
+- readMSData has a new mode argument to set onDisk or inMemory
+  (default) mode <2017-08-10 Thu>
+
+## Changes in version 2.3.8
+- New infrastructure for chromatogram data <2017-06-24 Sat>
+- Change naming scheme for spectra: FFILEID.SSPECTRUMID, e.g. F01.S0001. Before
+  it has been XSPECTRUMID.FILEID. The new naming scheme changes the order of
+  the spectra. See #255 (and PR #256) for details <2017-06-25 Sun>.
+
+## Changes in version 2.3.7
+- export filterEmptySpectra
+
+## Changes in version 2.3.6
+- Brutally remove xic and chromatogram functions/methods, to be
+  replaced by the Chromatogram[s] infrastructure <2017-06-15 Thu>
+
+## Changes in version 2.3.5
+- Fix superscript syntax in demo vignette <2017-06-14 Wed>
+
+## Changes in version 2.3.4
+- Use the injection time from mzR (see PR #109) which in now in
+  seconds (was in milliseconds) <2017-06-13 Tue>
+
 ## Changes in version 2.3.3
 - Rewrite `getColsFromPattern` and `getRowsFromPattern` and add unit tests
     <2017-05-11 Thu>.
 - Add `.filterNA` and rewrite `filterNA` for `matrix` and `MSnSet`
   <2017-05-11 Thu>.
+- Convert main MSnbase-demo vignette to Rmd/html <2017-05-27 Sat>
+- `naplot` gains a `reorderRows` and `reorderColumns` argument
+  <2017-06-05 Mon>.
 
 ## Changes in version 2.3.2
 - Rewrite `utils.clean`. It now keeps just the zeros in the direct

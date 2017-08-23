@@ -1,20 +1,15 @@
 context("OnDiskMSnExp class, other methods")
 
-library("msdata")
-mzf <-  c(system.file("microtofq/MM14.mzML", package = "msdata"),
-          system.file("microtofq/MM8.mzML", package = "msdata"))
+inMem <- microtofq_in_mem_ms1
+onDisk <- microtofq_on_disk_ms1
+centroided(inMem) <- TRUE
+centroided(onDisk) <- TRUE
 
-inMem <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE,
-                    verbose = FALSE)
-onDisk <- readMSData2(files = mzf, msLevel. = 1, centroided. = TRUE,
-                      verbose = FALSE)
-
-f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia_1")
-inmem2 <- readMSData(f, centroided. = NA, verbose = FALSE)  ## That's the MS 2 data.
-inmem1 <- readMSData(f, centroided. = NA, verbose = FALSE, msLevel = 1)  ## MS 1 data.
-ondisk <- readMSData2(f, verbose = FALSE)
-ondisk1 <- readMSData2(f, msLevel. = 1, verbose = FALSE)
-ondisk2 <- readMSData2(f, msLevel. = 2, verbose = FALSE)
+inmem2 <- tmt_erwinia_in_mem_ms2
+inmem1 <- tmt_erwinia_in_mem_ms1
+ondisk <- tmt_erwinia_on_disk
+ondisk1 <- tmt_erwinia_on_disk_ms1
+ondisk2 <- tmt_erwinia_on_disk_ms2
 
 
 ############################################################
@@ -105,6 +100,7 @@ test_that("Compare OnDiskMSnExp and MSnExp estimateNoise", {
 ############################################################
 ## extractPrecSpectra
 test_that("Compare OnDiskMSnExp and MSnExp extractPrecSpectra", {
+    set.seed(432)
     precMzs <- precursorMz(inmem2)
     exP <- sample(1:length(precMzs), 20)
     extsp <- extractPrecSpectra(inmem2, prec = precMzs[exP])

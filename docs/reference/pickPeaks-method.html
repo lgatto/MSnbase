@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title> Peak Detection for &#39;MSnExp&#39; or &#39;Spectrum&#39; instances  — pickPeaks-methods • MSnbase</title>
+<title>Peak Detection for 'MSnExp' or 'Spectrum' instances — pickPeaks-methods • MSnbase</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -77,7 +79,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1> Peak Detection for &#39;MSnExp&#39; or &#39;Spectrum&#39; instances </h1>
+    <h1>Peak Detection for 'MSnExp' or 'Spectrum' instances</h1>
     </div>
 
     
@@ -85,8 +87,8 @@
   (<code>Spectrum</code> instances) or whole experiments (<code>MSnExp</code> instances) to
   create centroided spectra.
   For noisy spectra there are currently two different noise estimators, the
-  Median Absolute Deviation (<code>method = &quot;MAD&quot;</code>) and
-  Friedman&#39;s Super Smoother (<code>method = &quot;SuperSmoother&quot;</code>),
+  Median Absolute Deviation (<code>method = "MAD"</code>) and
+  Friedman's Super Smoother (<code>method = "SuperSmoother"</code>),
   as implemented in the <code>MALDIquant::detectPeaks</code> and
   <code>MALDIquant::estimateNoise</code> functions respectively.</p>
     
@@ -94,11 +96,10 @@
         
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
-    <p><dl class='dl-horizontal'>
-    <dt><code>signature(x = &quot;MSnExp&quot;, halfWindowSize = &quot;integer&quot;,
-        method = &quot;character&quot;, SNR = &quot;numeric&quot;, verbose = &quot;logical&quot;, ...)</code></dt><dd>
-      Performs the peak picking for all spectra in an <code>MSnExp</code> instance.
-      <code>method</code> could be <code>&quot;MAD&quot;</code> or <code>&quot;SuperSmoother&quot;</code>.
+    <p></p><dl class='dl-horizontal'>
+    <dt><code>signature(x = "MSnExp", halfWindowSize = "integer",
+        method = "character", SNR = "numeric", verbose = "logical", ...)</code></dt><dd><p>Performs the peak picking for all spectra in an <code>MSnExp</code> instance.
+      <code>method</code> could be <code>"MAD"</code> or <code>"SuperSmoother"</code>.
       <code>halfWindowSize</code> controls the window size of the peak picking
       algorithm. The resulting window size is <code>2 * halfWindowSize + 1</code>.
       The size should be nearly (or slightly larger) the <em>FWHM</em>
@@ -106,25 +107,22 @@
       A local maximum is considered as peak if its intensity is <code>SNR</code>
       times larger than the estimated noise.
       The arguments <code>&#8230;</code> are passed to the noise estimator functions.
-      Currenlty only the <code>method = &quot;SuperSmoother&quot;</code> accepts additional
+      Currenlty only the <code>method = "SuperSmoother"</code> accepts additional
       arguments, e.g. <code>span</code>. Please see <code><a href='http://www.rdocumentation.org/packages/stats/topics/supsmu'>supsmu</a></code> for
       details.
       This method displays a progress bar if <code>verbose = TRUE</code>.
-      Returns an <code>MSnExp</code> instance with centroided spectra.
-    </dd>
-    <dt><code>signature(x = &quot;Spectrum&quot;, method = &quot;character&quot;,
-        halfWindowSize = &quot;integer&quot;, ...)</code></dt><dd>
-      Performs the peak picking for the spectrum (<code>Spectrum</code> instance).
+      Returns an <code>MSnExp</code> instance with centroided spectra.</p></dd>
+    <dt><code>signature(x = "Spectrum", method = "character",
+        halfWindowSize = "integer", ...)</code></dt><dd><p>Performs the peak picking for the spectrum (<code>Spectrum</code> instance).
       This method is the same as above but returns a centroided <code>Spectrum</code>
       instead of an <code>MSnExp</code> object. It has no <code>verbose</code> argument.
-      Please read the details for the above <code>MSnExp</code> method.
-    </dd>
-  </dl></p>
+      Please read the details for the above <code>MSnExp</code> method.</p></dd>
+  </dl>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p><code><a href='clean-methods.html'>clean</a></code>, <code><a href='removePeaks-methods.html'>removePeaks</a></code> <code><a href='smooth-methods.html'>smooth</a></code>,
-  <code><a href='estimateNoise-methods.html'>estimateNoise</a></code> and <code><a href='trimMz-methods.html'>trimMz</a></code> for other spectra
+  <code><a href='estimateNoise-method.html'>estimateNoise</a></code> and <code><a href='trimMz-methods.html'>trimMz</a></code> for other spectra
   processing methods.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -147,7 +145,7 @@ Bioinformatics 28: 2270-2271.
 <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>itraqdata2</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#&gt; Spectra centroided: Tue Apr 18 22:17:22 2017 
+#&gt; Spectra centroided: Tue Jun 20 20:38:08 2017 
 #&gt;  MSnbase version: 1.1.22 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

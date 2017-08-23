@@ -1,15 +1,15 @@
 context("OnDiskMSnExp class")
 
-library(msdata)
-mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-         system.file("microtofq/MM8.mzML", package = "msdata"))
-inMem <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE)
-onDisk <- readMSData2(files = mzf, msLevel. = 1, centroided. = TRUE)
-
-f <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
-multiMsInMem1 <- readMSData(files = f, msLevel. = 1, centroided. = TRUE)
-multiMsInMem2 <- readMSData(files = f, msLevel. = 2, centroided. = TRUE)
-multiMsOnDisk <- readMSData2(files = f, centroided. = TRUE)
+inMem <- microtofq_in_mem_ms1
+onDisk <- microtofq_on_disk_ms1
+multiMsInMem1 <- tmt_erwinia_in_mem_ms1
+multiMsInMem2 <- tmt_erwinia_in_mem_ms2
+multiMsOnDisk <- tmt_erwinia_on_disk
+centroided(inMem) <- TRUE
+centroided(onDisk) <- TRUE
+centroided(multiMsInMem1) <- TRUE
+centroided(multiMsInMem2) <- TRUE
+centroided(multiMsOnDisk) <- TRUE
 
 ############################################################
 ## validateOnDiskMSnExp
@@ -45,9 +45,8 @@ test_that("OnDiskMSnExp constructor", {
 })
 
 test_that("Coercion to MSnExp", {
-    f <- msdata:::proteomics(full.names = TRUE, pattern = "TMT_Erwinia")
-    x <- readMSData2(f, verbose = FALSE)
-    y <- readMSData(f, msLevel. = 2, centroided. = NA, verbose = FALSE)
+    x <- tmt_erwinia_on_disk
+    y <- tmt_erwinia_in_mem_ms2
     expect_error(as(x, "MSnExp"))
     x <- filterMsLevel(x, msLevel = 2)
     expect_true(all.equal(x, y))
@@ -293,12 +292,135 @@ test_that("spectrapply,OnDiskMSnExp", {
 })
 
 test_that("splitByFile,OnDiskMSnExp", {
-    library(msdata)
-    mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-             system.file("microtofq/MM8.mzML", package = "msdata"))
-    od <- readMSData2(files = mzf, msLevel. = 1, centroided. = TRUE)
+    od <- microtofq_on_disk_ms1
     expect_error(splitByFile(od, f = factor(1:3)))
     spl <- splitByFile(od, f = factor(c("b", "a")))
     expect_equal(pData(spl[[1]]), pData(filterFile(od, 2)))
     expect_equal(pData(spl[[2]]), pData(filterFile(od, 1)))    
 })
+
+test_that("chromatogram,OnDiskMSnExp works", {
+    library(msdata)
+    mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
+             system.file("microtofq/MM8.mzML", package = "msdata"))
+    tmpd <- tempdir()
+    file.copy(mzf[1], paste0(tmpd, "a.mzML"))
+    file.copy(mzf[2], paste0(tmpd, "b.mzML"))
+    mzf <- c(mzf, paste0(tmpd, c("a.mzML", "b.mzML")))
+    
+    onDisk <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE, mode = "onDisk")
+
+    ## Full rt range.
+    mzr <- matrix(c(100, 120), nrow = 1)
+    res <- MSnbase:::.extractMultipleChromatograms(onDisk, mz = mzr)
+    flt <- filterMz(onDisk, mz = mzr[1, ])
+    ints <- split(unlist(lapply(spectra(flt), function(z) sum(intensity(z)))),
+                  fromFile(flt))
+    expect_equal(ints[[1]], intensity(res[1, 1][[1]]))
+    expect_equal(ints[[2]], intensity(res[1, 2][[1]]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[1, 1][[1]]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[1, 2][[1]]))
+
+    ## Multiple mz ranges.
+    mzr <- matrix(c(100, 120, 200, 220, 300, 320), nrow = 3, byrow = TRUE)
+    rtr <- matrix(c(50, 300), nrow = 1)
+    res <- MSnbase:::.extractMultipleChromatograms(onDisk, mz = mzr, rt = rtr)
+    ## Check that the values for all ranges is within the specified ranges
+    for (i in 1:nrow(mzr)) {
+        expect_true(all(mz(res[i, 1][[1]]) >= mzr[i, 1] &
+                        mz(res[i, 1][[1]]) <= mzr[i, 2]))
+        expect_true(all(mz(res[i, 2][[1]]) >= mzr[i, 1] &
+                        mz(res[i, 2][[1]]) <= mzr[i, 2]))
+        expect_true(all(rtime(res[i, 1][[1]]) >= rtr[1, 1] &
+                        rtime(res[i, 1][[1]]) <= rtr[1, 2]))
+        expect_true(all(rtime(res[i, 2][[1]]) >= rtr[1, 1] &
+                        rtime(res[i, 2][[1]]) <= rtr[1, 2]))
+    }
+    ## Check that values are correct.
+    flt <- filterMz(filterRt(onDisk, rt = rtr[1, ]), mz = mzr[2, ])
+    ints <- split(unlist(lapply(spectra(flt), function(z) sum(intensity(z)))),
+                  fromFile(flt))
+    expect_equal(ints[[1]], intensity(res[2, 1][[1]]))
+    expect_equal(ints[[2]], intensity(res[2, 2][[1]]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[2, 1][[1]]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[2, 2][[1]]))
+
+    ## Now with ranges for which we don't have values in one or the other.
+    rtr <- matrix(c(280, 300, 20, 40), nrow = 2,
+                  byrow = TRUE)  ## Only present in first, or 2nd file
+    res <- chromatogram(onDisk, rt = rtr)
+    expect_true(all(unlist(lapply(res, msLevel)) == 1))
+    ## Check fromFile
+    for (i in 1:ncol(res))
+        expect_true(all(sapply(res[, i], fromFile) == i))
+    expect_equal(length(res[2, 1]), 0)
+    expect_equal(length(res[1, 2]), 0)
+    ## Check rtime
+    expect_true(all(rtime(res[1, 1]) >= rtr[1, 1] &
+                    rtime(res[1, 1]) <= rtr[1, 2]))
+    expect_true(all(rtime(res[2, 2]) >= rtr[2, 1] &
+                    rtime(res[2, 2]) <= rtr[2, 2]))
+    ## Check intensity
+    flt <- filterRt(onDisk, rt = rtr[1, ])
+    spctr <- split(spectra(flt), fromFile(flt))
+    ints <- unlist(lapply(spctr[[1]], function(z) sum(intensity(z))))
+    expect_equal(ints, intensity(res[1, 1]))
+    flt <- filterRt(onDisk, rt = rtr[2, ])
+    spctr <- split(spectra(flt), fromFile(flt))
+    ints <- unlist(lapply(spctr[[1]], function(z) sum(intensity(z))))
+    expect_equal(ints, intensity(res[2, 2]))
+
+    ## Check chromatogram with non-present MS level
+    expect_warning(tmp <- chromatogram(onDisk, rt = rtr, msLevel = 2L))
+    expect_equal(nrow(tmp), 0)
+    tmp <- chromatogram(onDisk, rt = rtr, msLevel = 1:10)
+    expect_equal(tmp, res)
+
+    res <- MSnbase:::.extractMultipleChromatograms(onDisk, rt = rtr,
+                                                   msLevel = 1:5)
+    colnames(res) <- basename(fileNames(onDisk))
+    res <- as(res, "Chromatograms")
+    pData(res) <- pData(onDisk)
+    expect_equal(tmp, res)
+})
+
+## Test the two versions that could/might be called by the
+## spectrapply,OnDiskMSnExp method. Each has its own pros and cons and cases
+## in which it outperforms the other function.
+test_that("low memory spectrapply function works", {
+    fl <- system.file("lockmass/LockMass_test.mzXML", package = "msdata")
+    fh <- mzR::openMSfile(fl)
+    hdr <- mzR::header(fh)
+    mzR::close(fh)
+    fData <- hdr
+    fData$spIdx <- hdr$seqNum
+    fData$fileIdx <- 1L
+    fData$smoothed <- FALSE
+    fData$centroided <- TRUE
+    
+    fastLoad <- FALSE
+    
+    expect_equal(
+        MSnbase:::.applyFun2SpectraOfFileMulti(fData, filenames = fl,
+                                               fastLoad = fastLoad),
+        MSnbase:::.applyFun2IndividualSpectraOfFile(fData,
+                                                    filenames = fl,
+                                                    fastLoad = fastLoad))
+    fd <- fData[c(4, 8, 32, 123), ]
+    expect_equal(
+        MSnbase:::.applyFun2SpectraOfFileMulti(fd, filenames = fl,
+                                               fastLoad = fastLoad),
+        MSnbase:::.applyFun2IndividualSpectraOfFile(fd,
+                                                    filenames = fl,
+                                                    fastLoad = fastLoad))
+    ## With an function to apply.
+    expect_equal(
+        MSnbase:::.applyFun2SpectraOfFileMulti(fd, filenames = fl,
+                                               fastLoad = fastLoad,
+                                               APPLYFUN = mz),
+        MSnbase:::.applyFun2IndividualSpectraOfFile(fd,
+                                                    filenames = fl,
+                                                    fastLoad = fastLoad,
+                                                    APPLYFUN = mz))
+})
+
