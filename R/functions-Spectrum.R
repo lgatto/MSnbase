@@ -404,8 +404,8 @@ estimateNoise_Spectrum <- function(object,
 pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
                                method = c("MAD", "SuperSmoother"),
                                SNR = 0L, ignoreCentroided = FALSE,
-                               refineMethod = c("none", "neighbors",
-                                                "descendPeak"),
+                               refineMz = c("none", "neighbors",
+                                            "descendPeak"),
                                n = 2L, signalPercentage = 33, stopAtTwo = FALSE,
                                ...) {
     if (isEmpty(object)) {
@@ -430,10 +430,10 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
 
     peakIdx <- which(isAboveNoise & isLocalMaxima)
 
-    pks <- .refinePeaks(mz = object@mz, intensity = object@intensity,
-                        peakIdx = peakIdx, refineMethod = refineMethod,
-                        n = n, signalPercentage = signalPercentage,
-                        stopAtTwo = stopAtTwo)
+    pks <- .refinePeakMz(mz = object@mz, intensity = object@intensity,
+                         peakIdx = peakIdx, method = refineMz,
+                         n = n, signalPercentage = signalPercentage,
+                         stopAtTwo = stopAtTwo)
     object@mz <- pks[, 1]
     object@intensity <- pks[, 2]
     object@peaksCount <- length(peakIdx)
@@ -502,18 +502,21 @@ validSpectrum <- function(object) {
     else stop(msg)
 }
 
-#' @description Refine mass peaks centroids.
+#' @title Refine mass peak centroids.
 #'
-#' @details \code{refineMethod = "none"} does just return the mz value at the
+#' @description Refine the mz value of the picked peak based on neighboring
+#'     signals.
+#'
+#' @details \code{method = "none"} does just return the mz value at the
 #'     peak position while all other methods calculate an intensity-weighted
 #'     mean of mz values of the mass peak. The methods differ in the definition
-#'     of which mz values are considered in the weighted mean calculation.
-#'     \code{refineMethod = "neighbors"} uses the \code{n} neighboring mz values
+#'     by which mz values are considered in the weighted mean calculation.
+#'     \code{method = "neighbors"} uses the \code{n} neighboring mz values
 #'     with \code{n} defining the number of mz values on each side of the peak
 #'     position.
-#'     \code{refineMethod = "descendPeak"}: the peak region is defined by
-#'     descending the peak position on both sides and stoping once the signal
-#'     increases again. Within that region all measurements with an intensity
+#'     \code{method = "descendPeak"}: the peak region is defined by
+#'     descending the peak position on both sides until the signal
+#'     increases again. Within that region all measurements with an intensity of
 #'     at least \code{signalPercentage} of the peak intensity are used for the
 #'     peak integration.
 #' 
@@ -523,18 +526,18 @@ validSpectrum <- function(object) {
 #'
 #' @param intensity \code{numeric} with the intensities within the spectrum.
 #'
-#' @param refineMethod \code{character} specifying the method to be used for
+#' @param method \code{character} specifying the method to be used for
 #'     mz value refinement. See details for more information.
 #' 
 #' @param n \code{integer(1)}: number of values left and right of the
 #'     peak that should be considered in the weighted mean calculation. Only
-#'     used if \code{refineMethod = "neighbors"}.
+#'     used if \code{method = "neighbors"}.
 #'
 #' @param signalPercentage \code{numeric(1)} with the percentage of the peak
 #'     intensity above which neighboring mz values are included in the weighted
-#'     mean calculation. Only used if \code{refineMethod = "descendPeak"}.
+#'     mean calculation. Only used if \code{method = "descendPeak"}.
 #'
-#' @param stopAtTwo for \code{refineMethod = "descendPeak"}: \code{logical(1)}
+#' @param stopAtTwo for \code{method = "descendPeak"}: \code{logical(1)}
 #'     indicating whether the peak descending should only stop if two
 #'     consecutive measurements with increasing (or same) signal are
 #'     encountered.
@@ -559,17 +562,17 @@ validSpectrum <- function(object) {
 #' points(mzs[peak_idx], ints[peak_idx])
 #'
 #' ## Just extract the mz for the peaks
-#' .refinePeaks(mz = mzs, peakIdx = peak_idx, intensity = ints)
+#' .refinePeakMz(mz = mzs, peakIdx = peak_idx, intensity = ints)
 #'
 #' ## Use the weighted average considering the adjacent mz
-#' mzs_2 <- .refinePeaks(mz = mzs, peakIdx = peak_idx, intensity = ints,
-#'     refineMethod = "neighbors", n = 1)
+#' mzs_2 <- .refinePeakMz(mz = mzs, peakIdx = peak_idx, intensity = ints,
+#'     method = "neighbors", n = 1)
 #' abline(v = mzs_2[, 1], col = "red")
 #'
 #' ## Use the weighted average considering the neighboring values above a
 #' ## certain threshold
-#' mzs_3 <- .refinePeaks(mz = mzs, peakIdx = peak_idx, intensity = ints,
-#'     refineMethod = "descendPeak", signalPercentage = 50)
+#' mzs_3 <- .refinePeakMz(mz = mzs, peakIdx = peak_idx, intensity = ints,
+#'     method = "descendPeak", signalPercentage = 50)
 #' abline(v = mzs_3[, 1], col = "blue")
 #'
 #' mzs_3
@@ -578,8 +581,8 @@ validSpectrum <- function(object) {
 #' idx <- c(5, 6, 7, 8, 9, 10, 11, 12)
 #'
 #' ## Check if that is correct:
-#' a <- .refinePeaks(mz = mzs, peakIdx = peak_idx[2], intensity = ints,
-#'     refineMethod = "descendPeak", signalPercentage = 0)
+#' a <- .refinePeakMz(mz = mzs, peakIdx = peak_idx[2], intensity = ints,
+#'     method = "descendPeak", signalPercentage = 0)
 #' b <- weighted.mean(mzs[idx], ints[idx])
 #' a[1, 1] == b
 #'
@@ -599,8 +602,8 @@ validSpectrum <- function(object) {
 #' ## stop after 30 measurments.
 #'
 #' ## Stopping at the first increasing signal
-#' pks <- .refinePeaks(mzs, intensity = ints, peakIdx = 10,
-#'     refineMethod = "descendPeak", signalPercentage = 0, stopAtTwo = FALSE)
+#' pks <- .refinePeakMz(mzs, intensity = ints, peakIdx = 10,
+#'     method = "descendPeak", signalPercentage = 0, stopAtTwo = FALSE)
 #' abline(v = pks[, 1], col = "blue")
 #' idx <- 5:11
 #' abline(v = range(idx), col = "blue", lty = 3)
@@ -608,24 +611,25 @@ validSpectrum <- function(object) {
 #' a == pks[1, 1]
 #'
 #' ## Repeat with stopAtTwo = TRUE
-#' pks <- .refinePeaks(mzs, intensity = ints, peakIdx = 10,
-#'     refineMethod = "descendPeak", signalPercentage = 0, stopAtTwo = TRUE)
+#' pks <- .refinePeakMz(mzs, intensity = ints, peakIdx = 10,
+#'     method = "descendPeak", signalPercentage = 0, stopAtTwo = TRUE)
 #' abline(v = pks[, 1], col = "red")
 #'
 #' idx <- 3:18
 #' abline(v = range(idx), col = "red", lty = 3)
 #' b <- weighted.mean(mzs[idx], ints[idx])
 #' b == pks[1, 1]
-.refinePeaks <- function(mz, intensity, peakIdx,
-                         refineMethod = c("none", "neighbors", "descendPeak"),
-                         n = 2, signalPercentage = 33, stopAtTwo = FALSE,
-                         aggregateIntensity = max) {
-    refineMethod <- match.arg(refineMethod)
+.refinePeakMz <- function(mz, intensity, peakIdx,
+                          method = c("none", "neighbors", "descendPeak"),
+                          n = 2, signalPercentage = 33, stopAtTwo = FALSE,
+                          aggregateIntensity = max) {
+    cat(".refinePeakMz ", method, "\n")
+    method <- match.arg(method)
     if (length(peakIdx) == 0)
         return(cbind(mz = mz[peakIdx], intensity = intensity[peakIdx]))
-    if (refineMethod == "none")
+    if (method == "none")
         return(cbind(mz = mz[peakIdx], intensity = intensity[peakIdx]))
-    if (refineMethod == "neighbors") {
+    if (method == "neighbors") {
         len <- length(mz)
         mzs <- lapply(peakIdx, function(z) {
             idxs <- max(1, z - n):min(len, z + n)
@@ -634,7 +638,7 @@ validSpectrum <- function(object) {
         })
         return(do.call(rbind, mzs))
     }
-    if (refineMethod == "descendPeak") {
+    if (method == "descendPeak") {
         len <- length(mz)
         signalPercentage = signalPercentage / 100
         ## Define the index of values to include.
