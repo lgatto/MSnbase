@@ -121,3 +121,17 @@ test_that("filterRt,Chromatogram works", {
     expect_equal(intensity(chr_2), numeric())
     expect_equal(rtime(chr_2), numeric())
 })
+
+test_that("isEmpty,Chromatogram works", {
+    chr <- Chromatogram()
+    expect_true(isEmpty(chr))
+    
+    int <- rnorm(100, mean = 200, sd = 2)
+    rt <- rnorm(100, mean = 300, sd = 3)
+    chr <- Chromatogram(intensity = int, rtime = sort(rt))
+    expect_true(!isEmpty(chr))
+
+    chr <- Chromatogram(intensity = rep_len(NA_real_, length(rt)),
+                        rtime = sort(rt))
+    expect_true(isEmpty(chr))
+})

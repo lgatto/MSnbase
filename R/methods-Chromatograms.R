@@ -281,3 +281,12 @@ setReplaceMethod("sampleNames", "Chromatograms",
                      colnames(object) <- value
                      object
                  })
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{isEmpty}: returns \code{TRUE} if the \code{Chromatograms}
+#'     object or all of its \code{Chromatogram} objects is/are empty or contain
+#'     only \code{NA} intensities.
+setMethod("isEmpty", "Chromatograms", function(x) {
+    (nrow(x) == 0 | all(unlist(lapply(x, isEmpty))))
+})

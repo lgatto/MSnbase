@@ -19,6 +19,7 @@
 \alias{clean,Chromatogram-method}
 \alias{plot,Chromatogram,ANY-method}
 \alias{msLevel,Chromatogram-method}
+\alias{isEmpty,Chromatogram-method}
 \title{Representation of chromatographic MS data}
 \usage{
 Chromatogram(rtime = numeric(), intensity = numeric(), mz = c(NA_real_,
@@ -55,6 +56,8 @@ productMz(object)
   ...)
 
 \S4method{msLevel}{Chromatogram}(object)
+
+\S4method{isEmpty}{Chromatogram}(x)
 }
 \arguments{
 \item{rtime}{\code{numeric} with the retention times (length has to be equal
@@ -176,6 +179,9 @@ The \code{Chromatogram} class is designed to store
 \code{plot}: plots a \code{Chromatogram} object.
 
 \code{msLevel} returns the MS level of the chromatogram.
+
+\code{isEmpty} returns \code{TRUE} for empty chromatogram or
+    chromatograms with all intensities being \code{NA}.
 }
 \details{
 The \code{mz}, \code{filterMz}, \code{precursorMz} and

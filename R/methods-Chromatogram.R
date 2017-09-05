@@ -196,3 +196,11 @@ setMethod("plot", signature = signature("Chromatogram"),
 setMethod("msLevel", "Chromatogram", function(object) {
     object@msLevel
 })
+
+#' @description \code{isEmpty} returns \code{TRUE} for empty chromatogram or
+#'     chromatograms with all intensities being \code{NA}.
+#' 
+#' @rdname Chromatogram-class
+setMethod("isEmpty", "Chromatogram", function(x) {
+    (length(x) == 0 | all(is.na(intensity(x))))
+})

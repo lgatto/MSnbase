@@ -235,3 +235,26 @@ test_that("phenoData,pData,pData<-,Chromatograms works", {
     chrs$new_variable <- 1
 })
 
+test_that("isEmpty,Chromatograms works", {
+    ints <- abs(rnorm(12, sd = 20))
+    ch <- Chromatogram(rtime = 1:length(ints), ints)
+    ints <- abs(rnorm(20, sd = 14))
+    ch1 <- Chromatogram(rtime = 1:length(ints), ints)
+    ints <- abs(rnorm(14, sd = 24))
+    ch2 <- Chromatogram(rtime = 1:length(ints), ints)
+    ints <- abs(rnorm(40, sd = 34))
+    ch3 <- Chromatogram(rtime = 1:length(ints), ints)
+    chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
+
+    expect_true(!isEmpty(chrs))
+
+    chrs <- Chromatograms()
+    expect_true(isEmpty(chrs))
+    
+    ints <- rep(NA_real_, 105)
+    ch1 <- Chromatogram(rtime = 1:length(ints), ints)
+    ints <- rep(NA_real_, 64)
+    ch2 <- Chromatogram(rtime = 1:length(ints), ints)
+    chrs <- Chromatograms(list(ch1, ch2), nrow = 2)
+    expect_true(isEmpty(chrs))    
+})
