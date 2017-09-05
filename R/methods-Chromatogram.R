@@ -186,8 +186,15 @@ setMethod("plot", signature = signature("Chromatogram"),
           function(x, col = "#00000060", lty = 1, type = "l",
                    xlab = "retention time", ylab = "intensity",
                    main = NULL, ...) {
-              .plotChromatogram(x = x, col = col, lty = lty, type = type,
-                                xlab = xlab, ylab = ylab, main = main, ...)
+              if (isEmpty(x)) {
+                  ## Show a warning and plot an empty plot (issue #249)
+                  warning("Chromatogram is empty")
+                  plot(3, 3, xlab = xlab, ylab = ylab, main = main, pch = NA)
+                  text(3, 3, labels = "Empty Chromatogram", col = "red")
+              } else {
+                  .plotChromatogram(x = x, col = col, lty = lty, type = type,
+                                    xlab = xlab, ylab = ylab, main = main, ...)
+              }
           })
 
 #' @description \code{msLevel} returns the MS level of the chromatogram.

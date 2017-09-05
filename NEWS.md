@@ -8,6 +8,8 @@
     (before it incorrectly adds an additional bond; fixes #248) <2017-08-20 Sun>
 - Add `isEmpty` methods for `Chromatogram` and `Chromatograms` objects
   <2017-09-05 Tue>
+- plot,Chromatogram[s] creates an empty plot and returns a warning if the
+  Chromatogram[s] object is empty (issue #249) <2017-09-05 Tue>
 
 ## Changes in version 2.3.9
 - Using new mzR::openIdfile backend to add identifcation data to raw
