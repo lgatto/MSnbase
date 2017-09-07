@@ -456,4 +456,7 @@ test_that("chromatogram,MSnExp works", {
     chrs <- chromatogram(inMem)
     rownames(pd) <- colnames(chrs)
     expect_equal(pData(chrs), pd)
+
+    chrs_2 <- chromatogram(inMem, msLevel = 1:4)
+    expect_equal(chrs, chrs_2)
 })

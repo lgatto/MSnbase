@@ -1,5 +1,16 @@
 # MSnbase 2.3
 
+## Changes in version 2.3.10
+- New `isCentroidedFromFile` function <2017-08-11 Fri>
+- Add msLevel slot to Chromatogram object <2017-08-16 Wed>
+- Add msLevel argument to chromatogram,MSnExp method <2017-08-16 Wed>
+- `calculateFragments` now just calculate fragments for all `n - 1L` bonds
+    (before it incorrectly adds an additional bond; fixes #248) <2017-08-20 Sun>
+- Add `isEmpty` methods for `Chromatogram` and `Chromatograms` objects
+  <2017-09-05 Tue>
+- plot,Chromatogram[s] creates an empty plot and returns a warning if the
+  Chromatogram[s] object is empty (issue #249) <2017-09-05 Tue>
+
 ## Changes in version 2.3.9
 - Using new mzR::openIdfile backend to add identifcation data to raw
   and quantitative data (see issue #232) <2017-07-28 Fri>

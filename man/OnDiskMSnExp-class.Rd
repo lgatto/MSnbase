@@ -243,7 +243,12 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
       details. For whole experiments, where all MS1 and MS2 spectra are
       expected to be in the same, albeit possibly different modes, it is
       advised to assign the majority result for MS1 and MS2 spectra,
-      rather than results for individual spectra.  }
+      rather than results for individual spectra.
+
+      See also \code{\link{isCentroidedFromFile}} that accessed the mode
+      directly from the raw data file.
+
+    }
 
     \item{smoothed,smoothed<-}{
       \code{smoothed(signature(object="OnDiskMSnExp", msLevel. =

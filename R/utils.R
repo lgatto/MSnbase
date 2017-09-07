@@ -1094,27 +1094,20 @@ countAndPrint <- function(x) {
 ##' @param x An instance of \code{MSnExp} or \code{OnDiskMSnExp}
 ##' @return A \code{logical}
 ##' @noRd
-.isCentroidedFromFile <- function(x) {
-    f <- fileNames(x)
-    if (.fileExt(f) != "mzML") {
-        return(rep(NA, length(x)))
-    } else {
-        if (!requireNamespace("XML"))
-            stop("Please install the XML package to use this functionality.")
-        xml <- XML::xmlParse(f)
-        x <- XML::xpathSApply(xml,
-                              "//x:spectrum/x:cvParam[@accession='MS:1000127' or @accession='MS:1000128']/../@index |
+.isCentroidedFromFile <- function(f) {
+    if (!requireNamespace("XML"))
+        stop("Please install the XML package to use this functionality.")
+    xml <- XML::xmlParse(f)
+    x <- XML::xpathSApply(xml,
+                          "//x:spectrum/x:cvParam[@accession='MS:1000127' or @accession='MS:1000128']/../@index |
                     //x:cvParam[@accession='MS:1000127' or @accession='MS:1000128']/@name",
                     namespaces = c(x = "http://psi.hupo.org/ms/mzml"))
-        index <- as.double(x[seq(1, length(x), by = 2)])
-        res <- rep(NA, length(index))
-        res[grepl("centroid", x[seq(2, length(x), by = 2)])] <- TRUE
-        res[grepl("profile",  x[seq(2, length(x), by = 2)])] <- FALSE
-        res
-    }
+    index <- as.double(x[seq(1, length(x), by = 2)])
+    res <- rep(NA, length(index))
+    res[grepl("centroid", x[seq(2, length(x), by = 2)])] <- TRUE
+    res[grepl("profile",  x[seq(2, length(x), by = 2)])] <- FALSE
+    res
 }
-
-
 
 ## Returns the extension of the file. If that extension is on of the
 ## usual archive extensions, as defined in gexts, then the last part
@@ -1233,6 +1226,11 @@ makeCamelCase <- function(x, prefix) {
 ##' combined into semicolon-separated values into a single
 ##' row/observation.
 ##'
+##' An important side-effect of reducing a `data.frame` is that all
+##' columns other than the key are converted to characters when they
+##' are collapsed to a semi-column separated value (even if only one
+##' value is present) as soon as one observation of transformed.
+##' 
 ##' @title Reduce a data.frame
 ##' @param x A \code{data.frame}.
 ##' @param key The column name (currenly only one is supported) to be
@@ -1242,10 +1240,22 @@ makeCamelCase <- function(x, prefix) {
 ##' @author Laurent Gatto
 ##' @examples
 ##' dfr <- data.frame(A = c(1, 1, 2),
-##'                   B = c("x", "y", "z"),
+##'                   B = c("x", "x", "z"),
 ##'                   C = LETTERS[1:3])
 ##' dfr
-##' reduce(dfr, key = "A")
+##' dfr2 <- reduce(dfr, key = "A")
+##' dfr2
+##' ## column A used as key is still num
+##' str(dfr2) 
+##' dfr3 <- reduce(dfr, key = "B")
+##' dfr3
+##' ## A is converted to chr; B remains factor
+##' str(dfr3)
+##' dfr4 <- data.frame(A = 1:3,
+##'                    B = LETTERS[1:3],
+##'                    C = c(TRUE, FALSE, NA))
+##' ## No effect of reducing, column classes are maintained
+##' str(reduce(dfr4, key = "B"))
 setMethod("reduce", "data.frame", 
           function(x, key, sep = ";") {
               if (nrow(x) %in% c(0, 1))

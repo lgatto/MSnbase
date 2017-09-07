@@ -8,7 +8,7 @@ abstract: >
   This vignette describes *MSnbase*'s input and output capabilities.
 bibliography: MSnbase.bib
 output:
-  BiocStyle::html_document2:
+  BiocStyle::html_document:
     toc_float: true
 vignette: >
   %\VignetteIndexEntry{MSnbase IO capabilities}

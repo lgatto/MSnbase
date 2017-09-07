@@ -31,7 +31,9 @@
   If after filtering, more then one PSM per spectrum are still present,
   these are combined (reduced, see
   \code{\link{reduce,data.frame-method}}) into a single row and
-  separated by a semi-colon.
+  separated by a semi-colon. This has as side-effect that feature
+  variables that are being reduced are converted to characters. See the
+  \code{reduce} manual page for examples.
 
   See also the section about identification data in the
   \emph{MSnbase-demo} vignette for details and additional examples.
@@ -237,8 +239,7 @@ msexp <- readMSData(quantFile)
 ## add identification information
 msexp <- addIdentificationData(msexp, identFile)
 
-## access featureData; please note the multiple identification data
-## for spectrum 1 (row 1)
+## access featureData
 fData(msexp)
 
 idSummary(msexp)

@@ -258,6 +258,7 @@
       expected to be in the same, albeit possibly different modes, it is
       advised to assign the majority result for MS1 and MS2 spectra,
       rather than results for individual spectra. See an example below.
+      
     }
 
   }

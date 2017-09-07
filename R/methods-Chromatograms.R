@@ -197,20 +197,28 @@ setMethod("plot", signature = signature("Chromatograms"),
           function(x, col = "#00000060", lty = 1, type = "l",
                    xlab = "retention time", ylab = "intensity",
                    main = NULL, ...){
-              nr <- nrow(x)
-              nc <- ncol(x)
-              ## Initialize plot if we've got more than one row.
-              if (nr > 1) {
-                  par(mfrow = c(round(sqrt(nr)), ceiling(sqrt(nr))))
-              }
-              for (i in seq_len(nr)) {
-                  if (nc > 1)
-                      .plotChromatogramList(x[i, , drop = TRUE], col = col,
-                                            lty = lty, type = type, xlab = xlab,
-                                            ylab = ylab, main = main, ...)
-                  else
-                      plot(x[i, 1], col = col, lty = lty, type = type,
-                           xlab = xlab, ylab = ylab, main = main, ...)
+              if (isEmpty(x)) {
+                  ## Show a warning and plot an empty plot (issue #249)
+                  warning("All chromatograms empty")
+                  plot(3, 3, pch = NA, xlab = xlab, ylab = ylab, main = main)
+                  text(3, 3, labels = "Empty Chromatograms", col = "red")
+              } else {
+                  nr <- nrow(x)
+                  nc <- ncol(x)
+                  ## Initialize plot if we've got more than one row.
+                  if (nr > 1) {
+                      par(mfrow = c(round(sqrt(nr)), ceiling(sqrt(nr))))
+                  }
+                  for (i in seq_len(nr)) {
+                      if (nc > 1)
+                          .plotChromatogramList(x[i, , drop = TRUE], col = col,
+                                                lty = lty, type = type,
+                                                xlab = xlab, ylab = ylab,
+                                                main = main, ...)
+                      else
+                          plot(x[i, 1], col = col, lty = lty, type = type,
+                               xlab = xlab, ylab = ylab, main = main, ...)
+                  }
               }
           })
 
@@ -281,3 +289,12 @@ setReplaceMethod("sampleNames", "Chromatograms",
                      colnames(object) <- value
                      object
                  })
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{isEmpty}: returns \code{TRUE} if the \code{Chromatograms}
+#'     object or all of its \code{Chromatogram} objects is/are empty or contain
+#'     only \code{NA} intensities.
+setMethod("isEmpty", "Chromatograms", function(x) {
+    (nrow(x) == 0 | all(unlist(lapply(x, isEmpty))))
+})

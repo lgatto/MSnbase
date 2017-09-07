@@ -7,7 +7,7 @@ author:
   affiliation: Center for Biomedicine, EURAC, Bolzano, Italy
 package: MSnbase
 output:
-  BiocStyle::html_document2:
+  BiocStyle::html_document:
     toc_float: true
 vignette: >
   %\VignetteIndexEntry{MSnbase2 benchmarking}

@@ -14,7 +14,7 @@ abstract: >
  throughput-high data analysis pipelines provided by the Bioconductor
  [@Gentleman2004] project.
 output:
-  BiocStyle::html_document2:
+  BiocStyle::html_document:
     toc_float: true
 bibliography: MSnbase.bib	
 vignette: >
@@ -1117,7 +1117,6 @@ analysis. There is also a `normalise` (also available as
 and instance of class *MSnSet* as first argument, and a
 character to describe the `method` to be used:
 
-
 * `quantiles`: Applies quantile normalisation [@Bolstad03] as
   implemented in the `normalize.quantiles` function of the 
   `r Biocpkg("preprocessCore")` package.
@@ -1130,12 +1129,11 @@ character to describe the `method` to be used:
   implemented in the `vsn2` function of the `r Biocpkg("vsn")`
   package.
   
-* `max` Each feature's reporter intensity is divided by the maximum of
+* `max`: Each feature's reporter intensity is divided by the maximum of
   the reporter ions intensities.
   
-* `sum` Each feature's reporter intensity is divided by the sum of the
+* `sum`: Each feature's reporter intensity is divided by the sum of the
   reporter ions intensities.
-
 
 See `?normalise` for more methods. A `scale` method for *MSnSet*
 instances, that relies on the `base::scale` function.
@@ -1282,6 +1280,11 @@ defined functions with `fun=function(x) { ... }`. We will use the
 qnt2 <- combineFeatures(qnt, groupBy = gb, fun = "median")
 qnt2
 ```
+
+Of interest is also the `iPQF` spectra-to-protein summarisation
+method, which integrates peptide spectra characteristics and
+quantitative values for protein quantitation estimation. See `?iPQF`
+and references therein for details.
 
 # Label-free MS2 quantitation {#sec:lf}
 

@@ -106,7 +106,7 @@ Chromatograms <- function(data, phenoData, ...) {
     ## in the respective mz slice (these would still have valid retention time
     ## values), or samples that don't have a single scan in the respective rt
     ## range.
-    keep <- colSums(!is.na(rts)) > 0
+    keep <- colSums(!is.na(ints)) > 0
 
     ## Finally plot the data.
     if (any(keep)) {
@@ -115,8 +115,9 @@ Chromatograms <- function(data, phenoData, ...) {
                 lty = lty[keep], col = col[keep], xlab = xlab,
                 ylab = ylab, main = main, ...)
     } else {
-        warning("No chromatographic data to plot")
-        plot(x = 3, y = 3, pch = NA, xlab = xlab, ylab = ylab, main = main, ...)
+        warning("Chromatograms empty")
+        plot(3, 3, pch = NA, xlab = xlab, ylab = ylab, main = main)
+        text(3, 3, labels = "Empty Chromatograms", col = "red")
     }
 }
 
