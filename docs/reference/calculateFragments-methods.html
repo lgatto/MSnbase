@@ -194,64 +194,54 @@
 <span class='fu'>calculateFragments</span>(<span class='st'>"ACE"</span>, <span class='kw'>modifications</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='kw'>C</span><span class='kw'>=</span><span class='fl'>57.02146</span>))</div><div class='output co'>#&gt;          mz ion type pos z seq
 #&gt; 1  72.04439  b1    b   1 1   A
 #&gt; 2 232.07504  b2    b   2 1  AC
-#&gt; 3 361.11763  b3    b   3 1 ACE
-#&gt; 4 148.06043  y1    y   1 1   E
-#&gt; 5 308.09108  y2    y   2 1  CE
-#&gt; 6 379.12819  y3    y   3 1 ACE
-#&gt; 7 115.06278 y1_   y_   1 1   E
-#&gt; 8 275.09343 y2_   y_   2 1  CE
-#&gt; 9 346.13054 y3_   y_   3 1 ACE</div><div class='input'>
+#&gt; 3 148.06043  y1    y   1 1   E
+#&gt; 4 308.09108  y2    y   2 1  CE
+#&gt; 5 115.06278 y1_   y_   1 1   E
+#&gt; 6 275.09343 y2_   y_   2 1  CE</div><div class='input'>
 <span class='co'>## calculate fragments for ACE with an addition N-terminal modification</span>
 <span class='fu'>calculateFragments</span>(<span class='st'>"ACE"</span>, <span class='kw'>modifications</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='kw'>C</span><span class='kw'>=</span><span class='fl'>57.02146</span>, <span class='kw'>Nterm</span><span class='kw'>=</span><span class='fl'>229.1629</span>))</div><div class='output co'>#&gt;         mz ion type pos z seq
 #&gt; 1 301.2073  b1    b   1 1   A
 #&gt; 2 461.2379  b2    b   2 1  AC
-#&gt; 3 590.2805  b3    b   3 1 ACE
-#&gt; 4 148.0604  y1    y   1 1   E
-#&gt; 5 308.0911  y2    y   2 1  CE
-#&gt; 6 379.1282  y3    y   3 1 ACE
-#&gt; 7 115.0628 y1_   y_   1 1   E
-#&gt; 8 275.0934 y2_   y_   2 1  CE
-#&gt; 9 346.1305 y3_   y_   3 1 ACE</div><div class='input'>
+#&gt; 3 148.0604  y1    y   1 1   E
+#&gt; 4 308.0911  y2    y   2 1  CE
+#&gt; 5 115.0628 y1_   y_   1 1   E
+#&gt; 6 275.0934 y2_   y_   2 1  CE</div><div class='input'>
 <span class='co'>## calculate fragments for ACE without any modifications</span>
 <span class='fu'>calculateFragments</span>(<span class='st'>"ACE"</span>, <span class='kw'>modifications</span><span class='kw'>=</span><span class='kw'>NULL</span>)</div><div class='output co'>#&gt;          mz ion type pos z seq
 #&gt; 1  72.04439  b1    b   1 1   A
 #&gt; 2 175.05358  b2    b   2 1  AC
-#&gt; 3 304.09617  b3    b   3 1 ACE
-#&gt; 4 148.06043  y1    y   1 1   E
-#&gt; 5 251.06962  y2    y   2 1  CE
-#&gt; 6 322.10673  y3    y   3 1 ACE
-#&gt; 7 115.06278 y1_   y_   1 1   E
-#&gt; 8 218.07197 y2_   y_   2 1  CE
-#&gt; 9 289.10908 y3_   y_   3 1 ACE</div><div class='input'>
+#&gt; 3 148.06043  y1    y   1 1   E
+#&gt; 4 251.06962  y2    y   2 1  CE
+#&gt; 5 115.06278 y1_   y_   1 1   E
+#&gt; 6 218.07197 y2_   y_   2 1  CE</div><div class='input'>
 <span class='fu'>calculateFragments</span>(<span class='st'>"VESITARHGEVLQLRPK"</span>,
                    <span class='kw'>type</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='st'>"x"</span>, <span class='st'>"y"</span>, <span class='st'>"z"</span>),
-                   <span class='kw'>z</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>2</span>)</div><div class='output co'>#&gt;             mz  ion type pos z               seq
-#&gt; 1     72.08077   a1    a   1 1                 V
-#&gt; 2     36.54402   a1    a   1 2                 V
-#&gt; 3    201.12336   a2    a   2 1                VE
-#&gt; 4    101.06532   a2    a   2 2                VE
-#&gt; 5    288.15539   a3    a   3 1               VES
-#&gt; 6    144.58133   a3    a   3 2               VES
-#&gt; 7    401.23945   a4    a   4 1              VESI
-#&gt; 8    201.12336   a4    a   4 2              VESI
-#&gt; 9    502.28713   a5    a   5 1             VESIT
-#&gt; 10   251.64720   a5    a   5 2             VESIT
-#&gt; 11   573.32424   a6    a   6 1            VESITA
-#&gt; 12   287.16576   a6    a   6 2            VESITA
-#&gt; 13   729.42535   a7    a   7 1           VESITAR
-#&gt; 14   365.21631   a7    a   7 2           VESITAR
-#&gt; 15   866.48426   a8    a   8 1          VESITARH
-#&gt; 16   433.74577   a8    a   8 2          VESITARH
-#&gt;  [ reached getOption("max.print") -- omitted 518 rows ]</div><div class='input'>
-<span class='fu'>calculateFragments</span>(<span class='st'>"VESITARHGEVLQLRPK"</span>, <span class='no'>msexp</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt;          mz intensity  ion type pos z               seq       error
-#&gt; 1  114.1109  706555.7  y1_   y_   1 1                 K  0.00425275
-#&gt; 2  429.2563 1972344.0   b4    b   4 1              VESI -0.02189010
-#&gt; 3  513.3047 2574137.0   y4    y   4 1              LRPK  0.04598246
-#&gt; 4  754.4504  537234.8   y6    y   6 1            LQLRPK  0.04293155
-#&gt; 5  982.5354  500159.1   y8    y   8 1          EVLQLRPK  0.06897061
-#&gt; 6 1080.5867  209363.7  b10    b  10 1        VESITARHGE -0.04344392
-#&gt; 7 1688.0375  136748.8 y15*   y*  15 1   SITARHGEVLQLRPK -0.07729359
-#&gt; 8 1882.0074  149649.1 b17_   b_  17 1 VESITARHGEVLQLRPK  0.08206471</div><div class='input'>
+                   <span class='kw'>z</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>2</span>)</div><div class='output co'>#&gt;             mz  ion type pos z              seq
+#&gt; 1     72.08077   a1    a   1 1                V
+#&gt; 2     36.54402   a1    a   1 2                V
+#&gt; 3    201.12336   a2    a   2 1               VE
+#&gt; 4    101.06532   a2    a   2 2               VE
+#&gt; 5    288.15539   a3    a   3 1              VES
+#&gt; 6    144.58133   a3    a   3 2              VES
+#&gt; 7    401.23945   a4    a   4 1             VESI
+#&gt; 8    201.12336   a4    a   4 2             VESI
+#&gt; 9    502.28713   a5    a   5 1            VESIT
+#&gt; 10   251.64720   a5    a   5 2            VESIT
+#&gt; 11   573.32424   a6    a   6 1           VESITA
+#&gt; 12   287.16576   a6    a   6 2           VESITA
+#&gt; 13   729.42535   a7    a   7 1          VESITAR
+#&gt; 14   365.21631   a7    a   7 2          VESITAR
+#&gt; 15   866.48426   a8    a   8 1         VESITARH
+#&gt; 16   433.74577   a8    a   8 2         VESITARH
+#&gt;  [ reached getOption("max.print") -- omitted 482 rows ]</div><div class='input'>
+<span class='fu'>calculateFragments</span>(<span class='st'>"VESITARHGEVLQLRPK"</span>, <span class='no'>msexp</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt;          mz intensity  ion type pos z             seq       error
+#&gt; 1  114.1109  706555.7  y1_   y_   1 1               K  0.00425275
+#&gt; 2  429.2563 1972344.0   b4    b   4 1            VESI -0.02189010
+#&gt; 3  513.3047 2574137.0   y4    y   4 1            LRPK  0.04598246
+#&gt; 4  754.4504  537234.8   y6    y   6 1          LQLRPK  0.04293155
+#&gt; 5  982.5354  500159.1   y8    y   8 1        EVLQLRPK  0.06897061
+#&gt; 6 1080.5867  209363.7  b10    b  10 1      VESITARHGE -0.04344392
+#&gt; 7 1688.0375  136748.8 y15*   y*  15 1 SITARHGEVLQLRPK -0.07729359</div><div class='input'>
 <span class='co'>## neutral loss</span>
 <span class='fu'>defaultNeutralLoss</span>()</div><div class='output co'>#&gt; $water
 #&gt; [1] "Cterm" "D"     "E"     "S"     "T"    
@@ -267,47 +257,33 @@
 #&gt; [1] "K" "N" "Q" "R"
 #&gt; </div><div class='input'>
 <span class='co'>## real example</span>
-<span class='fu'>calculateFragments</span>(<span class='st'>"PQR"</span>)</div><div class='output co'>#&gt;           mz ion type pos z seq
-#&gt; 1   98.06004  b1    b   1 1   P
-#&gt; 2  226.11862  b2    b   2 1  PQ
-#&gt; 3  382.21973  b3    b   3 1 PQR
-#&gt; 4  175.11895  y1    y   1 1   R
-#&gt; 5  303.17753  y2    y   2 1  QR
-#&gt; 6  400.23029  y3    y   3 1 PQR
-#&gt; 7  142.12130 y1_   y_   1 1   R
-#&gt; 8  270.17988 y2_   y_   2 1  QR
-#&gt; 9  367.23264 y3_   y_   3 1 PQR
-#&gt; 10 365.19318 b3*   b*   3 1 PQR
-#&gt; 11 286.15098 y2*   y*   2 1  QR
-#&gt; 12 383.20374 y3*   y*   3 1 PQR</div><div class='input'><span class='fu'>calculateFragments</span>(<span class='st'>"PQR"</span>,
+<span class='fu'>calculateFragments</span>(<span class='st'>"PQR"</span>)</div><div class='output co'>#&gt;          mz ion type pos z seq
+#&gt; 1  98.06004  b1    b   1 1   P
+#&gt; 2 226.11862  b2    b   2 1  PQ
+#&gt; 3 175.11895  y1    y   1 1   R
+#&gt; 4 303.17753  y2    y   2 1  QR
+#&gt; 5 142.12130 y1_   y_   1 1   R
+#&gt; 6 270.17988 y2_   y_   2 1  QR
+#&gt; 7 286.15098 y2*   y*   2 1  QR</div><div class='input'><span class='fu'>calculateFragments</span>(<span class='st'>"PQR"</span>,
                    <span class='kw'>neutralLoss</span><span class='kw'>=</span><span class='fu'>defaultNeutralLoss</span>(<span class='kw'>disableWaterLoss</span><span class='kw'>=</span><span class='st'>"Cterm"</span>))</div><div class='output co'>#&gt;          mz ion type pos z seq
 #&gt; 1  98.06004  b1    b   1 1   P
 #&gt; 2 226.11862  b2    b   2 1  PQ
-#&gt; 3 382.21973  b3    b   3 1 PQR
-#&gt; 4 175.11895  y1    y   1 1   R
-#&gt; 5 303.17753  y2    y   2 1  QR
-#&gt; 6 400.23029  y3    y   3 1 PQR
-#&gt; 7 365.19318 b3*   b*   3 1 PQR
-#&gt; 8 286.15098 y2*   y*   2 1  QR
-#&gt; 9 383.20374 y3*   y*   3 1 PQR</div><div class='input'><span class='fu'>calculateFragments</span>(<span class='st'>"PQR"</span>,
+#&gt; 3 175.11895  y1    y   1 1   R
+#&gt; 4 303.17753  y2    y   2 1  QR
+#&gt; 5 286.15098 y2*   y*   2 1  QR</div><div class='input'><span class='fu'>calculateFragments</span>(<span class='st'>"PQR"</span>,
                    <span class='kw'>neutralLoss</span><span class='kw'>=</span><span class='fu'>defaultNeutralLoss</span>(<span class='kw'>disableAmmoniaLoss</span><span class='kw'>=</span><span class='st'>"Q"</span>))</div><div class='output co'>#&gt;          mz ion type pos z seq
 #&gt; 1  98.06004  b1    b   1 1   P
 #&gt; 2 226.11862  b2    b   2 1  PQ
-#&gt; 3 382.21973  b3    b   3 1 PQR
-#&gt; 4 175.11895  y1    y   1 1   R
-#&gt; 5 303.17753  y2    y   2 1  QR
-#&gt; 6 400.23029  y3    y   3 1 PQR
-#&gt; 7 142.12130 y1_   y_   1 1   R
-#&gt; 8 270.17988 y2_   y_   2 1  QR
-#&gt; 9 367.23264 y3_   y_   3 1 PQR</div><div class='input'>
+#&gt; 3 175.11895  y1    y   1 1   R
+#&gt; 4 303.17753  y2    y   2 1  QR
+#&gt; 5 142.12130 y1_   y_   1 1   R
+#&gt; 6 270.17988 y2_   y_   2 1  QR</div><div class='input'>
 <span class='co'>## disable neutral loss completely</span>
 <span class='fu'>calculateFragments</span>(<span class='st'>"PQR"</span>, <span class='kw'>neutralLoss</span><span class='kw'>=</span><span class='kw'>NULL</span>)</div><div class='output co'>#&gt;          mz ion type pos z seq
 #&gt; 1  98.06004  b1    b   1 1   P
 #&gt; 2 226.11862  b2    b   2 1  PQ
-#&gt; 3 382.21973  b3    b   3 1 PQR
-#&gt; 4 175.11895  y1    y   1 1   R
-#&gt; 5 303.17753  y2    y   2 1  QR
-#&gt; 6 400.23029  y3    y   3 1 PQR</div></pre>
+#&gt; 3 175.11895  y1    y   1 1   R
+#&gt; 4 303.17753  y2    y   2 1  QR</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
