@@ -19,6 +19,7 @@ setMethod("show", "Chromatogram", function(object) {
         rtr <- range(object@rtime)
         cat("rt range: [", rtr[1], ", ", rtr[2], "]\n", sep = "")
     }
+    cat("MS level: ", paste(object@msLevel, collapse = ", "), "\n", sep = "")
 })
 
 #' @description \code{rtime} returns the retention times for the rentention time
@@ -185,6 +186,28 @@ setMethod("plot", signature = signature("Chromatogram"),
           function(x, col = "#00000060", lty = 1, type = "l",
                    xlab = "retention time", ylab = "intensity",
                    main = NULL, ...) {
-              .plotChromatogram(x = x, col = col, lty = lty, type = type,
-                                xlab = xlab, ylab = ylab, main = main, ...)
+              if (isEmpty(x)) {
+                  ## Show a warning and plot an empty plot (issue #249)
+                  warning("Chromatogram is empty")
+                  plot(3, 3, xlab = xlab, ylab = ylab, main = main, pch = NA)
+                  text(3, 3, labels = "Empty Chromatogram", col = "red")
+              } else {
+                  .plotChromatogram(x = x, col = col, lty = lty, type = type,
+                                    xlab = xlab, ylab = ylab, main = main, ...)
+              }
           })
+
+#' @description \code{msLevel} returns the MS level of the chromatogram.
+#' 
+#' @rdname Chromatogram-class
+setMethod("msLevel", "Chromatogram", function(object) {
+    object@msLevel
+})
+
+#' @description \code{isEmpty} returns \code{TRUE} for empty chromatogram or
+#'     chromatograms with all intensities being \code{NA}.
+#' 
+#' @rdname Chromatogram-class
+setMethod("isEmpty", "Chromatogram", function(x) {
+    (length(x) == 0 | all(is.na(intensity(x))))
+})

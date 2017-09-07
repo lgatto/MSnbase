@@ -203,6 +203,7 @@ setMethod("isCentroided", "OnDiskMSnExp",
                   .isCentroided(as(z, "data.frame"), ...))
               ctrd <- unlist(res, use.names = FALSE)
               if (verbose) print(table(ctrd, msLevel(object)))
+              names(ctrd) <- featureNames(object)              
               ctrd
           })
 

@@ -103,47 +103,48 @@ removePeaks_MSnExp <- function(object, t = "min", verbose = isMSnbaseVerbose()) 
 
 
 clean_MSnExp <- function(object, all, verbose = isMSnbaseVerbose()) {
-  ## -- was ---------------------------------------------------
-  ##  ifelse(verbose,progress <- "text",progress <- "none")
-  ##  spectra <- llply(spectra(object),function(x) clean(x),.progress=progress)
-  ##  object@assayData <- list2env(spectra)
-  ## -- new ---------------------------------------------------
-  e <- new.env()
-  if (verbose) {
-    ._cnt <- 1
-    pb <- txtProgressBar(min = 0, max = length(object), style = 3)
-  }
-  sapply(featureNames(object),
-         function(x) {
-           if (verbose) {
-             setTxtProgressBar(pb, ._cnt)
-             ._cnt <<- ._cnt+1
-           }
-           sp <- get(x, envir = assayData(object))
-           xx <- clean(sp, all)
-           assign(x, xx, envir = e)
-           invisible(TRUE)
-         })
-  if (verbose) {
-    close(pb)
-    rm(pb)
-    rm(._cnt)
-  }
-  ## ----------------------------------------------------------
-  object@processingData@cleaned <- TRUE
-  object@processingData@processing <- c(object@processingData@processing,
-                                        paste0("Spectra cleaned: ", date()))
+    ## -- was ---------------------------------------------------
+    ##  ifelse(verbose,progress <- "text",progress <- "none")
+    ##  spectra <- llply(spectra(object),function(x) clean(x),.progress=progress)
+    ##  object@assayData <- list2env(spectra)
+    ## -- new ---------------------------------------------------
+    e <- new.env()
+    if (verbose) {
+        ._cnt <- 1
+        pb <- txtProgressBar(min = 0, max = length(object), style = 3)
+    }
+    sapply(featureNames(object),
+           function(x) {
+               if (verbose) {
+                   setTxtProgressBar(pb, ._cnt)
+                   ._cnt <<- ._cnt+1
+               }
+               sp <- get(x, envir = assayData(object))
+               xx <- clean(sp, all)
+               assign(x, xx, envir = e)
+               invisible(TRUE)
+           })
+    if (verbose) {
+        close(pb)
+        rm(pb)
+        rm(._cnt)
+    }
+    ## ----------------------------------------------------------
+    object@processingData@cleaned <- TRUE
+    object@processingData@processing <- c(object@processingData@processing,
+                                          paste0("Spectra cleaned: ", date()))
 
-  if (object@.cache$level > 0) {
-    hd <- header(object)
-    hd$peaks.count <- peaksCount(object)
-    object@.cache <- setCacheEnv(list(assaydata = assayData(object),
-                                      hd = hd),
-                                 object@.cache$level)
-  }
-  object@assayData <- e
-  if (validObject(object))
-    return(object)
+    if (object@.cache$level > 0) {
+        hd <- header(object)
+        hd$peaks.count <- peaksCount(object)
+        object@.cache <- setCacheEnv(list(assaydata = assayData(object),
+                                          hd = hd),
+                                     object@.cache$level)
+    }
+    lockEnvironment(e, bindings = TRUE)
+    object@assayData <- e
+    if (validObject(object))
+        return(object)
 }
 
 
@@ -205,6 +206,7 @@ bin_MSnExp <- function(object, binSize = 1, verbose = isMSnbaseVerbose()) {
                                           hd = hd),
                                      object@.cache$level)
     }
+    lockEnvironment(e, bindings = TRUE)
     object@assayData <- e
     if (validObject(object))
         return(object)
@@ -268,8 +270,9 @@ pickPeaks_MSnExp <- function(object, halfWindowSize, method, SNR,
                                       hd = hd),
                                  object@.cache$level)
   }
-  object@assayData <- e
-  if (validObject(object))
+    lockEnvironment(e, bindings = TRUE)    
+    object@assayData <- e
+    if (validObject(object))
     return(object)
 }
 
@@ -312,8 +315,9 @@ smooth_MSnExp <- function(object, method, halfWindowSize, ...,
                                       hd = hd),
                                  object@.cache$level)
   }
-  object@assayData <- e
-  if (validObject(object))
+    lockEnvironment(e, bindings = TRUE)    
+    object@assayData <- e
+    if (validObject(object))
     return(object)
 }
 

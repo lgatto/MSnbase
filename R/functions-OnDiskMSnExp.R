@@ -603,16 +603,20 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
                             spct <- filterMz(spct, filter_mz)
                             ## Now aggregate the values.
                             if (!spct@peaksCount)
-                                return(c(NA_real_, NA_real_, missingValue))
+                                return(c(NA_real_, NA_real_, missingValue,
+                                         NA_real_))
                             c(range(spct@mz, na.rm = TRUE, finite = TRUE),
                               do.call(aggFun, list(spct@intensity,
-                                                   na.rm = TRUE)))
+                                                   na.rm = TRUE)),
+                              spct@msLevel)
                         }, filter_mz = mzm[i, ], aggFun = aggFun)
                     ## Now build the Chromatogram class.
                     allVals <- unlist(cur_sps, use.names = FALSE)
-                    idx <- seq(3, length(allVals), by = 3)
-                    ## Or should we drop the names completely?
-                    ints <- allVals[idx]
+                    ## Index for intensity values.
+                    int_idx <- seq(3, length(allVals), by = 4)
+                    ## Index for MS level
+                    mslevel_idx <- seq(4, length(allVals), by = 4)
+                    ints <- allVals[int_idx]
                     names(ints) <- names(cur_sps)
                     ## If no measurement is non-NA, still report the NAs and
                     ## use the filter mz as mz. We hence return a
@@ -621,15 +625,17 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
                     ## values being NA
                     mz_range <- mzm[i, ]
                     if (!all(is.na(ints)))
-                        mz_range <- range(allVals[-idx], na.rm = TRUE,
-                                          finite = TRUE)
+                        mz_range <- range(allVals[-c(int_idx, mslevel_idx)],
+                                          na.rm = TRUE, finite = TRUE)
                     cur_res[[i]] <- Chromatogram(
                         rtime = rts[in_rt],
                         intensity = ints,
                         mz = mz_range,
                         filterMz = mzm[i, ],
                         fromFile = as.integer(cur_file),
-                        aggregationFun = aggFun)
+                        aggregationFun = aggFun,
+                        msLevel = as.integer(unique(allVals[mslevel_idx]))
+                        )
                 }
                 cur_res
             }, MoreArgs = list(rtm = rt, mzm = mz, aggFun = aggregationFun),
@@ -659,4 +665,47 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         res <- res_all_files
     }
     do.call(cbind, res)
+}
+
+##' The function extracts the mode (profile or centroided) from the
+##' raw mass spectrometry file by parsing the mzML file directly. If
+##' the object `x` stems from any other type of file, `NA`s are
+##' returned.
+##'
+##' This function is much faster than [isCentroided()], which
+##' estimates mode from the data, but is limited to data stemming from
+##' mzML files which are still available in their original location
+##' (and accessed with `fileNames(x)`).
+##' 
+##' @title Get mode from mzML data file
+##' @param x An object of class [OnDiskMSnExp-class].
+##' @return A named `logical` vector of the same length as `x`.
+##' @md
+##' @author Laurent Gatto
+##' @examples
+##' library("msdata")
+##' f <- proteomics(full.names = TRUE,
+##'                 pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
+##' x <- readMSData(f, mode = "onDisk")
+##' table(isCentroidedFromFile(x), msLevel(x))
+isCentroidedFromFile <- function(x) {
+    stopifnot(inherits(x, "OnDiskMSnExp"))
+    fs <- fileNames(x)
+    if (!all(fex <- file.exists(fs)))
+        stop(sum(!fex), " files not found.")
+    ## iterate over all files
+    res <- vector("list", length = length(fs))
+    for (i in seq_along(fs)) {
+        f <- fs[i]
+        if (.fileExt(f) != "mzML")
+            .res <- rep(NA, length(x))
+        else .res <- .isCentroidedFromFile(f)
+        names(.res) <- formatFileSpectrumNames(i, seq(length(.res)))
+        ## keep only features in x
+        k <- match(featureNames(filterFile(x, i)), names(.res))
+        res[[i]] <- .res[k]
+    }
+    res <- unlist(res)
+    ## reorder
+    res[featureNames(x)]
 }

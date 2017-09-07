@@ -17,6 +17,7 @@
 \alias{colnames<-,Chromatograms-method}
 \alias{sampleNames,Chromatograms-method}
 \alias{sampleNames<-,Chromatograms,ANY-method}
+\alias{isEmpty,Chromatograms-method}
 \title{Container for multiple Chromatogram objects}
 \usage{
 Chromatograms(data, phenoData, ...)
@@ -46,6 +47,8 @@ Chromatograms(data, phenoData, ...)
 \S4method{sampleNames}{Chromatograms}(object)
 
 \S4method{sampleNames}{Chromatograms,ANY}(object) <- value
+
+\S4method{isEmpty}{Chromatograms}(x)
 }
 \arguments{
 \item{data}{A \code{list} of \code{\link{Chromatogram}} objects.}
@@ -157,6 +160,10 @@ The \code{Chromatograms} class allows to store
 \code{sampleNames<-}: replace or set the sample names of the
     \code{Chromatograms} object (i.e. the \code{rownames} of the pheno data
     and \code{colnames} of the data matrix.
+
+\code{isEmpty}: returns \code{TRUE} if the \code{Chromatograms}
+    object or all of its \code{Chromatogram} objects is/are empty or contain
+    only \code{NA} intensities.
 }
 \details{
 The \code{Chromatograms} class extends the base \code{matrix} class

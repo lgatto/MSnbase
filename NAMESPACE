@@ -136,7 +136,8 @@ export(MSnSet,
        Chromatograms,
        factorsAsStrings,
        makeCamelCase,
-       filterIdentificationDataFrame
+       filterIdentificationDataFrame,
+       isCentroidedFromFile
        )
 
 exportClasses(pSet,

@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // imp_neighbour_avg
 NumericMatrix imp_neighbour_avg(NumericMatrix x, double k);
-RcppExport SEXP MSnbase_imp_neighbour_avg(SEXP xSEXP, SEXP kSEXP) {
+RcppExport SEXP _MSnbase_imp_neighbour_avg(SEXP xSEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -26,7 +26,7 @@ RcppExport SEXP Spectrum2_constructor(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, 
 RcppExport SEXP Spectrum2_constructor_mz_sorted(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"MSnbase_imp_neighbour_avg", (DL_FUNC) &MSnbase_imp_neighbour_avg, 2},
+    {"_MSnbase_imp_neighbour_avg", (DL_FUNC) &_MSnbase_imp_neighbour_avg, 2},
     {"Multi_Spectrum1_constructor_mz_sorted", (DL_FUNC) &Multi_Spectrum1_constructor_mz_sorted, 15},
     {"Multi_Spectrum2_constructor_mz_sorted", (DL_FUNC) &Multi_Spectrum2_constructor_mz_sorted, 21},
     {"Spectrum1_constructor",                 (DL_FUNC) &Spectrum1_constructor,                 14},
