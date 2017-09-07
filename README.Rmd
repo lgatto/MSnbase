@@ -16,8 +16,7 @@ package that provides infrastructure for plotting, manipulation and
 processing mass spectrometry and proteomics data. The project was
 started by [Laurent Gatto](http://lgatto.github.io/) in October 2010
 (Mon Oct 4 23:35:23 2010, according to the git log) and has, since
-then, benefited
-from
+then, benefited from
 [various contributions](http://lgatto.github.io/msnbase-contribs/), in
 particular [Sebastian Gibb](http://sebastiangibb.de/)
 and [Johannes Rainer](https://github.com/jotsetung/).
@@ -28,8 +27,7 @@ The official page is the Bioconductor landing page
 [github page](https://github.com/lgatto/MSnbase) page is for active
 development, issue tracking and forking/pulling purposes. 
 
-To get an overview of the package, see
-the
+To get an overview of the package, see the
 [*MSnbase-demo*](https://lgatto.github.io/MSnbase/articles/MSnbase-demo.html) vignette. More
 vignettes are available in the *Articles* tab. 
 
@@ -73,8 +71,7 @@ Contributions to the package are more than welcome. If you want to
 contribute to this package, you should follow the same conventions as
 the rest of the functions. Please do get in touch (preferable opening
 a [github issue](https://github.com/lgatto/MSnbase/issues/)) to
-discuss any
-suggestions. The
+discuss any suggestions. The
 [`MSnbase` development vignette](http://lgatto.github.io/MSnbase/articles/MSnbase-development.html) gives
 some background on the class infrastructure.
 
