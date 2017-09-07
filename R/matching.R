@@ -13,28 +13,15 @@
 relaxedMatch <- function(x, table, nomatch=NA_integer_, tolerance=25e-6,
                          relative=TRUE) {
 
-  res <- rep(nomatch, length(x))
-
-  if (tolerance < 0L) {
-    warning(sQuote("tolerance"), " < 0 is meaningless. Set to zero.")
-    tolerance <- 0L
-  }
-
   if (relative) {
     if (tolerance > 1L) {
       stop(sQuote("tolerance"),
            " must be smaller than 1 for relative deviations.")
     }
     tolerance <- table*tolerance
-  } else {
-    tolerance <- rep_len(tolerance, length(table))
   }
 
-  potentialMatches <- MALDIquant:::.which.closest(x, table)
-  m <- which(abs(x-table[potentialMatches]) < tolerance[potentialMatches])
-
-  res[m] <- potentialMatches[m]
-  return(res)
+  match.closest(x, table, tolerance=tolerance, nomatch=nomatch)
 }
 
 #' similar to base::match but with tolerance
@@ -80,7 +67,7 @@ matchPeaks <- function(x, y, method=c("highest", "closest", "all"),
     m[o] <- sortedMatches
   }
 
-  return(as.integer(m))
+  as.integer(m)
 }
 
 #' common peaks
@@ -98,7 +85,7 @@ commonPeaks <- function(x, y, method=c("highest", "closest"),
 
   m[which(is.na(m))] <- 0L
 
-  return(as.logical(m))
+  as.logical(m)
 }
 
 #' number of common peaks
@@ -109,7 +96,7 @@ commonPeaks <- function(x, y, method=c("highest", "closest"),
 #' @return double, number of common peaks
 #' @noRd
 numberOfCommonPeaks <- function(x, y, tolerance=25e-6, relative=TRUE) {
-  return(sum(commonPeaks(x, y, tolerance=tolerance, relative=relative)))
+  sum(commonPeaks(x, y, tolerance=tolerance, relative=relative))
 }
 
 #' calculate the dot product between two vectors

@@ -66,7 +66,7 @@ plotMzDelta_MSnExp <- function(object,            ## MSnExp object
                                withLabels = TRUE, ## add amino acide labels
                                size = 2.5,        ## labels size
                                plot = TRUE,       ## plot figure
-                               verbose = TRUE) {
+                               verbose = isMSnbaseVerbose()) {
     if (is.null(precMz))
         precMz <- precursorMz(object)
     ## Contributed by Guangchuang Yu for the plotMzDelta QC
@@ -102,8 +102,7 @@ plotMzDelta_MSnExp <- function(object,            ## MSnExp object
         close(pb)
         message(" Plotting...\n")
     }
-    delta <- unlist(delta)
-    delta <- melt(delta)
+    delta <- data.frame(value = unlist(delta))
     p <- ggplot(delta, aes(x = value)) +
         geom_histogram(aes(y = ..density..), stat = "bin", binwidth = bw) +
             scale_x_continuous(limits = xlim) +

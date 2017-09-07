@@ -9,14 +9,14 @@ setMethod("plotMzDelta", "mzRramp",
                    withLabels = TRUE,
                    size = 2.5,
                    plot = TRUE,
-                   verbose = TRUE) {             
+                   verbose = isMSnbaseVerbose()) {
               ## keep only MS2 spectra
               hd <- header(object)
               ms2 <- which(hd$msLevel == 2)
               if (!missing(subset)) {
                   if (subset <= 0 | subset >= 1) {
                       warning('subset must be in ]0, 1[. Ignoring ',
-                              subset, '.', immediate. = TRUE) 
+                              subset, '.', immediate. = TRUE)
                   } else {
                       n <- length(ms2)
                       .subset <- sample(n, ceiling(n * subset))
@@ -33,61 +33,4 @@ setMethod("plotMzDelta", "mzRramp",
                                precMzWidth, bw,
                                xlim, withLabels, size,
                                plot, verbose)
-          })
-
-
-setMethod("chromatogram", "character",
-          function(object,
-                   y = c("tic", "bpi"),
-                   legend = TRUE,
-                   plot = TRUE,
-                   ms = 1L,
-                   ...) {
-              object <- openMSfile(object)
-              on.exit(close(object))
-              hd <- header(object)
-              f <- basename(fileName(object))
-              chromatogram(hd, y, f, legend, plot, ms, ...)
-          })
-
-setMethod("chromatogram", "mzRramp",
-          function(object,
-                   y = c("tic", "bpi"),
-                   legend = TRUE,
-                   plot = TRUE,
-                   ms = 1L,
-                   ...) {                    
-          hd <- header(object)
-          f <- basename(fileName(object))
-          chromatogram(hd, y, f, legend, plot, ms, ...)
-      })
-
-setMethod("chromatogram", "data.frame",
-          function(object,
-                   y = c("tic", "bpi"),
-                   f,
-                   legend = TRUE,
-                   plot = TRUE,
-                   ms = 1L,
-                   ...) { 
-          stopifnot("retentionTime" %in% colnames(object))
-          stopifnot("msLevel" %in% colnames(object))
-          y <- match.arg(y)
-          chck <- switch(y,
-                         tic = stopifnot("totIonCurrent" %in% colnames(object)),
-                         bpi = stopifnot("basePeakIntensity" %in% colnames(object)))
-          object <- object[object$msLevel == ms, ]
-          if (nrow(object) == 0)
-              stop("No spectra of level ", ms, " found.")
-          .chromatogram(object, y, f, legend, plot, ...)
-      })
-
-
-setMethod("xic", "mzRramp",
-          function(object, ...) xic_1(object, ...))
-
-setMethod("xic", "character",
-          function(object, ...) {
-              object <- openMSfile(object)
-              xic_1(object, ...)
           })

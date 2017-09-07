@@ -2,7 +2,8 @@
 % Please edit documentation in R/iPQF.R
 \name{iPQF}
 \alias{iPQF}
-\title{iPQF: iTRAQ (and TMT) Protein Quantification based on Features}
+\title{iPQF: iTRAQ (and TMT) Protein Quantification based on
+    Features}
 \usage{
 iPQF(object, groupBy, low.support.filter = FALSE, ratio.calc = "sum",
   method.combine = FALSE, feature.weight = c(7, 6, 4, 3, 2, 1, 5)^2)
@@ -27,11 +28,11 @@ peptides intensities.}
 \item{method.combine}{A \code{logical} defining whether to further
 use median polish to combine features.}
 
-\item{feature.weight}{Vector \code{"numeric"} giving weight to the different
-features. Default is the squared order of the features redundant
--unique-distance metric, charge state, ion intensity, sequence length, 
-identification score, modification state, and mass based on a robustness 
-analysis.}
+\item{feature.weight}{Vector \code{"numeric"} giving weight to the
+different features. Default is the squared order of the
+features redundant -unique-distance metric, charge state, ion
+intensity, sequence length, identification score, modification
+state, and mass based on a robustness analysis.}
 }
 \value{
 A \code{matrix} with estimated protein ratios.
@@ -55,12 +56,13 @@ prot <- combineFeatures(msnset2,
                         fun = "iPQF")
 head(exprs(prot))
 }
+\references{
+iPQF: a new peptide-to-protein summarization method
+    using peptide spectra characteristics to improve protein
+    quantification. Fischer M, Renard BY.  Bioinformatics. 2016
+    Apr 1;32(7):1040-7. doi:10.1093/bioinformatics/btv675. Epub
+    2015 Nov 20. PubMed PMID:26589272.
+}
 \author{
 Martina Fischer
 }
-\references{
-iPQF: A new peptide-to-protein summarization method using peptide
-characteristics to improve iTRAQ quantification Martina Fischer
-and Bernhard Y. Renard, \emph{in prep}.
-}
-

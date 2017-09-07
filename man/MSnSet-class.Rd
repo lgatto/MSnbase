@@ -5,7 +5,8 @@
 \alias{class:MSnSet}
 \alias{MSnSet}
 
-%% TODO add methods
+
+\alias{acquisitionNum,MSnSet-method}
 \alias{exprs,MSnSet-method}
 \alias{dim,MSnSet-method}
 \alias{fileNames,MSnSet-method}
@@ -34,6 +35,7 @@
 \alias{write.exprs}
 \alias{write.exprs,MSnSet-method}
 \alias{experimentData<-,MSnSet,MIAPE-method}
+\alias{pData<-,MSnSet,data.frame-method}
 \alias{combine,MSnSet,MSnSet-method}
 \alias{topN,MSnSet,MSnSet-method}
 \alias{topN,MSnSet-method}
@@ -52,6 +54,7 @@
 \alias{addIdentificationData,MSnSet,character-method}
 \alias{addIdentificationData,MSnSet,mzIDClasses-method}
 \alias{addIdentificationData,MSnSet,mzID-method}
+\alias{addIdentificationData,MSnSet,mzRident-method}
 \alias{addIdentificationData,MSnSet,mzIDCollection-method}
 \alias{addIdentificationData,MSnSet,data.frame-method}
 \alias{removeNoId,MSnSet-method}
@@ -60,6 +63,7 @@
 \alias{removeMultipleAssignment}
 \alias{idSummary,MSnSet-method}
 \alias{idSummary}
+\alias{fromFile,MSnSet-method}
 
 \alias{trimws}
 \alias{trimws,MSnSet-method}
@@ -184,6 +188,25 @@
     %% \item{$name}{\code{signature(x = "pSet")}: Access \code{name} column
     %%   in \code{featureData}. Note that this behaviour is different to
     %%   the \code{eSet}, where \code{$} accesses the \code{phenoData}. }
+    \item{acquisitionNum}{
+      \code{acquisitionNum(signature(object = "MSnSet"))}: Returns the
+      a numeric vector with acquisition number of each spectrum. The vector
+      names are the corresponding spectrum names.
+      The information is extracted from the object's \code{featureData} slot.
+    }
+
+    \item{fromFile}{    
+      \code{fromFile(signature(object = "MSnSet"))}: get the index of
+      the file (in \code{fileNames(object)}) from which the raw
+      spectra from which the corresponding feature were originally
+      read. The relevant information is extracted from the object's
+      \code{featureData} slot.
+
+      Returns a numeric vector with names corresponding to the spectrum
+      names.
+    }
+
+
     \item{dim}{\code{signature(x = "MSnSet")}: Returns the dimensions of
       object's assay data, i.e the number of samples and the number of
       features. }
@@ -229,7 +252,8 @@
       2 or more \code{MSnSet} instances according to their feature names.
       Note that the \code{qual} slot and the processing information are
       silently dropped. }
-    \item{topN}{signature(object = "MSnSet", groupBy, n = 3, fun, ...)}{
+    \item{topN}{signature(object = "MSnSet", groupBy, n = 3, fun, ..., verbose =
+      isMSnbaseVerbose())}{
       Selects the \code{n} most intense features (typically peptides or
       spectra) out of all available for each set defined by
       \code{groupBy} (typically proteins) and creates a new instance of
@@ -239,8 +263,6 @@
       decreasing order. Additional parameters can be passed to
       \code{fun} through \code{...}, for instance to control the
       behaviour of \code{topN} in case of \code{NA} values.
-      Note that the \code{qual} slot and the processing information are
-      silently dropped.
       (Works also with \code{matrix} instances.)
 
       See also the \code{\link{nQuants}} function to retrieve the
@@ -370,9 +392,10 @@
       examples. }
 
     \item{removeMultipleAssignment}{\code{signature(object = "MSnSet",
-	fcol = "nprot")}: Removes protein groups with more than one
-      member. The latter is defined by extracting a feature variable
-      (default is \code{"nprot"}). }
+	fcol = "nprot")}: Removes protein groups (or feature belong to
+	protein groups) with more than one member. The latter is defined
+	by extracting a feature variable (default is
+	\code{"nprot"}). Also removes non-identified features/ }
 
     \item{idSummary}{\code{signature(object = "MSnSet", ...)}: Prints a
       summary that lists the percentage of identified features per file
@@ -448,7 +471,7 @@ sampleNames(x)
 
 ## Visualisation
 
-library(pRolocdata)
+library("pRolocdata")
 data(dunkley2006)
 image(dunkley2006)
 ## Changing colours

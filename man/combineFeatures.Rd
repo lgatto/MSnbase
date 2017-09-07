@@ -19,15 +19,15 @@
   NB: All the functions available as \code{fun} take a \code{na.rm}
   argument. This argument is \code{FALSE} by default. This will have as
   effect that \code{NA} get propagated at the higher level. It is
-  generally advised to set \code{na.rm = TRUE}. See the example below.   
+  generally advised to set \code{na.rm = TRUE}. See the example below.
 }
 
 \usage{
 
 combineFeatures(object, groupBy, fun = c("mean", "median",
-"weighted.mean", "sum", "medpolish", "iPQF"), redundancy.handler =
-c("unique", "multiple"), cv = TRUE, cv.norm = "sum", verbose = TRUE,
-...)
+"weighted.mean", "sum", "medpolish", "iPQF", "NTR"), redundancy.handler =
+c("unique", "multiple"), cv = TRUE, cv.norm = "sum", verbose =
+isMSnbaseVerbose(), ...)
 
 }
 
@@ -44,10 +44,11 @@ c("unique", "multiple"), cv = TRUE, cv.norm = "sum", verbose = TRUE,
     \code{redundancy.handler} for details about the latter.}
 
   \item{fun}{ The summerising function. Currently, mean, median,
-    weighted mean, sum and median polish and iPQF (see
-    \code{\link{iPQF}} for details) are implemented, but user-defined
-    functions can also be supplied. }
-    
+    weighted mean, sum, median polish, iPQF (see
+    \code{\link{iPQF}} for details) and NTR (see \code{\link[MSnbase]{NTR}}
+    for details) are implemented, but user-defined functions can also be
+    supplied. }
+
   \item{redundancy.handler}{ If \code{groupBy} is a \code{list}, one of
     \code{"unique"} (default) or \code{"multiple"} (ignored otherwise)
     defining how to handle peptides that can be associated to multiple
@@ -57,7 +58,7 @@ c("unique", "multiple"), cv = TRUE, cv.norm = "sum", verbose = TRUE,
     \code{"multiple"} will allow matching to multiple proteins and each
     feature will be repeatedly tallied for each possible matching
     protein. }
-  
+
   \item{cv}{ A \code{logical} defining if feature coefficients of
     variation should be computed and stored as feature
     meta-data. Default is \code{TRUE}. }
@@ -70,9 +71,8 @@ c("unique", "multiple"), cv = TRUE, cv.norm = "sum", verbose = TRUE,
   \item{verbose}{ A \code{logical} indicating whether verbose output is
     to be printed out. }
 
-  \item{\dots}{ Additional arguments for the \code{fun} function. In
-    particular, for the iPQF method, additional arguments are described
-    in the details section. } }
+  \item{\dots}{ Additional arguments for the \code{fun} function. }
+}
 
 
 \value{
@@ -81,7 +81,7 @@ c("unique", "multiple"), cv = TRUE, cv.norm = "sum", verbose = TRUE,
   (i.e. the number od features) is now equals to the number of levels in
   \code{groupBy}. The feature metadata (\code{featureData} slot) is
   updated accordingly and only the first occurrence of a feature in
-  the original feature meta-data is kept. 
+  the original feature meta-data is kept.
 }
 
 
@@ -90,16 +90,25 @@ c("unique", "multiple"), cv = TRUE, cv.norm = "sum", verbose = TRUE,
 }
 
 \references{
-
-  iPQF: A new peptide-to-protein summarization method using peptide
-  characteristics to improve iTRAQ quantification Martina Fischer and
-  Bernhard Y. Renard, \emph{in prep}.
-
+  iPQF: a new peptide-to-protein summarization method using peptide
+  spectra characteristics to improve protein quantification. Fischer M,
+  Renard BY.  Bioinformatics. 2016 Apr
+  1;32(7):1040-7. doi:10.1093/bioinformatics/btv675. Epub 2015 Nov
+  20. PubMed PMID:26589272.
 }
 
 \seealso{
-  \code{\link{featureCV}}
+
+  \code{\link{featureCV}} to calculate coefficient of variation,
+  \code{\link{nFeatures}} to document the number of features per group
+  in the feature data, and the \code{\link{aggvar}} to explore
+  variability within protein groups.
+
+  \code{\link[MSnbase]{iPQF}} for iPQF summarisation.
+
+  \code{\link[MSnbase]{NTR}} for normalisation to reference summarisation.
 }
+
 
 \examples{
 data(msnset)
@@ -121,12 +130,12 @@ exprs(combineFeatures(msnset, grpl, fun = "sum", redundancy.handler = "unique"))
 exprs(combineFeatures(msnset, grpl, fun = "sum", redundancy.handler = "multiple"))
 
 ## missing data
-exprs(msnset)[4, 4] <- 
+exprs(msnset)[4, 4] <-
     exprs(msnset)[2, 2] <- NA
 exprs(msnset)
-## NAs propagate in the 115 and 117 channels 
+## NAs propagate in the 115 and 117 channels
 exprs(combineFeatures(msnset, grp, "sum"))
-## NAs are removed before summing 
+## NAs are removed before summing
 exprs(combineFeatures(msnset, grp, "sum", na.rm = TRUE))
 
 ## using iPQF

@@ -1,35 +1,38 @@
 ## set plotNA method
-plotNA_matrix <- function(X, pNA) {
-  ## no visible binding for global variable ...
-  x <- value <- variable <- proteins <- y <- z <- NULL
-  ## X: matrix
+.preparePlotNAData <- function(x) {
   ## pNA: percentrage of NAs allowed per feature
-  pNA <- pNA[1]
-  calcNApp <- function(x) {
-    nbna <- sum(is.na(x))
-    if (is.null(dim(x)))
-      nbcells <- length(x)
-    else 
-      nbcells <- prod(dim(x))
-    return(nbna/nbcells)
-  }
-  ocol <- apply(X,2, function(x) sum(is.na(x)))
-  orow <- apply(X,1, function(x) sum(is.na(x)))
-  X <- X[order(orow), order(ocol)]
+  nnacol <- colSums(is.na(x))
+  nnarow <- rowSums(is.na(x))
+
+  ocol <- order(nnacol)
+  orow <- order(nnarow)
+
+  nnacol <- nnacol[ocol]
+  nnarow <- nnarow[orow]
+  x <- x[orow, ocol]
+
+  nc <- ncol(x)
+
   ## percentage of NA for each protein
-  k <- apply(X, 1,
-             function(x) 1-sum(is.na(x))/length(x))
-  ## percentage of NA in data set 
-  t <- sapply(1:nrow(X),
-              function(x) calcNApp(X[1:x, ]))
-  nkeep <- sum( k >= (1 - pNA) )
-  kkeep <- 1-calcNApp(X[1:nkeep, ])  
-  dfr1 <- data.frame(x = 1:length(k),
-                    proteins = k,
-                    data = 1 - t)
-  dfr2 <- melt(dfr1, measure.vars=c("proteins", "data"))
-  p <- ggplot() + 
-    geom_line(data = dfr2, aes(x = x, y = value, colour = variable)) + 
+  p <- 1 - nnarow / nc
+  ## percentage of NA in data set
+  d <- 1 - cumsum(nnarow) / (1:nrow(x) * nc)
+
+  data.frame(x = seq_along(p), proteins = p, data = d)
+}
+
+plotNA_matrix <- function(X, pNA) {
+  pNA <- pNA[1]
+  dfr1 <- .preparePlotNAData(X)
+  dfr2 <- data.frame(x = 1:nrow(dfr1),
+                     variable = rep(c("proteins", "data"), each = nrow(dfr1)),
+                     value = c(dfr1$proteins, dfr1$data))
+  nkeep <- sum(dfr1$proteins >= (1 - pNA))
+  kkeep <- dfr1$data[nkeep]
+  x <- y <- z <- value <- variable <- NULL
+
+  p <- ggplot() +
+    geom_line(data = dfr2, aes(x = x, y = value, colour = variable)) +
       labs(x = "Protein index (ordered by data completeness)",
            y = "Data completeness") +
              theme(legend.position=c(0.23, 0.18),
@@ -171,30 +174,43 @@ imageNA2 <- function(object, pcol,
 ##'
 ##' @title Overview of missing value
 ##' @param object An object of class \code{MSnSet}.
-##' @param verbose If verbose (default is \code{TRUE}), print a table
-##'     of missing values.
+##' @param verbose If verbose (default is \code{isMSnbaseVerbose()}), print a
+##'     table of missing values.
+##' @param reorderRows If reorderRows (default is \code{TRUE}) rows are ordered
+##'     by number of NA.
+##' @param reorderColumns If reorderColumns (default is \code{TRUE}) columns
+##'     are ordered by number of NA.
 ##' @param ... Additional parameters passed to \code{image2}.
 ##' @return Used for its side effect. Invisibly returns \code{NULL}
 ##' @author Laurent Gatto
 ##' @examples
 ##' data(naset)
 ##' naplot(naset)
-naplot <- function(object, verbose = TRUE, ...) {
-    op <- par(no.readonly = TRUE)
+naplot <- function(object, verbose=isMSnbaseVerbose(),
+                   reorderRows=TRUE, reorderColumns=TRUE, ...) {
+    op <- par(no.readonly=TRUE)
     on.exit(par(op))
-    zones <- matrix(c(2,0,1,3), ncol = 2, byrow = TRUE)
-    layout(zones, widths = c(4/5, 1/5), heights = c(1/5, 4/5))
-    features.na <- apply(exprs(object), 1, function(x) sum(is.na(x)))
-    xo <- order(features.na)
-    samples.na <- apply(exprs(object), 2, function(x) sum(is.na(x)))
-    yo <- order(samples.na)
-    object <- object[xo, yo]
-    par(mar = c(3,3,1,1))
-    image2(object, ...)
-    par(mar = c(0,3,1,1))
-    barplot(sort(samples.na), space=0, xaxt = "n")
-    par(mar = c(3,0,1,1))
-    barplot(sort(features.na), space=0, horiz=TRUE, yaxt = "n")
+    zones <- matrix(c(2,0,1,3), ncol=2, byrow=TRUE)
+    layout(zones, widths=c(4/5, 1/5), heights=c(1/5, 4/5))
+    mNA <- is.na(exprs(object))
+    features.na <- rowSums(mNA)
+    samples.na <- colSums(mNA)
+    if (reorderRows) {
+      xo <- order(features.na)
+    } else {
+      xo <- 1L:nrow(object)
+    }
+    if (reorderColumns) {
+      yo <- order(samples.na)
+    } else {
+      yo <- 1L:ncol(object)
+    }
+    par(mar=c(3,3,1,1))
+    image2(object[xo, yo], ...)
+    par(mar=c(0,3,1,1))
+    barplot(samples.na[yo], space=0, xaxt="n", xaxs="i")
+    par(mar=c(3,0,1,1))
+    barplot(features.na[xo], space=0, horiz=TRUE, yaxt="n", yaxs="i")
     if (verbose) {
         print(table(features.na))
         print(table(samples.na))

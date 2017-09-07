@@ -14,9 +14,9 @@ setMethod("initialize", "MSnSet",
                    ... ) {
             if (missing(assayData)) {
               if (missing(phenoData))
-                phenoData <- annotatedDataFrameFrom(exprs, byrow=FALSE)
+                phenoData <- annotatedDataFrameFrom(exprs, byrow = FALSE)
               if (missing(featureData))
-                featureData <- annotatedDataFrameFrom(exprs, byrow=TRUE)
+                featureData <- annotatedDataFrameFrom(exprs, byrow = TRUE)
               if (missing(experimentData))
                 experimentData <- new("MIAPE")
               .Object <- callNextMethod(.Object,
@@ -27,9 +27,9 @@ setMethod("initialize", "MSnSet",
                                         ...)
             } else if (missing(exprs)) {
               if (missing(phenoData))
-                phenoData <- annotatedDataFrameFrom(assayData, byrow=FALSE)
+                phenoData <- annotatedDataFrameFrom(assayData, byrow = FALSE)
               if (missing(featureData))
-                featureData <- annotatedDataFrameFrom(assayData, byrow=TRUE)
+                featureData <- annotatedDataFrameFrom(assayData, byrow = TRUE)
               if (missing(experimentData))
                 experimentData <- new("MIAPE")
               .Object <- callNextMethod(.Object,
@@ -39,7 +39,7 @@ setMethod("initialize", "MSnSet",
                                         experimentData = experimentData,
                                         ...)
             } else stop("provide at most one of 'assayData' or 'exprs' to initialize MSnSet",
-                        call.=FALSE)
+                     call. = FALSE)
             .Object@processingData <- new("MSnProcess")
             if (validObject(.Object))
               Biobase:::.harmonizeDimnames(.Object)
@@ -49,7 +49,8 @@ setMethod("initialize", "MSnSet",
 
 setValidity("MSnSet", function(object) {
   msg <- validMsg(NULL, Biobase:::isValidVersion(object, "MSnSet"))
-  msg <- validMsg(msg, Biobase::assayDataValidMembers(assayData(object), c("exprs")))
+  msg <- validMsg(msg, Biobase::assayDataValidMembers(assayData(object),
+                                                      c("exprs")))
   if ( nrow(qual(object)) != 0 ) {
     nrow.obs <- nrow(qual(object))
     nrow.exp <- nrow(object) * length(object$reporters)
@@ -57,20 +58,42 @@ setValidity("MSnSet", function(object) {
       msg <- validMsg(msg,
                       "number of rows in assayData and qual slots do not match.")
   }
-  if (!inherits(experimentData(object),"MIAPE"))
+  if (!inherits(experimentData(object), "MIAPE"))
     msg <- validMsg(msg,
                     "experimentData slot in MSnSet must be 'MIAPE' object")
   if (!inherits(exprs(object), "matrix"))
     msg <- validMsg(msg,
                     "exprs(.) must be a matrix")
+  if ("" %in% featureNames(object))
+      msg <- validMsg(msg, "Empty string is not a valid feature name.")
   if (is.null(msg)) TRUE else msg
 })
 
-setMethod("exprs", signature(object="MSnSet"),
-          function(object) assayDataElement(object,"exprs"))
+setReplaceMethod("pData",
+                 c("MSnSet", "data.frame"),
+                 function(object, value) {
+                     pData(object@phenoData) <- value
+                     if (validObject(object))
+                         object
+                 })
 
-setReplaceMethod("exprs", signature(object="MSnSet",value="matrix"),
-                 function(object, value) assayDataElementReplace(object, "exprs", value))
+setMethod("acquisitionNum", signature(object = "MSnSet"),
+          function(object) {
+              fcol <- c("acquisitionNum", "acquisition.number")
+              if (!any(fcol %in% fvarLabels(object))) {
+                  stop("'featureData' has no column '", fcol, "'.")
+              }
+              fcol <- fcol[which(fcol %in% fvarLabels(object))[1]]
+              setNames(featureData(object)[[fcol]],
+                       featureNames(object))
+          })
+
+setMethod("exprs", signature(object = "MSnSet"),
+          function(object) assayDataElement(object, "exprs"))
+
+setReplaceMethod("exprs", signature(object = "MSnSet", value = "matrix"),
+                 function(object, value)
+                     assayDataElementReplace(object, "exprs", value))
 
 setMethod("show","MSnSet",
           function(object) {
@@ -82,12 +105,10 @@ setMethod("show","MSnSet",
 
 setMethod("normalize", "MSnSet",
           function(object,
-                   method = c("sum","max",
-                     "center.mean", "center.median",
-                     "quantiles",
-                     "quantiles.robust",
-                     "vsn"), ...)
-          normalise_MSnSet(object, match.arg(method), ...)
+                   method = c("sum", "max", "center.mean",
+                              "center.median", "diff.median",
+                              "quantiles", "quantiles.robust", "vsn"), ...)
+              normalise_MSnSet(object, match.arg(method), ...)
           )
 
 normalise <- normalize
@@ -150,38 +171,39 @@ setMethod("purityCorrect",
 
 setMethod("dim", "MSnSet",function(x) dim(exprs(x)))
 setMethod("qual", "MSnSet", function(object) object@qual)
-## Not sure about these...
-## setReplaceMethod("featureNames",
-##                  signature(object="MSnSet",
-##                            value="character"),
-##                  function(object, value) {
-##                    object@features = value
-##                    if (validObject(object))
-##                      return(object)
-##                  })
-
-## No proteomicsData anymore (since version 0.2.0 of MSnSet and MSnbase).
-## experimentData is not proper MIAPE
-## setMethod("proteomicsData","MSnSet",function(object) object@proteomicsData)
-## setReplaceMethod("proteomicsData",
-##                  signature(object="MSnSet",
-##                            value="MIAPE"),
-##                  function(object, value) {
-##                    object@proteomicsData = value
-##                    if (validObject(object))
-##                      return(object)
-##                  })
 
 setMethod("fileNames",
-          signature(object="MSnSet"),
+          signature(object = "MSnSet"),
           function(object) processingData(object)@files)
 
-setReplaceMethod("fileNames",
-          signature(object="MSnSet", value="character"),
-          function(object, value) {
-            fileNames(object@processingData) <- value
-            return(object)
+## setReplaceMethod("fileNames",
+##           signature(object="MSnSet", value="character"),
+##           function(object, value) {
+##             fileNames(object@processingData) <- value
+##             return(object)
+##           })
+
+setMethod("fromFile", "MSnSet",
+          function(object) {
+              fidx <- fData(object)$fileIdx
+              names(fidx) <- featureNames(object)
+              return(fidx)
           })
+
+setReplaceMethod("fromFile", signature(object = "MSnSet",
+                                       value = "integer"),
+                 function(object, value) {
+                     if (length(object) != length(value))
+                         stop("Length of replacement value is different from the number of spectra.")
+                     object@featureData$fileIdx <- value
+                     valMsg <- validObject(object)
+                     if (valMsg) {
+                         return(object)
+                     } else {
+                         stop(valMsg)
+                     }
+                 })
+
 
 setMethod("processingData",
           signature(object="MSnSet"),
@@ -226,10 +248,10 @@ t.MSnSet <- function(x) {
              experimentData = experimentData(x),
              annotation = annotation(x))
   ans@processingData@processing <-
-    x@processingData@processing
+      x@processingData@processing
   ans <- logging(ans, "MSnSet transposed")
   if (validObject(ans))
-    return(ans)
+      return(ans)
 }
 
 
@@ -245,10 +267,11 @@ setMethod("[", "MSnSet", function(x, i, j, ...) {
   .Object@qual <- data.frame()
   dim0 <- paste0("[", paste0(dim0, collapse = ","), "]")
   dim1 <- paste0("[", paste0(dim1, collapse = ","), "]")
-  .Object@processingData@processing <- c(.Object@processingData@processing,
-                                         paste0("Subset ", dim0, dim1, " ", date()))
+  .Object@processingData@processing <-
+      c(.Object@processingData@processing,
+        paste0("Subset ", dim0, dim1, " ", date()))
   if (validObject(.Object))
-    return(.Object)
+      return(.Object)
 })
 
 
@@ -285,8 +308,7 @@ setAs("MSnSet", "data.frame",
       })
 
 as.data.frame.MSnSet <-
-    function(x, row.names=NULL, optional=FALSE, ...) as(x,"data.frame")
-
+    function(x, row.names = NULL, optional = FALSE, ...) as(x, "data.frame")
 
 ms2df <- function(x, fcols = fvarLabels(x)) {
     if (is.null(fcols)) {
@@ -310,9 +332,9 @@ setMethod("write.exprs",
             if (!missing(fcol))
                 fDataCols <- fcol
             if (!is.null(fDataCols))
-              res <- cbind(res,fData(x)[,fDataCols])
-            write.table(res, file=file, quote=quote, sep=sep,
-                        col.names=col.names, ...)
+              res <- cbind(res, fData(x)[, fDataCols])
+            write.table(res, file = file, quote = quote, sep = sep,
+                        col.names = col.names, ...)
           })
 
 setReplaceMethod("experimentData",
@@ -329,8 +351,8 @@ setReplaceMethod("experimentData",
 
 
 setMethod("combine",
-          signature=signature(
-            x="MSnSet", y="MSnSet"),
+          signature = signature(
+            x = "MSnSet", y = "MSnSet"),
           function(x, y, ...) {
             if (class(x) != class(y))
               stop(paste("objects must be the same class, but are ",
@@ -340,7 +362,7 @@ setMethod("combine",
             assayData(x) <- combine(assayData(x), assayData(y))
             phenoData(x) <- combine(phenoData(x), phenoData(y))
             featureData(x) <- combine(featureData(x), featureData(y))
-            experimentData(x) <- combine(experimentData(x),experimentData(y))
+            experimentData(x) <- combine(experimentData(x), experimentData(y))
             protocolData(x) <- combine(protocolData(x), protocolData(y))
             x@processingData <- combine(processingData(x), processingData(y))
             x@processingData@processing <- paste("Combined [",
@@ -356,74 +378,49 @@ setMethod("combine",
 
 
 setMethod("topN", signature(object = "matrix"),
-          function(object, groupBy, n=3, fun, ...) {
+          function(object, groupBy, n=3, fun, ..., verbose=isMSnbaseVerbose()) {
             if (missing(groupBy))
               stop("Specify how to group features to select top ", n, ".")
             if (missing(fun)) {
               fun <- sum
-              if (ncol(object) > 1)
+              if (ncol(object) > 1 && verbose)
                 message("Ranking features using their sum.")
             }
-            rn <- rownames(object)
-            idx <- by(object, groupBy, getTopIdx, n, fun, ...)
-            object <- subsetBy(object, groupBy, idx)
-            if (!is.null(rn)) {
-              rownames(object) <- subsetBy(rn, groupBy, idx)
-            } else {
-              rownames(object) <- NULL
-            }
-            return(object)
+            object[.topIdx(object, groupBy=groupBy, n=n, fun=fun, ...), ]
           })
 
+
 setMethod("topN", signature(object = "MSnSet"),
-          function(object, groupBy, n=3, fun, ...) {
+          function(object, groupBy, n=3, fun, ..., verbose=isMSnbaseVerbose()) {
             if (missing(groupBy))
               stop("Specify how to group features to select top ", n, ".")
             if (missing(fun)) {
               fun <- sum
-              if (ncol(object) > 1)
+              if (ncol(object) > 1 && verbose)
                 message("Ranking features using their sum.")
             }
-            idx <- by(exprs(object), groupBy, getTopIdx, n, fun, ...)
-            fn <- subsetBy(featureNames(object), groupBy, idx)
-            .eset <- subsetBy(exprs(object), groupBy, idx)
-            if (!is.matrix(.eset))
-              .eset <- matrix(.eset, ncol = 1)
-            rownames(.eset) <- fn
-            .proc <- processingData(object)
-            .proc@processing <- c(.proc@processing,
-                                  paste0("Selected top ", n,
-                                         " features: ", date()))
-            .fdata <- subsetBy(fData(object), groupBy, idx)
-            ## message("Dropping spectrum-level 'qual' slot.")
-            ans <- new("MSnSet",
-                       experimentData = experimentData(object),
-                       exprs = .eset,
-                       phenoData = phenoData(object),
-                       featureData = new("AnnotatedDataFrame", data = .fdata),
-                       annotation = object@annotation,
-                       protocolData = protocolData(object))
-            ans@processingData <- .proc
-            featureNames(ans) <- fn
-            if (validObject(ans))
-              return(ans)
+            idx <- .topIdx(exprs(object), groupBy=groupBy, n=n, fun=fun, ...)
+            object <- logging(object, paste("Selected top", n, "features"))
+            object <- object[idx]
+            if (validObject(object))
+              return(object)
           })
 
 
 getRatios <- function(x, log = FALSE) {
   ## x: a vector of numerics
   ## returns a vector of all xi/xj ratios
-  x <- as.numeric(x)
-  cmb <- combn(length(x),2)
-  r <- numeric(ncol(cmb))
-  for (i in 1:ncol(cmb)) {
-    j <- cmb[1, i]
-    k <- cmb[2, i]
-    ifelse(log,
-           r[i] <- x[j]-x[k],
-           r[i] <- x[j]/x[k])
-  }
-  return(r)
+    x <- as.numeric(x)
+    cmb <- combn(length(x), 2)
+    r <- numeric(ncol(cmb))
+    for (i in 1:ncol(cmb)) {
+        j <- cmb[1, i]
+        k <- cmb[2, i]
+        ifelse(log,
+               r[i] <- x[j] - x[k],
+               r[i] <- x[j] / x[k])
+    }
+    return(r)
 }
 
 
@@ -440,16 +437,19 @@ setMethod("exprsToRatios",
               r <- t(r)
             }
             rownames(r) <- featureNames(object)
-            cmb <- combn(ncol(object),2)
-            ratio.description <- apply(cmb,2, function(x)
-                                       paste(sampleNames(object)[x[1]],
-                                             sampleNames(object)[x[2]],
-                                             sep="/"))
+            cmb <- combn(ncol(object), 2)
+            ratio.description <-
+                apply(cmb, 2,
+                      function(x)
+                          paste(sampleNames(object)[x[1]],
+                                sampleNames(object)[x[2]],
+                                sep = "/"))
             phenodata <- new("AnnotatedDataFrame",
-                             data=data.frame(ratio.description))
+                             data = data.frame(ratio.description))
             processingdata <- processingData(object)
             processingdata@processing <- c(processingdata@processing,
-                                           paste("Intensities to ratios: ",date(),sep=""))
+                                           paste("Intensities to ratios: ",
+                                                 date(), sep = ""))
             message("Dropping protocolData.")
             res <- new("MSnSet",
                        exprs = r,
@@ -458,7 +458,7 @@ setMethod("exprsToRatios",
                        processingData = processingdata,
                        experimentData = experimentData(object))
             if (validObject(res))
-              return(res)
+                return(res)
           })
 
 
@@ -482,7 +482,7 @@ setMethod("exprsToRatios",
 
 setMethod("image", "MSnSet",
           function(x,
-                   facetBy = NULL, 
+                   facetBy = NULL,
                    sOrderBy = NULL,
                    legend = "",
                    low, high,
@@ -491,19 +491,20 @@ setMethod("image", "MSnSet",
                    plot = TRUE) {
               ## get rid of 'no visible global function definition' note
               sample.name <- feature.id <- Expression <- NULL
-              isFC <- any(exprs(x) < 0, na.rm=TRUE)
-              xlong <- melt(exprs(x))
-              colnames(xlong) <- c("feature.id", "sample.name", "Expression")
-              xlong[['feature.id']] <- as.character(xlong[['feature.id']])
-              xlong[['sample.name']] <- as.character(xlong[['sample.name']])
-              xlong <- merge(xlong, fData(x), by.x="feature.id", by.y=0) 
-              xlong <- merge(xlong, pData(x), by.x="sample.name", by.y=0)
+              isFC <- any(exprs(x) < 0, na.rm = TRUE)
+              xlong <- cbind(expand.grid("feature.id" = featureNames(x),
+                                         "sample.name" = sampleNames(x),
+                                         stringsAsFactors=FALSE),
+                             "Expression" = as.vector(exprs(x)))
+              xlong <- merge(xlong, fData(x), by.x = "feature.id", by.y = 0)
+              xlong <- merge(xlong, pData(x), by.x = "sample.name", by.y = 0)
               x <- xlong
               if (!is.null(sOrderBy))
                   x[['sample.name']] <- reorder(x[['sample.name']], x[[sOrderBy]])
-    
+
               if (!is.null(facetBy)) x$facetBy <- x[[facetBy]]
-              p <- ggplot(x, aes(x=`sample.name`, y=`feature.id`, fill=`Expression`)) + 
+              p <- ggplot(x, aes(x = `sample.name`, y = `feature.id`,
+                                 fill = `Expression`)) +
                   geom_raster() +
                   theme(
                       axis.text.x = element_text(angle = +90),
@@ -514,7 +515,9 @@ setMethod("image", "MSnSet",
               if (isFC) {
                   if (missing(low)) low <- "gold1"
                   if (missing(high)) high <- "#08306B"
-                  p <- p + scale_fill_gradient2(legend, low = low, high = high, mid = "white")
+                  p <- p + scale_fill_gradient2(legend, low = low,
+                                                high = high,
+                                                mid = "white")
               } else {
                   if (missing(low)) low <- "#F7FBFF"
                   if (missing(high)) high <- "#08306B"
@@ -551,15 +554,15 @@ image2 <- function(x,
     nr <- nrow(x)
     lab <- colnames(x)
     if (is.null(lab))
-        lab <- 1:nc                      
+        lab <- 1:nc
     graphics::image(t(x),
                     xlab = xlab, ylab = ylab,
                     xaxt = "n", yaxt = "n", ...)
-    axis(1, seq(0,1, 1/(nc - 1)),
+    axis(1, seq(0, 1 , 1 / (nc - 1)),
          labels = lab,
          cex.axis = x.cex.axis)
-    yticks <- seq(0, 1, 1/(yticks-1)) * nr
-    axis(2, seq(0,1, 1/(length(yticks) - 1)),
+    yticks <- seq(0, 1, 1 / (yticks - 1)) * nr
+    axis(2, seq(0,1, 1 / (length(yticks) - 1)),
          labels = round(yticks, 0),
          cex.axis = y.cex.axis)
     invisible(NULL)
@@ -589,25 +592,7 @@ setMethod("plotNA", signature(object = "matrix"),
 
 setMethod("filterNA", signature(object = "matrix"),
           function(object, pNA = 0, pattern) {
-              if (missing(pattern)) { ## using pNA
-                  if (pNA > 1)
-                      pNA <- 1
-                  if (pNA < 0)
-                      pNA <- 0
-                  k <- apply(object, 1,
-                             function(x) sum(is.na(x))/length(x))
-                  accept <- k <= pNA
-                  if (sum(accept) == 1) {
-                      ans <- matrix(object[accept, ], nrow = 1)
-                      rownames(ans) <- rownames(object)[accept]
-                  } else {
-                      ans <- object[accept, ]
-                  }
-              } else { ## using pattern
-                  accept <- getRowsFromPattern(object, pattern)
-                  ans <- object[accept, ]
-              }
-              return(ans)
+              object[.filterNA(object, pNA=pNA, pattern=pattern), , drop=FALSE]
           })
 
 setMethod("filterZero", "matrix",
@@ -621,31 +606,23 @@ setMethod("filterZero", "matrix",
 
 setMethod("filterNA", signature(object = "MSnSet"),
           function(object, pNA = 0, pattern, droplevels = TRUE) {
+              object <- object[.filterNA(exprs(object), pNA=pNA, pattern=pattern), ]
+
               if (missing(pattern)) { ## using pNA
-                  if (pNA > 1)
-                      pNA <- 1
-                  if (pNA < 0)
-                      pNA <- 0
-                  k <- apply(exprs(object), 1,
-                             function(x) sum(is.na(x))/length(x))
-                  accept <- k <= pNA
-                  ans <- object[accept, ]
-                  ans@processingData@processing <-
-                      c(processingData(ans)@processing,
-                        paste0("Removed features with more than ",
-                               round(pNA, 3), " NAs: ", date()))
+                  object@processingData@processing <-
+                    c(processingData(object)@processing,
+                      paste0("Removed features with more than ",
+                      round(pNA, 3), " NAs: ", date()))
               } else { ## using pattern
-                  accept <- getRowsFromPattern(exprs(object), pattern)
-                  ans <- object[accept, ]
-                  ans@processingData@processing <-
-                      c(processingData(ans)@processing,
-                        paste0("Removed features with according to pattern ",
-                               pattern, " ", date()))
+                  object@processingData@processing <-
+                    c(processingData(object)@processing,
+                      paste0("Removed features with according to pattern ",
+                      pattern, " ", date()))
               }
               if (droplevels)
-                  ans <- droplevels(ans)
-              if (validObject(ans))
-                  return(ans)
+                  object <- droplevels(object)
+              if (validObject(object))
+                  return(object)
           })
 
 setMethod("filterZero", signature = "MSnSet",
@@ -711,54 +688,76 @@ setMethod("MAplot",
           })
 
 setMethod("addIdentificationData", c("MSnSet", "character"),
-          function(object, id,
-                   fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"),
-                   verbose = TRUE) {
-                       addIdentificationData(object, id = mzID(id, verbose = verbose),
-                                             fcol = fcol, icol = icol)
-                   })
+    function(object, id,
+             fcol = c("spectrum.file", "acquisition.number"),
+             icol = c("spectrumFile", "acquisitionNum"),
+             acc = "DatabaseAccess",
+             desc = "DatabaseDescription",
+             pepseq = "sequence",
+             key = "spectrumID",
+             decoy = "isDecoy",
+             rank = "rank",
+             accession = acc,
+             verbose = isMSnbaseVerbose(),
+             ...)
+        .addCharacterIdentificationData(object, id, fcol, icol, acc,
+                                        desc, pepseq, key, decoy,
+                                        rank, accession, verbose, ...))
+
+
+setMethod("addIdentificationData", c("MSnSet", "mzRident"),
+        function(object, id,
+                 fcol = c("spectrum.file", "acquisition.number"),
+                 icol = c("spectrumFile", "acquisitionNum"),
+                 acc = "DatabaseAccess",
+                 desc = "DatabaseDescription",
+                 pepseq = "sequence",
+                 key = "spectrumID",
+                 decoy = "isDecoy",
+                 rank = "rank",
+                 accession = acc,
+                 verbose = isMSnbaseVerbose(),
+                 ...)
+            .addMzRidentIdentificationData(object, id, fcol, icol,
+                                           acc, desc, pepseq, key,
+                                           decoy, rank, accession,
+                                           verbose, ...))
+
 
 setMethod("addIdentificationData", c("MSnSet", "mzIDClasses"),
-          function(object, id,
-                   fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"), ...) {
-                       addIdentificationData(object, id = flatten(id),
-                                             fcol = fcol, icol = icol)
-                   })
+        function(object, id,
+                 fcol = c("spectrum.file", "acquisition.number"),
+                 icol = c("spectrumFile", "acquisitionnum"),
+                 acc = "accession",
+                 desc = "description",
+                 pepseq = "pepseq",
+                 key = "spectrumid",
+                 decoy = "isdecoy",
+                 rank = "rank",
+                 accession = acc,
+                 verbose = isMSnbaseVerbose(),
+                 ...)
+            .addMzIDIdentificationData(object, id, fcol, icol, acc,
+                                       desc, pepseq, key, decoy, rank,
+                                       accession, verbose,...))
 
 setMethod("addIdentificationData", c("MSnSet", "data.frame"),
           function(object, id,
                    fcol = c("spectrum.file", "acquisition.number"),
-                   icol = c("spectrumFile", "acquisitionnum"), ...) {
-                       fd <- fData(object)
-
-                       if (!nrow(fd))
-                           stop("No feature data found.")
-
-                       fd$spectrum.file <- basename(fileNames(object)[fd$file])
-
-                       fd <- utils.mergeSpectraAndIdentificationData(fd, id,
-                                                                     fcol = fcol,
-                                                                     icol = icol)
-
-                       ## after adding the identification data we remove the
-                       ## temporary data to avoid duplication and problems in quantify
-                       cn <- colnames(fd)
-                       keep <- cn[!(cn %in% c("spectrum.file"))]
-                       fData(object)[, keep] <- fd[, keep, drop=FALSE]
-
-                       if (validObject(object))
-                           return(object)
-                   })
+                   icol, acc, desc, pepseq, key, decoy, rank,
+                   accession = acc, verbose = isMSnbaseVerbose(), ...)
+              .addDataFrameIdentificationData(object, id, fcol, icol,
+                                              acc, desc, pepseq, key,
+                                              decoy, rank, accession,
+                                              verbose, ...))
 
 setMethod("removeNoId", "MSnSet",
-          function(object, fcol = "pepseq", keep = NULL)
+          function(object, fcol = "sequence", keep = NULL)
               utils.removeNoId(object, fcol, keep))
 
 setMethod("removeMultipleAssignment", "MSnSet",
-          function(object, fcol = "nprot")
-              utils.removeMultipleAssignment(object, fcol))
+          function(object, nprot = "nprot")
+              utils.removeMultipleAssignment(object, nprot))
 
 setMethod("idSummary",
           signature = "MSnSet",
@@ -801,35 +800,35 @@ setAs("IBSpectra", "MSnSet",
       function (from, to = "MSnSet") {
           ans <- MSnSet(exprs = assayData(from)$ions,
                         fData = fData(from),
-                        pData = pData(from))
-          exp <- experimentData(from)
-          ## the example data in isobar has MIAME
-          ## experimental data ?!?!
-          if (inherits(exp, "MIAPE"))
-              ans@experimentData <- exp
-          ans@protocolData <- protocolData(from)
-          if (validObject(ans))
-              return(ans)
-      })
+                                      pData = pData(from))
+                        exp <- experimentData(from)
+                        ## the example data in isobar has MIAME
+                        ## experimental data ?!?!
+                        if (inherits(exp, "MIAPE"))
+                            ans@experimentData <- exp
+                        ans@protocolData <- protocolData(from)
+                        if (validObject(ans))
+                            return(ans)
+                    })
 
-as.IBSpectra.MSnSet <- function(x) {
-    ans <- MSnSet(exprs = assayData(x)$ions,
-                  fData = fData(x),
-                  pData = pData(x))
-    exp <- experimentData(x)
-    ## the example data in isobar has MIAME
-    ## experimental data ?!?!
-    if (inherits(exp, "MIAPE"))
-        ans@experimentData <- exp
-    ans@protocolData <- protocolData(x)
-    if (validObject(ans))
-        return(ans)
-}
+              as.IBSpectra.MSnSet <- function(x) {
+                  ans <- MSnSet(exprs = assayData(x)$ions,
+                                fData = fData(x),
+                                pData = pData(x))
+                  exp <- experimentData(x)
+                  ## the example data in isobar has MIAME
+                  ## experimental data ?!?!
+                  if (inherits(exp, "MIAPE"))
+                      ans@experimentData <- exp
+                  ans@protocolData <- protocolData(x)
+                  if (validObject(ans))
+                      return(ans)
+              }
 
 
-## setAs("MSnSet", "IBSpectra",
-##       function (from, to = "IBSpectra") {
-##           ## see IBSpectraTypes() for possible types
-##           ## if (ncol(from)) == 2) ...
-##           ## if (ncol(from)) == 2) ...      
-##       })
+              ## setAs("MSnSet", "IBSpectra",
+              ##       function (from, to = "IBSpectra") {
+              ##           ## see IBSpectraTypes() for possible types
+              ##           ## if (ncol(from)) == 2) ...
+              ##           ## if (ncol(from)) == 2) ...
+              ##       })

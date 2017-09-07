@@ -60,7 +60,7 @@
       \code{\link[norm]{em.norm}} function, rather to the actual
       imputation function \code{imp.norm}. }
     
-    \item{bcpa}{Bayesian missing value imputation are available, as
+    \item{bpca}{Bayesian missing value imputation are available, as
     implemented in the and \code{pcaMethods::pca} functions. See
     \code{\link[pcaMethods]{pca}} for details and additional
     parameters. }
@@ -203,6 +203,12 @@ Cosmin Lazar (2015). imputeLCMD: A collection of methods for
 left-censored missing data imputation. R package version
 2.0. \url{http://CRAN.R-project.org/package=imputeLCMD}.
 
+Lazar C, Gatto L, Ferro M, Bruley C, Burger T. Accounting for the
+Multiple Natures of Missing Values in Label-Free Quantitative Proteomics
+Data Sets to Compare Imputation Strategies. J Proteome Res. 2016 Apr
+1;15(4):1116-25. doi: 10.1021/acs.jproteome.5b00981. PubMed PMID:
+26906401.
+
 }
 
 \author{
@@ -210,3 +216,4 @@ left-censored missing data imputation. R package version
 }
 
 \keyword{methods}
+

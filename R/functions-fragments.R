@@ -8,10 +8,10 @@
 #' @param neutralLoss list, currently water and ammonia loss are supported
 #' @param verbose verbose output?
 #' @noRd
-.calculateFragments <- function(sequence, type=c("b", "y"), z=1,
-                                modifications=c(C=57.02146),
-                                neutralLoss=defaultNeutralLoss(),
-                                verbose=TRUE) {
+.calculateFragments <- function(sequence, type = c("b", "y"), z = 1,
+                                modifications = c(C = 57.02146),
+                                neutralLoss = defaultNeutralLoss(),
+                                verbose = isMSnbaseVerbose()) {
   ## TODO: this information should inform the user about a major API change
   ## and could be removed in MSnbase > 1.18
   if (packageVersion("MSnbase") < as.package_version("1.20.0")) {
@@ -19,6 +19,10 @@
             "amino acid/peptide.\n",
             "In MSnbase < 1.17.6 the mass was replaced. ",
             "Please see '?calculateFragments' for details.")
+  }
+
+  if (nchar(sequence) <= 1L) {
+    stop("'sequence' has to have two or more residues.")
   }
 
   type <- match.arg(type, choices=c("a", "b", "c", "x", "y", "z"), several.ok=TRUE)
@@ -52,7 +56,7 @@
   }
 
   if (verbose) {
-    if(length(modifications)) {
+    if (length(modifications)) {
       mods <- paste0(names(modifications), "=", modifications, collapse=", ")
     } else {
       mods <- "None"
@@ -62,11 +66,12 @@
 
   ## split peptide sequence into aa
   fragment.seq <- strsplit(sequence, "")[[1]]
+  fn <- length(fragment.seq)
 
   ## calculate cumulative mass starting at the amino-terminus (for a, b, c)
-  amz <- cumsum(aamass[fragment.seq])
+  amz <- cumsum(aamass[fragment.seq[-fn]])
   ## calculate cumulative mass starting at the carboxyl-terminus (for x, y, z)
-  cmz <- cumsum(aamass[rev(fragment.seq)])
+  cmz <- cumsum(aamass[rev(fragment.seq[-1L])])
 
   ## calculate fragment mass (amino-terminus)
   tn <- length(amz)
@@ -89,15 +94,16 @@
   cmz <- cmz + mass["p"]
 
   ## fragment seq (amino-terminus)
-  fn <- length(fragment.seq)
-  aseq <- rep(rep(substring(sequence, rep(1, fn), 1:fn), each=zn), nat)
+  aseq <- rep(rep(substring(sequence, rep(1L, fn - 1L),
+                            1L:(fn - 1L)), each=zn), nat)
 
   ## fragment seq (carboxyl-terminus)
-  cseq <- rep(rep(rev(substring(sequence, 1:fn, rep(fn, fn))), each=zn), nct)
+  cseq <- rep(rep(rev(substring(sequence, 2L:fn,
+                                rep(fn, fn - 1L))), each=zn), nct)
 
   ## fragment str (amino-terminus)
-  atype <- rep(c("a", "b", "c")[atype], each=tn*zn)
-  pos <- rep(1:tn, each=zn)
+  atype <- rep(c("a", "b", "c")[atype], each=tn * zn)
+  pos <- rep(1L:tn, each=zn)
   if (length(atype)) {
     aion <- paste0(atype, pos)
   } else {
@@ -105,7 +111,7 @@
   }
 
   ## fragment str (carboxyl-terminus)
-  ctype <- rep(c("x", "y", "z")[ctype], each=tn*zn)
+  ctype <- rep(c("x", "y", "z")[ctype], each=tn * zn)
   if (length(ctype)) {
     cion <- paste0(ctype, pos)
   } else {
@@ -198,7 +204,7 @@
     isABC <- grep("[abc]", df$type)
 
     if (length(isABC)) {
-      df$mz[isABC] <- df$mz[isABC] + modifications["Nterm"]
+      df$mz[isABC] <- df$mz[isABC] + modifications["Nterm"] / df$z[isABC]
     }
   }
 
@@ -206,7 +212,7 @@
     isXYZ <- grep("[xyz]", df$type)
 
     if (length(isXYZ)) {
-      df$mz[isXYZ] <- df$mz[isXYZ] + modifications["Cterm"]
+      df$mz[isXYZ] <- df$mz[isXYZ] + modifications["Cterm"] / df$z[isXYZ]
     }
   }
 

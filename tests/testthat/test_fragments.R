@@ -2,71 +2,72 @@ context("fragments")
 
 test_that("calculateFragments", {
   pqr <- data.frame(
-    mz = c(70.065, 198.124, 354.225,   # a
-           98.060, 226.119, 382.220,   # b
-           115.087, 243.145, 399.246,  # c
-           201.098, 329.157, 426.210,  # x
-           175.119, 303.178, 400.230,  # y
-           158.092, 286.151, 383.204,  # z
-           142.121, 270.180, 367.233,  # y_
-           365.193,                    # b*
-           286.151, 383.204),          # y*
-    ion = c(paste0(rep(c("a", "b", "c", "x", "y", "z"), each=3),
-                   rep(1:3, times=6)),
-            paste0("y", 1:3, "_"), "b3*", "y2*", "y3*"),
-    type = c(rep(c("a", "b", "c", "x", "y", "z", "y_"), each=3),
-             "b*", "y*", "y*"),
-    pos = c(rep(1:3, 7), 3, 2, 3),
+    mz = c(70.065, 198.124,   # a
+           98.060, 226.119,   # b
+           115.087, 243.145,  # c
+           201.098, 329.157,  # x
+           175.119, 303.178,  # y
+           158.092, 286.151,  # z
+           142.121, 270.180,  # y_
+           286.151),          # y*
+    ion = c(paste0(rep(c("a", "b", "c", "x", "y", "z"), each=2),
+                   rep(1:2, times=6)),
+            paste0("y", 1:2, "_"), "y2*"),
+    type = c(rep(c("a", "b", "c", "x", "y", "z", "y_"), each=2),
+             "y*"),
+    pos = c(rep(1:2, 7), 2),
     z = 1,
-    seq = c(rep(c("P", "PQ", "PQR"), 3),
-            rep(c("R", "QR", "PQR"), 4),
-            "PQR", "QR", "PQR"),
+    seq = c(rep(c("P", "PQ"), 3),
+            rep(c("R", "QR"), 4),
+            "QR"),
     stringsAsFactors=FALSE)
 
   ace <- data.frame(
-    mz = c(22.528, 102.544, 167.065,  # a
-           36.526, 116.541, 181.062,  # b
-           45.039, 125.054, 189.576,  # c
-           87.523, 167.539, 203.057,  # x
-           74.534, 154.549, 190.068,  # y
-           66.021, 146.036, 181.554), # z
-    ion = paste0(rep(c("a", "b", "c", "x", "y", "z"), each=3),
-                 rep(1:3, times=6)),
-    type = rep(c("a", "b", "c", "x", "y", "z"), each=3),
-    pos = rep(1:3, 6),
+    mz = c(22.528, 102.544,  # a
+           36.526, 116.541,  # b
+           45.039, 125.054,  # c
+           87.523, 167.539,  # x
+           74.534, 154.549,  # y
+           66.021, 146.036), # z
+    ion = paste0(rep(c("a", "b", "c", "x", "y", "z"), each=2),
+                 rep(1:2, times=6)),
+    type = rep(c("a", "b", "c", "x", "y", "z"), each=2),
+    pos = rep(1:2, 6),
     z = 2,
-    seq = c(rep(c("A", "AC", "ACE"), 3),
-            rep(c("E", "CE", "ACE"), 3)),
+    seq = c(rep(c("A", "AC"), 3),
+            rep(c("E", "CE"), 3)),
     stringsAsFactors=FALSE)
 
-  expect_message(calculateFragments("PQR"),
+  expect_message(calculateFragments("PQR", verbose = TRUE),
                  "Modifications used: C=57.02146")
-  expect_message(calculateFragments("PQR", modifications=NULL),
+  expect_message(calculateFragments("PQR", modifications = NULL,
+                                    verbose = TRUE),
                  "Modifications used: None")
 
-  expect_equal(pqr[1:18,],
-               calculateFragments("PQR", type=c("a", "b", "c", "x", "y", "z"),
-                                  neutralLoss=NULL, verbose=FALSE),
+  expect_equal(pqr[1:12,],
+               calculateFragments("PQR",
+                                  type = c("a", "b", "c", "x", "y", "z"),
+                                  neutralLoss = NULL, verbose = FALSE),
                tolerance=1e-5)
-  expect_equal(pqr[1:6,],
-               calculateFragments("PQR", type=c("a", "b"), neutralLoss=NULL,
-                                  verbose=FALSE),
+  expect_equal(pqr[1:4,],
+               calculateFragments("PQR", type = c("a", "b"),
+                                  neutralLoss = NULL, verbose = FALSE),
                tolerance=1e-5)
   ## rownames always differ
-  expect_equal(pqr[c(10:12, 16:18),],
-               calculateFragments("PQR", type=c("x", "z"), neutralLoss=NULL,
-                                  verbose=FALSE),
-               check.attributes=FALSE, tolerance=1e-5)
+  expect_equal(pqr[c(7:8, 11:12),],
+               calculateFragments("PQR", type = c("x", "z"),
+                                  neutralLoss = NULL, verbose = FALSE),
+               check.attributes = FALSE, tolerance = 1e-5)
 
   ## neutral loss
   ## rownames always differ
-  expect_equal(pqr[c(4:6, 13:15, 19:24),],
+  expect_equal(pqr[c(3:4, 9:10, 13:15),],
                calculateFragments("PQR", verbose=FALSE),
                check.attributes=FALSE, tolerance=1e-5)
 
   ## neutral loss (water=cterm disabled),
   ## rownames always differ
-  expect_equal(pqr[c(4:6, 13:15, 22:24),],
+  expect_equal(pqr[c(3:4, 9:10, 15),],
                calculateFragments("PQR",
                  neutralLoss=defaultNeutralLoss(disableWaterLoss="Cterm"),
                  verbose=FALSE),
@@ -74,22 +75,22 @@ test_that("calculateFragments", {
 
   ## neutral loss (ammonia=Q disabled),
   ## rownames always differ
-  expect_equal(pqr[c(4:6, 13:15, 19:21),],
+  expect_equal(pqr[c(3:4, 9:10, 13:14),],
                calculateFragments("PQR",
                  neutralLoss=defaultNeutralLoss(disableAmmoniaLoss="Q"),
                  verbose=FALSE),
                check.attributes=FALSE, tolerance=1e-5)
 
   ## neutral loss + nterm mod, rownames always differ
-  tpqr <- pqr[c(4:6, 13:15, 19:24),]
-  tpqr$mz[c(1:3, 10)] <- tpqr$mz[c(1:3, 10)]+229
+  tpqr <- pqr[c(3:4, 9:10, 13:15),]
+  tpqr$mz[1:2] <- tpqr$mz[1:2] + 229
   expect_equal(tpqr,
                calculateFragments("PQR", modifications=c(C=57.02146, Nterm=229),
                                                          verbose=FALSE),
                check.attributes=FALSE, tolerance=1e-5)
 
   ## neutral loss + nterm + cterm mod, rownames always differ
-  tpqr$mz[c(4:9, 11:12)] <- tpqr$mz[c(4:9, 11:12)]-100
+  tpqr$mz[3:7] <- tpqr$mz[3:7] - 100
   expect_equal(tpqr,
                calculateFragments("PQR", modifications=c(C=57.02146,
                                                          Nterm=229,
@@ -101,10 +102,27 @@ test_that("calculateFragments", {
                calculateFragments("ACE", type=c("a", "b", "c", "x", "y", "z"),
                                   z=2, neutralLoss=NULL, verbose=FALSE),
                tolerance=1e-5)
-  expect_equal(ace[1:9,],
+  expect_equal(ace[1:6,],
                calculateFragments("ACE", type=letters[1:3], z=2, verbose=FALSE),
                tolerance=1e-5)
 
+  expect_error(calculateFragments("A"), "two or more residues")
+
+  ## issue #200 (mz are not calculated correctly for terminal modifications
+  ## and z > 1)
+  p <- MSnbase:::get.atomic.mass()["p"]
+  expect_equal(calculateFragments("AA", z=2,
+                                  modifications=c(Nterm=10),
+                                  type="b")$mz - p,
+               (calculateFragments("AA", z=1,
+                                   modifications=c(Nterm=10),
+                                   type="b")$mz - p )/ 2)
+  expect_equal(calculateFragments("AA", z=2, neutralLoss=NULL,
+                                  modifications=c(Cterm=10),
+                                  type="y")$mz - p,
+               (calculateFragments("AA", z=1, neutralLoss=NULL,
+                                   modifications=c(Cterm=10),
+                                   type="y")$mz - p) / 2)
 })
 
 test_that("defaultNeutralLoss", {

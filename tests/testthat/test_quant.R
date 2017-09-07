@@ -2,13 +2,16 @@ context("Quantitation")
 
 test_that("MS2 isobaric quantitation", {
     ## removeReporters
-    expect_true(all.equal(removeReporters(itraqdata[[1]]), itraqdata[[1]]))
+    expect_true(all.equal(removeReporters(itraqdata[[1]]),
+                          itraqdata[[1]]))
     expect_true(all.equal(removeReporters(itraqdata,
-                                          reporters=iTRAQ4,
-                                          verbose=FALSE)[[1]],
-                          removeReporters(itraqdata[[1]], reporters=iTRAQ4)))
+                                          reporters = iTRAQ4,
+                                          verbose = FALSE)[[1]],
+                          removeReporters(itraqdata[[1]],
+                                          reporters = iTRAQ4)))
     ## quantitation should be 0
-    expect_true(all(quantify(removeReporters(itraqdata[[1]], reporters=iTRAQ4),
+    expect_true(all(quantify(removeReporters(itraqdata[[1]],
+                                             reporters = iTRAQ4),
                              method = "max", reporters = iTRAQ4)[[1]] == 0))
     ## checking that quantification work for exp of length 1
     q1 <- quantify(itraqdata[1], reporters = iTRAQ4, method = "max",
@@ -28,22 +31,23 @@ test_that("Parallel quantification", {
 
 
 test_that("Counting and tic MSnSets", {
-    f <- dir(system.file(package = "MSnbase",dir = "extdata"),
+    f <- dir(system.file(package = "MSnbase", dir = "extdata"),
              full.name = TRUE, pattern = "msx.rda")
     load(f) ## msx
     ## count
-    .cnt <- MSnbase:::count_MSnSet(msx)
+    .cnt <- MSnbase:::count_MSnSet(msx, pepseq = "pepseq")
     n <- !is.na(fData(msx)$pepseq)
     m1 <- matrix(1, nrow = sum(n), ncol = 1)
-    colnames(m1) <- "1"
-    rownames(m1) <- paste0("X", (1:length(msx))[n], ".1")
+    colnames(m1) <- "dummyiTRAQ.mzXML"
+    rownames(m1) <- paste0("F1.S", (1:length(msx))[n])
     expect_equal(exprs(.cnt), m1)
     ## tic
     .tic <- MSnbase:::tic_MSnSet(msx)
     mtic <- matrix(tic(msx), ncol = 1)
     colnames(mtic) <- "1"
-    rownames(mtic) <- paste0("X", 1:length(msx), ".1")
-    expect_equal(exprs(.tic), mtic)  
+    colnames(mtic) <- "dummyiTRAQ.mzXML"
+    rownames(mtic) <- paste0("F1.S", 1:length(msx))
+    expect_equal(exprs(.tic), mtic)
 })
 
 test_that("MS2 labelfree quantitation: SI", {
@@ -55,38 +59,41 @@ test_that("MS2 labelfree quantitation: SI", {
     fData(msx)$nprot[3:4] <- 1
     fData(msx)$pepseq[3:4] <- c("ABCDEFG", "1234567")
     fData(msx)$length[3:4] <- 100   
-    msx <- MSnbase:::utils.removeNoIdAndMultipleAssignments(msx)
+    msx <- MSnbase:::utils.removeNoIdAndMultipleAssignments(msx, pepseq = "pepseq")
     ## SI
-    si <- MSnbase:::SI(msx, "SI")
+    si <- MSnbase:::SI(msx, "SI", groupBy = "accession", plength = "length")
     m <- tic(msx)
     names(m) <- fData(msx)$accession
     expect_equal(exprs(si)["ECA0510", 1], as.numeric(m["ECA0510"]))
     expect_equal(exprs(si)["ECA1028", 1], as.numeric(m["ECA1028"]))
     expect_equal(exprs(si)["protein", 1], sum(m[2:3]))
     ## SIgi
-    sigi <- MSnbase:::SI(msx, "SIgi")
+    sigi <- MSnbase:::SI(msx, "SIgi", groupBy = "accession", plength = "length")
     m <- c(m[1], protein = sum(m[2:3]), m[4])
     m <- m/sum(m)
     m <- m[order(names(m))]
     expect_equal(exprs(sigi)[, 1], m)
     ## SIn
-    sin <- MSnbase:::SI(msx, "SIn")
+    sin <- MSnbase:::SI(msx, "SIn", groupBy = "accession", plength = "length")
     m <- m/fData(sin)$length
     expect_equal(exprs(sin)[, 1], m)
 })
 
 test_that("MS2 labelfree quantitation: SAF", {
     ## prepare data
-    f <- dir(system.file(package = "MSnbase",dir = "extdata"),
+    f <- dir(system.file(package = "MSnbase", dir = "extdata"),
              full.name = TRUE, pattern = "msx.rda")
     load(f) ## msx
     fData(msx)$accession[3:4] <- "protein"
     fData(msx)$nprot[3:4] <- 1
     fData(msx)$pepseq[3:4] <- c("ABCDEFG", "1234567")
     fData(msx)$length[3:4] <- 100   
-    msx <- MSnbase:::utils.removeNoIdAndMultipleAssignments(msx)
+    msx <-
+        MSnbase:::utils.removeNoIdAndMultipleAssignments(msx, pepseq = "length")
     ## SAF
-    saf <- MSnbase:::SAF(msx, method = "SAF")    
+    saf <- MSnbase:::SAF(msx, method = "SAF",
+                         groupBy = "accession", plength = "length",
+                         pepseq = "pepseq")
     m <- rep(1, length(msx))
     m <- tapply(m, fData(msx)$accession, sum, simplify = FALSE)
     m <- unlist(m)
@@ -94,7 +101,18 @@ test_that("MS2 labelfree quantitation: SAF", {
     m <- m/fData(saf)$length
     expect_equal(exprs(saf)[, 1], m)
     ## NSAF
-    nsaf <- MSnbase:::SAF(msx, method = "NSAF")
+    nsaf <- MSnbase:::SAF(msx, method = "NSAF",
+                         groupBy = "accession", plength = "length",
+                         pepseq = "pepseq")                          
     m <- m/sum(m)
     expect_equal(exprs(nsaf)[, 1], m)
+})
+
+
+test_that("quantify_OnDiskMSnExp_max (fastquant_max)", {
+    x1 <- extdata_mzXML_in_mem_ms2
+    x2 <- extdata_mzXML_on_disk_ms2
+    e1 <- quantify(x1, method = "max", reporters = iTRAQ4, verbose = FALSE)
+    e2 <- quantify(x2, method = "max", reporters = iTRAQ4, verbose = FALSE)
+    expect_identical(exprs(e1), exprs(e2))
 })

@@ -61,7 +61,16 @@ readMSnSet <- function(exprsFile,
 
 readMSnSet2 <- function(file, ecol, fnames, ...) {
     if (is.data.frame(file)) xx <- file
-    else xx <- read.csv(file, ...)
+    else {
+        args <- list(...)
+        args$file <- file
+        if ("rownames" %in% names(args)) {
+            if (missing(fnames)) fnames <- args$rownames
+            else warning("Using 'fnames' to set feature names, ignoring 'rownames'.")
+            args$rownames <- NULL
+        }
+        xx <- do.call(read.csv, args)
+    }
     if (is.character(ecol)) {
         ecol0 <- ecol
         ecol <- match(ecol0, colnames(xx))
@@ -81,11 +90,16 @@ readMSnSet2 <- function(file, ecol, fnames, ...) {
                featureData = new("AnnotatedDataFrame",
                                  data = fdata))
     if (!missing(fnames)) {
+        fnames <- fnames[1]
+        if (is.numeric(fnames))
+            fnames <- colnames(xx)[fnames]
         if (is.na(match(fnames, colnames(xx))))
-            stop(fnames, "not found among\n",
+            stop(fnames, " not found among\n",
                  paste(colnames(xx), paste = ", "))
         featureNames(ans) <- fdata[, fnames]
     }
+    if (is.character(file)) ## not a data.frame
+        ans@processingData@files <- file
     if (validObject(ans))
         return(ans)
 }

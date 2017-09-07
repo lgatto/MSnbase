@@ -47,6 +47,26 @@ formatRt <- function(rt) {
     return(ans)
 }
 
+#' @param fileIds numeric, could be a vector
+#' @param spectrumIds numeric, could be a vector
+#' @param nFiles numeric, max number of files
+#' @param nSpectra numeric, max number of spectra
+#' @return character, in the format F001.S0001
+#' @noRd
+formatFileSpectrumNames <- function(fileIds, spectrumIds,
+                                    nFiles=length(fileIds),
+                                    nSpectra=length(spectrumIds)) {
+  digits <- ceiling(log10(c(nFiles, nSpectra) + 1L))
+
+  if (length(fileIds) != 1L && length(spectrumIds) != length(fileIds)) {
+    stop("Length of 'fileIds' has to be one or equal to ",
+         "the length of 'spectrumIds'.")
+  }
+
+  sprintf(paste0("F%0", digits[1L], "d.S%0", digits[2L], "d"),
+          fileIds, spectrumIds)
+}
+
 utils.removePeaks_centroided <- function(int, t) {
     rmi <- int <= t
     int[rmi] <- 0
@@ -108,31 +128,50 @@ utils.removePrecMz_list <- function(object, precMz, tolerance=25e-6) {
     return(object)
 }
 
-utils.clean <- function(x, all = FALSE) {
-  ## Given an numeric x, this function
-  ## returns a logical b of length(x) where
-  ## non-zero values and their direct
-  ## 0s are TRUE so that x[b] has only
-  ## non-zero values surrounded by it's
-  ## original direct zero neighbours.
-  ## Example
-  ## x: 1 0 0 0 1 1 1 0 0 1 1 0 0 0 1 0 0 0
-  ## b: T T F T T T T T T T T T F T T T F T
-  ##
-  ## x[b]:  1 0 0 1 1 1 0 0 1 1 0 0 1 0 0
+#' Removes zeros from input except the ones that in the direct neighbourhood of
+#' non-zero values.
+#'
+#' @param x \code{numeric}, vector to be cleaned
+#' @param all \code{logical}, should all zeros be removed?
+#' @param na.rm \code{logical}, should NAs removed before looking for zeros?
+#' @return logical vector, \code{TRUE} for keeping the value
+#' @note The return value for \code{NA} is always \code{FALSE}.
+#' @examples
+#' x <- c(1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0)
+#' #      T, T, F, T, T, T, T, T, T, T, T, F, F
+#' r <- c(TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
+#'        FALSE, FALSE)
+#' stopifnot(utils.clean(x) == r)
+#' @noRd
+utils.clean <- function(x, all=FALSE, na.rm=FALSE) {
+  notNA <- !is.na(x)
+  notZero <- x != 0 & notNA
 
-  n <- length(x)
-  b <- rep(TRUE, n)
   if (all) {
-    b[x == 0] <- FALSE
+    notZero
+  } else if (na.rm) {
+    notNA[notNA] <- utils.enableNeighbours(notZero[notNA])
+    notNA
   } else {
-    zeroRanges <- IRanges(sapply(x,"==",0))
-    sapply(zeroRanges, function(x) {
-      if (length(x) > 2)
-        b[x[2:(length(x) - 1)]] <<- FALSE
-    })
+    utils.enableNeighbours(notZero)
   }
-  return(b)
+}
+
+#' Switch FALSE to TRUE in the direct neighborhod of TRUE.
+#' (used in utils.clean)
+#'
+#' @param x logical
+#' @return logical
+#' @examples
+#' x <- c(TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
+#'        FALSE, FALSE)
+#' r <- c(TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
+#'        FALSE, FALSE)
+#' stopifnot(utils.enableNeighbours(x) == r)
+#' @noRd
+utils.enableNeighbours <- function(x) {
+  stopifnot(is.logical(x))
+  x | c(x[-1], FALSE) | c(FALSE, x[-length(x)])
 }
 
 zoom <- function(x, w = 0.05) {
@@ -142,18 +181,6 @@ zoom <- function(x, w = 0.05) {
         name = "xlim",
         reporterNames = paste("xlim", x, sep = "."),
         pcol = rep("grey", length(x)))
-}
-
-
-getBins <- function(x) {
-  bins <- numeric(length(x))
-  bins[1] <- 1
-  for (i in 2:length(x)) {
-      ifelse(x[i] == x[i-1]+1,
-             bins[i] <- bins[i-1],
-             bins[i] <- bins[i-1]+1)
-  }
-  return(bins)
 }
 
 makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
@@ -301,40 +328,65 @@ getVariableName <- function(match_call, varname) {
   tail(as.character(mcx), n = 1)
 }
 
-
-
-##
-## utils for topN method: getTopIdx and subsetBy
-##
-
-getTopIdx <- function(X, n, fun, ...) {
-  ## Rows of X are first summerised using fun.
-  ## Indices of the n highest values of vector X
-  ## are then returned.
-  ## input X: matrix [m,l]
-  ## output: numeric of length min(n, nrow(x))
-  ## If (l == 1), fun does not have any effect.
-  ## Otherwise, fun is required to keep the features
-  ## grouped into rows.
-  if (n < 1)
-    stop("'n' must be greater or equal than 1.")
-  n <- min(n, nrow(X))
-  X <- apply(X, 1, fun, ...)
-  base::order(X, decreasing = TRUE)[1:n]
+#' rowwise max, similar to rowwise mean via rowMeans
+#'
+#' @param x matrix
+#' @param na.rm logical
+#' @return double vector with maximum values per row
+#' @seealso Biobase::rowMax (could not handle missing values/NA)
+#' @noRd
+.rowMaxs <- function(x, na.rm=FALSE) {
+  stopifnot(is.matrix(x))
+  if (na.rm) {
+    x[is.na(x)] <- -Inf
+  }
+  nr <- nrow(x)
+  x[(max.col(x, ties.method="first") - 1L) * nr + 1L:nr]
 }
 
-subsetBy <- function(X, groups, byIdx) {
-  if ( is.null(dim(X)) || ncol(X) == 1 ) {
-    ## vector
-    unlist(mapply("[", x=split(as.vector(X), groups), i=byIdx,
-                  SIMPLIFY=FALSE, USE.NAMES=FALSE))
+#' summarise rows by an user-given function
+#'
+#' @param x matrix
+#' @param fun function to summarise rows, if \code{fun} equals
+#' \code{sum}/\code{mean} the more efficient \code{rowSums}/\code{rowMeans} are
+#' used.
+#' @param ... further arguments passed to \code{fun}
+#' @return double, summarised rows
+#' @noRd
+.summariseRows <- function(x, fun, ...) {
+  stopifnot(is.matrix(x))
+  stopifnot(is.function(fun))
+
+  if (identical(fun, sum)) {
+    rowSums(x, ...)
+  } else if (identical(fun, mean)) {
+    rowMeans(x, ...)
   } else {
-    ## matrix
-    ans <- mapply(function(i, j) {
-      X[i, , drop=FALSE][j, , drop=FALSE]
-    }, i=split(1:nrow(X), groups), j=byIdx, SIMPLIFY=FALSE, USE.NAMES=FALSE)
-    do.call(rbind, ans)
+    apply(x, 1L, fun, ...)
   }
+}
+
+#' find top n indices of each group
+#'
+#' @param x matrix
+#' @param groupBy factor/character of length \code{nrow(x)}
+#' @param n consider just the top \code{n} values
+#' @param fun function to summarise rows
+#' @param ... further arguments passed to \code{fun}
+#' @return double, indices sorted by summarising function \code{fun}
+#' @noRd
+.topIdx <- function(x, groupBy, n, fun, ...) {
+  if (n < 1) {
+    stop(sQuote("n"), " has to be greater or equal than 1.")
+  }
+  if (nrow(x) != length(groupBy)) {
+    stop(sQuote("nrow(x)"), " and ", sQuote("length(groupBy)"),
+         " have to be equal.")
+  }
+  rs <- .summariseRows(x, fun, ...)
+  o <- order(as.double(rs), decreasing=TRUE, na.last=TRUE)
+  idx <- unlist(lapply(split(o, groupBy[o]), "[", 1:n), use.names=FALSE)
+  idx[!is.na(idx)]
 }
 
 ## Computes header from assay data by-passing cache
@@ -344,7 +396,7 @@ subsetBy <- function(X, groups, byIdx) {
   if (all(msLevel(object) == 1)) {
     ln <- length(object)
     nas <- rep(NA, ln)
-    hd <- list(file = fromFile(object),
+    hd <- list(fileIdx = fromFile(object),
                retention.time = rtime(object),
                precursor.mz = nas,
                precursor.intensity = nas,
@@ -358,7 +410,7 @@ subsetBy <- function(X, groups, byIdx) {
   } else {
     ## tbl <- table(fromFile(object))
     ## idx <- as.numeric(unlist(apply(tbl, 1, function(x) 1:x)))
-    hd <- list(file = fromFile(object),
+    hd <- list(fileIdx = fromFile(object),
                retention.time = rtime(object),
                precursor.mz = precursorMz(object),
                precursor.intensity = precursorIntensity(object),
@@ -510,22 +562,53 @@ cramer4 <- function(object, imp) {
 ## }
 
 getColsFromPattern <- function(x, pattern) {
-  if (missing(pattern))
-    stop("Pattern must not be missing.")
-  if (nchar(pattern) != ncol(x))
-    stop("The pattern must be equal to the number of columns.")
-  pattern <- strsplit(pattern, "")[[1]]
-  if (!all(unique(pattern) %in% c("0", "1")))
-    stop("Pattern must be composed of '0' or '1' defining columns with or without 'NA's.")
-  return(pattern == "1")
+  if (missing(pattern)) {
+    stop(sQuote("pattern"), " must not be missing.")
+  }
+  if (!is.matrix(x)) {
+    stop(sQuote("x"), " must be a matrix.")
+  }
+  if (nchar(pattern) != ncol(x)) {
+    stop("The ", sQuote("pattern"), " must be equal to the number of columns.")
+  }
+  pattern <- strsplit(pattern, "")[[1L]]
+  if (!all(unique(pattern) %in% c("0", "1"))) {
+    stop(sQuote("pattern"), " must be composed of '0' or '1' defining columns",
+         " with or without 'NA's.")
+  }
+  pattern == "1"
 }
 
 getRowsFromPattern <- function(x, pattern) {
   cols <- getColsFromPattern(x, pattern)
-  x2 <- x[, cols]
-  apply(x2, 1, function(xx) !any(is.na(xx)))
+  x <- x[, cols, drop=FALSE]
+  rowSums(is.na(x)) == 0
 }
 
+.filterNA <- function(x, pNA=0L, pattern) {
+  if (!is.matrix(x)) {
+    stop(sQuote("x"), " must be a matrix.")
+  }
+  if (!is.numeric(pNA)) {
+    stop(sQuote("pNA"), " must be numeric.")
+  }
+  if (length(pNA) > 1) {
+    stop(sQuote("pNA"), " must be of length one.")
+  }
+
+  if (missing(pattern)) { ## using pNA
+    if (pNA > 1) {
+      pNA <- 1
+    }
+    if (pNA < 0) {
+      pNA <- 0
+    }
+    k <- rowSums(is.na(x)) / ncol(x)
+    k <= pNA
+  } else { ## using pattern
+    getRowsFromPattern(x, pattern)
+  }
+}
 
 nologging <- function(object, n = 1) {
   ## removes the last n entries from
@@ -541,7 +624,7 @@ nologging <- function(object, n = 1) {
 
 logging <- function(object, msg, date. = TRUE) {
   if (date.)
-    msg <- paste0(msg, ": ", date())
+    msg <- paste0(msg, " [", date(), "]")
   object@processingData@processing <-
     c(object@processingData@processing, msg)
   if (validObject(object))
@@ -567,52 +650,89 @@ logging <- function(object, msg, date. = TRUE) {
 ##' \code{\link{readMSnSet2}}.
 ##'
 ##' @title Returns the matching column names of indices.
-##' @param f A connection object or a \code{character} string to
-##' be read in with \code{readLines(f, n = 1)}.
-##' @param pattern A \code{character} string containing a regular expression
-##' to be matched to the file's header.
+##' @param f A connection object or a \code{character} string to be
+##'     read in with \code{readLines(f, n = 1)}.
+##' @param pattern A \code{character} string containing a regular
+##'     expression to be matched to the file's header.
 ##' @param ... Additional parameters passed to \code{\link{strsplit}}
-##' to split the file header into individual column names.
+##'     to split the file header into individual column names.
+##' @param n An \code{integer} specifying which line in file \code{f}
+##'     to grep (get). Default is 1. Note that this argument must be
+##'     named.
 ##' @return Depending on \code{value}, the matching column names of
-##' indices. In case of \code{getEcols}, a \code{character} of
-##' column names.
+##'     indices. In case of \code{getEcols}, a \code{character} of
+##'     column names.
 ##' @seealso \code{\link{readMSnSet2}}
 ##' @author Laurent Gatto
-grepEcols <- function(f, pattern, ...)
-    grep(pattern, strsplit(readLines(f, 1), ...)[[1]])
+grepEcols <- function(f, pattern, ..., n = 1)
+    grep(pattern, strsplit(readLines(f, n), ...)[n][[1]])
 
 
 ##' @rdname grepEcols
-getEcols <- function(f, ...)
-    strsplit(readLines(f, 1), ...)[[1]]
+getEcols <- function(f, ..., n = 1)
+    strsplit(readLines(f, n)[n], ...)[[1]]
 
 MSnExp.size <- function(x)
     object.size(x) + sum(unlist(unname(eapply(assayData(x),
                                               object.size))))
 
-# convert character vector of length n to a semikolon separated character
-# vector of length 1
+## convert vector of length n to a semicolon separated character
+## vector of length 1
 utils.vec2ssv <- function(vec, sep=";") {
-  paste0(vec, collapse=sep)
+    paste0(vec, collapse=sep)
 }
 
-# convert a semikolon separated character vector of length 1 to a vector of
-# length n
+## converts an n by m data.frame into an 1 by m data.frame where the
+## vector columns of length n are converted to a semicolon separated
+## character vector of length 1
+utils.vec2ssv.data.frame <- function(x, sep = ";", exclude) {
+    if (nrow(x) == 1L)
+        return(x)
+    nms <- names(x)
+    if (missing(exclude)) {
+        ans <- lapply(x, utils.vec2ssv)
+    } else {
+        if (is.numeric(exclude)) {
+            x0 <- x[, exclude, drop = FALSE]
+            x <- x[, -exclude, drop = FALSE]
+        } else if (is.character(exclude)) {
+            ## convert to logical, making sure that the column names
+            ## to be excluded are present
+            stopifnot(all(exclude %in% names(x)))
+            exclude <- names(x) %in% exclude
+            x0 <- x[, exclude, drop = FALSE]
+            x <- x[, !exclude, drop = FALSE]
+        } else if (is.logical(exclude)) {
+            x0 <- x[, exclude, drop = FALSE]
+            x <- x[, !exclude, drop = FALSE]
+        } else {
+            stop("Can only exclude numeric, characters or logicals.")
+        }
+        ans <- lapply(x, utils.vec2ssv)
+        x0 <- lapply(x0, head, n = 1L)
+        ans <- c(x0, ans)
+        ans <- ans[nms] ## preserve original order
+    }
+    data.frame(ans, stringsAsFactors = FALSE)
+}
+
+## convert a semicolon separated character vector of length 1 to a
+## vector of length n
 utils.ssv2vec <- function(ssv, sep=";", unlist=TRUE) {
-  vec <- strsplit(ssv, sep)
-  if (unlist) {
-    return(unlist(vec))
-  } else {
-    return(vec)
-  }
+    vec <- strsplit(ssv, sep)
+    if (unlist) {
+        return(unlist(vec))
+    } else {
+        return(vec)
+    }
 }
 
 utils.list2ssv <- function(l, sep=";") {
-  unlist(lapply(l, utils.vec2ssv, sep=sep))
+    unlist(lapply(l, utils.vec2ssv, sep=sep))
 }
 
 utils.ssv2list <- function(ssv, sep=";") {
-  utils.ssv2vec(ssv, unlist=FALSE, sep=sep)
+    utils.ssv2vec(ssv, unlist=FALSE, sep=sep)
 }
 
 ## similar to merge(..., all.x=TRUE) but if called multiple times
@@ -623,121 +743,129 @@ utils.ssv2list <- function(ssv, sep=";") {
 ##         order: logical, preserve order?
 utils.leftJoin <- function(x, y, by, by.x=by, by.y=by,
                            exclude=character(), order=TRUE) {
+    ## create character ids to allow ids covering several columns
+    rxc <- do.call(paste, c(x[, by.x, drop=FALSE], sep=";"))
+    ryc <- do.call(paste, c(y[, by.y, drop=FALSE], sep=";"))
 
-  ## create character ids to allow ids covering several columns
-  rxc <- do.call(paste, c(x[, by.x, drop=FALSE], sep=";"))
-  ryc <- do.call(paste, c(y[, by.y, drop=FALSE], sep=";"))
+    ## determine matching rows
+    ryid <- match(rxc, ryc, 0L)
+    rjid <- match(ryc, rxc, 0L)
+    ryid <- ryid[ryid > 0]
+    rjid <- rjid[rjid > 0]
 
-  ## determine matching rows
-  ryid <- match(rxc, ryc, 0L)
-  rjid <- match(ryc, rxc, 0L)
-  ryid <- ryid[ryid > 0]
-  rjid <- rjid[rjid > 0]
+    ## preserve order?
+    if (order) {
+        rjid <- sort(rjid)
+    }
 
-  ## preserve order?
-  if (order) {
-    rjid <- sort(rjid)
-  }
+    cnx <- colnames(x)
+    cny <- colnames(y)
 
-  cnx <- colnames(x)
-  cny <- colnames(y)
+    ## exclude columns
+    keepx <- !cnx %in% exclude
+    keepy <- !cny %in% c(exclude, by.y)
+    cnx <- cnx[keepx]
+    cny <- cny[keepy]
+    x <- x[, keepx, drop=FALSE]
+    y <- y[, keepy, drop=FALSE]
 
-  ## exclude columns
-  keepx <- !cnx %in% exclude
-  keepy <- !cny %in% c(exclude, by.y)
-  cnx <- cnx[keepx]
-  cny <- cny[keepy]
-  x <- x[, keepx, drop=FALSE]
-  y <- y[, keepy, drop=FALSE]
+    ## start joining
+    joined <- x[, cnx]
 
-  ## start joining
-  joined <- x[, cnx]
+    ## only import equal columns from y
+    cjid <- match(cny, cnx, 0L)
+    cyid <- match(cnx, cny, 0L)
 
-  ## only import equal columns from y
-  cjid <- match(cny, cnx, 0L)
-  cyid <- match(cnx, cny, 0L)
+    cjid <- cjid[cjid > 0]
+    cyid <- cyid[cyid > 0]
 
-  cjid <- cjid[cjid > 0]
-  cyid <- cyid[cyid > 0]
+    joined[rjid, cjid] <- y[ryid, cyid]
 
-  joined[rjid, cjid] <- y[ryid, cyid]
+    ## add missing columns from y
+    cym <- setdiff(cny, cnx)
 
-  ## add missing columns from y
-  cym <- setdiff(cny, cnx)
+    if (length(cym)) {
+        joined[, cym] <- NA
+        joined[rjid, cym] <- y[ryid, cym]
+    }
 
-  if (length(cym)) {
-    joined[, cym] <- NA
-    joined[rjid, cym] <- y[ryid, cym]
-  }
-
-  return(joined)
+    return(joined)
 }
 
-# @param featureData fData(msexp)/fData(msset)
-# @param id output of mzID::flatten(mzID(filename))
-# @param fcol column name of fData data.frame used for merging
-# @param icol column name of idData data.frame used for merging
-# @noRd
+## @param featureData fData(msexp)/fData(msset)
+## @param id output of mzID::flatten(mzID(filename))
+## @param fcol column name of fData data.frame used for merging
+## @param icol column name of idData data.frame used for merging
+## @noRd
 utils.mergeSpectraAndIdentificationData <- function(featureData, id,
-                                                    fcol = c("file", "acquisition.number"),
-                                                    icol = c("file", "acquisitionnum")) {
-  # mzR::acquisitionNum (stored in fData()[, "acquisition.number"] and
-  # mzID::acquisitionnum should be identical
+                                                    fcol, icol, acc,
+                                                    desc, pepseq) {
+    ## mzR::acquisitionNum (stored in fData()[, "acquisition.number"] and
+    ## mzID::acquisitionnum should be identical
+    if (!all(fcol %in% colnames(featureData))) {
+        stop("The column(s) ", sQuote(fcol),
+             " are not all in the feature data.frame!")
+    }
 
-  if (!all(fcol %in% colnames(featureData))) {
-      stop("The column(s) ", sQuote(fcol),
-           " are not all in the feature data.frame!")
-  }
+    if (!all(icol %in% colnames(id))) {
+        stop("The column(s) ", sQuote(icol),
+             " are not all in the identification data.frame!")
+    }
 
-  if (!all(icol %in% colnames(id))) {
-    stop("The column(s) ", sQuote(icol),
-         " are not all in the identification data.frame!")
-  }
+    if (sum(fcol %in% colnames(featureData)) != sum(icol %in% colnames(id))) {
+        stop("The number of selected column(s) in the feature and identification ",
+             "data don't match!")
+    }
 
-  if (sum(fcol %in% colnames(featureData)) != sum(icol %in% colnames(id))) {
-    stop("The number of selected column(s) in the feature and identification ",
-         "data don't match!")
-  }
+    ## sort id data to ensure the best matching peptide is on top in case of
+    ## multiple matching peptides
+    o <- do.call("order", lapply(c(icol, "rank"), function(j) id[, j]))
+    id <- id[o, ]
 
-  ## sort id data to ensure the best matching peptide is on top in case of
-  ## multiple matching peptides
-  o <- do.call("order", lapply(c(icol, "rank"), function(j)id[, j]))
-  id <- id[o, ]
+    ## use flat version of accession/description if multiple ones are available
+    id[, acc] <- ave(as.character(id[, acc]), id[, icol], FUN = utils.vec2ssv)
+    id[, desc] <- ave(as.character(id[, desc]), id[, icol], FUN = utils.vec2ssv)
 
-  ## use flat version of accession/description if multiple ones are available
-  id$accession <- ave(id$accession, id[, icol], FUN=utils.vec2ssv)
-  id$description <- ave(id$description, id[, icol], FUN=utils.vec2ssv)
+    ## remove duplicated entries
+    id <- id[!duplicated(id[, icol]), ]
 
-  ## remove duplicated entries
-  id <- id[!duplicated(id[, icol]), ]
+    featureData <- utils.leftJoin(
+        x = featureData, y = id, by.x = fcol, by.y = icol,
+        exclude = c("spectrumid",   # vendor specific nativeIDs
+                    "spectrumID",
+                    "spectrumFile") # is stored in fileId + MSnExp@files
+    )
 
-  featureData <- utils.leftJoin(
-    x=featureData, y=id, by.x=fcol, by.y=icol,
-    exclude=c("spectrumid",   # vendor specific nativeIDs
-              "spectrumFile") # is stored in fileId + MSnExp@files
-  )
+    ## number of members in the protein group
+    featureData$nprot <- sapply(utils.ssv2list(featureData[, acc]),
+                                function(x) {
+                                    n <- length(x)
+                                    if (n == 1 && is.na(x)) return(NA)
+                                    n
+                                })
 
-  ## number of members in the protein group
-  featureData$nprot <- sapply(utils.ssv2list(featureData$accession),
-                              function(x) {
-                                n <- length(x)
-                                if (n == 1 && is.na(x)) return(NA)
-                                n
-                       })
-  ## number of peptides observed for each protein
-  featureData$npep.prot <- as.integer(ave(featureData$accession, featureData$pepseq, FUN=length))
-  ## number of PSMs observed for each protein
-  featureData$npsm.prot <- as.integer(ave(featureData$accession, featureData$accession, FUN=length))
-  ## number of PSMs observed for each protein
-  featureData$npsm.pep <- as.integer(ave(featureData$pepseq, featureData$pepseq, FUN=length))
+    ## number of peptides observed for each protein
+    featureData$npep.prot <- as.integer(ave(featureData[, acc],
+                                            featureData[, pepseq],
+                                            FUN = length))
 
-  return(featureData)
+    ## number of PSMs observed for each protein
+    featureData$npsm.prot <- as.integer(ave(featureData[, acc],
+                                            featureData[, acc],
+                                            FUN = length))
+
+    ## number of PSMs observed for each protein
+    featureData$npsm.pep <- as.integer(ave(featureData[, pepseq],
+                                           featureData[, pepseq],
+                                           FUN = length))
+
+    return(featureData)
 }
 
 utils.removeNoId <- function(object, fcol, keep) {
     if (!fcol %in% fvarLabels(object))
-        stop(fcol, " not in fvarLabels(",
-             getVariableName(match.call(), 'object'), ").")
+            stop(fcol, " not in fvarLabels(",
+                 getVariableName(match.call(), 'object'), ").")
     if (is.null(keep)) noid <- is.na(fData(object)[, fcol])
     else {
         if (!is.logical(keep))
@@ -751,11 +879,11 @@ utils.removeNoId <- function(object, fcol, keep) {
     object <- logging(object, paste0("Filtered ", sum(noid),
                                      " unidentified peptides out"))
     if (validObject(object))
-        return(object)
+            return(object)
 }
 
-utils.removeMultipleAssignment <- function(object, fcol) {
-    keep <- fData(object)[, fcol] == 1
+utils.removeMultipleAssignment <- function(object, nprot = "nprot") {
+    keep <- which(fData(object)[, nprot] == 1)
     object <- object[keep, ]
     object <- nologging(object, 1)
     object <- logging(object,
@@ -766,26 +894,27 @@ utils.removeMultipleAssignment <- function(object, fcol) {
 }
 
 utils.idSummary <- function(fd) {
-  if (any(!c("spectrumFile", "idFile") %in% colnames(fd))) {
-    stop("No quantification/identification data found! Did you run ",
-         sQuote("addIdentificationData"), "?")
-  }
-  idSummary <- fd[!duplicated(fd$spectrumFile), c("spectrumFile", "idFile")]
-  idSummary$coverage <- sapply(idSummary$spectrumFile, function(f) {
-                          round(mean(!is.na(fd$idFile[fd$spectrumFile== f])), 3)
-                        })
-  rownames(idSummary) <- NULL
-  colnames(idSummary) <- c("spectrumFile", "idFile", "coverage")
-  return(idSummary)
+    if (any(!c("spectrumFile", "idFile") %in% colnames(fd))) {
+        stop("No quantification/identification data found! Did you run ",
+             sQuote("addIdentificationData"), "?")
+    }
+    idSummary <- fd[!duplicated(fd$spectrumFile), c("spectrumFile", "idFile")]
+    idSummary$coverage <- sapply(idSummary$spectrumFile, function(f) {
+        round(mean(!is.na(fd$idFile[fd$spectrumFile == f])), 3)
+    })
+    rownames(idSummary) <- NULL
+    colnames(idSummary) <- c("spectrumFile", "idFile", "coverage")
+    return(idSummary)
 }
 
-utils.removeNoIdAndMultipleAssignments <- function(object) {
-    if (anyNA(fData(object)$pepseq))
-        object <- removeNoId(object)
-    if (any(fData(object)$nprot > 1))
-        object <- removeMultipleAssignment(object)
-    return(object)
-}
+utils.removeNoIdAndMultipleAssignments <-
+    function(object, pepseq = "sequence", nprot = "nprot") {
+        if (anyNA(fData(object)[, pepseq]))
+            object <- removeNoId(object, pepseq)
+        if (any(fData(object)[, nprot] > 1))
+            object <- removeMultipleAssignment(object, nprot)
+        return(object)
+    }
 
 ##' Compares equality of all members of a list.
 ##'
@@ -857,54 +986,50 @@ compareMSnSets <- function(x, y, qual = FALSE, proc = FALSE) {
     all.equal(x, y)
 }
 
-##' Similar to colMeans but calculates the sd. Should be identical to
-##' apply(x, 2, sd, na.rm).
-##' based on: http://stackoverflow.com/questions/17549762/is-there-such-colsd-in-r/17551600#17551600
-##' @title colSd
-##' @param x matrix/data.frame
+##' Similar to rowsum but calculates the mean. It is slower than colMeans but
+##' supports grouping variables. See ?rowsum for details.
+##' @param x matrix
+##' @param group a vector/factor of grouping
+##' @param reorder if TRUE the rows are ordered by `sort(unique(group))`
 ##' @param na.rm logical. Should missing values (including ‘NaN’) be omitted
-##' from the calculations?
-##' @return double
+##' @return matrix
 ##' @author Sebastian Gibb <mail@@sebastiangibb.de>
 ##' @noRd
-utils.colSd <- function(x, na.rm = TRUE) {
+rowmean <- function(x, group, reorder=FALSE, na.rm=FALSE) {
   if (na.rm) {
-    n <- colSums(!is.na(x))
+    nna <- !is.na(x)
+    mode(nna) <- "numeric"
   } else {
-    n <- nrow(x)
+    nna <- x
+    nna[] <- 1
   }
-  colVar <- colMeans(x*x, na.rm = na.rm) - (colMeans(x, na.rm = na.rm))^2L
-  sqrt(colVar * n/(n - 1L))
+  nna <- rowsum(nna, group=group, reorder=reorder, na.rm=na.rm)
+  rs <- rowsum(x, group=group, reorder=reorder, na.rm=na.rm)
+  rs/nna
 }
 
-##' Apply a function groupwise. Similar to tapply but takes a matrix as input
-##' and preserve its structure and order.
-##' @title applyColumnwiseByGroup
+##' Similar to rowsum but calculates the sd.
+##' See ?rowsum for details.
 ##' @param x matrix
-##' @param groupBy factor/grouping index
-##' @param FUN function to be applied; must work on columns, e.g. colSums
-##' @param ... further arguments to FUN
-##' @return modified matrix
+##' @param group a vector/factor of grouping
+##' @param reorder if TRUE the rows are ordered by `sort(unique(group))`
+##' @param na.rm logical. Should missing values (including ‘NaN’) be omitted
+##' @return matrix
 ##' @author Sebastian Gibb <mail@@sebastiangibb.de>
 ##' @noRd
-utils.applyColumnwiseByGroup <- function(x, groupBy, FUN, ...) {
-  if (!is.matrix(x)) {
-    stop("x has to be a matrix!")
+rowsd <- function(x, group, reorder=FALSE, na.rm=FALSE) {
+  if (na.rm) {
+    nna <- !is.na(x)
+    mode(nna) <- "numeric"
+  } else {
+    nna <- x
+    nna[] <- 1
   }
-
-  groupBy <- as.factor(groupBy)
-  FUN <- match.fun(FUN)
-
-  j <- split(1L:nrow(x), groupBy)
-  ans <- matrix(NA_real_, nrow = nlevels(groupBy), ncol = ncol(x),
-                dimnames = list(levels(groupBy), colnames(x)))
-
-  for (i in seq(along = j)) {
-    subexprs <- x[j[[i]], , drop = FALSE]
-    ans[i, ] <- do.call(FUN, list(subexprs, ...))
-  }
-
-  ans
+  nna <- rowsum(nna, group=group, reorder=reorder, na.rm=na.rm)
+  nna[nna == 1] <- NA_real_            # return NA if n == 1 (similar to sd)
+  var <- rowmean(x*x, group=group, reorder=reorder, na.rm=na.rm) -
+    rowmean(x, group=group, reorder=reorder, na.rm=na.rm)^2L
+  sqrt(var * nna/(nna - 1L))
 }
 
 setMethod("trimws", "data.frame",
@@ -921,4 +1046,229 @@ setMethod("trimws", "MSnSet",
               fData(x) <- trimws(fData(x), which, ...)
               x <- logging(x, "Trimmed featureData white spaces")
               x
+          })
+
+setMethod("isEmpty", "environment",
+          function(x) length(ls(x)) == 0)
+
+## Simple helper to help differentiate between on disk and in
+## memory objects.
+isOnDisk <- function(object)
+    any(grepl("spectraProcessingQueue", slotNames(object)))
+
+## Simple function to determine whether parallel or serial processing should be performed
+## Check testthat/test_OnDiskMSnExp_benchmarks.R for performance comparisons.
+## Parameter object is expected to beb a
+getBpParam <- function(object, BPPARAM=bpparam()) {
+    parallel_thresh <- options()$MSnbase$PARALLEL_THRESH
+    if (is.null(parallel_thresh) )
+        parallel_thresh <- 1000
+    ## If it's empty, return SerialParam
+    if (length(object) == 0)
+        return(SerialParam())
+    ## if (is(object, "OnDiskMSnExp")) {
+    ##     ## Return SerialParam if we access less than PARALLEL_THRESH spectra per file.
+    ##     if (mean(table(fData(object)$fileIdx)) < parallel_thresh)
+    ##         return(SerialParam())
+    ## } else {
+        if (length(object) < parallel_thresh)
+            return(SerialParam())
+    ## }
+    return(BPPARAM)
+}
+
+countAndPrint <- function(x) {
+    if (length(x) == 0)
+        return("")
+    tb <- table(x)
+    paste(paste0(names(tb), " (", tb, ")"), collapse = ", ")
+}
+
+## see issue #131
+.isCentroided <- function(pk, k = 0.025, qtl = 0.9) {
+        .qtl <- quantile(pk[, 2], qtl)
+        x <- pk[pk[, 2] > .qtl, 1]
+        quantile(diff(x), 0.25) > k
+}
+
+##' @title Reads profile/centroided mode from an mzML file
+##' @param x An instance of \code{MSnExp} or \code{OnDiskMSnExp}
+##' @return A \code{logical}
+##' @noRd
+.isCentroidedFromFile <- function(f) {
+    if (!requireNamespace("XML"))
+        stop("Please install the XML package to use this functionality.")
+    xml <- XML::xmlParse(f)
+    x <- XML::xpathSApply(xml,
+                          "//x:spectrum/x:cvParam[@accession='MS:1000127' or @accession='MS:1000128']/../@index |
+                    //x:cvParam[@accession='MS:1000127' or @accession='MS:1000128']/@name",
+                    namespaces = c(x = "http://psi.hupo.org/ms/mzml"))
+    index <- as.double(x[seq(1, length(x), by = 2)])
+    res <- rep(NA, length(index))
+    res[grepl("centroid", x[seq(2, length(x), by = 2)])] <- TRUE
+    res[grepl("profile",  x[seq(2, length(x), by = 2)])] <- FALSE
+    res
+}
+
+## Returns the extension of the file. If that extension is on of the
+## usual archive extensions, as defined in gexts, then the last part
+## after the dot is removed and the extension is extracted again.
+.fileExt <- function(f,
+                     gexts = c("gz", "gzip", "bzip", "bzip2", "xz",
+                               "zip")) {
+    ext <- tools::file_ext(f)
+    if (ext %in% gexts) {
+        f <- basename(f)
+        f <- sub("\\.[a-z]+$", "", f)
+        ext <- .fileExt(f)
+    }
+    ext
+}
+
+## see this comment
+## https://github.com/lgatto/MSnbase/issues/183#issuecomment-273512931
+## for some background about this function
+.firstMsLevel <- function(object) {
+  if (inherits(object, "OnDiskMSnExp")) msLevel(object)[1]
+  else msLevel(object[[1]])
+}
+
+#' @title Define the type of mzR backend to use based on the file name
+#'
+#' @description Simple helper to define the mzR backend that should/can be used
+#'     to read the file.
+#'
+#' @param x \code{character(1)} representing the file name.
+#'
+#' @return A \code{character(1)} with the name of the backend (either
+#'     \code{"netCDF"}, \code{"Ramp"} or \code{"pwiz"}.
+#'
+#' @author Johannes Rainer, Sebastian Gibb
+#'
+#' @noRd
+.mzRBackend <- function(x = character()) {
+    if (length(x) != 1)
+        stop("parameter 'x' has to be of length 1")
+    ## Use if/else conditions based on a suggestion from sgibb to avoid loops.
+    if (grepl("\\.mzml($|\\.)|\\.mzxml($|\\.)", x, ignore.case = TRUE)) {
+        return("pwiz")
+    } else if (grepl("\\.mzdata($|\\.)", x, ignore.case = TRUE)) {
+        return("Ramp")
+    } else if (grepl("\\.cdf($|\\.)|\\.nc($|\\.)", x, ignore.case = TRUE)) {
+        return("netCDF")
+    } else {
+        stop("Could not determine file type for ", x)
+    }
+}
+
+#' @title Open an MS file using the mzR package
+#'
+#' @description Opens an MS file using the mzR package determining the corrent
+#'     backend based on the file ending of the specified file.
+#'
+#' @param x \code{character(1)}: the file name.
+#'
+#' @return A file handle to the opened MS file.
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+.openMSfile <- function(x) {
+    if (missing(x) || length(x) != 1)
+        stop("parameter 'x' has to be of length 1")
+    mzR::openMSfile(x, backend = .mzRBackend(x))
+}
+
+
+##' This function produces the opposite as the \code{stringsAsFactors}
+##' argument in the \code{data.frame} or \code{read.table} functions;
+##' it converts \code{factors} columns to \code{characters}.
+##'
+##' @title Converts factors to strings
+##' @param x A \code{data.frame}
+##' @return A \code{data.frame} where \code{factors} are converted to
+##'     \code{characters}.
+##' @author Laurent Gatto
+##' @examples
+##' data(iris)
+##' str(iris)
+##' str(factorsAsStrings(iris))
+factorsAsStrings <- function(x) {
+    x <- lapply(x,
+                   function(xx) {
+                       if (is.factor(xx)) as.character(xx)
+                       else xx
+                   })
+    data.frame(x, stringsAsFactors = FALSE)
+}
+
+##' Convert a \code{vector} of characters to camel case by replacing
+##' dots by captial letters.
+##'
+##' @title Convert to camel case by replacing dots by captial letters
+##' @param x A \code{vector} to be transformed to camel case.
+##' @param prefix An optional \code{character} of length one. Any
+##'     additional elements are ignores.
+##' @return A \code{character} of same length as \code{x}.
+##' @author Laurent Gatto
+##' @examples
+##' nms <- c("aa.foo", "ab.bar")
+##' makeCamelCase(nms)
+##' makeCamelCase(nms, prefix = "x")
+makeCamelCase <- function(x, prefix) {
+    if (!missing(prefix))
+        x <- paste(prefix[1], x, sep = ".")
+    gsub('\\.(\\w?)', '\\U\\1', x, perl = TRUE)
+}
+
+
+##' Reduce a data.frame so that the (primary) key column contains only
+##' unique entries and other columns pertaining to that entry are
+##' combined into semicolon-separated values into a single
+##' row/observation.
+##'
+##' An important side-effect of reducing a `data.frame` is that all
+##' columns other than the key are converted to characters when they
+##' are collapsed to a semi-column separated value (even if only one
+##' value is present) as soon as one observation of transformed.
+##'
+##' @title Reduce a data.frame
+##' @param x A \code{data.frame}.
+##' @param key The column name (currenly only one is supported) to be
+##'     used as primary key.
+##' @param sep The separator. Default is \code{;}.
+##' @return A reduced \code{data.frame}.
+##' @author Laurent Gatto
+##' @examples
+##' dfr <- data.frame(A = c(1, 1, 2),
+##'                   B = c("x", "x", "z"),
+##'                   C = LETTERS[1:3])
+##' dfr
+##' dfr2 <- reduce(dfr, key = "A")
+##' dfr2
+##' ## column A used as key is still num
+##' str(dfr2)
+##' dfr3 <- reduce(dfr, key = "B")
+##' dfr3
+##' ## A is converted to chr; B remains factor
+##' str(dfr3)
+##' dfr4 <- data.frame(A = 1:3,
+##'                    B = LETTERS[1:3],
+##'                    C = c(TRUE, FALSE, NA))
+##' ## No effect of reducing, column classes are maintained
+##' str(reduce(dfr4, key = "B"))
+setMethod("reduce", "data.frame",
+          function(x, key, sep = ";") {
+              if (nrow(x) %in% c(0, 1))
+                  return(x)
+              if (missing(key))
+                  stop("Need a key column to reduce the data.frame")
+              if (length(key) != 1L)
+                  stop("Key must be of length 1.")
+              if (!key %in% names(x))
+                  stop("key not found in column names.")
+              ans <- by(x, x[, key], utils.vec2ssv.data.frame, exclude = key)
+              ans <- do.call(rbind, ans)
+              rownames(ans) <- NULL
+              ans
           })

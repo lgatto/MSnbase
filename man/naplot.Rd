@@ -4,13 +4,20 @@
 \alias{naplot}
 \title{Overview of missing value}
 \usage{
-naplot(object, verbose = TRUE, ...)
+naplot(object, verbose = isMSnbaseVerbose(), reorderRows = TRUE,
+  reorderColumns = TRUE, ...)
 }
 \arguments{
 \item{object}{An object of class \code{MSnSet}.}
 
-\item{verbose}{If verbose (default is \code{TRUE}), print a table
-of missing values.}
+\item{verbose}{If verbose (default is \code{isMSnbaseVerbose()}), print a
+table of missing values.}
+
+\item{reorderRows}{If reorderRows (default is \code{TRUE}) rows are ordered
+by number of NA.}
+
+\item{reorderColumns}{If reorderColumns (default is \code{TRUE}) columns
+are ordered by number of NA.}
 
 \item{...}{Additional parameters passed to \code{image2}.}
 }
@@ -28,4 +35,3 @@ naplot(naset)
 \author{
 Laurent Gatto
 }
-

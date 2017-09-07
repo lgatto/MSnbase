@@ -15,8 +15,14 @@
   \code{readMSnSet2} is a simple version that takes a single text
   spreadsheet as input and extracts the expression data and feature
   meta-data to create and \code{MSnSet}.
+
+  Note that when using \code{readMSnSet2}, one should not set
+  \code{rownames} as additional argument to defined feature names. It is
+  ignored and used to set \code{fnames} if not provided otherwise.
   
 }
+
+
 
 \usage{
 readMSnSet(exprsFile,
@@ -76,7 +82,7 @@ readMSnSet2(file, ecol, fnames, ...)
     used. Widgets are NOT yet implemented for
     \code{read.AnnotatedDataFrame}.}
   \item{\dots}{Further arguments that can be passed on to the
-    \code{\link{read.table}}-like functions.}
+    \code{\link{read.table}}-like functions. }
   
   Additional argument, specific to \code{readMSnSet}:
   \item{featureDataFile}{(character) File or connection from which to read
@@ -112,8 +118,8 @@ readMSnSet2(file, ecol, fnames, ...)
     by \code{R}.  }
 
   
-  \item{fnames}{An optional \code{character} indicating the column to be
-    used as feature names. }
+  \item{fnames}{An optional \code{character} or \code{numeric} of length
+    1 indicating the column to be used as feature names. }
   
 }
 
@@ -142,6 +148,13 @@ pdatafile <- "path_to_sampledata_file.csv"
 res <- readMSnSet(exprsFile, pdataFile, fdataFile, sep = "\t", header=TRUE)
 }
 
+library("pRolocdata")
+f0 <- dir(system.file("extdata", package = "pRolocdata"),
+          full.names = TRUE,
+          pattern = "hyperLOPIT-SIData-ms3-rep12-intersect.csv")
+basename(f0)
+res <- readMSnSet2(f0, ecol = 8:27)
+res
 }
 
 \keyword{file}

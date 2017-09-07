@@ -3,9 +3,9 @@ show_MIAPE <- function(object) {
             length(object@instrumentManufacturer) > 0,
             length(object@instrumentCustomisations) > 0))) {
     cat("Instrument : \n")
-    cat("  Model:", object@instrumentModel,"\n")
-    cat("  Manufacturer:", object@instrumentManufacturer,"\n")
-    cat("  Customisations:", object@instrumentCustomisations,"\n")
+    cat("  Model:", countAndPrint(object@instrumentModel), "\n")
+    cat("  Manufacturer:", countAndPrint(object@instrumentManufacturer), "\n")
+    cat("  Customisations:", countAndPrint(object@instrumentCustomisations), "\n")
     cat("  Use 'msInfo(object)' for more MIAPE-MS information.\n")
   }
   ## code from original MIAPE show method

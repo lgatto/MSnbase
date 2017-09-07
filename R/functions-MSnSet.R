@@ -26,9 +26,14 @@ normalise_MSnSet <- function(object, method, ...) {
     e <- exprs(object)
     center <- apply(e, 2L, median, na.rm = TRUE)
     e <- sweep(e, 2L, center, check.margin = FALSE, ...)
+  } else if (method == "diff.median") {
+      e <- exprs(object)
+      med <- median(as.numeric(e), na.rm = TRUE)
+      cmeds <- apply(e, 2L, median, na.rm = TRUE)
+      e <- sweep(e, 2L, cmeds - med)
   } else {
     switch(method,
-           max = div <- apply(exprs(object), 1L, max, na.rm = TRUE),
+           max = div <- .rowMaxs(exprs(object), na.rm = TRUE),
            sum = div <- rowSums(exprs(object), na.rm = TRUE))
     e <- exprs(object)/div
   }
@@ -76,12 +81,10 @@ featureCV <- function(x, groupBy, na.rm = TRUE,
   if (norm != "none")
     x <- normalise(x, method = norm)
 
-  ans <- utils.applyColumnwiseByGroup(exprs(x), groupBy=groupBy,
-                                      FUN=function(y, ...) {
-                                        utils.colSd(y, ...)/
-                                          colMeans(y, ...)}, na.rm=na.rm)
-  colnames(ans) <- paste("CV", colnames(ans), sep = ".")
-  ans
+  cv <- rowsd(exprs(x), group=groupBy, reorder=TRUE, na.rm=na.rm) /
+          rowmean(exprs(x), group=groupBy, reorder=TRUE, na.rm=na.rm)
+  colnames(cv) <- paste("CV", colnames(cv), sep=".")
+  cv
 }
 
 updateFvarLabels <- function(object, label, sep = ".") {
@@ -153,11 +156,9 @@ nQuants <- function(x, groupBy) {
   if (class(x) != "MSnSet")
     stop("'x' must be of class 'MSnSet'.")
 
-  ans <- utils.applyColumnwiseByGroup(exprs(x), groupBy=groupBy,
-                                      FUN=function(y) {
-                                        nrow(y)-colSums(is.na(y))})
-  colnames(ans) <- sampleNames(x)
-  ans
+  e <- !is.na(exprs(x))
+  mode(e) <- "numeric"
+  rowsum(e, group=groupBy, reorder=TRUE)
 }
 
 ##' Subsets \code{MSnSet} instances to their common feature names.
@@ -201,7 +202,7 @@ commonFeatureNames <- function(x, y) {
     nms <- names(x)
     cmn <- Reduce(intersect, lapply(x, featureNames))
     message(paste(length(cmn), "features in common"))
-    res <- lapply(x, "[", cmn)
+    res <- lapply(x, function(xx) xx[cmn, ])
     if (!is.null(nms))
         names(res) <- nms
     return(MSnSetList(x = res,
@@ -255,16 +256,18 @@ selectFeatureData <- function(object,
 .selectShinyFeatureData <- function(object) {
     sel <- fv <- fvarLabels(object)
     on.exit(return(sel))
-
     ui <- shiny::fluidPage(
         title = 'Examples of DataTables',
         shiny::sidebarLayout(
-            shiny::sidebarPanel(
-                shiny::checkboxGroupInput('vars', 'Feature variables',
-                               as.list(fv), selected = sel)),
-            shiny::mainPanel(shiny::dataTableOutput('fd'))))
-
+                   shiny::sidebarPanel(
+                              shiny::actionButton("stop", "Stop app"),
+                              shiny::checkboxGroupInput('vars', 'Feature variables',
+                                                        as.list(fv), selected = sel)),
+                   shiny::mainPanel(shiny::dataTableOutput('fd'))))    
     server <- function(input, output) {
+        shiny::observeEvent(input$stop, {
+            shiny::stopApp(returnValue = sel)
+        })        
         output$fd <- shiny::renderDataTable({
             sel <<- input$vars
             fData(object)[, input$vars, drop = FALSE]
@@ -272,4 +275,36 @@ selectFeatureData <- function(object,
     }
     app <- list(ui=ui, server=server)
     shiny::runApp(app)
+}
+
+
+##' This function computes the number of features in the group defined
+##' by the feature variable \code{fcol} and appends this information
+##' in the feature data of \code{object}.
+##'
+##' @title How many features in a group?
+##' @param object An instance of class \code{MSnSet}.
+##' @param fcol Feature variable defining the feature grouping
+##'     structure.
+##' @return An updated \code{MSnSet} with a new feature variable
+##'     \code{fcol.nFeatures}.
+##' @author Laurent Gatto
+##' @examples
+##' library(pRolocdata)
+##' data("hyperLOPIT2015ms3r1psm")
+##' hyperLOPIT2015ms3r1psm <- nFeatures(hyperLOPIT2015ms3r1psm,
+##'                                     "Protein.Group.Accessions")
+##' i <- c("Protein.Group.Accessions", "Protein.Group.Accessions.nFeatures")
+##' fData(hyperLOPIT2015ms3r1psm)[1:10, i]
+nFeatures <- function(object, fcol) {
+    stopifnot(inherits(object, "MSnSet"))
+    stopifnot(fcol %in% fvarLabels(object))
+    fcol2 <- paste0(fcol, ".nFeatures")
+    if (fcol2 %in% fvarLabels(object))
+        stop("'", fcol2, "' already present.")
+    k <- table(fData(object)[, fcol])
+    k <- k[as.character(fData(object)[, fcol])]
+    fData(object)[, fcol2] <- k
+    if (validObject(object))
+        return(object)
 }
