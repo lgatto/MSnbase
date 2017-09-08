@@ -93,16 +93,20 @@ utils.removePeaks <- function(int, t) {
   return(int)
 }
 
-utils.removePrecMz <- function(mz, int, precMz, tolerance=25e-6) {
+
+## For internal use - use utils.removePrecMz_Spectrum that will set
+## the paramters based on data accessed directly in the spectrum
+## object.
+utils.removePrecMz <- function(mz, int, precMz, tolerance = 25e-6) {
   if (!is.numeric(precMz) && length(precMz) == 1L)
     stop("precMz must be numeric of length 1.")
 
-  i <- relaxedMatch(precMz, mz, tolerance=tolerance)
+  i <- relaxedMatch(precMz, mz, tolerance = tolerance)
 
   if (!is.na(i)) {
     peakRanges <- IRanges(sapply(int, ">", 0L))
-    i <- findOverlaps(IRanges(i, width=1L), peakRanges,
-                      type="within", select="first")
+    i <- findOverlaps(IRanges(i, width = 1L), peakRanges,
+                      type = "within", select = "first")
     if (!is.na(i)) {
       int[start(peakRanges[i]):end(peakRanges[i])] <- 0
     }
@@ -110,21 +114,26 @@ utils.removePrecMz <- function(mz, int, precMz, tolerance=25e-6) {
   int
 }
 
-utils.removePrecMz_Spectrum <- function(spectrum, precMz=NULL,
-                                        tolerance=25e-6) {
-  if (is.null(precMz))
-    precMz <- precursorMz(spectrum)
-  if (!is.numeric(precMz))
-    stop("precMz must either 'NULL' or numeric.")
-  spectrum@intensity <- utils.removePrecMz(mz(spectrum), intensity(spectrum),
-                                           precMz=precMz, tolerance=tolerance)
-  return(spectrum)
+utils.removePrecMz_Spectrum <- function(spectrum,
+                                        precMz = NULL,
+                                        tolerance = 25e-6) {
+    if (is.null(precMz))
+        precMz <- precursorMz(spectrum)
+    if (!is.numeric(precMz))
+        stop("precMz must either 'NULL' or numeric.")
+    spectrum@intensity <- utils.removePrecMz(mz(spectrum),
+                                             intensity(spectrum),
+                                             precMz = precMz,
+                                             tolerance = tolerance)
+    return(spectrum)
 }
 
-utils.removePrecMz_list <- function(object, precMz, tolerance=25e-6) {
+utils.removePrecMz_list <- function(object, precMz, tolerance = 25e-6) {
     idx <- which(object$mz > precMz[1] & object$mz < precMz[2])
-    object$int <- utils.removePrecMz(object$mz, object$int,
-                                     precMz=precMz, tolerance=tolerance)
+    object$int <- utils.removePrecMz(object$mz,
+                                     object$int,
+                                     precMz = precMz,
+                                     tolerance = tolerance)
     return(object)
 }
 
