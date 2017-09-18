@@ -494,3 +494,77 @@ validSpectrum <- function(object) {
     if (is.null(msg)) TRUE
     else stop(msg)
 }
+
+#' @description `.spectrum_header` extracts the header information from a
+#'     `Spectrum` object and returns it as a named numeric vector.
+#'
+#' @note We can not get the following information from Spectrum
+#' objects:
+#' - ionisationEnergy
+#' - mergedResultScanNum
+#' - mergedResultStartScanNum
+#' - mergedResultEndScanNum
+#' 
+#' @param x `Spectrum` object.
+#'
+#' @return A named `numeric` with the following fields:
+#' - acquisitionNum
+#' - msLevel
+#' - polarity
+#' - peaksCount
+#' - totIonCurrent
+#' - retentionTime
+#' - basePeakMZ
+#' - collisionEnergy
+#' - ionisationEnergy
+#' - lowMZ
+#' - highMZ
+#' - precursorScanNum
+#' - precursorMZ
+#' - precurorCharge
+#' - precursorIntensity
+#' - mergedScan
+#' - mergedResultScanNum
+#' - mergedResultStartScanNum
+#' - mergedResultEndScanNum
+#' - injectionTime
+#' 
+#' @author Johannes Rainer
+#'
+#' @md
+#'
+#' @noRd
+.spectrum_header <- function(x) {
+    res <- c(acquisitionNum = acquisitionNum(x),
+             msLevel = msLevel(x),
+             polarity = polarity(x),
+             peaksCount = peaksCount(x),
+             totIonCurrent = tic(x),
+             retentionTime = rtime(x),
+             basePeakMZ = mz(x)[which.max(intensity(x))][1],
+             basePeakIntensity = max(intensity(x)),
+             collisionEnergy = 0,
+             ionisationEnergy = 0,      # How to get that?
+             lowMZ = min(mz(x)),
+             highMZ = max(mz(x)),
+             precursorScanNum = 0,
+             precursorMZ = 0,
+             precursorCharge = 0,
+             precursorIntensity = 0,
+             mergedScan = 0,
+             mergedResultScanNum = 0,   # ???
+             mergedResultStartScanNum = 0, # ???
+             mergedResultEndScanNum = 0,   # ???
+             injectionTime = 0            # Don't have that
+             )
+    if (msLevel(x) > 1) {
+        res["collisionEnergy"] <- collisionEnergy(x)
+        res["precursorScanNum"] <- precScanNum(x)
+        res["precursorMZ"] <- precursorMz(x)
+        res["precursorCharge"] <- precursorCharge(x)
+        res["precursorIntensity"] <- precursorIntensity(x)
+        res["mergedScan"] <- x@merged
+    }
+    res
+}
+

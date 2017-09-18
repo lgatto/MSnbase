@@ -1,7 +1,8 @@
 # MSnbase 2.3
 
 ## Changes in version 2.3.11
-- Nothing yet <2017-09-07 Thu>
+- Add write support for MSnExp and OnDiskMSnExp objects allowing to save the MS
+  data to mzML or mzXML files. <2017-09-15 Fri>
 
 ## Changes in version 2.3.10
 - New `isCentroidedFromFile` function <2017-08-11 Fri>

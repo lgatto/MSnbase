@@ -286,7 +286,8 @@ exportMethods(updateObject,
               "$<-",
               chromatogram,
               "colnames<-",
-              reduce)
+              reduce,
+              write)
 
 ## methods NOT exported
 ## curveStats

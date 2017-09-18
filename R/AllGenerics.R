@@ -149,3 +149,4 @@ setGeneric("splitByFile", function(object, f, ...) standardGeneric("splitByFile"
 ## setGeneric("aggregationFun", function(object, ...)
 ##     standardGeneric("aggregationFun"))
 
+setGeneric("write", function(x, ...) standardGeneric("write"))
