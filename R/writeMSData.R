@@ -44,58 +44,68 @@
     x_split <- splitByFile(x, f = factor(fileNames(x)))
     ## Using mapply below - in principle we could then even switch to
     ## bpmapply to perform parallel saving of files.
-    res <- mapply(x_split, files, FUN = function(z, f, outformat,
-                                                 software_processing,
-                                                 verbose){
-        if (verbose)
-            message("Saving file ", basename(f), "...", appendLF = FALSE)
-        if (file.exists(f))
-            stop("File ", f, " does already exist! Please use a different ",
-                 "file name.")
-        ## o get all peak data. Calling spectrapply will apply also all lazy
-        ##   processing steps. We're not calling the `as` method to avoid R
-        ##   having to look through all namespaces to find the function.
-        pks <- spectrapply(z, FUN = function(sp) cbind(sp@mz, sp@intensity),
-                           BPPARAM = SerialParam())
-        if (is(x, "OnDiskMSnExp")) {
-            hdr <- fData(z)
+    res <- mapply(FUN = .writeSingleMSData, x_split, files,
+                  MoreArgs = list(outformat = outformat,
+                                  software_processing = software_processing,
+                                  verbose = verbose, copy = copy),
+                  SIMPLIFY = FALSE, USE.NAMES = FALSE)
+}
+
+#' @description `.writeMSData` for a single file.
+#'
+#' @md
+#' 
+#' @noRd
+.writeSingleMSData <- function(msData, file, outformat,
+                               software_processing = NULL,
+                               verbose = TRUE,
+                               copy = is(msData, "OnDiskMSnExp")) {
+    if (verbose)
+        message("Saving file ", basename(file), "...", appendLF = FALSE)
+    if (file.exists(file))
+        stop("File ", file, " does already exist! Please use a different ",
+             "file name.")
+    ## o get all peak data. Calling spectrapply will apply also all lazy
+    ##   processing steps. We're not calling the `as` method to avoid R
+    ##   having to look through all namespaces to find the function.
+    pks <- spectrapply(msData, FUN = function(sp) cbind(sp@mz, sp@intensity),
+                       BPPARAM = SerialParam())
+        if (is(msData, "OnDiskMSnExp")) {
+            hdr <- fData(msData)
+            ## o Re-calculate stuff we don't have or which might have been
+            ##   changed:
+            new_vals <- do.call(rbind, lapply(pks, function(sp) {
+                cbind(peaksCount = nrow(sp),
+                      totIonCurrent = sum(sp[, 2], na.rm = TRUE),
+                      basePeakMZ = sp[base::which.max(sp[, 2]), 1][1],
+                      basePeakIntensity = max(sp[, 2], na.rm = TRUE))
+            }))
+            hdr$peaksCount <- new_vals[, "peaksCount"]
+            hdr$totIonCurrent <- new_vals[, "totIonCurrent"]
+            hdr$basePeakMZ <- new_vals[, "basePeakMZ"]
+            hdr$basePeakIntensity <- new_vals[, "basePeakIntensity"]
         } else {
             ## MSnExp: feature data does not provide all the data we need.
-            hdr <- data.frame(do.call(rbind,
-                                      spectrapply(z, FUN = .spectrum_header,
-                                                  BPPARAM = SerialParam())),
-                              check.names = FALSE)
+            hdr <- data.frame(
+                do.call(rbind, spectrapply(msData, FUN = .spectrum_header,
+                                           BPPARAM = SerialParam())),
+                check.names = FALSE)
         }
-        ## o Re-calculate stuff we don't have or which might have been
-        ##   changed:
-        new_vals <- do.call(rbind, lapply(pks, function(sp) {
-            cbind(peaksCount = nrow(sp),
-                  totIonCurrent = sum(sp[, 2], na.rm = TRUE),
-                  basePeakMZ = sp[base::which.max(sp[, 2]), 1][1],
-                  basePeakIntensity = max(sp[, 2], na.rm = TRUE))
-        }))
-        hdr$peaksCount <- new_vals[, "peaksCount"]
-        hdr$totIonCurrent <- new_vals[, "totIonCurrent"]
-        hdr$basePeakMZ <- new_vals[, "basePeakMZ"]
-        hdr$basePeakIntensity <- new_vals[, "basePeakIntensity"]
-        ## seqNum is expected to be sequentially numbered
-        hdr$seqNum <- 1:nrow(hdr)
-        ## o add processing steps.
-        soft_proc <- .guessSoftwareProcessing(z, software_processing)
-        if (copy) {
-            copyWriteMSData(f, original_file = fileNames(z), header = hdr,
-                            data = pks, outformat = outformat,
-                            software_processing = soft_proc)
-        } else {
-            writeMSData(f, header = hdr, data = pks, outformat = outformat,
+    ## seqNum is expected to be sequentially numbered
+    hdr$seqNum <- 1:nrow(hdr)
+    ## o add processing steps.
+    soft_proc <- .guessSoftwareProcessing(msData, software_processing)
+    if (copy) {
+        copyWriteMSData(file, original_file = fileNames(msData), header = hdr,
+                        data = pks, outformat = outformat,
                         software_processing = soft_proc)
-        }
-        if (verbose)
-            message("OK")
-        NULL
-        }, MoreArgs = list(outformat = outformat,
-                           software_processing = software_processing,
-                           verbose = verbose))
+    } else {
+        writeMSData(file, header = hdr, data = pks, outformat = outformat,
+                    software_processing = soft_proc)
+    }
+    if (verbose)
+        message("OK")
+    NULL
 }
 
 #' @description Determine data processing steps based on an `OnDiskMSnExp` or
@@ -158,7 +168,6 @@
 #'
 #' @noRd
 .pattern_to_cv <- function(pattern, ifnotfound = "MS:-1") {
-    res <- ifnotfound
     if (length(pattern) > 1) {
         warning("length of pattern is > 1, using only first element")
         pattern <- pattern[1]
@@ -178,9 +187,10 @@
     ## other way round. So we can provide a string describing the processing
     ## step and return the best matching CV terms.
     matches <- vapply(names(.PATTERN.TO.CV), FUN = function(z) {
-        length(grep(pattern = z, x = pattern, ignore.case = TRUE)) > 0
+        any(grepl(pattern = z, x = pattern, ignore.case = TRUE))
     }, FUN.VALUE = logical(1))
     if (any(matches))
-        res <- .PATTERN.TO.CV[matches]
-    unname(res)
+        unname(.PATTERN.TO.CV[matches])
+    else
+        ifnotfound
 }

@@ -5,8 +5,8 @@ test_that("writeMSData works", {
     ## filter MS level 1, write, read and compare with tmt_erwinia_in_mem_ms1
     odf_1 <- filterMsLevel(odf, msLevel = 1)
     out_file <- paste0(tempfile(), ".mzML")
-    .writeMSData(x = odf_1, files = out_file, outformat = "mzml",
-                 copy = TRUE)
+    MSnbase:::.writeSingleMSData(odf_1, file = out_file,
+                                 outformat = "mzml", copy = TRUE)
     odf_in <- readMSData(out_file, mode = "onDisk")
     ## Some stuff is different, i.e. totIonCurrent, basePeakMZ, basePeakIntensity
     expect_equal(unname(rtime(odf_in)), unname(rtime(tmt_erwinia_in_mem_ms1)))
@@ -17,8 +17,8 @@ test_that("writeMSData works", {
     out_file <- paste0(out_path, "/write_test.mzXML")
     odf_2 <- filterMsLevel(odf, msLevel = 2)
     expect_warning(
-        MSnbase:::.writeMSData(odf_2, files = out_file, outformat = "mzxml",
-                               copy = TRUE)
+        MSnbase:::.writeSingleMSData(odf_2, file = out_file,
+                                     outformat = "mzxml", copy = TRUE)
     )
     odf_in <- readMSData(out_file, mode = "onDisk")
     ## retention time is saved with less precision in mzXML
