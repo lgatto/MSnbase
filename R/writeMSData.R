@@ -106,7 +106,6 @@
     }
     if (verbose)
         message("OK")
-    NULL
 }
 
 #' @description Determine data processing steps based on an `OnDiskMSnExp` or

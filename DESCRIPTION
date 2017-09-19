@@ -43,7 +43,7 @@ Depends:
     methods,
     BiocGenerics (>= 0.7.1),
     Biobase (>= 2.15.2),
-    mzR (>= 2.11.10),
+    mzR (>= 2.11.11),
     BiocParallel,
     ProtGenerics (>= 1.5.1)
 Imports:
