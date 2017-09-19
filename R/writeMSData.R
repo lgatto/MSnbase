@@ -62,6 +62,7 @@
                                copy = is(msData, "OnDiskMSnExp")) {
     if (verbose)
         message("Saving file ", basename(file), "...", appendLF = FALSE)
+    file <- path.expand(file)
     if (file.exists(file))
         stop("File ", file, " does already exist! Please use a different ",
              "file name.")
