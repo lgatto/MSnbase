@@ -59,7 +59,7 @@ test_that("writeMSData works", {
     ## Write two files.
     out_path <- tempdir()
     out_file <- paste0(out_path, c("/a.mzML", "/b.mzML"))
-    MSnbase:::.writeMSData(microtofq_on_disk_ms1, files = out_file,
+    MSnbase:::.writeMSData(microtofq_on_disk_ms1, file = out_file,
                            copy = FALSE)
     odf_in <- readMSData(out_file, mode = "onDisk")
     expect_equal(unname(rtime(odf_in)), unname(rtime(microtofq_in_mem_ms1)))
@@ -67,7 +67,7 @@ test_that("writeMSData works", {
     ## Providing software_processing.
     odf <- extdata_mzXML_on_disk
     out_file <- paste0(out_path, "/mzXML.mzML")
-    MSnbase:::.writeMSData(x = odf, files = out_file,
+    MSnbase:::.writeMSData(odf, file = out_file,
                  software_processing = c("dummysoft", "0.0.1", "MS:1000035"))
     odf_in <- readMSData(out_file, mode = "onDisk")
     expect_equal(unname(rtime(odf)), unname(rtime(odf_in)))
@@ -130,10 +130,10 @@ test_that(".guessSoftwareProcessing works", {
 })
 
 
-test_that("write,OnDiskMSnExp works", {
+test_that("writeMSData,OnDiskMSnExp works", {
     out_path <- tempdir()
     out_file <- paste0(out_path, c("/a2.mzML", "/b2.mzML"))
-    write(microtofq_on_disk_ms1, files = out_file, copy = TRUE)
+    writeMSData(microtofq_on_disk_ms1, file = out_file, copy = TRUE)
     odf_in <- readMSData(out_file, mode = "onDisk")
     expect_equal(unname(rtime(odf_in)), unname(rtime(microtofq_in_mem_ms1)))
     expect_equal(spectra(odf_in), spectra(microtofq_in_mem_ms1))
@@ -141,7 +141,7 @@ test_that("write,OnDiskMSnExp works", {
     ## Write MS1 and MS2
     out_file <- paste0(tempfile(), ".mzML")
     out_data <- tmt_erwinia_on_disk
-    write(out_data, file = out_file)
+    writeMSData(out_data, file = out_file)
     in_data <- readMSData(out_file, mode = "onDisk")
     expect_equal(rtime(out_data), rtime(in_data))
     ## Columns expected to be different:
@@ -150,16 +150,16 @@ test_that("write,OnDiskMSnExp works", {
     expect_equal(fData(out_data)[, check_cols], fData(in_data)[, check_cols])
 })
 
-test_that("write,MSnExp works", {
+test_that("writeMSData,MSnExp works", {
     out_path <- tempdir()
     out_file <- paste0(out_path, c("/a3.mzML", "/b3.mzML"))
-    write(microtofq_in_mem_ms1, files = out_file, copy = TRUE)
+    writeMSData(microtofq_in_mem_ms1, file = out_file, copy = TRUE)
     odf_in <- readMSData(out_file, mode = "onDisk")
     expect_equal(unname(rtime(odf_in)), unname(rtime(microtofq_in_mem_ms1)))
     expect_equal(spectra(odf_in), spectra(microtofq_in_mem_ms1))
 
     out_file <- paste0(out_path, c("/mzxml3.mzML"))
-    write(extdata_mzXML_in_mem_ms2, files = out_file, copy = FALSE)
+    writeMSData(extdata_mzXML_in_mem_ms2, file = out_file, copy = FALSE)
     odf_in <- readMSData(out_file, mode = "inMem")
     ## Check that main data is the same
     expect_equal(unname(rtime(odf_in)), unname(rtime(extdata_mzXML_in_mem_ms2)))
@@ -178,7 +178,7 @@ test_that("write,MSnExp works", {
                            "proteomics/MS3TMT10_01022016_32917-33481.mzML.gz")
     data_out <- readMSData(in_file, msLevel = 3, mode = "inMem")
     out_file <- paste0(tempfile(), ".mzML")
-    write(data_out, file = out_file, outformat = "mzml", copy = TRUE)
+    writeMSData(data_out, file = out_file, outformat = "mzml", copy = TRUE)
     data_in <- readMSData(out_file, mode = "inMem", msLevel = 3)
     expect_equal(rtime(data_in), rtime(data_out))
     expect_equal(mz(data_in), mz(data_out))

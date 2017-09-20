@@ -657,8 +657,8 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
             empty_list <- vector(mode = "list", length = nrow(rt))
             for(j in 1:nrow(rt)) {
                 empty_list[[j]] <- MSnbase::Chromatogram(filterMz = mz[j, ],
-                                                         fromFile = as.integer(i),
-                                                         aggregationFun = aggregationFun)
+                                                fromFile = as.integer(i),
+                                                aggregationFun = aggregationFun)
             }
             res_all_files[[i]] <- empty_list
         }

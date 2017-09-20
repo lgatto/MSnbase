@@ -7,9 +7,9 @@
 #' @details `.writeMSData` re-calculates header columns `"peaksCount"`,
 #'     `"totIonCurrent"`, `"basePeakMZ"` and `"basePeakIntensity"` on the data.
 #'
-#' @param x `OnDiskMSnExp` or `MSnExp` object.
+#' @param object `OnDiskMSnExp` or `MSnExp` object.
 #'
-#' @param files `character` with the file name(s). Its length has to match the
+#' @param file `character` with the file name(s). Its length has to match the
 #'     number of samples/files of `x`.
 #'
 #' @param outformat `character(1)` defining the format of the output files.
@@ -28,23 +28,23 @@
 #' @md
 #'
 #' @noRd
-.writeMSData <- function(x, files, outformat = c("mzml", "mzxml"),
+.writeMSData <- function(object, file, outformat = c("mzml", "mzxml"),
                          verbose = isMSnbaseVerbose(),
                          copy = TRUE,
                          software_processing = NULL) {
     ## Check input.
     outformat <- match.arg(outformat)
-    if (missing(files))
-        stop("'files' is required!")
-    if (length(files) != length(fileNames(x)))
-        stop("length of 'files' has to match the number of samples")
+    if (missing(file))
+        stop("'file' is required!")
+    if (length(file) != length(fileNames(object)))
+        stop("length of 'file' has to match the number of samples")
     if (verbose)
-        message("Writing ", length(files), " ", outformat, " files.")
+        message("Writing ", length(file), " ", outformat, " file.")
     ## Split per file.
-    x_split <- splitByFile(x, f = factor(fileNames(x)))
+    x_split <- splitByFile(object, f = factor(fileNames(object)))
     ## Using mapply below - in principle we could then even switch to
     ## bpmapply to perform parallel saving of files.
-    invisible(mapply(FUN = .writeSingleMSData, x_split, files,
+    invisible(mapply(FUN = .writeSingleMSData, x_split, file,
                      MoreArgs = list(outformat = outformat,
                                      software_processing = software_processing,
                                      verbose = verbose, copy = copy),
@@ -98,12 +98,12 @@
     ## o add processing steps.
     soft_proc <- .guessSoftwareProcessing(msData, software_processing)
     if (copy) {
-        copyWriteMSData(file, original_file = fileNames(msData), header = hdr,
-                        data = pks, outformat = outformat,
-                        software_processing = soft_proc)
+        copyWriteMSData(object = pks, file = file,
+                        original_file = fileNames(msData), header = hdr,
+                        outformat = outformat, software_processing = soft_proc)
     } else {
-        writeMSData(file, header = hdr, data = pks, outformat = outformat,
-                    software_processing = soft_proc)
+        writeMSData(object = pks, file = file, header = hdr,
+                    outformat = outformat, software_processing = soft_proc)
     }
     if (verbose)
         message("OK")
