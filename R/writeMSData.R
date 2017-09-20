@@ -44,11 +44,11 @@
     x_split <- splitByFile(x, f = factor(fileNames(x)))
     ## Using mapply below - in principle we could then even switch to
     ## bpmapply to perform parallel saving of files.
-    res <- mapply(FUN = .writeSingleMSData, x_split, files,
-                  MoreArgs = list(outformat = outformat,
-                                  software_processing = software_processing,
-                                  verbose = verbose, copy = copy),
-                  SIMPLIFY = FALSE, USE.NAMES = FALSE)
+    invisible(mapply(FUN = .writeSingleMSData, x_split, files,
+                     MoreArgs = list(outformat = outformat,
+                                     software_processing = software_processing,
+                                     verbose = verbose, copy = copy),
+                     SIMPLIFY = FALSE, USE.NAMES = FALSE))
 }
 
 #' @description `.writeMSData` for a single file.
@@ -76,10 +76,11 @@
             ## o Re-calculate stuff we don't have or which might have been
             ##   changed:
             new_vals <- do.call(rbind, lapply(pks, function(sp) {
+                max_pos <- base::which.max(sp[, 2])[1]
                 cbind(peaksCount = nrow(sp),
                       totIonCurrent = sum(sp[, 2], na.rm = TRUE),
-                      basePeakMZ = sp[base::which.max(sp[, 2]), 1][1],
-                      basePeakIntensity = max(sp[, 2], na.rm = TRUE))
+                      basePeakMZ = sp[max_pos, 1][1],
+                      basePeakIntensity = sp[max_pos, 2])
             }))
             hdr$peaksCount <- new_vals[, "peaksCount"]
             hdr$totIonCurrent <- new_vals[, "totIonCurrent"]

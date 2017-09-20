@@ -591,7 +591,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
                     ## Return an empty Chromatogram if there is no spectrum/scan
                     ## within the retention time range.
                     if (!any(in_rt)) {
-                        cur_res[[i]] <- Chromatogram(
+                        cur_res[[i]] <- MSnbase::Chromatogram(
                             filterMz = mzm[i, ],
                             fromFile = as.integer(cur_file),
                             aggregationFun = aggFun)
@@ -627,7 +627,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
                     if (!all(is.na(ints)))
                         mz_range <- range(allVals[-c(int_idx, mslevel_idx)],
                                           na.rm = TRUE, finite = TRUE)
-                    cur_res[[i]] <- Chromatogram(
+                    cur_res[[i]] <- MSnbase::Chromatogram(
                         rtime = rts[in_rt],
                         intensity = ints,
                         mz = mz_range,
@@ -656,9 +656,9 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         for (i in empties) {
             empty_list <- vector(mode = "list", length = nrow(rt))
             for(j in 1:nrow(rt)) {
-                empty_list[[j]] <- Chromatogram(filterMz = mz[j, ],
-                                                fromFile = as.integer(i),
-                                                aggregationFun = aggregationFun)
+                empty_list[[j]] <- MSnbase::Chromatogram(filterMz = mz[j, ],
+                                                         fromFile = as.integer(i),
+                                                         aggregationFun = aggregationFun)
             }
             res_all_files[[i]] <- empty_list
         }
