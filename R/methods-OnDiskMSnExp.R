@@ -494,7 +494,7 @@ setMethod("quantify",
 ## [
 ##
 ## Subset by [
-setMethod("[", "OnDiskMSnExp"
+setMethod("[", "OnDiskMSnExp",
           function(x, i, j, ..., drop = TRUE) {
               if (!missing(j))
                   stop("Subsetting by column ('j =", j, "') is not supported")
