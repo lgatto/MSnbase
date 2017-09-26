@@ -79,12 +79,13 @@
             ##   files (issue #250).
             new_vals <- do.call(rbind, lapply(pks, function(sp) {
                 max_pos <- base::which.max(sp[, 2])[1]
-                cbind(peaksCount = nrow(sp),
+                pk_count <- nrow(sp)
+                cbind(peaksCount = pk_count,
                       totIonCurrent = sum(sp[, 2], na.rm = TRUE),
                       basePeakMZ = sp[max_pos, 1][1],
                       basePeakIntensity = sp[max_pos, 2],
-                      lowMZ = min(sp[, 1]),
-                      highMZ = max(sp[, 1]))
+                      lowMZ = sp[1, 1],
+                      highMZ = sp[pk_count, 1])
             }))
             hdr$peaksCount <- new_vals[, "peaksCount"]
             hdr$totIonCurrent <- new_vals[, "totIonCurrent"]
