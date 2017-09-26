@@ -494,19 +494,14 @@ setMethod("quantify",
 ## [
 ##
 ## Subset by [
-setMethod("[", signature(x = "OnDiskMSnExp",
-                         i = "logicalOrNumeric",
-                         j = "missing",
-                         drop = "missing"),
-          function(x, i, j, drop) {
+setMethod("[", "OnDiskMSnExp",
+          function(x, i, j, ..., drop = TRUE) {
+              if (!missing(j))
+                  stop("Subsetting by column ('j =", j, "') is not supported")
               if (!(is.logical(i) | is.numeric(i)))
-                  stop("Subsetting works only with numeric or logical!")
-              if (is.logical(i)) {
-                  if (length(i) != nrow(fData(x)))
-                      stop("If 'i' is logical its length has to match",
-                           " the number of spectra!")
+                  stop("'i' has to be numeric or logical")
+              if (is.logical(i))
                   i <- which(i)
-              }
               i <- base::sort(i)  ## Force sorted!
               ## Now subset the featureData. The function will
               ## complain if i is outside the range.

@@ -94,36 +94,46 @@ utils.removePeaks <- function(int, t) {
 }
 
 
+## For internal use - use utils.removePrecMz_Spectrum that will set
+## the paramters based on data accessed directly in the spectrum
+## object.
+utils.removePrecMz <- function(mz, int, precMz, tolerance = 25e-6) {
+  if (!is.numeric(precMz) && length(precMz) == 1L)
+    stop("precMz must be numeric of length 1.")
 
-utils.removePrecMz <- function(spectrum, precMz = NULL, width = 2) {
-  ## Contributed by Guangchuang Yu for the plotMzDelta QC
-  ## Additional modifications: setting peaks to 0 and clean argument
-  if (is.null(precMz))
-    precMz <- precursorMz(spectrum)
-  if (!is.numeric(precMz))
-    stop("precMz must either 'NULL' or numeric.")
-  if (length(precMz) > 2)
-    stop ("precMz must a vector of length 1 or 2.")
-  if (length(precMz) == 1)
-    precMz <- c(precMz - width, precMz + width)
-  mz <- mz(spectrum)
-  i <- intensity(spectrum)
-  idx <- which(mz > precMz[1] & mz < precMz[2])
-  spectrum@intensity[idx] <- 0
-  return(spectrum)
+  i <- relaxedMatch(precMz, mz, tolerance = tolerance)
+
+  if (!is.na(i)) {
+    peakRanges <- IRanges(sapply(int, ">", 0L))
+    i <- findOverlaps(IRanges(i, width = 1L), peakRanges,
+                      type = "within", select = "first")
+    if (!is.na(i)) {
+      int[start(peakRanges[i]):end(peakRanges[i])] <- 0
+    }
+  }
+  int
 }
 
-utils.removePrecMz_list <- function(object,
-                                    precMz,
-                                    width = 2) {
+utils.removePrecMz_Spectrum <- function(spectrum,
+                                        precMz = NULL,
+                                        tolerance = 25e-6) {
+    if (is.null(precMz))
+        precMz <- precursorMz(spectrum)
     if (!is.numeric(precMz))
         stop("precMz must either 'NULL' or numeric.")
-    if (length(precMz) > 2)
-        stop("precMz must a vector of length 1 or 2.")
-    if (length(precMz) == 1)
-        precMz <- c(precMz - width, precMz + width)
+    spectrum@intensity <- utils.removePrecMz(mz(spectrum),
+                                             intensity(spectrum),
+                                             precMz = precMz,
+                                             tolerance = tolerance)
+    return(spectrum)
+}
+
+utils.removePrecMz_list <- function(object, precMz, tolerance = 25e-6) {
     idx <- which(object$mz > precMz[1] & object$mz < precMz[2])
-    object$int[idx] <- 0
+    object$int <- utils.removePrecMz(object$mz,
+                                     object$int,
+                                     precMz = precMz,
+                                     tolerance = tolerance)
     return(object)
 }
 
@@ -700,7 +710,7 @@ utils.vec2ssv.data.frame <- function(x, sep = ";", exclude) {
             stopifnot(all(exclude %in% names(x)))
             exclude <- names(x) %in% exclude
             x0 <- x[, exclude, drop = FALSE]
-            x <- x[, !exclude, drop = FALSE]            
+            x <- x[, !exclude, drop = FALSE]
         } else if (is.logical(exclude)) {
             x0 <- x[, exclude, drop = FALSE]
             x <- x[, !exclude, drop = FALSE]
@@ -712,7 +722,7 @@ utils.vec2ssv.data.frame <- function(x, sep = ";", exclude) {
         ans <- c(x0, ans)
         ans <- ans[nms] ## preserve original order
     }
-    data.frame(ans, stringsAsFactors = FALSE)    
+    data.frame(ans, stringsAsFactors = FALSE)
 }
 
 ## convert a semicolon separated character vector of length 1 to a
@@ -842,7 +852,7 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, id,
                                     if (n == 1 && is.na(x)) return(NA)
                                     n
                                 })
-    
+
     ## number of peptides observed for each protein
     featureData$npep.prot <- as.integer(ave(featureData[, acc],
                                             featureData[, pepseq],
@@ -851,13 +861,13 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, id,
     ## number of PSMs observed for each protein
     featureData$npsm.prot <- as.integer(ave(featureData[, acc],
                                             featureData[, acc],
-                                            FUN = length)) 
+                                            FUN = length))
 
     ## number of PSMs observed for each protein
     featureData$npsm.pep <- as.integer(ave(featureData[, pepseq],
                                            featureData[, pepseq],
                                            FUN = length))
-        
+
     return(featureData)
 }
 
@@ -1136,7 +1146,7 @@ countAndPrint <- function(x) {
 #'
 #' @return A \code{character(1)} with the name of the backend (either
 #'     \code{"netCDF"}, \code{"Ramp"} or \code{"pwiz"}.
-#' 
+#'
 #' @author Johannes Rainer, Sebastian Gibb
 #'
 #' @noRd
@@ -1165,7 +1175,7 @@ countAndPrint <- function(x) {
 #' @return A file handle to the opened MS file.
 #'
 #' @author Johannes Rainer
-#' 
+#'
 #' @noRd
 .openMSfile <- function(x) {
     if (missing(x) || length(x) != 1)
@@ -1225,7 +1235,7 @@ makeCamelCase <- function(x, prefix) {
 ##' columns other than the key are converted to characters when they
 ##' are collapsed to a semi-column separated value (even if only one
 ##' value is present) as soon as one observation of transformed.
-##' 
+##'
 ##' @title Reduce a data.frame
 ##' @param x A \code{data.frame}.
 ##' @param key The column name (currenly only one is supported) to be
@@ -1241,7 +1251,7 @@ makeCamelCase <- function(x, prefix) {
 ##' dfr2 <- reduce(dfr, key = "A")
 ##' dfr2
 ##' ## column A used as key is still num
-##' str(dfr2) 
+##' str(dfr2)
 ##' dfr3 <- reduce(dfr, key = "B")
 ##' dfr3
 ##' ## A is converted to chr; B remains factor
@@ -1251,7 +1261,7 @@ makeCamelCase <- function(x, prefix) {
 ##'                    C = c(TRUE, FALSE, NA))
 ##' ## No effect of reducing, column classes are maintained
 ##' str(reduce(dfr4, key = "B"))
-setMethod("reduce", "data.frame", 
+setMethod("reduce", "data.frame",
           function(x, key, sep = ";") {
               if (nrow(x) %in% c(0, 1))
                   return(x)
