@@ -1,5 +1,3 @@
-## write methods.
-
 #' @title Write MS data to mzML or mzXML files
 #'
 #' @aliases writeMSData
@@ -13,7 +11,8 @@
 #'     *mzML* or *mzXML* files with or without copying additional metadata
 #'     information from the original files from which the data was read by the
 #'     [readMSData()] function. This can be set using the `copy` parameter.
-#'     Note that `copy = TRUE` requires the original files to be available.
+#'     Note that `copy = TRUE` requires the original files to be available and
+#'     is not supported for input files in other than mzML or mzXML format.
 #'
 #' @note General spectrum data such as total ion current, peak count, base peak
 #'     m/z or base peak intensity are calculated from the actual spectrum data
@@ -53,7 +52,7 @@
 #' @rdname writeMSData
 setMethod("writeMSData", signature(object = "MSnExp", file = "character"),
           function(object, file, outformat = c("mzml", "mzxml"),
-                   merge = FALSE, verbose = isMSnbaseVerbose(), copy = TRUE,
+                   merge = FALSE, verbose = isMSnbaseVerbose(), copy = FALSE,
                    software_processing = NULL) {
               ## Set copy to false if not all original files are available.
               if (copy & !all(file.exists(fileNames(object)))) {

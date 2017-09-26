@@ -75,17 +75,23 @@
             hdr <- fData(msData)
             ## o Re-calculate stuff we don't have or which might have been
             ##   changed:
+            ##   Add also lowMZ and highMZ; these are missing in CDF
+            ##   files (issue #250).
             new_vals <- do.call(rbind, lapply(pks, function(sp) {
                 max_pos <- base::which.max(sp[, 2])[1]
                 cbind(peaksCount = nrow(sp),
                       totIonCurrent = sum(sp[, 2], na.rm = TRUE),
                       basePeakMZ = sp[max_pos, 1][1],
-                      basePeakIntensity = sp[max_pos, 2])
+                      basePeakIntensity = sp[max_pos, 2],
+                      lowMZ = min(sp[, 1]),
+                      highMZ = max(sp[, 1]))
             }))
             hdr$peaksCount <- new_vals[, "peaksCount"]
             hdr$totIonCurrent <- new_vals[, "totIonCurrent"]
             hdr$basePeakMZ <- new_vals[, "basePeakMZ"]
             hdr$basePeakIntensity <- new_vals[, "basePeakIntensity"]
+            hdr$lowMZ <- new_vals[, "lowMZ"]
+            hdr$highMZ <- new_vals[, "highMZ"]
         } else {
             ## MSnExp: feature data does not provide all the data we need.
             hdr <- data.frame(

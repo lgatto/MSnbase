@@ -7,7 +7,7 @@
 \title{Write MS data to mzML or mzXML files}
 \usage{
 \S4method{writeMSData}{MSnExp,character}(object, file, outformat = c("mzml",
-  "mzxml"), merge = FALSE, verbose = isMSnbaseVerbose(), copy = TRUE,
+  "mzxml"), merge = FALSE, verbose = isMSnbaseVerbose(), copy = FALSE,
   software_processing = NULL)
 }
 \arguments{
@@ -44,7 +44,8 @@ the \code{mzR} package to save the MS data. The data can be written to
 \emph{mzML} or \emph{mzXML} files with or without copying additional metadata
 information from the original files from which the data was read by the
 \code{\link[=readMSData]{readMSData()}} function. This can be set using the \code{copy} parameter.
-Note that \code{copy = TRUE} requires the original files to be available.
+Note that \code{copy = TRUE} requires the original files to be available and
+is not supported for input files in other than mzML or mzXML format.
 }
 \note{
 General spectrum data such as total ion current, peak count, base peak

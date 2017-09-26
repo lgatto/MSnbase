@@ -141,11 +141,34 @@ test_that("writeMSData,OnDiskMSnExp works", {
     ## Write MS1 and MS2
     out_file <- paste0(tempfile(), ".mzML")
     out_data <- tmt_erwinia_on_disk
-    writeMSData(out_data, file = out_file)
+    writeMSData(out_data, file = out_file, copy = FALSE)
     in_data <- readMSData(out_file, mode = "onDisk")
     expect_equal(rtime(out_data), rtime(in_data))
     ## Columns expected to be different:
-    not_equal <- c("totIonCurrent", "basePeakMZ", "basePeakIntensity")
+    not_equal <- c("totIonCurrent", "basePeakMZ", "basePeakIntensity",
+                   "lowMZ", "highMZ")
+    check_cols <- !(colnames(fData(out_data)) %in% not_equal)
+    ## without copying the data the actual numbers are different, but assignment
+    ## is expected to be the same
+    fData(out_data)$acquisitionNum <-
+                      as.numeric(factor(fData(out_data)$acquisitionNum))
+    fData(out_data)$precursorScanNum <-
+                      as.numeric(factor(fData(out_data)$precursorScanNum))
+    fData(in_data)$acquisitionNum <-
+                      as.numeric(factor(fData(in_data)$acquisitionNum))
+    fData(in_data)$precursorScanNum <-
+                      as.numeric(factor(fData(in_data)$precursorScanNum))
+    expect_equal(fData(out_data)[, check_cols], fData(in_data)[, check_cols])
+
+    ## With copy = TRUE
+    out_file <- paste0(tempfile(), ".mzML")
+    out_data <- tmt_erwinia_on_disk
+    writeMSData(out_data, file = out_file, copy = TRUE)
+    in_data <- readMSData(out_file, mode = "onDisk")
+    expect_equal(rtime(out_data), rtime(in_data))
+    ## Columns expected to be different:
+    not_equal <- c("totIonCurrent", "basePeakMZ", "basePeakIntensity",
+                   "lowMZ", "highMZ")
     check_cols <- !(colnames(fData(out_data)) %in% not_equal)
     expect_equal(fData(out_data)[, check_cols], fData(in_data)[, check_cols])
 })
@@ -186,4 +209,38 @@ test_that("writeMSData,MSnExp works", {
     expect_equal(precursorCharge(data_in), precursorCharge(data_out))
     expect_equal(precursorMz(data_in), precursorMz(data_out))
     expect_equal(precursorIntensity(data_in), precursorIntensity(data_out))
+})
+
+test_that("writeMSData works on CDF files", {
+    in_file <- system.file(package = "msdata", "cdf/ko15.CDF")
+    ## on disk
+    data_out <- readMSData(in_file, mode = "onDisk")
+    out_file <- paste0(tempfile(), ".mzML")
+    writeMSData(data_out, file = out_file, outformat = "mzml", copy = FALSE)
+    data_in <- readMSData(out_file, mode = "onDisk")
+    expect_equal(rtime(data_out), rtime(data_in))
+    ## Most of the data in fData will be different, because CDF files do not
+    ## provide that many header informations.
+    sps_in <- spectra(data_in)
+    sps_out <- spectra(data_out)
+    expect_equal(lapply(sps_in, mz), lapply(sps_out, mz))
+    expect_equal(lapply(sps_in, intensity), lapply(sps_out, intensity))
+
+    ## in mem    
+    data_out <- readMSData(in_file, mode = "inMem", msLevel = 1)
+    out_file <- paste0(tempfile(), ".mzML")
+    writeMSData(data_out, file = out_file, outformat = "mzml", copy = FALSE)
+    data_in <- readMSData(out_file, mode = "inMem", msLevel = 1)
+    expect_equal(rtime(data_out), rtime(data_in))
+    expect_equal(mz(data_out), mz(data_in))
+    expect_equal(intensity(data_out), intensity(data_in))
+    sps_in <- spectra(data_in)
+    sps_out <- spectra(data_out)
+    tmp_fun <- function(z) {
+        z@polarity <- 1L
+        z
+    }
+    sps_in <- lapply(sps_in, tmp_fun)
+    sps_out <- lapply(sps_out, tmp_fun)
+    expect_equal(sps_in, sps_out)
 })
