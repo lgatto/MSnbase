@@ -61,10 +61,8 @@ quantify_MSnExp <- function(object, method,
                   experimentData = experimentData(object),
                   phenoData = .phenoData,
                   featureData = .featureData,
+                  processingData = processingData(object),
                   annotation = "No annotation")
-
-    ## copying processingData
-    msnset@processingData <- object@processingData
 
     ## Updating protocol slot
     if (nrow(protocolData(object)) > 0) {
@@ -180,9 +178,9 @@ quantify_OnDiskMSnExp_max <- function(object, reporters,
     ans <- new("MSnSet",
                exprs = e,
                featureData = featureData(object),
-               phenoData = .phenoData)
+               phenoData = .phenoData,
+               processingData = processingData(object))
     fData(ans)$reporterMzs <- mzs
-    ans@processingData <- object@processingData
     ans <- logging(ans, paste0("Fast ", names(reporters),
                                " quantitation by max"))
     if (validObject(ans)) ans

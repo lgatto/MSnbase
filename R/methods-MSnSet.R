@@ -10,37 +10,41 @@ setMethod("initialize", "MSnSet",
                    phenoData,
                    featureData,
                    experimentData,
+                   processingData,
                    exprs = new("matrix"),
                    ... ) {
+
+            if (missing(experimentData))
+              experimentData <- new("MIAPE")
+            if (missing(processingData))
+              processingData <- new("MSnProcess")
+
             if (missing(assayData)) {
               if (missing(phenoData))
                 phenoData <- annotatedDataFrameFrom(exprs, byrow = FALSE)
               if (missing(featureData))
                 featureData <- annotatedDataFrameFrom(exprs, byrow = TRUE)
-              if (missing(experimentData))
-                experimentData <- new("MIAPE")
               .Object <- callNextMethod(.Object,
                                         phenoData = phenoData,
                                         featureData = featureData,
                                         exprs = exprs,
                                         experimentData = experimentData,
+                                        processingData = processingData,
                                         ...)
             } else if (missing(exprs)) {
               if (missing(phenoData))
                 phenoData <- annotatedDataFrameFrom(assayData, byrow = FALSE)
               if (missing(featureData))
                 featureData <- annotatedDataFrameFrom(assayData, byrow = TRUE)
-              if (missing(experimentData))
-                experimentData <- new("MIAPE")
               .Object <- callNextMethod(.Object,
                                         assayData = assayData,
                                         phenoData = phenoData,
                                         featureData = featureData,
                                         experimentData = experimentData,
+                                        processingData = processingData,
                                         ...)
             } else stop("provide at most one of 'assayData' or 'exprs' to initialize MSnSet",
                      call. = FALSE)
-            .Object@processingData <- new("MSnProcess")
             if (validObject(.Object))
               Biobase:::.harmonizeDimnames(.Object)
           })
@@ -246,9 +250,8 @@ t.MSnSet <- function(x) {
              phenoData = featureData(x),
              featureData = phenoData(x),
              experimentData = experimentData(x),
+             processingData = processingData(x),
              annotation = annotation(x))
-  ans@processingData@processing <-
-      x@processingData@processing
   ans <- logging(ans, "MSnSet transposed")
   if (validObject(ans))
       return(ans)
