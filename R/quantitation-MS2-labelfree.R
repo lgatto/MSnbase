@@ -25,7 +25,7 @@ count_MSnSet <- function(object, pepseq) {
                   exprs = .exprs,
                   experimentData = experimentData(object),
                   phenoData = phenoData(object),
-                  processingData = object@processingData,
+                  processingData = processingData(object),
                   featureData = .featureData,
                   annotation = "No annotation")
 
@@ -60,7 +60,7 @@ tic_MSnSet <- function(object) {
                   exprs = .exprs,
                   experimentData = experimentData(object),
                   phenoData = phenoData(object),
-                  processingData = object@processingData,
+                  processingData = processingData(object),
                   featureData = .featureData,
                   annotation = "No annotation")
 
