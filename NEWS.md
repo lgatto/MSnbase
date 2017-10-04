@@ -1,6 +1,9 @@
 # MSnbase 2.3
 
 ## Changes in version 2.3.11
+- Nothing yet
+
+## Changes in version 2.3.11
 - Amend `addIdentificationData` when sourceInfo reports multiple files
   and when scores are missing from the identification results (closes
   #261).
