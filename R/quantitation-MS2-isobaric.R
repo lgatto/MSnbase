@@ -67,7 +67,7 @@ quantify_MSnExp <- function(object, method,
     ## Updating protocol slot
     if (nrow(protocolData(object)) > 0) {
         if (nrow(protocolData(object)) == length(reporters)) {
-            .protocolData <- protocolData(object)
+            msnset@protocolData <- protocolData(object)
         } else {
             warning("protocolData does not match with reporters. Dropping it.")
         }
