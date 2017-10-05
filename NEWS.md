@@ -1,5 +1,8 @@
 # MSnbase 2.3
 
+## Changes in version 2.3.13
+- Nothing yet.
+
 ## Changes in version 2.3.12
 - Keep `protocolData` in isobaric quantification; fixes #265
 
