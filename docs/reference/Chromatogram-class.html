@@ -128,7 +128,10 @@
 
     <code>plot</code>: plots a <code>Chromatogram</code> object.
 
-    <code>msLevel</code> returns the MS level of the chromatogram.</p>
+    <code>msLevel</code> returns the MS level of the chromatogram.
+
+    <code>isEmpty</code> returns <code>TRUE</code> for empty chromatogram or
+    chromatograms with all intensities being <code>NA</code>.</p>
     
 
     <pre class="usage"><span class='fu'>Chromatogram</span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fu'>numeric</span>(), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'>numeric</span>(), <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>NA_real_</span>,
@@ -176,7 +179,10 @@
   <span class='no'>...</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
-<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>object</span>)</pre>
+<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>object</span>)
+
+<span class='co'># S4 method for Chromatogram</span>
+<span class='fu'>isEmpty</span>(<span class='no'>x</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">

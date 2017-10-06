@@ -104,13 +104,13 @@
             <span class='kw'>full.name</span><span class='kw'>=</span><span class='fl'>TRUE</span>,<span class='kw'>pattern</span><span class='kw'>=</span><span class='st'>"mzXML$"</span>)
 <span class='no'>aa</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>file</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 <span class='no'>my.prec</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span>(<span class='no'>aa</span>)[<span class='fl'>1</span>]
-<span class='no'>my.prec</span></div><div class='output co'>#&gt;     X1.1 
+<span class='no'>my.prec</span></div><div class='output co'>#&gt;    F1.S1 
 #&gt; 645.3741 </div><div class='input'><span class='no'>bb</span> <span class='kw'>&lt;-</span> <span class='fu'>extractPrecSpectra</span>(<span class='no'>aa</span>,<span class='no'>my.prec</span>)
-<span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span>(<span class='no'>bb</span>)</div><div class='output co'>#&gt;     X1.1     X3.1 
+<span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span>(<span class='no'>bb</span>)</div><div class='output co'>#&gt;    F1.S1    F1.S3 
 #&gt; 645.3741 645.3741 </div><div class='input'><span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>bb</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Data loaded: Tue Jun 20 20:37:29 2017 
-#&gt; 1 (2) precursors (spectra) extracted: Tue Jun 20 20:37:29 2017 
-#&gt;  MSnbase version: 2.3.8 </div></pre>
+#&gt; Data loaded: Thu Oct  5 18:19:03 2017 
+#&gt; 1 (2) precursors (spectra) extracted: Thu Oct  5 18:19:03 2017 
+#&gt;  MSnbase version: 2.3.12 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

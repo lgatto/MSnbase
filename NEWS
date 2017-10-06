@@ -1,3 +1,15 @@
+Changes in version 2.3.12
+-------------------------
+- Keep `protocolData` in isobaric quantification; fixes #265
+
+Changes in version 2.3.11
+-------------------------
+- Amend `addIdentificationData` when sourceInfo reports multiple files
+  and when scores are missing from the identification results (closes
+  #261).
+- Don't overwrite `processingData` slot when creating an `MSnSet` object
+  (closes #264).
+
 Changes in version 2.3.10
 -------------------------
 - New `isCentroidedFromFile` function <2017-08-11 Fri>
@@ -5,6 +17,10 @@ Changes in version 2.3.10
 - Add msLevel argument to chromatogram,MSnExp method <2017-08-16 Wed>
 - `calculateFragments` now just calculate fragments for all `n - 1L` bonds
     (before it incorrectly adds an additional bond; fixes #248) <2017-08-20 Sun>
+- Add `isEmpty` methods for `Chromatogram` and `Chromatograms` objects
+  <2017-09-05 Tue>
+- plot,Chromatogram[s] creates an empty plot and returns a warning if the
+  Chromatogram[s] object is empty (issue #249) <2017-09-05 Tue>
 
 Changes in version 2.3.9
 ------------------------

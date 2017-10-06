@@ -143,13 +143,18 @@ setAs("mzRident", "data.frame",
       function(from) {
           ## peptide spectrum matching
           iddf <- factorsAsStrings(psms(from))
-          ## add file raw and mzid provenances      
-          iddf$spectrumFile <- basename(sourceInfo(from))
+          ## add file raw and mzid provenances
+          src <- basename(sourceInfo(from))
+          if (length(src) > 1) ## see issue #261
+              src <- paste(src, collapse = ";")
+          iddf$spectrumFile <- src
           iddf$idFile <- basename(fileName(from))
           ## add scores
           scores <- factorsAsStrings(score(from))
-          stopifnot(identical(iddf[, 1], scores[, 1]))
-          iddf <- cbind(iddf, scores[, -1])
+          if (nrow(scores)) { ## see issue #261
+              stopifnot(identical(iddf[, 1], scores[, 1]))
+              iddf <- cbind(iddf, scores[, -1])
+          } 
           ## add modification
           mods <- factorsAsStrings(modifications(from))
           names(mods)[-1] <- makeCamelCase(names(mods), prefix = "mod")[-1]

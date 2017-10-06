@@ -118,7 +118,11 @@
 
     <code>sampleNames&lt;-</code>: replace or set the sample names of the
     <code>Chromatograms</code> object (i.e. the <code>rownames</code> of the pheno data
-    and <code>colnames</code> of the data matrix.</p>
+    and <code>colnames</code> of the data matrix.
+
+    <code>isEmpty</code>: returns <code>TRUE</code> if the <code>Chromatograms</code>
+    object or all of its <code>Chromatogram</code> objects is/are empty or contain
+    only <code>NA</code> intensities.</p>
     
 
     <pre class="usage">Chromatograms(data, phenoData, ...)
@@ -159,7 +163,10 @@ colnames(x) <- value
 sampleNames(object)
 
 # S4 method for Chromatograms,ANY
-sampleNames(object) <- value</pre>
+sampleNames(object) <- value
+
+# S4 method for Chromatograms
+isEmpty(x)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">

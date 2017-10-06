@@ -280,25 +280,15 @@ test_that("get.amino.acids", {
 test_that("remove precursor MZ", {
     data(itraqdata)
     sp <- itraqdata[[1]]
-    r1 <- MSnbase:::utils.removePrecMz(sp)
+    r1 <- MSnbase:::utils.removePrecMz_Spectrum(sp)
+    r2 <- MSnbase:::utils.removePrecMz_Spectrum(sp, precursorMz(sp))
+    expect_identical(r1, r2)
     spl <- list(mz = mz(sp),
                 int = intensity(sp))
-    r2 <- MSnbase:::utils.removePrecMz_list(spl,
+    r3 <- MSnbase:::utils.removePrecMz_list(spl,
                                             precursorMz(sp))
-    expect_identical(mz(r1), r2$mz)
-
-    r1 <- MSnbase:::utils.removePrecMz(sp, width = 1)
-    spl <- list(mz = mz(sp),
-                int = intensity(sp))
-    r2 <- MSnbase:::utils.removePrecMz_list(spl,
-                                            precursorMz(sp),
-                                            width = 1)
-    expect_identical(mz(r1), r2$mz)
-
-    spl <- list(mz = 1:10, int = 1:10)
-    spl <- MSnbase:::utils.removePrecMz_list(spl, 5, 2)
-    expect_identical(spl$mz, 1:10)
-    expect_identical(spl$int, c(1:3, rep(0, 3), 7:10))
+    expect_identical(mz(r1), r3$mz)
+    expect_identical(intensity(r1), r3$int)
 })
 
 
