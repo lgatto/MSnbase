@@ -281,3 +281,55 @@ test_that("show MS1 spectrum", {
     x <- readMSData(f, msLevel = 1)
     expect_null(show(x[[1]]))
 })
+
+test_that("kNeighbors works", {
+    ## Test the m/z refining method for peak picking/centroiding.
+    ints <- c(3, 4, 5, 7, 3, 4, 2, 8, 5, 6, 8, 8.1, 4, 5, 6, 3)
+    mzs <- 1:length(ints) + rnorm(length(ints), mean = 0, sd = 0.1)
+    plot(mzs, ints, type = "h")
+    pk_pos <- c(4, 8, 12)
+
+    res <- kNeighbors(mzs, ints, peakIdx = pk_pos, k = 1)
+    points(res[, 1], res[, 2], type = "h", col = "blue")
+    expect_equal(unname(res[1, 1]), weighted.mean(mzs[3:5], ints[3:5]))
+    expect_equal(unname(res[2, 1]), weighted.mean(mzs[7:9], ints[7:9]))
+    expect_equal(unname(res[3, 1]), weighted.mean(mzs[11:13], ints[11:13]))
+
+    res <- kNeighbors(mzs, ints, peakIdx = pk_pos, k = 2)
+    points(res[, 1], res[, 2], type = "h", col = "green")
+    expect_equal(unname(res[1, 1]), weighted.mean(mzs[2:6], ints[2:6]))
+    expect_equal(unname(res[2, 1]), weighted.mean(mzs[6:10], ints[6:10]))
+    expect_equal(unname(res[3, 1]), weighted.mean(mzs[10:14], ints[10:14]))
+    
+    expect_error(kNeighbors(mz = 3, ints))
+})
+
+test_that("descendPeak works", {
+    ints <- c(2, 3, 1, 2, 1, 0, 1, 2, 0, 1, 0, 2, 3, 2, 1, 2, 5, 8, 7, 6,
+              5, 4, 3, 2, 1, 0, 1, 1, 4)
+    mzs <- 1:length(ints) + rnorm(length(ints), mean = 0, sd = 0.1)
+    plot(mzs, ints, type = "h")
+    pk_pos <- c(13, 18)
+
+    res <- descendPeak(mzs, ints, pk_pos, signalPercentage = 0)
+    points(res[, 1], res[, 2], type = "h", col = "blue")
+    expect_equal(unname(res[1, 1]), weighted.mean(mzs[11:15], ints[11:15]))
+    expect_equal(unname(res[2, 1]), weighted.mean(mzs[15:26], ints[15:26]))
+    
+    res <- descendPeak(mzs, ints, pk_pos, signalPercentage = 0,
+                       stopAtTwo = TRUE)
+    points(res[, 1], res[, 2], type = "h", col = "green")
+    expect_equal(unname(res[1, 1]), weighted.mean(mzs[6:15], ints[6:15]))
+    expect_equal(unname(res[2, 1]), weighted.mean(mzs[15:26], ints[15:26]))
+
+    ## With signalPercentage
+    res <- descendPeak(mzs, ints, pk_pos, signalPercentage = 50,
+                       stopAtTwo = TRUE)
+    points(res[, 1], res[, 2], type = "h", col = "orange")
+    idx <- 6:15
+    idx <- idx[ints[idx] > ints[13]/2]
+    expect_equal(unname(res[1, 1]), weighted.mean(mzs[idx], ints[idx]))
+    idx <- 15:26
+    idx <- idx[ints[idx] > ints[18]/2]
+    expect_equal(unname(res[2, 1]), weighted.mean(mzs[idx], ints[idx]))
+})
