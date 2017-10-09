@@ -767,13 +767,16 @@ setMethod("smooth", "OnDiskMSnExp",
 setMethod("pickPeaks", "OnDiskMSnExp",
           function(object, halfWindowSize = 3L,
                    method = c("MAD", "SuperSmoother"),
-                   SNR = 0L, ...) {
+                   SNR = 0L, refineMz = c("none", "kNeighbors", "descendPeak"),
+                   ...) {
               method <- match.arg(method)
+              refineMz <- match.arg(refineMz)
               ps <- ProcessingStep("pickPeaks",
                                    list(method = method,
                                         halfWindowSize = halfWindowSize,
                                         SNR = SNR,
-                                        ignoreCentroided = TRUE, ...))
+                                        ignoreCentroided = TRUE,
+                                        refineMz = refineMz, ...))
               object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
                                                  list(ps))
               object@processingData@processing <-

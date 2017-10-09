@@ -404,9 +404,8 @@ estimateNoise_Spectrum <- function(object,
 pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
                                method = c("MAD", "SuperSmoother"),
                                SNR = 0L, ignoreCentroided = FALSE,
-                               refineMz = c("none", "neighbors",
+                               refineMz = c("none", "kNeighbors",
                                             "descendPeak"),
-                               n = 2L, signalPercentage = 33, stopAtTwo = FALSE,
                                ...) {
     if (isEmpty(object)) {
         warning("Your spectrum is empty. Nothing to pick.")
@@ -417,9 +416,17 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
         return(object)
 
     ## estimate noise
-    noise <- estimateNoise_Spectrum(object, method = method,
-                                    ignoreCentroided = ignoreCentroided,
-                                    ...)[, 2L]
+    ## Hack to support passing arguments to both noise estimation methods and
+    ## m/z refinement methods. CAVE: partial matching does not work!
+    dots <- list(...)
+    dots <- dots[!names(dots) %in% c("k", "signalPercentage", "stopAtTwo")]
+    noise <- do.call("estimateNoise_Spectrum",
+                     c(list(object = object, method = method,
+                            ignoreCentroided = ignoreCentroided),
+                       dots))[, 2L]
+    ## noise <- estimateNoise_Spectrum(object, method = method,
+    ##                                 ignoreCentroided = ignoreCentroided,
+    ##                                 ...)[, 2L]
 
     ## find local maxima
     isLocalMaxima <- MALDIquant:::.localMaxima(intensity(object),
@@ -430,12 +437,19 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
 
     peakIdx <- which(isAboveNoise & isLocalMaxima)
 
-    pks <- .refinePeakMz(mz = object@mz, intensity = object@intensity,
-                         peakIdx = peakIdx, method = refineMz,
-                         n = n, signalPercentage = signalPercentage,
-                         stopAtTwo = stopAtTwo)
-    object@mz <- pks[, 1]
-    object@intensity <- pks[, 2]
+    refineMz <- match.arg(refineMz)
+    if (refineMz == "none") {
+        object@mz <- object@mz[peakIdx]
+        object@intensity <- object@intensity[peakIdx]
+    } else {
+        ## Call the method passing all additional arguments.
+        pks <- do.call(refineMz, args = c(list(mz = object@mz,
+                                               intensity = object@intensity,
+                                               peakIdx = peakIdx),
+                                               list(...)))
+        object@mz <- pks[, 1]
+        object@intensity <- pks[, 2]
+    }
     object@peaksCount <- length(peakIdx)
     object@tic <- sum(intensity(object))
     object@centroided <- TRUE
@@ -652,6 +666,8 @@ validSpectrum <- function(object) {
 #' @param k `integer(1)`: number of values left and right of the
 #'     peak that should be considered in the weighted mean calculation.
 #'
+#' @param ... Currently not used.
+#' 
 #' @return A `matrix` with columns `"mz"` and `"intensity"`
 #'     with the m/z and intensity values of the refined peaks.
 #' 
@@ -698,7 +714,8 @@ validSpectrum <- function(object) {
 #'
 #' mzs_2 <- kNeighbors(mz = mzs, peakIdx = peak_idx, intensity = ints, k = 2)
 #' abline(v = mzs_2[, 1], col = "red")
-kNeighbors <- function(mz, intensity, peakIdx = NULL, k = 2) {
+kNeighbors <- function(mz, intensity, peakIdx = NULL, k = 2, ...) {
+    cat("calling kNeighbors with arguments: k =", k, "\n")
     if (length(mz) != length(intensity))
         stop("lengths of 'mz' and 'intensity' have to match")
     if (length(peakIdx) == 0)
@@ -787,7 +804,9 @@ kNeighbors <- function(mz, intensity, peakIdx = NULL, k = 2) {
 #'     signalPercentage = 0)
 #' points(mzs_2[, 1], mzs_2[, 2], col = "red", type = "h")
 descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
-                        stopAtTwo = FALSE) {
+                        stopAtTwo = FALSE, ...) {
+    cat("descendPeak with arguments signalPercentage = ", signalPercentage,
+        " stopAtTwo = ", stopAtTwo, "\n")
     if (length(mz) != length(intensity))
         stop("lengths of 'mz' and 'intensity' have to match")
     if (length(peakIdx) == 0)

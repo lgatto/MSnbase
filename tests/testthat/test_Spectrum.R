@@ -333,3 +333,49 @@ test_that("descendPeak works", {
     idx <- idx[ints[idx] > ints[18]/2]
     expect_equal(unname(res[2, 1]), weighted.mean(mzs[idx], ints[idx]))
 })
+
+test_that("pickPeaks,Spectrum works with refineMz", {
+    ## Get one spectrum from the tmt
+    spctr <- tmt_erwinia_in_mem_ms1[[1]]
+    centroided(spctr) <- FALSE
+
+    mzr <- c(530.9, 531.2)
+    plot(mz(filterMz(spctr, mz = mzr)), intensity(filterMz(spctr, mz = mzr)),
+         type = "h")
+    ## plain pickPeaks
+    spctr_pks <- pickPeaks(spctr)
+    points(mz(filterMz(spctr_pks, mz = mzr)),
+           intensity(filterMz(spctr_pks, mz = mzr)),
+           type = "p", col = "blue")
+    ## Now the same but using a refineMz method.
+    spctr_kn <- pickPeaks(spctr, refineMz = "kNeighbors", k = 1)
+    points(mz(filterMz(spctr_kn, mz = mzr)),
+           intensity(filterMz(spctr_kn, mz = mzr)),
+           type = "p", col = "red")
+    ## Now the same but using a refineMz method.
+    spctr_kn <- pickPeaks(spctr, refineMz = "kNeighbors", k = 2)
+    points(mz(filterMz(spctr_kn, mz = mzr)),
+           intensity(filterMz(spctr_kn, mz = mzr)),
+           type = "p", col = "green")
+    spctr_kn <- pickPeaks(spctr, refineMz = "descendPeak",
+                          signalPercentage = 45)
+    points(mz(filterMz(spctr_kn, mz = mzr)),
+           intensity(filterMz(spctr_kn, mz = mzr)),
+           type = "p", col = "red")
+    spctr_kn <- pickPeaks(spctr, refineMz = "descendPeak",
+                          signalPercentage = 10, stopAtTwo = TRUE)
+    points(mz(filterMz(spctr_kn, mz = mzr)),
+           intensity(filterMz(spctr_kn, mz = mzr)),
+           type = "p", col = "orange")
+        
+    ## Check if we can call method and refineMz and pass arguments to both
+    spctr_kn <- pickPeaks(spctr, refineMz = "kNeighbors", k = 1,
+                          method = "SuperSmoother", span = 0.9)
+    points(mz(filterMz(spctr_kn, mz = mzr)),
+           intensity(filterMz(spctr_kn, mz = mzr)),
+           type = "p", col = "red")
+    
+    ## Check errors
+    expect_error(pickPeaks(spctr, refineMz = "some_method"))
+    expect_error(pickPeaks(spctr, not_sup = TRUE, method = "SuperSmoother"))
+})

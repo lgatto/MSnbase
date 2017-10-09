@@ -244,14 +244,11 @@ setMethod("estimateNoise", "Spectrum",
 setMethod("pickPeaks", "Spectrum",
           function(object, halfWindowSize = 3L,
                    method = c("MAD", "SuperSmoother"),
-                   SNR = 0L, refineMethod = c("none", "neighbors",
-                                              "descendPeak"),
-                   n = 2L, signalPercentage = 33, stopAtTwo = FALSE, ...) {
+                   SNR = 0L, refineMz = c("none", "kNeighbors",
+                                          "descendPeak"), ...) {
               pickPeaks_Spectrum(object, halfWindowSize = halfWindowSize,
                                  method = match.arg(method), SNR = SNR,
-                                 refineMethod = refineMethod, n = n,
-                                 signalPercentage = signalPercentage,
-                                 stopAtTwo = stopAtTwo, ...)
+                                 refineMz = refineMz, ...)
           })
 
 setMethod("smooth", "Spectrum",

@@ -230,11 +230,12 @@ setMethod("compareSpectra", c("MSnExp", "missing"),
 setMethod("pickPeaks", "MSnExp",
           function(object, halfWindowSize = 3L,
                    method = c("MAD", "SuperSmoother"),
-                   SNR = 0L, ...) {
+                   SNR = 0L, refineMz = c("none", "kNeighbors", "descendPeak"),
+                   ...) {
               pickPeaks_MSnExp(object, halfWindowSize = halfWindowSize,
-                               method = match.arg(method), SNR = SNR, ...)
+                               method = match.arg(method), SNR = SNR,
+                               refineMz = match.arg(refineMz), ...)
           })
-
 
 setMethod("estimateNoise", "MSnExp",
           function(object, method = c("MAD", "SuperSmoother"), ...) {

@@ -460,3 +460,32 @@ test_that("chromatogram,MSnExp works", {
     chrs_2 <- chromatogram(inMem, msLevel = 1:4)
     expect_equal(chrs, chrs_2)
 })
+
+test_that("pickPeaks,MSnExp works with refineMz", {
+    ## Get one spectrum from the tmt
+    spctr <- tmt_erwinia_in_mem_ms1[[1]]
+    centroided(spctr) <- FALSE
+
+    centroided(tmt_erwinia_in_mem_ms1) <- FALSE
+    tmt_pk <- pickPeaks(tmt_erwinia_in_mem_ms1, refineMz = "kNeighbors",
+                        k = 1)
+    spctr_pk <- pickPeaks(spctr, refineMz = "kNeighbors", k = 1)
+    spctr_tmt_pk <- tmt_pk[[1]]
+    expect_equal(spctr_pk, spctr_tmt_pk)
+
+    spctr_pk <- pickPeaks(spctr, refineMz = "descendPeak",
+                          signalPercentage = 75)
+    tmt_pk <- pickPeaks(tmt_erwinia_in_mem_ms1, refineMz = "descendPeak",
+                        signalPercentage = 75)
+    expect_equal(spctr_pk, tmt_pk[[1]])
+    
+    ## Check if we can call method and refineMz and pass arguments to both
+    spctr_pk <- pickPeaks(spctr, refineMz = "kNeighbors", k = 1,
+                          method = "SuperSmoother", span = 0.9)
+    tmt_pk <- pickPeaks(tmt_erwinia_in_mem_ms1, refineMz = "kNeighbors",
+                        k = 1, method = "SuperSmoother", span = 0.9)
+    expect_equal(spctr_pk, tmt_pk[[1]])
+    
+    ## Check errors
+    expect_error(pickPeaks(tmt_erwinia_in_mem_ms1, refineMz = "some_method"))
+})
