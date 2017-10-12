@@ -2,4 +2,3 @@
 # read  http://lgatto.github.io/branch-specific-gitignore/ for details
 Makefile
 .gitignore
-NEWS

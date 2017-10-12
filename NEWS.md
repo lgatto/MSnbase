@@ -1,8 +1,17 @@
 # MSnbase 2.3
 
+## Changes in version 2.3.13
+- Nothing yet.
+
+## Changes in version 2.3.12
+- Keep `protocolData` in isobaric quantification; fixes #265
+
 ## Changes in version 2.3.11
-- Add write support for MSnExp and OnDiskMSnExp objects allowing to save the MS
-  data to mzML or mzXML files. <2017-09-15 Fri>
+- Amend `addIdentificationData` when sourceInfo reports multiple files
+  and when scores are missing from the identification results (closes
+  #261).
+- Don't overwrite `processingData` slot when creating an `MSnSet` object
+  (closes #264).
 
 ## Changes in version 2.3.10
 - New `isCentroidedFromFile` function <2017-08-11 Fri>
