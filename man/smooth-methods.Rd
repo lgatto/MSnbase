@@ -18,32 +18,43 @@
 }
 
 \section{Methods}{
+
   \describe{
-    \item{\code{signature(x = "MSnExp", method = "character", 
-        halfWindowSize = "integer", verbose = "logical", ...)}}{
+
+    \item{\code{signature(x = "MSnExp", method = "character",
+	halfWindowSize = "integer", verbose = "logical", ...)}}{
+
       Smooths all spectra in \code{MSnExp}. \code{method} could be
-      \code{"SavitzkyGolay"} or \code{"MovingAverage}. \code{halfWindowSize}
-      controls the window size of the filter. The resulting window size is
-      \code{2 * halfWindowSize + 1}. The best size differs depending on
-      the selected \code{method}. For \code{method = "SavitzkyGolay"} it
-      should be lower than \emph{FWHM} of the peaks (full width
-      at half maximum; please find details in Bromba and Ziegler 1981).
-      The arguments \code{\dots} are passed to the internal functions. 
+      \code{"SavitzkyGolay"} or
+      \code{"MovingAverage"}. \code{"halfWindowSize"} controls the
+      window size of the filter. The resulting window size is \code{2 *
+      halfWindowSize + 1}. The best size differs depending on the
+      selected \code{method}. For \code{method = "SavitzkyGolay"} it
+      should be lower than \emph{FWHM} of the peaks (full width at half
+      maximum; please find details in Bromba and Ziegler 1981).  The
+      arguments \code{\dots} are passed to the internal functions.
       Currently the only supported argument is \code{polynomialOrder}
-      (default: 3) for \code{method="SavitzkyGolay} to control the
-      polynomial order of the Savitzky-Golay Filter.
-      This method displays a progress bar if \code{verbose = TRUE}.
-      Returns an \code{MSnExp} instance with smoothed spectra.
+      (default: 3) for \code{method="SavitzkyGolay"} to control the
+      polynomial order of the Savitzky-Golay Filter.  This method
+      displays a progress bar if \code{verbose = TRUE}.  Returns an
+      \code{MSnExp} instance with smoothed spectra.
+
+      }
+
+      \item{\code{signature(x = "Spectrum", method = "character",
+	  halfWindowSize = "integer", ...)}}{
+
+	Smooths the spectrum (\code{Spectrum} instance). This method is
+	the same as above but returns a smoothed \code{Spectrum} instead
+	of an \code{MSnExp} object. It has no \code{verbose}
+	argument. Please read the details for the above \code{MSnExp}
+	method.
+
+      } 
+
     }
-    \item{\code{signature(x = "Spectrum", method = "character", 
-        halfWindowSize = "integer", ...)}}{
-      Smooths the spectrum (\code{Spectrum} instance). This method is the same
-      as above but returns a smoothed \code{Spectrum} instead of an
-      \code{MSnExp} object. It has no \code{verbose} argument. Please read the
-      details for the above \code{MSnExp} method.
-    }
+
   }
-}
 
 \author{
   Sebastian Gibb <mail@sebastiangibb.de>
