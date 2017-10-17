@@ -34,7 +34,8 @@ text width=5em, text centered, rounded corners, minimum height=5em]
   % Place nodes
   \node [input] (raw) {Raw data in an open \texttt{XML} format};
   \node [input, below of=raw] (mgf) {Peak list in \texttt{mgf} format};
-  \node [fun, right of=mgf, node distance=4cm, yshift=1cm] (writeMgfData) {\texttt{writeMgfData}};
+  \node [fun, right of=mgf, node distance=4cm, yshift=5mm] (writeMgfData) {\texttt{writeMgfData}};
+  \node [fun, right of=raw, node distance=4cm] (writeMSData) {\texttt{writeMSData}};
   \node [input, below of=mgf] (spreadsheet) {Quantitation data as a spreadsheet};
   % \node [input, below of=spreadsheet] (mztab) {\texttt{mzTab} format};
   \node [fun, right of=spreadsheet, node distance=4cm] (writeexprs) {\texttt{write.exprs}};
@@ -47,6 +48,8 @@ text width=5em, text centered, rounded corners, minimum height=5em]
     \node [fill=yellow!20,rounded corners, draw=black!50, dashed, fit=(MSnExp) (quantify) (MSnSet)] {};
   \end{pgfonlayer}
   % Draw edges
+  \draw  (MSnExp) -- (writeMSData);
+  \draw [->] (writeMSData) -- (raw);
   \draw  (MSnExp) -- (writeMgfData);
   \draw [->] (writeMgfData) -- (mgf);
   \draw (MSnSet) -- (writeexprs);
