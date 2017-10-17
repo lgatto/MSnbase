@@ -56,10 +56,10 @@ mzML file.
 \note{
 General spectrum data such as total ion current, peak count, base peak
 m/z or base peak intensity are calculated from the actual spectrum data
-before writing the data to the files.\preformatted{For MSn data, if the `OnDiskMSnExp` or `MSnExp` does not contain also the
-precursor scan of a MS level > 1 spectrum `precursorMZ`,
-`precursorCharge` and `precursorIntensity` of the spectrum is set to 0
-in the output file.
+before writing the data to the files.\preformatted{For MSn data, if the `OnDiskMSnExp` or `MSnExp` does not contain also
+the precursor scan of a MS level > 1 spectrum (e.g. due to filtering on
+the MS level) `precursorScanNum` is set to 0 in the output file to
+avoid potentially linking to a wrong spectrum.
 }
 }
 \author{
