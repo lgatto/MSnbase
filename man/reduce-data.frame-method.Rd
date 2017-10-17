@@ -38,7 +38,7 @@ dfr
 dfr2 <- reduce(dfr, key = "A")
 dfr2
 ## column A used as key is still num
-str(dfr2) 
+str(dfr2)
 dfr3 <- reduce(dfr, key = "B")
 dfr3
 ## A is converted to chr; B remains factor

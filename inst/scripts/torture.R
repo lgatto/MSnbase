@@ -20,6 +20,7 @@ for (i in 1:7500) {
     sp <- res[[6]]
     res <- readMSData(f[4], verbose = FALSE, mode = "onDisk")
     sp <- spectra(res)
+    chr <- chromatogram(res)
 }
 ## OK without gc()
 

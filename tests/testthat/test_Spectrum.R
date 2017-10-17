@@ -281,3 +281,65 @@ test_that("show MS1 spectrum", {
     x <- readMSData(f, msLevel = 1)
     expect_null(show(x[[1]]))
 })
+
+test_that(".spectrum_header works", {
+    mzf <- mzR::openMSfile(fileNames(tmt_erwinia_on_disk))
+    hdr <- header(mzf)
+    mzR::close(mzf)
+    sp_1 <- tmt_erwinia_on_disk[[1]]
+    sp_2 <- tmt_erwinia_on_disk[[2]]
+
+    hdr_1 <- .spectrum_header(sp_1)
+    expect_equal(unname(hdr_1["acquisitionNum"]), hdr$acquisitionNum[1])
+    expect_equal(hdr$collisionEnergy[1], unname(hdr_1["collisionEnergy"]))
+    expect_equal(hdr$highMZ[1], unname(hdr_1["highMZ"]))
+    expect_equal(hdr$ionisationEnergy[1], unname(hdr_1["ionisationEnergy"]))
+    expect_equal(hdr$lowMZ[1], unname(hdr_1["lowMZ"]))
+    expect_equal(hdr$mergedResultEndScanNum[1],
+                 unname(hdr_1["mergedResultEndScanNum"]))
+    expect_equal(hdr$mergedResultScanNum[1],
+                 unname(hdr_1["mergedResultScanNum"]))
+    expect_equal(hdr$mergedResultStartScanNum[1],
+                 unname(hdr_1["mergedResultStartScanNum"]))
+    expect_equal(hdr$mergedScan[1], unname(hdr_1["mergedScan"]))
+    expect_equal(hdr$msLevel[1], unname(hdr_1["msLevel"]))
+    expect_equal(hdr$peaksCount[1], unname(hdr_1["peaksCount"]))
+    expect_equal(hdr$polarity[1], unname(hdr_1["polarity"]))
+    expect_equal(hdr$precursorCharge[1], unname(hdr_1["precursorCharge"]))
+    expect_equal(hdr$precursorIntensity[1], unname(hdr_1["precursorIntensity"]))
+    expect_equal(hdr$precursorMZ[1], unname(hdr_1["precursorMZ"]))
+    expect_equal(hdr$precursorScanNum[1], unname(hdr_1["precursorScanNum"]))
+    expect_equal(hdr$retentionTime[1], unname(hdr_1["retentionTime"]))
+    ## Failing: base peak most likely because the data was filtered,
+    ## injectionTime because it's not stored in a Spectrum object
+    ## expect_equal(hdr$basePeakIntensity[1], unname(hdr_1["basePeakIntensity"]))
+    ## expect_equal(hdr$basePeakMZ[1], unname(hdr_1["basePeakMZ"]))
+    ## expect_equal(hdr$injectionTime[1], unname(hdr_1["injectionTime"]))
+
+    hdr_2 <- .spectrum_header(sp_2)
+    expect_equal(unname(hdr_2["acquisitionNum"]), hdr$acquisitionNum[2])
+    expect_equal(hdr$collisionEnergy[2], unname(hdr_2["collisionEnergy"]))
+    expect_equal(hdr$highMZ[2], unname(hdr_2["highMZ"]))
+    expect_equal(hdr$ionisationEnergy[2], unname(hdr_2["ionisationEnergy"]))
+    expect_equal(hdr$lowMZ[2], unname(hdr_2["lowMZ"]))
+    expect_equal(hdr$mergedResultEndScanNum[2],
+                 unname(hdr_2["mergedResultEndScanNum"]))
+    expect_equal(hdr$mergedResultScanNum[2],
+                 unname(hdr_2["mergedResultScanNum"]))
+    expect_equal(hdr$mergedResultStartScanNum[2],
+                 unname(hdr_2["mergedResultStartScanNum"]))
+    expect_equal(hdr$mergedScan[2], unname(hdr_2["mergedScan"]))
+    expect_equal(hdr$msLevel[2], unname(hdr_2["msLevel"]))
+    expect_equal(hdr$peaksCount[2], unname(hdr_2["peaksCount"]))
+    expect_equal(hdr$polarity[2], unname(hdr_2["polarity"]))
+    expect_equal(hdr$precursorCharge[2], unname(hdr_2["precursorCharge"]))
+    expect_equal(hdr$precursorIntensity[2], unname(hdr_2["precursorIntensity"]))
+    expect_equal(hdr$precursorMZ[2], unname(hdr_2["precursorMZ"]))
+    expect_equal(hdr$precursorScanNum[2], unname(hdr_2["precursorScanNum"]))
+    expect_equal(hdr$retentionTime[2], unname(hdr_2["retentionTime"]))
+    ## Failing: base peak most likely because the data was filtered,
+    ## injectionTime because it's not stored in a Spectrum object
+    ## expect_equal(hdr$basePeakIntensity[1], unname(hdr_1["basePeakIntensity"]))
+    ## expect_equal(hdr$basePeakMZ[1], unname(hdr_1["basePeakMZ"]))
+    ## expect_equal(hdr$injectionTime[1], unname(hdr_1["injectionTime"]))
+})
