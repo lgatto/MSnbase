@@ -532,8 +532,7 @@ setMethod("spectrapply", "pSet", function(object, FUN = NULL,
     BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
     if (is.null(FUN))
         return(spectra(object))
-    vals <- bplapply(spectra(object), FUN = FUN, BPPARAM = BPPARAM, ...)
-    return(vals)
+    bplapply(spectra(object), FUN = FUN, BPPARAM = BPPARAM, ...)
 })
 
 setMethod("$", "pSet", function(x, name) {

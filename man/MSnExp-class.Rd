@@ -313,6 +313,9 @@
 
   \code{\link{chromatogram}} to extract chromatographic data from a
   \code{MSnExp} or \code{OnDiskMSnExp} object.
+
+  \code{\link{write}} for the function to write the data to mzML or
+  mzXML file(s).
 }
 
 \examples{
