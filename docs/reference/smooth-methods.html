@@ -94,27 +94,31 @@
         
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
+    
     <p></p><dl class='dl-horizontal'>
-    <dt><code>signature(x = "MSnExp", method = "character", 
-        halfWindowSize = "integer", verbose = "logical", ...)</code></dt><dd><p>Smooths all spectra in <code>MSnExp</code>. <code>method</code> could be
-      <code>"SavitzkyGolay"</code> or <code>"MovingAverage}. \code{halfWindowSize}
-      controls the window size of the filter. The resulting window size is
-      \code{2 * halfWindowSize + 1}. The best size differs depending on
-      the selected \code{method}. For \code{method = "SavitzkyGolay"} it
-      should be lower than \emph{FWHM} of the peaks (full width
-      at half maximum; please find details in Bromba and Ziegler 1981).
-      The arguments \code{\dots} are passed to the internal functions. 
-      Currently the only supported argument is \code{polynomialOrder}
-      (default: 3) for \code{method="SavitzkyGolay</code> to control the
-      polynomial order of the Savitzky-Golay Filter.
-      This method displays a progress bar if <code>verbose = TRUE</code>.
-      Returns an <code>MSnExp</code> instance with smoothed spectra.</p></dd>
-    <dt><code>signature(x = "Spectrum", method = "character", 
-        halfWindowSize = "integer", ...)</code></dt><dd><p>Smooths the spectrum (<code>Spectrum</code> instance). This method is the same
-      as above but returns a smoothed <code>Spectrum</code> instead of an
-      <code>MSnExp</code> object. It has no <code>verbose</code> argument. Please read the
-      details for the above <code>MSnExp</code> method.</p></dd>
-  </dl>
+    <dt><code>signature(x = "MSnExp", method = "character",
+	halfWindowSize = "integer", verbose = "logical", ...)</code></dt><dd><p>Smooths all spectra in <code>MSnExp</code>. <code>method</code> could be
+      <code>"SavitzkyGolay"</code> or
+      <code>"MovingAverage"</code>. <code>"halfWindowSize"</code> controls the
+      window size of the filter. The resulting window size is <code>2 *
+      halfWindowSize + 1</code>. The best size differs depending on the
+      selected <code>method</code>. For <code>method = "SavitzkyGolay"</code> it
+      should be lower than <em>FWHM</em> of the peaks (full width at half
+      maximum; please find details in Bromba and Ziegler 1981).  The
+      arguments <code>&#8230;</code> are passed to the internal functions.
+      Currently the only supported argument is <code>polynomialOrder</code>
+      (default: 3) for <code>method="SavitzkyGolay"</code> to control the
+      polynomial order of the Savitzky-Golay Filter.  This method
+      displays a progress bar if <code>verbose = TRUE</code>.  Returns an
+      <code>MSnExp</code> instance with smoothed spectra.</p></dd>
+    <dt><code>signature(x = "Spectrum", method = "character",
+	  halfWindowSize = "integer", ...)</code></dt><dd><p>Smooths the spectrum (<code>Spectrum</code> instance). This method is
+	the same as above but returns a smoothed <code>Spectrum</code> instead
+	of an <code>MSnExp</code> object. It has no <code>verbose</code>
+	argument. Please read the details for the above <code>MSnExp</code>
+	method.</p></dd>
+    </dl>
+    <p></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -148,7 +152,7 @@ Bioinformatics 28: 2270-2271.
 <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>itraqdata2</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#&gt; Spectra smoothed (MovingAverage): Thu Oct  5 18:20:02 2017 
+#&gt; Spectra smoothed (MovingAverage): Mon Oct 16 13:03:27 2017 
 #&gt;  MSnbase version: 1.1.22 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
