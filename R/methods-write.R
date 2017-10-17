@@ -13,6 +13,13 @@
 #'     [readMSData()] function. This can be set using the `copy` parameter.
 #'     Note that `copy = TRUE` requires the original files to be available and
 #'     is not supported for input files in other than mzML or mzXML format.
+#'     All metadata related to the run is copied, such as instrument
+#'     information, data processings etc. If `copy = FALSE` only processing
+#'     information performed in R (using `MSnbase`) are saved to the mzML file.
+#'
+#'     Currently only spectrum data is supported, i.e. if the original mzML
+#'     file contains also chromatogram data it is not copied/saved to the new
+#'     mzML file.
 #'
 #' @note General spectrum data such as total ion current, peak count, base peak
 #'     m/z or base peak intensity are calculated from the actual spectrum data

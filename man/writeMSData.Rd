@@ -46,6 +46,12 @@ information from the original files from which the data was read by the
 \code{\link[=readMSData]{readMSData()}} function. This can be set using the \code{copy} parameter.
 Note that \code{copy = TRUE} requires the original files to be available and
 is not supported for input files in other than mzML or mzXML format.
+All metadata related to the run is copied, such as instrument
+information, data processings etc. If \code{copy = FALSE} only processing
+information performed in R (using \code{MSnbase}) are saved to the mzML file.\preformatted{Currently only spectrum data is supported, i.e. if the original mzML
+file contains also chromatogram data it is not copied/saved to the new
+mzML file.
+}
 }
 \note{
 General spectrum data such as total ion current, peak count, base peak
