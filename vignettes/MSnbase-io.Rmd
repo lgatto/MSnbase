@@ -83,6 +83,11 @@ R objects can most easily be stored on disk with the `save` function.
 It creates compressed binary images of the data representation that
 can later be read back from the file with the `load` function.
 
+#### mzML/mzXML files {-}
+
+`MSnExp` and `OnDiskMSnExp` files can be written to MS data files in `mzML` or
+`mzXML` files with the `writeMSData` method. See `?writeMSData` for details.
+
 #### Peak lists {-}
 
 `MSnExp` instances as well as individual spectra can be written as
