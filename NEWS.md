@@ -1,5 +1,8 @@
 # MSnbase 2.3
 
+## Changes in version 2.3.14
+- Nothing yet
+
 ## Changes in version 2.3.13
 - Add write support for MSnExp and OnDiskMSnExp objects allowing to save the MS
   data to mzML or mzXML files. <2017-09-15 Fri>
