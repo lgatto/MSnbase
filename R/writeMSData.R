@@ -40,6 +40,11 @@
         stop("length of 'file' has to match the number of samples")
     if (verbose)
         message("Writing ", length(file), " ", outformat, " file.")
+    if (any(file.exists(file))) {
+        exst <- file[file.exists(file)]
+        stop("File(s) ", paste0(exst, collapse = ", "), " does/do already exist!",
+             " Please use a different file name.")
+    }
     ## Split per file.
     x_split <- splitByFile(object, f = factor(fileNames(object)))
     ## Using mapply below - in principle we could then even switch to
@@ -63,9 +68,6 @@
     if (verbose)
         message("Saving file ", basename(file), "...", appendLF = FALSE)
     file <- path.expand(file)
-    if (file.exists(file))
-        stop("File ", file, " does already exist! Please use a different ",
-             "file name.")
     ## o get all peak data. Calling spectrapply will apply also all lazy
     ##   processing steps. We're not calling the `as` method to avoid R
     ##   having to look through all namespaces to find the function.
