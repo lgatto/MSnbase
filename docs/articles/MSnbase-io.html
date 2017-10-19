@@ -121,6 +121,11 @@
 <a href="#rdata-files" class="anchor"></a>RData files</h4>
 <p>R objects can most easily be stored on disk with the <code>save</code> function. It creates compressed binary images of the data representation that can later be read back from the file with the <code>load</code> function.</p>
 </div>
+<div id="mzmlmzxml-files" class="section level4 unnumbered">
+<h4 class="hasAnchor">
+<a href="#mzmlmzxml-files" class="anchor"></a>mzML/mzXML files</h4>
+<p><code>MSnExp</code> and <code>OnDiskMSnExp</code> files can be written to MS data files in <code>mzML</code> or <code>mzXML</code> files with the <code>writeMSData</code> method. See <code><a href="../reference/writeMSData.html">?writeMSData</a></code> for details.</p>
+</div>
 <div id="peak-lists-1" class="section level4 unnumbered">
 <h4 class="hasAnchor">
 <a href="#peak-lists-1" class="anchor"></a>Peak lists</h4>
@@ -228,7 +233,8 @@ res</code></pre></div>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-##  MSnbase version: 2.3.11</code></pre>
+## Quantitation data loaded: Tue Oct 17 12:37:48 2017  using readMSnSet. 
+##  MSnbase version: 2.3.13</code></pre>
 <div id="the-msnset-class" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-msnset-class" class="anchor"></a>The <code>MSnSet</code> class</h3>
@@ -269,7 +275,7 @@ eset</code></pre></div>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-##  MSnbase version: 2.3.11</code></pre>
+##  MSnbase version: 2.3.13</code></pre>
 <p>The <code>ecol</code> columns can also be queried interactively from R using the <code>getEcols</code> and <code>grepEcols</code> function. The former return a character with all column names, given a splitting character, i.e. the separation value of the spreadsheet (typically <code>","</code> for <code>csv</code>, <code>"\t"</code> for <code>tsv</code>, …). The latter can be used to grep a pattern of interest to obtain the relevant column indices.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/grepEcols.html">getEcols</a></span>(f0, <span class="st">","</span>)</code></pre></div>
 <pre><code>##  [1] "\"Protein ID\""              "\"FBgn\""                   
@@ -296,7 +302,7 @@ eset</code></pre></div>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-##  MSnbase version: 2.3.11</code></pre>
+##  MSnbase version: 2.3.13</code></pre>
 <p>The <code>phenoData</code> slot can now be updated accordingly using the replacement functions <code>phenoData&lt;-</code> or <code>pData&lt;-</code> (see <code><a href="../reference/MSnSet-class.html">?MSnSet</a></code> for details).</p>
 </div>
 </div>
@@ -304,7 +310,7 @@ eset</code></pre></div>
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
-<pre><code>## R version 3.4.2 Patched (2017-10-03 r73455)
+<pre><code>## R version 3.4.2 Patched (2017-10-12 r73548)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
@@ -325,24 +331,24 @@ eset</code></pre></div>
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] pRolocdata_1.15.0   MSnbase_2.3.11      ProtGenerics_1.9.0 
-## [4] BiocParallel_1.11.8 mzR_2.11.11         Rcpp_0.12.12       
-## [7] Biobase_2.37.2      BiocGenerics_0.23.1 BiocStyle_2.5.35   
+## [1] pRolocdata_1.15.0    MSnbase_2.3.13       ProtGenerics_1.9.1  
+## [4] BiocParallel_1.11.11 mzR_2.11.12          Rcpp_0.12.13        
+## [7] Biobase_2.37.2       BiocGenerics_0.23.3  BiocStyle_2.5.41    
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] BiocInstaller_1.27.4  compiler_3.4.2        plyr_1.8.4           
+##  [1] BiocInstaller_1.27.5  compiler_3.4.2        plyr_1.8.4           
 ##  [4] iterators_1.0.8       zlibbioc_1.23.0       tools_3.4.2          
 ##  [7] MALDIquant_1.16.4     digest_0.6.12         evaluate_0.10.1      
 ## [10] tibble_1.3.4          preprocessCore_1.39.3 gtable_0.2.0         
 ## [13] lattice_0.20-35       rlang_0.1.2           foreach_1.4.3        
 ## [16] yaml_2.1.14           stringr_1.2.0         knitr_1.17           
-## [19] IRanges_2.11.15       S4Vectors_0.15.7      stats4_3.4.2         
+## [19] IRanges_2.11.19       S4Vectors_0.15.12     stats4_3.4.2         
 ## [22] rprojroot_1.2         grid_3.4.2            impute_1.51.0        
-## [25] XML_3.98-1.9          rmarkdown_1.6         limma_3.33.7         
-## [28] ggplot2_2.2.1         magrittr_1.5          backports_1.1.0      
+## [25] XML_3.98-1.9          rmarkdown_1.6         limma_3.33.14        
+## [28] ggplot2_2.2.1         magrittr_1.5          backports_1.1.1      
 ## [31] scales_0.5.0          pcaMethods_1.69.0     codetools_0.2-15     
 ## [34] htmltools_0.3.6       mzID_1.15.0           colorspace_1.3-2     
-## [37] affy_1.55.0           stringi_1.1.5         doParallel_1.0.10    
+## [37] affy_1.55.0           stringi_1.1.5         doParallel_1.0.11    
 ## [40] lazyeval_0.2.0        munsell_0.4.3         vsn_3.45.2           
 ## [43] affyio_1.47.1</code></pre>
 </div>

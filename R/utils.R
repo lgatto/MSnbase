@@ -1065,7 +1065,8 @@ setMethod("isEmpty", "environment",
 isOnDisk <- function(object)
     any(grepl("spectraProcessingQueue", slotNames(object)))
 
-## Simple function to determine whether parallel or serial processing should be performed
+## Simple function to determine whether parallel or serial processing should be
+## performed.
 ## Check testthat/test_OnDiskMSnExp_benchmarks.R for performance comparisons.
 ## Parameter object is expected to beb a
 getBpParam <- function(object, BPPARAM=bpparam()) {
@@ -1075,14 +1076,8 @@ getBpParam <- function(object, BPPARAM=bpparam()) {
     ## If it's empty, return SerialParam
     if (length(object) == 0)
         return(SerialParam())
-    ## if (is(object, "OnDiskMSnExp")) {
-    ##     ## Return SerialParam if we access less than PARALLEL_THRESH spectra per file.
-    ##     if (mean(table(fData(object)$fileIdx)) < parallel_thresh)
-    ##         return(SerialParam())
-    ## } else {
-        if (length(object) < parallel_thresh)
-            return(SerialParam())
-    ## }
+    if (length(object) < parallel_thresh)
+        return(SerialParam())
     return(BPPARAM)
 }
 

@@ -166,6 +166,22 @@ spreadsheets into R for further processing using `r Biocpkg("MSnbase")`. The
 gives a general overview of `r Biocpkg("MSnbase")`'s input/ouput
 capabilites.
 
+## Exporting experiments/MS data
+
+`MSnbase` supports also to write `MSnExp` or `OnDiskMSnExp` objects to `mzML` or
+`mzXML` files using the `writeMSData` function. This is specifically useful in
+workflows in which the MS data was heavily manipulated. Presently, each
+sample/file is exported into one file.
+
+Below we write the data in `mzML` format to a temporary file. By setting the
+optional parameter `copy = TRUE` general metadata (such as instrument info or
+all data processing descriptions) are copied over from the originating file.
+
+```{r writeMSData, cache = FALSE}
+writeMSData(rawdata, file = paste0(tempfile(), ".mzML"), copy = TRUE)
+```
+
+
 ## MS experiments {#sec:msnexp}
 
 Raw data is contained in *MSnExp* objects, that stores all the

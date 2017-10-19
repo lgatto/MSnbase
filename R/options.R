@@ -60,5 +60,9 @@ setMSnbaseFastLoad <- function(opt = TRUE) {
 
 ##' @rdname MSnbaseOptions
 isMSnbaseFastLoad <- function() {
-    MSnbaseOptions()$fastLoad
+    fast_load <- MSnbaseOptions()$fastLoad
+    ## For some odd reasons we get also NULL back - parallel processing?
+    if (!length(fast_load))
+        fast_load <- FALSE
+    fast_load
 }

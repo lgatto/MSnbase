@@ -282,100 +282,64 @@ test_that("show MS1 spectrum", {
     expect_null(show(x[[1]]))
 })
 
-test_that("kNeighbors works", {
-    ## Test the m/z refining method for peak picking/centroiding.
-    ints <- c(3, 4, 5, 7, 3, 4, 2, 8, 5, 6, 8, 8.1, 4, 5, 6, 3)
-    mzs <- 1:length(ints) + rnorm(length(ints), mean = 0, sd = 0.1)
-    plot(mzs, ints, type = "h")
-    pk_pos <- c(4, 8, 12)
+test_that(".spectrum_header works", {
+    mzf <- mzR::openMSfile(fileNames(tmt_erwinia_on_disk))
+    hdr <- header(mzf)
+    mzR::close(mzf)
+    sp_1 <- tmt_erwinia_on_disk[[1]]
+    sp_2 <- tmt_erwinia_on_disk[[2]]
 
-    res <- kNeighbors(mzs, ints, peakIdx = pk_pos, k = 1)
-    points(res[, 1], res[, 2], type = "h", col = "blue")
-    expect_equal(unname(res[1, 1]), weighted.mean(mzs[3:5], ints[3:5]))
-    expect_equal(unname(res[2, 1]), weighted.mean(mzs[7:9], ints[7:9]))
-    expect_equal(unname(res[3, 1]), weighted.mean(mzs[11:13], ints[11:13]))
+    hdr_1 <- .spectrum_header(sp_1)
+    expect_equal(unname(hdr_1["acquisitionNum"]), hdr$acquisitionNum[1])
+    expect_equal(hdr$collisionEnergy[1], unname(hdr_1["collisionEnergy"]))
+    expect_equal(hdr$highMZ[1], unname(hdr_1["highMZ"]))
+    expect_equal(hdr$ionisationEnergy[1], unname(hdr_1["ionisationEnergy"]))
+    expect_equal(hdr$lowMZ[1], unname(hdr_1["lowMZ"]))
+    expect_equal(hdr$mergedResultEndScanNum[1],
+                 unname(hdr_1["mergedResultEndScanNum"]))
+    expect_equal(hdr$mergedResultScanNum[1],
+                 unname(hdr_1["mergedResultScanNum"]))
+    expect_equal(hdr$mergedResultStartScanNum[1],
+                 unname(hdr_1["mergedResultStartScanNum"]))
+    expect_equal(hdr$mergedScan[1], unname(hdr_1["mergedScan"]))
+    expect_equal(hdr$msLevel[1], unname(hdr_1["msLevel"]))
+    expect_equal(hdr$peaksCount[1], unname(hdr_1["peaksCount"]))
+    expect_equal(hdr$polarity[1], unname(hdr_1["polarity"]))
+    expect_equal(hdr$precursorCharge[1], unname(hdr_1["precursorCharge"]))
+    expect_equal(hdr$precursorIntensity[1], unname(hdr_1["precursorIntensity"]))
+    expect_equal(hdr$precursorMZ[1], unname(hdr_1["precursorMZ"]))
+    expect_equal(hdr$precursorScanNum[1], unname(hdr_1["precursorScanNum"]))
+    expect_equal(hdr$retentionTime[1], unname(hdr_1["retentionTime"]))
+    ## Failing: base peak most likely because the data was filtered,
+    ## injectionTime because it's not stored in a Spectrum object
+    ## expect_equal(hdr$basePeakIntensity[1], unname(hdr_1["basePeakIntensity"]))
+    ## expect_equal(hdr$basePeakMZ[1], unname(hdr_1["basePeakMZ"]))
+    ## expect_equal(hdr$injectionTime[1], unname(hdr_1["injectionTime"]))
 
-    res <- kNeighbors(mzs, ints, peakIdx = pk_pos, k = 2)
-    points(res[, 1], res[, 2], type = "h", col = "green")
-    expect_equal(unname(res[1, 1]), weighted.mean(mzs[2:6], ints[2:6]))
-    expect_equal(unname(res[2, 1]), weighted.mean(mzs[6:10], ints[6:10]))
-    expect_equal(unname(res[3, 1]), weighted.mean(mzs[10:14], ints[10:14]))
-    
-    expect_error(kNeighbors(mz = 3, ints))
-})
-
-test_that("descendPeak works", {
-    ints <- c(2, 3, 1, 2, 1, 0, 1, 2, 0, 1, 0, 2, 3, 2, 1, 2, 5, 8, 7, 6,
-              5, 4, 3, 2, 1, 0, 1, 1, 4)
-    mzs <- 1:length(ints) + rnorm(length(ints), mean = 0, sd = 0.1)
-    plot(mzs, ints, type = "h")
-    pk_pos <- c(13, 18)
-
-    res <- descendPeak(mzs, ints, pk_pos, signalPercentage = 0)
-    points(res[, 1], res[, 2], type = "h", col = "blue")
-    expect_equal(unname(res[1, 1]), weighted.mean(mzs[11:15], ints[11:15]))
-    expect_equal(unname(res[2, 1]), weighted.mean(mzs[15:26], ints[15:26]))
-    
-    res <- descendPeak(mzs, ints, pk_pos, signalPercentage = 0,
-                       stopAtTwo = TRUE)
-    points(res[, 1], res[, 2], type = "h", col = "green")
-    expect_equal(unname(res[1, 1]), weighted.mean(mzs[6:15], ints[6:15]))
-    expect_equal(unname(res[2, 1]), weighted.mean(mzs[15:26], ints[15:26]))
-
-    ## With signalPercentage
-    res <- descendPeak(mzs, ints, pk_pos, signalPercentage = 50,
-                       stopAtTwo = TRUE)
-    points(res[, 1], res[, 2], type = "h", col = "orange")
-    idx <- 6:15
-    idx <- idx[ints[idx] > ints[13]/2]
-    expect_equal(unname(res[1, 1]), weighted.mean(mzs[idx], ints[idx]))
-    idx <- 15:26
-    idx <- idx[ints[idx] > ints[18]/2]
-    expect_equal(unname(res[2, 1]), weighted.mean(mzs[idx], ints[idx]))
-})
-
-test_that("pickPeaks,Spectrum works with refineMz", {
-    ## Get one spectrum from the tmt
-    spctr <- tmt_erwinia_in_mem_ms1[[1]]
-    centroided(spctr) <- FALSE
-
-    mzr <- c(530.9, 531.2)
-    plot(mz(filterMz(spctr, mz = mzr)), intensity(filterMz(spctr, mz = mzr)),
-         type = "h")
-    ## plain pickPeaks
-    spctr_pks <- pickPeaks(spctr)
-    points(mz(filterMz(spctr_pks, mz = mzr)),
-           intensity(filterMz(spctr_pks, mz = mzr)),
-           type = "p", col = "blue")
-    ## Now the same but using a refineMz method.
-    spctr_kn <- pickPeaks(spctr, refineMz = "kNeighbors", k = 1)
-    points(mz(filterMz(spctr_kn, mz = mzr)),
-           intensity(filterMz(spctr_kn, mz = mzr)),
-           type = "p", col = "red")
-    ## Now the same but using a refineMz method.
-    spctr_kn <- pickPeaks(spctr, refineMz = "kNeighbors", k = 2)
-    points(mz(filterMz(spctr_kn, mz = mzr)),
-           intensity(filterMz(spctr_kn, mz = mzr)),
-           type = "p", col = "green")
-    spctr_kn <- pickPeaks(spctr, refineMz = "descendPeak",
-                          signalPercentage = 45)
-    points(mz(filterMz(spctr_kn, mz = mzr)),
-           intensity(filterMz(spctr_kn, mz = mzr)),
-           type = "p", col = "red")
-    spctr_kn <- pickPeaks(spctr, refineMz = "descendPeak",
-                          signalPercentage = 10, stopAtTwo = TRUE)
-    points(mz(filterMz(spctr_kn, mz = mzr)),
-           intensity(filterMz(spctr_kn, mz = mzr)),
-           type = "p", col = "orange")
-        
-    ## Check if we can call method and refineMz and pass arguments to both
-    spctr_kn <- pickPeaks(spctr, refineMz = "kNeighbors", k = 1,
-                          method = "SuperSmoother", span = 0.9)
-    points(mz(filterMz(spctr_kn, mz = mzr)),
-           intensity(filterMz(spctr_kn, mz = mzr)),
-           type = "p", col = "red")
-    
-    ## Check errors
-    expect_error(pickPeaks(spctr, refineMz = "some_method"))
-    expect_error(pickPeaks(spctr, not_sup = TRUE, method = "SuperSmoother"))
+    hdr_2 <- .spectrum_header(sp_2)
+    expect_equal(unname(hdr_2["acquisitionNum"]), hdr$acquisitionNum[2])
+    expect_equal(hdr$collisionEnergy[2], unname(hdr_2["collisionEnergy"]))
+    expect_equal(hdr$highMZ[2], unname(hdr_2["highMZ"]))
+    expect_equal(hdr$ionisationEnergy[2], unname(hdr_2["ionisationEnergy"]))
+    expect_equal(hdr$lowMZ[2], unname(hdr_2["lowMZ"]))
+    expect_equal(hdr$mergedResultEndScanNum[2],
+                 unname(hdr_2["mergedResultEndScanNum"]))
+    expect_equal(hdr$mergedResultScanNum[2],
+                 unname(hdr_2["mergedResultScanNum"]))
+    expect_equal(hdr$mergedResultStartScanNum[2],
+                 unname(hdr_2["mergedResultStartScanNum"]))
+    expect_equal(hdr$mergedScan[2], unname(hdr_2["mergedScan"]))
+    expect_equal(hdr$msLevel[2], unname(hdr_2["msLevel"]))
+    expect_equal(hdr$peaksCount[2], unname(hdr_2["peaksCount"]))
+    expect_equal(hdr$polarity[2], unname(hdr_2["polarity"]))
+    expect_equal(hdr$precursorCharge[2], unname(hdr_2["precursorCharge"]))
+    expect_equal(hdr$precursorIntensity[2], unname(hdr_2["precursorIntensity"]))
+    expect_equal(hdr$precursorMZ[2], unname(hdr_2["precursorMZ"]))
+    expect_equal(hdr$precursorScanNum[2], unname(hdr_2["precursorScanNum"]))
+    expect_equal(hdr$retentionTime[2], unname(hdr_2["retentionTime"]))
+    ## Failing: base peak most likely because the data was filtered,
+    ## injectionTime because it's not stored in a Spectrum object
+    ## expect_equal(hdr$basePeakIntensity[1], unname(hdr_1["basePeakIntensity"]))
+    ## expect_equal(hdr$basePeakMZ[1], unname(hdr_1["basePeakMZ"]))
+    ## expect_equal(hdr$injectionTime[1], unname(hdr_1["injectionTime"]))
 })
