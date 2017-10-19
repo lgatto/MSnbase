@@ -356,7 +356,7 @@ bsa</code></pre></div>
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Data [logically] subsetted 3 spectra: Tue Oct 17 12:37:00 2017 
+## Data [logically] subsetted 3 spectra: Thu Oct 19 21:07:46 2017 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -677,8 +677,8 @@ This figure illustrated the effect or the <code>removePeaks</code> and <code>cle
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Tue Oct 17 12:37:09 2017 
-## Spectra cleaned: Tue Oct 17 12:37:10 2017 
+## Curves &lt;= 400 set to '0': Thu Oct 19 21:07:54 2017 
+## Spectra cleaned: Thu Oct 19 21:07:55 2017 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -744,9 +744,9 @@ qnt</code></pre></div>
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Tue Oct 17 12:37:09 2017 
-## Spectra cleaned: Tue Oct 17 12:37:10 2017 
-## iTRAQ4 quantification by trapezoidation: Tue Oct 17 12:37:13 2017 
+## Curves &lt;= 400 set to '0': Thu Oct 19 21:07:54 2017 
+## Spectra cleaned: Thu Oct 19 21:07:55 2017 
+## iTRAQ4 quantification by trapezoidation: Thu Oct 19 21:07:58 2017 
 ##  MSnbase version: 1.1.22</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">exprs</span>(qnt))</code></pre></div>
 <pre><code>##     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
@@ -844,7 +844,7 @@ qnt.crct &lt;-<span class="st"> </span><span class="kw"><a href="../reference/pu
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/impute-methods.html">impute</a></span>(naset, <span class="st">"min"</span>)
 <span class="kw"><a href="../reference/pSet-class.html">processingData</a></span>(x)</code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data imputation using min Tue Oct 17 12:37:13 2017 
+## Data imputation using min Thu Oct 19 21:07:59 2017 
 ##  MSnbase version: 1.15.6</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(<span class="kw">is.na</span>(x))</code></pre></div>
 <pre><code>## 
@@ -881,7 +881,7 @@ x</code></pre></div>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Data imputation using mixed Tue Oct 17 12:37:14 2017 
+## Data imputation using mixed Thu Oct 19 21:08:00 2017 
 ##   Using default parameters 
 ##  MSnbase version: 1.15.6</code></pre>
 <p>Please read <code><a href="../reference/impute-methods.html">?impute</a></code> for a description of the different methods.</p>
@@ -962,13 +962,13 @@ qnt2</code></pre></div>
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Tue Oct 17 12:37:09 2017 
-## Spectra cleaned: Tue Oct 17 12:37:10 2017 
-## iTRAQ4 quantification by trapezoidation: Tue Oct 17 12:37:13 2017 
-## Subset [55,4][54,4] Tue Oct 17 12:37:13 2017 
-## Removed features with more than 0 NAs: Tue Oct 17 12:37:13 2017 
-## Dropped featureData's levels Tue Oct 17 12:37:13 2017 
-## Combined 54 features into 40 using median: Tue Oct 17 12:37:17 2017 
+## Curves &lt;= 400 set to '0': Thu Oct 19 21:07:54 2017 
+## Spectra cleaned: Thu Oct 19 21:07:55 2017 
+## iTRAQ4 quantification by trapezoidation: Thu Oct 19 21:07:58 2017 
+## Subset [55,4][54,4] Thu Oct 19 21:07:58 2017 
+## Removed features with more than 0 NAs: Thu Oct 19 21:07:58 2017 
+## Dropped featureData's levels Thu Oct 19 21:07:58 2017 
+## Combined 54 features into 40 using median: Thu Oct 19 21:08:02 2017 
 ##  MSnbase version: 2.3.13</code></pre>
 <p>Of interest is also the <code>iPQF</code> spectra-to-protein summarisation method, which integrates peptide spectra characteristics and quantitative values for protein quantitation estimation. See <code><a href="../reference/iPQF.html">?iPQF</a></code> and references therein for details.</p>
 </div>
@@ -1007,11 +1007,11 @@ qnt2</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">siquant &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(msexp, <span class="dt">method =</span> <span class="st">"SIn"</span>)
 <span class="kw"><a href="../reference/pSet-class.html">processingData</a></span>(siquant)</code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data loaded: Tue Oct 17 12:37:08 2017 
-## Filtered 2 unidentified peptides out [Tue Oct 17 12:37:08 2017] 
-## Quantitation by total ion current [Tue Oct 17 12:37:17 2017] 
-## Combined 3 features into 3 using sum: Tue Oct 17 12:37:17 2017 
-## Quantification by SIn [Tue Oct 17 12:37:17 2017] 
+## Data loaded: Thu Oct 19 21:07:53 2017 
+## Filtered 2 unidentified peptides out [Thu Oct 19 21:07:53 2017] 
+## Quantitation by total ion current [Thu Oct 19 21:08:02 2017] 
+## Combined 3 features into 3 using sum: Thu Oct 19 21:08:02 2017 
+## Quantification by SIn [Thu Oct 19 21:08:02 2017] 
 ##  MSnbase version: 2.3.13</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">exprs</span>(siquant)</code></pre></div>
 <pre><code>##         dummyiTRAQ.mzXML
@@ -1237,7 +1237,7 @@ exp2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MSnSet
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Combined [35,8] and [27,4] MSnSets Tue Oct 17 12:37:30 2017 
+## Combined [35,8] and [27,4] MSnSets Thu Oct 19 21:08:16 2017 
 ##  MSnbase version: 2.3.13</code></pre>
 <p>In summary, when experiments with different samples need to be combined (along the columns), one needs to (1) clarify the sample names using <code>updateSampleNames</code> or better manually, for biological relevance and (2) update the feature data variable labels with <code>updateFvarLabels</code>. The individual experiments (there can be more than 2) can then easily be combined with the <code>combine</code> method while retaining the meta-data.</p>
 <p>If runs for the same sample (different fractions for example) need to be combines, one needs to (1) differentiate the feature provenance with <code>updateFeatureNames</code> prior to use <code>combine</code>.</p>
