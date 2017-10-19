@@ -1,5 +1,8 @@
 # MSnbase 2.3
 
+## Changes in version 2.3.15
+- Nothing yet
+
 ## Changes in version 2.3.14
 - Use `normalizePath` to force absolute file paths in `readMSData`.
 
