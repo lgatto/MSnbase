@@ -66,6 +66,10 @@ files. This can be achieved by setting \code{mode = "onDisk"}. The
 function returns then an \linkS4class{OnDiskMSnExp} object instead of a
 \linkS4class{MSnExp} object.
 }
+\note{
+\code{readMSData} uses \code{normalizePath} to replace relative with
+absolute file paths.
+}
 \examples{
 file <- dir(system.file(package = "MSnbase", dir = "extdata"),
             full.name = TRUE,

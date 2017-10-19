@@ -1,5 +1,8 @@
 # MSnbase 2.3
 
+## Changes in version 2.3.14
+- Use `normalizePath` to force absolute file paths in `readMSData`.
+
 ## Changes in version 2.3.13
 - Add write support for MSnExp and OnDiskMSnExp objects allowing to save the MS
   data to mzML or mzXML files. <2017-09-15 Fri>
