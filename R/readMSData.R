@@ -17,6 +17,8 @@
 ##' 
 ##' @title Imports mass-spectrometry raw data files as 'MSnExp'
 ##'     instances.
+##' @note `readMSData` uses `normalizePath` to replace relative with
+##'     absolute file paths.
 ##' @aliases readMSData2
 ##' @md
 ##' @param files A `character` with file names to be read and parsed.
@@ -60,6 +62,10 @@ readMSData <- function(files, pdata = NULL, msLevel. = NULL,
                        smoothed. = NA, cache. = 1L,
                        mode = c("inMemory", "onDisk")) {
     mode <- match.arg(mode)
+    ## o normalize the file path, i.e. replace relative path with absolute
+    ##   path. That fixes possible problems on Windows with SNOW parallel
+    ##   processing and also proteowizard problems on unis system with ~ paths.
+    files <- normalizePath(files)
     if (mode == "inMemory") {
         if (is.null(msLevel.)) msLevel. <- 2L
         readInMemMSData(files, pdata = pdata, msLevel. = msLevel.,
