@@ -9,6 +9,7 @@ import(Biobase)
 import(mzR)
 import(impute)
 
+import(scales)
 import(lattice)
 import(methods)
 

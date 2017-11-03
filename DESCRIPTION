@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for Mass Spectrometry and Proteomics
-Version: 2.3.15
+Version: 2.5.1
 Description: MSnbase provides infrastructure to manipulation,
 	     processing and visualisation mass spectrometry and
 	     proteomics data, ranging from raw to quantitative and
@@ -65,6 +65,7 @@ Imports:
     ggplot2,
     S4Vectors,
     XML,
+    scales,
     Rcpp
 Suggests:
     testthat,

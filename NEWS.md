@@ -1,7 +1,17 @@
-# MSnbase 2.3
+# MSnbase 2.5
 
-## Changes in version 2.3.15
-- Nothing yet
+## Changes in version 2.5.1
+- Update dependencies (see issue #271)
+
+## Changes in version 2.5.0
+- New version for Bioc 3.7 (devel)
+
+# MSnbase 2.4
+
+## Changes in version 2.4.0
+- New version for Bioc 3.6 (release)
+
+# MSnbase 2.3
 
 ## Changes in version 2.3.14
 - Use `normalizePath` to force absolute file paths in `readMSData`.
