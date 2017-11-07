@@ -11,8 +11,9 @@
 \description{
   This method smooths individual spectra (\code{Spectrum} instances)
   or whole experiments (\code{MSnExp} instances).
-  Currently, the Savitzky-Golay-Smoothing (\code{method = "SavitzkyGolay"})
-  and the Moving-Average-Smoothing (\code{method = "MovingAverage"}) are 
+  Currently, the Savitzky-Golay-Smoothing (\code{method = "SavitzkyGolay"}),
+  the Moving-Average-Smoothing (\code{method = "MovingAverage"}) and 
+  and the Moving-WeightedAverage-Smoothing (\code{method = "MovingWeightedAverage"}) are 
   available, as implemented in the \code{MALDIquant::smoothIntensity} function. 
   Additional methods might be added at a later stage.
 }
@@ -26,7 +27,8 @@
 
       Smooths all spectra in \code{MSnExp}. \code{method} could be
       \code{"SavitzkyGolay"} or
-      \code{"MovingAverage"}. \code{"halfWindowSize"} controls the
+      \code{"MovingAverage"} or
+      \code{"MovingWeightedAverage"}. \code{"halfWindowSize"} controls the
       window size of the filter. The resulting window size is \code{2 *
       halfWindowSize + 1}. The best size differs depending on the
       selected \code{method}. For \code{method = "SavitzkyGolay"} it

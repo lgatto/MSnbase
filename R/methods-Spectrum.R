@@ -250,7 +250,7 @@ setMethod("pickPeaks", "Spectrum",
           })
 
 setMethod("smooth", "Spectrum",
-          function(x, method = c("SavitzkyGolay", "MovingAverage"),
+          function(x, method = c("SavitzkyGolay", "MovingAverage","MovingWeightedAverage"),
                    halfWindowSize = 2L, ...) {
               smooth_Spectrum(x, method = match.arg(method),
                               halfWindowSize = halfWindowSize, ...)

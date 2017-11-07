@@ -439,7 +439,7 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
 }
 
 smooth_Spectrum <- function(object,
-                            method = c("SavitzkyGolay", "MovingAverage"),
+                            method = c("SavitzkyGolay", "MovingAverage","MovingWeightedAverage"),
                             halfWindowSize = 2L, ...) {
 
     if (!peaksCount(object)) {
@@ -453,6 +453,9 @@ smooth_Spectrum <- function(object,
            },
            "MovingAverage" = {
                fun <- MALDIquant:::.movingAverage
+           },
+           "MovingWeightedAverage" = {
+               fun <- MALDIquant:::.movingWeightedAverage
            })
     object@intensity <- fun(object@intensity,
                             halfWindowSize = halfWindowSize,
