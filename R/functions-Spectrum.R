@@ -453,6 +453,9 @@ smooth_Spectrum <- function(object,
            },
            "MovingAverage" = {
                fun <- MALDIquant:::.movingAverage
+           },
+           "MovingWeightedAverage" = {
+               fun <- MALDIquant:::.movingWeightedAverage
            })
     object@intensity <- fun(object@intensity,
                             halfWindowSize = halfWindowSize,
