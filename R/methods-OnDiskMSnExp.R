@@ -743,7 +743,7 @@ setMethod("bin", "OnDiskMSnExp", function(object, binSize = 1L, msLevel.) {
 ############################################################
 ## smooth
 setMethod("smooth", "OnDiskMSnExp",
-          function(x, method = c("SavitzkyGolay", "MovingAverage","MovingWeightedAverage"),
+          function(x, method = c("SavitzkyGolay", "MovingAverage"),
                    halfWindowSize = 2L, verbose = isMSnbaseVerbose(), ...) {
               method <- match.arg(method)
               ps <- ProcessingStep("smooth",

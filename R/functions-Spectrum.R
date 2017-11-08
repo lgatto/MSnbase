@@ -439,7 +439,7 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
 }
 
 smooth_Spectrum <- function(object,
-                            method = c("SavitzkyGolay", "MovingAverage","MovingWeightedAverage"),
+                            method = c("SavitzkyGolay", "MovingAverage"),
                             halfWindowSize = 2L, ...) {
 
     if (!peaksCount(object)) {

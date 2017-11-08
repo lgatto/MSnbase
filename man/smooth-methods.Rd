@@ -26,21 +26,21 @@
 	halfWindowSize = "integer", verbose = "logical", ...)}}{
 
       Smooths all spectra in \code{MSnExp}. \code{method} could be
-      \code{"SavitzkyGolay"} or
-      \code{"MovingAverage"} or
-      \code{"MovingWeightedAverage"}. \code{"halfWindowSize"} controls the
-      window size of the filter. The resulting window size is \code{2 *
-      halfWindowSize + 1}. The best size differs depending on the
-      selected \code{method}. For \code{method = "SavitzkyGolay"} it
-      should be lower than \emph{FWHM} of the peaks (full width at half
-      maximum; please find details in Bromba and Ziegler 1981).  The
-      arguments \code{\dots} are passed to the internal functions.
-      Currently the only supported argument is \code{polynomialOrder}
-      (default: 3) for \code{method="SavitzkyGolay"} to control the
-      polynomial order of the Savitzky-Golay Filter.  This method
-      displays a progress bar if \code{verbose = TRUE}.  Returns an
-      \code{MSnExp} instance with smoothed spectra.
-
+      \code{"SavitzkyGolay"} or \code{"MovingAverage"}. 
+      \code{"halfWindowSize"} controls the window size of the filter. The 
+      resulting window size is \code{2 * halfWindowSize + 1}. The best size 
+      differs depending on the selected \code{method}. For 
+      \code{method = "SavitzkyGolay"} it should be lower than \emph{FWHM} of the
+       peaks (full width at half maximum; please find details in Bromba and 
+      Ziegler 1981).  The arguments \code{\dots} are passed to the internal 
+      functions. Currently there are two supported arguments. One, 
+      \code{polynomialOrder} (default: 3), for \code{method="SavitzkyGolay"} to 
+      control the polynomial order of the Savitzky-Golay Filter. The other, 
+      \code{weighted} (default: FALSE), for \code{"MovingAverage"} to control 
+      if the calculated average is with equal weights (default) or centrally 
+      weighted. This method displays a progress bar if \code{verbose = TRUE}.  
+      Returns an \code{MSnExp} instance with smoothed spectra.
+      
       }
 
       \item{\code{signature(x = "Spectrum", method = "character",

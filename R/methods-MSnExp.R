@@ -245,7 +245,7 @@ setMethod("estimateNoise", "MSnExp",
 
 
 setMethod("smooth", "MSnExp",
-          function(x, method = c("SavitzkyGolay", "MovingAverage","MovingWeightedAverage"),
+          function(x, method = c("SavitzkyGolay", "MovingAverage"),
                    halfWindowSize = 2L, verbose = isMSnbaseVerbose(), ...) {
               smooth_MSnExp(x, method = match.arg(method),
                             halfWindowSize = halfWindowSize, verbose = verbose,
