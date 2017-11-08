@@ -58,7 +58,7 @@ Imports:
     affy,
     impute,
     pcaMethods,
-    MALDIquant (>= 1.16),
+    MALDIquant (>= 1.17),
     mzID (>= 1.5.2),
     digest,
     lattice,
