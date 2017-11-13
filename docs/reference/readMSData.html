@@ -166,6 +166,11 @@ files. This can be achieved by setting <code>mode = "onDisk"</code>. The
 function returns then an <a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a> object instead of a
 <a href='MSnExp-class.html'>MSnExp</a> object.</p>
     
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p><code>readMSData</code> uses <code>normalizePath</code> to replace relative with
+absolute file paths.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p><code><a href='readMgfData.html'>readMgfData()</a></code> to read <code>mgf</code> peak lists.</p>
@@ -183,8 +188,8 @@ function returns then an <a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a> obje
 #&gt;  Number of spectra: 5 
 #&gt;  MSn retention times: 25:1 - 25:2 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded: Thu Oct  5 18:19:51 2017 
-#&gt;  MSnbase version: 2.3.12 
+#&gt; Data loaded: Fri Nov  3 15:19:38 2017 
+#&gt;  MSnbase version: 2.5.1 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
 #&gt;   rowNames: dummyiTRAQ.mzXML
@@ -205,8 +210,8 @@ function returns then an <a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a> obje
 #&gt;  Number of spectra: 5 
 #&gt;  MSn retention times: 25:1 - 25:2 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded [Thu Oct  5 18:19:51 2017] 
-#&gt;  MSnbase version: 2.3.12 
+#&gt; Data loaded [Fri Nov  3 15:19:38 2017] 
+#&gt;  MSnbase version: 2.5.1 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
 #&gt;   rowNames: dummyiTRAQ.mzXML
@@ -229,6 +234,8 @@ function returns then an <a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a> obje
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#note">Note</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
