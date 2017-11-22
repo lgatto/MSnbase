@@ -1161,8 +1161,29 @@ countAndPrint <- function(x) {
     } else if (grepl("\\.cdf($|\\.)|\\.nc($|\\.)", x, ignore.case = TRUE)) {
         return("netCDF")
     } else {
-        stop("Could not determine file type for ", x)
+        return(.mzRBackendFromContent(x))
     }
+}
+
+#' Determine the backend from the (first few lines of the) file content.
+#' 
+#' @author Johannes Rainer
+#'
+#' @noRd
+.mzRBackendFromContent <- function(x = character()) {
+    if (length(x) != 1)
+        stop("parameter 'x' has to be of length 1")
+    suppressWarnings(
+        first_lines <- readLines(x, n = 4)
+    )
+    if (any(grepl("<mzML", first_lines)) | any(grepl("<mzXML", first_lines))) {
+        return("pwiz")
+    } else if (any(grepl("<mzData", first_lines))) {
+        return("Ramp")
+    } else if (substr(readBin(x, character(), n = 1), 1, 3) == "CDF") {
+        return("netCDF")
+    } else
+        stop("Could not determine file type for ", x)        
 }
 
 #' @title Open an MS file using the mzR package
