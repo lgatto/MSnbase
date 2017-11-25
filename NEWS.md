@@ -1,7 +1,7 @@
 # MSnbase 2.5
 
 ## Changes in version 2.5.1
-- Update dependencies (see issue [#271](lgatto/MSnbase/issues/271))
+- Update dependencies (see issue [#271](https://github.com/lgatto/MSnbase/issues/271))
 - Replace HCD by ETD in TMT10ETD's name/description
 
 ## Changes in version 2.5.0
@@ -22,29 +22,29 @@
   data to mzML or mzXML files. <2017-09-15 Fri>
 
 ## Changes in version 2.3.12
-- Keep `protocolData` in isobaric quantification; fixes [#265](lgatto/MSnbase/issues/265)
+- Keep `protocolData` in isobaric quantification; fixes [#265](https://github.com/lgatto/MSnbase/issues/265)
 
 ## Changes in version 2.3.11
 - Amend `addIdentificationData` when sourceInfo reports multiple files
   and when scores are missing from the identification results (closes
-  [#261](lgatto/MSnbase/issues/261)).
+  [#261](https://github.com/lgatto/MSnbase/issues/261)).
 - Don't overwrite `processingData` slot when creating an `MSnSet` object
-  (closes [#264](lgatto/MSnbase/issues/264)).
+  (closes [#264](https://github.com/lgatto/MSnbase/issues/264)).
 
 ## Changes in version 2.3.10
 - New `isCentroidedFromFile` function <2017-08-11 Fri>
 - Add msLevel slot to Chromatogram object <2017-08-16 Wed>
 - Add msLevel argument to chromatogram,MSnExp method <2017-08-16 Wed>
 - `calculateFragments` now just calculate fragments for all `n - 1L` bonds
-    (before it incorrectly adds an additional bond; fixes [#248](lgatto/MSnbase/issues/248)) <2017-08-20 Sun>
+    (before it incorrectly adds an additional bond; fixes [#248](https://github.com/lgatto/MSnbase/issues/248)) <2017-08-20 Sun>
 - Add `isEmpty` methods for `Chromatogram` and `Chromatograms` objects
   <2017-09-05 Tue>
 - plot,Chromatogram[s] creates an empty plot and returns a warning if the
-  Chromatogram[s] object is empty (issue [#249](lgatto/MSnbase/issues/249)) <2017-09-05 Tue>
+  Chromatogram[s] object is empty (issue [#249](https://github.com/lgatto/MSnbase/issues/249)) <2017-09-05 Tue>
 
 ## Changes in version 2.3.9
 - Using new mzR::openIdfile backend to add identifcation data to raw
-  and quantitative data (see issue [#232](lgatto/MSnbase/issues/232)) <2017-07-28 Fri>
+  and quantitative data (see issue [#232](https://github.com/lgatto/MSnbase/issues/232)) <2017-07-28 Fri>
 - New utils functions: factorsAsStrings, makeCamelCase and
   reduce,data.frame <2017-07-29 Sat>
 - Coerce mzRident to data.frames <2017-07-29 Sat>
@@ -61,7 +61,7 @@
 - New infrastructure for chromatogram data <2017-06-24 Sat>
 - Change naming scheme for spectra: FFILEID.SSPECTRUMID, e.g. F01.S0001. Before
   it has been XSPECTRUMID.FILEID. The new naming scheme changes the order of
-  the spectra. See [#255](lgatto/MSnbase/issues/255) (and PR [#256](lgatto/MSnbase/issues/256)) for details <2017-06-25 Sun>.
+  the spectra. See [#255](https://github.com/lgatto/MSnbase/issues/255) (and PR [#256](https://github.com/lgatto/MSnbase/issues/256)) for details <2017-06-25 Sun>.
 
 ## Changes in version 2.3.7
 - export filterEmptySpectra
@@ -74,7 +74,7 @@
 - Fix superscript syntax in demo vignette <2017-06-14 Wed>
 
 ## Changes in version 2.3.4
-- Use the injection time from mzR (see PR [#109](lgatto/MSnbase/issues/109)) which in now in
+- Use the injection time from mzR (see PR [#109](https://github.com/lgatto/MSnbase/issues/109)) which in now in
   seconds (was in milliseconds) <2017-06-13 Tue>
 
 ## Changes in version 2.3.3
@@ -88,13 +88,13 @@
 
 ## Changes in version 2.3.2
 - Rewrite `utils.clean`. It now keeps just the zeros in the direct
-  neighbourhood (see [#210](lgatto/MSnbase/issues/210)) <2017-05-04 Thu>.
+  neighbourhood (see [#210](https://github.com/lgatto/MSnbase/issues/210)) <2017-05-04 Thu>.
 
 ## Changes in version 2.3.1
 - Introduce "NTR" method for `combineFeatures` <2017-04-26 Wed>.
 - Rewrite `nQuants` and `featureCV` to avoid returning of rows for empty
-  factors; see PR [#208](lgatto/MSnbase/issues/208) for details <2017-04-28 Fri>.
-- Add $,pSet method to easily access columns in the phenoData (see [#203](lgatto/MSnbase/issues/203))
+  factors; see PR [#208](https://github.com/lgatto/MSnbase/issues/208) for details <2017-04-28 Fri>.
+- Add $,pSet method to easily access columns in the phenoData (see [#203](https://github.com/lgatto/MSnbase/issues/203))
 
 ## Changes in version 2.3.0
 
@@ -110,7 +110,7 @@
 
 ## Changes in version 2.1.19
 - Set SerialParams() in an attempt to avoid random errors in tests -
-  see issue [#205](lgatto/MSnbase/issues/205) <2017-04-24 Mon>
+  see issue [#205](https://github.com/lgatto/MSnbase/issues/205) <2017-04-24 Mon>
 
 ## Changes in version 2.1.18
 - suggest reshape2, as it's used in vignette <2017-04-18 Tue>
@@ -123,14 +123,14 @@
   servers <2017-04-09 Sun>
 
 ## Changes in version 2.1.15
-- Remove reshape2 dependency; see [#201](lgatto/MSnbase/issues/201) <2017-04-06 Thu>
+- Remove reshape2 dependency; see [#201](https://github.com/lgatto/MSnbase/issues/201) <2017-04-06 Thu>
 
 ## Changes in version 2.1.14
 - Internal rewrite and speedup of topN; Briefly multiple apply calls are
   avoided, `getTopIdx` and `subsetById` are replaced by `.topIdx`.
-  See PR [#199](lgatto/MSnbase/issues/199) for details. <2017-03-20 Mon>
+  See PR [#199](https://github.com/lgatto/MSnbase/issues/199) for details. <2017-03-20 Mon>
 - Fix mz calculation for terminal modifications and z > 1 in
-  `calculateFragments`; closes [#200](lgatto/MSnbase/issues/200) <2017-03-22 Wed>
+  `calculateFragments`; closes [#200](https://github.com/lgatto/MSnbase/issues/200) <2017-03-22 Wed>
 - Fix errors and notes <2017-03-30 Thu>
 
 ## Changes in version 2.1.13
@@ -141,8 +141,8 @@
 - Fix filing example <2017-02-25 Sat>
 
 ## Changes in version 2.1.11
-- Fix breaks calculation for binning single (closes [#191](lgatto/MSnbase/issues/191)) and multiple
-  (closes [#190](lgatto/MSnbase/issues/190)) spectra. The fix for single spectra ([#191](lgatto/MSnbase/issues/191)) could result in
+- Fix breaks calculation for binning single (closes [#191](https://github.com/lgatto/MSnbase/issues/191)) and multiple
+  (closes [#190](https://github.com/lgatto/MSnbase/issues/190)) spectra. The fix for single spectra ([#191](https://github.com/lgatto/MSnbase/issues/191)) could result in
   slightly different breaks on the upper end of the m/z values. <2017-02-10 Fri>
 - New `aggvar` function, to assess aggregation variability
   <2017-02-11 Sat>
@@ -153,11 +153,11 @@
 
 ## Changes in version 2.1.9
 - When fully trimmed, an (empty) spectrum has peaksCount of 0L - see
-  https://github.com/lgatto/MSnbase/issues/184 <2017-01-20 Fri>
-- Add filterEmptySpectra,MSnExp method (see issue [#181](lgatto/MSnbase/issues/181))
+  https://github.com/https://github.com/lgatto/MSnbase/issues/184 <2017-01-20 Fri>
+- Add filterEmptySpectra,MSnExp method (see issue [#181](https://github.com/lgatto/MSnbase/issues/181))
   <2017-01-20 Fri>
 - Add a section about notable on-disk and in-memory differences (was
-  issue [#165](lgatto/MSnbase/issues/165)) <2017-01-20 Fri>
+  issue [#165](https://github.com/lgatto/MSnbase/issues/165)) <2017-01-20 Fri>
 
 ## Changes in version 2.1.8
 - Remove order option altogether <2017-01-19 Thu> (superseeds setting
@@ -168,10 +168,10 @@
 - Setting default sorting using "auto" on R < 3.3 and "radix"
   otherwise <2017-01-03 Tue>
 - filterMz returns an empty spectrum when no data is within the mz
-  range (see issue [#181](lgatto/MSnbase/issues/181)) <2017-01-16 Mon>
+  range (see issue [#181](https://github.com/lgatto/MSnbase/issues/181)) <2017-01-16 Mon>
 - Performance improvement: a new private .firstMsLevel will
   efficiently return the first MS level in an MSnExp and
-  OnDiskMSnExp. See issue [#183](lgatto/MSnbase/issues/183) for details/background <2017-01-18 Wed>
+  OnDiskMSnExp. See issue [#183](https://github.com/lgatto/MSnbase/issues/183) for details/background <2017-01-18 Wed>
 
 ## Changes in version 2.1.6
 
@@ -194,13 +194,13 @@
 ## Changes in version 2.1.3
 
  - FeaturesOfInterest collections can now be assigned names -
-   addresses issue [#172](lgatto/MSnbase/issues/172) <2016-11-25 Fri>
+   addresses issue [#172](https://github.com/lgatto/MSnbase/issues/172) <2016-11-25 Fri>
 
 ## Changes in version 2.1.2
 
  - Update readMSnSet2 to save filename <2016-11-09 Wed>
  - Ensure that header information is read too if spectra data is
-   loaded for onDiskMSnExp objects (see issue [#170](lgatto/MSnbase/issues/170)) <2016-11-24 Thu>
+   loaded for onDiskMSnExp objects (see issue [#170](https://github.com/lgatto/MSnbase/issues/170)) <2016-11-24 Thu>
 
 ## Changes in version 2.1.1
 
@@ -218,15 +218,15 @@
 # MSnbase 1.99
 
 ## Changes in version 1.99.6
- - Reverting to old initialize,Spectrum (see issue [#163](lgatto/MSnbase/issues/163))
+ - Reverting to old initialize,Spectrum (see issue [#163](https://github.com/lgatto/MSnbase/issues/163))
    <2016-10-07 Fri>
  - Setting Spectrum class versions outside of prototype (see issue
-   [#163](lgatto/MSnbase/issues/163)). For this, there is now a vector of class version in
+   [#163](https://github.com/lgatto/MSnbase/issues/163)). For this, there is now a vector of class version in
    .MSnbaseEnv <2016-10-10 Mon>
 
 ## Changes in version 1.99.5
 
- - Add removeReporters,OnDiskMSnExp (see issue [#161](lgatto/MSnbase/issues/161) for details)
+ - Add removeReporters,OnDiskMSnExp (see issue [#161](https://github.com/lgatto/MSnbase/issues/161) for details)
    <2016-10-07 Fri>
 
 ## Changes in version 1.99.4
@@ -236,7 +236,7 @@
 ## Changes in version 1.99.3
 
  - Injection time is now added to the header when reading mzML files
-   using readMSData2 (see issue [#159](lgatto/MSnbase/issues/159)) <2016-10-04 Tue>
+   using readMSData2 (see issue [#159](https://github.com/lgatto/MSnbase/issues/159)) <2016-10-04 Tue>
 
 ## Changes in version 1.99.2
 
@@ -289,11 +289,11 @@
  - In onDiskMSnExp validity, check that the assaydata is empty
    <2016-06-28 Tue>
  - Pass neutralLoss in plot,Spectrum,Spectrum-method to
-   .calculateFragments; fixes [#146](lgatto/MSnbase/issues/146) <2016-08-12 Fri>
+   .calculateFragments; fixes [#146](https://github.com/lgatto/MSnbase/issues/146) <2016-08-12 Fri>
  - Allow the user to specify the `cex`, `lwd`, `pch` for peaks and
-   fragments in plot,Spectrum,Spectrum-method; closes [#148](lgatto/MSnbase/issues/148)
+   fragments in plot,Spectrum,Spectrum-method; closes [#148](https://github.com/lgatto/MSnbase/issues/148)
    <2016-08-12 Fri>
- - Update centroided with an na.fail argument (see issue [#150](lgatto/MSnbase/issues/150) for
+ - Update centroided with an na.fail argument (see issue [#150](https://github.com/lgatto/MSnbase/issues/150) for
    details) <2016-08-12 Fri>
  - Fix warning in readMgfData if TITLE contains multiple "=" <2016-08-24 Wed>
 
@@ -304,25 +304,25 @@
  - Update MSnSet validity method to guard agains empty string feature
    names <2016-06-20 Mon>
  - Simplify show,MSnExp method to work for various MS level cases and
-   onDiskMSnExp - addressed issue [#98](lgatto/MSnbase/issues/98) <2016-06-28 Tue>
+   onDiskMSnExp - addressed issue [#98](https://github.com/lgatto/MSnbase/issues/98) <2016-06-28 Tue>
  - removeMultipleAssignment also removes features that were not
    assigned (i.e. that have fcol (nprots) NA) <2016-07-02 Sat>
  - New smoothed slot/accessor/replacement methods <2016-07-08 Fri>
  - Update reporter masses and add TMT10 ETD/HCD <2016-07-20 Wed>
  - returning empty spectrum when fliterMz has empty range - see issue
-   [#134](lgatto/MSnbase/issues/134) <2016-07-22 Fri>
+   [#134](https://github.com/lgatto/MSnbase/issues/134) <2016-07-22 Fri>
  - (mz, intensity) values are reordered based on order(mz) - see issue
-   [#135](lgatto/MSnbase/issues/135) <2016-07-26 Tue>
- - fix bug in bin,Spectrum - see issue [#137](lgatto/MSnbase/issues/137) <2016-08-05 Fri>
+   [#135](https://github.com/lgatto/MSnbase/issues/135) <2016-07-26 Tue>
+ - fix bug in bin,Spectrum - see issue [#137](https://github.com/lgatto/MSnbase/issues/137) <2016-08-05 Fri>
 
 ## Changes in version 1.21.7
 
  - Update iPQF reference <2016-06-01 Wed>
  - Fix a bug in normalize method for MSnExp objects: assigning
    normalized spectra directly to assayData is not possible, as the
-   environment is locked. See PR [#91](lgatto/MSnbase/issues/91).
+   environment is locked. See PR [#91](https://github.com/lgatto/MSnbase/issues/91).
  - readMSData: if no phenodata is provided it creates an empty one
-   with rownames corresponding to the file names. See PR [#91](lgatto/MSnbase/issues/91).
+   with rownames corresponding to the file names. See PR [#91](https://github.com/lgatto/MSnbase/issues/91).
  - Lock itraqdata's assaydata bindings <2016-06-08 Wed>
 
 ## Changes in version 1.21.6
@@ -339,7 +339,7 @@
 ## Changes in version 1.21.4
 
  - More MzTab and Spectrum1 unit testing <2016-05-08 Sun>
- - Speed up readMSData (PR [#86](lgatto/MSnbase/issues/86) by jotsetung) <2016-05-12 Thu>
+ - Speed up readMSData (PR [#86](https://github.com/lgatto/MSnbase/issues/86) by jotsetung) <2016-05-12 Thu>
  - Replace example file URL to use github instead of googlecode
     <2016-05-12 Thu>
 
@@ -357,7 +357,7 @@
 
 ## Changes in version 1.21.1
 
- - Fix wrong indexing in readMSdata, msLevel==1 (PR [#85](lgatto/MSnbase/issues/85) by jotsetung)
+ - Fix wrong indexing in readMSdata, msLevel==1 (PR [#85](https://github.com/lgatto/MSnbase/issues/85) by jotsetung)
    <2016-05-04 Wed>
  - grep/getEcols have a 'n' param specifying which line to grep/get
    <2016-05-04 Wed>
@@ -412,7 +412,7 @@
 
 ## Changes in version 1.19.16
 
- - add estimateNoise,[Spectrum|MSnExp]-method; closes [#78](lgatto/MSnbase/issues/78) <2016-03-10>
+ - add estimateNoise,[Spectrum|MSnExp]-method; closes [#78](https://github.com/lgatto/MSnbase/issues/78) <2016-03-10>
  - import a lot of functions from recommended packages, namely graphics, stats
    and utils to avoid many "Undefined global functions or variables" NOTEs in
    R CMD check <2016-03-10>
@@ -444,7 +444,7 @@
 
 ## Changes in version 1.19.11
 
- - Fix trimws generic/methods with useAsDefault (see issue [#75](lgatto/MSnbase/issues/75))
+ - Fix trimws generic/methods with useAsDefault (see issue [#75](https://github.com/lgatto/MSnbase/issues/75))
    <2016-02-02 Tue>
  - add exprs,MSnSet-method alias (since exprs is now exported)
    <2016-02-02 Tue>
@@ -465,7 +465,7 @@
 ## Changes in version 1.19.7
 
  - new sampleNames<- for pSet and MSnExp objects <2015-12-15 Tue>
- - Fix bug preventing to write MS1 to mgf (fixes issue [#73](lgatto/MSnbase/issues/73) reported by
+ - Fix bug preventing to write MS1 to mgf (fixes issue [#73](https://github.com/lgatto/MSnbase/issues/73) reported by
     meowcat) <2015-12-18 Fri>
 
 ## Changes in version 1.19.6
@@ -475,12 +475,12 @@
    <2015-12-14 Mon>
  - Update MSnbase:::subsetBy to use split instead of lapply, which
    makes topN faster. This nevertheless changes the order of the
-   resulting MSnSet (see issue [#63](lgatto/MSnbase/issues/63) for details and background);
+   resulting MSnSet (see issue [#63](https://github.com/lgatto/MSnbase/issues/63) for details and background);
    contributed by sgibb <2015-12-14 Mon>
 
 ## Changes in version 1.19.5
 
- - Merged pull request [#67](lgatto/MSnbase/issues/67) from lgatto/featureCV by sgibb: featureCV
+ - Merged pull request [#67](https://github.com/lgatto/MSnbase/issues/67) from lgatto/featureCV by sgibb: featureCV
  ignores its na.rm argument <2015-12-12 Sat>
 
 ## Changes in version 1.19.4
@@ -515,7 +515,7 @@
 
 ## Changes in version 1.17.16
  - new default parameter 'feature weight' in iPQF by Martina Fisher
-   (see PR[#65](lgatto/MSnbase/issues/65)) <2015-10-07 Wed>
+   (see PR[#65](https://github.com/lgatto/MSnbase/issues/65)) <2015-10-07 Wed>
 
 ## Changes in version 1.17.15
 
@@ -529,7 +529,7 @@
 
  - partly rewrite writeMgfData <2015-05-16 Thu>
  - initial hmap function <2015-07-16 Thu>
- - fix bug in plotting MS1 spectra (closes issue [#59](lgatto/MSnbase/issues/59)) <2015-07-16 Thu>
+ - fix bug in plotting MS1 spectra (closes issue [#59](https://github.com/lgatto/MSnbase/issues/59)) <2015-07-16 Thu>
  - new image implementation, based on @vladpetyuk's
    vp.misc::image_msnset <2015-07-25 Sat>
  - Changed the deprecated warning to a message when reading MzTab data
@@ -556,9 +556,9 @@
 ## Changes in version 1.17.9
 
  - calculateFragments' "neutralLoss" argument is now a list (was a logical
-   before), see [#47](lgatto/MSnbase/issues/47). <2015-06-24 Wed>
+   before), see [#47](https://github.com/lgatto/MSnbase/issues/47). <2015-06-24 Wed>
  - add defaultNeutralLoss() function to fill calculateFragments' modified
-  "neutralLoss" argument, see [#47](lgatto/MSnbase/issues/47). <2015-06-24 Wed>
+  "neutralLoss" argument, see [#47](https://github.com/lgatto/MSnbase/issues/47). <2015-06-24 Wed>
 
 ## Changes in version 1.17.8
 
@@ -578,7 +578,7 @@
    modification is added to the mass of the amino acid/peptide. Before it was
    replaced. <2015-06-21 Sun>
  - calculateFragments gains the feature to handle N-/C-terminal modifications,
-   see [#47](lgatto/MSnbase/issues/47). <2015-06-21 Sun>
+   see [#47](https://github.com/lgatto/MSnbase/issues/47). <2015-06-21 Sun>
  - update readMzTabData example <2015-06-22 Mon>
 
 ## Changes in version 1.17.5
@@ -621,7 +621,7 @@
 ## Changes in version 1.15.18
  - fix failing test_MSnExp::readMSData unit test on Windows i386
    (@.cache$size being different on that arch) [2015-04-14 Tue]
- - merge @vladpetyuk PR [#50](lgatto/MSnbase/issues/50) fix of combine features bug [2015-04-14 Tue]
+ - merge @vladpetyuk PR [#50](https://github.com/lgatto/MSnbase/issues/50) fix of combine features bug [2015-04-14 Tue]
 
 ## Changes in version 1.15.17
  - add TMT10 paragraph and fig to demo vignette [2015-04-09 Thu]
@@ -666,13 +666,13 @@
 
 ## Changes in version 1.15.6
 
- - add intensity column to the calculateFragments output; closes [#47](lgatto/MSnbase/issues/47);1
+ - add intensity column to the calculateFragments output; closes [#47](https://github.com/lgatto/MSnbase/issues/47);1
    [2015-02-02 Mon]
  - add method argument to calculateFragments to allow the user choosing the
-   highest/closest peak or all peaks in the tolerance range; closes [#47](lgatto/MSnbase/issues/47);2
+   highest/closest peak or all peaks in the tolerance range; closes [#47](https://github.com/lgatto/MSnbase/issues/47);2
    [2015-02-09 Mon]
  - add neutralLoss argument to calculateFragments and calculate loss of water
-   and ammonia; closes [#47](lgatto/MSnbase/issues/47):3 [2015-02-19 Thu]
+   and ammonia; closes [#47](https://github.com/lgatto/MSnbase/issues/47):3 [2015-02-19 Thu]
  - new imputation methods via imputeLCMD and norm [2015-02-09 Mon]
  - vignette updates [2015-02-09 Mon]
  - imputation unit test [2015-02-24 Tue]
@@ -682,7 +682,7 @@
  - update dependency to mzID >= 1.5.2 [2015-01-28 Wed]
  - rewrite addIdentificationData and change its signature [2015-01-28 Wed]
  - add methods addIdentificationData which work on MSnExp and MSnSets using
-   filenames (characters), mzID objects and data.frames; see [#42](lgatto/MSnbase/issues/42); closes [#45](lgatto/MSnbase/issues/45);
+   filenames (characters), mzID objects and data.frames; see [#42](https://github.com/lgatto/MSnbase/issues/42); closes [#45](https://github.com/lgatto/MSnbase/issues/45);
    [2015-01-28 Wed]
  - add a section about MSmaps in the vignette [2015-02-02 Mon]
  - MSmap has a new zeroIsNA argument to set all 0 values of the map to
@@ -713,7 +713,7 @@
 
 ## Changes in version 1.15.1
 
- - Fixing error when id file has no spectrumFile info (see issue [#39](lgatto/MSnbase/issues/39))
+ - Fixing error when id file has no spectrumFile info (see issue [#39](https://github.com/lgatto/MSnbase/issues/39))
    and return a warning (instead of an error) when the file used to
    create the MSnExp/MSnSet and mzid file were different
    [2014-10-15 Wed]
@@ -865,7 +865,7 @@
 ## Changes in version 1.11.8
 
  - adding redundancy handling to combineFeatures (by vladpetyuk, pull
-   request [#18](lgatto/MSnbase/issues/18)) [2014-03-14 Fri]
+   request [#18](https://github.com/lgatto/MSnbase/issues/18)) [2014-03-14 Fri]
  - updated combineFeatures signature to accomodate above changes
    [2014-03-14 Fri]
  - updated unit tests for new testhat 0.8 [2014-03-14 Fri]
