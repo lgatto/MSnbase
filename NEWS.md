@@ -2,6 +2,7 @@
 
 ## Changes in version 2.5.1
 - Update dependencies (see issue #271)
+- Replace HCD by ETD in TMT10ETD's name/description
 
 ## Changes in version 2.5.0
 - New version for Bioc 3.7 (devel)
