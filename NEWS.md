@@ -1,5 +1,8 @@
 # MSnbase 2.5
 
+## Changes in version 2.5.2
+- Nothing yet
+
 ## Changes in version 2.5.1
 - Update dependencies (see issue [#271](https://github.com/lgatto/MSnbase/issues/271))
 - Replace HCD by ETD in TMT10ETD's name/description
