@@ -92,7 +92,7 @@ fastquant_max <- function(f, pk, spi, wd = 0.5) {
                          nrow = length(pks))
     for (i in seq_along(pks)) {
         for (ii in seq_along(pk)) {
-            k <- pks[[i]][, 1] >= pk[ii] - wd & pks[[i]][, 1] <= pk[ii] + wd
+            k <- abs(pks[[i]][, 1L] - pk[ii]) <= wd
             if (any(k)) {
                 j <- which.max(pks[[i]][k, 2])
                 res[i, ii] <- pks[[i]][k, , drop = FALSE][j, 2]

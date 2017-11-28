@@ -33,12 +33,17 @@
       should be lower than \emph{FWHM} of the peaks (full width at half
       maximum; please find details in Bromba and Ziegler 1981).  The
       arguments \code{\dots} are passed to the internal functions.
-      Currently the only supported argument is \code{polynomialOrder}
-      (default: 3) for \code{method="SavitzkyGolay"} to control the
-      polynomial order of the Savitzky-Golay Filter.  This method
-      displays a progress bar if \code{verbose = TRUE}.  Returns an
-      \code{MSnExp} instance with smoothed spectra.
-
+      For \code{method="MovingAverage"} there is an additional \code{weighted}
+      argument (default: \code{FALSE}) to indicate if the average should
+      be equal weight (default) or if it should have weights depending
+      on the distance from the center as calculated as
+      \code{1/2^abs(-halfWindowSize:halfWindowSize)} with the sum
+      of all weigths normalized to 1.
+      For \code{method="SavitzkyGolay"} an additonal argument
+      is \code{polynomialOrder} (default: 3). It controls the
+      polynomial order of the Savitzky-Golay Filter.
+      This method displays a progress bar if \code{verbose = TRUE}.
+      Returns an \code{MSnExp} instance with smoothed spectra.
       }
 
       \item{\code{signature(x = "Spectrum", method = "character",
