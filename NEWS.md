@@ -1,8 +1,14 @@
 # MSnbase 2.5
 
 ## Changes in version 2.5.2
-- Reduce number of comparsions in in internal `fastquant_max` to get little
-    speed improvents for isobaric quantification (see PR [#280](https://github.com/lgatto/MSnbase/issues/280)) <2017-11-27 Mon>.
+- Use automatic backend detection (based on file name and file
+  content) that was introduced in mzR version 2.13.1 (issue #275).
+- Fix mzML file writing unit tests to work with recently introduced
+  header column "filterString" (issue #278).
+- Reduce number of comparsions in in internal `fastquant_max` to get
+  little speed improvents for isobaric quantification (see PR
+  [#280](https://github.com/lgatto/MSnbase/issues/280)) <2017-11-27
+  Mon>.
 
 ## Changes in version 2.5.1
 - Update dependencies (see issue [#271](https://github.com/lgatto/MSnbase/issues/271))
