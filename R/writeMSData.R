@@ -104,6 +104,10 @@
         }
     ## seqNum is expected to be sequentially numbered
     hdr$seqNum <- 1:nrow(hdr)
+    ## Add filterString header column, if not present; export of CDF files to
+    ## mzML files will otherwise fail.
+    if (!any(colnames(hdr) == "filterString"))
+        hdr$filterString <- NA_character_
     ## o add processing steps.
     soft_proc <- .guessSoftwareProcessing(msData, software_processing)
     if (copy) {

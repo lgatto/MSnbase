@@ -22,6 +22,9 @@ test_that("writeMSData works", {
     rownames(fd_out) <- NULL
     rownames(fd_in) <- NULL
     expect_equal(fd_in[, check_cols], fd_out[, check_cols])
+    ## Explitely compare filterString
+    expect_true(all(!is.na(fd_in$filterString)))
+    expect_equal(fd_in$filterString, fd_out$filterString)
     ## 2) MS level 2, mzXML
     out_file <- paste0(tempfile(), ".mzXML")
     odf_out <- filterMsLevel(odf, msLevel = 2)
@@ -42,11 +45,13 @@ test_that("writeMSData works", {
     fd_in <- fData(odf_in)
     rownames(fd_out) <- NULL
     rownames(fd_in) <- NULL
-    ## Also some additional columns are different for mzXML output.
+    ## Also some additional columns are different for mzXML output;
+    ## filterString is also not supported by mzXML
     check_cols <- colnames(fd_out)[!(colnames(fd_out) %in%
                                      c(not_equal, "retentionTime",
                                        "precursorScanNum", "acquisitionNum",
-                                       "injectionTime", "spectrumId"))]
+                                       "injectionTime", "spectrumId",
+                                       "filterString"))]
     expect_equal(fd_out[, check_cols], fd_in[, check_cols])
     ## Again force check:
     expect_equal(unname(precursorCharge(odf_out)),
@@ -159,7 +164,8 @@ test_that("writeMSData,OnDiskMSnExp works", {
     fData(in_data)$precursorScanNum <-
                       as.numeric(factor(fData(in_data)$precursorScanNum))
     expect_equal(fData(out_data)[, check_cols], fData(in_data)[, check_cols])
-
+    expect_equal(fData(out_data)$filterString, fData(in_data)$filterString)
+    
     ## With copy = TRUE
     out_file <- paste0(tempfile(), ".mzML")
     out_data <- tmt_erwinia_on_disk

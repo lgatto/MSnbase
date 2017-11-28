@@ -1137,55 +1137,6 @@ countAndPrint <- function(x) {
   else msLevel(object[[1]])
 }
 
-#' @title Define the type of mzR backend to use based on the file name
-#'
-#' @description Simple helper to define the mzR backend that should/can be used
-#'     to read the file.
-#'
-#' @param x \code{character(1)} representing the file name.
-#'
-#' @return A \code{character(1)} with the name of the backend (either
-#'     \code{"netCDF"}, \code{"Ramp"} or \code{"pwiz"}.
-#'
-#' @author Johannes Rainer, Sebastian Gibb
-#'
-#' @noRd
-.mzRBackend <- function(x = character()) {
-    if (length(x) != 1)
-        stop("parameter 'x' has to be of length 1")
-    ## Use if/else conditions based on a suggestion from sgibb to avoid loops.
-    if (grepl("\\.mzml($|\\.)|\\.mzxml($|\\.)", x, ignore.case = TRUE)) {
-        return("pwiz")
-    } else if (grepl("\\.mzdata($|\\.)", x, ignore.case = TRUE)) {
-        return("Ramp")
-    } else if (grepl("\\.cdf($|\\.)|\\.nc($|\\.)", x, ignore.case = TRUE)) {
-        return("netCDF")
-    } else {
-        return(.mzRBackendFromContent(x))
-    }
-}
-
-#' Determine the backend from the (first few lines of the) file content.
-#' 
-#' @author Johannes Rainer
-#'
-#' @noRd
-.mzRBackendFromContent <- function(x = character()) {
-    if (length(x) != 1)
-        stop("parameter 'x' has to be of length 1")
-    suppressWarnings(
-        first_lines <- readLines(x, n = 4)
-    )
-    if (any(grepl("<mzML", first_lines)) | any(grepl("<mzXML", first_lines))) {
-        return("pwiz")
-    } else if (any(grepl("<mzData", first_lines))) {
-        return("Ramp")
-    } else if (substr(readBin(x, character(), n = 1), 1, 3) == "CDF") {
-        return("netCDF")
-    } else
-        stop("Could not determine file type for ", x)        
-}
-
 #' @title Open an MS file using the mzR package
 #'
 #' @description Opens an MS file using the mzR package determining the corrent
@@ -1201,7 +1152,7 @@ countAndPrint <- function(x) {
 .openMSfile <- function(x) {
     if (missing(x) || length(x) != 1)
         stop("parameter 'x' has to be of length 1")
-    mzR::openMSfile(x, backend = .mzRBackend(x))
+    mzR::openMSfile(x, backend = NULL)
 }
 
 

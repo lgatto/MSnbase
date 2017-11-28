@@ -75,12 +75,3 @@ test_that("readMSData inMemory and onDisk reading CDF", {
     mse <- readMSData(f, msLevel. = 1, mode = "inMemory")
     all.equal(spectra(odmse), spectra(mse))
 })
-
-test_that(".mzRBackendFromContent works", {
-    library(msdata)
-    f <- system.file("cdf/ko15.CDF",  package = "msdata")
-    expect_equal(MSnbase:::.mzRBackendFromContent(f), "netCDF")
-    mzf <- proteomics(full.name = TRUE,
-                      pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
-    expect_equal(MSnbase:::.mzRBackendFromContent(mzf), "pwiz")
-})
