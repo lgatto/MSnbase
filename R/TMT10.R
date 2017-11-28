@@ -22,8 +22,8 @@ TMT10 <- TMT10HCD <-
         width = 0.002)
 
 TMT10ETD <- new("ReporterIons",
-                description = "10-plex TMT HCD",
-                name = "TMT10HCD",
+                description = "10-plex TMT ETD",
+                name = "TMT10ETD",
                 reporterNames = c("126", "127N", "127C", "128N",
                                   "128C", "129N", "129C", "130N",
                                   "130C", "131"),            

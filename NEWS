@@ -1,6 +1,12 @@
+Changes in version 2.5.2
+------------------------
+- Reduce number of comparsions in in internal `fastquant_max` to get little
+    speed improvents for isobaric quantification (see PR #280) <2017-11-27 Mon>.
+
 Changes in version 2.5.1
 ------------------------
 - Update dependencies (see issue #271)
+- Replace HCD by ETD in TMT10ETD's name/description
 
 Changes in version 2.5.0
 ------------------------
@@ -176,7 +182,7 @@ Changes in version 2.1.10
 Changes in version 2.1.9
 ------------------------
 - When fully trimmed, an (empty) spectrum has peaksCount of 0L - see
-  https://github.com/lgatto/MSnbase/issues/184 <2017-01-20 Fri>
+  https://github.com/https://github.com/lgatto/MSnbase/issues/184 <2017-01-20 Fri>
 - Add filterEmptySpectra,MSnExp method (see issue #181)
   <2017-01-20 Fri>
 - Add a section about notable on-disk and in-memory differences (was
