@@ -1,7 +1,6 @@
 # MSnbase 2.5
 
 ## Changes in version 2.5.2
-- A test #123
 - Use automatic backend detection (based on file name and file
   content) that was introduced in mzR version 2.13.1 (issue
   [#275](https://github.com/lgatto/MSnbase/issues/271)).
