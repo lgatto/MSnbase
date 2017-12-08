@@ -88,7 +88,8 @@ Suggests:
     imputeLCMD,
     norm,
     gplots,
-    shiny
+    shiny,
+    SummarizedExperiment
 LinkingTo: Rcpp
 License: Artistic-2.0
 LazyData: yes
