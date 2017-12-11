@@ -88,15 +88,20 @@ subsetFeatureDataBy <- function(fd, index = NULL, scanIdx = NULL,
     return(fd)
 }
 
+## Columns absolutely required in the object' featureData (issue #283).
+.MSnExpReqFvarLabels <- c("fileIdx", "spIdx", "acquisitionNum",
+                          "retentionTime", "msLevel", "precursorScanNum")
+
 ## Returns either NULL or a character string.
 validateFeatureDataForOnDiskMSnExp <- function(x) {
     ## Testing if we've got all the required columns! See issue 105
     ## for a discussion about originalTotIonCurrent and
     ## originalPeaksCount.
-    reqCols <- c("fileIdx", "spIdx", "acquisitionNum",
-                 "retentionTime", "polarity", "msLevel",
-                 "totIonCurrent", "originalPeaksCount",
-                 "centroided")
+    ## reqCols <- c("fileIdx", "spIdx", "acquisitionNum",
+    ##              "retentionTime", "polarity", "msLevel",
+    ##              "totIonCurrent", "originalPeaksCount",
+    ##              "centroided")
+    reqCols <- .MSnExpReqFvarLabels
     NotPresent <- reqCols[!(reqCols %in% colnames(x))]
     if (length(NotPresent) > 0)
         return(paste0("Required columns: ",
@@ -239,7 +244,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     fileh <- .openMSfile(filename)
     msLevel1 <- which(fData$msLevel == 1)
     msLevelN <- which(fData$msLevel > 1)
-    ## Reading the header for the selecte spectra. This is to avoid getting
+    ## Reading the header for the selected spectra. This is to avoid getting
     ## "memory not mapped" errors when reading mz and intensity values from
     ## certain mzML files (issue #170). Since this problem seems to be absent
     ## on linux and Windows systems we allow the user to disable it.
