@@ -69,7 +69,8 @@ Imports:
     S4Vectors,
     XML,
     scales,
-    Rcpp
+    Rcpp,
+    SummarizedExperiment
 Suggests:
     testthat,
     pryr,
@@ -91,8 +92,7 @@ Suggests:
     imputeLCMD,
     norm,
     gplots,
-    shiny,
-    SummarizedExperiment
+    shiny
 LinkingTo: Rcpp
 License: Artistic-2.0
 LazyData: yes
