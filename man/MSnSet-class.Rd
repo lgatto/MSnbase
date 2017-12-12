@@ -102,7 +102,7 @@
 
   The constructor \code{MSnSet(exprs, fData, pData)} can be used to
   create \code{MSnSet} instances. Argument \code{exprs} is a
-  \code{matrix} and \code{fData} and \code{pData} must be of clas
+  \code{matrix} and \code{fData} and \code{pData} must be of class
   \code{data.frame} or \code{"\linkS4class{AnnotatedDataFrame}"} and all
   must meet the dimensions and name validity constrains.
 
