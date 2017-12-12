@@ -1248,3 +1248,9 @@ setMethod("reduce", "data.frame",
               rownames(ans) <- NULL
               ans
           })
+
+.reduce_list <- function(x) {
+    x <- x[lengths(x) > 0]
+    sel <- sapply(x, function(xx) any(xx != ""))
+    x[sel]
+}
