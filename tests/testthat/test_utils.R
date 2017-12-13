@@ -457,3 +457,4 @@ test_that("factorsAsStrings",{
     expect_identical(dim(iris), dim(iris2))
     expect_identical(iris[, -5], iris2[, -5])
 })
+
