@@ -209,6 +209,75 @@ commonFeatureNames <- function(x, y) {
                       log = list(call = match.call())))
 }
 
+##' Select feature variables to be retained.
+##'
+##' @title Select feature variables of interest
+##' @param object An \code{MSnSet}.
+
+##' @param graphics A \code{logical} (default is \code{TRUE})
+##'     indicating whether a shiny application should be used if
+##'     available. Otherwise, a text menu is used. Ignored if \code{k}
+##'     is not missing.
+##' @param fcol A \code{numeric}, \code{local} or \code{character} of
+##'     valid feature variables to be passed directly.
+##' @return Updated \code{MSnSet}, containing only selected feature
+##'     variables.
+##' @author Laurent Gatto
+##' @examples
+##' library("pRolocdata")
+##' data(hyperLOPIT2015)
+##' ## 5 first feature variables
+##' x <- selectFeatureData(hyperLOPIT2015, fcol = 1:5)
+##' fvarLabels(x)
+##' \dontrun{
+##' ## select via GUI
+##' x <- selectFeatureData(hyperLOPIT2015)
+##' fvarLabels(x)
+##' }
+selectFeatureData <- function(object,
+                              graphics = TRUE,
+                              fcol) {
+    if (missing(fcol)) {
+        if (graphics) {
+            if (!requireNamespace("shiny"))
+                warning("The shiny package is required to use the graphical interface.")
+            fcol <- .selectShinyFeatureData(object)
+        } else fcol <- .selectTextFeatureData(object)
+    }
+    fData(object) <- fData(object)[, fcol, drop = FALSE]
+    object
+}
+
+
+.selectTextFeatureData <- function(object)
+    select.list(fvarLabels(object), multiple=TRUE)
+
+
+.selectShinyFeatureData <- function(object) {
+    sel <- fv <- fvarLabels(object)
+    on.exit(return(sel))
+    ui <- shiny::fluidPage(
+        title = 'Examples of DataTables',
+        shiny::sidebarLayout(
+                   shiny::sidebarPanel(
+                              shiny::actionButton("stop", "Stop app"),
+                              shiny::checkboxGroupInput('vars', 'Feature variables',
+                                                        as.list(fv), selected = sel)),
+                   shiny::mainPanel(shiny::dataTableOutput('fd'))))    
+    server <- function(input, output) {
+        shiny::observeEvent(input$stop, {
+            shiny::stopApp(returnValue = sel)
+        })        
+        output$fd <- shiny::renderDataTable({
+            sel <<- input$vars
+            fData(object)[, input$vars, drop = FALSE]
+        })
+    }
+    app <- list(ui=ui, server=server)
+    shiny::runApp(app)
+}
+
+
 ##' This function computes the number of features in the group defined
 ##' by the feature variable \code{fcol} and appends this information
 ##' in the feature data of \code{object}.

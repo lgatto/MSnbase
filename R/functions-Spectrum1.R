@@ -87,12 +87,11 @@ Spectrum1_mz_sorted <- function(peaksCount = length(mz), rt = numeric(),
 ## It calls the "versioned" constructor in C that adds also the class version(s)
 ## (see issue #163).
 Spectra1_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
-                               acquisitionNum = integer(),
-                               scanIndex = integer(), tic = numeric(),
-                               mz = numeric(),
+                               acquisitionNum = NA_integer_,
+                               scanIndex = integer(), tic = 0, mz = numeric(),
                                intensity = numeric(), fromFile = integer(),
-                               centroided = logical(), smoothed = logical(),
-                               polarity = integer(), nvalues = integer()) {
+                               centroided = NA, smoothed = NA,
+                               polarity = NA_integer_, nvalues = integer()) {
     ## Fix issue #215: remove check to allow empty spectra
     ## if (length(mz) == 0 | length(intensity) == 0 | length(nvalues) == 0) {
     ##     stop("Arguments 'mz', 'intensity' and 'nvalues' are required!")
@@ -103,63 +102,60 @@ Spectra1_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
     if (length(mz) != length(intensity))
         stop("Lengths of 'mz' and 'intensity' do not match!")
     nvals <- length(nvalues)
-    emptyInt <- rep(NA_integer_, nvals)
-    emptyNum <- as.numeric(emptyInt)
-    emptyLog <- as.logical(emptyInt)
     ## Now match all of the lengths to the length of nvalues.
-    if (!length(peaksCount))
+    if (length(peaksCount) == 0)
         peaksCount <- nvalues
     ## rt
-    if (!length(rt)) {
-        rt <- emptyInt
+    if (length(rt) == 0){
+        rt <- rep(NA_integer_, nvals)
     } else {
         if (length(rt) != nvals)
             stop("Length of 'rt' has to match the length of 'nvalues'!")
     }
     ## acquisitionNum
-    if (!length(acquisitionNum)) {
-        acquisitionNum <- emptyInt
+    if (length(acquisitionNum) == 1) {
+        acquisitionNum <- rep(acquisitionNum, nvals)
     } else {
         if (length(acquisitionNum) != nvals)
             stop("Length of 'acquisitionNum' has to match the length of 'nvalues'!")
     }
     ## scanIndex
-    if (!length(scanIndex)) {
-        scanIndex <- emptyInt
+    if (length(scanIndex) == 0){
+        scanIndex <- rep(NA_integer_, nvals)
     } else {
         if (length(scanIndex) != nvals)
             stop("Length of 'scanIndex' has to match the length of 'nvalues'!")
     }
     ## tic
-    if (!length(tic)) {
-        tic <- emptyNum
+    if (length(tic) == 1){
+        tic <- rep(tic, nvals)
     } else {
         if (length(tic) != nvals)
             stop("Length of 'tic' has to match the length of 'nvalues'!")
     }
     ## fromFile
-    if (!length(fromFile)) {
-        fromFile <- emptyInt
+    if (length(fromFile) == 0){
+        fromFile <- rep(NA_integer_, nvals)
     } else {
         if (length(fromFile) != nvals)
             stop("Length of 'fromFile' has to match the length of 'nvalues'!")
     }
     ## polarity
-    if (!length(polarity)) {
-        polarity <- emptyInt
+    if (length(polarity) == 1){
+        polarity <- rep(polarity, nvals)
     } else {
         if (length(polarity) != nvals)
             stop("Length of 'polarity' has to match the length of 'nvalues'!")
     }
     ## centroided and smoothed
-    if (!length(centroided)) {
-        centroided <- emptyLog
+    if (length(centroided) == 1){
+        centroided <- rep(centroided, nvals)
     } else {
         if (length(centroided) != nvals)
             stop("Length of 'centroided' has to match length of 'nvalues'!")
     }
-    if (!length(smoothed)) {
-        smoothed <- emptyLog
+    if (length(smoothed) == 1){
+        smoothed <- rep(smoothed, nvals)
     } else {
         if (length(smoothed) != nvals)
             stop("Length of 'smoothed' has to match length of 'nvalues'!")

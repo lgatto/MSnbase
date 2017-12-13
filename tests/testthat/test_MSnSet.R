@@ -393,6 +393,19 @@ test_that("Combine with fun or 'fun'", {
     expect_equal(exprs(xchar), exprs(xfun))
 })
 
+test_that("Feature variable selection", {
+    data(hyperLOPIT2015, package = "pRolocdata")
+    fv <- fvarLabels(hyperLOPIT2015)
+    i <- sort(sample(length(fv), 10))
+    k <- fv[i]
+    l <- logical(length(fv))
+    l[i] <- TRUE
+    expect_equal(selectFeatureData(hyperLOPIT2015, fcol = i),
+                 selectFeatureData(hyperLOPIT2015, fcol = k))
+    expect_equal(selectFeatureData(hyperLOPIT2015, fcol = i),
+                 selectFeatureData(hyperLOPIT2015, fcol = l))
+})
+
 test_that("aggvar, son of ragnar", {
     e <- matrix(1:9, nrow = 3)
     colnames(e) <- letters[1:3]
