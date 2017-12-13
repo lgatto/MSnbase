@@ -86,6 +86,9 @@
 \alias{spectrapply}
 \alias{spectrapply,pSet-method}
 
+\alias{coerce,AnnotatedDataFrame,list-method}
+\alias{coerce,MIAxE,list-method}
+
 \title{
   Class to Contain Raw Mass-Spectrometry Assays and Experimental
   Metadata

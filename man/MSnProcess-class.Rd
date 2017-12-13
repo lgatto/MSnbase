@@ -8,6 +8,7 @@
 \alias{fileNames,MSnProcess-method}
 \alias{show,MSnProcess-method}
 \alias{combine,MSnProcess,MSnProcess-method}
+\alias{coerce,MSnProcess,list-method}
 
 \title{The "MSnProcess" Class }
 
