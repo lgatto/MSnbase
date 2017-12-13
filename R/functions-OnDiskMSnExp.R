@@ -97,12 +97,7 @@ validateFeatureDataForOnDiskMSnExp <- function(x) {
     ## Testing if we've got all the required columns! See issue 105
     ## for a discussion about originalTotIonCurrent and
     ## originalPeaksCount.
-    ## reqCols <- c("fileIdx", "spIdx", "acquisitionNum",
-    ##              "retentionTime", "polarity", "msLevel",
-    ##              "totIonCurrent", "originalPeaksCount",
-    ##              "centroided")
-    reqCols <- .MSnExpReqFvarLabels
-    NotPresent <- reqCols[!(reqCols %in% colnames(x))]
+    NotPresent <- .MSnExpReqFvarLabels[!(.MSnExpReqFvarLabels %in% colnames(x))]
     if (length(NotPresent) > 0)
         return(paste0("Required columns: ",
                       paste(sQuote(NotPresent), collapse = ","),

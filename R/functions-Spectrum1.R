@@ -103,63 +103,63 @@ Spectra1_mz_sorted <- function(peaksCount = NULL, rt = numeric(),
     if (length(mz) != length(intensity))
         stop("Lengths of 'mz' and 'intensity' do not match!")
     nvals <- length(nvalues)
-    empty_int <- rep(NA_integer_, nvals)
-    empty_num <- as.numeric(empty_int)
-    empty_log <- as.logical(empty_int)
+    emptyInt <- rep(NA_integer_, nvals)
+    emptyNum <- as.numeric(emptyInt)
+    emptyLog <- as.logical(emptyInt)
     ## Now match all of the lengths to the length of nvalues.
     if (!length(peaksCount))
         peaksCount <- nvalues
     ## rt
     if (!length(rt)) {
-        rt <- empty_int
+        rt <- emptyInt
     } else {
         if (length(rt) != nvals)
             stop("Length of 'rt' has to match the length of 'nvalues'!")
     }
     ## acquisitionNum
     if (!length(acquisitionNum)) {
-        acquisitionNum <- empty_int
+        acquisitionNum <- emptyInt
     } else {
         if (length(acquisitionNum) != nvals)
             stop("Length of 'acquisitionNum' has to match the length of 'nvalues'!")
     }
     ## scanIndex
     if (!length(scanIndex)) {
-        scanIndex <- empty_int
+        scanIndex <- emptyInt
     } else {
         if (length(scanIndex) != nvals)
             stop("Length of 'scanIndex' has to match the length of 'nvalues'!")
     }
     ## tic
     if (!length(tic)) {
-        tic <- empty_num
+        tic <- emptyNum
     } else {
         if (length(tic) != nvals)
             stop("Length of 'tic' has to match the length of 'nvalues'!")
     }
     ## fromFile
     if (!length(fromFile)) {
-        fromFile <- empty_int
+        fromFile <- emptyInt
     } else {
         if (length(fromFile) != nvals)
             stop("Length of 'fromFile' has to match the length of 'nvalues'!")
     }
     ## polarity
     if (!length(polarity)) {
-        polarity <- empty_int
+        polarity <- emptyInt
     } else {
         if (length(polarity) != nvals)
             stop("Length of 'polarity' has to match the length of 'nvalues'!")
     }
     ## centroided and smoothed
     if (!length(centroided)) {
-        centroided <- empty_log
+        centroided <- emptyLog
     } else {
         if (length(centroided) != nvals)
             stop("Length of 'centroided' has to match length of 'nvalues'!")
     }
     if (!length(smoothed)) {
-        smoothed <- empty_log
+        smoothed <- emptyLog
     } else {
         if (length(smoothed) != nvals)
             stop("Length of 'smoothed' has to match length of 'nvalues'!")

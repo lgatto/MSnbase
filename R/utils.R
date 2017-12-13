@@ -1297,9 +1297,11 @@ selectFeatureData <- function(object,
                               fcol) {
     if (missing(fcol)) {
         if (graphics) {
-            if (!requireNamespace("shiny"))
+            if (!requireNamespace("shiny", quietly = TRUE)) {
                 warning("The shiny package is required to use the graphical interface.")
-            fcol <- .selectShinyFeatureData(object)
+                fcol <- .selectTextFeatureData(object)
+            } else
+                fcol <- .selectShinyFeatureData(object)
         } else fcol <- .selectTextFeatureData(object)
     }
     fData(object) <- fData(object)[, fcol, drop = FALSE]
@@ -1351,8 +1353,7 @@ selectFeatureData <- function(object,
 #' @md
 requiredFvarLabels <- function(x = c("OnDiskMSnExp", "MSnExp", "MSnSet")) {
     x <- match.arg(x)
-    varl <- character()
     if (x == "OnDiskMSnExp")
-        varl <- .MSnExpReqFvarLabels
-    varl
+        .MSnExpReqFvarLabels
+    else character()
 }
