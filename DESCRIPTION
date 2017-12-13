@@ -87,8 +87,7 @@ Suggests:
     rmarkdown,
     imputeLCMD,
     norm,
-    gplots
-Enhances:
+    gplots,
     shiny
 LinkingTo: Rcpp
 License: Artistic-2.0
