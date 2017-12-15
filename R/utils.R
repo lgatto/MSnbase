@@ -1257,6 +1257,43 @@ setMethod("reduce", "data.frame",
 
 #' @param fd data.frame, feature data (columns required: acquisitionNum,
 #' precursorScanNum)
-#' @param scanId integer, scan index of spectrum of interest (parent and
+#' @param si integer, scan index of spectrum of interest (parent and
 #' children will be selected)
 #' @noRd
+.filterSpectraHierarchy <- function(fd, si) {
+    if (!is.data.frame(fd)) {
+        stop("'fd' is not a data.frame")
+    }
+    if (!all(c("acquisitionNum", "precursorScanNum") %in% colnames(fd))) {
+        stop("column(s) acquisitionNum/precursorScanNum is/are missing")
+    }
+    ## we could use recursion which is slow in R
+    ## or reformat the adjacency list into a nested tree
+    ## list model but most ms data are limited to at most 3 levels and the
+    ## filtering isn't done very often, so we use for loops here
+
+    parents <- logical(nrow(fd))
+
+    ## find current scan
+    parents[fd$acquisitionNum == si] <- TRUE
+    children <- parents
+
+    ## find parent scan
+    nLastParents <- 0L
+    nParents <- 1L
+    while(nLastParents < nParents) {
+        parents[fd$acquisitionNum %in% fd$precursorScanNum[parents]] <- TRUE
+        nLastParents <- nParents
+        nParents <- sum(parents)
+    }
+
+    ## find children scans
+    nLastChildren <- 0L
+    nChildren <- 1L
+    while(nLastChildren < nChildren) {
+        children[fd$precursorScanNum %in% fd$acquisitionNum[children]] <- TRUE
+        nLastChildren <- nChildren
+        nChildren <- sum(children)
+    }
+    parents | children
+}
