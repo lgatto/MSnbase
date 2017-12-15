@@ -458,3 +458,17 @@ test_that("factorsAsStrings",{
     expect_identical(iris[, -5], iris2[, -5])
 })
 
+test_that(".filterSpectraHierarchy", {
+    fdata <- data.frame(msLevel=c(1, 1, 2, 2, 2, 3, 3, 3, 4, 4),
+                        acquisitionNum=1:10,
+                        precursorScanNum=c(0, 0, 200, 2, 2, 4, 4, 5, 6, 20))
+    expect_error(MSnbase:::.filterSpectraHierarchy(1, 1), "is not a data.frame")
+    expect_error(MSnbase:::.filterSpectraHierarchy(data.frame(foo=1:10), 1),
+                 "column(s) acquisitionNum/precursorScanNum is/are missing")
+    expect_equal(MSnbase:::.filterSpectraHierarchy(fdata, 1), 1)
+    expect_equal(MSnbase:::.filterSpectraHierarchy(fdata, 2), c(2, 4:9))
+    expect_equal(MSnbase:::.filterSpectraHierarchy(fdata, 8), c(2, 5, 8))
+    expect_equal(MSnbase:::.filterSpectraHierarchy(fdata, 9), c(2, 4, 6, 8))
+    expect_equal(MSnbase:::.filterSpectraHierarchy(fdata, 10), 10)
+    expect_equal(MSnbase:::.filterSpectraHierarchy(fdata, 11), integer())
+})

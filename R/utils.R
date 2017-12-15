@@ -1254,3 +1254,9 @@ setMethod("reduce", "data.frame",
     sel <- sapply(x, function(xx) any(xx != ""))
     x[sel]
 }
+
+#' @param fd data.frame, feature data (columns required: acquisitionNum,
+#' precursorScanNum)
+#' @param scanId integer, scan index of spectrum of interest (parent and
+#' children will be selected)
+#' @noRd
