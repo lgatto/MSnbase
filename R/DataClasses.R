@@ -645,8 +645,15 @@ setClass("Chromatogram",
 #' chrs$name
 setClass("Chromatograms",
          contains = "matrix",
-         slots = c(phenoData = "NAnnotatedDataFrame"),
-         prototype = matrix(ncol = 0, nrow = 0),
+         slots = c(phenoData = "NAnnotatedDataFrame",
+                   featureData = "AnnotatedDataFrame"),
+         prototype = prototype(
+             matrix(ncol = 0, nrow = 0),
+             phenoData = new("NAnnotatedDataFrame",
+                             dimLabels = c("sampleNames", "sampleColumns")),
+             featureData = new("AnnotatedDataFrame",
+                               dimLabels = c("featureNames", "featureColumns"))
+         ),
          validity = function(object)
              .validChromatograms(object)
          )
