@@ -1,7 +1,8 @@
 # MSnbase 2.5
 
-## Changes in version 2.5.2
-- Nothing yet
+## Changes in version 2.5.3
+- Add filterPrecursorScan for `MSnExp` and `OnDiskMSnExp`;
+  closes issue #282 and PR #287 <2017-12-16 Sat>.
 
 ## Changes in version 2.5.2
 - Use automatic backend detection (based on file name and file
