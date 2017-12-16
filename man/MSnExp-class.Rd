@@ -57,6 +57,7 @@
 \alias{filterEmptySpectra}
 \alias{filterEmptySpectra,MSnExp-method}
 \alias{filterEmptySpectra,OnDiskMSnExp-method}
+\alias{filterPrecursorScan}
 \alias{filterPrecursorScan,MSnExp-method}
 \alias{filterPrecursorScan,OnDiskMSnExp-method}
 
