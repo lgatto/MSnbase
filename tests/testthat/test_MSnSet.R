@@ -412,11 +412,13 @@ test_that("nFeatures are added correctly", {
     k0 <- k <- table(fData(hyperLOPIT2015ms3r1psm)$Protein.Group.Accessions)
     k <- k[as.character(fData(hyperLOPIT2015ms3r1psm)[, "Protein.Group.Accessions"])]
     res <- nFeatures(hyperLOPIT2015ms3r1psm, "Protein.Group.Accessions")
-    expect_identical(k, fData(res)$Protein.Group.Accessions.nFeatures)
+    expect_equivalent(k, fData(res)$Protein.Group.Accessions.nFeatures)
     expect_error(nFeatures(res, "Protein.Group.Accessions"),
                  "'Protein.Group.Accessions.nFeatures' already present.")
     expect_error(nFeatures(hyperLOPIT2015ms3r1psm, "foo"))
-    sel <- !duplicated(names(fData(res)$Protein.Group.Accessions.nFeatures))
-    g <- fData(res)$Protein.Group.Accessions.nFeatures[sel]
-    expect_identical(g[order(names(g))], k0[order(names(k0))])
+    tmp <- fData(res)$Protein.Group.Accessions.nFeatures
+    names(tmp) <- fData(res)$Protein.Group.Accessions    
+    sel <- !duplicated(names(tmp))
+    g <- tmp[sel]
+    expect_equivalent(g[sort(names(g))], k0[sort(names(k0))])
 })
