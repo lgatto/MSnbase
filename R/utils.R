@@ -1275,7 +1275,7 @@ setMethod("reduce", "data.frame",
     parents <- logical(nrow(fd))
 
     ## find current scan
-    parents[fd$acquisitionNum == si] <- TRUE
+    parents[fd$acquisitionNum %in% si] <- TRUE
     children <- parents
 
     ## find parent scan

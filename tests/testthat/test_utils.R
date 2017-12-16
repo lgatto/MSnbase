@@ -467,6 +467,7 @@ test_that(".filterSpectraHierarchy", {
                  "column\\(s\\) acquisitionNum/precursorScanNum is/are missing")
     expect_equal(which(MSnbase:::.filterSpectraHierarchy(fdata, 1)), 1)
     expect_equal(which(MSnbase:::.filterSpectraHierarchy(fdata, 2)), c(2, 4:9))
+    expect_equal(which(MSnbase:::.filterSpectraHierarchy(fdata, 1:2)), c(1:2, 4:9))
     expect_equal(which(MSnbase:::.filterSpectraHierarchy(fdata, 8)),
                  c(2, 5, 8))
     expect_equal(which(MSnbase:::.filterSpectraHierarchy(fdata, 9)),
