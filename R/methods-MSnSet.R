@@ -277,53 +277,6 @@ setMethod("[", "MSnSet", function(x, i, j, ...) {
       return(.Object)
 })
 
-
-setAs("MSnSet", "ExpressionSet",
-      function (from)
-      new("ExpressionSet",
-          exprs = exprs(from),
-          phenoData = phenoData(from),
-          featureData = featureData(from),
-          annotation = annotation(from),
-          experimentData = as(experimentData(from), "MIAME"),
-          protocolData = protocolData(from))
-      )
-
-as.ExpressionSet.MSnSet <- function(x) as(x,"ExpressionSet")
-
-setAs("ExpressionSet", "MSnSet",
-      function (from)
-      new("MSnSet",
-          exprs = exprs(from),
-          phenoData = phenoData(from),
-          featureData = featureData(from),
-          annotation = annotation(from),
-          protocolData = protocolData(from))
-      )
-
-as.MSnSet.ExpressionSet <- function(x) as(x, "MSnSet")
-
-setAs("MSnSet", "data.frame",
-      function (from) {
-          ## MSnSet -> ExpressionSet -> data.frame
-          from <- as(from, "ExpressionSet")
-          as(from, "data.frame")
-      })
-
-as.data.frame.MSnSet <-
-    function(x, row.names = NULL, optional = FALSE, ...) as(x, "data.frame")
-
-ms2df <- function(x, fcols = fvarLabels(x)) {
-    if (is.null(fcols)) {
-        res <- data.frame(exprs(x))
-    } else {
-        sel <- fvarLabels(x) %in% fcols
-        res <- data.frame(exprs(x),
-                          fData(x)[, sel])
-    }
-    return(res)
-}
-
 setMethod("write.exprs",
           signature(x = "MSnSet"),
           function(x,
@@ -797,41 +750,3 @@ setMethod("idSummary",
 ##                      featureData(x)[[i, ...]] <- value
 ##                      x
 ##                  })
-
-
-setAs("IBSpectra", "MSnSet",
-      function (from, to = "MSnSet") {
-          ans <- MSnSet(exprs = assayData(from)$ions,
-                        fData = fData(from),
-                                      pData = pData(from))
-                        exp <- experimentData(from)
-                        ## the example data in isobar has MIAME
-                        ## experimental data ?!?!
-                        if (inherits(exp, "MIAPE"))
-                            ans@experimentData <- exp
-                        ans@protocolData <- protocolData(from)
-                        if (validObject(ans))
-                            return(ans)
-                    })
-
-              as.IBSpectra.MSnSet <- function(x) {
-                  ans <- MSnSet(exprs = assayData(x)$ions,
-                                fData = fData(x),
-                                pData = pData(x))
-                  exp <- experimentData(x)
-                  ## the example data in isobar has MIAME
-                  ## experimental data ?!?!
-                  if (inherits(exp, "MIAPE"))
-                      ans@experimentData <- exp
-                  ans@protocolData <- protocolData(x)
-                  if (validObject(ans))
-                      return(ans)
-              }
-
-
-              ## setAs("MSnSet", "IBSpectra",
-              ##       function (from, to = "IBSpectra") {
-              ##           ## see IBSpectraTypes() for possible types
-              ##           ## if (ncol(from)) == 2) ...
-              ##           ## if (ncol(from)) == 2) ...
-              ##       })

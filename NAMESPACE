@@ -49,8 +49,6 @@ importFrom(affy, MAplot, ma.plot, mva.pairs)
 importFrom(mzID, mzID, flatten)
 importClassesFrom(mzID, mzID, mzIDCollection)
 importFrom(digest, digest)
-importClassesFrom(SummarizedExperiment, SummarizedExperiment)
-importFrom(SummarizedExperiment, assay, colData, rowData)
 
 export(MSnSet,
        abstract,
@@ -141,7 +139,8 @@ export(MSnSet,
        makeCamelCase,
        filterIdentificationDataFrame,
        isCentroidedFromFile,
-       requiredFvarLabels
+       requiredFvarLabels,
+       addMSnSetMetadata       
        )
 
 exportClasses(pSet,
