@@ -25,7 +25,6 @@ context("msnset - se conversion methods")
 
 test_that("msnset to se conversion", {
     se <- as(msnset, "SummarizedExperiment")
-    
     expect_is(se, "SummarizedExperiment")
     expect_equal(colnames(msnset), colnames(se))
     expect_equal(rownames(msnset), rownames(se))

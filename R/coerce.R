@@ -78,8 +78,7 @@ setAs("MSnSet",
         if (!require("SummarizedExperiment")) 
             stop("The SummarizedExperiment package is required",
                  "to coerce an MSnSet to a SummarizedExperiment.")
-
-        from <- MSnbase::logging(from, "Coerced to SummarizedExperiment.")
+        from <- logging(from, "Coerced to SummarizedExperiment.")
         
         raw <- exprs(from)
         rowData <- fData(from)
