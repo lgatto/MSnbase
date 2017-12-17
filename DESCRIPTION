@@ -26,6 +26,9 @@ Authors@R: c(person(given = "Laurent", family = "Gatto",
              person(given = "Richie", family ="Cotton",
 	            email = "richierocks@gmail.com",
 		    role = "ctb"),
+             person(given = "Arne", family ="Smits",
+	            email = "arne.smits@embl.de",
+		    role = "ctb"),
              person(given = "Martina", family ="Fischer",
 	            email = "FischerM@rki.de",
 		    role = "ctb"),
@@ -88,7 +91,8 @@ Suggests:
     imputeLCMD,
     norm,
     gplots,
-    shiny
+    shiny,
+    SummarizedExperiment
 LinkingTo: Rcpp
 License: Artistic-2.0
 LazyData: yes
