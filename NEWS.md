@@ -2,7 +2,7 @@
 
 ## Changes in version 2.5.3
 - MSnSet to/from SummarizedExperiment coercion (contributed by Arne
-  Smits in PR #284) <2017-12-17 Sun>
+  Smits in PR [#284](https://github.com/lgatto/MSnbase/issues/284)) <2017-12-17 Sun>
 
 ## Changes in version 2.5.2
 - Use automatic backend detection (based on file name and file
