@@ -6,7 +6,6 @@
 \alias{Chromatogram-class}
 \alias{Chromatogram}
 \alias{aggregationFun}
-\alias{productMz}
 \alias{show,Chromatogram-method}
 \alias{rtime,Chromatogram-method}
 \alias{intensity,Chromatogram-method}
@@ -20,6 +19,8 @@
 \alias{plot,Chromatogram,ANY-method}
 \alias{msLevel,Chromatogram-method}
 \alias{isEmpty,Chromatogram-method}
+\alias{productMz,Chromatogram-method}
+\alias{productMz}
 \title{Representation of chromatographic MS data}
 \usage{
 Chromatogram(rtime = numeric(), intensity = numeric(), mz = c(NA_real_,
@@ -28,8 +29,6 @@ Chromatogram(rtime = numeric(), intensity = numeric(), mz = c(NA_real_,
   aggregationFun = character(), msLevel = 1L)
 
 aggregationFun(object)
-
-productMz(object)
 
 \S4method{show}{Chromatogram}(object)
 
@@ -58,6 +57,8 @@ productMz(object)
 \S4method{msLevel}{Chromatogram}(object)
 
 \S4method{isEmpty}{Chromatogram}(x)
+
+\S4method{productMz}{Chromatogram}(object)
 }
 \arguments{
 \item{rtime}{\code{numeric} with the retention times (length has to be equal
@@ -147,9 +148,6 @@ The \code{Chromatogram} class is designed to store
 \code{aggregationFun,aggregationFun<-} get or set the
     aggregation function.
 
-\code{productMz} get the mz of the product chromatogram/ion. The
-    function returns a \code{numeric(2)} with the lower and upper mz value.
-
 \code{rtime} returns the retention times for the rentention time
     - intensity pairs stored in the chromatogram.
 
@@ -182,6 +180,9 @@ The \code{Chromatogram} class is designed to store
 
 \code{isEmpty} returns \code{TRUE} for empty chromatogram or
     chromatograms with all intensities being \code{NA}.
+
+\code{productMz} get the mz of the product chromatogram/ion. The
+    function returns a \code{numeric(2)} with the lower and upper mz value.
 }
 \details{
 The \code{mz}, \code{filterMz}, \code{precursorMz} and

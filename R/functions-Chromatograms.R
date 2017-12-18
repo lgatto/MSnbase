@@ -16,10 +16,13 @@
     ## Check colnames .Data with rownames phenoData.
     if (any(colnames(x) != rownames(x@phenoData)))
         msg <- c(msg, paste0("colnames of object has to match rownames of",
-                             " phenoData"))
+                             " object's phenoData"))
     if (nrow(x@featureData) != nrow(x))
         msg <- c(msg, paste0("nrow of featureData has to match nrow ",
                              "of the Chromatograms object"))
+    if (any(rownames(x) != rownames(x@featureData)))
+        msg <- c(msg, paste0("rownames of object has to match rownames of",
+                             " object's featureData"))
     if (length(msg))
         msg
     else TRUE
@@ -138,4 +141,38 @@ Chromatograms <- function(data, phenoData, featureData, ...) {
     }
 }
 
-
+#' Helper function to extract mz, precursorMz or productMz from a Chromatograms
+#' object
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+.mz_chromatograms <- function(x, mz = "mz") {
+    mz <- match.arg(mz, c("mz", "precursorMz", "productMz"))
+    if (!nrow(x))
+        return(matrix(nrow = 0, ncol = 2, dimnames = list(character(),
+                                                          c("mzmin", "mzmax"))))
+    ## If we've got the values in the featureData, use these.
+    if (mz %in% c("precursorMz", "productMz"))
+        vl <- rep(paste0(sub(mz, pattern = "Mz", replacement = ""),
+                         "IsolationWindowTargetMZ"), 2)
+    else
+        vl <- c("mzmin", "mzmax")
+    if (all(vl %in% fvarLabels(x))) {
+        ## Want to return a matrix, not a data.frame
+        cbind(mzmin = fData(x)[, vl[1]], mzmax = fData(x)[, vl[2]])
+    } else {
+        ## Get the xxx mz from the Chromatogram objects. Throw an error if
+        ## the values in one row are not identical
+        mzr <- matrix(nrow = nrow(x), ncol = 2,
+                      dimnames = list(NULL, c("mzmin", "mzmax")))
+        for (i in 1:nrow(mzr)) {
+            rngs <- unique(do.call(
+                rbind, lapply(x@.Data[i, ], getMethod(mz, "Chromatogram"))))
+            if (nrow(rngs) != 1)
+                stop("Chromatograms in row ", i, " have different ", mz)
+            mzr[i, ] <- rngs
+        }
+        mzr
+    }
+}

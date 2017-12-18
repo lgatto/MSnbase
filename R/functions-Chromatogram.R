@@ -149,15 +149,3 @@ aggregationFun <- function(object) {
         stop("'object' is supposed to be a 'Chromatogram' class")
     object@aggregationFun
 }
-
-#' @aliases productMz
-#' 
-#' @description \code{productMz} get the mz of the product chromatogram/ion. The
-#'     function returns a \code{numeric(2)} with the lower and upper mz value.
-#' 
-#' @rdname Chromatogram-class
-productMz <- function(object) {
-    if (!is(object, "Chromatogram"))
-        stop("'object' is supposed to be a 'Chromatogram' class")
-    object@productMz
-}

@@ -131,7 +131,6 @@ export(MSnSet,
        setMSnbaseFastLoad,
        ## ProcessingStep
        executeProcessingStep,
-       productMz,
        aggregationFun,
        Chromatogram,
        Chromatograms,
@@ -289,7 +288,9 @@ exportMethods(updateObject,
               chromatogram,
               "colnames<-",
               reduce,
-              writeMSData)
+              writeMSData,
+              productMz
+              )
 
 ## methods NOT exported
 ## curveStats

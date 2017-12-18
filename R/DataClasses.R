@@ -579,6 +579,8 @@ setClass("Chromatogram",
 
 #' @title Container for multiple Chromatogram objects
 #'
+#' @aliases coerce,matrix,Chromatograms-method
+#' 
 #' @description The \code{Chromatograms} class allows to store
 #'     \code{\link{Chromatogram}} objects in a \code{matrix}-like
 #'     two-dimensional structure.
@@ -587,7 +589,7 @@ setClass("Chromatogram",
 #'     and hence allows to store \code{\link{Chromatogram}} objects in a
 #'     two-dimensional array. Each row is supposed to contain
 #'     \code{Chromatogram} objects for one MS data \emph{slice} with a common
-#'     mz and rt range. Columns contain \code{Chromatogram} objects from the
+#'     m/z and rt range. Columns contain \code{Chromatogram} objects from the
 #'     same sample.
 #'
 #' @export
@@ -643,6 +645,10 @@ setClass("Chromatogram",
 #'
 #' ## Access a column within the pheno data
 #' chrs$name
+#'
+#' ## Access the m/z ratio for each row; this will be NA for the present
+#' ## object
+#' mz(chrs)
 setClass("Chromatograms",
          contains = "matrix",
          slots = c(phenoData = "NAnnotatedDataFrame",

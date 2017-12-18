@@ -47,7 +47,10 @@ depend on the architecture. Default is
     the number of columns corresponding to the number of files in
     \code{object} and number of rows the number of specified ranges (i.e.
     number of rows of matrices provided with arguments \code{mz} and/or
-    \code{rt}).
+    \code{rt}). The `featureData` of the returned object contains columns
+    \code{"mzmin"} and \code{"mzmax"} with the values from input argument
+    \code{mz} (if used) and \code{"rtmin"} and \code{"rtmax"} if the input
+    argument \code{rt} was used.
 }
 \description{
 The \code{chromatogram} method extracts chromatogram(s) from an
@@ -111,6 +114,12 @@ chrs <- chromatogram(msd, rt = rtr, mz = mzr)
 ## range. The Chromatogram for the first range in the first file is empty,
 ## because the retention time range is outside of the file's rt range:
 chrs[1, 1]
+
+## The mz and/or rt ranges used are provided as featureData of the object
+fData(chrs)
+
+## The mz method can be used to extract the m/z ranges directly
+mz(chrs)
 
 ## Also the Chromatogram for the second range in the second file is empty
 chrs[2, 2]
