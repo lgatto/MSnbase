@@ -138,7 +138,9 @@ export(MSnSet,
        factorsAsStrings,
        makeCamelCase,
        filterIdentificationDataFrame,
-       isCentroidedFromFile
+       isCentroidedFromFile,
+       requiredFvarLabels,
+       addMSnSetMetadata       
        )
 
 exportClasses(pSet,

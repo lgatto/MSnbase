@@ -393,19 +393,6 @@ test_that("Combine with fun or 'fun'", {
     expect_equal(exprs(xchar), exprs(xfun))
 })
 
-test_that("Feature variable selection", {
-    data(hyperLOPIT2015, package = "pRolocdata")
-    fv <- fvarLabels(hyperLOPIT2015)
-    i <- sort(sample(length(fv), 10))
-    k <- fv[i]
-    l <- logical(length(fv))
-    l[i] <- TRUE
-    expect_equal(selectFeatureData(hyperLOPIT2015, fcol = i),
-                 selectFeatureData(hyperLOPIT2015, fcol = k))
-    expect_equal(selectFeatureData(hyperLOPIT2015, fcol = i),
-                 selectFeatureData(hyperLOPIT2015, fcol = l))
-})
-
 test_that("aggvar, son of ragnar", {
     e <- matrix(1:9, nrow = 3)
     colnames(e) <- letters[1:3]
@@ -425,11 +412,13 @@ test_that("nFeatures are added correctly", {
     k0 <- k <- table(fData(hyperLOPIT2015ms3r1psm)$Protein.Group.Accessions)
     k <- k[as.character(fData(hyperLOPIT2015ms3r1psm)[, "Protein.Group.Accessions"])]
     res <- nFeatures(hyperLOPIT2015ms3r1psm, "Protein.Group.Accessions")
-    expect_identical(k, fData(res)$Protein.Group.Accessions.nFeatures)
+    expect_equivalent(k, fData(res)$Protein.Group.Accessions.nFeatures)
     expect_error(nFeatures(res, "Protein.Group.Accessions"),
                  "'Protein.Group.Accessions.nFeatures' already present.")
     expect_error(nFeatures(hyperLOPIT2015ms3r1psm, "foo"))
-    sel <- !duplicated(names(fData(res)$Protein.Group.Accessions.nFeatures))
-    g <- fData(res)$Protein.Group.Accessions.nFeatures[sel]
-    expect_identical(g[order(names(g))], k0[order(names(k0))])
+    tmp <- fData(res)$Protein.Group.Accessions.nFeatures
+    names(tmp) <- fData(res)$Protein.Group.Accessions    
+    sel <- !duplicated(names(tmp))
+    g <- tmp[sel]
+    expect_equivalent(g[sort(names(g))], k0[sort(names(k0))])
 })

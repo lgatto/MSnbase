@@ -1,14 +1,25 @@
 # MSnbase 2.5
 
+## Changes in version 2.5.3
+- MSnSet to/from SummarizedExperiment coercion (contributed by Arne
+  Smits in PR [#284](https://github.com/lgatto/MSnbase/issues/284)) <2017-12-17 Sun>
+
 ## Changes in version 2.5.2
 - Use automatic backend detection (based on file name and file
-  content) that was introduced in mzR version 2.13.1 (issue #275).
+  content) that was introduced in mzR version 2.13.1 (issue
+  [#275](https://github.com/lgatto/MSnbase/issues/271)).
 - Fix mzML file writing unit tests to work with recently introduced
-  header column "filterString" (issue #278).
+  header column "filterString" (issue
+  [#278](https://github.com/lgatto/MSnbase/issues/271)).
 - Reduce number of comparsions in in internal `fastquant_max` to get
   little speed improvents for isobaric quantification (see PR
-  [#280](https://github.com/lgatto/MSnbase/issues/280)) <2017-11-27
-  Mon>.
+  [#280](https://github.com/lgatto/MSnbase/issues/280)) <2017-11-27 Mon>.
+- MIAxE, MSnProcess and AnnotatedDataFrame coercion to list methods
+  (in related to PR [#280](https://github.com/lgatto/MSnbase/issues/284))
+  <2017-12-11 Mon>
+- Add support to reduce the featureData for OnDiskMSnExp objects (issue
+  [#285](https://github.com/lgatto/MSnbase/issues/285)) <2017-12-11 Mon>.
+
 
 ## Changes in version 2.5.1
 - Update dependencies (see issue [#271](https://github.com/lgatto/MSnbase/issues/271))
