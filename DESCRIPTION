@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for Mass Spectrometry and Proteomics
-Version: 2.5.2
+Version: 2.5.3
 Description: MSnbase provides infrastructure to manipulation,
 	     processing and visualisation mass spectrometry and
 	     proteomics data, ranging from raw to quantitative and
@@ -26,6 +26,9 @@ Authors@R: c(person(given = "Laurent", family = "Gatto",
              person(given = "Richie", family ="Cotton",
 	            email = "richierocks@gmail.com",
 		    role = "ctb"),
+             person(given = "Arne", family ="Smits",
+	            email = "arne.smits@embl.de",
+		    role = "ctb"),
              person(given = "Martina", family ="Fischer",
 	            email = "FischerM@rki.de",
 		    role = "ctb"),
@@ -37,8 +40,8 @@ Authors@R: c(person(given = "Laurent", family = "Gatto",
 		    role = c("aut", "cre")))
 Author: Laurent Gatto, Johannes Rainer and Sebastian Gibb with
     contributions from Guangchuang Yu, Samuel Wieczorek, Vasile-Cosmin
-    Lazar, Vladislav Petyuk, Thomas Naake, Richie Cotton and Martina
-    Fisher.
+    Lazar, Vladislav Petyuk, Thomas Naake, Richie Cotton, Arne Smits
+    and Martina Fisher.
 Maintainer: Laurent Gatto <lg390@cam.ac.uk>
 Depends:
     R (>= 3.1),
@@ -88,7 +91,8 @@ Suggests:
     imputeLCMD,
     norm,
     gplots,
-    shiny
+    shiny,
+    SummarizedExperiment
 LinkingTo: Rcpp
 License: Artistic-2.0
 LazyData: yes
