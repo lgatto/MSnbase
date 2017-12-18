@@ -1281,7 +1281,7 @@ setMethod("reduce", "data.frame",
     ## find parent scan
     nLastParents <- 0L
     nParents <- 1L
-    while(nLastParents < nParents) {
+    while (nLastParents < nParents) {
         parents[fd$acquisitionNum %in% fd$precursorScanNum[parents]] <- TRUE
         nLastParents <- nParents
         nParents <- sum(parents)
@@ -1290,7 +1290,7 @@ setMethod("reduce", "data.frame",
     ## find children scans
     nLastChildren <- 0L
     nChildren <- 1L
-    while(nLastChildren < nChildren) {
+    while (nLastChildren < nChildren) {
         children[fd$precursorScanNum %in% fd$acquisitionNum[children]] <- TRUE
         nLastChildren <- nChildren
         nChildren <- sum(children)
