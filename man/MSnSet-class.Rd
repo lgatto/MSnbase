@@ -32,6 +32,9 @@
 \alias{coerce,MSnSet,ExpressionSet-method}
 \alias{coerce,ExpressionSet,MSnSet-method}
 \alias{coerce,MSnSet,data.frame-method}
+\alias{coerce,MSnSet,SummarizedExperiment-method}
+\alias{coerce,SummarizedExperiment,MSnSet-method}
+\alias{addMSnSetMetadata}
 \alias{write.exprs}
 \alias{write.exprs,MSnSet-method}
 \alias{experimentData<-,MSnSet,MIAPE-method}
@@ -83,7 +86,6 @@
 \alias{updateFeatureNames}
 
 \alias{droplevels.MSnSet}
-
 
 \title{
   The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
@@ -231,16 +233,24 @@
       and samples along rows and the \code{phenoData} and
       \code{featureData} slots have been swapped. The
       \code{protocolData} slot is always dropped. }
+
     \item{as(,"ExpressionSet")}{\code{signature(x = "MSnSet")}: Coerce
       object from \code{MSnSet} to
-      \code{\link{ExpressionSet-class}}. The \code{experimentData} slot is
-      converted to a \code{MIAME} instance. It is also possible to
+      \code{\link{ExpressionSet-class}}. The \code{experimentData} slot
+      is converted to a \code{MIAME} instance. It is also possible to
       coerce an \code{ExpressionSet} to and \code{MSnSet}, in which case
       the \code{experimentData} slot is newly initialised. }
+    
     \item{as(,"data.frame")}{\code{signature(x = "MSnSet")}: Coerce
       object from \code{MSnSet} to \code{data.frame}. The \code{MSnSet}
-      is transposed and the \code{PhenoData} slot is appended.
-      See also \code{ms2df} below.}
+      is transposed and the \code{PhenoData} slot is appended. }
+
+    \item{as(,"SummarizedExperiment")}{\code{signature(x = "MSnSet")}:
+      Coerce object from \code{MSnSet} to
+      \code{SummarizedExperiment}. Only part of the metadata is
+      retained. See \code{addMSnSetMetadata} and the example below for
+      details.  }
+      
     %% \item{ratios}{\code{signature(object = "MSnSet")}: ... }
     \item{write.exprs}{signature(x = "MSnSet")}{Writes expression values
       to a tab-separated file (default is \code{tmp.txt}). The
@@ -406,23 +416,38 @@
 
 \section{Functions}{
   \describe{
-    \item{updateFvarLabels}{signature(object, label, sep)}{
-      This function updates \code{object}'s featureData variable labels
-      by appending \code{label}. By default, \code{label} is the
-      variable name and the separator \code{sep} is \code{.}.}
-    \item{updateSampleNames}{signature(object, label, sep)}{
-      This function updates \code{object}'s sample names by appending
+
+    \item{updateFvarLabels}{signature(object, label, sep)}{ This
+      function updates \code{object}'s featureData variable labels by
+      appending \code{label}. By default, \code{label} is the variable
+      name and the separator \code{sep} is \code{.}.}
+
+    \item{updateSampleNames}{signature(object, label, sep)}{ This
+      function updates \code{object}'s sample names by appending
       \code{label}. By default, \code{label} is the variable name and
       the separator \code{sep} is \code{.}.}
-    \item{updateFeatureNames}{signature(object, label, sep)}{
-      This function updates \code{object}'s feature names by appending
+
+    \item{updateFeatureNames}{signature(object, label, sep)}{ This
+      function updates \code{object}'s feature names by appending
       \code{label}. By default, \code{label} is the variable name and
       the separator \code{sep} is \code{.}.}
+
     \item{ms2df}{signature(x, fcols)}{Coerces the \code{MSnSet} instance
       to a \code{data.frame}. The direction of the data is retained and
       the feature variable labels that match \code{fcol} are appended to
       the expression values. See also \code{as(x, "data.frame")} above.
-    }
+      }
+
+    \item{addMSnSetMetadata}{signature(x, y)}{When coercing an
+      \code{MSnSet} \code{y} to a \code{SummarizedExperiment} \code{x}
+      with \code{x <- as(y, "SummarizedExperiment")}, most of \code{y}'s
+      metadata is lost. Only the file names, the processing log and the
+      MSnbase version from the \code{processingData} slots are passed
+      along. The \code{addMSnSetMetadata} function can be used to add
+      the complete \code{processingData}, \code{experimentData} and
+      \code{protocolData} slots. The downside of this is that MSnbase is
+      now required to use the \code{SummarizedExperiment} object.  }
+    
   }
 }
 
