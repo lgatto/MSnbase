@@ -401,6 +401,11 @@ test_that("chromatogram,MSnExp works", {
     expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[1, 1]))
     expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[1, 2]))
     expect_equal(pData(inMem), pData(res))
+    ## feature data:
+    expect_true(nrow(fData(res)) == nrow(res))
+    expect_true(all(colnames(fData(res)) == c("mzmin", "mzmax")))
+    expect_equal(fData(res)[1, 1], 100)
+    expect_equal(fData(res)[1, 2], 120)
     
     ## Multiple mz ranges.
     mzr <- matrix(c(100, 120, 200, 220, 300, 320), nrow = 3, byrow = TRUE)
@@ -425,7 +430,15 @@ test_that("chromatogram,MSnExp works", {
     expect_equal(ints[[2]], intensity(res[2, 2]))
     expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[2, 1]))
     expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[2, 2]))
-
+    ## fData
+    expect_true(nrow(fData(res)) == nrow(res))
+    expect_true(all(colnames(fData(res)) == c("mzmin", "mzmax",
+                                              "rtmin", "rtmax")))
+    expect_true(all(fData(res)$rtmin == 50))
+    expect_true(all(fData(res)$rtmax == 300))
+    expect_equal(fData(res)$mzmin, c(100, 200, 300))
+    expect_equal(fData(res)$mzmax, c(120, 220, 320))
+    
     ## Now with ranges for which we don't have values in one or the other.
     rtr <- matrix(c(280, 300, 20, 40), nrow = 2,
                   byrow = TRUE)  ## Only present in first, or 2nd file
@@ -454,7 +467,7 @@ test_that("chromatogram,MSnExp works", {
     pd <- data.frame(name = c("first", "second", "third", "fourth"), idx = 1:4)
     pData(inMem) <- pd
     chrs <- chromatogram(inMem)
-    rownames(pd) <- colnames(chrs)
+    ## rownames(pd) <- colnames(chrs)
     expect_equal(pData(chrs), pd)
 
     chrs_2 <- chromatogram(inMem, msLevel = 1:4)

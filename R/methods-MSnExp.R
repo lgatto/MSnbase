@@ -441,7 +441,10 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #'     the number of columns corresponding to the number of files in
 #'     \code{object} and number of rows the number of specified ranges (i.e.
 #'     number of rows of matrices provided with arguments \code{mz} and/or
-#'     \code{rt}).
+#'     \code{rt}). The `featureData` of the returned object contains columns
+#'     \code{"mzmin"} and \code{"mzmax"} with the values from input argument
+#'     \code{mz} (if used) and \code{"rtmin"} and \code{"rtmax"} if the input
+#'     argument \code{rt} was used.
 #' 
 #' @author Johannes Rainer
 #'
@@ -480,6 +483,12 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #' ## because the retention time range is outside of the file's rt range:
 #' chrs[1, 1]
 #'
+#' ## The mz and/or rt ranges used are provided as featureData of the object
+#' fData(chrs)
+#' 
+#' ## The mz method can be used to extract the m/z ranges directly
+#' mz(chrs)
+#'
 #' ## Also the Chromatogram for the second range in the second file is empty
 #' chrs[2, 2]
 #'
@@ -505,8 +514,21 @@ setMethod("chromatogram", "MSnExp", function(object, rt, mz,
                                          msLevel = msLevel,
                                          BPPARAM = BPPARAM)
     res <- as(res, "Chromatograms")
+    if (!nrow(res))
+        return(res)
+    fd <- annotatedDataFrameFrom(res, byrow = TRUE)
+    if (!missing(mz)) {
+        fd$mzmin <- mz[, 1]
+        fd$mzmax <- mz[, 2]
+    }
+    if (!missing(rt)) {
+        fd$rtmin <- rt[, 1]
+        fd$rtmax <- rt[, 2]
+    }
+    res@featureData <- fd
+    rownames(res@.Data) <- rownames(fd)
     res@phenoData <- object@phenoData
-    colnames(res) <- rownames(pData(object))
+    colnames(res@.Data) <- rownames(pData(object))
     if (validObject(res))
         res
 })

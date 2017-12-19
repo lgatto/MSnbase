@@ -1,7 +1,9 @@
 # MSnbase 2.5
 
 ## Changes in version 2.5.4
-- Nothing yet
+- Add featureData slot to Chromatograms class and add mz, precursorMz and 
+  productMz methods for Chromatograms (issue
+  [#289](https://github.com/lgatto/MSnbase/issues/289)) <2017-12-18 Mon>.
 
 ## Changes in version 2.5.3
 - MSnSet to/from SummarizedExperiment coercion (contributed by Arne

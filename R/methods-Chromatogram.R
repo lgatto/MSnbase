@@ -211,3 +211,13 @@ setMethod("msLevel", "Chromatogram", function(object) {
 setMethod("isEmpty", "Chromatogram", function(x) {
     (length(x) == 0 | all(is.na(intensity(x))))
 })
+
+#' @aliases productMz
+#' 
+#' @description \code{productMz} get the mz of the product chromatogram/ion. The
+#'     function returns a \code{numeric(2)} with the lower and upper mz value.
+#' 
+#' @rdname Chromatogram-class
+setMethod("productMz", "Chromatogram", function(object) {
+    object@productMz
+})
