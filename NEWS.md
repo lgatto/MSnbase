@@ -4,7 +4,7 @@
 - MSnSet to/from SummarizedExperiment coercion (contributed by Arne
   Smits in PR [#284](https://github.com/lgatto/MSnbase/issues/284)) <2017-12-17 Sun>
 - Fix inverted M/Z axis in plot3D,MSmap (reported by Sylvain
-  Dechaumet, see issue #292) <2017-12-19 Tue>
+  Dechaumet, see issue [#292](https://github.com/lgatto/MSnbase/issues/292)) <2017-12-19 Tue>
 
 ## Changes in version 2.5.2
 - Use automatic backend detection (based on file name and file
