@@ -232,6 +232,10 @@ setMethod("pickPeaks", "MSnExp",
                    method = c("MAD", "SuperSmoother"),
                    SNR = 0L, refineMz = c("none", "kNeighbors", "descendPeak"),
                    ...) {
+              object <- logging(object, paste0("peak picking: ", method,
+                                               " noise estimation and ",
+                                               refineMz, " centroid m/z ",
+                                               "refinement"))
               pickPeaks_MSnExp(object, halfWindowSize = halfWindowSize,
                                method = match.arg(method), SNR = SNR,
                                refineMz = match.arg(refineMz), ...)

@@ -771,6 +771,8 @@ setMethod("pickPeaks", "OnDiskMSnExp",
                    ...) {
               method <- match.arg(method)
               refineMz <- match.arg(refineMz)
+              ## If we're using an approach that combines spectra we have
+              ## to add a specific processing step before.
               ps <- ProcessingStep("pickPeaks",
                                    list(method = method,
                                         halfWindowSize = halfWindowSize,
@@ -779,9 +781,10 @@ setMethod("pickPeaks", "OnDiskMSnExp",
                                         refineMz = refineMz, ...))
               object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
                                                  list(ps))
-              object@processingData@processing <-
-                  c(object@processingData@processing,
-                    paste0("Peak picking (", method, "): ", date()))
+              object <- logging(object, paste0("peak picking: ", method,
+                                               " noise estimation and ",
+                                               refineMz, " centroid m/z ",
+                                               "refinement"))
               object@processingData@smoothed <- TRUE
               fData(object)$centroided <- TRUE
               if (validObject(object))
