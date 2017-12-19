@@ -166,13 +166,14 @@ setMethod("filterEmptySpectra", "MSnExp",
           })
 
 setMethod("filterPrecursorScan", "MSnExp",
-          function(object, scanIndex, ...) {
-            object <- object[.filterSpectraHierarchy(fData(object), scanIndex)]
+          function(object, acquisitionNum, ...) {
+            object <- object[.filterSpectraHierarchy(fData(object),
+                                                     acquisitionNum)]
             object <- logging(
                 object,
                 paste(
                     "Filter: select parent/children scans for",
-                    paste0(scanIndex, collapse=", ")
+                    paste0(acquisitionNum, collapse=", ")
                 )
             )
             object

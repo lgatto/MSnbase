@@ -1257,10 +1257,10 @@ setMethod("reduce", "data.frame",
 
 #' @param fd data.frame, feature data (columns required: acquisitionNum,
 #' precursorScanNum)
-#' @param si integer, scan index of spectrum of interest (parent and
+#' @param an integer, acquisitionNum of spectrum of interest (parent and
 #' children will be selected)
 #' @noRd
-.filterSpectraHierarchy <- function(fd, si) {
+.filterSpectraHierarchy <- function(fd, an) {
     if (!is.data.frame(fd)) {
         stop("'fd' is not a data.frame")
     }
@@ -1275,7 +1275,7 @@ setMethod("reduce", "data.frame",
     parents <- logical(nrow(fd))
 
     ## find current scan
-    parents[fd$acquisitionNum %in% si] <- TRUE
+    parents[fd$acquisitionNum %in% an] <- TRUE
     children <- parents
 
     ## find parent scan
