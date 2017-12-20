@@ -405,6 +405,7 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
                                method = c("MAD", "SuperSmoother"),
                                SNR = 0L, ignoreCentroided = FALSE,
                                refineMz = c("none", "kNeighbors",
+                                            "kNeighbours",
                                             "descendPeak"),
                                ...) {
     if (isEmpty(object)) {
@@ -424,9 +425,6 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
                      c(list(object = object, method = method,
                             ignoreCentroided = ignoreCentroided),
                        dots))[, 2L]
-    ## noise <- estimateNoise_Spectrum(object, method = method,
-    ##                                 ignoreCentroided = ignoreCentroided,
-    ##                                 ...)[, 2L]
 
     ## find local maxima
     isLocalMaxima <- MALDIquant:::.localMaxima(intensity(object),
@@ -665,6 +663,10 @@ kNeighbors <- function(mz, intensity, peakIdx = NULL, k = 2, ...) {
     }))
 }
 
+kNeighbours <- function(mz, intensity, peakIdx, k = 2, ...) {
+    kNeighbors(mz, intensity, peakIdx, k, ...)
+}
+
 #' @description `descendPeak` refines the m/z value of a peak (centroid)
 #'     considering neighboring data points that belong most likely to the same
 #'     mass peak. The peak region (i.e. the data points to include) are defined
@@ -789,3 +791,66 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
           intensity = intensity[z])
     }))
 }   
+
+#' Given a list of spectra, combine neighboring spectra and return a list of
+#' such combined spectra. Spectra are combined using a moving window approach
+#' with each combined spectrum containing the mz and intensity
+#' values of all included spectra.
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+.combineMovingWindow <- function(x, halfWindowSize = 1L) {
+    ## loop through spectra and combine data from xx spectra.
+    len_x <- length(x)
+    x <- unname(x)                      # This slows down the rbind
+    res <- vector("list", len_x)
+    for (i in seq_along(x)) {
+        cur_sp <- x[[i]]
+        ## Might be faster to call as.data.frame outside - but needs more mem
+        vals <- do.call(rbind, lapply(x[max(1, i - halfWindowSize):
+                                        min(i + halfWindowSize, len_x)],
+                                      as.data.frame))
+        ordr <- order(vals$mz)
+        cur_sp@mz <- vals$mz[ordr]
+        cur_sp@intensity <- vals$i[ordr]
+        res[[i]] <- cur_sp
+    }
+    res
+}
+
+.combineMovingWindow_2 <- function(x, halfWindowSize = 1L) {
+    ## loop through spectra and combine data from xx spectra.
+    len_x <- length(x)
+    x <- unname(x)
+    res <- vector("list", len_x)
+    vals_df <- lapply(x, as.data.frame)
+    for (i in seq_along(x)) {
+        cur_sp <- x[[i]]
+        ## Might be faster to call as.data.frame outside - but needs more mem
+        vals <- do.call(rbind, vals_df[max(1, i - halfWindowSize):
+                                       min(i + halfWindowSize, len_x)])
+        ordr <- order(vals$mz)
+        cur_sp@mz <- vals$mz[ordr]
+        cur_sp@intensity <- vals$i[ordr]
+        res[[i]] <- cur_sp
+    }
+    res
+}
+
+.combineMovingWindow_3 <- function(x, halfWindowSize = 1L) {
+    ## loop through spectra and combine data from xx spectra.
+    len_x <- length(x)
+    res <- vector("list", len_x)
+    for (i in seq_along(x)) {
+        cur_sp <- x[[i]]
+        idxs <- max(1, i - halfWindowSize):min(i + halfWindowSize, len_x)
+        mz <- unlist(lapply(x[idxs], mz), use.names = FALSE)
+        ordr <- order(mz)
+        cur_sp@mz <- mz[ordr]
+        cur_sp@intensity <- unlist(lapply(x[idxs], intensity),
+                                   use.names = FALSE)[ordr]
+        res[[i]] <- cur_sp
+    }
+    res
+}
