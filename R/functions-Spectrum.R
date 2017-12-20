@@ -795,53 +795,29 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' Given a list of spectra, combine neighboring spectra and return a list of
 #' such combined spectra. Spectra are combined using a moving window approach
 #' with each combined spectrum containing the mz and intensity
-#' values of all included spectra.
+#' values of all included spectra. All other spectrum data (e.g. retention time)
+#' are kept.
 #'
+#' @param x `list` of `Spectrum` objects, such as returned by a call to
+#'     `spectra`.
+#'
+#' @param halfWindowSize `integer(1)` defining the half window size of the
+#'     moving window.
+#'
+#' @return `list` of `Spectrum` objects, same length than `x`, but each
+#'     `Spectrum` containing the intensity and m/z values from multiple
+#'     neighboring spectra.
+#' 
 #' @author Johannes Rainer
 #'
 #' @noRd
 .combineMovingWindow <- function(x, halfWindowSize = 1L) {
     ## loop through spectra and combine data from xx spectra.
     len_x <- length(x)
-    x <- unname(x)                      # This slows down the rbind
     res <- vector("list", len_x)
-    for (i in seq_along(x)) {
-        cur_sp <- x[[i]]
-        ## Might be faster to call as.data.frame outside - but needs more mem
-        vals <- do.call(rbind, lapply(x[max(1, i - halfWindowSize):
-                                        min(i + halfWindowSize, len_x)],
-                                      as.data.frame))
-        ordr <- order(vals$mz)
-        cur_sp@mz <- vals$mz[ordr]
-        cur_sp@intensity <- vals$i[ordr]
-        res[[i]] <- cur_sp
-    }
-    res
-}
-
-.combineMovingWindow_2 <- function(x, halfWindowSize = 1L) {
-    ## loop through spectra and combine data from xx spectra.
-    len_x <- length(x)
-    x <- unname(x)
-    res <- vector("list", len_x)
-    vals_df <- lapply(x, as.data.frame)
-    for (i in seq_along(x)) {
-        cur_sp <- x[[i]]
-        ## Might be faster to call as.data.frame outside - but needs more mem
-        vals <- do.call(rbind, vals_df[max(1, i - halfWindowSize):
-                                       min(i + halfWindowSize, len_x)])
-        ordr <- order(vals$mz)
-        cur_sp@mz <- vals$mz[ordr]
-        cur_sp@intensity <- vals$i[ordr]
-        res[[i]] <- cur_sp
-    }
-    res
-}
-
-.combineMovingWindow_3 <- function(x, halfWindowSize = 1L) {
-    ## loop through spectra and combine data from xx spectra.
-    len_x <- length(x)
-    res <- vector("list", len_x)
+    ## While it does not seem intuitive, the two lapply calls in the loop are
+    ## faster than a single lapply that uses as.data.frame. Also it requires
+    ## much less memory as it does no copying.
     for (i in seq_along(x)) {
         cur_sp <- x[[i]]
         idxs <- max(1, i - halfWindowSize):min(i + halfWindowSize, len_x)
