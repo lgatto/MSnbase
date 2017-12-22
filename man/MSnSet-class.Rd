@@ -112,17 +112,26 @@
   exprs, ...)}.  See also \code{"\linkS4class{ExpressionSet}"} for
   helpful information.  Expression data produced from other softwares
   can thus make use of this standardized data container to benefit
-  \code{R} and \code{Bioconductor} packages. Importer functions will be
-  developed to stream-line the generation of \code{"MSnSet"} instances
-  from third-party software.
+  \code{R} and \code{Bioconductor} packages. Proteomics expression data
+  available as spreadsheets, as produced by third-party software such as
+  Proteome Discoverer, MaxQuant, ... can be imported using the
+  \code{\link{readMSnSet}} and \code{\link{readMSnSet2}} functions.
 
-  A coercion method is also available to transform an \code{IBSpectra}
-  object (names \code{x}) from the \code{isobar} package into an
-  \code{MSnSet}: \code{as(x, "MSnSet")}.
-
+  Coercion methods are also available to transform \code{MSnSet} objects
+  to \code{IBSpectra}, to \code{data.frame} and to/from
+  \code{ExpressionSet} and \code{SummarizedExperiment} objects. In the
+  latter case, the metadata available in the \code{protocolData},
+  \code{experimentData} are completely dropped, and only the logging
+  information of the \code{processingData} slot is retained. All these
+  metadata can be subsequently be added using the
+  \code{addMSnSetMetadata} (see examples below). When converting a
+  \code{SummarizedExperiment} to an \code{MSnSet}, the respective
+  metadata slots will be populated if available in the
+  \code{SummarizedExperiment} metadata.
+  
   In the frame of the \code{MSnbase} package, \code{MSnSet} instances
   can be generated from \code{"\linkS4class{MSnExp}"} experiments using
-  the \code{\link{quantify}} method).
+  the \code{\link{quantify}} method). 
   
 }
 
@@ -240,6 +249,11 @@
       is converted to a \code{MIAME} instance. It is also possible to
       coerce an \code{ExpressionSet} to and \code{MSnSet}, in which case
       the \code{experimentData} slot is newly initialised. }
+
+    \item{as(,"IBSpectra")}{\code{signature(x = "MSnSet")}: Coerce
+      object from \code{MSnSet} to \code{IBSpectra} from the
+      \code{isobar} package.
+    }
     
     \item{as(,"data.frame")}{\code{signature(x = "MSnSet")}: Coerce
       object from \code{MSnSet} to \code{data.frame}. The \code{MSnSet}
@@ -519,6 +533,21 @@ image(dd, low = "green", high = "red")
 dunkley2006 <- dunkley2006[1:25, ]
 image(dunkley2006)
 image(dunkley2006, legend = "hello")
+
+
+## Coercion
+if (require("SummarizedExperiment")) {
+    data(msnset)
+    se <- as(msnset, "SummarizedExperiment")
+    metadata(se) ## only logging
+    se <- addMSnSetMetadata(se, msnset)
+    metadata(se) ## all metadata
+    msnset2 <- as(se, "MSnSet")
+    processingData(msnset2)
+}
+
+as(msnset, "ExpressionSet")
+
 }
 
 \keyword{classes}
