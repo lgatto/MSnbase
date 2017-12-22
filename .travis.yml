@@ -3,7 +3,7 @@ r: bioc-devel
 cache: packages
 sudo: false       # use container based build system
 warnings_are_errors: true
-dist: precise
+dist: trusty
 
 # Set CXX1X for R-devel, as R-devel does not detect CXX1X support for gcc 4.6.3,
 # this was causing mzR installation to fail
@@ -17,7 +17,8 @@ addons:
     packages:
       - libnetcdf-dev
       - netcdf-bin # libnetcdf-dev doesn't contain nc-config in ubuntu 12.04 (in 16.04 it is part of libnetcdf-dev)
-  
+      - libhdf5-dev
+
 r_packages:
   - covr
 

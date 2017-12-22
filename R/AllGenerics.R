@@ -143,6 +143,6 @@ setGeneric("spectrapply", function(object, ...) standardGeneric("spectrapply"))
 setGeneric("splitByFile", function(object, f, ...) standardGeneric("splitByFile"))
 
 ## Chromatogram class:
-## setGeneric("productMz", function(object, value) standardGeneric("productMz"))
+setGeneric("productMz", function(object, ...) standardGeneric("productMz"))
 ## setGeneric("aggregationFun", function(object, ...)
 ##     standardGeneric("aggregationFun"))

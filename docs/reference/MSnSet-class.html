@@ -97,7 +97,7 @@
     
     <p>The constructor <code>MSnSet(exprs, fData, pData)</code> can be used to
   create <code>MSnSet</code> instances. Argument <code>exprs</code> is a
-  <code>matrix</code> and <code>fData</code> and <code>pData</code> must be of clas
+  <code>matrix</code> and <code>fData</code> and <code>pData</code> must be of class
   <code>data.frame</code> or <code>"AnnotatedDataFrame"</code> and all
   must meet the dimensions and name validity constrains.</p>
 <p>Objects can also be created by calls of the form <code>new("MSnSet",
@@ -215,14 +215,18 @@
       <code>protocolData</code> slot is always dropped.</p></dd>
     <dt>as(,"ExpressionSet")</dt><dd><p><code>signature(x = "MSnSet")</code>: Coerce
       object from <code>MSnSet</code> to
-      <code>ExpressionSet-class</code>. The <code>experimentData</code> slot is
-      converted to a <code>MIAME</code> instance. It is also possible to
+      <code>ExpressionSet-class</code>. The <code>experimentData</code> slot
+      is converted to a <code>MIAME</code> instance. It is also possible to
       coerce an <code>ExpressionSet</code> to and <code>MSnSet</code>, in which case
       the <code>experimentData</code> slot is newly initialised.</p></dd>
     <dt>as(,"data.frame")</dt><dd><p><code>signature(x = "MSnSet")</code>: Coerce
       object from <code>MSnSet</code> to <code>data.frame</code>. The <code>MSnSet</code>
-      is transposed and the <code>PhenoData</code> slot is appended.
-      See also <code>ms2df</code> below.</p></dd>
+      is transposed and the <code>PhenoData</code> slot is appended.</p></dd>
+    <dt>as(,"SummarizedExperiment")</dt><dd><p><code>signature(x = "MSnSet")</code>:
+      Coerce object from <code>MSnSet</code> to
+      <code>SummarizedExperiment</code>. Only part of the metadata is
+      retained. See <code>addMSnSetMetadata</code> and the example below for
+      details.</p></dd>
     %% \item{ratios}{\code{signature(object = "MSnSet")}: ... }
     <dt>write.exprs</dt><dd><p>signature(x = "MSnSet")</p></dd>Writes expression values
       to a tab-separated file (default is <code>tmp.txt</code>). The
@@ -362,22 +366,31 @@
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     <p></p><dl class='dl-horizontal'>
-    <dt>updateFvarLabels</dt><dd><p>signature(object, label, sep)</p></dd>
-      This function updates <code>object</code>'s featureData variable labels
-      by appending <code>label</code>. By default, <code>label</code> is the
-      variable name and the separator <code>sep</code> is <code>.</code>.
-    <dt>updateSampleNames</dt><dd><p>signature(object, label, sep)</p></dd>
-      This function updates <code>object</code>'s sample names by appending
+    <dt>updateFvarLabels</dt><dd><p>signature(object, label, sep)</p></dd> This
+      function updates <code>object</code>'s featureData variable labels by
+      appending <code>label</code>. By default, <code>label</code> is the variable
+      name and the separator <code>sep</code> is <code>.</code>.
+    <dt>updateSampleNames</dt><dd><p>signature(object, label, sep)</p></dd> This
+      function updates <code>object</code>'s sample names by appending
       <code>label</code>. By default, <code>label</code> is the variable name and
       the separator <code>sep</code> is <code>.</code>.
-    <dt>updateFeatureNames</dt><dd><p>signature(object, label, sep)</p></dd>
-      This function updates <code>object</code>'s feature names by appending
+    <dt>updateFeatureNames</dt><dd><p>signature(object, label, sep)</p></dd> This
+      function updates <code>object</code>'s feature names by appending
       <code>label</code>. By default, <code>label</code> is the variable name and
       the separator <code>sep</code> is <code>.</code>.
     <dt>ms2df</dt><dd><p>signature(x, fcols)</p></dd>Coerces the <code>MSnSet</code> instance
       to a <code>data.frame</code>. The direction of the data is retained and
       the feature variable labels that match <code>fcol</code> are appended to
       the expression values. See also <code>as(x, "data.frame")</code> above.
+    <dt>addMSnSetMetadata</dt><dd><p>signature(x, y)</p></dd>When coercing an
+      <code>MSnSet</code> <code>y</code> to a <code>SummarizedExperiment</code> <code>x</code>
+      with <code>x &lt;- as(y, "SummarizedExperiment")</code>, most of <code>y</code>'s
+      metadata is lost. Only the file names, the processing log and the
+      MSnbase version from the <code>processingData</code> slots are passed
+      along. The <code>addMSnSetMetadata</code> function can be used to add
+      the complete <code>processingData</code>, <code>experimentData</code> and
+      <code>protocolData</code> slots. The downside of this is that MSnbase is
+      now required to use the <code>SummarizedExperiment</code> object.
     </dl>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

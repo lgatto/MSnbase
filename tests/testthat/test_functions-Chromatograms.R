@@ -3,10 +3,12 @@ test_that("Chromatograms works", {
     expect_equal(nrow(chs), 0)
     expect_equal(ncol(chs), 0)
     expect_equal(unname(nrow(chs@phenoData)), 0)
+    expect_equal(unname(nrow(chs@featureData)), 0)
     chs <- Chromatograms()
     expect_equal(nrow(chs), 0)
     expect_equal(ncol(chs), 0)
     expect_equal(unname(nrow(chs@phenoData)), 0)
+    expect_equal(unname(nrow(chs@featureData)), 0)
     ## Errors:
     chs@.Data <- matrix(1:4)
     expect_error(validObject(chs))
@@ -18,10 +20,11 @@ test_that("Chromatograms works", {
     expect_equal(length(chs[1, 1]), 0)
     chs[2, 1] <- list(Chromatogram(1:10, 1:10))
     expect_equal(length(chs[2, 1]), 10)
-    expect_equal(chs[, 1, drop = TRUE], c(ch, Chromatogram(1:10, 1:10)))
+    expect_equal(chs[, 1, drop = TRUE], c(`1` = ch, `2` = Chromatogram(1:10, 1:10)))
     expect_equal(unname(nrow(chs@phenoData)), ncol(chs))
     expect_equal(colnames(chs), rownames(pData(chs)))
     expect_equal(colnames(chs), as.character(1:ncol(chs)))
+    expect_equal(rownames(chs), as.character(1:nrow(chs)))
     ## Chromatograms with a phenoData.
     pheno <- AnnotatedDataFrame(data.frame(idx = 1:4, name = letters[1:4]))
     chs <- Chromatograms(ch_list, nrow = 2, phenoData = pheno)
@@ -31,9 +34,23 @@ test_that("Chromatograms works", {
     chs <- Chromatograms(ch_list, nrow = 2, phenoData = pheno)
     expect_equal(chs@phenoData, as(pheno, "NAnnotatedDataFrame"))
     expect_equal(colnames(chs), letters[1:4])
+    ## Chromatograms with a featureData.
+    fd <- data.frame(name = c("a", "b"), mzmin = 1:2)
+    chs <- Chromatograms(ch_list, nrow = 2, featureData = fd)
+    expect_equal(chs@featureData, AnnotatedDataFrame(fd))
+    expect_equal(chs, Chromatograms(ch_list, nrow = 2,
+                                    featureData = AnnotatedDataFrame(fd)))
+    expect_equal(rownames(chs), as.character(1:nrow(chs)))
+    rownames(fd) <- letters[1:2]
+    chs <- Chromatograms(ch_list, nrow = 2, featureData = fd)
+    expect_equal(rownames(chs), letters[1:2])
+    expect_equal(featureNames(chs), letters[1:2])
     ## Error
     pheno <- AnnotatedDataFrame(data.frame(idx = 1:3, name = letters[1:3]))
     expect_error(Chromatograms(ch_list, nrow = 2, phenoData = pheno))
+    expect_error(Chromatograms(ch_list, nrow = 2, featureData = 1:3))
+    expect_error(Chromatograms(ch_list, nrow = 2,
+                               featureData = data.frame(a = 1:5)))
 })
 
 test_that(".validChromatograms works", {
@@ -42,6 +59,9 @@ test_that(".validChromatograms works", {
     chs <- Chromatograms(ch_list, nrow = 2)
     expect_true(MSnbase:::.validChromatograms(chs))
     chs@phenoData <- as(AnnotatedDataFrame(), "NAnnotatedDataFrame")
+    expect_error(validObject(chs))
+    chs <- Chromatograms(ch_list, nrow = 2)
+    chs@featureData <- AnnotatedDataFrame()
     expect_error(validObject(chs))
 })
 
