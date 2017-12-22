@@ -147,15 +147,14 @@ Chromatograms <- function(data, phenoData, featureData, ...) {
 #' @author Johannes Rainer
 #'
 #' @noRd
-.mz_chromatograms <- function(x, mz = "mz") {
-    mz <- match.arg(mz, c("mz", "precursorMz", "productMz"))
+.mz_chromatograms <- function(x, mz = c("mz", "precursorMz", "productMz")) {
+    mz <- match.arg(mz)
     if (!nrow(x))
         return(matrix(nrow = 0, ncol = 2, dimnames = list(character(),
                                                           c("mzmin", "mzmax"))))
     ## If we've got the values in the featureData, use these.
     if (mz %in% c("precursorMz", "productMz"))
-        vl <- rep(paste0(sub(mz, pattern = "Mz", replacement = ""),
-                         "IsolationWindowTargetMZ"), 2)
+        vl <- rep(sub("Mz", "IsolationWindowTargetMZ", mz), 2)
     else
         vl <- c("mzmin", "mzmax")
     if (all(vl %in% fvarLabels(x))) {
@@ -166,7 +165,7 @@ Chromatograms <- function(data, phenoData, featureData, ...) {
         ## the values in one row are not identical
         mzr <- matrix(nrow = nrow(x), ncol = 2,
                       dimnames = list(NULL, c("mzmin", "mzmax")))
-        for (i in 1:nrow(mzr)) {
+        for (i in seq_len(nrow(mzr))) {
             rngs <- unique(do.call(
                 rbind, lapply(x@.Data[i, ], getMethod(mz, "Chromatogram"))))
             if (nrow(rngs) != 1)
