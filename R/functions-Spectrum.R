@@ -416,6 +416,7 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
     if (!ignoreCentroided && centroided(object, na.fail = TRUE))
         return(object)
 
+    refineMz <- match.arg(refineMz)
     ## estimate noise
     ## Hack to support passing arguments to both noise estimation methods and
     ## m/z refinement methods. CAVE: partial matching does not work!
@@ -435,7 +436,6 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
 
     peakIdx <- which(isAboveNoise & isLocalMaxima)
 
-    refineMz <- match.arg(refineMz)
     if (refineMz == "none") {
         object@mz <- object@mz[peakIdx]
         object@intensity <- object@intensity[peakIdx]

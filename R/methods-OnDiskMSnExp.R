@@ -767,7 +767,8 @@ setMethod("smooth", "OnDiskMSnExp",
 setMethod("pickPeaks", "OnDiskMSnExp",
           function(object, halfWindowSize = 3L,
                    method = c("MAD", "SuperSmoother"),
-                   SNR = 0L, refineMz = c("none", "kNeighbors", "descendPeak"),
+                   SNR = 0L, refineMz = c("none", "kNeighbors", "kNeighbours",
+                                          "descendPeak"),
                    ...) {
               method <- match.arg(method)
               refineMz <- match.arg(refineMz)
