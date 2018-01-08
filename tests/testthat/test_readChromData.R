@@ -2,6 +2,12 @@ test_that("readChromatograms works", {
     library(msdata)
     fl <- proteomics(full.names = TRUE, pattern = "MRM")
     files <- c(fl, fl, fl)
+
+    expect_error(readSRMData())
+    expect_error(readSRMData(files, pdata = data.frame(files = "a")))
+    ## Test that the precursorMz from each chromatogram matches the one from
+    ## the feature data.
+
 })
 
 test_that(".combine_data.frame works", {

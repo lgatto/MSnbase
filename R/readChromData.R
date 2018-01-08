@@ -1,16 +1,45 @@
 ## Read chromatogram data from an mzML.
 ## Problem is that the function to read the data is only implemented for pwiz.
 
-## Read SRM data
-## Requires mzML files with chromatogram data recorded in selected reaction
-## monitoring mode. TIC chromatograms are not loaded.
-## SRM: Q1, Q3, start end (acquisition time).
-readSRMData <- function(files, pdata = NULL,
-                        verbose = isMSnbaseVerbose()) {
+#' @title Read SRM/MRM chromatographic data
+#'
+#' @description
+#'
+#' The `readSRMData` function reads MRM/SRM data from provided *mzML* files and
+#' returns the results as a `Chromatograms()` object.
+#'
+#' @details
+#'
+#' `readSRMData` supports reading chromatogram entries from *mzML* files. If
+#' multiple files are provided the same precursor and product m/z for SRM/MRM
+#' chromatograms are expected across files. The number of columns of the
+#' resulting `Chromatograms()` object corresponds to the number of files. Each
+#' row in the `Chromatograms()` object is supposed to contain chromatograms
+#' with same polarity, precursor and product m/z. If chromatograms with
+#' redundant polarity, precursor and product m/z values are found, they are
+#' placed into multiple consecutive rows in the `Chromatograms()` object.
+#'
+#' @note
+#'
+#' `readSRMData` reads only SRM/MRM chromatogram data, i.e. chromatogram data
+#' with `precursorIsolationWindowTargetMZ` and `productIsolationWindowTargetMZ`
+#' data. Total ion chromatogram data is hence not extracted.
+#' 
+#' @param files `character` with the files containing the SRM/MRM data.
+#'
+#' @param pdata `data.frame` or `AnnotatedDataFrame` with file/sample
+#'     descriptions.
+#'
+#' @return A `Chromatograms()` object. See details above for more information.
+#'
+#' @author Johannes Rainer
+#'
+#' @md
+readSRMData <- function(files, pdata = NULL) {
     files <- normalizePath(files)
     ## Read first the header of all files.
     hdr_list <- lapply(files, function(x) {
-        msf <- MSnbase:::.openMSfile(x)
+        msf <- .openMSfile(x)
         if (!is(msf, "mzRpwiz"))
             stop("Can only extract chromatogram information from a mzML file",
                  " using the 'proteowizard' backend")
@@ -24,59 +53,66 @@ readSRMData <- function(files, pdata = NULL,
     if (any(lens == 0))
         stop("file(s) ", paste0("'", files[lens == 0], "'", collapse = ", "),
              " do not contain SRM chromatogram data")
-    ## Now combine the individual headers into a feature data data.frame
+    ## Now combine the individual headers into a feature data data.frame.
+    ## What makes all this necessary is that mzML files can contain multiple
+    ## chromatogram entries with exactly the same polarity, precursor and
+    ## product m/z. We need to account for that.
     fdata <- .combine_data.frame(hdr_list,
-                                 cols = c("precursorIsolationWindowTargetMZ",
+                                 cols = c("polarity",
+                                          "precursorIsolationWindowTargetMZ",
                                           "productIsolationWindowTargetMZ"))
-
-
+    fdata_ids <- paste(.polarity_char(fdata$polarity),
+                       " Q1=", fdata$precursorIsolationWindowTargetMZ,
+                       " Q3=", fdata$productIsolationWindowTargetMZ)
+    ## Process the phenoData.
+    if (is.null(pdata))
+        pdata <- data.frame(file = files, stringsAsFactors = FALSE)
+    if (is.data.frame(pdata))
+        pdata <- AnnotatedDataFrame(pdata)
+    if (!is(pdata, "AnnotatedDataFrame"))
+        stop("'pdata' should be a 'data.frame' or an 'AnnotatedDataFrame'")
+    if (length(files) != nrow(pdata))
+        stop("'nrow(pdata)' has to match 'length(files)'")
+    pdata$file <- files
     
-    ## For SRM data we want to group chromatograms by polarity, precursorMZ,
-    ## productMZ
-    f_data <- unique(do.call(
-        rbind, hdr_list)[, c("polarity",
-                             "precursorIsolationWindowTargetMZ",
-                             "productIsolationWindowTargetMZ")])
-    f_ids <- paste0(.polarity_char(f_data$polarity),
-                    " Q1=", f_data$precursorIsolationWindowTargetMZ,
-                    " Q3=", f_data$productIsolationWindowTargetMZ)
-    ## Loop again through the files to read the data and return Chromatograms
-    ## in the order matching the f_data.
-    ## Need to get a list() of Chromatogram objects. These are then passed to
-    ## the Chromatograms function along with ncol.
-    chrs <- mapply(
-        files, hdr_list, 1:length(files),
-        FUN = function(x, hdr, idx) {
-            ## It's not SRM data if precursorIsolationWindowTargetMZ and
-            ## productIsolationWindowTargetMS is both NA!
-            ## Get the index of the chromatograms in the feature data.
-            current_f_ids <- paste0(.polarity_char(hdr$polarity),
-                                    " Q1=",
-                                    hdr$precursorIsolationWindowTargetMZ,
-                                    " Q3=",
-                                    hdr$productIsolationWindowTargetMZ)
-            ## If these are not unique we've got a problem, i.e. the data is
-            ## most likely not SRM data.
-            if (length(current_f_ids) != length(unique(current_f_ids)))
-                stop("Chromatogram data in file ", basename(x), " does not ",
-                     "appear to represent SRM data")
-
-            ## AAAAAH, got Q1=180.1 Q3=162.996 twice! with slightly different
-            ## retention time windows! Would have to add two rows for this guy!
-            ## Load the data.
-            msf <- MSnbase:::.openMSfile(x)
-            chr <- mapply(
-                chromatogram(msf), split.data.frame(hdr, 1:nrow(hdr)),
-                FUN = function(dat, hd) {
-                    Chromatogram(
-                        rtime = dat[, 1],
-                        intensity = dat[, 2],
-                        precursorMz = hd$precursorIsolationWindowTargetMZ,
-                        productMz = hd$precursorIsolationWindowTargetMZ,
-                        fromFile = idx)
-                })
+    ## Read the data.
+    chrs <- unlist(mapply(
+        files, hdr_list, seq_along(files),
+        FUN = function(file, hdr, idx) {
+            current_ids <- paste(.polarity_char(hdr$polarity),
+                                 " Q1=", hdr$precursorIsolationWindowTargetMZ,
+                                 " Q3=", hdr$productIsolationWindowTargetMZ)
+            ## Warn if the current file does contain redundant isolation windows
+            if (length(current_ids) != length(unique(current_ids)))
+                warning("file ", basename(file), " contains multiple ",
+                        "chromatograms with identical polarity, precursor ",
+                        "and product m/z values", call. = FALSE)
+            ## Create the result list with the expected length
+            res_chrs <- replicate(nrow(fdata), Chromatogram(fromFile = idx))
+            ## Read the data
+            msf <- .openMSfile(file)
+            chr_data <- chromatogram(msf, hdr$chromatogramIndex)
             close(msf)
-        })
+            ## Loop through all of em:
+            ## 1) create Chromatogram
+            ## 2) find the first emtpy slot matching the current id in res_chrs
+            for (i in seq_len(nrow(hdr))) {
+                idx_to_place <- which(lengths(res_chrs) == 0 &
+                                      fdata_ids == current_ids[i])[1]
+                if (is.na(idx_to_place))
+                    stop("Got more redundant chromatograms than expected")
+                res_chrs[[idx_to_place]] <- Chromatogram(
+                    rtime = chr_data[[i]][, 1],
+                    intensity = chr_data[[i]][, 1],
+                    precursorMz = hdr$precursorIsolationWindowTargetMZ[i],
+                    productMz = hdr$productIsolationWindowTargetMZ[i],
+                    fromFile = idx)                
+            }
+            res_chrs
+        }), use.names = FALSE)
+
+    Chromatograms(chrs, phenoData = pdata, featureData = fdata,
+                  ncol = length(files))
 }
 
 #' @title Combine `data.frame`s without collapsing non-unique rows
@@ -105,6 +141,7 @@ readSRMData <- function(files, pdata = NULL,
 #' @param cols `character` defining the columns that should be returned.
 #'
 #' @return `data.frame`
+#' 
 #' @noRd
 #'
 #' @md
@@ -173,41 +210,6 @@ readSRMData <- function(files, pdata = NULL,
     ifelse(x == 1, "+", "-")
 }
 
-#' Build an ID for a chromatogram based on the provided feature data
-.chromatogramIdFromFeatureData <- function(x) {
-}
-
-readChromData <- function(files, pdata = NULL, verbose = isMSnbaseVerbose(),
-                          mode = c("inMem", "onDisk")) {
-    mode = match.arg(mode)
-    files <- normalizePath(files)
-    ## Can not use the Chromatograms object! the data is supposedly not in
-    ## matrix order.
-    for (i in seq_along(files)) {
-        msf <- .openMSfile(files[i])
-        ## This will only work for pwiz backend.
-        if (!is(msf, "mzRpwiz"))
-            stop("Can only extract chromatogram information from a mzML file",
-                 " using the 'proteowizard' backend")
-        hdr <- chromatogramHeader(msf)
-        chrs <- mapply(chromatogram(msf), split.data.frame(hdr, 1:nrow(hdr)),
-                       FUN = function(x, y) {
-                           Chromatogram(
-                               rtime = x[, 1], intensity = x[, 2],
-                               precursorMz = y$precursorIsolationWindowTargetMZ,
-                               productMz = y$productIsolationWindowTargetMZ,
-                               fromFile = i)
-                       })
-        close(msf)
-    }
-    ## Might need an object similar to pSet:
-    ## featureData that is the chromatogram info.
-    ## assayData that is a list/env of Chromatogram objects (or list of lists?).
-    ## There's a lot of stuff to implement!
-    ## chromatogram to return a list of Chromatograms.
-    ## fileIdx
-    ## ...
-}
 
 ## ChromExp: similar to MSnExp, just with inherited onDisk/inMem mode.
 
