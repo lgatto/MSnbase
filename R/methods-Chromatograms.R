@@ -32,6 +32,16 @@ setMethod("show", "Chromatograms", function(object) {
         print(out, quote = FALSE, right = TRUE)
     }
     cat("phenoData with", length(varLabels(object@phenoData)), "variables\n")
+    cat("featureData with", length(fvarLabels(object)), "variables\n")
+})
+
+setAs("matrix", "Chromatograms", function(from) {
+    res <- new("Chromatograms")
+    res@.Data <- from
+    res@phenoData <- as(annotatedDataFrameFrom(from, byrow = FALSE),
+                        "NAnnotatedDataFrame")
+    res@featureData <- annotatedDataFrameFrom(from, byrow = TRUE)
+    res
 })
 
 #' @rdname Chromatograms-class
@@ -91,6 +101,7 @@ setMethod("[", "Chromatograms",
               if (length(i) == 1 & length(j) == 1)
                   return(x@.Data[i, j, drop = TRUE][[1]])
               pd <- x@phenoData
+              fd <- x@featureData
               ## Multiple elements, return type depends on drop.
               x <- x@.Data[i = i, j = j, drop = drop]
               if (!drop) {
@@ -98,9 +109,10 @@ setMethod("[", "Chromatograms",
                   pd <- pd[j, ]
                   ## Drop levels
                   pData(pd) <- droplevels(pData(pd))
-                  ## ## set row names
-                  ## rownames(pd) <- colnames(x)
                   x@phenoData <- pd
+                  fd <- fd[i, ]
+                  pData(fd) <- droplevels(pData(fd))
+                  x@featureData <- fd
               }
               if (validObject(x))
                   x
@@ -298,3 +310,123 @@ setReplaceMethod("sampleNames", "Chromatograms",
 setMethod("isEmpty", "Chromatograms", function(x) {
     (nrow(x) == 0 | all(unlist(lapply(x, isEmpty))))
 })
+
+#' @rdname Chromatograms-class
+#' 
+#' @description \code{featureNames}: returns the feature names of the
+#'     \code{Chromatograms} object.
+setMethod("featureNames", "Chromatograms", function(object)
+          featureNames(featureData(object)))
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{featureNames<-}: set the feature names.
+setReplaceMethod("featureNames", "Chromatograms", function(object, value) {
+    if (length(value) != nrow(object))
+        stop("length of 'value' has to match the number of rows of the ",
+             "'Chromatograms' object")
+    rownames(object) <- value
+    featureNames(featureData(object)) <- value
+    if (validObject(object))
+        object
+})
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{featureData}: return the feature data.
+setMethod("featureData", "Chromatograms", function(object) object@featureData)
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{featureData<-}: replace the object's feature data.
+setReplaceMethod("featureData", "Chromatograms", function(object, value) {
+    if (is.data.frame(value))
+        value <- AnnotatedDataFrame(value)
+    if (!is(value, "AnnotatedDataFrame"))
+        stop("'value' has to be either a 'data.frame' or an ",
+             "'AnnotatedDataFrame'")
+    if (nrow(value) != nrow(object))
+        stop("nrow of 'value' has to match the number of rows of 'object'")
+    object@featureData <- value
+    rownames(object) <- rownames(value)
+    if (validObject(object))
+        object
+})
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{fData}: return the feature data as a \code{data.frame}.
+setMethod("fData", "Chromatograms", function(object) pData(object@featureData))
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{fData<-}: replace the object's feature data by passing a
+#'     \code{data.frame}
+setReplaceMethod("fData", "Chromatograms", function(object, value) {
+    if (!is.data.frame(value))
+        stop("'value' has to be a 'data.frame'")
+    if (nrow(value) != nrow(object))
+        stop("nrow of 'value' has to match the number of rows of 'object'")
+    pData(object@featureData) <- value
+    rownames(object) <- rownames(value)
+    if (validObject(object))
+        object
+})
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{fvarLabels}: return the feature data variable names (i.e.
+#'     column names).
+setMethod("fvarLabels", "Chromatograms", function(object)
+    varLabels(featureData(object)))
+
+#' @rdname Chromatograms-class
+#'
+#' @description \code{rownames<-}: replace the rownames (and featureNames) of
+#'     the object.
+setReplaceMethod("rownames", "Chromatograms", function(x, value) {
+    rownames(x@.Data) <- value
+    rownames(x@featureData) <- value
+    if (validObject(x))
+        x
+})
+
+#' @rdname Chromatograms-class
+#'
+#' @description
+#'
+#' \code{precursorMz}: return the precursor m/z from the chromatograms. The
+#' method returns a \code{matrix} with 2 columns (\code{"mzmin"} and
+#' \code{"mzmax"}) and as many rows as there are rows in the
+#' \code{Chromatograms} object. Each row contains the precursor m/z of the
+#' chromatograms in that row. An error is thrown if the chromatograms within one
+#' row have different precursor m/z values.
+setMethod("precursorMz", "Chromatograms", function(object) {
+    .mz_chromatograms(object, mz = "precursorMz")
+})
+
+#' @rdname Chromatograms-class
+#'
+#' @description
+#'
+#' \code{productMz}: return the product m/z from the chromatograms. The
+#' method returns a \code{matrix} with 2 columns (\code{"mzmin"} and
+#' \code{"mzmax"}) and as many rows as there are rows in the
+#' \code{Chromatograms} object. Each row contains the product m/z of the
+#' chromatograms in that row. An error is thrown if the chromatograms within one
+#' row have different product m/z values.
+setMethod("productMz", "Chromatograms", function(object) {
+    .mz_chromatograms(object, mz = "productMz")
+})
+
+#' @rdname Chromatograms-class
+#'
+#' @description
+#'
+#' \code{mz}: returns the m/z for each row of the \code{Chromatograms} object
+#' as a two-column \code{matrix} (with columns \code{"mzmin"} and
+#' \code{"mzmax"}).
+setMethod("mz", "Chromatograms", function(object) {
+    .mz_chromatograms(object, mz = "mz")
+})
+

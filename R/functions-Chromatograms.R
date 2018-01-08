@@ -16,7 +16,13 @@
     ## Check colnames .Data with rownames phenoData.
     if (any(colnames(x) != rownames(x@phenoData)))
         msg <- c(msg, paste0("colnames of object has to match rownames of",
-                             " phenoData"))
+                             " object's phenoData"))
+    if (nrow(x@featureData) != nrow(x))
+        msg <- c(msg, paste0("nrow of featureData has to match nrow ",
+                             "of the Chromatograms object"))
+    if (any(rownames(x) != rownames(x@featureData)))
+        msg <- c(msg, paste0("rownames of object has to match rownames of",
+                             " object's featureData"))
     if (length(msg))
         msg
     else TRUE
@@ -31,19 +37,23 @@
 #'     \code{NAnnotatedDataFrame} describing the phenotypical information of the
 #'     samples.
 #'
+#' @param featureData either a \code{data.frame} or \code{AnnotatedDataFrame}
+#'     with additional information for each row of chromatograms.
+#' 
 #' @param ... Additional parameters to be passed to the
 #'     \code{\link[base]{matrix}} constructor, such as \code{nrow}, \code{ncol}
 #'     and \code{byrow}.
 #' 
 #' @rdname Chromatograms-class
-Chromatograms <- function(data, phenoData, ...) {
+Chromatograms <- function(data, phenoData, featureData, ...) {
     if (missing(data))
         return(new("Chromatograms"))
     datmat <- matrix(data, ...)
     if (missing(phenoData))
         phenoData <- annotatedDataFrameFrom(datmat, byrow = FALSE)
     if (ncol(datmat) != nrow(phenoData))
-        stop("Dimensions of the data matrix and the  phenoData do not match")
+        stop("phenoData has to have the same number of rows as the data ",
+             "matrix has columns")
     ## If colnames of datmat are NULL, use the rownames of phenoData
     if (is.null(colnames(datmat)))
         colnames(datmat) <- rownames(phenoData)
@@ -52,7 +62,17 @@ Chromatograms <- function(data, phenoData, ...) {
         phenoData <- AnnotatedDataFrame(phenoData)
     if (is(phenoData, "AnnotatedDataFrame"))
         phenoData <- as(phenoData, "NAnnotatedDataFrame")
-    res <- new("Chromatograms", .Data = datmat, phenoData = phenoData)
+    if (missing(featureData))
+        featureData <- annotatedDataFrameFrom(datmat, byrow = TRUE)
+    if (nrow(datmat) != nrow(featureData))
+        stop("featureData has to have the same number of rows as the data ",
+             "matrix has rows")
+    if (is.null(rownames(datmat)))
+        rownames(datmat) <- rownames(featureData)
+    if (is(featureData, "data.frame"))
+        featureData <- AnnotatedDataFrame(featureData)
+    res <- new("Chromatograms", .Data = datmat, phenoData = phenoData,
+               featureData = featureData)
     if (validObject(res))
         res
 }
@@ -121,4 +141,37 @@ Chromatograms <- function(data, phenoData, ...) {
     }
 }
 
-
+#' Helper function to extract mz, precursorMz or productMz from a Chromatograms
+#' object
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+.mz_chromatograms <- function(x, mz = c("mz", "precursorMz", "productMz")) {
+    mz <- match.arg(mz)
+    if (!nrow(x))
+        return(matrix(nrow = 0, ncol = 2, dimnames = list(character(),
+                                                          c("mzmin", "mzmax"))))
+    ## If we've got the values in the featureData, use these.
+    if (mz %in% c("precursorMz", "productMz"))
+        vl <- rep(sub("Mz", "IsolationWindowTargetMZ", mz), 2)
+    else
+        vl <- c("mzmin", "mzmax")
+    if (all(vl %in% fvarLabels(x))) {
+        ## Want to return a matrix, not a data.frame
+        cbind(mzmin = fData(x)[, vl[1]], mzmax = fData(x)[, vl[2]])
+    } else {
+        ## Get the xxx mz from the Chromatogram objects. Throw an error if
+        ## the values in one row are not identical
+        mzr <- matrix(nrow = nrow(x), ncol = 2,
+                      dimnames = list(NULL, c("mzmin", "mzmax")))
+        for (i in seq_len(nrow(mzr))) {
+            rngs <- unique(do.call(
+                rbind, lapply(x@.Data[i, ], getMethod(mz, "Chromatogram"))))
+            if (nrow(rngs) != 1)
+                stop("Chromatograms in row ", i, " have different ", mz)
+            mzr[i, ] <- rngs
+        }
+        mzr
+    }
+}

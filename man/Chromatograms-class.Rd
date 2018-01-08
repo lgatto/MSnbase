@@ -4,6 +4,7 @@
 \docType{class}
 \name{Chromatograms-class}
 \alias{Chromatograms-class}
+\alias{coerce,matrix,Chromatograms-method}
 \alias{Chromatograms}
 \alias{show,Chromatograms-method}
 \alias{[,Chromatograms,ANY,ANY,ANY-method}
@@ -18,9 +19,20 @@
 \alias{sampleNames,Chromatograms-method}
 \alias{sampleNames<-,Chromatograms,ANY-method}
 \alias{isEmpty,Chromatograms-method}
+\alias{featureNames,Chromatograms-method}
+\alias{featureNames<-,Chromatograms-method}
+\alias{featureData,Chromatograms-method}
+\alias{featureData<-,Chromatograms,ANY-method}
+\alias{fData,Chromatograms-method}
+\alias{fData<-,Chromatograms,ANY-method}
+\alias{fvarLabels,Chromatograms-method}
+\alias{rownames<-,Chromatograms-method}
+\alias{precursorMz,Chromatograms-method}
+\alias{productMz,Chromatograms-method}
+\alias{mz,Chromatograms-method}
 \title{Container for multiple Chromatogram objects}
 \usage{
-Chromatograms(data, phenoData, ...)
+Chromatograms(data, phenoData, featureData, ...)
 
 \S4method{show}{Chromatograms}(object)
 
@@ -49,6 +61,28 @@ Chromatograms(data, phenoData, ...)
 \S4method{sampleNames}{Chromatograms,ANY}(object) <- value
 
 \S4method{isEmpty}{Chromatograms}(x)
+
+\S4method{featureNames}{Chromatograms}(object)
+
+\S4method{featureNames}{Chromatograms}(object) <- value
+
+\S4method{featureData}{Chromatograms}(object)
+
+\S4method{featureData}{Chromatograms,ANY}(object) <- value
+
+\S4method{fData}{Chromatograms}(object)
+
+\S4method{fData}{Chromatograms,ANY}(object) <- value
+
+\S4method{fvarLabels}{Chromatograms}(object)
+
+\S4method{rownames}{Chromatograms}(x) <- value
+
+\S4method{precursorMz}{Chromatograms}(object)
+
+\S4method{productMz}{Chromatograms}(object)
+
+\S4method{mz}{Chromatograms}(object)
 }
 \arguments{
 \item{data}{A \code{list} of \code{\link{Chromatogram}} objects.}
@@ -56,6 +90,9 @@ Chromatograms(data, phenoData, ...)
 \item{phenoData}{either a \code{data.frame}, \code{AnnotatedDataFrame} or
 \code{NAnnotatedDataFrame} describing the phenotypical information of the
 samples.}
+
+\item{featureData}{either a \code{data.frame} or \code{AnnotatedDataFrame}
+with additional information for each row of chromatograms.}
 
 \item{...}{Additional parameters to be passed to the
 \code{\link[base]{matrix}} constructor, such as \code{nrow}, \code{ncol}
@@ -164,13 +201,51 @@ The \code{Chromatograms} class allows to store
 \code{isEmpty}: returns \code{TRUE} if the \code{Chromatograms}
     object or all of its \code{Chromatogram} objects is/are empty or contain
     only \code{NA} intensities.
+
+\code{featureNames}: returns the feature names of the
+    \code{Chromatograms} object.
+
+\code{featureNames<-}: set the feature names.
+
+\code{featureData}: return the feature data.
+
+\code{featureData<-}: replace the object's feature data.
+
+\code{fData}: return the feature data as a \code{data.frame}.
+
+\code{fData<-}: replace the object's feature data by passing a
+    \code{data.frame}
+
+\code{fvarLabels}: return the feature data variable names (i.e.
+    column names).
+
+\code{rownames<-}: replace the rownames (and featureNames) of
+    the object.
+
+\code{precursorMz}: return the precursor m/z from the chromatograms. The
+method returns a \code{matrix} with 2 columns (\code{"mzmin"} and
+\code{"mzmax"}) and as many rows as there are rows in the
+\code{Chromatograms} object. Each row contains the precursor m/z of the
+chromatograms in that row. An error is thrown if the chromatograms within one
+row have different precursor m/z values.
+
+\code{productMz}: return the product m/z from the chromatograms. The
+method returns a \code{matrix} with 2 columns (\code{"mzmin"} and
+\code{"mzmax"}) and as many rows as there are rows in the
+\code{Chromatograms} object. Each row contains the product m/z of the
+chromatograms in that row. An error is thrown if the chromatograms within one
+row have different product m/z values.
+
+\code{mz}: returns the m/z for each row of the \code{Chromatograms} object
+as a two-column \code{matrix} (with columns \code{"mzmin"} and
+\code{"mzmax"}).
 }
 \details{
 The \code{Chromatograms} class extends the base \code{matrix} class
     and hence allows to store \code{\link{Chromatogram}} objects in a
     two-dimensional array. Each row is supposed to contain
     \code{Chromatogram} objects for one MS data \emph{slice} with a common
-    mz and rt range. Columns contain \code{Chromatogram} objects from the
+    m/z and rt range. Columns contain \code{Chromatogram} objects from the
     same sample.
 
 \code{plot}: if \code{nrow(x) > 1} the plot area is split into
@@ -224,6 +299,10 @@ chrs
 
 ## Access a column within the pheno data
 chrs$name
+
+## Access the m/z ratio for each row; this will be NA for the present
+## object
+mz(chrs)
 
 ## Create some random Chromatogram objects
 ints <- abs(rnorm(123, mean = 200, sd = 32))
