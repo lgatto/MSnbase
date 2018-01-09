@@ -1,13 +1,34 @@
 test_that("readSRMData works", {
     library(msdata)
     fl <- proteomics(full.names = TRUE, pattern = "MRM")
-    files <- c(fl, fl, fl)
+    files <- c(fl, fl)
 
+    ## Errors
     expect_error(readSRMData())
     expect_error(readSRMData(files, pdata = data.frame(files = "a")))
+    expect_error(readSRMData(files, pdata = "a"))
+
+    ## Read the data
+    expect_warning(mrm <- readSRMData(files))
+    expect_true(colnames(pData(mrm)) == "file")
+    expect_equal(mrm$file, pData(mrm)$file)
+
     ## Test that the precursorMz from each chromatogram matches the one from
     ## the feature data.
-
+    precMz <- do.call(rbind, lapply(mrm[, 1], precursorMz))
+    colnames(precMz) <- c("mzmin", "mzmax")
+    expect_equal(precursorMz(mrm), precMz)
+    expect_equal(fData(mrm)$precursorIsolationWindowTargetMZ, precMz[, 1])
+    ## Same for the productMz
+    prodMz <- do.call(rbind, lapply(mrm[, 1], productMz))
+    colnames(prodMz) <- c("mzmin", "mzmax")
+    expect_equal(productMz(mrm), prodMz)
+    expect_equal(fData(mrm)$productIsolationWindowTargetMZ, prodMz[, 1])
+    
+    ## Read with pheno data
+    expect_warning(mrm <- readSRMData(files,
+                                      pdata = data.frame(sample = 1:2)))
+    expect_equal(mrm$sample, 1:2)
 })
 
 test_that(".combine_data.frame works", {
