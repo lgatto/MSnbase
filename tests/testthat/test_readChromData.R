@@ -1,4 +1,4 @@
-test_that("readChromatograms works", {
+test_that("readSRMData works", {
     library(msdata)
     fl <- proteomics(full.names = TRUE, pattern = "MRM")
     files <- c(fl, fl, fl)

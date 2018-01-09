@@ -103,7 +103,7 @@ readSRMData <- function(files, pdata = NULL) {
                     stop("Got more redundant chromatograms than expected")
                 res_chrs[[idx_to_place]] <- Chromatogram(
                     rtime = chr_data[[i]][, 1],
-                    intensity = chr_data[[i]][, 1],
+                    intensity = chr_data[[i]][, 2],
                     precursorMz = hdr$precursorIsolationWindowTargetMZ[i],
                     productMz = hdr$productIsolationWindowTargetMZ[i],
                     fromFile = idx)                
