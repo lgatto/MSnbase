@@ -326,11 +326,12 @@ setClass("MSnSet",
 .MSnSetList <-
     setClass("MSnSetList",
              slots = c(x = "list",
-                       log = "list"),
+                       log = "list",
+                       featureData = "data.frame"),
              contains = "Versioned",
              prototype = prototype(
                  new("Versioned",
-                     versions = c(MSnSetList = "0.1.0"))),
+                     versions = c(MSnSetList = "0.2.0"))),
              validity = function(object) {
                  msg <- validMsg(NULL, NULL)
                  if (!listOf(object@x, "MSnSet"))
@@ -340,6 +341,13 @@ setClass("MSnSet",
                      msg <- validMsg(msg,
                                      paste(sum(!nvals),
                                            "MSnSets are not valid."))
+                 if (length(object@x) != nrow(object@featureData))
+                     msg <- validMsg(msg,
+                                     "Data and meta-data dimensions don't match.")
+                 if (length(object@x) &&
+                     !identical(names(object@x), rownames(object@featureData)))
+                     msg <- validMsg(msg,
+                                     "Data and meta-data names don't match.")
                  if (is.null(msg)) TRUE
                  else msg
              })

@@ -75,7 +75,7 @@ setAs("MSnProcess", "list",
 setAs("MSnSet",
     "SummarizedExperiment",
     function (from) {
-        if (!require("SummarizedExperiment")) 
+        if (!requireNamespace("SummarizedExperiment")) 
             stop("The SummarizedExperiment package is required",
                  "to coerce an MSnSet to a SummarizedExperiment.")
         from <- logging(from, "Coerced to SummarizedExperiment.")
@@ -99,7 +99,7 @@ setAs("SummarizedExperiment",
     "MSnSet",
     function(from) {
 
-        if (!require("SummarizedExperiment"))
+        if (!requireNamespace("SummarizedExperiment"))
             stop("The SummarizedExperiment package is required",
                  "to coerce a SummarizedExperiment to an MSnSet.")
             

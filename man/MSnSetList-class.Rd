@@ -17,6 +17,9 @@
 \alias{split,MSnSet,character-method}
 \alias{unsplit,MSnSetList,factor-method}
 \alias{lapply,MSnSetList-method}
+\alias{sapply,MSnSetList-method}
+\alias{fData,MSnSetList-method}
+\alias{fData<-,MSnSetList,data.frame-method}
 
 \title{Storing multiple related MSnSets}
 
@@ -66,8 +69,10 @@
 
   \describe{
 
-    \item{\code{MSnSetList(x)}}{The class constructor that takes a list
-      of valid \code{MSnSet} instances as input \code{x}. }
+    \item{\code{MSnSetList(x, log, featureDAta)}}{The class constructor
+      that takes a list of valid \code{MSnSet} instances as input
+      \code{x}, an optional logging \code{list}, and an optional feature
+      metadata \code{data.frame}.}
 
     \item{\code{split(x, f)}}{An \code{MSnSetList} can be created from
       an \code{\linkS4class{MSnSet}} instance. \code{x} is a single
@@ -105,6 +110,12 @@
     \item{\code{log}:}{Object of class \code{list} containing an object
       creation log, containing among other elements the call that
       generated the object. Can be accessed with \code{objlog()}. }
+
+    \item{\code{featureData}:}{Object of class \code{data.frame} that
+    stores metadata for each object in the \code{x} slot. The number of
+    rows of this \code{data.frame} must be equal to the number of items
+    in the \code{x} slot and their respective (row)names must be
+    identical. }
     
     \item{\code{.__classVersion__}:}{The version of the instance. For
       development purposes only. }
@@ -114,9 +125,12 @@
 \section{Methods}{
   \describe{
     \item{\code{"[["}}{Extracts a single \code{MSnSet} at position. }
+    
     \item{\code{"["}}{Extracts one of more \code{MSnSets} as
       \code{MSnSetList}. }
+    
     \item{\code{length}}{Returns the number of \code{MSnSets}. }
+    
     \item{\code{names}}{Returns the names of \code{MSnSets}, if
       available. The replacement method is also available. }
     \item{\code{show}}{ Display the object by printing a short
@@ -126,7 +140,18 @@
       element of the input \code{x}. If the application of \code{FUN}
       returns and \code{MSnSet}, then the return value is an
       \code{MSnSetList}, otherwise a \code{list}}.
+
+    \item{\code{sapply(x, FUN, ..., simplify = TRUE, USE.NAMES =
+	TRUE)}}{ A \code{lapply} wrapper that simplifies the ouptut to a
+	vector, matric or array is possible. See \code{?base::sapply}
+	for details. }.
     
+    \item{\code{fData}}{Returns the features metadata \code{featureData}
+      slot. }
+
+    \item{\code{fData<-}}{Features metadata \code{featureData}
+      replacement method. }
+
   }
 }
 
@@ -144,8 +169,9 @@ data(tan2009r1)
 data(tan2009r2)
 
 ## The MSnSetList class
-##  an unnamed example
+##  for an unnamed list, names are set to indices
 msnl <- MSnSetList(list(tan2009r1, tan2009r2))
+names(msnl)
 ##  a named example
 msnl <- MSnSetList(list(A = tan2009r1, B = tan2009r2))
 names(msnl)
@@ -158,6 +184,10 @@ msnl[1]   ## an MSnSetList of length 1
 ## Iterating over the elements
 lapply(msnl, dim) ## a list
 lapply(msnl, normalise) ## an MSnSetList
+
+fData(msnl)
+fData(msnl)$X <- sapply(msnl, nrow)
+fData(msnl)
 
 ## Splitting and unsplitting
 ##  splitting along the columns/samples
