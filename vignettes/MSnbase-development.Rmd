@@ -4,7 +4,7 @@ author:
 - name: Laurent Gatto
   affiliation: Computational Proteomics Unit, Cambridge, UK.
 - name: Johannes Rainer
-  affiliation: Center for Biomedicine, EURAC, Bolzano, Italy.
+  affiliation: Institute for Biomedicine, Eurac Research, Bolzano, Italy.
 - name: Sebastian Gibb
   affiliation: Department of Anesthesiology and Intensive Care, University Medicine Greifswald, Germany.
 package: MSnbase

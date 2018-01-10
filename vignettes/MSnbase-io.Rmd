@@ -51,7 +51,12 @@ Data stored in one of the published `XML`-based formats. i.e. `mzXML`
 be imported with the `readMSData` method, which makes use of the 
 `r Biocpkg("mzR")` package to create `MSnExp` objects.  The files can be
 in profile or centroided mode.  See `?readMSData` for details.
- 
+
+Data from `mzML` files containing chromatographic data (e.g. generated in
+SRM/MRM experiments) can be imported with the `readSRMData` function that
+returns the chromatographic data as a `Chromatograms` object. See `?readSRMData`
+for more details.
+
 #### Peak lists {-}
 
 Peak lists in the `mgf`

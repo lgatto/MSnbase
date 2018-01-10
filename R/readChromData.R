@@ -1,5 +1,4 @@
 ## Read chromatogram data from an mzML.
-## Problem is that the function to read the data is only implemented for pwiz.
 
 #' @title Read SRM/MRM chromatographic data
 #'
@@ -22,8 +21,17 @@
 #' @note
 #'
 #' `readSRMData` reads only SRM/MRM chromatogram data, i.e. chromatogram data
-#' with `precursorIsolationWindowTargetMZ` and `productIsolationWindowTargetMZ`
-#' data. Total ion chromatogram data is hence not extracted.
+#' from mzML files with `precursorIsolationWindowTargetMZ` and
+#' `productIsolationWindowTargetMZ` attributes. Total ion chromatogram data is
+#' hence not extracted.
+#'
+#' The number of features and hence rows of the resulting `Chromatograms`
+#' object depends on the total list of unique precursor and product m/z
+#' isolation windows found across all input files. In cases in which not each
+#' file has chromatgraphic data for the same polarity, precursor and product
+#' m/z, an empty `Chromatogram()` object is reported for the specific precursor
+#' and product m/z combination of the respective file (and a warning is
+#' thrown).
 #' 
 #' @param files `character` with the files containing the SRM/MRM data.
 #'
@@ -236,125 +244,3 @@ readSRMData <- function(files, pdata = NULL) {
     x[x < 0] <- NA
     ifelse(x == 1, "+", "-")
 }
-
-
-## ChromExp: similar to MSnExp, just with inherited onDisk/inMem mode.
-
-## Either extend pSet. Problem there: inherits many methods that are related to
-## spectra.
-## If assayData is empty but featureData is not -> onDisk mode.
-## setClass("ChromExp",
-##          slots = c(phenoData = "NAnnotatedDataFrame",
-##                    assayData = "list",
-##                    featureData = "AnnotatedDataFrame"),
-##          prototype = prototype(
-##              phenoData = new("NAnnotatedDataFrame"),
-##              featureData = new("AnnotatedDataFrame",
-##                                dimLabels = c("featureNames", "featureColumns")),
-##              assayData = list()
-##          )
-## )
-
-## For an object with both modes.
-## - one object.
-## For two objects, inMem and onDisk.
-## - separate methods to access the data, otherwise I have to have if statements
-## ChromExp and an OnDiskChromExp that extends ChromExp. ChromExp will contain
-## THE SAME metadata, thus it will be easy to switch back and forth between them
-## setClass("ChromExp",
-##          contains = "pSet",
-##          prototype = prototype(new("VersionedBiobase",
-##                                    versions = c(classVersion("pSet"),
-##                                                 ChromExp = "0.0.1"))))
-
-## .validChromExp <- function(object) {
-##     ## If it's onDisk mode: files have to be present.
-##     ## If it's inMem -> check that the content of assayData fits featureData
-##     ## and phenoData.
-##     msg <- character()
-##     ## Skip tests if assayData is empty
-##     if (length(object)) {
-##         ## check that nrow feature data matches assayData.
-##         ## check that assayData contains only Chromatogram objects
-##         ## check also validate from pSet.
-##     }
-    
-##     if (nrow(object@featureData)) {
-##     } else {
-##         ## shouldn't have anything in assayData.
-##     }
-##     if (length(msg))
-##         msg
-##     else TRUE
-## }
-
-## methods to keep:
-## validity???
-## [
-## [[
-## dim
-## sampleNames
-## fileNames
-## featureNames
-## phenoData
-## pData
-## varMetadata
-## varLabels
-## featureData
-## featureData<-
-## fData
-## fData<-
-## fvarMetadata
-## fvarLabels
-## experimentData
-## msInfo
-## expinfo
-## exptitle
-## expemail
-## ionSource
-## ionSourceDetails
-## analyser
-## analyzer
-## analyserDetails
-## analyzerDetails
-## instrumentModel
-## instrumentManufacturer
-## instrumentCustomizations
-## detectorType
-## description
-## notes
-## pubMedIds
-## pubMedIds<-
-## abstract
-## protocolData
-## processingData
-## $
-## $<-
-## pData<-
-
-## overwrite/replace
-## precursorMz overwrite
-## precursorScanNum error
-## tic overwrite
-## ionCount error
-## precursorCharge error
-## precursorIntensity error
-## acquisitionNum overwrite
-## scanIndex error
-## rtime overwrite
-## centroided error?
-## smoothed error?
-## peaksCount error?
-## msLevel error?
-## collisionEnergy overwrite
-## intensity overwrite
-## mz overwrite
-## polarity overwrite
-## fromFile overwrite
-## header overwrite
-## length overwrite
-## spectra error
-## spectrapply error
-
-## new
-## isOnDisk
