@@ -99,7 +99,7 @@ setAs("SummarizedExperiment",
     "MSnSet",
     function(from) {
 
-        if (!require("SummarizedExperiment"))
+        if (!requireNamespace("SummarizedExperiment"))
             stop("The SummarizedExperiment package is required",
                  "to coerce a SummarizedExperiment to an MSnSet.")
             
