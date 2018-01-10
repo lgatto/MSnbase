@@ -369,7 +369,7 @@ test_that("keeping common features", {
     res2 <- lapply(res2, MSnbase:::nologging)
     expect_equal(msnsets(res1), msnsets(res2),
                  check.attributes = FALSE)
-    expect_null(names(res2))
+    expect_equal(names(res2), as.character(1:2))
     expect_equal(names(res1), names(res3))
 })
 

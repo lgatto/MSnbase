@@ -2,8 +2,20 @@ msnsets <- function(object) object@x
 objlog <- function(object) object@log
 
 MSnSetList <-
-    function(x, log = list(call = match.call()))
-        .MSnSetList(x = x, log = log)
+    function(x = list(),
+             log = list(call = match.call()),
+             featureData) {
+        if (missing(featureData)) {
+            if (is.null(names(x)))
+                names(x) <- seq_len(length(x))
+        }
+        if (anyDuplicated(names(x)))
+            names(x) <- make.unique(names(x))
+        featureData <- data.frame(row.names = names(x))
+        .MSnSetList(x = x, log = log,
+                    featureData = featureData)
+    }
+
 
 setMethod("show", "MSnSetList",
           function(object) {
@@ -11,19 +23,27 @@ setMethod("show", "MSnSetList",
                   length(object), " objects.\n", sep = "")
           })
 
+setMethod("fData", "MSnSetList",
+          function(object) object@featureData)
+setMethod("featureData", "MSnSetList",
+          function(object) object@featureData)
+
 setMethod("length", "MSnSetList", function(x) length(x@x))
 
 setMethod("names", "MSnSetList", function(x) names(x@x))
 
 setReplaceMethod("names", "MSnSetList",
           function(x, value) {
-                     names(x@x) <- value
-                     x
+              names(x@x) <- value
+              rownames(x@featureData) <- value
+              x
           })
 
 setMethod("[", c("MSnSetList", "ANY", "missing", "missing"),
           function(x, i, j = "missing", drop = "missing")
-              .MSnSetList(x = msnsets(x)[i]))
+              MSnSetList(x = msnsets(x)[i],
+                         log = x@log,
+                         featureData <- x@featureData[i, , drop = FALSE]))
 
 setMethod("[[", c("MSnSetList", "ANY", "missing"),
           function(x, i, j = "missing", drop = "missing") {
@@ -58,17 +78,29 @@ setMethod("split", c("MSnSet", "factor"),
                                function(i) x[, i])
               MSnSetList(x = xl,
                          log = list(call = match.call(),
-                             dims = dim(x),
-                             f = f))
+                                    dims = dim(x),
+                                    f = f))
           })
 
 setMethod("lapply", "MSnSetList",
           function(X, FUN, ...) {
               ans <- lapply(msnsets(X), FUN, ...)
+              fd <- X@featureData[names(ans), , drop = FALSE]
               if (listOf(ans, "MSnSet"))
-                  ans <- MSnSetList(ans)
+                  ans <- MSnSetList(ans, featureData = fd)
               ans
           })
+
+setMethod("sapply", "MSnSetList",
+          function(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE) {
+              ans <- lapply(X, FUN, ...)
+              if (USE.NAMES && is.character(X) && is.null(names(ans))) 
+                  names(ans) <- X
+              if (!identical(simplify, FALSE) && length(ans)) 
+                  simplify2array(ans, higher = (simplify == "array"))
+              else ans
+          })
+
 
 setMethod("unsplit", c("MSnSetList", "factor"),
           function(value, f) {
@@ -95,6 +127,17 @@ setMethod("unsplit", c("MSnSetList", "factor"),
               }
               ans
           })
+
+setReplaceMethod("fData",
+                 signature = signature(
+                     object = "MSnSetList",
+                     value = "data.frame"),
+                 function(object, value) {
+                     object@featureData <- value
+                     if (validObject(object))
+                         return(object)
+                 })
+
 
 ##
 ## un-exported utils
