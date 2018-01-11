@@ -19,7 +19,7 @@
 \alias{lapply,MSnSetList-method}
 \alias{sapply,MSnSetList-method}
 \alias{fData,MSnSetList-method}
-\alias{fData<-,MSnSetList,data.frame-method}
+\alias{fData<-,MSnSetList,DataFrame-method}
 
 \title{Storing multiple related MSnSets}
 
@@ -111,7 +111,7 @@
       creation log, containing among other elements the call that
       generated the object. Can be accessed with \code{objlog()}. }
 
-    \item{\code{featureData}:}{Object of class \code{data.frame} that
+    \item{\code{featureData}:}{Object of class \code{DataFrame} that
     stores metadata for each object in the \code{x} slot. The number of
     rows of this \code{data.frame} must be equal to the number of items
     in the \code{x} slot and their respective (row)names must be

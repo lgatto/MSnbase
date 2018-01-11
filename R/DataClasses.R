@@ -327,7 +327,7 @@ setClass("MSnSet",
     setClass("MSnSetList",
              slots = c(x = "list",
                        log = "list",
-                       featureData = "data.frame"),
+                       featureData = "DataFrame"),
              contains = "Versioned",
              prototype = prototype(
                  new("Versioned",
@@ -609,6 +609,8 @@ setClass("Chromatogram",
 #'     \code{\link{chromatogram}} for the method to extract a
 #'     \code{Chromatograms} object from a \code{\linkS4class{MSnExp}} or
 #'     \code{\linkS4class{OnDiskMSnExp}} object.
+#'     \code{\link{readSRMData}} for the function to read chromatographic data
+#'     of an SRM/MRM experiment.
 #' 
 #' @author Johannes Rainer
 #' 

@@ -34,7 +34,7 @@ importFrom(ggplot2, geom_histogram, geom_text, geom_line, geom_point,
            facet_grid)
 
 importFrom(MALDIquant, binPeaks, match.closest) ## only using ::: functions
-importFrom(S4Vectors, isEmpty, metadata)
+importFrom(S4Vectors, isEmpty, metadata, DataFrame)
 
 ## importFrom(rols, olsQuery, term)
 ## importClassesFrom(rols, CVParam)

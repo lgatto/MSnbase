@@ -11,7 +11,7 @@ MSnSetList <-
         }
         if (anyDuplicated(names(x)))
             names(x) <- make.unique(names(x))
-        featureData <- data.frame(row.names = names(x))
+        featureData <- DataFrame(row.names = names(x))
         .MSnSetList(x = x, log = log,
                     featureData = featureData)
     }
@@ -25,6 +25,7 @@ setMethod("show", "MSnSetList",
 
 setMethod("fData", "MSnSetList",
           function(object) object@featureData)
+
 setMethod("featureData", "MSnSetList",
           function(object) object@featureData)
 
@@ -131,7 +132,7 @@ setMethod("unsplit", c("MSnSetList", "factor"),
 setReplaceMethod("fData",
                  signature = signature(
                      object = "MSnSetList",
-                     value = "data.frame"),
+                     value = "DataFrame"),
                  function(object, value) {
                      object@featureData <- value
                      if (validObject(object))
