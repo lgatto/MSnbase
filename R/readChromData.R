@@ -232,6 +232,34 @@ readSRMData <- function(files, pdata = NULL) {
     fd
 }
 
+.combine_data.frame2 <- function(x, cols) {
+    if (!length(x))
+        stop("length of 'x' must be > 0")
+    if (!all(unlist(lapply(x, is.data.frame))))
+        stop("all elements in 'x' need to be a data.frame")
+    fd <- do.call(rbind, x)
+    if (missing(cols))
+        cols <- colnames(fd)
+    else {
+        if (!all(cols %in% colnames(fd)))
+            stop("All columns specified with 'cols' have to be present in the",
+                 " data.frames")
+    }
+
+    nr <- vapply(x, nrow, 1)
+    dfIds <- rep(seq_along(x), nr)
+    colIds <- do.call(paste, fd[, cols, drop = FALSE])
+
+    repl <- vapply(split(dfIds, colIds), function(d)max(table(d)), 1)
+
+    o <- order(colIds)
+    fd <- fd[o,]
+    colIds <- colIds[o]
+
+    fd <- fd[rep(which(!duplicated(colIds)), repl), ]
+    rownames(fd) <- NULL
+    fd
+}
 
 #' Convert the mzML polarity information into a character (+, -, NA)
 #' representing the polarity
