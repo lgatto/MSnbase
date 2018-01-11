@@ -7,7 +7,7 @@
 - The MSnSetList class has a new `featureData` slot, accessible with
   `fData` to store metadata for the individial MSnSets of the
   list. `MSnSetList` also not has an `sapply` method. <2018-01-10 Wed>
-- combineFeatures now has a new `fcol` argument (see issue #195)
+- combineFeatures now has a new `fcol` argument (see issue [#195](https://github.com/lgatto/MSnbase/issues/195))
   <2018-01-11 Thu>
 
 ## Changes in version 2.5.3
