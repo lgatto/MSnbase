@@ -52,3 +52,11 @@ test_that(".combine_data.frame works", {
     expect_equal(.combine_data.frame(list(D, E)), exp)
     expect_equal(.combine_data.frame(list(E, D)), exp)
 })
+
+test_that(".polarity_char works", {
+    expect_equal(.polarity_char(1), "+")
+    expect_equal(.polarity_char(0), "-")
+    expect_equal(.polarity_char(-1), NA)
+    expect_equal(.polarity_char(c(1, 1, 0, 1, -1)), c("+", "+", "-", "+", NA))
+    expect_error(.polarity_char(c(2, 1, 0)))
+})

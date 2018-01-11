@@ -232,6 +232,7 @@ readSRMData <- function(files, pdata = NULL) {
     fd
 }
 
+
 #' Convert the mzML polarity information into a character (+, -, NA)
 #' representing the polarity
 #'
@@ -241,6 +242,8 @@ readSRMData <- function(files, pdata = NULL) {
 #'
 #' @author Johannes Rainer
 .polarity_char <- function(x) {
+    if (!all(x %in% c(-1, 0, 1)))
+        stop("Polarity is expected to take only values 1, -1 and 0")
     x[x < 0] <- NA
     ifelse(x == 1, "+", "-")
 }
