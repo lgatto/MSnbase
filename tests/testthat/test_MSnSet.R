@@ -39,7 +39,16 @@ test_that("MSnSet coersion", {
     ms@.__classVersion__ <- classVersion(dunkley2006)
     expect_true(all.equal(ms, dunkley2006))
 })
-
+test_that("Combine MSnSet features: groupBy and fcol", {
+    data(msnset)
+    msnset <- msnset[11:15, ]
+    grp <- as.factor(c(1, 1, 2, 2, 2))
+    fData(msnset)$k <- grp
+    x1 <- combineFeatures(msnset, groupBy = grp)
+    x2 <- combineFeatures(msnset, fcol = "k")
+    x2@processingData <- x1@processingData
+    expect_equal(x1, x2)    
+})
 
 test_that("Combine MSnSet features (V)", {
     aa <- new("MSnSet",

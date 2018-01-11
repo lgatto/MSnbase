@@ -24,9 +24,9 @@
 
 \usage{
 
-combineFeatures(object, groupBy, fun = c("mean", "median",
-"weighted.mean", "sum", "medpolish", "iPQF", "NTR"), redundancy.handler =
-c("unique", "multiple"), cv = TRUE, cv.norm = "sum", verbose =
+combineFeatures(object, groupBy, fcol, fun = c("mean", "median",
+"weighted.mean", "sum", "medpolish", "iPQF", "NTR"), redundancy.handler
+= c("unique", "multiple"), cv = TRUE, cv.norm = "sum", verbose =
 isMSnbaseVerbose(), ...)
 
 }
@@ -41,8 +41,14 @@ isMSnbaseVerbose(), ...)
     list must be of length \code{nrow(object)}. Each element of the list
     is a vector describing the feature mapping. If the list can be
     named, its names must match \code{fetureNames(object)}. See
-    \code{redundancy.handler} for details about the latter.}
+    \code{redundancy.handler} for details about the latter. }
 
+  \item{fcol}{Feature meta-data label (fData column name) defining how
+    to summerise the features. It must be present in
+    \code{fvarLabels(object)} and, if present, will be used to defined
+    \code{groupBy} as \code{fData(object)[, fcol]}. Note that
+    \code{fcol} is ignored if \code{groupBy} is present. }
+ 
   \item{fun}{ The summerising function. Currently, mean, median,
     weighted mean, sum, median polish, iPQF (see
     \code{\link{iPQF}} for details) and NTR (see \code{\link[MSnbase]{NTR}}
