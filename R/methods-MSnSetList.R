@@ -16,7 +16,6 @@ MSnSetList <-
                     featureData = featureData)
     }
 
-
 setMethod("show", "MSnSetList",
           function(object) {
               cat("Instance of class '", class(object), "' containig ",
@@ -41,10 +40,20 @@ setReplaceMethod("names", "MSnSetList",
           })
 
 setMethod("[", c("MSnSetList", "ANY", "missing", "missing"),
-          function(x, i, j = "missing", drop = "missing")
-              MSnSetList(x = msnsets(x)[i],
-                         log = x@log,
-                         featureData <- x@featureData[i, , drop = FALSE]))
+          function(x, i, j = "missing", drop = "missing") {
+              ## To minimise time spent on checking the validity of
+              ## all the MSnSets within x (which we assume are valid),
+              ## here we create an empty MSnSetList (that is validated
+              ## by default) and populate the slots after manual
+              ## subsetting.
+              newx <- msnsets(x)[i]
+              fd <- x@featureData[i, , drop = FALSE]
+              ans <- MSnSetList()
+              ans@log <- x@log
+              ans@x <- newx
+              ans@featureData <- fd
+              ans
+          })
 
 setMethod("[[", c("MSnSetList", "ANY", "missing"),
           function(x, i, j = "missing", drop = "missing") {
