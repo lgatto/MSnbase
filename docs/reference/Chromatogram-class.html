@@ -97,9 +97,6 @@
     <code>aggregationFun,aggregationFun&lt;-</code> get or set the
     aggregation function.
 
-    <code>productMz</code> get the mz of the product chromatogram/ion. The
-    function returns a <code>numeric(2)</code> with the lower and upper mz value.
-
     <code>rtime</code> returns the retention times for the rentention time
     - intensity pairs stored in the chromatogram.
 
@@ -131,7 +128,10 @@
     <code>msLevel</code> returns the MS level of the chromatogram.
 
     <code>isEmpty</code> returns <code>TRUE</code> for empty chromatogram or
-    chromatograms with all intensities being <code>NA</code>.</p>
+    chromatograms with all intensities being <code>NA</code>.
+
+    <code>productMz</code> get the mz of the product chromatogram/ion. The
+    function returns a <code>numeric(2)</code> with the lower and upper mz value.</p>
     
 
     <pre class="usage"><span class='fu'>Chromatogram</span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fu'>numeric</span>(), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'>numeric</span>(), <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>NA_real_</span>,
@@ -140,8 +140,6 @@
   <span class='kw'>aggregationFun</span> <span class='kw'>=</span> <span class='fu'>character</span>(), <span class='kw'>msLevel</span> <span class='kw'>=</span> <span class='fl'>1L</span>)
 
 <span class='fu'>aggregationFun</span>(<span class='no'>object</span>)
-
-<span class='fu'>productMz</span>(<span class='no'>object</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
 <span class='fu'>show</span>(<span class='no'>object</span>)
@@ -182,7 +180,10 @@
 <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>object</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
-<span class='fu'>isEmpty</span>(<span class='no'>x</span>)</pre>
+<span class='fu'>isEmpty</span>(<span class='no'>x</span>)
+
+<span class='co'># S4 method for Chromatogram</span>
+<span class='fu'>productMz</span>(<span class='no'>object</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">

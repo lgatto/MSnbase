@@ -122,10 +122,48 @@
 
     <code>isEmpty</code>: returns <code>TRUE</code> if the <code>Chromatograms</code>
     object or all of its <code>Chromatogram</code> objects is/are empty or contain
-    only <code>NA</code> intensities.</p>
+    only <code>NA</code> intensities.
+
+    <code>featureNames</code>: returns the feature names of the
+    <code>Chromatograms</code> object.
+
+    <code>featureNames&lt;-</code>: set the feature names.
+
+    <code>featureData</code>: return the feature data.
+
+    <code>featureData&lt;-</code>: replace the object's feature data.
+
+    <code>fData</code>: return the feature data as a <code>data.frame</code>.
+
+    <code>fData&lt;-</code>: replace the object's feature data by passing a
+    <code>data.frame</code>
+
+    <code>fvarLabels</code>: return the feature data variable names (i.e.
+    column names).
+
+    <code>rownames&lt;-</code>: replace the rownames (and featureNames) of
+    the object.
+
+    <code>precursorMz</code>: return the precursor m/z from the chromatograms. The
+method returns a <code>matrix</code> with 2 columns (<code>"mzmin"</code> and
+<code>"mzmax"</code>) and as many rows as there are rows in the
+<code>Chromatograms</code> object. Each row contains the precursor m/z of the
+chromatograms in that row. An error is thrown if the chromatograms within one
+row have different precursor m/z values.
+
+    <code>productMz</code>: return the product m/z from the chromatograms. The
+method returns a <code>matrix</code> with 2 columns (<code>"mzmin"</code> and
+<code>"mzmax"</code>) and as many rows as there are rows in the
+<code>Chromatograms</code> object. Each row contains the product m/z of the
+chromatograms in that row. An error is thrown if the chromatograms within one
+row have different product m/z values.
+
+    <code>mz</code>: returns the m/z for each row of the <code>Chromatograms</code> object
+as a two-column <code>matrix</code> (with columns <code>"mzmin"</code> and
+<code>"mzmax"</code>).</p>
     
 
-    <pre class="usage">Chromatograms(data, phenoData, ...)
+    <pre class="usage">Chromatograms(data, phenoData, featureData, ...)
 
 # S4 method for Chromatograms
 show(object)
@@ -166,7 +204,40 @@ sampleNames(object)
 sampleNames(object) <- value
 
 # S4 method for Chromatograms
-isEmpty(x)</pre>
+isEmpty(x)
+
+# S4 method for Chromatograms
+featureNames(object)
+
+# S4 method for Chromatograms
+featureNames(object) <- value
+
+# S4 method for Chromatograms
+featureData(object)
+
+# S4 method for Chromatograms,ANY
+featureData(object) <- value
+
+# S4 method for Chromatograms
+fData(object)
+
+# S4 method for Chromatograms,ANY
+fData(object) <- value
+
+# S4 method for Chromatograms
+fvarLabels(object)
+
+# S4 method for Chromatograms
+rownames(x) <- value
+
+# S4 method for Chromatograms
+precursorMz(object)
+
+# S4 method for Chromatograms
+productMz(object)
+
+# S4 method for Chromatograms
+mz(object)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -180,6 +251,11 @@ isEmpty(x)</pre>
       <td><p>either a <code>data.frame</code>, <code>AnnotatedDataFrame</code> or
 <code>NAnnotatedDataFrame</code> describing the phenotypical information of the
 samples.</p></td>
+    </tr>
+    <tr>
+      <th>featureData</th>
+      <td><p>either a <code>data.frame</code> or <code>AnnotatedDataFrame</code>
+with additional information for each row of chromatograms.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -279,7 +355,7 @@ will be used as plot title.</p></td>
     and hence allows to store <code><a href='Chromatogram-class.html'>Chromatogram</a></code> objects in a
     two-dimensional array. Each row is supposed to contain
     <code>Chromatogram</code> objects for one MS data <em>slice</em> with a common
-    mz and rt range. Columns contain <code>Chromatogram</code> objects from the
+    m/z and rt range. Columns contain <code>Chromatogram</code> objects from the
     same sample.
     <code>plot</code>: if <code>nrow(x) &gt; 1</code> the plot area is split into
     <code>nrow(x)</code> sub-plots and the chromatograms of one row are plotted in
@@ -319,7 +395,8 @@ will be used as plot title.</p></td>
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]     length: 25     length: 19
 #&gt; [2,]     length: 32     length: 21
-#&gt; phenoData with 0 variables</div><div class='input'>
+#&gt; phenoData with 0 variables
+#&gt; featureData with 0 variables</div><div class='input'>
 <span class='co'>## Extract the first element from the second column. Extracting a single</span>
 <span class='co'>## element always returns a Chromatogram object.</span>
 <span class='no'>chrs</span>[<span class='fl'>1</span>, <span class='fl'>2</span>]</div><div class='output co'>#&gt; Object of class: Chromatogram
@@ -334,14 +411,16 @@ will be used as plot title.</p></td>
 #&gt;                   1              2
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]     length: 32     length: 21
-#&gt; phenoData with 0 variables</div><div class='input'>
+#&gt; phenoData with 0 variables
+#&gt; featureData with 0 variables</div><div class='input'>
 <span class='co'>## Extract the second row with drop = FALSE, i.e. return a Chromatograms</span>
 <span class='co'>## object.</span>
 <span class='no'>chrs</span>[<span class='fl'>2</span>, , <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>]</div><div class='output co'>#&gt; Chromatograms with 1 row and 2 columns
 #&gt;                   1              2
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]     length: 32     length: 21
-#&gt; phenoData with 0 variables</div><div class='input'>
+#&gt; phenoData with 0 variables
+#&gt; featureData with 0 variables</div><div class='input'>
 <span class='co'>## Replace the first element.</span>
 <span class='no'>chrs</span>[<span class='fl'>1</span>, <span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='no'>ch3</span>
 <span class='no'>chrs</span></div><div class='output co'>#&gt; Chromatograms with 2 rows and 2 columns
@@ -349,7 +428,8 @@ will be used as plot title.</p></td>
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]     length: 19     length: 19
 #&gt; [2,]     length: 32     length: 21
-#&gt; phenoData with 0 variables</div><div class='input'>
+#&gt; phenoData with 0 variables
+#&gt; featureData with 0 variables</div><div class='input'>
 <span class='co'>## Add a pheno data.</span>
 <span class='no'>pd</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"first sample"</span>, <span class='st'>"second sample"</span>),
     <span class='kw'>idx</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>)
@@ -361,10 +441,16 @@ will be used as plot title.</p></td>
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]     length: 19     length: 19
 #&gt; [2,]     length: 32     length: 21
-#&gt; phenoData with 2 variables</div><div class='input'>
+#&gt; phenoData with 2 variables
+#&gt; featureData with 0 variables</div><div class='input'>
 <span class='co'>## Access a column within the pheno data</span>
 <span class='no'>chrs</span>$<span class='no'>name</span></div><div class='output co'>#&gt; [1] first sample  second sample
 #&gt; Levels: first sample second sample</div><div class='input'>
+<span class='co'>## Access the m/z ratio for each row; this will be NA for the present</span>
+<span class='co'>## object</span>
+<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>chrs</span>)</div><div class='output co'>#&gt;      mzmin mzmax
+#&gt; [1,]    NA    NA
+#&gt; [2,]    NA    NA</div><div class='input'>
 <span class='co'>## Create some random Chromatogram objects</span>
 <span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'>abs</span>(<span class='fu'>rnorm</span>(<span class='fl'>123</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>32</span>))
 <span class='no'>ch1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fu'>seq_along</span>(<span class='no'>ints</span>), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fl'>231</span>)

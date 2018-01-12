@@ -122,8 +122,10 @@
     
     <p>Objects can be created and manipluated with:</p>
 <p></p><dl class='dl-horizontal'>
-    <dt><code>MSnSetList(x)</code></dt><dd><p>The class constructor that takes a list
-      of valid <code>MSnSet</code> instances as input <code>x</code>.</p></dd>
+    <dt><code>MSnSetList(x, log, featureDAta)</code></dt><dd><p>The class constructor
+      that takes a list of valid <code>MSnSet</code> instances as input
+      <code>x</code>, an optional logging <code>list</code>, and an optional feature
+      metadata <code>data.frame</code>.</p></dd>
     <dt><code>split(x, f)</code></dt><dd><p>An <code>MSnSetList</code> can be created from
       an <code><a href='MSnSet-class.html'>MSnSet</a></code> instance. <code>x</code> is a single
       <code>MSnSet</code> and <code>f</code> is a <code>factor</code> or a
@@ -155,6 +157,11 @@
     <dt><code>log</code>:</dt><dd><p>Object of class <code>list</code> containing an object
       creation log, containing among other elements the call that
       generated the object. Can be accessed with <code>objlog()</code>.</p></dd>
+    <dt><code>featureData</code>:</dt><dd><p>Object of class <code>DataFrame</code> that
+    stores metadata for each object in the <code>x</code> slot. The number of
+    rows of this <code>data.frame</code> must be equal to the number of items
+    in the <code>x</code> slot and their respective (row)names must be
+    identical.</p></dd>
     <dt><code>.__classVersion__</code>:</dt><dd><p>The version of the instance. For
       development purposes only.</p></dd>
   </dl>
@@ -174,6 +181,14 @@
       element of the input <code>x</code>. If the application of <code>FUN</code>
       returns and <code>MSnSet</code>, then the return value is an
       <code>MSnSetList</code>, otherwise a <code>list</code></p></dd>.
+    <dt><code>sapply(x, FUN, ..., simplify = TRUE, USE.NAMES =
+	TRUE)</code></dt><dd><p>A <code>lapply</code> wrapper that simplifies the ouptut to a
+	vector, matric or array is possible. See <code>?base::sapply</code>
+	for details.</p></dd>.
+    <dt><code>fData</code></dt><dd><p>Returns the features metadata <code>featureData</code>
+      slot.</p></dd>
+    <dt><code>fData&lt;-</code></dt><dd><p>Features metadata <code>featureData</code>
+      replacement method.</p></dd>
     </dl>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -185,11 +200,12 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='st'>"pRolocdata"</span>)</div><div class='output co'>#&gt; <span class='error'>Error: package ‘MSnbase’ required by ‘pRolocdata’ could not be found</span></div><div class='input'><span class='fu'>data</span>(<span class='no'>tan2009r1</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘tan2009r1’ not found</span></div><div class='input'><span class='fu'>data</span>(<span class='no'>tan2009r2</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘tan2009r2’ not found</span></div><div class='input'>
 <span class='co'>## The MSnSetList class</span>
-<span class='co'>##  an unnamed example</span>
-<span class='no'>msnl</span> <span class='kw'>&lt;-</span> <span class='fu'>MSnSetList</span>(<span class='fu'>list</span>(<span class='no'>tan2009r1</span>, <span class='no'>tan2009r2</span>))</div><div class='output co'>#&gt; <span class='error'>Error in .nextMethod(.Object, ...): object 'tan2009r1' not found</span></div><div class='input'><span class='co'>##  a named example</span>
-<span class='no'>msnl</span> <span class='kw'>&lt;-</span> <span class='fu'>MSnSetList</span>(<span class='fu'>list</span>(<span class='kw'>A</span> <span class='kw'>=</span> <span class='no'>tan2009r1</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='no'>tan2009r2</span>))</div><div class='output co'>#&gt; <span class='error'>Error in .nextMethod(.Object, ...): object 'tan2009r1' not found</span></div><div class='input'><span class='fu'>names</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'msnl' not found</span></div><div class='input'><span class='fu'>msnsets</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in msnsets(msnl): object 'msnl' not found</span></div><div class='input'><span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'msnl' not found</span></div><div class='input'><span class='fu'>objlog</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in objlog(msnl): object 'msnl' not found</span></div><div class='input'><span class='no'>msnl</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='co'>## an MSnSet</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'msnl' not found</span></div><div class='input'><span class='no'>msnl</span>[<span class='fl'>1</span>]   <span class='co'>## an MSnSetList of length 1</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'msnl' not found</span></div><div class='input'>
+<span class='co'>##  for an unnamed list, names are set to indices</span>
+<span class='no'>msnl</span> <span class='kw'>&lt;-</span> <span class='fu'>MSnSetList</span>(<span class='fu'>list</span>(<span class='no'>tan2009r1</span>, <span class='no'>tan2009r2</span>))</div><div class='output co'>#&gt; <span class='error'>Error in MSnSetList(list(tan2009r1, tan2009r2)): object 'tan2009r1' not found</span></div><div class='input'><span class='fu'>names</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'msnl' not found</span></div><div class='input'><span class='co'>##  a named example</span>
+<span class='no'>msnl</span> <span class='kw'>&lt;-</span> <span class='fu'>MSnSetList</span>(<span class='fu'>list</span>(<span class='kw'>A</span> <span class='kw'>=</span> <span class='no'>tan2009r1</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='no'>tan2009r2</span>))</div><div class='output co'>#&gt; <span class='error'>Error in MSnSetList(list(A = tan2009r1, B = tan2009r2)): object 'tan2009r1' not found</span></div><div class='input'><span class='fu'>names</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'msnl' not found</span></div><div class='input'><span class='fu'>msnsets</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in msnsets(msnl): object 'msnl' not found</span></div><div class='input'><span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'msnl' not found</span></div><div class='input'><span class='fu'>objlog</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in objlog(msnl): object 'msnl' not found</span></div><div class='input'><span class='no'>msnl</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='co'>## an MSnSet</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'msnl' not found</span></div><div class='input'><span class='no'>msnl</span>[<span class='fl'>1</span>]   <span class='co'>## an MSnSetList of length 1</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'msnl' not found</span></div><div class='input'>
 <span class='co'>## Iterating over the elements</span>
 <span class='fu'>lapply</span>(<span class='no'>msnl</span>, <span class='no'>dim</span>) <span class='co'>## a list</span></div><div class='output co'>#&gt; <span class='error'>Error in lapply(msnl, dim): object 'msnl' not found</span></div><div class='input'><span class='fu'>lapply</span>(<span class='no'>msnl</span>, <span class='no'>normalise</span>) <span class='co'>## an MSnSetList</span></div><div class='output co'>#&gt; <span class='error'>Error in lapply(msnl, normalise): object 'msnl' not found</span></div><div class='input'>
+<span class='fu'>fData</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in fData(msnl): object 'msnl' not found</span></div><div class='input'><span class='fu'>fData</span>(<span class='no'>msnl</span>)$<span class='no'>X</span> <span class='kw'>&lt;-</span> <span class='fu'>sapply</span>(<span class='no'>msnl</span>, <span class='no'>nrow</span>)</div><div class='output co'>#&gt; <span class='error'>Error in sapply(msnl, nrow): object 'msnl' not found</span></div><div class='input'><span class='fu'>fData</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in fData(msnl): object 'msnl' not found</span></div><div class='input'>
 <span class='co'>## Splitting and unsplitting</span>
 <span class='co'>##  splitting along the columns/samples</span>
 <span class='fu'>data</span>(<span class='no'>dunkley2006</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘dunkley2006’ not found</span></div><div class='input'><span class='fu'>head</span>(<span class='fu'>pData</span>(<span class='no'>dunkley2006</span>))</div><div class='output co'>#&gt; <span class='error'>Error in pData(dunkley2006): object 'dunkley2006' not found</span></div><div class='input'>(<span class='no'>splt</span> <span class='kw'>&lt;-</span> <span class='fu'>split</span>(<span class='no'>dunkley2006</span>, <span class='st'>"replicate"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in split(dunkley2006, "replicate"): object 'dunkley2006' not found</span></div><div class='input'><span class='fu'>lapply</span>(<span class='no'>splt</span>, <span class='no'>dim</span>) <span class='co'>## the number of rows and columns of the split elements</span></div><div class='output co'>#&gt; <span class='error'>Error in lapply(splt, dim): object 'splt' not found</span></div><div class='input'><span class='no'>unsplt</span> <span class='kw'>&lt;-</span> <span class='fu'>unsplit</span>(<span class='no'>splt</span>, <span class='no'>dunkley2006</span>$<span class='no'>replicate</span>)</div><div class='output co'>#&gt; <span class='error'>Error in unsplit(splt, dunkley2006$replicate): object 'splt' not found</span></div><div class='input'><span class='fu'>stopifnot</span>(<span class='fu'><a href='compareMSnSets.html'>compareMSnSets</a></span>(<span class='no'>dunkley2006</span>, <span class='no'>unsplt</span>))</div><div class='output co'>#&gt; <span class='error'>Error in compareMSnSets(dunkley2006, unsplt): object 'unsplt' not found</span></div><div class='input'>
