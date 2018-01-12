@@ -181,7 +181,7 @@ readSRMData <- function(files, pdata = NULL) {
 #'
 #' @md
 #' 
-#' @author Johannes Rainer
+#' @author Johannes Rainer, Sebastian Gibb
 #'
 #' @examples
 #'
@@ -199,40 +199,6 @@ readSRMData <- function(files, pdata = NULL) {
 #'                 b = c(4, 3, 1, 1), stringsAsFactors = FALSE)
 #' .combine_data.frame(list(D, E))
 .combine_data.frame <- function(x, cols) {
-    if (!length(x))
-        stop("length of 'x' must be > 0")
-    if (!all(unlist(lapply(x, is.data.frame))))
-        stop("all elements in 'x' need to be a data.frame")
-    fd <- do.call(rbind, x)
-    if (missing(cols))
-        cols <- colnames(fd)
-    else {
-        if (!all(cols %in% colnames(fd)))
-            stop("All columns specified with 'cols' have to be present in the",
-                 " data.frames")
-    }
-    ## Make first unique elements
-    fd <- unique(fd[, cols, drop = FALSE])
-    if (nrow(fd)) {
-        fd_id <- do.call(paste, fd)
-        ## Find then the number of times each should be repeated.
-        rep_each <- matrix(ncol = length(x), nrow = nrow(fd))
-        for (i in seq_along(x)) {
-            x_id <- do.call(paste, x[[i]][, cols, drop = FALSE])
-            cnts <- table(match(x_id, fd_id))
-            idx <- as.numeric(names(cnts))
-            rep_each[as.numeric(names(cnts)), i] <- as.numeric(cnts)
-        }
-        splt <- split.data.frame(fd, 1:nrow(fd))
-        fd <- do.call(rbind,
-                      rep(splt, apply(rep_each, MARGIN = 1, max, na.rm = TRUE)))
-        fd <- fd[do.call(order, fd), ]
-        rownames(fd) <- NULL
-    }
-    fd
-}
-
-.combine_data.frame2 <- function(x, cols) {
     if (!length(x))
         stop("length of 'x' must be > 0")
     if (!all(unlist(lapply(x, is.data.frame))))
