@@ -36,8 +36,9 @@ test_that(".combine_data.frame works", {
     B <- data.frame(a = c(1, 3, 3, 3, 3, 4, 5), b = c(2, 4, 4, 4, 5, 5, 5))
     C <- data.frame(a = c(3, 3, 4, 4), b = c(4, 5, 5, 5))
     
-    .combine_data.frame(list(A, B, C))
-    exp <- data.frame(a = c(1, 1, 2, 3, 4, 5, 6))
+    exp <- data.frame(a = c(1, 1, 2, 3, 3, 3, 3, 4, 4, 5, 6),
+                      b = c(2, 2, 3, 4, 4, 4, 5, 5, 5, 5, 6))
+    expect_equal(exp, .combine_data.frame(list(A, B, C)))
     
     expect_error(.combine_data.frame())
     expect_error(.combine_data.frame(list(A, B, C), cols = c("z")))
