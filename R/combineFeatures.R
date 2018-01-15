@@ -7,6 +7,7 @@ combineFeatures <- function(object,
                                 "medpolish",
                                 "iPQF",
                                 "NTR"),
+                            fcol,                            
                             redundancy.handler = c("unique", "multiple"),
                             cv = TRUE,
                             cv.norm = "sum",
@@ -15,6 +16,12 @@ combineFeatures <- function(object,
                             ) {
     if (is.character(fun))
         fun <- match.arg(fun)
+    if (missing(groupBy)) {
+        if (missing(fcol))
+            stop("Require either 'groupBy' or 'fcol'.")
+        stopifnot(fcol %in% fvarLabels(object))
+        groupBy <- fData(object)[, fcol]
+    }
     if (is.list(groupBy)) {
         if (length(groupBy) != nrow(object))
             stop("'length(groupBy)' must be equal to 'nrow(object)': ",

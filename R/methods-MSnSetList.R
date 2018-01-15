@@ -11,11 +11,10 @@ MSnSetList <-
         }
         if (anyDuplicated(names(x)))
             names(x) <- make.unique(names(x))
-        featureData <- data.frame(row.names = names(x))
+        featureData <- DataFrame(row.names = names(x))
         .MSnSetList(x = x, log = log,
                     featureData = featureData)
     }
-
 
 setMethod("show", "MSnSetList",
           function(object) {
@@ -25,6 +24,7 @@ setMethod("show", "MSnSetList",
 
 setMethod("fData", "MSnSetList",
           function(object) object@featureData)
+
 setMethod("featureData", "MSnSetList",
           function(object) object@featureData)
 
@@ -40,10 +40,20 @@ setReplaceMethod("names", "MSnSetList",
           })
 
 setMethod("[", c("MSnSetList", "ANY", "missing", "missing"),
-          function(x, i, j = "missing", drop = "missing")
-              MSnSetList(x = msnsets(x)[i],
-                         log = x@log,
-                         featureData <- x@featureData[i, , drop = FALSE]))
+          function(x, i, j = "missing", drop = "missing") {
+              ## To minimise time spent on checking the validity of
+              ## all the MSnSets within x (which we assume are valid),
+              ## here we create an empty MSnSetList (that is validated
+              ## by default) and populate the slots after manual
+              ## subsetting.
+              newx <- msnsets(x)[i]
+              fd <- x@featureData[i, , drop = FALSE]
+              ans <- MSnSetList()
+              ans@log <- x@log
+              ans@x <- newx
+              ans@featureData <- fd
+              ans
+          })
 
 setMethod("[[", c("MSnSetList", "ANY", "missing"),
           function(x, i, j = "missing", drop = "missing") {
@@ -131,7 +141,7 @@ setMethod("unsplit", c("MSnSetList", "factor"),
 setReplaceMethod("fData",
                  signature = signature(
                      object = "MSnSetList",
-                     value = "data.frame"),
+                     value = "DataFrame"),
                  function(object, value) {
                      object@featureData <- value
                      if (validObject(object))

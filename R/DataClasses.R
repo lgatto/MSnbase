@@ -327,14 +327,14 @@ setClass("MSnSet",
     setClass("MSnSetList",
              slots = c(x = "list",
                        log = "list",
-                       featureData = "data.frame"),
+                       featureData = "DataFrame"),
              contains = "Versioned",
              prototype = prototype(
                  new("Versioned",
                      versions = c(MSnSetList = "0.2.0"))),
              validity = function(object) {
                  msg <- validMsg(NULL, NULL)
-                 if (!listOf(object@x, "MSnSet"))
+                 if (!listOf(object@x, "MSnSet", valid = FALSE))
                      msg <- validMsg(msg, "Not all items are MSnSets.")
                  nvals <- sapply(object@x, validObject)
                  if (!all(nvals))

@@ -9,8 +9,12 @@
 - The MSnSetList class has a new `featureData` slot, accessible with
   `fData` to store metadata for the individial MSnSets of the
   list. `MSnSetList` also not has an `sapply` method. <2018-01-10 Wed>
+- combineFeatures now has a new `fcol` argument (see issue [#195](https://github.com/lgatto/MSnbase/issues/195))
+  <2018-01-11 Thu>
 
 ## Changes in version 2.5.3
+- Add filterPrecursorScan for `MSnExp` and `OnDiskMSnExp`;
+  closes issue #282 and PR #287 <2017-12-16 Sat>.
 - MSnSet to/from SummarizedExperiment coercion (contributed by Arne
   Smits in PR [#284](https://github.com/lgatto/MSnbase/issues/284)) <2017-12-17 Sun>
 - Fix inverted M/Z axis in plot3D,MSmap (reported by Sylvain

@@ -455,9 +455,9 @@
 <pre><code>## Class "Chromatograms" [package "MSnbase"]
 ## 
 ## Slots:
-##                                               
-## Name:                .Data           phenoData
-## Class:              matrix NAnnotatedDataFrame
+##                                                                   
+## Name:                .Data           phenoData         featureData
+## Class:              matrix NAnnotatedDataFrame  AnnotatedDataFrame
 ## 
 ## Extends: 
 ## Class "matrix", from data part
@@ -478,8 +478,11 @@
 ## 
 ## Slots:
 ##                                                             
-## Name:                  x               log .__classVersion__
-## Class:              list              list          Versions
+## Name:                  x               log       featureData
+## Class:              list              list         DataFrame
+##                         
+## Name:  .__classVersion__
+## Class:          Versions
 ## 
 ## Extends: "Versioned"</code></pre>
 </div>
@@ -524,26 +527,26 @@
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] BiocStyle_2.7.2     MSnbase_2.5.3       ProtGenerics_1.11.0
-## [4] BiocParallel_1.13.0 mzR_2.13.1          Rcpp_0.12.14       
-## [7] Biobase_2.39.0      BiocGenerics_0.25.0
+## [1] BiocStyle_2.7.2     MSnbase_2.5.4       ProtGenerics_1.11.0
+## [4] BiocParallel_1.13.1 mzR_2.13.3          Rcpp_0.12.14       
+## [7] Biobase_2.39.1      BiocGenerics_0.25.1
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] compiler_3.5.0        BiocInstaller_1.29.2  plyr_1.8.4           
-##  [4] iterators_1.0.9       tools_3.5.0           zlibbioc_1.25.0      
-##  [7] MALDIquant_1.17       digest_0.6.12         evaluate_0.10.1      
-## [10] tibble_1.3.4          preprocessCore_1.41.0 gtable_0.2.0         
-## [13] lattice_0.20-35       rlang_0.1.4           foreach_1.4.3        
-## [16] yaml_2.1.15           stringr_1.2.0         knitr_1.17           
-## [19] IRanges_2.13.4        S4Vectors_0.17.12     stats4_3.5.0         
-## [22] rprojroot_1.2         grid_3.5.0            impute_1.53.0        
-## [25] XML_3.98-1.9          rmarkdown_1.8         limma_3.35.3         
-## [28] ggplot2_2.2.1         magrittr_1.5          backports_1.1.1      
-## [31] scales_0.5.0          pcaMethods_1.71.0     codetools_0.2-15     
-## [34] htmltools_0.3.6       mzID_1.17.0           colorspace_1.3-2     
-## [37] stringi_1.1.6         affy_1.57.0           doParallel_1.0.11    
-## [40] lazyeval_0.2.1        munsell_0.4.3         vsn_3.47.0           
-## [43] affyio_1.49.1</code></pre>
+##  [1] BiocInstaller_1.29.3  compiler_3.5.0        pillar_1.0.1         
+##  [4] plyr_1.8.4            iterators_1.0.9       tools_3.5.0          
+##  [7] zlibbioc_1.25.0       MALDIquant_1.17       digest_0.6.13        
+## [10] evaluate_0.10.1       tibble_1.4.1          preprocessCore_1.41.0
+## [13] gtable_0.2.0          lattice_0.20-35       rlang_0.1.6          
+## [16] foreach_1.4.4         yaml_2.1.16           stringr_1.2.0        
+## [19] knitr_1.18            IRanges_2.13.7        S4Vectors_0.17.18    
+## [22] stats4_3.5.0          rprojroot_1.3-2       grid_3.5.0           
+## [25] impute_1.53.0         XML_3.98-1.9          rmarkdown_1.8        
+## [28] limma_3.35.5          ggplot2_2.2.1.9000    magrittr_1.5         
+## [31] backports_1.1.2       scales_0.5.0.9000     pcaMethods_1.71.0    
+## [34] codetools_0.2-15      htmltools_0.3.6       mzID_1.17.0          
+## [37] colorspace_1.3-2      stringi_1.1.6         affy_1.57.0          
+## [40] doParallel_1.0.11     lazyeval_0.2.1        munsell_0.4.3        
+## [43] vsn_3.47.0            affyio_1.49.1</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
