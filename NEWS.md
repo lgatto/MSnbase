@@ -17,7 +17,7 @@
 
 ## Changes in version 2.5.3
 - Add filterPrecursorScan for `MSnExp` and `OnDiskMSnExp`;
-  closes issue #282 and PR #287 <2017-12-16 Sat>.
+  closes issue [#282](https://github.com/lgatto/MSnbase/issues/282) and PR [#287](https://github.com/lgatto/MSnbase/issues/287) <2017-12-16 Sat>.
 - MSnSet to/from SummarizedExperiment coercion (contributed by Arne
   Smits in PR [#284](https://github.com/lgatto/MSnbase/issues/284)) <2017-12-17 Sun>
 - Fix inverted M/Z axis in plot3D,MSmap (reported by Sylvain
