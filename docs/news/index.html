@@ -87,11 +87,19 @@
     <div id="msnbase-2-5" class="section level1">
 <h1 class="hasAnchor">
 <a href="#msnbase-2-5" class="anchor"></a>MSnbase 2.5</h1>
+<div id="changes-in-version-2-5-5" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-in-version-2-5-5" class="anchor"></a>Changes in version 2.5.5</h2>
+<ul>
+<li>Nothing yet</li>
+</ul>
+</div>
 <div id="changes-in-version-2-5-4" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-5-4" class="anchor"></a>Changes in version 2.5.4</h2>
 <ul>
 <li>Add featureData slot to Chromatograms class and add mz, precursorMz and productMz methods for Chromatograms (issue <a href="https://github.com/lgatto/MSnbase/issues/289">#289</a>) &lt;2017-12-18 Mon&gt;.</li>
+<li>Add readSRMData function to read chromatographic data from SRM (MRM) experiments; issue <a href="https://github.com/lgatto/MSnbase/issues/286">#286</a> &lt;2018-01-10 Wed&gt;.</li>
 <li>The MSnSetList class has a new <code>featureData</code> slot, accessible with <code>fData</code> to store metadata for the individial MSnSets of the list. <code>MSnSetList</code> also not has an <code>sapply</code> method. &lt;2018-01-10 Wed&gt;</li>
 <li>combineFeatures now has a new <code>fcol</code> argument (see issue <a href="https://github.com/lgatto/MSnbase/issues/195">#195</a>) &lt;2018-01-11 Thu&gt;</li>
 </ul>
@@ -100,6 +108,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-5-3" class="anchor"></a>Changes in version 2.5.3</h2>
 <ul>
+<li>Add filterPrecursorScan for <code>MSnExp</code> and <code>OnDiskMSnExp</code>; closes issue <a href="https://github.com/lgatto/MSnbase/issues/282">#282</a> and PR <a href="https://github.com/lgatto/MSnbase/issues/287">#287</a> &lt;2017-12-16 Sat&gt;.</li>
 <li>MSnSet to/from SummarizedExperiment coercion (contributed by Arne Smits in PR <a href="https://github.com/lgatto/MSnbase/issues/284">#284</a>) &lt;2017-12-17 Sun&gt;</li>
 <li>Fix inverted M/Z axis in plot3D,MSmap (reported by Sylvain Dechaumet, see issue <a href="https://github.com/lgatto/MSnbase/issues/292">#292</a>) &lt;2017-12-19 Tue&gt;</li>
 </ul>

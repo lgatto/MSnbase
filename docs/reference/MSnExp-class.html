@@ -276,6 +276,10 @@
     <dt>filterAcquisitionNum</dt><dd><p></p></dd>
     <dt>filterEmptySpectra</dt><dd><p><code>signature(object = "MSnExp")</code>:
       Remove empty spectra from <code>object</code> (see <code>isEmpty</code>).</p></dd>
+    <dt>filterPrecursorScan</dt><dd><p><code>signature(object = "MSnExp",
+            acquisitionNum = "numeric")</code>:
+      Retain parent (e.g. MS1) and children scans (e.g. MS2) of
+      <code>acquisitionNum</code>.</p></dd>
     <dt>splitByFile</dt><dd><p><code>signature(object = "MSnExp", f =
 	"factor")</code>: split a <code>MSnExp</code> object by file into a
       <code>list</code> of <code>MSnExp</code> objects given the grouping in
@@ -310,8 +314,8 @@
 #&gt;  Number of spectra: 5 
 #&gt;  MSn retention times: 25:1 - 25:2 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded: Fri Jan 12 10:27:36 2018 
-#&gt;  MSnbase version: 2.5.4 
+#&gt; Data loaded: Tue Jan 16 14:19:22 2018 
+#&gt;  MSnbase version: 2.5.5 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
 #&gt;   rowNames: dummyiTRAQ.mzXML

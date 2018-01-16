@@ -203,7 +203,7 @@ depend on the architecture. Default is
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]    length: 112    length: 198
 #&gt; phenoData with 1 variables
-#&gt; featureData with 0 variables</div><div class='input'>
+#&gt; featureData with 1 variables</div><div class='input'>
 <span class='co'>## Extract the TIC for the second file:</span>
 <span class='no'>tic</span>[<span class='fl'>1</span>, <span class='fl'>2</span>]</div><div class='output co'>#&gt; Object of class: Chromatogram
 #&gt; Intensity values aggregated using: sum 
@@ -231,9 +231,9 @@ depend on the architecture. Default is
 #&gt; mz range: [NA, NA]
 #&gt; MS level: 1</div><div class='input'>
 <span class='co'>## The mz and/or rt ranges used are provided as featureData of the object</span>
-<span class='fu'>fData</span>(<span class='no'>chrs</span>)</div><div class='output co'>#&gt;   mzmin mzmax rtmin rtmax
-#&gt; 1   140   160    10    60
-#&gt; 2   300   320   280   300</div><div class='input'>
+<span class='fu'>fData</span>(<span class='no'>chrs</span>)</div><div class='output co'>#&gt;   mzmin mzmax rtmin rtmax polarity
+#&gt; 1   140   160    10    60        1
+#&gt; 2   300   320   280   300        1</div><div class='input'>
 <span class='co'>## The mz method can be used to extract the m/z ranges directly</span>
 <span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>chrs</span>)</div><div class='output co'>#&gt;      mzmin mzmax
 #&gt; [1,]   140   160

@@ -160,7 +160,10 @@ row have different product m/z values.
 
     <code>mz</code>: returns the m/z for each row of the <code>Chromatograms</code> object
 as a two-column <code>matrix</code> (with columns <code>"mzmin"</code> and
-<code>"mzmax"</code>).</p>
+<code>"mzmax"</code>).
+
+    <code>polarity</code>: returns the polarity of the scans/chromatograms: `1`,
+`0` or `-1` for positive, negative or unknown polarity.</p>
     
 
     <pre class="usage">Chromatograms(data, phenoData, featureData, ...)
@@ -237,7 +240,10 @@ precursorMz(object)
 productMz(object)
 
 # S4 method for Chromatograms
-mz(object)</pre>
+mz(object)
+
+# S4 method for Chromatograms
+polarity(object)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -374,7 +380,9 @@ will be used as plot title.</p></td>
     data.
     <code><a href='chromatogram-MSnExp-method.html'>chromatogram</a></code> for the method to extract a
     <code>Chromatograms</code> object from a <code><a href='MSnExp-class.html'>MSnExp</a></code> or
-    <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code> object.</p>
+    <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code> object.
+    <code><a href='readSRMData.html'>readSRMData</a></code> for the function to read chromatographic data
+    of an SRM/MRM experiment.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

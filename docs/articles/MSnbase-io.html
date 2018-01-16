@@ -97,6 +97,7 @@
 <h4 class="hasAnchor">
 <a href="#raw-data" class="anchor"></a>Raw data</h4>
 <p>Data stored in one of the published <code>XML</code>-based formats. i.e. <code>mzXML</code> <span class="citation">(Pedrioli et al. 2004)</span>, <code>mzData</code> <span class="citation">(Orchard et al. 2007)</span> or <code>mzML</code> <span class="citation">(Martens et al. 2010)</span>, can be imported with the <code>readMSData</code> method, which makes use of the <em><a href="http://bioconductor.org/packages/mzR">mzR</a></em> package to create <code>MSnExp</code> objects. The files can be in profile or centroided mode. See <code><a href="../reference/readMSData.html">?readMSData</a></code> for details.</p>
+<p>Data from <code>mzML</code> files containing chromatographic data (e.g. generated in SRM/MRM experiments) can be imported with the <code>readSRMData</code> function that returns the chromatographic data as a <code>Chromatograms</code> object. See <code><a href="../reference/readSRMData.html">?readSRMData</a></code> for more details.</p>
 </div>
 <div id="peak-lists" class="section level4 unnumbered">
 <h4 class="hasAnchor">
@@ -233,8 +234,8 @@ res</code></pre></div>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Quantitation data loaded: Fri Jan 12 10:29:39 2018  using readMSnSet. 
-##  MSnbase version: 2.5.4</code></pre>
+## Quantitation data loaded: Tue Jan 16 14:21:48 2018  using readMSnSet. 
+##  MSnbase version: 2.5.5</code></pre>
 <div id="the-msnset-class" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-msnset-class" class="anchor"></a>The <code>MSnSet</code> class</h3>
@@ -275,7 +276,7 @@ eset</code></pre></div>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-##  MSnbase version: 2.5.4</code></pre>
+##  MSnbase version: 2.5.5</code></pre>
 <p>The <code>ecol</code> columns can also be queried interactively from R using the <code>getEcols</code> and <code>grepEcols</code> function. The former return a character with all column names, given a splitting character, i.e. the separation value of the spreadsheet (typically <code>","</code> for <code>csv</code>, <code>"\t"</code> for <code>tsv</code>, …). The latter can be used to grep a pattern of interest to obtain the relevant column indices.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/grepEcols.html">getEcols</a></span>(f0, <span class="st">","</span>)</code></pre></div>
 <pre><code>##  [1] "\"Protein ID\""              "\"FBgn\""                   
@@ -302,7 +303,7 @@ eset</code></pre></div>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-##  MSnbase version: 2.5.4</code></pre>
+##  MSnbase version: 2.5.5</code></pre>
 <p>The <code>phenoData</code> slot can now be updated accordingly using the replacement functions <code>phenoData&lt;-</code> or <code>pData&lt;-</code> (see <code><a href="../reference/MSnSet-class.html">?MSnSet</a></code> for details).</p>
 </div>
 </div>
@@ -331,18 +332,18 @@ eset</code></pre></div>
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] pRolocdata_1.17.0   MSnbase_2.5.4       ProtGenerics_1.11.0
+## [1] pRolocdata_1.17.0   MSnbase_2.5.5       ProtGenerics_1.11.0
 ## [4] BiocParallel_1.13.1 mzR_2.13.3          Rcpp_0.12.14       
 ## [7] Biobase_2.39.1      BiocGenerics_0.25.1 BiocStyle_2.7.2    
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] BiocInstaller_1.29.3  compiler_3.5.0        pillar_1.0.1         
 ##  [4] plyr_1.8.4            iterators_1.0.9       zlibbioc_1.25.0      
-##  [7] tools_3.5.0           MALDIquant_1.17       digest_0.6.13        
+##  [7] tools_3.5.0           MALDIquant_1.17       digest_0.6.14        
 ## [10] evaluate_0.10.1       tibble_1.4.1          preprocessCore_1.41.0
 ## [13] gtable_0.2.0          lattice_0.20-35       rlang_0.1.6          
 ## [16] foreach_1.4.4         yaml_2.1.16           stringr_1.2.0        
-## [19] knitr_1.18            IRanges_2.13.7        S4Vectors_0.17.18    
+## [19] knitr_1.18            IRanges_2.13.10       S4Vectors_0.17.21    
 ## [22] stats4_3.5.0          rprojroot_1.3-2       grid_3.5.0           
 ## [25] impute_1.53.0         XML_3.98-1.9          rmarkdown_1.8        
 ## [28] limma_3.35.5          ggplot2_2.2.1.9000    magrittr_1.5         
