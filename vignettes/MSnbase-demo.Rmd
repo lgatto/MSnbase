@@ -166,6 +166,9 @@ spreadsheets into R for further processing using `r Biocpkg("MSnbase")`. The
 gives a general overview of `r Biocpkg("MSnbase")`'s input/ouput
 capabilites.
 
+See section \@ref(sec:io3) for importing chromatographic data of SRM/MRM
+experiments.
+
 ## Exporting experiments/MS data
 
 `MSnbase` supports also to write `MSnExp` or `OnDiskMSnExp` objects to `mzML` or
@@ -282,7 +285,8 @@ for a given $m/z$ range/slice, can be extracted with the `chromatogram`
 method. Below we read a file from the `msdata` package and extract the (MS level
 1) chromatogram. Without providing an $m/z$ and a retention time range the
 function returns the total ion chromatogram (TIC) for each file within the
-`MSnExp` or `OnDiskMSnExp` object.
+`MSnExp` or `OnDiskMSnExp` object. See also section \@ref(sec:io3) for importing
+chromatographic data from SRM/MRM experiments.
 
 ```{r Chromatogram}
 f <- c(system.file("microtofq/MM14.mzML", package = "msdata"))
@@ -987,6 +991,34 @@ data. `mzTab` files can be read into R with
 
 See the *MSnbase-io* vignette for a general overview of
 `r Biocpkg("MSnbase")`'s input/ouput capabilites.
+
+## Importing chromatographic data from SRM/MRM experiments {#sec:io3}
+
+Data from SRM/MRM experiments can be imported from `mzML` files using the
+`readSRMData` function. The `mzML` files are expected to contain chromatographic
+data for the same precursor and product m/z values. The function returns a
+`Chromatograms` object that arranges the data in a two-dimensional array, each
+column representing the data of one file (sample) and each row the
+chromatographic data for the same polarity, precursor and product m/z. In the
+example code below we load a single SRM file using `readSRMData`.
+
+```{r readSRMData, echo = TRUE, warning = FALSE}
+fl <- proteomics(full.names = TRUE, pattern = "MRM")
+srm <- readSRMData(fl)
+
+srm
+```
+
+The precursor and product m/z values can be extracted with the `precursorMz` and
+`productMz` functions. These functions always return a matrix, each row
+providing the lower and upper m/z value of the isolation window (in most cases
+minimal and maximal m/z will be identical).
+
+```{r srm-precursorMz}
+head(precursorMz(srm))
+
+head(productMz(srm))
+```
 
 ## Peak adjustments {#sec:purcor}
 

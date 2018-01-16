@@ -439,6 +439,11 @@ test_that(".mz_chromatograms, precursorMz etc,Chromatograms works", {
     expect_equal(res[, "mzmin"], res[, "mzmax"])
     expect_equal(res[, "mzmin"], c(5, NA))
     expect_equal(res, productMz(chrs_2))
+
+    ## polarity
+    expect_true(all(polarity(chrs) == -1))
+    fData(chrs)$polarity <- c(1, 1)
+    expect_true(all(polarity(chrs) == 1))
     
     ## With a real object.
     on_disk <- microtofq_on_disk
@@ -448,4 +453,5 @@ test_that(".mz_chromatograms, precursorMz etc,Chromatograms works", {
     expect_true(all(colnames(res) == c("mzmin", "mzmax")))
     expect_equal(unname(res[1, "mzmin"]), 123.4)
     expect_equal(unname(res[1, "mzmax"]), 123.6)
+    expect_true(polarity(chrs) == unique(polarity(microtofq_on_disk)))
 })

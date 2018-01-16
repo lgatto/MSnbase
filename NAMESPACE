@@ -139,7 +139,8 @@ export(MSnSet,
        filterIdentificationDataFrame,
        isCentroidedFromFile,
        requiredFvarLabels,
-       addMSnSetMetadata       
+       addMSnSetMetadata,
+       readSRMData
        )
 
 exportClasses(pSet,

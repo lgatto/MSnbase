@@ -30,6 +30,7 @@
 \alias{precursorMz,Chromatograms-method}
 \alias{productMz,Chromatograms-method}
 \alias{mz,Chromatograms-method}
+\alias{polarity,Chromatograms-method}
 \title{Container for multiple Chromatogram objects}
 \usage{
 Chromatograms(data, phenoData, featureData, ...)
@@ -83,6 +84,8 @@ Chromatograms(data, phenoData, featureData, ...)
 \S4method{productMz}{Chromatograms}(object)
 
 \S4method{mz}{Chromatograms}(object)
+
+\S4method{polarity}{Chromatograms}(object)
 }
 \arguments{
 \item{data}{A \code{list} of \code{\link{Chromatogram}} objects.}
@@ -239,6 +242,9 @@ row have different product m/z values.
 \code{mz}: returns the m/z for each row of the \code{Chromatograms} object
 as a two-column \code{matrix} (with columns \code{"mzmin"} and
 \code{"mzmax"}).
+
+\code{polarity}: returns the polarity of the scans/chromatograms: `1`,
+`0` or `-1` for positive, negative or unknown polarity.
 }
 \details{
 The \code{Chromatograms} class extends the base \code{matrix} class
@@ -329,6 +335,8 @@ plot(chrs, col = c("#ff000080", "#00ff0080"))
     \code{\link{chromatogram}} for the method to extract a
     \code{Chromatograms} object from a \code{\linkS4class{MSnExp}} or
     \code{\linkS4class{OnDiskMSnExp}} object.
+    \code{\link{readSRMData}} for the function to read chromatographic data
+    of an SRM/MRM experiment.
 }
 \author{
 Johannes Rainer

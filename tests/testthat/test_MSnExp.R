@@ -403,9 +403,10 @@ test_that("chromatogram,MSnExp works", {
     expect_equal(pData(inMem), pData(res))
     ## feature data:
     expect_true(nrow(fData(res)) == nrow(res))
-    expect_true(all(colnames(fData(res)) == c("mzmin", "mzmax")))
+    expect_true(all(colnames(fData(res)) == c("mzmin", "mzmax", "polarity")))
     expect_equal(fData(res)[1, 1], 100)
     expect_equal(fData(res)[1, 2], 120)
+    expect_equal(fData(res)[1, 3], 1)
     
     ## Multiple mz ranges.
     mzr <- matrix(c(100, 120, 200, 220, 300, 320), nrow = 3, byrow = TRUE)
@@ -433,11 +434,12 @@ test_that("chromatogram,MSnExp works", {
     ## fData
     expect_true(nrow(fData(res)) == nrow(res))
     expect_true(all(colnames(fData(res)) == c("mzmin", "mzmax",
-                                              "rtmin", "rtmax")))
+                                              "rtmin", "rtmax", "polarity")))
     expect_true(all(fData(res)$rtmin == 50))
     expect_true(all(fData(res)$rtmax == 300))
     expect_equal(fData(res)$mzmin, c(100, 200, 300))
     expect_equal(fData(res)$mzmax, c(120, 220, 320))
+    expect_equal(fData(res)$polarity, c(1, 1, 1))
     
     ## Now with ranges for which we don't have values in one or the other.
     rtr <- matrix(c(280, 300, 20, 40), nrow = 2,

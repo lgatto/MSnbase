@@ -4,6 +4,8 @@
 - Add featureData slot to Chromatograms class and add mz, precursorMz and 
   productMz methods for Chromatograms (issue
   [#289](https://github.com/lgatto/MSnbase/issues/289)) <2017-12-18 Mon>.
+- Add readSRMData function to read chromatographic data from SRM (MRM)
+  experiments; issue [#286](https://github.com/lgatto/MSnbase/issues/286) <2018-01-10 Wed>.
 - The MSnSetList class has a new `featureData` slot, accessible with
   `fData` to store metadata for the individial MSnSets of the
   list. `MSnSetList` also not has an `sapply` method. <2018-01-10 Wed>
