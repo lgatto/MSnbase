@@ -1,5 +1,8 @@
 # MSnbase 2.5
 
+## Changes in version 2.5.5
+- Nothing yet
+
 ## Changes in version 2.5.4
 - Add featureData slot to Chromatograms class and add mz, precursorMz and 
   productMz methods for Chromatograms (issue
