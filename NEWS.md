@@ -1,7 +1,7 @@
 # MSnbase 2.5
 
 ## Changes in version 2.5.5
-- Nothing yet
+- Added TMT11-plex <2018-01-17 Wed>
 
 ## Changes in version 2.5.4
 - Add featureData slot to Chromatograms class and add mz, precursorMz and 
