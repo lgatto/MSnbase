@@ -6,7 +6,9 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
                    reporters = "ReporterIonsOrNull",
                    method = "character",
                    methargs = "list",
-                   name = "character"),
+                   name = "character",
+                   wd = "numeric",
+                   strict = "logical"),
          contains = "Versioned",
          prototype = prototype(
              name = "Quantitation method",
@@ -14,7 +16,6 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
                  versions = c(classVersion("ReporterIons"),
                               QuantitationParam = "0.1.0"))
          ))
-
 
 setMethod("show", "QuantitationParam",
           function(object) {
@@ -28,9 +29,10 @@ setMethod("show", "QuantitationParam",
 
 IsobaricQuantitation <- function(reporters,
                                  msLevel, 
-                                 method = c("max",
-                                            "trapezoidation",
-                                            "sum")) {
+                                 method =
+                                     c("max",
+                                       "trapezoidation",
+                                       "sum")) {
     if (missing(reporters))
         stop("Please provide the isobaric reporters.")
     if (missing(msLevel)) {
@@ -42,42 +44,61 @@ IsobaricQuantitation <- function(reporters,
     .QuantitationParam(msLevel = msLevel,
                        reporters = reporters,
                        method = method,
-                       name = "Isobaric labelling")
+                       wd = width(reporters),
+                       strict = FALSE,
+                       name = "IsobaricTagging")
 }
 
-SpectralCountingQuantitation <- function(method = c("count", "SI",
-                                                    "SIgi", "SIn",
-                                                    "SAF")) {
+SpectralCountingQuantitation <- function(method =
+                                             c("count", "SI",
+                                               "SIgi", "SIn",
+                                               "SAF")) {
     method <- match.arg(method)
     .QuantitationParam(msLevel = 2L,
-                       reporters = NULL,
                        method = method,
-                       name = "Spectral counting")
+                       name = "SpectralCounting")
 }
 
 
-quantify2 <- function(object, 
+quantify2 <- function(object,
                       params,
+                      BPPARAM,
+                      verbose = isMSnbaseVerbose(),
                       ...) {
-    stopifnot(inherits(object, "OnDiskMSnExp"))
     stopifnot(inherits(params, "QuantitationParam"))
-    ## hard-coding isobaric quantitation
-    if (!length(params@msLevel))
-        params@msLevel <- max(msLevel(object))
-    obj2 <- filterMsLevel(object, params@msLevel)
-    e <- quantify(obj2,
-                  method = params@method,
-                  reporters = params@reporters,
-                  ...)
-    ans <- matrix(NA_real_,
-                  nrow = length(object),
-                  ncol = ncol(e),
-                  dimnames = list(featureNames(object),
-                                  sampleNames(e))) 
-    ans[featureNames(e), ] <- exprs(e)
-    ans <- MSnSet(exprs = ans,
-                  fData = fData(object),
-                  pData = pData(e))
-    ans@processingData <- e@processingData    
-    ans
+    if (missing(BPPARAM)) {
+        BPPARAM <- bpparam()
+        if (verbose) message("Using default parallel backend: ",
+                             class(BPPARAM)[1])
+    }
+    if (params@name == "IsobaricTagging") {
+        if (params@method != "max")
+            stop("Not yet implemented - see issue #130")
+        if (!length(params@msLevel))
+            params@msLevel <- max(msLevel(object))
+        obj2 <- filterMsLevel(object, params@msLevel)        
+        if (!verbose)
+            suppressMessages(e <- quantify_OnDiskMSnExp_max(obj2,
+                                                            params@reporters,
+                                                            params@wd,
+                                                            BPPARAM))
+        else e <- quantify_OnDiskMSnExp_max(obj2, params@reporters,
+                                            params@wd, BPPARAM)
+        ans <- matrix(NA_real_,
+                      nrow = length(object),
+                      ncol = ncol(e),
+                      dimnames = list(featureNames(object),
+                                      sampleNames(e))) 
+        ans[featureNames(e), ] <- exprs(e)
+        ans <- MSnSet(exprs = ans,
+                      fData = fData(object),
+                      pData = pData(e))
+        ans@processingData <- e@processingData    
+        return(ans)
+    } else if (params@name == "SpectralCounting") {
+        stop("TODO")
+    } else if (params@name == "LFQ") {
+        stop("LFQ currently not implemented.")
+    } else
+        stop("Quantitation method not recognised.")
 }
