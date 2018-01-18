@@ -65,9 +65,19 @@ quantify2 <- function(object,
     if (!length(params@msLevel))
         params@msLevel <- max(msLevel(object))
     obj2 <- filterMsLevel(object, params@msLevel)
-    res <- quantify(obj2,
-                    method = params@method,
-                    reporters = params@reporters,
-                    ...)
-    res
+    e <- quantify(obj2,
+                  method = params@method,
+                  reporters = params@reporters,
+                  ...)
+    ans <- matrix(NA_real_,
+                  nrow = length(object),
+                  ncol = ncol(e),
+                  dimnames = list(featureNames(object),
+                                  sampleNames(e))) 
+    ans[featureNames(e), ] <- exprs(e)
+    ans <- MSnSet(exprs = ans,
+                  fData = fData(object),
+                  pData = pData(e))
+    ans@processingData <- e@processingData    
+    ans
 }
