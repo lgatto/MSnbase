@@ -437,6 +437,8 @@ setReplaceMethod("fData",
                      object = "pSet",
                      value = "data.frame"),
                  function(object, value) {
+                     if (!identical(featureNames(object), rownames(value)))
+                         stop("Feature names and rownames of the new fData are not identical.")
                      fd <- featureData(object)
                      pData(fd) <- value
                      object@featureData <- fd
