@@ -1,4 +1,4 @@
-TMT10 <- TMT10HCD <-
+TMT11 <- TMT11HCD <-
     new("ReporterIons",
         description = "11-plex TMT HCD",
         name = "TMT11HCD",
