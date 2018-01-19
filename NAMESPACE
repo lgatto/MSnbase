@@ -140,7 +140,9 @@ export(MSnSet,
        isCentroidedFromFile,
        requiredFvarLabels,
        addMSnSetMetadata,
-       readSRMData
+       readSRMData,
+       IsobaricTagging,
+       SpectralCounting
        )
 
 exportClasses(pSet,
@@ -158,6 +160,7 @@ exportClasses(pSet,
               MzTab,
               OnDiskMSnExp,
               ProcessingStep,
+              QuantitationParam,
               Chromatogram,
               Chromatograms)
 

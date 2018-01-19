@@ -1,6 +1,7 @@
 setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
 
 ##' @aliases QuantitationParam IsobaricTagging SpectralCounting
+##' 
 ##' @title Quantitation parameter class
 ##' 
 ##' @description `QuantitationParam` object are used to define the
@@ -44,9 +45,13 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
 ##' 
 ##' @slot .__classVersion__ The version of the `QuantitationParam`
 ##'     class definition.
+##' 
 ##' @author Laurent Gatto
-##' @rdname QuantationParam-class
+##' 
+##' @rdname QuantitationParam-class
+##' 
 ##' @md
+##' 
 ##' @examples
 ##' ## Isobaric tagging using iTRAQ 4-plex
 ##' IsobaricTagging(iTRAQ4)
@@ -54,26 +59,27 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
 ##' IsobaricTagging(TMT11, msLevel = 3L)
 ##' ## Isobaric tagging using TMT 11-plex at the MS2 level
 ##' IsobaricTagging(TMT11, msLevel = 2L)
+##' 
 ##' ## Spectral counting, raw counts
 ##' SpectralCounting()
 ##' ## Spectral counting, normalised spectral abundance factor
 ##' SpectralCounting("NSAF")
-.QuantitationParam <-
+.QuantitationParam <- 
     setClass("QuantitationParam",
-         slots = c(msLevel = "integer",
-                   reporters = "ReporterIonsOrNull",
-                   method = "character",
-                   methargs = "list",
-                   name = "character",
-                   wd = "numeric",
-                   strict = "logical"),
-         contains = "Versioned",
-         prototype = prototype(
-             name = "Quantitation method",
-             new("Versioned",
-                 versions = c(classVersion("ReporterIons"),
-                              QuantitationParam = "0.1.0"))
-         ))
+             slots = c(msLevel = "integer",
+                       reporters = "ReporterIonsOrNull",
+                       method = "character",
+                       methargs = "list",
+                       name = "character",
+                       wd = "numeric",
+                       strict = "logical"),
+             contains = "Versioned",
+             prototype = prototype(
+                 name = "Quantitation method",
+                 new("Versioned",
+                     versions = c(classVersion("ReporterIons"),
+                                  QuantitationParam = "0.1.0"))
+             ))
 
 ##' @rdname QuantitationParam-class
 setMethod("show", "QuantitationParam",
