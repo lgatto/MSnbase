@@ -153,7 +153,7 @@ setMethod("trimMz",
           })
 
 setMethod("quantify",
-          signature = signature("MSnExp"),
+          signature = c("MSnExp", "character"),
           function(object,
                    method = c(
                        "trapezoidation", "max", "sum",

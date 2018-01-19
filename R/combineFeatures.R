@@ -121,6 +121,7 @@ combineFeaturesV <- function(object,   ## MSnSet
                                  data = fdata))
     res@processingData@merged <- TRUE
     res@qual <- object@qual[0, ]
+    pData(res) <- pData(object)
     if (is.character(fun)) {
         msg <- paste("Combined ", n1, " features into ",
                      nrow(res), " using ", fun, sep = "")
@@ -152,7 +153,8 @@ combineMatrixFeatures <- function(matr,    ## matrix
             summarisedFeatures <- by(matr,
                                      groupBy,
                                      function(x) {
-                                         medpol <- medpolish(x, trace.iter = verbose, ...)
+                                         medpol <- medpolish(as.numeric(x),
+                                                             trace.iter = verbose, ...)
                                          return(medpol$overall + medpol$col)
                                      })
         } else if (fun == "weighted.mean") {

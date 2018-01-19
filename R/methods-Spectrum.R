@@ -126,7 +126,7 @@ setMethod("filterMz", "Spectrum",
           })
 
 setMethod("quantify",
-          signature = signature("Spectrum"),
+          signature = c("Spectrum", "character"),
           function(object,
                    method = c("trapezoidation", "max", "sum"),
                    reporters,

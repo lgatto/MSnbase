@@ -437,7 +437,7 @@ setMethod("[[", "OnDiskMSnExp",
           })
 
 setMethod("quantify",
-          signature = signature("OnDiskMSnExp"),
+          signature = c("OnDiskMSnExp", "character"),
           function(object,
                    method = c(
                        "trapezoidation", "max", "sum",

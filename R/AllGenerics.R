@@ -55,7 +55,7 @@ setGeneric("ionCount", function(object, ...) standardGeneric("ionCount"))
 setGeneric("fromFile", function(object) standardGeneric("fromFile"))
 setGeneric("fromFile<-", function(object, value) standardGeneric("fromFile<-"))  ## This one should remain "private"
 
-setGeneric("quantify", function(object, ...) standardGeneric("quantify"))
+setGeneric("quantify", function(object, method, ...) standardGeneric("quantify"))
 setGeneric("curveStats", function(object,reporters, ...) standardGeneric("curveStats"))
 setGeneric("purityCorrect", function(object,impurities, ...) standardGeneric("purityCorrect"))
 

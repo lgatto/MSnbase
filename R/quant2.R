@@ -59,7 +59,6 @@ SpectralCountingQuantitation <- function(method =
                        name = "SpectralCounting")
 }
 
-
 quantify2 <- function(object,
                       params,
                       BPPARAM,
@@ -101,4 +100,16 @@ quantify2 <- function(object,
         stop("LFQ currently not implemented.")
     } else
         stop("Quantitation method not recognised.")
+}
+
+
+setMethod("quantify", c("OnDiskMSnExp", "QuantitationParam"),
+          function(object, method, ...) quanitfy2(object, method, ...))
+
+transferQuantToPrecursorScanNum <- function(x) {
+    e <- matrix(NA_real_, ncol = ncol(x), nrow = nrow(x))
+    rownames(e) <- fData(x)[, "acquisitionNum"]
+    ms3 <- fData(x)$msLevel == 3L
+    e[as.character(fData(x)$precursorScanNum[ms3]), ] <- exprs(x)[ms3, ]
+    e
 }
