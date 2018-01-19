@@ -21,9 +21,11 @@ test_that("MS2 isobaric quantitation", {
 
     
 test_that("Parallel quantification", {
-    q1 <- quantify(itraqdata[1:5], reporters = iTRAQ4,
+    q1 <- quantify(itraqdata[1:5], method = "max",
+                   reporters = iTRAQ4, 
                    parallel = TRUE, verbose = FALSE)
-    q2 <- quantify(itraqdata[1:5], reporters = iTRAQ4,
+    q2 <- quantify(itraqdata[1:5], method = "max",
+                   reporters = iTRAQ4,
                    parallel = FALSE, verbose = FALSE)
     q1@processingData <- q2@processingData ## those are not expected to be equal
     expect_true(all.equal(q1, q2))

@@ -153,8 +153,7 @@ combineMatrixFeatures <- function(matr,    ## matrix
             summarisedFeatures <- by(matr,
                                      groupBy,
                                      function(x) {
-                                         medpol <- medpolish(as.numeric(x),
-                                                             trace.iter = verbose, ...)
+                                         medpol <- medpolish(x, trace.iter = verbose, ...)
                                          return(medpol$overall + medpol$col)
                                      })
         } else if (fun == "weighted.mean") {

@@ -53,7 +53,8 @@
 \alias{pickPeaks,OnDiskMSnExp-method}
 \alias{precursorCharge,OnDiskMSnExp-method}
 \alias{precursorMz,OnDiskMSnExp-method}
-\alias{quantify,OnDiskMSnExp-method}
+\alias{quantify,OnDiskMSnExp,character-method}
+\alias{quantify,OnDiskMSnExp,QuantitationParam-method}
 \alias{smooth,OnDiskMSnExp-method}
 
 \alias{spectrapply,OnDiskMSnExp-method}
