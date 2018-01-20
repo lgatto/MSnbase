@@ -3,6 +3,7 @@
 \docType{class}
 \name{QuantitationParam-class}
 \alias{QuantitationParam-class}
+\alias{.QuantitationParam}
 \alias{QuantitationParam}
 \alias{IsobaricTagging}
 \alias{SpectralCounting}
@@ -17,6 +18,15 @@ IsobaricTagging(reporters, msLevel, method = c("max", "trapezoidation",
   "sum"))
 
 SpectralCounting(method = c("count", "SI", "SIgi", "SIn", "SAF", "NSAF"))
+}
+\arguments{
+\item{object}{Object of class `QuantiationParam`.}
+
+\item{reporters}{See class slot.}
+
+\item{msLevel}{See class slot.}
+
+\item{method}{See class slot.}
 }
 \description{
 \code{QuantitationParam} object are used to define the
@@ -70,6 +80,7 @@ IsobaricTagging(iTRAQ4)
 IsobaricTagging(TMT11, msLevel = 3L)
 ## Isobaric tagging using TMT 11-plex at the MS2 level
 IsobaricTagging(TMT11, msLevel = 2L)
+
 ## Spectral counting, raw counts
 SpectralCounting()
 ## Spectral counting, normalised spectral abundance factor

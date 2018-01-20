@@ -82,6 +82,8 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
              ))
 
 ##' @rdname QuantitationParam-class
+##'
+##' @param object Object of class `QuantiationParam`.
 setMethod("show", "QuantitationParam",
           function(object) {
               cat("Quantitation method: '", object@name, "'\n", sep = "")
@@ -92,7 +94,12 @@ setMethod("show", "QuantitationParam",
                   cat(" Reporters:", names(object@reporters), "\n")
           })
 
+
 ##' @rdname QuantitationParam-class
+##'
+##' @param reporters See class slot.
+##' @param msLevel See class slot.
+##' @param method See class slot.
 IsobaricTagging <- function(reporters,
                             msLevel, 
                             method =
@@ -126,6 +133,7 @@ SpectralCounting <- function(method =
                        name = "SpectralCounting")
 }
 
+##' @nord
 quantify2 <- function(object,
                       params,
                       BPPARAM,
