@@ -19,7 +19,6 @@
 \alias{plot,MSnExp}
 \alias{plot,MSnExp,missing-method}
 \alias{quantify,MSnExp-method}
-\alias{quantify,OnMSnExp-method}
 \alias{quantify,MSnExp,character-method}
 \alias{removePeaks,MSnExp-method}
 \alias{removeReporters,MSnExp-method}
@@ -198,10 +197,12 @@
       Plots a histogram of the m/z difference betwee all of the highest
       peaks of all MS2 spectra of an experiment.
       See \code{\link{plotMzDelta}} documentation for more details. }
-    \item{quantify}{\code{signature(object = "MSnExp")}: Performs
-      quantification for all the MS2 spectra of the \code{MSnExp}
-      instance. See \code{\link{quantify}} documentation for more
-      details. Also for \code{OnDiskMSnExp} objects. }
+
+    \item{quantify}{\code{signature(object = "MSnExp", method)}:
+      Performs quantification for all the spectra of the \code{MSnExp}
+      instance using the specified method. See \code{\link{quantify}}
+      documentation for more details.  }
+    
     \item{removePeaks}{\code{signature(object = "MSnExp")}: Removes
       peaks lower that a threshold \code{t}. See
       \code{\link{removePeaks}} documentation for more details and

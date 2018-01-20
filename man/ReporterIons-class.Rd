@@ -35,26 +35,42 @@
 \title{The "ReporterIons" Class}
 
 \description{
+  
   The \code{ReporterIons} class allows to define a set of isobaric
-  reporter ions that are used for quantification in MSMS
-  mode, e.g. iTRAQ (isobaric tag for relative and absolute quantitation)
-  or TMT (tandem mass tags).
-  \code{ReporterIons} instances can them be used when quantifying
-  \code{"\linkS4class{MSnExp}"} data of plotting the reporters peaks
-  based on in \code{"\linkS4class{Spectrum2}"} ojects.
+  reporter ions that are used for quantification in MSMS mode,
+  e.g. iTRAQ (isobaric tag for relative and absolute quantitation) or
+  TMT (tandem mass tags).  \code{ReporterIons} instances can them be
+  used when quantifying \code{"\linkS4class{MSnExp}"} data of plotting
+  the reporters peaks based on in \code{"\linkS4class{Spectrum2}"}
+  ojects.
 
   Some reporter ions are provided with \code{MSnbase} an can be loaded
   with the \code{\link{data}} function. These reporter ions data sets
   are:
+  
   \describe{
     \item{\code{iTRAQ4}:}{\code{ReporterIon} object for the iTRAQ
       4-plex set. Load with \code{data(iTRAQ4)}. }
-    \item{\code{iTRAQ5}:}{\code{ReporterIon} object for the iTRAQ
-      4-plex set plus the isobaric tag. Load with \code{data(iTRAQ5)}. }
+    
+    \item{\code{iTRAQ5}:}{\code{ReporterIon} object for the iTRAQ 4-plex
+      set plus the isobaric tag. Load with \code{data(iTRAQ5)}. }
+
+    \item{\code{iTRAQ8}:}{\code{ReporterIon} object for the iTRAQ
+      8-plex set. Load with \code{data(iTRAQ8)}. }
+    
     \item{\code{TMT6}:}{\code{ReporterIon} object for the TMT
       6-plex set. Load with \code{data(TMT6)}. }
+    
     \item{\code{TMT7}:}{\code{ReporterIon} object for the TMT
       6-plex set plus the isobaric tag. Load with \code{data(TMT6)}. }
+
+    \item{\code{TMT10}:}{\code{ReporterIon} object for the TMT 10-plex
+      set, both for HCD and ETD. Load with \code{data(TMT10)},
+      \code{data(TMT10HCD)}, \code{data(TMT10ETD)} . }
+
+    \item{\code{TMT11}:}{\code{ReporterIon} object for the TMT 11-plex
+      set (HCD). Load with \code{data(TMT11)}. }
+    
   }  
 }
 
@@ -64,30 +80,39 @@
 
 
 \section{Slots}{
+  
   \describe{
+    
     \item{\code{name}:}{Object of class \code{"character"} to identify
       the \code{ReporterIons} instance. }
+    
     \item{\code{reporterNames}:}{Object of class \code{"character"}
       naming each individual reporter of the \code{ReporterIons}
       instance. If not provided explicitely, they are names by
       concatenating the \code{ReporterIons} name and the respective MZ
       values. }
+    
     \item{\code{description}:}{Object of class \code{"character"} to
       describe the \code{ReporterIons} instance. }
+    
     \item{\code{mz}:}{Object of class \code{"numeric"} providing the MZ
       values of the reporter ions. }
+    
     \item{\code{col}:}{Object of class \code{"character"} providing
       colours to highlight the reporters on plots. }
+    
     \item{\code{width}:}{Object of class \code{"numeric"} indicating the
       width around the individual reporter ions MZ values were to search
       for peaks. This is dependent on the mass spectrometer's resolution
       and is used for peak picking when quantifying the reporters. See
       \code{\link{quantify}} for more details about quantification. }
+    
     \item{\code{.__classVersion__}:}{Object of class \code{"Versions"}
       indicating the version of the \code{ReporterIons}
       instance. Intended for developer use and debugging.  }
   }
 }
+
 \section{Extends}{
   Class \code{"\linkS4class{Versioned}"}, directly.
 }
@@ -160,8 +185,5 @@ reporterNames(ri)
 ri[1:2]
 }
 
-\seealso{
-  \code{\link{TMT6}} or \code{\link{iTRAQ4}} for readily available examples. 
-}
 
 \keyword{classes}

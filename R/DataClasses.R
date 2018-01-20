@@ -702,9 +702,19 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
 ##' 
 ##' @slot method `character(1)` defining the method of
 ##'     quantitation. For isobaric tagging, this would be one of
-##'     `"max"` (default), `"trapezoidation"`, or `"sum"`. For
-##'     spectral counting, one of `"count"` (default), `"SI"`,
-##'     `"SIgi"`, `"SIn"`, `"SAF"` or `"NSAF"`.
+##'     `"trapezoidation"`, `"max"` (default), or `"sum"`. These
+##'     methods return respectively the area under the peak(s)
+##'     (profile mode), the maximum of the centroided peak(s) or the
+##'     sum of all intensities of the peak(s).
+##' 
+##'     For spectral counting, one of `"count"` (spectral counting,
+##'     default), `"SI"` (spectral index), `"SIgi"`(global intensity
+##'     spectral index), `"SIn"` (normalised spectral index), `"SAF"`
+##'     (spectral abundance factor) or `"NSAF"` (normalised spectral
+##'     abundance factor). The `"count"` method counts the occurrence
+##'     of the respective spectra (at this stage all 1s) that can then
+##'     be used as input to [combineFeatures()] to implement spectra
+##'     counting.
 ##' 
 ##' @slot methargs A `list` of additional argument applied to the
 ##'     quantitation method.
@@ -717,11 +727,45 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
 ##'     quantation only.
 ##' 
 ##' @slot strict `logical(1)` defining if a peak should be quantified
-##'     beyond the reporter tag +/- the width. For isobaric tagging
+##'     beyond the reporter tag +/- the width. If `TRUE`, once the
+##'     apex(es) is/are identified, only data points within apex +/-
+##'     width of reporters (see [ReporterIons()] are used for
+##'     quantitation. Otherwise, quantitation is performed using data
+##'     points along the entire width of a peak. For isobaric tagging
 ##'     quantation only.
 ##' 
 ##' @slot .__classVersion__ The version of the `QuantitationParam`
 ##'     class definition.
+##'
+##' @references
+##'
+##' For details about the spectral index (SI), see Griffin NM, Yu J,
+##' Long F, Oh P, Shore S, Li Y, Koziol JA, Schnitzer JE.
+##' *Label-free, normalized quantification of complex mass
+##' spectrometry data for proteomic analysis*. Nat Biotechnol. 2010
+##' Jan;28(1):83-9. doi: 10.1038/nbt.1592. PMID: 20010810; PubMed
+##' Central PMCID: PMC2805705.
+##'
+##' For details about the spectra abundance factor, see Paoletti AC,
+##' Parmely TJ, Tomomori-Sato C, Sato S, Zhu D, Conaway RC, Conaway
+##' JW, Florens L, Washburn MP. *Quantitative proteomic analysis of
+##' distinct mammalian Mediator complexes using normalized spectral
+##' abundance factors*. PNAS. 2006 Dec 12;103(50):18928-33. PMID:
+##' 17138671; PubMed Central PMCID: PMC1672612.
+##'
+##' Thompson A, Schäfer J, Kuhn K, Kienle S, Schwarz J, Schmidt G,
+##' Neumann T, Johnstone R, Mohammed AK, Hamon C. *Tandem mass tags: a
+##' novel quantification strategy for comparative analysis of complex
+##' protein mixtures by MS/MS*. Anal Chem. 2003 Apr
+##' 15;75(8):1895-904. PubMed PMID: 12713048.
+##'
+##' Ross PL, Huang YN, Marchese JN, Williamson B, Parker K, Hattan S,
+##' Khainovski N, Pillai S, Dey S, Daniels S, Purkayastha S, Juhasz P,
+##' Martin S, Bartlet-Jones M, He F, Jacobson A, Pappin
+##' DJ. *Multiplexed protein quantitation in Saccharomyces cerevisiae
+##' using amine-reactive isobaric tagging reagents*. Mol Cell
+##' Proteomics. 2004 Dec;3(12):1154-69. Epub 2004 Sep 22. PubMed PMID:
+##' 15385600.
 ##' 
 ##' @author Laurent Gatto
 ##' 

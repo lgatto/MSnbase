@@ -53,6 +53,7 @@
 \alias{pickPeaks,OnDiskMSnExp-method}
 \alias{precursorCharge,OnDiskMSnExp-method}
 \alias{precursorMz,OnDiskMSnExp-method}
+\alias{quantify,OnDiskMSnExp-method}
 \alias{quantify,OnDiskMSnExp,character-method}
 \alias{quantify,OnDiskMSnExp,QuantitationParam-method}
 \alias{smooth,OnDiskMSnExp-method}
@@ -534,9 +535,16 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
       eventual processing steps and evaluates their validity.
     }
 
+    \item{quantify}{\code{signature(object = "OnDiskMSnExp", method)}:
+      Performs quantification for all the spectra of the \code{MSnExp}
+      instance using the specified method. See \code{\link{quantify}}
+      documentation for more details.
+    }
+
     \item{\code{as(from, "MSnExp")}}{Converts the \code{OnDiskMSnExp}
       object \code{from}, to an in-memory \code{MSnExp}. Also available
-      as an S3 method \code{as.MSnExp()}.}
+      as an S3 method \code{as.MSnExp()}.
+    }
 
   }
 }

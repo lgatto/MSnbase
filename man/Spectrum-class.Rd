@@ -47,7 +47,6 @@
 \alias{compareSpectra,Spectrum,Spectrum-method}
 \alias{estimateNoise,Spectrum-method}
 \alias{pickPeaks,Spectrum-method}
-\alias{quantify,Spectrum-method}
 \alias{quantify,Spectrum,character-method}
 \alias{removePeaks,Spectrum-method}
 \alias{show,Spectrum-method}
@@ -202,9 +201,11 @@
       an MS2 level spectrum and its highlight the fragmention peaks.
       See \code{\link{plot.Spectrum.character}} documentation for more
       details.}
-    \item{quantify}{\code{signature(object = "Spectrum")}: Quatifies
-      defined peaks in the spectrum.
-      See \code{\link{quantify}} documentation for more details. }
+    
+    \item{quantify}{\code{signature(object = "Spectrum", method)}:
+      Quantifies defined peaks in the spectrum. See
+      \code{\link{quantify}} documentation for more details. }
+    
     \item{removePeaks}{\code{signature(object = "Spectrum")}: Remove
       peaks lower that a threshold \code{t}. See
       \code{\link{removePeaks}} documentation for more details and
