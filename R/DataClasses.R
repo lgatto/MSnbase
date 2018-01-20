@@ -673,3 +673,87 @@ setClass("Chromatograms",
          validity = function(object)
              .validChromatograms(object)
          )
+
+
+setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
+
+##' @aliases QuantitationParam IsobaricTagging SpectralCounting
+##' 
+##' @title Quantitation parameter class
+##' 
+##' @description `QuantitationParam` object are used to define the
+##'     type of quantitation to perform. These objects are then passed
+##'     with the raw data object to the [quantify()]
+##'     method. `QuantitationParam` objects are rarely created
+##'     directly; instead, users should use the predefined constructor
+##'     functions `IsobaricTagging` and `SpectralCounting`.
+##'
+##' @seealso quantify
+##' 
+##' @slot msLevel `integer(1)` setting the MS level at which
+##'     quantitation should be done. It is generally set automatically
+##'     for a method (for instance 2 for spectral counting) or from
+##'     the data, if absent in the `QuantitationParam` object (the
+##'     highest MS level in the data, i.e. 2 or 3, for isobaric
+##'     tagging).
+##' 
+##' @slot reporters The reporter ions to use, as an
+##'     [ReporterIons()]. For isobaric tagging quantation only.
+##' 
+##' @slot method `character(1)` defining the method of
+##'     quantitation. For isobaric tagging, this would be one of
+##'     `"max"` (default), `"trapezoidation"`, or `"sum"`. For
+##'     spectral counting, one of `"count"` (default), `"SI"`,
+##'     `"SIgi"`, `"SIn"`, `"SAF"` or `"NSAF"`.
+##' 
+##' @slot methargs A `list` of additional argument applied to the
+##'     quantitation method.
+##' 
+##' @slot name `characater(1)` naming the quantiation parameter.
+##' 
+##' @slot wd `numeric(1)` defining the width around the experter
+##'     isobaric tag mass to seach for a peak. If omitted, is
+##'     extracted from the `ReporterIons` object. For isobaric tagging
+##'     quantation only.
+##' 
+##' @slot strict `logical(1)` defining if a peak should be quantified
+##'     beyond the reporter tag +/- the width. For isobaric tagging
+##'     quantation only.
+##' 
+##' @slot .__classVersion__ The version of the `QuantitationParam`
+##'     class definition.
+##' 
+##' @author Laurent Gatto
+##' 
+##' @rdname QuantitationParam-class
+##' 
+##' @md
+##' 
+##' @examples
+##' ## Isobaric tagging using iTRAQ 4-plex
+##' IsobaricTagging(iTRAQ4)
+##' ## Isobaric tagging using TMT 11-plex at the MS3 level
+##' IsobaricTagging(TMT11, msLevel = 3L)
+##' ## Isobaric tagging using TMT 11-plex at the MS2 level
+##' IsobaricTagging(TMT11, msLevel = 2L)
+##' 
+##' ## Spectral counting, raw counts
+##' SpectralCounting()
+##' ## Spectral counting, normalised spectral abundance factor
+##' SpectralCounting("NSAF")
+.QuantitationParam <- 
+    setClass("QuantitationParam",
+             slots = c(msLevel = "integer",
+                       reporters = "ReporterIonsOrNull",
+                       method = "character",
+                       methargs = "list",
+                       name = "character",
+                       wd = "numeric",
+                       strict = "logical"),
+             contains = "Versioned",
+             prototype = prototype(
+                 name = "Quantitation method",
+                 new("Versioned",
+                     versions = c(classVersion("ReporterIons"),
+                                  QuantitationParam = "0.1.0"))
+             ))
