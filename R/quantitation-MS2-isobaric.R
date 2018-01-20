@@ -185,3 +185,11 @@ quantify_OnDiskMSnExp_max <- function(object, reporters,
                                " quantitation by max"))
     if (validObject(ans)) ans
 }
+
+transferQuantToPrecursorScanNum <- function(x) {
+    e <- matrix(NA_real_, ncol = ncol(x), nrow = nrow(x))
+    rownames(e) <- fData(x)[, "acquisitionNum"]
+    ms3 <- fData(x)$msLevel == 3L
+    e[as.character(fData(x)$precursorScanNum[ms3]), ] <- exprs(x)[ms3, ]
+    e
+}

@@ -1,47 +1,3 @@
-quantify2 <- function(object,
-                      params,
-                      BPPARAM,
-                      pepseq,
-                      verbose,
-                      ...) {
-    stopifnot(inherits(params, "QuantitationParam"))
-    if (missing(BPPARAM)) {
-        BPPARAM <- bpparam()
-        if (verbose) message("Using default parallel backend: ",
-                             class(BPPARAM)[1])
-    }
-    if (params@name == "IsobaricTagging") {
-        if (params@method != "max")
-            stop("Not yet implemented - see issue #130")
-        if (!length(params@msLevel))
-            params@msLevel <- max(msLevel(object))
-        obj2 <- filterMsLevel(object, params@msLevel)        
-        if (!verbose)
-            suppressMessages(e <- quantify_OnDiskMSnExp_max(obj2,
-                                                            params@reporters,
-                                                            params@wd,
-                                                            BPPARAM))
-        else e <- quantify_OnDiskMSnExp_max(obj2, params@reporters,
-                                            params@wd, BPPARAM)
-        ans <- matrix(NA_real_,
-                      nrow = length(object),
-                      ncol = ncol(e),
-                      dimnames = list(featureNames(object),
-                                      sampleNames(e))) 
-        ans[featureNames(e), ] <- exprs(e)
-        ans <- MSnSet(exprs = ans,
-                      fData = fData(object),
-                      pData = pData(e))
-        ans@processingData <- e@processingData    
-        return(ans)
-    } else if (params@name == "SpectralCounting") {
-        stop("TODO")
-    } else if (params@name == "LFQ") {
-        stop("LFQ currently not implemented.")
-    } else
-        stop("Quantitation method not recognised.")
-}
-
 ##' @rdname quantify-methods
 ##'
 ##' @aliases quantify
@@ -165,22 +121,53 @@ quantify2 <- function(object,
 ##' saf <- quantify(msexp, method = "NSAF")
 ##' processingData(saf)
 ##' exprs(saf)
-setMethod("quantify",
-          c("OnDiskMSnExp", "QuantitationParam"),
-          function(object,
-                   method,
-                   BPPARAM,
-                   pepseq = "sequence",
-                   verbose = isMSnbaseVerbose(), ...)
-              quantify2(object, method, BPPARAM, pepseq, verbose, ...))
+NULL
+##> NULL
+
 
 ## What about the former qual argument: Should the \code{qual} slot be
 ## populated. Default is \code{TRUE}.
 
-transferQuantToPrecursorScanNum <- function(x) {
-    e <- matrix(NA_real_, ncol = ncol(x), nrow = nrow(x))
-    rownames(e) <- fData(x)[, "acquisitionNum"]
-    ms3 <- fData(x)$msLevel == 3L
-    e[as.character(fData(x)$precursorScanNum[ms3]), ] <- exprs(x)[ms3, ]
-    e
+quantify2 <- function(object,
+                      params,
+                      BPPARAM,
+                      pepseq,
+                      verbose,
+                      ...) {
+    stopifnot(inherits(params, "QuantitationParam"))
+    if (missing(BPPARAM)) {
+        BPPARAM <- bpparam()
+        if (verbose) message("Using default parallel backend: ",
+                             class(BPPARAM)[1])
+    }
+    if (params@name == "IsobaricTagging") {
+        if (params@method != "max")
+            stop("Not yet implemented - see issue #130")
+        if (!length(params@msLevel))
+            params@msLevel <- max(msLevel(object))
+        obj2 <- filterMsLevel(object, params@msLevel)        
+        if (!verbose)
+            suppressMessages(e <- quantify_OnDiskMSnExp_max(obj2,
+                                                            params@reporters,
+                                                            params@wd,
+                                                            BPPARAM))
+        else e <- quantify_OnDiskMSnExp_max(obj2, params@reporters,
+                                            params@wd, BPPARAM)
+        ans <- matrix(NA_real_,
+                      nrow = length(object),
+                      ncol = ncol(e),
+                      dimnames = list(featureNames(object),
+                                      sampleNames(e))) 
+        ans[featureNames(e), ] <- exprs(e)
+        ans <- MSnSet(exprs = ans,
+                      fData = fData(object),
+                      pData = pData(e))
+        ans@processingData <- e@processingData    
+        return(ans)
+    } else if (params@name == "SpectralCounting") {
+        stop("TODO")
+    } else if (params@name == "LFQ") {
+        stop("LFQ currently not implemented.")
+    } else
+        stop("Quantitation method not recognised.")
 }

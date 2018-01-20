@@ -489,6 +489,15 @@ setMethod("quantify",
               }
           })
 
+setMethod("quantify",
+          c("OnDiskMSnExp", "QuantitationParam"),
+          function(object,
+                   method,
+                   BPPARAM,
+                   pepseq = "sequence",
+                   verbose = isMSnbaseVerbose(), ...)
+              quantify2(object, method, BPPARAM, pepseq, verbose, ...))
+
 
 ############################################################
 ## [
