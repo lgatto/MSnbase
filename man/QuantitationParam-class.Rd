@@ -50,18 +50,20 @@ tagging).}
 \code{\link[=ReporterIons]{ReporterIons()}}. For isobaric tagging quantation only.}
 
 \item{\code{method}}{\code{character(1)} defining the method of
-quantitation. For isobaric tagging, this would be one of
-\code{"trapezoidation"}, \code{"max"} (default), or \code{"sum"}. These
-methods return respectively the area under the peak(s)
-(profile mode), the maximum of the centroided peak(s) or the
-sum of all intensities of the peak(s).\preformatted{For spectral counting, one of `"count"` (spectral counting,
+quantitation. For isobaric tagging, the easiest and fastest
+approach is to take the maximum (\code{"max"}, default) of a peak,
+which is also the only approach for centroided data. In case
+of profile data, a trapezoidation method (\code{"trapezoidation"})
+is also available. Summing peaks is also possible, albeit
+hardly used (\code{"sum"}).\preformatted{For spectral counting, one of `"count"` (spectral counting,
 default), `"SI"` (spectral index), `"SIgi"`(global intensity
 spectral index), `"SIn"` (normalised spectral index), `"SAF"`
 (spectral abundance factor) or `"NSAF"` (normalised spectral
 abundance factor). The `"count"` method counts the occurrence
 of the respective spectra (at this stage all 1s) that can then
 be used as input to [combineFeatures()] to implement spectra
-counting.
+counting. These methods work irrespective of their profile or
+centroided mode of the data.
 }}
 
 \item{\code{methargs}}{A \code{list} of additional argument applied to the

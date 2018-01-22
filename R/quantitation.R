@@ -18,7 +18,7 @@
 
 
 ##' @rdname quantify-methods
-##'
+##' @name quantify-methods
 ##' @aliases quantify
 ##' 
 ##' @title Quantifies raw MS data objects
