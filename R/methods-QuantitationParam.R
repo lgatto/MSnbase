@@ -21,7 +21,7 @@ IsobaricTagging <- function(reporters,
         msLevel <- integer()
     }
     method <- match.arg(method)
-    .QuantitationParam(msLevel = msLevel,
+    .QuantitationParam(msLevel = as.integer(msLevel),
                        reporters = reporters,
                        method = method,
                        wd = width(reporters),

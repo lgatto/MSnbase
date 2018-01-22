@@ -15,6 +15,8 @@
 ## Relevant issues:
 ## https://github.com/lgatto/MSnbase/issues/130
 ## https://github.com/lgatto/MSnbase/issues/297
+##
+## 
 
 
 ##' @rdname quantify-methods
@@ -160,18 +162,25 @@ quantify2 <- function(object,
                              class(BPPARAM)[1])
     }
     if (params@name == "IsobaricTagging") {
-        if (params@method != "max")
-            stop("Not yet implemented - see issue #130")
         if (!length(params@msLevel))
             params@msLevel <- max(msLevel(object))
         obj2 <- filterMsLevel(object, params@msLevel)        
-        if (!verbose)
-            suppressMessages(e <- quantify_OnDiskMSnExp_max(obj2,
-                                                            params@reporters,
-                                                            params@wd,
-                                                            BPPARAM))
-        else e <- quantify_OnDiskMSnExp_max(obj2, params@reporters,
-                                            params@wd, BPPARAM)
+        if (params@method == "max") {
+            if (!verbose)
+                suppressMessages(e <- quantify_OnDiskMSnExp_max(obj2,
+                                                                params@reporters,
+                                                                params@wd,
+                                                                BPPARAM))
+            else e <- quantify_OnDiskMSnExp_max(obj2, params@reporters,
+                                                params@wd, BPPARAM)
+        } else {
+            quantify_MSnExp(obj2,
+                            params@method,
+                            params@reporters,
+                            params@strict,
+                            BPPARAM, qual = FALSE,
+                            verbose)
+        }
         ans <- matrix(NA_real_,
                       nrow = length(object),
                       ncol = ncol(e),
@@ -184,7 +193,14 @@ quantify2 <- function(object,
         ans@processingData <- e@processingData    
         return(ans)
     } else if (params@name == "SpectralCounting") {
-        stop("TODO")
+        if (params@method == "count") count_MSnSet(object)
+        else {
+            ## the following assumes that the appropriate fcols
+            ## are available
+            object <- utils.removeNoIdAndMultipleAssignments(object)
+            if (method %in% c("SI", "SIgi", "SIn")) SI(object, method, ...)
+            else SAF(object, method, ...)
+        }
     } else if (params@name == "LFQ") {
         stop("LFQ currently not implemented.")
     } else
