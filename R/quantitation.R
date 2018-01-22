@@ -1,3 +1,22 @@
+## NOTES
+##
+## Need to focus on quantify,[OnDisk]MSnExp,QuantitationParam.
+##
+## Quantitation is (currently) MS2 labelled or unlabelled.
+##
+## Inputs can be a single MS2 spectrum (for isobaric tagging only), or
+## a full experiment as MSnExp or OnDiskMSnExp.
+##
+## Also want to systematically return quantitative features for all
+## spectra in the raw data, even when not relevant. There could either
+## be an argument in quantify to subset, or this subsetting can be
+## done beforehand with filterMsLevel, or afterwards.
+## 
+## Relevant issues:
+## https://github.com/lgatto/MSnbase/issues/130
+## https://github.com/lgatto/MSnbase/issues/297
+
+
 ##' @rdname quantify-methods
 ##'
 ##' @aliases quantify
