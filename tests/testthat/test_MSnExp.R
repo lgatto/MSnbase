@@ -381,10 +381,6 @@ test_that("phenoData<- on MSnExp works", {
     ## phenoData(im) <- data.frame(a = 4)
     pd_2 <- old_pd
     pData(pd_2) <- cbind(pData(old_pd), add_col = 4)
-    ## Assign data.frame
-    phenoData(im) <- pData(pd_2)
-    expect_true(is(im@phenoData, "NAnnotatedDataFrame"))
-    expect_equal(pData(im), pData(pd_2))
     ## Assign AnnotatedDataFrame
     phenoData(im) <- AnnotatedDataFrame(pData(pd_2))
     expect_true(is(im@phenoData, "NAnnotatedDataFrame"))

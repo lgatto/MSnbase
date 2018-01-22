@@ -554,15 +554,11 @@ setReplaceMethod("pData", "pSet", function(object, value) {
 
 setReplaceMethod("phenoData", "pSet", function(object, value) {
     ## Check input and convert to NAnnotatedDataFrame if neccessary
-    if (is.data.frame(value)) {
-        value <- new("NAnnotatedDataFrame", value)
+    if (is(value, "AnnotatedDataFrame")) {
+        value <- as(value, "NAnnotatedDataFrame")
     } else {
-        if (is(value, "AnnotatedDataFrame")) {
-            value <- as(value, "NAnnotatedDataFrame")
-        } else {
-            stop("'value' should be a 'data.frame', 'AnnotatedDataFrame' or",
-                 "'NAnnotatedDataFrame'")
-        }
+        stop("'value' should be a 'data.frame', 'AnnotatedDataFrame' or",
+             "'NAnnotatedDataFrame'")
     }
     object@phenoData <- value
     if (validObject(object))
