@@ -755,7 +755,7 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
 ##' abundance factors*. PNAS. 2006 Dec 12;103(50):18928-33. PMID:
 ##' 17138671; PubMed Central PMCID: PMC1672612.
 ##'
-##' Thompson A, Schäfer J, Kuhn K, Kienle S, Schwarz J, Schmidt G,
+##' Thompson A, Schafer J, Kuhn K, Kienle S, Schwarz J, Schmidt G,
 ##' Neumann T, Johnstone R, Mohammed AK, Hamon C. *Tandem mass tags: a
 ##' novel quantification strategy for comparative analysis of complex
 ##' protein mixtures by MS/MS*. Anal Chem. 2003 Apr
@@ -768,7 +768,7 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
 ##' using amine-reactive isobaric tagging reagents*. Mol Cell
 ##' Proteomics. 2004 Dec;3(12):1154-69. Epub 2004 Sep 22. PubMed PMID:
 ##' 15385600.
-##' 
+##'
 ##' @author Laurent Gatto
 ##' 
 ##' @rdname QuantitationParam-class

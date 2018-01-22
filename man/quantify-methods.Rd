@@ -63,7 +63,7 @@ and TMT (or any arbitrary peaks of interest, see
 \code{\link[=ReporterIons]{ReporterIons()}} and MS2-level label-free quantitation
 (spectral counting, spectral index or spectral abundance
 factor) are available, as described in
-\code{\link[=QuantificationParam]{QuantificationParam()}}.
+\code{\link[=QuantitationParam]{QuantitationParam()}}.
 }
 \details{
 \code{\link[=ReporterIons]{ReporterIons()}} define specific MZ at which peaks are

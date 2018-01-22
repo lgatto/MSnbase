@@ -31,7 +31,7 @@
 ##'     [ReporterIons()] and MS2-level label-free quantitation
 ##'     (spectral counting, spectral index or spectral abundance
 ##'     factor) are available, as described in
-##'     [QuantificationParam()].
+##'     [QuantitationParam()].
 ##'
 ##' @details [ReporterIons()] define specific MZ at which peaks are
 ##'     expected and a window around that MZ value. A peak of interest
@@ -198,8 +198,8 @@ quantify2 <- function(object,
             ## the following assumes that the appropriate fcols
             ## are available
             object <- utils.removeNoIdAndMultipleAssignments(object)
-            if (method %in% c("SI", "SIgi", "SIn")) SI(object, method, ...)
-            else SAF(object, method, ...)
+            if (params@method %in% c("SI", "SIgi", "SIn")) SI(object, params@method, ...)
+            else SAF(object, params@method, ...)
         }
     } else if (params@name == "LFQ") {
         stop("LFQ currently not implemented.")

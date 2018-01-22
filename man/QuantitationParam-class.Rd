@@ -116,7 +116,7 @@ distinct mammalian Mediator complexes using normalized spectral
 abundance factors}. PNAS. 2006 Dec 12;103(50):18928-33. PMID:
 17138671; PubMed Central PMCID: PMC1672612.
 
-Thompson A, Schäfer J, Kuhn K, Kienle S, Schwarz J, Schmidt G,
+Thompson A, Schafer J, Kuhn K, Kienle S, Schwarz J, Schmidt G,
 Neumann T, Johnstone R, Mohammed AK, Hamon C. \emph{Tandem mass tags: a
 novel quantification strategy for comparative analysis of complex
 protein mixtures by MS/MS}. Anal Chem. 2003 Apr
