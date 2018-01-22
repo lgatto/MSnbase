@@ -50,6 +50,7 @@
 \alias{peaksCount,pSet,missing-method}
 \alias{peaksCount,pSet,numeric-method}
 \alias{phenoData,pSet-method}
+\alias{phenoData<-,pSet,ANY-method}
 \alias{polarity,pSet-method}
 \alias{precursorCharge,pSet-method}
 \alias{precursorIntensity,pSet-method}
@@ -204,9 +205,13 @@
     \item{pData}{\code{signature(x = "pSet")}: Access sample data
       information. }
     \item{pData<-}{\code{signature(x = "pSet", value)}: Replace sample data
-      information with \code{value}. }
+      information with \code{value}, value being a \code{data.frame}.}
     \item{phenoData}{\code{signature(x = "pSet")}: Access the
       \code{phenoData} slot. }
+    \item{phenoData<-}{\code{signature(x = "pSet", value)}: Replace
+    sample data information with \code{value}. \code{value} can be a
+    \code{data.frame}, an \code{AnnotatedDataFrame} or a
+    \code{NAnnotatedDataFrame}.}
     \item{processingData}{\code{signature(object = "pSet")}: Access the
       \code{processingData} slot. }
     \item{protocolData}{\code{signature(x = "pSet")}: Access the

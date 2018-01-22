@@ -370,6 +370,25 @@ test_that("pData<- on MSnExp works", {
     ## replace.
     pData(msx) <- newDf
     expect_equal(pData(msx), newDf)
+    expect_error(pData(msx) <- 13)
+})
+
+test_that("phenoData<- on MSnExp works", {
+    im <- microtofq_in_mem_ms1
+    old_pd <- phenoData(im)
+
+    expect_error(phenoData(im) <- 4)
+    ## phenoData(im) <- data.frame(a = 4)
+    pd_2 <- old_pd
+    pData(pd_2) <- cbind(pData(old_pd), add_col = 4)
+    ## Assign AnnotatedDataFrame
+    phenoData(im) <- AnnotatedDataFrame(pData(pd_2))
+    expect_true(is(im@phenoData, "NAnnotatedDataFrame"))
+    expect_equal(pData(im), pData(pd_2))
+    ## Assign NAnnotatedDataFrame
+    phenoData(im) <- pd_2
+    expect_true(is(im@phenoData, "NAnnotatedDataFrame"))
+    expect_equal(phenoData(im), pd_2)    
 })
 
 test_that("injection time", {
