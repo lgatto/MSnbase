@@ -186,6 +186,33 @@ quantify_OnDiskMSnExp_max <- function(object, reporters,
     if (validObject(ans)) ans
 }
 
+
+##' This function is meant to be used on isobaric tagging data where
+##' the quantitation and identification are performed on different
+##' scans/MS levels, tpyically MS3 and MS2 respectively.
+##'
+##' The output of calling `quantify()` on the raw data returns
+##' quantitation feature for all MS3 scans. Calling this function will
+##' move the quantitation data from the MS3 features to the
+##' corresponding MS2 precusor features.
+##'
+##' Here's an example illustrating what the function does:
+##'
+##' - MS2 scan with acquisition number 123 is identified as FSEGTSADR,
+##'   and what further fragement to quantitation in MS3
+##' - MS3 scan 125, which originates from scan 123 (i.e. his
+##'   `precursorScanNum` is 123) has been quantified
+##' - Then using this function will transfer the quantitation data for
+##'   scan 125 to scan 123.
+##' - As a result, all the quantitation data at the MS3 level in the
+##'   input data `x` will transfer to MS2 level.
+##'
+##' @title Transfers the quantitation data to it's precusor scan
+##' @param x An [MSnSet()]
+##' @return An updated [MSnSet()].
+##' @seealso The [quantify()] methods to generate an [MSnSet()].
+##' @author Laurent Gatto
+##' @md
 transferQuantToPrecursorScanNum <- function(x) {
     stopifnot(inherits(x, "MSnSet"))
     e <- matrix(NA_real_, ncol = ncol(x), nrow = nrow(x))

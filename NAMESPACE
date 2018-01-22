@@ -141,6 +141,7 @@ export(MSnSet,
        requiredFvarLabels,
        addMSnSetMetadata,
        readSRMData,
+       transferQuantToPrecursorScanNum,
        IsobaricTagging,
        SpectralCounting
        )
