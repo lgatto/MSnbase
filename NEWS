@@ -1,3 +1,9 @@
+Changes in version 2.5.5
+------------------------
+- Added TMT11-plex <2018-01-17 Wed>
+- Add phenoData<- method for pSet (issue
+  [#299](https://github.com/lgatto/MSnbase/issues/299) <2018-01-22>.
+
 Changes in version 2.5.4
 ------------------------
 - Add featureData slot to Chromatograms class and add mz, precursorMz and 
