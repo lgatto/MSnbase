@@ -151,10 +151,12 @@ res <- readMSnSet(exprsFile, pdataFile, fdataFile, sep = "\t", header=TRUE)
 library("pRolocdata")
 f0 <- dir(system.file("extdata", package = "pRolocdata"),
           full.names = TRUE,
-          pattern = "hyperLOPIT-SIData-ms3-rep12-intersect.csv")
+          pattern = "Dunkley2006")
 basename(f0)
-res <- readMSnSet2(f0, ecol = 8:27)
+res <- readMSnSet2(f0, ecol = 5:20)
 res
+head(exprs(res)) ## columns 5 to 20
+head(fData(res)) ## other columns
 }
 
 \keyword{file}
