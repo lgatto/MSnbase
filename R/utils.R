@@ -808,7 +808,8 @@ utils.leftJoin <- function(x, y, by, by.x=by, by.y=by,
 ## @noRd
 utils.mergeSpectraAndIdentificationData <- function(featureData, id,
                                                     fcol, icol, acc,
-                                                    desc, pepseq) {
+                                                    desc, pepseq,
+                                                    rank = "rank") {
     ## mzR::acquisitionNum (stored in fData()[, "acquisition.number"] and
     ## mzID::acquisitionnum should be identical
     if (!all(fcol %in% colnames(featureData))) {
@@ -828,7 +829,7 @@ utils.mergeSpectraAndIdentificationData <- function(featureData, id,
 
     ## sort id data to ensure the best matching peptide is on top in case of
     ## multiple matching peptides
-    o <- do.call("order", lapply(c(icol, "rank"), function(j) id[, j]))
+    o <- do.call("order", lapply(c(icol, rank), function(j) id[, j]))
     id <- id[o, ]
 
     ## use flat version of accession/description if multiple ones are available

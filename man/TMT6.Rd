@@ -6,6 +6,8 @@
 \alias{TMT10}
 \alias{TMT10ETD}
 \alias{TMT10HCD}
+\alias{TMT11}
+\alias{TMT11HCD}
 \docType{data}
 
 \title{ TMT 6/10-plex sets }
@@ -37,6 +39,8 @@ TMT7b
 TMT10
 TMT10ETD
 TMT10HCD
+TMT11
+TMT11HCD
 }
 
 \references{

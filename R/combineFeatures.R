@@ -121,6 +121,7 @@ combineFeaturesV <- function(object,   ## MSnSet
                                  data = fdata))
     res@processingData@merged <- TRUE
     res@qual <- object@qual[0, ]
+    pData(res) <- pData(object)
     if (is.character(fun)) {
         msg <- paste("Combined ", n1, " features into ",
                      nrow(res), " using ", fun, sep = "")

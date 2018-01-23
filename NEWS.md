@@ -1,5 +1,11 @@
 # MSnbase 2.5
 
+## Changes in version 2.5.5
+- Added TMT11-plex <2018-01-17 Wed>
+- Add `phenoData<-` method for `pSet` (issue
+  [#299](https://github.com/lgatto/MSnbase/issues/299) <2018-01-22>.
+- Change readMSnSet2 example <2018-01-23 Tue>  
+
 ## Changes in version 2.5.4
 - Add featureData slot to Chromatograms class and add mz, precursorMz and 
   productMz methods for Chromatograms (issue
@@ -14,7 +20,7 @@
 
 ## Changes in version 2.5.3
 - Add filterPrecursorScan for `MSnExp` and `OnDiskMSnExp`;
-  closes issue #282 and PR #287 <2017-12-16 Sat>.
+  closes issue [#282](https://github.com/lgatto/MSnbase/issues/282) and PR [#287](https://github.com/lgatto/MSnbase/issues/287) <2017-12-16 Sat>.
 - MSnSet to/from SummarizedExperiment coercion (contributed by Arne
   Smits in PR [#284](https://github.com/lgatto/MSnbase/issues/284)) <2017-12-17 Sun>
 - Fix inverted M/Z axis in plot3D,MSmap (reported by Sylvain
