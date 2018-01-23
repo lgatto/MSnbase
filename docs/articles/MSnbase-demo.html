@@ -358,7 +358,7 @@ bsa</code></pre></div>
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Data [logically] subsetted 3 spectra: Tue Jan 16 14:21:05 2018 
+## Data [logically] subsetted 3 spectra: Tue Jan 23 09:58:54 2018 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -679,8 +679,8 @@ This figure illustrated the effect or the <code>removePeaks</code> and <code>cle
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Tue Jan 16 14:21:12 2018 
-## Spectra cleaned: Tue Jan 16 14:21:13 2018 
+## Curves &lt;= 400 set to '0': Tue Jan 23 09:59:01 2018 
+## Spectra cleaned: Tue Jan 23 09:59:02 2018 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -746,9 +746,9 @@ qnt</code></pre></div>
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Tue Jan 16 14:21:12 2018 
-## Spectra cleaned: Tue Jan 16 14:21:13 2018 
-## iTRAQ4 quantification by trapezoidation: Tue Jan 16 14:21:16 2018 
+## Curves &lt;= 400 set to '0': Tue Jan 23 09:59:01 2018 
+## Spectra cleaned: Tue Jan 23 09:59:02 2018 
+## iTRAQ4 quantification by trapezoidation: Tue Jan 23 09:59:05 2018 
 ##  MSnbase version: 1.1.22</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">exprs</span>(qnt))</code></pre></div>
 <pre><code>##     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
@@ -882,7 +882,7 @@ qnt.crct &lt;-<span class="st"> </span><span class="kw"><a href="../reference/pu
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/impute-methods.html">impute</a></span>(naset, <span class="st">"min"</span>)
 <span class="kw"><a href="../reference/pSet-class.html">processingData</a></span>(x)</code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data imputation using min Tue Jan 16 14:21:18 2018 
+## Data imputation using min Tue Jan 23 09:59:07 2018 
 ##  MSnbase version: 1.15.6</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(<span class="kw">is.na</span>(x))</code></pre></div>
 <pre><code>## 
@@ -919,7 +919,7 @@ x</code></pre></div>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Data imputation using mixed Tue Jan 16 14:21:19 2018 
+## Data imputation using mixed Tue Jan 23 09:59:08 2018 
 ##   Using default parameters 
 ##  MSnbase version: 1.15.6</code></pre>
 <p>Please read <code><a href="../reference/impute-methods.html">?impute</a></code> for a description of the different methods.</p>
@@ -989,7 +989,10 @@ qnt2</code></pre></div>
 ## assayData: 40 features, 4 samples 
 ##   element names: exprs 
 ## protocolData: none
-## phenoData: none
+## phenoData
+##   sampleNames: iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
+##   varLabels: mz reporters
+##   varMetadata: labelDescription
 ## featureData
 ##   featureNames: BSA ECA0172 ... ENO (40 total)
 ##   fvarLabels: spectrum ProteinAccession ... CV.iTRAQ4.117 (19
@@ -1000,14 +1003,14 @@ qnt2</code></pre></div>
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Tue Jan 16 14:21:12 2018 
-## Spectra cleaned: Tue Jan 16 14:21:13 2018 
-## iTRAQ4 quantification by trapezoidation: Tue Jan 16 14:21:16 2018 
-## Subset [55,4][54,4] Tue Jan 16 14:21:16 2018 
-## Removed features with more than 0 NAs: Tue Jan 16 14:21:16 2018 
-## Dropped featureData's levels Tue Jan 16 14:21:16 2018 
-## Combined 54 features into 40 using median: Tue Jan 16 14:21:21 2018 
-##  MSnbase version: 2.5.5</code></pre>
+## Curves &lt;= 400 set to '0': Tue Jan 23 09:59:01 2018 
+## Spectra cleaned: Tue Jan 23 09:59:02 2018 
+## iTRAQ4 quantification by trapezoidation: Tue Jan 23 09:59:05 2018 
+## Subset [55,4][54,4] Tue Jan 23 09:59:05 2018 
+## Removed features with more than 0 NAs: Tue Jan 23 09:59:05 2018 
+## Dropped featureData's levels Tue Jan 23 09:59:05 2018 
+## Combined 54 features into 40 using median: Tue Jan 23 09:59:10 2018 
+##  MSnbase version: 2.5.6</code></pre>
 <p>Of interest is also the <code>iPQF</code> spectra-to-protein summarisation method, which integrates peptide spectra characteristics and quantitative values for protein quantitation estimation. See <code><a href="../reference/iPQF.html">?iPQF</a></code> and references therein for details.</p>
 </div>
 <div id="sec:lf" class="section level1">
@@ -1045,12 +1048,12 @@ qnt2</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">siquant &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(msexp, <span class="dt">method =</span> <span class="st">"SIn"</span>)
 <span class="kw"><a href="../reference/pSet-class.html">processingData</a></span>(siquant)</code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data loaded: Tue Jan 16 14:21:11 2018 
-## Filtered 2 unidentified peptides out [Tue Jan 16 14:21:12 2018] 
-## Quantitation by total ion current [Tue Jan 16 14:21:21 2018] 
-## Combined 3 features into 3 using sum: Tue Jan 16 14:21:21 2018 
-## Quantification by SIn [Tue Jan 16 14:21:21 2018] 
-##  MSnbase version: 2.5.5</code></pre>
+## Data loaded: Tue Jan 23 09:59:00 2018 
+## Filtered 2 unidentified peptides out [Tue Jan 23 09:59:01 2018] 
+## Quantitation by total ion current [Tue Jan 23 09:59:10 2018] 
+## Combined 3 features into 3 using sum: Tue Jan 23 09:59:10 2018 
+## Quantification by SIn [Tue Jan 23 09:59:10 2018] 
+##  MSnbase version: 2.5.6</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">exprs</span>(siquant)</code></pre></div>
 <pre><code>##         dummyiTRAQ.mzXML
 ## ECA0510     0.0006553518
@@ -1249,7 +1252,15 @@ exp2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MSnSet
 <span class="kw"><a href="../reference/pSet-class.html">dim</a></span>(exp12)</code></pre></div>
 <pre><code>## [1] 35  8</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pData</span>(exp12)</code></pre></div>
-<pre><code>## data frame with 0 columns and 8 rows</code></pre>
+<pre><code>##             mz reporters
+## Ctrl1 114.1112    iTRAQ4
+## Cond1 115.1083    iTRAQ4
+## Ctrl2 116.1116    iTRAQ4
+## Cond2 117.1150    iTRAQ4
+## Ctrl3 114.1112    iTRAQ4
+## Cond3 115.1083    iTRAQ4
+## Ctrl4 116.1116    iTRAQ4
+## Cond4 117.1150    iTRAQ4</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">exprs</span>(exp12)[<span class="dv">25</span><span class="op">:</span><span class="dv">28</span>, ]</code></pre></div>
 <pre><code>##            Ctrl1    Cond1    Ctrl2     Cond2    Ctrl3    Cond3    Ctrl4
 ## ECA4513 10154.95 10486.94 11018.19 11289.552       NA       NA       NA
@@ -1266,7 +1277,10 @@ exp2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MSnSet
 ## assayData: 35 features, 8 samples 
 ##   element names: exprs 
 ## protocolData: none
-## phenoData: none
+## phenoData
+##   sampleNames: Ctrl1 Cond1 ... Cond4 (8 total)
+##   varLabels: mz reporters
+##   varMetadata: labelDescription
 ## featureData
 ##   featureNames: BSA ECA0435 ... ECA4512 (35 total)
 ##   fvarLabels: spectrum.exp1 ProteinAccession.exp1 ...
@@ -1275,8 +1289,8 @@ exp2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MSnSet
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Combined [35,8] and [27,4] MSnSets Tue Jan 16 14:21:33 2018 
-##  MSnbase version: 2.5.5</code></pre>
+## Combined [35,8] and [27,4] MSnSets Tue Jan 23 09:59:21 2018 
+##  MSnbase version: 2.5.6</code></pre>
 <p>In summary, when experiments with different samples need to be combined (along the columns), one needs to (1) clarify the sample names using <code>updateSampleNames</code> or better manually, for biological relevance and (2) update the feature data variable labels with <code>updateFvarLabels</code>. The individual experiments (there can be more than 2) can then easily be combined with the <code>combine</code> method while retaining the meta-data.</p>
 <p>If runs for the same sample (different fractions for example) need to be combines, one needs to (1) differentiate the feature provenance with <code>updateFeatureNames</code> prior to use <code>combine</code>.</p>
 </div>
@@ -1386,7 +1400,7 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 ##  [4] MLInterfaces_1.59.0  cluster_2.0.6        annotate_1.57.2     
 ##  [7] XML_3.98-1.9         AnnotationDbi_1.41.4 IRanges_2.13.10     
 ## [10] S4Vectors_0.17.21    pRolocdata_1.17.0    Rdisop_1.39.0       
-## [13] RcppClassic_0.9.9    zoo_1.8-1            MSnbase_2.5.5       
+## [13] RcppClassic_0.9.9    zoo_1.8-1            MSnbase_2.5.6       
 ## [16] ProtGenerics_1.11.0  BiocParallel_1.13.1  mzR_2.13.3          
 ## [19] Rcpp_0.12.14         Biobase_2.39.1       BiocGenerics_0.25.1 
 ## [22] ggplot2_2.2.1.9000   BiocStyle_2.7.2     

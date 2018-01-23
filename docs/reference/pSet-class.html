@@ -192,9 +192,13 @@
     <dt>pData</dt><dd><p><code>signature(x = "pSet")</code>: Access sample data
       information.</p></dd>
     <dt>pData&lt;-</dt><dd><p><code>signature(x = "pSet", value)</code>: Replace sample data
-      information with <code>value</code>.</p></dd>
+      information with <code>value</code>, value being a <code>data.frame</code>.</p></dd>
     <dt>phenoData</dt><dd><p><code>signature(x = "pSet")</code>: Access the
       <code>phenoData</code> slot.</p></dd>
+    <dt>phenoData&lt;-</dt><dd><p><code>signature(x = "pSet", value)</code>: Replace
+    sample data information with <code>value</code>. <code>value</code> can be a
+    <code>data.frame</code>, an <code>AnnotatedDataFrame</code> or a
+    <code>NAnnotatedDataFrame</code>.</p></dd>
     <dt>processingData</dt><dd><p><code>signature(object = "pSet")</code>: Access the
       <code>processingData</code> slot.</p></dd>
     <dt>protocolData</dt><dd><p><code>signature(x = "pSet")</code>: Access the
