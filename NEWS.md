@@ -1,7 +1,9 @@
 # MSnbase 2.5
 
 ## Changes in version 2.5.6
-- Nothing yet
+- Fixing processing message when combining two MSnSets (reported by
+  kamal.fartiyal84 https://support.bioconductor.org/p/100865/#105206)
+  <2018-01-24 Wed>
 
 ## Changes in version 2.5.5
 - Added TMT11-plex <2018-01-17 Wed>
