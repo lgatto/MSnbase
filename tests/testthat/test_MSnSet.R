@@ -40,6 +40,16 @@ test_that("MSnSet coersion", {
     expect_true(all.equal(ms, dunkley2006))
 })
 
+test_that("Combine MSnSet features: groupBy and fcol", {
+    data(msnset)
+    msnset <- msnset[11:15, ]
+    grp <- as.factor(c(1, 1, 2, 2, 2))
+    fData(msnset)$k <- grp
+    x1 <- combineFeatures(msnset, groupBy = grp)
+    x2 <- combineFeatures(msnset, fcol = "k")
+    x2@processingData <- x1@processingData
+    expect_equal(x1, x2)    
+})
 
 test_that("Combine MSnSet features (V)", {
     aa <- new("MSnSet",
@@ -83,10 +93,12 @@ test_that("Combine MSnSet features (V)", {
                  matrix(c(4, 10, 4, 10), ncol = 2),
                  tolerance = .001,
                  check.attributes = FALSE)
+
     expect_equal(exprs(cc),
                  matrix(c(5*4, 5*10, 5*4, 5*10), ncol = 2),
                  tolerance = .001,
                  check.attributes = FALSE)
+    
     expect_true(all(fData(bb)[, 1] == c("A", "B")))
     expect_true(all(fData(bb)[, 2] == c("A.1", "B.6")))
     gb2 <- factor(c("a", "c", "z", "a", "z", "b", "b", "a", "c", "a"))
@@ -369,7 +381,7 @@ test_that("keeping common features", {
     res2 <- lapply(res2, MSnbase:::nologging)
     expect_equal(msnsets(res1), msnsets(res2),
                  check.attributes = FALSE)
-    expect_null(names(res2))
+    expect_equal(names(res2), as.character(1:2))
     expect_equal(names(res1), names(res3))
 })
 

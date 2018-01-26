@@ -57,6 +57,9 @@
 \alias{filterEmptySpectra}
 \alias{filterEmptySpectra,MSnExp-method}
 \alias{filterEmptySpectra,OnDiskMSnExp-method}
+\alias{filterPrecursorScan}
+\alias{filterPrecursorScan,MSnExp-method}
+\alias{filterPrecursorScan,OnDiskMSnExp-method}
 
 \alias{isCentroided,MSnExp-method}
 
@@ -287,6 +290,11 @@
 
     \item{filterEmptySpectra}{\code{signature(object = "MSnExp")}:
       Remove empty spectra from \code{object} (see \code{isEmpty}). }
+
+    \item{filterPrecursorScan}{\code{signature(object = "MSnExp",
+            acquisitionNum = "numeric")}:
+      Retain parent (e.g. MS1) and children scans (e.g. MS2) of
+      \code{acquisitionNum}.}
 
     \item{splitByFile}{\code{signature(object = "MSnExp", f =
 	"factor")}: split a \code{MSnExp} object by file into a

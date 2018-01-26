@@ -437,6 +437,8 @@ setReplaceMethod("fData",
                      object = "pSet",
                      value = "data.frame"),
                  function(object, value) {
+                     if (!identical(featureNames(object), rownames(value)))
+                         stop("Feature names and rownames of the new fData are not identical.")
                      fd <- featureData(object)
                      pData(fd) <- value
                      object@featureData <- fd
@@ -544,8 +546,23 @@ setReplaceMethod("$", "pSet", function(x, name, value) {
 })
 
 setReplaceMethod("pData", "pSet", function(object, value) {
+    if (!is.data.frame(value))
+        stop("'value' has to be a 'data.frame'")
     pData(object@phenoData) <- value
     object
+})
+
+setReplaceMethod("phenoData", "pSet", function(object, value) {
+    ## Check input and convert to NAnnotatedDataFrame if neccessary
+    if (is(value, "AnnotatedDataFrame")) {
+        value <- as(value, "NAnnotatedDataFrame")
+    } else {
+        stop("'value' should be a 'data.frame', 'AnnotatedDataFrame' or",
+             "'NAnnotatedDataFrame'")
+    }
+    object@phenoData <- value
+    if (validObject(object))
+        object
 })
 
 ################################

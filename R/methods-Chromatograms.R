@@ -430,3 +430,15 @@ setMethod("mz", "Chromatograms", function(object) {
     .mz_chromatograms(object, mz = "mz")
 })
 
+#' @rdname Chromatograms-class
+#'
+#' @description
+#'
+#' \code{polarity}: returns the polarity of the scans/chromatograms: `1`,
+#' `0` or `-1` for positive, negative or unknown polarity.
+setMethod("polarity", "Chromatograms", function(object) {
+    if (any(fvarLabels(object) == "polarity"))
+        fData(object)$polarity
+    else
+        rep(-1, nrow(object))
+})

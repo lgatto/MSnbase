@@ -129,13 +129,28 @@ value is present) as soon as one observation of transformed.</p>
 <span class='no'>dfr</span></div><div class='output co'>#&gt;   A B C
 #&gt; 1 1 x A
 #&gt; 2 1 x B
-#&gt; 3 2 z C</div><div class='input'><span class='no'>dfr2</span> <span class='kw'>&lt;-</span> <span class='fu'>reduce</span>(<span class='no'>dfr</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"A"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in reduce(dfr, key = "A"): could not find function "reduce"</span></div><div class='input'><span class='no'>dfr2</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'dfr2' not found</span></div><div class='input'><span class='co'>## column A used as key is still num</span>
-<span class='fu'>str</span>(<span class='no'>dfr2</span>)</div><div class='output co'>#&gt; <span class='error'>Error in str(dfr2): object 'dfr2' not found</span></div><div class='input'><span class='no'>dfr3</span> <span class='kw'>&lt;-</span> <span class='fu'>reduce</span>(<span class='no'>dfr</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"B"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in reduce(dfr, key = "B"): could not find function "reduce"</span></div><div class='input'><span class='no'>dfr3</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'dfr3' not found</span></div><div class='input'><span class='co'>## A is converted to chr; B remains factor</span>
-<span class='fu'>str</span>(<span class='no'>dfr3</span>)</div><div class='output co'>#&gt; <span class='error'>Error in str(dfr3): object 'dfr3' not found</span></div><div class='input'><span class='no'>dfr4</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>A</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>,
+#&gt; 3 2 z C</div><div class='input'><span class='no'>dfr2</span> <span class='kw'>&lt;-</span> <span class='fu'>reduce</span>(<span class='no'>dfr</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"A"</span>)
+<span class='no'>dfr2</span></div><div class='output co'>#&gt;   A   B   C
+#&gt; 1 1 x;x A;B
+#&gt; 2 2   z   C</div><div class='input'><span class='co'>## column A used as key is still num</span>
+<span class='fu'>str</span>(<span class='no'>dfr2</span>)</div><div class='output co'>#&gt; 'data.frame':	2 obs. of  3 variables:
+#&gt;  $ A: num  1 2
+#&gt;  $ B: chr  "x;x" "z"
+#&gt;  $ C: chr  "A;B" "C"</div><div class='input'><span class='no'>dfr3</span> <span class='kw'>&lt;-</span> <span class='fu'>reduce</span>(<span class='no'>dfr</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"B"</span>)
+<span class='no'>dfr3</span></div><div class='output co'>#&gt;     A B   C
+#&gt; 1 1;1 x A;B
+#&gt; 2   2 z   C</div><div class='input'><span class='co'>## A is converted to chr; B remains factor</span>
+<span class='fu'>str</span>(<span class='no'>dfr3</span>)</div><div class='output co'>#&gt; 'data.frame':	2 obs. of  3 variables:
+#&gt;  $ A: chr  "1;1" "2"
+#&gt;  $ B: Factor w/ 2 levels "x","z": 1 2
+#&gt;  $ C: chr  "A;B" "C"</div><div class='input'><span class='no'>dfr4</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>A</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>,
                    <span class='kw'>B</span> <span class='kw'>=</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>3</span>],
                    <span class='kw'>C</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>TRUE</span>, <span class='fl'>FALSE</span>, <span class='fl'>NA</span>))
 <span class='co'>## No effect of reducing, column classes are maintained</span>
-<span class='fu'>str</span>(<span class='fu'>reduce</span>(<span class='no'>dfr4</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"B"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in reduce(dfr4, key = "B"): could not find function "reduce"</span></div></pre>
+<span class='fu'>str</span>(<span class='fu'>reduce</span>(<span class='no'>dfr4</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"B"</span>))</div><div class='output co'>#&gt; 'data.frame':	3 obs. of  3 variables:
+#&gt;  $ A: int  1 2 3
+#&gt;  $ B: Factor w/ 3 levels "A","B","C": 1 2 3
+#&gt;  $ C: logi  TRUE FALSE NA</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

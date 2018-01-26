@@ -370,6 +370,25 @@ test_that("pData<- on MSnExp works", {
     ## replace.
     pData(msx) <- newDf
     expect_equal(pData(msx), newDf)
+    expect_error(pData(msx) <- 13)
+})
+
+test_that("phenoData<- on MSnExp works", {
+    im <- microtofq_in_mem_ms1
+    old_pd <- phenoData(im)
+
+    expect_error(phenoData(im) <- 4)
+    ## phenoData(im) <- data.frame(a = 4)
+    pd_2 <- old_pd
+    pData(pd_2) <- cbind(pData(old_pd), add_col = 4)
+    ## Assign AnnotatedDataFrame
+    phenoData(im) <- AnnotatedDataFrame(pData(pd_2))
+    expect_true(is(im@phenoData, "NAnnotatedDataFrame"))
+    expect_equal(pData(im), pData(pd_2))
+    ## Assign NAnnotatedDataFrame
+    phenoData(im) <- pd_2
+    expect_true(is(im@phenoData, "NAnnotatedDataFrame"))
+    expect_equal(phenoData(im), pd_2)    
 })
 
 test_that("injection time", {
@@ -403,9 +422,10 @@ test_that("chromatogram,MSnExp works", {
     expect_equal(pData(inMem), pData(res))
     ## feature data:
     expect_true(nrow(fData(res)) == nrow(res))
-    expect_true(all(colnames(fData(res)) == c("mzmin", "mzmax")))
+    expect_true(all(colnames(fData(res)) == c("mzmin", "mzmax", "polarity")))
     expect_equal(fData(res)[1, 1], 100)
     expect_equal(fData(res)[1, 2], 120)
+    expect_equal(fData(res)[1, 3], 1)
     
     ## Multiple mz ranges.
     mzr <- matrix(c(100, 120, 200, 220, 300, 320), nrow = 3, byrow = TRUE)
@@ -433,11 +453,12 @@ test_that("chromatogram,MSnExp works", {
     ## fData
     expect_true(nrow(fData(res)) == nrow(res))
     expect_true(all(colnames(fData(res)) == c("mzmin", "mzmax",
-                                              "rtmin", "rtmax")))
+                                              "rtmin", "rtmax", "polarity")))
     expect_true(all(fData(res)$rtmin == 50))
     expect_true(all(fData(res)$rtmax == 300))
     expect_equal(fData(res)$mzmin, c(100, 200, 300))
     expect_equal(fData(res)$mzmax, c(120, 220, 320))
+    expect_equal(fData(res)$polarity, c(1, 1, 1))
     
     ## Now with ranges for which we don't have values in one or the other.
     rtr <- matrix(c(280, 300, 20, 40), nrow = 2,

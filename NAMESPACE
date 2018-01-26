@@ -34,7 +34,7 @@ importFrom(ggplot2, geom_histogram, geom_text, geom_line, geom_point,
            facet_grid)
 
 importFrom(MALDIquant, binPeaks, match.closest) ## only using ::: functions
-importFrom(S4Vectors, isEmpty, metadata)
+importFrom(S4Vectors, isEmpty, metadata, DataFrame)
 
 ## importFrom(rols, olsQuery, term)
 ## importClassesFrom(rols, CVParam)
@@ -139,7 +139,8 @@ export(MSnSet,
        filterIdentificationDataFrame,
        isCentroidedFromFile,
        requiredFvarLabels,
-       addMSnSetMetadata       
+       addMSnSetMetadata,
+       readSRMData
        )
 
 exportClasses(pSet,
@@ -257,7 +258,8 @@ exportMethods(updateObject,
               filterRt,
               filterFile,
               filterAcquisitionNum,
-	      filterEmptySpectra,
+              filterEmptySpectra,
+              filterPrecursorScan,
               spectrapply,
               splitByFile,
               ## Features of interest
@@ -286,6 +288,7 @@ exportMethods(updateObject,
               pData, "pData<-",
               "$",
               "$<-",
+	      phenoData, "phenoData<-",
               chromatogram,
               "colnames<-",
               reduce,

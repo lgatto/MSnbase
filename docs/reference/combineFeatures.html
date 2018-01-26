@@ -99,9 +99,9 @@
     
 
     <pre class="usage"><span class='fu'>combineFeatures</span>(<span class='no'>object</span>, <span class='no'>groupBy</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"mean"</span>, <span class='st'>"median"</span>,
-<span class='st'>"weighted.mean"</span>, <span class='st'>"sum"</span>, <span class='st'>"medpolish"</span>, <span class='st'>"iPQF"</span>, <span class='st'>"NTR"</span>), <span class='kw'>redundancy.handler</span> <span class='kw'>=</span>
-<span class='fu'>c</span>(<span class='st'>"unique"</span>, <span class='st'>"multiple"</span>), <span class='kw'>cv</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>cv.norm</span> <span class='kw'>=</span> <span class='st'>"sum"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span>
-<span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span>(), <span class='no'>...</span>)</pre>
+<span class='st'>"weighted.mean"</span>, <span class='st'>"sum"</span>, <span class='st'>"medpolish"</span>, <span class='st'>"iPQF"</span>, <span class='st'>"NTR"</span>), <span class='no'>fcol</span>,
+<span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"unique"</span>, <span class='st'>"multiple"</span>), <span class='kw'>cv</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>cv.norm</span> <span class='kw'>=</span>
+<span class='st'>"sum"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span>(), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -127,6 +127,14 @@
     <code><a href='iPQF.html'>iPQF</a></code> for details) and NTR (see <code><a href='normToReference.html'>NTR</a></code>
     for details) are implemented, but user-defined functions can also be
     supplied.</p></td>
+    </tr>
+    <tr>
+      <th>fcol</th>
+      <td><p>Feature meta-data label (fData column name) defining how
+    to summerise the features. It must be present in
+    <code>fvarLabels(object)</code> and, if present, will be used to defined
+    <code>groupBy</code> as <code>fData(object)[, fcol]</code>. Note that
+    <code>fcol</code> is ignored if <code>groupBy</code> is present.</p></td>
     </tr>
     <tr>
       <th>redundancy.handler</th>

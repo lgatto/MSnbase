@@ -139,3 +139,12 @@ test_that("filterMz", {
     mzr <- range(mz(twoFileOnDiskF))
     expect_true(mzr[1] >= 300 & mzr[2] <= 350)
 })
+
+test_that("filterPrecursorScan", {
+    expect_error(filterPrecursorScan(inmem1, 1),
+                 "column\\(s\\) acquisitionNum/precursorScanNum is/are missing")
+    expect_true(all.equal(ondisk[1:11], filterPrecursorScan(ondisk, 1003)))
+    expect_true(all.equal(ondisk[c(1:11, 19:20)],
+                          filterPrecursorScan(ondisk, c(1003, 1022))))
+    expect_true(all.equal(ondisk[NA], filterPrecursorScan(ondisk, 1)))
+})

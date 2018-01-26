@@ -104,13 +104,22 @@
   exprs, ...)</code>.  See also <code>"ExpressionSet"</code> for
   helpful information.  Expression data produced from other softwares
   can thus make use of this standardized data container to benefit
-  <code>R</code> and <code>Bioconductor</code> packages. Importer functions will be
-  developed to stream-line the generation of <code>"MSnSet"</code> instances
-  from third-party software.</p>
-<p>A coercion method is also available to transform an <code>IBSpectra</code>
-  object (names <code>x</code>) from the <code>isobar</code> package into an
-  <code>MSnSet</code>: <code>as(x, "MSnSet")</code>.</p>
-<p>In the frame of the <code>MSnbase</code> package, <code>MSnSet</code> instances
+  <code>R</code> and <code>Bioconductor</code> packages. Proteomics expression data
+  available as spreadsheets, as produced by third-party software such as
+  Proteome Discoverer, MaxQuant, ... can be imported using the
+  <code><a href='readMSnSet.html'>readMSnSet</a></code> and <code><a href='readMSnSet.html'>readMSnSet2</a></code> functions.</p>
+<p>Coercion methods are also available to transform <code>MSnSet</code> objects
+  to <code>IBSpectra</code>, to <code>data.frame</code> and to/from
+  <code>ExpressionSet</code> and <code>SummarizedExperiment</code> objects. In the
+  latter case, the metadata available in the <code>protocolData</code>,
+  <code>experimentData</code> are completely dropped, and only the logging
+  information of the <code>processingData</code> slot is retained. All these
+  metadata can be subsequently be added using the
+  <code>addMSnSetMetadata</code> (see examples below). When converting a
+  <code>SummarizedExperiment</code> to an <code>MSnSet</code>, the respective
+  metadata slots will be populated if available in the
+  <code>SummarizedExperiment</code> metadata.
+    In the frame of the <code>MSnbase</code> package, <code>MSnSet</code> instances
   can be generated from <code>"<a href='MSnExp-class.html'>MSnExp</a>"</code> experiments using
   the <code><a href='quantify-methods.html'>quantify</a></code> method).</p>
     
@@ -219,6 +228,9 @@
       is converted to a <code>MIAME</code> instance. It is also possible to
       coerce an <code>ExpressionSet</code> to and <code>MSnSet</code>, in which case
       the <code>experimentData</code> slot is newly initialised.</p></dd>
+    <dt>as(,"IBSpectra")</dt><dd><p><code>signature(x = "MSnSet")</code>: Coerce
+      object from <code>MSnSet</code> to <code>IBSpectra</code> from the
+      <code>isobar</code> package.</p></dd>
     <dt>as(,"data.frame")</dt><dd><p><code>signature(x = "MSnSet")</code>: Coerce
       object from <code>MSnSet</code> to <code>data.frame</code>. The <code>MSnSet</code>
       is transposed and the <code>PhenoData</code> slot is appended.</p></dd>
@@ -440,7 +452,50 @@
 <span class='fu'>image</span>(<span class='no'>dunkley2006</span>, <span class='kw'>facetBy</span> <span class='kw'>=</span> <span class='st'>"replicate"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in image(dunkley2006, facetBy = "replicate"): object 'dunkley2006' not found</span></div><div class='input'><span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>image</span>(<span class='no'>dunkley2006</span>)</div><div class='output co'>#&gt; <span class='error'>Error in image(dunkley2006): object 'dunkley2006' not found</span></div><div class='input'><span class='fu'>library</span>(<span class='st'>"ggplot2"</span>) <span class='co'>## for facet_grid</span>
 <span class='no'>p</span> + <span class='fu'>facet_grid</span>(<span class='no'>replicate</span> ~ <span class='no'>membrane.prep</span>, <span class='kw'>scales</span> <span class='kw'>=</span> <span class='st'>'free'</span>, <span class='kw'>space</span> <span class='kw'>=</span> <span class='st'>'free'</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'p' not found</span></div><div class='input'><span class='no'>p</span> + <span class='fu'>facet_grid</span>(<span class='no'>markers</span> ~ <span class='no'>replicate</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'p' not found</span></div><div class='input'><span class='co'>## Fold-changes</span>
 <span class='no'>dd</span> <span class='kw'>&lt;-</span> <span class='no'>dunkley2006</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'dunkley2006' not found</span></div><div class='input'><span class='fu'>exprs</span>(<span class='no'>dd</span>) <span class='kw'>&lt;-</span> <span class='fu'>exprs</span>(<span class='no'>dd</span>) - <span class='fl'>0.25</span></div><div class='output co'>#&gt; <span class='error'>Error in exprs(dd): object 'dd' not found</span></div><div class='input'><span class='fu'>image</span>(<span class='no'>dd</span>)</div><div class='output co'>#&gt; <span class='error'>Error in image(dd): object 'dd' not found</span></div><div class='input'><span class='fu'>image</span>(<span class='no'>dd</span>, <span class='kw'>low</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>high</span> <span class='kw'>=</span> <span class='st'>"red"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in image(dd, low = "green", high = "red"): object 'dd' not found</span></div><div class='input'><span class='co'>## Feature names are displayed by default for smaller data</span>
-<span class='no'>dunkley2006</span> <span class='kw'>&lt;-</span> <span class='no'>dunkley2006</span>[<span class='fl'>1</span>:<span class='fl'>25</span>, ]</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'dunkley2006' not found</span></div><div class='input'><span class='fu'>image</span>(<span class='no'>dunkley2006</span>)</div><div class='output co'>#&gt; <span class='error'>Error in image(dunkley2006): object 'dunkley2006' not found</span></div><div class='input'><span class='fu'>image</span>(<span class='no'>dunkley2006</span>, <span class='kw'>legend</span> <span class='kw'>=</span> <span class='st'>"hello"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in image(dunkley2006, legend = "hello"): object 'dunkley2006' not found</span></div></pre>
+<span class='no'>dunkley2006</span> <span class='kw'>&lt;-</span> <span class='no'>dunkley2006</span>[<span class='fl'>1</span>:<span class='fl'>25</span>, ]</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'dunkley2006' not found</span></div><div class='input'><span class='fu'>image</span>(<span class='no'>dunkley2006</span>)</div><div class='output co'>#&gt; <span class='error'>Error in image(dunkley2006): object 'dunkley2006' not found</span></div><div class='input'><span class='fu'>image</span>(<span class='no'>dunkley2006</span>, <span class='kw'>legend</span> <span class='kw'>=</span> <span class='st'>"hello"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in image(dunkley2006, legend = "hello"): object 'dunkley2006' not found</span></div><div class='input'>
+
+<span class='co'>## Coercion</span>
+<span class='kw'>if</span> (<span class='fu'>require</span>(<span class='st'>"SummarizedExperiment"</span>)) {
+    <span class='fu'>data</span>(<span class='no'>msnset</span>)
+    <span class='no'>se</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mzRident2dfr.html'>as</a></span>(<span class='no'>msnset</span>, <span class='st'>"SummarizedExperiment"</span>)
+    <span class='fu'>metadata</span>(<span class='no'>se</span>) <span class='co'>## only logging</span>
+    <span class='no'>se</span> <span class='kw'>&lt;-</span> <span class='fu'>addMSnSetMetadata</span>(<span class='no'>se</span>, <span class='no'>msnset</span>)
+    <span class='fu'>metadata</span>(<span class='no'>se</span>) <span class='co'>## all metadata</span>
+    <span class='no'>msnset2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mzRident2dfr.html'>as</a></span>(<span class='no'>se</span>, <span class='st'>"MSnSet"</span>)
+    <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>msnset2</span>)
+}</div><div class='output co'>#&gt; <span class='message'>Loading required package: SummarizedExperiment</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomicRanges</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: S4Vectors</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘S4Vectors’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:Matrix’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    expand</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:base’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    expand.grid</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: IRanges</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomeInfoDb</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: DelayedArray</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: matrixStats</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘matrixStats’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:Biobase’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    anyMissing, rowMedians</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘DelayedArray’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:matrixStats’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    aperm, apply</span></div><div class='output co'>#&gt; - - - Processing information - - -
+#&gt; Data loaded: Wed May 11 18:54:39 2011 
+#&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
+#&gt; Subset [55,4][6,4] Wed Jan 24 15:18:56 2018 
+#&gt;  MSnbase version: 1.1.22 </div><div class='input'>
+<span class='fu'><a href='mzRident2dfr.html'>as</a></span>(<span class='no'>msnset</span>, <span class='st'>"ExpressionSet"</span>)</div><div class='output co'>#&gt; ExpressionSet (storageMode: lockedEnvironment)
+#&gt; assayData: 6 features, 4 samples 
+#&gt;   element names: exprs 
+#&gt; protocolData: none
+#&gt; phenoData
+#&gt;   sampleNames: iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
+#&gt;   varLabels: mz reporters
+#&gt;   varMetadata: labelDescription
+#&gt; featureData
+#&gt;   featureNames: X18 X19 ... X22 (6 total)
+#&gt;   fvarLabels: spectrum ProteinAccession ... collision.energy (15 total)
+#&gt;   fvarMetadata: labelDescription
+#&gt; experimentData: use 'experimentData(object)'
+#&gt; Annotation: No annotation </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

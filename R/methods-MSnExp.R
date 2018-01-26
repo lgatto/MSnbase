@@ -531,6 +531,9 @@ setMethod("chromatogram", "MSnExp", function(object, rt, mz,
         fd$rtmin <- rt[, 1]
         fd$rtmax <- rt[, 2]
     }
+    plrt <- unique(polarity(object))
+    if (length(plrt) == 1)
+        fd$polarity <- plrt
     res@featureData <- fd
     rownames(res@.Data) <- rownames(fd)
     res@phenoData <- object@phenoData

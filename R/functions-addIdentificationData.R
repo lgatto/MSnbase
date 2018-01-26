@@ -181,7 +181,8 @@ filterIdentificationDataFrame <- function(x,
         id <- filterIdentificationDataFrame(id, accession = accession,
                                             rank = rank,
                                             decoy = decoy,
-                                            verbose = verbose)
+                                            verbose = verbose,
+                                            ...)
         ## we temporaly add the spectrum.file/acquisition.number information
         ## to our fData data.frame because
         ## utils.mergeSpectraAndIdentificationData needs this information
@@ -198,7 +199,8 @@ filterIdentificationDataFrame <- function(x,
                                                       icol = icol,
                                                       acc = acc,
                                                       desc = desc,
-                                                      pepseq = pepseq)
+                                                      pepseq = pepseq,
+                                                      rank)
         ## after adding the identification data we remove the
         ## temporary data to avoid duplication and problems in quantify
         ## (We don't remove acquisition.number here because the featureData slot

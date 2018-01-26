@@ -151,7 +151,10 @@ depend on the architecture. Default is
     the number of columns corresponding to the number of files in
     <code>object</code> and number of rows the number of specified ranges (i.e.
     number of rows of matrices provided with arguments <code>mz</code> and/or
-    <code>rt</code>).</p>
+    <code>rt</code>). The `featureData` of the returned object contains columns
+    <code>"mzmin"</code> and <code>"mzmax"</code> with the values from input argument
+    <code>mz</code> (if used) and <code>"rtmin"</code> and <code>"rtmax"</code> if the input
+    argument <code>rt</code> was used.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -199,7 +202,8 @@ depend on the architecture. Default is
 #&gt;           MM14.mzML       MM8.mzML
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]    length: 112    length: 198
-#&gt; phenoData with 1 variables</div><div class='input'>
+#&gt; phenoData with 1 variables
+#&gt; featureData with 1 variables</div><div class='input'>
 <span class='co'>## Extract the TIC for the second file:</span>
 <span class='no'>tic</span>[<span class='fl'>1</span>, <span class='fl'>2</span>]</div><div class='output co'>#&gt; Object of class: Chromatogram
 #&gt; Intensity values aggregated using: sum 
@@ -226,6 +230,14 @@ depend on the architecture. Default is
 #&gt; from file: 1
 #&gt; mz range: [NA, NA]
 #&gt; MS level: 1</div><div class='input'>
+<span class='co'>## The mz and/or rt ranges used are provided as featureData of the object</span>
+<span class='fu'>fData</span>(<span class='no'>chrs</span>)</div><div class='output co'>#&gt;   mzmin mzmax rtmin rtmax polarity
+#&gt; 1   140   160    10    60        1
+#&gt; 2   300   320   280   300        1</div><div class='input'>
+<span class='co'>## The mz method can be used to extract the m/z ranges directly</span>
+<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>chrs</span>)</div><div class='output co'>#&gt;      mzmin mzmax
+#&gt; [1,]   140   160
+#&gt; [2,]   300   320</div><div class='input'>
 <span class='co'>## Also the Chromatogram for the second range in the second file is empty</span>
 <span class='no'>chrs</span>[<span class='fl'>2</span>, <span class='fl'>2</span>]</div><div class='output co'>#&gt; Object of class: Chromatogram
 #&gt; Intensity values aggregated using: sum 
@@ -242,7 +254,7 @@ depend on the architecture. Default is
 #&gt; mz range: [140.0022, 159.9989]
 #&gt; rt range: [10.24602, 59.71602]
 #&gt; MS level: 1</div><div class='input'>
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>chr</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>chr</span>), <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"rtime"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"intensity"</span>)</div><img src='chromatogram-MSnExp-method-14.png' alt='' width='540' height='400' /></pre>
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>chr</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>chr</span>), <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"rtime"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"intensity"</span>)</div><img src='chromatogram-MSnExp-method-18.png' alt='' width='540' height='400' /></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
