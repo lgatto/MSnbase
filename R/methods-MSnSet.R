@@ -315,6 +315,8 @@ setMethod("combine",
                          class(x), ", ", class(y), sep=""))
             ## if (!isCurrent(x)[["MSnSet"]])
             ##     x <- updateObject(x)
+            n1 <- dim(x)
+            n2 <- dim(y)
             assayData(x) <- combine(assayData(x), assayData(y))
             phenoData(x) <- combine(phenoData(x), phenoData(y))
             featureData(x) <- combine(featureData(x), featureData(y))
@@ -322,9 +324,9 @@ setMethod("combine",
             protocolData(x) <- combine(protocolData(x), protocolData(y))
             x@processingData <- combine(processingData(x), processingData(y))
             x@processingData@processing <- paste("Combined [",
-                                                 paste(dim(x), collapse = ","),
+                                                 paste(n1, collapse = ","),
                                                  "] and [",
-                                                 paste(dim(y), collapse = ","),
+                                                 paste(n2, collapse = ","),
                                                  "] MSnSets ", date(), sep = "")
             x@qual <- data.frame() ## dropping qual slot
             ## annotation -- constant / not used
