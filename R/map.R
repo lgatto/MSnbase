@@ -116,7 +116,9 @@ setMethod("plot3D", "MSmap",
           })
 
 
-setMethod("MSmap", "mzRpwiz", 
+setClassUnion("mzRraw", c("mzRpwiz", "mzRramp"))
+
+setMethod("MSmap", "mzRraw", 
           function(object, scans, lowMz, highMz, resMz, hd,
                    zeroIsNA = FALSE) {
               if (missing(hd))

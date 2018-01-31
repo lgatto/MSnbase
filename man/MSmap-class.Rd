@@ -7,6 +7,8 @@
 \alias{MSmap-method}
 \alias{MSmap,OnDiskMSnExp-method}
 \alias{MSmap,mzRpwiz-method}
+\alias{MSmap,mzRramp-method}
+\alias{MSmap,mzRraw-method}
 \alias{coerce,MSmap,data.frame-method}
 \alias{dim,MSmap-method}
 \alias{fileName,MSmap-method}
