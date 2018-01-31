@@ -1,12 +1,12 @@
 # MSnbase 2.5
 
 ## Changes in version 2.5.7
-- MSmap constructor for OnDiskMSnExp objects (see issue #305)
+- MSmap constructor for OnDiskMSnExp objects (see issue [#305](https://github.com/lgatto/MSnbase/issues/305))
   <2018-01-31 Wed>
 
 ## Changes in version 2.5.6
 - Fixing processing message when combining two MSnSets (reported by
-  kamal.fartiyal84 https://support.bioconductor.org/p/100865/#105206)
+  kamal.fartiyal84 https://support.bioconductor.org/p/100865/[#105206](https://github.com/lgatto/MSnbase/issues/105206))
   <2018-01-24 Wed>
 
 ## Changes in version 2.5.5
