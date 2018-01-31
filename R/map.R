@@ -160,6 +160,6 @@ setMethod("MSmap", "OnDiskMSnExp",
                      mz = mz, res = resMz,
                      rt = rt, ms = msLevel(object)[scans],
                      t = FALSE,
-                     filename = f)
+                     filename = fn)
           })
 
