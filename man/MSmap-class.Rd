@@ -4,6 +4,9 @@
 \alias{MSmap-class}
 \alias{MSmap}
 
+\alias{MSmap-method}
+\alias{MSmap,OnDiskMSnExp-method}
+\alias{MSmap,mzRpwiz-method}
 \alias{coerce,MSmap,data.frame-method}
 \alias{dim,MSmap-method}
 \alias{fileName,MSmap-method}
@@ -34,19 +37,27 @@
 \section{Objects from the Class}{
   Objects can be created with the \code{MSmap} constructor. The
   constructor has the following arguments:
+  
   \describe{
-    \item{object}{An object created by \code{mzR::openMSfile}.}
-    \item{scans}{A \code{numeric} indicating the scan indices to be
-      extracted from \code{object} to create the MS map. If missing, all
-      MS1 spectra will be used. }
+
+    \item{object}{An object created by \code{mzR::openMSfile} or an
+      instance of class \code{\linkS4class{OnDiskMSnExp}}. If the latter
+      consains data from multiple files, a warning will be issued and
+      the first one will be used. }
+      
     \item{lowMz}{A \code{numeric} of length 1 defining the lower bound
-      of the M/Z range of the MS map. }
+      of the M/Z range of the MS map.}
+
     \item{highMz}{A \code{numeric} of length 1 defining the upper bound
       of the M/Z range of the MS map. }
+
     \item{resMz}{The resolution along the M/Z range. }
+    
     \item{hd}{An optional \code{data.frame} as produced by
       \code{mzR::header(object)}. If missing, will be computer within
-      the function. }
+      the function. Ignored when \code{object} is an
+      \code{OnDiskMSnExp}.}
+    
     \item{zeroIsNA}{Set 0 intensities to \code{NA}. This can be used
       to clarify the 3 dimensional plot produce by \code{plot3D}.}
   }
@@ -123,6 +134,7 @@
     (i <- grep("TMT.+mzML", pxfiles(px1), value = TRUE))
     mzf <- pxget(px1, i)
 
+    ## Using an mzRpwiz object
     ## reads the data 
     ms <- openMSfile(mzf)
     hd <- header(ms)
@@ -146,6 +158,25 @@
     j <- ms1[which(rtsel)][2]
     M2 <- MSmap(ms, i:j, 100, 1000, 1, hd)
     plot3D(M2)
+
+    ## Using an OnDiskMSnExp object and accessors
+    msn <- readMSData(mzf, mode = "onDisk")
+    
+    ## a set of spectra of interest: MS1 spectra eluted
+    ## between 30 and 35 minutes retention time
+    ms1 <- which(msLevel(msn) == 1)
+    rtsel <- rtime(msn)[ms1] / 60 > 30 &
+        rtime(msn)[ms1] / 60 < 35
+
+    ## the map
+    M3 <- MSmap(msn, ms1[rtsel], 521, 523, .005)
+    plot(M3, aspect = 1, allTicks = FALSE)
+
+    ## With some MS2 spectra
+    i <- ms1[which(rtsel)][1]
+    j <- ms1[which(rtsel)][2]
+    M4 <- MSmap(msn, i:j, 100, 1000, 1)
+    plot3D(M4)    
 }
 }
 

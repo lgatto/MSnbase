@@ -1,7 +1,8 @@
 # MSnbase 2.5
 
 ## Changes in version 2.5.7
-- Nothing yet
+- MSmap constructor for OnDiskMSnExp objects (see issue #305)
+  <2018-01-31 Wed>
 
 ## Changes in version 2.5.6
 - Fixing processing message when combining two MSnSets (reported by
