@@ -40,6 +40,7 @@ ms2df <- function(x, fcols = fvarLabels(x)) {
         sel <- fvarLabels(x) %in% fcols
         res <- data.frame(exprs(x),
                           fData(x)[, sel])
+        colnames(res)[-seq_len(ncol(x))] <- fcols
     }
     return(res)
 }
