@@ -55,7 +55,7 @@ setValidity("MSnSet", function(object) {
   msg <- validMsg(NULL, Biobase:::isValidVersion(object, "MSnSet"))
   msg <- validMsg(msg, Biobase::assayDataValidMembers(assayData(object),
                                                       c("exprs")))
-  if ( nrow(qual(object)) != 0 ) {
+  if ( nrow(qual(object)) != 0 & "reporters" %in% varLabels(object)) {
     nrow.obs <- nrow(qual(object))
     nrow.exp <- nrow(object) * length(object$reporters)
     if (nrow.obs != nrow.exp)
