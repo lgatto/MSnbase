@@ -81,6 +81,16 @@ setReplaceMethod("pData",
                          object
                  })
 
+setReplaceMethod("fData",
+                 c("MSnSet", "data.frame"),
+                 function (object, value) {
+                     fd <- featureData(object)
+                     pData(fd) <- value
+                     object@featureData <- fd
+                     if (validObject(object))
+                         object
+                 })
+
 setMethod("acquisitionNum", signature(object = "MSnSet"),
           function(object) {
               fcol <- c("acquisitionNum", "acquisition.number")
