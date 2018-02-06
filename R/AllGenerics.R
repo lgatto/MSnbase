@@ -147,3 +147,7 @@ setGeneric("splitByFile", function(object, f, ...) standardGeneric("splitByFile"
 setGeneric("productMz", function(object, ...) standardGeneric("productMz"))
 ## setGeneric("aggregationFun", function(object, ...)
 ##     standardGeneric("aggregationFun"))
+
+## centroiding related
+setGeneric("estimateMzResolution", function(object, ...)
+    standardGeneric("estimateMzResolution"))

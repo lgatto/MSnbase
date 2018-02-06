@@ -523,3 +523,35 @@ test_that("pickPeaks,MSnExp works with refineMz", {
     ## Check errors
     expect_error(pickPeaks(tmt_erwinia_in_mem_ms1, refineMz = "some_method"))
 })
+
+test_that("estimateMzResolution,MSnExp works", {
+    res <- estimateMzResolution(tmt_erwinia_in_mem_ms2)
+    expect_equal(unname(res[[15]]),
+                 estimateMzResolution(tmt_erwinia_in_mem_ms2[[15]]))
+})
+
+test_that("estimateMzScattering works", {
+    expect_error(MSnbase:::estimateMzScattering(4))
+
+    res <- estimateMzScattering(tmt_erwinia_in_mem_ms1)
+    mzr <- estimateMzResolution(tmt_erwinia_in_mem_ms1)
+    idx <- which.max(spectrapply(tmt_erwinia_in_mem_ms1, peaksCount))
+
+    ## m/z scattering should be smaller than m/z resolution
+    expect_true(res[[idx]] < mzr[[idx]])
+})
+
+test_that("combineSpectraMovingWindow works", {
+    ## REPLACE WITH MY OWN TEST FILE!
+    ## Focus on the one with most peaks
+    idx <- which.max(unlist(spectrapply(tmt_erwinia_in_mem_ms1, peaksCount)))
+    idx <- (idx):(idx+3)
+
+    tmp <- tmt_erwinia_in_mem_ms1[idx]
+    mzr <- estimateMzResolution(tmp)
+    mzs <- estimateMzScattering(tmp)
+
+    res <- combineSpectraMovingWindow(tmp)
+    mzr_2 <- estimateMzResolution(res)
+    mzs_2 <- estimateMzScattering(res)
+})

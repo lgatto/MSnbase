@@ -830,3 +830,187 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
     }
     res
 }
+
+#' @title Combine profile-mode spectra into a single spectrum
+#'
+#' @description
+#' 
+#' Combine profile-mode spectra into a single spectrum with m/z and intensity
+#' values representing aggregated values from the individual spectra. This can
+#' improve centroiding of profile-mode data by increasing the signal-to-noise
+#' ratio.
+#' 
+#' @details
+#'
+#' The m/z values of the same ion in consecutive scans (spectra) of a LCMS run
+#' will not be identical. Assuming that this random variation is much smaller
+#' than the resolution of the MS instrument (i.e. the difference between
+#' m/z values within each single spectrum), m/z value groups are defined
+#' across the spectra. See [estimateMzScattering()] for more details.
+#' Alternatively it is possible to define this maximal m/z
+#' difference with the `mzd` parameter. All m/z values with a difference
+#' smaller than this value are combined to a m/z group.
+#' Intensities and m/z values falling within each of these m/z groups are
+#' aggregated using the `intensity_fun` and `mz_fun`, respectively.
+#'
+#' @param x `list` of `Spectrum` objects.
+#'
+#' @param main `integer(1)` defining the *main* spectrum, i.e. the spectrum
+#'     which m/z and intensity values get replaced and is returned.
+#'
+#' @param mzFun `function` to aggregate the m/z values per m/z group.
+#'
+#' @param intensityFun `function` to aggregate the intensity values per m/z
+#'     group.
+#'
+#' @param mzd `numeric(1)` defining the maximal m/z difference below which
+#'     values are grouped. If not provided, this value is estimated from the
+#'     distribution of differences of m/z values from the provided spectra
+#'     (see details).
+#' 
+#' @return
+#'
+#' `Spectrum` with m/z and intensity values representing the aggregated values
+#' across the provided spectra. All other spectrum related information is taken
+#' from the spectrum with index `main` in `x`.
+#'
+#' @author Johannes Rainer
+#'
+#' @seealso
+#'
+#' [estimateMzScattering()] for a function to estimate m/z scattering
+#' in consecutive scans.
+#'
+#' [combineSpectraMovingWindow()] for the function to combine consecutive
+#' spectra of an `MSnExp` object using a moving window approach.
+#' 
+#' @md
+#'
+#' @examples
+#'
+#' library(MSnbase)
+#' ## Create 3 example profile-mode spectra with a resolution of 0.1 and small
+#' ## random variations on these m/z values on consecutive scans.
+#' set.seed(123)
+#' mzs <- seq(1, 20, 0.1)
+#' ints1 <- abs(rnorm(length(mzs), 10))
+#' ints1[11:20] <- c(15, 30, 90, 200, 500, 300, 100, 70, 40, 20) # add peak
+#' ints2 <- abs(rnorm(length(mzs), 10))
+#' ints2[11:20] <- c(15, 30, 60, 120, 300, 200, 90, 60, 30, 23)
+#' ints3 <- abs(rnorm(length(mzs), 10))
+#' ints3[11:20] <- c(13, 20, 50, 100, 200, 100, 80, 40, 30, 20)
+#'
+#' ## Create the spectra.
+#' sp1 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.01),
+#'     intensity = ints1)
+#' sp2 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.01),
+#'     intensity = ints2)
+#' sp3 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.009),
+#'     intensity = ints3)
+#'
+#' ## Combine the spectra
+#' sp_agg <- combineSpectra(list(sp1, sp2, sp3))
+#'
+#' ## Plot the spectra before and after combining
+#' par(mfrow = c(2, 1), mar = c(4.3, 4, 1, 1))
+#' plot(mz(sp1), intensity(sp1), xlim = range(mzs[5:25]), type = "h", col = "red")
+#' points(mz(sp2), intensity(sp2), type = "h", col = "green")
+#' points(mz(sp3), intensity(sp3), type = "h", col = "blue")
+#' plot(mz(sp_agg), intensity(sp_agg), xlim = range(mzs[5:25]), type = "h",
+#'     col = "black")
+combineSpectra <- function(x, mzFun = mean, intensityFun = sum,
+                           main = ceiling(median(1:length(x))),
+                           mzd) {
+    if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
+        stop("Can only combine spectra with the same MS level")
+    mzs <- unlist(lapply(x, function(z) z@mz))
+    mz_order <- order(mzs)
+    mz_groups <- .group_mz_values(mzs[mz_order], mzd = mzd)
+    ## sanity check: if I've got less groups than mz values in the "main"
+    ## spectrum we cry out loud.
+    if (length(unique(mz_groups)) < length(x[[main]]@mz))
+        warning("Got less m/z groups than m/z values in the original spectrum")
+    new_sp <- x[[main]]
+    new_sp@mz <- vapply(split(mzs[mz_order], mz_groups), mzFun,
+                        FUN.VALUE = numeric(1), USE.NAMES = FALSE)
+    ## For performance reasons we're checking here and are not calling
+    ## validObject, because that would recursively call validObject on all
+    ## parent classes.
+    if (is.unsorted(new_sp@mz))
+        stop("m/z values of combined spectrum are not ordered")
+    new_sp@intensity <- vapply(
+        split(unlist(lapply(x, function(z) z@intensity))[mz_order], mz_groups),
+        intensityFun, FUN.VALUE = numeric(1), USE.NAMES = FALSE)
+    new_sp@peaksCount <- length(new_sp@mz)
+    new_sp
+}
+
+#' Group a sorted `numeric` of m/z values from consecutive scans by ion assuming
+#' that the variation between m/z values for the same ion in consecutive scan
+#' is much lower than the difference between m/z values within one scan.
+#'
+#' @param x `numeric` with ordered and combined m/z values from consecutive
+#'     scans.
+#'
+#' @param mzd `numeric(1)` with the m/z difference below which m/z values are
+#'     grouped together. If not provided the `.estimate_mz_scattering` function
+#'     is used to estimate it.
+#' 
+#' @return `integer` of same length than `x` grouping m/z values.
+#'
+#' @noRd
+.group_mz_values <- function(x, mzd) {
+    mzdiff <- diff(x)
+    if (missing(mzd))
+        mzd <- .estimate_mz_scattering(mzdiff, TRUE)
+    ## Create a vector grouping values with difference in mz values being
+    ## smaller than mzd
+    nvals <- diff(c(0, which(!(mzdiff < mzd)), length(x)))
+    rep(1:length(nvals), nvals)
+}
+
+#' Estimate the extent of random scattering of m/z values of the same ion in
+#' consecutive scans. This bases on the assumption that the random scattering
+#' of m/z values is much smaller than the m/z resolution of the MS instrument.
+#'
+#' Assumes the data is in profile mode.
+#' 
+#' @param x Either values or differences between values.
+#'
+#' @param is_diff `logical(1)` indicating whether `x` are already differences.
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+.estimate_mz_scattering <- function(x, is_diff = FALSE) {
+    if (!is_diff)
+        x <- diff(x)
+    dens <- density(x, n = max(c(512, length(x) / 2)))
+    ## Find all turning points, i.e. where density is increasing
+    idxs <- which(diff(sign(diff(dens$y))) == 2)
+    if (length(idxs) == 0)
+        stop("Error estimating random scattering of m/z values in consecutive",
+             " scans: could not discriminate between expected m/z difference ",
+             " and random noise.")
+    dens$x[idxs[1]]
+}
+
+#' Estimate the m/z resolution (i.e. the average difference between m/z values)
+#' of a Spectrum.
+#'
+#' @param x `numeric` with the (sorted) m/z values of one spectrum.
+#'
+#' @return `numeric(1)` with the m/z resplution.
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+.estimate_mz_resolution <- function(x) {
+    d <- density(diff(x), n = max(c(512, length(x)/2)))
+    d$x[which.max(d$y)]
+    ## x <- diff(x)
+    ## h <- hist(x, breaks = seq((min(x)), (max(x)),
+    ##                           length.out = length(x)/4),
+    ##           plot = FALSE)
+    ## h$mids[which.max(h$counts)]
+}

@@ -480,3 +480,89 @@ test_that(".combineMovingWindow works for Spectrum", {
     expect_equal(mz(s_comb[[5]]), vals_exp$mz)
     expect_equal(intensity(s_comb[[5]]), vals_exp$i)
 })
+
+test_that(".estimate_mz_scattering works", {
+    set.seed(123)
+    mzs <- seq(1, 20, 0.1)
+    all_mz <- c(mzs + rnorm(length(mzs), sd = 0.01),
+                mzs + rnorm(length(mzs), sd = 0.005),
+                mzs + rnorm(length(mzs), sd = 0.02))
+    res <- .estimate_mz_scattering(sort(all_mz))
+    expect_true(length(res) == 1)
+    expect_true(res < 0.05)
+    expect_error(.estimate_mz_scattering(mzs))
+
+    all_mz <- c(mzs + rnorm(length(mzs), sd = 0.01),
+                mzs + rnorm(length(mzs), sd = 0.005),
+                mzs + rnorm(length(mzs), sd = 0.06))
+    res <- .estimate_mz_scattering(sort(all_mz))
+    expect_true(length(res) == 1)
+})
+
+test_that(".group_mz_values works", {
+    set.seed(123)
+    mzs <- seq(1, 20, 0.1)
+    all_mz <- sort(c(mzs + rnorm(length(mzs), sd = 0.001),
+                     mzs + rnorm(length(mzs), sd = 0.005),
+                     mzs + rnorm(length(mzs), sd = 0.002)))
+    res <- .group_mz_values(all_mz)
+    expect_true(length(res) == length(all_mz))
+    ## Expect groups of 3 each.
+    expect_true(all(table(res) == 3))
+    
+    ## Remove one from the 2nd group.
+    res <- .group_mz_values(all_mz[-5])
+    expect_true(sum(res == 2) == 2)
+})
+
+test_that("combineSpectra works", {
+    set.seed(123)
+    mzs <- seq(1, 20, 0.1)
+    ints1 <- abs(rnorm(length(mzs), 10))
+    ints1[11:20] <- c(15, 30, 90, 200, 500, 300, 100, 70, 40, 20) # add peak
+    ints2 <- abs(rnorm(length(mzs), 10))
+    ints2[11:20] <- c(15, 30, 60, 120, 300, 200, 90, 60, 30, 23)
+    ints3 <- abs(rnorm(length(mzs), 10))
+    ints3[11:20] <- c(13, 20, 50, 100, 200, 100, 80, 40, 30, 20)
+
+    ## Create the spectra
+    sp1 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.01),
+               intensity = ints1, rt = 1)
+    sp2 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.01),
+               intensity = ints2, rt = 2)
+    sp3 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.008),
+               intensity = ints3, rt = 3)
+    sp4 <- new("Spectrum2", mz = mzs + rnorm(length(mzs), sd = 0.3),
+               intensity = ints2, rt = 4)
+    expect_error(combineSpectra(list(sp1, sp2, sp3, sp4)))
+
+    res <- combineSpectra(list(sp1, sp2, sp3))
+    expect_equal(length(mz(res)), length(mz(sp1)))
+    expect_equal(rtime(res), rtime(sp2))
+
+    sp4 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.3),
+               intensity = ints2, rt = 4)
+    ## randon noise larger than resolution.
+    expect_warning(res <- combineSpectra(list(sp1, sp2, sp3, sp4)))
+
+    sp4 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.03),
+               intensity = ints2, rt = 4)
+    expect_warning(res <- combineSpectra(list(sp1, sp2, sp3, sp4), main = 1))
+    expect_equal(rtime(res), rtime(sp1))
+
+    res <- combineSpectra(list(sp1, sp1))
+    expect_equal(mz(res), mz(sp1))
+    expect_equal(intensity(res), intensity(sp1) * 2)
+})
+
+test_that(".estimate_mz_resolution, estimateMzResolution,Spectrum works", {
+    set.seed(123)
+    mzs <- seq(1, 2000, 0.1)
+    mzs <- mzs + rnorm(length(mzs), sd = 0.005)
+    res <- .estimate_mz_resolution(mzs)
+    expect_true(res - 0.1 < 0.005)
+
+    res1 <- estimateMzResolution(tmt_erwinia_in_mem_ms1[[1]])
+    res2 <- estimateMzResolution(tmt_erwinia_in_mem_ms1[[2]])
+    expect_true(res1 != res2)
+})

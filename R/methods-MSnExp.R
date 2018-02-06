@@ -541,3 +541,8 @@ setMethod("chromatogram", "MSnExp", function(object, rt, mz,
     if (validObject(res))
         res
 })
+
+#' @rdname estimateMzResolution
+setMethod("estimateMzResolution", "MSnExp", function(object, ...) {
+    spectrapply(object, estimateMzResolution)
+})

@@ -1,3 +1,6 @@
+- combineSpectra, combineSpectraMovingWindow, estimateMzScattering, estimateMzResolution
+
+
 Changes in version 2.5.7
 ------------------------
 - MSmap constructor for OnDiskMSnExp objects (see issue #305)

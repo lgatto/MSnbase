@@ -355,3 +355,143 @@ removeReporters_MSnExp <- function(object, reporters = NULL,
     return(object)
 }
 
+#' @title Estimate m/z scattering in consecutive scans
+#'
+#' @description
+#'
+#' Estimate scattering of m/z values (due to technical, instrument specific
+#' noise) for the same ion in consecutive scans of a LCMS experiment.
+#'
+#' @details
+#'
+#' The m/z values of the same ions in consecutive scans (spectra) of a LCMS run
+#' will not be identical. This random noise is expected to be smaller than the
+#' resolution of the MS instrument. The distribution of differences of m/z
+#' values from neighboring spectra is thus expected to be (at least) bi-modal
+#' with the first peak representing the above described random variation and
+#' the second (or largest) peak the m/z resolution. The m/z value of the first
+#' local minimum between these first two peaks in the distribution is returned
+#' as the *m/z scattering*.
+#'
+#' @param x `MSnExp` or `OnDiskMSnExp` object.
+#'
+#' @param halfWindowSize `integer(1)` defining the half window size for the
+#'     moving window to combine consecutive spectra.
+#' 
+#' @author Johannes Rainer
+#'
+#' @md
+#'
+#' @seealso [estimateMzResolution()] for the function to estimate a
+#'     profile-mode spectrum's m/z resolution from it's data.
+#'
+#' @examples
+#' 
+#' library(MSnbase)
+#' library(msdata)
+#' ## Load the MS1 data of a profile-mode file
+#' f <- msdata::proteomics(full.names = TRUE,
+#'     pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
+#'
+#' im <- readMSData(f, mode = "inMem", msLevel = 1L)
+#'
+#' res <- estimateMzScattering(im)
+#'
+#' ## Plot the distribution of estimated m/z scattering
+#' plot(density(unlist(res)))
+#'
+#' ## Compare the m/z resolution and m/z scattering of the spectrum with the
+#' ## most peaks
+#' idx <- which.max(unlist(spectrapply(im, peaksCount)))
+#'
+#' res[[idx]]
+#' estimateMzResolution(im[[idx]])
+#' ## As expected, the m/z scattering is much lower than the m/z resolution.
+estimateMzScattering <- function(x, halfWindowSize = 1L) {
+    if (!is(x, "MSnExp"))
+        stop("'x' should be a 'MSnExp' object")
+    res <- lapply(split(spectra(x), fromFile(x)), function(z) {
+        len_z <- length(z)
+        mzs <- vector("list", len_z)
+        for (i in seq_along(z)) {
+            mzs[[i]] <- .estimate_mz_scattering(
+                sort(unlist(lapply(z[max(1, i - halfWindowSize):
+                                     min(i + halfWindowSize, len_z)], mz))))
+        }
+        mzs
+    })
+    res <- unlist(res, fromFile(x))
+    names(res) <- featureNames(x)
+    res
+}
+
+#' @title Combine signal from consecutive spectra of LCMS experiments
+#'
+#' @description
+#'
+#' `combineSpectraMovingWindow` combines signal from consecutive spectra within
+#' a file. The resulting `MSnExp` has the same total number of spectra than the
+#' original object, but with each individual's spectrum information
+#' representing aggregated data from the original spectrum and its neighboring
+#' spectra.
+#'
+#' Note that the function returns always a `MSnExp` object, even if `x` was an
+#' `OnDiskMSnExp` object.
+#' 
+#' @details
+#'
+#' The method assumes same ions being measured in consecutive scans (i.e. LCMS
+#' data) and thus combines their signal which can increase the increase the
+#' signal to noise ratio.
+#' 
+#' See [combineSpectra()] for details.
+#' 
+#' @param x `MSnExp` or `OnDiskMSnExp` object.
+#'
+#' @param halfWindowSize `integer(1)` with the half window size for the moving
+#'     window.
+#' 
+#' @param BPPARAM parallel processing settings.
+#' 
+#' @inheritParams combineSpectra
+#'
+#' @return `MSnExp` with the same number of spectra than `x`.
+#'
+#' @md
+#'
+#' @seealso
+#'
+#' [combineSpectra()] for the function combining spectra provided in
+#' a `list`.
+#'
+#' [estimateMzScattering()] for a function to estimate m/z value scattering in
+#' consecutive spectra.
+#' 
+#' @author Johannes Rainer
+combineSpectraMovingWindow <- function(x, halfWindowSize = 1L, mzFun = mean,
+                                       intensityFun = sum, mzd,
+                                       BPPARAM = bpparam()){
+    if (!is(x, "MSnExp"))
+        stop("'x' has to be a 'MSnExp' or an 'OnDiskMSnExp'")
+    if (is(x, "OnDiskMSnExp"))
+        x <- as(x, "MSnExp")
+    ## Combine spectra per file
+    new_sp <- bplapply(split(spectra(x), fromFile(x)), function(z, intF,
+                                                                mzF, hws, mzd) {
+        len_z <- length(z)
+        res <- vector("list", len_z)
+        for (i in seq_along(z)) {
+            res[[i]] <- combineSpectra(z[max(1, i - hws):min(i + hws, len_z)],
+                                       mzFun = mzF, intensityFun = intF,
+                                       main = hws + 1L, mzd = mzd)
+        }
+        res
+    }, intF = intensityFun, mzF = mzFun, hws = as.integer(halfWindowSize),
+    mzd = mzd, BPPARAM = BPPARAM)
+    new_sp <- unsplit(new_sp, fromFile(x))
+    names(new_sp) <- featureNames(x)
+    x@assayData <- list2env(new_sp)
+    lockEnvironment(x@assayData, bindings = TRUE)
+    if (validObject(x))
+        x
+}

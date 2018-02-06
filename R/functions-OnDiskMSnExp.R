@@ -709,3 +709,4 @@ isCentroidedFromFile <- function(x) {
     ## reorder
     res[featureNames(x)]
 }
+
