@@ -727,8 +727,7 @@ setMethod("removeMultipleAssignment", "MSnSet",
           function(object, nprot = "nprot")
               utils.removeMultipleAssignment(object, nprot))
 
-setMethod("idSummary",
-          signature = "MSnSet",
+setMethod("idSummary", "MSnSet",
           function(object) {
               ## we temporaly add the spectrumFile information
               ## to our fData data.frame because utils.idSummary
