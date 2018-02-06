@@ -33,11 +33,13 @@ IsobaricTagging <- function(reporters,
 SpectralCounting <- function(method =
                                  c("count", "SI",
                                    "SIgi", "SIn",
-                                   "SAF", "NSAF")) {
+                                   "SAF", "NSAF"),
+                             pepseq = "sequence") {
     method <- match.arg(method)
     .QuantitationParam(msLevel = 2L,
                        method = method,
-                       name = "SpectralCounting")
+                       name = "SpectralCounting",
+                       pepseq = pepseq)
 }
 
 ##' @rdname QuantitationParam-class

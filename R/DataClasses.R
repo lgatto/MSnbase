@@ -718,6 +718,10 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
 ##'     counting. These methods work irrespective of their profile or
 ##'     centroided mode of the data.
 ##'
+##' @slot pepseq `character(1)` defining the feture variable name
+##'     defining the peptide sequence (required for spectral
+##'     counting). Default is `"sequence"`.
+##'
 ##' @slot methargs A `list` of additional argument applied to the
 ##'     quantitation method.
 ##' 
@@ -795,7 +799,8 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
                        methargs = "list",
                        name = "character",
                        wd = "numeric",
-                       strict = "logical"),
+                       strict = "logical",
+                       pepseq = "character"),
              contains = "Versioned",
              prototype = prototype(
                  name = "Quantitation method",

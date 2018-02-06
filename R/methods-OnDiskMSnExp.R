@@ -1,4 +1,4 @@
-############################################################
+###########################################################
 ## Methods for OnDiskMSnExp objects.
 
 ############################################################
@@ -439,9 +439,8 @@ setMethod("[[", "OnDiskMSnExp",
 setMethod("quantify", c("OnDiskMSnExp", "QuantitationParam"),
           function(object, method,
                    BPPARAM,
-                   pepseq = "sequence",
                    verbose = isMSnbaseVerbose(),
-                   ...) quantify2(object, method, BPPARAM, pepseq, verbose, ...))
+                   ...) quantify2(object, method, BPPARAM, verbose, ...))
 
 setMethod("quantify",
           signature = c("OnDiskMSnExp", "character"),

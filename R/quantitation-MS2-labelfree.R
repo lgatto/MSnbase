@@ -1,8 +1,28 @@
-count_MSnSet <- function(object, pepseq) {
-    object <- removeNoId(object, pepseq)
-    .exprs <- matrix(1, ncol = 1, nrow = length(object))
+##' @param object An `[OnDisk]MSnExp`
+##' @param pepseq The feature variable defining the peptide sequence
+##' @param removeNoId. A `logical(1)` defining if features without
+##'     identificatio (peptide sequence) should be removed. Default is
+##'     `TRUE` for backwards compatibility.
+##' @md
+##' @return An `MSnSet` with either only 1 if `removeNoId.` is `TRUE`,
+##'     or with `0` for non-identified MS2 spectra, 1 for quantified
+##'     MS2 spectra and NA for anything else.
+##' @noRd
+count_MSnSet <- function(object, pepseq, removeNoId. = TRUE) {
+    if (!pepseq %in% fvarLabels(object))
+            stop(pepseq, " not in fvarLabels(",
+                 getVariableName(match.call(), 'object'), ").")
+    if (removeNoId.)
+        object <- removeNoId(object, pepseq)
+    .exprs <- matrix(NA, ncol = 1, nrow = length(object))    
     rownames(.exprs) <- featureNames(object)
     colnames(.exprs) <- sampleNames(object)
+    ## set all MS2 spectra to 0
+    .exprs[msLevel(object) == 2L, ] <- 0L    
+    ## set MS2 with a pepseq to 1
+    noid <- is.na(fData(object)[, pepseq])
+    .exprs[!noid, 1] <- 1L
+    
     .qual <- data.frame()
 
     if (inherits(object, "OnDiskMSnExp")) {

@@ -76,9 +76,6 @@
 ##'     `MulticoreParam`, `DoparParam`, ... see the
 ##'     `BiocParallel` package for details.
 ##'
-##' @param pepseq `character(1)` giving the peptide sequence column in
-##'     the feature data. Default is `"sequence"`.
-##'
 ##' @param verbose `logical(1)` defining whether a progress bar should
 ##'     be displayed when quantifying full experiments. Default is
 ##'     [isMSnbaseVerbose()].
@@ -102,39 +99,54 @@
 ##'     values for the curve (*lowerMz* and *upperMz*), and reporter
 ##'     reporter and precursor MZ values (when available).
 ##'
-##' @seealso The legacy interface to `quantify` is still availabel in
-##'     [quantify-legacy].
+##' @seealso The legacy interface (i.e. that doesn't use
+##'     `QuantitationParams`) to `quantify`, in [quantify-legacy].
 ##' 
 ##' @md
 ##' @examples
-##' ## Quantifying a full experiment using iTRAQ4-plex tagging
-##' data(itraqdata)
-##' msnset <- quantify(itraqdata, method = "trap", reporters = iTRAQ4)
+##' ## On-disk Raw data object
+##' f <- proteomics(full.names = TRUE, pattern = "MS3TMT11.mzML")
+##' ms <- readMSData(f, mode = "onDisk")
+##'
+##' ## Isobaric quantitation
+##' tmt11 <- IsobaricTagging(reporters = TMT11)
+##' msnset <- quantify(ms, tmt11)
 ##' msnset
+##'
+##' ## All spectra are present in the quantified data, but only MS3
+##' ## spectra have been quantified.
+##' head(exprs(msnset))
+##' head(exprs(msnset)[msLevel(ms) == 3L, ])
 ##'
 ##' ## specifying a custom parallel framework
 ##' ## bp <- MulticoreParam(2L) # on Linux/OSX
-##' ## bp <- SnowParam(2L) # on Windows
-##' ## quantify(itraqdata[1:10], method = "trap", iTRAQ4, BPPARAM = bp)
+##' ## bp <- SnowParam(2L)      # on Windows
+##' ## quantify(ms, tmt11, BPPARAM = bp)
 ##'
-##' ## Checking for non-quantified peaks
-##' sum(is.na(exprs(msnset)))
-##'
-##' ## Quantifying a single spectrum
-##' qty <- quantify(itraqdata[[1]], method = "trap", iTRAQ4[1])
-##' qty$peakQuant
+##' ## Quantifying a single spectrum (using the legacy interface only)
+##' qty <- quantify(ms[[4]], method = tmt11@method, reporters = tmt11@reporters)
 ##' qty$curveStats
+##' qty$peakQuant
+##' ## same as
+##' exprs(msnset)[4, ]
 ##'
 ##' ## Label-free quantitation
-##' ## Raw (mzXML) and identification (mzid) files
-##' quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-##'                  full.name = TRUE, pattern = "mzXML$")
-##' identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-##'                  full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-##' msexp <- readMSData(quantFile)
-##' msexp <- addIdentificationData(msexp, identFile)
-##' fData(msexp)$DatabaseAccess
+##' ## We need to first add identification data to the raw object
+##' data(fdms3tmt11)
+##' fData(ms) <- fdms3tmt11
 ##'
+##' ## Spectral counting, setting the peptide sequence feature name to
+##' ## 'Sequence' (default is 'sequence'). 
+##' sc <- SpectralCounting(pepseq = "Sequence")
+##' spc <- quantify(ms, sc)
+##' ## Quantitation for all spectra is returned
+##' ## MS2 with a sequence are counted as 1
+##' ## MS2 without a sequence are counted as 0
+##' ## All other spectra as NA
+##' head(exprs(spc))
+##' head(fData(ms)[, c("msLevel", "Sequence")])
+##'
+##' ## TODO following ones
 ##' si <- quantify(msexp, method = "SIn")
 ##' processingData(si)
 ##' exprs(si)
@@ -152,7 +164,6 @@ NULL
 quantify2 <- function(object,
                       params,
                       BPPARAM,
-                      pepseq,
                       verbose,
                       ...) {
     stopifnot(inherits(params, "QuantitationParam"))
@@ -193,8 +204,11 @@ quantify2 <- function(object,
         ans@processingData <- e@processingData    
         return(ans)
     } else if (params@name == "SpectralCounting") {
-        if (params@method == "count") count_MSnSet(object)
-        else {
+        if (params@method == "count") {
+            count_MSnSet(object,
+                         pepseq = params@pepseq,
+                         removeNoId = FALSE)
+        } else {
             ## the following assumes that the appropriate fcols
             ## are available
             object <- utils.removeNoIdAndMultipleAssignments(object)
