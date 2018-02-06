@@ -709,12 +709,13 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
 ##'     hardly used (`"sum"`).
 ##'
 ##'     For spectral counting, one of `"count"` (spectral counting,
-##'     default), `"SI"` (spectral index), `"SIgi"`(global intensity
-##'     spectral index), `"SIn"` (normalised spectral index), `"SAF"`
-##'     (spectral abundance factor) or `"NSAF"` (normalised spectral
-##'     abundance factor). The `"count"` method counts the occurrence
-##'     of the respective spectra (at this stage all 1s) that can then
-##'     be used as input to [combineFeatures()] to implement spectra
+##'     default), `"tic"` (total ion current, as returned by [tic]),
+##'     `"SI"` (spectral index), `"SIgi"`(global intensity spectral
+##'     index), `"SIn"` (normalised spectral index), `"SAF"` (spectral
+##'     abundance factor) or `"NSAF"` (normalised spectral abundance
+##'     factor). The `"count"` method counts the occurrence of the
+##'     respective spectra (at this stage all 1s) that can then be
+##'     used as input to [combineFeatures()] to implement spectra
 ##'     counting. These methods work irrespective of their profile or
 ##'     centroided mode of the data.
 ##'

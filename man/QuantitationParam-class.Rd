@@ -15,7 +15,8 @@
 IsobaricTagging(reporters, msLevel, method = c("max", "trapezoidation",
   "sum"))
 
-SpectralCounting(method = c("count", "SI", "SIgi", "SIn", "SAF", "NSAF"))
+SpectralCounting(method = c("count", "tic", "SI", "SIgi", "SIn", "SAF",
+  "NSAF"), pepseq = "sequence")
 
 \S4method{show}{QuantitationParam}(object)
 }
@@ -56,15 +57,20 @@ which is also the only approach for centroided data. In case
 of profile data, a trapezoidation method (\code{"trapezoidation"})
 is also available. Summing peaks is also possible, albeit
 hardly used (\code{"sum"}).\preformatted{For spectral counting, one of `"count"` (spectral counting,
-default), `"SI"` (spectral index), `"SIgi"`(global intensity
-spectral index), `"SIn"` (normalised spectral index), `"SAF"`
-(spectral abundance factor) or `"NSAF"` (normalised spectral
-abundance factor). The `"count"` method counts the occurrence
-of the respective spectra (at this stage all 1s) that can then
-be used as input to [combineFeatures()] to implement spectra
+default), `"tic"` (total ion current, as returned by [tic]),
+`"SI"` (spectral index), `"SIgi"`(global intensity spectral
+index), `"SIn"` (normalised spectral index), `"SAF"` (spectral
+abundance factor) or `"NSAF"` (normalised spectral abundance
+factor). The `"count"` method counts the occurrence of the
+respective spectra (at this stage all 1s) that can then be
+used as input to [combineFeatures()] to implement spectra
 counting. These methods work irrespective of their profile or
 centroided mode of the data.
 }}
+
+\item{\code{pepseq}}{\code{character(1)} defining the feture variable name
+defining the peptide sequence (required for spectral
+counting). Default is \code{"sequence"}.}
 
 \item{\code{methargs}}{A \code{list} of additional argument applied to the
 quantitation method.}

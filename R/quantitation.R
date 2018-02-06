@@ -146,6 +146,19 @@
 ##' head(exprs(spc))
 ##' head(fData(ms)[, c("msLevel", "Sequence")])
 ##'
+##' ## Total ion count, returns values for all spectra
+##' tc <- quantify(ms, SpectralCounting(method = "tic"))
+##' head(exprs(tc))
+##' 
+##' ## It is of course possible to focus only on MS levels of interest
+##' ## by either filtering the raw data object or the resulting MSnSet
+##' ## using the filterMsLevel method:
+##' ms2 <- filterMsLevel(ms, 2L)
+##' head(msLevel(ms2))
+##' tc2 <- quantify(ms2, SpectralCounting(method = "tic"))
+##' head(exprs(tc2))
+##' head(exprs(filterMsLevel(tc, 2L)))
+##'  
 ##' ## TODO following ones
 ##' si <- quantify(msexp, method = "SIn")
 ##' processingData(si)
@@ -208,6 +221,8 @@ quantify2 <- function(object,
             count_MSnSet(object,
                          pepseq = params@pepseq,
                          removeNoId = FALSE)
+        } else if (params@method == "tic") {
+            tic_MSnSet(object)
         } else {
             ## the following assumes that the appropriate fcols
             ## are available

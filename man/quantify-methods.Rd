@@ -32,9 +32,6 @@ using \code{bpparam()}. Alternatively, one can pass a valid
 \code{MulticoreParam}, \code{DoparParam}, ... see the
 \code{BiocParallel} package for details.}
 
-\item{pepseq}{\code{character(1)} giving the peptide sequence column in
-the feature data. Default is \code{"sequence"}.}
-
 \item{verbose}{\code{logical(1)} defining whether a progress bar should
 be displayed when quantifying full experiments. Default is
 \code{\link[=isMSnbaseVerbose]{isMSnbaseVerbose()}}.}
@@ -81,34 +78,62 @@ applied manually with [removeMultipleAssignment()].
 }
 }
 \examples{
-## Quantifying a full experiment using iTRAQ4-plex tagging
-data(itraqdata)
-msnset <- quantify(itraqdata, method = "trap", reporters = iTRAQ4)
+## On-disk Raw data object
+f <- proteomics(full.names = TRUE, pattern = "MS3TMT11.mzML")
+ms <- readMSData(f, mode = "onDisk")
+
+## Isobaric quantitation
+tmt11 <- IsobaricTagging(reporters = TMT11)
+msnset <- quantify(ms, tmt11)
 msnset
+
+## All spectra are present in the quantified data, but only MS3
+## spectra have been quantified.
+head(exprs(msnset))
+head(exprs(msnset)[msLevel(ms) == 3L, ])
 
 ## specifying a custom parallel framework
 ## bp <- MulticoreParam(2L) # on Linux/OSX
-## bp <- SnowParam(2L) # on Windows
-## quantify(itraqdata[1:10], method = "trap", iTRAQ4, BPPARAM = bp)
+## bp <- SnowParam(2L)      # on Windows
+## quantify(ms, tmt11, BPPARAM = bp)
 
-## Checking for non-quantified peaks
-sum(is.na(exprs(msnset)))
-
-## Quantifying a single spectrum
-qty <- quantify(itraqdata[[1]], method = "trap", iTRAQ4[1])
-qty$peakQuant
+## Quantifying a single spectrum (using the legacy interface only)
+qty <- quantify(ms[[4]], method = tmt11@method, reporters = tmt11@reporters)
 qty$curveStats
+qty$peakQuant
+## same as
+exprs(msnset)[4, ]
 
 ## Label-free quantitation
-## Raw (mzXML) and identification (mzid) files
-quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                 full.name = TRUE, pattern = "mzXML$")
-identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                 full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-msexp <- readMSData(quantFile)
-msexp <- addIdentificationData(msexp, identFile)
-fData(msexp)$DatabaseAccess
+## We need to first add identification data to the raw object
+data(fdms3tmt11)
+fData(ms) <- fdms3tmt11
 
+## Spectral counting, setting the peptide sequence feature name to
+## 'Sequence' (default is 'sequence'). 
+sc <- SpectralCounting(pepseq = "Sequence")
+spc <- quantify(ms, sc)
+## Quantitation for all spectra is returned
+## MS2 with a sequence are counted as 1
+## MS2 without a sequence are counted as 0
+## All other spectra as NA
+head(exprs(spc))
+head(fData(ms)[, c("msLevel", "Sequence")])
+
+## Total ion count, returns values for all spectra
+tc <- quantify(ms, SpectralCounting(method = "tic"))
+head(exprs(tc))
+
+## It is of course possible to focus only on MS levels of interest
+## by either filtering the raw data object or the resulting MSnSet
+## using the filterMsLevel method:
+ms2 <- filterMsLevel(ms, 2L)
+head(msLevel(ms2))
+tc2 <- quantify(ms2, SpectralCounting(method = "tic"))
+head(exprs(tc2))
+head(exprs(filterMsLevel(tc, 2L)))
+ 
+## TODO following ones
 si <- quantify(msexp, method = "SIn")
 processingData(si)
 exprs(si)
@@ -118,8 +143,8 @@ processingData(saf)
 exprs(saf)
 }
 \seealso{
-The legacy interface to \code{quantify} is still availabel in
-\link{quantify-legacy}.
+The legacy interface (i.e. that doesn't use
+\code{QuantitationParams}) to \code{quantify}, in \link{quantify-legacy}.
 }
 \author{
 Laurent Gatto and Sebastian Gibb
