@@ -50,6 +50,7 @@
 \alias{filterZero,MSnSet-method}
 \alias{filterZero,matrix-method}
 \alias{filterZero}
+\alias{filterMsLevel,MSnSet-method}
 \alias{log,MSnSet-method}
 \alias{image,MSnSet-method}
 \alias{image2}
@@ -313,10 +314,18 @@
       See also the \code{\link{is.na.MSnSet}} and \code{\link{plotNA}}
       methods for missing data exploration.
     }
+    
     \item{filterZero}{signature(object = "MSnSet", pNA = "numeric",
       pattern = "character", droplevels = "logical")}{ As
       \code{filterNA}, but for zeros.
-    }    
+    }
+
+    \item{filterMsLevel}{signature(object = "MSnSet", msLevel. =
+      "numeric", fcol = "character")}{ Keeps only spectra with level
+      \code{msLevel.}, as defined by the \code{fcol} feature variable
+      (default is \code{"msLevel"}). }
+
+    
     \item{log}{signature(object = "MSnSet", base = "numeric")}{ Log
       transforms \code{exprs(object)} using
       \code{base::log}. \code{base} (defaults is \code{e='exp(1)'}) must

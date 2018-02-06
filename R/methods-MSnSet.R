@@ -728,6 +728,22 @@ setMethod("idSummary",
               return(utils.idSummary(fd))
           })
 
+setMethod("filterMsLevel", "MSnSet",
+          function(object, msLevel., fcol = "msLevel") {
+              if (missing(msLevel.)) return(object)
+              if (!fcol %in% fvarLabels(object))
+                  stop(fcol, " not in fvarLabels(",
+                       getVariableName(match.call(), 'object'), ").") 
+              msLevel. <- as.numeric(msLevel.)
+              object <- object[fData(object)[, fcol] %in% msLevel.]
+              object <- logging(object,
+                                paste("Filter: select MS level(s)",
+                                      paste(unique(msLevel.),
+                                            collapse = " ")))
+              object
+          })
+
+
 ##############################################
 ## This should also be implemented for pSet!
 
