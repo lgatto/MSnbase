@@ -320,6 +320,9 @@
   \code{mzXML}, \code{mzData} or \code{mzML} files to generate an
   instance of \code{MSnExp}.
 
+  The  \code{"\linkS4class{OnDiskMSnExp}"} manual page contains further
+  details and examples.
+
   \code{\link{chromatogram}} to extract chromatographic data from a
   \code{MSnExp} or \code{OnDiskMSnExp} object.
 
