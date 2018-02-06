@@ -625,21 +625,39 @@ mzsAfter <- intensity(odmse)
 head(lengths(mzs))
 head(lengths(mzsAfter))
 
+
+## Centroided or profile mode
 f <- msdata::proteomics(full.names = TRUE,
-                        pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
+                        pattern = "MS3TMT11.mzML")
 odmse <- readMSData(f, mode = "onDisk")
 validObject(odmse)
 odmse[[1]]
 
 all(is.na(centroided(odmse)))
-invisible(isCentroided(odmse))
+table(isCentroidedFromFile(odmse), msLevel(odmse))
 centroided(odmse, msLevel = 1) <- FALSE
 centroided(odmse, msLevel = 2) <- TRUE
+centroided(odmse, msLevel = 3) <- TRUE
 table(centroided(odmse), msLevel(odmse))
 
-odmse2 <- readMSData(f, centroided = c(FALSE, TRUE),
+odmse2 <- readMSData(f, centroided = c(FALSE, TRUE, TRUE),
                      mode = "onDisk")
 table(centroided(odmse), msLevel(odmse))
+
+## Filtering precursor scans
+
+head(acquisitionNum(odmse))
+head(msLevel(odmse))
+
+## Extract all spectra stemming from the first MS1 spectrum
+(from1 <- filterPrecursorScan(odmse, 21945))
+table(msLevel(from1))
+
+
+## Extract the second sepctrum's parent (MS1) and children (MS3)
+## spectra
+(from2 <- filterPrecursorScan(odmse, 21945))
+table(msLevel(from2))
 
 }
 
