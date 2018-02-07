@@ -55,7 +55,7 @@ setValidity("MSnSet", function(object) {
   msg <- validMsg(NULL, Biobase:::isValidVersion(object, "MSnSet"))
   msg <- validMsg(msg, Biobase::assayDataValidMembers(assayData(object),
                                                       c("exprs")))
-  if ( nrow(qual(object)) != 0 ) {
+  if ( nrow(qual(object)) != 0 & "reporters" %in% varLabels(object)) {
     nrow.obs <- nrow(qual(object))
     nrow.exp <- nrow(object) * length(object$reporters)
     if (nrow.obs != nrow.exp)
@@ -77,6 +77,16 @@ setReplaceMethod("pData",
                  c("MSnSet", "data.frame"),
                  function(object, value) {
                      pData(object@phenoData) <- value
+                     if (validObject(object))
+                         object
+                 })
+
+setReplaceMethod("fData",
+                 c("MSnSet", "data.frame"),
+                 function (object, value) {
+                     fd <- featureData(object)
+                     pData(fd) <- value
+                     object@featureData <- fd
                      if (validObject(object))
                          object
                  })
@@ -717,8 +727,7 @@ setMethod("removeMultipleAssignment", "MSnSet",
           function(object, nprot = "nprot")
               utils.removeMultipleAssignment(object, nprot))
 
-setMethod("idSummary",
-          signature = "MSnSet",
+setMethod("idSummary", "MSnSet",
           function(object) {
               ## we temporaly add the spectrumFile information
               ## to our fData data.frame because utils.idSummary
@@ -727,6 +736,22 @@ setMethod("idSummary",
               fd$spectrumFile <- basename(fileNames(object)[fd$file])
               return(utils.idSummary(fd))
           })
+
+setMethod("filterMsLevel", "MSnSet",
+          function(object, msLevel., fcol = "msLevel") {
+              if (missing(msLevel.)) return(object)
+              if (!fcol %in% fvarLabels(object))
+                  stop(fcol, " not in fvarLabels(",
+                       getVariableName(match.call(), 'object'), ").") 
+              msLevel. <- as.numeric(msLevel.)
+              object <- object[fData(object)[, fcol] %in% msLevel.]
+              object <- logging(object,
+                                paste("Filter: select MS level(s)",
+                                      paste(unique(msLevel.),
+                                            collapse = " ")))
+              object
+          })
+
 
 ##############################################
 ## This should also be implemented for pSet!
