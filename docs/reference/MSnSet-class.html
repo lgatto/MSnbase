@@ -284,6 +284,10 @@
     <dt>filterZero</dt><dd><p>signature(object = "MSnSet", pNA = "numeric",
       pattern = "character", droplevels = "logical")</p></dd> As
       <code>filterNA</code>, but for zeros.
+    <dt>filterMsLevel</dt><dd><p>signature(object = "MSnSet", msLevel. =
+      "numeric", fcol = "character")</p></dd> Keeps only spectra with level
+      <code>msLevel.</code>, as defined by the <code>fcol</code> feature variable
+      (default is <code>"msLevel"</code>).
     <dt>log</dt><dd><p>signature(object = "MSnSet", base = "numeric")</p></dd> Log
       transforms <code>exprs(object)</code> using
       <code>base::log</code>. <code>base</code> (defaults is <code>e='exp(1)'</code>) must
@@ -479,7 +483,7 @@
 #&gt; <span class='message'>    aperm, apply</span></div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#&gt; Subset [55,4][6,4] Wed Jan 24 15:18:56 2018 
+#&gt; Subset [55,4][6,4] Wed Feb  7 20:18:31 2018 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
 <span class='fu'><a href='mzRident2dfr.html'>as</a></span>(<span class='no'>msnset</span>, <span class='st'>"ExpressionSet"</span>)</div><div class='output co'>#&gt; ExpressionSet (storageMode: lockedEnvironment)
 #&gt; assayData: 6 features, 4 samples 
