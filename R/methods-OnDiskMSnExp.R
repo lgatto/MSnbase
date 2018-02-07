@@ -55,6 +55,8 @@ setAs("OnDiskMSnExp", "MSnExp",
           for (sl in slts)
               slot(ans, sl) <- slot(from, sl)
           ans@assayData <- list2env(spectra(from))
+          ## Remove column fileIdx from the fData (issue #308).
+          fData(ans) <- fData(ans)[, colnames(fData(ans)) != "fileIdx"]
           lockEnvironment(ans@assayData, bindings = TRUE)
           ans <- logging(ans, "Coerced from OnDiskMSnExp")
           if (validObject(ans))
