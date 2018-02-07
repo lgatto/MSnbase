@@ -9,7 +9,7 @@ combineFeatures <- function(object,
                                 "NTR"),
                             fcol,                            
                             redundancy.handler = c("unique", "multiple"),
-                            cv = TRUE,
+                            cv = FALSE,
                             cv.norm = "sum",
                             verbose = isMSnbaseVerbose(),
                             ... ## further arguments to fun
@@ -50,7 +50,7 @@ combineFeaturesL <- function(object,   ## MSnSet
                              groupBy,  ## list
                              fun,
                              redundancy.handler,
-                             cv = TRUE,
+                             cv = FALSE,
                              cv.norm = "sum",
                              verbose = isMSnbaseVerbose(),
                              ...    ## additional arguments to fun
@@ -81,7 +81,7 @@ combineFeaturesL <- function(object,   ## MSnSet
 combineFeaturesV <- function(object,   ## MSnSet
                              groupBy,  ## factor, character or numeric
                              fun,
-                             cv = TRUE,
+                             cv = FALSE,
                              cv.norm = "sum",
                              verbose = isMSnbaseVerbose(),
                              ...    ## additional arguments to fun
@@ -110,8 +110,12 @@ combineFeaturesV <- function(object,   ## MSnSet
                                                   verbose = verbose,
                                                   ...))
     }
-    fdata <- fData(object)[!duplicated(groupBy), , drop = FALSE] ## takes the first occurences
-    fdata <- fdata[order(unique(groupBy)), , drop = FALSE] ## ordering fdata according to groupBy factor
+    ## takes the first occurences and omit NAs
+    gbsel <- !duplicated(groupBy) & !is.na(groupBy)
+    fdata <- fData(object)[gbsel, , drop = FALSE]
+    ## ordering fdata according to groupBy factor    
+    fdata <- fdata[order(unique(groupBy[gbsel])), ,
+                   drop = FALSE] 
     rownames(matRes) <- rownames(fdata)
     colnames(matRes) <- sampleNames(object)
     if (cv)
