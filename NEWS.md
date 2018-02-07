@@ -1,5 +1,8 @@
 # MSnbase 2.5
 
+## Changes in version 2.5.8
+- Nothing yet
+
 ## Changes in version 2.5.7
 
 - MSmap constructor for OnDiskMSnExp objects (see
