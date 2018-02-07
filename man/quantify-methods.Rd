@@ -12,15 +12,8 @@ a single \code{\link[=Spectrum]{Spectrum()}} or a complete experiment provided a
 \item{method}{An instance of \code{QuantitationParam} defining the
 quantitation method. For isobaric tagging, the method
 quantifies peaks defined in \code{\link[=IsobaricTagging]{IsobaricTagging()}} object. For
-label-free quantitation, defined by a \code{\link[=SpectralCounting]{SpectralCounting()}}
-quantitation parameter, the respective quantitation methods
-and normalisations are applied to the spectra. These methods
-require two additional arguments passed in \code{...}, namely the
-protein accession of identifiers (\code{fcol}, with detault value
-\code{"DatabaseAccess"}) and the protein lengths (\code{plength}, with
-default value \code{"DBseqLength"}). These values are available of
-the identification data had been collated using
-\code{\link[=addIdentificationData]{addIdentificationData()}}.\preformatted{See [QuantitationParam()] for additional details on how to
+MS2-based label-free quantitation, use a \code{\link[=SpectralCounting]{SpectralCounting()}}
+quantitation parameter.\preformatted{See [QuantitationParam()] for additional details on how to
 define quantiation parameters.
 }}
 
@@ -79,6 +72,7 @@ applied manually with [removeMultipleAssignment()].
 }
 \examples{
 ## On-disk Raw data object
+library("msdata")
 f <- proteomics(full.names = TRUE, pattern = "MS3TMT11.mzML")
 ms <- readMSData(f, mode = "onDisk")
 
@@ -106,19 +100,27 @@ exprs(msnset)[4, ]
 
 ## Label-free quantitation
 ## We need to first add identification data to the raw object
-data(fdms3tmt11)
+data(fdms3tmt11) ## from msdata
 fData(ms) <- fdms3tmt11
 
 ## Spectral counting, setting the peptide sequence feature name to
 ## 'Sequence' (default is 'sequence'). 
 sc <- SpectralCounting(pepseq = "Sequence")
-spc <- quantify(ms, sc)
 ## Quantitation for all spectra is returned
+spc <- quantify(ms, sc)
+
 ## MS2 with a sequence are counted as 1
 ## MS2 without a sequence are counted as 0
 ## All other spectra as NA
 head(exprs(spc))
 head(fData(ms)[, c("msLevel", "Sequence")])
+
+## Generate a peptide couting
+## For example, this peptide was counted 3 times, in spectra 727,
+## 733 and 737
+hvl <- which(fData(spc)$Sequence == "HVLHVQLNRPNK")
+exprs(spc)[hvl, , drop = FALSE]
+combineFeatures(spc, fcol = "Sequence")
 
 ## Total ion count, returns values for all spectra
 tc <- quantify(ms, SpectralCounting(method = "tic"))
