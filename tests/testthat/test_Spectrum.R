@@ -543,11 +543,9 @@ test_that("combineSpectra works", {
     sp4 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.3),
                intensity = ints2, rt = 4)
     ## randon noise larger than resolution.
-    expect_warning(res <- combineSpectra(list(sp1, sp2, sp3, sp4)))
+    expect_error(res <- combineSpectra(list(sp1, sp2, sp3, sp4)))
 
-    sp4 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.03),
-               intensity = ints2, rt = 4)
-    expect_warning(res <- combineSpectra(list(sp1, sp2, sp3, sp4), main = 1))
+    res <- combineSpectra(list(sp1, sp2, sp3), main = 1)
     expect_equal(rtime(res), rtime(sp1))
 
     res <- combineSpectra(list(sp1, sp1))

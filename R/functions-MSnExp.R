@@ -468,8 +468,9 @@ estimateMzScattering <- function(x, halfWindowSize = 1L) {
 #' consecutive spectra.
 #' 
 #' @author Johannes Rainer
-combineSpectraMovingWindow <- function(x, halfWindowSize = 1L, mzFun = mean,
-                                       intensityFun = sum, mzd,
+combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
+                                       mzFun = base::mean,
+                                       intensityFun = base::sum, mzd,
                                        BPPARAM = bpparam()){
     if (!is(x, "MSnExp"))
         stop("'x' has to be a 'MSnExp' or an 'OnDiskMSnExp'")

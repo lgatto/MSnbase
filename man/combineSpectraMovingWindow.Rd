@@ -4,8 +4,8 @@
 \alias{combineSpectraMovingWindow}
 \title{Combine signal from consecutive spectra of LCMS experiments}
 \usage{
-combineSpectraMovingWindow(x, halfWindowSize = 1L, mzFun = mean,
-  intensityFun = sum, mzd, BPPARAM = bpparam())
+combineSpectraMovingWindow(x, halfWindowSize = 1L, mzFun = base::mean,
+  intensityFun = base::sum, mzd, BPPARAM = bpparam())
 }
 \arguments{
 \item{x}{\code{MSnExp} or \code{OnDiskMSnExp} object.}

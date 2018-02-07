@@ -2,9 +2,9 @@
 % Please edit documentation in R/functions-Spectrum.R
 \name{combineSpectra}
 \alias{combineSpectra}
-\title{Combine profile-mode spectra into a single spectrum}
+\title{Combine profile-mode spectra signals}
 \usage{
-combineSpectra(x, mzFun = mean, intensityFun = sum,
+combineSpectra(x, mzFun = base::mean, intensityFun = sum,
   main = ceiling(median(1:length(x))), mzd)
 }
 \arguments{
@@ -25,24 +25,26 @@ distribution of differences of m/z values from the provided spectra
 }
 \value{
 \code{Spectrum} with m/z and intensity values representing the aggregated values
-across the provided spectra. All other spectrum related information is taken
-from the spectrum with index \code{main} in \code{x}.
+across the provided spectra. The returned spectrum contains the same number
+of m/z and intensity pairs than the spectrum with index \code{main} in \code{x}, also
+all other related information is taken from this spectrum.
 }
 \description{
-Combine profile-mode spectra into a single spectrum with m/z and intensity
-values representing aggregated values from the individual spectra. This can
-improve centroiding of profile-mode data by increasing the signal-to-noise
-ratio.
+Combine signals from profile-mode spectra of consecutive scans into the
+values for the \emph{main} spectrum. This can improve centroiding of
+profile-mode data by increasing the signal-to-noise ratio.
 }
 \details{
 The m/z values of the same ion in consecutive scans (spectra) of a LCMS run
 will not be identical. Assuming that this random variation is much smaller
 than the resolution of the MS instrument (i.e. the difference between
 m/z values within each single spectrum), m/z value groups are defined
-across the spectra. See \code{\link[=estimateMzScattering]{estimateMzScattering()}} for more details.
-Alternatively it is possible to define this maximal m/z
-difference with the \code{mzd} parameter. All m/z values with a difference
-smaller than this value are combined to a m/z group.
+across the spectra and those containing m/z values of the \code{main} spectrum
+are retained. The maximum allowed difference between m/z values for the
+same ion is estimated as in \code{\link[=estimateMzScattering]{estimateMzScattering()}}. Alternatively it is
+possible to define this maximal m/z difference with the \code{mzd} parameter.
+All m/z values with a difference smaller than this value are combined to
+a m/z group.
 Intensities and m/z values falling within each of these m/z groups are
 aggregated using the \code{intensity_fun} and \code{mz_fun}, respectively.
 }
@@ -82,6 +84,9 @@ plot(mz(sp_agg), intensity(sp_agg), xlim = range(mzs[5:25]), type = "h",
 \seealso{
 \code{\link[=estimateMzScattering]{estimateMzScattering()}} for a function to estimate m/z scattering
 in consecutive scans.
+
+\code{\link[=estimateMzResolution]{estimateMzResolution()}} for a function estimating the m/z resolution of
+a spectrum.
 
 \code{\link[=combineSpectraMovingWindow]{combineSpectraMovingWindow()}} for the function to combine consecutive
 spectra of an \code{MSnExp} object using a moving window approach.

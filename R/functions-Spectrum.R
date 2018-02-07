@@ -831,14 +831,13 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
     res
 }
 
-#' @title Combine profile-mode spectra into a single spectrum
+#' @title Combine profile-mode spectra signals
 #'
 #' @description
 #' 
-#' Combine profile-mode spectra into a single spectrum with m/z and intensity
-#' values representing aggregated values from the individual spectra. This can
-#' improve centroiding of profile-mode data by increasing the signal-to-noise
-#' ratio.
+#' Combine signals from profile-mode spectra of consecutive scans into the
+#' values for the *main* spectrum. This can improve centroiding of
+#' profile-mode data by increasing the signal-to-noise ratio.
 #' 
 #' @details
 #'
@@ -846,10 +845,12 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' will not be identical. Assuming that this random variation is much smaller
 #' than the resolution of the MS instrument (i.e. the difference between
 #' m/z values within each single spectrum), m/z value groups are defined
-#' across the spectra. See [estimateMzScattering()] for more details.
-#' Alternatively it is possible to define this maximal m/z
-#' difference with the `mzd` parameter. All m/z values with a difference
-#' smaller than this value are combined to a m/z group.
+#' across the spectra and those containing m/z values of the `main` spectrum
+#' are retained. The maximum allowed difference between m/z values for the
+#' same ion is estimated as in [estimateMzScattering()]. Alternatively it is
+#' possible to define this maximal m/z difference with the `mzd` parameter.
+#' All m/z values with a difference smaller than this value are combined to
+#' a m/z group.
 #' Intensities and m/z values falling within each of these m/z groups are
 #' aggregated using the `intensity_fun` and `mz_fun`, respectively.
 #'
@@ -871,8 +872,9 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' @return
 #'
 #' `Spectrum` with m/z and intensity values representing the aggregated values
-#' across the provided spectra. All other spectrum related information is taken
-#' from the spectrum with index `main` in `x`.
+#' across the provided spectra. The returned spectrum contains the same number
+#' of m/z and intensity pairs than the spectrum with index `main` in `x`, also
+#' all other related information is taken from this spectrum.
 #'
 #' @author Johannes Rainer
 #'
@@ -881,6 +883,9 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' [estimateMzScattering()] for a function to estimate m/z scattering
 #' in consecutive scans.
 #'
+#' [estimateMzResolution()] for a function estimating the m/z resolution of
+#' a spectrum.
+#' 
 #' [combineSpectraMovingWindow()] for the function to combine consecutive
 #' spectra of an `MSnExp` object using a moving window approach.
 #' 
@@ -918,32 +923,132 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' points(mz(sp3), intensity(sp3), type = "h", col = "blue")
 #' plot(mz(sp_agg), intensity(sp_agg), xlim = range(mzs[5:25]), type = "h",
 #'     col = "black")
-combineSpectra <- function(x, mzFun = mean, intensityFun = sum,
+combineSpectra <- function(x, mzFun = base::mean, intensityFun = sum,
                            main = ceiling(median(1:length(x))),
                            mzd) {
     if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
         stop("Can only combine spectra with the same MS level")
-    mzs <- unlist(lapply(x, function(z) z@mz))
-    mz_order <- order(mzs)
-    mz_groups <- .group_mz_values(mzs[mz_order], mzd = mzd)
-    ## sanity check: if I've got less groups than mz values in the "main"
-    ## spectrum we cry out loud.
+    mzs <- lapply(x, function(z) z@mz)
+    mzs_lens <- base::lengths(mzs)
+    mzs <- unlist(mzs, use.names = FALSE)
+    mz_order <- base::order(mzs)
+    mzs <- mzs[mz_order]
+    mz_groups <- .group_mz_values(mzs, mzd = mzd)
     if (length(unique(mz_groups)) < length(x[[main]]@mz))
-        warning("Got less m/z groups than m/z values in the original spectrum")
+        stop("Got less m/z groups than m/z values in the original spectrum. ",
+             "Most likely the data is not profile-mode LCMS data.")
+    ## Want to keep only those groups with a m/z from the main spectrum.
+    keep <- unlist(lapply(
+        split(
+            rep(1:length(mzs_lens), mzs_lens)[mz_order] == main,
+            mz_groups),
+        function(z) {
+            rep(any(z), length(z))
+        }), use.names = FALSE)
+    ## Keep only values for which a m/z in main is present.
+    mz_groups <- mz_groups[keep]
+    mzs <- mzs[keep]
+    ints <- unlist(base::lapply(x, function(z) z@intensity))[mz_order][keep]
+    ## Create result.
     new_sp <- x[[main]]
-    new_sp@mz <- vapply(split(mzs[mz_order], mz_groups), mzFun,
-                        FUN.VALUE = numeric(1), USE.NAMES = FALSE)
-    ## For performance reasons we're checking here and are not calling
-    ## validObject, because that would recursively call validObject on all
-    ## parent classes.
+    new_sp@mz <- unlist(base::lapply(split(mzs, mz_groups), mzFun),
+                        use.names = FALSE)
+    new_sp@intensity <- unlist(base::lapply(split(ints, mz_groups),
+                                            intensityFun), use.names = FALSE)
     if (is.unsorted(new_sp@mz))
         stop("m/z values of combined spectrum are not ordered")
-    new_sp@intensity <- vapply(
-        split(unlist(lapply(x, function(z) z@intensity))[mz_order], mz_groups),
-        intensityFun, FUN.VALUE = numeric(1), USE.NAMES = FALSE)
     new_sp@peaksCount <- length(new_sp@mz)
     new_sp
 }
+## combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::sum,
+##                            main = ceiling(median(1:length(x))),
+##                            mzd) {
+##     if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
+##         stop("Can only combine spectra with the same MS level")
+##     mzs <- unlist(lapply(x, function(z) z@mz))
+##     mz_order <- order(mzs)
+##     mz_groups <- .group_mz_values(mzs[mz_order], mzd = mzd)
+##     ## sanity check: if I've got less groups than mz values in the "main"
+##     ## spectrum we cry out loud.
+##     if (length(unique(mz_groups)) < length(x[[main]]@mz))
+##         warning("Got less m/z groups than m/z values in the original spectrum")
+##     new_sp <- x[[main]]
+##     new_sp@mz <- vapply(split(mzs[mz_order], mz_groups), mzFun,
+##                         FUN.VALUE = numeric(1), USE.NAMES = FALSE)
+##     ## For performance reasons we're checking here and are not calling
+##     ## validObject, because that would recursively call validObject on all
+##     ## parent classes.
+##     if (is.unsorted(new_sp@mz))
+##         stop("m/z values of combined spectrum are not ordered")
+##     new_sp@intensity <- vapply(
+##         split(unlist(lapply(x, function(z) z@intensity))[mz_order], mz_groups),
+##         intensityFun, FUN.VALUE = numeric(1), USE.NAMES = FALSE)
+##     new_sp@peaksCount <- length(new_sp@mz)
+##     new_sp
+## }
+
+combineSpectra_for <- function(x, mzFun = base::mean, intensityFun = base::sum,
+                               main = ceiling(median(1:length(x))),
+                               mzd) {
+    if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
+        stop("Can only combine spectra with the same MS level")
+    mzs <- unlist(lapply(x, function(z) z@mz), use.names = FALSE)
+    ints <- unlist(lapply(x, function(z) z@intensity), use.names = FALSE)
+    ## Estimate the mz scattering
+    if (missing(mzd))
+        mzd <- .estimate_mz_scattering(sort(mzs))
+    ## Aggregate values for the main spectra.
+    new_sp <- x[[main]]
+    nvals <- length(new_sp@mz)
+    for (i in 1:nvals) {
+        idx <- mzs >= (new_sp@mz[i] - mzd) & mzs <= (new_sp@mz[i] + mzd)
+        new_sp@mz[i] <- mzFun(mzs[idx])
+        new_sp@intensity[i] <- intensityFun(ints[idx])
+    }
+    if (is.unsorted(new_sp@mz))
+        stop("m/z values of combined spectrum are not ordered")
+    new_sp@peaksCount <- length(new_sp@mz)
+    new_sp
+}
+
+## This restricts the returned m/z groups to those in which a m/z value from
+## main is present.
+combineSpectra2 <- function(x, mzFun = base::mean, intensityFun = sum,
+                           main = ceiling(median(1:length(x))),
+                           mzd) {
+    if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
+        stop("Can only combine spectra with the same MS level")
+    mzs <- lapply(x, function(z) z@mz)
+    mzs_lens <- lengths(mzs)
+    mzs <- unlist(mzs, use.names = FALSE)
+    mz_order <- order(mzs)
+    mzs <- mzs[mz_order]
+    mz_groups <- .group_mz_values(mzs, mzd = mzd)
+    if (length(unique(mz_groups)) < length(x[[main]]@mz))
+        stop("Got less m/z groups than m/z values in the original spectrum. ",
+             "Most likely the data is not profile-mode LCMS data.")
+    ## Want to keep only those groups with a m/z from main.
+    keep <- unlist(lapply(split(
+        rep(1:length(mzs_lens), mzs_lens)[mz_order] == main, mz_groups),
+        function(z) {
+            rep(any(z), length(z))
+        }), use.names = FALSE)
+    ## Reducing the data
+    mz_groups <- mz_groups[keep]
+    mzs <- mzs[keep]
+    ints <- unlist(base::lapply(x, function(z) z@intensity))[mz_order][keep]
+    new_sp <- x[[main]]
+    new_sp@mz <- unlist(base::lapply(split(mzs, mz_groups), mzFun),
+                        use.names = FALSE)
+    new_sp@intensity <- unlist(base::lapply(split(ints, mz_groups),
+                                            intensityFun), use.names = FALSE)
+    if (is.unsorted(new_sp@mz))
+        stop("m/z values of combined spectrum are not ordered")
+    new_sp@peaksCount <- length(new_sp@mz)
+    new_sp
+}
+
+
 
 #' Group a sorted `numeric` of m/z values from consecutive scans by ion assuming
 #' that the variation between m/z values for the same ion in consecutive scan
