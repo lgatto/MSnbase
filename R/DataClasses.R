@@ -818,7 +818,9 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
                        name = "character",
                        wd = "numeric",
                        strict = "logical",
-                       pepseq = "character"),
+                       pepseq = "character",
+                       dbaccess = "character",
+                       plength = "character"),
              contains = "Versioned",
              prototype = prototype(
                  name = "Quantitation method",
