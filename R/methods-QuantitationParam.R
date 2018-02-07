@@ -35,12 +35,17 @@ SpectralCounting <- function(method =
                                    "SI", "SIgi",
                                    "SIn", "SAF",
                                    "NSAF"),
-                             pepseq = "sequence") {
+                             pepseq = "sequence", 
+                             dbaccess = "DatabaseAccess",
+                             plength = "DBseqLength") {
     method <- match.arg(method)
     .QuantitationParam(msLevel = 2L,
                        method = method,
                        name = "SpectralCounting",
-                       pepseq = pepseq)
+                       pepseq = pepseq,     ## needed for count
+                       dbaccess = dbaccess, ## needed for SI* and *SAF
+                       plength = plength)   ## needed for SI* and *SAF
+
 }
 
 ##' @rdname QuantitationParam-class

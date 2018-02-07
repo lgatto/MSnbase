@@ -713,11 +713,26 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
 ##'     `"SI"` (spectral index), `"SIgi"`(global intensity spectral
 ##'     index), `"SIn"` (normalised spectral index), `"SAF"` (spectral
 ##'     abundance factor) or `"NSAF"` (normalised spectral abundance
-##'     factor). The `"count"` method counts the occurrence of the
-##'     respective spectra (at this stage all 1s) that can then be
-##'     used as input to [combineFeatures()] to implement spectra
-##'     counting. These methods work irrespective of their profile or
+##'     factor). These methods work irrespective of their profile or
 ##'     centroided mode of the data.
+##'
+##'     The `"count"` method counts the occurrence of the identified
+##'     spectra, which then can then be used as input to
+##'     [combineFeatures()] to implement spectra counting at the
+##'     peptide and protein level (see example in [quantify]). The
+##'     sequence of a peptide is defined by setting `pepseq` in the
+##'     `SpectralCouting` constructor (default is `sequence`). When
+##'     using the `"count"` method, MS2 spectra that have been
+##'     identified get couted as 1, MS2 spectra that haven't been
+##'     identified are counted as 0 and any other MS levels, if
+##'     present, as assigned an `NA`.
+##'     
+##'     The `SI*` and `*SAF` require two additional arguments, namely
+##'     the protein accession of identifiers (`dbaccess`, with default
+##'     value `"DatabaseAccess"`) and the protein lengths (`plength`,
+##'     with default value `"DBseqLength"`). These values are
+##'     available if the identification data had been collated using
+##'     [addIdentificationData()].
 ##'
 ##' @slot pepseq `character(1)` defining the feture variable name
 ##'     defining the peptide sequence (required for spectral
@@ -777,6 +792,8 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
 ##' @author Laurent Gatto
 ##' 
 ##' @rdname QuantitationParam-class
+##'
+##' @seealso The example in the [quantify] manual page.
 ##' 
 ##' @md
 ##' 

@@ -55,15 +55,8 @@
 ##' @param method An instance of `QuantitationParam` defining the
 ##'     quantitation method. For isobaric tagging, the method
 ##'     quantifies peaks defined in [IsobaricTagging()] object. For
-##'     label-free quantitation, defined by a [SpectralCounting()]
-##'     quantitation parameter, the respective quantitation methods
-##'     and normalisations are applied to the spectra. These methods
-##'     require two additional arguments passed in `...`, namely the
-##'     protein accession of identifiers (`fcol`, with detault value
-##'     `"DatabaseAccess"`) and the protein lengths (`plength`, with
-##'     default value `"DBseqLength"`). These values are available of
-##'     the identification data had been collated using
-##'     [addIdentificationData()]. 
+##'     MS2-based label-free quantitation, use a [SpectralCounting()]
+##'     quantitation parameter.
 ##'
 ##'     See [QuantitationParam()] for additional details on how to
 ##'     define quantiation parameters.
@@ -105,6 +98,7 @@
 ##' @md
 ##' @examples
 ##' ## On-disk Raw data object
+##' library("msdata")
 ##' f <- proteomics(full.names = TRUE, pattern = "MS3TMT11.mzML")
 ##' ms <- readMSData(f, mode = "onDisk")
 ##'
@@ -132,19 +126,27 @@
 ##'
 ##' ## Label-free quantitation
 ##' ## We need to first add identification data to the raw object
-##' data(fdms3tmt11)
+##' data(fdms3tmt11) ## from msdata
 ##' fData(ms) <- fdms3tmt11
 ##'
 ##' ## Spectral counting, setting the peptide sequence feature name to
 ##' ## 'Sequence' (default is 'sequence'). 
 ##' sc <- SpectralCounting(pepseq = "Sequence")
-##' spc <- quantify(ms, sc)
 ##' ## Quantitation for all spectra is returned
+##' spc <- quantify(ms, sc)
+##' 
 ##' ## MS2 with a sequence are counted as 1
 ##' ## MS2 without a sequence are counted as 0
 ##' ## All other spectra as NA
 ##' head(exprs(spc))
 ##' head(fData(ms)[, c("msLevel", "Sequence")])
+##'
+##' ## Generate a peptide couting
+##' ## For example, this peptide was counted 3 times, in spectra 727,
+##' ## 733 and 737
+##' hvl <- which(fData(spc)$Sequence == "HVLHVQLNRPNK")
+##' exprs(spc)[hvl, , drop = FALSE]
+##' combineFeatures(spc, fcol = "Sequence")
 ##'
 ##' ## Total ion count, returns values for all spectra
 ##' tc <- quantify(ms, SpectralCounting(method = "tic"))
@@ -227,8 +229,15 @@ quantify2 <- function(object,
             ## the following assumes that the appropriate fcols
             ## are available
             object <- utils.removeNoIdAndMultipleAssignments(object)
-            if (params@method %in% c("SI", "SIgi", "SIn")) SI(object, params@method, ...)
-            else SAF(object, params@method, ...)
+            if (params@method %in% c("SI", "SIgi", "SIn"))
+                SI(object, params@method,
+                   groupBy = params@dbaccess,
+                   plength = params@plength,
+                   verbose = verbose)
+            else SAF(object, params@method,
+                     groupBy = params@dbaccess,
+                     plength = params@plength,
+                     verbose = verbose)
         }
     } else if (params@name == "LFQ") {
         stop("LFQ currently not implemented.")
