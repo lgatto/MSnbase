@@ -1011,45 +1011,6 @@ combineSpectra_for <- function(x, mzFun = base::mean, intensityFun = base::sum,
     new_sp
 }
 
-## This restricts the returned m/z groups to those in which a m/z value from
-## main is present.
-combineSpectra2 <- function(x, mzFun = base::mean, intensityFun = sum,
-                           main = ceiling(median(1:length(x))),
-                           mzd) {
-    if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
-        stop("Can only combine spectra with the same MS level")
-    mzs <- lapply(x, function(z) z@mz)
-    mzs_lens <- lengths(mzs)
-    mzs <- unlist(mzs, use.names = FALSE)
-    mz_order <- order(mzs)
-    mzs <- mzs[mz_order]
-    mz_groups <- .group_mz_values(mzs, mzd = mzd)
-    if (length(unique(mz_groups)) < length(x[[main]]@mz))
-        stop("Got less m/z groups than m/z values in the original spectrum. ",
-             "Most likely the data is not profile-mode LCMS data.")
-    ## Want to keep only those groups with a m/z from main.
-    keep <- unlist(lapply(split(
-        rep(1:length(mzs_lens), mzs_lens)[mz_order] == main, mz_groups),
-        function(z) {
-            rep(any(z), length(z))
-        }), use.names = FALSE)
-    ## Reducing the data
-    mz_groups <- mz_groups[keep]
-    mzs <- mzs[keep]
-    ints <- unlist(base::lapply(x, function(z) z@intensity))[mz_order][keep]
-    new_sp <- x[[main]]
-    new_sp@mz <- unlist(base::lapply(split(mzs, mz_groups), mzFun),
-                        use.names = FALSE)
-    new_sp@intensity <- unlist(base::lapply(split(ints, mz_groups),
-                                            intensityFun), use.names = FALSE)
-    if (is.unsorted(new_sp@mz))
-        stop("m/z values of combined spectrum are not ordered")
-    new_sp@peaksCount <- length(new_sp@mz)
-    new_sp
-}
-
-
-
 #' Group a sorted `numeric` of m/z values from consecutive scans by ion assuming
 #' that the variation between m/z values for the same ion in consecutive scan
 #' is much lower than the difference between m/z values within one scan.
