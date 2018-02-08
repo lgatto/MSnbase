@@ -67,7 +67,7 @@ redundancy.handler = c("unique", "multiple"), cv = TRUE, cv.norm =
 
   \item{cv}{ A \code{logical} defining if feature coefficients of
     variation should be computed and stored as feature
-    meta-data. Default is \code{FALSE}. }
+    meta-data. Default is \code{TRUE}. }
 
   \item{cv.norm}{ A \code{character} defining how to normalise the
     feature intensitites prior to CV calculation. Default is

@@ -146,7 +146,7 @@
 ##' ## 733 and 737
 ##' hvl <- which(fData(spc)$Sequence == "HVLHVQLNRPNK")
 ##' exprs(spc)[hvl, , drop = FALSE]
-##' combineFeatures(spc, fcol = "Sequence")
+##' combineFeatures(spc, fcol = "Sequence", cv = FALSE)
 ##'
 ##' ## Total ion count, returns values for all spectra
 ##' tc <- quantify(ms, SpectralCounting(method = "tic"))
