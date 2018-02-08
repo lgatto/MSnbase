@@ -70,7 +70,7 @@ test_that("Combine MSnSet features (V)", {
     bb <- MSnbase:::nologging(combineFeatures(aa, gb, "mean"), 1)
     bb2 <- MSnbase:::nologging(combineFeatures(aa, as.character(gb), "mean"), 1)
     gbn <- rep(1:2, each = 5)
-    bb3 <- MSnbase:::nologging(MSnbase:::combineFeatures(aa, gbn, "mean"), 1)
+    bb3 <- MSnbase:::nologging(combineFeatures(aa, gbn, "mean"), 1)
     expect_equal(bb, bb2)
     expect_equal(bb, bb3)
     cc <- combineFeatures(aa, gb, "sum")
@@ -104,8 +104,8 @@ test_that("Combine MSnSet features (V)", {
     gb2 <- factor(c("a", "c", "z", "a", "z", "b", "b", "a", "c", "a"))
     gb3 <- factor(rev(c("a", "c", "z", "a", "z", "b", "b", "a", "c", "a")))
     fData(aa)$Z <- gb2
-    zz <- combineFeatures(aa, gb2, fun = "sum", cv = TRUE)
-    zz3 <- combineFeatures(aa[10:1, ], gb3, fun = "sum", cv = TRUE)
+    zz <- combineFeatures(aa, gb2, fun = "sum")
+    zz3 <- combineFeatures(aa[10:1, ], gb3, fun = "sum")
     expect_equal(exprs(zz), exprs(zz3))
     expect_equal(fData(zz)[, 3:5], fData(zz3)[, 3:5], tolerance=1e-5)
     expect_true(all.equal(as.numeric(exprs(zz["a", ])),
@@ -154,6 +154,7 @@ test_that("Combine MSnSet features (L)", {
     ee2 <- combineFeatures(ee, L,
                            redundancy.handler = "unique",
                            cv = FALSE)
+    ee2 <- MSnbase:::nologging(ee2, 2)
     ## peptide a -> protein(s) A, B  DISCARD
     ## peptide b -> protein(s) B       KEEP
     ## peptide c -> protein(s) C       KEEP
@@ -165,8 +166,8 @@ test_that("Combine MSnSet features (L)", {
     ## Protein C is quantified by pep c only
     ee3 <- ee[c("e", "b", "c"), ]
     featureNames(ee3) <- LETTERS[1:3]
-    ee3@processingData <- 
-        ee2@processingData <- new("MSnProcess")
+    ee3@processingData@merged <- TRUE
+    ee3 <- MSnbase:::nologging(ee3, 1)
     expect_equal(ee2, ee3)
 
     ee4 <- combineFeatures(ee, L,

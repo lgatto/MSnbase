@@ -26,7 +26,7 @@
 
 combineFeatures(object, groupBy, fun = c("mean", "median",
 "weighted.mean", "sum", "medpolish", "iPQF", "NTR"), fcol,
-redundancy.handler = c("unique", "multiple"), cv = FALSE, cv.norm =
+redundancy.handler = c("unique", "multiple"), cv = TRUE, cv.norm =
 "sum", verbose = isMSnbaseVerbose(), ...)
 
 }

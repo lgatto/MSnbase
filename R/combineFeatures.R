@@ -9,7 +9,7 @@ combineFeatures <- function(object,
                                 "NTR"),
                             fcol,                            
                             redundancy.handler = c("unique", "multiple"),
-                            cv = FALSE,
+                            cv = TRUE,
                             cv.norm = "sum",
                             verbose = isMSnbaseVerbose(),
                             ... ## further arguments to fun
