@@ -50,7 +50,7 @@ combineFeaturesL <- function(object,   ## MSnSet
                              groupBy,  ## list
                              fun,
                              redundancy.handler,
-                             cv = FALSE,
+                             cv = TRUE,
                              cv.norm = "sum",
                              verbose = isMSnbaseVerbose(),
                              ...    ## additional arguments to fun
@@ -81,7 +81,7 @@ combineFeaturesL <- function(object,   ## MSnSet
 combineFeaturesV <- function(object,   ## MSnSet
                              groupBy,  ## factor, character or numeric
                              fun,
-                             cv = FALSE,
+                             cv = TRUE,
                              cv.norm = "sum",
                              verbose = isMSnbaseVerbose(),
                              ...    ## additional arguments to fun

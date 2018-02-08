@@ -226,9 +226,10 @@ quantify2 <- function(object,
                          removeNoId. = FALSE)
         } else if (params@method == "tic") {
             tic_MSnSet(object)
+
         } else {
             ## the following assumes that the appropriate fcols
-            ## are available
+            ## are available in the QuantitationParam object
             object <- utils.removeNoIdAndMultipleAssignments(object)
             if (params@method %in% c("SI", "SIgi", "SIn"))
                 SI(object, params@method,
