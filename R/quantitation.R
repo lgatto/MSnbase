@@ -162,13 +162,14 @@
 ##' head(exprs(filterMsLevel(tc, 2L)))
 ##'  
 ##' ## TODO following ones
-##' si <- quantify(msexp, method = "SIn")
-##' processingData(si)
-##' exprs(si)
+##' ## TODO filter MS2 and document this
+##' # si <- quantify(msexp, method = "SIn")
+##' # processingData(si)
+##' # exprs(si)
 ##'
-##' saf <- quantify(msexp, method = "NSAF")
-##' processingData(saf)
-##' exprs(saf)
+##' # saf <- quantify(msexp, method = "NSAF")
+##' # processingData(saf)
+##' # exprs(saf)
 NULL
 ##> NULL
 
@@ -222,7 +223,7 @@ quantify2 <- function(object,
         if (params@method == "count") {
             count_MSnSet(object,
                          pepseq = params@pepseq,
-                         removeNoId = FALSE)
+                         removeNoId. = FALSE)
         } else if (params@method == "tic") {
             tic_MSnSet(object)
         } else {

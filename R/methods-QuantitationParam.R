@@ -30,6 +30,9 @@ IsobaricTagging <- function(reporters,
 }
 
 ##' @rdname QuantitationParam-class
+##' @param pepseq See class slot.
+##' @param dbaccess See class slot.
+##' @param plength See class slot.
 SpectralCounting <- function(method =
                                  c("count", "tic",
                                    "SI", "SIgi",

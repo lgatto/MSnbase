@@ -755,6 +755,16 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
 ##'     quantitation. Otherwise, quantitation is performed using data
 ##'     points along the entire width of a peak. For isobaric tagging
 ##'     quantation only.
+##'
+##' @slot pepseq `character(1)` naming the feature variable
+##'     documenting the peptide sequence (default is `"sequence"`).
+##'
+##' @slot dbaccess `character(1)` naming the feature variable
+##'     documenting the protein database accession (default is
+##'     `"DatabaseAccess"`).
+##'
+##' @slot plength `character(1)` naming the feature variable
+##'     documenting the protein length (default is `"DBseqLength"`).
 ##' 
 ##' @slot .__classVersion__ The version of the `QuantitationParam`
 ##'     class definition.
