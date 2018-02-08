@@ -230,9 +230,11 @@ quantify2 <- function(object,
                                       sampleNames(e))) 
         ans[featureNames(e), ] <- exprs(e)
         ans <- MSnSet(exprs = ans,
-                      fData = fData(object),
+                      fData = fData(e),
                       pData = pData(e))
-        ans@processingData <- e@processingData    
+        ans@experimentData <- experimentData(object)
+        ans@processingData <- e@processingData
+        ans@annotation <- "No annotation"
         return(ans)
     } else if (params@name == "SpectralCounting") {
         if (params@method == "count") {
