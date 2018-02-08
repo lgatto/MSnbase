@@ -443,6 +443,10 @@ estimateMzScattering <- function(x, halfWindowSize = 1L) {
 #' The method assumes same ions being measured in consecutive scans (i.e. LCMS
 #' data) and thus combines their signal which can increase the increase the
 #' signal to noise ratio.
+#'
+#' The m/z scattering between consecutive scans is (for robustness reasons)
+#' estimated for each file on the 100 spectra with the largest number of m/z -
+#' intensity pairs (i.e. mass peaks).
 #' 
 #' See [combineSpectra()] for details.
 #' 
@@ -467,7 +471,7 @@ estimateMzScattering <- function(x, halfWindowSize = 1L) {
 #' [estimateMzScattering()] for a function to estimate m/z value scattering in
 #' consecutive spectra.
 #' 
-#' @author Johannes Rainer
+#' @author Johannes Rainer, Sigurdur Smarason
 combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
                                        mzFun = base::mean,
                                        intensityFun = base::sum, mzd,
@@ -480,6 +484,22 @@ combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
     new_sp <- bplapply(split(spectra(x), fromFile(x)), function(z, intF,
                                                                 mzF, hws, mzd) {
         len_z <- length(z)
+        ## Estimate m/z scattering on the 100 spectra with largest number of
+        ## peaks
+        if (missing(mzd)) {
+            idx <- order(unlist(lapply(z, function(y) y@peaksCount)),
+                         decreasing = TRUE)[1:min(100, len_z)]
+            mzs <- numeric(length(idx))
+            for (i in seq_along(idx)) {
+                mzs[i] <- .estimate_mz_scattering(
+                    sort(unlist(
+                        lapply(z[max(1, idx[i] - hws):min(idx[i] + hws, len_z)],
+                               function(sp) sp@mz))))
+            }
+            dens <- density(mzs, n = max(512, length(mzs)/2))
+            mzd <- dens$x[which.max(dens$y)]
+        }
+        ## Combine spectra
         res <- vector("list", len_z)
         for (i in seq_along(z)) {
             res[[i]] <- combineSpectra(z[max(1, i - hws):min(i + hws, len_z)],

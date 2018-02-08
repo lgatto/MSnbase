@@ -43,6 +43,10 @@ The method assumes same ions being measured in consecutive scans (i.e. LCMS
 data) and thus combines their signal which can increase the increase the
 signal to noise ratio.
 
+The m/z scattering between consecutive scans is (for robustness reasons)
+estimated for each file on the 100 spectra with the largest number of m/z -
+intensity pairs (i.e. mass peaks).
+
 See \code{\link[=combineSpectra]{combineSpectra()}} for details.
 }
 \seealso{
@@ -53,5 +57,5 @@ a \code{list}.
 consecutive spectra.
 }
 \author{
-Johannes Rainer
+Johannes Rainer, Sigurdur Smarason
 }
