@@ -206,8 +206,8 @@ quantify2 <- function(object,
     if (params@name == "IsobaricTagging") {
         if (!length(params@msLevel))
             params@msLevel <- max(msLevel(object))
-        obj2 <- filterMsLevel(object, params@msLevel)        
-        if (params@method == "max") {
+        obj2 <- filterMsLevel(object, params@msLevel)
+        if (params@method == "max" & inherits(object, "OnDiskMSnExp")) {
             if (!verbose)
                 suppressMessages(e <- quantify_OnDiskMSnExp_max(obj2,
                                                                 params@reporters,
@@ -216,12 +216,12 @@ quantify2 <- function(object,
             else e <- quantify_OnDiskMSnExp_max(obj2, params@reporters,
                                                 params@wd, BPPARAM)
         } else {
-            quantify_MSnExp(obj2,
-                            params@method,
-                            params@reporters,
-                            params@strict,
-                            BPPARAM, qual = FALSE,
-                            verbose)
+            e <- quantify_MSnExp(obj2,
+                                 params@method,
+                                 params@reporters,
+                                 params@strict,
+                                 BPPARAM, qual = FALSE,
+                                 verbose)
         }
         ans <- matrix(NA_real_,
                       nrow = length(object),

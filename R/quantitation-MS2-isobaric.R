@@ -177,11 +177,12 @@ quantify_OnDiskMSnExp_max <- function(object, reporters,
             message(msg)
         }
     }
-
     ans <- new("MSnSet",
                exprs = e,
                featureData = featureData(object),
                phenoData = .phenoData,
+               experimentData = experimentData(object),
+               annotation = "No annotation",
                processingData = processingData(object))
     fData(ans)$reporterMzs <- mzs
     ans <- logging(ans, paste0("Fast ", names(reporters),
