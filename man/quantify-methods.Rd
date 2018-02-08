@@ -136,13 +136,14 @@ head(exprs(tc2))
 head(exprs(filterMsLevel(tc, 2L)))
  
 ## TODO following ones
-si <- quantify(msexp, method = "SIn")
-processingData(si)
-exprs(si)
+## TODO filter MS2 and document this
+# si <- quantify(msexp, method = "SIn")
+# processingData(si)
+# exprs(si)
 
-saf <- quantify(msexp, method = "NSAF")
-processingData(saf)
-exprs(saf)
+# saf <- quantify(msexp, method = "NSAF")
+# processingData(saf)
+# exprs(saf)
 }
 \seealso{
 The legacy interface (i.e. that doesn't use

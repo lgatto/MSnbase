@@ -28,6 +28,12 @@ SpectralCounting(method = c("count", "tic", "SI", "SIgi", "SIn", "SAF",
 
 \item{method}{See class slot.}
 
+\item{pepseq}{See class slot.}
+
+\item{dbaccess}{See class slot.}
+
+\item{plength}{See class slot.}
+
 \item{object}{Object of class `QuantiationParam`.}
 }
 \description{
@@ -105,6 +111,16 @@ width of reporters (see \code{\link[=ReporterIons]{ReporterIons()}} are used for
 quantitation. Otherwise, quantitation is performed using data
 points along the entire width of a peak. For isobaric tagging
 quantation only.}
+
+\item{\code{pepseq}}{\code{character(1)} naming the feature variable
+documenting the peptide sequence (default is \code{"sequence"}).}
+
+\item{\code{dbaccess}}{\code{character(1)} naming the feature variable
+documenting the protein database accession (default is
+\code{"DatabaseAccess"}).}
+
+\item{\code{plength}}{\code{character(1)} naming the feature variable
+documenting the protein length (default is \code{"DBseqLength"}).}
 
 \item{\code{.__classVersion__}}{The version of the \code{QuantitationParam}
 class definition.}

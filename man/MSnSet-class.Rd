@@ -39,6 +39,7 @@
 \alias{write.exprs,MSnSet-method}
 \alias{experimentData<-,MSnSet,MIAPE-method}
 \alias{pData<-,MSnSet,data.frame-method}
+\alias{fData<-,MSnSet,data.frame-method}
 \alias{combine,MSnSet,MSnSet-method}
 \alias{topN,MSnSet,MSnSet-method}
 \alias{topN,MSnSet-method}

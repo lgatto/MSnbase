@@ -26,7 +26,7 @@
 
 combineFeatures(object, groupBy, fun = c("mean", "median",
 "weighted.mean", "sum", "medpolish", "iPQF", "NTR"), fcol,
-redundancy.handler = c("unique", "multiple"), cv = TRUE, cv.norm =
+redundancy.handler = c("unique", "multiple"), cv = FALSE, cv.norm =
 "sum", verbose = isMSnbaseVerbose(), ...)
 
 }
@@ -67,7 +67,7 @@ redundancy.handler = c("unique", "multiple"), cv = TRUE, cv.norm =
 
   \item{cv}{ A \code{logical} defining if feature coefficients of
     variation should be computed and stored as feature
-    meta-data. Default is \code{TRUE}. }
+    meta-data. Default is \code{FALSE}. }
 
   \item{cv.norm}{ A \code{character} defining how to normalise the
     feature intensitites prior to CV calculation. Default is
