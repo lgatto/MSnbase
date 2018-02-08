@@ -114,7 +114,7 @@ setMethod("[", "pSet",
               ## character(), producing NA if subest with character()[file]
               expD <- experimentData(x)
               if (length(expD@instrumentManufacturer))
-                  expD@instrumentManufacturer[files]
+                  expD@instrumentManufacturer[file]
               else expD@instrumentManufacturer
               if (length(expD@instrumentModel))
                   expD@instrumentModel[file]
