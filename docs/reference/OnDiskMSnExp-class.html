@@ -925,27 +925,91 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 <span class='fu'>head</span>(<span class='fu'>lengths</span>(<span class='no'>mzs</span>))</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
 #&gt;    1378    1356    1404    1496    1525    1498 </div><div class='input'><span class='fu'>head</span>(<span class='fu'>lengths</span>(<span class='no'>mzsAfter</span>))</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
 #&gt;    1378    1356    1404    1496    1525    1498 </div><div class='input'>
+
+<span class='co'>## Centroided or profile mode</span>
 <span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>msdata</span><span class='kw'>::</span><span class='fu'>proteomics</span>(<span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-                        <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz"</span>)
+                        <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"MS3TMT11.mzML"</span>)
 <span class='no'>odmse</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>f</span>, <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)
 <span class='fu'>validObject</span>(<span class='no'>odmse</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>odmse</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 18:28 
+#&gt;  Retention time: 45:27 
 #&gt;  MSn level: 1 
-#&gt;  Total ion count: 43527 
+#&gt;  Total ion count: 10768 
 #&gt;  Polarity: 1 </div><div class='input'>
-<span class='fu'>all</span>(<span class='fu'>is.na</span>(<span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='no'>odmse</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>invisible</span>(<span class='fu'><a href='Spectrum-class.html'>isCentroided</a></span>(<span class='no'>odmse</span>))
-<span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='no'>odmse</span>, <span class='kw'>msLevel</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+<span class='fu'>all</span>(<span class='fu'>is.na</span>(<span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='no'>odmse</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>table</span>(<span class='fu'><a href='isCentroidedFromFile.html'>isCentroidedFromFile</a></span>(<span class='no'>odmse</span>), <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt;        
+#&gt;           1   2   3
+#&gt;   FALSE  30   0   0
+#&gt;   TRUE    0 482 482</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='no'>odmse</span>, <span class='kw'>msLevel</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
 <span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='no'>odmse</span>, <span class='kw'>msLevel</span> <span class='kw'>=</span> <span class='fl'>2</span>) <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
+<span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='no'>odmse</span>, <span class='kw'>msLevel</span> <span class='kw'>=</span> <span class='fl'>3</span>) <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
 <span class='fu'>table</span>(<span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='no'>odmse</span>), <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt;        
-#&gt;           1   2
-#&gt;   FALSE  58   0
-#&gt;   TRUE    0 451</div><div class='input'>
-<span class='no'>odmse2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>f</span>, <span class='kw'>centroided</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>),
+#&gt;           1   2   3
+#&gt;   FALSE  30   0   0
+#&gt;   TRUE    0 482 482</div><div class='input'>
+<span class='no'>odmse2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>f</span>, <span class='kw'>centroided</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>, <span class='fl'>TRUE</span>),
                      <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)
 <span class='fu'>table</span>(<span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='no'>odmse</span>), <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt;        
-#&gt;           1   2
-#&gt;   FALSE  58   0
-#&gt;   TRUE    0 451</div><div class='input'>
+#&gt;           1   2   3
+#&gt;   FALSE  30   0   0
+#&gt;   TRUE    0 482 482</div><div class='input'>
+<span class='co'>## Filtering precursor scans</span>
+
+<span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>acquisitionNum</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
+#&gt;   21945   21946   21947   21948   21949   21950 </div><div class='input'><span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
+#&gt;       1       2       2       3       2       2 </div><div class='input'>
+<span class='co'>## Extract all spectra stemming from the first MS1 spectrum</span>
+(<span class='no'>from1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterPrecursorScan</a></span>(<span class='no'>odmse</span>, <span class='fl'>21945</span>))</div><div class='output co'>#&gt; MSn experiment data ("OnDiskMSnExp")
+#&gt; Object size in memory: 0.05 Mb
+#&gt; - - - Spectra data - - -
+#&gt;  MS level(s): 1 2 3 
+#&gt;  Number of spectra: 35 
+#&gt;  MSn retention times: 45:27 - 45:30 minutes
+#&gt; - - - Processing information - - -
+#&gt; Data loaded [Wed Feb  7 20:18:55 2018] 
+#&gt; Filter: select parent/children scans for 21945 [Wed Feb  7 20:18:56 2018] 
+#&gt;  MSnbase version: 2.5.8 
+#&gt; - - - Meta data  - - -
+#&gt; phenoData
+#&gt;   rowNames: MS3TMT11.mzML
+#&gt;   varLabels: sampleNames
+#&gt;   varMetadata: labelDescription
+#&gt; Loaded from:
+#&gt;   MS3TMT11.mzML 
+#&gt; protocolData: none
+#&gt; featureData
+#&gt;   featureNames: F1.S001 F1.S002 ... F1.S035 (35 total)
+#&gt;   fvarLabels: fileIdx spIdx ... spectrum (29 total)
+#&gt;   fvarMetadata: labelDescription
+#&gt; experimentData: use 'experimentData(object)'</div><div class='input'><span class='fu'>table</span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>from1</span>))</div><div class='output co'>#&gt; 
+#&gt;  1  2  3 
+#&gt;  1 17 17 </div><div class='input'>
+
+<span class='co'>## Extract the second sepctrum's parent (MS1) and children (MS3)</span>
+<span class='co'>## spectra</span>
+(<span class='no'>from2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterPrecursorScan</a></span>(<span class='no'>odmse</span>, <span class='fl'>21945</span>))</div><div class='output co'>#&gt; MSn experiment data ("OnDiskMSnExp")
+#&gt; Object size in memory: 0.05 Mb
+#&gt; - - - Spectra data - - -
+#&gt;  MS level(s): 1 2 3 
+#&gt;  Number of spectra: 35 
+#&gt;  MSn retention times: 45:27 - 45:30 minutes
+#&gt; - - - Processing information - - -
+#&gt; Data loaded [Wed Feb  7 20:18:55 2018] 
+#&gt; Filter: select parent/children scans for 21945 [Wed Feb  7 20:18:56 2018] 
+#&gt;  MSnbase version: 2.5.8 
+#&gt; - - - Meta data  - - -
+#&gt; phenoData
+#&gt;   rowNames: MS3TMT11.mzML
+#&gt;   varLabels: sampleNames
+#&gt;   varMetadata: labelDescription
+#&gt; Loaded from:
+#&gt;   MS3TMT11.mzML 
+#&gt; protocolData: none
+#&gt; featureData
+#&gt;   featureNames: F1.S001 F1.S002 ... F1.S035 (35 total)
+#&gt;   fvarLabels: fileIdx spIdx ... spectrum (29 total)
+#&gt;   fvarMetadata: labelDescription
+#&gt; experimentData: use 'experimentData(object)'</div><div class='input'><span class='fu'>table</span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>from2</span>))</div><div class='output co'>#&gt; 
+#&gt;  1  2  3 
+#&gt;  1 17 17 </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

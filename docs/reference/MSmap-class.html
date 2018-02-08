@@ -93,10 +93,10 @@
 
     <p>Objects can be created with the <code>MSmap</code> constructor. The
   constructor has the following arguments:</p><dl class='dl-horizontal'>
-    <dt>object</dt><dd><p>An object created by <code>mzR::openMSfile</code>.</p></dd>
-    <dt>scans</dt><dd><p>A <code>numeric</code> indicating the scan indices to be
-      extracted from <code>object</code> to create the MS map. If missing, all
-      MS1 spectra will be used.</p></dd>
+    <dt>object</dt><dd><p>An object created by <code>mzR::openMSfile</code> or an
+      instance of class <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code>. If the latter
+      consains data from multiple files, a warning will be issued and
+      the first one will be used.</p></dd>
     <dt>lowMz</dt><dd><p>A <code>numeric</code> of length 1 defining the lower bound
       of the M/Z range of the MS map.</p></dd>
     <dt>highMz</dt><dd><p>A <code>numeric</code> of length 1 defining the upper bound
@@ -104,7 +104,8 @@
     <dt>resMz</dt><dd><p>The resolution along the M/Z range.</p></dd>
     <dt>hd</dt><dd><p>An optional <code>data.frame</code> as produced by
       <code>mzR::header(object)</code>. If missing, will be computer within
-      the function.</p></dd>
+      the function. Ignored when <code>object</code> is an
+      <code>OnDiskMSnExp</code>.</p></dd>
     <dt>zeroIsNA</dt><dd><p>Set 0 intensities to <code>NA</code>. This can be used
       to clarify the 3 dimensional plot produce by <code>plot3D</code>.</p></dd>
   </dl>
@@ -176,6 +177,7 @@
       (<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'>grep</span>(<span class='st'>"TMT.+mzML"</span>, <span class='fu'>pxfiles</span>(<span class='no'>px1</span>), <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
       <span class='no'>mzf</span> <span class='kw'>&lt;-</span> <span class='fu'>pxget</span>(<span class='no'>px1</span>, <span class='no'>i</span>)
 
+      <span class='co'>## Using an mzRpwiz object</span>
       <span class='co'>## reads the data </span>
       <span class='no'>ms</span> <span class='kw'>&lt;-</span> <span class='fu'>openMSfile</span>(<span class='no'>mzf</span>)
       <span class='no'>hd</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pSet-class.html'>header</a></span>(<span class='no'>ms</span>)
@@ -199,6 +201,25 @@
       <span class='no'>j</span> <span class='kw'>&lt;-</span> <span class='no'>ms1</span>[<span class='fu'>which</span>(<span class='no'>rtsel</span>)][<span class='fl'>2</span>]
       <span class='no'>M2</span> <span class='kw'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='no'>ms</span>, <span class='no'>i</span>:<span class='no'>j</span>, <span class='fl'>100</span>, <span class='fl'>1000</span>, <span class='fl'>1</span>, <span class='no'>hd</span>)
       <span class='fu'>plot3D</span>(<span class='no'>M2</span>)
+
+      <span class='co'>## Using an OnDiskMSnExp object and accessors</span>
+      <span class='no'>msn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>mzf</span>, <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)
+
+      <span class='co'>## a set of spectra of interest: MS1 spectra eluted</span>
+      <span class='co'>## between 30 and 35 minutes retention time</span>
+      <span class='no'>ms1</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>msn</span>) <span class='kw'>==</span> <span class='fl'>1</span>)
+      <span class='no'>rtsel</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>msn</span>)[<span class='no'>ms1</span>] / <span class='fl'>60</span> <span class='kw'>&gt;</span> <span class='fl'>30</span> <span class='kw'>&amp;</span>
+          <span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>msn</span>)[<span class='no'>ms1</span>] / <span class='fl'>60</span> <span class='kw'>&lt;</span> <span class='fl'>35</span>
+
+      <span class='co'>## the map</span>
+      <span class='no'>M3</span> <span class='kw'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='no'>msn</span>, <span class='no'>ms1</span>[<span class='no'>rtsel</span>], <span class='fl'>521</span>, <span class='fl'>523</span>, <span class='fl'>.005</span>)
+      <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>M3</span>, <span class='kw'>aspect</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>allTicks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+      <span class='co'>## With some MS2 spectra</span>
+      <span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='no'>ms1</span>[<span class='fu'>which</span>(<span class='no'>rtsel</span>)][<span class='fl'>1</span>]
+      <span class='no'>j</span> <span class='kw'>&lt;-</span> <span class='no'>ms1</span>[<span class='fu'>which</span>(<span class='no'>rtsel</span>)][<span class='fl'>2</span>]
+      <span class='no'>M4</span> <span class='kw'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='no'>msn</span>, <span class='no'>i</span>:<span class='no'>j</span>, <span class='fl'>100</span>, <span class='fl'>1000</span>, <span class='fl'>1</span>)
+      <span class='fu'>plot3D</span>(<span class='no'>M4</span>)
 })</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
