@@ -22,6 +22,15 @@ combineFeatures <- function(object,
         stopifnot(fcol %in% fvarLabels(object))
         groupBy <- fData(object)[, fcol]
     }
+
+    ## Handle missing values in groupBy
+    if (anyNA(groupBy)) {
+        msg <- paste0(sum(is.na(groupBy)), " out of ", length(groupBy),
+                      " values are missing in the 'groupBy' argument. ",
+                      "Either remove these features or assign a dummy category.")
+        stop(paste0(strwrap(msg), sep = "\n  "))
+    }
+    
     if (is.list(groupBy)) {
         if (length(groupBy) != nrow(object))
             stop("'length(groupBy)' must be equal to 'nrow(object)': ",
@@ -110,12 +119,10 @@ combineFeaturesV <- function(object,   ## MSnSet
                                                   verbose = verbose,
                                                   ...))
     }
-    ## takes the first occurences and omit NAs
-    gbsel <- !duplicated(groupBy) & !is.na(groupBy)
-    fdata <- fData(object)[gbsel, , drop = FALSE]
+    ## ordering fdata according to groupBy factor
+    fdata <- fData(object)[!duplicated(groupBy), , drop = FALSE]
     ## ordering fdata according to groupBy factor    
-    fdata <- fdata[order(unique(groupBy[gbsel])), ,
-                   drop = FALSE] 
+    fdata <- fdata[order(unique(groupBy)), , drop = FALSE] 
     rownames(matRes) <- rownames(fdata)
     colnames(matRes) <- sampleNames(object)
     if (cv)

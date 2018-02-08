@@ -438,11 +438,6 @@ setMethod("[[", "OnDiskMSnExp",
               return(spctr)
           })
 
-setMethod("quantify", c("OnDiskMSnExp", "QuantitationParam"),
-          function(object, method,
-                   BPPARAM,
-                   verbose = isMSnbaseVerbose(),
-                   ...) quantify2(object, method, BPPARAM, verbose, ...))
 
 setMethod("quantify",
           signature = c("OnDiskMSnExp", "character"),

@@ -152,6 +152,12 @@ setMethod("trimMz",
               return(filterMz(object, mz = mzlim, msLevel.))
           })
 
+setMethod("quantify", c("MSnExp", "QuantitationParam"),
+          function(object, method,
+                   BPPARAM,
+                   verbose = isMSnbaseVerbose(),
+                   ...) quantify2(object, method, BPPARAM, verbose, ...))
+
 setMethod("quantify",
           signature = c("MSnExp", "character"),
           function(object,

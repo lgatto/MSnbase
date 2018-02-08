@@ -727,12 +727,16 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
 ##'     identified are counted as 0 and any other MS levels, if
 ##'     present, as assigned an `NA`.
 ##'     
-##'     The `SI*` and `*SAF` require two additional arguments, namely
-##'     the protein accession of identifiers (`dbaccess`, with default
-##'     value `"DatabaseAccess"`) and the protein lengths (`plength`,
-##'     with default value `"DBseqLength"`). These values are
-##'     available if the identification data had been collated using
-##'     [addIdentificationData()].
+##'     The `SI*` and `*SAF` require three additional arguments,
+##'     namely the protein accession of identifiers (`dbaccess`, with
+##'     default value `"DatabaseAccess"`), the protein lengths
+##'     (`plength`, with default value `"DBseqLength"`) and the number
+##'     of groups the feature is assigned to (`nprot`, with default
+##'     `"nprot"`). The latter is used to filter out features that are
+##'     assigned to multiple groups These values are available if the
+##'     identification data had been collated using
+##'     [addIdentificationData()]. These methods also require MS2 data
+##'     only and will first filter other MS levels out is present.
 ##'
 ##' @slot pepseq `character(1)` defining the feture variable name
 ##'     defining the peptide sequence (required for spectral
@@ -765,6 +769,10 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
 ##'
 ##' @slot plength `character(1)` naming the feature variable
 ##'     documenting the protein length (default is `"DBseqLength"`).
+##'
+##' @slot nprot `character(1)` naming the feature variable documenting
+##'     how many groups this feature is assigned to (default is
+##'     `"nprot"`). 
 ##' 
 ##' @slot .__classVersion__ The version of the `QuantitationParam`
 ##'     class definition.
@@ -830,7 +838,8 @@ setClassUnion("ReporterIonsOrNull", c("ReporterIons", "NULL"))
                        strict = "logical",
                        pepseq = "character",
                        dbaccess = "character",
-                       plength = "character"),
+                       plength = "character",
+                       nprot = "character"),
              contains = "Versioned",
              prototype = prototype(
                  name = "Quantitation method",

@@ -1556,11 +1556,13 @@ as default sample names, and will thus automatically be combined along
 rows.
 
 ```{r makeexp12, echo=TRUE, cache=FALSE, tidy = FALSE}
-exp1 <- quantify(itraqdata, reporters = iTRAQ4,
+exp1 <- quantify(itraqdata, method = "trap",
+                 reporters = iTRAQ4,
                  verbose = FALSE)
 sampleNames(exp1)
 centroided(rawdata) <- FALSE
-exp2 <- quantify(rawdata, reporters = iTRAQ4,
+exp2 <- quantify(rawdata, method = "trap",
+                 reporters = iTRAQ4,
                  verbose = FALSE)
 sampleNames(exp2)
 ```
@@ -1611,9 +1613,11 @@ candidates.
 set.seed(1)
 i <- sample(length(itraqdata), 35)
 j <- sample(length(itraqdata), 35)
-exp1 <- quantify(itraqdata[i], reporters = iTRAQ4,
+exp1 <- quantify(itraqdata[i], method = "trap",
+                 reporters = iTRAQ4,
                  verbose = FALSE)
-exp2 <- quantify(itraqdata[j], reporters = iTRAQ4,
+exp2 <- quantify(itraqdata[j], method = "trap",
+                 reporters = iTRAQ4,
                  verbose = FALSE)
 exp1 <- droplevels(exp1)
 exp2 <- droplevels(exp2)

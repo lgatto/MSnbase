@@ -1,7 +1,7 @@
 # MSnbase 2.5
 
 ## Changes in version 2.5.8
-- Nothing yet
+- Quantification using QuantificationParam <2018-02-08 Thu>
 
 ## Changes in version 2.5.7
 

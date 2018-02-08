@@ -20,6 +20,7 @@
 \alias{plot,MSnExp,missing-method}
 \alias{quantify,MSnExp-method}
 \alias{quantify,MSnExp,character-method}
+\alias{quantify,MSnExp,QuantitationParam-method}
 \alias{removePeaks,MSnExp-method}
 \alias{removeReporters,MSnExp-method}
 \alias{removeReporters,OnDiskMSnExp-method}

@@ -120,7 +120,12 @@ head(fData(ms)[, c("msLevel", "Sequence")])
 ## 733 and 737
 hvl <- which(fData(spc)$Sequence == "HVLHVQLNRPNK")
 exprs(spc)[hvl, , drop = FALSE]
-combineFeatures(spc, fcol = "Sequence")
+
+## To combine, we first need to remove non-identifed features, as
+## combining those together doesn't make sense.
+spc <- removeNoId(spc, "Sequence")
+spc <- combineFeatures(spc, fcol = "Sequence", fun = "sum")
+exprs(spc)[15:20, , drop = FALSE]
 
 ## Total ion count, returns values for all spectra
 tc <- quantify(ms, SpectralCounting(method = "tic"))
@@ -135,15 +140,25 @@ tc2 <- quantify(ms2, SpectralCounting(method = "tic"))
 head(exprs(tc2))
 head(exprs(filterMsLevel(tc, 2L)))
  
-## TODO following ones
-## TODO filter MS2 and document this
-# si <- quantify(msexp, method = "SIn")
-# processingData(si)
-# exprs(si)
+## SI* and *SAF require MS2 level data and additional parameters
+## for filtering and normalisation
+quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                full.name = TRUE, pattern = "mzXML$")
+identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+                full.name = TRUE, pattern = "dummyiTRAQ.mzid")
+msexp <- readMSData(quantFile)
+msexp <- addIdentificationData(msexp, identFile)
+fData(msexp)$DatabaseAccess
 
-# saf <- quantify(msexp, method = "NSAF")
-# processingData(saf)
-# exprs(saf)
+si <- SpectralCounting(method = "SI")
+siq <- quantify(msexp, si)
+processingData(siq)
+exprs(siq)
+
+saf <- SpectralCounting(method = "SAF")
+safq <- quantify(msexp, saf)
+processingData(safq)
+exprs(safq)
 }
 \seealso{
 The legacy interface (i.e. that doesn't use

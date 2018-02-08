@@ -33,6 +33,7 @@ IsobaricTagging <- function(reporters,
 ##' @param pepseq See class slot.
 ##' @param dbaccess See class slot.
 ##' @param plength See class slot.
+##' @param nprot See class slot.
 SpectralCounting <- function(method =
                                  c("count", "tic",
                                    "SI", "SIgi",
@@ -40,15 +41,16 @@ SpectralCounting <- function(method =
                                    "NSAF"),
                              pepseq = "sequence", 
                              dbaccess = "DatabaseAccess",
-                             plength = "DBseqLength") {
+                             plength = "DBseqLength",
+                             nprot = "nprot") {
     method <- match.arg(method)
     .QuantitationParam(msLevel = 2L,
                        method = method,
                        name = "SpectralCounting",
                        pepseq = pepseq,     ## needed for count
                        dbaccess = dbaccess, ## needed for SI* and *SAF
-                       plength = plength)   ## needed for SI* and *SAF
-
+                       plength = plength,   ## needed for SI* and *SAF
+                       nprot = nprot)       ## needed for SI* and *SAF
 }
 
 ##' @rdname QuantitationParam-class

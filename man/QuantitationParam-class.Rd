@@ -17,7 +17,7 @@ IsobaricTagging(reporters, msLevel, method = c("max", "trapezoidation",
 
 SpectralCounting(method = c("count", "tic", "SI", "SIgi", "SIn", "SAF",
   "NSAF"), pepseq = "sequence", dbaccess = "DatabaseAccess",
-  plength = "DBseqLength")
+  plength = "DBseqLength", nprot = "nprot")
 
 \S4method{show}{QuantitationParam}(object)
 }
@@ -33,6 +33,8 @@ SpectralCounting(method = c("count", "tic", "SI", "SIgi", "SIn", "SAF",
 \item{dbaccess}{See class slot.}
 
 \item{plength}{See class slot.}
+
+\item{nprot}{See class slot.}
 
 \item{object}{Object of class `QuantiationParam`.}
 }
@@ -82,12 +84,16 @@ identified get couted as 1, MS2 spectra that haven't been
 identified are counted as 0 and any other MS levels, if
 present, as assigned an `NA`.
 
-The `SI*` and `*SAF` require two additional arguments, namely
-the protein accession of identifiers (`dbaccess`, with default
-value `"DatabaseAccess"`) and the protein lengths (`plength`,
-with default value `"DBseqLength"`). These values are
-available if the identification data had been collated using
-[addIdentificationData()].
+The `SI*` and `*SAF` require three additional arguments,
+namely the protein accession of identifiers (`dbaccess`, with
+default value `"DatabaseAccess"`), the protein lengths
+(`plength`, with default value `"DBseqLength"`) and the number
+of groups the feature is assigned to (`nprot`, with default
+`"nprot"`). The latter is used to filter out features that are
+assigned to multiple groups These values are available if the
+identification data had been collated using
+[addIdentificationData()]. These methods also require MS2 data
+only and will first filter other MS levels out is present.
 }}
 
 \item{\code{pepseq}}{\code{character(1)} defining the feture variable name
@@ -121,6 +127,10 @@ documenting the protein database accession (default is
 
 \item{\code{plength}}{\code{character(1)} naming the feature variable
 documenting the protein length (default is \code{"DBseqLength"}).}
+
+\item{\code{nprot}}{\code{character(1)} naming the feature variable documenting
+how many groups this feature is assigned to (default is
+\code{"nprot"}).}
 
 \item{\code{.__classVersion__}}{The version of the \code{QuantitationParam}
 class definition.}
