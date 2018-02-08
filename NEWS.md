@@ -1,7 +1,8 @@
 # MSnbase 2.5
 
 ## Changes in version 2.5.8
-- Nothing yet
+- Setting default cv to FALSE in combineFeatures (see issue #303)
+  <2018-02-08 Thu>
 
 ## Changes in version 2.5.7
 
