@@ -230,7 +230,7 @@ quantify2 <- function(object,
                                       sampleNames(e))) 
         ans[featureNames(e), ] <- exprs(e)
         ans <- MSnSet(exprs = ans,
-                      fData = fData(e),
+                      fData = fData(object),
                       pData = pData(e))
         ans@experimentData <- experimentData(object)
         ans@processingData <- e@processingData
