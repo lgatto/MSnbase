@@ -543,16 +543,17 @@ test_that("estimateMzScattering works", {
 })
 
 test_that("combineSpectraMovingWindow works", {
-    ## REPLACE WITH MY OWN TEST FILE!
+    ## Check errors
+    expect_error(combineSpectraMovingWindow("3"))
+    
+    library(msdata)
+    fl <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)[1]
+    od <- readMSData(fl, mode = "onDisk")
     ## Focus on the one with most peaks
-    idx <- which.max(unlist(spectrapply(tmt_erwinia_in_mem_ms1, peaksCount)))
-    idx <- (idx):(idx+3)
+    idx <- which.max(peaksCount(od))
+    od <- od[(idx - 3):(idx + 3)]
+    od_comb <- combineSpectraMovingWindow(od)
 
-    tmp <- tmt_erwinia_in_mem_ms1[idx]
-    mzr <- estimateMzResolution(tmp)
-    mzs <- estimateMzScattering(tmp)
-
-    res <- combineSpectraMovingWindow(tmp)
-    mzr_2 <- estimateMzResolution(res)
-    mzs_2 <- estimateMzScattering(res)
+    expect_equal(length(od), length(od_comb))
+    expect_equal(peaksCount(od), peaksCount(od_comb))
 })

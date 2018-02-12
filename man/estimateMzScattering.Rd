@@ -30,10 +30,8 @@ as the \emph{m/z scattering}.
 
 library(MSnbase)
 library(msdata)
-## Load the MS1 data of a profile-mode file
-f <- msdata::proteomics(full.names = TRUE,
-    pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
-
+## Load a profile-mode LC-MS data file
+f <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)[1]
 im <- readMSData(f, mode = "inMem", msLevel = 1L)
 
 res <- estimateMzScattering(im)
@@ -46,6 +44,7 @@ plot(density(unlist(res)))
 idx <- which.max(unlist(spectrapply(im, peaksCount)))
 
 res[[idx]]
+abline(v = res[[idx]], lty = 2)
 estimateMzResolution(im[[idx]])
 ## As expected, the m/z scattering is much lower than the m/z resolution.
 }

@@ -81,7 +81,7 @@ Suggests:
     Rdisop,
     pRoloc,
     pRolocdata (>= 1.7.1),
-    msdata (>= 0.19.1),
+    msdata (>= 0.19.3),
     roxygen2,
     rgl,
     rpx,
