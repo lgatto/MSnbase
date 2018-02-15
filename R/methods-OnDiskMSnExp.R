@@ -526,11 +526,21 @@ setMethod("[", "OnDiskMSnExp",
               ## o analyser
               ## o detectorType
               expD <- experimentData(x)
-              expD@instrumentManufacturer <- expD@instrumentManufacturer[file]
-              expD@instrumentModel <- expD@instrumentModel[file]
-              expD@ionSource <- expD@ionSource[file]
-              expD@analyser <- expD@analyser[file]
-              expD@detectorType <- expD@detectorType[file]
+              if (length(expD@instrumentManufacturer))
+                  expD@instrumentManufacturer <- expD@instrumentManufacturer[file]
+              else expD@instrumentManufacturer <- expD@instrumentManufacturer
+              if (length(expD@instrumentModel))
+                  expD@instrumentModel <- expD@instrumentModel[file]
+              else expD@instrumentModel <- expD@instrumentModel
+              if (length(expD@ionSource))
+                  expD@ionSource <- expD@ionSource[file]
+              else expD@ionSource <- expD@ionSource
+              if (length(expD@analyser))
+                  expD@analyser <- expD@analyser[file]
+              else expD@analyser <- expD@ionSource
+              if (length(expD@detectorType))
+                  expD@detectorType <- expD@detectorType[file]
+              else expD@detectorType <- expD@ionSource
               x@experimentData <- expD
               ## Update fromFile in spectra/featureData.
               fromFile(x) <- base::match(fromFile(x), file)

@@ -108,14 +108,26 @@ setMethod("[", "pSet",
               pData(pd) <- droplevels(pData(pd))
               x@phenoData <- pd
               ## Sub-set the files.
+              ## This one should never be empty
               x@processingData@files <- x@processingData@files[file]
-              ## Sub-set the experimentData:
+              ## Sub-set the experimentData: these slots can be empty
+              ## character(), producing NA if subest with character()[file]
               expD <- experimentData(x)
-              expD@instrumentManufacturer <- expD@instrumentManufacturer[file]
-              expD@instrumentModel <- expD@instrumentModel[file]
-              expD@ionSource <- expD@ionSource[file]
-              expD@analyser <- expD@analyser[file]
-              expD@detectorType <- expD@detectorType[file]
+              if (length(expD@instrumentManufacturer))
+                  expD@instrumentManufacturer <- expD@instrumentManufacturer[file]
+              else expD@instrumentManufacturer <- expD@instrumentManufacturer
+              if (length(expD@instrumentModel))
+                  expD@instrumentModel <- expD@instrumentModel[file]
+              else expD@instrumentModel <- expD@instrumentModel
+              if (length(expD@ionSource))
+                  expD@ionSource <- expD@ionSource[file]
+              else expD@ionSource <- expD@ionSource
+              if (length(expD@analyser))
+                  expD@analyser <- expD@analyser[file]
+              else expD@analyser <- expD@ionSource
+              if (length(expD@detectorType))
+                  expD@detectorType <- expD@detectorType[file]
+              else expD@detectorType <- expD@ionSource
               x@experimentData <- expD
               ## Fix the fromFile property
               newFromFile <- base::match(fromFile(x), file)
