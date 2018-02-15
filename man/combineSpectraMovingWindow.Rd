@@ -33,7 +33,8 @@ distribution of differences of m/z values from the provided spectra
 a file. The resulting \code{MSnExp} has the same total number of spectra than the
 original object, but with each individual's spectrum information
 representing aggregated data from the original spectrum and its neighboring
-spectra.
+spectra. This is thus equivalent with a smoothing of the data in retention
+time dimension.
 
 Note that the function returns always a \code{MSnExp} object, even if \code{x} was an
 \code{OnDiskMSnExp} object.
@@ -48,6 +49,13 @@ estimated for each file on the 100 spectra with the largest number of m/z -
 intensity pairs (i.e. mass peaks).
 
 See \code{\link[=combineSpectra]{combineSpectra()}} for details.
+}
+\note{
+The function has to read all data into memory for the spectra combining
+and thus the memory requirements of this function are high, possibly
+preventing its usage on large experimental data. In these cases it is
+suggested to perform the combination on a per-file basis and save the
+results using the \code{\link[=writeMSData]{writeMSData()}} function afterwards.
 }
 \examples{
 
