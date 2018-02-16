@@ -535,3 +535,104 @@ setMethod("chromatogram", "MSnExp", function(object, rt, mz,
     if (validObject(res))
         res
 })
+
+
+#' @aliases extractMsData
+#'
+#' @title Extract MS data as a `data.frame` and visualize such MS data
+#' 
+#' @description
+#'
+#' `extractMsData` extracts a `data.frame` of retention time, mz and
+#' intensity values from each file/sample in the provided rt-m/z range
+#' (or for the full data range if `rt` and `mz` are not defined).
+#'
+#' @param object A `MSnExp` (or `OnDiskMSnExp`) object.
+#'
+#' @param rt `numeric(2)` with the retention time range from which the
+#'     data should be extracted.
+#'
+#' @param mz `numeric(2)` with the m/z range.
+#'
+#' @param msLevel `integer` defining the MS level(s) to which the data
+#'     should be sub-setted prior to extraction; defaults to
+#'     `msLevel = 1L`.
+#' 
+#' @return A `list` of length equal to the number of samples/files in
+#'     `object`. Each element being a `data.frame` with columns
+#'     `"rt"`, `"mz"` and `"i"` with the retention time, mz and
+#'     intensity tuples of a file. If no data is available for the mz-rt range
+#'     in a file a `data.frame` with 0 rows is returned for that file.
+#'
+#' @seealso [MSnExp] for the data object.
+#'
+#' @rdname extractMsData-method
+#'
+#' @md
+#' 
+#' @author Johannes Rainer
+#'
+#' @examples
+#' ## Read some files from the test data package.
+#' library(msdata)
+#' library(MSnbase)
+#' fls <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)
+#' raw_data <- readMSData(fls, mode = "onDisk")
+#'
+#' ## Read the full MS data for a defined mz-rt region.
+#' res <- extractMsData(raw_data, mz = c(106.04, 106.06), rt = c(175, 187))
+#'
+#' ## We've got one data.frame per file
+#' length(res)
+#'
+#' ## With number of rows:
+#' nrow(res[[1]])
+#'
+#' head(res[[1]])
+#'
+#' ## Plot the MS data for the first file.
+#' plotMsData(res[[1]])
+setMethod("extractMsData", signature(object = "MSnExp"),
+          function(object, rt, mz, msLevel = 1L) {
+              if (!missing(rt)) {
+                  rt <- range(rt, na.rm = TRUE)
+                  if (!is.numeric(rt) || length(rt) != 2)
+                      stop("'rt' has to be a numeric of length 2!")
+              }
+              if (!missing(mz)) {
+                  mz <- range(mz, na.rm = TRUE)
+                  if (!is.numeric(mz) || length(mz) != 2)
+                      stop("'mz' has to be a numeric of length 2!")
+                  fmzr <- mz
+              } else fmzr <- c(0, 0)
+              ## Subset the object based on MS level rt and mz range.
+              subs <- filterMz(
+                  filterRt(filterMsLevel(object, msLevel = msLevel), rt = rt),
+                  mz = mz)
+              if (length(subs) == 0) {
+                  ## Return a list with empty data.frames
+                  empty_df <- data.frame(rt = numeric(), mz = numeric(),
+                                         i = integer())
+                  return(lapply(1:length(fileNames(object)),
+                                FUN = function(z){empty_df}))
+              }
+              suppressWarnings(
+                  dfs <- spectrapply(subs, FUN = function(z) {
+                      if (!z@peaksCount)
+                          return(data.frame(rt = numeric(), mz = numeric(),
+                                            i = integer()))
+                      data.frame(rt = rep_len(z@rt, length(z@mz)),
+                                 mz = z@mz, i = z@intensity)
+                  })
+              )
+              fns <- fileNames(object)
+              fromF <- base::match(fileNames(subs), fns)
+
+              ## Now I want to rbind the spectrum data frames per file
+              L <- split(dfs, f = fromFile(subs))
+              L <- lapply(L, do.call, what = rbind)
+              ## Put them into a vector same length that we have files.
+              res <- vector(mode = "list", length = length(fns))
+              res[fromF] <- L
+              res
+          })

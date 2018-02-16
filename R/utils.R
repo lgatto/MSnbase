@@ -74,25 +74,26 @@ utils.removePeaks_centroided <- function(int, t) {
 }
 
 utils.removePeaks <- function(int, t) {
-  ## Description:
-  ## Given a vector of intensities 'int' and a threshold 't',
-  ## this function returns vector of same length with all
-  ## peaks of max height 't' set t zero.
-  ## Example:
-  ## The following three curves will be removed
-  ##   t - - - - + - - - - - - - - + - + -
-  ##           +  +  or  +++     ++ +++ +
-  ##   0 - - +    + - - +   + - + - - - +
-  ##
-  peakRanges <- IRanges(sapply(int,">",0))
-  sapply(peakRanges,function(x) {
-    ## we get the indices of every peak in int
-    if(all(int[x]<=t))
-      int[x] <<- 0
-  })
-  return(int)
+    ## Description:
+    ## Given a vector of intensities 'int' and a threshold 't',
+    ## this function returns vector of same length with all
+    ## peaks of max height 't' set t zero.
+    ## Example:
+    ## The following three curves will be removed
+    ##   t - - - - + - - - - - - - - + - + -
+    ##           +  +  or  +++     ++ +++ +
+    ##   0 - - +    + - - +   + - + - - - +
+    ##
+    peakRanges <- as(IRanges(int > 0), "IRangesList")
+    lapply(peakRanges, function(x) {
+        ## Works with changes in IRanges introduced in Bioconductor 3.7
+        idx <- start(x):end(x)
+        ## we get the indices of every peak in int
+        if(all(int[idx]<=t))
+            int[idx] <<- 0
+    })
+    int
 }
-
 
 ## For internal use - use utils.removePrecMz_Spectrum that will set
 ## the paramters based on data accessed directly in the spectrum
@@ -1297,4 +1298,62 @@ setMethod("reduce", "data.frame",
         nChildren <- sum(children)
     }
     parents | children
+}
+
+#' @description
+#'
+#' `plotMsData` creates a plot that combines an (base peak) extracted
+#' ion chromatogram on top (rt against intensity) and a plot of rt
+#' against m/z values at the bottom.
+#' 
+#' @param x `data.frame` such as returned by the `extractMsData` function.
+#'     Only a single `data.frame` should be submitted.
+#'
+#' @param main `character(1)` specifying the title.
+#'
+#' @param cex `numeric(1)` defining the size of points. Passed directly to the
+#'     `plot` function.
+#' 
+#' @param mfrow `numeric(2)` defining the plot layout. This will be passed
+#'     directly to `par(mfrow = mfrow)`. See `par` for more information.
+#'     Setting `mfrow = NULL` avoids calling `par(mfrow = mfrow)` hence
+#'     allowing to pre-define the plot layout.
+#'
+#' @param grid.color a color definition for the grid line (or `NA` to skip
+#'     creating them).
+#'
+#' @param colramp a *color ramp palette* to be used to color the data points
+#'     based on their intensity. See argument `col.regions` in
+#'     [lattice::level.colors()] documentation.
+#'
+#' @rdname extractMsData-method
+#'
+#' @md
+plotMsData <- function(x, main = "", cex = 1, mfrow = c(2, 1),
+                       grid.color = "lightgrey",
+                       colramp = topo.colors) {
+    ## Check the data.frame has the correct format.
+    if (!is.data.frame(x))
+        stop("'x' should be a data.frame")
+    if (!all(c("rt", "mz", "i") %in% colnames(x)))
+        stop("'x' should have columns 'rt', 'mz' and 'i'")
+    if (length(mfrow) == 2)
+        par(mfrow = mfrow)
+    par(mar = c(0, 4, 2, 1))
+    x_split <- split(x$i, f = x$rt)
+    ints <- unlist(lapply(x_split, function(z) max(z)))
+    brks <- do.breaks(range(x$i), nint = 256)
+    cols <- level.colors(ints, at = brks, col.regions = colramp)
+    plot(as.numeric(names(ints)), ints, main = main, xlab = "", xaxt = "n",
+         ylab = "", las = 2, pch = 21, bg = cols, col = "grey", cex = cex)
+    mtext(side = 4, line = 0, "intensity", cex = par("cex.lab"))
+    grid(col = grid.color)
+    par(mar = c(3.5, 4, 0, 1))
+    cols <- level.colors(x$i, at = brks, col.regions = colramp)
+    plot(x$rt, x$mz, main = "", pch = 21, bg = cols, col = "grey",
+         xlab = "", ylab = "", yaxt = "n", cex = cex)
+    axis(side = 2, las = 2)
+    grid(col = grid.color)
+    mtext(side = 1, line = 2.5, "retention time", cex = par("cex.lab"))
+    mtext(side = 4, line = 0, "mz", cex = par("cex.lab"))
 }

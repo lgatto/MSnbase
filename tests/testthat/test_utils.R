@@ -475,3 +475,12 @@ test_that(".filterSpectraHierarchy", {
     expect_equal(which(MSnbase:::.filterSpectraHierarchy(fdata, 10)), 10)
     expect_equal(which(MSnbase:::.filterSpectraHierarchy(fdata, 11)), integer())
 })
+
+test_that("plotMsData works", {
+    expect_error(plotMsData(10))
+    expect_error(plotMsData(data.frame(a = 1, b = 4)))
+    f <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)[1]
+    raw_data <- readMSData(f, mode = "onDisk")
+    res <- extractMsData(raw_data, mz = c(106.04, 106.06), rt = c(175, 187))
+    plotMsData(res[[1]])
+})

@@ -17,7 +17,7 @@ importFrom(XML, xmlInternalTreeParse, getDefaultNamespace, xpathApply,
            xmlAttrs)
 
 importFrom(graphics, abline, axis, grid, legend, lines, points, text,
-           barplot, layout, par, matplot)
+           barplot, layout, par, matplot, mtext)
 importFrom(stats, ave, median, medpolish, quantile, reorder, setNames,
            weighted.mean, dist)
 importFrom(utils, combn, head, ls.str, object.size,
@@ -31,7 +31,7 @@ importFrom(ggplot2, geom_histogram, geom_text, geom_line, geom_point,
            labs, aes, annotate, scale_colour_hue,
            scale_fill_gradient2, scale_fill_gradient,
            scale_x_continuous, scale_x_log10, coord_cartesian,
-           facet_grid)
+           facet_grid)	   
 
 importFrom(MALDIquant, binPeaks, match.closest) ## only using ::: functions
 importFrom(S4Vectors, isEmpty, metadata, DataFrame)
@@ -49,6 +49,7 @@ importFrom(affy, MAplot, ma.plot, mva.pairs)
 importFrom(mzID, mzID, flatten)
 importClassesFrom(mzID, mzID, mzIDCollection)
 importFrom(digest, digest)
+importFrom("grDevices", "topo.colors")
 
 export(MSnSet,
        abstract,
@@ -140,7 +141,8 @@ export(MSnSet,
        isCentroidedFromFile,
        requiredFvarLabels,
        addMSnSetMetadata,
-       readSRMData
+       readSRMData,
+       plotMsData
        )
 
 exportClasses(pSet,
@@ -293,7 +295,8 @@ exportMethods(updateObject,
               "colnames<-",
               reduce,
               writeMSData,
-              productMz
+              productMz,
+	      extractMsData
               )
 
 ## methods NOT exported

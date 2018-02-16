@@ -495,3 +495,43 @@ test_that("chromatogram,MSnExp works", {
     chrs_2 <- chromatogram(inMem, msLevel = 1:4)
     expect_equal(chrs, chrs_2)
 })
+
+test_that("extractMsData works", {
+    od <- microtofq_on_disk
+    im <- microtofq_in_mem_ms1
+    ## Errors
+    expect_error(extractMsData(od, rt = c("a", "b")))
+    expect_error(extractMsData(od, mz = c("nb", "df")))
+    ## mzrange is 94 - 307
+    ## rtrange is 0.48 - 307.67
+    mzr <- c(300, 302)
+    res <- extractMsData(od, mz = mzr)
+    expect_true(length(res) == 2)
+    expect_true(all(res[[1]][, "mz"] >= mzr[1] & res[[1]][, "mz"] <= mzr[2]))
+    expect_true(all(res[[2]][, "mz"] >= mzr[1] & res[[2]][, "mz"] <= mzr[2]))
+    expect_equal(res, extractMsData(im, mz = mzr))
+    ## On an OnDiskMSnExp with only rt
+    rtr <- c(20, 250)
+    res <- extractMsData(od, rt = rtr)
+    expect_true(all(res[[1]][, "rt"] >= rtr[1] & res[[1]][, "rt"] <= rtr[2]))
+    expect_true(all(res[[2]][, "rt"] >= rtr[1] & res[[2]][, "rt"] <= rtr[2]))
+    ## On an OnDiskMSnExp with mz and rt
+    res <- extractMsData(od, rt = rtr, mz = mzr)
+    expect_true(all(res[[1]][, "rt"] >= rtr[1] & res[[1]][, "rt"] <= rtr[2]))
+    expect_true(all(res[[2]][, "rt"] >= rtr[1] & res[[2]][, "rt"] <= rtr[2]))
+    expect_true(all(res[[1]][, "mz"] >= mzr[1] & res[[1]][, "mz"] <= mzr[2]))
+    expect_true(all(res[[2]][, "mz"] >= mzr[1] & res[[2]][, "mz"] <= mzr[2]))
+    
+    ## rt and mzr out of range.
+    res <- extractMsData(od, rt = c(6000, 6300), mz = c(400, 500))
+    expect_true(length(res) == 2)
+    expect_true(all(unlist(lapply(res, FUN = nrow)) == 0))
+    ## rt out of range
+    res <- extractMsData(od, rt = c(6000, 6300))
+    expect_true(length(res) == 2)
+    expect_true(all(unlist(lapply(res, FUN = nrow)) == 0))
+    ## mz out of range
+    res <- extractMsData(od, mz = c(6000, 6300))
+    expect_true(length(res) == 2)
+    expect_true(all(unlist(lapply(res, FUN = nrow)) == 0))
+})
