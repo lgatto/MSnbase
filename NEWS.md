@@ -1,7 +1,7 @@
 # MSnbase 2.5
 
 ## Changes in version 2.5.8
-- New extractMsData and plotMsData functions <2018-02-16>.
+- New as(MSnExp, data.frame) method <2018-02-16>.
 
 ## Changes in version 2.5.7
 

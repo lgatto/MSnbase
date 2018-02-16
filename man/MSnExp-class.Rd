@@ -71,6 +71,9 @@
 \alias{splitByFile}
 \alias{splitByFile,MSnExp,factor-method}
 
+\alias{coerce,MSnExp,data.frame-method}
+\alias{as.data.frame.MSnExp}
+
 \title{The 'MSnExp' Class for MS Data And Meta-Data}
 
 \description{
@@ -262,6 +265,13 @@
       advised to assign the majority result for MS1 and MS2 spectra,
       rather than results for individual spectra. See an example below.
       
+    }
+
+    \item{as}{\code{signature(object = "MSnExp", "data.frame")}:
+      Coerces the \code{MSnExp} object to a four-column
+      \code{data.frame} with columns \code{"file"} (file index in
+      \code{object}), \code{"rt"} (retention time), \code{"mz"} (m/z
+      values) and \code{"i"} (intensity values).
     }
 
   }

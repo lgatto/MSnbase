@@ -17,7 +17,7 @@ importFrom(XML, xmlInternalTreeParse, getDefaultNamespace, xpathApply,
            xmlAttrs)
 
 importFrom(graphics, abline, axis, grid, legend, lines, points, text,
-           barplot, layout, par, matplot, mtext)
+           barplot, layout, par, matplot)
 importFrom(stats, ave, median, medpolish, quantile, reorder, setNames,
            weighted.mean, dist)
 importFrom(utils, combn, head, ls.str, object.size,
@@ -49,7 +49,6 @@ importFrom(affy, MAplot, ma.plot, mva.pairs)
 importFrom(mzID, mzID, flatten)
 importClassesFrom(mzID, mzID, mzIDCollection)
 importFrom(digest, digest)
-importFrom("grDevices", "topo.colors")
 
 export(MSnSet,
        abstract,
@@ -77,6 +76,7 @@ export(MSnSet,
        as.MSnSet.ExpressionSet,
        as.MIAME.MIAPE,
        as.MSnExp.OnDiskMSnExp,
+       as.data.frame.MSnExp,
        is.na.MSnSet,
        droplevels.MSnSet,
        combineFeatures,
@@ -141,8 +141,7 @@ export(MSnSet,
        isCentroidedFromFile,
        requiredFvarLabels,
        addMSnSetMetadata,
-       readSRMData,
-       plotMsData
+       readSRMData
        )
 
 exportClasses(pSet,
@@ -295,8 +294,7 @@ exportMethods(updateObject,
               "colnames<-",
               reduce,
               writeMSData,
-              productMz,
-	      extractMsData
+              productMz
               )
 
 ## methods NOT exported

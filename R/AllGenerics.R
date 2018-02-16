@@ -147,6 +147,3 @@ setGeneric("splitByFile", function(object, f, ...) standardGeneric("splitByFile"
 setGeneric("productMz", function(object, ...) standardGeneric("productMz"))
 ## setGeneric("aggregationFun", function(object, ...)
 ##     standardGeneric("aggregationFun"))
-
-setGeneric("extractMsData", function(object, ...)
-    standardGeneric("extractMsData"))
