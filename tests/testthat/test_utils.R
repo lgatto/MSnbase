@@ -475,3 +475,4 @@ test_that(".filterSpectraHierarchy", {
     expect_equal(which(MSnbase:::.filterSpectraHierarchy(fdata, 10)), 10)
     expect_equal(which(MSnbase:::.filterSpectraHierarchy(fdata, 11)), integer())
 })
+
