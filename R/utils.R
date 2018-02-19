@@ -74,25 +74,26 @@ utils.removePeaks_centroided <- function(int, t) {
 }
 
 utils.removePeaks <- function(int, t) {
-  ## Description:
-  ## Given a vector of intensities 'int' and a threshold 't',
-  ## this function returns vector of same length with all
-  ## peaks of max height 't' set t zero.
-  ## Example:
-  ## The following three curves will be removed
-  ##   t - - - - + - - - - - - - - + - + -
-  ##           +  +  or  +++     ++ +++ +
-  ##   0 - - +    + - - +   + - + - - - +
-  ##
-  peakRanges <- IRanges(sapply(int,">",0))
-  sapply(peakRanges,function(x) {
-    ## we get the indices of every peak in int
-    if(all(int[x]<=t))
-      int[x] <<- 0
-  })
-  return(int)
+    ## Description:
+    ## Given a vector of intensities 'int' and a threshold 't',
+    ## this function returns vector of same length with all
+    ## peaks of max height 't' set t zero.
+    ## Example:
+    ## The following three curves will be removed
+    ##   t - - - - + - - - - - - - - + - + -
+    ##           +  +  or  +++     ++ +++ +
+    ##   0 - - +    + - - +   + - + - - - +
+    ##
+    peakRanges <- as(IRanges(int > 0), "IRangesList")
+    lapply(peakRanges, function(x) {
+        ## Works with changes in IRanges introduced in Bioconductor 3.7
+        idx <- start(x):end(x)
+        ## we get the indices of every peak in int
+        if(all(int[idx]<=t))
+            int[idx] <<- 0
+    })
+    int
 }
-
 
 ## For internal use - use utils.removePrecMz_Spectrum that will set
 ## the paramters based on data accessed directly in the spectrum
@@ -1298,3 +1299,4 @@ setMethod("reduce", "data.frame",
     }
     parents | children
 }
+

@@ -31,7 +31,7 @@ importFrom(ggplot2, geom_histogram, geom_text, geom_line, geom_point,
            labs, aes, annotate, scale_colour_hue,
            scale_fill_gradient2, scale_fill_gradient,
            scale_x_continuous, scale_x_log10, coord_cartesian,
-           facet_grid)
+           facet_grid)	   
 
 importFrom(MALDIquant, binPeaks, match.closest) ## only using ::: functions
 importFrom(S4Vectors, isEmpty, metadata, DataFrame)
@@ -76,6 +76,7 @@ export(MSnSet,
        as.MSnSet.ExpressionSet,
        as.MIAME.MIAPE,
        as.MSnExp.OnDiskMSnExp,
+       as.data.frame.MSnExp,
        is.na.MSnSet,
        droplevels.MSnSet,
        combineFeatures,
