@@ -960,56 +960,6 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = sum,
     new_sp@peaksCount <- length(new_sp@mz)
     new_sp
 }
-## combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::sum,
-##                            main = ceiling(median(1:length(x))),
-##                            mzd) {
-##     if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
-##         stop("Can only combine spectra with the same MS level")
-##     mzs <- unlist(lapply(x, function(z) z@mz))
-##     mz_order <- order(mzs)
-##     mz_groups <- .group_mz_values(mzs[mz_order], mzd = mzd)
-##     ## sanity check: if I've got less groups than mz values in the "main"
-##     ## spectrum we cry out loud.
-##     if (length(unique(mz_groups)) < length(x[[main]]@mz))
-##         warning("Got less m/z groups than m/z values in the original spectrum")
-##     new_sp <- x[[main]]
-##     new_sp@mz <- vapply(split(mzs[mz_order], mz_groups), mzFun,
-##                         FUN.VALUE = numeric(1), USE.NAMES = FALSE)
-##     ## For performance reasons we're checking here and are not calling
-##     ## validObject, because that would recursively call validObject on all
-##     ## parent classes.
-##     if (is.unsorted(new_sp@mz))
-##         stop("m/z values of combined spectrum are not ordered")
-##     new_sp@intensity <- vapply(
-##         split(unlist(lapply(x, function(z) z@intensity))[mz_order], mz_groups),
-##         intensityFun, FUN.VALUE = numeric(1), USE.NAMES = FALSE)
-##     new_sp@peaksCount <- length(new_sp@mz)
-##     new_sp
-## }
-
-combineSpectra_for <- function(x, mzFun = base::mean, intensityFun = base::sum,
-                               main = ceiling(median(1:length(x))),
-                               mzd) {
-    if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
-        stop("Can only combine spectra with the same MS level")
-    mzs <- unlist(lapply(x, function(z) z@mz), use.names = FALSE)
-    ints <- unlist(lapply(x, function(z) z@intensity), use.names = FALSE)
-    ## Estimate the mz scattering
-    if (missing(mzd))
-        mzd <- .estimate_mz_scattering(sort(mzs))
-    ## Aggregate values for the main spectra.
-    new_sp <- x[[main]]
-    nvals <- length(new_sp@mz)
-    for (i in 1:nvals) {
-        idx <- mzs >= (new_sp@mz[i] - mzd) & mzs <= (new_sp@mz[i] + mzd)
-        new_sp@mz[i] <- mzFun(mzs[idx])
-        new_sp@intensity[i] <- intensityFun(ints[idx])
-    }
-    if (is.unsorted(new_sp@mz))
-        stop("m/z values of combined spectrum are not ordered")
-    new_sp@peaksCount <- length(new_sp@mz)
-    new_sp
-}
 
 #' Group a sorted `numeric` of m/z values from consecutive scans by ion assuming
 #' that the variation between m/z values for the same ion in consecutive scan
