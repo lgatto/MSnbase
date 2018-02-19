@@ -13,7 +13,10 @@ combineSpectraMovingWindow(x, halfWindowSize = 1L, mzFun = base::mean,
 \item{halfWindowSize}{\code{integer(1)} with the half window size for the moving
 window.}
 
-\item{mzFun}{\code{function} to aggregate the m/z values per m/z group.}
+\item{mzFun}{\code{function} to aggregate the m/z values per m/z group. Should be
+a function or the name of a function. For \code{mzFun = "weighted.mean"} (note
+that the \emph{name} of the function is passed!) the resulting m/z is
+determined as an intensity-weighted mean of spectras' m/z values.}
 
 \item{intensityFun}{\code{function} to aggregate the intensity values per m/z
 group.}

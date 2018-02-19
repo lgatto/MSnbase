@@ -551,6 +551,13 @@ test_that("combineSpectra works", {
     res <- combineSpectra(list(sp1, sp1))
     expect_equal(mz(res), mz(sp1))
     expect_equal(intensity(res), intensity(sp1) * 2)
+
+    ## Use character mzFun:
+    expect_error(combineSpectra(list(sp1, sp2, sp3), mzFun = "meani"))
+    res <- combineSpectra(list(sp1, sp2, sp3), mzFun = base::mean)
+    res2 <- combineSpectra(list(sp1, sp2, sp3), mzFun = "weighted.mean")
+    expect_equal(intensity(res), intensity(res2))
+    expect_true(all(mz(res) != mz(res2)))
 })
 
 test_that(".estimate_mz_resolution, estimateMzResolution,Spectrum works", {

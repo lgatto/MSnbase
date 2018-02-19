@@ -859,7 +859,10 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' @param main `integer(1)` defining the *main* spectrum, i.e. the spectrum
 #'     which m/z and intensity values get replaced and is returned.
 #'
-#' @param mzFun `function` to aggregate the m/z values per m/z group.
+#' @param mzFun `function` to aggregate the m/z values per m/z group. Should be
+#'     a function or the name of a function. For `mzFun = "weighted.mean"` (note
+#'     that the *name* of the function is passed!) the resulting m/z is
+#'     determined as an intensity-weighted mean of spectras' m/z values.
 #'
 #' @param intensityFun `function` to aggregate the intensity values per m/z
 #'     group.
@@ -951,10 +954,23 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = sum,
     ints <- unlist(base::lapply(x, function(z) z@intensity))[mz_order][keep]
     ## Create result.
     new_sp <- x[[main]]
-    new_sp@mz <- unlist(base::lapply(split(mzs, mz_groups), mzFun),
-                        use.names = FALSE)
-    new_sp@intensity <- unlist(base::lapply(split(ints, mz_groups),
-                                            intensityFun), use.names = FALSE)
+    ## Support also weighted.mean:
+    if (is.character(mzFun) && mzFun == "weighted.mean") {
+        intsp <- split(ints, mz_groups)
+        new_sp@mz <- unlist(base::mapply(split(mzs, mz_groups), intsp,
+                                         FUN = function(mz_vals, w)
+                                             stats::weighted.mean(mz_vals, w),
+                                         USE.NAMES = FALSE, SIMPLIFY = FALSE
+                                         ), use.names = FALSE)
+        new_sp@intensity <- unlist(lapply(intsp, intensityFun),
+                                   use.names = FALSE)
+    } else {
+        new_sp@mz <- unlist(base::lapply(split(mzs, mz_groups), mzFun),
+                            use.names = FALSE)
+        new_sp@intensity <- unlist(base::lapply(split(ints, mz_groups),
+                                                intensityFun),
+                                   use.names = FALSE)
+    }
     if (is.unsorted(new_sp@mz))
         stop("m/z values of combined spectrum are not ordered")
     new_sp@peaksCount <- length(new_sp@mz)
