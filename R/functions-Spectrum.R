@@ -957,12 +957,12 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = sum,
     ## Support also weighted.mean:
     if (is.character(mzFun) && mzFun == "weighted.mean") {
         intsp <- split(ints, mz_groups)
-        new_sp@mz <- unlist(base::mapply(split(mzs, mz_groups), intsp,
-                                         FUN = function(mz_vals, w)
-                                             stats::weighted.mean(mz_vals, w),
-                                         USE.NAMES = FALSE, SIMPLIFY = FALSE
-                                         ), use.names = FALSE)
-        new_sp@intensity <- unlist(lapply(intsp, intensityFun),
+        new_sp@mz <- base::mapply(split(mzs, mz_groups), intsp,
+                                  FUN = function(mz_vals, w)
+                                      stats::weighted.mean(mz_vals, w + 1,
+                                                           na.rm = TRUE),
+                                  USE.NAMES = FALSE, SIMPLIFY = TRUE)
+        new_sp@intensity <- unlist(base::lapply(intsp, intensityFun),
                                    use.names = FALSE)
     } else {
         new_sp@mz <- unlist(base::lapply(split(mzs, mz_groups), mzFun),
