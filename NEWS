@@ -1,5 +1,6 @@
-- combineSpectra, combineSpectraMovingWindow, estimateMzScattering, estimateMzResolution
-
+Changes in version 2.5.8
+------------------------
+- New as(MSnExp, data.frame) method <2018-02-16>.
 
 Changes in version 2.5.7
 ------------------------

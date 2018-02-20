@@ -546,3 +546,12 @@ setMethod("chromatogram", "MSnExp", function(object, rt, mz,
 setMethod("estimateMzResolution", "MSnExp", function(object, ...) {
     spectrapply(object, estimateMzResolution)
 })
+
+setAs("MSnExp", "data.frame", function(from) {
+    do.call(rbind, unname(spectrapply(from, function(z) {
+        ## Directly accessing slots is faster than using methods
+        data.frame(file = z@fromFile, rt = z@rt, mz = z@mz, i = z@intensity)
+    })))
+})
+as.data.frame.MSnExp <- function(x, row.names = NULL, optional=FALSE, ...)
+    as(x, "data.frame")

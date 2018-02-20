@@ -496,6 +496,17 @@ test_that("chromatogram,MSnExp works", {
     expect_equal(chrs, chrs_2)
 })
 
+test_that("setAs,MSnExp,data.frame works", {
+    od <- microtofq_on_disk
+    im <- microtofq_in_mem_ms1
+
+    res <- filterMz(im, mz = c(200, 300))
+    df <- as(res, "data.frame")
+    expect_equal(colnames(df), c("file", "rt", "mz", "i"))
+    expect_equal(unlist(mz(res), use.names = FALSE), df$mz)
+    expect_equal(unlist(intensity(res), use.names = FALSE), df$i)
+})
+
 test_that("pickPeaks,MSnExp works with refineMz", {
     ## Get one spectrum from the tmt
     spctr <- tmt_erwinia_in_mem_ms1[[1]]
