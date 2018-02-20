@@ -85,7 +85,13 @@ setMethod("show", "MSnExp",
 
 
 setMethod("plot", c("MSnExp","missing"),
-          function(x, y ,...) plot_MSnExp(x, ...))
+          function(x, y , type = c("spectra", "XIC"), ...) {
+              type <- match.arg(type)
+              if (type == "spectra")
+                  plot_MSnExp(x, ...)
+              if (type == "XIC")
+                  plotXIC_MSnExp(x, ...)
+})
 
 setMethod("plot2d", c("MSnExp"),
           function(object, z, alpha = 1/3, plot = TRUE)
@@ -538,8 +544,12 @@ setMethod("chromatogram", "MSnExp", function(object, rt, mz,
 
 setAs("MSnExp", "data.frame", function(from) {
     do.call(rbind, unname(spectrapply(from, function(z) {
-        ## Directly accessing slots is faster than using methods
-        data.frame(file = z@fromFile, rt = z@rt, mz = z@mz, i = z@intensity)
+        if (length(z@mz))
+            ## Directly accessing slots is faster than using methods
+            data.frame(file = z@fromFile, rt = z@rt, mz = z@mz, i = z@intensity)
+        else
+            data.frame(file = integer(), rt = numeric(), mz = numeric(),
+                       i = numeric())
     })))
 })
 as.data.frame.MSnExp <- function(x, row.names = NULL, optional=FALSE, ...)
