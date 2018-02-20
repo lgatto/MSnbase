@@ -909,4 +909,3 @@ setMethod("spectrapply", "OnDiskMSnExp", function(object, FUN = NULL,
     vals <- unlist(vals, recursive = FALSE)
     vals[rownames(fData(object))]
 })
-
