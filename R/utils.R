@@ -84,13 +84,9 @@ utils.removePeaks <- function(int, t) {
   ##           +  +  or  +++     ++ +++ +
   ##   0 - - +    + - - +   + - + - - - +
   ##
-  peakRanges <- IRanges(sapply(int,">",0))
-  sapply(peakRanges,function(x) {
-    ## we get the indices of every peak in int
-    if(all(int[x]<=t))
-      int[x] <<- 0
-  })
-  return(int)
+  peakRanges <- as(int > 0, "IRanges")
+  peak_is_too_low <- max(extractList(int, peakRanges)) <= t
+  replaceROWS(int, peakRanges[peak_is_too_low], 0L)
 }
 
 
