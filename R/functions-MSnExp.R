@@ -562,3 +562,31 @@ combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
     if (validObject(x))
         x
 }
+
+plotXIC_MSnExp <- function(x, ...) {
+    ## Restrict to MS level 1
+    x <- filterMsLevel(x, 1L)
+    if (!length(x))
+        stop("No MS1 data available")
+    fns <- basename(fileNames(x))
+    if (isMSnbaseVerbose())
+        message("Retrieving data ...", appendLF = FALSE)
+    x <- as(x, "data.frame")
+    x <- split(x, x$file)
+    if (isMSnbaseVerbose())
+        message("OK")
+    ## Check if we are greedy and plot a too large area
+    if (any(unlist(lapply(x, nrow)) > 20000))
+        warning("The MS area to be plotted seems rather large. It is suggested",
+                " to restrict the data first using 'filterRt' and 'filterMz'. ",
+                "See also ?chromatogram and ?Chromatogram for more efficient ",
+                "functions to plot a total ion chromatogram or base peak ",
+                "chromatogram.",
+                immediate = TRUE, call = FALSE)
+    ## Define the layout.
+    dots <- list(...)
+    layout(.vertical_sub_layout(length(x)))
+    tmp <- mapply(x, fns, FUN = function(z, main, ...) {
+        .plotXIC(x = z, main = main, layout = NULL, ...)
+    }, MoreArgs = dots)
+}

@@ -17,7 +17,7 @@ importFrom(XML, xmlInternalTreeParse, getDefaultNamespace, xpathApply,
            xmlAttrs)
 
 importFrom(graphics, abline, axis, grid, legend, lines, points, text,
-           barplot, layout, par, matplot)
+           barplot, layout, par, matplot, mtext)
 importFrom(stats, ave, median, medpolish, quantile, reorder, setNames,
            weighted.mean, dist)
 importFrom(utils, combn, head, ls.str, object.size,
@@ -49,6 +49,7 @@ importFrom(affy, MAplot, ma.plot, mva.pairs)
 importFrom(mzID, mzID, flatten)
 importClassesFrom(mzID, mzID, mzIDCollection)
 importFrom(digest, digest)
+importFrom(grDevices, topo.colors)
 
 export(MSnSet,
        abstract,
