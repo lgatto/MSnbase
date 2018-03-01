@@ -518,19 +518,21 @@ estimateMzScattering <- function(x, halfWindowSize = 1L) {
 #' ## Chromatographic data is "smoother" after combining.
 combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
                                        mzFun = base::mean,
-                                       intensityFun = base::sum, mzd,
+                                       intensityFun = base::mean,
+                                       mzd = NULL,
                                        BPPARAM = bpparam()){
     if (!is(x, "MSnExp"))
         stop("'x' has to be a 'MSnExp' or an 'OnDiskMSnExp'")
     if (is(x, "OnDiskMSnExp"))
         x <- as(x, "MSnExp")
     ## Combine spectra per file
-    new_sp <- bplapply(split(spectra(x), fromFile(x)), function(z, intF,
-                                                                mzF, hws, mzd) {
+    new_sp <- bplapply(split(spectra(x), fromFile(x)), FUN = function(z, intF,
+                                                                      mzF, hws,
+                                                                      mzd) {
         len_z <- length(z)
         ## Estimate m/z scattering on the 100 spectra with largest number of
         ## peaks
-        if (missing(mzd)) {
+        if (is.null(mzd)) {
             idx <- order(unlist(lapply(z, function(y) y@peaksCount)),
                          decreasing = TRUE)[1:min(100, len_z)]
             mzs <- numeric(length(idx))

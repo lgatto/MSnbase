@@ -926,7 +926,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' points(mz(sp3), intensity(sp3), type = "h", col = "blue")
 #' plot(mz(sp_agg), intensity(sp_agg), xlim = range(mzs[5:25]), type = "h",
 #'     col = "black")
-combineSpectra <- function(x, mzFun = base::mean, intensityFun = sum,
+combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
                            main = ceiling(median(1:length(x))),
                            mzd) {
     if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
