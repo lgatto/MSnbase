@@ -444,9 +444,15 @@ estimateMzScattering <- function(x, halfWindowSize = 1L) {
 #' data) and thus combines their signal which can increase the increase the
 #' signal to noise ratio.
 #'
-#' The m/z scattering between consecutive scans is (for robustness reasons)
-#' estimated for each file on the 100 spectra with the largest number of m/z -
-#' intensity pairs (i.e. mass peaks).
+#' Intensities (and m/z values) for signals with the same m/z value in
+#' consecutive scans are aggregated using the `intensityFun` and `mzFun`. 
+#' m/z values of intensities from consecutive scans will never be exactly
+#' identical, even if they represent signal from the same ion. The function
+#' determines thus internally a similarity threshold based on differences
+#' between m/z values within and between spectra below which m/z values are
+#' considered to derive from the same ion. For robustness reasons, this
+#' threshold is estimated on on the 100 spectra with the largest number of
+#' m/z - intensity pairs (i.e. mass peaks).
 #' 
 #' See [combineSpectra()] for details.
 #'
@@ -587,7 +593,12 @@ plotXIC_MSnExp <- function(x, ...) {
                 immediate = TRUE, call = FALSE)
     ## Define the layout.
     dots <- list(...)
-    layout(.vertical_sub_layout(length(x)))
+    if (any(names(dots) == "layout")) {
+        if (!is.null(dots$layout))
+            layout(layout)
+        dots$layout <- NULL
+    } else
+        layout(.vertical_sub_layout(length(x)))
     tmp <- mapply(x, fns, FUN = function(z, main, ...) {
         .plotXIC(x = z, main = main, layout = NULL, ...)
     }, MoreArgs = dots)

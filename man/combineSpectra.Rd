@@ -4,7 +4,7 @@
 \alias{combineSpectra}
 \title{Combine profile-mode spectra signals}
 \usage{
-combineSpectra(x, mzFun = base::mean, intensityFun = sum,
+combineSpectra(x, mzFun = base::mean, intensityFun = base::mean,
   main = ceiling(median(1:length(x))), mzd)
 }
 \arguments{

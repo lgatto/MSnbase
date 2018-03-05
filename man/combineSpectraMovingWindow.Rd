@@ -5,7 +5,7 @@
 \title{Combine signal from consecutive spectra of LCMS experiments}
 \usage{
 combineSpectraMovingWindow(x, halfWindowSize = 1L, mzFun = base::mean,
-  intensityFun = base::sum, mzd, BPPARAM = bpparam())
+  intensityFun = base::mean, mzd = NULL, BPPARAM = bpparam())
 }
 \arguments{
 \item{x}{\code{MSnExp} or \code{OnDiskMSnExp} object.}
@@ -47,9 +47,15 @@ The method assumes same ions being measured in consecutive scans (i.e. LCMS
 data) and thus combines their signal which can increase the increase the
 signal to noise ratio.
 
-The m/z scattering between consecutive scans is (for robustness reasons)
-estimated for each file on the 100 spectra with the largest number of m/z -
-intensity pairs (i.e. mass peaks).
+Intensities (and m/z values) for signals with the same m/z value in
+consecutive scans are aggregated using the \code{intensityFun} and \code{mzFun}.
+m/z values of intensities from consecutive scans will never be exactly
+identical, even if they represent signal from the same ion. The function
+determines thus internally a similarity threshold based on differences
+between m/z values within and between spectra below which m/z values are
+considered to derive from the same ion. For robustness reasons, this
+threshold is estimated on on the 100 spectra with the largest number of
+m/z - intensity pairs (i.e. mass peaks).
 
 See \code{\link[=combineSpectra]{combineSpectra()}} for details.
 }
