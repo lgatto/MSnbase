@@ -548,7 +548,7 @@ test_that("combineSpectra works", {
     res <- combineSpectra(list(sp1, sp2, sp3), main = 1)
     expect_equal(rtime(res), rtime(sp1))
 
-    res <- combineSpectra(list(sp1, sp1))
+    res <- combineSpectra(list(sp1, sp1), intensityFun = sum)
     expect_equal(mz(res), mz(sp1))
     expect_equal(intensity(res), intensity(sp1) * 2)
 
