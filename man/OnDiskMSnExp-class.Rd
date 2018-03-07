@@ -270,21 +270,6 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
       names.
     }
 
-    %% \item{header}{
-    %%   \code{header(signature(object = "OnDiskMSnExp"))}: extract
-    %%   header information for all spectra. The relevant information is
-    %%   extracted from the object's \code{featureData} slot.
-    %%   Returns a \code{data.frame} with columns \code{"file"}, \code{"spIdx"}
-    %%   (spectrum index), \code{"centroided"}, \code{"basePeakMZ"}, \code{"polarity"},
-    %%   \code{"retention.time"}, \code{"peaks.count"}, \code{"tic"},
-    %%   \code{"ms.level"} and \code{"acquisition.number"}.
-    %% }
-    %% \item{header}{
-    %%   \code{header(signature(object="OnDiskMSnExp", scans="numeric"))}:
-    %%   extract header information for selected scans/spectra. See
-    %%   \code{header} method above for more details.
-    %% }
-
     \item{intensity}{
       \code{intensity(signature(object="OnDiskMSnExp"))}:
       return the intensities from each spectrum in the data
