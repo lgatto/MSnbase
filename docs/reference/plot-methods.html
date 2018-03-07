@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plotting 'Spectrum' object(s) — plot-methods • MSnbase</title>
+<title>Plotting 'MSnExp' and 'Spectrum' object(s) — plot-methods • MSnbase</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -79,14 +79,18 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plotting 'Spectrum' object(s)</h1>
+    <h1>Plotting 'MSnExp' and 'Spectrum' object(s)</h1>
     </div>
 
     
     
 
-    <p>These method plot mass spectra MZ values against the intensities. Full
-  spectra (using the <code>full</code> parameter) or specific peaks of
+    <p>These methods provide the functionality to plot mass spectrometry data
+  provided as <code><a href='MSnExp-class.html'>MSnExp</a></code>,
+  <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code> or <code><a href='Spectrum-class.html'>Spectrum</a></code>
+  objects. Most functions plot mass spectra M/Z values against
+  intensities.</p>
+<p>Full spectra (using the <code>full</code> parameter) or specific peaks of
   interest can be plotted using the <code>reporters</code> parameter. If
   <code>reporters</code> are specified and <code>full</code> is set to 'TRUE', a
   sub-figure of the reporter ions is inlaid inside the full spectrum.</p>
@@ -94,8 +98,8 @@
   spectra are aligned vertically. Experiments can be subset to
   extract spectra of interest using the <code>[</code> operator or
   <code><a href='extractPrecSpectra-methods.html'>extractPrecSpectra</a></code> methods.</p>
-<p>The methods make use the <code>ggplot2</code> system. An object of class
-  'ggplot' is returned invisibly.</p>
+<p>Most methods make use the <code>ggplot2</code> system in which case an
+  object of class 'ggplot' is returned invisibly.</p>
 <p>If a single <code>"<a href='Spectrum2-class.html'>Spectrum2</a>"</code> and a <code>"character"</code>
   representing a valid peptide sequence are passed as argument, the
   expected fragement ions are calculated and matched/annotated on the
@@ -156,13 +160,41 @@
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     <p></p><dl class='dl-horizontal'>
-    <dt><code>signature(x = "MSnExp", y = "missing", reporters =
-	"ReporterIons", full = "logical", plot = "logical")</code></dt><dd><p>Plots
-      all the spectra in the <code>MSnExp</code> object vertically. One of
-      <code>reporters</code> must be defined or <code>full</code> set to 'TRUE'. In
-      case of <code>MSnExp</code> objects, repoter ions are not inlaid when
-      <code>full</code> is 'TRUE'.</p></dd>
-    <dt><code>signature(x = "Spectrum", y = "missing", reporters =
+    <dt><code>plot(signature(x = "MSnExp", y = "missing"),
+	type = c("spectra", "XIC"), reporters = "ReporterIons",
+	full = "logical", plot = "logical", ...)</code></dt><dd><p>For <code>type = "spectra"</code>: Plots all the spectra in the
+      <code>MSnExp</code> object vertically. One of <code>reporters</code> must be
+      defined or <code>full</code> set to 'TRUE'. In case of <code>MSnExp</code>
+      objects, repoter ions are not inlaid when <code>full</code> is 'TRUE'.
+    For <code>type = "XIC"</code>: Plots a combined plot of retention time
+      against m/z values and retention time against largest signal per
+      spectrum for each file. Data points are colored by intensity. The
+      lower part of the plot represents the location of the individual
+      signals in the retention time - m/z space, the upper part the base
+      peak chromatogram of the data (i.e. the largest signal for each
+      spectrum). This plot type is restricted to MS level 1 data and is
+      most useful for LC-MS data.
+      Ideally, the <code>MSnExp</code> (or <code>OnDiskMSnExp</code>)
+      object should be filtered first using the <code><a href='MSnExp-class.html'>filterRt</a></code>
+      and <code><a href='trimMz-methods.html'>filterMz</a></code> functions to narrow on an ion of
+      interest. See examples below. This plot uses base R
+      plotting. Additional arguments to the <code>plot</code> function can be
+      passed with <code>...</code>.
+    Additional arguments for <code>type = "XIC"</code> are:
+      <dl class='dl-horizontal'>
+	<dt><code>col</code></dt><dd><p>color for the border of the points. Defaults to
+	  <code>col = "grey"</code>.</p></dd>
+    <dt><code>colramp</code></dt><dd><p>color function/ramp to be used for the
+	  intensity-dependent background color of data points. Defaults
+	  to <code>colramp = topo.colors</code>.</p></dd>
+    <dt><code>grid.color</code></dt><dd><p>color for the grid lines. Defaults to
+	  <code>grid.color = "lightgrey"</code>; use <code>grid.color = NA</code> to
+	  disable grid lines altogether.</p></dd>
+    <dt><code>pch</code></dt><dd><p>point character. Defaults to <code>pch = 21</code></p></dd>.
+    <dt><code>...</code></dt><dd><p>additional parameters for the low-level
+	  <code>plot</code> function.</p></dd>
+    </dl></p></dd>
+    <dt><code>plot(signature(x = "Spectrum", y = "missing"), reporters =
 	"ReporterIons", full = "logical", centroided. = "logical", plot =
 	"logical", w1, w2)</code></dt><dd><p>Displays the MZs against intensities of
       the <code>Spectrum</code> object as a line plot.  
@@ -172,7 +204,7 @@
       <code>"<a href='Spectrum2-class.html'>Spectrum2</a>"</code>
       objects. Full <code>"<a href='Spectrum1-class.html'>Spectrum1</a>"</code> spectra are plotted
       by default.</p></dd>
-    <dt><code>signature(x = "Spectrum2", y = "character", orientation
+    <dt><code>plot(signature(x = "Spectrum2", y = "character"), orientation
 	= "numeric", add = "logical", col = "character", pch, xlab =
 	"character", ylab = "character", xlim = "numeric", ylim =
 	"numeric", tolerance = "numeric", relative = "logical", type =
@@ -196,17 +228,28 @@
     <p><code><a href='calculateFragments-methods.html'>calculateFragments</a></code> to calculate ions produced by
   fragmentation and <code><a href='plotSpectrumSpectrum-methods.html'>plot.Spectrum.Spectrum</a></code> to plot and
   compare 2 spectra and their shared peaks.</p>
+<p><code><a href='Chromatogram-class.html'>Chromatogram</a></code> for plotting of chromatographic data.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>itraqdata</span>)
 <span class='co'>## plotting experiments</span>
-<span class='fu'>plot</span>(<span class='no'>itraqdata</span>[<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='kw'>reporters</span> <span class='kw'>=</span> <span class='no'>iTRAQ4</span>)</div><div class='output co'>#&gt; <span class='error'>Error in as.double(y): cannot coerce type 'S4' to vector of type 'double'</span></div><div class='input'><span class='fu'>plot</span>(<span class='no'>itraqdata</span>[<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in as.double(y): cannot coerce type 'S4' to vector of type 'double'</span></div><div class='input'><span class='co'>## plotting spectra</span>
-<span class='fu'>plot</span>(<span class='no'>itraqdata</span><span class='kw'>[[</span><span class='fl'>1</span>]],<span class='kw'>reporters</span> <span class='kw'>=</span> <span class='no'>iTRAQ4</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in as.double(y): cannot coerce type 'S4' to vector of type 'double'</span></div><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>itraqdata</span>[<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='kw'>reporters</span> <span class='kw'>=</span> <span class='no'>iTRAQ4</span>)</div><img src='plot-methods-2.png' alt='' width='540' height='400' /><div class='input'><span class='fu'>plot</span>(<span class='no'>itraqdata</span>[<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='input'><span class='co'>## plotting spectra</span>
+<span class='fu'>plot</span>(<span class='no'>itraqdata</span><span class='kw'>[[</span><span class='fl'>1</span>]],<span class='kw'>reporters</span> <span class='kw'>=</span> <span class='no'>iTRAQ4</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><img src='plot-methods-5.png' alt='' width='540' height='400' /><div class='input'>
 <span class='no'>itraqdata2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pickPeaks-method.html'>pickPeaks</a></span>(<span class='no'>itraqdata</span>)
 <span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fl'>14</span>
 <span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'>as.character</span>(<span class='fu'>fData</span>(<span class='no'>itraqdata2</span>)[<span class='no'>i</span>, <span class='st'>"PeptideSequence"</span>])
-<span class='fu'>plot</span>(<span class='no'>itraqdata2</span><span class='kw'>[[</span><span class='no'>i</span>]], <span class='no'>s</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='no'>s</span>)</div><div class='output co'>#&gt; <span class='error'>Error in as.double(x): cannot coerce type 'S4' to vector of type 'double'</span></div></pre>
+<span class='fu'>plot</span>(<span class='no'>itraqdata2</span><span class='kw'>[[</span><span class='no'>i</span>]], <span class='no'>s</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='no'>s</span>)</div><img src='plot-methods-7.png' alt='' width='540' height='400' /><div class='input'>
+<span class='co'>## Load profile-mode LC-MS files</span>
+<span class='fu'>library</span>(<span class='no'>msdata</span>)
+<span class='no'>od</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='fu'>dir</span>(<span class='fu'>system.file</span>(<span class='st'>"sciex"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"msdata"</span>),
+                     <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)
+<span class='co'>## Restrict the MS data to signal for serine</span>
+<span class='no'>serine</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trimMz-methods.html'>filterMz</a></span>(<span class='fu'><a href='MSnExp-class.html'>filterRt</a></span>(<span class='no'>od</span>, <span class='kw'>rt</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>175</span>, <span class='fl'>190</span>)), <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>106.04</span>, <span class='fl'>106.06</span>))
+<span class='fu'>plot</span>(<span class='no'>serine</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"XIC"</span>)</div><img src='plot-methods-9.png' alt='' width='540' height='400' /><div class='input'>
+<span class='co'>## Same plot but using heat.colors, rectangles and no point border</span>
+<span class='fu'>plot</span>(<span class='no'>serine</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"XIC"</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>22</span>, <span class='kw'>colramp</span> <span class='kw'>=</span> <span class='no'>heat.colors</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</div><img src='plot-methods-11.png' alt='' width='540' height='400' /><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -222,7 +265,7 @@
 
     <h2>Author</h2>
     
-  Laurent Gatto &lt;lg390@cam.ac.uk&gt; and Sebastian Gibb
+  Laurent Gatto &lt;lg390@cam.ac.uk&gt;, Johannes Rainer and Sebastian Gibb
 
   </div>
 </div>
