@@ -506,3 +506,14 @@ test_that("setAs,MSnExp,data.frame works", {
     expect_equal(unlist(mz(res), use.names = FALSE), df$mz)
     expect_equal(unlist(intensity(res), use.names = FALSE), df$i)
 })
+
+
+test_that("plotXIC_MSnExp works", {
+    im <- microtofq_in_mem_ms1
+    expect_warning(plotXIC_MSnExp(filterMz(im, c(600, 680))))
+    plotXIC_MSnExp(filterMz(im, c(610, 615)), pch = 23)
+    ## filter to get only one
+    plotXIC_MSnExp(filterMz(filterRt(im, c(270, 280)), c(610, 615)), cex = 2)
+
+    expect_error(plotXIC_MSnExp(tmt_erwinia_in_mem_ms2))
+})

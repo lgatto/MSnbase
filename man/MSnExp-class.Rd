@@ -186,9 +186,9 @@
       the noise in all profile spectra of \code{object}.  See
       \code{\link{estimateNoise}} documentation for more details and
       examples. }
-    \item{plot}{\code{signature(x = "MSnExp", y = "missing")}: Plots all
-      the spectra of the \code{MSnExp} instance. See
-      \code{\link{plot.MSnExp}} documentation for more details. }
+    \item{plot}{\code{signature(x = "MSnExp", y = "missing")}: Plots
+      the \code{MSnExp} instance. See \code{\link{plot.MSnExp}}
+      documentation for more details. }
     \item{plot2d}{\code{signature(object = "MSnExp", ...)}:
       Plots retention time against precursor MZ for \code{MSnExp}
       instances. See \code{\link{plot2d}} documentation for more
