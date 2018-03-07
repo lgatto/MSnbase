@@ -539,9 +539,9 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 ## Get some example mzML files
 library(msdata)
 mzfiles <- c(system.file("microtofq/MM14.mzML", package="msdata"),
-             system.file("microtofq/MM8.mzML", package="msdata"))
-## Read the data as an OnDiskMSnExp; we ignore the warning.
-odmse <- readMSData(mzfiles, msLevel=1)
+	     system.file("microtofq/MM8.mzML", package="msdata"))
+## Read the data as an OnDiskMSnExp
+odmse <- readMSData(mzfiles, msLevel=1, centroided = TRUE)
 
 ## Get the length of data, i.e. the total number of spectra.
 length(odmse)
@@ -613,7 +613,7 @@ head(lengths(mzsAfter))
 
 ## Centroided or profile mode
 f <- msdata::proteomics(full.names = TRUE,
-                        pattern = "MS3TMT11.mzML")
+			pattern = "MS3TMT11.mzML")
 odmse <- readMSData(f, mode = "onDisk")
 validObject(odmse)
 odmse[[1]]
@@ -626,7 +626,7 @@ centroided(odmse, msLevel = 3) <- TRUE
 table(centroided(odmse), msLevel(odmse))
 
 odmse2 <- readMSData(f, centroided = c(FALSE, TRUE, TRUE),
-                     mode = "onDisk")
+		     mode = "onDisk")
 table(centroided(odmse), msLevel(odmse))
 
 ## Filtering precursor scans
