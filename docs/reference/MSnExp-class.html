@@ -258,6 +258,11 @@
       expected to be in the same, albeit possibly different modes, it is
       advised to assign the majority result for MS1 and MS2 spectra,
       rather than results for individual spectra. See an example below.</p></dd>
+    <dt>as</dt><dd><p><code>signature(object = "MSnExp", "data.frame")</code>:
+      Coerces the <code>MSnExp</code> object to a four-column
+      <code>data.frame</code> with columns <code>"file"</code> (file index in
+      <code>object</code>), <code>"rt"</code> (retention time), <code>"mz"</code> (m/z
+      values) and <code>"i"</code> (intensity values).</p></dd>
     </dl>
     <p>Filtering and subsetting functions:</p>
 <p></p><dl class='dl-horizontal'>
@@ -316,7 +321,7 @@
 #&gt;  Number of spectra: 5 
 #&gt;  MSn retention times: 25:1 - 25:2 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded: Wed Feb  7 20:18:30 2018 
+#&gt; Data loaded: Wed Mar  7 23:32:18 2018 
 #&gt;  MSnbase version: 2.5.8 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
