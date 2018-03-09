@@ -1019,7 +1019,7 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
         x <- diff(x)
     dens <- density(x, n = max(c(512, length(x) / 2)))
     ## Find all turning points, i.e. where density is increasing
-    idxs <- which(diff(sign(diff(dens$y))) == 2)
+    idxs <- which(diff(sign(diff(dens$y))) == 2) + 1
     if (length(idxs) == 0)
         stop("Error estimating random scattering of m/z values in consecutive",
              " scans: could not discriminate between expected m/z difference ",
