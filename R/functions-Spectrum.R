@@ -1027,6 +1027,20 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
     dens$x[idxs[1]]
 }
 
+#' @param x `list` of `Spectrum` objects.
+#'
+#' @noRd
+.estimate_mz_scattering_list <- function(x, halfWindowSize = 1L) {
+    len_x <- length(x)
+    mzs <- vector("list", len_x)
+    for (i in seq_along(x)) {
+        mzs[[i]] <- .estimate_mz_scattering(
+            sort(unlist(lapply(x[max(1, i - halfWindowSize):
+                                 min(i + halfWindowSize, len_x)], mz))))
+    }
+    mzs
+}
+
 #' Estimate the m/z resolution (i.e. the average difference between m/z values)
 #' of a Spectrum.
 #'

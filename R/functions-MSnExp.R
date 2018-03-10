@@ -409,17 +409,10 @@ removeReporters_MSnExp <- function(object, reporters = NULL,
 estimateMzScattering <- function(x, halfWindowSize = 1L) {
     if (!is(x, "MSnExp"))
         stop("'x' should be a 'MSnExp' object")
-    res <- lapply(split(spectra(x), fromFile(x)), function(z) {
-        len_z <- length(z)
-        mzs <- vector("list", len_z)
-        for (i in seq_along(z)) {
-            mzs[[i]] <- .estimate_mz_scattering(
-                sort(unlist(lapply(z[max(1, i - halfWindowSize):
-                                     min(i + halfWindowSize, len_z)], mz))))
-        }
-        mzs
-    })
-    res <- unlist(res, fromFile(x))
+    res <- lapply(split(spectra(x), fromFile(x)),
+                  FUN = .estimate_mz_scattering_list,
+                  halfWindowSize = halfWindowSize)
+    res <- unsplit(res, fromFile(x))
     names(res) <- featureNames(x)
     res
 }
@@ -451,7 +444,7 @@ estimateMzScattering <- function(x, halfWindowSize = 1L) {
 #' determines thus internally a similarity threshold based on differences
 #' between m/z values within and between spectra below which m/z values are
 #' considered to derive from the same ion. For robustness reasons, this
-#' threshold is estimated on on the 100 spectra with the largest number of
+#' threshold is estimated on the 100 spectra with the largest number of
 #' m/z - intensity pairs (i.e. mass peaks).
 #' 
 #' See [combineSpectra()] for details.
@@ -541,14 +534,8 @@ combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
         if (is.null(mzd)) {
             idx <- order(unlist(lapply(z, function(y) y@peaksCount)),
                          decreasing = TRUE)[1:min(100, len_z)]
-            mzs <- numeric(length(idx))
-            for (i in seq_along(idx)) {
-                mzs[i] <- .estimate_mz_scattering(
-                    sort(unlist(
-                        lapply(z[max(1, idx[i] - hws):min(idx[i] + hws, len_z)],
-                               function(sp) sp@mz))))
-            }
-            dens <- density(mzs, n = max(512, length(mzs)/2))
+            mzs <- .estimate_mz_scattering_list(z[idx], halfWindowSize = hws)
+            dens <- density(unlist(mzs), n = max(512, length(mzs)/2))
             mzd <- dens$x[which.max(dens$y)]
         }
         ## Combine spectra
