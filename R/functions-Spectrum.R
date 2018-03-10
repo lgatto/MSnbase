@@ -663,9 +663,7 @@ kNeighbors <- function(mz, intensity, peakIdx = NULL, k = 2, ...) {
     }))
 }
 
-kNeighbours <- function(mz, intensity, peakIdx, k = 2, ...) {
-    kNeighbors(mz, intensity, peakIdx, k, ...)
-}
+kNeighbours <- kNeighbors
 
 #' @description `descendPeak` refines the m/z value of a peak (centroid)
 #'     considering neighboring data points that belong most likely to the same
@@ -766,22 +764,14 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
         to_idx <- z + half_width
         ## 2) Restrict the region to the area with monotonically decreasing
         ##    signal (from the apex).
-        tmp_idx <- z:to_idx
-        sign_change <- diff(intensity[tmp_idx]) >= 0
-        ## Allow a single increasing measurement and stop descending if
-        ## there are two consecutive increasing values.
-        if (stopAtTwo)
-            sign_change <- sign_change & c(sign_change[-1], TRUE)
-        if (any(sign_change))
-            to_idx <- tmp_idx[base::which.max(sign_change)]
+        tmp_idx <- .findPeakValley(z:to_idx, intensity, stopAtTwo)
+        if (!is.na(tmp_idx))
+            to_idx <- tmp_idx
         ## Descend to left
         from_idx <- z - half_width
-        tmp_idx <- z:from_idx
-        sign_change <- diff(intensity[tmp_idx]) >= 0
-        if (stopAtTwo)
-            sign_change <- sign_change & c(sign_change[-1], TRUE)
-        if (any(sign_change))
-            from_idx <- tmp_idx[base::which.max(sign_change)]
+        tmp_idx <- .findPeakValley(z:from_idx, intensity, stopAtTwo)
+        if (!is.na(tmp_idx))
+            from_idx <- tmp_idx
         ## Define the peak threshold
         peak_thr <- intensity[z] * signalPercentage
         ## Define which values in the region are above the threshold.
@@ -790,7 +780,16 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
         c(mz = weighted.mean(x = mz[idxs], w = intensity[idxs], na.rm = TRUE),
           intensity = intensity[z])
     }))
-}   
+}
+
+.findPeakValley <- function(idx, intensity, stopAtTwo = FALSE) {
+    sign_change <- diff(intensity[idx]) >= 0
+    if (stopAtTwo)
+        sign_change <- sign_change & c(sign_change[-1], TRUE)
+    if (any(sign_change))
+        idx[base::which.max(sign_change)]
+    else NA
+}
 
 #' Given a list of spectra, combine neighboring spectra and return a list of
 #' such combined spectra. Spectra are combined using a moving window approach

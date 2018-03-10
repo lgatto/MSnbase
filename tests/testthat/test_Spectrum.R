@@ -573,3 +573,11 @@ test_that(".estimate_mz_resolution, estimateMzResolution,Spectrum works", {
     res2 <- estimateMzResolution(tmt_erwinia_in_mem_ms1[[2]])
     expect_true(res1 != res2)
 })
+
+test_that(".findPeakValley works", {
+    vals <- c(3, 5, 6, 7, 8, 9, 5, 4, 2, 1, 5, 7, 4, 1)
+    expect_equal(.findPeakValley(6:20, vals), 10)
+    expect_equal(.findPeakValley(6:1, vals), NA)
+    expect_equal(.findPeakValley(12:14, vals), NA)
+    expect_equal(.findPeakValley(12:1, vals), 10)
+})
