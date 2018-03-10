@@ -565,7 +565,8 @@ test_that(".estimate_mz_resolution, estimateMzResolution,Spectrum works", {
     mzs <- seq(1, 2000, 0.1)
     mzs <- mzs + rnorm(length(mzs), sd = 0.005)
     res <- .estimate_mz_resolution(mzs)
-    expect_true(res - 0.1 < 0.005)
+    ## expect_true(res - 0.1 < 0.005)
+    expect_true(res - 0.1 < 0.008)
 
     res1 <- estimateMzResolution(tmt_erwinia_in_mem_ms1[[1]])
     res2 <- estimateMzResolution(tmt_erwinia_in_mem_ms1[[2]])
