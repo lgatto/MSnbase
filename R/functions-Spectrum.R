@@ -1035,8 +1035,8 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
     mzs <- vector("list", len_x)
     for (i in seq_along(x)) {
         mzs[[i]] <- .estimate_mz_scattering(
-            sort(unlist(lapply(x[max(1, i - halfWindowSize):
-                                 min(i + halfWindowSize, len_x)], mz))))
+            sort(unlist(lapply(x[windowIndices(i, halfWindowSize, len_x)],
+                               function(z) z@mz))))
     }
     mzs
 }
