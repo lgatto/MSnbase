@@ -489,13 +489,14 @@ test_that(".estimate_mz_scattering works", {
                 mzs + rnorm(length(mzs), sd = 0.02))
     res <- .estimate_mz_scattering(sort(all_mz))
     expect_true(length(res) == 1)
-    expect_true(res < 0.05)
+    expect_true(res < 0.051)
     expect_error(.estimate_mz_scattering(mzs))
 
     all_mz <- c(mzs + rnorm(length(mzs), sd = 0.01),
                 mzs + rnorm(length(mzs), sd = 0.005),
                 mzs + rnorm(length(mzs), sd = 0.06))
     res <- .estimate_mz_scattering(sort(all_mz))
+    expect_true(res < 0.08)
     expect_true(length(res) == 1)
 })
 
