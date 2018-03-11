@@ -995,8 +995,9 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
         mzd <- .estimate_mz_scattering(mzdiff, TRUE)
     ## Create a vector grouping values with difference in mz values being
     ## smaller than mzd
-    nvals <- diff(c(0, which(!(mzdiff < mzd)), length(x)))
-    rep(1:length(nvals), nvals)
+    ## nvals <- diff(c(0, which(!(mzdiff < mzd)), length(x)))
+    ## rep(1:length(nvals), nvals)
+    cumsum(c(0L, mzdiff >= mzd)) + 1L
 }
 
 #' Estimate the extent of random scattering of m/z values of the same ion in
@@ -1015,7 +1016,7 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
 .estimate_mz_scattering <- function(x, is_diff = FALSE) {
     if (!is_diff)
         x <- diff(x)
-    dens <- density(x, n = max(c(512, length(x) / 2)))
+    dens <- .density(x)
     ## Find all turning points, i.e. where density is increasing
     idxs <- which(diff(sign(diff(dens$y))) == 2) + 1
     if (length(idxs) == 0)
@@ -1024,6 +1025,8 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
              " and random noise.")
     dens$x[idxs[1]]
 }
+
+.density <- function(x) stats::density(x, n = max(c(512L, length(x) / 2L)))
 
 #' @param x `list` of `Spectrum` objects.
 #'
@@ -1050,7 +1053,7 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
 #'
 #' @noRd
 .estimate_mz_resolution <- function(x) {
-    d <- density(diff(x), n = max(c(512, length(x)/2)))
+    d <- .density(diff(x))
     d$x[which.max(d$y)]
     ## x <- diff(x)
     ## h <- hist(x, breaks = seq((min(x)), (max(x)),

@@ -535,7 +535,7 @@ combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
             idx <- order(unlist(lapply(z, function(y) y@peaksCount)),
                          decreasing = TRUE)[1:min(100, len_z)]
             mzs <- .estimate_mz_scattering_list(z[idx], halfWindowSize = hws)
-            dens <- density(unlist(mzs), n = max(512, length(mzs)/2))
+            dens <- .density(unlist(mzs))
             mzd <- dens$x[which.max(dens$y)]
         }
         ## Combine spectra

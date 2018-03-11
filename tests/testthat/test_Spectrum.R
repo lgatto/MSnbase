@@ -506,13 +506,13 @@ test_that(".group_mz_values works", {
     all_mz <- sort(c(mzs + rnorm(length(mzs), sd = 0.001),
                      mzs + rnorm(length(mzs), sd = 0.005),
                      mzs + rnorm(length(mzs), sd = 0.002)))
-    res <- .group_mz_values(all_mz)
+    res <- MSnbase:::.group_mz_values(all_mz)
     expect_true(length(res) == length(all_mz))
     ## Expect groups of 3 each.
     expect_true(all(table(res) == 3))
     
     ## Remove one from the 2nd group.
-    res <- .group_mz_values(all_mz[-5])
+    res <- MSnbase:::.group_mz_values(all_mz[-5])
     expect_true(sum(res == 2) == 2)
 })
 
@@ -590,4 +590,13 @@ test_that(".findPeakValley works", {
     expect_equal(.findPeakValley(6:1, vals), NA)
     expect_equal(.findPeakValley(12:14, vals), NA)
     expect_equal(.findPeakValley(12:1, vals), 10)
+})
+
+test_that(".density works", {
+    set.seed(123)
+    xs <- rnorm(300, 2, 45)
+    res <- .density(xs)
+    res_2 <- density(xs, n = 512L)
+    expect_equal(res$x, res_2$x)
+    expect_equal(res$y, res_2$y)
 })
