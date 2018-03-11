@@ -14,12 +14,14 @@ combineSpectraMovingWindow(x, halfWindowSize = 1L, mzFun = base::mean,
 window.}
 
 \item{mzFun}{\code{function} to aggregate the m/z values per m/z group. Should be
-a function or the name of a function. For \code{mzFun = "weighted.mean"} (note
+a function or the name of a function. The function is expected to
+return a \code{numeric(1)}. For \code{mzFun = "weighted.mean"} (note
 that the \emph{name} of the function is passed!) the resulting m/z is
 determined as an intensity-weighted mean of spectras' m/z values.}
 
 \item{intensityFun}{\code{function} to aggregate the intensity values per m/z
-group.}
+group. Should be a function or the name of a function. The function is
+expected to return a \code{numeric(1)}.}
 
 \item{mzd}{\code{numeric(1)} defining the maximal m/z difference below which
 values are grouped. If not provided, this value is estimated from the
@@ -54,7 +56,7 @@ identical, even if they represent signal from the same ion. The function
 determines thus internally a similarity threshold based on differences
 between m/z values within and between spectra below which m/z values are
 considered to derive from the same ion. For robustness reasons, this
-threshold is estimated on on the 100 spectra with the largest number of
+threshold is estimated on the 100 spectra with the largest number of
 m/z - intensity pairs (i.e. mass peaks).
 
 See \code{\link[=combineSpectra]{combineSpectra()}} for details.

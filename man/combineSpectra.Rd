@@ -5,18 +5,20 @@
 \title{Combine profile-mode spectra signals}
 \usage{
 combineSpectra(x, mzFun = base::mean, intensityFun = base::mean,
-  main = ceiling(median(1:length(x))), mzd)
+  main = floor(length(x)/2L) + 1L, mzd)
 }
 \arguments{
 \item{x}{\code{list} of \code{Spectrum} objects.}
 
 \item{mzFun}{\code{function} to aggregate the m/z values per m/z group. Should be
-a function or the name of a function. For \code{mzFun = "weighted.mean"} (note
+a function or the name of a function. The function is expected to
+return a \code{numeric(1)}. For \code{mzFun = "weighted.mean"} (note
 that the \emph{name} of the function is passed!) the resulting m/z is
 determined as an intensity-weighted mean of spectras' m/z values.}
 
 \item{intensityFun}{\code{function} to aggregate the intensity values per m/z
-group.}
+group. Should be a function or the name of a function. The function is
+expected to return a \code{numeric(1)}.}
 
 \item{main}{\code{integer(1)} defining the \emph{main} spectrum, i.e. the spectrum
 which m/z and intensity values get replaced and is returned.}

@@ -519,9 +519,10 @@ test_that(".group_mz_values works", {
 test_that("combineSpectra works", {
     set.seed(123)
     mzs <- seq(1, 20, 0.1)
+    mzs_2 <- c(mzs, 20.1)
     ints1 <- abs(rnorm(length(mzs), 10))
     ints1[11:20] <- c(15, 30, 90, 200, 500, 300, 100, 70, 40, 20) # add peak
-    ints2 <- abs(rnorm(length(mzs), 10))
+    ints2 <- c(abs(rnorm(length(mzs), 10)), 4)
     ints2[11:20] <- c(15, 30, 60, 120, 300, 200, 90, 60, 30, 23)
     ints3 <- abs(rnorm(length(mzs), 10))
     ints3[11:20] <- c(13, 20, 50, 100, 200, 100, 80, 40, 30, 20)
@@ -529,7 +530,7 @@ test_that("combineSpectra works", {
     ## Create the spectra
     sp1 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.01),
                intensity = ints1, rt = 1)
-    sp2 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.01),
+    sp2 <- new("Spectrum1", mz = mzs_2 + rnorm(length(mzs_2), sd = 0.01),
                intensity = ints2, rt = 2)
     sp3 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.008),
                intensity = ints3, rt = 3)
@@ -538,17 +539,26 @@ test_that("combineSpectra works", {
     expect_error(combineSpectra(list(sp1, sp2, sp3, sp4)))
 
     res <- combineSpectra(list(sp1, sp2, sp3))
-    expect_equal(length(mz(res)), length(mz(sp1)))
+    expect_equal(length(mz(res)), length(mz(sp2)))
     expect_equal(rtime(res), rtime(sp2))
+
+    res <- combineSpectra(list(sp2, sp1))
+    expect_equal(length(mz(res)), length(mz(sp1)))
+    expect_equal(rtime(res), rtime(sp1))
 
     sp4 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.3),
                intensity = ints2, rt = 4)
     ## randon noise larger than resolution.
-    expect_error(res <- combineSpectra(list(sp1, sp2, sp3, sp4)))
+    expect_error(res <- combineSpectra(list(sp1, sp3, sp4)))
 
     res <- combineSpectra(list(sp1, sp2, sp3), main = 1)
     expect_equal(rtime(res), rtime(sp1))
+    expect_equal(length(mz(res)), length(mz(sp1)))
 
+    res <- combineSpectra(list(sp1, sp2, sp3), main = 3)
+    expect_equal(rtime(res), rtime(sp3))
+    expect_equal(length(mz(res)), length(mz(sp3)))
+    
     res <- combineSpectra(list(sp1, sp1), intensityFun = sum)
     expect_equal(mz(res), mz(sp1))
     expect_equal(intensity(res), intensity(sp1) * 2)
@@ -558,7 +568,7 @@ test_that("combineSpectra works", {
     res <- combineSpectra(list(sp1, sp2, sp3), mzFun = base::mean)
     res2 <- combineSpectra(list(sp1, sp2, sp3), mzFun = "weighted.mean")
     expect_equal(intensity(res), intensity(res2))
-    expect_true(all(mz(res) != mz(res2)))
+    expect_true(sum(mz(res) == mz(res2)) == 1)
 })
 
 test_that(".estimate_mz_resolution, estimateMzResolution,Spectrum works", {

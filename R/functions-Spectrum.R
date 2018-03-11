@@ -859,12 +859,14 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'     which m/z and intensity values get replaced and is returned.
 #'
 #' @param mzFun `function` to aggregate the m/z values per m/z group. Should be
-#'     a function or the name of a function. For `mzFun = "weighted.mean"` (note
+#'     a function or the name of a function. The function is expected to
+#'     return a `numeric(1)`. For `mzFun = "weighted.mean"` (note
 #'     that the *name* of the function is passed!) the resulting m/z is
 #'     determined as an intensity-weighted mean of spectras' m/z values.
 #'
 #' @param intensityFun `function` to aggregate the intensity values per m/z
-#'     group.
+#'     group. Should be a function or the name of a function. The function is
+#'     expected to return a `numeric(1)`.
 #'
 #' @param mzd `numeric(1)` defining the maximal m/z difference below which
 #'     values are grouped. If not provided, this value is estimated from the
@@ -926,8 +928,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' plot(mz(sp_agg), intensity(sp_agg), xlim = range(mzs[5:25]), type = "h",
 #'     col = "black")
 combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
-                           main = ceiling(median(1:length(x))),
-                           mzd) {
+                           main = floor(length(x) / 2L) + 1L, mzd) {
     if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
         stop("Can only combine spectra with the same MS level")
     mzs <- lapply(x, function(z) z@mz)
@@ -940,13 +941,9 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
         stop("Got less m/z groups than m/z values in the original spectrum. ",
              "Most likely the data is not profile-mode LCMS data.")
     ## Want to keep only those groups with a m/z from the main spectrum.
-    keep <- unlist(lapply(
-        split(
-            rep(1:length(mzs_lens), mzs_lens)[mz_order] == main,
-            mz_groups),
-        function(z) {
-            rep(any(z), length(z))
-        }), use.names = FALSE)
+    ## vectorized version from @sgibb
+    is_in_main <- rep.int(seq_along(mzs_lens), mzs_lens)[mz_order] == main
+    keep <- mz_groups %in% mz_groups[is_in_main]
     ## Keep only values for which a m/z in main is present.
     mz_groups <- mz_groups[keep]
     mzs <- mzs[keep]
@@ -961,14 +958,16 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
                                       stats::weighted.mean(mz_vals, w + 1,
                                                            na.rm = TRUE),
                                   USE.NAMES = FALSE, SIMPLIFY = TRUE)
-        new_sp@intensity <- unlist(base::lapply(intsp, intensityFun),
-                                   use.names = FALSE)
+        new_sp@intensity <- base::vapply(intsp, FUN = intensityFun,
+                                         FUN.VALUE = numeric(1),
+                                         USE.NAMES = FALSE)
     } else {
-        new_sp@mz <- unlist(base::lapply(split(mzs, mz_groups), mzFun),
-                            use.names = FALSE)
-        new_sp@intensity <- unlist(base::lapply(split(ints, mz_groups),
-                                                intensityFun),
-                                   use.names = FALSE)
+        new_sp@mz <- base::vapply(split(mzs, mz_groups), FUN = mzFun,
+                                  FUN.VALUE = numeric(1), USE.NAMES = FALSE)
+        new_sp@intensity <- base::vapply(split(ints, mz_groups),
+                                         FUN = intensityFun,
+                                         FUN.VALUE = numeric(1),
+                                         USE.NAMES = FALSE)
     }
     if (is.unsorted(new_sp@mz))
         stop("m/z values of combined spectrum are not ordered")
