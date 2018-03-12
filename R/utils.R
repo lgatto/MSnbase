@@ -1211,6 +1211,7 @@ makeCamelCase <- function(x, prefix) {
 ##' @param sep The separator. Default is \code{;}.
 ##' @return A reduced \code{data.frame}.
 ##' @author Laurent Gatto
+##' @aliases reduce
 ##' @examples
 ##' dfr <- data.frame(A = c(1, 1, 2),
 ##'                   B = c("x", "x", "z"),
