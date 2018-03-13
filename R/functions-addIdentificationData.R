@@ -1,10 +1,10 @@
 ##' Reads as set of `mzId` files containing PSMs an generates a
-##' `data.frame`. 
+##' `data.frame`.
 ##'
 ##' This function uses the functionality provided by the `mzR` package
 ##' to access data in the `mzId` files. An object of class `mzRident`
 ##' can also be coerced to a `data.frame` using `as(, "data.frame")`.
-##' 
+##'
 ##' @title Import peptide-spectrum matches
 ##' @param files A `character` of `mzid` files.
 ##' @return A `data.frame` containing the PSMs stored in the `mzId`
@@ -115,7 +115,8 @@ filterIdentificationDataFrame <- function(x,
             iddf <- filterIdentificationDataFrame(iddf, decoy = decoy,
                                                   rank = rank,
                                                   accession = accession,
-                                                  verbose = verbose)
+                                                  verbose = verbose,
+                                                  ...)
             iddf <- reduce(iddf, key = key)
         } else {
             if (!all(flex <- file.exists(id)))
@@ -126,7 +127,8 @@ filterIdentificationDataFrame <- function(x,
                                iddf <- filterIdentificationDataFrame(iddf, decoy = decoy,
                                                                      rank = rank,
                                                                      accession = accession,
-                                                                     verbose = verbose)
+                                                                     verbose = verbose,
+                                                                     ...)
                                iddf <- reduce(iddf, key = key)
                            })
             iddf <- do.call(rbind, iddf)
@@ -135,7 +137,8 @@ filterIdentificationDataFrame <- function(x,
         .addDataFrameIdentificationData(object, iddf, fcol, icol, acc,
                                         desc, pepseq, decoy = NULL,
                                         rank = NULL, accession = NULL,
-                                        verbose = verbose)
+                                        verbose = verbose,
+                                        ...)
     }
 
 .addMzRidentIdentificationData <-
@@ -144,7 +147,8 @@ filterIdentificationDataFrame <- function(x,
         iddf <- as(id, "data.frame")
         iddf <- filterIdentificationDataFrame(iddf, decoy = decoy,
                                               rank = rank, accession = accession,
-                                              verbose = verbose)
+                                              verbose = verbose,
+                                              ...)
         iddf <- reduce(iddf, key = key)
         ## Filtering already done - set these args to NULL
         .addDataFrameIdentificationData(object, iddf, fcol, icol, acc,
@@ -161,9 +165,10 @@ filterIdentificationDataFrame <- function(x,
         iddf <- filterIdentificationDataFrame(iddf, decoy = decoy,
                                               rank = rank, accession = accession,
                                               spectrumID = "spectrumid",
-                                              verbose = verbose)
+                                              verbose = verbose,
+                                              ...)
         iddf <- reduce(iddf, key = key)
-        ## Filtering already done - set these args to NULL 
+        ## Filtering already done - set these args to NULL
         .addDataFrameIdentificationData(object, iddf, fcol, icol, acc,
                                         desc, pepseq, decoy = NULL,
                                         rank = NULL, accession = NULL,

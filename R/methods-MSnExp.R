@@ -447,7 +447,7 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #'
 #' @param BPPARAM Parallelisation backend to be used, which will
 #'     depend on the architecture. Default is
-#'     \code{BiocParallel::bparam()}.
+#'     \code{BiocParallel::bpparam()}.
 #'
 #' @return \code{chromatogram} returns a \code{\link{Chromatograms}} object with
 #'     the number of columns corresponding to the number of files in
