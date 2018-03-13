@@ -1,6 +1,6 @@
 ---
 title: "MSnbase: centroiding of profile-mode MS data"
-author: 
+author:
 - name: Johannes Rainer
 package: MSnbase
 abstract: >
@@ -8,12 +8,12 @@ abstract: >
  profile-mode mass spectrometry data.
 output:
   BiocStyle::html_document:
-    toc_float: true
-bibliography: MSnbase.bib	
+	toc_float: true
+bibliography: MSnbase.bib
 vignette: >
   %\VignetteIndexEntry{MSnbase: centroiding of profile-mode MS data}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteKeywords{Mass Spectrometry, MS, MSMS, Proteomics, Infrastructure, Bioinformatics}
+  %\VignetteKeywords{Mass Spectrometry, MS, MSMS, Proteomics, Metabolomics, Bioinformatics}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -24,39 +24,49 @@ BiocStyle::markdown()
 
 # Introduction
 
-Profile raw data detected by a mass spectromer consists of a distributed signal
-across m/z values at each point where an ion is detected (which depends on the
-resolution and settings of the instrument) [@Smith:2014di]. Profile mode data
-can be processed into *centroid* data by retaining only the local maximum in
-each range in which an ion is detected. This *centroiding* largely reduces the
-amount of data without much loss in information content. Certain algorithms,
-such as the *centWave* method in the `r Biocpkg("xcms")` package for
-chromatographic peak detection in LC-MS experiments, require the data to be in
-centroid mode.
- 
-For mass spectrometry systems from many manufacturers centroiding can already be
-performed within the vendor's software during or after data acquisition. The
-software from some vendors does however generate centroided data of poor
-quality. `MSnbase` provides some base functionality to perform centroiding of
-profile MS data, and, with the possibility of exporting the centroided MS data
-to *mzML* files, the results of this centroiding can also be used as input for
-other software, if needed.
+Mass spectrometry measures data in so called *profile mode*, were the
+signal corresponding to a specific ion is distributed around the ion's
+target m/z value [@Smith:2014di]. The accuracy of that signal depends
+on the resolution and settings of the instrument. Profile mode data
+can be processed into *centroid* data by retaining only a single,
+representative value, typically the local maximum of the distribution
+of data points. This *centroiding* substantially reduces the amount of
+data without much loss of information. Certain algorithms, such as the
+*centWave* method in the `r Biocpkg("xcms")` package for
+chromatographic peak detection in LC-MS experiments or proteomics
+search engines that match MS2 spectra to peptides, require the data to
+be in centroid mode.
+
+Many manufacturers apply centroiding of the profile data, either
+directly during the acquisition or immediately thereafter so that the
+user immediately receives processed data. Alternatively, third party
+software, such as `msconvert` from the `proteowizard` suite
+[@Chambers:2012] allow to apply various data centroiding algorithms,
+including vendor methods. In some cases however, the software provided
+by some vendors generate centroided data of poor quality. `MSnbase`
+provides some functionality to perform centroiding of profile MS
+data. These processed data can then be further quantified or analysed
+within R or serialised to *mzML* files, and used as input for other
+software.
 
 # Centroiding of profile-mode MS data
 
-In this vignette we use a subset of a profile-mode LC-MS data of pooled human
-serum samples measured on a AB Sciex TripleTOF 5600+ mass spectrometer (the
-employed chromatography was a hydrophilic interaction high-performance liquid
-chromatography (HILIC HPLC)). The mzML file contains profile mode data for an
-m/z range from 105 to 130 and a retention time from 0 to 240 seconds. For more
-details on the sample see `?msdata::sciexdata`. Below we load the required
-libraries and read the MS data.
+In this vignette we use a subset of a metabolomics profile-mode LC-MS
+data of pooled human serum samples measured on a AB Sciex TripleTOF
+5600+ mass spectrometer (the employed chromatography was a hydrophilic
+interaction high-performance liquid chromatography (HILIC HPLC)). The
+mzML file contains profile mode data for an m/z range from 105 to 130
+and a retention time from 0 to 240 seconds. For more details on the
+sample see `?msdata::sciexdata`. Below we load the required packages
+and read the MS data.
 
 ```{r libraries, message = FALSE}
-library(MSnbase)
-library(msdata)
+library("MSnbase")
+library("msdata")
+library("magrittr")
 
 fl <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)[2]
+basename(fl)
 data_prof <- readMSData(fl, mode = "onDisk", centroided = FALSE)
 ```
 
@@ -73,20 +83,24 @@ mzr <- c(serine_mz - 0.01, serine_mz + 0.01)
 rtr <- c(175, 187)
 
 ## Filtering the object
-serine <- filterMz(filterRt(data_prof, rt = rtr), mz = mzr)
+serine <- data_prof %>%
+	filterRt(rtr) %>%
+	filterMz(mzr)
 
 plot(serine, type = "XIC")
 abline(h = serine_mz, col = "red", lty = 2)
 ```
 
-The lower panel in the plot above shows the individual signal intensities
-measured by the mass spectrometer, the upper part the *base peak chromatogram*
-(BPC), which represents the maximum signal for each discrete retention time
-across the range of m/z values. The horizontal rows of points in the lower panel
-indicate the resolution of the mass spectrometer. Each column of data points
-(for a discrete time point) represents the signal for the ion in one
-spectrum. Below we plot the signal for one of the spectra containing signal for
-serine.
+The lower panel in the plot above shows the individual signal
+intensities measured by the mass spectrometer over retention time for
+the selected m/z, while the upper part displays the *base peak
+chromatogram* (BPC), which represents the maximum signal for each
+discrete retention time across the range of m/z values. The horizontal
+rows of points in the lower panel indicate the resolution of the mass
+spectrometer. Each column of data points (for a discrete time point)
+represents the signal for the ion in one spectrum. Below we plot the
+signal for one of of the `r length(serine)` spectra containing signal
+for serine.
 
 ```{r serine-spectrum24, fig.align = "center", fig.cap = "On of the spectra for serine in profile mode."}
 plot(serine[[22]])
