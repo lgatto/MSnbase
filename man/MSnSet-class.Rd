@@ -39,6 +39,7 @@
 \alias{write.exprs,MSnSet-method}
 \alias{experimentData<-,MSnSet,MIAPE-method}
 \alias{pData<-,MSnSet,data.frame-method}
+\alias{fData<-,MSnSet,data.frame-method}
 \alias{combine,MSnSet,MSnSet-method}
 \alias{topN,MSnSet,MSnSet-method}
 \alias{topN,MSnSet-method}
@@ -129,20 +130,24 @@
   \code{SummarizedExperiment} to an \code{MSnSet}, the respective
   metadata slots will be populated if available in the
   \code{SummarizedExperiment} metadata.
-  
+
   In the frame of the \code{MSnbase} package, \code{MSnSet} instances
   can be generated from \code{"\linkS4class{MSnExp}"} experiments using
-  the \code{\link{quantify}} method). 
-  
+  the \code{\link{quantify}} method).
+
 }
 
 \section{Slots}{
+
   \describe{
+
     \item{\code{qual}:}{Object of class \code{"data.frame"} that records
       peaks data for each of the reporter ions to be used as quality
       metrics. }
+
     \item{\code{processingData}:}{Object of class
       \code{"\linkS4class{MSnProcess}"} that records all processing. }
+
     \item{\code{assayData}:}{Object of class \code{"assayData"}
       containing a matrix with equal with column number equal to
       \code{nrow(phenoData)}. \code{assayData} must contain a matrix
@@ -151,31 +156,43 @@
       class, \code{\link{exprs}} and \code{\link{assayData}} accessor
       for more details. This slot in indirectly inherited from
       \code{"\linkS4class{eSet}"}. }
+
     \item{\code{phenoData}:}{Object of class \code{"AnnotatedDataFrame"}
       containing experimenter-supplied variables describing sample (i.e
       the individual tags for an labelled MS experiment) (indireclty
-      inherited from  \code{"\linkS4class{eSet}"}). See
-      \code{\link{phenoData}} and the \code{"\linkS4class{eSet}"}
-      class for more details. }
+      inherited from \code{"\linkS4class{eSet}"}). See
+      \code{\link{phenoData}} and the \code{"\linkS4class{eSet}"} class
+      for more details. This slot can be accessed as a \code{data.frame}
+      with \code{pData} and be replaced by a new valid (i.e. of
+      compatible dimensions and row names) \code{data.frame} with
+      \code{pData()<-}.  }
+
     \item{\code{featureData}:}{Object of class
       \code{"AnnotatedDataFrame"} containing variables describing
       features (spectra in our case), e.g. identificaiton data, peptide
       sequence, identification score,... (inherited indirectly from
-      \code{"\linkS4class{eSet}"}). See
-      \code{\link{featureData}} and the \code{"\linkS4class{eSet}"}
-      class for more details. }
+      \code{"\linkS4class{eSet}"}). See \code{\link{featureData}} and
+      the \code{"\linkS4class{eSet}"} class for more details. This slot
+      can be accessed as a \code{data.frame} with \code{fData} and be
+      replaced by a new valid (i.e. of compatible dimensions and row
+      names) \code{data.frame} with \code{fData()<-}.
+    }
+
     \item{\code{experimentData}:}{Object of class
       \code{"\linkS4class{MIAPE}"}, containing details of experimental
       methods (inherited from \code{"\linkS4class{eSet}"}). See
       \code{\link{experimentData}} and the \code{"\linkS4class{eSet}"}
       class for more details. }
+
     \item{\code{annotation}:}{ not used here. }
+
     \item{\code{protocolData}:}{Object of class
       \code{"\linkS4class{AnnotatedDataFrame}"} containing
       equipment-generated variables (inherited indirectly from
       \code{"\linkS4class{eSet}"}). See
       \code{\link{protocolData}} and the \code{"\linkS4class{eSet}"}
       class for more details. }
+
     \item{\code{.__classVersion__}:}{Object of class
       \code{"\linkS4class{Versions}"} describing the versions of R,
       the Biobase package, \code{"\linkS4class{eSet}"},
@@ -207,7 +224,7 @@
       The information is extracted from the object's \code{featureData} slot.
     }
 
-    \item{fromFile}{    
+    \item{fromFile}{
       \code{fromFile(signature(object = "MSnSet"))}: get the index of
       the file (in \code{fileNames(object)}) from which the raw
       spectra from which the corresponding feature were originally
@@ -255,7 +272,7 @@
       object from \code{MSnSet} to \code{IBSpectra} from the
       \code{isobar} package.
     }
-    
+
     \item{as(,"data.frame")}{\code{signature(x = "MSnSet")}: Coerce
       object from \code{MSnSet} to \code{data.frame}. The \code{MSnSet}
       is transposed and the \code{PhenoData} slot is appended. }
@@ -265,7 +282,7 @@
       \code{SummarizedExperiment}. Only part of the metadata is
       retained. See \code{addMSnSetMetadata} and the example below for
       details.  }
-      
+
     %% \item{ratios}{\code{signature(object = "MSnSet")}: ... }
     \item{write.exprs}{signature(x = "MSnSet")}{Writes expression values
       to a tab-separated file (default is \code{tmp.txt}). The
@@ -273,10 +290,12 @@
       \code{featureData} columns (as column names, column number or
       \code{logical}) to append on the right of the expression matrix.
       The following arguments are the same as \code{write.table}.}
+
     \item{combine}{signature(x = "MSnSet", y = "MSnSet", ...)}{ Combines
       2 or more \code{MSnSet} instances according to their feature names.
       Note that the \code{qual} slot and the processing information are
       silently dropped. }
+
     \item{topN}{signature(object = "MSnSet", groupBy, n = 3, fun, ..., verbose =
       isMSnbaseVerbose())}{
       Selects the \code{n} most intense features (typically peptides or
@@ -296,6 +315,7 @@
       A complete use case using \code{topN} and \code{nQuants} is
       detailed in the \code{synapter} package vignette.
     }
+
     \item{filterNA}{signature(object = "MSnSet", pNA = "numeric",
       pattern = "character", droplevels = "logical")}{ This method
       subsets \code{object} by removing features that have (strictly)
@@ -314,7 +334,7 @@
       See also the \code{\link{is.na.MSnSet}} and \code{\link{plotNA}}
       methods for missing data exploration.
     }
-    
+
     \item{filterZero}{signature(object = "MSnSet", pNA = "numeric",
       pattern = "character", droplevels = "logical")}{ As
       \code{filterNA}, but for zeros.
@@ -325,22 +345,25 @@
       \code{msLevel.}, as defined by the \code{fcol} feature variable
       (default is \code{"msLevel"}). }
 
-    
+
     \item{log}{signature(object = "MSnSet", base = "numeric")}{ Log
       transforms \code{exprs(object)} using
       \code{base::log}. \code{base} (defaults is \code{e='exp(1)'}) must
       be a positive or complex number, the base with respect to which
       logarithms are computed.
     }
+
     \item{droplevels}{signature(x = "MSnSet", ...)}{Drops the unused
       factor levels in the \code{featureData} slot. See
       \code{\link{droplevels}} for details.
     }
+
     \item{exprsToRatios}{\code{signature(object = "MSnSet", log =
 	"logical")}}{calculates all possible ratios between
       \code{object}'s columns/samples.
       See \code{\link{exprsToRatios}} for more details.
     }
+
     \item{impute}{\code{signature(object = "MSnSet", ...)}}{
       Performs data imputation on the \code{MSnSet} object.
       See \code{\link{impute}} for more details.
@@ -364,7 +387,7 @@
       standard deviations versus row means. See
       \code{\link{meanSdPlot}} (\code{vsn} package) for more details.
     }
-    
+
     \item{image}{\code{signature(x = "MSnSet", facetBy = "character",
 	sOrderBy = "character", legend = "character", low = "character",
 	high = "character", fnames = "logical", nmax =
@@ -391,7 +414,7 @@
 	\code{vp.misc::image_msnset}. The previous version of this
 	method is still available through the \code{image2} function.
       }
-      
+
     \item{plotNA}{\code{signature(object = "MSnSet", pNA =
 	"numeric")}}{
 	Plots missing data for an \code{MSnSet} instance. \code{pNA} is a
@@ -401,9 +424,9 @@
 	percentage of NA values in the full data set and the number of
 	proteins retained. Default is 1/2. See also
 	\code{\link{plotNA}}.}
-    
+
     \item{MAplot}{\code{signature(object = "MSnSet", log.it = "logical",
-    	base = "numeric", ...)}}{
+	base = "numeric", ...)}}{
       Produces MA plots (Ratio as a function
       of average intensity) for the samples in \code{object}. If
       \code{ncol(object) == 2}, then one MA plot is produced using the
@@ -470,7 +493,7 @@
       the complete \code{processingData}, \code{experimentData} and
       \code{protocolData} slots. The downside of this is that MSnbase is
       now required to use the \code{SummarizedExperiment} object.  }
-    
+
   }
 }
 
@@ -487,7 +510,7 @@
   \code{\link[MSnbase]{write.exprs}}. See \code{\link{readMSnSet}} to
   create and \code{MSnSet} using data available in a spreadsheet or
   \code{data.frame}.
-  
+
 }
 
 \examples{

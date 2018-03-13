@@ -1,7 +1,8 @@
 # MSnbase 2.5
 
 ## Changes in version 2.5.8
-- New as(MSnExp, data.frame) method <2018-02-16>.
+- New as(MSnExp, data.frame) method <2018-02-16>
+- Speed up readMgfData function - see issue #319 <2018-03-13 Tue>
 
 ## Changes in version 2.5.7
 
