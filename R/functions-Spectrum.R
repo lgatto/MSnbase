@@ -657,7 +657,7 @@ kNeighbors <- function(mz, intensity, peakIdx = NULL, k = 2, ...) {
         return(cbind(mz = mz[peakIdx], intensity = intensity[peakIdx]))
     len <- length(mz)
     do.call(rbind, lapply(peakIdx, function(z) {
-        idxs <- max(1, z - k):min(len, z + k)
+        idxs <- windowIndices(z, k, len)
         c(mz = weighted.mean(x = mz[idxs], w = intensity[idxs], na.rm = TRUE),
           intensity = intensity[z])
     }))
@@ -819,7 +819,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
     ## much less memory as it does no copying.
     for (i in seq_along(x)) {
         cur_sp <- x[[i]]
-        idxs <- max(1, i - halfWindowSize):min(i + halfWindowSize, len_x)
+        idxs <- windowIndices(i, halfWindowSize, len_x)
         mz <- unlist(lapply(x[idxs], mz), use.names = FALSE)
         ordr <- order(mz)
         cur_sp@mz <- mz[ordr]
