@@ -13,7 +13,7 @@ bibliography: MSnbase.bib
 vignette: >
   %\VignetteIndexEntry{MSnbase: centroiding of profile-mode MS data}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteKeywords{Mass Spectrometry, MS, MSMS, Proteomics, Metabolomics, Bioinformatics}
+  %\VignetteKeywords{Mass Spectrometry, MS, MSMS, Proteomics, Metabolomics, Bioinformatics, magrittr}
   %\VignetteEncoding{UTF-8}
 ---
 
