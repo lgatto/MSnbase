@@ -91,16 +91,19 @@ plot(serine, type = "XIC")
 abline(h = serine_mz, col = "red", lty = 2)
 ```
 
-The lower panel in the plot above shows the individual signal
+The lower panel in the plot above shows all the individual signal
 intensities measured by the mass spectrometer over retention time for
-the selected m/z, while the upper part displays the *base peak
+the selected m/z. The upper panel displays the *base peak
 chromatogram* (BPC), which represents the maximum signal for each
 discrete retention time across the range of m/z values. The horizontal
 rows of points in the lower panel indicate the resolution of the mass
-spectrometer. Each column of data points (for a discrete time point)
-represents the signal for the ion in one spectrum. Below we plot the
-signal for one of of the `r length(serine)` spectra containing signal
-for serine.
+spectrometer while the columns of data points (i.e. the data collected
+for a discrete retention time point) represents the signal for the ion
+in one spectrum.
+
+Below we plot the signal for one of of the `r length(serine)` spectra
+containing signal for serine, the one at retention time
+`r round(rtime(serine[[22]]), 2)`
 
 ```{r serine-spectrum24, fig.align = "center", fig.cap = "On of the spectra for serine in profile mode."}
 plot(serine[[22]])
@@ -112,41 +115,47 @@ the serine ion at the respective retention time (the *mass peak*) consists
 therefore of multiple intensities that follow approximately a gaussian
 distribution.
 
-As detailed in the introduction, centroiding aims to reduce this signal
-distribution to a single representative intensity for the ion in a spectrum
-(i.e. at a given retention time). The simplest approach selects the largest
-intensity for each mass peak and report its intensity and m/z value. This can be
-done using the `pickPeaks` method with default parameters as shown below.
+As described in the introduction, centroiding aims to reduce this
+signal distribution to a single representative intensity, a single
+data point, for the ion in a spectrum (i.e. at a given retention
+time). The simplest approach selects the largest intensity for each
+mass peak and report its intensity and m/z value. This can be done
+using the `pickPeaks` method with default parameters as shown below.
 
 ```{r simple-pickPeaks, fig.align = "center", warning = FALSE, fig.cap = "Centroided data for serine."}
 
-data_cent <- pickPeaks(data_prof)
+serine_cent <- pickPeaks(serine)
 
 ## Plot the centroided data for serine
-plot(filterMz(filterRt(data_cent, rtr), mzr), type = "XIC")
+plot(serine_cent, type = "XIC")
 abline(h = serine_mz, col = "red", lty = 2)
 
 ```
 
 After centroiding the data consists of a single intensity for each
-mass peak. In the example above the centroids from consecutive scans do however
-not have the same m/z value, but they *jump* between the discrete values defined
-by the mass spectrometry's resolution. For lower intensity signals this jumping
-can be even stronger. To illustrate this we plot below the centroided signal for
-the [M+H]+ ion of proline.
+mass peak. In the example above the centroids from consecutive scans
+do however not have the same m/z value, but they fluctuate between the
+discrete m/z values defined by the instruments's resolution. For lower
+intensity signals this variation can be substantial. To illustrate
+this we plot below the centroided signal for the [M+H]+ ion of
+proline.
 
 ```{r proline, fig.align = "center", warning = FALSE, fig.cap = "Centroided data for proline."}
 prol_mz <- 116.070608
 prol_mzr <- c(prol_mz - 0.01, prol_mz + 0.01)
 prol_rtr <- c(165, 175)
 
-plot(filterMz(filterRt(data_cent, prol_rtr), prol_mzr), type = "XIC")
-abline(h = prol_mz, col = "red", lty = 2)
+proline <- data_prof %>%
+	filterRt(prol_rtr) %>%
+	filterMz(prol_mzr) %>%
+	pickPeaks()
 
+plot(proline, type = "XIC")
+abline(h = prol_mz, col = "red", lty = 2)
 ```
 
-For proline the centroids jump between 3 bins of m/z values in consecutive
-scans. Also the chromatographic data does not show a nice peak shape. Additional
+For proline, the centroids jump between 3 bins of m/z values in consecutive
+scans and the chromatographic data does not show a nice, regular peak shape. Additional
 data processing, such as data smoothing prior to centroiding and/or *refining*
 the centroid's m/z can reduce these effects and improve overall data quality as
 we will see in the next section.
@@ -166,38 +175,47 @@ Savitzky-Golay filter with a half-window size of 4 to the data within each
 spectrum (see `?smooth` for more details on the parameters).
 
 ```{r smoothSG}
-data_sg <- smooth(data_prof, method = "SavitzkyGolay", halfWindowSize = 4L)
-
+data_sg <- data_prof %>%
+	smooth(method = "SavitzkyGolay", halfWindowSize = 4L)
 ```
 
-We next apply the simple peak picking on the smoothed data and subsequently plot
-the such centroided data for serine.
+We next apply the simple peak picking on the smoothed data and
+subsequently plot the such centroided data for serine.
 
 ```{r smoothSG-pp-serine, warning = FALSE, fig.align = "center", fig.cap = "Centroided data for serine after smoothing with a Savitzky-Golay filter."}
 
-data_sg_cent <- pickPeaks(data_sg)
+data_sg_cent <- data_sg %>%
+	pickPeaks %>%
+	filterRt(rtr) %>%
+	filterMz(mzr)
 
 ## Plot the centroided data for serine
-plot(filterMz(filterRt(data_sg_cent, rtr), mzr), type = "XIC")
+plot(data_sg_cent, type = "XIC")
 abline(h = serine_mz, col = "red", lty = 2)
 ```
 
-Smoothing the raw data prior to peak picking improved the quality of the
-centroided data of serine (and also the data for proline as can be seen below).
+Smoothing the raw data prior to peak picking improved the quality of
+the centroided data of serine (and also the data for proline as can be
+seen below).
 
 ```{r smoothSG-pp-proline, warning = FALSE, fig.align = "center", fig.cap = "Centroided data for proline after smoothing with a Savitzky-Golay filter."}
-plot(filterMz(filterRt(data_sg_cent, prol_rtr), prol_mzr), type = "XIC")
+prol_sg_cent <- data_sg %>%
+	pickPeaks %>%
+	filterRt(prol_rtr) %>%
+	filterMz(prol_mzr)
+
+plot(prol_sg_cent, type = "XIC")
 abline(h = prol_mz, col = "red", lty = 2)
 
 ```
 
-The smoothed centroided data for proline still shows some jumping of m/z
-values. Also the chromatographic data is not perfect.
+The smoothed centroided data for proline still show considerable
+fluctuations of m/z values and poor chromatographic data.
 
-In addition to smoothing the signal in m/z dimension we can smooth the signal
-also in retention time dimension using the `combineSpectraMovingWindow`
+In addition to smoothing the signal in m/z dimension, we can also smooth the signal
+along the retention time dimension using the `combineSpectraMovingWindow`
 function. This function aggregates signal for the same m/z value from
-neighboring spectra in a moving window approach thus smoothing the
+neighboring spectra in a moving window approach, thus smoothing the
 chromatographic data (by replacing the intensity in the middle spectrum by the
 average signal of all intensities for the m/z in the spectra within the defined
 window). To reduce the run-time of the example we apply the smoothing only to
@@ -205,25 +223,23 @@ the profile-mode data for a retention time window containing proline (in a real
 data analysis this should be performed on the full data).
 
 ```{r rtsmooth, message = FALSE, warning = FALSE}
-## Subset to the data for proline.
-proline <- filterRt(data_prof, prol_rtr)
-
-## Smooth the data in rt dimension
-proline_c <- combineSpectraMovingWindow(proline)
-
-## Perform the centroiding
-proline_c_cent <- pickPeaks(proline_c)
+## Subset to the data for proline, smooth it in rt dimension and
+## perform the centroiding
+proline_c_cent <- data_prof %>%
+	combineSpectraMovingWindow() %>%
+	pickPeaks() %>%
+	filterRt(prol_rtr) %>%
+	filterMz(prol_mzr)
 ```
 
 
 ```{r proline-rtsmooth, message = FALSE, warning = FALSE, fig.align = "center", fig.cap = "Centroided data for proline after smoothing in retention time dimension."}
-
-plot(filterMz(filterRt(proline_c_cent, prol_rtr), prol_mzr), type = "XIC")
+plot(proline_c_cent, type = "XIC")
 abline(h = prol_mz, col = "red", lty = 2)
 ```
 
-Smoothing in retention time dimension improves the chromatographic peak shape of
-proline.
+Smoothing in retention time dimension improves the chromatographic
+peak shape of proline.
 
 Note however that, to combine data from multiple spectra, the
 `combineSpectraMovingWindow` function has to first load the full data into
@@ -238,8 +254,8 @@ Thus far we applied only a simple peak picking strategy, but the `pickPeaks`
 method allows also to *refine* the identified centroid's m/z value by
 considering also the signal from the full, or parts of the, mass peak. Currently
 two methods are implemented, *descendPeak* and *kNeighbors* that can be selected
-by passing either `refineMz = "descendPeak"` or `refineMz = "kNeighbors"` to the
-`pickPeaks` method. The m/z value of the reported centroid is calculated using
+by passing either `refineMz = "descendPeak"` or `refineMz = "kNeighbors"`
+to the `pickPeaks` method. The m/z value of the reported centroid is calculated using
 an intensity-weighted mean of m/z-intensity values from the mass peak. This can
 improve the accuracy of the reported m/z values. The two methods differ only in
 the way in which the peak area for the final calculation is defined:
@@ -252,8 +268,8 @@ centroid's m/z value.
 
 ```{r refineMz}
 ## Use pickPeaks with descendPeak m/z refinement
-data_sg_cent_mz <- pickPeaks(data_sg, refineMz = "descendPeak")
-
+data_sg_cent_mz <- data_sg %>%
+	pickPeaks(refineMz = "descendPeak")
 ```
 
 Below we first extract the data for serine and then plot the smoothed and
@@ -261,8 +277,13 @@ centroided data without and with m/z refinement.
 
 ```{r refineMz-serine, message = FALSE, warning = FALSE, fig.align = "center", fig.cap = "Smoothed and centroided data for serine without (left) and with m/z refinement (right). The horizontal red dashed line indicates the theoretical m/z for the [M+H]+ ion and the vertical red dotted line the position of the largest signal for serine."}
 ## Extract the data for serine
-serine_sg_cent <- filterMz(filterRt(data_sg_cent, rtr), mzr)
-serine_sg_cent_mz <- filterMz(filterRt(data_sg_cent_mz, rtr), mzr)
+serine_sg_cent <- data_sg_cent %>%
+	filterRt(rtr) %>%
+	filterMz(mzr)
+
+serine_sg_cent_mz <- data_sg_cent_mz %>%
+	filterRt(rtr) %>%
+	filterMz(mzr)
 
 ## Plot the data
 layout(matrix(1:4, ncol = 2))
@@ -274,7 +295,6 @@ abline(v = rtime(serine_sg_cent)[22], col = "red", lty = 3)
 plot(serine_sg_cent_mz, type = "XIC", layout = NULL)
 abline(h = serine_mz, col = "red", lty = 2)
 abline(v = rtime(serine_sg_cent_mz)[22], col = "red", lty = 3)
-
 ```
 
 While the centroided data with m/z refinement looks slightly noisier, the
