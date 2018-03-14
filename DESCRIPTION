@@ -92,7 +92,8 @@ Suggests:
     norm,
     gplots,
     shiny,
-    SummarizedExperiment
+    SummarizedExperiment,
+    magrittr
 LinkingTo: Rcpp
 License: Artistic-2.0
 LazyData: yes

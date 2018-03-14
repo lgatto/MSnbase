@@ -13,7 +13,8 @@ bibliography: MSnbase.bib
 vignette: >
   %\VignetteIndexEntry{MSnbase: centroiding of profile-mode MS data}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteKeywords{Mass Spectrometry, MS, MSMS, Proteomics, Infrastructure, Bioinformatics}
+  %\VignetteKeywords{Mass Spectrometry, MS, MSMS, Proteomics, Infrastructure,
+  Bioinformatics, magrittr}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -55,6 +56,7 @@ libraries and read the MS data.
 ```{r libraries, message = FALSE}
 library(MSnbase)
 library(msdata)
+library(magrittr)
 
 fl <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)[2]
 data_prof <- readMSData(fl, mode = "onDisk", centroided = FALSE)
@@ -73,7 +75,9 @@ mzr <- c(serine_mz - 0.01, serine_mz + 0.01)
 rtr <- c(175, 187)
 
 ## Filtering the object
-serine <- filterMz(filterRt(data_prof, rt = rtr), mz = mzr)
+serine <- data_prof %>%
+    filterRt(rtr) %>%
+    filterMz(mz = mzr)
 
 plot(serine, type = "XIC")
 abline(h = serine_mz, col = "red", lty = 2)
@@ -109,7 +113,10 @@ done using the `pickPeaks` method with default parameters as shown below.
 data_cent <- pickPeaks(data_prof)
 
 ## Plot the centroided data for serine
-plot(filterMz(filterRt(data_cent, rtr), mzr), type = "XIC")
+data_cent %>%
+    filterRt(rtr) %>%
+    filterMz(mzr) %>%
+    plot(type = "XIC")
 abline(h = serine_mz, col = "red", lty = 2)
 
 ```
@@ -126,7 +133,11 @@ prol_mz <- 116.070608
 prol_mzr <- c(prol_mz - 0.01, prol_mz + 0.01)
 prol_rtr <- c(165, 175)
 
-plot(filterMz(filterRt(data_cent, prol_rtr), prol_mzr), type = "XIC")
+## Plot the centroided data for proline
+data_cent %>%
+    filterRt(prol_rtr) %>%
+    filterMz(prol_mzr) %>%
+    plot(type = "XIC")
 abline(h = prol_mz, col = "red", lty = 2)
 
 ```
@@ -164,7 +175,10 @@ the such centroided data for serine.
 data_sg_cent <- pickPeaks(data_sg)
 
 ## Plot the centroided data for serine
-plot(filterMz(filterRt(data_sg_cent, rtr), mzr), type = "XIC")
+data_sg_cent %>%
+    filterRt(rtr) %>%
+    filterMz(mzr) %>%
+    plot(type = "XIC")
 abline(h = serine_mz, col = "red", lty = 2)
 ```
 
@@ -172,7 +186,10 @@ Smoothing the raw data prior to peak picking improved the quality of the
 centroided data of serine (and also the data for proline as can be seen below).
 
 ```{r smoothSG-pp-proline, warning = FALSE, fig.align = "center", fig.cap = "Centroided data for proline after smoothing with a Savitzky-Golay filter."}
-plot(filterMz(filterRt(data_sg_cent, prol_rtr), prol_mzr), type = "XIC")
+data_sg_cent %>%
+    filterRt(prol_rtr) %>%
+    filterMz(prol_mzr) %>%
+    plot(type = "XIC")
 abline(h = prol_mz, col = "red", lty = 2)
 
 ```
@@ -203,8 +220,10 @@ proline_c_cent <- pickPeaks(proline_c)
 
 
 ```{r proline-rtsmooth, message = FALSE, warning = FALSE, fig.align = "center", fig.cap = "Centroided data for proline after smoothing in retention time dimension."}
-
-plot(filterMz(filterRt(proline_c_cent, prol_rtr), prol_mzr), type = "XIC")
+proline_c_cent %>%
+    filterRt(prol_rtr) %>%
+    filterMz(prol_mzr) %>%
+    plot(type = "XIC")
 abline(h = prol_mz, col = "red", lty = 2)
 ```
 
@@ -247,8 +266,12 @@ centroided data without and with m/z refinement.
 
 ```{r refineMz-serine, message = FALSE, warning = FALSE, fig.align = "center", fig.cap = "Smoothed and centroided data for serine without (left) and with m/z refinement (right). The horizontal red dashed line indicates the theoretical m/z for the [M+H]+ ion and the vertical red dotted line the position of the largest signal for serine."}
 ## Extract the data for serine
-serine_sg_cent <- filterMz(filterRt(data_sg_cent, rtr), mzr)
-serine_sg_cent_mz <- filterMz(filterRt(data_sg_cent_mz, rtr), mzr)
+serine_sg_cent <- data_sg_cent %>%
+    filterRt(rtr) %>%
+    filterMz(mzr)
+serine_sg_cent_mz <- data_sg_cent_mz %>%
+    filterRt(rtr) %>%
+    filterMz(mzr)
 
 ## Plot the data
 layout(matrix(1:4, ncol = 2))
@@ -296,8 +319,12 @@ Also for proline, m/z refinement improved the accuracy.
 
 ```{r refineMz-proline, message = FALSE, warning = FALSE, fig.align = "center", fig.cap = "Smoothed and centroided data for proline without (left) and with m/z refinement (right). The horizontal red dashed line indicates the theoretical m/z for the [M+H]+ ion and the vertical red dotted line the position of the maximum signal."}
 
-proline_sg_cent <- filterMz(filterRt(data_sg_cent, prol_rtr), prol_mzr)
-proline_sg_cent_mz <- filterMz(filterRt(data_sg_cent_mz, prol_rtr), prol_mzr)
+proline_sg_cent <- data_sg_cent %>%
+    filterRt(prol_rtr) %>%
+    filterMz(prol_mzr)
+proline_sg_cent_mz <- data_sg_cent_mz %>%
+    filterRt(prol_rtr) %>%
+    filterMz(prol_mzr)
 
 layout(matrix(1:4, ncol = 2))
 plot(proline_sg_cent, type = "XIC", layout = NULL)
