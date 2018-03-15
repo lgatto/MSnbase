@@ -1,3 +1,7 @@
+Changes in version 2.5.10
+-------------------------
+- Nothing yet
+
 Changes in version 2.5.9
 ------------------------
 - New combineSpectra, combineSpectraMovingWindow, estimateMzScattering and

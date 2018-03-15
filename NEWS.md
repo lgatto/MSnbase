@@ -1,5 +1,8 @@
 # MSnbase 2.5
 
+## Changes in version 2.5.10
+- Nothing yet
+
 ## Changes in version 2.5.9
 - New combineSpectra, combineSpectraMovingWindow, estimateMzScattering and
   estimateMzResulution functions <2018-03-05>.
