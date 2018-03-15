@@ -202,18 +202,15 @@ extractMgfSpectrum2Info <- function(mgf, centroided) {
     voi <- c("RTINSECONDS", "CHARGE", "SCANS", "PEPMASSMZ", "PEPMASSINT")
     desc <- setNames(as.numeric(desc[voi]), voi)
     desc[is.na(desc[voi])] <- 0L
-
-    sp <- new("Spectrum2",
-              rt = unname(desc["RTINSECONDS"]),
-              scanIndex = unname(as.integer(desc["SCANS"])),
-              precursorMz = unname(desc["PEPMASSMZ"]),
-              precursorIntensity = unname(desc["PEPMASSINT"]),
-              precursorCharge = unname(as.integer(desc["CHARGE"])),
-              mz = ms[, 1L],
-              intensity = ms[, 2L],
-              fromFile = 1L,
-              centroided = centroided)
-
-    if (validObject(sp))
-        return(list(spectrum = sp, fdata = fdata))
+    cat(".")
+    sp <- Spectrum2_mz_sorted(rt = unname(desc["RTINSECONDS"]),
+                              scanIndex = unname(as.integer(desc["SCANS"])),
+                              precursorMz = unname(desc["PEPMASSMZ"]),
+                              precursorIntensity = unname(desc["PEPMASSINT"]),
+                              precursorCharge = unname(as.integer(desc["CHARGE"])),
+                              mz = ms[, 1L],
+                              intensity = ms[, 2L],
+                              fromFile = 1L,
+                              centroided = centroided)
+    return(list(spectrum = sp, fdata = fdata))
 }

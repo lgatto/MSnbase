@@ -40,7 +40,7 @@ chromatogram should be extracted. Defaults to \code{msLevel = 1L}.}
 
 \item{BPPARAM}{Parallelisation backend to be used, which will
 depend on the architecture. Default is
-\code{BiocParallel::bparam()}.}
+\code{BiocParallel::bpparam()}.}
 }
 \value{
 \code{chromatogram} returns a \code{\link{Chromatograms}} object with
