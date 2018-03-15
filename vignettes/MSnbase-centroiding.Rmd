@@ -222,8 +222,8 @@ abline(h = prol_mz, col = "red", lty = 2)
 
 ```
 
-The smoothed centroided data for proline still show deviation
-fluctuations of m/z values as well as poor chromatographic data.
+The smoothed centroided data for proline still show a systematic
+deviation of m/z values as well as poor chromatographic data.
 
 In addition to smoothing the signal in m/z dimension, we can also
 smooth the signal along the retention time dimension using the
