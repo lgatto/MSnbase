@@ -142,7 +142,10 @@ export(MSnSet,
        isCentroidedFromFile,
        requiredFvarLabels,
        addMSnSetMetadata,
-       readSRMData
+       readSRMData,
+       combineSpectra,
+       combineSpectraMovingWindow,
+       estimateMzScattering
        )
 
 exportClasses(pSet,
@@ -295,7 +298,8 @@ exportMethods(updateObject,
               "colnames<-",
               reduce,
               writeMSData,
-              productMz
+              productMz,
+	      estimateMzResolution
               )
 
 ## methods NOT exported

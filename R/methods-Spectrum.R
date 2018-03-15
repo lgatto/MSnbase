@@ -244,9 +244,11 @@ setMethod("estimateNoise", "Spectrum",
 setMethod("pickPeaks", "Spectrum",
           function(object, halfWindowSize = 3L,
                    method = c("MAD", "SuperSmoother"),
-                   SNR = 0L, ...) {
+                   SNR = 0L, refineMz = c("none", "kNeighbors",
+                                          "kNeighbours", "descendPeak"), ...) {
               pickPeaks_Spectrum(object, halfWindowSize = halfWindowSize,
-                                 method = match.arg(method), SNR = SNR, ...)
+                                 method = match.arg(method), SNR = SNR,
+                                 refineMz = match.arg(refineMz), ...)
           })
 
 setMethod("smooth", "Spectrum",
@@ -276,3 +278,61 @@ setMethod("isEmpty", "Spectrum",
 setMethod("isCentroided", "Spectrum",
           function(object, ...)
               .isCentroided(as(object, "data.frame"), ...))
+
+#' @title Estimate the m/z resolution of a spectrum
+#'
+#' @aliases estimateMzResolution
+#'
+#' @description
+#' 
+#' `estimateMzResolution` estimates the m/z resolution of a profile-mode
+#' `Spectrum` (or of all spectra in an [MSnExp] or [OnDiskMSnExp] object.
+#' The m/z resolution is defined as the most frequent difference between a
+#' spectrum's m/z values.
+#'
+#' @note
+#'
+#' This assumes the data to be in profile mode and does not return meaningful
+#' results for centroided data.
+#'
+#' The estimated m/z resolution depends on the number of ions detected in a
+#' spectrum, as some instrument don't measure (or report) signal if below a
+#' certain threshold.
+#'
+#' @param object either a `Spectrum`, `MSnExp` or `OnDiskMSnExp` object.
+#'
+#' @param ... currently not used.
+#' 
+#' @return `numeric(1)` with the m/z resolution. If called on a `MSnExp` or
+#' `OnDiskMSnExp` a `list` of m/z resolutions are returned (one for
+#' each spectrum).
+#'
+#' @author Johannes Rainer
+#'
+#' @md
+#'
+#' @rdname estimateMzResolution
+#'
+#' @examples
+#'
+#' ## Load a profile mode example file
+#' library(MSnbase)
+#' library(msdata)
+#' f <- proteomics(full.names = TRUE,
+#'     pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
+#'
+#' od <- readMSData(f, mode = "onDisk")
+#'
+#' ## Estimate the m/z resolution on the 3rd spectrum.
+#' estimateMzResolution(od[[3]])
+#'
+#' ## Estimate the m/z resolution for each spectrum
+#' mzr <- estimateMzResolution(od)
+#'
+#' ## plot the distribution of estimated m/z resolutions. The bimodal
+#' ## distribution represents the m/z resolution of the MS1 (first peak) and
+#' ## MS2 spectra (second peak).
+#' plot(density(unlist(mzr)))
+setMethod("estimateMzResolution", "Spectrum", function(object, ...) {
+    .estimate_mz_resolution(object@mz)
+})

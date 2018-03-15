@@ -1300,3 +1300,7 @@ setMethod("reduce", "data.frame",
     parents | children
 }
 
+windowIndices <- function(i, hws, n) {
+    stopifnot(i <= n)
+    max(1L, i - hws):min(n, i + hws)
+}

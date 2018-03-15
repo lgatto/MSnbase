@@ -355,6 +355,209 @@ removeReporters_MSnExp <- function(object, reporters = NULL,
     return(object)
 }
 
+#' @title Estimate m/z scattering in consecutive scans
+#'
+#' @description
+#'
+#' Estimate scattering of m/z values (due to technical, instrument specific
+#' noise) for the same ion in consecutive scans of a LCMS experiment.
+#'
+#' @details
+#'
+#' The m/z values of the same ions in consecutive scans (spectra) of a LCMS run
+#' will not be identical. This random noise is expected to be smaller than the
+#' resolution of the MS instrument. The distribution of differences of m/z
+#' values from neighboring spectra is thus expected to be (at least) bi-modal
+#' with the first peak representing the above described random variation and
+#' the second (or largest) peak the m/z resolution. The m/z value of the first
+#' local minimum between these first two peaks in the distribution is returned
+#' as the *m/z scattering*.
+#'
+#' @param x `MSnExp` or `OnDiskMSnExp` object.
+#'
+#' @param halfWindowSize `integer(1)` defining the half window size for the
+#'     moving window to combine consecutive spectra.
+#' 
+#' @author Johannes Rainer
+#'
+#' @md
+#'
+#' @seealso [estimateMzResolution()] for the function to estimate a
+#'     profile-mode spectrum's m/z resolution from it's data.
+#'
+#' @examples
+#' 
+#' library(MSnbase)
+#' library(msdata)
+#' ## Load a profile-mode LC-MS data file
+#' f <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)[1]
+#' im <- readMSData(f, mode = "inMem", msLevel = 1L)
+#'
+#' res <- estimateMzScattering(im)
+#'
+#' ## Plot the distribution of estimated m/z scattering
+#' plot(density(unlist(res)))
+#'
+#' ## Compare the m/z resolution and m/z scattering of the spectrum with the
+#' ## most peaks
+#' idx <- which.max(unlist(spectrapply(im, peaksCount)))
+#'
+#' res[[idx]]
+#' abline(v = res[[idx]], lty = 2)
+#' estimateMzResolution(im[[idx]])
+#' ## As expected, the m/z scattering is much lower than the m/z resolution.
+estimateMzScattering <- function(x, halfWindowSize = 1L) {
+    if (!is(x, "MSnExp"))
+        stop("'x' should be a 'MSnExp' object")
+    res <- lapply(split(spectra(x), fromFile(x)),
+                  FUN = .estimate_mz_scattering_list,
+                  halfWindowSize = halfWindowSize)
+    res <- unsplit(res, fromFile(x))
+    names(res) <- featureNames(x)
+    res
+}
+
+#' @title Combine signal from consecutive spectra of LCMS experiments
+#'
+#' @description
+#'
+#' `combineSpectraMovingWindow` combines signal from consecutive spectra within
+#' a file. The resulting `MSnExp` has the same total number of spectra than the
+#' original object, but with each individual's spectrum information
+#' representing aggregated data from the original spectrum and its neighboring
+#' spectra. This is thus equivalent with a smoothing of the data in retention
+#' time dimension.
+#'
+#' Note that the function returns always a `MSnExp` object, even if `x` was an
+#' `OnDiskMSnExp` object.
+#' 
+#' @details
+#'
+#' The method assumes same ions being measured in consecutive scans (i.e. LCMS
+#' data) and thus combines their signal which can increase the increase the
+#' signal to noise ratio.
+#'
+#' Intensities (and m/z values) for signals with the same m/z value in
+#' consecutive scans are aggregated using the `intensityFun` and `mzFun`. 
+#' m/z values of intensities from consecutive scans will never be exactly
+#' identical, even if they represent signal from the same ion. The function
+#' determines thus internally a similarity threshold based on differences
+#' between m/z values within and between spectra below which m/z values are
+#' considered to derive from the same ion. For robustness reasons, this
+#' threshold is estimated on the 100 spectra with the largest number of
+#' m/z - intensity pairs (i.e. mass peaks).
+#' 
+#' See [combineSpectra()] for details.
+#'
+#' @note
+#'
+#' The function has to read all data into memory for the spectra combining
+#' and thus the memory requirements of this function are high, possibly
+#' preventing its usage on large experimental data. In these cases it is
+#' suggested to perform the combination on a per-file basis and save the
+#' results using the [writeMSData()] function afterwards.
+#' 
+#' @param x `MSnExp` or `OnDiskMSnExp` object.
+#'
+#' @param halfWindowSize `integer(1)` with the half window size for the moving
+#'     window.
+#' 
+#' @param BPPARAM parallel processing settings.
+#' 
+#' @inheritParams combineSpectra
+#'
+#' @return `MSnExp` with the same number of spectra than `x`.
+#'
+#' @md
+#'
+#' @seealso
+#'
+#' [combineSpectra()] for the function combining spectra provided in
+#' a `list`.
+#'
+#' [estimateMzScattering()] for a function to estimate m/z value scattering in
+#' consecutive spectra.
+#' 
+#' @author Johannes Rainer, Sigurdur Smarason
+#'
+#' @examples
+#'
+#' library(MSnbase)
+#' library(msdata)
+#'
+#' ## Read a profile-mode LC-MS data file.
+#' fl <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)[1]
+#' od <- readMSData(fl, mode = "onDisk")
+#'
+#' ## Subset the object to the retention time range that includes the signal
+#' ## for proline. This is done for performance reasons.
+#' rtr <- c(165, 175)
+#' od <- filterRt(od, rtr)
+#'
+#' ## Combine signal from neighboring spectra.
+#' od_comb <- combineSpectraMovingWindow(od)
+#'
+#' ## The combined spectra have the same number of spectra, same number of
+#' ## mass peaks per spectra, but the signal is larger in the combined object.
+#' length(od)
+#' length(od_comb)
+#'
+#' peaksCount(od)
+#' peaksCount(od_comb)
+#' 
+#' ## Comparing the chromatographic signal for proline (m/z ~ 116.0706)
+#' ## before and after spectra data combination.
+#' mzr <- c(116.065, 116.075)
+#' chr <- chromatogram(od, rt = rtr, mz = mzr)
+#' chr_comb <- chromatogram(od_comb, rt = rtr, mz = mzr)
+#'
+#' par(mfrow = c(1, 2))
+#' plot(chr)
+#' plot(chr_comb)
+#' ## Chromatographic data is "smoother" after combining.
+combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
+                                       mzFun = base::mean,
+                                       intensityFun = base::mean,
+                                       mzd = NULL,
+                                       BPPARAM = bpparam()){
+    if (!is(x, "MSnExp"))
+        stop("'x' has to be a 'MSnExp' or an 'OnDiskMSnExp'")
+    if (is(x, "OnDiskMSnExp"))
+        x <- as(x, "MSnExp")
+    ## Combine spectra per file
+    new_sp <- bplapply(split(spectra(x), fromFile(x)), FUN = function(z, intF,
+                                                                      mzF, hws,
+                                                                      mzd) {
+        len_z <- length(z)
+        ## Estimate m/z scattering on the 100 spectra with largest number of
+        ## peaks
+        if (is.null(mzd)) {
+            idx <- order(unlist(lapply(z, function(y) y@peaksCount)),
+                         decreasing = TRUE)[1:min(100, len_z)]
+            mzs <- .estimate_mz_scattering_list(z[idx], halfWindowSize = hws)
+            dens <- .density(unlist(mzs))
+            mzd <- dens$x[which.max(dens$y)]
+        }
+        ## Combine spectra
+        res <- vector("list", len_z)
+        hwsp <- hws + 1L
+        for (i in seq_along(z)) {
+            res[[i]] <- combineSpectra(z[windowIndices(i, hws, len_z)],
+                                       mzFun = mzF, intensityFun = intF,
+                                       main = hwsp - (i <= hws) * (hwsp - i),
+                                       mzd = mzd)
+        }
+        res
+    }, intF = intensityFun, mzF = mzFun, hws = as.integer(halfWindowSize),
+    mzd = mzd, BPPARAM = BPPARAM)
+    new_sp <- unsplit(new_sp, fromFile(x))
+    names(new_sp) <- featureNames(x)
+    x@assayData <- list2env(new_sp)
+    lockEnvironment(x@assayData, bindings = TRUE)
+    if (validObject(x))
+        x
+}
+
 plotXIC_MSnExp <- function(x, ...) {
     ## Restrict to MS level 1
     x <- filterMsLevel(x, 1L)
@@ -377,7 +580,12 @@ plotXIC_MSnExp <- function(x, ...) {
                 immediate = TRUE, call = FALSE)
     ## Define the layout.
     dots <- list(...)
-    layout(.vertical_sub_layout(length(x)))
+    if (any(names(dots) == "layout")) {
+        if (!is.null(dots$layout))
+            layout(layout)
+        dots$layout <- NULL
+    } else
+        layout(.vertical_sub_layout(length(x)))
     tmp <- mapply(x, fns, FUN = function(z, main, ...) {
         .plotXIC(x = z, main = main, layout = NULL, ...)
     }, MoreArgs = dots)

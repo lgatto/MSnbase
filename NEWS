@@ -1,3 +1,9 @@
+Changes in version 2.5.9
+------------------------
+- New combineSpectra, combineSpectraMovingWindow, estimateMzScattering and
+  estimateMzResulution functions <2018-03-05>.
+- New vignette describing profile mode data centroiding <2018-03-05>.
+
 Changes in version 2.5.8
 ------------------------
 - New as(MSnExp, data.frame) method <2018-02-16>

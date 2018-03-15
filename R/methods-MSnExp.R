@@ -236,11 +236,17 @@ setMethod("compareSpectra", c("MSnExp", "missing"),
 setMethod("pickPeaks", "MSnExp",
           function(object, halfWindowSize = 3L,
                    method = c("MAD", "SuperSmoother"),
-                   SNR = 0L, ...) {
+                   SNR = 0L, refineMz = c("none", "kNeighbors", "kNeighbours",
+                                          "descendPeak"),
+                   ...) {
+              object <- logging(object, paste0("peak picking: ", method,
+                                               " noise estimation and ",
+                                               refineMz, " centroid m/z ",
+                                               "refinement"))
               pickPeaks_MSnExp(object, halfWindowSize = halfWindowSize,
-                               method = match.arg(method), SNR = SNR, ...)
+                               method = match.arg(method), SNR = SNR,
+                               refineMz = match.arg(refineMz), ...)
           })
-
 
 setMethod("estimateNoise", "MSnExp",
           function(object, method = c("MAD", "SuperSmoother"), ...) {
@@ -540,6 +546,11 @@ setMethod("chromatogram", "MSnExp", function(object, rt, mz,
     colnames(res@.Data) <- rownames(pData(object))
     if (validObject(res))
         res
+})
+
+#' @rdname estimateMzResolution
+setMethod("estimateMzResolution", "MSnExp", function(object, ...) {
+    spectrapply(object, estimateMzResolution)
 })
 
 setAs("MSnExp", "data.frame", function(from) {
