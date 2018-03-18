@@ -204,7 +204,7 @@
         any(grepl(pattern = z, x = pattern, ignore.case = TRUE))
     }, FUN.VALUE = logical(1))
     if (any(matches))
-        unname(.PATTERN.TO.CV[matches])
+        unname(unique(.PATTERN.TO.CV[matches]))
     else
         ifnotfound
 }

@@ -1,42 +1,42 @@
 Package: MSnbase
 Title: Base Functions and Classes for Mass Spectrometry and Proteomics
-Version: 2.5.8
-Description: MSnbase provides infrastructure to manipulation,
-	     processing and visualisation mass spectrometry and
+Version: 2.5.10
+Description: MSnbase provides infrastructure for manipulation,
+	     processing and visualisation of mass spectrometry and
 	     proteomics data, ranging from raw to quantitative and
 	     annotated data.
 Authors@R: c(person(given = "Laurent", family = "Gatto",
-	            email = "lg390@cam.ac.uk",
- 		    role = c("aut","cre")),
-             person(given = "Guangchuang", family ="Yu",
-	            email = "guangchuangyu@gmail.com",
+		    email = "lg390@cam.ac.uk",
+		    role = c("aut","cre")),
+	     person(given = "Guangchuang", family ="Yu",
+		    email = "guangchuangyu@gmail.com",
 		    role = "ctb"),
-             person(given = "Samuel", family ="Wieczorek",
-	            email = "samuel.wieczorek@cea.fr",
+	     person(given = "Samuel", family ="Wieczorek",
+		    email = "samuel.wieczorek@cea.fr",
 		    role = "ctb"),
-             person(given = "Vasile-Cosmin", family ="Lazar",
-	            email = "v.cosmin.lazar@googlemail.com",
+	     person(given = "Vasile-Cosmin", family ="Lazar",
+		    email = "v.cosmin.lazar@googlemail.com",
 		    role = "ctb"),
-             person(given = "Vladislav", family ="Petyuk",
-	            email = "petyuk@gmail.com",
+	     person(given = "Vladislav", family ="Petyuk",
+		    email = "petyuk@gmail.com",
 		    role = "ctb"),
-             person(given = "Thomas", family ="Naake",
-                    email = "tn299@cam.ac.uk",
-                    role = "ctb"),
-             person(given = "Richie", family ="Cotton",
-	            email = "richierocks@gmail.com",
+	     person(given = "Thomas", family ="Naake",
+		    email = "tn299@cam.ac.uk",
 		    role = "ctb"),
-             person(given = "Arne", family ="Smits",
-	            email = "arne.smits@embl.de",
+	     person(given = "Richie", family ="Cotton",
+		    email = "richierocks@gmail.com",
 		    role = "ctb"),
-             person(given = "Martina", family ="Fischer",
-	            email = "FischerM@rki.de",
+	     person(given = "Arne", family ="Smits",
+		    email = "arne.smits@embl.de",
 		    role = "ctb"),
-             person(given = "Johannes", family ="Rainer",
-	            email = "Johannes.Rainer@eurac.edu",
+	     person(given = "Martina", family ="Fischer",
+		    email = "FischerM@rki.de",
+		    role = "ctb"),
+	     person(given = "Johannes", family ="Rainer",
+		    email = "Johannes.Rainer@eurac.edu",
 		    role = c("aut", "cre")),
-             person(given = "Sebastian", family = "Gibb",
-	            email = "mail@sebastiangibb.de",
+	     person(given = "Sebastian", family = "Gibb",
+		    email = "mail@sebastiangibb.de",
 		    role = c("aut", "cre")))
 Author: Laurent Gatto, Johannes Rainer and Sebastian Gibb with
     contributions from Guangchuang Yu, Samuel Wieczorek, Vasile-Cosmin
@@ -80,7 +80,7 @@ Suggests:
     Rdisop,
     pRoloc,
     pRolocdata (>= 1.7.1),
-    msdata (>= 0.19.1),
+    msdata (>= 0.19.3),
     roxygen2,
     rgl,
     rpx,
@@ -91,6 +91,7 @@ Suggests:
     norm,
     gplots,
     shiny,
+    magrittr,
     SummarizedExperiment
 LinkingTo: Rcpp
 License: Artistic-2.0

@@ -502,3 +502,11 @@ test_that(".filterSpectraHierarchy", {
     expect_equal(which(MSnbase:::.filterSpectraHierarchy(fdata, 11)), integer())
 })
 
+test_that("windowIndices works", {
+    expect_equal(windowIndices(1, 2, 5), c(1, 2, 3))
+    expect_equal(windowIndices(1, 1, 5), c(1, 2))
+    expect_equal(windowIndices(5, 1, 5), c(4, 5))
+    expect_equal(windowIndices(4, 1, 5), c(3, 4, 5))
+
+    expect_error(windowIndices(4, 2, 1))
+})

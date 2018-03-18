@@ -1,7 +1,16 @@
 # MSnbase 2.5
 
+## Changes in version 2.5.10
+- Nothing yet
+
+## Changes in version 2.5.9
+- New combineSpectra, combineSpectraMovingWindow, estimateMzScattering and
+  estimateMzResulution functions <2018-03-05>.
+- New vignette describing profile mode data centroiding <2018-03-05>.
+
 ## Changes in version 2.5.8
-- New as(MSnExp, data.frame) method <2018-02-16>.
+- New as(MSnExp, data.frame) method <2018-02-16>
+- Speed up readMgfData function - see issue [#319](https://github.com/lgatto/MSnbase/issues/319) <2018-03-13 Tue>
 
 ## Changes in version 2.5.7
 

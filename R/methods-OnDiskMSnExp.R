@@ -779,18 +779,25 @@ setMethod("smooth", "OnDiskMSnExp",
 setMethod("pickPeaks", "OnDiskMSnExp",
           function(object, halfWindowSize = 3L,
                    method = c("MAD", "SuperSmoother"),
-                   SNR = 0L, ...) {
+                   SNR = 0L, refineMz = c("none", "kNeighbors", "kNeighbours",
+                                          "descendPeak"),
+                   ...) {
               method <- match.arg(method)
+              refineMz <- match.arg(refineMz)
+              ## If we're using an approach that combines spectra we have
+              ## to add a specific processing step before.
               ps <- ProcessingStep("pickPeaks",
                                    list(method = method,
                                         halfWindowSize = halfWindowSize,
                                         SNR = SNR,
-                                        ignoreCentroided = TRUE, ...))
+                                        ignoreCentroided = TRUE,
+                                        refineMz = refineMz, ...))
               object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
                                                  list(ps))
-              object@processingData@processing <-
-                  c(object@processingData@processing,
-                    paste0("Peak picking (", method, "): ", date()))
+              object <- logging(object, paste0("peak picking: ", method,
+                                               " noise estimation and ",
+                                               refineMz, " centroid m/z ",
+                                               "refinement"))
               object@processingData@smoothed <- TRUE
               fData(object)$centroided <- TRUE
               if (validObject(object))
@@ -902,4 +909,3 @@ setMethod("spectrapply", "OnDiskMSnExp", function(object, FUN = NULL,
     vals <- unlist(vals, recursive = FALSE)
     vals[rownames(fData(object))]
 })
-

@@ -118,13 +118,14 @@
   <code>addMSnSetMetadata</code> (see examples below). When converting a
   <code>SummarizedExperiment</code> to an <code>MSnSet</code>, the respective
   metadata slots will be populated if available in the
-  <code>SummarizedExperiment</code> metadata.
-    In the frame of the <code>MSnbase</code> package, <code>MSnSet</code> instances
+  <code>SummarizedExperiment</code> metadata.</p>
+<p>In the frame of the <code>MSnbase</code> package, <code>MSnSet</code> instances
   can be generated from <code>"<a href='MSnExp-class.html'>MSnExp</a>"</code> experiments using
   the <code><a href='quantify-methods.html'>quantify</a></code> method).</p>
     
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
+    
     <p></p><dl class='dl-horizontal'>
     <dt><code>qual</code>:</dt><dd><p>Object of class <code>"data.frame"</code> that records
       peaks data for each of the reporter ions to be used as quality
@@ -142,16 +143,21 @@
     <dt><code>phenoData</code>:</dt><dd><p>Object of class <code>"AnnotatedDataFrame"</code>
       containing experimenter-supplied variables describing sample (i.e
       the individual tags for an labelled MS experiment) (indireclty
-      inherited from  <code>"eSet"</code>). See
-      <code>phenoData</code> and the <code>"eSet"</code>
-      class for more details.</p></dd>
+      inherited from <code>"eSet"</code>). See
+      <code>phenoData</code> and the <code>"eSet"</code> class
+      for more details. This slot can be accessed as a <code>data.frame</code>
+      with <code>pData</code> and be replaced by a new valid (i.e. of
+      compatible dimensions and row names) <code>data.frame</code> with
+      <code>pData()&lt;-</code>.</p></dd>
     <dt><code>featureData</code>:</dt><dd><p>Object of class
       <code>"AnnotatedDataFrame"</code> containing variables describing
       features (spectra in our case), e.g. identificaiton data, peptide
       sequence, identification score,... (inherited indirectly from
-      <code>"eSet"</code>). See
-      <code>featureData</code> and the <code>"eSet"</code>
-      class for more details.</p></dd>
+      <code>"eSet"</code>). See <code>featureData</code> and
+      the <code>"eSet"</code> class for more details. This slot
+      can be accessed as a <code>data.frame</code> with <code>fData</code> and be
+      replaced by a new valid (i.e. of compatible dimensions and row
+      names) <code>data.frame</code> with <code>fData()&lt;-</code>.</p></dd>
     <dt><code>experimentData</code>:</dt><dd><p>Object of class
       <code>"<a href='MIAPE-class.html'>MIAPE</a>"</code>, containing details of experimental
       methods (inherited from <code>"eSet"</code>). See
@@ -249,7 +255,7 @@
     <dt>combine</dt><dd><p>signature(x = "MSnSet", y = "MSnSet", ...)</p></dd> Combines
       2 or more <code>MSnSet</code> instances according to their feature names.
       Note that the <code>qual</code> slot and the processing information are
-      silently dropped. 
+      silently dropped.
     <dt>topN</dt><dd><p>signature(object = "MSnSet", groupBy, n = 3, fun, ..., verbose =
       isMSnbaseVerbose())</p></dd>
       Selects the <code>n</code> most intense features (typically peptides or
@@ -351,7 +357,7 @@
 	proteins retained. Default is 1/2. See also
 	<code><a href='plotNA-methods.html'>plotNA</a></code>.
     <dt>MAplot</dt><dd><p><code>signature(object = "MSnSet", log.it = "logical",
-    	base = "numeric", ...)</code></p></dd>
+	base = "numeric", ...)</code></p></dd>
       Produces MA plots (Ratio as a function
       of average intensity) for the samples in <code>object</code>. If
       <code>ncol(object) == 2</code>, then one MA plot is produced using the
@@ -483,7 +489,7 @@
 #&gt; <span class='message'>    aperm, apply</span></div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#&gt; Subset [55,4][6,4] Wed Mar  7 23:43:03 2018 
+#&gt; Subset [55,4][6,4] Thu Mar 15 09:19:43 2018 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
 <span class='fu'><a href='mzRident2dfr.html'>as</a></span>(<span class='no'>msnset</span>, <span class='st'>"ExpressionSet"</span>)</div><div class='output co'>#&gt; ExpressionSet (storageMode: lockedEnvironment)
 #&gt; assayData: 6 features, 4 samples 

@@ -148,4 +148,8 @@ setGeneric("productMz", function(object, ...) standardGeneric("productMz"))
 ## setGeneric("aggregationFun", function(object, ...)
 ##     standardGeneric("aggregationFun"))
 
+## centroiding related
+setGeneric("estimateMzResolution", function(object, ...)
+    standardGeneric("estimateMzResolution"))
+
 setGeneric("reduce", function(x, ...) standardGeneric("reduce"))

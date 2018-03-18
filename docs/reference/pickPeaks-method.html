@@ -86,11 +86,32 @@
     <p>This method performs a peak picking on individual spectra
   (<code>Spectrum</code> instances) or whole experiments (<code>MSnExp</code> instances) to
   create centroided spectra.
-  For noisy spectra there are currently two different noise estimators, the
-  Median Absolute Deviation (<code>method = "MAD"</code>) and
+  For noisy spectra there are currently two different noise estimators
+  available, the Median Absolute Deviation (<code>method = "MAD"</code>) and
   Friedman's Super Smoother (<code>method = "SuperSmoother"</code>),
   as implemented in the <code>MALDIquant::detectPeaks</code> and
   <code>MALDIquant::estimateNoise</code> functions respectively.</p>
+<p>The method supports also to optionally <em>refine</em> the m/z value of
+  the identified centroids by considering data points that belong (most
+  likely) to the same mass peak. The m/z value is calculated as an
+  intensity weighted average of the m/z values within the peak region. 
+  How the peak region is defined depends on the method chosen:</p>
+<p><code>refineMz = "kNeighbors"</code>: m/z values (and their respective
+  intensities) of the<code>2 * k</code> closest signals to the centroid are
+  used in the intensity weighted average calculation. The number of
+  neighboring signals can be defined with the argument <code>k</code>.</p>
+<p><code>refineMz = "descendPeak"</code>: the peak region is defined by
+  descending from the identified centroid/peak on both sides until the
+  measured signal increases again. Within this defined region all
+  measurements with an intensity of at least <code>signalPercentage</code> of
+  the centroid's intensity are used to calculate the refined m/z. By
+  default the descend is stopped when the first signal that is equal or
+  larger than the last observed one is encountered. Setting
+  <code>stopAtTwo = TRUE</code>, two consecutively increasing signals are
+  required.
+
+    By default (<code>refineMz = "none"</code>, simply the m/z of the largest
+  signal (the identified centroid) is reported. See below for examples.</p>
     
 
         
@@ -98,7 +119,8 @@
 
     <p></p><dl class='dl-horizontal'>
     <dt><code>signature(x = "MSnExp", halfWindowSize = "integer",
-        method = "character", SNR = "numeric", verbose = "logical", ...)</code></dt><dd><p>Performs the peak picking for all spectra in an <code>MSnExp</code> instance.
+        method = "character", SNR = "numeric", verbose = "logical",
+	refineMz = "character", ...)</code></dt><dd><p>Performs the peak picking for all spectra in an <code>MSnExp</code> instance.
       <code>method</code> could be <code>"MAD"</code> or <code>"SuperSmoother"</code>.
       <code>halfWindowSize</code> controls the window size of the peak picking
       algorithm. The resulting window size is <code>2 * halfWindowSize + 1</code>.
@@ -106,11 +128,20 @@
       (full width at half maximum).
       A local maximum is considered as peak if its intensity is <code>SNR</code>
       times larger than the estimated noise.
-      The arguments <code>&#8230;</code> are passed to the noise estimator functions.
-      Currenlty only the <code>method = "SuperSmoother"</code> accepts additional
-      arguments, e.g. <code>span</code>. Please see <code><a href='http://www.rdocumentation.org/packages/stats/topics/supsmu'>supsmu</a></code> for
-      details.
-      This method displays a progress bar if <code>verbose = TRUE</code>.
+      <code>refineMz</code> allows to choose a method for an optional centroid
+      m/z refinement (see description for more details). Choises are
+      <code>"none"</code> (default, no m/z refinement), <code>"kNeighbors"</code>
+      and <code>"descendPeak"</code>.
+      The arguments <code>&#8230;</code> are passed to the noise estimator or
+      m/z refinement functions.
+      For the noise estimator functions, currenlty only the
+      <code>method = "SuperSmoother"</code> accepts additional arguments,
+      e.g.  <code>span</code>. Please see <code><a href='http://www.rdocumentation.org/packages/stats/topics/supsmu'>supsmu</a></code> for
+      details. <code>refineMethod = "kNeighbors"</code> supports additional
+      argument <code>k</code> and <code>refineMethod = "descendPeak"</code>
+      arguments <code>signalPercentage</code> and <code>stopAtTwo</code>. See
+      description above for more details.
+    This method displays a progress bar if <code>verbose = TRUE</code>.
       Returns an <code>MSnExp</code> instance with centroided spectra.</p></dd>
     <dt><code>signature(x = "Spectrum", method = "character",
         halfWindowSize = "integer", ...)</code></dt><dd><p>Performs the peak picking for the spectrum (<code>Spectrum</code> instance).
@@ -145,8 +176,27 @@ Bioinformatics 28: 2270-2271.
 <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>itraqdata2</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#&gt; Spectra centroided: Wed Mar  7 23:43:21 2018 
-#&gt;  MSnbase version: 1.1.22 </div></pre>
+#&gt; peak picking: MAD noise estimation and none centroid m/z refinement [Thu Mar 15 09:20:02 2018] 
+#&gt; peak picking: SuperSmoother noise estimation and kNeighbors centroid m/z refinement [Thu Mar 15 09:20:02 2018] 
+#&gt; peak picking: MAD noise estimation and kNeighbours centroid m/z refinement [Thu Mar 15 09:20:02 2018] 
+#&gt; peak picking: SuperSmoother noise estimation and descendPeak centroid m/z refinement [Thu Mar 15 09:20:02 2018] 
+#&gt; Spectra centroided: Thu Mar 15 09:20:03 2018 
+#&gt;  MSnbase version: 1.1.22 </div><div class='input'>
+
+<span class='co'>## Examples for refineMz:</span>
+<span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='fl'>5</span>, <span class='fl'>3</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>4</span>, <span class='fl'>6</span>, <span class='fl'>8</span>, <span class='fl'>11</span>, <span class='fl'>4</span>, <span class='fl'>7</span>, <span class='fl'>5</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>0</span>)
+<span class='no'>mzs</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span>:<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>ints</span>)
+<span class='no'>sp1</span> <span class='kw'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum1"</span>, <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='no'>mzs</span>, <span class='kw'>centroided</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp1</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp1</span>), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>)</div><div class='input'>
+<span class='co'>## Without m/z refinement:</span>
+<span class='no'>sp2</span> <span class='kw'>&lt;-</span> <span class='fu'>pickPeaks</span>(<span class='no'>sp1</span>)
+<span class='fu'>points</span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp2</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp2</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"darkgrey"</span>)</div><div class='input'><span class='co'>## Using k = 1, closest signals</span>
+<span class='no'>sp3</span> <span class='kw'>&lt;-</span> <span class='fu'>pickPeaks</span>(<span class='no'>sp1</span>, <span class='kw'>refineMz</span> <span class='kw'>=</span> <span class='st'>"kNeighbors"</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='fu'>points</span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp3</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp3</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>)</div><div class='input'>
+<span class='co'>## Using descendPeak requiring at least 50% or the centroid's intensity</span>
+<span class='no'>sp4</span> <span class='kw'>&lt;-</span> <span class='fu'>pickPeaks</span>(<span class='no'>sp1</span>, <span class='kw'>refineMz</span> <span class='kw'>=</span> <span class='st'>"descendPeak"</span>, <span class='kw'>signalPercentage</span> <span class='kw'>=</span> <span class='fl'>50</span>)
+<span class='fu'>points</span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp4</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp4</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>)</div><img src='pickPeaks-method-9.png' alt='' width='540' height='400' /><div class='input'>           
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -163,7 +213,8 @@ Bioinformatics 28: 2270-2271.
 
     <h2>Author</h2>
     
-  Sebastian Gibb &lt;mail@sebastiangibb.de&gt;
+  Sebastian Gibb &lt;mail@sebastiangibb.de&gt; with contributions from
+  Johannes Rainer.
 
   </div>
 </div>

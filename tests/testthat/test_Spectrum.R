@@ -343,3 +343,260 @@ test_that(".spectrum_header works", {
     ## expect_equal(hdr$basePeakMZ[1], unname(hdr_1["basePeakMZ"]))
     ## expect_equal(hdr$injectionTime[1], unname(hdr_1["injectionTime"]))
 })
+
+test_that("kNeighbors works", {
+    ## Test the m/z refining method for peak picking/centroiding.
+    ints <- c(3, 4, 5, 7, 3, 4, 2, 8, 5, 6, 8, 8.1, 4, 5, 6, 3)
+    mzs <- 1:length(ints) + rnorm(length(ints), mean = 0, sd = 0.1)
+    plot(mzs, ints, type = "h")
+    pk_pos <- c(4, 8, 12)
+
+    res <- kNeighbors(mzs, ints, peakIdx = pk_pos, k = 1)
+    points(res[, 1], res[, 2], type = "h", col = "blue")
+    expect_equal(unname(res[1, 1]), weighted.mean(mzs[3:5], ints[3:5]))
+    expect_equal(unname(res[2, 1]), weighted.mean(mzs[7:9], ints[7:9]))
+    expect_equal(unname(res[3, 1]), weighted.mean(mzs[11:13], ints[11:13]))
+
+    res <- kNeighbors(mzs, ints, peakIdx = pk_pos, k = 2)
+    points(res[, 1], res[, 2], type = "h", col = "green")
+    expect_equal(unname(res[1, 1]), weighted.mean(mzs[2:6], ints[2:6]))
+    expect_equal(unname(res[2, 1]), weighted.mean(mzs[6:10], ints[6:10]))
+    expect_equal(unname(res[3, 1]), weighted.mean(mzs[10:14], ints[10:14]))
+    
+    expect_error(kNeighbors(mz = 3, ints))
+})
+
+test_that("descendPeak works", {
+    ints <- c(2, 3, 1, 2, 1, 0, 1, 2, 0, 1, 0, 2, 3, 2, 1, 2, 5, 8, 7, 6,
+              5, 4, 3, 2, 1, 0, 1, 1, 4)
+    mzs <- 1:length(ints) + rnorm(length(ints), mean = 0, sd = 0.1)
+    plot(mzs, ints, type = "h")
+    pk_pos <- c(13, 18)
+
+    res <- descendPeak(mzs, ints, pk_pos, signalPercentage = 0)
+    points(res[, 1], res[, 2], type = "h", col = "blue")
+    expect_equal(unname(res[1, 1]), weighted.mean(mzs[11:15], ints[11:15]))
+    expect_equal(unname(res[2, 1]), weighted.mean(mzs[15:26], ints[15:26]))
+    
+    res <- descendPeak(mzs, ints, pk_pos, signalPercentage = 0,
+                       stopAtTwo = TRUE)
+    points(res[, 1], res[, 2], type = "h", col = "green")
+    expect_equal(unname(res[1, 1]), weighted.mean(mzs[6:15], ints[6:15]))
+    expect_equal(unname(res[2, 1]), weighted.mean(mzs[15:26], ints[15:26]))
+
+    ## With signalPercentage
+    res <- descendPeak(mzs, ints, pk_pos, signalPercentage = 50,
+                       stopAtTwo = TRUE)
+    points(res[, 1], res[, 2], type = "h", col = "orange")
+    idx <- 6:15
+    idx <- idx[ints[idx] > ints[13]/2]
+    expect_equal(unname(res[1, 1]), weighted.mean(mzs[idx], ints[idx]))
+    idx <- 15:26
+    idx <- idx[ints[idx] > ints[18]/2]
+    expect_equal(unname(res[2, 1]), weighted.mean(mzs[idx], ints[idx]))
+})
+
+test_that("pickPeaks,Spectrum works with refineMz", {
+    ## Get one spectrum from the tmt
+    spctr <- tmt_erwinia_in_mem_ms1[[1]]
+    centroided(spctr) <- FALSE
+
+    mzr <- c(530.9, 531.2)
+    plot(mz(filterMz(spctr, mz = mzr)), intensity(filterMz(spctr, mz = mzr)),
+         type = "h")
+    ## plain pickPeaks
+    spctr_pks <- pickPeaks(spctr)
+    points(mz(filterMz(spctr_pks, mz = mzr)),
+           intensity(filterMz(spctr_pks, mz = mzr)),
+           type = "p", col = "blue")
+    ## Now the same but using a refineMz method.
+    spctr_kn <- pickPeaks(spctr, refineMz = "kNeighbors", k = 1)
+    points(mz(filterMz(spctr_kn, mz = mzr)),
+           intensity(filterMz(spctr_kn, mz = mzr)),
+           type = "p", col = "red")
+    ## Now the same but using a refineMz method.
+    spctr_kn <- pickPeaks(spctr, refineMz = "kNeighbors", k = 2)
+    points(mz(filterMz(spctr_kn, mz = mzr)),
+           intensity(filterMz(spctr_kn, mz = mzr)),
+           type = "p", col = "green")
+    spctr_kn <- pickPeaks(spctr, refineMz = "descendPeak",
+                          signalPercentage = 45)
+    points(mz(filterMz(spctr_kn, mz = mzr)),
+           intensity(filterMz(spctr_kn, mz = mzr)),
+           type = "p", col = "red")
+    spctr_kn <- pickPeaks(spctr, refineMz = "descendPeak",
+                          signalPercentage = 10, stopAtTwo = TRUE)
+    points(mz(filterMz(spctr_kn, mz = mzr)),
+           intensity(filterMz(spctr_kn, mz = mzr)),
+           type = "p", col = "orange")
+        
+    ## Check if we can call method and refineMz and pass arguments to both
+    spctr_kn <- pickPeaks(spctr, refineMz = "kNeighbors", k = 1,
+                          method = "SuperSmoother", span = 0.9)
+    points(mz(filterMz(spctr_kn, mz = mzr)),
+           intensity(filterMz(spctr_kn, mz = mzr)),
+           type = "p", col = "red")
+    
+    ## Check errors
+    expect_error(pickPeaks(spctr, refineMz = "some_method"))
+    expect_error(pickPeaks(spctr, not_sup = TRUE, method = "SuperSmoother"))
+})
+
+test_that(".combineMovingWindow works for Spectrum", {
+    ## on a list of spectra.
+    spcts <- spectra(tmt_erwinia_in_mem_ms1)
+    s_comb <- .combineMovingWindow(spcts)
+    expect_equal(length(spcts), length(s_comb))
+    expect_equal(unname(lapply(spcts, rtime)), lapply(s_comb, rtime))
+    expect_equal(unname(lapply(spcts, msLevel)), lapply(s_comb, msLevel))
+
+    ## Check the first.
+    vals_exp <- do.call(rbind, lapply(spcts[1:2], as.data.frame))
+    vals_exp <- vals_exp[order(vals_exp$mz), ]
+    expect_equal(mz(s_comb[[1]]), vals_exp$mz)
+    expect_equal(intensity(s_comb[[1]]), vals_exp$i)
+    
+    ## Check the second.
+    vals_exp <- do.call(rbind, lapply(spcts[1:3], as.data.frame))
+    vals_exp <- vals_exp[order(vals_exp$mz), ]
+    expect_equal(mz(s_comb[[2]]), vals_exp$mz)
+    expect_equal(intensity(s_comb[[2]]), vals_exp$i)
+
+    ## With halfWindowSize 4L
+    s_comb <- .combineMovingWindow(spcts, halfWindowSize = 4L)
+    expect_equal(length(spcts), length(s_comb))
+    expect_equal(unname(lapply(spcts, rtime)), lapply(s_comb, rtime))
+    expect_equal(unname(lapply(spcts, msLevel)), lapply(s_comb, msLevel))
+
+    ## Check the first.
+    vals_exp <- do.call(rbind, lapply(spcts[1:5], as.data.frame))
+    vals_exp <- vals_exp[order(vals_exp$mz), ]
+    expect_equal(mz(s_comb[[1]]), vals_exp$mz)
+    expect_equal(intensity(s_comb[[1]]), vals_exp$i)
+    
+    ## Check the fifth
+    vals_exp <- do.call(rbind, lapply(spcts[1:9], as.data.frame))
+    vals_exp <- vals_exp[order(vals_exp$mz), ]
+    expect_equal(mz(s_comb[[5]]), vals_exp$mz)
+    expect_equal(intensity(s_comb[[5]]), vals_exp$i)
+})
+
+test_that(".estimate_mz_scattering works", {
+    set.seed(123)
+    mzs <- seq(1, 20, 0.1)
+    all_mz <- c(mzs + rnorm(length(mzs), sd = 0.01),
+                mzs + rnorm(length(mzs), sd = 0.005),
+                mzs + rnorm(length(mzs), sd = 0.02))
+    res <- .estimate_mz_scattering(sort(all_mz))
+    expect_true(length(res) == 1)
+    expect_true(res < 0.051)
+    expect_error(.estimate_mz_scattering(mzs))
+
+    all_mz <- c(mzs + rnorm(length(mzs), sd = 0.01),
+                mzs + rnorm(length(mzs), sd = 0.005),
+                mzs + rnorm(length(mzs), sd = 0.06))
+    res <- .estimate_mz_scattering(sort(all_mz))
+    expect_true(res < 0.08)
+    expect_true(length(res) == 1)
+})
+
+test_that(".group_mz_values works", {
+    set.seed(123)
+    mzs <- seq(1, 20, 0.1)
+    all_mz <- sort(c(mzs + rnorm(length(mzs), sd = 0.001),
+                     mzs + rnorm(length(mzs), sd = 0.005),
+                     mzs + rnorm(length(mzs), sd = 0.002)))
+    res <- MSnbase:::.group_mz_values(all_mz)
+    expect_true(length(res) == length(all_mz))
+    ## Expect groups of 3 each.
+    expect_true(all(table(res) == 3))
+    
+    ## Remove one from the 2nd group.
+    res <- MSnbase:::.group_mz_values(all_mz[-5])
+    expect_true(sum(res == 2) == 2)
+})
+
+test_that("combineSpectra works", {
+    set.seed(123)
+    mzs <- seq(1, 20, 0.1)
+    mzs_2 <- c(mzs, 20.1)
+    ints1 <- abs(rnorm(length(mzs), 10))
+    ints1[11:20] <- c(15, 30, 90, 200, 500, 300, 100, 70, 40, 20) # add peak
+    ints2 <- c(abs(rnorm(length(mzs), 10)), 4)
+    ints2[11:20] <- c(15, 30, 60, 120, 300, 200, 90, 60, 30, 23)
+    ints3 <- abs(rnorm(length(mzs), 10))
+    ints3[11:20] <- c(13, 20, 50, 100, 200, 100, 80, 40, 30, 20)
+
+    ## Create the spectra
+    sp1 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.01),
+               intensity = ints1, rt = 1)
+    sp2 <- new("Spectrum1", mz = mzs_2 + rnorm(length(mzs_2), sd = 0.01),
+               intensity = ints2, rt = 2)
+    sp3 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.008),
+               intensity = ints3, rt = 3)
+    sp4 <- new("Spectrum2", mz = mzs + rnorm(length(mzs), sd = 0.3),
+               intensity = ints2, rt = 4)
+    expect_error(combineSpectra(list(sp1, sp2, sp3, sp4)))
+
+    res <- combineSpectra(list(sp1, sp2, sp3))
+    expect_equal(length(mz(res)), length(mz(sp2)))
+    expect_equal(rtime(res), rtime(sp2))
+
+    res <- combineSpectra(list(sp2, sp1))
+    expect_equal(length(mz(res)), length(mz(sp1)))
+    expect_equal(rtime(res), rtime(sp1))
+
+    sp4 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.3),
+               intensity = ints2, rt = 4)
+    ## randon noise larger than resolution.
+    expect_error(res <- combineSpectra(list(sp1, sp3, sp4)))
+
+    res <- combineSpectra(list(sp1, sp2, sp3), main = 1)
+    expect_equal(rtime(res), rtime(sp1))
+    expect_equal(length(mz(res)), length(mz(sp1)))
+
+    res <- combineSpectra(list(sp1, sp2, sp3), main = 3)
+    expect_equal(rtime(res), rtime(sp3))
+    expect_equal(length(mz(res)), length(mz(sp3)))
+    
+    res <- combineSpectra(list(sp1, sp1), intensityFun = sum)
+    expect_equal(mz(res), mz(sp1))
+    expect_equal(intensity(res), intensity(sp1) * 2)
+
+    ## Use character mzFun:
+    expect_error(combineSpectra(list(sp1, sp2, sp3), mzFun = "meani"))
+    res <- combineSpectra(list(sp1, sp2, sp3), mzFun = base::mean)
+    res2 <- combineSpectra(list(sp1, sp2, sp3), mzFun = "weighted.mean")
+    expect_equal(intensity(res), intensity(res2))
+    expect_true(sum(mz(res) == mz(res2)) == 1)
+})
+
+test_that(".estimate_mz_resolution, estimateMzResolution,Spectrum works", {
+    set.seed(123)
+    mzs <- seq(1, 2000, 0.1)
+    mzs <- mzs + rnorm(length(mzs), sd = 0.005)
+    res <- .estimate_mz_resolution(mzs)
+    ## expect_true(res - 0.1 < 0.005)
+    expect_true(res - 0.1 < 0.008)
+
+    res1 <- estimateMzResolution(tmt_erwinia_in_mem_ms1[[1]])
+    res2 <- estimateMzResolution(tmt_erwinia_in_mem_ms1[[2]])
+    expect_true(res1 != res2)
+})
+
+test_that(".findPeakValley works", {
+    vals <- c(3, 5, 6, 7, 8, 9, 5, 4, 2, 1, 5, 7, 4, 1)
+    expect_equal(.findPeakValley(6:20, vals), 10)
+    expect_equal(.findPeakValley(6:1, vals), NA)
+    expect_equal(.findPeakValley(12:14, vals), NA)
+    expect_equal(.findPeakValley(12:1, vals), 10)
+})
+
+test_that(".density works", {
+    set.seed(123)
+    xs <- rnorm(300, 2, 45)
+    res <- .density(xs)
+    res_2 <- density(xs, n = 512L)
+    expect_equal(res$x, res_2$x)
+    expect_equal(res$y, res_2$y)
+})

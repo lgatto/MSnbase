@@ -507,6 +507,71 @@ test_that("setAs,MSnExp,data.frame works", {
     expect_equal(unlist(intensity(res), use.names = FALSE), df$i)
 })
 
+test_that("pickPeaks,MSnExp works with refineMz", {
+    ## Get one spectrum from the tmt
+    spctr <- tmt_erwinia_in_mem_ms1[[1]]
+    centroided(spctr) <- FALSE
+
+    centroided(tmt_erwinia_in_mem_ms1) <- FALSE
+    tmt_pk <- pickPeaks(tmt_erwinia_in_mem_ms1, refineMz = "kNeighbors",
+                        k = 1)
+    spctr_pk <- pickPeaks(spctr, refineMz = "kNeighbors", k = 1)
+    spctr_tmt_pk <- tmt_pk[[1]]
+    expect_equal(spctr_pk, spctr_tmt_pk)
+
+    spctr_pk <- pickPeaks(spctr, refineMz = "descendPeak",
+                          signalPercentage = 75)
+    tmt_pk <- pickPeaks(tmt_erwinia_in_mem_ms1, refineMz = "descendPeak",
+                        signalPercentage = 75)
+    expect_equal(spctr_pk, tmt_pk[[1]])
+    
+    ## Check if we can call method and refineMz and pass arguments to both
+    spctr_pk <- pickPeaks(spctr, refineMz = "kNeighbors", k = 1,
+                          method = "SuperSmoother", span = 0.9)
+    tmt_pk <- pickPeaks(tmt_erwinia_in_mem_ms1, refineMz = "kNeighbors",
+                        k = 1, method = "SuperSmoother", span = 0.9)
+    expect_equal(spctr_pk, tmt_pk[[1]])
+    
+    ## Check errors
+    expect_error(pickPeaks(tmt_erwinia_in_mem_ms1, refineMz = "some_method"))
+})
+
+test_that("estimateMzResolution,MSnExp works", {
+    res <- estimateMzResolution(tmt_erwinia_in_mem_ms2)
+    expect_equal(unname(res[[15]]),
+                 estimateMzResolution(tmt_erwinia_in_mem_ms2[[15]]))
+})
+
+test_that("estimateMzScattering works", {
+    expect_error(MSnbase:::estimateMzScattering(4))
+
+    res <- estimateMzScattering(tmt_erwinia_in_mem_ms1)
+    mzr <- estimateMzResolution(tmt_erwinia_in_mem_ms1)
+    idx <- which.max(spectrapply(tmt_erwinia_in_mem_ms1, peaksCount))
+    ## m/z scattering should be smaller than m/z resolution
+    expect_true(res[[idx]] < mzr[[idx]])
+
+    ## .estimate_mz_scattering_list.
+    res_2 <- .estimate_mz_scattering_list(spectra(tmt_erwinia_in_mem_ms1))
+    expect_equal(unname(res), res_2)
+})
+
+test_that("combineSpectraMovingWindow works", {
+    ## Check errors
+    expect_error(combineSpectraMovingWindow("3"))
+    
+    library(msdata)
+    fl <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)[1]
+    od <- readMSData(fl, mode = "onDisk")
+    ## Focus on the one with most peaks
+    idx <- which.max(peaksCount(od))
+    od <- od[(idx - 3):(idx + 3)]
+    od_comb <- combineSpectraMovingWindow(od)
+
+    expect_equal(length(od), length(od_comb))
+    expect_equal(peaksCount(od), peaksCount(od_comb))
+})
+
 
 test_that("plotXIC_MSnExp works", {
     im <- microtofq_in_mem_ms1
