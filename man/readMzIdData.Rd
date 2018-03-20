@@ -29,6 +29,9 @@ f <- msdata::ident(full.names = TRUE, pattern = idf)
 basename(f)
 readMzIdData(f)
 }
+\seealso{
+\code{\link[=filterIdentificationDataFrame]{filterIdentificationDataFrame()}} to filter out unreliable PSMs.
+}
 \author{
 Laurent Gatto
 }
