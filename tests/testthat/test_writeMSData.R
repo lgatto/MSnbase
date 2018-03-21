@@ -82,7 +82,7 @@ test_that("writeMSData works", {
 
 test_that(".pattern_to_cv works", {
     ## Not found.
-    expect_equal(.pattern_to_cv("unknown"), "MS:-1")
+    expect_equal(.pattern_to_cv("unknown"), NA_character_)
     expect_equal(.pattern_to_cv("peak picking"), "MS:1000035")
     expect_equal(.pattern_to_cv("centroid"), "MS:1000035")    
     expect_equal(.pattern_to_cv("Alignment/retention time adjustment"),
@@ -132,8 +132,13 @@ test_that(".guessSoftwareProcessing works", {
     res <- .guessSoftwareProcessing(odf_proc, c("other_soft", "43.2.1"))
     expect_equal(res[[1]][7], "MS:1001486")
     expect_equal(res[[2]], c("other_soft", "43.2.1"))
+    ## Check that we don't get unknown CV parameter.
+    odf_proc <- clean(tmt_erwinia_on_disk)
+    res <- .guessSoftwareProcessing(odf_proc)
+    expect_equal(res[[1]][1], "MSnbase")
+    expect_equal(res[[1]][2], paste0(packageVersion("MSnbase"), collapse = "."))
+    expect_true(length(res[[1]]) == 2)
 })
-
 
 test_that("writeMSData,OnDiskMSnExp works", {
     out_path <- tempdir()
