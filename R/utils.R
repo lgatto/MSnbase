@@ -68,45 +68,45 @@ formatFileSpectrumNames <- function(fileIds, spectrumIds,
 }
 
 utils.removePeaks_centroided <- function(int, t) {
-    rmi <- int <= t
-    int[rmi] <- 0
+    int[int <= t] <- 0L
     int
 }
 
 utils.removePeaks <- function(int, t) {
-  ## Description:
-  ## Given a vector of intensities 'int' and a threshold 't',
-  ## this function returns vector of same length with all
-  ## peaks of max height 't' set t zero.
-  ## Example:
-  ## The following three curves will be removed
-  ##   t - - - - + - - - - - - - - + - + -
-  ##           +  +  or  +++     ++ +++ +
-  ##   0 - - +    + - - +   + - + - - - +
-  ##
-  peakRanges <- as(int > 0, "IRanges")
-  peak_is_too_low <- max(extractList(int, peakRanges)) <= t
-  replaceROWS(int, peakRanges[peak_is_too_low], 0L)
+    d <- diff(int > 0L)
+    s <- which(d == 1L)
+    e <- which(d == -1L)
+    for (i in seq_along(s)) {
+        j <- s[[i]]:e[[i]]
+        if (all(int[j] <= t)) {
+            int[j] <- 0L
+        }
+    }
+    int
 }
 
 ## For internal use - use utils.removePrecMz_Spectrum that will set
 ## the paramters based on data accessed directly in the spectrum
 ## object.
 utils.removePrecMz <- function(mz, int, precMz, tolerance = 25e-6) {
-  if (!is.numeric(precMz) && length(precMz) == 1L)
-    stop("precMz must be numeric of length 1.")
-
-  i <- relaxedMatch(precMz, mz, tolerance = tolerance)
-
-  if (!is.na(i)) {
-    peakRanges <- IRanges(sapply(int, ">", 0L))
-    i <- findOverlaps(IRanges(i, width = 1L), peakRanges,
-                      type = "within", select = "first")
-    if (!is.na(i)) {
-      int[start(peakRanges[i]):end(peakRanges[i])] <- 0
+    if (!is.numeric(precMz) || length(precMz) != 1L) {
+        stop("precMz must be numeric of length 1.")
     }
-  }
-  int
+
+    i <- relaxedMatch(precMz, mz, tolerance = tolerance)
+
+    if (!is.na(i)) {
+        d <- diff(int > 0L)
+        s <- which(d == 1L)
+        e <- which(d == -1L)
+
+        i <- which(s <= i & i <= e)[1L]
+
+        if (!is.na(i)) {
+            int[s[i]:e[i]] <- 0
+        }
+    }
+    int
 }
 
 utils.removePrecMz_Spectrum <- function(spectrum,
@@ -1211,6 +1211,7 @@ makeCamelCase <- function(x, prefix) {
 ##' @param sep The separator. Default is \code{;}.
 ##' @return A reduced \code{data.frame}.
 ##' @author Laurent Gatto
+##' @aliases reduce
 ##' @examples
 ##' dfr <- data.frame(A = c(1, 1, 2),
 ##'                   B = c("x", "x", "z"),

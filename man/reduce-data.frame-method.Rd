@@ -3,6 +3,7 @@
 \docType{methods}
 \name{reduce,data.frame-method}
 \alias{reduce,data.frame-method}
+\alias{reduce}
 \title{Reduce a data.frame}
 \usage{
 \S4method{reduce}{data.frame}(x, key, sep = ";")

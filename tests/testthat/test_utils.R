@@ -277,6 +277,32 @@ test_that("get.amino.acids", {
     expect_identical(colnames(aa), cn)
 })
 
+test_that("utils.removePeaks", {
+    int <- c(0, 0, 1:3, 2, 0, 0, 1:2, 2, 2:1, 0, 1:3, 2, 2:3, 0)
+    expect_equal(MSnbase:::utils.removePeaks(int, 0), int)
+    expect_equal(MSnbase:::utils.removePeaks(int, 1), int)
+    expect_equal(MSnbase:::utils.removePeaks(int, 2),
+                 c(0, 0, 1:3, 2, rep(0, 8), 1:3, 2, 2:3, 0))
+    expect_equal(MSnbase:::utils.removePeaks(int, 3), rep(0, length(int)))
+})
+
+test_that("utils.removePeaks_centroided", {
+    expect_equal(MSnbase:::utils.removePeaks_centroided(1:3, 0), 1:3)
+    expect_equal(MSnbase:::utils.removePeaks_centroided(1:3, 1), c(0, 2:3))
+    expect_equal(MSnbase:::utils.removePeaks_centroided(1:3, 2), c(0, 0, 3))
+    expect_equal(MSnbase:::utils.removePeaks_centroided(1:3, 3), rep(0, 3))
+})
+
+test_that("utils.removePrecMz", {
+    int <- c(0, 0, 1:3, 2, 0, 0, 1:2, 2, 2:1, 0, 1:3, 2, 2:3, 0)
+    mz <- seq_along(int)
+    expect_error(MSnbase:::utils.removePrecMz(mz, int, "A"), "numeric")
+    expect_error(MSnbase:::utils.removePrecMz(mz, int, 1:3), "of length 1")
+    expect_equal(MSnbase:::utils.removePrecMz(mz, int, 50), int)
+    expect_equal(MSnbase:::utils.removePrecMz(mz, int, 4.1, tolerance=0.3),
+                 c(rep(0, 8), int[-c(1:8)]))
+})
+
 test_that("remove precursor MZ", {
     data(itraqdata)
     sp <- itraqdata[[1]]

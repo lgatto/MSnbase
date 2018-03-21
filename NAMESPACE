@@ -31,10 +31,10 @@ importFrom(ggplot2, geom_histogram, geom_text, geom_line, geom_point,
            labs, aes, annotate, scale_colour_hue,
            scale_fill_gradient2, scale_fill_gradient,
            scale_x_continuous, scale_x_log10, coord_cartesian,
-           facet_grid)	   
+           facet_grid)
 
 importFrom(MALDIquant, binPeaks, match.closest) ## only using ::: functions
-importFrom(S4Vectors, isEmpty, metadata, DataFrame, replaceROWS)
+importFrom(S4Vectors, isEmpty, metadata, DataFrame)
 
 ## importFrom(rols, olsQuery, term)
 ## importClassesFrom(rols, CVParam)
@@ -43,9 +43,6 @@ importFrom(plyr, ddply, llply, summarise)
 importFrom(stats4, plot)
 importFrom(preprocessCore, normalize.quantiles)
 importFrom(vsn, vsn2, meanSdPlot)
-importFrom(IRanges, IRanges, end, extractList, findOverlaps, start, width,
-           reduce)
-importClassesFrom(IRanges, IRanges)
 importFrom(affy, MAplot, ma.plot, mva.pairs)
 importFrom(mzID, mzID, flatten)
 importClassesFrom(mzID, mzID, mzIDCollection)
