@@ -1,7 +1,7 @@
 # MSnbase 2.5
 
 Changes in version 2.5.10
-- Nothing yet
+- Rewrite `utils.removePeaks` and remove `IRanges` dependency (see PR #320) <2018-03-21>
 
 Changes in version 2.5.9
 - New combineSpectra, combineSpectraMovingWindow, estimateMzScattering and
@@ -32,7 +32,7 @@ Changes in version 2.5.5
 - Change readMSnSet2 example <2018-01-23 Tue>
 
 Changes in version 2.5.4
-- Add featureData slot to Chromatograms class and add mz, precursorMz and 
+- Add featureData slot to Chromatograms class and add mz, precursorMz and
   productMz methods for Chromatograms (issue
   #289) <2017-12-18 Mon>.
 - Add readSRMData function to read chromatographic data from SRM (MRM)
