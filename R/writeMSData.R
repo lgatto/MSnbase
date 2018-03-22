@@ -146,9 +146,8 @@
     processings <- processingData(x)@processing
     if (length(processings)) {
         proc_cv <- unlist(lapply(processings, FUN = .pattern_to_cv))
-        ## Remove MS:-1 if we have also some mapped processings.
-        if (!all(proc_cv == "MS:-1"))
-            proc_cv <- proc_cv[proc_cv != "MS:-1"]
+        ## Remove all unknown processing steps (issue #321).
+        proc_cv <- proc_cv[!is.na(proc_cv)]
         msnbase_proc <- c(msnbase_proc, proc_cv)
     }
     res[[1]] <- msnbase_proc
@@ -169,7 +168,7 @@
 #' @param pattern `character(1)` with the pattern for which a CV term should be
 #'     returned.
 #'
-#' @param ifnotfound `character(1)` to be returned if none of the cv terms
+#' @param ifnotfound value to be returned if none of the cv terms
 #'     matches the pattern.
 #' 
 #' @param return `character` with the PSI-MS term or the value of `ifnotfound`
@@ -181,7 +180,7 @@
 #' @md
 #'
 #' @noRd
-.pattern_to_cv <- function(pattern, ifnotfound = "MS:-1") {
+.pattern_to_cv <- function(pattern, ifnotfound = NA_character_) {
     if (length(pattern) > 1) {
         warning("length of pattern is > 1, using only first element")
         pattern <- pattern[1]
