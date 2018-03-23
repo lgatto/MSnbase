@@ -141,13 +141,16 @@
 #' @noRd
 .guessSoftwareProcessing <- function(x, software_processing = NULL) {
     res <- list()
+    ## issue #321: replace MS:-1 with the MS CV Term of MSnbase, once it's
+    ## included.
     msnbase_proc <- c("MSnbase", paste0(packageVersion("MSnbase"),
-                                        collapse = "."))
+                                        collapse = "."), "MS:-1")
     processings <- processingData(x)@processing
     if (length(processings)) {
         proc_cv <- unlist(lapply(processings, FUN = .pattern_to_cv))
         ## Remove all unknown processing steps (issue #321).
         proc_cv <- proc_cv[!is.na(proc_cv)]
+        if (!all(proc_vb))
         msnbase_proc <- c(msnbase_proc, proc_cv)
     }
     res[[1]] <- msnbase_proc
