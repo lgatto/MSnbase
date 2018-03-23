@@ -150,7 +150,6 @@
         proc_cv <- unlist(lapply(processings, FUN = .pattern_to_cv))
         ## Remove all unknown processing steps (issue #321).
         proc_cv <- proc_cv[!is.na(proc_cv)]
-        if (!all(proc_vb))
         msnbase_proc <- c(msnbase_proc, proc_cv)
     }
     res[[1]] <- msnbase_proc
