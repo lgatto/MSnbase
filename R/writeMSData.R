@@ -108,6 +108,8 @@
     ## mzML files will otherwise fail.
     if (!any(colnames(hdr) == "filterString"))
         hdr$filterString <- NA_character_
+    ## centroided has to be logical
+    hdr$centroided <- as.logical(hdr$centroided)
     ## o add processing steps.
     soft_proc <- .guessSoftwareProcessing(msData, software_processing)
     if (copy) {

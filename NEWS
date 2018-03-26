@@ -1,6 +1,8 @@
 # MSnbase 2.5
 
 Changes in version 2.5.10
+- Centroiding information is retrieved from raw files (for mzML/mzXML files; 
+  see issue #325) <2018-03-26>
 - Rewrite `utils.removePeaks` and remove `IRanges` dependency (see PR #320) <2018-03-21>
 
 Changes in version 2.5.9
