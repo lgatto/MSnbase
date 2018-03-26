@@ -284,6 +284,13 @@ test_that("utils.removePeaks", {
     expect_equal(MSnbase:::utils.removePeaks(int, 2),
                  c(0, 0, 1:3, 2, rep(0, 8), 1:3, 2, 2:3, 0))
     expect_equal(MSnbase:::utils.removePeaks(int, 3), rep(0, length(int)))
+
+
+    int1 <- c(2.5, -0.3, 0, 3.1, 4.2, -1, 2.2, 0)
+    expect_equal(MSnbase:::utils.removePeaks(int1, 2.5),
+                 c(0, -0.3, 0, 3.1, 4.2, -1, 0, 0))
+    int2 <- c(0, 0, 2.5, -0.3, 3.1, 4.2, -1, 2.2)
+    expect_equal(MSnbase:::utils.removePeaks(int2, 0.1), int2)
 })
 
 test_that("utils.removePeaks_centroided", {

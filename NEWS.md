@@ -1,7 +1,8 @@
 # MSnbase 2.5
 
 ## Changes in version 2.5.10
-- Rewrite `utils.removePeaks` and remove `IRanges` dependency (see PR [#320](https://github.com/lgatto/MSnbase/issues/320)) <2018-03-21>
+- Adapt `utils.removePeaks` to new `IRanges` implementation; thanks to H. Pagès
+  for the implementation (see PR [#320](https://github.com/lgatto/MSnbase/issues/320) for discussion) <2018-03-26>.
 
 ## Changes in version 2.5.9
 - New combineSpectra, combineSpectraMovingWindow, estimateMzScattering and

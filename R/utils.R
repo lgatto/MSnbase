@@ -73,16 +73,9 @@ utils.removePeaks_centroided <- function(int, t) {
 }
 
 utils.removePeaks <- function(int, t) {
-    d <- diff(int > 0L)
-    s <- which(d == 1L)
-    e <- which(d == -1L)
-    for (i in seq_along(s)) {
-        j <- s[[i]]:e[[i]]
-        if (all(int[j] <= t)) {
-            int[j] <- 0L
-        }
-    }
-    int
+    peakRanges <- as(int > 0L, "IRanges")
+    toLow <- max(extractList(int, peakRanges)) <= t
+    replaceROWS(int, peakRanges[toLow], 0L)
 }
 
 ## For internal use - use utils.removePrecMz_Spectrum that will set
@@ -96,14 +89,11 @@ utils.removePrecMz <- function(mz, int, precMz, tolerance = 25e-6) {
     i <- relaxedMatch(precMz, mz, tolerance = tolerance)
 
     if (!is.na(i)) {
-        d <- diff(int > 0L)
-        s <- which(d == 1L)
-        e <- which(d == -1L)
-
-        i <- which(s <= i & i <= e)[1L]
-
+        peakRanges <- as(int > 0L, "IRanges")
+        i <- findOverlaps(IRanges(i, width = 1L), peakRanges,
+                          type = "within", select = "first")
         if (!is.na(i)) {
-            int[s[i]:e[i]] <- 0
+            int <- replaceROWS(int, peakRanges[i], 0L)
         }
     }
     int
@@ -120,7 +110,7 @@ utils.removePrecMz_Spectrum <- function(spectrum,
                                              intensity(spectrum),
                                              precMz = precMz,
                                              tolerance = tolerance)
-    return(spectrum)
+    spectrum
 }
 
 utils.removePrecMz_list <- function(object, precMz, tolerance = 25e-6) {
@@ -129,7 +119,7 @@ utils.removePrecMz_list <- function(object, precMz, tolerance = 25e-6) {
                                      object$int,
                                      precMz = precMz,
                                      tolerance = tolerance)
-    return(object)
+    object
 }
 
 #' Removes zeros from input except the ones that in the direct neighbourhood of
@@ -1211,7 +1201,6 @@ makeCamelCase <- function(x, prefix) {
 ##' @param sep The separator. Default is \code{;}.
 ##' @return A reduced \code{data.frame}.
 ##' @author Laurent Gatto
-##' @aliases reduce
 ##' @examples
 ##' dfr <- data.frame(A = c(1, 1, 2),
 ##'                   B = c("x", "x", "z"),
