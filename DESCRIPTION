@@ -52,6 +52,7 @@ Depends:
     BiocParallel,
     ProtGenerics (>= 1.9.1)
 Imports:
+    IRanges (>= 2.13.28),
     plyr,
     preprocessCore,
     vsn,
