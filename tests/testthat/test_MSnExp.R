@@ -395,8 +395,8 @@ test_that("injection time", {
     f <- msdata::proteomics(full.names = TRUE,
                             pattern = "MS3TMT10_01022016_32917-33481.mzML.gz")
     it1 <- MSnbase:::injectionTimeFromFile1(f) ## in millisecs
-    it2 <- fData(readMSData(f, mode = "onDisk"))$injectionTime ## in secs
-    expect_equal(it1/1000, it2)
+    it2 <- fData(readMSData(f, mode = "onDisk"))$injectionTime ## in millisecs
+    expect_equal(it1, it2)
 })
 
 test_that("chromatogram,MSnExp works", {

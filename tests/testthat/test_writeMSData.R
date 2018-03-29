@@ -111,7 +111,7 @@ test_that(".guessSoftwareProcessing works", {
     res <- .guessSoftwareProcessing(odf_proc)
     expect_equal(res[[1]][1], "MSnbase")
     expect_equal(res[[1]][2], paste0(packageVersion("MSnbase"), collapse = "."))
-    expect_equal(res[[1]][3], "MS:-1")
+    expect_equal(res[[1]][3], "MS:1002870")
     expect_equal(res[[1]][4], "MS:1001486")
     ## clean: Spectra cleaned NO CV YET
     ## bin: Spectra binned: NO CV YET
