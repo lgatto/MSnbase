@@ -373,10 +373,20 @@ removeReporters_MSnExp <- function(object, reporters = NULL,
 #' local minimum between these first two peaks in the distribution is returned
 #' as the *m/z scattering*.
 #'
+#' @note
+#'
+#' For `timeDomain = TRUE` the function does **not** return the estimated
+#' scattering of m/z values, but the scattering of `sqrt(mz)` values.
+#' 
 #' @param x `MSnExp` or `OnDiskMSnExp` object.
 #'
 #' @param halfWindowSize `integer(1)` defining the half window size for the
 #'     moving window to combine consecutive spectra.
+#'
+#' @param timeDomain `logical(1)` whether m/z scattering should be estimated
+#'     on `mz` (`timeDomain = FALSE`) or `sqrt(mz)` (`timeDomain = TRUE`)
+#'     values. See [combineSpectraMovingWindow()] for deteils on this
+#'     parameter.
 #' 
 #' @author Johannes Rainer
 #'
@@ -406,12 +416,12 @@ removeReporters_MSnExp <- function(object, reporters = NULL,
 #' abline(v = res[[idx]], lty = 2)
 #' estimateMzResolution(im[[idx]])
 #' ## As expected, the m/z scattering is much lower than the m/z resolution.
-estimateMzScattering <- function(x, halfWindowSize = 1L) {
+estimateMzScattering <- function(x, halfWindowSize = 1L, timeDomain = FALSE) {
     if (!is(x, "MSnExp"))
         stop("'x' should be a 'MSnExp' object")
     res <- lapply(split(spectra(x), fromFile(x)),
                   FUN = .estimate_mz_scattering_list,
-                  halfWindowSize = halfWindowSize)
+                  halfWindowSize = halfWindowSize, timeDomain = timeDomain)
     res <- unsplit(res, fromFile(x))
     names(res) <- featureNames(x)
     res
@@ -449,6 +459,17 @@ estimateMzScattering <- function(x, halfWindowSize = 1L) {
 #' 
 #' See [combineSpectra()] for details.
 #'
+#' Parameter `timeDomain`: by default, m/z-intensity pairs from consecutive
+#' scans to be aggregated are defined based on the square root of the m/z
+#' values. This is because it is highly likely that in all QTOF MS instruments
+#' data is collected based on a timing circuit (with a certain variance) and
+#' m/z values are later derived based on the relationship `t = k * sqrt(m/z)`.
+#' differences between individual m/z values will thus be dependent on the
+#' actual m/z value causing both the difference between m/z values and their
+#' scattering being different in the lower and upper m/z range. Determining
+#' m/z values to be combined on the `sqrt(mz)` reduces this dependency. For
+#' non-QTOF MS data `timeDomain = FALSE` might be used instead.
+#' 
 #' @note
 #'
 #' The function has to read all data into memory for the spectra combining
@@ -519,7 +540,8 @@ combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
                                        mzFun = base::mean,
                                        intensityFun = base::mean,
                                        mzd = NULL,
-                                       BPPARAM = bpparam()){
+                                       BPPARAM = bpparam(),
+                                       timeDomain = TRUE){
     if (!is(x, "MSnExp"))
         stop("'x' has to be a 'MSnExp' or an 'OnDiskMSnExp'")
     if (is(x, "OnDiskMSnExp"))
@@ -527,14 +549,16 @@ combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
     ## Combine spectra per file
     new_sp <- bplapply(split(spectra(x), fromFile(x)), FUN = function(z, intF,
                                                                       mzF, hws,
-                                                                      mzd) {
+                                                                      mzd,
+                                                                      timeD) {
         len_z <- length(z)
         ## Estimate m/z scattering on the 100 spectra with largest number of
         ## peaks
         if (is.null(mzd)) {
             idx <- order(unlist(lapply(z, function(y) y@peaksCount)),
                          decreasing = TRUE)[1:min(100, len_z)]
-            mzs <- .estimate_mz_scattering_list(z[idx], halfWindowSize = hws)
+            mzs <- .estimate_mz_scattering_list(z[idx], halfWindowSize = hws,
+                                                timeDomain = timeD)
             dens <- .density(unlist(mzs))
             mzd <- dens$x[which.max(dens$y)]
         }
@@ -545,11 +569,11 @@ combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
             res[[i]] <- combineSpectra(z[windowIndices(i, hws, len_z)],
                                        mzFun = mzF, intensityFun = intF,
                                        main = hwsp - (i <= hws) * (hwsp - i),
-                                       mzd = mzd)
+                                       mzd = mzd, timeDomain = timeD)
         }
         res
     }, intF = intensityFun, mzF = mzFun, hws = as.integer(halfWindowSize),
-    mzd = mzd, BPPARAM = BPPARAM)
+    mzd = mzd, timeD = timeDomain, BPPARAM = BPPARAM)
     new_sp <- unsplit(new_sp, fromFile(x))
     names(new_sp) <- featureNames(x)
     x@assayData <- list2env(new_sp)

@@ -851,7 +851,15 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' All m/z values with a difference smaller than this value are combined to
 #' a m/z group.
 #' Intensities and m/z values falling within each of these m/z groups are
-#' aggregated using the `intensity_fun` and `mz_fun`, respectively.
+#' aggregated using the `intensity_fun` and `mz_fun`, respectively. It is
+#' highly likely that all QTOF profile data is collected with a timing circuit
+#' that collects data poings with regular intervals of time that are then later
+#' converted into m/z values based on the relationship `t = k * sqrt(m/z)`. The
+#' m/z scale is thus non-linear and the m/z scattering (which is in fact caused
+#' by small variations in the time circuit) will thus be different in the lower
+#' and upper m/z scale. m/z-intensity pairs from consecutive scans to be
+#' combined are therefore defined by default on the square root of the m/z
+#' values. With `timeDomain = FALSE`, the actual m/z values will be used.
 #'
 #' @param x `list` of `Spectrum` objects.
 #'
@@ -872,6 +880,14 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'     values are grouped. If not provided, this value is estimated from the
 #'     distribution of differences of m/z values from the provided spectra
 #'     (see details).
+#'
+#' @param timeDomain `logical(1)` whether definition of the m/z values to be
+#'     combined into one m/z is performed on m/z values
+#'     (`timeDomain = FALSE`) or on `sqrt(mz)` (`timeDomain = TRUE`).
+#'     Profile data from TOF MS instruments should be aggregated based
+#'     on the time domain (see details). Note that a pre-defined `mzd` should
+#'     also be estimated on the square root of m/z values if
+#'     `timeDomain = TRUE`.
 #' 
 #' @return
 #'
@@ -880,7 +896,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' of m/z and intensity pairs than the spectrum with index `main` in `x`, also
 #' all other related information is taken from this spectrum.
 #'
-#' @author Johannes Rainer
+#' @author Johannes Rainer, Sigurdur Smarason
 #'
 #' @seealso
 #'
@@ -928,7 +944,8 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' plot(mz(sp_agg), intensity(sp_agg), xlim = range(mzs[5:25]), type = "h",
 #'     col = "black")
 combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
-                           main = floor(length(x) / 2L) + 1L, mzd) {
+                           main = floor(length(x) / 2L) + 1L, mzd,
+                           timeDomain = TRUE) {
     if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
         stop("Can only combine spectra with the same MS level")
     mzs <- lapply(x, function(z) z@mz)
@@ -936,7 +953,10 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
     mzs <- unlist(mzs, use.names = FALSE)
     mz_order <- base::order(mzs)
     mzs <- mzs[mz_order]
-    mz_groups <- .group_mz_values(mzs, mzd = mzd)
+    if (timeDomain)
+        mz_groups <- .group_mz_values(sqrt(mzs), mzd = mzd)
+    else
+        mz_groups <- .group_mz_values(mzs, mzd = mzd)
     if (length(unique(mz_groups)) < length(x[[main]]@mz))
         stop("Got less m/z groups than m/z values in the original spectrum. ",
              "Most likely the data is not profile-mode LCMS data.")
@@ -1031,13 +1051,17 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
 #' @param x `list` of `Spectrum` objects.
 #'
 #' @noRd
-.estimate_mz_scattering_list <- function(x, halfWindowSize = 1L) {
+.estimate_mz_scattering_list <- function(x, halfWindowSize = 1L,
+                                         timeDomain = TRUE) {
     len_x <- length(x)
     mzs <- vector("list", len_x)
     for (i in seq_along(x)) {
         mzs[[i]] <- .estimate_mz_scattering(
             sort(unlist(lapply(x[windowIndices(i, halfWindowSize, len_x)],
-                               function(z) z@mz))))
+                               function(z) {
+                                   if (timeDomain) sqrt(z@mz)
+                                   else z@mz
+                               }))))
     }
     mzs
 }

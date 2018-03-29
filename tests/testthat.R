@@ -30,5 +30,7 @@ extdata_mzXML_in_mem_ms2 <- readMSData(f, verbose = FALSE, centroided. = FALSE)
 extdata_mzXML_on_disk <- readMSData(f, centroided. = FALSE, mode = "onDisk")
 extdata_mzXML_on_disk_ms2 <- readMSData(f, msLevel = 2, centroided. = FALSE, mode = "onDisk")
 
+sf <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)
+sciex <- readMSData(sf, mode = "onDisk")
 
 test_check("MSnbase")
