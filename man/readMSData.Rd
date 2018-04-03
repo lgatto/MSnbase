@@ -26,10 +26,12 @@ data.}
 \code{\link[=isMSnbaseVerbose]{isMSnbaseVerbose()}}.}
 
 \item{centroided.}{A \code{logical}, indicating whether spectra are
-centroided or not. Default is \code{NA}. In \code{onDisk}, it can also
-be set for different MS levels by a vector of logicals, where
-the first element is for MS1, the second element is for MS2,
-... See \linkS4class{OnDiskMSnExp} for an example.}
+centroided or not. Default is \code{NA} in which case the information
+is extracted from the raw file (for mzML or mzXML files). In
+\code{onDisk}, it can also be set for different MS levels by a
+vector of logicals, where the first element is for MS1, the
+second element is for MS2, ... See \linkS4class{OnDiskMSnExp} for
+an example.}
 
 \item{smoothed.}{A \code{logical} indicating whether spectra already
 smoothed or not. Default is \code{NA}.}
