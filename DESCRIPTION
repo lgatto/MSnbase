@@ -40,8 +40,9 @@ Authors@R: c(person(given = "Laurent", family = "Gatto",
 		    role = c("aut", "cre")))
 Author: Laurent Gatto, Johannes Rainer and Sebastian Gibb with
     contributions from Guangchuang Yu, Samuel Wieczorek, Vasile-Cosmin
-    Lazar, Vladislav Petyuk, Thomas Naake, Richie Cotton, Arne Smits
-    and Martina Fisher.
+    Lazar, Vladislav Petyuk, Thomas Naake, Richie Cotton, Arne Smits,
+    Martina Fisher, Ludger Goeminne, Adriaan Sticker and Lieven
+    Clement.
 Maintainer: Laurent Gatto <lg390@cam.ac.uk>
 Depends:
     R (>= 3.1),
@@ -68,6 +69,7 @@ Imports:
     S4Vectors,
     XML,
     scales,
+    MASS,
     Rcpp
 Suggests:
     testthat,
