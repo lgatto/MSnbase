@@ -83,23 +83,27 @@
     </div>
 
     
+    
+
     <p>This function combines the features in an
   <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> instance applying a summarisation
-  function (see <code>fun</code> argument) to sets of features as
-  defined by a factor (see <code>groupBy</code> argument).
-  Note that the feature names are automatically updated based on the
-  <code>groupBy</code> parameter.</p>
+  function (see <code>fun</code> argument) to sets of features as defined by a
+  factor (see <code>groupBy</code> argument).  Note that the feature names are
+  automatically updated based on the <code>groupBy</code> parameter.</p>
 <p>The coefficient of variations are automatically computed and collated
   to the featureData slot. See <code>cv</code> and <code>cv.norm</code> arguments
   for details.</p>
 <p>NB: All the functions available as <code>fun</code> take a <code>na.rm</code>
   argument. This argument is <code>FALSE</code> by default. This will have as
   effect that <code>NA</code> get propagated at the higher level. It is
-  generally advised to set <code>na.rm = TRUE</code>. See the example below.</p>
+  generally advised to set <code>na.rm = TRUE</code>. for <code>robust</code>,
+  missing values should be removed beforehand with
+  <code><a href='MSnSet-class.html'>filterNA</a></code>. This summarisation method also assumes that
+  intensities are already log-transformed.</p>
     
 
     <pre class="usage"><span class='fu'>combineFeatures</span>(<span class='no'>object</span>, <span class='no'>groupBy</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"mean"</span>, <span class='st'>"median"</span>,
-<span class='st'>"weighted.mean"</span>, <span class='st'>"sum"</span>, <span class='st'>"medpolish"</span>, <span class='st'>"iPQF"</span>, <span class='st'>"NTR"</span>), <span class='no'>fcol</span>,
+<span class='st'>"weighted.mean"</span>, <span class='st'>"sum"</span>, <span class='st'>"medpolish"</span>, <span class='st'>"robust"</span>, <span class='st'>"iPQF"</span>, <span class='st'>"NTR"</span>), <span class='no'>fcol</span>,
 <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"unique"</span>, <span class='st'>"multiple"</span>), <span class='kw'>cv</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>cv.norm</span> <span class='kw'>=</span>
 <span class='st'>"sum"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span>(), <span class='no'>...</span>)</pre>
     
@@ -123,10 +127,10 @@
     <tr>
       <th>fun</th>
       <td><p>The summerising function. Currently, mean, median,
-    weighted mean, sum, median polish, iPQF (see
-    <code><a href='iPQF.html'>iPQF</a></code> for details) and NTR (see <code><a href='normToReference.html'>NTR</a></code>
-    for details) are implemented, but user-defined functions can also be
-    supplied.</p></td>
+    weighted mean, sum, median polish, robust summarisation (using
+    <code>MASS::rlm</code>), iPQF (see <code><a href='iPQF.html'>iPQF</a></code> for details) and NTR
+    (see <code><a href='normToReference.html'>NTR</a></code> for details) are implemented, but
+    user-defined functions can also be supplied.</p></td>
     </tr>
     <tr>
       <th>fcol</th>
@@ -174,15 +178,18 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A new <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> instance is returned with
+    
+
+<p>A new <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> instance is returned with
   <code>ncol</code> (i.e. number of samples) is unchanged, but <code>nrow</code>
   (i.e. the number od features) is now equals to the number of levels in
   <code>groupBy</code>. The feature metadata (<code>featureData</code> slot) is
-  updated accordingly and only the first occurrence of a feature in
-  the original feature meta-data is kept.</p>
+  updated accordingly and only the first occurrence of a feature in the
+  original feature meta-data is kept.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
+    
     <p>iPQF: a new peptide-to-protein summarization method using peptide
   spectra characteristics to improve protein quantification. Fischer M,
   Renard BY.  Bioinformatics. 2016 Apr
@@ -263,7 +270,32 @@
 #&gt; P01776 0.2678859 0.2591250 0.2423396 0.2306495
 #&gt; P02749 0.2640340 0.2523566 0.2510357 0.2325736
 #&gt; P02763 0.2503318 0.2524583 0.2501628 0.2470472
-#&gt; P07225 0.2533961 0.2506013 0.2504353 0.2455673</div></pre>
+#&gt; P07225 0.2533961 0.2506013 0.2504353 0.2455673</div><div class='input'>
+<span class='co'>## using robust summarisation</span>
+<span class='fu'>anyNA</span>(<span class='no'>msnset</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>try</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='kw'>fcol</span> <span class='kw'>=</span> <span class='st'>"ProteinAccession"</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"robust"</span>)) <span class='co'>## error</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
+#&gt; assayData: 5 features, 4 samples 
+#&gt;   element names: exprs 
+#&gt; protocolData: none
+#&gt; phenoData
+#&gt;   sampleNames: iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
+#&gt;   varLabels: mz reporters
+#&gt;   varMetadata: labelDescription
+#&gt; featureData
+#&gt;   featureNames: ECA1032 ECA1104 ... ECA4514 (5 total)
+#&gt;   fvarLabels: spectrum ProteinAccession ... CV.iTRAQ4.117 (19 total)
+#&gt;   fvarMetadata: labelDescription
+#&gt; experimentData: use 'experimentData(object)'
+#&gt; Annotation:  
+#&gt; - - - Processing information - - -
+#&gt; Data loaded: Wed May 11 18:54:39 2011 
+#&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
+#&gt; Subset [55,4][5,4] Tue Apr  3 22:31:38 2018 
+#&gt; Combined 5 features into 5 using robust: Tue Apr  3 22:31:39 2018 
+#&gt;  MSnbase version: 2.5.10 </div><div class='input'><span class='no'>msnset</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='MSnSet-class.html'>filterNA</a></span>(<span class='no'>msnset</span>) <span class='co'>## remove missing values</span>
+<span class='no'>msnset</span> <span class='kw'>&lt;-</span> <span class='fu'>log</span>(<span class='no'>msnset</span>, <span class='fl'>2</span>)   <span class='co'>## log2 transform</span>
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>,
+                       <span class='kw'>fcol</span> <span class='kw'>=</span> <span class='st'>"ProteinAccession"</span>,
+                       <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"robust"</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -281,7 +313,11 @@
 
     <h2>Author</h2>
     
-  Laurent Gatto &lt;lg390@cam.ac.uk&gt;
+
+  Laurent Gatto &lt;lg390@cam.ac.uk&gt; with contributions from Martina
+  Fischer for iPQF and Ludger Goeminne, Adriaan Sticker and Lieven
+  Clement for robust.
+
 
   </div>
 </div>

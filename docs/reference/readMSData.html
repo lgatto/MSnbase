@@ -123,10 +123,12 @@ data.</p></td>
     <tr>
       <th>centroided.</th>
       <td><p>A <code>logical</code>, indicating whether spectra are
-centroided or not. Default is <code>NA</code>. In <code>onDisk</code>, it can also
-be set for different MS levels by a vector of logicals, where
-the first element is for MS1, the second element is for MS2,
-... See <a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a> for an example.</p></td>
+centroided or not. Default is <code>NA</code> in which case the information
+is extracted from the raw file (for mzML or mzXML files). In
+<code>onDisk</code>, it can also be set for different MS levels by a
+vector of logicals, where the first element is for MS1, the
+second element is for MS2, ... See <a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a> for
+an example.</p></td>
     </tr>
     <tr>
       <th>smoothed.</th>
@@ -188,7 +190,7 @@ absolute file paths.</p>
 #&gt;  Number of spectra: 5 
 #&gt;  MSn retention times: 25:1 - 25:2 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded: Thu Mar 15 09:20:20 2018 
+#&gt; Data loaded: Tue Apr  3 22:33:03 2018 
 #&gt;  MSnbase version: 2.5.10 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
@@ -210,7 +212,7 @@ absolute file paths.</p>
 #&gt;  Number of spectra: 5 
 #&gt;  MSn retention times: 25:1 - 25:2 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded [Thu Mar 15 09:20:21 2018] 
+#&gt; Data loaded [Tue Apr  3 22:33:04 2018] 
 #&gt;  MSnbase version: 2.5.10 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
