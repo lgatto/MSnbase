@@ -14,7 +14,7 @@ moving window to combine consecutive spectra.}
 
 \item{timeDomain}{\code{logical(1)} whether m/z scattering should be estimated
 on \code{mz} (\code{timeDomain = FALSE}) or \code{sqrt(mz)} (\code{timeDomain = TRUE})
-values. See \code{\link[=combineSpectraMovingWindow]{combineSpectraMovingWindow()}} for deteils on this
+values. See \code{\link[=combineSpectraMovingWindow]{combineSpectraMovingWindow()}} for details on this
 parameter.}
 }
 \description{

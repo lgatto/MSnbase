@@ -75,7 +75,7 @@ scans to be aggregated are defined based on the square root of the m/z
 values. This is because it is highly likely that in all QTOF MS instruments
 data is collected based on a timing circuit (with a certain variance) and
 m/z values are later derived based on the relationship \code{t = k * sqrt(m/z)}.
-differences between individual m/z values will thus be dependent on the
+Differences between individual m/z values will thus be dependent on the
 actual m/z value causing both the difference between m/z values and their
 scattering being different in the lower and upper m/z range. Determining
 m/z values to be combined on the \code{sqrt(mz)} reduces this dependency. For

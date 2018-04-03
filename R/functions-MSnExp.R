@@ -385,7 +385,7 @@ removeReporters_MSnExp <- function(object, reporters = NULL,
 #'
 #' @param timeDomain `logical(1)` whether m/z scattering should be estimated
 #'     on `mz` (`timeDomain = FALSE`) or `sqrt(mz)` (`timeDomain = TRUE`)
-#'     values. See [combineSpectraMovingWindow()] for deteils on this
+#'     values. See [combineSpectraMovingWindow()] for details on this
 #'     parameter.
 #' 
 #' @author Johannes Rainer
@@ -464,7 +464,7 @@ estimateMzScattering <- function(x, halfWindowSize = 1L, timeDomain = FALSE) {
 #' values. This is because it is highly likely that in all QTOF MS instruments
 #' data is collected based on a timing circuit (with a certain variance) and
 #' m/z values are later derived based on the relationship `t = k * sqrt(m/z)`.
-#' differences between individual m/z values will thus be dependent on the
+#' Differences between individual m/z values will thus be dependent on the
 #' actual m/z value causing both the difference between m/z values and their
 #' scattering being different in the lower and upper m/z range. Determining
 #' m/z values to be combined on the `sqrt(mz)` reduces this dependency. For

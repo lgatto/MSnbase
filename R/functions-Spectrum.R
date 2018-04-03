@@ -853,7 +853,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' Intensities and m/z values falling within each of these m/z groups are
 #' aggregated using the `intensity_fun` and `mz_fun`, respectively. It is
 #' highly likely that all QTOF profile data is collected with a timing circuit
-#' that collects data poings with regular intervals of time that are then later
+#' that collects data points with regular intervals of time that are then later
 #' converted into m/z values based on the relationship `t = k * sqrt(m/z)`. The
 #' m/z scale is thus non-linear and the m/z scattering (which is in fact caused
 #' by small variations in the time circuit) will thus be different in the lower
