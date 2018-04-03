@@ -547,6 +547,7 @@ validSpectrum <- function(object) {
 #' - mergedResultStartScanNum
 #' - mergedResultEndScanNum
 #' - injectionTime
+#' - centroided
 #' 
 #' @author Johannes Rainer
 #'
@@ -574,7 +575,8 @@ validSpectrum <- function(object) {
              mergedResultScanNum = 0,   # ???
              mergedResultStartScanNum = 0, # ???
              mergedResultEndScanNum = 0,   # ???
-             injectionTime = 0            # Don't have that
+             injectionTime = 0,            # Don't have that
+             centroided = centroided(x)
              )
     if (msLevel(x) > 1) {
         res["collisionEnergy"] <- collisionEnergy(x)

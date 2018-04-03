@@ -34,6 +34,7 @@ importFrom(ggplot2, geom_histogram, geom_text, geom_line, geom_point,
 
 importFrom(MALDIquant, binPeaks, match.closest) ## only using ::: functions
 importFrom(S4Vectors, isEmpty, metadata, DataFrame)
+importFrom(S4Vectors, isEmpty, metadata, DataFrame, replaceROWS)
 importFrom(MASS, rlm)
 
 ## importFrom(rols, olsQuery, term)
@@ -43,6 +44,9 @@ importFrom(plyr, ddply, llply, summarise)
 importFrom(stats4, plot)
 importFrom(preprocessCore, normalize.quantiles)
 importFrom(vsn, vsn2, meanSdPlot)
+importFrom(IRanges, IRanges, end, extractList, findOverlaps, start, width,
+           reduce)
+importClassesFrom(IRanges, IRanges)
 importFrom(affy, MAplot, ma.plot, mva.pairs)
 importFrom(mzID, mzID, flatten)
 importClassesFrom(mzID, mzID, mzIDCollection)

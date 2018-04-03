@@ -1,4 +1,8 @@
 test_that("writeMSData works", {
+    mzML_xsd_idx <- XML::xmlTreeParse(system.file("extdata", "mzML1.1.2_idx.xsd",
+                                                  package = "mzR"),
+                                      isSchema = TRUE, useInternal = TRUE)
+
     ## using the onDisk data.
     odf <- tmt_erwinia_on_disk
     ## 1) Filter MS level 1, write, read and compare with tmt_erwinia_in_mem_ms1
@@ -6,6 +10,10 @@ test_that("writeMSData works", {
     out_file <- paste0(tempfile(), ".mzML")
     MSnbase:::.writeSingleMSData(odf_out, file = out_file,
                                  outformat = "mzml", copy = TRUE)
+    ## Validating the mzML file
+    doc <- XML::xmlInternalTreeParse(out_file)
+    res <- XML::xmlSchemaValidate(mzML_xsd_idx, doc)
+    expect_equal(res$status, 0)
     odf_in <- readMSData(out_file, mode = "onDisk")
     ## Some stuff is different, i.e. totIonCurrent, basePeakMZ, basePeakIntensity
     expect_equal(unname(rtime(odf_in)), unname(rtime(tmt_erwinia_in_mem_ms1)))
@@ -66,6 +74,13 @@ test_that("writeMSData works", {
     out_file <- paste0(out_path, c("/a.mzML", "/b.mzML"))
     MSnbase:::.writeMSData(microtofq_on_disk_ms1, file = out_file,
                            copy = FALSE)
+    ## Validating the mzML file
+    doc <- XML::xmlInternalTreeParse(out_file[1])
+    res <- XML::xmlSchemaValidate(mzML_xsd_idx, doc)
+    expect_equal(res$status, 0)
+    doc <- XML::xmlInternalTreeParse(out_file[2])
+    res <- XML::xmlSchemaValidate(mzML_xsd_idx, doc)
+    expect_equal(res$status, 0)    
     odf_in <- readMSData(out_file, mode = "onDisk")
     expect_equal(unname(rtime(odf_in)), unname(rtime(microtofq_in_mem_ms1)))
     expect_equal(spectra(odf_in), spectra(microtofq_in_mem_ms1))
@@ -78,11 +93,12 @@ test_that("writeMSData works", {
     expect_equal(unname(rtime(odf)), unname(rtime(odf_in)))
     expect_equal(unname(mz(odf)), unname(mz(odf_in)))
     expect_equal(unname(intensity(odf)), unname(intensity(odf_in)))
+
 })
 
 test_that(".pattern_to_cv works", {
     ## Not found.
-    expect_equal(.pattern_to_cv("unknown"), "MS:-1")
+    expect_equal(.pattern_to_cv("unknown"), NA_character_)
     expect_equal(.pattern_to_cv("peak picking"), "MS:1000035")
     expect_equal(.pattern_to_cv("centroid"), "MS:1000035")    
     expect_equal(.pattern_to_cv("Alignment/retention time adjustment"),
@@ -95,45 +111,51 @@ test_that(".guessSoftwareProcessing works", {
     res <- .guessSoftwareProcessing(odf_proc)
     expect_equal(res[[1]][1], "MSnbase")
     expect_equal(res[[1]][2], paste0(packageVersion("MSnbase"), collapse = "."))
-    expect_equal(res[[1]][3], "MS:1001486")
+    expect_equal(res[[1]][3], "MS:1002870")
+    expect_equal(res[[1]][4], "MS:1001486")
     ## clean: Spectra cleaned NO CV YET
     ## bin: Spectra binned: NO CV YET
     ## removePeaks: Curves <= t set to '0': NO CV YET
     odf_proc <- removePeaks(odf_proc)
     res <- .guessSoftwareProcessing(odf_proc)
-    expect_equal(res[[1]][3], "MS:1001486")
-    expect_equal(length(res[[1]]), 3)
+    expect_equal(res[[1]][4], "MS:1001486")
+    expect_equal(length(res[[1]]), 4)
     ## normalise: Spectra normalised
     odf_proc <- normalise(odf_proc)
     res <- .guessSoftwareProcessing(odf_proc)
-    expect_equal(length(res[[1]]), 4)
-    expect_equal(res[[1]][3], "MS:1001486")
-    expect_equal(res[[1]][4], "MS:1001484")
+    expect_equal(length(res[[1]]), 5)
+    expect_equal(res[[1]][4], "MS:1001486")
+    expect_equal(res[[1]][5], "MS:1001484")
     ## pickPeaks: Spectra centroided
     odf_proc <- pickPeaks(odf_proc)
     res <- .guessSoftwareProcessing(odf_proc)
-    expect_equal(length(res[[1]]), 5)
-    expect_equal(res[[1]][5], "MS:1000035")
+    expect_equal(length(res[[1]]), 6)
+    expect_equal(res[[1]][6], "MS:1000035")
     ## smooth: Spectra smoothed
     odf_proc <- smooth(odf_proc)
     res <- .guessSoftwareProcessing(odf_proc)
-    expect_equal(length(res[[1]]), 6)
-    expect_equal(res[[1]][6], "MS:1000542")
+    expect_equal(length(res[[1]]), 7)
+    expect_equal(res[[1]][7], "MS:1000542")
     ## filterRt: Filter: select retention time
     odf_proc <- filterRt(odf_proc, rt = c(200, 600))
     res <- .guessSoftwareProcessing(odf_proc)
-    expect_equal(length(res[[1]]), 7)
-    expect_equal(res[[1]][7], "MS:1001486")
+    expect_equal(length(res[[1]]), 8)
+    expect_equal(res[[1]][8], "MS:1001486")
     ## filterMz: FilteR: trim MZ
     ## filterFile: Filter: select file(s)
     ## filterAcquisitionNum: Filter: select by
     ## filterEmptySpectra: Removed XXX empty spectra
     ## And with providing in addition other processings.
     res <- .guessSoftwareProcessing(odf_proc, c("other_soft", "43.2.1"))
-    expect_equal(res[[1]][7], "MS:1001486")
+    expect_equal(res[[1]][8], "MS:1001486")
     expect_equal(res[[2]], c("other_soft", "43.2.1"))
+    ## Check that we don't get unknown CV parameter.
+    odf_proc <- clean(tmt_erwinia_on_disk)
+    res <- .guessSoftwareProcessing(odf_proc)
+    expect_equal(res[[1]][1], "MSnbase")
+    expect_equal(res[[1]][2], paste0(packageVersion("MSnbase"), collapse = "."))
+    expect_true(length(res[[1]]) == 3)
 })
-
 
 test_that("writeMSData,OnDiskMSnExp works", {
     out_path <- tempdir()
