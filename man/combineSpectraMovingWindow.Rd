@@ -5,8 +5,8 @@
 \title{Combine signal from consecutive spectra of LCMS experiments}
 \usage{
 combineSpectraMovingWindow(x, halfWindowSize = 1L, mzFun = base::mean,
-  intensityFun = base::mean, mzd = NULL, BPPARAM = bpparam(),
-  timeDomain = TRUE)
+  intensityFun = base::mean, mzd = NULL, timeDomain = TRUE,
+  BPPARAM = bpparam())
 }
 \arguments{
 \item{x}{\code{MSnExp} or \code{OnDiskMSnExp} object.}
@@ -29,8 +29,6 @@ values are grouped. If not provided, this value is estimated from the
 distribution of differences of m/z values from the provided spectra
 (see details).}
 
-\item{BPPARAM}{parallel processing settings.}
-
 \item{timeDomain}{\code{logical(1)} whether definition of the m/z values to be
 combined into one m/z is performed on m/z values
 (\code{timeDomain = FALSE}) or on \code{sqrt(mz)} (\code{timeDomain = TRUE}).
@@ -38,6 +36,8 @@ Profile data from TOF MS instruments should be aggregated based
 on the time domain (see details). Note that a pre-defined \code{mzd} should
 also be estimated on the square root of m/z values if
 \code{timeDomain = TRUE}.}
+
+\item{BPPARAM}{parallel processing settings.}
 }
 \value{
 \code{MSnExp} with the same number of spectra than \code{x}.
