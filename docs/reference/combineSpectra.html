@@ -89,7 +89,7 @@ profile-mode data by increasing the signal-to-noise ratio.</p>
     
 
     <pre class="usage"><span class='fu'>combineSpectra</span>(<span class='no'>x</span>, <span class='kw'>mzFun</span> <span class='kw'>=</span> <span class='kw'>base</span><span class='kw'>::</span><span class='no'>mean</span>, <span class='kw'>intensityFun</span> <span class='kw'>=</span> <span class='kw'>base</span><span class='kw'>::</span><span class='no'>mean</span>,
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'>floor</span>(<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>x</span>)/<span class='fl'>2L</span>) + <span class='fl'>1L</span>, <span class='no'>mzd</span>)</pre>
+  <span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'>floor</span>(<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>x</span>)/<span class='fl'>2L</span>) + <span class='fl'>1L</span>, <span class='no'>mzd</span>, <span class='kw'>timeDomain</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -124,6 +124,16 @@ values are grouped. If not provided, this value is estimated from the
 distribution of differences of m/z values from the provided spectra
 (see details).</p></td>
     </tr>
+    <tr>
+      <th>timeDomain</th>
+      <td><p><code>logical(1)</code> whether definition of the m/z values to be
+combined into one m/z is performed on m/z values
+(<code>timeDomain = FALSE</code>) or on <code>sqrt(mz)</code> (<code>timeDomain = TRUE</code>).
+Profile data from TOF MS instruments should be aggregated based
+on the time domain (see details). Note that a pre-defined <code>mzd</code> should
+also be estimated on the square root of m/z values if
+<code>timeDomain = TRUE</code>.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -146,7 +156,15 @@ possible to define this maximal m/z difference with the <code>mzd</code> paramet
 All m/z values with a difference smaller than this value are combined to
 a m/z group.
 Intensities and m/z values falling within each of these m/z groups are
-aggregated using the <code>intensity_fun</code> and <code>mz_fun</code>, respectively.</p>
+aggregated using the <code>intensity_fun</code> and <code>mz_fun</code>, respectively. It is
+highly likely that all QTOF profile data is collected with a timing circuit
+that collects data points with regular intervals of time that are then later
+converted into m/z values based on the relationship <code>t = k * sqrt(m/z)</code>. The
+m/z scale is thus non-linear and the m/z scattering (which is in fact caused
+by small variations in the time circuit) will thus be different in the lower
+and upper m/z scale. m/z-intensity pairs from consecutive scans to be
+combined are therefore defined by default on the square root of the m/z
+values. With <code>timeDomain = FALSE</code>, the actual m/z values will be used.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -207,7 +225,7 @@ spectra of an <code>MSnExp</code> object using a moving window approach.</p>
 
     <h2>Author</h2>
     
-Johannes Rainer
+Johannes Rainer, Sigurdur Smarason
 
   </div>
 </div>

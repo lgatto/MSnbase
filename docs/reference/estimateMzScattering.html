@@ -87,7 +87,7 @@
 noise) for the same ion in consecutive scans of a LCMS experiment.</p>
     
 
-    <pre class="usage"><span class='fu'>estimateMzScattering</span>(<span class='no'>x</span>, <span class='kw'>halfWindowSize</span> <span class='kw'>=</span> <span class='fl'>1L</span>)</pre>
+    <pre class="usage"><span class='fu'>estimateMzScattering</span>(<span class='no'>x</span>, <span class='kw'>halfWindowSize</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>timeDomain</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -101,6 +101,13 @@ noise) for the same ion in consecutive scans of a LCMS experiment.</p>
       <td><p><code>integer(1)</code> defining the half window size for the
 moving window to combine consecutive spectra.</p></td>
     </tr>
+    <tr>
+      <th>timeDomain</th>
+      <td><p><code>logical(1)</code> whether m/z scattering should be estimated
+on <code>mz</code> (<code>timeDomain = FALSE</code>) or <code>sqrt(mz)</code> (<code>timeDomain = TRUE</code>)
+values. See <code><a href='combineSpectraMovingWindow.html'>combineSpectraMovingWindow()</a></code> for details on this
+parameter.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -113,6 +120,11 @@ with the first peak representing the above described random variation and
 the second (or largest) peak the m/z resolution. The m/z value of the first
 local minimum between these first two peaks in the distribution is returned
 as the <em>m/z scattering</em>.</p>
+    
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>For <code>timeDomain = TRUE</code> the function does <strong>not</strong> return the estimated
+scattering of m/z values, but the scattering of <code>sqrt(mz)</code> values.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -144,6 +156,8 @@ profile-mode spectrum's m/z resolution from it's data.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#note">Note</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

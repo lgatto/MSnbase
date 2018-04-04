@@ -94,6 +94,8 @@
 <li>New robust summarisation method in <code>combineFeatures</code> contributed by Ludger Goeminne, Adriaan Sticker and Lieven Clement &lt;2018-04-03 Tue&gt;</li>
 <li>Adapt <code>utils.removePeaks</code> to new <code>IRanges</code> implementation; thanks to H. Pagès for the implementation (see PR <a href="https://github.com/lgatto/MSnbase/issues/320">#320</a> for discussion) &lt;2018-03-26&gt;.</li>
 <li>Centroiding information is retrieved from raw files (for mzML/mzXML files;. see issue <a href="https://github.com/lgatto/MSnbase/issues/325">#325</a> &lt;2018-03-27&gt;</li>
+<li>Add parameter <code>timeDomain</code> to <code>combineSpectra</code>, <code>combineSpectraMovingWindow</code> and <code>estimateMzScattering</code> allowing to perform the grouping of m/z values from consecutive scans based on the square root of the m/z values &lt;2018-03-29&gt;.</li>
+<li>Assure feature CV feature variable names are unique when combining feature repeatedly (see issue <a href="https://github.com/lgatto/MSnbase/issues/303">#303</a>) &lt;2018-04-04 Wed&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-5-9" class="section level2">

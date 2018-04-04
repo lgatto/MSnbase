@@ -94,7 +94,8 @@ time dimension.</p>
     
 
     <pre class="usage"><span class='fu'>combineSpectraMovingWindow</span>(<span class='no'>x</span>, <span class='kw'>halfWindowSize</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>mzFun</span> <span class='kw'>=</span> <span class='kw'>base</span><span class='kw'>::</span><span class='no'>mean</span>,
-  <span class='kw'>intensityFun</span> <span class='kw'>=</span> <span class='kw'>base</span><span class='kw'>::</span><span class='no'>mean</span>, <span class='kw'>mzd</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>bpparam</span>())</pre>
+  <span class='kw'>intensityFun</span> <span class='kw'>=</span> <span class='kw'>base</span><span class='kw'>::</span><span class='no'>mean</span>, <span class='kw'>mzd</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timeDomain</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>bpparam</span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -130,6 +131,16 @@ distribution of differences of m/z values from the provided spectra
 (see details).</p></td>
     </tr>
     <tr>
+      <th>timeDomain</th>
+      <td><p><code>logical(1)</code> whether definition of the m/z values to be
+combined into one m/z is performed on m/z values
+(<code>timeDomain = FALSE</code>) or on <code>sqrt(mz)</code> (<code>timeDomain = TRUE</code>).
+Profile data from TOF MS instruments should be aggregated based
+on the time domain (see details). Note that a pre-defined <code>mzd</code> should
+also be estimated on the square root of m/z values if
+<code>timeDomain = TRUE</code>.</p></td>
+    </tr>
+    <tr>
       <th>BPPARAM</th>
       <td><p>parallel processing settings.</p></td>
     </tr>
@@ -154,6 +165,16 @@ considered to derive from the same ion. For robustness reasons, this
 threshold is estimated on the 100 spectra with the largest number of
 m/z - intensity pairs (i.e. mass peaks).</p>
 <p>See <code><a href='combineSpectra.html'>combineSpectra()</a></code> for details.</p>
+<p>Parameter <code>timeDomain</code>: by default, m/z-intensity pairs from consecutive
+scans to be aggregated are defined based on the square root of the m/z
+values. This is because it is highly likely that in all QTOF MS instruments
+data is collected based on a timing circuit (with a certain variance) and
+m/z values are later derived based on the relationship <code>t = k * sqrt(m/z)</code>.
+Differences between individual m/z values will thus be dependent on the
+actual m/z value causing both the difference between m/z values and their
+scattering being different in the lower and upper m/z range. Determining
+m/z values to be combined on the <code>sqrt(mz)</code> reduces this dependency. For
+non-QTOF MS data <code>timeDomain = FALSE</code> might be used instead.</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 

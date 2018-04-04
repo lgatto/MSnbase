@@ -83,47 +83,57 @@
     </div>
 
     
-    <p>This function calculates the column-wise coefficient of variation (CV), i.e.
-the ration between the standard deviation and the mean, for the features
-in an <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code>. The CVs are calculated for the groups
-of features defined by <code>groupBy</code>. For groups defined by single features,
-<code>NA</code> is returned.</p>
+    <p>This function calculates the column-wise coefficient of variation
+(CV), i.e.  the ration between the standard deviation and the
+mean, for the features in an <code><a href='MSnSet-class.html'>MSnSet</a></code>. The CVs are calculated
+for the groups of features defined by <code>groupBy</code>. For groups
+defined by single features, <code>NA</code> is returned.</p>
     
 
-    <pre class="usage"><span class='fu'>featureCV</span>(<span class='no'>x</span>, <span class='no'>groupBy</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>norm</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"sum"</span>, <span class='st'>"max"</span>, <span class='st'>"none"</span>,
-  <span class='st'>"center.mean"</span>, <span class='st'>"center.median"</span>, <span class='st'>"quantiles"</span>, <span class='st'>"quantiles.robust"</span>))</pre>
+    <pre class="usage"><span class='fu'>featureCV</span>(<span class='no'>x</span>, <span class='no'>groupBy</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>norm</span> <span class='kw'>=</span> <span class='st'>"none"</span>, <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>An instance of class <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code>.</p></td>
+      <td><p>An instance of class <code><a href='MSnSet-class.html'>MSnSet</a></code>.</p></td>
     </tr>
     <tr>
       <th>groupBy</th>
-      <td><p>An object of class <code>factor</code> defining how to summerise the features.</p></td>
+      <td><p>An object of class <code>factor</code> defining how to
+summarise the features.</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
-      <td><p>A <code>logical</code> defining whether missing values should be removed.</p></td>
+      <td><p>A <code>logical(1)</code> defining whether missing values should
+be removed.</p></td>
     </tr>
     <tr>
       <th>norm</th>
-      <td><p>One of 'none' (default), 'sum', 'max', 'center.mean', 'center.median'
-'quantiles' or 'quantiles.robust' defining if and how the data should be normalised
-prior to CV calculation. See <code><a href='normalise-methods.html'>normalise</a></code> for more details.</p></td>
+      <td><p>One of normalisation methods applied prior to CV
+calculation. See <code><a href='normalise-methods.html'>normalise()</a></code> for more details. Here, the
+default is <code>'none'</code>, i.e. no normalisation.</p></td>
+    </tr>
+    <tr>
+      <th>suffix</th>
+      <td><p>A <code>character(1)</code> to be used to name the new CV
+columns. Default is <code>NULL</code> to ignore this. This argument
+should be set when CV values are already present in the
+<code><a href='MSnSet-class.html'>MSnSet</a></code> feature variables.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>matrix</code> of dimensions <code>length(levels(groupBy))</code> by <code>ncol(x)</code>
-with the respecive CVs.</p>
+    <p>A <code>matrix</code> of dimensions <code>length(levels(groupBy))</code> by
+<code>ncol(x)</code> with the respecive CVs. The column names are formed
+by pasting <code>CV.</code> and the sample names of object <code>x</code>, possibly
+suffixed by <code>.suffix</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='combineFeatures.html'>combineFeatures</a></code></p>
+    <p><code><a href='combineFeatures.html'>combineFeatures()</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -131,8 +141,10 @@ with the respecive CVs.</p>
 <span class='no'>msnset</span> <span class='kw'>&lt;-</span> <span class='no'>msnset</span>[<span class='fl'>1</span>:<span class='fl'>4</span>]
 <span class='no'>gb</span> <span class='kw'>&lt;-</span> <span class='fu'>factor</span>(<span class='fu'>rep</span>(<span class='fl'>1</span>:<span class='fl'>2</span>, <span class='kw'>each</span> <span class='kw'>=</span> <span class='fl'>2</span>))
 <span class='fu'>featureCV</span>(<span class='no'>msnset</span>, <span class='no'>gb</span>)</div><div class='output co'>#&gt;   CV.iTRAQ4.114 CV.iTRAQ4.115 CV.iTRAQ4.116 CV.iTRAQ4.117
-#&gt; 1     0.6310418     0.3633932  0.1041115783     0.3714580
-#&gt; 2     0.0113106     0.1072691  0.0005836238     0.1240521</div></pre>
+#&gt; 1     0.4116294   0.672121019     0.9798589     1.1049021
+#&gt; 2     0.1010699   0.005077863     0.1128963     0.2347332</div><div class='input'><span class='fu'>featureCV</span>(<span class='no'>msnset</span>, <span class='no'>gb</span>, <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='st'>"2"</span>)</div><div class='output co'>#&gt;   CV.iTRAQ4.114.2 CV.iTRAQ4.115.2 CV.iTRAQ4.116.2 CV.iTRAQ4.117.2
+#&gt; 1       0.4116294     0.672121019       0.9798589       1.1049021
+#&gt; 2       0.1010699     0.005077863       0.1128963       0.2347332</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -148,8 +160,7 @@ with the respecive CVs.</p>
 
     <h2>Author</h2>
     
-Laurent Gatto &lt;lg390@cam.ac.uk&gt;,
-Sebastian Gibb &lt;mail@sebastiangibb.de&gt;
+Laurent Gatto and Sebastian Gibb
 
   </div>
 </div>
