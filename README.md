@@ -39,7 +39,7 @@ biocLite("MSnbase")
 ```
 
 If you need the github version (not recommended unless you know what
-you are doing)
+you are doing), use
 
 
 ```r
