@@ -11,7 +11,8 @@
 - Centroiding information is retrieved from raw files (for mzML/mzXML files;.
   see issue [#325](https://github.com/lgatto/MSnbase/issues/325) <2018-03-27>
 - Assure feature CV feature variable names are unique when combining
-  feature repeatedly (see issue #303) <2018-04-04 Wed>
+  feature repeatedly (see issue
+  [#303](https://github.com/lgatto/MSnbase/issues/303)) <2018-04-04 Wed>
 
 ## Changes in version 2.5.9
 - New combineSpectra, combineSpectraMovingWindow, estimateMzScattering and
@@ -20,7 +21,8 @@
 
 ## Changes in version 2.5.8
 - New as(MSnExp, data.frame) method <2018-02-16>
-- Speed up readMgfData function - see issue [#319](https://github.com/lgatto/MSnbase/issues/319) <2018-03-13 Tue>
+- Speed up readMgfData function - see issue
+  [#319](https://github.com/lgatto/MSnbase/issues/319) <2018-03-13 Tue>
 
 ## Changes in version 2.5.7
 
