@@ -1,5 +1,8 @@
 # MSnbase 2.5
 
+Changes in version 2.5.11
+- Nothing yet.
+
 Changes in version 2.5.10
 
 - New robust summarisation method in `combineFeatures` contributed by
