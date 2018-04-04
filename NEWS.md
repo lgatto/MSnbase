@@ -1,5 +1,22 @@
 # MSnbase 2.5
 
+## Changes in version 2.5.10
+
+- New robust summarisation method in `combineFeatures` contributed by
+  Ludger Goeminne, Adriaan Sticker and Lieven Clement <2018-04-03 Tue>
+- Adapt `utils.removePeaks` to new `IRanges` implementation; thanks to
+  H. Pagès for the implementation (see PR
+  [#320](https://github.com/lgatto/MSnbase/issues/320) for discussion)
+  <2018-03-26>.
+- Centroiding information is retrieved from raw files (for mzML/mzXML files;.
+  see issue [#325](https://github.com/lgatto/MSnbase/issues/325) <2018-03-27>
+- Add parameter `timeDomain` to `combineSpectra`, `combineSpectraMovingWindow`
+  and `estimateMzScattering` allowing to perform the grouping of m/z values
+  from consecutive scans based on the square root of the m/z values <2018-03-29>.
+- Assure feature CV feature variable names are unique when combining
+  feature repeatedly (see issue
+  [#303](https://github.com/lgatto/MSnbase/issues/303)) <2018-04-04 Wed>
+
 ## Changes in version 2.5.9
 - New combineSpectra, combineSpectraMovingWindow, estimateMzScattering and
   estimateMzResulution functions <2018-03-05>.
@@ -7,7 +24,8 @@
 
 ## Changes in version 2.5.8
 - New as(MSnExp, data.frame) method <2018-02-16>
-- Speed up readMgfData function - see issue #319 <2018-03-13 Tue>
+- Speed up readMgfData function - see issue
+  [#319](https://github.com/lgatto/MSnbase/issues/319) <2018-03-13 Tue>
 
 ## Changes in version 2.5.7
 
@@ -29,7 +47,7 @@
 - Change readMSnSet2 example <2018-01-23 Tue>
 
 ## Changes in version 2.5.4
-- Add featureData slot to Chromatograms class and add mz, precursorMz and 
+- Add featureData slot to Chromatograms class and add mz, precursorMz and
   productMz methods for Chromatograms (issue
   [#289](https://github.com/lgatto/MSnbase/issues/289)) <2017-12-18 Mon>.
 - Add readSRMData function to read chromatographic data from SRM (MRM)
@@ -101,7 +119,7 @@
 - Add msLevel slot to Chromatogram object <2017-08-16 Wed>
 - Add msLevel argument to chromatogram,MSnExp method <2017-08-16 Wed>
 - `calculateFragments` now just calculate fragments for all `n - 1L` bonds
-    (before it incorrectly adds an additional bond; fixes [#248](https://github.com/lgatto/MSnbase/issues/248)) <2017-08-20 Sun>
+	(before it incorrectly adds an additional bond; fixes [#248](https://github.com/lgatto/MSnbase/issues/248)) <2017-08-20 Sun>
 - Add `isEmpty` methods for `Chromatogram` and `Chromatograms` objects
   <2017-09-05 Tue>
 - plot,Chromatogram[s] creates an empty plot and returns a warning if the
@@ -144,7 +162,7 @@
 
 ## Changes in version 2.3.3
 - Rewrite `getColsFromPattern` and `getRowsFromPattern` and add unit tests
-    <2017-05-11 Thu>.
+	<2017-05-11 Thu>.
 - Add `.filterNA` and rewrite `filterNA` for `matrix` and `MSnSet`
   <2017-05-11 Thu>.
 - Convert main MSnbase-demo vignette to Rmd/html <2017-05-27 Sat>
@@ -406,7 +424,7 @@
  - More MzTab and Spectrum1 unit testing <2016-05-08 Sun>
  - Speed up readMSData (PR [#86](https://github.com/lgatto/MSnbase/issues/86) by jotsetung) <2016-05-12 Thu>
  - Replace example file URL to use github instead of googlecode
-    <2016-05-12 Thu>
+	<2016-05-12 Thu>
 
 ## Changes in version 1.21.3
 
@@ -531,7 +549,7 @@
 
  - new sampleNames<- for pSet and MSnExp objects <2015-12-15 Tue>
  - Fix bug preventing to write MS1 to mgf (fixes issue [#73](https://github.com/lgatto/MSnbase/issues/73) reported by
-    meowcat) <2015-12-18 Fri>
+	meowcat) <2015-12-18 Fri>
 
 ## Changes in version 1.19.6
 
@@ -700,7 +718,7 @@
 
 ## Changes in version 1.15.14
   - new msnset data, used in various examples instead of quantifying
-    the itraqdata experiment over and over again [2015-04-01 Wed]
+	the itraqdata experiment over and over again [2015-04-01 Wed]
 
 ## Changes in version 1.15.13
  - improve nbavg imputation description and add example [2015-03-22 Sun]

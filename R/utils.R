@@ -68,45 +68,35 @@ formatFileSpectrumNames <- function(fileIds, spectrumIds,
 }
 
 utils.removePeaks_centroided <- function(int, t) {
-    rmi <- int <= t
-    int[rmi] <- 0
+    int[int <= t] <- 0L
     int
 }
 
 utils.removePeaks <- function(int, t) {
-  ## Description:
-  ## Given a vector of intensities 'int' and a threshold 't',
-  ## this function returns vector of same length with all
-  ## peaks of max height 't' set t zero.
-  ## Example:
-  ## The following three curves will be removed
-  ##   t - - - - + - - - - - - - - + - + -
-  ##           +  +  or  +++     ++ +++ +
-  ##   0 - - +    + - - +   + - + - - - +
-  ##
-  peakRanges <- as(int > 0, "IRanges")
-  peak_is_too_low <- max(extractList(int, peakRanges)) <= t
-  replaceROWS(int, peakRanges[peak_is_too_low], 0L)
+    peakRanges <- as(int > 0L, "IRanges")
+    toLow <- max(extractList(int, peakRanges)) <= t
+    replaceROWS(int, peakRanges[toLow], 0L)
 }
 
 ## For internal use - use utils.removePrecMz_Spectrum that will set
 ## the paramters based on data accessed directly in the spectrum
 ## object.
 utils.removePrecMz <- function(mz, int, precMz, tolerance = 25e-6) {
-  if (!is.numeric(precMz) && length(precMz) == 1L)
-    stop("precMz must be numeric of length 1.")
-
-  i <- relaxedMatch(precMz, mz, tolerance = tolerance)
-
-  if (!is.na(i)) {
-    peakRanges <- IRanges(sapply(int, ">", 0L))
-    i <- findOverlaps(IRanges(i, width = 1L), peakRanges,
-                      type = "within", select = "first")
-    if (!is.na(i)) {
-      int[start(peakRanges[i]):end(peakRanges[i])] <- 0
+    if (!is.numeric(precMz) || length(precMz) != 1L) {
+        stop("precMz must be numeric of length 1.")
     }
-  }
-  int
+
+    i <- relaxedMatch(precMz, mz, tolerance = tolerance)
+
+    if (!is.na(i)) {
+        peakRanges <- as(int > 0L, "IRanges")
+        i <- findOverlaps(IRanges(i, width = 1L), peakRanges,
+                          type = "within", select = "first")
+        if (!is.na(i)) {
+            int <- replaceROWS(int, peakRanges[i], 0L)
+        }
+    }
+    int
 }
 
 utils.removePrecMz_Spectrum <- function(spectrum,
@@ -120,7 +110,7 @@ utils.removePrecMz_Spectrum <- function(spectrum,
                                              intensity(spectrum),
                                              precMz = precMz,
                                              tolerance = tolerance)
-    return(spectrum)
+    spectrum
 }
 
 utils.removePrecMz_list <- function(object, precMz, tolerance = 25e-6) {
@@ -129,7 +119,7 @@ utils.removePrecMz_list <- function(object, precMz, tolerance = 25e-6) {
                                      object$int,
                                      precMz = precMz,
                                      tolerance = tolerance)
-    return(object)
+    object
 }
 
 #' Removes zeros from input except the ones that in the direct neighbourhood of

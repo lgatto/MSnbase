@@ -5,12 +5,12 @@
 
 
 \description{
+
   This function combines the features in an
   \code{"\linkS4class{MSnSet}"} instance applying a summarisation
-  function (see \code{fun} argument) to sets of features as
-  defined by a factor (see \code{groupBy} argument).
-  Note that the feature names are automatically updated based on the
-  \code{groupBy} parameter.
+  function (see \code{fun} argument) to sets of features as defined by a
+  factor (see \code{groupBy} argument).  Note that the feature names are
+  automatically updated based on the \code{groupBy} parameter.
 
   The coefficient of variations are automatically computed and collated
   to the featureData slot. See \code{cv} and \code{cv.norm} arguments
@@ -19,13 +19,16 @@
   NB: All the functions available as \code{fun} take a \code{na.rm}
   argument. This argument is \code{FALSE} by default. This will have as
   effect that \code{NA} get propagated at the higher level. It is
-  generally advised to set \code{na.rm = TRUE}. See the example below.
+  generally advised to set \code{na.rm = TRUE}. for \code{robust},
+  missing values should be removed beforehand with
+  \code{\link{filterNA}}. This summarisation method also assumes that
+  intensities are already log-transformed.
 }
 
 \usage{
 
 combineFeatures(object, groupBy, fun = c("mean", "median",
-"weighted.mean", "sum", "medpolish", "iPQF", "NTR"), fcol,
+"weighted.mean", "sum", "medpolish", "robust", "iPQF", "NTR"), fcol,
 redundancy.handler = c("unique", "multiple"), cv = TRUE, cv.norm =
 "sum", verbose = isMSnbaseVerbose(), ...)
 
@@ -42,12 +45,12 @@ redundancy.handler = c("unique", "multiple"), cv = TRUE, cv.norm =
     is a vector describing the feature mapping. If the list can be
     named, its names must match \code{fetureNames(object)}. See
     \code{redundancy.handler} for details about the latter. }
- 
+
   \item{fun}{ The summerising function. Currently, mean, median,
-    weighted mean, sum, median polish, iPQF (see
-    \code{\link{iPQF}} for details) and NTR (see \code{\link[MSnbase]{NTR}}
-    for details) are implemented, but user-defined functions can also be
-    supplied. }
+    weighted mean, sum, median polish, robust summarisation (using
+    \code{MASS::rlm}), iPQF (see \code{\link{iPQF}} for details) and NTR
+    (see \code{\link[MSnbase]{NTR}} for details) are implemented, but
+    user-defined functions can also be supplied. }
 
   \item{fcol}{Feature meta-data label (fData column name) defining how
     to summerise the features. It must be present in
@@ -82,25 +85,33 @@ redundancy.handler = c("unique", "multiple"), cv = TRUE, cv.norm =
 
 
 \value{
+
   A new \code{"\linkS4class{MSnSet}"} instance is returned with
   \code{ncol} (i.e. number of samples) is unchanged, but \code{nrow}
   (i.e. the number od features) is now equals to the number of levels in
   \code{groupBy}. The feature metadata (\code{featureData} slot) is
-  updated accordingly and only the first occurrence of a feature in
-  the original feature meta-data is kept.
+  updated accordingly and only the first occurrence of a feature in the
+  original feature meta-data is kept.
+
 }
 
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+
+  Laurent Gatto <lg390@cam.ac.uk> with contributions from Martina
+  Fischer for iPQF and Ludger Goeminne, Adriaan Sticker and Lieven
+  Clement for robust.
+
 }
 
 \references{
+
   iPQF: a new peptide-to-protein summarization method using peptide
   spectra characteristics to improve protein quantification. Fischer M,
   Renard BY.  Bioinformatics. 2016 Apr
   1;32(7):1040-7. doi:10.1093/bioinformatics/btv675. Epub 2015 Nov
   20. PubMed PMID:26589272.
+
 }
 
 \seealso{
@@ -147,13 +158,20 @@ exprs(combineFeatures(msnset, grp, "sum", na.rm = TRUE))
 ## using iPQF
 data(msnset2)
 res <- combineFeatures(msnset2,
-                       groupBy = fData(msnset2)$accession,
-                       redundancy.handler = "unique",
-                       fun = "iPQF",
-                       low.support.filter = FALSE,
-                       ratio.calc = "sum",
-                       method.combine = FALSE)
+		       groupBy = fData(msnset2)$accession,
+		       redundancy.handler = "unique",
+		       fun = "iPQF",
+		       low.support.filter = FALSE,
+		       ratio.calc = "sum",
+		       method.combine = FALSE)
 head(exprs(res))
+
+## using robust summarisation
+anyNA(msnset)
+try(combineFeatures(msnset, fcol = "ProteinAccession", fun = "robust")) ## error
+msnset <- filterNA(msnset) ## remove missing values
+msnset <- log(msnset, 2)   ## log2 transform
+res <- combineFeatures(msnset,
+		       fcol = "ProteinAccession",
+		       fun = "robust")
 }
-
-

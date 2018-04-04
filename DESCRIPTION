@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for Mass Spectrometry and Proteomics
-Version: 2.5.9
+Version: 2.5.10
 Description: MSnbase provides infrastructure for manipulation,
 	     processing and visualisation of mass spectrometry and
 	     proteomics data, ranging from raw to quantitative and
@@ -8,31 +8,43 @@ Description: MSnbase provides infrastructure for manipulation,
 Authors@R: c(person(given = "Laurent", family = "Gatto",
 		    email = "lg390@cam.ac.uk",
 		    role = c("aut","cre")),
-	     person(given = "Guangchuang", family ="Yu",
+	     person(given = "Guangchuang", family = "Yu",
 		    email = "guangchuangyu@gmail.com",
 		    role = "ctb"),
-	     person(given = "Samuel", family ="Wieczorek",
+	     person(given = "Samuel", family = "Wieczorek",
 		    email = "samuel.wieczorek@cea.fr",
 		    role = "ctb"),
-	     person(given = "Vasile-Cosmin", family ="Lazar",
+	     person(given = "Vasile-Cosmin", family = "Lazar",
 		    email = "v.cosmin.lazar@googlemail.com",
 		    role = "ctb"),
-	     person(given = "Vladislav", family ="Petyuk",
+	     person(given = "Vladislav", family = "Petyuk",
 		    email = "petyuk@gmail.com",
 		    role = "ctb"),
-	     person(given = "Thomas", family ="Naake",
+	     person(given = "Thomas", family = "Naake",
 		    email = "tn299@cam.ac.uk",
 		    role = "ctb"),
-	     person(given = "Richie", family ="Cotton",
+	     person(given = "Richie", family = "Cotton",
 		    email = "richierocks@gmail.com",
 		    role = "ctb"),
-	     person(given = "Arne", family ="Smits",
+	     person(given = "Arne", family = "Smits",
 		    email = "arne.smits@embl.de",
 		    role = "ctb"),
-	     person(given = "Martina", family ="Fischer",
+	     person(given = "Martina", family = "Fischer",
 		    email = "FischerM@rki.de",
 		    role = "ctb"),
-	     person(given = "Johannes", family ="Rainer",
+	     person(given = "Adriaan", family = "Sticker",
+		    email = "adriaan.sticker@ugent.be",
+		    role = "ctb"),
+	     person(given = "Ludger", family = "Goeminne",
+		    email = " ludger.goeminne@vib-ugent.be",
+		    role = "ctb"),
+	     person(given = "Lieven", family = "Clement",
+		    email = " Lieven.Clement@ugent.be",
+		    role = "ctb"),
+	     person(given = "Sigurdur", family = "Smarason",
+		    email = " Sigurdur.Smarason@eurac.edu",
+		    role = "ctb"),
+	     person(given = "Johannes", family = "Rainer",
 		    email = "Johannes.Rainer@eurac.edu",
 		    role = c("aut", "cre")),
 	     person(given = "Sebastian", family = "Gibb",
@@ -40,20 +52,21 @@ Authors@R: c(person(given = "Laurent", family = "Gatto",
 		    role = c("aut", "cre")))
 Author: Laurent Gatto, Johannes Rainer and Sebastian Gibb with
     contributions from Guangchuang Yu, Samuel Wieczorek, Vasile-Cosmin
-    Lazar, Vladislav Petyuk, Thomas Naake, Richie Cotton, Arne Smits
-    and Martina Fisher.
+    Lazar, Vladislav Petyuk, Thomas Naake, Richie Cotton, Arne Smits,
+    Martina Fisher, Ludger Goeminne, Adriaan Sticker and Lieven
+    Clement.
 Maintainer: Laurent Gatto <lg390@cam.ac.uk>
 Depends:
     R (>= 3.1),
     methods,
     BiocGenerics (>= 0.7.1),
     Biobase (>= 2.15.2),
-    mzR (>= 2.13.2),
+    mzR (>= 2.13.6),
     BiocParallel,
     ProtGenerics (>= 1.9.1)
 Imports:
+    IRanges (>= 2.13.28),
     plyr,
-    IRanges,
     preprocessCore,
     vsn,
     grid,
@@ -69,6 +82,7 @@ Imports:
     S4Vectors,
     XML,
     scales,
+    MASS,
     Rcpp
 Suggests:
     testthat,

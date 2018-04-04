@@ -12,6 +12,7 @@
 ##' @md
 ##' @aliases coerce,mzRident,data.frame-method
 ##' @author Laurent Gatto
+##' @seealso [filterIdentificationDataFrame()] to filter out unreliable PSMs.
 ##' @examples
 ##' idf <- "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"
 ##' f <- msdata::ident(full.names = TRUE, pattern = idf)

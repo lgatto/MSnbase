@@ -4,13 +4,18 @@
 \alias{estimateMzScattering}
 \title{Estimate m/z scattering in consecutive scans}
 \usage{
-estimateMzScattering(x, halfWindowSize = 1L)
+estimateMzScattering(x, halfWindowSize = 1L, timeDomain = FALSE)
 }
 \arguments{
 \item{x}{\code{MSnExp} or \code{OnDiskMSnExp} object.}
 
 \item{halfWindowSize}{\code{integer(1)} defining the half window size for the
 moving window to combine consecutive spectra.}
+
+\item{timeDomain}{\code{logical(1)} whether m/z scattering should be estimated
+on \code{mz} (\code{timeDomain = FALSE}) or \code{sqrt(mz)} (\code{timeDomain = TRUE})
+values. See \code{\link[=combineSpectraMovingWindow]{combineSpectraMovingWindow()}} for details on this
+parameter.}
 }
 \description{
 Estimate scattering of m/z values (due to technical, instrument specific
@@ -25,6 +30,10 @@ with the first peak representing the above described random variation and
 the second (or largest) peak the m/z resolution. The m/z value of the first
 local minimum between these first two peaks in the distribution is returned
 as the \emph{m/z scattering}.
+}
+\note{
+For \code{timeDomain = TRUE} the function does \strong{not} return the estimated
+scattering of m/z values, but the scattering of \code{sqrt(mz)} values.
 }
 \examples{
 

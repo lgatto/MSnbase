@@ -48,19 +48,25 @@ Note that \code{copy = TRUE} requires the original files to be available and
 is not supported for input files in other than mzML or mzXML format.
 All metadata related to the run is copied, such as instrument
 information, data processings etc. If \code{copy = FALSE} only processing
-information performed in R (using \code{MSnbase}) are saved to the mzML file.\preformatted{Currently only spectrum data is supported, i.e. if the original mzML
+information performed in R (using \code{MSnbase}) are saved to the mzML file.
+
+Currently only spectrum data is supported, i.e. if the original mzML
 file contains also chromatogram data it is not copied/saved to the new
 mzML file.
-}
 }
 \note{
 General spectrum data such as total ion current, peak count, base peak
 m/z or base peak intensity are calculated from the actual spectrum data
-before writing the data to the files.\preformatted{For MSn data, if the `OnDiskMSnExp` or `MSnExp` does not contain also
+before writing the data to the files.
+
+For MSn data, if the \code{OnDiskMSnExp} or \code{MSnExp} does not contain also
 the precursor scan of a MS level > 1 spectrum (e.g. due to filtering on
-the MS level) `precursorScanNum` is set to 0 in the output file to
+the MS level) \code{precursorScanNum} is set to 0 in the output file to
 avoid potentially linking to a wrong spectrum.
-}
+
+The exported \code{mzML} file \emph{should} be valid according to the mzML 1.1.2
+standard. For exported \code{mzXML} files it can not be guaranteed that they
+are valid and can be opened with other software than \code{mzR}/\code{MSnbase}.
 }
 \author{
 Johannes Rainer
