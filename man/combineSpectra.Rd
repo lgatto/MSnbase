@@ -5,7 +5,7 @@
 \title{Combine profile-mode spectra signals}
 \usage{
 combineSpectra(x, mzFun = base::mean, intensityFun = base::mean,
-  main = floor(length(x)/2L) + 1L, mzd)
+  main = floor(length(x)/2L) + 1L, mzd, timeDomain = TRUE)
 }
 \arguments{
 \item{x}{\code{list} of \code{Spectrum} objects.}
@@ -27,6 +27,14 @@ which m/z and intensity values get replaced and is returned.}
 values are grouped. If not provided, this value is estimated from the
 distribution of differences of m/z values from the provided spectra
 (see details).}
+
+\item{timeDomain}{\code{logical(1)} whether definition of the m/z values to be
+combined into one m/z is performed on m/z values
+(\code{timeDomain = FALSE}) or on \code{sqrt(mz)} (\code{timeDomain = TRUE}).
+Profile data from TOF MS instruments should be aggregated based
+on the time domain (see details). Note that a pre-defined \code{mzd} should
+also be estimated on the square root of m/z values if
+\code{timeDomain = TRUE}.}
 }
 \value{
 \code{Spectrum} with m/z and intensity values representing the aggregated values
@@ -51,7 +59,15 @@ possible to define this maximal m/z difference with the \code{mzd} parameter.
 All m/z values with a difference smaller than this value are combined to
 a m/z group.
 Intensities and m/z values falling within each of these m/z groups are
-aggregated using the \code{intensity_fun} and \code{mz_fun}, respectively.
+aggregated using the \code{intensity_fun} and \code{mz_fun}, respectively. It is
+highly likely that all QTOF profile data is collected with a timing circuit
+that collects data points with regular intervals of time that are then later
+converted into m/z values based on the relationship \code{t = k * sqrt(m/z)}. The
+m/z scale is thus non-linear and the m/z scattering (which is in fact caused
+by small variations in the time circuit) will thus be different in the lower
+and upper m/z scale. m/z-intensity pairs from consecutive scans to be
+combined are therefore defined by default on the square root of the m/z
+values. With \code{timeDomain = FALSE}, the actual m/z values will be used.
 }
 \examples{
 
@@ -97,5 +113,5 @@ a spectrum.
 spectra of an \code{MSnExp} object using a moving window approach.
 }
 \author{
-Johannes Rainer
+Johannes Rainer, Sigurdur Smarason
 }

@@ -5,7 +5,8 @@
 \title{Combine signal from consecutive spectra of LCMS experiments}
 \usage{
 combineSpectraMovingWindow(x, halfWindowSize = 1L, mzFun = base::mean,
-  intensityFun = base::mean, mzd = NULL, BPPARAM = bpparam())
+  intensityFun = base::mean, mzd = NULL, timeDomain = TRUE,
+  BPPARAM = bpparam())
 }
 \arguments{
 \item{x}{\code{MSnExp} or \code{OnDiskMSnExp} object.}
@@ -27,6 +28,14 @@ expected to return a \code{numeric(1)}.}
 values are grouped. If not provided, this value is estimated from the
 distribution of differences of m/z values from the provided spectra
 (see details).}
+
+\item{timeDomain}{\code{logical(1)} whether definition of the m/z values to be
+combined into one m/z is performed on m/z values
+(\code{timeDomain = FALSE}) or on \code{sqrt(mz)} (\code{timeDomain = TRUE}).
+Profile data from TOF MS instruments should be aggregated based
+on the time domain (see details). Note that a pre-defined \code{mzd} should
+also be estimated on the square root of m/z values if
+\code{timeDomain = TRUE}.}
 
 \item{BPPARAM}{parallel processing settings.}
 }
@@ -60,6 +69,17 @@ threshold is estimated on the 100 spectra with the largest number of
 m/z - intensity pairs (i.e. mass peaks).
 
 See \code{\link[=combineSpectra]{combineSpectra()}} for details.
+
+Parameter \code{timeDomain}: by default, m/z-intensity pairs from consecutive
+scans to be aggregated are defined based on the square root of the m/z
+values. This is because it is highly likely that in all QTOF MS instruments
+data is collected based on a timing circuit (with a certain variance) and
+m/z values are later derived based on the relationship \code{t = k * sqrt(m/z)}.
+Differences between individual m/z values will thus be dependent on the
+actual m/z value causing both the difference between m/z values and their
+scattering being different in the lower and upper m/z range. Determining
+m/z values to be combined on the \code{sqrt(mz)} reduces this dependency. For
+non-QTOF MS data \code{timeDomain = FALSE} might be used instead.
 }
 \note{
 The function has to read all data into memory for the spectra combining
