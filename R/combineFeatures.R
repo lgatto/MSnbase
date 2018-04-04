@@ -89,8 +89,22 @@ combineFeaturesV <- function(object,   ## MSnSet
                              ) {
     groupBy <- as.character(groupBy)
     if (cv) {
+        ## New cv feature variable names
+        cvfvars <- paste("CV", sampleNames(object), sep = ".")
+        ## If not already present, use as is (i.e no suffix needed)
+        if (!any(cvfvars %in% fvarLabels(object))) {
+            .suffix <- NULL
+        } else {
+            ## Add a numeric suffix that isn't already in use
+            .suffix <- 0
+            while (any(cvfvars %in% fvarLabels(object))) {
+                .suffix <- .suffix + 1
+                cvfvars <- paste(cvfvars, .suffix, sep = ".")
+            }
+        }
         cv.mat <- featureCV(object, groupBy = groupBy,
-                            norm = cv.norm)
+                            norm = cv.norm,
+                            suffix = .suffix)
     }
     n1 <- nrow(object)
     ## !! order of features in matRes is defined by the groupBy factor !!

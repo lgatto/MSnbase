@@ -50,40 +50,49 @@ normalise_MSnSet <- function(object, method, ...) {
 }
 
 
-##' This function calculates the column-wise coefficient of variation (CV), i.e.
-##' the ration between the standard deviation and the mean, for the features
-##' in an \code{"\linkS4class{MSnSet}"}. The CVs are calculated for the groups
-##' of features defined by \code{groupBy}. For groups defined by single features,
-##' \code{NA} is returned.
+##' This function calculates the column-wise coefficient of variation
+##' (CV), i.e.  the ration between the standard deviation and the
+##' mean, for the features in an [`MSnSet`]. The CVs are calculated
+##' for the groups of features defined by `groupBy`. For groups
+##' defined by single features, `NA` is returned.
 ##'
 ##' @title Calculates coeffivient of variation for features
-##' @param x An instance of class \code{"\linkS4class{MSnSet}"}.
-##' @param groupBy An object of class \code{factor} defining how to summerise the features.
-##' @param na.rm A \code{logical} defining whether missing values should be removed.
-##' @param norm One of 'none' (default), 'sum', 'max', 'center.mean', 'center.median'
-##' 'quantiles' or 'quantiles.robust' defining if and how the data should be normalised
-##' prior to CV calculation. See \code{\link{normalise}} for more details.
-##' @return A \code{matrix} of dimensions \code{length(levels(groupBy))} by \code{ncol(x)}
-##' with the respecive CVs.
-##' @author Laurent Gatto <lg390@@cam.ac.uk>,
-##' Sebastian Gibb <mail@@sebastiangibb.de>
-##' @seealso \code{\link{combineFeatures}}
+##' @param x An instance of class [`MSnSet`].
+##' @param groupBy An object of class `factor` defining how to
+##'     summarise the features.
+##' @param na.rm A `logical(1)` defining whether missing values should
+##'     be removed.
+##' @param norm One of normalisation methods applied prior to CV
+##'     calculation. See [normalise()] for more details. Here, the
+##'     default is `'none'`, i.e. no normalisation.
+##' @param suffix A `character(1)` to be used to name the new CV
+##'     columns. Default is `NULL` to ignore this. This argument
+##'     should be set when CV values are already present in the
+##'     [`MSnSet`] feature variables.
+##' @return A `matrix` of dimensions `length(levels(groupBy))` by
+##'     `ncol(x)` with the respecive CVs. The column names are formed
+##'     by pasting `CV.` and the sample names of object `x`, possibly
+##'     suffixed by `.suffix`.
+##' @author Laurent Gatto and Sebastian Gibb
+##' @seealso [combineFeatures()]
+##' @md
 ##' @examples
 ##' data(msnset)
 ##' msnset <- msnset[1:4]
 ##' gb <- factor(rep(1:2, each = 2))
 ##' featureCV(msnset, gb)
+##' featureCV(msnset, gb, suffix = "2")
 featureCV <- function(x, groupBy, na.rm = TRUE,
-                      norm = c("sum", "max", "none",
-                        "center.mean", "center.median",
-                        "quantiles", "quantiles.robust")) {
-  norm <- match.arg(norm)
+                      norm = "none",
+                      suffix = NULL) {
   if (norm != "none")
     x <- normalise(x, method = norm)
 
-  cv <- rowsd(exprs(x), group=groupBy, reorder=TRUE, na.rm=na.rm) /
-          rowmean(exprs(x), group=groupBy, reorder=TRUE, na.rm=na.rm)
-  colnames(cv) <- paste("CV", colnames(cv), sep=".")
+  cv <- rowsd(exprs(x), group = groupBy, reorder = TRUE, na.rm = na.rm) /
+      rowmean(exprs(x), group = groupBy, reorder = TRUE, na.rm = na.rm)
+  colnames(cv) <- paste("CV", colnames(cv), sep = ".")
+  if (!is.null(suffix))
+      colnames(cv) <- paste(colnames(cv), suffix, sep = ".")
   cv
 }
 

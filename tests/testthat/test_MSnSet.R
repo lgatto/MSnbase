@@ -48,7 +48,7 @@ test_that("Combine MSnSet features: groupBy and fcol", {
     x1 <- combineFeatures(msnset, groupBy = grp)
     x2 <- combineFeatures(msnset, fcol = "k")
     x2@processingData <- x1@processingData
-    expect_equal(x1, x2)    
+    expect_equal(x1, x2)
 })
 
 test_that("Combine MSnSet features (V)", {
@@ -98,7 +98,7 @@ test_that("Combine MSnSet features (V)", {
                  matrix(c(5*4, 5*10, 5*4, 5*10), ncol = 2),
                  tolerance = .001,
                  check.attributes = FALSE)
-    
+
     expect_true(all(fData(bb)[, 1] == c("A", "B")))
     expect_true(all(fData(bb)[, 2] == c("A.1", "B.6")))
     gb2 <- factor(c("a", "c", "z", "a", "z", "b", "b", "a", "c", "a"))
@@ -179,6 +179,17 @@ test_that("Combine MSnSet features (L)", {
                  colMeans(exprs(ee)[sapply(L, function(l) any(grepl("B", l))), ]))
     expect_equal(exprs(ee4)["C", ],
                  colMeans(exprs(ee)[sapply(L, function(l) any(grepl("C", l))), ]))
+})
+
+test_that("Combine MSnSet features repeatedly", {
+    data(msnset)
+    fv1 <- fvarLabels(msnset)
+    pep <- combineFeatures(msnset, groupBy = fData(msnset)$PeptideSequence,
+                           cv = TRUE)
+    prot <- combineFeatures(pep, groupBy = fData(pep)$ProteinAccession,
+                            cv = TRUE)
+    expect_identical(length(fv1) + 4L, length(fvarLabels(pep)))
+    expect_identical(length(fv1) + 8L, length(fvarLabels(prot)))
 })
 
 test_that("makeImpuritiesMatrix", {
@@ -290,6 +301,10 @@ test_that("featureCV", {
                    sd((exprs(m)/div)[ii]/mean((exprs(m)/div)[ii])) }),
                  nrow=2, ncol=2, dimnames=list(c("A", "B"), c("CV.1", "CV.2")))
     expect_equal(featureCV(m, group=fData(m)$accession, norm="sum"), cv)
+
+    cv1 <- featureCV(m, group=fData(m)$accession)
+    cv2 <- featureCV(m, group=fData(m)$accession, suffix = "2")
+    expect_identical(colnames(cv1), sub("\\.2", "", colnames(cv2)))
 })
 
 context("MSnSet identification data")
@@ -429,7 +444,7 @@ test_that("nFeatures are added correctly", {
                  "'Protein.Group.Accessions.nFeatures' already present.")
     expect_error(nFeatures(hyperLOPIT2015ms3r1psm, "foo"))
     tmp <- fData(res)$Protein.Group.Accessions.nFeatures
-    names(tmp) <- fData(res)$Protein.Group.Accessions    
+    names(tmp) <- fData(res)$Protein.Group.Accessions
     sel <- !duplicated(names(tmp))
     g <- tmp[sel]
     expect_equivalent(g[sort(names(g))], k0[sort(names(k0))])

@@ -13,6 +13,9 @@
 - Add parameter `timeDomain` to `combineSpectra`, `combineSpectraMovingWindow`
   and `estimateMzScattering` allowing to perform the grouping of m/z values
   from consecutive scans based on the square root of the m/z values <2018-03-29>.
+- Assure feature CV feature variable names are unique when combining
+  feature repeatedly (see issue
+  [#303](https://github.com/lgatto/MSnbase/issues/303)) <2018-04-04 Wed>
 
 ## Changes in version 2.5.9
 - New combineSpectra, combineSpectraMovingWindow, estimateMzScattering and
@@ -21,7 +24,8 @@
 
 ## Changes in version 2.5.8
 - New as(MSnExp, data.frame) method <2018-02-16>
-- Speed up readMgfData function - see issue [#319](https://github.com/lgatto/MSnbase/issues/319) <2018-03-13 Tue>
+- Speed up readMgfData function - see issue
+  [#319](https://github.com/lgatto/MSnbase/issues/319) <2018-03-13 Tue>
 
 ## Changes in version 2.5.7
 
