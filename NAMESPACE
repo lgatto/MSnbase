@@ -15,11 +15,10 @@ import(methods)
 
 importFrom(XML, xmlInternalTreeParse, getDefaultNamespace, xpathApply,
            xmlAttrs)
-
 importFrom(graphics, abline, axis, grid, legend, lines, points, text,
            barplot, layout, par, matplot, mtext)
 importFrom(stats, ave, median, medpolish, quantile, reorder, setNames,
-           weighted.mean, dist)
+           weighted.mean, dist, model.matrix, .lm.fit)
 importFrom(utils, combn, head, ls.str, object.size,
            packageDescription, packageVersion, read.csv, read.delim,
            read.table, select.list, setTxtProgressBar, tail,
@@ -34,7 +33,9 @@ importFrom(ggplot2, geom_histogram, geom_text, geom_line, geom_point,
            facet_grid)
 
 importFrom(MALDIquant, binPeaks, match.closest) ## only using ::: functions
+importFrom(S4Vectors, isEmpty, metadata, DataFrame)
 importFrom(S4Vectors, isEmpty, metadata, DataFrame, replaceROWS)
+importFrom(MASS, rlm)
 
 ## importFrom(rols, olsQuery, term)
 ## importClassesFrom(rols, CVParam)
@@ -294,13 +295,13 @@ exportMethods(updateObject,
               pData, "pData<-",
               "$",
               "$<-",
-	      phenoData, "phenoData<-",
+              phenoData, "phenoData<-",
               chromatogram,
               "colnames<-",
               reduce,
               writeMSData,
               productMz,
-	      estimateMzResolution
+              estimateMzResolution
               )
 
 ## methods NOT exported

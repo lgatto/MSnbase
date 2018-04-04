@@ -32,10 +32,12 @@
 ##' @param verbose Verbosity flag. Default is to use
 ##'     [isMSnbaseVerbose()].
 ##' @param centroided. A `logical`, indicating whether spectra are
-##'     centroided or not. Default is `NA`. In `onDisk`, it can also
-##'     be set for different MS levels by a vector of logicals, where
-##'     the first element is for MS1, the second element is for MS2,
-##'     ... See [OnDiskMSnExp-class] for an example.
+##'     centroided or not. Default is `NA` in which case the information
+##'     is extracted from the raw file (for mzML or mzXML files). In
+##'     `onDisk`, it can also be set for different MS levels by a
+##'     vector of logicals, where the first element is for MS1, the
+##'     second element is for MS2, ... See [OnDiskMSnExp-class] for
+##'     an example.
 ##' @param smoothed. A `logical` indicating whether spectra already
 ##'     smoothed or not. Default is `NA`.
 ##' @param cache. Numeric indicating caching level. Default is 0 for
@@ -111,6 +113,10 @@ readInMemMSData <- function(files, pdata, msLevel., verbose,
         msdata <- .openMSfile(f)
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
+        ## Issue #325: get centroided information from file, but overwrite if
+        ## specified with centroided. parameter.
+        if (!is.na(centroided.))
+            fullhd$centroided <- as.logical(centroided.)
         spidx <- which(fullhd$msLevel == msLevel.)
         ## increase vectors as needed
         ioncount <- c(ioncount, numeric(length(spidx)))
@@ -142,7 +148,7 @@ readInMemMSData <- function(files, pdata, msLevel., verbose,
                           mz = .p[, 1],
                           intensity = .p[, 2],
                           fromFile = as.integer(filen),
-                          centroided = as.logical(centroided.),
+                          centroided = as.logical(hd$centroided),
                           smoothed = as.logical(smoothed.),
                           polarity = as.integer(pol))
                 ## peaksCount
@@ -188,7 +194,7 @@ readInMemMSData <- function(files, pdata, msLevel., verbose,
                           mz = .p[, 1],
                           intensity = .p[, 2],
                           fromFile = as.integer(filen),
-                          centroided = as.logical(centroided.),
+                          centroided = as.logical(hd$centroided),
                           smoothed = as.logical(smoothed.),
                           polarity = as.integer(hd$polarity))
                 ## peaksCount

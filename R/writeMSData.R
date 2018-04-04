@@ -108,6 +108,8 @@
     ## mzML files will otherwise fail.
     if (!any(colnames(hdr) == "filterString"))
         hdr$filterString <- NA_character_
+    ## centroided has to be logical
+    hdr$centroided <- as.logical(hdr$centroided)
     ## o add processing steps.
     soft_proc <- .guessSoftwareProcessing(msData, software_processing)
     if (copy) {
@@ -144,7 +146,7 @@
     ## issue #321: replace MS:-1 with the MS CV Term of MSnbase, once it's
     ## included.
     msnbase_proc <- c("MSnbase", paste0(packageVersion("MSnbase"),
-                                        collapse = "."), "MS:-1")
+                                        collapse = "."), "MS:1002870")
     processings <- processingData(x)@processing
     if (length(processings)) {
         proc_cv <- unlist(lapply(processings, FUN = .pattern_to_cv))

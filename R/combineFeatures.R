@@ -5,9 +5,10 @@ combineFeatures <- function(object,
                                 "weighted.mean",
                                 "sum",
                                 "medpolish",
+                                "robust",
                                 "iPQF",
                                 "NTR"),
-                            fcol,                            
+                            fcol,
                             redundancy.handler = c("unique", "multiple"),
                             cv = TRUE,
                             cv.norm = "sum",
@@ -156,6 +157,9 @@ combineMatrixFeatures <- function(matr,    ## matrix
                                          medpol <- medpolish(x, trace.iter = verbose, ...)
                                          return(medpol$overall + medpol$col)
                                      })
+        } else if (fun == "robust") {
+            summarisedFeatures <- by(matr, groupBy, robust_summary, ...)
+
         } else if (fun == "weighted.mean") {
             ## Expecting 'w' argument
             args <- list(...)
@@ -193,7 +197,6 @@ combineMatrixFeatures <- function(matr,    ## matrix
     }
     return(do.call(rbind, as.list(summarisedFeatures)))
 }
-
 
 ##' This function evaluates the variability within all protein group
 ##' of an \code{MSnSet}. If a protein group is composed only of a
@@ -246,4 +249,62 @@ aggvar <- function(object, groupBy, fun) {
     ans <- cbind(agg_dist = d, nb_feats = nr)
     attr(ans, "agg_dist") <- fun
     ans
+}
+
+##' This function calculates the robust summarisation for each feature
+##' (protein). Note that the function assumes that the intensities in
+##' input `e` are already log-transformed.
+##'
+##' @title Calculate robust expression summary
+##' @param e A feature (peptide or spectra) by sample `matrix`
+##'     containing the expression data.
+##' @param nIter `numeric()` giving the number of iteration; default
+##'     is 100.
+##' @param ... Additional parameters passed to `MASS::rlm`
+##' @return `numeric()` vector of length `length(expression)` with
+##'     robust summarised values.
+##' @author Adriaan Sticker and Laurent Gatto
+##' @md
+##' @noRd
+robust_summary <- function(e, nIter = 100, residuals = FALSE, ...) {
+    ## If there is only one 1 peptide for all samples return
+    ## expression of that peptide
+    if (nrow(e) == 1L) return(e)
+
+    x <- data.frame(expression = as.numeric(as.matrix(e)),
+                    sample = rep(colnames(e), each = nrow(e)),
+                    feature = rep(rownames(e), times = ncol(e)),
+                    stringsAsFactors = FALSE)
+    expression <- x$expression
+    sample <- x$sample
+    feature <- x$feature
+
+    ## modelmatrix breaks on factors with 1 level so make vector of
+    ## ones (this swill be intercept).
+    if (length(unique(sample)) == 1L) sample <- rep(1, length(sample))
+
+    ## Sum contrast on peptide level so sample effect will be mean
+    ## over all peptides instead of reference level.
+    X <- stats::model.matrix(~ -1 + sample + feature,
+                             contrasts.arg = list(feature = 'contr.sum'))
+    ## MASS::rlm breaks on singulare values.
+    ## - Check with base lm if singular values are present.
+    ## - If so, these coefficients will be zero, remove this collumn
+    ##   from model matrix
+    ## - Rinse and repeat on reduced modelmatrx till no singular
+    ##   values are present
+    repeat {
+        fit <- stats::.lm.fit(X, expression)
+        id <- fit$coefficients != 0
+        X <- X[ , id, drop = FALSE]
+        if (!any(!id)) break
+    }
+    ## Last step is always rlm
+    fit <- MASS::rlm(X, expression, maxit = nIter, ...)
+    ## Calculate estimated effects effects as summarised values
+    sampleid <- seq_along(unique(sample))
+    ## resids <- fit$residuals
+    ## se <- unique(summary(fit)$coefficients[sampleid, 'Std. Error'])
+    ## was X[, sampleid, drop = FALSE] %*% fit$coefficients[sampleid]
+    return(fit$coefficients[sampleid])
 }

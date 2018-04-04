@@ -1,4 +1,8 @@
 test_that("writeMSData works", {
+    mzML_xsd_idx <- XML::xmlTreeParse(system.file("extdata", "mzML1.1.2_idx.xsd",
+                                                  package = "mzR"),
+                                      isSchema = TRUE, useInternal = TRUE)
+
     ## using the onDisk data.
     odf <- tmt_erwinia_on_disk
     ## 1) Filter MS level 1, write, read and compare with tmt_erwinia_in_mem_ms1
@@ -6,6 +10,10 @@ test_that("writeMSData works", {
     out_file <- paste0(tempfile(), ".mzML")
     MSnbase:::.writeSingleMSData(odf_out, file = out_file,
                                  outformat = "mzml", copy = TRUE)
+    ## Validating the mzML file
+    doc <- XML::xmlInternalTreeParse(out_file)
+    res <- XML::xmlSchemaValidate(mzML_xsd_idx, doc)
+    expect_equal(res$status, 0)
     odf_in <- readMSData(out_file, mode = "onDisk")
     ## Some stuff is different, i.e. totIonCurrent, basePeakMZ, basePeakIntensity
     expect_equal(unname(rtime(odf_in)), unname(rtime(tmt_erwinia_in_mem_ms1)))
@@ -66,6 +74,13 @@ test_that("writeMSData works", {
     out_file <- paste0(out_path, c("/a.mzML", "/b.mzML"))
     MSnbase:::.writeMSData(microtofq_on_disk_ms1, file = out_file,
                            copy = FALSE)
+    ## Validating the mzML file
+    doc <- XML::xmlInternalTreeParse(out_file[1])
+    res <- XML::xmlSchemaValidate(mzML_xsd_idx, doc)
+    expect_equal(res$status, 0)
+    doc <- XML::xmlInternalTreeParse(out_file[2])
+    res <- XML::xmlSchemaValidate(mzML_xsd_idx, doc)
+    expect_equal(res$status, 0)    
     odf_in <- readMSData(out_file, mode = "onDisk")
     expect_equal(unname(rtime(odf_in)), unname(rtime(microtofq_in_mem_ms1)))
     expect_equal(spectra(odf_in), spectra(microtofq_in_mem_ms1))
@@ -78,6 +93,7 @@ test_that("writeMSData works", {
     expect_equal(unname(rtime(odf)), unname(rtime(odf_in)))
     expect_equal(unname(mz(odf)), unname(mz(odf_in)))
     expect_equal(unname(intensity(odf)), unname(intensity(odf_in)))
+
 })
 
 test_that(".pattern_to_cv works", {
@@ -95,7 +111,7 @@ test_that(".guessSoftwareProcessing works", {
     res <- .guessSoftwareProcessing(odf_proc)
     expect_equal(res[[1]][1], "MSnbase")
     expect_equal(res[[1]][2], paste0(packageVersion("MSnbase"), collapse = "."))
-    expect_equal(res[[1]][3], "MS:-1")
+    expect_equal(res[[1]][3], "MS:1002870")
     expect_equal(res[[1]][4], "MS:1001486")
     ## clean: Spectra cleaned NO CV YET
     ## bin: Spectra binned: NO CV YET

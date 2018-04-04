@@ -2,33 +2,43 @@
 #'
 #' @aliases writeMSData
 #' 
-#' @description The `writeMSData,MSnExp` and `writeMSData,OnDiskMSnExp` saves
-#'     the content of a [MSnExp] or [OnDiskMSnExp] object to MS file(s) in
-#'     either *mzML* or *mzXML* format.
+#' @description
 #'
-#' @details The `writeMSData` method uses the *proteowizard* libraries through
-#'     the `mzR` package to save the MS data. The data can be written to
-#'     *mzML* or *mzXML* files with or without copying additional metadata
-#'     information from the original files from which the data was read by the
-#'     [readMSData()] function. This can be set using the `copy` parameter.
-#'     Note that `copy = TRUE` requires the original files to be available and
-#'     is not supported for input files in other than mzML or mzXML format.
-#'     All metadata related to the run is copied, such as instrument
-#'     information, data processings etc. If `copy = FALSE` only processing
-#'     information performed in R (using `MSnbase`) are saved to the mzML file.
+#' The `writeMSData,MSnExp` and `writeMSData,OnDiskMSnExp` saves
+#' the content of a [MSnExp] or [OnDiskMSnExp] object to MS file(s) in
+#' either *mzML* or *mzXML* format.
 #'
-#'     Currently only spectrum data is supported, i.e. if the original mzML
-#'     file contains also chromatogram data it is not copied/saved to the new
-#'     mzML file.
+#' @details
 #'
-#' @note General spectrum data such as total ion current, peak count, base peak
-#'     m/z or base peak intensity are calculated from the actual spectrum data
-#'     before writing the data to the files.
+#' The `writeMSData` method uses the *proteowizard* libraries through
+#' the `mzR` package to save the MS data. The data can be written to
+#' *mzML* or *mzXML* files with or without copying additional metadata
+#' information from the original files from which the data was read by the
+#' [readMSData()] function. This can be set using the `copy` parameter.
+#' Note that `copy = TRUE` requires the original files to be available and
+#' is not supported for input files in other than mzML or mzXML format.
+#' All metadata related to the run is copied, such as instrument
+#' information, data processings etc. If `copy = FALSE` only processing
+#' information performed in R (using `MSnbase`) are saved to the mzML file.
 #'
-#'     For MSn data, if the `OnDiskMSnExp` or `MSnExp` does not contain also
-#'     the precursor scan of a MS level > 1 spectrum (e.g. due to filtering on
-#'     the MS level) `precursorScanNum` is set to 0 in the output file to
-#'     avoid potentially linking to a wrong spectrum.
+#' Currently only spectrum data is supported, i.e. if the original mzML
+#' file contains also chromatogram data it is not copied/saved to the new
+#' mzML file.
+#'
+#' @note
+#'
+#' General spectrum data such as total ion current, peak count, base peak
+#' m/z or base peak intensity are calculated from the actual spectrum data
+#' before writing the data to the files.
+#'
+#' For MSn data, if the `OnDiskMSnExp` or `MSnExp` does not contain also
+#' the precursor scan of a MS level > 1 spectrum (e.g. due to filtering on
+#' the MS level) `precursorScanNum` is set to 0 in the output file to
+#' avoid potentially linking to a wrong spectrum.
+#'
+#' The exported `mzML` file *should* be valid according to the mzML 1.1.2
+#' standard. For exported `mzXML` files it can not be guaranteed that they
+#' are valid and can be opened with other software than `mzR`/`MSnbase`.
 #' 
 #' @param object `OnDiskMSnExp` or `MSnExp` object.
 #'
