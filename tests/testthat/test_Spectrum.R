@@ -538,11 +538,11 @@ test_that("combineSpectra works", {
                intensity = ints2, rt = 4)
     expect_error(combineSpectra(list(sp1, sp2, sp3, sp4)))
 
-    res <- combineSpectra(list(sp1, sp2, sp3))
+    res <- combineSpectra(list(sp1, sp2, sp3), timeDomain = TRUE)
     expect_equal(length(mz(res)), length(mz(sp2)))
     expect_equal(rtime(res), rtime(sp2))
 
-    res <- combineSpectra(list(sp2, sp1))
+    res <- combineSpectra(list(sp2, sp1), timeDomain = FALSE)
     expect_equal(length(mz(res)), length(mz(sp1)))
     expect_equal(rtime(res), rtime(sp1))
 
@@ -551,15 +551,15 @@ test_that("combineSpectra works", {
     ## randon noise larger than resolution.
     expect_error(res <- combineSpectra(list(sp1, sp3, sp4)))
 
-    res <- combineSpectra(list(sp1, sp2, sp3), main = 1)
+    res <- combineSpectra(list(sp1, sp2, sp3), main = 1, timeDomain = TRUE)
     expect_equal(rtime(res), rtime(sp1))
     expect_equal(length(mz(res)), length(mz(sp1)))
 
-    res <- combineSpectra(list(sp1, sp2, sp3), main = 3)
+    res <- combineSpectra(list(sp1, sp2, sp3), main = 3, timeDomain = TRUE)
     expect_equal(rtime(res), rtime(sp3))
     expect_equal(length(mz(res)), length(mz(sp3)))
     
-    res <- combineSpectra(list(sp1, sp1), intensityFun = sum)
+    res <- combineSpectra(list(sp1, sp1), intensityFun = sum, timeDomain = TRUE)
     expect_equal(mz(res), mz(sp1))
     expect_equal(intensity(res), intensity(sp1) * 2)
 
@@ -568,7 +568,24 @@ test_that("combineSpectra works", {
     res <- combineSpectra(list(sp1, sp2, sp3), mzFun = base::mean)
     res2 <- combineSpectra(list(sp1, sp2, sp3), mzFun = "weighted.mean")
     expect_equal(intensity(res), intensity(res2))
-    expect_true(sum(mz(res) == mz(res2)) == 1)
+    expect_false(all(mz(res) == mz(res2)))
+
+    ## Use real data.
+    od1 <- filterFile(sciex, 1)
+    lst <- spectra(od1[3:5])
+
+    res <- combineSpectra(lst, timeDomain = TRUE)
+    res_2 <- combineSpectra(lst, timeDomain = FALSE)
+
+    expect_equal(mz(res), mz(res_2))
+    expect_equal(intensity(res), intensity(res_2))
+    ## with (wrongly) pre-calculated mzd
+    mzd <- MSnbase:::.estimate_mz_scattering(sort(unlist(lapply(lst, mz))))
+    expect_error(combineSpectra(lst, timeDomain = TRUE, mzd = mzd))
+    res_3 <- combineSpectra(lst, timeDomain = FALSE, mzd = mzd)
+    
+    expect_equal(mz(res), mz(res_3))
+    expect_equal(intensity(res), intensity(res_3))
 })
 
 test_that(".estimate_mz_resolution, estimateMzResolution,Spectrum works", {
@@ -600,3 +617,4 @@ test_that(".density works", {
     expect_equal(res$x, res_2$x)
     expect_equal(res$y, res_2$y)
 })
+

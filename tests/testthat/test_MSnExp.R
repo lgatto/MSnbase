@@ -543,7 +543,7 @@ test_that("estimateMzResolution,MSnExp works", {
 })
 
 test_that("estimateMzScattering works", {
-    expect_error(MSnbase:::estimateMzScattering(4))
+    expect_error(estimateMzScattering(4))
 
     res <- estimateMzScattering(tmt_erwinia_in_mem_ms1)
     mzr <- estimateMzResolution(tmt_erwinia_in_mem_ms1)
@@ -552,7 +552,8 @@ test_that("estimateMzScattering works", {
     expect_true(res[[idx]] < mzr[[idx]])
 
     ## .estimate_mz_scattering_list.
-    res_2 <- .estimate_mz_scattering_list(spectra(tmt_erwinia_in_mem_ms1))
+    res_2 <- .estimate_mz_scattering_list(spectra(tmt_erwinia_in_mem_ms1),
+                                          timeDomain = FALSE)
     expect_equal(unname(res), res_2)
 })
 
@@ -560,14 +561,45 @@ test_that("combineSpectraMovingWindow works", {
     ## Check errors
     expect_error(combineSpectraMovingWindow("3"))
     
-    library(msdata)
-    fl <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)[1]
-    od <- readMSData(fl, mode = "onDisk")
+    od <- filterFile(sciex, 1)
     ## Focus on the one with most peaks
     idx <- which.max(peaksCount(od))
-    od <- od[(idx - 3):(idx + 3)]
-    od_comb <- combineSpectraMovingWindow(od)
+    spctrl <- spectra(od[(idx -1):(idx + 1)])
 
+    od <- od[(idx - 3):(idx + 3)]
+     spctr <- combineSpectra(spctrl)
+    ## Should be different from raw ones
+    expect_true(is.character(all.equal(mz(spctr), mz(od[[4]]))))
+    expect_true(is.character(all.equal(intensity(spctr), intensity(od[[4]]))))
+    
+    ## Use pre-calculated mzd:
+    mzd <- estimateMzScattering(od)
+    ## If mzd is estimated on mz and combination on sqrt(mz) it will fail.
+    expect_error(od_comb <- combineSpectraMovingWindow(od, mzd = mzd[[4]]))
+    ## All on m/z scale
+    od_comb <- combineSpectraMovingWindow(od, mzd = mzd[[4]], timeDomain = FALSE)
+    spctr_comb <- od_comb[[4]]
+    expect_equal(mz(spctr_comb), mz(spctr))
+    expect_equal(intensity(spctr_comb), intensity(spctr))
+    
+    ## Estimate on the sqrt(mz)
+    mzd <- estimateMzScattering(od, timeDomain = TRUE)
+    od_comb <- combineSpectraMovingWindow(od, mzd = mzd[[4]])
+    spctr_comb <- od_comb[[4]]
+    expect_equal(mz(spctr_comb), mz(spctr))
+    expect_equal(intensity(spctr_comb), intensity(spctr))
+    ## Should be different from the original ones.
+    spctr_raw <- od[[4]]
+    expect_true(is.character(all.equal(mz(spctr), mz(spctr_raw))))
+    expect_true(is.character(all.equal(intensity(spctr), intensity(spctr_raw))))
+    
+    ## Shouldn't make a difference if we're using timeDomain = TRUE or FALSE.
+    od_comb <- combineSpectraMovingWindow(od)
+    spctr_comb <- od_comb[[4]]
+    expect_equal(mz(spctr_comb), mz(spctr))
+    expect_equal(intensity(spctr_comb), intensity(spctr))
+
+    
     expect_equal(length(od), length(od_comb))
     expect_equal(peaksCount(od), peaksCount(od_comb))
 })
