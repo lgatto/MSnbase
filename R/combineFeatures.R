@@ -173,7 +173,6 @@ combineMatrixFeatures <- function(matr,    ## matrix
                                      })
         } else if (fun == "robust") {
             summarisedFeatures <- by(matr, groupBy, robust_summary, ...)
-
         } else if (fun == "weighted.mean") {
             ## Expecting 'w' argument
             args <- list(...)
@@ -283,18 +282,17 @@ aggvar <- function(object, groupBy, fun) {
 robust_summary <- function(e, nIter = 100, residuals = FALSE, ...) {
     ## If there is only one 1 peptide for all samples return
     ## expression of that peptide
-    if (nrow(e) == 1L) return(e)
+  if (nrow(e) == 1L) return(e)
 
-    x <- data.frame(expression = as.numeric(as.matrix(e)),
-                    sample = rep(colnames(e), each = nrow(e)),
-                    feature = rep(rownames(e), times = ncol(e)),
-                    stringsAsFactors = FALSE)
-    expression <- x$expression
-    sample <- x$sample
-    feature <- x$feature
+    ## remove data points with missing expression values
+    expression = as.numeric(as.matrix(e))
+    p = !is.na(expression)
+    expression = expression[p]
+    sample = rep(colnames(e), each = nrow(e))[p]
+    feature = rep(rownames(e), times = ncol(e))[p]
 
     ## modelmatrix breaks on factors with 1 level so make vector of
-    ## ones (this swill be intercept).
+    ## ones (intercept).
     if (length(unique(sample)) == 1L) sample <- rep(1, length(sample))
 
     ## Sum contrast on peptide level so sample effect will be mean
@@ -320,5 +318,10 @@ robust_summary <- function(e, nIter = 100, residuals = FALSE, ...) {
     ## resids <- fit$residuals
     ## se <- unique(summary(fit)$coefficients[sampleid, 'Std. Error'])
     ## was X[, sampleid, drop = FALSE] %*% fit$coefficients[sampleid]
-    return(fit$coefficients[sampleid])
+
+    ## Put NA for the samples without any expression value
+    present = apply(e,2,function(x){any(!is.na(x))})
+    out = rep(NA,length(present))
+    out[present] = fit$coefficients[sampleid]
+    return(out)
 }
