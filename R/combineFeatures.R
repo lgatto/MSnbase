@@ -23,6 +23,11 @@ combineFeatures <- function(object,
         stopifnot(fcol %in% fvarLabels(object))
         groupBy <- fData(object)[, fcol]
     }
+    if (anyNA(object)) {
+        msg <- "Your data contains missing values. Please read the relevant section in the combineFeatures manual page for details the effects of missing values on data aggregation."
+        message(paste(strwrap(msg), collapse = "\n"))
+    }
+
     if (is.list(groupBy)) {
         if (length(groupBy) != nrow(object))
             stop("'length(groupBy)' must be equal to 'nrow(object)': ",
