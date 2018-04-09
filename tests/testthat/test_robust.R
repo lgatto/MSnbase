@@ -207,13 +207,15 @@ test_that("Robust summarisation", {
     ## Single NA value is removed prior to fit
     expect_message(res1 <- combineFeatures(msnset,
                                            fcol = "ProteinAccession",
-                                           fun = "robust"))
+                                           fun = "robust",
+                                           maxit = 100L))
     expect_equal(exp1, exprs(res1))
     ## remove feature with missing value
     msnset <- filterNA(msnset)
     res2 <- combineFeatures(msnset,
                             fcol = "ProteinAccession",
-                            fun = "robust")
+                            fun = "robust",
+                            maxit = 100L)
 
     expect_equal(exp2, exprs(res2))
 
