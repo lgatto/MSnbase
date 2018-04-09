@@ -279,7 +279,7 @@ aggvar <- function(object, groupBy, fun) {
 ##' @param ... Additional parameters passed to `MASS::rlm`
 ##' @return `numeric()` vector of length `length(expression)` with
 ##'     robust summarised values.
-##' @author Adriaan Sticker,Sebastian Gibb and Laurent Gatto
+##' @author Adriaan Sticker, Sebastian Gibb and Laurent Gatto
 ##' @md
 ##' @noRd
 robustSummary <- function(e, residuals = FALSE, ...) {
@@ -287,14 +287,13 @@ robustSummary <- function(e, residuals = FALSE, ...) {
     ## expression of that peptide
     if (nrow(e) == 1L) return(e)
 
-    ## remove data points with missing expression values
-    expression = as.numeric(as.matrix(e))
-    p = !is.na(expression)
-    expression = expression[p]
-    sample = rep(colnames(e), each = nrow(e))[p]
-    feature = rep(rownames(e), times = ncol(e))[p]
+    ## remove missing values
+    p <- !is.na(e)
+    expression <- e[p] ## expression becomes a vector
+    sample <- rep(colnames(e), each = nrow(e))[p]
+    feature <- rep(rownames(e), times = ncol(e))[p]
 
-    ## modelmatrix breaks on factors with 1 level so make vector of
+    ## model.matrix breaks on factors with 1 level so make vector of
     ## ones (intercept).
     if (length(unique(sample)) == 1L) sample <- rep(1, length(sample))
 
@@ -314,17 +313,18 @@ robustSummary <- function(e, residuals = FALSE, ...) {
         X <- X[ , id, drop = FALSE]
         if (!any(!id)) break
     }
-    ## Last step is always rlm
+    ## Last step is always rlm: calculate estimated effects effects as
+    ## summarised values
     fit <- MASS::rlm(X, expression, ...)
-    ## Calculate estimated effects effects as summarised values
+
     sampleid <- seq_along(unique(sample))
-    ## resids <- fit$residuals
+    ## This will be needed for NUSE-type of quality control, but will
+    ## need to check for missing data as below.
     ## se <- unique(summary(fit)$coefficients[sampleid, 'Std. Error'])
-    ## was X[, sampleid, drop = FALSE] %*% fit$coefficients[sampleid]
 
     ## Put NA for the samples without any expression value
-    present = apply(e,2,function(x){any(!is.na(x))})
-    out = rep(NA,length(present))
-    out[present] = fit$coefficients[sampleid]
-    return(out)
+    present <- as.logical(colSums(p))
+    res <- rep(NA, length(present))
+    res[present] <- fit$coefficients[sampleid]
+    res
 }
