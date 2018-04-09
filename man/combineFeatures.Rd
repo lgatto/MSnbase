@@ -96,14 +96,6 @@ redundancy.handler = c("unique", "multiple"), cv = TRUE, cv.norm =
 
 \details{
 
-  NB: All the functions available as \code{fun} take a \code{na.rm}
-  argument. This argument is \code{FALSE} by default. This will have as
-  effect that \code{NA} get propagated at the higher level. It is
-  generally advised to set \code{na.rm = TRUE}. for \code{robust},
-  missing values should be removed beforehand with
-  \code{\link{filterNA}}.
-
-
   Missing values have different effect based on the aggregation method
   employed, as detailed below. See also examples below.
 
