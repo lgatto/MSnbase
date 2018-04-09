@@ -195,6 +195,7 @@ exprs(combineFeatures(msnset, grp, "sum", na.rm = TRUE))
 
 ## using iPQF
 data(msnset2)
+anyNA(msnset2)
 res <- combineFeatures(msnset2,
 		       groupBy = fData(msnset2)$accession,
 		       redundancy.handler = "unique",
@@ -205,6 +206,7 @@ res <- combineFeatures(msnset2,
 head(exprs(res))
 
 ## using robust summarisation
+data(msnset) ## reset data
 msnset <- log(msnset, 2) ## log2 transform
 
 ## Feature X46, in the ENO protein has one missig value
@@ -216,7 +218,7 @@ res <- combineFeatures(msnset,
 		       fun = "robust")
 tail(exprs(res))
 
-msnset2 <- filterNA(msnset) ## remove missing values
+msnset2 <- filterNA(msnset) ## remove features with missing value(s)
 res2 <- combineFeatures(msnset2,
 			fcol = "ProteinAccession",
 			fun = "robust")
