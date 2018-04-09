@@ -1,0 +1,63 @@
+\documentclass{minimal}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,shadows,fit,automata}
+
+%%% <
+\usepackage{verbatim}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}%
+%%% >
+
+\begin{comment}
+  :Title:  MSnbase Output
+  :Author: Laurent Gatto
+\end{comment}
+
+%% pgf setup
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+% Define block styles
+\tikzstyle{input} = [rectangle, draw, fill=blue!20,
+text width=6em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{fun} = [rectangle, draw, fill=white, drop shadow,
+text width=7em, text centered, rounded corners, minimum height=2em]
+\tikzstyle{obj} = [rectangle, draw, fill=red!20,
+text width=5em, text centered, rounded corners, minimum height=5em]
+
+
+\begin{document}
+
+\begin{tikzpicture}[node distance = 2cm, auto]
+  % Place nodes
+  \node [input] (raw) {Raw data in an open \texttt{XML} format};
+  \node [input, below of=raw] (mgf) {Peak list in \texttt{mgf} format};
+  \node [fun, right of=mgf, node distance=4cm, yshift=5mm] (writeMgfData) {\texttt{writeMgfData}};
+  \node [fun, right of=raw, node distance=4cm] (writeMSData) {\texttt{writeMSData}};
+  \node [input, below of=mgf] (spreadsheet) {Quantitation data as a spreadsheet};
+  % \node [input, below of=spreadsheet] (mztab) {\texttt{mzTab} format};
+  \node [fun, right of=spreadsheet, node distance=4cm] (writeexprs) {\texttt{write.exprs}};
+  % \node [fun, right of=mztab, node distance=4cm] (writeMzTabData) {\texttt{writeMzTabData}};
+  \node [obj, right of=writeMgfData, yshift=1.25cm, node distance=4cm] (MSnExp) {\texttt{MSnExp}};
+  \node [obj, right of=writeexprs, node distance=4cm] (MSnSet) {\texttt{MSnSet}};
+  \node [fun, below of=MSnExp] (quantify) {\texttt{quantify}};
+  % Background
+  \begin{pgfonlayer}{background}
+    \node [fill=yellow!20,rounded corners, draw=black!50, dashed, fit=(MSnExp) (quantify) (MSnSet)] {};
+  \end{pgfonlayer}
+  % Draw edges
+  \draw  (MSnExp) -- (writeMSData);
+  \draw [->] (writeMSData) -- (raw);
+  \draw  (MSnExp) -- (writeMgfData);
+  \draw [->] (writeMgfData) -- (mgf);
+  \draw (MSnSet) -- (writeexprs);
+  \draw [->] (writeexprs) -- (spreadsheet);
+  \draw  (MSnExp) -- (quantify);
+  \draw [->] (quantify) -- (MSnSet);
+  % \draw (MSnSet) -- (writeMzTabData);
+  % \draw [->] (writeMzTabData) -- (mztab);
+\end{tikzpicture}
+
+\end{document}
