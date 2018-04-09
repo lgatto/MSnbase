@@ -1,5 +1,13 @@
 # MSnbase 2.5
 
+## Changes in version 2.5.11
+
+- Improve combineFeatures manual to document the effect for missing
+  values for different types of aggregation methods <2018-04-07 Sat>
+- Update robust summary to hangle missing values (see
+  [#330](https://github.com/lgatto/MSnbase/issues/330)). <2018-04-09 Mon>
+
+
 ## Changes in version 2.5.10
 
 - New robust summarisation method in `combineFeatures` contributed by

@@ -23,6 +23,11 @@ combineFeatures <- function(object,
         stopifnot(fcol %in% fvarLabels(object))
         groupBy <- fData(object)[, fcol]
     }
+    if (anyNA(object)) {
+        msg <- "Your data contains missing values. Please read the relevant section in the combineFeatures manual page for details the effects of missing values on data aggregation."
+        message(paste(strwrap(msg), collapse = "\n"))
+    }
+
     if (is.list(groupBy)) {
         if (length(groupBy) != nrow(object))
             stop("'length(groupBy)' must be equal to 'nrow(object)': ",
@@ -172,8 +177,7 @@ combineMatrixFeatures <- function(matr,    ## matrix
                                          return(medpol$overall + medpol$col)
                                      })
         } else if (fun == "robust") {
-            summarisedFeatures <- by(matr, groupBy, robust_summary, ...)
-
+            summarisedFeatures <- by(matr, groupBy, robustSummary, ...)
         } else if (fun == "weighted.mean") {
             ## Expecting 'w' argument
             args <- list(...)
@@ -272,29 +276,25 @@ aggvar <- function(object, groupBy, fun) {
 ##' @title Calculate robust expression summary
 ##' @param e A feature (peptide or spectra) by sample `matrix`
 ##'     containing the expression data.
-##' @param nIter `numeric()` giving the number of iteration; default
-##'     is 100.
 ##' @param ... Additional parameters passed to `MASS::rlm`
 ##' @return `numeric()` vector of length `length(expression)` with
 ##'     robust summarised values.
-##' @author Adriaan Sticker and Laurent Gatto
+##' @author Adriaan Sticker, Sebastian Gibb and Laurent Gatto
 ##' @md
 ##' @noRd
-robust_summary <- function(e, nIter = 100, residuals = FALSE, ...) {
+robustSummary <- function(e, residuals = FALSE, ...) {
     ## If there is only one 1 peptide for all samples return
     ## expression of that peptide
     if (nrow(e) == 1L) return(e)
 
-    x <- data.frame(expression = as.numeric(as.matrix(e)),
-                    sample = rep(colnames(e), each = nrow(e)),
-                    feature = rep(rownames(e), times = ncol(e)),
-                    stringsAsFactors = FALSE)
-    expression <- x$expression
-    sample <- x$sample
-    feature <- x$feature
+    ## remove missing values
+    p <- !is.na(e)
+    expression <- e[p] ## expression becomes a vector
+    sample <- rep(colnames(e), each = nrow(e))[p]
+    feature <- rep(rownames(e), times = ncol(e))[p]
 
-    ## modelmatrix breaks on factors with 1 level so make vector of
-    ## ones (this swill be intercept).
+    ## model.matrix breaks on factors with 1 level so make vector of
+    ## ones (intercept).
     if (length(unique(sample)) == 1L) sample <- rep(1, length(sample))
 
     ## Sum contrast on peptide level so sample effect will be mean
@@ -313,12 +313,18 @@ robust_summary <- function(e, nIter = 100, residuals = FALSE, ...) {
         X <- X[ , id, drop = FALSE]
         if (!any(!id)) break
     }
-    ## Last step is always rlm
-    fit <- MASS::rlm(X, expression, maxit = nIter, ...)
-    ## Calculate estimated effects effects as summarised values
+    ## Last step is always rlm: calculate estimated effects effects as
+    ## summarised values
+    fit <- MASS::rlm(X, expression, ...)
+
     sampleid <- seq_along(unique(sample))
-    ## resids <- fit$residuals
+    ## This will be needed for NUSE-type of quality control, but will
+    ## need to check for missing data as below.
     ## se <- unique(summary(fit)$coefficients[sampleid, 'Std. Error'])
-    ## was X[, sampleid, drop = FALSE] %*% fit$coefficients[sampleid]
-    return(fit$coefficients[sampleid])
+
+    ## Put NA for the samples without any expression value
+    present <- as.logical(colSums(p))
+    res <- rep(NA, length(present))
+    res[present] <- fit$coefficients[sampleid]
+    res
 }
