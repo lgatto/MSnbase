@@ -400,7 +400,11 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
       the object's \code{featureData} and represents the tic provided in
       the header of the original raw data files. For \code{initial =
       FALSE}, the TIC is calculated from the actual intensity values in
-      each spectrum after applying all eventual data manipulation methods.
+      each spectrum after applying all eventual data manipulation
+      methods.
+      
+      See also https://github.com/lgatto/MSnbase/issues/332 for
+      more details.
 
       \code{BPPARAM} parameter: see \code{spectra} method above.
 
@@ -414,10 +418,13 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
       get the base peak intensity (BPI), i.e. the maximum intensity from
       each spectrum in the data set. If \code{initial = TRUE}, the
       information is extracted from the object's \code{featureData} and
-      represents the tic provided in the header of the original raw data
-      files. For \code{initial = FALSE}, the TIC is calculated from the
+      represents the bpi provided in the header of the original raw data
+      files. For \code{initial = FALSE}, the BPI is calculated from the
       actual intensity values in each spectrum after applying all
       eventual data manipulation methods.
+
+      See also https://github.com/lgatto/MSnbase/issues/332 for
+      more details.
 
       \code{BPPARAM} parameter: see \code{spectra} method above.
 

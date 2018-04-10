@@ -260,11 +260,12 @@ setMethod("tic", "OnDiskMSnExp",
                   vals <- fData(object)$totIonCurrent
               } else {
                   ## Calculate the value.
-                  vals <- unlist(spectrapply(object, FUN = tic,
-                                             BPPARAM = BPPARAM))
+                  vals <- unlist(
+                      spectrapply(object, FUN = function(z) sum(z@intensity),
+                                  BPPARAM = BPPARAM))
               }
               names(vals) <- featureNames(object)
-              return(vals)
+              vals
           })
 
 ############################################################
@@ -281,13 +282,12 @@ setMethod("bpi", "OnDiskMSnExp",
                   vals <- fData(object)$basePeakIntensity
               } else {
                   ## Calculate the value.
-                  vals <- unlist(spectrapply(object,
-                                             FUN = function(z) {
-                                                 return(max(intensity(z)))
-                                             }, BPPARAM = BPPARAM))
+                  vals <- unlist(
+                      spectrapply(object, FUN = function(z) max(z@intensity),
+                                  BPPARAM = BPPARAM))
               }
               names(vals) <- featureNames(object)
-              return(vals)
+              vals
           })
 
 
