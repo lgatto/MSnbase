@@ -400,33 +400,10 @@ test_that("injection time", {
 })
 
 test_that("chromatogram,MSnExp works", {
-    library(msdata)
-    mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-             system.file("microtofq/MM8.mzML", package = "msdata"))
-    tmpd <- tempdir()
-    file.copy(mzf[1], paste0(tmpd, "a.mzML"))
-    file.copy(mzf[2], paste0(tmpd, "b.mzML"))
-    mzf <- c(mzf, paste0(tmpd, c("a.mzML", "b.mzML")))
-    
-    inMem <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE)
-
-    ## Full rt range.
-    mzr <- matrix(c(100, 120), nrow = 1)
-    res <- chromatogram(inMem, mz = mzr)
-    flt <- filterMz(inMem, mz = mzr[1, ])
-    ints <- split(unlist(lapply(spectra(flt), function(z) sum(intensity(z)))),
-                  fromFile(flt))
-    expect_equal(ints[[1]], intensity(res[1, 1]))
-    expect_equal(ints[[2]], intensity(res[1, 2]))
-    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[1, 1]))
-    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[1, 2]))
-    expect_equal(pData(inMem), pData(res))
-    ## feature data:
-    expect_true(nrow(fData(res)) == nrow(res))
-    expect_true(all(colnames(fData(res)) == c("mzmin", "mzmax", "polarity")))
-    expect_equal(fData(res)[1, 1], 100)
-    expect_equal(fData(res)[1, 2], 120)
-    expect_equal(fData(res)[1, 3], 1)
+    inMem <- microtofq_in_mem_ms1
+    ## Reduce here the tests. Most of the tests are performed in
+    ## chromatogram,OnDiskMSnExp and both methods use the same low level
+    ## function.
     
     ## Multiple mz ranges.
     mzr <- matrix(c(100, 120, 200, 220, 300, 320), nrow = 3, byrow = TRUE)
@@ -486,7 +463,7 @@ test_that("chromatogram,MSnExp works", {
     expect_equal(ints, intensity(res[2, 2]))
 
     ## Check that phenoType is correctly passed.
-    pd <- data.frame(name = c("first", "second", "third", "fourth"), idx = 1:4)
+    pd <- data.frame(name = c("first", "second"), idx = 1:2)
     pData(inMem) <- pd
     chrs <- chromatogram(inMem)
     ## rownames(pd) <- colnames(chrs)
@@ -508,30 +485,30 @@ test_that("setAs,MSnExp,data.frame works", {
 })
 
 test_that("pickPeaks,MSnExp works with refineMz", {
-    ## Get one spectrum from the tmt
-    spctr <- tmt_erwinia_in_mem_ms1[[1]]
-    centroided(spctr) <- FALSE
-
-    centroided(tmt_erwinia_in_mem_ms1) <- FALSE
-    tmt_pk <- pickPeaks(tmt_erwinia_in_mem_ms1, refineMz = "kNeighbors",
-                        k = 1)
+    ## Reduce the TMT erwinia data set to speed up processing on the full
+    ## data.
+    tmt <- filterMz(filterRt(tmt_erwinia_in_mem_ms1, c(1200, 1250)),
+                    c(500, 1000))
+    centroided(tmt) <- FALSE
+    ## Get one spectrum against which we will compare
+    spctr <- tmt[[1]]
+    ## kNeighbors
+    tmt_pk <- pickPeaks(tmt, refineMz = "kNeighbors", k = 1)
     spctr_pk <- pickPeaks(spctr, refineMz = "kNeighbors", k = 1)
     spctr_tmt_pk <- tmt_pk[[1]]
     expect_equal(spctr_pk, spctr_tmt_pk)
-
+    ## descendPeak
     spctr_pk <- pickPeaks(spctr, refineMz = "descendPeak",
                           signalPercentage = 75)
-    tmt_pk <- pickPeaks(tmt_erwinia_in_mem_ms1, refineMz = "descendPeak",
+    tmt_pk <- pickPeaks(tmt, refineMz = "descendPeak",
                         signalPercentage = 75)
     expect_equal(spctr_pk, tmt_pk[[1]])
-    
     ## Check if we can call method and refineMz and pass arguments to both
     spctr_pk <- pickPeaks(spctr, refineMz = "kNeighbors", k = 1,
                           method = "SuperSmoother", span = 0.9)
-    tmt_pk <- pickPeaks(tmt_erwinia_in_mem_ms1, refineMz = "kNeighbors",
+    tmt_pk <- pickPeaks(tmt, refineMz = "kNeighbors",
                         k = 1, method = "SuperSmoother", span = 0.9)
     expect_equal(spctr_pk, tmt_pk[[1]])
-    
     ## Check errors
     expect_error(pickPeaks(tmt_erwinia_in_mem_ms1, refineMz = "some_method"))
 })

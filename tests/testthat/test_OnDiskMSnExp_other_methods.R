@@ -54,8 +54,9 @@ test_that("Compare OnDiskMSnExp and MSnExp smooth", {
 ############################################################
 ## compareSpectra
 test_that("Compare OnDiskMSnExp and MSnExp compareSpectra", {
-    csp <- compareSpectra(inmem1)
-    csp2 <- compareSpectra(ondisk1)
+    ## compare on subsets.
+    csp <- compareSpectra(filterRt(inmem1, rt = c(1200, 1250)))
+    csp2 <- compareSpectra(filterRt(ondisk1, rt = c(1200, 1250)))
     rownames(csp) <- colnames(csp) <- NULL
     rownames(csp2) <- colnames(csp2) <- NULL
     expect_identical(csp, csp2)
