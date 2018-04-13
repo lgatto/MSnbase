@@ -1,5 +1,9 @@
 # MSnbase 2.5
 
+## Changes in version 2.5.13
+
+- Nothing yet
+
 ## Changes in version 2.5.12
 
 - Ensure tic and bpi with initial = TRUE calculate the tic and bpi from the
