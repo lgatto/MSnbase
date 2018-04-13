@@ -5,11 +5,11 @@ onDisk <- microtofq_on_disk_ms1
 centroided(inMem) <- TRUE
 centroided(onDisk) <- TRUE
 
-inmem2 <- tmt_erwinia_in_mem_ms2
-inmem1 <- tmt_erwinia_in_mem_ms1
-ondisk <- tmt_erwinia_on_disk
-ondisk1 <- tmt_erwinia_on_disk_ms1
-ondisk2 <- tmt_erwinia_on_disk_ms2
+inmem2 <- tmt_im_ms2_sub
+inmem1 <- tmt_im_ms1_sub
+ondisk <- tmt_od_sub
+ondisk1 <- tmt_od_ms1_sub
+ondisk2 <- tmt_od_ms2_sub
 
 
 ############################################################
@@ -55,8 +55,8 @@ test_that("Compare OnDiskMSnExp and MSnExp smooth", {
 ## compareSpectra
 test_that("Compare OnDiskMSnExp and MSnExp compareSpectra", {
     ## compare on subsets.
-    csp <- compareSpectra(filterRt(inmem1, rt = c(1200, 1250)))
-    csp2 <- compareSpectra(filterRt(ondisk1, rt = c(1200, 1250)))
+    csp <- compareSpectra(inmem1)
+    csp2 <- compareSpectra(ondisk1)
     rownames(csp) <- colnames(csp) <- NULL
     rownames(csp2) <- colnames(csp2) <- NULL
     expect_identical(csp, csp2)

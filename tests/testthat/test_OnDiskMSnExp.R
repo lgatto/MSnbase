@@ -2,9 +2,9 @@ context("OnDiskMSnExp class")
 
 inMem <- microtofq_in_mem_ms1
 onDisk <- microtofq_on_disk_ms1
-multiMsInMem1 <- filterRt(tmt_erwinia_in_mem_ms1, rt = c(1200, 1250))
-multiMsInMem2 <- filterRt(tmt_erwinia_in_mem_ms2, rt = c(1200, 1250))
-multiMsOnDisk <- filterRt(tmt_erwinia_on_disk, rt = c(1200, 1250))
+multiMsInMem1 <- tmt_im_ms1_sub
+multiMsInMem2 <- tmt_im_ms2_sub
+multiMsOnDisk <- tmt_od_sub
 centroided(inMem) <- TRUE
 centroided(onDisk) <- TRUE
 centroided(multiMsInMem1) <- TRUE

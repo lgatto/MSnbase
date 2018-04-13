@@ -487,8 +487,7 @@ test_that("setAs,MSnExp,data.frame works", {
 test_that("pickPeaks,MSnExp works with refineMz", {
     ## Reduce the TMT erwinia data set to speed up processing on the full
     ## data.
-    tmt <- filterMz(filterRt(tmt_erwinia_in_mem_ms1, c(1200, 1250)),
-                    c(500, 1000))
+    tmt <- tmt_im_ms1_sub
     centroided(tmt) <- FALSE
     ## Get one spectrum against which we will compare
     spctr <- tmt[[1]]
