@@ -2,7 +2,7 @@
 
 ## Changes in version 2.5.13
 
-- Nothing yet
+- Reduce unit testing time (see [#334](https://github.com/lgatto/MSnbase/issues/334)) <2018-04-13 Fri>
 
 ## Changes in version 2.5.12
 
