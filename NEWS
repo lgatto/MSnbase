@@ -2,7 +2,9 @@
 
 Changes in version 2.5.12
 
-- Nothing yet.
+- Ensure tic and bpi with initial = TRUE calculate the tic and bpi from the
+  data (related to issue #332). <2018-04-10 Tue>
+
 
 Changes in version 2.5.11
 
