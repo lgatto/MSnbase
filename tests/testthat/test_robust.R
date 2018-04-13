@@ -220,7 +220,7 @@ test_that("Robust summarisation", {
     expect_equal(exp2, exprs(res2))
 
     notENO <- featureNames(res1) != "ENO"
-    expect_identical(exprs(res1)[notENO, ], exprs(res2)[notENO, ])
+    expect_equal(exprs(res1)[notENO, ], exprs(res2)[notENO, ])
     ## all false (0)
     expect_identical(sum(exprs(res1)[!notENO, ] == exprs(res2)[!notENO, ]), 0L)
 })
