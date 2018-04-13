@@ -95,13 +95,13 @@ f &lt;-<span class="st"> </span>msdata<span class="op">::</span><span class="kw"
                                 <span class="dt">mode =</span> <span class="st">"inMemory"</span>,
                                 <span class="dt">centroided =</span> <span class="ot">TRUE</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   4.783   0.020   4.800</code></pre>
+##   4.775   0.024   4.794</code></pre>
 <p>Next, we use the <code>readMSData</code> function to generate an on-disk representation of the same data by setting <code>mode = "onDisk"</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(ondisk &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readMSData.html">readMSData</a></span>(f, <span class="dt">msLevel =</span> <span class="dv">2</span>,
                                   <span class="dt">mode =</span> <span class="st">"onDisk"</span>,
                                   <span class="dt">centroided =</span> <span class="ot">TRUE</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.489   0.024   1.512</code></pre>
+##   1.471   0.021   1.488</code></pre>
 <p>Creating the on-disk experiment is considerable faster and scales to much bigger, multi-file data, both in terms of object creation time, but also in terms of object size (see next section). We must of course make sure that these two datasets are equivalent:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all.equal</span>(inmem, ondisk)</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
@@ -137,25 +137,25 @@ mb &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(<span cl
 mb</code></pre></div>
 <pre><code>## Unit: microseconds
 ##             expr        min         lq        mean      median         uq
-##   spectra(inmem)    146.124    184.284    248.9535    229.8910    292.697
-##     inmem[[200]]     30.192     51.124     59.7741     53.7465     67.341
-##  spectra(ondisk) 374356.455 376352.367 392003.6955 379517.1820 394821.684
-##    ondisk[[200]] 168716.941 169838.215 184608.3050 170529.7390 199078.241
+##   spectra(inmem)    116.812    120.452    160.7384    122.4775    196.662
+##     inmem[[200]]     29.435     29.833     44.5860     33.7415     68.349
+##  spectra(ondisk) 373080.371 377493.563 385725.2848 379553.3895 384027.417
+##    ondisk[[200]] 166333.351 167593.554 173518.5914 169863.7530 175462.828
 ##         max neval cld
-##     391.863    10 a  
-##     118.866    10 a  
-##  452352.898    10   c
-##  234990.327    10  b</code></pre>
+##     261.425    10 a  
+##      69.729    10 a  
+##  444421.226    10   c
+##  197647.416    10  b</code></pre>
 <p>While it takes order or magnitudes more time to access the data on-the-fly rather than a pre-generated spectrum, accessing all spectra is only marginally slower than accessing all spectra, as most of the time is spent preparing the file for access, which is done only once.</p>
 <p>On-disk access performance will depend on the read throughput of the disk. A comparison of the data import of the above file from an internal solid state drive and from an USB3 connected hard disk showed only small differences for the <code>onDisk</code> mode (1.07 <em>vs</em> 1.36 seconds), while no difference were observed for accessing individual or all spectra. Thus, for this particular setup, performance was about the same for SSD and HDD. This might however not apply to setting in which data import is performed in parallel from multiple files.</p>
 <p>Data access does not prohibit interactive usage, such as plotting, for example, as it is about 1/2 seconds, which is an operation that is relatively rare, compared to subsetting and filtering, which are faster for on-disk data:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw"><a href="../reference/pSet-class.html">length</a></span>(inmem), <span class="dv">100</span>)
 <span class="kw">system.time</span>(inmem[i])</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.111   0.000   0.110</code></pre>
+##   0.114   0.000   0.114</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(ondisk[i])</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.026   0.000   0.027</code></pre>
+##   0.025   0.000   0.026</code></pre>
 <p>Operations on the spectra data, such as peak picking, smoothing, cleaning, … are cleverly cached and only applied when the data is accessed, to minimise file access overhead. Finally, specific operations such as for example quantitation (see next section) are optimised for speed.</p>
 </div>
 <div id="ms2-quantitation" class="section level2">
@@ -165,11 +165,11 @@ mb</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(eim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(inmem[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>], <span class="dt">reporters =</span> TMT6,
                             <span class="dt">method =</span> <span class="st">"max"</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.291   0.069   2.103</code></pre>
+##   0.289   0.067   1.942</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(eod &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(ondisk[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>], <span class="dt">reporters =</span> TMT6,
                             <span class="dt">method =</span> <span class="st">"max"</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.310   0.108   0.416</code></pre>
+##   0.328   0.263   0.590</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all.equal</span>(eim, eod, <span class="dt">check.attributes =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 </div>
