@@ -2,9 +2,9 @@ context("OnDiskMSnExp class")
 
 inMem <- microtofq_in_mem_ms1
 onDisk <- microtofq_on_disk_ms1
-multiMsInMem1 <- tmt_erwinia_in_mem_ms1
-multiMsInMem2 <- tmt_erwinia_in_mem_ms2
-multiMsOnDisk <- tmt_erwinia_on_disk
+multiMsInMem1 <- tmt_im_ms1_sub
+multiMsInMem2 <- tmt_im_ms2_sub
+multiMsOnDisk <- tmt_od_sub
 centroided(inMem) <- TRUE
 centroided(onDisk) <- TRUE
 centroided(multiMsInMem1) <- TRUE
@@ -266,11 +266,11 @@ test_that("Test sorting by acquisitionNum", {
     expect_identical(sp1, sp2)
     ## Same using multiMS
     onDisk1 <- filterMsLevel(multiMsOnDisk, msLevel. = 1L)
-    sp1 <- multiMsInMem1[[13]]
-    sp2 <- onDisk1[[13]]
+    sp1 <- multiMsInMem1[[7]]
+    sp2 <- onDisk1[[7]]
     expect_identical(sp1, sp2)
-    sp1 <- multiMsInMem1[[22]]
-    sp2 <- onDisk1[[22]]
+    sp1 <- multiMsInMem1[[9]]
+    sp2 <- onDisk1[[9]]
     expect_identical(sp1, sp2)
     onDisk2 <- filterMsLevel(multiMsOnDisk, msLevel. = 2L)
     sp1 <- multiMsInMem2[[13]]

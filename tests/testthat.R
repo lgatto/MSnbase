@@ -15,6 +15,12 @@ tmt_erwinia_in_mem_ms2 <- readMSData(f, msLevel = 2)
 tmt_erwinia_on_disk <- readMSData(f, mode = "onDisk")
 tmt_erwinia_on_disk_ms1 <- readMSData(f, msLevel = 1, mode = "onDisk")
 tmt_erwinia_on_disk_ms2 <- readMSData(f, msLevel = 2, mode = "onDisk")
+## subset by rt
+tmt_im_ms1_sub <- filterRt(tmt_erwinia_in_mem_ms1, c(1200, 1250))
+tmt_im_ms2_sub <- filterRt(tmt_erwinia_in_mem_ms2, c(1200, 1250))
+tmt_od_sub <- filterRt(tmt_erwinia_on_disk, c(1200, 1250))
+tmt_od_ms1_sub <- filterRt(tmt_erwinia_on_disk_ms1, c(1200, 1250))
+tmt_od_ms2_sub <- filterRt(tmt_erwinia_on_disk_ms2, c(1200, 1250))
 
 ## microtofq
 f <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
