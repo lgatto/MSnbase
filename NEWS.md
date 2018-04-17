@@ -2,7 +2,11 @@
 
 ## Changes in version 2.5.13
 
-- Reduce unit testing time (see [#334](https://github.com/lgatto/MSnbase/issues/334)) <2018-04-13 Fri>
+- Reduce unit testing time (see
+  [#334](https://github.com/lgatto/MSnbase/issues/334))
+  <2018-04-13 Fri>
+- Fix bug in write.exprs when only one feature data is passed
+  <2018-04-17 Tue>
 
 ## Changes in version 2.5.12
 
