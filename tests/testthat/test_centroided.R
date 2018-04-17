@@ -23,14 +23,12 @@ test_that("isCentroidedFromFile", {
     cnt2 <- isCentroidedFromFile(tmt_erwinia_on_disk_ms2)
     expect_identical(names(cnt1), featureNames(tmt_erwinia_on_disk_ms1))
     ##
-    ## multiple files
-    fls <- msdata::proteomics(full.names = TRUE, pattern = "TMT_Erwinia_")
-    x <- readMSData(fls, mode = "onDisk")
-    cnt <- isCentroidedFromFile(x)
-    expect_identical(names(cnt), featureNames(x))
+    ## multiple files; use the microtofq files
+    cnt <- isCentroidedFromFile(microtofq_on_disk)
+    expect_identical(names(cnt), featureNames(microtofq_on_disk))
     ##
     ## subsetting    
-    k <- sort(sample(length(x), 10))
-    xx <- x[k]
+    k <- sort(sample(length(microtofq_on_disk), 10))
+    xx <- microtofq_on_disk[k]
     expect_identical(isCentroidedFromFile(xx), cnt[k])    
 })

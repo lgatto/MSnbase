@@ -36,21 +36,17 @@ test_that("MSmap accessors", {
 
 
 test_that("MSmap from mzRpwiz and OnDiskMSnExp", {
-    library("msdata")
-    f0 <- "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz"
-    f <- msdata::proteomics(full = TRUE, pattern = f0)
-    ## mzRpwiz object
-    fh <- openMSfile(f)
-    hd <- header(fh)
+    ## Use one of the sciex files.
+    msn <- filterFile(sciex, 1)
     ## select slice
-    ms1 <- which(hd$msLevel == 1)
-    rtsel <- hd$retentionTime[ms1] / 60 > 30 &
-        hd$retentionTime[ms1] / 60 < 35
+    rtsel <- which(rtime(msn) > 30 & rtime(msn) < 35)
     ## Map with mzRpwiz
-    M0 <- MSmap(fh, ms1[rtsel], 521, 523, .005, hd)
+    fh <- openMSfile(fileNames(msn))
+    hd <- header(fh)
+    M0 <- MSmap(fh, rtsel, 110, 112, .005, hd)
+    mzR::close(fh)
     ## Map with OnDiskMSnExp
-    msn <- readMSData(f, mode = "onDisk")
-    M1 <- MSmap(msn, ms1[rtsel], 521, 523, .005)
+    M1 <- MSmap(msn, rtsel, 110, 112, .005)
     ## compare
     M0@call <- M1@call
     expect_equal(M0, M1, check.attributes = FALSE)    

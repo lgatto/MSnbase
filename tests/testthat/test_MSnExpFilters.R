@@ -97,6 +97,12 @@ test_that("filterAcquisitionNum", {
 })
 
 test_that("filterMz", {
+    ## Subset all objects to speed up tests.
+    ondisk1 <- filterRt(ondisk1, rt = c(1150, 1200))
+    ondisk2 <- filterRt(ondisk2, rt = c(1150, 1200))
+    ondisk <- filterRt(ondisk, rt = c(1150, 1200))
+    inmem1 <- filterRt(inmem1, rt = c(1150, 1200))
+    inmem2 <- filterRt(inmem2, rt = c(1150, 1200))
     ## On single, multi MS file.
     ## o Test for MSnExp, MS 1 and 2
     inMemF <- filterMz(inmem1, mz = c(500, 550))

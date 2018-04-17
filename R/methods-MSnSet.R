@@ -298,7 +298,7 @@ setMethod("write.exprs",
             if (!missing(fcol))
                 fDataCols <- fcol
             if (!is.null(fDataCols))
-              res <- cbind(res, fData(x)[, fDataCols])
+              res <- cbind(res, fData(x)[, fDataCols, drop = FALSE])
             write.table(res, file = file, quote = quote, sep = sep,
                         col.names = col.names, ...)
           })
@@ -742,7 +742,7 @@ setMethod("filterMsLevel", "MSnSet",
               if (missing(msLevel.)) return(object)
               if (!fcol %in% fvarLabels(object))
                   stop(fcol, " not in fvarLabels(",
-                       getVariableName(match.call(), 'object'), ").") 
+                       getVariableName(match.call(), 'object'), ").")
               msLevel. <- as.numeric(msLevel.)
               object <- object[fData(object)[, fcol] %in% msLevel.]
               object <- logging(object,
