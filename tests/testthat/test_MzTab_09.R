@@ -1,6 +1,6 @@
 context("mzTab v0.9")
 
-baseUrl <- "https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/"
+baseUrl <- "https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/1_0-Proteomics-Release/"
 
 test_that("read MzTab data v 0.9 and 1.0", {
     f <- "PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"
@@ -19,7 +19,7 @@ test_that("read MzTab data v 0.9 and 1.0", {
     expect_warning(prot09 <- readMzTabData(testfile, "PRT", version = "0.9"))
     expect_warning(prot09b <- readMzTabData_v0.9(testfile, "PRT"))
     expect_identical(exprs(prot09), exprs(prot09b))
-    expect_identical(fData(prot09), fData(prot09b))    
+    expect_identical(fData(prot09), fData(prot09b))
     expect_warning(pep09 <- readMzTabData(testfile, "PEP", version = "0.9"))
     expect_warning(pep09b <- readMzTabData_v0.9(testfile, "PEP"))
     expect_identical(exprs(pep09), exprs(pep09b))
