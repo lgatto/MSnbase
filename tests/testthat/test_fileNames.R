@@ -6,7 +6,7 @@ test_that("fileNames accessor MSnExp", {
 })
 
 test_that("fileNames accessor MzTab", {
-    f <- "https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/MTBLS2.mztab"
+    f <- "https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/1_0-Proteomics-Release/MTBLS2.mztab"
     expect_identical(fileName(MzTab(f)), f)
     expect_identical(fileName(MzTab(f)), fileNames(MzTab(f)))
 })

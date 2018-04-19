@@ -2,7 +2,7 @@
 
 ## Changes in version 2.5.14
 
-- Nothing yet.
+- Fix changed remote location of mzTab example files <2018-04-19 Thu>
 
 ## Changes in version 2.5.13
 
