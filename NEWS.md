@@ -1,5 +1,9 @@
 # MSnbase 2.5
 
+## Changes in version 2.5.15
+
+- Nothing yet.
+
 ## Changes in version 2.5.14
 
 - Fix changed remote location of mzTab example files <2018-04-19 Thu>
