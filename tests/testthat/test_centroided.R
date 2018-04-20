@@ -27,8 +27,9 @@ test_that("isCentroidedFromFile", {
     cnt <- isCentroidedFromFile(microtofq_on_disk)
     expect_identical(names(cnt), featureNames(microtofq_on_disk))
     ##
-    ## subsetting    
+    ## subsetting
+    set.seed(123) ## see issue #338
     k <- sort(sample(length(microtofq_on_disk), 10))
     xx <- microtofq_on_disk[k]
-    expect_identical(isCentroidedFromFile(xx), cnt[k])    
+    expect_identical(isCentroidedFromFile(xx), cnt[k])
 })

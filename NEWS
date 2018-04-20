@@ -1,5 +1,11 @@
 # MSnbase 2.5
 
+Changes in version 2.5.14
+
+- Fix changed remote location of mzTab example files <2018-04-19 Thu>
+- Fix failing centroided unit test (see issue
+  #338) <2018-04-20 Fri>
+
 Changes in version 2.5.13
 
 - Reduce unit testing time (see
@@ -11,7 +17,7 @@ Changes in version 2.5.13
 Changes in version 2.5.12
 
 - Ensure tic and bpi with initial = TRUE calculate the tic and bpi from the
-  data (related to issue #332). 
+  data (related to issue #332).
   <2018-04-10 Tue>
 
 

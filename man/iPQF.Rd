@@ -40,9 +40,9 @@ A \code{matrix} with estimated protein ratios.
 \description{
 The iPQF spectra-to-protein summarisation method integrates
 peptide spectra characteristics and quantitative values for protein
-quantitation estimation. Spectra features, such as charge state, 
-sequence length, identification score and others, contain valuable 
-information concerning quantification accuracy. The iPQF algorithm 
+quantitation estimation. Spectra features, such as charge state,
+sequence length, identification score and others, contain valuable
+information concerning quantification accuracy. The iPQF algorithm
 assigns weights to spectra according to their overall feature reliability
 and computes a weighted mean to estimate protein quantities.
 See also \code{\link{combineFeatures}} for a more

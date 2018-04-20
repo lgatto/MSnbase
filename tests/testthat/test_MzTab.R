@@ -1,6 +1,6 @@
 context("MzTab class")
 
-baseUrl <- "https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/"
+baseUrl <- "https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/1_0-Proteomics-Release/"
 
 test_that("MzTab creation and accessors", {
     fl <- "iTRAQ_CQI.mzTab"
@@ -49,5 +49,5 @@ test_that("Conversion to MSnSetList", {
     expect_identical(ncol(dfr), length(fvarLabels(ms)) + ncol(ms))
     ms <- msl[['PSMs']]
     dfr <- psms(xx)
-    expect_identical(ncol(dfr), length(fvarLabels(ms)) + ncol(ms))              
+    expect_identical(ncol(dfr), length(fvarLabels(ms)) + ncol(ms))
 })
