@@ -175,3 +175,25 @@ Chromatograms <- function(data, phenoData, featureData, ...) {
         mzr
     }
 }
+
+#' Simple binning function for Chromatograms object. Defines common breaks for
+#' `Chromatogram` objects in each row.
+#'
+#' @author Johannes Rainer
+#' 
+#' @noRd
+.bin_Chromatograms <- function(object, binSize = 0.5, breaks = numeric(),
+                               fun = max) {
+    for (i in seq_len(nrow(object))) {
+        if (!length(breaks)) {
+            rt_rng <- range(lapply(object[i, ], function(z) range(rtime(z))))
+            brks <- .fix_breaks(seq(floor(rt_rng[1]), ceiling(rt_rng[2]),
+                                    by = binSize), rt_rng)
+        } else brks <- breaks
+        object[i, ] <- lapply(object[i, ], .bin_Chromatogram, binSize = binSize,
+                              breaks = brks, fun = fun)
+    }
+    if (validObject(object))
+        object
+}
+

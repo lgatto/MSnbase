@@ -517,3 +517,12 @@ test_that("windowIndices works", {
 
     expect_error(windowIndices(4, 2, 1))
 })
+
+test_that(".fix_breaks works", {
+    rtr <- c(1, 12)
+    brks <- seq(rtr[1], rtr[2], by = 4)
+    ## brks do not include rtr
+    expect_true(all(rtr[2] > brks))
+    brks_f <- .fix_breaks(brks, rtr)
+    expect_true(rtr[2] <= max(brks_f))
+})

@@ -1288,3 +1288,14 @@ windowIndices <- function(i, hws, n) {
     stopifnot(i <= n)
     max(1L, i - hws):min(n, i + hws)
 }
+
+#' Simple function to ensure that breaks (for binning) are span al leat the
+#' expected range.
+#'
+#' @noRd
+.fix_breaks <- function(brks, rng) {
+    if (brks[length(brks)] < rng[2])
+        brks <- c(brks, max(ceiling(rng[2] + 1e-6),
+                            brks[length(brks)] + mean(diff(brks))))
+    brks
+}

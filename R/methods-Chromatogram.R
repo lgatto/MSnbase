@@ -221,3 +221,23 @@ setMethod("isEmpty", "Chromatogram", function(x) {
 setMethod("productMz", "Chromatogram", function(object) {
     object@productMz
 })
+
+#' @description
+#'
+#' \code{bin} aggregates intensity values from a chromatogram in discrete bins
+#' along the retention time axis and returns a \code{Chromatogram} object with
+#' the retention time representing the mid-point of the bins and the intensity
+#' the binned signal.
+#'
+#' @param binSize for \code{bin}: \code{numeric(1)} with the size of the bins
+#'     (in seconds).
+#'
+#' @param breaks for \code{bin}: \code{numeric} defining the bins. Usually not
+#'     required as the function calculates the bins automatically based on
+#'     \code{binSize}.
+#'
+#' @param fun for \code{bin}: function to be used to aggregate the intensity
+#'     values falling within each bin.
+#'
+#' @rdname Chromatogram-class
+setMethod("bin", "Chromatogram", .bin_Chromatogram)
