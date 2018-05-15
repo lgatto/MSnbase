@@ -144,7 +144,7 @@ test_that(".bin_Chromatogram and bin,Chromatogram work", {
     rt <- seq(2, 200, length.out = 100)
     chr <- Chromatogram(intensity = int, rtime = rt)
 
-    chrb <- .bin_Chromatogram(chr, binSize = 4)
+    chrb <- MSnbase:::.bin_Chromatogram(chr, binSize = 4)
     expect_equal(rtime(chrb), seq(4, 200, by = 4))
     expect_equal(bin(chr, binSize = 4), chrb)
     expect_error(.bin_Chromatogram(chr, fun = "bls"))

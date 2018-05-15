@@ -296,7 +296,7 @@ normalise_Spectrum <- function(object, method, value) {
 breaks_Spectrum <- function(object, binSize = 1L,
                             breaks = seq(floor(min(mz(object))),
                                      ceiling(max(mz(object))),
-                            by = binSize)) {
+                                     by = binSize)) {
   ## assumming that mz and breaks are sorted
   if (mz(object)[peaksCount(object)] >= breaks[length(breaks)]) {
     breaks <- c(breaks, ceiling(mz(object)[peaksCount(object)] + mean(diff(breaks))))

@@ -526,3 +526,31 @@ test_that(".fix_breaks works", {
     brks_f <- .fix_breaks(brks, rtr)
     expect_true(rtr[2] <= max(brks_f))
 })
+
+test_that(".bin_values works", {
+    set.seed(123)
+    vals <- abs(rnorm(20, mean = 40))
+    xs <- seq(1:length(vals)) + rnorm(length(vals), sd = 0.001)
+
+    res <- .bin_values(vals, xs, binSize = 1)
+    brks <- seq(0, 20, by = 1)
+    for (i in 1:(length(brks) - 1)) {
+        idx <- which(xs > brks[i] & xs < brks[i +1])
+        if (length(idx))
+            expect_equal(res$x[i], max(vals[idx]))
+        else expect_equal(res$x[i], 0)
+    }
+    
+    ## Ensure that all values are within.
+    xs <- seq(1:length(vals))
+    brks <- seq(1, 20, by = 3)
+    ## brks does not contain all values.
+    expect_true(max(brks) < max(xs))
+    res <- .bin_values(vals, xs, binSize = 3, fun = sum)
+    ## The largest bin should contain all values larger than max(brks)
+    expect_equal(res$x[length(res$x)], sum(vals[xs >= max(brks)]))
+
+    ## Check exceptions
+    expect_error(.bin_values(1:3, 1:5))
+    expect_error(.bin_values(1:3, 1:5), fun = other)    
+})

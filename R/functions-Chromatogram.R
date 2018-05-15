@@ -161,22 +161,10 @@ aggregationFun <- function(object) {
                                            ceiling(max(rtime(object))),
                                            by = binSize),
                               fun = max) {
-    fun <- match.fun(fun)
-    ## Fix breaks.
-    breaks <- .fix_breaks(breaks, range(rtime(object)))
-    nbrks <- length(breaks)
-    idx <- findInterval(rtime(object), breaks)
-    ## Ensure that indices are within breaks.
-    idx[which(idx < 1L)] <- 1L
-    idx[which(idx >= nbrks)] <- nbrks - 1L
-    
-    rts <- (breaks[-nbrks] + breaks[-1L]) / 2L
-    ints <- double(nbrks - 1L)
-    
-    ints[unique(idx)] <- unlist(lapply(base::split(object@intensity, idx), fun),
-                                use.names = FALSE)
-    object@intensity <- ints
-    object@rtime <- rts
+    bins <- .bin_values(object@intensity, object@rtime, binSize = binSize,
+                        breaks = breaks, fun = fun)
+    object@intensity <- bins$x
+    object@rtime <- bins$mids
     if (validObject(object))
         object
 }
