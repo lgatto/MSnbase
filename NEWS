@@ -1,3 +1,17 @@
+# MSnbase 2.7
+
+Changes in version 2.7.1
+- Handle files without any spectra - see
+  #342 <2018-05-15 Tue>
+
+Changes in version 2.7.0
+- New devel version for Bioc 3.8
+
+# MSnbase 2.6
+
+Changes in version 2.6.0
+- New release version for Bioc 3.7
+
 # MSnbase 2.5
 
 Changes in version 2.5.15

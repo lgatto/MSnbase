@@ -40,6 +40,10 @@ readOnDiskMSData <- function(files, pdata, msLevel., verbose,
         ## issue #214: define backend based on file format.
         msdata <- .openMSfile(f)
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
+        if (!length(msdata)) {
+            warning("No spectra in file '", basename(f), "'.")
+            next
+        }
         fullhd <- mzR::header(msdata)
         spidx <- seq_len(nrow(fullhd))
         if (verbose)
@@ -119,7 +123,7 @@ readOnDiskMSData <- function(files, pdata, msLevel., verbose,
         fdata <- new("AnnotatedDataFrame", data = fdata)
         ## Re-order the features.
         ## fdata <- fdata[ls(assaydata), ]
-    }
+    } else fdata <- new("AnnotatedDataFrame")
 
     ## expriment data slot
     if (length(.instrumentInfo) > 1) {
