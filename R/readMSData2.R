@@ -18,6 +18,15 @@ readOnDiskMSData <- function(files, pdata, msLevel., verbose,
                              centroided., smoothed.) {
     .testReadMSDataInput(environment())
     stopifnot(is.logical(centroided.))
+    .hasSpecs <- hasSpectra(files)
+    if (any(!.hasSpecs)) {
+        msg <- paste0(sum(!.hasSpecs), " files with spectra:\n",
+                      paste(basename(files[.hasSpecs]),
+                            collapse = ", "))
+        warning(strwrap(msg))
+    }
+    files <- files[.hasSpecs]
+
     ## Creating environment with Spectra objects
     assaydata <- new.env(parent = emptyenv())
     filenams <- filenums <- c()
@@ -40,10 +49,6 @@ readOnDiskMSData <- function(files, pdata, msLevel., verbose,
         ## issue #214: define backend based on file format.
         msdata <- .openMSfile(f)
         .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
-        if (!length(msdata)) {
-            warning("No spectra in file '", basename(f), "'.")
-            next
-        }
         fullhd <- mzR::header(msdata)
         spidx <- seq_len(nrow(fullhd))
         if (verbose)
@@ -102,7 +107,6 @@ readOnDiskMSData <- function(files, pdata, msLevel., verbose,
                    processing = paste0("Data loaded [", date(), "]"),
                    files = files,
                    smoothed = NA)
-
     ## Create 'fdata' and 'pdata' objects
     if (is.null(pdata)) {
         .pd <- data.frame(sampleNames = basename(files))

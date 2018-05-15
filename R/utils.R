@@ -1288,3 +1288,15 @@ windowIndices <- function(i, hws, n) {
     stopifnot(i <= n)
     max(1L, i - hws):min(n, i + hws)
 }
+
+
+.hasSpectra <- function(x) {
+    if (is.character(x) & file.exists(x))
+        x <- mzR::openMSfile(x)
+    stopifnot(inherits(x, "mzR"))
+    return(as.logical(length(x)))
+}
+
+hasSpectra <- function(x) {
+    sapply(x, .hasSpectra)
+}
