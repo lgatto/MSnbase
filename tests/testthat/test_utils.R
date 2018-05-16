@@ -525,6 +525,20 @@ test_that(".fix_breaks works", {
     expect_true(all(rtr[2] > brks))
     brks_f <- .fix_breaks(brks, rtr)
     expect_true(rtr[2] <= max(brks_f))
+
+    ## Next unit tests taken from breaks_Spectrum.
+    ## Issue #191
+    ints <- 1:4
+    brks <- seq(min(ints), max(ints), by = 1)
+    expect_equal(MSnbase:::.fix_breaks(brks, range(ints)), 1:5)
+    expect_true(any(MSnbase:::.fix_breaks(1:2, range(ints)) < 4))
+    expect_equal(MSnbase:::.fix_breaks(seq(1, 4, by = 2), range(ints)),
+                 c(1, 3, 5))
+    
+    ## Test with values smaller than 1
+    rng <- c(0.1, 0.4)
+    brks <- seq(rng[1], rng[2], by = 0.04)
+    MSnbase:::.fix_breaks(brks, rng)
 })
 
 test_that(".bin_values works", {

@@ -1312,7 +1312,7 @@ windowIndices <- function(i, hws, n) {
 #'     of `x` for values in `toBin` falling within each bin and the bin mid
 #'     points.
 #'
-#' @author Johannes Rainer
+#' @author Johannes Rainer, Sebastian Gibb
 #'
 #' @noRd
 .bin_values <- function(x, toBin, binSize = 1, breaks = seq(floor(min(toBin)),
@@ -1346,8 +1346,8 @@ windowIndices <- function(i, hws, n) {
 #' @noRd
 .fix_breaks <- function(brks, rng) {
     ## Assuming breaks being sorted.
-    if (brks[length(brks)] < rng[2])
-        brks <- c(brks, max(ceiling(rng[2] + 1e-6),
+    if (brks[length(brks)] <= rng[2])
+        brks <- c(brks, max((rng[2] + 1e-6),
                             brks[length(brks)] + mean(diff(brks))))
     brks
 }
