@@ -18,6 +18,15 @@ readOnDiskMSData <- function(files, pdata, msLevel., verbose,
                              centroided., smoothed.) {
     .testReadMSDataInput(environment())
     stopifnot(is.logical(centroided.))
+    .hasSpecs <- hasSpectra(files)
+    if (any(!.hasSpecs)) {
+        msg <- paste0(sum(!.hasSpecs), " files with spectra:\n",
+                      paste(basename(files[.hasSpecs]),
+                            collapse = ", "))
+        warning(strwrap(msg))
+    }
+    files <- files[.hasSpecs]
+
     ## Creating environment with Spectra objects
     assaydata <- new.env(parent = emptyenv())
     filenams <- filenums <- c()
@@ -98,7 +107,6 @@ readOnDiskMSData <- function(files, pdata, msLevel., verbose,
                    processing = paste0("Data loaded [", date(), "]"),
                    files = files,
                    smoothed = NA)
-
     ## Create 'fdata' and 'pdata' objects
     if (is.null(pdata)) {
         .pd <- data.frame(sampleNames = basename(files))
@@ -119,7 +127,7 @@ readOnDiskMSData <- function(files, pdata, msLevel., verbose,
         fdata <- new("AnnotatedDataFrame", data = fdata)
         ## Re-order the features.
         ## fdata <- fdata[ls(assaydata), ]
-    }
+    } else fdata <- new("AnnotatedDataFrame")
 
     ## expriment data slot
     if (length(.instrumentInfo) > 1) {
