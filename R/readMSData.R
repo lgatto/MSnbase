@@ -76,19 +76,28 @@ readMSData <- function(files, pdata = NULL, msLevel. = NULL,
         warning(strwrap(msg))
     }
     files <- files[.hasSpecs]
-
-    if (mode == "inMemory") {
-        if (is.null(msLevel.)) msLevel. <- 2L
-        readInMemMSData(files, pdata = pdata, msLevel. = msLevel.,
+    if (!length(files)) {
+        process <- new("MSnProcess",
+                       processing = paste("No data loaded:", date()))
+        if (mode == "inMemory")
+            res <- new("MSnExp",
+                       processingData = process)
+        else res <- new("OnDiskMSnExp",
+                        processingData = process)
+    } else {
+        if (mode == "inMemory") {
+            if (is.null(msLevel.)) msLevel. <- 2L
+            res <- readInMemMSData(files, pdata = pdata, msLevel. = msLevel.,
                         verbose = verbose, centroided. = centroided.,
                         smoothed. = smoothed., cache. = cache.)
-    } else { ## onDisk
-        readOnDiskMSData(files = files, pdata = pdata,
-                         msLevel. = msLevel., verbose = verbose,
-                         centroided. = centroided.,
-                         smoothed. = smoothed.)
+        } else { ## onDisk
+            res <- readOnDiskMSData(files = files, pdata = pdata,
+                                    msLevel. = msLevel., verbose = verbose,
+                                    centroided. = centroided.,
+                                    smoothed. = smoothed.)
+        }
     }
-
+    res
 }
 
 
