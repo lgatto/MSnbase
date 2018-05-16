@@ -69,11 +69,20 @@ readMSData <- function(files, pdata = NULL, msLevel. = NULL,
     ##   processing and also proteowizard problems on unis system with ~ paths.
     files <- normalizePath(files)
     .hasSpecs <- hasSpectra(files)
+    .hasChroms <- hasChromatograms(files)
     if (any(!.hasSpecs)) {
-        msg <- paste0("Dropping ", sum(!.hasSpecs), " file(s) with spectra:\n",
-                      paste(basename(files[!.hasSpecs]),
-                            collapse = ", "))
-        warning(strwrap(msg))
+        msg1 <- paste0("Dropping ", sum(!.hasSpecs),
+                       " file(s) without any spectra: ",
+                       paste(basename(files[!.hasSpecs]),
+                             collapse = ", "), ". ")
+        if (all(.hasChroms[!.hasSpecs]))
+            msg2 <- "They/it contain(s) chromatograms and can be read with `readSRMData()`."
+        else
+            msg2 <- paste0("File(s) ",
+                           paste(basename(files[!.hasSpecs & .hasChroms]),
+                                 collapse = ", "),
+                           "contain(s) chromatograms that can be read with `readSRMData`.")
+        warning(paste0(msg1, msg2))
     }
     files <- files[.hasSpecs]
     if (!length(files)) {
