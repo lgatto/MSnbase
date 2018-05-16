@@ -71,7 +71,7 @@ readMSData <- function(files, pdata = NULL, msLevel. = NULL,
     .hasSpecs <- hasSpectra(files)
     if (any(!.hasSpecs)) {
         msg <- paste0("Dropping ", sum(!.hasSpecs), " files with spectra:\n",
-                      paste(basename(files[.hasSpecs]),
+                      paste(basename(files[!.hasSpecs]),
                             collapse = ", "))
         warning(strwrap(msg))
     }
