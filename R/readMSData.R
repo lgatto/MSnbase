@@ -14,7 +14,7 @@
 ##' files. This can be achieved by setting `mode = "onDisk"`. The
 ##' function returns then an [OnDiskMSnExp-class] object instead of a
 ##' [MSnExp-class] object.
-##' 
+##'
 ##' @title Imports mass-spectrometry raw data files as 'MSnExp'
 ##'     instances.
 ##' @note `readMSData` uses `normalizePath` to replace relative with
@@ -68,6 +68,15 @@ readMSData <- function(files, pdata = NULL, msLevel. = NULL,
     ##   path. That fixes possible problems on Windows with SNOW parallel
     ##   processing and also proteowizard problems on unis system with ~ paths.
     files <- normalizePath(files)
+    .hasSpecs <- hasSpectra(files)
+    if (any(!.hasSpecs)) {
+        msg <- paste0("Dropping ", sum(!.hasSpecs), " files with spectra:\n",
+                      paste(basename(files[.hasSpecs]),
+                            collapse = ", "))
+        warning(strwrap(msg))
+    }
+    files <- files[.hasSpecs]
+
     if (mode == "inMemory") {
         if (is.null(msLevel.)) msLevel. <- 2L
         readInMemMSData(files, pdata = pdata, msLevel. = msLevel.,

@@ -18,14 +18,6 @@ readOnDiskMSData <- function(files, pdata, msLevel., verbose,
                              centroided., smoothed.) {
     .testReadMSDataInput(environment())
     stopifnot(is.logical(centroided.))
-    .hasSpecs <- hasSpectra(files)
-    if (any(!.hasSpecs)) {
-        msg <- paste0(sum(!.hasSpecs), " files with spectra:\n",
-                      paste(basename(files[.hasSpecs]),
-                            collapse = ", "))
-        warning(strwrap(msg))
-    }
-    files <- files[.hasSpecs]
 
     ## Creating environment with Spectra objects
     assaydata <- new.env(parent = emptyenv())

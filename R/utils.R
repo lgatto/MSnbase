@@ -1289,14 +1289,11 @@ windowIndices <- function(i, hws, n) {
     max(1L, i - hws):min(n, i + hws)
 }
 
-
-.hasSpectra <- function(x) {
-    if (is.character(x) & file.exists(x))
-        x <- mzR::openMSfile(x)
-    stopifnot(inherits(x, "mzR"))
-    return(as.logical(length(x)))
-}
-
-hasSpectra <- function(x) {
-    sapply(x, .hasSpectra)
+##' @title Checks if raw data files have any spectra.
+##' @param files A `character()` with raw data filenames.
+##' @return A `logical(n)` where `n == length(x)` with `TRUE` if that
+##'     files contains at least one spectrum, `FALSE` otherwise.
+##' @author Laurent Gatto
+hasSpectra <- function(files) {
+    sapply(files, mzR:::.hasSpectra)
 }
