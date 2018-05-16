@@ -1351,3 +1351,14 @@ windowIndices <- function(i, hws, n) {
                             brks[length(brks)] + mean(diff(brks))))
     brks
 }
+
+.hasSpectra <- function(x) {
+    if (is.character(x) & file.exists(x))
+        x <- mzR::openMSfile(x)
+    stopifnot(inherits(x, "mzR"))
+    return(as.logical(length(x)))
+}
+
+hasSpectra <- function(x) {
+    sapply(x, .hasSpectra)
+}
