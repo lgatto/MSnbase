@@ -18,11 +18,32 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="Quantifies 'MSnExp' and 'Spectrum' objects — quantify-methods" />
+
+<meta property="og:description" content="This method quantifies individual "Spectrum"
+  objects or full "MSnExp" experiments. Current,
+  MS2-level isobar tagging using iTRAQ and TMT (or any arbitrary peaks
+  of interest, see "ReporterIons") and MS2-level
+  label-free quantitation (spectral counting, spectral index or spectral
+  abundance factor) are available.
+Isobaric tag peaks of single spectra or complete experiments can be
+  quantified using appropriate methods. Label-free quantitation
+  is available only for MSnExp experiments.
+Since version 1.13.5, parallel quantitation is supported by the
+  BiocParallel package and controlled by the BPPARAM
+  argument." />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,18 +67,49 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">MSnbase</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">MSnbase</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+    </li>
+    <li>
+      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -69,6 +121,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -76,12 +129,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Quantifies 'MSnExp' and 'Spectrum' objects</h1>
+    
+    <div class="hidden name"><code>quantify-methods.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>This method quantifies individual <code>"<a href='Spectrum-class.html'>Spectrum</a>"</code>
   objects or full <code>"<a href='MSnExp-class.html'>MSnExp</a>"</code> experiments. Current,
@@ -96,9 +152,10 @@
   <code>BiocParallel</code> package and controlled by the <code>BPPARAM</code>
   argument.</p>
     
+    </div>
 
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -182,7 +239,7 @@
   <code>exprs</code> accessor) for <code>NA</code> values or by comaring the
   <code>lowerMz</code> and <code>upperMz</code> columns in the
   <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> <code>qual</code> slot against the respective
-  expected <code>mz(reporters)</code> +/- <code>width(reporters)</code>.</p>
+  expected <code><a href='Spectrum-class.html'>mz(reporters)</a></code> +/- <code><a href='ReporterIons-class.html'>width(reporters)</a></code>.</p>
 <p>Once the range of the curve is found, quantification is performed.  If
   no data points are found in the expected region, <code>NA</code> is returned
   for the reporter peak MZ.</p>
@@ -218,10 +275,10 @@
       in the <code>Spectrum</code> object (isobaric tagging only).
     A list of length 2 will be returned. The first element, named
       <code>peakQuant</code>, is a 'numeric' of length equal to
-      <code>length(reporters)</code> with quantitation of the reporter peaks
+      <code><a href='pSet-class.html'>length(reporters)</a></code> with quantitation of the reporter peaks
       using <code>method</code>.
     The second element, names <code>curveStats</code>, is a 'data.frame' of
-      dimension <code>length(reporters)</code> times 7 giving, for each
+      dimension <code><a href='pSet-class.html'>length(reporters)</a></code> times 7 giving, for each
       reporter curve parameters: maximum intensity (<code>'maxInt'</code>),
       number of maxima (<code>'nMaxInt'</code>), number of data points defined
       the curve (<code>'baseLength'</code>), lower and upper MZ values for the
@@ -268,7 +325,7 @@
 #&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#&gt; iTRAQ4 quantification by trapezoidation: Fri Apr 20 19:45:51 2018 
+#&gt; iTRAQ4 quantification by trapezoidation: Wed May 16 10:21:32 2018 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
 <span class='co'>## specifying a custom parallel framework</span>
 <span class='co'>## bp &lt;- MulticoreParam(2L) # on Linux/OSX</span>
@@ -295,24 +352,24 @@
 <span class='fu'>fData</span>(<span class='no'>msexp</span>)$<span class='no'>DatabaseAccess</span></div><div class='output co'>#&gt; [1] "ECA0984" "ECA1028" NA        NA        "ECA0510"</div><div class='input'>
 <span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'>quantify</span>(<span class='no'>msexp</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"SIn"</span>)
 <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>si</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Data loaded: Fri Apr 20 19:45:52 2018 
-#&gt; Filtered 2 unidentified peptides out [Fri Apr 20 19:45:52 2018] 
-#&gt; Quantitation by total ion current [Fri Apr 20 19:45:52 2018] 
-#&gt; Combined 3 features into 3 using sum: Fri Apr 20 19:45:52 2018 
-#&gt; Quantification by SIn [Fri Apr 20 19:45:52 2018] 
-#&gt;  MSnbase version: 2.5.14 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>si</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
+#&gt; Data loaded: Wed May 16 10:21:33 2018 
+#&gt; Filtered 2 unidentified peptides out [Wed May 16 10:21:33 2018] 
+#&gt; Quantitation by total ion current [Wed May 16 10:21:33 2018] 
+#&gt; Combined 3 features into 3 using sum: Wed May 16 10:21:33 2018 
+#&gt; Quantification by SIn [Wed May 16 10:21:33 2018] 
+#&gt;  MSnbase version: 2.7.1 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>si</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
 #&gt; ECA0510     0.0006553518
 #&gt; ECA0984     0.0035384487
 #&gt; ECA1028     0.0002684726</div><div class='input'>
 <span class='no'>saf</span> <span class='kw'>&lt;-</span> <span class='fu'>quantify</span>(<span class='no'>msexp</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"NSAF"</span>)
 <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>saf</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Data loaded: Fri Apr 20 19:45:52 2018 
-#&gt; Filtered 2 unidentified peptides out [Fri Apr 20 19:45:52 2018] 
-#&gt; Filtered 0 unidentified peptides out [Fri Apr 20 19:45:52 2018] 
-#&gt; Quantitation by count [Fri Apr 20 19:45:52 2018] 
-#&gt; Combined 3 features into 3 using user-defined function: Fri Apr 20 19:45:52 2018 
-#&gt; Quantification by NSAF [Fri Apr 20 19:45:52 2018] 
-#&gt;  MSnbase version: 2.5.14 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>saf</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
+#&gt; Data loaded: Wed May 16 10:21:33 2018 
+#&gt; Filtered 2 unidentified peptides out [Wed May 16 10:21:33 2018] 
+#&gt; Filtered 0 unidentified peptides out [Wed May 16 10:21:33 2018] 
+#&gt; Quantitation by count [Wed May 16 10:21:33 2018] 
+#&gt; Combined 3 features into 3 using user-defined function: Wed May 16 10:21:33 2018 
+#&gt; Quantification by NSAF [Wed May 16 10:21:33 2018] 
+#&gt;  MSnbase version: 2.7.1 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>saf</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
 #&gt; ECA0510        0.4306167
 #&gt; ECA0984        0.3094475
 #&gt; ECA1028        0.2599359</div><div class='input'>
@@ -346,11 +403,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

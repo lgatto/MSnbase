@@ -18,11 +18,45 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="Example <code>MSnExp</code> and <code>MSnSet</code> data sets — itraqdata" />
+
+<meta property="og:description" content="" />
+
+<meta property="og:description" content="itraqdata is and example data sets is an iTRAQ 4-plex
+  experiment that has been run on an Orbitrap Velos instrument. It
+  includes identification data in the feature data slot obtain from the
+  Mascot search engine. It is a subset of an spike-in experiment where
+  proteins have spiked in an Erwinia background, as described in
+Karp et al. (2010), Addressing accuracy and precision issues in
+    iTRAQ quantitation, Mol Cell Proteomics. 2010 Sep;9(9):1885-97. Epub
+  2010 Apr 10. (PMID 20382981).
+The spiked-in proteins in itradata are BSA and ENO and are
+  present in relative abundances 1, 2.5, 5, 10 and 10, 5, 2.5, 1 in the
+  114, 115, 116 and 117 reporter tags.
+The msnset object is produced by running the quantify
+  method on the itraqdata experimental data, as detailed in the
+  quantify example. This example data set is used in the
+  MSnbase-demo vignette, available with vignette("MSnbase-demo",
+  package="MSnbase").
+The msnset2 object is another example iTRAQ4 data that is used
+  to demonstrate features of the package, in particular the iPQF
+  feature aggregation method, described in iPQF. It
+  corresponds to 11 proteins with spectra measurements from the original
+  data set described by Breitwieser et al. (2011) General
+  statistical modeling of data from protein relative expression isobaric
+  tags. J. Proteome Res., 10, 2758-2766." />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,18 +80,49 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">MSnbase</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">MSnbase</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+    </li>
+    <li>
+      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -69,6 +134,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -76,12 +142,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Example <code>MSnExp</code> and <code>MSnSet</code> data sets</h1>
+    
+    <div class="hidden name"><code>itraqdata.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     
 
@@ -99,7 +168,8 @@
 <p>The <code>msnset</code> object is produced by running the <code>quantify</code>
   method on the <code>itraqdata</code> experimental data, as detailed in the
   <code><a href='quantify-methods.html'>quantify</a></code> example. This example data set is used in the
-  MSnbase-demo vignette, available with <code>NA</code>.</p>
+  MSnbase-demo vignette, available with <code><a href='../articles/MSnbase-demo.html'>vignette("MSnbase-demo",
+  package="MSnbase")</a></code>.</p>
 <p>The <code>msnset2</code> object is another example iTRAQ4 data that is used
   to demonstrate features of the package, in particular the <code>iPQF</code>
   feature aggregation method, described in <code><a href='iPQF.html'>iPQF</a></code>. It
@@ -108,6 +178,7 @@
   statistical modeling of data from protein relative expression isobaric
   tags</em>. J. Proteome Res., 10, 2758-2766.</p>
     
+    </div>
 
     <pre class="usage"><span class='no'>itraqdata</span></pre>
         
@@ -191,11 +262,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

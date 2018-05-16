@@ -18,11 +18,23 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="Class <code>MSmap</code> — MSmap-class" />
+
+<meta property="og:description" content="A class to store mass spectrometry data maps, i.e intensities
+  collected along the M/Z and retention time space during a mass
+  spectrometry acquisition." />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,18 +58,49 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">MSnbase</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">MSnbase</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+    </li>
+    <li>
+      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -69,6 +112,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -76,24 +120,29 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Class <code>MSmap</code></h1>
+    
+    <div class="hidden name"><code>MSmap-class.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>A class to store mass spectrometry data maps, i.e intensities
   collected along the M/Z and retention time space during a mass
   spectrometry acquisition.</p>
     
+    </div>
 
         
     <h2 class="hasAnchor" id="objects-from-the-class"><a class="anchor" href="#objects-from-the-class"></a>Objects from the Class</h2>
 
     <p>Objects can be created with the <code>MSmap</code> constructor. The
-  constructor has the following arguments:</p><dl class='dl-horizontal'>
-    <dt>object</dt><dd><p>An object created by <code>mzR::openMSfile</code> or an
+  constructor has the following arguments:</p>  
+<p></p><dl class='dl-horizontal'>
+    <dt>object</dt><dd><p>An object created by <code><a href='http://www.rdocumentation.org/packages/mzR/topics/openMSfile'>mzR::openMSfile</a></code> or an
       instance of class <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code>. If the latter
       consains data from multiple files, a warning will be issued and
       the first one will be used.</p></dd>
@@ -103,7 +152,7 @@
       of the M/Z range of the MS map.</p></dd>
     <dt>resMz</dt><dd><p>The resolution along the M/Z range.</p></dd>
     <dt>hd</dt><dd><p>An optional <code>data.frame</code> as produced by
-      <code>mzR::header(object)</code>. If missing, will be computer within
+      <code><a href='http://www.rdocumentation.org/packages/mzR/topics/peaks'>mzR::header(object)</a></code>. If missing, will be computer within
       the function. Ignored when <code>object</code> is an
       <code>OnDiskMSnExp</code>.</p></dd>
     <dt>zeroIsNA</dt><dd><p>Set 0 intensities to <code>NA</code>. This can be used
@@ -156,7 +205,7 @@
     <dt>show</dt><dd><p><code>signature(object = "MSmap")</code>: prints a summary of
       the map.</p></dd>
     <dt>plot</dt><dd><p><code>signature(x = "MSmap", allTicks = "logical")</code>:
-      produces an image of the map using <code>lattice::levelplot</code>. By
+      produces an image of the map using <code><a href='http://www.rdocumentation.org/packages/lattice/topics/levelplot'>lattice::levelplot</a></code>. By
       default, <code>allTicks</code> is <code>TRUE</code> and all M/Z and retention
       times ticks of drawn. If set to <code>FALSE</code>, only 10 ticks in
       each dimension are plotted.</p></dd>
@@ -170,57 +219,57 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>not_run</span>({
-      <span class='co'>## downloads the data</span>
-      <span class='fu'>library</span>(<span class='st'>"rpx"</span>)
-      <span class='no'>px1</span> <span class='kw'>&lt;-</span> <span class='fu'>PXDataset</span>(<span class='st'>"PXD000001"</span>)
-      (<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'>grep</span>(<span class='st'>"TMT.+mzML"</span>, <span class='fu'>pxfiles</span>(<span class='no'>px1</span>), <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
-      <span class='no'>mzf</span> <span class='kw'>&lt;-</span> <span class='fu'>pxget</span>(<span class='no'>px1</span>, <span class='no'>i</span>)
+</div><span class='co'># NOT RUN {</span>
+    <span class='co'>## downloads the data</span>
+    <span class='fu'>library</span>(<span class='st'>"rpx"</span>)
+    <span class='no'>px1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/rpx/topics/PXDataset-class'>PXDataset</a></span>(<span class='st'>"PXD000001"</span>)
+    (<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'>grep</span>(<span class='st'>"TMT.+mzML"</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/rpx/topics/PXDataset-class'>pxfiles</a></span>(<span class='no'>px1</span>), <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
+    <span class='no'>mzf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/rpx/topics/PXDataset-class'>pxget</a></span>(<span class='no'>px1</span>, <span class='no'>i</span>)
 
-      <span class='co'>## Using an mzRpwiz object</span>
-      <span class='co'>## reads the data </span>
-      <span class='no'>ms</span> <span class='kw'>&lt;-</span> <span class='fu'>openMSfile</span>(<span class='no'>mzf</span>)
-      <span class='no'>hd</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pSet-class.html'>header</a></span>(<span class='no'>ms</span>)
+    <span class='co'>## Using an mzRpwiz object</span>
+    <span class='co'>## reads the data </span>
+    <span class='no'>ms</span> <span class='kw'>&lt;-</span> <span class='fu'>openMSfile</span>(<span class='no'>mzf</span>)
+    <span class='no'>hd</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pSet-class.html'>header</a></span>(<span class='no'>ms</span>)
 
-      <span class='co'>## a set of spectra of interest: MS1 spectra eluted</span>
-      <span class='co'>## between 30 and 35 minutes retention time</span>
-      <span class='no'>ms1</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='no'>hd</span>$<span class='no'>msLevel</span> <span class='kw'>==</span> <span class='fl'>1</span>)
-      <span class='no'>rtsel</span> <span class='kw'>&lt;-</span> <span class='no'>hd</span>$<span class='no'>retentionTime</span>[<span class='no'>ms1</span>] / <span class='fl'>60</span> <span class='kw'>&gt;</span> <span class='fl'>30</span> <span class='kw'>&amp;</span>
-          <span class='no'>hd</span>$<span class='no'>retentionTime</span>[<span class='no'>ms1</span>] / <span class='fl'>60</span> <span class='kw'>&lt;</span> <span class='fl'>35</span>
+    <span class='co'>## a set of spectra of interest: MS1 spectra eluted</span>
+    <span class='co'>## between 30 and 35 minutes retention time</span>
+    <span class='no'>ms1</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='no'>hd</span>$<span class='no'>msLevel</span> <span class='kw'>==</span> <span class='fl'>1</span>)
+    <span class='no'>rtsel</span> <span class='kw'>&lt;-</span> <span class='no'>hd</span>$<span class='no'>retentionTime</span>[<span class='no'>ms1</span>] / <span class='fl'>60</span> <span class='kw'>&gt;</span> <span class='fl'>30</span> <span class='kw'>&amp;</span>
+        <span class='no'>hd</span>$<span class='no'>retentionTime</span>[<span class='no'>ms1</span>] / <span class='fl'>60</span> <span class='kw'>&lt;</span> <span class='fl'>35</span>
 
-      <span class='co'>## the map</span>
-      <span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='no'>ms</span>, <span class='no'>ms1</span>[<span class='no'>rtsel</span>], <span class='fl'>521</span>, <span class='fl'>523</span>, <span class='fl'>.005</span>, <span class='no'>hd</span>)
+    <span class='co'>## the map</span>
+    <span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='no'>ms</span>, <span class='no'>ms1</span>[<span class='no'>rtsel</span>], <span class='fl'>521</span>, <span class='fl'>523</span>, <span class='fl'>.005</span>, <span class='no'>hd</span>)
 
-      <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>M</span>, <span class='kw'>aspect</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>allTicks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-      <span class='fu'>plot3D</span>(<span class='no'>M</span>)
-      <span class='kw'>if</span> (<span class='fu'>require</span>(<span class='st'>"rgl"</span>) <span class='kw'>&amp;</span> <span class='fu'>interactive</span>())
-          <span class='fu'>plot3D</span>(<span class='no'>M</span>, <span class='kw'>rgl</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>M</span>, <span class='kw'>aspect</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>allTicks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <span class='fu'>plot3D</span>(<span class='no'>M</span>)
+    <span class='kw'>if</span> (<span class='fu'>require</span>(<span class='st'>"rgl"</span>) <span class='kw'>&amp;</span> <span class='fu'>interactive</span>())
+        <span class='fu'>plot3D</span>(<span class='no'>M</span>, <span class='kw'>rgl</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-      <span class='co'>## With some MS2 spectra</span>
-      <span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='no'>ms1</span>[<span class='fu'>which</span>(<span class='no'>rtsel</span>)][<span class='fl'>1</span>]
-      <span class='no'>j</span> <span class='kw'>&lt;-</span> <span class='no'>ms1</span>[<span class='fu'>which</span>(<span class='no'>rtsel</span>)][<span class='fl'>2</span>]
-      <span class='no'>M2</span> <span class='kw'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='no'>ms</span>, <span class='no'>i</span>:<span class='no'>j</span>, <span class='fl'>100</span>, <span class='fl'>1000</span>, <span class='fl'>1</span>, <span class='no'>hd</span>)
-      <span class='fu'>plot3D</span>(<span class='no'>M2</span>)
+    <span class='co'>## With some MS2 spectra</span>
+    <span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='no'>ms1</span>[<span class='fu'>which</span>(<span class='no'>rtsel</span>)][<span class='fl'>1</span>]
+    <span class='no'>j</span> <span class='kw'>&lt;-</span> <span class='no'>ms1</span>[<span class='fu'>which</span>(<span class='no'>rtsel</span>)][<span class='fl'>2</span>]
+    <span class='no'>M2</span> <span class='kw'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='no'>ms</span>, <span class='no'>i</span>:<span class='no'>j</span>, <span class='fl'>100</span>, <span class='fl'>1000</span>, <span class='fl'>1</span>, <span class='no'>hd</span>)
+    <span class='fu'>plot3D</span>(<span class='no'>M2</span>)
 
-      <span class='co'>## Using an OnDiskMSnExp object and accessors</span>
-      <span class='no'>msn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>mzf</span>, <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)
+    <span class='co'>## Using an OnDiskMSnExp object and accessors</span>
+    <span class='no'>msn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>mzf</span>, <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)
 
-      <span class='co'>## a set of spectra of interest: MS1 spectra eluted</span>
-      <span class='co'>## between 30 and 35 minutes retention time</span>
-      <span class='no'>ms1</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>msn</span>) <span class='kw'>==</span> <span class='fl'>1</span>)
-      <span class='no'>rtsel</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>msn</span>)[<span class='no'>ms1</span>] / <span class='fl'>60</span> <span class='kw'>&gt;</span> <span class='fl'>30</span> <span class='kw'>&amp;</span>
-          <span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>msn</span>)[<span class='no'>ms1</span>] / <span class='fl'>60</span> <span class='kw'>&lt;</span> <span class='fl'>35</span>
+    <span class='co'>## a set of spectra of interest: MS1 spectra eluted</span>
+    <span class='co'>## between 30 and 35 minutes retention time</span>
+    <span class='no'>ms1</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>msn</span>) <span class='kw'>==</span> <span class='fl'>1</span>)
+    <span class='no'>rtsel</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>msn</span>)[<span class='no'>ms1</span>] / <span class='fl'>60</span> <span class='kw'>&gt;</span> <span class='fl'>30</span> <span class='kw'>&amp;</span>
+        <span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>msn</span>)[<span class='no'>ms1</span>] / <span class='fl'>60</span> <span class='kw'>&lt;</span> <span class='fl'>35</span>
 
-      <span class='co'>## the map</span>
-      <span class='no'>M3</span> <span class='kw'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='no'>msn</span>, <span class='no'>ms1</span>[<span class='no'>rtsel</span>], <span class='fl'>521</span>, <span class='fl'>523</span>, <span class='fl'>.005</span>)
-      <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>M3</span>, <span class='kw'>aspect</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>allTicks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <span class='co'>## the map</span>
+    <span class='no'>M3</span> <span class='kw'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='no'>msn</span>, <span class='no'>ms1</span>[<span class='no'>rtsel</span>], <span class='fl'>521</span>, <span class='fl'>523</span>, <span class='fl'>.005</span>)
+    <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>M3</span>, <span class='kw'>aspect</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>allTicks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-      <span class='co'>## With some MS2 spectra</span>
-      <span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='no'>ms1</span>[<span class='fu'>which</span>(<span class='no'>rtsel</span>)][<span class='fl'>1</span>]
-      <span class='no'>j</span> <span class='kw'>&lt;-</span> <span class='no'>ms1</span>[<span class='fu'>which</span>(<span class='no'>rtsel</span>)][<span class='fl'>2</span>]
-      <span class='no'>M4</span> <span class='kw'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='no'>msn</span>, <span class='no'>i</span>:<span class='no'>j</span>, <span class='fl'>100</span>, <span class='fl'>1000</span>, <span class='fl'>1</span>)
-      <span class='fu'>plot3D</span>(<span class='no'>M4</span>)
-})</div></pre>
+    <span class='co'>## With some MS2 spectra</span>
+    <span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='no'>ms1</span>[<span class='fu'>which</span>(<span class='no'>rtsel</span>)][<span class='fl'>1</span>]
+    <span class='no'>j</span> <span class='kw'>&lt;-</span> <span class='no'>ms1</span>[<span class='fu'>which</span>(<span class='no'>rtsel</span>)][<span class='fl'>2</span>]
+    <span class='no'>M4</span> <span class='kw'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='no'>msn</span>, <span class='no'>i</span>:<span class='no'>j</span>, <span class='fl'>100</span>, <span class='fl'>1000</span>, <span class='fl'>1</span>)
+    <span class='fu'>plot3D</span>(<span class='no'>M4</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -248,11 +297,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

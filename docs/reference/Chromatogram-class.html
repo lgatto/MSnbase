@@ -18,11 +18,54 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="Representation of chromatographic MS data — Chromatogram-class" />
+
+<meta property="og:description" content="The Chromatogram class is designed to store
+    chromatographic MS data, i.e. pairs of retention time and intensity
+    values. Instances of the class can be created with the
+    Chromatogram constructor function but in most cases the dedicated
+    methods for OnDiskMSnExp and
+    MSnExp objects extracting chromatograms should be
+    used instead (i.e. the chromatogram method).
+Chromatogram: create an instance of the
+    Chromatogram class.
+aggregationFun,aggregationFun&lt;- get or set the
+    aggregation function.
+rtime returns the retention times for the rentention time
+    - intensity pairs stored in the chromatogram.
+intensity returns the intensity for the rentention time
+    - intensity pairs stored in the chromatogram.
+mz get the mz (range) of the chromatogram. The
+    function returns a numeric(2) with the lower and upper mz value.
+precursorMz get the mz of the precursor ion. The
+    function returns a numeric(2) with the lower and upper mz value.
+fromFile returns the value from the fromFile slot.
+length returns the length (number of retention time -
+    intensity pairs) of the chromatogram.
+as.data.frame returns the rtime and
+    intensity values from the object as data.frame.
+filterRt: filters the chromatogram based on the provided
+    retention time range.
+clean: Removes unused 0-intensity data points. See
+    clean documentation for more details and examples.
+plot: plots a Chromatogram object.
+msLevel returns the MS level of the chromatogram.
+isEmpty returns TRUE for empty chromatogram or
+    chromatograms with all intensities being NA.
+productMz get the mz of the product chromatogram/ion. The
+    function returns a numeric(2) with the lower and upper mz value." />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,18 +89,49 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">MSnbase</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">MSnbase</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+    </li>
+    <li>
+      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -69,6 +143,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -76,12 +151,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Representation of chromatographic MS data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/lgatto/MSnbase/blob/master/R/DataClasses.R'><code>R/DataClasses.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/functions-Chromatogram.R'><code>R/functions-Chromatogram.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/methods-Chromatogram.R'><code>R/methods-Chromatogram.R</code></a></small>
+    <div class="hidden name"><code>Chromatogram-class.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>The <code>Chromatogram</code> class is designed to store
     chromatographic MS data, i.e. pairs of retention time and intensity
@@ -89,50 +167,36 @@
     <code>Chromatogram</code> constructor function but in most cases the dedicated
     methods for <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code> and
     <code><a href='MSnExp-class.html'>MSnExp</a></code> objects extracting chromatograms should be
-    used instead (i.e. the <code><a href='chromatogram-MSnExp-method.html'>chromatogram</a></code> method).
-
-    <code>Chromatogram</code>: create an instance of the
-    <code>Chromatogram</code> class.
-
-    <code>aggregationFun,aggregationFun&lt;-</code> get or set the
-    aggregation function.
-
-    <code>rtime</code> returns the retention times for the rentention time
-    - intensity pairs stored in the chromatogram.
-
-    <code>intensity</code> returns the intensity for the rentention time
-    - intensity pairs stored in the chromatogram.
-
-    <code>mz</code> get the mz (range) of the chromatogram. The
-    function returns a <code>numeric(2)</code> with the lower and upper mz value.
-
-    <code>precursorMz</code> get the mz of the precursor ion. The
-    function returns a <code>numeric(2)</code> with the lower and upper mz value.
-
-    <code>fromFile</code> returns the value from the <code>fromFile</code> slot.
-
-    <code>length</code> returns the length (number of retention time -
-    intensity pairs) of the chromatogram.
-
-    <code>as.data.frame</code> returns the <code>rtime</code> and
-    <code>intensity</code> values from the object as <code>data.frame</code>.
-
-    <code>filterRt</code>: filters the chromatogram based on the provided
-    retention time range.
-
-    <code>clean</code>: Removes unused 0-intensity data points. See
-    <code><a href='clean-methods.html'>clean</a></code> documentation for more details and examples.
-
-    <code>plot</code>: plots a <code>Chromatogram</code> object.
-
-    <code>msLevel</code> returns the MS level of the chromatogram.
-
-    <code>isEmpty</code> returns <code>TRUE</code> for empty chromatogram or
-    chromatograms with all intensities being <code>NA</code>.
-
-    <code>productMz</code> get the mz of the product chromatogram/ion. The
+    used instead (i.e. the <code><a href='chromatogram-MSnExp-method.html'>chromatogram</a></code> method).</p>
+<p><code>Chromatogram</code>: create an instance of the
+    <code>Chromatogram</code> class.</p>
+<p><code>aggregationFun,aggregationFun&lt;-</code> get or set the
+    aggregation function.</p>
+<p><code>rtime</code> returns the retention times for the rentention time
+    - intensity pairs stored in the chromatogram.</p>
+<p><code>intensity</code> returns the intensity for the rentention time
+    - intensity pairs stored in the chromatogram.</p>
+<p><code>mz</code> get the mz (range) of the chromatogram. The
+    function returns a <code>numeric(2)</code> with the lower and upper mz value.</p>
+<p><code>precursorMz</code> get the mz of the precursor ion. The
+    function returns a <code>numeric(2)</code> with the lower and upper mz value.</p>
+<p><code>fromFile</code> returns the value from the <code>fromFile</code> slot.</p>
+<p><code>length</code> returns the length (number of retention time -
+    intensity pairs) of the chromatogram.</p>
+<p><code>as.data.frame</code> returns the <code>rtime</code> and
+    <code>intensity</code> values from the object as <code>data.frame</code>.</p>
+<p><code>filterRt</code>: filters the chromatogram based on the provided
+    retention time range.</p>
+<p><code>clean</code>: Removes unused 0-intensity data points. See
+    <code><a href='clean-methods.html'>clean</a></code> documentation for more details and examples.</p>
+<p><code>plot</code>: plots a <code>Chromatogram</code> object.</p>
+<p><code>msLevel</code> returns the MS level of the chromatogram.</p>
+<p><code>isEmpty</code> returns <code>TRUE</code> for empty chromatogram or
+    chromatograms with all intensities being <code>NA</code>.</p>
+<p><code>productMz</code> get the mz of the product chromatogram/ion. The
     function returns a <code>numeric(2)</code> with the lower and upper mz value.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>Chromatogram</span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fu'>numeric</span>(), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'>numeric</span>(), <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>NA_real_</span>,
   <span class='fl'>NA_real_</span>), <span class='kw'>filterMz</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>NA_real_</span>, <span class='fl'>NA_real_</span>), <span class='kw'>precursorMz</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>NA_real_</span>,
@@ -185,7 +249,7 @@
 <span class='co'># S4 method for Chromatogram</span>
 <span class='fu'>productMz</span>(<span class='no'>object</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -328,13 +392,13 @@ will be used as plot title.</p></td>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='Chromatograms-class.html'>Chromatograms</a></code> for combining <code>Chromatogram</code> in
+    <div class='dont-index'><p><code><a href='Chromatograms-class.html'>Chromatograms</a></code> for combining <code>Chromatogram</code> in
     a two-dimensional matrix (rows being mz-rt ranges, columns samples).
     <code><a href='chromatogram-MSnExp-method.html'>chromatogram</a></code> for the method to extract chromatogram data
     from a <code><a href='MSnExp-class.html'>MSnExp</a></code> or <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code>
     object.
     <code><a href='clean-methods.html'>clean</a></code> for the method to <em>clean</em> a <code>Chromatogram</code>
-    object.</p>
+    object.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -425,11 +489,14 @@ Johannes Rainer
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

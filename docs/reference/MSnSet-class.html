@@ -18,11 +18,26 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data — MSnSet-class" />
+
+<meta property="og:description" content="The MSnSet holds quantified expression data for MS proteomics
+  data and the experimental meta-data.
+  The MSnSet class is derived from the
+  "eSet" class and mimics the
+  "ExpressionSet" class classically used for
+  microarray data." />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,18 +61,49 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">MSnbase</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">MSnbase</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+    </li>
+    <li>
+      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -69,6 +115,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -76,12 +123,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data</h1>
+    
+    <div class="hidden name"><code>MSnSet-class.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>The <code>MSnSet</code> holds quantified expression data for MS proteomics
   data and the experimental meta-data.
@@ -90,6 +140,7 @@
   <code>"ExpressionSet"</code> class classically used for
   microarray data.</p>
     
+    </div>
 
         
     <h2 class="hasAnchor" id="objects-from-the-class"><a class="anchor" href="#objects-from-the-class"></a>Objects from the Class</h2>
@@ -193,12 +244,12 @@
     %% \item{$name}{\code{signature(x = "pSet")}: Access \code{name} column
     %%   in \code{featureData}. Note that this behaviour is different to
     %%   the \code{eSet}, where \code{$} accesses the \code{phenoData}. }
-    <dt>acquisitionNum</dt><dd><p><code>acquisitionNum(signature(object = "MSnSet"))</code>: Returns the
+    <dt>acquisitionNum</dt><dd><p><code><a href='Spectrum-class.html'>acquisitionNum(signature(object = "MSnSet"))</a></code>: Returns the
       a numeric vector with acquisition number of each spectrum. The vector
       names are the corresponding spectrum names.
       The information is extracted from the object's <code>featureData</code> slot.</p></dd>
-    <dt>fromFile</dt><dd><p><code>fromFile(signature(object = "MSnSet"))</code>: get the index of
-      the file (in <code>fileNames(object)</code>) from which the raw
+    <dt>fromFile</dt><dd><p><code><a href='Spectrum-class.html'>fromFile(signature(object = "MSnSet"))</a></code>: get the index of
+      the file (in <code><a href='pSet-class.html'>fileNames(object)</a></code>) from which the raw
       spectra from which the corresponding feature were originally
       read. The relevant information is extracted from the object's
       <code>featureData</code> slot.
@@ -296,7 +347,7 @@
       (default is <code>"msLevel"</code>).
     <dt>log</dt><dd><p>signature(object = "MSnSet", base = "numeric")</p></dd> Log
       transforms <code>exprs(object)</code> using
-      <code>base::log</code>. <code>base</code> (defaults is <code>e='exp(1)'</code>) must
+      <code><a href='http://www.rdocumentation.org/packages/base/topics/Log'>base::log</a></code>. <code>base</code> (defaults is <code>e='exp(1)'</code>) must
       be a positive or complex number, the base with respect to which
       logarithms are computed.
     <dt>droplevels</dt><dd><p>signature(x = "MSnSet", ...)</p></dd>Drops the unused
@@ -403,7 +454,7 @@
     <dt>ms2df</dt><dd><p>signature(x, fcols)</p></dd>Coerces the <code>MSnSet</code> instance
       to a <code>data.frame</code>. The direction of the data is retained and
       the feature variable labels that match <code>fcol</code> are appended to
-      the expression values. See also <code>as(x, "data.frame")</code> above.
+      the expression values. See also <code><a href='mzRident2dfr.html'>as(x, "data.frame")</a></code> above.
     <dt>addMSnSetMetadata</dt><dd><p>signature(x, y)</p></dd>When coercing an
       <code>MSnSet</code> <code>y</code> to a <code>SummarizedExperiment</code> <code>x</code>
       with <code>x &lt;- as(y, "SummarizedExperiment")</code>, most of <code>y</code>'s
@@ -417,13 +468,13 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    
-    <p><code>"eSet"</code>, <code>"ExpressionSet"</code> and
+    <div class='dont-index'></div>
+    <div class='dont-index'><p><code>"eSet"</code>, <code>"ExpressionSet"</code> and
   <code><a href='quantify-methods.html'>quantify</a></code>. <code>MSnSet</code> quantitation values and
   annotation can be exported to a file with
   <code>write.exprs</code>. See <code><a href='readMSnSet.html'>readMSnSet</a></code> to
   create and <code>MSnSet</code> using data available in a spreadsheet or
-  <code>data.frame</code>.</p>
+  <code>data.frame</code>.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -460,7 +511,7 @@
 <span class='fu'>image</span>(<span class='no'>dunkley2006</span>, <span class='kw'>high</span> <span class='kw'>=</span> <span class='st'>"darkgreen"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in image(dunkley2006, high = "darkgreen"): object 'dunkley2006' not found</span></div><div class='input'><span class='fu'>image</span>(<span class='no'>dunkley2006</span>, <span class='kw'>high</span> <span class='kw'>=</span> <span class='st'>"darkgreen"</span>, <span class='kw'>low</span> <span class='kw'>=</span> <span class='st'>"yellow"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in image(dunkley2006, high = "darkgreen", low = "yellow"): object 'dunkley2006' not found</span></div><div class='input'><span class='co'>## Forcing feature names</span>
 <span class='fu'>image</span>(<span class='no'>dunkley2006</span>, <span class='kw'>fnames</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in image(dunkley2006, fnames = TRUE): object 'dunkley2006' not found</span></div><div class='input'><span class='co'>## Facetting</span>
 <span class='fu'>image</span>(<span class='no'>dunkley2006</span>, <span class='kw'>facetBy</span> <span class='kw'>=</span> <span class='st'>"replicate"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in image(dunkley2006, facetBy = "replicate"): object 'dunkley2006' not found</span></div><div class='input'><span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>image</span>(<span class='no'>dunkley2006</span>)</div><div class='output co'>#&gt; <span class='error'>Error in image(dunkley2006): object 'dunkley2006' not found</span></div><div class='input'><span class='fu'>library</span>(<span class='st'>"ggplot2"</span>) <span class='co'>## for facet_grid</span>
-<span class='no'>p</span> + <span class='fu'>facet_grid</span>(<span class='no'>replicate</span> ~ <span class='no'>membrane.prep</span>, <span class='kw'>scales</span> <span class='kw'>=</span> <span class='st'>'free'</span>, <span class='kw'>space</span> <span class='kw'>=</span> <span class='st'>'free'</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'p' not found</span></div><div class='input'><span class='no'>p</span> + <span class='fu'>facet_grid</span>(<span class='no'>markers</span> ~ <span class='no'>replicate</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'p' not found</span></div><div class='input'><span class='co'>## Fold-changes</span>
+<span class='no'>p</span> + <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/facet_grid'>facet_grid</a></span>(<span class='no'>replicate</span> ~ <span class='no'>membrane.prep</span>, <span class='kw'>scales</span> <span class='kw'>=</span> <span class='st'>'free'</span>, <span class='kw'>space</span> <span class='kw'>=</span> <span class='st'>'free'</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'p' not found</span></div><div class='input'><span class='no'>p</span> + <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/facet_grid'>facet_grid</a></span>(<span class='no'>markers</span> ~ <span class='no'>replicate</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'p' not found</span></div><div class='input'><span class='co'>## Fold-changes</span>
 <span class='no'>dd</span> <span class='kw'>&lt;-</span> <span class='no'>dunkley2006</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'dunkley2006' not found</span></div><div class='input'><span class='fu'>exprs</span>(<span class='no'>dd</span>) <span class='kw'>&lt;-</span> <span class='fu'>exprs</span>(<span class='no'>dd</span>) - <span class='fl'>0.25</span></div><div class='output co'>#&gt; <span class='error'>Error in exprs(dd): object 'dd' not found</span></div><div class='input'><span class='fu'>image</span>(<span class='no'>dd</span>)</div><div class='output co'>#&gt; <span class='error'>Error in image(dd): object 'dd' not found</span></div><div class='input'><span class='fu'>image</span>(<span class='no'>dd</span>, <span class='kw'>low</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>high</span> <span class='kw'>=</span> <span class='st'>"red"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in image(dd, low = "green", high = "red"): object 'dd' not found</span></div><div class='input'><span class='co'>## Feature names are displayed by default for smaller data</span>
 <span class='no'>dunkley2006</span> <span class='kw'>&lt;-</span> <span class='no'>dunkley2006</span>[<span class='fl'>1</span>:<span class='fl'>25</span>, ]</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'dunkley2006' not found</span></div><div class='input'><span class='fu'>image</span>(<span class='no'>dunkley2006</span>)</div><div class='output co'>#&gt; <span class='error'>Error in image(dunkley2006): object 'dunkley2006' not found</span></div><div class='input'><span class='fu'>image</span>(<span class='no'>dunkley2006</span>, <span class='kw'>legend</span> <span class='kw'>=</span> <span class='st'>"hello"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in image(dunkley2006, legend = "hello"): object 'dunkley2006' not found</span></div><div class='input'>
 
@@ -473,10 +524,8 @@
     <span class='fu'>metadata</span>(<span class='no'>se</span>) <span class='co'>## all metadata</span>
     <span class='no'>msnset2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mzRident2dfr.html'>as</a></span>(<span class='no'>se</span>, <span class='st'>"MSnSet"</span>)
     <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>msnset2</span>)
-}</div><div class='output co'>#&gt; <span class='message'>Loading required package: SummarizedExperiment</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomicRanges</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: S4Vectors</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘S4Vectors’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:Matrix’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    expand</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:base’:</span>
+}</div><div class='output co'>#&gt; <span class='message'>Loading required package: SummarizedExperiment</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomicRanges</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: stats4</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: S4Vectors</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘S4Vectors’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    expand.grid</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: IRanges</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomeInfoDb</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: DelayedArray</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: matrixStats</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘matrixStats’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:Biobase’:</span>
@@ -489,7 +538,7 @@
 #&gt; <span class='message'>    aperm, apply</span></div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#&gt; Subset [55,4][6,4] Fri Apr 20 19:45:20 2018 
+#&gt; Subset [55,4][6,4] Wed May 16 10:20:11 2018 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
 <span class='fu'><a href='mzRident2dfr.html'>as</a></span>(<span class='no'>msnset</span>, <span class='st'>"ExpressionSet"</span>)</div><div class='output co'>#&gt; ExpressionSet (storageMode: lockedEnvironment)
 #&gt; assayData: 6 features, 4 samples 
@@ -541,11 +590,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

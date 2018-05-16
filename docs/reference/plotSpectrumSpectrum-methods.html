@@ -18,11 +18,25 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="Plotting a 'Spectrum' vs another 'Spectrum' object. — plot.Spectrum.Spectrum-methods" />
+
+<meta property="og:description" content="These method plot mass spectra MZ values against the intensities as
+  line plots. The first spectrum is plotted in the upper panel and the other in
+  upside down in the lower panel. Common peaks are drawn in a slightly darker
+  colour. If a peptide sequence is provided it automatically calculates
+  and labels the fragments." />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,18 +60,49 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">MSnbase</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">MSnbase</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+    </li>
+    <li>
+      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -69,6 +114,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -76,12 +122,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plotting a 'Spectrum' vs another 'Spectrum' object.</h1>
+    
+    <div class="hidden name"><code>plotSpectrumSpectrum-methods.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>These method plot mass spectra MZ values against the intensities as
   line plots. The first spectrum is plotted in the upper panel and the other in
@@ -89,9 +138,10 @@
   colour. If a peptide sequence is provided it automatically calculates
   and labels the fragments.</p>
     
+    </div>
 
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -131,7 +181,7 @@
       one-letter-code of the modified amino acid
       (default: Carbamidomethyl <code>modifications=c(C=57.02146)</code>). Additional
       you can specifiy the type of <code>neutralLoss</code> (default:
-      <code>defaultNeutralLoss()</code>).
+      <code><a href='calculateFragments-methods.html'>defaultNeutralLoss()</a></code>).
       See <code><a href='calculateFragments-methods.html'>calculateFragments</a></code> for details.
     There are a lot of graphical arguments available to control the
       representation of the peaks and fragments. Use <code>peaks.pch</code> to set the
@@ -144,8 +194,8 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>More spectrum plotting available in <code><a href='plot-methods.html'>plot.Spectrum</a></code>.</p>
-<p>More details about fragment calculation: <code><a href='calculateFragments-methods.html'>calculateFragments</a></code>.</p>
+    <div class='dont-index'><p>More spectrum plotting available in <code><a href='plot-methods.html'>plot.Spectrum</a></code>.</p>
+<p>More details about fragment calculation: <code><a href='calculateFragments-methods.html'>calculateFragments</a></code>.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -160,16 +210,16 @@
 <span class='no'>msexp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pickPeaks-method.html'>pickPeaks</a></span>(<span class='no'>msexp</span>)
 
 <span class='co'>## plot the first against the second spectrum</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>msexp</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='no'>msexp</span><span class='kw'>[[</span><span class='fl'>2</span>]])</div><img src='plotSpectrumSpectrum-methods-2.png' alt='' width='540' height='400' /><div class='input'>
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>msexp</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='no'>msexp</span><span class='kw'>[[</span><span class='fl'>2</span>]])</div><div class='img'><img src='plotSpectrumSpectrum-methods-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>## add sequence information</span>
 <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>msexp</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='no'>msexp</span><span class='kw'>[[</span><span class='fl'>2</span>]], <span class='kw'>sequences</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>"VESITARHGEVLQLRPK"</span>,
-                                         <span class='st'>"IDGQWVTHQWLKK"</span>))</div><img src='plotSpectrumSpectrum-methods-4.png' alt='' width='540' height='400' /><div class='input'>
+                                         <span class='st'>"IDGQWVTHQWLKK"</span>))</div><div class='img'><img src='plotSpectrumSpectrum-methods-2.png' alt='' width='700' height='433' /></div><div class='input'>
 
 <span class='no'>itraqdata2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pickPeaks-method.html'>pickPeaks</a></span>(<span class='no'>itraqdata</span>)
 (<span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='fu'>fData</span>(<span class='no'>itraqdata2</span>)[, <span class='st'>"PeptideSequence"</span>] <span class='kw'>==</span> <span class='st'>"TAGIQIVADDLTVTNPK"</span>))</div><div class='output co'>#&gt; [1] 41 42</div><div class='input'><span class='no'>mzk</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span>(<span class='no'>itraqdata2</span>)[<span class='no'>k</span>]
 <span class='no'>zk</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Spectrum2-class.html'>precursorCharge</a></span>(<span class='no'>itraqdata2</span>)[<span class='no'>k</span>]
 <span class='no'>mzk</span> * <span class='no'>zk</span></div><div class='output co'>#&gt;      X46      X47 
-#&gt; 2046.175 2045.169 </div><div class='input'><span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>itraqdata2</span><span class='kw'>[[</span><span class='no'>k</span>[<span class='fl'>1</span>]]], <span class='no'>itraqdata2</span><span class='kw'>[[</span><span class='no'>k</span>[<span class='fl'>2</span>]]])</div><img src='plotSpectrumSpectrum-methods-10.png' alt='' width='540' height='400' /></pre>
+#&gt; 2046.175 2045.169 </div><div class='input'><span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>itraqdata2</span><span class='kw'>[[</span><span class='no'>k</span>[<span class='fl'>1</span>]]], <span class='no'>itraqdata2</span><span class='kw'>[[</span><span class='no'>k</span>[<span class='fl'>2</span>]]])</div><div class='img'><img src='plotSpectrumSpectrum-methods-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -196,11 +246,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

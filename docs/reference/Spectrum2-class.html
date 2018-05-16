@@ -18,11 +18,34 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="The "Spectrum2" Class for MSn Spectra — Spectrum2-class" />
+
+<meta property="og:description" content="" />
+
+<meta property="og:description" content="Spectrum2 extends the "Spectrum" class and
+  introduces several MS2 specific attributes in addition to the slots in
+  "Spectrum". Since version 1.99.2, this class is
+  used for any MS levels &gt; 1. Spectrum2 are not created directly
+  but are contained in the assayData slot of an
+  "MSnExp".
+In version 1.19.12, the polarity slot had been added to the
+  "Spectrum" class (previously in
+  "Spectrum1"). Hence, "Spectrum2" objects
+  created prior to this change will not be valid anymore, since they
+  will miss the polarity slots. Object can be appropriately
+  updated using the updateObject method." />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,18 +69,49 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">MSnbase</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">MSnbase</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+    </li>
+    <li>
+      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -69,6 +123,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -76,13 +131,18 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>The "Spectrum2" Class for MSn Spectra</h1>
+    
+    <div class="hidden name"><code>Spectrum2-class.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
+    
+
     <p><code>Spectrum2</code> extends the <code>"<a href='Spectrum-class.html'>Spectrum</a>"</code> class and
   introduces several MS2 specific attributes in addition to the slots in
   <code>"<a href='Spectrum-class.html'>Spectrum</a>"</code>. Since version 1.99.2, this class is
@@ -96,6 +156,7 @@
   will miss the <code>polarity</code> slots. Object can be appropriately
   updated using the <code>updateObject</code> method.</p>
     
+    </div>
 
         
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
@@ -135,7 +196,7 @@
       intensity as a integer.</p></dd>
     <dt><code>collisionEnergy(object)</code></dt><dd><p>Returns the collision energy
       as an numeric.</p></dd>
-    <dt><code>removeReporters(object, ...)</code></dt><dd><p>Removes all reporter ion
+    <dt><code><a href='removeReporters-methods.html'>removeReporters(object, ...)</a></code></dt><dd><p>Removes all reporter ion
       peaks. See <code><a href='removeReporters-methods.html'>removeReporters</a></code> documentation for more
       details and examples.</p></dd>
     <dt><code>precAcquisitionNum</code>:</dt><dd><p>Returns the precursor's
@@ -151,9 +212,9 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Virtual super-class <code>"<a href='Spectrum-class.html'>Spectrum</a>"</code>,
+    <div class='dont-index'><p>Virtual super-class <code>"<a href='Spectrum-class.html'>Spectrum</a>"</code>,
   <code>"<a href='Spectrum1-class.html'>Spectrum1</a>"</code> for MS1 spectra and
-  <code>"<a href='MSnExp-class.html'>MSnExp</a>"</code> for a full experiment container.</p>
+  <code>"<a href='MSnExp-class.html'>MSnExp</a>"</code> for a full experiment container.</p></div>
     
 
   </div>
@@ -183,11 +244,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+
