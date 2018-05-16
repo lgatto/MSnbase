@@ -18,11 +18,28 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="Documenting missing data visualisation — missing-data" />
+
+<meta property="og:description" content="" />
+
+<meta property="og:description" content="There is a need for adequate handling of missing value impuation in
+  quantitative proteomics. Before developing a framework to handle
+  missing data imputation optimally, we propose a set of visualisation
+  tools. This document serves as an internal notebook for current
+  progress and ideas that will eventually materialise in exported
+  functionality in the MSnbase package." />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,18 +63,49 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">MSnbase</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">MSnbase</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+    </li>
+    <li>
+      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -69,6 +117,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -76,12 +125,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Documenting missing data visualisation</h1>
+    
+    <div class="hidden name"><code>missing-data.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     
 
@@ -92,6 +144,7 @@
   progress and ideas that will eventually materialise in exported
   functionality in the <code>MSnbase</code> package.</p>
     
+    </div>
 
         
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -110,7 +163,7 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='plotNA-methods.html'>plotNA</a></code>, <code><a href='imageNA2.html'>imageNA2</a></code>.</p>
+    <div class='dont-index'><p><code><a href='plotNA-methods.html'>plotNA</a></code>, <code><a href='imageNA2.html'>imageNA2</a></code>.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -124,13 +177,13 @@
 <span class='fu'>par</span>(<span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>3</span>, <span class='fl'>1</span>))
 <span class='fu'>barplot</span>(<span class='fu'>table</span>(<span class='fu'>rowSums</span>(<span class='fu'>is.na</span>(<span class='no'>nax</span>))), <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"All"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in rowSums(is.na(nax)): object 'nax' not found</span></div><div class='input'><span class='fu'>barplot</span>(<span class='fu'>table</span>(<span class='fu'>rowSums</span>(<span class='fu'>is.na</span>(<span class='no'>nax</span>)[<span class='no'>sel1</span>,])), <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Group A"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in rowSums(is.na(nax)[sel1, ]): object 'nax' not found</span></div><div class='input'><span class='fu'>barplot</span>(<span class='fu'>table</span>(<span class='fu'>rowSums</span>(<span class='fu'>is.na</span>(<span class='no'>nax</span>)[!<span class='no'>sel1</span>,])), <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Group B"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in rowSums(is.na(nax)[!sel1, ]): object 'nax' not found</span></div><div class='input'>
 
-<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA1</span> <span class='kw'>&lt;-</span> <span class='fu'>rowSums</span>(<span class='fu'>is.na</span>(<span class='no'>nax</span>)[, <span class='no'>sel1</span>])</div><div class='output co'>#&gt; <span class='error'>Error in rowSums(is.na(nax)[, sel1]): object 'nax' not found</span></div><div class='input'><span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA2</span> <span class='kw'>&lt;-</span> <span class='fu'>rowSums</span>(<span class='fu'>is.na</span>(<span class='no'>nax</span>)[, !<span class='no'>sel1</span>])</div><div class='output co'>#&gt; <span class='error'>Error in rowSums(is.na(nax)[, !sel1]): object 'nax' not found</span></div><div class='input'><span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA</span> <span class='kw'>&lt;-</span> <span class='fu'>rowSums</span>(<span class='fu'>is.na</span>(<span class='no'>nax</span>))</div><div class='output co'>#&gt; <span class='error'>Error in rowSums(is.na(nax)): object 'nax' not found</span></div><div class='input'><span class='no'>o</span> <span class='kw'>&lt;-</span> <span class='kw'>MSnbase</span><span class='kw'>:::</span><span class='fu'><a href='imageNA2.html'>imageNA2</a></span>(<span class='no'>nax</span>, <span class='no'>pcol</span>)</div><div class='output co'>#&gt; <span class='error'>Error in MSnbase:::imageNA2(nax, pcol): object 'pcol' not found</span></div><div class='input'>
+<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA1</span> <span class='kw'>&lt;-</span> <span class='fu'>rowSums</span>(<span class='fu'>is.na</span>(<span class='no'>nax</span>)[, <span class='no'>sel1</span>])</div><div class='output co'>#&gt; <span class='error'>Error in rowSums(is.na(nax)[, sel1]): object 'nax' not found</span></div><div class='input'><span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA2</span> <span class='kw'>&lt;-</span> <span class='fu'>rowSums</span>(<span class='fu'>is.na</span>(<span class='no'>nax</span>)[, !<span class='no'>sel1</span>])</div><div class='output co'>#&gt; <span class='error'>Error in rowSums(is.na(nax)[, !sel1]): object 'nax' not found</span></div><div class='input'><span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA</span> <span class='kw'>&lt;-</span> <span class='fu'>rowSums</span>(<span class='fu'>is.na</span>(<span class='no'>nax</span>))</div><div class='output co'>#&gt; <span class='error'>Error in rowSums(is.na(nax)): object 'nax' not found</span></div><div class='input'><span class='no'>o</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/MSnbase/topics/imageNA2'>imageNA2</a></span>(<span class='no'>nax</span>, <span class='no'>pcol</span>)</div><div class='output co'>#&gt; <span class='error'>Error in MSnbase:::imageNA2(nax, pcol): object 'pcol' not found</span></div><div class='input'>
 <span class='fu'><a href='plot-methods.html'>plot</a></span>((<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA1</span> - <span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA2</span>)[<span class='no'>o</span>], <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in fData(nax): object 'nax' not found</span></div><div class='input'><span class='fu'>grid</span>()</div><div class='output co'>#&gt; <span class='error'>Error in int_abline(a = a, b = b, h = h, v = v, untf = untf, ...): plot.new has not been called yet</span></div><div class='input'>
 <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'>sort</span>(<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA1</span> - <span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA2</span>), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in fData(nax): object 'nax' not found</span></div><div class='input'><span class='fu'>grid</span>()</div><div class='output co'>#&gt; <span class='error'>Error in int_abline(a = a, b = b, h = h, v = v, untf = untf, ...): plot.new has not been called yet</span></div><div class='input'>
 
-<span class='no'>o2</span> <span class='kw'>&lt;-</span> <span class='fu'>order</span>(<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA1</span> - <span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA2</span>)</div><div class='output co'>#&gt; <span class='error'>Error in fData(nax): object 'nax' not found</span></div><div class='input'><span class='kw'>MSnbase</span><span class='kw'>:::</span><span class='fu'><a href='imageNA2.html'>imageNA2</a></span>(<span class='no'>nax</span>, <span class='no'>pcol</span>, <span class='kw'>Rowv</span><span class='kw'>=</span><span class='no'>o2</span>)</div><div class='output co'>#&gt; <span class='error'>Error in MSnbase:::imageNA2(nax, pcol, Rowv = o2): object 'pcol' not found</span></div><div class='input'>
+<span class='no'>o2</span> <span class='kw'>&lt;-</span> <span class='fu'>order</span>(<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA1</span> - <span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA2</span>)</div><div class='output co'>#&gt; <span class='error'>Error in fData(nax): object 'nax' not found</span></div><div class='input'><span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/MSnbase/topics/imageNA2'>imageNA2</a></span>(<span class='no'>nax</span>, <span class='no'>pcol</span>, <span class='kw'>Rowv</span><span class='kw'>=</span><span class='no'>o2</span>)</div><div class='output co'>#&gt; <span class='error'>Error in MSnbase:::imageNA2(nax, pcol, Rowv = o2): object 'pcol' not found</span></div><div class='input'>
 <span class='fu'>layout</span>(<span class='fu'>matrix</span>(<span class='fu'>c</span>(<span class='fu'>rep</span>(<span class='fl'>1</span>, <span class='fl'>10</span>), <span class='fu'>rep</span>(<span class='fl'>2</span>, <span class='fl'>5</span>)), <span class='kw'>nc</span> <span class='kw'>=</span> <span class='fl'>3</span>))
-<span class='kw'>MSnbase</span><span class='kw'>:::</span><span class='fu'><a href='imageNA2.html'>imageNA2</a></span>(<span class='no'>nax</span>, <span class='no'>pcol</span>, <span class='kw'>Rowv</span><span class='kw'>=</span><span class='no'>o2</span>)</div><div class='output co'>#&gt; <span class='error'>Error in MSnbase:::imageNA2(nax, pcol, Rowv = o2): object 'pcol' not found</span></div><div class='input'><span class='fu'><a href='plot-methods.html'>plot</a></span>((<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA1</span> - <span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA</span>)[<span class='no'>o2</span>], <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>,
+<span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/MSnbase/topics/imageNA2'>imageNA2</a></span>(<span class='no'>nax</span>, <span class='no'>pcol</span>, <span class='kw'>Rowv</span><span class='kw'>=</span><span class='no'>o2</span>)</div><div class='output co'>#&gt; <span class='error'>Error in MSnbase:::imageNA2(nax, pcol, Rowv = o2): object 'pcol' not found</span></div><div class='input'><span class='fu'><a href='plot-methods.html'>plot</a></span>((<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA1</span> - <span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA</span>)[<span class='no'>o2</span>], <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>,
      <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='fu'>c</span>(-<span class='fl'>9</span>, <span class='fl'>9</span>), <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>""</span>)</div><div class='output co'>#&gt; <span class='error'>Error in fData(nax): object 'nax' not found</span></div><div class='input'><span class='fu'>lines</span>((<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA</span> - <span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA2</span>)[<span class='no'>o2</span>], <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"steelblue"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in fData(nax): object 'nax' not found</span></div><div class='input'><span class='fu'>lines</span>((<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA1</span> - <span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA2</span>)[<span class='no'>o2</span>], <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>,
      <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; <span class='error'>Error in fData(nax): object 'nax' not found</span></div><div class='input'>
 </div></pre>
@@ -158,11 +211,14 @@ Burger
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

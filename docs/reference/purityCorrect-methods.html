@@ -18,11 +18,49 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="Performs reporter ions purity correction — purityCorrect-methods" />
+
+<meta property="og:description" content="Manufacturers sometimes provide purity correction values indicating
+  the percentages of each reporter ion that have masses differing by
+  +/- n Da from the nominal reporter ion mass due to isotopic
+  variants. This correction is generally applied after reporter peaks
+  quantitation.
+Purity correction here is applied using solve from the
+  base package using the purity correction values as coefficient of
+  the linear system and the reporter quantities as the right-hand side
+  of the linear system. 'NA' values are ignored and negative
+  intensities after correction are also set to 'NA'.
+A more elaborated purity correction method is described in
+  Shadforth et al., i-Tracker: for quantitative proteomics using
+  iTRAQ. BMC Genomics. 2005 Oct 20;6:145. (PMID 16242023).
+Function makeImpuritiesMatrix(x, filename, edit = TRUE) helps
+  the user to create such a matrix. The function can be used in two ways.
+  If given an integer x, it is used as the dimension of the
+  square matrix (i.e the number of reporter ions). For TMT6-plex and
+  iTRAQ4-plex, default values taken from manufacturer's certification
+  sheets are used as templates, but batch specific values should be used
+  whenever possible. Alternatively, the filename of a csv
+  spreadsheet can be provided. The sheet should define the correction
+  factors as illustrated below (including reporter names in the first
+  column and header row) and the corresponding correction matrix is
+  calculated. Examples of such csv files are available in the
+  package's extdata directory. Use
+  dir(system.file("extdata", package = "MSnbase"), pattern =
+    "PurityCorrection", full.names = TRUE) to locate them.
+  If edit = TRUE, the the matrix can be edited before
+  it is returned." />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,18 +84,49 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">MSnbase</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">MSnbase</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+    </li>
+    <li>
+      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -69,6 +138,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -76,12 +146,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Performs reporter ions purity correction</h1>
+    
+    <div class="hidden name"><code>purityCorrect-methods.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Manufacturers sometimes provide purity correction values indicating
   the percentages of each reporter ion that have masses differing by
@@ -113,9 +186,10 @@
   If <code>edit = TRUE</code>, the the matrix can be edited before
   it is returned.</p>
     
+    </div>
 
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -129,569 +203,105 @@
     The reporter ions should be ordered along the columns
     and the relative percentages along the rows.</p>
 <p>As an example, below is the correction factors as provided in an ABI
-    iTRAQ 4-plex certificate of analysis:</p><table><tr><td>
-      reporter </td>
-<td> % of -2 </td>
-<td> % of -1 </td>
-<td> % of +1 </td>
-</tr><tr><td> % of +2 </td>
-<td>
-      114 </td>
-<td> 0.0 </td>
-<td> 1.0 </td>
-</tr><tr><td> 5.9 </td>
-<td> 0.2 </td>
-<td>
-      115 </td>
-<td> 0.0 </td>
-</tr><tr><td> 2.0 </td>
-<td> 5.6 </td>
-<td> 0.1 </td>
-<td>
-      116 </td>
-</tr><tr><td> 0.0 </td>
-<td> 3.0 </td>
-<td> 4.5 </td>
-<td> 0.1 </td>
-</tr><tr><td>
-      117 </td>
-<td> 0.1 </td>
-<td> 4.0 </td>
-<td> 3.5 </td>
-</tr><tr><td> 0.1 </td>
-<td>
-      reporter </td>
-<td> % of -2 </td>
-<td> % of -1 </td>
-</tr></table>
+    iTRAQ 4-plex certificate of analysis:</p><table class='table'>
+<tr><td>reporter</td><td>% of -2</td><td>% of -1</td><td>% of +1</td><td>% of +2</td></tr>
+<tr><td>114</td><td>0.0</td><td>1.0</td><td>5.9</td><td>0.2</td></tr>
+<tr><td>115</td><td>0.0</td><td>2.0</td><td>5.6</td><td>0.1</td></tr>
+<tr><td>116</td><td>0.0</td><td>3.0</td><td>4.5</td><td>0.1</td></tr>
+<tr><td>117</td><td>0.1</td><td>4.0</td><td>3.5</td><td>0.1</td></tr>
+</table>
 
-<p>The impurity table will be</p><table><tr><td>
-      0.929 </td>
-<td> 0.059 </td>
-<td> 0.002 </td>
-</tr><tr><td> 0.000 </td>
-<td>
-      0.020 </td>
-<td> 0.923 </td>
-</tr><tr><td> 0.056 </td>
-<td> 0.001 </td>
-<td>
-      0.000 </td>
-</tr><tr><td> 0.030 </td>
-<td> 0.924 </td>
-<td> 0.045 </td>
-</tr><tr><td>
-      0.000 </td>
-<td> 0.001 </td>
-<td> 0.040 </td>
-</tr><tr><td> 0.923 </td>
-<td>
-      0.929 </td>
-<td> 0.059 </td>
-</tr></table><p>where, the diagonal is computed as 100 - sum of rows of the
+
+<p>The impurity table will be</p><table class='table'>
+<tr><td>0.929</td><td>0.059</td><td>0.002</td><td>0.000</td></tr>
+<tr><td>0.020</td><td>0.923</td><td>0.056</td><td>0.001</td></tr>
+<tr><td>0.000</td><td>0.030</td><td>0.924</td><td>0.045</td></tr>
+<tr><td>0.000</td><td>0.001</td><td>0.040</td><td>0.923</td></tr>
+</table>
+<p>where, the diagonal is computed as 100 - sum of rows of the
     original table and subsequent cells are directly filled in.</p>
-<p>Similarly, for TMT 6-plex tags, we observe</p><table><tr><td>
-      reporter </td>
-<td> % of -3 </td>
-<td> % of -2 </td>
-<td> % of -1 </td>
-<td> % of +1 % </td>
-<td> % of +2 </td>
-</tr><tr><td> % of +3 </td>
-<td>
-      126 </td>
-<td> 0 </td>
-<td> 0 </td>
-<td> 0 </td>
-<td> 6.1 </td>
-</tr><tr><td> 0 </td>
-<td> 0 </td>
-<td>
-      127 </td>
-<td> 0 </td>
-<td> 0 </td>
-<td> 0.5 </td>
-</tr><tr><td> 6.7 </td>
-<td> 0 </td>
-<td> 0 </td>
-<td>
-      128 </td>
-<td> 0 </td>
-<td> 0 </td>
-</tr><tr><td> 1.1 </td>
-<td> 4.2 </td>
-<td> 0 </td>
-<td> 0 </td>
-<td>
-      129 </td>
-<td> 0 </td>
-</tr><tr><td> 0 </td>
-<td> 1.7 </td>
-<td> 4.1 </td>
-<td> 0 </td>
-<td> 0 </td>
-<td>
-      130 </td>
-</tr><tr><td> 0 </td>
-<td> 0 </td>
-<td> 1.6 </td>
-<td> 2.1 </td>
-<td> 0 </td>
-<td> 0 </td>
-</tr><tr><td>
-      131 </td>
-<td> 0 </td>
-<td> 0.2 </td>
-<td> 3.2 </td>
-<td> 2.8 </td>
-<td> 0 </td>
-</tr><tr><td> 0 </td>
-<td>
-      reporter </td>
-<td> % of -3 </td>
-<td> % of -2 </td>
-<td> % of -1 </td>
-<td> % of +1 % </td>
-</tr></table><p>and obtain the following impurity correction matrix</p><table><tr><td>
-      0.939 </td>
-<td> 0.061 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-</tr><tr><td> 0.000 </td>
-<td>
-      0.005 </td>
-<td> 0.928 </td>
-<td> 0.067 </td>
-<td> 0.000 </td>
-</tr><tr><td> 0.000 </td>
-<td> 0.000 </td>
-<td>
-      0.000 </td>
-<td> 0.011 </td>
-<td> 0.947 </td>
-</tr><tr><td> 0.042 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-<td>
-      0.000 </td>
-<td> 0.000 </td>
-</tr><tr><td> 0.017 </td>
-<td> 0.942 </td>
-<td> 0.041 </td>
-<td> 0.000 </td>
-<td>
-      0.000 </td>
-</tr><tr><td> 0.000 </td>
-<td> 0.000 </td>
-<td> 0.016 </td>
-<td> 0.963 </td>
-<td> 0.021 </td>
-</tr><tr><td>
-      0.000 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-<td> 0.002 </td>
-<td> 0.032 </td>
-</tr><tr><td> 0.938 </td>
-<td>
-      0.939 </td>
-<td> 0.061 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-</tr></table>
+<p>Similarly, for TMT 6-plex tags, we observe</p><table class='table'>
+<tr><td>reporter</td><td>% of -3</td><td>% of -2</td><td>% of -1</td><td>% of +1 %</td><td>% of +2</td><td>% of +3</td></tr>
+<tr><td>126</td><td>0</td><td>0</td><td>0</td><td>6.1</td><td>0</td><td>0</td></tr>
+<tr><td>127</td><td>0</td><td>0</td><td>0.5</td><td>6.7</td><td>0</td><td>0</td></tr>
+<tr><td>128</td><td>0</td><td>0</td><td>1.1</td><td>4.2</td><td>0</td><td>0</td></tr>
+<tr><td>129</td><td>0</td><td>0</td><td>1.7</td><td>4.1</td><td>0</td><td>0</td></tr>
+<tr><td>130</td><td>0</td><td>0</td><td>1.6</td><td>2.1</td><td>0</td><td>0</td></tr>
+<tr><td>131</td><td>0</td><td>0.2</td><td>3.2</td><td>2.8</td><td>0</td><td>0</td></tr>
+</table>
+<p>and obtain the following impurity correction matrix</p><table class='table'>
+<tr><td>0.939</td><td>0.061</td><td>0.000</td><td>0.000</td><td>0.000</td><td>0.000</td></tr>
+<tr><td>0.005</td><td>0.928</td><td>0.067</td><td>0.000</td><td>0.000</td><td>0.000</td></tr>
+<tr><td>0.000</td><td>0.011</td><td>0.947</td><td>0.042</td><td>0.000</td><td>0.000</td></tr>
+<tr><td>0.000</td><td>0.000</td><td>0.017</td><td>0.942</td><td>0.041</td><td>0.000</td></tr>
+<tr><td>0.000</td><td>0.000</td><td>0.000</td><td>0.016</td><td>0.963</td><td>0.021</td></tr>
+<tr><td>0.000</td><td>0.000</td><td>0.000</td><td>0.002</td><td>0.032</td><td>0.938</td></tr>
+</table>
+
 
 <p>For iTRAQ 8-plex, given the following correction factors (to make
     such a matrix square, if suffices to add -4, -3, +3 and +4 columns
     filled with zeros):</p>
-<p></p><table><tr><td>
-      TAG </td>
-<td> -2 </td>
-<td> -1 </td>
-<td> +1 </td>
-</tr><tr><td> +2 </td>
-<td>
-      113 </td>
-<td>	0 </td>
-<td>	2.5 </td>
-</tr><tr><td> 3 </td>
-<td>	0.1 </td>
-<td>
-      114 </td>
-<td>	0 </td>
-</tr><tr><td>	1 </td>
-<td> 5.9 </td>
-<td>	0.2 </td>
-<td>
-      115 </td>
-</tr><tr><td>	0 </td>
-<td>	2 </td>
-<td> 5.6 </td>
-<td>	0.1 </td>
-</tr><tr><td>
-      116 </td>
-<td>	0 </td>
-<td>	3 </td>
-<td> 4.5 </td>
-</tr><tr><td>	0.1 </td>
-<td>
-      117 </td>
-<td>	0.1 </td>
-<td> 4 </td>
-</tr><tr><td>	 3.5 </td>
-<td> 0.1 </td>
-<td>
-      118 </td>
-<td>	0.1 </td>
-</tr><tr><td> 2 </td>
-<td>	3 </td>
-<td> 0.1 </td>
-<td>
-      119 </td>
-</tr><tr><td>	0.1 </td>
-<td> 2 </td>
-<td>	4 </td>
-<td> 0.1 </td>
-</tr><tr><td>
-      121 </td>
-<td>	0.1 </td>
-<td> 2 </td>
-<td>	3 </td>
-</tr><tr><td> 0.1 </td>
-<td>
-      TAG </td>
-<td> -2 </td>
-<td> -1 </td>
-</tr></table>
+<p></p><table class='table'>
+<tr><td>TAG</td><td>-2</td><td>-1</td><td>+1</td><td>+2</td></tr>
+<tr><td>113</td><td>0</td><td>2.5</td><td>3</td><td>0.1</td></tr>
+<tr><td>114</td><td>0</td><td>1</td><td>5.9</td><td>0.2</td></tr>
+<tr><td>115</td><td>0</td><td>2</td><td>5.6</td><td>0.1</td></tr>
+<tr><td>116</td><td>0</td><td>3</td><td>4.5</td><td>0.1</td></tr>
+<tr><td>117</td><td>0.1</td><td>4</td><td>3.5</td><td>0.1</td></tr>
+<tr><td>118</td><td>0.1</td><td>2</td><td>3</td><td>0.1</td></tr>
+<tr><td>119</td><td>0.1</td><td>2</td><td>4</td><td>0.1</td></tr>
+<tr><td>121</td><td>0.1</td><td>2</td><td>3</td><td>0.1</td></tr>
+</table>
+
 
 <p>we calculate the impurity correction matrix shown below</p>
-<p></p><table><tr><td>
-                      </td>
-<td> 113   </td>
-<td> 114   </td>
-<td> 115   </td>
-<td> 116   </td>
-<td> 117   </td>
-<td> 118   </td>
-<td> 119   </td>
-</tr><tr><td> 121 </td>
-<td>
-      % reporter 113 </td>
-<td> 0.944 </td>
-<td> 0.030 </td>
-<td> 0.001 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-</tr><tr><td> 0.000 </td>
-<td> 0.000 </td>
-<td>
-      % reporter 114 </td>
-<td> 0.010 </td>
-<td> 0.929 </td>
-<td> 0.059 </td>
-<td> 0.002 </td>
-<td> 0.000 </td>
-</tr><tr><td> 0.000 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-<td>
-      % reporter 115 </td>
-<td> 0.000 </td>
-<td> 0.020 </td>
-<td> 0.923 </td>
-<td> 0.056 </td>
-</tr><tr><td> 0.001 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-<td>
-      % reporter 116 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-<td> 0.030 </td>
-</tr><tr><td> 0.924 </td>
-<td> 0.045 </td>
-<td> 0.001 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-<td>
-      % reporter 117 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-</tr><tr><td> 0.001 </td>
-<td> 0.040 </td>
-<td> 0.923 </td>
-<td> 0.035 </td>
-<td> 0.001 </td>
-<td> 0.000 </td>
-<td>
-      % reporter 118 </td>
-<td> 0.000 </td>
-</tr><tr><td> 0.000 </td>
-<td> 0.000 </td>
-<td> 0.001 </td>
-<td> 0.020 </td>
-<td> 0.948 </td>
-<td> 0.030 </td>
-<td> 0.001 </td>
-<td>
-      % reporter 119 </td>
-</tr><tr><td> 0.000 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-<td> 0.001 </td>
-<td> 0.020 </td>
-<td> 0.938 </td>
-<td> 0.040 </td>
-</tr><tr><td>
-      % reporter 121 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-<td> 0.000 </td>
-<td> 0.001 </td>
-<td> 0.020 </td>
-</tr><tr><td> 0.948 </td>
-<td>
-                      </td>
-<td> 113   </td>
-<td> 114   </td>
-<td> 115   </td>
-<td> 116   </td>
-<td> 117   </td>
-<td> 118   </td>
-</tr></table>
+<p></p><table class='table'>
+<tr><td></td><td>113</td><td>114</td><td>115</td><td>116</td><td>117</td><td>118</td><td>119</td><td>121</td></tr>
+<tr><td>% reporter 113</td><td>0.944</td><td>0.030</td><td>0.001</td><td>0.000</td><td>0.000</td><td>0.000</td><td>0.000</td><td>0.000</td></tr>
+<tr><td>% reporter 114</td><td>0.010</td><td>0.929</td><td>0.059</td><td>0.002</td><td>0.000</td><td>0.000</td><td>0.000</td><td>0.000</td></tr>
+<tr><td>% reporter 115</td><td>0.000</td><td>0.020</td><td>0.923</td><td>0.056</td><td>0.001</td><td>0.000</td><td>0.000</td><td>0.000</td></tr>
+<tr><td>% reporter 116</td><td>0.000</td><td>0.000</td><td>0.030</td><td>0.924</td><td>0.045</td><td>0.001</td><td>0.000</td><td>0.000</td></tr>
+<tr><td>% reporter 117</td><td>0.000</td><td>0.000</td><td>0.001</td><td>0.040</td><td>0.923</td><td>0.035</td><td>0.001</td><td>0.000</td></tr>
+<tr><td>% reporter 118</td><td>0.000</td><td>0.000</td><td>0.000</td><td>0.001</td><td>0.020</td><td>0.948</td><td>0.030</td><td>0.001</td></tr>
+<tr><td>% reporter 119</td><td>0.000</td><td>0.000</td><td>0.000</td><td>0.000</td><td>0.001</td><td>0.020</td><td>0.938</td><td>0.040</td></tr>
+<tr><td>% reporter 121</td><td>0.000</td><td>0.000</td><td>0.000</td><td>0.000</td><td>0.000</td><td>0.001</td><td>0.020</td><td>0.948</td></tr>
+</table>
+
 
 
 <p>Finally, for a TMT 10-plex impurity matrix</p>
-<p></p><table><tr><td>
-      .   </td>
-<td> -2 </td>
-<td> -1 </td>
-<td> 1 </td>
-<td> 2 </td>
-<td>
-      126 </td>
-<td>  0.0 </td>
-<td> 0.00 </td>
-<td> 4.69 (127C) </td>
-</tr><tr><td> 0.0 (128N) </td>
-<td>
-      127N </td>
-<td> 0.0 </td>
-<td> 0.40 </td>
-<td> 6.50 (128N) </td>
-<td> 0.0 (128C) </td>
-<td>
-      127C </td>
-<td> 0.0 </td>
-<td> 0.20 (126) </td>
-</tr><tr><td> 4.60 (128C) </td>
-<td> 0.3 (129N) </td>
-<td>
-      128N </td>
-<td> 0.0 </td>
-<td> 0.90 (127N) </td>
-<td> 4.70 (129N) </td>
-<td> 0.2 (129C) </td>
-<td>
-      128C </td>
-<td> 0.1 (126) </td>
-</tr><tr><td> 0.53 (127C) </td>
-<td> 2.59 (129C) </td>
-<td> 0.0 (130N) </td>
-<td>
-      129N </td>
-<td> 0.0 (127N) </td>
-<td> 0.73 (128N) </td>
-<td> 2.49 (130N) </td>
-<td> 0.0 (130C) </td>
-<td>
-      129C </td>
-</tr><tr><td> 0.0 (127C) </td>
-<td> 1.30 (128C) </td>
-<td> 2.50 (130C) </td>
-<td> 0.0 (131) </td>
-<td>
-      130N </td>
-<td> 0.0 (128N) </td>
-<td> 1.20 (129N) </td>
-<td> 2.80 (131) </td>
-<td> 2.7 </td>
-</tr><tr><td>
-      130C </td>
-<td> 0.1 (128C) </td>
-<td> 2.90 (129C) </td>
-<td> 2.90 </td>
-<td> 0.0 </td>
-<td>
-      131 </td>
-<td>  0.0 (129N) </td>
-<td> 2.36 (130N) </td>
-<td> 1.43 </td>
-</tr><tr><td> 0.0 </td>
-<td>
-      .   </td>
-<td> -2 </td>
-<td> -1 </td>
-<td> 1 </td>
-<td> 2 </td>
-<td>
-      126 </td>
-<td>  0.0 </td>
-<td> 0.00 </td>
-</tr></table>
+<p></p><table class='table'>
+<tr><td>.</td><td>-2</td><td>-1</td><td>1</td><td>2</td><td>126</td><td>0.0</td><td>0.00</td><td>4.69 (127C)</td><td>0.0 (128N)</td></tr>
+<tr><td>127N</td><td>0.0</td><td>0.40</td><td>6.50 (128N)</td><td>0.0 (128C)</td><td>127C</td><td>0.0</td><td>0.20 (126)</td><td>4.60 (128C)</td><td>0.3 (129N)</td></tr>
+<tr><td>128N</td><td>0.0</td><td>0.90 (127N)</td><td>4.70 (129N)</td><td>0.2 (129C)</td><td>128C</td><td>0.1 (126)</td><td>0.53 (127C)</td><td>2.59 (129C)</td><td>0.0 (130N)</td></tr>
+<tr><td>129N</td><td>0.0 (127N)</td><td>0.73 (128N)</td><td>2.49 (130N)</td><td>0.0 (130C)</td><td>129C</td><td>0.0 (127C)</td><td>1.30 (128C)</td><td>2.50 (130C)</td><td>0.0 (131)</td></tr>
+<tr><td>130N</td><td>0.0 (128N)</td><td>1.20 (129N)</td><td>2.80 (131)</td><td>2.7</td><td>130C</td><td>0.1 (128C)</td><td>2.90 (129C)</td><td>2.90</td><td>0.0</td></tr>
+<tr><td>131</td><td>0.0 (129N)</td><td>2.36 (130N)</td><td>1.43</td><td>0.0</td><td>.</td><td>-2</td><td>-1</td><td>1</td><td>2</td></tr>
+</table>
+
 
 <p>the impurity correction matrix is</p>
-<p></p><table><tr><td>
-      .              </td>
-<td> 126 </td>
-<td> 127N </td>
-<td> 127C </td>
-<td> 128N </td>
-<td> 128C </td>
-<td> 129N </td>
-<td> 129C </td>
-<td> 130N </td>
-<td> 130C </td>
-</tr><tr><td> 131 </td>
-<td>
-      % reporter 126 </td>
-<td>  0.9531 </td>
-<td> 0.000 </td>
-<td> 0.0469 </td>
-<td> 0.0000 </td>
-<td> 0.0000 </td>
-<td> 0.0000 </td>
-<td> 0.0000 </td>
-<td> 0.0000 </td>
-</tr><tr><td> 0.000 </td>
-<td> 0.0000 </td>
-<td>
-      % reporter 127N </td>
-<td> 0.0000 </td>
-<td> 0.931 </td>
-<td> 0.0000 </td>
-<td> 0.0650 </td>
-<td> 0.0000 </td>
-<td> 0.0000 </td>
-<td> 0.0000 </td>
-</tr><tr><td> 0.0000 </td>
-<td> 0.000 </td>
-<td> 0.0000 </td>
-<td>
-      % reporter 127C </td>
-<td> 0.0020 </td>
-<td> 0.000 </td>
-<td> 0.9490 </td>
-<td> 0.0000 </td>
-<td> 0.0460 </td>
-<td> 0.0030 </td>
-</tr><tr><td> 0.0000 </td>
-<td> 0.0000 </td>
-<td> 0.000 </td>
-<td> 0.0000 </td>
-<td>
-      % reporter 128N </td>
-<td> 0.0000 </td>
-<td> 0.009 </td>
-<td> 0.0000 </td>
-<td> 0.9420 </td>
-<td> 0.0000 </td>
-</tr><tr><td> 0.0470 </td>
-<td> 0.0020 </td>
-<td> 0.0000 </td>
-<td> 0.000 </td>
-<td> 0.0000 </td>
-<td>
-      % reporter 128C </td>
-<td> 0.0010 </td>
-<td> 0.000 </td>
-<td> 0.0053 </td>
-<td> 0.0000 </td>
-</tr><tr><td> 0.9678 </td>
-<td> 0.0000 </td>
-<td> 0.0259 </td>
-<td> 0.0000 </td>
-<td> 0.000 </td>
-<td> 0.0000 </td>
-<td>
-      % reporter 129N </td>
-<td> 0.0000 </td>
-<td> 0.000 </td>
-<td> 0.0000 </td>
-</tr><tr><td> 0.0073 </td>
-<td> 0.0000 </td>
-<td> 0.9678 </td>
-<td> 0.0000 </td>
-<td> 0.0249 </td>
-<td> 0.000 </td>
-<td> 0.0000 </td>
-<td>
-      % reporter 129C </td>
-<td> 0.0000 </td>
-<td> 0.000 </td>
-</tr><tr><td> 0.0000 </td>
-<td> 0.0000 </td>
-<td> 0.0130 </td>
-<td> 0.0000 </td>
-<td> 0.9620 </td>
-<td> 0.0000 </td>
-<td> 0.025 </td>
-<td> 0.0000 </td>
-<td>
-      % reporter 130N </td>
-<td> 0.0000 </td>
-</tr><tr><td> 0.000 </td>
-<td> 0.0000 </td>
-<td> 0.0000 </td>
-<td> 0.0000 </td>
-<td> 0.0120 </td>
-<td> 0.0000 </td>
-<td> 0.9330 </td>
-<td> 0.000 </td>
-<td> 0.0280 </td>
-<td>
-      % reporter 130C </td>
-</tr><tr><td> 0.0000 </td>
-<td> 0.000 </td>
-<td> 0.0000 </td>
-<td> 0.0000 </td>
-<td> 0.0010 </td>
-<td> 0.0000 </td>
-<td> 0.0290 </td>
-<td> 0.0000 </td>
-<td> 0.941 </td>
-<td> 0.0000 </td>
-</tr><tr><td>
-      % reporter 131 </td>
-<td>  0.0000 </td>
-<td> 0.000 </td>
-<td> 0.0000 </td>
-<td> 0.0000 </td>
-<td> 0.0000 </td>
-<td> 0.0000 </td>
-<td> 0.0000 </td>
-<td> 0.0236 </td>
-<td> 0.000 </td>
-</tr><tr><td> 0.9621 </td>
-<td>
-      .              </td>
-<td> 126 </td>
-<td> 127N </td>
-<td> 127C </td>
-<td> 128N </td>
-<td> 128C </td>
-<td> 129N </td>
-<td> 129C </td>
-<td> 130N </td>
-</tr></table>
+    
+<p></p><table class='table'>
+<tr><td>.</td><td>126</td><td>127N</td><td>127C</td><td>128N</td><td>128C</td><td>129N</td><td>129C</td><td>130N</td><td>130C</td><td>131</td></tr>
+<tr><td>% reporter 126</td><td>0.9531</td><td>0.000</td><td>0.0469</td><td>0.0000</td><td>0.0000</td><td>0.0000</td><td>0.0000</td><td>0.0000</td><td>0.000</td><td>0.0000</td></tr>
+<tr><td>% reporter 127N</td><td>0.0000</td><td>0.931</td><td>0.0000</td><td>0.0650</td><td>0.0000</td><td>0.0000</td><td>0.0000</td><td>0.0000</td><td>0.000</td><td>0.0000</td></tr>
+<tr><td>% reporter 127C</td><td>0.0020</td><td>0.000</td><td>0.9490</td><td>0.0000</td><td>0.0460</td><td>0.0030</td><td>0.0000</td><td>0.0000</td><td>0.000</td><td>0.0000</td></tr>
+<tr><td>% reporter 128N</td><td>0.0000</td><td>0.009</td><td>0.0000</td><td>0.9420</td><td>0.0000</td><td>0.0470</td><td>0.0020</td><td>0.0000</td><td>0.000</td><td>0.0000</td></tr>
+<tr><td>% reporter 128C</td><td>0.0010</td><td>0.000</td><td>0.0053</td><td>0.0000</td><td>0.9678</td><td>0.0000</td><td>0.0259</td><td>0.0000</td><td>0.000</td><td>0.0000</td></tr>
+<tr><td>% reporter 129N</td><td>0.0000</td><td>0.000</td><td>0.0000</td><td>0.0073</td><td>0.0000</td><td>0.9678</td><td>0.0000</td><td>0.0249</td><td>0.000</td><td>0.0000</td></tr>
+<tr><td>% reporter 129C</td><td>0.0000</td><td>0.000</td><td>0.0000</td><td>0.0000</td><td>0.0130</td><td>0.0000</td><td>0.9620</td><td>0.0000</td><td>0.025</td><td>0.0000</td></tr>
+<tr><td>% reporter 130N</td><td>0.0000</td><td>0.000</td><td>0.0000</td><td>0.0000</td><td>0.0000</td><td>0.0120</td><td>0.0000</td><td>0.9330</td><td>0.000</td><td>0.0280</td></tr>
+<tr><td>% reporter 130C</td><td>0.0000</td><td>0.000</td><td>0.0000</td><td>0.0000</td><td>0.0010</td><td>0.0000</td><td>0.0290</td><td>0.0000</td><td>0.941</td><td>0.0000</td></tr>
+<tr><td>% reporter 131</td><td>0.0000</td><td>0.000</td><td>0.0000</td><td>0.0000</td><td>0.0000</td><td>0.0000</td><td>0.0000</td><td>0.0236</td><td>0.000</td><td>0.9621</td></tr>
+</table>
 
+
+    
 <p>These examples are provided as defaults impurity correction matrices
-    in <code>makeImpuritiesMatrix</code>.</p></td>
+    in <code>makeImpuritiesMatrix</code>.</p>    
+<p></p></td>
     </tr>
     </table>
     
@@ -710,9 +320,9 @@
                        <span class='fl'>0.000</span>,<span class='fl'>0.030</span>,<span class='fl'>0.924</span>,<span class='fl'>0.045</span>,
                        <span class='fl'>0.000</span>,<span class='fl'>0.001</span>,<span class='fl'>0.040</span>,<span class='fl'>0.923</span>),
                      <span class='kw'>nrow</span><span class='kw'>=</span><span class='fl'>4</span>, <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='co'>## or, using makeImpuritiesMatrix()</span>
-<span class='co'>## Not run: impurities &amp;lt;- makeImpuritiesMatrix(4)</span>
-<span class='no'>msnset.crct</span> <span class='kw'>&lt;-</span> <span class='fu'>purityCorrect</span>(<span class='no'>msnset</span>, <span class='no'>impurities</span>)
+<span class='co'>## or, using makeImpuritiesMatrix()</span></div><span class='co'># NOT RUN {</span>
+<span class='no'>impurities</span> <span class='kw'>&lt;-</span> <span class='fu'>makeImpuritiesMatrix</span>(<span class='fl'>4</span>)
+<span class='co'># }</span><div class='input'><span class='no'>msnset.crct</span> <span class='kw'>&lt;-</span> <span class='fu'>purityCorrect</span>(<span class='no'>msnset</span>, <span class='no'>impurities</span>)
 <span class='fu'>head</span>(<span class='fu'>exprs</span>(<span class='no'>msnset</span>))</div><div class='output co'>#&gt;     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; X1   1347.6158  2247.3097  3927.6931  7661.1463
 #&gt; X10   739.9861   799.3501   712.5983   940.6793
@@ -728,7 +338,7 @@
 #&gt; X14  6809.7600  6090.7894  6799.5030  6636.1450</div><div class='input'><span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>msnset.crct</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#&gt; Purity corrected: Fri Apr 20 19:45:50 2018 
+#&gt; Purity corrected: Wed May 16 10:21:31 2018 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
 <span class='co'>## default impurity matrix for iTRAQ 8-plex</span>
 <span class='fu'>makeImpuritiesMatrix</span>(<span class='fl'>8</span>, <span class='kw'>edit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;                  113   114   115   116   117   118   119   121
@@ -783,11 +393,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

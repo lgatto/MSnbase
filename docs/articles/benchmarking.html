@@ -8,14 +8,17 @@
 <title>MSnbase2 benchmarking • MSnbase</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="MSnbase2 benchmarking">
+<meta property="og:description" content="">
+<meta name="twitter:card" content="summary">
+<!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
 <body>
-    <div class="container template-vignette">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -24,18 +27,49 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">MSnbase</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">MSnbase</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
 <li>
-  <a href="../articles/index.html">Articles</a>
+      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+    </li>
+    <li>
+      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -55,28 +89,29 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>MSnbase2 benchmarking</h1>
                         <h4 class="author">Laurent Gatto</h4>
             <address class="author_afil">
       Computational Proteomics Unit, Cambridge, UK<br><h4 class="author">Johannes Rainer</h4>
             <address class="author_afil">
-      Center for Biomedicine, EURAC, Bolzano, Italy<br>
-</address>
+      Center for Biomedicine, EURAC, Bolzano, Italy<br><small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/master/vignettes/benchmarking.Rmd"><code>vignettes/benchmarking.Rmd</code></a></small>
+      <div class="hidden name"><code>benchmarking.Rmd</code></div>
+
+    </address>
 </address>
 </div>
 
     
     
-<div class="contents">
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
 <p>In this vignette, we will document various timings and benchmarkings of the recent <em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> development (aka <code>MSnbase2</code>), that focuses on <em>on-disk</em> data access (as opposed to <em>in-memory</em>). More details about the new implementation will be documented elsewhere.</p>
 <p>As a benchmarking dataset, we are going to use a subset of an TMT 6-plex experiment acquired on an LTQ Orbitrap Velos, that is distributed with the <em><a href="http://bioconductor.org/packages/msdata">msdata</a></em> package</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"msdata"</span>)
-f &lt;-<span class="st"> </span>msdata<span class="op">::</span><span class="kw">proteomics</span>(<span class="dt">full.names =</span> <span class="ot">TRUE</span>,
+f &lt;-<span class="st"> </span>msdata<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/msdata/topics/proteomics">proteomics</a></span>(<span class="dt">full.names =</span> <span class="ot">TRUE</span>,
                         <span class="dt">pattern =</span> <span class="st">"TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz"</span>)
 <span class="kw">basename</span>(f)</code></pre></div>
 <pre><code>## [1] "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz"</code></pre>
@@ -95,13 +130,13 @@ f &lt;-<span class="st"> </span>msdata<span class="op">::</span><span class="kw"
                                 <span class="dt">mode =</span> <span class="st">"inMemory"</span>,
                                 <span class="dt">centroided =</span> <span class="ot">TRUE</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   4.910   0.033   4.938</code></pre>
+##   5.730   0.028   5.841</code></pre>
 <p>Next, we use the <code>readMSData</code> function to generate an on-disk representation of the same data by setting <code>mode = "onDisk"</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(ondisk &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readMSData.html">readMSData</a></span>(f, <span class="dt">msLevel =</span> <span class="dv">2</span>,
                                   <span class="dt">mode =</span> <span class="st">"onDisk"</span>,
                                   <span class="dt">centroided =</span> <span class="ot">TRUE</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.454   0.120   1.484</code></pre>
+##   1.445   0.056   1.494</code></pre>
 <p>Creating the on-disk experiment is considerable faster and scales to much bigger, multi-file data, both in terms of object creation time, but also in terms of object size (see next section). We must of course make sure that these two datasets are equivalent:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all.equal</span>(inmem, ondisk)</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
@@ -111,15 +146,15 @@ f &lt;-<span class="st"> </span>msdata<span class="op">::</span><span class="kw"
 <a href="#data-size" class="anchor"></a>Data size</h2>
 <p>To compare the size occupied in memory of these two objects, we are going to use the <code>object_size</code> function from the <em><a href="https://CRAN.R-project.org/package=pryr">pryr</a></em> package, which accounts for the data (the spectra) in the <code>assayData</code> environment (as opposed to the <code>object.size</code> function from the <code>utils</code> package).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"pryr"</span>)
-<span class="kw">object_size</span>(inmem)</code></pre></div>
+<span class="kw"><a href="http://www.rdocumentation.org/packages/pryr/topics/object_size">object_size</a></span>(inmem)</code></pre></div>
 <pre><code>## 2.77 MB</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">object_size</span>(ondisk)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://www.rdocumentation.org/packages/pryr/topics/object_size">object_size</a></span>(ondisk)</code></pre></div>
 <pre><code>## 217 kB</code></pre>
 <p>The difference is explained by the fact that for <code>ondisk</code>, the spectra are not created and stored in memory; they are access on disk when needed, such as for example for plotting:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot-methods.html">plot</a></span>(inmem[[<span class="dv">200</span>]], <span class="dt">full =</span> <span class="ot">TRUE</span>)
 <span class="kw"><a href="../reference/plot-methods.html">plot</a></span>(ondisk[[<span class="dv">200</span>]], <span class="dt">full =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <div class="figure">
-<img src="benchmarking_files/figure-html/plot1-1.png" alt="Plotting in-memory and on-disk spectra" width="672"><p class="caption">
+<img src="benchmarking_files/figure-html/plot1-1.png" alt="Plotting in-memory and on-disk spectra" width="700"><p class="caption">
 Plotting in-memory and on-disk spectra
 </p>
 </div>
@@ -129,7 +164,7 @@ Plotting in-memory and on-disk spectra
 <a href="#accessing-spectra" class="anchor"></a>Accessing spectra</h2>
 <p>The drawback of the on-disk representation is when the spectrum data has to actually be accessed. To compare access time, we are going to use the <em><a href="https://CRAN.R-project.org/package=microbenchmark">microbenchmark</a></em> and repeat access 10 times to compare access to all 451 and a single spectrum in-memory (i.e. pre-loaded and constructed) and on-disk (i.e. on-the-fly access).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"microbenchmark"</span>)
-mb &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(<span class="kw"><a href="../reference/pSet-class.html">spectra</a></span>(inmem),
+mb &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/microbenchmark/topics/microbenchmark">microbenchmark</a></span>(<span class="kw"><a href="../reference/pSet-class.html">spectra</a></span>(inmem),
                      inmem[[<span class="dv">200</span>]],
                      <span class="kw"><a href="../reference/pSet-class.html">spectra</a></span>(ondisk),
                      ondisk[[<span class="dv">200</span>]],
@@ -137,25 +172,25 @@ mb &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(<span cl
 mb</code></pre></div>
 <pre><code>## Unit: microseconds
 ##             expr        min         lq        mean      median         uq
-##   spectra(inmem)    130.569    209.713    236.3226    245.6295    284.304
-##     inmem[[200]]     31.981     58.870     62.0824     68.7720     71.005
-##  spectra(ondisk) 373922.656 376468.438 383217.1886 379162.8805 386693.340
-##    ondisk[[200]] 169130.309 169783.288 174811.5611 170772.2555 171470.141
+##   spectra(inmem)    119.954    174.825    206.5453    200.3385    250.341
+##     inmem[[200]]     31.078     38.250     57.8704     60.5470     68.577
+##  spectra(ondisk) 376513.520 386109.260 405395.8928 388748.2475 404596.536
+##    ondisk[[200]] 167623.116 171334.546 192442.5412 191928.5625 209541.540
 ##         max neval cld
-##     322.781    10 a  
-##      75.399    10 a  
-##  417118.556    10   c
-##  212417.532    10  b</code></pre>
+##     287.396    10 a  
+##      88.174    10 a  
+##  529653.351    10   c
+##  221069.646    10  b</code></pre>
 <p>While it takes order or magnitudes more time to access the data on-the-fly rather than a pre-generated spectrum, accessing all spectra is only marginally slower than accessing all spectra, as most of the time is spent preparing the file for access, which is done only once.</p>
 <p>On-disk access performance will depend on the read throughput of the disk. A comparison of the data import of the above file from an internal solid state drive and from an USB3 connected hard disk showed only small differences for the <code>onDisk</code> mode (1.07 <em>vs</em> 1.36 seconds), while no difference were observed for accessing individual or all spectra. Thus, for this particular setup, performance was about the same for SSD and HDD. This might however not apply to setting in which data import is performed in parallel from multiple files.</p>
 <p>Data access does not prohibit interactive usage, such as plotting, for example, as it is about 1/2 seconds, which is an operation that is relatively rare, compared to subsetting and filtering, which are faster for on-disk data:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw"><a href="../reference/pSet-class.html">length</a></span>(inmem), <span class="dv">100</span>)
 <span class="kw">system.time</span>(inmem[i])</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.112   0.000   0.113</code></pre>
+##    0.11    0.00    0.11</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(ondisk[i])</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.025   0.000   0.025</code></pre>
+##   0.026   0.000   0.026</code></pre>
 <p>Operations on the spectra data, such as peak picking, smoothing, cleaning, … are cleverly cached and only applied when the data is accessed, to minimise file access overhead. Finally, specific operations such as for example quantitation (see next section) are optimised for speed.</p>
 </div>
 <div id="ms2-quantitation" class="section level2">
@@ -165,11 +200,11 @@ mb</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(eim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(inmem[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>], <span class="dt">reporters =</span> TMT6,
                             <span class="dt">method =</span> <span class="st">"max"</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.291   0.101   1.974</code></pre>
+##   0.282   0.091   1.954</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(eod &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(ondisk[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>], <span class="dt">reporters =</span> TMT6,
                             <span class="dt">method =</span> <span class="st">"max"</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.291   0.012   0.301</code></pre>
+##   0.290   0.020   0.299</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all.equal</span>(eim, eod, <span class="dt">check.attributes =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 </div>
@@ -206,12 +241,12 @@ mb</code></pre></div>
 <p>For general functionality about the on-disk <code>MSnExp</code> data class and <em><a href="http://bioconductor.org/packages/MSnbase">MSnbase</a></em> in general, see other vignettes available with</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vignette</span>(<span class="dt">package =</span> <span class="st">"MSnbase"</span>)</code></pre></div>
 </div>
-</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
-      <h2>Contents</h2>
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction">Introduction</a></li>
       <li>
@@ -243,11 +278,13 @@ mb</code></pre></div>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
 </div>
+
+  
 
   </body>
 </html>

@@ -14,7 +14,7 @@
 ##' files. This can be achieved by setting `mode = "onDisk"`. The
 ##' function returns then an [OnDiskMSnExp-class] object instead of a
 ##' [MSnExp-class] object.
-##' 
+##'
 ##' @title Imports mass-spectrometry raw data files as 'MSnExp'
 ##'     instances.
 ##' @note `readMSData` uses `normalizePath` to replace relative with
@@ -68,18 +68,45 @@ readMSData <- function(files, pdata = NULL, msLevel. = NULL,
     ##   path. That fixes possible problems on Windows with SNOW parallel
     ##   processing and also proteowizard problems on unis system with ~ paths.
     files <- normalizePath(files)
-    if (mode == "inMemory") {
-        if (is.null(msLevel.)) msLevel. <- 2L
-        readInMemMSData(files, pdata = pdata, msLevel. = msLevel.,
+    .hasSpecs <- hasSpectra(files)
+    .hasChroms <- hasChromatograms(files)
+    if (any(!.hasSpecs)) {
+        msg1 <- paste0("Dropping ", sum(!.hasSpecs),
+                       " file(s) without any spectra: ",
+                       paste(basename(files[!.hasSpecs]),
+                             collapse = ", "), ". ")
+        if (all(.hasChroms[!.hasSpecs]))
+            msg2 <- "They/it contain(s) chromatograms and can be read with `readSRMData()`."
+        else
+            msg2 <- paste0("File(s) ",
+                           paste(basename(files[!.hasSpecs & .hasChroms]),
+                                 collapse = ", "),
+                           "contain(s) chromatograms that can be read with `readSRMData`.")
+        warning(paste0(msg1, msg2))
+    }
+    files <- files[.hasSpecs]
+    if (!length(files)) {
+        process <- new("MSnProcess",
+                       processing = paste("No data loaded:", date()))
+        if (mode == "inMemory")
+            res <- new("MSnExp",
+                       processingData = process)
+        else res <- new("OnDiskMSnExp",
+                        processingData = process)
+    } else {
+        if (mode == "inMemory") {
+            if (is.null(msLevel.)) msLevel. <- 2L
+            res <- readInMemMSData(files, pdata = pdata, msLevel. = msLevel.,
                         verbose = verbose, centroided. = centroided.,
                         smoothed. = smoothed., cache. = cache.)
-    } else { ## onDisk
-        readOnDiskMSData(files = files, pdata = pdata,
-                         msLevel. = msLevel., verbose = verbose,
-                         centroided. = centroided.,
-                         smoothed. = smoothed.)
+        } else { ## onDisk
+            res <- readOnDiskMSData(files = files, pdata = pdata,
+                                    msLevel. = msLevel., verbose = verbose,
+                                    centroided. = centroided.,
+                                    smoothed. = smoothed.)
+        }
     }
-
+    res
 }
 
 

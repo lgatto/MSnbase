@@ -18,11 +18,27 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="The <code>OnDiskMSnExp</code> Class for MS Data And Meta-Data — OnDiskMSnExp-class" />
+
+<meta property="og:description" content="Like the MSnExp class, the OnDiskMSnExp class
+  encapsulates data and meta-data for mass spectrometry
+  experiments, but does, in contrast to the former, not keep the
+  spectrum data in memory, but fetches the M/Z and intensity values on
+  demand from the raw files. This results in some instances to a
+  reduced performance, has however the advantage of a much smaller
+  memory footprint." />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,18 +62,49 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">MSnbase</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">MSnbase</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+    </li>
+    <li>
+      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -69,6 +116,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -76,12 +124,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>The <code>OnDiskMSnExp</code> Class for MS Data And Meta-Data</h1>
+    
+    <div class="hidden name"><code>OnDiskMSnExp-class.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Like the <code><a href='MSnExp-class.html'>MSnExp</a></code> class, the <code>OnDiskMSnExp</code> class
   encapsulates data and meta-data for mass spectrometry
@@ -91,6 +142,7 @@
   reduced performance, has however the advantage of a much smaller
   memory footprint.</p>
     
+    </div>
 
         
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -190,7 +242,7 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       relevant information will be extracted from the corresponding raw
       data file.
     The method returns a <code>Spectrum1</code> object.</p></dd>
-    <dt>acquisitionNum</dt><dd><p><code>acquisitionNum(signature(object="OnDiskMSnExp"))</code>: get the
+    <dt>acquisitionNum</dt><dd><p><code><a href='Spectrum-class.html'>acquisitionNum(signature(object="OnDiskMSnExp"))</a></code>: get the
       acquisition number of each spectrum in each individual file. The
       relevant information is extracted from the object's
       <code>featureData</code> slot.
@@ -210,8 +262,8 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       <code>centroided(object) &lt;- value</code> to update the information, with
       value being a logical vector of length equal to the number of
       spectra in the experiment.</p></dd>
-    <dt><code>isCentroided(object, k = 0.025, qtl = 0.9, verbose =
-      TRUE)</code></dt><dd><p>A heuristic assessing if the spectra in the <code>object</code>
+    <dt><code><a href='Spectrum-class.html'>isCentroided(object, k = 0.025, qtl = 0.9, verbose =
+      TRUE)</a></code></dt><dd><p>A heuristic assessing if the spectra in the <code>object</code>
       are in profile or centroided mode. The function takes the
       <code>qtl</code>th quantile top peaks, then calculates the difference
       between adjacent M/Z value and returns <code>TRUE</code> if the first
@@ -221,28 +273,28 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
     The function has been tuned to work for MS1 and MS2 spectra and
       data centroided using different peak picking algorithms, but false
       positives can occur. See
-      <a href = 'https://github.com/lgatto/MSnbase/issues/131'>https://github.com/lgatto/MSnbase/issues/131</a> for
+      <a href='https://github.com/lgatto/MSnbase/issues/131'>https://github.com/lgatto/MSnbase/issues/131</a> for
       details. For whole experiments, where all MS1 and MS2 spectra are
       expected to be in the same, albeit possibly different modes, it is
       advised to assign the majority result for MS1 and MS2 spectra,
       rather than results for individual spectra.
     See also <code><a href='isCentroidedFromFile.html'>isCentroidedFromFile</a></code> that accessed the mode
       directly from the raw data file.</p></dd>
-    <dt>smoothed,smoothed&lt;-</dt><dd><p><code>smoothed(signature(object="OnDiskMSnExp", msLevel. =
-      "numeric"))</code>: whether individual spectra are smoothed or
+    <dt>smoothed,smoothed&lt;-</dt><dd><p><code><a href='Spectrum-class.html'>smoothed(signature(object="OnDiskMSnExp", msLevel. =
+      "numeric"))</a></code>: whether individual spectra are smoothed or
       unsmoothed. The relevant information is extracted from the
       object's <code>featureData</code> slot. Returns a logical vector with
       names corresponding to the spectrum names.  Use
       <code>smoothed(object) &lt;- value</code> to update the information, with
       value being a logical vector of length equal to the number of
       spectra in the experiment.</p></dd>
-    <dt>fromFile</dt><dd><p><code>fromFile(signature(object = "OnDiskMSnExp"))</code>: get the
-      index of the file (in <code>fileNames(object)</code>) from which the
+    <dt>fromFile</dt><dd><p><code><a href='Spectrum-class.html'>fromFile(signature(object = "OnDiskMSnExp"))</a></code>: get the
+      index of the file (in <code><a href='pSet-class.html'>fileNames(object)</a></code>) from which the
       spectra were read. The relevant information is extracted from the
       object's <code>featureData</code> slot.
     Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
-    <dt>intensity</dt><dd><p><code>intensity(signature(object="OnDiskMSnExp"))</code>:
+    <dt>intensity</dt><dd><p><code><a href='Spectrum-class.html'>intensity(signature(object="OnDiskMSnExp"))</a></code>:
       return the intensities from each spectrum in the data
       set. Intensities are first read from the raw files followed by an
       optional processing (depending on the processing steps defined in
@@ -254,8 +306,8 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       original file).
     The method returns a <code>list</code> of numeric intensity values. Each
       list element represents the intensities from one spectrum.</p></dd>
-    <dt>ionCount</dt><dd><p><code>ionCount(signature(object="OnDiskMSnExp",
-	BPPARAM=bpparam()))</code>:
+    <dt>ionCount</dt><dd><p><code><a href='Spectrum-class.html'>ionCount(signature(object="OnDiskMSnExp",
+	BPPARAM=bpparam()))</a></code>:
       extract the ion count (i.e. sum of intensity values) for each
       spectrum in the data set. The relevant data has to be extracted
       from the raw files (with eventually applying processing steps).
@@ -265,14 +317,14 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       original file).
     Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
-    <dt>length</dt><dd><p><code>length(signature(object="OnDiskMSnExp"))</code>:
+    <dt>length</dt><dd><p><code><a href='pSet-class.html'>length(signature(object="OnDiskMSnExp"))</a></code>:
       Returns the number of spectra of the current experiment.</p></dd>
-    <dt>msLevel</dt><dd><p><code>msLevel(signature(object = "OnDiskMSnExp"))</code>: extract the
+    <dt>msLevel</dt><dd><p><code><a href='Spectrum-class.html'>msLevel(signature(object = "OnDiskMSnExp"))</a></code>: extract the
       MS level from the spectra. The relevant information is extracted
       from the object's <code>featureData</code> slot.
     Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
-    <dt>mz</dt><dd><p><code>mz(signature(object="OnDiskMSnExp"))</code>:
+    <dt>mz</dt><dd><p><code><a href='Spectrum-class.html'>mz(signature(object="OnDiskMSnExp"))</a></code>:
       return the M/Z values from each spectrum in the data
       set. M/Z values are first read from the raw files followed by an
       optional processing (depending on the processing steps defined in
@@ -284,8 +336,8 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       original file).
     The method returns a <code>list</code> of numeric M/Z values. Each
       list element represents the values from one spectrum.</p></dd>
-    <dt>peaksCount</dt><dd><p><code>peaksCount(signature(object="OnDiskMSnExp",
-	scans="numeric"), BPPARAM=bpparam())</code>:
+    <dt>peaksCount</dt><dd><p><code><a href='Spectrum-class.html'>peaksCount(signature(object="OnDiskMSnExp",
+	scans="numeric"), BPPARAM=bpparam())</a></code>:
       extrac the peaks count from each spectrum in the object. Depending
       on the eventually present <code>ProcessingStep</code> objects in the
       <code>spectraProcessingQueue</code> raw data will be loaded to calculate
@@ -298,21 +350,21 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       original file).
     Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
-    <dt>polarity</dt><dd><p><code>polarity(signature(object="OnDiskMSnExp"))</code>:
+    <dt>polarity</dt><dd><p><code><a href='Spectrum-class.html'>polarity(signature(object="OnDiskMSnExp"))</a></code>:
       returns a numeric vector with the polarity of the individual
       spectra in the data set. The relevant information is extracted
       from the <code>featureData</code>.</p></dd>
-    <dt>rtime</dt><dd><p><code>rtime(signature(object="OnDiskMSnExp"))</code>:
+    <dt>rtime</dt><dd><p><code><a href='Spectrum-class.html'>rtime(signature(object="OnDiskMSnExp"))</a></code>:
       extrac the retention time of the individual spectra in the data
       set (from the <code>featureData</code>).
     Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
-    <dt>scanIndex</dt><dd><p><code>scanIndex(signature(object="OnDiskMSnExp"))</code>:
+    <dt>scanIndex</dt><dd><p><code><a href='Spectrum-class.html'>scanIndex(signature(object="OnDiskMSnExp"))</a></code>:
       get the spectra scan indices within the respective file. The
       relevant information is extracted from the object's <code>featureData</code> slot.
       Returns a numeric vector of indices with names corresponding to the
       spectrum names.</p></dd>
-    <dt>spectra</dt><dd><p><code>spectra(signature(object="OnDiskMSnExp"), BPPARAM=bpparam())</code>:
+    <dt>spectra</dt><dd><p><code><a href='pSet-class.html'>spectra(signature(object="OnDiskMSnExp"), BPPARAM=bpparam())</a></code>:
       extract spectrum data from the individual files. This causes the
       spectrum data to be read from the original raw files. After that
       all processing steps defined in the <code>spectraProcessingQueue</code>
@@ -326,8 +378,8 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       extraction.
     Returns a <code>list</code> of <code><a href='Spectrum1-class.html'>Spectrum1</a></code> objects
       with names corresponding to the spectrum names.</p></dd>
-    <dt>tic</dt><dd><p><code>tic(signature(object="OnDiskMSnExp"), initial = TRUE,
-      BPPARAM = bpparam())</code>:
+    <dt>tic</dt><dd><p><code><a href='Spectrum-class.html'>tic(signature(object="OnDiskMSnExp"), initial = TRUE,
+      BPPARAM = bpparam())</a></code>:
       get the total ion current (TIC) of each spectrum in the data
       set. If <code>initial = TRUE</code>, the information is extracted from
       the object's <code>featureData</code> and represents the tic provided in
@@ -354,11 +406,11 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
     <code>BPPARAM</code> parameter: see <code>spectra</code> method above.
     Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
-    <dt>featureNames</dt><dd><p><code>tic(signature(object="OnDiskMSnExp"))</code>: return a
-      <code>character</code> of length <code>length(object)</code> containing the
+    <dt>featureNames</dt><dd><p><code><a href='Spectrum-class.html'>tic(signature(object="OnDiskMSnExp"))</a></code>: return a
+      <code>character</code> of length <code><a href='pSet-class.html'>length(object)</a></code> containing the
       feature names. A replacement method is also available.</p></dd>
-    <dt>spectrapply</dt><dd><p><code>spectrapply(signature(object = "OnDiskMSnExp"), FUN = NULL,
-	BPPARAM = bpparam(), ...)</code>: applies the function <code>FUN</code> to each
+    <dt>spectrapply</dt><dd><p><code><a href='pSet-class.html'>spectrapply(signature(object = "OnDiskMSnExp"), FUN = NULL,
+	BPPARAM = bpparam(), ...)</a></code>: applies the function <code>FUN</code> to each
       spectrum passing additional parameters in <code>...</code> to that
       function and return its results. For <code>FUN = NULL</code> it returns
       the list of spectra (same as a call to <code>spectra</code>). Parameter
@@ -376,7 +428,7 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
   classes, the actual data manipulation is not performed immediately,
   but only on-demand, e.g. when intensity or M/Z values are loaded.</p>
 <p></p><dl class='dl-horizontal'>
-    <dt>clean</dt><dd><p><code>clean(signature(object="OnDiskMSnExp"), all=TRUE, verbose=TRUE)</code>:
+    <dt>clean</dt><dd><p><code><a href='clean-methods.html'>clean(signature(object="OnDiskMSnExp"), all=TRUE, verbose=TRUE)</a></code>:
       add an <em>clean</em> processing step to the lazy processing queue
       of the <code>OnDiskMSnExp</code> object. The <code>clean</code> command will
       only be executed when spectra information (including M/Z and
@@ -386,20 +438,20 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
     The method returns an <code>OnDiskMSnExp</code> object.
     For more details see documentation of the <code><a href='clean-methods.html'>clean</a></code>
       method.</p></dd>
-    <dt>normalize</dt><dd><p><code>normalize(signature(object="OnDiskMSnExp"), method=c("max",
-	"sum"), ...)</code>:
+    <dt>normalize</dt><dd><p><code><a href='normalise-methods.html'>normalize(signature(object="OnDiskMSnExp"), method=c("max",
+	"sum"), ...)</a></code>:
       add a <code>normalize</code> processing step to the lazy processing
       queue of the returned <code>OnDiskMSnExp</code> object.
     The method returns an <code>OnDiskMSnExp</code> object.
     For more details see documentation of the
     <code><a href='normalise-methods.html'>normalize</a></code> method.</p></dd>
-    <dt>removePeaks</dt><dd><p><code>removePeaks(signature(object="OnDiskMSnExp"), t="min", verbose=TRUE)</code>:
+    <dt>removePeaks</dt><dd><p><code><a href='removePeaks-methods.html'>removePeaks(signature(object="OnDiskMSnExp"), t="min", verbose=TRUE)</a></code>:
       add a <code>removePeaks</code> processing step to the lazy processing
       queue of the returned <code>OnDiskMSnExp</code> object.
     The method returns an <code>OnDiskMSnExp</code> object.
     For more details see documentation of the <code><a href='removePeaks-methods.html'>removePeaks</a></code>
       method.</p></dd>
-    <dt>trimMz</dt><dd><p><code>trimMz(signature(object="OnDiskMSnExp", mzlim="numeric"),...)</code>:
+    <dt>trimMz</dt><dd><p><code><a href='trimMz-methods.html'>trimMz(signature(object="OnDiskMSnExp", mzlim="numeric"),...)</a></code>:
       add a <code>trimMz</code> processing step to the lazy processing queue
       of the returned <code>OnDiskMSnExp</code> object.
     The method returns an <code>OnDiskMSnExp</code> object.
@@ -415,16 +467,16 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       addition to the <em>standard</em> <code>validObject</code> method, this
       method reads also all spectra from the original files, applies
       eventual processing steps and evaluates their validity.</p></dd>
-    <dt><code>as(from, "MSnExp")</code></dt><dd><p>Converts the <code>OnDiskMSnExp</code>
+    <dt><code><a href='mzRident2dfr.html'>as(from, "MSnExp")</a></code></dt><dd><p>Converts the <code>OnDiskMSnExp</code>
       object <code>from</code>, to an in-memory <code>MSnExp</code>. Also available
       as an S3 method <code>as.MSnExp()</code>.</p></dd>
     </dl>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='pSet-class.html'>pSet</a></code>,
+    <div class='dont-index'><p><code><a href='pSet-class.html'>pSet</a></code>,
   <code><a href='MSnExp-class.html'>MSnExp</a></code>,
-  <code><a href='readMSData.html'>readMSData</a></code></p>
+  <code><a href='readMSData.html'>readMSData</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -919,7 +971,7 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt;       0       0       0       3       6       9 </div><div class='input'>
 
 <span class='co'>## Centroided or profile mode</span>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>msdata</span><span class='kw'>::</span><span class='fu'>proteomics</span>(<span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>msdata</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/msdata/topics/proteomics'>proteomics</a></span>(<span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
                         <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"MS3TMT11.mzML"</span>)
 <span class='no'>odmse</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>f</span>, <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)
 <span class='fu'>validObject</span>(<span class='no'>odmse</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>odmse</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt; Object of class "Spectrum1"
@@ -956,9 +1008,9 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt;  Number of spectra: 35 
 #&gt;  MSn retention times: 45:27 - 45:30 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded [Fri Apr 20 19:45:38 2018] 
-#&gt; Filter: select parent/children scans for 21945 [Fri Apr 20 19:45:39 2018] 
-#&gt;  MSnbase version: 2.5.14 
+#&gt; Data loaded [Wed May 16 10:20:28 2018] 
+#&gt; Filter: select parent/children scans for 21945 [Wed May 16 10:20:30 2018] 
+#&gt;  MSnbase version: 2.7.1 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
 #&gt;   rowNames: MS3TMT11.mzML
@@ -984,9 +1036,9 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt;  Number of spectra: 35 
 #&gt;  MSn retention times: 45:27 - 45:30 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded [Fri Apr 20 19:45:38 2018] 
-#&gt; Filter: select parent/children scans for 21945 [Fri Apr 20 19:45:39 2018] 
-#&gt;  MSnbase version: 2.5.14 
+#&gt; Data loaded [Wed May 16 10:20:28 2018] 
+#&gt; Filter: select parent/children scans for 21945 [Wed May 16 10:20:30 2018] 
+#&gt;  MSnbase version: 2.7.1 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
 #&gt;   rowNames: MS3TMT11.mzML
@@ -1040,11 +1092,14 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

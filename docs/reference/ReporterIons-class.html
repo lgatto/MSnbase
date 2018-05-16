@@ -18,11 +18,39 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="The "ReporterIons" Class — ReporterIons-class" />
+
+<meta property="og:description" content="The ReporterIons class allows to define a set of isobaric
+  reporter ions that are used for quantification in MSMS
+  mode, e.g. iTRAQ (isobaric tag for relative and absolute quantitation)
+  or TMT (tandem mass tags).
+  ReporterIons instances can them be used when quantifying
+  "MSnExp" data of plotting the reporters peaks
+  based on in "Spectrum2" ojects.
+Some reporter ions are provided with MSnbase an can be loaded
+  with the data function. These reporter ions data sets
+  are:
+    iTRAQ4:ReporterIon object for the iTRAQ
+      4-plex set. Load with data(iTRAQ4).
+    iTRAQ5:ReporterIon object for the iTRAQ
+      4-plex set plus the isobaric tag. Load with data(iTRAQ5).
+    TMT6:ReporterIon object for the TMT
+      6-plex set. Load with data(TMT6).
+    TMT7:ReporterIon object for the TMT
+      6-plex set plus the isobaric tag. Load with data(TMT6).
+  " />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,18 +74,49 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">MSnbase</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">MSnbase</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+    </li>
+    <li>
+      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -69,6 +128,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -76,12 +136,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>The "ReporterIons" Class</h1>
+    
+    <div class="hidden name"><code>ReporterIons-class.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>The <code>ReporterIons</code> class allows to define a set of isobaric
   reporter ions that are used for quantification in MSMS
@@ -101,8 +164,9 @@
       6-plex set. Load with <code>data(TMT6)</code>.</p></dd>
     <dt><code>TMT7</code>:</dt><dd><p><code>ReporterIon</code> object for the TMT
       6-plex set plus the isobaric tag. Load with <code>data(TMT6)</code>.</p></dd>
-  </dl><p></p>
+  </dl>
     
+    </div>
 
         
     <h2 class="hasAnchor" id="objects-from-the-class"><a class="anchor" href="#objects-from-the-class"></a>Objects from the Class</h2>
@@ -146,9 +210,9 @@
     <dt><code>object[]</code></dt><dd><p>Subsets one or several reporter ions of the
       <code>ReporterIons</code> object and returns a new instance of the same
       class.</p></dd>
-    <dt><code>length(object)</code></dt><dd><p>Returns the number of reporter ions in
+    <dt><code><a href='pSet-class.html'>length(object)</a></code></dt><dd><p>Returns the number of reporter ions in
       the instance.</p></dd>
-    <dt><code>mz(object, ...)</code></dt><dd><p>Returns the expected mz values of
+    <dt><code><a href='Spectrum-class.html'>mz(object, ...)</a></code></dt><dd><p>Returns the expected mz values of
       reporter ions. Additional arguments are currently ignored.</p></dd>
     <dt><code>reporterColours(object)</code> or reporterColors(object)</dt><dd><p>Returns the colours used to highlight the reporter ions.</p></dd> 
     <dt><code>reporterNames(object)</code></dt><dd><p>Returns the name of the
@@ -175,8 +239,8 @@
   "Multiplexed protein quantitation in Saccharomyces cerevisiae using
   amine-reactive isobaric tagging reagents."
   <em>Mol Cell Proteomics</em>, 2004 Dec;3(12):1154-69.
-  Epub 2004 Sep 22. PubMed PMID: 15385600.
-    Thompson A, Sch\"afer J, Kuhn K, Kienle S, Schwarz J, Schmidt G,
+  Epub 2004 Sep 22. PubMed PMID: 15385600.</p>  
+<p>Thompson A, Sch\"afer J, Kuhn K, Kienle S, Schwarz J, Schmidt G,
   Neumann T, Johnstone R, Mohammed AK, Hamon C.
   "Tandem mass tags: a novel quantification strategy for comparative
   analysis of complex protein mixtures by MS/MS."
@@ -188,7 +252,7 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='TMT6.html'>TMT6</a></code> or <code><a href='iTRAQ4.html'>iTRAQ4</a></code> for readily available examples.</p>
+    <div class='dont-index'><p><code><a href='TMT6.html'>TMT6</a></code> or <code><a href='iTRAQ4.html'>iTRAQ4</a></code> for readily available examples.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -243,11 +307,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

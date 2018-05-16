@@ -18,11 +18,33 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="Read 'MSnSet' — readMSnSet" />
+
+<meta property="og:description" content="" />
+
+<meta property="og:description" content="This function reads data files to generate an
+  MSnSet instance. It is a wrapper around
+  Biobase's readExpressionSet function with an
+  additional featureDataFile parameter to include feature data.
+  See also readExpressionSet for more details.
+  readMSnSet2 is a simple version that takes a single text
+  spreadsheet as input and extracts the expression data and feature
+  meta-data to create and MSnSet.
+Note that when using readMSnSet2, one should not set
+  rownames as additional argument to defined feature names. It is
+  ignored and used to set fnames if not provided otherwise." />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,18 +68,49 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">MSnbase</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">MSnbase</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+    </li>
+    <li>
+      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -69,6 +122,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -76,13 +130,18 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Read 'MSnSet'</h1>
+    
+    <div class="hidden name"><code>readMSnSet.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
+    
+
     <p>This function reads data files to generate an
   <code><a href='MSnSet-class.html'>MSnSet</a></code> instance. It is a wrapper around
   <code>Biobase</code>'s <code>readExpressionSet</code> function with an
@@ -95,6 +154,7 @@
   <code>rownames</code> as additional argument to defined feature names. It is
   ignored and used to set <code>fnames</code> if not provided otherwise.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>readMSnSet</span>(<span class='no'>exprsFile</span>,
            <span class='no'>phenoDataFile</span>,
@@ -115,7 +175,7 @@
 
 <span class='fu'>readMSnSet2</span>(<span class='no'>file</span>, <span class='no'>ecol</span>, <span class='no'>fnames</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -210,7 +270,7 @@
 <p>Passing a <code>data.frame</code> can be particularly useful if the
     spreadsheet is in Excel format. The appropriate sheet can first be
     read into R as a <code>data.frame</code> using, for example
-    <code>readxl::read_excel</code>, and then pass it to <code>readMSnSet2</code>.</p>
+    <code><a href='http://www.rdocumentation.org/packages/readxl/topics/read_excel'>readxl::read_excel</a></code>, and then pass it to <code>readMSnSet2</code>.</p>
 
 <p></p></td>
     </tr>
@@ -237,21 +297,21 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>The <code><a href='grepEcols.html'>grepEcols</a></code> and <code><a href='grepEcols.html'>getEcols</a></code> helper
+    <div class='dont-index'></div>
+    <div class='dont-index'><p>The <code><a href='grepEcols.html'>grepEcols</a></code> and <code><a href='grepEcols.html'>getEcols</a></code> helper
   functions to identify the <code>ecol</code> values.  The <code>MSnbase-io</code>
   vignette illustrates these functions in detail. It can be accessed
-  with <code><a href='../articles/MSnbase-io.html'>vignette("MSnbase-io")</a></code>.</p>
+  with <code><a href='../articles/MSnbase-io.html'>vignette("MSnbase-io")</a></code>.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
-  <span class='no'>exprsFile</span> <span class='kw'>&lt;-</span> <span class='st'>"path_to_intensity_file.csv"</span>
-  <span class='no'>fdatafile</span> <span class='kw'>&lt;-</span> <span class='st'>"path_to_featuredata_file.csv"</span>
-  <span class='no'>pdatafile</span> <span class='kw'>&lt;-</span> <span class='st'>"path_to_sampledata_file.csv"</span>
-  <span class='co'>## Read ExpressionSet with appropriate parameters</span>
-  <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>readMSnSet</span>(<span class='no'>exprsFile</span>, <span class='no'>pdataFile</span>, <span class='no'>fdataFile</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"\t"</span>, <span class='kw'>header</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-})
-
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='no'>exprsFile</span> <span class='kw'>&lt;-</span> <span class='st'>"path_to_intensity_file.csv"</span>
+<span class='no'>fdatafile</span> <span class='kw'>&lt;-</span> <span class='st'>"path_to_featuredata_file.csv"</span>
+<span class='no'>pdatafile</span> <span class='kw'>&lt;-</span> <span class='st'>"path_to_sampledata_file.csv"</span>
+<span class='co'>## Read ExpressionSet with appropriate parameters</span>
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>readMSnSet</span>(<span class='no'>exprsFile</span>, <span class='no'>pdataFile</span>, <span class='no'>fdataFile</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"\t"</span>, <span class='kw'>header</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='co'># }</span><div class='input'>
 <span class='fu'>library</span>(<span class='st'>"pRolocdata"</span>)</div><div class='output co'>#&gt; <span class='error'>Error: package ‘MSnbase’ required by ‘pRolocdata’ could not be found</span></div><div class='input'><span class='no'>f0</span> <span class='kw'>&lt;-</span> <span class='fu'>dir</span>(<span class='fu'>system.file</span>(<span class='st'>"extdata"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"pRolocdata"</span>),
           <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
           <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"Dunkley2006"</span>)
@@ -268,7 +328,7 @@
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt;  MSnbase version: 2.5.14 </div><div class='input'><span class='fu'>head</span>(<span class='fu'>exprs</span>(<span class='no'>res</span>)) <span class='co'>## columns 5 to 20</span></div><div class='output co'>#&gt;      M1F1A    M1F4A    M1F7A   M1F11A    M1F2B    M1F5B    M1F8B   M1F11B
+#&gt;  MSnbase version: 2.7.1 </div><div class='input'><span class='fu'>head</span>(<span class='fu'>exprs</span>(<span class='no'>res</span>)) <span class='co'>## columns 5 to 20</span></div><div class='output co'>#&gt;      M1F1A    M1F4A    M1F7A   M1F11A    M1F2B    M1F5B    M1F8B   M1F11B
 #&gt; 1 0.323250 0.275500 0.216000 0.185250 0.465667 0.199667 0.174333 0.160333
 #&gt; 2 0.332000 0.279667 0.222000 0.166000 0.451500 0.200375 0.177250 0.171125
 #&gt; 3 0.397250 0.246500 0.168250 0.188250 0.459750 0.214500 0.183250 0.142250
@@ -314,11 +374,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

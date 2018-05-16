@@ -19,11 +19,54 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="Normalisation of <code>MSnExp</code>, <code>MSnSet</code> and
+  <code>Spectrum</code> objects — normalise-methods" />
+
+<meta property="og:description" content="The normalise method (also available as normalize)
+  performs basic normalisation on spectra 
+  intensities of single spectra ("Spectrum" or 
+  "Spectrum2" objects),
+  whole experiments ("MSnExp" objects) or
+  quantified expression data ("MSnSet" objects).
+Raw spectra and experiments are normalised using max or
+  sum only. For MSMS spectra could be normalised to their 
+  precursor additionally. Each peak intensity is divided by the
+  highest intensity in the spectrum, the sum of intensities or the intensity 
+  of the precursor.
+  These methods aim at facilitating relative peaks heights between
+  different spectra.
+The method parameter for "MSnSet" can be
+  one of sum, max, quantiles, center.mean,
+  center.median, .median, quantiles.robust or
+  vsn.  For sum and max, each feature's reporter
+  intensity is divided by the maximum or the sum respectively. These two
+  methods are applied along the features (rows).  
+center.mean and center.median translate the respective
+  sample (column) intensities according to the column mean or
+  median. diff.median translates all samples (columns) so that
+  they all match the grand median. Using quantiles or
+  quantiles.robust applies (robust) quantile normalisation, as
+  implemented in normalize.quantiles and
+  normalize.quantiles.robust of the preprocessCore
+  package.  vsn uses the vsn2 function from the
+  vsn package.  Note that the latter also glog-transforms the
+  intensities.  See respective manuals for more details and function
+  arguments.
+A scale method, mimicking the base scale method exists
+  for "MSnSet" instances. See
+  ?base::scale for details." />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -47,18 +90,49 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">MSnbase</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">MSnbase</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+    </li>
+    <li>
+      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -70,6 +144,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -77,13 +152,16 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Normalisation of <code>MSnExp</code>, <code>MSnSet</code> and
   <code>Spectrum</code> objects</h1>
+    
+    <div class="hidden name"><code>normalise-methods.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>The <code>normalise</code> method (also available as <code>normalize</code>)
   performs basic normalisation on spectra 
@@ -103,9 +181,8 @@
   <code>center.median</code>, <code>.median</code>, <code>quantiles.robust</code> or
   <code>vsn</code>.  For <code>sum</code> and <code>max</code>, each feature's reporter
   intensity is divided by the maximum or the sum respectively. These two
-  methods are applied along the features (rows).
-
-    <code>center.mean</code> and <code>center.median</code> translate the respective
+  methods are applied along the features (rows).</p>  
+<p><code>center.mean</code> and <code>center.median</code> translate the respective
   sample (column) intensities according to the column mean or
   median. <code>diff.median</code> translates all samples (columns) so that
   they all match the grand median. Using <code>quantiles</code> or
@@ -120,9 +197,10 @@
   for <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> instances. See
   <code>?base::<a href='http://www.rdocumentation.org/packages/base/topics/scale'>scale</a></code> for details.</p>
     
+    </div>
 
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -183,7 +261,7 @@
 #&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#&gt; Normalised (quantiles): Fri Apr 20 19:45:32 2018 
+#&gt; Normalised (quantiles): Wed May 16 10:21:19 2018 
 #&gt;  MSnbase version: 1.1.22 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -205,11 +283,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

@@ -1352,13 +1352,22 @@ windowIndices <- function(i, hws, n) {
     brks
 }
 
-.hasSpectra <- function(x) {
-    if (is.character(x) & file.exists(x))
-        x <- mzR::openMSfile(x)
-    stopifnot(inherits(x, "mzR"))
-    return(as.logical(length(x)))
+
+##' @title Checks if raw data files have any spectra or chromatograms
+##' @param files A `character()` with raw data filenames.
+##' @return A `logical(n)` where `n == length(x)` with `TRUE` if that
+##'     files contains at least one spectrum, `FALSE` otherwise.
+##' @author Laurent Gatto
+##' @rdname hasSpectraOrChromatograms
+##' @examples
+##' f <- msdata::proteomics(full.names = TRUE)[1:2]
+##' hasSpectra(f)
+##' hasChromatograms(f)
+hasSpectra <- function(files) {
+    sapply(files, mzR:::.hasSpectra)
 }
 
-hasSpectra <- function(x) {
-    sapply(x, .hasSpectra)
+##' @rdname hasSpectraOrChromatograms
+hasChromatograms <- function(files) {
+    sapply(files, mzR:::.hasChromatograms)
 }

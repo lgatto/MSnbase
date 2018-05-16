@@ -18,11 +18,78 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="Container for multiple Chromatogram objects — Chromatograms-class" />
+
+<meta property="og:description" content="The Chromatograms class allows to store
+    Chromatogram objects in a matrix-like
+    two-dimensional structure.
+Chromatograms: create an instance of class
+    Chromatograms.
+Chromatograms objects can, just like a matrix,
+    be subsetted using the [ method. Single elements, rows or columns
+    can be replaced using e.g. x[1, 1] &lt;- value where value
+    has to be a Chromatogram object or a list of such objects.
+plot: plots a Chromatograms object. For each row
+    in the object one plot is created, i.e. all Chromatogram
+    objects in the same row are added to the same plot.
+phenoData: accesses the phenotypical desccription of the
+    samples. Returns an NAnnotatedDataFrame object.
+pData: accesses the phenotypical description of the
+    samples. Returns a data.frame.
+pData&lt;-: replace the phenotype data.
+$ and $&lt;-: get or replace individual columns of
+    the object's pheno data.
+colnames&lt;-: replace or set the column names of the
+    Chromatograms object. Does also set the rownames of the
+    phenoData.
+sampleNames: get the sample names.
+sampleNames&lt;-: replace or set the sample names of the
+    Chromatograms object (i.e. the rownames of the pheno data
+    and colnames of the data matrix.
+isEmpty: returns TRUE if the Chromatograms
+    object or all of its Chromatogram objects is/are empty or contain
+    only NA intensities.
+featureNames: returns the feature names of the
+    Chromatograms object.
+featureNames&lt;-: set the feature names.
+featureData: return the feature data.
+featureData&lt;-: replace the object's feature data.
+fData: return the feature data as a data.frame.
+fData&lt;-: replace the object's feature data by passing a
+    data.frame
+fvarLabels: return the feature data variable names (i.e.
+    column names).
+rownames&lt;-: replace the rownames (and featureNames) of
+    the object.
+precursorMz: return the precursor m/z from the chromatograms. The
+method returns a matrix with 2 columns ("mzmin" and
+"mzmax") and as many rows as there are rows in the
+Chromatograms object. Each row contains the precursor m/z of the
+chromatograms in that row. An error is thrown if the chromatograms within one
+row have different precursor m/z values.
+productMz: return the product m/z from the chromatograms. The
+method returns a matrix with 2 columns ("mzmin" and
+"mzmax") and as many rows as there are rows in the
+Chromatograms object. Each row contains the product m/z of the
+chromatograms in that row. An error is thrown if the chromatograms within one
+row have different product m/z values.
+mz: returns the m/z for each row of the Chromatograms object
+as a two-column matrix (with columns "mzmin" and
+"mzmax").
+polarity: returns the polarity of the scans/chromatograms: `1`,
+`0` or `-1` for positive, negative or unknown polarity." />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,18 +113,49 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">MSnbase</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">MSnbase</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+    </li>
+    <li>
+      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -69,6 +167,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -76,95 +175,76 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Container for multiple Chromatogram objects</h1>
+    <small class="dont-index">Source: <a href='https://github.com/lgatto/MSnbase/blob/master/R/DataClasses.R'><code>R/DataClasses.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/functions-Chromatograms.R'><code>R/functions-Chromatograms.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/methods-Chromatograms.R'><code>R/methods-Chromatograms.R</code></a></small>
+    <div class="hidden name"><code>Chromatograms-class.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>The <code>Chromatograms</code> class allows to store
     <code><a href='Chromatogram-class.html'>Chromatogram</a></code> objects in a <code>matrix</code>-like
-    two-dimensional structure.
-
-    <code>Chromatograms</code>: create an instance of class
-    <code>Chromatograms</code>.
-
-    <code>Chromatograms</code> objects can, just like a <code>matrix</code>,
+    two-dimensional structure.</p>
+<p><code>Chromatograms</code>: create an instance of class
+    <code>Chromatograms</code>.</p>
+<p><code>Chromatograms</code> objects can, just like a <code>matrix</code>,
     be subsetted using the <code>[</code> method. Single elements, rows or columns
     can be replaced using e.g. <code>x[1, 1] &lt;- value</code> where <code>value</code>
-    has to be a <code>Chromatogram</code> object or a <code>list</code> of such objects.
-
-    <code>plot</code>: plots a <code>Chromatograms</code> object. For each row
+    has to be a <code>Chromatogram</code> object or a <code>list</code> of such objects.</p>
+<p><code>plot</code>: plots a <code>Chromatograms</code> object. For each row
     in the object one plot is created, i.e. all <code><a href='Chromatogram-class.html'>Chromatogram</a></code>
-    objects in the same row are added to the same plot.
-
-    <code>phenoData</code>: accesses the phenotypical desccription of the
-    samples. Returns an <code>NAnnotatedDataFrame</code> object.
-
-    <code>pData</code>: accesses the phenotypical description of the
-    samples. Returns a <code>data.frame</code>.
-
-    <code>pData&lt;-</code>: replace the phenotype data.
-
-    <code>$</code> and <code>$&lt;-</code>: get or replace individual columns of
-    the object's pheno data.
-
-    <code>colnames&lt;-</code>: replace or set the column names of the
+    objects in the same row are added to the same plot.</p>
+<p><code>phenoData</code>: accesses the phenotypical desccription of the
+    samples. Returns an <code>NAnnotatedDataFrame</code> object.</p>
+<p><code>pData</code>: accesses the phenotypical description of the
+    samples. Returns a <code>data.frame</code>.</p>
+<p><code>pData&lt;-</code>: replace the phenotype data.</p>
+<p><code>$</code> and <code>$&lt;-</code>: get or replace individual columns of
+    the object's pheno data.</p>
+<p><code>colnames&lt;-</code>: replace or set the column names of the
     <code>Chromatograms</code> object. Does also set the <code>rownames</code> of the
-    <code>phenoData</code>.
-
-    <code>sampleNames</code>: get the sample names.
-
-    <code>sampleNames&lt;-</code>: replace or set the sample names of the
+    <code>phenoData</code>.</p>
+<p><code>sampleNames</code>: get the sample names.</p>
+<p><code>sampleNames&lt;-</code>: replace or set the sample names of the
     <code>Chromatograms</code> object (i.e. the <code>rownames</code> of the pheno data
-    and <code>colnames</code> of the data matrix.
-
-    <code>isEmpty</code>: returns <code>TRUE</code> if the <code>Chromatograms</code>
+    and <code>colnames</code> of the data matrix.</p>
+<p><code>isEmpty</code>: returns <code>TRUE</code> if the <code>Chromatograms</code>
     object or all of its <code>Chromatogram</code> objects is/are empty or contain
-    only <code>NA</code> intensities.
-
-    <code>featureNames</code>: returns the feature names of the
-    <code>Chromatograms</code> object.
-
-    <code>featureNames&lt;-</code>: set the feature names.
-
-    <code>featureData</code>: return the feature data.
-
-    <code>featureData&lt;-</code>: replace the object's feature data.
-
-    <code>fData</code>: return the feature data as a <code>data.frame</code>.
-
-    <code>fData&lt;-</code>: replace the object's feature data by passing a
-    <code>data.frame</code>
-
-    <code>fvarLabels</code>: return the feature data variable names (i.e.
-    column names).
-
-    <code>rownames&lt;-</code>: replace the rownames (and featureNames) of
-    the object.
-
-    <code>precursorMz</code>: return the precursor m/z from the chromatograms. The
+    only <code>NA</code> intensities.</p>
+<p><code>featureNames</code>: returns the feature names of the
+    <code>Chromatograms</code> object.</p>
+<p><code>featureNames&lt;-</code>: set the feature names.</p>
+<p><code>featureData</code>: return the feature data.</p>
+<p><code>featureData&lt;-</code>: replace the object's feature data.</p>
+<p><code>fData</code>: return the feature data as a <code>data.frame</code>.</p>
+<p><code>fData&lt;-</code>: replace the object's feature data by passing a
+    <code>data.frame</code></p>
+<p><code>fvarLabels</code>: return the feature data variable names (i.e.
+    column names).</p>
+<p><code>rownames&lt;-</code>: replace the rownames (and featureNames) of
+    the object.</p>
+<p><code>precursorMz</code>: return the precursor m/z from the chromatograms. The
 method returns a <code>matrix</code> with 2 columns (<code>"mzmin"</code> and
 <code>"mzmax"</code>) and as many rows as there are rows in the
 <code>Chromatograms</code> object. Each row contains the precursor m/z of the
 chromatograms in that row. An error is thrown if the chromatograms within one
-row have different precursor m/z values.
-
-    <code>productMz</code>: return the product m/z from the chromatograms. The
+row have different precursor m/z values.</p>
+<p><code>productMz</code>: return the product m/z from the chromatograms. The
 method returns a <code>matrix</code> with 2 columns (<code>"mzmin"</code> and
 <code>"mzmax"</code>) and as many rows as there are rows in the
 <code>Chromatograms</code> object. Each row contains the product m/z of the
 chromatograms in that row. An error is thrown if the chromatograms within one
-row have different product m/z values.
-
-    <code>mz</code>: returns the m/z for each row of the <code>Chromatograms</code> object
+row have different product m/z values.</p>
+<p><code>mz</code>: returns the m/z for each row of the <code>Chromatograms</code> object
 as a two-column <code>matrix</code> (with columns <code>"mzmin"</code> and
-<code>"mzmax"</code>).
-
-    <code>polarity</code>: returns the polarity of the scans/chromatograms: `1`,
+<code>"mzmax"</code>).</p>
+<p><code>polarity</code>: returns the polarity of the scans/chromatograms: `1`,
 `0` or `-1` for positive, negative or unknown polarity.</p>
     
+    </div>
 
     <pre class="usage">Chromatograms(data, phenoData, featureData, ...)
 
@@ -245,7 +325,7 @@ mz(object)
 # S4 method for Chromatograms
 polarity(object)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -362,8 +442,8 @@ will be used as plot title.</p></td>
     two-dimensional array. Each row is supposed to contain
     <code>Chromatogram</code> objects for one MS data <em>slice</em> with a common
     m/z and rt range. Columns contain <code>Chromatogram</code> objects from the
-    same sample.
-    <code>plot</code>: if <code>nrow(x) &gt; 1</code> the plot area is split into
+    same sample.</p>
+<p><code>plot</code>: if <code>nrow(x) &gt; 1</code> the plot area is split into
     <code>nrow(x)</code> sub-plots and the chromatograms of one row are plotted in
     each.</p>
     
@@ -376,13 +456,13 @@ will be used as plot title.</p></td>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='Chromatogram-class.html'>Chromatogram</a></code> for the class representing chromatogram
+    <div class='dont-index'><p><code><a href='Chromatogram-class.html'>Chromatogram</a></code> for the class representing chromatogram
     data.
     <code><a href='chromatogram-MSnExp-method.html'>chromatogram</a></code> for the method to extract a
     <code>Chromatograms</code> object from a <code><a href='MSnExp-class.html'>MSnExp</a></code> or
     <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code> object.
     <code><a href='readSRMData.html'>readSRMData</a></code> for the function to read chromatographic data
-    of an SRM/MRM experiment.</p>
+    of an SRM/MRM experiment.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -456,9 +536,7 @@ will be used as plot title.</p></td>
 #&gt; Levels: first sample second sample</div><div class='input'>
 <span class='co'>## Access the m/z ratio for each row; this will be NA for the present</span>
 <span class='co'>## object</span>
-<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>chrs</span>)</div><div class='output co'>#&gt;      mzmin mzmax
-#&gt; [1,]    NA    NA
-#&gt; [2,]    NA    NA</div><div class='input'>
+<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>chrs</span>)</div><div class='output co'>#&gt; <span class='error'>Error in getMethod(mz, "Chromatogram"): no method found for function 'mz' and signature Chromatogram</span></div><div class='input'>
 <span class='co'>## Create some random Chromatogram objects</span>
 <span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'>abs</span>(<span class='fu'>rnorm</span>(<span class='fl'>123</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>32</span>))
 <span class='no'>ch1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fu'>seq_along</span>(<span class='no'>ints</span>), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fl'>231</span>)
@@ -506,11 +584,14 @@ Johannes Rainer
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

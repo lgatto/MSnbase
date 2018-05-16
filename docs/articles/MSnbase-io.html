@@ -8,14 +8,17 @@
 <title>MSnbase IO capabilities • MSnbase</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="MSnbase IO capabilities">
+<meta property="og:description" content="">
+<meta name="twitter:card" content="summary">
+<!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
 <body>
-    <div class="container template-vignette">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -24,18 +27,49 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">MSnbase</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">MSnbase</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
 <li>
-  <a href="../articles/index.html">Articles</a>
+      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+    </li>
+    <li>
+      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+    </li>
+    <li>
+      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -55,13 +89,15 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>MSnbase IO capabilities</h1>
                         <h4 class="author">Laurent Gatto</h4>
             <address class="author_afil">
-      Computational Proteomics Unit, Cambridge, UK.<br>
-</address>
+      Computational Proteomics Unit, Cambridge, UK.<br><small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/master/vignettes/MSnbase-io.Rmd"><code>vignettes/MSnbase-io.Rmd</code></a></small>
+      <div class="hidden name"><code>MSnbase-io.Rmd</code></div>
+
+    </address>
 </div>
 
     
@@ -70,7 +106,6 @@
       <p>This vignette describes <em>MSnbase</em>’s input and output capabilities.</p>
     </div>
     
-<div class="contents">
 <div id="foreword" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#foreword" class="anchor"></a>Foreword</h1>
@@ -234,8 +269,8 @@ res</code></pre></div>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Quantitation data loaded: Fri Apr 20 19:47:52 2018  using readMSnSet. 
-##  MSnbase version: 2.5.14</code></pre>
+## Quantitation data loaded: Wed May 16 10:23:11 2018  using readMSnSet. 
+##  MSnbase version: 2.7.0</code></pre>
 <div id="the-msnset-class" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-msnset-class" class="anchor"></a>The <code>MSnSet</code> class</h3>
@@ -276,7 +311,7 @@ eset</code></pre></div>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-##  MSnbase version: 2.5.14</code></pre>
+##  MSnbase version: 2.7.0</code></pre>
 <p>The <code>ecol</code> columns can also be queried interactively from R using the <code>getEcols</code> and <code>grepEcols</code> function. The former return a character with all column names, given a splitting character, i.e. the separation value of the spreadsheet (typically <code>","</code> for <code>csv</code>, <code>"\t"</code> for <code>tsv</code>, …). The latter can be used to grep a pattern of interest to obtain the relevant column indices.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/grepEcols.html">getEcols</a></span>(f0, <span class="st">","</span>)</code></pre></div>
 <pre><code>##  [1] "\"Protein ID\""              "\"FBgn\""                   
@@ -303,7 +338,7 @@ eset</code></pre></div>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-##  MSnbase version: 2.5.14</code></pre>
+##  MSnbase version: 2.7.0</code></pre>
 <p>The <code>phenoData</code> slot can now be updated accordingly using the replacement functions <code>phenoData&lt;-</code> or <code>pData&lt;-</code> (see <code><a href="../reference/MSnSet-class.html">?MSnSet</a></code> for details).</p>
 </div>
 </div>
@@ -332,26 +367,30 @@ eset</code></pre></div>
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] pRolocdata_1.17.3   MSnbase_2.5.14      ProtGenerics_1.11.0
-## [4] BiocParallel_1.13.3 mzR_2.13.6          Rcpp_0.12.16       
-## [7] Biobase_2.39.2      BiocGenerics_0.25.3 BiocStyle_2.7.8    
+## [1] pRolocdata_1.19.0   MSnbase_2.7.0       ProtGenerics_1.13.0
+## [4] BiocParallel_1.15.3 mzR_2.15.1          Rcpp_0.12.16       
+## [7] Biobase_2.41.0      BiocGenerics_0.27.0 BiocStyle_2.9.0    
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] BiocInstaller_1.29.6  compiler_3.6.0        pillar_1.2.1         
-##  [4] plyr_1.8.4            iterators_1.0.9       zlibbioc_1.25.0      
-##  [7] tools_3.6.0           MALDIquant_1.17       digest_0.6.15        
-## [10] evaluate_0.10.1       tibble_1.4.2          preprocessCore_1.41.0
-## [13] gtable_0.2.0          lattice_0.20-35       rlang_0.2.0          
-## [16] foreach_1.4.4         yaml_2.1.18           stringr_1.3.0        
-## [19] knitr_1.20            IRanges_2.13.28       S4Vectors_0.17.41    
-## [22] stats4_3.6.0          rprojroot_1.3-2       grid_3.6.0           
-## [25] impute_1.53.0         XML_3.98-1.10         rmarkdown_1.9        
-## [28] limma_3.35.14         ggplot2_2.2.1         magrittr_1.5         
-## [31] backports_1.1.2       scales_0.5.0          pcaMethods_1.71.0    
-## [34] codetools_0.2-15      htmltools_0.3.6       MASS_7.3-49          
-## [37] mzID_1.17.0           colorspace_1.3-2      affy_1.57.0          
-## [40] stringi_1.1.7         doParallel_1.0.11     lazyeval_0.2.1       
-## [43] munsell_0.4.3         vsn_3.47.1            affyio_1.49.2</code></pre>
+##  [1] xfun_0.1              lattice_0.20-35       colorspace_1.3-2     
+##  [4] htmltools_0.3.6       stats4_3.6.0          yaml_2.1.19          
+##  [7] vsn_3.49.0            XML_3.98-1.11         rlang_0.2.0          
+## [10] pkgdown_1.0.0         pillar_1.2.2          affy_1.59.0          
+## [13] foreach_1.4.4         affyio_1.51.0         plyr_1.8.4           
+## [16] mzID_1.19.0           stringr_1.3.1         zlibbioc_1.27.0      
+## [19] munsell_0.4.3         pcaMethods_1.73.0     commonmark_1.5       
+## [22] gtable_0.2.0          codetools_0.2-15      memoise_1.1.0        
+## [25] evaluate_0.10.1       knitr_1.20            IRanges_2.15.9       
+## [28] doParallel_1.0.11     BiocInstaller_1.31.1  preprocessCore_1.43.0
+## [31] scales_0.5.0          backports_1.1.2       limma_3.37.1         
+## [34] desc_1.2.0            S4Vectors_0.19.2      fs_1.2.2             
+## [37] impute_1.55.0         ggplot2_2.2.1         digest_0.6.15        
+## [40] stringi_1.2.2         bookdown_0.7          grid_3.6.0           
+## [43] rprojroot_1.3-2       tools_3.6.0           magrittr_1.5         
+## [46] lazyeval_0.2.1        tibble_1.4.2          crayon_1.3.4         
+## [49] MASS_7.3-50           xml2_1.2.0            iterators_1.0.9      
+## [52] assertthat_0.2.0      rmarkdown_1.9         roxygen2_6.0.1       
+## [55] R6_2.2.2              MALDIquant_1.17       compiler_3.6.0</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
@@ -378,12 +417,12 @@ eset</code></pre></div>
 <li id="fn2"><p><a href="https://github.com/HUPO-PSI/mzTab" class="uri">https://github.com/HUPO-PSI/mzTab</a><a href="#fnref2">↩</a></p></li>
 </ol>
 </div>
-</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
-      <h2>Contents</h2>
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#foreword">Foreword</a></li>
       <li><a href="#questions-and-bugs">Questions and bugs</a></li>
@@ -410,11 +449,13 @@ eset</code></pre></div>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
 </div>
+
+  
 
   </body>
 </html>
