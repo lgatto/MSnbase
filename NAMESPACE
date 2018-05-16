@@ -147,7 +147,8 @@ export(MSnSet,
        readSRMData,
        combineSpectra,
        combineSpectraMovingWindow,
-       estimateMzScattering
+       estimateMzScattering,
+       hasSpectra, hasChromatograms
        )
 
 exportClasses(pSet,
@@ -301,8 +302,7 @@ exportMethods(updateObject,
               reduce,
               writeMSData,
               productMz,
-              estimateMzResolution,
-              hasSpectra, hasChromatograms
+              estimateMzResolution
               )
 
 ## methods NOT exported
