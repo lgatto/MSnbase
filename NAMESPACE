@@ -301,7 +301,8 @@ exportMethods(updateObject,
               reduce,
               writeMSData,
               productMz,
-              estimateMzResolution
+              estimateMzResolution,
+              hasSpectra, hasChromatograms
               )
 
 ## methods NOT exported

@@ -1289,11 +1289,21 @@ windowIndices <- function(i, hws, n) {
     max(1L, i - hws):min(n, i + hws)
 }
 
-##' @title Checks if raw data files have any spectra.
+##' @title Checks if raw data files have any spectra or chromatograms
 ##' @param files A `character()` with raw data filenames.
 ##' @return A `logical(n)` where `n == length(x)` with `TRUE` if that
 ##'     files contains at least one spectrum, `FALSE` otherwise.
 ##' @author Laurent Gatto
+##' @rdname hasSpectraOrChromatograms
+##' @examples
+##' f <- msdata::proteomics(full.names = TRUE)[1:2]
+##' hasSpectra(f)
+##' hasChromatograms(f)
 hasSpectra <- function(files) {
     sapply(files, mzR:::.hasSpectra)
+}
+
+##' @rdname hasSpectraOrChromatograms
+hasChromatograms <- function(files) {
+    sapply(files, mzR:::.hasChromatograms)
 }
