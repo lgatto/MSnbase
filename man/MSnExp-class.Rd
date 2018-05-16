@@ -93,7 +93,7 @@
 
   The feature variables in the feature data slot will depend on the
   file. See also the documentation in the \code{mzR} package that parses
-  the raw data files and produces these data. 
+  the raw data files and produces these data.
 
 }
 
@@ -174,7 +174,7 @@
       See \code{\link{extractPrecSpectra}} documentation for more
       details and examples. }
     % \item{extractSpectra}{\code{signature(object = "MSnExp", selected =
-    % 	"logical")}: extracts spectra corresponding to 'TRUE' in
+    %	"logical")}: extracts spectra corresponding to 'TRUE' in
     %   \code{selected}.
     % See \code{\link{extractSpectra}} documentation for more details
     % and examples. }
@@ -264,7 +264,7 @@
       expected to be in the same, albeit possibly different modes, it is
       advised to assign the majority result for MS1 and MS2 spectra,
       rather than results for individual spectra. See an example below.
-      
+
     }
 
     \item{as}{\code{signature(object = "MSnExp", "data.frame")}:
@@ -302,9 +302,9 @@
       Remove empty spectra from \code{object} (see \code{isEmpty}). }
 
     \item{filterPrecursorScan}{\code{signature(object = "MSnExp",
-            acquisitionNum = "numeric")}:
-      Retain parent (e.g. MS1) and children scans (e.g. MS2) of
-      \code{acquisitionNum}.}
+	acquisitionNum = "numeric")}: Retain parent (e.g. MS1) and
+      children scans (e.g. MS2) of \code{acquisitionNum}. See
+      \code{\link{OnDiskMSnExp}} for an example. }
 
     \item{splitByFile}{\code{signature(object = "MSnExp", f =
 	"factor")}: split a \code{MSnExp} object by file into a
@@ -341,7 +341,7 @@
 
 \examples{
 mzxmlfile <- dir(system.file("extdata",package="MSnbase"),
-                 pattern="mzXML",full.names=TRUE)
+		 pattern="mzXML",full.names=TRUE)
 msnexp <- readMSData(mzxmlfile)
 msnexp
 }

@@ -402,7 +402,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
       FALSE}, the TIC is calculated from the actual intensity values in
       each spectrum after applying all eventual data manipulation
       methods.
-      
+
       See also https://github.com/lgatto/MSnbase/issues/332 for
       more details.
 
@@ -625,13 +625,14 @@ odmse <- readMSData(f, mode = "onDisk")
 validObject(odmse)
 odmse[[1]]
 
-all(is.na(centroided(odmse)))
 table(isCentroidedFromFile(odmse), msLevel(odmse))
+
+## centroided status could be set manually
 centroided(odmse, msLevel = 1) <- FALSE
 centroided(odmse, msLevel = 2) <- TRUE
 centroided(odmse, msLevel = 3) <- TRUE
-table(centroided(odmse), msLevel(odmse))
 
+## or when reading the data
 odmse2 <- readMSData(f, centroided = c(FALSE, TRUE, TRUE),
 		     mode = "onDisk")
 table(centroided(odmse), msLevel(odmse))
@@ -648,7 +649,7 @@ table(msLevel(from1))
 
 ## Extract the second sepctrum's parent (MS1) and children (MS3)
 ## spectra
-(from2 <- filterPrecursorScan(odmse, 21945))
+(from2 <- filterPrecursorScan(odmse, 21946))
 table(msLevel(from2))
 
 }
