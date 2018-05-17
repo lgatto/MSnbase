@@ -1289,12 +1289,18 @@ windowIndices <- function(i, hws, n) {
     max(1L, i - hws):min(n, i + hws)
 }
 
+
+##' Helper function to verify if raw data files (or pointers to data
+##' files, as returned by `mzR::openMSfile`) contain spectra or
+##' chromatograms.
+##'
 ##' @title Checks if raw data files have any spectra or chromatograms
 ##' @param files A `character()` with raw data filenames.
 ##' @return A `logical(n)` where `n == length(x)` with `TRUE` if that
 ##'     files contains at least one spectrum, `FALSE` otherwise.
 ##' @author Laurent Gatto
 ##' @rdname hasSpectraOrChromatograms
+##' @md
 ##' @examples
 ##' f <- msdata::proteomics(full.names = TRUE)[1:2]
 ##' hasSpectra(f)
