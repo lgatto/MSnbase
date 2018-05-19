@@ -44,7 +44,7 @@
 
     \item{object}{An object created by \code{mzR::openMSfile} or an
       instance of class \code{\linkS4class{OnDiskMSnExp}}. If the latter
-      consains data from multiple files, a warning will be issued and
+      contains data from multiple files, a warning will be issued and
       the first one will be used. }
       
     \item{lowMz}{A \code{numeric} of length 1 defining the lower bound
