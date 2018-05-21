@@ -173,27 +173,41 @@ test_that("Spectrum strict quantification", {
         (mz.[5] - mz.[4]) * (int[4] - int[5]) / 2)
 })
 
-test_that("breaks_Spectrum", {
-    s1 <- new("Spectrum2", mz = 1:4, intensity = 1:4)
-    ## issue 191
-    expect_equal(MSnbase:::breaks_Spectrum(s1), 1:5)
-    expect_equal(MSnbase:::breaks_Spectrum(s1, breaks = 1:2), c(1, 2, 5))
-    expect_equal(MSnbase:::breaks_Spectrum(s1, binSize = 2), c(1, 3, 6))
-})
+## test_that("breaks_Spectrum", {
+##     s1 <- new("Spectrum2", mz = 1:4, intensity = 1:4)
+##     ## issue 191
+##     expect_equal(MSnbase:::breaks_Spectrum(s1), 1:5)
+##     expect_equal(MSnbase:::breaks_Spectrum(s1, breaks = 1:2), c(1, 2, 5))
+##     expect_equal(MSnbase:::breaks_Spectrum(s1, binSize = 2), c(1, 3, 6))
+## })
 
-test_that("breaks_Spectra", {
+test_that(".fix_breaks works as breaks_Spectra", {
     s1 <- new("Spectrum2", mz = 1:4, intensity = 1:4)
     s2 <- new("Spectrum2", mz = 1:5, intensity = 1:5)
-    expect_equal(MSnbase:::breaks_Spectra(s1, s1), 1:5)
-    expect_equal(MSnbase:::breaks_Spectra(s2, s2), 1:6)
+    brks <- seq(floor(min(c(mz(s1), mz(s1)))),
+                ceiling(max(c(mz(s1), mz(s1)))), by = 1)
+    expect_equal(brks, 1:4)
+    expect_equal(MSnbase:::.fix_breaks(brks, c(1, 4)), 1:5)
+    brks <- seq(floor(min(c(mz(s1), mz(s2)))),
+                ceiling(max(c(mz(s1), mz(s2)))), by = 1)
+    expect_equal(brks, 1:5)
     ## issue 190
-    expect_equal(MSnbase:::breaks_Spectra(s1, s2), 1:6)
-    expect_equal(MSnbase:::breaks_Spectra(s1, s2, binSize = 2), c(1, 3, 5, 7))
+    expect_equal(MSnbase:::.fix_breaks(brks, c(1, 5)), 1:6)
+    brks <- seq(floor(min(c(mz(s1), mz(s2)))),
+                ceiling(max(c(mz(s1), mz(s2)))), by = 2)
+    expect_equal(brks, c(1, 3, 5))
+    expect_equal(MSnbase:::.fix_breaks(brks, c(1, 6)), c(1, 3, 5, 7))
 
     s3 <- new("Spectrum2", mz = 1:4, intensity = 1:4)
     s4 <- new("Spectrum2", mz = 11:15, intensity = 1:5)
-    expect_equal(MSnbase:::breaks_Spectra(s3, s4), 1:16)
-    expect_equal(MSnbase:::breaks_Spectra(s3, s4, binSize = 2), seq(1, 17, by=2))
+    brks <- seq(floor(min(c(mz(s3), mz(s4)))),
+                ceiling(max(c(mz(s3), mz(s4)))), by = 1)
+    expect_equal(brks, 1:15)
+    expect_equal(MSnbase:::.fix_breaks(brks, c(1, 15)), 1:16)
+    brks <- seq(floor(min(c(mz(s3), mz(s4)))),
+                ceiling(max(c(mz(s3), mz(s4)))), by = 2)
+    expect_equal(brks, seq(1, 15, 2))
+    expect_equal(MSnbase:::.fix_breaks(brks, c(1, 15)), seq(1, 17, by=2))
 })
 
 test_that("bin_Spectrum", {
@@ -202,7 +216,7 @@ test_that("bin_Spectrum", {
     r1 <- new("Spectrum2", mz = 1:5 + 0.5, intensity = 1:5, tic = 15)
     r2 <- new("Spectrum2", mz = c(2, 4, 6), intensity = c(3, 7, 5), tic = 15)
     r3 <- new("Spectrum2", mz = c(2, 4, 6), intensity = c(1.5, 3.5, 5), tic = 10)
-    r31 <- new("Spectrum2", mz = c(2, 4, 6.5), intensity = c(1.5, 3.5, 5), tic = 10)
+    r31 <- new("Spectrum2", mz = c(2, 4, 6), intensity = c(1.5, 3.5, 5), tic = 10)
     r4 <- new("Spectrum2", mz = c(1, 3, 5), intensity = c(1, 5, 9), tic = 15)
     expect_equal(MSnbase:::bin_Spectrum(s1, binSize = 1), r1)
     expect_equal(MSnbase:::bin_Spectrum(s1, binSize = 2), r2)

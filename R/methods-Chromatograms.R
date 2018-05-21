@@ -442,3 +442,24 @@ setMethod("polarity", "Chromatograms", function(object) {
     else
         rep(-1, nrow(object))
 })
+
+#' @description
+#'
+#' \code{bin} aggregates intensity values of chromatograms in discrete bins
+#' along the retention time axis. By default, individual \code{Chromatogram}
+#' objects of one row are binned into the same bins. The function returns a
+#' \code{Chromatograms} object with binned chromatograms.
+#'
+#' @param binSize for \code{bin}: \code{numeric(1)} with the size of the bins
+#'     (in seconds).
+#'
+#' @param breaks for \code{bin}: \code{numeric} defining the bins. Usually not
+#'     required as the function calculates the bins automatically based on
+#'     \code{binSize} and the retention time range of chromatograms in the same
+#'     row.
+#'
+#' @param fun for \code{bin}: function to be used to aggregate the intensity
+#'     values falling within each bin.
+#'
+#' @rdname Chromatograms-class
+setMethod("bin", "Chromatograms", .bin_Chromatograms)

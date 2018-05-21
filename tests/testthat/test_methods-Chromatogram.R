@@ -138,3 +138,20 @@ test_that("isEmpty,Chromatogram and plot,Chromatogram work", {
     expect_true(isEmpty(chr))
     expect_warning(plot(chr))
 })
+
+test_that(".bin_Chromatogram and bin,Chromatogram work", {
+    int <- rnorm(100, mean = 200, sd = 2)
+    rt <- seq(2, 200, length.out = 100)
+    chr <- Chromatogram(intensity = int, rtime = rt)
+
+    chrb <- MSnbase:::.bin_Chromatogram(chr, binSize = 4)
+    expect_equal(rtime(chrb), seq(4, 200, by = 4))
+    expect_equal(bin(chr, binSize = 4), chrb)
+    expect_error(.bin_Chromatogram(chr, fun = "bls"))
+
+    ## Provide breaks that are larger than rtime.
+    brks <- seq(2, 300, by = 4)
+    res <- .bin_Chromatogram(chr, breaks = brks)
+    expect_equal(length(rtime(res)), (length(brks) - 1))
+    expect_equal(intensity(res)[1:length(chrb)], intensity(chrb))
+})

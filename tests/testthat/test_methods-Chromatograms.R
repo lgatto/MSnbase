@@ -455,3 +455,32 @@ test_that(".mz_chromatograms, precursorMz etc,Chromatograms works", {
     expect_equal(unname(res[1, "mzmax"]), 123.6)
     expect_true(polarity(chrs) == unique(polarity(microtofq_on_disk)))
 })
+
+test_that(".bin_Chromatograms and bin,Chromatograms work", {
+    ints <- abs(rnorm(12, sd = 20))
+    ch <- Chromatogram(rtime = 1:length(ints), ints)
+    ints <- abs(rnorm(20, sd = 14))
+    ch1 <- Chromatogram(rtime = 1:length(ints), ints)
+    ints <- abs(rnorm(14, sd = 24))
+    ch2 <- Chromatogram(rtime = 1:length(ints), ints)
+    ints <- abs(rnorm(40, sd = 34))
+    ch3 <- Chromatogram(rtime = 1:length(ints), ints)
+    chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
+
+    chrsb <- MSnbase:::.bin_Chromatograms(chrs, binSize = 2)
+
+    ## 1st row:
+    expect_equal(rtime(chrsb[1, 1]), rtime(chrsb[1, 2]))
+    expect_true(all(intensity(chrsb[1, 1])[rtime(chrsb[1, 1]) >
+                                           max(rtime(chrs[1, 1]))] == 0))
+    expect_true(max(rtime(chrsb[1, 2])) >= max(rtime(chrs[1, 2])))
+    expect_true(max(rtime(chrsb[1, 1])) >= max(rtime(chrs[1, 1])))
+    expect_equal(chrsb[1, 2], bin(chrs[1, 2], binSize = 2))
+    ## 2nd row:
+    expect_equal(rtime(chrsb[2, 1]), rtime(chrsb[2, 2]))
+    expect_true(all(intensity(chrsb[2, 1])[rtime(chrsb[2, 1]) >
+                                           max(rtime(chrs[2, 1]))] == 0))
+    expect_true(max(rtime(chrsb[2, 2])) >= max(rtime(chrs[2, 2])))
+    expect_true(max(rtime(chrsb[2, 1])) >= max(rtime(chrs[2, 1])))
+    expect_equal(chrsb[2, 2], bin(chrs[2, 2], binSize = 2))
+})
