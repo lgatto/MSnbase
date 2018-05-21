@@ -235,7 +235,7 @@ The feature variables in the feature data slot will depend on the
       See <code><a href='extractPrecSpectra-methods.html'>extractPrecSpectra</a></code> documentation for more
       details and examples.</p></dd>
     % \item{extractSpectra}{\code{signature(object = "MSnExp", selected =
-    % 	"logical")}: extracts spectra corresponding to 'TRUE' in
+    %	"logical")}: extracts spectra corresponding to 'TRUE' in
     %   \code{selected}.
     % See \code{\link{extractSpectra}} documentation for more details
     % and examples. }
@@ -341,9 +341,9 @@ The feature variables in the feature data slot will depend on the
     <dt>filterEmptySpectra</dt><dd><p><code>signature(object = "MSnExp")</code>:
       Remove empty spectra from <code>object</code> (see <code>isEmpty</code>).</p></dd>
     <dt>filterPrecursorScan</dt><dd><p><code>signature(object = "MSnExp",
-            acquisitionNum = "numeric")</code>:
-      Retain parent (e.g. MS1) and children scans (e.g. MS2) of
-      <code>acquisitionNum</code>.</p></dd>
+	acquisitionNum = "numeric")</code>: Retain parent (e.g. MS1) and
+      children scans (e.g. MS2) of <code>acquisitionNum</code>. See
+      <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code> for an example.</p></dd>
     <dt>splitByFile</dt><dd><p><code>signature(object = "MSnExp", f =
 	"factor")</code>: split a <code>MSnExp</code> object by file into a
       <code>list</code> of <code>MSnExp</code> objects given the grouping in
@@ -380,7 +380,7 @@ The feature variables in the feature data slot will depend on the
 #&gt;  Number of spectra: 5 
 #&gt;  MSn retention times: 25:1 - 25:2 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded: Wed May 16 10:20:10 2018 
+#&gt; Data loaded: Thu May 17 15:33:25 2018 
 #&gt;  MSnbase version: 2.7.1 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData

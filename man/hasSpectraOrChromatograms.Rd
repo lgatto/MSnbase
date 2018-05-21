@@ -10,11 +10,16 @@ hasSpectra(files)
 hasChromatograms(files)
 }
 \arguments{
-\item{files}{A `character()` with raw data filenames.}
+\item{files}{A \code{character()} with raw data filenames.}
 }
 \value{
-A `logical(n)` where `n == length(x)` with `TRUE` if that
-    files contains at least one spectrum, `FALSE` otherwise.
+A \code{logical(n)} where \code{n == length(x)} with \code{TRUE} if that
+files contains at least one spectrum, \code{FALSE} otherwise.
+}
+\description{
+Helper function to verify if raw data files (or pointers to data
+files, as returned by \code{mzR::openMSfile}) contain spectra or
+chromatograms.
 }
 \examples{
 f <- msdata::proteomics(full.names = TRUE)[1:2]

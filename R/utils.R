@@ -1359,6 +1359,7 @@ windowIndices <- function(i, hws, n) {
 ##'     files contains at least one spectrum, `FALSE` otherwise.
 ##' @author Laurent Gatto
 ##' @rdname hasSpectraOrChromatograms
+##' @md
 ##' @examples
 ##' f <- msdata::proteomics(full.names = TRUE)[1:2]
 ##' hasSpectra(f)

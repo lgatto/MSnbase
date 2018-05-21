@@ -69,7 +69,7 @@ readMSData <- function(files, pdata = NULL, msLevel. = NULL,
     ##   processing and also proteowizard problems on unis system with ~ paths.
     files <- normalizePath(files)
     .hasSpecs <- hasSpectra(files)
-    .hasChroms <- hasChromatograms(files)
+    suppressWarnings(.hasChroms <- hasChromatograms(files))
     if (any(!.hasSpecs)) {
         msg1 <- paste0("Dropping ", sum(!.hasSpecs),
                        " file(s) without any spectra: ",
