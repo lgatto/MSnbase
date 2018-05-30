@@ -148,7 +148,8 @@ export(MSnSet,
        combineSpectra,
        combineSpectraMovingWindow,
        estimateMzScattering,
-       hasSpectra, hasChromatograms
+       hasSpectra, hasChromatograms,
+       mergeFeatureVars, expandFeatureVars
        )
 
 exportClasses(pSet,
