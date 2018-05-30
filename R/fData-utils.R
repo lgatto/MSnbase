@@ -35,10 +35,6 @@
 ##' ## If we don't want any prefix
 ##' hl2 <- expandFeatureVars(hl, "SVM", prefix = NULL)
 ##' fvarLabels(hl2)
-##'
-##' ## Checking that the features haven't changed
-##' (k2 <- grep("^svm", fvarLabels(hl2), value = TRUE))
-##' stopifnot(identical(fData(hyperLOPIT2015)[, k], fData(hl2)[, k2]))
 expandFeatureVars <- function(x, fcol, prefix) {
     stopifnot(is.character(fcol))
     stopifnot(is.data.frame(fData(x)))

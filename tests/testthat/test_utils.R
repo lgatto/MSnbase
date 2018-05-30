@@ -182,7 +182,7 @@ test_that("mergeSpectraAndIdentificationData", {
                                                           icol = c("file", "acquisitionnum"),
                                                           acc = "accession",
                                                           desc = "description", pepseq = "pepseq")
-    expect_equal(ans1, rfd1)    
+    expect_equal(ans1, rfd1)
     ## second run
     ans2 <-
         MSnbase:::utils.mergeSpectraAndIdentificationData(rfd1, id2,
@@ -190,7 +190,7 @@ test_that("mergeSpectraAndIdentificationData", {
                                                           icol = c("file", "acquisitionnum"),
                                                           acc = "accession",
                                                           desc = "description", pepseq = "pepseq")
-    expect_equal(ans2, rfd2)    
+    expect_equal(ans2, rfd2)
 })
 
 test_that("utils.idSummary", {
@@ -534,7 +534,7 @@ test_that(".fix_breaks works", {
     expect_true(any(MSnbase:::.fix_breaks(1:2, range(ints)) < 4))
     expect_equal(MSnbase:::.fix_breaks(seq(1, 4, by = 2), range(ints)),
                  c(1, 3, 5))
-    
+
     ## Test with values smaller than 1
     rng <- c(0.1, 0.4)
     brks <- seq(rng[1], rng[2], by = 0.04)
@@ -554,7 +554,7 @@ test_that(".bin_values works", {
             expect_equal(res$x[i], max(vals[idx]))
         else expect_equal(res$x[i], 0)
     }
-    
+
     ## Ensure that all values are within.
     xs <- seq(1:length(vals))
     brks <- seq(1, 20, by = 3)
@@ -566,5 +566,20 @@ test_that(".bin_values works", {
 
     ## Check exceptions
     expect_error(.bin_values(1:3, 1:5))
-    expect_error(.bin_values(1:3, 1:5), fun = other)    
+    expect_error(.bin_values(1:3, 1:5), fun = other)
+})
+
+test_that("merging and expanding features", {
+    data(hyperLOPIT2015)
+    fv <- sort(fvarLabels(hyperLOPIT2015))
+    hl <- mergeFeatureVars(hyperLOPIT2015, fcol = k, fcol2 = "SVM")
+    n <- length(fvarLabels(hl))
+    expect_identical(n, length(fv) - 2L)
+    hl2 <- expandFeatureVars(hl, "SVM", prefix = NULL)
+    fv2 <- sort(fvarLabels(hl2))
+    expect_identical(fv, fv2)
+
+    k <- grep("^svm", fvarLabels(hyperLOPIT2015), value = TRUE)
+    k2 <- grep("^svm", fvarLabels(hl2), value = TRUE)
+    expect_identical(fData(hyperLOPIT2015)[, k], fData(hl2)[, k2])
 })
