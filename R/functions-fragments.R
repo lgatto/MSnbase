@@ -86,7 +86,7 @@
   ctf <- .cterminus(fragment.seq, sequence, aamass, types=ctypes[ctype])
 
   ## internal fragments
-  itype <- c("aIx", "bIy", "cIz") %in% type
+  itype <- itypes %in% type
   itf <- .internalFragments(sequence, aamass, types=itypes[itype])
 
   df <- data.frame(mz=c(atf$mz, ctf$mz, itf$mz),
@@ -106,8 +106,8 @@
                                  nchar(df$seq[isInternal]) - 1L, "]")
   ## devide by charge
   zn <- length(z)
-  df <- df[rep(1L:nrow(df), each=zn), ]
-  df$mz <- df$mz/z
+  df <- df[rep(seq_len(nrow(df)), each=zn), ]
+  df$mz <- df$mz / z
   df$z <- z
 
   ## add protons (H+)
@@ -222,27 +222,29 @@ defaultNeutralLoss <- function(disableWaterLoss=NULL, disableAmmoniaLoss=NULL) {
 #' @param sequence complete sequence
 #' @param aamass aa residual mass
 #' @param types
-#' @param n length of sequence
 #' @noRd
-.aterminus <- function(fragments, sequence, aamass, types,
-                       n=length(fragments), times=length(types)) {
+.aterminus <- function(fragments, sequence, aamass, types) {
+  fragments <- fragments[-length(fragments)]
+  n <- length(fragments)
+  times <- length(types)
   list(mz=rep.int(cumsum(aamass[fragments]), times),
-       pos=rep.int(1L:n, times),
-       seq=rep.int(substring(sequence, rep(1L, n), 1L:n), times),
+       pos=rep.int(seq_len(n), times),
+       seq=rep.int(substring(sequence, rep.int(1L, n), seq_len(n)), times),
        types=rep(types, each=n))
 }
 
 #' @param fragments one-letter sequence
 #' @param sequence complete sequence
 #' @param aamass aa residual mass
-#' @param times how often replicate
-#' @param n length of sequence
+#' @param types
 #' @noRd
-.cterminus <- function(fragments, sequence, aamass, types,
-                       n=length(fragments), times=length(types)) {
+.cterminus <- function(fragments, sequence, aamass, types) {
+  fragments <- fragments[-1L]
+  n <- length(fragments)
+  times <- length(types)
   list(mz=rep.int(cumsum(aamass[rev(fragments)]), times),
-       pos=rep.int(1L:n, times),
-       seq=rep.int(rev(substring(sequence, 1L:n, rep(n, n))), times),
+       pos=rep.int(seq_len(n), times),
+       seq=rep.int(rev(substring(sequence, seq_len(n) + 1L, rep.int(n + 1L, n))), times),
        types=rep(types, each=n))
 }
 
@@ -255,9 +257,9 @@ defaultNeutralLoss <- function(disableWaterLoss=NULL, disableAmmoniaLoss=NULL) {
 #' @noRd
 .internalFragments <- function(fragments, aamass, types, n=nchar(fragments), times=length(types), l=2L) {
   if (n > 3L) {
-    nr <- (n-3L):1L
+    nr <- rev(seq_len(n - 3L))
     pos <- sequence(nr) + 1L
-    end <- pos - 1L + rep.int(l:(n-2L), nr)
+    end <- pos - 1L + rep.int(l:(n - 2L), nr)
     seq <- substring(fragments, pos, end)
     mz <- unlist(lapply(strsplit(seq, "", fixed=TRUE), function(y)sum(aamass[y])))
     list(mz=rep.int(mz, times),
