@@ -1,0 +1,226 @@
+---
+title: "MSnbase2 benchmarking"
+author: 
+- name: Laurent Gatto
+  affiliation: Computational Proteomics Unit, Cambridge, UK
+- name: Johannes Rainer
+  affiliation: Center for Biomedicine, EURAC, Bolzano, Italy
+package: MSnbase
+output:
+  BiocStyle::html_document:
+    toc_float: true
+vignette: >
+  %\VignetteIndexEntry{MSnbase2 benchmarking}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteKeyword{proteomics, mass spectrometry}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r env, echo=FALSE, message=FALSE}
+suppressPackageStartupMessages(library("BiocStyle"))
+suppressPackageStartupMessages(library("MSnbase"))
+suppressPackageStartupMessages(library("BiocParallel"))
+```
+
+# Introduction
+
+In this vignette, we will document various timings and benchmarkings
+of the recent `r Biocpkg("MSnbase")` development (aka `MSnbase2`),
+that focuses on *on-disk* data access (as opposed to
+*in-memory*). More details about the new implementation will be
+documented elsewhere.
+
+As a benchmarking dataset, we are going to use a subset of an TMT
+6-plex experiment acquired on an LTQ Orbitrap Velos, that is
+distributed with the `r Biocexptpkg("msdata")` package
+
+```{r msdata}
+library("msdata")
+f <- msdata::proteomics(full.names = TRUE,
+                        pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
+basename(f)
+```
+
+We need to load the `r Biocpkg("MSnbase")` package and set the
+session-wide verbosity flag to `FALSE`.
+
+```{r verb}
+library("MSnbase")
+setMSnbaseVerbose(FALSE)
+```
+
+# Benchmarking
+## Reading data
+
+We first read the data using the original behaviour `readMSData`
+function by setting the `mode` argument to `"inMemory"` to generates
+an in-memory representation of the MS2-level raw data and measure the
+time needed for this operation.
+
+```{r read1}
+system.time(inmem <- readMSData(f, msLevel = 2,
+                                mode = "inMemory",
+                                centroided = TRUE))
+```
+
+Next, we use the `readMSData` function to generate an on-disk
+representation of the same data by setting `mode = "onDisk"`.
+
+```{r read2}
+system.time(ondisk <- readMSData(f, msLevel = 2,
+                                  mode = "onDisk",
+                                  centroided = TRUE))
+```
+
+Creating the on-disk experiment is considerable faster and scales to
+much bigger, multi-file data, both in terms of object creation time,
+but also in terms of object size (see next section). We must of course
+make sure that these two datasets are equivalent:
+
+```{r equal12}
+all.equal(inmem, ondisk)
+```
+
+## Data size
+
+To compare the size occupied in memory of these two objects, we are
+going to use the `object_size` function from the `r CRANpkg("pryr")`
+package, which accounts for the data (the spectra) in the `assayData`
+environment (as opposed to the `object.size` function from the `utils`
+package).
+
+```{r}
+library("pryr")
+object_size(inmem)
+object_size(ondisk)
+```
+
+The difference is explained by the fact that for `ondisk`, the spectra
+are not created and stored in memory; they are access on disk when
+needed, such as for example for plotting:
+
+```{r plot0, eval=FALSE}
+plot(inmem[[200]], full = TRUE)
+plot(ondisk[[200]], full = TRUE)
+```
+
+```{r plot1, echo=FALSE, fig.wide=TRUE, fig.cap = "Plotting in-memory and on-disk spectra"}
+suppressMessages(requireNamespace("gridExtra"))
+gridExtra::grid.arrange(plot(inmem[[200]],  full = TRUE),
+                        plot(ondisk[[200]], full = TRUE),
+                        ncol = 2)
+
+```
+
+## Accessing spectra
+
+The drawback of the on-disk representation is when the spectrum data
+has to actually be accessed. To compare access time, we are going to
+use the `r CRANpkg("microbenchmark")` and repeat access 10 times to
+compare access to all `r length(inmem)` and a single spectrum
+in-memory (i.e. pre-loaded and constructed) and on-disk
+(i.e. on-the-fly access).
+
+```{r mb, cache=TRUE}
+library("microbenchmark")
+mb <- microbenchmark(spectra(inmem),
+                     inmem[[200]],
+                     spectra(ondisk),
+                     ondisk[[200]],
+                     times = 10)
+mb
+```
+
+While it takes order or magnitudes more time to access the data on-the-fly
+rather than a pre-generated spectrum, accessing all spectra is only marginally
+slower than accessing all spectra, as most of the time is spent preparing the
+file for access, which is done only once. 
+
+
+On-disk access performance will depend on the read throughput of the
+disk. A comparison of the data import of the above file from an
+internal solid state drive and from an USB3 connected hard disk showed
+only small differences for the `onDisk` mode (1.07 *vs* 1.36 seconds),
+while no difference were observed for accessing individual or all
+spectra. Thus, for this particular setup, performance was about the
+same for SSD and HDD. This might however not apply to setting in which
+data import is performed in parallel from multiple files.
+
+Data access does not prohibit interactive usage, such as
+plotting, for example, as it is about 1/2 seconds, which is an
+operation that is relatively rare, compared to subsetting and
+filtering, which are faster for on-disk data:
+
+```{r subset}
+i <- sample(length(inmem), 100)
+system.time(inmem[i])
+system.time(ondisk[i])
+```
+
+Operations on the spectra data, such as peak picking, smoothing,
+cleaning, ... are cleverly cached and only applied when the data is
+accessed, to minimise file access overhead. Finally, specific
+operations such as for example quantitation (see next section) are
+optimised for speed.
+
+## MS2 quantitation
+
+Below, we perform TMT 6-plex reporter ions quantitation on the first
+100 spectra and verify that the results are identical (ignoring
+feature names).
+
+```{r qnt, cache=TRUE}
+system.time(eim <- quantify(inmem[1:100], reporters = TMT6,
+                            method = "max"))
+system.time(eod <- quantify(ondisk[1:100], reporters = TMT6,
+                            method = "max"))
+all.equal(eim, eod, check.attributes = FALSE)
+```
+
+# Notable differences *on-disk* and *in-memory* implementations
+
+The `MSnExp` and `OnDiskMSnExp` documentation files and the *MSnbase
+developement* vignette provide more information about implementation
+details.
+
+## MS levels
+
+*On-disk* support multiple MS levels in one object, while *in-memory*
+only supports a single level. While support for multiple MS levels
+could be added to the in-memory back-end, memory constrains make this
+pretty-much useless and will most likely never happen.
+
+## Serialisation
+
+*In-memory* objects can be `save()`ed and `load()`ed, while *on-disk*
+can't. As a workaround, the latter can be coerced to *in-memory*
+instances with `as(, "MSnExp")`. We would need `mzML` write support in
+`r Biocpkg("mzR")` to be able to implement serialisation for *on-disk*
+data.
+
+## Data processing
+
+Whenever possible, accessing and processing *on-disk* data is delayed
+(*lazy* processing). These operations are stored in a *processing
+queue* until the spectra are effectively instantiated. 
+
+## Validity
+
+The *on-disk* `validObject` method doesn't verify the validity on the
+spectra (as there aren't any to check). The `validateOnDiskMSnExp`
+function, on the other hand, instantiates all spectra and checks their
+validity (in addition to calling `validObject`).
+
+
+# Conclusions
+
+This document focuses on speed and size improvements of the new
+on-disk `MSnExp` representation. The extend of these improvements will
+substantially increase for larger data.
+
+For general functionality about the on-disk `MSnExp` data class and
+`r Biocpkg("MSnbase")` in general, see other vignettes available with
+
+```{r vigs, eval=FALSE}
+vignette(package = "MSnbase")
+```

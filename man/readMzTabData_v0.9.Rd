@@ -4,7 +4,8 @@
 \alias{readMzTabData_v0.9}
 \title{Read an 'mzTab' file}
 \usage{
-readMzTabData_v0.9(file, what = c("PRT", "PEP"), verbose = TRUE)
+readMzTabData_v0.9(file, what = c("PRT", "PEP"),
+  verbose = isMSnbaseVerbose())
 }
 \arguments{
 \item{file}{A \code{character} with the \code{mzTab} file to
@@ -27,17 +28,16 @@ is always used to populate the \code{MSnSet}'s \code{experimentData}
 slot.
 }
 \examples{
-testfile <- "http://mztab.googlecode.com/svn/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"
+testfile <- "https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"
 prot <- readMzTabData_v0.9(testfile, "PRT")
 prot
 pep <- readMzTabData_v0.9(testfile, "PEP")
 pep
 }
-\author{
-Laurent Gatto
-}
 \seealso{
 \code{\link{writeMzTabData}} to save an
 \code{"\linkS4class{MSnSet}"} as an \code{mzTab} file.
 }
-
+\author{
+Laurent Gatto
+}

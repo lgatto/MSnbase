@@ -18,16 +18,16 @@ iPQF.method  <- function(pos, mat, features, feature.weight) {
     #avrank.list <- vector("list", length(pos))   ## peptide feature average ranks
     #rankmat.list <- vector("list", length(pos))  ## feature rank matrix
 
-    for(i in 1:length(pos)) {
+    for (i in 1:length(pos)) {
         Mat <- mat[pos[[i]], ]
-        ## Ranking: smaller rank is better (~more reliable peptide) 
+        ## Ranking: smaller rank is better (~more reliable peptide)
         ## combined redundant-unique-dist vector
         ru.pep <- features$ru.dist[pos[[i]]]
         ru.rank <- rank(ru.pep)
-        charge.rank <- rank(features$charge[pos[[i]]])  
+        charge.rank <- rank(features$charge[pos[[i]]])
         ll.rank <- rank(features$seq.l[pos[[i]]])
         sc.rank <- rank(-features$score[pos[[i]]])
-        mo.rank <- rank(features$mod.stat[pos[[i]]])     
+        mo.rank <- rank(features$mod.stat[pos[[i]]])
         mass.rank <- rank(features$prec.mass[pos[[i]]])
         int.rank <- rank(-features$mean.ionInt[pos[[i]]])
 
@@ -54,12 +54,12 @@ iPQF.method  <- function(pos, mat, features, feature.weight) {
         av.rank <- av.rank^2
         #avrank.list[[i]] <- av.rank
 
-        ## Approach: Feature-Weighting 
-        weight <- av.rank  
+        ## Approach: Feature-Weighting
+        weight <- av.rank
         weight <- weight / sum(weight)
         trend <- apply(Mat, 2, function(x) weighted.mean(x, w=weight))
 
-        feat.trend[i,] <- trend           
+        feat.trend[i,] <- trend
         #weight.list[[i]] <- weight
 
     }
@@ -68,7 +68,7 @@ iPQF.method  <- function(pos, mat, features, feature.weight) {
 
 
 #####  Internal - FUNCTIONS    < called within iPQF main function !>
-## to build internal objects required for iPQF.method 
+## to build internal objects required for iPQF.method
 
 ## Ratio Matrix Construction Function
 # Define Ratio Calculation: all Channels to individual channel, or sum of all channels
@@ -87,9 +87,9 @@ ratio.mat <- function(mat, method) {
 }
 
 
-## example call: 
+## example call:
 ## exprs(object) <- ratio.mat(exprs(object), method="sum")
-## ratio.mat(head(mat), method="X114_ions")     
+## ratio.mat(head(mat), method="X114_ions")
 
 ## Function: 'Build uniques.all'
 ## list elements= proteins
@@ -107,8 +107,8 @@ uniques.list <- function(pos, sequence) {
 
 
 
-## Function: 'Redundant peptides' (multiply measured sequence): 
-## pos.r: position of peptides with redundantly measured status 
+## Function: 'Redundant peptides' (multiply measured sequence):
+## pos.r: position of peptides with redundantly measured status
 ## pos.rd: Mean Distance of each peptide to other peptides within a redundant group  (follows pos.r structure)
 redundant.dist <- function(pos, uniques.all, mat) {
     uni.tab <- lapply(uniques.all, table)    ## list: name=individual sequence, value= ## appearance of same sequence
@@ -117,15 +117,15 @@ redundant.dist <- function(pos, uniques.all, mat) {
     red.name <- lapply(uni.tab, function(x) which(x>1))        ## which protein has redundant sequences?
     red.prot <- which(lapply(red.name, length)>0)              ## list index (protein profiles) with redundant sequences
 
-    ## redundant group of peptides: 
+    ## redundant group of peptides:
     pos.r <- vector("list", length(pos))                ## pos.r: position of redundant peptide spectra
     pos.rd <- vector("list", length(pos))           ## distance of redundant peptides
     for (i in red.prot) {
         nn <- names(red.name[[i]])
         a <- dist <- c()
         for (k in nn) {
-            posr <- which(uniques.all[[i]] == k) 
-            a <- c(a, pos[[i]][posr]) 
+            posr <- which(uniques.all[[i]] == k)
+            a <- c(a, pos[[i]][posr])
             Mat <- mat[pos[[i]][posr], ]
             red.vec <- vector("numeric", length(posr))
             for (j in 1:length(posr)){
@@ -145,8 +145,8 @@ redundant.dist <- function(pos, uniques.all, mat) {
 
 
 
-## Function: Unique peptide spectrum match (sequence only measured once)  
-## pos.u: position of peptides with uniquely measured status 
+## Function: Unique peptide spectrum match (sequence only measured once)
+## pos.u: position of peptides with uniquely measured status
 ## pos.ud: mean distance of a 'unique' peptide to other 'unique' sequences assigned to the protein (follows pos.u structure)
 
 uni.measured.dist <- function(pos, uniques.all, mat) {
@@ -155,14 +155,14 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
     uni.prot <- which(lapply(uni.name, length) > 0)      ## index protein profiles with single measured Peptides
 
     num.unis <- unlist(lapply(uni.name, length))  ## number single uniques for each protein
-    table(num.unis)                               
+    table(num.unis)
 
     pos.u <- vector("list", length(pos))
     pos.ud <- vector("list", length(pos))
 
     for (i in uni.prot) {
-        uni.p <- match(names(uni.name[[i]]), uniques.all[[i]])  
-        pos.u[[i]] <- pos[[i]][uni.p]  
+        uni.p <- match(names(uni.name[[i]]), uniques.all[[i]])
+        pos.u[[i]] <- pos[[i]][uni.p]
         Mat <- mat[pos.u[[i]], ]
         uni.vec <- vector("numeric", length(pos.u[[i]]))
         for (j in 1:length(uni.vec)){
@@ -185,40 +185,42 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
 
 ##' The iPQF spectra-to-protein summarisation method integrates
 ##' peptide spectra characteristics and quantitative values for protein
-##' quantitation estimation. Spectra features, such as charge state, 
-##' sequence length, identification score and others, contain valuable 
-##' information concerning quantification accuracy. The iPQF algorithm 
+##' quantitation estimation. Spectra features, such as charge state,
+##' sequence length, identification score and others, contain valuable
+##' information concerning quantification accuracy. The iPQF algorithm
 ##' assigns weights to spectra according to their overall feature reliability
 ##' and computes a weighted mean to estimate protein quantities.
 ##' See also \code{\link{combineFeatures}} for a more
 ##' general overview of feature aggregation and examples.
 ##'
-##' @title iPQF: iTRAQ (and TMT) Protein Quantification based on Features
+##' @title iPQF: iTRAQ (and TMT) Protein Quantification based on
+##'     Features
 ##' @param object An instance of class \code{MSnSet} containing
-##' absolute ion intensities.
+##'     absolute ion intensities.
 ##' @param groupBy Vector defining spectra to protein
-##' matching. Generally, this is a feature variable such as
-##' \code{fData(object)$accession}.
+##'     matching. Generally, this is a feature variable such as
+##'     \code{fData(object)$accession}.
 ##' @param low.support.filter A \code{logical} specifying if proteins
-##' being supported by only 1-2 peptide spectra should be filtered
-##' out. Default is \code{FALSE}.
+##'     being supported by only 1-2 peptide spectra should be filtered
+##'     out. Default is \code{FALSE}.
 ##' @param ratio.calc Either \code{"none"} (don't calculate any
-##' ratios), \code{"sum"} (default), or a specific channel (one of
-##' \code{sampleNames(object)}) defining how to calculate relative
-##' peptides intensities.
-##' @param feature.weight Vector \code{"numeric"} giving weight to the different
-##' features. Default is the squared order of the features redundant
-##' -unique-distance metric, charge state, ion intensity, sequence length, 
-##' identification score, modification state, and mass based on a robustness 
-##' analysis.
+##'     ratios), \code{"sum"} (default), or a specific channel (one of
+##'     \code{sampleNames(object)}) defining how to calculate relative
+##'     peptides intensities.
+##' @param feature.weight Vector \code{"numeric"} giving weight to the
+##'     different features. Default is the squared order of the
+##'     features redundant -unique-distance metric, charge state, ion
+##'     intensity, sequence length, identification score, modification
+##'     state, and mass based on a robustness analysis.
 ##' @param method.combine A \code{logical} defining whether to further
-##' use median polish to combine features.
+##'     use median polish to combine features.
 ##' @return A \code{matrix} with estimated protein ratios.
 ##' @author Martina Fischer
-##' @references
-##' iPQF: A new peptide-to-protein summarization method using peptide
-##' characteristics to improve iTRAQ quantification Martina Fischer
-##' and Bernhard Y. Renard, \emph{in prep}.
+##' @references iPQF: a new peptide-to-protein summarization method
+##'     using peptide spectra characteristics to improve protein
+##'     quantification. Fischer M, Renard BY.  Bioinformatics. 2016
+##'     Apr 1;32(7):1040-7. doi:10.1093/bioinformatics/btv675. Epub
+##'     2015 Nov 20. PubMed PMID:26589272.
 ##' @examples
 ##' data(msnset2)
 ##' head(exprs(msnset2))
@@ -232,23 +234,24 @@ iPQF <- function(object, groupBy,
                  method.combine = FALSE,
                  feature.weight = c(7,6,4,3,2,1,5)^2
                  ) {
-    
+
     if (!inherits(object,"MSnSet"))
         stop("'object' is required to be of class MSnSet")
     ## Check NA/Zero values still in data set?
     rm.pos <- apply(exprs(object), 2,
                     function(x) which(is.na(x) | x==0))
     rm.rows <- unique(unlist(rm.pos))
-    if (length(rm.rows) > 0) 
-        stop("Remove NA/Zero Intensities in",
-             object, "before peptide summarization. ",
-             length(rm.rows), "spectra should be removed.")
+    if (length(rm.rows) > 0)
+        stop("Remove NA/Zero Intensities in you data",
+             "before peptide summarization. ",
+             length(rm.rows),
+             " spectr[a/um] should be removed.")
 
     ## Check mzTab standard names are provdied?
     mzTab.names <- c("sequence", "accession",
                      "charge", "modifications",
                      "mass_to_charge",
-                     "search_engine_score") 
+                     "search_engine_score")
     wrong.colnames <- which( mzTab.names %in% colnames(fData(object)) == FALSE)
     if (length(wrong.colnames) > 0) {
         stop(" In FeatureData the following column names, according to the mzTab standard, are required: ",
@@ -260,7 +263,7 @@ iPQF <- function(object, groupBy,
 
     charge <- as.integer(as.vector(fData(object)$charge))
     seq.l  <- sapply(sequence, nchar)
-    prec.mass   <- as.numeric(as.vector(fData(object)$mass_to_charge)) * charge  
+    prec.mass   <- as.numeric(as.vector(fData(object)$mass_to_charge)) * charge
 
     ses.na <- which(is.na(fData(object)$search_engine_score))
     score  <- as.numeric(as.vector(fData(object)$search_engine_score))
@@ -279,7 +282,7 @@ iPQF <- function(object, groupBy,
     ## Calculate Ratio Matrix
     if (ratio.calc != "none") {
         mat <- ratio.mat(exprs(object), method=ratio.calc)  ## relative intensities
-    } 
+    }
     else mat <- ion.mat  ## absolute intensities
 
     ## Protein-Peptide Spectra position assignment
@@ -299,16 +302,16 @@ iPQF <- function(object, groupBy,
     } else {
         pos.pep <- pos.all[-singles] ## proteins supported by >2 peptide spectra
     }
-    
+
     ## Redundantly measured peptide spectrum status in a protein profile (uniques.all):
     uniques.all <- uniques.list(pos.pep, sequence)
 
     ## Redundant peptides
-    red.result <- redundant.dist(pos.pep, uniques.all, mat) 
+    red.result <- redundant.dist(pos.pep, uniques.all, mat)
     pos.r <- red.result[[1]]
     pos.rd <- red.result[[2]]
     ## Single measured peptides
-    uni.result <- uni.measured.dist(pos.pep, uniques.all, mat) 
+    uni.result <- uni.measured.dist(pos.pep, uniques.all, mat)
     pos.u <- uni.result[[1]]
     pos.ud <- uni.result[[2]]
 
@@ -323,7 +326,7 @@ iPQF <- function(object, groupBy,
                            score, mod.stat, mean.ionInt, ru.dist)
 
 
-    ## Protein Quantification - Peptide Summarization 
+    ## Protein Quantification - Peptide Summarization
     iPQF.result  <- iPQF.method(pos.pep, mat, features, feature.weight=feature.weight)
 
     if (!low.support.filter) {

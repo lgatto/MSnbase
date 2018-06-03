@@ -5,7 +5,7 @@
 \title{Read an 'mzTab' file}
 \usage{
 readMzTabData(file, what = c("PRT", "PEP", "PSM"), version = c("1.0",
-  "0.9"), verbose = TRUE)
+  "0.9"), verbose = isMSnbaseVerbose())
 }
 \arguments{
 \item{file}{A \code{character} with the \code{mzTab} file to
@@ -32,7 +32,7 @@ This function can be used to create an
 the \code{MSnSet}'s \code{experimentData()@other$mzTab} slot.
 }
 \examples{
-testfile <- "https://mztab.googlecode.com/svn/examples//PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"
+testfile <- "https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/1_0-Proteomics-Release/PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"
 prot <- readMzTabData(testfile, "PRT")
 prot
 head(fData(prot))
@@ -41,11 +41,10 @@ psms <- readMzTabData(testfile, "PSM")
 psms
 head(fData(psms))
 }
-\author{
-Laurent Gatto
-}
 \seealso{
 See \code{\link{MzTab}} and \code{\link{MSnSetList}} for
 details about the inners of \code{readMzTabData}.
 }
-
+\author{
+Laurent Gatto
+}

@@ -5,7 +5,8 @@
 \alias{class:MSnSet}
 \alias{MSnSet}
 
-%% TODO add methods
+
+\alias{acquisitionNum,MSnSet-method}
 \alias{exprs,MSnSet-method}
 \alias{dim,MSnSet-method}
 \alias{fileNames,MSnSet-method}
@@ -31,9 +32,14 @@
 \alias{coerce,MSnSet,ExpressionSet-method}
 \alias{coerce,ExpressionSet,MSnSet-method}
 \alias{coerce,MSnSet,data.frame-method}
+\alias{coerce,MSnSet,SummarizedExperiment-method}
+\alias{coerce,SummarizedExperiment,MSnSet-method}
+\alias{addMSnSetMetadata}
 \alias{write.exprs}
 \alias{write.exprs,MSnSet-method}
 \alias{experimentData<-,MSnSet,MIAPE-method}
+\alias{pData<-,MSnSet,data.frame-method}
+\alias{fData<-,MSnSet,data.frame-method}
 \alias{combine,MSnSet,MSnSet-method}
 \alias{topN,MSnSet,MSnSet-method}
 \alias{topN,MSnSet-method}
@@ -45,6 +51,7 @@
 \alias{filterZero,MSnSet-method}
 \alias{filterZero,matrix-method}
 \alias{filterZero}
+\alias{filterMsLevel,MSnSet-method}
 \alias{log,MSnSet-method}
 \alias{image,MSnSet-method}
 \alias{image2}
@@ -52,6 +59,7 @@
 \alias{addIdentificationData,MSnSet,character-method}
 \alias{addIdentificationData,MSnSet,mzIDClasses-method}
 \alias{addIdentificationData,MSnSet,mzID-method}
+\alias{addIdentificationData,MSnSet,mzRident-method}
 \alias{addIdentificationData,MSnSet,mzIDCollection-method}
 \alias{addIdentificationData,MSnSet,data.frame-method}
 \alias{removeNoId,MSnSet-method}
@@ -60,6 +68,7 @@
 \alias{removeMultipleAssignment}
 \alias{idSummary,MSnSet-method}
 \alias{idSummary}
+\alias{fromFile,MSnSet-method}
 
 \alias{trimws}
 \alias{trimws,MSnSet-method}
@@ -80,7 +89,6 @@
 
 \alias{droplevels.MSnSet}
 
-
 \title{
   The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
 }
@@ -98,7 +106,7 @@
 
   The constructor \code{MSnSet(exprs, fData, pData)} can be used to
   create \code{MSnSet} instances. Argument \code{exprs} is a
-  \code{matrix} and \code{fData} and \code{pData} must be of clas
+  \code{matrix} and \code{fData} and \code{pData} must be of class
   \code{data.frame} or \code{"\linkS4class{AnnotatedDataFrame}"} and all
   must meet the dimensions and name validity constrains.
 
@@ -106,27 +114,40 @@
   exprs, ...)}.  See also \code{"\linkS4class{ExpressionSet}"} for
   helpful information.  Expression data produced from other softwares
   can thus make use of this standardized data container to benefit
-  \code{R} and \code{Bioconductor} packages. Importer functions will be
-  developed to stream-line the generation of \code{"MSnSet"} instances
-  from third-party software.
+  \code{R} and \code{Bioconductor} packages. Proteomics expression data
+  available as spreadsheets, as produced by third-party software such as
+  Proteome Discoverer, MaxQuant, ... can be imported using the
+  \code{\link{readMSnSet}} and \code{\link{readMSnSet2}} functions.
 
-  A coercion method is also available to transform an \code{IBSpectra}
-  object (names \code{x}) from the \code{isobar} package into an
-  \code{MSnSet}: \code{as(x, "MSnSet")}.
+  Coercion methods are also available to transform \code{MSnSet} objects
+  to \code{IBSpectra}, to \code{data.frame} and to/from
+  \code{ExpressionSet} and \code{SummarizedExperiment} objects. In the
+  latter case, the metadata available in the \code{protocolData},
+  \code{experimentData} are completely dropped, and only the logging
+  information of the \code{processingData} slot is retained. All these
+  metadata can be subsequently be added using the
+  \code{addMSnSetMetadata} (see examples below). When converting a
+  \code{SummarizedExperiment} to an \code{MSnSet}, the respective
+  metadata slots will be populated if available in the
+  \code{SummarizedExperiment} metadata.
 
   In the frame of the \code{MSnbase} package, \code{MSnSet} instances
   can be generated from \code{"\linkS4class{MSnExp}"} experiments using
   the \code{\link{quantify}} method).
-  
+
 }
 
 \section{Slots}{
+
   \describe{
+
     \item{\code{qual}:}{Object of class \code{"data.frame"} that records
       peaks data for each of the reporter ions to be used as quality
       metrics. }
+
     \item{\code{processingData}:}{Object of class
       \code{"\linkS4class{MSnProcess}"} that records all processing. }
+
     \item{\code{assayData}:}{Object of class \code{"assayData"}
       containing a matrix with equal with column number equal to
       \code{nrow(phenoData)}. \code{assayData} must contain a matrix
@@ -135,31 +156,43 @@
       class, \code{\link{exprs}} and \code{\link{assayData}} accessor
       for more details. This slot in indirectly inherited from
       \code{"\linkS4class{eSet}"}. }
+
     \item{\code{phenoData}:}{Object of class \code{"AnnotatedDataFrame"}
       containing experimenter-supplied variables describing sample (i.e
       the individual tags for an labelled MS experiment) (indireclty
-      inherited from  \code{"\linkS4class{eSet}"}). See
-      \code{\link{phenoData}} and the \code{"\linkS4class{eSet}"}
-      class for more details. }
+      inherited from \code{"\linkS4class{eSet}"}). See
+      \code{\link{phenoData}} and the \code{"\linkS4class{eSet}"} class
+      for more details. This slot can be accessed as a \code{data.frame}
+      with \code{pData} and be replaced by a new valid (i.e. of
+      compatible dimensions and row names) \code{data.frame} with
+      \code{pData()<-}.  }
+
     \item{\code{featureData}:}{Object of class
       \code{"AnnotatedDataFrame"} containing variables describing
       features (spectra in our case), e.g. identificaiton data, peptide
       sequence, identification score,... (inherited indirectly from
-      \code{"\linkS4class{eSet}"}). See
-      \code{\link{featureData}} and the \code{"\linkS4class{eSet}"}
-      class for more details. }
+      \code{"\linkS4class{eSet}"}). See \code{\link{featureData}} and
+      the \code{"\linkS4class{eSet}"} class for more details. This slot
+      can be accessed as a \code{data.frame} with \code{fData} and be
+      replaced by a new valid (i.e. of compatible dimensions and row
+      names) \code{data.frame} with \code{fData()<-}.
+    }
+
     \item{\code{experimentData}:}{Object of class
       \code{"\linkS4class{MIAPE}"}, containing details of experimental
       methods (inherited from \code{"\linkS4class{eSet}"}). See
       \code{\link{experimentData}} and the \code{"\linkS4class{eSet}"}
       class for more details. }
+
     \item{\code{annotation}:}{ not used here. }
+
     \item{\code{protocolData}:}{Object of class
       \code{"\linkS4class{AnnotatedDataFrame}"} containing
       equipment-generated variables (inherited indirectly from
       \code{"\linkS4class{eSet}"}). See
       \code{\link{protocolData}} and the \code{"\linkS4class{eSet}"}
       class for more details. }
+
     \item{\code{.__classVersion__}:}{Object of class
       \code{"\linkS4class{Versions}"} describing the versions of R,
       the Biobase package, \code{"\linkS4class{eSet}"},
@@ -184,6 +217,25 @@
     %% \item{$name}{\code{signature(x = "pSet")}: Access \code{name} column
     %%   in \code{featureData}. Note that this behaviour is different to
     %%   the \code{eSet}, where \code{$} accesses the \code{phenoData}. }
+    \item{acquisitionNum}{
+      \code{acquisitionNum(signature(object = "MSnSet"))}: Returns the
+      a numeric vector with acquisition number of each spectrum. The vector
+      names are the corresponding spectrum names.
+      The information is extracted from the object's \code{featureData} slot.
+    }
+
+    \item{fromFile}{
+      \code{fromFile(signature(object = "MSnSet"))}: get the index of
+      the file (in \code{fileNames(object)}) from which the raw
+      spectra from which the corresponding feature were originally
+      read. The relevant information is extracted from the object's
+      \code{featureData} slot.
+
+      Returns a numeric vector with names corresponding to the spectrum
+      names.
+    }
+
+
     \item{dim}{\code{signature(x = "MSnSet")}: Returns the dimensions of
       object's assay data, i.e the number of samples and the number of
       features. }
@@ -208,16 +260,29 @@
       and samples along rows and the \code{phenoData} and
       \code{featureData} slots have been swapped. The
       \code{protocolData} slot is always dropped. }
+
     \item{as(,"ExpressionSet")}{\code{signature(x = "MSnSet")}: Coerce
       object from \code{MSnSet} to
-      \code{\link{ExpressionSet-class}}. The \code{experimentData} slot is
-      converted to a \code{MIAME} instance. It is also possible to
+      \code{\link{ExpressionSet-class}}. The \code{experimentData} slot
+      is converted to a \code{MIAME} instance. It is also possible to
       coerce an \code{ExpressionSet} to and \code{MSnSet}, in which case
       the \code{experimentData} slot is newly initialised. }
+
+    \item{as(,"IBSpectra")}{\code{signature(x = "MSnSet")}: Coerce
+      object from \code{MSnSet} to \code{IBSpectra} from the
+      \code{isobar} package.
+    }
+
     \item{as(,"data.frame")}{\code{signature(x = "MSnSet")}: Coerce
       object from \code{MSnSet} to \code{data.frame}. The \code{MSnSet}
-      is transposed and the \code{PhenoData} slot is appended.
-      See also \code{ms2df} below.}
+      is transposed and the \code{PhenoData} slot is appended. }
+
+    \item{as(,"SummarizedExperiment")}{\code{signature(x = "MSnSet")}:
+      Coerce object from \code{MSnSet} to
+      \code{SummarizedExperiment}. Only part of the metadata is
+      retained. See \code{addMSnSetMetadata} and the example below for
+      details.  }
+
     %% \item{ratios}{\code{signature(object = "MSnSet")}: ... }
     \item{write.exprs}{signature(x = "MSnSet")}{Writes expression values
       to a tab-separated file (default is \code{tmp.txt}). The
@@ -225,11 +290,14 @@
       \code{featureData} columns (as column names, column number or
       \code{logical}) to append on the right of the expression matrix.
       The following arguments are the same as \code{write.table}.}
+
     \item{combine}{signature(x = "MSnSet", y = "MSnSet", ...)}{ Combines
       2 or more \code{MSnSet} instances according to their feature names.
       Note that the \code{qual} slot and the processing information are
       silently dropped. }
-    \item{topN}{signature(object = "MSnSet", groupBy, n = 3, fun, ...)}{
+
+    \item{topN}{signature(object = "MSnSet", groupBy, n = 3, fun, ..., verbose =
+      isMSnbaseVerbose())}{
       Selects the \code{n} most intense features (typically peptides or
       spectra) out of all available for each set defined by
       \code{groupBy} (typically proteins) and creates a new instance of
@@ -239,8 +307,6 @@
       decreasing order. Additional parameters can be passed to
       \code{fun} through \code{...}, for instance to control the
       behaviour of \code{topN} in case of \code{NA} values.
-      Note that the \code{qual} slot and the processing information are
-      silently dropped.
       (Works also with \code{matrix} instances.)
 
       See also the \code{\link{nQuants}} function to retrieve the
@@ -249,6 +315,7 @@
       A complete use case using \code{topN} and \code{nQuants} is
       detailed in the \code{synapter} package vignette.
     }
+
     \item{filterNA}{signature(object = "MSnSet", pNA = "numeric",
       pattern = "character", droplevels = "logical")}{ This method
       subsets \code{object} by removing features that have (strictly)
@@ -267,25 +334,36 @@
       See also the \code{\link{is.na.MSnSet}} and \code{\link{plotNA}}
       methods for missing data exploration.
     }
+
     \item{filterZero}{signature(object = "MSnSet", pNA = "numeric",
       pattern = "character", droplevels = "logical")}{ As
       \code{filterNA}, but for zeros.
-    }    
+    }
+
+    \item{filterMsLevel}{signature(object = "MSnSet", msLevel. =
+      "numeric", fcol = "character")}{ Keeps only spectra with level
+      \code{msLevel.}, as defined by the \code{fcol} feature variable
+      (default is \code{"msLevel"}). }
+
+
     \item{log}{signature(object = "MSnSet", base = "numeric")}{ Log
       transforms \code{exprs(object)} using
       \code{base::log}. \code{base} (defaults is \code{e='exp(1)'}) must
       be a positive or complex number, the base with respect to which
       logarithms are computed.
     }
+
     \item{droplevels}{signature(x = "MSnSet", ...)}{Drops the unused
       factor levels in the \code{featureData} slot. See
       \code{\link{droplevels}} for details.
     }
+
     \item{exprsToRatios}{\code{signature(object = "MSnSet", log =
 	"logical")}}{calculates all possible ratios between
       \code{object}'s columns/samples.
       See \code{\link{exprsToRatios}} for more details.
     }
+
     \item{impute}{\code{signature(object = "MSnSet", ...)}}{
       Performs data imputation on the \code{MSnSet} object.
       See \code{\link{impute}} for more details.
@@ -309,7 +387,7 @@
       standard deviations versus row means. See
       \code{\link{meanSdPlot}} (\code{vsn} package) for more details.
     }
-    
+
     \item{image}{\code{signature(x = "MSnSet", facetBy = "character",
 	sOrderBy = "character", legend = "character", low = "character",
 	high = "character", fnames = "logical", nmax =
@@ -336,7 +414,7 @@
 	\code{vp.misc::image_msnset}. The previous version of this
 	method is still available through the \code{image2} function.
       }
-      
+
     \item{plotNA}{\code{signature(object = "MSnSet", pNA =
 	"numeric")}}{
 	Plots missing data for an \code{MSnSet} instance. \code{pNA} is a
@@ -346,9 +424,9 @@
 	percentage of NA values in the full data set and the number of
 	proteins retained. Default is 1/2. See also
 	\code{\link{plotNA}}.}
-    
+
     \item{MAplot}{\code{signature(object = "MSnSet", log.it = "logical",
-    	base = "numeric", ...)}}{
+	base = "numeric", ...)}}{
       Produces MA plots (Ratio as a function
       of average intensity) for the samples in \code{object}. If
       \code{ncol(object) == 2}, then one MA plot is produced using the
@@ -370,9 +448,10 @@
       examples. }
 
     \item{removeMultipleAssignment}{\code{signature(object = "MSnSet",
-	fcol = "nprot")}: Removes protein groups with more than one
-      member. The latter is defined by extracting a feature variable
-      (default is \code{"nprot"}). }
+	fcol = "nprot")}: Removes protein groups (or feature belong to
+	protein groups) with more than one member. The latter is defined
+	by extracting a feature variable (default is
+	\code{"nprot"}). Also removes non-identified features/ }
 
     \item{idSummary}{\code{signature(object = "MSnSet", ...)}: Prints a
       summary that lists the percentage of identified features per file
@@ -383,23 +462,38 @@
 
 \section{Functions}{
   \describe{
-    \item{updateFvarLabels}{signature(object, label, sep)}{
-      This function updates \code{object}'s featureData variable labels
-      by appending \code{label}. By default, \code{label} is the
-      variable name and the separator \code{sep} is \code{.}.}
-    \item{updateSampleNames}{signature(object, label, sep)}{
-      This function updates \code{object}'s sample names by appending
+
+    \item{updateFvarLabels}{signature(object, label, sep)}{ This
+      function updates \code{object}'s featureData variable labels by
+      appending \code{label}. By default, \code{label} is the variable
+      name and the separator \code{sep} is \code{.}.}
+
+    \item{updateSampleNames}{signature(object, label, sep)}{ This
+      function updates \code{object}'s sample names by appending
       \code{label}. By default, \code{label} is the variable name and
       the separator \code{sep} is \code{.}.}
-    \item{updateFeatureNames}{signature(object, label, sep)}{
-      This function updates \code{object}'s feature names by appending
+
+    \item{updateFeatureNames}{signature(object, label, sep)}{ This
+      function updates \code{object}'s feature names by appending
       \code{label}. By default, \code{label} is the variable name and
       the separator \code{sep} is \code{.}.}
+
     \item{ms2df}{signature(x, fcols)}{Coerces the \code{MSnSet} instance
       to a \code{data.frame}. The direction of the data is retained and
       the feature variable labels that match \code{fcol} are appended to
       the expression values. See also \code{as(x, "data.frame")} above.
-    }
+      }
+
+    \item{addMSnSetMetadata}{signature(x, y)}{When coercing an
+      \code{MSnSet} \code{y} to a \code{SummarizedExperiment} \code{x}
+      with \code{x <- as(y, "SummarizedExperiment")}, most of \code{y}'s
+      metadata is lost. Only the file names, the processing log and the
+      MSnbase version from the \code{processingData} slots are passed
+      along. The \code{addMSnSetMetadata} function can be used to add
+      the complete \code{processingData}, \code{experimentData} and
+      \code{protocolData} slots. The downside of this is that MSnbase is
+      now required to use the \code{SummarizedExperiment} object.  }
+
   }
 }
 
@@ -416,7 +510,7 @@
   \code{\link[MSnbase]{write.exprs}}. See \code{\link{readMSnSet}} to
   create and \code{MSnSet} using data available in a spreadsheet or
   \code{data.frame}.
-  
+
 }
 
 \examples{
@@ -448,7 +542,7 @@ sampleNames(x)
 
 ## Visualisation
 
-library(pRolocdata)
+library("pRolocdata")
 data(dunkley2006)
 image(dunkley2006)
 ## Changing colours
@@ -471,6 +565,21 @@ image(dd, low = "green", high = "red")
 dunkley2006 <- dunkley2006[1:25, ]
 image(dunkley2006)
 image(dunkley2006, legend = "hello")
+
+
+## Coercion
+if (require("SummarizedExperiment")) {
+    data(msnset)
+    se <- as(msnset, "SummarizedExperiment")
+    metadata(se) ## only logging
+    se <- addMSnSetMetadata(se, msnset)
+    metadata(se) ## all metadata
+    msnset2 <- as(se, "MSnSet")
+    processingData(msnset2)
+}
+
+as(msnset, "ExpressionSet")
+
 }
 
 \keyword{classes}

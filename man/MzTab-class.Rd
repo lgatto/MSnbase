@@ -6,6 +6,7 @@
 \alias{MzTab}
 \alias{metadata,MzTab-method}
 \alias{fileName,MzTab-method}
+\alias{fileNames,MzTab-method}
 \alias{peptides,MzTab-method}
 \alias{proteins,MzTab-method}
 \alias{psms,MzTab-method}
@@ -105,7 +106,7 @@
 \references{
 
   The mzTab format is a light-weight, tab-delimited file format for
-  proteomics data. See https://code.google.com/p/mztab/ for details and
+  proteomics data. See https://github.com/HUPO-PSI/mzTab for details and
   specifications.
 
   Griss J, Jones AR, Sachsenberg T, Walzer M, Gatto L, Hartler J,
@@ -137,7 +138,8 @@ fls <- c("Cytidine.mzTab", "MTBLS2.mztab",
          "labelfree_CQI.mzTab", "labelfree_SQI.mzTab", 
          "lipidomics-HFD-LD-study-PL-DG-SM.mzTab", 
          "lipidomics-HFD-LD-study-TG.mzTab")
-baseUrl <- "https://mztab.googlecode.com/svn/examples/"
+
+baseUrl <- "https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/1_0-Proteomics-Release/"
 
 ## a list of mzTab objects
 mzt <- sapply(file.path(baseUrl, fls), MzTab)

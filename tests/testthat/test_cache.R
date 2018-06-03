@@ -14,4 +14,3 @@ test_that("Caching MS2 data", {
   show(c0)
   expect_true(all.equal(c0, c1, check.attributes = FALSE))
 })
-

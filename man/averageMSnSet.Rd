@@ -79,10 +79,9 @@ plot2D(avg, cex = 7.7 * disp)
 title(main = paste("Dispersion: non-parametric CV",
                    paste(round(range(disp), 3), collapse = " - ")))
 }
-\author{
-Laurent Gatto
-}
 \seealso{
 \code{\link{compfnames}} to compare MSnSet feature names.
 }
-
+\author{
+Laurent Gatto
+}

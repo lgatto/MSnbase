@@ -7,12 +7,14 @@ peaksAsLists <-  function(object,
         pl <- peaks(object)
     } else {
         pl <- peaks(object, i)
+        if (is.matrix(pl)) ## i was of length 1
+            pl <- list(pl)
     }
     switch(what,
            mz = lapply(pl, function(x) list(mz = x[, 1])),
            int = lapply(pl, function(x) list(int = x[, 2])),
            both = lapply(pl, function(x) list(mz = x[, 1],
-               int = x[, 2])))
+                                              int = x[, 2])))
 }
 
 
@@ -24,15 +26,15 @@ list2Spectrum2 <- function(x, ...)
 
 plotMzDelta_list <- function(object,            ## peakLists
                              reporters = NULL,  ## reporters to be removed
-                             percentage = 0.1,  ## percentage of peaks to consider                               
+                             percentage = 0.1,  ## percentage of peaks to consider
                              precMz,            ## precursors to be removed
                              precMzWidth = 2,   ## precrsor m/z with
                              bw = 1,            ## histogram bandwidth
-                             xlim = c(40,200),  ## delta m/z range
+                             xlim = c(40, 200), ## delta m/z range
                              withLabels = TRUE, ## add amino acide labels
                              size = 2.5,        ## labels size
                              plot = TRUE,       ## plot figure
-                             verbose = TRUE) {
+                             verbose = isMSnbaseVerbose()) {
     if (missing(precMz))
         stop("Precursor M/Z is only supported for MSnExp instances.")
     ResidueMass <- ..density.. <- NULL ## to accomodate codetools
@@ -59,15 +61,15 @@ plotMzDelta_list <- function(object,            ## peakLists
         sp <- utils.removePrecMz_list(sp, precMz[j], precMzWidth)
         ds <- utils.getMzDelta_list(sp, percentage)
         delta[[j]] <- ds[ds > xlim[1] & ds < xlim[2]]
-    }   
+    }
     if (verbose) {
         close(pb)
         message(" Plotting...\n")
     }
     delta <- unlist(delta)
     ## could round deltas to speed up?
-    delta <- melt(delta)
-    p <- ggplot(delta, aes(x = value)) + 
+    delta <- data.frame(value = delta)
+    p <- ggplot(delta, aes(x = value)) +
         geom_histogram(aes(y = ..density..), stat = "bin", binwidth = bw) +
             scale_x_continuous(limits = xlim) +
                     xlab("m/z delta") + ylab("Density") +
@@ -104,159 +106,75 @@ plotMzDelta_list <- function(object,            ## peakLists
                                      size = size) +
                                          theme(legend.position = "none")
     }
-    if (plot) 
+    if (plot)
         print(p)
     invisible(p)
 }
 
+##' A function to convert the identification data contained in an
+##' \code{mzRident} object to a \code{data.frame}. Each row represents
+##' a scan, which can however be repeated several times if the PSM
+##' matches multiple proteins and/or contains two or more
+##' modifications. To reduce the \code{data.frame} so that rows/scans
+##' are unique and use semicolon-separated values to combine
+##' information pertaining a scan, use
+##' \code{\link[=reduce,data.frame-method]{reduce}}.
+##'
+##' See also the \emph{Tandem MS identification data} section in the
+##' \emph{MSnbase-demo} vignette.
+##'
+##' @title Coerce identification data to a \code{data.frame}
+##' @param from An object of class \code{mzRident} defined in the
+##'     \code{mzR} package.
+##' @return A \code{data.frame}
+##' @author Laurent Gatto
+##' @name as
+##' @rdname mzRident2dfr
+##' @aliases as.data.frame.mzRident
+##' @examples
+##' ## find path to a mzIdentML file
+##' identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
+##'                  full.name = TRUE, pattern = "dummyiTRAQ.mzid")
+##' library("mzR")
+##' x <- openIDfile(identFile)
+##' x
+##' as(x, "data.frame")
+setAs("mzRident", "data.frame",
+      function(from) {
+          ## peptide spectrum matching
+          iddf <- factorsAsStrings(psms(from))
+          ## add file raw and mzid provenances
+          src <- basename(sourceInfo(from))
+          if (length(src) > 1) ## see issue #261
+              src <- paste(src, collapse = ";")
+          iddf$spectrumFile <- src
+          iddf$idFile <- basename(fileName(from))
+          ## add scores
+          scores <- factorsAsStrings(score(from))
+          if (nrow(scores)) { ## see issue #261
+              stopifnot(identical(iddf[, 1], scores[, 1]))
+              iddf <- cbind(iddf, scores[, -1])
+          }
+          ## add modification
+          mods <- factorsAsStrings(modifications(from))
+          names(mods)[-1] <- makeCamelCase(names(mods), prefix = "mod")[-1]
+          iddf <- merge(iddf, mods,
+                        by.x = c("spectrumID", "sequence"),
+                        by.y = c("spectrumID",  "modSequence"),
+                        suffixes = c("", ".y"),
+                        all = TRUE, sort = FALSE)
+          iddf[, "spectrumID.y"] <- NULL
+          ## add substitutions
+          subs <- factorsAsStrings(substitutions(from))
+          names(subs)[-1] <- makeCamelCase(names(subs), prefix = "sub")[-1]
+          iddf <- merge(iddf, subs,
+                        by.x = c("spectrumID" = "sequence"),
+                        by.y = c("spectrumID" = "subSequence"),
+                        suffixes = c("", ".y"),
+                        all = TRUE, sort = FALSE)
+          iddf[, "spectrumID.y"] <- NULL
+          iddf
+      })
 
-.chromatogram <- function(hd, 
-                          y = c("tic", "bpi"),
-                          f, 
-                          legend = TRUE,
-                          plot = TRUE,
-                          ...) {
-    y <- match.arg(y)
-    ylab <- switch(y,
-                tic = "Total ion current",
-                bpi = "Base peak intensity")
-    yy <- switch(y,
-                tic = hd$totIonCurrent,
-                bpi = hd$basePeakIntensity)
-    yymax <- max(yy)
-    yy <- yy / yymax * 100
-    xx <- hd$retentionTime
-    if (plot) {
-        plot(yy ~ xx, type = "l", 
-             xlab = "Time (sec)", ylab = ylab,
-             ...)
-        abline(h = 0)
-        if (legend) {
-            leg <- sprintf("%s: %.3g", toupper(y), yymax)
-            if (!missing(f))
-                leg <- c(f, leg)                    
-            legend("topleft",
-                   leg,
-                   col = NA,
-                   cex = .7,
-                   bty = "n")
-        }
-    }
-    dd <- data.frame(xx, yy)
-    colnames(dd) <- c("rt", y)
-    invisible(dd)
-}
-
-xicplot <- function(dd, mz, width, rtlim,
-                    npeaks, legend, points, ...) {
-    ptcex <- .5
-    plot(int ~ rt, data = dd,
-         ylab = "Counts", xlab = "Retention time [s]",
-         type = "l", xlim = rtlim,
-         ...)
-    abline(h = 0, col = "grey")
-    grid()
-    if (legend) 
-        legend("topleft",
-               c(paste0("Precursor: ", mz),
-                 paste0("XIC: ", mz-width, " - ", mz+width)), 
-               bty = "n", cex = .75)
-    if (npeaks > 0) {
-        dd2 <- dd[dd$rt >= min(rtlim) & dd$rt <= max(rtlim), ]
-        dd2$int[dd2$int < max(dd2$int)/100] <- 0
-        kx <- ky <- kz<- rep(NA, npeaks)        
-        for (.k in 1:length(kx)) {
-            i <- order(dd2$int, decreasing = TRUE)[1]
-            kx[.k] <- dd2$rt[i]
-            ky[.k] <- dd2$int[i]
-            kz[.k] <- dd2$mz[i]
-            dd2$int[i] <- 0
-            dd0 <- which(dd2$int == 0)
-            ii <- which(dd0 == i)
-            if (length(ii) < 3) break                
-            dd2$int[dd0[ii-1]:dd0[ii+1]] <- 0
-        }
-        ksel <- !is.na(kx)
-        text(kx[ksel],
-             ky[ksel],
-             sprintf("%.4f", kz[ksel]),
-             pos = 3,
-             cex = .75)
-    }
-    if (points) {
-        ## relevant MS2 spectra are coloured in xic_1 
-        points(int ~ rt, data = dd,
-               col = "#00000060",
-               pch = 19, cex = ptcex)
-        ## highlight annotated peaks
-        points(kx, ky, cex = ptcex, pch = 19,
-               col = "#FFA404FF")
-    }  
-}
-
-
-## want a vectorised version
-xic_1 <- function(object, ##
-                  mz,
-                  width = 0.5,
-                  rtlim,
-                  npeaks = 3,
-                  charge,
-                  clean = TRUE,
-                  legend=TRUE,
-                  plot = TRUE,
-                  points = TRUE,
-                  hd,
-                  ...) {
-    if (!missing(charge))
-        mz <- mz/as.integer(charge)
-    if (missing(hd))
-        hd <- header(object)
-    ms1 <- which(hd$msLevel == 1)
-    pl <- peaks(object, ms1)
-    hd1 <- hd[ms1, ]
-    res <- lapply(seq_len(length(pl)),
-                  function(i) {
-                      ## matching peaks
-                      sel <- pl[[i]][, 1] > mz - width &
-                          pl[[i]][, 1] < mz + width
-                      ans <- NA
-                      if (any(sel)) {
-                          j <- which.max(pl[[i]][sel, 2])
-                          ## index, intensity, mz
-                          ans <- c(i, pl[[i]][sel, 2][j],
-                                   pl[[i]][sel, 1][j])
-                      }
-                      ans
-                  })    
-    if (length(res2 <- res[!is.na(res)]) == 0)
-        stop("No matching peaks found.")
-    if (length(res2) < 15)
-        warning("Only ", length(res2), "matching spectra found.")
-    dd <- data.frame(int = sapply(res2, "[", 2),
-                     rt = hd1$retentionTime[sapply(res2, "[", 1)],
-                     mz = sapply(res2, "[", 3))
-    if (clean) 
-        dd <- dd[utils.clean(dd$int, all=FALSE), ]
-    if (plot) {
-        if (missing(rtlim))
-            rtlim <- range(dd$rt)
-        xicplot(dd, mz, width, rtlim, npeaks, legend, points, ...)
-        if (points) {
-            hd2 <- hd[-ms1, ]
-            sel <- hd2$precursorMZ > mz - width &
-                hd2$precursorMZ < mz + width
-            if (any(sel)) {
-                pi <- hd2[sel, "precursorScanNum"]
-                pj <- match(pi, hd1$acquisitionNum)
-                ## pl2 <- peaks(object, pj) ## relevant MS2 spectra
-                .dd2 <- data.frame(int = sapply(res[pj], "[", 2),
-                                   rt = hd1$retentionTime[sapply(res[pj], "[", 1)],
-                                   mz = sapply(res[pj], "[", 3))
-                points(.dd2$rt, .dd2$int, col = "#FF0000",
-                       pch = 19, cex = .6)
-            }
-        }
-    }
-    invisible(dd)
-}
+as.data.frame.mzRident <-
+    function(x, row.names = NULL, optional = FALSE, ...) as(x, "data.frame")

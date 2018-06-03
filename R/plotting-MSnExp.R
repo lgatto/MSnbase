@@ -58,7 +58,7 @@ plot_MSnExp <- function(object,
 
 plotMzDelta_MSnExp <- function(object,            ## MSnExp object
                                reporters = NULL,  ## reporters to be removed
-                               percentage = 0.1,  ## percentage of peaks to consider                               
+                               percentage = 0.1,  ## percentage of peaks to consider
                                precMz = NULL,     ## precursors to be removed
                                precMzWidth = 2,   ## precrsor m/z with
                                bw = 1,            ## histogram bandwidth
@@ -66,9 +66,7 @@ plotMzDelta_MSnExp <- function(object,            ## MSnExp object
                                withLabels = TRUE, ## add amino acide labels
                                size = 2.5,        ## labels size
                                plot = TRUE,       ## plot figure
-                               verbose = TRUE) {
-    if (is.null(precMz))
-        precMz <- precursorMz(object)
+                               verbose = isMSnbaseVerbose()) {
     ## Contributed by Guangchuang Yu for the plotMzDelta QC
     ## Modified aa labelling
     ResidueMass <- ..density.. <- NULL ## to accomodate codetools
@@ -93,8 +91,8 @@ plotMzDelta_MSnExp <- function(object,            ## MSnExp object
         sp <- object[[j]]
         ## TODO - better than setting precMzWidth statically
         ## would be to get the peaks based on it m/z value
-        ## and then find it's upper/lower m/z limits to set to 0           
-        sp <- utils.removePrecMz(sp, precMz[j], precMzWidth)
+        ## and then find it's upper/lower m/z limits to set to 0
+        sp <- utils.removePrecMz_Spectrum(sp)
         ds <- utils.getMzDelta(sp, percentage)
         delta[[j]] <- ds[ds > xlim[1] & ds < xlim[2]]
     }
@@ -102,8 +100,7 @@ plotMzDelta_MSnExp <- function(object,            ## MSnExp object
         close(pb)
         message(" Plotting...\n")
     }
-    delta <- unlist(delta)
-    delta <- melt(delta)
+    delta <- data.frame(value = unlist(delta))
     p <- ggplot(delta, aes(x = value)) +
         geom_histogram(aes(y = ..density..), stat = "bin", binwidth = bw) +
             scale_x_continuous(limits = xlim) +

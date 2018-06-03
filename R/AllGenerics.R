@@ -1,5 +1,3 @@
-setGeneric("width", function(x) standardGeneric("width"))
-
 setGeneric("bin", function(object, ...) standardGeneric("bin"))
 setGeneric("clean", function(object, ...) standardGeneric("clean"))
 setGeneric("compareSpectra", function(object1, object2, ...) standardGeneric("compareSpectra"))
@@ -27,8 +25,11 @@ setGeneric("collisionEnergy", function(object) standardGeneric("collisionEnergy"
 ## setGeneric("peaksCount", function(object) standardGeneric("peaksCount")) ## use mzR generic
 ## setGeneric("header", function(object) standardGeneric("header")) ## use mzR generic
 setGeneric("polarity", function(object) standardGeneric("polarity"))
-setGeneric("centroided", function(object) standardGeneric("centroided"))
-setGeneric("centroided<-", function(object, value) standardGeneric("centroided<-"))
+
+setGeneric("centroided", function(object, ...) standardGeneric("centroided"))
+setGeneric("centroided<-", function(object, ..., value) standardGeneric("centroided<-"))
+setGeneric("smoothed", function(object) standardGeneric("smoothed"))
+setGeneric("smoothed<-", function(object, ..., value) standardGeneric("smoothed<-"))
 
 setGeneric("processingData", function(object) standardGeneric("processingData"))
 setGeneric("processingData<-", function(object, value) standardGeneric("processingData<-"))
@@ -49,9 +50,10 @@ setGeneric("instrumentModel", function(object) standardGeneric("instrumentModel"
 setGeneric("instrumentManufacturer", function(object) standardGeneric("instrumentManufacturer"))
 setGeneric("instrumentCustomisations", function(object) standardGeneric("instrumentCustomisations"))
 
-setGeneric("ionCount", function(object) standardGeneric("ionCount"))
+setGeneric("ionCount", function(object, ...) standardGeneric("ionCount"))
 
 setGeneric("fromFile", function(object) standardGeneric("fromFile"))
+setGeneric("fromFile<-", function(object, value) standardGeneric("fromFile<-"))  ## This one should remain "private"
 
 setGeneric("quantify", function(object, ...) standardGeneric("quantify"))
 setGeneric("curveStats", function(object,reporters, ...) standardGeneric("curveStats"))
@@ -65,8 +67,8 @@ setGeneric("reporterColours", function(object) standardGeneric("reporterColours"
 setGeneric("reporterColors", function(object) standardGeneric("reporterColors"))
 
 ### THESE SHOULD PROBABLY BE REPLACED BY BiocGenerics::fileName?
-setGeneric("fileNames", function(object) standardGeneric("fileNames"))
-setGeneric("fileNames<-", function(object, value) standardGeneric("fileNames<-"))
+setGeneric("fileNames", function(object, ...) standardGeneric("fileNames"))
+## setGeneric("fileNames<-", function(object, value) standardGeneric("fileNames<-"))
 
 setGeneric("extractPrecSpectra", function(object, prec) standardGeneric("extractPrecSpectra"))
 setGeneric("extractSpectra", function(object, selected) standardGeneric("extractSpectra"))
@@ -87,9 +89,6 @@ setGeneric("topN", function(object, ...) standardGeneric("topN"))
 
 setGeneric("exprsToRatios", function(object, ...) standardGeneric("exprsToRatios"))
 setGeneric("impute", function(object, ...) standardGeneric("impute"))
-
-## mzR
-setGeneric("xic", function(object, ...) standardGeneric("xic"))
 
 ## identification
 setGeneric("addIdentificationData", function(object, id, ...) standardGeneric("addIdentificationData"))
@@ -120,7 +119,6 @@ setGeneric("fnamesIn", function(x, y, ...) standardGeneric("fnamesIn"))
 ## setGeneric("spectra", function(object, ...) standardGeneric("spectra"))
 ## setGeneric("mz", function(object, ...) standardGeneric("mz"))
 ## setGeneric("intensity", function(object, ...) standardGeneric("intensity"))
-## setGeneric("chromatogram", function(object, ...) standardGeneric("chromatogram"))
 
 ## base::trimws
 .trimws.useAsDefault <- function (x, which = c("both", "left", "right"), ...)
@@ -130,3 +128,26 @@ setGeneric("trimws", signature = "x",
     function(x, which = c("both", "left", "right"), ...)
         standardGeneric("trimws"),
     useAsDefault=.trimws.useAsDefault)
+
+setGeneric("filterMz", function (object, ...) standardGeneric("filterMz"))
+setGeneric("filterRt", function (object, ...) standardGeneric("filterRt"))
+setGeneric("filterMsLevel", function (object, ...) standardGeneric("filterMsLevel"))
+setGeneric("filterFile", function (object, ...) standardGeneric("filterFile"))
+setGeneric("filterAcquisitionNum", function (object, ...) standardGeneric("filterAcquisitionNum"))
+setGeneric("filterEmptySpectra", function (object, ...) standardGeneric("filterEmptySpectra"))
+setGeneric("filterPrecursorScan", function (object, ...) standardGeneric("filterPrecursorScan"))
+
+## isolationWindow generic is in mzR
+
+setGeneric("bpi", function(object, ...) standardGeneric("bpi"))
+setGeneric("spectrapply", function(object, ...) standardGeneric("spectrapply"))
+setGeneric("splitByFile", function(object, f, ...) standardGeneric("splitByFile"))
+
+## Chromatogram class:
+setGeneric("productMz", function(object, ...) standardGeneric("productMz"))
+## setGeneric("aggregationFun", function(object, ...)
+##     standardGeneric("aggregationFun"))
+
+## centroiding related
+setGeneric("estimateMzResolution", function(object, ...)
+    standardGeneric("estimateMzResolution"))

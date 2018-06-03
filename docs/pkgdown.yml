@@ -1,0 +1,10 @@
+pandoc: 1.19.2.1
+pkgdown: 1.0.0
+pkgdown_sha: ~
+articles:
+  MSnbase-centroiding: MSnbase-centroiding.html
+  MSnbase-demo: MSnbase-demo.html
+  MSnbase-development: MSnbase-development.html
+  MSnbase-io: MSnbase-io.html
+  benchmarking: benchmarking.html
+

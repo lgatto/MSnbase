@@ -26,9 +26,14 @@ normalise_MSnSet <- function(object, method, ...) {
     e <- exprs(object)
     center <- apply(e, 2L, median, na.rm = TRUE)
     e <- sweep(e, 2L, center, check.margin = FALSE, ...)
+  } else if (method == "diff.median") {
+      e <- exprs(object)
+      med <- median(as.numeric(e), na.rm = TRUE)
+      cmeds <- apply(e, 2L, median, na.rm = TRUE)
+      e <- sweep(e, 2L, cmeds - med)
   } else {
     switch(method,
-           max = div <- apply(exprs(object), 1L, max, na.rm = TRUE),
+           max = div <- .rowMaxs(exprs(object), na.rm = TRUE),
            sum = div <- rowSums(exprs(object), na.rm = TRUE))
     e <- exprs(object)/div
   }
@@ -45,43 +50,50 @@ normalise_MSnSet <- function(object, method, ...) {
 }
 
 
-##' This function calculates the column-wise coefficient of variation (CV), i.e.
-##' the ration between the standard deviation and the mean, for the features
-##' in an \code{"\linkS4class{MSnSet}"}. The CVs are calculated for the groups
-##' of features defined by \code{groupBy}. For groups defined by single features,
-##' \code{NA} is returned.
+##' This function calculates the column-wise coefficient of variation
+##' (CV), i.e.  the ration between the standard deviation and the
+##' mean, for the features in an [`MSnSet`]. The CVs are calculated
+##' for the groups of features defined by `groupBy`. For groups
+##' defined by single features, `NA` is returned.
 ##'
 ##' @title Calculates coeffivient of variation for features
-##' @param x An instance of class \code{"\linkS4class{MSnSet}"}.
-##' @param groupBy An object of class \code{factor} defining how to summerise the features.
-##' @param na.rm A \code{logical} defining whether missing values should be removed.
-##' @param norm One of 'none' (default), 'sum', 'max', 'center.mean', 'center.median'
-##' 'quantiles' or 'quantiles.robust' defining if and how the data should be normalised
-##' prior to CV calculation. See \code{\link{normalise}} for more details.
-##' @return A \code{matrix} of dimensions \code{length(levels(groupBy))} by \code{ncol(x)}
-##' with the respecive CVs.
-##' @author Laurent Gatto <lg390@@cam.ac.uk>,
-##' Sebastian Gibb <mail@@sebastiangibb.de>
-##' @seealso \code{\link{combineFeatures}}
+##' @param x An instance of class [`MSnSet`].
+##' @param groupBy An object of class `factor` defining how to
+##'     summarise the features.
+##' @param na.rm A `logical(1)` defining whether missing values should
+##'     be removed.
+##' @param norm One of normalisation methods applied prior to CV
+##'     calculation. See [normalise()] for more details. Here, the
+##'     default is `'none'`, i.e. no normalisation.
+##' @param suffix A `character(1)` to be used to name the new CV
+##'     columns. Default is `NULL` to ignore this. This argument
+##'     should be set when CV values are already present in the
+##'     [`MSnSet`] feature variables.
+##' @return A `matrix` of dimensions `length(levels(groupBy))` by
+##'     `ncol(x)` with the respecive CVs. The column names are formed
+##'     by pasting `CV.` and the sample names of object `x`, possibly
+##'     suffixed by `.suffix`.
+##' @author Laurent Gatto and Sebastian Gibb
+##' @seealso [combineFeatures()]
+##' @md
 ##' @examples
 ##' data(msnset)
 ##' msnset <- msnset[1:4]
 ##' gb <- factor(rep(1:2, each = 2))
 ##' featureCV(msnset, gb)
+##' featureCV(msnset, gb, suffix = "2")
 featureCV <- function(x, groupBy, na.rm = TRUE,
-                      norm = c("sum", "max", "none",
-                        "center.mean", "center.median",
-                        "quantiles", "quantiles.robust")) {
-  norm <- match.arg(norm)
+                      norm = "none",
+                      suffix = NULL) {
   if (norm != "none")
     x <- normalise(x, method = norm)
 
-  ans <- utils.applyColumnwiseByGroup(exprs(x), groupBy=groupBy,
-                                      FUN=function(y, ...) {
-                                        utils.colSd(y, ...)/
-                                          colMeans(y, ...)}, na.rm=na.rm)
-  colnames(ans) <- paste("CV", colnames(ans), sep = ".")
-  ans
+  cv <- rowsd(exprs(x), group = groupBy, reorder = TRUE, na.rm = na.rm) /
+      rowmean(exprs(x), group = groupBy, reorder = TRUE, na.rm = na.rm)
+  colnames(cv) <- paste("CV", colnames(cv), sep = ".")
+  if (!is.null(suffix))
+      colnames(cv) <- paste(colnames(cv), suffix, sep = ".")
+  cv
 }
 
 updateFvarLabels <- function(object, label, sep = ".") {
@@ -153,11 +165,9 @@ nQuants <- function(x, groupBy) {
   if (class(x) != "MSnSet")
     stop("'x' must be of class 'MSnSet'.")
 
-  ans <- utils.applyColumnwiseByGroup(exprs(x), groupBy=groupBy,
-                                      FUN=function(y) {
-                                        nrow(y)-colSums(is.na(y))})
-  colnames(ans) <- sampleNames(x)
-  ans
+  e <- !is.na(exprs(x))
+  mode(e) <- "numeric"
+  rowsum(e, group=groupBy, reorder=TRUE)
 }
 
 ##' Subsets \code{MSnSet} instances to their common feature names.
@@ -201,75 +211,40 @@ commonFeatureNames <- function(x, y) {
     nms <- names(x)
     cmn <- Reduce(intersect, lapply(x, featureNames))
     message(paste(length(cmn), "features in common"))
-    res <- lapply(x, "[", cmn)
+    res <- lapply(x, function(xx) xx[cmn, ])
     if (!is.null(nms))
         names(res) <- nms
     return(MSnSetList(x = res,
                       log = list(call = match.call())))
 }
 
-##' Select feature variables to be retained.
+##' This function computes the number of features in the group defined
+##' by the feature variable \code{fcol} and appends this information
+##' in the feature data of \code{object}.
 ##'
-##' @title Select feature variables of interest
-##' @param object An \code{MSnSet}.
-
-##' @param graphics A \code{logical} (default is \code{TRUE})
-##'     indicating whether a shiny application should be used if
-##'     available. Otherwise, a text menu is used. Ignored if \code{k}
-##'     is not missing.
-##' @param fcol A \code{numeric}, \code{local} or \code{character} of
-##'     valid feature variables to be passed directly.
-##' @return Updated \code{MSnSet}, containing only selected feature
-##'     variables.
+##' @title How many features in a group?
+##' @param object An instance of class \code{MSnSet}.
+##' @param fcol Feature variable defining the feature grouping
+##'     structure.
+##' @return An updated \code{MSnSet} with a new feature variable
+##'     \code{fcol.nFeatures}.
 ##' @author Laurent Gatto
 ##' @examples
-##' library("pRolocdata")
-##' data(hyperLOPIT2015)
-##' ## 5 first feature variables
-##' x <- selectFeatureData(hyperLOPIT2015, fcol = 1:5)
-##' fvarLabels(x)
-##' \dontrun{
-##' ## select via GUI
-##' x <- selectFeatureData(hyperLOPIT2015)
-##' fvarLabels(x)
-##' }
-selectFeatureData <- function(object,
-                              graphics = TRUE,
-                              fcol) {
-    if (missing(fcol)) {
-        if (graphics) {
-            if (!requireNamespace("shiny"))
-                warning("The shiny package is required to use the graphical interface.")
-            fcol <- .selectShinyFeatureData(object)
-        } else fcol <- .selectTextFeatureData(object)
-    }
-    fData(object) <- fData(object)[, fcol, drop = FALSE]
-    object
-}
-
-
-.selectTextFeatureData <- function(object)
-    select.list(fvarLabels(object), multiple=TRUE)
-
-
-.selectShinyFeatureData <- function(object) {
-    sel <- fv <- fvarLabels(object)
-    on.exit(return(sel))
-
-    ui <- shiny::fluidPage(
-        title = 'Examples of DataTables',
-        shiny::sidebarLayout(
-            shiny::sidebarPanel(
-                shiny::checkboxGroupInput('vars', 'Feature variables',
-                               as.list(fv), selected = sel)),
-            shiny::mainPanel(shiny::dataTableOutput('fd'))))
-
-    server <- function(input, output) {
-        output$fd <- shiny::renderDataTable({
-            sel <<- input$vars
-            fData(object)[, input$vars, drop = FALSE]
-        })
-    }
-    app <- list(ui=ui, server=server)
-    shiny::runApp(app)
+##' library(pRolocdata)
+##' data("hyperLOPIT2015ms3r1psm")
+##' hyperLOPIT2015ms3r1psm <- nFeatures(hyperLOPIT2015ms3r1psm,
+##'                                     "Protein.Group.Accessions")
+##' i <- c("Protein.Group.Accessions", "Protein.Group.Accessions.nFeatures")
+##' fData(hyperLOPIT2015ms3r1psm)[1:10, i]
+nFeatures <- function(object, fcol) {
+    stopifnot(inherits(object, "MSnSet"))
+    stopifnot(fcol %in% fvarLabels(object))
+    fcol2 <- paste0(fcol, ".nFeatures")
+    if (fcol2 %in% fvarLabels(object))
+        stop("'", fcol2, "' already present.")
+    k <- table(fData(object)[, fcol])
+    k <- k[as.character(fData(object)[, fcol])]
+    fData(object)[, fcol2] <- k
+    if (validObject(object))
+        return(object)
 }

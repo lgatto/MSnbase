@@ -9,6 +9,7 @@
                        t = "logical",
                        filename = "character"))
 
+setGeneric("MSmap", function(object, ...) standardGeneric("MSmap"))
 setGeneric("msMap", function(object, ...) standardGeneric("msMap"))
 setGeneric("mzRes", function(object, ...) standardGeneric("mzRes"))
 setGeneric("plot3D", function(object, ...) standardGeneric("plot3D"))
@@ -16,7 +17,8 @@ setGeneric("plot3D", function(object, ...) standardGeneric("plot3D"))
 setMethod("dim", "MSmap", function(x) dim(x@map))
 setMethod("nrow", "MSmap", function(x) nrow(x@map))
 setMethod("ncol", "MSmap", function(x) ncol(x@map))
-setMethod("fileName", "MSmap", function(object) object@filename)
+setMethod("fileName", "MSmap", function(object, ...) object@filename)
+setMethod("fileNames", "MSmap", function(object, ...) object@filename)
 setMethod("msMap", "MSmap", function(object) object@map)
 setMethod("rtime", "MSmap", function(object) object@rt)
 setMethod("msLevel", "MSmap", function(object) object@ms)
@@ -42,13 +44,13 @@ setMethod("show", "MSmap",
                            "-", formatRt(max(object@rt)), "\n"),
                        "mz" = paste("  M/Z: ", min(object@mz), " - ",
                            max(object@mz), " (res ", mzRes(object),
-                           ")\n", sep = ""))                           
+                           ")\n", sep = ""))
               if (object@t) {
                   cat("  [1]", msg["mz"], sep = "")
                   cat("  [2]", msg["rt"], sep = "")
               } else {
                   cat("  [1]", msg["rt"], sep = "")
-                  cat("  [2]", msg["mz"], sep = "")                  
+                  cat("  [2]", msg["mz"], sep = "")
               }
           })
 
@@ -56,7 +58,7 @@ as.data.frame.MSmap <- function(x) as(x, "data.frame")
 
 setAs("MSmap", "data.frame",
       function(from) {
-          .int <- msMap(from)[, ncol(msMap(from)):1]
+          .int <- as.numeric(msMap(from))
           .rt <- rtime(from)/60
           .mz <- mz(from)
           .ms <- msLevel(from)
@@ -93,12 +95,12 @@ setMethod("plot3D", "MSmap",
               if (rgl) {
                   if (!require("rgl"))
                       stop("The 'rgl' package needed. Install it with 'install.packages(\"rgl\")'.")
-                  rgl::plot3d(rev(dd$mz), dd$rt, dd$intensity, , type = "h",
+                  rgl::plot3d(dd$mz, dd$rt, dd$intensity, , type = "h",
                          xlab = "M/Z", ylab = "Retention time", zlab = "")
               } else {                  
                   ms <- NULL ## get rid of 'no visible global function definition' note
                   par.set <- list(box.3d = list(lwd=.2))
-                  cloud(intensity ~ rev(mz) + rt , data = dd,
+                  cloud(intensity ~ mz + rt , data = dd,
                         type="h",
                         scales= list(
                             arrows=FALSE,
@@ -111,26 +113,53 @@ setMethod("plot3D", "MSmap",
                         axis.line = list(col = "transparent"),
                         xlab="M/Z", ylab="Retention time", zlab=NULL)
               }
-
           })
 
-MSmap <- function(object, scans, lowMz, highMz, resMz, hd,
-                  zeroIsNA = FALSE) {
-    if (missing(hd))
-        hd <- header(object)
-    ms1 <- which(hd$msLevel == 1)
-    if (missing(scans)) 
-        scans <- ms1
-    .call <- match.call()
-    map <- mzR::get3Dmap(object, scans, lowMz, highMz, resMz)
-    if (zeroIsNA)
-        map[map == 0] <- NA
-    mz <- seq(lowMz, highMz, resMz)
-    rt <- hd$retentionTime[scans]
-    .MSmap(call = .call, map = map,
-           mz = mz, res = resMz,
-           rt = rt, ms = hd$msLevel[scans],
-           t = FALSE,
-           filename = mzR::fileName(object))
-}
+
+setClassUnion("mzRraw", c("mzRpwiz", "mzRramp"))
+
+setMethod("MSmap", "mzRraw", 
+          function(object, scans, lowMz, highMz, resMz, hd,
+                   zeroIsNA = FALSE) {
+              if (missing(hd))
+                  hd <- header(object)
+              ms1 <- which(hd$msLevel == 1)
+              if (missing(scans))
+                  scans <- ms1
+              .call <- match.call()
+              map <- mzR::get3Dmap(object, scans, lowMz, highMz, resMz)
+              if (zeroIsNA)
+                  map[map == 0] <- NA
+              mz <- seq(lowMz, highMz, resMz)
+              rt <- hd$retentionTime[scans]
+              .MSmap(call = .call, map = map,
+                     mz = mz, res = resMz,
+                     rt = rt, ms = hd$msLevel[scans],
+                     t = FALSE,
+                     filename = mzR::fileName(object))
+          })
+
+
+setMethod("MSmap", "OnDiskMSnExp", 
+          function(object, scans, lowMz, highMz, resMz, hd = NULL,
+                   zeroIsNA = FALSE) {
+              ms1 <- which(msLevel(object) == 1)
+              if (missing(scans))
+                  scans <- ms1
+              .call <- match.call()
+              fn <- fileNames(object)
+              if (length(fn) > 1)
+                  warning("Using first file to build the map.")
+              fh <- mzR::openMSfile(fn)
+              map <- mzR::get3Dmap(fh, scans, lowMz, highMz, resMz)
+              if (zeroIsNA)
+                  map[map == 0] <- NA
+              mz <- seq(lowMz, highMz, resMz)
+              rt <- rtime(object)[scans]
+              .MSmap(call = .call, map = map,
+                     mz = mz, res = resMz,
+                     rt = rt, ms = msLevel(object)[scans],
+                     t = FALSE,
+                     filename = fn)
+          })
 

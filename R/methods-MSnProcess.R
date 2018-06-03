@@ -1,11 +1,13 @@
 ##################################################################
 ## Methods for MSnProcess class
-setMethod("initialize","MSnProcess",          
-          function(.Object,...) {
-            .Object <- callNextMethod(.Object,...)
-            .Object@MSnbaseVersion <- as.character(packageDescription("MSnbase",fields="Version"))
-            if (validObject(.Object))
-              return(.Object)
+setMethod("initialize", "MSnProcess",
+          function(.Object, ...) {
+              .Object <- callNextMethod(.Object, ...)
+              .Object@MSnbaseVersion <-
+                  as.character(packageDescription("MSnbase",
+                                                  fields = "Version"))
+              if (validObject(.Object))
+                  return(.Object)
           })
 
 setMethod("show","MSnProcess",
@@ -18,15 +20,15 @@ setMethod("fileNames",
           signature(object="MSnProcess"),
           function(object) object@files)
 
-setReplaceMethod("fileNames",
-          signature(object="MSnProcess", value="character"),
-          function(object, value) {
-            isExisiting <- file.exists(value)
-            if (!any(isExisiting))
-              stop("File(s) ", sQuote(value[!isExisiting]), " does not exist!")
-            object@files <- normalizePath(value)
-            return(object)
-          })
+## setReplaceMethod("fileNames",
+##           signature(object="MSnProcess", value="character"),
+##           function(object, value) {
+##             isExisiting <- file.exists(value)
+##             if (!any(isExisiting))
+##               stop("File(s) ", sQuote(value[!isExisiting]), " does not exist!")
+##             object@files <- normalizePath(value)
+##             return(object)
+##           })
 
 ## Adapted from Biobase::combine("MIAME", "MIAME") 
 setMethod("combine",

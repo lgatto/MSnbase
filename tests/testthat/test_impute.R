@@ -1,9 +1,7 @@
 context("imputation method")
 
 test_that("all imputation methods", {
-
-    data(naset)
-  
+    data(naset, package = "MSnbase")
     m <- imputeMethods()
     m <- m[m != "mixed"]
     m <- m[m != "nbavg"] ## see next test
@@ -46,7 +44,6 @@ test_that("all imputation methods", {
 
 
 test_that("nbavg methods", {
-    
     m <- matrix(1:25, 5)
     ## default min value
     m[1, 2] <- 0.1 
@@ -81,5 +78,5 @@ test_that("nbavg methods", {
     expect_true(exprs(xx[2, 2]) == 6)
     expect_true(all(is.na(exprs(xx[3, 3:4]))))
     expect_true(exprs(xx[5, 2]) == 10)
-    expect_true(exprs(xx[4, 3]) == 14)    
+    expect_true(exprs(xx[4, 3]) == 14)
 })

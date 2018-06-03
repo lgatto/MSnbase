@@ -9,112 +9,82 @@ import(Biobase)
 import(mzR)
 import(impute)
 
+import(scales)
 import(lattice)
 import(methods)
 
-importFrom(graphics,
-           abline,
-           axis,
-           grid,
-           legend,
-           lines,
-           points,
-           text)
-importFrom(stats,
-           ave,
-           median,
-           medpolish,
-           quantile,
-           reorder,
-           setNames,
-           weighted.mean)
-importFrom(utils,
-           combn,
-           head,
-           ls.str,
-           object.size,
-           packageDescription,
-           packageVersion,
-           read.csv,
-           read.delim,
-           read.table,
-           select.list,
-           setTxtProgressBar,
-           tail,
-           txtProgressBar,
-           write.table)
-importFrom(ggplot2,
-           geom_histogram,
-           geom_text,
-           geom_line,
-           geom_point,
-           geom_bar,
-           geom_freqpoly,
-           geom_vline,
-           geom_rect,
-           geom_raster,
-           theme,
-           theme_gray,
-           element_text,
-           element_blank,
-           element_rect,
-           ggplot,
-           ggtitle,
-           xlab,
-           ylab,
-           labs,
-           aes,
-           annotate,
-           scale_colour_hue,
-           scale_fill_gradient2,
-           scale_fill_gradient,
-           scale_x_continuous,
-           scale_x_log10,
-           coord_cartesian,
+importFrom(XML, xmlInternalTreeParse, getDefaultNamespace, xpathApply,
+           xmlAttrs)
+importFrom(graphics, abline, axis, grid, legend, lines, points, text,
+           barplot, layout, par, matplot, mtext)
+importFrom(stats, ave, median, medpolish, quantile, reorder, setNames,
+           weighted.mean, dist, model.matrix, .lm.fit)
+importFrom(utils, combn, head, ls.str, object.size,
+           packageDescription, packageVersion, read.csv, read.delim,
+           read.table, select.list, setTxtProgressBar, tail,
+           txtProgressBar, write.table)
+importFrom(ggplot2, geom_histogram, geom_text, geom_line, geom_point,
+           geom_bar, geom_freqpoly, geom_vline, geom_rect,
+           geom_raster, theme, theme_gray, element_text,
+           element_blank, element_rect, ggplot, ggtitle, xlab, ylab,
+           labs, aes, annotate, scale_colour_hue,
+           scale_fill_gradient2, scale_fill_gradient,
+           scale_x_continuous, scale_x_log10, coord_cartesian,
            facet_grid)
 
-import(reshape2) ## try to reduce this
-
-importFrom(MALDIquant, binPeaks) ## only using ::: functions
-importFrom(S4Vectors, isEmpty, metadata)
+importFrom(MALDIquant, binPeaks, match.closest) ## only using ::: functions
+importFrom(S4Vectors, isEmpty, metadata, DataFrame)
+importFrom(S4Vectors, isEmpty, metadata, DataFrame, replaceROWS)
+importFrom(MASS, rlm)
 
 ## importFrom(rols, olsQuery, term)
 ## importClassesFrom(rols, CVParam)
 importFrom(pcaMethods, pca, completeObs)
-importFrom(plyr, ddply, llply, adply, summarise, summarize)
+importFrom(plyr, ddply, llply, summarise)
 importFrom(stats4, plot)
 importFrom(preprocessCore, normalize.quantiles)
 importFrom(vsn, vsn2, meanSdPlot)
-importFrom(IRanges, IRanges)
+importFrom(IRanges, IRanges, end, extractList, findOverlaps, start, width,
+           reduce)
 importClassesFrom(IRanges, IRanges)
 importFrom(affy, MAplot, ma.plot, mva.pairs)
 importFrom(mzID, mzID, flatten)
 importClassesFrom(mzID, mzID, mzIDCollection)
 importFrom(digest, digest)
+importFrom(grDevices, topo.colors)
 
 export(MSnSet,
+       abstract,
        compareMSnSets,
        defaultNeutralLoss,
        readMzXMLData,
        readMgfData,
        readMSData,
+       readMSData2,
        readMSnSet,
        readMSnSet2,
+       readMzIdData,
        getEcols, grepEcols,
-       readIspyData,
        formatRt,
        fillUp,
+       naplot,
+       makeNaData, makeNaData2, whichNA,
        ## extractSpectra, defunct in v 1.5.3
        extractPrecSpectra,
        as.matrix.FoICollection,
+       as.data.frame.mzRident,
        as.data.frame.Spectrum,
        as.data.frame.MSnSet, ms2df,
        as.ExpressionSet.MSnSet,
        as.MSnSet.ExpressionSet,
        as.MIAME.MIAPE,
+       as.MSnExp.OnDiskMSnExp,
+       as.data.frame.MSnExp,
        is.na.MSnSet,
        droplevels.MSnSet,
        combineFeatures,
+       nFeatures,
+       aggvar,
        nQuants,
        featureCV,
        getRatios,
@@ -152,7 +122,35 @@ export(MSnSet,
        readMzTabData_v0.9,
        makeMTD,
        makePEP,
-       makePRT)
+       makePRT,
+       ## OnDiskMSnExp
+       ProcessingStep,
+       validateOnDiskMSnExp,
+       ##options
+       MSnbaseOptions,
+       isMSnbaseVerbose,
+       setMSnbaseVerbose,
+       setMSnbaseParallelThresh,
+       isMSnbaseFastLoad,
+       setMSnbaseFastLoad,
+       ## ProcessingStep
+       executeProcessingStep,
+       aggregationFun,
+       Chromatogram,
+       Chromatograms,
+       factorsAsStrings,
+       makeCamelCase,
+       filterIdentificationDataFrame,
+       isCentroidedFromFile,
+       requiredFvarLabels,
+       addMSnSetMetadata,
+       readSRMData,
+       combineSpectra,
+       combineSpectraMovingWindow,
+       estimateMzScattering,
+       hasSpectra, hasChromatograms,
+       mergeFeatureVars, expandFeatureVars
+       )
 
 exportClasses(pSet,
               MIAPE,
@@ -166,13 +164,18 @@ exportClasses(pSet,
               FoICollection,
               FeatComp,
               MSmap,
-              MzTab)
+              MzTab,
+              OnDiskMSnExp,
+              ProcessingStep,
+              Chromatogram,
+              Chromatograms)
 
-exportMethods(exprs,
+exportMethods(updateObject,
+              exprs,
               assayData,
               "assayData<-",
               coerce,
-              show,"[","[[",
+              show,"[","[[", "[<-",
               fvarLabels,
               fData,
               "fData<-",
@@ -192,6 +195,7 @@ exportMethods(exprs,
               qual,
               length,
               lengths,
+              all.equal,
               image,
               plot,
               plot2d,
@@ -219,9 +223,12 @@ exportMethods(exprs,
               intensity,
               mz,
               tic,
+              bpi,
               ionCount,
               fromFile,
-              centroided,"centroided<-",
+              centroided, "centroided<-",
+              isCentroided,
+              smoothed, "smoothed<-",
               precursorMz,
               precursorIntensity,
               precursorCharge,
@@ -255,8 +262,15 @@ exportMethods(exprs,
               impute,
               topN,
               filterNA, filterZero,
-              chromatogram,
-              xic,
+              filterMsLevel,
+              filterMz,
+              filterRt,
+              filterFile,
+              filterAcquisitionNum,
+              filterEmptySpectra,
+              filterPrecursorScan,
+              spectrapply,
+              splitByFile,
               ## Features of interest
               FeaturesOfInterest,
               foi,
@@ -279,7 +293,17 @@ exportMethods(exprs,
               ## MzTab
               fileName,
               metadata,
-              psms
+              psms,
+              pData, "pData<-",
+              "$",
+              "$<-",
+              phenoData, "phenoData<-",
+              chromatogram,
+              "colnames<-",
+              reduce,
+              writeMSData,
+              productMz,
+              estimateMzResolution
               )
 
 ## methods NOT exported

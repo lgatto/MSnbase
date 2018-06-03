@@ -70,7 +70,8 @@ setMethod("compfnames",
           c("MSnSet", "MSnSet"),
           function(x, y,
                    fcol1 = "markers", fcol2,
-                   simplify = TRUE, verbose = TRUE) {
+                   simplify = TRUE, verbose = isMSnbaseVerbose()) {
+              verbose <- as.logical(verbose)
               if (missing(fcol2)) fcol2 <- fcol1
               if (is.null(fcol1) || is.null(fcol2)) fcol1 <- fcol2 <- NULL
               
@@ -80,9 +81,6 @@ setMethod("compfnames",
                   if (!(fcol2 %in% fvarLabels(y)))
                       stop("fcol2 not in fvarLabels(y)")
               }
-              
-              if (!is.logical(verbose))
-                  stop("value to 'verbose' is not logical")
               
               .mC <- union(unique(fData(x)[, fcol1]),
                            unique(fData(y)[, fcol2]))

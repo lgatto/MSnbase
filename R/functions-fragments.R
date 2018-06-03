@@ -8,10 +8,10 @@
 #' @param neutralLoss list, currently water and ammonia loss are supported
 #' @param verbose verbose output?
 #' @noRd
-.calculateFragments <- function(sequence, type=c("b", "y"), z=1,
-                                modifications=c(C=57.02146),
-                                neutralLoss=defaultNeutralLoss(),
-                                verbose=TRUE) {
+.calculateFragments <- function(sequence, type = c("b", "y"), z = 1,
+                                modifications = c(C = 57.02146),
+                                neutralLoss = defaultNeutralLoss(),
+                                verbose = isMSnbaseVerbose()) {
   ## TODO: this information should inform the user about a major API change
   ## and could be removed in MSnbase > 1.18
   if (packageVersion("MSnbase") < as.package_version("1.20.0")) {
@@ -19,6 +19,10 @@
             "amino acid/peptide.\n",
             "In MSnbase < 1.17.6 the mass was replaced. ",
             "Please see '?calculateFragments' for details.")
+  }
+
+  if (nchar(sequence) <= 1L) {
+    stop("'sequence' has to have two or more residues.")
   }
 
   atypes <- c("a", "b", "c")
@@ -62,7 +66,7 @@
   }
 
   if (verbose) {
-    if(length(modifications)) {
+    if (length(modifications)) {
       mods <- paste0(names(modifications), "=", modifications, collapse=", ")
     } else {
       mods <- "None"
@@ -190,7 +194,7 @@
     isABC <- grep("[abc]", df$type)
 
     if (length(isABC)) {
-      df$mz[isABC] <- df$mz[isABC] + modifications["Nterm"]
+      df$mz[isABC] <- df$mz[isABC] + modifications["Nterm"] / df$z[isABC]
     }
   }
 
@@ -198,7 +202,7 @@
     isXYZ <- grep("[xyz]", df$type)
 
     if (length(isXYZ)) {
-      df$mz[isXYZ] <- df$mz[isXYZ] + modifications["Cterm"]
+      df$mz[isXYZ] <- df$mz[isXYZ] + modifications["Cterm"] / df$z[isXYZ]
     }
   }
 

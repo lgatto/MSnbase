@@ -4,13 +4,28 @@ test_that("MSnSet validity", {
     expect_true(validObject(new("MSnSet")))
 })
 
+test_that("MSnSet acquisitionNum", {
+    data(msnset)
+    expect_equal(acquisitionNum(msnset),
+                 setNames(featureData(msnset)$acquisition.number,
+                          featureNames(msnset)))
+    featureData(msnset)$acquisition.number <- NULL
+    expect_error(acquisitionNum(msnset), "has no column")
+})
+
+test_that("MSnSet validity for empty feature names", {
+    data(msnset)
+    expect_true(validObject(msnset))
+    featureNames(msnset)[1] <- ""
+    expect_error(validObject(msnset),
+                 "Empty string is not a valid feature name.")
+})
+
 test_that("MSnSet coersion", {
-    library("pRolocdata")
-    data(dunkley2006)
+    data(dunkley2006, package = "pRolocdata")
     expect_true(validObject(dunkley2006))
     es <- as(dunkley2006, "ExpressionSet")
     expect_true(validObject(es))
-
     ## back to MSnSet
     ms <- as(es, "MSnSet")
     expect_true(validObject(ms))
@@ -25,18 +40,28 @@ test_that("MSnSet coersion", {
     expect_true(all.equal(ms, dunkley2006))
 })
 
+test_that("Combine MSnSet features: groupBy and fcol", {
+    data(msnset)
+    msnset <- msnset[11:15, ]
+    grp <- as.factor(c(1, 1, 2, 2, 2))
+    fData(msnset)$k <- grp
+    x1 <- combineFeatures(msnset, groupBy = grp)
+    x2 <- combineFeatures(msnset, fcol = "k")
+    x2@processingData <- x1@processingData
+    expect_equal(x1, x2)
+})
 
 test_that("Combine MSnSet features (V)", {
     aa <- new("MSnSet",
-              exprs=matrix(
+              exprs = matrix(
                   c(rnorm(10, 4, 0.0001),
                     rnorm(10, 10, 0.0001)),
-                  nrow = 10,byrow = TRUE),
+                  nrow = 10, byrow = TRUE),
               featureData = new("AnnotatedDataFrame",
                   data = data.frame(
-                      A = rep(c("A","B"), each = 5),
+                      A = rep(c("A", "B"), each = 5),
                       B = paste(
-                          rep(c("A","B"), each = 5),
+                          rep(c("A", "B"), each = 5),
                           1:10,
                           sep = "."))))
     expect_true(validObject(aa))
@@ -50,38 +75,39 @@ test_that("Combine MSnSet features (V)", {
     expect_equal(bb, bb3)
     cc <- combineFeatures(aa, gb, "sum")
     dd <- combineFeatures(aa, gb, "median")
-    ee <- combineFeatures(aa, gb, "weighted.mean", w=rep(1,10))
-    ff <- combineFeatures(aa, gb, "medpolish", verbose=FALSE)
+    ee <- combineFeatures(aa, gb, "weighted.mean", w = rep(1, 10))
+    ff <- combineFeatures(aa, gb, "medpolish", verbose = FALSE)
     expect_equal(exprs(bb),
-                 matrix(c(4,10,4,10), ncol = 2),
+                 matrix(c(4, 10, 4, 10), ncol = 2),
                  tolerance = .001,
                  check.attributes = FALSE)
     expect_equal(exprs(dd),
-                 matrix(c(4,10,4,10), ncol = 2),
+                 matrix(c(4, 10, 4, 10), ncol = 2),
                  tolerance = .001,
                  check.attributes = FALSE)
     expect_equal(exprs(ee),
-                 matrix(c(4,10,4,10), ncol = 2),
+                 matrix(c(4, 10, 4, 10), ncol = 2),
                  tolerance = .001,
                  check.attributes = FALSE)
     expect_equal(exprs(ff),
-                 matrix(c(4,10,4,10), ncol = 2),
+                 matrix(c(4, 10, 4, 10), ncol = 2),
                  tolerance = .001,
                  check.attributes = FALSE)
+
     expect_equal(exprs(cc),
-                 matrix(c(5*4,5*10,5*4,5*10), ncol = 2),
+                 matrix(c(5*4, 5*10, 5*4, 5*10), ncol = 2),
                  tolerance = .001,
                  check.attributes = FALSE)
-    expect_true(all(fData(bb)[,1] == c("A", "B")))
-    expect_true(all(fData(bb)[,2] == c("A.1", "B.6")))
+
+    expect_true(all(fData(bb)[, 1] == c("A", "B")))
+    expect_true(all(fData(bb)[, 2] == c("A.1", "B.6")))
     gb2 <- factor(c("a", "c", "z", "a", "z", "b", "b", "a", "c", "a"))
     gb3 <- factor(rev(c("a", "c", "z", "a", "z", "b", "b", "a", "c", "a")))
     fData(aa)$Z <- gb2
     zz <- combineFeatures(aa, gb2, fun = "sum")
     zz3 <- combineFeatures(aa[10:1, ], gb3, fun = "sum")
-    expect_true(all.equal(exprs(zz), exprs(zz3)))
-    expect_true(all.equal(fData(zz)[, 3:5],
-                          fData(zz3)[, 3:5]))
+    expect_equal(exprs(zz), exprs(zz3))
+    expect_equal(fData(zz)[, 3:5], fData(zz3)[, 3:5], tolerance=1e-5)
     expect_true(all.equal(as.numeric(exprs(zz["a", ])),
                           colSums(exprs(aa)[gb2 == "a", ]),
                           check.attributes = FALSE))
@@ -101,7 +127,6 @@ test_that("Combine MSnSet features (V)", {
 
 
 test_that("Combine MSnSet features (L)", {
-
     e <- matrix(1:15, nrow = 5)
     colnames(e) <- paste0("X", 1:3)
     rownames(e) <- letters[1:5]
@@ -118,7 +143,7 @@ test_that("Combine MSnSet features (L)", {
     expect_error(combineFeatures(ee, L))
 
     ## unordered names -> warning
-    names(L) <- featureNames(ee)    
+    names(L) <- featureNames(ee)
     L <- L[sample(featureNames(ee))]
     expect_warning(combineFeatures(ee, L,
                                    redundancy.handler = "unique",
@@ -128,16 +153,16 @@ test_that("Combine MSnSet features (L)", {
     names(L) <- featureNames(ee)
     ee2 <- combineFeatures(ee, L,
                            redundancy.handler = "unique",
-                           cv = FALSE)    
+                           cv = FALSE)
     ee2 <- MSnbase:::nologging(ee2, 2)
     ## peptide a -> protein(s) A, B  DISCARD
     ## peptide b -> protein(s) B       KEEP
     ## peptide c -> protein(s) C       KEEP
     ## peptide d -> protein(s) A, B, C DISCARD
     ## peptide e -> protein(s) A       KEEP
-    ## 
-    ## Protein A is quantified by pep e only 
-    ## Protein B is quantified by pep b only 
+    ##
+    ## Protein A is quantified by pep e only
+    ## Protein B is quantified by pep b only
     ## Protein C is quantified by pep c only
     ee3 <- ee[c("e", "b", "c"), ]
     featureNames(ee3) <- LETTERS[1:3]
@@ -156,16 +181,27 @@ test_that("Combine MSnSet features (L)", {
                  colMeans(exprs(ee)[sapply(L, function(l) any(grepl("C", l))), ]))
 })
 
+test_that("Combine MSnSet features repeatedly", {
+    data(msnset)
+    fv1 <- fvarLabels(msnset)
+    pep <- combineFeatures(msnset, groupBy = fData(msnset)$PeptideSequence,
+                           cv = TRUE)
+    prot <- combineFeatures(pep, groupBy = fData(pep)$ProteinAccession,
+                            cv = TRUE)
+    expect_identical(length(fv1) + 4L, length(fvarLabels(pep)))
+    expect_identical(length(fv1) + 8L, length(fvarLabels(prot)))
+})
+
 test_that("makeImpuritiesMatrix", {
     i4 <- dir(system.file("extdata", package = "MSnbase"),
               pattern = "iTRAQ4plexPurityCorrection",
               full.names = TRUE)
     m4 <- makeImpuritiesMatrix(filename = i4, edit = FALSE)
-    a4 <- matrix(c(0.929,0.059,0.002,0.000,
-                   0.020,0.923,0.056,0.001,
-                   0.000,0.030,0.924,0.045,
-                   0.000,0.001,0.040,0.923),
-                 nrow=4, byrow = TRUE)
+    a4 <- matrix(c(0.929, 0.059, 0.002, 0.000,
+                   0.020, 0.923, 0.056, 0.001,
+                   0.000, 0.030, 0.924, 0.045,
+                   0.000, 0.001, 0.040, 0.923),
+                 nrow = 4, byrow = TRUE)
     expect_equal(a4, m4, check.attributes = FALSE)
     t6 <- dir(system.file("extdata", package = "MSnbase"),
               pattern = "TMT6plexPurityCorrection",
@@ -182,36 +218,93 @@ test_that("makeImpuritiesMatrix", {
 })
 
 test_that("Normalisation and transpose", {
-    bp <- SerialParam()
-    bb <- quantify(itraqdata, method="trap", reporters=iTRAQ4,
-                   BPPARAM = bp,
-                   verbose=FALSE)
-    bb1 <- normalise(bb, "sum")
-    expect_true(all.equal(rowSums(exprs(bb1), na.rm=TRUE),
-                          rep(1,nrow(bb1)), check.attributes=FALSE))
-    bb2 <- normalise(bb,"max")
-    expect_true(all(apply(exprs(bb2), 1, max, na.rm=TRUE) == 1))
-    bb3 <- normalise(bb, "quantiles")
-    bb4 <- normalise(bb, "quantiles.robust")
-    bb5 <- normalise(bb, "vsn")
+    data(msnset)
+    msnset1 <- normalise(msnset, "sum")
+    expect_equivalent(rowSums(exprs(msnset1), na.rm = TRUE),
+                      rep(1, nrow(msnset1)))
+    msnset2 <- normalise(msnset, "max")
+    expect_true(all(apply(exprs(msnset2), 1, max, na.rm = TRUE) == 1))
+    msnset3 <- normalise(msnset, "quantiles")
+    msnset4 <- normalise(msnset, "quantiles.robust")
+    msnset5 <- normalise(msnset, "vsn")
 })
 
 
 test_that("Transpose and subset", {
-    aa <- quantify(itraqdata, method="trap", reporters=iTRAQ4,
-                   BPPARAM = SerialParam(),
-                   verbose=FALSE)
+    data(msnset)
     ## transpose
-    ##expect_warning(taa <- t(aa),"Dropping protocolData.") ## replaced by message()
-    taa <- t(aa)
-    expect_true(nrow(aa) == ncol(taa))
-    expect_true(ncol(aa) == nrow(taa))
-    expect_true(all.equal(pData(aa), fData(taa)))
-    expect_true(all.equal(pData(taa), fData(aa)))
+    tmsnset <- t(msnset)
+    expect_true(nrow(msnset) == ncol(tmsnset))
+    expect_true(ncol(msnset) == nrow(tmsnset))
+    expect_true(all.equal(pData(msnset), fData(tmsnset)))
+    expect_true(all.equal(pData(tmsnset), fData(msnset)))
     ## subset
-    bb <- aa[1:2,c(2,4)]
-    ## expect_true(all(dim(qual(bb)) == c(4,7)))
-    ## expect_true(all(qual(bb)$reporter %in% bb$mz))
+    bb <- msnset[1:2, c(2, 4)]
+    expect_identical(dim(bb), c(2L, 2L))
+})
+
+test_that("nQuants", {
+    m <- new("MSnSet",
+             exprs=matrix(1:10, nrow=5, ncol=2),
+             featureData=new("AnnotatedDataFrame",
+                             data=data.frame(accession=
+                                             factor(c("A", "A", "A", "B", "B")))))
+    qu <- matrix(3:2, nrow=2, ncol=2, dimnames=list(c("A", "B"), 1:2))
+    expect_equal(nQuants(m, group=fData(m)$accession), qu)
+
+    ## more levels than items present in the factor
+    m@featureData <- new("AnnotatedDataFrame",
+                         data=data.frame(accession=
+                                         factor(c("A", "A", "A", "B", "B"),
+                                                    levels=LETTERS[1:10])))
+    expect_equal(nQuants(m, group=fData(m)$accession), qu)
+
+    ## real world example
+    data(msnset)
+    pa <- fData(msnset)$ProteinAccession
+    upa <- unique(pa)
+    qu <- matrix(1, nrow=length(upa), ncol=ncol(msnset),
+                 dimnames=list(upa[order(upa)], sampleNames(msnset)))
+    qu[c("ECA0435", "ECA0469", "ECA3349", "ECA3566", "ECA4026"),] <- 2
+    qu["BSA",] <- 3
+    qu["ENO",] <- c(4, 4, 3, 4)
+    qu["ECA4514",] <- 6
+    expect_equal(nQuants(msnset, pa), qu)
+
+    ## more levels than items present in the factor
+    qu <- matrix(1, nrow=10, ncol=4,
+                 dimnames=list(as.character(pa[order(pa[1:10])]),
+                                            sampleNames(msnset)))
+    expect_equal(nQuants(msnset[1:10], pa[1:10]), qu)
+})
+
+test_that("featureCV", {
+    m <- new("MSnSet",
+             exprs=matrix(1:10, nrow=5, ncol=2),
+             featureData=new("AnnotatedDataFrame",
+                             data=data.frame(accession=
+                                             factor(c("A", "A", "A", "B", "B")))))
+    cv <- matrix(c(0.5, sqrt(0.5)/4.5, 1/7, sqrt(0.5)/9.5),
+                 nrow=2, ncol=2, dimnames=list(c("A", "B"), c("CV.1", "CV.2")))
+    expect_equal(featureCV(m, group=fData(m)$accession, norm="none"), cv)
+
+    ## more levels than items present in the factor
+    m@featureData <- new("AnnotatedDataFrame",
+                         data=data.frame(accession=
+                                         factor(c("A", "A", "A", "B", "B"),
+                                                    levels=LETTERS[1:10])))
+    expect_equal(featureCV(m, group=fData(m)$accession, norm="none"), cv)
+
+    i <- list(1:3, 4:5, 6:8, 9:10)
+    div <- rowSums(exprs(m))
+    cv <- matrix(sapply(i, function(ii) {
+                   sd((exprs(m)/div)[ii]/mean((exprs(m)/div)[ii])) }),
+                 nrow=2, ncol=2, dimnames=list(c("A", "B"), c("CV.1", "CV.2")))
+    expect_equal(featureCV(m, group=fData(m)$accession, norm="sum"), cv)
+
+    cv1 <- featureCV(m, group=fData(m)$accession)
+    cv2 <- featureCV(m, group=fData(m)$accession, suffix = "2")
+    expect_identical(colnames(cv1), sub("\\.2", "", colnames(cv2)))
 })
 
 context("MSnSet identification data")
@@ -219,31 +312,27 @@ context("MSnSet identification data")
 test_that("addIdentificationData", {
   quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "mzXML$")
-
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-
-  aa <- readMSData(quantFile, verbose = FALSE)  
+  aa <- extdata_mzXML_in_mem_ms2
   msnset <- quantify(aa, method = "trap", reporters = iTRAQ4,
                      BPPARAM = SerialParam(),
                      verbose = FALSE)
   fd <- fData(addIdentificationData(msnset, identFile, verbose = FALSE))
-
   expect_equal(fd$spectrum, 1:5)
   expect_equal(fd$file, rep(1, 5))
   expect_equal(fd$acquisition.number, 1:5)
-  expect_equal(fd$pepseq,
+  expect_equal(fd$sequence,
                c("VESITARHGEVLQLRPK", "IDGQWVTHQWLKK",
                  NA, NA, "LVILLFR"))
-  expect_equal(fd$accession,
-               c("ECA0984;ECA3829", "ECA1028",
-                 NA, NA, "ECA0510"))
+  expect_equal(fd$DatabaseAccess,
+               c("ECA0984", "ECA1028", NA, NA, "ECA0510"))
   expect_equal(fd$idFile, c("dummyiTRAQ.mzid", "dummyiTRAQ.mzid", NA, NA,
                             "dummyiTRAQ.mzid"))
   expect_equal(fd$npsm.prot, c(1, 1, NA, NA, 1))
   expect_equal(fd$npsm.pep, c(1, 1, NA, NA, 1))
   expect_equal(fd$npep.prot, c(1, 1, NA, NA, 1))
-  expect_equal(fd$nprot, c(2, 1, NA, NA, 1))
+  expect_equal(fd$nprot, c(1, 1, NA, NA, 1))
 })
 
 test_that("idSummary", {
@@ -251,27 +340,24 @@ test_that("idSummary", {
                    full.name = TRUE, pattern = "mzXML$")
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
                    full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-
-  aa <- readMSData(quantFile, verbose = FALSE)
-  bp <- SerialParam()
+  ## aa <- readMSData(quantFile, centroided. = FALSE)
+  aa <- extdata_mzXML_in_mem_ms2
   msnset <- quantify(aa, method = "trap", reporters = iTRAQ4,
-                     BPPARAM = bp,
-                     verbose = FALSE)
-  bb <- addIdentificationData(msnset, identFile,
-                              verbose = FALSE)
+                     BPPARAM = SerialParam())
+  bb <- addIdentificationData(msnset, identFile)
   expect_error(idSummary(aa), "No quantification/identification data found")
   expect_equal(idSummary(bb),
-               data.frame(spectrumFile="dummyiTRAQ.mzXML",
-                          idFile="dummyiTRAQ.mzid", coverage=0.6,
-                          stringsAsFactors=FALSE))
+               data.frame(spectrumFile = "dummyiTRAQ.mzXML",
+                          idFile = "dummyiTRAQ.mzid",
+                          coverage = 0.6,
+                          stringsAsFactors = FALSE))
 })
 
 
 test_that("commonFeatureNames works with lists or MSnSetLists", {
-    library("pRolocdata")
-    data(tan2009r1)
-    data(tan2009r2)
-    data(tan2009r3)
+    data(tan2009r1, package = "pRolocdata")
+    data(tan2009r2, package = "pRolocdata")
+    data(tan2009r3, package = "pRolocdata")
     ## both below show work exactly the same
     res1 <- commonFeatureNames(MSnSetList(list(tan2009r1, tan2009r2)))
     res2 <- commonFeatureNames(list(tan2009r1, tan2009r2))
@@ -288,13 +374,12 @@ test_that("commonFeatureNames works with lists or MSnSetLists", {
 })
 
 test_that("keeping common features", {
-    library("pRolocdata")
-    data(tan2009r1)
-    data(tan2009r2)
-    data(tan2009r3)
+    data(tan2009r1, package = "pRolocdata")
+    data(tan2009r2, package = "pRolocdata")
+    data(tan2009r3, package = "pRolocdata")
     res0 <- commonFeatureNames(tan2009r1, tan2009r1)
     ## @qual and @processingData@processing will be different
-    expect_equal(res0[[1]], res0[[2]])
+    ## expect_equal(res0[[1]], res0[[2]]) ## uncomment after release <2017-04-18 Tue>
     res01 <- res0[[1]]
     res01@qual <- tan2009r1@qual
     res01 <- MSnbase:::nologging(res01)
@@ -311,21 +396,21 @@ test_that("keeping common features", {
     res2 <- lapply(res2, MSnbase:::nologging)
     expect_equal(msnsets(res1), msnsets(res2),
                  check.attributes = FALSE)
-    expect_null(names(res2))
+    expect_equal(names(res2), as.character(1:2))
     expect_equal(names(res1), names(res3))
 })
 
 test_that("Combine with fun or 'fun'", {
     aa <- new("MSnSet",
-              exprs=matrix(
+              exprs = matrix(
                   c(rnorm(10, 4, 0.0001),
                     rnorm(10, 10, 0.0001)),
-                  nrow = 10,byrow = TRUE),
+                  nrow = 10, byrow = TRUE),
               featureData = new("AnnotatedDataFrame",
                                 data = data.frame(
-                                    A = rep(c("A","B"), each = 5),
+                                    A = rep(c("A", "B"), each = 5),
                                     B = paste(
-                                        rep(c("A","B"), each = 5),
+                                        rep(c("A", "B"), each = 5),
                                         1:10,
                                         sep = "."))))
     expect_true(validObject(aa))
@@ -335,17 +420,32 @@ test_that("Combine with fun or 'fun'", {
     expect_equal(exprs(xchar), exprs(xfun))
 })
 
-test_that("Feature variable selection", {
-    library("pRolocdata")
-    data(hyperLOPIT2015)
-    fv <- fvarLabels(hyperLOPIT2015)
-    i <- sort(sample(length(fv), 10))
-    k <- fv[i]
-    l <- logical(length(fv))
-    l[i] <- TRUE
-    expect_equal(selectFeatureData(hyperLOPIT2015, fcol = i),
-                 selectFeatureData(hyperLOPIT2015, fcol = k))
-    expect_equal(selectFeatureData(hyperLOPIT2015, fcol = i),
-                 selectFeatureData(hyperLOPIT2015, fcol = l))
+test_that("aggvar, son of ragnar", {
+    e <- matrix(1:9, nrow = 3)
+    colnames(e) <- letters[1:3]
+    rownames(e) <- 1:3
+    f <- data.frame(gb = c("A", "A", "B"),
+                    row.names = rownames(e))
+    p <- data.frame(row.names = colnames(e))
+    x <- MSnSet(exprs = e, fData = f, pData = p)
+    res1 <- aggvar(x, "gb", max)
+    expect_identical(max(dist(exprs(x)[1:2, ])), res1[1, 1])
+    expect_true(is.na(res1[2, 1]))
+    expect_identical(res1[, 2], c(A = 2, B = 1))
 })
 
+test_that("nFeatures are added correctly", {
+    data("hyperLOPIT2015ms3r1psm", package = "pRolocdata")
+    k0 <- k <- table(fData(hyperLOPIT2015ms3r1psm)$Protein.Group.Accessions)
+    k <- k[as.character(fData(hyperLOPIT2015ms3r1psm)[, "Protein.Group.Accessions"])]
+    res <- nFeatures(hyperLOPIT2015ms3r1psm, "Protein.Group.Accessions")
+    expect_equivalent(k, fData(res)$Protein.Group.Accessions.nFeatures)
+    expect_error(nFeatures(res, "Protein.Group.Accessions"),
+                 "'Protein.Group.Accessions.nFeatures' already present.")
+    expect_error(nFeatures(hyperLOPIT2015ms3r1psm, "foo"))
+    tmp <- fData(res)$Protein.Group.Accessions.nFeatures
+    names(tmp) <- fData(res)$Protein.Group.Accessions
+    sel <- !duplicated(names(tmp))
+    g <- tmp[sel]
+    expect_equivalent(g[sort(names(g))], k0[sort(names(k0))])
+})
