@@ -1,8 +1,10 @@
 # MSnbase 2.7
 
-## Changes in version 2.7.1
+## Changes in version 2.7.2
 - Add internal fragmentation support in calculateFragments; see [#82](https://github.com/lgatto/MSnbase/issues/82)
    <2016-03-26 Sat>
+
+## Changes in version 2.7.1
 - Handle files without any spectra - see
   [#342](https://github.com/lgatto/MSnbase/issues/342)
   <2018-05-15 Tue>
