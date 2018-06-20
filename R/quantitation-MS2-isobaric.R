@@ -11,7 +11,7 @@ quantify_MSnExp <- function(object, method,
     peakData <- bplapply(spectraList, quantify, method, reporters, strict,
                          BPPARAM = BPPARAM)
     .exprs <- do.call(rbind, lapply(peakData, "[[", "peakQuant"))
-    rownames(.exprs) <- sub(".peakQuant", "", rownames(.exprs))    
+    rownames(.exprs) <- sub(".peakQuant", "", rownames(.exprs))
     ## Time consuming - consider removing or caching
     if (qual) {
         qlist <- lapply(peakData, "[[", "curveStats")
@@ -155,25 +155,29 @@ quantify_OnDiskMSnExp_max <- function(object, reporters,
                             use.names = FALSE)
     mzs <- mzs[featureNames(object), ]
     rm(res)
-    
+
     .phenoData <- new("AnnotatedDataFrame",
                       data = data.frame(mz = mz(reporters),
                                         reporters = names(reporters),
                                         row.names = reporterNames(reporters)))
 
-    if (nrow(pData(object)) > 0) {
-        if (nrow(pData(object)) == length(reporters)) {
-            .phenoData <- combine(phenoData(object), .phenoData)
-        } else {
-            ## Here, something more clever should be done, like replicating
-            ## old phenoData variables length(reporters) times
-            msg <- paste(strwrap(paste0("Original MSnExp and new MSnSet have ",
-                                        "different number of samples in ",
-                                        "phenoData. Dropping original.")),
-                         collapse = "\n")
-            message(msg)
-        }
-    }
+    ## This actually fails if the number of files (rows) in the MSnExp
+    ## matches the number of reporter ions in the MSnSet, as it tries
+    ## to combine an NAnnotatedDataFrame and a AnnotatedDataFrame.
+    ##
+    ## if (nrow(pData(object)) > 0) {
+    ##     if (nrow(pData(object)) == length(reporters)) {
+    ##         .phenoData <- combine(phenoData(object), .phenoData)
+    ##     } else {
+    ##         ## Here, something more clever should be done, like replicating
+    ##         ## old phenoData variables length(reporters) times
+    ##         msg <- paste(strwrap(paste0("Original MSnExp and new MSnSet have ",
+    ##                                     "different number of samples in ",
+    ##                                     "phenoData. Dropping original.")),
+    ##                      collapse = "\n")
+    ##         message(msg)
+    ##     }
+    ## }
 
     ans <- new("MSnSet",
                exprs = e,
