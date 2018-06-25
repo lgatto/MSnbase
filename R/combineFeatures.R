@@ -321,10 +321,10 @@ robustSummary <- function(e, residuals = FALSE, ...) {
     ## This will be needed for NUSE-type of quality control, but will
     ## need to check for missing data as below.
     ## se <- unique(summary(fit)$coefficients[sampleid, 'Std. Error'])
-
-    ## Put NA for the samples without any expression value
-    present <- as.logical(colSums(p))
-    res <- rep(NA, length(present))
-    res[present] <- fit$coefficients[sampleid]
-    res
+  
+    ## Take the sample coefficients ( = summarised expression values)
+    coef = fit$coefficients[sampleid]
+    ## Sort the sample coefficients in the same way as the samplenames of expression matrix
+    ## Puts NA for the samples without any expression value  
+    coef[paste0('sample',colnames(e))]
 }
