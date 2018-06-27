@@ -64,8 +64,8 @@
       decide whether this tolerance should be applied relative to the target m/z
       (default \code{relative = TRUE}) or absolute (\code{relative = FALSE})
       to match the theoretical fragment MZ with the MZ of the spectrum. When
-      (\code{relative = TRUE}) the mass tolerance window is set to target mz
-      +/- (target mz * (\code{tolerance})) and target mz +/- (\code{tolerance}) otherwise.
+      (\code{relative = TRUE}) the mass tolerance window is set to \code{target mz
+      +/- (target mz * tolerance)} and \code{target mz +/- tolerance} otherwise.
       In cases of multiple matches use \code{method} to select the peak with
       the highest intensity (\code{method = "highest"}, default) respectively
       closest MZ (\code{method = "closes"}). If \code{method = "all"} is set
