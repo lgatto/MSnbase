@@ -6,6 +6,8 @@
   <2018-05-15 Tue>
 - New `mergeFeatureVars` and `expandFeatureVars` functions
   <2018-05-30 Wed>
+- Update plot,Spectrum methods to match the tolerance and relative
+  arguments (see [#350](https://github.com/lgatto/MSnbase/issues/350)) <2018-06-29 Fri>
 
 ## Changes in version 2.7.0
 - New devel version for Bioc 3.8
