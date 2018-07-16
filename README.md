@@ -34,8 +34,7 @@ To install *[MSnbase](http://bioconductor.org/packages/MSnbase)*
 
 
 ```r
-library("BiocInstaller")
-biocLite("MSnbase")
+install.packages("BiocManager")
 ```
 
 If you need the github version (not recommended unless you know what
@@ -43,7 +42,7 @@ you are doing), use
 
 
 ```r
-biocLite("lgatto/MSnbase")
+BiocManager::install("lgatto/MSnbase")
 ```
 
 ## Questions
