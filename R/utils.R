@@ -1288,3 +1288,87 @@ windowIndices <- function(i, hws, n) {
     stopifnot(i <= n)
     max(1L, i - hws):min(n, i + hws)
 }
+
+#' The function aggregates `x` for `toBin` falling into bins defined
+#' by `breaks` using the `fun` function.
+#'
+#' @details
+#'
+#' This is a combination of the code from the former bin_Spectrum.
+#'
+#' @param x `numeric` with the values that should be binned.
+#' 
+#' @param toBin `numeric`, same length than `x`, with values to be used for the
+#'     binning.
+#'
+#' @param binSize `numeric(1)` with the size of the bins.
+#'
+#' @param breaks `numeric` defining the breaks/bins.
+#'
+#' @param fun `function` to be used to aggregate values of `x` falling into the
+#'     bins defined by `breaks`.
+#'
+#' @return `list` with elements `x` and `mids` being the aggregated values
+#'     of `x` for values in `toBin` falling within each bin and the bin mid
+#'     points.
+#'
+#' @author Johannes Rainer, Sebastian Gibb
+#'
+#' @noRd
+.bin_values <- function(x, toBin, binSize = 1, breaks = seq(floor(min(toBin)),
+                                                            ceiling(max(toBin)),
+                                                            by = binSize),
+                        fun = max) {
+    if (length(x) != length(toBin))
+        stop("lengths of 'x' and 'toBin' have to match.")
+    fun <- match.fun(fun)
+    breaks <- .fix_breaks(breaks, range(toBin))
+    nbrks <- length(breaks)
+    idx <- findInterval(toBin, breaks)
+    ## Ensure that indices are within breaks.
+    idx[which(idx < 1L)] <- 1L
+    idx[which(idx >= nbrks)] <- nbrks - 1L
+        
+    ints <- double(nbrks - 1L)
+    ints[unique(idx)] <- unlist(lapply(base::split(x, idx), fun),
+                                use.names = FALSE)
+    list(x = ints, mids = (breaks[-nbrks] + breaks[-1L]) / 2L)
+}
+
+#' Simple function to ensure that breaks (for binning) are span al leat the
+#' expected range.
+#'
+#' @param brks `numeric` with *breaks* such as calculated by `seq`.
+#'
+#' @param rng `numeric(2)` with the range of original numeric values on which
+#'     the breaks were calculated.
+#' 
+#' @noRd
+.fix_breaks <- function(brks, rng) {
+    ## Assuming breaks being sorted.
+    if (brks[length(brks)] <= rng[2])
+        brks <- c(brks, max((rng[2] + 1e-6),
+                            brks[length(brks)] + mean(diff(brks))))
+    brks
+}
+
+
+##' @title Checks if raw data files have any spectra or chromatograms
+##' @param files A `character()` with raw data filenames.
+##' @return A `logical(n)` where `n == length(x)` with `TRUE` if that
+##'     files contains at least one spectrum, `FALSE` otherwise.
+##' @author Laurent Gatto
+##' @rdname hasSpectraOrChromatograms
+##' @md
+##' @examples
+##' f <- msdata::proteomics(full.names = TRUE)[1:2]
+##' hasSpectra(f)
+##' hasChromatograms(f)
+hasSpectra <- function(files) {
+    sapply(files, mzR:::.hasSpectra)
+}
+
+##' @rdname hasSpectraOrChromatograms
+hasChromatograms <- function(files) {
+    sapply(files, mzR:::.hasChromatograms)
+}

@@ -147,7 +147,9 @@ export(MSnSet,
        readSRMData,
        combineSpectra,
        combineSpectraMovingWindow,
-       estimateMzScattering
+       estimateMzScattering,
+       hasSpectra, hasChromatograms,
+       mergeFeatureVars, expandFeatureVars
        )
 
 exportClasses(pSet,

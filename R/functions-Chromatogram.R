@@ -149,3 +149,23 @@ aggregationFun <- function(object) {
         stop("'object' is supposed to be a 'Chromatogram' class")
     object@aggregationFun
 }
+
+#' Simple function to bin intensities along retention time for a Chromatogram
+#' object.
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+.bin_Chromatogram <- function(object, binSize = 0.5,
+                              breaks = seq(floor(min(rtime(object))),
+                                           ceiling(max(rtime(object))),
+                                           by = binSize),
+                              fun = max) {
+    bins <- .bin_values(object@intensity, object@rtime, binSize = binSize,
+                        breaks = breaks, fun = fun)
+    object@intensity <- bins$x
+    object@rtime <- bins$mids
+    if (validObject(object))
+        object
+}
+

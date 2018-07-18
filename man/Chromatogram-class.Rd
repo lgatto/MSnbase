@@ -21,6 +21,7 @@
 \alias{isEmpty,Chromatogram-method}
 \alias{productMz,Chromatogram-method}
 \alias{productMz}
+\alias{bin,Chromatogram-method}
 \title{Representation of chromatographic MS data}
 \usage{
 Chromatogram(rtime = numeric(), intensity = numeric(), mz = c(NA_real_,
@@ -59,6 +60,10 @@ aggregationFun(object)
 \S4method{isEmpty}{Chromatogram}(x)
 
 \S4method{productMz}{Chromatogram}(object)
+
+\S4method{bin}{Chromatogram}(object, binSize = 0.5,
+  breaks = seq(floor(min(rtime(object))), ceiling(max(rtime(object))), by =
+  binSize), fun = max)
 }
 \arguments{
 \item{rtime}{\code{numeric} with the retention times (length has to be equal
@@ -132,6 +137,16 @@ will be used as plot title.}
 
 \item{...}{For \code{plot}: additional arguments to be passed to the
 \code{\link[graphics]{plot}} function.}
+
+\item{binSize}{for \code{bin}: \code{numeric(1)} with the size of the bins
+(in seconds).}
+
+\item{breaks}{for \code{bin}: \code{numeric} defining the bins. Usually not
+required as the function calculates the bins automatically based on
+\code{binSize}.}
+
+\item{fun}{for \code{bin}: function to be used to aggregate the intensity
+values falling within each bin.}
 }
 \description{
 The \code{Chromatogram} class is designed to store
@@ -183,6 +198,11 @@ The \code{Chromatogram} class is designed to store
 
 \code{productMz} get the mz of the product chromatogram/ion. The
     function returns a \code{numeric(2)} with the lower and upper mz value.
+
+\code{bin} aggregates intensity values from a chromatogram in discrete bins
+along the retention time axis and returns a \code{Chromatogram} object with
+the retention time representing the mid-point of the bins and the intensity
+the binned signal.
 }
 \details{
 The \code{mz}, \code{filterMz}, \code{precursorMz} and

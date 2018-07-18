@@ -144,7 +144,7 @@
 	values are \code{orientation=1}, \code{add=FALSE},
 	\code{col="#74ADD1"}, \code{pch=NA}, \code{xlab="m/z"},
 	\code{ylab="intensity"}, \code{ylim=c(0, 1)},
-	\code{tolerance=0.1}, relative=FALSE, type=c("b", "y"),
+	\code{tolerance=25e-6}, relative=TRUE, type=c("b", "y"),
 	\code{modifications=c(C=160.030649)}, \code{z=1},
 	fragments=\code{MSnbase:::calculateFragments_Spectrum2} and
 	\code{fragments.cex=0.75}. Additional arguments \code{...} are

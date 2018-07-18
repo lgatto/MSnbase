@@ -1,4 +1,30 @@
+# MSnbase 2.7
+
+## Changes in version 2.7.2
+- Handle files without any spectra - see
+  [#342](https://github.com/lgatto/MSnbase/issues/342)
+  <2018-05-15 Tue>
+- New `mergeFeatureVars` and `expandFeatureVars` functions
+  <2018-05-30 Wed>
+- Update plot,Spectrum methods to match the tolerance and relative
+  arguments (see [#350](https://github.com/lgatto/MSnbase/issues/350)) <2018-06-29 Fri>
+
+## Changes in version 2.7.1
+- Version bump to force new vignette build
+
+## Changes in version 2.7.0
+- New devel version for Bioc 3.8
+
+# MSnbase 2.6
+
+## Changes in version 2.6.0
+- New release version for Bioc 3.7
+
 # MSnbase 2.5
+
+## Changes in version 2.5.15
+
+- Nothing yet.
 
 ## Changes in version 2.5.14
 

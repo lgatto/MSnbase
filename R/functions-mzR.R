@@ -61,7 +61,7 @@ plotMzDelta_list <- function(object,            ## peakLists
         sp <- utils.removePrecMz_list(sp, precMz[j], precMzWidth)
         ds <- utils.getMzDelta_list(sp, percentage)
         delta[[j]] <- ds[ds > xlim[1] & ds < xlim[2]]
-    }   
+    }
     if (verbose) {
         close(pb)
         message(" Plotting...\n")
@@ -106,7 +106,7 @@ plotMzDelta_list <- function(object,            ## peakLists
                                      size = size) +
                                          theme(legend.position = "none")
     }
-    if (plot) 
+    if (plot)
         print(p)
     invisible(p)
 }
@@ -122,7 +122,7 @@ plotMzDelta_list <- function(object,            ## peakLists
 ##'
 ##' See also the \emph{Tandem MS identification data} section in the
 ##' \emph{MSnbase-demo} vignette.
-##' 
+##'
 ##' @title Coerce identification data to a \code{data.frame}
 ##' @param from An object of class \code{mzRident} defined in the
 ##'     \code{mzR} package.
@@ -154,7 +154,7 @@ setAs("mzRident", "data.frame",
           if (nrow(scores)) { ## see issue #261
               stopifnot(identical(iddf[, 1], scores[, 1]))
               iddf <- cbind(iddf, scores[, -1])
-          } 
+          }
           ## add modification
           mods <- factorsAsStrings(modifications(from))
           names(mods)[-1] <- makeCamelCase(names(mods), prefix = "mod")[-1]
@@ -164,18 +164,17 @@ setAs("mzRident", "data.frame",
                         suffixes = c("", ".y"),
                         all = TRUE, sort = FALSE)
           iddf[, "spectrumID.y"] <- NULL
-          ## add substitutions 
+          ## add substitutions
           subs <- factorsAsStrings(substitutions(from))
           names(subs)[-1] <- makeCamelCase(names(subs), prefix = "sub")[-1]
           iddf <- merge(iddf, subs,
                         by.x = c("spectrumID" = "sequence"),
                         by.y = c("spectrumID" = "subSequence"),
-                        suffixes = c("", ".y"), 
+                        suffixes = c("", ".y"),
                         all = TRUE, sort = FALSE)
-          iddf[, "spectrumID.y"] <- NULL 
+          iddf[, "spectrumID.y"] <- NULL
           iddf
       })
 
 as.data.frame.mzRident <-
     function(x, row.names = NULL, optional = FALSE, ...) as(x, "data.frame")
-

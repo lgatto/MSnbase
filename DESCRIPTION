@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for Mass Spectrometry and Proteomics
-Version: 2.7.1
+Version: 2.7.2
 Description: MSnbase provides infrastructure for manipulation,
 	     processing and visualisation of mass spectrometry and
 	     proteomics data, ranging from raw to quantitative and
@@ -61,7 +61,7 @@ Depends:
     methods,
     BiocGenerics (>= 0.7.1),
     Biobase (>= 2.15.2),
-    mzR (>= 2.13.6),
+    mzR (>= 2.15.1),
     BiocParallel,
     ProtGenerics (>= 1.9.1)
 Imports:

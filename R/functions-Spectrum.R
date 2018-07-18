@@ -293,67 +293,35 @@ normalise_Spectrum <- function(object, method, value) {
     return(object)
 }
 
-breaks_Spectrum <- function(object, binSize = 1L,
-                            breaks = seq(floor(min(mz(object))),
-                                     ceiling(max(mz(object))),
-                            by = binSize)) {
-  ## assumming that mz and breaks are sorted
-  if (mz(object)[peaksCount(object)] >= breaks[length(breaks)]) {
-    breaks <- c(breaks, ceiling(mz(object)[peaksCount(object)] + mean(diff(breaks))))
-  }
-  breaks
-}
-
-breaks_Spectra <- function(object1, object2, binSize = 1L,
-                           breaks = seq(floor(min(c(mz(object1), mz(object2)))),
-                                        ceiling(max(c(mz(object1), mz(object2)))),
-                                        by = binSize)) {
-  sort(unique(c(breaks_Spectrum(object1, binSize = binSize, breaks = breaks),
-                breaks_Spectrum(object2, binSize = binSize, breaks = breaks))))
-}
-
 bin_Spectrum <- function(object, binSize = 1L,
                          breaks = seq(floor(min(mz(object))),
                                       ceiling(max(mz(object))),
                                       by = binSize),
                          fun = sum,
                          msLevel.) {
-  ## If msLevel. not missing, perform the trimming only if the msLevel
-  ## of the spectrum matches (any of) the specified msLevels.
-  if (!missing(msLevel.)) {
-      if (!(msLevel(object) %in% msLevel.))
-          return(object)
-  }
-  fun <- match.fun(fun)
-
-  breaks <- breaks_Spectrum(object, binSize = binSize, breaks = breaks)
-  nb <- length(breaks)
-
-  idx <- findInterval(mz(object), breaks)
-  idx[which(idx < 1L)] <- 1L
-  idx[which(idx >= nb)] <- nb
-
-  mz <- (breaks[-nb] + breaks[-1L]) / 2L
-  intensity <- double(nb - 1L)
-
-  intensity[unique(idx)] <- unlist(lapply(base::split(intensity(object), idx), fun))
-
-  object@mz <- mz
-  object@intensity <- intensity
-  object@tic <- sum(intensity)
-  object@peaksCount <- length(mz)
-  if (validObject(object))
-      return(object)
+    ## If msLevel. not missing, perform the trimming only if the msLevel
+    ## of the spectrum matches (any of) the specified msLevels.
+    if (!missing(msLevel.)) {
+        if (!(msLevel(object) %in% msLevel.))
+            return(object)
+    }
+    bins <- .bin_values(object@intensity, object@mz, binSize = binSize,
+                        breaks = breaks, fun = fun)
+    object@mz <- bins$mids
+    object@intensity <- bins$x
+    object@tic <- sum(object@intensity)
+    object@peaksCount <- length(object@mz)
+    if (validObject(object))
+        return(object)
 }
 
 bin_Spectra <- function(object1, object2, binSize = 1L,
                         breaks = seq(floor(min(c(mz(object1), mz(object2)))),
                                      ceiling(max(c(mz(object1), mz(object2)))),
                                      by = binSize)) {
-  breaks <- breaks_Spectra(object1, object2,
-                           binSize = binSize, breaks = breaks)
-  list(bin_Spectrum(object1, breaks = breaks),
-       bin_Spectrum(object2, breaks = breaks))
+    breaks <- .fix_breaks(breaks, range(mz(object1), mz(object2)))
+    list(bin_Spectrum(object1, breaks = breaks),
+         bin_Spectrum(object2, breaks = breaks))
 }
 
 #' calculate similarity between spectra (between their intensity profile)

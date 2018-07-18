@@ -24,7 +24,7 @@
   spectrum but the identification is not always bijective. Prior to
   addition, the identification data is filtered as documented in the
   \code{\link{filterIdentificationDataFrame}} function: (1) only PSMs
-  matching the regular (non-decoy) database are retained; (2) PSMs or
+  matching the regular (non-decoy) database are retained; (2) PSMs of
   rank greater than 1 are discarded; and (3) only proteotypic peptides
   are kept.
 

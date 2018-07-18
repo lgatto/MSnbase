@@ -31,6 +31,7 @@
 \alias{productMz,Chromatograms-method}
 \alias{mz,Chromatograms-method}
 \alias{polarity,Chromatograms-method}
+\alias{bin,Chromatograms-method}
 \title{Container for multiple Chromatogram objects}
 \usage{
 Chromatograms(data, phenoData, featureData, ...)
@@ -86,6 +87,9 @@ Chromatograms(data, phenoData, featureData, ...)
 \S4method{mz}{Chromatograms}(object)
 
 \S4method{polarity}{Chromatograms}(object)
+
+\S4method{bin}{Chromatograms}(object, binSize = 0.5, breaks = numeric(),
+  fun = max)
 }
 \arguments{
 \item{data}{A \code{list} of \code{\link{Chromatogram}} objects.}
@@ -145,6 +149,17 @@ of length 1 or of length equal to \code{ncol(x)}.}
 will be used as plot title.}
 
 \item{name}{For \code{$}, the name of the pheno data column.}
+
+\item{binSize}{for \code{bin}: \code{numeric(1)} with the size of the bins
+(in seconds).}
+
+\item{breaks}{for \code{bin}: \code{numeric} defining the bins. Usually not
+required as the function calculates the bins automatically based on
+\code{binSize} and the retention time range of chromatograms in the same
+row.}
+
+\item{fun}{for \code{bin}: function to be used to aggregate the intensity
+values falling within each bin.}
 }
 \value{
 For \code{[}: the subset of the \code{Chromatograms} object. If a
@@ -245,6 +260,11 @@ as a two-column \code{matrix} (with columns \code{"mzmin"} and
 
 \code{polarity}: returns the polarity of the scans/chromatograms: `1`,
 `0` or `-1` for positive, negative or unknown polarity.
+
+\code{bin} aggregates intensity values of chromatograms in discrete bins
+along the retention time axis. By default, individual \code{Chromatogram}
+objects of one row are binned into the same bins. The function returns a
+\code{Chromatograms} object with binned chromatograms.
 }
 \details{
 The \code{Chromatograms} class extends the base \code{matrix} class

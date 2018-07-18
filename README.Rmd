@@ -36,15 +36,15 @@ vignettes are available in the *Articles* tab.
 To install `r Biocpkg("MSnbase")`
 
 ```{r install, eval = FALSE}
-library("BiocInstaller")
-biocLite("MSnbase")
+install.packages("BiocManager")
+
 ```
 
 If you need the github version (not recommended unless you know what
 you are doing), use
 
 ```{r installgh, eval = FALSE}
-biocLite("lgatto/MSnbase")
+BiocManager::install("lgatto/MSnbase")
 ```
 
 ## Questions
