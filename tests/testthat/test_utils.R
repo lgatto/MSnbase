@@ -572,6 +572,7 @@ test_that(".bin_values works", {
 test_that("merging and expanding features", {
     data(hyperLOPIT2015)
     fv <- sort(fvarLabels(hyperLOPIT2015))
+    k <- grep("^svm", fvarLabels(hyperLOPIT2015), value = TRUE)
     hl <- mergeFeatureVars(hyperLOPIT2015, fcol = k, fcol2 = "SVM")
     n <- length(fvarLabels(hl))
     expect_identical(n, length(fv) - 2L)
