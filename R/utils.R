@@ -1297,7 +1297,7 @@ windowIndices <- function(i, hws, n) {
 #' This is a combination of the code from the former bin_Spectrum.
 #'
 #' @param x `numeric` with the values that should be binned.
-#' 
+#'
 #' @param toBin `numeric`, same length than `x`, with values to be used for the
 #'     binning.
 #'
@@ -1328,7 +1328,7 @@ windowIndices <- function(i, hws, n) {
     ## Ensure that indices are within breaks.
     idx[which(idx < 1L)] <- 1L
     idx[which(idx >= nbrks)] <- nbrks - 1L
-        
+
     ints <- double(nbrks - 1L)
     ints[unique(idx)] <- unlist(lapply(base::split(x, idx), fun),
                                 use.names = FALSE)
@@ -1342,7 +1342,7 @@ windowIndices <- function(i, hws, n) {
 #'
 #' @param rng `numeric(2)` with the range of original numeric values on which
 #'     the breaks were calculated.
-#' 
+#'
 #' @noRd
 .fix_breaks <- function(brks, rng) {
     ## Assuming breaks being sorted.
@@ -1352,7 +1352,9 @@ windowIndices <- function(i, hws, n) {
     brks
 }
 
-
+##' Helper functions to check whether raw files contain spectra or
+##' chromatograms.
+##'
 ##' @title Checks if raw data files have any spectra or chromatograms
 ##' @param files A `character()` with raw data filenames.
 ##' @return A `logical(n)` where `n == length(x)` with `TRUE` if that

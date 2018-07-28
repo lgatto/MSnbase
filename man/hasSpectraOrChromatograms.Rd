@@ -16,6 +16,10 @@ hasChromatograms(files)
 A \code{logical(n)} where \code{n == length(x)} with \code{TRUE} if that
 files contains at least one spectrum, \code{FALSE} otherwise.
 }
+\description{
+Helper functions to check whether raw files contain spectra or
+chromatograms.
+}
 \examples{
 f <- msdata::proteomics(full.names = TRUE)[1:2]
 hasSpectra(f)
