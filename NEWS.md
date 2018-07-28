@@ -1,7 +1,7 @@
 # MSnbase 2.7
 
 ## Changes in version 2.7.3
-- Nothing yet
+- Fix bug in robust summary (see PR [#349](https://github.com/lgatto/MSnbase/issues/349)) <2018-07-28 Sat>
 
 ## Changes in version 2.7.2
 - Handle files without any spectra - see
