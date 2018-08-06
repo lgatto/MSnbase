@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -31,10 +33,11 @@
 <meta property="og:title" content="Read an 'mzTab' file — readMzTabData" />
 
 <meta property="og:description" content="This function can be used to create an
-"MSnSet" by reading and parsing an
+&quot;MSnSet&quot; by reading and parsing an
 mzTab file. The metadata section is always used to populate
 the MSnSet's experimentData()@other$mzTab slot." />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -61,7 +64,7 @@ the MSnSet's experimentData()@other$mzTab slot." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.4</span>
       </span>
     </div>
 
@@ -84,19 +87,19 @@ the MSnSet's experimentData()@other$mzTab slot." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+      <a href="../articles/v01-MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+      <a href="../articles/v02-MSnbase-io.html">MSnbase IO capabilities</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+      <a href="../articles/v03-MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+      <a href="../articles/v04-benchmarking.html">MSnbase2 benchmarking</a>
     </li>
     <li>
-      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+      <a href="../articles/v05-MSnbase-development.html">A short introduction to *MSnbase* development</a>
     </li>
   </ul>
 </li>
@@ -194,7 +197,7 @@ details about the inners of <code>readMzTabData</code>.</p></div>
 #&gt;   pubMedIds: pubmed:21398567 
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt;  MSnbase version: 2.7.1 </div><div class='input'><span class='fu'>head</span>(<span class='fu'>fData</span>(<span class='no'>prot</span>))</div><div class='output co'>#&gt;            accession
+#&gt;  MSnbase version: 2.7.4 </div><div class='input'><span class='fu'>head</span>(<span class='fu'>fData</span>(<span class='no'>prot</span>))</div><div class='output co'>#&gt;            accession
 #&gt; X223462890 223462890
 #&gt; X19855078   19855078
 #&gt; X21450277   21450277
@@ -283,31 +286,34 @@ details about the inners of <code>readMzTabData</code>.</p></div>
 #&gt;   pubMedIds: pubmed:21398567 
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt;  MSnbase version: 2.7.1 </div><div class='input'><span class='fu'>head</span>(<span class='fu'>fData</span>(<span class='no'>psms</span>))</div><div class='output co'>#&gt;       sequence PSM_ID accession unique       database database_version
+#&gt;  MSnbase version: 2.7.4 </div><div class='input'><span class='fu'>head</span>(<span class='fu'>fData</span>(<span class='no'>psms</span>))</div><div class='output co'>#&gt;       sequence PSM_ID accession unique       database database_version
 #&gt; X1661   QQVLDR   1661 223462890     NA NCBInr_2010_10  nr_101020.fasta
 #&gt; X2280   LVQYLR   2280 223462890     NA NCBInr_2010_10  nr_101020.fasta
 #&gt; X2281   LVQYLR   2281 223462890     NA NCBInr_2010_10  nr_101020.fasta
 #&gt; X2537   LQQLFR   2537 223462890     NA NCBInr_2010_10  nr_101020.fasta
 #&gt; X2809 EAGSVSLR   2809 223462890     NA NCBInr_2010_10  nr_101020.fasta
+#&gt; X5465 LSILSEER   5465 223462890     NA NCBInr_2010_10  nr_101020.fasta
 #&gt;                    search_engine search_engine_score.1. modifications
 #&gt; X1661 [MS, MS:1001207, Mascot, ]                  37.76   0-MOD:01499
 #&gt; X2280 [MS, MS:1001207, Mascot, ]                  44.64   0-MOD:01499
 #&gt; X2281 [MS, MS:1001207, Mascot, ]                  44.76   0-MOD:01499
 #&gt; X2537 [MS, MS:1001207, Mascot, ]                  45.41   0-MOD:01499
 #&gt; X2809 [MS, MS:1001207, Mascot, ]                  55.05   0-MOD:01499
+#&gt; X5465 [MS, MS:1001207, Mascot, ]                  39.82   0-MOD:01499
 #&gt;       retention_time charge exp_mass_to_charge calc_mass_to_charge
 #&gt; X1661             NA      1           902.4821            902.5181
 #&gt; X2280             NA      1           935.5775            935.5800
 #&gt; X2281             NA      1           935.5833            935.5800
 #&gt; X2537             NA      1           948.5956            948.5753
 #&gt; X2809             NA      1           962.5098            962.5393
+#&gt; X5465             NA      1          1090.6232           1090.6230
 #&gt;                   spectra_ref pre post start  end
 #&gt; X1661 ms_run[1]:spectrum=1661   R    Y    20   25
 #&gt; X2280 ms_run[1]:spectrum=2280   K    E   151  156
 #&gt; X2281 ms_run[1]:spectrum=2281   K    E   151  156
 #&gt; X2537 ms_run[1]:spectrum=2537   R    D   786  791
 #&gt; X2809 ms_run[1]:spectrum=2809   K    M  1058 1065
-#&gt;  [ reached getOption("max.print") -- omitted 1 row ]</div></pre>
+#&gt; X5465 ms_run[1]:spectrum=5465   K    T   442  449</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

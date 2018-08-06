@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -41,17 +43,18 @@ Full spectra (using the full parameter) or specific peaks of
   interest can be plotted using the reporters parameter. If
   reporters are specified and full is set to 'TRUE', a
   sub-figure of the reporter ions is inlaid inside the full spectrum.
-If an "MSnExp" is provided as argument, all the
+If an &quot;MSnExp&quot; is provided as argument, all the
   spectra are aligned vertically. Experiments can be subset to
   extract spectra of interest using the [ operator or
   extractPrecSpectra methods.
 Most methods make use the ggplot2 system in which case an
   object of class 'ggplot' is returned invisibly.
-If a single "Spectrum2" and a "character"
+If a single &quot;Spectrum2&quot; and a &quot;character&quot;
   representing a valid peptide sequence are passed as argument, the
   expected fragement ions are calculated and matched/annotated on the
   spectum plot." />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -78,7 +81,7 @@ If a single "Spectrum2" and a "character"
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.4</span>
       </span>
     </div>
 
@@ -101,19 +104,19 @@ If a single "Spectrum2" and a "character"
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+      <a href="../articles/v01-MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+      <a href="../articles/v02-MSnbase-io.html">MSnbase IO capabilities</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+      <a href="../articles/v03-MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+      <a href="../articles/v04-benchmarking.html">MSnbase2 benchmarking</a>
     </li>
     <li>
-      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+      <a href="../articles/v05-MSnbase-development.html">A short introduction to *MSnbase* development</a>
     </li>
   </ul>
 </li>
@@ -282,7 +285,7 @@ If a single "Spectrum2" and a "character"
 	values are <code>orientation=1</code>, <code>add=FALSE</code>,
 	<code>col="#74ADD1"</code>, <code>pch=NA</code>, <code>xlab="m/z"</code>,
 	<code>ylab="intensity"</code>, <code>ylim=c(0, 1)</code>,
-	<code>tolerance=0.1</code>, relative=FALSE, type=c("b", "y"),
+	<code>tolerance=25e-6</code>, relative=TRUE, type=c("b", "y"),
 	<code>modifications=c(C=160.030649)</code>, <code>z=1</code>,
 	fragments=<code>MSnbase:::calculateFragments_Spectrum2</code> and
 	<code>fragments.cex=0.75</code>. Additional arguments <code>...</code> are

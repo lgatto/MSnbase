@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -37,7 +39,7 @@ Chromatograms: create an instance of class
     Chromatograms.
 Chromatograms objects can, just like a matrix,
     be subsetted using the [ method. Single elements, rows or columns
-    can be replaced using e.g. x[1, 1] &lt;- value where value
+    can be replaced using e.g. x[1, 1] &amp;lt;- value where value
     has to be a Chromatogram object or a list of such objects.
 plot: plots a Chromatograms object. For each row
     in the object one plot is created, i.e. all Chromatogram
@@ -46,14 +48,14 @@ phenoData: accesses the phenotypical desccription of the
     samples. Returns an NAnnotatedDataFrame object.
 pData: accesses the phenotypical description of the
     samples. Returns a data.frame.
-pData&lt;-: replace the phenotype data.
-$ and $&lt;-: get or replace individual columns of
+pData&amp;lt;-: replace the phenotype data.
+$ and $&amp;lt;-: get or replace individual columns of
     the object's pheno data.
-colnames&lt;-: replace or set the column names of the
+colnames&amp;lt;-: replace or set the column names of the
     Chromatograms object. Does also set the rownames of the
     phenoData.
 sampleNames: get the sample names.
-sampleNames&lt;-: replace or set the sample names of the
+sampleNames&amp;lt;-: replace or set the sample names of the
     Chromatograms object (i.e. the rownames of the pheno data
     and colnames of the data matrix.
 isEmpty: returns TRUE if the Chromatograms
@@ -61,34 +63,39 @@ isEmpty: returns TRUE if the Chromatograms
     only NA intensities.
 featureNames: returns the feature names of the
     Chromatograms object.
-featureNames&lt;-: set the feature names.
+featureNames&amp;lt;-: set the feature names.
 featureData: return the feature data.
-featureData&lt;-: replace the object's feature data.
+featureData&amp;lt;-: replace the object's feature data.
 fData: return the feature data as a data.frame.
-fData&lt;-: replace the object's feature data by passing a
+fData&amp;lt;-: replace the object's feature data by passing a
     data.frame
 fvarLabels: return the feature data variable names (i.e.
     column names).
-rownames&lt;-: replace the rownames (and featureNames) of
+rownames&amp;lt;-: replace the rownames (and featureNames) of
     the object.
 precursorMz: return the precursor m/z from the chromatograms. The
-method returns a matrix with 2 columns ("mzmin" and
-"mzmax") and as many rows as there are rows in the
+method returns a matrix with 2 columns (&quot;mzmin&quot; and
+&quot;mzmax&quot;) and as many rows as there are rows in the
 Chromatograms object. Each row contains the precursor m/z of the
 chromatograms in that row. An error is thrown if the chromatograms within one
 row have different precursor m/z values.
 productMz: return the product m/z from the chromatograms. The
-method returns a matrix with 2 columns ("mzmin" and
-"mzmax") and as many rows as there are rows in the
+method returns a matrix with 2 columns (&quot;mzmin&quot; and
+&quot;mzmax&quot;) and as many rows as there are rows in the
 Chromatograms object. Each row contains the product m/z of the
 chromatograms in that row. An error is thrown if the chromatograms within one
 row have different product m/z values.
 mz: returns the m/z for each row of the Chromatograms object
-as a two-column matrix (with columns "mzmin" and
-"mzmax").
+as a two-column matrix (with columns &quot;mzmin&quot; and
+&quot;mzmax&quot;).
 polarity: returns the polarity of the scans/chromatograms: `1`,
-`0` or `-1` for positive, negative or unknown polarity." />
+`0` or `-1` for positive, negative or unknown polarity.
+bin aggregates intensity values of chromatograms in discrete bins
+along the retention time axis. By default, individual Chromatogram
+objects of one row are binned into the same bins. The function returns a
+Chromatograms object with binned chromatograms." />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -115,7 +122,7 @@ polarity: returns the polarity of the scans/chromatograms: `1`,
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.4</span>
       </span>
     </div>
 
@@ -138,19 +145,19 @@ polarity: returns the polarity of the scans/chromatograms: `1`,
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+      <a href="../articles/v01-MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+      <a href="../articles/v02-MSnbase-io.html">MSnbase IO capabilities</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+      <a href="../articles/v03-MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+      <a href="../articles/v04-benchmarking.html">MSnbase2 benchmarking</a>
     </li>
     <li>
-      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+      <a href="../articles/v05-MSnbase-development.html">A short introduction to *MSnbase* development</a>
     </li>
   </ul>
 </li>
@@ -243,6 +250,10 @@ as a two-column <code>matrix</code> (with columns <code>"mzmin"</code> and
 <code>"mzmax"</code>).</p>
 <p><code>polarity</code>: returns the polarity of the scans/chromatograms: `1`,
 `0` or `-1` for positive, negative or unknown polarity.</p>
+<p><code>bin</code> aggregates intensity values of chromatograms in discrete bins
+along the retention time axis. By default, individual <code>Chromatogram</code>
+objects of one row are binned into the same bins. The function returns a
+<code>Chromatograms</code> object with binned chromatograms.</p>
     
     </div>
 
@@ -323,7 +334,11 @@ productMz(object)
 mz(object)
 
 # S4 method for Chromatograms
-polarity(object)</pre>
+polarity(object)
+
+# S4 method for Chromatograms
+bin(object, binSize = 0.5, breaks = numeric(),
+  fun = max)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -417,6 +432,23 @@ will be used as plot title.</p></td>
     <tr>
       <th>name</th>
       <td><p>For <code>$</code>, the name of the pheno data column.</p></td>
+    </tr>
+    <tr>
+      <th>binSize</th>
+      <td><p>for <code>bin</code>: <code>numeric(1)</code> with the size of the bins
+(in seconds).</p></td>
+    </tr>
+    <tr>
+      <th>breaks</th>
+      <td><p>for <code>bin</code>: <code>numeric</code> defining the bins. Usually not
+required as the function calculates the bins automatically based on
+<code>binSize</code> and the retention time range of chromatograms in the same
+row.</p></td>
+    </tr>
+    <tr>
+      <th>fun</th>
+      <td><p>for <code>bin</code>: function to be used to aggregate the intensity
+values falling within each bin.</p></td>
     </tr>
     </table>
     
@@ -536,7 +568,9 @@ will be used as plot title.</p></td>
 #&gt; Levels: first sample second sample</div><div class='input'>
 <span class='co'>## Access the m/z ratio for each row; this will be NA for the present</span>
 <span class='co'>## object</span>
-<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>chrs</span>)</div><div class='output co'>#&gt; <span class='error'>Error in getMethod(mz, "Chromatogram"): no method found for function 'mz' and signature Chromatogram</span></div><div class='input'>
+<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>chrs</span>)</div><div class='output co'>#&gt;      mzmin mzmax
+#&gt; [1,]    NA    NA
+#&gt; [2,]    NA    NA</div><div class='input'>
 <span class='co'>## Create some random Chromatogram objects</span>
 <span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'>abs</span>(<span class='fu'>rnorm</span>(<span class='fl'>123</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>32</span>))
 <span class='no'>ch1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fu'>seq_along</span>(<span class='no'>ints</span>), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fl'>231</span>)

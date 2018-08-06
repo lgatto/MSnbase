@@ -8,8 +8,8 @@
 <title>MSnbase2 benchmarking • MSnbase</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="MSnbase2 benchmarking">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script><meta property="og:title" content="MSnbase2 benchmarking">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.3</span>
       </span>
     </div>
 
@@ -130,13 +130,13 @@ f &lt;-<span class="st"> </span>msdata<span class="op">::</span><span class="kw"
                                 <span class="dt">mode =</span> <span class="st">"inMemory"</span>,
                                 <span class="dt">centroided =</span> <span class="ot">TRUE</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   5.116   0.044   5.163</code></pre>
+##   5.141   0.028   5.179</code></pre>
 <p>Next, we use the <code>readMSData</code> function to generate an on-disk representation of the same data by setting <code>mode = "onDisk"</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(ondisk &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readMSData.html">readMSData</a></span>(f, <span class="dt">msLevel =</span> <span class="dv">2</span>,
                                   <span class="dt">mode =</span> <span class="st">"onDisk"</span>,
                                   <span class="dt">centroided =</span> <span class="ot">TRUE</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.932   0.172   2.098</code></pre>
+##   1.690   0.036   1.720</code></pre>
 <p>Creating the on-disk experiment is considerable faster and scales to much bigger, multi-file data, both in terms of object creation time, but also in terms of object size (see next section). We must of course make sure that these two datasets are equivalent:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all.equal</span>(inmem, ondisk)</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
@@ -145,8 +145,9 @@ f &lt;-<span class="st"> </span>msdata<span class="op">::</span><span class="kw"
 <h2 class="hasAnchor">
 <a href="#data-size" class="anchor"></a>Data size</h2>
 <p>To compare the size occupied in memory of these two objects, we are going to use the <code>object_size</code> function from the <em><a href="https://CRAN.R-project.org/package=pryr">pryr</a></em> package, which accounts for the data (the spectra) in the <code>assayData</code> environment (as opposed to the <code>object.size</code> function from the <code>utils</code> package).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"pryr"</span>)
-<span class="kw"><a href="http://www.rdocumentation.org/packages/pryr/topics/object_size">object_size</a></span>(inmem)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"pryr"</span>)</code></pre></div>
+<pre><code>## Warning: package 'pryr' was built under R version 3.6.0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://www.rdocumentation.org/packages/pryr/topics/object_size">object_size</a></span>(inmem)</code></pre></div>
 <pre><code>## 2.77 MB</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://www.rdocumentation.org/packages/pryr/topics/object_size">object_size</a></span>(ondisk)</code></pre></div>
 <pre><code>## 217 kB</code></pre>
@@ -163,8 +164,9 @@ Plotting in-memory and on-disk spectra
 <h2 class="hasAnchor">
 <a href="#accessing-spectra" class="anchor"></a>Accessing spectra</h2>
 <p>The drawback of the on-disk representation is when the spectrum data has to actually be accessed. To compare access time, we are going to use the <em><a href="https://CRAN.R-project.org/package=microbenchmark">microbenchmark</a></em> and repeat access 10 times to compare access to all 451 and a single spectrum in-memory (i.e. pre-loaded and constructed) and on-disk (i.e. on-the-fly access).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"microbenchmark"</span>)
-mb &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/microbenchmark/topics/microbenchmark">microbenchmark</a></span>(<span class="kw"><a href="../reference/pSet-class.html">spectra</a></span>(inmem),
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"microbenchmark"</span>)</code></pre></div>
+<pre><code>## Warning: package 'microbenchmark' was built under R version 3.6.0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mb &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/microbenchmark/topics/microbenchmark">microbenchmark</a></span>(<span class="kw"><a href="../reference/pSet-class.html">spectra</a></span>(inmem),
                      inmem[[<span class="dv">200</span>]],
                      <span class="kw"><a href="../reference/pSet-class.html">spectra</a></span>(ondisk),
                      ondisk[[<span class="dv">200</span>]],
@@ -172,25 +174,25 @@ mb &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumenta
 mb</code></pre></div>
 <pre><code>## Unit: microseconds
 ##             expr        min         lq        mean      median         uq
-##   spectra(inmem)    122.140    137.085    229.4130    235.7185    269.443
-##     inmem[[200]]     30.869     52.217     65.5882     68.6840     76.383
-##  spectra(ondisk) 382293.016 410818.672 469964.2951 457365.3540 518604.998
-##    ondisk[[200]] 168361.069 169143.443 229121.8980 237479.7125 257531.809
+##   spectra(inmem)    130.294    187.563    227.6688    210.2045    276.769
+##     inmem[[200]]     33.933     36.111     56.9926     68.5025     71.749
+##  spectra(ondisk) 377039.277 378404.679 380457.9373 379118.5900 380322.328
+##    ondisk[[200]] 166910.349 167493.068 168064.8062 167906.0600 168775.860
 ##         max neval cld
-##     381.090    10 a  
-##     114.979    10 a  
-##  615982.358    10   c
-##  315083.821    10  b</code></pre>
+##     329.259    10 a  
+##      72.099    10 a  
+##  387680.194    10   c
+##  169806.269    10  b</code></pre>
 <p>While it takes order or magnitudes more time to access the data on-the-fly rather than a pre-generated spectrum, accessing all spectra is only marginally slower than accessing all spectra, as most of the time is spent preparing the file for access, which is done only once.</p>
 <p>On-disk access performance will depend on the read throughput of the disk. A comparison of the data import of the above file from an internal solid state drive and from an USB3 connected hard disk showed only small differences for the <code>onDisk</code> mode (1.07 <em>vs</em> 1.36 seconds), while no difference were observed for accessing individual or all spectra. Thus, for this particular setup, performance was about the same for SSD and HDD. This might however not apply to setting in which data import is performed in parallel from multiple files.</p>
 <p>Data access does not prohibit interactive usage, such as plotting, for example, as it is about 1/2 seconds, which is an operation that is relatively rare, compared to subsetting and filtering, which are faster for on-disk data:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw"><a href="../reference/pSet-class.html">length</a></span>(inmem), <span class="dv">100</span>)
 <span class="kw">system.time</span>(inmem[i])</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.115   0.000   0.115</code></pre>
+##   0.118   0.000   0.119</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(ondisk[i])</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.027   0.000   0.027</code></pre>
+##   0.028   0.000   0.028</code></pre>
 <p>Operations on the spectra data, such as peak picking, smoothing, cleaning, … are cleverly cached and only applied when the data is accessed, to minimise file access overhead. Finally, specific operations such as for example quantitation (see next section) are optimised for speed.</p>
 </div>
 <div id="ms2-quantitation" class="section level2">
@@ -200,11 +202,11 @@ mb</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(eim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(inmem[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>], <span class="dt">reporters =</span> TMT6,
                             <span class="dt">method =</span> <span class="st">"max"</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.305   0.089   2.251</code></pre>
+##   0.298   0.092   2.070</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(eod &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(ondisk[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>], <span class="dt">reporters =</span> TMT6,
                             <span class="dt">method =</span> <span class="st">"max"</span>))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.297   0.084   0.379</code></pre>
+##   0.296   0.012   0.307</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all.equal</span>(eim, eod, <span class="dt">check.attributes =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 </div>

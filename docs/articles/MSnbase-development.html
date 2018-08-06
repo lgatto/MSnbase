@@ -8,8 +8,8 @@
 <title>A short introduction to <em>MSnbase</em> development • MSnbase</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="A short introduction to &lt;em&gt;MSnbase&lt;/em&gt; development">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script><meta property="og:title" content="A short introduction to &lt;em&gt;MSnbase&lt;/em&gt; development">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.3</span>
       </span>
     </div>
 
@@ -541,7 +541,7 @@
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
-<pre><code>## R Under development (unstable) (2018-04-02 r74505)
+<pre><code>## R version 3.5.0 Patched (2018-05-14 r74725)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
@@ -562,30 +562,33 @@
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] MSnbase_2.7.1       ProtGenerics_1.13.0 BiocParallel_1.15.3
-## [4] mzR_2.15.1          Rcpp_0.12.16        Biobase_2.41.0     
-## [7] BiocGenerics_0.27.0 BiocStyle_2.9.0    
+## [1] MSnbase_2.7.3       ProtGenerics_1.12.0 BiocParallel_1.14.2
+## [4] mzR_2.15.2          Rcpp_0.12.18        Biobase_2.40.0     
+## [7] BiocGenerics_0.26.0 BiocStyle_2.8.2    
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] xfun_0.1              lattice_0.20-35       colorspace_1.3-2     
-##  [4] htmltools_0.3.6       stats4_3.6.0          yaml_2.1.19          
-##  [7] vsn_3.49.0            XML_3.98-1.11         rlang_0.2.0          
-## [10] pkgdown_1.0.0         pillar_1.2.2          affy_1.59.0          
-## [13] foreach_1.4.4         affyio_1.51.0         plyr_1.8.4           
-## [16] mzID_1.19.0           stringr_1.3.1         zlibbioc_1.27.0      
-## [19] munsell_0.4.3         pcaMethods_1.73.0     commonmark_1.5       
-## [22] gtable_0.2.0          codetools_0.2-15      memoise_1.1.0        
-## [25] evaluate_0.10.1       knitr_1.20            IRanges_2.15.9       
-## [28] doParallel_1.0.11     BiocInstaller_1.31.1  preprocessCore_1.43.0
-## [31] scales_0.5.0          backports_1.1.2       limma_3.37.1         
-## [34] desc_1.2.0            S4Vectors_0.19.2      fs_1.2.2             
-## [37] impute_1.55.0         ggplot2_2.2.1         digest_0.6.15        
-## [40] stringi_1.2.2         bookdown_0.7          grid_3.6.0           
-## [43] rprojroot_1.3-2       tools_3.6.0           magrittr_1.5         
-## [46] lazyeval_0.2.1        tibble_1.4.2          crayon_1.3.4         
-## [49] MASS_7.3-50           xml2_1.2.0            iterators_1.0.9      
-## [52] assertthat_0.2.0      rmarkdown_1.9         roxygen2_6.0.1       
-## [55] R6_2.2.2              MALDIquant_1.17       compiler_3.6.0</code></pre>
+##  [1] tidyselect_0.2.4      xfun_0.3              purrr_0.2.5          
+##  [4] lattice_0.20-35       colorspace_1.3-2      htmltools_0.3.6      
+##  [7] stats4_3.5.0          yaml_2.1.19           vsn_3.48.1           
+## [10] XML_3.98-1.12         rlang_0.2.1           pkgdown_1.1.0        
+## [13] pillar_1.3.0          glue_1.3.0            affy_1.58.0          
+## [16] bindrcpp_0.2.2        foreach_1.4.4         affyio_1.50.0        
+## [19] plyr_1.8.4            bindr_0.1.1           mzID_1.18.0          
+## [22] zlibbioc_1.26.0       stringr_1.3.1         munsell_0.5.0        
+## [25] pcaMethods_1.72.0     commonmark_1.5        gtable_0.2.0         
+## [28] codetools_0.2-15      memoise_1.1.0         evaluate_0.11        
+## [31] knitr_1.20            IRanges_2.14.10       doParallel_1.0.11    
+## [34] BiocInstaller_1.30.0  preprocessCore_1.42.0 scales_0.5.0         
+## [37] backports_1.1.2       limma_3.36.2          desc_1.2.0           
+## [40] S4Vectors_0.18.3      fs_1.2.3              impute_1.54.0        
+## [43] ggplot2_3.0.0         digest_0.6.15         stringi_1.2.4        
+## [46] bookdown_0.7          dplyr_0.7.6           grid_3.5.0           
+## [49] rprojroot_1.3-2       tools_3.5.0           magrittr_1.5         
+## [52] lazyeval_0.2.1        tibble_1.4.2          crayon_1.3.4         
+## [55] pkgconfig_2.0.1       MASS_7.3-50           xml2_1.2.0           
+## [58] iterators_1.0.10      assertthat_0.2.0      rmarkdown_1.10       
+## [61] roxygen2_6.0.1        R6_2.2.2              MALDIquant_1.18      
+## [64] compiler_3.5.0</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">

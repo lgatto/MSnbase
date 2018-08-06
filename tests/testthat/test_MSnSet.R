@@ -420,6 +420,26 @@ test_that("Combine with fun or 'fun'", {
     expect_equal(exprs(xchar), exprs(xfun))
 })
 
+
+test_that("Robust summary and sample names order (bug PR# 349)", {
+    ## This identified the bug
+    data(msnset)
+    msnset2 <- msnset <- log(filterNA(msnset), 2)
+    ## Expected results
+    res0 <- combineFeatures(msnset,
+                            fcol = "ProteinAccession",
+                            fun = "robust")
+    ## Identify the bug
+    sampleNames(msnset2)[1] <- "zzz"
+    res2 <- combineFeatures(msnset2,
+                            fcol = "ProteinAccession",
+                            fun = "robust")
+    ## Re-set sample name
+    sampleNames(res2) <- sampleNames(res0)
+    expect_equal(exprs(res0), exprs(res2))
+})
+
+
 test_that("aggvar, son of ragnar", {
     e <- matrix(1:9, nrow = 3)
     colnames(e) <- letters[1:3]

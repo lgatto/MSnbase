@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -39,7 +41,7 @@
     used instead (i.e. the chromatogram method).
 Chromatogram: create an instance of the
     Chromatogram class.
-aggregationFun,aggregationFun&lt;- get or set the
+aggregationFun,aggregationFun&amp;lt;- get or set the
     aggregation function.
 rtime returns the retention times for the rentention time
     - intensity pairs stored in the chromatogram.
@@ -63,8 +65,13 @@ msLevel returns the MS level of the chromatogram.
 isEmpty returns TRUE for empty chromatogram or
     chromatograms with all intensities being NA.
 productMz get the mz of the product chromatogram/ion. The
-    function returns a numeric(2) with the lower and upper mz value." />
+    function returns a numeric(2) with the lower and upper mz value.
+bin aggregates intensity values from a chromatogram in discrete bins
+along the retention time axis and returns a Chromatogram object with
+the retention time representing the mid-point of the bins and the intensity
+the binned signal." />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -91,7 +98,7 @@ productMz get the mz of the product chromatogram/ion. The
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.4</span>
       </span>
     </div>
 
@@ -114,19 +121,19 @@ productMz get the mz of the product chromatogram/ion. The
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+      <a href="../articles/v01-MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+      <a href="../articles/v02-MSnbase-io.html">MSnbase IO capabilities</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+      <a href="../articles/v03-MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+      <a href="../articles/v04-benchmarking.html">MSnbase2 benchmarking</a>
     </li>
     <li>
-      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+      <a href="../articles/v05-MSnbase-development.html">A short introduction to *MSnbase* development</a>
     </li>
   </ul>
 </li>
@@ -195,6 +202,10 @@ productMz get the mz of the product chromatogram/ion. The
     chromatograms with all intensities being <code>NA</code>.</p>
 <p><code>productMz</code> get the mz of the product chromatogram/ion. The
     function returns a <code>numeric(2)</code> with the lower and upper mz value.</p>
+<p><code>bin</code> aggregates intensity values from a chromatogram in discrete bins
+along the retention time axis and returns a <code>Chromatogram</code> object with
+the retention time representing the mid-point of the bins and the intensity
+the binned signal.</p>
     
     </div>
 
@@ -247,7 +258,12 @@ productMz get the mz of the product chromatogram/ion. The
 <span class='fu'>isEmpty</span>(<span class='no'>x</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
-<span class='fu'>productMz</span>(<span class='no'>object</span>)</pre>
+<span class='fu'>productMz</span>(<span class='no'>object</span>)
+
+<span class='co'># S4 method for Chromatogram</span>
+<span class='fu'><a href='bin-methods.html'>bin</a></span>(<span class='no'>object</span>, <span class='kw'>binSize</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+  <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'>seq</span>(<span class='fu'>floor</span>(<span class='fu'>min</span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>object</span>))), <span class='fu'>ceiling</span>(<span class='fu'>max</span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>object</span>))), <span class='kw'>by</span> <span class='kw'>=</span>
+  <span class='no'>binSize</span>), <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>max</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -367,6 +383,22 @@ will be used as plot title.</p></td>
       <th>...</th>
       <td><p>For <code>plot</code>: additional arguments to be passed to the
 <code><a href='http://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></code> function.</p></td>
+    </tr>
+    <tr>
+      <th>binSize</th>
+      <td><p>for <code>bin</code>: <code>numeric(1)</code> with the size of the bins
+(in seconds).</p></td>
+    </tr>
+    <tr>
+      <th>breaks</th>
+      <td><p>for <code>bin</code>: <code>numeric</code> defining the bins. Usually not
+required as the function calculates the bins automatically based on
+<code>binSize</code>.</p></td>
+    </tr>
+    <tr>
+      <th>fun</th>
+      <td><p>for <code>bin</code>: function to be used to aggregate the intensity
+values falling within each bin.</p></td>
     </tr>
     </table>
     

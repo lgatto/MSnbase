@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -34,6 +36,7 @@
 of an MSnSet. If a protein group is composed only of a
 single feature, NA is returned." />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -60,7 +63,7 @@ single feature, NA is returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.4</span>
       </span>
     </div>
 
@@ -83,19 +86,19 @@ single feature, NA is returned." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+      <a href="../articles/v01-MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+      <a href="../articles/v02-MSnbase-io.html">MSnbase IO capabilities</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+      <a href="../articles/v03-MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+      <a href="../articles/v04-benchmarking.html">MSnbase2 benchmarking</a>
     </li>
     <li>
-      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+      <a href="../articles/v05-MSnbase-development.html">A short introduction to *MSnbase* development</a>
     </li>
   </ul>
 </li>
@@ -182,7 +185,7 @@ proteins with different expression patterns.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='st'>"pRolocdata"</span>)</div><div class='output co'>#&gt; <span class='error'>Error: package ‘MSnbase’ required by ‘pRolocdata’ could not be found</span></div><div class='input'><span class='fu'>data</span>(<span class='no'>hyperLOPIT2015ms3r1psm</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘hyperLOPIT2015ms3r1psm’ not found</span></div><div class='input'><span class='no'>groupBy</span> <span class='kw'>&lt;-</span> <span class='st'>"Protein.Group.Accessions"</span>
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='st'>"pRolocdata"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: package ‘pRolocdata’ was built under R version 3.6.0</span></div><div class='output co'>#&gt; <span class='error'>Error: package ‘MSnbase’ required by ‘pRolocdata’ could not be found</span></div><div class='input'><span class='fu'>data</span>(<span class='no'>hyperLOPIT2015ms3r1psm</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘hyperLOPIT2015ms3r1psm’ not found</span></div><div class='input'><span class='no'>groupBy</span> <span class='kw'>&lt;-</span> <span class='st'>"Protein.Group.Accessions"</span>
 <span class='no'>res1</span> <span class='kw'>&lt;-</span> <span class='fu'>aggvar</span>(<span class='no'>hyperLOPIT2015ms3r1psm</span>, <span class='no'>groupBy</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>max</span>)</div><div class='output co'>#&gt; <span class='error'>Error in inherits(object, "MSnSet"): object 'hyperLOPIT2015ms3r1psm' not found</span></div><div class='input'><span class='no'>res2</span> <span class='kw'>&lt;-</span> <span class='fu'>aggvar</span>(<span class='no'>hyperLOPIT2015ms3r1psm</span>, <span class='no'>groupBy</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>mean</span>)</div><div class='output co'>#&gt; <span class='error'>Error in inherits(object, "MSnSet"): object 'hyperLOPIT2015ms3r1psm' not found</span></div><div class='input'><span class='fu'>par</span>(<span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>3</span>))
 <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>res1</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='st'>"y"</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Single outliers (max)"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in plot(res1, log = "y", main = "Single outliers (max)"): object 'res1' not found</span></div><div class='input'><span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>res2</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='st'>"y"</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Overall inconsistency (mean)"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in plot(res2, log = "y", main = "Overall inconsistency (mean)"): object 'res2' not found</span></div><div class='input'><span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>res1</span>[, <span class='st'>"agg_dist"</span>], <span class='no'>res2</span>[, <span class='st'>"agg_dist"</span>],
      <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"max"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"mean"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in plot(res1[, "agg_dist"], res2[, "agg_dist"], xlab = "max", ylab = "mean"): object 'res1' not found</span></div></pre>

@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -33,13 +35,14 @@
 <meta property="og:description" content="" />
 
 <meta property="og:description" content="These methods add identification data to a raw MS experiment (an
-  "MSnExp" object) or to quantitative data (an
-  "MSnSet" object). The identification data needs
+  &quot;MSnExp&quot; object) or to quantitative data (an
+  &quot;MSnSet&quot; object). The identification data needs
   to be available as a mzIdentML file (and passed as filenames,
   or directly as identification object) or, alternatively, can be passed
   as an arbitrary data.frame. See details in the Methods
   section." />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -66,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.4</span>
       </span>
     </div>
 
@@ -89,19 +92,19 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
+      <a href="../articles/v01-MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-demo.html">MSnbase: MS data processing, visualisation and quantification</a>
+      <a href="../articles/v02-MSnbase-io.html">MSnbase IO capabilities</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-development.html">A short introduction to *MSnbase* development</a>
+      <a href="../articles/v03-MSnbase-centroiding.html">MSnbase: centroiding of profile-mode MS data</a>
     </li>
     <li>
-      <a href="../articles/MSnbase-io.html">MSnbase IO capabilities</a>
+      <a href="../articles/v04-benchmarking.html">MSnbase2 benchmarking</a>
     </li>
     <li>
-      <a href="../articles/benchmarking.html">MSnbase2 benchmarking</a>
+      <a href="../articles/v05-MSnbase-development.html">A short introduction to *MSnbase* development</a>
     </li>
   </ul>
 </li>
@@ -157,7 +160,7 @@
   spectrum but the identification is not always bijective. Prior to
   addition, the identification data is filtered as documented in the
   <code><a href='filterIdentificationDataFrame.html'>filterIdentificationDataFrame</a></code> function: (1) only PSMs
-  matching the regular (non-decoy) database are retained; (2) PSMs or
+  matching the regular (non-decoy) database are retained; (2) PSMs of
   rank greater than 1 are discarded; and (3) only proteotypic peptides
   are kept.</p>
 <p>If after filtering, more then one PSM per spectrum are still present,
@@ -299,31 +302,44 @@
 #&gt; F1.S1        1                  1 VESITARHGEVLQLRPK           3    1
 #&gt; F1.S2        2                  2     IDGQWVTHQWLKK           3    1
 #&gt; F1.S3        3                  3              &lt;NA&gt;          NA   NA
+#&gt; F1.S4        4                  4              &lt;NA&gt;          NA   NA
+#&gt; F1.S5        5                  5           LVILLFR           2    1
 #&gt;       passThreshold experimentalMassToCharge calculatedMassToCharge modNum
 #&gt; F1.S1          TRUE                 645.3741               645.0375      0
 #&gt; F1.S2          TRUE                 546.9586               546.9633      0
 #&gt; F1.S3            NA                       NA                     NA     NA
+#&gt; F1.S4            NA                       NA                     NA     NA
+#&gt; F1.S5          TRUE                 437.8040               437.2997      0
 #&gt;       isDecoy post  pre start end DatabaseAccess DBseqLength DatabaseSeq
 #&gt; F1.S1   FALSE    A    R   170 186        ECA0984         231            
 #&gt; F1.S2   FALSE    A    K    50  62        ECA1028         275            
 #&gt; F1.S3      NA &lt;NA&gt; &lt;NA&gt;    NA  NA           &lt;NA&gt;          NA        &lt;NA&gt;
+#&gt; F1.S4      NA &lt;NA&gt; &lt;NA&gt;    NA  NA           &lt;NA&gt;          NA        &lt;NA&gt;
+#&gt; F1.S5   FALSE    L    K    22  28        ECA0510         166            
 #&gt;                                                              DatabaseDescription
 #&gt; F1.S1                                        ECA0984 DNA mismatch repair protein
 #&gt; F1.S2 ECA1028 2,3,4,5-tetrahydropyridine-2,6-dicarboxylate N-succinyltransferase
 #&gt; F1.S3                                                                       &lt;NA&gt;
+#&gt; F1.S4                                                                       &lt;NA&gt;
+#&gt; F1.S5           ECA0510 putative capsular polysacharide biosynthesis transferase
 #&gt;                idFile MS.GF.RawScore MS.GF.DeNovoScore MS.GF.SpecEValue
 #&gt; F1.S1 dummyiTRAQ.mzid            -39                77     5.527468e-05
 #&gt; F1.S2 dummyiTRAQ.mzid            -30                39     9.399048e-06
 #&gt; F1.S3            &lt;NA&gt;             NA                NA               NA
+#&gt; F1.S4            &lt;NA&gt;             NA                NA               NA
+#&gt; F1.S5 dummyiTRAQ.mzid            -42                 5     2.577830e-04
 #&gt;       MS.GF.EValue modName modMass modLocation subOriginalResidue
 #&gt; F1.S1     79.36958    &lt;NA&gt;      NA          NA               &lt;NA&gt;
 #&gt; F1.S2     13.46615    &lt;NA&gt;      NA          NA               &lt;NA&gt;
 #&gt; F1.S3           NA    &lt;NA&gt;      NA          NA               &lt;NA&gt;
+#&gt; F1.S4           NA    &lt;NA&gt;      NA          NA               &lt;NA&gt;
+#&gt; F1.S5    366.38422    &lt;NA&gt;      NA          NA               &lt;NA&gt;
 #&gt;       subReplacementResidue subLocation nprot npep.prot npsm.prot npsm.pep
 #&gt; F1.S1                  &lt;NA&gt;          NA     1         1         1        1
 #&gt; F1.S2                  &lt;NA&gt;          NA     1         1         1        1
 #&gt; F1.S3                  &lt;NA&gt;          NA    NA        NA        NA       NA
-#&gt;  [ reached getOption("max.print") -- omitted 2 rows ]</div><div class='input'>
+#&gt; F1.S4                  &lt;NA&gt;          NA    NA        NA        NA       NA
+#&gt; F1.S5                  &lt;NA&gt;          NA     1         1         1        1</div><div class='input'>
 <span class='fu'><a href='MSnSet-class.html'>idSummary</a></span>(<span class='no'>msexp</span>)</div><div class='output co'>#&gt;       spectrumFile          idFile coverage
 #&gt; 1 dummyiTRAQ.mzXML dummyiTRAQ.mzid      0.6</div></pre>
   </div>

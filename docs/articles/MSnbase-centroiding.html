@@ -8,8 +8,8 @@
 <title>MSnbase: centroiding of profile-mode MS data • MSnbase</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="MSnbase: centroiding of profile-mode MS data">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script><meta property="og:title" content="MSnbase: centroiding of profile-mode MS data">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.3</span>
       </span>
     </div>
 
@@ -129,13 +129,12 @@ document.addEventListener("DOMContentLoaded", function() {
 <p>In this vignette we use a subset of a metabolomics profile-mode LC-MS data of pooled human serum samples measured on a AB Sciex TripleTOF 5600+ mass spectrometer (the employed chromatography was a hydrophilic interaction high-performance liquid chromatography (HILIC HPLC)). The mzML file contains profile mode data for an m/z range from 105 to 130 and a retention time from 0 to 240 seconds. For more details on the sample see <code><a href="http://www.rdocumentation.org/packages/msdata/topics/sciexdata">?msdata::sciexdata</a></code>. Below we load the required packages and read the MS data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"MSnbase"</span>)
 <span class="kw">library</span>(<span class="st">"msdata"</span>)
-<span class="kw">library</span>(<span class="st">"magrittr"</span>)
-
-fl &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="kw">system.file</span>(<span class="st">"sciex"</span>, <span class="dt">package =</span> <span class="st">"msdata"</span>), <span class="dt">full.names =</span> <span class="ot">TRUE</span>)[<span class="dv">2</span>]
+<span class="kw">library</span>(<span class="st">"magrittr"</span>)</code></pre></div>
+<pre><code>## Warning: package 'magrittr' was built under R version 3.6.0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fl &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="kw">system.file</span>(<span class="st">"sciex"</span>, <span class="dt">package =</span> <span class="st">"msdata"</span>), <span class="dt">full.names =</span> <span class="ot">TRUE</span>)[<span class="dv">2</span>]
 <span class="kw">basename</span>(fl)</code></pre></div>
 <pre><code>## [1] "20171016_POOL_POS_3_105-134.mzML"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data_prof &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readMSData.html">readMSData</a></span>(fl, <span class="dt">mode =</span> <span class="st">"onDisk"</span>, <span class="dt">centroided =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<pre><code>## Warning: pwiz not yet initialized.</code></pre>
 <p>We next extract the profile MS data for the [M+H]+ adduct of serine with the expected m/z of 106.049871. We thus filter the <code>data_prof</code> object using an m/z range containing the signal for the metabolite and a retention time window from 175 to 187 seconds corresponding to the time when the analyte elutes from the LC.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Define the mz and retention time ranges
 serine_mz &lt;-<span class="st"> </span><span class="fl">106.049871</span>
