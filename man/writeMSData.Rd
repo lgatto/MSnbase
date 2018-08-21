@@ -6,8 +6,9 @@
 \alias{writeMSData}
 \title{Write MS data to mzML or mzXML files}
 \usage{
-\S4method{writeMSData}{MSnExp,character}(object, file, outformat = c("mzml",
-  "mzxml"), merge = FALSE, verbose = isMSnbaseVerbose(), copy = FALSE,
+\S4method{writeMSData}{MSnExp,character}(object, file,
+  outformat = c("mzml", "mzxml"), merge = FALSE,
+  verbose = isMSnbaseVerbose(), copy = FALSE,
   software_processing = NULL)
 }
 \arguments{

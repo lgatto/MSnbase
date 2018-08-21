@@ -43,8 +43,8 @@ Chromatograms(data, phenoData, featureData, ...)
 \S4method{[}{Chromatograms}(x, i, j) <- value
 
 \S4method{plot}{Chromatograms,ANY}(x, col = "#00000060", lty = 1,
-  type = "l", xlab = "retention time", ylab = "intensity", main = NULL,
-  ...)
+  type = "l", xlab = "retention time", ylab = "intensity",
+  main = NULL, ...)
 
 \S4method{phenoData}{Chromatograms}(object)
 
@@ -88,8 +88,8 @@ Chromatograms(data, phenoData, featureData, ...)
 
 \S4method{polarity}{Chromatograms}(object)
 
-\S4method{bin}{Chromatograms}(object, binSize = 0.5, breaks = numeric(),
-  fun = max)
+\S4method{bin}{Chromatograms}(object, binSize = 0.5,
+  breaks = numeric(), fun = max)
 }
 \arguments{
 \item{data}{A \code{list} of \code{\link{Chromatogram}} objects.}

@@ -24,10 +24,11 @@
 \alias{bin,Chromatogram-method}
 \title{Representation of chromatographic MS data}
 \usage{
-Chromatogram(rtime = numeric(), intensity = numeric(), mz = c(NA_real_,
-  NA_real_), filterMz = c(NA_real_, NA_real_), precursorMz = c(NA_real_,
-  NA_real_), productMz = c(NA_real_, NA_real_), fromFile = integer(),
-  aggregationFun = character(), msLevel = 1L)
+Chromatogram(rtime = numeric(), intensity = numeric(),
+  mz = c(NA_real_, NA_real_), filterMz = c(NA_real_, NA_real_),
+  precursorMz = c(NA_real_, NA_real_), productMz = c(NA_real_,
+  NA_real_), fromFile = integer(), aggregationFun = character(),
+  msLevel = 1L)
 
 aggregationFun(object)
 
@@ -52,8 +53,8 @@ aggregationFun(object)
 \S4method{clean}{Chromatogram}(object, all = FALSE, na.rm = FALSE)
 
 \S4method{plot}{Chromatogram,ANY}(x, col = "#00000060", lty = 1,
-  type = "l", xlab = "retention time", ylab = "intensity", main = NULL,
-  ...)
+  type = "l", xlab = "retention time", ylab = "intensity",
+  main = NULL, ...)
 
 \S4method{msLevel}{Chromatogram}(object)
 
@@ -62,8 +63,8 @@ aggregationFun(object)
 \S4method{productMz}{Chromatogram}(object)
 
 \S4method{bin}{Chromatogram}(object, binSize = 0.5,
-  breaks = seq(floor(min(rtime(object))), ceiling(max(rtime(object))), by =
-  binSize), fun = max)
+  breaks = seq(floor(min(rtime(object))), ceiling(max(rtime(object))), by
+  = binSize), fun = max)
 }
 \arguments{
 \item{rtime}{\code{numeric} with the retention times (length has to be equal
