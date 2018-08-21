@@ -1,5 +1,8 @@
 # MSnbase 2.7
 
+## Changes in version 2.7.5
+- Nothing yet
+
 ## Changes in version 2.7.4
 - Fix filterMz for spectra with no non-NA intensities in m/z range
   (see [#355](https://github.com/lgatto/MSnbase/issues/355)) <2018-08-08 Wed>
