@@ -17,21 +17,23 @@ plot2d.header <- function(object, ## MSnExp header
 }
 
 plotDensity.header <- function(object, ## MSnExp header
-                               z = c("precursor.mz","peaks.count","ionCount"),
+                               z = c("precursor.mz", "peaks.count", "ionCount"),
                                log,
                                plot) {
-  z <- match.arg(z)
-  stopifnot(c("charge",z) %in% names(object))
-  peaks.count <- charge <- ionCount <- precursor.mz <- NULL # to satisfy codetools
-  object$charge <- as.factor(object$charge)
-  switch(z,
-         precursor.mz = p <- ggplot(object,aes(precursor.mz)) + xlab("Precursor M/Z"),
-         peaks.count = p <- ggplot(object,aes(peaks.count)) + xlab("Peaks count"),
-         ionCount = p <- ggplot(object,aes(ionCount)) + xlab("Total ion current"))
-  p <- p + geom_freqpoly(aes(group=charge,colour=charge))
-  if (log)
-    p <- p + scale_x_log10()
-  if (plot)
-    print(p)
-  invisible(p)
+    z <- match.arg(z)
+    stopifnot(z %in% names(object))
+    peaks.count <- charge <- ionCount <- precursor.mz <- NULL # to satisfy codetools
+    object$charge <- as.factor(object$charge)
+    switch(z,
+           precursor.mz = p <- ggplot(object, aes(precursor.mz)) + xlab("Precursor M/Z"),
+           peaks.count = p <- ggplot(object, aes(peaks.count)) + xlab("Peaks count"),
+           ionCount = p <- ggplot(object, aes(ionCount)) + xlab("Total ion current"))
+    if ("charge" %in% names(object))
+        p <- p + geom_freqpoly(aes(group = charge,
+                                   colour = charge))
+    if (log)
+        p <- p + scale_x_log10()
+    if (plot)
+        print(p)
+    invisible(p)
 }
