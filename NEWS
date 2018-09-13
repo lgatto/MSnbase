@@ -1,8 +1,9 @@
 # MSnbase 2.7
 
 Changes in version 2.7.5
-- Add a note about parallel processing in vignette (see #356 for
-  background) <2018-09-04 Tue>
+- Add a note about parallel processing in vignette (see
+  #356 for background)
+  <2018-09-04 Tue>
 
 Changes in version 2.7.4
 - Fix filterMz for spectra with no non-NA intensities in m/z range
