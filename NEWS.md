@@ -1,5 +1,8 @@
 # MSnbase 2.7
 
+## Changes in version 2.7.6
+- Nothing yet
+
 ## Changes in version 2.7.5
 - Add a note about parallel processing in vignette (see
   [#356](https://github.com/lgatto/MSnbase/issues/356) for background)
