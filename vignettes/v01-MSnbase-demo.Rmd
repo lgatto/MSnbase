@@ -1,6 +1,6 @@
 ---
 title: "MSnbase: MS data processing, visualisation and quantification"
-author: 
+author:
 - name: Laurent Gatto
 - name: Johannes Rainer
 - name: Sebastian Gibb
@@ -16,7 +16,7 @@ abstract: >
 output:
   BiocStyle::html_document:
     toc_float: true
-bibliography: MSnbase.bib	
+bibliography: MSnbase.bib
 vignette: >
   %\VignetteIndexEntry{Base Functions and Classes for MS-based Proteomics}
   %\VignetteEngine{knitr::rmarkdown}
@@ -56,7 +56,7 @@ researcher to easily mine mass spectrometry data, explore the data and
 its statistical properties and visually display these.
 
 `r Biocpkg("MSnbase")` also aims at being compatible with the
-infrastructure implemented in Bioconductor, in particular 
+infrastructure implemented in Bioconductor, in particular
 `r Biocpkg("Biobase")`. As such, classes developed specifically for
 proteomics mass spectrometry data are based on the *eSet* and
 *ExpressionSet* classes. The main goal is to assure seamless
@@ -70,7 +70,7 @@ method and function documentations. A description of the classes is
 provided in the *MSnbase-development*
 vignette^[in R, open it with `vignette("MSnbase-development")` or read it online [here](https://bioconductor.org/packages/devel/bioc/vignettes/MSnbase/inst/doc/MSnbase-development.html)].
 
-## Speed and memory requirements 
+## Speed and memory requirements
 
 Raw mass spectrometry file are generally several hundreds of MB large
 and most of this is used for binary raw spectrum data. As such, data
@@ -83,16 +83,44 @@ the `trimMz` method to select the area of interest and thus
 substantially reduce the size of the `Spectrum` objects. This is
 illustrated in section \@ref(sec:trim).
 
-The independent handling of spectra is ideally suited for parallel
-processing.  The `quantify` method now performs reporter
-peaks quantitation in parallel.  More functions are being updated.
+**Parallel processing** The independent handling of spectra is ideally
+suited for parallel processing.  The `quantify` method for example
+performs reporter peaks quantitation in parallel.
 
-Finally, recent developmenets in version 2 of the package have solved
-the memory issue by implementing and *on-disk* version the of data
-class storing raw data (*MSnExp*, see section \@ref(sec:msnexp)),
+Parallel support is provided by the `r Biocpkg("BiocParallel")` and
+various backends including multicore (forking, default on Linux),
+simple networf network of workstations (SNOW, default on Windows)
+using sockets, forking or MPI among others. We refer readers to the
+documentation in `r Biocpkg("BiocParallel")`. Automatic parallel
+processing of spectra is only established for a certain number of
+spectra (per file). This value (default is 1000) can be set with the
+`setMSnbaseParallelThresh` function.
+
+In sock-based parallel processing, the main worker process has to
+start new R instances and connect to them via sock. Sometimes these
+connections can not be established and the processes get stuck. To
+test this, users can disable parallel processing by disabling parallel
+processing with `register(SerialParam())`. To avoid these deadlocks,
+it is possible to initiate the parallel processing setup explicitly at
+the beginning of the script using, for example
+
+```{r, eval=FALSE}
+library("doParallel")
+registerDoParallel(3) ## using 3 slave nodes
+register(DoparParam(), default = TRUE)
+
+## rest of script comes below
+```
+
+**On-disk access** Developmenets in version 2 of the package have
+solved the memory issue by implementing and *on-disk* version the of
+data class storing raw data (*MSnExp*, see section \@ref(sec:msnexp)),
 where the spectra a accessed on-disk only when required. The
 *benchmarking* vignette compares the on-disk and in-memory
-implemenatations^[in R, open it with `vignette("benchmarking")` or read it online [here](https://bioconductor.org/packages/devel/bioc/vignettes/MSnbase/inst/doc/benchmarking.html)].
+implemenatations^[in R, open it with `vignette("benchmarking")` or
+read it online
+[here](https://bioconductor.org/packages/devel/bioc/vignettes/MSnbase/inst/doc/benchmarking.html)]. See
+details below.
 
 # Data structure and content {#sec:data}
 
@@ -115,7 +143,6 @@ file <- dir(system.file(package = "MSnbase", dir = "extdata"),
 rawdata <- readMSData(file, msLevel = 2, verbose = FALSE)
 ```
 
-
 Only spectra of a given MS level can be loaded at a time by setting
 the `msLevel` parameter accordingly in `readMSData` and *in-memory*
 data. In this document, we will use the `itraqdata` data set, provided
@@ -123,22 +150,22 @@ with `r Biocpkg("MSnbase")`. It includes feature metadata, accessible
 with the `fData` accessor.  The metadata includes identification data
 for the `r length(itraqdata)` MS2 spectra.
 
-**MSnbase 2.0** Version 2.0 and later of `r Biocpkg("MSnbase")` use a
-new *on-disk* data storage model (see the *benchmarking* vignette for
-more details). The new data backend is compatible with the orignal
+Version 2.0 and later of `r Biocpkg("MSnbase")` provide a new
+*on-disk* data storage model (see the *benchmarking* vignette for more
+details). The new data backend is compatible with the orignal
 *in-memory* model. To make use of the new infrastructure, read your
-raw data by setting the `mode` argument to `"onDisk"` (the default in
-`"inMemory"`). The new *on-disk* implementation supports several MS
-levels in a single raw data object. All existing operations work
-irrespective of the backend.
+raw data by setting the `mode` argument to `"onDisk"` (the default is
+still `"inMemory"` but is likely to change in the future). The new
+*on-disk* implementation supports several MS levels in a single raw
+data object. All existing operations work irrespective of the backend.
 
-**Peak lists** Peak lists can often be exported after spectrum
-processing from vendor-specific software and are also used as input to
-search engines.  Peak lists in `mgf` format can be imported with the
-function `readMgfData` (see `?readMgfData` for details) to create
-experiment objects.  Experiments or individual spectra can be exported
-to an `mgf` file with the `writeMgfData` methods (see `?writeMgfData`
-for details and examples).
+**Peak lists** can often be exported after spectrum processing from
+vendor-specific software and are also used as input to search engines.
+Peak lists in `mgf` format can be imported with the function
+`readMgfData` (see `?readMgfData` for details) to create experiment
+objects.  Experiments or individual spectra can be exported to an
+`mgf` file with the `writeMgfData` methods (see `?writeMgfData` for
+details and examples).
 
 
 **Experiments with multiple runs** Although it is possible to load and
@@ -146,23 +173,23 @@ process multiple files serially and later merge the resulting
 quantitation data as show in section \@ref(sec:combine), it is also
 feasible to load several raw data files at once.  Here, we report the
 analysis of an LC-MSMS experiment were 14 liquid chromatography (LC)
-fractions were loaded using `readMSData` on a 32-cores servers with
-128 Gb of RAM.  It took about 90 minutes to read the 14 uncentroided
-`mzXML` raw files (4.9 Gb on disk in total) and create a 3.3 Gb raw
-data object (an *MSnExp* instance, see next section).  Quantitation of
-9 reporter ions (*iTRAQ9* object, see \@ref(sec:reporterions)) for
-88690 features was performed in parallel on 16
-processors^[Parallel support is provided by the `r Biocpkg("BiocParallel")` and various backends including multicore (forking), simple networf network of workstations (SNOW) using sockets, forking or MPI among others.  ]
-and took 76 minutes.  The resulting quantitation data was only 22.1 Mb
-and could easily be further processed and analysed on a standard
-laptop computer. These number as based on the older *in-memory*
-implementation. As shown in the *benchmarking* vignette, using
-*on-disk* data greatly reduces memory requirement and computation
-time.
+fractions were loaded in memory using `readMSData` on a 32-cores
+servers with 128 Gb of RAM.  It took about 90 minutes to read the 14
+uncentroided `mzXML` raw files (4.9 Gb on disk in total) and create a
+3.3 Gb raw data object (an *MSnExp* instance, see next section).
+Quantitation of 9 reporter ions (*iTRAQ9* object, see
+\@ref(sec:reporterions)) for 88690 features was performed in parallel
+on 16 processors and took 76 minutes.  The resulting quantitation data
+was only 22.1 Mb and could easily be further processed. These number
+are based on the older *in-memory* implementation. As shown in the
+*benchmarking* vignette, using *on-disk* data greatly reduces memory
+requirement and computation time.
 
 See also section \@ref(sec:io2) to import quantitative data stored in
-spreadsheets into R for further processing using `r Biocpkg("MSnbase")`. The
-*MSnbase-io*vignette[in R, open it with `vignette("MSnbase-io")` or read it online [here](https://bioconductor.org/packages/devel/bioc/vignettes/MSnbase/inst/doc/MSnbase-io.html)]
+spreadsheets into R for further processing using `r Biocpkg("MSnbase")`.
+The *MSnbase-io*vignette[in R, open it with `vignette("MSnbase-io")`
+or read it online
+[here](https://bioconductor.org/packages/devel/bioc/vignettes/MSnbase/inst/doc/MSnbase-io.html)]
 gives a general overview of `r Biocpkg("MSnbase")`'s input/ouput
 capabilites.
 
@@ -213,7 +240,7 @@ content:
   processing^[This part will be automatically updated when the object is modified with it's *ad hoc* methods, as illustrated later.]
   and package version.  This slot can be accessed with the
   `processingData` method.
-  
+
 * Other meta data, including experimental phenotype, file name(s) used
   to import the data, protocol data, information about features
   (individual spectra here) and experiment data. Most of these are
@@ -234,7 +261,7 @@ content:
 
 The raw data is composed of the `r length(itraqdata)` MS spectra.  The
 spectra are named individually
-(`r paste(paste(head(featureNames(itraqdata)),collapse=", "),", ...",sep="")`) 
+(`r paste(paste(head(featureNames(itraqdata)),collapse=", "),", ...",sep="")`)
 and stored in a `environment`. They can be accessed individually with
 `itraqdata[["X1"]]` or `itraqdata[[1]]`, or as a list with
 `spectra(itraqdata)`.  As we have loaded our experiment specifying
@@ -348,17 +375,17 @@ between acquired between 30 and 35 minutes and peaks between 521 and
 library("rpx")
 px1 <- PXDataset("PXD000001")
 mzf <- pxget(px1, 7)
-     
-## reads the data 
+
+## reads the data
 ms <- openMSfile(mzf)
 hd <- header(ms)
-     
+
 ## a set of spectra of interest: MS1 spectra eluted
 ## between 30 and 35 minutes retention time
 ms1 <- which(hd$msLevel == 1)
 rtsel <- hd$retentionTime[ms1] / 60 > 30 &
     hd$retentionTime[ms1] / 60 < 35
-     
+
 ## the map
 M <- MSmap(ms, ms1[rtsel], 521, 523, .005, hd, zeroIsNA = TRUE)
 ```
@@ -484,7 +511,7 @@ format can be parsed by `openIDfile` from the `r Biocpkg("mzR")`
 package or `mzID` from the `r Biocpkg("mzID")` package. The `MSnbase`
 package relies on the former (which is faster) and offers a simplified
 interface by converting the dedicated identification data objects into
-`data.frames`. 
+`data.frames`.
 
 ```{r iddf0}
 library("msdata")
@@ -495,7 +522,7 @@ str(iddf)
 ```
 
 The spectra along the rows are duplicated when the PSM can be assigned
-to multiple proteins, such as 
+to multiple proteins, such as
 
 ```{r dups1, echo=FALSE}
 iddf[grep("scan=5291", iddf[, "spectrumID"]),
@@ -535,17 +562,17 @@ iddf <- filterIdentificationDataFrame(iddf)
 
 This `data.frame` can be now be further reduced so that individual
 rows represent unique spectra, which can be done with the `reduce`
-method. 
+method.
 
 ```{r rediddf}
 iddf2 <- reduce(iddf, key = "spectrumID")
 ```
 
-This reduces the number of rows from `r nrow(iddf)` to `r nrow(iddf2)`. 
+This reduces the number of rows from `r nrow(iddf)` to `r nrow(iddf2)`.
 
 The first duplicated spectrum mentioned above is now unique as is
 matched a decoy protein that was filtered out with
-`filterIdentificationDataFrame`. 
+`filterIdentificationDataFrame`.
 
 ```{r dups3, echo=FALSE}
 iddf2[grep("scan=5291", iddf2[, "spectrumID"]),
@@ -569,7 +596,7 @@ in the next section.
 `r Biocpkg("MSnbase")` is able to integrate identification data from
 `mzIdentML` [@Jones2012] files.
 
-We first load two example files shipped with the 
+We first load two example files shipped with the
 `r Biocpkg("MSnbase")` containing raw data (as above) and the
 corresponding identification results respectively. The raw data is
 read with the `readMSData`, as demonstrated above. As can be seen, the
@@ -867,15 +894,15 @@ for quantitation.  Additionally, a progress bar can be displaying when
 setting the `verbose` parameter to `TRUE`.  Three quantification
 methods are implemented, as illustrated on figure
 \@ref(fig:quantitationPlot). Quantitation using `sum` sums all the
-data points in the peaks to produce, for this example, 
+data points in the peaks to produce, for this example,
 `r quantify(ssp, iTRAQ4[1], method = "sum")[[1]]`, whereas method `max`
-only uses the peak's maximum intensity, 
+only uses the peak's maximum intensity,
 `r quantify(ssp, iTRAQ4[1], method = "max")[[1]]`. `Trapezoidation`
 calculates the area under the peak taking the full with into account
-(using `strict = FALSE` gives 
+(using `strict = FALSE` gives
 `r round(quantify(ssp, iTRAQ4[1], method = "trap", strict =
 FALSE)[[1]], 3)`) or only the width as defined by the reporter (using
-`strict = TRUE` gives 
+`strict = TRUE` gives
 `r round(quantify(ssp, iTRAQ4[1], method = "trap", strict =
 TRUE)[[1]],3)`). See `?quantify` for more details.
 
@@ -929,7 +956,7 @@ The [next figure](#fig:tmt10) illustrates the quantitation of the TMT
 reporter instance. The data on the $x$ axis has been quantified using
 `method = "max"` and centroided data (as generated using
 ProteoWizard's `msconvert` with vendor libraries' peak picking); on
-the $y$ axis, the quantitation method was `trapezoidation` and 
+the $y$ axis, the quantitation method was `trapezoidation` and
 `strict = TRUE` (that's important for TMT 10-plex) and the profile data. We
 observe a very good correlation.
 
@@ -1064,7 +1091,7 @@ impurities <- matrix(c(0.929, 0.059, 0.002, 0.000,
                        0.000, 0.030, 0.924, 0.045,
                        0.000, 0.001, 0.040, 0.923),
                      nrow = 4)
-qnt.crct <- purityCorrect(qnt, impurities) 
+qnt.crct <- purityCorrect(qnt, impurities)
 head(exprs(qnt))
 head(exprs(qnt.crct))
 ```
@@ -1079,8 +1106,8 @@ edited.
 
 A set of imputation methods are available in the `impute`
 method: it takes an *MSnSet* instance as input, the name of the
-imputation method to be applied (one of 
-`r paste(imputeMethods(), collapse=", ")`), 
+imputation method to be applied (one of
+`r paste(imputeMethods(), collapse=", ")`),
 possible additional parameters and returns an updated for *MSnSet*
 without any missing values. Below, we apply a deterministic minimum
 value imputation on the `naset` example data:
@@ -1090,7 +1117,7 @@ value imputation on the `naset` example data:
 data(naset)
 table(is.na(naset))
 ## number of NAs per protein
-table(fData(naset)$nNA) 
+table(fData(naset)$nNA)
 x <- impute(naset, "min")
 processingData(x)
 table(is.na(x))
@@ -1122,9 +1149,9 @@ attempt data imputation. MNAR features should ideally be imputed with
 a *left-censor* (for example using a deterministic or
 probabilistic minimum value) method. Conversely, it is recommended to
 use *hot deck* methods (for example nearest neighbour, maximum
-likelihood, etc) when data are missing at random. 
+likelihood, etc) when data are missing at random.
 
-```{r miximp, echo = FALSE, fig.cap = "Mixed imputation method. Black cells represent presence of quantitation values and light grey corresponds to missing data. The two groups of interest are depicted in green and blue along the heatmap columns. Two classes of proteins are annotated on the left: yellow are proteins with randomly occurring missing values (if any) while proteins in brown are candidates for non-random missing value imputation."}	
+```{r miximp, echo = FALSE, fig.cap = "Mixed imputation method. Black cells represent presence of quantitation values and light grey corresponds to missing data. The two groups of interest are depicted in green and blue along the heatmap columns. Two classes of proteins are annotated on the left: yellow are proteins with randomly occurring missing values (if any) while proteins in brown are candidates for non-random missing value imputation."}
 x <- impute(naset, "zero")
 exprs(x)[exprs(x) != 0] <- 1
 suppressPackageStartupMessages(library("gplots"))
@@ -1141,7 +1168,7 @@ experimental design. Below, we use perform mixed imputation, applying
 nearest neighbour imputation on the `r sum(fData(naset)$randna)`
 features that are assumed to contain randomly distributed missing
 values (if any) (yellow on figure \@ref(fig:miximp)) and a
-deterministic minimum value imputation on the 
+deterministic minimum value imputation on the
 `r sum(!fData(naset)$randna)` proteins that display a non-random pattern
 of missing values (brown on figure \@ref(fig:miximp)).
 
@@ -1166,20 +1193,20 @@ and instance of class *MSnSet* as first argument, and a
 character to describe the `method` to be used:
 
 * `quantiles`: Applies quantile normalisation [@Bolstad03] as
-  implemented in the `normalize.quantiles` function of the 
+  implemented in the `normalize.quantiles` function of the
   `r Biocpkg("preprocessCore")` package.
-  
+
 * `quantiles.robust`: Applies robust quantile normalisation
   [@Bolstad03] as implemented in the `normalize.quantiles.robust`
   function of the `r Biocpkg("preprocessCore")` package.
-  
+
 * `vsn`: Applies variance stabilisation normalization [@Huber2002] as
   implemented in the `vsn2` function of the `r Biocpkg("vsn")`
   package.
-  
+
 * `max`: Each feature's reporter intensity is divided by the maximum of
   the reporter ions intensities.
-  
+
 * `sum`: Each feature's reporter intensity is divided by the sum of the
   reporter ions intensities.
 
@@ -1416,7 +1443,7 @@ two plots: the upper and lower panel contain respectively the first
 and second spectrum. Common peaks are drawn in a slightly darker
 colour.
 
-```{r compms2plot, fig.cap = "Comparing two MS2 spectra."}		
+```{r compms2plot, fig.cap = "Comparing two MS2 spectra."}
 centroided <- pickPeaks(itraqdata, verbose = FALSE)
 (k <- which(fData(centroided)[, "PeptideSequence"] == "TAGIQIVADDLTVTNPK"))
 mzk <- precursorMz(centroided)[k]
@@ -1452,7 +1479,7 @@ compmat[1:10, 1:5]
 Below, we illustrate how to compare a set of spectra using a
 hierarchical clustering.
 
-```{r dendo}	
+```{r dendo}
 plot(hclust(as.dist(compmat)))
 ```
 
@@ -1488,7 +1515,7 @@ head(exprs(incompdiss))
 Figure \@ref(fig:incompdissPlot) compares these intensities for the whole
 experiment.
 
-```{r incompdissPlot, echo=FALSE, warning=FALSE, fig.cap ="Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their sum, on the right) and the incomplete dissociation specific peak."}	
+```{r incompdissPlot, echo=FALSE, warning=FALSE, fig.cap ="Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their sum, on the right) and the incomplete dissociation specific peak."}
 dfr <- cbind(expand.grid("feature" = featureNames(incompdiss),
                          "reporters" = sub("iTRAQ5\\.", "",
                                            sampleNames(incompdiss)),
@@ -1795,7 +1822,7 @@ plot2D(avgtan, cex = 3 * disp)
 `r Biocpkg("MSnbase")` can also be used for MS^E^ data independent
 acquisition from Waters instrument.  The MS^E^ pipeline depends on
 the Bioconductor `r Biocpkg("synapter")` package [@Bond2013] that
-produces *MSnSet* instances for indvidual acquisitions. 
+produces *MSnSet* instances for indvidual acquisitions.
 The `r Biocpkg("MSnbase")` infrastructure can subsequently be used to
 further combine experiments, as shown in section \@ref(sec:comb2) and
 apply *top3* quantitation using the `topN` method.
