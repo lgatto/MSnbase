@@ -196,8 +196,8 @@
         calibration = "MS:1001485",
         pick = "MS:1000035",
         centroid = "MS:1000035",
-        smooth = "MS:1000542",
-        baseline = "MS:1000543",
+        smooth = "MS:1000592",
+        baseline = "MS:1000593",
         alignment = "MS:1000745"
     )
     ## Note: we are matching each names(.PATTERN.TO.CV) to `pattern`, not the
