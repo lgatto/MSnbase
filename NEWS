@@ -1,7 +1,8 @@
 # MSnbase 2.7
 
 Changes in version 2.7.6
-- Nothing yet
+- Fix wrong MS OBO CV terms for data smoothing (MS:1000592) and
+  baseline correction (MS:1000593).
 
 Changes in version 2.7.5
 - Add a note about parallel processing in vignette (see
