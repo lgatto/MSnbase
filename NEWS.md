@@ -1,5 +1,8 @@
 # MSnbase 2.7
 
+## Changes in version 2.7.8
+- Nothing yet
+
 ## Changes in version 2.7.7
 - Fix unit tests (issue [#360](https://github.com/lgatto/MSnbase/issues/360), wrong MS OBO CV terms for data smoothing
   (MS:1000592) and baseline correction (MS:1000593))
