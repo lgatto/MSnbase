@@ -135,7 +135,7 @@ test_that(".guessSoftwareProcessing works", {
     odf_proc <- smooth(odf_proc)
     res <- .guessSoftwareProcessing(odf_proc)
     expect_equal(length(res[[1]]), 7)
-    expect_equal(res[[1]][7], "MS:1000542")
+    expect_equal(res[[1]][7], "MS:1000592")
     ## filterRt: Filter: select retention time
     odf_proc <- filterRt(odf_proc, rt = c(200, 600))
     res <- .guessSoftwareProcessing(odf_proc)
