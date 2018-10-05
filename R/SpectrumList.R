@@ -16,6 +16,10 @@
 #' `SpectrumList` inherits all methods from the [SimpleList] class of the
 #' `S4Vectors` package. This includes `lapply` and other data manipulation
 #' and subsetting operations.
+#'
+#' @param object a `SpectrumList` object.
+#'
+#' @param x a `SpectrumList` object.
 #' 
 #' @md
 #'

@@ -64,6 +64,7 @@ setMethod("[[", c("MSnSetList", "ANY", "missing"),
 
 setMethod("split", c("MSnSet", "character"),
           function(x, f) {
+              cat("split,MSnSet,character\n")
               if (length(f) != 1) stop("Character must be of lenght one.")
               if (f %in% varLabels(featureData(x))) {
                   f <- fData(x)[, f]
@@ -78,6 +79,7 @@ setMethod("split", c("MSnSet", "character"),
           
 setMethod("split", c("MSnSet", "factor"),
           function(x, f) {
+              cat("split,MSnSet,factor\n")
               if (!length(f) %in% dim(x))
                   stop("length(f) not compatible with dim(x).")
               if (length(f) == nrow(x))
