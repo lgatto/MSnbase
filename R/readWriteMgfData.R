@@ -20,12 +20,27 @@ setMethod("writeMgfData",
                              verbose = verbose)
           })
 
+#' @param addFields `data.frame` or `matrix` with optional additional
+#'     fields to be added to each spectrum (each column one field).
+#'
+#' @noRd
 writeMgfDataFile <- function(splist, con, COM = NULL, TITLE = NULL,
-                             verbose = isMSnbaseVerbose()) {
+                             verbose = isMSnbaseVerbose(), addFields = NULL) {
   if (class(con) == "character" && file.exists(con)) {
     message("Overwriting ", con, "!")
     unlink(con)
   }
+
+  if (length(addFields)) {
+      if (is.null(dim(addFields)))
+          stop("'addFields' has to be a matrix or data.frame.")
+      else addFields <- as.matrix(addFields, ncol = ncol(addFields))
+      if (is.null(colnames(addFields)))
+          stop("Column names required on 'addFields'.")
+      if (nrow(addFields) != length(splist))
+          stop("nrow of 'addFields' has to match length of 'splist'")
+      haveAddFields <- TRUE
+  } else haveAddFields <- FALSE
 
   con <- file(description = con, open = "at")
   on.exit(close(con))
@@ -45,13 +60,17 @@ writeMgfDataFile <- function(splist, con, COM = NULL, TITLE = NULL,
     if (verbose)
       setTxtProgressBar(pb, i)
 
-    writeMgfContent(splist[[i]], TITLE = NULL, con = con)
+    if (haveAddFields)
+        writeMgfContent(splist[[i]], TITLE = NULL, con = con,
+                        addFields = addFields[i, ])
+    else
+        writeMgfContent(splist[[i]], TITLE = NULL, con = con)
   }
   if (verbose)
     close(pb)
 }
 
-writeMgfContent <- function(sp, TITLE = NULL, con) {
+writeMgfContent <- function(sp, TITLE = NULL, con, addFields = TRUE) {
     .cat <- function(..., file = con, sep = "", append = TRUE) {
         cat(..., file = file, sep = sep, append = append)
     }
@@ -83,6 +102,11 @@ writeMgfContent <- function(sp, TITLE = NULL, con) {
         }
     } else .cat("\nRTINSECONDS=", rtime(sp))
 
+    if (length(addFields)) {
+        if (!is.null(names(addFields)))
+            .cat(paste0("\n", paste(toupper(names(addFields)),
+                                    addFields, sep = "="), collapse = ""))
+    }
 
     .cat("\n", paste(mz(sp), intensity(sp), collapse = "\n"))
     .cat("\nEND IONS\n")
