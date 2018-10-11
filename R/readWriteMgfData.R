@@ -34,7 +34,8 @@ writeMgfDataFile <- function(splist, con, COM = NULL, TITLE = NULL,
   if (length(addFields)) {
       if (length(dim(addFields)) != 2)
           stop("'addFields' has to be a matrix or data.frame.")
-      else addFields <- as.matrix(addFields, ncol = ncol(addFields))
+      if (!is.matrix(addFields))
+          addFields <- do.call(cbind, lapply(addFields, as.character))
       if (is.null(colnames(addFields)))
           stop("Column names required on 'addFields'.")
       if (nrow(addFields) != length(splist))
