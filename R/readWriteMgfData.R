@@ -32,15 +32,14 @@ writeMgfDataFile <- function(splist, con, COM = NULL, TITLE = NULL,
   }
 
   if (length(addFields)) {
-      if (is.null(dim(addFields)))
+      if (length(dim(addFields)) != 2)
           stop("'addFields' has to be a matrix or data.frame.")
       else addFields <- as.matrix(addFields, ncol = ncol(addFields))
       if (is.null(colnames(addFields)))
           stop("Column names required on 'addFields'.")
       if (nrow(addFields) != length(splist))
           stop("nrow of 'addFields' has to match length of 'splist'")
-      haveAddFields <- TRUE
-  } else haveAddFields <- FALSE
+  }
 
   con <- file(description = con, open = "at")
   on.exit(close(con))
@@ -60,17 +59,14 @@ writeMgfDataFile <- function(splist, con, COM = NULL, TITLE = NULL,
     if (verbose)
       setTxtProgressBar(pb, i)
 
-    if (haveAddFields)
-        writeMgfContent(splist[[i]], TITLE = NULL, con = con,
+    writeMgfContent(splist[[i]], TITLE = TITLE, con = con,
                         addFields = addFields[i, ])
-    else
-        writeMgfContent(splist[[i]], TITLE = NULL, con = con)
   }
   if (verbose)
     close(pb)
 }
 
-writeMgfContent <- function(sp, TITLE = NULL, con, addFields = TRUE) {
+writeMgfContent <- function(sp, TITLE = NULL, con, addFields = NULL) {
     .cat <- function(..., file = con, sep = "", append = TRUE) {
         cat(..., file = file, sep = sep, append = append)
     }
@@ -102,11 +98,9 @@ writeMgfContent <- function(sp, TITLE = NULL, con, addFields = TRUE) {
         }
     } else .cat("\nRTINSECONDS=", rtime(sp))
 
-    if (length(addFields)) {
-        if (!is.null(names(addFields)))
-            .cat(paste0("\n", paste(toupper(names(addFields)),
-                                    addFields, sep = "="), collapse = ""))
-    }
+    if (length(addFields) && !is.null(names(addFields)))
+        .cat("\n", paste(toupper(names(addFields)),
+                         addFields, sep = "=", collapse = "\n"))
 
     .cat("\n", paste(mz(sp), intensity(sp), collapse = "\n"))
     .cat("\nEND IONS\n")
