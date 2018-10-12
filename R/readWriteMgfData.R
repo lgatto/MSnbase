@@ -20,11 +20,26 @@ setMethod("writeMgfData",
                              verbose = verbose)
           })
 
+#' @param addFields `data.frame` or `matrix` with optional additional
+#'     fields to be added to each spectrum (each column one field).
+#'
+#' @noRd
 writeMgfDataFile <- function(splist, con, COM = NULL, TITLE = NULL,
-                             verbose = isMSnbaseVerbose()) {
+                             verbose = isMSnbaseVerbose(), addFields = NULL) {
   if (class(con) == "character" && file.exists(con)) {
     message("Overwriting ", con, "!")
     unlink(con)
+  }
+
+  if (length(addFields)) {
+      if (length(dim(addFields)) != 2)
+          stop("'addFields' has to be a matrix or data.frame.")
+      if (!is.matrix(addFields))
+          addFields <- do.call(cbind, lapply(addFields, as.character))
+      if (is.null(colnames(addFields)))
+          stop("Column names required on 'addFields'.")
+      if (nrow(addFields) != length(splist))
+          stop("nrow of 'addFields' has to match length of 'splist'")
   }
 
   con <- file(description = con, open = "at")
@@ -45,13 +60,14 @@ writeMgfDataFile <- function(splist, con, COM = NULL, TITLE = NULL,
     if (verbose)
       setTxtProgressBar(pb, i)
 
-    writeMgfContent(splist[[i]], TITLE = NULL, con = con)
+    writeMgfContent(splist[[i]], TITLE = TITLE, con = con,
+                        addFields = addFields[i, ])
   }
   if (verbose)
     close(pb)
 }
 
-writeMgfContent <- function(sp, TITLE = NULL, con) {
+writeMgfContent <- function(sp, TITLE = NULL, con, addFields = NULL) {
     .cat <- function(..., file = con, sep = "", append = TRUE) {
         cat(..., file = file, sep = sep, append = append)
     }
@@ -83,6 +99,9 @@ writeMgfContent <- function(sp, TITLE = NULL, con) {
         }
     } else .cat("\nRTINSECONDS=", rtime(sp))
 
+    if (length(addFields) && !is.null(names(addFields)))
+        .cat("\n", paste(toupper(names(addFields)),
+                         addFields, sep = "=", collapse = "\n"))
 
     .cat("\n", paste(mz(sp), intensity(sp), collapse = "\n"))
     .cat("\nEND IONS\n")
