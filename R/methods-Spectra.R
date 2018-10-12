@@ -1,15 +1,15 @@
-#' @include SpectrumList.R
+#' @include functions-Spectra.R
 
-setMethod("show", "SpectrumList", function(object) {
-    .show_SpectrumList(object, margin = "  ", print.classinfo = TRUE)
+setMethod("show", "Spectra", function(object) {
+    .show_Spectra(object, margin = "  ", print.classinfo = TRUE)
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #'
 #' @section Accessing spectrum attributes:
 #'
 #' These methods allow to access the attributes and values of the individual
-#' [Spectrum] ([Spectrum1] or [Spectrum2]) objects within the list.
+#' `Spectrum` ([Spectrum1-class] or [Spectrum2-class]) objects within the list.
 #'
 #' - `mz` return the m/z values of each spectrum as a `list` of `numeric`
 #'   vectors.
@@ -23,7 +23,7 @@ setMethod("show", "SpectrumList", function(object) {
 #' - `precursorMz`, `precursorCharge`, `precursorIntensity`, `precScanNum`
 #'   return precursor m/z values, charge, intensity and scan number for each
 #'   spectrum as a `numeric` (or `integer`) vector with length equal to the
-#'   length of `object`. Note that for [Spectrum1] objects `NA` will be
+#'   length of `object`. Note that for [Spectrum1-class] objects `NA` will be
 #'   returned.
 #'
 #' - `acquisitionNum` and `scanIndex` return the acquisition number of each
@@ -39,15 +39,15 @@ setMethod("show", "SpectrumList", function(object) {
 #' - `msLevel` returns the MS level of each spectrum.
 #'
 #' - `collisionEnergy` returns the collision energy for each spectrum or `NA`
-#'   for [Spectrum1] objects.
+#'   for [Spectrum1-class] objects.
 #'
 #' - `polarity` returns the spectra's polarity.
 #'
 #' - `fromFile` returns the index from the (e.g. mzML) file the spectra where
-#'   from. This applies only for spectra read using the [readMSData] function.
+#'   from. This applies only for spectra read using the [readMSData()] function.
 #'
 #' - `smoothed` whether spectra have been smoothed (i.e. processed with the
-#'   [smooth] method. Returns a `logical` of length equal to the
+#'   [smooth()] method. Returns a `logical` of length equal to the
 #'   number of spectra.
 #'
 #' - `isEmpty` returns `TRUE` for spectra without peak data.
@@ -57,233 +57,276 @@ setMethod("show", "SpectrumList", function(object) {
 #'   each spectrum, `isCentroided` tries to guess whether spectra are
 #'   centroided from the actual peak data.
 #'
+#' @md
+#' 
 #' @examples
 #'
 #' ## Extract the mz values for the individual spectra
 #' mz(spl)
-setMethod("mz", "SpectrumList", function(object) {
+setMethod("mz", "Spectra", function(object) {
     lapply(object, function(z) z@mz)
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #'
 #' @examples
 #'
 #' ## Extract the intensity values for the individual spectra
 #' intensity(spl)
-setMethod("intensity", "SpectrumList", function(object) {
+setMethod("intensity", "Spectra", function(object) {
     lapply(object, function(z) z@intensity)
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
 #' ## Extract the retention time values for the individual spectra
 #' rtime(spl)
-setMethod("rtime", "SpectrumList", function(object) {
+setMethod("rtime", "Spectra", function(object) {
     vapply(object, function(z) if(length(z@rt)) z@rt else NA_real_, numeric(1))
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
 #' ## Extract the precursor m/z of each spectrum.
 #' precursorMz(spl)
-setMethod("precursorMz", "SpectrumList", function(object) {
+setMethod("precursorMz", "Spectra", function(object) {
     vapply(object, function(z) {
-        if (is(z, "Spectrum2"))
-            if (length(z@precursorMz)) z@precursorMz else NA_real_
+        if (is(z, "Spectrum2") && length(z@precursorMz)) z@precursorMz
         else NA_real_
     }, numeric(1))
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
 #' ## Extract the precursor charge of each spectrum.
 #' precursorCharge(spl)
-setMethod("precursorCharge", "SpectrumList", function(object) {
+setMethod("precursorCharge", "Spectra", function(object) {
     vapply(object, function(z) {
-        if (is(z, "Spectrum2"))
-            if (length(z@precursorCharge)) z@precursorCharge else NA_integer_
+        if (is(z, "Spectrum2") && length(z@precursorCharge)) z@precursorCharge
         else NA_integer_
     }, integer(1))
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
 #' ## Extract the precursor scan number for each spectrum.
 #' precScanNum(spl)
-setMethod("precScanNum", "SpectrumList", function(object) {
+setMethod("precScanNum", "Spectra", function(object) {
     vapply(object, function(z) {
-        if (is(z, "Spectrum2"))
-            if (length(z@precScanNum)) z@precScanNum else NA_integer_
+        if (is(z, "Spectrum2") && length(z@precScanNum)) z@precScanNum
         else NA_integer_
     }, integer(1))
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
 #' ## Extract the precursor intensity of each spectrum.
 #' precursorIntensity(spl)
-setMethod("precursorIntensity", "SpectrumList", function(object) {
+setMethod("precursorIntensity", "Spectra", function(object) {
     vapply(object, function(z) {
-        if (is(z, "Spectrum2"))
-            if (length(z@precursorIntensity)) z@precursorIntensity else NA_real_
+        if (is(z, "Spectrum2") && length(z@precursorIntensity))
+            z@precursorIntensity
         else NA_real_
     }, numeric(1))
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
 #' ## Extract the acquisition number of each spectrum.
 #' acquisitionNum(spl)
-setMethod("acquisitionNum", "SpectrumList", function(object) {
+setMethod("acquisitionNum", "Spectra", function(object) {
     vapply(object, function(z)
         if (length(z@acquisitionNum)) z@acquisitionNum else NA_integer_,
         integer(1))
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
 #' ## Extract the scan index of each spectrum.
 #' scanIndex(spl)
-setMethod("scanIndex", "SpectrumList", function(object) {
+setMethod("scanIndex", "Spectra", function(object) {
     vapply(object, function(z)
         if (length(z@scanIndex)) z@scanIndex else NA_integer_,
         integer(1))
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
 #' ## Get the number of peaks per spectrum.
 #' peaksCount(spl)
-setMethod("peaksCount", "SpectrumList", function(object) {
+setMethod("peaksCount", "Spectra", function(object) {
     vapply(object, peaksCount, integer(1))
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
 #' ## Get the MS level of each spectrum.
 #' msLevel(spl)
-setMethod("msLevel", "SpectrumList", function(object) {
+setMethod("msLevel", "Spectra", function(object) {
     vapply(object, msLevel, integer(1))
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
 #' ## Get the total ion current for each spectrum.
 #' tic(spl)
-setMethod("tic", "SpectrumList", function(object) {
+setMethod("tic", "Spectra", function(object) {
     vapply(object, tic, numeric(1))
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
 #' ## Get the total ion current for each spectrum.
 #' ionCount(spl)
-setMethod("ionCount", "SpectrumList", function(object) {
+setMethod("ionCount", "Spectra", function(object) {
     vapply(object, ionCount, numeric(1))
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
-#' ## Extract the collision energy for spectrum.
+#' ## Extract the collision energy for each spectrum.
 #' collisionEnergy(spl)
-setMethod("collisionEnergy", "SpectrumList", function(object) {
+setMethod("collisionEnergy", "Spectra", function(object) {
     vapply(object, function(z) {
-        if (is(z, "Spectrum2"))
-            if (length(z@collisionEnergy)) z@collisionEnergy else NA_real_
+        if (is(z, "Spectrum2") && length(z@collisionEnergy)) z@collisionEnergy
         else NA_real_
     }, numeric(1))
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
-#' ## Extract the file index for the spectrum.
+#' ## Extract the file index for each spectrum.
 #' fromFile(spl)
-setMethod("fromFile", "SpectrumList", function(object) {
+setMethod("fromFile", "Spectra", function(object) {
     vapply(object, function(z)
         if (length(z@fromFile)) z@fromFile else NA_integer_,
         integer(1))
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
 #' ## Get the polarity for each spectrum.
 #' polarity(spl)
-setMethod("polarity", "SpectrumList", function(object) {
+setMethod("polarity", "Spectra", function(object) {
     vapply(object, function(z)
         if (length(z@polarity)) z@polarity else NA_integer_,
         integer(1))
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
-#' ## Whether spectra are smoothed (i.e. processed with the `MSnbase::smooth`
-#' ## function.
+#' ## Whether spectra are smoothed (i.e. processed with the `smooth`
+#' ## function).
 #' smoothed(spl)
-setMethod("smoothed", "SpectrumList", function(object) {
+setMethod("smoothed", "Spectra", function(object) {
     vapply(object, smoothed, logical(1))
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
 #' ## Are spectra empty (i.e. contain no peak data)?
 #' isEmpty(spl)
-setMethod("isEmpty", "SpectrumList", function(x) {
+setMethod("isEmpty", "Spectra", function(x) {
     vapply(x, isEmpty, logical(1))
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
 #' ## Do the spectra contain centroided data?
 #' centroided(spl)
-setMethod("centroided", "SpectrumList", function(object) {
+setMethod("centroided", "Spectra", function(object) {
     vapply(object, centroided, logical(1))
 })
 
-#' @rdname SpectrumList
+#' @rdname Spectra
 #' 
 #' @examples
 #'
 #' ## Do the spectra contain centroided data? Whether spectra are centroided
 #' ## is estimated from the peak data.
 #' isCentroided(spl)
-setMethod("isCentroided", "SpectrumList", function(object) {
+setMethod("isCentroided", "Spectra", function(object) {
     vapply(object, isCentroided, logical(1))
 })
+
+#' @rdname Spectra
+#'
+#' @description
+#'
+#' `writeMgfData` exports a `Spectra` object to a file in MGF format. All
+#' metadata columns present in `mcols` are exported as additional fields with
+#' the capitalized column names used as field names (see examples below).
+#'
+#' @param con For `writeMgfData`: `character(1)` defining the file name of
+#'     the MGF file.
+#'
+#' @param COM For `writeMgfData`: optional `character(1)` providing a comment
+#'     to be added to the file.
+#'
+#' @param TITLE For `writeMgfData`: optional `character(1)` defining the title
+#'     for the MGF file.
+#'
+#' @md
+#' 
+#' @examples
+#'
+#' ## Export the spectrum list to a MGF file. Values in metadata columns are
+#' ## exported as additional field for each spectrum.
+#' tmpf <- tempfile()
+#' writeMgfData(spl, tmpf)
+#' 
+#' ## Evaluate the written output. The ID of each spectrum (defined in the
+#' ## "id" metadata column) is exported as field "ID".
+#' readLines(tmpf)
+#'
+#' ## Set mcols to NULL to avoid export of additional data fields.
+#' mcols(spl) <- NULL
+#' file.remove(tmpf)
+#'
+#' writeMgfData(spl, tmpf)
+#' readLines(tmpf)
+setMethod("writeMgfData", "Spectra", function(object, con = "spectra.mgf",
+                                              COM = NULL, TITLE = NULL) {
+    if (file.exists(con))
+        stop("file ", con, " does already exist.")
+    writeMgfDataFile(as.list(object), con = con, COM = COM,
+                     TITLE = TITLE, addFields = mcols(object))
+})
+
 
 ## Still to implement:
 ## clean, all = FALSE

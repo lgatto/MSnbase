@@ -673,3 +673,47 @@ setClass("Chromatograms",
          validity = function(object)
              .validChromatograms(object)
          )
+
+#' @name Spectra
+#'
+#' @aliases Spectra-class show,Spectra-method
+#'
+#' @title List of Spectrum objects along with annotations
+#'
+#' @description
+#'
+#' `Spectra` objects allow to collect one or more [Spectrum-class] object(s)
+#' ([Spectrum1-class] or [Spectrum2-class]) in a `list`-like structure with
+#' the possibility to add arbitrary annotations to each individual
+#' `Spectrum` object. These can be accessed/set with the [mcols()] method.
+#'
+#' Functions to access the individual spectra's attributes are available
+#' (listed below).
+#'
+#' @details
+#'
+#' `Spectra` inherits all methods from the [SimpleList] class of the
+#' `S4Vectors` package. This includes `lapply` and other data manipulation
+#' and subsetting operations.
+#'
+#' @param object For all functions: a `Spectra` object.
+#'
+#' @param x For all functions: a `Spectra` object.
+#' 
+#' @md
+#'
+#' @rdname Spectra
+NULL
+
+.Spectra <- setClass("Spectra",
+                     contains = "SimpleList",
+                     prototype = prototype(elementType = "Spectrum")
+                     )
+
+setValidity("Spectra", function(object) {
+    ## All elements in the list have to be Spectrum objects.
+    msg <- character()
+    if (any(vapply(object, function(z) !is(z, "Spectrum"), logical(1))))
+        msg <- c(msg, "All elements have to be Spectrum objects")
+    if (length(msg)) msg else TRUE
+})
