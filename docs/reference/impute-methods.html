@@ -175,10 +175,10 @@ Users should proceed with care when imputing data and take precautions
 <p>Currently, the following imputation methods are available:</p>
 <p></p><dl class='dl-horizontal'>
     <dt>MLE</dt><dd><p>Maximum likelihood-based imputation method using the EM
-      algorithm. Implemented in the <code><a href='http://www.rdocumentation.org/packages/norm/topics/imp.norm'>norm::imp.norm</a></code> function. See
-      <code><a href='http://www.rdocumentation.org/packages/norm/topics/imp.norm'>imp.norm</a></code> for details and additional
+      algorithm. Implemented in the <code>norm::imp.norm</code> function. See
+      <code>imp.norm</code> for details and additional
       parameters. Note that here, <code>...</code> are passed to the
-      <code><a href='http://www.rdocumentation.org/packages/norm/topics/em.norm'>em.norm</a></code> function, rather to the actual
+      <code>em.norm</code> function, rather to the actual
       imputation function <code>imp.norm</code>.</p></dd>
     <dt>bpca</dt><dd><p>Bayesian missing value imputation are available, as
     implemented in the and <code><a href='http://www.rdocumentation.org/packages/pcaMethods/topics/pca'>pcaMethods::pca</a></code> functions. See
@@ -191,8 +191,8 @@ Users should proceed with care when imputing data and take precautions
     <dt>QRILC</dt><dd><p>A missing data imputation method that performs the
       imputation of left-censored missing data using random draws from a
       truncated distribution with parameters estimated using quantile
-      regression. Implemented in the <code><a href='http://www.rdocumentation.org/packages/imputeLCMD/topics/impute.QRILC'>imputeLCMD::impute.QRILC</a></code>
-      function. See <code><a href='http://www.rdocumentation.org/packages/imputeLCMD/topics/impute.QRILC'>impute.QRILC</a></code> for details
+      regression. Implemented in the <code>imputeLCMD::impute.QRILC</code>
+      function. See <code>impute.QRILC</code> for details
       and additional parameters.</p></dd>
     <dt>MinDet</dt><dd><p>Performs the imputation of left-censored missing data
       using a deterministic minimal value approach. Considering a
@@ -201,8 +201,8 @@ Users should proceed with care when imputing data and take precautions
       observed in that sample. The minimal value observed is estimated as
       being the q-th quantile (default <code>q = 0.01</code>) of the observed
       values in that sample. Implemented in the
-      <code><a href='http://www.rdocumentation.org/packages/imputeLCMD/topics/impute.MinDet'>imputeLCMD::impute.MinDet</a></code> function. See
-      <code><a href='http://www.rdocumentation.org/packages/imputeLCMD/topics/impute.MinDet'>impute.MinDet</a></code> for details and additional
+      <code>imputeLCMD::impute.MinDet</code> function. See
+      <code>impute.MinDet</code> for details and additional
       parameters.</p></dd>
     <dt>MinProb</dt><dd><p>Performs the imputation of left-censored missing data
       by random draws from a Gaussian distribution centred to a minimal
@@ -215,8 +215,8 @@ Users should proceed with care when imputing data and take precautions
       feature standard deviations. Note that when estimating the
       standard deviation of the Gaussian distribution, only the
       peptides/proteins which present more than 50% recorded values are
-      considered. Implemented in the <code><a href='http://www.rdocumentation.org/packages/imputeLCMD/topics/impute.MinProb'>imputeLCMD::impute.MinProb</a></code>
-      function. See <code><a href='http://www.rdocumentation.org/packages/imputeLCMD/topics/impute.MinProb'>impute.MinProb</a></code> for details
+      considered. Implemented in the <code>imputeLCMD::impute.MinProb</code>
+      function. See <code>impute.MinProb</code> for details
       and additional parameters.</p></dd>
     <dt>min</dt><dd><p>Replaces the missing values by the smallest non-missing
       value in the data.</p></dd>
@@ -297,75 +297,17 @@ Data Sets to Compare Imputation Strategies. J Proteome Res. 2016 Apr
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt; Data imputation using min Fri Sep 21 14:39:07 2018 
+#&gt; Data imputation using min Fri Oct 12 10:42:29 2018 
 #&gt;  MSnbase version: 1.15.6 </div><div class='input'>
 <span class='kw'>if</span> (<span class='fu'>require</span>(<span class='st'>"imputeLCMD"</span>)) {
     <span class='fu'>impute</span>(<span class='no'>naset</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"QRILC"</span>)
     <span class='fu'>impute</span>(<span class='no'>naset</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"MinDet"</span>)
-}</div><div class='output co'>#&gt; <span class='message'>Loading required package: imputeLCMD</span></div><div class='output co'>#&gt; <span class='warning'>Warning: package ‘imputeLCMD’ was built under R version 3.6.0</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: tmvtnorm</span></div><div class='output co'>#&gt; <span class='warning'>Warning: package ‘tmvtnorm’ was built under R version 3.6.0</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: mvtnorm</span></div><div class='output co'>#&gt; <span class='warning'>Warning: package ‘mvtnorm’ was built under R version 3.6.0</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: Matrix</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘Matrix’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:S4Vectors’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    expand</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: gmm</span></div><div class='output co'>#&gt; <span class='warning'>Warning: package ‘gmm’ was built under R version 3.6.0</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: sandwich</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: norm</span></div><div class='output co'>#&gt; <span class='warning'>Warning: package ‘norm’ was built under R version 3.6.0</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: pcaMethods</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘pcaMethods’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    loadings</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: impute</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
-#&gt; assayData: 689 features, 16 samples 
-#&gt;   element names: exprs 
-#&gt; protocolData: none
-#&gt; phenoData
-#&gt;   sampleNames: M1F1A M1F4A ... M2F11B (16 total)
-#&gt;   varLabels: nNA
-#&gt;   varMetadata: labelDescription
-#&gt; featureData
-#&gt;   featureNames: AT1G09210 AT1G21750 ... AT4G39080 (689 total)
-#&gt;   fvarLabels: nNA randna
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'
-#&gt; Annotation:  
-#&gt; - - - Processing information - - -
-#&gt; Data imputation using MinDet Fri Sep 21 14:39:08 2018 
-#&gt;   Using default parameters 
-#&gt;  MSnbase version: 1.15.6 </div><div class='input'>
+}</div><div class='output co'>#&gt; <span class='message'>Loading required package: imputeLCMD</span></div><div class='output co'>#&gt; <span class='warning'>Warning: there is no package called ‘imputeLCMD’</span></div><div class='input'>
 <span class='kw'>if</span> (<span class='fu'>require</span>(<span class='st'>"norm"</span>))
-    <span class='fu'>impute</span>(<span class='no'>naset</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"MLE"</span>)</div><div class='output co'>#&gt; Iterations of EM: 
-#&gt; 1...2...3...4...5...6...7...8...9...10...11...</div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
-#&gt; assayData: 689 features, 16 samples 
-#&gt;   element names: exprs 
-#&gt; protocolData: none
-#&gt; phenoData
-#&gt;   sampleNames: M1F1A M1F4A ... M2F11B (16 total)
-#&gt;   varLabels: nNA
-#&gt;   varMetadata: labelDescription
-#&gt; featureData
-#&gt;   featureNames: AT1G09210 AT1G21750 ... AT4G39080 (689 total)
-#&gt;   fvarLabels: nNA randna
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'
-#&gt; Annotation:  
-#&gt; - - - Processing information - - -
-#&gt; Data imputation using MLE Fri Sep 21 14:39:08 2018 
-#&gt;   Using default parameters 
-#&gt;  MSnbase version: 1.15.6 </div><div class='input'>
+    <span class='fu'>impute</span>(<span class='no'>naset</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"MLE"</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: norm</span></div><div class='output co'>#&gt; <span class='warning'>Warning: there is no package called ‘norm’</span></div><div class='input'>
 <span class='fu'>impute</span>(<span class='no'>naset</span>, <span class='st'>"mixed"</span>,
        <span class='kw'>randna</span> <span class='kw'>=</span> <span class='fu'>fData</span>(<span class='no'>naset</span>)$<span class='no'>randna</span>,
-       <span class='kw'>mar</span> <span class='kw'>=</span> <span class='st'>"knn"</span>, <span class='kw'>mnar</span> <span class='kw'>=</span> <span class='st'>"QRILC"</span>)</div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
-#&gt; assayData: 689 features, 16 samples 
-#&gt;   element names: exprs 
-#&gt; protocolData: none
-#&gt; phenoData
-#&gt;   sampleNames: M1F1A M1F4A ... M2F11B (16 total)
-#&gt;   varLabels: nNA
-#&gt;   varMetadata: labelDescription
-#&gt; featureData
-#&gt;   featureNames: AT1G09210 AT1G21750 ... AT4G39080 (689 total)
-#&gt;   fvarLabels: nNA randna
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'
-#&gt; Annotation:  
-#&gt; - - - Processing information - - -
-#&gt; Data imputation using mixed Fri Sep 21 14:39:08 2018 
-#&gt;   Using default parameters 
-#&gt;  MSnbase version: 1.15.6 </div><div class='input'>
+       <span class='kw'>mar</span> <span class='kw'>=</span> <span class='st'>"knn"</span>, <span class='kw'>mnar</span> <span class='kw'>=</span> <span class='st'>"QRILC"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in loadNamespace(name): there is no package called ‘imputeLCMD’</span></div><div class='input'>
 <span class='co'>## neighbour averaging</span>
 
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='no'>naset</span>[<span class='fl'>1</span>:<span class='fl'>4</span>, <span class='fl'>1</span>:<span class='fl'>6</span>]
