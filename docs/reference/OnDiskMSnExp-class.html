@@ -507,8 +507,8 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 <span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>fromFile</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
 #&gt;       1       1       1       1       1       1 </div><div class='input'>
 <span class='co'>## And the file names:</span>
-<span class='fu'><a href='pSet-class.html'>fileNames</a></span>(<span class='no'>odmse</span>)</div><div class='output co'>#&gt; [1] "/home/lg390/R/x86_64-pc-linux-gnu-library/3.5/msdata/microtofq/MM14.mzML"
-#&gt; [2] "/home/lg390/R/x86_64-pc-linux-gnu-library/3.5/msdata/microtofq/MM8.mzML" </div><div class='input'>
+<span class='fu'><a href='pSet-class.html'>fileNames</a></span>(<span class='no'>odmse</span>)</div><div class='output co'>#&gt; [1] "/home/lgatto/R/x86_64-pc-linux-gnu-library/3.5/msdata/microtofq/MM14.mzML"
+#&gt; [2] "/home/lgatto/R/x86_64-pc-linux-gnu-library/3.5/msdata/microtofq/MM8.mzML" </div><div class='input'>
 <span class='co'>## Scan index and acquisitionNum</span>
 <span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>scanIndex</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
 #&gt;       1       2       3       4       5       6 </div><div class='input'><span class='fu'>head</span>(<span class='fu'><a href='Spectrum-class.html'>acquisitionNum</a></span>(<span class='no'>odmse</span>))</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
@@ -909,7 +909,7 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt; </div><div class='input'>
 <span class='co'>## Alternatively, we could also subset the whole object by spectra and/or samples:</span>
 <span class='no'>subs</span> <span class='kw'>&lt;-</span> <span class='no'>odmse</span>[<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>odmse</span>) <span class='kw'>&gt;=</span> <span class='fl'>2</span> <span class='kw'>&amp;</span> <span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>odmse</span>) <span class='kw'>&lt;=</span> <span class='fl'>20</span>, ]
-<span class='fu'><a href='pSet-class.html'>fileNames</a></span>(<span class='no'>subs</span>)</div><div class='output co'>#&gt; [1] "/home/lg390/R/x86_64-pc-linux-gnu-library/3.5/msdata/microtofq/MM8.mzML"</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>subs</span>)</div><div class='output co'>#&gt;   F2.S006   F2.S007   F2.S008   F2.S009   F2.S010   F2.S011   F2.S012   F2.S013 
+<span class='fu'><a href='pSet-class.html'>fileNames</a></span>(<span class='no'>subs</span>)</div><div class='output co'>#&gt; [1] "/home/lgatto/R/x86_64-pc-linux-gnu-library/3.5/msdata/microtofq/MM8.mzML"</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>subs</span>)</div><div class='output co'>#&gt;   F2.S006   F2.S007   F2.S008   F2.S009   F2.S010   F2.S011   F2.S012   F2.S013 
 #&gt;  2.169000  2.506002  2.842998  3.178998  3.516000  3.852000  4.188000  4.525002 
 #&gt;   F2.S014   F2.S015   F2.S016   F2.S017   F2.S018   F2.S019   F2.S020   F2.S021 
 #&gt;  4.861002  5.197998  5.533998  5.871000  6.207000  6.544020  6.880020  7.216980 
@@ -1011,8 +1011,8 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt;  Number of spectra: 35 
 #&gt;  MSn retention times: 45:27 - 45:30 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded [Fri Sep 21 14:38:08 2018] 
-#&gt; Filter: select parent/children scans for 21945 [Fri Sep 21 14:38:10 2018] 
+#&gt; Data loaded [Fri Oct 12 10:42:04 2018] 
+#&gt; Filter: select parent/children scans for 21945 [Fri Oct 12 10:42:04 2018] 
 #&gt;  MSnbase version: 2.7.8 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
@@ -1039,8 +1039,8 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt;  Number of spectra: 3 
 #&gt;  MSn retention times: 45:27 - 45:27 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded [Fri Sep 21 14:38:08 2018] 
-#&gt; Filter: select parent/children scans for 21946 [Fri Sep 21 14:38:10 2018] 
+#&gt; Data loaded [Fri Oct 12 10:42:04 2018] 
+#&gt; Filter: select parent/children scans for 21946 [Fri Oct 12 10:42:04 2018] 
 #&gt;  MSnbase version: 2.7.8 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData

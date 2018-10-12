@@ -132,7 +132,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-7-8" class="anchor"></a>Changes in version 2.7.8</h2>
 <ul>
-<li>Nothing yet</li>
+<li>MGF exporter gets a new <code>addFields</code> argument (see PR <a href='https://github.com/lgatto/MSnbase/issues/362'>#362</a>) &lt;2018-10-12 Fri&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-7-7" class="section level2">
@@ -1472,7 +1472,7 @@
 <li>recreate inst/extdata/msx.rda for R 3.1 and Biobase 2.24 [2014-04-13 Sun]</li>
 <li>add plot,Spectrum,Spectrum method [2014-04-14 Mon]</li>
 <li>add calculateFragments,character,Spectrum and calculateFragments,character,missing methods [2014-04-15 Tue]</li>
-<li>updated readMSData test unit to ignore object@.<strong>classVersion</strong> that fails with latest R/Bioc versions [2014-04-15 Tue]</li>
+<li>updated readMSData test unit to ignore object@.__classVersion__ that fails with latest R/Bioc versions [2014-04-15 Tue]</li>
 <li>formatRt conversion from ‘mm:sec’ to sec and unit test [2014-04-17 Thu]</li>
 <li>Update nprot/npsm.prot/npsm.pep/npep.prot feature variables and relevant man/tests/argument defaults [2014-04-17 Thu]</li>
 </ul>
@@ -2347,7 +2347,7 @@
 <a href="#changes-in-version-1-3-2" class="anchor"></a>Changes in version 1.3.2</h2>
 <ul>
 <li>\dontrun{} extractSpectrum example, as this seems to be a major offender producing the intermittent check ‘Error in function (x) : attempt to apply non-function’ error [2011-11-07 Mon]</li>
-<li>typo in <a href="mailto:Author<a href='http://github.com/R'>@R</a>">Author<a href='http://github.com/R'>@R</a></a> [2011-11-14 Mon]</li>
+<li>typo in <a href="mailto:Author<a href='http://github.com/R'>@R</a>" class="email">Author<a href='http://github.com/R'>@R</a></a> [2011-11-14 Mon]</li>
 <li>modified utils.removePeaks and utils.clean to call sapply instead of IRanges:sapply [2011-12-01 Thu]</li>
 </ul>
 </div>
@@ -2480,7 +2480,7 @@
 <li>use mzR’s peaksCount and header generics [2011-09-05 Mon]</li>
 <li>added test to check that readMzXMLData and readMSData give same output [2011-09-05 Mon]</li>
 <li>added readMSData.Rd doc file [2011-09-05 Mon]</li>
-<li>added <a href="mailto:Author<a href='http://github.com/R'>@R</a>">Author<a href='http://github.com/R'>@R</a></a> field in DESCRIPTION [2011-09-07 Wed]</li>
+<li>added <a href="mailto:Author<a href='http://github.com/R'>@R</a>" class="email">Author<a href='http://github.com/R'>@R</a></a> field in DESCRIPTION [2011-09-07 Wed]</li>
 <li><p>compressed/resaved (using resaveRdaFiles) itraqdata.RData file to [2011-09-07 Wed]</p></li>
 </ul>
 </div>
@@ -2732,7 +2732,7 @@
 <a href="#changes-in-version-0-99-0" class="anchor"></a>Changes in version 0.99.0</h2>
 <ul>
 <li>
-<a href="mailto:MSnProcess<a href='http://github.com/process'>@process</a>">MSnProcess<a href='http://github.com/process'>@process</a></a> get’s one line when subsetting and MSnExp object [2011-03-21 Mon]</li>
+<a href="mailto:MSnProcess<a href='http://github.com/process'>@process</a>" class="email">MSnProcess<a href='http://github.com/process'>@process</a></a> get’s one line when subsetting and MSnExp object [2011-03-21 Mon]</li>
 <li>Updated vignette Makefile [2011-03-22 Tue]</li>
 <li>Added fake vignettes [2011-03-22 Tue]</li>
 <li>Version set to 0.99.0 [2011-03-22 Tue]</li>
@@ -2791,7 +2791,7 @@
 <a href="#changes-in-version-0-1-2" class="anchor"></a>Changes in version 0.1.2</h2>
 <ul>
 <li>
-<a href="mailto:MSnProcess<a href='http://github.com/MSnbaseVersion'>@MSnbaseVersion</a>">MSnProcess<a href='http://github.com/MSnbaseVersion'>@MSnbaseVersion</a></a> is not set in the initialize method instead to the prototype</li>
+<a href="mailto:MSnProcess<a href='http://github.com/MSnbaseVersion'>@MSnbaseVersion</a>" class="email">MSnProcess<a href='http://github.com/MSnbaseVersion'>@MSnbaseVersion</a></a> is not set in the initialize method instead to the prototype</li>
 <li>changed R CMD to $(R_HOME)/bin/R CMD in inst/doc/Makefile</li>
 <li>removed first and last (was 5th) MS1 spectra and associated MS2 spectra from dummy file to reduce size below 2MB.</li>
 <li>Updated tests to reflect new dummy data set</li>
