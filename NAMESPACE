@@ -33,8 +33,9 @@ importFrom(ggplot2, geom_histogram, geom_text, geom_line, geom_point,
            facet_grid)
 
 importFrom(MALDIquant, binPeaks, match.closest) ## only using ::: functions
-importFrom(S4Vectors, isEmpty, metadata, DataFrame)
-importFrom(S4Vectors, isEmpty, metadata, DataFrame, replaceROWS)
+importFrom(S4Vectors, isEmpty, metadata, DataFrame, replaceROWS, SimpleList)
+importMethodsFrom(S4Vectors, showAsCell, "mcols<-", mcols, split)
+importClassesFrom(S4Vectors, SimpleList)
 importFrom(MASS, rlm)
 
 ## importFrom(rols, olsQuery, term)
@@ -149,7 +150,8 @@ export(MSnSet,
        combineSpectraMovingWindow,
        estimateMzScattering,
        hasSpectra, hasChromatograms,
-       mergeFeatureVars, expandFeatureVars
+       mergeFeatureVars, expandFeatureVars,
+       Spectra
        )
 
 exportClasses(pSet,
@@ -168,7 +170,9 @@ exportClasses(pSet,
               OnDiskMSnExp,
               ProcessingStep,
               Chromatogram,
-              Chromatograms)
+              Chromatograms,
+	      Spectra
+	      )
 
 exportMethods(updateObject,
               exprs,

@@ -2,6 +2,8 @@ library(MSnbase)
 library(msdata)
 f <- msdata::proteomics(full.names = TRUE)
 
+f <- dir(system.file("sciex/", package = "msdata"), full.names = TRUE)
+
 ## readMSData
 for (i in 1:10000) {
     if (i %% 200 == 0)
@@ -16,26 +18,43 @@ for (i in 1:10000) {
 for (i in 1:7500) {
     if (i %% 200 == 0)
         cat(i, "\n")
-    res <- readMSData(f[4], verbose = FALSE, mode = "onDisk")
+    res <- readMSData(f[1], verbose = FALSE, mode = "onDisk")
     sp <- res[[6]]
-    res <- readMSData(f[4], verbose = FALSE, mode = "onDisk")
+    res <- readMSData(f[1], verbose = FALSE, mode = "onDisk")
     sp <- spectra(res)
     chr <- chromatogram(res)
 }
 ## OK without gc()
 
 ## spectrapply2
-res <- readMSData(f[4], verbose = FALSE, mode = "onDisk")
+res <- readMSData(f, verbose = FALSE, mode = "onDisk")
 for (i in 1:10000) {
     if (i %% 200 == 0)
         cat(i, "\n")
-    ## sp <- res[[6]]
+    sp <- res[[6]]
     sp <- spectrapply(res)
     sp <- spectrapply(res, FUN = mz)
-    tmp <- filterRt(res, rt = c(1108, 1109))
+    tmp <- filterRt(res, rt = c(440, 470))
     sp <- spectrapply(tmp)
 }
 ## OK without gc()
+
+## With finding chrom peaks
+f <- dir("/Users/jo/data/2017/2017_10/centroid/", full.names = TRUE)
+f <- dir("/Users/jo/data/2016/2016_06/", full.names = TRUE)[1:6]
+library(testthat)
+library(xcms)
+rawd <- readMSData(f, mode = "onDisk")
+cwp <- CentWaveParam(peakwidth = c(1.5, 10), ppm = 40)
+res <- findChromPeaks(rawd, param = cwp)
+for (i in 1:1000) {
+    if (i %% 20 == 0)
+        cat(i, "\n")
+    tmp <- findChromPeaks(rawd, param = cwp)
+    expect_equal(chromPeaks(tmp), chromPeaks(res))
+}
+
+
 
 ## spectrapply2
 res <- readMSData(f[4], verbose = FALSE, mode = "onDisk")
