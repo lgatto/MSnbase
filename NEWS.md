@@ -1,11 +1,15 @@
 # MSnbase 2.7
 
 ## Changes in version 2.7.8
-- MGF exporter gets a new `addFields` argument (see PR [#362](https://github.com/lgatto/MSnbase/issues/362)) <2018-10-12 Fri>
+- MGF exporter gets a new `addFields` argument (see PR
+  [#362](https://github.com/lgatto/MSnbase/issues/362)) <2018-10-12 Fri>
+- New `Spectra` (`SimpleList` of `Sepctrum` objects) (see PR
+  [#361](https://github.com/lgatto/MSnbase/issues/361)) <2018-10-13 Sat>
 
 ## Changes in version 2.7.7
-- Fix unit tests (issue [#360](https://github.com/lgatto/MSnbase/issues/360), wrong MS OBO CV terms for data smoothing
-  (MS:1000592) and baseline correction (MS:1000593))
+- Fix unit tests (issue [#360](https://github.com/lgatto/MSnbase/issues/360),
+  wrong MS OBO CV terms for data smoothing (MS:1000592) and baseline
+  correction (MS:1000593))
 
 ## Changes in version 2.7.6
 - Fix wrong MS OBO CV terms for data smoothing (MS:1000592) and
