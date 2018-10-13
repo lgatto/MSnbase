@@ -474,7 +474,7 @@ values falling within each bin.</p></td>
 <span class='co'>## Extract the mz range - is NA for the present example</span>
 <span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>chr</span>)</div><div class='output co'>#&gt; [1] NA NA</div><div class='input'>
 <span class='co'>## plot the Chromatogram</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>chr</span>)</div><div class='output co'>#&gt; <span class='error'>Error in as.double(y): cannot coerce type 'S4' to vector of type 'double'</span></div><div class='input'>
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>chr</span>)</div><div class='img'><img src='Chromatogram-class-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>## Create a simple Chromatogram object based on random values.</span>
 <span class='no'>chr</span> <span class='kw'>&lt;-</span> <span class='fu'>Chromatogram</span>(<span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'>abs</span>(<span class='fu'>rnorm</span>(<span class='fl'>1000</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>200</span>)),
         <span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fu'>sort</span>(<span class='fu'>abs</span>(<span class='fu'>rnorm</span>(<span class='fl'>1000</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>5</span>))))
