@@ -105,14 +105,14 @@ numberOfCommonPeaks <- function(x, y, tolerance=25e-6, relative=TRUE) {
 #' Optimization and testing of mass spectral library search algorithms for
 #' compound identification.
 #' Journal of the American Society for Mass Spectrometry, 5(9), 859-866.
-#' doi: http://dx.doi.org/10.1016/1044-0305(94)87009-8
+#' doi: https://doi.org/10.1016/1044-0305(94)87009-8
 #'
 #' Lam, H., Deutsch, E. W., Eddes, J. S., Eng, J. K., King, N., Stein, S. E.
 #' and Aebersold, R. (2007)
 #' Development and validation of a spectral library searching method for peptide
 #' identification from MS/MS.
 #' Proteomics, 7: 655-667.
-#' doi: http://dx.doi.org/10.1002/pmic.200600625
+#' doi: https://doi.org/10.1002/pmic.200600625
 #'
 #' @param x double
 #' @param y double

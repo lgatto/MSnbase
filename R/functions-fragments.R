@@ -36,7 +36,7 @@
   ## decomposition in a tandem mass spectrometer: differentiation of leucine
   ## and isoleucine.
   ## Analytical Chemistry, 59(21), 2621-2625.
-  ## http://dx.doi.org/10.1021/ac00148a019
+  ## https://doi.org/10.1021/ac00148a019
   ##
   ## a proton (H+) is added later
   ## (after calculation of the different charge states)
