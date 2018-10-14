@@ -1,5 +1,8 @@
 # MSnbase 2.7
 
+## Changes in version 2.7.9
+- Nothing yet
+
 ## Changes in version 2.7.8
 - MGF exporter gets a new `addFields` argument (see PR
   [#362](https://github.com/lgatto/MSnbase/issues/362)) <2018-10-12 Fri>
