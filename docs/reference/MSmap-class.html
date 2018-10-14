@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.8</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.9</span>
       </span>
     </div>
 
@@ -225,9 +225,9 @@
 </div><span class='co'># NOT RUN {</span>
     <span class='co'>## downloads the data</span>
     <span class='fu'>library</span>(<span class='st'>"rpx"</span>)
-    <span class='no'>px1</span> <span class='kw'>&lt;-</span> <span class='fu'>PXDataset</span>(<span class='st'>"PXD000001"</span>)
-    (<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'>grep</span>(<span class='st'>"TMT.+mzML"</span>, <span class='fu'>pxfiles</span>(<span class='no'>px1</span>), <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
-    <span class='no'>mzf</span> <span class='kw'>&lt;-</span> <span class='fu'>pxget</span>(<span class='no'>px1</span>, <span class='no'>i</span>)
+    <span class='no'>px1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/rpx/topics/PXDataset-class'>PXDataset</a></span>(<span class='st'>"PXD000001"</span>)
+    (<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'>grep</span>(<span class='st'>"TMT.+mzML"</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/rpx/topics/PXDataset-class'>pxfiles</a></span>(<span class='no'>px1</span>), <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
+    <span class='no'>mzf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/rpx/topics/PXDataset-class'>pxget</a></span>(<span class='no'>px1</span>, <span class='no'>i</span>)
 
     <span class='co'>## Using an mzRpwiz object</span>
     <span class='co'>## reads the data </span>
