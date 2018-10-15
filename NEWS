@@ -1,7 +1,7 @@
 # MSnbase 2.7
 
 Changes in version 2.7.10
-- Nothing yet
+- Methods for Spectra class <2018-10-15 Mon>
 
 Changes in version 2.7.9
 - Import rather than depend on BiocParallel <2018-10-15 Mon>
