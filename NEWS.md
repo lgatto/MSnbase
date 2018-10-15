@@ -1,5 +1,8 @@
 # MSnbase 2.7
 
+## Changes in version 2.7.10
+- Nothing yet
+
 ## Changes in version 2.7.9
 - Import rather than depend on BiocParallel <2018-10-15 Mon>
 - Fix failing test on Windows (requiring normalizePath) <2018-10-15 Mon>
