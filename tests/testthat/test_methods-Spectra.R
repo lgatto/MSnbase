@@ -171,3 +171,76 @@ test_that("writeMgfData,Spectra works", {
     expect_equal(res_2[32], "SOME_ID=sp_3")
     expect_equal(res[-1], res_2[-c(1, 7, 8, 19, 20, 31, 32)])
 })
+
+test_that("clean,Spectra works", {
+    expect_equal(spl_, clean(spl_))
+    spl <- c(spl_, Spectra(new("Spectrum2", intensity = c(3, 0, 0, 3, 0, 5),
+                               mz = c(1, 2, 3, 4, 5, 6))))
+    res <- clean(spl, all = TRUE)
+    expect_true(is(res, "Spectra"))
+    expect_equal(res[[4]], new("Spectrum2", intensity = c(3, 3, 5),
+                               mz = c(1, 4, 6)))
+
+    msnexp_clnd <- clean(tmt_od_sub)
+    res_spctra <- clean(Spectra(spectra(tmt_od_sub)))
+    expect_equal(spectra(msnexp_clnd), res_spctra@listData)
+})
+
+test_that("removePeaks,Spectra works", {
+    spl <- Spectra(new("Spectrum2", mz = 1:5, intensity = c(4, 34, 5, 199, 3),
+                       centroided = TRUE),
+                   new("Spectrum2", mz = 1:4, intensity = c(123, 43, 3, 9),
+                       centroided = TRUE),
+                   new("Spectrum1", mz = 1:4, intensity = c(123, 43, 2, 9),
+                       centroided = TRUE),
+                   elementMetadata = DataFrame(id = 1:3))
+    res <- removePeaks(spl)
+    expect_true(is(res, "Spectra"))
+    res_2 <- lapply(spl, removePeaks)
+    expect_equal(res@listData, res_2)
+    expect_equal(mcols(res)$id, 1:3)
+    
+    res <- removePeaks(spl, t = 10, msLevel. = 1)
+    expect_true(is(res, "Spectra"))
+    res_2 <- lapply(spl, removePeaks, t = 10, msLevel. = 1)
+    expect_equal(res@listData, res_2)
+    expect_equal(res[[3]], removePeaks(spl[[3]], t = 10))
+
+    msnexp_remp <- removePeaks(tmt_od_sub)
+    res_spctra <- removePeaks(Spectra(spectra(tmt_od_sub)))
+    expect_equal(spectra(msnexp_remp), res_spctra@listData)
+})
+
+test_that("filterMz,Spectra works", {
+    spl <- Spectra(new("Spectrum2", mz = 1:5, intensity = c(4, 34, 5, 199, 3),
+                       centroided = TRUE),
+                   new("Spectrum2", mz = 1:4, intensity = c(123, 43, 3, 9),
+                       centroided = TRUE),
+                   new("Spectrum1", mz = 1:4, intensity = c(123, 43, 2, 9),
+                       centroided = TRUE),
+                   elementMetadata = DataFrame(id = 1:3))
+    res <- filterMz(spl, mz = c(3, 5))
+    expect_true(all(unlist(mz(res)) >= 3))
+    expect_equal(res@listData, lapply(spl, filterMz, mz = c(3, 5)))
+    res <- filterMz(spl, mz = c(3, 5), msLevel. = 1)
+    expect_equal(res[1], spl[1])
+    expect_equal(res[[3]], filterMz(spl[[3]], mz = c(3, 5)))
+
+    msnexp_filt <- filterMz(tmt_od_sub, mz = c(500, 600))
+    expect_warning(res_spctra <- filterMz(Spectra(spectra(tmt_od_sub)),
+                                          mz = c(500, 600)))
+    expect_equal(spectra(msnexp_filt), res_spctra@listData)
+})
+
+test_that("pickPeaks,Spectra and smooth,Spectra works", {
+    spctra <- spectra(filterFile(sciex, 1))
+    spl <- Spectra(spctra)
+    res <- pickPeaks(spl)
+    expect_true(is(res, "Spectra"))
+    expect_equal(res@listData, lapply(spctra, pickPeaks))
+
+    expect_warning(res <- smooth(spl))
+    expect_true(is(res, "Spectra"))
+    expect_equal(res@listData, lapply(spctra, smooth))
+})
+

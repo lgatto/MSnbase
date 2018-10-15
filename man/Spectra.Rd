@@ -27,6 +27,11 @@
 \alias{centroided,Spectra-method}
 \alias{isCentroided,Spectra-method}
 \alias{writeMgfData,Spectra-method}
+\alias{clean,Spectra-method}
+\alias{removePeaks,Spectra-method}
+\alias{filterMz,Spectra-method}
+\alias{pickPeaks,Spectra-method}
+\alias{smooth,Spectra-method}
 \title{List of Spectrum objects along with annotations}
 \usage{
 Spectra(..., elementMetadata = NULL)
@@ -73,10 +78,25 @@ Spectra(..., elementMetadata = NULL)
 
 \S4method{writeMgfData}{Spectra}(object, con = "spectra.mgf",
   COM = NULL, TITLE = NULL)
+
+\S4method{clean}{Spectra}(object, all = FALSE, msLevel. = msLevel.,
+  ...)
+
+\S4method{removePeaks}{Spectra}(object, t, msLevel., ...)
+
+\S4method{filterMz}{Spectra}(object, mz, msLevel., ...)
+
+\S4method{pickPeaks}{Spectra}(object, halfWindowSize = 3L,
+  method = c("MAD", "SuperSmoother"), SNR = 0L, refineMz = c("none",
+  "kNeighbors", "kNeighbours", "descendPeak"), ...)
+
+\S4method{smooth}{Spectra}(x, method = c("SavitzkyGolay",
+  "MovingAverage"), halfWindowSize = 2L, ...)
 }
 \arguments{
 \item{...}{For \code{Spectra}: \linkS4class{Spectrum} object(s) or a \code{list} of
-\linkS4class{Spectrum} objects.}
+\linkS4class{Spectrum} objects.
+For all other methods optional arguments passed along.}
 
 \item{elementMetadata}{For \code{Spectra}: \link{DataFrame} with optional information
 that should be added as metadata information (\code{mcols}) to the object.
@@ -96,6 +116,28 @@ to be added to the file.}
 
 \item{TITLE}{For \code{writeMgfData}: optional \code{character(1)} defining the title
 for the MGF file.}
+
+\item{all}{For \code{clean}: if \code{FALSE} original 0-intensity values are retained
+around peaks.}
+
+\item{msLevel.}{For \code{clean}, \code{removePeaks}, \code{filterMz}: optionally specify
+the MS level of the spectra on which the operation should be performed.}
+
+\item{t}{For \code{removePeaks}: \code{numeric(1)} specifying the threshold below
+which intensities are set to 0.}
+
+\item{mz}{For \code{filterMz}: \code{numeric(2)} defining the lower and upper m/z
+for the filter. See \code{\link[=filterMz]{filterMz()}} for details.}
+
+\item{halfWindowSize}{For \code{pickPeaks} and \code{smooth}: see \code{\link[=pickPeaks]{pickPeaks()}}
+and \code{\link[=smooth]{smooth()}} for details.}
+
+\item{method}{For \code{pickPeaks} and \code{smooth}: see \code{\link[=pickPeaks]{pickPeaks()}} and \code{\link[=smooth]{smooth()}}
+for details.}
+
+\item{SNR}{For \code{pickPeaks}: see \code{\link[=pickPeaks]{pickPeaks()}} for details.}
+
+\item{refineMz}{For \code{pickPeaks}: see \code{\link[=pickPeaks]{pickPeaks()}} for details.}
 }
 \description{
 \code{Spectra} objects allow to collect one or more \linkS4class{Spectrum} object(s)
@@ -161,6 +203,20 @@ number of spectra.
 \emph{centroided} data. While \code{centroided} returns the internal attribute of
 each spectrum, \code{isCentroided} tries to guess whether spectra are
 centroided from the actual peak data.
+}
+}
+
+\section{Data manipulation methods}{
+
+\itemize{
+\item \code{clean} \emph{cleans} each spectrum. See \code{\link[=clean]{clean()}} for more details.
+\item \code{filterMz} filters the spectra by the specified \code{mz} range. See
+\code{\link[=filterMz]{filterMz()}} for details.
+\item \code{pickPeaks} performs peak picking to generate centroided spectra. See
+\code{\link[=pickPeaks]{pickPeaks()}} for more details.
+\item \code{removePeaks} removes peaks lower than a threshold \code{t}. See
+\code{\link[=removePeaks]{removePeaks()}} for more details.
+\item \code{smooth} \emph{smooths} spectra. See \code{\link[=smooth]{smooth()}} for more details.
 }
 }
 
