@@ -8,6 +8,7 @@
 #'
 #' @param ... For `Spectra`: [Spectrum-class] object(s) or a `list` of
 #'     [Spectrum-class] objects.
+#'     For all other methods optional arguments passed along.
 #'
 #' @param elementMetadata For `Spectra`: [DataFrame] with optional information
 #'     that should be added as metadata information (`mcols`) to the object.

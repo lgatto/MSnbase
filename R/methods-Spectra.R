@@ -57,8 +57,45 @@ setMethod("show", "Spectra", function(object) {
 #'   each spectrum, `isCentroided` tries to guess whether spectra are
 #'   centroided from the actual peak data.
 #'
-#' @md
+#' @section Data manipulation methods:
+#'
+#' - `clean` *cleans* each spectrum. See [clean()] for more details.
+#'
+#' - `filterMz` filters the spectra by the specified `mz` range. See
+#'   [filterMz()] for details.
+#'
+#' - `pickPeaks` performs peak picking to generate centroided spectra. See
+#'   [pickPeaks()] for more details.
+#'
+#' - `removePeaks` removes peaks lower than a threshold `t`. See
+#'   [removePeaks()] for more details.
+#'
+#' - `smooth` *smooths* spectra. See [smooth()] for more details.
 #' 
+#' @md
+#'
+#' @param all For `clean`: if `FALSE` original 0-intensity values are retained
+#'   around peaks.
+#'
+#' @param msLevel. For `clean`, `removePeaks`, `filterMz`: optionally specify
+#'   the MS level of the spectra on which the operation should be performed.
+#'
+#' @param method For `pickPeaks` and `smooth`: see [pickPeaks()] and [smooth()]
+#'   for details.
+#'
+#' @param mz For `filterMz`: `numeric(2)` defining the lower and upper m/z
+#'   for the filter. See [filterMz()] for details.
+#' 
+#' @param t For `removePeaks`: `numeric(1)` specifying the threshold below
+#'   which intensities are set to 0.
+#'
+#' @param halfWindowSize For `pickPeaks` and `smooth`: see [pickPeaks()]
+#'   and [smooth()] for details.
+#'
+#' @param SNR For `pickPeaks`: see [pickPeaks()] for details.
+#'
+#' @param refineMz For `pickPeaks`: see [pickPeaks()] for details.
+#'
 #' @examples
 #'
 #' ## Extract the mz values for the individual spectra
@@ -327,18 +364,56 @@ setMethod("writeMgfData", "Spectra", function(object, con = "spectra.mgf",
                      TITLE = TITLE, addFields = mcols(object))
 })
 
+#' @rdname Spectra
+setMethod("clean", "Spectra", function(object, all = FALSE,
+                                       msLevel. = msLevel.) {
+    object@listData <- lapply(object, clean, all = all, msLevel. = msLevel.)
+    if (validObject(object))
+        object
+})
+
+#' @rdname Spectra
+setMethod("removePeaks", "Spectra", function(object, t, msLevel.) {
+    object@listData <- lapply(object, removePeaks, t = t, msLevel. = msLevel.)
+    if (validObject(object))
+        object
+})
+
+#' @rdname Spectra
+setMethod("filterMz", "Spectra", function(object, mz, msLevel.) {
+    object@listData <- lapply(object, filterMz, mz = mz, msLevel. = msLevel.)
+    if (validObject(object))
+        object
+})
+
+#' @rdname Spectra
+setMethod("pickPeaks", "Spectra", function(object, halfWindowSize = 3L,
+                                           method = c("MAD", "SuperSmoother"),
+                                           SNR = 0L,
+                                           refineMz = c("none", "kNeighbors",
+                                                        "kNeighbours",
+                                                        "descendPeak"), ...) {
+    object@listData <- lapply(object, pickPeaks, halfWindowSize = halfWindowSize,
+                              method = match.arg(method), SNR = SNR,
+                              refineMz = refineMz, ...)
+    if (validObject(object))
+        object
+})
+
+#' @rdname Spectra
+setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
+                                                      "MovingAverage"),
+                                        halfWindowSize = 2L, ...) {
+    x@listData <- lapply(x, smooth, method = match.arg(method),
+                         halfWindowSize = halfWindowSize, ...)
+    if (validObject(x))
+        x
+})
 
 ## Still to implement:
-## clean, all = FALSE
-## removePeaks, t
-## trimMz, mzlim
-## filterMz, mz
 ## quantify, method = c("trapezoidation", "max", "sum", reporters, strict = FALSE)
 ## normalize, method = c("max", "sum", "precursor", precursorIntensity)
 ## bin, binSize = 1L, breaks....
-## pickPeaks...
-## smooth...
-
 
 ## Fun things:
 ## compareSpectra
