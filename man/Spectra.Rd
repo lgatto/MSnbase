@@ -79,11 +79,12 @@ Spectra(..., elementMetadata = NULL)
 \S4method{writeMgfData}{Spectra}(object, con = "spectra.mgf",
   COM = NULL, TITLE = NULL)
 
-\S4method{clean}{Spectra}(object, all = FALSE, msLevel. = msLevel.)
+\S4method{clean}{Spectra}(object, all = FALSE, msLevel. = msLevel.,
+  ...)
 
-\S4method{removePeaks}{Spectra}(object, t, msLevel.)
+\S4method{removePeaks}{Spectra}(object, t, msLevel., ...)
 
-\S4method{filterMz}{Spectra}(object, mz, msLevel.)
+\S4method{filterMz}{Spectra}(object, mz, msLevel., ...)
 
 \S4method{pickPeaks}{Spectra}(object, halfWindowSize = 3L,
   method = c("MAD", "SuperSmoother"), SNR = 0L, refineMz = c("none",

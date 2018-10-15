@@ -366,22 +366,22 @@ setMethod("writeMgfData", "Spectra", function(object, con = "spectra.mgf",
 
 #' @rdname Spectra
 setMethod("clean", "Spectra", function(object, all = FALSE,
-                                       msLevel. = msLevel.) {
-    object@listData <- lapply(object, clean, all = all, msLevel. = msLevel.)
+                                       msLevel. = msLevel., ...) {
+    object <- endoapply(object, clean, all = all, msLevel. = msLevel., ...)
     if (validObject(object))
         object
 })
 
 #' @rdname Spectra
-setMethod("removePeaks", "Spectra", function(object, t, msLevel.) {
-    object@listData <- lapply(object, removePeaks, t = t, msLevel. = msLevel.)
+setMethod("removePeaks", "Spectra", function(object, t, msLevel., ...) {
+    object <- endoapply(object, removePeaks, t = t, msLevel. = msLevel., ...)
     if (validObject(object))
         object
 })
 
 #' @rdname Spectra
-setMethod("filterMz", "Spectra", function(object, mz, msLevel.) {
-    object@listData <- lapply(object, filterMz, mz = mz, msLevel. = msLevel.)
+setMethod("filterMz", "Spectra", function(object, mz, msLevel., ...) {
+    object <- endoapply(object, filterMz, mz = mz, msLevel. = msLevel., ...)
     if (validObject(object))
         object
 })
@@ -393,9 +393,9 @@ setMethod("pickPeaks", "Spectra", function(object, halfWindowSize = 3L,
                                            refineMz = c("none", "kNeighbors",
                                                         "kNeighbours",
                                                         "descendPeak"), ...) {
-    object@listData <- lapply(object, pickPeaks, halfWindowSize = halfWindowSize,
-                              method = match.arg(method), SNR = SNR,
-                              refineMz = refineMz, ...)
+    object <- endoapply(object, pickPeaks, halfWindowSize = halfWindowSize,
+                        method = match.arg(method), SNR = SNR,
+                        refineMz = refineMz, ...)
     if (validObject(object))
         object
 })
@@ -404,8 +404,8 @@ setMethod("pickPeaks", "Spectra", function(object, halfWindowSize = 3L,
 setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
                                                       "MovingAverage"),
                                         halfWindowSize = 2L, ...) {
-    x@listData <- lapply(x, smooth, method = match.arg(method),
-                         halfWindowSize = halfWindowSize, ...)
+    x <- endoapply(x, smooth, method = match.arg(method),
+                   halfWindowSize = halfWindowSize, ...)
     if (validObject(x))
         x
 })
