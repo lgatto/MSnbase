@@ -14,6 +14,8 @@ test_that("One empty data file", {
                              pattern = "MRM-standmix-5.mzML")
     f2 <- msdata::proteomics(full.names = TRUE,
                              pattern = "MS3TMT11.mzML")
+    ## normalise path to fix expect_identical below on windows
+    f2 <- normalizePath(f2)
     expect_warning(x <- readMSData(c(f1, f2), mode = "onDisk"))
     expect_identical(fileNames(x), f2)
 })

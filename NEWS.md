@@ -1,5 +1,9 @@
 # MSnbase 2.7
 
+## Changes in version 2.7.9
+- Import rather than depend on BiocParallel <2018-10-15 Mon>
+- Fix failing test on Windows (requiring normalizePath) <2018-10-15 Mon>
+
 ## Changes in version 2.7.8
 - MGF exporter gets a new `addFields` argument (see PR
   [#362](https://github.com/lgatto/MSnbase/issues/362)) <2018-10-12 Fri>
