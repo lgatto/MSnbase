@@ -2,10 +2,11 @@
 % Please edit documentation in R/functions-Spectrum.R
 \name{combineSpectra}
 \alias{combineSpectra}
-\title{Combine profile-mode spectra signals}
+\title{Combine spectra}
 \usage{
 combineSpectra(x, mzFun = base::mean, intensityFun = base::mean,
-  main = floor(length(x)/2L) + 1L, mzd, timeDomain = TRUE)
+  main = floor(length(x)/2L) + 1L, mzd, timeDomain = FALSE,
+  onlyMain = FALSE)
 }
 \arguments{
 \item{x}{\code{list} of \code{Spectrum} objects.}
@@ -35,19 +36,31 @@ Profile data from TOF MS instruments should be aggregated based
 on the time domain (see details). Note that a pre-defined \code{mzd} should
 also be estimated on the square root of m/z values if
 \code{timeDomain = TRUE}.}
+
+\item{onlyMain}{\code{logical(1)} whether only peaks present in the \emph{main}
+spectrum (defined by \code{main}) are reported in the resulting \code{Spectrum}
+object. To result in a spectrum that contains the union of all peaks
+this should be set to \code{FALSE}.}
 }
 \value{
 \code{Spectrum} with m/z and intensity values representing the aggregated values
-across the provided spectra. The returned spectrum contains the same number
-of m/z and intensity pairs than the spectrum with index \code{main} in \code{x}, also
-all other related information is taken from this spectrum.
+across the provided spectra. The returned spectrum contains the union of
+all peaks from all spectra (if \code{onlyMain = FALSE}), or the same number of
+m/z and intensity pairs than the spectrum with index \code{main} in \code{x} (if
+\code{onlyMain = TRUE}. All other spectrum data (such as retention time etc)
+is taken from the \emph{main} spectrum.
 }
 \description{
-Combine signals from profile-mode spectra of consecutive scans into the
-values for the \emph{main} spectrum. This can improve centroiding of
-profile-mode data by increasing the signal-to-noise ratio.
+Combine peaks from several spectra into a single spectrum.
 }
 \details{
+For general merging of spectra, the \code{mzd} should be manually specified based
+on the precision of the MS instrument. Peaks with their m/z in different
+spectra being smaller than \code{mzd} are grouped into the same final peak with
+their intensities being aggregated with the \code{intensityFun} function.
+
+Some details for the combination of consecutive spectra of an LCMS run:
+
 The m/z values of the same ion in consecutive scans (spectra) of a LCMS run
 will not be identical. Assuming that this random variation is much smaller
 than the resolution of the MS instrument (i.e. the difference between
@@ -68,6 +81,12 @@ by small variations in the time circuit) will thus be different in the lower
 and upper m/z scale. m/z-intensity pairs from consecutive scans to be
 combined are therefore defined by default on the square root of the m/z
 values. With \code{timeDomain = FALSE}, the actual m/z values will be used.
+}
+\note{
+This allows e.g. to combine profile-mode spectra of consecutive scans into
+the values for the \emph{main} spectrum. This can improve centroiding of
+profile-mode data by increasing the signal-to-noise ratio and is used in the
+\code{\link[=combineSpectraMovingWindow]{combineSpectraMovingWindow()}} function.
 }
 \examples{
 

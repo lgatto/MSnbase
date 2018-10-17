@@ -543,7 +543,7 @@ test_that("combineSpectraMovingWindow works", {
     spctrl <- spectra(od[(idx -1):(idx + 1)])
 
     od <- od[(idx - 3):(idx + 3)]
-     spctr <- combineSpectra(spctrl)
+    spctr <- combineSpectra(spctrl, timeDomain = TRUE, onlyMain = TRUE)
     ## Should be different from raw ones
     expect_true(is.character(all.equal(mz(spctr), mz(od[[4]]))))
     expect_true(is.character(all.equal(intensity(spctr), intensity(od[[4]]))))
@@ -551,9 +551,11 @@ test_that("combineSpectraMovingWindow works", {
     ## Use pre-calculated mzd:
     mzd <- estimateMzScattering(od)
     ## If mzd is estimated on mz and combination on sqrt(mz) it will fail.
-    expect_error(od_comb <- combineSpectraMovingWindow(od, mzd = mzd[[4]]))
+    expect_warning(od_comb <- combineSpectraMovingWindow(od, mzd = mzd[[4]]),
+                   timeDomain = TRUE, onlyMain = TRUE)
     ## All on m/z scale
-    od_comb <- combineSpectraMovingWindow(od, mzd = mzd[[4]], timeDomain = FALSE)
+    od_comb <- combineSpectraMovingWindow(od, mzd = mzd[[4]],
+                                          timeDomain = FALSE)
     spctr_comb <- od_comb[[4]]
     expect_equal(mz(spctr_comb), mz(spctr))
     expect_equal(intensity(spctr_comb), intensity(spctr))

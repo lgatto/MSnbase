@@ -800,16 +800,29 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
     res
 }
 
-#' @title Combine profile-mode spectra signals
+#' @title Combine spectra
 #'
 #' @description
+#'
+#' Combine peaks from several spectra into a single spectrum.
+#'
+#' @note
 #' 
-#' Combine signals from profile-mode spectra of consecutive scans into the
-#' values for the *main* spectrum. This can improve centroiding of
-#' profile-mode data by increasing the signal-to-noise ratio.
+#' This allows e.g. to combine profile-mode spectra of consecutive scans into
+#' the values for the *main* spectrum. This can improve centroiding of
+#' profile-mode data by increasing the signal-to-noise ratio and is used in the
+#' [combineSpectraMovingWindow()] function.
 #' 
 #' @details
 #'
+#' For general merging of spectra, the `mzd` should be manually specified based
+#' on the precision of the MS instrument. Peaks with their m/z in different
+#' spectra being smaller than `mzd` are grouped into the same final peak with
+#' their intensities being aggregated with the `intensityFun` function.
+#' 
+#' 
+#' Some details for the combination of consecutive spectra of an LCMS run:
+#' 
 #' The m/z values of the same ion in consecutive scans (spectra) of a LCMS run
 #' will not be identical. Assuming that this random variation is much smaller
 #' than the resolution of the MS instrument (i.e. the difference between
@@ -858,13 +871,20 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'     on the time domain (see details). Note that a pre-defined `mzd` should
 #'     also be estimated on the square root of m/z values if
 #'     `timeDomain = TRUE`.
+#'
+#' @param onlyMain `logical(1)` whether only peaks present in the *main*
+#'     spectrum (defined by `main`) are reported in the resulting `Spectrum`
+#'     object. To result in a spectrum that contains the union of all peaks
+#'     this should be set to `FALSE`.
 #' 
 #' @return
 #'
 #' `Spectrum` with m/z and intensity values representing the aggregated values
-#' across the provided spectra. The returned spectrum contains the same number
-#' of m/z and intensity pairs than the spectrum with index `main` in `x`, also
-#' all other related information is taken from this spectrum.
+#' across the provided spectra. The returned spectrum contains the union of
+#' all peaks from all spectra (if `onlyMain = FALSE`), or the same number of
+#' m/z and intensity pairs than the spectrum with index `main` in `x` (if
+#' `onlyMain = TRUE`. All other spectrum data (such as retention time etc)
+#' is taken from the *main* spectrum.
 #'
 #' @author Johannes Rainer, Sigurdur Smarason
 #'
@@ -915,7 +935,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'     col = "black")
 combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
                            main = floor(length(x) / 2L) + 1L, mzd,
-                           timeDomain = TRUE) {
+                           timeDomain = FALSE, onlyMain = FALSE) {
     if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
         stop("Can only combine spectra with the same MS level")
     mzs <- lapply(x, function(z) z@mz)
@@ -928,18 +948,20 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
     else
         mz_groups <- .group_mz_values(mzs, mzd = mzd)
     if (length(unique(mz_groups)) < length(x[[main]]@mz))
-        stop("Got less m/z groups than m/z values in the original spectrum. ",
-             "Most likely the data is not profile-mode LCMS data.")
-    ## Want to keep only those groups with a m/z from the main spectrum.
-    ## vectorized version from @sgibb
-    is_in_main <- rep.int(seq_along(mzs_lens), mzs_lens)[mz_order] == main
-    keep <- mz_groups %in% mz_groups[is_in_main]
-    ## Keep only values for which a m/z in main is present.
-    mz_groups <- mz_groups[keep]
-    mzs <- mzs[keep]
-    ints <- unlist(base::lapply(x, function(z) z@intensity))[mz_order][keep]
-    ## Create result.
+        warning("Got less m/z groups than m/z values in the original spectrum.",
+                " Most likely the data is not profile-mode LCMS data.")
+    ints <- unlist(base::lapply(x, function(z) z@intensity))[mz_order]
     new_sp <- x[[main]]
+    if (onlyMain) {
+        ## Want to keep only those groups with a m/z from the main spectrum.
+        ## vectorized version from @sgibb
+        is_in_main <- rep.int(seq_along(mzs_lens), mzs_lens)[mz_order] == main
+        keep <- mz_groups %in% mz_groups[is_in_main]
+        ## Keep only values for which a m/z in main is present.
+        mz_groups <- mz_groups[keep]
+        mzs <- mzs[keep]
+        ints <- ints[keep]
+    }
     ## Support also weighted.mean:
     if (is.character(mzFun) && mzFun == "weighted.mean") {
         intsp <- split(ints, mz_groups)

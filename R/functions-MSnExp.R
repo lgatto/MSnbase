@@ -569,7 +569,8 @@ combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
             res[[i]] <- combineSpectra(z[windowIndices(i, hws, len_z)],
                                        mzFun = mzF, intensityFun = intF,
                                        main = hwsp - (i <= hws) * (hwsp - i),
-                                       mzd = mzd, timeDomain = timeD)
+                                       mzd = mzd, timeDomain = timeD,
+                                       onlyMain = TRUE)
         }
         res
     }, intF = intensityFun, mzF = mzFun, hws = as.integer(halfWindowSize),
