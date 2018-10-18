@@ -551,7 +551,8 @@ test_that("combineSpectra works", {
     sp4 <- new("Spectrum2", mz = mzs + rnorm(length(mzs), sd = 0.3),
                intensity = ints2, rt = 4)
     expect_error(combineSpectra(list(sp1, sp2, sp3, sp4)))
-
+    expect_error(combineSpectra(list(sp1, sp2, sp3), main = 5))
+    
     res <- combineSpectra(list(sp1, sp2, sp3), timeDomain = TRUE,
                           unionPeaks = FALSE)
     expect_equal(length(mz(res)), length(mz(sp2)))

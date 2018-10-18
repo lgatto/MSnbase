@@ -939,6 +939,8 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
                            timeDomain = FALSE, unionPeaks = TRUE) {
     if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
         stop("Can only combine spectra with the same MS level")
+    if (main > length(x) || main < 1)
+        stop("'main' should be an integer between 1 and ", length(x))
     mzs <- lapply(x, function(z) z@mz)
     mzs_lens <- base::lengths(mzs)
     mzs <- unlist(mzs, use.names = FALSE)
