@@ -553,16 +553,16 @@ test_that("combineSpectra works", {
     expect_error(combineSpectra(list(sp1, sp2, sp3, sp4)))
 
     res <- combineSpectra(list(sp1, sp2, sp3), timeDomain = TRUE,
-                          onlyMain = TRUE)
+                          unionPeaks = FALSE)
     expect_equal(length(mz(res)), length(mz(sp2)))
     expect_equal(rtime(res), rtime(sp2))
 
     res <- combineSpectra(list(sp1, sp2, sp3), timeDomain = TRUE,
-                          onlyMain = FALSE)
+                          unionPeaks = TRUE)
     expect_true(length(mz(res)) > length(mz(sp2)))
     expect_equal(rtime(res), rtime(sp2))
 
-    res <- combineSpectra(list(sp2, sp1), timeDomain = FALSE, onlyMain = TRUE)
+    res <- combineSpectra(list(sp2, sp1), timeDomain = FALSE, unionPeaks = FALSE)
     expect_equal(length(mz(res)), length(mz(sp1)))
     expect_equal(rtime(res), rtime(sp1))
 
@@ -572,17 +572,17 @@ test_that("combineSpectra works", {
     expect_warning(res <- combineSpectra(list(sp1, sp3, sp4)))
 
     res <- combineSpectra(list(sp1, sp2, sp3), main = 1, timeDomain = TRUE,
-                          onlyMain = TRUE)
+                          unionPeaks = FALSE)
     expect_equal(rtime(res), rtime(sp1))
     expect_equal(length(mz(res)), length(mz(sp1)))
 
     res <- combineSpectra(list(sp1, sp2, sp3), main = 3, timeDomain = TRUE,
-                          onlyMain = TRUE)
+                          unionPeaks = FALSE)
     expect_equal(rtime(res), rtime(sp3))
     expect_equal(length(mz(res)), length(mz(sp3)))
     
     res <- combineSpectra(list(sp1, sp1), intensityFun = sum,
-                          timeDomain = TRUE, onlyMain = FALSE)
+                          timeDomain = TRUE, unionPeaks = TRUE)
     expect_equal(mz(res), mz(sp1))
     expect_equal(intensity(res), intensity(sp1) * 2)
 
@@ -610,9 +610,9 @@ test_that("combineSpectra works", {
     expect_equal(mz(res), mz(res_3))
     expect_equal(intensity(res), intensity(res_3))
 
-    ## Difference between onlyMain = TRUE and FALSE
-    res <- combineSpectra(lst, onlyMain = TRUE)
-    res_2 <- combineSpectra(lst, onlyMain = FALSE)
+    ## Difference between unionPeaks = TRUE and FALSE
+    res <- combineSpectra(lst, unionPeaks = FALSE)
+    res_2 <- combineSpectra(lst, unionPeaks = TRUE)
     expect_true(length(mz(res)) < length(mz(res_2)))
     mzs <- unique(unlist(lapply(lst, mz)))
 })

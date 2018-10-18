@@ -540,7 +540,7 @@ combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
                                        mzFun = base::mean,
                                        intensityFun = base::mean,
                                        mzd = NULL,
-                                       timeDomain = TRUE,
+                                       timeDomain = FALSE,
                                        BPPARAM = bpparam()){
     if (!is(x, "MSnExp"))
         stop("'x' has to be a 'MSnExp' or an 'OnDiskMSnExp'")
@@ -570,7 +570,7 @@ combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
                                        mzFun = mzF, intensityFun = intF,
                                        main = hwsp - (i <= hws) * (hwsp - i),
                                        mzd = mzd, timeDomain = timeD,
-                                       onlyMain = TRUE)
+                                       unionPeaks = FALSE)
         }
         res
     }, intF = intensityFun, mzF = mzFun, hws = as.integer(halfWindowSize),

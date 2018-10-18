@@ -5,7 +5,7 @@
 \title{Combine signal from consecutive spectra of LCMS experiments}
 \usage{
 combineSpectraMovingWindow(x, halfWindowSize = 1L, mzFun = base::mean,
-  intensityFun = base::mean, mzd = NULL, timeDomain = TRUE,
+  intensityFun = base::mean, mzd = NULL, timeDomain = FALSE,
   BPPARAM = bpparam())
 }
 \arguments{

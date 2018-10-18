@@ -6,7 +6,7 @@
 \usage{
 combineSpectra(x, mzFun = base::mean, intensityFun = base::mean,
   main = floor(length(x)/2L) + 1L, mzd, timeDomain = FALSE,
-  onlyMain = FALSE)
+  unionPeaks = TRUE)
 }
 \arguments{
 \item{x}{\code{list} of \code{Spectrum} objects.}
@@ -22,7 +22,8 @@ group. Should be a function or the name of a function. The function is
 expected to return a \code{numeric(1)}.}
 
 \item{main}{\code{integer(1)} defining the \emph{main} spectrum, i.e. the spectrum
-which m/z and intensity values get replaced and is returned.}
+which m/z and intensity values get replaced and is returned. By default
+the \emph{middle} spectrum in \code{x} is used.}
 
 \item{mzd}{\code{numeric(1)} defining the maximal m/z difference below which
 values are grouped. If not provided, this value is estimated from the
@@ -37,10 +38,10 @@ on the time domain (see details). Note that a pre-defined \code{mzd} should
 also be estimated on the square root of m/z values if
 \code{timeDomain = TRUE}.}
 
-\item{onlyMain}{\code{logical(1)} whether only peaks present in the \emph{main}
-spectrum (defined by \code{main}) are reported in the resulting \code{Spectrum}
-object. To result in a spectrum that contains the union of all peaks
-this should be set to \code{FALSE}.}
+\item{unionPeaks}{\code{logical(1)} whether the union of all peaks (peak groups)
+from all spectra are reported or only peak groups that contain peaks
+that are present in the \emph{main} spectrum (defined by \code{main}). The default
+is to report the union of peaks from all spectra.}
 }
 \value{
 \code{Spectrum} with m/z and intensity values representing the aggregated values

@@ -847,7 +847,8 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' @param x `list` of `Spectrum` objects.
 #'
 #' @param main `integer(1)` defining the *main* spectrum, i.e. the spectrum
-#'     which m/z and intensity values get replaced and is returned.
+#'     which m/z and intensity values get replaced and is returned. By default
+#'     the *middle* spectrum in `x` is used.
 #'
 #' @param mzFun `function` to aggregate the m/z values per m/z group. Should be
 #'     a function or the name of a function. The function is expected to
@@ -872,10 +873,10 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'     also be estimated on the square root of m/z values if
 #'     `timeDomain = TRUE`.
 #'
-#' @param onlyMain `logical(1)` whether only peaks present in the *main*
-#'     spectrum (defined by `main`) are reported in the resulting `Spectrum`
-#'     object. To result in a spectrum that contains the union of all peaks
-#'     this should be set to `FALSE`.
+#' @param unionPeaks `logical(1)` whether the union of all peaks (peak groups)
+#'     from all spectra are reported or only peak groups that contain peaks
+#'     that are present in the *main* spectrum (defined by `main`). The default
+#'     is to report the union of peaks from all spectra.
 #' 
 #' @return
 #'
@@ -935,7 +936,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'     col = "black")
 combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
                            main = floor(length(x) / 2L) + 1L, mzd,
-                           timeDomain = FALSE, onlyMain = FALSE) {
+                           timeDomain = FALSE, unionPeaks = TRUE) {
     if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
         stop("Can only combine spectra with the same MS level")
     mzs <- lapply(x, function(z) z@mz)
@@ -949,10 +950,11 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
         mz_groups <- .group_mz_values(mzs, mzd = mzd)
     if (length(unique(mz_groups)) < length(x[[main]]@mz))
         warning("Got less m/z groups than m/z values in the original spectrum.",
-                " Most likely the data is not profile-mode LCMS data.")
+                " Most likely the data is not profile-mode LCMS data or ",
+                "'mzd' is too large.")
     ints <- unlist(base::lapply(x, function(z) z@intensity))[mz_order]
     new_sp <- x[[main]]
-    if (onlyMain) {
+    if (!unionPeaks) {
         ## Want to keep only those groups with a m/z from the main spectrum.
         ## vectorized version from @sgibb
         is_in_main <- rep.int(seq_along(mzs_lens), mzs_lens)[mz_order] == main
