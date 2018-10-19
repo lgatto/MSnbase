@@ -151,3 +151,6 @@ setGeneric("productMz", function(object, ...) standardGeneric("productMz"))
 ## centroiding related
 setGeneric("estimateMzResolution", function(object, ...)
     standardGeneric("estimateMzResolution"))
+
+setGeneric("combineSpectra", function(object, ...)
+           standardGeneric("combineSpectra"))

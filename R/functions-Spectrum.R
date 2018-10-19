@@ -863,7 +863,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'     expected to return a `numeric(1)`.
 #'
 #' @param mzd `numeric(1)` defining the maximal m/z difference below which
-#'     values are grouped. If not provided, this value is estimated from the
+#'     values are grouped. If not specified this value is estimated from the
 #'     distribution of differences of m/z values from the provided spectra
 #'     (see details).
 #'

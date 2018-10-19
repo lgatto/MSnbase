@@ -26,7 +26,7 @@ which m/z and intensity values get replaced and is returned. By default
 the \emph{middle} spectrum in \code{x} is used.}
 
 \item{mzd}{\code{numeric(1)} defining the maximal m/z difference below which
-values are grouped. If not provided, this value is estimated from the
+values are grouped. If not specified this value is estimated from the
 distribution of differences of m/z values from the provided spectra
 (see details).}
 

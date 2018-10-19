@@ -410,6 +410,102 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
         x
 })
 
+#' @rdname combineSpectra
+#'
+#' @aliases combineSpectra
+#' 
+#' @title Combine Spectra
+#'
+#' `combineSpectra` combines spectra in a [MSnExp-class] or [Spectra-class]
+#' object applying the summarization function `fun` to sets of spectra defined
+#' by a factor (`fcol` parameter).
+#'
+#' @param object A [MSnExp-class] or [Spectra-class]
+#'
+#' @param fcol For `Spectra` objects: `mcols` column name to be used to define
+#'     the sets of spectra to be combined. If missing, all spectra are
+#'     considered to be one set.
+#'
+#' @param fun `function` to be used to combine the spectra by `fcol`. Has to
+#'     be a function that takes a list of spectra as input and returns a single
+#'     [Spectrum-class]. See [meanMzInts()] for details..
+#'
+#' @param ... additional arguments for `fun`.
+#'
+#' @return A `Spectra` or `MSnExp` object with combined spectra.
+#' 
+#' @md
+#'
+#' @author Johannes Rainer, Laurent Gatto
+#'
+#' @seealso [meanMzInts()] for a function to combine spectra.
+#'
+#' @examples
+#' 
+#' set.seed(123)
+#' mzs <- seq(1, 20, 0.1)
+#' ints1 <- abs(rnorm(length(mzs), 10))
+#' ints1[11:20] <- c(15, 30, 90, 200, 500, 300, 100, 70, 40, 20) # add peak
+#' ints2 <- abs(rnorm(length(mzs), 10))
+#' ints2[11:20] <- c(15, 30, 60, 120, 300, 200, 90, 60, 30, 23)
+#' ints3 <- abs(rnorm(length(mzs), 10))
+#' ints3[11:20] <- c(13, 20, 50, 100, 200, 100, 80, 40, 30, 20)
+#'
+#' ## Create the spectra.
+#' sp1 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.01),
+#'     intensity = ints1)
+#' sp2 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.01),
+#'     intensity = ints2)
+#' sp3 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.009),
+#'     intensity = ints3)
+#'
+#' spctra <- Spectra(sp1, sp2, sp3,
+#'     elementMetadata = DataFrame(idx = 1:3, group = c("b", "a", "a")))
+#'
+#' ## Combine the spectra reporting the maximym signal
+#' res <- combineSpectra(spctra, mzd = 0.05, intensityFun = max)
+#' res
+#' 
+#' ## Plot the individual and the merged spectrum
+#' par(mfrow = c(2, 1), mar = c(4.3, 4, 1, 1))
+#' plot(mz(sp1), intensity(sp1), xlim = range(mzs[5:25]), type = "h", col = "red")
+#' points(mz(sp2), intensity(sp2), type = "h", col = "green")
+#' points(mz(sp3), intensity(sp3), type = "h", col = "blue")
+#' plot(mz(res[[1]]), intensity(res[[1]]), type = "h",
+#'     col = "black", xlim = range(mzs[5:25]))
+#' 
+#' ## Combine spectra in two sets.
+#' res <- combineSpectra(spctra, fcol = "group", mzd = 0.05)
+#' res
+#' 
+#' ## Plot the individual and the merged spectra
+#' par(mfrow = c(3, 1), mar = c(4.3, 4, 1, 1))
+#' plot(mz(sp1), intensity(sp1), xlim = range(mzs[5:25]), type = "h", col = "red")
+#' points(mz(sp2), intensity(sp2), type = "h", col = "green")
+#' points(mz(sp3), intensity(sp3), type = "h", col = "blue")
+#' plot(mz(res[[1]]), intensity(res[[1]]), xlim = range(mzs[5:25]), type = "h",
+#'     col = "black")
+#' plot(mz(res[[2]]), intensity(res[[2]]), xlim = range(mzs[5:25]), type = "h",
+#'     col = "black")
+setMethod("combineSpectra", "Spectra", function(object, fcol,
+                                                fun = meanMzInts, ...) {
+    if (missing(fcol)) {
+        .by <- factor(rep(1, length(object)))
+        metad <- NULL
+    } else {
+        if (!any(fcol %in% colnames(mcols(object))))
+            stop("'fcol' does not match any column names of 'mcols(object)'")
+        .by <- factor(mcols(object)[, fcol],
+                      levels = unique(mcols(object)[, fcol]))
+        sel <- !duplicated(.by)
+        ## Just keep the fcol metadata column
+        metad <- mcols(object)[sel, fcol, drop = FALSE]
+    }
+    res <- lapply(split(object, .by), FUN = fun, ...)
+    Spectra(res, elementMetadata = metad)
+})
+
+
 ## Still to implement:
 ## quantify, method = c("trapezoidation", "max", "sum", reporters, strict = FALSE)
 ## normalize, method = c("max", "sum", "precursor", precursorIntensity)
