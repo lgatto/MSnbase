@@ -6,7 +6,7 @@
 \usage{
 combineSpectra(x, mzFun = base::mean, intensityFun = base::mean,
   main = floor(length(x)/2L) + 1L, mzd, timeDomain = FALSE,
-  unionPeaks = TRUE)
+  unionPeaks = TRUE, ...)
 }
 \arguments{
 \item{x}{\code{list} of \code{Spectrum} objects.}
@@ -42,6 +42,9 @@ also be estimated on the square root of m/z values if
 from all spectra are reported or only peak groups that contain peaks
 that are present in the \emph{main} spectrum (defined by \code{main}). The default
 is to report the union of peaks from all spectra.}
+
+\item{...}{additional parameters that are passed to the \code{mzFun} and
+\code{intensityFun} functions.}
 }
 \value{
 \code{Spectrum} with m/z and intensity values representing the aggregated values

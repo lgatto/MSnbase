@@ -877,6 +877,9 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'     from all spectra are reported or only peak groups that contain peaks
 #'     that are present in the *main* spectrum (defined by `main`). The default
 #'     is to report the union of peaks from all spectra.
+#'
+#' @param ... additional parameters that are passed to the `mzFun` and
+#'     `intensityFun` functions.
 #' 
 #' @return
 #'
@@ -936,7 +939,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'     col = "black")
 combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
                            main = floor(length(x) / 2L) + 1L, mzd,
-                           timeDomain = FALSE, unionPeaks = TRUE) {
+                           timeDomain = FALSE, unionPeaks = TRUE, ...) {
     if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
         stop("Can only combine spectra with the same MS level")
     if (main > length(x) || main < 1)
@@ -976,14 +979,15 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
                                   USE.NAMES = FALSE, SIMPLIFY = TRUE)
         new_sp@intensity <- base::vapply(intsp, FUN = intensityFun,
                                          FUN.VALUE = numeric(1),
-                                         USE.NAMES = FALSE)
+                                         USE.NAMES = FALSE, ...)
     } else {
         new_sp@mz <- base::vapply(split(mzs, mz_groups), FUN = mzFun,
-                                  FUN.VALUE = numeric(1), USE.NAMES = FALSE)
+                                  FUN.VALUE = numeric(1), USE.NAMES = FALSE,
+                                  ...)
         new_sp@intensity <- base::vapply(split(ints, mz_groups),
                                          FUN = intensityFun,
                                          FUN.VALUE = numeric(1),
-                                         USE.NAMES = FALSE)
+                                         USE.NAMES = FALSE, ...)
     }
     if (is.unsorted(new_sp@mz))
         stop("m/z values of combined spectrum are not ordered")
