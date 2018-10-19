@@ -4,21 +4,15 @@
 \alias{combineSpectraMovingWindow}
 \title{Combine signal from consecutive spectra of LCMS experiments}
 \usage{
-combineSpectraMovingWindow(x, halfWindowSize = 1L, mzFun = base::mean,
+combineSpectraMovingWindow(x, halfWindowSize = 1L,
   intensityFun = base::mean, mzd = NULL, timeDomain = FALSE,
-  BPPARAM = bpparam())
+  weighted = FALSE, BPPARAM = bpparam())
 }
 \arguments{
 \item{x}{\code{MSnExp} or \code{OnDiskMSnExp} object.}
 
 \item{halfWindowSize}{\code{integer(1)} with the half window size for the moving
 window.}
-
-\item{mzFun}{\code{function} to aggregate the m/z values per m/z group. Should be
-a function or the name of a function. The function is expected to
-return a \code{numeric(1)}. For \code{mzFun = "weighted.mean"} (note
-that the \emph{name} of the function is passed!) the resulting m/z is
-determined as an intensity-weighted mean of spectras' m/z values.}
 
 \item{intensityFun}{\code{function} to aggregate the intensity values per m/z
 group. Should be a function or the name of a function. The function is
@@ -36,6 +30,10 @@ Profile data from TOF MS instruments should be aggregated based
 on the time domain (see details). Note that a pre-defined \code{mzd} should
 also be estimated on the square root of m/z values if
 \code{timeDomain = TRUE}.}
+
+\item{weighted}{\code{logical(1)} whether m/z values per m/z group should be
+aggregated with an intensity-weighted mean. The default is to report
+the mean m/z.}
 
 \item{BPPARAM}{parallel processing settings.}
 }
@@ -59,7 +57,7 @@ data) and thus combines their signal which can increase the increase the
 signal to noise ratio.
 
 Intensities (and m/z values) for signals with the same m/z value in
-consecutive scans are aggregated using the \code{intensityFun} and \code{mzFun}.
+consecutive scans are aggregated using the \code{intensityFun}.
 m/z values of intensities from consecutive scans will never be exactly
 identical, even if they represent signal from the same ion. The function
 determines thus internally a similarity threshold based on differences
@@ -68,7 +66,7 @@ considered to derive from the same ion. For robustness reasons, this
 threshold is estimated on the 100 spectra with the largest number of
 m/z - intensity pairs (i.e. mass peaks).
 
-See \code{\link[=combineSpectra]{combineSpectra()}} for details.
+See \code{\link[=meanMzInts]{meanMzInts()}} for details.
 
 Parameter \code{timeDomain}: by default, m/z-intensity pairs from consecutive
 scans to be aggregated are defined based on the square root of the m/z
@@ -125,7 +123,7 @@ plot(chr_comb)
 ## Chromatographic data is "smoother" after combining.
 }
 \seealso{
-\code{\link[=combineSpectra]{combineSpectra()}} for the function combining spectra provided in
+\code{\link[=meanMzInts]{meanMzInts()}} for the function combining spectra provided in
 a \code{list}.
 
 \code{\link[=estimateMzScattering]{estimateMzScattering()}} for a function to estimate m/z value scattering in

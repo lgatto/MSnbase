@@ -800,11 +800,15 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
     res
 }
 
-#' @title Combine spectra
+#' @title Combine a list of spectra to a single spectrum
 #'
 #' @description
 #'
-#' Combine peaks from several spectra into a single spectrum.
+#' Combine peaks from several spectra into a single spectrum. Intensity and
+#' m/z values from the input spectra are aggregated into a single peak if
+#' the difference between their m/z values is smaller than `mzd`.Intensity
+#' values are aggregated with the `intensityFun`, m/z values by the mean, or
+#' intensity weighted mean if `weighted = TRUE`.
 #'
 #' @note
 #' 
@@ -819,8 +823,8 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' on the precision of the MS instrument. Peaks with their m/z in different
 #' spectra being smaller than `mzd` are grouped into the same final peak with
 #' their intensities being aggregated with the `intensityFun` function.
-#' 
-#' 
+#'
+#'
 #' Some details for the combination of consecutive spectra of an LCMS run:
 #' 
 #' The m/z values of the same ion in consecutive scans (spectra) of a LCMS run
@@ -850,12 +854,10 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'     which m/z and intensity values get replaced and is returned. By default
 #'     the *middle* spectrum in `x` is used.
 #'
-#' @param mzFun `function` to aggregate the m/z values per m/z group. Should be
-#'     a function or the name of a function. The function is expected to
-#'     return a `numeric(1)`. For `mzFun = "weighted.mean"` (note
-#'     that the *name* of the function is passed!) the resulting m/z is
-#'     determined as an intensity-weighted mean of spectras' m/z values.
-#'
+#' @param weighted `logical(1)` whether m/z values per m/z group should be
+#'     aggregated with an intensity-weighted mean. The default is to report
+#'     the mean m/z.
+#' 
 #' @param intensityFun `function` to aggregate the intensity values per m/z
 #'     group. Should be a function or the name of a function. The function is
 #'     expected to return a `numeric(1)`.
@@ -878,8 +880,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'     that are present in the *main* spectrum (defined by `main`). The default
 #'     is to report the union of peaks from all spectra.
 #'
-#' @param ... additional parameters that are passed to the `mzFun` and
-#'     `intensityFun` functions.
+#' @param ... additional parameters that are passed to `intensityFun`.
 #' 
 #' @return
 #'
@@ -928,7 +929,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'     intensity = ints3)
 #'
 #' ## Combine the spectra
-#' sp_agg <- combineSpectra(list(sp1, sp2, sp3))
+#' sp_agg <- meanMzInts(list(sp1, sp2, sp3))
 #'
 #' ## Plot the spectra before and after combining
 #' par(mfrow = c(2, 1), mar = c(4.3, 4, 1, 1))
@@ -937,9 +938,9 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' points(mz(sp3), intensity(sp3), type = "h", col = "blue")
 #' plot(mz(sp_agg), intensity(sp_agg), xlim = range(mzs[5:25]), type = "h",
 #'     col = "black")
-combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
-                           main = floor(length(x) / 2L) + 1L, mzd,
-                           timeDomain = FALSE, unionPeaks = TRUE, ...) {
+meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
+                       main = floor(length(x) / 2L) + 1L, mzd,
+                       timeDomain = FALSE, unionPeaks = TRUE) {
     if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
         stop("Can only combine spectra with the same MS level")
     if (main > length(x) || main < 1)
@@ -970,7 +971,7 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
         ints <- ints[keep]
     }
     ## Support also weighted.mean:
-    if (is.character(mzFun) && mzFun == "weighted.mean") {
+    if (weighted) {
         intsp <- split(ints, mz_groups)
         new_sp@mz <- base::mapply(split(mzs, mz_groups), intsp,
                                   FUN = function(mz_vals, w)
@@ -981,7 +982,7 @@ combineSpectra <- function(x, mzFun = base::mean, intensityFun = base::mean,
                                          FUN.VALUE = numeric(1),
                                          USE.NAMES = FALSE, ...)
     } else {
-        new_sp@mz <- base::vapply(split(mzs, mz_groups), FUN = mzFun,
+        new_sp@mz <- base::vapply(split(mzs, mz_groups), FUN = base::mean,
                                   FUN.VALUE = numeric(1), USE.NAMES = FALSE,
                                   ...)
         new_sp@intensity <- base::vapply(split(ints, mz_groups),

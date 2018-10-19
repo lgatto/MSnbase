@@ -448,7 +448,7 @@ estimateMzScattering <- function(x, halfWindowSize = 1L, timeDomain = FALSE) {
 #' signal to noise ratio.
 #'
 #' Intensities (and m/z values) for signals with the same m/z value in
-#' consecutive scans are aggregated using the `intensityFun` and `mzFun`. 
+#' consecutive scans are aggregated using the `intensityFun`. 
 #' m/z values of intensities from consecutive scans will never be exactly
 #' identical, even if they represent signal from the same ion. The function
 #' determines thus internally a similarity threshold based on differences
@@ -457,7 +457,7 @@ estimateMzScattering <- function(x, halfWindowSize = 1L, timeDomain = FALSE) {
 #' threshold is estimated on the 100 spectra with the largest number of
 #' m/z - intensity pairs (i.e. mass peaks).
 #' 
-#' See [combineSpectra()] for details.
+#' See [meanMzInts()] for details.
 #'
 #' Parameter `timeDomain`: by default, m/z-intensity pairs from consecutive
 #' scans to be aggregated are defined based on the square root of the m/z
@@ -485,7 +485,7 @@ estimateMzScattering <- function(x, halfWindowSize = 1L, timeDomain = FALSE) {
 #' 
 #' @param BPPARAM parallel processing settings.
 #' 
-#' @inheritParams combineSpectra
+#' @inheritParams meanMzInts
 #'
 #' @return `MSnExp` with the same number of spectra than `x`.
 #'
@@ -493,7 +493,7 @@ estimateMzScattering <- function(x, halfWindowSize = 1L, timeDomain = FALSE) {
 #'
 #' @seealso
 #'
-#' [combineSpectra()] for the function combining spectra provided in
+#' [meanMzInts()] for the function combining spectra provided in
 #' a `list`.
 #'
 #' [estimateMzScattering()] for a function to estimate m/z value scattering in
@@ -537,10 +537,10 @@ estimateMzScattering <- function(x, halfWindowSize = 1L, timeDomain = FALSE) {
 #' plot(chr_comb)
 #' ## Chromatographic data is "smoother" after combining.
 combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
-                                       mzFun = base::mean,
                                        intensityFun = base::mean,
                                        mzd = NULL,
                                        timeDomain = FALSE,
+                                       weighted = FALSE,
                                        BPPARAM = bpparam()){
     if (!is(x, "MSnExp"))
         stop("'x' has to be a 'MSnExp' or an 'OnDiskMSnExp'")
@@ -548,7 +548,7 @@ combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
         x <- as(x, "MSnExp")
     ## Combine spectra per file
     new_sp <- bplapply(split(spectra(x), fromFile(x)), FUN = function(z, intF,
-                                                                      mzF, hws,
+                                                                      wght, hws,
                                                                       mzd,
                                                                       timeD) {
         len_z <- length(z)
@@ -566,14 +566,14 @@ combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
         res <- vector("list", len_z)
         hwsp <- hws + 1L
         for (i in seq_along(z)) {
-            res[[i]] <- combineSpectra(z[windowIndices(i, hws, len_z)],
-                                       mzFun = mzF, intensityFun = intF,
+            res[[i]] <- meanMzInts(z[windowIndices(i, hws, len_z)],
+                                       weighted = wght, intensityFun = intF,
                                        main = hwsp - (i <= hws) * (hwsp - i),
                                        mzd = mzd, timeDomain = timeD,
                                        unionPeaks = FALSE)
         }
         res
-    }, intF = intensityFun, mzF = mzFun, hws = as.integer(halfWindowSize),
+    }, intF = intensityFun, wght = weighted, hws = as.integer(halfWindowSize),
     mzd = mzd, timeD = timeDomain, BPPARAM = BPPARAM)
     new_sp <- unsplit(new_sp, fromFile(x))
     names(new_sp) <- featureNames(x)
