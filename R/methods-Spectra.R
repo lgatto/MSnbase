@@ -418,7 +418,10 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #'
 #' `combineSpectra` combines spectra in a [MSnExp-class] or [Spectra-class]
 #' object applying the summarization function `fun` to sets of spectra defined
-#' by a factor (`fcol` parameter).
+#' by a factor (`fcol` parameter). The resulting combined spectrum for each
+#' set contains metadata information (present in `mcols` and all spectrum
+#' information other than `mz` and `intensity`) from one spectrum in the set
+#' which can be defined with the `main` argument.
 #'
 #' @param object A [MSnExp-class] or [Spectra-class]
 #'
@@ -430,6 +433,12 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #'     be a function that takes a list of spectra as input and returns a single
 #'     [Spectrum-class]. See [meanMzInts()] for details..
 #'
+#' @param main `character` specifying which `Spectrum` in each set is used as
+#'     the *main* `Spectrum`. Metadata information from this spectrum is
+#'     reported for the combined spectrum. Allowed values are `"first"` and
+#'     `"middle"` to use the information from the first and the middle spectrum
+#'     in each set.
+#' 
 #' @param ... additional arguments for `fun`.
 #'
 #' @return A `Spectra` or `MSnExp` object with combined spectra.
@@ -453,11 +462,11 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #'
 #' ## Create the spectra.
 #' sp1 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.01),
-#'     intensity = ints1)
+#'     intensity = ints1, rt = 1)
 #' sp2 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.01),
-#'     intensity = ints2)
+#'     intensity = ints2, rt = 2)
 #' sp3 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.009),
-#'     intensity = ints3)
+#'     intensity = ints3, rt = 3)
 #'
 #' spctra <- Spectra(sp1, sp2, sp3,
 #'     elementMetadata = DataFrame(idx = 1:3, group = c("b", "a", "a")))
@@ -465,6 +474,9 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #' ## Combine the spectra reporting the maximym signal
 #' res <- combineSpectra(spctra, mzd = 0.05, intensityFun = max)
 #' res
+#'
+#' ## All values other than m/z and intensity are kept from the first spectrum
+#' rtime(res)
 #' 
 #' ## Plot the individual and the merged spectrum
 #' par(mfrow = c(2, 1), mar = c(4.3, 4, 1, 1))
@@ -473,10 +485,17 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #' points(mz(sp3), intensity(sp3), type = "h", col = "blue")
 #' plot(mz(res[[1]]), intensity(res[[1]]), type = "h",
 #'     col = "black", xlim = range(mzs[5:25]))
+#'
+#' ## Keep the metadata from the middle spectrum
+#' res <- combineSpectra(spctra, mzd = 0.05, intensityFun = max, main = "middle")
+#' res
+#' rtime(res)
 #' 
 #' ## Combine spectra in two sets.
 #' res <- combineSpectra(spctra, fcol = "group", mzd = 0.05)
 #' res
+#'
+#' rtime(res)
 #' 
 #' ## Plot the individual and the merged spectra
 #' par(mfrow = c(3, 1), mar = c(4.3, 4, 1, 1))
@@ -488,20 +507,30 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #' plot(mz(res[[2]]), intensity(res[[2]]), xlim = range(mzs[5:25]), type = "h",
 #'     col = "black")
 setMethod("combineSpectra", "Spectra", function(object, fcol,
+                                                main = c("first", "middle"),
                                                 fun = meanMzInts, ...) {
+    main <- match.arg(main)
     if (missing(fcol)) {
         .by <- factor(rep(1, length(object)))
-        metad <- NULL
     } else {
         if (!any(fcol %in% colnames(mcols(object))))
             stop("'fcol' does not match any column names of 'mcols(object)'")
         .by <- factor(mcols(object)[, fcol],
                       levels = unique(mcols(object)[, fcol]))
-        sel <- !duplicated(.by)
-        ## Just keep the fcol metadata column
-        metad <- mcols(object)[sel, fcol, drop = FALSE]
     }
-    res <- lapply(split(object, .by), FUN = fun, ...)
+    object_list <- split(object, .by)
+    res <- vector("list", length = length(object_list))
+    names(res) <- levels(.by)
+    if (main == "first") {
+        idx <- rep(1, length(res))
+        metad <- mcols(object)[match(levels(.by), .by), , drop = FALSE]
+    } else {
+        idx <- ceiling(lengths(object_list) / 2L)
+        metad <- mcols(object)[middle(.by), , drop = FALSE]
+    }
+    for (i in seq_along(res)) {
+        res[[i]] <- fun(object_list[[i]], main = idx[i], ...)
+    }
     Spectra(res, elementMetadata = metad)
 })
 

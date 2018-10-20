@@ -939,7 +939,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' plot(mz(sp_agg), intensity(sp_agg), xlim = range(mzs[5:25]), type = "h",
 #'     col = "black")
 meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
-                       main = floor(length(x) / 2L) + 1L, mzd,
+                       main = ceiling(length(x) / 2L), mzd,
                        timeDomain = FALSE, unionPeaks = TRUE) {
     if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
         stop("Can only combine spectra with the same MS level")
@@ -1086,3 +1086,4 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
     ##           plot = FALSE)
     ## h$mids[which.max(h$counts)]
 }
+

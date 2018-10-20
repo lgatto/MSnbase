@@ -5,7 +5,7 @@
 \title{Combine a list of spectra to a single spectrum}
 \usage{
 meanMzInts(x, ..., intensityFun = base::mean, weighted = FALSE,
-  main = floor(length(x)/2L) + 1L, mzd, timeDomain = FALSE,
+  main = ceiling(length(x)/2L), mzd, timeDomain = FALSE,
   unionPeaks = TRUE)
 }
 \arguments{

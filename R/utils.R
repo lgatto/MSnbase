@@ -1374,3 +1374,40 @@ hasSpectra <- function(files) {
 hasChromatograms <- function(files) {
     sapply(files, mzR:::.hasChromatograms)
 }
+
+#' @title Get the index of the middle element for each levels of a factor
+#'
+#' `middle` returns the index of the middle element for each level of a factor.
+#'
+#' @param x `factor` or `vector` that can be converted into a `factor`
+#'
+#' @return `integer` same length than `levels(x)` with the index of the middle
+#'     element for each level in `x`.
+#' 
+#' @author Johannes Rainer
+#' 
+#' @md
+#'
+#' @noRd
+#' 
+#' @examples
+#' 
+#' f <- factor(c("a", "a", "b", "a", "b", "c", "c", "b", "d", "d", "d"))
+#' f
+#' 
+#' middle(f)
+#' 
+#' ## The first
+#' match(levels(f), f)  ## faster
+#' which(!duplicated(f))
+#'
+#' f <- factor(c("a", "a", "b", "a", "b", "c", "c", "b", "d", "d", "d"),
+#'     levels = c("d", "a", "c", "b"))
+#' middle(f)
+middle <- function(x) {
+    x <- as.factor(x)
+    vapply(levels(x), function(z) {
+        idx <- which(x == z)
+        idx[ceiling(length(idx) / 2L)]
+    }, integer(1))
+}

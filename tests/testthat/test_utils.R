@@ -584,3 +584,11 @@ test_that("merging and expanding features", {
     k2 <- grep("^svm", fvarLabels(hl2), value = TRUE)
     expect_identical(fData(hyperLOPIT2015)[, k], fData(hl2)[, k2])
 })
+
+test_that("middle works", {
+    str <- c("a", "a", "b", "a", "b", "c", "c", "b", "d", "d", "d")
+    res <- middle(str)
+    expect_equal(res, c(a = 2, b = 5, c = 6, d = 10))
+    res <- middle(factor(str, levels = c("b", "a", "c", "d")))
+    expect_equal(res, c(b = 5, a = 2, c = 6, d = 10))
+})

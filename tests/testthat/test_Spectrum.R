@@ -564,9 +564,14 @@ test_that("meanMzInts works", {
     expect_equal(rtime(res), rtime(sp2))
 
     res <- meanMzInts(list(sp2, sp1), timeDomain = FALSE, unionPeaks = FALSE)
+    expect_equal(length(mz(res)), length(mz(sp2)))
+    expect_equal(rtime(res), rtime(sp2))
+
+    res <- meanMzInts(list(sp2, sp1), timeDomain = FALSE, unionPeaks = FALSE,
+                      main = 2)
     expect_equal(length(mz(res)), length(mz(sp1)))
     expect_equal(rtime(res), rtime(sp1))
-
+    
     sp4 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.3),
                intensity = ints2, rt = 4)
     ## randon noise larger than resolution.
