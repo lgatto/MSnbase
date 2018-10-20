@@ -14,7 +14,7 @@ information other than \code{mz} and \code{intensity}) from one spectrum in the 
 which can be defined with the \code{main} argument.}
 \usage{
 \S4method{combineSpectra}{Spectra}(object, fcol, main = c("first",
-  "middle"), fun = meanMzInts, ...)
+  "middle", "last"), fun = meanMzInts, ...)
 }
 \arguments{
 \item{object}{A \linkS4class{MSnExp} or \linkS4class{Spectra}}
@@ -25,9 +25,9 @@ considered to be one set.}
 
 \item{main}{\code{character} specifying which \code{Spectrum} in each set is used as
 the \emph{main} \code{Spectrum}. Metadata information from this spectrum is
-reported for the combined spectrum. Allowed values are \code{"first"} and
-\code{"middle"} to use the information from the first and the middle spectrum
-in each set.}
+reported for the combined spectrum. Allowed values are \code{"first"},
+\code{"middle"} and \code{"last"} to use the information from the first, the
+middle or the last spectrum in each set.}
 
 \item{fun}{\code{function} to be used to combine the spectra by \code{fcol}. Has to
 be a function that takes a list of spectra as input and returns a single

@@ -1375,14 +1375,18 @@ hasChromatograms <- function(files) {
     sapply(files, mzR:::.hasChromatograms)
 }
 
-#' @title Get the index of the middle element for each levels of a factor
+#' @title Get the index of the particular element for each level
 #'
-#' `middle` returns the index of the middle element for each level of a factor.
+#' `levelIndex` returns the index of the first, middle or last element for
+#' each level of a factor within the factor.
 #'
 #' @param x `factor` or `vector` that can be converted into a `factor`
 #'
-#' @return `integer` same length than `levels(x)` with the index of the middle
-#'     element for each level in `x`.
+#' @param which `character` defining for which element the index should be
+#'     returned, can be either `"first"`, `"middle"` or `"last"`.
+#' 
+#' @return `integer` same length than `levels(x)` with the index for each
+#'     level in `x`.
 #' 
 #' @author Johannes Rainer
 #' 
@@ -1395,19 +1399,32 @@ hasChromatograms <- function(files) {
 #' f <- factor(c("a", "a", "b", "a", "b", "c", "c", "b", "d", "d", "d"))
 #' f
 #' 
-#' middle(f)
-#' 
-#' ## The first
-#' match(levels(f), f)  ## faster
-#' which(!duplicated(f))
+#' levelIndex(f, which = "first")
+#' levelIndex(f, which = "middle")
+#' levelIndex(f, which = "last")
 #'
 #' f <- factor(c("a", "a", "b", "a", "b", "c", "c", "b", "d", "d", "d"),
 #'     levels = c("d", "a", "c", "b"))
-#' middle(f)
-middle <- function(x) {
+#' levelIndex(f, which = "first")
+#' levelIndex(f, which = "middle")
+#' levelIndex(f, which = "last")
+levelIndex <- function(x, which = c("first", "middle", "last")) {
     x <- as.factor(x)
-    vapply(levels(x), function(z) {
-        idx <- which(x == z)
-        idx[ceiling(length(idx) / 2L)]
-    }, integer(1))
+    which <- match.arg(which)
+    if (which == "first") {
+        res <- match(levels(x), x)
+        names(res) <- levels(x)
+        res
+    } else {
+        if (which == "last") {
+            res <- length(x) - match(levels(x), rev(x)) + 1L
+            names(res) <- levels(x)
+            res
+        } else {
+            vapply(levels(x), function(z) {
+                idx <- which(x == z)
+                idx[ceiling(length(idx) / 2L)]
+            }, integer(1))
+        }
+    }
 }

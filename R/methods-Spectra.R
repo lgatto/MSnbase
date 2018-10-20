@@ -435,9 +435,9 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #'
 #' @param main `character` specifying which `Spectrum` in each set is used as
 #'     the *main* `Spectrum`. Metadata information from this spectrum is
-#'     reported for the combined spectrum. Allowed values are `"first"` and
-#'     `"middle"` to use the information from the first and the middle spectrum
-#'     in each set.
+#'     reported for the combined spectrum. Allowed values are `"first"`,
+#'     `"middle"` and `"last"` to use the information from the first, the
+#'     middle or the last spectrum in each set.
 #' 
 #' @param ... additional arguments for `fun`.
 #'
@@ -507,7 +507,8 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #' plot(mz(res[[2]]), intensity(res[[2]]), xlim = range(mzs[5:25]), type = "h",
 #'     col = "black")
 setMethod("combineSpectra", "Spectra", function(object, fcol,
-                                                main = c("first", "middle"),
+                                                main = c("first", "middle",
+                                                         "last"),
                                                 fun = meanMzInts, ...) {
     main <- match.arg(main)
     if (missing(fcol)) {
@@ -523,15 +524,17 @@ setMethod("combineSpectra", "Spectra", function(object, fcol,
     names(res) <- levels(.by)
     if (main == "first") {
         idx <- rep(1, length(res))
-        metad <- mcols(object)[match(levels(.by), .by), , drop = FALSE]
     } else {
-        idx <- ceiling(lengths(object_list) / 2L)
-        metad <- mcols(object)[middle(.by), , drop = FALSE]
+        if (main == "last")
+            idx <- lengths(object_list)
+        else
+            idx <- ceiling(lengths(object_list) / 2L)
     }
     for (i in seq_along(res)) {
         res[[i]] <- fun(object_list[[i]], main = idx[i], ...)
     }
-    Spectra(res, elementMetadata = metad)
+    Spectra(res, elementMetadata = mcols(object)[
+                     levelIndex(.by, which = main), , drop = FALSE])
 })
 
 
