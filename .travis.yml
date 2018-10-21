@@ -1,8 +1,10 @@
 # full script at https://github.com/travis-ci/travis-build/blob/master/lib/travis/build/script/r.rb
 language: r
 r: bioc-devel
-bioc_check: true
-cache: packages
+cache:
+  packages: true
+  directories:
+    - ~/.AnnotationHub
 sudo: required
 warnings_are_errors: true
 dist: trusty
@@ -35,20 +37,34 @@ jobs:
       script: true
       name: "Build dependencies and cache"
     - stage: "Check"
+      r_build_args: --no-build-vignettes --no-manual
+      r_check_args: --as-cran --no-build-vignettes --no-vignettes --no-manual --no-tests
+      before_script: rm -rf vignettes
       install: skip
-      after_success:
+      name: "examples"
+    - r_build_args: --no-build-vignettes --no-manual
+      r_check_args: --as-cran --no-build-vignettes --no-vignettes --no-manual --no-codoc --no-examples
+      install: skip
+      before_script: rm -rf vignettes
+      name: "tests"
+    - r_build_args:
+      r_check_args: --as-cran --no-build-vignettes --no-codoc --no-examples --no-tests
+      install: skip
+      name: "vignettes"
+    - stage: "Deploy"
+      install: skip
+      script:
         - travis_wait 20 Rscript -e 'covr::codecov()'
         - test ${TRAVIS_BRANCH} = "master" -a -z "${TRAVIS_PULL_REQUEST_BRANCH}" && travis_wait 20 Rscript -e 'pkgdown::build_site()'
-      name: "R CMD check"
-
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GITHUB_PAT
-  keep-history: true
-  local-dir: docs
-  on:
-    branch: master
+      name: "codecov and pkgdown (on master)"
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token: $GITHUB_PAT
+        keep-history: true
+        local-dir: docs
+        on:
+          branch: master
 
 notifications:
   email:
