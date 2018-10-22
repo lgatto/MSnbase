@@ -420,8 +420,8 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #' object applying the summarization function `fun` to sets of spectra defined
 #' by a factor (`fcol` parameter). The resulting combined spectrum for each
 #' set contains metadata information (present in `mcols` and all spectrum
-#' information other than `mz` and `intensity`) from one spectrum in the set
-#' which can be defined with the `main` argument.
+#' information other than `mz` and `intensity`) from the first spectrum in
+#' each set.
 #'
 #' @param object A [MSnExp-class] or [Spectra-class]
 #'
@@ -433,15 +433,11 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #'     be a function that takes a list of spectra as input and returns a single
 #'     [Spectrum-class]. See [meanMzInts()] for details..
 #'
-#' @param main `character` specifying which `Spectrum` in each set is used as
-#'     the *main* `Spectrum`. Metadata information from this spectrum is
-#'     reported for the combined spectrum. Allowed values are `"first"`,
-#'     `"middle"` and `"last"` to use the information from the first, the
-#'     middle or the last spectrum in each set.
-#' 
 #' @param ... additional arguments for `fun`.
 #'
-#' @return A `Spectra` or `MSnExp` object with combined spectra.
+#' @return A `Spectra` or `MSnExp` object with combined spectra. Metadata
+#'     (`mcols`) and all spectrum attributes other than `mz` and `intensity`
+#'     are taken from the first `Spectrum` in each set.
 #' 
 #' @md
 #'
@@ -485,11 +481,6 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #' points(mz(sp3), intensity(sp3), type = "h", col = "blue")
 #' plot(mz(res[[1]]), intensity(res[[1]]), type = "h",
 #'     col = "black", xlim = range(mzs[5:25]))
-#'
-#' ## Keep the metadata from the middle spectrum
-#' res <- combineSpectra(spctra, mzd = 0.05, intensityFun = max, main = "middle")
-#' res
-#' rtime(res)
 #' 
 #' ## Combine spectra in two sets.
 #' res <- combineSpectra(spctra, fcol = "group", mzd = 0.05)
@@ -507,10 +498,7 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #' plot(mz(res[[2]]), intensity(res[[2]]), xlim = range(mzs[5:25]), type = "h",
 #'     col = "black")
 setMethod("combineSpectra", "Spectra", function(object, fcol,
-                                                main = c("first", "middle",
-                                                         "last"),
                                                 fun = meanMzInts, ...) {
-    main <- match.arg(main)
     if (missing(fcol)) {
         .by <- factor(rep(1, length(object)))
     } else {
@@ -519,22 +507,9 @@ setMethod("combineSpectra", "Spectra", function(object, fcol,
         .by <- factor(mcols(object)[, fcol],
                       levels = unique(mcols(object)[, fcol]))
     }
-    object_list <- split(object, .by)
-    res <- vector("list", length = length(object_list))
-    names(res) <- levels(.by)
-    if (main == "first") {
-        idx <- rep(1, length(res))
-    } else {
-        if (main == "last")
-            idx <- lengths(object_list)
-        else
-            idx <- ceiling(lengths(object_list) / 2L)
-    }
-    for (i in seq_along(res)) {
-        res[[i]] <- fun(object_list[[i]], main = idx[i], ...)
-    }
-    Spectra(res, elementMetadata = mcols(object)[
-                     levelIndex(.by, which = main), , drop = FALSE])
+    Spectra(lapply(split(object, .by), FUN = fun, ...),
+            elementMetadata = mcols(object)[levelIndex(.by, which = "first"),
+                                          , drop = FALSE])
 })
 
 

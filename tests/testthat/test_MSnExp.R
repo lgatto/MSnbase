@@ -543,7 +543,8 @@ test_that("combineSpectraMovingWindow works", {
     spctrl <- spectra(od[(idx -1):(idx + 1)])
 
     od <- od[(idx - 3):(idx + 3)]
-    spctr <- meanMzInts(spctrl, timeDomain = TRUE, unionPeaks = FALSE)
+    spctr <- meanMzInts(spctrl, timeDomain = TRUE, unionPeaks = FALSE,
+                        main = 2L)
     ## Should be different from raw ones
     expect_true(is.character(all.equal(mz(spctr), mz(od[[4]]))))
     expect_true(is.character(all.equal(intensity(spctr), intensity(od[[4]]))))

@@ -272,10 +272,6 @@ test_that("combineSpectra,Spectra works", {
     expect_true(length(res) == 1)
     expect_equal(rtime(res), c(`1` = 1))
     expect_equal(mcols(res), DataFrame(idx = 1, group = "b", row.names = "1"))
-    expect_error(combineSpectra(spctra, main = "what"))
-    res <- combineSpectra(spctra, main = "middle")
-    expect_equal(rtime(res), c(`1` = 2))
-    expect_equal(mcols(res), DataFrame(idx = 2, group = "a", row.names = "1"))
 
     expect_error(combineSpectra(spctra, fcol = "other"))
     res <- combineSpectra(spctra, fcol = "group", mzd = 0.05)

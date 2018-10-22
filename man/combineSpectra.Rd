@@ -10,11 +10,10 @@
 object applying the summarization function \code{fun} to sets of spectra defined
 by a factor (\code{fcol} parameter). The resulting combined spectrum for each
 set contains metadata information (present in \code{mcols} and all spectrum
-information other than \code{mz} and \code{intensity}) from one spectrum in the set
-which can be defined with the \code{main} argument.}
+information other than \code{mz} and \code{intensity}) from the first spectrum in
+each set.}
 \usage{
-\S4method{combineSpectra}{Spectra}(object, fcol, main = c("first",
-  "middle", "last"), fun = meanMzInts, ...)
+\S4method{combineSpectra}{Spectra}(object, fcol, fun = meanMzInts, ...)
 }
 \arguments{
 \item{object}{A \linkS4class{MSnExp} or \linkS4class{Spectra}}
@@ -23,12 +22,6 @@ which can be defined with the \code{main} argument.}
 the sets of spectra to be combined. If missing, all spectra are
 considered to be one set.}
 
-\item{main}{\code{character} specifying which \code{Spectrum} in each set is used as
-the \emph{main} \code{Spectrum}. Metadata information from this spectrum is
-reported for the combined spectrum. Allowed values are \code{"first"},
-\code{"middle"} and \code{"last"} to use the information from the first, the
-middle or the last spectrum in each set.}
-
 \item{fun}{\code{function} to be used to combine the spectra by \code{fcol}. Has to
 be a function that takes a list of spectra as input and returns a single
 \linkS4class{Spectrum}. See \code{\link[=meanMzInts]{meanMzInts()}} for details..}
@@ -36,7 +29,9 @@ be a function that takes a list of spectra as input and returns a single
 \item{...}{additional arguments for \code{fun}.}
 }
 \value{
-A \code{Spectra} or \code{MSnExp} object with combined spectra.
+A \code{Spectra} or \code{MSnExp} object with combined spectra. Metadata
+(\code{mcols}) and all spectrum attributes other than \code{mz} and \code{intensity}
+are taken from the first \code{Spectrum} in each set.
 }
 \description{
 Combine Spectra
@@ -45,8 +40,8 @@ Combine Spectra
 object applying the summarization function \code{fun} to sets of spectra defined
 by a factor (\code{fcol} parameter). The resulting combined spectrum for each
 set contains metadata information (present in \code{mcols} and all spectrum
-information other than \code{mz} and \code{intensity}) from one spectrum in the set
-which can be defined with the \code{main} argument.
+information other than \code{mz} and \code{intensity}) from the first spectrum in
+each set.
 }
 \examples{
 
@@ -84,11 +79,6 @@ points(mz(sp2), intensity(sp2), type = "h", col = "green")
 points(mz(sp3), intensity(sp3), type = "h", col = "blue")
 plot(mz(res[[1]]), intensity(res[[1]]), type = "h",
     col = "black", xlim = range(mzs[5:25]))
-
-## Keep the metadata from the middle spectrum
-res <- combineSpectra(spctra, mzd = 0.05, intensityFun = max, main = "middle")
-res
-rtime(res)
 
 ## Combine spectra in two sets.
 res <- combineSpectra(spctra, fcol = "group", mzd = 0.05)

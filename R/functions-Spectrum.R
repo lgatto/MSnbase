@@ -852,7 +852,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'
 #' @param main `integer(1)` defining the *main* spectrum, i.e. the spectrum
 #'     which m/z and intensity values get replaced and is returned. By default
-#'     the *middle* spectrum in `x` is used.
+#'     the *first* spectrum in `x` is used.
 #'
 #' @param weighted `logical(1)` whether m/z values per m/z group should be
 #'     aggregated with an intensity-weighted mean. The default is to report
@@ -886,9 +886,9 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'
 #' `Spectrum` with m/z and intensity values representing the aggregated values
 #' across the provided spectra. The returned spectrum contains the union of
-#' all peaks from all spectra (if `onlyMain = FALSE`), or the same number of
+#' all peaks from all spectra (if `unionPeaks = TRUE`), or the same number of
 #' m/z and intensity pairs than the spectrum with index `main` in `x` (if
-#' `onlyMain = TRUE`. All other spectrum data (such as retention time etc)
+#' `unionPeaks = FALSE`. All other spectrum data (such as retention time etc)
 #' is taken from the *main* spectrum.
 #'
 #' @author Johannes Rainer, Sigurdur Smarason
@@ -939,7 +939,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' plot(mz(sp_agg), intensity(sp_agg), xlim = range(mzs[5:25]), type = "h",
 #'     col = "black")
 meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
-                       main = ceiling(length(x) / 2L), mzd,
+                       main = 1L, mzd,
                        timeDomain = FALSE, unionPeaks = TRUE) {
     if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
         stop("Can only combine spectra with the same MS level")

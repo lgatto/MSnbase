@@ -5,8 +5,7 @@
 \title{Combine a list of spectra to a single spectrum}
 \usage{
 meanMzInts(x, ..., intensityFun = base::mean, weighted = FALSE,
-  main = ceiling(length(x)/2L), mzd, timeDomain = FALSE,
-  unionPeaks = TRUE)
+  main = 1L, mzd, timeDomain = FALSE, unionPeaks = TRUE)
 }
 \arguments{
 \item{x}{\code{list} of \code{Spectrum} objects.}
@@ -23,7 +22,7 @@ the mean m/z.}
 
 \item{main}{\code{integer(1)} defining the \emph{main} spectrum, i.e. the spectrum
 which m/z and intensity values get replaced and is returned. By default
-the \emph{middle} spectrum in \code{x} is used.}
+the \emph{first} spectrum in \code{x} is used.}
 
 \item{mzd}{\code{numeric(1)} defining the maximal m/z difference below which
 values are grouped. If not specified this value is estimated from the
@@ -46,9 +45,9 @@ is to report the union of peaks from all spectra.}
 \value{
 \code{Spectrum} with m/z and intensity values representing the aggregated values
 across the provided spectra. The returned spectrum contains the union of
-all peaks from all spectra (if \code{onlyMain = FALSE}), or the same number of
+all peaks from all spectra (if \code{unionPeaks = TRUE}), or the same number of
 m/z and intensity pairs than the spectrum with index \code{main} in \code{x} (if
-\code{onlyMain = TRUE}. All other spectrum data (such as retention time etc)
+\code{unionPeaks = FALSE}. All other spectrum data (such as retention time etc)
 is taken from the \emph{main} spectrum.
 }
 \description{

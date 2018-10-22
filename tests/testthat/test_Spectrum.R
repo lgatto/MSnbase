@@ -555,11 +555,11 @@ test_that("meanMzInts works", {
     
     res <- meanMzInts(list(sp1, sp2, sp3), timeDomain = TRUE,
                       unionPeaks = FALSE)
-    expect_equal(length(mz(res)), length(mz(sp2)))
-    expect_equal(rtime(res), rtime(sp2))
+    expect_equal(length(mz(res)), length(mz(sp1)))
+    expect_equal(rtime(res), rtime(sp1))
 
     res <- meanMzInts(list(sp1, sp2, sp3), timeDomain = TRUE,
-                          unionPeaks = TRUE)
+                          unionPeaks = TRUE, main = 2)
     expect_true(length(mz(res)) > length(mz(sp2)))
     expect_equal(rtime(res), rtime(sp2))
 
@@ -601,22 +601,22 @@ test_that("meanMzInts works", {
     od1 <- filterFile(sciex, 1)
     lst <- spectra(od1[3:5])
 
-    res <- meanMzInts(lst, timeDomain = TRUE)
-    res_2 <- meanMzInts(lst, timeDomain = FALSE)
+    res <- meanMzInts(lst, timeDomain = TRUE, main = 2)
+    res_2 <- meanMzInts(lst, timeDomain = FALSE, main = 2)
 
     expect_equal(mz(res), mz(res_2))
     expect_equal(intensity(res), intensity(res_2))
     ## with (wrongly) pre-calculated mzd
     mzd <- MSnbase:::.estimate_mz_scattering(sort(unlist(lapply(lst, mz))))
     expect_warning(meanMzInts(lst, timeDomain = TRUE, mzd = mzd))
-    res_3 <- meanMzInts(lst, timeDomain = FALSE, mzd = mzd)
+    res_3 <- meanMzInts(lst, timeDomain = FALSE, mzd = mzd, main = 2)
     
     expect_equal(mz(res), mz(res_3))
     expect_equal(intensity(res), intensity(res_3))
 
     ## Difference between unionPeaks = TRUE and FALSE
-    res <- meanMzInts(lst, unionPeaks = FALSE)
-    res_2 <- meanMzInts(lst, unionPeaks = TRUE)
+    res <- meanMzInts(lst, unionPeaks = FALSE, main = 2)
+    res_2 <- meanMzInts(lst, unionPeaks = TRUE, main = 2)
     expect_true(length(mz(res)) < length(mz(res_2)))
     mzs <- unique(unlist(lapply(lst, mz)))
 })
