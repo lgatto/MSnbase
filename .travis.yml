@@ -69,9 +69,7 @@ jobs:
 # In general the r-travis script automatically dump the logs after failure but
 # because of a bug in travis the output is often truncated. See
 # https://github.com/travis-ci/travis-ci/issues/6018
-# (Adding `sleep 10` in after_script as proposed by some people didn't work for
-# me.)
-after_failure: dump_error_logs
+after_failure: sleep 10
 
 notifications:
   email:
