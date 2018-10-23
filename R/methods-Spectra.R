@@ -507,9 +507,11 @@ setMethod("combineSpectra", "Spectra", function(object, fcol,
         .by <- factor(mcols(object)[, fcol],
                       levels = unique(mcols(object)[, fcol]))
     }
-    Spectra(lapply(split(object, .by), FUN = fun, ...),
-            elementMetadata = mcols(object, use.names = FALSE)
-            [levelIndex(.by, which = "first"), , drop = FALSE])
+    Spectra(
+        lapply(split(object, .by), FUN = fun, ...),
+        elementMetadata = mcols(object, use.names = FALSE)[
+            levelIndex(.by, which = "first"), , drop = FALSE
+        ])
 })
 
 
