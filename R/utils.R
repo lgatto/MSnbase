@@ -1410,21 +1410,13 @@ hasChromatograms <- function(files) {
 #' levelIndex(f, which = "last")
 levelIndex <- function(x, which = c("first", "middle", "last")) {
     x <- as.factor(x)
-    which <- match.arg(which)
-    if (which == "first") {
-        res <- match(levels(x), x)
-        names(res) <- levels(x)
-        res
-    } else {
-        if (which == "last") {
-            res <- length(x) - match(levels(x), rev(x)) + 1L
-            names(res) <- levels(x)
-            res
-        } else {
-            vapply(levels(x), function(z) {
-                idx <- which(x == z)
-                idx[ceiling(length(idx) / 2L)]
-            }, integer(1))
-        }
-    }
+    res <- switch(match.arg(which),
+                  "first" = match(levels(x), x),
+                  "last" = length(x) - match(levels(x), rev(x)) + 1L,
+                  "middle" = vapply(levels(x), function(z) {
+                      idx <- which(x == z)
+                      idx[ceiling(length(idx) / 2L)]
+                  }, integer(1), USE.NAMES = FALSE))
+    names(res) <- levels(x)
+    res
 }
