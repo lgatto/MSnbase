@@ -1,5 +1,7 @@
 context("MSmap class")
 
+skip_on_travis()
+
 library("AnnotationHub")
 ah <- AnnotationHub()
 ms <- ah[["AH49008"]]
