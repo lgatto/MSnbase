@@ -273,6 +273,9 @@ test_that("combineSpectra,Spectra works", {
     expect_equal(rtime(res), c(`1` = 1))
     expect_equal(mcols(res), DataFrame(idx = 1, group = "b", row.names = "1"))
 
+    names(spctra) <- c("A", "B", "C")
+    res <- combineSpectra(spctra)
+    
     expect_error(combineSpectra(spctra, fcol = "other"))
     res <- combineSpectra(spctra, fcol = "group", mzd = 0.05)
     expect_equal(lengths(intensity(res)), c(b = 191, a = 191))

@@ -508,8 +508,8 @@ setMethod("combineSpectra", "Spectra", function(object, fcol,
                       levels = unique(mcols(object)[, fcol]))
     }
     Spectra(lapply(split(object, .by), FUN = fun, ...),
-            elementMetadata = mcols(object)[levelIndex(.by, which = "first"),
-                                          , drop = FALSE])
+            elementMetadata = mcols(object, use.names = FALSE)
+            [levelIndex(.by, which = "first"), , drop = FALSE])
 })
 
 
