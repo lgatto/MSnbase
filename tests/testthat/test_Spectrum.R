@@ -651,3 +651,24 @@ test_that(".density works", {
     expect_equal(res$y, res_2$y)
 })
 
+test_that("consensusSpectrum works", {
+    sp1 <- new("Spectrum2", rt = 1, precursorMz = 1.41,
+               mz = c(1.2, 1.5, 1.8, 3.6, 4.9, 5.0, 7.8, 8.4),
+               intensity = c(10, 3, 140, 14, 299, 12, 49, 20))
+    sp2 <- new("Spectrum2", rt = 1.1, precursorMz = 1.4102,
+               mz = c(1.4, 1.81, 2.4, 4.91, 6.0, 7.2, 9),
+               intensity = c(3, 184, 8, 156, 12, 23, 10))
+    sp3 <- new("Spectrum2", rt = 1.2, precursorMz = 1.409,
+               mz = c(1, 1.82, 2.2, 3, 7.0, 8),
+               intensity = c(8, 210, 7, 101, 17, 8))
+    spl <- Spectra(sp1, sp2, sp3)
+    
+    expect_error(consensusSpectrum(4))
+    cons <- consensusSpectrum(spl, mzd = 0.02)
+    expect_true(is(cons, "Spectrum2"))
+    expect_equal(length(mz(cons)), 2)
+    expect_equal(rtime(cons), rtime(sp1))
+
+    cons <- consensusSpectrum(spl, mzd = 0.02, minProp = 1/3)
+    expect_equal(peaksCount(cons), 18)
+})

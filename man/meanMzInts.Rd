@@ -135,7 +135,10 @@ a spectrum.
 
 \code{\link[=combineSpectraMovingWindow]{combineSpectraMovingWindow()}} for the function to combine consecutive
 spectra of an \code{MSnExp} object using a moving window approach.
+
+Other spectra combination functions: \code{\link{consensusSpectrum}}
 }
 \author{
 Johannes Rainer, Sigurdur Smarason
 }
+\concept{spectra combination functions}

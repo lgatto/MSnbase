@@ -894,6 +894,8 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'
 #' @author Johannes Rainer, Sigurdur Smarason
 #'
+#' @family spectra combination functions
+#'
 #' @seealso
 #'
 #' [estimateMzScattering()] for a function to estimate m/z scattering
@@ -940,8 +942,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' plot(mz(sp_agg), intensity(sp_agg), xlim = range(mzs[5:25]), type = "h",
 #'     col = "black")
 meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
-                       main = 1L, mzd,
-                       timeDomain = FALSE, unionPeaks = TRUE) {
+                       main = 1L, mzd, timeDomain = FALSE, unionPeaks = TRUE) {
     if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
         stop("Can only combine spectra with the same MS level")
     if (main > length(x) || main < 1)
@@ -1089,3 +1090,118 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
     ## h$mids[which.max(h$counts)]
 }
 
+#' @title Combine spectra to a consensus spectrum
+#'
+#' @description
+#'
+#' `consensusSpectrum` takes a list of spectra and combines them to a
+#' consensus spectrum containing mass peaks that are present in a user
+#' definable proportion of spectra.
+#'
+#' @details
+#'
+#' Peaks from spectra with a difference of their m/z being smaller than `mzd`
+#' are grouped into the same final mass peak with their intensities being
+#' aggregated with `intensityFun`. The m/z of the final mass peaks is calculated
+#' using a intensity-weighted mean of the m/z values from the individual mass
+#' peaks.
+#' 
+#' @param x `list` of [Spectrum-class] objects (either [Spectrum1-class] or
+#'     [Spectrum2-class]).
+#'
+#' @param mzd `numeric(1)` defining the maximal m/z difference below which
+#'     mass peaks are grouped in to the same final mass peak (see details for
+#'     more information). If not provided this value is estimated from the
+#'     distribution of differences of m/z values from the spectra (see
+#'     [meanMzInts()] for more details).
+#'
+#' @param minProp `numeric(1)` defining the minimal proportion of spectra in
+#'     which a mass peak has to be present in order to include it in the
+#'     final consensus spectrum. Should be a number between 0 and 1 (present in
+#'     all spectra).
+#' 
+#' @param intensityFun `function` to be used to define the intensity of the
+#'     aggregated peak. By default the maximum signal for a mass peak is
+#'     reported.
+#'
+#' @param ... additional arguments to be passed to `intensityFun`.
+#' 
+#' @md
+#'
+#' @author Johannes Rainer
+#'
+#' @family spectra combination functions
+#'
+#' @examples
+#' library(MSnbase)
+#' ## Create 3 example spectra.
+#' sp1 <- new("Spectrum2", rt = 1, precursorMz = 1.41,
+#'     mz = c(1.2, 1.5, 1.8, 3.6, 4.9, 5.0, 7.8, 8.4),
+#'     intensity = c(10, 3, 140, 14, 299, 12, 49, 20))
+#' sp2 <- new("Spectrum2", rt = 1.1, precursorMz = 1.4102,
+#'     mz = c(1.4, 1.81, 2.4, 4.91, 6.0, 7.2, 9),
+#'     intensity = c(3, 184, 8, 156, 12, 23, 10))
+#' sp3 <- new("Spectrum2", rt = 1.2, precursorMz = 1.409,
+#'     mz = c(1, 1.82, 2.2, 3, 7.0, 8),
+#'     intensity = c(8, 210, 7, 101, 17, 8))
+#' spl <- Spectra(sp1, sp2, sp3)
+#'
+#' ## Plot the spectra, each in a different color
+#' par(mfrow = c(2, 1), mar = c(4.3, 4, 1, 1))
+#' plot(mz(sp1), intensity(sp1), type = "h", col = "#ff000080", lwd = 2,
+#'     xlab = "m/z", ylab = "intensity", xlim = range(mz(spl)),
+#'     ylim = range(intensity(spl)))
+#' points(mz(sp2), intensity(sp2), type = "h", col = "#00ff0080", lwd = 2)
+#' points(mz(sp3), intensity(sp3), type = "h", col = "#0000ff80", lwd = 2)
+#'
+#' cons <- consensusSpectrum(spl, mzd = 0.02, minProp = 2/3)
+#'
+#' ## Peaks of the consensus spectrum
+#' mz(cons)
+#' intensity(cons)
+#'
+#' ## Other Spectrum data is taken from the first Spectrum in the list
+#' rtime(cons)
+#' precursorMz(cons)
+#' 
+#' plot(mz(cons), intensity(cons), type = "h", xlab = "m/z", ylab = "intensity",
+#'     xlim = range(mz(spl)), ylim = range(intensity(spl)), lwd = 2)
+#' 
+consensusSpectrum <- function(x, mzd, minProp = 0.5, intensityFun = base::max,
+                              ...) {
+    if (!is(x, "Spectra"))
+        x <- Spectra(x)
+    if (length(unique(msLevel(x))) != 1)
+        stop("Can only combine spectra with the same MS level")
+    xnew <- x[[1]]                      # data from the first peak.
+    mzs <- mz(x)
+    mzs_lens <- base::lengths(mzs)
+    mzs <- unlist(mzs, use.names = FALSE)
+    mz_order <- base::order(mzs)
+    mzs <- mzs[mz_order]
+    ints <- unlist(intensity(x), use.names = FALSE)[mz_order]
+    keep <- which(ints > 0)
+    mzs <- mzs[keep]
+    ints <- ints[keep]
+    mz_groups <- MSnbase:::.group_mz_values(mzs, mzd = mzd)
+    if (length(unique(mz_groups)) < sum(xnew@intensity > 0))
+        warning("Got less m/z groups than m/z groups in the first spectrum. ",
+                "Most likely `mzd` is too large.")
+    mzs <- split(mzs, mz_groups)
+    ints <- split(ints, mz_groups)
+    keep <- lengths(mzs) >= (length(x) * minProp)
+    if (any(keep)) {
+        xnew@mz <- mapply(mzs[keep], ints[keep], FUN = function(mz_vals, w)
+            stats::weighted.mean(mz_vals, w + 1, na.rm = TRUE),
+            USE.NAMES = FALSE)
+        xnew@intensity <- base::vapply(ints[keep], FUN = intensityFun,
+                                       FUN.VALUE = numeric(1),
+                                       USE.NAMES = FALSE, ...)
+    } else {
+        warning("No peak present in more than ", minProp * 100, "% of spectra.")
+        xnew@mz <- numeric()
+        xnew@intensity <- numeric()
+    }
+    xnew@peaksCount <- length(xnew@mz)
+    if (validObject(xnew)) xnew
+}
