@@ -244,3 +244,54 @@ test_that("pickPeaks,Spectra and smooth,Spectra works", {
     expect_equal(res@listData, lapply(spctra, smooth))
 })
 
+test_that("combineSpectra,Spectra works", {
+    set.seed(123)
+    mzs <- seq(1, 20, 0.1)
+    ints1 <- abs(rnorm(length(mzs), 10))
+    ints1[11:20] <- c(15, 30, 90, 200, 500, 300, 100, 70, 40, 20) # add peak
+    ints2 <- abs(rnorm(length(mzs), 10))
+    ints2[11:20] <- c(15, 30, 60, 120, 300, 200, 90, 60, 30, 23)
+    ints3 <- abs(rnorm(length(mzs), 10))
+    ints3[11:20] <- c(13, 20, 50, 100, 200, 100, 80, 40, 30, 20)
+    
+    ## Create the spectra.
+    sp1 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.01),
+               intensity = ints1, rt = 1)
+    sp2 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.01),
+               intensity = ints2, rt = 2)
+    sp3 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.009),
+               intensity = ints3, rt = 3)
+    sp4 <- new("Spectrum2", mz = 1:3, intensity = c(4, 8, 1))
+    sp5 <- new("Spectrum2", mz = 2:4, intensity = c(5, 8, 2))
+    
+    spctra <- Spectra(sp1, sp2, sp3,
+                      elementMetadata = DataFrame(idx = 1:3,
+                                                  group = c("b", "a", "a")))
+
+    res <- combineSpectra(spctra)
+    expect_true(length(res) == 1)
+    expect_equal(rtime(res), c(`1` = 1))
+    expect_equal(mcols(res), DataFrame(idx = 1, group = "b", row.names = "1"))
+
+    names(spctra) <- c("A", "B", "C")
+    res <- combineSpectra(spctra)
+    
+    expect_error(combineSpectra(spctra, fcol = "other"))
+    res <- combineSpectra(spctra, fcol = "group", mzd = 0.05)
+    expect_equal(lengths(intensity(res)), c(b = 191, a = 191))
+    expect_equal(names(res), c("b", "a"))
+    expect_equal(res[[1]], sp1)
+    expect_equal(mcols(res), DataFrame(idx = c(1, 2), group = c("b", "a"),
+                                       row.names = c("b", "a")))
+    
+    spctra <- Spectra(sp1, sp2, sp3, sp4, sp5,
+                      elementMetadata = DataFrame(group = c("a", "b", "a",
+                                                            "c", "c")))
+    expect_error(combineSpectra(spctra))
+    res <- combineSpectra(spctra, fcol = "group", mzd = 0.05)
+    expect_equal(names(res), c("a", "b", "c"))
+    expect_equal(res[[2]], sp2)
+    expect_equal(rtime(res), c(a = 1, b = 2, c = NA))
+    expect_equal(msLevel(res), c(a = 1, b = 1, c = 2))
+    expect_equal(intensity(res)[[3]], c(4, mean(c(8, 5)), mean(c(1, 8)), 2))
+})

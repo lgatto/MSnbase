@@ -2,6 +2,9 @@
 
 ## Changes in version 2.7.10
 - Methods for Spectra class <2018-10-15 Mon>
+- Change default for `timeDomain` in `combineSpectra` and 
+  `combineSpectraMovingWindow` to `FALSE` <2018-10-18 Thu>
+- Add new spectra combination function `consensusSpectrum` <2018-10-24 Wed>
 
 ## Changes in version 2.7.9
 - Import rather than depend on BiocParallel <2018-10-15 Mon>
