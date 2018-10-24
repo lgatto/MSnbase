@@ -1374,3 +1374,49 @@ hasSpectra <- function(files) {
 hasChromatograms <- function(files) {
     sapply(files, mzR:::.hasChromatograms)
 }
+
+#' @title Get the index of the particular element for each level
+#'
+#' `levelIndex` returns the index of the first, middle or last element for
+#' each level of a factor within the factor.
+#'
+#' @param x `factor` or `vector` that can be converted into a `factor`
+#'
+#' @param which `character` defining for which element the index should be
+#'     returned, can be either `"first"`, `"middle"` or `"last"`.
+#' 
+#' @return `integer` same length than `levels(x)` with the index for each
+#'     level in `x`.
+#' 
+#' @author Johannes Rainer
+#' 
+#' @md
+#'
+#' @noRd
+#' 
+#' @examples
+#' 
+#' f <- factor(c("a", "a", "b", "a", "b", "c", "c", "b", "d", "d", "d"))
+#' f
+#' 
+#' levelIndex(f, which = "first")
+#' levelIndex(f, which = "middle")
+#' levelIndex(f, which = "last")
+#'
+#' f <- factor(c("a", "a", "b", "a", "b", "c", "c", "b", "d", "d", "d"),
+#'     levels = c("d", "a", "c", "b"))
+#' levelIndex(f, which = "first")
+#' levelIndex(f, which = "middle")
+#' levelIndex(f, which = "last")
+levelIndex <- function(x, which = c("first", "middle", "last")) {
+    x <- as.factor(x)
+    res <- switch(match.arg(which),
+                  "first" = match(levels(x), x),
+                  "last" = length(x) - match(levels(x), rev(x)) + 1L,
+                  "middle" = vapply(levels(x), function(z) {
+                      idx <- which(x == z)
+                      idx[ceiling(length(idx) / 2L)]
+                  }, integer(1), USE.NAMES = FALSE))
+    names(res) <- levels(x)
+    res
+}

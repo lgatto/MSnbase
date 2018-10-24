@@ -86,7 +86,7 @@ setClass("MIAPE",
              collisionGas = "character",
              collisionPressure = "numeric",
              collisionEnergy = "character",
-             ## 3. Post-source component — (f) Detectors
+             ## 3. Post-source component - (f) Detectors
              detectorType = "character",
              detectorSensitivity = "character"
              ## 4. Spectrum and peak list generation and annotation

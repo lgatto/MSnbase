@@ -530,7 +530,7 @@ test_that(".group_mz_values works", {
     expect_true(sum(res == 2) == 2)
 })
 
-test_that("combineSpectra works", {
+test_that("meanMzInts works", {
     set.seed(123)
     mzs <- seq(1, 20, 0.1)
     mzs_2 <- c(mzs, 20.1)
@@ -550,37 +550,50 @@ test_that("combineSpectra works", {
                intensity = ints3, rt = 3)
     sp4 <- new("Spectrum2", mz = mzs + rnorm(length(mzs), sd = 0.3),
                intensity = ints2, rt = 4)
-    expect_error(combineSpectra(list(sp1, sp2, sp3, sp4)))
+    expect_error(meanMzInts(list(sp1, sp2, sp3, sp4)))
+    expect_error(meanMzInts(list(sp1, sp2, sp3), main = 5))
+    
+    res <- meanMzInts(list(sp1, sp2, sp3), timeDomain = TRUE,
+                      unionPeaks = FALSE)
+    expect_equal(length(mz(res)), length(mz(sp1)))
+    expect_equal(rtime(res), rtime(sp1))
 
-    res <- combineSpectra(list(sp1, sp2, sp3), timeDomain = TRUE)
+    res <- meanMzInts(list(sp1, sp2, sp3), timeDomain = TRUE,
+                          unionPeaks = TRUE, main = 2)
+    expect_true(length(mz(res)) > length(mz(sp2)))
+    expect_equal(rtime(res), rtime(sp2))
+
+    res <- meanMzInts(list(sp2, sp1), timeDomain = FALSE, unionPeaks = FALSE)
     expect_equal(length(mz(res)), length(mz(sp2)))
     expect_equal(rtime(res), rtime(sp2))
 
-    res <- combineSpectra(list(sp2, sp1), timeDomain = FALSE)
+    res <- meanMzInts(list(sp2, sp1), timeDomain = FALSE, unionPeaks = FALSE,
+                      main = 2)
     expect_equal(length(mz(res)), length(mz(sp1)))
     expect_equal(rtime(res), rtime(sp1))
-
+    
     sp4 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.3),
                intensity = ints2, rt = 4)
     ## randon noise larger than resolution.
-    expect_error(res <- combineSpectra(list(sp1, sp3, sp4)))
+    expect_warning(res <- meanMzInts(list(sp1, sp3, sp4)))
 
-    res <- combineSpectra(list(sp1, sp2, sp3), main = 1, timeDomain = TRUE)
+    res <- meanMzInts(list(sp1, sp2, sp3), main = 1, timeDomain = TRUE,
+                          unionPeaks = FALSE)
     expect_equal(rtime(res), rtime(sp1))
     expect_equal(length(mz(res)), length(mz(sp1)))
 
-    res <- combineSpectra(list(sp1, sp2, sp3), main = 3, timeDomain = TRUE)
+    res <- meanMzInts(list(sp1, sp2, sp3), main = 3, timeDomain = TRUE,
+                          unionPeaks = FALSE)
     expect_equal(rtime(res), rtime(sp3))
     expect_equal(length(mz(res)), length(mz(sp3)))
     
-    res <- combineSpectra(list(sp1, sp1), intensityFun = sum, timeDomain = TRUE)
+    res <- meanMzInts(list(sp1, sp1), intensityFun = sum,
+                          timeDomain = TRUE, unionPeaks = TRUE)
     expect_equal(mz(res), mz(sp1))
     expect_equal(intensity(res), intensity(sp1) * 2)
 
-    ## Use character mzFun:
-    expect_error(combineSpectra(list(sp1, sp2, sp3), mzFun = "meani"))
-    res <- combineSpectra(list(sp1, sp2, sp3), mzFun = base::mean)
-    res2 <- combineSpectra(list(sp1, sp2, sp3), mzFun = "weighted.mean")
+    res <- meanMzInts(list(sp1, sp2, sp3))
+    res2 <- meanMzInts(list(sp1, sp2, sp3), weighted = TRUE)
     expect_equal(intensity(res), intensity(res2))
     expect_false(all(mz(res) == mz(res2)))
 
@@ -588,18 +601,24 @@ test_that("combineSpectra works", {
     od1 <- filterFile(sciex, 1)
     lst <- spectra(od1[3:5])
 
-    res <- combineSpectra(lst, timeDomain = TRUE)
-    res_2 <- combineSpectra(lst, timeDomain = FALSE)
+    res <- meanMzInts(lst, timeDomain = TRUE, main = 2)
+    res_2 <- meanMzInts(lst, timeDomain = FALSE, main = 2)
 
     expect_equal(mz(res), mz(res_2))
     expect_equal(intensity(res), intensity(res_2))
     ## with (wrongly) pre-calculated mzd
     mzd <- MSnbase:::.estimate_mz_scattering(sort(unlist(lapply(lst, mz))))
-    expect_error(combineSpectra(lst, timeDomain = TRUE, mzd = mzd))
-    res_3 <- combineSpectra(lst, timeDomain = FALSE, mzd = mzd)
+    expect_warning(meanMzInts(lst, timeDomain = TRUE, mzd = mzd))
+    res_3 <- meanMzInts(lst, timeDomain = FALSE, mzd = mzd, main = 2)
     
     expect_equal(mz(res), mz(res_3))
     expect_equal(intensity(res), intensity(res_3))
+
+    ## Difference between unionPeaks = TRUE and FALSE
+    res <- meanMzInts(lst, unionPeaks = FALSE, main = 2)
+    res_2 <- meanMzInts(lst, unionPeaks = TRUE, main = 2)
+    expect_true(length(mz(res)) < length(mz(res_2)))
+    mzs <- unique(unlist(lapply(lst, mz)))
 })
 
 test_that(".estimate_mz_resolution, estimateMzResolution,Spectrum works", {
@@ -632,3 +651,24 @@ test_that(".density works", {
     expect_equal(res$y, res_2$y)
 })
 
+test_that("consensusSpectrum works", {
+    sp1 <- new("Spectrum2", rt = 1, precursorMz = 1.41,
+               mz = c(1.2, 1.5, 1.8, 3.6, 4.9, 5.0, 7.8, 8.4),
+               intensity = c(10, 3, 140, 14, 299, 12, 49, 20))
+    sp2 <- new("Spectrum2", rt = 1.1, precursorMz = 1.4102,
+               mz = c(1.4, 1.81, 2.4, 4.91, 6.0, 7.2, 9),
+               intensity = c(3, 184, 8, 156, 12, 23, 10))
+    sp3 <- new("Spectrum2", rt = 1.2, precursorMz = 1.409,
+               mz = c(1, 1.82, 2.2, 3, 7.0, 8),
+               intensity = c(8, 210, 7, 101, 17, 8))
+    spl <- Spectra(sp1, sp2, sp3)
+    
+    expect_error(consensusSpectrum(4))
+    cons <- consensusSpectrum(spl, mzd = 0.02)
+    expect_true(is(cons, "Spectrum2"))
+    expect_equal(length(mz(cons)), 2)
+    expect_equal(rtime(cons), rtime(sp1))
+
+    cons <- consensusSpectrum(spl, mzd = 0.02, minProp = 1/3)
+    expect_equal(peaksCount(cons), 18)
+})

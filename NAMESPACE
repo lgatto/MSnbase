@@ -24,7 +24,7 @@ importFrom(utils, combn, head, ls.str, object.size,
            read.table, select.list, setTxtProgressBar, tail,
            txtProgressBar, write.table)
 importFrom(ggplot2, geom_histogram, geom_text, geom_line, geom_point,
-           geom_bar, geom_freqpoly, geom_vline, geom_rect,
+           geom_bar, geom_freqpoly, geom_vline, geom_rect, geom_segment,
            geom_raster, theme, theme_gray, element_text,
            element_blank, element_rect, ggplot, ggtitle, xlab, ylab,
            labs, aes, annotate, scale_colour_hue,
@@ -33,8 +33,9 @@ importFrom(ggplot2, geom_histogram, geom_text, geom_line, geom_point,
            facet_grid)
 
 importFrom(MALDIquant, binPeaks, match.closest) ## only using ::: functions
-importFrom(S4Vectors, isEmpty, metadata, DataFrame, replaceROWS, SimpleList)
-importMethodsFrom(S4Vectors, showAsCell, "mcols<-", mcols, split, endoapply)
+importFrom(S4Vectors, isEmpty, metadata, DataFrame, replaceROWS, SimpleList,
+           endoapply)
+importMethodsFrom(S4Vectors, showAsCell, "mcols<-", mcols, split)
 importClassesFrom(S4Vectors, SimpleList)
 importFrom(MASS, rlm)
 
@@ -146,7 +147,8 @@ export(MSnSet,
        requiredFvarLabels,
        addMSnSetMetadata,
        readSRMData,
-       combineSpectra,
+       meanMzInts,
+       consensusSpectrum,
        combineSpectraMovingWindow,
        estimateMzScattering,
        hasSpectra, hasChromatograms,
@@ -307,7 +309,8 @@ exportMethods(updateObject,
               reduce,
               writeMSData,
               productMz,
-              estimateMzResolution
+              estimateMzResolution,
+	      combineSpectra
               )
 
 ## methods NOT exported

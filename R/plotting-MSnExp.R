@@ -5,7 +5,7 @@ plot_MSnExp <- function(object,
                         plot = TRUE,
                         w1) {
     i <- NULL # to satisfy codetools
-    ## plot_MSnExp: no visible binding for global variable ‘i’
+    ## plot_MSnExp: no visible binding for global variable 'i'
     if (missing(centroided.))
         centroided. <- any(centroided(object))
     mtc <- unlist(mz(object))
