@@ -19,9 +19,10 @@ group. Should be a function or the name of a function. The function is
 expected to return a \code{numeric(1)}.}
 
 \item{mzd}{\code{numeric(1)} defining the maximal m/z difference below which
-values are grouped. If not specified this value is estimated from the
-distribution of differences of m/z values from the provided spectra
-(see details).}
+mass peaks are considered to represent the same ion/mass peak.
+Intensity values for such grouped mass peaks are aggregated. If not
+specified this value is estimated from the distribution of differences
+of m/z values from the provided spectra (see details).}
 
 \item{timeDomain}{\code{logical(1)} whether definition of the m/z values to be
 combined into one m/z is performed on m/z values

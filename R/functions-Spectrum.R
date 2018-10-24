@@ -820,9 +820,9 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' @details
 #'
 #' For general merging of spectra, the `mzd` should be manually specified based
-#' on the precision of the MS instrument. Peaks with their m/z in different
-#' spectra being smaller than `mzd` are grouped into the same final peak with
-#' their intensities being aggregated with the `intensityFun` function.
+#' on the precision of the MS instrument. Peaks from spectra with a difference
+#' in their m/z being smaller than `mzd` are grouped into the same final peak
+#' with their intensities being aggregated with the `intensityFun` function.
 #'
 #'
 #' Some details for the combination of consecutive spectra of an LCMS run:
@@ -863,9 +863,10 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'     expected to return a `numeric(1)`.
 #'
 #' @param mzd `numeric(1)` defining the maximal m/z difference below which
-#'     values are grouped. If not specified this value is estimated from the
-#'     distribution of differences of m/z values from the provided spectra
-#'     (see details).
+#'     mass peaks are considered to represent the same ion/mass peak.
+#'     Intensity values for such grouped mass peaks are aggregated. If not
+#'     specified this value is estimated from the distribution of differences
+#'     of m/z values from the provided spectra (see details).
 #'
 #' @param timeDomain `logical(1)` whether definition of the m/z values to be
 #'     combined into one m/z is performed on m/z values
@@ -958,7 +959,8 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
         warning("Got less m/z groups than m/z values in the original spectrum.",
                 " Most likely the data is not profile-mode LCMS data or ",
                 "'mzd' is too large.")
-    ints <- unlist(base::lapply(x, function(z) z@intensity))[mz_order]
+    ints <- unlist(base::lapply(x, function(z) z@intensity),
+                   use.names = FALSE)[mz_order]
     new_sp <- x[[main]]
     if (!unionPeaks) {
         ## Want to keep only those groups with a m/z from the main spectrum.
