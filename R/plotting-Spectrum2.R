@@ -1,41 +1,34 @@
 plot_Spectrum2 <- function(spectrum,
                            reporters = NULL,
                            full = FALSE,
-                           centroided.,
-                           plot = TRUE,                          
-                           w1, w2) {
+                           centroided. = centroided(spectrum),
+                           plot = TRUE) {    
   alpha <- NULL # to satisfy codetools 'no visible binding...'
-  if (!full & is.null(reporters))
-    stop("Please provide reporter ions if you do not want a full spectrum.")
-  if (!is.null(reporters)) {
+  if (is.null(reporters)) {
+    full <- TRUE
+  } else {
     if (class(reporters) != "ReporterIons")
       stop("Reporters must be of class 'ReporterIons'.")
   }
-  if (missing(centroided.))
-    centroided. <- centroided(spectrum)
   xmin <- xmax <- ymin <- ymax <- fill <- NULL # to satisfy codetools
   ## plot_Spectrum2: no visible binding for global variable 'xmin'
   ## ...
   mtc <- mz(spectrum)
   i <- intensity(spectrum)
-  if (missing(w1))
-    w1 <- max(mtc)/500
-  if (missing(w2))
-    w2 <- 0.01
   ## preparing full spectrum plot p
-  dfr <- data.frame(i = i, mtc = mtc, width = w1)
+  dfr <- data.frame(i = i, mtc = mtc)
   if (nrow(dfr) == 0)
     stop("No data to be plotted in full scan")
   mainvp <- viewport(width = 1, height = 1, x = 0.5, y = 0.5)
   title <- ggtitle(paste("Precursor M/Z",
                          round(precursorMz(spectrum), 2)))
   if (centroided.) {
-    p <- ggplot(dfr, aes(x = mtc, y = i, width = width)) +
+   p <- ggplot(dfr, aes(x = mtc, xend = mtc, y = 0, yend = i)) +
+      geom_segment() +
       theme(legend.position = "none") +
-        labs(x = "M/Z", y = "Intensity") +
-          geom_bar(stat = "identity", position = "identity")
+        labs(x = "M/Z", y = "Intensity") 
   } else {
-    p <- ggplot(dfr, aes(x = mtc,y = i)) + theme(legend.position = "none") +
+    p <- ggplot(dfr, aes(x = mtc, y = i)) + theme(legend.position = "none") +
       labs(x = "M/Z", y = "Intensity") +
         geom_line() ## + geom_point(alpha=I(1/10))
   }
@@ -49,7 +42,6 @@ plot_Spectrum2 <- function(spectrum,
       warning("No reporter peaks to be plotted.")
       reporters <- NULL
     } else {
-      dfr2$width <- w2
       coord <- coord_cartesian(xlim = c(rlim1, rlim2))
       subvp <- viewport(width = 2/3,
                         height = 1/3,
@@ -72,9 +64,8 @@ plot_Spectrum2 <- function(spectrum,
                             fill = fill,
                             alpha = alpha))
       if (centroided.) {
-        p2 <- ggplot(dfr2, aes(x = mtc, y = i, width = 0.025)) + ## was  width = width
-          geom_bar(stat = "identity", position = "identity") +
-            rect
+        p2 <- ggplot(dfr2, aes(x = mtc, xend = mtc, y = 0, yend = i)) +
+            geom_segment() + rect
       } else {
         p2 <- ggplot(dfr2, aes(x = mtc, y = i)) + geom_line() + rect
       }

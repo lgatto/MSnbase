@@ -5,6 +5,7 @@
   `combineSpectraMovingWindow` to `FALSE` <2018-10-18 Thu>
 - Add new spectra combination function `consensusSpectrum`
   <2018-10-24 Wed>
+- Amend plot,Spectrum 1 and 2 (see [#369](https://github.com/lgatto/MSnbase/issues/369))
 
 ## Changes in version 2.7.10
 - Methods for Spectra class <2018-10-15 Mon>
