@@ -1183,7 +1183,7 @@ consensusSpectrum <- function(x, mzd, minProp = 0.5, intensityFun = base::max,
     keep <- which(ints > 0)
     mzs <- mzs[keep]
     ints <- ints[keep]
-    mz_groups <- MSnbase:::.group_mz_values(mzs, mzd = mzd)
+    mz_groups <- .group_mz_values(mzs, mzd = mzd)
     if (length(unique(mz_groups)) < sum(xnew@intensity > 0))
         warning("Got less m/z groups than m/z groups in the first spectrum. ",
                 "Most likely `mzd` is too large.")
