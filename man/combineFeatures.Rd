@@ -46,7 +46,7 @@ redundancy.handler = c("unique", "multiple"), cv = TRUE, cv.norm =
   \item{fun}{ The summerising function. Currently, mean, median,
     weighted mean, sum, median polish, robust summarisation (using
     \code{MASS::rlm}), iPQF (see \code{\link{iPQF}} for details) and NTR
-    (see \code{\link[MSnbase]{NTR}} for details) are implemented, but
+    (see \code{\link{normToReference}} for details) are implemented, but
     user-defined functions can also be supplied. Note that the robust
     menthods assumes that the data are already log-transformed.
   }
@@ -153,7 +153,7 @@ redundancy.handler = c("unique", "multiple"), cv = TRUE, cv.norm =
 
   \code{\link[MSnbase]{iPQF}} for iPQF summarisation.
 
-  \code{\link[MSnbase]{NTR}} for normalisation to reference summarisation.
+  \code{\link[MSnbase]{normToReference}} for normalisation to reference summarisation.
 }
 
 

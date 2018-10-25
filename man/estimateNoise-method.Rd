@@ -42,7 +42,7 @@
 
 \seealso{
   \code{\link{pickPeaks}}, and the underlying method in \code{MALDIquant}:
-  \code{\link[MALDIquant]{estimateNoise}}.
+  \code{\link[MALDIquant:estimateNoise-methods]{estimateNoise}}.
 }
 
 \references{

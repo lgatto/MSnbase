@@ -486,7 +486,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
       The method returns an \code{OnDiskMSnExp} object.
 
       For more details see documentation of the
-    \code{\link[MSnbase]{normalize}} method.
+    \code{\link[MSnbase:normalise-methods]{normalise}} method.
     }
 
     \item{removePeaks}{
