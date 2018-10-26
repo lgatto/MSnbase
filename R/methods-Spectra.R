@@ -514,6 +514,10 @@ setMethod("combineSpectra", "Spectra", function(object, fcol,
         ])
 })
 
+setAs("Spectra", "list", function(from) {
+    from@listData
+})
+
 
 ## Still to implement:
 ## quantify, method = c("trapezoidation", "max", "sum", reporters, strict = FALSE)

@@ -73,6 +73,7 @@
 
 \alias{coerce,MSnExp,data.frame-method}
 \alias{as.data.frame.MSnExp}
+\alias{coerce,MSnExp,Spectra-method}
 
 \title{The 'MSnExp' Class for MS Data And Meta-Data}
 
@@ -272,6 +273,12 @@
       \code{data.frame} with columns \code{"file"} (file index in
       \code{object}), \code{"rt"} (retention time), \code{"mz"} (m/z
       values) and \code{"i"} (intensity values).
+    }
+
+    \item{as}{\code{signature(object = "MSnExp", "Spectra")}:
+      Coerces the \code{MSnExp} object to a \code{\linkS4class{Spectra}}
+      object with all feature annotations added as metadata columns
+      (\code{mcols}).
     }
 
   }

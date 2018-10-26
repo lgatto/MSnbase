@@ -6,6 +6,7 @@
 \alias{Spectra}
 \alias{Spectra-class}
 \alias{show,Spectra-method}
+\alias{coerce,Spectra,list-method}
 \alias{mz,Spectra-method}
 \alias{intensity,Spectra-method}
 \alias{rtime,Spectra-method}
@@ -144,6 +145,8 @@ for details.}
 (\linkS4class{Spectrum1} or \linkS4class{Spectrum2}) in a \code{list}-like structure with
 the possibility to add arbitrary annotations to each individual
 \code{Spectrum} object. These can be accessed/set with the \code{\link[=mcols]{mcols()}} method.
+
+\code{Spectra} objects can be created with the \code{Spectra} function.
 
 Functions to access the individual spectra's attributes are available
 (listed below).

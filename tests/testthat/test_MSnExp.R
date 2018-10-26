@@ -597,3 +597,15 @@ test_that("plotXIC_MSnExp works", {
 
     expect_error(plotXIC_MSnExp(tmt_erwinia_in_mem_ms2))
 })
+
+test_that("as,MSnExp,Spectra works", {
+    res <- as(tmt_erwinia_in_mem_ms1, "Spectra")
+    expect_equal(res@listData, spectra(tmt_erwinia_in_mem_ms1))
+    expect_true(ncol(mcols(res)) == 0)
+
+    res <- as(sciex, "Spectra")
+    expect_equal(length(res), length(sciex))
+    expect_equal(msLevel(res), msLevel(sciex))
+    expect_equal(intensity(res), intensity(sciex))
+    expect_true(ncol(mcols(res)) > 0)
+})

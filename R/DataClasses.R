@@ -676,8 +676,8 @@ setClass("Chromatograms",
 
 #' @name Spectra
 #'
-#' @aliases Spectra-class show,Spectra-method
-#'
+#' @aliases Spectra-class show,Spectra-method coerce,Spectra,list-method
+#' 
 #' @title List of Spectrum objects along with annotations
 #'
 #' @description
@@ -687,6 +687,8 @@ setClass("Chromatograms",
 #' the possibility to add arbitrary annotations to each individual
 #' `Spectrum` object. These can be accessed/set with the [mcols()] method.
 #'
+#' `Spectra` objects can be created with the `Spectra` function.
+#' 
 #' Functions to access the individual spectra's attributes are available
 #' (listed below).
 #'

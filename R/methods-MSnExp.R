@@ -565,3 +565,15 @@ setAs("MSnExp", "data.frame", function(from) {
 })
 as.data.frame.MSnExp <- function(x, row.names = NULL, optional=FALSE, ...)
     as(x, "data.frame")
+
+setAs("MSnExp", "Spectra", function(from) {
+    fdta <- fData(from)
+    red_cn <- c("fileIdx", "spIdx", "smoothed", "seqNum", "acquisitionNum",
+                "msLevel", "polarity", "originalPeaksCount", "totIonCurrent",
+                "retentionTime", "basePeakMZ", "basePeakIntensity",
+                "collisionEnergy", "ionisationEnergy", "precursorScanNum",
+                "precursorMZ", "precursorCharge", "precursorIntensity",
+                "mergedScan", "centroided", "spectrum")
+    fdta <- fdta[, !colnames(fdta) %in% red_cn, drop = FALSE]
+    Spectra(spectra(from), elementMetadata = DataFrame(fdta))
+})
