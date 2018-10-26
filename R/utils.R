@@ -986,7 +986,7 @@ compareMSnSets <- function(x, y, qual = FALSE, proc = FALSE) {
 ##' @param x matrix
 ##' @param group a vector/factor of grouping
 ##' @param reorder if TRUE the rows are ordered by `sort(unique(group))`
-##' @param na.rm logical. Should missing values (including ‘NaN’) be omitted
+##' @param na.rm logical. Should missing values (including `NaN`) be omitted
 ##' @return matrix
 ##' @author Sebastian Gibb <mail@@sebastiangibb.de>
 ##' @noRd
@@ -1008,7 +1008,7 @@ rowmean <- function(x, group, reorder=FALSE, na.rm=FALSE) {
 ##' @param x matrix
 ##' @param group a vector/factor of grouping
 ##' @param reorder if TRUE the rows are ordered by `sort(unique(group))`
-##' @param na.rm logical. Should missing values (including ‘NaN’) be omitted
+##' @param na.rm logical. Should missing values (including `NaN`) be omitted
 ##' @return matrix
 ##' @author Sebastian Gibb <mail@@sebastiangibb.de>
 ##' @noRd
