@@ -528,6 +528,9 @@ test_that(".group_mz_values works", {
     ## Remove one from the 2nd group.
     res <- MSnbase:::.group_mz_values(all_mz[-5])
     expect_true(sum(res == 2) == 2)
+
+    res <- MSnbase:::.group_mz_values(all_mz, ppm = 20)
+    expect_true(all(table(res) == 3))
 })
 
 test_that("meanMzInts works", {

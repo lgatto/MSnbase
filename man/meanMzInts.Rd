@@ -5,7 +5,7 @@
 \title{Combine a list of spectra to a single spectrum}
 \usage{
 meanMzInts(x, ..., intensityFun = base::mean, weighted = FALSE,
-  main = 1L, mzd, timeDomain = FALSE, unionPeaks = TRUE)
+  main = 1L, mzd, ppm = 0, timeDomain = FALSE, unionPeaks = TRUE)
 }
 \arguments{
 \item{x}{\code{list} of \code{Spectrum} objects.}
@@ -29,6 +29,9 @@ mass peaks are considered to represent the same ion/mass peak.
 Intensity values for such grouped mass peaks are aggregated. If not
 specified this value is estimated from the distribution of differences
 of m/z values from the provided spectra (see details).}
+
+\item{ppm}{\code{numeric(1)} allowing to perform a m/z dependent grouping of mass
+peaks. See details for more information.}
 
 \item{timeDomain}{\code{logical(1)} whether definition of the m/z values to be
 combined into one m/z is performed on m/z values
@@ -54,15 +57,17 @@ is taken from the \emph{main} spectrum.
 \description{
 Combine peaks from several spectra into a single spectrum. Intensity and
 m/z values from the input spectra are aggregated into a single peak if
-the difference between their m/z values is smaller than \code{mzd}.Intensity
-values are aggregated with the \code{intensityFun}, m/z values by the mean, or
-intensity weighted mean if \code{weighted = TRUE}.
+the difference between their m/z values is smaller than \code{mzd} or smaller than
+\code{ppm} of their m/z. While \code{mzd} can be used to group mass peaks with a single
+fixed value, \code{ppm} allows a m/z dependent mass peak grouping. Intensity
+values of grouped mass peaks are aggregated with the \code{intensityFun}, m/z
+values by the mean, or intensity weighted mean if \code{weighted = TRUE}.
 }
 \details{
-For general merging of spectra, the \code{mzd} should be manually specified based
-on the precision of the MS instrument. Peaks from spectra with a difference
-in their m/z being smaller than \code{mzd} are grouped into the same final peak
-with their intensities being aggregated with the \code{intensityFun} function.
+For general merging of spectra, the \code{mzd} and/or \code{ppm} should be manually
+specified based on the precision of the MS instrument. Peaks from spectra
+with a difference in their m/z being smaller than \code{mzd} or smaller than
+\code{ppm} of their m/z are grouped into the same final peak.
 
 Some details for the combination of consecutive spectra of an LCMS run:
 
