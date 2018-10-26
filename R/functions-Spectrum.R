@@ -806,9 +806,11 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'
 #' Combine peaks from several spectra into a single spectrum. Intensity and
 #' m/z values from the input spectra are aggregated into a single peak if
-#' the difference between their m/z values is smaller than `mzd`.Intensity
-#' values are aggregated with the `intensityFun`, m/z values by the mean, or
-#' intensity weighted mean if `weighted = TRUE`.
+#' the difference between their m/z values is smaller than `mzd` or smaller than
+#' `ppm` of their m/z. While `mzd` can be used to group mass peaks with a single
+#' fixed value, `ppm` allows a m/z dependent mass peak grouping. Intensity
+#' values of grouped mass peaks are aggregated with the `intensityFun`, m/z
+#' values by the mean, or intensity weighted mean if `weighted = TRUE`.
 #'
 #' @note
 #' 
@@ -819,10 +821,10 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' 
 #' @details
 #'
-#' For general merging of spectra, the `mzd` should be manually specified based
-#' on the precision of the MS instrument. Peaks from spectra with a difference
-#' in their m/z being smaller than `mzd` are grouped into the same final peak
-#' with their intensities being aggregated with the `intensityFun` function.
+#' For general merging of spectra, the `mzd` and/or `ppm` should be manually
+#' specified based on the precision of the MS instrument. Peaks from spectra
+#' with a difference in their m/z being smaller than `mzd` or smaller than
+#' `ppm` of their m/z are grouped into the same final peak.
 #'
 #'
 #' Some details for the combination of consecutive spectra of an LCMS run:
@@ -868,6 +870,9 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'     specified this value is estimated from the distribution of differences
 #'     of m/z values from the provided spectra (see details).
 #'
+#' @param ppm `numeric(1)` allowing to perform a m/z dependent grouping of mass
+#'     peaks. See details for more information.
+#' 
 #' @param timeDomain `logical(1)` whether definition of the m/z values to be
 #'     combined into one m/z is performed on m/z values
 #'     (`timeDomain = FALSE`) or on `sqrt(mz)` (`timeDomain = TRUE`).
@@ -942,7 +947,8 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' plot(mz(sp_agg), intensity(sp_agg), xlim = range(mzs[5:25]), type = "h",
 #'     col = "black")
 meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
-                       main = 1L, mzd, timeDomain = FALSE, unionPeaks = TRUE) {
+                       main = 1L, mzd, ppm = 0, timeDomain = FALSE,
+                       unionPeaks = TRUE) {
     if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
         stop("Can only combine spectra with the same MS level")
     if (main > length(x) || main < 1)
@@ -955,7 +961,7 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
     if (timeDomain)
         mz_groups <- .group_mz_values(sqrt(mzs), mzd = mzd)
     else
-        mz_groups <- .group_mz_values(mzs, mzd = mzd)
+        mz_groups <- .group_mz_values(mzs, mzd = mzd, ppm = ppm)
     if (length(unique(mz_groups)) < length(x[[main]]@mz))
         warning("Got less m/z groups than m/z values in the original spectrum.",
                 " Most likely the data is not profile-mode LCMS data or ",
@@ -1010,10 +1016,13 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
 #'     grouped together. If not provided the `.estimate_mz_scattering` function
 #'     is used to estimate it.
 #' 
+#' @param ppm `numeric(1)` defining an optional ppm. `mzd` will be increased
+#'     by the ppm of the m/z to allow m/z dependent peak groups.
+#' 
 #' @return `integer` of same length than `x` grouping m/z values.
 #'
 #' @noRd
-.group_mz_values <- function(x, mzd) {
+.group_mz_values <- function(x, mzd, ppm = 0) {
     mzdiff <- diff(x)
     if (missing(mzd))
         mzd <- .estimate_mz_scattering(mzdiff, TRUE)
@@ -1021,7 +1030,10 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
     ## smaller than mzd
     ## nvals <- diff(c(0, which(!(mzdiff < mzd)), length(x)))
     ## rep(1:length(nvals), nvals)
-    cumsum(c(0L, mzdiff >= mzd)) + 1L
+    if (ppm > 0)
+        cumsum(c(0L, mzdiff >= (mzd + x[-length(x)] * ppm / 1e6))) + 1L
+    else
+        cumsum(c(0L, mzdiff >= mzd)) + 1L
 }
 
 #' Estimate the extent of random scattering of m/z values of the same ion in
@@ -1104,7 +1116,10 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
 #' are grouped into the same final mass peak with their intensities being
 #' aggregated with `intensityFun`. The m/z of the final mass peaks is calculated
 #' using a intensity-weighted mean of the m/z values from the individual mass
-#' peaks.
+#' peaks. Alternatively (or in addition) it is possible to perform an m/z dependent
+#' grouping of mass peaks with parameter `ppm`: mass peaks from different spectra
+#'  with a difference in their m/z smaller than `ppm` of their m/z are grouped
+#' into the same final peak.
 #' 
 #' @param x `list` of [Spectrum-class] objects (either [Spectrum1-class] or
 #'     [Spectrum2-class]).
@@ -1113,7 +1128,8 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
 #'     mass peaks are grouped in to the same final mass peak (see details for
 #'     more information). If not provided this value is estimated from the
 #'     distribution of differences of m/z values from the spectra (see
-#'     [meanMzInts()] for more details).
+#'     [meanMzInts()] for more details). See also parameter `ppm` below for
+#'     the definition of an m/z dependent peak grouping.
 #'
 #' @param minProp `numeric(1)` defining the minimal proportion of spectra in
 #'     which a mass peak has to be present in order to include it in the
@@ -1124,6 +1140,9 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
 #'     aggregated peak. By default the maximum signal for a mass peak is
 #'     reported.
 #'
+#' @param ppm `numeric(1)` allowing to perform a m/z dependent grouping of mass
+#'     peaks. See details for more information.
+#' 
 #' @param ... additional arguments to be passed to `intensityFun`.
 #' 
 #' @md
@@ -1168,7 +1187,7 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
 #'     xlim = range(mz(spl)), ylim = range(intensity(spl)), lwd = 2)
 #' 
 consensusSpectrum <- function(x, mzd, minProp = 0.5, intensityFun = base::max,
-                              ...) {
+                              ppm = 0, ...) {
     if (!is(x, "Spectra"))
         x <- Spectra(x)
     if (length(unique(msLevel(x))) != 1)
@@ -1183,7 +1202,7 @@ consensusSpectrum <- function(x, mzd, minProp = 0.5, intensityFun = base::max,
     keep <- which(ints > 0)
     mzs <- mzs[keep]
     ints <- ints[keep]
-    mz_groups <- .group_mz_values(mzs, mzd = mzd)
+    mz_groups <- .group_mz_values(mzs, mzd = mzd, ppm = ppm)
     if (length(unique(mz_groups)) < sum(xnew@intensity > 0))
         warning("Got less m/z groups than m/z groups in the first spectrum. ",
                 "Most likely `mzd` is too large.")
