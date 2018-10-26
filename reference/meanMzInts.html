@@ -34,9 +34,11 @@
 
 <meta property="og:description" content="Combine peaks from several spectra into a single spectrum. Intensity and
 m/z values from the input spectra are aggregated into a single peak if
-the difference between their m/z values is smaller than mzd.Intensity
-values are aggregated with the intensityFun, m/z values by the mean, or
-intensity weighted mean if weighted = TRUE." />
+the difference between their m/z values is smaller than mzd or smaller than
+ppm of their m/z. While mzd can be used to group mass peaks with a single
+fixed value, ppm allows a m/z dependent mass peak grouping. Intensity
+values of grouped mass peaks are aggregated with the intensityFun, m/z
+values by the mean, or intensity weighted mean if weighted = TRUE." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -137,14 +139,16 @@ intensity weighted mean if weighted = TRUE." />
     
     <p>Combine peaks from several spectra into a single spectrum. Intensity and
 m/z values from the input spectra are aggregated into a single peak if
-the difference between their m/z values is smaller than <code>mzd</code>.Intensity
-values are aggregated with the <code>intensityFun</code>, m/z values by the mean, or
-intensity weighted mean if <code>weighted = TRUE</code>.</p>
+the difference between their m/z values is smaller than <code>mzd</code> or smaller than
+<code>ppm</code> of their m/z. While <code>mzd</code> can be used to group mass peaks with a single
+fixed value, <code>ppm</code> allows a m/z dependent mass peak grouping. Intensity
+values of grouped mass peaks are aggregated with the <code>intensityFun</code>, m/z
+values by the mean, or intensity weighted mean if <code>weighted = TRUE</code>.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>meanMzInts</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>intensityFun</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>, <span class='kw'>weighted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='no'>mzd</span>, <span class='kw'>timeDomain</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>unionPeaks</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>main</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='no'>mzd</span>, <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>timeDomain</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>unionPeaks</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,6 +188,11 @@ specified this value is estimated from the distribution of differences
 of m/z values from the provided spectra (see details).</p></td>
     </tr>
     <tr>
+      <th>ppm</th>
+      <td><p><code>numeric(1)</code> allowing to perform a m/z dependent grouping of mass
+peaks. See details for more information.</p></td>
+    </tr>
+    <tr>
       <th>timeDomain</th>
       <td><p><code>logical(1)</code> whether definition of the m/z values to be
 combined into one m/z is performed on m/z values
@@ -213,10 +222,10 @@ is taken from the <em>main</em> spectrum.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>For general merging of spectra, the <code>mzd</code> should be manually specified based
-on the precision of the MS instrument. Peaks from spectra with a difference
-in their m/z being smaller than <code>mzd</code> are grouped into the same final peak
-with their intensities being aggregated with the <code>intensityFun</code> function.</p>
+    <p>For general merging of spectra, the <code>mzd</code> and/or <code>ppm</code> should be manually
+specified based on the precision of the MS instrument. Peaks from spectra
+with a difference in their m/z being smaller than <code>mzd</code> or smaller than
+<code>ppm</code> of their m/z are grouped into the same final peak.</p>
 <p>Some details for the combination of consecutive spectra of an LCMS run:</p>
 <p>The m/z values of the same ion in consecutive scans (spectra) of a LCMS run
 will not be identical. Assuming that this random variation is much smaller

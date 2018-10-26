@@ -139,7 +139,8 @@ definable proportion of spectra.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>consensusSpectrum</span>(<span class='no'>x</span>, <span class='no'>mzd</span>, <span class='kw'>minProp</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>intensityFun</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/base/topics/Extremes'>max</a></span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>consensusSpectrum</span>(<span class='no'>x</span>, <span class='no'>mzd</span>, <span class='kw'>minProp</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>intensityFun</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/base/topics/Extremes'>max</a></span>,
+  <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,7 +156,8 @@ definable proportion of spectra.</p>
 mass peaks are grouped in to the same final mass peak (see details for
 more information). If not provided this value is estimated from the
 distribution of differences of m/z values from the spectra (see
-<code><a href='meanMzInts.html'>meanMzInts()</a></code> for more details).</p></td>
+<code><a href='meanMzInts.html'>meanMzInts()</a></code> for more details). See also parameter <code>ppm</code> below for
+the definition of an m/z dependent peak grouping.</p></td>
     </tr>
     <tr>
       <th>minProp</th>
@@ -171,6 +173,11 @@ aggregated peak. By default the maximum signal for a mass peak is
 reported.</p></td>
     </tr>
     <tr>
+      <th>ppm</th>
+      <td><p><code>numeric(1)</code> allowing to perform a m/z dependent grouping of mass
+peaks. See details for more information.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>additional arguments to be passed to <code>intensityFun</code>.</p></td>
     </tr>
@@ -182,7 +189,10 @@ reported.</p></td>
 are grouped into the same final mass peak with their intensities being
 aggregated with <code>intensityFun</code>. The m/z of the final mass peaks is calculated
 using a intensity-weighted mean of the m/z values from the individual mass
-peaks.</p>
+peaks. Alternatively (or in addition) it is possible to perform an m/z dependent
+grouping of mass peaks with parameter <code>ppm</code>: mass peaks from different spectra
+with a difference in their m/z smaller than <code>ppm</code> of their m/z are grouped
+into the same final peak.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
