@@ -6,7 +6,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Combine profile-mode spectra signals — combineSpectra • MSnbase</title>
+<title>Combine Spectra
+
+<code>combineSpectra</code> combines spectra in a <a href='MSnExp-class.html'>MSnExp</a> or <a href='Spectra.html'>Spectra</a>
+object applying the summarization function <code>fun</code> to sets of spectra defined
+by a factor (<code>fcol</code> parameter). The resulting combined spectrum for each
+set contains metadata information (present in <code>mcols</code> and all spectrum
+information other than <code>mz</code> and <code>intensity</code>) from the first spectrum in
+each set. — combineSpectra,Spectra-method • MSnbase</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,11 +37,22 @@
 
 
 
-<meta property="og:title" content="Combine profile-mode spectra signals — combineSpectra" />
+<meta property="og:title" content="Combine Spectra
 
-<meta property="og:description" content="Combine signals from profile-mode spectra of consecutive scans into the
-values for the main spectrum. This can improve centroiding of
-profile-mode data by increasing the signal-to-noise ratio." />
+<code>combineSpectra</code> combines spectra in a <a href='MSnExp-class.html'>MSnExp</a> or <a href='Spectra.html'>Spectra</a>
+object applying the summarization function <code>fun</code> to sets of spectra defined
+by a factor (<code>fcol</code> parameter). The resulting combined spectrum for each
+set contains metadata information (present in <code>mcols</code> and all spectrum
+information other than <code>mz</code> and <code>intensity</code>) from the first spectrum in
+each set. — combineSpectra,Spectra-method" />
+
+<meta property="og:description" content="Combine Spectra
+combineSpectra combines spectra in a MSnExp or Spectra
+object applying the summarization function fun to sets of spectra defined
+by a factor (fcol parameter). The resulting combined spectrum for each
+set contains metadata information (present in mcols and all spectrum
+information other than mz and intensity) from the first spectrum in
+each set." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -63,7 +81,7 @@ profile-mode data by increasing the signal-to-noise ratio." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.10</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.11</span>
       </span>
     </div>
 
@@ -126,112 +144,71 @@ profile-mode data by increasing the signal-to-noise ratio." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Combine profile-mode spectra signals</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lgatto/MSnbase/blob/master/R/functions-Spectrum.R'><code>R/functions-Spectrum.R</code></a></small>
+    <h1>Combine Spectra
+
+<code>combineSpectra</code> combines spectra in a <a href='MSnExp-class.html'>MSnExp</a> or <a href='Spectra.html'>Spectra</a>
+object applying the summarization function <code>fun</code> to sets of spectra defined
+by a factor (<code>fcol</code> parameter). The resulting combined spectrum for each
+set contains metadata information (present in <code>mcols</code> and all spectrum
+information other than <code>mz</code> and <code>intensity</code>) from the first spectrum in
+each set.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/lgatto/MSnbase/blob/master/R/methods-Spectra.R'><code>R/methods-Spectra.R</code></a></small>
     <div class="hidden name"><code>combineSpectra.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Combine signals from profile-mode spectra of consecutive scans into the
-values for the <em>main</em> spectrum. This can improve centroiding of
-profile-mode data by increasing the signal-to-noise ratio.</p>
+    <p>Combine Spectra</p>
+<p><code>combineSpectra</code> combines spectra in a <a href='MSnExp-class.html'>MSnExp</a> or <a href='Spectra.html'>Spectra</a>
+object applying the summarization function <code>fun</code> to sets of spectra defined
+by a factor (<code>fcol</code> parameter). The resulting combined spectrum for each
+set contains metadata information (present in <code>mcols</code> and all spectrum
+information other than <code>mz</code> and <code>intensity</code>) from the first spectrum in
+each set.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>combineSpectra</span>(<span class='no'>x</span>, <span class='kw'>mzFun</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>, <span class='kw'>intensityFun</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>,
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'>floor</span>(<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>x</span>)/<span class='fl'>2L</span>) + <span class='fl'>1L</span>, <span class='no'>mzd</span>, <span class='kw'>timeDomain</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='co'># S4 method for Spectra</span>
+<span class='fu'>combineSpectra</span>(<span class='no'>object</span>, <span class='no'>fcol</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>meanMzInts</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p><code>list</code> of <code>Spectrum</code> objects.</p></td>
+      <th>object</th>
+      <td><p>A <a href='MSnExp-class.html'>MSnExp</a> or <a href='Spectra.html'>Spectra</a></p></td>
     </tr>
     <tr>
-      <th>mzFun</th>
-      <td><p><code>function</code> to aggregate the m/z values per m/z group. Should be
-a function or the name of a function. The function is expected to
-return a <code>numeric(1)</code>. For <code>mzFun = "weighted.mean"</code> (note
-that the <em>name</em> of the function is passed!) the resulting m/z is
-determined as an intensity-weighted mean of spectras' m/z values.</p></td>
+      <th>fcol</th>
+      <td><p>For <code>Spectra</code> objects: <code>mcols</code> column name to be used to define
+the sets of spectra to be combined. If missing, all spectra are
+considered to be one set.</p></td>
     </tr>
     <tr>
-      <th>intensityFun</th>
-      <td><p><code>function</code> to aggregate the intensity values per m/z
-group. Should be a function or the name of a function. The function is
-expected to return a <code>numeric(1)</code>.</p></td>
+      <th>fun</th>
+      <td><p><code>function</code> to be used to combine the spectra by <code>fcol</code>. Has to
+be a function that takes a list of spectra as input and returns a single
+<a href='Spectrum-class.html'>Spectrum</a>. See <code><a href='meanMzInts.html'>meanMzInts()</a></code> for details..</p></td>
     </tr>
     <tr>
-      <th>main</th>
-      <td><p><code>integer(1)</code> defining the <em>main</em> spectrum, i.e. the spectrum
-which m/z and intensity values get replaced and is returned.</p></td>
-    </tr>
-    <tr>
-      <th>mzd</th>
-      <td><p><code>numeric(1)</code> defining the maximal m/z difference below which
-values are grouped. If not provided, this value is estimated from the
-distribution of differences of m/z values from the provided spectra
-(see details).</p></td>
-    </tr>
-    <tr>
-      <th>timeDomain</th>
-      <td><p><code>logical(1)</code> whether definition of the m/z values to be
-combined into one m/z is performed on m/z values
-(<code>timeDomain = FALSE</code>) or on <code>sqrt(mz)</code> (<code>timeDomain = TRUE</code>).
-Profile data from TOF MS instruments should be aggregated based
-on the time domain (see details). Note that a pre-defined <code>mzd</code> should
-also be estimated on the square root of m/z values if
-<code>timeDomain = TRUE</code>.</p></td>
+      <th>...</th>
+      <td><p>additional arguments for <code>fun</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>Spectrum</code> with m/z and intensity values representing the aggregated values
-across the provided spectra. The returned spectrum contains the same number
-of m/z and intensity pairs than the spectrum with index <code>main</code> in <code>x</code>, also
-all other related information is taken from this spectrum.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The m/z values of the same ion in consecutive scans (spectra) of a LCMS run
-will not be identical. Assuming that this random variation is much smaller
-than the resolution of the MS instrument (i.e. the difference between
-m/z values within each single spectrum), m/z value groups are defined
-across the spectra and those containing m/z values of the <code>main</code> spectrum
-are retained. The maximum allowed difference between m/z values for the
-same ion is estimated as in <code><a href='estimateMzScattering.html'>estimateMzScattering()</a></code>. Alternatively it is
-possible to define this maximal m/z difference with the <code>mzd</code> parameter.
-All m/z values with a difference smaller than this value are combined to
-a m/z group.
-Intensities and m/z values falling within each of these m/z groups are
-aggregated using the <code>intensity_fun</code> and <code>mz_fun</code>, respectively. It is
-highly likely that all QTOF profile data is collected with a timing circuit
-that collects data points with regular intervals of time that are then later
-converted into m/z values based on the relationship <code>t = k * sqrt(m/z)</code>. The
-m/z scale is thus non-linear and the m/z scattering (which is in fact caused
-by small variations in the time circuit) will thus be different in the lower
-and upper m/z scale. m/z-intensity pairs from consecutive scans to be
-combined are therefore defined by default on the square root of the m/z
-values. With <code>timeDomain = FALSE</code>, the actual m/z values will be used.</p>
+    <p>A <code>Spectra</code> or <code>MSnExp</code> object with combined spectra. Metadata
+(<code>mcols</code>) and all spectrum attributes other than <code>mz</code> and <code>intensity</code>
+are taken from the first <code>Spectrum</code> in each set.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='estimateMzScattering.html'>estimateMzScattering()</a></code> for a function to estimate m/z scattering
-in consecutive scans.</p>
-<p><code><a href='estimateMzResolution.html'>estimateMzResolution()</a></code> for a function estimating the m/z resolution of
-a spectrum.</p>
-<p><code><a href='combineSpectraMovingWindow.html'>combineSpectraMovingWindow()</a></code> for the function to combine consecutive
-spectra of an <code>MSnExp</code> object using a moving window approach.</p></div>
+    <div class='dont-index'><p><code><a href='meanMzInts.html'>meanMzInts()</a></code> for a function to combine spectra.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>library</span>(<span class='no'>MSnbase</span>)
-<span class='co'>## Create 3 example profile-mode spectra with a resolution of 0.1 and small</span>
-<span class='co'>## random variations on these m/z values on consecutive scans.</span>
 <span class='fu'>set.seed</span>(<span class='fl'>123</span>)
 <span class='no'>mzs</span> <span class='kw'>&lt;-</span> <span class='fu'>seq</span>(<span class='fl'>1</span>, <span class='fl'>20</span>, <span class='fl'>0.1</span>)
 <span class='no'>ints1</span> <span class='kw'>&lt;-</span> <span class='fu'>abs</span>(<span class='fu'>rnorm</span>(<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>mzs</span>), <span class='fl'>10</span>))
@@ -243,22 +220,49 @@ spectra of an <code>MSnExp</code> object using a moving window approach.</p></di
 
 <span class='co'>## Create the spectra.</span>
 <span class='no'>sp1</span> <span class='kw'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum1"</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='no'>mzs</span> + <span class='fu'>rnorm</span>(<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>mzs</span>), <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>0.01</span>),
-    <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints1</span>)
+    <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints1</span>, <span class='kw'>rt</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 <span class='no'>sp2</span> <span class='kw'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum1"</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='no'>mzs</span> + <span class='fu'>rnorm</span>(<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>mzs</span>), <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>0.01</span>),
-    <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints2</span>)
+    <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints2</span>, <span class='kw'>rt</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 <span class='no'>sp3</span> <span class='kw'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum1"</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='no'>mzs</span> + <span class='fu'>rnorm</span>(<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>mzs</span>), <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>0.009</span>),
-    <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints3</span>)
+    <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints3</span>, <span class='kw'>rt</span> <span class='kw'>=</span> <span class='fl'>3</span>)
 
-<span class='co'>## Combine the spectra</span>
-<span class='no'>sp_agg</span> <span class='kw'>&lt;-</span> <span class='fu'>combineSpectra</span>(<span class='fu'>list</span>(<span class='no'>sp1</span>, <span class='no'>sp2</span>, <span class='no'>sp3</span>))
+<span class='no'>spctra</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Spectra.html'>Spectra</a></span>(<span class='no'>sp1</span>, <span class='no'>sp2</span>, <span class='no'>sp3</span>,
+    <span class='kw'>elementMetadata</span> <span class='kw'>=</span> <span class='fu'>DataFrame</span>(<span class='kw'>idx</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"b"</span>, <span class='st'>"a"</span>, <span class='st'>"a"</span>)))
 
-<span class='co'>## Plot the spectra before and after combining</span>
+<span class='co'>## Combine the spectra reporting the maximym signal</span>
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>combineSpectra</span>(<span class='no'>spctra</span>, <span class='kw'>mzd</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>intensityFun</span> <span class='kw'>=</span> <span class='no'>max</span>)
+<span class='no'>res</span></div><div class='output co'>#&gt; Spectra with 1 spectra and 2 metadata column(s):
+#&gt;       msLevel     rtime peaksCount |       idx       group
+#&gt;     &lt;integer&gt; &lt;numeric&gt;  &lt;integer&gt; | &lt;integer&gt; &lt;character&gt;
+#&gt;   1         1         1        191 |         1           b</div><div class='input'>
+<span class='co'>## All values other than m/z and intensity are kept from the first spectrum</span>
+<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>res</span>)</div><div class='output co'>#&gt; 1 
+#&gt; 1 </div><div class='input'>
+<span class='co'>## Plot the individual and the merged spectrum</span>
 <span class='fu'>par</span>(<span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>1</span>), <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>4.3</span>, <span class='fl'>4</span>, <span class='fl'>1</span>, <span class='fl'>1</span>))
 <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp1</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp1</span>), <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'>range</span>(<span class='no'>mzs</span>[<span class='fl'>5</span>:<span class='fl'>25</span>]), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>)
 <span class='fu'>points</span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp2</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp2</span>), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"green"</span>)
 <span class='fu'>points</span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp3</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp3</span>), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>)
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp_agg</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp_agg</span>), <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'>range</span>(<span class='no'>mzs</span>[<span class='fl'>5</span>:<span class='fl'>25</span>]), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>,
-    <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>)</div><div class='img'><img src='combineSpectra-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>res</span><span class='kw'>[[</span><span class='fl'>1</span>]]), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>res</span><span class='kw'>[[</span><span class='fl'>1</span>]]), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>,
+    <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'>range</span>(<span class='no'>mzs</span>[<span class='fl'>5</span>:<span class='fl'>25</span>]))</div><div class='img'><img src='combineSpectra-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'>## Combine spectra in two sets.</span>
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>combineSpectra</span>(<span class='no'>spctra</span>, <span class='kw'>fcol</span> <span class='kw'>=</span> <span class='st'>"group"</span>, <span class='kw'>mzd</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)
+<span class='no'>res</span></div><div class='output co'>#&gt; Spectra with 2 spectra and 2 metadata column(s):
+#&gt;       msLevel     rtime peaksCount |       idx       group
+#&gt;     &lt;integer&gt; &lt;numeric&gt;  &lt;integer&gt; | &lt;integer&gt; &lt;character&gt;
+#&gt;   b         1         1        191 |         1           b
+#&gt;   a         1         2        191 |         2           a</div><div class='input'>
+<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>res</span>)</div><div class='output co'>#&gt; b a 
+#&gt; 1 2 </div><div class='input'>
+<span class='co'>## Plot the individual and the merged spectra</span>
+<span class='fu'>par</span>(<span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>3</span>, <span class='fl'>1</span>), <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>4.3</span>, <span class='fl'>4</span>, <span class='fl'>1</span>, <span class='fl'>1</span>))
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp1</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp1</span>), <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'>range</span>(<span class='no'>mzs</span>[<span class='fl'>5</span>:<span class='fl'>25</span>]), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>)
+<span class='fu'>points</span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp2</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp2</span>), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"green"</span>)
+<span class='fu'>points</span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp3</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp3</span>), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>)
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>res</span><span class='kw'>[[</span><span class='fl'>1</span>]]), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>res</span><span class='kw'>[[</span><span class='fl'>1</span>]]), <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'>range</span>(<span class='no'>mzs</span>[<span class='fl'>5</span>:<span class='fl'>25</span>]), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>,
+    <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>)
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>res</span><span class='kw'>[[</span><span class='fl'>2</span>]]), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>res</span><span class='kw'>[[</span><span class='fl'>2</span>]]), <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'>range</span>(<span class='no'>mzs</span>[<span class='fl'>5</span>:<span class='fl'>25</span>]), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>,
+    <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>)</div><div class='img'><img src='combineSpectra-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -267,8 +271,6 @@ spectra of an <code>MSnExp</code> object using a moving window approach.</p></di
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
@@ -276,7 +278,7 @@ spectra of an <code>MSnExp</code> object using a moving window approach.</p></di
 
     <h2>Author</h2>
     
-Johannes Rainer, Sigurdur Smarason
+Johannes Rainer, Laurent Gatto
 
   </div>
 </div>

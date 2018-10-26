@@ -58,7 +58,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.10</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.11</span>
       </span>
     </div>
 
@@ -317,9 +317,16 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="combineSpectra.html">combineSpectra()</a></code> </p>
+          <p><code><a href="combineSpectra.html">combineSpectra(<i>&lt;Spectra&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Combine profile-mode spectra signals</p></td>
+        <td><p>Combine Spectra
+
+<code>combineSpectra</code> combines spectra in a MSnExp or Spectra
+object applying the summarization function <code>fun</code> to sets of spectra defined
+by a factor (<code>fcol</code> parameter). The resulting combined spectrum for each
+set contains metadata information (present in <code>mcols</code> and all spectrum
+information other than <code>mz</code> and <code>intensity</code>) from the first spectrum in
+each set.</p></td>
       </tr><tr>
         
         <td>
@@ -344,6 +351,12 @@
           <p><code><a href="compareSpectra-methods.html">compareSpectra-methods</a></code> </p>
         </td>
         <td><p>Compare Spectra of an 'MSnExp' or 'Spectrum' instances</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="consensusSpectrum.html">consensusSpectrum()</a></code> </p>
+        </td>
+        <td><p>Combine spectra to a consensus spectrum</p></td>
       </tr><tr>
         
         <td>
@@ -495,6 +508,12 @@
           <p><code><a href="makeNaData.html">makeNaData()</a></code> <code><a href="makeNaData.html">makeNaData2()</a></code> <code><a href="makeNaData.html">whichNA()</a></code> </p>
         </td>
         <td><p>Create a data with missing values</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="meanMzInts.html">meanMzInts()</a></code> </p>
+        </td>
+        <td><p>Combine a list of spectra to a single spectrum</p></td>
       </tr><tr>
         
         <td>

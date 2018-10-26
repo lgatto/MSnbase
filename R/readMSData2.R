@@ -4,13 +4,7 @@ readMSData2 <- function(files,
                         verbose = isMSnbaseVerbose(),
                         centroided.,
                         smoothed. = NA) {
-    msg <- 'readMSData(..., mode = "onDisk")'
-    .Deprecated(paste(strwrap(msg), collapse = "\n"))
-    if (missing(msLevel.)) msLevel. <- NULL
-    if (missing(centroided.)) centroided. <- NA
-    readOnDiskMSData(files = files, pdata = pdata,
-                     msLevel. = msLevel., verbose = verbose,
-                     centroided. = centroided., smoothed. = smoothed.)
+   .Defunct(new = "readMSData")			
 }
 
 

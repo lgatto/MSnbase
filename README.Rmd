@@ -37,7 +37,7 @@ To install `r Biocpkg("MSnbase")`
 
 ```{r install, eval = FALSE}
 install.packages("BiocManager")
-
+BiocManager::install("MSnbase")
 ```
 
 If you need the github version (not recommended unless you know what

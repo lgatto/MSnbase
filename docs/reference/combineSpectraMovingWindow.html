@@ -68,7 +68,7 @@ OnDiskMSnExp object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.10</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.11</span>
       </span>
     </div>
 
@@ -149,9 +149,9 @@ time dimension.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>combineSpectraMovingWindow</span>(<span class='no'>x</span>, <span class='kw'>halfWindowSize</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>mzFun</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>,
-  <span class='kw'>intensityFun</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>, <span class='kw'>mzd</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timeDomain</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>bpparam</span>())</pre>
+    <pre class="usage"><span class='fu'>combineSpectraMovingWindow</span>(<span class='no'>x</span>, <span class='kw'>halfWindowSize</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
+  <span class='kw'>intensityFun</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>, <span class='kw'>mzd</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timeDomain</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>weighted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>bpparam</span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -166,14 +166,6 @@ time dimension.</p>
 window.</p></td>
     </tr>
     <tr>
-      <th>mzFun</th>
-      <td><p><code>function</code> to aggregate the m/z values per m/z group. Should be
-a function or the name of a function. The function is expected to
-return a <code>numeric(1)</code>. For <code>mzFun = "weighted.mean"</code> (note
-that the <em>name</em> of the function is passed!) the resulting m/z is
-determined as an intensity-weighted mean of spectras' m/z values.</p></td>
-    </tr>
-    <tr>
       <th>intensityFun</th>
       <td><p><code>function</code> to aggregate the intensity values per m/z
 group. Should be a function or the name of a function. The function is
@@ -182,9 +174,10 @@ expected to return a <code>numeric(1)</code>.</p></td>
     <tr>
       <th>mzd</th>
       <td><p><code>numeric(1)</code> defining the maximal m/z difference below which
-values are grouped. If not provided, this value is estimated from the
-distribution of differences of m/z values from the provided spectra
-(see details).</p></td>
+mass peaks are considered to represent the same ion/mass peak.
+Intensity values for such grouped mass peaks are aggregated. If not
+specified this value is estimated from the distribution of differences
+of m/z values from the provided spectra (see details).</p></td>
     </tr>
     <tr>
       <th>timeDomain</th>
@@ -195,6 +188,12 @@ Profile data from TOF MS instruments should be aggregated based
 on the time domain (see details). Note that a pre-defined <code>mzd</code> should
 also be estimated on the square root of m/z values if
 <code>timeDomain = TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>weighted</th>
+      <td><p><code>logical(1)</code> whether m/z values per m/z group should be
+aggregated with an intensity-weighted mean. The default is to report
+the mean m/z.</p></td>
     </tr>
     <tr>
       <th>BPPARAM</th>
@@ -212,7 +211,7 @@ also be estimated on the square root of m/z values if
 data) and thus combines their signal which can increase the increase the
 signal to noise ratio.</p>
 <p>Intensities (and m/z values) for signals with the same m/z value in
-consecutive scans are aggregated using the <code>intensityFun</code> and <code>mzFun</code>.
+consecutive scans are aggregated using the <code>intensityFun</code>.
 m/z values of intensities from consecutive scans will never be exactly
 identical, even if they represent signal from the same ion. The function
 determines thus internally a similarity threshold based on differences
@@ -220,7 +219,7 @@ between m/z values within and between spectra below which m/z values are
 considered to derive from the same ion. For robustness reasons, this
 threshold is estimated on the 100 spectra with the largest number of
 m/z - intensity pairs (i.e. mass peaks).</p>
-<p>See <code><a href='combineSpectra.html'>combineSpectra()</a></code> for details.</p>
+<p>See <code><a href='meanMzInts.html'>meanMzInts()</a></code> for details.</p>
 <p>Parameter <code>timeDomain</code>: by default, m/z-intensity pairs from consecutive
 scans to be aggregated are defined based on the square root of the m/z
 values. This is because it is highly likely that in all QTOF MS instruments
@@ -242,7 +241,7 @@ results using the <code><a href='writeMSData.html'>writeMSData()</a></code> func
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='combineSpectra.html'>combineSpectra()</a></code> for the function combining spectra provided in
+    <div class='dont-index'><p><code><a href='meanMzInts.html'>meanMzInts()</a></code> for the function combining spectra provided in
 a <code>list</code>.</p>
 <p><code><a href='estimateMzScattering.html'>estimateMzScattering()</a></code> for a function to estimate m/z value scattering in
 consecutive spectra.</p></div>
