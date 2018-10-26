@@ -4,7 +4,8 @@
 \alias{consensusSpectrum}
 \title{Combine spectra to a consensus spectrum}
 \usage{
-consensusSpectrum(x, mzd, minProp = 0.5, intensityFun = base::max, ...)
+consensusSpectrum(x, mzd, minProp = 0.5, intensityFun = base::max,
+  ppm = 0, ...)
 }
 \arguments{
 \item{x}{\code{list} of \linkS4class{Spectrum} objects (either \linkS4class{Spectrum1} or
@@ -14,7 +15,8 @@ consensusSpectrum(x, mzd, minProp = 0.5, intensityFun = base::max, ...)
 mass peaks are grouped in to the same final mass peak (see details for
 more information). If not provided this value is estimated from the
 distribution of differences of m/z values from the spectra (see
-\code{\link[=meanMzInts]{meanMzInts()}} for more details).}
+\code{\link[=meanMzInts]{meanMzInts()}} for more details). See also parameter \code{ppm} below for
+the definition of an m/z dependent peak grouping.}
 
 \item{minProp}{\code{numeric(1)} defining the minimal proportion of spectra in
 which a mass peak has to be present in order to include it in the
@@ -24,6 +26,9 @@ all spectra).}
 \item{intensityFun}{\code{function} to be used to define the intensity of the
 aggregated peak. By default the maximum signal for a mass peak is
 reported.}
+
+\item{ppm}{\code{numeric(1)} allowing to perform a m/z dependent grouping of mass
+peaks. See details for more information.}
 
 \item{...}{additional arguments to be passed to \code{intensityFun}.}
 }
@@ -37,7 +42,10 @@ Peaks from spectra with a difference of their m/z being smaller than \code{mzd}
 are grouped into the same final mass peak with their intensities being
 aggregated with \code{intensityFun}. The m/z of the final mass peaks is calculated
 using a intensity-weighted mean of the m/z values from the individual mass
-peaks.
+peaks. Alternatively (or in addition) it is possible to perform an m/z dependent
+grouping of mass peaks with parameter \code{ppm}: mass peaks from different spectra
+with a difference in their m/z smaller than \code{ppm} of their m/z are grouped
+into the same final peak.
 }
 \examples{
 library(MSnbase)
