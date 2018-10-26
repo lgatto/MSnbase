@@ -1,7 +1,11 @@
 # MSnbase 2.7
 
 ## Changes in version 2.7.12
-- Fix warnings on windows (see [#371](https://github.com/lgatto/MSnbase/issues/371)) <2018-10-26 Fri>
+
+- Fix warnings on windows (see
+  [#371](https://github.com/lgatto/MSnbase/issues/371)) <2018-10-26 Fri>
+- Add parameter ppm to consensusSpectrum and meanMzInts (see [#373](https://github.com/lgatto/MSnbase/issues/373) for details) <2018-10-26 Fri>
+
 
 ## Changes in version 2.7.11
 - Change default for `timeDomain` in `combineSpectra` and 
