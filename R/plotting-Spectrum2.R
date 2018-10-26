@@ -14,7 +14,7 @@ plot_Spectrum2 <- function(spectrum,
   if (missing(centroided.))
     centroided. <- centroided(spectrum)
   xmin <- xmax <- ymin <- ymax <- fill <- NULL # to satisfy codetools
-  ## plot_Spectrum2: no visible binding for global variable ‘xmin’
+  ## plot_Spectrum2: no visible binding for global variable 'xmin'
   ## ...
   mtc <- mz(spectrum)
   i <- intensity(spectrum)

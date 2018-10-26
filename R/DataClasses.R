@@ -79,14 +79,14 @@ setClass("MIAPE",
              ##                   different sources
              ionSource = "character", ## ESI, MALDI, ...
              ionSourceDetails = "character",
-             ## 3. Post-source componentry
+             ## 3. Post-source component
              analyser = "character", ## Quad, TOF, Trap, ...
              analyserDetails = "character",
-             ## 3. Post-source componentry - (d) Collision cell
+             ## 3. Post-source component - (d) Collision cell
              collisionGas = "character",
              collisionPressure = "numeric",
              collisionEnergy = "character",
-             ## 3. Post-source component — (f) Detectors
+             ## 3. Post-source component - (f) Detectors
              detectorType = "character",
              detectorSensitivity = "character"
              ## 4. Spectrum and peak list generation and annotation
