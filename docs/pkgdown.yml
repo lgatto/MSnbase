@@ -1,0 +1,10 @@
+pandoc: 2.3.1
+pkgdown: 1.1.0
+pkgdown_sha: ~
+articles:
+  v01-MSnbase-demo: v01-MSnbase-demo.html
+  v02-MSnbase-io: v02-MSnbase-io.html
+  v03-MSnbase-centroiding: v03-MSnbase-centroiding.html
+  v04-benchmarking: v04-benchmarking.html
+  v05-MSnbase-development: v05-MSnbase-development.html
+
