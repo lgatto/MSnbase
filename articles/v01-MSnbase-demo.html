@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.7.12</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.9.0</span>
       </span>
     </div>
 
@@ -402,7 +402,7 @@ Raw MS2 spectrum with details about reporter ions.
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Data [logically] subsetted 3 spectra: Fri Oct 26 13:29:05 2018 
+## Data [logically] subsetted 3 spectra: Tue Oct 30 18:35:57 2018 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -510,9 +510,9 @@ Base peak chromatogram.
 ##    2    3    4    5    6 
 ## 3312 2064  400   23    3</code></pre>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"ggplot2"</span>)</a>
-<a class="sourceLine" id="cb58-2" data-line-number="2"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="dt">data =</span> iddf, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> MS.GF.RawScore, <span class="dt">colour =</span> isDecoy)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb58-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb58-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap">facet_wrap</a></span>(<span class="op">~</span>chargeState)</a></code></pre></div>
+<a class="sourceLine" id="cb58-2" data-line-number="2"><span class="kw"><a href="ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="dt">data =</span> iddf, <span class="kw"><a href="ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> MS.GF.RawScore, <span class="dt">colour =</span> isDecoy)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb58-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb58-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="op">~</span>chargeState)</a></code></pre></div>
 <p><img src="v01-MSnbase-demo_files/figure-html/idvis-1.png" width="700"></p>
 <p>The <code>filterIdentificationDataFrame</code> function can be used to remove - PSMs that match decoy entries - PSMs of rank &gt; 1 - PSMs that match non-proteotypic proteins</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">iddf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filterIdentificationDataFrame.html">filterIdentificationDataFrame</a></span>(iddf)</a></code></pre></div>
@@ -728,8 +728,8 @@ This figure illustrated the effect or the <code>removePeaks</code> and <code>cle
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Fri Oct 26 13:29:11 2018 
-## Spectra cleaned: Fri Oct 26 13:29:11 2018 
+## Curves &lt;= 400 set to '0': Tue Oct 30 18:36:03 2018 
+## Spectra cleaned: Tue Oct 30 18:36:03 2018 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -795,11 +795,11 @@ The different quantitation methods. See text for details.
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Fri Oct 26 13:29:11 2018 
-## Spectra cleaned: Fri Oct 26 13:29:11 2018 
-## iTRAQ4 quantification by trapezoidation: Fri Oct 26 13:29:15 2018 
+## Curves &lt;= 400 set to '0': Tue Oct 30 18:36:03 2018 
+## Spectra cleaned: Tue Oct 30 18:36:03 2018 
+## iTRAQ4 quantification by trapezoidation: Tue Oct 30 18:36:06 2018 
 ##  MSnbase version: 1.1.22</code></pre>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1"><span class="kw">head</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/tidyeval">exprs</a></span>(qnt))</a></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1"><span class="kw">head</span>(<span class="kw"><a href="ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span>(qnt))</a></code></pre></div>
 <pre><code>##     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 ## X1   1347.6158  2247.3097  3927.6931  7661.1463
 ## X10   739.9861   799.3501   712.5983   940.6793
@@ -891,7 +891,7 @@ The different quantitation methods. See text for details.
 <a class="sourceLine" id="cb120-4" data-line-number="4">                       <span class="fl">0.000</span>, <span class="fl">0.001</span>, <span class="fl">0.040</span>, <span class="fl">0.923</span>),</a>
 <a class="sourceLine" id="cb120-5" data-line-number="5">                     <span class="dt">nrow =</span> <span class="dv">4</span>)</a>
 <a class="sourceLine" id="cb120-6" data-line-number="6">qnt.crct &lt;-<span class="st"> </span><span class="kw"><a href="../reference/purityCorrect-methods.html">purityCorrect</a></span>(qnt, impurities)</a>
-<a class="sourceLine" id="cb120-7" data-line-number="7"><span class="kw">head</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/tidyeval">exprs</a></span>(qnt))</a></code></pre></div>
+<a class="sourceLine" id="cb120-7" data-line-number="7"><span class="kw">head</span>(<span class="kw"><a href="ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span>(qnt))</a></code></pre></div>
 <pre><code>##     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 ## X1   1347.6158  2247.3097  3927.6931  7661.1463
 ## X10   739.9861   799.3501   712.5983   940.6793
@@ -899,7 +899,7 @@ The different quantitation methods. See text for details.
 ## X12 31892.8928 33634.6980 37674.7272 37227.7119
 ## X13 26143.7542 29677.4781 29089.0593 27902.5608
 ## X14  6448.0829  6234.1957  6902.8903  6437.2303</code></pre>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb122-1" data-line-number="1"><span class="kw">head</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/tidyeval">exprs</a></span>(qnt.crct))</a></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb122-1" data-line-number="1"><span class="kw">head</span>(<span class="kw"><a href="ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span>(qnt.crct))</a></code></pre></div>
 <pre><code>##     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 ## X1   1304.7675  2168.1082  3784.2244  8133.9211
 ## X10   743.8159   806.5647   696.9024   988.0787
@@ -931,7 +931,7 @@ The different quantitation methods. See text for details.
 <div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/impute-methods.html">impute</a></span>(naset, <span class="st">"min"</span>)</a>
 <a class="sourceLine" id="cb128-2" data-line-number="2"><span class="kw"><a href="../reference/pSet-class.html">processingData</a></span>(x)</a></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data imputation using min Fri Oct 26 13:29:16 2018 
+## Data imputation using min Tue Oct 30 18:36:08 2018 
 ##  MSnbase version: 1.15.6</code></pre>
 <div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1"><span class="kw">table</span>(<span class="kw">is.na</span>(x))</a></code></pre></div>
 <pre><code>## 
@@ -968,7 +968,7 @@ Mixed imputation method. Black cells represent presence of quantitation values a
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Data imputation using mixed Fri Oct 26 13:29:17 2018 
+## Data imputation using mixed Tue Oct 30 18:36:08 2018 
 ##   Using default parameters 
 ##  MSnbase version: 1.15.6</code></pre>
 <p>Please read <code><a href="../reference/impute-methods.html">?impute</a></code> for a description of the different methods.</p>
@@ -1048,14 +1048,14 @@ CV versus signal intensity comparison for log2 and vsn transformed data. Lines i
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Fri Oct 26 13:29:11 2018 
-## Spectra cleaned: Fri Oct 26 13:29:11 2018 
-## iTRAQ4 quantification by trapezoidation: Fri Oct 26 13:29:15 2018 
-## Subset [55,4][54,4] Fri Oct 26 13:29:15 2018 
-## Removed features with more than 0 NAs: Fri Oct 26 13:29:15 2018 
-## Dropped featureData's levels Fri Oct 26 13:29:15 2018 
-## Combined 54 features into 40 using median: Fri Oct 26 13:29:18 2018 
-##  MSnbase version: 2.7.11</code></pre>
+## Curves &lt;= 400 set to '0': Tue Oct 30 18:36:03 2018 
+## Spectra cleaned: Tue Oct 30 18:36:03 2018 
+## iTRAQ4 quantification by trapezoidation: Tue Oct 30 18:36:06 2018 
+## Subset [55,4][54,4] Tue Oct 30 18:36:07 2018 
+## Removed features with more than 0 NAs: Tue Oct 30 18:36:07 2018 
+## Dropped featureData's levels Tue Oct 30 18:36:07 2018 
+## Combined 54 features into 40 using median: Tue Oct 30 18:36:09 2018 
+##  MSnbase version: 2.7.12</code></pre>
 <p>Of interest is also the <code>iPQF</code> spectra-to-protein summarisation method, which integrates peptide spectra characteristics and quantitative values for protein quantitation estimation. See <code><a href="../reference/iPQF.html">?iPQF</a></code> and references therein for details.</p>
 </div>
 <div id="sec:lf" class="section level1">
@@ -1072,7 +1072,7 @@ CV versus signal intensity comparison for log2 and vsn transformed data. Lines i
 <pre><code>## [1] "ECA1028" "ECA1028" "ECA0510"</code></pre>
 <div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" data-line-number="1">sc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/combineFeatures.html">combineFeatures</a></span>(sc, <span class="dt">groupBy =</span> <span class="kw">fData</span>(sc)<span class="op">$</span>DatabaseAccess,</a>
 <a class="sourceLine" id="cb144-2" data-line-number="2">                      <span class="dt">fun =</span> <span class="st">"sum"</span>)</a>
-<a class="sourceLine" id="cb144-3" data-line-number="3"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/tidyeval">exprs</a></span>(sc)</a></code></pre></div>
+<a class="sourceLine" id="cb144-3" data-line-number="3"><span class="kw"><a href="ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span>(sc)</a></code></pre></div>
 <pre><code>##         dummyiTRAQ.mzXML
 ## ECA0510                1
 ## ECA1028                2</code></pre>
@@ -1093,13 +1093,13 @@ CV versus signal intensity comparison for log2 and vsn transformed data. Lines i
 <div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" data-line-number="1">siquant &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(msexp, <span class="dt">method =</span> <span class="st">"SIn"</span>)</a>
 <a class="sourceLine" id="cb148-2" data-line-number="2"><span class="kw"><a href="../reference/pSet-class.html">processingData</a></span>(siquant)</a></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data loaded: Fri Oct 26 13:29:10 2018 
-## Filtered 2 unidentified peptides out [Fri Oct 26 13:29:10 2018] 
-## Quantitation by total ion current [Fri Oct 26 13:29:18 2018] 
-## Combined 3 features into 3 using sum: Fri Oct 26 13:29:18 2018 
-## Quantification by SIn [Fri Oct 26 13:29:18 2018] 
-##  MSnbase version: 2.7.11</code></pre>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/tidyeval">exprs</a></span>(siquant)</a></code></pre></div>
+## Data loaded: Tue Oct 30 18:36:02 2018 
+## Filtered 2 unidentified peptides out [Tue Oct 30 18:36:02 2018] 
+## Quantitation by total ion current [Tue Oct 30 18:36:10 2018] 
+## Combined 3 features into 3 using sum: Tue Oct 30 18:36:10 2018 
+## Quantification by SIn [Tue Oct 30 18:36:10 2018] 
+##  MSnbase version: 2.7.12</code></pre>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" data-line-number="1"><span class="kw"><a href="ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span>(siquant)</a></code></pre></div>
 <pre><code>##         dummyiTRAQ.mzXML
 ## ECA0510     0.0006553518
 ## ECA0984     0.0035384487
@@ -1182,7 +1182,7 @@ Comparing two MS2 spectra.
 <a class="sourceLine" id="cb168-3" data-line-number="3">                       <span class="dt">reporters =</span> iTRAQ5,</a>
 <a class="sourceLine" id="cb168-4" data-line-number="4">                       <span class="dt">strict =</span> <span class="ot">FALSE</span>,</a>
 <a class="sourceLine" id="cb168-5" data-line-number="5">                       <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb168-6" data-line-number="6"><span class="kw">head</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/tidyeval">exprs</a></span>(incompdiss))</a></code></pre></div>
+<a class="sourceLine" id="cb168-6" data-line-number="6"><span class="kw">head</span>(<span class="kw"><a href="ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span>(incompdiss))</a></code></pre></div>
 <pre><code>##     iTRAQ5.114 iTRAQ5.115 iTRAQ5.116 iTRAQ5.117 iTRAQ5.145
 ## X1   1347.6158  2247.3097  3927.6931  7661.1463  2063.8947
 ## X10   739.9861   799.3501   712.5983   940.6793   467.3615
@@ -1312,7 +1312,7 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 ## Cond3 115.1083    iTRAQ4
 ## Ctrl4 116.1116    iTRAQ4
 ## Cond4 117.1150    iTRAQ4</code></pre>
-<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/tidyeval">exprs</a></span>(exp12)[<span class="dv">25</span><span class="op">:</span><span class="dv">28</span>, ]</a></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" data-line-number="1"><span class="kw"><a href="ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span>(exp12)[<span class="dv">25</span><span class="op">:</span><span class="dv">28</span>, ]</a></code></pre></div>
 <pre><code>##            Ctrl1    Cond1    Ctrl2     Cond2    Ctrl3    Cond3    Ctrl4
 ## ECA4513 10154.95 10486.94 11018.19 11289.552       NA       NA       NA
 ## ECA4514 20396.49 20832.98 23280.82 23693.574 15965.52 16206.91 18455.76
@@ -1340,8 +1340,8 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Combined [27,4] and [27,4] MSnSets Fri Oct 26 13:29:29 2018 
-##  MSnbase version: 2.7.11</code></pre>
+## Combined [27,4] and [27,4] MSnSets Tue Oct 30 18:36:20 2018 
+##  MSnbase version: 2.7.12</code></pre>
 <p>In summary, when experiments with different samples need to be combined (along the columns), one needs to (1) clarify the sample names using <code>updateSampleNames</code> or better manually, for biological relevance and (2) update the feature data variable labels with <code>updateFvarLabels</code>. The individual experiments (there can be more than 2) can then easily be combined with the <code>combine</code> method while retaining the meta-data.</p>
 <p>If runs for the same sample (different fractions for example) need to be combines, one needs to (1) differentiate the feature provenance with <code>updateFeatureNames</code> prior to use <code>combine</code>.</p>
 </div>
@@ -1380,7 +1380,7 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 <a class="sourceLine" id="cb228-4" data-line-number="4"><span class="kw">data</span>(tan2009r3)</a>
 <a class="sourceLine" id="cb228-5" data-line-number="5">msnl &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MSnSetList-class.html">MSnSetList</a></span>(<span class="kw">list</span>(tan2009r1, tan2009r2, tan2009r3))</a>
 <a class="sourceLine" id="cb228-6" data-line-number="6">avgtan &lt;-<span class="st"> </span><span class="kw"><a href="../reference/averageMSnSet.html">averageMSnSet</a></span>(msnl)</a>
-<a class="sourceLine" id="cb228-7" data-line-number="7"><span class="kw">head</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/tidyeval">exprs</a></span>(avgtan))</a></code></pre></div>
+<a class="sourceLine" id="cb228-7" data-line-number="7"><span class="kw">head</span>(<span class="kw"><a href="ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span>(avgtan))</a></code></pre></div>
 <pre><code>##             X114      X115      X116      X117
 ## P20353 0.3605000 0.3035000 0.2095000 0.1265000
 ## P53501 0.4299090 0.1779700 0.2068280 0.1852625
@@ -1450,9 +1450,9 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 ##  [1] gplots_3.0.1         msdata_0.21.0        pRoloc_1.21.9       
 ##  [4] BiocParallel_1.15.15 MLInterfaces_1.61.1  cluster_2.0.7-1     
 ##  [7] annotate_1.59.1      XML_3.98-1.16        AnnotationDbi_1.43.1
-## [10] IRanges_2.15.18      pRolocdata_1.19.5    Rdisop_1.41.0       
-## [13] RcppClassic_0.9.11   zoo_1.8-4            MSnbase_2.7.11      
-## [16] ProtGenerics_1.13.0  S4Vectors_0.19.23    mzR_2.15.5          
+## [10] IRanges_2.15.19      pRolocdata_1.19.5    Rdisop_1.41.0       
+## [13] RcppClassic_0.9.11   zoo_1.8-4            MSnbase_2.7.12      
+## [16] ProtGenerics_1.13.0  S4Vectors_0.19.24    mzR_2.15.5          
 ## [19] Rcpp_0.12.19         Biobase_2.41.2       BiocGenerics_0.27.1 
 ## [22] ggplot2_3.1.0        BiocStyle_2.9.6     
 ## 
@@ -1489,7 +1489,7 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 ##  [88] mclust_5.4.1          gridExtra_2.3         compiler_3.5.1       
 ##  [91] biomaRt_2.37.9        tibble_1.4.2          KernSmooth_2.23-15   
 ##  [94] ncdf4_1.16            crayon_1.3.4          htmltools_0.3.6      
-##  [97] segmented_0.5-3.0     later_0.7.5           tidyr_0.8.1          
+##  [97] segmented_0.5-3.0     later_0.7.5           tidyr_0.8.2          
 ## [100] lubridate_1.7.4       DBI_1.0.0             magic_1.5-9          
 ## [103] MASS_7.3-50           fpc_2.1-11.1          Matrix_1.2-14        
 ## [106] vsn_3.49.1            gdata_2.18.0          mlbench_2.1-1        
@@ -1501,7 +1501,7 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 ## [124] dendextend_1.9.0      kernlab_0.9-27        shiny_1.1.0          
 ## [127] gtools_3.8.1          commonmark_1.6        modeltools_0.2-22    
 ## [130] nlme_3.1-137          bindrcpp_0.2.2        desc_1.2.0           
-## [133] viridisLite_0.3.0     limma_3.37.10         pillar_1.3.0         
+## [133] viridisLite_0.3.0     limma_3.37.11         pillar_1.3.0         
 ## [136] lattice_0.20-35       httr_1.3.1            DEoptimR_1.0-8       
 ## [139] survival_2.42-3       glue_1.3.0            FNN_1.1.2.1          
 ## [142] gbm_2.1.4             prabclus_2.2-6        iterators_1.0.10     
