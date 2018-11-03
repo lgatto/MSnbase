@@ -55,8 +55,10 @@ jobs:
       install: skip
       script:
         - travis_wait 20 Rscript -e 'covr::codecov()'
-        - if [ ${TRAVIS_BRANCH} = "master" ] && [ -z "${TRAVIS_PULL_REQUEST_BRANCH}" ] ; then travis_wait 20 Rscript -e 'pkgdown::build_site()' ; fi
       name: "codecov and pkgdown (on master)"
+      before_deploy:
+        - R CMD INSTALL .
+        - travis_wait 20 Rscript -e 'pkgdown::build_site()'
       deploy:
         provider: pages
         skip-cleanup: true
