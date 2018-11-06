@@ -1,8 +1,9 @@
-.travis.yml
+.editorconfig
 .gitignore
 .gitignores
-Makefile
-README.Rmd
-NEWS.md
+.travis.yml
 docs
 ^docs$
+Makefile
+NEWS.md
+README.Rmd
