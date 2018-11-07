@@ -61,9 +61,6 @@ setMethod("show", "Spectra", function(object) {
 #'
 #' - `clean` *cleans* each spectrum. See [clean()] for more details.
 #'
-#' - `filterMz` filters the spectra by the specified `mz` range. See
-#'   [filterMz()] for details.
-#'
 #' - `pickPeaks` performs peak picking to generate centroided spectra. See
 #'   [pickPeaks()] for more details.
 #'
@@ -72,6 +69,17 @@ setMethod("show", "Spectra", function(object) {
 #'
 #' - `smooth` *smooths* spectra. See [smooth()] for more details.
 #'
+#' @section Filtering and subsetting
+#'
+#' - `[` can be used to subset the `Spectra` object.
+#'
+#' - `filterMsLevel` filters `Spectra` to retain only spectra from certain MS
+#'   level(s).
+#'
+#' - `filterMz` filters the spectra by the specified `mz` range. See
+#'   [filterMz()] for details.
+#'
+#'
 #' @md
 #'
 #' @param all For `clean`: if `FALSE` original 0-intensity values are retained
@@ -79,6 +87,7 @@ setMethod("show", "Spectra", function(object) {
 #'
 #' @param msLevel. For `clean`, `removePeaks`, `filterMz`: optionally specify
 #'   the MS level of the spectra on which the operation should be performed.
+#'   For `filterMsLevels`: MS level(s) to which the `Spectra` should be reduced.
 #'
 #' @param method For `pickPeaks` and `smooth`: see [pickPeaks()] and [smooth()]
 #'   for details.
@@ -518,12 +527,40 @@ setAs("Spectra", "list", function(from) {
     from@listData
 })
 
-## setAs("Spectra", "MSnExp", function(from) {
-##     ## mcols -> featureData
-##     ## empty phenoData
-##     ## empty processing
-##     ## spectra -> spectra
-## })
+setAs("Spectra", "MSnExp", function(from) {
+    if (length(unique(msLevel(from))) > 1)
+        stop("'from' contains Spectra from more than one MS level. Use ",
+             "'filterMsLevel' to restrict to Spectra from a single MS level ",
+             "before coercing.")
+    if (!length(names(from)))
+        names(from) <- as.character(seq_len(length(from)))
+    if (is.null(mcols(from)))
+        fd <- AnnotatedDataFrame(data.frame(spectrum = seq_len(length(from)),
+                                            row.names = names(from)))
+    else
+        fd <- AnnotatedDataFrame(as.data.frame(mcols(from)))
+    fromf <- as.character(unique(fromFile(from)))
+    process <- new("MSnProcess", files = fromf,
+                   processing = paste("Data converted from Spectra:", date()))
+    pd <- data.frame(sampleNames = fromf)
+    assaydata <- list2env(as(from, "list"))
+    lockEnvironment(assaydata, bindings = TRUE)
+    new("MSnExp", assayData = assaydata,
+        phenoData = new("NAnnotatedDataFrame", pd), featureData = fd,
+        processingData = process)
+})
+
+#' @rdname Spectra
+#'
+#' @examples
+#'
+#' ## Filter the object by MS level
+#' filterMsLevel(spl, msLevel. = 1)
+setMethod("filterMsLevel", "Spectra", function(object, msLevel.) {
+    if (missing(msLevel.)) return(object)
+    msLevel. <- as.numeric(msLevel.)
+    object[msLevel(object) %in% msLevel.]
+})
 
 ## Still to implement:
 ## quantify, method = c("trapezoidation", "max", "sum", reporters, strict = FALSE)

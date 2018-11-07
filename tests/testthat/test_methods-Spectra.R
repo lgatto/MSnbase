@@ -12,15 +12,15 @@ test_that("mz, intensity, rtime work", {
     expect_true(length(mz(spl)) == 3)
     expect_equal(mz(spl[[2]]), mz(spl)[[2]])
     expect_equal(mz(spl)[[3]], mz(sp3))
-    
+
     expect_true(length(intensity(spl)) == 3)
     expect_equal(intensity(spl[[2]]), intensity(spl)[[2]])
     expect_equal(intensity(spl)[[3]], intensity(sp3))
-    
+
     expect_true(length(rtime(spl)) == 3)
     expect_equal(rtime(spl[[2]]), rtime(spl)[[2]])
     expect_equal(rtime(spl)[[3]], rtime(sp3))
-    
+
     spl <- c(spl, Spectra(new("Spectrum2")))
     expect_true(lengths(mz(spl))[4] == 0)
     expect_true(lengths(intensity(spl))[4] == 0)
@@ -53,7 +53,7 @@ test_that("precursor* work", {
     expect_equal(precursorIntensity(spl), c(1234.4, NA, NA))
     expect_equal(precScanNum(spl), c(NA_integer_, 34L, NA_integer_))
     expect_true(is.integer(precScanNum(spl)))
-    
+
     expect_equal(precursorMz(spl_), c(NA_real_, 2, NA_real_))
     expect_equal(precursorCharge(spl_), rep(NA_integer_, length(spl_)))
     expect_equal(precursorIntensity(spl_), rep(NA_real_, length(spl_)))
@@ -66,7 +66,7 @@ test_that("acquisitionNum and scanIndex work", {
     spl <- Spectra(sp1, sp2)
     expect_identical(acquisitionNum(spl), c(2L, 4L))
     expect_identical(scanIndex(spl), c(1L, NA_integer_))
-        
+
     expect_equal(acquisitionNum(spl_), rep(NA_integer_, length(spl_)))
     expect_equal(scanIndex(spl_), rep(NA_integer_, length(spl_)))
     expect_true(is.integer(acquisitionNum(spl_)))
@@ -199,7 +199,7 @@ test_that("removePeaks,Spectra works", {
     res_2 <- lapply(spl, removePeaks)
     expect_equal(res@listData, res_2)
     expect_equal(mcols(res)$id, 1:3)
-    
+
     res <- removePeaks(spl, t = 10, msLevel. = 1)
     expect_true(is(res, "Spectra"))
     res_2 <- lapply(spl, removePeaks, t = 10, msLevel. = 1)
@@ -253,7 +253,7 @@ test_that("combineSpectra,Spectra works", {
     ints2[11:20] <- c(15, 30, 60, 120, 300, 200, 90, 60, 30, 23)
     ints3 <- abs(rnorm(length(mzs), 10))
     ints3[11:20] <- c(13, 20, 50, 100, 200, 100, 80, 40, 30, 20)
-    
+
     ## Create the spectra.
     sp1 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.01),
                intensity = ints1, rt = 1)
@@ -263,7 +263,7 @@ test_that("combineSpectra,Spectra works", {
                intensity = ints3, rt = 3)
     sp4 <- new("Spectrum2", mz = 1:3, intensity = c(4, 8, 1))
     sp5 <- new("Spectrum2", mz = 2:4, intensity = c(5, 8, 2))
-    
+
     spctra <- Spectra(sp1, sp2, sp3,
                       elementMetadata = DataFrame(idx = 1:3,
                                                   group = c("b", "a", "a")))
@@ -275,7 +275,7 @@ test_that("combineSpectra,Spectra works", {
 
     names(spctra) <- c("A", "B", "C")
     res <- combineSpectra(spctra)
-    
+
     expect_error(combineSpectra(spctra, fcol = "other"))
     res <- combineSpectra(spctra, fcol = "group", mzd = 0.05)
     expect_equal(lengths(intensity(res)), c(b = 191, a = 191))
@@ -283,7 +283,7 @@ test_that("combineSpectra,Spectra works", {
     expect_equal(res[[1]], sp1)
     expect_equal(mcols(res), DataFrame(idx = c(1, 2), group = c("b", "a"),
                                        row.names = c("b", "a")))
-    
+
     spctra <- Spectra(sp1, sp2, sp3, sp4, sp5,
                       elementMetadata = DataFrame(group = c("a", "b", "a",
                                                             "c", "c")))
@@ -294,4 +294,54 @@ test_that("combineSpectra,Spectra works", {
     expect_equal(rtime(res), c(a = 1, b = 2, c = NA))
     expect_equal(msLevel(res), c(a = 1, b = 1, c = 2))
     expect_equal(intensity(res)[[3]], c(4, mean(c(8, 5)), mean(c(1, 8)), 2))
+})
+
+test_that("as,Spectra,list works", {
+    sps <- Spectra()
+    res <- as(sps, "list")
+    expect_true(length(res) == 0)
+    expect_true(is.list(res))
+
+    res <- as(spl_, "list")
+    expect_true(is.list(res))
+    expect_equal(res, list(sp1, sp2, sp3))
+})
+
+test_that("as,Spectra,MSnExp works", {
+    sps <- Spectra()
+    res <- as(sps, "MSnExp")
+    expect_true(is(res, "MSnExp"))
+    expect_true(length(res) == 0)
+    expect_true(validObject(res))
+
+    expect_error(as(spl_, "MSnExp"))
+    spl_2 <- filterMsLevel(spl_, 2)
+    res <- as(spl_2, "MSnExp")
+    expect_equal(unname(spectra(res)), as(spl_2, "list"))
+    res <- as(spl_2[2:1], "MSnExp")
+    expect_equal(unname(spectra(res)), as(spl_2[2:1], "list"))
+    mcols(spl_2) <- DataFrame(id = c("a", "b"), other = c("d", "e"))
+    res <- as(spl_2, "MSnExp")
+    expect_equal(fData(res)$id, mcols(spl_2)$id)
+    expect_equal(fData(res)$other, mcols(spl_2)$other)
+    expect_equal(unname(spectra(res)), as(spl_2, "list"))
+
+    spl_1 <- filterMsLevel(spl_, 1)
+    res <- as(spl_1, "MSnExp")
+    expect_equal(spectra(res), list(`1` = sp3))
+})
+
+test_that("filterMsLevel,Spectra works", {
+    res <- filterMsLevel(spl_, 1)
+    expect_equal(res, Spectra(sp3))
+
+    expect_equal(filterMsLevel(spl_), spl_)
+    expect_equal(filterMsLevel(spl_, 1:4), spl_)
+
+    res <- filterMsLevel(spl_, 2)
+    expect_equal(res, Spectra(sp1, sp2))
+
+    res <- filterMsLevel(spl_, 4)
+    expect_true(is(res, "Spectra"))
+    expect_true(length(res) == 0)
 })
