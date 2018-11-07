@@ -39,11 +39,11 @@
 #'
 #' @param featureData either a \code{data.frame} or \code{AnnotatedDataFrame}
 #'     with additional information for each row of chromatograms.
-#' 
+#'
 #' @param ... Additional parameters to be passed to the
 #'     \code{\link[base]{matrix}} constructor, such as \code{nrow}, \code{ncol}
 #'     and \code{byrow}.
-#' 
+#'
 #' @rdname Chromatograms-class
 Chromatograms <- function(data, phenoData, featureData, ...) {
     if (missing(data))
@@ -112,7 +112,7 @@ Chromatograms <- function(data, phenoData, featureData, ...) {
     ## to the number of data points that were actually measured.
     lens <- lengths(x)
     maxLens <- max(lens)
-    
+
     ints <- rts <- matrix(NA_real_, nrow = maxLens, ncol = length(x))
     for (i in seq(along = x)) {
         if (lens[i]) {
@@ -180,7 +180,7 @@ Chromatograms <- function(data, phenoData, featureData, ...) {
 #' `Chromatogram` objects in each row.
 #'
 #' @author Johannes Rainer
-#' 
+#'
 #' @noRd
 .bin_Chromatograms <- function(object, binSize = 0.5, breaks = numeric(),
                                fun = max) {
@@ -196,4 +196,3 @@ Chromatograms <- function(data, phenoData, featureData, ...) {
     if (validObject(object))
         object
 }
-

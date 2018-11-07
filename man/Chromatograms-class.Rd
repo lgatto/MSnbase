@@ -32,6 +32,7 @@
 \alias{mz,Chromatograms-method}
 \alias{polarity,Chromatograms-method}
 \alias{bin,Chromatograms-method}
+\alias{clean,Chromatograms-method}
 \title{Container for multiple Chromatogram objects}
 \usage{
 Chromatograms(data, phenoData, featureData, ...)
@@ -90,6 +91,8 @@ Chromatograms(data, phenoData, featureData, ...)
 
 \S4method{bin}{Chromatograms}(object, binSize = 0.5,
   breaks = numeric(), fun = max)
+
+\S4method{clean}{Chromatograms}(object, all = FALSE, na.rm = FALSE)
 }
 \arguments{
 \item{data}{A \code{list} of \code{\link{Chromatogram}} objects.}
@@ -160,6 +163,13 @@ row.}
 
 \item{fun}{for \code{bin}: function to be used to aggregate the intensity
 values falling within each bin.}
+
+\item{all}{for \code{clean}: \code{logical(1)} whether all 0 intensities
+should be removed (\code{all = TRUE}), or whether 0-intensities
+adjacent to peaks should be kept (\code{all = FALSE}; default).}
+
+\item{na.rm}{for \code{clean}: \code{logical(1)} whether all \code{NA}
+intensities should be removed prior to clean 0 intensity data points.}
 }
 \value{
 For \code{[}: the subset of the \code{Chromatograms} object. If a
@@ -265,6 +275,11 @@ as a two-column \code{matrix} (with columns \code{"mzmin"} and
 along the retention time axis. By default, individual \code{Chromatogram}
 objects of one row are binned into the same bins. The function returns a
 \code{Chromatograms} object with binned chromatograms.
+
+\code{clean}: removes 0-intensity data points. Either all of them
+(with \code{all = TRUE}) or all except those adjacent to non-zero
+intensities (\code{all = FALSE}; default). See \code{\link{clean}}
+documentation for more details and examples.
 }
 \details{
 The \code{Chromatograms} class extends the base \code{matrix} class

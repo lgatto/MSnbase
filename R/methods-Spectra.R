@@ -71,7 +71,7 @@ setMethod("show", "Spectra", function(object) {
 #'   [removePeaks()] for more details.
 #'
 #' - `smooth` *smooths* spectra. See [smooth()] for more details.
-#' 
+#'
 #' @md
 #'
 #' @param all For `clean`: if `FALSE` original 0-intensity values are retained
@@ -85,7 +85,7 @@ setMethod("show", "Spectra", function(object) {
 #'
 #' @param mz For `filterMz`: `numeric(2)` defining the lower and upper m/z
 #'   for the filter. See [filterMz()] for details.
-#' 
+#'
 #' @param t For `removePeaks`: `numeric(1)` specifying the threshold below
 #'   which intensities are set to 0.
 #'
@@ -115,7 +115,7 @@ setMethod("intensity", "Spectra", function(object) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Extract the retention time values for the individual spectra
@@ -125,7 +125,7 @@ setMethod("rtime", "Spectra", function(object) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Extract the precursor m/z of each spectrum.
@@ -138,7 +138,7 @@ setMethod("precursorMz", "Spectra", function(object) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Extract the precursor charge of each spectrum.
@@ -151,7 +151,7 @@ setMethod("precursorCharge", "Spectra", function(object) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Extract the precursor scan number for each spectrum.
@@ -164,7 +164,7 @@ setMethod("precScanNum", "Spectra", function(object) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Extract the precursor intensity of each spectrum.
@@ -178,7 +178,7 @@ setMethod("precursorIntensity", "Spectra", function(object) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Extract the acquisition number of each spectrum.
@@ -190,7 +190,7 @@ setMethod("acquisitionNum", "Spectra", function(object) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Extract the scan index of each spectrum.
@@ -202,7 +202,7 @@ setMethod("scanIndex", "Spectra", function(object) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Get the number of peaks per spectrum.
@@ -212,7 +212,7 @@ setMethod("peaksCount", "Spectra", function(object) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Get the MS level of each spectrum.
@@ -222,7 +222,7 @@ setMethod("msLevel", "Spectra", function(object) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Get the total ion current for each spectrum.
@@ -232,7 +232,7 @@ setMethod("tic", "Spectra", function(object) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Get the total ion current for each spectrum.
@@ -242,7 +242,7 @@ setMethod("ionCount", "Spectra", function(object) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Extract the collision energy for each spectrum.
@@ -255,7 +255,7 @@ setMethod("collisionEnergy", "Spectra", function(object) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Extract the file index for each spectrum.
@@ -267,7 +267,7 @@ setMethod("fromFile", "Spectra", function(object) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Get the polarity for each spectrum.
@@ -279,7 +279,7 @@ setMethod("polarity", "Spectra", function(object) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Whether spectra are smoothed (i.e. processed with the `smooth`
@@ -290,7 +290,7 @@ setMethod("smoothed", "Spectra", function(object) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Are spectra empty (i.e. contain no peak data)?
@@ -300,7 +300,7 @@ setMethod("isEmpty", "Spectra", function(x) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Do the spectra contain centroided data?
@@ -310,7 +310,7 @@ setMethod("centroided", "Spectra", function(object) {
 })
 
 #' @rdname Spectra
-#' 
+#'
 #' @examples
 #'
 #' ## Do the spectra contain centroided data? Whether spectra are centroided
@@ -338,14 +338,14 @@ setMethod("isCentroided", "Spectra", function(object) {
 #'     for the MGF file.
 #'
 #' @md
-#' 
+#'
 #' @examples
 #'
 #' ## Export the spectrum list to a MGF file. Values in metadata columns are
 #' ## exported as additional field for each spectrum.
 #' tmpf <- tempfile()
 #' writeMgfData(spl, tmpf)
-#' 
+#'
 #' ## Evaluate the written output. The ID of each spectrum (defined in the
 #' ## "id" metadata column) is exported as field "ID".
 #' readLines(tmpf)
@@ -413,7 +413,7 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #' @rdname combineSpectra
 #'
 #' @aliases combineSpectra
-#' 
+#'
 #' @title Combine Spectra
 #'
 #' `combineSpectra` combines spectra in a [MSnExp-class] or [Spectra-class]
@@ -438,7 +438,7 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #' @return A `Spectra` or `MSnExp` object with combined spectra. Metadata
 #'     (`mcols`) and all spectrum attributes other than `mz` and `intensity`
 #'     are taken from the first `Spectrum` in each set.
-#' 
+#'
 #' @md
 #'
 #' @author Johannes Rainer, Laurent Gatto
@@ -446,7 +446,7 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #' @seealso [meanMzInts()] for a function to combine spectra.
 #'
 #' @examples
-#' 
+#'
 #' set.seed(123)
 #' mzs <- seq(1, 20, 0.1)
 #' ints1 <- abs(rnorm(length(mzs), 10))
@@ -473,7 +473,7 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #'
 #' ## All values other than m/z and intensity are kept from the first spectrum
 #' rtime(res)
-#' 
+#'
 #' ## Plot the individual and the merged spectrum
 #' par(mfrow = c(2, 1), mar = c(4.3, 4, 1, 1))
 #' plot(mz(sp1), intensity(sp1), xlim = range(mzs[5:25]), type = "h", col = "red")
@@ -481,13 +481,13 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #' points(mz(sp3), intensity(sp3), type = "h", col = "blue")
 #' plot(mz(res[[1]]), intensity(res[[1]]), type = "h",
 #'     col = "black", xlim = range(mzs[5:25]))
-#' 
+#'
 #' ## Combine spectra in two sets.
 #' res <- combineSpectra(spctra, fcol = "group", mzd = 0.05)
 #' res
 #'
 #' rtime(res)
-#' 
+#'
 #' ## Plot the individual and the merged spectra
 #' par(mfrow = c(3, 1), mar = c(4.3, 4, 1, 1))
 #' plot(mz(sp1), intensity(sp1), xlim = range(mzs[5:25]), type = "h", col = "red")
@@ -518,6 +518,12 @@ setAs("Spectra", "list", function(from) {
     from@listData
 })
 
+## setAs("Spectra", "MSnExp", function(from) {
+##     ## mcols -> featureData
+##     ## empty phenoData
+##     ## empty processing
+##     ## spectra -> spectra
+## })
 
 ## Still to implement:
 ## quantify, method = c("trapezoidation", "max", "sum", reporters, strict = FALSE)

@@ -28,7 +28,7 @@ setMethod("show", "Chromatograms", function(object) {
         }
         rn <- rownames(out)
         out <- rbind(rep("<Chromatogram>", ncol(out)), out)
-        rownames(out) <- c("", rn)        
+        rownames(out) <- c("", rn)
         print(out, quote = FALSE, right = TRUE)
     }
     cat("phenoData with", length(varLabels(object@phenoData)), "variables\n")
@@ -55,9 +55,9 @@ setAs("matrix", "Chromatograms", function(from) {
 #'     object (with the exception of extracting a single element)
 #'     unless \code{drop = TRUE} is specified. This is different from the
 #'     default subsetting behaviour of \code{matrix}-like objects.
-#' 
+#'
 #' @param x For all methods: a \code{Chromatograms} object.
-#' 
+#'
 #' @param i For \code{[}: \code{numeric}, \code{logical} or \code{character}
 #'     defining which row(s) to extract.
 #'
@@ -123,7 +123,7 @@ setMethod("[", "Chromatograms",
 #' @param value For \code{[<-}: the replacement object(s). Can be a \code{list}
 #'     of \code{\link{Chromatogram}} objects or, if length of \code{i} and
 #'     \code{j} are 1, a single \code{\link{Chromatogram}} object.
-#' 
+#'
 #'     For \code{pData<-}: a \code{data.frame} with the number of rows matching
 #'     the number of columns of \code{object}.
 #'
@@ -163,7 +163,7 @@ setReplaceMethod("[", "Chromatograms",
                  })
 
 #' @rdname Chromatograms-class
-#' 
+#'
 #' @description \code{plot}: plots a \code{Chromatograms} object. For each row
 #'     in the object one plot is created, i.e. all \code{\link{Chromatogram}}
 #'     objects in the same row are added to the same plot.
@@ -182,11 +182,11 @@ setReplaceMethod("[", "Chromatograms",
 #' @param type For \code{plot}: the type of plot (see
 #'     \code{\link[graphics]{plot}} for more details. Can be either a vector
 #'     of length 1 or of length equal to \code{ncol(x)}.
-#' 
+#'
 #' @inheritParams Chromatogram-class
 #'
 #' @examples
-#' 
+#'
 #' ## Create some random Chromatogram objects
 #' ints <- abs(rnorm(123, mean = 200, sd = 32))
 #' ch1 <- Chromatogram(rtime = seq_along(ints), intensity = ints, mz = 231)
@@ -312,7 +312,7 @@ setMethod("isEmpty", "Chromatograms", function(x) {
 })
 
 #' @rdname Chromatograms-class
-#' 
+#'
 #' @description \code{featureNames}: returns the feature names of the
 #'     \code{Chromatograms} object.
 setMethod("featureNames", "Chromatograms", function(object)
@@ -463,3 +463,26 @@ setMethod("polarity", "Chromatograms", function(object) {
 #'
 #' @rdname Chromatograms-class
 setMethod("bin", "Chromatograms", .bin_Chromatograms)
+
+#' @description
+#'
+#' \code{clean}: removes 0-intensity data points. Either all of them
+#' (with \code{all = TRUE}) or all except those adjacent to non-zero
+#' intensities (\code{all = FALSE}; default). See \code{\link{clean}}
+#' documentation for more details and examples.
+#'
+#' @param all for \code{clean}: \code{logical(1)} whether all 0 intensities
+#'     should be removed (\code{all = TRUE}), or whether 0-intensities
+#'     adjacent to peaks should be kept (\code{all = FALSE}; default).
+#'
+#' @param na.rm for \code{clean}: \code{logical(1)} whether all \code{NA}
+#'     intensities should be removed prior to clean 0 intensity data points.
+#'
+#' @rdname Chromatograms-class
+setMethod("clean", "Chromatograms", function(object, all = FALSE,
+                                             na.rm = FALSE) {
+    object@.Data <- matrix(lapply(object, clean, all = all, na.rm = na.rm),
+                           nrow = nrow(object), dimnames = dimnames(object))
+    if (validObject(object))
+        object
+})

@@ -1,5 +1,11 @@
 # MSnbase 2.9
 
+## Changes in version 2.9.1
+- Add clean,Chromatograms (issue
+  [#354](https://github.com/lgatto/MSnbase/issues/354)) <2018-11-07 Wed>
+- Add as,Spectra,list as,Spectra,MSnExp and as,MSnExp,Spectra
+  (issue [#370](https://github.com/lgatto/MSnbase/issues/370)) <2018-11-07 Wed>
+
 ## Changes in version 2.9.0
 - New version for Bioc 3.9 devel
 
@@ -20,7 +26,7 @@
 
 
 ## Changes in version 2.7.11
-- Change default for `timeDomain` in `combineSpectra` and 
+- Change default for `timeDomain` in `combineSpectra` and
   `combineSpectraMovingWindow` to `FALSE` <2018-10-18 Thu>
 - Add new spectra combination function `consensusSpectrum`
   <2018-10-24 Wed>
