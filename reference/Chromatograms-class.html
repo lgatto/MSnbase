@@ -93,7 +93,11 @@ polarity: returns the polarity of the scans/chromatograms: `1`,
 bin aggregates intensity values of chromatograms in discrete bins
 along the retention time axis. By default, individual Chromatogram
 objects of one row are binned into the same bins. The function returns a
-Chromatograms object with binned chromatograms." />
+Chromatograms object with binned chromatograms.
+clean: removes 0-intensity data points. Either all of them
+(with all = TRUE) or all except those adjacent to non-zero
+intensities (all = FALSE; default). See clean
+documentation for more details and examples." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -122,7 +126,7 @@ Chromatograms object with binned chromatograms." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.9.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.9.1</span>
       </span>
     </div>
 
@@ -254,6 +258,10 @@ as a two-column <code>matrix</code> (with columns <code>"mzmin"</code> and
 along the retention time axis. By default, individual <code>Chromatogram</code>
 objects of one row are binned into the same bins. The function returns a
 <code>Chromatograms</code> object with binned chromatograms.</p>
+<p><code>clean</code>: removes 0-intensity data points. Either all of them
+(with <code>all = TRUE</code>) or all except those adjacent to non-zero
+intensities (<code>all = FALSE</code>; default). See <code><a href='clean-methods.html'>clean</a></code>
+documentation for more details and examples.</p>
     
     </div>
 
@@ -338,7 +346,10 @@ polarity(object)
 
 # S4 method for Chromatograms
 bin(object, binSize = 0.5,
-  breaks = numeric(), fun = max)</pre>
+  breaks = numeric(), fun = max)
+
+# S4 method for Chromatograms
+clean(object, all = FALSE, na.rm = FALSE)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -449,6 +460,17 @@ row.</p></td>
       <th>fun</th>
       <td><p>for <code>bin</code>: function to be used to aggregate the intensity
 values falling within each bin.</p></td>
+    </tr>
+    <tr>
+      <th>all</th>
+      <td><p>for <code>clean</code>: <code>logical(1)</code> whether all 0 intensities
+should be removed (<code>all = TRUE</code>), or whether 0-intensities
+adjacent to peaks should be kept (<code>all = FALSE</code>; default).</p></td>
+    </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>for <code>clean</code>: <code>logical(1)</code> whether all <code>NA</code>
+intensities should be removed prior to clean 0 intensity data points.</p></td>
     </tr>
     </table>
     

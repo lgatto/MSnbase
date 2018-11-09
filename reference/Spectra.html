@@ -36,6 +36,7 @@
 (Spectrum1 or Spectrum2) in a list-like structure with
 the possibility to add arbitrary annotations to each individual
 Spectrum object. These can be accessed/set with the mcols() method.
+Spectra objects can be created with the Spectra function.
 Functions to access the individual spectra's attributes are available
 (listed below).
 writeMgfData exports a Spectra object to a file in MGF format. All
@@ -69,7 +70,7 @@ the capitalized column names used as field names (see examples below)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.9.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.9.1</span>
       </span>
     </div>
 
@@ -143,6 +144,7 @@ the capitalized column names used as field names (see examples below)." />
 (<a href='Spectrum1-class.html'>Spectrum1</a> or <a href='Spectrum2-class.html'>Spectrum2</a>) in a <code>list</code>-like structure with
 the possibility to add arbitrary annotations to each individual
 <code>Spectrum</code> object. These can be accessed/set with the <code>mcols()</code> method.</p>
+<p><code>Spectra</code> objects can be created with the <code>Spectra</code> function.</p>
 <p>Functions to access the individual spectra's attributes are available
 (listed below).</p>
 <p><code>writeMgfData</code> exports a <code>Spectra</code> object to a file in MGF format. All
@@ -234,7 +236,10 @@ the capitalized column names used as field names (see examples below).</p>
 
 <span class='co'># S4 method for Spectra</span>
 <span class='fu'><a href='smooth-methods.html'>smooth</a></span>(<span class='no'>x</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"SavitzkyGolay"</span>,
-  <span class='st'>"MovingAverage"</span>), <span class='kw'>halfWindowSize</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='no'>...</span>)</pre>
+  <span class='st'>"MovingAverage"</span>), <span class='kw'>halfWindowSize</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for Spectra</span>
+<span class='fu'><a href='MSnExp-class.html'>filterMsLevel</a></span>(<span class='no'>object</span>, <span class='no'>msLevel.</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -284,7 +289,8 @@ around peaks.</p></td>
     <tr>
       <th>msLevel.</th>
       <td><p>For <code>clean</code>, <code>removePeaks</code>, <code>filterMz</code>: optionally specify
-the MS level of the spectra on which the operation should be performed.</p></td>
+the MS level of the spectra on which the operation should be performed.
+For <code>filterMsLevels</code>: MS level(s) to which the <code>Spectra</code> should be reduced.</p></td>
     </tr>
     <tr>
       <th>t</th>
@@ -373,8 +379,6 @@ centroided from the actual peak data.</p></li>
     
     <ul>
 <li><p><code>clean</code> <em>cleans</em> each spectrum. See <code><a href='clean-methods.html'>clean()</a></code> for more details.</p></li>
-<li><p><code>filterMz</code> filters the spectra by the specified <code>mz</code> range. See
-<code><a href='trimMz-methods.html'>filterMz()</a></code> for details.</p></li>
 <li><p><code>pickPeaks</code> performs peak picking to generate centroided spectra. See
 <code><a href='pickPeaks-method.html'>pickPeaks()</a></code> for more details.</p></li>
 <li><p><code>removePeaks</code> removes peaks lower than a threshold <code>t</code>. See
@@ -474,7 +478,7 @@ centroided from the actual peak data.</p></li>
 
 <span class='co'>## Evaluate the written output. The ID of each spectrum (defined in the</span>
 <span class='co'>## "id" metadata column) is exported as field "ID".</span>
-<span class='fu'>readLines</span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Sun Nov  4 08:30:42 2018"   
+<span class='fu'>readLines</span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Fri Nov  9 10:03:16 2018"   
 #&gt;  [2] "BEGIN IONS"                                                      
 #&gt;  [3] "SCANS=NA"                                                        
 #&gt;  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     
@@ -500,7 +504,7 @@ centroided from the actual peak data.</p></li>
 <span class='fu'>mcols</span>(<span class='no'>spl</span>) <span class='kw'>&lt;-</span> <span class='kw'>NULL</span>
 <span class='fu'>file.remove</span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='fu'><a href='writeMgfData-methods.html'>writeMgfData</a></span>(<span class='no'>spl</span>, <span class='no'>tmpf</span>)
-<span class='fu'>readLines</span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Sun Nov  4 08:30:42 2018"   
+<span class='fu'>readLines</span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Fri Nov  9 10:03:16 2018"   
 #&gt;  [2] "BEGIN IONS"                                                      
 #&gt;  [3] "SCANS=NA"                                                        
 #&gt;  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     
@@ -519,7 +523,12 @@ centroided from the actual peak data.</p></li>
 #&gt; [17] "2 3"                                                             
 #&gt; [18] "3 2"                                                             
 #&gt; [19] "4 5"                                                             
-#&gt; [20] "END IONS"                                                        </div></pre>
+#&gt; [20] "END IONS"                                                        </div><div class='input'>
+<span class='co'>## Filter the object by MS level</span>
+<span class='fu'><a href='MSnExp-class.html'>filterMsLevel</a></span>(<span class='no'>spl</span>, <span class='kw'>msLevel.</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; Spectra with 1 spectra and 0 metadata column(s):
+#&gt;         msLevel     rtime peaksCount
+#&gt;       &lt;integer&gt; &lt;numeric&gt;  &lt;integer&gt;
+#&gt;   [1]         1        NA          3</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

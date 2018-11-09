@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.9.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.9.1</span>
       </span>
     </div>
 
@@ -129,14 +129,14 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>This document is not a replacement for the individual manual pages, that document the slots of the <em><a href="https://bioconductor.org/packages/3.8/MSnbase">MSnbase</a></em> classes. It is a centralised high-level description of the package design.</p>
-<p><em><a href="https://bioconductor.org/packages/3.8/MSnbase">MSnbase</a></em> aims at being compatible with the <em><a href="https://bioconductor.org/packages/3.8/Biobase">Biobase</a></em> infrastructure <span class="citation">(Gentleman et al. 2004)</span>. Many meta data structures that are used in <code>eSet</code> and associated classes are also used here. As such, knowledge of the <em>Biobase development and the new eSet</em> vignette would be beneficial; the vignette can directly be accessed with <code><a href="https://cran.rstudio.com/web/packages/Biobase/vignettes/BiobaseDevelopment.pdf">vignette("BiobaseDevelopment", package="Biobase")</a></code>.</p>
-<p>The initial goal is to use the <em><a href="https://bioconductor.org/packages/3.8/MSnbase">MSnbase</a></em> infrastructure for MS2 labelled (iTRAQ <span class="citation">(Ross et al. 2004)</span> and TMT <span class="citation">(Thompson et al. 2003)</span>) and label-free (spectral counting, index and abundance) quantitation - see the documentation for the <code>quantify</code> function for details. The infrastructure is currently extended to support a wider range of technologies, including metabolomics.</p>
+<p>This document is not a replacement for the individual manual pages, that document the slots of the <em><a href="https://bioconductor.org/packages/3.9/MSnbase">MSnbase</a></em> classes. It is a centralised high-level description of the package design.</p>
+<p><em><a href="https://bioconductor.org/packages/3.9/MSnbase">MSnbase</a></em> aims at being compatible with the <em><a href="https://bioconductor.org/packages/3.9/Biobase">Biobase</a></em> infrastructure <span class="citation">(Gentleman et al. 2004)</span>. Many meta data structures that are used in <code>eSet</code> and associated classes are also used here. As such, knowledge of the <em>Biobase development and the new eSet</em> vignette would be beneficial; the vignette can directly be accessed with <code><a href="https://cran.rstudio.com/web/packages/Biobase/vignettes/BiobaseDevelopment.pdf">vignette("BiobaseDevelopment", package="Biobase")</a></code>.</p>
+<p>The initial goal is to use the <em><a href="https://bioconductor.org/packages/3.9/MSnbase">MSnbase</a></em> infrastructure for MS2 labelled (iTRAQ <span class="citation">(Ross et al. 2004)</span> and TMT <span class="citation">(Thompson et al. 2003)</span>) and label-free (spectral counting, index and abundance) quantitation - see the documentation for the <code>quantify</code> function for details. The infrastructure is currently extended to support a wider range of technologies, including metabolomics.</p>
 </div>
 <div id="msnbase-classes" class="section level1">
 <h1 class="hasAnchor">
-<a href="#msnbase-classes" class="anchor"></a><em><a href="https://bioconductor.org/packages/3.8/MSnbase">MSnbase</a></em> classes</h1>
-<p>All classes have a <code>.__classVersion__</code> slot, of class <code>Versioned</code> from the <em><a href="https://bioconductor.org/packages/3.8/Biobase">Biobase</a></em> package. This slot documents the class version for any instance to be used for debugging and object update purposes. Any change in a class implementation should trigger a version change.</p>
+<a href="#msnbase-classes" class="anchor"></a><em><a href="https://bioconductor.org/packages/3.9/MSnbase">MSnbase</a></em> classes</h1>
+<p>All classes have a <code>.__classVersion__</code> slot, of class <code>Versioned</code> from the <em><a href="https://bioconductor.org/packages/3.9/Biobase">Biobase</a></em> package. This slot documents the class version for any instance to be used for debugging and object update purposes. Any change in a class implementation should trigger a version change.</p>
 <div id="pset-a-virtual-class-for-raw-mass-spectrometry-data-and-meta-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pset-a-virtual-class-for-raw-mass-spectrometry-data-and-meta-data" class="anchor"></a><code>pSet</code>: a virtual class for raw mass spectrometry data and meta data</h2>
@@ -190,9 +190,9 @@
 <div id="ondiskmsnexp-a-on-disk-implementation-of-the-msnexp-class" class="section level2">
 <h2 class="hasAnchor">
 <a href="#ondiskmsnexp-a-on-disk-implementation-of-the-msnexp-class" class="anchor"></a><code>OnDiskMSnExp</code>: a on-disk implementation of the <code>MSnExp</code> class</h2>
-<p>The <code>OnDiskMSnExp</code> class extends <code>MSnExp</code> and inherits all of its functionality but is aimed to use as little memory as possible based on a balance between memory demand and performance. Most of the spectrum-specific data, like retention time, polarity, total ion current are stored within the object’s <code>featureData</code> slot. The actual M/Z and intensity values from the individual spectra are, in contrast to <code>MSnExp</code> objects, not kept in memory (in the <code>assayData</code> slot), but are fetched from the original files on-demand. Because mzML files are indexed, using the <em><a href="https://bioconductor.org/packages/3.8/mzR">mzR</a></em> package to read the relevant spectrum data is fast and only moderately slower than for in-memory <code>MSnExp</code><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+<p>The <code>OnDiskMSnExp</code> class extends <code>MSnExp</code> and inherits all of its functionality but is aimed to use as little memory as possible based on a balance between memory demand and performance. Most of the spectrum-specific data, like retention time, polarity, total ion current are stored within the object’s <code>featureData</code> slot. The actual M/Z and intensity values from the individual spectra are, in contrast to <code>MSnExp</code> objects, not kept in memory (in the <code>assayData</code> slot), but are fetched from the original files on-demand. Because mzML files are indexed, using the <em><a href="https://bioconductor.org/packages/3.9/mzR">mzR</a></em> package to read the relevant spectrum data is fast and only moderately slower than for in-memory <code>MSnExp</code><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
 <p>To keep track of data manipulation steps that are applied to spectrum data (such as performed by methods <code>removePeaks</code> or <code>clean</code>) a <em>lazy execution</em> framework was implemented. Methods that manipulate or subset a spectrum’s M/Z or intensity values can not be applied directly to a <code>OnDiskMSnExp</code> object, since the relevant data is not kept in memory. Thus, any call to a processing method that changes or subset M/Z or intensity values are added as <code>ProcessingStep</code> items to the object’s <code>spectraProcessingQueue</code>. When the spectrum data is then queried from an <code>OnDiskMSnExp</code>, the spectra are read in from the file and all these processing steps are applied on-the-fly to the spectrum data before being returned to the user.</p>
-<p>The operations involving extracting or manipulating spectrum data are applied on a per-file basis, which enables parallel processing. Thus, all corresponding method implementations for <code>OnDiskMSnExp</code> objects have an argument <code>BPPARAM</code> and users can set a <code>PARALLEL_THRESH</code> option flag<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> that enables to define how and when parallel processing should be performed (using the <em><a href="https://bioconductor.org/packages/3.8/BiocParallel">BiocParallel</a></em> package).</p>
+<p>The operations involving extracting or manipulating spectrum data are applied on a per-file basis, which enables parallel processing. Thus, all corresponding method implementations for <code>OnDiskMSnExp</code> objects have an argument <code>BPPARAM</code> and users can set a <code>PARALLEL_THRESH</code> option flag<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> that enables to define how and when parallel processing should be performed (using the <em><a href="https://bioconductor.org/packages/3.9/BiocParallel">BiocParallel</a></em> package).</p>
 <p>Note that all data manipulations that are not applied to M/Z or intensity values of a spectrum (e.g. sub-setting by retention time etc) are very fast as they operate directly to the object’s <code>featureData</code> slot.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">getClass</span>(<span class="st">"OnDiskMSnExp"</span>)</a></code></pre></div>
 <pre><code>## Class "OnDiskMSnExp" [package "MSnbase"]
@@ -267,7 +267,7 @@
 <h2 class="hasAnchor">
 <a href="#MSnProcess" class="anchor"></a><code>MSnProcess</code>: a class for logging processing meta data</h2>
 <p>This class aims at recording specific manipulations applied to <code>MSnExp</code> or <code>MSnSet</code> instances. The <code>processing</code> slot is a <code>character</code> vector that describes major processing. Most other slots are of class <code>logical</code> that indicate whether the data has been centroided, smoothed,  although many of the functionality is not implemented yet. Any new processing that is implemented should be documented and logged here.</p>
-<p>It also documents the raw data file from which the data originates (<code>files</code> slot) and the <em><a href="https://bioconductor.org/packages/3.8/MSnbase">MSnbase</a></em> version that was in use when the <code>MSnProcess</code> instance, and hence the <code>MSnExp</code>/<code>MSnSet</code> objects, were originally created.</p>
+<p>It also documents the raw data file from which the data originates (<code>files</code> slot) and the <em><a href="https://bioconductor.org/packages/3.9/MSnbase">MSnbase</a></em> version that was in use when the <code>MSnProcess</code> instance, and hence the <code>MSnExp</code>/<code>MSnSet</code> objects, were originally created.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">getClass</span>(<span class="st">"MSnProcess"</span>)</a></code></pre></div>
 <pre><code>## Class "MSnProcess" [package "MSnbase"]
 ## 
@@ -529,7 +529,7 @@
 <div id="unit-tests" class="section level4 unnumbered">
 <h4 class="hasAnchor">
 <a href="#unit-tests" class="anchor"></a>Unit tests</h4>
-<p><em><a href="https://bioconductor.org/packages/3.8/MSnbase">MSnbase</a></em> implements unit tests with the <em><a href="https://CRAN.R-project.org/package=testthat">testthat</a></em> package.</p>
+<p><em><a href="https://bioconductor.org/packages/3.9/MSnbase">MSnbase</a></em> implements unit tests with the <em><a href="https://CRAN.R-project.org/package=testthat">testthat</a></em> package.</p>
 </div>
 <div id="processing-methods" class="section level4 unnumbered">
 <h4 class="hasAnchor">
@@ -541,7 +541,7 @@
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
-<pre><code>## R version 3.5.1 (2017-01-27)
+<pre><code>## R Under development (unstable) (2018-11-08 r75566)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
@@ -562,33 +562,33 @@
 ## [8] methods   base     
 ## 
 ## other attached packages:
-## [1] MSnbase_2.9.0       ProtGenerics_1.13.0 S4Vectors_0.19.24  
-## [4] mzR_2.15.5          Rcpp_0.12.19        Biobase_2.41.2     
-## [7] BiocGenerics_0.27.1 BiocStyle_2.9.6    
+## [1] MSnbase_2.9.1       ProtGenerics_1.15.0 S4Vectors_0.21.1   
+## [4] mzR_2.17.0          Rcpp_1.0.0          Biobase_2.43.0     
+## [7] BiocGenerics_0.29.1 BiocStyle_2.11.0   
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] tidyselect_0.2.5      xfun_0.4              purrr_0.2.5          
-##  [4] lattice_0.20-35       colorspace_1.3-2      htmltools_0.3.6      
-##  [7] yaml_2.2.0            vsn_3.49.1            XML_3.98-1.16        
+##  [4] lattice_0.20-38       colorspace_1.3-2      htmltools_0.3.6      
+##  [7] yaml_2.2.0            vsn_3.51.0            XML_3.98-1.16        
 ## [10] rlang_0.3.0.1         pkgdown_1.1.0         pillar_1.3.0         
-## [13] glue_1.3.0            BiocParallel_1.15.15  affy_1.59.1          
-## [16] bindrcpp_0.2.2        foreach_1.4.4         affyio_1.51.0        
-## [19] plyr_1.8.4            bindr_0.1.1           mzID_1.19.0          
-## [22] zlibbioc_1.27.0       stringr_1.3.1         munsell_0.5.0        
-## [25] pcaMethods_1.73.1     commonmark_1.6        gtable_0.2.0         
+## [13] glue_1.3.0            BiocParallel_1.17.1   affy_1.61.0          
+## [16] bindrcpp_0.2.2        foreach_1.4.4         affyio_1.53.0        
+## [19] plyr_1.8.4            bindr_0.1.1           mzID_1.21.0          
+## [22] zlibbioc_1.29.0       stringr_1.3.1         munsell_0.5.0        
+## [25] pcaMethods_1.75.0     commonmark_1.6        gtable_0.2.0         
 ## [28] codetools_0.2-15      memoise_1.1.0         evaluate_0.12        
-## [31] knitr_1.20            IRanges_2.15.19       doParallel_1.0.14    
-## [34] preprocessCore_1.43.0 scales_1.0.0          backports_1.1.2      
-## [37] BiocManager_1.30.3    limma_3.37.11         desc_1.2.0           
-## [40] fs_1.2.6              impute_1.55.0         ggplot2_3.1.0        
+## [31] knitr_1.20            IRanges_2.17.1        doParallel_1.0.14    
+## [34] preprocessCore_1.45.0 scales_1.0.0          backports_1.1.2      
+## [37] BiocManager_1.30.3    limma_3.39.1          desc_1.2.0           
+## [40] fs_1.2.6              impute_1.57.0         ggplot2_3.1.0        
 ## [43] digest_0.6.18         stringi_1.2.4         bookdown_0.7         
-## [46] dplyr_0.7.7           ncdf4_1.16            grid_3.5.1           
-## [49] rprojroot_1.3-2       tools_3.5.1           magrittr_1.5         
+## [46] dplyr_0.7.7           ncdf4_1.16            grid_3.6.0           
+## [49] rprojroot_1.3-2       tools_3.6.0           magrittr_1.5         
 ## [52] lazyeval_0.2.1        tibble_1.4.2          crayon_1.3.4         
-## [55] pkgconfig_2.0.2       MASS_7.3-50           xml2_1.2.0           
+## [55] pkgconfig_2.0.2       MASS_7.3-51.1         xml2_1.2.0           
 ## [58] iterators_1.0.10      assertthat_0.2.0      rmarkdown_1.10       
-## [61] roxygen2_6.1.0        R6_2.3.0              MALDIquant_1.18      
-## [64] compiler_3.5.1</code></pre>
+## [61] roxygen2_6.1.1        R6_2.3.0              MALDIquant_1.18      
+## [64] compiler_3.6.0</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
@@ -629,7 +629,7 @@
       <li><a href="#questions-and-bugs">Questions and bugs</a></li>
       <li><a href="#introduction">Introduction</a></li>
       <li>
-<a href="#msnbase-classes"><em><a href="https://bioconductor-org/packages/3-8/MSnbase">MSnbase</a></em> classes</a><ul class="nav nav-pills nav-stacked">
+<a href="#msnbase-classes"><em><a href="https://bioconductor-org/packages/3-9/MSnbase">MSnbase</a></em> classes</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#pset-a-virtual-class-for-raw-mass-spectrometry-data-and-meta-data"><code>pSet</code>: a virtual class for raw mass spectrometry data and meta data</a></li>
       <li><a href="#msnexp-a-class-for-ms-experiments"><code>MSnExp</code>: a class for MS experiments</a></li>
       <li><a href="#ondiskmsnexp-a-on-disk-implementation-of-the-msnexp-class"><code>OnDiskMSnExp</code>: a on-disk implementation of the <code>MSnExp</code> class</a></li>

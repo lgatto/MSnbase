@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.9.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.9.1</span>
       </span>
     </div>
 
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </script><div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>Mass spectrometry measures data in so called <em>profile mode</em>, were the signal corresponding to a specific ion is distributed around the ion’s actual m/z value <span class="citation">(Smith et al. 2014)</span>. The accuracy of that signal depends on the resolution and settings of the instrument. Profile mode data can be processed into <em>centroid</em> data by retaining only a single, representative value, typically the local maximum of the distribution of data points. This <em>centroiding</em> substantially reduces the amount of data without much loss of information. Certain algorithms, such as the <em>centWave</em> method in the <em><a href="https://bioconductor.org/packages/3.8/xcms">xcms</a></em> package for chromatographic peak detection in LC-MS experiments or proteomics search engines that match MS2 spectra to peptides, require the data to be in centroid mode. In this vignette, we will focus on metabolomics data.</p>
+<p>Mass spectrometry measures data in so called <em>profile mode</em>, were the signal corresponding to a specific ion is distributed around the ion’s actual m/z value <span class="citation">(Smith et al. 2014)</span>. The accuracy of that signal depends on the resolution and settings of the instrument. Profile mode data can be processed into <em>centroid</em> data by retaining only a single, representative value, typically the local maximum of the distribution of data points. This <em>centroiding</em> substantially reduces the amount of data without much loss of information. Certain algorithms, such as the <em>centWave</em> method in the <em><a href="https://bioconductor.org/packages/3.9/xcms">xcms</a></em> package for chromatographic peak detection in LC-MS experiments or proteomics search engines that match MS2 spectra to peptides, require the data to be in centroid mode. In this vignette, we will focus on metabolomics data.</p>
 <p>Many manufacturers apply centroiding of the profile data, either directly during the acquisition or immediately thereafter so that the user immediately receives processed data. Alternatively, third party software, such as <code>msconvert</code> from the <code>proteowizard</code> suite <span class="citation">(Chambers et al. 2012)</span> allow to apply various data centroiding algorithms, including vendor methods. In some cases however, the software provided by some vendors generate centroided data of poor quality. <code>MSnbase</code> also provides some functionality to perform centroiding of profile MS data. These processed data can then be further quantified or analysed within R or serialised to <em>mzML</em> files, and used as input for other software.</p>
 </div>
 <div id="centroiding-of-profile-mode-ms-data" class="section level1">

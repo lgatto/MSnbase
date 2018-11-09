@@ -74,7 +74,7 @@ The feature variables in the feature data slot will depend on the
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.9.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.9.1</span>
       </span>
     </div>
 
@@ -325,6 +325,10 @@ The feature variables in the feature data slot will depend on the
       <code>data.frame</code> with columns <code>"file"</code> (file index in
       <code>object</code>), <code>"rt"</code> (retention time), <code>"mz"</code> (m/z
       values) and <code>"i"</code> (intensity values).</p></dd>
+    <dt>as</dt><dd><p><code>signature(object = "MSnExp", "Spectra")</code>:
+      Coerces the <code>MSnExp</code> object to a <code><a href='Spectra.html'>Spectra</a></code>
+      object with all feature annotations added as metadata columns
+      (<code>mcols</code>).</p></dd>
     </dl>
     <p>Filtering and subsetting functions:</p>
 <p></p><dl class='dl-horizontal'>
@@ -383,8 +387,8 @@ The feature variables in the feature data slot will depend on the
 #&gt;  Number of spectra: 5 
 #&gt;  MSn retention times: 25:1 - 25:2 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded: Sun Nov  4 08:30:23 2018 
-#&gt;  MSnbase version: 2.9.0 
+#&gt; Data loaded: Fri Nov  9 10:02:57 2018 
+#&gt;  MSnbase version: 2.9.1 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
 #&gt;   rowNames: dummyiTRAQ.mzXML
