@@ -6,6 +6,8 @@
 \alias{Spectra}
 \alias{Spectra-class}
 \alias{show,Spectra-method}
+\alias{coerce,Spectra,list-method}
+\alias{coerce,Spectra,MSnExp-method}
 \alias{mz,Spectra-method}
 \alias{intensity,Spectra-method}
 \alias{rtime,Spectra-method}
@@ -32,6 +34,7 @@
 \alias{filterMz,Spectra-method}
 \alias{pickPeaks,Spectra-method}
 \alias{smooth,Spectra-method}
+\alias{filterMsLevel,Spectra-method}
 \title{List of Spectrum objects along with annotations}
 \usage{
 Spectra(..., elementMetadata = NULL)
@@ -92,6 +95,8 @@ Spectra(..., elementMetadata = NULL)
 
 \S4method{smooth}{Spectra}(x, method = c("SavitzkyGolay",
   "MovingAverage"), halfWindowSize = 2L, ...)
+
+\S4method{filterMsLevel}{Spectra}(object, msLevel.)
 }
 \arguments{
 \item{...}{For \code{Spectra}: \linkS4class{Spectrum} object(s) or a \code{list} of
@@ -121,7 +126,8 @@ for the MGF file.}
 around peaks.}
 
 \item{msLevel.}{For \code{clean}, \code{removePeaks}, \code{filterMz}: optionally specify
-the MS level of the spectra on which the operation should be performed.}
+the MS level of the spectra on which the operation should be performed.
+For \code{filterMsLevels}: MS level(s) to which the \code{Spectra} should be reduced.}
 
 \item{t}{For \code{removePeaks}: \code{numeric(1)} specifying the threshold below
 which intensities are set to 0.}
@@ -144,6 +150,8 @@ for details.}
 (\linkS4class{Spectrum1} or \linkS4class{Spectrum2}) in a \code{list}-like structure with
 the possibility to add arbitrary annotations to each individual
 \code{Spectrum} object. These can be accessed/set with the \code{\link[=mcols]{mcols()}} method.
+
+\code{Spectra} objects can be created with the \code{Spectra} function.
 
 Functions to access the individual spectra's attributes are available
 (listed below).
@@ -210,8 +218,6 @@ centroided from the actual peak data.
 
 \itemize{
 \item \code{clean} \emph{cleans} each spectrum. See \code{\link[=clean]{clean()}} for more details.
-\item \code{filterMz} filters the spectra by the specified \code{mz} range. See
-\code{\link[=filterMz]{filterMz()}} for details.
 \item \code{pickPeaks} performs peak picking to generate centroided spectra. See
 \code{\link[=pickPeaks]{pickPeaks()}} for more details.
 \item \code{removePeaks} removes peaks lower than a threshold \code{t}. See
@@ -318,6 +324,9 @@ file.remove(tmpf)
 
 writeMgfData(spl, tmpf)
 readLines(tmpf)
+
+## Filter the object by MS level
+filterMsLevel(spl, msLevel. = 1)
 }
 \author{
 Johannes Rainer

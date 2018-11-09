@@ -523,9 +523,9 @@ setClass("ProcessingStep",
 #'     example, a \code{Chromatogram} for a SRM transition 273 -> 153 will have
 #'     a \code{@precursorMz = c(273, 273)} and a
 #'     \code{@productMz = c(153, 153)}.
-#' 
+#'
 #' @rdname Chromatogram-class
-#' 
+#'
 #' @export
 #'
 #' @seealso \code{\link{Chromatograms}} for combining \code{Chromatogram} in
@@ -535,7 +535,7 @@ setClass("ProcessingStep",
 #'     object.
 #'     \code{\link{clean}} for the method to \emph{clean} a \code{Chromatogram}
 #'     object.
-#' 
+#'
 #' @author Johannes Rainer
 #'
 #' @examples
@@ -588,7 +588,7 @@ setClass("Chromatogram",
 #' @title Container for multiple Chromatogram objects
 #'
 #' @aliases coerce,matrix,Chromatograms-method
-#' 
+#'
 #' @description The \code{Chromatograms} class allows to store
 #'     \code{\link{Chromatogram}} objects in a \code{matrix}-like
 #'     two-dimensional structure.
@@ -611,9 +611,9 @@ setClass("Chromatogram",
 #'     \code{\linkS4class{OnDiskMSnExp}} object.
 #'     \code{\link{readSRMData}} for the function to read chromatographic data
 #'     of an SRM/MRM experiment.
-#' 
+#'
 #' @author Johannes Rainer
-#' 
+#'
 #' @examples
 #' ## Creating some chromatogram objects to put them into a Chromatograms object
 #' ints <- abs(rnorm(25, sd = 200))
@@ -676,7 +676,7 @@ setClass("Chromatograms",
 
 #' @name Spectra
 #'
-#' @aliases Spectra-class show,Spectra-method
+#' @aliases Spectra-class show,Spectra-method coerce,Spectra,list-method coerce,Spectra,MSnExp-method
 #'
 #' @title List of Spectrum objects along with annotations
 #'
@@ -686,6 +686,8 @@ setClass("Chromatograms",
 #' ([Spectrum1-class] or [Spectrum2-class]) in a `list`-like structure with
 #' the possibility to add arbitrary annotations to each individual
 #' `Spectrum` object. These can be accessed/set with the [mcols()] method.
+#'
+#' `Spectra` objects can be created with the `Spectra` function.
 #'
 #' Functions to access the individual spectra's attributes are available
 #' (listed below).
@@ -699,7 +701,7 @@ setClass("Chromatograms",
 #' @param object For all functions: a `Spectra` object.
 #'
 #' @param x For all functions: a `Spectra` object.
-#' 
+#'
 #' @md
 #'
 #' @rdname Spectra
