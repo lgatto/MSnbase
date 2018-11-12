@@ -4,8 +4,9 @@ test_that("all imputation methods", {
     data(naset, package = "MSnbase")
     m <- imputeMethods()
     m <- m[m != "mixed"]
+    m <- m[m != "none"]
     m <- m[m != "nbavg"] ## see next test
-    
+
     for (.m in m) {
         xx <- impute(naset, method = .m)
         expect_true(validObject(xx))
@@ -37,25 +38,30 @@ test_that("all imputation methods", {
                  randna = fData(naset)$randna,
                  mnar = "min",
                  mar = "knn")
-    
+
     expect_true(validObject(mx))
     expect_false(any(is.na(exprs(mx))))
 })
 
+test_that("none method", {
+    data(naset, package = "MSnbase")
+    x <- impute(naset, method = "none")
+    expect_true(identical(naset, nologging(x)))
+})
 
 test_that("nbavg methods", {
     m <- matrix(1:25, 5)
     ## default min value
-    m[1, 2] <- 0.1 
+    m[1, 2] <- 0.1
     ## imputes as min value (or use-defined k)
-    m[1, 1] <- m[5, 5] <- NA 
+    m[1, 1] <- m[5, 5] <- NA
     m[2, 1:2] <- NA ## [2, 1] will be min
                     ## [2, 2] will be avg 6.05
-    ## remaing NA    
+    ## remaing NA
     m[3, 3:4] <- NA
     ## average imputation
     m[5, 2] <- NA ## will be 10
-    m[4, 3] <- NA ## will be 14    
+    m[4, 3] <- NA ## will be 14
     pd <- fd <- data.frame(A = 1:5)
     rownames(m) <- colnames(m) <-
         rownames(pd) <- rownames(fd) <-
