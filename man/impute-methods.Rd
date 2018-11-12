@@ -13,7 +13,7 @@
   \code{MSnSet} instance using a variety of methods (see below).  The
   imputation and the parameters are logged into the
   \code{processingData(object)} slot.
-  
+
   Users should proceed with care when imputing data and take precautions
   to assure that the imputation produce valid results, in particular
   with naive imputations such as replacing missing values with 0.
@@ -41,7 +41,7 @@
       random (MNAR). }
 
   }
-  
+
 
   MNAR features should ideally be imputed with a left-censor method,
   such as \code{QRILC} below. Conversely, it is recommended to use host
@@ -59,7 +59,7 @@
       parameters. Note that here, \code{...} are passed to the
       \code{\link[norm]{em.norm}} function, rather to the actual
       imputation function \code{imp.norm}. }
-    
+
     \item{bpca}{Bayesian missing value imputation are available, as
     implemented in the and \code{pcaMethods::pca} functions. See
     \code{\link[pcaMethods]{pca}} for details and additional
@@ -76,7 +76,7 @@
       regression. Implemented in the \code{imputeLCMD::impute.QRILC}
       function. See \code{\link[imputeLCMD]{impute.QRILC}} for details
       and additional parameters. }
-    
+
     \item{MinDet}{Performs the imputation of left-censored missing data
       using a deterministic minimal value approach. Considering a
       expression data with \emph{n} samples and \emph{p} features, for
@@ -87,7 +87,7 @@
       \code{imputeLCMD::impute.MinDet} function. See
       \code{\link[imputeLCMD]{impute.MinDet}} for details and additional
       parameters. }
-  
+
     \item{MinProb}{Performs the imputation of left-censored missing data
       by random draws from a Gaussian distribution centred to a minimal
       value. Considering an expression data matrix with \emph{n} samples
@@ -102,10 +102,10 @@
       considered. Implemented in the \code{imputeLCMD::impute.MinProb}
       function. See \code{\link[imputeLCMD]{impute.MinProb}} for details
       and additional parameters. }
-        
+
     \item{min}{Replaces the missing values by the smallest non-missing
       value in the data. }
-    
+
     \item{zero}{Replaces the missing values by 0.}
 
     \item{mixed}{A mixed imputation applying two methods (to be defined
@@ -126,15 +126,19 @@
       neighbouring values, it is imputed by the mean of its direct
       neighbours. A stretch of 2 or more missing values will not be
       imputed. See the example below.
-      
+
     }
+
+    \item{none}{No imputation is performed and the missing values are
+      left untouched. Implemented in case one wants to only impute value
+      missing at random or not at random with the \code{mixed} method.}
 
   }
 
   The \code{naset} \code{\linkS4class{MSnSet}} is an real quantitative
   data where quantitative values have been replaced by \code{NA}s. See
   \code{script/naset.R} for details.
-  
+
 }
 
 
@@ -216,4 +220,3 @@ Data Sets to Compare Imputation Strategies. J Proteome Res. 2016 Apr
 }
 
 \keyword{methods}
-
