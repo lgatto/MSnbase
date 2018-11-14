@@ -7,7 +7,7 @@ plot_Spectrum1 <- function(spectrum,
     }
     mtc <- mz(spectrum)
     i <- intensity(spectrum)
-    dfr <- data.frame(i = i, mtc = mtc)
+    dfr <- data.frame(i = i, mz = mtc)
     if (centroided.) {
         p <- ggplot(dfr, aes(x = mz, xend = mz, y = 0, yend = i)) +
             geom_segment()
