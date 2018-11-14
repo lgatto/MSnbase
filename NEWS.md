@@ -1,5 +1,8 @@
 # MSnbase 2.9
 
+## Changes in version 2.9.2
+- Nothing yet
+
 ## Changes in version 2.9.1
 - Add clean,Chromatograms (issue
   [#354](https://github.com/lgatto/MSnbase/issues/354)) <2018-11-07 Wed>
