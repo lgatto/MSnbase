@@ -6,6 +6,7 @@
 - Add as,Spectra,list as,Spectra,MSnExp and as,MSnExp,Spectra
   (issue [#370](https://github.com/lgatto/MSnbase/issues/370)) <2018-11-07 Wed>
 - Add filterMsLevel,Spectra <2018-11-07 Wed>
+- Fix regression bug in plot,Spectrum1 <2018-11-14 Wed>
 
 ## Changes in version 2.9.0
 - New version for Bioc 3.9 devel
