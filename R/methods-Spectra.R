@@ -419,18 +419,20 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
         x
 })
 
-#' @rdname combineSpectra
-#'
-#' @aliases combineSpectra
-#'
-#' @title Combine Spectra
-#'
+
+
+
 #' `combineSpectra` combines spectra in a [MSnExp-class] or [Spectra-class]
 #' object applying the summarization function `fun` to sets of spectra defined
-#' by a factor (`fcol` parameter). The resulting combined spectrum for each
-#' set contains metadata information (present in `mcols` and all spectrum
-#' information other than `mz` and `intensity`) from the first spectrum in
-#' each set.
+#' by a factor (`fcol` parameter). The resulting combined spectrum for each set
+#' contains metadata information (present in `mcols` and all spectrum
+#' information other than `mz` and `intensity`) from the first spectrum in each
+#' set.
+#'
+#' @aliases combineSpectra
+#' @rdname combineSpectra
+#'
+#' @title Combine Spectra
 #'
 #' @param object A [MSnExp-class] or [Spectra-class]
 #'

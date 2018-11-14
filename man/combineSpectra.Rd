@@ -4,14 +4,7 @@
 \name{combineSpectra,Spectra-method}
 \alias{combineSpectra,Spectra-method}
 \alias{combineSpectra}
-\title{Combine Spectra
-
-\code{combineSpectra} combines spectra in a \linkS4class{MSnExp} or \linkS4class{Spectra}
-object applying the summarization function \code{fun} to sets of spectra defined
-by a factor (\code{fcol} parameter). The resulting combined spectrum for each
-set contains metadata information (present in \code{mcols} and all spectrum
-information other than \code{mz} and \code{intensity}) from the first spectrum in
-each set.}
+\title{Combine Spectra}
 \usage{
 \S4method{combineSpectra}{Spectra}(object, fcol, fun = meanMzInts, ...)
 }
@@ -34,14 +27,12 @@ A \code{Spectra} or \code{MSnExp} object with combined spectra. Metadata
 are taken from the first \code{Spectrum} in each set.
 }
 \description{
-Combine Spectra
-
 \code{combineSpectra} combines spectra in a \linkS4class{MSnExp} or \linkS4class{Spectra}
 object applying the summarization function \code{fun} to sets of spectra defined
-by a factor (\code{fcol} parameter). The resulting combined spectrum for each
-set contains metadata information (present in \code{mcols} and all spectrum
-information other than \code{mz} and \code{intensity}) from the first spectrum in
-each set.
+by a factor (\code{fcol} parameter). The resulting combined spectrum for each set
+contains metadata information (present in \code{mcols} and all spectrum
+information other than \code{mz} and \code{intensity}) from the first spectrum in each
+set.
 }
 \examples{
 
