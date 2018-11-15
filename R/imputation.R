@@ -29,7 +29,7 @@ setMethod("impute", "MSnSet",
                   imp_res <- impute.knn(exprs(object), ...)
                   .eset <- imp_res$data
                   if(!is.null(imp_res$rng.state)) {
-                    .Random.seed <<- imp_res$rng.state
+                   assign(".Random.seed", imp_res$rng.state, envir=.GlobalEnv)
                   }
                   exprs(object) <- .eset
               } else if (method == "nbavg") {
