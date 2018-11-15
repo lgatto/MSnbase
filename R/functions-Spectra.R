@@ -46,6 +46,8 @@ Spectra <- function(..., elementMetadata = NULL) {
         args <- args[[1L]]
     if (length(dim(elementMetadata)) > 1)
         rownames(elementMetadata) <- NULL
+    if (is.null(names(args)))
+        names(args) <- seq_len(length(args))
     new("Spectra", listData = args, elementMetadata = elementMetadata)
 }
 
