@@ -28,7 +28,7 @@ setMethod("impute", "MSnSet",
               if (method == "knn") {
                   imp_res <- impute.knn(exprs(object), ...)
                   .eset <- imp_res$data
-                  if(! is.null(imp_res$rng.state)){
+                  if(!is.null(imp_res$rng.state)) {
                     .Random.seed <<- imp_res$rng.state
                   }
                   exprs(object) <- .eset
