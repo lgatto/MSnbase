@@ -88,7 +88,7 @@ test_that("nbavg methods", {
 })
 
 
-test_that("seed is not set by knn imputation method" {
+test_that("seed is not set by knn imputation method", {
 
   data(naset, package = "MSnbase")
   
