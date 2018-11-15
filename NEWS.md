@@ -1,7 +1,8 @@
 # MSnbase 2.9
 
 ## Changes in version 2.9.2
-- Nothing yet
+- Conserve spectra names in `combineSpectra` (see [#379](https://github.com/lgatto/MSnbase/issues/379))
+  <2018-11-15 Thu>
 
 ## Changes in version 2.9.1
 - Add clean,Chromatograms (issue
