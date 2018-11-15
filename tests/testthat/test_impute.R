@@ -86,3 +86,16 @@ test_that("nbavg methods", {
     expect_true(exprs(xx[5, 2]) == 10)
     expect_true(exprs(xx[4, 3]) == 14)
 })
+
+
+test_that("seed is not set by knn imputation method" {
+
+  data(naset, package = "MSnbase")
+  
+  rand <- sapply(1:10, function(idx){
+    xx <- suppressWarnings(impute(naset, "knn"))
+    rnorm(1)
+  })
+  expect_gt(max(rand) - min(rand), 0)
+
+})
