@@ -16,7 +16,7 @@ test_that("Spectra construction works as expected", {
                precursorMz = 2, rt = 1.232446)
     sp3 <- new("Spectrum1", mz = c(1, 2, 3, 5, 6), intensity = c(6:10),
                rt = 1.232445)
-    
+
     ## Errors.
     expect_error(new("Spectra", 4))
     expect_error(new("Spectra", list(4)))
@@ -40,8 +40,9 @@ test_that("Spectra construction works as expected", {
     expect_equal(spl[[1]], sp1)
     expect_equal(spl[[2]], sp2)
     expect_equal(spl[[3]], sp3)
-    expect_equal(mcols(spl), DataFrame(id = c("a", "b", "c")))
-    
+    expect_equal(mcols(spl), DataFrame(id = c("a", "b", "c"),
+                                       row.names = 1:3))
+
     ## Concatenating.
     spl <- c(Spectra(sp1), Spectra(sp2))
     expect_true(is(spl, "Spectra"))
@@ -57,11 +58,11 @@ test_that(".make_naked_matrix_from_Spectra works", {
     sp3 <- new("Spectrum1", mz = c(1, 2, 3, 5, 6), intensity = c(6:10),
                rt = 1.232445)
     spl <- Spectra(sp1, sp2, sp3, elementMetadata = DataFrame(id = 1:3))
-    
+
     res <- .make_naked_matrix_from_Spectra(spl)
     expect_equal(ncol(res), 5)
     expect_equal(nrow(res), 3)
-    
+
     spl <- Spectra(new("Spectrum2", mz = c(1, 2, 3), intensity = 1:3))
     res <- .make_naked_matrix_from_Spectra(spl)
     expect_equal(ncol(res), 3)
@@ -80,4 +81,3 @@ test_that("show,Spectra works", {
     .show_Spectra(spl, print.classinfo = TRUE)
     show(spl)
 })
-
