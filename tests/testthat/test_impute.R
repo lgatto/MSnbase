@@ -93,8 +93,8 @@ test_that("seed is not set by knn imputation method", {
   data(naset, package = "MSnbase")
   
   rand <- sapply(1:10, function(idx){
-    xx <- suppressWarnings(impute(naset, "knn"))
-    rnorm(1)
+      xx <- suppressWarnings(impute(naset, "knn"))
+      rnorm(1)
   })
   expect_gt(max(rand) - min(rand), 0)
 

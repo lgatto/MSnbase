@@ -29,7 +29,7 @@ setMethod("impute", "MSnSet",
                   imp_res <- impute.knn(exprs(object), ...)
                   .eset <- imp_res$data
                   if(!is.null(imp_res$rng.state)) {
-                   assign(".Random.seed", imp_res$rng.state, envir=.GlobalEnv)
+                      assign(".Random.seed", imp_res$rng.state, envir=.GlobalEnv)
                   } else {
                       rm(".Random.seed", envir=.GlobalEnv)
                   }
