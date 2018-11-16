@@ -1,7 +1,9 @@
 # MSnbase 2.9
 
 ## Changes in version 2.9.2
-- Nothing yet
+- Fix problem that impute(x, method="knn") sets the seed (issue 
+  [#380](https://github.com/lgatto/MSnbase/issues/380)). Contributed by
+  Constantin Ahlmann-Eltze
 
 ## Changes in version 2.9.1
 - Add clean,Chromatograms (issue
