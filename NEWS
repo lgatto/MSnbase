@@ -1,6 +1,10 @@
 # MSnbase 2.9
 
 Changes in version 2.9.2
+- Fix problem that impute(x, method="knn") sets the seed (issue 
+  #380). Contributed by
+  Constantin Ahlmann-Eltze
+  <2018-11-16 Fri>
 - Conserve spectra names in `combineSpectra` (see #379)
   <2018-11-15 Thu>
 

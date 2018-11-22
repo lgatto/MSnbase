@@ -203,8 +203,7 @@ makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
         ## diag(test[1:3, 4:6]) <- m[1:3, 6] ## col6: +3
         ## test <- test/100
         M <- res/100
-        rownames(M) <- colnames(M) <-
-            paste("reporter", 1:x, sep=".")
+        rownames(M) <- colnames(M) <- rownames(m)
     } else {
         if (x==4) {
             M <- matrix(c(0.929,0.059,0.002,0.000,
@@ -1384,21 +1383,21 @@ hasChromatograms <- function(files) {
 #'
 #' @param which `character` defining for which element the index should be
 #'     returned, can be either `"first"`, `"middle"` or `"last"`.
-#' 
+#'
 #' @return `integer` same length than `levels(x)` with the index for each
 #'     level in `x`.
-#' 
+#'
 #' @author Johannes Rainer
-#' 
+#'
 #' @md
 #'
 #' @noRd
-#' 
+#'
 #' @examples
-#' 
+#'
 #' f <- factor(c("a", "a", "b", "a", "b", "c", "c", "b", "d", "d", "d"))
 #' f
-#' 
+#'
 #' levelIndex(f, which = "first")
 #' levelIndex(f, which = "middle")
 #' levelIndex(f, which = "last")
