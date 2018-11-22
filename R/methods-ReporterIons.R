@@ -2,7 +2,7 @@
 ## Methods for ReporterIons class
 setMethod("show","ReporterIons",
           function(object) {
-            show.ReporterIons(object)
+            show_ReporterIons(object)
             invisible(NULL)
           })
 
@@ -11,7 +11,7 @@ setMethod("[","ReporterIons",
 setMethod("length","ReporterIons",function(x) length(x@mz))
 setMethod("mz","ReporterIons", function(object) object@mz)
 
-setMethod("width","ReporterIons", function(x) x@width) 
+setMethod("width","ReporterIons", function(x) x@width)
 
 setMethod("reporterColours","ReporterIons", function(object) object@col)
 setMethod("reporterColors" ,"ReporterIons", function(object) object@col)

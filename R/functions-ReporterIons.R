@@ -1,9 +1,11 @@
-show.ReporterIons <- function(object) {
-  cat("Object of class \"",class(object),"\"\n",sep="")
-  cat(object@name,": '",object@description,"' with ",length(object@mz)," reporter ions\n",sep="")
-  if (length(object@mz)>0) {
-    for (i in 1:length(object@mz))
-      cat(" - ",object@mz[i]," +/- ",object@width," (",object@col[i],")\n",sep="")
+show_ReporterIons <- function(object) {
+  cat("Object of class \"", class(object), "\"\n",sep = "")
+  cat(object@name, ": '", object@description, "' with ", length(object@mz),
+      " reporter ions\n", sep = "")
+  if (length(object@mz) > 0) {
+      for (i in 1:length(object@mz))
+          cat(" - [", object@reporterNames[i], "] ", object@mz[i], " +/- ",
+            object@width, " (",object@col[i],")\n", sep = "")
   }
 }
 
