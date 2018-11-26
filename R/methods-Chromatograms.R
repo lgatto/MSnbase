@@ -102,10 +102,11 @@ setMethod("[", "Chromatograms",
                   return(x@.Data[i, j, drop = TRUE][[1]])
               pd <- x@phenoData
               fd <- x@featureData
+              xclass <- class(x)
               ## Multiple elements, return type depends on drop.
               x <- x@.Data[i = i, j = j, drop = drop]
               if (!drop) {
-                  x <- as(x, "Chromatograms")
+                  x <- as(x, xclass)
                   pd <- pd[j, ]
                   ## Drop levels
                   pData(pd) <- droplevels(pData(pd))
