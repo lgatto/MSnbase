@@ -94,7 +94,7 @@ names(.SUPPORTED_AGG_FUN_CHROM) <-
 #' @param msLevel \code{integer} with the MS level from which the chromatogram
 #'     was extracted.
 #'
-#' @Slot .__classVersion__,rtime,intensity,mz,filterMz,precursorMz,productMz,fromFile,aggregationFun,msLevel See corresponding parameter above.
+#' @slot .__classVersion__,rtime,intensity,mz,filterMz,precursorMz,productMz,fromFile,aggregationFun,msLevel See corresponding parameter above.
 #'
 #' @rdname Chromatogram-class
 Chromatogram <- function(rtime = numeric(), intensity = numeric(),
