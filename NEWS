@@ -1,9 +1,9 @@
-# MSnbase 2.9
-
 Changes in version 2.9.3
-- Nothing yet
+------------------------
+- Fix bug in ms2df (order of fcols could be scambled) <2018-12-04 Tue>
 
 Changes in version 2.9.2
+------------------------
 - Fix problem that impute(x, method="knn") sets the seed (issue
   #380). Contributed by
   Constantin Ahlmann-Eltze
@@ -13,6 +13,7 @@ Changes in version 2.9.2
 - Fix bug in writeMSData - see #383 <2018-11-22 Thu>
 
 Changes in version 2.9.1
+------------------------
 - Add clean,Chromatograms (issue
   #354) <2018-11-07 Wed>
 - Add as,Spectra,list as,Spectra,MSnExp and as,MSnExp,Spectra
@@ -21,16 +22,17 @@ Changes in version 2.9.1
 - Fix regression bug in plot,Spectrum1 <2018-11-14 Wed>
 
 Changes in version 2.9.0
+------------------------
 - New version for Bioc 3.9 devel
 
-# MSnbase 2.8
 
 Changes in version 2.8.0
+------------------------
 - New version for Bioc 3.8 release
 
-# MSnbase 2.7
 
 Changes in version 2.7.12
+-------------------------
 
 - Fix warnings on windows (see
   #371) <2018-10-26 Fri>
@@ -40,6 +42,7 @@ Changes in version 2.7.12
 
 
 Changes in version 2.7.11
+-------------------------
 - Change default for `timeDomain` in `combineSpectra` and
   `combineSpectraMovingWindow` to `FALSE` <2018-10-18 Thu>
 - Add new spectra combination function `consensusSpectrum`
@@ -47,41 +50,50 @@ Changes in version 2.7.11
 - Amend plot,Spectrum 1 and 2 (see #369)
 
 Changes in version 2.7.10
+-------------------------
 - Methods for Spectra class <2018-10-15 Mon>
 
 Changes in version 2.7.9
+------------------------
 - Import rather than depend on BiocParallel <2018-10-15 Mon>
 - Fix failing test on Windows (requiring normalizePath) <2018-10-15 Mon>
 
 Changes in version 2.7.8
+------------------------
 - MGF exporter gets a new `addFields` argument (see PR
   #362) <2018-10-12 Fri>
 - New `Spectra` (`SimpleList` of `Sepctrum` objects) (see PR
   #361) <2018-10-13 Sat>
 
 Changes in version 2.7.7
+------------------------
 - Fix unit tests (issue #360,
   wrong MS OBO CV terms for data smoothing (MS:1000592) and baseline
   correction (MS:1000593))
 
 Changes in version 2.7.6
+------------------------
 - Fix wrong MS OBO CV terms for data smoothing (MS:1000592) and
   baseline correction (MS:1000593).
 
 Changes in version 2.7.5
+------------------------
 - Add a note about parallel processing in vignette (see
   #356 for background)
   <2018-09-04 Tue>
 
 Changes in version 2.7.4
+------------------------
 - Fix filterMz for spectra with no non-NA intensities in m/z range
   (see #355) <2018-08-08 Wed>
 
 Changes in version 2.7.3
+------------------------
 - Fix bug in robust summary (see PR #349) <2018-07-28 Sat>
 - Fix failing unit test <2018-07-28 Sat>
 
 Changes in version 2.7.2
+------------------------
 - Handle files without any spectra - see
   #342
   <2018-05-15 Tue>
@@ -91,29 +103,33 @@ Changes in version 2.7.2
   arguments (see #350) <2018-06-29 Fri>
 
 Changes in version 2.7.1
+------------------------
 - Version bump to force new vignette build
 
 Changes in version 2.7.0
+------------------------
 - New devel version for Bioc 3.8
 
-# MSnbase 2.6
 
 Changes in version 2.6.0
+------------------------
 - New release version for Bioc 3.7
 
-# MSnbase 2.5
 
 Changes in version 2.5.15
+-------------------------
 
 - Nothing yet.
 
 Changes in version 2.5.14
+-------------------------
 
 - Fix changed remote location of mzTab example files <2018-04-19 Thu>
 - Fix failing centroided unit test (see issue
   #338) <2018-04-20 Fri>
 
 Changes in version 2.5.13
+-------------------------
 
 - Reduce unit testing time (see
   #334)
@@ -122,6 +138,7 @@ Changes in version 2.5.13
   <2018-04-17 Tue>
 
 Changes in version 2.5.12
+-------------------------
 
 - Ensure tic and bpi with initial = TRUE calculate the tic and bpi from the
   data (related to issue #332).
@@ -129,6 +146,7 @@ Changes in version 2.5.12
 
 
 Changes in version 2.5.11
+-------------------------
 
 - Improve combineFeatures manual to document the effect for missing
   values for different types of aggregation methods <2018-04-07 Sat>
@@ -137,6 +155,7 @@ Changes in version 2.5.11
 
 
 Changes in version 2.5.10
+-------------------------
 
 - New robust summarisation method in `combineFeatures` contributed by
   Ludger Goeminne, Adriaan Sticker and Lieven Clement <2018-04-03 Tue>
@@ -154,16 +173,19 @@ Changes in version 2.5.10
   #303) <2018-04-04 Wed>
 
 Changes in version 2.5.9
+------------------------
 - New combineSpectra, combineSpectraMovingWindow, estimateMzScattering and
   estimateMzResulution functions <2018-03-05>.
 - New vignette describing profile mode data centroiding <2018-03-05>.
 
 Changes in version 2.5.8
+------------------------
 - New as(MSnExp, data.frame) method <2018-02-16>
 - Speed up readMgfData function - see issue
   #319 <2018-03-13 Tue>
 
 Changes in version 2.5.7
+------------------------
 
 - MSmap constructor for OnDiskMSnExp objects (see
   issue #305)
@@ -171,18 +193,21 @@ Changes in version 2.5.7
 - New filterMsLevel,MSnSet method <2018-02-06 Tue>
 
 Changes in version 2.5.6
+------------------------
 
 - Fixing processing message when combining two MSnSets (reported by
   kamal.fartiyal84 https://support.bioconductor.org/p/100865/#105206)
   <2018-01-24 Wed>
 
 Changes in version 2.5.5
+------------------------
 - Added TMT11-plex <2018-01-17 Wed>
 - Add `phenoData<-` method for `pSet` (issue
   #299 <2018-01-22>.
 - Change readMSnSet2 example <2018-01-23 Tue>
 
 Changes in version 2.5.4
+------------------------
 - Add featureData slot to Chromatograms class and add mz, precursorMz and
   productMz methods for Chromatograms (issue
   #289) <2017-12-18 Mon>.
@@ -195,6 +220,7 @@ Changes in version 2.5.4
   <2018-01-11 Thu>
 
 Changes in version 2.5.3
+------------------------
 - Add filterPrecursorScan for `MSnExp` and `OnDiskMSnExp`;
   closes issue #282 and PR #287 <2017-12-16 Sat>.
 - MSnSet to/from SummarizedExperiment coercion (contributed by Arne
@@ -203,6 +229,7 @@ Changes in version 2.5.3
   Dechaumet, see issue #292) <2017-12-19 Tue>
 
 Changes in version 2.5.2
+------------------------
 - Use automatic backend detection (based on file name and file
   content) that was introduced in mzR version 2.13.1 (issue
   #275).
@@ -220,30 +247,35 @@ Changes in version 2.5.2
 
 
 Changes in version 2.5.1
+------------------------
 - Update dependencies (see issue #271)
 - Replace HCD by ETD in TMT10ETD's name/description
 
 Changes in version 2.5.0
+------------------------
 - New version for Bioc 3.7 (devel)
 
-# MSnbase 2.4
 
 Changes in version 2.4.0
+------------------------
 - New version for Bioc 3.6 (release)
 
-# MSnbase 2.3
 
 Changes in version 2.3.14
+-------------------------
 - Use `normalizePath` to force absolute file paths in `readMSData`.
 
 Changes in version 2.3.13
+-------------------------
 - Add write support for MSnExp and OnDiskMSnExp objects allowing to save the MS
   data to mzML or mzXML files. <2017-09-15 Fri>
 
 Changes in version 2.3.12
+-------------------------
 - Keep `protocolData` in isobaric quantification; fixes #265
 
 Changes in version 2.3.11
+-------------------------
 - Amend `addIdentificationData` when sourceInfo reports multiple files
   and when scores are missing from the identification results (closes
   #261).
@@ -251,17 +283,19 @@ Changes in version 2.3.11
   (closes #264).
 
 Changes in version 2.3.10
+-------------------------
 - New `isCentroidedFromFile` function <2017-08-11 Fri>
 - Add msLevel slot to Chromatogram object <2017-08-16 Wed>
 - Add msLevel argument to chromatogram,MSnExp method <2017-08-16 Wed>
 - `calculateFragments` now just calculate fragments for all `n - 1L` bonds
-	(before it incorrectly adds an additional bond; fixes #248) <2017-08-20 Sun>
+        (before it incorrectly adds an additional bond; fixes #248) <2017-08-20 Sun>
 - Add `isEmpty` methods for `Chromatogram` and `Chromatograms` objects
   <2017-09-05 Tue>
 - plot,Chromatogram[s] creates an empty plot and returns a warning if the
   Chromatogram[s] object is empty (issue #249) <2017-09-05 Tue>
 
 Changes in version 2.3.9
+------------------------
 - Using new mzR::openIdfile backend to add identifcation data to raw
   and quantitative data (see issue #232) <2017-07-28 Fri>
 - New utils functions: factorsAsStrings, makeCamelCase and
@@ -277,28 +311,34 @@ Changes in version 2.3.9
   (default) mode <2017-08-10 Thu>
 
 Changes in version 2.3.8
+------------------------
 - New infrastructure for chromatogram data <2017-06-24 Sat>
 - Change naming scheme for spectra: FFILEID.SSPECTRUMID, e.g. F01.S0001. Before
   it has been XSPECTRUMID.FILEID. The new naming scheme changes the order of
   the spectra. See #255 (and PR #256) for details <2017-06-25 Sun>.
 
 Changes in version 2.3.7
+------------------------
 - export filterEmptySpectra
 
 Changes in version 2.3.6
+------------------------
 - Brutally remove xic and chromatogram functions/methods, to be
   replaced by the Chromatogram[s] infrastructure <2017-06-15 Thu>
 
 Changes in version 2.3.5
+------------------------
 - Fix superscript syntax in demo vignette <2017-06-14 Wed>
 
 Changes in version 2.3.4
+------------------------
 - Use the injection time from mzR (see PR #109) which in now in
   seconds (was in milliseconds) <2017-06-13 Tue>
 
 Changes in version 2.3.3
+------------------------
 - Rewrite `getColsFromPattern` and `getRowsFromPattern` and add unit tests
-	<2017-05-11 Thu>.
+        <2017-05-11 Thu>.
 - Add `.filterNA` and rewrite `filterNA` for `matrix` and `MSnSet`
   <2017-05-11 Thu>.
 - Convert main MSnbase-demo vignette to Rmd/html <2017-05-27 Sat>
@@ -306,45 +346,53 @@ Changes in version 2.3.3
   <2017-06-05 Mon>.
 
 Changes in version 2.3.2
+------------------------
 - Rewrite `utils.clean`. It now keeps just the zeros in the direct
   neighbourhood (see #210) <2017-05-04 Thu>.
 
 Changes in version 2.3.1
+------------------------
 - Introduce "NTR" method for `combineFeatures` <2017-04-26 Wed>.
 - Rewrite `nQuants` and `featureCV` to avoid returning of rows for empty
   factors; see PR #208 for details <2017-04-28 Fri>.
 - Add $,pSet method to easily access columns in the phenoData (see #203)
 
 Changes in version 2.3.0
+------------------------
 
 - Version bump for new Bioc devel.
 
-# MSnbase 2.2
 
 Changes in version 2.2.0
+------------------------
 
 - Version bump for Bioc release version 3.5.
 
-# MSnbase 2.1
 
 Changes in version 2.1.19
+-------------------------
 - Set SerialParams() in an attempt to avoid random errors in tests -
   see issue #205 <2017-04-24 Mon>
 
 Changes in version 2.1.18
+-------------------------
 - suggest reshape2, as it's used in vignette <2017-04-18 Tue>
 
 Changes in version 2.1.17
+-------------------------
 - Update NEWS file <2017-04-11 Tue>
 
 Changes in version 2.1.16
+-------------------------
 - Remove timing test as it fails occasionally on the Bioconductor
   servers <2017-04-09 Sun>
 
 Changes in version 2.1.15
+-------------------------
 - Remove reshape2 dependency; see #201 <2017-04-06 Thu>
 
 Changes in version 2.1.14
+-------------------------
 - Internal rewrite and speedup of topN; Briefly multiple apply calls are
   avoided, `getTopIdx` and `subsetById` are replaced by `.topIdx`.
   See PR #199 for details. <2017-03-20 Mon>
@@ -353,13 +401,16 @@ Changes in version 2.1.14
 - Fix errors and notes <2017-03-30 Thu>
 
 Changes in version 2.1.13
+-------------------------
 - Internal rewrite and speedup of plotNA <2017-02-26 Sun>
 
 Changes in version 2.1.12
+-------------------------
 - Import dist from stats <2017-02-25 Sat>
 - Fix filing example <2017-02-25 Sat>
 
 Changes in version 2.1.11
+-------------------------
 - Fix breaks calculation for binning single (closes #191) and multiple
   (closes #190) spectra. The fix for single spectra (#191) could result in
   slightly different breaks on the upper end of the m/z values. <2017-02-10 Fri>
@@ -367,10 +418,12 @@ Changes in version 2.1.11
   <2017-02-11 Sat>
 
 Changes in version 2.1.10
+-------------------------
 - New `diff.median` normalisation for `MSnSet`s. <2017-01-26 Thu>
 - Fix combineFeatures message <2017-02-01 Wed>
 
 Changes in version 2.1.9
+------------------------
 - When fully trimmed, an (empty) spectrum has peaksCount of 0L - see
   https://github.com/https://github.com/lgatto/MSnbase/issues/184 <2017-01-20 Fri>
 - Add filterEmptySpectra,MSnExp method (see issue #181)
@@ -379,11 +432,13 @@ Changes in version 2.1.9
   issue #165) <2017-01-20 Fri>
 
 Changes in version 2.1.8
+------------------------
 - Remove order option altogether <2017-01-19 Thu> (superseeds setting
   default sorting using "auto" on R < 3.3 and "radix" otherwise
   <2017-01-03 Tue>)
 
 Changes in version 2.1.7
+------------------------
 - Setting default sorting using "auto" on R < 3.3 and "radix"
   otherwise <2017-01-03 Tue>
 - filterMz returns an empty spectrum when no data is within the mz
@@ -393,6 +448,7 @@ Changes in version 2.1.7
   OnDiskMSnExp. See issue #183 for details/background <2017-01-18 Wed>
 
 Changes in version 2.1.6
+------------------------
 
 - Migrate io and dev vignettes to BiocStyle's html_document2 style
   <2016-12-23 Fri>
@@ -403,40 +459,45 @@ Changes in version 2.1.6
   <2016-12-23 Fri>
 
 Changes in version 2.1.5
+------------------------
 
  - Fix (unexported) navMS example code <2016-12-14 Wed>
 
 Changes in version 2.1.4
+------------------------
 
  - Jo added netCDF support <2016-11-30 Wed>
 
 Changes in version 2.1.3
+------------------------
 
  - FeaturesOfInterest collections can now be assigned names -
    addresses issue #172 <2016-11-25 Fri>
 
 Changes in version 2.1.2
+------------------------
 
  - Update readMSnSet2 to save filename <2016-11-09 Wed>
  - Ensure that header information is read too if spectra data is
    loaded for onDiskMSnExp objects (see issue #170) <2016-11-24 Thu>
 
 Changes in version 2.1.1
+------------------------
 
  - Fix typo in impute man page <2016-10-19 Wed>
  - Cite Lazar 2016 in vignette imputation section <2016-10-28 Fri>
 
 Changes in version 2.1.0
+------------------------
 
  - New version for Bioconductor devel
 
-# MSnbase 2.0.0
 
  - New version for Bioconductor release version 3.4
 
-# MSnbase 1.99
 
 Changes in version 1.99.6
+-------------------------
  - Reverting to old initialize,Spectrum (see issue #163)
    <2016-10-07 Fri>
  - Setting Spectrum class versions outside of prototype (see issue
@@ -444,31 +505,37 @@ Changes in version 1.99.6
    .MSnbaseEnv <2016-10-10 Mon>
 
 Changes in version 1.99.5
+-------------------------
 
  - Add removeReporters,OnDiskMSnExp (see issue #161 for details)
    <2016-10-07 Fri>
 
 Changes in version 1.99.4
+-------------------------
 
  - Fix bug in readMzTabData_v0.9 <2016-10-07 Fri>
 
 Changes in version 1.99.3
+-------------------------
 
  - Injection time is now added to the header when reading mzML files
    using readMSData2 (see issue #159) <2016-10-04 Tue>
 
 Changes in version 1.99.2
+-------------------------
 
  - Added isolationWindow,MSnExp method <2016-09-23 Fri>
  - Updated readMSData Spectrum2 class to support MS levels > 2
    <2016-09-30 Fri>
 
 Changes in version 1.99.1
+-------------------------
 
  - Fix MS level test in quantify,OnDiskMSnExp to support MS2+ level
    quantitation <2016-09-14 Wed>
 
 Changes in version 1.99.0
+-------------------------
 
  - Add normalize method for onDiskMSnExp <2016-06-07 Tue>.
  - Fix bug in readMSData <2016-06-07 Tue>.
@@ -516,9 +583,9 @@ Changes in version 1.99.0
    details) <2016-08-12 Fri>
  - Fix warning in readMgfData if TITLE contains multiple "=" <2016-08-24 Wed>
 
-# MSnbase 1.21
 
 Changes in version 1.21.8
+-------------------------
 
  - Update MSnSet validity method to guard agains empty string feature
    names <2016-06-20 Mon>
@@ -535,6 +602,7 @@ Changes in version 1.21.8
  - fix bug in bin,Spectrum - see issue #137 <2016-08-05 Fri>
 
 Changes in version 1.21.7
+-------------------------
 
  - Update iPQF reference <2016-06-01 Wed>
  - Fix a bug in normalize method for MSnExp objects: assigning
@@ -545,24 +613,28 @@ Changes in version 1.21.7
  - Lock itraqdata's assaydata bindings <2016-06-08 Wed>
 
 Changes in version 1.21.6
+-------------------------
 
  - MSmap unit test <2016-05-23 Mon>
  - Fix bug in as(MSmap, "data.frame") <2016-05-23 Mon>
 
 Changes in version 1.21.5
+-------------------------
 
  - Added Johannes as contributor <2016-05-12 Thu>
  - Deprecate MzTab v0.9 <2016-05-19 Thu>
  - Fix old googlecode URLs to old MzTab <2016-05-19 Thu>
 
 Changes in version 1.21.4
+-------------------------
 
  - More MzTab and Spectrum1 unit testing <2016-05-08 Sun>
  - Speed up readMSData (PR #86 by jotsetung) <2016-05-12 Thu>
  - Replace example file URL to use github instead of googlecode
-	<2016-05-12 Thu>
+        <2016-05-12 Thu>
 
 Changes in version 1.21.3
+-------------------------
 
  - No fileNames replacement method <2016-05-07 Sat>
  - fileNames unit tests <2016-05-07 Sat>
@@ -570,11 +642,13 @@ Changes in version 1.21.3
    <2016-05-07 Sat>
 
 Changes in version 1.21.2
+-------------------------
 
  - Check for rownames/fnames in readMSnSet2 and unit test
    <2016-05-05 Thu>
 
 Changes in version 1.21.1
+-------------------------
 
  - Fix wrong indexing in readMSdata, msLevel==1 (PR #85 by jotsetung)
    <2016-05-04 Wed>
@@ -582,25 +656,28 @@ Changes in version 1.21.1
    <2016-05-04 Wed>
 
 Changes in version 1.21.0
+-------------------------
 
  - Version bump for new Bioc devel
 
-# MSnbase 1.20
 
 Changes in version 1.20.0
+-------------------------
 
  - Version bump for Bioc release version 3.3
 
-# MSnbase 1.19
 
 Changes in version 1.19.24
+--------------------------
  - more unit tests and bug fixes <2016-04-30 Sat> <2016-05-02 Mon>
 
 Changes in version 1.19.23
+--------------------------
 
  - more unit tests and bug fixes <2016-04-27 Wed> <2016-04-28 Thu>
 
 Changes in version 1.19.22
+--------------------------
 
  - more unit tests <2016-04-23 Sat> <2016-04-24 Sun> <2016-04-26 Tue>
  - remove readIspyData functions <2016-04-23 Sat>
@@ -608,28 +685,34 @@ Changes in version 1.19.22
    utils.mergeSpectraAndIdentificationData <2016-04-23 Sat>
 
 Changes in version 1.19.21
+--------------------------
 
  - nadata.R unit tests and bugs fixed <2016-04-22 Fri>
 
 Changes in version 1.19.20
+--------------------------
 
  - Moved makeNaData[2] and whichNA (was in pRoloc) <2016-04-21 Thu>
 
 Changes in version 1.19.19
+--------------------------
 
  - new naplot function to visualise missing values as a heatmap and
    barplots along the samples and features. <2016-04-04 Mon>
 
 Changes in version 1.19.18
+--------------------------
 
  - fix typo in man <2016-04-02 Sat>
 
 Changes in version 1.19.17
+--------------------------
 
  - Write support of mzTab has been dropped (writeMzTabData, makeMTD,
    makePEP and makePRT are now defunct) <2016-03-18 Fri>
 
 Changes in version 1.19.16
+--------------------------
 
  - add estimateNoise,[Spectrum|MSnExp]-method; closes #78 <2016-03-10>
  - import a lot of functions from recommended packages, namely graphics, stats
@@ -637,15 +720,18 @@ Changes in version 1.19.16
    R CMD check <2016-03-10>
 
 Changes in version 1.19.15
+--------------------------
 
  - limit readMSData unit test due to Windows-only error <2016-03-09 Wed>
  - fix unit test for utils.colSd(x, na.rm=TRUE)
 
 Changes in version 1.19.14
+--------------------------
 
  - Document change in nQuants param fcol to groupBy <2016-03-02 Wed>
 
 Changes in version 1.19.13
+--------------------------
 
  - Fixed bug in bin_Spectrum, reported by Weibo Xie <2016-02-16 Tue>
  - Added unit test for bug above <2016-02-16 Tue>
@@ -654,6 +740,7 @@ Changes in version 1.19.13
    make the signature consistent with featureCV <2016-02-16 Tue>
 
 Changes in version 1.19.12
+--------------------------
 
  - Moved polarity slot from Spectrum1 (0.1.0 -> 0.2.0) to Spectrum
    (0.2.0 -> 0.3.0) superclass; also bumped Spectrum2 class (0.1.0 ->
@@ -662,6 +749,7 @@ Changes in version 1.19.12
    methods. <2016-02-11 Thu>
 
 Changes in version 1.19.11
+--------------------------
 
  - Fix trimws generic/methods with useAsDefault (see issue #75)
    <2016-02-02 Tue>
@@ -669,25 +757,30 @@ Changes in version 1.19.11
    <2016-02-02 Tue>
 
 Changes in version 1.19.10
+--------------------------
 
  - export exprs, fvarLabels, and sampleNames[<-] <2016-01-30 Sat>
 
 Changes in version 1.19.9
+-------------------------
 
  - new trimws method for data.frames and MSnSets <2016-01-29 Fri>
 
 Changes in version 1.19.8
+-------------------------
 
  - readMSnSet2 now also accepts a data.frame as input <2016-01-29 Fri>
  - selective ggplot2 import <2016-01-29 Fri>
 
 Changes in version 1.19.7
+-------------------------
 
  - new sampleNames<- for pSet and MSnExp objects <2015-12-15 Tue>
  - Fix bug preventing to write MS1 to mgf (fixes issue #73 reported by
-	meowcat) <2015-12-18 Fri>
+        meowcat) <2015-12-18 Fri>
 
 Changes in version 1.19.6
+-------------------------
 
  - MSnExp feautreNames are now X01, X02 (0 after X) to maintain
    numerical sorting of ASCII characters; contributed by sgibb
@@ -698,53 +791,62 @@ Changes in version 1.19.6
    contributed by sgibb <2015-12-14 Mon>
 
 Changes in version 1.19.5
+-------------------------
 
  - Merged pull request #67 from lgatto/featureCV by sgibb: featureCV
  ignores its na.rm argument <2015-12-12 Sat>
 
 Changes in version 1.19.4
+-------------------------
 
  - Replacement method for MSnSetList names <2015-11-24 Tue>
 
 Changes in version 1.19.3
+-------------------------
 
  - New argument fcol to selectFeatureData to select feature variables
    using a vector <2015-10-28 Wed>
 
 Changes in version 1.19.2
+-------------------------
 
  - new selectFeatureData function to subset the feature data
    <2015-10-24 Sat>
 
 Changes in version 1.19.1
+-------------------------
 
  - Remove generics that are defined in ProtGenerics <2015-10-15 Thu>
 
 Changes in version 1.19.0
+-------------------------
 
  - Bioc devel 3.3
 
-# MSnbase 1.18
 
 Changes in version 1.18.0
+-------------------------
 
  - Bioc release 3.2
 
-# MSnbase 1.17
 
 Changes in version 1.17.16
+--------------------------
  - new default parameter 'feature weight' in iPQF by Martina Fisher
    (see PR#65) <2015-10-07 Wed>
 
 Changes in version 1.17.15
+--------------------------
 
  - Fix typo in plot man <2015-08-23 Sun>
 
 Changes in version 1.17.14
+--------------------------
 
  - Fix typo in impute man <2015-08-17 Mon>
 
 Changes in version 1.17.13
+--------------------------
 
  - partly rewrite writeMgfData <2015-05-16 Thu>
  - initial hmap function <2015-07-16 Thu>
@@ -757,10 +859,12 @@ Changes in version 1.17.13
    <2015-07-30 Thu>
 
 Changes in version 1.17.12
+--------------------------
 
  - fix show MIAPE when some otherInfo at NA <2015-07-15 Wed>
 
 Changes in version 1.17.11
+--------------------------
 
  - adding unit tests <2015-07-01 Wed>
  - fix abundance column selection when creating MSnSet form MzTab
@@ -769,10 +873,12 @@ Changes in version 1.17.11
    an mzTab data <2015-07-01 Wed>
 
 Changes in version 1.17.10
+--------------------------
 
  - Fix URL <2015-06-30 Tue>
 
 Changes in version 1.17.9
+-------------------------
 
  - calculateFragments' "neutralLoss" argument is now a list (was a logical
    before), see #47. <2015-06-24 Wed>
@@ -780,16 +886,19 @@ Changes in version 1.17.9
   "neutralLoss" argument, see #47. <2015-06-24 Wed>
 
 Changes in version 1.17.8
+-------------------------
 
  - coercion from IBSpectra to MSnSet, as per user request
    <2015-06-23 Tue>
  - new iPQF combineFeature method <2015-06-24 Wed>
 
 Changes in version 1.17.7
+-------------------------
 
  - Fix support of identification-only mzTab files <2015-06-22 Mon>
 
 Changes in version 1.17.6
+-------------------------
 
  - Export metadata,MzTab-method <2015-06-19 Fri>
  - Replace spectra,MzTab-method by psms,MzTab-method <2015-06-20 Sat>
@@ -801,11 +910,13 @@ Changes in version 1.17.6
  - update readMzTabData example <2015-06-22 Mon>
 
 Changes in version 1.17.5
+-------------------------
 
  - new MzTab class to store a simple parsing of an mzTab version 1
    data file. See ?MzTab for details. <2015-06-16 Tue>
 
 Changes in version 1.17.4
+-------------------------
 
  - New lengths method for FoICollection instances <2015-06-06 Sat>
  - New image2 function for matrix object, that behaves like the method
@@ -816,15 +927,18 @@ Changes in version 1.17.4
    <2015-06-11 Thu>
 
 Changes in version 1.17.3
+-------------------------
 
  - iTRAQ 8-plex correction factors and impurity matrix
    <2015-05-22 Fri>
 
 Changes in version 1.17.2
+-------------------------
 
  - new filterZero function <2015-05-01 Fri>
 
 Changes in version 1.17.1
+-------------------------
 
  - new MSnSetList class <2015-04-19 Sun>
  - new commonFeatureNames function <2015-04-14 Tue>
@@ -832,58 +946,71 @@ Changes in version 1.17.1
  - splitting and unsplitting MSnSets/MSnSetLists <2015-04-19 Sun>
 
 Changes in version 1.17.0
+-------------------------
 
  - new devel version for Bioc 3.2
 
-# MSnbase 1.15
 
 Changes in version 1.15.18
+--------------------------
  - fix failing test_MSnExp::readMSData unit test on Windows i386
    (@.cache$size being different on that arch) [2015-04-14 Tue]
  - merge @vladpetyuk PR #50 fix of combine features bug [2015-04-14 Tue]
 
 Changes in version 1.15.17
+--------------------------
  - add TMT10 paragraph and fig to demo vignette [2015-04-09 Thu]
 
 Changes in version 1.15.16
+--------------------------
  - support for TMT10 plex [2015-04-08 Wed]
 
 Changes in version 1.15.15
+--------------------------
  - using serial parallelisation during quantitation in unit tests
    [2015-04-02 Thu]
 
 Changes in version 1.15.14
+--------------------------
   - new msnset data, used in various examples instead of quantifying
-	the itraqdata experiment over and over again [2015-04-01 Wed]
+        the itraqdata experiment over and over again [2015-04-01 Wed]
 
 Changes in version 1.15.13
+--------------------------
  - improve nbavg imputation description and add example [2015-03-22 Sun]
  - reduce compareSpectra example timing [2015-03-30 Mon]
 
 Changes in version 1.15.12
+--------------------------
  - average neighbour imputation for ordered fractions along a gradient
    [2015-03-21 Sat]
 
 Changes in version 1.15.11
+--------------------------
  - update malformed Description [2015-03-20 Fri]
 
 Changes in version 1.15.10
+--------------------------
  - update compareSpectra man [2015-03-19 Thu]
  - ExpressionSet <-> MSnSet coercion [2015-03-19 Thu]
 
 Changes in version 1.15.9
+-------------------------
 
  - use S4Vectors' isEmpty generic [2015-03-10 Tue]
 
 Changes in version 1.15.8
+-------------------------
 
  - Improved imputation section in demo vignette [2015-03-05 Thu]
 
 Changes in version 1.15.7
+-------------------------
  - Importing ProtGenerics [2015-02-28 Sat]
  - selective import of MALDIquant [2015-03-02 Mon]
 
 Changes in version 1.15.6
+-------------------------
 
  - add intensity column to the calculateFragments output; closes #47;1
    [2015-02-02 Mon]
@@ -897,6 +1024,7 @@ Changes in version 1.15.6
  - imputation unit test [2015-02-24 Tue]
 
 Changes in version 1.15.5
+-------------------------
 
  - update dependency to mzID >= 1.5.2 [2015-01-28 Wed]
  - rewrite addIdentificationData and change its signature [2015-01-28 Wed]
@@ -908,6 +1036,7 @@ Changes in version 1.15.5
    NA. This simplifies the resulting plot3D figure. [2015-02-02 Mon]
 
 Changes in version 1.15.4
+-------------------------
 
  - partly rewrite readMgfData [2015-01-19 Mon]
  - Typo in addIdentification data man [2015-01-20 Tue]
@@ -915,6 +1044,7 @@ Changes in version 1.15.4
  - replace require with requireNamespace [2015-01-23 Fri]
 
 Changes in version 1.15.3
+-------------------------
 
 - plot,Spectrum2,character to add fragment ions based on peptide
   sequence [2014-11-20 Thu]
@@ -922,6 +1052,7 @@ Changes in version 1.15.3
 - comment parallel code in quantify man [2015-01-09 Fri]
 
 Changes in version 1.15.2
+-------------------------
 
  - merged sgibb's pull request exporting overloaded methods as well
    [2014-11-02 Sun]
@@ -931,6 +1062,7 @@ Changes in version 1.15.2
    [2014-11-18 Tue]
 
 Changes in version 1.15.1
+-------------------------
 
  - Fixing error when id file has no spectrumFile info (see issue #39)
    and return a warning (instead of an error) when the file used to
@@ -938,47 +1070,55 @@ Changes in version 1.15.1
    [2014-10-15 Wed]
 
 Changes in version 1.15.0
+-------------------------
 
  - Devel version for Bioc 3.1
 
-# MSnbase 1.14
 
 Changes in version 1.14.0
+-------------------------
  - Release version for Bioc 3.0
 
-# MSnbase 1.13
 
 Changes in version 1.13.16
+--------------------------
  - width generic if non-existant [2014-09-03 Wed]
  - fix undocumented S4 methods warnings [2014-09-27 Sat]
 
 Changes in version 1.13.15
+--------------------------
  - msMap(MSmap)<- method [2014-08-12 Tue]
  - Typo in MIAPE man [2014-08-29 Fri]
 
 Changes in version 1.13.14
+--------------------------
  - Fix xic example [2014-08-08 Fri]
  - importing lattice, ggplot2 (was depends) and suggesting rgl
    [2014-08-09 Sat]
  - MSmap infrastructure [2014-08-09 Sat]
 
 Changes in version 1.13.13
+--------------------------
  - fix issue with readMSnSet2 without fdata [2014-07-28 Mon]
 
 Changes in version 1.13.12
+--------------------------
  - Don't import width from IRanges [2014-07-23 Wed]
  - qual slot is populated again [2014-07-23 Wed]
 
 Changes in version 1.13.11
+--------------------------
  - remove Vennerable::Venn from example and DESCRIPTION [2014-06-19 Thu]
 
 Changes in version 1.13.10
+--------------------------
  - new averageMSnSet function to generate an average over a list of
    MSnSets. [2014-06-17 Tue]
  - new non-parametric coefficent of variation function [2014-06-17 Tue]
  - Using/importing IRanges::width [2014-06-18 Wed]
 
 Changes in version 1.13.9
+-------------------------
  - new listOf helper function [2014-06-16 Mon]
  - compfnames to compare and document differences in MSnSet feature
    names [2014-06-16 Mon]
@@ -986,17 +1126,21 @@ Changes in version 1.13.9
    rd) [2014-06-16 Mon]
 
 Changes in version 1.13.8
+-------------------------
  - Add recommended biocView [2014-06-05 Thu]
 
 Changes in version 1.13.7
+-------------------------
  - Bug tracking link [2014-05-26 Mon]
 
 Changes in version 1.13.6
+-------------------------
  - new isEmpty method for Spectrum instances [2014-05-14 Wed]
  - removePeaks does not try for empty Spectra [2014-05-14 Wed]
  - isEmpty unit test [2014-05-14 Wed]
 
 Changes in version 1.13.5
+-------------------------
  - export .get.amino.acids function [2014-05-08 Thu]
  - removePeaks for centroided data [2014-05-08 Thu]
  - add new exported function get.atomic.mass [2014-05-08 Thu]
@@ -1007,16 +1151,19 @@ Changes in version 1.13.5
    with BPPARAM [2014-05-14 Wed]
 
 Changes in version 1.13.4
+-------------------------
 
  - Document difference between traceable and non-traceable
    FeaturesOfInterest instances [2014-04-30 Wed]
  - ignoring desciptions with length > 1 [2014-04-30 Wed]
 
 Changes in version 1.13.3
+-------------------------
 
  - FeaturesOfInterest [2014-04-29 Tue]
 
 Changes in version 1.13.2
+-------------------------
 
  - add compareSpectra to compare Spectrum objects [2014-04-09 Wed]
  - add bin method for Spectrum objects [2014-04-09 Wed]
@@ -1031,6 +1178,7 @@ Changes in version 1.13.2
    relevant man/tests/argument defaults [2014-04-17 Thu]
 
 Changes in version 1.13.1
+-------------------------
 
  - add precursor method to Spectrum2 normalisation method [2014-04-08 Tue]
  - add smooth for MSnExp and Spectrum classes [2014-04-10 Thu]
@@ -1038,28 +1186,33 @@ Changes in version 1.13.1
  - updated show,MSnExp to display only first/last files when > 2 [2014-04-11 Fri]
 
 Changes in version 1.13.0
+-------------------------
 
 - New devel version for Bioc 3.0
 
-# MSnbase 1.11
 
 Changes in version 1.11.14
+--------------------------
  - update dependency to R >= 3.1 [2014-04-05 Sat]
 
 Changes in version 1.11.13
+--------------------------
  - Document [get|grep]Ecols in io vignette [2014-03-31 Mon]
  - typo in readMSnSet man [2014-03-31 Mon]
  - updated affiliation in vignettes [2014-03-31 Mon]
 
 Changes in version 1.11.12
+--------------------------
  - Fixed a bug in readMzTabData reported by Hendrik Weisser [2014-03-26 Wed]
 
 Changes in version 1.11.11
+--------------------------
  - precomputed msx test data now has id data [2014-03-25 Tue]
  - quantitation unit tests [2014-03-25 Tue]
  - quantify method now accepts label-free methods [2014-03-25 Tue]
 
 Changes in version 1.11.10
+--------------------------
 
  - import mzID [2014-03-20 Thu]
  - dummyiTRAQ id extdata [2014-03-21 Fri]
@@ -1075,6 +1228,7 @@ Changes in version 1.11.10
  - NAnnotatedDataFrame unit tests [2014-03-25 Tue]
 
 Changes in version 1.11.9
+-------------------------
 
  - write.exprs can have fDataCol or fcol (for consistence) [2014-03-17 Mon]
  - Fixing bug in combineFeatures(..., is.character(groupBy)) [2014-03-19 Wed]
@@ -1082,6 +1236,7 @@ Changes in version 1.11.9
  - added example, test and doc for combineFeatures with list [2014-03-20 Thu]
 
 Changes in version 1.11.8
+-------------------------
 
  - adding redundancy handling to combineFeatures (by vladpetyuk, pull
    request #18) [2014-03-14 Fri]
@@ -1090,10 +1245,12 @@ Changes in version 1.11.8
  - updated unit tests for new testhat 0.8 [2014-03-14 Fri]
 
 Changes in version 1.11.7
+-------------------------
 
  - NA
 
 Changes in version 1.11.6
+-------------------------
 
  - add corresponding xcms functions to the chromatogram and xic
    manual page [2014-02-21 Fri]
@@ -1101,46 +1258,54 @@ Changes in version 1.11.6
  - replacing stop_on_error with option in vignette [2014-02-27 Thu]
 
 Changes in version 1.11.5
+-------------------------
 
  - typo in MSnSet droplevels man [2014-01-27 Mon]
  - typo in MSnbase-demo vignette [2014-02-20 Thu]
  - fix BPI legend in chromatogram [2014-02-20 Thu]
 
 Changes in version 1.11.4
+-------------------------
 
  - passing ... to sweep when normalising [2013-12-08 Sun]
  - updated makeMTD to accomodate new MS ontology [2013-12-23 Mon]
 
 Changes in version 1.11.3
+-------------------------
 
  - updated mzTab example files to new url [2013-11-15 Fri]
  - warning about mzTab versions [2013-11-15 Fri]
 
 Changes in version 1.11.2
+-------------------------
 
  - move inst/doc to vignettes [2013-10-19 Sat]
 
 Changes in version 1.11.1
+-------------------------
 
  - document na.rm in combineFeatures Rd [2013-10-18 Fri]
 
 Changes in version 1.11.0
+-------------------------
 
  - New devel version for Bioc 2.14
 
-# MSnbase 1.9
 
 Changes in version 1.9.12
+-------------------------
 
  - fix MSnSet -] ExpressionSet [2013-10-13 Sun]
  - MSnSet -] ExpressionSet unit test [2013-10-13 Sun]
 
 Changes in version 1.9.11
+-------------------------
 
  - MIAPE to MIAME conversion [2013-10-11 Fri]
  - proper MIAME when MSnSet -] ExpressionSet [2013-10-11 Fri]
 
 Changes in version 1.9.10
+-------------------------
 
  - faster plotMzDelta [2013-09-28 Sat]
  - faster plotMzDelta for mzRramp instances [2013-09-29 Sun]
@@ -1151,37 +1316,44 @@ Changes in version 1.9.10
  - renamed plotting arg 'centroided.' [2013-10-04 Fri]
 
 Changes in version 1.9.9
+------------------------
 
  - typo in filterNA Rd [2013-09-18 Wed]
  - writeMgfData now has a progress bar [2013-09-24 Tue]
  - centroided(MSnExp) <- TRUE now allowed [2013-09-24 Tue]
 
 Changes in version 1.9.8
+------------------------
 
  - using new.env(parent=emptyenv()) to get rid of enclosing env
    when creating new MSnExps [2013-09-17 Tue]
  - new (private) MSnExp.size function [2013-09-17 Tue]
 
 Changes in version 1.9.7
+------------------------
 
  - Passing ... to read.table in MSnbase:::readIspy[Silac|15N]Data [2013-09-16 Mon]
  - QualityControl biocView [2013-09-16 Mon]
 
 Changes in version 1.9.6
+------------------------
 
  - new as.data.frame.MSnSet method [2013-08-16 Fri]
  - new ms2df function [2013-08-16 Fri]
  - new getEcols and grepEcols helpers for readMSnSet2 [2013-08-16 Fri]
 
 Changes in version 1.9.5
+------------------------
 
  - typo in Author[s]@R [2013-05-15 Wed]
 
 Changes in version 1.9.4
+------------------------
 
  - new simple MSnSet constructor [2013-05-07 Tue]
 
 Changes in version 1.9.3
+------------------------
 
  - Using knitr as VignetteEngine [2013-04-29 Mon]
  - Remove LazyLoad from DESCRIPTION,
@@ -1191,60 +1363,69 @@ Changes in version 1.9.3
  - new readMSnSet2 function [2013-04-30 Tue]
 
 Changes in version 1.9.2
+------------------------
 
  - clean has now a all param (default FALSE is retain original behavious)
    to remove all 0 intensity values [2013-04-17 Wed]
  - using BiocGenerics::normalize [2013-04-25 Thu]
 
 Changes in version 1.9.1
+------------------------
 
  - new logging utility function to update an MSnSet's
    processingData(object)$processing [2013-03-29 Fri]
  - Proper logging in t.MSnSet [2013-03-29 Fri]
 
 Changes in version 1.9.0
+------------------------
 
  - new Bioc 2.13 devel version
 
-# MSnbase 1.8
 
 Changes in version 1.8.0
+------------------------
 
  - new Bioc 2.12 stable version
 
-# MSnbase 1.7
 
 Changes in version 1.7.25
+-------------------------
 
  - updated itraqdata to fix issue in vignette when
    combine(exp1, exp2) and different MIAPE versions
    [2013-03-22 Fri]
 
 Changes in version 1.7.24
+-------------------------
 
  - Mention scale in vignette [2013-03-02 Sat]
  - exprsToRatio matrix method [2013-03-20 Wed]
 
 Changes in version 1.7.23
+-------------------------
 
  - new private nologging function [2013-02-21 Thu]
  - adding total number of features on plotNA [2013-02-22 Fri]
  - updated msnbase.r [2013-02-26 Tue]
 
 Changes in version 1.7.22
+-------------------------
 
  - msnbase.r na.rm arg [2013-02-20 Wed]
 
 Changes in version 1.7.21
+-------------------------
 
  - Added impute method  [2013-02-19 Tue]
 
 Changes in version 1.7.20
+-------------------------
 
  - Explicitating that normalise and normalize are the same
    methods in the man. [2013-02-13 Wed]
 
 Changes in version 1.7.19
+-------------------------
 
  - adding MIAPE and pSet accessors: analyserDetails, analyzerDetails,
    ionSourceDetails, instrumentModel, instrumentManufacturer,
@@ -1252,6 +1433,7 @@ Changes in version 1.7.19
  - switching back to analyserDetails slot [2013-02-12 Tue]
 
 Changes in version 1.7.18
+-------------------------
 
  - readMgfData now supports comments and
    PEPMASS with precursor mz and intensity,
@@ -1261,32 +1443,38 @@ Changes in version 1.7.18
  - new scanIndex accessor method [2013-02-11 Mon]
 
 Changes in version 1.7.17
+-------------------------
 
  - added a analyzer accessors/slot to accomodate new mzTab
    files with more meta-data  [2013-01-30 Wed]
 
 Changes in version 1.7.16
+-------------------------
 
  - fixing knitr 1.0 compatibility [2013-01-15 Tue]
 
 Changes in version 1.7.15
+-------------------------
 
  - new scale method [2013-01-11 Fri]
  - renaming scale.mean and scale.median normalisation
    methods to center.mean and centre.median [2013-01-11 Fri]
 
 Changes in version 1.7.14
+-------------------------
 
  - new unexported readIspy15NData [2013-01-09 Wed]
  - min.int readIspy[Silac|15N]Data arg [2013-01-11 Fri]
 
 Changes in version 1.7.13
+-------------------------
 
  - msnbase.r v0.1.1 with oh (help) arg [2013-01-08 Tue]
  - msnbase.r coerce ob arg to numeric [2013-01-08 Tue]
  - testing if any features left in readIspyData [2013-01-08 Tue]
 
 Changes in version 1.7.12
+-------------------------
 
  - updated makeImpuritiesMatrix to create matrix from
    csv file with correction factors [2012-12-23 Sun]
@@ -1296,18 +1484,21 @@ Changes in version 1.7.12
  - Added msnbase.r script [2012-12-24 Mon]
 
 Changes in version 1.7.11
+-------------------------
 
  - new 'pattern' argument to filterNA [2012-12-15 Sat]
  - vignette and man updates [2012-12-15 Sat]
  - filterNA(, pattern) tests [2012-12-15 Sat]
 
 Changes in version 1.7.10
+-------------------------
 
  - new droplevels.MSnSet S3 method [2012-12-14 Fri]
  - fixed errors in vignette and udpates [2012-12-14 Fri]
  - vignette build stops in case of error [2012-12-14 Fri]
 
 Changes in version 1.7.9
+------------------------
 
  - Updating processing data on readIspyData [2012-12-05 Wed]
  - filterNA has a droplevels arg [2012-12-05 Wed]
@@ -1315,6 +1506,7 @@ Changes in version 1.7.9
  - fixed featureCV for 1 sample [2012-12-11 Tue]
 
 Changes in version 1.7.8
+------------------------
 
  - new featureCV function [2012-12-04 Tue]
  - more MSnSet combineFeatures tests [2012-12-04 Tue]
@@ -1328,6 +1520,7 @@ Changes in version 1.7.8
    Cramer's rule (see MSnbase:::cramer4) [2012-12-05 Wed]
 
 Changes in version 1.7.7
+------------------------
 
  - added scale.mean and scale.median MSnSet normalisation
    method [2012-11-30 Fri]
@@ -1336,47 +1529,55 @@ Changes in version 1.7.7
  - readMSdata test [2012-12-01 Sat]
 
 Changes in version 1.7.6
+------------------------
 
  - Fixed bug in readIspyData, reported by
    Claire Mulvey [2012-11-27 Tue]
 
 Changes in version 1.7.5
+------------------------
 
  - dropping levels in readIspySilacData [2012-11-06 Tue]
  - fixed plotNA [2012-11-09 Fri]
 
 Changes in version 1.7.4
+------------------------
 
  - exporting log method [2012-11-02 Fri]
  - private readIspySilacData function [2012-11-05 Mon]
  - updating '['-MSnSet to log intial/final dims [2012-11-05 Mon]
 
 Changes in version 1.7.3
+------------------------
 
  - updating readMzTabData to properly capture
    experiment description [2012-10-12 Fri]
 
 Changes in version 1.7.2
+------------------------
 
  - fixed readMSData for MS1 [2012-10-08 Mon]
 
 Changes in version 1.7.1
+------------------------
 
  - fixed vignettes [2012-10-02 Tue]
 
 Changes in version 1.7.0
+------------------------
 
  - Version bump for next devel release [2012-10-01 Mon]
 
-# MSnbase 1.5
 
 Changes in version 1.5.25
+-------------------------
 
  - fixed bug when quantifying exp of length 1 (reported
    by Colin Archer), added test [2012-09-26 Wed]
  - fixed parallel default to FALSE [2012-09-26 Wed]
 
 Changes in version 1.5.24
+-------------------------
 
  - updated clean, removePeaks, combineFeatures, purityCorrect,
    trimMz, plot, MSnSet-class examples to not use readMSData [2012-09-25 Tue]
@@ -1384,22 +1585,26 @@ Changes in version 1.5.24
  - space in log message in extractPrecSpectra [2012-09-25 Tue]
 
 Changes in version 1.5.23
+-------------------------
 
  - updated quantify documentation [2012-09-24 Mon]
  - changed all foo.class functions to foo_class [2012-09-24 Mon]
 
 Changes in version 1.5.22
+-------------------------
 
  - setting parallel default to FALSE [2012-09-22 Sat]
  - enhanced parallel in DESCRIPTION and detectCores()
    passed to registerDoMC [2012-09-23 Sun]
 
 Changes in version 1.5.21
+-------------------------
 
  - removed registerDoMC no visible global function NOTE [2012-09-21 Fri]
  - fixed NOTE about xvarname which was a bug [2012-09-21 Fri]
 
 Changes in version 1.5.20
+-------------------------
 
  - an immediate warning is thrown is any(centroided(object))
    in quantify.MSnExp [2012-09-15 Sat]
@@ -1410,22 +1615,26 @@ Changes in version 1.5.20
    not roxygen template) [2012-09-15 Sat]
 
 Changes in version 1.5.19
+-------------------------
 
  - updated all ReporterIons rda data [2012-09-13 Thu]
  - Using && in testing parallel, require(foreach and doMC) [2012-09-14 Fri]
 
 Changes in version 1.5.18
+-------------------------
 
  - new log method for MSnSet instances [2012-09-13 Thu]
  - new MAplot methods using generic and ma.plot/mva.pairs
    from affy [2012-09-13 Thu]
 
 Changes in version 1.5.17
+-------------------------
 
  - changed TMT7[7] mass from 229.26 to 230.17 and
    ReporterIons descriptions [2012-09-12 Wed]
 
 Changes in version 1.5.16
+-------------------------
 
  - parallel quantify is now always set to
    FALSE on Windows, fixing example checking
@@ -1433,14 +1642,17 @@ Changes in version 1.5.16
  - fixed types in plotMzDelta man [2012-09-11 Tue]
 
 Changes in version 1.5.15
+-------------------------
 
  - updating code to ggplot2 v0.9.2 [2012-09-07 Fri]
 
 Changes in version 1.5.14
+-------------------------
 
  - added platform test to use doMC (d.tenenbaum) [2012-08-31 Fri]
 
 Changes in version 1.5.13
+-------------------------
 
  - updated fillUp function [2012-08-15 Wed]
  - added tikzDevice to suggests [2012-08-16 Thu]
@@ -1448,6 +1660,7 @@ Changes in version 1.5.13
    and using pdf as device in vignette [2012-08-16 Thu]
 
 Changes in version 1.5.12
+-------------------------
 
  - using knitr instead of pgfSweave and misc
    vignette updated[2012-08-13 Mon]
@@ -1455,18 +1668,21 @@ Changes in version 1.5.12
  - added reporterNames to NAMESPACE [2012-08-14 Tue]
 
 Changes in version 1.5.11
+-------------------------
 
  - type in filterNA log messaging and also
    rounding pNA [2012-06-07 Thu]
  - typo in demo vignette - Gb instead of Mb [2012-07-15 Sun]
 
 Changes in version 1.5.10
+-------------------------
 
  - Fixed readMSData instrumentInfo handling
    (reported by Gopuraja Dharmalingam) [2012-06-05 Tue]
  - new multiple file loading test in test_io [2012-06-05 Tue]
 
 Changes in version 1.5.9
+------------------------
 
  - topN now properly updates processingData [2012-06-01 Fri]
  - combineFeatures updates featureNames based on the
@@ -1476,6 +1692,7 @@ Changes in version 1.5.9
    using vsn [2012-06-01 Fri]
 
 Changes in version 1.5.8
+------------------------
 
  - added aa data in environment data.frame [2012-05-22 Tue]
  - fixed MSnbase:::subsetBy (used by topN) when
@@ -1486,6 +1703,7 @@ Changes in version 1.5.8
    taken form sampleNames(object) [2012-05-31 Thu]
 
 Changes in version 1.5.7
+------------------------
 
  - changed title method to exptitle to avoid conflict/confusion
    with graphics::title and consitency with expinfo method [2012-05-15 Tue]
@@ -1493,6 +1711,7 @@ Changes in version 1.5.7
  - Added rols to Suggests [2012-05-15 Tue]
 
 Changes in version 1.5.6
+------------------------
 
  - new ionSource, analyser, detectorType, title accessor methods
    for MIAPE, pSet and MSnSet classes [2012-05-06 Sun]
@@ -1503,6 +1722,7 @@ Changes in version 1.5.6
  - updated demo and io vignettes with mzTab info [2012-05-10 Thu]
 
 Changes in version 1.5.5
+------------------------
 
  - added email slot in MIAPE and accessor [2012-05-04 Fri]
  - added expinfo methods to pSet and MSnSet [2012-05-04 Fri]
@@ -1511,6 +1731,7 @@ Changes in version 1.5.5
  - quantify now properly propagates processingData [2012-05-04 Fri]
 
 Changes in version 1.5.4
+------------------------
 
  - automatically populating experiment data instrument info
    while reading data [2012-04-30 Mon]
@@ -1518,6 +1739,7 @@ Changes in version 1.5.4
  - update demo vignette with 14 fractions analysis paragraph [2012-05-01 Tue]
 
 Changes in version 1.5.3
+------------------------
 
  - extractSpectra is now defunct [2012-04-20 Fri]
  - caching full header in level 1; this is required when and MSnExp
@@ -1538,6 +1760,7 @@ Changes in version 1.5.3
  - removed qual subetting in MSnSet's "[" method [2012-04-24 Tue]
 
 Changes in version 1.5.2
+------------------------
 
  - transposing and MSnSet does _silently_ drop the
    protocolData now [2012-04-03 Tue]
@@ -1554,6 +1777,7 @@ Changes in version 1.5.2
    comparison of verctors of length ] 1 [2012-04-20 Fri]
 
 Changes in version 1.5.1
+------------------------
 
  - updated NA warning message in readIspyData [2012-03-05 Mon]
  - fixed combineFeatures/combineMatrixFeatures for 1 sample [2012-03-20 Tue]
@@ -1563,12 +1787,13 @@ Changes in version 1.5.1
  - using reshape2 [2012-03-30 Fri]
 
 Changes in version 1.5.0
+------------------------
 
  - new devel version bump
 
-# MSnbase 1.3
 
 Changes in version 1.3.15
+-------------------------
 
  - new updateFeatureNames function [2012-02-17 Fri]
  - updated vignettes to illustrate vertical/horizontal combine [2012-02-17 Fri]
@@ -1576,11 +1801,13 @@ Changes in version 1.3.15
  - TODO combine unit tests
 
 Changes in version 1.3.14
+-------------------------
 
  - new is.na.MSnSet [2012-02-16 Thu]
  - updated vignette and NA related man pages with cross-links [2012-02-16 Thu]
 
 Changes in version 1.3.13
+-------------------------
 
  - new plotNA method + doc [2012-02-15 Wed]
  - new filterNA method + doc + tests [2012-02-15 Wed]
@@ -1589,21 +1816,25 @@ Changes in version 1.3.13
  - Update package Rd [2012-02-16 Thu]
 
 Changes in version 1.3.12
+-------------------------
 
  - new topN methods + doc + tests [2012-02-14 Tue]
 
 Changes in version 1.3.11
+-------------------------
 
  - changed explicit close(file) in writeMgf methods to
    on.exit(close(file)) [2012-02-12 Sun]
  - typo in vignette [2012-02-13 Mon]
 
 Changes in version 1.3.10
+-------------------------
 
  - type in writeMgfData man [2012-02-07 Tue]
  - updated TITLE in writeMgfData [2012-02-08 Wed]
 
 Changes in version 1.3.9
+------------------------
 
  - updated demo vignette [2012-02-03 Fri]
  - sorting numeric subsets in "[" pSet, as unsorted
@@ -1614,6 +1845,7 @@ Changes in version 1.3.9
 
 
 Changes in version 1.3.8
+------------------------
 
  - Modified trimMz warning to report acquisition number [2012-02-01 Wed]
  - add 'experimentData(object, value) <- ' method for signature eSet
@@ -1627,6 +1859,7 @@ Changes in version 1.3.8
  - Updated demo vignette figure 8 [2012-02-03 Fri]
 
 Changes in version 1.3.7
+------------------------
 
  - Speeded up writeMgfData [2012-01-28 Sat]
  - fixes for ggplot2 0.9.0
@@ -1636,6 +1869,7 @@ Changes in version 1.3.7
  - fixed chunk 21 (label = quantitation-plot) [2012-01-31 Tue]
 
 Changes in version 1.3.6
+------------------------
 
  - Updated NoteAboutSpeedAndMemory since parallel processing
    has been added. [2011-12-18 Sun]
@@ -1646,6 +1880,7 @@ Changes in version 1.3.6
  - moved foreach, doMC to enhances [2012-01-27 Fri]
 
 Changes in version 1.3.5
+------------------------
 
  - added a gc() before mzR::close(msdata)... seems to help
    with Rcpp and ref classes issue. [2011-12-09 Fri]
@@ -1655,6 +1890,7 @@ Changes in version 1.3.5
  - readMzXMLData is now defunct and remove xcms from Imports [2011-12-16 Fri]
 
 Changes in version 1.3.4
+------------------------
 
  - fixed bug in show MSnExp method for MS1 experiments.
    When loading MS1 spectra, cache is set to 0.
@@ -1665,6 +1901,7 @@ Changes in version 1.3.4
    unstabel behavious... will investigate that [2011-12-06 Tue]
 
 Changes in version 1.3.3
+------------------------
 
  - added parallel computation for MSnExp quantitation using
    foreach with llply(..., .parallel=TRUE) [2011-12-03 Sat]
@@ -1674,6 +1911,7 @@ Changes in version 1.3.3
    readMSData [2011-12-05 Mon]
 
 Changes in version 1.3.2
+------------------------
 
  - \dontrun{} extractSpectrum example, as this seems to be
    a major offender producing the intermittent check
@@ -1684,27 +1922,30 @@ Changes in version 1.3.2
    instead of IRanges:sapply [2011-12-01 Thu]
 
 Changes in version 1.3.1
+------------------------
 
  - Herve added BioGenerics as a dependency and import
    statement in NAMESPACE  [2011-11-29 Tue]
 
 Changes in version 1.3.0
+------------------------
 
  - Version bump for Bioc 2.10 devel
 
-# MSnbase 1.2
 
 Changes in version 1.2.0
+------------------------
 
  - Version bump for Bioc 2.9 release
 
-# MSnbase 1.1
 
 Changes in version 1.1.28
+-------------------------
 
  - added pgfSweave to Suggests [2011-10-23 Sun]
 
 Changes in version 1.1.27
+-------------------------
 
  - fixed bug in readIspyData [2011-10-07 Fri]
  - removed (unexported) ratio code [2011-10-12 Wed]
@@ -1714,6 +1955,7 @@ Changes in version 1.1.27
  - expecting warning for readMzXMLData in test_io [2011-10-14 Fri]
 
 Changes in version 1.1.26
+-------------------------
 
  - extractSpectra deprecated [2011-10-05 Wed]
  - small changes in cache.R functions [2011-10-05 Wed]
@@ -1724,6 +1966,7 @@ Changes in version 1.1.26
    average 11.8 times faster MSnExp show method. [2011-10-05 Wed]
 
 Changes in version 1.1.25
+-------------------------
 
  - added .cache slot to pSet class [2011-10-03 Mon]
  - added pSet initialize method to set .cache and
@@ -1741,6 +1984,7 @@ Changes in version 1.1.25
  - new cache.R file with @.cache related code [2011-10-03 Mon]
 
 Changes in version 1.1.24
+-------------------------
 
  - in readMgfData, SCANS is not used to populate
    acquisitionNum anymore, as several scans might
@@ -1749,6 +1993,7 @@ Changes in version 1.1.24
  - new MSnbase-io vignette [2011-09-28 Wed]
 
 Changes in version 1.1.23
+-------------------------
 
  - fixed writeMgfData("MSnExp") [2011-09-21 Wed]
  - readMgfData now works when mz and intensty are separated
@@ -1762,6 +2007,7 @@ Changes in version 1.1.23
  - fixed bug getCurveWidth [2011-09-21 Wed]
 
 Changes in version 1.1.22
+-------------------------
 
  - removed (internal) Mascot query link column in readIspyData
    to work with latest ouput version [2011-09-12 Mon]
@@ -1777,11 +2023,13 @@ Changes in version 1.1.22
 
 
 Changes in version 1.1.21
+-------------------------
 
  - updated write.exprs to add fData columns [2011-09-08 Thu]
  - added write.exprs and readMSnSet unit test [2011-09-08 Thu]
 
 Changes in version 1.1.20
+-------------------------
 
  - added a readMSnSet function [2011-09-08 Thu]
  - added a write.MSnSet("MSnSet") method  [2011-09-08 Thu]
@@ -1797,6 +2045,7 @@ Changes in version 1.1.20
  - compressed/resaved (using resaveRdaFiles) itraqdata.RData file to  [2011-09-07 Wed]
 
 Changes in version 1.1.18
+-------------------------
 
  - read support for mgf files contributed by Guangchuang Yu [2011-07-06 Wed]
  - added as.ExpressionSet.MSnSet and setAs methods and updated MSnSet doc [2011-07-09 Sat]
@@ -1809,6 +2058,7 @@ Changes in version 1.1.18
  - added warning checks for combineFeatures when verbose=TRUE in test_MSnSet.R [2011-09-02 Fri]
 
 Changes in version 1.1.17
+-------------------------
 
  - updated itraqdata manual [2011-06-27 Mon]
  - fixed bug in MSnSet validity method - msg was initialised
@@ -1823,11 +2073,13 @@ Changes in version 1.1.17
  - test for "["-MSnSet [2011-07-06 Wed]
 
 Changes in version 1.1.16
+-------------------------
 
  - added addVigs2WinMenu call in .onAttach [2011-06-26 Sun]
  - added plotMzDelta paragraph in vignette [2011-06-26 Sun]
 
 Changes in version 1.1.15
+-------------------------
 
  - new names and description methods for ReporterIons [2011-06-16 Thu]
  - added validObject() checks [2011-06-16 Thu]
@@ -1835,12 +2087,14 @@ Changes in version 1.1.15
  - plotMzDelta is exported and documented [2011-06-17 Fri]
 
 Changes in version 1.1.14
+-------------------------
 
  - Adding plotMzDelta QC plot (not yet exported), contributed by Guangchuang Yu [2011-06-14 Tue]
  - created a locked environment to store amino.acids dataframe [2011-06-14 Tue]
  - TODO plotMzDelta documentation and vignette section - man DONE in v 1.1.15 , vignette DONE in v 1.1.16
 
 Changes in version 1.1.13
+-------------------------
 
  - changed pSet [[ method [2011-06-13 Mon]
  - additional updates pSet [[ method [2011-06-13 Mon]
@@ -1849,11 +2103,13 @@ Changes in version 1.1.13
    utils functions, now renamed plot*.header [2011-06-13 Mon]
 
 Changes in version 1.1.12
+-------------------------
 
  - added invisible(NULL) to all show methods [2011-06-08 Wed]
  - added centroided argument to plot.MSnExp [2011-06-09 Thu]
 
 Changes in version 1.1.11
+-------------------------
 
  - harmonised MSnExp and Spectrum plot axes labels [2011-05-18 Wed]
  - Added plotting customisation section in vignette [2011-05-18 Wed]
@@ -1871,6 +2127,7 @@ Changes in version 1.1.11
  - added MassSpectrometry biocView [2011-05-27 Fri]
 
 Changes in version 1.1.10
+-------------------------
 
  - minor updates in demo vignette [2011-05-13 Fri]
  - added plot argument to plot methods [2011-05-16 Mon]
@@ -1881,6 +2138,7 @@ Changes in version 1.1.10
  - typo in MSnSet-class.Rd corrected [2011-05-17 Tue]
 
 Changes in version 1.1.9
+------------------------
 
  - exporting normali[s|z]e methods for MSnSet, Spectrum and MSnExp [2011-05-12 Thu]
  - added quantile normalisation [2011-05-12 Thu]
@@ -1892,6 +2150,7 @@ Changes in version 1.1.9
  - updated plotting methods to round MZ in title [2011-05-13 Fri]
 
 Changes in version 1.1.8
+------------------------
 
  - added writeMgfData method from spectra and experiment [2011-05-09 Mon]
  - added writeMgfData manual [2011-05-09 Mon]
@@ -1900,11 +2159,13 @@ Changes in version 1.1.8
  - added makeImpuritiesMatrix function [2011-05-11 Wed]
 
 Changes in version 1.1.7
+------------------------
 
  - reporter ions purity correction method, man and test [2011-05-09 Mon]
  - updated vignette [2011-05-09 Mon]
 
 Changes in version 1.1.6
+------------------------
 
  - added incomplete dissociation and spectral counting sections
    to demo vignette [2011-05-06 Fri]
@@ -1912,10 +2173,12 @@ Changes in version 1.1.6
  - type in foreword [2011-05-06 Fri]
 
 Changes in version 1.1.5
+------------------------
 
  - added combineFeatures example in demo vignette [2011-05-05 Thu]
 
 Changes in version 1.1.4
+------------------------
 
  - readIspyData updated to return updated factors [2011-05-03 Tue]
  - added unexported/undocumented combineFeatures function for MSnSets [2011-05-03 Tue]
@@ -1924,11 +2187,13 @@ Changes in version 1.1.4
  - exportig combineFeatures  [2011-05-04 Wed]
 
 Changes in version 1.1.3
+------------------------
 
  - as.data.frame.Spectrum columns now are (first) mz and (second) intensity [2011-04-27 Wed]
  - exporting as.data.frame.Spectrum and coerce [2011-04-27 Wed]
 
 Changes in version 1.1.2
+------------------------
 
  - Simplified quantify generic signature - now only object argument [2011-04-19 Tue]
  - Added strict parameter to quantify method, man updated, added relevant test
@@ -1943,6 +2208,7 @@ Changes in version 1.1.2
    The latter triggered a warning for a new("MSnExp"). [2011-04-20 Wed]
 
 Changes in version 1.1.1
+------------------------
 
  - added setAs data.frame and as.data.frame methods for
    Spectrum objects [2011-03-29 Tue]
@@ -1957,17 +2223,19 @@ Changes in version 1.1.1
  - added centroided[<-] methods to Spectrum and pSet [2011-04-04 Mon]
  - added 'keepAll' parameter to readIspyData [2011-04-11 Mon]
 
-# MSnbase 0.99
 
 Changes in version 0.99.4
+-------------------------
 
  - removed pgfSweave from Suggests field [2011-04-04 Mon]
 
 Changes in version 0.99.3
+-------------------------
 
  - Using Sweave rather than pgfSweave to build on lamb1. [2011-03-28 Mon]
 
 Changes in version 0.99.2
+-------------------------
 
  - updated references in package Rd [2011-03-24 Thu]
  - added readIspyData.Rd  [2011-03-24 Thu]
@@ -1980,6 +2248,7 @@ Changes in version 0.99.2
  - updated readIspyData function [2011-03-25 Fri]
 
 Changes in version 0.99.1
+-------------------------
 
  - fake vignettes are copied back in inst/doc/. to
    make sur tar tarball can be extracted and build
@@ -1987,6 +2256,7 @@ Changes in version 0.99.1
  - Making clean after make all [2011-03-24 Thu]
 
 Changes in version 0.99.0
+-------------------------
 
  - MSnProcess@process get's one line when subsetting and MSnExp object [2011-03-21 Mon]
  - Updated vignette Makefile [2011-03-22 Tue]
@@ -1998,9 +2268,9 @@ Changes in version 0.99.0
  - Added width generic [2011-03-23 Wed]
  - IRanges in now imported [2011-03-23 Wed]
 
-# MSnbase 0.2
 
 Changes in version 0.2.0 [2011-03-17 Thu]
+-----------------------------------------
 
  - MSnSet now extends eSet, reimplementing the ExpressionSet class
    with exception of the experimentData slot, that must now be a MIAPE
@@ -2008,9 +2278,9 @@ Changes in version 0.2.0 [2011-03-17 Thu]
  - updated MIAPE substantially and added accessor methods.
  - updated docs and vignettes to reflect above changes.
 
-# MSnbase 0.1
 
 Changes in version 0.1.5
+------------------------
 
  - added zoo to Suggest, as zoo::rollapply is used in vignette.
  - changes rollapply call to zoo:::rollapply.zoo, to make it
@@ -2019,10 +2289,12 @@ Changes in version 0.1.5
  - added vns to Suggests, as it is used in the demo vignette.
 
 Changes in version 0.1.4
+------------------------
 
  - added pgfSweave to Suggests, as is called in vignette Makefile
 
 Changes in version 0.1.3
+------------------------
 
  - Updates to ReporterIons man page
  - Moved some Depends to Imports and updated NAMESPACE
@@ -2030,6 +2302,7 @@ Changes in version 0.1.3
  - added inst/tests/test_MSnProcess.R
 
 Changes in version 0.1.2
+------------------------
 
  - MSnProcess@MSnbaseVersion is not set in the initialize method instead to the prototype
  - changed R CMD to $(R_HOME)/bin/R CMD in inst/doc/Makefile
@@ -2040,11 +2313,13 @@ Changes in version 0.1.2
  - Updated MSnbase-demo vignette and man to use good spectra un plots (i.e "X43" instead of "X64")
 
 Changes in version 0.1.1
+------------------------
 
  - Added LazyLoad: yes in DESCRIPTION and modified docs accordingly
  - Added NEWS file
 
 Changes in version 0.1.0
+------------------------
 
  - Added MSnbase-demo vignette
  - Added MSnbase-development vignette

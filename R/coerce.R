@@ -37,9 +37,9 @@ ms2df <- function(x, fcols = fvarLabels(x)) {
     if (is.null(fcols)) {
         res <- data.frame(exprs(x))
     } else {
-        sel <- fvarLabels(x) %in% fcols
+        stopifnot(all(fcols %in% fvarLabels(x)))
         res <- data.frame(exprs(x),
-                          fData(x)[, sel])
+                          fData(x)[, fcols])
         colnames(res)[-seq_len(ncol(x))] <- fcols
     }
     return(res)
@@ -51,7 +51,7 @@ ms2df <- function(x, fcols = fvarLabels(x)) {
 setAs("AnnotatedDataFrame", "list",
       function (from) as.list(from@data))
 
-setAs("MIAxE", "list", 
+setAs("MIAxE", "list",
       function (from) {
           nms <- slotNames(from)
           nms <- setdiff(nms, ".__classVersion__")
@@ -62,7 +62,7 @@ setAs("MIAxE", "list",
           ans
       })
 
-setAs("MSnProcess", "list", 
+setAs("MSnProcess", "list",
       function (from) {
           nms <- slotNames(from)
           nms <- setdiff(nms, ".__classVersion__")
@@ -76,11 +76,11 @@ setAs("MSnProcess", "list",
 setAs("MSnSet",
     "SummarizedExperiment",
     function (from) {
-        if (!requireNamespace("SummarizedExperiment")) 
+        if (!requireNamespace("SummarizedExperiment"))
             stop("The SummarizedExperiment package is required",
                  "to coerce an MSnSet to a SummarizedExperiment.")
         from <- logging(from, "Coerced to SummarizedExperiment.")
-        
+
         raw <- exprs(from)
         rowData <- fData(from)
         colData <- pData(from)
@@ -88,7 +88,7 @@ setAs("MSnSet",
         metaData <- list(MSnbaseFiles = proc@files,
                          MSnbaseProcessing = proc@processing,
                          MSnbaseVersion = proc@MSnbaseVersion)
-            
+
         SummarizedExperiment::SummarizedExperiment(
             assays = as.matrix(raw),
             rowData = rowData,
@@ -103,13 +103,13 @@ setAs("SummarizedExperiment",
         if (!requireNamespace("SummarizedExperiment"))
             stop("The SummarizedExperiment package is required",
                  "to coerce a SummarizedExperiment to an MSnSet.")
-            
+
         raw <- SummarizedExperiment::assay(from)
         featData <- data.frame(
-            SummarizedExperiment::rowData(from), 
+            SummarizedExperiment::rowData(from),
             row.names = names(from))
         phenoData <- data.frame(SummarizedExperiment::colData(from))
-        
+
         ## Extract metadata based solely on MSnSet slot names
         .processingData <- metadata(from)$processingData
         .experimentData <- metadata(from)$experimentData
@@ -119,16 +119,16 @@ setAs("SummarizedExperiment",
         msnset <- MSnSet(exprs = as.matrix(raw),
                          pData = AnnotatedDataFrame(phenoData),
                          fData = AnnotatedDataFrame(featData))
-        
+
         ## Assign metadata based on class (which fails if the proper
         ## name above was missing and the variable was assign NULL)
-        if (inherits(.experimentData, "MIAPE")) 
+        if (inherits(.experimentData, "MIAPE"))
             msnset@experimentData <- .experimentData
         if (inherits(.processingData, "MSnProcess"))
             msnset@processingData <- .processingData
         if (inherits(.protocolData, "AnnotatedDataFrame"))
             msnset@protocolData <- .protocolData
-        if (inherits(.qual, "data.frame")) 
+        if (inherits(.qual, "data.frame"))
             msnset@qual <- .qual
         return(msnset)
 })
