@@ -2,6 +2,7 @@
 
 ## Changes in version 2.9.3
 - Fix bug in ms2df (order of fcols could be scambled) <2018-12-04 Tue>
+- Fix bug in MSnSet constructor (see issue #386) <2018-12-07 Fri>
 
 ## Changes in version 2.9.2
 - Fix problem that impute(x, method="knn") sets the seed (issue
