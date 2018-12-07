@@ -131,13 +131,13 @@
 <a class="sourceLine" id="cb4-2" data-line-number="2">                                <span class="dt">mode =</span> <span class="st">"inMemory"</span>,</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">                                <span class="dt">centroided =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   5.588   0.056   5.639</code></pre>
+##   5.164   0.052   5.215</code></pre>
 <p>Next, we use the <code>readMSData</code> function to generate an on-disk representation of the same data by setting <code>mode = "onDisk"</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(ondisk &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readMSData.html">readMSData</a></span>(f, <span class="dt">msLevel =</span> <span class="dv">2</span>,</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">                                  <span class="dt">mode =</span> <span class="st">"onDisk"</span>,</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3">                                  <span class="dt">centroided =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   2.028   0.056   2.079</code></pre>
+##   1.984   0.040   2.021</code></pre>
 <p>Creating the on-disk experiment is considerable faster and scales to much bigger, multi-file data, both in terms of object creation time, but also in terms of object size (see next section). We must of course make sure that these two datasets are equivalent:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(inmem, ondisk)</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
@@ -176,25 +176,25 @@ Plotting in-memory and on-disk spectra
 <a class="sourceLine" id="cb17-7" data-line-number="7">mb</a></code></pre></div>
 <pre><code>## Unit: microseconds
 ##             expr        min         lq        mean      median         uq
-##   spectra(inmem)     82.362    215.375    270.4546    247.4505    346.461
-##     inmem[[200]]     18.795     43.772     70.0053     74.0255     77.189
-##  spectra(ondisk) 416511.237 420881.917 423598.1977 423177.1700 425090.034
-##    ondisk[[200]] 191092.756 191719.209 194054.9113 193172.3960 196513.213
+##   spectra(inmem)     94.491    214.198    291.4708    226.1505    337.421
+##     inmem[[200]]     14.541     16.015     42.8713     32.9725     74.359
+##  spectra(ondisk) 414790.064 414979.982 418703.0764 418249.4205 420560.273
+##    ondisk[[200]] 187475.862 187874.127 190360.7123 189069.3750 190876.274
 ##         max neval
-##     450.497    10
-##     145.535    10
-##  434308.875    10
-##  199545.572    10</code></pre>
+##     808.484    10
+##      92.615    10
+##  424574.521    10
+##  201611.374    10</code></pre>
 <p>While it takes order or magnitudes more time to access the data on-the-fly rather than a pre-generated spectrum, accessing all spectra is only marginally slower than accessing all spectra, as most of the time is spent preparing the file for access, which is done only once.</p>
 <p>On-disk access performance will depend on the read throughput of the disk. A comparison of the data import of the above file from an internal solid state drive and from an USB3 connected hard disk showed only small differences for the <code>onDisk</code> mode (1.07 <em>vs</em> 1.36 seconds), while no difference were observed for accessing individual or all spectra. Thus, for this particular setup, performance was about the same for SSD and HDD. This might however not apply to setting in which data import is performed in parallel from multiple files.</p>
 <p>Data access does not prohibit interactive usage, such as plotting, for example, as it is about 1/2 seconds, which is an operation that is relatively rare, compared to subsetting and filtering, which are faster for on-disk data:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">i &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="kw"><a href="../reference/pSet-class.html">length</a></span>(inmem), <span class="dv">100</span>)</a>
 <a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(inmem[i])</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.092   0.000   0.093</code></pre>
+##   0.092   0.000   0.091</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(ondisk[i])</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.016   0.000   0.017</code></pre>
+##   0.016   0.000   0.016</code></pre>
 <p>Operations on the spectra data, such as peak picking, smoothing, cleaning, … are cleverly cached and only applied when the data is accessed, to minimise file access overhead. Finally, specific operations such as for example quantitation (see next section) are optimised for speed.</p>
 </div>
 <div id="ms2-quantitation" class="section level2">
@@ -204,11 +204,11 @@ Plotting in-memory and on-disk spectra
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(eim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(inmem[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>], <span class="dt">reporters =</span> TMT6,</a>
 <a class="sourceLine" id="cb23-2" data-line-number="2">                            <span class="dt">method =</span> <span class="st">"max"</span>))</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   2.792   0.032   2.825</code></pre>
+##   2.576   0.040   2.621</code></pre>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(eod &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(ondisk[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>], <span class="dt">reporters =</span> TMT6,</a>
 <a class="sourceLine" id="cb25-2" data-line-number="2">                            <span class="dt">method =</span> <span class="st">"max"</span>))</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.292   0.020   0.312</code></pre>
+##   0.284   0.020   0.305</code></pre>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(eim, eod, <span class="dt">check.attributes =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 </div>
@@ -282,7 +282,7 @@ Plotting in-memory and on-disk spectra
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
 </div>
