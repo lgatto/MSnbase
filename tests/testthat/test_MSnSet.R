@@ -2,6 +2,10 @@ context("MSnSet class")
 
 test_that("MSnSet validity", {
     expect_true(validObject(new("MSnSet")))
+    e <- matrix(rnorm(12), ncol = 3)
+    rownames(e) <- LETTERS[1:4]
+    colnames(e) <- letters[1:3]
+    expect_true(validObject(MSnSet(e)))
 })
 
 test_that("MSnSet acquisitionNum", {

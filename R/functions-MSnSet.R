@@ -1,14 +1,18 @@
 MSnSet <- function(exprs, fData, pData, ...) {
-  if (class(fData) == "data.frame")
-    fData <- new("AnnotatedDataFrame", data = fData)
-  if (class(pData) == "data.frame")
-    pData <- new("AnnotatedDataFrame", data = pData)
-  ans <- new("MSnSet",
-             exprs = exprs,
-             featureData = fData,
-             phenoData = pData)
-  if (validObject(ans))
-      return(ans)
+    if (missing(fData))
+        fData <- data.frame(row.names = rownames(exprs))
+    if (class(fData) == "data.frame")
+        fData <- new("AnnotatedDataFrame", data = fData)
+    if (missing(pData))
+        pData <- data.frame(row.names = colnames(exprs))
+    if (class(pData) == "data.frame")
+        pData <- new("AnnotatedDataFrame", data = pData)
+    ans <- new("MSnSet",
+               exprs = exprs,
+               featureData = fData,
+               phenoData = pData)
+    if (validObject(ans))
+        return(ans)
 }
 
 normalise_MSnSet <- function(object, method, ...) {
