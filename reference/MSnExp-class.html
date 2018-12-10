@@ -231,11 +231,11 @@ The feature variables in the feature data slot will depend on the
       intensity data points. See <code><a href='clean-methods.html'>clean</a></code> documentation
       for more details and examples.</p></dd>
     <dt>compareSpectra</dt><dd><p><code>signature(object1 = "Spectrum",
-	object2 = "missing")</code>: Compares spectra.  See
+        object2 = "missing")</code>: Compares spectra.  See
       <code><a href='compareSpectra-methods.html'>compareSpectra</a></code> documentation for more details and
       examples.</p></dd>
     <dt>extractPrecSpectra</dt><dd><p><code>signature(object = "MSnExp", prec =
-	"numeric")</code>: extracts spectra with precursor MZ value equal to
+        "numeric")</code>: extracts spectra with precursor MZ value equal to
       <code>prec</code> and returns an object of class 'MSnExp'.
       See <code><a href='extractPrecSpectra-methods.html'>extractPrecSpectra</a></code> documentation for more
       details and examples.</p></dd>
@@ -286,11 +286,11 @@ The feature variables in the feature data slot will depend on the
       See <code><a href='addIdentificationData-methods.html'>addIdentificationData</a></code> documentation for
       more details and examples.</p></dd>
     <dt>removeNoId</dt><dd><p><code>signature(object = "MSnExp", fcol =
-	"pepseq", keep = NULL)</code>: Removes non-identified features. See
+        "pepseq", keep = NULL)</code>: Removes non-identified features. See
       <code><a href='removeNoId-methods.html'>removeNoId</a></code> documentation for more details and
       examples.</p></dd>
     <dt>removeMultipleAssignment</dt><dd><p><code>signature(object = "MSnExp",
-	fcol = "nprot")</code>: Removes protein groups (or feature belong to
+        fcol = "nprot")</code>: Removes protein groups (or feature belong to
       protein groups) with more than one member. The latter is defined
       by extracting a feature variable (default is
       <code>"nprot"</code>). Also removes non-identified features.</p></dd>
@@ -307,7 +307,7 @@ The feature variables in the feature data slot will depend on the
       <code><a href='trimMz-methods.html'>trimMz</a></code> documentation for more details and
       examples.</p></dd>
     <dt><code><a href='Spectrum-class.html'>isCentroided(object, k = 0.025, qtl = 0.9, verbose =
-	TRUE)</a></code></dt><dd><p>A heuristic assessing if the spectra in the
+        TRUE)</a></code></dt><dd><p>A heuristic assessing if the spectra in the
       <code>object</code> are in profile or centroided mode. The function
       takes the <code>qtl</code>th quantile top peaks, then calculates the
       difference between adjacent M/Z value and returns <code>TRUE</code> if
@@ -335,14 +335,16 @@ The feature variables in the feature data slot will depend on the
     <p>Filtering and subsetting functions:</p>
 <p></p><dl class='dl-horizontal'>
     <dt>filterRt</dt><dd><p><code>signature(object = "MSnExp", rt = "numeric",
-	msLevel. = "numeric")</code>: Retains MS spectra of level
+        msLevel. = "numeric")</code>: Retains MS spectra of level
       <code>msLevel.</code> with a retention times within <code>rt[1]</code> and
       <code>rt[2]</code>.</p></dd>
     <dt>filterMsLevel</dt><dd><p><code>signature(object = "MSnExp", msLevel. =
-	"numeric")</code>: Retains MS spectra of level <code>msLevel.</code>.</p></dd>
+        "numeric")</code>: Retains MS spectra of level <code>msLevel.</code>.</p></dd>
+    <dt>filterPolarity</dt><dd><p><code>signature(object = "MSnExp", polarity. =
+        "numeric")</code>: Retains MS spectra of polarity <code>polarity.</code>.</p></dd>
     <dt>filterMz</dt><dd><p><code>signature(object = "MSnExp", mz = "numeric",
-	msLevel. = "numeric")</code>. See <code><a href='trimMz-methods.html'>filterMz</a></code> for
-	details.</p></dd>
+        msLevel. = "numeric")</code>. See <code><a href='trimMz-methods.html'>filterMz</a></code> for
+        details.</p></dd>
     <dt>filterFile</dt><dd><p><code>signature(object = "MSnExp", file)</code>: Retains
       MS data of files matching the file index or file name provided
       with parameter <code>file</code>.</p></dd>
@@ -350,11 +352,11 @@ The feature variables in the feature data slot will depend on the
     <dt>filterEmptySpectra</dt><dd><p><code>signature(object = "MSnExp")</code>:
       Remove empty spectra from <code>object</code> (see <code>isEmpty</code>).</p></dd>
     <dt>filterPrecursorScan</dt><dd><p><code>signature(object = "MSnExp",
-	acquisitionNum = "numeric")</code>: Retain parent (e.g. MS1) and
+        acquisitionNum = "numeric")</code>: Retain parent (e.g. MS1) and
       children scans (e.g. MS2) of <code>acquisitionNum</code>. See
       <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code> for an example.</p></dd>
     <dt>splitByFile</dt><dd><p><code>signature(object = "MSnExp", f =
-	"factor")</code>: split a <code>MSnExp</code> object by file into a
+        "factor")</code>: split a <code>MSnExp</code> object by file into a
       <code>list</code> of <code>MSnExp</code> objects given the grouping in
       <code>factor</code> <code>f</code>.</p></dd>
   </dl>
@@ -389,7 +391,7 @@ The feature variables in the feature data slot will depend on the
 #&gt;  Number of spectra: 5 
 #&gt;  MSn retention times: 25:1 - 25:2 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded: Fri Dec  7 11:33:29 2018 
+#&gt; Data loaded: Mon Dec 10 21:10:12 2018 
 #&gt;  MSnbase version: 2.9.3 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
