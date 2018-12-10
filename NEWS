@@ -2,6 +2,8 @@ Changes in version 2.9.3
 ------------------------
 - Fix bug in ms2df (order of fcols could be scambled) <2018-12-04 Tue>
 - Fix bug in MSnSet constructor (see issue #386) <2018-12-07 Fri>
+- Add filterPolarity method (see issue #388, feature requeste by
+  @zeehio) <2018-12-10 Mon>
 
 Changes in version 2.9.2
 ------------------------

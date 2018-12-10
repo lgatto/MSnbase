@@ -154,3 +154,16 @@ test_that("filterPrecursorScan", {
                           filterPrecursorScan(ondisk, c(1003, 1022))))
     expect_true(all.equal(ondisk[NA], filterPrecursorScan(ondisk, 1)))
 })
+
+
+test_that("filterPolarity", {
+    fls <- dir(system.file("sciex", package = "msdata"),
+               full.names = TRUE, recursive = TRUE)
+    rw <- readMSData(files = fls[1], mode = "onDisk")
+    expect_identical(length(filterPolarity(rw, -1)), 0L)
+    expect_identical(length(filterPolarity(rw, 1)), length(rw))
+    pol2 <- rep(c(1, -1), length.out = length(rw))
+    fData(rw)$polarity <- pol2
+    expect_identical(length(filterPolarity(rw, 1)), sum(pol2 == 1))
+    expect_identical(length(filterPolarity(rw, -1)), sum(pol2 == -1))
+})
