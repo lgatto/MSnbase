@@ -45,7 +45,7 @@ serialise_to_hdf5 <- function(object, filename = NULL) {
         fh <- openMSfile(file_name)
         pks <- peaks(fh)
         close(fh)
-        for (j in seq_along(sps)) {
+        for (j in seq_along(fns)) {
             pb$tick()
             fn <- fns[j]
             hdfile <- paste0(file_group, "/", fn)
@@ -68,6 +68,8 @@ readHdf5DiskMSData <- function(files, pdata = NULL, msLevel. = NULL,
     if (verbose) message("Serialising to hdf5...")
     hdf5file <- serialise_to_hdf5(obj, hdf5file)
     obj <- .onDisk2hdf5(obj, hdf5file)
+    if (openHdf5)
+        obj <- hdf5Open(obj)
     if (validObject(obj)) obj
 }
 
@@ -83,7 +85,7 @@ hdf5Close <- function(object) {
 
 
 hdf5Open <- function(object) {
-    if (!.ishdf5open(object))
+    if (!isHdf5Open(object))
         object@hdf5handle <- H5Fopen(object@hdf5file)
     object
 }
@@ -92,3 +94,32 @@ isHdf5Open <- function(object) {
     stopifnot(inherits(object, "Hdf5MSnExp"))
     rhdf5::H5Iis_valid(object@hdf5handle)
 }
+
+setMethod("[[", "Hdf5MSnExp",
+          function(x, i, j = "missing", drop = "missing") {
+              if (length(i) != 1)
+                  stop("subscript out of bounds")
+              if (is.character(i))
+                  i <- base::match(i, featureNames(x))
+              if (any(is.na(i)))
+                  stop("subscript out of bounds")
+              if (!isHdf5Open(x))
+                  x <- hdf5Open(x)
+              k <- paste0(fData(x)$fileIdx[i], "/",
+                          fileNames(x)[i])
+              rw <- h5read(x@hdf5handle, k)
+              if (msLevel(x)[i] == 1L)
+                  spctr <- MSnbase:::Spectrum1_mz_sorted(
+                                         rt = rtime(x)[[i]],
+                                         acquisitionNum = acquisitionNum(x)[[i]],
+                                         scanIndex = scanIndex(x)[[i]],
+                                         tic = tic(x)[[i]],
+                                         mz = rw[, "mz"],
+                                         intensity = rw[, "intensity"],
+                                         fromFile = fromF,
+                                         centroided = centroided(x)[[i]],
+                                         smoothed = smoothed(x)[[i]],
+                                         polarity = polarity(x)[[i]])
+              else MSnbase:::Spectrum2_mz_sorted()
+              return(spctr)
+          })
