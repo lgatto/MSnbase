@@ -1,32 +1,6 @@
-serialise_to_hdf5 <- function(object, filename = NULL) {
-    stopifnot(inherits(object, "OnDiskMSnExp"))
-    if (is.null(filename))
-        filename <- paste0(digest::sha1(fileNames(object)), ".h5")
-    if (file.exists(filename))
-        stop("File ", filename, " already exists.")
-    h5 <- rhdf5::H5Fcreate(filename)
-    pb <- progress::progress_bar$new(total = length(rw))
-    for (i in seq_along(fileNames(object))) {
-        file_group <- as.character(i)
-        file_name  <- fileNames(object)[i]
-        stopifnot(rhdf5::h5createGroup(h5, file_group))
-        sps <- featureNames(filterFile(object, i))
-        fh <- openMSfile(file_name)
-        pks <- peaks(fh)
-        close(fh)
-        for (j in seq_along(sps)) {
-            pb$tick()
-            sp <- sps[j]
-            hdfile <- paste0(file_group, "/", sp)
-            rhdf5::h5write(pks[[j]], h5, hdfile)
-        }
-    }
-    rhdf5::H5Fclose(h5)
-    return(filename)
-}
-
 .Hdf5MSnExp <- setClass("Hdf5MSnExp",
-                        slots = c(hdf5file = "character"),
+                        slots = c(hdf5file = "character",
+                                  hdf5handle = "H5IdComponent"),
                         contains = "OnDiskMSnExp",
                         prototype = prototype(
                             new("VersionedBiobase",
@@ -55,10 +29,39 @@ serialise_to_hdf5 <- function(object, filename = NULL) {
           if (validObject(to)) to
       }
 
+serialise_to_hdf5 <- function(object, filename = NULL) {
+    stopifnot(inherits(object, "OnDiskMSnExp"))
+    if (is.null(filename))
+        filename <- paste0(digest::sha1(fileNames(object)), ".h5")
+    if (file.exists(filename))
+        stop("File ", filename, " already exists.")
+    h5 <- rhdf5::H5Fcreate(filename)
+    pb <- progress::progress_bar$new(total = length(object))
+    for (i in seq_along(fileNames(object))) {
+        file_group <- as.character(i)
+        file_name  <- fileNames(object)[i]
+        stopifnot(rhdf5::h5createGroup(h5, file_group))
+        fns <- featureNames(filterFile(object, i))
+        fh <- openMSfile(file_name)
+        pks <- peaks(fh)
+        close(fh)
+        for (j in seq_along(sps)) {
+            pb$tick()
+            fn <- fns[j]
+            hdfile <- paste0(file_group, "/", fn)
+            .pks <- pks[[j]]
+            colnames(.pks) <- c("mz", "intensity")
+            rhdf5::h5write(.pks, h5, hdfile)
+        }
+    }
+    rhdf5::H5Fclose(h5)
+    return(filename)
+}
+
 readHdf5DiskMSData <- function(files, pdata = NULL, msLevel. = NULL,
                                verbose = isMSnbaseVerbose(),
                                centroided. = NA, smoothed. = NA,
-                               hdf5file = NULL) {
+                               hdf5file = NULL, openHdf5 = TRUE) {
     obj <- MSnbase:::readOnDiskMSData(files, pdata, msLevel.,
                                       verbose, centroided.,
                                       smoothed.)
@@ -68,12 +71,24 @@ readHdf5DiskMSData <- function(files, pdata = NULL, msLevel. = NULL,
     if (validObject(obj)) obj
 }
 
-setMethod("close", "Hdf5MSnExp",
-          function(con, ...) {
-              f <- H5Fopen(con@hdf5file)
-              tryCatch(rhdf5::H5Fclose(f),
-                       error = function(e)
-                           stop("Encountered error trying to close ",
-                                con@hdf5file,
-                                ". Use `h5closeAll()` to close all hdf5 files."))
-          })
+hdf5Close <- function(object) {
+    if (isHdf5Open(object))
+        tryCatch(rhdf5::H5Fclose(object@hdf5handle),
+                 error = function(e)
+                     stop("Encountered error trying to close ",
+                          object@hdf5file,
+                          ". Use `h5closeAll()` to force close all hdf5 files."))
+    invisible(TRUE)
+}
+
+
+hdf5Open <- function(object) {
+    if (!.ishdf5open(object))
+        object@hdf5handle <- H5Fopen(object@hdf5file)
+    object
+}
+
+isHdf5Open <- function(object) {
+    stopifnot(inherits(object, "Hdf5MSnExp"))
+    rhdf5::H5Iis_valid(object@hdf5handle)
+}
