@@ -86,7 +86,7 @@ hdf5Close <- function(object) {
 
 hdf5Open <- function(object) {
     if (!isHdf5Open(object))
-        object@hdf5handle <- H5Fopen(object@hdf5file)
+        object@hdf5handle <- rhdf5::H5Fopen(object@hdf5file)
     object
 }
 
@@ -105,18 +105,18 @@ setMethod("[[", "Hdf5MSnExp",
                   stop("subscript out of bounds")
               if (!isHdf5Open(x))
                   x <- hdf5Open(x)
-              k <- paste0(fData(x)$fileIdx[i], "/",
-                          fileNames(x)[i])
-              rw <- h5read(x@hdf5handle, k)
+              k <- paste0(fData(x)$fileIdx[[i]], "/",
+                          featureNames(x)[[i]])
+              rw <- rhdf5::h5read(x@hdf5handle, k)
               if (msLevel(x)[i] == 1L)
                   spctr <- MSnbase:::Spectrum1_mz_sorted(
                                          rt = rtime(x)[[i]],
                                          acquisitionNum = acquisitionNum(x)[[i]],
                                          scanIndex = scanIndex(x)[[i]],
                                          tic = tic(x)[[i]],
-                                         mz = rw[, "mz"],
-                                         intensity = rw[, "intensity"],
-                                         fromFile = fromF,
+                                         mz = rw[, 1],
+                                         intensity = rw[, 2],
+                                         fromFile = fromFile(x)[[i]],
                                          centroided = centroided(x)[[i]],
                                          smoothed = smoothed(x)[[i]],
                                          polarity = polarity(x)[[i]])
