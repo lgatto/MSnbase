@@ -224,7 +224,7 @@ state, and mass based on a robustness analysis.</p></td>
 #&gt; 11699 1.2229379  1.4005805  1.3940034 1.2957861
 #&gt; 11700 0.8303542  0.7397313  0.7686411 0.7402981</div><div class='input'><span class='no'>prot</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='combineFeatures.html'>combineFeatures</a></span>(<span class='no'>msnset2</span>,
                         <span class='kw'>groupBy</span> <span class='kw'>=</span> <span class='fu'>fData</span>(<span class='no'>msnset2</span>)$<span class='no'>accession</span>,
-                        <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"iPQF"</span>)</div><div class='output co'>#&gt; <span class='message'>The following 1 proteins are only supported by 1 or 2 peptide spectra,</span>
+                        <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"iPQF"</span>)</div><div class='output co'>#&gt; <span class='message'>The following 1 proteins are only supported by 1 or 2 peptide spectra,</span>
 #&gt; <span class='message'>hence, protein quantification is not reliable and can only be calculated</span>
 #&gt; <span class='message'>by the 'mean' in these cases, corresponding protein accessions are:</span>
 #&gt; <span class='message'>  O95678</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'>exprs</span>(<span class='no'>prot</span>))</div><div class='output co'>#&gt;        X114.ions X115.ions X116.ions X117.ions

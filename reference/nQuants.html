@@ -191,7 +191,7 @@ non-NA features effectively summed.</p>
 <span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'>nQuants</span>(<span class='no'>msnset</span>, <span class='kw'>groupBy</span> <span class='kw'>=</span> <span class='fu'>fData</span>(<span class='no'>msnset</span>)$<span class='no'>ProteinAccession</span>)
 <span class='no'>msnset2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='combineFeatures.html'>combineFeatures</a></span>(<span class='no'>msnset</span>,
                            <span class='kw'>groupBy</span> <span class='kw'>=</span> <span class='fu'>fData</span>(<span class='no'>msnset</span>)$<span class='no'>ProteinAccession</span>,
-                           <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>sum</span>)
+                           <span class='kw'>method</span> <span class='kw'>=</span> <span class='no'>sum</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/stopifnot'>stopifnot</a></span>(<span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='no'>n</span>) <span class='kw'>==</span> <span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='no'>msnset2</span>))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'>exprs</span>(<span class='no'>msnset2</span>))</div><div class='output co'>#&gt;         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; BSA       2941.052   5174.721   8955.985  18023.287

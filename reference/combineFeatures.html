@@ -161,10 +161,10 @@ If NA values are present, a message will be remind the user. Details
     
     </div>
 
-    <pre class="usage"><span class='fu'>combineFeatures</span>(<span class='no'>object</span>, <span class='no'>groupBy</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"mean"</span>, <span class='st'>"median"</span>,
+    <pre class="usage"><span class='fu'>combineFeatures</span>(<span class='no'>object</span>, <span class='no'>groupBy</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"mean"</span>, <span class='st'>"median"</span>,
 <span class='st'>"weighted.mean"</span>, <span class='st'>"sum"</span>, <span class='st'>"medpolish"</span>, <span class='st'>"robust"</span>, <span class='st'>"iPQF"</span>, <span class='st'>"NTR"</span>), <span class='no'>fcol</span>,
 <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"unique"</span>, <span class='st'>"multiple"</span>), <span class='kw'>cv</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>cv.norm</span> <span class='kw'>=</span>
-<span class='st'>"sum"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span>(), <span class='no'>...</span>)</pre>
+<span class='st'>"sum"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span>(), <span class='no'>fun</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,6 +185,10 @@ If NA values are present, a message will be remind the user. Details
     </tr>
     <tr>
       <th>fun</th>
+      <td><p>Deprecated; use <code>method</code> instead.</p></td>
+    </tr>
+    <tr>
+      <th>method</th>
       <td><p>The summerising function. Currently, mean, median,
     weighted mean, sum, median polish, robust summarisation (using
     <code><a href='https://www.rdocumentation.org/packages/MASS/topics/rlm'>MASS::rlm</a></code>), iPQF (see <code><a href='iPQF.html'>iPQF</a></code> for details) and NTR
@@ -316,9 +320,9 @@ If NA values are present, a message will be remind the user. Details
 <span class='no'>grpl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>), <span class='st'>"A"</span>, <span class='st'>"A"</span>, <span class='st'>"C"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"C"</span>, <span class='st'>"B"</span>))
 <span class='co'>## optional naming</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>grpl</span>) <span class='kw'>&lt;-</span> <span class='fu'>featureNames</span>(<span class='no'>msnset</span>)
-<span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grpl</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"sum"</span>, <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='st'>"unique"</span>))</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
+<span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grpl</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sum"</span>, <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='st'>"unique"</span>))</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; A   38224.78   39183.07   46659.49   48093.74
-#&gt; C   21262.15   23168.73   25407.07   25949.95</div><div class='input'><span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grpl</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"sum"</span>, <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='st'>"multiple"</span>))</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
+#&gt; C   21262.15   23168.73   25407.07   25949.95</div><div class='input'><span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grpl</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sum"</span>, <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='st'>"multiple"</span>))</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; A   71062.82   76249.13   88089.12   87794.22
 #&gt; B   41473.36   47102.59   50684.06   47470.22
 #&gt; C   29897.46   33205.26   34661.50   33719.70</div><div class='input'>
@@ -346,7 +350,7 @@ If NA values are present, a message will be remind the user. Details
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NA'>anyNA</a></span>(<span class='no'>msnset2</span>)</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='no'>msnset2</span>,
                        <span class='kw'>groupBy</span> <span class='kw'>=</span> <span class='fu'>fData</span>(<span class='no'>msnset2</span>)$<span class='no'>accession</span>,
                        <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='st'>"unique"</span>,
-                       <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"iPQF"</span>,
+                       <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"iPQF"</span>,
                        <span class='kw'>low.support.filter</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
                        <span class='kw'>ratio.calc</span> <span class='kw'>=</span> <span class='st'>"sum"</span>,
                        <span class='kw'>method.combine</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The following 1 proteins are only supported by 1 or 2 peptide spectra,</span>
@@ -369,7 +373,7 @@ If NA values are present, a message will be remind the user. Details
 #&gt; X21   4   4</div><div class='input'><span class='fu'>exprs</span>(<span class='no'>msnset</span>[<span class='st'>"X46"</span>, ])</div><div class='output co'>#&gt; <span class='error'>Error in orig[[nm]][i, , ..., drop = drop]: subscript out of bounds</span></div><div class='input'><span class='co'>## Only the missing value in X46 and iTRAQ4.116 will be ignored</span>
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>,
                        <span class='kw'>fcol</span> <span class='kw'>=</span> <span class='st'>"ProteinAccession"</span>,
-                       <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"robust"</span>)</div><div class='output co'>#&gt; <span class='message'>Your data contains missing values. Please read the relevant section in</span>
+                       <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"robust"</span>)</div><div class='output co'>#&gt; <span class='message'>Your data contains missing values. Please read the relevant section in</span>
 #&gt; <span class='message'>the combineFeatures manual page for details the effects of missing</span>
 #&gt; <span class='message'>values on data aggregation.</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>tail</a></span>(<span class='fu'>exprs</span>(<span class='no'>res</span>))</div><div class='output co'>#&gt;         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; ECA1032   15.00308   15.17781   15.33838   15.27687
@@ -380,7 +384,7 @@ If NA values are present, a message will be remind the user. Details
 <span class='no'>msnset2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='MSnSet-class.html'>filterNA</a></span>(<span class='no'>msnset</span>) <span class='co'>## remove features with missing value(s)</span>
 <span class='no'>res2</span> <span class='kw'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='no'>msnset2</span>,
                         <span class='kw'>fcol</span> <span class='kw'>=</span> <span class='st'>"ProteinAccession"</span>,
-                        <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"robust"</span>)
+                        <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"robust"</span>)
 <span class='co'>## Here, the values for ENO are different because the whole feature</span>
 <span class='co'>## X46 that contained the missing value was removed prior to fitting.</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>tail</a></span>(<span class='fu'>exprs</span>(<span class='no'>res2</span>))</div><div class='output co'>#&gt;         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117

@@ -148,7 +148,8 @@ set.</p>
     </div>
 
     <pre class="usage"><span class='co'># S4 method for Spectra</span>
-<span class='fu'>combineSpectra</span>(<span class='no'>object</span>, <span class='no'>fcol</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>meanMzInts</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>combineSpectra</span>(<span class='no'>object</span>, <span class='no'>fcol</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='no'>meanMzInts</span>,
+  <span class='no'>fun</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,10 +165,14 @@ the sets of spectra to be combined. If missing, all spectra are
 considered to be one set.</p></td>
     </tr>
     <tr>
-      <th>fun</th>
+      <th>method</th>
       <td><p><code>function</code> to be used to combine the spectra by <code>fcol</code>. Has to
 be a function that takes a list of spectra as input and returns a single
-<a href='Spectrum-class.html'>Spectrum</a>. See <code><a href='meanMzInts.html'>meanMzInts()</a></code> for details..</p></td>
+<a href='Spectrum-class.html'>Spectrum</a>. See <code><a href='meanMzInts.html'>meanMzInts()</a></code> for details.</p></td>
+    </tr>
+    <tr>
+      <th>fun</th>
+      <td><p><em>Deprecated</em> use <code>method</code> instead.</p></td>
     </tr>
     <tr>
       <th>...</th>
