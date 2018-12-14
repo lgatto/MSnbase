@@ -6,7 +6,8 @@
 \alias{combineSpectra}
 \title{Combine Spectra}
 \usage{
-\S4method{combineSpectra}{Spectra}(object, fcol, fun = meanMzInts, ...)
+\S4method{combineSpectra}{Spectra}(object, fcol, method = meanMzInts,
+  fun, ...)
 }
 \arguments{
 \item{object}{A \linkS4class{MSnExp} or \linkS4class{Spectra}}
@@ -15,9 +16,11 @@
 the sets of spectra to be combined. If missing, all spectra are
 considered to be one set.}
 
-\item{fun}{\code{function} to be used to combine the spectra by \code{fcol}. Has to
+\item{method}{\code{function} to be used to combine the spectra by \code{fcol}. Has to
 be a function that takes a list of spectra as input and returns a single
-\linkS4class{Spectrum}. See \code{\link[=meanMzInts]{meanMzInts()}} for details..}
+\linkS4class{Spectrum}. See \code{\link[=meanMzInts]{meanMzInts()}} for details.}
+
+\item{fun}{\emph{Deprecated} use \code{method} instead.}
 
 \item{...}{additional arguments for \code{fun}.}
 }

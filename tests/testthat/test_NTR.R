@@ -44,12 +44,12 @@ test_that("normToReference", {
                c(1/2, 1/2, 1, NA))
 })
 
-test_that("combineFeatures(..., fun=\"NTR\")", {
+test_that("combineFeatures(..., method=\"NTR\")", {
   data(msnset)
   pa <- fData(msnset)$ProteinAccession
 
-  ntr <- combineFeatures(msnset, groupBy=pa, fun="NTR")
-  ntrref <- combineFeatures(msnset, groupBy=pa, fun="NTR", reference=
+  ntr <- combineFeatures(msnset, groupBy=pa, method="NTR")
+  ntrref <- combineFeatures(msnset, groupBy=pa, method="NTR", reference=
     exprs(msnset)[cbind(1:55, c(4, 4, 2, 3, 2, 3, 2, 4, 2, 2, 3, 4, 4, 4, 2,
                                 1, 4, 3, 4, 1, 3, 3, 3, 2, 2, 3, 3, 2, 3, 3,
                                 3, 4, 1, 4, 4, 3, 4, 3, 1, 4, 1, 1, 3, 3, 4,
@@ -59,8 +59,8 @@ test_that("combineFeatures(..., fun=\"NTR\")", {
   ## sum and NTR are equal if the reference is
   ## 1/(number of peptides per protein) and contains no NA
   ref <- (1/table(pa)[pa])
-  ntr <- combineFeatures(msnset, groupBy=pa, fun="NTR", reference=ref)
-  s <- combineFeatures(msnset, groupBy=pa, fun="sum")
+  ntr <- combineFeatures(msnset, groupBy=pa, method="NTR", reference=ref)
+  s <- combineFeatures(msnset, groupBy=pa, method="sum")
   ## exclude ENO (because of one NA the ref is not correct)
   ntr <- ntr[featureNames(ntr) != "ENO"]
   s <- s[featureNames(s) != "ENO"]

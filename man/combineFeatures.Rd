@@ -24,10 +24,10 @@
 
 \usage{
 
-combineFeatures(object, groupBy, fun = c("mean", "median",
+combineFeatures(object, groupBy, method = c("mean", "median",
 "weighted.mean", "sum", "medpolish", "robust", "iPQF", "NTR"), fcol,
 redundancy.handler = c("unique", "multiple"), cv = TRUE, cv.norm =
-"sum", verbose = isMSnbaseVerbose(), ...)
+"sum", verbose = isMSnbaseVerbose(), fun, ...)
 
 }
 
@@ -43,7 +43,10 @@ redundancy.handler = c("unique", "multiple"), cv = TRUE, cv.norm =
     named, its names must match \code{fetureNames(object)}. See
     \code{redundancy.handler} for details about the latter. }
 
-  \item{fun}{ The summerising function. Currently, mean, median,
+  \item{fun}{Deprecated; use \code{method} instead.
+  }
+
+  \item{method}{ The summerising function. Currently, mean, median,
     weighted mean, sum, median polish, robust summarisation (using
     \code{MASS::rlm}), iPQF (see \code{\link{iPQF}} for details) and NTR
     (see \code{\link[MSnbase]{NTR}} for details) are implemented, but
@@ -173,8 +176,8 @@ fvarLabels(msnset.comb)
 grpl <- list(c("A", "B"), "A", "A", "C", c("C", "B"))
 ## optional naming
 names(grpl) <- featureNames(msnset)
-exprs(combineFeatures(msnset, grpl, fun = "sum", redundancy.handler = "unique"))
-exprs(combineFeatures(msnset, grpl, fun = "sum", redundancy.handler = "multiple"))
+exprs(combineFeatures(msnset, grpl, method = "sum", redundancy.handler = "unique"))
+exprs(combineFeatures(msnset, grpl, method = "sum", redundancy.handler = "multiple"))
 
 ## missing data
 exprs(msnset)[4, 4] <-
@@ -191,7 +194,7 @@ anyNA(msnset2)
 res <- combineFeatures(msnset2,
 		       groupBy = fData(msnset2)$accession,
 		       redundancy.handler = "unique",
-		       fun = "iPQF",
+		       method = "iPQF",
 		       low.support.filter = FALSE,
 		       ratio.calc = "sum",
 		       method.combine = FALSE)
@@ -207,13 +210,13 @@ exprs(msnset["X46", ])
 ## Only the missing value in X46 and iTRAQ4.116 will be ignored
 res <- combineFeatures(msnset,
 		       fcol = "ProteinAccession",
-		       fun = "robust")
+		       method = "robust")
 tail(exprs(res))
 
 msnset2 <- filterNA(msnset) ## remove features with missing value(s)
 res2 <- combineFeatures(msnset2,
 			fcol = "ProteinAccession",
-			fun = "robust")
+			method = "robust")
 ## Here, the values for ENO are different because the whole feature
 ## X46 that contained the missing value was removed prior to fitting.
 tail(exprs(res2))

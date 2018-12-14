@@ -1,6 +1,6 @@
 combineFeatures <- function(object,
                             groupBy,
-                            fun = c("mean",
+                            method = c("mean",
                                 "median",
                                 "weighted.mean",
                                 "sum",
@@ -13,10 +13,17 @@ combineFeatures <- function(object,
                             cv = TRUE,
                             cv.norm = "sum",
                             verbose = isMSnbaseVerbose(),
+                            fun,
                             ... ## further arguments to fun
                             ) {
-    if (is.character(fun))
-        fun <- match.arg(fun)
+    if (!missing(fun)) {
+        .Deprecated(
+            msg = "Parameter 'fun' is deprecated. Please use 'method' instead")
+        if (missing(method))
+            method <- fun
+    }
+    if (is.character(method))
+        method <- match.arg(method)
     if (missing(groupBy)) {
         if (missing(fcol))
             stop("Require either 'groupBy' or 'fcol'.")
@@ -41,11 +48,11 @@ combineFeatures <- function(object,
             }
         }
         redundancy.handler <- match.arg(redundancy.handler)
-        result <- combineFeaturesL(object, groupBy, fun,
+        result <- combineFeaturesL(object, groupBy, method,
                                    redundancy.handler,
                                    cv, cv.norm, verbose, ...)
     } else { ## factor, numeric or character
-        result <- combineFeaturesV(object, groupBy, fun,
+        result <- combineFeaturesV(object, groupBy, method,
                                    cv, cv.norm, verbose, ...)
     }
     if (validObject(result))
@@ -54,12 +61,12 @@ combineFeatures <- function(object,
 
 combineFeaturesL <- function(object,   ## MSnSet
                              groupBy,  ## list
-                             fun,
+                             method,
                              redundancy.handler,
                              cv = TRUE,
                              cv.norm = "sum",
                              verbose = isMSnbaseVerbose(),
-                             ...    ## additional arguments to fun
+                             ...    ## additional arguments to method
                              ) {
     ## handling of the redundancy
     if (redundancy.handler == "multiple") {
@@ -80,17 +87,17 @@ combineFeaturesL <- function(object,   ## MSnSet
         object <- object[idx.unique, ]
         groupBy <- unlist(groupBy[idx.unique])
     }
-    combineFeaturesV(object, groupBy, fun, cv, cv.norm, verbose, ...)
+    combineFeaturesV(object, groupBy, method, cv, cv.norm, verbose, ...)
 }
 
 
 combineFeaturesV <- function(object,   ## MSnSet
                              groupBy,  ## factor, character or numeric
-                             fun,
+                             method,
                              cv = TRUE,
                              cv.norm = "sum",
                              verbose = isMSnbaseVerbose(),
-                             ...    ## additional arguments to fun
+                             ...    ## additional arguments to method
                              ) {
     groupBy <- as.character(groupBy)
     if (cv) {
@@ -113,20 +120,20 @@ combineFeaturesV <- function(object,   ## MSnSet
     }
     n1 <- nrow(object)
     ## !! order of features in matRes is defined by the groupBy factor !!
-    if (is.character(fun) && fun == "iPQF") {
+    if (is.character(method) && method == "iPQF") {
         ## NB: here, we pass the object, not only assay data,
         ##     because iPGF also needs the feature data, otherwise
         ##     not passed and used in combineFeatureMatrix
         ##     iPQF still returns a matrix, though.
         matRes <- iPQF(object, groupBy, ...)
-    } else if (is.character(fun) && fun == "NTR") {
+    } else if (is.character(method) && method == "NTR") {
         matRes <- normToReference(exprs(object), group=groupBy, ...)
         ## order matrix according to groupBy (is important because rownames are
         ## overwritten a few lines below
         matRes <- matRes[order(unique(groupBy)), , drop=FALSE]
     } else {
         matRes <- as.matrix(combineMatrixFeatures(exprs(object),
-                                                  groupBy, fun,
+                                                  groupBy, method,
                                                   verbose = verbose,
                                                   ...))
     }
@@ -142,9 +149,9 @@ combineFeaturesV <- function(object,   ## MSnSet
     res@processingData@merged <- TRUE
     res@qual <- object@qual[0, ]
     pData(res) <- pData(object)
-    if (is.character(fun)) {
+    if (is.character(method)) {
         msg <- paste("Combined ", n1, " features into ",
-                     nrow(res), " using ", fun, sep = "")
+                     nrow(res), " using ", method, sep = "")
     } else {
         msg <- paste("Combined ", n1, " features into ",
                      nrow(res), " using user-defined function",
@@ -164,21 +171,21 @@ combineFeaturesV <- function(object,   ## MSnSet
 
 combineMatrixFeatures <- function(matr,    ## matrix
                                   groupBy, ## char/factor
-                                  fun,
+                                  method,
                                   verbose = isMSnbaseVerbose(),
-                                  ...) { ## additional arguments to fun
-    if (is.character(fun)) {
+                                  ...) { ## additional arguments to method
+    if (is.character(method)) {
         ## Using a predefined function
-        if (fun == "medpolish") {
+        if (method == "medpolish") {
             summarisedFeatures <- by(matr,
                                      groupBy,
                                      function(x) {
                                          medpol <- medpolish(x, trace.iter = verbose, ...)
                                          return(medpol$overall + medpol$col)
                                      })
-        } else if (fun == "robust") {
+        } else if (method == "robust") {
             summarisedFeatures <- by(matr, groupBy, robustSummary, ...)
-        } else if (fun == "weighted.mean") {
+        } else if (method == "weighted.mean") {
             ## Expecting 'w' argument
             args <- list(...)
             if (is.null(args$w))
@@ -205,13 +212,13 @@ combineMatrixFeatures <- function(matr,    ## matrix
             ## using either 'sum', 'mean', 'median'
             summarisedFeatures <- by(matr,
                                      groupBy,
-                                     function(x) apply(x, 2, eval(parse(text = fun)), ...))
+                                     function(x) apply(x, 2, eval(parse(text = method)), ...))
         }
     } else {
         ## using user-defined function
         summarisedFeatures <- by(matr,
                                  groupBy,
-                                 function(x) apply(x, 2, fun, ...))
+                                 function(x) apply(x, 2, method, ...))
     }
     return(do.call(rbind, as.list(summarisedFeatures)))
 }
