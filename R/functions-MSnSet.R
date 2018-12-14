@@ -161,7 +161,7 @@ updateFeatureNames <- function(object, label, sep = ".") {
 ##' m <- nQuants(msnset, groupBy = fData(msnset)$ProteinAccession)
 ##' msnset2 <- combineFeatures(msnset,
 ##'                            groupBy = fData(msnset)$ProteinAccession,
-##'                            fun = sum)
+##'                            method = sum)
 ##' stopifnot(dim(n) == dim(msnset2))
 ##' head(exprs(msnset2))
 ##' head(exprs(msnset2) * (n/m))
