@@ -7,6 +7,7 @@ import(ProtGenerics)
 import(BiocParallel)
 import(Biobase)
 import(mzR)
+import(rhdf5)
 import(impute)
 
 import(scales)
@@ -152,7 +153,10 @@ export(MSnSet,
        estimateMzScattering,
        hasSpectra, hasChromatograms,
        mergeFeatureVars, expandFeatureVars,
-       Spectra
+       Spectra,
+       ## hdf5 backend
+       readHdf5DiskMSData,
+       hdf5Open, hdf5Close, isHdf5Open
        )
 
 exportClasses(pSet,
@@ -169,11 +173,12 @@ exportClasses(pSet,
               MSmap,
               MzTab,
               OnDiskMSnExp,
+              Hdf5MSnExp,
               ProcessingStep,
               Chromatogram,
               Chromatograms,
-	      Spectra
-	      )
+              Spectra
+              )
 
 exportMethods(updateObject,
               exprs,
@@ -310,7 +315,7 @@ exportMethods(updateObject,
               writeMSData,
               productMz,
               estimateMzResolution,
-	      combineSpectra
+              combineSpectra
               )
 
 ## methods NOT exported

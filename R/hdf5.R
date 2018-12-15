@@ -1,6 +1,39 @@
+setClassUnion("H5IdComponentOrNULL", c("H5IdComponent", "NULL"))
+
+##' @title The `Hdf5MSnExp` Class for MS Data And Meta-Data
+##' @description The `Hdf5MSnExp` class encapsulates data and
+##'     meta-data for mass spectrometry experiments like the `MSnExp`
+##'     and `OnDiskMSnExp` classes. `Hdf5MSnExp` implements, like
+##'     `OnDiskMSnExp`, an *on disk* model, where the raw data (M/Z
+##'     and intensities) are stored on disk (rather than in memory,
+##'     like `MSnExp` data) using, as the name implies, the hdf5 file
+##'     format. See [`MSnExp`] and [`OnDiskMSnExp`] for a more general
+##'     description of the data, slots and operations.
+##'
+##'     Object of the class are currently created with the
+##'     `readHdf5DiskMSData` function. Later, this backend will be
+##'     included in the main `readMSData` function.
+##'
+##' @slot hdf5file `character(1)` containing the hdf5 filename.
+##' @slot hdf5handle A `H5IdComponent` or `NULL`.
+##'
+##' @rdname Hdf5MSnExp-class
+##' @aliases Hdf5MSnExp
+##' @export
+##' @seealso See [`MSnExp`] and [`OnDiskMSnExp`] classes.
+##' @author Laurent Gatto
+##' @md
+##' @examples
+##' f <- msdata::proteomics(pattern = "MS3TMT11", full.names = TRUE)
+##' x <- readHdf5DiskMSData(f)
+##' x
+##' x[[1]]
+##' x[[2]]
+##' x[[10]]
+##' filterMsLevel(x, 3L)[[1]]
 .Hdf5MSnExp <- setClass("Hdf5MSnExp",
                         slots = c(hdf5file = "character",
-                                  hdf5handle = "H5IdComponent"),
+                                  hdf5handle = "H5IdComponentOrNULL"),
                         contains = "OnDiskMSnExp",
                         prototype = prototype(
                             new("VersionedBiobase",
@@ -8,25 +41,25 @@
                                              classVersion("OnDiskMSnExp"),
                                              Hdf5MSnExp = "0.0.1")),
                             spectraProcessingQueue = list(),
-                            backend = character()),
-                        validity = function(object) {
-                            msg <- validMsg(NULL, NULL)
-                            if (!length(.Hdf5MSnExp())) {
-                                if (!file.exists(object@hdf5file))
-                                    msg <- validMsg(msg,
-                                                    "hdf5 file is missing.")
-                            }
-                            if (is.null(msg)) TRUE
-                            else msg
-                        })
+                            backend = character()))
 
+validHdf5MSnExp <- function(object) {
+    msg <- validMsg(NULL, NULL)
+    if (!length(.Hdf5MSnExp())) {
+        if (!file.exists(object@hdf5file))
+            msg <- validMsg(msg,
+                            "hdf5 file is missing.")
+    }
+    if (is.null(msg)) TRUE
+    else msg
+}
 
 .onDisk2hdf5 <- function(from, filename) {
           to <- .Hdf5MSnExp()
           for (sl in MSnbase:::.slotNames0(from))
               slot(to, sl) <- slot(from, sl)
           to@hdf5file <- filename
-          if (validObject(to)) to
+          to
       }
 
 serialise_to_hdf5 <- function(object, filename = NULL) {
@@ -58,6 +91,8 @@ serialise_to_hdf5 <- function(object, filename = NULL) {
     return(filename)
 }
 
+##' @export
+##' @rdname Hdf5MSnExp-class
 readHdf5DiskMSData <- function(files, pdata = NULL, msLevel. = NULL,
                                verbose = isMSnbaseVerbose(),
                                centroided. = NA, smoothed. = NA,
@@ -70,9 +105,17 @@ readHdf5DiskMSData <- function(files, pdata = NULL, msLevel. = NULL,
     obj <- .onDisk2hdf5(obj, hdf5file)
     if (openHdf5)
         obj <- hdf5Open(obj)
-    if (validObject(obj)) obj
+    if (validHdf5MSnExp(obj)) obj
 }
 
+##' The `hdf5Close` and `hdf5Open` function respectively close and
+##' open the connection to the `Hdf5MSnExp` object hdf5 file. The both
+##' return the input object with the updated hdf5 file
+##' handle. `isHdf5Open` test if the hdf5 file is open and retuns a
+##' `logical(1)`.
+##'
+##' @param object An instance of class `Hdf5MSnExp`.
+##' @rdname Hdf5MSnExp-class
 hdf5Close <- function(object) {
     if (isHdf5Open(object))
         tryCatch(rhdf5::H5Fclose(object@hdf5handle),
@@ -83,15 +126,18 @@ hdf5Close <- function(object) {
     invisible(TRUE)
 }
 
-
+##' @rdname Hdf5MSnExp-class
 hdf5Open <- function(object) {
     if (!isHdf5Open(object))
         object@hdf5handle <- rhdf5::H5Fopen(object@hdf5file)
     object
 }
 
+##' @rdname Hdf5MSnExp-class
 isHdf5Open <- function(object) {
     stopifnot(inherits(object, "Hdf5MSnExp"))
+    if (is.null(object@hdf5handle))
+        return(FALSE)
     rhdf5::H5Iis_valid(object@hdf5handle)
 }
 
@@ -122,8 +168,9 @@ setMethod("[[", "Hdf5MSnExp",
                                          polarity = polarity(x)[[i]])
               else
                   spctr <- MSnbase:::Spectrum2_mz_sorted(
+                                         msLevel = msLevel(x)[[i]],
                                          rt = rtime(x)[[i]],
-                                         nacquisitionNum = acquisitionNum(x)[[i]],
+                                         acquisitionNum = acquisitionNum(x)[[i]],
                                          scanIndex = scanIndex(x)[[i]],
                                          tic = tic(x)[[i]],
                                          mz = rw[, 1],
@@ -136,6 +183,6 @@ setMethod("[[", "Hdf5MSnExp",
                                          precursorMz = precursorIntensity(x)[[i]],
                                          precursorIntensity = precursorIntensity(x)[[i]],
                                          precursorCharge = precursorCharge(x)[[i]],
-                                         collisionenergy = collisionEnergy(x)[[i]])
+                                         collisionEnergy = collisionEnergy(x)[[i]])
               if (validObject(spctr)) return(spctr)
           })
