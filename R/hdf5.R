@@ -120,6 +120,22 @@ setMethod("[[", "Hdf5MSnExp",
                                          centroided = centroided(x)[[i]],
                                          smoothed = smoothed(x)[[i]],
                                          polarity = polarity(x)[[i]])
-              else MSnbase:::Spectrum2_mz_sorted()
-              return(spctr)
+              else
+                  spctr <- MSnbase:::Spectrum2_mz_sorted(
+                                         rt = rtime(x)[[i]],
+                                         nacquisitionNum = acquisitionNum(x)[[i]],
+                                         scanIndex = scanIndex(x)[[i]],
+                                         tic = tic(x)[[i]],
+                                         mz = rw[, 1],
+                                         intensity = rw[, 2],
+                                         fromFile = fromFile(x)[[i]],
+                                         centroided = centroided(x)[[i]],
+                                         smoothed = smoothed(x)[[i]],
+                                         polarity = polarity(x)[[i]],
+                                         precScanNum = precScanNum(x)[[i]],
+                                         precursorMz = precursorIntensity(x)[[i]],
+                                         precursorIntensity = precursorIntensity(x)[[i]],
+                                         precursorCharge = precursorCharge(x)[[i]],
+                                         collisionenergy = collisionEnergy(x)[[i]])
+              if (validObject(spctr)) return(spctr)
           })
