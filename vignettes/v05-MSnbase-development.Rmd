@@ -1,8 +1,8 @@
 ---
 title: "A short introduction to *MSnbase* development"
-author: 
+author:
 - name: Laurent Gatto
-  affiliation: Computational Proteomics Unit, Cambridge, UK.
+  affiliation: de Duve Institute, UCLouvain, Belgium
 - name: Johannes Rainer
   affiliation: Institute for Biomedicine, Eurac Research, Bolzano, Italy.
 - name: Sebastian Gibb
@@ -44,7 +44,7 @@ This document is not a replacement for the individual manual pages,
 that document the slots of the `r Biocpkg("MSnbase")` classes. It is a
 centralised high-level description of the package design.
 
-`r Biocpkg("MSnbase")` aims at being compatible with the 
+`r Biocpkg("MSnbase")` aims at being compatible with the
 `r Biocpkg("Biobase")` infrastructure [@Gentleman2004].  Many meta data
 structures that are used in `eSet` and associated classes are also
 used here. As such, knowledge of the *Biobase development and the new
@@ -320,4 +320,3 @@ sessionInfo()
 ```
 
 # References
-

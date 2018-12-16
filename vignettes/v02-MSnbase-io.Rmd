@@ -1,8 +1,8 @@
 ---
 title: "MSnbase IO capabilities"
-author: 
+author:
 - name: Laurent Gatto
-  affiliation: Computational Proteomics Unit, Cambridge, UK.
+  affiliation: de Duve Institute, UCLouvain, Belgium
 package: MSnbase
 abstract: >
   This vignette describes *MSnbase*'s input and output capabilities.
@@ -48,7 +48,7 @@ presented below.
 
 Data stored in one of the published `XML`-based formats. i.e. `mzXML`
 [@Pedrioli2004], `mzData` [@Orchard2007] or `mzML` [@Martens2010], can
-be imported with the `readMSData` method, which makes use of the 
+be imported with the `readMSData` method, which makes use of the
 `r Biocpkg("mzR")` package to create `MSnExp` objects.  The files can be
 in profile or centroided mode.  See `?readMSData` for details.
 
@@ -110,7 +110,7 @@ intensity values. See `?writeMgfData` for details.
 files using the `writeMzTabData` function.
 
 ![*MSnbase* output capabilities. The white and red boxes represent R functions/methods and objects respectively. The blue boxes represent different disk storage formats.](./Figures/MSnbase-io-out.png)
-	
+
 
 # Creating `MSnSet` from text spread sheets
 
@@ -136,8 +136,8 @@ We start by describing the `csv` to be used as input using the
 ```{r readCsvData0}
 ## The original data for replicate 1, available
 ## from the pRolocdata package
-f0 <- dir(system.file("extdata", package = "pRolocdata"), 
-          full.names = TRUE, 
+f0 <- dir(system.file("extdata", package = "pRolocdata"),
+          full.names = TRUE,
           pattern = "pr800866n_si_004-rep1.csv")
 csv <- read.csv(f0)
 ```
@@ -159,15 +159,15 @@ meta-data (`pdataFile.csv`).
 
 ```{r readCsvData1}
 ## The quantitation data, from the original data
-f1 <- dir(system.file("extdata", package = "pRolocdata"), 
+f1 <- dir(system.file("extdata", package = "pRolocdata"),
           full.names = TRUE, pattern = "exprsFile.csv")
 exprsCsv <- read.csv(f1)
 ## Feature meta-data, from the original data
-f2 <- dir(system.file("extdata", package = "pRolocdata"), 
+f2 <- dir(system.file("extdata", package = "pRolocdata"),
           full.names = TRUE, pattern = "fdataFile.csv")
 fdataCsv <- read.csv(f2)
 ## Sample meta-data, a new file
-f3 <- dir(system.file("extdata", package = "pRolocdata"), 
+f3 <- dir(system.file("extdata", package = "pRolocdata"),
           full.names = TRUE, pattern = "pdataFile.csv")
 pdataCsv <- read.csv(f3)
 ```
@@ -176,7 +176,7 @@ pdataCsv <- read.csv(f3)
 
 `exprsFile.csv` contains the quantitation (expression) data for the
 `r nrow(exprsCsv)` proteins and 4 reporter tags.
-  
+
 ```{r showExprsFile}
 head(exprsCsv, n = 3)
 ```
@@ -191,8 +191,8 @@ head(fdataCsv, n = 3)
 
 `pdataFile.csv` contains samples (here fractions) meta-data. This
 simple file has been created manually.
-  
-  
+
+
 ```{r showPdFile}
 pdataCsv
 ```
@@ -222,7 +222,7 @@ following validity requirements (see figure below):
 
 - the number of row in the expression/quantitation data and feature
   data must be equal and the row names must match exactly, and
-  
+
 - the number of columns in the expression/quantitation data and number
   of row in the sample meta-data must be equal and the column/row
   names must match exactly.
@@ -234,11 +234,11 @@ A detailed description of the `MSnSet` class is available by typing
 ![Dimension requirements for the respective expression, feature and sample meta-data slots.](./Figures/msnset.png)
 
 
-The individual parts of this data object can be accessed with their respective accessor methods: 
+The individual parts of this data object can be accessed with their respective accessor methods:
 
 - the quantitation data can be retrieved with `exprs(res)`,
-- the feature meta-data with `fData(res)` and 
-- the sample meta-data with `pData(res)`. 
+- the feature meta-data with `fData(res)` and
+- the sample meta-data with `pData(res)`.
 
 
 ## A shorter work flow
@@ -260,7 +260,7 @@ fname <- "Protein.ID"
 eset <- readMSnSet2(f0, ecol, fname)
 eset
 ```
- 
+
 
 The `ecol` columns can also be queried interactively from R using the
 `getEcols` and `grepEcols` function. The former return a character
