@@ -19,7 +19,6 @@ setClassUnion("H5IdComponentOrNULL", c("H5IdComponent", "NULL"))
 ##'
 ##' @rdname Hdf5MSnExp-class
 ##' @aliases Hdf5MSnExp
-##' @export
 ##' @seealso See [`MSnExp`] and [`OnDiskMSnExp`] classes.
 ##' @author Laurent Gatto
 ##' @md
@@ -27,10 +26,20 @@ setClassUnion("H5IdComponentOrNULL", c("H5IdComponent", "NULL"))
 ##' f <- msdata::proteomics(pattern = "MS3TMT11", full.names = TRUE)
 ##' x <- readHdf5DiskMSData(f)
 ##' x
+##'
+##' ## automatically generated hdf5 file
+##' hdf5FileName(x)
+##' hdf5FileName(x) <- "myhdf5data.h5"
+##'
 ##' x[[1]]
 ##' x[[2]]
 ##' x[[10]]
 ##' filterMsLevel(x, 3L)[[1]]
+##'
+##' ## clean up session
+##' file.remove(hdf5FileName(x))
+##' validHdf5MSnExp(x) ## not valid anymore
+##' rm(x)
 .Hdf5MSnExp <- setClass("Hdf5MSnExp",
                         slots = c(hdf5file = "character",
                                   hdf5handle = "H5IdComponentOrNULL"),
@@ -44,14 +53,11 @@ setClassUnion("H5IdComponentOrNULL", c("H5IdComponent", "NULL"))
                             backend = character()))
 
 validHdf5MSnExp <- function(object) {
-    msg <- validMsg(NULL, NULL)
     if (!length(.Hdf5MSnExp())) {
         if (!file.exists(object@hdf5file))
-            msg <- validMsg(msg,
-                            "hdf5 file is missing.")
+            stop("hdf5 file is missing.")
     }
-    if (is.null(msg)) TRUE
-    else msg
+    TRUE
 }
 
 .onDisk2hdf5 <- function(from, filename) {
@@ -91,7 +97,6 @@ serialise_to_hdf5 <- function(object, filename = NULL) {
     return(filename)
 }
 
-##' @export
 ##' @rdname Hdf5MSnExp-class
 readHdf5DiskMSData <- function(files, pdata = NULL, msLevel. = NULL,
                                verbose = isMSnbaseVerbose(),
@@ -141,8 +146,32 @@ isHdf5Open <- function(object) {
     rhdf5::H5Iis_valid(object@hdf5handle)
 }
 
+##' @rdname Hdf5MSnExp-class
+hdf5FileName <- function(object) {
+    stopifnot(inherits(object, "Hdf5MSnExp"))
+    object@hdf5file
+}
+
+##' @rdname Hdf5MSnExp-class
+`hdf5FileName<-` <- function(object, value) {
+    stopifnot(inherits(object, "Hdf5MSnExp"))
+    stopifnot(inherits(value, "character"))
+    if (length(value) != 1)
+        stop("Please provide a single file name")
+    if (isHdf5Open(object))
+        object <- hdf5Close(object)
+    stopifnot(file.rename(hdf5FileName(object), value))
+    object@hdf5file <- value
+    if (validHdf5MSnExp(object))
+        return(object)
+}
+
+
+
 setMethod("[[", "Hdf5MSnExp",
           function(x, i, j = "missing", drop = "missing") {
+              if (!isHdf5Open(x))
+                  x <- hdf5Open(x)
               if (length(i) != 1)
                   stop("subscript out of bounds")
               if (is.character(i))

@@ -9,6 +9,8 @@
 \alias{hdf5Close}
 \alias{hdf5Open}
 \alias{isHdf5Open}
+\alias{hdf5FileName}
+\alias{hdf5FileName<-}
 \title{The \code{Hdf5MSnExp} Class for MS Data And Meta-Data}
 \usage{
 readHdf5DiskMSData(files, pdata = NULL, msLevel. = NULL,
@@ -20,6 +22,10 @@ hdf5Close(object)
 hdf5Open(object)
 
 isHdf5Open(object)
+
+hdf5FileName(object)
+
+hdf5FileName(object) <- value
 }
 \arguments{
 \item{object}{An instance of class `Hdf5MSnExp`.}
@@ -49,10 +55,20 @@ included in the main `readMSData` function.
 f <- msdata::proteomics(pattern = "MS3TMT11", full.names = TRUE)
 x <- readHdf5DiskMSData(f)
 x
+
+## automatically generated hdf5 file
+hdf5FileName(x)
+hdf5FileName(x) <- "myhdf5data.h5"
+
 x[[1]]
 x[[2]]
 x[[10]]
 filterMsLevel(x, 3L)[[1]]
+
+## clean up session
+file.remove(hdf5FileName(x))
+validHdf5MSnExp(x) ## not valid anymore
+rm(x)
 }
 \seealso{
 See \code{\link{MSnExp}} and \code{\link{OnDiskMSnExp}} classes.
