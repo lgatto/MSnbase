@@ -156,7 +156,8 @@ export(MSnSet,
        Spectra,
        ## hdf5 backend
        readHdf5DiskMSData,
-       hdf5Open, hdf5Close, isHdf5Open
+       hdf5Open, hdf5Close, isHdf5Open,
+       hdf5FileName, "hdf5FileName<-"
        )
 
 exportClasses(pSet,
