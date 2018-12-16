@@ -90,7 +90,7 @@ SI <- function(object,
 
     ## SI: protein-wise summed tic
     object <- combineFeatures(object, groupBy = groupBy,
-                              fun = "sum", verbose = verbose)
+                              method = "sum", verbose = verbose)
 
     if (method %in% c("SIgi", "SIn"))
         exprs(object) <- exprs(object)/colSums(exprs(object))
@@ -126,7 +126,7 @@ SAF <- function(object,
 
     object <- combineFeatures(object,
                               groupBy = groupBy,
-                              fun = length,
+                              method = length,
                               verbose = verbose)
 
     plength <- fData(object)[, plength]

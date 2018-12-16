@@ -21,7 +21,7 @@ test_that("iPQF unit test", {
               res1 <- combineFeatures(msnset2,
                                       groupBy = fData(msnset2)$accession,
                                       redundancy.handler = "unique",
-                                      fun = "iPQF",
+                                      method = "iPQF",
                                       low.support.filter = FALSE,
                                       ratio.calc = "sum",
                                       method.combine = FALSE)
@@ -33,17 +33,17 @@ test_that("iPQF unit test", {
               dflt <- combineFeatures(msnset2,
                                       groupBy = fData(msnset2)$accession,
                                       redundancy.handler = "unique",
-                                      fun = "iPQF")
+                                      method = "iPQF")
               dflt@processingData <- processingData(ipqf1)
               dflt@experimentData <- experimentData(ipqf1)
               res1@.__classVersion__ <- dflt@.__classVersion__
               expect_true(all.equal(res1, dflt))
-              
+
 
               res2 <- combineFeatures(msnset2,
                                       groupBy = fData(msnset2)$accession,
                                       redundancy.handler = "unique",
-                                      fun = "iPQF",
+                                      method = "iPQF",
                                       low.support.filter = FALSE,
                                       ratio.calc = "sum",
                                       method.combine = TRUE)
@@ -55,7 +55,7 @@ test_that("iPQF unit test", {
               res3 <- combineFeatures(msnset2,
                                       groupBy = fData(msnset2)$accession,
                                       redundancy.handler = "unique",
-                                      fun = "iPQF",
+                                      method = "iPQF",
                                       low.support.filter = TRUE,
                                       ratio.calc = "sum",
                                       method.combine = FALSE)
@@ -67,7 +67,7 @@ test_that("iPQF unit test", {
               res4 <- combineFeatures(msnset2,
                                       groupBy = fData(msnset2)$accession,
                                       redundancy.handler = "unique",
-                                      fun = "iPQF",
+                                      method = "iPQF",
                                       low.support.filter = TRUE,
                                       ratio.calc = "none",
                                       method.combine = FALSE)
@@ -79,7 +79,7 @@ test_that("iPQF unit test", {
               res5 <- combineFeatures(msnset2,
                                       groupBy = fData(msnset2)$accession,
                                       redundancy.handler = "unique",
-                                      fun = "iPQF",
+                                      method = "iPQF",
                                       low.support.filter = TRUE,
                                       ratio.calc = "X114.ions",
                                       method.combine = FALSE)

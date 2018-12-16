@@ -53,7 +53,7 @@ data(msnset2)
 head(exprs(msnset2))
 prot <- combineFeatures(msnset2,
                         groupBy = fData(msnset2)$accession,
-                        fun = "iPQF")
+                        method = "iPQF")
 head(exprs(prot))
 }
 \references{

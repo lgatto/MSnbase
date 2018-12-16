@@ -14,6 +14,8 @@ import(scales)
 import(lattice)
 import(methods)
 
+importFrom(progress, progress_bar)
+
 importFrom(XML, xmlInternalTreeParse, getDefaultNamespace, xpathApply,
            xmlAttrs)
 importFrom(graphics, abline, axis, grid, legend, lines, points, text,

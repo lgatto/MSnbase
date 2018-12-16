@@ -6,7 +6,7 @@ Description: MSnbase provides infrastructure for manipulation,
              proteomics data, ranging from raw to quantitative and
              annotated data.
 Authors@R: c(person(given = "Laurent", family = "Gatto",
-                    email = "lg390@cam.ac.uk",
+                    email = "laurent.gatto@uclouvain.be",
                     role = c("aut","cre")),
              person(given = "Guangchuang", family = "Yu",
                     email = "guangchuangyu@gmail.com",
@@ -84,6 +84,7 @@ Imports:
     scales,
     MASS,
     Rcpp,
+    progress,
     rhdf5
 Suggests:
     testthat,
