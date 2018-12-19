@@ -77,8 +77,8 @@ serialise_to_hdf5 <- function(object, filename = NULL) {
     h5 <- rhdf5::H5Fcreate(filename)
     pb <- progress::progress_bar$new(total = length(object))
     for (i in seq_along(fileNames(object))) {
-        file_group <- as.character(i)
         file_name  <- fileNames(object)[i]
+        file_group <- basename(file_name)
         stopifnot(rhdf5::h5createGroup(h5, file_group))
         fns <- featureNames(filterFile(object, i))
         fh <- openMSfile(file_name)
@@ -180,7 +180,7 @@ setMethod("[[", "Hdf5MSnExp",
                   stop("subscript out of bounds")
               if (!isHdf5Open(x))
                   x <- hdf5Open(x)
-              k <- paste0(fData(x)$fileIdx[[i]], "/",
+              k <- paste0(basename(fileNames(x))[fData(x)$fileIdx[[i]]], "/",
                           featureNames(x)[[i]])
               rw <- rhdf5::h5read(x@hdf5handle, k)
               if (msLevel(x)[i] == 1L)
