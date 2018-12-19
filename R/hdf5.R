@@ -78,7 +78,7 @@ serialise_to_hdf5 <- function(object, filename = NULL) {
     pb <- progress::progress_bar$new(total = length(object))
     for (i in seq_along(fileNames(object))) {
         file_name  <- fileNames(object)[i]
-        file_group <- basename(file_name)
+        file_group <- .hdf5_group_name(file_name)
         stopifnot(rhdf5::h5createGroup(h5, file_group))
         fns <- featureNames(filterFile(object, i))
         fh <- openMSfile(file_name)
@@ -102,7 +102,7 @@ readHdf5DiskMSData <- function(files, pdata = NULL, msLevel. = NULL,
                                verbose = isMSnbaseVerbose(),
                                centroided. = NA, smoothed. = NA,
                                hdf5file = NULL, openHdf5 = TRUE) {
-    obj <- MSnbase:::readOnDiskMSData(files, pdata, msLevel.,
+    obj <- MSnbase:::readOnDiskMSData(normalizePath(files), pdata, msLevel.,
                                       verbose, centroided.,
                                       smoothed.)
     if (verbose) message("Serialising to hdf5...")
@@ -180,8 +180,8 @@ setMethod("[[", "Hdf5MSnExp",
                   stop("subscript out of bounds")
               if (!isHdf5Open(x))
                   x <- hdf5Open(x)
-              k <- paste0(basename(fileNames(x))[fData(x)$fileIdx[[i]]], "/",
-                          featureNames(x)[[i]])
+              k <- paste0(.hdf5_group_name(fileNames(x)[fData(x)$fileIdx[[i]]]),
+                                           "/", featureNames(x)[[i]])
               rw <- rhdf5::h5read(x@hdf5handle, k)
               if (msLevel(x)[i] == 1L)
                   spctr <- MSnbase:::Spectrum1_mz_sorted(
@@ -215,3 +215,7 @@ setMethod("[[", "Hdf5MSnExp",
                                          collisionEnergy = collisionEnergy(x)[[i]])
               if (validObject(spctr)) return(spctr)
           })
+
+.hdf5_group_name <- function(x) {
+    vapply(x, digest::sha1, character(1), USE.NAMES = FALSE)
+}
