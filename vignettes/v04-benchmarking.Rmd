@@ -1,5 +1,5 @@
 ---
-title: "MSnbase2 benchmarking"
+title: "MSnbase benchmarking"
 author:
 - name: Laurent Gatto
   affiliation: de Duve Institute, UCLouvain, Belgium
@@ -10,7 +10,7 @@ output:
   BiocStyle::html_document:
     toc_float: true
 vignette: >
-  %\VignetteIndexEntry{MSnbase2 benchmarking}
+  %\VignetteIndexEntry{MSnbase benchmarking}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteKeyword{proteomics, mass spectrometry}
   %\VignetteEncoding{UTF-8}
