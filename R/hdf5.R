@@ -76,6 +76,7 @@ serialise_to_hdf5 <- function(object, filename = NULL) {
         stop("File ", filename, " already exists.")
     h5 <- rhdf5::H5Fcreate(filename)
     pb <- progress::progress_bar$new(total = length(object))
+    comp_level <- .hdf5_compression_level()
     for (i in seq_along(fileNames(object))) {
         file_name  <- fileNames(object)[i]
         file_group <- .hdf5_group_name(file_name)
@@ -90,7 +91,7 @@ serialise_to_hdf5 <- function(object, filename = NULL) {
             hdfile <- paste0(file_group, "/", fn)
             .pks <- pks[[j]]
             colnames(.pks) <- c("mz", "intensity")
-            rhdf5::h5write(.pks, h5, hdfile)
+            rhdf5::h5write(.pks, h5, hdfile, level = comp_level)
         }
     }
     rhdf5::H5Fclose(h5)
