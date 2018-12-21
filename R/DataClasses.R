@@ -471,21 +471,18 @@ setClass("OnDiskMSnExp",
 ## function name (@FUN) and optional arguments (@ARG)
 setClass("ProcessingStep",
          representation=representation(
-             FUN="character",
-             ARGS="list"
+             FUN = "characterOrFunction",
+             ARGS = "list"
          ),
-         contains="Versioned",
          prototype=prototype(
-             new("Versioned",
-                 versions=c(ProcessingStep="0.0.1")),
              ARGS=list(),
              FUN=character()
          ),
-         validity=function(object){
+         validity = function(object) {
              msg <- validMsg(NULL, NULL)
              ## Check if function/method exists?
              if(length(object@FUN) > 0){
-                 Res <- try(get(object@FUN), silent=TRUE)
+                 Res <- try(match.fun(object@FUN), silent=TRUE)
                  if(is(Res, "try-error")){
                      msg <- validMsg(msg,
                                      paste0("Function '", object@FUN, "' not found!"))
@@ -495,11 +492,10 @@ setClass("ProcessingStep",
                                          paste0("'", object@FUN, "' is not a function!"))
                  }
              }
-             if(is.null(msg)){
-                 return(TRUE)
-             }else{
-                 return(msg)
-             }
+             if (is.null(msg))
+                 TRUE
+             else
+                 msg
          })
 
 #' @title Representation of chromatographic MS data

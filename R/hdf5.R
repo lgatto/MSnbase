@@ -62,7 +62,7 @@ validHdf5MSnExp <- function(object) {
 
 .onDisk2hdf5 <- function(from, filename) {
           to <- .Hdf5MSnExp()
-          for (sl in MSnbase:::.slotNames0(from))
+          for (sl in .slotNames0(from))
               slot(to, sl) <- slot(from, sl)
           to@hdf5file <- filename
           to
@@ -103,9 +103,9 @@ readHdf5DiskMSData <- function(files, pdata = NULL, msLevel. = NULL,
                                verbose = isMSnbaseVerbose(),
                                centroided. = NA, smoothed. = NA,
                                hdf5file = NULL, openHdf5 = TRUE) {
-    obj <- MSnbase:::readOnDiskMSData(normalizePath(files), pdata, msLevel.,
-                                      verbose, centroided.,
-                                      smoothed.)
+    obj <- readOnDiskMSData(normalizePath(files), pdata, msLevel.,
+                            verbose, centroided.,
+                            smoothed.)
     if (verbose) message("Serialising to hdf5...")
     hdf5file <- serialise_to_hdf5(obj, hdf5file)
     obj <- .onDisk2hdf5(obj, hdf5file)
@@ -185,7 +185,7 @@ setMethod("[[", "Hdf5MSnExp",
                                            "/", featureNames(x)[[i]])
               rw <- rhdf5::h5read(x@hdf5handle, k)
               if (msLevel(x)[i] == 1L)
-                  spctr <- MSnbase:::Spectrum1_mz_sorted(
+                  spctr <- Spectrum1_mz_sorted(
                                          rt = rtime(x)[[i]],
                                          acquisitionNum = acquisitionNum(x)[[i]],
                                          scanIndex = scanIndex(x)[[i]],
@@ -197,7 +197,7 @@ setMethod("[[", "Hdf5MSnExp",
                                          smoothed = smoothed(x)[[i]],
                                          polarity = polarity(x)[[i]])
               else
-                  spctr <- MSnbase:::Spectrum2_mz_sorted(
+                  spctr <- Spectrum2_mz_sorted(
                                          msLevel = msLevel(x)[[i]],
                                          rt = rtime(x)[[i]],
                                          acquisitionNum = acquisitionNum(x)[[i]],
@@ -216,6 +216,56 @@ setMethod("[[", "Hdf5MSnExp",
                                          collisionEnergy = collisionEnergy(x)[[i]])
               if (validObject(spctr)) return(spctr)
           })
+
+setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
+                                                BPPARAM = bpparam(), ...) {
+    BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
+    isOK <- validateFeatureDataForOnDiskMSnExp(fData(object))
+    if (!is.null(isOK))
+        stop(isOK)
+    fDataPerFile <- split.data.frame(fData(object),
+                                     f = fData(object)$fileIdx)
+    fNames <- fileNames(object)
+    theQ <- processingQueue(object)
+    if (!is.null(FUN))
+        theQ <- c(theQ, list(ProcessingStep(FUN, ARGS = list(...))))
+    vals <- bplapply(fDataPerFile,
+                     FUN = function(fdata, fhandle, fileNames, queue) {
+                         .apply_processing_queue(.hdf5_read_spectra(
+                             fdata, fhandle, fileNames), queue)
+                     },
+                     fhandle = object@hdf5handle,
+                     fileNames = fNames,
+                     queue = theQ,
+                     BPPARAM = BPPARAM)
+    names(vals) <- NULL
+    vals <- unlist(vals, recursive = FALSE)
+    vals[rownames(fData(object))]
+})
+
+#' Internal function to apply the lazy processing queue to each spectrum
+#' in the provided list.
+#'
+#' @param x `list` of `Spectrum` objects.
+#'
+#' @param queue `list` (or `NULL`) of `ProcessingStep` objects.
+#'
+#' @author Johannes Rainer
+#'
+#' @md
+#'
+#' @noRd
+.apply_processing_queue <- function(x, queue = NULL) {
+    if (length(queue)) {
+        x <- lapply(x, function(z, q) {
+            for (pStep in q) {
+                z <- executeProcessingStep(pStep, z)
+            }
+            z
+        }, q = queue)
+    }
+    x
+}
 
 .hdf5_group_name <- function(x) {
     vapply(x, digest::sha1, character(1), USE.NAMES = FALSE)
@@ -268,53 +318,53 @@ setMethod("[[", "Hdf5MSnExp",
 #' @md
 #'
 #' @noRd
-.read_spectra_hdf5 <- function(fdata, fileh, fileNames) {
-    group_names <- MSnbase:::.hdf5_group_name(fileNames[fdata$fileIdx])
+.hdf5_read_spectra <- function(fdata, fileh, fileNames) {
+    group_names <- .hdf5_group_name(fileNames[fdata$fileIdx])
     k <- paste0(group_names, "/", rownames(fdata))
-    mzi <- lapply(k, .h5read_optimised, file = fileh)
+    mzi <- lapply(k, .h5read_raw, file = fileh)
     res <- vector("list", nrow(fdata))
     names(res) <- rownames(fdata)
     ms1 <- which(fdata$msLevel == 1)
     n_peaks <- base::lengths(mzi, use.names = FALSE) / 2
     if (length(ms1)) {
         mzi_ms1 <- do.call(rbind, mzi[ms1])
-        res[ms1] <- MSnbase:::Spectra1_mz_sorted(
-                                  peaksCount = n_peaks[ms1],
-                                  rt = fdata$retentionTime[ms1],
-                                  acquisitionNum = fdata$acquisitionNum[ms1],
-                                  scanIndex = fdata$spIdx[ms1],
-                                  tic = fdata$totIonCurrent[ms1],
-                                  mz = mzi_ms1[, 1],
-                                  intensity = mzi_ms1[, 2],
-                                  fromFile = fdata$fileIdx[ms1],
-                                  centroided = fdata$centroided[ms1],
-                                  smoothed = fdata$smoothed[ms1],
-                                  polarity = fdata$polarity[ms1],
-                                  nvalues = n_peaks[ms1])
+        res[ms1] <- Spectra1_mz_sorted(
+            peaksCount = n_peaks[ms1],
+            rt = fdata$retentionTime[ms1],
+            acquisitionNum = fdata$acquisitionNum[ms1],
+            scanIndex = fdata$spIdx[ms1],
+            tic = fdata$totIonCurrent[ms1],
+            mz = mzi_ms1[, 1],
+            intensity = mzi_ms1[, 2],
+            fromFile = fdata$fileIdx[ms1],
+            centroided = fdata$centroided[ms1],
+            smoothed = fdata$smoothed[ms1],
+            polarity = fdata$polarity[ms1],
+            nvalues = n_peaks[ms1])
     }
     msn <- which(fdata$msLevel > 1)
     if (length(msn)) {
         mzi_msn <- do.call(rbind, mzi[msn])
-        res[msn] <- MSnbase:::Spectra2_mz_sorted(
-                                  msLevel = fdata$msLevel[msn],
-                                  peaksCount = n_peaks[msn],
-                                  rt = fdata$retentionTime[msn],
-                                  acquisitionNum = fdata$acquisitionNum[msn],
-                                  scanIndex = fdata$spIdx[msn],
-                                  tic = fdata$totIonCurrent[msn],
-                                  mz = mzi_msn[, 1],
-                                  intensity = mzi_msn[, 2],
-                                  fromFile = fdata$fileIdx[msn],
-                                  centroided = fdata$centroided[msn],
-                                  smoothed = fdata$smoothed[msn],
-                                  polarity = fdata$polarity[msn],
-                                  merged = fdata$mergedScan[msn],
-                                  precScanNum = fdata$precursorScanNum[msn],
-                                  precursorMz = fdata$precursorMZ[msn],
-                                  precursorIntensity = fdata$precursorIntensity[msn],
-                                  precursorCharge = fdata$precursorCharge[msn],
-                                  collisionEnergy = fdata$collisionEnergy[msn],
-                                  nvalues = n_peaks[msn])
+        res[msn] <- Spectra2_mz_sorted(
+            msLevel = fdata$msLevel[msn],
+            peaksCount = n_peaks[msn],
+            rt = fdata$retentionTime[msn],
+            acquisitionNum = fdata$acquisitionNum[msn],
+            scanIndex = fdata$spIdx[msn],
+            tic = fdata$totIonCurrent[msn],
+            mz = mzi_msn[, 1],
+            intensity = mzi_msn[, 2],
+            fromFile = fdata$fileIdx[msn],
+            centroided = fdata$centroided[msn],
+            smoothed = fdata$smoothed[msn],
+            polarity = fdata$polarity[msn],
+            merged = fdata$mergedScan[msn],
+            precScanNum = fdata$precursorScanNum[msn],
+            precursorMz = fdata$precursorMZ[msn],
+            precursorIntensity = fdata$precursorIntensity[msn],
+            precursorCharge = fdata$precursorCharge[msn],
+            collisionEnergy = fdata$collisionEnergy[msn],
+            nvalues = n_peaks[msn])
     }
     res
 }
