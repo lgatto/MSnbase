@@ -8,3 +8,39 @@ test_that(".hdf5_group_name works", {
     expect_equal(length(res), 2)
     expect_true(length(unique(res)) == 2)
 })
+
+
+sf <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)
+h5_sciex <- readHdf5DiskMSData(sf, hdf5file = tempfile())
+f <- msdata::proteomics(
+                 full.names = TRUE,
+                 pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
+h5_tmt <- readHdf5DiskMSData(f, hdf5file = tempfile())
+
+test_that(".h5read_raw works", {
+    grps <- MSnbase:::.hdf5_group_name(fileNames(h5_sciex))
+    expect_error(.h5read_raw())
+    expect_error(.h5read_raw("5"))
+    res <- .h5read_raw(h5_sciex@hdf5handle, paste0(grps[1], "/F1.S003"))
+    res_2 <- rhdf5::h5read(h5_sciex@hdf5handle, paste0(grps[1], "/F1.S003"))
+    expect_equal(res, res_2)
+})
+
+test_that(".read_spectra_hdf5 works", {
+    res_h5 <- .read_spectra_hdf5(fData(h5_sciex), h5_sciex@hdf5handle,
+                                 fileNames(h5_sciex))
+    res_od <- spectra(sciex)
+    expect_equal(res_h5, res_od)
+    idx <- c(34, 65, 234, 453, 488)
+    res_h5 <- .read_spectra_hdf5(fData(h5_sciex)[idx, ], h5_sciex@hdf5handle,
+                                 fileNames(h5_sciex))
+    expect_equal(res_h5, res_od[idx])
+    ## MS1 & 2 data
+    res_h5 <- .read_spectra_hdf5(fData(h5_tmt), h5_tmt@hdf5handle,
+                                 fileNames(h5_tmt))
+    res_od <- spectra(tmt_erwinia_on_disk)
+    expect_equal(res_h5, res_od)
+    expect_equal(res_od[123], .read_spectra_hdf5(fData(h5_tmt)[123, ],
+                                                 h5_tmt@hdf5handle,
+                                                 fileNames(h5_tmt)))
+})

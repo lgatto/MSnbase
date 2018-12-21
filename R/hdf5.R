@@ -220,3 +220,101 @@ setMethod("[[", "Hdf5MSnExp",
 .hdf5_group_name <- function(x) {
     vapply(x, digest::sha1, character(1), USE.NAMES = FALSE)
 }
+
+#' This is Mike Smith's function (issue #395) that directly access the data
+#' without validation and file checking.
+#'
+#' @param handle `H5IdComponent` as stored in the `@hdf5handle` slot of the
+#'     `Hdf5MSnExp`.
+#'
+#' @param name `character` defining the data set to be read.
+#'
+#' @return the imported data set (in most cases a `matrix`).
+#'
+#' @author Mike Smith
+#'
+#' @md
+#'
+#' @noRd
+.h5read_raw <- function(file, name = "") {
+    did <- .Call("_H5Dopen", file@ID, name, NULL, PACKAGE = "rhdf5")
+    res <- .Call("_H5Dread", did, NULL, NULL, NULL, TRUE, 0L, FALSE, FALSE,
+                 PACKAGE = "rhdf5")
+    invisible(.Call("_H5Dclose", did, PACKAGE = "rhdf5"))
+    res
+}
+
+#' Read spectrum data from an hdf5 file and return a list of `Spectrum` objects.
+#'
+#' @note
+#'
+#' This function uses a constructor function that creates all `Spectrum`
+#' objects in C++ for added performance.
+#'
+#' @param fdata `data.frame` representing the feature data (`fData`) of the
+#'     spectra to be returned.
+#'
+#' @param fileh `H5IdComponent` as stored in the `@hdf5handle` slot of the
+#'     `Hdf5MSnExp`.
+#'
+#' @param fileNames `character` with the file names of the original data. This
+#'     is returned by `fileNames(x)` with `x` being a `Hdf5MSnExp` object.
+#'
+#' @return list of `Spectrum` objects in the order of the spectra given in
+#'     param `fdata`.
+#'
+#' @author Johannes Rainer
+#'
+#' @md
+#'
+#' @noRd
+.read_spectra_hdf5 <- function(fdata, fileh, fileNames) {
+    group_names <- MSnbase:::.hdf5_group_name(fileNames[fdata$fileIdx])
+    k <- paste0(group_names, "/", rownames(fdata))
+    mzi <- lapply(k, .h5read_optimised, file = fileh)
+    res <- vector("list", nrow(fdata))
+    names(res) <- rownames(fdata)
+    ms1 <- which(fdata$msLevel == 1)
+    n_peaks <- base::lengths(mzi, use.names = FALSE) / 2
+    if (length(ms1)) {
+        mzi_ms1 <- do.call(rbind, mzi[ms1])
+        res[ms1] <- MSnbase:::Spectra1_mz_sorted(
+                                  peaksCount = n_peaks[ms1],
+                                  rt = fdata$retentionTime[ms1],
+                                  acquisitionNum = fdata$acquisitionNum[ms1],
+                                  scanIndex = fdata$spIdx[ms1],
+                                  tic = fdata$totIonCurrent[ms1],
+                                  mz = mzi_ms1[, 1],
+                                  intensity = mzi_ms1[, 2],
+                                  fromFile = fdata$fileIdx[ms1],
+                                  centroided = fdata$centroided[ms1],
+                                  smoothed = fdata$smoothed[ms1],
+                                  polarity = fdata$polarity[ms1],
+                                  nvalues = n_peaks[ms1])
+    }
+    msn <- which(fdata$msLevel > 1)
+    if (length(msn)) {
+        mzi_msn <- do.call(rbind, mzi[msn])
+        res[msn] <- MSnbase:::Spectra2_mz_sorted(
+                                  msLevel = fdata$msLevel[msn],
+                                  peaksCount = n_peaks[msn],
+                                  rt = fdata$retentionTime[msn],
+                                  acquisitionNum = fdata$acquisitionNum[msn],
+                                  scanIndex = fdata$spIdx[msn],
+                                  tic = fdata$totIonCurrent[msn],
+                                  mz = mzi_msn[, 1],
+                                  intensity = mzi_msn[, 2],
+                                  fromFile = fdata$fileIdx[msn],
+                                  centroided = fdata$centroided[msn],
+                                  smoothed = fdata$smoothed[msn],
+                                  polarity = fdata$polarity[msn],
+                                  merged = fdata$mergedScan[msn],
+                                  precScanNum = fdata$precursorScanNum[msn],
+                                  precursorMz = fdata$precursorMZ[msn],
+                                  precursorIntensity = fdata$precursorIntensity[msn],
+                                  precursorCharge = fdata$precursorCharge[msn],
+                                  collisionEnergy = fdata$collisionEnergy[msn],
+                                  nvalues = n_peaks[msn])
+    }
+    res
+}
