@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for Mass Spectrometry and Proteomics
-Version: 2.9.1
+Version: 2.9.2
 Description: MSnbase provides infrastructure for manipulation,
 	     processing and visualisation of mass spectrometry and
 	     proteomics data, ranging from raw to quantitative and
@@ -114,7 +114,7 @@ LazyData: yes
 VignetteBuilder: knitr
 BugReports: https://github.com/lgatto/MSnbase/issues
 URL: https://github.com/lgatto/MSnbase
-biocViews: Infrastructure, Proteomics, MassSpectrometry,
+biocViews: ImmunoOncology, Infrastructure, Proteomics, MassSpectrometry,
     QualityControl, DataImport
 RoxygenNote: 6.1.0
 Collate:
