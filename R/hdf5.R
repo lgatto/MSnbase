@@ -102,7 +102,7 @@ serialise_to_hdf5 <- function(object, filename = NULL) {
 readHdf5DiskMSData <- function(files, pdata = NULL, msLevel. = NULL,
                                verbose = isMSnbaseVerbose(),
                                centroided. = NA, smoothed. = NA,
-                               hdf5file = NULL, openHdf5 = TRUE) {
+                               hdf5file = NULL, openHdf5 = FALSE) {
     obj <- readOnDiskMSData(normalizePath(files), pdata, msLevel.,
                             verbose, centroided.,
                             smoothed.)
@@ -226,15 +226,18 @@ setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
     fDataPerFile <- split.data.frame(fData(object),
                                      f = fData(object)$fileIdx)
     fNames <- fileNames(object)
+    h5file <- object@hdf5file
+    if (!file.exists(h5file))
+        stop("Can not find HDF5 file ", h5file)
     theQ <- processingQueue(object)
     if (!is.null(FUN))
         theQ <- c(theQ, list(ProcessingStep(FUN, ARGS = list(...))))
     vals <- bplapply(fDataPerFile,
-                     FUN = function(fdata, fhandle, fileNames, queue) {
+                     FUN = function(fdata, fn, fileNames, queue) {
                          .apply_processing_queue(.hdf5_read_spectra(
-                             fdata, fhandle, fileNames), queue)
+                             fdata, fn, fileNames), queue)
                      },
-                     fhandle = object@hdf5handle,
+                     fn = h5file,
                      fileNames = fNames,
                      queue = theQ,
                      BPPARAM = BPPARAM)
@@ -271,23 +274,24 @@ setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
     vapply(x, digest::sha1, character(1), USE.NAMES = FALSE)
 }
 
-#' This is Mike Smith's function (issue #395) that directly access the data
-#' without validation and file checking.
+#' This is based on Mike Smith's function (issue #395) that directly accesses
+#' the data without validation and file checking.
 #'
-#' @param handle `H5IdComponent` as stored in the `@hdf5handle` slot of the
-#'     `Hdf5MSnExp`.
+#' @param file `character`: the name of the file.
 #'
 #' @param name `character` defining the data set to be read.
 #'
 #' @return the imported data set (in most cases a `matrix`).
 #'
-#' @author Mike Smith
+#' @author Mike Smith, Johannes Rainer
 #'
 #' @md
 #'
 #' @noRd
-.h5read_raw <- function(file, name = "") {
-    did <- .Call("_H5Dopen", file@ID, name, NULL, PACKAGE = "rhdf5")
+.h5read_bare <- function(file, name = "") {
+    fid <- .Call("_H5Fopen", file, 0L, PACKAGE = "rhdf5")
+    on.exit(invisible(.Call("_H5Fclose", fid, PACKAGE = "rhdf5")))
+    did <- .Call("_H5Dopen", fid, name, NULL, PACKAGE = "rhdf5")
     res <- .Call("_H5Dread", did, NULL, NULL, NULL, TRUE, 0L, FALSE, FALSE,
                  PACKAGE = "rhdf5")
     invisible(.Call("_H5Dclose", did, PACKAGE = "rhdf5"))
@@ -304,8 +308,7 @@ setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
 #' @param fdata `data.frame` representing the feature data (`fData`) of the
 #'     spectra to be returned.
 #'
-#' @param fileh `H5IdComponent` as stored in the `@hdf5handle` slot of the
-#'     `Hdf5MSnExp`.
+#' @param file `character`: the name of the HDF5 file.
 #'
 #' @param fileNames `character` with the file names of the original data. This
 #'     is returned by `fileNames(x)` with `x` being a `Hdf5MSnExp` object.
@@ -318,10 +321,10 @@ setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
 #' @md
 #'
 #' @noRd
-.hdf5_read_spectra <- function(fdata, fileh, fileNames) {
+.hdf5_read_spectra <- function(fdata, file, fileNames) {
     group_names <- .hdf5_group_name(fileNames[fdata$fileIdx])
     k <- paste0(group_names, "/", rownames(fdata))
-    mzi <- lapply(k, .h5read_raw, file = fileh)
+    mzi <- lapply(k, .h5read_bare, file = file)
     res <- vector("list", nrow(fdata))
     names(res) <- rownames(fdata)
     ms1 <- which(fdata$msLevel == 1)
