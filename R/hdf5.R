@@ -1,4 +1,3 @@
-setClassUnion("H5IdComponentOrNULL", c("H5IdComponent", "NULL"))
 
 ##' @title The `Hdf5MSnExp` Class for MS Data And Meta-Data
 ##' @description The `Hdf5MSnExp` class encapsulates data and
@@ -41,8 +40,7 @@ setClassUnion("H5IdComponentOrNULL", c("H5IdComponent", "NULL"))
 ##' validHdf5MSnExp(x) ## not valid anymore
 ##' rm(x)
 .Hdf5MSnExp <- setClass("Hdf5MSnExp",
-                        slots = c(hdf5file = "character",
-                                  hdf5handle = "H5IdComponentOrNULL"),
+                        slots = c(hdf5file = "character"),
                         contains = "OnDiskMSnExp",
                         prototype = prototype(
                             new("VersionedBiobase",
@@ -53,7 +51,7 @@ setClassUnion("H5IdComponentOrNULL", c("H5IdComponent", "NULL"))
                             backend = character()))
 
 validHdf5MSnExp <- function(object) {
-    if (!length(.Hdf5MSnExp())) {
+    if (length(object)) {
         if (!file.exists(object@hdf5file))
             stop("hdf5 file is missing.")
     }
@@ -83,6 +81,7 @@ serialise_to_hdf5 <- function(object, filename = NULL) {
         stopifnot(rhdf5::h5createGroup(h5, file_group))
         fns <- featureNames(filterFile(object, i))
         fh <- openMSfile(file_name)
+        hdrs <- header(fh)
         pks <- peaks(fh)
         close(fh)
         for (j in seq_along(fns)) {
@@ -102,50 +101,48 @@ serialise_to_hdf5 <- function(object, filename = NULL) {
 readHdf5DiskMSData <- function(files, pdata = NULL, msLevel. = NULL,
                                verbose = isMSnbaseVerbose(),
                                centroided. = NA, smoothed. = NA,
-                               hdf5file = NULL, openHdf5 = FALSE) {
+                               hdf5file = NULL) {
     obj <- readOnDiskMSData(normalizePath(files), pdata, msLevel.,
                             verbose, centroided.,
                             smoothed.)
     if (verbose) message("Serialising to hdf5...")
     hdf5file <- serialise_to_hdf5(obj, hdf5file)
     obj <- .onDisk2hdf5(obj, hdf5file)
-    if (openHdf5)
-        obj <- hdf5Open(obj)
     if (validHdf5MSnExp(obj)) obj
 }
 
-##' The `hdf5Close` and `hdf5Open` function respectively close and
-##' open the connection to the `Hdf5MSnExp` object hdf5 file. The both
-##' return the input object with the updated hdf5 file
-##' handle. `isHdf5Open` test if the hdf5 file is open and retuns a
-##' `logical(1)`.
-##'
-##' @param object An instance of class `Hdf5MSnExp`.
-##' @rdname Hdf5MSnExp-class
-hdf5Close <- function(object) {
-    if (isHdf5Open(object))
-        tryCatch(rhdf5::H5Fclose(object@hdf5handle),
-                 error = function(e)
-                     stop("Encountered error trying to close ",
-                          object@hdf5file,
-                          ". Use `h5closeAll()` to force close all hdf5 files."))
-    invisible(TRUE)
-}
+## ##' The `hdf5Close` and `hdf5Open` function respectively close and
+## ##' open the connection to the `Hdf5MSnExp` object hdf5 file. The both
+## ##' return the input object with the updated hdf5 file
+## ##' handle. `isHdf5Open` test if the hdf5 file is open and retuns a
+## ##' `logical(1)`.
+## ##'
+## ##' @param object An instance of class `Hdf5MSnExp`.
+## ##' @rdname Hdf5MSnExp-class
+## hdf5Close <- function(object) {
+##     if (isHdf5Open(object))
+##         tryCatch(rhdf5::H5Fclose(object@hdf5handle),
+##                  error = function(e)
+##                      stop("Encountered error trying to close ",
+##                           object@hdf5file,
+##                           ". Use `h5closeAll()` to force close all hdf5 files."))
+##     invisible(TRUE)
+## }
 
-##' @rdname Hdf5MSnExp-class
-hdf5Open <- function(object) {
-    if (!isHdf5Open(object))
-        object@hdf5handle <- rhdf5::H5Fopen(object@hdf5file)
-    object
-}
+## ##' @rdname Hdf5MSnExp-class
+## hdf5Open <- function(object) {
+##     if (!isHdf5Open(object))
+##         object@hdf5handle <- rhdf5::H5Fopen(object@hdf5file)
+##     object
+## }
 
-##' @rdname Hdf5MSnExp-class
-isHdf5Open <- function(object) {
-    stopifnot(inherits(object, "Hdf5MSnExp"))
-    if (is.null(object@hdf5handle))
-        return(FALSE)
-    rhdf5::H5Iis_valid(object@hdf5handle)
-}
+## ##' @rdname Hdf5MSnExp-class
+## isHdf5Open <- function(object) {
+##     stopifnot(inherits(object, "Hdf5MSnExp"))
+##     if (is.null(object@hdf5handle))
+##         return(FALSE)
+##     rhdf5::H5Iis_valid(object@hdf5handle)
+## }
 
 ##' @rdname Hdf5MSnExp-class
 hdf5FileName <- function(object) {
@@ -164,58 +161,8 @@ hdf5FileName <- function(object) {
     stopifnot(file.rename(hdf5FileName(object), value))
     object@hdf5file <- value
     if (validHdf5MSnExp(object))
-        return(object)
+        object
 }
-
-
-
-setMethod("[[", "Hdf5MSnExp",
-          function(x, i, j = "missing", drop = "missing") {
-              if (!isHdf5Open(x))
-                  x <- hdf5Open(x)
-              if (length(i) != 1)
-                  stop("subscript out of bounds")
-              if (is.character(i))
-                  i <- base::match(i, featureNames(x))
-              if (any(is.na(i)))
-                  stop("subscript out of bounds")
-              if (!isHdf5Open(x))
-                  x <- hdf5Open(x)
-              k <- paste0(.hdf5_group_name(fileNames(x)[fData(x)$fileIdx[[i]]]),
-                                           "/", featureNames(x)[[i]])
-              rw <- rhdf5::h5read(x@hdf5handle, k)
-              if (msLevel(x)[i] == 1L)
-                  spctr <- Spectrum1_mz_sorted(
-                                         rt = rtime(x)[[i]],
-                                         acquisitionNum = acquisitionNum(x)[[i]],
-                                         scanIndex = scanIndex(x)[[i]],
-                                         tic = tic(x)[[i]],
-                                         mz = rw[, 1],
-                                         intensity = rw[, 2],
-                                         fromFile = fromFile(x)[[i]],
-                                         centroided = centroided(x)[[i]],
-                                         smoothed = smoothed(x)[[i]],
-                                         polarity = polarity(x)[[i]])
-              else
-                  spctr <- Spectrum2_mz_sorted(
-                                         msLevel = msLevel(x)[[i]],
-                                         rt = rtime(x)[[i]],
-                                         acquisitionNum = acquisitionNum(x)[[i]],
-                                         scanIndex = scanIndex(x)[[i]],
-                                         tic = tic(x)[[i]],
-                                         mz = rw[, 1],
-                                         intensity = rw[, 2],
-                                         fromFile = fromFile(x)[[i]],
-                                         centroided = centroided(x)[[i]],
-                                         smoothed = smoothed(x)[[i]],
-                                         polarity = polarity(x)[[i]],
-                                         precScanNum = precScanNum(x)[[i]],
-                                         precursorMz = precursorIntensity(x)[[i]],
-                                         precursorIntensity = precursorIntensity(x)[[i]],
-                                         precursorCharge = precursorCharge(x)[[i]],
-                                         collisionEnergy = collisionEnergy(x)[[i]])
-              if (validObject(spctr)) return(spctr)
-          })
 
 setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
                                                 BPPARAM = bpparam(), ...) {
@@ -277,7 +224,7 @@ setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
 #' This is based on Mike Smith's function (issue #395) that directly accesses
 #' the data without validation and file checking.
 #'
-#' @param file `character`: the name of the file.
+#' @param file the ID as returned by `_H5Fopen`.
 #'
 #' @param name `character` defining the data set to be read.
 #'
@@ -289,9 +236,9 @@ setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
 #'
 #' @noRd
 .h5read_bare <- function(file, name = "") {
-    fid <- .Call("_H5Fopen", file, 0L, PACKAGE = "rhdf5")
-    on.exit(invisible(.Call("_H5Fclose", fid, PACKAGE = "rhdf5")))
-    did <- .Call("_H5Dopen", fid, name, NULL, PACKAGE = "rhdf5")
+    ## fid <- .Call("_H5Fopen", file, 0L, PACKAGE = "rhdf5")
+    ## on.exit(invisible(.Call("_H5Fclose", fid, PACKAGE = "rhdf5")))
+    did <- .Call("_H5Dopen", file, name, NULL, PACKAGE = "rhdf5")
     res <- .Call("_H5Dread", did, NULL, NULL, NULL, TRUE, 0L, FALSE, FALSE,
                  PACKAGE = "rhdf5")
     invisible(.Call("_H5Dclose", did, PACKAGE = "rhdf5"))
@@ -324,7 +271,9 @@ setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
 .hdf5_read_spectra <- function(fdata, file, fileNames) {
     group_names <- .hdf5_group_name(fileNames[fdata$fileIdx])
     k <- paste0(group_names, "/", rownames(fdata))
-    mzi <- lapply(k, .h5read_bare, file = file)
+    fid <-.Call("_H5Fopen", file, 0L, PACKAGE = "rhdf5")
+    on.exit(invisible(.Call("_H5Fclose", fid, PACKAGE = "rhdf5")))
+    mzi <- lapply(k, .h5read_bare, file = fid)
     res <- vector("list", nrow(fdata))
     names(res) <- rownames(fdata)
     ms1 <- which(fdata$msLevel == 1)
