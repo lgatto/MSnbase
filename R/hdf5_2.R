@@ -37,7 +37,7 @@ validHdf5MSnExp2 <- function(object) {
 #' spectrum index in the file as data set ID.
 #'
 #' @noRd
-.serialize_file_to_hdf5 <- function(file, h5file) {
+.serialize_msfile_to_hdf5 <- function(file, h5file) {
     h5 <- rhdf5::H5Fcreate(h5file)
     comp_level <- .hdf5_compression_level()
     fh <- openMSfile(file)
@@ -47,7 +47,7 @@ validHdf5MSnExp2 <- function(object) {
     for (i in seq_along(pks)) {
         .pks <- pks[[i]]
         colnames(.pks) <- c("mz", "intensity")
-        rhdf5::h5write(.pks, h5, as.character(i), level = comp_level)
+        rhdf5::h5write(.pks, h5, paste0("/", i), level = comp_level)
     }
     rhdf5::H5Fclose(h5)
     invisible(h5file)
@@ -59,7 +59,7 @@ serialise_to_hdf52 <- function(object, path, BPPARAM = bpparam()) {
     if (any(file.exists(filename)))
         stop("File(s) ", paste(filename[file.exists(filename)], collapse = ", "),
              " already exist(s).")
-    bpmapply(fileNames(object), filename, FUN = .serialize_file_to_hdf5,
+    bpmapply(fileNames(object), filename, FUN = .serialize_msfile_to_hdf5,
              BPPARAM = BPPARAM)
 }
 
@@ -144,7 +144,7 @@ setMethod("spectrapply", "Hdf5MSnExp2", function(object, FUN = NULL,
 .hdf5_read_spectra2 <- function(fdata, file) {
     fid <-.Call("_H5Fopen", file, 0L, PACKAGE = "rhdf5")
     on.exit(invisible(.Call("_H5Fclose", fid, PACKAGE = "rhdf5")))
-    mzi <- lapply(as.character(fdata$spIdx), .h5read_bare, file = fid)
+    mzi <- lapply(paste0("/", fdata$spIdx), .h5read_bare, file = fid)
     res <- vector("list", nrow(fdata))
     names(res) <- rownames(fdata)
     ms1 <- which(fdata$msLevel == 1)
