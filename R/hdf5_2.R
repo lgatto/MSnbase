@@ -47,7 +47,7 @@ validHdf5MSnExp2 <- function(object) {
     for (i in seq_along(pks)) {
         .pks <- pks[[i]]
         colnames(.pks) <- c("mz", "intensity")
-        rhdf5::h5write(.pks, h5, paste0("/", i), level = comp_level)
+        rhdf5::h5write(.pks, h5, as.character(i), level = comp_level)
     }
     rhdf5::H5Fclose(h5)
     invisible(h5file)
@@ -144,7 +144,7 @@ setMethod("spectrapply", "Hdf5MSnExp2", function(object, FUN = NULL,
 .hdf5_read_spectra2 <- function(fdata, file) {
     fid <-.Call("_H5Fopen", file, 0L, PACKAGE = "rhdf5")
     on.exit(invisible(.Call("_H5Fclose", fid, PACKAGE = "rhdf5")))
-    mzi <- lapply(paste0("/", fdata$spIdx), .h5read_bare, file = fid)
+    mzi <- base::lapply(as.character(fdata$spIdx), .h5read_bare, file = fid)
     res <- vector("list", nrow(fdata))
     names(res) <- rownames(fdata)
     ms1 <- which(fdata$msLevel == 1)

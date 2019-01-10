@@ -164,6 +164,44 @@ hdf5FileName <- function(object) {
         object
 }
 
+#' Simple test function to read the contents of a Hdf5MSnExp object/file.
+#'
+#' @noRd
+hdf5_pure_read <- function(object, BPPARAM = bpparam(), ...) {
+    isOK <- validateFeatureDataForOnDiskMSnExp(fData(object))
+    if (!is.null(isOK))
+        stop(isOK)
+    fDataPerFile <- split.data.frame(fData(object),
+                                     f = fData(object)$fileIdx)
+    fNames <- fileNames(object)
+    h5file <- object@hdf5file
+    bplapply(fDataPerFile, FUN = function(fd, h5f, fileNames) {
+        group_names <- .hdf5_group_name(fileNames[fd$fileIdx])
+        k <- paste0(group_names, "/", rownames(fd))
+        fid <-.Call("_H5Fopen", h5f, 0L, PACKAGE = "rhdf5")
+        on.exit(invisible(.Call("_H5Fclose", fid, PACKAGE = "rhdf5")))
+        lapply(k, .h5read_bare, file = fid)
+    }, h5f = h5file, fileNames = fNames, BPPARAM = BPPARAM)
+}
+
+#' Simple test function to read the contents of a Hdf5MSnExp2 object/file.
+#'
+#' @noRd
+hdf5_pure_read2 <- function(object, BPPARAM = bpparam(), ...) {
+    isOK <- validateFeatureDataForOnDiskMSnExp(fData(object))
+    if (!is.null(isOK))
+        stop(isOK)
+    fDataPerFile <- split.data.frame(fData(object),
+                                     f = fData(object)$fileIdx)
+    h5file <- object@hdf5file
+    bpmapply(fDataPerFile, h5file, FUN = function(fd, h5f) {
+        fid <-.Call("_H5Fopen", h5f, 0L, PACKAGE = "rhdf5")
+        on.exit(invisible(.Call("_H5Fclose", fid, PACKAGE = "rhdf5")))
+        lapply(as.character(fd$spIdx), .h5read_bare, file = fid)
+    }, BPPARAM = BPPARAM, SIMPLIFY = FALSE,
+    USE.NAMES = FALSE)
+}
+
 setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
                                                 BPPARAM = bpparam(), ...) {
     BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
@@ -273,7 +311,7 @@ setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
     k <- paste0(group_names, "/", rownames(fdata))
     fid <-.Call("_H5Fopen", file, 0L, PACKAGE = "rhdf5")
     on.exit(invisible(.Call("_H5Fclose", fid, PACKAGE = "rhdf5")))
-    mzi <- lapply(k, .h5read_bare, file = fid)
+    mzi <- base::lapply(k, .h5read_bare, file = fid)
     res <- vector("list", nrow(fdata))
     names(res) <- rownames(fdata)
     ms1 <- which(fdata$msLevel == 1)
