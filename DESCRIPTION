@@ -156,7 +156,6 @@ Collate:
     'functions-mzR.R'
     'functions-plotting.R'
     'hdf5.R'
-    'hdf5_2.R'
     'header.R'
     'hmap.R'
     'iPQF.R'

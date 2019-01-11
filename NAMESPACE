@@ -158,8 +158,7 @@ export(MSnSet,
        Spectra,
        ## hdf5 backend
        readHdf5DiskMSData,
-       readHdf5DiskMSData2,
-       hdf5FileName, "hdf5FileName<-",
+       hdf5FileName,
        setHdf5CompressionLevel
        )
 
@@ -178,7 +177,6 @@ exportClasses(pSet,
               MzTab,
               OnDiskMSnExp,
               Hdf5MSnExp,
-	      Hdf5MSnExp2,
               ProcessingStep,
               Chromatogram,
               Chromatograms,
