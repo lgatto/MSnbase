@@ -20,9 +20,11 @@ test_that(".h5read_bare works", {
     grps <- MSnbase:::.hdf5_group_name(fileNames(h5_sciex))
     expect_error(.h5read_bare())
     expect_error(.h5read_bare("5"))
-    res <- MSnbase:::.h5read_bare(h5_sciex@hdf5file, paste0(grps[1], "/F1.S003"))
+    fid <- .Call("_H5Fopen", h5_sciex@hdf5file, 0L, PACKAGE = "rhdf5")
+    res <- MSnbase:::.h5read_bare(fid, paste0(grps[1], "/F1.S003"))
     res_2 <- rhdf5::h5read(h5_sciex@hdf5file, paste0(grps[1], "/F1.S003"))
     expect_equal(res, res_2)
+    .Call("_H5Fclose", fid, PACKAGE = "rhdf5")
 })
 
 test_that(".read_spectra_hdf5 works", {
@@ -42,27 +44,6 @@ test_that(".read_spectra_hdf5 works", {
     expect_equal(res_od[123], MSnbase:::.hdf5_read_spectra(fData(h5_tmt)[123, ],
                                                  h5_tmt@hdf5file,
                                                  fileNames(h5_tmt)))
-})
-
-test_that(".apply_processing_queue works", {
-    sps <- spectra(sciex)
-    expect_equal(sps, MSnbase:::.apply_processing_queue(sps))
-    q <- list(ProcessingStep("fromFile"))
-    res <- MSnbase:::.apply_processing_queue(sps, q)
-    expect_equal(res, lapply(sps, fromFile))
-
-    q <- list(ProcessingStep(FUN = function(x, a) {
-        fromFile(x) * a
-    }, ARGS = list(a = 4)))
-    res <- MSnbase:::.apply_processing_queue(sps, q)
-    expect_equal(unlist(res), unlist(lapply(sps, fromFile)) * 4)
-
-    q <- list(ProcessingStep("removePeaks", list(t = 0)),
-              ProcessingStep("clean", list(all = TRUE)),
-              ProcessingStep("intensity"))
-    res <- MSnbase:::.apply_processing_queue(sps[1:3], q)
-    expect_equal(res[[1]], intensity(clean(removePeaks(sps[[1]], t = 20),
-                                           all = TRUE)))
 })
 
 test_that("spectrapply,Hdf5MSnExp works", {

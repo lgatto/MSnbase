@@ -110,8 +110,8 @@ setMethod("spectrapply", "Hdf5MSnExp2", function(object, FUN = NULL,
     vals <- bpmapply(fDataPerFile, h5_fls,
                      FUN = function(fdata, h5_file, queue) {
                          .apply_processing_queue(
-                                       .hdf5_read_spectra2(
-                                           fdata, h5_file), queue)
+                             .hdf5_read_spectra2(fdata, h5_file),
+                             queue)
                      }, MoreArgs = list(queue = theQ),
                      BPPARAM = BPPARAM, SIMPLIFY = FALSE, USE.NAMES = FALSE)
     vals <- unlist(vals, recursive = FALSE)

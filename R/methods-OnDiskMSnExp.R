@@ -205,7 +205,7 @@ setMethod("isCentroided", "OnDiskMSnExp",
                   .isCentroided(as(z, "data.frame"), ...))
               ctrd <- unlist(res, use.names = FALSE)
               if (verbose) print(table(ctrd, msLevel(object)))
-              names(ctrd) <- featureNames(object)              
+              names(ctrd) <- featureNames(object)
               ctrd
           })
 
@@ -897,14 +897,11 @@ setMethod("spectrapply", "OnDiskMSnExp", function(object, FUN = NULL,
                                      f = fData(object)$fileIdx)
     fNames <- fileNames(object)
     theQ <- processingQueue(object)
-    vals <- bplapply(fDataPerFile,
-                     FUN = .applyFun2SpectraOfFileMulti,
-                     filenames = fNames,
-                     queue = theQ,
-                     APPLYFUN = FUN,
-                     fastLoad = fast_load,
-                     BPPARAM = BPPARAM,
-                     ...)
+    if (!is.null(FUN))
+        theQ <- c(theQ, list(ProcessingStep(FUN, ARGS = list(...))))
+    vals <- bplapply(fDataPerFile, FUN = .applyFun2SpectraOfFileMulti,
+                     filenames = fNames, queue = theQ, fastLoad = fast_load,
+                     BPPARAM = BPPARAM)
     names(vals) <- NULL
     vals <- unlist(vals, recursive = FALSE)
     vals[rownames(fData(object))]

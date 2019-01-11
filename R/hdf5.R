@@ -181,41 +181,15 @@ setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
         theQ <- c(theQ, list(ProcessingStep(FUN, ARGS = list(...))))
     vals <- bplapply(fDataPerFile,
                      FUN = function(fdata, fn, fileNames, queue) {
-                         .apply_processing_queue(.hdf5_read_spectra(
-                             fdata, fn, fileNames), queue)
-                     },
-                     fn = h5file,
-                     fileNames = fNames,
-                     queue = theQ,
+                         .apply_processing_queue(
+                             .hdf5_read_spectra(fdata, fn, fileNames),
+                             queue)
+                     }, fn = h5file, fileNames = fNames, queue = theQ,
                      BPPARAM = BPPARAM)
     names(vals) <- NULL
     vals <- unlist(vals, recursive = FALSE)
     vals[rownames(fData(object))]
 })
-
-#' Internal function to apply the lazy processing queue to each spectrum
-#' in the provided list.
-#'
-#' @param x `list` of `Spectrum` objects.
-#'
-#' @param queue `list` (or `NULL`) of `ProcessingStep` objects.
-#'
-#' @author Johannes Rainer
-#'
-#' @md
-#'
-#' @noRd
-.apply_processing_queue <- function(x, queue = NULL) {
-    if (length(queue)) {
-        x <- lapply(x, function(z, q) {
-            for (pStep in q) {
-                z <- executeProcessingStep(pStep, z)
-            }
-            z
-        }, q = queue)
-    }
-    x
-}
 
 .hdf5_group_name <- function(x) {
     vapply(x, digest::sha1, character(1), USE.NAMES = FALSE)
@@ -236,8 +210,6 @@ setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
 #'
 #' @noRd
 .h5read_bare <- function(file, name = "") {
-    ## fid <- .Call("_H5Fopen", file, 0L, PACKAGE = "rhdf5")
-    ## on.exit(invisible(.Call("_H5Fclose", fid, PACKAGE = "rhdf5")))
     did <- .Call("_H5Dopen", file, name, NULL, PACKAGE = "rhdf5")
     res <- .Call("_H5Dread", did, NULL, NULL, NULL, TRUE, 0L, FALSE, FALSE,
                  PACKAGE = "rhdf5")

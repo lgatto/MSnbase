@@ -289,6 +289,17 @@ test_that("spectrapply,OnDiskMSnExp", {
     dfs <- spectrapply(onDisk, FUN = as, Class = "data.frame")
     dfs_2 <- lapply(sps, FUN = as, Class = "data.frame")
     expect_identical(dfs, dfs_2)
+    ## apply a function with parameter with a processing queue
+    test_fun <- function(x, z) {
+        mean(intensity(x)) + z
+    }
+    od2 <- clean(removePeaks(onDisk, t = 1000), all = TRUE)
+    sps <- lapply(sps, function(z) {
+        clean(removePeaks(z, t = 1000), all = TRUE)
+    })
+    res <- spectrapply(od2, FUN = test_fun, z = 111)
+    res_2 <- lapply(sps, FUN = test_fun, z = 111)
+    expect_equal(res, res_2)
 })
 
 test_that("splitByFile,OnDiskMSnExp", {
@@ -296,7 +307,7 @@ test_that("splitByFile,OnDiskMSnExp", {
     expect_error(splitByFile(od, f = factor(1:3)))
     spl <- splitByFile(od, f = factor(c("b", "a")))
     expect_equal(pData(spl[[1]]), pData(filterFile(od, 2)))
-    expect_equal(pData(spl[[2]]), pData(filterFile(od, 1)))    
+    expect_equal(pData(spl[[2]]), pData(filterFile(od, 1)))
 })
 
 test_that("chromatogram,OnDiskMSnExp works", {
@@ -307,7 +318,7 @@ test_that("chromatogram,OnDiskMSnExp works", {
     file.copy(mzf[1], paste0(tmpd, "a.mzML"))
     file.copy(mzf[2], paste0(tmpd, "b.mzML"))
     mzf <- c(mzf, paste0(tmpd, c("a.mzML", "b.mzML")))
-    
+
     onDisk <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE,
                          mode = "onDisk")
 
@@ -400,9 +411,9 @@ test_that("low memory spectrapply function works", {
     fData$fileIdx <- 1L
     fData$smoothed <- FALSE
     fData$centroided <- TRUE
-    
+
     fastLoad <- FALSE
-    
+
     expect_equal(
         MSnbase:::.applyFun2SpectraOfFileMulti(fData, filenames = fl,
                                                fastLoad = fastLoad),
@@ -420,10 +431,9 @@ test_that("low memory spectrapply function works", {
     expect_equal(
         MSnbase:::.applyFun2SpectraOfFileMulti(fd, filenames = fl,
                                                fastLoad = fastLoad,
-                                               APPLYFUN = mz),
+                                               queue = list(ProcessingStep(mz))),
         MSnbase:::.applyFun2IndividualSpectraOfFile(fd,
                                                     filenames = fl,
                                                     fastLoad = fastLoad,
                                                     APPLYFUN = mz))
 })
-
