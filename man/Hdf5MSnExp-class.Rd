@@ -6,29 +6,18 @@
 \alias{.Hdf5MSnExp}
 \alias{Hdf5MSnExp}
 \alias{readHdf5DiskMSData}
-\alias{hdf5Close}
-\alias{hdf5Open}
-\alias{isHdf5Open}
 \alias{hdf5FileName}
-\alias{hdf5FileName<-}
+\alias{spectrapply,Hdf5MSnExp-method}
 \title{The \code{Hdf5MSnExp} Class for MS Data And Meta-Data}
 \usage{
 readHdf5DiskMSData(files, pdata = NULL, msLevel. = NULL,
   verbose = isMSnbaseVerbose(), centroided. = NA, smoothed. = NA,
-  hdf5file = NULL, openHdf5 = TRUE)
-
-hdf5Close(object)
-
-hdf5Open(object)
-
-isHdf5Open(object)
+  hdf5path = ".", BPPARAM = bpparam())
 
 hdf5FileName(object)
 
-hdf5FileName(object) <- value
-}
-\arguments{
-\item{object}{An instance of class `Hdf5MSnExp`.}
+\S4method{spectrapply}{Hdf5MSnExp}(object, FUN = NULL,
+  BPPARAM = bpparam(), ...)
 }
 \description{
 The \code{Hdf5MSnExp} class encapsulates data and
@@ -58,7 +47,6 @@ x
 
 ## automatically generated hdf5 file
 hdf5FileName(x)
-hdf5FileName(x) <- "myhdf5data.h5"
 
 x[[1]]
 x[[2]]

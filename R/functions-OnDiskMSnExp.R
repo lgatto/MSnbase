@@ -174,7 +174,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
 }
 
 #' @title Apply a function to spectra loaded from a single file
-#' 
+#'
 #' @description This function creates `Spectrum1` and `Spectrum2` objects for
 #'     the specicied spectra in one file and applies the provided function to
 #'     each of them.
@@ -186,48 +186,39 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
 #'     After that, depending on the arguments `queue` and `APPLYFUN` a `lapply`
 #'     call is performed applying the respective calls to each spectrum. Finally
 #'     results are ordered and returned.
-#' 
+#'
 #' @note Using the C constructor that takes all values at once and creates a
 #'     list of `Spectrum1` objects, applies processing steps, applies the
 #'     provided function and returns its results - or the list of
 #'     `Spectrum1` objects if `APPLYFUN = NULL`.
 #'
 #'     Note: enforces ordering of M/Z-intensity pairs by M/Z.
-#' 
+#'
 #' @param fData: either a full `data.frame` (returned by `fData(OnDiskMSnExp))`
 #'     or a sub-set forspecific spectra. The data.frame should ONLY
 #'     CONTAIN VALUES FOR SPECTRA OF ONE FILE!
 #'
 #' @param filenames: `fileNames(object)` with `object` being an `OnDiskMSnExp`.
 #'
-#' @param queue: `object@spectraProcessingQueue`; if `lenght > 0` all
-#'     processing steps will be applied to the created spectrum
-#'     objects.
-#' 
-#' @param APPLYFUN: the function to be applied to the spectrum objects
-#'     (such as `ionCount` etc). If `NULL` the function returns the list of
-#'     spectrum objects.
-#' 
+#' @param queue: `list` of `ProcessingStep` objects (such as stored in
+#'     `object@spectraProcessingQueue` with `object` being an `OnDiskMSnExp`).
+#'     Each processing step will be applied to each spectrum.
+#'
 #' @param fastLoad: `logical(1)` whether reading the spectras' header data
 #'     should be omitted prior to retrieving the data (i.e. skip the
 #'     `mzR::header` call before calling `mzR::peaks`. The former call might be
 #'     required on some systems (so far macOS) for some files.
-#' 
-#' @param ...: additional arguments for the APPLYFUN
 #'
 #' @return `list` with either spectrum objects or the results of the function
 #'     provided with argument `APPLYFUN`.
 #'
 #' @author Johannes Rainer
-#' 
+#'
 #' @noRd
 #'
 #' @md
-.applyFun2SpectraOfFileMulti <- function(fData, filenames,
-                                         queue = NULL,
-                                         APPLYFUN = NULL,
-                                         fastLoad = TRUE,
-                                         ...) {
+.applyFun2SpectraOfFileMulti <- function(fData, filenames, queue = NULL,
+                                         fastLoad = TRUE) {
     suppressPackageStartupMessages(
         require(MSnbase, quietly = TRUE)
     )
@@ -333,34 +324,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
     rm(fileh)
     ## Intermediate #151 fix. Performance-wise would be nice to get rid of this.
     ## gc()
-    ## If we have a non-empty queue, we might want to execute that too.
-    do_queue <- length(queue) > 0
-    do_apply <- !is.null(APPLYFUN)
-    if (do_apply | do_queue){
-        if (do_queue) {
-            if (verbose.) {
-                message("Apply lazy processing step(s):")
-                for (j in 1:length(queue))
-                    message(" o '", queue[[j]]@FUN, "' with ",
-                            length(queue[[j]]@ARGS), " argument(s).")
-            }
-        }
-        res <- lapply(res, FUN = function(z, theQ, APPLF, ...){
-            ## Apply the processing steps.
-            if (do_queue) {
-                for (pStep in theQ) {
-                    z <- executeProcessingStep(pStep, z)
-                }
-            }
-            if (do_apply) {
-                return(do.call(APPLF, args = c(list(z), ...)))
-            } else {
-                return(z)
-            }
-        }, theQ = queue, APPLF = APPLYFUN, ...)
-    }
-    ## Ensure that ordering is the same than in fData:
-    res[match(rownames(fData), names(res))]
+    .apply_processing_queue(res, queue)[rownames(fData)]
 }
 
 #' @description Less memory demanding version of `applyFun2SpectraOfFileMulti`.
@@ -375,7 +339,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
 #'     enforces also ordering of M/Z-intensity pairs by M/Z.
 #'     Performance wise, this function is fast on gzipped mzML files but should
 #'     not be used on CDF files!
-#' 
+#'
 #' @param fData: either a full `data.frame` (returned by `fData(OnDiskMSnExp))`
 #'     or a sub-set forspecific spectra. The data.frame should ONLY
 #'     CONTAIN VALUES FOR SPECTRA OF ONE FILE!
@@ -385,23 +349,23 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
 #' @param queue: `object@spectraProcessingQueue`; if `lenght > 0` all
 #'     processing steps will be applied to the created spectrum
 #'     objects.
-#' 
+#'
 #' @param APPLYFUN: the function to be applied to the spectrum objects
 #'     (such as `ionCount` etc). If `NULL` the function returns the list of
 #'     spectrum objects.
-#' 
+#'
 #' @param fastLoad: `logical(1)` whether reading the spectras' header data
 #'     should be omitted prior to retrieving the data (i.e. skip the
 #'     `mzR::header` call before calling `mzR::peaks`. The former call might be
 #'     required on some systems (so far macOS) for some files.
-#' 
+#'
 #' @param ...: additional arguments for the APPLYFUN
 #'
 #' @return `list` with either spectrum objects or the results of the function
 #'     provided with argument `APPLYFUN`.
 #'
 #' @author Johannes Rainer
-#' 
+#'
 #' @noRd
 #' @md
 .applyFun2IndividualSpectraOfFile <- function(fData, filenames,
@@ -499,7 +463,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
 #' @note x has to be an MSnExp or OnDiskMSnExp object. The function is optimized
 #'     for OnDiskMSnExp objects such that extraction is performed in parallel
 #'     for each file.
-#' 
+#'
 #' @param rt \code{matrix} with two columns and number of rows corresponding to
 #'     the number of ranges to extract. If the number of columns of the matrix
 #'     is not equal to 2, \code{range} is called on each row.
@@ -516,7 +480,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
 #'
 #' @param msLevel \code{integer(1)} ensuring that the chromatogram is extracted
 #'     only for a specified MS level.
-#' 
+#'
 #' @return A \code{matrix} with the \code{Chromatogram} objects with rows
 #'     corresponding to ranges and columns to files/samples. \code{result[, 1]}
 #'     will thus return a \code{list} of \code{Chromatogram} objects for the
@@ -545,7 +509,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
         rt <- matrix(c(-Inf, Inf), nrow = 1)
     if (missing(mz))
         mz <- matrix(c(-Inf, Inf), nrow = 1)
-    ## Calculate the range for each row in rt 
+    ## Calculate the range for each row in rt
     if (ncol(rt) != 2)
         rt <- t(apply(rt, MARGIN = 1, range))
     ## Replicate if nrow rt is 1 to match nrow of mz.
@@ -676,7 +640,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
 ##' estimates mode from the data, but is limited to data stemming from
 ##' mzML files which are still available in their original location
 ##' (and accessed with `fileNames(x)`).
-##' 
+##'
 ##' @title Get mode from mzML data file
 ##' @param x An object of class [OnDiskMSnExp-class].
 ##' @return A named `logical` vector of the same length as `x`.
@@ -709,4 +673,3 @@ isCentroidedFromFile <- function(x) {
     ## reorder
     res[featureNames(x)]
 }
-

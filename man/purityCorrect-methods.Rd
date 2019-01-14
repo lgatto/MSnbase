@@ -22,7 +22,7 @@
 
   A more elaborated purity correction method is described in
   Shadforth \emph{et al.}, i-Tracker: for quantitative proteomics using
-  iTRAQ. BMC Genomics. 2005 Oct 20;6:145. (PMID 16242023). 
+  iTRAQ. BMC Genomics. 2005 Oct 20;6:145. (PMID 16242023).
 
   Function \code{makeImpuritiesMatrix(x, filename, edit = TRUE)} helps
   the user to create such a matrix. The function can be used in two ways.
@@ -51,7 +51,7 @@
 
 \arguments{
   \item{object}{ An object of class \code{"\linkS4class{MSnSet}"}. }
-  \item{impurities}{ A square 'matrix' of dim equal to ncol(object) 
+  \item{impurities}{ A square 'matrix' of dim equal to ncol(object)
     defining the correction coefficients to be applied.
     The reporter ions should be ordered along the columns
     and the relative percentages along the rows.
@@ -71,7 +71,7 @@
       0.929 \tab 0.059 \tab 0.002 \tab 0.000 \cr
       0.020 \tab 0.923 \tab 0.056 \tab 0.001 \cr
       0.000 \tab 0.030 \tab 0.924 \tab 0.045 \cr
-      0.000 \tab 0.001 \tab 0.040 \tab 0.923 \cr      
+      0.000 \tab 0.001 \tab 0.040 \tab 0.923 \cr
     }
     where, the diagonal is computed as 100 - sum of rows of the
     original table and subsequent cells are directly filled in.
@@ -115,7 +115,7 @@
     we calculate the impurity correction matrix shown below
 
     \tabular{lrrrrrrrr}{
-                      \tab 113   \tab 114   \tab 115   \tab 116   \tab 117   \tab 118   \tab 119   \tab 121 \cr
+		      \tab 113   \tab 114   \tab 115   \tab 116   \tab 117   \tab 118   \tab 119   \tab 121 \cr
       \% reporter 113 \tab 0.944 \tab 0.030 \tab 0.001 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \cr
       \% reporter 114 \tab 0.010 \tab 0.929 \tab 0.059 \tab 0.002 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \cr
       \% reporter 115 \tab 0.000 \tab 0.020 \tab 0.923 \tab 0.056 \tab 0.001 \tab 0.000 \tab 0.000 \tab 0.000 \cr
@@ -127,44 +127,47 @@
     }
 
 
-    Finally, for a TMT 10-plex impurity matrix
+    Finally, for a TMT 10-plex impurity matrix (for example lot \href{https://www.thermofisher.com/document-connect/document-connect.html?url=https://assets.thermofisher.com/TFS-Assets/LSG/certificate/Certificates\%20of\%20Analysis/RH239932\_90309.pdf}{RH239932})
 
     \tabular{llllllllll}{
-      .   \tab -2 \tab -1 \tab 1 \tab 2 \cr
-      126 \tab  0.0 \tab 0.00 \tab 4.69 (127C) \tab 0.0 (128N) \cr
-      127N \tab 0.0 \tab 0.40 \tab 6.50 (128N) \tab 0.0 (128C) \cr
-      127C \tab 0.0 \tab 0.20 (126) \tab 4.60 (128C) \tab 0.3 (129N) \cr
-      128N \tab 0.0 \tab 0.90 (127N) \tab 4.70 (129N) \tab 0.2 (129C) \cr
-      128C \tab 0.1 (126) \tab 0.53 (127C) \tab 2.59 (129C) \tab 0.0 (130N) \cr
-      129N \tab 0.0 (127N) \tab 0.73 (128N) \tab 2.49 (130N) \tab 0.0 (130C) \cr
-      129C \tab 0.0 (127C) \tab 1.30 (128C) \tab 2.50 (130C) \tab 0.0 (131) \cr
-      130N \tab 0.0 (128N) \tab 1.20 (129N) \tab 2.80 (131) \tab 2.7 \cr
-      130C \tab 0.1 (128C) \tab 2.90 (129C) \tab 2.90 \tab 0.0 \cr
-      131 \tab  0.0 (129N) \tab 2.36 (130N) \tab 1.43 \tab 0.0 \cr
+      .    \tab   -2       \tab -1         \tab   1        \tab   2        \cr
+      126  \tab 0.0        \tab 0.0        \tab 5.0 (127C) \tab 0.0 (128C) \cr
+      127N \tab 0.0        \tab 0.2        \tab 5.8 (128N) \tab 0.0 (129N) \cr
+      127C \tab 0.0        \tab 0.3 (126)  \tab 4.8 (128C) \tab 0.0 (129C) \cr
+      128N \tab 0.0        \tab 0.4 (127N) \tab 4.1 (129N) \tab 0.0 (130N) \cr
+      128C \tab 0.0 (126)  \tab 0.6 (127C) \tab 3.0 (129C) \tab 0.0 (130C) \cr
+      129N \tab 0.0 (127N) \tab 0.8 (128N) \tab 3.5 (130N) \tab 0.0 (131) \cr
+      129C \tab 0.0 (127C) \tab 1.4 (128C) \tab 2.4 (130C) \tab 0.0 \cr
+      130N \tab 0.1 (128N) \tab 1.5 (129N) \tab 2.4 (131)  \tab 3.2 \cr
+      130C \tab 0.0 (128C) \tab 1.7 (129C) \tab 1.8        \tab 0.0 \cr
+      131  \tab 0.2 (129N) \tab 2.0 (130N) \tab 2.2        \tab 0.0 \cr
     }
+
+    (Note that a previous example, taken from lot
+    \href{https://www.thermofisher.com/document-connect/document-connect.html?url=https://assets.thermofisher.com/TFS-Assets/LSG/certificate/Certificates\%20of\%20Analysis/PB199188A\_90110.pdf}{PB199188A},
+    contained a typo.)
 
     the impurity correction matrix is
 
-    
     \tabular{lllllllllll}{
-      .              \tab 126 \tab 127N \tab 127C \tab 128N \tab 128C \tab 129N \tab 129C \tab 130N \tab 130C \tab 131 \cr
-      \% reporter 126 \tab  0.9531 \tab 0.000 \tab 0.0469 \tab 0.0000 \tab 0.0000 \tab 0.0000 \tab 0.0000 \tab 0.0000 \tab 0.000 \tab 0.0000 \cr
-      \% reporter 127N \tab 0.0000 \tab 0.931 \tab 0.0000 \tab 0.0650 \tab 0.0000 \tab 0.0000 \tab 0.0000 \tab 0.0000 \tab 0.000 \tab 0.0000 \cr
-      \% reporter 127C \tab 0.0020 \tab 0.000 \tab 0.9490 \tab 0.0000 \tab 0.0460 \tab 0.0030 \tab 0.0000 \tab 0.0000 \tab 0.000 \tab 0.0000 \cr
-      \% reporter 128N \tab 0.0000 \tab 0.009 \tab 0.0000 \tab 0.9420 \tab 0.0000 \tab 0.0470 \tab 0.0020 \tab 0.0000 \tab 0.000 \tab 0.0000 \cr
-      \% reporter 128C \tab 0.0010 \tab 0.000 \tab 0.0053 \tab 0.0000 \tab 0.9678 \tab 0.0000 \tab 0.0259 \tab 0.0000 \tab 0.000 \tab 0.0000 \cr
-      \% reporter 129N \tab 0.0000 \tab 0.000 \tab 0.0000 \tab 0.0073 \tab 0.0000 \tab 0.9678 \tab 0.0000 \tab 0.0249 \tab 0.000 \tab 0.0000 \cr
-      \% reporter 129C \tab 0.0000 \tab 0.000 \tab 0.0000 \tab 0.0000 \tab 0.0130 \tab 0.0000 \tab 0.9620 \tab 0.0000 \tab 0.025 \tab 0.0000 \cr
-      \% reporter 130N \tab 0.0000 \tab 0.000 \tab 0.0000 \tab 0.0000 \tab 0.0000 \tab 0.0120 \tab 0.0000 \tab 0.9330 \tab 0.000 \tab 0.0280 \cr
-      \% reporter 130C \tab 0.0000 \tab 0.000 \tab 0.0000 \tab 0.0000 \tab 0.0010 \tab 0.0000 \tab 0.0290 \tab 0.0000 \tab 0.941 \tab 0.0000 \cr
-      \% reporter 131 \tab  0.0000 \tab 0.000 \tab 0.0000 \tab 0.0000 \tab 0.0000 \tab 0.0000 \tab 0.0000 \tab 0.0236 \tab 0.000 \tab 0.9621 \cr      
-		   
+
+      .      \tab 126  \tab 127N  \tab 127C  \tab 128N  \tab 128C  \tab 129N \tab 129C \tab 130N \tab 130C \tab 131 \cr
+      \% reporter 126  \tab 0.950 \tab 0.000 \tab 0.050 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \cr
+      \% reporter 127N \tab 0.000 \tab 0.940 \tab 0.000 \tab 0.058 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \cr
+      \% reporter 127C \tab 0.003 \tab 0.000 \tab 0.949 \tab 0.000 \tab 0.048 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \cr
+      \% reporter 128N \tab 0.000 \tab 0.004 \tab 0.000 \tab 0.955 \tab 0.000 \tab 0.041 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \cr
+      \% reporter 128C \tab 0.000 \tab 0.000 \tab 0.006 \tab 0.000 \tab 0.964 \tab 0.000 \tab 0.030 \tab 0.000 \tab 0.000 \tab 0.000 \cr
+      \% reporter 129N \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.008 \tab 0.000 \tab 0.957 \tab 0.000 \tab 0.035 \tab 0.000 \tab 0.000 \cr
+      \% reporter 129C \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.014 \tab 0.000 \tab 0.962 \tab 0.000 \tab 0.024 \tab 0.000 \cr
+      \% reporter 130N \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.001 \tab 0.000 \tab 0.015 \tab 0.000 \tab 0.928 \tab 0.000 \tab 0.024 \cr
+      \% reporter 130C \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.017 \tab 0.000 \tab 0.965 \tab 0.000 \cr
+      \% reporter 131  \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.000 \tab 0.002 \tab 0.000 \tab 0.020 \tab 0.000 \tab 0.956 \cr
     }
 
-    
+
     These examples are provided as defaults impurity correction matrices
     in \code{makeImpuritiesMatrix}.
-    
+
   }
 }
 
@@ -172,10 +175,10 @@
 ## quantifying full experiment
 data(msnset)
 impurities <- matrix(c(0.929,0.059,0.002,0.000,
-                       0.020,0.923,0.056,0.001,
-                       0.000,0.030,0.924,0.045,
-                       0.000,0.001,0.040,0.923),
-                     nrow=4, byrow = TRUE)
+		       0.020,0.923,0.056,0.001,
+		       0.000,0.030,0.924,0.045,
+		       0.000,0.001,0.040,0.923),
+		     nrow=4, byrow = TRUE)
 ## or, using makeImpuritiesMatrix()
 \dontrun{impurities <- makeImpuritiesMatrix(4)}
 msnset.crct <- purityCorrect(msnset, impurities)
