@@ -7,12 +7,14 @@ import(ProtGenerics)
 import(BiocParallel)
 import(Biobase)
 import(mzR)
-import(rhdf5)
 import(impute)
 
 import(scales)
 import(lattice)
 import(methods)
+
+importFrom(rhdf5, H5Fcreate, H5Fclose, H5Fopen, h5createGroup, h5write,
+           h5delete, H5Lexists)
 
 importFrom(progress, progress_bar)
 

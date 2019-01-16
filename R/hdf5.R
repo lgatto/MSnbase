@@ -35,7 +35,7 @@
 ##'
 ##' ## clean up session
 ##' file.remove(hdf5FileName(x))
-##' validHdf5MSnExp(x) ## not valid anymore
+##' MSnbase:::validHdf5MSnExp(x) ## not valid anymore
 ##' rm(x)
 .Hdf5MSnExp <- setClass("Hdf5MSnExp",
                         slots = c(hdf5file = "character"),
@@ -79,7 +79,7 @@ validHdf5MSnExp <- function(object) {
 #'
 #' @noRd
 .serialize_msfile_to_hdf5 <- function(file, h5file) {
-    h5 <- rhdf5::H5Fcreate(h5file)
+    h5 <- H5Fcreate(h5file)
     comp_level <- .hdf5_compression_level()
     fh <- openMSfile(file)
     hdr <- header(fh)
@@ -91,9 +91,9 @@ validHdf5MSnExp <- function(object) {
     for (i in seq_along(pks)) {
         .pks <- pks[[i]]
         colnames(.pks) <- c("mz", "intensity")
-        rhdf5::h5write(.pks, h5, paste0(grp_name, i), level = comp_level)
+        h5write(.pks, h5, paste0(grp_name, i), level = comp_level)
     }
-    rhdf5::H5Fclose(h5)
+    H5Fclose(h5)
     invisible(h5file)
 }
 
@@ -282,6 +282,49 @@ hdf5FileName <- function(object) {
     res
 }
 
+#' Write spectra of an mzML file to a group within a hdf5 file. Depending on
+#' the value of `prune` the hdf5 group will be deleted before writing the data.
+#' This is required as datasets in a hdf5 file can not be *updated* if their
+#' dimensions don't match.
+#'
+#' @note
+#'
+#' Each spectrum will be saved as a dataset with the name being the name of the
+#' Spectrum in `x`. The names of `x` should thus be the **spectrum index** in
+#' the original file (i.e. `fData(object)$spIdx`) and not the spectrum names
+#' such as `"F01.001"`!
+#'
+#' @param x `list` of `Spectrum` objects.
+#'
+#' @param h5file `character(1)` with the name of the hdf5 file into which the
+#'     data should be written.
+#'
+#' @param group `character(1)` with the hdf5 group name.
+#'
+#' @param prune `logical(1)` whether the group should be deleted before writing
+#'     the data (see description above for more details).
+#'
+#' @author Johannes Rainer
+#'
+#' @md
+#'
+#' @noRd
+.h5write_spectra <- function(x, h5file, group, prune = TRUE) {
+    h5 <- H5Fopen(h5file)
+    comp_level <- .hdf5_compression_level()
+    on.exit(invisible(H5Fclose(h5)))
+    if (prune) {
+        h5delete(h5, group)
+    }
+    if (!H5Lexists(h5, group))
+        h5createGroup(h5, group)
+    for (i in seq_along(x)) {
+        h5write(cbind(mz = mz(x[[i]]), intensity = intensity(x[[i]])),
+                h5, name = paste0(group, "/", names(x)[i]),
+                level = comp_level)
+    }
+}
+
 #' @rdname Hdf5MSnExp-class
 setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
                                                 BPPARAM = bpparam(), ...) {
@@ -305,3 +348,8 @@ setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
     vals <- unlist(vals, recursive = FALSE)
     vals[rownames(fData(object))]
 })
+
+## consolidate:
+## - For an Hdf5MSnExp, do per file:
+## - read spectra.
+## - save them to the hdf5.

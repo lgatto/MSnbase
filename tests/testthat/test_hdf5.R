@@ -97,3 +97,37 @@ test_that("spectrapply,Hdf5MSnExp works", {
     tmp_h5 <- smooth(h5_tmt, halfWindowSize = 4L)
     expect_warning(expect_equal(spectra(tmp_tmt), spectra(tmp_h5)))
 })
+
+test_that(".h5write_spectra works", {
+    one_f <- filterFile(sciex, 1)
+    sps <- spectra(one_f)
+    fd <- fData(one_f)
+    names(sps) <- fd$spIdx
+    h5f <- tempfile()
+    h5 <- H5Fcreate(h5f)
+    H5Fclose(h5)
+    fln <- "test"
+    grp <- MSnbase:::.hdf5_group_name(fln)
+    .h5write_spectra(sps, h5f, group = grp, prune = FALSE)
+
+    res <- MSnbase:::.hdf5_read_spectra(fd, h5f, fln)
+    expect_equal(unname(res), unname(sps))
+
+    ## Update writing only a subset.
+    idx <- c(1, 45, 65, 123, 434, 894)
+    .h5write_spectra(sps[idx], h5f, group = grp, prune = TRUE)
+    res <- MSnbase:::.hdf5_read_spectra(fd[idx, ], h5f, fln)
+    expect_equal(unname(res), unname(sps[idx]))
+    cont <- rhdf5::h5ls(h5f)
+    expect_equal(nrow(cont), length(idx) + 1)
+
+    ## Writing empty spectra?
+    sps[[1]] <- clean(removePeaks(sps[[1]], t = 10e9), all = TRUE)
+    idx <- c(1, 12, 13, 14)
+    .h5write_spectra(sps[idx], h5f, group = grp, prune = TRUE)
+    res <- MSnbase:::.hdf5_read_spectra(fd[idx, ], h5f, fln)
+    res[[1]]@tic <- 0 # fData still contains the TIC, while the spectra has 0.
+    expect_equal(unname(res), unname(sps[idx]))
+    cont <- rhdf5::h5ls(h5f)
+    expect_equal(nrow(cont), length(idx) + 1)
+})

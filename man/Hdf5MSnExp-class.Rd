@@ -55,7 +55,7 @@ filterMsLevel(x, 3L)[[1]]
 
 ## clean up session
 file.remove(hdf5FileName(x))
-validHdf5MSnExp(x) ## not valid anymore
+MSnbase:::validHdf5MSnExp(x) ## not valid anymore
 rm(x)
 }
 \seealso{
