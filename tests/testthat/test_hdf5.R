@@ -131,3 +131,24 @@ test_that(".h5write_spectra works", {
     cont <- rhdf5::h5ls(h5f)
     expect_equal(nrow(cont), length(idx) + 1)
 })
+
+test_that("filterFile,Hdf5MSnExp works", {
+    res <- filterFile(h5_sciex)
+    expect_equal(fileNames(res), fileNames(h5_sciex))
+    expect_equal(res@hdf5file, h5_sciex@hdf5file)
+    expect_equal(fData(res), fData(h5_sciex))
+
+    res <- filterFile(h5_sciex, 1)
+    expect_equal(fileNames(res), fileNames(h5_sciex)[1])
+    expect_equal(res@hdf5file, h5_sciex@hdf5file[1])
+    fd <- fData(h5_sciex)
+    expect_equal(fData(res), fd[fd$fileIdx == 1, ])
+
+    res <- filterFile(h5_sciex, 2)
+    expect_equal(fileNames(res), fileNames(h5_sciex)[2])
+    expect_equal(res@hdf5file, h5_sciex@hdf5file[2])
+    fd <- fData(h5_sciex)
+    fd <- fd[fd$fileIdx == 2, ]
+    fd$fileIdx <- 1
+    expect_equal(fData(res), fd)
+})

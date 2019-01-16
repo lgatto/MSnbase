@@ -349,6 +349,20 @@ setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
     vals[rownames(fData(object))]
 })
 
+setMethod("filterFile", "Hdf5MSnExp", function(object, file) {
+    fnames <- fileNames(object)
+    object <- callNextMethod()
+    object@hdf5file <- object@hdf5file[match(fileNames(object), fnames)]
+    if (validObject(object))
+        object
+})
+
+consolidate <- function(x, ...) {
+    stopifnot(inherits(x, "Hdf5MSnExp"))
+    x_split <- splitByFile(x, f = factor(fileNames(x)))
+
+}
+
 ## consolidate:
 ## - For an Hdf5MSnExp, do per file:
 ## - read spectra.
