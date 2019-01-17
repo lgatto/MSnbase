@@ -161,7 +161,8 @@ export(MSnSet,
        ## hdf5 backend
        readHdf5DiskMSData,
        hdf5FileName,
-       setHdf5CompressionLevel
+       setHdf5CompressionLevel,
+       consolidate
        )
 
 exportClasses(pSet,

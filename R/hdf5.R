@@ -1,42 +1,50 @@
-##' @title The `Hdf5MSnExp` Class for MS Data And Meta-Data
-##' @description The `Hdf5MSnExp` class encapsulates data and
-##'     meta-data for mass spectrometry experiments like the `MSnExp`
-##'     and `OnDiskMSnExp` classes. `Hdf5MSnExp` implements, like
-##'     `OnDiskMSnExp`, an *on disk* model, where the raw data (M/Z
-##'     and intensities) are stored on disk (rather than in memory,
-##'     like `MSnExp` data) using, as the name implies, the hdf5 file
-##'     format. See [`MSnExp`] and [`OnDiskMSnExp`] for a more general
-##'     description of the data, slots and operations.
-##'
-##'     Object of the class are currently created with the
-##'     `readHdf5DiskMSData` function. Later, this backend will be
-##'     included in the main `readMSData` function.
-##'
-##' @slot hdf5file `character(1)` containing the hdf5 filename.
-##' @slot hdf5handle A `H5IdComponent` or `NULL`.
-##'
-##' @rdname Hdf5MSnExp-class
-##' @aliases Hdf5MSnExp
-##' @seealso See [`MSnExp`] and [`OnDiskMSnExp`] classes.
-##' @author Laurent Gatto
-##' @md
-##' @examples
-##' f <- msdata::proteomics(pattern = "MS3TMT11", full.names = TRUE)
-##' x <- readHdf5DiskMSData(f)
-##' x
-##'
-##' ## automatically generated hdf5 file
-##' hdf5FileName(x)
-##'
-##' x[[1]]
-##' x[[2]]
-##' x[[10]]
-##' filterMsLevel(x, 3L)[[1]]
-##'
-##' ## clean up session
-##' file.remove(hdf5FileName(x))
-##' MSnbase:::validHdf5MSnExp(x) ## not valid anymore
-##' rm(x)
+#' @title The `Hdf5MSnExp` Class for MS Data And Meta-Data
+#'
+#' @description
+#'
+#' The `Hdf5MSnExp` class encapsulates data and meta-data for mass
+#' spectrometry experiments like the `MSnExp` and `OnDiskMSnExp`
+#' classes. `Hdf5MSnExp` implements, like `OnDiskMSnExp`, an
+#' *on disk* model, where the raw data (M/Z and intensities) are
+#' stored on disk (rather than in memory, like `MSnExp` data) using,
+#' as the name implies, the hdf5 file format. See [`MSnExp`] and
+#' [`OnDiskMSnExp`] for a more general description of the data,
+#' slots and operations.
+#'
+#' Object of the class are currently created with the
+#' `readHdf5DiskMSData` function. Later, this backend will be
+#' included in the main `readMSData` function.
+#'
+#' @slot hdf5file `character` containing the hdf5 filenames, one file
+#'     per input mzML file/sample.
+#'
+#' @rdname Hdf5MSnExp-class
+#'
+#' @aliases Hdf5MSnExp
+#'
+#' @seealso See [`MSnExp`] and [`OnDiskMSnExp`] classes.
+#'
+#' @author Laurent Gatto, Johannes Rainer
+#'
+#' @md
+#'
+#' @examples
+#' f <- msdata::proteomics(pattern = "MS3TMT11", full.names = TRUE)
+#' x <- readHdf5DiskMSData(f)
+#' x
+#'
+#' ## automatically generated hdf5 file
+#' hdf5FileName(x)
+#'
+#' x[[1]]
+#' x[[2]]
+#' x[[10]]
+#' filterMsLevel(x, 3L)[[1]]
+#'
+#' ## clean up session
+#' file.remove(hdf5FileName(x))
+#' MSnbase:::validHdf5MSnExp(x) ## not valid anymore
+#' rm(x)
 .Hdf5MSnExp <- setClass("Hdf5MSnExp",
                         slots = c(hdf5file = "character"),
                         contains = "OnDiskMSnExp",
@@ -121,7 +129,7 @@ readHdf5DiskMSData <- function(files, pdata = NULL, msLevel. = NULL,
     h5_fls <- serialise_to_hdf5(obj, hdf5path, BPPARAM = BPPARAM)
     obj <- .onDisk2hdf5(obj, h5_fls)
     msg <- validHdf5MSnExp(obj)
-    if (is.character(msg)) stop(res)
+    if (is.character(msg)) stop(msg)
     obj
 }
 
@@ -158,7 +166,7 @@ readHdf5DiskMSData <- function(files, pdata = NULL, msLevel. = NULL,
 ##     rhdf5::H5Iis_valid(object@hdf5handle)
 ## }
 
-##' @rdname Hdf5MSnExp-class
+#' @rdname Hdf5MSnExp-class
 hdf5FileName <- function(object) {
     stopifnot(inherits(object, "Hdf5MSnExp"))
     object@hdf5file
@@ -228,9 +236,7 @@ hdf5FileName <- function(object) {
 #'
 #' @noRd
 .hdf5_read_spectra <- function(fdata, h5file, file_name) {
-    suppressPackageStartupMessages(
-        require(MSnbase, quietly = TRUE)
-    )
+    suppressPackageStartupMessages(require(MSnbase, quietly = TRUE))
     fid <-.Call("_H5Fopen", h5file, 0L, PACKAGE = "rhdf5")
     on.exit(invisible(.Call("_H5Fclose", fid, PACKAGE = "rhdf5")))
     mzi <- base::lapply(paste0(.hdf5_group_name(file_name), "/", fdata$spIdx),
@@ -357,13 +363,45 @@ setMethod("filterFile", "Hdf5MSnExp", function(object, file) {
         object
 })
 
-consolidate <- function(x, ...) {
+#' @description
+#'
+#' `consolidate` *consolidates* an `Hdf5MSnExp` object by applying all
+#' registered processing steps to each spectrum and saving the updated
+#' data to the hdf5 file(s) associated with the sample(s) in `x`. The
+#' function replaces `x`.
+#'
+#' @note
+#'
+#' `consolidate` will overwrite the content of the hdf5 file(s) associated with
+#' the `Hdf5MSnExp`. Thus, if another copy of the object, prior to any data
+#' manipulations, exists that points to the same hdf5 files, that object might
+#' be corrupt.
+#'
+#' `consolidate` replaces the input variable `x`.
+#'
+#' @return `consolidate` does not return anything, but replaces the object
+#'     *in-place* (i.e. overwrites the input variable `x`).
+#'
+#' @param x `Hdf5MSnExp` object.
+#'
+#' @md
+#'
+#' @rdname Hdf5MSnExp-class
+consolidate <- function(x) {
+    eval.parent(call("<-", substitute(x), .consolidate(x)), n = 1)
+}
+.consolidate <- function(x, BPPARAM = bpparam(), ...) {
     stopifnot(inherits(x, "Hdf5MSnExp"))
     x_split <- splitByFile(x, f = factor(fileNames(x)))
-
+    if (isMSnbaseVerbose())
+        message("Consolidating ", length(x_split), " files.")
+    bplapply(x_split, function(z) {
+        suppressPackageStartupMessages(require(MSnbase, quietly = TRUE))
+        grp <- .hdf5_group_name(fileNames(z))
+        sps <- spectra(z)
+        names(sps) <- fData(z)$spIdx
+        .h5write_spectra(sps, z@hdf5file, group = grp)
+    }, BPPARAM = BPPARAM)
+    x@spectraProcessingQueue <- list()
+    x
 }
-
-## consolidate:
-## - For an Hdf5MSnExp, do per file:
-## - read spectra.
-## - save them to the hdf5.

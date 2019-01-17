@@ -20,24 +20,24 @@ hdf5FileName(object)
   BPPARAM = bpparam(), ...)
 }
 \description{
-The \code{Hdf5MSnExp} class encapsulates data and
-meta-data for mass spectrometry experiments like the \code{MSnExp}
-and \code{OnDiskMSnExp} classes. \code{Hdf5MSnExp} implements, like
-\code{OnDiskMSnExp}, an \emph{on disk} model, where the raw data (M/Z
-and intensities) are stored on disk (rather than in memory,
-like \code{MSnExp} data) using, as the name implies, the hdf5 file
-format. See \code{\link{MSnExp}} and \code{\link{OnDiskMSnExp}} for a more general
-description of the data, slots and operations.\preformatted{Object of the class are currently created with the
-`readHdf5DiskMSData` function. Later, this backend will be
-included in the main `readMSData` function.
-}
+The \code{Hdf5MSnExp} class encapsulates data and meta-data for mass
+spectrometry experiments like the \code{MSnExp} and \code{OnDiskMSnExp}
+classes. \code{Hdf5MSnExp} implements, like \code{OnDiskMSnExp}, an
+\emph{on disk} model, where the raw data (M/Z and intensities) are
+stored on disk (rather than in memory, like \code{MSnExp} data) using,
+as the name implies, the hdf5 file format. See \code{\link{MSnExp}} and
+\code{\link{OnDiskMSnExp}} for a more general description of the data,
+slots and operations.
+
+Object of the class are currently created with the
+\code{readHdf5DiskMSData} function. Later, this backend will be
+included in the main \code{readMSData} function.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{hdf5file}}{\code{character(1)} containing the hdf5 filename.}
-
-\item{\code{hdf5handle}}{A \code{H5IdComponent} or \code{NULL}.}
+\item{\code{hdf5file}}{\code{character} containing the hdf5 filenames, one file
+per input mzML file/sample.}
 }}
 
 \examples{
@@ -62,5 +62,5 @@ rm(x)
 See \code{\link{MSnExp}} and \code{\link{OnDiskMSnExp}} classes.
 }
 \author{
-Laurent Gatto
+Laurent Gatto, Johannes Rainer
 }

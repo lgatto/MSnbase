@@ -152,3 +152,41 @@ test_that("filterFile,Hdf5MSnExp works", {
     fd$fileIdx <- 1
     expect_equal(fData(res), fd)
 })
+
+test_that("consolidate for Hdf5MSnExp objects works", {
+    ## Filter by retention time.
+    sciex_flt <- filterRt(h5_sciex, rt = c(10, 100))
+    sps <- spectra(sciex_flt)
+    ## consolidate will update the hdf5 files, so, h5_sciex will fail!
+    res <- MSnbase:::.consolidate(sciex_flt)
+    expect_error(spectra(h5_sciex))
+    cont <- rhdf5::h5ls(res@hdf5file[1])
+    expect_equal(nrow(cont), (length(sps) / 2) + 1)
+
+    ## Doing some data manipulations on the subsetted data
+    res_cent <- pickPeaks(smooth(res))
+    expect_equal(length(res_cent@spectraProcessingQueue), 2)
+    sps_cent <- spectra(res_cent)
+    sps_cent <- lapply(sps_cent, function(z) {
+        z@tic <- 0
+        z
+    })
+    ## Consolidate with in-place replacement.
+    consolidate(res_cent)
+    # Don't have a processing queue because we replaced in-place
+    expect_equal(length(res_cent@spectraProcessingQueue), 0)
+    res_cent_sps <- spectra(res_cent)
+    res_cent_sps <- lapply(res_cent_sps, function(z) {
+        z@tic <- 0
+        z
+    })
+    ## The spectra after consilidation are the same as the one before
+    ## consolidation that used the on-the-fly data manipulations
+    expect_equal(sps_cent, res_cent_sps)
+    expect_true(peaksCount(res_cent_sps[[1]]) < peaksCount(sps[[1]]))
+
+    ## Restore the hdf5 files again.
+    file.remove(h5_sciex@hdf5file)
+    sf <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)
+    h5_sciex <- readHdf5DiskMSData(sf, hdf5path = tempdir())
+})
