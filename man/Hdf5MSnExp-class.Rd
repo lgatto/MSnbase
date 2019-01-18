@@ -8,6 +8,7 @@
 \alias{readHdf5DiskMSData}
 \alias{hdf5FileName}
 \alias{spectrapply,Hdf5MSnExp-method}
+\alias{writeHdf5Data}
 \title{The \code{Hdf5MSnExp} Class for MS Data And Meta-Data}
 \usage{
 readHdf5DiskMSData(files, pdata = NULL, msLevel. = NULL,
@@ -18,6 +19,11 @@ hdf5FileName(object)
 
 \S4method{spectrapply}{Hdf5MSnExp}(object, FUN = NULL,
   BPPARAM = bpparam(), ...)
+
+writeHdf5Data(x)
+}
+\arguments{
+\item{x}{\code{Hdf5MSnExp} object.}
 }
 \description{
 The \code{Hdf5MSnExp} class encapsulates data and meta-data for mass
@@ -32,6 +38,12 @@ slots and operations.
 Object of the class are currently created with the
 \code{readHdf5DiskMSData} function. Later, this backend will be
 included in the main \code{readMSData} function.
+
+\code{writeHdf5Data} \emph{consolidates} an \code{Hdf5MSnExp} object by applying all
+registered processing steps to each spectrum and saving the updated
+data to the hdf5 file(s) associated with the sample(s) in \code{x}. This has
+some implications on copies of the input object. See notes for more
+information.
 }
 \section{Slots}{
 
@@ -40,9 +52,15 @@ included in the main \code{readMSData} function.
 per input mzML file/sample.}
 }}
 
+\note{
+\code{consolidate} will overwrite the content of the hdf5 file(s) associated with
+the \code{Hdf5MSnExp}. Thus, if another copy of the object, prior to any data
+manipulations, exists that points to the same hdf5 files, that object might
+become corrupt.
+}
 \examples{
 f <- msdata::proteomics(pattern = "MS3TMT11", full.names = TRUE)
-x <- readHdf5DiskMSData(f)
+x <- readHdf5DiskMSData(f, hdf5path = tempdir())
 x
 
 ## automatically generated hdf5 file
@@ -53,10 +71,36 @@ x[[2]]
 x[[10]]
 filterMsLevel(x, 3L)[[1]]
 
+## Perform data manipulations, remove all peaks with an intensity
+## smaller than 1000
+x_clean <- clean(removePeaks(x, t = 1000), all = TRUE)
+
+x_clean[[12]]
+
+## Data manipulations are, as for OnDiskMSnExp objects, performed
+## on-the-fly. The data in the hdf5 files was not changed by the
+## clean and removePeaks calls above. Object x is thus still valid
+## and we can still use it.
+MSnbase:::validHdf5MSnExp(x)
+x[[12]]
+
+## writeHdf5Data will make all data manipulations persistent, it will
+## overwrite the data in the hdf5 files associated with x_clean and
+## accessing the data afterwards will no longer require to apply
+## data manipulations on-the-fly.
+writeHdf5Data(x_clean)
+
+x_clean[[12]]
+
+## Note that the original object x is however still associated with the
+## same hdf5 files. This object will now no longer be valid, as the data
+## has changed for it.
+MSnbase:::validHdf5MSnExp(x)
+
+## Accessing the data such as with x[[12]] will thus result in an error.
+
 ## clean up session
 file.remove(hdf5FileName(x))
-MSnbase:::validHdf5MSnExp(x) ## not valid anymore
-rm(x)
 }
 \seealso{
 See \code{\link{MSnExp}} and \code{\link{OnDiskMSnExp}} classes.

@@ -1,3 +1,45 @@
+validHdf5MSnExp <- function(object, check_md5 = TRUE) {
+    msg <- character()
+    if (length(object)) {
+        if (length(object@hdf5file) != length(fileNames(object)))
+            msg <- c(msg, "Number of hdf5 files and raw files does not match")
+        if (!all(file.exists(object@hdf5file)))
+            msg <- c(
+                msg, paste0("Hdf5 files ",
+                            paste(object@hdf5file[!file.exists(object@hdf5file)],
+                                  collapse = ", "), " do not exist"))
+        if (length(object@hdf5file) != length(object@md5sum))
+            msg <- c(msg, "Not for all Hdf5 files an MD5 sum is abailable.")
+        if (check_md5 && !.h5_check_md5(object))
+            msg <- c(msg, "MD5 sum in the object and the hdf5 file(s) differ(s).")
+    }
+    if (length(msg))
+        msg
+    else TRUE
+}
+
+#' Compare the md5 sum stored in the object with the sum in the hdf5 file(s).
+#'
+#' @param object `Hdf5MSnExp`
+#'
+#' @return `TRUE` if md5 sums match for all files or `FALSE` otherwise.
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+#'
+#' @md
+.h5_check_md5 <- function(object) {
+    res <- mapply(fileNames(object), object@hdf5file, object@md5sum,
+                  FUN = function(fl, h5fl, md) {
+                      h5 <- H5Fopen(h5fl)
+                      md_fl <- h5read(h5, paste0(.h5_group_name(fl), "/md5"))
+                      H5Fclose(h5)
+                      md_fl == md
+                  })
+    all(unlist(res))
+}
+
 #' @title The `Hdf5MSnExp` Class for MS Data And Meta-Data
 #'
 #' @description
@@ -30,7 +72,7 @@
 #'
 #' @examples
 #' f <- msdata::proteomics(pattern = "MS3TMT11", full.names = TRUE)
-#' x <- readHdf5DiskMSData(f)
+#' x <- readHdf5DiskMSData(f, hdf5path = tempdir())
 #' x
 #'
 #' ## automatically generated hdf5 file
@@ -41,12 +83,39 @@
 #' x[[10]]
 #' filterMsLevel(x, 3L)[[1]]
 #'
+#' ## Perform data manipulations, remove all peaks with an intensity
+#' ## smaller than 1000
+#' x_clean <- clean(removePeaks(x, t = 1000), all = TRUE)
+#'
+#' x_clean[[12]]
+#'
+#' ## Data manipulations are, as for OnDiskMSnExp objects, performed
+#' ## on-the-fly. The data in the hdf5 files was not changed by the
+#' ## clean and removePeaks calls above. Object x is thus still valid
+#' ## and we can still use it.
+#' MSnbase:::validHdf5MSnExp(x)
+#' x[[12]]
+#'
+#' ## writeHdf5Data will make all data manipulations persistent, it will
+#' ## overwrite the data in the hdf5 files associated with x_clean and
+#' ## accessing the data afterwards will no longer require to apply
+#' ## data manipulations on-the-fly.
+#' writeHdf5Data(x_clean)
+#'
+#' x_clean[[12]]
+#'
+#' ## Note that the original object x is however still associated with the
+#' ## same hdf5 files. This object will now no longer be valid, as the data
+#' ## has changed for it.
+#' MSnbase:::validHdf5MSnExp(x)
+#'
+#' ## Accessing the data such as with x[[12]] will thus result in an error.
+#'
 #' ## clean up session
 #' file.remove(hdf5FileName(x))
-#' MSnbase:::validHdf5MSnExp(x) ## not valid anymore
-#' rm(x)
 .Hdf5MSnExp <- setClass("Hdf5MSnExp",
-                        slots = c(hdf5file = "character"),
+                        slots = c(hdf5file = "character",
+                                  md5sum = "character"),
                         contains = "OnDiskMSnExp",
                         prototype = prototype(
                             new("VersionedBiobase",
@@ -54,34 +123,21 @@
                                              classVersion("OnDiskMSnExp"),
                                              Hdf5MSnExp = "0.0.1")),
                             spectraProcessingQueue = list(),
-                            backend = character()))
+                            backend = character()),
+                        validity = function(object) validHdf5MSnExp(object, FALSE))
 
-validHdf5MSnExp <- function(object) {
-    msg <- character()
-    if (length(object)) {
-        if (!length(object@hdf5file) == length(fileNames(object)))
-            msg <- c(msg, "Number of hdf5 files and raw files does not match")
-        if (!all(file.exists(object@hdf5file)))
-            msg <- c(
-                msg, paste0("Hdf5 files ",
-                            paste(object@hdf5file[!file.exists(object@hdf5file)],
-                                  collapse = ", "), " do not exist"))
-    }
-    if (length(msg))
-        msg
-    else TRUE
-}
-
-.onDisk2hdf5 <- function(from, filename) {
-          to <- .Hdf5MSnExp()
-          for (sl in .slotNames0(from))
-              slot(to, sl) <- slot(from, sl)
-          to@hdf5file <- filename
-          to
-      }
+## .onDisk2hdf5 <- function(from, filename) {
+##           to <- .Hdf5MSnExp()
+##           for (sl in .slotNames0(from))
+##               slot(to, sl) <- slot(from, sl)
+##           to@hdf5file <- filename
+##           to
+##       }
 
 #' Write the content of a single mzML/etc file to an h5file. We're using the
 #' spectrum index in the file as data set ID.
+#'
+#' @return `character(1)` with the md5 sum of the spectra data.
 #'
 #' @author Johannes Rainer
 #'
@@ -92,7 +148,7 @@ validHdf5MSnExp <- function(object) {
     fh <- openMSfile(file)
     hdr <- header(fh)
     pks <- peaks(fh)
-    grp_name <- .hdf5_group_name(file)
+    grp_name <- .h5_group_name(file)
     h5createGroup(h5, grp_name)
     grp_name <- paste0(grp_name, "/")
     close(fh)
@@ -100,9 +156,12 @@ validHdf5MSnExp <- function(object) {
         .pks <- pks[[i]]
         colnames(.pks) <- c("mz", "intensity")
         h5write(.pks, h5, paste0(grp_name, i), level = comp_level)
+        pks[[i]] <- .pks
     }
+    pks_md5 <- digest::digest(pks)
+    h5write(pks_md5, h5, paste0(grp_name, "md5"), level = comp_level)
     H5Fclose(h5)
-    invisible(h5file)
+    pks_md5
 }
 
 serialise_to_hdf5 <- function(object, path, BPPARAM = bpparam()) {
@@ -111,8 +170,12 @@ serialise_to_hdf5 <- function(object, path, BPPARAM = bpparam()) {
     if (any(file.exists(filename)))
         stop("File(s) ", paste(filename[file.exists(filename)], collapse = ", "),
              " already exist(s).")
-    bpmapply(fileNames(object), filename, FUN = .serialize_msfile_to_hdf5,
-             BPPARAM = BPPARAM)
+    md5s <- bpmapply(fileNames(object), filename,
+                     FUN = .serialize_msfile_to_hdf5,
+                     BPPARAM = BPPARAM)
+    object@hdf5file <- filename
+    object@md5sum <- md5s
+    object
 }
 
 #' @rdname Hdf5MSnExp-class
@@ -120,17 +183,14 @@ readHdf5DiskMSData <- function(files, pdata = NULL, msLevel. = NULL,
                                verbose = isMSnbaseVerbose(),
                                centroided. = NA, smoothed. = NA,
                                hdf5path = ".", BPPARAM = bpparam()) {
-    obj <- readOnDiskMSData(normalizePath(files), pdata, msLevel.,
-                                      verbose, centroided.,
-                                      smoothed.)
+    obj <- as(readOnDiskMSData(normalizePath(files), pdata, msLevel.,
+                               verbose, centroided.,
+                               smoothed.), "Hdf5MSnExp")
     hdf5path <- suppressWarnings(normalizePath(hdf5path))
     dir.create(hdf5path, showWarnings = FALSE, recursive = TRUE)
     if (verbose) message("Serialising to hdf5...")
-    h5_fls <- serialise_to_hdf5(obj, hdf5path, BPPARAM = BPPARAM)
-    obj <- .onDisk2hdf5(obj, h5_fls)
-    msg <- validHdf5MSnExp(obj)
-    if (is.character(msg)) stop(msg)
-    obj
+    obj <- serialise_to_hdf5(obj, hdf5path, BPPARAM = BPPARAM)
+    if (validObject(obj)) obj
 }
 
 ## ##' The `hdf5Close` and `hdf5Open` function respectively close and
@@ -187,7 +247,7 @@ hdf5FileName <- function(object) {
 ##     object
 ## }
 
-.hdf5_group_name <- function(x) {
+.h5_group_name <- function(x) {
     vapply(x, digest::sha1, character(1), USE.NAMES = FALSE)
 }
 
@@ -205,7 +265,7 @@ hdf5FileName <- function(object) {
 #' @md
 #'
 #' @noRd
-.h5read_bare <- function(file, name = "") {
+.h5_read_bare <- function(file, name = "") {
     did <- .Call("_H5Dopen", file, name, NULL, PACKAGE = "rhdf5")
     res <- .Call("_H5Dread", did, NULL, NULL, NULL, TRUE, 0L, FALSE, FALSE,
                  PACKAGE = "rhdf5")
@@ -225,6 +285,10 @@ hdf5FileName <- function(object) {
 #'
 #' @param h5file `character`: the name of the HDF5 file.
 #'
+#' @param h5md5 `character`: the md5 sum of the spectrum data in a hdf5 file.
+#'     This is checked against the hdf5 from the file and an error if thrown
+#'     if they differ, i.e. if the data was changed in the HDF5 file.
+#'
 #' @param file_name `character` with the file name of the original mzML file.
 #'
 #' @return list of `Spectrum` objects in the order of the spectra given in
@@ -235,12 +299,18 @@ hdf5FileName <- function(object) {
 #' @md
 #'
 #' @noRd
-.hdf5_read_spectra <- function(fdata, h5file, file_name) {
+.h5_read_spectra <- function(fdata, h5file, h5md5, file_name) {
     suppressPackageStartupMessages(require(MSnbase, quietly = TRUE))
     fid <-.Call("_H5Fopen", h5file, 0L, PACKAGE = "rhdf5")
     on.exit(invisible(.Call("_H5Fclose", fid, PACKAGE = "rhdf5")))
-    mzi <- base::lapply(paste0(.hdf5_group_name(file_name), "/", fdata$spIdx),
-                               .h5read_bare, file = fid)
+    grp_name <- paste0(.h5_group_name(file_name), "/")
+    pks_md5 <- .h5_read_bare(fid, paste0(grp_name, "md5"))
+    if (pks_md5 != h5md5)
+        stop("The data in the Hdf5 files associated with this object appear ",
+             "to have changed! Please see the Notes section in ?Hdf5MSnExp ",
+             "for more information.")
+    mzi <- base::lapply(paste0(grp_name, fdata$spIdx),
+                        .h5_read_bare, file = fid)
     res <- vector("list", nrow(fdata))
     names(res) <- rownames(fdata)
     ms1 <- which(fdata$msLevel == 1)
@@ -295,6 +365,12 @@ hdf5FileName <- function(object) {
 #'
 #' @note
 #'
+#' `Hdf5MSnExp` object store spectrum data in (custom) hdf5 files for faster
+#' data access with data for each sample (from each input file) being stored in
+#' its own hdf5 file. Copies of `Hdf5MSnExp` objects, such as created with
+#' `a <- b` where `b` is an `Hdf5MSnExp` object will be associated with the
+#' same set of hdf5 files.
+#'
 #' Each spectrum will be saved as a dataset with the name being the name of the
 #' Spectrum in `x`. The names of `x` should thus be the **spectrum index** in
 #' the original file (i.e. `fData(object)$spIdx`) and not the spectrum names
@@ -315,10 +391,10 @@ hdf5FileName <- function(object) {
 #' @md
 #'
 #' @noRd
-.h5write_spectra <- function(x, h5file, group, prune = TRUE) {
+.h5_write_spectra <- function(x, h5file, group, prune = TRUE) {
     h5 <- H5Fopen(h5file)
-    comp_level <- .hdf5_compression_level()
     on.exit(invisible(H5Fclose(h5)))
+    comp_level <- .hdf5_compression_level()
     if (prune) {
         h5delete(h5, group)
     }
@@ -329,6 +405,10 @@ hdf5FileName <- function(object) {
                 h5, name = paste0(group, "/", names(x)[i]),
                 level = comp_level)
     }
+    ## Create MD5 on spectra (instead of list of matrices) and write
+    h5_md5 <- digest(x)
+    h5write(h5_md5, file = h5, name = paste0(group, "/md5"), level = comp_level)
+    h5_md5
 }
 
 #' @rdname Hdf5MSnExp-class
@@ -341,13 +421,14 @@ setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
     fDataPerFile <- split.data.frame(fData(object),
                                      f = fData(object)$fileIdx)
     h5_fls <- object@hdf5file
+    h5_md5 <- object@md5sum
     theQ <- processingQueue(object)
     if (!is.null(FUN))
         theQ <- c(theQ, list(ProcessingStep(FUN, ARGS = list(...))))
-    vals <- bpmapply(fDataPerFile, h5_fls, fileNames(object),
-                     FUN = function(fdata, h5_file, file_name, queue) {
+    vals <- bpmapply(fDataPerFile, h5_fls, h5_md5, fileNames(object),
+                     FUN = function(fdata, h5_file, md5, file_name, queue) {
                          .apply_processing_queue(
-                             .hdf5_read_spectra(fdata, h5_file, file_name),
+                             .h5_read_spectra(fdata, h5_file, md5, file_name),
                              queue)
                      }, MoreArgs = list(queue = theQ),
                      BPPARAM = BPPARAM, SIMPLIFY = FALSE, USE.NAMES = FALSE)
@@ -356,52 +437,57 @@ setMethod("spectrapply", "Hdf5MSnExp", function(object, FUN = NULL,
 })
 
 setMethod("filterFile", "Hdf5MSnExp", function(object, file) {
-    fnames <- fileNames(object)
-    object <- callNextMethod()
-    object@hdf5file <- object@hdf5file[match(fileNames(object), fnames)]
-    if (validObject(object))
-        object
+    if (missing(file))
+        return(object)
+    if (is.character(file)) {
+        file <- base::match(file, basename(fileNames(object)))
+    }
+    file <- base::sort(unique(file))
+    object@hdf5file <- object@hdf5file[file]
+    object@md5sum <- object@md5sum[file]
+    callNextMethod(object, file)
 })
 
 #' @description
 #'
-#' `consolidate` *consolidates* an `Hdf5MSnExp` object by applying all
+#' `writeHdf5Data` *consolidates* an `Hdf5MSnExp` object by applying all
 #' registered processing steps to each spectrum and saving the updated
-#' data to the hdf5 file(s) associated with the sample(s) in `x`. The
-#' function replaces `x`.
+#' data to the hdf5 file(s) associated with the sample(s) in `x`. This has
+#' some implications on copies of the input object. See notes for more
+#' information.
 #'
 #' @note
 #'
 #' `consolidate` will overwrite the content of the hdf5 file(s) associated with
 #' the `Hdf5MSnExp`. Thus, if another copy of the object, prior to any data
 #' manipulations, exists that points to the same hdf5 files, that object might
-#' be corrupt.
-#'
-#' `consolidate` replaces the input variable `x`.
-#'
-#' @return `consolidate` does not return anything, but replaces the object
-#'     *in-place* (i.e. overwrites the input variable `x`).
+#' become corrupt.
 #'
 #' @param x `Hdf5MSnExp` object.
 #'
 #' @md
 #'
 #' @rdname Hdf5MSnExp-class
-consolidate <- function(x) {
+writeHdf5Data <- function(x) {
+    if (isMSnbaseVerbose())
+        message("Note: after writing data to hdf5 files any copy of the input",
+                " object linking to the same hdf5 files will no longer be ",
+                "valid.\n")
+    stopifnot(inherits(x, "Hdf5MSnExp"))
     eval.parent(call("<-", substitute(x), .consolidate(x)), n = 1)
 }
 .consolidate <- function(x, BPPARAM = bpparam(), ...) {
-    stopifnot(inherits(x, "Hdf5MSnExp"))
     x_split <- splitByFile(x, f = factor(fileNames(x)))
     if (isMSnbaseVerbose())
         message("Consolidating ", length(x_split), " files.")
-    bplapply(x_split, function(z) {
+    md5s <- bplapply(x_split, function(z) {
         suppressPackageStartupMessages(require(MSnbase, quietly = TRUE))
-        grp <- .hdf5_group_name(fileNames(z))
+        grp <- .h5_group_name(fileNames(z))
         sps <- spectra(z)
         names(sps) <- fData(z)$spIdx
-        .h5write_spectra(sps, z@hdf5file, group = grp)
+        .h5_write_spectra(sps, z@hdf5file, group = grp)
     }, BPPARAM = BPPARAM)
     x@spectraProcessingQueue <- list()
+    x@md5sum <- unlist(md5s)
     x
 }
