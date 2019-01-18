@@ -27,7 +27,16 @@ test_that(".serialize_msfile_to_hdf5 works", {
     expect_equal(nrow(cont), sum(fromFile(sciex) == 1) + 2)
 })
 
-test_that("serialize_to_hdf5 works", {
+test_that("serialise_to_hdf5 and convertToHdf5MSnExp work", {
+    obj <- filterFile(sciex, 1)
+    res <- MSnbase:::serialise_to_hdf5(as(obj, "Hdf5MSnExp"),
+                                       path = paste0(tempdir(), "/tmp/"))
+    expect_true(is(res, "Hdf5MSnExp"))
+    expect_true(validObject(res))
+    expect_error(convertToHdf5MSnExp(obj, hdf5path = paste0(tempdir(), "/tmp/")))
+    res2 <- convertToHdf5MSnExp(obj, hdf5path = paste0(tempdir(), "/tmp2/"))
+    expect_true(is(res2, "Hdf5MSnExp"))
+    expect_true(validObject(res2))
 })
 
 test_that("readHdf5DiskMSnData works", {

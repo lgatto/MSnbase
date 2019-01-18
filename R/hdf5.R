@@ -110,6 +110,13 @@ validHdf5MSnExp <- function(object, check_md5 = TRUE) {
 #' MSnbase:::validHdf5MSnExp(x)
 #'
 #' ## Accessing the data such as with x[[12]] will thus result in an error.
+#' ## The data can however be *restored* with the `convertToHdf5MSnExp`
+#' ## function that will re-read all data into hdf5 files. Note that a
+#' ## different `hdf5path` has to be used.
+#' x <- convertToHdf5MSnExp(x, hdf5path = paste0(tempdir(), "/2/"))
+#'
+#' MSnbase:::validHdf5MSnExp(x)
+#' x[[12]]
 #'
 #' ## clean up session
 #' file.remove(hdf5FileName(x))
@@ -166,10 +173,12 @@ validHdf5MSnExp <- function(object, check_md5 = TRUE) {
 
 serialise_to_hdf5 <- function(object, path, BPPARAM = bpparam()) {
     stopifnot(inherits(object, "OnDiskMSnExp"))
+    path <- suppressWarnings(normalizePath(path))
+    dir.create(path, showWarnings = FALSE, recursive = TRUE)
     filename <- paste0(path, "/", sapply(fileNames(object), digest::sha1), ".h5")
     if (any(file.exists(filename)))
         stop("File(s) ", paste(filename[file.exists(filename)], collapse = ", "),
-             " already exist(s).")
+             " already exist(s). Please use a different 'hdf5path'.")
     md5s <- bpmapply(fileNames(object), filename,
                      FUN = .serialize_msfile_to_hdf5,
                      BPPARAM = BPPARAM)
@@ -179,18 +188,32 @@ serialise_to_hdf5 <- function(object, path, BPPARAM = bpparam()) {
 }
 
 #' @rdname Hdf5MSnExp-class
+#'
+#' @description
+#'
+#' `convertToHdf5MSnExp` coerces an [OnDiskMSnExp] object (or any object
+#' extending it) to an `Hdf5MSnExp` object.
+#'
+#' @md
+convertToHdf5MSnExp <- function(object, verbose = FALSE, hdf5path = ".",
+                                BPPARAM = bpparam()) {
+    stopifnot(inherits(object, "OnDiskMSnExp"))
+    object <- as(object, "Hdf5MSnExp")
+    if (verbose) message("Serialising to hdf5...")
+    object <- serialise_to_hdf5(object, hdf5path, BPPARAM = BPPARAM)
+    if (validObject(object)) object
+}
+
+#' @rdname Hdf5MSnExp-class
 readHdf5DiskMSData <- function(files, pdata = NULL, msLevel. = NULL,
                                verbose = isMSnbaseVerbose(),
                                centroided. = NA, smoothed. = NA,
                                hdf5path = ".", BPPARAM = bpparam()) {
-    obj <- as(readOnDiskMSData(normalizePath(files), pdata, msLevel.,
-                               verbose, centroided.,
-                               smoothed.), "Hdf5MSnExp")
-    hdf5path <- suppressWarnings(normalizePath(hdf5path))
-    dir.create(hdf5path, showWarnings = FALSE, recursive = TRUE)
-    if (verbose) message("Serialising to hdf5...")
-    obj <- serialise_to_hdf5(obj, hdf5path, BPPARAM = BPPARAM)
-    if (validObject(obj)) obj
+    obj <- readOnDiskMSData(normalizePath(files), pdata, msLevel.,
+                            verbose, centroided.,
+                            smoothed.)
+    convertToHdf5MSnExp(obj, verbose = verbose, hdf5path = hdf5path,
+                        BPPARAM = BPPARAM)
 }
 
 ## ##' The `hdf5Close` and `hdf5Open` function respectively close and
@@ -458,10 +481,11 @@ setMethod("filterFile", "Hdf5MSnExp", function(object, file) {
 #'
 #' @note
 #'
-#' `consolidate` will overwrite the content of the hdf5 file(s) associated with
-#' the `Hdf5MSnExp`. Thus, if another copy of the object, prior to any data
+#' `writeHdf5Data` will overwrite the content of the hdf5 file(s) associated
+#' with the `Hdf5MSnExp`. Thus, if another copy of the object, prior to any data
 #' manipulations, exists that points to the same hdf5 files, that object might
-#' become corrupt.
+#' become corrupt. Note that `convertToHdf5MSnExp` can *restore* corrupted
+#' `Hdf5MSnExp` files again (see examples for details).
 #'
 #' @param x `Hdf5MSnExp` object.
 #'

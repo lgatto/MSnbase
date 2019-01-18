@@ -5,12 +5,16 @@
 \alias{Hdf5MSnExp-class}
 \alias{.Hdf5MSnExp}
 \alias{Hdf5MSnExp}
+\alias{convertToHdf5MSnExp}
 \alias{readHdf5DiskMSData}
 \alias{hdf5FileName}
 \alias{spectrapply,Hdf5MSnExp-method}
 \alias{writeHdf5Data}
 \title{The \code{Hdf5MSnExp} Class for MS Data And Meta-Data}
 \usage{
+convertToHdf5MSnExp(object, verbose = FALSE, hdf5path = ".",
+  BPPARAM = bpparam())
+
 readHdf5DiskMSData(files, pdata = NULL, msLevel. = NULL,
   verbose = isMSnbaseVerbose(), centroided. = NA, smoothed. = NA,
   hdf5path = ".", BPPARAM = bpparam())
@@ -39,6 +43,9 @@ Object of the class are currently created with the
 \code{readHdf5DiskMSData} function. Later, this backend will be
 included in the main \code{readMSData} function.
 
+\code{convertToHdf5MSnExp} coerces an \link{OnDiskMSnExp} object (or any object
+extending it) to an \code{Hdf5MSnExp} object.
+
 \code{writeHdf5Data} \emph{consolidates} an \code{Hdf5MSnExp} object by applying all
 registered processing steps to each spectrum and saving the updated
 data to the hdf5 file(s) associated with the sample(s) in \code{x}. This has
@@ -53,10 +60,11 @@ per input mzML file/sample.}
 }}
 
 \note{
-\code{consolidate} will overwrite the content of the hdf5 file(s) associated with
-the \code{Hdf5MSnExp}. Thus, if another copy of the object, prior to any data
+\code{writeHdf5Data} will overwrite the content of the hdf5 file(s) associated
+with the \code{Hdf5MSnExp}. Thus, if another copy of the object, prior to any data
 manipulations, exists that points to the same hdf5 files, that object might
-become corrupt.
+become corrupt. Note that \code{convertToHdf5MSnExp} can \emph{restore} corrupted
+\code{Hdf5MSnExp} files again (see examples for details).
 }
 \examples{
 f <- msdata::proteomics(pattern = "MS3TMT11", full.names = TRUE)
@@ -98,6 +106,13 @@ x_clean[[12]]
 MSnbase:::validHdf5MSnExp(x)
 
 ## Accessing the data such as with x[[12]] will thus result in an error.
+## The data can however be *restored* with the `convertToHdf5MSnExp`
+## function that will re-read all data into hdf5 files. Note that a
+## different `hdf5path` has to be used.
+x <- convertToHdf5MSnExp(x, hdf5path = paste0(tempdir(), "/2/"))
+
+MSnbase:::validHdf5MSnExp(x)
+x[[12]]
 
 ## clean up session
 file.remove(hdf5FileName(x))
