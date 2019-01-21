@@ -167,7 +167,7 @@ test_that("filterFile,Hdf5MSnExp works", {
     expect_equal(fData(res), fd)
 })
 
-test_that("writeHdf5Data works", {
+test_that("updateHdf5Data works", {
     ## Filter by retention time.
     sciex_flt <- filterRt(h5_sciex, rt = c(10, 100))
     sps <- spectra(sciex_flt)
@@ -190,7 +190,7 @@ test_that("writeHdf5Data works", {
     })
     ## Consolidate with in-place replacement.
     md5_before <- res_cent@md5sum
-    writeHdf5Data(res_cent)
+    updateHdf5Data(res_cent)
     md5_after <- res_cent@md5sum
     expect_true(all(md5_before != md5_after))
 

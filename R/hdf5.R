@@ -96,11 +96,11 @@ validHdf5MSnExp <- function(object, check_md5 = TRUE) {
 #' MSnbase:::validHdf5MSnExp(x)
 #' x[[12]]
 #'
-#' ## writeHdf5Data will make all data manipulations persistent, it will
+#' ## updateHdf5Data will make all data manipulations persistent, it will
 #' ## overwrite the data in the hdf5 files associated with x_clean and
 #' ## accessing the data afterwards will no longer require to apply
 #' ## data manipulations on-the-fly.
-#' writeHdf5Data(x_clean)
+#' updateHdf5Data(x_clean)
 #'
 #' x_clean[[12]]
 #'
@@ -473,7 +473,7 @@ setMethod("filterFile", "Hdf5MSnExp", function(object, file) {
 
 #' @description
 #'
-#' `writeHdf5Data` *consolidates* an `Hdf5MSnExp` object by applying all
+#' `updateHdf5Data` *consolidates* an `Hdf5MSnExp` object by applying all
 #' registered processing steps to each spectrum and saving the updated
 #' data to the hdf5 file(s) associated with the sample(s) in `x`. This has
 #' some implications on copies of the input object. See notes for more
@@ -481,7 +481,7 @@ setMethod("filterFile", "Hdf5MSnExp", function(object, file) {
 #'
 #' @note
 #'
-#' `writeHdf5Data` will overwrite the content of the hdf5 file(s) associated
+#' `updateHdf5Data` will overwrite the content of the hdf5 file(s) associated
 #' with the `Hdf5MSnExp`. Thus, if another copy of the object, prior to any data
 #' manipulations, exists that points to the same hdf5 files, that object might
 #' become corrupt. Note that `convertToHdf5MSnExp` can *restore* corrupted
@@ -492,7 +492,7 @@ setMethod("filterFile", "Hdf5MSnExp", function(object, file) {
 #' @md
 #'
 #' @rdname Hdf5MSnExp-class
-writeHdf5Data <- function(x) {
+updateHdf5Data <- function(x) {
     if (isMSnbaseVerbose())
         message("Note: after writing data to hdf5 files any copy of the input",
                 " object linking to the same hdf5 files will no longer be ",

@@ -9,7 +9,7 @@
 \alias{readHdf5DiskMSData}
 \alias{hdf5FileName}
 \alias{spectrapply,Hdf5MSnExp-method}
-\alias{writeHdf5Data}
+\alias{updateHdf5Data}
 \title{The \code{Hdf5MSnExp} Class for MS Data And Meta-Data}
 \usage{
 convertToHdf5MSnExp(object, verbose = FALSE, hdf5path = ".",
@@ -24,7 +24,7 @@ hdf5FileName(object)
 \S4method{spectrapply}{Hdf5MSnExp}(object, FUN = NULL,
   BPPARAM = bpparam(), ...)
 
-writeHdf5Data(x)
+updateHdf5Data(x)
 }
 \arguments{
 \item{x}{\code{Hdf5MSnExp} object.}
@@ -46,7 +46,7 @@ included in the main \code{readMSData} function.
 \code{convertToHdf5MSnExp} coerces an \link{OnDiskMSnExp} object (or any object
 extending it) to an \code{Hdf5MSnExp} object.
 
-\code{writeHdf5Data} \emph{consolidates} an \code{Hdf5MSnExp} object by applying all
+\code{updateHdf5Data} \emph{consolidates} an \code{Hdf5MSnExp} object by applying all
 registered processing steps to each spectrum and saving the updated
 data to the hdf5 file(s) associated with the sample(s) in \code{x}. This has
 some implications on copies of the input object. See notes for more
@@ -60,7 +60,7 @@ per input mzML file/sample.}
 }}
 
 \note{
-\code{writeHdf5Data} will overwrite the content of the hdf5 file(s) associated
+\code{updateHdf5Data} will overwrite the content of the hdf5 file(s) associated
 with the \code{Hdf5MSnExp}. Thus, if another copy of the object, prior to any data
 manipulations, exists that points to the same hdf5 files, that object might
 become corrupt. Note that \code{convertToHdf5MSnExp} can \emph{restore} corrupted
@@ -92,11 +92,11 @@ x_clean[[12]]
 MSnbase:::validHdf5MSnExp(x)
 x[[12]]
 
-## writeHdf5Data will make all data manipulations persistent, it will
+## updateHdf5Data will make all data manipulations persistent, it will
 ## overwrite the data in the hdf5 files associated with x_clean and
 ## accessing the data afterwards will no longer require to apply
 ## data manipulations on-the-fly.
-writeHdf5Data(x_clean)
+updateHdf5Data(x_clean)
 
 x_clean[[12]]
 
