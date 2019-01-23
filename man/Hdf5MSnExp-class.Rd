@@ -5,11 +5,16 @@
 \alias{Hdf5MSnExp-class}
 \alias{.Hdf5MSnExp}
 \alias{Hdf5MSnExp}
+\alias{convertToHdf5MSnExp}
 \alias{readHdf5DiskMSData}
 \alias{hdf5FileName}
 \alias{spectrapply,Hdf5MSnExp-method}
+\alias{updateHdf5Data}
 \title{The \code{Hdf5MSnExp} Class for MS Data And Meta-Data}
 \usage{
+convertToHdf5MSnExp(object, verbose = FALSE, hdf5path = ".",
+  BPPARAM = bpparam())
+
 readHdf5DiskMSData(files, pdata = NULL, msLevel. = NULL,
   verbose = isMSnbaseVerbose(), centroided. = NA, smoothed. = NA,
   hdf5path = ".", BPPARAM = bpparam())
@@ -18,31 +23,52 @@ hdf5FileName(object)
 
 \S4method{spectrapply}{Hdf5MSnExp}(object, FUN = NULL,
   BPPARAM = bpparam(), ...)
+
+updateHdf5Data(x)
+}
+\arguments{
+\item{x}{\code{Hdf5MSnExp} object.}
 }
 \description{
-The \code{Hdf5MSnExp} class encapsulates data and
-meta-data for mass spectrometry experiments like the \code{MSnExp}
-and \code{OnDiskMSnExp} classes. \code{Hdf5MSnExp} implements, like
-\code{OnDiskMSnExp}, an \emph{on disk} model, where the raw data (M/Z
-and intensities) are stored on disk (rather than in memory,
-like \code{MSnExp} data) using, as the name implies, the hdf5 file
-format. See \code{\link{MSnExp}} and \code{\link{OnDiskMSnExp}} for a more general
-description of the data, slots and operations.\preformatted{Object of the class are currently created with the
-`readHdf5DiskMSData` function. Later, this backend will be
-included in the main `readMSData` function.
-}
+The \code{Hdf5MSnExp} class encapsulates data and meta-data for mass
+spectrometry experiments like the \code{MSnExp} and \code{OnDiskMSnExp}
+classes. \code{Hdf5MSnExp} implements, like \code{OnDiskMSnExp}, an
+\emph{on disk} model, where the raw data (M/Z and intensities) are
+stored on disk (rather than in memory, like \code{MSnExp} data) using,
+as the name implies, the hdf5 file format. See \code{\link{MSnExp}} and
+\code{\link{OnDiskMSnExp}} for a more general description of the data,
+slots and operations.
+
+Object of the class are currently created with the
+\code{readHdf5DiskMSData} function. Later, this backend will be
+included in the main \code{readMSData} function.
+
+\code{convertToHdf5MSnExp} coerces an \link{OnDiskMSnExp} object (or any object
+extending it) to an \code{Hdf5MSnExp} object.
+
+\code{updateHdf5Data} \emph{consolidates} an \code{Hdf5MSnExp} object by applying all
+registered processing steps to each spectrum and saving the updated
+data to the hdf5 file(s) associated with the sample(s) in \code{x}. This has
+some implications on copies of the input object. See notes for more
+information.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{hdf5file}}{\code{character(1)} containing the hdf5 filename.}
-
-\item{\code{hdf5handle}}{A \code{H5IdComponent} or \code{NULL}.}
+\item{\code{hdf5file}}{\code{character} containing the hdf5 filenames, one file
+per input mzML file/sample.}
 }}
 
+\note{
+\code{updateHdf5Data} will overwrite the content of the hdf5 file(s) associated
+with the \code{Hdf5MSnExp}. Thus, if another copy of the object, prior to any data
+manipulations, exists that points to the same hdf5 files, that object might
+become corrupt. Note that \code{convertToHdf5MSnExp} can \emph{restore} corrupted
+\code{Hdf5MSnExp} files again (see examples for details).
+}
 \examples{
 f <- msdata::proteomics(pattern = "MS3TMT11", full.names = TRUE)
-x <- readHdf5DiskMSData(f)
+x <- readHdf5DiskMSData(f, hdf5path = tempdir())
 x
 
 ## automatically generated hdf5 file
@@ -53,14 +79,47 @@ x[[2]]
 x[[10]]
 filterMsLevel(x, 3L)[[1]]
 
+## Perform data manipulations, remove all peaks with an intensity
+## smaller than 1000
+x_clean <- clean(removePeaks(x, t = 1000), all = TRUE)
+
+x_clean[[12]]
+
+## Data manipulations are, as for OnDiskMSnExp objects, performed
+## on-the-fly. The data in the hdf5 files was not changed by the
+## clean and removePeaks calls above. Object x is thus still valid
+## and we can still use it.
+MSnbase:::validHdf5MSnExp(x)
+x[[12]]
+
+## updateHdf5Data will make all data manipulations persistent, it will
+## overwrite the data in the hdf5 files associated with x_clean and
+## accessing the data afterwards will no longer require to apply
+## data manipulations on-the-fly.
+updateHdf5Data(x_clean)
+
+x_clean[[12]]
+
+## Note that the original object x is however still associated with the
+## same hdf5 files. This object will now no longer be valid, as the data
+## has changed for it.
+MSnbase:::validHdf5MSnExp(x)
+
+## Accessing the data such as with x[[12]] will thus result in an error.
+## The data can however be *restored* with the `convertToHdf5MSnExp`
+## function that will re-read all data into hdf5 files. Note that a
+## different `hdf5path` has to be used.
+x <- convertToHdf5MSnExp(x, hdf5path = paste0(tempdir(), "/2/"))
+
+MSnbase:::validHdf5MSnExp(x)
+x[[12]]
+
 ## clean up session
 file.remove(hdf5FileName(x))
-validHdf5MSnExp(x) ## not valid anymore
-rm(x)
 }
 \seealso{
 See \code{\link{MSnExp}} and \code{\link{OnDiskMSnExp}} classes.
 }
 \author{
-Laurent Gatto
+Laurent Gatto, Johannes Rainer
 }

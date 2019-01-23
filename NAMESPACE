@@ -7,12 +7,14 @@ import(ProtGenerics)
 import(BiocParallel)
 import(Biobase)
 import(mzR)
-import(rhdf5)
 import(impute)
 
 import(scales)
 import(lattice)
 import(methods)
+
+importFrom(rhdf5, H5Fcreate, H5Fclose, H5Fopen, h5createGroup, h5write,
+           h5delete, H5Lexists, h5read)
 
 importFrom(progress, progress_bar)
 
@@ -55,7 +57,7 @@ importClassesFrom(IRanges, IRanges)
 importFrom(affy, MAplot, ma.plot, mva.pairs)
 importFrom(mzID, mzID, flatten)
 importClassesFrom(mzID, mzID, mzIDCollection)
-importFrom(digest, digest)
+importFrom(digest, digest, sha1)
 importFrom(grDevices, topo.colors)
 
 export(MSnSet,
@@ -159,7 +161,9 @@ export(MSnSet,
        ## hdf5 backend
        readHdf5DiskMSData,
        hdf5FileName,
-       setHdf5CompressionLevel
+       setHdf5CompressionLevel,
+       updateHdf5Data,
+       convertToHdf5MSnExp
        )
 
 exportClasses(pSet,
