@@ -120,7 +120,10 @@ RoxygenNote: 6.1.1
 Collate:
     'AllClassUnions.R'
     'AllGenerics.R'
+    'hidden_aliases.R'
+    'Backend-class.R'
     'DataClasses.R'
+    'MSnExperiment-class.R'
     'MzTab.R'
     'NTR.R'
     'RcppExports.R'
