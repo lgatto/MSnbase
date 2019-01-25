@@ -1421,3 +1421,71 @@ levelIndex <- function(x, which = c("first", "middle", "last")) {
     names(res) <- levels(x)
     res
 }
+
+#' @description
+#'
+#' Internal function to create a list of `Spectrum` objects from input data
+#' consisting of a `list` of `matrices` with m/z and intensity values and
+#' a `DataFrame` or `data.frame` with the corresponding additional meta data.
+#'
+#' @param mzi `list` of `matrix`, each element being m/z and intensity values
+#'     for one spectrum.
+#'
+#' @param spectraData `data.frame` or `DataFrame` with spectrum metadata (such
+#'     as stored in `fData` of `OnDiskMSnExp`, or `spectraData` of
+#'     `MSnExperiment` objects.
+#'
+#' @return `list` of `Spectrum` objects.
+#'
+#' @author Johannes Rainer
+#'
+#' @md
+#'
+#' @noRd
+.spectra_from_data <- function(mzi, spectraData) {
+    n_peaks <- base::lengths(mzi, use.names = FALSE) / 2
+    res <- vector("list", nrow(spectraData))
+    names(res) <- rownames(spectraData)
+    ms1 <- which(spectraData$msLevel == 1)
+    if (length(ms1)) {
+        mzi_ms1 <- do.call(rbind, mzi[ms1])
+        res[ms1] <- Spectra1_mz_sorted(
+            peaksCount = n_peaks[ms1],
+            rt = spectraData$retentionTime[ms1],
+            acquisitionNum = spectraData$acquisitionNum[ms1],
+            scanIndex = spectraData$spIdx[ms1],
+            tic = spectraData$totIonCurrent[ms1],
+            mz = mzi_ms1[, 1],
+            intensity = mzi_ms1[, 2],
+            fromFile = spectraData$fileIdx[ms1],
+            centroided = spectraData$centroided[ms1],
+            smoothed = spectraData$smoothed[ms1],
+            polarity = spectraData$polarity[ms1],
+            nvalues = n_peaks[ms1])
+    }
+    msn <- which(spectraData$msLevel > 1)
+    if (length(msn)) {
+        mzi_msn <- do.call(rbind, mzi[msn])
+        res[msn] <- Spectra2_mz_sorted(
+            msLevel = spectraData$msLevel[msn],
+            peaksCount = n_peaks[msn],
+            rt = spectraData$retentionTime[msn],
+            acquisitionNum = spectraData$acquisitionNum[msn],
+            scanIndex = spectraData$spIdx[msn],
+            tic = spectraData$totIonCurrent[msn],
+            mz = mzi_msn[, 1],
+            intensity = mzi_msn[, 2],
+            fromFile = spectraData$fileIdx[msn],
+            centroided = spectraData$centroided[msn],
+            smoothed = spectraData$smoothed[msn],
+            polarity = spectraData$polarity[msn],
+            merged = spectraData$mergedScan[msn],
+            precScanNum = spectraData$precursorScanNum[msn],
+            precursorMz = spectraData$precursorMZ[msn],
+            precursorIntensity = spectraData$precursorIntensity[msn],
+            precursorCharge = spectraData$precursorCharge[msn],
+            collisionEnergy = spectraData$collisionEnergy[msn],
+            nvalues = n_peaks[msn])
+    }
+    res
+}
