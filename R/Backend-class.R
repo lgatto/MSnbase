@@ -59,6 +59,9 @@ setGeneric(
     def=function(object, files, ...) standardGeneric("backendInitialize"),
     valueClass="Backend"
 )
+
+#' @rdname hidden_aliases
+#' @export
 setMethod(
     "backendInitialize",
     signature="Backend",
@@ -75,21 +78,26 @@ setMethod(
 #' It must not be reimplemented for the .mzML backend.
 #'
 #' @inheritParams backendInitialize
+#' @param BPPARAM Should parallel processing be used? See
+#' [BiocParallel::bpparam()].
+#' @param spectraData A [S4Vectors::DataFrame-class]
 #' @return A [Backend-class] derivate.
 #' @family Backend generics
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
 #' @export
 setGeneric(
     "backendImportData",
-    def=function(object, files, ...) standardGeneric("backendImportData"),
+    def=function(object, files, spectraData, ..., BPPARAM=bpparam())
+        standardGeneric("backendImportData"),
     valueClass="Backend"
 )
 
 #' @rdname hidden_aliases
+#' @export
 setMethod(
     "backendImportData",
     signature="Backend",
-    definition=function(object, files, ...) {
+    definition=function(object, files, spectraData, ..., BPPARAM=bpparam()) {
     object
 })
 
@@ -106,21 +114,24 @@ setMethod(
 #' that could be corrputed when the object is copied via `<-`, e.g. *HDF5*.
 #'
 #' @param object A [Backend-class] derivate.
+#' @inheritParams backendImportData
 #' @return A [Backend-class] derivate.
 #' @family Backend generics
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
 #' @export
 setGeneric(
     "backendDeepCopy",
-    def=function(object, ...) standardGeneric("backendDeepCopy"),
+    def=function(object, ..., BPPARAM=bpparam())
+        standardGeneric("backendDeepCopy"),
     valueClass="Backend"
 )
 
 #' @rdname hidden_aliases
+#' @export
 setMethod(
     "backendDeepCopy",
     signature="Backend",
-    definition=function(object, ...) {
+    definition=function(object, ..., BPPARAM=bpparam()) {
     object
 })
 
@@ -130,15 +141,15 @@ setMethod(
 #'
 #' It *MUST* be reimplemented by all backends!
 #'
-#' @inheritParams backendInitialize
-#' @param ids The spectrum indicies.
+#' @inheritParams backendImportData
+#' @param file The path to the source (generally .mzML) file.
 #' @return A list of [Spectrum-class] objects.
 #' @family Backend generics
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
 #' @export
 setGeneric(
     "backendReadSpectra",
-    def=function(object, files, spectraData, ...)
+    def=function(object, file, spectraData, ..., BPPARAM=bpparam())
         standardGeneric("backendReadSpectra"),
     valueClass="list"
 )
@@ -158,7 +169,7 @@ setGeneric(
 #' @export
 setGeneric(
     "backendWriteSpectra",
-    def=function(object, files, ids, spectra)
+    def=function(object, file, spectra, spectraData, ..., BPPARAM=bpparam())
         standardGeneric("backendWriteSpectra"),
     valueClass="Backend"
 )

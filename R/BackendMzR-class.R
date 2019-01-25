@@ -26,8 +26,9 @@ NULL
 #' ## backend documentation or have it in its own one.
 setClass("BackendMzR", contains = "Backend")
 
-setMethod("backendReadSpectra", "BackendMzR", function(object, files,
-                                                       spectraData, ...) {
+setMethod("backendReadSpectra", "BackendMzR", function(object, file,
+                                                       spectraData, ...,
+                                                       BPPARAM=bpparam()) {
 })
 
 #' @rdname BackendMzR-class
