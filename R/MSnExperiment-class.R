@@ -21,6 +21,8 @@ NULL
 #' @slot files A `character` storing absolute path to source (in general .mzML)
 #' files.
 #'
+#' @name MSnExperiment-class
+#' @docType class
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
 #' @examples
 #' ## TODO

@@ -25,7 +25,7 @@ It *MUST* be reimplemented by all backends!
 }
 \seealso{
 Other Backend generics: \code{\link{backendImportData}},
-  \code{\link{backendSetup}},
+  \code{\link{backendInitialize}},
   \code{\link{backendWriteSpectra}}
 }
 \author{
