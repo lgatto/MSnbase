@@ -123,7 +123,7 @@ Collate:
     'hidden_aliases.R'
     'Backend-class.R'
     'BackendMemory-class.R'
-    'BackendMzR.R'
+    'BackendMzR-class.R'
     'DataClasses.R'
     'MSnExperiment-class.R'
     'MzTab.R'
