@@ -20,9 +20,9 @@ mzML ([BackendMzMl-class]) or HDF5 ([BackendHdf5-class]). It supersedes
 \item{\code{backend}}{A derivate of [Backend-class] holding/controlling the spectra
 data.}
 
-\item{\code{featureData}}{A [S4Vectors::DataFrame-class] storing spectra metadata.}
+\item{\code{spectraData}}{A [S4Vectors::DataFrame-class] storing spectra metadata.}
 
-\item{\code{phenoData}}{A [S4Vectors::DataFrame-class] storing sample metadata.}
+\item{\code{sampleData}}{A [S4Vectors::DataFrame-class] storing sample metadata.}
 
 \item{\code{processinQueue}}{A `list` storing [ProcessingSteps-class] objects for
 lazy processing.}
