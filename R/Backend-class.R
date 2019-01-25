@@ -38,7 +38,7 @@ setMethod(
     cat("Backend:", class(object)[1L], "\n")
 })
 
-#' Setup a backend
+#' Initialize a backend
 #'
 #' This generic is used to setup a backend.
 #'
@@ -138,7 +138,8 @@ setMethod(
 #' @export
 setGeneric(
     "backendReadSpectra",
-    def=function(object, files, ids) standardGeneric("backendReadSpectra"),
+    def=function(object, files, spectraData, ...)
+        standardGeneric("backendReadSpectra"),
     valueClass="list"
 )
 

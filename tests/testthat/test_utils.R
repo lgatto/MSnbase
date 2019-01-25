@@ -598,3 +598,16 @@ test_that("levelIndex works", {
     res <- levelIndex(str, which = "last")
     expect_equal(res, c(a = 4, b = 8, c = 7, d = 11))
 })
+
+test_that(".spectra_from_data works", {
+    spctra <- spectra(tmt_erwinia_on_disk)
+    spd_all <- fData(tmt_erwinia_on_disk)
+    fl <- mzR::openMSfile(fileNames(tmt_erwinia_on_disk))
+    hdr <- header(fl)
+    sps <- peaks(fl, spd_all$spIdx)
+    close(fl)
+    res <- MSnbase:::.spectra_from_data(sps, spd_all)
+    expect_equal(spctra, res)
+    expect_equal(length(res), 509)
+    expect_true(all(vapply(res, validObject, logical(1))))
+})
