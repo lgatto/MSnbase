@@ -23,6 +23,7 @@ It may also provide methods for:
 
 - [backendInitialize()] to setup the backend (create files, tables, ...).
 - [backendImportData()] to initial import data from source *mzML* files.
+- [backendDeepCopy()] to create a copy of the backend with associated files.
 }
 
 \author{

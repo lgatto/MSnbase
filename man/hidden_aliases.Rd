@@ -6,12 +6,15 @@
 \alias{hidden_aliases}
 \alias{show,Backend-method}
 \alias{backendImportData,Backend-method}
+\alias{backendDeepCopy,Backend-method}
 \alias{show,MSnExperiment-method}
 \title{Internal page for hidden aliases}
 \usage{
 \S4method{show}{Backend}(object)
 
 \S4method{backendImportData}{Backend}(object, files, ...)
+
+\S4method{backendDeepCopy}{Backend}(object, ...)
 
 \S4method{show}{MSnExperiment}(object)
 }

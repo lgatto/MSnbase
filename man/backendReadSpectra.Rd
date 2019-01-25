@@ -24,7 +24,8 @@ This generic is used to read spectra data from a backend.
 It *MUST* be reimplemented by all backends!
 }
 \seealso{
-Other Backend generics: \code{\link{backendImportData}},
+Other Backend generics: \code{\link{backendDeepCopy}},
+  \code{\link{backendImportData}},
   \code{\link{backendInitialize}},
   \code{\link{backendWriteSpectra}}
 }
