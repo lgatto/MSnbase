@@ -1489,3 +1489,13 @@ levelIndex <- function(x, which = c("first", "middle", "last")) {
     }
     res
 }
+
+#' Vectorized version of digest
+#'
+#' @param x `vector`
+#' @param ... further arguments to digest
+#' @return checksum for each element in `x` (instead for the whole vector)
+#' @noRd
+.vdigest <- function(x, ...) {
+    vapply(x, digest::digest, NA_character_, ..., USE.NAMES=FALSE)
+}
