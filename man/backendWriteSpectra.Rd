@@ -4,18 +4,24 @@
 \alias{backendWriteSpectra}
 \title{Write spectra data to a backend}
 \usage{
-backendWriteSpectra(object, files, ids, spectra)
+backendWriteSpectra(object, file, spectra, spectraData, ...,
+  BPPARAM = bpparam())
 }
 \arguments{
 \item{object}{An object inheriting from [Backend-class],
 i.e. [BackendHdf5-class]}
 
-\item{files}{The path to the source (generally .mzML) files.}
-
-\item{ids}{The spectrum indicies.}
+\item{file}{The path to the source (generally .mzML) file.}
 
 \item{spectra}{A list of [Spectrum-class] objects that should be written to
 the backend.}
+
+\item{spectraData}{A [S4Vectors::DataFrame-class]}
+
+\item{...}{Other arguments passed to the methods.}
+
+\item{BPPARAM}{Should parallel processing be used? See
+[BiocParallel::bpparam()].}
 }
 \value{
 A [Backend-class] derivate.

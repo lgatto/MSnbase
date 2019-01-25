@@ -122,6 +122,7 @@ Collate:
     'AllGenerics.R'
     'hidden_aliases.R'
     'Backend-class.R'
+    'BackendMemory-class.R'
     'BackendMzR.R'
     'DataClasses.R'
     'MSnExperiment-class.R'

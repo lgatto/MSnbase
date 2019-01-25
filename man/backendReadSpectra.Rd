@@ -4,17 +4,20 @@
 \alias{backendReadSpectra}
 \title{Read spectra data from a backend}
 \usage{
-backendReadSpectra(object, files, spectraData, ...)
+backendReadSpectra(object, file, spectraData, ..., BPPARAM = bpparam())
 }
 \arguments{
 \item{object}{An object inheriting from [Backend-class],
 i.e. [BackendHdf5-class]}
 
-\item{files}{The path to the source (generally .mzML) files.}
+\item{file}{The path to the source (generally .mzML) file.}
+
+\item{spectraData}{A [S4Vectors::DataFrame-class]}
 
 \item{...}{Other arguments passed to the methods.}
 
-\item{ids}{The spectrum indicies.}
+\item{BPPARAM}{Should parallel processing be used? See
+[BiocParallel::bpparam()].}
 }
 \value{
 A list of [Spectrum-class] objects.

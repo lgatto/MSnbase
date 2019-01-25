@@ -2,7 +2,7 @@
 % Please edit documentation in R/Backend-class.R
 \name{backendInitialize}
 \alias{backendInitialize}
-\title{Setup a backend}
+\title{Initialize a backend}
 \usage{
 backendInitialize(object, files, ...)
 }

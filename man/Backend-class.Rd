@@ -26,6 +26,9 @@ It may also provide methods for:
 - [backendDeepCopy()] to create a copy of the backend with associated files.
 }
 
+\seealso{
+Other Backend classes: \code{\link{BackendMemory-class}}
+}
 \author{
 Sebastian Gibb \email{mail@sebastiangibb.de}
 }

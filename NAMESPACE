@@ -153,6 +153,7 @@ export(MSnSet,
        hasSpectra, hasChromatograms,
        mergeFeatureVars, expandFeatureVars,
        Spectra,
+       BackendMemory,
        BackendMzR,
        readMSnExperiment
        )
@@ -176,6 +177,7 @@ exportClasses(pSet,
               Chromatograms,
 	      Spectra,
               MSnExperiment,
+              BackendMemory,
               BackendMzR
 	      )
 

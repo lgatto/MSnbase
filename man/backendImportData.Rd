@@ -4,7 +4,7 @@
 \alias{backendImportData}
 \title{Import spectra data into a backend}
 \usage{
-backendImportData(object, files, ...)
+backendImportData(object, files, spectraData, ..., BPPARAM = bpparam())
 }
 \arguments{
 \item{object}{An object inheriting from [Backend-class],
@@ -12,7 +12,12 @@ i.e. [BackendHdf5-class]}
 
 \item{files}{The path to the source (generally .mzML) files.}
 
+\item{spectraData}{A [S4Vectors::DataFrame-class]}
+
 \item{...}{Other arguments passed to the methods.}
+
+\item{BPPARAM}{Should parallel processing be used? See
+[BiocParallel::bpparam()].}
 }
 \value{
 A [Backend-class] derivate.

@@ -44,9 +44,6 @@ NULL
 #' @name MSnExperiment-class
 #' @docType class
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
-#'
-#' @name MSnExperiment
-#'
 #' @examples
 #' ## TODO
 setClass(
@@ -83,7 +80,7 @@ setMethod(
         )
 })
 
-#' @rdname MSnExperiment
+#' @rdname MSnExperiment-class
 readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
                               smoothed = NA, BPPARAM = bpparam()) {
     ## if (missing(backend) || !inherits(backend))
@@ -136,10 +133,16 @@ readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
                           sep = "\n")) ## see issue #160
         hdr[order(hdr$acquisitionNum), ]
     }
-    new("MSnExperiment", processing = paste0("Data loaded [", date(), "]"),
-        sampleData = sampleData, files = file, backend = backend,
-        spectraData = DataFrame(do.call(rbind, bplapply(file, .read_file,
-                                                        files = file,
-                                                        smoothed = smoothed,
-                                                        BPPARAM = BPPARAM))))
+    spectraData <- DataFrame(do.call(rbind, bplapply(
+        file, .read_file, files=file, smoothed=smoothed, BPPARAM=BPPARAM
+    )))
+    backend <- backendInitialize(backend, file)
+    backend <- backendImportData(backend, file, spectraData, BPPARAM=BPPARAM)
+    new("MSnExperiment",
+        backend = backend,
+        sampleData = sampleData,
+        spectraData = spectraData,
+        processing = paste0("Data loaded [", date(), "]"),
+        files = file
+    )
 }
