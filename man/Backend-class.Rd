@@ -21,7 +21,7 @@ An implementation *MUST* provide methods for the following generics:
 
 It may also provide methods for:
 
-- [backendSetup()] to setup the backend (create files, tables, ...).
+- [backendInitialize()] to setup the backend (create files, tables, ...).
 - [backendImportData()] to initial import data from source *mzML* files.
 }
 

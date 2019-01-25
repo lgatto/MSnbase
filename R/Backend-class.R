@@ -17,7 +17,7 @@ NULL
 #'
 #' It may also provide methods for:
 #'
-#' - [backendSetup()] to setup the backend (create files, tables, ...).
+#' - [backendInitialize()] to setup the backend (create files, tables, ...).
 #' - [backendImportData()] to initial import data from source *mzML* files.
 #'
 #' @name Backend-class
@@ -37,7 +37,7 @@ setMethod(
     cat("Backend:", class(object)[1L], "\n")
 })
 
-#' Setup a backend
+#' Initialize a backend
 #'
 #' This generic is used to setup a backend.
 #'
@@ -54,12 +54,12 @@ setMethod(
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
 #' @export
 setGeneric(
-    "backendSetup",
-    def=function(object, files, ...) standardGeneric("backendSetup"),
+    "backendInitialize",
+    def=function(object, files, ...) standardGeneric("backendInitialize"),
     valueClass="Backend"
 )
 setMethod(
-    "backendSetup",
+    "backendInitialize",
     signature="Backend",
     definition=function(object, files, ...) {
     object
@@ -73,7 +73,7 @@ setMethod(
 #' e.g. for *HDF5* the content of the .mzML files is imported into .h5 files.
 #' It must not be reimplemented for the .mzML backend.
 #'
-#' @inheritParams backendSetup
+#' @inheritParams backendInitialize
 #' @return A [Backend-class] derivate.
 #' @family Backend generics
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
@@ -98,7 +98,7 @@ setMethod(
 #'
 #' It *MUST* be reimplemented by all backends!
 #'
-#' @inheritParams backendSetup
+#' @inheritParams backendInitialize
 #' @param ids The spectrum indicies.
 #' @return A list of [Spectrum-class] objects.
 #' @family Backend generics
@@ -106,7 +106,8 @@ setMethod(
 #' @export
 setGeneric(
     "backendReadSpectra",
-    def=function(object, files, ids) standardGeneric("backendReadSpectra"),
+    def=function(object, files, spectraData, ...)
+        standardGeneric("backendReadSpectra"),
     valueClass="list"
 )
 

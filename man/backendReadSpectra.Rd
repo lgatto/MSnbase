@@ -4,13 +4,15 @@
 \alias{backendReadSpectra}
 \title{Read spectra data from a backend}
 \usage{
-backendReadSpectra(object, files, ids)
+backendReadSpectra(object, files, spectraData, ...)
 }
 \arguments{
 \item{object}{An object inheriting from [Backend-class],
 i.e. [BackendHdf5-class]}
 
 \item{files}{The path to the source (generally .mzML) files.}
+
+\item{...}{Other arguments passed to the methods.}
 
 \item{ids}{The spectrum indicies.}
 }
@@ -25,7 +27,7 @@ It *MUST* be reimplemented by all backends!
 }
 \seealso{
 Other Backend generics: \code{\link{backendImportData}},
-  \code{\link{backendSetup}},
+  \code{\link{backendInitialize}},
   \code{\link{backendWriteSpectra}}
 }
 \author{

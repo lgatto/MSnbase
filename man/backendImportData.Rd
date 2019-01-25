@@ -26,8 +26,8 @@ e.g. for *HDF5* the content of the .mzML files is imported into .h5 files.
 It must not be reimplemented for the .mzML backend.
 }
 \seealso{
-Other Backend generics: \code{\link{backendReadSpectra}},
-  \code{\link{backendSetup}},
+Other Backend generics: \code{\link{backendInitialize}},
+  \code{\link{backendReadSpectra}},
   \code{\link{backendWriteSpectra}}
 }
 \author{

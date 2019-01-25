@@ -28,8 +28,8 @@ It *MUST* be reimplemented by all backends!
 }
 \seealso{
 Other Backend generics: \code{\link{backendImportData}},
-  \code{\link{backendReadSpectra}},
-  \code{\link{backendSetup}}
+  \code{\link{backendInitialize}},
+  \code{\link{backendReadSpectra}}
 }
 \author{
 Sebastian Gibb \email{mail@sebastiangibb.de}
