@@ -33,14 +33,16 @@ NULL
 #'
 #' @slot backend A derivate of [Backend-class] holding/controlling the spectra
 #' data.
-#' @slot featureData A [S4Vectors::DataFrame-class] storing spectra metadata.
-#' @slot phenoData A [S4Vectors::DataFrame-class] storing sample metadata.
+#' @slot spectraData A [S4Vectors::DataFrame-class] storing spectra metadata.
+#' @slot sampleData A [S4Vectors::DataFrame-class] storing sample metadata.
 #' @slot processinQueue A `list` storing [ProcessingSteps-class] objects for
 #' lazy processing.
 #' @slot processing A `character` storing logging information.
 #' @slot files A `character` storing absolute path to source (in general .mzML)
 #' files.
 #'
+#' @name MSnExperiment-class
+#' @docType class
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
 #'
 #' @name MSnExperiment
@@ -51,7 +53,9 @@ setClass(
     "MSnExperiment",
     slots=c(
         backend="Backend",
+        ## was featureData in MSnExp
         spectraData="DataFrame",
+        ## was phenoData in MSnExp
         sampleData="DataFrame",
         ## Collecting ProcessingSteps for lazy processing.
         processingQueue="list",

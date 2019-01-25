@@ -2,7 +2,7 @@
 % Please edit documentation in R/Backend-class.R
 \name{backendInitialize}
 \alias{backendInitialize}
-\title{Initialize a backend}
+\title{Setup a backend}
 \usage{
 backendInitialize(object, files, ...)
 }
@@ -26,7 +26,8 @@ e.g. for *HDF5* the creation of .h5 files; for *SQL* the creation of a
 database or tables.
 }
 \seealso{
-Other Backend generics: \code{\link{backendImportData}},
+Other Backend generics: \code{\link{backendDeepCopy}},
+  \code{\link{backendImportData}},
   \code{\link{backendReadSpectra}},
   \code{\link{backendWriteSpectra}}
 }
