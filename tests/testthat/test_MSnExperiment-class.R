@@ -1,6 +1,4 @@
 test_that("MSnExperiment validator works", {
-    library(MSnbase)
-    library(testthat)
     tst <- new("MSnExperiment")
     expect_error(validObject(tst))
     tst <- new("MSnExperiment", backend = BackendMzR())
