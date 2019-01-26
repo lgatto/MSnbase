@@ -8,14 +8,14 @@ NULL
 #'
 #' @name BackendMemory-class
 #' @docType class
-#' @slot assay A `list` containing the [Spectrum-class] objects.
+#' @slot spectra A `list` containing the [Spectrum-class] objects.
 #' @family Backend classes
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
 #' @export
 setClass("BackendMemory",
     contains="Backend",
     slots=c(
-        assay="list" # or environment
+        spectra="list" # or environment
     )
 )
 
@@ -34,8 +34,8 @@ setMethod(
     signature="BackendMemory",
     definition=function(object, files, spectraData, ..., BPPARAM=bpparam()) {
 
-    object@assay <- vector(mode="list", length=nrow(spectraData))
-    names(object@assay) <-
+    object@spectra <- vector(mode="list", length=nrow(spectraData))
+    names(object@spectra) <-
         paste(.vdigest(files)[spectraData$fileIdx], spectraData$spIdx, sep="/")
     object
 })
@@ -49,7 +49,7 @@ setMethod(
 
     spd <- split(spectraData, spectraData$fileIdx)
 
-    split(object@assay, spectraData$fileIdx) <- bpmapply(
+    split(object@spectra, spectraData$fileIdx) <- bpmapply(
         .spectra_from_file_mzR, file=files, spectraData=spd,
         USE.NAMES=FALSE, SIMPLIFY=FALSE, BPPARAM=BPPARAM
     )
@@ -64,7 +64,7 @@ setMethod(
     definition=function(object, file, spectraData, ...,
                         BPPARAM=bpparam()) {
     nms <- paste(.vdigest(file), spectraData$spIdx, sep="/")
-    object@assay[nms]
+    object@spectra[nms]
 })
 
 #' @rdname hidden_aliases
@@ -75,6 +75,6 @@ setMethod(
     definition=function(object, file, spectra, spectraData, ...,
                         BPPARAM=bpparam()) {
     nms <- paste(.vdigest(file), spectraData$spIdx, sep="/")
-    object@assay[nms] <- spectra
+    object@spectra[nms] <- spectra
     object
 })
