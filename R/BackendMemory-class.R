@@ -31,7 +31,7 @@ BackendMemory <- function() { new("BackendMemory") }
 #' @export
 setMethod(
     "backendInitialize",
-    signature="Backend",
+    signature="BackendMemory",
     definition=function(object, files, spectraData, ..., BPPARAM=bpparam()) {
 
     i <- unlist(lapply(files, function(file) {
