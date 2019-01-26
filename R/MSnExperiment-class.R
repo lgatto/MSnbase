@@ -149,7 +149,7 @@ readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
     spectraData <- DataFrame(do.call(rbind, bplapply(
         file, .read_file, files=file, smoothed=smoothed, BPPARAM=BPPARAM
     )))
-    backend <- backendInitialize(backend, file)
+    backend <- backendInitialize(backend, file, spectraData, BPPARAM=BPPARAM)
     backend <- backendImportData(backend, file, spectraData, BPPARAM=BPPARAM)
     new("MSnExperiment",
         backend = backend,

@@ -34,14 +34,9 @@ setMethod(
     signature="BackendMemory",
     definition=function(object, files, spectraData, ..., BPPARAM=bpparam()) {
 
-    i <- unlist(lapply(files, function(file) {
-        fh <- .openMSfile(file)
-        on.exit(mzR::close(fh))
-        seq_along(fh)
-    }))
-
-    object@assay <- vector(mode="list", length=length(i))
-    names(object@assay) <- paste(.vdigest(files), i, sep="/")
+    object@assay <- vector(mode="list", length=nrow(spectraData))
+    names(object@assay) <-
+        paste(.vdigest(files)[spectraData$fileIdx], spectraData$spIdx, sep="/")
     object
 })
 
@@ -68,8 +63,8 @@ setMethod(
     signature="BackendMemory",
     definition=function(object, file, spectraData, ...,
                         BPPARAM=bpparam()) {
-        nms <- paste(.vdigest(file), spectraData$spIdx, sep="/")
-        object@assay[nms]
+    nms <- paste(.vdigest(file), spectraData$spIdx, sep="/")
+    object@assay[nms]
 })
 
 #' @rdname hidden_aliases
@@ -79,7 +74,7 @@ setMethod(
     signature="BackendMemory",
     definition=function(object, file, spectra, spectraData, ...,
                         BPPARAM=bpparam()) {
-        nms <- paste(.vdigest(file), spectraData$spIdx, sep="/")
-        object@assay[nms] <- spectra
-        object
+    nms <- paste(.vdigest(file), spectraData$spIdx, sep="/")
+    object@assay[nms] <- spectra
+    object
 })
