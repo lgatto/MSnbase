@@ -16,14 +16,16 @@
 \usage{
 \S4method{show}{Backend}(object)
 
-\S4method{backendInitialize}{Backend}(object, files, ...)
+\S4method{backendInitialize}{Backend}(object, files, spectraData, ...,
+  BPPARAM = bpparam())
 
 \S4method{backendImportData}{Backend}(object, files, spectraData, ...,
   BPPARAM = bpparam())
 
 \S4method{backendDeepCopy}{Backend}(object, ..., BPPARAM = bpparam())
 
-\S4method{backendInitialize}{Backend}(object, files, ...)
+\S4method{backendInitialize}{Backend}(object, files, spectraData, ...,
+  BPPARAM = bpparam())
 
 \S4method{backendImportData}{BackendMemory}(object, files, spectraData,
   ..., BPPARAM = bpparam())

@@ -49,14 +49,18 @@ setMethod(
 #' @param object An object inheriting from [Backend-class],
 #' i.e. [BackendHdf5-class]
 #' @param files The path to the source (generally .mzML) files.
+#' @param spectraData A [S4Vectors::DataFrame-class]
 #' @param ... Other arguments passed to the methods.
+#' @param BPPARAM Should parallel processing be used? See
+#' [BiocParallel::bpparam()].
 #' @return A [Backend-class] derivate.
 #' @family Backend generics
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
 #' @export
 setGeneric(
     "backendInitialize",
-    def=function(object, files, ...) standardGeneric("backendInitialize"),
+    def=function(object, files, spectraData, ..., BPPARAM=bpparam())
+        standardGeneric("backendInitialize"),
     valueClass="Backend"
 )
 
@@ -65,7 +69,7 @@ setGeneric(
 setMethod(
     "backendInitialize",
     signature="Backend",
-    definition=function(object, files, ...) {
+    definition=function(object, files, spectraData, ..., BPPARAM=bpparam()) {
     object
 })
 
@@ -78,9 +82,6 @@ setMethod(
 #' It must not be reimplemented for the .mzML backend.
 #'
 #' @inheritParams backendInitialize
-#' @param BPPARAM Should parallel processing be used? See
-#' [BiocParallel::bpparam()].
-#' @param spectraData A [S4Vectors::DataFrame-class]
 #' @return A [Backend-class] derivate.
 #' @family Backend generics
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
@@ -114,7 +115,7 @@ setMethod(
 #' that could be corrputed when the object is copied via `<-`, e.g. *HDF5*.
 #'
 #' @param object A [Backend-class] derivate.
-#' @inheritParams backendImportData
+#' @inheritParams backendInitialize
 #' @return A [Backend-class] derivate.
 #' @family Backend generics
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
@@ -141,7 +142,7 @@ setMethod(
 #'
 #' It *MUST* be reimplemented by all backends!
 #'
-#' @inheritParams backendImportData
+#' @inheritParams backendInitialize
 #' @param file The path to the source (generally .mzML) file.
 #' @return A list of [Spectrum-class] objects.
 #' @family Backend generics

@@ -32,7 +32,7 @@ BackendMemory <- function() { new("BackendMemory") }
 setMethod(
     "backendInitialize",
     signature="Backend",
-    definition=function(object, files, ...) {
+    definition=function(object, files, spectraData, ..., BPPARAM=bpparam()) {
 
     i <- unlist(lapply(files, function(file) {
         fh <- .openMSfile(file)
