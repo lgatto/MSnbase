@@ -19,6 +19,13 @@ setClass("BackendMemory",
     )
 )
 
+setValidity("BackendMemory", function(x) {
+    lapply(x@spectra, validObject)
+    msg <- .valid.BackendMemory.spectra.names(x@spectra)
+
+    if (is.null(msg)) { TRUE } else { msg }
+})
+
 #' @describeIn BackendMemory-class Constructor
 #'
 #' This function is used to generated an *in-memory* backend. Just useful as
@@ -37,6 +44,7 @@ setMethod(
     object@spectra <- vector(mode="list", length=nrow(spectraData))
     names(object@spectra) <-
         paste(.vdigest(files)[spectraData$fileIdx], spectraData$spIdx, sep="/")
+    validObject(object)
     object
 })
 
@@ -53,6 +61,7 @@ setMethod(
         .spectra_from_file_mzR, file=files, spectraData=spd,
         USE.NAMES=FALSE, SIMPLIFY=FALSE, BPPARAM=BPPARAM
     )
+    validObject(object)
     object
 })
 
@@ -76,5 +85,6 @@ setMethod(
                         BPPARAM=bpparam()) {
     nms <- paste(.vdigest(file), spectraData$spIdx, sep="/")
     object@spectra[nms] <- spectra
+    validObject(object)
     object
 })
