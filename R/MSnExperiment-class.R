@@ -80,7 +80,20 @@ setMethod(
         )
 })
 
+#' Create MSnExperiment objects
+#'
+#' Draft import method for the new [MSnExperiment-class]. Used as constructor.
+#'
+#' @param file Path to mass spectrometry data files
+#' @param sampleData A [S4Vectors::DataFrame-class] object with additional
+#' information to each sample (samples as rows, information as columns).
+#' @param backend A [Backend-class] derivate used for internal data storage.
+#' @param smoothed `logical`, are the spectra smoothed?
+#' @param BPPARAM Should parallel processing be used? See
+#' [BiocParallel::bpparam()].
+#'
 #' @rdname MSnExperiment-class
+#' @export
 readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
                               smoothed = NA, BPPARAM = bpparam()) {
     ## if (missing(backend) || !inherits(backend))

@@ -9,9 +9,24 @@
 readMSnExperiment(file, sampleData, backend = BackendMzR(),
   smoothed = NA, BPPARAM = bpparam())
 }
+\arguments{
+\item{file}{Path to mass spectrometry data files}
+
+\item{sampleData}{A [S4Vectors::DataFrame-class] object with additional
+information to each sample (samples as rows, information as columns).}
+
+\item{backend}{A [Backend-class] derivate used for internal data storage.}
+
+\item{smoothed}{`logical`, are the spectra smoothed?}
+
+\item{BPPARAM}{Should parallel processing be used? See
+[BiocParallel::bpparam()].}
+}
 \description{
 The [MSnExperiment-class] encapsulates data and meta-data for mass
 spectrometry experiments.
+
+Draft import method for the new [MSnExperiment-class]. Used as constructor.
 }
 \details{
 In contrast to the old [MSnExp-class] this class supports multiple data
