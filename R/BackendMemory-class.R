@@ -8,9 +8,26 @@ setClass("BackendMemory",
     )
 )
 
-setValidity("BackendMemory", function(x) {
-    lapply(x@spectra, validObject)
-    msg <- .valid.BackendMemory.spectra.names(x@spectra)
+.valid.BackendMemory.spectra.names <- function(x) {
+    n <- length(x)
+    nms <- names(x)
+
+    if (n) {
+        if (any(is.null(nms)))
+            return("Spectra names should not be NULL.")
+        if (anyNA(nms))
+            return("Spectra names should not contain NA.")
+        if (!all(nchar(nms)))
+            return("Spectra names should not be missing.")
+        if (anyDuplicated(nms))
+            return("Duplicated spectra names found.")
+    }
+    NULL
+}
+
+setValidity("BackendMemory", function(object) {
+    lapply(object@spectra, validObject)
+    msg <- .valid.BackendMemory.spectra.names(object@spectra)
 
     if (is.null(msg)) { TRUE } else { msg }
 })
