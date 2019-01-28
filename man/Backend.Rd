@@ -41,7 +41,7 @@ backend method description.
 \item \code{backendImportData}: performs an initial data import if the data is kept
 in memory or if another intermediate data container (such as HDF5 files)
 are used.
-\item \code{backendReadSpectra}: read spectrum data from the backend for the
+\item \code{backendReadSpectra}: reads spectrum data from the backend for the
 specified file and given the spectrum metadata provided with argument
 \code{spectraData}. A subset of spectra from a MS file can be retrieved by
 passing only the spectra metadata for the requested spectra with the
@@ -49,6 +49,7 @@ passing only the spectra metadata for the requested spectra with the
 spectra to return.
 \item \code{backendWriteSpectra}: writes spectrum to the backend, e.g. after data
 manipulations are performed.
+\item \code{fileNames}: access the file path to the original source files, e.g. mzML.
 }
 }
 

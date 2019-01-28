@@ -74,10 +74,6 @@ setMethod(
         cat("MSn experiment data (", class(object)[1L], ")\n", sep="")
         show(object@backend)
         cat("Processing:\n", paste(object@processing, collapse="\n"), "\n")
-        cat("Loaded from:\n",
-            paste(basename(object@files), collapse="\n"),
-            "\n"
-        )
 })
 
 #' Create MSnExperiment objects

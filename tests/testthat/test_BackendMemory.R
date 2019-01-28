@@ -34,7 +34,10 @@ test_that(".valid.BackendMemory.spectra.names", {
 
 test_that("backendInitialize", {
     spd <- DataFrame(fileIdx=c(1, 1, 2), spIdx=1:3)
-    f <- c("foo", "bar")
+    f <- system.file(
+        file.path("microtofq", c("MM8.mzML", "MM14.mzML")),
+        package="msdata"
+    )
     nms <- paste(rep(.vdigest(f), 2:1), 1:3, sep="/")
     b <- backendInitialize(BackendMemory(), files=f, spectraData=spd)
     expect_length(b@spectra, 3)
@@ -79,7 +82,10 @@ test_that("backendImportData", {
 
 test_that("backendReadSpectra/backendWriteSpectra", {
     spd <- DataFrame(fileIdx=c(1, 1, 2), spIdx=1:3)
-    f <- c("foo", "bar")
+    f <- system.file(
+        file.path("microtofq", c("MM8.mzML", "MM14.mzML")),
+        package="msdata"
+    )
     nms <- paste(rep(.vdigest(f), 2:1), 1:3, sep="/")
     b <- backendInitialize(BackendMemory(), files=f, spectraData=spd)
     s <- c(new("Spectrum2", mz=1:2, intensity=1:2),

@@ -48,6 +48,7 @@ setMethod(
     object@spectra <- vector(mode="list", length=nrow(spectraData))
     names(object@spectra) <-
         paste(.vdigest(files)[spectraData$fileIdx], spectraData$spIdx, sep="/")
+    object <- callNextMethod()
     validObject(object)
     object
 })

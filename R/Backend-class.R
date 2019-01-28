@@ -28,7 +28,7 @@ NULL
 #'   in memory or if another intermediate data container (such as HDF5 files)
 #'   are used.
 #'
-#' - `backendReadSpectra`: read spectrum data from the backend for the
+#' - `backendReadSpectra`: reads spectrum data from the backend for the
 #'   specified file and given the spectrum metadata provided with argument
 #'   `spectraData`. A subset of spectra from a MS file can be retrieved by
 #'   passing only the spectra metadata for the requested spectra with the
@@ -37,6 +37,8 @@ NULL
 #'
 #' - `backendWriteSpectra`: writes spectrum to the backend, e.g. after data
 #'   manipulations are performed.
+#'
+#' - `fileNames`: access the file path to the original source files, e.g. mzML.
 #'
 #' @section BackendMemory:
 #'
@@ -89,7 +91,32 @@ NULL
 #' @author Sebastian Gibb
 #'
 #' @noRd
-setClass("Backend", contains="VIRTUAL")
+setClass("Backend",
+    slots=c(
+        files="character"   # src files (i.e. mzML files)
+    ),
+    contains="VIRTUAL"
+)
+
+.valid.Backend.files <- function(x) {
+    n <- length(x)
+
+    if (n) {
+        if (anyNA(x))
+            return("Files should not contain NA.")
+        if (!all(nchar(x)))
+            return("Files should not be missing.")
+        if (anyDuplicated(x))
+            return("Duplicated file names found.")
+    }
+    NULL
+}
+
+setValidity("Backend", function(object) {
+    msg <- .valid.Backend.files(object@files)
+
+    if (is.null(msg)) { TRUE } else { msg }
+})
 
 #' @rdname hidden_aliases
 #' @param object Object to display.
@@ -98,7 +125,13 @@ setMethod(
     signature="Backend",
     definition=function(object) {
     cat("Backend:", class(object)[1L], "\n")
+    cat("Source files:\n",
+        paste(" ", basename(object@files), collapse="\n"), "\n", sep=""
+    )
 })
+
+#' @rdname hidden_aliases
+setMethod("fileNames", "Backend", function(object, ...) object@files)
 
 #' Initialize a backend
 #'
@@ -132,6 +165,7 @@ setMethod(
     "backendInitialize",
     signature="Backend",
     definition=function(object, files, spectraData, ..., BPPARAM=bpparam()) {
+    object@files <- normalizePath(files)
     object
 })
 
