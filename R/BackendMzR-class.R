@@ -7,7 +7,7 @@ setClass("BackendMzR", contains = "Backend")
 setMethod("backendReadSpectra", "BackendMzR", function(object, file,
                                                        spectraData, ...,
                                                        BPPARAM=bpparam()) {
-    spd_list <- split.data.frame(spectraData, f = spectraData$fileIdx)
+    spd_list <- split(spectraData, f = spectraData$fileIdx)
     if (length(spd_list) != length(file))
         stop("Number of files in 'spectraData' has to match length of 'file'")
     res <- bpmapply(FUN = .spectra_from_file_mzR, file, spd_list,

@@ -8,7 +8,7 @@
 ProcessingStep <- function(FUN = character(), ARGS = list())  {
     if (missing(FUN))
         FUN <- character()
-    return(new("ProcessingStep", FUN = FUN, ARGS = ARGS))
+    new("ProcessingStep", FUN = FUN, ARGS = ARGS)
 }
 
 ############################################################
@@ -43,5 +43,29 @@ executeProcessingStep <- function(object, ...) {
     ## Check if we've got an msLevel argument in object@ARGS, if so,
     ## check that msLevel(x) matches any of the msLevel, if not,
     ## return x, otherwise call do.call.
-    return(do.call(object@FUN, args = c(list(...), object@ARGS)))
+    do.call(object@FUN, args = c(list(...), object@ARGS))
+}
+
+#' Internal function to apply the lazy processing queue to each spectrum
+#' in the provided list.
+#'
+#' @param x `list` of `Spectrum` objects.
+#'
+#' @param queue `list` (or `NULL`) of `ProcessingStep` objects.
+#'
+#' @author Johannes Rainer
+#'
+#' @md
+#'
+#' @noRd
+.apply_processing_queue <- function(x, queue = NULL) {
+    if (length(queue)) {
+        x <- lapply(x, function(z, q) {
+            for (pStep in q) {
+                z <- executeProcessingStep(pStep, z)
+            }
+            z
+        }, q = queue)
+    }
+    x
 }

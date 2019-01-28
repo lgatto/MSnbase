@@ -159,3 +159,24 @@ readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
         files = file
     )
 }
+
+setMethod("spectrapply", "MSnExperiment", function(object, FUN = NULL,
+                                                   BPPARAM = bpparam(), ...) {
+    BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
+    isOK <- validateFeatureDataForOnDiskMSnExp(object@spectraData)
+    if (length(isOK))
+        stop(isOK)
+    spd <- split(object@spectraData, f = object@spectraData$fileIdx)
+    fls <- object@files
+    pqueue <- sciex_me@processingQueue
+    if (!is.null(FUN))
+        pqueue <- c(pqueue, list(ProcessingStep(FUN, ARGS = list(...))))
+    res <- bpmapply(spd, fls, FUN = function(sp, fl, queue, bcknd) {
+        .apply_processing_queue(backendReadSpectra(bcknd, fl, sp,
+                                                   BPPARAM = SerialParam()),
+                                queue)
+    }, MoreArgs = list(queue = pqueue, bcknd = object@backend),
+    BPPARAM = BPPARAM, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+    res <- unlist(res, recursive = FALSE)
+    res[rownames(object@spectraData)]
+})
