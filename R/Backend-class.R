@@ -40,8 +40,12 @@ NULL
 #'
 #' @section BackendMemory:
 #'
-#' sgibb: please describe
-#'
+#' The `BackendMemory` uses a `list` as backend and stores all MS data in the
+#' memory. This ensures a high performance but needs a lot of memory for larger
+#' experiments.
+#' It mimics the classical [MSnExp-class] behaviour.
+#' New backends can be created with the `BackendMemory()` function.
+#
 #' @section BackendMzR:
 #'
 #' The `BackendMzR` uses the original MS data files (such as *mzML*, *mzXML* or
@@ -59,6 +63,7 @@ NULL
 #'
 #' @author Sebastian Gibb, Johannes Rainer
 #'
+#' @md
 NULL
 
 #' Base class for all other [MSnExperiment-class] data

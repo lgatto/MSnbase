@@ -1,17 +1,6 @@
 #' @include hidden_aliases.R
 NULL
 
-#' BackendMemory class
-#'
-#' This class offers the *in-memory* reprensentation for the
-#' [MSnExperiment-class] data. It mimics the classical [MSnExp-class] behaviour.
-#'
-#' @name BackendMemory-class
-#' @docType class
-#' @slot spectra A `list` containing the [Spectrum-class] objects.
-#' @family Backend classes
-#' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
-#' @noRd
 setClass("BackendMemory",
     contains="Backend",
     slots=c(
@@ -26,16 +15,14 @@ setValidity("BackendMemory", function(x) {
     if (is.null(msg)) { TRUE } else { msg }
 })
 
-#' @describeIn BackendMemory-class Constructor
+#' This function is used to generated an `BackendMemory` object
+#' (*in-memory* backend). It doesn't support any arguments.
 #'
-#' This function is used to generated an *in-memory* backend. Just useful as
-#' argument in [readMSnExperiment()].
 #' @return A [BackendMemory-class].
-#' @noRd
+#' @rdname Backend
 BackendMemory <- function() { new("BackendMemory") }
 
 #' @rdname hidden_aliases
-#' @export
 setMethod(
     "backendInitialize",
     signature="BackendMemory",
@@ -49,7 +36,6 @@ setMethod(
 })
 
 #' @rdname hidden_aliases
-#' @export
 setMethod(
     "backendImportData",
     signature="BackendMemory",
@@ -66,7 +52,6 @@ setMethod(
 })
 
 #' @rdname hidden_aliases
-#' @export
 setMethod(
     "backendReadSpectra",
     signature="BackendMemory",
@@ -77,7 +62,6 @@ setMethod(
 })
 
 #' @rdname hidden_aliases
-#' @export
 setMethod(
     "backendWriteSpectra",
     signature="BackendMemory",
