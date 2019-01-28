@@ -164,7 +164,7 @@ setMethod("spectrapply", "MSnExperiment", function(object, FUN = NULL,
         stop(isOK)
     spd <- split(object@spectraData, f = object@spectraData$fileIdx)
     fls <- object@files
-    pqueue <- sciex_me@processingQueue
+    pqueue <- object@processingQueue
     if (!is.null(FUN))
         pqueue <- c(pqueue, list(ProcessingStep(FUN, ARGS = list(...))))
     res <- bpmapply(spd, fls, FUN = function(sp, fl, queue, bcknd) {
