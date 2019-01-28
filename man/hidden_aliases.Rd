@@ -5,6 +5,7 @@
 \name{hidden_aliases}
 \alias{hidden_aliases}
 \alias{show,Backend-method}
+\alias{fileNames,Backend-method}
 \alias{backendInitialize,Backend-method}
 \alias{backendImportData,Backend-method}
 \alias{backendDeepCopy,Backend-method}
@@ -17,6 +18,8 @@
 \title{Internal page for hidden aliases}
 \usage{
 \S4method{show}{Backend}(object)
+
+\S4method{fileNames}{Backend}(object, ...)
 
 \S4method{backendInitialize}{Backend}(object, files, spectraData, ...,
   BPPARAM = bpparam())

@@ -44,7 +44,7 @@ data.}
 
 \item{\code{sampleData}}{A [S4Vectors::DataFrame-class] storing sample metadata.}
 
-\item{\code{processinQueue}}{A `list` storing [ProcessingSteps-class] objects for
+\item{\code{processingQueue}}{A `list` storing [ProcessingSteps-class] objects for
 lazy processing.}
 
 \item{\code{processing}}{A `character` storing logging information.}

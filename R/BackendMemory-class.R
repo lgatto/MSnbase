@@ -1,17 +1,6 @@
 #' @include hidden_aliases.R
 NULL
 
-#' BackendMemory class
-#'
-#' This class offers the *in-memory* reprensentation for the
-#' [MSnExperiment-class] data. It mimics the classical [MSnExp-class] behaviour.
-#'
-#' @name BackendMemory-class
-#' @docType class
-#' @slot spectra A `list` containing the [Spectrum-class] objects.
-#' @family Backend classes
-#' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
-#' @noRd
 setClass("BackendMemory",
     contains="Backend",
     slots=c(
@@ -19,23 +8,38 @@ setClass("BackendMemory",
     )
 )
 
-setValidity("BackendMemory", function(x) {
-    lapply(x@spectra, validObject)
-    msg <- .valid.BackendMemory.spectra.names(x@spectra)
+.valid.BackendMemory.spectra.names <- function(x) {
+    n <- length(x)
+    nms <- names(x)
+
+    if (n) {
+        if (any(is.null(nms)))
+            return("Spectra names should not be NULL.")
+        if (anyNA(nms))
+            return("Spectra names should not contain NA.")
+        if (!all(nchar(nms)))
+            return("Spectra names should not be missing.")
+        if (anyDuplicated(nms))
+            return("Duplicated spectra names found.")
+    }
+    NULL
+}
+
+setValidity("BackendMemory", function(object) {
+    lapply(object@spectra, validObject)
+    msg <- .valid.BackendMemory.spectra.names(object@spectra)
 
     if (is.null(msg)) { TRUE } else { msg }
 })
 
-#' @describeIn BackendMemory-class Constructor
+#' This function is used to generated an `BackendMemory` object
+#' (*in-memory* backend). It doesn't support any arguments.
 #'
-#' This function is used to generated an *in-memory* backend. Just useful as
-#' argument in [readMSnExperiment()].
 #' @return A [BackendMemory-class].
-#' @noRd
+#' @rdname Backend
 BackendMemory <- function() { new("BackendMemory") }
 
 #' @rdname hidden_aliases
-#' @export
 setMethod(
     "backendInitialize",
     signature="BackendMemory",
@@ -44,12 +48,12 @@ setMethod(
     object@spectra <- vector(mode="list", length=nrow(spectraData))
     names(object@spectra) <-
         paste(.vdigest(files)[spectraData$fileIdx], spectraData$spIdx, sep="/")
+    object <- callNextMethod()
     validObject(object)
     object
 })
 
 #' @rdname hidden_aliases
-#' @export
 setMethod(
     "backendImportData",
     signature="BackendMemory",
@@ -66,7 +70,6 @@ setMethod(
 })
 
 #' @rdname hidden_aliases
-#' @export
 setMethod(
     "backendReadSpectra",
     signature="BackendMemory",
@@ -77,7 +80,6 @@ setMethod(
 })
 
 #' @rdname hidden_aliases
-#' @export
 setMethod(
     "backendWriteSpectra",
     signature="BackendMemory",

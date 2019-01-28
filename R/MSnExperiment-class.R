@@ -35,7 +35,7 @@ NULL
 #' data.
 #' @slot spectraData A [S4Vectors::DataFrame-class] storing spectra metadata.
 #' @slot sampleData A [S4Vectors::DataFrame-class] storing sample metadata.
-#' @slot processinQueue A `list` storing [ProcessingSteps-class] objects for
+#' @slot processingQueue A `list` storing [ProcessingSteps-class] objects for
 #' lazy processing.
 #' @slot processing A `character` storing logging information.
 #' @slot files A `character` storing absolute path to source (in general .mzML)
@@ -74,10 +74,6 @@ setMethod(
         cat("MSn experiment data (", class(object)[1L], ")\n", sep="")
         show(object@backend)
         cat("Processing:\n", paste(object@processing, collapse="\n"), "\n")
-        cat("Loaded from:\n",
-            paste(basename(object@files), collapse="\n"),
-            "\n"
-        )
 })
 
 #' Create MSnExperiment objects
