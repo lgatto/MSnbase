@@ -1,41 +1,23 @@
 #' @include hidden_aliases.R
 NULL
 
-#' @title Mass spectrometry data files-based backend
-#'
-#' @description
-#'
-#' The `BackendMzR` uses the original MS data files (such as *mzML*, *mzXML* or
-#' *CDF* files) as backend and reads the data on demand from these files. This
-#' ensures a low memory footprint and enables thus the analysis also of very
-#' large experiments - at the cost of a slightly lower performance.
-#'
-#' @name BackendMzR-class
-#'
-#' @author Johannes Rainer
-#'
-#' @family backends
-#'
-#' @md
-#'
-#' @noRd
-#'
-#' @examples
-#'
-#' ## TODO: define to create the documentation. Add this to the general
-#' ## backend documentation or have it in its own one.
 setClass("BackendMzR", contains = "Backend")
 
+#' @rdname hidden_aliases
 setMethod("backendReadSpectra", "BackendMzR", function(object, file,
                                                        spectraData, ...,
                                                        BPPARAM=bpparam()) {
+    spd_list <- split.data.frame(spectraData, f = spectraData$fileIdx)
+    if (length(spd_list) != length(file))
+        stop("Number of files in 'spectraData' has to match length of 'file'")
+    res <- bpmapply(FUN = .spectra_from_file_mzR, file, spd_list,
+                    BPPARAM = BPPARAM, SIMPLIFY = FALSE)
+    names(res) <- NULL
+    res <- unlist(res, recursive = FALSE)
+    res[rownames(spectraData)]
 })
 
-#' @rdname BackendMzR-class
-#'
-#' @md
-#'
-#' @noRd
+#' @rdname Backend
 BackendMzR <- function() {
     new("BackendMzR")
 }

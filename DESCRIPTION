@@ -142,6 +142,7 @@ Collate:
     'fData-utils.R'
     'fdata-selection.R'
     'foi.R'
+    'functions-BackendMemory.R'
     'functions-Chromatogram.R'
     'functions-Chromatograms.R'
     'functions-MIAPE.R'

@@ -1,8 +1,66 @@
 #' @include hidden_aliases.R
 NULL
 
-#' Backend class
+#' @title Mass spectrometry data managing backends
 #'
+#' @aliases Backend-class BackendMzR-class backendInitialize backendImportData
+#'     backendReadSpectra backendWriteSpectra BackendMemory-class
+#'
+#' @description
+#'
+#' [MSnExperiment-class] objects support the use of different backends to
+#' manage and access mass spectrometry data. Backends can be generally
+#' classified into *in-memory* and *on-disk* backends. In-memory backends keep
+#' all the (spectra) data in memory ensuring fast data access. On-disk backends
+#' do not keep any data in memory but fetch the requested spectrum data only on
+#' demand, applying eventual data manipulations on-the-fly. Due to their minimal
+#' memory demand, on-disk backends support also loading and analyzing very large
+#' MS experiments.
+#'
+#' Available backends in `MSnbase` are listed in the sections following the
+#' backend method description.
+#'
+#' @section Backend method descriptions:
+#'
+#' - `backendInitialize`: initialize the backend.
+#'
+#' - `backendImportData`: performs an initial data import if the data is kept
+#'   in memory or if another intermediate data container (such as HDF5 files)
+#'   are used.
+#'
+#' - `backendReadSpectra`: read spectrum data from the backend for the
+#'   specified file and given the spectrum metadata provided with argument
+#'   `spectraData`. A subset of spectra from a MS file can be retrieved by
+#'   passing only the spectra metadata for the requested spectra with the
+#'   `spectraData` argument. Column `"spIdx"` in `spectraData` identifies the
+#'   spectra to return.
+#'
+#' - `backendWriteSpectra`: writes spectrum to the backend, e.g. after data
+#'   manipulations are performed.
+#'
+#' @section BackendMemory:
+#'
+#' sgibb: please describe
+#'
+#' @section BackendMzR:
+#'
+#' The `BackendMzR` uses the original MS data files (such as *mzML*, *mzXML* or
+#' *CDF* files) as backend and reads the data on demand from these files. This
+#' ensures a low memory footprint and enables thus the analysis also of very
+#' large experiments - at the cost of a slightly lower performance. New
+#' backends can be created with the `BackendMzR` function.
+#'
+#' The `BackendMzR` does not support/implement the `backendInitialize`,
+#' `backendImportData` and `backendWriteSpectra` functions.
+#'
+#' @section Backend creation and initiation:
+#'
+#' @name Backend
+#'
+#' @author Sebastian Gibb, Johannes Rainer
+#'
+NULL
+
 #' Base class for all other [MSnExperiment-class] data
 #' backend classes (e.g., [BackendMemory-class], [BackendHdf5-class]).
 #'
@@ -21,16 +79,15 @@ NULL
 #' - [backendImportData()] to initial import data from source *mzML* files.
 #' - [backendDeepCopy()] to create a copy of the backend with associated files.
 #'
-#' @name Backend-class
-#' @docType class
-#' @family Backend classes
-#' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
-#' @export
+#' @name Backend
+#'
+#' @author Sebastian Gibb
+#'
+#' @noRd
 setClass("Backend", contains="VIRTUAL")
 
 #' @rdname hidden_aliases
 #' @param object Object to display.
-#' @export
 setMethod(
     "show",
     signature="Backend",
@@ -56,7 +113,7 @@ setMethod(
 #' @return A [Backend-class] derivate.
 #' @family Backend generics
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
-#' @export
+#' @noRd
 setGeneric(
     "backendInitialize",
     def=function(object, files, spectraData, ..., BPPARAM=bpparam())
@@ -85,7 +142,7 @@ setMethod(
 #' @return A [Backend-class] derivate.
 #' @family Backend generics
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
-#' @export
+#' @noRd
 setGeneric(
     "backendImportData",
     def=function(object, files, spectraData, ..., BPPARAM=bpparam())
@@ -119,7 +176,7 @@ setMethod(
 #' @return A [Backend-class] derivate.
 #' @family Backend generics
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
-#' @export
+#' @noRd
 setGeneric(
     "backendDeepCopy",
     def=function(object, ..., BPPARAM=bpparam())
@@ -147,7 +204,7 @@ setMethod(
 #' @return A list of [Spectrum-class] objects.
 #' @family Backend generics
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
-#' @export
+#' @noRd
 setGeneric(
     "backendReadSpectra",
     def=function(object, file, spectraData, ..., BPPARAM=bpparam())
@@ -167,7 +224,7 @@ setGeneric(
 #' @return A [Backend-class] derivate.
 #' @family Backend generics
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
-#' @export
+#' @noRd
 setGeneric(
     "backendWriteSpectra",
     def=function(object, file, spectra, spectraData, ..., BPPARAM=bpparam())
