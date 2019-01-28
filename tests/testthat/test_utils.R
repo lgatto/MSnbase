@@ -615,5 +615,6 @@ test_that(".spectra_from_data works", {
 test_that(".vdigest", {
     expect_identical(MSnbase:::.vdigest(1:3), sapply(1:3, digest))
     expect_identical(MSnbase:::.vdigest(c("foo", "bar"), algo="sha1"),
-                     sapply(c("foo", "bar"), digest, algo="sha1"))
+                     sapply(c("foo", "bar"), digest, algo="sha1",
+                            USE.NAMES=FALSE))
 })
