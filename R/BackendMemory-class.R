@@ -11,7 +11,7 @@ NULL
 #' @slot spectra A `list` containing the [Spectrum-class] objects.
 #' @family Backend classes
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
-#' @export
+#' @noRd
 setClass("BackendMemory",
     contains="Backend",
     slots=c(
@@ -31,7 +31,7 @@ setValidity("BackendMemory", function(x) {
 #' This function is used to generated an *in-memory* backend. Just useful as
 #' argument in [readMSnExperiment()].
 #' @return A [BackendMemory-class].
-#' @export
+#' @noRd
 BackendMemory <- function() { new("BackendMemory") }
 
 #' @rdname hidden_aliases
