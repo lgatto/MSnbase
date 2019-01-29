@@ -139,7 +139,7 @@ setMethod(
         )
     if (length(object@processingQueue))
         cat("Lazy evaluation queue:", length(object@processingQueue),
-            "processing steps\n")
+            "processing step(s)\n")
 })
 
 #' @rdname hidden_aliases
@@ -304,3 +304,32 @@ setGeneric(
         standardGeneric("backendSpectrapply"),
     valueClass = "list"
 )
+
+#' Add a processing step to the backend. By default it will be added to the
+#' processingQueue of the backend, but the method could also be overwritten to
+#' directly apply the processing step.
+#'
+#' @inheritParams backendInitialize
+#'
+#' @param procStep `ProcessingStep`
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+setGeneric(
+    "backendAddProcessing",
+    def = function(object, spectraData, procStep, ...)
+        standardGeneric("backendAddProcessing"),
+    valueClass = "Backend"
+)
+
+setMethod(
+    "backendAddProcessing", "Backend", function(object, spectraData,
+                                                procStep, ...) {
+        if (missing(procStep) || !inherits(procStep, "ProcessingStep"))
+            stop("'procStep' parameter is required and is expected to be of",
+                 " type 'ProcessingStep'")
+        object@processingQueue <- c(object@processingQueue, list(procStep))
+        validObject(object)
+        object
+})

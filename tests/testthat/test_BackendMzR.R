@@ -11,7 +11,7 @@ test_that(".spectra_from_file_mzR works", {
     expect_true(length(mz(res[[1]])) == 1650)
 })
 
-test_that("backendSpectrapply works", {
+test_that("backendSpectrapply,BackendMzR works", {
     sciex_spectra <- spectra(sciex) # TODO: Change this to sciex_inmem
     spd <- sciex_mzr@spectraData
     be <- BackendMzR()
@@ -60,7 +60,7 @@ test_that("backendSpectrapply works", {
     expect_error(backendSpectrapply(be, spectraData = spd[idx, ]))
 })
 
-test_that("backendReadSpectra works", {
+test_that("backendReadSpectra,BackendMzR works", {
     sciex_spectra <- spectra(sciex) # TODO: Change this to sciex_inmem
     spd <- sciex_inmem@spectraData
     be <- BackendMzR()
@@ -75,4 +75,15 @@ test_that("backendReadSpectra works", {
     expect_equal(names(res), rownames(spd[spd$fileIdx == 2, ]))
     expect_true(all(vapply(res, is, "Spectrum", FUN.VALUE = logical(1))))
     expect_equal(res, sciex_spectra[spd$fileIdx == 2])
+})
+
+test_that("backendAddProcessing,Backend default works", {
+    be <- sciex_mzr@backend
+    expect_true(length(be@processingQueue) == 0)
+    be <- MSnbase:::backendAddProcessing(be, procStep = ProcessingStep("mz"))
+    expect_true(length(be@processingQueue) == 1)
+    tmp <- sciex_mzr
+    tmp@backend <- be
+    res <- spectrapply(tmp)
+    expect_true(all(vapply(res, is.numeric, logical(1))))
 })
