@@ -71,7 +71,7 @@ test_that("backendImportData", {
     spd <- cbind(spd, hdr)
 
     b <- backendInitialize(BackendMemory(), files=f, spectraData=spd)
-    b <- backendImportData(b, files=f, spectraData=spd, BPPARAM=SerialParam())
+    b <- backendImportData(b, spectraData=spd, BPPARAM=SerialParam())
     expect_length(b@spectra, n)
     expect_equal(names(b@spectra), nms)
     expect_equal(lapply(b@spectra, mz),
@@ -93,12 +93,13 @@ test_that("backendReadSpectra/backendWriteSpectra", {
            new("Spectrum2", mz=5:6, intensity=5:6))
     names(s) <- nms
     b@spectra[] <- s
-    expect_equal(backendReadSpectra(b, f[1], spd[1:2,]), s[1:2])
-    expect_equal(backendReadSpectra(b, f[2], spd[3,]), s[3])
+    rownames(spd) <- names(s)
+    expect_equal(backendReadSpectra(b, spd[1:2,]), s[1:2])
+    expect_equal(backendReadSpectra(b, spd[3,]), s[3])
 
     r <- b
     r@spectra[] <- s[c(1, 2, 2)]
-    expect_equal(backendWriteSpectra(b, f[2], s[2], spd[3,]), r)
+    expect_equal(backendWriteSpectra(b, s[2], spd[3,]), r)
     r@spectra[] <- s[c(2, 1, 3)]
-    expect_equal(backendWriteSpectra(b, f[1], s[2:1], spd[1:2,]), r)
+    expect_equal(backendWriteSpectra(b, s[2:1], spd[1:2,]), r)
 })

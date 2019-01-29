@@ -92,10 +92,12 @@ NULL
 #'
 #' @noRd
 setClass("Backend",
-    slots=c(
-        files="character"   # src files (i.e. mzML files)
+    slots = c(
+        files = "character",     # src files (i.e. mzML files)
+        processingQueue = "list" # list of ProcessingStep objects
     ),
-    contains="VIRTUAL"
+    prototype = prototype(files = character(), processingQueue = list()),
+    contains = "VIRTUAL"
 )
 
 .valid.Backend.files <- function(x) {
@@ -112,9 +114,16 @@ setClass("Backend",
     NULL
 }
 
+.valid.Backend.processingQueue <- function(x) {
+    if (length(x))
+        if (!all(vapply(x, inherits, logical(1), "ProcessingStep")))
+            return("'processingQueue' should only contain ProcessingStep objects.")
+    NULL
+}
+
 setValidity("Backend", function(object) {
     msg <- .valid.Backend.files(object@files)
-
+    msg <- c(msg, .valid.Backend.processingQueue(object@processingQueue))
     if (is.null(msg)) { TRUE } else { msg }
 })
 
@@ -127,7 +136,10 @@ setMethod(
     cat("Backend:", class(object)[1L], "\n")
     cat("Source files:\n",
         paste(" ", basename(object@files), collapse="\n"), "\n", sep=""
-    )
+        )
+    if (length(object@processingQueue))
+        cat("Lazy evaluation queue:", length(object@processingQueue),
+            "processing steps\n")
 })
 
 #' @rdname hidden_aliases
@@ -166,7 +178,8 @@ setMethod(
     signature="Backend",
     definition=function(object, files, spectraData, ..., BPPARAM=bpparam()) {
     object@files <- normalizePath(files)
-    object
+    if (validObject(object))
+        object
 })
 
 #' Import spectra data into a backend
@@ -184,7 +197,7 @@ setMethod(
 #' @noRd
 setGeneric(
     "backendImportData",
-    def=function(object, files, spectraData, ..., BPPARAM=bpparam())
+    def=function(object, spectraData, ..., BPPARAM=bpparam())
         standardGeneric("backendImportData"),
     valueClass="Backend"
 )
@@ -194,7 +207,7 @@ setGeneric(
 setMethod(
     "backendImportData",
     signature="Backend",
-    definition=function(object, files, spectraData, ..., BPPARAM=bpparam()) {
+    definition=function(object, spectraData, ..., BPPARAM=bpparam()) {
     object
 })
 
@@ -246,7 +259,7 @@ setMethod(
 #' @noRd
 setGeneric(
     "backendReadSpectra",
-    def=function(object, file, spectraData, ..., BPPARAM=bpparam())
+    def=function(object, spectraData, ..., BPPARAM=bpparam())
         standardGeneric("backendReadSpectra"),
     valueClass="list"
 )
@@ -266,7 +279,28 @@ setGeneric(
 #' @noRd
 setGeneric(
     "backendWriteSpectra",
-    def=function(object, file, spectra, spectraData, ..., BPPARAM=bpparam())
+    def=function(object, spectra, spectraData, ..., BPPARAM=bpparam())
         standardGeneric("backendWriteSpectra"),
     valueClass="Backend"
+)
+
+#' Apply a function to each spectrum (after applying eventual lazy evaluation
+#' steps) and return its result. If `FUN = NULL` the function should return
+#' the `list` of `Spectrum` objects.
+#'
+#' @inheritParams backendInitialize
+#'
+#' @param FUN either a function or the name of a function to be applied to
+#'     each spectrum.
+#'
+#' @param ... additional arguments to `FUN`
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+setGeneric(
+    "backendSpectrapply",
+    def = function(object, spectraData, FUN = NULL, ..., BPPARAM = bpparam())
+        standardGeneric("backendSpectrapply"),
+    valueClass = "list"
 )

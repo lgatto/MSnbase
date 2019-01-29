@@ -8,13 +8,13 @@ NULL
 #' @noRd
 .validMSnExperiment <- function(object) {
     msg <- NULL
-    if (length(object@files)) {
-        if (length(object@files) != nrow(object@sampleData))
+    if (nrow(object@sampleData)) {
+        if (is.null(object@backend))
+            msg <- c(msg, paste0("If sampleData is present the backend can not",
+                                 " be NULL"))
+        if (length(fileNames(object@backend)) != nrow(object@sampleData))
             msg <- c(msg, paste0("Number of files does not match the number",
                                  " of rows of 'sampleNames'"))
-        if (is.null(object@backend))
-            msg <- c(msg, paste0("If files are present the backend can not be",
-                                 " NULL"))
     }
     if (length(msg))
         msg
@@ -35,11 +35,8 @@ NULL
 #' data.
 #' @slot spectraData A [S4Vectors::DataFrame-class] storing spectra metadata.
 #' @slot sampleData A [S4Vectors::DataFrame-class] storing sample metadata.
-#' @slot processingQueue A `list` storing [ProcessingSteps-class] objects for
 #' lazy processing.
 #' @slot processing A `character` storing logging information.
-#' @slot files A `character` storing absolute path to source (in general .mzML)
-#' files.
 #'
 #' @name MSnExperiment-class
 #' @docType class
@@ -54,11 +51,8 @@ setClass(
         spectraData="DataFrame",
         ## was phenoData in MSnExp
         sampleData="DataFrame",
-        ## Collecting ProcessingSteps for lazy processing.
-        processingQueue="list",
         ## logging
-        processing="character",
-        files="character"
+        processing="character"
     ),
     validity = .validMSnExperiment
 )
@@ -146,13 +140,12 @@ readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
         file, .read_file, files=file, smoothed=smoothed, BPPARAM=BPPARAM
     )))
     backend <- backendInitialize(backend, file, spectraData, BPPARAM=BPPARAM)
-    backend <- backendImportData(backend, file, spectraData, BPPARAM=BPPARAM)
+    backend <- backendImportData(backend, spectraData, BPPARAM=BPPARAM)
     new("MSnExperiment",
         backend = backend,
         sampleData = sampleData,
         spectraData = spectraData,
-        processing = paste0("Data loaded [", date(), "]"),
-        files = file
+        processing = paste0("Data loaded [", date(), "]")
     )
 }
 
@@ -162,17 +155,7 @@ setMethod("spectrapply", "MSnExperiment", function(object, FUN = NULL,
     isOK <- validateFeatureDataForOnDiskMSnExp(object@spectraData)
     if (length(isOK))
         stop(isOK)
-    spd <- split(object@spectraData, f = object@spectraData$fileIdx)
-    fls <- object@files
-    pqueue <- object@processingQueue
-    if (!is.null(FUN))
-        pqueue <- c(pqueue, list(ProcessingStep(FUN, ARGS = list(...))))
-    res <- bpmapply(spd, fls, FUN = function(sp, fl, queue, bcknd) {
-        .apply_processing_queue(backendReadSpectra(bcknd, fl, sp,
-                                                   BPPARAM = SerialParam()),
-                                queue)
-    }, MoreArgs = list(queue = pqueue, bcknd = object@backend),
-    BPPARAM = BPPARAM, SIMPLIFY = FALSE, USE.NAMES = FALSE)
-    res <- unlist(res, recursive = FALSE)
-    res[rownames(object@spectraData)]
+    backendSpectrapply(object = object@backend,
+                       spectraData = object@spectraData, FUN = FUN,
+                       BPPARAM = BPPARAM, ...)
 })

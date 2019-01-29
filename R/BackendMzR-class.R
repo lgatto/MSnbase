@@ -4,17 +4,30 @@ NULL
 setClass("BackendMzR", contains = "Backend")
 
 #' @rdname hidden_aliases
-setMethod("backendReadSpectra", "BackendMzR", function(object, file,
+setMethod("backendSpectrapply", "BackendMzR", function(object, spectraData,
+                                                       FUN = NULL, ...,
+                                                       BPPARAM = bpparam()) {
+    file_f <- factor(spectraData$fileIdx, levels = unique(spectraData$fileIdx))
+    fls <- object@files[as.integer(levels(file_f))]
+    if (any(is.na(fls)))
+        stop("file index of 'spectraData' out of bounds")
+    pqueue <- object@processingQueue
+    if (!is.null(FUN))
+        pqueue <- c(pqueue, list(ProcessingStep(FUN, ARGS = list(...))))
+    unlist(bpmapply(split(spectraData, f = file_f), fls,
+                    FUN = function(sp, fl, queue) {
+                        .apply_processing_queue(.spectra_from_file_mzR(fl, sp),
+                                                queue)
+                    }, MoreArgs = list(queue = pqueue), BPPARAM = BPPARAM,
+                    SIMPLIFY = FALSE, USE.NAMES = FALSE), recursive = FALSE)
+})
+
+#' @rdname hidden_aliases
+setMethod("backendReadSpectra", "BackendMzR", function(object,
                                                        spectraData, ...,
                                                        BPPARAM=bpparam()) {
-    spd_list <- split(spectraData, f = spectraData$fileIdx)
-    if (length(spd_list) != length(file))
-        stop("Number of files in 'spectraData' has to match length of 'file'")
-    res <- bpmapply(FUN = .spectra_from_file_mzR, file, spd_list,
-                    BPPARAM = BPPARAM, SIMPLIFY = FALSE)
-    names(res) <- NULL
-    res <- unlist(res, recursive = FALSE)
-    res[rownames(spectraData)]
+    backendSpectrapply(object, spectraData = spectraData, ...,
+                       BPPARAM = BPPARAM)
 })
 
 #' @rdname Backend

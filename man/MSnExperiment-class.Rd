@@ -42,15 +42,10 @@ data.}
 
 \item{\code{spectraData}}{A [S4Vectors::DataFrame-class] storing spectra metadata.}
 
-\item{\code{sampleData}}{A [S4Vectors::DataFrame-class] storing sample metadata.}
-
-\item{\code{processingQueue}}{A `list` storing [ProcessingSteps-class] objects for
+\item{\code{sampleData}}{A [S4Vectors::DataFrame-class] storing sample metadata.
 lazy processing.}
 
 \item{\code{processing}}{A `character` storing logging information.}
-
-\item{\code{files}}{A `character` storing absolute path to source (in general .mzML)
-files.}
 }}
 
 \examples{

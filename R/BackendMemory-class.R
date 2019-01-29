@@ -57,12 +57,12 @@ setMethod(
 setMethod(
     "backendImportData",
     signature="BackendMemory",
-    definition=function(object, files, spectraData, ..., BPPARAM=bpparam()) {
+    definition=function(object, spectraData, ..., BPPARAM=bpparam()) {
 
     spd <- split(spectraData, spectraData$fileIdx)
 
     split(object@spectra, spectraData$fileIdx) <- bpmapply(
-        .spectra_from_file_mzR, file=files, spectraData=spd,
+        .spectra_from_file_mzR, file=object@files, spectraData=spd,
         USE.NAMES=FALSE, SIMPLIFY=FALSE, BPPARAM=BPPARAM
     )
     validObject(object)
@@ -73,20 +73,34 @@ setMethod(
 setMethod(
     "backendReadSpectra",
     signature="BackendMemory",
-    definition=function(object, file, spectraData, ...,
+    definition=function(object, spectraData, ...,
                         BPPARAM=bpparam()) {
-    nms <- paste(.vdigest(file), spectraData$spIdx, sep="/")
-    object@spectra[nms]
+        backendSpectrapply(object, spectraData, BPPARAM = BPPARAM)
 })
 
 #' @rdname hidden_aliases
 setMethod(
     "backendWriteSpectra",
     signature="BackendMemory",
-    definition=function(object, file, spectra, spectraData, ...,
+    definition=function(object, spectra, spectraData, ...,
                         BPPARAM=bpparam()) {
-    nms <- paste(.vdigest(file), spectraData$spIdx, sep="/")
-    object@spectra[nms] <- spectra
-    validObject(object)
-    object
+        fls <- object@files[spectraData$fileIdx]
+        nms <- paste(.vdigest(fls), spectraData$spIdx, sep="/")
+        object@spectra[nms] <- spectra
+        validObject(object)
+        object
+})
+
+#' @rdname hidden_aliases
+setMethod("backendSpectrapply", "BackendMemory", function(object, spectraData,
+                                                          FUN = NULL, ...,
+                                                          BPPARAM = bpparam()) {
+    fls <- object@files[spectraData$fileIdx]
+    nms <- paste(.vdigest(fls), spectraData$spIdx, sep="/")
+    pqueue <- object@processingQueue
+    if (!is.null(FUN))
+        pqueue <- c(pqueue, list(ProcessingStep(FUN, ARGS = list(...))))
+    res <- .apply_processing_queue(object@spectra[nms], queue = pqueue)
+    names(res) <- rownames(spectraData)
+    res
 })
