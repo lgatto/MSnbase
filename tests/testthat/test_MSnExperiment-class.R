@@ -47,3 +47,15 @@ test_that("spectra,MSnExperiment works", {
     sciex_spctra <- spectra(sciex)
     expect_equal(spectra(sciex_mzr), sciex_spctra)
 })
+
+test_that("removePeaks,MSnExperiment and clean,MSnExperiment work", {
+    sciex_spctra <- spectra(sciex)
+    tmp <- removePeaks(sciex_mzr, t = 10000)
+    expect_true(length(tmp@backend@processingQueue) == 1)
+    sciex_spctra <- lapply(sciex_spctra, removePeaks, t = 10000)
+    expect_equal(spectra(tmp), sciex_spctra)
+
+    tmp <- clean(tmp, all = TRUE)
+    expect_true(length(tmp@backend@processingQueue) == 2)
+    expect_equal(spectra(tmp), lapply(sciex_spctra, clean, all = TRUE))
+})

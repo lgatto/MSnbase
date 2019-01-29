@@ -6,6 +6,8 @@
 \alias{readMSnExperiment}
 \alias{spectrapply,MSnExperiment-method}
 \alias{spectra,MSnExperiment-method}
+\alias{removePeaks,MSnExperiment-method}
+\alias{clean,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
 \usage{
 readMSnExperiment(file, sampleData, backend = BackendMzR(),
@@ -15,6 +17,12 @@ readMSnExperiment(file, sampleData, backend = BackendMzR(),
   BPPARAM = bpparam(), ...)
 
 \S4method{spectra}{MSnExperiment}(object, BPPARAM = bpparam())
+
+\S4method{removePeaks}{MSnExperiment}(object, t = "min",
+  verbose = isMSnVerbose(), msLevel.)
+
+\S4method{clean}{MSnExperiment}(object, all = FALSE,
+  verbose = isMSnbaseVerbose(), msLevel.)
 }
 \arguments{
 \item{file}{\code{character} with the file names of the experiment.}
@@ -67,6 +75,12 @@ than there are spectra.
 
 \section{Data manipulation methods}{
 
+\itemize{
+\item \code{clean}: remove 0-intensity data points. See \code{\link[=clean]{clean()}} for
+\linkS4class{Spectrum} objects for more details.
+\item \code{removePeaks}: remove peaks lower than a threshold \code{t}. See
+\code{\link[=removePeaks]{removePeaks()}} for \linkS4class{Spectrum} objects for more details.
+}
 }
 
 \examples{

@@ -47,6 +47,12 @@ NULL
 #'
 #' @section Data manipulation methods:
 #'
+#' - `clean`: remove 0-intensity data points. See [clean()] for
+#'    [Spectrum-class] objects for more details.
+#'
+#' - `removePeaks`: remove peaks lower than a threshold `t`. See
+#'   [removePeaks()] for [Spectrum-class] objects for more details.
+#'
 #' @return See individual method description for the return value.
 #'
 #' @author Sebastian Gibb, Johannes Rainer
@@ -203,3 +209,50 @@ setMethod("spectrapply", "MSnExperiment", function(object, FUN = NULL,
 #' @rdname MSnExperiment
 setMethod("spectra", "MSnExperiment", function(object, BPPARAM = bpparam())
     spectrapply(object = object, BPPARAM = BPPARAM))
+
+##============================================================
+##  --  DATA MANIPULATION METHODS
+##
+##------------------------------------------------------------
+
+#' @rdname MSnExperiment
+setMethod("removePeaks", "MSnExperiment", function(object, t = "min",
+                                                   verbose = isMSnVerbose(),
+                                                   msLevel.) {
+    if (!is.numeric(t) & t != "min")
+        stop("Argument 't' has to be either numeric of 'min'.")
+    if (missing(msLevel.))
+        msLevel. <- base::sort(unique(object@spectraData$msLevel))
+    if (!is.numeric(msLevel.))
+        stop("'msLevel' must be numeric.")
+    object@backend <- backendAddProcessing(
+        object@backend, procStep = ProcessingStep("removePeaks",
+                                                  list(t = t, msLevel. = msLevel.)))
+    validObject(object)
+    object@processing <- c(object@processing,
+                           paste0("Signal <= ", t, " in MS level(s) ",
+                                  paste0(msLevel., collapse = ", "),
+                                  " set to 0 [", date(), "]"))
+    object
+})
+
+#' @rdname MSnExperiment
+setMethod("clean", "MSnExperiment", function(object, all = FALSE,
+                                             verbose = isMSnbaseVerbose(),
+                                             msLevel.) {
+    if (!is.logical(all))
+        stop("Argument 'all' must be logical")
+    if (missing(msLevel.))
+        msLevel. <- base::sort(unique(object@spectraData$msLevel))
+    if (!is.numeric(msLevel.))
+        stop("'msLevel' must be numeric.")
+    object@backend <- backendAddProcessing(
+        object@backend, procStep = ProcessingStep("clean",
+                                                  list(all = all, msLevel. = msLevel.)))
+    validObject(object)
+    object@processing <- c(object@processing,
+                           paste0("Spectra of MS level(s) ",
+                                  paste0(msLevel., collapse = ", "),
+                                  " cleaned [", date(), "]"))
+    object
+})
