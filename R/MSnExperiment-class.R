@@ -1,6 +1,63 @@
 #' @include hidden_aliases.R
 NULL
 
+#' @title The MSnExperiment class to manage and access MS data
+#'
+#' @name MSnExperiment
+#'
+#' @description
+#'
+#' The `MSnExperiment` class encapsules data and meta-data for mass
+#' spectrometry experiments.
+#'
+#' In contrast to the old [MSnExp-class] this class supports multiple data
+#' backends, e.g. in-memory ([BackendMemory-class]), on-disk as
+#' mzML ([BackendMzMl-class]) or HDF5 ([BackendHdf5-class]). It supersedes
+#' [MSnExp-class] and [OnDiskMSnExp-class] objects.
+#'
+#' @param file `character` with the file names of the experiment.
+#'
+#' @param sampleData A [S4Vectors::DataFrame-class] object with additional
+#'     information on each sample (samples as rows, information as columns).
+#'
+#' @param backend A [Backend-class] derivate used for internal data storage.
+#'
+#' @param smoothed `logical`, are the spectra smoothed?
+#'
+#' @param BPPARAM Should parallel processing be used? See
+#'     [BiocParallel::bpparam()].
+#'
+#' @section Creation of objects:
+#'
+#' `MSnExperiment` classes are usually created with the `readMSnExperiment`
+#' function that reads general spectrum metadata information from the  mass
+#' spectrometry data files.
+#'
+#' @section Accessing data:
+#'
+#' - `spectra`: get the `list` of [Spectrum-class] objects from the experiment.
+#'   Note that the spectra in the `list` are not grouped by sample/file. Use
+#'   the `fromFile` method to split/group the `list` by file.
+#'
+#' - `spectrapply`: apply an arbitrary function to each spectrum in the dataset
+#'   and return its result. The function returns a `list` with the same length
+#'   than there are spectra.
+#'
+#' @section Subsetting and filtering:
+#'
+#' @section Data manipulation methods:
+#'
+#' @return See individual method description for the return value.
+#'
+#' @author Sebastian Gibb, Johannes Rainer
+#'
+#' @md
+#'
+#' @examples
+#'
+#' ## TODO
+NULL
+
 #' validation function for MSnExperiment
 #'
 #' @author Johannes Rainer
@@ -26,10 +83,6 @@ NULL
 #' The [MSnExperiment-class] encapsulates data and meta-data for mass
 #' spectrometry experiments.
 #'
-#' In contrast to the old [MSnExp-class] this class supports multiple data
-#' backends, e.g. in-memory ([BackendMemory-class]), on-disk as
-#' mzML ([BackendMzMl-class]) or HDF5 ([BackendHdf5-class]). It supersedes
-#' [MSnExp-class] and [OnDiskMSnExp-class].
 #'
 #' @slot backend A derivate of [Backend-class] holding/controlling the spectra
 #' data.
@@ -41,8 +94,7 @@ NULL
 #' @name MSnExperiment-class
 #' @docType class
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
-#' @examples
-#' ## TODO
+#' @noRd
 setClass(
     "MSnExperiment",
     slots=c(
@@ -70,20 +122,7 @@ setMethod(
         cat("Processing:\n", paste(object@processing, collapse="\n"), "\n")
 })
 
-#' Create MSnExperiment objects
-#'
-#' Draft import method for the new [MSnExperiment-class]. Used as constructor.
-#'
-#' @param file Path to mass spectrometry data files
-#' @param sampleData A [S4Vectors::DataFrame-class] object with additional
-#' information to each sample (samples as rows, information as columns).
-#' @param backend A [Backend-class] derivate used for internal data storage.
-#' @param smoothed `logical`, are the spectra smoothed?
-#' @param BPPARAM Should parallel processing be used? See
-#' [BiocParallel::bpparam()].
-#'
-#' @rdname MSnExperiment-class
-#' @export
+#' @rdname MSnExperiment
 readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
                               smoothed = NA, BPPARAM = bpparam()) {
     ## if (missing(backend) || !inherits(backend))
@@ -149,6 +188,7 @@ readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
     )
 }
 
+#' @rdname MSnExperiment
 setMethod("spectrapply", "MSnExperiment", function(object, FUN = NULL,
                                                    BPPARAM = bpparam(), ...) {
     BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
@@ -159,3 +199,7 @@ setMethod("spectrapply", "MSnExperiment", function(object, FUN = NULL,
                        spectraData = object@spectraData, FUN = FUN,
                        BPPARAM = BPPARAM, ...)
 })
+
+#' @rdname MSnExperiment
+setMethod("spectra", "MSnExperiment", function(object, BPPARAM = bpparam())
+    spectrapply(object = object, BPPARAM = BPPARAM))

@@ -42,3 +42,8 @@ test_that("spectrapply,MSnExperiment works", {
     expect_equal(spectrapply(sciex_inmem, FUN = mz),
                  spectrapply(sciex_mzr, FUN = mz))
 })
+
+test_that("spectra,MSnExperiment works", {
+    sciex_spctra <- spectra(sciex)
+    expect_equal(spectra(sciex_mzr), sciex_spctra)
+})
