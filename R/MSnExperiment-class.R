@@ -3,6 +3,8 @@ NULL
 
 #' @title The MSnExperiment class to manage and access MS data
 #'
+#' @aliases MSnExperiment-class
+#'
 #' @name MSnExperiment
 #'
 #' @description
@@ -15,17 +17,35 @@ NULL
 #' mzML ([BackendMzMl-class]) or HDF5 ([BackendHdf5-class]). It supersedes
 #' [MSnExp-class] and [OnDiskMSnExp-class] objects.
 #'
+#' @param all for `clean`: `logical(1)` whether all 0 intensity peaks should be
+#'     removed (`TRUE`) or whether 0-intensity peaks directly adjacent to a
+#'     non-zero intensity peak should be kept (`FALSE`).
+#'
+#' @param backend A [Backend-class] derivate used for internal data storage.
+#'
+#' @param BPPARAM Should parallel processing be used? See
+#'     [BiocParallel::bpparam()].
+#'
 #' @param file `character` with the file names of the experiment.
+#'
+#' @param FUN for `spectrapply`: a function or the name of a function to apply
+#'     to each [Spectrum-class] of the experiment.
+#'
+#' @param msLevel. `integer` defining the MS level of the spectra to which the
+#'     function should be applied.
+#'
+#' @param object A `MSnExperiment` object.
 #'
 #' @param sampleData A [S4Vectors::DataFrame-class] object with additional
 #'     information on each sample (samples as rows, information as columns).
 #'
-#' @param backend A [Backend-class] derivate used for internal data storage.
-#'
 #' @param smoothed `logical`, are the spectra smoothed?
 #'
-#' @param BPPARAM Should parallel processing be used? See
-#'     [BiocParallel::bpparam()].
+#' @param t for `removePeaks`: a `numeric(1)` defining the threshold or `"min"`.
+#'
+#' @param verbose `logical(1)` defining the verbosity.
+#'
+#' @param ... for `spectrapply`: additional arguments to be passed to `FUN`.
 #'
 #' @section Creation of objects:
 #'
@@ -211,13 +231,23 @@ setMethod("spectra", "MSnExperiment", function(object, BPPARAM = bpparam())
     spectrapply(object = object, BPPARAM = BPPARAM))
 
 ##============================================================
+##  --  DATA ACCESSORS
+##
+##------------------------------------------------------------
+
+##============================================================
+##  --  SUBSETTING AND FILTERING METHODS
+##
+##------------------------------------------------------------
+
+##============================================================
 ##  --  DATA MANIPULATION METHODS
 ##
 ##------------------------------------------------------------
 
 #' @rdname MSnExperiment
 setMethod("removePeaks", "MSnExperiment", function(object, t = "min",
-                                                   verbose = isMSnVerbose(),
+                                                   verbose = isMSnbaseVerbose(),
                                                    msLevel.) {
     if (!is.numeric(t) & t != "min")
         stop("Argument 't' has to be either numeric of 'min'.")

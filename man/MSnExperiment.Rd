@@ -3,6 +3,7 @@
 \docType{methods}
 \name{MSnExperiment}
 \alias{MSnExperiment}
+\alias{MSnExperiment-class}
 \alias{readMSnExperiment}
 \alias{spectrapply,MSnExperiment-method}
 \alias{spectra,MSnExperiment-method}
@@ -36,6 +37,24 @@ information on each sample (samples as rows, information as columns).}
 
 \item{BPPARAM}{Should parallel processing be used? See
 \code{\link[BiocParallel:bpparam]{BiocParallel::bpparam()}}.}
+
+\item{object}{A \code{MSnExperiment} object.}
+
+\item{FUN}{for \code{spectrapply}: a function or the name of a function to apply
+to each \linkS4class{Spectrum} of the experiment.}
+
+\item{...}{for \code{spectrapply}: additional arguments to be passed to \code{FUN}.}
+
+\item{t}{for \code{removePeaks}: a \code{numeric(1)} defining the threshold or \code{"min"}.}
+
+\item{verbose}{\code{logical(1)} defining the verbosity.}
+
+\item{msLevel.}{\code{integer} defining the MS level of the spectra to which the
+function should be applied.}
+
+\item{all}{for \code{clean}: \code{logical(1)} whether all 0 intensity peaks should be
+removed (\code{TRUE}) or whether 0-intensity peaks directly adjacent to a
+non-zero intensity peak should be kept (\code{FALSE}).}
 }
 \value{
 See individual method description for the return value.
