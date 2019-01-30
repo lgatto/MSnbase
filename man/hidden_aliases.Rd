@@ -13,8 +13,6 @@
 \alias{backendImportData,BackendMemory-method}
 \alias{backendReadSpectra,BackendMemory-method}
 \alias{backendWriteSpectra,BackendMemory-method}
-\alias{backendSpectrapply,BackendMemory-method}
-\alias{backendSpectrapply,BackendMzR-method}
 \alias{backendReadSpectra,BackendMzR-method}
 \alias{show,MSnExperiment-method}
 \title{Internal page for hidden aliases}
@@ -37,20 +35,14 @@
 \S4method{backendImportData}{BackendMemory}(object, spectraData, ...,
   BPPARAM = bpparam())
 
-\S4method{backendReadSpectra}{BackendMemory}(object, spectraData, ...,
-  BPPARAM = bpparam())
+\S4method{backendReadSpectra}{BackendMemory}(object, spectraData,
+  processingQueue = list(), ..., BPPARAM = bpparam())
 
 \S4method{backendWriteSpectra}{BackendMemory}(object, spectra, spectraData,
   ..., BPPARAM = bpparam())
 
-\S4method{backendSpectrapply}{BackendMemory}(object, spectraData,
-  FUN = NULL, ..., BPPARAM = bpparam())
-
-\S4method{backendSpectrapply}{BackendMzR}(object, spectraData,
-  FUN = NULL, ..., BPPARAM = bpparam())
-
-\S4method{backendReadSpectra}{BackendMzR}(object, spectraData, ...,
-  BPPARAM = bpparam())
+\S4method{backendReadSpectra}{BackendMzR}(object, spectraData,
+  processingQueue = list(), ..., BPPARAM = bpparam())
 
 \S4method{show}{MSnExperiment}(object)
 }

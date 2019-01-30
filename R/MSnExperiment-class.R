@@ -14,8 +14,15 @@ NULL
 #'
 #' In contrast to the old [MSnExp-class] this class supports multiple data
 #' backends, e.g. in-memory ([BackendMemory-class]), on-disk as
-#' mzML ([BackendMzMl-class]) or HDF5 ([BackendHdf5-class]). It supersedes
+#' mzML ([BackendMzR-class]) or HDF5 ([BackendHdf5-class]). It supersedes
 #' [MSnExp-class] and [OnDiskMSnExp-class] objects.
+#'
+#' @details
+#'
+#' The `MSnExperiment` class uses by default a lazy data manipulation strategy,
+#' i.e. data manipulations such as with methods `removePeaks` are not applied
+#' immediately to the data, but applied on-the-fly to the spectrum data once it
+#' is retrieved.
 #'
 #' @param all for `clean`: `logical(1)` whether all 0 intensity peaks should be
 #'     removed (`TRUE`) or whether 0-intensity peaks directly adjacent to a
@@ -99,9 +106,17 @@ NULL
             msg <- c(msg, paste0("Number of files does not match the number",
                                  " of rows of 'sampleNames'"))
     }
+    msg <- c(msg, .valid.processingQueue(object@processingQueue))
     if (length(msg))
         msg
     else TRUE
+}
+
+.valid.processingQueue <- function(x) {
+    if (length(x))
+        if (!all(vapply(x, inherits, logical(1), "ProcessingStep")))
+            return("'processingQueue' should only contain ProcessingStep objects.")
+    NULL
 }
 
 #' The MSnExperiment class
@@ -115,6 +130,7 @@ NULL
 #' @slot spectraData A [S4Vectors::DataFrame-class] storing spectra metadata.
 #' @slot sampleData A [S4Vectors::DataFrame-class] storing sample metadata.
 #' lazy processing.
+#' @slot processingQueue `list` of `ProcessingStep` objects.
 #' @slot processing A `character` storing logging information.
 #'
 #' @name MSnExperiment-class
@@ -129,6 +145,7 @@ setClass(
         spectraData="DataFrame",
         ## was phenoData in MSnExp
         sampleData="DataFrame",
+        processingQueue = "list",
         ## logging
         processing="character"
     ),
@@ -145,8 +162,11 @@ setMethod(
     definition=function(object) {
         cat("MSn experiment data (", class(object)[1L], ")\n", sep="")
         show(object@backend)
+        if (length(object@processingQueue))
+            cat("Lazy evaluation queue:", length(object@processingQueue),
+                "processing step(s)\n")
         cat("Processing:\n", paste(object@processing, collapse="\n"), "\n")
-})
+    })
 
 #' @rdname MSnExperiment
 readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
@@ -201,15 +221,16 @@ readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
                           sep = "\n")) ## see issue #160
         hdr[order(hdr$acquisitionNum), ]
     }
-    spectraData <- DataFrame(do.call(rbind, bplapply(
-        file, .read_file, files=file, smoothed=smoothed, BPPARAM=BPPARAM
-    )))
+    spectraData <- DataFrame(
+        do.call(rbind, bplapply(file, .read_file, files=file,
+                                smoothed=smoothed, BPPARAM=BPPARAM)))
     backend <- backendInitialize(backend, file, spectraData, BPPARAM=BPPARAM)
     backend <- backendImportData(backend, spectraData, BPPARAM=BPPARAM)
     new("MSnExperiment",
         backend = backend,
         sampleData = sampleData,
         spectraData = spectraData,
+        processingQueue = list(),
         processing = paste0("Data loaded [", date(), "]")
     )
 }
@@ -221,10 +242,38 @@ setMethod("spectrapply", "MSnExperiment", function(object, FUN = NULL,
     isOK <- validateFeatureDataForOnDiskMSnExp(object@spectraData)
     if (length(isOK))
         stop(isOK)
-    backendSpectrapply(object = object@backend,
-                       spectraData = object@spectraData, FUN = FUN,
-                       BPPARAM = BPPARAM, ...)
+    file_f <- factor(object@spectraData$fileIdx,
+                     levels = unique(object@spectraData$fileIdx))
+    pqueue <- object@processingQueue
+    if (!is.null(FUN))
+        pqueue <- c(pqueue, ProcessingStep(FUN, ARGS = list(...)))
+    res <- bplapply(split(object@spectraData, file_f), function(z, queue, bknd) {
+        .apply_processing_queue(backendReadSpectra(bknd, z), queue)
+    }, queue = pqueue, bknd = object@backend, BPPARAM = BPPARAM)
+    names(res) <- NULL
+    unlist(res, recursive = FALSE)
 })
+
+#' Helper function to add an arbitrary function with its arguments as a
+#' processing step to the object's `processingQueue`.
+#'
+#' @param object any object with an `processingQueue` slot.
+#'
+#' @param FUN function or name of a function.
+#'
+#' @param ... Additional arguments to `FUN`.
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+addProcessingStep <- function(object, FUN, ...) {
+    if (missing(FUN))
+        return(object)
+    object@processingQueue <- c(object@processingQueue,
+                                list(ProcessingStep(FUN, ARGS = list(...))))
+    validObject(object)
+    object
+}
 
 #' @rdname MSnExperiment
 setMethod("spectra", "MSnExperiment", function(object, BPPARAM = bpparam())
@@ -255,14 +304,13 @@ setMethod("removePeaks", "MSnExperiment", function(object, t = "min",
         msLevel. <- base::sort(unique(object@spectraData$msLevel))
     if (!is.numeric(msLevel.))
         stop("'msLevel' must be numeric.")
-    object@backend <- backendAddProcessing(
-        object@backend, procStep = ProcessingStep("removePeaks",
-                                                  list(t = t, msLevel. = msLevel.)))
-    validObject(object)
+    object <- addProcessingStep(object, "removePeaks", t = t,
+                                msLevel. = msLevel.)
     object@processing <- c(object@processing,
                            paste0("Signal <= ", t, " in MS level(s) ",
                                   paste0(msLevel., collapse = ", "),
                                   " set to 0 [", date(), "]"))
+    validObject(object)
     object
 })
 
@@ -276,13 +324,11 @@ setMethod("clean", "MSnExperiment", function(object, all = FALSE,
         msLevel. <- base::sort(unique(object@spectraData$msLevel))
     if (!is.numeric(msLevel.))
         stop("'msLevel' must be numeric.")
-    object@backend <- backendAddProcessing(
-        object@backend, procStep = ProcessingStep("clean",
-                                                  list(all = all, msLevel. = msLevel.)))
-    validObject(object)
+    object <- addProcessingStep(object, "clean", all = all, msLevel. = msLevel.)
     object@processing <- c(object@processing,
                            paste0("Spectra of MS level(s) ",
                                   paste0(msLevel., collapse = ", "),
                                   " cleaned [", date(), "]"))
+    validObject(object)
     object
 })

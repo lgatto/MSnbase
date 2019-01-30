@@ -17,28 +17,7 @@ NULL
 #' memory demand, on-disk backends support also loading and analyzing very large
 #' MS experiments.
 #'
-#' Available backends in `MSnbase` are listed in the sections following the
-#' backend method description.
-#'
-#' @section Backend method descriptions:
-#'
-#' - `backendInitialize`: initialize the backend.
-#'
-#' - `backendImportData`: performs an initial data import if the data is kept
-#'   in memory or if another intermediate data container (such as HDF5 files)
-#'   are used.
-#'
-#' - `backendReadSpectra`: reads spectrum data from the backend for the
-#'   specified file and given the spectrum metadata provided with argument
-#'   `spectraData`. A subset of spectra from a MS file can be retrieved by
-#'   passing only the spectra metadata for the requested spectra with the
-#'   `spectraData` argument. Column `"spIdx"` in `spectraData` identifies the
-#'   spectra to return.
-#'
-#' - `backendWriteSpectra`: writes spectrum to the backend, e.g. after data
-#'   manipulations are performed.
-#'
-#' - `fileNames`: access the file path to the original source files, e.g. mzML.
+#' Available backends in `MSnbase` are listed below.
 #'
 #' @section BackendMemory:
 #'
@@ -56,10 +35,7 @@ NULL
 #' large experiments - at the cost of a slightly lower performance. New
 #' backends can be created with the `BackendMzR` function.
 #'
-#' The `BackendMzR` does not support/implement the `backendInitialize`,
-#' `backendImportData` and `backendWriteSpectra` functions.
-#'
-#' @section Backend creation and initiation:
+#' New backends can be created with the `BackendMzR()` function.
 #'
 #' @name Backend
 #'
@@ -93,10 +69,9 @@ NULL
 #' @noRd
 setClass("Backend",
     slots = c(
-        files = "character",     # src files (i.e. mzML files)
-        processingQueue = "list" # list of ProcessingStep objects
+        files = "character"     # src files (i.e. mzML files)
     ),
-    prototype = prototype(files = character(), processingQueue = list()),
+    prototype = prototype(files = character()),
     contains = "VIRTUAL"
 )
 
@@ -114,16 +89,8 @@ setClass("Backend",
     NULL
 }
 
-.valid.Backend.processingQueue <- function(x) {
-    if (length(x))
-        if (!all(vapply(x, inherits, logical(1), "ProcessingStep")))
-            return("'processingQueue' should only contain ProcessingStep objects.")
-    NULL
-}
-
 setValidity("Backend", function(object) {
     msg <- .valid.Backend.files(object@files)
-    msg <- c(msg, .valid.Backend.processingQueue(object@processingQueue))
     if (is.null(msg)) { TRUE } else { msg }
 })
 
@@ -137,9 +104,6 @@ setMethod(
     cat("Source files:\n",
         paste(" ", basename(object@files), collapse="\n"), "\n", sep=""
         )
-    if (length(object@processingQueue))
-        cat("Lazy evaluation queue:", length(object@processingQueue),
-            "processing step(s)\n")
 })
 
 #' @rdname hidden_aliases
@@ -253,13 +217,16 @@ setMethod(
 #'
 #' @inheritParams backendInitialize
 #' @param file The path to the source (generally .mzML) file.
+#' @param processingQueue `list` of `ProcessingStep` objects defining the
+#'     processing steps to be applied to the spectra before returning them.
 #' @return A list of [Spectrum-class] objects.
 #' @family Backend generics
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
 #' @noRd
 setGeneric(
     "backendReadSpectra",
-    def=function(object, spectraData, ..., BPPARAM=bpparam())
+    def=function(object, spectraData, processingQueue = list(), ...,
+                 BPPARAM=bpparam())
         standardGeneric("backendReadSpectra"),
     valueClass="list"
 )
@@ -283,53 +250,3 @@ setGeneric(
         standardGeneric("backendWriteSpectra"),
     valueClass="Backend"
 )
-
-#' Apply a function to each spectrum (after applying eventual lazy evaluation
-#' steps) and return its result. If `FUN = NULL` the function should return
-#' the `list` of `Spectrum` objects.
-#'
-#' @inheritParams backendInitialize
-#'
-#' @param FUN either a function or the name of a function to be applied to
-#'     each spectrum.
-#'
-#' @param ... additional arguments to `FUN`
-#'
-#' @author Johannes Rainer
-#'
-#' @noRd
-setGeneric(
-    "backendSpectrapply",
-    def = function(object, spectraData, FUN = NULL, ..., BPPARAM = bpparam())
-        standardGeneric("backendSpectrapply"),
-    valueClass = "list"
-)
-
-#' Add a processing step to the backend. By default it will be added to the
-#' processingQueue of the backend, but the method could also be overwritten to
-#' directly apply the processing step.
-#'
-#' @inheritParams backendInitialize
-#'
-#' @param procStep `ProcessingStep`
-#'
-#' @author Johannes Rainer
-#'
-#' @noRd
-setGeneric(
-    "backendAddProcessing",
-    def = function(object, spectraData, procStep, ...)
-        standardGeneric("backendAddProcessing"),
-    valueClass = "Backend"
-)
-
-setMethod(
-    "backendAddProcessing", "Backend", function(object, spectraData,
-                                                procStep, ...) {
-        if (missing(procStep) || !inherits(procStep, "ProcessingStep"))
-            stop("'procStep' parameter is required and is expected to be of",
-                 " type 'ProcessingStep'")
-        object@processingQueue <- c(object@processingQueue, list(procStep))
-        validObject(object)
-        object
-})

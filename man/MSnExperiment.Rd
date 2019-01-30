@@ -20,7 +20,7 @@ readMSnExperiment(file, sampleData, backend = BackendMzR(),
 \S4method{spectra}{MSnExperiment}(object, BPPARAM = bpparam())
 
 \S4method{removePeaks}{MSnExperiment}(object, t = "min",
-  verbose = isMSnVerbose(), msLevel.)
+  verbose = isMSnbaseVerbose(), msLevel.)
 
 \S4method{clean}{MSnExperiment}(object, all = FALSE,
   verbose = isMSnbaseVerbose(), msLevel.)
@@ -67,6 +67,12 @@ In contrast to the old \linkS4class{MSnExp} this class supports multiple data
 backends, e.g. in-memory (\linkS4class{BackendMemory}), on-disk as
 mzML (\linkS4class{BackendMzMl}) or HDF5 (\linkS4class{BackendHdf5}). It supersedes
 \linkS4class{MSnExp} and \linkS4class{OnDiskMSnExp} objects.
+}
+\details{
+The \code{MSnExperiment} class uses by default a lazy data manipulation strategy,
+i.e. data manipulations such as with methods \code{removePeaks} are not applied
+immediately to the data, but applied on-the-fly to the spectrum data once it
+is retrieved.
 }
 \section{Creation of objects}{
 

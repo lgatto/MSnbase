@@ -32,10 +32,6 @@ setValidity("BackendMemory", function(object) {
     if (is.null(msg)) { TRUE } else { msg }
 })
 
-#' This function is used to generated an `BackendMemory` object
-#' (*in-memory* backend). It doesn't support any arguments.
-#'
-#' @return A [BackendMemory-class].
 #' @rdname Backend
 BackendMemory <- function() { new("BackendMemory") }
 
@@ -75,8 +71,12 @@ setMethod(
     signature="BackendMemory",
     definition=function(object, spectraData, ...,
                         BPPARAM=bpparam()) {
-        backendSpectrapply(object, spectraData, BPPARAM = BPPARAM)
-})
+        fls <- object@files[spectraData$fileIdx]
+        nms <- paste(.vdigest(fls), spectraData$spIdx, sep="/")
+        res <- object@spectra[nms]
+        names(res) <- rownames(spectraData)
+        res
+    })
 
 #' @rdname hidden_aliases
 setMethod(
@@ -89,18 +89,4 @@ setMethod(
         object@spectra[nms] <- spectra
         validObject(object)
         object
-})
-
-#' @rdname hidden_aliases
-setMethod("backendSpectrapply", "BackendMemory", function(object, spectraData,
-                                                          FUN = NULL, ...,
-                                                          BPPARAM = bpparam()) {
-    fls <- object@files[spectraData$fileIdx]
-    nms <- paste(.vdigest(fls), spectraData$spIdx, sep="/")
-    pqueue <- object@processingQueue
-    if (!is.null(FUN))
-        pqueue <- c(pqueue, list(ProcessingStep(FUN, ARGS = list(...))))
-    res <- .apply_processing_queue(object@spectra[nms], queue = pqueue)
-    names(res) <- rownames(spectraData)
-    res
 })
