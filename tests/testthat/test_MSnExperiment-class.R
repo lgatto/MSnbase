@@ -32,8 +32,15 @@ test_that("readMSnExperiment works", {
     expect_error(readMSnExperiment(sf, sampleData = DataFrame(a = 3)))
 })
 
+test_that("spectraData works", {
+    expect_error(spectraData(4))
+    expect_equal(spectraData(sciex_mzr), sciex_mzr@spectraData)
+})
+
 test_that("spectrapply,MSnExperiment works", {
     sciex_spctra <- spectra(sciex)
+
+    expect_error(spectrapply(sciex_mzr, f = 4))
 
     ## BackendMzR
     res <- spectrapply(sciex_mzr)
@@ -41,6 +48,10 @@ test_that("spectrapply,MSnExperiment works", {
     expect_true(all(vapply(res, is, logical(1), "Spectrum")))
     expect_true(all(vapply(res, validObject, logical(1))))
     expect_equal(sciex_spctra, res)
+
+    ## No parallelization:
+    expect_equal(sciex_spctra,
+                 spectrapply(sciex_mzr, f = rep(1, nrow(sciex_mzr@spectraData))))
 
     res_2 <- spectrapply(sciex_mzr, FUN = function(z) mean(mz(z)))
     expect_true(all(vapply(res_2, is.numeric, logical(1))))

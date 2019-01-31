@@ -33,6 +33,11 @@ NULL
 #' @param BPPARAM Should parallel processing be used? See
 #'     [BiocParallel::bpparam()].
 #'
+#' @param f for `spectrapply`: `factor`, `character`, `numeric` or `logical`
+#'     (same length than there are spectra in `object`, i.e. with length
+#'     equal to `nrow(spectraData(object))` to define how the data should be
+#'     split into chunks for parallelization.
+#'
 #' @param file `character` with the file names of the experiment.
 #'
 #' @param FUN for `spectrapply`: a function or the name of a function to apply
@@ -66,9 +71,15 @@ NULL
 #'   Note that the spectra in the `list` are not grouped by sample/file. Use
 #'   the `fromFile` method to split/group the `list` by file.
 #'
+#' - `spectraData`: get general spectrum metadata. Returns a `DataFrame`, each
+#'   row containing information for one spectrum. This function is equivalent
+#'   to [featureData()] of `MSnExp`/`OnDiskMSnExp` objects.
+#'
 #' - `spectrapply`: apply an arbitrary function to each spectrum in the dataset
 #'   and return its result. The function returns a `list` with the same length
-#'   than there are spectra.
+#'   than there are spectra. Argument `f` allows to define how to split the
+#'   data/spectra into chunks for paralellization. By default data access and
+#'   application of the provided function are parallelized by file.
 #'
 #' @section Subsetting and filtering:
 #'
@@ -236,22 +247,25 @@ readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
 }
 
 #' @rdname MSnExperiment
-setMethod("spectrapply", "MSnExperiment", function(object, FUN = NULL,
+setMethod("spectrapply", "MSnExperiment", function(object,
+                                                   f = spectraData(object)$fileIdx,
+                                                   FUN = NULL,
                                                    BPPARAM = bpparam(), ...) {
     BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
     isOK <- validateFeatureDataForOnDiskMSnExp(object@spectraData)
     if (length(isOK))
         stop(isOK)
-    file_f <- factor(object@spectraData$fileIdx,
-                     levels = unique(object@spectraData$fileIdx))
+    if (length(f) != nrow(spectraData(object)))
+        stop("Length of 'f' has to match 'nrow(spectraData(object))'")
     pqueue <- object@processingQueue
     if (!is.null(FUN))
         pqueue <- c(pqueue, ProcessingStep(FUN, ARGS = list(...)))
-    res <- bplapply(split(object@spectraData, file_f), function(z, queue, bknd) {
+    res <- bplapply(split(object@spectraData, f), function(z, queue, bknd) {
         .apply_processing_queue(backendReadSpectra(bknd, z), queue)
     }, queue = pqueue, bknd = object@backend, BPPARAM = BPPARAM)
     names(res) <- NULL
-    unlist(res, recursive = FALSE)
+    res <- unlist(res, recursive = FALSE)
+    res[rownames(object@spectraData)]
 })
 
 #' Helper function to add an arbitrary function with its arguments as a
@@ -283,6 +297,11 @@ setMethod("spectra", "MSnExperiment", function(object, BPPARAM = bpparam())
 ##  --  DATA ACCESSORS
 ##
 ##------------------------------------------------------------
+#' @rdname MSnExperiment
+spectraData <- function(object) {
+    stopifnot(inherits(object, "MSnExperiment"))
+    object@spectraData
+}
 
 ##============================================================
 ##  --  SUBSETTING AND FILTERING METHODS

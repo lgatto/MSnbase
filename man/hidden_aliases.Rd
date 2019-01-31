@@ -21,13 +21,12 @@
 
 \S4method{fileNames}{Backend}(object, ...)
 
-\S4method{backendInitialize}{Backend}(object, files, spectraData, ...,
-  BPPARAM = bpparam())
+\S4method{backendInitialize}{Backend}(object, files, spectraData, ...)
 
 \S4method{backendImportData}{Backend}(object, spectraData, ...,
   BPPARAM = bpparam())
 
-\S4method{backendDeepCopy}{Backend}(object, ..., BPPARAM = bpparam())
+\S4method{backendDeepCopy}{Backend}(object, ...)
 
 \S4method{backendInitialize}{BackendMemory}(object, files, spectraData,
   ..., BPPARAM = bpparam())
@@ -35,14 +34,14 @@
 \S4method{backendImportData}{BackendMemory}(object, spectraData, ...,
   BPPARAM = bpparam())
 
-\S4method{backendReadSpectra}{BackendMemory}(object, spectraData,
-  processingQueue = list(), ..., BPPARAM = bpparam())
+\S4method{backendReadSpectra}{BackendMemory}(object, spectraData, ...,
+  BPPARAM = bpparam())
 
 \S4method{backendWriteSpectra}{BackendMemory}(object, spectra, spectraData,
   ..., BPPARAM = bpparam())
 
-\S4method{backendReadSpectra}{BackendMzR}(object, spectraData,
-  processingQueue = list(), ..., BPPARAM = bpparam())
+\S4method{backendReadSpectra}{BackendMzR}(object, spectraData, ...,
+  BPPARAM = bpparam())
 
 \S4method{show}{MSnExperiment}(object)
 }

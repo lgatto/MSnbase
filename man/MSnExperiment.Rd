@@ -7,6 +7,7 @@
 \alias{readMSnExperiment}
 \alias{spectrapply,MSnExperiment-method}
 \alias{spectra,MSnExperiment-method}
+\alias{spectraData}
 \alias{removePeaks,MSnExperiment-method}
 \alias{clean,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
@@ -14,10 +15,13 @@
 readMSnExperiment(file, sampleData, backend = BackendMzR(),
   smoothed = NA, BPPARAM = bpparam())
 
-\S4method{spectrapply}{MSnExperiment}(object, FUN = NULL,
-  BPPARAM = bpparam(), ...)
+\S4method{spectrapply}{MSnExperiment}(object,
+  f = spectraData(object)$fileIdx, FUN = NULL, BPPARAM = bpparam(),
+  ...)
 
 \S4method{spectra}{MSnExperiment}(object, BPPARAM = bpparam())
+
+spectraData(object)
 
 \S4method{removePeaks}{MSnExperiment}(object, t = "min",
   verbose = isMSnbaseVerbose(), msLevel.)
@@ -39,6 +43,11 @@ information on each sample (samples as rows, information as columns).}
 \code{\link[BiocParallel:bpparam]{BiocParallel::bpparam()}}.}
 
 \item{object}{A \code{MSnExperiment} object.}
+
+\item{f}{for \code{spectrapply}: \code{factor}, \code{character}, \code{numeric} or \code{logical}
+(same length than there are spectra in \code{object}, i.e. with length
+equal to \code{nrow(spectraData(object))} to define how the data should be
+split into chunks for parallelization.}
 
 \item{FUN}{for \code{spectrapply}: a function or the name of a function to apply
 to each \linkS4class{Spectrum} of the experiment.}
@@ -65,7 +74,7 @@ spectrometry experiments.
 
 In contrast to the old \linkS4class{MSnExp} this class supports multiple data
 backends, e.g. in-memory (\linkS4class{BackendMemory}), on-disk as
-mzML (\linkS4class{BackendMzMl}) or HDF5 (\linkS4class{BackendHdf5}). It supersedes
+mzML (\linkS4class{BackendMzR}) or HDF5 (\linkS4class{BackendHdf5}). It supersedes
 \linkS4class{MSnExp} and \linkS4class{OnDiskMSnExp} objects.
 }
 \details{
@@ -88,9 +97,14 @@ spectrometry data files.
 \item \code{spectra}: get the \code{list} of \linkS4class{Spectrum} objects from the experiment.
 Note that the spectra in the \code{list} are not grouped by sample/file. Use
 the \code{fromFile} method to split/group the \code{list} by file.
+\item \code{spectraData}: get general spectrum metadata. Returns a \code{DataFrame}, each
+row containing information for one spectrum. This function is equivalent
+to \code{\link[=featureData]{featureData()}} of \code{MSnExp}/\code{OnDiskMSnExp} objects.
 \item \code{spectrapply}: apply an arbitrary function to each spectrum in the dataset
 and return its result. The function returns a \code{list} with the same length
-than there are spectra.
+than there are spectra. Argument \code{f} allows to define how to split the
+data/spectra into chunks for paralellization. By default data access and
+application of the provided function are parallelized by file.
 }
 }
 
