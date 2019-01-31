@@ -122,15 +122,13 @@ setMethod("fileNames", "Backend", function(object, ...) object@files)
 #' @param files The path to the source (generally .mzML) files.
 #' @param spectraData A [S4Vectors::DataFrame-class]
 #' @param ... Other arguments passed to the methods.
-#' @param BPPARAM Should parallel processing be used? See
-#' [BiocParallel::bpparam()].
 #' @return A [Backend-class] derivate.
 #' @family Backend generics
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
 #' @noRd
 setGeneric(
     "backendInitialize",
-    def=function(object, files, spectraData, ..., BPPARAM=bpparam())
+    def=function(object, files, spectraData, ...)
         standardGeneric("backendInitialize"),
     valueClass="Backend"
 )
@@ -140,10 +138,10 @@ setGeneric(
 setMethod(
     "backendInitialize",
     signature="Backend",
-    definition=function(object, files, spectraData, ..., BPPARAM=bpparam()) {
+    definition=function(object, files, spectraData, ...) {
     object@files <- normalizePath(files)
-    if (validObject(object))
-        object
+    validObject(object)
+    object
 })
 
 #' Import spectra data into a backend
@@ -155,6 +153,8 @@ setMethod(
 #' It must not be reimplemented for the .mzML backend.
 #'
 #' @inheritParams backendInitialize
+#' @param BPPARAM Should parallel processing be used? See
+#' [BiocParallel::bpparam()].
 #' @return A [Backend-class] derivate.
 #' @family Backend generics
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
@@ -195,7 +195,7 @@ setMethod(
 #' @noRd
 setGeneric(
     "backendDeepCopy",
-    def=function(object, ..., BPPARAM=bpparam())
+    def=function(object, ...)
         standardGeneric("backendDeepCopy"),
     valueClass="Backend"
 )
@@ -205,7 +205,7 @@ setGeneric(
 setMethod(
     "backendDeepCopy",
     signature="Backend",
-    definition=function(object, ..., BPPARAM=bpparam()) {
+    definition=function(object, ...) {
     object
 })
 
@@ -225,8 +225,7 @@ setMethod(
 #' @noRd
 setGeneric(
     "backendReadSpectra",
-    def=function(object, spectraData, processingQueue = list(), ...,
-                 BPPARAM=bpparam())
+    def=function(object, spectraData, processingQueue = list(), ...)
         standardGeneric("backendReadSpectra"),
     valueClass="list"
 )
@@ -246,7 +245,7 @@ setGeneric(
 #' @noRd
 setGeneric(
     "backendWriteSpectra",
-    def=function(object, spectra, spectraData, ..., BPPARAM=bpparam())
+    def=function(object, spectra, spectraData, ...)
         standardGeneric("backendWriteSpectra"),
     valueClass="Backend"
 )
