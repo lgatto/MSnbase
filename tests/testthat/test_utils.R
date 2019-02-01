@@ -618,3 +618,13 @@ test_that(".vdigest", {
                      sapply(c("foo", "bar"), digest, algo="sha1",
                             USE.NAMES=FALSE))
 })
+
+test_that(".to_index works", {
+    a <- c("b", "a", "c", "d")
+    expect_equal(.to_index(a, c("a", "b")), c(2, 1))
+    expect_equal(.to_index(a, c(FALSE, TRUE, TRUE, FALSE)), c(2, 3))
+    expect_equal(.to_index(a, c(4, 1)), c(4, 1))
+    expect_error(.to_index(a, c(5, 1)))
+    expect_error(.to_index(a, c("z")))
+    expect_error(.to_index(a, c(FALSE, TRUE, FALSE, TRUE, TRUE)))
+})

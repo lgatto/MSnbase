@@ -33,6 +33,10 @@ NULL
 #' @param BPPARAM Should parallel processing be used? See
 #'     [BiocParallel::bpparam()].
 #'
+#' @param drop for `[`: if `drop = TRUE` and the object is subsetted to a single
+#'     element, a `Spectrum` class is returned; `drop = FALSE` returns always
+#'     a `MSnExperiment` object.
+#'
 #' @param f for `spectrapply`: `factor`, `character`, `numeric` or `logical`
 #'     (same length than there are spectra in `object`, i.e. with length
 #'     equal to `nrow(spectraData(object))` to define how the data should be
@@ -43,10 +47,21 @@ NULL
 #' @param FUN for `spectrapply`: a function or the name of a function to apply
 #'     to each [Spectrum-class] of the experiment.
 #'
+#' @param i for `[`: `integer`, `logical` or `character` specifying the
+#'     **spectra** to which `object` should be subsetted.
+#'
+#' @param j for `[`: `integer`, `logical` or `character` specifying the
+#'     **samples** (files) to which `object` should be subsetted.
+#'
 #' @param msLevel. `integer` defining the MS level of the spectra to which the
 #'     function should be applied.
 #'
 #' @param object A `MSnExperiment` object.
+#'
+#' @param return.type for `spectra`: a `character(1)` specifying whether the
+#'     result should be returned as a [Spectra()]
+#'     (`return.type = "Spectra"`) or a simple `list` of `Spectrum`
+#'     objects (`return.type = "list"`).
 #'
 #' @param sampleData A [S4Vectors::DataFrame-class] object with additional
 #'     information on each sample (samples as rows, information as columns).
@@ -57,6 +72,8 @@ NULL
 #'
 #' @param verbose `logical(1)` defining the verbosity.
 #'
+#' @param x A `MSnExperiment` object.
+#'
 #' @param ... for `spectrapply`: additional arguments to be passed to `FUN`.
 #'
 #' @section Creation of objects:
@@ -66,6 +83,8 @@ NULL
 #' spectrometry data files.
 #'
 #' @section Accessing data:
+#'
+#' - `fileNames`: get the original file names from which the data was imported.
 #'
 #' - `spectra`: get the `list` of [Spectrum-class] objects from the experiment.
 #'   Note that the spectra in the `list` are not grouped by sample/file. Use
@@ -83,6 +102,10 @@ NULL
 #'
 #' @section Subsetting and filtering:
 #'
+#' - `[i, j]`: subset the object by spectra (`i`) and/or samples (files, `j`).
+#'
+#' - `[[i]]`: extract the [Spectrum-class] with index `i` from the data.
+#'
 #' @section Data manipulation methods:
 #'
 #' - `clean`: remove 0-intensity data points. See [clean()] for
@@ -99,7 +122,44 @@ NULL
 #'
 #' @examples
 #'
-#' ## TODO
+#' ## Create an MSnExperiment from two input files using the on-disk
+#' ## BackendMzR backend
+#' sf <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)
+#' dta <- readMSnExperiment(sf, backend = BackendMzR())
+#' dta
+#'
+#' ## Get associated file names
+#' fileNames(dta)
+#'
+#' ## Get spectra metadata
+#' spectraData(dta)
+#'
+#' ## Extract all spectra; by default a `Spectra` is returned. We could also
+#' ## get a simple `list` of `Spectrum` objects by specifying
+#' ## `return.type = "list"`.
+#' spctra <- spectra(dta)
+#' head(spctra)
+#'
+#' ## Subset the object to contain only spectra 3, 12, 45
+#' dta_sub <- dta[c(3, 12, 45), ]
+#' spectra(dta_sub)
+#'
+#' ## Subset the object to contain only spectra from the second file
+#' dta_sub <- dta[, 2]
+#' fileNames(dta_sub)
+#'
+#' ## Apply an arbitrary function to each spectrum and return its results.
+#' ## We calculate the mean intensity for each spectrum. By
+#' ## default the function parallelizes the operation FUN by file.
+#' res <- spectrapply(dta, FUN = function(z) mean(intensity(z)))
+#' head(res)
+#'
+#' ## Parameter `f` can be used to specify how the function splits the data
+#' ## into chunks for parallel processing. Below we disable parallel processing
+#' ## by defining a single chunk.
+#' res <- spectrapply(dta, f = rep(1, nrow(spectraData(dta))),
+#'     FUN = function(z) mean(intensity(z)))
+#' head(res)
 NULL
 
 #' validation function for MSnExperiment
@@ -290,8 +350,15 @@ addProcessingStep <- function(object, FUN, ...) {
 }
 
 #' @rdname MSnExperiment
-setMethod("spectra", "MSnExperiment", function(object, BPPARAM = bpparam())
-    spectrapply(object = object, BPPARAM = BPPARAM))
+setMethod("spectra", "MSnExperiment",
+          function(object, return.type = c("Spectra", "list"),
+                   BPPARAM = bpparam()) {
+              return.type <- match.arg(return.type)
+              res <- spectrapply(object = object, BPPARAM = BPPARAM)
+              if (return.type == "Spectra")
+                  res <- Spectra(res, elementMetadata = object@spectraData)
+              res
+          })
 
 ##============================================================
 ##  --  DATA ACCESSORS
@@ -303,10 +370,43 @@ spectraData <- function(object) {
     object@spectraData
 }
 
+#' @rdname MSnExperiment
+setMethod("fileNames", "MSnExperiment", function(object, ...) {
+    fileNames(object@backend)
+})
+
 ##============================================================
 ##  --  SUBSETTING AND FILTERING METHODS
 ##
 ##------------------------------------------------------------
+#' @rdname MSnExperiment
+setMethod("[", "MSnExperiment", function(x, i, j, ..., drop = TRUE) {
+    if (!missing(i) & !missing(j))
+        stop("Simultaneous subsetting to spectra and samples is not yet supported")
+    if (missing(i) & missing(j))
+        return(x)
+    if (!missing(j)) {
+        names_orig <- rownames(x@spectraData)
+        j <- .to_index(fileNames(x), j, variable = "j")
+        x@spectraData <- x@spectraData[x@spectraData$fileIdx %in% j, ,
+                                       drop = FALSE]
+        x@spectraData$fileIdx <- match(x@spectraData$fileIdx, j)
+        x@spectraData <- x@spectraData[order(x@spectraData$fileIdx), ,
+                                       drop = FALSE]
+        i <- match(rownames(x@spectraData), names_orig)
+    } else {
+        i <- .to_index(rownames(x@spectraData), i)
+        x@spectraData <- x@spectraData[i, , drop = FALSE]
+        j <- unique(x@spectraData$fileIdx) # here we allow unsorted file idx.
+        x@spectraData$fileIdx <- match(x@spectraData$fileIdx, j)
+    }
+    x@sampleData <- x@sampleData[j, , drop = FALSE]
+    x@backend <- x@backend[i, j]
+    if (nrow(x@spectraData) == 1 & drop)
+        x <- spectrapply(x)[[1]]
+    validObject(x)
+    x
+})
 
 ##============================================================
 ##  --  DATA MANIPULATION METHODS

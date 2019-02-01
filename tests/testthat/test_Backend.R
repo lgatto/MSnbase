@@ -29,3 +29,10 @@ test_that("show", {
     expect_output(show(b), paste("Backend: BackendMemory ", "Source files:",
                                  "  foo", "  bar", sep="\\n"))
 })
+
+test_that("[,Backend works", {
+    be <- BackendMzR()
+    be@files <- c("a", "b", "c", "d")
+    res <- be[, c(3, 1)]
+    expect_equal(res@files, c("c", "a"))
+})

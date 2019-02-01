@@ -249,3 +249,23 @@ setGeneric(
         standardGeneric("backendWriteSpectra"),
     valueClass="Backend"
 )
+
+#' Subset the `Backend` by spectra (`i`) and/or file (`j`). Note that the
+#' default implementation ignores argument `i`.
+#'
+#' @param x `Backend`
+#'
+#' @param i `integer`; ignored.
+#'
+#' @param j `integer` defining the files to which `x` should be subsetted.
+#'
+#' @return A `Backend` class.
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+setMethod("[", "Backend", function(x, i, j, ..., drop = TRUE) {
+    x@files <- x@files[j]
+    validObject(x)
+    x
+})

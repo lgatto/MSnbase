@@ -1499,3 +1499,18 @@ levelIndex <- function(x, which = c("first", "middle", "last")) {
 .vdigest <- function(x, ...) {
     vapply(x, digest::digest, NA_character_, ..., USE.NAMES=FALSE)
 }
+
+#' Helper function to define indices for subsetting.
+#'
+#' @param x `character` being either names, rownames or column names.
+#'
+#' @param i `character`, `logical` or `numeric`.
+.to_index <- function(x, i, variable = "i") {
+    if (is.character(i))
+        i <- match(i, x)
+    if (is.logical(i))
+        i <- which(i)
+    if (any(is.na(i)) | any(i < 1) | any(i > length(x)))
+        stop("index '", variable, "' out of bounds")
+    i
+}
