@@ -22,6 +22,7 @@
     msOps <- list(PARALLEL_THRESH = 1000,
                   fastLoad = fast_load,      # disable reading header before peaks.
                   ## sortMethod = sortMeth,
-                  verbose = FALSE)
+                  verbose = FALSE,
+                  HDF5_COMP_LEVEL = 3)
     options(MSnbase = msOps)
 }
