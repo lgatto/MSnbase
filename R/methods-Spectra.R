@@ -69,7 +69,7 @@ setMethod("show", "Spectra", function(object) {
 #'
 #' - `smooth` *smooths* spectra. See [smooth()] for more details.
 #'
-#' @section Filtering and subsetting
+#' @section Filtering and subsetting:
 #'
 #' - `[` can be used to subset the `Spectra` object.
 #'

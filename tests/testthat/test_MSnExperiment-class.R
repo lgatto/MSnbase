@@ -78,7 +78,7 @@ test_that("spectrapply,MSnExperiment works", {
 
 test_that("spectra,MSnExperiment works", {
     sciex_spctra <- spectra(sciex)
-    expect_equal(spectra(sciex_mzr), sciex_spctra)
+    expect_equal(spectra(sciex_mzr, return.type = "list"), sciex_spctra)
 })
 
 test_that("removePeaks,MSnExperiment and clean,MSnExperiment work", {
@@ -87,15 +87,15 @@ test_that("removePeaks,MSnExperiment and clean,MSnExperiment work", {
     tmp_inmem <- removePeaks(sciex_inmem, t = 10000)
     expect_true(length(tmp@processingQueue) == 1)
     sciex_spctra <- lapply(sciex_spctra, removePeaks, t = 10000)
-    expect_equal(spectra(tmp), sciex_spctra)
-    expect_equal(spectra(tmp_inmem), sciex_spctra)
+    expect_equal(spectra(tmp, return.type = "list"), sciex_spctra)
+    expect_equal(spectra(tmp_inmem, return.type = "list"), sciex_spctra)
 
     tmp <- clean(tmp, all = TRUE)
     tmp_inmem <- clean(tmp_inmem, all = TRUE)
     expect_true(length(tmp@processingQueue) == 2)
     sciex_spctra <- lapply(sciex_spctra, clean, all = TRUE)
-    expect_equal(spectra(tmp), sciex_spctra)
-    expect_equal(spectra(tmp_inmem), sciex_spctra)
+    expect_equal(spectra(tmp, return.type = "list"), sciex_spctra)
+    expect_equal(spectra(tmp_inmem, return.type = "list"), sciex_spctra)
 })
 
 test_that("fileNames,MSnExperiment works", {

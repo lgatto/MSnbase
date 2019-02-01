@@ -8,6 +8,8 @@
 \alias{spectrapply,MSnExperiment-method}
 \alias{spectra,MSnExperiment-method}
 \alias{spectraData}
+\alias{fileNames,MSnExperiment-method}
+\alias{[,MSnExperiment,ANY,ANY,ANY-method}
 \alias{removePeaks,MSnExperiment-method}
 \alias{clean,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
@@ -19,9 +21,14 @@ readMSnExperiment(file, sampleData, backend = BackendMzR(),
   f = spectraData(object)$fileIdx, FUN = NULL, BPPARAM = bpparam(),
   ...)
 
-\S4method{spectra}{MSnExperiment}(object, BPPARAM = bpparam())
+\S4method{spectra}{MSnExperiment}(object, return.type = c("Spectra",
+  "list"), BPPARAM = bpparam())
 
 spectraData(object)
+
+\S4method{fileNames}{MSnExperiment}(object, ...)
+
+\S4method{[}{MSnExperiment,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 
 \S4method{removePeaks}{MSnExperiment}(object, t = "min",
   verbose = isMSnbaseVerbose(), msLevel.)
@@ -53,6 +60,23 @@ split into chunks for parallelization.}
 to each \linkS4class{Spectrum} of the experiment.}
 
 \item{...}{for \code{spectrapply}: additional arguments to be passed to \code{FUN}.}
+
+\item{return.type}{for \code{spectra}: a \code{character(1)} specifying whether the
+result should be returned as a \code{\link[=Spectra]{Spectra()}}
+(\code{return.type = "Spectra"}) or a simple \code{list} of \code{Spectrum}
+objects (\code{return.type = "list"}).}
+
+\item{x}{A \code{MSnExperiment} object.}
+
+\item{i}{for \code{[}: \code{integer}, \code{logical} or \code{character} specifying the
+\strong{spectra} to which \code{object} should be subsetted.}
+
+\item{j}{for \code{[}: \code{integer}, \code{logical} or \code{character} specifying the
+\strong{samples} (files) to which \code{object} should be subsetted.}
+
+\item{drop}{for \code{[}: if \code{drop = TRUE} and the object is subsetted to a single
+element, a \code{Spectrum} class is returned; \code{drop = FALSE} returns always
+a \code{MSnExperiment} object.}
 
 \item{t}{for \code{removePeaks}: a \code{numeric(1)} defining the threshold or \code{"min"}.}
 
@@ -94,6 +118,7 @@ spectrometry data files.
 \section{Accessing data}{
 
 \itemize{
+\item \code{fileNames}: get the original file names from which the data was imported.
 \item \code{spectra}: get the \code{list} of \linkS4class{Spectrum} objects from the experiment.
 Note that the spectra in the \code{list} are not grouped by sample/file. Use
 the \code{fromFile} method to split/group the \code{list} by file.
@@ -110,6 +135,10 @@ application of the provided function are parallelized by file.
 
 \section{Subsetting and filtering}{
 
+\itemize{
+\item \code{[i, j]}: subset the object by spectra (\code{i}) and/or samples (files, \code{j}).
+\item \code{[[i]]}: extract the \linkS4class{Spectrum} with index \code{i} from the data.
+}
 }
 
 \section{Data manipulation methods}{
@@ -124,7 +153,44 @@ application of the provided function are parallelized by file.
 
 \examples{
 
-## TODO
+## Create an MSnExperiment from two input files using the on-disk
+## BackendMzR backend
+sf <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)
+dta <- readMSnExperiment(sf, backend = BackendMzR())
+dta
+
+## Get associated file names
+fileNames(dta)
+
+## Get spectra metadata
+spectraData(dta)
+
+## Extract all spectra; by default a `Spectra` is returned. We could also
+## get a simple `list` of `Spectrum` objects by specifying
+## `return.type = "list"`.
+spctra <- spectra(dta)
+head(spctra)
+
+## Subset the object to contain only spectra 3, 12, 45
+dta_sub <- dta[c(3, 12, 45), ]
+spectra(dta_sub)
+
+## Subset the object to contain only spectra from the second file
+dta_sub <- dta[, 2]
+fileNames(dta_sub)
+
+## Apply an arbitrary function to each spectrum and return its results.
+## We calculate the mean intensity for each spectrum. By
+## default the function parallelizes the operation FUN by file.
+res <- spectrapply(dta, FUN = function(z) mean(intensity(z)))
+head(res)
+
+## Parameter `f` can be used to specify how the function splits the data
+## into chunks for parallel processing. Below we disable parallel processing
+## by defining a single chunk.
+res <- spectrapply(dta, f = rep(1, nrow(spectraData(dta))),
+    FUN = function(z) mean(intensity(z)))
+head(res)
 }
 \author{
 Sebastian Gibb, Johannes Rainer

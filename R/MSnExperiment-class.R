@@ -114,6 +114,7 @@ NULL
 #' - `removePeaks`: remove peaks lower than a threshold `t`. See
 #'   [removePeaks()] for [Spectrum-class] objects for more details.
 #'
+#'
 #' @return See individual method description for the return value.
 #'
 #' @author Sebastian Gibb, Johannes Rainer
