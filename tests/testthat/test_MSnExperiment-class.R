@@ -144,3 +144,22 @@ test_that("[,MSnExperiment works", {
     expect_error(mse[, 5])
     expect_error(mse[12222222, ])
 })
+
+test_that("[[,MSnExperiment works", {
+    res <- sciex_mzr[[13]]
+    expect_true(inherits(res, "Spectrum"))
+    expect_equal(sciex[[13]], res)
+    expect_error(sciex_mzr[[1222222]])
+})
+
+test_that("filterFile works", {
+    res <- filterFile(sciex_mzr, 2)
+    expect_equal(fileNames(res), fileNames(sciex_mzr)[2])
+    expect_true(all(res@spectraData$fileIdx == 1))
+    expect_equal(res@sampleData, sciex_mzr@sampleData[2, , drop = FALSE])
+    expect_equal(spectra(res, return.type = "list"),
+                 spectra(filterFile(sciex, 2)))
+    expect_error(filterFile(sciex_mzr, "b"))
+    expect_error(filterFile(sciex_mzr, c(1, 1, 1, 2)))
+    expect_error(filterFile(sciex_mzr, 5))
+})

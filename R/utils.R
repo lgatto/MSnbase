@@ -1505,6 +1505,10 @@ levelIndex <- function(x, which = c("first", "middle", "last")) {
 #' @param x `character` being either names, rownames or column names.
 #'
 #' @param i `character`, `logical` or `numeric`.
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
 .to_index <- function(x, i, variable = "i") {
     if (is.character(i))
         i <- match(i, x)

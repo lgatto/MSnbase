@@ -42,7 +42,9 @@ NULL
 #'     equal to `nrow(spectraData(object))` to define how the data should be
 #'     split into chunks for parallelization.
 #'
-#' @param file `character` with the file names of the experiment.
+#' @param file for `readMSnExperiment: `character` with the file names of the
+#'     experiment. For `filterFile`: index or name of the file to which the
+#'     data should be subsetted.
 #'
 #' @param FUN for `spectrapply`: a function or the name of a function to apply
 #'     to each [Spectrum-class] of the experiment.
@@ -103,8 +105,12 @@ NULL
 #' @section Subsetting and filtering:
 #'
 #' - `[i, j]`: subset the object by spectra (`i`) and/or samples (files, `j`).
+#'   Returns an `MSnExperiment`, unless `drop = TRUE` and the object is
+#'   subsetted to a single spectrum, in which case a `Spectrum` is returned.
 #'
 #' - `[[i]]`: extract the [Spectrum-class] with index `i` from the data.
+#'
+#' - `filterFile`: subset the object by file. Returns an `MSnExperiment`.
 #'
 #' @section Data manipulation methods:
 #'
@@ -407,6 +413,23 @@ setMethod("[", "MSnExperiment", function(x, i, j, ..., drop = TRUE) {
         x <- spectrapply(x)[[1]]
     validObject(x)
     x
+})
+
+#' @rdname MSnExperiment
+setMethod("[[", "MSnExperiment",
+          function(x, i, j = "missing", drop = "missing") {
+              x[i, , drop = TRUE]
+          })
+
+#' @rdname MSnExperiment
+setMethod("filterFile", "MSnExperiment", function(object, file) {
+    object <- object[, file, drop = FALSE]
+    object@processing <- c(object@processing,
+                           paste0("Filter: select file(s): ",
+                                  paste0(file, collapse = ", "),
+                                  " [", date(), "]"))
+    validObject(object)
+    object
 })
 
 ##============================================================

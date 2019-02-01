@@ -10,6 +10,8 @@
 \alias{spectraData}
 \alias{fileNames,MSnExperiment-method}
 \alias{[,MSnExperiment,ANY,ANY,ANY-method}
+\alias{[[,MSnExperiment,ANY,ANY-method}
+\alias{filterFile,MSnExperiment-method}
 \alias{removePeaks,MSnExperiment-method}
 \alias{clean,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
@@ -30,6 +32,11 @@ spectraData(object)
 
 \S4method{[}{MSnExperiment,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 
+\S4method{[[}{MSnExperiment,ANY,ANY}(x, i, j = "missing",
+  drop = "missing")
+
+\S4method{filterFile}{MSnExperiment}(object, file)
+
 \S4method{removePeaks}{MSnExperiment}(object, t = "min",
   verbose = isMSnbaseVerbose(), msLevel.)
 
@@ -37,7 +44,8 @@ spectraData(object)
   verbose = isMSnbaseVerbose(), msLevel.)
 }
 \arguments{
-\item{file}{\code{character} with the file names of the experiment.}
+\item{file}{for \code{readMSnExperiment: }character\code{with the file names of the experiment. For}filterFile`: index or name of the file to which the
+data should be subsetted.}
 
 \item{sampleData}{A \link[S4Vectors:DataFrame-class]{S4Vectors::DataFrame} object with additional
 information on each sample (samples as rows, information as columns).}
@@ -137,7 +145,10 @@ application of the provided function are parallelized by file.
 
 \itemize{
 \item \code{[i, j]}: subset the object by spectra (\code{i}) and/or samples (files, \code{j}).
+Returns an \code{MSnExperiment}, unless \code{drop = TRUE} and the object is
+subsetted to a single spectrum, in which case a \code{Spectrum} is returned.
 \item \code{[[i]]}: extract the \linkS4class{Spectrum} with index \code{i} from the data.
+\item \code{filterFile}: subset the object by file. Returns an \code{MSnExperiment}.
 }
 }
 

@@ -9,6 +9,7 @@
 \alias{backendInitialize,Backend-method}
 \alias{backendImportData,Backend-method}
 \alias{backendDeepCopy,Backend-method}
+\alias{[,Backend,ANY,ANY,ANY-method}
 \alias{backendInitialize,BackendMemory-method}
 \alias{backendImportData,BackendMemory-method}
 \alias{backendReadSpectra,BackendMemory-method}
@@ -27,6 +28,8 @@
   BPPARAM = bpparam())
 
 \S4method{backendDeepCopy}{Backend}(object, ...)
+
+\S4method{[}{Backend,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 
 \S4method{backendInitialize}{BackendMemory}(object, files, spectraData,
   ..., BPPARAM = bpparam())
@@ -48,9 +51,21 @@
 \arguments{
 \item{object}{Object to display.}
 
+\item{x}{`Backend`}
+
+\item{i}{`integer`; ignored.}
+
+\item{j}{`integer` defining the files to which `x` should be subsetted.}
+
 \item{object}{Object to display.}
+}
+\value{
+A `Backend` class.
 }
 \description{
 For S4 methods that require a documentation entry but only clutter the index.
+}
+\author{
+Johannes Rainer
 }
 \keyword{internal}

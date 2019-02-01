@@ -263,7 +263,7 @@ setGeneric(
 #'
 #' @author Johannes Rainer
 #'
-#' @noRd
+#' @rdname hidden_aliases
 setMethod("[", "Backend", function(x, i, j, ..., drop = TRUE) {
     x@files <- x@files[j]
     validObject(x)
