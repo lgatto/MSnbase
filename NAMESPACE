@@ -13,6 +13,9 @@ import(scales)
 import(lattice)
 import(methods)
 
+importFrom(rhdf5, H5Fcreate, H5Fclose, H5Fopen, h5createGroup, h5write,
+           h5delete, H5Lexists, h5read)
+
 importFrom(XML, xmlInternalTreeParse, getDefaultNamespace, xpathApply,
            xmlAttrs)
 importFrom(graphics, abline, axis, grid, legend, lines, points, text,
@@ -155,8 +158,10 @@ export(MSnSet,
        Spectra,
        BackendMemory,
        BackendMzR,
+       BackendHdf5,
        readMSnExperiment,
-       spectraData
+       spectraData,
+       setHdf5CompressionLevel
        )
 
 exportClasses(pSet,
@@ -179,7 +184,8 @@ exportClasses(pSet,
 	      Spectra,
               MSnExperiment,
               BackendMemory,
-              BackendMzR
+              BackendMzR,
+              BackendHdf5
 	      )
 
 exportMethods(updateObject,

@@ -5,7 +5,7 @@ setClass("BackendMzR", contains = "Backend")
 
 #' @rdname hidden_aliases
 setMethod("backendReadSpectra", "BackendMzR", function(object,
-                                                       spectraData, ...)) {
+                                                       spectraData, ...) {
     file_f <- factor(spectraData$fileIdx, levels = unique(spectraData$fileIdx))
     fls <- object@files[as.integer(levels(file_f))]
     if (length(fls) == 1)
