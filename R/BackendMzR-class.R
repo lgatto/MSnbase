@@ -4,17 +4,17 @@ NULL
 setClass("BackendMzR", contains = "Backend")
 
 #' @rdname hidden_aliases
-setMethod("backendReadSpectra", "BackendMzR", function(object, file,
+setMethod("backendReadSpectra", "BackendMzR", function(object,
                                                        spectraData, ...,
-                                                       BPPARAM=bpparam()) {
-    spd_list <- split.data.frame(spectraData, f = spectraData$fileIdx)
-    if (length(spd_list) != length(file))
-        stop("Number of files in 'spectraData' has to match length of 'file'")
-    res <- bpmapply(FUN = .spectra_from_file_mzR, file, spd_list,
-                    BPPARAM = BPPARAM, SIMPLIFY = FALSE)
-    names(res) <- NULL
-    res <- unlist(res, recursive = FALSE)
-    res[rownames(spectraData)]
+                                                       BPPARAM = bpparam()) {
+    file_f <- factor(spectraData$fileIdx, levels = unique(spectraData$fileIdx))
+    fls <- object@files[as.integer(levels(file_f))]
+    if (length(fls) == 1)
+        .spectra_from_file_mzR(fls, spectraData)
+    else
+        unlist(mapply(fls, split(spectraData, file_f),
+                      FUN = .spectra_from_file_mzR, SIMPLIFY = FALSE,
+                      USE.NAMES = FALSE), recursive = FALSE)
 })
 
 #' @rdname Backend

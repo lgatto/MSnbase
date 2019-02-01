@@ -18,9 +18,6 @@ BackendMemory()
 
 BackendMzR()
 }
-\value{
-A [BackendMemory-class].
-}
 \description{
 \linkS4class{MSnExperiment} objects support the use of different backends to
 manage and access mass spectrometry data. Backends can be generally
@@ -31,28 +28,8 @@ demand, applying eventual data manipulations on-the-fly. Due to their minimal
 memory demand, on-disk backends support also loading and analyzing very large
 MS experiments.
 
-Available backends in \code{MSnbase} are listed in the sections following the
-backend method description.
+Available backends in \code{MSnbase} are listed below.
 }
-\section{Backend method descriptions}{
-
-\itemize{
-\item \code{backendInitialize}: initialize the backend.
-\item \code{backendImportData}: performs an initial data import if the data is kept
-in memory or if another intermediate data container (such as HDF5 files)
-are used.
-\item \code{backendReadSpectra}: reads spectrum data from the backend for the
-specified file and given the spectrum metadata provided with argument
-\code{spectraData}. A subset of spectra from a MS file can be retrieved by
-passing only the spectra metadata for the requested spectra with the
-\code{spectraData} argument. Column \code{"spIdx"} in \code{spectraData} identifies the
-spectra to return.
-\item \code{backendWriteSpectra}: writes spectrum to the backend, e.g. after data
-manipulations are performed.
-\item \code{fileNames}: access the file path to the original source files, e.g. mzML.
-}
-}
-
 \section{BackendMemory}{
 
 
@@ -72,12 +49,7 @@ ensures a low memory footprint and enables thus the analysis also of very
 large experiments - at the cost of a slightly lower performance. New
 backends can be created with the \code{BackendMzR} function.
 
-The \code{BackendMzR} does not support/implement the \code{backendInitialize},
-\code{backendImportData} and \code{backendWriteSpectra} functions.
-}
-
-\section{Backend creation and initiation}{
-
+New backends can be created with the \code{BackendMzR()} function.
 }
 
 \author{

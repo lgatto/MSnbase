@@ -40,5 +40,6 @@ sf <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)
 sciex <- readMSData(sf, mode = "onDisk")
 
 sciex_inmem <- readMSnExperiment(sf, backend = BackendMemory())
+sciex_mzr <- readMSnExperiment(sf, backend = BackendMzR())
 
 test_check("MSnbase")

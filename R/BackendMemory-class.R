@@ -32,10 +32,6 @@ setValidity("BackendMemory", function(object) {
     if (is.null(msg)) { TRUE } else { msg }
 })
 
-#' This function is used to generated an `BackendMemory` object
-#' (*in-memory* backend). It doesn't support any arguments.
-#'
-#' @return A [BackendMemory-class].
 #' @rdname Backend
 BackendMemory <- function() { new("BackendMemory") }
 
@@ -57,12 +53,12 @@ setMethod(
 setMethod(
     "backendImportData",
     signature="BackendMemory",
-    definition=function(object, files, spectraData, ..., BPPARAM=bpparam()) {
+    definition=function(object, spectraData, ..., BPPARAM=bpparam()) {
 
     spd <- split(spectraData, spectraData$fileIdx)
 
     split(object@spectra, spectraData$fileIdx) <- bpmapply(
-        .spectra_from_file_mzR, file=files, spectraData=spd,
+        .spectra_from_file_mzR, file=object@files, spectraData=spd,
         USE.NAMES=FALSE, SIMPLIFY=FALSE, BPPARAM=BPPARAM
     )
     validObject(object)
@@ -73,20 +69,24 @@ setMethod(
 setMethod(
     "backendReadSpectra",
     signature="BackendMemory",
-    definition=function(object, file, spectraData, ...,
+    definition=function(object, spectraData, ...,
                         BPPARAM=bpparam()) {
-    nms <- paste(.vdigest(file), spectraData$spIdx, sep="/")
-    object@spectra[nms]
-})
+        fls <- object@files[spectraData$fileIdx]
+        nms <- paste(.vdigest(fls), spectraData$spIdx, sep="/")
+        res <- object@spectra[nms]
+        names(res) <- rownames(spectraData)
+        res
+    })
 
 #' @rdname hidden_aliases
 setMethod(
     "backendWriteSpectra",
     signature="BackendMemory",
-    definition=function(object, file, spectra, spectraData, ...,
+    definition=function(object, spectra, spectraData, ...,
                         BPPARAM=bpparam()) {
-    nms <- paste(.vdigest(file), spectraData$spIdx, sep="/")
-    object@spectra[nms] <- spectra
-    validObject(object)
-    object
+        fls <- object@files[spectraData$fileIdx]
+        nms <- paste(.vdigest(fls), spectraData$spIdx, sep="/")
+        object@spectra[nms] <- spectra
+        validObject(object)
+        object
 })
