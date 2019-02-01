@@ -56,15 +56,16 @@ formatRt <- function(rt) {
 formatFileSpectrumNames <- function(fileIds, spectrumIds,
                                     nFiles=length(fileIds),
                                     nSpectra=length(spectrumIds)) {
-  digits <- ceiling(log10(c(nFiles, nSpectra) + 1L))
+    digits <- ceiling(log10(c(nFiles, nSpectra) + 1L))
 
-  if (length(fileIds) != 1L && length(spectrumIds) != length(fileIds)) {
-    stop("Length of 'fileIds' has to be one or equal to ",
-         "the length of 'spectrumIds'.")
-  }
-
-  sprintf(paste0("F%0", digits[1L], "d.S%0", digits[2L], "d"),
-          fileIds, spectrumIds)
+    if (!missing(spectrumIds) &&
+        length(fileIds) != 1L &&
+        length(spectrumIds) != length(fileIds)) {
+        stop("Length of 'fileIds' has to be one or equal to ",
+            "the length of 'spectrumIds'.")
+    }
+    sprintf(paste0("F%0", digits[1L], "d.S%0", digits[2L], "d"),
+            fileIds, spectrumIds)
 }
 
 utils.removePeaks_centroided <- function(int, t) {

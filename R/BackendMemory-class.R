@@ -10,9 +10,10 @@ setClass("BackendMemory",
 
 .valid.BackendMemory.spectra.names <- function(x) {
     n <- length(x)
-    nms <- names(x)
 
     if (n) {
+        nms <- names(x)
+
         if (any(is.null(nms)))
             return("Spectra names should not be NULL.")
         if (anyNA(nms))
@@ -21,13 +22,32 @@ setClass("BackendMemory",
             return("Spectra names should not be missing.")
         if (anyDuplicated(nms))
             return("Duplicated spectra names found.")
+        if (isFALSE(all(grepl("^F[0-9]+\\.S[0-9]+$", nms))))
+            return("Names of 'spectra' don't follow F[0-9]+.S[0-9]+ format.")
+    }
+    NULL
+}
+
+.valid.BackendMemory.match.file.spectra <- function(files, spectra) {
+    n <- c(length(files), length(spectra))
+
+    if (all(n)) {
+        fnms <- names(files)
+        snms <- names(spectra)
+
+        if (isFALSE(all(gsub("\\.S[0-9]+$", "", snms) %in% fnms))) {
+            return("Mismatch between names for 'files' and 'spectra' found.")
+        }
     }
     NULL
 }
 
 setValidity("BackendMemory", function(object) {
     lapply(object@spectra, validObject)
-    msg <- .valid.BackendMemory.spectra.names(object@spectra)
+    msg <- c(
+        .valid.BackendMemory.spectra.names(object@spectra),
+        .valid.BackendMemory.match.file.spectra(object@files, object@spectra)
+    )
 
     if (is.null(msg)) { TRUE } else { msg }
 })
@@ -42,8 +62,7 @@ setMethod(
     definition=function(object, files, spectraData, ..., BPPARAM=bpparam()) {
 
     object@spectra <- vector(mode="list", length=nrow(spectraData))
-    names(object@spectra) <-
-        paste(.vdigest(files)[spectraData$fileIdx], spectraData$spIdx, sep="/")
+    names(object@spectra) <- rownames(spectraData)
     object <- callNextMethod()
     validObject(object)
     object
@@ -71,11 +90,7 @@ setMethod(
     signature="BackendMemory",
     definition=function(object, spectraData, ...,
                         BPPARAM=bpparam()) {
-        fls <- object@files[spectraData$fileIdx]
-        nms <- paste(.vdigest(fls), spectraData$spIdx, sep="/")
-        res <- object@spectra[nms]
-        names(res) <- rownames(spectraData)
-        res
+        object@spectra[rownames(spectraData)]
     })
 
 #' @rdname hidden_aliases
@@ -84,9 +99,7 @@ setMethod(
     signature="BackendMemory",
     definition=function(object, spectra, spectraData, ...,
                         BPPARAM=bpparam()) {
-        fls <- object@files[spectraData$fileIdx]
-        nms <- paste(.vdigest(fls), spectraData$spIdx, sep="/")
-        object@spectra[nms] <- spectra
+        object@spectra[rownames(spectraData)] <- spectra
         validObject(object)
         object
 })
