@@ -3,50 +3,67 @@ NULL
 
 #' Backend class that stores data temporarily to hdf5 files.
 #'
-#' @author Johannes Rainer
+#' @author Johannes Rainer, Sebastian Gibb
 #'
 #' @md
 #'
 #' @noRd
-setClass("BackendHdf5", contains = "Backend", slots = c(md5sum = "character",
-                                                        hdf5file = "character"))
+setClass(
+    "BackendHdf5",
+    contains="Backend",
+    slots=c(checksums="character", h5files="character")
+)
 
+#' @rdname hidden_aliases
 setMethod("show", "BackendHdf5", function(object) {
     callNextMethod()
-    cat("Hdf5 path:", unique(dirname(object@hdf5file)), "\n")
+    cat("Source files:\n",
+        paste(" ", unique(dirname(object@h5files)), collapse="\n"), "\n", sep=""
+    )
 })
 
 #' @rdname Backend
 BackendHdf5 <- function() new("BackendHdf5")
 
-.valid.BackendHdf5.md5sum <- function(x, y) {
-    if (length(x) != length(y))
-        "different number of md5 sums and hdf5 files"
-    else NULL
+.valid.BackendHdf5.checksums <- function(checksums, h5files) {
+    if (length(checksums) != length(h5files))
+        return("different number of md5 sums and hdf5 files")
+    chk <- .vdigest(h5files, file=TRUE)
+    m <- checksums == chk
+    if (any(!m)) {
+        return(paste0(
+            "Checksum(s) for file(s) don't match:\n",
+            paste0(
+                " ", h5files[!m],
+                " (current: ", chk[!m], ", stored: ", checksums[m], ")",
+                collapse="\n"
+            )
+        ))
+    }
+    NULL
 }
 
-.valid.BackendHdf5.hdf5file <- function(x, y) {
-    msg <- NULL
-    if (length(x) != length(y))
-        msg <- "different number of hdf5 and original files"
-    if (length(x) != length(unique(x)))
-        msg <- c(msg, "hdf5 files are not unique")
-    if (length(msg)) msg
-    else NULL
-}
-
-.valid.BackendHdf5.hdf5file.exist <- function(x) {
-    if (!all(file.exists(x)))
-        paste0("file(s) ", paste0(x[!file.exists(x)]), " not found")
-    else NULL
+.valid.BackendHdf5.h5files <- function(src, h5files) {
+    if (length(src) != length(h5files))
+        return("Different number of hdf5 and original source files.")
+    if (anyDuplicated(h5files))
+        return("Hdf5 files are not unique.")
+    if (!all(file.exists(h5files))) {
+        return(paste0(
+            "File(s) ",
+            paste0(h5files[!file.exists(h5files)], collapse=", "),
+            " not found."
+        ))
+    }
+    NULL
 }
 
 setValidity("BackendHdf5", function(object) {
-    msg <- c(.valid.BackendHdf5.md5sum(object@files, object@md5sum),
-             .valid.BackendHdf5.hdf5file(object@hdf5file, object@files),
-             .valid.BackendHdf5.hdf5file.exist(object@hdf5file))
-    if (length(msg)) msg
-    else TRUE
+    msg <- c(
+        .valid.BackendHdf5.h5files(object@files, object@h5files),
+        .valid.BackendHdf5.checksums(object@checksums, object@h5files)
+    )
+    if (is.null(msg)) { TRUE } else { msg }
 })
 
 #' Initialize the Hdf5 backend, i.e. create the hdf5 files and add their names
@@ -63,33 +80,38 @@ setValidity("BackendHdf5", function(object) {
 #'
 #' @return `BackendHdf5` object.
 #'
-#' @author Johannes Rainer
+#' @author Johannes Rainer, Sebastian Gibb
 #'
 #' @md
 #'
 #' @noRd
-setMethod("backendInitialize", "BackendHdf5", function(object, files,
-                                                       spectraData, path = ".",
-                                                       ...) {
-    path <- suppressWarnings(normalizePath(path))
-    dir.create(path, showWarnings = FALSE, recursive = TRUE)
-    n_files <- length(files)
-    object@files <- files
-    object@md5sum <- character(n_files)
-    object@hdf5file <- character(n_files)
-    comp_level <- .hdf5_compression_level()
-    for (i in seq_len(n_files)) {
-        h5file <- paste0(path, "/", digest(files[i]), ".h5")
-        if (file.exists(h5file))
-            stop("File ", h5file, " does already exist. Please use a different path.")
-        h5 <- H5Fcreate(h5file)
-        h5createGroup(h5, "spectra")
-        h5createGroup(h5, "md5")
-        H5Fclose(h5)
-        object@hdf5file[i] <- h5file
+setMethod(
+    "backendInitialize",
+    "BackendHdf5",
+    function(object, files, spectraData, path=".", ...) {
+    path <- normalizePath(path, mustWork=FALSE)
+    dir.create(path, showWarnings=FALSE, recursive=TRUE)
+
+    files <- normalizePath(files)
+    object@h5files <- file.path(path, paste0(.vdigest(files), ".h5"))
+
+    if (any(file.exists(object@h5files))) {
+        stop(
+            "File(s) ",
+            paste0(object@h5files[file.exists(object@h5files)], collapse=", "),
+            " already exist(s). Please choose a different 'path'."
+        )
     }
-    validObject(object)
-    object
+
+    for (i in seq(along=object@h5files)) {
+        h5 <- H5Fcreate(object@h5files[i])
+        h5createGroup(h5, "spectra")
+        H5Fclose(h5)
+    }
+
+    object@checksums <- .vdigest(object@h5files, file=TRUE)
+
+    callNextMethod()
 })
 
 #' Import the data from the raw MS files and store them to the hdf5 files.
@@ -98,52 +120,103 @@ setMethod("backendInitialize", "BackendHdf5", function(object, files,
 #'
 #' @return `BackendHdf5`
 #'
-#' @author Johannes Rainer
+#' @author Johannes Rainer, Sebastian Gibb
 #'
 #' @md
 #'
 #' @noRd
-setMethod("backendImportData", "BackendHdf5", function(object, spectraData,
-                                                       ...,
-                                                       BPPARAM = bpparam()) {
-    object@md5sum <- bpmapply(fileNames(object), object@hdf5file,
-                              FUN = .serialize_msfile_to_hdf5,
-                              BPPARAM = BPPARAM)
+setMethod(
+    "backendImportData",
+    "BackendHdf5",
+    function(object, spectraData, ..., BPPARAM=bpparam()) {
+
+    bpmapply(object@files, object@h5files, FUN=.mzr2hdf5, BPPARAM=BPPARAM)
+    object@checksums <- .vdigest(object@h5files, file=TRUE)
     validObject(object)
     object
 })
 
-## setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
-##                                                         ...) {
-## })
+setMethod(
+    "backendReadSpectra",
+    "BackendHdf5",
+    function(object, spectraData, ...) {
 
-## setMethod("backendWriteSpectra", "BackendHdf5", function(object, spectra,
-##                                                          spectraData) {
-## })
+    changed <- .valid.BackendHdf5.checksums(object@checksums, object@h5files)
+    if (!is.null(changed))
+        stop(changed)
+
+    uFileIdx <- unique(spectraData$fileIdx)
+    h5files <- object@h5files[uFileIdx]
+
+    spectra <- vector(mode="list", length=nrow(spectraData))
+    spectra <- split(spectra, spectraData$fileIdx)
+    spIdx <- split(spectraData$spIdx, spectraData$fileIdx)
+
+    for (i in seq(along=h5files)) {
+        h5fh <- H5Fopen(h5files[i])
+        h5gfh <- H5Gopen(h5fh, "spectra")
+        spectra[[i]] <- lapply(spIdx[[i]], h5read, file=h5gfh, level=lvl)
+        H5Gclose(h5gfh)
+        H5Fclose(h5fh)
+    }
+
+    spectra <- unsplit(spectra, spectraData$fileIdx)
+    spectra <- rownames(spectraData)
+    spectra
+})
+
+setMethod(
+    "backendWriteSpectra",
+    "BackendHdf5",
+    function(object, spectra, spectraData) {
+
+    lvl <- .hdf5_compression_level()
+
+    uFileIdx <- unique(spectraData$fileIdx)
+    h5files <- object@h5files[uFileIdx]
+    spectra <- split(spectra, spectraData$fileIdx)
+
+    for (i in seq(along=h5files)) {
+        h5fh <- H5Fopen(h5files[i])
+        h5gfh <- H5Gopen(h5fh, "spectra")
+        for (j in seq(along=spectra[[i]])) {
+            h5write(
+                cbind(mz(spectra[[i]][[j]]), intensity(spectra[[i]][[j]])),
+                h5gfh, as.character(i), level=lvl
+            )
+        }
+        H5Gclose(h5gfh)
+        H5Fclose(h5fh)
+    }
+
+    object@checksums[uFileIdx] <- .vdigest(h5files, file=TRUE)
+    validObject(object)
+    object
+})
 
 #' Write the content of a single mzML/etc file to an h5file. We're using the
 #' spectrum index in the file as data set ID.
 #'
 #' @return `character(1)` with the md5 sum of the spectra data.
 #'
-#' @author Johannes Rainer
+#' @author Johannes Rainer, Sebastian Gibb
 #'
 #' @noRd
-.serialize_msfile_to_hdf5 <- function(file, h5file) {
-    h5 <- H5Fopen(h5file)
-    comp_level <- .hdf5_compression_level()
-    fh <- openMSfile(file)
-    hdr <- header(fh)
-    pks <- peaks(fh)
-    close(fh)
-    for (i in seq_along(pks)) {
-        .pks <- pks[[i]]
-        colnames(.pks) <- c("mz", "intensity")
-        h5write(.pks, h5, paste0("spectra/", i), level = comp_level)
-        pks[[i]] <- .pks
+.mzr2hdf5 <- function(file, h5) {
+    msfh <- openMSfile(file)
+    ## read complete header first to avoid random seq fault errors from
+    ## proteowizard
+    hdr <- header(msfh)
+    on.exit(close(msfh))
+
+    lvl <- .hdf5_compression_level()
+
+    h5fh <- H5Fopen(h5)
+    h5gfh <- H5Gopen(h5fh, "spectra")
+    on.exit(H5Gclose(h5gfh), add=TRUE)
+    on.exit(H5Fclose(h5fh), add=TRUE)
+
+    for (i in seq(along=msfh)) {
+        h5write(peaks(msfh, i), h5gfh, as.character(i), level=lvl)
     }
-    pks_md5 <- digest(pks)
-    h5write(pks_md5, h5, paste0("md5/md5"), level = comp_level)
-    H5Fclose(h5)
-    pks_md5
 }

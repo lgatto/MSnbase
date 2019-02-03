@@ -13,8 +13,8 @@ import(scales)
 import(lattice)
 import(methods)
 
-importFrom(rhdf5, H5Fcreate, H5Fclose, H5Fopen, h5createGroup, h5write,
-           h5delete, H5Lexists, h5read)
+importFrom(rhdf5, H5Fcreate, H5Fclose, H5Fopen, H5Gclose, H5Gopen,
+           h5createGroup, h5write, h5delete, H5Lexists, h5read)
 
 importFrom(XML, xmlInternalTreeParse, getDefaultNamespace, xpathApply,
            xmlAttrs)

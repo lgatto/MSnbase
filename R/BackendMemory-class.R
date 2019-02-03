@@ -92,9 +92,7 @@ setMethod(
 
     object@spectra <- vector(mode="list", length=nrow(spectraData))
     names(object@spectra) <- rownames(spectraData)
-    object <- callNextMethod()
-    validObject(object)
-    object
+    callNextMethod()
 })
 
 #' @rdname hidden_aliases
