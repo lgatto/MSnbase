@@ -43,8 +43,8 @@
 \S4method{backendWriteSpectra}{BackendMemory}(object, spectra, spectraData,
   ..., BPPARAM = bpparam())
 
-\S4method{backendReadSpectra}{BackendMzR}(object, spectraData, ...,
-  BPPARAM = bpparam())
+\S4method{backendReadSpectra}{BackendMzR}(object, spectraData,
+  processingQueue = list(), ...)
 
 \S4method{show}{MSnExperiment}(object)
 }

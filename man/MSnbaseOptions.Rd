@@ -7,6 +7,7 @@
 \alias{setMSnbaseParallelThresh}
 \alias{setMSnbaseFastLoad}
 \alias{isMSnbaseFastLoad}
+\alias{setHdf5CompressionLevel}
 \title{MSnbase options}
 \usage{
 MSnbaseOptions()
@@ -20,6 +21,8 @@ setMSnbaseParallelThresh(opt = 1000)
 setMSnbaseFastLoad(opt = TRUE)
 
 isMSnbaseFastLoad()
+
+setHdf5CompressionLevel(opt)
 }
 \arguments{
 \item{opt}{The value of the new option}
@@ -42,6 +45,9 @@ necessary before using parallel processing.
 methods of \link{OnDiskMSnExp} that load data from the original files (such as
 \code{\link[=spectrapply]{spectrapply()}}). Users experiencing data I/O errors (observed mostly
 on macOS systems) should set this option to \code{FALSE}.
+\item \code{HDF5_COMP_LEVEL}: defines the compression level of the HDF5 files.
+Supports integer values between 0 (no compression) and 9 (highest
+compression).
 }
 }
 \details{

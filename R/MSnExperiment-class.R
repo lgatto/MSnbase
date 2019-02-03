@@ -28,9 +28,9 @@ NULL
 #'     removed (`TRUE`) or whether 0-intensity peaks directly adjacent to a
 #'     non-zero intensity peak should be kept (`FALSE`).
 #'
-#' @param backend A [Backend-class] derivate used for internal data storage.
+#' @param backend a [Backend-class] derivate used for internal data storage.
 #'
-#' @param BPPARAM Should parallel processing be used? See
+#' @param BPPARAM should parallel processing be used? See
 #'     [BiocParallel::bpparam()].
 #'
 #' @param drop for `[`: if `drop = TRUE` and the object is subsetted to a single
@@ -58,14 +58,14 @@ NULL
 #' @param msLevel. `integer` defining the MS level of the spectra to which the
 #'     function should be applied.
 #'
-#' @param object A `MSnExperiment` object.
+#' @param object a `MSnExperiment` object.
 #'
 #' @param return.type for `spectra`: a `character(1)` specifying whether the
 #'     result should be returned as a [Spectra()]
 #'     (`return.type = "Spectra"`) or a simple `list` of `Spectrum`
 #'     objects (`return.type = "list"`).
 #'
-#' @param sampleData A [S4Vectors::DataFrame-class] object with additional
+#' @param sampleData a [S4Vectors::DataFrame-class] object with additional
 #'     information on each sample (samples as rows, information as columns).
 #'
 #' @param smoothed `logical`, are the spectra smoothed?
@@ -74,9 +74,12 @@ NULL
 #'
 #' @param verbose `logical(1)` defining the verbosity.
 #'
-#' @param x A `MSnExperiment` object.
+#' @param x a `MSnExperiment` object.
 #'
-#' @param ... for `spectrapply`: additional arguments to be passed to `FUN`.
+#' @param ... for `readMSnExperiment`: additional parameters to be passed to
+#'     the init method of the backend, such as `path` for [BackendHdf5()] to
+#'     define the directory where the hdf5 files should be saved.
+#'     For `spectrapply`: additional arguments to be passed to `FUN`.
 #'
 #' @section Creation of objects:
 #'
