@@ -35,14 +35,14 @@ spectraData(object)
 \item{sampleData}{A \link[S4Vectors:DataFrame-class]{S4Vectors::DataFrame} object with additional
 information on each sample (samples as rows, information as columns).}
 
-\item{backend}{A \linkS4class{Backend} derivate used for internal data storage.}
+\item{backend}{a \linkS4class{Backend} derivate used for internal data storage.}
 
 \item{smoothed}{\code{logical}, are the spectra smoothed?}
 
-\item{BPPARAM}{Should parallel processing be used? See
+\item{BPPARAM}{should parallel processing be used? See
 \code{\link[BiocParallel:bpparam]{BiocParallel::bpparam()}}.}
 
-\item{object}{A \code{MSnExperiment} object.}
+\item{object}{a \code{MSnExperiment} object.}
 
 \item{f}{for \code{spectrapply}: \code{factor}, \code{character}, \code{numeric} or \code{logical}
 (same length than there are spectra in \code{object}, i.e. with length
@@ -52,7 +52,10 @@ split into chunks for parallelization.}
 \item{FUN}{for \code{spectrapply}: a function or the name of a function to apply
 to each \linkS4class{Spectrum} of the experiment.}
 
-\item{...}{for \code{spectrapply}: additional arguments to be passed to \code{FUN}.}
+\item{...}{for \code{readMSnExperiment}: additional parameters to be passed to
+the init method of the backend, such as \code{path} for \code{\link[=BackendHdf5]{BackendHdf5()}} to
+define the directory where the hdf5 files should be saved.
+For \code{spectrapply}: additional arguments to be passed to \code{FUN}.}
 
 \item{t}{for \code{removePeaks}: a \code{numeric(1)} defining the threshold or \code{"min"}.}
 
@@ -64,6 +67,13 @@ function should be applied.}
 \item{all}{for \code{clean}: \code{logical(1)} whether all 0 intensity peaks should be
 removed (\code{TRUE}) or whether 0-intensity peaks directly adjacent to a
 non-zero intensity peak should be kept (\code{FALSE}).}
+
+\item{return.type}{for \code{spectra}: a \code{character(1)} specifying whether the
+result should be returned as a \code{\link[=Spectra]{Spectra()}}
+(\code{return.type = "Spectra"}) or a simple \code{list} of \code{Spectrum}
+objects (\code{return.type = "list"}).}
+
+\item{x}{a \code{MSnExperiment} object.}
 }
 \value{
 See individual method description for the return value.

@@ -71,7 +71,7 @@ setValidity("BackendHdf5", function(object) {
 setMethod("backendInitialize", "BackendHdf5", function(object, files,
                                                        spectraData, path = ".",
                                                        ...) {
-    path <- normalizePath(path)
+    path <- suppressWarnings(normalizePath(path))
     dir.create(path, showWarnings = FALSE, recursive = TRUE)
     n_files <- length(files)
     object@files <- files
@@ -79,7 +79,7 @@ setMethod("backendInitialize", "BackendHdf5", function(object, files,
     object@hdf5file <- character(n_files)
     comp_level <- .hdf5_compression_level()
     for (i in seq_len(n_files)) {
-        h5file <- paste0(path, "/", .vdigest(files[i]), ".h5")
+        h5file <- paste0(path, "/", digest(files[i]), ".h5")
         if (file.exists(h5file))
             stop("File ", h5file, " does already exist. Please use a different path.")
         h5 <- H5Fcreate(h5file)
@@ -106,12 +106,44 @@ setMethod("backendInitialize", "BackendHdf5", function(object, files,
 setMethod("backendImportData", "BackendHdf5", function(object, spectraData,
                                                        ...,
                                                        BPPARAM = bpparam()) {
+    object@md5sum <- bpmapply(fileNames(object), object@hdf5file,
+                              FUN = .serialize_msfile_to_hdf5,
+                              BPPARAM = BPPARAM)
+    validObject(object)
+    object
 })
 
-setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
-                                                        ...) {
-})
+## setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
+##                                                         ...) {
+## })
 
-setMethod("backendWriteSpectra", "BackendHdf5", function(object, spectra,
-                                                         spectraData) {
-})
+## setMethod("backendWriteSpectra", "BackendHdf5", function(object, spectra,
+##                                                          spectraData) {
+## })
+
+#' Write the content of a single mzML/etc file to an h5file. We're using the
+#' spectrum index in the file as data set ID.
+#'
+#' @return `character(1)` with the md5 sum of the spectra data.
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+.serialize_msfile_to_hdf5 <- function(file, h5file) {
+    h5 <- H5Fopen(h5file)
+    comp_level <- .hdf5_compression_level()
+    fh <- openMSfile(file)
+    hdr <- header(fh)
+    pks <- peaks(fh)
+    close(fh)
+    for (i in seq_along(pks)) {
+        .pks <- pks[[i]]
+        colnames(.pks) <- c("mz", "intensity")
+        h5write(.pks, h5, paste0("spectra/", i), level = comp_level)
+        pks[[i]] <- .pks
+    }
+    pks_md5 <- digest(pks)
+    h5write(pks_md5, h5, paste0("md5/md5"), level = comp_level)
+    H5Fclose(h5)
+    pks_md5
+}

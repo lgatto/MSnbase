@@ -3,8 +3,7 @@ NULL
 
 #' @title Mass spectrometry data managing backends
 #'
-#' @aliases Backend-class BackendMzR-class backendInitialize backendImportData
-#'     backendReadSpectra backendWriteSpectra BackendMemory-class
+#' @aliases Backend-class BackendMzR-class BackendMemory-class BackendHdf5-class
 #'
 #' @description
 #'
@@ -36,6 +35,22 @@ NULL
 #' backends can be created with the `BackendMzR` function.
 #'
 #' New backends can be created with the `BackendMzR()` function.
+#'
+#' @section BackendHdf5:
+#'
+#' The `BackendHdf5` is, similar to the `BackendMzR`, a *on-disk* backend that
+#' does only keep the minimum required data in memory (i.e. spectrum metadata).
+#' The m/z and intensity values of all spectra are stored in HDF5 files (one
+#' for each input file). This backend combines the advantages of the
+#' `BackendMzR` (low memory footprint) with faster data access and the support
+#' to apply data manipulations persistently to the data. Also, reading data
+#' from HDF5 files is considerably faster than reading data from MS raw files
+#' (mzML, mzXML or CDF). By default, HDF5 files are stored in the current
+#' working directory, but it is also possible to specify a directory with
+#' the `path` parameter of the [readMSnExperiment()] function (passed as an
+#' optional parameter).
+#'
+#' New backends can be created with the `BackendHdf5()` function.
 #'
 #' @name Backend
 #'

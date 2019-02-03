@@ -6,9 +6,12 @@
 \alias{hidden_aliases}
 \alias{show,Backend-method}
 \alias{fileNames,Backend-method}
+\alias{filterFile,Backend-method}
 \alias{backendInitialize,Backend-method}
 \alias{backendImportData,Backend-method}
 \alias{backendDeepCopy,Backend-method}
+\alias{[,BackendMemory,ANY,missing,ANY-method}
+\alias{filterFile,BackendMemory-method}
 \alias{backendInitialize,BackendMemory-method}
 \alias{backendImportData,BackendMemory-method}
 \alias{backendReadSpectra,BackendMemory-method}
@@ -21,12 +24,18 @@
 
 \S4method{fileNames}{Backend}(object, ...)
 
+\S4method{filterFile}{Backend}(object, file, ...)
+
 \S4method{backendInitialize}{Backend}(object, files, spectraData, ...)
 
 \S4method{backendImportData}{Backend}(object, spectraData, ...,
   BPPARAM = bpparam())
 
 \S4method{backendDeepCopy}{Backend}(object, ...)
+
+\S4method{[}{BackendMemory,ANY,missing,ANY}(x, i, j, ..., drop = FALSE)
+
+\S4method{filterFile}{BackendMemory}(object, file, ...)
 
 \S4method{backendInitialize}{BackendMemory}(object, files, spectraData,
   ..., BPPARAM = bpparam())
@@ -40,8 +49,8 @@
 \S4method{backendWriteSpectra}{BackendMemory}(object, spectra, spectraData,
   ..., BPPARAM = bpparam())
 
-\S4method{backendReadSpectra}{BackendMzR}(object, spectraData, ...,
-  BPPARAM = bpparam())
+\S4method{backendReadSpectra}{BackendMzR}(object, spectraData,
+  processingQueue = list(), ...)
 
 \S4method{show}{MSnExperiment}(object)
 }

@@ -10,6 +10,9 @@
 ##'   methods of [OnDiskMSnExp] that load data from the original files (such as
 ##'   [spectrapply()]). Users experiencing data I/O errors (observed mostly
 ##'   on macOS systems) should set this option to `FALSE`.
+##' + `HDF5_COMP_LEVEL`: defines the compression level of the HDF5 files.
+##'   Supports integer values between 0 (no compression) and 9 (highest
+##'   compression).
 ##'
 ##' `isMSnbaseVerbose` is one wrapper for the verbosity flag,
 ##' also available through `options("MSnbase")$verbose`.
