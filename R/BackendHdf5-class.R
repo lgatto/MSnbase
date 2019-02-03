@@ -35,7 +35,7 @@ BackendHdf5 <- function() new("BackendHdf5")
             "Checksum(s) for file(s) don't match:\n",
             paste0(
                 " ", h5files[!m],
-                " (current: ", chk[!m], ", stored: ", checksums[m], ")",
+                " (current: ", chk[!m], ", stored: ", checksums[!m], ")",
                 collapse="\n"
             )
         ))
@@ -141,27 +141,30 @@ setMethod(
     "BackendHdf5",
     function(object, spectraData, ...) {
 
-    changed <- .valid.BackendHdf5.checksums(object@checksums, object@h5files)
-    if (!is.null(changed))
-        stop(changed)
-
     uFileIdx <- unique(spectraData$fileIdx)
     h5files <- object@h5files[uFileIdx]
 
+    changed <- .valid.BackendHdf5.checksums(object@checksums[uFileIdx], h5files)
+    if (!is.null(changed))
+        stop(changed)
+
     spectra <- vector(mode="list", length=nrow(spectraData))
     spectra <- split(spectra, spectraData$fileIdx)
+    spd <- split(spectraData, spectraData$fileIdx)
     spIdx <- split(spectraData$spIdx, spectraData$fileIdx)
 
     for (i in seq(along=h5files)) {
         h5fh <- H5Fopen(h5files[i])
         h5gfh <- H5Gopen(h5fh, "spectra")
-        spectra[[i]] <- lapply(spIdx[[i]], h5read, file=h5gfh, level=lvl)
+        spectra[[i]] <- .spectra_from_data(
+            lapply(as.character(spIdx[[i]]), h5read, file=h5gfh), spd[[i]]
+        )
         H5Gclose(h5gfh)
         H5Fclose(h5fh)
     }
 
     spectra <- unsplit(spectra, spectraData$fileIdx)
-    spectra <- rownames(spectraData)
+    names(spectra) <- rownames(spectraData)
     spectra
 })
 
