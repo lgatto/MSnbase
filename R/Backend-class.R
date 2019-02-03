@@ -109,11 +109,21 @@ setMethod(
     cat("Backend:", class(object)[1L], "\n")
     cat("Source files:\n",
         paste(" ", basename(object@files), collapse="\n"), "\n", sep=""
-        )
+    )
 })
 
 #' @rdname hidden_aliases
 setMethod("fileNames", "Backend", function(object, ...) object@files)
+
+#' @rdname hidden_aliases
+setMethod("filterFile", "Backend", function(object, file, ...) {
+    if (is.character(file)) {
+        file <- base::match(file, object@files)
+    }
+    object@files <- object@files[file]
+    validObject(object)
+    object
+})
 
 #' Initialize a backend
 #'

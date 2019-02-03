@@ -50,6 +50,48 @@ test_that(".valid.BackendMemory.match.file.spectra", {
         c(F1="foo", F2="bar"), c(F3.S1=1, F3.S1=2)), "Mismatch")
 })
 
+test_that("[", {
+    spd <- DataFrame(fileIdx=c(1, 1, 2), spIdx=1:3,
+                     row.names=c("F1.S1", "F1.S2", "F2.S3"))
+    f <- system.file(
+        file.path("microtofq", c("MM8.mzML", "MM14.mzML")),
+        package="msdata"
+    )
+    b <- backendInitialize(BackendMemory(), files=f, spectraData=spd)
+    s <- c(F1.S1=new("Spectrum2", mz=1:2, intensity=1:2),
+           F1.S2=new("Spectrum2", mz=3:4, intensity=3:4),
+           F2.S3=new("Spectrum2", mz=5:6, intensity=5:6))
+    b@spectra[] <- s
+
+    r <- b
+    r@files <- r@files[2]
+    r@spectra <- r@spectra[3]
+    expect_equal(b[3], r)
+    r <- b
+    r@spectra <- r@spectra[c(1, 3)]
+    expect_equal(b[c(1, 3)], r)
+})
+
+test_that("filterFile", {
+    spd <- DataFrame(fileIdx=c(1, 1, 2), spIdx=1:3,
+                     row.names=c("F1.S1", "F1.S2", "F2.S3"))
+    f <- system.file(
+        file.path("microtofq", c("MM8.mzML", "MM14.mzML")),
+        package="msdata"
+    )
+    b <- backendInitialize(BackendMemory(), files=f, spectraData=spd)
+    s <- c(F1.S1=new("Spectrum2", mz=1:2, intensity=1:2),
+           F1.S2=new("Spectrum2", mz=3:4, intensity=3:4),
+           F2.S3=new("Spectrum2", mz=5:6, intensity=5:6))
+    b@spectra[] <- s
+
+    r <- b
+    r@files <- r@files[2]
+    r@spectra <- r@spectra[3]
+    expect_equal(filterFile(b, 2), r)
+    expect_equal(filterFile(b, f[2]), r)
+})
+
 test_that("backendInitialize", {
     spd <- DataFrame(fileIdx=c(1, 1, 2), spIdx=1:3,
                      row.names=c("F1.S1", "F1.S2", "F2.S3"))
@@ -119,4 +161,9 @@ test_that("backendReadSpectra/backendWriteSpectra", {
     expect_equal(backendWriteSpectra(b, s[2], spd[3,]), r)
     r@spectra[] <- s[c(2, 1, 3)]
     expect_equal(backendWriteSpectra(b, s[2:1], spd[1:2,]), r)
+})
+
+test_that(".BackendMemory.fileIndexFromName", {
+    expect_equal(.BackendMemory.fileIndexFromName(c("F1.S1", "F10.S100")),
+                 c("F1", "F10"))
 })

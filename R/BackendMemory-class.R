@@ -35,7 +35,7 @@ setClass("BackendMemory",
         fnms <- names(files)
         snms <- names(spectra)
 
-        if (isFALSE(all(gsub("\\.S[0-9]+$", "", snms) %in% fnms))) {
+        if (isFALSE(all(.BackendMemory.fileIndexFromName(snms) %in% fnms))) {
             return("Mismatch between names for 'files' and 'spectra' found.")
         }
     }
@@ -54,6 +54,35 @@ setValidity("BackendMemory", function(object) {
 
 #' @rdname Backend
 BackendMemory <- function() { new("BackendMemory") }
+
+#' @rdname hidden_aliases
+setMethod(
+    "[",
+    signature("BackendMemory", i="ANY", j="missing"),
+    function(x, i, j, ..., drop=FALSE) {
+    x@spectra <- x@spectra[i]
+    f <- .BackendMemory.fileIndexFromName(names(x@spectra))
+    x@files <- x@files[f]
+    validObject(x)
+    x
+})
+
+#' @rdname hidden_aliases
+setMethod("filterFile", "BackendMemory", function(object, file, ...) {
+    ## we don't use `callNextMethod` here, because it will double the
+    ## `validObject` call and the first `validObject` fails with an error
+    ## because the names of `file` and `spectra` don't match anymore (`file` is
+    ## already filtered but `spectra` is not)
+    if (is.character(file)) {
+        file <- base::match(file, object@files)
+    }
+    object@files <- object@files[file]
+    keep <- .BackendMemory.fileIndexFromName(names(object@spectra)) %in%
+        names(object@files)
+    object@spectra <- object@spectra[keep]
+    validObject(object)
+    object
+})
 
 #' @rdname hidden_aliases
 setMethod(
@@ -103,3 +132,7 @@ setMethod(
         validObject(object)
         object
 })
+
+.BackendMemory.fileIndexFromName <- function(x) {
+    gsub("\\.S[0-9]+$", "", x)
+}
