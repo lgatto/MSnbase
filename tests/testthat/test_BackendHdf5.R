@@ -40,8 +40,12 @@ test_that("backendInitialize and backendImportData,BackendHdf5 work", {
 })
 
 test_that(".serialize_msfile_to_hdf5 works", {
-    h5 <- tempfile()
-    md5 <- MSnbase:::.serialize_msfile_to_hdf5(fileNames(sciex)[1], h5)
-    cont <- rhdf5::h5ls(h5)
+    h5file <- tempfile()
+    h5 <- rhdf5::H5Fcreate(h5file)
+    rhdf5::h5createGroup(h5, "spectra")
+    rhdf5::h5createGroup(h5, "md5")
+    rhdf5::H5Fclose(h5)
+    md5 <- MSnbase:::.serialize_msfile_to_hdf5(fileNames(sciex)[1], h5file)
+    cont <- rhdf5::h5ls(h5file)
     expect_equal(nrow(cont), sum(fromFile(sciex) == 1) + 3)
 })
