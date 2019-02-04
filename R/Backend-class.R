@@ -23,8 +23,8 @@ NULL
 #'
 #' The `BackendMemory` uses a `list` as backend and stores all MS data in the
 #' memory. This ensures a high performance but needs a lot of memory for larger
-#' experiments.
-#' It mimics the classical [MSnExp-class] behaviour.
+#' experiments.  It mimics the classical [MSnExp-class] behaviour.
+#'
 #' New backends can be created with the `BackendMemory()` function.
 #
 #' @section BackendMzR:
