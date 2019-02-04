@@ -81,8 +81,8 @@ setMethod("backendInitialize", "BackendHdf5", function(object, files,
     object@hdf5file <- file.path(path, paste0(.vdigest(files), ".h5"))
     if (any(file.exists(object@hdf5file)))
         stop("File(s) ", paste0(object@hdf5file[file.exists(object@hdf5file)],
-                                collapse = ", "), "does/do already exist. ",
-             "Please use a different path.")
+                                collapse = ", "), "already exist(s). ",
+             "Please choose a different 'path'.")
     for (i in seq_len(n_files)) {
         h5 <- H5Fcreate(object@hdf5file[i])
         h5createGroup(h5, "spectra")
@@ -132,6 +132,7 @@ setMethod("backendImportData", "BackendHdf5", function(object, spectraData,
 #' @noRd
 .serialize_msfile_to_hdf5 <- function(file, h5file) {
     h5 <- H5Fopen(h5file)
+    on.exit(H5Fclose(h5))
     comp_level <- .hdf5_compression_level()
     fh <- openMSfile(file)
     hdr <- header(fh)
@@ -145,6 +146,5 @@ setMethod("backendImportData", "BackendHdf5", function(object, spectraData,
     }
     pks_md5 <- digest(pks)
     h5write(pks_md5, h5, paste0("md5/md5"), level = comp_level)
-    H5Fclose(h5)
     pks_md5
 }
