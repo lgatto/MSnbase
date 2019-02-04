@@ -17,7 +17,7 @@
 \title{The MSnExperiment class to manage and access MS data}
 \usage{
 readMSnExperiment(file, sampleData, backend = BackendMzR(),
-  smoothed = NA, BPPARAM = bpparam())
+  smoothed = NA, ..., BPPARAM = bpparam())
 
 \S4method{spectrapply}{MSnExperiment}(object,
   f = spectraData(object)$fileIdx, FUN = NULL, BPPARAM = bpparam(),
@@ -54,6 +54,11 @@ information on each sample (samples as rows, information as columns).}
 
 \item{smoothed}{\code{logical}, are the spectra smoothed?}
 
+\item{...}{for \code{readMSnExperiment}: additional parameters to be passed to
+the init method of the backend, such as \code{path} for \code{\link[=BackendHdf5]{BackendHdf5()}} to
+define the directory where the hdf5 files should be saved.
+For \code{spectrapply}: additional arguments to be passed to \code{FUN}.}
+
 \item{BPPARAM}{should parallel processing be used? See
 \code{\link[BiocParallel:bpparam]{BiocParallel::bpparam()}}.}
 
@@ -66,11 +71,6 @@ split into chunks for parallelization.}
 
 \item{FUN}{for \code{spectrapply}: a function or the name of a function to apply
 to each \linkS4class{Spectrum} of the experiment.}
-
-\item{...}{for \code{readMSnExperiment}: additional parameters to be passed to
-the init method of the backend, such as \code{path} for \code{\link[=BackendHdf5]{BackendHdf5()}} to
-define the directory where the hdf5 files should be saved.
-For \code{spectrapply}: additional arguments to be passed to \code{FUN}.}
 
 \item{return.type}{for \code{spectra}: a \code{character(1)} specifying whether the
 result should be returned as a \code{\link[=Spectra]{Spectra()}}

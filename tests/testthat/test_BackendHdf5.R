@@ -1,4 +1,5 @@
-sciex_h5 <- readMSnExperiment(sf, backend = BackendHdf5())
+sciex_h5 <- readMSnExperiment(sf, backend = BackendHdf5(),
+                              path = paste0(tempdir(), "/sciex_h5/"))
 
 test_that("BackendHdf5 validators work", {
     expect_true(is.null(.valid.BackendHdf5.checksums(5, 5)))

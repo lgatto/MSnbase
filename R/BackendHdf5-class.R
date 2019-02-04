@@ -133,6 +133,7 @@ setMethod("backendImportData", "BackendHdf5", function(object, spectraData,
     for (i in seq_along(pks)) {
         h5write(pks[[i]], h5, paste0("spectra/", i), level = comp_level)
     }
+    H5Fflush(h5)
     checksum <- digest(h5file, file = TRUE)
     h5write(checksum, h5, paste0("md5/md5"), level = comp_level)
     checksum
@@ -190,7 +191,7 @@ setMethod("backendImportData", "BackendHdf5", function(object, spectraData,
 #' @noRd
 .h5_read_spectra <- function(spectraData, h5file, checksum) {
     suppressPackageStartupMessages(require(MSnbase, quietly = TRUE))
-    fid <-.Call("_H5Fopen", h5file, 0L, PACKAGE = "rhdf5")
+    fid <- .Call("_H5Fopen", h5file, 0L, PACKAGE = "rhdf5")
     on.exit(invisible(.Call("_H5Fclose", fid, PACKAGE = "rhdf5")))
     h5_checksum <- .h5_read_bare(fid, paste0("/md5/md5"))
     if (h5_checksum != checksum)

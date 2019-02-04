@@ -249,7 +249,7 @@ setMethod(
 
 #' @rdname MSnExperiment
 readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
-                              smoothed = NA, BPPARAM = bpparam()) {
+                              smoothed = NA, ..., BPPARAM = bpparam()) {
     ## if (missing(backend) || !inherits(backend))
     if (missing(file) || length(file) == 0)
         stop("Parameter 'file' is required")
@@ -303,7 +303,8 @@ readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
     spectraData <- DataFrame(
         do.call(rbind, bplapply(file, .read_file, files=file,
                                 smoothed=smoothed, BPPARAM=BPPARAM)))
-    backend <- backendInitialize(backend, file, spectraData, BPPARAM=BPPARAM)
+    backend <- backendInitialize(backend, file, spectraData, ...,
+                                 BPPARAM=BPPARAM)
     backend <- backendImportData(backend, spectraData, BPPARAM=BPPARAM)
     new("MSnExperiment",
         backend = backend,
