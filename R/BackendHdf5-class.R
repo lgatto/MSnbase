@@ -131,14 +131,11 @@ setMethod("backendImportData", "BackendHdf5", function(object, spectraData,
     pks <- peaks(fh)
     close(fh)
     for (i in seq_along(pks)) {
-        .pks <- pks[[i]]
-        colnames(.pks) <- c("mz", "intensity")
-        h5write(.pks, h5, paste0("spectra/", i), level = comp_level)
-        pks[[i]] <- .pks
+        h5write(pks[[i]], h5, paste0("spectra/", i), level = comp_level)
     }
-    pks_md5 <- digest(pks)
-    h5write(pks_md5, h5, paste0("md5/md5"), level = comp_level)
-    pks_md5
+    checksum <- digest(h5file, file = TRUE)
+    h5write(checksum, h5, paste0("md5/md5"), level = comp_level)
+    checksum
 }
 
 ## setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
@@ -174,16 +171,14 @@ setMethod("backendImportData", "BackendHdf5", function(object, spectraData,
 #' This function uses a constructor function that creates all `Spectrum`
 #' objects in C++ for added performance.
 #'
-#' @param fdata `data.frame` representing the feature data (`fData`) of the
-#'     spectra to be returned.
+#' @param spectraData `DataFrame` representing the spectrum metadata (for
+#'     spectra from a single file).
 #'
 #' @param h5file `character`: the name of the HDF5 file.
 #'
-#' @param h5md5 `character`: the md5 sum of the spectrum data in a hdf5 file.
+#' @param checksum `character`: the checksum of the hdf5 file.
 #'     This is checked against the hdf5 from the file and an error if thrown
 #'     if they differ, i.e. if the data was changed in the HDF5 file.
-#'
-#' @param file_name `character` with the file name of the original mzML file.
 #'
 #' @return list of `Spectrum` objects in the order of the spectra given in
 #'     param `fdata`.
@@ -193,63 +188,17 @@ setMethod("backendImportData", "BackendHdf5", function(object, spectraData,
 #' @md
 #'
 #' @noRd
-.h5_read_spectra <- function(fdata, h5file, h5md5, file_name) {
+.h5_read_spectra <- function(spectraData, h5file, checksum) {
     suppressPackageStartupMessages(require(MSnbase, quietly = TRUE))
     fid <-.Call("_H5Fopen", h5file, 0L, PACKAGE = "rhdf5")
     on.exit(invisible(.Call("_H5Fclose", fid, PACKAGE = "rhdf5")))
-    grp_name <- paste0(.h5_group_name(file_name), "/")
-    pks_md5 <- .h5_read_bare(fid, paste0(grp_name, "md5"))
-    if (pks_md5 != h5md5)
+    h5_checksum <- .h5_read_bare(fid, paste0("/md5/md5"))
+    if (h5_checksum != checksum)
         stop("The data in the Hdf5 files associated with this object appear ",
-             "to have changed! Please see the Notes section in ?Hdf5MSnExp ",
+             "to have changed! Please see the Notes section in ?Backend ",
              "for more information.")
-    mzi <- base::lapply(paste0(grp_name, fdata$spIdx),
-                        .h5_read_bare, file = fid)
-    res <- vector("list", nrow(fdata))
-    names(res) <- rownames(fdata)
-    ms1 <- which(fdata$msLevel == 1)
-    n_peaks <- base::lengths(mzi, use.names = FALSE) / 2
-    if (length(ms1)) {
-        mzi_ms1 <- do.call(rbind, mzi[ms1])
-        res[ms1] <- Spectra1_mz_sorted(
-            peaksCount = n_peaks[ms1],
-            rt = fdata$retentionTime[ms1],
-            acquisitionNum = fdata$acquisitionNum[ms1],
-            scanIndex = fdata$spIdx[ms1],
-            tic = fdata$totIonCurrent[ms1],
-            mz = mzi_ms1[, 1],
-            intensity = mzi_ms1[, 2],
-            fromFile = fdata$fileIdx[ms1],
-            centroided = fdata$centroided[ms1],
-            smoothed = fdata$smoothed[ms1],
-            polarity = fdata$polarity[ms1],
-            nvalues = n_peaks[ms1])
-    }
-    msn <- which(fdata$msLevel > 1)
-    if (length(msn)) {
-        mzi_msn <- do.call(rbind, mzi[msn])
-        res[msn] <- Spectra2_mz_sorted(
-            msLevel = fdata$msLevel[msn],
-            peaksCount = n_peaks[msn],
-            rt = fdata$retentionTime[msn],
-            acquisitionNum = fdata$acquisitionNum[msn],
-            scanIndex = fdata$spIdx[msn],
-            tic = fdata$totIonCurrent[msn],
-            mz = mzi_msn[, 1],
-            intensity = mzi_msn[, 2],
-            fromFile = fdata$fileIdx[msn],
-            centroided = fdata$centroided[msn],
-            smoothed = fdata$smoothed[msn],
-            polarity = fdata$polarity[msn],
-            merged = fdata$mergedScan[msn],
-            precScanNum = fdata$precursorScanNum[msn],
-            precursorMz = fdata$precursorMZ[msn],
-            precursorIntensity = fdata$precursorIntensity[msn],
-            precursorCharge = fdata$precursorCharge[msn],
-            collisionEnergy = fdata$collisionEnergy[msn],
-            nvalues = n_peaks[msn])
-    }
-    res
+    .spectra_from_data(base::lapply(paste0("/spectra/", spectraData$spIdx),
+                                    .h5_read_bare, file = fid), spectraData)
 }
 
 ## setMethod("backendWriteSpectra", "BackendHdf5", function(object, spectra,

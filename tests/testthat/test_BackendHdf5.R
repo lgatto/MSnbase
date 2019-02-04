@@ -1,3 +1,5 @@
+sciex_h5 <- readMSnExperiment(sf, backend = BackendHdf5())
+
 test_that("BackendHdf5 validators work", {
     expect_true(is.null(.valid.BackendHdf5.checksums(5, 5)))
     expect_true(is.character(.valid.BackendHdf5.checksums(3, 1:2)))
@@ -51,17 +53,17 @@ test_that(".serialize_msfile_to_hdf5 works", {
 })
 
 test_that(".h5_read_bare works", {
-    ## grps <- MSnbase:::.h5_group_name(fileNames(h5_sciex))
-    ## expect_error(.h5_read_bare())
-    ## expect_error(.h5_read_bare("5"))
-    ## fid <- .Call("_H5Fopen", h5_sciex@h5files, 0L, PACKAGE = "rhdf5")
-    ## res <- MSnbase:::.h5_read_bare(fid, paste0(grps[1], "/3"))
-    ## .Call("_H5Fclose", fid, PACKAGE = "rhdf5")
-    ## res_2 <- rhdf5::h5read(h5_sciex@h5files[1],
-    ##                        name = paste0(grps[1], "/3"))
-    ## expect_equal(res, res_2)
-    ## expect_equal(res[, 1], mz(sciex[[3]]))
-    ## expect_equal(res[, 2], intensity(sciex[[3]]))
+    expect_error(MSnbase:::.h5_read_bare())
+    expect_error(MSnbase:::.h5_read_bare("5"))
+
+    fid <- .Call("_H5Fopen", sciex_h5@backend@h5files[1], 0L, PACKAGE = "rhdf5")
+    res <- MSnbase:::.h5_read_bare(fid, "/spectra/3")
+    .Call("_H5Fclose", fid, PACKAGE = "rhdf5")
+    res_2 <- rhdf5::h5read(sciex_h5@backend@h5files[1],
+                           name = "/spectra/3")
+    expect_equal(res, res_2)
+    expect_equal(res[, 1], mz(sciex[[3]]))
+    expect_equal(res[, 2], intensity(sciex[[3]]))
 })
 
 test_that(".h5_read_spectra works", {
