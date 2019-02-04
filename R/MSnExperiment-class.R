@@ -75,11 +75,17 @@ NULL
 #'   row containing information for one spectrum. This function is equivalent
 #'   to [featureData()] of `MSnExp`/`OnDiskMSnExp` objects.
 #'
+#' - `sampleData`: get sample metadata. Returns a `DataFrame`, each row
+#'   containing information for one sample or file. This function is equivalent to
+#'   [phenoData()] of `MSnExp`/`OnDiskMSnExp` objects.
+#'
 #' - `spectrapply`: apply an arbitrary function to each spectrum in the dataset
 #'   and return its result. The function returns a `list` with the same length
 #'   than there are spectra. Argument `f` allows to define how to split the
 #'   data/spectra into chunks for paralellization. By default data access and
 #'   application of the provided function are parallelized by file.
+#'
+#' - `metadata`: get the metadata `list`.
 #'
 #' @section Subsetting and filtering:
 #'
@@ -143,6 +149,7 @@ NULL
 #' lazy processing.
 #' @slot processingQueue `list` of `ProcessingStep` objects.
 #' @slot processing A `character` storing logging information.
+#' @slot metadata Ã `list` storing experiment metadata.
 #'
 #' @name MSnExperiment-class
 #' @docType class
@@ -150,15 +157,17 @@ NULL
 #' @noRd
 setClass(
     "MSnExperiment",
-    slots=c(
-        backend="Backend",
+    slots = c(
+        backend = "Backend",
         ## was featureData in MSnExp
-        spectraData="DataFrame",
+        spectraData = "DataFrame",
         ## was phenoData in MSnExp
-        sampleData="DataFrame",
-        processingQueue = "list",
+        sampleData = "DataFrame",
+        processingQueue  =  "list",
         ## logging
-        processing="character"
+        processing = "character"
+        ## metadata
+        metadata = "list",
     ),
     validity = .validMSnExperiment
 )
@@ -302,6 +311,21 @@ spectraData <- function(object) {
     stopifnot(inherits(object, "MSnExperiment"))
     object@spectraData
 }
+
+#' @rdname MSnExperiment
+sampleData <- function(object) {
+    stopifnot(inherits(object, "MSnExperiment"))
+    object@sampleData
+}
+
+#' @rdname MSnExperiment
+setMethod("metadata", "MSnExperiment",
+          function(x, ...) {
+              if (is.null(x@metadata) || is.character(x@metadata))
+                  list(metadata = x@metadata)
+              else x@metadata
+          })
+
 
 ##============================================================
 ##  --  SUBSETTING AND FILTERING METHODS
