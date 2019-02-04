@@ -29,7 +29,7 @@ BackendHdf5 <- function() new("BackendHdf5")
     msg <- NULL
     if (length(x) != length(y))
         msg <- "different number of hdf5 and original files"
-    if (length(x) != length(unique(x)))
+    if (anyDuplicated(x))
         msg <- c(msg, "hdf5 files are not unique")
     if (length(msg)) msg
     else NULL
@@ -78,15 +78,16 @@ setMethod("backendInitialize", "BackendHdf5", function(object, files,
     object@md5sum <- character(n_files)
     object@hdf5file <- character(n_files)
     comp_level <- .hdf5_compression_level()
+    object@hdf5file <- file.path(path, paste0(.vdigest(files), ".h5"))
+    if (any(file.exists(object@hdf5file)))
+        stop("File(s) ", paste0(object@hdf5file[file.exists(object@hdf5file)],
+                                collapse = ", "), "does/do already exist. ",
+             "Please use a different path.")
     for (i in seq_len(n_files)) {
-        h5file <- paste0(path, "/", digest(files[i]), ".h5")
-        if (file.exists(h5file))
-            stop("File ", h5file, " does already exist. Please use a different path.")
-        h5 <- H5Fcreate(h5file)
+        h5 <- H5Fcreate(object@hdf5file[i])
         h5createGroup(h5, "spectra")
         h5createGroup(h5, "md5")
         H5Fclose(h5)
-        object@hdf5file[i] <- h5file
     }
     validObject(object)
     object

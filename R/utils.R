@@ -1514,7 +1514,7 @@ levelIndex <- function(x, which = c("first", "middle", "last")) {
         i <- match(i, x)
     if (is.logical(i))
         i <- which(i)
-    if (any(is.na(i)) | any(i < 1) | any(i > length(x)))
+    if (anyNA(i) || any(i < 1) || any(i > length(x)))
         stop("index '", variable, "' out of bounds")
     i
 }
