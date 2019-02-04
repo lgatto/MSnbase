@@ -126,6 +126,7 @@
 <a href="#questions-and-bugs" class="anchor"></a>Questions and bugs</h1>
 <p>For bugs, typos, suggestions or other questions, please file an issue in our tracking system (<a href="https://github.com/lgatto/MSnbase/issues" class="uri">https://github.com/lgatto/MSnbase/issues</a>) providing as much information as possible, a reproducible example and the output of <code><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo()</a></code>.</p>
 <p>If you don’t have a GitHub account or wish to reach a broader audience for general questions about proteomics analysis using R, you may want to use the Bioconductor support site: <a href="https://support.bioconductor.org/" class="uri">https://support.bioconductor.org/</a>.</p>
+<p><strong>NB</strong> This document is going to be updated based on current major development plans in <code>MSnbase</code>.</p>
 </div>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
@@ -133,6 +134,19 @@
 <p>This document is not a replacement for the individual manual pages, that document the slots of the <em><a href="https://bioconductor.org/packages/3.9/MSnbase">MSnbase</a></em> classes. It is a centralised high-level description of the package design.</p>
 <p><em><a href="https://bioconductor.org/packages/3.9/MSnbase">MSnbase</a></em> aims at being compatible with the <em><a href="https://bioconductor.org/packages/3.9/Biobase">Biobase</a></em> infrastructure <span class="citation">(Gentleman et al. 2004)</span>. Many meta data structures that are used in <code>eSet</code> and associated classes are also used here. As such, knowledge of the <em>Biobase development and the new eSet</em> vignette would be beneficial; the vignette can directly be accessed with <code><a href="https://cran.rstudio.com/web/packages/Biobase/vignettes/BiobaseDevelopment.pdf">vignette("BiobaseDevelopment", package="Biobase")</a></code>.</p>
 <p>The initial goal is to use the <em><a href="https://bioconductor.org/packages/3.9/MSnbase">MSnbase</a></em> infrastructure for MS2 labelled (iTRAQ <span class="citation">(Ross et al. 2004)</span> and TMT <span class="citation">(Thompson et al. 2003)</span>) and label-free (spectral counting, index and abundance) quantitation - see the documentation for the <code>quantify</code> function for details. The infrastructure is currently extended to support a wider range of technologies, including metabolomics.</p>
+</div>
+<div id="coding-style" class="section level1">
+<h1 class="hasAnchor">
+<a href="#coding-style" class="anchor"></a>Coding style</h1>
+<p><code>MSnbase</code> follows the <a href="https://bioconductor.org/developers/how-to/coding-style/">Bioconductor style guide</a>. In particular</p>
+<ul>
+<li>Do not use <code>.</code> when naming symbols.</li>
+<li>A leading <code>.</code> can be used for hidden/local functions or variables.</li>
+<li>Use <code>##</code> to start full-line comments.</li>
+<li>Use spaces between <code>=</code> in function arguments or class definition.</li>
+<li>Always use a space after a comma. This: <code>a, b, c</code>.</li>
+<li>Always use spaces around binary operators.</li>
+</ul>
 </div>
 <div id="msnbase-classes" class="section level1">
 <h1 class="hasAnchor">
@@ -629,6 +643,7 @@
 <li><a href="#foreword">Foreword</a></li>
       <li><a href="#questions-and-bugs">Questions and bugs</a></li>
       <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#coding-style">Coding style</a></li>
       <li>
 <a href="#msnbase-classes"><em><a href="https://bioconductor-org/packages/3-9/MSnbase">MSnbase</a></em> classes</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#pset-a-virtual-class-for-raw-mass-spectrometry-data-and-meta-data"><code>pSet</code>: a virtual class for raw mass spectrometry data and meta data</a></li>
