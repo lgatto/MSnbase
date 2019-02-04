@@ -82,8 +82,7 @@ objects (\code{return.type = "list"}).}
 \item{i}{for \code{[}: \code{integer}, \code{logical} or \code{character} specifying the
 \strong{spectra} to which \code{object} should be subsetted.}
 
-\item{j}{for \code{[}: \code{integer}, \code{logical} or \code{character} specifying the
-\strong{samples} (files) to which \code{object} should be subsetted.}
+\item{j}{for \code{[}: not supported.}
 
 \item{drop}{for \code{[}: if \code{drop = TRUE} and the object is subsetted to a single
 element, a \code{Spectrum} class is returned; \code{drop = FALSE} returns always
@@ -107,14 +106,13 @@ See individual method description for the return value.
 The \code{MSnExperiment} class encapsules data and meta-data for mass
 spectrometry experiments.
 
-In contrast to the old \linkS4class{MSnExp} this class supports multiple data
-backends, e.g. in-memory (\linkS4class{BackendMemory}), on-disk as
-mzML (\linkS4class{BackendMzR}) or HDF5 (\linkS4class{BackendHdf5}). It supersedes
-\linkS4class{MSnExp} and \linkS4class{OnDiskMSnExp} objects.
+It supersedes \linkS4class{MSnExp} and \linkS4class{OnDiskMSnExp} objects and supports
+multiple data backends, e.g. in-memory (\linkS4class{BackendMemory}), on-disk as
+mzML (\linkS4class{BackendMzR}) or HDF5 (\linkS4class{BackendHdf5}).
 }
 \details{
 The \code{MSnExperiment} class uses by default a lazy data manipulation strategy,
-i.e. data manipulations such as with methods \code{removePeaks} are not applied
+i.e. data manipulations such as performed with \code{removePeaks} are not applied
 immediately to the data, but applied on-the-fly to the spectrum data once it
 is retrieved.
 }
@@ -147,9 +145,9 @@ application of the provided function are parallelized by file.
 \section{Subsetting and filtering}{
 
 \itemize{
-\item \code{[i, j]}: subset the object by spectra (\code{i}) and/or samples (files, \code{j}).
-Returns an \code{MSnExperiment}, unless \code{drop = TRUE} and the object is
-subsetted to a single spectrum, in which case a \code{Spectrum} is returned.
+\item \code{[i]}: subset the object by spectra (\code{i}). Returns an \code{MSnExperiment},
+unless \code{drop = TRUE} and the object is subsetted to a single spectrum,
+in which case a \code{Spectrum} is returned.
 \item \code{[[i]]}: extract the \linkS4class{Spectrum} with index \code{i} from the data.
 \item \code{filterFile}: subset the object by file. Returns an \code{MSnExperiment}.
 }
@@ -182,15 +180,15 @@ spectraData(dta)
 ## Extract all spectra; by default a `Spectra` is returned. We could also
 ## get a simple `list` of `Spectrum` objects by specifying
 ## `return.type = "list"`.
-spctra <- spectra(dta)
-head(spctra)
+sp <- spectra(dta)
+head(sp)
 
 ## Subset the object to contain only spectra 3, 12, 45
-dta_sub <- dta[c(3, 12, 45), ]
+dta_sub <- dta[c(3, 12, 45)]
 spectra(dta_sub)
 
 ## Subset the object to contain only spectra from the second file
-dta_sub <- dta[, 2]
+dta_sub <- filterFile(dta, 2)
 fileNames(dta_sub)
 
 ## Apply an arbitrary function to each spectrum and return its results.

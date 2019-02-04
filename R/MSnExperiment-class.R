@@ -12,15 +12,14 @@ NULL
 #' The `MSnExperiment` class encapsules data and meta-data for mass
 #' spectrometry experiments.
 #'
-#' In contrast to the old [MSnExp-class] this class supports multiple data
-#' backends, e.g. in-memory ([BackendMemory-class]), on-disk as
-#' mzML ([BackendMzR-class]) or HDF5 ([BackendHdf5-class]). It supersedes
-#' [MSnExp-class] and [OnDiskMSnExp-class] objects.
+#' It supersedes [MSnExp-class] and [OnDiskMSnExp-class] objects and supports
+#' multiple data backends, e.g. in-memory ([BackendMemory-class]), on-disk as
+#' mzML ([BackendMzR-class]) or HDF5 ([BackendHdf5-class]).
 #'
 #' @details
 #'
 #' The `MSnExperiment` class uses by default a lazy data manipulation strategy,
-#' i.e. data manipulations such as with methods `removePeaks` are not applied
+#' i.e. data manipulations such as performed with `removePeaks` are not applied
 #' immediately to the data, but applied on-the-fly to the spectrum data once it
 #' is retrieved.
 #'
@@ -52,8 +51,7 @@ NULL
 #' @param i for `[`: `integer`, `logical` or `character` specifying the
 #'     **spectra** to which `object` should be subsetted.
 #'
-#' @param j for `[`: `integer`, `logical` or `character` specifying the
-#'     **samples** (files) to which `object` should be subsetted.
+#' @param j for `[`: not supported.
 #'
 #' @param msLevel. `integer` defining the MS level of the spectra to which the
 #'     function should be applied.
@@ -107,9 +105,9 @@ NULL
 #'
 #' @section Subsetting and filtering:
 #'
-#' - `[i, j]`: subset the object by spectra (`i`) and/or samples (files, `j`).
-#'   Returns an `MSnExperiment`, unless `drop = TRUE` and the object is
-#'   subsetted to a single spectrum, in which case a `Spectrum` is returned.
+#' - `[i]`: subset the object by spectra (`i`). Returns an `MSnExperiment`,
+#'   unless `drop = TRUE` and the object is subsetted to a single spectrum,
+#'   in which case a `Spectrum` is returned.
 #'
 #' - `[[i]]`: extract the [Spectrum-class] with index `i` from the data.
 #'
@@ -147,15 +145,15 @@ NULL
 #' ## Extract all spectra; by default a `Spectra` is returned. We could also
 #' ## get a simple `list` of `Spectrum` objects by specifying
 #' ## `return.type = "list"`.
-#' spctra <- spectra(dta)
-#' head(spctra)
+#' sp <- spectra(dta)
+#' head(sp)
 #'
 #' ## Subset the object to contain only spectra 3, 12, 45
-#' dta_sub <- dta[c(3, 12, 45), ]
+#' dta_sub <- dta[c(3, 12, 45)]
 #' spectra(dta_sub)
 #'
 #' ## Subset the object to contain only spectra from the second file
-#' dta_sub <- dta[, 2]
+#' dta_sub <- filterFile(dta, 2)
 #' fileNames(dta_sub)
 #'
 #' ## Apply an arbitrary function to each spectrum and return its results.
@@ -391,27 +389,16 @@ setMethod("fileNames", "MSnExperiment", function(object, ...) {
 ##------------------------------------------------------------
 #' @rdname MSnExperiment
 setMethod("[", "MSnExperiment", function(x, i, j, ..., drop = TRUE) {
-    if (!missing(i) & !missing(j))
-        stop("Simultaneous subsetting to spectra and samples is not yet supported")
-    if (missing(i) & missing(j))
+    if (!missing(j))
+        stop("Subsetting by columns/samples is not supported")
+    if (missing(i))
         return(x)
-    if (!missing(j)) {
-        names_orig <- rownames(x@spectraData)
-        j <- .to_index(fileNames(x), j, variable = "j")
-        x@spectraData <- x@spectraData[x@spectraData$fileIdx %in% j, ,
-                                       drop = FALSE]
-        x@spectraData$fileIdx <- match(x@spectraData$fileIdx, j)
-        x@spectraData <- x@spectraData[order(x@spectraData$fileIdx), ,
-                                       drop = FALSE]
-        i <- match(rownames(x@spectraData), names_orig)
-    } else {
-        i <- .to_index(rownames(x@spectraData), i)
-        x@spectraData <- x@spectraData[i, , drop = FALSE]
-        j <- unique(x@spectraData$fileIdx) # here we allow unsorted file idx.
-        x@spectraData$fileIdx <- match(x@spectraData$fileIdx, j)
-    }
-    x@sampleData <- x@sampleData[j, , drop = FALSE]
-    x@backend <- x@backend[i, j]
+    i <- .to_index(rownames(x@spectraData), i)
+    x@spectraData <- x@spectraData[i, , drop = FALSE]
+    file <- unique(x@spectraData$fileIdx) # here we allow unsorted file idx.
+    x@spectraData$fileIdx <- match(x@spectraData$fileIdx, file)
+    x@sampleData <- x@sampleData[file, , drop = FALSE]
+    x@backend <- backendSubset(x@backend, i, file)
     if (nrow(x@spectraData) == 1 & drop)
         x <- spectrapply(x)[[1]]
     validObject(x)
@@ -426,7 +413,18 @@ setMethod("[[", "MSnExperiment",
 
 #' @rdname MSnExperiment
 setMethod("filterFile", "MSnExperiment", function(object, file) {
-    object <- object[, file, drop = FALSE]
+    if (missing(file))
+        return(object)
+    file <- .to_index(fileNames(object), file, variable = "file")
+    names_orig <- rownames(object@spectraData)
+    object@spectraData <- object@spectraData[object@spectraData$fileIdx
+                                             %in% file, , drop = FALSE]
+    object@spectraData$fileIdx <- match(object@spectraData$fileIdx, file)
+    object@spectraData <- object@spectraData[order(object@spectraData$fileIdx),
+                                            , drop = FALSE]
+    object@sampleData <- object@sampleData[file, , drop = FALSE]
+    i <- match(rownames(object@spectraData), names_orig)
+    object@backend <- backendSubset(object@backend, i = i, file = file)
     object@processing <- c(object@processing,
                            paste0("Filter: select file(s): ",
                                   paste0(file, collapse = ", "),

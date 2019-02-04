@@ -104,39 +104,39 @@ test_that("fileNames,MSnExperiment works", {
                  character())
 })
 
-test_that("[,MSnExperiment works", {
+test_that("filterFile and [,MSnExperiment work", {
     fls <-  c(system.file("microtofq/MM14.mzML", package = "msdata"),
               system.file("microtofq/MM8.mzML", package = "msdata"),
               sf)
     mse <- readMSnExperiment(fls)
-    spctra <- spectra(mse)
-    ## Subset files.
-    res <- mse[, c(FALSE, TRUE, TRUE, FALSE)]
+    sps <- spectra(mse)
+    ## filterFile
+    res <- filterFile(mse, c(FALSE, TRUE, TRUE, FALSE))
     expect_equal(fileNames(res), fls[2:3])
     expect_equal(spectrapply(res, FUN = mz),
-                 lapply(spctra[mse@spectraData$fileIdx %in% 2:3], mz))
+                 lapply(sps[mse@spectraData$fileIdx %in% 2:3], mz))
     expect_equal(res@sampleData, mse@sampleData[2:3, , drop = FALSE])
-    ## Subset files, change order
-    res <- mse[, c(2, 1)]
+    ## filterFile, change order
+    res <- filterFile(mse, c(2, 1))
     expect_equal(fileNames(res), fls[2:1])
     expect_equal(res@sampleData, mse@sampleData[c(2, 1), , drop = FALSE])
     expect_equal(spectrapply(res, FUN = intensity),
-                 lapply(spctra[c(113:310, 1:112)], intensity))
-    ## Subset spectra - in arbitrary order.
+                 lapply(sps[c(113:310, 1:112)], intensity))
+    ## [, subset spectra - in arbitrary order.
     idx <- c(333, 323, 17, 21, 337) # file 3, file 3, file 2, file 2, file 3
-    res <- mse[idx, ]
+    res <- mse[idx]
     expect_equal(fileNames(res), fls[c(3, 1)])
     expect_equal(res@spectraData$fileIdx, c(1, 1, 2, 2, 1))
-    res_spctra <- spectra(res)
-    expect_equal(names(res_spctra), names(spctra)[idx])
-    expect_equal(lapply(res_spctra, intensity),
-                 lapply(spctra[idx], intensity))
+    res_sps <- spectra(res)
+    expect_equal(names(res_sps), names(sps)[idx])
+    expect_equal(lapply(res_sps, intensity),
+                 lapply(sps[idx], intensity))
     ## drop
     res <- mse[333]
     expect_true(is(res, "Spectrum"))
     expect_equal(fromFile(res), 1)
-    expect_equal(intensity(res), intensity(spctra[[333]]))
-    res <- mse[333, , drop = FALSE]
+    expect_equal(intensity(res), intensity(sps[[333]]))
+    res <- mse[333, drop = FALSE]
     expect_true(is(res, "MSnExperiment"))
 
     ## Errors

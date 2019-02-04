@@ -111,14 +111,13 @@ setValidity("Backend", function(object) {
 
 #' @rdname hidden_aliases
 #' @param object Object to display.
-setMethod(
-    "show",
-    signature="Backend",
-    definition=function(object) {
+setMethod("show", signature = "Backend", definition = function(object) {
     cat("Backend:", class(object)[1L], "\n")
-    cat("Source files:\n",
-        paste(" ", basename(object@files), collapse="\n"), "\n", sep=""
-        )
+    fls <- basename(object@files)
+    if (length(fls) > 3)
+        fls <- c(fls[1:3], paste0("(", length(fls) -3,
+                                  " more. Use `fileNames` to list all.)"))
+    cat("Source files:\n", paste(" ", fls, collapse = "\n"), "\n", sep = "")
 })
 
 #' @rdname hidden_aliases
@@ -265,22 +264,26 @@ setGeneric(
     valueClass="Backend"
 )
 
-#' Subset the `Backend` by spectra (`i`) and/or file (`j`). Note that the
-#' default implementation ignores argument `i`.
+#' Subset the `Backend` by spectra (`i`) and/or file (`file`).
+#' The default implementation subsets only by `file`. Subsetting by `i` has to
+#' be implemted (if needed) for each class that extends `Backend`.
 #'
 #' @param x `Backend`
 #'
 #' @param i `integer`; ignored.
 #'
-#' @param j `integer` defining the files to which `x` should be subsetted.
+#' @param file `integer` to subset by file.
 #'
 #' @return A `Backend` class.
 #'
 #' @author Johannes Rainer
 #'
 #' @rdname hidden_aliases
-setMethod("[", "Backend", function(x, i, j, ..., drop = TRUE) {
-    x@files <- x@files[j]
-    validObject(x)
-    x
+setGeneric("backendSubset", def = function(object, i, file, ...)
+    standardGeneric("backendSubset"),
+    valueClass = "Backend")
+setMethod("backendSubset", "Backend", function(object, i, file, ...) {
+    object@files <- object@files[file]
+    validObject(object)
+    object
 })
