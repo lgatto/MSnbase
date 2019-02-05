@@ -22,8 +22,8 @@ NULL
 #'
 #' The `BackendMemory` uses a `list` as backend and stores all MS data in the
 #' memory. This ensures a high performance but needs a lot of memory for larger
-#' experiments.
-#' It mimics the classical [MSnExp-class] behaviour.
+#' experiments.  It mimics the classical [MSnExp-class] behaviour.
+#'
 #' New backends can be created with the `BackendMemory()` function.
 #
 #' @section BackendMzR:
@@ -100,6 +100,12 @@ setClass("Backend",
             return("Files should not be missing.")
         if (anyDuplicated(x))
             return("Duplicated file names found.")
+        if (is.null(names(x)))
+            return("Names for 'file' missing.")
+        if (anyDuplicated(names(x)))
+            return("Duplicated names of 'file' found.")
+        if (isFALSE(all(startsWith(names(x), "F"))))
+            return("Names of 'file' don't start with 'F'.")
     }
     NULL
 }
@@ -122,6 +128,16 @@ setMethod("show", signature = "Backend", definition = function(object) {
 
 #' @rdname hidden_aliases
 setMethod("fileNames", "Backend", function(object, ...) object@files)
+
+#' @rdname hidden_aliases
+setMethod("filterFile", "Backend", function(object, file, ...) {
+    if (is.character(file)) {
+        file <- base::match(file, object@files)
+    }
+    object@files <- object@files[file]
+    validObject(object)
+    object
+})
 
 #' Initialize a backend
 #'
@@ -154,6 +170,11 @@ setMethod(
     signature="Backend",
     definition=function(object, files, spectraData, ...) {
     object@files <- normalizePath(files)
+    ## use same names for files as `rownames(spectraData)`
+    ## e.g. for 2 files: F1, F2; for 10 files: F01, F02, ..., F10
+    names(object@files) <- sprintf(
+        paste0("F%0", ceiling(log10(length(files))), "d"), seq_along(files)
+    )
     validObject(object)
     object
 })

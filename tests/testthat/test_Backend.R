@@ -2,7 +2,7 @@ context("Backend class")
 
 test_that("validity", {
     b <- BackendMemory()
-    b@files <- c("foo", "bar")
+    b@files <- c(F1="foo", F2="bar")
     expect_true(validObject(b))
 
     b@files[2] <- "foo"
@@ -11,21 +11,27 @@ test_that("validity", {
 
 test_that(".valid.Backend.files", {
     expect_null(.valid.Backend.files(character()))
-    expect_null(.valid.Backend.files(c("foo", "bar")))
-    expect_match(.valid.Backend.files(c("foo", "")), " missing")
-    expect_match(.valid.Backend.files(c("foo", NA, "bar")), " NA")
-    expect_match(.valid.Backend.files(c("foo", "foo", "bar")), "Duplicated")
+    expect_null(.valid.Backend.files(c(F1="foo", F2="bar")))
+    expect_match(.valid.Backend.files(c(F1="foo", F2="")), " missing")
+    expect_match(.valid.Backend.files(c(F1="foo", F2=NA, F3="bar")), " NA")
+    expect_match(.valid.Backend.files(c(F1="foo", F2="foo", F3="bar")),
+                 "Duplicated")
+    expect_match(.valid.Backend.files(c("foo", "bar")), " missing")
+    expect_match(.valid.Backend.files(c(F1="foo", F1="bar")),
+                 "Duplicated")
+    expect_match(.valid.Backend.files(c(S1="foo", S2="bar")),
+                 "don't start")
 })
 
 test_that("fileNames", {
     b <- BackendMemory()
-    b@files <- c("foo", "bar")
-    expect_identical(fileNames(b), c("foo", "bar"))
+    b@files <- c(F1="foo", F2="bar")
+    expect_identical(fileNames(b), c(F1="foo", F2="bar"))
 })
 
 test_that("show", {
     b <- BackendMemory()
-    b@files <- c("foo", "bar")
+    b@files <- c(F1="foo", F2="bar")
     expect_output(show(b), paste("Backend: BackendMemory ", "Source files:",
                                  "  foo", "  bar", sep="\\n"))
 })
