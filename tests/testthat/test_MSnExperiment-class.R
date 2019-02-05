@@ -99,7 +99,7 @@ test_that("removePeaks,MSnExperiment and clean,MSnExperiment work", {
 })
 
 test_that("fileNames,MSnExperiment works", {
-    expect_equal(fileNames(sciex_mzr), sf)
+    expect_equal(unname(fileNames(sciex_mzr)), sf)
     expect_equal(fileNames(new("MSnExperiment", backend = BackendMzR())),
                  character())
 })
@@ -108,34 +108,49 @@ test_that("filterFile and [,MSnExperiment work", {
     fls <-  c(system.file("microtofq/MM14.mzML", package = "msdata"),
               system.file("microtofq/MM8.mzML", package = "msdata"),
               sf)
-    mse <- readMSnExperiment(fls)
-    sps <- spectra(mse)
+    mse <- readMSnExperiment(fls, backend = BackendMzR())
+    mse_hdf5 <- readMSnExperiment(fls, backend = BackendHdf5(),
+                                  path = paste0(tempdir(), "/mse/"))
+    mse_mem <- readMSnExperiment(fls, backend = BackendMemory())
+    sps <- spectra(mse_mem)
     ## filterFile
     res <- filterFile(mse, c(FALSE, TRUE, TRUE, FALSE))
-    expect_equal(fileNames(res), fls[2:3])
+    expect_equal(unname(fileNames(res)), fls[2:3])
     expect_equal(spectrapply(res, FUN = mz),
                  lapply(sps[mse@spectraData$fileIdx %in% 2:3], mz))
     expect_equal(res@sampleData, mse@sampleData[2:3, , drop = FALSE])
+    expect_equal(spectra(res),
+                 spectra(filterFile(mse_hdf5, c(FALSE, TRUE, TRUE, FALSE))))
+    expect_equal(spectra(res),
+                 spectra(filterFile(mse_mem, c(FALSE, TRUE, TRUE, FALSE))))
+
     ## filterFile, change order
     res <- filterFile(mse, c(2, 1))
-    expect_equal(fileNames(res), fls[2:1])
+    expect_equal(unname(fileNames(res)), fls[2:1])
     expect_equal(res@sampleData, mse@sampleData[c(2, 1), , drop = FALSE])
     expect_equal(spectrapply(res, FUN = intensity),
                  lapply(sps[c(113:310, 1:112)], intensity))
+    expect_equal(spectra(res), spectra(filterFile(mse_hdf5, c(2, 1))))
+    expect_equal(spectra(res), spectra(filterFile(mse_mem, c(2, 1))))
+
     ## [, subset spectra - in arbitrary order.
     idx <- c(333, 323, 17, 21, 337) # file 3, file 3, file 2, file 2, file 3
     res <- mse[idx]
-    expect_equal(fileNames(res), fls[c(3, 1)])
+    expect_equal(unname(fileNames(res)), fls[c(3, 1)])
     expect_equal(res@spectraData$fileIdx, c(1, 1, 2, 2, 1))
     res_sps <- spectra(res)
     expect_equal(names(res_sps), names(sps)[idx])
     expect_equal(lapply(res_sps, intensity),
                  lapply(sps[idx], intensity))
+    expect_equal(res_sps, spectra(mse_hdf5[idx]))
+    expect_equal(res_sps, spectra(mse_mem[idx]))
     ## drop
     res <- mse[333]
     expect_true(is(res, "Spectrum"))
     expect_equal(fromFile(res), 1)
     expect_equal(intensity(res), intensity(sps[[333]]))
+    expect_equal(res, mse_hdf5[333])
+    expect_equal(res, mse_mem[333])
     res <- mse[333, drop = FALSE]
     expect_true(is(res, "MSnExperiment"))
 

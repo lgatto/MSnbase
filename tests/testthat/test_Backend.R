@@ -39,7 +39,8 @@ test_that("show", {
 test_that("backendSubset,Backend works", {
     be <- BackendMzR()
     be@files <- c("a", "b", "c", "d")
-    res <- backendSubset(be, file = c(3, 1))
-    expect_equal(res@files, c("c", "a"))
-    expect_equal(be, backendSubset(be, i = 3))
+    names(be@files) <- paste0("F", 1:4)
+    res <- backendSubset(be, i = 3, file = c(3, 1))
+    expect_equal(unname(res@files), c("c", "a"))
+    expect_equal(be, backendSubset(be, i = 3, file = 1:4))
 })

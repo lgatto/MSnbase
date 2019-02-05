@@ -89,6 +89,12 @@ NULL
 #'
 #' - `fileNames`: get the original file names from which the data was imported.
 #'
+#' - `metadata`: get the metadata `list`.
+#'
+#' - `sampleData`: get sample metadata. Returns a `DataFrame`, each row
+#'   containing information for one sample or file. This function is equivalent
+#'   to [phenoData()] of `MSnExp`/`OnDiskMSnExp` objects.
+#'
 #' - `spectra`: get the `list` of [Spectrum-class] objects from the experiment.
 #'   Note that the spectra in the `list` are not grouped by sample/file. Use
 #'   the `fromFile` method to split/group the `list` by file.
@@ -97,17 +103,11 @@ NULL
 #'   row containing information for one spectrum. This function is equivalent
 #'   to [featureData()] of `MSnExp`/`OnDiskMSnExp` objects.
 #'
-#' - `sampleData`: get sample metadata. Returns a `DataFrame`, each row
-#'   containing information for one sample or file. This function is equivalent to
-#'   [phenoData()] of `MSnExp`/`OnDiskMSnExp` objects.
-#'
 #' - `spectrapply`: apply an arbitrary function to each spectrum in the dataset
 #'   and return its result. The function returns a `list` with the same length
 #'   than there are spectra. Argument `f` allows to define how to split the
 #'   data/spectra into chunks for paralellization. By default data access and
 #'   application of the provided function are parallelized by file.
-#'
-#' - `metadata`: get the metadata `list`.
 #'
 #' @section Subsetting and filtering:
 #'
@@ -217,7 +217,7 @@ NULL
 #' lazy processing.
 #' @slot processingQueue `list` of `ProcessingStep` objects.
 #' @slot processing A `character` storing logging information.
-#' @slot metadata Ã `list` storing experiment metadata.
+#' @slot metadata A `list` storing experiment metadata.
 #'
 #' @name MSnExperiment-class
 #' @docType class
@@ -233,9 +233,9 @@ setClass(
         sampleData = "DataFrame",
         processingQueue  =  "list",
         ## logging
-        processing = "character"
+        processing = "character",
         ## metadata
-        metadata = "list",
+        metadata = "list"
     ),
     validity = .validMSnExperiment
 )
@@ -402,6 +402,10 @@ setMethod("metadata", "MSnExperiment",
               else x@metadata
           })
 
+#' @rdname MSnExperiment
+setMethod("fileNames", "MSnExperiment", function(object) {
+    fileNames(object@backend)
+})
 
 ##============================================================
 ##  --  SUBSETTING AND FILTERING METHODS

@@ -35,8 +35,8 @@ Available backends in \code{MSnbase} are listed below.
 
 The \code{BackendMemory} uses a \code{list} as backend and stores all MS data in the
 memory. This ensures a high performance but needs a lot of memory for larger
-experiments.
-It mimics the classical \linkS4class{MSnExp} behaviour.
+experiments.  It mimics the classical \linkS4class{MSnExp} behaviour.
+
 New backends can be created with the \code{BackendMemory()} function.
 }
 

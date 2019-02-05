@@ -56,33 +56,48 @@ setValidity("BackendMemory", function(object) {
 BackendMemory <- function() { new("BackendMemory") }
 
 #' @rdname hidden_aliases
-setMethod(
-    "[",
-    signature("BackendMemory", i="ANY", j="missing"),
-    function(x, i, j, ..., drop=FALSE) {
-    x@spectra <- x@spectra[i]
-    f <- .BackendMemory.fileIndexFromName(names(x@spectra))
-    x@files <- x@files[f]
-    validObject(x)
-    x
-})
+setMethod("backendSubset", signature(object = "BackendMemory", i = "numeric",
+                                     file = "numeric"),
+          function(object, i, file) {
+              files_orig <- object@files
+              object@files <- object@files[file]
+              ## Update also `@fromFile` in the spectra.
+              object@spectra <- lapply(object@spectra[i], function(z) {
+                  z@fromFile <- match(files_orig[z@fromFile], object@files)
+                  z
+              })
+              validObject(object)
+              object
+          })
 
-#' @rdname hidden_aliases
-setMethod("filterFile", "BackendMemory", function(object, file, ...) {
-    ## we don't use `callNextMethod` here, because it will double the
-    ## `validObject` call and the first `validObject` fails with an error
-    ## because the names of `file` and `spectra` don't match anymore (`file` is
-    ## already filtered but `spectra` is not)
-    if (is.character(file)) {
-        file <- base::match(file, object@files)
-    }
-    object@files <- object@files[file]
-    keep <- .BackendMemory.fileIndexFromName(names(object@spectra)) %in%
-        names(object@files)
-    object@spectra <- object@spectra[keep]
-    validObject(object)
-    object
-})
+## #' @rdname hidden_aliases
+## setMethod(
+##     "[",
+##     signature("BackendMemory", i="ANY", j="missing"),
+##     function(x, i, j, ..., drop=FALSE) {
+##     x@spectra <- x@spectra[i]
+##     f <- .BackendMemory.fileIndexFromName(names(x@spectra))
+##     x@files <- x@files[f]
+##     validObject(x)
+##     x
+## })
+
+## #' @rdname hidden_aliases
+## setMethod("filterFile", "BackendMemory", function(object, file, ...) {
+##     ## we don't use `callNextMethod` here, because it will double the
+##     ## `validObject` call and the first `validObject` fails with an error
+##     ## because the names of `file` and `spectra` don't match anymore (`file` is
+##     ## already filtered but `spectra` is not)
+##     if (is.character(file)) {
+##         file <- base::match(file, object@files)
+##     }
+##     object@files <- object@files[file]
+##     keep <- .BackendMemory.fileIndexFromName(names(object@spectra)) %in%
+##         names(object@files)
+##     object@spectra <- object@spectra[keep]
+##     validObject(object)
+##     object
+## })
 
 #' @rdname hidden_aliases
 setMethod(

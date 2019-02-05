@@ -8,6 +8,8 @@
 \alias{spectrapply,MSnExperiment-method}
 \alias{spectra,MSnExperiment-method}
 \alias{spectraData}
+\alias{sampleData}
+\alias{metadata,MSnExperiment-method}
 \alias{fileNames,MSnExperiment-method}
 \alias{[,MSnExperiment,ANY,ANY,ANY-method}
 \alias{[[,MSnExperiment,ANY,ANY-method}
@@ -28,7 +30,11 @@ readMSnExperiment(file, sampleData, backend = BackendMzR(),
 
 spectraData(object)
 
-\S4method{fileNames}{MSnExperiment}(object, ...)
+sampleData(object)
+
+\S4method{metadata}{MSnExperiment}(x, ...)
+
+\S4method{fileNames}{MSnExperiment}(object)
 
 \S4method{[}{MSnExperiment,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 
@@ -128,6 +134,10 @@ spectrometry data files.
 
 \itemize{
 \item \code{fileNames}: get the original file names from which the data was imported.
+\item \code{metadata}: get the metadata \code{list}.
+\item \code{sampleData}: get sample metadata. Returns a \code{DataFrame}, each row
+containing information for one sample or file. This function is equivalent
+to \code{\link[=phenoData]{phenoData()}} of \code{MSnExp}/\code{OnDiskMSnExp} objects.
 \item \code{spectra}: get the \code{list} of \linkS4class{Spectrum} objects from the experiment.
 Note that the spectra in the \code{list} are not grouped by sample/file. Use
 the \code{fromFile} method to split/group the \code{list} by file.

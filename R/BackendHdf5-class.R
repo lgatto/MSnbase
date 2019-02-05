@@ -11,6 +11,7 @@ NULL
 setClass("BackendHdf5", contains = "Backend", slots = c(checksums = "character",
                                                         h5files = "character"))
 
+#' @rdname hidden_aliases
 setMethod("show", "BackendHdf5", function(object) {
     callNextMethod()
     cat("Hdf5 path:", unique(dirname(object@h5files)), "\n")
@@ -75,6 +76,9 @@ setMethod("backendInitialize", "BackendHdf5", function(object, files,
     dir.create(path, showWarnings = FALSE, recursive = TRUE)
     n_files <- length(files)
     object@files <- files
+    names(object@files) <- sprintf(
+        paste0("F%0", ceiling(log10(length(files))), "d"), seq_along(files)
+    )
     object@checksums <- character(n_files)
     object@h5files <- character(n_files)
     comp_level <- .hdf5_compression_level()
@@ -281,3 +285,13 @@ setMethod("backendWriteSpectra", "BackendHdf5", function(object, spectra,
     object@checksums[idx] <- chk
     object
 })
+
+setMethod("backendSubset", signature(object = "BackendHdf5", i = "numeric",
+                                     file = "numeric"),
+          function(object, i, file) {
+              object@files <- object@files[file]
+              object@checksums <- object@checksums[file]
+              object@h5files <- object@h5files[file]
+              validObject(object)
+              object
+          })

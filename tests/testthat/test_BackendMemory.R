@@ -50,46 +50,29 @@ test_that(".valid.BackendMemory.match.file.spectra", {
         c(F1="foo", F2="bar"), c(F3.S1=1, F3.S1=2)), "Mismatch")
 })
 
-test_that("[", {
-    spd <- DataFrame(fileIdx=c(1, 1, 2), spIdx=1:3,
-                     row.names=c("F1.S1", "F1.S2", "F2.S3"))
+test_that("backendSubset,BackendMemory works", {
     f <- system.file(
         file.path("microtofq", c("MM8.mzML", "MM14.mzML")),
         package="msdata"
     )
-    b <- backendInitialize(BackendMemory(), files=f, spectraData=spd)
-    s <- c(F1.S1=new("Spectrum2", mz=1:2, intensity=1:2),
-           F1.S2=new("Spectrum2", mz=3:4, intensity=3:4),
-           F2.S3=new("Spectrum2", mz=5:6, intensity=5:6))
-    b@spectra[] <- s
-
-    r <- b
-    r@files <- r@files[2]
-    r@spectra <- r@spectra[3]
-    expect_equal(b[3], r)
-    r <- b
-    r@spectra <- r@spectra[c(1, 3)]
-    expect_equal(b[c(1, 3)], r)
-})
-
-test_that("filterFile", {
-    spd <- DataFrame(fileIdx=c(1, 1, 2), spIdx=1:3,
-                     row.names=c("F1.S1", "F1.S2", "F2.S3"))
-    f <- system.file(
-        file.path("microtofq", c("MM8.mzML", "MM14.mzML")),
-        package="msdata"
-    )
-    b <- backendInitialize(BackendMemory(), files=f, spectraData=spd)
-    s <- c(F1.S1=new("Spectrum2", mz=1:2, intensity=1:2),
-           F1.S2=new("Spectrum2", mz=3:4, intensity=3:4),
-           F2.S3=new("Spectrum2", mz=5:6, intensity=5:6))
-    b@spectra[] <- s
-
-    r <- b
-    r@files <- r@files[2]
-    r@spectra <- r@spectra[3]
-    expect_equal(filterFile(b, 2), r)
-    expect_equal(filterFile(b, f[2]), r)
+    tmp <- readMSnExperiment(f, backend = BackendMemory())
+    be <- tmp@backend
+    spd <- tmp@spectraData
+    sps <- spectra(tmp, return.type = "list")
+    ## Subset to data from the second file.
+    be_2 <- MSnbase:::backendSubset(be, which(spd$fileIdx == 2), 2L)
+    expect_equal(be_2@files, be@files[2])
+    ## fromFile has to be 1 for all spectra
+    expect_true(all(vapply(be_2@spectra, fromFile, integer(1)) == 1))
+    expect_equal(lapply(be_2@spectra, intensity),
+                 lapply(sps[spd$fileIdx == 2], intensity))
+    ## Subset to some specific spectra.
+    idx <- c(200, 201, 3, 5, 6)
+    be_3 <- MSnbase:::backendSubset(be, as.integer(idx), file = c(2L, 1L))
+    expect_equal(be_3@files, be@files[2:1])
+    expect_equal(unname(vapply(be_3@spectra, fromFile, integer(1))),
+                 c(1, 1, 2, 2, 2))
+    expect_equal(lapply(be_3@spectra, intensity), lapply(sps[idx], intensity))
 })
 
 test_that("backendInitialize", {

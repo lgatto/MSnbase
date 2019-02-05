@@ -129,16 +129,6 @@ setMethod("show", signature = "Backend", definition = function(object) {
 #' @rdname hidden_aliases
 setMethod("fileNames", "Backend", function(object, ...) object@files)
 
-#' @rdname hidden_aliases
-setMethod("filterFile", "Backend", function(object, file, ...) {
-    if (is.character(file)) {
-        file <- base::match(file, object@files)
-    }
-    object@files <- object@files[file]
-    validObject(object)
-    object
-})
-
 #' Initialize a backend
 #'
 #' This generic is used to setup a backend.
@@ -303,7 +293,9 @@ setGeneric(
 setGeneric("backendSubset", def = function(object, i, file, ...)
     standardGeneric("backendSubset"),
     valueClass = "Backend")
-setMethod("backendSubset", "Backend", function(object, i, file, ...) {
+setMethod("backendSubset", signature(object = "Backend", i = "numeric",
+                                     file = "numeric"),
+          function(object, i, file, ...) {
     object@files <- object@files[file]
     validObject(object)
     object
