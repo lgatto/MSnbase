@@ -3,7 +3,7 @@ NULL
 
 #' Backend class that stores data temporarily to hdf5 files.
 #'
-#' @author Johannes Rainer
+#' @author Johannes Rainer, Sebastian Gibb
 #'
 #' @md
 #'
@@ -86,7 +86,7 @@ setMethod("backendInitialize", "BackendHdf5", function(object, files,
     for (i in seq_len(n_files)) {
         h5 <- H5Fcreate(object@h5files[i])
         h5createGroup(h5, "spectra")
-        h5createGroup(h5, "md5")
+        h5createGroup(h5, "checksum")
         H5Fclose(h5)
     }
     validObject(object)
@@ -119,7 +119,7 @@ setMethod("backendImportData", "BackendHdf5", function(object, spectraData,
 #'
 #' @return `character(1)` with the md5 sum of the spectra data.
 #'
-#' @author Johannes Rainer
+#' @author Johannes Rainer, Sebastian Gibb
 #'
 #' @noRd
 .serialize_msfile_to_hdf5 <- function(file, h5file) {
@@ -130,18 +130,29 @@ setMethod("backendImportData", "BackendHdf5", function(object, spectraData,
     hdr <- header(fh)
     pks <- peaks(fh)
     close(fh)
+    spids <- paste0("/spectra/", seq_along(pks))
     for (i in seq_along(pks)) {
-        h5write(pks[[i]], h5, paste0("spectra/", i), level = comp_level)
+        h5write(pks[[i]], h5, spids[i], level = comp_level)
     }
     H5Fflush(h5)
     checksum <- digest(h5file, file = TRUE)
-    h5write(checksum, h5, paste0("md5/md5"), level = comp_level)
+    h5write(checksum, h5, paste0("/checksum/checksum"), level = comp_level)
     checksum
 }
 
-## setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
-##                                                         ...) {
-## })
+setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
+                                                        ...) {
+    file_f <- factor(spectraData$fileIdx, levels = unique(spectraData$fileIdx))
+    idx <- as.integer(levels(file_f))
+    fls <- object@h5files[idx]
+    checksums <- object@checksums[idx]
+    if (length(fls) == 1)
+        .h5_read_spectra(spectraData, fls, checksums)
+    else
+        unlist(mapply(split(spectraData, file_f), fls, checksums,
+                      FUN = .h5_read_spectra, SIMPLIFY = FALSE,
+                      USE.NAMES = FALSE), recursive = FALSE)
+})
 
 #' This is based on Mike Smith's function (issue #395) that directly accesses
 #' the data without validation and file checking.
@@ -193,7 +204,7 @@ setMethod("backendImportData", "BackendHdf5", function(object, spectraData,
     suppressPackageStartupMessages(require(MSnbase, quietly = TRUE))
     fid <- .Call("_H5Fopen", h5file, 0L, PACKAGE = "rhdf5")
     on.exit(invisible(.Call("_H5Fclose", fid, PACKAGE = "rhdf5")))
-    h5_checksum <- .h5_read_bare(fid, paste0("/md5/md5"))
+    h5_checksum <- .h5_read_bare(fid, "/checksum/checksum")
     if (h5_checksum != checksum)
         stop("The data in the Hdf5 files associated with this object appear ",
              "to have changed! Please see the Notes section in ?Backend ",
@@ -202,6 +213,71 @@ setMethod("backendImportData", "BackendHdf5", function(object, spectraData,
                                     .h5_read_bare, file = fid), spectraData)
 }
 
-## setMethod("backendWriteSpectra", "BackendHdf5", function(object, spectra,
-##                                                          spectraData) {
-## })
+#' Write spectra of an mzML file to a group within a hdf5 file. Depending on
+#' the value of `prune` the hdf5 group will be deleted before writing the data.
+#' This is required as datasets in a hdf5 file can not be *updated* if their
+#' dimensions don't match.
+#'
+#' @note
+#'
+#' `Hdf5MSnExp` object store spectrum data in (custom) hdf5 files for faster
+#' data access with data for each sample (from each input file) being stored in
+#' its own hdf5 file. Copies of `Hdf5MSnExp` objects, such as created with
+#' `a <- b` where `b` is an `Hdf5MSnExp` object will be associated with the
+#' same set of hdf5 files.
+#'
+#' Each spectrum will be saved as a dataset with the name being the name of the
+#' Spectrum in `x`. The names of `x` should thus be the **spectrum index** in
+#' the original file (i.e. `fData(object)$spIdx`) and not the spectrum names
+#' such as `"F01.001"`!
+#'
+#' @param x `list` of `Spectrum` objects.
+#'
+#' @param spectraData `DataFrame` with the spectra metadata information.
+#'
+#' @param h5file `character(1)` with the name of the hdf5 file into which the
+#'     data should be written.
+#'
+#' @param prune `logical(1)` whether the group should be deleted before writing
+#'     the data (see description above for more details).
+#'
+#' @author Johannes Rainer
+#'
+#' @md
+#'
+#' @noRd
+.h5_write_spectra <- function(x, spectraData, h5file, prune = TRUE) {
+    h5 <- H5Fopen(h5file)
+    on.exit(invisible(H5Fclose(h5)))
+    comp_level <- .hdf5_compression_level()
+    if (prune) {
+        h5delete(h5, "spectra")
+    }
+    if (!H5Lexists(h5, "spectra"))
+        h5createGroup(h5, "spectra")
+    spids <- paste0("/spectra/", spectraData$spIdx)
+    for (i in seq_along(x)) {
+        h5write(cbind(mz = mz(x[[i]]), intensity = intensity(x[[i]])),
+                h5, name = spids[i], level = comp_level)
+    }
+    H5Fflush(h5)
+    checksum <- digest(h5file, file = TRUE)
+    h5write(checksum, h5, "/checksum/checksum", level = comp_level)
+    checksum
+}
+
+setMethod("backendWriteSpectra", "BackendHdf5", function(object, spectra,
+                                                         spectraData) {
+    file_f <- factor(spectraData$fileIdx, levels = unique(spectraData$fileIdx))
+    idx <- as.integer(levels(file_f))
+    fls <- object@h5files[idx]
+    if (length(fls) == 1)
+        chk <- .h5_write_spectra(spectra, spectraData, fls)
+    else
+        chk <- unlist(mapply(split(spectra, file_f), split(spectraData, file_f),
+                             fls, FUN = .h5_write_spectra,
+                             SIMPLIFY = FALSE, USE.NAMES = FALSE),
+                      recursive = FALSE)
+    object@checksums[idx] <- chk
+    object
+})

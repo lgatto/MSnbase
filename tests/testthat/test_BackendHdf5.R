@@ -44,7 +44,7 @@ test_that(".serialize_msfile_to_hdf5 works", {
     h5file <- tempfile()
     h5 <- rhdf5::H5Fcreate(h5file)
     rhdf5::h5createGroup(h5, "spectra")
-    rhdf5::h5createGroup(h5, "md5")
+    rhdf5::h5createGroup(h5, "checksum")
     rhdf5::H5Fclose(h5)
     md5 <- .serialize_msfile_to_hdf5(fileNames(sciex)[1], h5file)
     cont <- rhdf5::h5ls(h5file)
@@ -90,4 +90,53 @@ test_that(".h5_read_spectra works", {
                  .h5_read_spectra(tmt_h5@spectraData[123, ],
                                   tmt_h5@backend@h5files,
                                   tmt_h5@backend@checksums))
+})
+
+test_that("backendReadSpectra,BackendHdf5 works", {
+    sps <- spectra(sciex)
+    be <- sciex_h5@backend
+    spd <- sciex_h5@spectraData
+    ## all spectra from the second file.
+    res <- MSnbase:::backendReadSpectra(be, spd[spd$fileIdx == 2, ])
+    expect_equal(res, sps[spd$fileIdx == 2])
+    ## Some spectra
+    idx <- c(23, 45, 12, 954, 976)
+    res <- MSnbase:::backendReadSpectra(be, spd[idx, ])
+    expect_equal(res, sps[idx])
+})
+
+test_that(".h5_write_spectra, and backendWriteSpectra,BackendHdf5 work", {
+    f <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
+       system.file("microtofq/MM8.mzML", package = "msdata"))
+    mse_h5 <- readMSnExperiment(f, path = paste0(tempdir(), "/1"),
+                                backend = BackendHdf5())
+    be <- mse_h5@backend
+    sps <- spectra(mse_h5, return.type = "list")
+    spd <- mse_h5@spectraData
+    ## Write only 5 spectra to the second file.
+    idx <- c(114:118)
+    chksum <- MSnbase:::.h5_write_spectra(sps[idx], spd[idx, ], be@h5files[2])
+    expect_true(chksum != be@checksums[2])
+    res <- MSnbase:::backendReadSpectra(be, spd[spd$fileIdx == 1, ])
+    expect_equal(sps[spd$fileIdx == 1], res)
+    expect_error(MSnbase:::backendReadSpectra(be, spd[spd$fileIdx == 2, ]))
+    expect_error(MSnbase:::backendReadSpectra(be, spd[spd$fileIdx == 2, ]))
+    be@checksums[2] <- chksum
+    res <- MSnbase:::backendReadSpectra(be, spd[idx, ])
+    expect_equal(res, sps[idx])
+
+    ## backendWriteSpectra, write spectra in arbitrary order
+    idx <- c(which(spd$fileIdx == 1), idx)
+    spd <- spd[idx, ]
+    sps <- sps[idx]
+    res <- MSnbase:::backendReadSpectra(be, spd)
+    expect_equal(res, sps)
+
+    idx <- c(34, 12, 5, 117, 114)
+    chksum_orig <- be@checksums
+    res <- MSnbase:::backendWriteSpectra(be, sps[idx], spd[idx, ])
+    expect_true(is(res, "BackendHdf5"))
+    expect_true(all(chksum_orig != res@checksums))
+    res_sps <- MSnbase:::backendReadSpectra(res, spd[idx, ])
+    expect_equal(res_sps, sps[idx])
 })
