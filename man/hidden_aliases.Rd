@@ -12,7 +12,7 @@
 \alias{backendDeepCopy,Backend-method}
 \alias{backendSubset}
 \alias{show,BackendHdf5-method}
-\alias{backendSubset,BackendMemory,numeric,numeric-method}
+\alias{backendSubset,BackendMemory-method}
 \alias{backendInitialize,BackendMemory-method}
 \alias{backendImportData,BackendMemory-method}
 \alias{backendReadSpectra,BackendMemory-method}
@@ -32,11 +32,11 @@
 
 \S4method{backendDeepCopy}{Backend}(object, ...)
 
-backendSubset(object, i, file, ...)
+backendSubset(object, spectraData)
 
 \S4method{show}{BackendHdf5}(object)
 
-\S4method{backendSubset}{BackendMemory,numeric,numeric}(object, i, file)
+\S4method{backendSubset}{BackendMemory}(object, spectraData)
 
 \S4method{backendInitialize}{BackendMemory}(object, files, spectraData,
   ..., BPPARAM = bpparam())
@@ -58,11 +58,11 @@ backendSubset(object, i, file, ...)
 \arguments{
 \item{object}{Object to display.}
 
+\item{x}{`Backend`}
+
 \item{i}{`integer`; ignored.}
 
 \item{file}{`integer` to subset by file.}
-
-\item{x}{`Backend`}
 
 \item{object}{Object to display.}
 }
