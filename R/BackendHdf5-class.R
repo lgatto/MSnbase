@@ -72,7 +72,7 @@ setValidity("BackendHdf5", function(object) {
 setMethod("backendInitialize", "BackendHdf5", function(object, files,
                                                        spectraData, path = ".",
                                                        ...) {
-    path <- suppressWarnings(normalizePath(path))
+    path <- normalizePath(path, mustWork = FALSE)
     dir.create(path, showWarnings = FALSE, recursive = TRUE)
     n_files <- length(files)
     object@files <- files
@@ -261,7 +261,7 @@ setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
         h5createGroup(h5, "spectra")
     spids <- paste0("/spectra/", spectraData$spIdx)
     for (i in seq_along(x)) {
-        h5write(cbind(mz = mz(x[[i]]), intensity = intensity(x[[i]])),
+        h5write(cbind(mz(x[[i]]), intensity(x[[i]])),
                 h5, name = spids[i], level = comp_level)
     }
     H5Fflush(h5)
@@ -286,12 +286,11 @@ setMethod("backendWriteSpectra", "BackendHdf5", function(object, spectra,
     object
 })
 
-setMethod("backendSubset", signature(object = "BackendHdf5", i = "numeric",
-                                     file = "numeric"),
-          function(object, i, file) {
-              object@files <- object@files[file]
-              object@checksums <- object@checksums[file]
-              object@h5files <- object@h5files[file]
-              validObject(object)
-              object
-          })
+setMethod("backendSubset", "BackendHdf5", function(object, spectraData) {
+    fidx <- unique(spectraData$fileIdx)
+    object@files <- object@files[fidx]
+    object@checksums <- object@checksums[fidx]
+    object@h5files <- object@h5files[fidx]
+    validObject(object)
+    object
+})

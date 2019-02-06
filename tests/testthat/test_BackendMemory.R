@@ -60,7 +60,7 @@ test_that("backendSubset,BackendMemory works", {
     spd <- tmp@spectraData
     sps <- spectra(tmp, return.type = "list")
     ## Subset to data from the second file.
-    be_2 <- MSnbase:::backendSubset(be, which(spd$fileIdx == 2), 2L)
+    be_2 <- MSnbase:::backendSubset(be, spd[spd$fileIdx == 2, ])
     expect_equal(be_2@files, be@files[2])
     ## fromFile has to be 1 for all spectra
     expect_true(all(vapply(be_2@spectra, fromFile, integer(1)) == 1))
@@ -68,7 +68,7 @@ test_that("backendSubset,BackendMemory works", {
                  lapply(sps[spd$fileIdx == 2], intensity))
     ## Subset to some specific spectra.
     idx <- c(200, 201, 3, 5, 6)
-    be_3 <- MSnbase:::backendSubset(be, as.integer(idx), file = c(2L, 1L))
+    be_3 <- MSnbase:::backendSubset(be, spd[idx, ])
     expect_equal(be_3@files, be@files[2:1])
     expect_equal(unname(vapply(be_3@spectra, fromFile, integer(1))),
                  c(1, 1, 2, 2, 2))

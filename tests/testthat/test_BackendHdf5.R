@@ -140,3 +140,18 @@ test_that(".h5_write_spectra, and backendWriteSpectra,BackendHdf5 work", {
     res_sps <- MSnbase:::backendReadSpectra(res, spd[idx, ])
     expect_equal(res_sps, sps[idx])
 })
+
+test_that("backendSubset, BackendHdf5", {
+    spd <- sciex_h5@spectraData
+    spd <- spd[c(1000, 1003, 34, 64), ]
+    res <- MSnbase:::backendSubset(sciex_h5@backend, spd)
+    expect_equal(res@files, sciex_h5@backend@files[2:1])
+    expect_equal(res@checksums, sciex_h5@backend@checksums[2:1])
+    expect_equal(res@h5files, sciex_h5@backend@h5files[2:1])
+
+    spd <- spd[3, , drop = FALSE]
+    res <- MSnbase:::backendSubset(sciex_h5@backend, spd)
+    expect_equal(res@files, sciex_h5@backend@files[1])
+    expect_equal(res@checksums, sciex_h5@backend@checksums[1])
+    expect_equal(res@h5files, sciex_h5@backend@h5files[1])
+})

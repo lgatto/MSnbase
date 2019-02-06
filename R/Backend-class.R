@@ -121,7 +121,7 @@ setMethod("show", signature = "Backend", definition = function(object) {
     cat("Backend:", class(object)[1L], "\n")
     fls <- basename(object@files)
     if (length(fls) > 3)
-        fls <- c(fls[1:3], paste0("(", length(fls) -3,
+        fls <- c(fls[1:3], paste0("(", length(fls) - 3,
                                   " more. Use `fileNames` to list all.)"))
     cat("Source files:\n", paste(" ", fls, collapse = "\n"), "\n", sep = "")
 })
@@ -290,13 +290,11 @@ setGeneric(
 #' @author Johannes Rainer
 #'
 #' @rdname hidden_aliases
-setGeneric("backendSubset", def = function(object, i, file, ...)
+setGeneric("backendSubset", def = function(object, spectraData)
     standardGeneric("backendSubset"),
     valueClass = "Backend")
-setMethod("backendSubset", signature(object = "Backend", i = "numeric",
-                                     file = "numeric"),
-          function(object, i, file, ...) {
-    object@files <- object@files[file]
+setMethod("backendSubset", "Backend", function(object, spectraData) {
+    object@files <- object@files[unique(spectraData$fileIdx)]
     validObject(object)
     object
 })

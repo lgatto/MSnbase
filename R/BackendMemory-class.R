@@ -56,19 +56,19 @@ setValidity("BackendMemory", function(object) {
 BackendMemory <- function() { new("BackendMemory") }
 
 #' @rdname hidden_aliases
-setMethod("backendSubset", signature(object = "BackendMemory", i = "numeric",
-                                     file = "numeric"),
-          function(object, i, file) {
-              files_orig <- object@files
-              object@files <- object@files[file]
-              ## Update also `@fromFile` in the spectra.
-              object@spectra <- lapply(object@spectra[i], function(z) {
-                  z@fromFile <- match(files_orig[z@fromFile], object@files)
-                  z
-              })
-              validObject(object)
-              object
-          })
+setMethod("backendSubset", "BackendMemory", function(object, spectraData) {
+    files_orig <- object@files
+    object@files <- object@files[unique(spectraData$fileIdx)]
+    ## Update also `@fromFile` in the spectra.
+    object@spectra <- lapply(object@spectra[rownames(spectraData)],
+                             function(z) {
+                                 z@fromFile <- match(files_orig[z@fromFile],
+                                                     object@files)
+                                 z
+                             })
+    validObject(object)
+    object
+})
 
 ## #' @rdname hidden_aliases
 ## setMethod(
