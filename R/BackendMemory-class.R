@@ -45,8 +45,8 @@ setClass("BackendMemory",
 setValidity("BackendMemory", function(object) {
     lapply(object@spectra, validObject)
     msg <- c(
-        .valid.BackendMemory.spectra.names(object@spectra),
-        .valid.BackendMemory.match.file.spectra(object@files, object@spectra)
+        .valid.BackendMemory.spectra.names(object@spectra)
+        ## .valid.BackendMemory.match.file.spectra(object@files, object@spectra)
     )
 
     if (is.null(msg)) { TRUE } else { msg }

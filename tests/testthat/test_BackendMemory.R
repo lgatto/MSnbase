@@ -15,7 +15,7 @@ test_that("validity", {
     expect_true(validObject(b))
 
     names(b@files) <- "F2"
-    expect_error(validObject(b), "Mismatch")
+    expect_true(validObject(b))
 
     names(b@files) <- "F1"
     names(b@spectra)[2] <- "F1.S1"

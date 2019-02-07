@@ -76,9 +76,6 @@ setMethod("backendInitialize", "BackendHdf5", function(object, files,
     dir.create(path, showWarnings = FALSE, recursive = TRUE)
     n_files <- length(files)
     object@files <- files
-    names(object@files) <- sprintf(
-        paste0("F%0", ceiling(log10(length(files))), "d"), seq_along(files)
-    )
     object@checksums <- character(n_files)
     object@h5files <- character(n_files)
     comp_level <- .hdf5_compression_level()

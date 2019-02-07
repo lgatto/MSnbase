@@ -16,11 +16,9 @@ test_that(".valid.Backend.files", {
     expect_match(.valid.Backend.files(c(F1="foo", F2=NA, F3="bar")), " NA")
     expect_match(.valid.Backend.files(c(F1="foo", F2="foo", F3="bar")),
                  "Duplicated")
-    expect_match(.valid.Backend.files(c("foo", "bar")), " missing")
-    expect_match(.valid.Backend.files(c(F1="foo", F1="bar")),
-                 "Duplicated")
-    expect_match(.valid.Backend.files(c(S1="foo", S2="bar")),
-                 "don't start")
+    expect_null(.valid.Backend.files(c("foo", "bar")))
+    expect_null(.valid.Backend.files(c(F1="foo", F1="bar")))
+    expect_null(.valid.Backend.files(c(S1="foo", S2="bar")))
 })
 
 test_that("fileNames", {

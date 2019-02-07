@@ -100,12 +100,6 @@ setClass("Backend",
             return("Files should not be missing.")
         if (anyDuplicated(x))
             return("Duplicated file names found.")
-        if (is.null(names(x)))
-            return("Names for 'file' missing.")
-        if (anyDuplicated(names(x)))
-            return("Duplicated names of 'file' found.")
-        if (isFALSE(all(startsWith(names(x), "F"))))
-            return("Names of 'file' don't start with 'F'.")
     }
     NULL
 }
@@ -160,11 +154,6 @@ setMethod(
     signature="Backend",
     definition=function(object, files, spectraData, ...) {
     object@files <- normalizePath(files)
-    ## use same names for files as `rownames(spectraData)`
-    ## e.g. for 2 files: F1, F2; for 10 files: F01, F02, ..., F10
-    names(object@files) <- sprintf(
-        paste0("F%0", ceiling(log10(length(files))), "d"), seq_along(files)
-    )
     validObject(object)
     object
 })
@@ -275,15 +264,14 @@ setGeneric(
     valueClass="Backend"
 )
 
-#' Subset the `Backend` by spectra (`i`) and/or file (`file`).
-#' The default implementation subsets only by `file`. Subsetting by `i` has to
-#' be implemted (if needed) for each class that extends `Backend`.
+#' Subset the `Backend` based on the provided `spectraData` data frame.
+#' Subsetting could/should be done based on columns `"fileIdx"`, `"spIdx"` or
+#' `rownames(spectraData)`.
 #'
 #' @param x `Backend`
 #'
-#' @param i `integer`; ignored.
-#'
-#' @param file `integer` to subset by file.
+#' @param spectraData `DataFrame` with the spectrum metadata of the spectra to
+#'     which the `object` should be subsetted.
 #'
 #' @return A `Backend` class.
 #'
