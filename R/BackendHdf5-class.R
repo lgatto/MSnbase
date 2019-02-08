@@ -115,6 +115,22 @@ setMethod("backendImportData", "BackendHdf5", function(object, spectraData,
     object
 })
 
+#' Create a deep copy (means also copying the hdf5 files).
+#'
+#' @inheritParams backendInitialize
+#'
+#' @return `BackendHdf5`
+#'
+#' @md
+#'
+#' @noRd
+setMethod(
+    "backendDeepCopy",
+    signature = "BackendHdf5",
+    definition = function(object, ...) {
+    stop("Not implemented yet!")
+})
+
 #' Write the content of a single mzML/etc file to an h5file. We're using the
 #' spectrum index in the file as data set ID.
 #'
