@@ -3,13 +3,16 @@
 ##' queried with `MSnbaseOptions`. The options are:
 ##' + `verbose`: defines a session-wide verbosity flag, that
 ##'   is used if the `verbose` argument in individual functions is
-##'   not set. 
+##'   not set.
 ##' + `PARALLEL_THRESH`: defines the minimum number of spectra per file
 ##'   necessary before using parallel processing.
 ##' + `fastLoad`: `logical(1)`. If `TRUE` performs faster data loading for all
 ##'   methods of [OnDiskMSnExp] that load data from the original files (such as
 ##'   [spectrapply()]). Users experiencing data I/O errors (observed mostly
 ##'   on macOS systems) should set this option to `FALSE`.
+##' + `HDF5_COMP_LEVEL`: defines the compression level of the HDF5 files.
+##'   Supports integer values between 0 (no compression) and 9 (highest
+##'   compression).
 ##'
 ##' `isMSnbaseVerbose` is one wrapper for the verbosity flag,
 ##' also available through `options("MSnbase")$verbose`.
@@ -19,7 +22,7 @@
 ##' of the option.
 ##'
 ##' @title MSnbase options
-##' 
+##'
 ##' @param opt The value of the new option
 ##'
 ##' @return A `list` of MSnbase options and the single option
@@ -65,4 +68,19 @@ isMSnbaseFastLoad <- function() {
     if (!length(fast_load))
         fast_load <- FALSE
     fast_load
+}
+
+.hdf5_compression_level <- function() {
+    MSnbaseOptions()$HDF5_COMP_LEVEL
+}
+
+##' @rdname MSnbaseOptions
+setHdf5CompressionLevel <- function(opt) {
+    opt <- as.integer(opt)
+    if (!(opt %in% 0:9))
+        stop("Compression level should be an integer between 0 and 9")
+    opts <- MSnbaseOptions()
+    opts$HDF5_COMP_LEVEL <- opt
+    options("MSnbase" = opts)
+    invisible(opts$HDF5_COMP_LEVEL)
 }

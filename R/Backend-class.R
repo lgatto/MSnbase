@@ -3,8 +3,7 @@ NULL
 
 #' @title Mass spectrometry data managing backends
 #'
-#' @aliases Backend-class BackendMzR-class backendInitialize backendImportData
-#'     backendReadSpectra backendWriteSpectra BackendMemory-class
+#' @aliases Backend-class BackendMzR-class BackendMemory-class BackendHdf5-class
 #'
 #' @description
 #'
@@ -36,6 +35,22 @@ NULL
 #' backends can be created with the `BackendMzR` function.
 #'
 #' New backends can be created with the `BackendMzR()` function.
+#'
+#' @section BackendHdf5:
+#'
+#' The `BackendHdf5` is, similar to the `BackendMzR`, a *on-disk* backend that
+#' does only keep the minimum required data in memory (i.e. spectrum metadata).
+#' The m/z and intensity values of all spectra are stored in HDF5 files (one
+#' for each input file). This backend combines the advantages of the
+#' `BackendMzR` (low memory footprint) with faster data access and the support
+#' to apply data manipulations persistently to the data. Also, reading data
+#' from HDF5 files is considerably faster than reading data from MS raw files
+#' (mzML, mzXML or CDF). By default, HDF5 files are stored in the current
+#' working directory, but it is also possible to specify a directory with
+#' the `path` parameter of the [readMSnExperiment()] function (passed as an
+#' optional parameter).
+#'
+#' New backends can be created with the `BackendHdf5()` function.
 #'
 #' @name Backend
 #'
@@ -85,12 +100,6 @@ setClass("Backend",
             return("Files should not be missing.")
         if (anyDuplicated(x))
             return("Duplicated file names found.")
-        if (is.null(names(x)))
-            return("Names for 'file' missing.")
-        if (anyDuplicated(names(x)))
-            return("Duplicated names of 'file' found.")
-        if (isFALSE(all(startsWith(names(x), "F"))))
-            return("Names of 'file' don't start with 'F'.")
     }
     NULL
 }
@@ -102,28 +111,17 @@ setValidity("Backend", function(object) {
 
 #' @rdname hidden_aliases
 #' @param object Object to display.
-setMethod(
-    "show",
-    signature="Backend",
-    definition=function(object) {
+setMethod("show", signature = "Backend", definition = function(object) {
     cat("Backend:", class(object)[1L], "\n")
-    cat("Source files:\n",
-        paste(" ", basename(object@files), collapse="\n"), "\n", sep=""
-    )
+    fls <- basename(object@files)
+    if (length(fls) > 3)
+        fls <- c(fls[1:3], paste0("(", length(fls) - 3,
+                                  " more. Use `fileNames` to list all.)"))
+    cat("Source files:\n", paste(" ", fls, collapse = "\n"), "\n", sep = "")
 })
 
 #' @rdname hidden_aliases
 setMethod("fileNames", "Backend", function(object, ...) object@files)
-
-#' @rdname hidden_aliases
-setMethod("filterFile", "Backend", function(object, file, ...) {
-    if (is.character(file)) {
-        file <- base::match(file, object@files)
-    }
-    object@files <- object@files[file]
-    validObject(object)
-    object
-})
 
 #' Initialize a backend
 #'
@@ -156,11 +154,6 @@ setMethod(
     signature="Backend",
     definition=function(object, files, spectraData, ...) {
     object@files <- normalizePath(files)
-    ## use same names for files as `rownames(spectraData)`
-    ## e.g. for 2 files: F1, F2; for 10 files: F01, F02, ..., F10
-    names(object@files) <- sprintf(
-        paste0("F%0", ceiling(log10(length(files))), "d"), seq_along(files)
-    )
     validObject(object)
     object
 })
@@ -270,3 +263,26 @@ setGeneric(
         standardGeneric("backendWriteSpectra"),
     valueClass="Backend"
 )
+
+#' Subset the `Backend` based on the provided `spectraData` data frame.
+#' Subsetting could/should be done based on columns `"fileIdx"`, `"spIdx"` or
+#' `rownames(spectraData)`.
+#'
+#' @param x `Backend`
+#'
+#' @param spectraData `DataFrame` with the spectrum metadata of the spectra to
+#'     which the `object` should be subsetted.
+#'
+#' @return A `Backend` class.
+#'
+#' @author Johannes Rainer
+#'
+#' @rdname hidden_aliases
+setGeneric("backendSubset", def = function(object, spectraData)
+    standardGeneric("backendSubset"),
+    valueClass = "Backend")
+setMethod("backendSubset", "Backend", function(object, spectraData) {
+    object@files <- object@files[unique(spectraData$fileIdx)]
+    validObject(object)
+    object
+})

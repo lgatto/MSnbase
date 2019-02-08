@@ -16,11 +16,9 @@ test_that(".valid.Backend.files", {
     expect_match(.valid.Backend.files(c(F1="foo", F2=NA, F3="bar")), " NA")
     expect_match(.valid.Backend.files(c(F1="foo", F2="foo", F3="bar")),
                  "Duplicated")
-    expect_match(.valid.Backend.files(c("foo", "bar")), " missing")
-    expect_match(.valid.Backend.files(c(F1="foo", F1="bar")),
-                 "Duplicated")
-    expect_match(.valid.Backend.files(c(S1="foo", S2="bar")),
-                 "don't start")
+    expect_null(.valid.Backend.files(c("foo", "bar")))
+    expect_null(.valid.Backend.files(c(F1="foo", F1="bar")))
+    expect_null(.valid.Backend.files(c(S1="foo", S2="bar")))
 })
 
 test_that("fileNames", {
@@ -34,4 +32,15 @@ test_that("show", {
     b@files <- c(F1="foo", F2="bar")
     expect_output(show(b), paste("Backend: BackendMemory ", "Source files:",
                                  "  foo", "  bar", sep="\\n"))
+})
+
+test_that("backendSubset,Backend works", {
+    be <- BackendMzR()
+    be@files <- c("a", "b", "c", "d")
+    names(be@files) <- paste0("F", 1:4)
+    spd <- DataFrame(fileIdx = c(3, 3, 1, 3, 1, 1))
+    res <- backendSubset(be, spd)
+    expect_equal(unname(res@files), c("c", "a"))
+    spd <- DataFrame(fileIdx = c(1, 2, 3, 4))
+    expect_equal(be, backendSubset(be, spd))
 })

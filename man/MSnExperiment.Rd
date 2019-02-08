@@ -8,20 +8,40 @@
 \alias{spectrapply,MSnExperiment-method}
 \alias{spectra,MSnExperiment-method}
 \alias{spectraData}
+\alias{sampleData}
+\alias{metadata,MSnExperiment-method}
+\alias{fileNames,MSnExperiment-method}
+\alias{[,MSnExperiment,ANY,ANY,ANY-method}
+\alias{[[,MSnExperiment,ANY,ANY-method}
+\alias{filterFile,MSnExperiment-method}
 \alias{removePeaks,MSnExperiment-method}
 \alias{clean,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
 \usage{
 readMSnExperiment(file, sampleData, backend = BackendMzR(),
-  smoothed = NA, BPPARAM = bpparam())
+  smoothed = NA, ..., BPPARAM = bpparam())
 
 \S4method{spectrapply}{MSnExperiment}(object,
   f = spectraData(object)$fileIdx, FUN = NULL, BPPARAM = bpparam(),
   ...)
 
-\S4method{spectra}{MSnExperiment}(object, BPPARAM = bpparam())
+\S4method{spectra}{MSnExperiment}(object, return.type = c("Spectra",
+  "list"), BPPARAM = bpparam())
 
 spectraData(object)
+
+sampleData(object)
+
+\S4method{metadata}{MSnExperiment}(x, ...)
+
+\S4method{fileNames}{MSnExperiment}(object)
+
+\S4method{[}{MSnExperiment,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
+
+\S4method{[[}{MSnExperiment,ANY,ANY}(x, i, j = "missing",
+  drop = "missing")
+
+\S4method{filterFile}{MSnExperiment}(object, file)
 
 \S4method{removePeaks}{MSnExperiment}(object, t = "min",
   verbose = isMSnbaseVerbose(), msLevel.)
@@ -30,19 +50,25 @@ spectraData(object)
   verbose = isMSnbaseVerbose(), msLevel.)
 }
 \arguments{
-\item{file}{\code{character} with the file names of the experiment.}
+\item{file}{for \code{readMSnExperiment: }character\code{with the file names of the experiment. For}filterFile`: index or name of the file to which the
+data should be subsetted.}
 
-\item{sampleData}{A \link[S4Vectors:DataFrame-class]{S4Vectors::DataFrame} object with additional
+\item{sampleData}{a \link[S4Vectors:DataFrame-class]{S4Vectors::DataFrame} object with additional
 information on each sample (samples as rows, information as columns).}
 
-\item{backend}{A \linkS4class{Backend} derivate used for internal data storage.}
+\item{backend}{a \linkS4class{Backend} derivate used for internal data storage.}
 
 \item{smoothed}{\code{logical}, are the spectra smoothed?}
 
-\item{BPPARAM}{Should parallel processing be used? See
+\item{...}{for \code{readMSnExperiment}: additional parameters to be passed to
+the init method of the backend, such as \code{path} for \code{\link[=BackendHdf5]{BackendHdf5()}} to
+define the directory where the hdf5 files should be saved.
+For \code{spectrapply}: additional arguments to be passed to \code{FUN}.}
+
+\item{BPPARAM}{should parallel processing be used? See
 \code{\link[BiocParallel:bpparam]{BiocParallel::bpparam()}}.}
 
-\item{object}{A \code{MSnExperiment} object.}
+\item{object}{a \code{MSnExperiment} object.}
 
 \item{f}{for \code{spectrapply}: \code{factor}, \code{character}, \code{numeric} or \code{logical}
 (same length than there are spectra in \code{object}, i.e. with length
@@ -52,7 +78,21 @@ split into chunks for parallelization.}
 \item{FUN}{for \code{spectrapply}: a function or the name of a function to apply
 to each \linkS4class{Spectrum} of the experiment.}
 
-\item{...}{for \code{spectrapply}: additional arguments to be passed to \code{FUN}.}
+\item{return.type}{for \code{spectra}: a \code{character(1)} specifying whether the
+result should be returned as a \code{\link[=Spectra]{Spectra()}}
+(\code{return.type = "Spectra"}) or a simple \code{list} of \code{Spectrum}
+objects (\code{return.type = "list"}).}
+
+\item{x}{a \code{MSnExperiment} object.}
+
+\item{i}{for \code{[}: \code{integer}, \code{logical} or \code{character} specifying the
+\strong{spectra} to which \code{object} should be subsetted.}
+
+\item{j}{for \code{[}: not supported.}
+
+\item{drop}{for \code{[}: if \code{drop = TRUE} and the object is subsetted to a single
+element, a \code{Spectrum} class is returned; \code{drop = FALSE} returns always
+a \code{MSnExperiment} object.}
 
 \item{t}{for \code{removePeaks}: a \code{numeric(1)} defining the threshold or \code{"min"}.}
 
@@ -72,14 +112,13 @@ See individual method description for the return value.
 The \code{MSnExperiment} class encapsules data and meta-data for mass
 spectrometry experiments.
 
-In contrast to the old \linkS4class{MSnExp} this class supports multiple data
-backends, e.g. in-memory (\linkS4class{BackendMemory}), on-disk as
-mzML (\linkS4class{BackendMzR}) or HDF5 (\linkS4class{BackendHdf5}). It supersedes
-\linkS4class{MSnExp} and \linkS4class{OnDiskMSnExp} objects.
+It supersedes \linkS4class{MSnExp} and \linkS4class{OnDiskMSnExp} objects and supports
+multiple data backends, e.g. in-memory (\linkS4class{BackendMemory}), on-disk as
+mzML (\linkS4class{BackendMzR}) or HDF5 (\linkS4class{BackendHdf5}).
 }
 \details{
 The \code{MSnExperiment} class uses by default a lazy data manipulation strategy,
-i.e. data manipulations such as with methods \code{removePeaks} are not applied
+i.e. data manipulations such as performed with \code{removePeaks} are not applied
 immediately to the data, but applied on-the-fly to the spectrum data once it
 is retrieved.
 }
@@ -94,6 +133,11 @@ spectrometry data files.
 \section{Accessing data}{
 
 \itemize{
+\item \code{fileNames}: get the original file names from which the data was imported.
+\item \code{metadata}: get the metadata \code{list}.
+\item \code{sampleData}: get sample metadata. Returns a \code{DataFrame}, each row
+containing information for one sample or file. This function is equivalent
+to \code{\link[=phenoData]{phenoData()}} of \code{MSnExp}/\code{OnDiskMSnExp} objects.
 \item \code{spectra}: get the \code{list} of \linkS4class{Spectrum} objects from the experiment.
 Note that the spectra in the \code{list} are not grouped by sample/file. Use
 the \code{fromFile} method to split/group the \code{list} by file.
@@ -110,6 +154,13 @@ application of the provided function are parallelized by file.
 
 \section{Subsetting and filtering}{
 
+\itemize{
+\item \code{[i]}: subset the object by spectra (\code{i}). Returns an \code{MSnExperiment},
+unless \code{drop = TRUE} and the object is subsetted to a single spectrum,
+in which case a \code{Spectrum} is returned.
+\item \code{[[i]]}: extract the \linkS4class{Spectrum} with index \code{i} from the data.
+\item \code{filterFile}: subset the object by file. Returns an \code{MSnExperiment}.
+}
 }
 
 \section{Data manipulation methods}{
@@ -124,7 +175,44 @@ application of the provided function are parallelized by file.
 
 \examples{
 
-## TODO
+## Create an MSnExperiment from two input files using the on-disk
+## BackendMzR backend
+sf <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)
+dta <- readMSnExperiment(sf, backend = BackendMzR())
+dta
+
+## Get associated file names
+fileNames(dta)
+
+## Get spectra metadata
+spectraData(dta)
+
+## Extract all spectra; by default a `Spectra` is returned. We could also
+## get a simple `list` of `Spectrum` objects by specifying
+## `return.type = "list"`.
+sp <- spectra(dta)
+head(sp)
+
+## Subset the object to contain only spectra 3, 12, 45
+dta_sub <- dta[c(3, 12, 45)]
+spectra(dta_sub)
+
+## Subset the object to contain only spectra from the second file
+dta_sub <- filterFile(dta, 2)
+fileNames(dta_sub)
+
+## Apply an arbitrary function to each spectrum and return its results.
+## We calculate the mean intensity for each spectrum. By
+## default the function parallelizes the operation FUN by file.
+res <- spectrapply(dta, FUN = function(z) mean(intensity(z)))
+head(res)
+
+## Parameter `f` can be used to specify how the function splits the data
+## into chunks for parallel processing. Below we disable parallel processing
+## by defining a single chunk.
+res <- spectrapply(dta, f = rep(1, nrow(spectraData(dta))),
+    FUN = function(z) mean(intensity(z)))
+head(res)
 }
 \author{
 Sebastian Gibb, Johannes Rainer
