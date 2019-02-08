@@ -10,14 +10,9 @@ test_that("validity", {
     b <- BackendMemory()
     b@spectra <- c(new("Spectrum2"), new("Spectrum2"))
     b@files <- "foo"
-    names(b@files) <- "F1"
     names(b@spectra) <- c("F1.S1", "F1.S2")
     expect_true(validObject(b))
 
-    names(b@files) <- "F2"
-    expect_true(validObject(b))
-
-    names(b@files) <- "F1"
     names(b@spectra)[2] <- "F1.S1"
     expect_error(validObject(b), "Duplicated spectra names")
 
@@ -38,16 +33,6 @@ test_that(".valid.BackendMemory.spectra.names", {
                  "Duplicated")
     expect_match(.valid.BackendMemory.spectra.names(list(a=1, b=2)),
                  "format")
-})
-
-test_that(".valid.BackendMemory.match.file.spectra", {
-    expect_null(.valid.BackendMemory.match.file.spectra(NULL, NULL))
-    expect_null(.valid.BackendMemory.match.file.spectra(1:2, NULL))
-    expect_null(.valid.BackendMemory.match.file.spectra(NULL, 1:2))
-    expect_null(.valid.BackendMemory.match.file.spectra(
-        c(F1="foo", F2="bar"), c(F1.S1=1, F2.S1=2)))
-    expect_match(.valid.BackendMemory.match.file.spectra(
-        c(F1="foo", F2="bar"), c(F3.S1=1, F3.S1=2)), "Mismatch")
 })
 
 test_that("backendSubset,BackendMemory works", {
@@ -144,9 +129,4 @@ test_that("backendReadSpectra/backendWriteSpectra", {
     expect_equal(backendWriteSpectra(b, s[2], spd[3,]), r)
     r@spectra[] <- s[c(2, 1, 3)]
     expect_equal(backendWriteSpectra(b, s[2:1], spd[1:2,]), r)
-})
-
-test_that(".BackendMemory.fileIndexFromName", {
-    expect_equal(.BackendMemory.fileIndexFromName(c("F1.S1", "F10.S100")),
-                 c("F1", "F10"))
 })
