@@ -8,8 +8,16 @@ NULL
 #' @md
 #'
 #' @noRd
-setClass("BackendHdf5", contains = "Backend", slots = c(checksums = "character",
-                                                        h5files = "character"))
+setClass("BackendHdf5",
+    contains = "Backend",
+    slots = c(
+        # is incremented every time `backendWriteSpectra` is called and is used
+        # to test for changes of the hdf5 files and superficial copying
+        # see issue https://github.com/lgatto/MSnbase/issues/429
+        modCount = "integer",
+        h5files = "character"
+    )
+)
 
 #' @rdname hidden_aliases
 setMethod("show", "BackendHdf5", function(object) {
@@ -20,10 +28,11 @@ setMethod("show", "BackendHdf5", function(object) {
 #' @rdname Backend
 BackendHdf5 <- function() new("BackendHdf5")
 
-.valid.BackendHdf5.checksums <- function(x, y) {
+.valid.BackendHdf5.modCount <- function(x, y) {
     if (length(x) != length(y))
-        "different number of md5 sums and hdf5 files"
-    else NULL
+        "different number of hdf5 files and modification counter"
+    else
+        NULL
 }
 
 .valid.BackendHdf5.h5files <- function(x, y) {
@@ -43,7 +52,7 @@ BackendHdf5 <- function() new("BackendHdf5")
 }
 
 setValidity("BackendHdf5", function(object) {
-    msg <- c(.valid.BackendHdf5.checksums(object@files, object@checksums),
+    msg <- c(.valid.BackendHdf5.modCount(object@h5files, object@modCount),
              .valid.BackendHdf5.h5files(object@h5files, object@files),
              .valid.BackendHdf5.h5files.exist(object@h5files))
     if (length(msg)) msg
@@ -76,7 +85,7 @@ setMethod("backendInitialize", "BackendHdf5", function(object, files,
     dir.create(path, showWarnings = FALSE, recursive = TRUE)
     n_files <- length(files)
     object@files <- files
-    object@checksums <- character(n_files)
+    object@modCount <- integer(n_files)
     object@h5files <- character(n_files)
     comp_level <- .hdf5_compression_level()
     object@h5files <- file.path(path, paste0(.vdigest(files), ".h5"))
@@ -87,7 +96,7 @@ setMethod("backendInitialize", "BackendHdf5", function(object, files,
     for (i in seq_len(n_files)) {
         h5 <- H5Fcreate(object@h5files[i])
         h5createGroup(h5, "spectra")
-        h5createGroup(h5, "checksum")
+        h5createGroup(h5, "modification")
         H5Fclose(h5)
     }
     validObject(object)
@@ -108,9 +117,8 @@ setMethod("backendInitialize", "BackendHdf5", function(object, files,
 setMethod("backendImportData", "BackendHdf5", function(object, spectraData,
                                                        ...,
                                                        BPPARAM = bpparam()) {
-    object@checksums <- bpmapply(fileNames(object), object@h5files,
-                                 FUN = .serialize_msfile_to_hdf5,
-                                 BPPARAM = BPPARAM)
+    bpmapply(fileNames(object), object@h5files, FUN = .serialize_msfile_to_hdf5,
+             BPPARAM = BPPARAM)
     validObject(object)
     object
 })
@@ -134,8 +142,6 @@ setMethod(
 #' Write the content of a single mzML/etc file to an h5file. We're using the
 #' spectrum index in the file as data set ID.
 #'
-#' @return `character(1)` with the md5 sum of the spectra data.
-#'
 #' @author Johannes Rainer, Sebastian Gibb
 #'
 #' @noRd
@@ -151,10 +157,7 @@ setMethod(
     for (i in seq_along(pks)) {
         h5write(pks[[i]], h5, spids[i], level = comp_level)
     }
-    H5Fflush(h5)
-    checksum <- digest(h5file, file = TRUE)
-    h5write(checksum, h5, paste0("/checksum/checksum"), level = comp_level)
-    checksum
+    h5write(0L, h5, paste0("/modification/counter"), level = comp_level)
 }
 
 setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
@@ -162,11 +165,11 @@ setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
     file_f <- factor(spectraData$fileIdx, levels = unique(spectraData$fileIdx))
     idx <- as.integer(levels(file_f))
     fls <- object@h5files[idx]
-    checksums <- object@checksums[idx]
+    modCount <- object@modCount[idx]
     if (length(fls) == 1)
-        .h5_read_spectra(spectraData, fls, checksums)
+        .h5_read_spectra(spectraData, fls, modCount)
     else
-        unlist(mapply(split(spectraData, file_f), fls, checksums,
+        unlist(mapply(split(spectraData, file_f), fls, modCount,
                       FUN = .h5_read_spectra, SIMPLIFY = FALSE,
                       USE.NAMES = FALSE), recursive = FALSE)
 })
@@ -205,9 +208,10 @@ setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
 #'
 #' @param h5file `character`: the name of the HDF5 file.
 #'
-#' @param checksum `character`: the checksum of the hdf5 file.
-#'     This is checked against the hdf5 from the file and an error if thrown
-#'     if they differ, i.e. if the data was changed in the HDF5 file.
+#' @param modCount `integer`: the modification counter stored in the R object
+#'     This is checked against one stored in the hdf5 file and an error is thrown
+#'     if they differ, i.e. if the object was copied and the hdf5 files modified
+#'     by the original/source object.
 #'
 #' @return list of `Spectrum` objects in the order of the spectra given in
 #'     param `fdata`.
@@ -217,13 +221,13 @@ setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
 #' @md
 #'
 #' @noRd
-.h5_read_spectra <- function(spectraData, h5file, checksum) {
+.h5_read_spectra <- function(spectraData, h5file, modCount) {
     suppressPackageStartupMessages(require(MSnbase, quietly = TRUE))
     fid <- .Call("_H5Fopen", h5file, 0L, PACKAGE = "rhdf5")
     on.exit(invisible(.Call("_H5Fclose", fid, PACKAGE = "rhdf5")))
-    h5_checksum <- .h5_read_bare(fid, "/checksum/checksum")
-    if (h5_checksum != checksum)
-        stop("The data in the Hdf5 files associated with this object appear ",
+    h5modCount <- .h5_read_bare(fid, "/modification/counter")
+    if (h5modCount != modCount)
+        stop("The data in the hdf5 files associated with this object appear ",
              "to have changed! Please see the Notes section in ?Backend ",
              "for more information.")
     .spectra_from_data(base::lapply(paste0("/spectra/", spectraData$spIdx),
@@ -237,10 +241,10 @@ setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
 #'
 #' @note
 #'
-#' `Hdf5MSnExp` object store spectrum data in (custom) hdf5 files for faster
+#' `BackendHdf5` object store spectrum data in (custom) hdf5 files for faster
 #' data access with data for each sample (from each input file) being stored in
-#' its own hdf5 file. Copies of `Hdf5MSnExp` objects, such as created with
-#' `a <- b` where `b` is an `Hdf5MSnExp` object will be associated with the
+#' its own hdf5 file. Copies of `BackendHdf5` objects, such as created with
+#' `a <- b` where `b` is an `BackendHdf5` object will be associated with the
 #' same set of hdf5 files.
 #'
 #' Each spectrum will be saved as a dataset with the name being the name of the
@@ -255,6 +259,9 @@ setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
 #' @param h5file `character(1)` with the name of the hdf5 file into which the
 #'     data should be written.
 #'
+#' @param modCount `integer`, modification counter, incremented by one for each
+#'     write
+#'
 #' @param prune `logical(1)` whether the group should be deleted before writing
 #'     the data (see description above for more details).
 #'
@@ -263,7 +270,7 @@ setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
 #' @md
 #'
 #' @noRd
-.h5_write_spectra <- function(x, spectraData, h5file, prune = TRUE) {
+.h5_write_spectra <- function(x, spectraData, h5file, modCount, prune = TRUE) {
     h5 <- H5Fopen(h5file)
     on.exit(invisible(H5Fclose(h5)))
     comp_level <- .hdf5_compression_level()
@@ -277,10 +284,7 @@ setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
         h5write(cbind(mz(x[[i]]), intensity(x[[i]])),
                 h5, name = spids[i], level = comp_level)
     }
-    H5Fflush(h5)
-    checksum <- digest(h5file, file = TRUE)
-    h5write(checksum, h5, "/checksum/checksum", level = comp_level)
-    checksum
+    h5write(modCount, h5, "/modification/counter", level = comp_level)
 }
 
 setMethod("backendWriteSpectra", "BackendHdf5", function(object, spectra,
@@ -288,21 +292,22 @@ setMethod("backendWriteSpectra", "BackendHdf5", function(object, spectra,
     file_f <- factor(spectraData$fileIdx, levels = unique(spectraData$fileIdx))
     idx <- as.integer(levels(file_f))
     fls <- object@h5files[idx]
+    modCount <- object@modCount[idx] + 1L
     if (length(fls) == 1)
-        chk <- .h5_write_spectra(spectra, spectraData, fls)
+        .h5_write_spectra(spectra, spectraData, fls, modCount)
     else
-        chk <- unlist(mapply(split(spectra, file_f), split(spectraData, file_f),
-                             fls, FUN = .h5_write_spectra,
-                             SIMPLIFY = FALSE, USE.NAMES = FALSE),
+        unlist(mapply(split(spectra, file_f), split(spectraData, file_f),
+                            fls, modCount, FUN = .h5_write_spectra,
+                            SIMPLIFY = FALSE, USE.NAMES = FALSE),
                       recursive = FALSE)
-    object@checksums[idx] <- chk
+    object@modCount[idx] <- modCount
     object
 })
 
 setMethod("backendSubset", "BackendHdf5", function(object, spectraData) {
     fidx <- unique(spectraData$fileIdx)
     object@files <- object@files[fidx]
-    object@checksums <- object@checksums[fidx]
+    object@modCount <- object@modCount[fidx]
     object@h5files <- object@h5files[fidx]
     validObject(object)
     object
