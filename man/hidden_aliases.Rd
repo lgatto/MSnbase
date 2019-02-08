@@ -19,9 +19,9 @@
 \alias{backendWriteSpectra,BackendMemory-method}
 \alias{backendReadSpectra,BackendMzR-method}
 \alias{show,MSnExperiment-method}
-\alias{switchBackend,MSnExperiment,Backend-method}
-\alias{switchBackend,MSnExperiment,BackendMzR-method}
-\alias{switchBackend,MSnExperiment,BackendHdf5-method}
+\alias{setBackend,MSnExperiment,Backend-method}
+\alias{setBackend,MSnExperiment,BackendMzR-method}
+\alias{setBackend,MSnExperiment,BackendHdf5-method}
 \title{Internal page for hidden aliases}
 \usage{
 \S4method{show}{Backend}(object)
@@ -58,13 +58,13 @@ backendSubset(object, spectraData)
 
 \S4method{show}{MSnExperiment}(object)
 
-\S4method{switchBackend}{MSnExperiment,Backend}(object, backend, ...,
+\S4method{setBackend}{MSnExperiment,Backend}(object, backend, ...,
   BPPARAM = bpparam())
 
-\S4method{switchBackend}{MSnExperiment,BackendMzR}(object, backend, ...,
+\S4method{setBackend}{MSnExperiment,BackendMzR}(object, backend, ...,
   BPPARAM = bpparam())
 
-\S4method{switchBackend}{MSnExperiment,BackendHdf5}(object, backend, ...,
+\S4method{setBackend}{MSnExperiment,BackendHdf5}(object, backend, ...,
   BPPARAM = bpparam())
 }
 \arguments{

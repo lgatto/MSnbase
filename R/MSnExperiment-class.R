@@ -85,7 +85,7 @@ NULL
 #' function that reads general spectrum metadata information from the  mass
 #' spectrometry data files.
 #'
-#' The [Backend-class] can be changed with the `switchBackend` function by
+#' The [Backend-class] can be changed with the `setBackend` function by
 #' specifying the new [Backend-class] with the `backend` parameter. See examples
 #' for more details.
 #'
@@ -179,12 +179,12 @@ NULL
 #'     FUN = function(z) mean(intensity(z)))
 #' head(res)
 #'
-#' ## The `switchBackend` function can be used to change the backend for the
+#' ## The `setBackend` function can be used to change the backend for the
 #' ## `MSnExperiment`. Below we change the backend from the default raw MS
 #' ## data files-based backend (`BackendMzR`) to the HDF5-file based
 #' ## `BackendHdf5`. With the additional `path` parameter we specify the
 #' ## directory in which the HDF5 files should be saved.
-#' dta <- switchBackend(dta, backend = BackendHdf5(),
+#' dta <- setBackend(dta, backend = BackendHdf5(),
 #'     path = paste0(tempdir(), "/hdf5"))
 #' dta
 NULL
@@ -338,10 +338,10 @@ readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
 }
 
 #' @rdname MSnExperiment
-setGeneric("switchBackend", function(object, backend, ..., BPPARAM = bpparam())
-    standardGeneric("switchBackend"))
+setGeneric("setBackend", function(object, backend, ..., BPPARAM = bpparam())
+    standardGeneric("setBackend"))
 #' @rdname hidden_aliases
-setMethod("switchBackend", c("MSnExperiment", "Backend"),
+setMethod("setBackend", c("MSnExperiment", "Backend"),
           function(object, backend, ..., BPPARAM = bpparam()) {
               backend <- backendInitialize(backend, fileNames(object),
                                            object@spectraData, ...)
@@ -354,7 +354,7 @@ setMethod("switchBackend", c("MSnExperiment", "Backend"),
               object
           })
 #' @rdname hidden_aliases
-setMethod("switchBackend", c("MSnExperiment", "BackendMzR"),
+setMethod("setBackend", c("MSnExperiment", "BackendMzR"),
           function(object, backend, ..., BPPARAM = bpparam()) {
               ## TODO: add check for change in backend once implemented by
               ## @sgibb
@@ -364,7 +364,7 @@ setMethod("switchBackend", c("MSnExperiment", "BackendMzR"),
               object
           })
 #' @rdname hidden_aliases
-setMethod("switchBackend", c("MSnExperiment", "BackendHdf5"),
+setMethod("setBackend", c("MSnExperiment", "BackendHdf5"),
           function(object, backend, ..., BPPARAM = bpparam()) {
               backend <- backendInitialize(backend, fileNames(object),
                                            object@spectraData, ...)

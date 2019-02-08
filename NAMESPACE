@@ -324,7 +324,7 @@ exportMethods(updateObject,
               productMz,
               estimateMzResolution,
 	      combineSpectra,
-              switchBackend
+              setBackend
               )
 
 ## methods NOT exported
