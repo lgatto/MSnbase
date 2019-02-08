@@ -195,3 +195,39 @@ test_that("filterFile works", {
     expect_error(filterFile(sciex_mzr, c(1, 1, 1, 2)))
     expect_error(filterFile(sciex_mzr, 5))
 })
+
+test_that("switchBackend methods work", {
+    ## MzR -> Memory
+    sciex_mzr_mem <- switchBackend(sciex_mzr, backend = BackendMemory())
+    expect_true(is(sciex_mzr_mem@backend, "BackendMemory"))
+    expect_true(validObject(sciex_mzr_mem@backend))
+    expect_equal(spectra(sciex_mzr_mem), spectra(sciex_inmem))
+    ## MzR -> Hdf5
+    sciex_mzr_h5 <- switchBackend(sciex_mzr, backend = BackendHdf5(),
+                                  path = paste0(tempdir(), "/switch1/"))
+    expect_true(is(sciex_mzr_h5@backend, "BackendHdf5"))
+    expect_true(validObject(sciex_mzr_h5@backend))
+    expect_equal(spectra(sciex_mzr_h5), spectra(sciex_inmem))
+    ## Memory -> MzR
+    sciex_mem_mzr <- switchBackend(sciex_inmem, backend = BackendMzR())
+    expect_true(is(sciex_mem_mzr@backend, "BackendMzR"))
+    expect_true(validObject(sciex_mem_mzr@backend))
+    expect_equal(spectra(sciex_mem_mzr), spectra(sciex_inmem))
+    ## The tests below are redundant
+    ## ## Memory -> Hdf5
+    ## sciex_mem_h5 <- switchBackend(sciex_inmem, backend = BackendHdf5(),
+    ##                               path = paste0(tempdir(), "/switch2/"))
+    ## expect_true(is(sciex_mem_h5@backend, "BackendHdf5"))
+    ## expect_true(validObject(sciex_mem_h5@backend))
+    ## expect_equal(spectra(sciex_mem_h5), spectra(sciex_inmem))
+    ## ## Hdf5 -> Memory
+    ## sciex_h5_mem <- switchBackend(sciex_h5, backend = BackendMemory())
+    ## expect_true(is(sciex_h5_mem@backend, "BackendMemory"))
+    ## expect_true(validObject(sciex_h5_mem@backend))
+    ## expect_equal(spectra(sciex_h5_mem), spectra(sciex_inmem))
+    ## ## Hdf5 -> MzR
+    ## sciex_h5_mzr <- switchBackend(sciex_h5, backend = BackendMzR())
+    ## expect_true(is(sciex_h5_mzr@backend, "BackendMzR"))
+    ## expect_true(validObject(sciex_h5_mzr@backend))
+    ## expect_equal(spectra(sciex_h5_mzr), spectra(sciex_inmem))
+})

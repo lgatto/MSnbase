@@ -19,6 +19,9 @@
 \alias{backendWriteSpectra,BackendMemory-method}
 \alias{backendReadSpectra,BackendMzR-method}
 \alias{show,MSnExperiment-method}
+\alias{switchBackend,MSnExperiment,Backend-method}
+\alias{switchBackend,MSnExperiment,BackendMzR-method}
+\alias{switchBackend,MSnExperiment,BackendHdf5-method}
 \title{Internal page for hidden aliases}
 \usage{
 \S4method{show}{Backend}(object)
@@ -54,15 +57,23 @@ backendSubset(object, spectraData)
   processingQueue = list(), ...)
 
 \S4method{show}{MSnExperiment}(object)
+
+\S4method{switchBackend}{MSnExperiment,Backend}(object, backend, ...,
+  BPPARAM = bpparam())
+
+\S4method{switchBackend}{MSnExperiment,BackendMzR}(object, backend, ...,
+  BPPARAM = bpparam())
+
+\S4method{switchBackend}{MSnExperiment,BackendHdf5}(object, backend, ...,
+  BPPARAM = bpparam())
 }
 \arguments{
 \item{object}{Object to display.}
 
+\item{spectraData}{`DataFrame` with the spectrum metadata of the spectra to
+which the `object` should be subsetted.}
+
 \item{x}{`Backend`}
-
-\item{i}{`integer`; ignored.}
-
-\item{file}{`integer` to subset by file.}
 
 \item{object}{Object to display.}
 }

@@ -79,11 +79,15 @@ NULL
 #'     define the directory where the hdf5 files should be saved.
 #'     For `spectrapply`: additional arguments to be passed to `FUN`.
 #'
-#' @section Creation of objects:
+#' @section Creation of objects and changing the backend:
 #'
 #' `MSnExperiment` classes are usually created with the `readMSnExperiment`
 #' function that reads general spectrum metadata information from the  mass
 #' spectrometry data files.
+#'
+#' The [Backend-class] can be changed with the `switchBackend` function by
+#' specifying the new [Backend-class] with the `backend` parameter. See examples
+#' for more details.
 #'
 #' @section Accessing data:
 #'
@@ -174,6 +178,15 @@ NULL
 #' res <- spectrapply(dta, f = rep(1, nrow(spectraData(dta))),
 #'     FUN = function(z) mean(intensity(z)))
 #' head(res)
+#'
+#' ## The `switchBackend` function can be used to change the backend for the
+#' ## `MSnExperiment`. Below we change the backend from the default raw MS
+#' ## data files-based backend (`BackendMzR`) to the HDF5-file based
+#' ## `BackendHdf5`. With the additional `path` parameter we specify the
+#' ## directory in which the HDF5 files should be saved.
+#' dta <- switchBackend(dta, backend = BackendHdf5(),
+#'     path = paste0(tempdir(), "/hdf5"))
+#' dta
 NULL
 
 #' validation function for MSnExperiment
@@ -323,6 +336,51 @@ readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
         processing = paste0("Data loaded [", date(), "]")
     )
 }
+
+#' @rdname MSnExperiment
+setGeneric("switchBackend", function(object, backend, ..., BPPARAM = bpparam())
+    standardGeneric("switchBackend"))
+#' @rdname hidden_aliases
+setMethod("switchBackend", c("MSnExperiment", "Backend"),
+          function(object, backend, ..., BPPARAM = bpparam()) {
+              backend <- backendInitialize(backend, fileNames(object),
+                                           object@spectraData, ...)
+              backend <- backendWriteSpectra(
+                  backend, backendReadSpectra(object@backend,
+                                              object@spectraData),
+                  object@spectraData)
+              object@backend <- backend
+              validObject(object)
+              object
+          })
+#' @rdname hidden_aliases
+setMethod("switchBackend", c("MSnExperiment", "BackendMzR"),
+          function(object, backend, ..., BPPARAM = bpparam()) {
+              ## TODO: add check for change in backend once implemented by
+              ## @sgibb
+              object@backend <- backendInitialize(backend, fileNames(object),
+                                                  object@spectraData, ...)
+              validObject(object)
+              object
+          })
+#' @rdname hidden_aliases
+setMethod("switchBackend", c("MSnExperiment", "BackendHdf5"),
+          function(object, backend, ..., BPPARAM = bpparam()) {
+              backend <- backendInitialize(backend, fileNames(object),
+                                           object@spectraData, ...)
+              spd <- split(object@spectraData, object@spectraData$fileIdx)
+              cnts <- bplapply(spd, function(z, hdf5_backend, backend) {
+                  res <- backendWriteSpectra(hdf5_backend,
+                                             backendReadSpectra(backend, z), z)
+                  res@checksums[z$fileIdx[1]]
+              }, hdf5_backend = backend, backend = object@backend,
+              BPPARAM = BPPARAM)
+              backend@checksums <- unlist(cnts)
+              object@backend <- backend
+              validObject(object)
+              object
+})
+
 
 #' @rdname MSnExperiment
 setMethod("spectrapply", "MSnExperiment", function(object,

@@ -5,6 +5,7 @@
 \alias{MSnExperiment}
 \alias{MSnExperiment-class}
 \alias{readMSnExperiment}
+\alias{switchBackend}
 \alias{spectrapply,MSnExperiment-method}
 \alias{spectra,MSnExperiment-method}
 \alias{spectraData}
@@ -20,6 +21,8 @@
 \usage{
 readMSnExperiment(file, sampleData, backend = BackendMzR(),
   smoothed = NA, ..., BPPARAM = bpparam())
+
+switchBackend(object, backend, ..., BPPARAM = bpparam())
 
 \S4method{spectrapply}{MSnExperiment}(object,
   f = spectraData(object)$fileIdx, FUN = NULL, BPPARAM = bpparam(),
@@ -122,12 +125,16 @@ i.e. data manipulations such as performed with \code{removePeaks} are not applie
 immediately to the data, but applied on-the-fly to the spectrum data once it
 is retrieved.
 }
-\section{Creation of objects}{
+\section{Creation of objects and changing the backend}{
 
 
 \code{MSnExperiment} classes are usually created with the \code{readMSnExperiment}
 function that reads general spectrum metadata information from the  mass
 spectrometry data files.
+
+The \linkS4class{Backend} can be changed with the \code{switchBackend} function by
+specifying the new \linkS4class{Backend} with the \code{backend} parameter. See examples
+for more details.
 }
 
 \section{Accessing data}{
@@ -213,6 +220,15 @@ head(res)
 res <- spectrapply(dta, f = rep(1, nrow(spectraData(dta))),
     FUN = function(z) mean(intensity(z)))
 head(res)
+
+## The `switchBackend` function can be used to change the backend for the
+## `MSnExperiment`. Below we change the backend from the default raw MS
+## data files-based backend (`BackendMzR`) to the HDF5-file based
+## `BackendHdf5`. With the additional `path` parameter we specify the
+## directory in which the HDF5 files should be saved.
+dta <- switchBackend(dta, backend = BackendHdf5(),
+    path = paste0(tempdir(), "/hdf5"))
+dta
 }
 \author{
 Sebastian Gibb, Johannes Rainer

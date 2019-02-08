@@ -323,7 +323,8 @@ exportMethods(updateObject,
               writeMSData,
               productMz,
               estimateMzResolution,
-	      combineSpectra
+	      combineSpectra,
+              switchBackend
               )
 
 ## methods NOT exported
