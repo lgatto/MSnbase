@@ -164,9 +164,9 @@ setClass(
         spectraData = "DataFrame",
         ## was phenoData in MSnExp
         sampleData = "DataFrame",
-        processingQueue  =  "list",
+        processingQueue = "list",
         ## logging
-        processing = "character"
+        processing = "character",
         ## metadata
         metadata = "list",
         version = "character"
