@@ -41,5 +41,7 @@ sciex <- readMSData(sf, mode = "onDisk")
 
 sciex_inmem <- readMSnExperiment(sf, backend = BackendMemory())
 sciex_mzr <- readMSnExperiment(sf, backend = BackendMzR())
+sciex_h5 <- readMSnExperiment(sf, backend = BackendHdf5(),
+                              path = paste0(tempdir(), "/sciex_h5/"))
 
 test_check("MSnbase")

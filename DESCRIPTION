@@ -83,7 +83,8 @@ Imports:
     XML,
     scales,
     MASS,
-    Rcpp
+    Rcpp,
+    rhdf5
 Suggests:
     testthat,
     pryr,
@@ -122,6 +123,7 @@ Collate:
     'AllGenerics.R'
     'hidden_aliases.R'
     'Backend-class.R'
+    'BackendHdf5-class.R'
     'BackendMemory-class.R'
     'BackendMzR-class.R'
     'DataClasses.R'
