@@ -150,6 +150,7 @@ NULL
 #' @slot processingQueue `list` of `ProcessingStep` objects.
 #' @slot processing A `character` storing logging information.
 #' @slot metadata Ã `list` storing experiment metadata.
+#' @slot version A `characher(1)` containing the class version.
 #'
 #' @name MSnExperiment-class
 #' @docType class
@@ -168,7 +169,9 @@ setClass(
         processing = "character"
         ## metadata
         metadata = "list",
+        version = "character"
     ),
+    prototype = prototype(version = "0.1"),
     validity = .validMSnExperiment
 )
 
