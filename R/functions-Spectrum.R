@@ -564,6 +564,57 @@ validSpectrum <- function(object) {
     res
 }
 
+#' Update the spectrum slot data with the data provided in the `spectraData`
+#' `data.frame`.
+#'
+#' @param x `Spectrum` class
+#'
+#' @param spectraData `data.frame` or `DataFrame` (single row) with the metadata
+#'     information for the spectrum.
+#'
+#' @return `Spectrum`
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+.spectrum_set_header <- function(x, spectraData) {
+    if (length(spectraData$msLevel))
+        x@msLevel <- as.integer(spectraData$msLevel)
+    if (length(spectraData$peaksCount))
+        x@peaksCount <- as.integer(spectraData$peaksCount)
+    if (length(spectraData$retentionTime))
+        x@rt <- spectraData$retentionTime
+    if (length(spectraData$acquisitionNum))
+        x@acquisitionNum <- as.integer(spectraData$acquisitionNum)
+    if (length(spectraData$spIdx))
+        x@scanIndex <- as.integer(spectraData$spIdx)
+    if (length(spectraData$totalIonCurrent))
+        x@tic <- spectraData$totalIonCurrent
+    if (length(spectraData$fileIdx))
+        x@fromFile <- as.integer(spectraData$fileIdx)
+    if (length(spectraData$centroided))
+        x@centroided <- as.logical(spectraData$centroided)
+    if (length(spectraData$smoothed))
+        x@smoothed <- as.logical(spectraData$smoothed)
+    if (length(spectraData$polarity))
+        x@polarity <- as.integer(spectraData$polarity)
+    if (is(x, "Spectrum2")) {
+        if (length(spectraData$mergedScan))
+            x@merged <- spectraData$mergedScan
+        if (length(spectraData$precursorScanNum))
+            x@precScanNum <- as.integer(spectraData$precursorScanNum)
+        if (length(spectraData$precursorMZ))
+            x@precursorMz <- spectraData$precursorMZ
+        if (length(spectraData$precursorIntensity))
+            x@precursorIntensity <- spectraData$precursorIntensity
+        if (length(spectraData$precursorCharge))
+            x@precursorCharge <- as.integer(spectraData$precursorCharge)
+        if (length(spectraData$collisionEnergy))
+            x@collisionEnergy <- spectraData$collisionEnergy
+    }
+    x
+}
+
 #' @description `kNeighbors` refines the m/z value of the identified peak
 #'     (centroid) based on a user defined number (`2 * k`) of neighboring
 #'     signals. The resulting m/z value is the intensity weighted average of
