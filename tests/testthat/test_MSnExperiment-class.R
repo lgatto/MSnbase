@@ -9,6 +9,23 @@ test_that("MSnExperiment validator works", {
     expect_error(validObject(tst))
 })
 
+test_that(".valid.MSnExperiment.featureData works", {
+    vld <- DataFrame(fileIdx = c(1L, 1L, 2L, 2L, 3L),
+                     msLevel = c(1L, 1L, 2L, 2L, 1L))
+    expect_null(.valid.MSnExperiment.featureData(vld))
+    expect_match(.valid.MSnExperiment.featureData(vld, 2), "number of distinct")
+    vld$msLevel[4] <- NA
+    expect_match(.valid.MSnExperiment.featureData(vld),
+                 "'msLevel' should contain")
+    vld$msLevel[4] <- 4.23
+    expect_match(.valid.MSnExperiment.featureData(vld),
+                 "'msLevel' should contain")
+    vld$msLevel[4] <- 4L
+    vld$msLevel <- as.integer(vld$msLevel)
+    vld$fileIdx[1] <- NA
+    expect_match(.valid.MSnExperiment.featureData(vld), "'fileIdx' should")
+})
+
 test_that("MSnExperiment constructor works", {
     ## From a list of spectra.
     sp1 <- new("Spectrum1", rt = 1.2, mz = 1:4, intensity = abs(rnorm(4)))
@@ -273,4 +290,37 @@ test_that("as,MSnExperiment works", {
 
     res <- as(sciex_mzr[1:34], "list")
     expect_equal(res, as(subs, "list"))
+})
+
+test_that("featureData, and featureData<-,MSnExperiment work", {
+    spl <- list(new("Spectrum1", mz = 1:5, intensity = abs(rnorm(5))),
+                new("Spectrum1", mz = 1:4, intensity = abs(rnorm(4))),
+                new("Spectrum1", mz = 1:5, intensity = abs(rnorm(5))))
+    mse <- MSnExperiment(spl)
+    featureData(mse)$polarity <- c(-1, 1, 1)
+    expect_equal(featureData(mse)$polarity, c(-1, 1, 1))
+    expect_equal(unname(vapply(as(mse, "list"), polarity, integer(1))),
+                 c(-1, 1, 1))
+    expect_error(featureData(mse)$fileIdx <- c("a", "b", "c"))
+    expect_error(featureData(mse) <- DataFrame(a = 1:3))
+
+    featureData(mse)$feature_id <- c("FT01", "FT01", "FT02")
+    expect_equal(featureData(mse)$feature_id, c("FT01", "FT01", "FT02"))
+    expect_equal(unname(spectrapply(mse, FUN = intensity)),
+                 lapply(spl, intensity))
+
+    spectraData(mse)$peak_id <- 1:3
+    expect_equal(spectraData(mse)$peak_id, 1:3)
+})
+
+test_that("sampleData, sampleData<-,MSnExperiment work", {
+    spl <- list(new("Spectrum1", mz = 1:5, intensity = abs(rnorm(5))),
+                new("Spectrum1", mz = 1:4, intensity = abs(rnorm(4))),
+                new("Spectrum1", mz = 1:5, intensity = abs(rnorm(5))))
+    mse <- MSnExperiment(spl)
+    sampleData(mse) <- DataFrame(sample_name = "a", sample_id = "001")
+    expect_equal(sampleData(mse)$sample_name, "a")
+    expect_equal(sampleData(mse)$sample_id, "001")
+    expect_error(sampleData(mse) <- "a")
+    expect_error(sampleData(mse) <- DataFrame(sample_name = c("a", "b")))
 })

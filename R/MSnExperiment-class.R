@@ -71,6 +71,8 @@ NULL
 #'
 #' @param t for `removePeaks`: a `numeric(1)` defining the threshold or `"min"`.
 #'
+#' @param value for `featureData`, `sampleData` and `spectraData`: a `DataFrame`
+#'
 #' @param verbose `logical(1)` defining the verbosity.
 #'
 #' @param x a `MSnExperiment` object.
@@ -103,17 +105,22 @@ NULL
 #'
 #' @section Accessing data:
 #'
+#' - `featureData`: get or set general spectrum metadata. Returns a `DataFrame`
+#'   or a `MSnExperiment` with updated spectra metadata. Each row of the
+#'   `DataFrame` contains information for one spectrum. This function is
+#'   equivalent to [featureData()] of `MSnExp`/`OnDiskMSnExp` objects.
+#'
 #' - `fileNames`: get the original file names from which the data was imported.
 #'
 #' - `metadata`: get the metadata `list`.
 #'
-#' - `sampleData`: get sample metadata. Returns a `DataFrame`, each row
-#'   containing information for one sample or file. This function is equivalent
-#'   to [phenoData()] of `MSnExp`/`OnDiskMSnExp` objects.
+#' - `sampleData`: get or set sample metadata. Returns a `DataFrame`, each row
+#'   containing information for one sample or file or a `MSnExperiment` with
+#'   the update sample metadata. This function is equivalent to [phenoData()]
+#'   of `MSnExp`/`OnDiskMSnExp` objects.
 #'
-#' - `spectraData`: get general spectrum metadata. Returns a `DataFrame`, each
-#'   row containing information for one spectrum. This function is equivalent
-#'   to [featureData()] of `MSnExp`/`OnDiskMSnExp` objects.
+#' - `spectraData`: get or set general spectrum metadata. See `featureData`
+#'   above.
 #'
 #' - `spectrapply`: apply an arbitrary function to each spectrum in the dataset
 #'   and return its result. The function returns a `list` with the same length
@@ -156,6 +163,16 @@ NULL
 #'
 #' ## Access the second spectrum
 #' mse[[2]]
+#'
+#' ## Get the spectrum metadata
+#' spectraData(mse)
+#'
+#' ## Add an additional column to the spectrum metadata
+#' spectraData(mse)$peak_id <- c("a", "b")
+#'
+#' ## featureData and spectraData both access the spectrum metadata
+#' featureData(mse)
+#'
 #'
 #' ## Create an MSnExperiment from two input files using the on-disk
 #' ## BackendMzR backend
@@ -218,7 +235,9 @@ NULL
             msg <- c(msg, paste0("Number of files does not match the number",
                                  " of rows of 'sampleNames'"))
     }
-    msg <- c(msg, .valid.processingQueue(object@processingQueue))
+    msg <- c(msg, .valid.processingQueue(object@processingQueue),
+             .valid.MSnExperiment.featureData(object@spectraData,
+                                              nrow(object@sampleData)))
     if (length(msg))
         msg
     else TRUE
@@ -229,6 +248,29 @@ NULL
         if (!all(vapply(x, inherits, logical(1), "ProcessingStep")))
             return("'processingQueue' should only contain ProcessingStep objects.")
     NULL
+}
+
+.valid.MSnExperiment.featureData <- function(x, nsamples) {
+    msg <- NULL
+    if (nrow(x)) {
+        if (!any(colnames(x) == "fileIdx"))
+            msg <- c(msg, "Column 'fileIdx' is required")
+        else if (anyNA(x$fileIdx) | !is.integer(x$fileIdx))
+            msg <- c(msg, "'fileIdx' should contain only non-missing integers")
+        if (anyDuplicated(rownames(x)))
+            msg <- c(msg, "rownames have to be unique")
+        if (!missing(nsamples))
+            if (length(unique(x$fileIdx)) != nsamples)
+                msg <- c(msg, paste0("number of distinct indices in 'fileIdx' ",
+                                     "does not match number of files/samples"))
+        if (!any(colnames(x) == "msLevel"))
+            msg <- c(msg, "Column 'msLevel' is required")
+        else if (anyNA(x$msLevel) | !is.integer(x$msLevel))
+            msg <- c(msg, "'msLevel' should contain only non-missing integers")
+    }
+    if (length(msg))
+        msg
+    else NULL
 }
 
 #' The MSnExperiment class
@@ -508,12 +550,9 @@ addProcessingStep <- function(object, FUN, ...) {
     object
 }
 
-#' @rdname hidden_aliases
 setAs("MSnExperiment", "list", function(from) {
     spectrapply(from)
 })
-
-#' @rdname hidden_aliases
 setAs("MSnExperiment", "List", function(from) {
     List(spectrapply(from))
 })
@@ -523,16 +562,42 @@ setAs("MSnExperiment", "List", function(from) {
 ##
 ##------------------------------------------------------------
 #' @rdname MSnExperiment
-spectraData <- function(object) {
-    stopifnot(inherits(object, "MSnExperiment"))
+setMethod("featureData", "MSnExperiment", function(object) {
     object@spectraData
-}
-
+})
 #' @rdname MSnExperiment
-sampleData <- function(object) {
-    stopifnot(inherits(object, "MSnExperiment"))
+setReplaceMethod("featureData", "MSnExperiment", function(object, value) {
+    if (!is(value, "DataFrame"))
+        stop("'value' should be a 'DataFrame'")
+    if (nrow(value) != nrow(object@spectraData))
+        stop("Expecting ", nrow(object@spectraData), " rows, but 'value' has",
+             " only ", nrow(value))
+    object@spectraData <- value
+    validObject(object) # check before updating backend
+    object@backend <- backendUpdateMetadata(object@backend, value)
+    object
+})
+#' @rdname MSnExperiment
+setMethod("spectraData", "MSnExperiment", function(object) {
+    featureData(object)
+})
+#' @rdname MSnExperiment
+setReplaceMethod("spectraData", "MSnExperiment", function(object, value) {
+    featureData(object) <- value
+    object
+})
+#' @rdname MSnExperiment
+setMethod("sampleData", "MSnExperiment", function(object) {
     object@sampleData
-}
+})
+#' @rdname MSnExperiment
+setReplaceMethod("sampleData", "MSnExperiment", function(object, value) {
+    if (!is(value, "DataFrame"))
+        stop("'value' should be a 'DataFrame'")
+    object@sampleData <- value
+    validObject(object)
+    object
+})
 
 #' @rdname MSnExperiment
 setMethod("metadata", "MSnExperiment",

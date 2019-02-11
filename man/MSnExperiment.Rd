@@ -7,8 +7,12 @@
 \alias{readMSnExperiment}
 \alias{setBackend}
 \alias{spectrapply,MSnExperiment-method}
-\alias{spectraData}
-\alias{sampleData}
+\alias{featureData,MSnExperiment-method}
+\alias{featureData<-,MSnExperiment,ANY-method}
+\alias{spectraData,MSnExperiment-method}
+\alias{spectraData<-,MSnExperiment-method}
+\alias{sampleData,MSnExperiment-method}
+\alias{sampleData<-,MSnExperiment-method}
 \alias{metadata,MSnExperiment-method}
 \alias{fileNames,MSnExperiment-method}
 \alias{[,MSnExperiment,ANY,ANY,ANY-method}
@@ -29,9 +33,17 @@ setBackend(object, backend, ..., BPPARAM = bpparam())
   f = spectraData(object)$fileIdx, FUN = NULL, BPPARAM = bpparam(),
   ...)
 
-spectraData(object)
+\S4method{featureData}{MSnExperiment}(object)
 
-sampleData(object)
+\S4method{featureData}{MSnExperiment,ANY}(object) <- value
+
+\S4method{spectraData}{MSnExperiment}(object)
+
+\S4method{spectraData}{MSnExperiment}(object) <- value
+
+\S4method{sampleData}{MSnExperiment}(object)
+
+\S4method{sampleData}{MSnExperiment}(object) <- value
 
 \S4method{metadata}{MSnExperiment}(x, ...)
 
@@ -86,6 +98,8 @@ split into chunks for parallelization.}
 
 \item{FUN}{for \code{spectrapply}: a function or the name of a function to apply
 to each \linkS4class{Spectrum} of the experiment.}
+
+\item{value}{for \code{featureData}, \code{sampleData} and \code{spectraData}: a \code{DataFrame}}
 
 \item{i}{for \code{[}: \code{integer}, \code{logical} or \code{character} specifying the
 \strong{spectra} to which \code{object} should be subsetted.}
@@ -150,14 +164,18 @@ for more details.
 \section{Accessing data}{
 
 \itemize{
+\item \code{featureData}: get or set general spectrum metadata. Returns a \code{DataFrame}
+or a \code{MSnExperiment} with updated spectra metadata. Each row of the
+\code{DataFrame} contains information for one spectrum. This function is
+equivalent to \code{\link[=featureData]{featureData()}} of \code{MSnExp}/\code{OnDiskMSnExp} objects.
 \item \code{fileNames}: get the original file names from which the data was imported.
 \item \code{metadata}: get the metadata \code{list}.
-\item \code{sampleData}: get sample metadata. Returns a \code{DataFrame}, each row
-containing information for one sample or file. This function is equivalent
-to \code{\link[=phenoData]{phenoData()}} of \code{MSnExp}/\code{OnDiskMSnExp} objects.
-\item \code{spectraData}: get general spectrum metadata. Returns a \code{DataFrame}, each
-row containing information for one spectrum. This function is equivalent
-to \code{\link[=featureData]{featureData()}} of \code{MSnExp}/\code{OnDiskMSnExp} objects.
+\item \code{sampleData}: get or set sample metadata. Returns a \code{DataFrame}, each row
+containing information for one sample or file or a \code{MSnExperiment} with
+the update sample metadata. This function is equivalent to \code{\link[=phenoData]{phenoData()}}
+of \code{MSnExp}/\code{OnDiskMSnExp} objects.
+\item \code{spectraData}: get or set general spectrum metadata. See \code{featureData}
+above.
 \item \code{spectrapply}: apply an arbitrary function to each spectrum in the dataset
 and return its result. The function returns a \code{list} with the same length
 than there are spectra. Argument \code{f} allows to define how to split the
@@ -197,6 +215,16 @@ mse
 
 ## Access the second spectrum
 mse[[2]]
+
+## Get the spectrum metadata
+spectraData(mse)
+
+## Add an additional column to the spectrum metadata
+spectraData(mse)$peak_id <- c("a", "b")
+
+## featureData and spectraData both access the spectrum metadata
+featureData(mse)
+
 
 ## Create an MSnExperiment from two input files using the on-disk
 ## BackendMzR backend

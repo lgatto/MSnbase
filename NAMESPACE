@@ -160,7 +160,6 @@ export(MSnSet,
        BackendMzR,
        BackendHdf5,
        readMSnExperiment,
-       spectraData,
        setHdf5CompressionLevel,
        MSnExperiment
        )
@@ -325,7 +324,9 @@ exportMethods(updateObject,
               productMz,
               estimateMzResolution,
 	      combineSpectra,
-              setBackend
+              setBackend,
+              spectraData, "spectraData<-",
+              sampleData, "sampleData<-"
               )
 
 ## methods NOT exported

@@ -152,3 +152,14 @@ setMethod(
 .BackendMemory.fileIndexFromName <- function(x) {
     gsub("\\.S[0-9]+$", "", x)
 }
+
+#' @rdname hidden_aliases
+setMethod("backendUpdateMetadata", "BackendMemory", function(object,
+                                                             spectraData) {
+    object@spectra <- object@spectra[rownames(spectraData)]
+    object@spectra <- mapply(object@spectra,
+                             split(spectraData, seq_len(nrow(spectraData))),
+                             FUN = .spectrum_set_header)
+    validObject(object)
+    object
+})

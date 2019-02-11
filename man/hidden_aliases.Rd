@@ -10,13 +10,13 @@
 \alias{backendInitialize,Backend-method}
 \alias{backendImportData,Backend-method}
 \alias{backendDeepCopy,Backend-method}
-\alias{backendSubset}
 \alias{show,BackendHdf5-method}
 \alias{backendSubset,BackendMemory-method}
 \alias{backendInitialize,BackendMemory-method}
 \alias{backendImportData,BackendMemory-method}
 \alias{backendReadSpectra,BackendMemory-method}
 \alias{backendWriteSpectra,BackendMemory-method}
+\alias{backendUpdateMetadata,BackendMemory-method}
 \alias{backendReadSpectra,BackendMzR-method}
 \alias{show,MSnExperiment-method}
 \alias{setBackend,MSnExperiment,Backend-method}
@@ -35,8 +35,6 @@
 
 \S4method{backendDeepCopy}{Backend}(object, ...)
 
-backendSubset(object, spectraData)
-
 \S4method{show}{BackendHdf5}(object)
 
 \S4method{backendSubset}{BackendMemory}(object, spectraData)
@@ -52,6 +50,8 @@ backendSubset(object, spectraData)
 
 \S4method{backendWriteSpectra}{BackendMemory}(object, spectra, spectraData,
   ..., BPPARAM = bpparam())
+
+\S4method{backendUpdateMetadata}{BackendMemory}(object, spectraData)
 
 \S4method{backendReadSpectra}{BackendMzR}(object, spectraData,
   processingQueue = list(), ...)
@@ -70,20 +70,9 @@ backendSubset(object, spectraData)
 \arguments{
 \item{object}{Object to display.}
 
-\item{spectraData}{`DataFrame` with the spectrum metadata of the spectra to
-which the `object` should be subsetted.}
-
-\item{x}{`Backend`}
-
 \item{object}{Object to display.}
-}
-\value{
-A `Backend` class.
 }
 \description{
 For S4 methods that require a documentation entry but only clutter the index.
-}
-\author{
-Johannes Rainer
 }
 \keyword{internal}

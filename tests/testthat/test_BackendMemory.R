@@ -150,3 +150,26 @@ test_that(".BackendMemory.fileIndexFromName", {
     expect_equal(.BackendMemory.fileIndexFromName(c("F1.S1", "F10.S100")),
                  c("F1", "F10"))
 })
+
+test_that("backendUpdateMetadata,BackendMemory works", {
+    spd <- DataFrame(fileIdx=c(1, 1, 2), spIdx=1:3,
+                     row.names=c("F1.S1", "F1.S2", "F2.S3"))
+    f <- system.file(
+        file.path("microtofq", c("MM8.mzML", "MM14.mzML")),
+        package="msdata"
+    )
+    b <- MSnbase:::backendInitialize(BackendMemory(), files=f, spectraData=spd)
+    s <- c(F1.S1=new("Spectrum2", mz=1:2, intensity=1:2),
+           F1.S2=new("Spectrum2", mz=3:4, intensity=3:4),
+           F2.S3=new("Spectrum2", mz=5:6, intensity=5:6))
+    b@spectra[] <- s
+    spd$msLevel <- c(2, 3, 4)
+    spd$polarity <- c(-1, -1, 1)
+    res <- MSnbase:::backendUpdateMetadata(b, spd)
+    expect_equal(polarity(res@spectra[[1]]), -1)
+    expect_equal(polarity(res@spectra[[2]]), -1)
+    expect_equal(polarity(res@spectra[[3]]), 1)
+    expect_equal(msLevel(res@spectra[[1]]), 2)
+    expect_equal(msLevel(res@spectra[[2]]), 3)
+    expect_equal(msLevel(res@spectra[[3]]), 4)
+})
