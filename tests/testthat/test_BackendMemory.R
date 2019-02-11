@@ -131,11 +131,6 @@ test_that("backendReadSpectra/backendWriteSpectra", {
     expect_equal(backendWriteSpectra(b, s[2:1], spd[1:2,]), r)
 })
 
-test_that(".BackendMemory.fileIndexFromName", {
-    expect_equal(.BackendMemory.fileIndexFromName(c("F1.S1", "F10.S100")),
-                 c("F1", "F10"))
-})
-
 test_that("backendUpdateMetadata,BackendMemory works", {
     spd <- DataFrame(fileIdx=c(1, 1, 2), spIdx=1:3,
                      row.names=c("F1.S1", "F1.S2", "F2.S3"))

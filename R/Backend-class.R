@@ -148,8 +148,8 @@ setGeneric(
 )
 setMethod(
     "backendInitialize",
-    signature="Backend",
-    definition=function(object, files, spectraData, ...) {
+    signature = "Backend",
+    definition = function(object, files, spectraData, ...) {
     object@files <- files
     validObject(object)
     object
