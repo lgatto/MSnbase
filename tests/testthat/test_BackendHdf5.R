@@ -111,7 +111,7 @@ test_that(".h5_write_spectra, and backendWriteSpectra,BackendHdf5 work", {
     mse_h5 <- readMSnExperiment(f, path = paste0(tempdir(), "/1"),
                                 backend = BackendHdf5())
     be <- mse_h5@backend
-    sps <- spectra(mse_h5, return.type = "list")
+    sps <- spectrapply(mse_h5)
     spd <- mse_h5@spectraData
     ## Write only 5 spectra to the second file.
     idx <- c(114:118)

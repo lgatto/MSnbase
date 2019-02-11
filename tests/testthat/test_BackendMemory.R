@@ -58,7 +58,7 @@ test_that("backendSubset,BackendMemory works", {
     tmp <- readMSnExperiment(f, backend = BackendMemory())
     be <- tmp@backend
     spd <- tmp@spectraData
-    sps <- spectra(tmp, return.type = "list")
+    sps <- spectrapply(tmp)
     ## Subset to data from the second file.
     be_2 <- MSnbase:::backendSubset(be, spd[spd$fileIdx == 2, ])
     expect_equal(be_2@files, be@files[2])
