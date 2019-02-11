@@ -7,7 +7,6 @@
 \alias{readMSnExperiment}
 \alias{setBackend}
 \alias{spectrapply,MSnExperiment-method}
-\alias{spectra,MSnExperiment-method}
 \alias{spectraData}
 \alias{sampleData}
 \alias{metadata,MSnExperiment-method}
@@ -29,9 +28,6 @@ setBackend(object, backend, ..., BPPARAM = bpparam())
 \S4method{spectrapply}{MSnExperiment}(object,
   f = spectraData(object)$fileIdx, FUN = NULL, BPPARAM = bpparam(),
   ...)
-
-\S4method{spectra}{MSnExperiment}(object, return.type = c("Spectra",
-  "list"), BPPARAM = bpparam())
 
 spectraData(object)
 
@@ -90,11 +86,6 @@ split into chunks for parallelization.}
 
 \item{FUN}{for \code{spectrapply}: a function or the name of a function to apply
 to each \linkS4class{Spectrum} of the experiment.}
-
-\item{return.type}{for \code{spectra}: a \code{character(1)} specifying whether the
-result should be returned as a \code{\link[=Spectra]{Spectra()}}
-(\code{return.type = "Spectra"}) or a simple \code{list} of \code{Spectrum}
-objects (\code{return.type = "list"}).}
 
 \item{i}{for \code{[}: \code{integer}, \code{logical} or \code{character} specifying the
 \strong{spectra} to which \code{object} should be subsetted.}
@@ -160,9 +151,6 @@ for more details.
 \item \code{sampleData}: get sample metadata. Returns a \code{DataFrame}, each row
 containing information for one sample or file. This function is equivalent
 to \code{\link[=phenoData]{phenoData()}} of \code{MSnExp}/\code{OnDiskMSnExp} objects.
-\item \code{spectra}: get the \code{list} of \linkS4class{Spectrum} objects from the experiment.
-Note that the spectra in the \code{list} are not grouped by sample/file. Use
-the \code{fromFile} method to split/group the \code{list} by file.
 \item \code{spectraData}: get general spectrum metadata. Returns a \code{DataFrame}, each
 row containing information for one spectrum. This function is equivalent
 to \code{\link[=featureData]{featureData()}} of \code{MSnExp}/\code{OnDiskMSnExp} objects.
@@ -218,15 +206,9 @@ fileNames(mse)
 ## Get spectra metadata
 spectraData(mse)
 
-## Extract all spectra; by default a `Spectra` is returned. We could also
-## get a simple `list` of `Spectrum` objects by specifying
-## `return.type = "list"`.
-sp <- spectra(mse)
-head(sp)
-
 ## Subset the object to contain only spectra 3, 12, 45
 mse_sub <- mse[c(3, 12, 45)]
-spectra(mse_sub)
+mse_sub
 
 ## Subset the object to contain only spectra from the second file
 mse_sub <- filterFile(mse, 2)

@@ -61,11 +61,6 @@ NULL
 #'
 #' @param object a `MSnExperiment` object.
 #'
-#' @param return.type for `spectra`: a `character(1)` specifying whether the
-#'     result should be returned as a [Spectra()]
-#'     (`return.type = "Spectra"`) or a simple `list` of `Spectrum`
-#'     objects (`return.type = "list"`).
-#'
 #' @param sampleData a [S4Vectors::DataFrame-class] object with additional
 #'     information on each sample (samples as rows, information as columns).
 #'
@@ -111,10 +106,6 @@ NULL
 #' - `sampleData`: get sample metadata. Returns a `DataFrame`, each row
 #'   containing information for one sample or file. This function is equivalent
 #'   to [phenoData()] of `MSnExp`/`OnDiskMSnExp` objects.
-#'
-#' - `spectra`: get the `list` of [Spectrum-class] objects from the experiment.
-#'   Note that the spectra in the `list` are not grouped by sample/file. Use
-#'   the `fromFile` method to split/group the `list` by file.
 #'
 #' - `spectraData`: get general spectrum metadata. Returns a `DataFrame`, each
 #'   row containing information for one spectrum. This function is equivalent
@@ -174,15 +165,9 @@ NULL
 #' ## Get spectra metadata
 #' spectraData(mse)
 #'
-#' ## Extract all spectra; by default a `Spectra` is returned. We could also
-#' ## get a simple `list` of `Spectrum` objects by specifying
-#' ## `return.type = "list"`.
-#' sp <- spectra(mse)
-#' head(sp)
-#'
 #' ## Subset the object to contain only spectra 3, 12, 45
 #' mse_sub <- mse[c(3, 12, 45)]
-#' spectra(mse_sub)
+#' mse_sub
 #'
 #' ## Subset the object to contain only spectra from the second file
 #' mse_sub <- filterFile(mse, 2)
@@ -515,17 +500,6 @@ addProcessingStep <- function(object, FUN, ...) {
     validObject(object)
     object
 }
-
-#' @rdname MSnExperiment
-setMethod("spectra", "MSnExperiment",
-          function(object, return.type = c("Spectra", "list"),
-                   BPPARAM = bpparam()) {
-              return.type <- match.arg(return.type)
-              res <- spectrapply(object = object, BPPARAM = BPPARAM)
-              if (return.type == "Spectra")
-                  res <- Spectra(res, elementMetadata = object@spectraData)
-              res
-          })
 
 ##============================================================
 ##  --  DATA ACCESSORS
