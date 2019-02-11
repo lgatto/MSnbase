@@ -9,6 +9,39 @@ test_that("MSnExperiment validator works", {
     expect_error(validObject(tst))
 })
 
+test_that("MSnExperiment constructor works", {
+    ## From a list of spectra.
+    sp1 <- new("Spectrum1", rt = 1.2, mz = 1:4, intensity = abs(rnorm(4)))
+    sp2 <- new("Spectrum1", rt = 1.4, mz = 1:4, intensity = abs(rnorm(4)))
+    sp3 <- new("Spectrum1", rt = 1.5, mz = 1:4, intensity = abs(rnorm(4)))
+    spl <- list(sp1, sp2, sp3)
+    res <- MSnExperiment(spl)
+    expect_equal(rownames(spectraData(res)), c("F1.S1", "F1.S2", "F1.S3"))
+    expect_equal(res[[1]], sp1)
+    expect_equal(res[[2]], sp2)
+    expect_equal(res[[3]], sp3)
+
+    ## Providing a sampleData
+    res <- MSnExperiment(spl, sampleData = DataFrame(a = "some file"))
+    expect_equal(res@sampleData, DataFrame(a = "some file"))
+
+    ## Providing spectraData
+    spd <- DataFrame(peak_id = c("CP1", "CP1", "CP2"),
+                     compound_id = c("HMBD1", "HMDB1", "HMDB2"))
+    res <- MSnExperiment(spl, spectraData = spd)
+    expect_equal(res@spectraData$peak_id, spd$peak_id)
+    expect_equal(res@spectraData$compound_id, spd$compound_id)
+
+    ## Using named list
+    names(spl) <- c("A", "B", "C")
+    res <- MSnExperiment(spl)
+    expect_equal(rownames(res@spectraData), c("A", "B", "C"))
+
+    ## Errors
+    expect_error(MSnExperiment(4), "'x' has to be")
+    expect_error(MSnExperiment(spl, spectraData = DataFrame(iam = "wrong")))
+})
+
 test_that("addProcessingStep works", {
     tst <- new("MSnExperiment", backend = BackendMzR())
     tst <- addProcessingStep(tst, mean)

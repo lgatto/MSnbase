@@ -22,8 +22,9 @@ setClass("BackendMemory",
             return("Spectra names should not be missing.")
         if (anyDuplicated(nms))
             return("Duplicated spectra names found.")
-        if (isFALSE(all(grepl("^F[0-9]+\\.S[0-9]+$", nms))))
-            return("Names of 'spectra' don't follow F[0-9]+.S[0-9]+ format.")
+        ## Would allow arbitrary spectrum naming - as long as names are unique.
+        ## if (isFALSE(all(grepl("^F[0-9]+\\.S[0-9]+$", nms))))
+        ##     return("Names of 'spectra' don't follow F[0-9]+.S[0-9]+ format.")
     }
     NULL
 }

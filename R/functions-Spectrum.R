@@ -528,16 +528,14 @@ validSpectrum <- function(object) {
 .spectrum_header <- function(x) {
     res <- data.frame(acquisitionNum = acquisitionNum(x),
                       msLevel = msLevel(x),
-                      polarity = polarity(x),
+                      polarity = ifelse(length(x@polarity), x@polarity, NA_integer_),
                       peaksCount = peaksCount(x),
                       totIonCurrent = tic(x),
-                      retentionTime = rtime(x),
-                      basePeakMZ = mz(x)[which.max(intensity(x))][1],
-                      basePeakIntensity = max(intensity(x)),
+                      retentionTime = ifelse(length(x@rt),  x@rt, NA_real_),
+                      spIdx = ifelse(length(x@scanIndex), x@scanIndex, NA_integer_),
+                      fileIdx = ifelse(length(x@fromFile), x@fromFile, NA_integer_),
                       collisionEnergy = 0,
                       ionisationEnergy = 0,      # How to get that?
-                      lowMZ = min(mz(x)),
-                      highMZ = max(mz(x)),
                       precursorScanNum = 0,
                       precursorMZ = 0,
                       precursorCharge = 0,
@@ -553,6 +551,17 @@ validSpectrum <- function(object) {
                       ionMobilityDriftTime = NA_real_,
                       stringsAsFactors = FALSE
                       )
+    if (length(x@mz)) {
+        res$basePeakMZ <- mz(x)[which.max(intensity(x))][1]
+        res$basePeakIntensity <- max(intensity(x))
+        res$lowMZ <- min(mz(x))
+        res$highMZ <- max(mz(x))
+    } else {
+        res$basePeakMZ <- NA_real_
+        res$basePeakIntensity <- NA_real_
+        res$lowMZ <- NA_real_
+        res$highMZ <- NA_real_
+    }
     if (msLevel(x) > 1) {
         res$collisionEnergy <- collisionEnergy(x)
         res$precursorScanNum <- precScanNum(x)

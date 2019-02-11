@@ -19,8 +19,10 @@
 \alias{clean,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
 \usage{
+MSnExperiment(x, spectraData, sampleData, metadata, ...)
+
 readMSnExperiment(file, sampleData, backend = BackendMzR(),
-  smoothed = NA, ..., BPPARAM = bpparam())
+  smoothed = NA, metadata = list(), ..., BPPARAM = bpparam())
 
 setBackend(object, backend, ..., BPPARAM = bpparam())
 
@@ -53,20 +55,28 @@ sampleData(object)
   verbose = isMSnbaseVerbose(), msLevel.)
 }
 \arguments{
-\item{file}{for \code{readMSnExperiment: }character\code{with the file names of the experiment. For}filterFile`: index or name of the file to which the
-data should be subsetted.}
+\item{x}{a \code{MSnExperiment} object.}
+
+\item{spectraData}{for \code{MSnExperiment}: a \link[S4Vectors:DataFrame-class]{S4Vectors::DataFrame} object
+with optional additional metadata columns for each spectrum.}
 
 \item{sampleData}{a \link[S4Vectors:DataFrame-class]{S4Vectors::DataFrame} object with additional
 information on each sample (samples as rows, information as columns).}
 
-\item{backend}{a \linkS4class{Backend} derivate used for internal data storage.}
-
-\item{smoothed}{\code{logical}, are the spectra smoothed?}
+\item{metadata}{for \code{MSnExperiment} and \code{readMSnExperiment}: \code{list} with
+optional metadata information.}
 
 \item{...}{for \code{readMSnExperiment}: additional parameters to be passed to
 the init method of the backend, such as \code{path} for \code{\link[=BackendHdf5]{BackendHdf5()}} to
 define the directory where the hdf5 files should be saved.
 For \code{spectrapply}: additional arguments to be passed to \code{FUN}.}
+
+\item{file}{for \code{readMSnExperiment: }character\code{with the file names of the experiment. For}filterFile`: index or name of the file to which the
+data should be subsetted.}
+
+\item{backend}{a \linkS4class{Backend} derivate used for internal data storage.}
+
+\item{smoothed}{\code{logical}, are the spectra smoothed?}
 
 \item{BPPARAM}{should parallel processing be used? See
 \code{\link[BiocParallel:bpparam]{BiocParallel::bpparam()}}.}
@@ -85,8 +95,6 @@ to each \linkS4class{Spectrum} of the experiment.}
 result should be returned as a \code{\link[=Spectra]{Spectra()}}
 (\code{return.type = "Spectra"}) or a simple \code{list} of \code{Spectrum}
 objects (\code{return.type = "list"}).}
-
-\item{x}{a \code{MSnExperiment} object.}
 
 \item{i}{for \code{[}: \code{integer}, \code{logical} or \code{character} specifying the
 \strong{spectra} to which \code{object} should be subsetted.}
@@ -131,6 +139,13 @@ is retrieved.
 \code{MSnExperiment} classes are usually created with the \code{readMSnExperiment}
 function that reads general spectrum metadata information from the  mass
 spectrometry data files.
+
+Alternatively it is possible to create a new object from a list of \code{Spectrum}
+objects using the \code{MSnExperiment} function. Additional spectrum metadata
+columns can be provided with the \code{spectraData} argument, sample annotations
+with the \code{sampleData} argument and arbitrary metadata with the \code{metadata}
+argument. Note that objects created with the \code{MSnExperiment} constructor
+function can not use the \code{BackendMzR} as backend.
 
 The \linkS4class{Backend} can be changed with the \code{setBackend} function by
 specifying the new \linkS4class{Backend} with the \code{backend} parameter. See examples
@@ -182,42 +197,51 @@ in which case a \code{Spectrum} is returned.
 
 \examples{
 
+## Create an MSnExperiment from a list of Spectrum objects
+spl <- list(new("Spectrum1", rt = 1.2, mz = 1:4, intensity = abs(rnorm(4))),
+    new("Spectrum1", rt = 1.3, mz = 1:4, intensity = abs(rnorm(4))))
+mse <- MSnExperiment(spl)
+mse
+
+## Access the second spectrum
+mse[[2]]
+
 ## Create an MSnExperiment from two input files using the on-disk
 ## BackendMzR backend
 sf <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)
-dta <- readMSnExperiment(sf, backend = BackendMzR())
-dta
+mse <- readMSnExperiment(sf, backend = BackendMzR())
+mse
 
 ## Get associated file names
-fileNames(dta)
+fileNames(mse)
 
 ## Get spectra metadata
-spectraData(dta)
+spectraData(mse)
 
 ## Extract all spectra; by default a `Spectra` is returned. We could also
 ## get a simple `list` of `Spectrum` objects by specifying
 ## `return.type = "list"`.
-sp <- spectra(dta)
+sp <- spectra(mse)
 head(sp)
 
 ## Subset the object to contain only spectra 3, 12, 45
-dta_sub <- dta[c(3, 12, 45)]
-spectra(dta_sub)
+mse_sub <- mse[c(3, 12, 45)]
+spectra(mse_sub)
 
 ## Subset the object to contain only spectra from the second file
-dta_sub <- filterFile(dta, 2)
-fileNames(dta_sub)
+mse_sub <- filterFile(mse, 2)
+fileNames(mse_sub)
 
 ## Apply an arbitrary function to each spectrum and return its results.
 ## We calculate the mean intensity for each spectrum. By
 ## default the function parallelizes the operation FUN by file.
-res <- spectrapply(dta, FUN = function(z) mean(intensity(z)))
+res <- spectrapply(mse, FUN = function(z) mean(intensity(z)))
 head(res)
 
 ## Parameter `f` can be used to specify how the function splits the data
 ## into chunks for parallel processing. Below we disable parallel processing
 ## by defining a single chunk.
-res <- spectrapply(dta, f = rep(1, nrow(spectraData(dta))),
+res <- spectrapply(mse, f = rep(1, nrow(spectraData(mse))),
     FUN = function(z) mean(intensity(z)))
 head(res)
 
@@ -226,9 +250,9 @@ head(res)
 ## data files-based backend (`BackendMzR`) to the HDF5-file based
 ## `BackendHdf5`. With the additional `path` parameter we specify the
 ## directory in which the HDF5 files should be saved.
-dta <- setBackend(dta, backend = BackendHdf5(),
+mse <- setBackend(mse, backend = BackendHdf5(),
     path = paste0(tempdir(), "/hdf5"))
-dta
+mse
 }
 \author{
 Sebastian Gibb, Johannes Rainer

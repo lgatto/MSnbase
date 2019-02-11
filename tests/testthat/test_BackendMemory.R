@@ -36,8 +36,8 @@ test_that(".valid.BackendMemory.spectra.names", {
     expect_match(.valid.BackendMemory.spectra.names(l), " NA")
     expect_match(.valid.BackendMemory.spectra.names(list(a=1, a=2)),
                  "Duplicated")
-    expect_match(.valid.BackendMemory.spectra.names(list(a=1, b=2)),
-                 "format")
+    ## expect_match(.valid.BackendMemory.spectra.names(list(a=1, b=2)),
+    ##              "format")
 })
 
 test_that(".valid.BackendMemory.match.file.spectra", {
