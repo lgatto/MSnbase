@@ -142,13 +142,10 @@ setMethod("fileNames", "Backend", function(object, ...) object@files)
 #' @noRd
 setGeneric(
     "backendInitialize",
-    def=function(object, files, spectraData, ...)
+    def = function(object, files, spectraData, ...)
         standardGeneric("backendInitialize"),
-    valueClass="Backend"
+    valueClass = "Backend"
 )
-
-#' @rdname hidden_aliases
-#' @export
 setMethod(
     "backendInitialize",
     signature="Backend",
@@ -175,17 +172,14 @@ setMethod(
 #' @noRd
 setGeneric(
     "backendImportData",
-    def=function(object, spectraData, ..., BPPARAM=bpparam())
+    def = function(object, spectraData, ..., BPPARAM = bpparam())
         standardGeneric("backendImportData"),
-    valueClass="Backend"
+    valueClass = "Backend"
 )
-
-#' @rdname hidden_aliases
-#' @export
 setMethod(
     "backendImportData",
-    signature="Backend",
-    definition=function(object, spectraData, ..., BPPARAM=bpparam()) {
+    signature = "Backend",
+    definition = function(object, spectraData, ..., BPPARAM = bpparam()) {
     object
 })
 
@@ -209,17 +203,14 @@ setMethod(
 #' @noRd
 setGeneric(
     "backendDeepCopy",
-    def=function(object, ...)
+    def = function(object, ...)
         standardGeneric("backendDeepCopy"),
-    valueClass="Backend"
+    valueClass = "Backend"
 )
-
-#' @rdname hidden_aliases
-#' @export
 setMethod(
     "backendDeepCopy",
-    signature="Backend",
-    definition=function(object, ...) {
+    signature = "Backend",
+    definition = function(object, ...) {
     object
 })
 
@@ -239,9 +230,9 @@ setMethod(
 #' @noRd
 setGeneric(
     "backendReadSpectra",
-    def=function(object, spectraData, processingQueue = list(), ...)
+    def = function(object, spectraData, processingQueue = list(), ...)
         standardGeneric("backendReadSpectra"),
-    valueClass="list"
+    valueClass = "list"
 )
 
 #' Write spectra data to a backend
@@ -259,9 +250,9 @@ setGeneric(
 #' @noRd
 setGeneric(
     "backendWriteSpectra",
-    def=function(object, spectra, spectraData, ...)
+    def = function(object, spectra, spectraData, ...)
         standardGeneric("backendWriteSpectra"),
-    valueClass="Backend"
+    valueClass = "Backend"
 )
 
 #' @description
@@ -284,7 +275,9 @@ setGeneric(
 #' @noRd
 setGeneric("backendSubset", def = function(object, spectraData)
     standardGeneric("backendSubset"),
-    valueClass = "Backend")
+    valueClass = "Backend"
+)
+
 setMethod("backendSubset", "Backend", function(object, spectraData) {
     object@files <- object@files[unique(spectraData$fileIdx)]
     validObject(object)
