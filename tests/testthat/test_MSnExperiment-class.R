@@ -324,3 +324,25 @@ test_that("sampleData, sampleData<-,MSnExperiment work", {
     expect_error(sampleData(mse) <- "a")
     expect_error(sampleData(mse) <- DataFrame(sample_name = c("a", "b")))
 })
+
+test_that("length,MSnExperiment works", {
+    expect_equal(length(sciex_mzr), 1862)
+})
+
+test_that("featureNames,MSnExperiment works", {
+    expect_equal(featureNames(sciex_mzr), rownames(sciex_mzr@spectraData))
+})
+
+test_that("acquisitionNum,MSnExperiment works", {
+    spl <- list(new("Spectrum1", mz = 1:5, intensity = abs(rnorm(5))),
+                new("Spectrum1", mz = 1:4, intensity = abs(rnorm(4))),
+                new("Spectrum1", mz = 1:5, intensity = abs(rnorm(5))))
+    mse <- MSnExperiment(spl)
+    expect_equal(acquisitionNum(mse), c(F1.S1 = NA_integer_,
+                                        F1.S2 = NA_integer_,
+                                        F1.S3 = NA_integer_))
+    expect_equal(unname(acquisitionNum(sciex_mzr)),
+                 sciex_mzr@spectraData$acquisitionNum)
+    expect_equal(names(acquisitionNum(sciex_mzr)),
+                 rownames(sciex_mzr@spectraData))
+})

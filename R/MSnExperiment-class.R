@@ -105,12 +105,19 @@ NULL
 #'
 #' @section Accessing data:
 #'
+#' - `acquisitionNum`: get the acquisition number of each spectrum as a
+#'   named `integer` vector with the same length than `object`.
+#'
 #' - `featureData`: get or set general spectrum metadata. Returns a `DataFrame`
 #'   or a `MSnExperiment` with updated spectra metadata. Each row of the
 #'   `DataFrame` contains information for one spectrum. This function is
 #'   equivalent to [featureData()] of `MSnExp`/`OnDiskMSnExp` objects.
 #'
+#' - `featureNames`: extract the feature (spectrum) names.
+#'
 #' - `fileNames`: get the original file names from which the data was imported.
+#'
+#' - `length`: get the number of spectra in the object.
 #'
 #' - `metadata`: get the metadata `list`.
 #'
@@ -564,10 +571,12 @@ setAs("MSnExperiment", "List", function(from) {
 ##  --  DATA ACCESSORS
 ##
 ##------------------------------------------------------------
+
 #' @rdname MSnExperiment
 setMethod("featureData", "MSnExperiment", function(object) {
     object@spectraData
 })
+
 #' @rdname MSnExperiment
 setReplaceMethod("featureData", "MSnExperiment", function(object, value) {
     if (!is(value, "DataFrame"))
@@ -580,19 +589,23 @@ setReplaceMethod("featureData", "MSnExperiment", function(object, value) {
     object@backend <- backendUpdateMetadata(object@backend, value)
     object
 })
+
 #' @rdname MSnExperiment
 setMethod("spectraData", "MSnExperiment", function(object) {
     featureData(object)
 })
+
 #' @rdname MSnExperiment
 setReplaceMethod("spectraData", "MSnExperiment", function(object, value) {
     featureData(object) <- value
     object
 })
+
 #' @rdname MSnExperiment
 setMethod("sampleData", "MSnExperiment", function(object) {
     object@sampleData
 })
+
 #' @rdname MSnExperiment
 setReplaceMethod("sampleData", "MSnExperiment", function(object, value) {
     if (!is(value, "DataFrame"))
@@ -614,6 +627,43 @@ setMethod("metadata", "MSnExperiment",
 setMethod("fileNames", "MSnExperiment", function(object) {
     fileNames(object@backend)
 })
+
+#' @rdname MSnExperiment
+setMethod("acquisitionNum", "MSnExperiment", function(object) {
+    res <- ifelse(is.null(object@spectraData$acquisitionNum),
+                  rep_len(NA_integer_, length(object)),
+                  object@spectraData$acquisitionNum)
+    names(res) <- featureNames(object)
+    res
+})
+
+## centroided
+## collisionEnergy
+#' @rdname MSnExperiment
+setMethod("featureNames", "MSnExperiment", function(object) {
+    rownames(x@spectraData)
+})
+## fromFile
+## intensity
+## ionCount
+## isCentroided
+## isEmpty
+#' @rdname MSnExperiment
+setMethod("length", "MSnExperiment", function(x) {
+    nrow(x@spectraData)
+})
+## msLevel
+## mz
+## polarity
+## rtime
+## peaksCount
+## precursorCharge
+## precursorIntensity
+## precursorMz
+## precScanNum
+## scanIndex
+## smoothed
+## tic
 
 ##============================================================
 ##  --  SUBSETTING AND FILTERING METHODS
