@@ -80,7 +80,7 @@ NULL
 #'     define the directory where the hdf5 files should be saved.
 #'     For `spectrapply`: additional arguments to be passed to `FUN`.
 #'
-#' @section Creation of objects and changing the backend:
+#' @section Creation of objects, conversion and changing the backend:
 #'
 #' `MSnExperiment` classes are usually created with the `readMSnExperiment`
 #' function that reads general spectrum metadata information from the  mass
@@ -92,6 +92,10 @@ NULL
 #' with the `sampleData` argument and arbitrary metadata with the `metadata`
 #' argument. Note that objects created with the `MSnExperiment` constructor
 #' function can not use the `BackendMzR` as backend.
+#'
+#' `MSnExperiment` objects can be converted to a `list` or
+#' [S4Vectors::List-class] of `Spectrum` objects with the `as(object, "list")`
+#' and `as(object, "List")` function, respectively.
 #'
 #' The [Backend-class] can be changed with the `setBackend` function by
 #' specifying the new [Backend-class] with the `backend` parameter. See examples
@@ -168,6 +172,9 @@ NULL
 #' ## Subset the object to contain only spectra 3, 12, 45
 #' mse_sub <- mse[c(3, 12, 45)]
 #' mse_sub
+#'
+#' ## Coerce to a list of spectra
+#' as(mse_sub, "list")
 #'
 #' ## Subset the object to contain only spectra from the second file
 #' mse_sub <- filterFile(mse, 2)
@@ -500,6 +507,16 @@ addProcessingStep <- function(object, FUN, ...) {
     validObject(object)
     object
 }
+
+#' @rdname hidden_aliases
+setAs("MSnExperiment", "list", function(from) {
+    spectrapply(from)
+})
+
+#' @rdname hidden_aliases
+setAs("MSnExperiment", "List", function(from) {
+    List(spectrapply(from))
+})
 
 ##============================================================
 ##  --  DATA ACCESSORS

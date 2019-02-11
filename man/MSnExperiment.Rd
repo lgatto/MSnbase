@@ -124,7 +124,7 @@ i.e. data manipulations such as performed with \code{removePeaks} are not applie
 immediately to the data, but applied on-the-fly to the spectrum data once it
 is retrieved.
 }
-\section{Creation of objects and changing the backend}{
+\section{Creation of objects, conversion and changing the backend}{
 
 
 \code{MSnExperiment} classes are usually created with the \code{readMSnExperiment}
@@ -137,6 +137,10 @@ columns can be provided with the \code{spectraData} argument, sample annotations
 with the \code{sampleData} argument and arbitrary metadata with the \code{metadata}
 argument. Note that objects created with the \code{MSnExperiment} constructor
 function can not use the \code{BackendMzR} as backend.
+
+\code{MSnExperiment} objects can be converted to a \code{list} or
+\link[S4Vectors:List-class]{S4Vectors::List} of \code{Spectrum} objects with the \code{as(object, "list")}
+and \code{as(object, "List")} function, respectively.
 
 The \linkS4class{Backend} can be changed with the \code{setBackend} function by
 specifying the new \linkS4class{Backend} with the \code{backend} parameter. See examples
@@ -209,6 +213,9 @@ spectraData(mse)
 ## Subset the object to contain only spectra 3, 12, 45
 mse_sub <- mse[c(3, 12, 45)]
 mse_sub
+
+## Coerce to a list of spectra
+as(mse_sub, "list")
 
 ## Subset the object to contain only spectra from the second file
 mse_sub <- filterFile(mse, 2)

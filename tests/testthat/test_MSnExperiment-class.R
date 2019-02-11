@@ -259,3 +259,18 @@ test_that("setBackend methods work", {
     ## expect_true(validObject(sciex_h5_mzr@backend))
     ## expect_equal(spectra(sciex_h5_mzr), spectra(sciex_inmem))
 })
+
+test_that("as,MSnExperiment works", {
+    subs <- sciex_inmem[1:34]
+    res <- as(subs, "list")
+    expect_true(is.list(res))
+    expect_equal(res, spectrapply(subs))
+    res <- as(subs, "List")
+    expect_true(is(res, "List"))
+
+    res <- as(sciex_h5[1:34], "list")
+    expect_equal(res, as(subs, "list"))
+
+    res <- as(sciex_mzr[1:34], "list")
+    expect_equal(res, as(subs, "list"))
+})
