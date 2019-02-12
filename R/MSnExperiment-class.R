@@ -630,9 +630,9 @@ setMethod("fileNames", "MSnExperiment", function(object) {
 
 #' @rdname MSnExperiment
 setMethod("acquisitionNum", "MSnExperiment", function(object) {
-    res <- ifelse(is.null(object@spectraData$acquisitionNum),
-                  rep_len(NA_integer_, length(object)),
-                  object@spectraData$acquisitionNum)
+    res <- if (is.null(object@spectraData$acquisitionNum))
+               rep_len(NA_integer_, length(object))
+           else object@spectraData$acquisitionNum
     names(res) <- featureNames(object)
     res
 })
@@ -641,7 +641,7 @@ setMethod("acquisitionNum", "MSnExperiment", function(object) {
 ## collisionEnergy
 #' @rdname MSnExperiment
 setMethod("featureNames", "MSnExperiment", function(object) {
-    rownames(x@spectraData)
+    rownames(object@spectraData)
 })
 ## fromFile
 ## intensity

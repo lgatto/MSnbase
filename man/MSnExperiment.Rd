@@ -15,6 +15,9 @@
 \alias{sampleData<-,MSnExperiment-method}
 \alias{metadata,MSnExperiment-method}
 \alias{fileNames,MSnExperiment-method}
+\alias{acquisitionNum,MSnExperiment-method}
+\alias{featureNames,MSnExperiment-method}
+\alias{length,MSnExperiment-method}
 \alias{[,MSnExperiment,ANY,ANY,ANY-method}
 \alias{[[,MSnExperiment,ANY,ANY-method}
 \alias{filterFile,MSnExperiment-method}
@@ -48,6 +51,12 @@ setBackend(object, backend, ..., BPPARAM = bpparam())
 \S4method{metadata}{MSnExperiment}(x, ...)
 
 \S4method{fileNames}{MSnExperiment}(object)
+
+\S4method{acquisitionNum}{MSnExperiment}(object)
+
+\S4method{featureNames}{MSnExperiment}(object)
+
+\S4method{length}{MSnExperiment}(x)
 
 \S4method{[}{MSnExperiment,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 
@@ -164,11 +173,15 @@ for more details.
 \section{Accessing data}{
 
 \itemize{
+\item \code{acquisitionNum}: get the acquisition number of each spectrum as a
+named \code{integer} vector with the same length than \code{object}.
 \item \code{featureData}: get or set general spectrum metadata. Returns a \code{DataFrame}
 or a \code{MSnExperiment} with updated spectra metadata. Each row of the
 \code{DataFrame} contains information for one spectrum. This function is
 equivalent to \code{\link[=featureData]{featureData()}} of \code{MSnExp}/\code{OnDiskMSnExp} objects.
+\item \code{featureNames}: extract the feature (spectrum) names.
 \item \code{fileNames}: get the original file names from which the data was imported.
+\item \code{length}: get the number of spectra in the object.
 \item \code{metadata}: get the metadata \code{list}.
 \item \code{sampleData}: get or set sample metadata. Returns a \code{DataFrame}, each row
 containing information for one sample or file or a \code{MSnExperiment} with
