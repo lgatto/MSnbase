@@ -120,6 +120,9 @@ NULL
 #'   whether the spectrum is centroided. `centroided<-` either takes a single
 #'   `logical` or `logical` with the same length than spectra.
 #'
+#' - `collisionEnergy`, `collisionEnergy<-`: get or set the collision energy
+#'   for all spectra in `object`.
+#'
 #' - `featureData`: get or set general spectrum metadata. Returns a `DataFrame`
 #'   or a `MSnExperiment` with updated spectra metadata. Each row of the
 #'   `DataFrame` contains information for one spectrum. This function is
@@ -623,7 +626,23 @@ setReplaceMethod("centroided", "MSnExperiment", function(object, value) {
     object
 })
 
-## collisionEnergy
+#' @rdname MSnExperiment
+setMethod("collisionEnergy", "MSnExperiment", function(object) {
+    res <- if (is.null(object@spectraData$collisionEnergy))
+               rep_len(NA_real_, length(object))
+           else object@spectraData$collisionEnergy
+    names(res) <- featureNames(object)
+    res
+})
+
+#' @rdname MSnExperiment
+setReplaceMethod("collisionEnergy", "MSnExperiment", function(object, value) {
+    if (length(value) != length(object) || !is.numeric(value))
+        stop("'value' has to be a numerical vector with length equal to the ",
+             "number of spectra")
+    featureData(object)$collisionEnergy <- value
+    object
+})
 
 #' @rdname MSnExperiment
 setMethod("featureData", "MSnExperiment", function(object) {
@@ -777,6 +796,25 @@ setMethod("filterFile", "MSnExperiment", function(object, file) {
 ##------------------------------------------------------------
 
 #' @rdname MSnExperiment
+setMethod("clean", "MSnExperiment", function(object, all = FALSE,
+                                             verbose = isMSnbaseVerbose(),
+                                             msLevel.) {
+    if (!is.logical(all))
+        stop("Argument 'all' must be logical")
+    if (missing(msLevel.))
+        msLevel. <- base::sort(unique(object@spectraData$msLevel))
+    if (!is.numeric(msLevel.))
+        stop("'msLevel' must be numeric.")
+    object <- addProcessingStep(object, "clean", all = all, msLevel. = msLevel.)
+    object@processing <- c(object@processing,
+                           paste0("Spectra of MS level(s) ",
+                                  paste0(msLevel., collapse = ", "),
+                                  " cleaned [", date(), "]"))
+    validObject(object)
+    object
+})
+
+#' @rdname MSnExperiment
 setMethod("removePeaks", "MSnExperiment", function(object, t = "min",
                                                    verbose = isMSnbaseVerbose(),
                                                    msLevel.) {
@@ -792,25 +830,6 @@ setMethod("removePeaks", "MSnExperiment", function(object, t = "min",
                            paste0("Signal <= ", t, " in MS level(s) ",
                                   paste0(msLevel., collapse = ", "),
                                   " set to 0 [", date(), "]"))
-    validObject(object)
-    object
-})
-
-#' @rdname MSnExperiment
-setMethod("clean", "MSnExperiment", function(object, all = FALSE,
-                                             verbose = isMSnbaseVerbose(),
-                                             msLevel.) {
-    if (!is.logical(all))
-        stop("Argument 'all' must be logical")
-    if (missing(msLevel.))
-        msLevel. <- base::sort(unique(object@spectraData$msLevel))
-    if (!is.numeric(msLevel.))
-        stop("'msLevel' must be numeric.")
-    object <- addProcessingStep(object, "clean", all = all, msLevel. = msLevel.)
-    object@processing <- c(object@processing,
-                           paste0("Spectra of MS level(s) ",
-                                  paste0(msLevel., collapse = ", "),
-                                  " cleaned [", date(), "]"))
     validObject(object)
     object
 })

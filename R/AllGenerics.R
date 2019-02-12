@@ -22,6 +22,8 @@ setGeneric("precAcquisitionNum", function(object) standardGeneric("precAcquisiti
 setGeneric("precScanNum", function(object) standardGeneric("precScanNum"))
 setGeneric("msLevel", function(object) standardGeneric("msLevel"))
 setGeneric("collisionEnergy", function(object) standardGeneric("collisionEnergy"))
+setGeneric("collisionEnergy<-", function(object, value)
+    standardGeneric("collisionEnergy<-"))
 ## setGeneric("peaksCount", function(object) standardGeneric("peaksCount")) ## use mzR generic
 ## setGeneric("header", function(object) standardGeneric("header")) ## use mzR generic
 setGeneric("polarity", function(object) standardGeneric("polarity"))

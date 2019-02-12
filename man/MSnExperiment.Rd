@@ -10,6 +10,8 @@
 \alias{acquisitionNum,MSnExperiment-method}
 \alias{centroided,MSnExperiment-method}
 \alias{centroided<-,MSnExperiment,ANY-method}
+\alias{collisionEnergy,MSnExperiment-method}
+\alias{collisionEnergy<-,MSnExperiment-method}
 \alias{featureData,MSnExperiment-method}
 \alias{featureData<-,MSnExperiment,ANY-method}
 \alias{featureNames,MSnExperiment-method}
@@ -24,8 +26,8 @@
 \alias{[,MSnExperiment,ANY,ANY,ANY-method}
 \alias{[[,MSnExperiment,ANY,ANY-method}
 \alias{filterFile,MSnExperiment-method}
-\alias{removePeaks,MSnExperiment-method}
 \alias{clean,MSnExperiment-method}
+\alias{removePeaks,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
 \usage{
 MSnExperiment(x, spectraData, sampleData, metadata, ...)
@@ -43,6 +45,10 @@ setBackend(object, backend, ..., BPPARAM = bpparam())
 \S4method{centroided}{MSnExperiment}(object, na.fail = FALSE)
 
 \S4method{centroided}{MSnExperiment,ANY}(object) <- value
+
+\S4method{collisionEnergy}{MSnExperiment}(object)
+
+\S4method{collisionEnergy}{MSnExperiment}(object) <- value
 
 \S4method{featureData}{MSnExperiment}(object)
 
@@ -74,10 +80,10 @@ setBackend(object, backend, ..., BPPARAM = bpparam())
 
 \S4method{filterFile}{MSnExperiment}(object, file)
 
-\S4method{removePeaks}{MSnExperiment}(object, t = "min",
+\S4method{clean}{MSnExperiment}(object, all = FALSE,
   verbose = isMSnbaseVerbose(), msLevel.)
 
-\S4method{clean}{MSnExperiment}(object, all = FALSE,
+\S4method{removePeaks}{MSnExperiment}(object, t = "min",
   verbose = isMSnbaseVerbose(), msLevel.)
 }
 \arguments{
@@ -133,14 +139,14 @@ as a result. Defaults to \code{FALSE}.}
 element, a \code{Spectrum} class is returned; \code{drop = FALSE} returns always
 a \code{MSnExperiment} object.}
 
-\item{t}{for \code{removePeaks}: a \code{numeric(1)} defining the threshold or \code{"min"}.}
+\item{all}{for \code{clean}: \code{logical(1)} whether all 0 intensity peaks should be
+removed (\code{TRUE}) or whether 0-intensity peaks directly adjacent to a
+non-zero intensity peak should be kept (\code{FALSE}).}
 
 \item{msLevel.}{\code{integer} defining the MS level of the spectra to which the
 function should be applied.}
 
-\item{all}{for \code{clean}: \code{logical(1)} whether all 0 intensity peaks should be
-removed (\code{TRUE}) or whether 0-intensity peaks directly adjacent to a
-non-zero intensity peak should be kept (\code{FALSE}).}
+\item{t}{for \code{removePeaks}: a \code{numeric(1)} defining the threshold or \code{"min"}.}
 }
 \value{
 See individual method description for the return value.
@@ -195,6 +201,8 @@ undefined. This function returns the value defined in the spectrum
 metadata. See also \code{isCentroided} for estimating from the spectrum data
 whether the spectrum is centroided. \code{centroided<-} either takes a single
 \code{logical} or \code{logical} with the same length than spectra.
+\item \code{collisionEnergy}, \code{collisionEnergy<-}: get or set the collision energy
+for all spectra in \code{object}.
 \item \code{featureData}: get or set general spectrum metadata. Returns a \code{DataFrame}
 or a \code{MSnExperiment} with updated spectra metadata. Each row of the
 \code{DataFrame} contains information for one spectrum. This function is
