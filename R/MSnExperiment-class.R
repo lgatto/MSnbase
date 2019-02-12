@@ -59,6 +59,9 @@ NULL
 #' @param msLevel. `integer` defining the MS level of the spectra to which the
 #'     function should be applied.
 #'
+#' @param na.fail for `centroided`: whether a value of `NA` is not supported
+#'     as a result. Defaults to `FALSE`.
+#'
 #' @param object a `MSnExperiment` object.
 #'
 #' @param sampleData a [S4Vectors::DataFrame-class] object with additional
@@ -108,6 +111,15 @@ NULL
 #' - `acquisitionNum`: get the acquisition number of each spectrum as a
 #'   named `integer` vector with the same length than `object`.
 #'
+#' - `centroided`, `centroided<-`: get or set the centroiding information of
+#'   the spectra. `centroided` eturns a `logical` vector (same length than
+#'   `object` with names being the spectrum names) with `TRUE` if a spectrum
+#'   is centroided, `FALSE` if it is in profile more and `NA` if it is
+#'   undefined. This function returns the value defined in the spectrum
+#'   metadata. See also `isCentroided` for estimating from the spectrum data
+#'   whether the spectrum is centroided. `centroided<-` either takes a single
+#'   `logical` or `logical` with the same length than spectra.
+#'
 #' - `featureData`: get or set general spectrum metadata. Returns a `DataFrame`
 #'   or a `MSnExperiment` with updated spectra metadata. Each row of the
 #'   `DataFrame` contains information for one spectrum. This function is
@@ -116,6 +128,12 @@ NULL
 #' - `featureNames`: extract the feature (spectrum) names.
 #'
 #' - `fileNames`: get the original file names from which the data was imported.
+#'
+#' - `isCentroided`: a heuristic approach  assessing if the spectra in `object`
+#'   are in profile or centroided mode. The function takes the `qtl`th quantile
+#'   top peaks, then calculates the difference between adjacent M/Z value and
+#'   returns `TRUE` if the first quartile is greater than `k`. (See
+#'   `MSnbase:::.isCentroided` for the code.)
 #'
 #' - `length`: get the number of spectra in the object.
 #'
@@ -196,6 +214,9 @@ NULL
 #' ## Subset the object to contain only spectra 3, 12, 45
 #' mse_sub <- mse[c(3, 12, 45)]
 #' mse_sub
+#'
+#' ## Are the spectra centroided?
+#' centroided(mse_sub)
 #'
 #' ## Coerce to a list of spectra
 #' as(mse_sub, "list")
@@ -518,10 +539,9 @@ setMethod("setBackend", c("MSnExperiment", "BackendHdf5"),
 
 
 #' @rdname MSnExperiment
-setMethod("spectrapply", "MSnExperiment", function(object,
+setMethod("spectrapply", "MSnExperiment", function(object, FUN = NULL, ...,
                                                    f = spectraData(object)$fileIdx,
-                                                   FUN = NULL,
-                                                   BPPARAM = bpparam(), ...) {
+                                                   BPPARAM = bpparam()) {
     BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
     isOK <- validateFeatureDataForOnDiskMSnExp(object@spectraData)
     if (length(isOK))
@@ -573,6 +593,39 @@ setAs("MSnExperiment", "List", function(from) {
 ##------------------------------------------------------------
 
 #' @rdname MSnExperiment
+setMethod("acquisitionNum", "MSnExperiment", function(object) {
+    res <- if (is.null(object@spectraData$acquisitionNum))
+               rep_len(NA_integer_, length(object))
+           else object@spectraData$acquisitionNum
+    names(res) <- featureNames(object)
+    res
+})
+
+#' @rdname MSnExperiment
+setMethod("centroided", "MSnExperiment", function(object, na.fail = FALSE) {
+    res <- if (is.null(object@spectraData$centroided))
+               rep_len(NA, length(object))
+           else object@spectraData$centroided
+    if (na.fail & anyNA(res))
+        stop("Mode is undefined. See ?isCentroided for details.", call. = FALSE)
+    names(res) <- featureNames(object)
+    res
+})
+
+#' @rdname MSnExperiment
+setReplaceMethod("centroided", "MSnExperiment", function(object, value) {
+    if (length(value) == 1)
+        value <- rep(value, length(object))
+    if (length(value) != length(object) || !is.logical(value))
+        stop("'value' has to be a logical length 1 or length equal to the ",
+             "number of spectra")
+    featureData(object)$centroided <- value
+    object
+})
+
+## collisionEnergy
+
+#' @rdname MSnExperiment
 setMethod("featureData", "MSnExperiment", function(object) {
     object@spectraData
 })
@@ -591,15 +644,53 @@ setReplaceMethod("featureData", "MSnExperiment", function(object, value) {
 })
 
 #' @rdname MSnExperiment
-setMethod("spectraData", "MSnExperiment", function(object) {
-    featureData(object)
+setMethod("featureNames", "MSnExperiment", function(object) {
+    rownames(object@spectraData)
 })
 
 #' @rdname MSnExperiment
-setReplaceMethod("spectraData", "MSnExperiment", function(object, value) {
-    featureData(object) <- value
-    object
+setMethod("fileNames", "MSnExperiment", function(object) {
+    fileNames(object@backend)
 })
+
+## fromFile
+## intensity
+## ionCount
+
+#' @rdname MSnExperiment
+setMethod("isCentroided", "MSnExperiment",
+          function(object, ..., verbose = isMSnbaseVerbose()) {
+              res <- unlist(spectrapply(object, function(z, ...)
+                  .isCentroided(as(z, "data.frame"), ...)), use.names = FALSE)
+              if (verbose) print(table(res, msLevel(object)))
+              names(res) <- featureNames(object)
+              res
+          })
+
+
+## isEmpty
+#' @rdname MSnExperiment
+setMethod("length", "MSnExperiment", function(x) {
+    nrow(x@spectraData)
+})
+
+#' @rdname MSnExperiment
+setMethod("metadata", "MSnExperiment",
+          function(x, ...) {
+              if (is.null(x@metadata) || is.character(x@metadata))
+                  list(metadata = x@metadata)
+              else x@metadata
+          })
+
+## msLevel
+## mz
+## polarity
+## rtime
+## peaksCount
+## precursorCharge
+## precursorIntensity
+## precursorMz
+## precScanNum
 
 #' @rdname MSnExperiment
 setMethod("sampleData", "MSnExperiment", function(object) {
@@ -615,54 +706,20 @@ setReplaceMethod("sampleData", "MSnExperiment", function(object, value) {
     object
 })
 
-#' @rdname MSnExperiment
-setMethod("metadata", "MSnExperiment",
-          function(x, ...) {
-              if (is.null(x@metadata) || is.character(x@metadata))
-                  list(metadata = x@metadata)
-              else x@metadata
-          })
-
-#' @rdname MSnExperiment
-setMethod("fileNames", "MSnExperiment", function(object) {
-    fileNames(object@backend)
-})
-
-#' @rdname MSnExperiment
-setMethod("acquisitionNum", "MSnExperiment", function(object) {
-    res <- if (is.null(object@spectraData$acquisitionNum))
-               rep_len(NA_integer_, length(object))
-           else object@spectraData$acquisitionNum
-    names(res) <- featureNames(object)
-    res
-})
-
-## centroided
-## collisionEnergy
-#' @rdname MSnExperiment
-setMethod("featureNames", "MSnExperiment", function(object) {
-    rownames(object@spectraData)
-})
-## fromFile
-## intensity
-## ionCount
-## isCentroided
-## isEmpty
-#' @rdname MSnExperiment
-setMethod("length", "MSnExperiment", function(x) {
-    nrow(x@spectraData)
-})
-## msLevel
-## mz
-## polarity
-## rtime
-## peaksCount
-## precursorCharge
-## precursorIntensity
-## precursorMz
-## precScanNum
 ## scanIndex
 ## smoothed
+
+#' @rdname MSnExperiment
+setMethod("spectraData", "MSnExperiment", function(object) {
+    featureData(object)
+})
+
+#' @rdname MSnExperiment
+setReplaceMethod("spectraData", "MSnExperiment", function(object, value) {
+    featureData(object) <- value
+    object
+})
+
 ## tic
 
 ##============================================================

@@ -346,3 +346,28 @@ test_that("acquisitionNum,MSnExperiment works", {
     expect_equal(names(acquisitionNum(sciex_mzr)),
                  rownames(sciex_mzr@spectraData))
 })
+
+test_that("centroided, isCentroided work", {
+    spl <- list(new("Spectrum1", mz = 1:5, intensity = abs(rnorm(5))),
+                new("Spectrum1", mz = 1:4, intensity = abs(rnorm(4))),
+                new("Spectrum1", mz = 1:5, intensity = abs(rnorm(5))))
+    mse <- MSnExperiment(spl)
+    expect_true(all(is.na(centroided(mse))))
+    expect_equal(names(centroided(mse)), rownames(mse@spectraData))
+    expect_error(centroided(mse, na.fail = TRUE))
+    expect_error(centroided(mse) <- "a")
+    expect_error(centroided(mse) <- c(TRUE, FALSE))
+    centroided(mse) <- FALSE
+    expect_true(all(!centroided(mse)))
+    centroided(mse) <- c(TRUE, FALSE, TRUE)
+    expect_equal(unname(centroided(mse)), c(TRUE, FALSE, TRUE))
+
+    centroided(sciex_mzr) <- TRUE
+    expect_true(centroided(sciex_mzr[[13]]))
+    centroided(sciex_mzr) <- FALSE
+    tmp <- sciex_inmem[1:10]
+    centroided(tmp) <- TRUE
+    expect_true(centroided(tmp[[2]]))
+
+    expect_true(all(!isCentroided(tmp)))
+})

@@ -7,17 +7,20 @@
 \alias{readMSnExperiment}
 \alias{setBackend}
 \alias{spectrapply,MSnExperiment-method}
+\alias{acquisitionNum,MSnExperiment-method}
+\alias{centroided,MSnExperiment-method}
+\alias{centroided<-,MSnExperiment,ANY-method}
 \alias{featureData,MSnExperiment-method}
 \alias{featureData<-,MSnExperiment,ANY-method}
-\alias{spectraData,MSnExperiment-method}
-\alias{spectraData<-,MSnExperiment-method}
+\alias{featureNames,MSnExperiment-method}
+\alias{fileNames,MSnExperiment-method}
+\alias{isCentroided,MSnExperiment-method}
+\alias{length,MSnExperiment-method}
+\alias{metadata,MSnExperiment-method}
 \alias{sampleData,MSnExperiment-method}
 \alias{sampleData<-,MSnExperiment-method}
-\alias{metadata,MSnExperiment-method}
-\alias{fileNames,MSnExperiment-method}
-\alias{acquisitionNum,MSnExperiment-method}
-\alias{featureNames,MSnExperiment-method}
-\alias{length,MSnExperiment-method}
+\alias{spectraData,MSnExperiment-method}
+\alias{spectraData<-,MSnExperiment-method}
 \alias{[,MSnExperiment,ANY,ANY,ANY-method}
 \alias{[[,MSnExperiment,ANY,ANY-method}
 \alias{filterFile,MSnExperiment-method}
@@ -32,31 +35,37 @@ readMSnExperiment(file, sampleData, backend = BackendMzR(),
 
 setBackend(object, backend, ..., BPPARAM = bpparam())
 
-\S4method{spectrapply}{MSnExperiment}(object,
-  f = spectraData(object)$fileIdx, FUN = NULL, BPPARAM = bpparam(),
-  ...)
+\S4method{spectrapply}{MSnExperiment}(object, FUN = NULL, ...,
+  f = spectraData(object)$fileIdx, BPPARAM = bpparam())
+
+\S4method{acquisitionNum}{MSnExperiment}(object)
+
+\S4method{centroided}{MSnExperiment}(object, na.fail = FALSE)
+
+\S4method{centroided}{MSnExperiment,ANY}(object) <- value
 
 \S4method{featureData}{MSnExperiment}(object)
 
 \S4method{featureData}{MSnExperiment,ANY}(object) <- value
 
-\S4method{spectraData}{MSnExperiment}(object)
+\S4method{featureNames}{MSnExperiment}(object)
 
-\S4method{spectraData}{MSnExperiment}(object) <- value
+\S4method{fileNames}{MSnExperiment}(object)
+
+\S4method{isCentroided}{MSnExperiment}(object, ...,
+  verbose = isMSnbaseVerbose())
+
+\S4method{length}{MSnExperiment}(x)
+
+\S4method{metadata}{MSnExperiment}(x, ...)
 
 \S4method{sampleData}{MSnExperiment}(object)
 
 \S4method{sampleData}{MSnExperiment}(object) <- value
 
-\S4method{metadata}{MSnExperiment}(x, ...)
+\S4method{spectraData}{MSnExperiment}(object)
 
-\S4method{fileNames}{MSnExperiment}(object)
-
-\S4method{acquisitionNum}{MSnExperiment}(object)
-
-\S4method{featureNames}{MSnExperiment}(object)
-
-\S4method{length}{MSnExperiment}(x)
+\S4method{spectraData}{MSnExperiment}(object) <- value
 
 \S4method{[}{MSnExperiment,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 
@@ -100,15 +109,20 @@ data should be subsetted.}
 
 \item{object}{a \code{MSnExperiment} object.}
 
+\item{FUN}{for \code{spectrapply}: a function or the name of a function to apply
+to each \linkS4class{Spectrum} of the experiment.}
+
 \item{f}{for \code{spectrapply}: \code{factor}, \code{character}, \code{numeric} or \code{logical}
 (same length than there are spectra in \code{object}, i.e. with length
 equal to \code{nrow(spectraData(object))} to define how the data should be
 split into chunks for parallelization.}
 
-\item{FUN}{for \code{spectrapply}: a function or the name of a function to apply
-to each \linkS4class{Spectrum} of the experiment.}
+\item{na.fail}{for \code{centroided}: whether a value of \code{NA} is not supported
+as a result. Defaults to \code{FALSE}.}
 
 \item{value}{for \code{featureData}, \code{sampleData} and \code{spectraData}: a \code{DataFrame}}
+
+\item{verbose}{\code{logical(1)} defining the verbosity.}
 
 \item{i}{for \code{[}: \code{integer}, \code{logical} or \code{character} specifying the
 \strong{spectra} to which \code{object} should be subsetted.}
@@ -120,8 +134,6 @@ element, a \code{Spectrum} class is returned; \code{drop = FALSE} returns always
 a \code{MSnExperiment} object.}
 
 \item{t}{for \code{removePeaks}: a \code{numeric(1)} defining the threshold or \code{"min"}.}
-
-\item{verbose}{\code{logical(1)} defining the verbosity.}
 
 \item{msLevel.}{\code{integer} defining the MS level of the spectra to which the
 function should be applied.}
@@ -175,12 +187,25 @@ for more details.
 \itemize{
 \item \code{acquisitionNum}: get the acquisition number of each spectrum as a
 named \code{integer} vector with the same length than \code{object}.
+\item \code{centroided}, \code{centroided<-}: get or set the centroiding information of
+the spectra. \code{centroided} eturns a \code{logical} vector (same length than
+\code{object} with names being the spectrum names) with \code{TRUE} if a spectrum
+is centroided, \code{FALSE} if it is in profile more and \code{NA} if it is
+undefined. This function returns the value defined in the spectrum
+metadata. See also \code{isCentroided} for estimating from the spectrum data
+whether the spectrum is centroided. \code{centroided<-} either takes a single
+\code{logical} or \code{logical} with the same length than spectra.
 \item \code{featureData}: get or set general spectrum metadata. Returns a \code{DataFrame}
 or a \code{MSnExperiment} with updated spectra metadata. Each row of the
 \code{DataFrame} contains information for one spectrum. This function is
 equivalent to \code{\link[=featureData]{featureData()}} of \code{MSnExp}/\code{OnDiskMSnExp} objects.
 \item \code{featureNames}: extract the feature (spectrum) names.
 \item \code{fileNames}: get the original file names from which the data was imported.
+\item \code{isCentroided}: a heuristic approach  assessing if the spectra in \code{object}
+are in profile or centroided mode. The function takes the \code{qtl}th quantile
+top peaks, then calculates the difference between adjacent M/Z value and
+returns \code{TRUE} if the first quartile is greater than \code{k}. (See
+\code{MSnbase:::.isCentroided} for the code.)
 \item \code{length}: get the number of spectra in the object.
 \item \code{metadata}: get the metadata \code{list}.
 \item \code{sampleData}: get or set sample metadata. Returns a \code{DataFrame}, each row
@@ -254,6 +279,9 @@ spectraData(mse)
 ## Subset the object to contain only spectra 3, 12, 45
 mse_sub <- mse[c(3, 12, 45)]
 mse_sub
+
+## Are the spectra centroided?
+centroided(mse_sub)
 
 ## Coerce to a list of spectra
 as(mse_sub, "list")
