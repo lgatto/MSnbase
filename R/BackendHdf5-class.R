@@ -11,10 +11,6 @@ NULL
 setClass("BackendHdf5",
     contains = "Backend",
     slots = c(
-        # is incremented every time `backendWriteSpectra` is called and is used
-        # to test for changes of the hdf5 files and superficial copying
-        # see issue https://github.com/lgatto/MSnbase/issues/429
-        modCount = "integer",
         h5files = "character"
     )
 )
@@ -27,13 +23,6 @@ setMethod("show", "BackendHdf5", function(object) {
 
 #' @rdname Backend
 BackendHdf5 <- function() new("BackendHdf5")
-
-.valid.BackendHdf5.modCount <- function(x, y) {
-    if (length(x) != length(y))
-        "different number of hdf5 files and modification counter"
-    else
-        NULL
-}
 
 .valid.BackendHdf5.h5files <- function(x, y) {
     msg <- NULL
@@ -52,8 +41,7 @@ BackendHdf5 <- function() new("BackendHdf5")
 }
 
 setValidity("BackendHdf5", function(object) {
-    msg <- c(.valid.BackendHdf5.modCount(object@h5files, object@modCount),
-             .valid.BackendHdf5.h5files(object@h5files, object@files),
+    msg <- c(.valid.BackendHdf5.h5files(object@h5files, object@files),
              .valid.BackendHdf5.h5files.exist(object@h5files))
     if (length(msg)) msg
     else TRUE
@@ -83,24 +71,19 @@ setMethod("backendInitialize", "BackendHdf5", function(object, files,
                                                        ...) {
     path <- normalizePath(path, mustWork = FALSE)
     dir.create(path, showWarnings = FALSE, recursive = TRUE)
-    n_files <- length(files)
-    object@files <- files
-    object@modCount <- integer(n_files)
-    object@h5files <- character(n_files)
     comp_level <- .hdf5_compression_level()
     object@h5files <- file.path(path, paste0(.vdigest(files), ".h5"))
     if (any(file.exists(object@h5files)))
         stop("File(s) ", paste0(object@h5files[file.exists(object@h5files)],
                                 collapse = ", "), "already exist(s). ",
              "Please choose a different 'path'.")
-    for (i in seq_len(n_files)) {
+    for (i in seq_along(object@h5files)) {
         h5 <- H5Fcreate(object@h5files[i])
         h5createGroup(h5, "spectra")
         h5createGroup(h5, "modification")
         H5Fclose(h5)
     }
-    validObject(object)
-    object
+    callNextMethod()
 })
 
 #' Import the data from the raw MS files and store them to the hdf5 files.
@@ -305,10 +288,6 @@ setMethod("backendWriteSpectra", "BackendHdf5", function(object, spectra,
 })
 
 setMethod("backendSubset", "BackendHdf5", function(object, spectraData) {
-    fidx <- unique(spectraData$fileIdx)
-    object@files <- object@files[fidx]
-    object@modCount <- object@modCount[fidx]
-    object@h5files <- object@h5files[fidx]
-    validObject(object)
-    object
+    object@h5files <- object@h5files[unique(spectraData$fileIdx)]
+    callNextMethod()
 })

@@ -39,15 +39,13 @@ BackendMemory <- function() { new("BackendMemory") }
 
 #' @rdname hidden_aliases
 setMethod("backendSubset", "BackendMemory", function(object, spectraData) {
-    oldFiles <- object@files
-    object@files <- object@files[unique(spectraData$fileIdx)]
+    fidx <- unique(spectraData$fileIdx)
     ## Update also `@fromFile` in the spectra.
     object@spectra <- lapply(object@spectra[rownames(spectraData)], function(z) {
-        z@fromFile <- match(oldFiles[z@fromFile], object@files)
+        z@fromFile <- match(z@fromFile, fidx)
         z
     })
-    validObject(object)
-    object
+    callNextMethod()
 })
 
 #' @rdname hidden_aliases

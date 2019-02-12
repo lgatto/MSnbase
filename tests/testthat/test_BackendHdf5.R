@@ -1,8 +1,6 @@
 context("BackendHdf5 class")
 
 test_that("BackendHdf5 validators work", {
-    expect_null(.valid.BackendHdf5.modCount("foo", 5))
-    expect_match(.valid.BackendHdf5.modCount("foo", 1:2), " counter")
     expect_true(is.null(.valid.BackendHdf5.h5files(5, 5)))
     expect_true(is.character(.valid.BackendHdf5.h5files(3, 1:2)))
     expect_true(is.character(.valid.BackendHdf5.h5files(c(1, 1), c(1, 2))))
