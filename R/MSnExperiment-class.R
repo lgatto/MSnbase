@@ -132,6 +132,10 @@ NULL
 #'
 #' - `fileNames`: get the original file names from which the data was imported.
 #'
+#' - `fromFile`: get the file/sample assignment of each spectrum. Returns a
+#'   named integer vector of length equal to the number of spectra and names
+#'   being the spectrum names.
+#'
 #' - `isCentroided`: a heuristic approach  assessing if the spectra in `object`
 #'   are in profile or centroided mode. The function takes the `qtl`th quantile
 #'   top peaks, then calculates the difference between adjacent M/Z value and
@@ -672,7 +676,13 @@ setMethod("fileNames", "MSnExperiment", function(object) {
     fileNames(object@backend)
 })
 
-## fromFile
+#' @rdname MSnExperiment
+setMethod("fromFile", "MSnExperiment", function(object) {
+    res <- object@spectraData$fileIdx
+    names(res) <- featureNames(object)
+    res
+})
+
 ## intensity
 ## ionCount
 

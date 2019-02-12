@@ -372,7 +372,7 @@ test_that("centroided, isCentroided work", {
     expect_true(all(!isCentroided(tmp)))
 })
 
-test_that("collisionEnergy,collisionEnergy<-,MSnExperiment works", {
+test_that("collisionEnergy,collisionEnergy<-,MSnExperiment work", {
     tmp <- sciex_inmem[1:10]
     expect_true(all(collisionEnergy(tmp) == 0))
     expect_equal(names(collisionEnergy(tmp)), rownames(tmp@spectraData))
@@ -380,4 +380,10 @@ test_that("collisionEnergy,collisionEnergy<-,MSnExperiment works", {
     expect_error(collisionEnergy(tmp) <- c(1.2, 1.5))
     expect_error(collisionEnergy(tmp) <- rep("a", 10))
     collisionEnergy(tmp) <- 1:10
+})
+
+test_that("fromFile,MSnExperiment works", {
+    tmp <- sciex_inmem[1:10]
+    expect_true(all(fromFile(tmp) == 1))
+    expect_equal(names(fromFile(tmp)), rownames(tmp@spectraData))
 })

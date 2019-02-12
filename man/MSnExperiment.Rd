@@ -16,6 +16,7 @@
 \alias{featureData<-,MSnExperiment,ANY-method}
 \alias{featureNames,MSnExperiment-method}
 \alias{fileNames,MSnExperiment-method}
+\alias{fromFile,MSnExperiment-method}
 \alias{isCentroided,MSnExperiment-method}
 \alias{length,MSnExperiment-method}
 \alias{metadata,MSnExperiment-method}
@@ -57,6 +58,8 @@ setBackend(object, backend, ..., BPPARAM = bpparam())
 \S4method{featureNames}{MSnExperiment}(object)
 
 \S4method{fileNames}{MSnExperiment}(object)
+
+\S4method{fromFile}{MSnExperiment}(object)
 
 \S4method{isCentroided}{MSnExperiment}(object, ...,
   verbose = isMSnbaseVerbose())
@@ -209,6 +212,9 @@ or a \code{MSnExperiment} with updated spectra metadata. Each row of the
 equivalent to \code{\link[=featureData]{featureData()}} of \code{MSnExp}/\code{OnDiskMSnExp} objects.
 \item \code{featureNames}: extract the feature (spectrum) names.
 \item \code{fileNames}: get the original file names from which the data was imported.
+\item \code{fromFile}: get the file/sample assignment of each spectrum. Returns a
+named integer vector of length equal to the number of spectra and names
+being the spectrum names.
 \item \code{isCentroided}: a heuristic approach  assessing if the spectra in \code{object}
 are in profile or centroided mode. The function takes the \code{qtl}th quantile
 top peaks, then calculates the difference between adjacent M/Z value and
