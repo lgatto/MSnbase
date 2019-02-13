@@ -8,9 +8,10 @@ test_that("constructor", {
 
 test_that("validity", {
     b <- BackendMemory()
-    b@spectra <- c(new("Spectrum2"), new("Spectrum2"))
+    b@spectra <- c("F1.S1"=new("Spectrum2"), "F2.S2"=new("Spectrum2"))
     b@files <- "foo"
-    names(b@spectra) <- c("F1.S1", "F1.S2")
+    expect_error(validObject(b), "counters")
+    b@modCount <- 1L
     expect_true(validObject(b))
 
     names(b@spectra)[2] <- "F1.S1"

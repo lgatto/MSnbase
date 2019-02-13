@@ -7,6 +7,7 @@
 \alias{hidden_aliases}
 \alias{show,Backend-method}
 \alias{fileNames,Backend-method}
+\alias{backendSubset}
 \alias{show,BackendHdf5-method}
 \alias{backendSubset,BackendMemory-method}
 \alias{backendInitialize,BackendMemory-method}
@@ -24,6 +25,8 @@
 \S4method{show}{Backend}(object)
 
 \S4method{fileNames}{Backend}(object, ...)
+
+backendSubset(object, spectraData)
 
 \S4method{show}{BackendHdf5}(object)
 
@@ -48,17 +51,10 @@
 
 \S4method{show}{MSnExperiment}(object)
 
-\S4method{setBackend}{MSnExperiment,Backend}(object, backend, ...,
-  BPPARAM = bpparam())
+\item{spectraData}{`DataFrame` with the spectrum metadata of the spectra to
+which the `object` should be subsetted.}
 
-\S4method{setBackend}{MSnExperiment,BackendMzR}(object, backend, ...,
-  BPPARAM = bpparam())
-
-\S4method{setBackend}{MSnExperiment,BackendHdf5}(object, backend, ...,
-  BPPARAM = bpparam())
-}
-\arguments{
-\item{object}{Object to display.}
+\item{x}{`Backend`}
 
 \item{object}{Object to display.}
 }
