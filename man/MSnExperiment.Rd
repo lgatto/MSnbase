@@ -17,9 +17,11 @@
 \alias{featureNames,MSnExperiment-method}
 \alias{fileNames,MSnExperiment-method}
 \alias{fromFile,MSnExperiment-method}
+\alias{intensity,MSnExperiment-method}
 \alias{isCentroided,MSnExperiment-method}
 \alias{length,MSnExperiment-method}
 \alias{metadata,MSnExperiment-method}
+\alias{mz,MSnExperiment-method}
 \alias{sampleData,MSnExperiment-method}
 \alias{sampleData<-,MSnExperiment-method}
 \alias{spectraData,MSnExperiment-method}
@@ -61,12 +63,16 @@ setBackend(object, backend, ..., BPPARAM = bpparam())
 
 \S4method{fromFile}{MSnExperiment}(object)
 
+\S4method{intensity}{MSnExperiment}(object)
+
 \S4method{isCentroided}{MSnExperiment}(object, ...,
   verbose = isMSnbaseVerbose())
 
 \S4method{length}{MSnExperiment}(x)
 
 \S4method{metadata}{MSnExperiment}(x, ...)
+
+\S4method{mz}{MSnExperiment}(object)
 
 \S4method{sampleData}{MSnExperiment}(object)
 
@@ -215,6 +221,9 @@ equivalent to \code{\link[=featureData]{featureData()}} of \code{MSnExp}/\code{O
 \item \code{fromFile}: get the file/sample assignment of each spectrum. Returns a
 named integer vector of length equal to the number of spectra and names
 being the spectrum names.
+\item \code{intensity}: get the intensity values from the spectra. Returns a named
+list, names being the spectrum names, each element a numeric vector with
+the intensity values of one spectrum.
 \item \code{isCentroided}: a heuristic approach  assessing if the spectra in \code{object}
 are in profile or centroided mode. The function takes the \code{qtl}th quantile
 top peaks, then calculates the difference between adjacent M/Z value and
@@ -222,6 +231,9 @@ returns \code{TRUE} if the first quartile is greater than \code{k}. (See
 \code{MSnbase:::.isCentroided} for the code.)
 \item \code{length}: get the number of spectra in the object.
 \item \code{metadata}: get the metadata \code{list}.
+\item \code{mz}: get the mass-to-charge ratios (m/z) from the spectra. Returns a named
+list, names being the spectrum names, each element a numeric vector with
+the m/z values of one spectrum.
 \item \code{sampleData}: get or set sample metadata. Returns a \code{DataFrame}, each row
 containing information for one sample or file or a \code{MSnExperiment} with
 the update sample metadata. This function is equivalent to \code{\link[=phenoData]{phenoData()}}
@@ -276,6 +288,15 @@ spectraData(mse)$peak_id <- c("a", "b")
 
 ## featureData and spectraData both access the spectrum metadata
 featureData(mse)
+
+## Get the intensity values and the m/z values for each spectrum
+intensity(mse)
+mz(mse)
+
+## The spectrapply function can be used to apply any function to a spectrum
+## and get its result. Below we use spectrapply to get the m/z and intensity
+## values per spectrum as a data.frame
+spectrapply(mse, as.data.frame)
 
 
 ## Create an MSnExperiment from two input files using the on-disk

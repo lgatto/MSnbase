@@ -54,6 +54,12 @@ test_that("MSnExperiment constructor works", {
     res <- MSnExperiment(spl)
     expect_equal(rownames(res@spectraData), c("A", "B", "C"))
 
+    ## From empty spectra.
+    mse <- MSnExperiment(list(new("Spectrum1"), new("Spectrum1", mz = 1:3,
+                                                    intensity = 1:3)))
+    mse <- MSnExperiment(list(new("Spectrum2"), new("Spectrum1", mz = 1:3,
+                                                    intensity = 1:3)))
+
     ## Errors
     expect_error(MSnExperiment(4), "'x' has to be")
     expect_error(MSnExperiment(spl, spectraData = DataFrame(iam = "wrong")))
@@ -386,4 +392,25 @@ test_that("fromFile,MSnExperiment works", {
     tmp <- sciex_inmem[1:10]
     expect_true(all(fromFile(tmp) == 1))
     expect_equal(names(fromFile(tmp)), rownames(tmp@spectraData))
+})
+
+test_that("intensity and mz,MSnExperiment work", {
+    tmp <- sciex_inmem[1:4]
+    res <- intensity(tmp)
+    expect_equal(names(res), rownames(tmp@spectraData))
+    expect_true(all(vapply(res, is.numeric, logical(1))))
+    expect_equal(unname(lengths(res)), c(578, 1529, 1600, 1664))
+    res <- mz(tmp)
+    expect_equal(names(res), rownames(tmp@spectraData))
+    expect_true(all(vapply(res, is.numeric, logical(1))))
+    expect_false(all(vapply(res, is.unsorted, logical(1))))
+    expect_equal(unname(lengths(res)), c(578, 1529, 1600, 1664))
+
+    mse <- MSnExperiment(list(new("Spectrum2"), new("Spectrum2")))
+    res <- intensity(mse)
+    expect_equal(names(res), rownames(mse@spectraData))
+    expect_true(all(lengths(res) == 0))
+    res <- mz(mse)
+    expect_equal(names(res), rownames(mse@spectraData))
+    expect_true(all(lengths(res) == 0))
 })

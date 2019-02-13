@@ -136,6 +136,10 @@ NULL
 #'   named integer vector of length equal to the number of spectra and names
 #'   being the spectrum names.
 #'
+#' - `intensity`: get the intensity values from the spectra. Returns a named
+#'   list, names being the spectrum names, each element a numeric vector with
+#'   the intensity values of one spectrum.
+#'
 #' - `isCentroided`: a heuristic approach  assessing if the spectra in `object`
 #'   are in profile or centroided mode. The function takes the `qtl`th quantile
 #'   top peaks, then calculates the difference between adjacent M/Z value and
@@ -145,6 +149,10 @@ NULL
 #' - `length`: get the number of spectra in the object.
 #'
 #' - `metadata`: get the metadata `list`.
+#'
+#' - `mz`: get the mass-to-charge ratios (m/z) from the spectra. Returns a named
+#'   list, names being the spectrum names, each element a numeric vector with
+#'   the m/z values of one spectrum.
 #'
 #' - `sampleData`: get or set sample metadata. Returns a `DataFrame`, each row
 #'   containing information for one sample or file or a `MSnExperiment` with
@@ -204,6 +212,15 @@ NULL
 #'
 #' ## featureData and spectraData both access the spectrum metadata
 #' featureData(mse)
+#'
+#' ## Get the intensity values and the m/z values for each spectrum
+#' intensity(mse)
+#' mz(mse)
+#'
+#' ## The spectrapply function can be used to apply any function to a spectrum
+#' ## and get its result. Below we use spectrapply to get the m/z and intensity
+#' ## values per spectrum as a data.frame
+#' spectrapply(mse, as.data.frame)
 #'
 #'
 #' ## Create an MSnExperiment from two input files using the on-disk
@@ -683,6 +700,11 @@ setMethod("fromFile", "MSnExperiment", function(object) {
     res
 })
 
+#' @rdname MSnExperiment
+setMethod("intensity", "MSnExperiment", function(object) {
+    spectrapply(object, FUN = intensity)
+})
+
 ## intensity
 ## ionCount
 
@@ -712,7 +734,12 @@ setMethod("metadata", "MSnExperiment",
           })
 
 ## msLevel
-## mz
+
+#' @rdname MSnExperiment
+setMethod("mz", "MSnExperiment", function(object) {
+    spectrapply(object, FUN = mz)
+})
+
 ## polarity
 ## rtime
 ## peaksCount
