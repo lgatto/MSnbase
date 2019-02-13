@@ -18,7 +18,9 @@
 \alias{fileNames,MSnExperiment-method}
 \alias{fromFile,MSnExperiment-method}
 \alias{intensity,MSnExperiment-method}
+\alias{ionCount,MSnExperiment-method}
 \alias{isCentroided,MSnExperiment-method}
+\alias{isEmpty,MSnExperiment-method}
 \alias{length,MSnExperiment-method}
 \alias{metadata,MSnExperiment-method}
 \alias{mz,MSnExperiment-method}
@@ -65,8 +67,12 @@ setBackend(object, backend, ..., BPPARAM = bpparam())
 
 \S4method{intensity}{MSnExperiment}(object)
 
+\S4method{ionCount}{MSnExperiment}(object)
+
 \S4method{isCentroided}{MSnExperiment}(object, ...,
   verbose = isMSnbaseVerbose())
+
+\S4method{isEmpty}{MSnExperiment}(x)
 
 \S4method{length}{MSnExperiment}(x)
 
@@ -224,11 +230,18 @@ being the spectrum names.
 \item \code{intensity}: get the intensity values from the spectra. Returns a named
 list, names being the spectrum names, each element a numeric vector with
 the intensity values of one spectrum.
+\item \code{ionCount}: returns a \code{numeric} (names being spectrum names, length equal
+to the number of spectra) representing the sum of intensities for each
+spectrum. In contrast to \code{tic}, this function calculates the actual ion
+count on the data.
 \item \code{isCentroided}: a heuristic approach  assessing if the spectra in \code{object}
 are in profile or centroided mode. The function takes the \code{qtl}th quantile
 top peaks, then calculates the difference between adjacent M/Z value and
 returns \code{TRUE} if the first quartile is greater than \code{k}. (See
 \code{MSnbase:::.isCentroided} for the code.)
+\item \code{isEmpty}: whether a spectrum in \code{object} is empty (i.e. does not contain
+any peaks). Returns a logical vector (length equal number of spectra, names
+being the spectrum names).
 \item \code{length}: get the number of spectra in the object.
 \item \code{metadata}: get the metadata \code{list}.
 \item \code{mz}: get the mass-to-charge ratios (m/z) from the spectra. Returns a named

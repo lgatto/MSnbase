@@ -414,3 +414,24 @@ test_that("intensity and mz,MSnExperiment work", {
     expect_equal(names(res), rownames(mse@spectraData))
     expect_true(all(lengths(res) == 0))
 })
+
+test_that("ionCount, and isEmpty,MSnExperiment work", {
+    tmp <- sciex_inmem[1:4]
+    res <- ionCount(tmp)
+    expect_equal(names(res), rownames(tmp@spectraData))
+    expect_true(is.numeric(res))
+    tmp <- removePeaks(tmp, t = 5000)
+    res_2 <- ionCount(tmp)
+    expect_true(all(res_2 < res))
+
+    mse <- MSnExperiment(list(new("Spectrum1", mz = 1:4, intensity = 1:4),
+                              new("Spectrum2"),
+                              new("Spectrum1", mz = 1:3, intensity = 1:3)))
+    res <- ionCount(mse)
+    expect_equal(unname(res), c(10, 0, 6))
+
+    res <- isEmpty(mse)
+    expect_equal(names(res), rownames(mse@spectraData))
+    expect_true(is.logical(res))
+    expect_equal(unname(res), c(FALSE, TRUE, FALSE))
+})

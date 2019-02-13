@@ -140,11 +140,20 @@ NULL
 #'   list, names being the spectrum names, each element a numeric vector with
 #'   the intensity values of one spectrum.
 #'
+#' - `ionCount`: returns a `numeric` (names being spectrum names, length equal
+#'   to the number of spectra) representing the sum of intensities for each
+#'   spectrum. In contrast to `tic`, this function calculates the actual ion
+#'   count on the data.
+#'
 #' - `isCentroided`: a heuristic approach  assessing if the spectra in `object`
 #'   are in profile or centroided mode. The function takes the `qtl`th quantile
 #'   top peaks, then calculates the difference between adjacent M/Z value and
 #'   returns `TRUE` if the first quartile is greater than `k`. (See
 #'   `MSnbase:::.isCentroided` for the code.)
+#'
+#' - `isEmpty`: whether a spectrum in `object` is empty (i.e. does not contain
+#'   any peaks). Returns a logical vector (length equal number of spectra, names
+#'   being the spectrum names).
 #'
 #' - `length`: get the number of spectra in the object.
 #'
@@ -705,8 +714,13 @@ setMethod("intensity", "MSnExperiment", function(object) {
     spectrapply(object, FUN = intensity)
 })
 
-## intensity
-## ionCount
+#' @rdname MSnExperiment
+setMethod("ionCount", "MSnExperiment", function(object) {
+    unlist(spectrapply(object, FUN = function(z) {
+        if (length(z@intensity)) sum(z@intensity)
+        else 0
+    }))
+})
 
 #' @rdname MSnExperiment
 setMethod("isCentroided", "MSnExperiment",
@@ -718,8 +732,11 @@ setMethod("isCentroided", "MSnExperiment",
               res
           })
 
+#' @rdname MSnExperiment
+setMethod("isEmpty", "MSnExperiment", function(x) {
+    unlist(spectrapply(x, FUN = function(z) length(z@mz) == 0))
+})
 
-## isEmpty
 #' @rdname MSnExperiment
 setMethod("length", "MSnExperiment", function(x) {
     nrow(x@spectraData)
