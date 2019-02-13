@@ -171,6 +171,9 @@ test_that("filterFile and [,MSnExperiment work", {
     expect_equal(res@sampleData, mse@sampleData[2:3, , drop = FALSE])
     expect_equal(res@sampleData, res_hdf5@sampleData)
     expect_equal(res@sampleData, res_mem@sampleData)
+    expect_equal(res[[1]]@fromFile, 1L)
+    expect_equal(res_hdf5[[1]]@fromFile, 1L)
+    expect_equal(res_mem[[1]]@fromFile, 1L)
     expect_equal(spectrapply(res, FUN = intensity),
                  lapply(sps[mse@spectraData$fileIdx %in% 2:3], intensity))
     expect_equal(spectrapply(res), spectrapply(res_hdf5))
@@ -250,6 +253,7 @@ test_that("setBackend methods work", {
     expect_true(is(sciex_mzr_mem@backend, "BackendMemory"))
     expect_true(validObject(sciex_mzr_mem@backend))
     expect_equal(spectrapply(sciex_mzr_mem), spectrapply(sciex_inmem))
+
     ## MzR -> Hdf5
     sciex_mzr_h5 <- setBackend(sciex_mzr, backend = BackendHdf5(),
                                   path = paste0(tempdir(), "/switch1/"))
@@ -261,6 +265,12 @@ test_that("setBackend methods work", {
     expect_true(is(sciex_mem_mzr@backend, "BackendMzR"))
     expect_true(validObject(sciex_mem_mzr@backend))
     expect_equal(spectrapply(sciex_mem_mzr), spectrapply(sciex_inmem))
+
+    ## Memory, modify -> MzR
+    tmp <- removePeaks(sciex_inmem, t = 5000)
+
+    ## Memory, modify -> Hdf5
+
     ## The tests below are redundant
     ## ## Memory -> Hdf5
     ## sciex_mem_h5 <- setBackend(sciex_inmem, backend = BackendHdf5(),

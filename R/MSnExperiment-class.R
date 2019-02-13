@@ -683,7 +683,7 @@ setMethod("[", "MSnExperiment", function(x, i, j, ..., drop = TRUE) {
     x@spectraData <- x@spectraData[i, , drop = FALSE]
     x@backend <- backendSubset(x@backend, x@spectraData)
     file <- unique(x@spectraData$fileIdx) # here we allow unsorted file idx.
-    spectraData(x)$fileIdx <- match(x@spectraData$fileIdx, file)
+    x@spectraData$fileIdx <- match(x@spectraData$fileIdx, file)
     x@sampleData <- x@sampleData[file, , drop = FALSE]
     if (nrow(x@spectraData) == 1 & drop)
         x <- spectrapply(x)[[1]]
@@ -701,14 +701,14 @@ setMethod("[[", "MSnExperiment",
 setMethod("filterFile", "MSnExperiment", function(object, file) {
     if (missing(file))
         return(object)
-    file <- .to_index(fileNames(object), file, variable = "file")
+    file <- MSnbase:::.to_index(fileNames(object), file, variable = "file")
     object@spectraData <- object@spectraData[object@spectraData$fileIdx %in%
                                              file, , drop = FALSE]
     object@spectraData <- object@spectraData[order(match(
                                      object@spectraData$fileIdx, file)), ,
                                      drop = FALSE]
-    object@backend <- backendSubset(object@backend, object@spectraData)
-    spectraData(object)$fileIdx <- match(object@spectraData$fileIdx, file)
+    object@backend <- MSnbase:::backendSubset(object@backend, object@spectraData)
+    object@spectraData$fileIdx <- match(object@spectraData$fileIdx, file)
     object@sampleData <- object@sampleData[file, , drop = FALSE]
     object@processing <- c(object@processing,
                            paste0("Filter: select file(s): ",
