@@ -34,6 +34,9 @@ test_that("MSnExperiment constructor works", {
     spl <- list(sp1, sp2, sp3)
     res <- MSnExperiment(spl)
     expect_equal(rownames(spectraData(res)), c("F1.S1", "F1.S2", "F1.S3"))
+    sp1@fromFile <- 1L
+    sp2@fromFile <- 1L
+    sp3@fromFile <- 1L
     expect_equal(res[[1]], sp1)
     expect_equal(res[[2]], sp2)
     expect_equal(res[[3]], sp3)

@@ -328,8 +328,11 @@ MSnExperiment <- function(x, spectraData, sampleData, metadata, ...) {
     if (!missing(spectraData))
         spectraData <- .merge_featureData(spectraData, fdata)
     else spectraData <- fdata
-    if (all(is.na(spectraData$fileIdx)))
+    if (all(is.na(spectraData$fileIdx))) {
         spectraData$fileIdx <- 1L
+        for (i in seq_along(x))
+            x[[i]]@fromFile <- 1L
+    }
     file <- unique(spectraData$fileIdx)
     if (!is.null(names(x)))
         rownames(spectraData) <- names(x)
@@ -507,10 +510,10 @@ setMethod("setBackend", c("MSnExperiment", "BackendHdf5"),
               cnts <- bplapply(spd, function(z, hdf5_backend, backend) {
                   res <- backendWriteSpectra(hdf5_backend,
                                              backendReadSpectra(backend, z), z)
-                  res@checksums[z$fileIdx[1]]
+                  res@modCount[z$fileIdx[1]]
               }, hdf5_backend = backend, backend = object@backend,
               BPPARAM = BPPARAM)
-              backend@checksums <- unlist(cnts)
+              backend@modCount <- unlist(cnts)
               object@backend <- backend
               validObject(object)
               object

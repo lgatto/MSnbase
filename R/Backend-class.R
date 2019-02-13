@@ -163,7 +163,7 @@ setMethod(
     "backendInitialize",
     signature = "Backend",
     definition = function(object, files, spectraData, ...) {
-    object@files <- normalizePath(files)
+    object@files <- files
     object@modCount <- integer(length(files))
     validObject(object)
     object
