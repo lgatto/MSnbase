@@ -494,8 +494,9 @@ setMethod("setBackend", c("MSnExperiment", "Backend"),
 #' @rdname hidden_aliases
 setMethod("setBackend", c("MSnExperiment", "BackendMzR"),
           function(object, backend, ..., BPPARAM = bpparam()) {
-              ## TODO: add check for change in backend once implemented by
-              ## @sgibb
+              if (any(backend@modCount > 0))
+                  stop("Can not change backend to 'BackendMzR' because the ",
+                       "data was changed.")
               object@backend <- backendInitialize(backend, fileNames(object),
                                                   object@spectraData, ...)
               validObject(object)
@@ -682,7 +683,7 @@ setMethod("[", "MSnExperiment", function(x, i, j, ..., drop = TRUE) {
     x@spectraData <- x@spectraData[i, , drop = FALSE]
     x@backend <- backendSubset(x@backend, x@spectraData)
     file <- unique(x@spectraData$fileIdx) # here we allow unsorted file idx.
-    x@spectraData$fileIdx <- match(x@spectraData$fileIdx, file)
+    spectraData(x)$fileIdx <- match(x@spectraData$fileIdx, file)
     x@sampleData <- x@sampleData[file, , drop = FALSE]
     if (nrow(x@spectraData) == 1 & drop)
         x <- spectrapply(x)[[1]]
@@ -707,7 +708,7 @@ setMethod("filterFile", "MSnExperiment", function(object, file) {
                                      object@spectraData$fileIdx, file)), ,
                                      drop = FALSE]
     object@backend <- backendSubset(object@backend, object@spectraData)
-    object@spectraData$fileIdx <- match(object@spectraData$fileIdx, file)
+    spectraData(object)$fileIdx <- match(object@spectraData$fileIdx, file)
     object@sampleData <- object@sampleData[file, , drop = FALSE]
     object@processing <- c(object@processing,
                            paste0("Filter: select file(s): ",
