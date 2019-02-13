@@ -7,9 +7,6 @@
 \alias{hidden_aliases}
 \alias{show,Backend-method}
 \alias{fileNames,Backend-method}
-\alias{backendInitialize,Backend-method}
-\alias{backendImportData,Backend-method}
-\alias{backendDeepCopy,Backend-method}
 \alias{backendSubset}
 \alias{show,BackendHdf5-method}
 \alias{backendSubset,BackendMemory-method}
@@ -24,13 +21,6 @@
 \S4method{show}{Backend}(object)
 
 \S4method{fileNames}{Backend}(object, ...)
-
-\S4method{backendInitialize}{Backend}(object, files, spectraData, ...)
-
-\S4method{backendImportData}{Backend}(object, spectraData, ...,
-  BPPARAM = bpparam())
-
-\S4method{backendDeepCopy}{Backend}(object, ...)
 
 backendSubset(object, spectraData)
 
@@ -58,11 +48,10 @@ backendSubset(object, spectraData)
 \arguments{
 \item{object}{Object to display.}
 
+\item{spectraData}{`DataFrame` with the spectrum metadata of the spectra to
+which the `object` should be subsetted.}
+
 \item{x}{`Backend`}
-
-\item{i}{`integer`; ignored.}
-
-\item{file}{`integer` to subset by file.}
 
 \item{object}{Object to display.}
 }
