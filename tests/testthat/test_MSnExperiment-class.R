@@ -4,7 +4,7 @@ test_that("MSnExperiment validator works", {
     tst <- new("MSnExperiment", backend = BackendMzR())
     expect_true(validObject(tst))
     tst@sampleData <- DataFrame(sampleIdx = 1)
-    res <- MSnbase:::.validMSnExperiment(tst)
+    res <- .validMSnExperiment(tst)
     expect_true(is.character(res))
     expect_error(validObject(tst))
 })
@@ -34,6 +34,9 @@ test_that("MSnExperiment constructor works", {
     spl <- list(sp1, sp2, sp3)
     res <- MSnExperiment(spl)
     expect_equal(rownames(spectraData(res)), c("F1.S1", "F1.S2", "F1.S3"))
+    sp1@fromFile <- 1L
+    sp2@fromFile <- 1L
+    sp3@fromFile <- 1L
     expect_equal(res[[1]], sp1)
     expect_equal(res[[2]], sp2)
     expect_equal(res[[3]], sp3)
@@ -174,6 +177,9 @@ test_that("filterFile and [,MSnExperiment work", {
     expect_equal(res@sampleData, mse@sampleData[2:3, , drop = FALSE])
     expect_equal(res@sampleData, res_hdf5@sampleData)
     expect_equal(res@sampleData, res_mem@sampleData)
+    expect_equal(res[[1]]@fromFile, 1L)
+    expect_equal(res_hdf5[[1]]@fromFile, 1L)
+    expect_equal(res_mem[[1]]@fromFile, 1L)
     expect_equal(spectrapply(res, FUN = intensity),
                  lapply(sps[mse@spectraData$fileIdx %in% 2:3], intensity))
     expect_equal(spectrapply(res), spectrapply(res_hdf5))
@@ -264,6 +270,25 @@ test_that("setBackend methods work", {
     expect_true(is(sciex_mem_mzr@backend, "BackendMzR"))
     expect_true(validObject(sciex_mem_mzr@backend))
     expect_equal(spectrapply(sciex_mem_mzr), spectrapply(sciex_inmem))
+
+    ## Memory, modify -> MzR
+    tmp <- removePeaks(sciex_inmem[900:920], t = 5000)
+    tmp <- applyProcessingQueue(tmp)
+    expect_equal(tmp@processingQueue, list())
+    expect_equal(tmp@backend@modCount, 1L)
+    expect_error(setBackend(tmp, BackendMzR()), "Can not change backend")
+
+    ## Memory, modify -> Hdf5
+    tmp_h5 <- setBackend(tmp, BackendHdf5(),
+                         path = paste0(tempdir(), "/switch2/"))
+    expect_true(length(tmp_h5@processingQueue) == 0)
+    expect_equal(unname(tmp_h5@backend@modCount), 1L)
+    sps_h5 <- spectrapply(tmp_h5)
+    sps <- spectrapply(sciex_inmem[900:920])
+    expect_equal(lapply(sps_h5, ionCount),
+                 lapply(sps, function(z) ionCount(removePeaks(z, t = 5000))))
+    expect_error(setBackend(tmp_h5, BackendMzR()), "Can not change backend")
+
     ## The tests below are redundant
     ## ## Memory -> Hdf5
     ## sciex_mem_h5 <- setBackend(sciex_inmem, backend = BackendHdf5(),
@@ -281,6 +306,50 @@ test_that("setBackend methods work", {
     ## expect_true(is(sciex_h5_mzr@backend, "BackendMzR"))
     ## expect_true(validObject(sciex_h5_mzr@backend))
     ## expect_equal(spectra(sciex_h5_mzr), spectra(sciex_inmem))
+})
+
+test_that("applyProcessingQueue works", {
+    f <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
+           system.file("microtofq/MM8.mzML", package = "msdata"))
+    ## Memory backend
+    mse_mem <- readMSnExperiment(f, backend = BackendMemory())
+    sps <- spectrapply(mse_mem)
+    idx <- c(13, 15, 33, 89, 113, 117, 167)
+    mse_mem <- mse_mem[idx]
+    mse_mem <- removePeaks(mse_mem, t = 5000)
+    expect_equal(mse_mem@backend@modCount, c(0L, 0L))
+    expect_equal(length(mse_mem@processingQueue), 1L)
+    mse_mem <- applyProcessingQueue(mse_mem)
+    expect_equal(mse_mem@backend@modCount, c(1L, 1L))
+    expect_true(length(mse_mem@processingQueue) == 0)
+    expect_equal(as(mse_mem, "list"), lapply(sps[idx], removePeaks, t = 5000))
+    ## Hdf5 backend
+    mse_h5 <- readMSnExperiment(f, backend = BackendHdf5(),
+                                path = paste0(tempdir(), "/apq"))
+    mse_h5 <- mse_h5[idx]
+    sps <- spectrapply(mse_h5)
+    expect_equal(mse_h5@backend@modCount, c(0L, 0L))
+    expect_equal(length(mse_h5@processingQueue), 0L)
+    mse_h5 <- removePeaks(mse_h5, t = 5000)
+    expect_equal(mse_h5@backend@modCount, c(0L, 0L))
+    expect_equal(length(mse_h5@processingQueue), 1L)
+    mse_h5 <- applyProcessingQueue(mse_h5)
+    expect_equal(mse_h5@backend@modCount, c(1L, 1L))
+    expect_equal(length(mse_h5@processingQueue), 0L)
+    expect_equal(spectrapply(mse_h5, ionCount),
+                 lapply(sps, function(z) ionCount(removePeaks(z, t = 5000))))
+    ## MzR backend
+    mse_mzr <- readMSnExperiment(f, backend = BackendMzR())
+    mse_mzr <- mse_mzr[idx]
+    sps <- spectrapply(mse_mzr)
+    expect_equal(mse_mzr@backend@modCount, c(0L, 0L))
+    expect_equal(length(mse_mzr@processingQueue), 0L)
+    mse_mzr <- removePeaks(mse_mzr, t = 5000)
+    expect_equal(mse_mzr@backend@modCount, c(0L, 0L))
+    expect_equal(length(mse_mzr@processingQueue), 1L)
+    mse_mzr <- applyProcessingQueue(mse_mzr)
+    expect_equal(mse_mzr@backend@modCount, c(0L, 0L))
+    expect_equal(length(mse_mzr@processingQueue), 1L)
 })
 
 test_that("as,MSnExperiment works", {

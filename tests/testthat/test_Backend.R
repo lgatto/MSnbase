@@ -3,6 +3,8 @@ context("Backend class")
 test_that("validity", {
     b <- BackendMemory()
     b@files <- c("foo", "bar")
+    expect_error(validObject(b), "counters")
+    b@modCount <- 1L:2L
     expect_true(validObject(b))
 
     b@files[2] <- "foo"
@@ -18,6 +20,11 @@ test_that(".valid.Backend.files", {
     expect_null(.valid.Backend.files(c("foo", "bar")))
     expect_null(.valid.Backend.files(c("foo", "bar")))
     expect_null(.valid.Backend.files(c(S1="foo", S2="bar")))
+})
+
+test_that(".valid.Backend.files", {
+    expect_null(.valid.Backend.modCount("foo", 5))
+    expect_match(.valid.Backend.modCount("foo", 1:2), " counters")
 })
 
 test_that("fileNames", {
@@ -36,9 +43,19 @@ test_that("show", {
 test_that("backendSubset,Backend works", {
     be <- BackendMzR()
     be@files <- c("a", "b", "c", "d")
+    be@modCount <- rep(0L, 4L)
     spd <- DataFrame(fileIdx = c(3, 3, 1, 3, 1, 1))
     res <- backendSubset(be, spd)
     expect_equal(unname(res@files), c("c", "a"))
     spd <- DataFrame(fileIdx = c(1, 2, 3, 4))
     expect_equal(be, backendSubset(be, spd))
+})
+
+test_that("backendApplyProcessingQueue,Backend works", {
+    tmp <- sciex_inmem[c(13, 17, 33, 1013, 1017)]
+    be <- tmp@backend
+    the_q <- list(ProcessingStep(removePeaks, list(t = 1000)))
+    res <- backendApplyProcessingQueue(be, tmp@spectraData, the_q)
+    expect_equal(res@spectra, lapply(be@spectra, removePeaks, t = 1000))
+    expect_equal(res@modCount, c(1L, 1L))
 })

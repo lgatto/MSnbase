@@ -161,7 +161,8 @@ export(MSnSet,
        BackendHdf5,
        readMSnExperiment,
        setHdf5CompressionLevel,
-       MSnExperiment
+       MSnExperiment,
+       applyProcessingQueue
        )
 
 exportClasses(pSet,

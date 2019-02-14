@@ -4,8 +4,13 @@
 \name{MSnExperiment}
 \alias{MSnExperiment}
 \alias{MSnExperiment-class}
+\alias{spectraData}
+\alias{spectraData<-}
+\alias{sampleData}
+\alias{sampleData<-}
 \alias{readMSnExperiment}
 \alias{setBackend}
+\alias{applyProcessingQueue}
 \alias{spectrapply,MSnExperiment-method}
 \alias{acquisitionNum,MSnExperiment-method}
 \alias{centroided,MSnExperiment-method}
@@ -42,18 +47,10 @@ readMSnExperiment(file, sampleData, backend = BackendMzR(),
 
 setBackend(object, backend, ..., BPPARAM = bpparam())
 
+applyProcessingQueue(x, BPPARAM = bpparam())
+
 \S4method{spectrapply}{MSnExperiment}(object, FUN = NULL, ...,
   f = spectraData(object)$fileIdx, BPPARAM = bpparam())
-
-\S4method{acquisitionNum}{MSnExperiment}(object)
-
-\S4method{centroided}{MSnExperiment}(object, na.fail = FALSE)
-
-\S4method{centroided}{MSnExperiment,ANY}(object) <- value
-
-\S4method{collisionEnergy}{MSnExperiment}(object)
-
-\S4method{collisionEnergy}{MSnExperiment}(object) <- value
 
 \S4method{featureData}{MSnExperiment}(object)
 
@@ -137,9 +134,6 @@ to each \linkS4class{Spectrum} of the experiment.}
 (same length than there are spectra in \code{object}, i.e. with length
 equal to \code{nrow(spectraData(object))} to define how the data should be
 split into chunks for parallelization.}
-
-\item{na.fail}{for \code{centroided}: whether a value of \code{NA} is not supported
-as a result. Defaults to \code{FALSE}.}
 
 \item{value}{for \code{featureData}, \code{sampleData} and \code{spectraData}: a \code{DataFrame}}
 
@@ -274,7 +268,22 @@ in which case a \code{Spectrum} is returned.
 
 \section{Data manipulation methods}{
 
+
+Data manipulation operations, such as those listed in this section,  are by
+default not applied immediately to the spectra, but added to a
+\emph{lazy processinq queue}. Operations stored in this queue are applied
+on-the-fly to spectra data each time it is accessed. This lazy
+execution guarantees the same functionality for \code{MSnExperiment} objects with
+any backend, i.e. backends supporting to save changes to spectrum data
+(\code{\link[=BackendMemory]{BackendMemory()}} and \code{\link[=BackendHdf5]{BackendHdf5()}} as well as read-only backends (such
+as the \code{\link[=BackendMzR]{BackendMzR()}}).
 \itemize{
+\item \code{applyProcessingQueue}: make data manipulations persistent, i.e. apply all
+data manipulation operations stored in the processing queue to each
+spectrum and store this data in the backend. This does not work for
+read-only backends such as the \code{\link[=BackendMzR]{BackendMzR()}}. The function returns
+the \code{MSnExperiment} with data manipulations applied and stored in the
+backend.
 \item \code{clean}: remove 0-intensity data points. See \code{\link[=clean]{clean()}} for
 \linkS4class{Spectrum} objects for more details.
 \item \code{removePeaks}: remove peaks lower than a threshold \code{t}. See

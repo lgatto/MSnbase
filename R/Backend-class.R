@@ -70,6 +70,7 @@ NULL
 #'
 #' - [backendReadSpectra()] to read spectra from the backend.
 #' - [backendWriteSpectra()] to write spectra to the backend.
+#' - [backendSubset()] to subset the backend.
 #'
 #' It may also provide methods for:
 #'
@@ -84,9 +85,13 @@ NULL
 #' @noRd
 setClass("Backend",
     slots = c(
-        files = "character"     # src files (i.e. mzML files)
+        files = "character",    # src files (i.e. mzML files)
+        # is incremented every time `backendWriteSpectra` is called and is used
+        # to test for changes of the hdf5 files and superficial copying
+        # see issue https://github.com/lgatto/MSnbase/issues/429
+        modCount = "integer"
     ),
-    prototype = prototype(files = character()),
+    prototype = prototype(files = character(), modCount = integer()),
     contains = "VIRTUAL"
 )
 
@@ -104,8 +109,16 @@ setClass("Backend",
     NULL
 }
 
+.valid.Backend.modCount <- function(x, y) {
+    if (length(x) != length(y))
+        "Different number of source files and modification counters."
+    else
+        NULL
+}
+
 setValidity("Backend", function(object) {
-    msg <- .valid.Backend.files(object@files)
+    msg <- c(.valid.Backend.files(object@files),
+             .valid.Backend.modCount(object@files, object@modCount))
     if (is.null(msg)) { TRUE } else { msg }
 })
 
@@ -151,6 +164,7 @@ setMethod(
     signature = "Backend",
     definition = function(object, files, spectraData, ...) {
     object@files <- files
+    object@modCount <- integer(length(files))
     validObject(object)
     object
 })
@@ -279,7 +293,11 @@ setGeneric("backendSubset", def = function(object, spectraData)
 )
 
 setMethod("backendSubset", "Backend", function(object, spectraData) {
-    object@files <- object@files[unique(spectraData$fileIdx)]
+    ## reordering of file indices is allowed
+    ## (see https://github.com/lgatto/MSnbase/issues/417)
+    fidx <- unique(spectraData$fileIdx)
+    object@files <- object@files[fidx]
+    object@modCount <- object@modCount[fidx]
     validObject(object)
     object
 })
@@ -287,7 +305,9 @@ setMethod("backendSubset", "Backend", function(object, spectraData) {
 #' @description
 #'
 #' `backendUpdateMetadata` updates the spectrum metadata on backends that
-#' support it with the provided `spectraData`.
+#' support it with the provided `spectraData`. It ensures that changes to the
+#' metadata in the upstream object (e.g. `MSnExperiment`) are propagated to
+#' the backend.
 #'
 #' This method is called each time the spectrum metadata is updated in the
 #' `MSnExperiment`, e.g. by `spectraData(object) <- new_spd`.
@@ -309,3 +329,40 @@ setGeneric("backendUpdateMetadata", def = function(object, spectraData)
 setMethod("backendUpdateMetadata", "Backend", function(object, spectraData) {
     object
 })
+
+#' @description
+#'
+#' `backendApplyProcessingQueue` forces execution of all data manipulation steps
+#' in `queue` and writes the changes backe to the backend. The default
+#' implementation reads all spectra first, applies the queue (in parallel) and
+#' writes the spectra again to the backend.
+#'
+#' @param x `Backend`.
+#'
+#' @param spectraData `DataFrame` with the spectrum metadata.
+#'
+#' @param queue `list` with [ProcessingStep()] objects.
+#'
+#' @return A `Backend` class.
+#'
+#' @author Johannes Rainer
+#'
+#' @rdname hidden_aliases
+#'
+#' @noRd
+setGeneric("backendApplyProcessingQueue",
+           def = function(object, spectraData, queue, ..., BPPARAM = bpparam())
+               standardGeneric("backendApplyProcessingQueue"),
+           valueClass = "Backend")
+setMethod("backendApplyProcessingQueue", "Backend",
+          function(object, spectraData, queue, ..., BPPARAM = bpparam()) {
+              sps <- backendReadSpectra(object, spectraData)
+              object <- backendWriteSpectra(
+                  object,
+                  unlist(bplapply(sps, .apply_processing_queue, queue = queue,
+                                  BPPARAM = BPPARAM), use.names = FALSE,
+                         recursive = FALSE),
+                  spectraData)
+              validObject(object)
+              object
+          })
