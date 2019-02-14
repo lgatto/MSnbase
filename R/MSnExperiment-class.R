@@ -3,8 +3,7 @@ NULL
 
 #' @title The MSnExperiment class to manage and access MS data
 #'
-#' @aliases MSnExperiment-class spectraData spectraData<- sampleData
-#'     sampleData<-
+#' @aliases MSnExperiment-class
 #'
 #' @name MSnExperiment
 #'
@@ -173,6 +172,21 @@ NULL
 #'   equal to the number of spectra), with `0` and `1` representing negative
 #'   and positive polarity, respectively. `polarity<-` expects an integer vector
 #'   of length 1 or equal to the number of spectra.
+#'
+#' - `peaksCount`: get the number of peaks (m/z-intensity values) per spectrum.
+#'   Returns an integer vector (names being spectrum names, length equal to the
+#'   number of spectra).
+#'
+#' - `precursorCharge`, `precursorIntensity`, `precursorMz`, `precScanNum`: get
+#'   the charge, intensity, m/z and scan index of the precursor for MS level > 2
+#'   from the object. Returns a named vector of length equal to the number of
+#'   spectra in `object`.
+#'
+#' - `rtime`, `rtime<-`: get or set the retention times for each spectrum.
+#'   `rtime` returns a `numeric` vector (names being spectrum names, length
+#'   equal to the number of spectra) with the retention time for each spectrum.
+#'   `rtime<-` expects a numeric vector with length equal to the number of
+#'   spectra.
 #'
 #' - `sampleData`: get or set sample metadata. Returns a `DataFrame`, each row
 #'   containing information for one sample or file or a `MSnExperiment` with
@@ -684,6 +698,8 @@ setMethod("acquisitionNum", "MSnExperiment", function(object) {
     res
 })
 
+## bpi
+
 #' @rdname MSnExperiment
 setMethod("centroided", "MSnExperiment", function(object, na.fail = FALSE) {
     res <- if (is.null(object@spectraData$centroided))
@@ -815,6 +831,12 @@ setMethod("mz", "MSnExperiment", function(object) {
 })
 
 #' @rdname MSnExperiment
+setMethod("peaksCount", "MSnExperiment", function(object, BPPARAM = bpparam()) {
+    unlist(spectrapply(object, FUN = peaksCount, BPPARAM = BPPARAM),
+           recursive = FALSE)
+})
+
+#' @rdname MSnExperiment
 setMethod("polarity", "MSnExperiment", function(object) {
     res <- if (is.null(object@spectraData$polarity))
                rep_len(NA_integer_, length(object))
@@ -830,16 +852,63 @@ setReplaceMethod("polarity", "MSnExperiment", function(object, value) {
     if (length(value) != nrow(object@spectraData) || !is.integer(value))
         stop("'value' has to be an integer vector of length 1 or equal to the",
              " number of spectra in 'object'")
-    featuresData(object)$polarity <- value
+    featureData(object)$polarity <- value
     object
 })
 
-## rtime
-## peaksCount
-## precursorCharge
-## precursorIntensity
-## precursorMz
-## precScanNum
+#' @rdname MSnExperiment
+setMethod("precursorCharge", "MSnExperiment", function(object) {
+    res <- if (is.null(object@spectraData$precursorCharge))
+               rep_len(NA_integer_, length(object))
+           else object@spectraData$precursorCharge
+    names(res) <- featureNames(object)
+    res
+})
+
+#' @rdname MSnExperiment
+setMethod("precursorIntensity", "MSnExperiment", function(object) {
+    res <- if (is.null(object@spectraData$precursorIntensity))
+               rep_len(NA_real_, length(object))
+           else object@spectraData$precursorIntensity
+    names(res) <- featureNames(object)
+    res
+})
+
+#' @rdname MSnExperiment
+setMethod("precursorMz", "MSnExperiment", function(object) {
+    res <- if (is.null(object@spectraData$precursorMZ))
+               rep_len(NA_real_, length(object))
+           else object@spectraData$precursorMZ
+    names(res) <- featureNames(object)
+    res
+})
+
+#' @rdname MSnExperiment
+setMethod("precScanNum", "MSnExperiment", function(object) {
+    res <- if (is.null(object@spectraData$precursorScanNum))
+               rep_len(NA_integer_, length(object))
+           else object@spectraData$precursorScanNum
+    names(res) <- featureNames(object)
+    res
+})
+
+#' @rdname MSnExperiment
+setMethod("rtime", "MSnExperiment", function(object) {
+    res <- if (is.null(object@spectraData$retentionTime))
+               rep_len(NA_integer_, length(object))
+           else object@spectraData$retentionTime
+    names(res) <- featureNames(object)
+    res
+})
+
+#' @rdname MSnExperiment
+setReplaceMethod("rtime", "MSnExperiment", function(object, value) {
+    if (length(value) != nrow(object@spectraData) || !is.numeric(value))
+        stop("'value' has to be a numeric vector of length equal to the number",
+             " of spectra (", nrow(object@spectraData), ")")
+    featureData(object)$retentionTime <- value
+    object
+})
 
 #' @rdname MSnExperiment
 setMethod("sampleData", "MSnExperiment", function(object) {
@@ -868,6 +937,8 @@ setReplaceMethod("spectraData", "MSnExperiment", function(object, value) {
     featureData(object) <- value
     object
 })
+
+## spectraNames
 
 ## tic
 

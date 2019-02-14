@@ -4,10 +4,6 @@
 \name{MSnExperiment}
 \alias{MSnExperiment}
 \alias{MSnExperiment-class}
-\alias{spectraData}
-\alias{spectraData<-}
-\alias{sampleData}
-\alias{sampleData<-}
 \alias{readMSnExperiment}
 \alias{setBackend}
 \alias{applyProcessingQueue}
@@ -30,8 +26,15 @@
 \alias{metadata,MSnExperiment-method}
 \alias{msLevel,MSnExperiment-method}
 \alias{mz,MSnExperiment-method}
+\alias{peaksCount,MSnExperiment,ANY-method}
 \alias{polarity,MSnExperiment-method}
 \alias{polarity<-,MSnExperiment-method}
+\alias{precursorCharge,MSnExperiment-method}
+\alias{precursorIntensity,MSnExperiment-method}
+\alias{precursorMz,MSnExperiment-method}
+\alias{precScanNum,MSnExperiment-method}
+\alias{rtime,MSnExperiment-method}
+\alias{rtime<-,MSnExperiment-method}
 \alias{sampleData,MSnExperiment-method}
 \alias{sampleData<-,MSnExperiment-method}
 \alias{spectraData,MSnExperiment-method}
@@ -92,9 +95,23 @@ applyProcessingQueue(x, BPPARAM = bpparam())
 
 \S4method{mz}{MSnExperiment}(object)
 
+\S4method{peaksCount}{MSnExperiment,ANY}(object, BPPARAM = bpparam())
+
 \S4method{polarity}{MSnExperiment}(object)
 
 \S4method{polarity}{MSnExperiment}(object) <- value
+
+\S4method{precursorCharge}{MSnExperiment}(object)
+
+\S4method{precursorIntensity}{MSnExperiment}(object)
+
+\S4method{precursorMz}{MSnExperiment}(object)
+
+\S4method{precScanNum}{MSnExperiment}(object)
+
+\S4method{rtime}{MSnExperiment}(object)
+
+\S4method{rtime}{MSnExperiment}(object) <- value
 
 \S4method{sampleData}{MSnExperiment}(object)
 
@@ -271,6 +288,18 @@ the m/z values of one spectrum.
 equal to the number of spectra), with \code{0} and \code{1} representing negative
 and positive polarity, respectively. \code{polarity<-} expects an integer vector
 of length 1 or equal to the number of spectra.
+\item \code{peaksCount}: get the number of peaks (m/z-intensity values) per spectrum.
+Returns an integer vector (names being spectrum names, length equal to the
+number of spectra).
+\item \code{precursorCharge}, \code{precursorIntensity}, \code{precursorMz}, \code{precScanNum}: get
+the charge, intensity, m/z and scan index of the precursor for MS level > 2
+from the object. Returns a named vector of length equal to the number of
+spectra in \code{object}.
+\item \code{rtime}, \code{rtime<-}: get or set the retention times for each spectrum.
+\code{rtime} returns a \code{numeric} vector (names being spectrum names, length
+equal to the number of spectra) with the retention time for each spectrum.
+\code{rtime<-} expects a numeric vector with length equal to the number of
+spectra.
 \item \code{sampleData}: get or set sample metadata. Returns a \code{DataFrame}, each row
 containing information for one sample or file or a \code{MSnExperiment} with
 the update sample metadata. This function is equivalent to \code{\link[=phenoData]{phenoData()}}

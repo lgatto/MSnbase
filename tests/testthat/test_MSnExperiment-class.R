@@ -523,6 +523,47 @@ test_that("polarity, polarity<-,MSnExperiment work", {
     expect_equal(unname(polarity(mse)), rep(1L, 3))
     polarity(mse) <- c(1L, 0L, 1L)
     expect_equal(unname(polarity(mse)), c(1L, 0L, 1L))
+    expect_equal(unname(polarity(spectrapply(mse)[[3]])), 1L)
     expect_error(polarity(mse) <- "a")
     expect_error(polarity(mse) <- c(2L, 1L))
+})
+
+test_that("rtime, rtime<- MSnExperiment works", {
+    mse <- MSnExperiment(list(new("Spectrum1", mz = 1:4, intensity = 1:4),
+                              new("Spectrum2"),
+                              new("Spectrum1", mz = 1:3, intensity = 1:3)))
+    expect_equal(unname(rtime(mse)), rep(NA_real_, 3))
+    expect_equal(names(rtime(mse)), rownames(mse@spectraData))
+    rtime(mse) <- c(1.2, 1.3, 1.4)
+    expect_equal(unname(rtime(mse)), c(1.2, 1.3, 1.4))
+    expect_equal(unname(rtime(spectrapply(mse)[[1]])), 1.2)
+    expect_error(rtime(mse) <- "f")
+    expect_error(rtime(mse) <- c(3, 4))
+})
+
+test_that("peaksCount,MSnExperiment works", {
+    mse <- MSnExperiment(list(new("Spectrum1", mz = 1:4, intensity = 1:4),
+                              new("Spectrum2"),
+                              new("Spectrum1", mz = 1:3, intensity = 1:3)))
+    expect_equal(unname(peaksCount(mse)), c(4L, 0, 3L))
+    expect_equal(names(peaksCount(mse)), rownames(mse@spectraData))
+})
+
+test_that("precursor*,MSnExperiment methods work", {
+    library(MSnbase)
+    library(testthat)
+    mse <- MSnExperiment(list(new("Spectrum1", mz = 1:4, intensity = 1:4),
+                              new("Spectrum2", precScanNum = 1L,
+                                  precursorIntensity = 3, precursorMz = 3),
+                              new("Spectrum2", mz = 1:3, intensity = 1:3,
+                                  precursorCharge = 1L, precursorIntensity = 2,
+                                  precScanNum = 1L)))
+    res <- precursorCharge(mse)
+    expect_equal(res, c(F1.S1 = 0L, F1.S2 = NA_integer_, F1.S3 = 1L))
+    res <- precursorIntensity(mse)
+    expect_equal(res, c(F1.S1 = 0, F1.S2 = 3, F1.S3 = 2))
+    res <- precursorMz(mse)
+    expect_equal(res, c(F1.S1 = 0, F1.S2 = 3, F1.S3 = NA))
+    res <- precScanNum(mse)
+    expect_equal(res, c(F1.S1 = 0L, F1.S2 = 1L, F1.S3 = 1L))
 })

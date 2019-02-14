@@ -173,3 +173,4 @@ setGeneric("spectraData", function(object, ...) standardGeneric("spectraData"))
 #' @rdname hidden_aliases
 setGeneric("spectraData<-", function(object, value)
     standardGeneric("spectraData<-"))
+setGeneric("rtime<-", function(object, value) standardGeneric("rtime<-"))
