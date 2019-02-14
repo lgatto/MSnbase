@@ -160,9 +160,19 @@ NULL
 #'
 #' - `metadata`: get the metadata `list`.
 #'
+#' - `msLevel`: get the spectra's MS level. Returns an integer vector (names
+#'   being spectrum names, length equal to the number of spectra) with the MS
+#'   level for each spectrum.
+#'
 #' - `mz`: get the mass-to-charge ratios (m/z) from the spectra. Returns a named
 #'   list, names being the spectrum names, each element a numeric vector with
 #'   the m/z values of one spectrum.
+#'
+#' - `polarity`, `polarity<-`: get or set the polarity for each spectrum.
+#'   `polarity` returns an integer vector (names being spectrum names, length
+#'   equal to the number of spectra), with `0` and `1` representing negative
+#'   and positive polarity, respectively. `polarity<-` expects an integer vector
+#'   of length 1 or equal to the number of spectra.
 #'
 #' - `sampleData`: get or set sample metadata. Returns a `DataFrame`, each row
 #'   containing information for one sample or file or a `MSnExperiment` with
@@ -790,14 +800,40 @@ setMethod("metadata", "MSnExperiment",
               else x@metadata
           })
 
-## msLevel
+#' @rdname MSnExperiment
+setMethod("msLevel", "MSnExperiment", function(object) {
+    res <- if (is.null(object@spectraData$msLevel))
+               rep_len(NA_integer_, length(object))
+           else object@spectraData$msLevel
+    names(res) <- featureNames(object)
+    res
+})
 
 #' @rdname MSnExperiment
 setMethod("mz", "MSnExperiment", function(object) {
     spectrapply(object, FUN = mz)
 })
 
-## polarity
+#' @rdname MSnExperiment
+setMethod("polarity", "MSnExperiment", function(object) {
+    res <- if (is.null(object@spectraData$polarity))
+               rep_len(NA_integer_, length(object))
+           else object@spectraData$polarity
+    names(res) <- featureNames(object)
+    res
+})
+
+#' @rdname MSnExperiment
+setReplaceMethod("polarity", "MSnExperiment", function(object, value) {
+    if (length(value) == 1)
+        value <- rep_len(value, nrow(object@spectraData))
+    if (length(value) != nrow(object@spectraData) || !is.integer(value))
+        stop("'value' has to be an integer vector of length 1 or equal to the",
+             " number of spectra in 'object'")
+    featuresData(object)$polarity <- value
+    object
+})
+
 ## rtime
 ## peaksCount
 ## precursorCharge

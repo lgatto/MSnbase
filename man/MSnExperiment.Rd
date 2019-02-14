@@ -28,7 +28,10 @@
 \alias{isEmpty,MSnExperiment-method}
 \alias{length,MSnExperiment-method}
 \alias{metadata,MSnExperiment-method}
+\alias{msLevel,MSnExperiment-method}
 \alias{mz,MSnExperiment-method}
+\alias{polarity,MSnExperiment-method}
+\alias{polarity<-,MSnExperiment-method}
 \alias{sampleData,MSnExperiment-method}
 \alias{sampleData<-,MSnExperiment-method}
 \alias{spectraData,MSnExperiment-method}
@@ -51,6 +54,16 @@ applyProcessingQueue(x, BPPARAM = bpparam())
 
 \S4method{spectrapply}{MSnExperiment}(object, FUN = NULL, ...,
   f = spectraData(object)$fileIdx, BPPARAM = bpparam())
+
+\S4method{acquisitionNum}{MSnExperiment}(object)
+
+\S4method{centroided}{MSnExperiment}(object, na.fail = FALSE)
+
+\S4method{centroided}{MSnExperiment,ANY}(object) <- value
+
+\S4method{collisionEnergy}{MSnExperiment}(object)
+
+\S4method{collisionEnergy}{MSnExperiment}(object) <- value
 
 \S4method{featureData}{MSnExperiment}(object)
 
@@ -75,7 +88,13 @@ applyProcessingQueue(x, BPPARAM = bpparam())
 
 \S4method{metadata}{MSnExperiment}(x, ...)
 
+\S4method{msLevel}{MSnExperiment}(object)
+
 \S4method{mz}{MSnExperiment}(object)
+
+\S4method{polarity}{MSnExperiment}(object)
+
+\S4method{polarity}{MSnExperiment}(object) <- value
 
 \S4method{sampleData}{MSnExperiment}(object)
 
@@ -134,6 +153,9 @@ to each \linkS4class{Spectrum} of the experiment.}
 (same length than there are spectra in \code{object}, i.e. with length
 equal to \code{nrow(spectraData(object))} to define how the data should be
 split into chunks for parallelization.}
+
+\item{na.fail}{for \code{centroided}: whether a value of \code{NA} is not supported
+as a result. Defaults to \code{FALSE}.}
 
 \item{value}{for \code{featureData}, \code{sampleData} and \code{spectraData}: a \code{DataFrame}}
 
@@ -238,9 +260,17 @@ any peaks). Returns a logical vector (length equal number of spectra, names
 being the spectrum names).
 \item \code{length}: get the number of spectra in the object.
 \item \code{metadata}: get the metadata \code{list}.
+\item \code{msLevel}: get the spectra's MS level. Returns an integer vector (names
+being spectrum names, length equal to the number of spectra) with the MS
+level for each spectrum.
 \item \code{mz}: get the mass-to-charge ratios (m/z) from the spectra. Returns a named
 list, names being the spectrum names, each element a numeric vector with
 the m/z values of one spectrum.
+\item \code{polarity}, \code{polarity<-}: get or set the polarity for each spectrum.
+\code{polarity} returns an integer vector (names being spectrum names, length
+equal to the number of spectra), with \code{0} and \code{1} representing negative
+and positive polarity, respectively. \code{polarity<-} expects an integer vector
+of length 1 or equal to the number of spectra.
 \item \code{sampleData}: get or set sample metadata. Returns a \code{DataFrame}, each row
 containing information for one sample or file or a \code{MSnExperiment} with
 the update sample metadata. This function is equivalent to \code{\link[=phenoData]{phenoData()}}

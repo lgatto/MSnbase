@@ -537,9 +537,9 @@ validSpectrum <- function(object) {
                       fileIdx = if (length(x@fromFile)) x@fromFile else NA_integer_,
                       collisionEnergy = 0,
                       ionisationEnergy = 0,      # How to get that?
-                      precursorScanNum = 0,
+                      precursorScanNum = 0L,
                       precursorMZ = 0,
-                      precursorCharge = 0,
+                      precursorCharge = 0L,
                       precursorIntensity = 0,
                       mergedScan = 0,
                       mergedResultScanNum = 0,   # ???

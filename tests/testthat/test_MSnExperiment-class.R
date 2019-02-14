@@ -504,3 +504,25 @@ test_that("ionCount, and isEmpty,MSnExperiment work", {
     expect_true(is.logical(res))
     expect_equal(unname(res), c(FALSE, TRUE, FALSE))
 })
+
+test_that("msLevel,MSnExperiment works", {
+    mse <- MSnExperiment(list(new("Spectrum1", mz = 1:4, intensity = 1:4),
+                              new("Spectrum2"),
+                              new("Spectrum1", mz = 1:3, intensity = 1:3)))
+    expect_equal(unname(msLevel(mse)), c(1L, 2L, 1L))
+    expect_equal(names(msLevel(mse)), rownames(mse@spectraData))
+})
+
+test_that("polarity, polarity<-,MSnExperiment work", {
+    mse <- MSnExperiment(list(new("Spectrum1", mz = 1:4, intensity = 1:4),
+                              new("Spectrum2"),
+                              new("Spectrum1", mz = 1:3, intensity = 1:3)))
+    expect_equal(unname(polarity(mse)), rep(NA_integer_, 3))
+    expect_equal(names(msLevel(mse)), rownames(mse@spectraData))
+    polarity(mse) <- 1L
+    expect_equal(unname(polarity(mse)), rep(1L, 3))
+    polarity(mse) <- c(1L, 0L, 1L)
+    expect_equal(unname(polarity(mse)), c(1L, 0L, 1L))
+    expect_error(polarity(mse) <- "a")
+    expect_error(polarity(mse) <- c(2L, 1L))
+})

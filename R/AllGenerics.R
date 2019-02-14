@@ -31,6 +31,7 @@ setGeneric("collisionEnergy<-", function(object, value)
 ## setGeneric("peaksCount", function(object) standardGeneric("peaksCount")) ## use mzR generic
 ## setGeneric("header", function(object) standardGeneric("header")) ## use mzR generic
 setGeneric("polarity", function(object) standardGeneric("polarity"))
+setGeneric("polarity<-", function(object, value) standardGeneric("polarity<-"))
 
 setGeneric("centroided", function(object, ...) standardGeneric("centroided"))
 setGeneric("centroided<-", function(object, ..., value) standardGeneric("centroided<-"))
