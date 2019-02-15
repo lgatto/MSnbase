@@ -47,6 +47,8 @@
 \alias{tic,MSnExperiment-method}
 \alias{[,MSnExperiment,ANY,ANY,ANY-method}
 \alias{[[,MSnExperiment,ANY,ANY-method}
+\alias{filterAcquisitionNum,MSnExperiment-method}
+\alias{filterEmptySpectra,MSnExperiment-method}
 \alias{filterFile,MSnExperiment-method}
 \alias{clean,MSnExperiment-method}
 \alias{removePeaks,MSnExperiment-method}
@@ -146,6 +148,10 @@ spectraNames(object)
 \S4method{[[}{MSnExperiment,ANY,ANY}(x, i, j = "missing",
   drop = "missing")
 
+\S4method{filterAcquisitionNum}{MSnExperiment}(object, n, file)
+
+\S4method{filterEmptySpectra}{MSnExperiment}(object)
+
 \S4method{filterFile}{MSnExperiment}(object, file)
 
 \S4method{clean}{MSnExperiment}(object, all = FALSE,
@@ -210,6 +216,9 @@ as a result. Defaults to \code{FALSE}.}
 \item{drop}{for \code{[}: if \code{drop = TRUE} and the object is subsetted to a single
 element, a \code{Spectrum} class is returned; \code{drop = FALSE} returns always
 a \code{MSnExperiment} object.}
+
+\item{n}{For \code{filterAcquisitionNum}: \code{integer} with the acquisition numbers
+to filter for.}
 
 \item{all}{for \code{clean}: \code{logical(1)} whether all 0 intensity peaks should be
 removed (\code{TRUE}) or whether 0-intensity peaks directly adjacent to a
@@ -364,6 +373,12 @@ length equal to the number of spectra.
 unless \code{drop = TRUE} and the object is subsetted to a single spectrum,
 in which case a \code{Spectrum} is returned.
 \item \code{[[i]]}: extract the \linkS4class{Spectrum} with index \code{i} from the data.
+\item \code{filterAcquisitionNum}: filter the object keeping only spectra matchin the
+provided acquisition numbers (argument \code{n}). If \code{file} is also provided,
+\code{object} is subsetted to the spectra with an acquisition number equal to
+\code{n} \strong{in this/these file(s)} and all spectra for the remaining files (not
+specified with \code{file}).
+\item \code{filterEmptySpectra}: remove empty spectra from \code{object}.
 \item \code{filterFile}: subset the object by file. Returns an \code{MSnExperiment}.
 }
 }

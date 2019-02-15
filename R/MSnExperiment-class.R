@@ -63,6 +63,9 @@ NULL
 #' @param msLevel. `integer` defining the MS level of the spectra to which the
 #'     function should be applied.
 #'
+#' @param n For `filterAcquisitionNum`: `integer` with the acquisition numbers
+#'     to filter for.
+#'
 #' @param na.fail for `centroided`: whether a value of `NA` is not supported
 #'     as a result. Defaults to `FALSE`.
 #'
@@ -237,6 +240,14 @@ NULL
 #'   in which case a `Spectrum` is returned.
 #'
 #' - `[[i]]`: extract the [Spectrum-class] with index `i` from the data.
+#'
+#' - `filterAcquisitionNum`: filter the object keeping only spectra matchin the
+#'   provided acquisition numbers (argument `n`). If `file` is also provided,
+#'   `object` is subsetted to the spectra with an acquisition number equal to
+#'   `n` **in this/these file(s)** and all spectra for the remaining files (not
+#'   specified with `file`).
+#'
+#' - `filterEmptySpectra`: remove empty spectra from `object`.
 #'
 #' - `filterFile`: subset the object by file. Returns an `MSnExperiment`.
 #'
@@ -1059,6 +1070,40 @@ setMethod("[[", "MSnExperiment",
           })
 
 #' @rdname MSnExperiment
+setMethod("filterAcquisitionNum", "MSnExperiment", function(object, n, file) {
+    if (missing(n)) return(object)
+    if (missing(file))
+        file <- unique(fromFile(object))
+    if (!is.integer(n))
+        stop("'n' has to be an integer representing the acquisition number(s)",
+             " for sub-setting.")
+    if (!is.integer(file))
+        stop("'file' has to be an integer with the index of the file(s)",
+             " for sub-setting.")
+    sel_file <- fromFile(object) %in% file
+    sel_acq <- acquisitionNum(object) %in% n & sel_file
+    if (!any(sel_acq))
+        warning("No spectra with the specified acquisition number(s) found.")
+    object <- object[sel_acq | !sel_file]
+    object@processing <- c(object@processing,
+                           paste0("Filter: select by: ", length(n),
+                                  " acquisition number(s) in ", length(file),
+                                  " file(s). [", date(), "]"))
+    object
+})
+
+#' @rdname MSnExperiment
+setMethod("filterEmptySpectra", "MSnExperiment", function(object) {
+    empties <- isEmpty(object)
+    if (any(empties))
+        object <- object[!empties]
+    object@processing <- c(object@processing,
+                           paste0("Filter: removed ", sum(empties),
+                                  " empty spectra. [", date(), "]"))
+    object
+})
+
+#' @rdname MSnExperiment
 setMethod("filterFile", "MSnExperiment", function(object, file) {
     if (missing(file))
         return(object)
@@ -1078,6 +1123,16 @@ setMethod("filterFile", "MSnExperiment", function(object, file) {
     validObject(object)
     object
 })
+
+## filterMsLevel
+
+## filterMz
+
+## filterPrecursorScan
+
+## filterPolarity
+
+## filterRt
 
 ##============================================================
 ##  --  DATA MANIPULATION METHODS

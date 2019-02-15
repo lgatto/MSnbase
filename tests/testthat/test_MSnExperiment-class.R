@@ -622,3 +622,31 @@ test_that("smoothed, smoothed<-,MSnExperiment work", {
     expect_error(smoothed(mse) <- 3)
     expect_error(smoothed(mse) <- c(TRUE, FALSE))
 })
+
+test_that("filterAcquisitionNum,MSnExperiment works", {
+    mse <- MSnExperiment(list(new("Spectrum1", mz = 1:4, intensity = 1:4,
+                                  scanIndex = 2L),
+                              new("Spectrum2"),
+                              new("Spectrum2", mz = 1:3, intensity = 1:3,
+                                  tic = 12, smoothed = TRUE)
+                              ))
+    expect_warning(res <- filterAcquisitionNum(mse, n = c(1L, 3L)))
+    expect_true(length(res) == 0)
+    spectraData(mse)$acquisitionNum <- 1:3
+    res <- filterAcquisitionNum(mse, n = c(1L, 3L))
+    expect_true(length(res) == 2)
+    expect_equal(spectrapply(res), spectrapply(mse)[c(1, 3)])
+
+    expect_error(filterAcquisitionNum(mse, n = "a"))
+})
+
+test_that("filterEmptySpectra,MSnExperiment works", {
+    mse <- MSnExperiment(list(new("Spectrum1", mz = 1:4, intensity = 1:4,
+                                  scanIndex = 2L),
+                              new("Spectrum2"),
+                              new("Spectrum2", mz = 1:3, intensity = 1:3,
+                                  tic = 12, smoothed = TRUE)
+                              ))
+    res <- filterEmptySpectra(mse)
+    expect_equal(spectrapply(res), spectrapply(mse)[c(1, 3)])
+})
