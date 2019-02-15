@@ -9,6 +9,7 @@
 \alias{applyProcessingQueue}
 \alias{spectrapply,MSnExperiment-method}
 \alias{acquisitionNum,MSnExperiment-method}
+\alias{bpi,MSnExperiment-method}
 \alias{centroided,MSnExperiment-method}
 \alias{centroided<-,MSnExperiment,ANY-method}
 \alias{collisionEnergy,MSnExperiment-method}
@@ -37,8 +38,12 @@
 \alias{rtime<-,MSnExperiment-method}
 \alias{sampleData,MSnExperiment-method}
 \alias{sampleData<-,MSnExperiment-method}
+\alias{scanIndex,MSnExperiment-method}
+\alias{smoothed,MSnExperiment-method}
+\alias{smoothed<-,MSnExperiment,ANY-method}
 \alias{spectraData,MSnExperiment-method}
 \alias{spectraData<-,MSnExperiment-method}
+\alias{tic,MSnExperiment-method}
 \alias{[,MSnExperiment,ANY,ANY,ANY-method}
 \alias{[[,MSnExperiment,ANY,ANY-method}
 \alias{filterFile,MSnExperiment-method}
@@ -59,6 +64,9 @@ applyProcessingQueue(x, BPPARAM = bpparam())
   f = spectraData(object)$fileIdx, BPPARAM = bpparam())
 
 \S4method{acquisitionNum}{MSnExperiment}(object)
+
+\S4method{bpi}{MSnExperiment}(object, initial = TRUE,
+  BPPARAM = bpparam())
 
 \S4method{centroided}{MSnExperiment}(object, na.fail = FALSE)
 
@@ -117,9 +125,18 @@ applyProcessingQueue(x, BPPARAM = bpparam())
 
 \S4method{sampleData}{MSnExperiment}(object) <- value
 
+\S4method{scanIndex}{MSnExperiment}(object)
+
+\S4method{smoothed}{MSnExperiment}(object)
+
+\S4method{smoothed}{MSnExperiment,ANY}(object) <- value
+
 \S4method{spectraData}{MSnExperiment}(object)
 
 \S4method{spectraData}{MSnExperiment}(object) <- value
+
+\S4method{tic}{MSnExperiment}(object, initial = TRUE,
+  BPPARAM = bpparam())
 
 \S4method{[}{MSnExperiment,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 
@@ -241,6 +258,11 @@ for more details.
 \itemize{
 \item \code{acquisitionNum}: get the acquisition number of each spectrum as a
 named \code{integer} vector with the same length than \code{object}.
+\item \code{bpi}: get the base peak intensity (largest signal of a spectrum) for all
+spectra in \code{object}. By default (\code{initial = TRUE}) the base peak intensity
+reported in the original raw data file is returned. Use \code{initial = FALSE}
+to calculate on the actual spectra data. Returns a \code{numeric} vector with
+length equal to the number of spectra.
 \item \code{centroided}, \code{centroided<-}: get or set the centroiding information of
 the spectra. \code{centroided} eturns a \code{logical} vector (same length than
 \code{object} with names being the spectrum names) with \code{TRUE} if a spectrum
@@ -304,6 +326,14 @@ spectra.
 containing information for one sample or file or a \code{MSnExperiment} with
 the update sample metadata. This function is equivalent to \code{\link[=phenoData]{phenoData()}}
 of \code{MSnExp}/\code{OnDiskMSnExp} objects.
+\item \code{scanIndex}: get the \emph{scan index} for each spectrum. This represents the
+relative index of the spectrum within each file (i.e. for each sample).
+Note that this can be different to the \code{acquisitionNum} of the spectrum
+which is the index of the spectrum as reported in the mzML file.
+\item \code{smoothed},\code{smoothed<-}: get or set the information whether a spectrum
+was \emph{smoothed} (see \code{\link[=smooth]{smooth()}}). \code{smoothed} returns a logical vector of
+length equal to the number of spectra. \code{smoothed<-} takes a logical
+vector of length 1 or equal to the number of spectra in \code{object}.
 \item \code{spectraData}: get or set general spectrum metadata. See \code{featureData}
 above.
 \item \code{spectrapply}: apply an arbitrary function to each spectrum in the dataset
@@ -311,6 +341,11 @@ and return its result. The function returns a \code{list} with the same length
 than there are spectra. Argument \code{f} allows to define how to split the
 data/spectra into chunks for paralellization. By default data access and
 application of the provided function are parallelized by file.
+\item \code{tic}: get the total ion current/count (sum of signal of a spectrum) for
+all spectra in \code{object}. By default (\code{initial = TRUE}) the value
+reported in the original raw data file is returned. Use \code{initial = FALSE}
+to calculate on the actual spectra data. Returns a \code{numeric} vector with
+length equal to the number of spectra.
 }
 }
 
@@ -398,6 +433,12 @@ mse_sub
 
 ## Are the spectra centroided?
 centroided(mse_sub)
+
+## Get the total ion current reported in the original files
+tic(mse_sub)
+
+## Calculate the TIC from the actual data
+tic(mse_sub, initial = FALSE)
 
 ## Coerce to a list of spectra
 as(mse_sub, "list")

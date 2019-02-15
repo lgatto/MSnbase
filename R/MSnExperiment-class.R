@@ -199,6 +199,16 @@ NULL
 #'   the update sample metadata. This function is equivalent to [phenoData()]
 #'   of `MSnExp`/`OnDiskMSnExp` objects.
 #'
+#' - `scanIndex`: get the *scan index* for each spectrum. This represents the
+#'   relative index of the spectrum within each file (i.e. for each sample).
+#'   Note that this can be different to the `acquisitionNum` of the spectrum
+#'   which is the index of the spectrum as reported in the mzML file.
+#'
+#' - `smoothed`,`smoothed<-`: get or set the information whether a spectrum
+#'   was *smoothed* (see [smooth()]). `smoothed` returns a logical vector of
+#'   length equal to the number of spectra. `smoothed<-` takes a logical
+#'   vector of length 1 or equal to the number of spectra in `object`.
+#'
 #' - `spectraData`: get or set general spectrum metadata. See `featureData`
 #'   above.
 #'
@@ -956,8 +966,34 @@ setReplaceMethod("sampleData", "MSnExperiment", function(object, value) {
     object
 })
 
-## scanIndex
-## smoothed
+#' @rdname MSnExperiment
+setMethod("scanIndex", "MSnExperiment", function(object) {
+    res <- if (is.null(object@spectraData$spIdx))
+               rep_len(NA_integer_, length(object))
+           else object@spectraData$spIdx
+    names(res) <- featureNames(object)
+    res
+})
+
+#' @rdname MSnExperiment
+setMethod("smoothed", "MSnExperiment", function(object) {
+    res <- if (is.null(object@spectraData$smoothed))
+               rep_len(NA, length(object))
+           else object@spectraData$smoothed
+    names(res) <- featureNames(object)
+    res
+})
+
+#' @rdname MSnExperiment
+setReplaceMethod("smoothed", "MSnExperiment", function(object, value) {
+    if (length(value) == 1)
+        value <- rep_len(value, length(object))
+    if (length(value) != nrow(object@spectraData) || !is.logical(value))
+        stop("'value' has to be a logical vector of length equal to the number",
+             " of spectra (", nrow(object@spectraData), ")")
+    featureData(object)$smoothed <- value
+    object
+})
 
 #' @rdname MSnExperiment
 setMethod("spectraData", "MSnExperiment", function(object) {

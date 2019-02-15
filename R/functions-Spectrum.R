@@ -549,6 +549,7 @@ validSpectrum <- function(object) {
                       filterString = NA_character_,
                       spectrumId = paste0("scan=", acquisitionNum(x)),
                       centroided = centroided(x),
+                      smoothed = x@smoothed,
                       ionMobilityDriftTime = NA_real_,
                       stringsAsFactors = FALSE
                       )

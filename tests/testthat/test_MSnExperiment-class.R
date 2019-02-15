@@ -567,8 +567,6 @@ test_that("precursor*,MSnExperiment methods work", {
 })
 
 test_that("bpi, tic, MSnExperiment work", {
-    library(MSnbase)
-    library(testthat)
     mse <- MSnExperiment(list(new("Spectrum1", mz = 1:4, intensity = 1:4,
                                   tic = 8),
                               new("Spectrum2"),
@@ -589,4 +587,37 @@ test_that("bpi, tic, MSnExperiment work", {
     expect_equal(unname(res), c(8, 0, 12))
     res <- tic(mse, initial = FALSE)
     expect_equal(unname(res), c(10, 0, 6))
+})
+
+test_that("scanIndex,MSnExperiment works", {
+    mse <- MSnExperiment(list(new("Spectrum1", mz = 1:4, intensity = 1:4,
+                                  scanIndex = 2L),
+                              new("Spectrum2"),
+                              new("Spectrum2", mz = 1:3, intensity = 1:3,
+                                  tic = 12)
+                              ))
+    res <- scanIndex(mse)
+    expect_equal(names(res), rownames(mse@spectraData))
+    expect_equal(unname(res), c(2L, NA, NA))
+    spectraData(mse)$spIdx <- c(3L, 4L, 5L)
+    res <- scanIndex(mse)
+    expect_equal(unname(res), c(3L, 4L, 5L))
+})
+
+test_that("smoothed, smoothed<-,MSnExperiment work", {
+    mse <- MSnExperiment(list(new("Spectrum1", mz = 1:4, intensity = 1:4,
+                                  scanIndex = 2L),
+                              new("Spectrum2"),
+                              new("Spectrum2", mz = 1:3, intensity = 1:3,
+                                  tic = 12, smoothed = TRUE)
+                              ))
+    res <- smoothed(mse)
+    expect_equal(names(res), rownames(mse@spectraData))
+    expect_equal(unname(res), c(NA, NA, TRUE))
+    smoothed(mse) <- TRUE
+    expect_equal(unname(smoothed(mse)), c(TRUE, TRUE, TRUE))
+    smoothed(mse) <- c(TRUE, FALSE, FALSE)
+    expect_equal(unname(smoothed(mse)), c(TRUE, FALSE, FALSE))
+    expect_error(smoothed(mse) <- 3)
+    expect_error(smoothed(mse) <- c(TRUE, FALSE))
 })
