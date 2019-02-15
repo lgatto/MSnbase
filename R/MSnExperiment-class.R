@@ -111,6 +111,12 @@ NULL
 #' - `acquisitionNum`: get the acquisition number of each spectrum as a
 #'   named `integer` vector with the same length than `object`.
 #'
+#' - `bpi`: get the base peak intensity (largest signal of a spectrum) for all
+#'   spectra in `object`. By default (`initial = TRUE`) the base peak intensity
+#'   reported in the original raw data file is returned. Use `initial = FALSE`
+#'   to calculate on the actual spectra data. Returns a `numeric` vector with
+#'   length equal to the number of spectra.
+#'
 #' - `centroided`, `centroided<-`: get or set the centroiding information of
 #'   the spectra. `centroided` eturns a `logical` vector (same length than
 #'   `object` with names being the spectrum names) with `TRUE` if a spectrum
@@ -202,6 +208,12 @@ NULL
 #'   data/spectra into chunks for paralellization. By default data access and
 #'   application of the provided function are parallelized by file.
 #'
+#' - `tic`: get the total ion current/count (sum of signal of a spectrum) for
+#'   all spectra in `object`. By default (`initial = TRUE`) the value
+#'   reported in the original raw data file is returned. Use `initial = FALSE`
+#'   to calculate on the actual spectra data. Returns a `numeric` vector with
+#'   length equal to the number of spectra.
+#'
 #' @section Subsetting and filtering:
 #'
 #' - `[i]`: subset the object by spectra (`i`). Returns an `MSnExperiment`,
@@ -291,6 +303,12 @@ NULL
 #'
 #' ## Are the spectra centroided?
 #' centroided(mse_sub)
+#'
+#' ## Get the total ion current reported in the original files
+#' tic(mse_sub)
+#'
+#' ## Calculate the TIC from the actual data
+#' tic(mse_sub, initial = FALSE)
 #'
 #' ## Coerce to a list of spectra
 #' as(mse_sub, "list")
@@ -698,7 +716,21 @@ setMethod("acquisitionNum", "MSnExperiment", function(object) {
     res
 })
 
-## bpi
+#' @rdname MSnExperiment
+setMethod("bpi", "MSnExperiment", function(object, initial = TRUE,
+                                           BPPARAM = bpparam()) {
+    if (initial) {
+        res <- if (is.null(object@spectraData$basePeakIntensity))
+                   rep_len(NA_real_, length(object))
+               else object@spectraData$basePeakIntensity
+    } else
+        res <- unlist(spectrapply(object, function(z) {
+            if (length(z@intensity)) max(z@intensity)
+            else 0
+        }, BPPARAM = BPPARAM), recursive = FALSE, use.names = FALSE)
+    names(res) <- featureNames(object)
+    res
+})
 
 #' @rdname MSnExperiment
 setMethod("centroided", "MSnExperiment", function(object, na.fail = FALSE) {
@@ -940,7 +972,20 @@ setReplaceMethod("spectraData", "MSnExperiment", function(object, value) {
 
 ## spectraNames
 
-## tic
+#' @rdname MSnExperiment
+setMethod("tic", "MSnExperiment", function(object, initial = TRUE,
+                                           BPPARAM = bpparam()) {
+    if (initial) {
+        res <- if (is.null(object@spectraData$totIonCurrent))
+                   rep_len(NA_real_, length(object))
+               else object@spectraData$totIonCurrent
+    } else
+        res <- unlist(spectrapply(object, function(z) sum(z@intensity),
+                                  BPPARAM = BPPARAM), use.names = FALSE,
+                      recursive = FALSE)
+    names(res) <- featureNames(object)
+    res
+})
 
 ##============================================================
 ##  --  SUBSETTING AND FILTERING METHODS

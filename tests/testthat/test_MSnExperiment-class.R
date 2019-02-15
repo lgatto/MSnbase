@@ -550,8 +550,6 @@ test_that("peaksCount,MSnExperiment works", {
 })
 
 test_that("precursor*,MSnExperiment methods work", {
-    library(MSnbase)
-    library(testthat)
     mse <- MSnExperiment(list(new("Spectrum1", mz = 1:4, intensity = 1:4),
                               new("Spectrum2", precScanNum = 1L,
                                   precursorIntensity = 3, precursorMz = 3),
@@ -566,4 +564,29 @@ test_that("precursor*,MSnExperiment methods work", {
     expect_equal(res, c(F1.S1 = 0, F1.S2 = 3, F1.S3 = NA))
     res <- precScanNum(mse)
     expect_equal(res, c(F1.S1 = 0L, F1.S2 = 1L, F1.S3 = 1L))
+})
+
+test_that("bpi, tic, MSnExperiment work", {
+    library(MSnbase)
+    library(testthat)
+    mse <- MSnExperiment(list(new("Spectrum1", mz = 1:4, intensity = 1:4,
+                                  tic = 8),
+                              new("Spectrum2"),
+                              new("Spectrum2", mz = 1:3, intensity = 1:3,
+                                  tic = 12)
+                              ))
+    res <- bpi(mse)
+    expect_equal(names(res), rownames(mse@spectraData))
+    expect_equal(unname(res), c(4, NA, 3))
+    spectraData(mse)$basePeakIntensity <- c(5, 0, 4)
+    res <- bpi(mse)
+    expect_equal(unname(res), c(5, 0, 4))
+    res <- bpi(mse, initial = FALSE)
+    expect_equal(unname(res), c(4, 0, 3))
+
+    res <- tic(mse)
+    expect_equal(names(res), rownames(mse@spectraData))
+    expect_equal(unname(res), c(8, 0, 12))
+    res <- tic(mse, initial = FALSE)
+    expect_equal(unname(res), c(10, 0, 6))
 })
