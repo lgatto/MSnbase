@@ -51,6 +51,10 @@ NULL
 #' @param i for `[`: `integer`, `logical` or `character` specifying the
 #'     **spectra** to which `object` should be subsetted.
 #'
+#' @param initial for `bpi` and `tic`: `logical(1)` whether the values in the
+#'     original input file should be returned (default) or whether the TIC and
+#'     BPI should be calculated on the actual data.
+#'
 #' @param j for `[`: not supported.
 #'
 #' @param metadata for `MSnExperiment` and `readMSnExperiment`: `list` with
@@ -211,6 +215,8 @@ NULL
 #'
 #' - `spectraData`: get or set general spectrum metadata. See `featureData`
 #'   above.
+#'
+#' - `spectraNames`: same as `featureNames`: returns the names of the spectra.
 #'
 #' - `spectrapply`: apply an arbitrary function to each spectrum in the dataset
 #'   and return its result. The function returns a `list` with the same length
@@ -1006,7 +1012,8 @@ setReplaceMethod("spectraData", "MSnExperiment", function(object, value) {
     object
 })
 
-## spectraNames
+#' @rdname MSnExperiment
+spectraNames <- function(object) featureNames(object)
 
 #' @rdname MSnExperiment
 setMethod("tic", "MSnExperiment", function(object, initial = TRUE,

@@ -43,6 +43,7 @@
 \alias{smoothed<-,MSnExperiment,ANY-method}
 \alias{spectraData,MSnExperiment-method}
 \alias{spectraData<-,MSnExperiment-method}
+\alias{spectraNames}
 \alias{tic,MSnExperiment-method}
 \alias{[,MSnExperiment,ANY,ANY,ANY-method}
 \alias{[[,MSnExperiment,ANY,ANY-method}
@@ -135,6 +136,8 @@ applyProcessingQueue(x, BPPARAM = bpparam())
 
 \S4method{spectraData}{MSnExperiment}(object) <- value
 
+spectraNames(object)
+
 \S4method{tic}{MSnExperiment}(object, initial = TRUE,
   BPPARAM = bpparam())
 
@@ -187,6 +190,10 @@ to each \linkS4class{Spectrum} of the experiment.}
 (same length than there are spectra in \code{object}, i.e. with length
 equal to \code{nrow(spectraData(object))} to define how the data should be
 split into chunks for parallelization.}
+
+\item{initial}{for \code{bpi} and \code{tic}: \code{logical(1)} whether the values in the
+original input file should be returned (default) or whether the TIC and
+BPI should be calculated on the actual data.}
 
 \item{na.fail}{for \code{centroided}: whether a value of \code{NA} is not supported
 as a result. Defaults to \code{FALSE}.}
@@ -336,6 +343,7 @@ length equal to the number of spectra. \code{smoothed<-} takes a logical
 vector of length 1 or equal to the number of spectra in \code{object}.
 \item \code{spectraData}: get or set general spectrum metadata. See \code{featureData}
 above.
+\item \code{spectraNames}: same as \code{featureNames}: returns the names of the spectra.
 \item \code{spectrapply}: apply an arbitrary function to each spectrum in the dataset
 and return its result. The function returns a \code{list} with the same length
 than there are spectra. Argument \code{f} allows to define how to split the

@@ -404,8 +404,9 @@ test_that("length,MSnExperiment works", {
     expect_equal(length(sciex_mzr), 1862)
 })
 
-test_that("featureNames,MSnExperiment works", {
+test_that("featureNames, spectraNames,MSnExperiment work", {
     expect_equal(featureNames(sciex_mzr), rownames(sciex_mzr@spectraData))
+    expect_equal(spectraNames(sciex_mzr), rownames(sciex_mzr@spectraData))
 })
 
 test_that("acquisitionNum,MSnExperiment works", {
