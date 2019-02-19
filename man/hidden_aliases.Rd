@@ -7,22 +7,23 @@
 \alias{hidden_aliases}
 \alias{show,Backend-method}
 \alias{fileNames,Backend-method}
-\alias{backendSubset}
 \alias{show,BackendHdf5-method}
 \alias{backendSubset,BackendMemory-method}
 \alias{backendInitialize,BackendMemory-method}
 \alias{backendImportData,BackendMemory-method}
 \alias{backendReadSpectra,BackendMemory-method}
 \alias{backendWriteSpectra,BackendMemory-method}
+\alias{backendUpdateMetadata,BackendMemory-method}
 \alias{backendReadSpectra,BackendMzR-method}
 \alias{show,MSnExperiment-method}
+\alias{setBackend,MSnExperiment,Backend-method}
+\alias{setBackend,MSnExperiment,BackendMzR-method}
+\alias{setBackend,MSnExperiment,BackendHdf5-method}
 \title{Internal page for hidden aliases}
 \usage{
 \S4method{show}{Backend}(object)
 
 \S4method{fileNames}{Backend}(object, ...)
-
-backendSubset(object, spectraData)
 
 \S4method{show}{BackendHdf5}(object)
 
@@ -40,28 +41,28 @@ backendSubset(object, spectraData)
 \S4method{backendWriteSpectra}{BackendMemory}(object, spectra, spectraData,
   ..., BPPARAM = bpparam())
 
+\S4method{backendUpdateMetadata}{BackendMemory}(object, spectraData)
+
 \S4method{backendReadSpectra}{BackendMzR}(object, spectraData,
   processingQueue = list(), ...)
 
 \S4method{show}{MSnExperiment}(object)
+
+\S4method{setBackend}{MSnExperiment,Backend}(object, backend, ...,
+  BPPARAM = bpparam())
+
+\S4method{setBackend}{MSnExperiment,BackendMzR}(object, backend, ...,
+  BPPARAM = bpparam())
+
+\S4method{setBackend}{MSnExperiment,BackendHdf5}(object, backend, ...,
+  BPPARAM = bpparam())
 }
 \arguments{
 \item{object}{Object to display.}
 
-\item{spectraData}{`DataFrame` with the spectrum metadata of the spectra to
-which the `object` should be subsetted.}
-
-\item{x}{`Backend`}
-
 \item{object}{Object to display.}
-}
-\value{
-A `Backend` class.
 }
 \description{
 For S4 methods that require a documentation entry but only clutter the index.
-}
-\author{
-Johannes Rainer
 }
 \keyword{internal}

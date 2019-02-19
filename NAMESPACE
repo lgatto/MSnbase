@@ -25,7 +25,7 @@ importFrom(stats, ave, median, medpolish, quantile, reorder, setNames,
 importFrom(utils, combn, head, ls.str, object.size,
            packageDescription, packageVersion, read.csv, read.delim,
            read.table, select.list, setTxtProgressBar, tail,
-           txtProgressBar, write.table)
+           txtProgressBar, write.table, capture.output)
 importFrom(ggplot2, geom_histogram, geom_text, geom_line, geom_point,
            geom_bar, geom_freqpoly, geom_vline, geom_rect, geom_segment,
            geom_raster, theme, theme_gray, element_text,
@@ -37,7 +37,7 @@ importFrom(ggplot2, geom_histogram, geom_text, geom_line, geom_point,
 
 importFrom(MALDIquant, binPeaks, match.closest) ## only using ::: functions
 importFrom(S4Vectors, isEmpty, metadata, DataFrame, replaceROWS, SimpleList,
-           endoapply)
+           endoapply, List)
 importMethodsFrom(S4Vectors, showAsCell, "mcols<-", mcols, split)
 importClassesFrom(S4Vectors, SimpleList)
 importFrom(MASS, rlm)
@@ -160,8 +160,8 @@ export(MSnSet,
        BackendMzR,
        BackendHdf5,
        readMSnExperiment,
-       spectraData,
-       setHdf5CompressionLevel
+       setHdf5CompressionLevel,
+       MSnExperiment
        )
 
 exportClasses(pSet,
@@ -323,7 +323,10 @@ exportMethods(updateObject,
               writeMSData,
               productMz,
               estimateMzResolution,
-	      combineSpectra
+	      combineSpectra,
+              setBackend,
+              spectraData, "spectraData<-",
+              sampleData, "sampleData<-"
               )
 
 ## methods NOT exported

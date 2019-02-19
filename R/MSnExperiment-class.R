@@ -53,22 +53,25 @@ NULL
 #'
 #' @param j for `[`: not supported.
 #'
+#' @param metadata for `MSnExperiment` and `readMSnExperiment`: `list` with
+#'     optional metadata information.
+#'
 #' @param msLevel. `integer` defining the MS level of the spectra to which the
 #'     function should be applied.
 #'
 #' @param object a `MSnExperiment` object.
 #'
-#' @param return.type for `spectra`: a `character(1)` specifying whether the
-#'     result should be returned as a [Spectra()]
-#'     (`return.type = "Spectra"`) or a simple `list` of `Spectrum`
-#'     objects (`return.type = "list"`).
-#'
 #' @param sampleData a [S4Vectors::DataFrame-class] object with additional
 #'     information on each sample (samples as rows, information as columns).
+#'
+#' @param spectraData for `MSnExperiment`: a [S4Vectors::DataFrame-class] object
+#'     with optional additional metadata columns for each spectrum.
 #'
 #' @param smoothed `logical`, are the spectra smoothed?
 #'
 #' @param t for `removePeaks`: a `numeric(1)` defining the threshold or `"min"`.
+#'
+#' @param value for `featureData`, `sampleData` and `spectraData`: a `DataFrame`
 #'
 #' @param verbose `logical(1)` defining the verbosity.
 #'
@@ -79,29 +82,52 @@ NULL
 #'     define the directory where the hdf5 files should be saved.
 #'     For `spectrapply`: additional arguments to be passed to `FUN`.
 #'
-#' @section Creation of objects:
+#' @section Creation of objects, conversion and changing the backend:
 #'
 #' `MSnExperiment` classes are usually created with the `readMSnExperiment`
 #' function that reads general spectrum metadata information from the  mass
 #' spectrometry data files.
 #'
+#' Alternatively it is possible to create a new object from a list of `Spectrum`
+#' objects using the `MSnExperiment` function. Additional spectrum metadata
+#' columns can be provided with the `spectraData` argument, sample annotations
+#' with the `sampleData` argument and arbitrary metadata with the `metadata`
+#' argument. Note that objects created with the `MSnExperiment` constructor
+#' function can not use the `BackendMzR` as backend.
+#'
+#' `MSnExperiment` objects can be converted to a `list` or
+#' [S4Vectors::List-class] of `Spectrum` objects with the `as(object, "list")`
+#' and `as(object, "List")` function, respectively.
+#'
+#' The [Backend-class] can be changed with the `setBackend` function by
+#' specifying the new [Backend-class] with the `backend` parameter. See examples
+#' for more details.
+#'
 #' @section Accessing data:
+#'
+#' - `acquisitionNum`: get the acquisition number of each spectrum as a
+#'   named `integer` vector with the same length than `object`.
+#'
+#' - `featureData`: get or set general spectrum metadata. Returns a `DataFrame`
+#'   or a `MSnExperiment` with updated spectra metadata. Each row of the
+#'   `DataFrame` contains information for one spectrum. This function is
+#'   equivalent to [featureData()] of `MSnExp`/`OnDiskMSnExp` objects.
+#'
+#' - `featureNames`: extract the feature (spectrum) names.
 #'
 #' - `fileNames`: get the original file names from which the data was imported.
 #'
+#' - `length`: get the number of spectra in the object.
+#'
 #' - `metadata`: get the metadata `list`.
 #'
-#' - `sampleData`: get sample metadata. Returns a `DataFrame`, each row
-#'   containing information for one sample or file. This function is equivalent
-#'   to [phenoData()] of `MSnExp`/`OnDiskMSnExp` objects.
+#' - `sampleData`: get or set sample metadata. Returns a `DataFrame`, each row
+#'   containing information for one sample or file or a `MSnExperiment` with
+#'   the update sample metadata. This function is equivalent to [phenoData()]
+#'   of `MSnExp`/`OnDiskMSnExp` objects.
 #'
-#' - `spectra`: get the `list` of [Spectrum-class] objects from the experiment.
-#'   Note that the spectra in the `list` are not grouped by sample/file. Use
-#'   the `fromFile` method to split/group the `list` by file.
-#'
-#' - `spectraData`: get general spectrum metadata. Returns a `DataFrame`, each
-#'   row containing information for one spectrum. This function is equivalent
-#'   to [featureData()] of `MSnExp`/`OnDiskMSnExp` objects.
+#' - `spectraData`: get or set general spectrum metadata. See `featureData`
+#'   above.
 #'
 #' - `spectrapply`: apply an arbitrary function to each spectrum in the dataset
 #'   and return its result. The function returns a `list` with the same length
@@ -136,44 +162,69 @@ NULL
 #'
 #' @examples
 #'
+#' ## Create an MSnExperiment from a list of Spectrum objects
+#' spl <- list(new("Spectrum1", rt = 1.2, mz = 1:4, intensity = abs(rnorm(4))),
+#'     new("Spectrum1", rt = 1.3, mz = 1:4, intensity = abs(rnorm(4))))
+#' mse <- MSnExperiment(spl)
+#' mse
+#'
+#' ## Access the second spectrum
+#' mse[[2]]
+#'
+#' ## Get the spectrum metadata
+#' spectraData(mse)
+#'
+#' ## Add an additional column to the spectrum metadata
+#' spectraData(mse)$peak_id <- c("a", "b")
+#'
+#' ## featureData and spectraData both access the spectrum metadata
+#' featureData(mse)
+#'
+#'
 #' ## Create an MSnExperiment from two input files using the on-disk
 #' ## BackendMzR backend
 #' sf <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)
-#' dta <- readMSnExperiment(sf, backend = BackendMzR())
-#' dta
+#' mse <- readMSnExperiment(sf, backend = BackendMzR())
+#' mse
 #'
 #' ## Get associated file names
-#' fileNames(dta)
+#' fileNames(mse)
 #'
 #' ## Get spectra metadata
-#' spectraData(dta)
-#'
-#' ## Extract all spectra; by default a `Spectra` is returned. We could also
-#' ## get a simple `list` of `Spectrum` objects by specifying
-#' ## `return.type = "list"`.
-#' sp <- spectra(dta)
-#' head(sp)
+#' spectraData(mse)
 #'
 #' ## Subset the object to contain only spectra 3, 12, 45
-#' dta_sub <- dta[c(3, 12, 45)]
-#' spectra(dta_sub)
+#' mse_sub <- mse[c(3, 12, 45)]
+#' mse_sub
+#'
+#' ## Coerce to a list of spectra
+#' as(mse_sub, "list")
 #'
 #' ## Subset the object to contain only spectra from the second file
-#' dta_sub <- filterFile(dta, 2)
-#' fileNames(dta_sub)
+#' mse_sub <- filterFile(mse, 2)
+#' fileNames(mse_sub)
 #'
 #' ## Apply an arbitrary function to each spectrum and return its results.
 #' ## We calculate the mean intensity for each spectrum. By
 #' ## default the function parallelizes the operation FUN by file.
-#' res <- spectrapply(dta, FUN = function(z) mean(intensity(z)))
+#' res <- spectrapply(mse, FUN = function(z) mean(intensity(z)))
 #' head(res)
 #'
 #' ## Parameter `f` can be used to specify how the function splits the data
 #' ## into chunks for parallel processing. Below we disable parallel processing
 #' ## by defining a single chunk.
-#' res <- spectrapply(dta, f = rep(1, nrow(spectraData(dta))),
+#' res <- spectrapply(mse, f = rep(1, nrow(spectraData(mse))),
 #'     FUN = function(z) mean(intensity(z)))
 #' head(res)
+#'
+#' ## The `setBackend` function can be used to change the backend for the
+#' ## `MSnExperiment`. Below we change the backend from the default raw MS
+#' ## data files-based backend (`BackendMzR`) to the HDF5-file based
+#' ## `BackendHdf5`. With the additional `path` parameter we specify the
+#' ## directory in which the HDF5 files should be saved.
+#' mse <- setBackend(mse, backend = BackendHdf5(),
+#'     path = paste0(tempdir(), "/hdf5"))
+#' mse
 NULL
 
 #' validation function for MSnExperiment
@@ -191,7 +242,9 @@ NULL
             msg <- c(msg, paste0("Number of files does not match the number",
                                  " of rows of 'sampleNames'"))
     }
-    msg <- c(msg, .valid.processingQueue(object@processingQueue))
+    msg <- c(msg, .valid.processingQueue(object@processingQueue),
+             .valid.MSnExperiment.featureData(object@spectraData,
+                                              nrow(object@sampleData)))
     if (length(msg))
         msg
     else TRUE
@@ -202,6 +255,29 @@ NULL
         if (!all(vapply(x, inherits, logical(1), "ProcessingStep")))
             return("'processingQueue' should only contain ProcessingStep objects.")
     NULL
+}
+
+.valid.MSnExperiment.featureData <- function(x, nsamples) {
+    msg <- NULL
+    if (nrow(x)) {
+        if (!any(colnames(x) == "fileIdx"))
+            msg <- c(msg, "Column 'fileIdx' is required")
+        else if (anyNA(x$fileIdx) | !is.integer(x$fileIdx))
+            msg <- c(msg, "'fileIdx' should contain only non-missing integers")
+        if (anyDuplicated(rownames(x)))
+            msg <- c(msg, "rownames have to be unique")
+        if (!missing(nsamples))
+            if (length(unique(x$fileIdx)) != nsamples)
+                msg <- c(msg, paste0("number of distinct indices in 'fileIdx' ",
+                                     "does not match number of files/samples"))
+        if (!any(colnames(x) == "msLevel"))
+            msg <- c(msg, "Column 'msLevel' is required")
+        else if (anyNA(x$msLevel) | !is.integer(x$msLevel))
+            msg <- c(msg, "'msLevel' should contain only non-missing integers")
+    }
+    if (length(msg))
+        msg
+    else NULL
 }
 
 #' The MSnExperiment class
@@ -243,6 +319,72 @@ setClass(
     validity = .validMSnExperiment
 )
 
+#' @rdname MSnExperiment
+MSnExperiment <- function(x, spectraData, sampleData, metadata, ...) {
+    if (missing(x) || any(vapply(x, function(z) !inherits(z, "Spectrum"),
+                                 logical(1))))
+        stop("'x' has to be a list of 'Spectrum' objects")
+    fdata <- DataFrame(do.call(rbind, lapply(x, .spectrum_header)))
+    if (!missing(spectraData))
+        spectraData <- .merge_featureData(spectraData, fdata)
+    else spectraData <- fdata
+    if (all(is.na(spectraData$fileIdx))) {
+        spectraData$fileIdx <- 1L
+        for (i in seq_along(x))
+            x[[i]]@fromFile <- 1L
+    }
+    file <- unique(spectraData$fileIdx)
+    if (!is.null(names(x)))
+        rownames(spectraData) <- names(x)
+    else {
+        names(x) <- formatFileSpectrumNames(
+            fileIds = spectraData$fileIdx,
+            spectrumIds = unlist(lapply(table(
+                factor(spectraData$fileIdx, unique(spectraData$fileIdx))
+            ), seq_len), use.names = FALSE),
+            nFiles = length(file))
+        rownames(spectraData) <- names(x)
+    }
+    if (missing(sampleData))
+        sampleData <- DataFrame(sampleIdx = unique(fdata$fileIdx))
+    backend <- BackendMemory()
+    backend <- backendInitialize(backend, as.character(file), spectraData, ...)
+    backend <- backendWriteSpectra(backend, x, spectraData)
+    new("MSnExperiment",
+        backend = backend,
+        sampleData = sampleData,
+        spectraData = spectraData,
+        processingQueue = list(),
+        processing = paste0("Data loaded [", date(), "]")
+        )
+}
+
+#' @description
+#'
+#' Merge two featureData `DataFrame`s. The resulting `DataFrame` contains all
+#' columns from both `x` and `y`. For columns present in both `DataFrame`s those
+#' in `x` will be used. Also, the resulting `DataFrame` uses the row names of
+#' `x` unless `x` has no row names.
+#'
+#' @param x `DataFrame`
+#'
+#' @param y `DataFrame`
+#'
+#' @return `DataFrame` with the merged columns.
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+.merge_featureData <- function(x, y) {
+    if (nrow(x) != nrow(y))
+        stop("'x' and 'y' have to have the same number of rows")
+    if (is.null(rownames(x)) & !is.null(rownames(y)))
+        rownames(x) <- rownames(y)
+    cols_y <- !(colnames(y) %in% colnames(x))
+    if (any(cols_y))
+        x <- cbind(x, y[, cols_y, drop = FALSE])
+    x
+}
 
 #' @rdname hidden_aliases
 #' @param object Object to display.
@@ -251,7 +393,11 @@ setMethod(
     "show",
     signature="MSnExperiment",
     definition=function(object) {
-        cat("MSn experiment data (", class(object)[1L], ")\n", sep="")
+        cat("MSn data (", class(object)[1L], ") with ",
+            nrow(object@spectraData), " spectra:\n", sep="")
+        txt <- capture.output(
+            object@spectraData[, c("msLevel", "retentionTime", "totIonCurrent")])
+        cat(txt[-1], sep = "\n")
         show(object@backend)
         if (length(object@processingQueue))
             cat("Lazy evaluation queue:", length(object@processingQueue),
@@ -261,7 +407,8 @@ setMethod(
 
 #' @rdname MSnExperiment
 readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
-                              smoothed = NA, ..., BPPARAM = bpparam()) {
+                              smoothed = NA, metadata = list(), ...,
+                              BPPARAM = bpparam()) {
     ## if (missing(backend) || !inherits(backend))
     if (missing(file) || length(file) == 0)
         stop("Parameter 'file' is required")
@@ -323,9 +470,56 @@ readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
         sampleData = sampleData,
         spectraData = spectraData,
         processingQueue = list(),
+        metadata = metadata,
         processing = paste0("Data loaded [", date(), "]")
     )
 }
+
+#' @rdname MSnExperiment
+setGeneric("setBackend", function(object, backend, ..., BPPARAM = bpparam())
+    standardGeneric("setBackend"))
+#' @rdname hidden_aliases
+setMethod("setBackend", c("MSnExperiment", "Backend"),
+          function(object, backend, ..., BPPARAM = bpparam()) {
+              backend <- backendInitialize(backend, fileNames(object),
+                                           object@spectraData, ...)
+              backend <- backendWriteSpectra(
+                  backend, backendReadSpectra(object@backend,
+                                              object@spectraData),
+                  object@spectraData)
+              object@backend <- backend
+              validObject(object)
+              object
+          })
+#' @rdname hidden_aliases
+setMethod("setBackend", c("MSnExperiment", "BackendMzR"),
+          function(object, backend, ..., BPPARAM = bpparam()) {
+              if (any(backend@modCount > 0))
+                  stop("Can not change backend to 'BackendMzR' because the ",
+                       "data was changed.")
+              object@backend <- backendInitialize(backend, fileNames(object),
+                                                  object@spectraData, ...)
+              validObject(object)
+              object
+          })
+#' @rdname hidden_aliases
+setMethod("setBackend", c("MSnExperiment", "BackendHdf5"),
+          function(object, backend, ..., BPPARAM = bpparam()) {
+              backend <- backendInitialize(backend, fileNames(object),
+                                           object@spectraData, ...)
+              spd <- split(object@spectraData, object@spectraData$fileIdx)
+              cnts <- bplapply(spd, function(z, hdf5_backend, backend) {
+                  res <- backendWriteSpectra(hdf5_backend,
+                                             backendReadSpectra(backend, z), z)
+                  res@modCount[z$fileIdx[1]]
+              }, hdf5_backend = backend, backend = object@backend,
+              BPPARAM = BPPARAM)
+              backend@modCount <- unlist(cnts)
+              object@backend <- backend
+              validObject(object)
+              object
+})
+
 
 #' @rdname MSnExperiment
 setMethod("spectrapply", "MSnExperiment", function(object,
@@ -370,32 +564,60 @@ addProcessingStep <- function(object, FUN, ...) {
     object
 }
 
-#' @rdname MSnExperiment
-setMethod("spectra", "MSnExperiment",
-          function(object, return.type = c("Spectra", "list"),
-                   BPPARAM = bpparam()) {
-              return.type <- match.arg(return.type)
-              res <- spectrapply(object = object, BPPARAM = BPPARAM)
-              if (return.type == "Spectra")
-                  res <- Spectra(res, elementMetadata = object@spectraData)
-              res
-          })
+setAs("MSnExperiment", "list", function(from) {
+    spectrapply(from)
+})
+setAs("MSnExperiment", "List", function(from) {
+    List(spectrapply(from))
+})
 
 ##============================================================
 ##  --  DATA ACCESSORS
 ##
 ##------------------------------------------------------------
-#' @rdname MSnExperiment
-spectraData <- function(object) {
-    stopifnot(inherits(object, "MSnExperiment"))
-    object@spectraData
-}
 
 #' @rdname MSnExperiment
-sampleData <- function(object) {
-    stopifnot(inherits(object, "MSnExperiment"))
+setMethod("featureData", "MSnExperiment", function(object) {
+    object@spectraData
+})
+
+#' @rdname MSnExperiment
+setReplaceMethod("featureData", "MSnExperiment", function(object, value) {
+    if (!is(value, "DataFrame"))
+        stop("'value' should be a 'DataFrame'")
+    if (nrow(value) != nrow(object@spectraData))
+        stop("Expecting ", nrow(object@spectraData), " rows, but 'value' has",
+             " only ", nrow(value))
+    object@spectraData <- value
+    validObject(object) # check before updating backend
+    object@backend <- backendUpdateMetadata(object@backend, value)
+    object
+})
+
+#' @rdname MSnExperiment
+setMethod("spectraData", "MSnExperiment", function(object) {
+    featureData(object)
+})
+
+#' @rdname MSnExperiment
+setReplaceMethod("spectraData", "MSnExperiment", function(object, value) {
+    featureData(object) <- value
+    object
+})
+
+#' @rdname MSnExperiment
+setMethod("sampleData", "MSnExperiment", function(object) {
     object@sampleData
-}
+})
+
+#' @rdname MSnExperiment
+setReplaceMethod("sampleData", "MSnExperiment", function(object, value) {
+    if (!is(value, "DataFrame"))
+        stop("'value' should be a 'DataFrame'")
+    object@sampleData <- value
+    validObject(object)
+    object
+})
 
 #' @rdname MSnExperiment
 setMethod("metadata", "MSnExperiment",
@@ -409,6 +631,43 @@ setMethod("metadata", "MSnExperiment",
 setMethod("fileNames", "MSnExperiment", function(object) {
     fileNames(object@backend)
 })
+
+#' @rdname MSnExperiment
+setMethod("acquisitionNum", "MSnExperiment", function(object) {
+    res <- if (is.null(object@spectraData$acquisitionNum))
+               rep_len(NA_integer_, length(object))
+           else object@spectraData$acquisitionNum
+    names(res) <- featureNames(object)
+    res
+})
+
+## centroided
+## collisionEnergy
+#' @rdname MSnExperiment
+setMethod("featureNames", "MSnExperiment", function(object) {
+    rownames(object@spectraData)
+})
+## fromFile
+## intensity
+## ionCount
+## isCentroided
+## isEmpty
+#' @rdname MSnExperiment
+setMethod("length", "MSnExperiment", function(x) {
+    nrow(x@spectraData)
+})
+## msLevel
+## mz
+## polarity
+## rtime
+## peaksCount
+## precursorCharge
+## precursorIntensity
+## precursorMz
+## precScanNum
+## scanIndex
+## smoothed
+## tic
 
 ##============================================================
 ##  --  SUBSETTING AND FILTERING METHODS
@@ -442,13 +701,13 @@ setMethod("[[", "MSnExperiment",
 setMethod("filterFile", "MSnExperiment", function(object, file) {
     if (missing(file))
         return(object)
-    file <- .to_index(fileNames(object), file, variable = "file")
+    file <- MSnbase:::.to_index(fileNames(object), file, variable = "file")
     object@spectraData <- object@spectraData[object@spectraData$fileIdx %in%
                                              file, , drop = FALSE]
     object@spectraData <- object@spectraData[order(match(
                                      object@spectraData$fileIdx, file)), ,
                                      drop = FALSE]
-    object@backend <- backendSubset(object@backend, object@spectraData)
+    object@backend <- MSnbase:::backendSubset(object@backend, object@spectraData)
     object@spectraData$fileIdx <- match(object@spectraData$fileIdx, file)
     object@sampleData <- object@sampleData[file, , drop = FALSE]
     object@processing <- c(object@processing,

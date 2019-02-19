@@ -636,3 +636,38 @@ test_that("consensusSpectrum works", {
     cons <- consensusSpectrum(spl, mzd = 0.02, minProp = 1/3)
     expect_equal(peaksCount(cons), 18)
 })
+
+test_that(".spectrum_set_header works", {
+    sp <- new("Spectrum1")
+    spd <- data.frame(msLevel = 1L, peaksCount = 123, retentionTime = 234.31)
+    res <- .spectrum_set_header(sp, spd)
+    expect_equal(msLevel(res), 1)
+    expect_equal(peaksCount(res), 123)
+    expect_equal(rtime(res), 234.31)
+    res@peaksCount <- 0L
+    spd$acquisitionNum <- 222
+    spd$spIdx <- 123
+    spd$totIonCurrent <- 5
+    spd$fileIdx <- 3
+    spd$polarity <- -1
+    spd$peaksCount <- 0
+    res <- .spectrum_set_header(sp, spd)
+    expect_equal(peaksCount(res), 0)
+    expect_equal(acquisitionNum(res), 222)
+    expect_equal(scanIndex(res), 123)
+    expect_equal(fromFile(res), 3)
+    expect_equal(polarity(res), -1)
+    sp2 <- new("Spectrum2")
+    spd$precursorScanNum <- 4
+    spd$precursorMZ <- 123.3
+    spd$precursorIntensity <- 31.3
+    spd$precursorCharge <- 1
+    spd$collisionEnergy <- 432.1
+    spd$msLevel <- 2
+    res <- .spectrum_set_header(sp2, spd)
+    expect_equal(res@precScanNum, 4)
+    expect_equal(precursorCharge(res), 1)
+    expect_equal(precursorIntensity(res), 31.3)
+    expect_equal(precursorCharge(res), 1)
+    expect_equal(collisionEnergy(res), 432.1)
+})

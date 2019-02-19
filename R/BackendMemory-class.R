@@ -22,8 +22,6 @@ setClass("BackendMemory",
             return("Spectra names should not be missing.")
         if (anyDuplicated(nms))
             return("Duplicated spectra names found.")
-        if (isFALSE(all(grepl("^F[0-9]+\\.S[0-9]+$", nms))))
-            return("Names of 'spectra' don't follow F[0-9]+.S[0-9]+ format.")
     }
     NULL
 }
@@ -91,7 +89,20 @@ setMethod(
     signature = "BackendMemory",
     definition = function(object, spectra, spectraData, ...,
                           BPPARAM = bpparam()) {
-    object@spectra[rownames(spectraData)] <- spectra
+        object@spectra[rownames(spectraData)] <- spectra
+        idx <- unique(vapply(spectra, fromFile, integer(1)))
+        object@modCount[idx] <- object@modCount[idx] + 1L
+        validObject(object)
+        object
+})
+
+#' @rdname hidden_aliases
+setMethod("backendUpdateMetadata", "BackendMemory", function(object,
+                                                             spectraData) {
+    object@spectra <- object@spectra[rownames(spectraData)]
+    object@spectra <- mapply(object@spectra,
+                             split(spectraData, seq_len(nrow(spectraData))),
+                             FUN = .spectrum_set_header)
     validObject(object)
     object
 })

@@ -163,7 +163,7 @@ setMethod(
     "backendInitialize",
     signature = "Backend",
     definition = function(object, files, spectraData, ...) {
-    object@files <- normalizePath(files)
+    object@files <- files
     object@modCount <- integer(length(files))
     validObject(object)
     object
@@ -269,9 +269,11 @@ setGeneric(
     valueClass = "Backend"
 )
 
+#' @description
+#'
 #' Subset the `Backend` based on the provided `spectraData` data frame.
-#' Subsetting could/should be done based on columns `"fileIdx"`, `"spIdx"` or
-#' `rownames(spectraData)`.
+#' Subsetting could/should be done based on columns `"fileIdx"`, `"spIdx"`
+#' and/or `rownames(spectraData)`.
 #'
 #' @param x `Backend`
 #'
@@ -283,6 +285,8 @@ setGeneric(
 #' @author Johannes Rainer
 #'
 #' @rdname hidden_aliases
+#'
+#' @noRd
 setGeneric("backendSubset", def = function(object, spectraData)
     standardGeneric("backendSubset"),
     valueClass = "Backend"
@@ -295,5 +299,31 @@ setMethod("backendSubset", "Backend", function(object, spectraData) {
     object@files <- object@files[fidx]
     object@modCount <- object@modCount[fidx]
     validObject(object)
+    object
+})
+
+#' @description
+#'
+#' `backendUpdateMetadata` updates the spectrum metadata on backends that
+#' support it with the provided `spectraData`.
+#'
+#' This method is called each time the spectrum metadata is updated in the
+#' `MSnExperiment`, e.g. by `spectraData(object) <- new_spd`.
+#'
+#' @param x `Backend`.
+#'
+#' @param spectraData `DataFrame` with the updated spectrum metadata.
+#'
+#' @return A `Backend` class.
+#'
+#' @author Johannes Rainer
+#'
+#' @rdname hidden_aliases
+#'
+#' @noRd
+setGeneric("backendUpdateMetadata", def = function(object, spectraData)
+    standardGeneric("backendUpdateMetadata"),
+    valueClass = "Backend")
+setMethod("backendUpdateMetadata", "Backend", function(object, spectraData) {
     object
 })

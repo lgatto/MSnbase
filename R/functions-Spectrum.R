@@ -528,16 +528,14 @@ validSpectrum <- function(object) {
 .spectrum_header <- function(x) {
     res <- data.frame(acquisitionNum = acquisitionNum(x),
                       msLevel = msLevel(x),
-                      polarity = polarity(x),
+                      polarity = ifelse(length(x@polarity), x@polarity, NA_integer_),
                       peaksCount = peaksCount(x),
                       totIonCurrent = tic(x),
-                      retentionTime = rtime(x),
-                      basePeakMZ = mz(x)[which.max(intensity(x))][1],
-                      basePeakIntensity = max(intensity(x)),
+                      retentionTime = ifelse(length(x@rt),  x@rt, NA_real_),
+                      spIdx = ifelse(length(x@scanIndex), x@scanIndex, NA_integer_),
+                      fileIdx = ifelse(length(x@fromFile), x@fromFile, NA_integer_),
                       collisionEnergy = 0,
                       ionisationEnergy = 0,      # How to get that?
-                      lowMZ = min(mz(x)),
-                      highMZ = max(mz(x)),
                       precursorScanNum = 0,
                       precursorMZ = 0,
                       precursorCharge = 0,
@@ -553,6 +551,17 @@ validSpectrum <- function(object) {
                       ionMobilityDriftTime = NA_real_,
                       stringsAsFactors = FALSE
                       )
+    if (length(x@mz)) {
+        res$basePeakMZ <- mz(x)[which.max(intensity(x))][1]
+        res$basePeakIntensity <- max(intensity(x))
+        res$lowMZ <- min(mz(x))
+        res$highMZ <- max(mz(x))
+    } else {
+        res$basePeakMZ <- NA_real_
+        res$basePeakIntensity <- NA_real_
+        res$lowMZ <- NA_real_
+        res$highMZ <- NA_real_
+    }
     if (msLevel(x) > 1) {
         res$collisionEnergy <- collisionEnergy(x)
         res$precursorScanNum <- precScanNum(x)
@@ -562,6 +571,57 @@ validSpectrum <- function(object) {
         res$mergedScan <- x@merged
     }
     res
+}
+
+#' Update the spectrum slot data with the data provided in the `spectraData`
+#' `data.frame`.
+#'
+#' @param x `Spectrum` class
+#'
+#' @param spectraData `data.frame` or `DataFrame` (single row) with the metadata
+#'     information for the spectrum.
+#'
+#' @return `Spectrum`
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+.spectrum_set_header <- function(x, spectraData) {
+    if (length(spectraData$msLevel))
+        x@msLevel <- as.integer(spectraData$msLevel)
+    if (length(spectraData$peaksCount))
+        x@peaksCount <- as.integer(spectraData$peaksCount)
+    if (length(spectraData$retentionTime))
+        x@rt <- spectraData$retentionTime
+    if (length(spectraData$acquisitionNum))
+        x@acquisitionNum <- as.integer(spectraData$acquisitionNum)
+    if (length(spectraData$spIdx))
+        x@scanIndex <- as.integer(spectraData$spIdx)
+    if (length(spectraData$totalIonCurrent))
+        x@tic <- spectraData$totalIonCurrent
+    if (length(spectraData$fileIdx))
+        x@fromFile <- as.integer(spectraData$fileIdx)
+    if (length(spectraData$centroided))
+        x@centroided <- as.logical(spectraData$centroided)
+    if (length(spectraData$smoothed))
+        x@smoothed <- as.logical(spectraData$smoothed)
+    if (length(spectraData$polarity))
+        x@polarity <- as.integer(spectraData$polarity)
+    if (is(x, "Spectrum2")) {
+        if (length(spectraData$mergedScan))
+            x@merged <- spectraData$mergedScan
+        if (length(spectraData$precursorScanNum))
+            x@precScanNum <- as.integer(spectraData$precursorScanNum)
+        if (length(spectraData$precursorMZ))
+            x@precursorMz <- spectraData$precursorMZ
+        if (length(spectraData$precursorIntensity))
+            x@precursorIntensity <- spectraData$precursorIntensity
+        if (length(spectraData$precursorCharge))
+            x@precursorCharge <- as.integer(spectraData$precursorCharge)
+        if (length(spectraData$collisionEnergy))
+            x@collisionEnergy <- spectraData$collisionEnergy
+    }
+    x
 }
 
 #' @description `kNeighbors` refines the m/z value of the identified peak
