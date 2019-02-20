@@ -31,6 +31,7 @@ setGeneric("collisionEnergy<-", function(object, value)
 ## setGeneric("peaksCount", function(object) standardGeneric("peaksCount")) ## use mzR generic
 ## setGeneric("header", function(object) standardGeneric("header")) ## use mzR generic
 setGeneric("polarity", function(object) standardGeneric("polarity"))
+#' @rdname hidden_aliases
 setGeneric("polarity<-", function(object, value) standardGeneric("polarity<-"))
 
 setGeneric("centroided", function(object, ...) standardGeneric("centroided"))
@@ -173,4 +174,5 @@ setGeneric("spectraData", function(object, ...) standardGeneric("spectraData"))
 #' @rdname hidden_aliases
 setGeneric("spectraData<-", function(object, value)
     standardGeneric("spectraData<-"))
+#' @rdname hidden_aliases
 setGeneric("rtime<-", function(object, value) standardGeneric("rtime<-"))

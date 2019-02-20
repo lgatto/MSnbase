@@ -650,3 +650,19 @@ test_that("filterEmptySpectra,MSnExperiment works", {
     res <- filterEmptySpectra(mse)
     expect_equal(spectrapply(res), spectrapply(mse)[c(1, 3)])
 })
+
+test_that("filterMsLevel,MSnExperiment works", {
+    mse <- MSnExperiment(list(new("Spectrum1", mz = 1:4, intensity = 1:4,
+                                  scanIndex = 2L),
+                              new("Spectrum2"),
+                              new("Spectrum2", mz = 1:3, intensity = 1:3,
+                                  tic = 12, smoothed = TRUE)
+                              ))
+    res <- filterMsLevel(mse)
+    expect_equal(spectrapply(res), spectrapply(mse))
+    res <- filterMsLevel(mse, msLevel = 1)
+    expect_equal(spectrapply(res), spectrapply(mse)[1])
+    res <- filterMsLevel(mse, msLevel = 3)
+    expect_equal(length(res), 0)
+    expect_true(is(res, "MSnExperiment"))
+})

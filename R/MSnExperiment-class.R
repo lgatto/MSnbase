@@ -61,7 +61,8 @@ NULL
 #'     optional metadata information.
 #'
 #' @param msLevel. `integer` defining the MS level of the spectra to which the
-#'     function should be applied.
+#'     function should be applied. For `filterMsLevel`: the MS level to whichh
+#'     `object` should be subsetted.
 #'
 #' @param n For `filterAcquisitionNum`: `integer` with the acquisition numbers
 #'     to filter for.
@@ -250,6 +251,10 @@ NULL
 #' - `filterEmptySpectra`: remove empty spectra from `object`.
 #'
 #' - `filterFile`: subset the object by file. Returns an `MSnExperiment`.
+#'
+#' - `filterMsLevel`: filter object by MS level keeping only spectra matching
+#'   the MS level specified with argument `msLevel.`. Returns the filtered
+#'   `MSnExperiment`.
 #'
 #' @section Data manipulation methods:
 #'
@@ -1084,7 +1089,7 @@ setMethod("filterAcquisitionNum", "MSnExperiment", function(object, n, file) {
     sel_acq <- acquisitionNum(object) %in% n & sel_file
     if (!any(sel_acq))
         warning("No spectra with the specified acquisition number(s) found.")
-    object <- object[sel_acq | !sel_file]
+    object <- object[sel_acq | !sel_file, drop = FALSE]
     object@processing <- c(object@processing,
                            paste0("Filter: select by: ", length(n),
                                   " acquisition number(s) in ", length(file),
@@ -1096,7 +1101,7 @@ setMethod("filterAcquisitionNum", "MSnExperiment", function(object, n, file) {
 setMethod("filterEmptySpectra", "MSnExperiment", function(object) {
     empties <- isEmpty(object)
     if (any(empties))
-        object <- object[!empties]
+        object <- object[!empties, drop = FALSE]
     object@processing <- c(object@processing,
                            paste0("Filter: removed ", sum(empties),
                                   " empty spectra. [", date(), "]"))
@@ -1124,7 +1129,18 @@ setMethod("filterFile", "MSnExperiment", function(object, file) {
     object
 })
 
-## filterMsLevel
+#' @rdname MSnExperiment
+setMethod("filterMsLevel", "MSnExperiment", function(object, msLevel.) {
+    if (missing(msLevel.))
+        return(object)
+    object <- object[msLevel(object) %in% unique(msLevel.), drop = FALSE]
+    object@processing <- c(object@processing,
+                           paste0("Filter: select MS level(s)",
+                                  paste0(unique(msLevel.), collapse = " "),
+                                  " [", date(), "]"))
+    object
+})
+
 
 ## filterMz
 

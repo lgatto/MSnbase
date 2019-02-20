@@ -50,6 +50,7 @@
 \alias{filterAcquisitionNum,MSnExperiment-method}
 \alias{filterEmptySpectra,MSnExperiment-method}
 \alias{filterFile,MSnExperiment-method}
+\alias{filterMsLevel,MSnExperiment-method}
 \alias{clean,MSnExperiment-method}
 \alias{removePeaks,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
@@ -154,6 +155,8 @@ spectraNames(object)
 
 \S4method{filterFile}{MSnExperiment}(object, file)
 
+\S4method{filterMsLevel}{MSnExperiment}(object, msLevel.)
+
 \S4method{clean}{MSnExperiment}(object, all = FALSE,
   verbose = isMSnbaseVerbose(), msLevel.)
 
@@ -220,12 +223,13 @@ a \code{MSnExperiment} object.}
 \item{n}{For \code{filterAcquisitionNum}: \code{integer} with the acquisition numbers
 to filter for.}
 
+\item{msLevel.}{\code{integer} defining the MS level of the spectra to which the
+function should be applied. For \code{filterMsLevel}: the MS level to whichh
+\code{object} should be subsetted.}
+
 \item{all}{for \code{clean}: \code{logical(1)} whether all 0 intensity peaks should be
 removed (\code{TRUE}) or whether 0-intensity peaks directly adjacent to a
 non-zero intensity peak should be kept (\code{FALSE}).}
-
-\item{msLevel.}{\code{integer} defining the MS level of the spectra to which the
-function should be applied.}
 
 \item{t}{for \code{removePeaks}: a \code{numeric(1)} defining the threshold or \code{"min"}.}
 }
@@ -380,6 +384,9 @@ provided acquisition numbers (argument \code{n}). If \code{file} is also provide
 specified with \code{file}).
 \item \code{filterEmptySpectra}: remove empty spectra from \code{object}.
 \item \code{filterFile}: subset the object by file. Returns an \code{MSnExperiment}.
+\item \code{filterMsLevel}: filter object by MS level keeping only spectra matching
+the MS level specified with argument \code{msLevel.}. Returns the filtered
+\code{MSnExperiment}.
 }
 }
 
