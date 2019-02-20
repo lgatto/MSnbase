@@ -51,6 +51,7 @@
 \alias{filterEmptySpectra,MSnExperiment-method}
 \alias{filterFile,MSnExperiment-method}
 \alias{filterMsLevel,MSnExperiment-method}
+\alias{filterMz,MSnExperiment-method}
 \alias{clean,MSnExperiment-method}
 \alias{removePeaks,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
@@ -157,6 +158,8 @@ spectraNames(object)
 
 \S4method{filterMsLevel}{MSnExperiment}(object, msLevel.)
 
+\S4method{filterMz}{MSnExperiment}(object, mz, msLevel., ...)
+
 \S4method{clean}{MSnExperiment}(object, all = FALSE,
   verbose = isMSnbaseVerbose(), msLevel.)
 
@@ -224,8 +227,11 @@ a \code{MSnExperiment} object.}
 to filter for.}
 
 \item{msLevel.}{\code{integer} defining the MS level of the spectra to which the
-function should be applied. For \code{filterMsLevel}: the MS level to whichh
+function should be applied. For \code{filterMsLevel}: the MS level to which
 \code{object} should be subsetted.}
+
+\item{mz}{for \code{filterMz}: \code{numeric(2)} defining the lower and upper m/z to
+trim/filter spectra.}
 
 \item{all}{for \code{clean}: \code{logical(1)} whether all 0 intensity peaks should be
 removed (\code{TRUE}) or whether 0-intensity peaks directly adjacent to a
@@ -387,6 +393,8 @@ specified with \code{file}).
 \item \code{filterMsLevel}: filter object by MS level keeping only spectra matching
 the MS level specified with argument \code{msLevel.}. Returns the filtered
 \code{MSnExperiment}.
+\item \code{filterMz}: filter/trim all spectra in \code{object} to the provided m/z range.
+Returns the filtered \code{MSnExperiment}.
 }
 }
 
@@ -444,6 +452,11 @@ mz(mse)
 ## values per spectrum as a data.frame
 spectrapply(mse, as.data.frame)
 
+## filter all spectra by m/z keeping m/z - intensity pairs with an m/z
+## between 2 and 3.
+mse_filt <- filterMz(mse, mz = c(2, 3))
+mz(mse_filt)
+intensity(mse_filt)
 
 ## Create an MSnExperiment from two input files using the on-disk
 ## BackendMzR backend

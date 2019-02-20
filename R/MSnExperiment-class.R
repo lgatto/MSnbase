@@ -61,8 +61,11 @@ NULL
 #'     optional metadata information.
 #'
 #' @param msLevel. `integer` defining the MS level of the spectra to which the
-#'     function should be applied. For `filterMsLevel`: the MS level to whichh
+#'     function should be applied. For `filterMsLevel`: the MS level to which
 #'     `object` should be subsetted.
+#'
+#' @param mz for `filterMz`: `numeric(2)` defining the lower and upper m/z to
+#'     trim/filter spectra.
 #'
 #' @param n For `filterAcquisitionNum`: `integer` with the acquisition numbers
 #'     to filter for.
@@ -256,6 +259,9 @@ NULL
 #'   the MS level specified with argument `msLevel.`. Returns the filtered
 #'   `MSnExperiment`.
 #'
+#' - `filterMz`: filter/trim all spectra in `object` to the provided m/z range.
+#'   Returns the filtered `MSnExperiment`.
+#'
 #' @section Data manipulation methods:
 #'
 #' Data manipulation operations, such as those listed in this section,  are by
@@ -316,6 +322,11 @@ NULL
 #' ## values per spectrum as a data.frame
 #' spectrapply(mse, as.data.frame)
 #'
+#' ## filter all spectra by m/z keeping m/z - intensity pairs with an m/z
+#' ## between 2 and 3.
+#' mse_filt <- filterMz(mse, mz = c(2, 3))
+#' mz(mse_filt)
+#' intensity(mse_filt)
 #'
 #' ## Create an MSnExperiment from two input files using the on-disk
 #' ## BackendMzR backend
@@ -1141,8 +1152,25 @@ setMethod("filterMsLevel", "MSnExperiment", function(object, msLevel.) {
     object
 })
 
-
-## filterMz
+#' @rdname MSnExperiment
+setMethod("filterMz", "MSnExperiment", function(object, mz, msLevel., ...) {
+    if (missing(mz))
+        return(object)
+    if (!(is.numeric(mz) & length(mz) == 2))
+        stop("'mz' must be a numeric of length 2", call. = FALSE)
+    if (missing(msLevel.))
+        msLevel. <- unique(msLevel(object))
+    else if (!is.numeric(msLevel.))
+        stop("'msLevel' must be numeric", call. = FALSE)
+    ps <- ProcessingStep("filterMz", list(mz = mz, msLevel. = msLevel., ...))
+    object@processingQueue <- c(object@processingQueue, list(ps))
+    object@processing <- c(object@processing,
+                           paste0("Filter: trim m/z [", mz[1], "..", mz[2],
+                                  "] on MS level(s) ",
+                                  paste0(unique(msLevel.), collapse = " "),
+                                  " [", date(), "]"))
+    object
+})
 
 ## filterPrecursorScan
 

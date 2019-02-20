@@ -666,3 +666,31 @@ test_that("filterMsLevel,MSnExperiment works", {
     expect_equal(length(res), 0)
     expect_true(is(res, "MSnExperiment"))
 })
+
+test_that("filterMz,MSnExperiment works", {
+    library(MSnbase)
+    library(testthat)
+    mse <- MSnExperiment(list(new("Spectrum1", mz = 1:10, intensity = 1:10,
+                                  scanIndex = 2L),
+                              new("Spectrum2"),
+                              new("Spectrum2", mz = 1:3, intensity = 1:3,
+                                  tic = 12, smoothed = TRUE)
+                              ))
+    expect_equal(filterMz(mse), mse)
+    res <- filterMz(mse, mz = c(1, 3))
+    expect_true(length(res@processingQueue) == 1)
+    expect_warning(sps <- as(res, "list"))
+    expect_equal(mz(sps[[1]]), 1:3)
+    expect_true(isEmpty(sps[[2]]))
+    expect_equal(mz(sps[[3]]), 1:3)
+
+    res <- filterMz(mse, mz = c(1, 2), msLevel. = 2)
+    expect_warning(sps <- as(res, "list"))
+    expect_equal(mz(sps[[1]]), 1:10)
+    expect_equal(mz(sps[[3]]), 1:2)
+
+    ## errors
+    expect_error(filterMz(mse, mz = 1), "'mz' must be")
+    expect_error(filterMz(mse, mz = c("a", "n")), "'mz' must be")
+    expect_error(filterMz(mse, mz = c(1, 2), msLevel. = "a"), "'msLevel' must")
+})

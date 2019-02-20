@@ -6,10 +6,12 @@
 \name{hidden_aliases}
 \alias{hidden_aliases}
 \alias{collisionEnergy<-}
+\alias{polarity<-}
 \alias{sampleData}
 \alias{sampleData<-}
 \alias{spectraData}
 \alias{spectraData<-}
+\alias{rtime<-}
 \alias{show,Backend-method}
 \alias{fileNames,Backend-method}
 \alias{show,BackendHdf5-method}
@@ -28,6 +30,8 @@
 \usage{
 collisionEnergy(object) <- value
 
+polarity(object) <- value
+
 sampleData(object, ...)
 
 sampleData(object) <- value
@@ -35,6 +39,8 @@ sampleData(object) <- value
 spectraData(object, ...)
 
 spectraData(object) <- value
+
+rtime(object) <- value
 
 \S4method{show}{Backend}(object)
 
