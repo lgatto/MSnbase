@@ -59,6 +59,7 @@
 \alias{splitByFile,MSnExperiment,factor-method}
 \alias{bin,MSnExperiment-method}
 \alias{clean,MSnExperiment-method}
+\alias{estimateNoise,MSnExperiment-method}
 \alias{removePeaks,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
 \usage{
@@ -181,6 +182,9 @@ spectraNames(object)
 \S4method{clean}{MSnExperiment}(object, all = FALSE,
   verbose = isMSnbaseVerbose(), msLevel.)
 
+\S4method{estimateNoise}{MSnExperiment}(object, method = c("MAD",
+  "SuperSmoother"), ...)
+
 \S4method{removePeaks}{MSnExperiment}(object, t = "min",
   verbose = isMSnbaseVerbose(), msLevel.)
 }
@@ -269,6 +273,9 @@ be used to subset/filter \code{object}.}
 \item{all}{for \code{clean}: \code{logical(1)} whether all 0 intensity peaks should be
 removed (\code{TRUE}) or whether 0-intensity peaks directly adjacent to a
 non-zero intensity peak should be kept (\code{FALSE}).}
+
+\item{method}{for \code{estimateNoise}: either \code{"MAD"} or \code{"SuperSmoother"}. See
+\code{\link[=estimateNoise]{estimateNoise()}} for more details.}
 
 \item{t}{for \code{removePeaks}: a \code{numeric(1)} defining the threshold or \code{"min"}.}
 }
@@ -470,6 +477,12 @@ specified with parameter \code{binSize}. See \code{\link[=bin]{bin()}} for detai
 returns an \code{MSnExperiment} with binned spectra.
 \item \code{clean}: remove 0-intensity data points. See \code{\link[=clean]{clean()}} for
 \linkS4class{Spectrum} objects for more details.
+\item \code{estimateNoise}: estimates the noise in all (profile) spectra of \code{object}.
+See \code{\link[=estimateNoise]{estimateNoise()}} for more details. Noise can be estimated with the
+\emph{Median Absolute Deviation} (\code{method = "MAD"}) or
+\code{method = "SuperSmoother"} method. Additional parameters can be passed
+with the \code{...} argument. Returns a \code{list} of matrices with noise estimates,
+one per spectrum.
 \item \code{removePeaks}: remove peaks lower than a threshold \code{t}. See
 \code{\link[=removePeaks]{removePeaks()}} for \linkS4class{Spectrum} objects for more details.
 }

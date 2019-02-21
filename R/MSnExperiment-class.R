@@ -67,6 +67,9 @@ NULL
 #' @param metadata for `MSnExperiment` and `readMSnExperiment`: `list` with
 #'     optional metadata information.
 #'
+#' @param method for `estimateNoise`: either `"MAD"` or `"SuperSmoother"`. See
+#'     [estimateNoise()] for more details.
+#'
 #' @param msLevel. `integer` defining the MS level of the spectra to which the
 #'     function should be applied. For `filterMsLevel`: the MS level to which
 #'     `object` should be subsetted.
@@ -322,6 +325,13 @@ NULL
 #'
 #' - `clean`: remove 0-intensity data points. See [clean()] for
 #'   [Spectrum-class] objects for more details.
+#'
+#' - `estimateNoise`: estimates the noise in all (profile) spectra of `object`.
+#'   See [estimateNoise()] for more details. Noise can be estimated with the
+#'   *Median Absolute Deviation* (`method = "MAD"`) or
+#'   `method = "SuperSmoother"` method. Additional parameters can be passed
+#'   with the `...` argument. Returns a `list` of matrices with noise estimates,
+#'   one per spectrum.
 #'
 #' - `removePeaks`: remove peaks lower than a threshold `t`. See
 #'   [removePeaks()] for [Spectrum-class] objects for more details.
@@ -1354,7 +1364,14 @@ setMethod("clean", "MSnExperiment", function(object, all = FALSE,
 
 ## estimateMzResolution
 
-## estimateNoise
+#' @rdname MSnExperiment
+setMethod("estimateNoise", "MSnExperiment",
+          function(object, method = c("MAD", "SuperSmoother"), ...) {
+              method <- match.arg(method)
+              spectrapply(object, FUN = estimateNoise_Spectrum,
+                          method = method, ...)
+          })
+
 
 ## normalize
 

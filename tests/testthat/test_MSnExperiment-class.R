@@ -826,3 +826,9 @@ test_that("bin,MSnExperiment works", {
     expect_equal(intensity(sps[[1]]), 1:10)
     expect_equal(mz(sps[[2]]), c(2, 4, 6, 8, 10))
 })
+
+test_that("estimateNoise,MSnExperiment works", {
+    res <- estimateNoise(sciex_inmem[1:10], method = "SuperSmoother")
+    expect_equal(res[[1]],
+                 estimateNoise(sciex_inmem[[1]], method = "SuperSmoother"))
+})
