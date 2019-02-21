@@ -27,6 +27,10 @@ NULL
 #'     removed (`TRUE`) or whether 0-intensity peaks directly adjacent to a
 #'     non-zero intensity peak should be kept (`FALSE`).
 #'
+#' @param acquisitionNum for `filterPrecursorScan`: `integer` with the
+#'     acquisition number of the spectra to which the object should be
+#'     subsetted.
+#'
 #' @param backend a [Backend-class] derivate used for internal data storage.
 #'
 #' @param BPPARAM should parallel processing be used? See
@@ -74,6 +78,12 @@ NULL
 #'     as a result. Defaults to `FALSE`.
 #'
 #' @param object a `MSnExperiment` object.
+#'
+#' @param polarity. for `filterPolarity`: `integer` specifying the polarity to
+#'     to subset `object`.
+#'
+#' @param rt for `filterRt`: `numeric(2)` defining the retention time range to
+#'     be used to subset/filter `object`.
 #'
 #' @param sampleData a [S4Vectors::DataFrame-class] object with additional
 #'     information on each sample (samples as rows, information as columns).
@@ -262,6 +272,18 @@ NULL
 #' - `filterMz`: filter/trim all spectra in `object` to the provided m/z range.
 #'   Returns the filtered `MSnExperiment`.
 #'
+#' - `filterPrecursorScan`: filter the object keeping only spectra (parent and
+#'   children) with acquisition numnbers matching the provided `acquisitionNum`.
+#'   Returns the filtered `MSnExperiment` with all spectra with the specified
+#'   acquisition number and all their parent or child spectra.
+#'
+#' - `filterPolarity`: filter the object keeping only spectra matching the
+#'   provided polarity. Returns the subsetted `MSnExperiment`.
+#'
+#' - `filterRt`: filter the object by retention time keeping only spectra with
+#'   a retention time within the spectified retention time range `rt`. Returns
+#'   the subsetted `MSnExperiment`.
+#'
 #' @section Data manipulation methods:
 #'
 #' Data manipulation operations, such as those listed in this section,  are by
@@ -339,6 +361,19 @@ NULL
 #'
 #' ## Get spectra metadata
 #' spectraData(mse)
+#'
+#' ## Get the range of retention times of the object
+#' range(rtime(mse))
+#'
+#' ## Filter the object keeping only spectra with a retention time between
+#' ## 4 and 20 seconds
+#' mse_sub <- filterRt(mse, rt = c(4, 20))
+#'
+#' ## How many spectra do we have now per file?
+#' table(fromFile(mse_sub))
+#'
+#' ## The full data object has how many spectra?
+#' table(fromFile(mse))
 #'
 #' ## Subset the object to contain only spectra 3, 12, 45
 #' mse_sub <- mse[c(3, 12, 45)]
@@ -1172,11 +1207,55 @@ setMethod("filterMz", "MSnExperiment", function(object, mz, msLevel., ...) {
     object
 })
 
-## filterPrecursorScan
+#' @rdname MSnExperiment
+setMethod("filterPrecursorScan", "MSnExperiment",
+          function(object, acquisitionNum, ...) {
+              if (missing(acquisitionNum))
+                  return(object)
+              object <- object[.filterSpectraHierarchy(
+                  as.data.frame(object@spectraData), acquisitionNum),
+                  drop = FALSE]
+              object@processing <- c(
+                  object@processing,
+                  paste0("Filter: select parent/children scans for ",
+                         paste0(acquisitionNum, collapse = " "),
+                         " [", date(), "]"))
+              object
+          })
 
-## filterPolarity
+#' @rdname MSnExperiment
+setMethod("filterPolarity", "MSnExperiment", function(object, polarity.) {
+    if (missing(polarity.))
+        return(object)
+    object <- object[polarity(object) %in% polarity., drop = FALSE]
+    object@processing <- c(object@processing,
+                           paste0("Filter: select spectra with polarity  ",
+                                  paste0(polarity., collapse = " "),
+                                  " [", date(), "]"))
+    object
+})
 
-## filterRt
+#' @rdname MSnExperiment
+setMethod("filterRt", "MSnExperiment", function(object, rt, msLevel.) {
+    if (missing(rt)) return(object)
+    if (!(length(rt) == 2 & is.numeric(rt)))
+        stop("'rt' must be a numeric of length 2", call. = FALSE)
+    if (missing(msLevel.))
+        msLevel. <- unique(msLevel(object))
+    else if (!is.numeric(msLevel.))
+        stop("'msLevel' must be numeric", call. = FALSE)
+    rt <- range(rt)
+    msLevel. <- unique(msLevel.)
+    sel_ms <- msLevel(object) %in% msLevel.
+    sel_rt <- rtime(object) >= rt[1] & rtime(object) <= rt[2] & sel_ms
+    object <- object[sel_rt | !sel_ms, drop = FALSE]
+    object@processing <- c(object@processing,
+                           paste0("Filter: select retention time [",
+                                  rt[1], "..", rt[2], "] on MS level(s) ",
+                                  paste0(unique(msLevel.), collapse = " "),
+                                  " [", date(), "]"))
+    object
+})
 
 ##============================================================
 ##  --  DATA MANIPULATION METHODS

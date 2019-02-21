@@ -52,6 +52,9 @@
 \alias{filterFile,MSnExperiment-method}
 \alias{filterMsLevel,MSnExperiment-method}
 \alias{filterMz,MSnExperiment-method}
+\alias{filterPrecursorScan,MSnExperiment-method}
+\alias{filterPolarity,MSnExperiment-method}
+\alias{filterRt,MSnExperiment-method}
 \alias{clean,MSnExperiment-method}
 \alias{removePeaks,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
@@ -160,6 +163,12 @@ spectraNames(object)
 
 \S4method{filterMz}{MSnExperiment}(object, mz, msLevel., ...)
 
+\S4method{filterPrecursorScan}{MSnExperiment}(object, acquisitionNum, ...)
+
+\S4method{filterPolarity}{MSnExperiment}(object, polarity.)
+
+\S4method{filterRt}{MSnExperiment}(object, rt, msLevel.)
+
 \S4method{clean}{MSnExperiment}(object, all = FALSE,
   verbose = isMSnbaseVerbose(), msLevel.)
 
@@ -232,6 +241,16 @@ function should be applied. For \code{filterMsLevel}: the MS level to which
 
 \item{mz}{for \code{filterMz}: \code{numeric(2)} defining the lower and upper m/z to
 trim/filter spectra.}
+
+\item{acquisitionNum}{for \code{filterPrecursorScan}: \code{integer} with the
+acquisition number of the spectra to which the object should be
+subsetted.}
+
+\item{polarity.}{for \code{filterPolarity}: \code{integer} specifying the polarity to
+to subset \code{object}.}
+
+\item{rt}{for \code{filterRt}: \code{numeric(2)} defining the retention time range to
+be used to subset/filter \code{object}.}
 
 \item{all}{for \code{clean}: \code{logical(1)} whether all 0 intensity peaks should be
 removed (\code{TRUE}) or whether 0-intensity peaks directly adjacent to a
@@ -395,6 +414,15 @@ the MS level specified with argument \code{msLevel.}. Returns the filtered
 \code{MSnExperiment}.
 \item \code{filterMz}: filter/trim all spectra in \code{object} to the provided m/z range.
 Returns the filtered \code{MSnExperiment}.
+\item \code{filterPrecursorScan}: filter the object keeping only spectra (parent and
+children) with acquisition numnbers matching the provided \code{acquisitionNum}.
+Returns the filtered \code{MSnExperiment} with all spectra with the specified
+acquisition number and all their parent or child spectra.
+\item \code{filterPolarity}: filter the object keeping only spectra matching the
+provided polarity. Returns the subsetted \code{MSnExperiment}.
+\item \code{filterRt}: filter the object by retention time keeping only spectra with
+a retention time within the spectified retention time range \code{rt}. Returns
+the subsetted \code{MSnExperiment}.
 }
 }
 
@@ -469,6 +497,19 @@ fileNames(mse)
 
 ## Get spectra metadata
 spectraData(mse)
+
+## Get the range of retention times of the object
+range(rtime(mse))
+
+## Filter the object keeping only spectra with a retention time between
+## 4 and 20 seconds
+mse_sub <- filterRt(mse, rt = c(4, 20))
+
+## How many spectra do we have now per file?
+table(fromFile(mse_sub))
+
+## The full data object has how many spectra?
+table(fromFile(mse))
 
 ## Subset the object to contain only spectra 3, 12, 45
 mse_sub <- mse[c(3, 12, 45)]

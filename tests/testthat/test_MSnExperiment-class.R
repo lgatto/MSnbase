@@ -668,8 +668,6 @@ test_that("filterMsLevel,MSnExperiment works", {
 })
 
 test_that("filterMz,MSnExperiment works", {
-    library(MSnbase)
-    library(testthat)
     mse <- MSnExperiment(list(new("Spectrum1", mz = 1:10, intensity = 1:10,
                                   scanIndex = 2L),
                               new("Spectrum2"),
@@ -693,4 +691,76 @@ test_that("filterMz,MSnExperiment works", {
     expect_error(filterMz(mse, mz = 1), "'mz' must be")
     expect_error(filterMz(mse, mz = c("a", "n")), "'mz' must be")
     expect_error(filterMz(mse, mz = c(1, 2), msLevel. = "a"), "'msLevel' must")
+})
+
+test_that("filterPrecursorScan,MSnExperiment works", {
+    mse <- MSnExperiment(list(new("Spectrum1", mz = 1:10, intensity = 1:10,
+                                  scanIndex = 2L, acquisitionNum = 3L),
+                              new("Spectrum2", precScanNum = 3L,
+                                  acquisitionNum = 4L),
+                              new("Spectrum2", mz = 1:3, intensity = 1:3,
+                                  tic = 12, smoothed = TRUE,
+                                  acquisitionNum = 5L, precScanNum = 2L),
+                              new("Spectrum2", mz = 1:5, intensity = 1:5,
+                                  acquisitionNum = 6L, precScanNum = 3L)
+                              ))
+    expect_equal(filterPrecursorScan(mse), mse)
+    res <- filterPrecursorScan(mse, acquisitionNum = 8L)
+    expect_true(length(res) == 0)
+    res <- filterPrecursorScan(mse, acquisitionNum = 3L)
+    expect_equal(length(res), 3)
+    expect_equal(unname(acquisitionNum(res)), c(3L, 4L, 6L))
+    res <- filterPrecursorScan(mse, acquisitionNum = 6L)
+    expect_equal(unname(acquisitionNum(res)), c(3L, 6L))
+    res <- filterPrecursorScan(mse, acquisitionNum = 5L)
+    expect_equal(unname(acquisitionNum(res)), 5L)
+})
+
+test_that("filterPolarity,MSnExperiment works", {
+    mse <- MSnExperiment(list(new("Spectrum1", mz = 1:10, intensity = 1:10,
+                                  scanIndex = 2L, acquisitionNum = 3L),
+                              new("Spectrum2", precScanNum = 3L,
+                                  acquisitionNum = 4L, polarity = 0L),
+                              new("Spectrum2", mz = 1:3, intensity = 1:3,
+                                  tic = 12, polarity = 0L,
+                                  acquisitionNum = 5L, precScanNum = 2L),
+                              new("Spectrum2", mz = 1:5, intensity = 1:5,
+                                  acquisitionNum = 6L, polarity = 1L)
+                              ))
+    expect_equal(filterPolarity(mse), mse)
+    res <- filterPolarity(mse, polarity. = "a")
+    expect_equal(length(res), 0)
+    res <- filterPolarity(mse, polarity. = 0)
+    expect_equal(unname(acquisitionNum(res)), c(4L, 5L))
+    res <- filterPolarity(mse, polarity. = 1)
+    expect_equal(unname(acquisitionNum(res)), 6L)
+})
+
+test_that("filterRt,MSnExperiment works", {
+    mse <- MSnExperiment(list(new("Spectrum1", mz = 1:10, intensity = 1:10,
+                                  scanIndex = 2L, acquisitionNum = 3L, rt = 1),
+                              new("Spectrum2", precScanNum = 3L, rt = 1.1,
+                                  acquisitionNum = 4L, polarity = 0L),
+                              new("Spectrum2", mz = 1:3, intensity = 1:3,
+                                  tic = 12, polarity = 0L, rt = 1.4,
+                                  acquisitionNum = 5L, precScanNum = 2L),
+                              new("Spectrum2", mz = 1:5, intensity = 1:5,
+                                  acquisitionNum = 6L, polarity = 1L, rt = 1.6)
+                              ))
+    expect_equal(mse, filterRt(mse))
+    res <- filterRt(mse, rt = c(2, 4))
+    expect_true(length(res) == 0)
+    res <- filterRt(mse, rt = c(1, 1.1))
+    expect_equal(unname(acquisitionNum(res)), c(3L, 4L))
+    res <- filterRt(mse, rt = c(1, 1.1), msLevel. = 2)
+    expect_equal(unname(acquisitionNum(res)), c(3L, 4L))
+    res <- filterRt(mse, rt = c(1.2, 2))
+    expect_equal(unname(acquisitionNum(res)), c(5L, 6L))
+    res <- filterRt(mse, rt = c(1.2, 2), msLevel. = 2)
+    expect_equal(unname(acquisitionNum(res)), c(3L, 5L, 6L))
+
+    expect_error(filterRt(mse, rt = 4), "'rt' must be")
+    expect_error(filterRt(mse, rt = 1:4), "'rt' must be")
+    expect_error(filterRt(mse, rt = c(FALSE, TRUE)), "'rt' must be")
+    expect_error(filterRt(mse, rt = c(1, 2), msLevel. = "z"), "'msLevel'")
 })
