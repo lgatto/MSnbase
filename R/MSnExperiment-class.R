@@ -71,8 +71,10 @@ NULL
 #' @param mz for `filterMz`: `numeric(2)` defining the lower and upper m/z to
 #'     trim/filter spectra.
 #'
-#' @param n For `filterAcquisitionNum`: `integer` with the acquisition numbers
+#' @param n for `filterAcquisitionNum`: `integer` with the acquisition numbers
 #'     to filter for.
+#'
+#' @param name for `$`: the name of the variable.
 #'
 #' @param na.fail for `centroided`: whether a value of `NA` is not supported
 #'     as a result. Defaults to `FALSE`.
@@ -128,6 +130,10 @@ NULL
 #' for more details.
 #'
 #' @section Accessing data:
+#'
+#' - `$`: get the values of a column in the object's `sampleData`, i.e.
+#'   `data$sample_name` is a shortcut to access columns `"sample_name"` in
+#'   `sampleData(data)` and is equivaluent to `sampleData(data)$sample_name`.
 #'
 #' - `acquisitionNum`: get the acquisition number of each spectrum as a
 #'   named `integer` vector with the same length than `object`.
@@ -528,11 +534,14 @@ MSnExperiment <- function(x, spectraData, sampleData, metadata, ...) {
     if (!is.null(names(x)))
         rownames(spectraData) <- names(x)
     else {
+        ## Use acquisitionNum to order the spectra per file. If that is NA
+        ## spectra get named according to their
+        from_file <- factor(spectraData$fileIdx, unique(spectraData$fileIdx))
         names(x) <- formatFileSpectrumNames(
             fileIds = spectraData$fileIdx,
-            spectrumIds = unlist(lapply(table(
-                factor(spectraData$fileIdx, unique(spectraData$fileIdx))
-            ), seq_len), use.names = FALSE),
+            spectrumIds = unsplit(lapply(
+                split(spectraData$acquisitionNum, from_file),
+                order), from_file),
             nFiles = length(file))
         rownames(spectraData) <- names(x)
     }
@@ -784,6 +793,15 @@ setAs("MSnExperiment", "List", function(from) {
 ##  --  DATA ACCESSORS
 ##
 ##------------------------------------------------------------
+
+#' @rdname MSnExperiment
+setMethod("$", "MSnExperiment", function(x, name) {
+    eval(substitute(sampleData(x)$NAME_ARG, list(NAME_ARG = name)))
+})
+setReplaceMethod("$", "MSnExperiment", function(x, name, value) {
+    sampleData(x)[[name]] <- value
+    x
+})
 
 #' @rdname MSnExperiment
 setMethod("acquisitionNum", "MSnExperiment", function(object) {

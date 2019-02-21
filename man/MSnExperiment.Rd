@@ -8,6 +8,7 @@
 \alias{setBackend}
 \alias{applyProcessingQueue}
 \alias{spectrapply,MSnExperiment-method}
+\alias{$,MSnExperiment-method}
 \alias{acquisitionNum,MSnExperiment-method}
 \alias{bpi,MSnExperiment-method}
 \alias{centroided,MSnExperiment-method}
@@ -70,6 +71,8 @@ applyProcessingQueue(x, BPPARAM = bpparam())
 
 \S4method{spectrapply}{MSnExperiment}(object, FUN = NULL, ...,
   f = spectraData(object)$fileIdx, BPPARAM = bpparam())
+
+\S4method{$}{MSnExperiment}(x, name)
 
 \S4method{acquisitionNum}{MSnExperiment}(object)
 
@@ -212,6 +215,8 @@ to each \linkS4class{Spectrum} of the experiment.}
 equal to \code{nrow(spectraData(object))} to define how the data should be
 split into chunks for parallelization.}
 
+\item{name}{for \code{$}: the name of the variable.}
+
 \item{initial}{for \code{bpi} and \code{tic}: \code{logical(1)} whether the values in the
 original input file should be returned (default) or whether the TIC and
 BPI should be calculated on the actual data.}
@@ -232,7 +237,7 @@ as a result. Defaults to \code{FALSE}.}
 element, a \code{Spectrum} class is returned; \code{drop = FALSE} returns always
 a \code{MSnExperiment} object.}
 
-\item{n}{For \code{filterAcquisitionNum}: \code{integer} with the acquisition numbers
+\item{n}{for \code{filterAcquisitionNum}: \code{integer} with the acquisition numbers
 to filter for.}
 
 \item{msLevel.}{\code{integer} defining the MS level of the spectra to which the
@@ -301,6 +306,9 @@ for more details.
 \section{Accessing data}{
 
 \itemize{
+\item \code{$}: get the values of a column in the object's \code{sampleData}, i.e.
+\code{data$sample_name} is a shortcut to access columns \code{"sample_name"} in
+\code{sampleData(data)} and is equivaluent to \code{sampleData(data)$sample_name}.
 \item \code{acquisitionNum}: get the acquisition number of each spectrum as a
 named \code{integer} vector with the same length than \code{object}.
 \item \code{bpi}: get the base peak intensity (largest signal of a spectrum) for all

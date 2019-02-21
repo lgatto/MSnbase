@@ -63,6 +63,16 @@ test_that("MSnExperiment constructor works", {
     mse <- MSnExperiment(list(new("Spectrum2"), new("Spectrum1", mz = 1:3,
                                                     intensity = 1:3)))
 
+    ## From multiple files
+    mse <- MSnExperiment(list(new("Spectrum1", fromFile = 2L),
+                              new("Spectrum1", fromFile = 1L),
+                              new("Spectrum1", fromFile = 1L),
+                              new("Spectrum1", fromFile = 2L),
+                              new("Spectrum1", fromFile = 2L)))
+    expect_equal(nrow(sampleData(mse)), 2)
+    expect_equal(featureNames(mse), c("F2.S1", "F1.S1", "F1.S2", "F2.S2",
+                                      "F2.S3"))
+
     ## Errors
     expect_error(MSnExperiment(4), "'x' has to be")
     expect_error(MSnExperiment(spl, spectraData = DataFrame(iam = "wrong")))
@@ -763,4 +773,26 @@ test_that("filterRt,MSnExperiment works", {
     expect_error(filterRt(mse, rt = 1:4), "'rt' must be")
     expect_error(filterRt(mse, rt = c(FALSE, TRUE)), "'rt' must be")
     expect_error(filterRt(mse, rt = c(1, 2), msLevel. = "z"), "'msLevel'")
+})
+
+test_that("$,MSnExperiment works", {
+    spl <- list(new("Spectrum1", mz = 1:10, intensity = 1:10,
+                    fromFile = 1L, scanIndex = 1L),
+                new("Spectrum2", fromFile = 2L, scanIndex = 1L),
+                new("Spectrum2", mz = 1:3, intensity = 1:3,
+                    fromFile = 1L, scanIndex = 3L),
+                new("Spectrum2", mz = 1:5, intensity = 1:5,
+                    fromFile = 2L, scanIndex = 4L)
+                )
+    mse <- MSnExperiment(spl, sampleData = DataFrame(sample_idx = 1:2,
+                                                     sample_name = letters[1:2]))
+    expect_equal(colnames(sampleData(mse)), c("sample_idx", "sample_name"))
+    expect_equal(mse$sample_idx, 1:2)
+    expect_equal(mse$sample_name, c("a", "b"))
+    mse$sample_name <- c("c", "z")
+    expect_equal(mse$sample_name, c("c", "z"))
+    mse$sample_desc <- c("c", "z")
+    expect_equal(ncol(sampleData(mse)), 3)
+
+    expect_error(mse$sample_name <- c("c", "z", "b"))
 })
