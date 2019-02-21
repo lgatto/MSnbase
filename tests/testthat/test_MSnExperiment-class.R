@@ -796,3 +796,33 @@ test_that("$,MSnExperiment works", {
 
     expect_error(mse$sample_name <- c("c", "z", "b"))
 })
+
+test_that("splitByFile,MSnExperiment works", {
+    f <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
+           system.file("microtofq/MM8.mzML", package = "msdata"))
+    inMem <- readMSnExperiment(f, backend = BackendMemory())
+    expect_error(splitByFile(inMem, f = factor(1:3)))
+    spl <- splitByFile(inMem, f = factor(c("b", "a")))
+    expect_equal(spectrapply(spl[[1]]), spectrapply(filterFile(inMem, 2)))
+    expect_equal(sampleData(spl[[1]]), sampleData(filterFile(inMem, 2)))
+    expect_equal(spectrapply(spl[[2]]), spectrapply(filterFile(inMem, 1)))
+    expect_equal(sampleData(spl[[2]]), sampleData(filterFile(inMem, 1)))
+})
+
+test_that("bin,MSnExperiment works", {
+    mse <- MSnExperiment(list(new("Spectrum1", mz = 1:10, intensity = 1:10),
+                              new("Spectrum2", mz = 1:10, intensity = 11:20)
+                              ))
+    expect_warning(expect_equal(mse, bin(mse, msLevel. = 3)))
+    res <- bin(mse, binSize = 2)
+    sps <- as(res, "list")
+    expect_equal(mz(sps[[1]]), c(2, 4, 6, 8, 10))
+    expect_equal(intensity(sps[[1]]), c(3, 7, 11, 15, 19))
+    expect_equal(mz(sps[[2]]), c(2, 4, 6, 8, 10))
+
+    res <- bin(mse, binSize = 2, msLevel. = 2)
+    sps <- as(res, "list")
+    expect_equal(mz(sps[[1]]), 1:10)
+    expect_equal(intensity(sps[[1]]), 1:10)
+    expect_equal(mz(sps[[2]]), c(2, 4, 6, 8, 10))
+})

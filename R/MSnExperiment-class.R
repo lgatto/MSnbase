@@ -33,6 +33,8 @@ NULL
 #'
 #' @param backend a [Backend-class] derivate used for internal data storage.
 #'
+#' @param binSize for `bin`: `numeric(1)` defining the m/z bin size.
+#'
 #' @param BPPARAM should parallel processing be used? See
 #'     [BiocParallel::bpparam()].
 #'
@@ -43,7 +45,8 @@ NULL
 #' @param f for `spectrapply`: `factor`, `character`, `numeric` or `logical`
 #'     (same length than there are spectra in `object`, i.e. with length
 #'     equal to `nrow(spectraData(object))` to define how the data should be
-#'     split into chunks for parallelization.
+#'     split into chunks for parallelization. For `splitByFile`: `factor` of
+#'     length equal to the number of files.
 #'
 #' @param file for `readMSnExperiment: `character` with the file names of the
 #'     experiment. For `filterFile`: index or name of the file to which the
@@ -290,6 +293,10 @@ NULL
 #'   a retention time within the spectified retention time range `rt`. Returns
 #'   the subsetted `MSnExperiment`.
 #'
+#' - `splitByFile`: split an `MSnExperiment` by file. The function returns a
+#'   `list` of `MSnExperiment` objects, each containing spectra from a single
+#'   file if called with argument `f = factor(fileNames(object))`.
+#'
 #' @section Data manipulation methods:
 #'
 #' Data manipulation operations, such as those listed in this section,  are by
@@ -308,8 +315,13 @@ NULL
 #'   the `MSnExperiment` with data manipulations applied and stored in the
 #'   backend.
 #'
+#' - `bin`: bins all spectra (of MS level specified with `msLevel.`) in `object`
+#'   by aggregating (summing) intensities within m/z bins. The bin size can be
+#'   specified with parameter `binSize`. See [bin()] for details. The function
+#'   returns an `MSnExperiment` with binned spectra.
+#'
 #' - `clean`: remove 0-intensity data points. See [clean()] for
-#'    [Spectrum-class] objects for more details.
+#'   [Spectrum-class] objects for more details.
 #'
 #' - `removePeaks`: remove peaks lower than a threshold `t`. See
 #'   [removePeaks()] for [Spectrum-class] objects for more details.
@@ -828,6 +840,8 @@ setMethod("bpi", "MSnExperiment", function(object, initial = TRUE,
     res
 })
 
+## chromatogram
+
 #' @rdname MSnExperiment
 setMethod("centroided", "MSnExperiment", function(object, na.fail = FALSE) {
     res <- if (is.null(object@spectraData$centroided))
@@ -1275,10 +1289,47 @@ setMethod("filterRt", "MSnExperiment", function(object, rt, msLevel.) {
     object
 })
 
+#' @rdname MSnExperiment
+setMethod("splitByFile", c("MSnExperiment", "factor"), function(object, f) {
+    if (length(f) != length(fileNames(object)))
+        stop("length of 'f' has to match the length of samples/files in 'object'.")
+    idxs <- lapply(levels(f), function(z) which(f == z))
+    res <- lapply(idxs, function(z) {
+        filterFile(object, file = z)
+    })
+    names(res) <- levels(f)
+    return(res)
+})
+
 ##============================================================
 ##  --  DATA MANIPULATION METHODS
 ##
 ##------------------------------------------------------------
+
+#' @rdname MSnExperiment
+setMethod("bin", "MSnExperiment", function(object, binSize = 1L, msLevel.) {
+    if (missing(msLevel.))
+        msLevel. <- base::sort(unique(msLevel(object)))
+    else if (!is.numeric(msLevel.))
+        stop("'msLevel' must be numeric", call. = FALSE)
+    if (!any(unique(msLevel(object)) %in% msLevel.)) {
+        warning("No spectra of the specified MS level present.")
+        return(object)
+    }
+    mzr <- range(unlist(spectrapply(filterMsLevel(object, msLevel. = msLevel.),
+                                    FUN = function(z) {
+                                        range(z@mz, na.rm = TRUE)
+                                    }, BPPARAM = bpparam())))
+    breaks <- seq(floor(mzr[1]), ceiling(mzr[2]), by = binSize)
+    object <- addProcessingStep(object, "bin", breaks = breaks,
+                                msLevel. = msLevel.)
+    object@processing <- c(object@processing,
+                           paste0("Spectra of MS level(s) ",
+                                  paste0(msLevel., collapse = ", "),
+                                  " binned [", date(), "]"))
+    validObject(object)
+    object
+})
 
 #' @rdname MSnExperiment
 setMethod("clean", "MSnExperiment", function(object, all = FALSE,
@@ -1299,6 +1350,18 @@ setMethod("clean", "MSnExperiment", function(object, all = FALSE,
     object
 })
 
+## compareSpectra
+
+## estimateMzResolution
+
+## estimateNoise
+
+## normalize
+
+## pickPeaks
+
+## quantify
+
 #' @rdname MSnExperiment
 setMethod("removePeaks", "MSnExperiment", function(object, t = "min",
                                                    verbose = isMSnbaseVerbose(),
@@ -1318,3 +1381,7 @@ setMethod("removePeaks", "MSnExperiment", function(object, t = "min",
     validObject(object)
     object
 })
+
+## removeReporters
+
+## smooth

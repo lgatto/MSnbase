@@ -56,6 +56,8 @@
 \alias{filterPrecursorScan,MSnExperiment-method}
 \alias{filterPolarity,MSnExperiment-method}
 \alias{filterRt,MSnExperiment-method}
+\alias{splitByFile,MSnExperiment,factor-method}
+\alias{bin,MSnExperiment-method}
 \alias{clean,MSnExperiment-method}
 \alias{removePeaks,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
@@ -172,6 +174,10 @@ spectraNames(object)
 
 \S4method{filterRt}{MSnExperiment}(object, rt, msLevel.)
 
+\S4method{splitByFile}{MSnExperiment,factor}(object, f)
+
+\S4method{bin}{MSnExperiment}(object, binSize = 1L, msLevel.)
+
 \S4method{clean}{MSnExperiment}(object, all = FALSE,
   verbose = isMSnbaseVerbose(), msLevel.)
 
@@ -213,7 +219,8 @@ to each \linkS4class{Spectrum} of the experiment.}
 \item{f}{for \code{spectrapply}: \code{factor}, \code{character}, \code{numeric} or \code{logical}
 (same length than there are spectra in \code{object}, i.e. with length
 equal to \code{nrow(spectraData(object))} to define how the data should be
-split into chunks for parallelization.}
+split into chunks for parallelization. For \code{splitByFile}: \code{factor} of
+length equal to the number of files.}
 
 \item{name}{for \code{$}: the name of the variable.}
 
@@ -256,6 +263,8 @@ to subset \code{object}.}
 
 \item{rt}{for \code{filterRt}: \code{numeric(2)} defining the retention time range to
 be used to subset/filter \code{object}.}
+
+\item{binSize}{for \code{bin}: \code{numeric(1)} defining the m/z bin size.}
 
 \item{all}{for \code{clean}: \code{logical(1)} whether all 0 intensity peaks should be
 removed (\code{TRUE}) or whether 0-intensity peaks directly adjacent to a
@@ -431,6 +440,9 @@ provided polarity. Returns the subsetted \code{MSnExperiment}.
 \item \code{filterRt}: filter the object by retention time keeping only spectra with
 a retention time within the spectified retention time range \code{rt}. Returns
 the subsetted \code{MSnExperiment}.
+\item \code{splitByFile}: split an \code{MSnExperiment} by file. The function returns a
+\code{list} of \code{MSnExperiment} objects, each containing spectra from a single
+file if called with argument \code{f = factor(fileNames(object))}.
 }
 }
 
@@ -452,6 +464,10 @@ spectrum and store this data in the backend. This does not work for
 read-only backends such as the \code{\link[=BackendMzR]{BackendMzR()}}. The function returns
 the \code{MSnExperiment} with data manipulations applied and stored in the
 backend.
+\item \code{bin}: bins all spectra (of MS level specified with \code{msLevel.}) in \code{object}
+by aggregating (summing) intensities within m/z bins. The bin size can be
+specified with parameter \code{binSize}. See \code{\link[=bin]{bin()}} for details. The function
+returns an \code{MSnExperiment} with binned spectra.
 \item \code{clean}: remove 0-intensity data points. See \code{\link[=clean]{clean()}} for
 \linkS4class{Spectrum} objects for more details.
 \item \code{removePeaks}: remove peaks lower than a threshold \code{t}. See
