@@ -336,6 +336,12 @@ NULL
 #'   number of spectra in the object. See [compareSpectra()] for information
 #'   on the different functions (argument `fun`) to compare spectra.
 #'
+#' - `estimateMzResolution`: estimates the m/z resolution of each (profile
+#'   mode) spectrum in `object`. See [estimateMzResolution()] for details.
+#'   Additional arguments as well as parallel processing settings can be passed
+#'   with the `...` parameter. The function returns a `list` of estimates, one
+#'   per spectrum.
+#'
 #' - `estimateNoise`: estimates the noise in all (profile) spectra of `object`.
 #'   See [estimateNoise()] for more details. Noise can be estimated with the
 #'   *Median Absolute Deviation* (`method = "MAD"`) or
@@ -1390,7 +1396,10 @@ setMethod("compareSpectra", "MSnExperiment",
               m
           })
 
-## estimateMzResolution
+#' @rdname MSnExperiment
+setMethod("estimateMzResolution", "MSnExperiment", function(object, ...) {
+    spectrapply(object, FUN = estimateMzResolution, ...)
+})
 
 #' @rdname MSnExperiment
 setMethod("estimateNoise", "MSnExperiment",

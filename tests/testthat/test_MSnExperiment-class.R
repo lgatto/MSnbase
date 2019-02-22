@@ -846,3 +846,10 @@ test_that("compareSpectra,MSnExperiment works", {
     res_b <- compareSpectra(b, fun = "dotproduct")
     expect_equal(res_b[1, 4], compareSpectra(b[[1]], b[[4]], fun = "dotproduct"))
 })
+
+test_that("estimateMzResolution,MSnExperiment works", {
+    res <- estimateMzResolution(sciex_inmem[1:10])
+    expect_equal(length(res), 10)
+    expect_equal(names(res), featureNames(sciex_inmem)[1:10])
+    expect_equal(res[[1]], estimateMzResolution(sciex_inmem[[1]]))
+})

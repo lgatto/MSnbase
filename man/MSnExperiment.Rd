@@ -60,6 +60,7 @@
 \alias{bin,MSnExperiment-method}
 \alias{clean,MSnExperiment-method}
 \alias{compareSpectra,MSnExperiment,ANY-method}
+\alias{estimateMzResolution,MSnExperiment-method}
 \alias{estimateNoise,MSnExperiment-method}
 \alias{removePeaks,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
@@ -185,6 +186,8 @@ spectraNames(object)
 
 \S4method{compareSpectra}{MSnExperiment,ANY}(object1, fun = c("common",
   "cor", "dotproduct"), ...)
+
+\S4method{estimateMzResolution}{MSnExperiment}(object, ...)
 
 \S4method{estimateNoise}{MSnExperiment}(object, method = c("MAD",
   "SuperSmoother"), ...)
@@ -490,6 +493,11 @@ returns an \code{MSnExperiment} with binned spectra.
 The function returns a similarity matrix, \code{nrow} and \code{ncol} equal to the
 number of spectra in the object. See \code{\link[=compareSpectra]{compareSpectra()}} for information
 on the different functions (argument \code{fun}) to compare spectra.
+\item \code{estimateMzResolution}: estimates the m/z resolution of each (profile
+mode) spectrum in \code{object}. See \code{\link[=estimateMzResolution]{estimateMzResolution()}} for details.
+Additional arguments as well as parallel processing settings can be passed
+with the \code{...} parameter. The function returns a \code{list} of estimates, one
+per spectrum.
 \item \code{estimateNoise}: estimates the noise in all (profile) spectra of \code{object}.
 See \code{\link[=estimateNoise]{estimateNoise()}} for more details. Noise can be estimated with the
 \emph{Median Absolute Deviation} (\code{method = "MAD"}) or
