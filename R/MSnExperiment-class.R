@@ -59,6 +59,9 @@ NULL
 #' @param fun for `compareSpectra`: the method to compare spectra. See
 #'     [compareSpectra()] for a description of the methods.
 #'
+#' @param halfWindowSize for `pickPeaks`: controls the window size of the
+#'     peak picking algorithm. See [pickPeaks()] for details.
+#'
 #' @param i for `[`: `integer`, `logical` or `character` specifying the
 #'     **spectra** to which `object` should be subsetted.
 #'
@@ -71,9 +74,10 @@ NULL
 #' @param metadata for `MSnExperiment` and `readMSnExperiment`: `list` with
 #'     optional metadata information.
 #'
-#' @param method for `estimateNoise`: either `"MAD"` or `"SuperSmoother"`. See
-#'     [estimateNoise()] for more details. For `normalize` either `"max"` or
-#'     `"sum"`. See [normalize()] for more details.
+#' @param method for `estimateNoise` and `pickPeaks`: either `"MAD"` or
+#'     `"SuperSmoother"`. See [estimateNoise()] for more details. For
+#'     `normalize` either `"max"` or `"sum"`. See [normalize()] for more
+#'     details.
 #'
 #' @param msLevel. `integer` defining the MS level of the spectra to which the
 #'     function should be applied. For `filterMsLevel`: the MS level to which
@@ -97,11 +101,18 @@ NULL
 #' @param polarity. for `filterPolarity`: `integer` specifying the polarity to
 #'     to subset `object`.
 #'
+#' @param refineMz for `pickPeaks`: `character(1)` defining the method to be
+#'     used to refine the centroid's m/z. See [pickPeaks()] for details.
+#'
 #' @param rt for `filterRt`: `numeric(2)` defining the retention time range to
 #'     be used to subset/filter `object`.
 #'
 #' @param sampleData a [S4Vectors::DataFrame-class] object with additional
 #'     information on each sample (samples as rows, information as columns).
+#'
+#' @param SNR for `pickPeaks`: `numeric(1)`, a local maximum is considered a
+#'     peak if its intensity is `SNR` times larger than the estimated noise.
+#'     See [pickPeaks()] for more details.
 #'
 #' @param spectraData for `MSnExperiment`: a [S4Vectors::DataFrame-class] object
 #'     with optional additional metadata columns for each spectrum.
@@ -355,6 +366,10 @@ NULL
 #'   (currently `method = "max"` and `method = "sum"` are supported). See
 #'   [normalize()] for more details. The function returns the `MSnExperiment`
 #'   with the normalized spectra.
+#'
+#' - `pickPeaks`: perform peak picking to generate centroided spectra. For
+#'   detailed description see [pickPeaks()]. The function returns an
+#'   `MSnExperiment` with centroided spectra.
 #'
 #' - `removePeaks`: remove peaks lower than a threshold `t`. See
 #'   [removePeaks()] for [Spectrum-class] objects for more details.
@@ -1430,7 +1445,26 @@ setMethod("normalize", "MSnExperiment",
               object
           })
 
-## pickPeaks
+#' @rdname MSnExperiment
+setMethod("pickPeaks", "MSnExperiment",
+          function(object, halfWindowSize = 3L,
+                   method = c("MAD", "SuperSmoother"),
+                   SNR = 0L, refineMz = c("none", "kNeighbors", "kNeighbours",
+                                          "descendPeak"),
+                   ...) {
+              method <- match.arg(method)
+              refineMz <- match.arg(refineMz)
+              object <- addProcessingStep(object, "pickPeaks", method = method,
+                                          halfWindowSize = halfWindowSize,
+                                          SNR = SNR, ignoreCentroided = TRUE,
+                                          refineMz = refineMz, ...)
+              object@processing <- c(
+                  object@processing,
+                  paste0("Peak picking: ", method, " noise estimation and ",
+                         refineMz, "centroid m/z [", date(), "]"))
+              spectraData(object)$centroided <- TRUE
+              object
+})
 
 ## quantify
 

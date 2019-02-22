@@ -66,6 +66,7 @@
 \alias{estimateMzResolution,MSnExperiment-method}
 \alias{estimateNoise,MSnExperiment-method}
 \alias{normalize,MSnExperiment-method}
+\alias{pickPeaks,MSnExperiment-method}
 \alias{removePeaks,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
 \usage{
@@ -201,6 +202,10 @@ spectraNames(object)
 \S4method{normalize}{MSnExperiment}(object, method = c("max", "sum"),
   ...)
 
+\S4method{pickPeaks}{MSnExperiment}(object, halfWindowSize = 3L,
+  method = c("MAD", "SuperSmoother"), SNR = 0L, refineMz = c("none",
+  "kNeighbors", "kNeighbours", "descendPeak"), ...)
+
 \S4method{removePeaks}{MSnExperiment}(object, t = "min",
   verbose = isMSnbaseVerbose(), msLevel.)
 }
@@ -295,9 +300,20 @@ non-zero intensity peak should be kept (\code{FALSE}).}
 \item{fun}{for \code{compareSpectra}: the method to compare spectra. See
 \code{\link[=compareSpectra]{compareSpectra()}} for a description of the methods.}
 
-\item{method}{for \code{estimateNoise}: either \code{"MAD"} or \code{"SuperSmoother"}. See
-\code{\link[=estimateNoise]{estimateNoise()}} for more details. For \code{normalize} either \code{"max"} or
-\code{"sum"}. See \code{\link[=normalize]{normalize()}} for more details.}
+\item{method}{for \code{estimateNoise} and \code{pickPeaks}: either \code{"MAD"} or
+\code{"SuperSmoother"}. See \code{\link[=estimateNoise]{estimateNoise()}} for more details. For
+\code{normalize} either \code{"max"} or \code{"sum"}. See \code{\link[=normalize]{normalize()}} for more
+details.}
+
+\item{halfWindowSize}{for \code{pickPeaks}: controls the window size of the
+peak picking algorithm. See \code{\link[=pickPeaks]{pickPeaks()}} for details.}
+
+\item{SNR}{for \code{pickPeaks}: \code{numeric(1)}, a local maximum is considered a
+peak if its intensity is \code{SNR} times larger than the estimated noise.
+See \code{\link[=pickPeaks]{pickPeaks()}} for more details.}
+
+\item{refineMz}{for \code{pickPeaks}: \code{character(1)} defining the method to be
+used to refine the centroid's m/z. See \code{\link[=pickPeaks]{pickPeaks()}} for details.}
 
 \item{t}{for \code{removePeaks}: a \code{numeric(1)} defining the threshold or \code{"min"}.}
 }
@@ -518,6 +534,9 @@ one per spectrum.
 (currently \code{method = "max"} and \code{method = "sum"} are supported). See
 \code{\link[=normalize]{normalize()}} for more details. The function returns the \code{MSnExperiment}
 with the normalized spectra.
+\item \code{pickPeaks}: perform peak picking to generate centroided spectra. For
+detailed description see \code{\link[=pickPeaks]{pickPeaks()}}. The function returns an
+\code{MSnExperiment} with centroided spectra.
 \item \code{removePeaks}: remove peaks lower than a threshold \code{t}. See
 \code{\link[=removePeaks]{removePeaks()}} for \linkS4class{Spectrum} objects for more details.
 }

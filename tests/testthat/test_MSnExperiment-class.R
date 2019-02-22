@@ -864,3 +864,13 @@ test_that("normalize,MSnExperiment works", {
     expect_equal(length(res@processingQueue), 1)
     expect_equal(res[[1]], normalize(sciex_inmem[[1]]))
 })
+
+test_that("pickPeaks,MSnExperiment works", {
+    res <- pickPeaks(sciex_inmem[1:10], method = "SuperSmoother",
+                     refineMz = "descendPeak", signalPercentage = 45)
+    expect_equal(length(res@processingQueue), 1)
+    sps <- as(res, "list")
+    expect_equal(sps[[2]], pickPeaks(sciex_inmem[[2]], method = "SuperSmoother",
+                                     refineMz = "descendPeak",
+                                     signalPercentage = 45))
+})
