@@ -264,37 +264,42 @@ test_that("filterFile works", {
 })
 
 test_that("setBackend methods work", {
+    f <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
+           system.file("microtofq/MM8.mzML", package = "msdata"))
+    mzr <- readMSnExperiment(f, backend = BackendMzR())
+    mem <- readMSnExperiment(f, backend = BackendMemory())
+
     ## MzR -> Memory
-    sciex_mzr_mem <- setBackend(sciex_mzr, backend = BackendMemory())
-    expect_true(is(sciex_mzr_mem@backend, "BackendMemory"))
-    expect_true(validObject(sciex_mzr_mem@backend))
-    expect_equal(spectrapply(sciex_mzr_mem), spectrapply(sciex_inmem))
+    mzr_mem <- setBackend(mzr, backend = BackendMemory())
+    expect_true(is(mzr_mem@backend, "BackendMemory"))
+    expect_true(validObject(mzr_mem@backend))
+    expect_equal(spectrapply(mzr_mem), spectrapply(mem))
     ## MzR -> Hdf5
-    sciex_mzr_h5 <- setBackend(sciex_mzr, backend = BackendHdf5(),
-                                  path = paste0(tempdir(), "/switch1/"))
-    expect_true(is(sciex_mzr_h5@backend, "BackendHdf5"))
-    expect_true(validObject(sciex_mzr_h5@backend))
-    expect_equal(spectrapply(sciex_mzr_h5), spectrapply(sciex_inmem))
+    mzr_h5 <- setBackend(mzr, backend = BackendHdf5(),
+                         path = paste0(tempdir(), "/switch1/"))
+    expect_true(is(mzr_h5@backend, "BackendHdf5"))
+    expect_true(validObject(mzr_h5@backend))
+    expect_equal(spectrapply(mzr_h5), spectrapply(mem))
     ## Memory -> MzR
-    sciex_mem_mzr <- setBackend(sciex_inmem, backend = BackendMzR())
-    expect_true(is(sciex_mem_mzr@backend, "BackendMzR"))
-    expect_true(validObject(sciex_mem_mzr@backend))
-    expect_equal(spectrapply(sciex_mem_mzr), spectrapply(sciex_inmem))
+    mem_mzr <- setBackend(mem, backend = BackendMzR())
+    expect_true(is(mem_mzr@backend, "BackendMzR"))
+    expect_true(validObject(mem_mzr@backend))
+    expect_equal(spectrapply(mem_mzr), spectrapply(mem))
 
     ## Memory, modify -> MzR
-    tmp <- removePeaks(sciex_inmem[900:920], t = 5000)
+    tmp <- removePeaks(mem, t = 5000)
     tmp <- applyProcessingQueue(tmp)
     expect_equal(tmp@processingQueue, list())
-    expect_equal(tmp@backend@modCount, 1L)
+    expect_equal(tmp@backend@modCount, c(1L, 1L))
     expect_error(setBackend(tmp, BackendMzR()), "Can not change backend")
 
     ## Memory, modify -> Hdf5
     tmp_h5 <- setBackend(tmp, BackendHdf5(),
                          path = paste0(tempdir(), "/switch2/"))
     expect_true(length(tmp_h5@processingQueue) == 0)
-    expect_equal(unname(tmp_h5@backend@modCount), 1L)
+    expect_equal(unname(tmp_h5@backend@modCount), c(1L, 1L))
     sps_h5 <- spectrapply(tmp_h5)
-    sps <- spectrapply(sciex_inmem[900:920])
+    sps <- spectrapply(mem)
     expect_equal(lapply(sps_h5, ionCount),
                  lapply(sps, function(z) ionCount(removePeaks(z, t = 5000))))
     expect_error(setBackend(tmp_h5, BackendMzR()), "Can not change backend")
@@ -852,4 +857,10 @@ test_that("estimateMzResolution,MSnExperiment works", {
     expect_equal(length(res), 10)
     expect_equal(names(res), featureNames(sciex_inmem)[1:10])
     expect_equal(res[[1]], estimateMzResolution(sciex_inmem[[1]]))
+})
+
+test_that("normalize,MSnExperiment works", {
+    res <- normalize(sciex_inmem[1:10])
+    expect_equal(length(res@processingQueue), 1)
+    expect_equal(res[[1]], normalize(sciex_inmem[[1]]))
 })

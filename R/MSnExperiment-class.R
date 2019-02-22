@@ -71,7 +71,8 @@ NULL
 #'     optional metadata information.
 #'
 #' @param method for `estimateNoise`: either `"MAD"` or `"SuperSmoother"`. See
-#'     [estimateNoise()] for more details.
+#'     [estimateNoise()] for more details. For `normalize` either `"max"` or
+#'     `"sum"`. See [normalize()] for more details.
 #'
 #' @param msLevel. `integer` defining the MS level of the spectra to which the
 #'     function should be applied. For `filterMsLevel`: the MS level to which
@@ -348,6 +349,11 @@ NULL
 #'   `method = "SuperSmoother"` method. Additional parameters can be passed
 #'   with the `...` argument. Returns a `list` of matrices with noise estimates,
 #'   one per spectrum.
+#'
+#' - `normalize`: normalizes each spectrum in `object` with the specified method
+#'   (currently `method = "max"` and `method = "sum"` are supported). See
+#'   [normalize()] for more details. The function returns the `MSnExperiment`
+#'   with the normalized spectra.
 #'
 #' - `removePeaks`: remove peaks lower than a threshold `t`. See
 #'   [removePeaks()] for [Spectrum-class] objects for more details.
@@ -1409,8 +1415,18 @@ setMethod("estimateNoise", "MSnExperiment",
                           method = method, ...)
           })
 
-
-## normalize
+#' @rdname MSnExperiment
+setMethod("normalize", "MSnExperiment",
+          function(object, method = c("max", "sum"), ...) {
+              method <- match.arg(method)
+              object <- addProcessingStep(object, "normalize", method = method,
+                                          ...)
+              object@processing <- c(
+                  object@processing,
+                  paste0("Spectra normalized (", method, ") [", date(), "]"))
+              validObject(object)
+              object
+          })
 
 ## pickPeaks
 

@@ -62,6 +62,7 @@
 \alias{compareSpectra,MSnExperiment,ANY-method}
 \alias{estimateMzResolution,MSnExperiment-method}
 \alias{estimateNoise,MSnExperiment-method}
+\alias{normalize,MSnExperiment-method}
 \alias{removePeaks,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
 \usage{
@@ -192,6 +193,9 @@ spectraNames(object)
 \S4method{estimateNoise}{MSnExperiment}(object, method = c("MAD",
   "SuperSmoother"), ...)
 
+\S4method{normalize}{MSnExperiment}(object, method = c("max", "sum"),
+  ...)
+
 \S4method{removePeaks}{MSnExperiment}(object, t = "min",
   verbose = isMSnbaseVerbose(), msLevel.)
 }
@@ -287,7 +291,8 @@ non-zero intensity peak should be kept (\code{FALSE}).}
 \code{\link[=compareSpectra]{compareSpectra()}} for a description of the methods.}
 
 \item{method}{for \code{estimateNoise}: either \code{"MAD"} or \code{"SuperSmoother"}. See
-\code{\link[=estimateNoise]{estimateNoise()}} for more details.}
+\code{\link[=estimateNoise]{estimateNoise()}} for more details. For \code{normalize} either \code{"max"} or
+\code{"sum"}. See \code{\link[=normalize]{normalize()}} for more details.}
 
 \item{t}{for \code{removePeaks}: a \code{numeric(1)} defining the threshold or \code{"min"}.}
 }
@@ -504,6 +509,10 @@ See \code{\link[=estimateNoise]{estimateNoise()}} for more details. Noise can be
 \code{method = "SuperSmoother"} method. Additional parameters can be passed
 with the \code{...} argument. Returns a \code{list} of matrices with noise estimates,
 one per spectrum.
+\item \code{normalize}: normalizes each spectrum in \code{object} with the specified method
+(currently \code{method = "max"} and \code{method = "sum"} are supported). See
+\code{\link[=normalize]{normalize()}} for more details. The function returns the \code{MSnExperiment}
+with the normalized spectra.
 \item \code{removePeaks}: remove peaks lower than a threshold \code{t}. See
 \code{\link[=removePeaks]{removePeaks()}} for \linkS4class{Spectrum} objects for more details.
 }
