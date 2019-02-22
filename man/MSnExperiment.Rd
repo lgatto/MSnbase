@@ -59,6 +59,7 @@
 \alias{splitByFile,MSnExperiment,factor-method}
 \alias{bin,MSnExperiment-method}
 \alias{clean,MSnExperiment-method}
+\alias{compareSpectra,MSnExperiment,ANY-method}
 \alias{estimateNoise,MSnExperiment-method}
 \alias{removePeaks,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
@@ -182,6 +183,9 @@ spectraNames(object)
 \S4method{clean}{MSnExperiment}(object, all = FALSE,
   verbose = isMSnbaseVerbose(), msLevel.)
 
+\S4method{compareSpectra}{MSnExperiment,ANY}(object1, fun = c("common",
+  "cor", "dotproduct"), ...)
+
 \S4method{estimateNoise}{MSnExperiment}(object, method = c("MAD",
   "SuperSmoother"), ...)
 
@@ -273,6 +277,11 @@ be used to subset/filter \code{object}.}
 \item{all}{for \code{clean}: \code{logical(1)} whether all 0 intensity peaks should be
 removed (\code{TRUE}) or whether 0-intensity peaks directly adjacent to a
 non-zero intensity peak should be kept (\code{FALSE}).}
+
+\item{object1}{a \code{MSnExperiment} object.}
+
+\item{fun}{for \code{compareSpectra}: the method to compare spectra. See
+\code{\link[=compareSpectra]{compareSpectra()}} for a description of the methods.}
 
 \item{method}{for \code{estimateNoise}: either \code{"MAD"} or \code{"SuperSmoother"}. See
 \code{\link[=estimateNoise]{estimateNoise()}} for more details.}
@@ -453,11 +462,11 @@ file if called with argument \code{f = factor(fileNames(object))}.
 }
 }
 
-\section{Data manipulation methods}{
+\section{Data manipulation and analysis methods}{
 
 
-Data manipulation operations, such as those listed in this section,  are by
-default not applied immediately to the spectra, but added to a
+Many data manipulation operations, such as those listed in this section, are
+not applied immediately to the spectra, but added to a
 \emph{lazy processinq queue}. Operations stored in this queue are applied
 on-the-fly to spectra data each time it is accessed. This lazy
 execution guarantees the same functionality for \code{MSnExperiment} objects with
@@ -477,6 +486,10 @@ specified with parameter \code{binSize}. See \code{\link[=bin]{bin()}} for detai
 returns an \code{MSnExperiment} with binned spectra.
 \item \code{clean}: remove 0-intensity data points. See \code{\link[=clean]{clean()}} for
 \linkS4class{Spectrum} objects for more details.
+\item \code{compareSpectra}: compare all spectra within the object with each other.
+The function returns a similarity matrix, \code{nrow} and \code{ncol} equal to the
+number of spectra in the object. See \code{\link[=compareSpectra]{compareSpectra()}} for information
+on the different functions (argument \code{fun}) to compare spectra.
 \item \code{estimateNoise}: estimates the noise in all (profile) spectra of \code{object}.
 See \code{\link[=estimateNoise]{estimateNoise()}} for more details. Noise can be estimated with the
 \emph{Median Absolute Deviation} (\code{method = "MAD"}) or

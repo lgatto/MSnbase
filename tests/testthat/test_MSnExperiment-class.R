@@ -832,3 +832,17 @@ test_that("estimateNoise,MSnExperiment works", {
     expect_equal(res[[1]],
                  estimateNoise(sciex_inmem[[1]], method = "SuperSmoother"))
 })
+
+test_that("compareSpectra,MSnExperiment works", {
+    a <- sciex[1:10]
+    b <- sciex_inmem[1:10]
+    res_a <- compareSpectra(a)
+    res_b <- compareSpectra(b)
+    expect_equal(res_a, res_b)
+    expect_equal(dim(res_b), c(10, 10))
+    expect_equal(rownames(res_b), featureNames(b))
+    expect_equal(res_b[1, 2], compareSpectra(b[[1]], b[[2]]))
+
+    res_b <- compareSpectra(b, fun = "dotproduct")
+    expect_equal(res_b[1, 4], compareSpectra(b[[1]], b[[4]], fun = "dotproduct"))
+})

@@ -55,6 +55,9 @@ NULL
 #' @param FUN for `spectrapply`: a function or the name of a function to apply
 #'     to each [Spectrum-class] of the experiment.
 #'
+#' @param fun for `compareSpectra`: the method to compare spectra. See
+#'     [compareSpectra()] for a description of the methods.
+#'
 #' @param i for `[`: `integer`, `logical` or `character` specifying the
 #'     **spectra** to which `object` should be subsetted.
 #'
@@ -86,6 +89,8 @@ NULL
 #'     as a result. Defaults to `FALSE`.
 #'
 #' @param object a `MSnExperiment` object.
+#'
+#' @param object1 a `MSnExperiment` object.
 #'
 #' @param polarity. for `filterPolarity`: `integer` specifying the polarity to
 #'     to subset `object`.
@@ -300,10 +305,10 @@ NULL
 #'   `list` of `MSnExperiment` objects, each containing spectra from a single
 #'   file if called with argument `f = factor(fileNames(object))`.
 #'
-#' @section Data manipulation methods:
+#' @section Data manipulation and analysis methods:
 #'
-#' Data manipulation operations, such as those listed in this section,  are by
-#' default not applied immediately to the spectra, but added to a
+#' Many data manipulation operations, such as those listed in this section, are
+#' not applied immediately to the spectra, but added to a
 #' *lazy processinq queue*. Operations stored in this queue are applied
 #' on-the-fly to spectra data each time it is accessed. This lazy
 #' execution guarantees the same functionality for `MSnExperiment` objects with
@@ -325,6 +330,11 @@ NULL
 #'
 #' - `clean`: remove 0-intensity data points. See [clean()] for
 #'   [Spectrum-class] objects for more details.
+#'
+#' - `compareSpectra`: compare all spectra within the object with each other.
+#'   The function returns a similarity matrix, `nrow` and `ncol` equal to the
+#'   number of spectra in the object. See [compareSpectra()] for information
+#'   on the different functions (argument `fun`) to compare spectra.
 #'
 #' - `estimateNoise`: estimates the noise in all (profile) spectra of `object`.
 #'   See [estimateNoise()] for more details. Noise can be estimated with the
@@ -1360,7 +1370,25 @@ setMethod("clean", "MSnExperiment", function(object, all = FALSE,
     object
 })
 
-## compareSpectra
+#' @rdname MSnExperiment
+setMethod("compareSpectra", "MSnExperiment",
+          function(object1, fun = c("common", "cor", "dotproduct"), ...) {
+              fun <- match.arg(fun)
+              nm <- featureNames(object1)
+              cb <- combn(nm, 2, function(x) {
+                  compare_Spectra(object1[[x[1]]], object1[[x[2]]],
+                                  fun = fun, ...)
+              })
+              m <- matrix(NA, length(object1), length(object1),
+                          dimnames = list(nm, nm))
+              ## fill lower triangle of the matrix
+              m[lower.tri(m)] <- cb
+              ## copy to upper triangle
+              for (i in 1:nrow(m)) {
+                  m[i, ] <- m[, i]
+              }
+              m
+          })
 
 ## estimateMzResolution
 
