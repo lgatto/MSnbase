@@ -3,7 +3,8 @@ NULL
 
 #' @title The MSnExperiment class to manage and access MS data
 #'
-#' @aliases MSnExperiment-class
+#' @aliases MSnExperiment-class coerce,MSnExperiment,list-method
+#'     coerce,MSnExperiment,List-method
 #'
 #' @name MSnExperiment
 #'
@@ -842,6 +843,7 @@ setAs("MSnExperiment", "List", function(from) {
 setMethod("$", "MSnExperiment", function(x, name) {
     eval(substitute(sampleData(x)$NAME_ARG, list(NAME_ARG = name)))
 })
+#' @rdname MSnExperiment
 setReplaceMethod("$", "MSnExperiment", function(x, name, value) {
     sampleData(x)[[name]] <- value
     x

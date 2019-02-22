@@ -4,11 +4,14 @@
 \name{MSnExperiment}
 \alias{MSnExperiment}
 \alias{MSnExperiment-class}
+\alias{coerce,MSnExperiment,list-method}
+\alias{coerce,MSnExperiment,List-method}
 \alias{readMSnExperiment}
 \alias{setBackend}
 \alias{applyProcessingQueue}
 \alias{spectrapply,MSnExperiment-method}
 \alias{$,MSnExperiment-method}
+\alias{$<-,MSnExperiment-method}
 \alias{acquisitionNum,MSnExperiment-method}
 \alias{bpi,MSnExperiment-method}
 \alias{centroided,MSnExperiment-method}
@@ -79,6 +82,8 @@ applyProcessingQueue(x, BPPARAM = bpparam())
   f = spectraData(object)$fileIdx, BPPARAM = bpparam())
 
 \S4method{$}{MSnExperiment}(x, name)
+
+\S4method{$}{MSnExperiment}(x, name) <- value
 
 \S4method{acquisitionNum}{MSnExperiment}(object)
 
@@ -239,14 +244,14 @@ length equal to the number of files.}
 
 \item{name}{for \code{$}: the name of the variable.}
 
+\item{value}{for \code{featureData}, \code{sampleData} and \code{spectraData}: a \code{DataFrame}}
+
 \item{initial}{for \code{bpi} and \code{tic}: \code{logical(1)} whether the values in the
 original input file should be returned (default) or whether the TIC and
 BPI should be calculated on the actual data.}
 
 \item{na.fail}{for \code{centroided}: whether a value of \code{NA} is not supported
 as a result. Defaults to \code{FALSE}.}
-
-\item{value}{for \code{featureData}, \code{sampleData} and \code{spectraData}: a \code{DataFrame}}
 
 \item{verbose}{\code{logical(1)} defining the verbosity.}
 
