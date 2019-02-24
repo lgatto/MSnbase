@@ -406,15 +406,15 @@ MSnExperiment <- function(x, spectraData, sampleData, metadata, ...) {
 #' @rdname hidden_aliases
 #' @param object Object to display.
 #' @export
-setMethod(
-    "show",
-    signature="MSnExperiment",
-    definition=function(object) {
+setMethod("show", "MSnExperiment",
+    function(object) {
         cat("MSn data (", class(object)[1L], ") with ",
-            nrow(object@spectraData), " spectra:\n", sep="")
-        txt <- capture.output(
-            object@spectraData[, c("msLevel", "retentionTime", "totIonCurrent")])
-        cat(txt[-1], sep = "\n")
+            nrow(object@spectraData), " spectra:\n", sep = "")
+        if (nrow(object@spectraData)) {
+            txt <- capture.output(
+                object@spectraData[, c("msLevel", "retentionTime", "totIonCurrent")])
+            cat(txt[-1], sep = "\n")
+        }
         show(object@backend)
         if (length(object@processingQueue))
             cat("Lazy evaluation queue:", length(object@processingQueue),
