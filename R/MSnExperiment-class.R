@@ -39,6 +39,9 @@ NULL
 #' @param BPPARAM should parallel processing be used? See
 #'     [BiocParallel::bpparam()].
 #'
+#' @param clean for `removeReporters`: `logical(1)` whether `0` intensity
+#'     values should be cleaned from the spectra after removing the reporters.
+#'
 #' @param drop for `[`: if `drop = TRUE` and the object is subsetted to a single
 #'     element, a `Spectrum` class is returned; `drop = FALSE` returns always
 #'     a `MSnExperiment` object.
@@ -59,8 +62,9 @@ NULL
 #' @param fun for `compareSpectra`: the method to compare spectra. See
 #'     [compareSpectra()] for a description of the methods.
 #'
-#' @param halfWindowSize for `pickPeaks`: controls the window size of the
-#'     peak picking algorithm. See [pickPeaks()] for details.
+#' @param halfWindowSize for `pickPeaks` and `smooth`: controls the window size
+#'     of the peak picking algorithm. See [pickPeaks()] or [smooth()] for
+#'     details.
 #'
 #' @param i for `[`: `integer`, `logical` or `character` specifying the
 #'     **spectra** to which `object` should be subsetted.
@@ -77,7 +81,9 @@ NULL
 #' @param method for `estimateNoise` and `pickPeaks`: either `"MAD"` or
 #'     `"SuperSmoother"`. See [estimateNoise()] for more details. For
 #'     `normalize` either `"max"` or `"sum"`. See [normalize()] for more
-#'     details.
+#'     details. For `smooth`: define the smoothing method, either
+#'     `"SavitzkyGolay"` or `"MovingAverage"`. See method description below or
+#'     [smooth()] for more details.
 #'
 #' @param msLevel. `integer` defining the MS level of the spectra to which the
 #'     function should be applied. For `filterMsLevel`: the MS level to which
@@ -103,6 +109,9 @@ NULL
 #'
 #' @param refineMz for `pickPeaks`: `character(1)` defining the method to be
 #'     used to refine the centroid's m/z. See [pickPeaks()] for details.
+#'
+#' @param reporters for `removeReporters`: [ReporterIons] defining the reporters
+#'     to be removed. See method description below for more information.
 #'
 #' @param rt for `filterRt`: `numeric(2)` defining the retention time range to
 #'     be used to subset/filter `object`.
@@ -180,10 +189,11 @@ NULL
 #' - `collisionEnergy`, `collisionEnergy<-`: get or set the collision energy
 #'   for all spectra in `object`.
 #'
-#' - `featureData`: get or set general spectrum metadata. Returns a `DataFrame`
-#'   or a `MSnExperiment` with updated spectra metadata. Each row of the
-#'   `DataFrame` contains information for one spectrum. This function is
-#'   equivalent to [featureData()] of `MSnExp`/`OnDiskMSnExp` objects.
+#' - `featureData`, `fData`: get or set general spectrum metadata. Returns
+#'   a `DataFrame` or a `MSnExperiment` with updated spectra metadata. Each
+#'   row of the `DataFrame` contains information for one spectrum. This
+#'   function is equivalent to [featureData()] of `MSnExp`/`OnDiskMSnExp`
+#'   objects.
 #'
 #' - `featureNames`: extract the feature (spectrum) names.
 #'
@@ -371,9 +381,25 @@ NULL
 #'   detailed description see [pickPeaks()]. The function returns an
 #'   `MSnExperiment` with centroided spectra.
 #'
+#' - `removeReporters`: set all reporter tag ion peaks in MS2 spectra to `0`.
+#'   Reporter ions have to specified using a [ReporterIons] class and passed to
+#'   the function with the `reporters` argument. Parameter `clean` allows to
+#'   specify whether `0` intensity peaks should be removed from spectra. See
+#'   [removeReporters()] for more details. The function returns an
+#'   `MSnExperiment` with the reporter peaks removed.
+#'
 #' - `removePeaks`: remove peaks lower than a threshold `t`. See
 #'   [removePeaks()] for [Spectrum-class] objects for more details.
 #'
+#' - `smooth`: smooths intensities of each spectrum data within the `object
+#'   using the method specified with `method`. Currently
+#'   `method = "SavitzkyGolay"` (default) and `method = "MovingAverage` are
+#'   available for smoothing the data with a Savitzky-Golay filter or with an
+#'   moving average approach. Parameter `halfWindowSize` (default = `2`)
+#'   controls the window size of the filter. Additional parameters to the filter
+#'   function can be passed with the `...` parameter. See [smooth()] for more
+#'   information and descriptions on the filters. The function returns a
+#'   `MSnExperiment` object with smoothed spectra.
 #'
 #' @return See individual method description for the return value.
 #'
@@ -937,6 +963,9 @@ setMethod("featureData", "MSnExperiment", function(object) {
 })
 
 #' @rdname MSnExperiment
+setMethod("fData", "MSnExperiment", function(object) featureData(object))
+
+#' @rdname MSnExperiment
 setReplaceMethod("featureData", "MSnExperiment", function(object, value) {
     if (!is(value, "DataFrame"))
         stop("'value' should be a 'DataFrame'")
@@ -1347,7 +1376,7 @@ setMethod("splitByFile", c("MSnExperiment", "factor"), function(object, f) {
         filterFile(object, file = z)
     })
     names(res) <- levels(f)
-    return(res)
+    res
 })
 
 ##============================================================
@@ -1466,7 +1495,52 @@ setMethod("pickPeaks", "MSnExperiment",
               object
 })
 
-## quantify
+## #' @rdname MSnExperiment
+## setMethod("quantify", "MSnExperiment",
+##           function(object,
+##                    method = c("trapezoidation", "max", "sum", "SI", "SIgi",
+##                               "SIn", "SAF", "NSAF", "count"),
+##                    reporters,
+##                    wd = width(reporters),
+##                    strict = FALSE,
+##                    BPPARAM = bpparam(),
+##                    verbose = isMSnbaseVerbose(),
+##                    ...) {
+##               ## TODO: check if and how that works for MSnExperiment!
+##               method <- match.arg(method)
+##               if (!all(msLevel(object) >= 2)) {
+##                   message("Currently only MS > 1 quantitation supported: ",
+##                           "subsetting data set to MS2 spectra.")
+##                   object <- filterMsLevel(object, msLevel. = 2L)
+##                   if (length(object) == 0L)
+##                       stop("Empty data set.")
+##               }
+##               ## MS2 isobaric
+##               if (method %in% c("trapezoidation", "max", "sum")) {
+##                   if (!inherits(reporters, "ReporterIons"))
+##                       stop("Argument 'reporters' must inherit from ",
+##                            "'ReporterIons' class.")
+##                   if (method != "max")
+##                       stop("Not yet implemented - see issue #130")
+##                   if (!verbose)
+##                       suppressMessages(quantify_OnDiskMSnExp_max(object,
+##                                                                  reporters,
+##                                                                  wd,
+##                                                                  BPPARAM))
+##                   else quantify_OnDiskMSnExp_max(object, reporters,
+##                                                  wd, BPPARAM)
+##               } else if (method == "count") {
+##                   count_MSnSet(object)
+##               } else {
+##                   ## the following assumes that the appropriate fcols
+##                   ## are available
+##                   object <- utils.removeNoIdAndMultipleAssignments(object)
+##                   if (method %in% c("SI", "SIgi", "SIn"))
+##                       SI(object, method, ...)
+##                   else SAF(object, method, ...)
+##               }
+## })
+
 
 #' @rdname MSnExperiment
 setMethod("removePeaks", "MSnExperiment", function(object, t = "min",
@@ -1488,6 +1562,35 @@ setMethod("removePeaks", "MSnExperiment", function(object, t = "min",
     object
 })
 
-## removeReporters
+#' @rdname MSnExperiment
+setMethod("removeReporters", "MSnExperiment",
+          function(object, reporters = NULL, clean = FALSE,
+                   verbose = isMSnbaseVerbose()) {
+              if (is.null(reporters))
+                  return(object)
+              if (all(msLevel(object) == 1))
+                  stop("No MS level > 1 spectra present! Reporters can",
+                       " only be removed from spectra >= 2!")
+              object <- addProcessingStep(object, "removeReporters",
+                                          reporters = reporters, clean = clean)
+              object@processing <- c(object@processing,
+                                     paste0("Removed ", paste0(names(reporters),
+                                                               collapse = ", "),
+                                            " reporter ions [", date(), "]"))
+              validObject(object)
+              object
+          })
 
-## smooth
+#' @rdname MSnExperiment
+setMethod("smooth", "MSnExperiment",
+          function(x, method = c("SavitzkyGolay", "MovingAverage"),
+                   halfWindowSize = 2L, verbose = isMSnbaseVerbose(), ...) {
+              method <- match.arg(method)
+              x <- addProcessingStep(x, "smooth", method = method,
+                                     halfWindowSize = halfWindowSize, ...)
+              x@processing <- c(x@processing,
+                                paste0("Spectra smoothed (", method,
+                                       ") [", date(), "]"))
+              validObject(x)
+              x
+          })

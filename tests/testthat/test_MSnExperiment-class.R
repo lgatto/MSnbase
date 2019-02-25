@@ -874,3 +874,42 @@ test_that("pickPeaks,MSnExperiment works", {
                                      refineMz = "descendPeak",
                                      signalPercentage = 45))
 })
+
+## test_that("quantify,MSnExperiment works", {
+##     x1 <- extdata_mzXML_in_mem_ms2
+##     f <- dir(system.file(package = "MSnbase", dir = "extdata"),
+##              full.name = TRUE, pattern = "mzXML$")
+##     x2 <- readMSnExperiment(f)
+##     e1 <- quantify(x1, method = "max", reporters = iTRAQ4, verbose = FALSE)
+##     e2 <- quantify(x2, method = "max", reporters = iTRAQ4, verbose = FALSE)
+##     expect_identical(exprs(e1), exprs(e2))
+
+## })
+
+test_that("removeReporters,MSnExperiment works", {
+    in_mem <- tmt_erwinia_in_mem_ms2
+    in_mem_rem <- removeReporters(in_mem, TMT6)
+    f <- msdata::proteomics(
+                     full.names = TRUE,
+                     pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
+    od <- readMSnExperiment(f)
+    res <- removeReporters(filterMsLevel(od, 2L), TMT6)
+    expect_true(length(res@processingQueue) == 1)
+
+    expect_identical(unname(spectra(in_mem_rem)), unname(as(res, "list")))
+
+    ## Do the call on the full data set.
+    res <- removeReporters(od, TMT6)
+    expect_identical(unname(spectra(in_mem_rem)),
+                     unname(as(filterMsLevel(res, 2L), "list")))
+
+    expect_error(removeReporters(sciex_mzr, TMT6), "No MS level > 1")
+})
+
+test_that("smooth,MSnExperiment works", {
+    res <- smooth(sciex_mzr[1:10], method = "MovingAverage", halfWindowSize = 3L)
+    expect_true(length(res@processingQueue) == 1)
+    expect_equal(as(res, "list")[[3]],
+                 smooth(sciex_mzr[[3]], method = "MovingAverage",
+                        halfWindowSize = 3L))
+})

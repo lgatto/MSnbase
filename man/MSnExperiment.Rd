@@ -19,6 +19,7 @@
 \alias{collisionEnergy,MSnExperiment-method}
 \alias{collisionEnergy<-,MSnExperiment-method}
 \alias{featureData,MSnExperiment-method}
+\alias{fData,MSnExperiment-method}
 \alias{featureData<-,MSnExperiment,ANY-method}
 \alias{featureNames,MSnExperiment-method}
 \alias{fileNames,MSnExperiment-method}
@@ -68,6 +69,8 @@
 \alias{normalize,MSnExperiment-method}
 \alias{pickPeaks,MSnExperiment-method}
 \alias{removePeaks,MSnExperiment-method}
+\alias{removeReporters,MSnExperiment-method}
+\alias{smooth,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
 \usage{
 MSnExperiment(x, spectraData, sampleData, metadata, ...)
@@ -100,6 +103,8 @@ applyProcessingQueue(x, BPPARAM = bpparam())
 \S4method{collisionEnergy}{MSnExperiment}(object) <- value
 
 \S4method{featureData}{MSnExperiment}(object)
+
+\S4method{fData}{MSnExperiment}(object)
 
 \S4method{featureData}{MSnExperiment,ANY}(object) <- value
 
@@ -208,6 +213,13 @@ spectraNames(object)
 
 \S4method{removePeaks}{MSnExperiment}(object, t = "min",
   verbose = isMSnbaseVerbose(), msLevel.)
+
+\S4method{removeReporters}{MSnExperiment}(object, reporters = NULL,
+  clean = FALSE, verbose = isMSnbaseVerbose())
+
+\S4method{smooth}{MSnExperiment}(x, method = c("SavitzkyGolay",
+  "MovingAverage"), halfWindowSize = 2L, verbose = isMSnbaseVerbose(),
+  ...)
 }
 \arguments{
 \item{x}{a \code{MSnExperiment} object.}
@@ -303,10 +315,13 @@ non-zero intensity peak should be kept (\code{FALSE}).}
 \item{method}{for \code{estimateNoise} and \code{pickPeaks}: either \code{"MAD"} or
 \code{"SuperSmoother"}. See \code{\link[=estimateNoise]{estimateNoise()}} for more details. For
 \code{normalize} either \code{"max"} or \code{"sum"}. See \code{\link[=normalize]{normalize()}} for more
-details.}
+details. For \code{smooth}: define the smoothing method, either
+\code{"SavitzkyGolay"} or \code{"MovingAverage"}. See method description below or
+\code{\link[=smooth]{smooth()}} for more details.}
 
-\item{halfWindowSize}{for \code{pickPeaks}: controls the window size of the
-peak picking algorithm. See \code{\link[=pickPeaks]{pickPeaks()}} for details.}
+\item{halfWindowSize}{for \code{pickPeaks} and \code{smooth}: controls the window size
+of the peak picking algorithm. See \code{\link[=pickPeaks]{pickPeaks()}} or \code{\link[=smooth]{smooth()}} for
+details.}
 
 \item{SNR}{for \code{pickPeaks}: \code{numeric(1)}, a local maximum is considered a
 peak if its intensity is \code{SNR} times larger than the estimated noise.
@@ -316,6 +331,12 @@ See \code{\link[=pickPeaks]{pickPeaks()}} for more details.}
 used to refine the centroid's m/z. See \code{\link[=pickPeaks]{pickPeaks()}} for details.}
 
 \item{t}{for \code{removePeaks}: a \code{numeric(1)} defining the threshold or \code{"min"}.}
+
+\item{reporters}{for \code{removeReporters}: \link{ReporterIons} defining the reporters
+to be removed. See method description below for more information.}
+
+\item{clean}{for \code{removeReporters}: \code{logical(1)} whether \code{0} intensity
+values should be cleaned from the spectra after removing the reporters.}
 }
 \value{
 See individual method description for the return value.
@@ -380,10 +401,11 @@ whether the spectrum is centroided. \code{centroided<-} either takes a single
 \code{logical} or \code{logical} with the same length than spectra.
 \item \code{collisionEnergy}, \code{collisionEnergy<-}: get or set the collision energy
 for all spectra in \code{object}.
-\item \code{featureData}: get or set general spectrum metadata. Returns a \code{DataFrame}
-or a \code{MSnExperiment} with updated spectra metadata. Each row of the
-\code{DataFrame} contains information for one spectrum. This function is
-equivalent to \code{\link[=featureData]{featureData()}} of \code{MSnExp}/\code{OnDiskMSnExp} objects.
+\item \code{featureData}, \code{fData}: get or set general spectrum metadata. Returns
+a \code{DataFrame} or a \code{MSnExperiment} with updated spectra metadata. Each
+row of the \code{DataFrame} contains information for one spectrum. This
+function is equivalent to \code{\link[=featureData]{featureData()}} of \code{MSnExp}/\code{OnDiskMSnExp}
+objects.
 \item \code{featureNames}: extract the feature (spectrum) names.
 \item \code{fileNames}: get the original file names from which the data was imported.
 \item \code{fromFile}: get the file/sample assignment of each spectrum. Returns a
@@ -537,8 +559,15 @@ with the normalized spectra.
 \item \code{pickPeaks}: perform peak picking to generate centroided spectra. For
 detailed description see \code{\link[=pickPeaks]{pickPeaks()}}. The function returns an
 \code{MSnExperiment} with centroided spectra.
+\item \code{removeReporters}: set all reporter tag ion peaks in MS2 spectra to \code{0}.
+Reporter ions have to specified using a \link{ReporterIons} class and passed to
+the function with the \code{reporters} argument. Parameter \code{clean} allows to
+specify whether \code{0} intensity peaks should be removed from spectra. See
+\code{\link[=removeReporters]{removeReporters()}} for more details. The function returns an
+\code{MSnExperiment} with the reporter peaks removed.
 \item \code{removePeaks}: remove peaks lower than a threshold \code{t}. See
 \code{\link[=removePeaks]{removePeaks()}} for \linkS4class{Spectrum} objects for more details.
+\item \code{smooth}: smooths intensities of each spectrum data within the \code{object using the method specified with }method\code{. Currently }method = "SavitzkyGolay"\code{(default) and}method = "MovingAverage\code{are available for smoothing the data with a Savitzky-Golay filter or with an moving average approach. Parameter}halfWindowSize\code{(default =}2\code{) controls the window size of the filter. Additional parameters to the filter function can be passed with the }...\code{parameter. See [smooth()] for more information and descriptions on the filters. The function returns a}MSnExperiment` object with smoothed spectra.
 }
 }
 
