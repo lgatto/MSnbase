@@ -403,7 +403,7 @@ Raw MS2 spectrum with details about reporter ions.
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Data [logically] subsetted 3 spectra: Tue Feb 12 22:25:18 2019 
+## Data [logically] subsetted 3 spectra: Tue Feb 26 22:26:04 2019 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -729,8 +729,8 @@ This figure illustrated the effect or the <code>removePeaks</code> and <code>cle
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Tue Feb 12 22:25:23 2019 
-## Spectra cleaned: Tue Feb 12 22:25:24 2019 
+## Curves &lt;= 400 set to '0': Tue Feb 26 22:26:10 2019 
+## Spectra cleaned: Tue Feb 26 22:26:11 2019 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -796,9 +796,9 @@ The different quantitation methods. See text for details.
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Tue Feb 12 22:25:23 2019 
-## Spectra cleaned: Tue Feb 12 22:25:24 2019 
-## iTRAQ4 quantification by trapezoidation: Tue Feb 12 22:25:27 2019 
+## Curves &lt;= 400 set to '0': Tue Feb 26 22:26:10 2019 
+## Spectra cleaned: Tue Feb 26 22:26:11 2019 
+## iTRAQ4 quantification by trapezoidation: Tue Feb 26 22:26:14 2019 
 ##  MSnbase version: 1.1.22</code></pre>
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span>(qnt))</a></code></pre></div>
 <pre><code>##     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
@@ -932,7 +932,7 @@ The different quantitation methods. See text for details.
 <div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/impute-methods.html">impute</a></span>(naset, <span class="st">"min"</span>)</a>
 <a class="sourceLine" id="cb128-2" data-line-number="2"><span class="kw"><a href="../reference/pSet-class.html">processingData</a></span>(x)</a></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data imputation using min Tue Feb 12 22:25:28 2019 
+## Data imputation using min Tue Feb 26 22:26:15 2019 
 ##  MSnbase version: 1.15.6</code></pre>
 <div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NA">is.na</a></span>(x))</a></code></pre></div>
 <pre><code>## 
@@ -969,7 +969,7 @@ Mixed imputation method. Black cells represent presence of quantitation values a
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Data imputation using mixed Tue Feb 12 22:25:29 2019 
+## Data imputation using mixed Tue Feb 26 22:26:16 2019 
 ##   Using default parameters 
 ##  MSnbase version: 1.15.6</code></pre>
 <p>Please read <code><a href="../reference/impute-methods.html">?impute</a></code> for a description of the different methods.</p>
@@ -1049,13 +1049,13 @@ CV versus signal intensity comparison for log2 and vsn transformed data. Lines i
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Tue Feb 12 22:25:23 2019 
-## Spectra cleaned: Tue Feb 12 22:25:24 2019 
-## iTRAQ4 quantification by trapezoidation: Tue Feb 12 22:25:27 2019 
-## Subset [55,4][54,4] Tue Feb 12 22:25:27 2019 
-## Removed features with more than 0 NAs: Tue Feb 12 22:25:27 2019 
-## Dropped featureData's levels Tue Feb 12 22:25:27 2019 
-## Combined 54 features into 40 using median: Tue Feb 12 22:25:30 2019 
+## Curves &lt;= 400 set to '0': Tue Feb 26 22:26:10 2019 
+## Spectra cleaned: Tue Feb 26 22:26:11 2019 
+## iTRAQ4 quantification by trapezoidation: Tue Feb 26 22:26:14 2019 
+## Subset [55,4][54,4] Tue Feb 26 22:26:14 2019 
+## Removed features with more than 0 NAs: Tue Feb 26 22:26:14 2019 
+## Dropped featureData's levels Tue Feb 26 22:26:14 2019 
+## Combined 54 features into 40 using median: Tue Feb 26 22:26:17 2019 
 ##  MSnbase version: 2.9.3</code></pre>
 <p>Of interest is also the <code>iPQF</code> spectra-to-protein summarisation method, which integrates peptide spectra characteristics and quantitative values for protein quantitation estimation. See <code><a href="../reference/iPQF.html">?iPQF</a></code> and references therein for details.</p>
 </div>
@@ -1094,11 +1094,11 @@ CV versus signal intensity comparison for log2 and vsn transformed data. Lines i
 <div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" data-line-number="1">siquant &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(msexp, <span class="dt">method =</span> <span class="st">"SIn"</span>)</a>
 <a class="sourceLine" id="cb148-2" data-line-number="2"><span class="kw"><a href="../reference/pSet-class.html">processingData</a></span>(siquant)</a></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data loaded: Tue Feb 12 22:25:23 2019 
-## Filtered 2 unidentified peptides out [Tue Feb 12 22:25:23 2019] 
-## Quantitation by total ion current [Tue Feb 12 22:25:30 2019] 
-## Combined 3 features into 3 using sum: Tue Feb 12 22:25:30 2019 
-## Quantification by SIn [Tue Feb 12 22:25:30 2019] 
+## Data loaded: Tue Feb 26 22:26:09 2019 
+## Filtered 2 unidentified peptides out [Tue Feb 26 22:26:09 2019] 
+## Quantitation by total ion current [Tue Feb 26 22:26:17 2019] 
+## Combined 3 features into 3 using sum: Tue Feb 26 22:26:17 2019 
+## Quantification by SIn [Tue Feb 26 22:26:17 2019] 
 ##  MSnbase version: 2.9.3</code></pre>
 <div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span>(siquant)</a></code></pre></div>
 <pre><code>##         dummyiTRAQ.mzXML
@@ -1255,55 +1255,52 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 <a class="sourceLine" id="cb190-10" data-line-number="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(<span class="kw">featureNames</span>(exp1) <span class="op">%in%</span><span class="st"> </span><span class="kw">featureNames</span>(exp2))</a></code></pre></div>
 <pre><code>## 
 ## FALSE  TRUE 
-##    12    23</code></pre>
+##    14    21</code></pre>
 <div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb192-1" data-line-number="1">exp1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/combineFeatures.html">combineFeatures</a></span>(exp1,</a>
-<a class="sourceLine" id="cb192-2" data-line-number="2">                        <span class="dt">groupBy =</span> <span class="kw">fData</span>(exp1)<span class="op">$</span>ProteinAccession)</a></code></pre></div>
+<a class="sourceLine" id="cb192-2" data-line-number="2">                        <span class="dt">groupBy =</span> <span class="kw">fData</span>(exp1)<span class="op">$</span>ProteinAccession)</a>
+<a class="sourceLine" id="cb192-3" data-line-number="3">exp2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/combineFeatures.html">combineFeatures</a></span>(exp2,</a>
+<a class="sourceLine" id="cb192-4" data-line-number="4">                        <span class="dt">groupBy =</span> <span class="kw">fData</span>(exp2)<span class="op">$</span>ProteinAccession)</a></code></pre></div>
 <pre><code>## Your data contains missing values. Please read the relevant
 ## section in the combineFeatures manual page for details the effects
 ## of missing values on data aggregation.</code></pre>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb194-1" data-line-number="1">exp2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/combineFeatures.html">combineFeatures</a></span>(exp2,</a>
-<a class="sourceLine" id="cb194-2" data-line-number="2">                        <span class="dt">groupBy =</span> <span class="kw">fData</span>(exp2)<span class="op">$</span>ProteinAccession)</a></code></pre></div>
-<pre><code>## Your data contains missing values. Please read the relevant
-## section in the combineFeatures manual page for details the effects
-## of missing values on data aggregation.</code></pre>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb196-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw">featureNames</span>(exp1))</a></code></pre></div>
-<pre><code>## [1] "BSA"     "ECA0435" "ECA0469" "ECA0621" "ECA0631" "ECA0978"</code></pre>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb198-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw">featureNames</span>(exp2))</a></code></pre></div>
-<pre><code>## [1] "BSA"     "ECA0172" "ECA0435" "ECA0452" "ECA0469" "ECA0621"</code></pre>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb194-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw">featureNames</span>(exp1))</a></code></pre></div>
+<pre><code>## [1] "BSA"     "ECA0172" "ECA0469" "ECA0631" "ECA0691" "ECA0871"</code></pre>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb196-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw">featureNames</span>(exp2))</a></code></pre></div>
+<pre><code>## [1] "BSA"     "ECA0435" "ECA0469" "ECA0621" "ECA0871" "ECA1032"</code></pre>
 <p>The <code>droplevels</code> drops the unused <code>featureData</code> levels. This is required to avoid passing absent levels as <code>groupBy</code> in <code>combineFeatures</code>. Alternatively, one could also use <code>factor(fData(exp1)\$ProteinAccession)</code> as <code>groupBy</code> argument.</p>
 <p>The feature names are updated automatically by <code>combineFeatures</code>, using the <code>groupBy</code> argument. Proper feature names, reflecting the nature of the features (spectra, peptides or proteins) is critical when multiple experiments are to be combined, as this is done using common features as defined by their names (see below).</p>
 <p>Sample names should also be updated to replace anonymous reporter names with relevant identifiers; the individual reporter data is stored in the <code>phenoData</code> and is not lost. A convenience function <code>updateSampleNames</code> is provided to append the <em>MSnSet</em>’s variable name to the already defined names, although in general, biologically relevant identifiers are preferred.</p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb200-1" data-line-number="1"><span class="kw">sampleNames</span>(exp1)</a></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb198-1" data-line-number="1"><span class="kw">sampleNames</span>(exp1)</a></code></pre></div>
 <pre><code>## [1] "iTRAQ4.114" "iTRAQ4.115" "iTRAQ4.116" "iTRAQ4.117"</code></pre>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb202-1" data-line-number="1">exp1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MSnSet-class.html">updateSampleNames</a></span>(exp1)</a>
-<a class="sourceLine" id="cb202-2" data-line-number="2"><span class="kw">sampleNames</span>(exp1)</a></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb200-1" data-line-number="1">exp1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MSnSet-class.html">updateSampleNames</a></span>(exp1)</a>
+<a class="sourceLine" id="cb200-2" data-line-number="2"><span class="kw">sampleNames</span>(exp1)</a></code></pre></div>
 <pre><code>## [1] "iTRAQ4.114.exp1" "iTRAQ4.115.exp1" "iTRAQ4.116.exp1" "iTRAQ4.117.exp1"</code></pre>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb204-1" data-line-number="1"><span class="kw">sampleNames</span>(exp1) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Ctrl1"</span>, <span class="st">"Cond1"</span>, <span class="st">"Ctrl2"</span>, <span class="st">"Cond2"</span>)</a>
-<a class="sourceLine" id="cb204-2" data-line-number="2"><span class="kw">sampleNames</span>(exp2) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Ctrl3"</span>, <span class="st">"Cond3"</span>, <span class="st">"Ctrl4"</span>, <span class="st">"Cond4"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb202-1" data-line-number="1"><span class="kw">sampleNames</span>(exp1) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Ctrl1"</span>, <span class="st">"Cond1"</span>, <span class="st">"Ctrl2"</span>, <span class="st">"Cond2"</span>)</a>
+<a class="sourceLine" id="cb202-2" data-line-number="2"><span class="kw">sampleNames</span>(exp2) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Ctrl3"</span>, <span class="st">"Cond3"</span>, <span class="st">"Ctrl4"</span>, <span class="st">"Cond4"</span>)</a></code></pre></div>
 <p>At this stage, it is not yet possible to combine the two experiments, because their feature data is not compatible yet; they share the same feature variable labels, i.e. the feature data column names (spectrum, ProteinAccession, ProteinDescription, …), but the part of the content is different because the original data was (in particular all the spectrum centric data: identical peptides in different runs will have different retention times, precursor intensities, …). Feature data with identical labels (columns in the data frame) and names (row in the data frame) are expected to have the same data and produce an error if not conform.</p>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb205-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/stopifnot">stopifnot</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all">all</a></span>(<span class="kw">fvarLabels</span>(exp1) <span class="op">==</span><span class="st"> </span><span class="kw">fvarLabels</span>(exp2)))</a>
-<a class="sourceLine" id="cb205-2" data-line-number="2"><span class="kw">fData</span>(exp1)[<span class="st">"BSA"</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb203-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/stopifnot">stopifnot</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all">all</a></span>(<span class="kw">fvarLabels</span>(exp1) <span class="op">==</span><span class="st"> </span><span class="kw">fvarLabels</span>(exp2)))</a>
+<a class="sourceLine" id="cb203-2" data-line-number="2"><span class="kw">fData</span>(exp1)[<span class="st">"BSA"</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</a></code></pre></div>
 <pre><code>##     spectrum ProteinAccession   ProteinDescription PeptideSequence
 ## BSA        1              BSA bovine serum albumin          NYQEAK</code></pre>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" data-line-number="1"><span class="kw">fData</span>(exp2)[<span class="st">"BSA"</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb205-1" data-line-number="1"><span class="kw">fData</span>(exp2)[<span class="st">"BSA"</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</a></code></pre></div>
 <pre><code>##     spectrum ProteinAccession   ProteinDescription PeptideSequence
-## BSA       52              BSA bovine serum albumin       QTALVELLK</code></pre>
+## BSA        1              BSA bovine serum albumin          NYQEAK</code></pre>
 <p>Instead of removing these identical feature data columns, one can use a second convenience function, <code>updateFvarLabels</code>, to update feature labels based on the experiements variable name and maintain all the metadata.</p>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" data-line-number="1">exp1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MSnSet-class.html">updateFvarLabels</a></span>(exp1)</a>
-<a class="sourceLine" id="cb209-2" data-line-number="2">exp2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MSnSet-class.html">updateFvarLabels</a></span>(exp2)</a>
-<a class="sourceLine" id="cb209-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw">fvarLabels</span>(exp1))</a></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" data-line-number="1">exp1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MSnSet-class.html">updateFvarLabels</a></span>(exp1)</a>
+<a class="sourceLine" id="cb207-2" data-line-number="2">exp2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MSnSet-class.html">updateFvarLabels</a></span>(exp2)</a>
+<a class="sourceLine" id="cb207-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw">fvarLabels</span>(exp1))</a></code></pre></div>
 <pre><code>## [1] "spectrum.exp1"           "ProteinAccession.exp1"  
 ## [3] "ProteinDescription.exp1" "PeptideSequence.exp1"   
 ## [5] "fileIdx.exp1"            "retention.time.exp1"</code></pre>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw">fvarLabels</span>(exp2))</a></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw">fvarLabels</span>(exp2))</a></code></pre></div>
 <pre><code>## [1] "spectrum.exp2"           "ProteinAccession.exp2"  
 ## [3] "ProteinDescription.exp2" "PeptideSequence.exp2"   
 ## [5] "fileIdx.exp2"            "retention.time.exp2"</code></pre>
 <p>It is now possible to combine <code>exp1</code> and <code>exp2</code>, including all the meta-data, with the <code>combine</code> method. The new experiment will contain the union of the feature names of the individual experiments with missing values inserted appropriately.</p>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb213-1" data-line-number="1">exp12 &lt;-<span class="st"> </span><span class="kw">combine</span>(exp1, exp2)</a>
-<a class="sourceLine" id="cb213-2" data-line-number="2"><span class="kw"><a href="../reference/pSet-class.html">dim</a></span>(exp12)</a></code></pre></div>
-<pre><code>## [1] 35  8</code></pre>
-<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" data-line-number="1"><span class="kw">pData</span>(exp12)</a></code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" data-line-number="1">exp12 &lt;-<span class="st"> </span><span class="kw">combine</span>(exp1, exp2)</a>
+<a class="sourceLine" id="cb211-2" data-line-number="2"><span class="kw"><a href="../reference/pSet-class.html">dim</a></span>(exp12)</a></code></pre></div>
+<pre><code>## [1] 36  8</code></pre>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb213-1" data-line-number="1"><span class="kw">pData</span>(exp12)</a></code></pre></div>
 <pre><code>##             mz reporters
 ## Ctrl1 114.1112    iTRAQ4
 ## Cond1 115.1083    iTRAQ4
@@ -1313,20 +1310,20 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 ## Cond3 115.1083    iTRAQ4
 ## Ctrl4 116.1116    iTRAQ4
 ## Cond4 117.1150    iTRAQ4</code></pre>
-<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span>(exp12)[<span class="dv">25</span><span class="op">:</span><span class="dv">28</span>, ]</a></code></pre></div>
-<pre><code>##            Ctrl1    Cond1    Ctrl2     Cond2    Ctrl3    Cond3    Ctrl4
-## ECA4513 10154.95 10486.94 11018.19 11289.552       NA       NA       NA
-## ECA4514 20396.49 20832.98 23280.82 23693.574 15965.52 16206.91 18455.76
-## ENO     50826.03 31978.10       NA  7528.967 39965.73 24967.40       NA
-## ECA0172       NA       NA       NA        NA 17593.55 18545.62 19361.84
-##             Cond4
-## ECA4513        NA
-## ECA4514 18704.058
-## ENO      5925.663
-## ECA0172 18328.237</code></pre>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" data-line-number="1">exp12</a></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span>(exp12)[<span class="dv">25</span><span class="op">:</span><span class="dv">28</span>, ]</a></code></pre></div>
+<pre><code>##             Ctrl1     Cond1     Ctrl2     Cond2     Ctrl3     Cond3
+## ECA4513 10154.953 10486.943 11018.191 11289.552        NA        NA
+## ECA4514  6516.397  6746.337  6658.973  6838.491 12457.173 12695.491
+## ENO     77239.040 49352.793 22493.050 11187.588 39965.733 24967.397
+## ECA0435        NA        NA        NA        NA  4923.628  5557.818
+##             Ctrl4     Cond4
+## ECA4513        NA        NA
+## ECA4514 14423.640 14556.855
+## ENO            NA  5925.663
+## ECA0435  5775.203  5079.295</code></pre>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" data-line-number="1">exp12</a></code></pre></div>
 <pre><code>## MSnSet (storageMode: lockedEnvironment)
-## assayData: 35 features, 8 samples 
+## assayData: 36 features, 8 samples 
 ##   element names: exprs 
 ## protocolData: none
 ## phenoData
@@ -1334,14 +1331,14 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 ##   varLabels: mz reporters
 ##   varMetadata: labelDescription
 ## featureData
-##   featureNames: BSA ECA0435 ... ECA4512 (35 total)
+##   featureNames: BSA ECA0172 ... ECA4037 (36 total)
 ##   fvarLabels: spectrum.exp1 ProteinAccession.exp1 ...
 ##     CV.iTRAQ4.117.exp2 (38 total)
 ##   fvarMetadata: labelDescription
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Combined [27,4] and [27,4] MSnSets Tue Feb 12 22:25:39 2019 
+## Combined [27,4] and [24,4] MSnSets Tue Feb 26 22:26:28 2019 
 ##  MSnbase version: 2.9.3</code></pre>
 <p>In summary, when experiments with different samples need to be combined (along the columns), one needs to (1) clarify the sample names using <code>updateSampleNames</code> or better manually, for biological relevance and (2) update the feature data variable labels with <code>updateFvarLabels</code>. The individual experiments (there can be more than 2) can then easily be combined with the <code>combine</code> method while retaining the meta-data.</p>
 <p>If runs for the same sample (different fractions for example) need to be combines, one needs to (1) differentiate the feature provenance with <code>updateFeatureNames</code> prior to use <code>combine</code>.</p>
@@ -1350,8 +1347,8 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 <h2 class="hasAnchor">
 <a href="#sec:split" class="anchor"></a>Splitting and unsplitting <em>MSnSet</em> instances</h2>
 <p>A single <em>MSnSet</em> can also be split along the features/rows or samples/columns using the <code>split</code> method and a factor defining the splitting groups, resulting in an instance of class <em>MSnSetList</em>:</p>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(dunkley2006)</a>
-<a class="sourceLine" id="cb221-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw">pData</span>(dunkley2006))</a></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(dunkley2006)</a>
+<a class="sourceLine" id="cb219-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw">pData</span>(dunkley2006))</a></code></pre></div>
 <pre><code>##        membrane.prep fraction replicate
 ## M1F1A              1        1         A
 ## M1F4A              1        4         A
@@ -1359,14 +1356,14 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 ## M1F11A             1       11         A
 ## M1F2B              1        2         B
 ## M1F5B              1        5         B</code></pre>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/split">split</a></span>(dunkley2006, dunkley2006<span class="op">$</span>replicate)</a></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/split">split</a></span>(dunkley2006, dunkley2006<span class="op">$</span>replicate)</a></code></pre></div>
 <pre><code>## Instance of class 'MSnSetList' containig 2 objects.</code></pre>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb225-1" data-line-number="1">## or, defining the appropriate annotation variable name</a>
-<a class="sourceLine" id="cb225-2" data-line-number="2">dun &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/split">split</a></span>(dunkley2006, <span class="st">"replicate"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" data-line-number="1">## or, defining the appropriate annotation variable name</a>
+<a class="sourceLine" id="cb223-2" data-line-number="2">dun &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/split">split</a></span>(dunkley2006, <span class="st">"replicate"</span>)</a></code></pre></div>
 <p>Above, we split along the columns/samples, but the function would equally work with a factor of length equal to the number of rows of the <em>MSnSet</em> (or a feature variable name) to split along the rows/features.</p>
 <p>Finally, the effect of <code>split</code> can be reverted by <code>unsplit</code>.</p>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb226-1" data-line-number="1">dun2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/split">unsplit</a></span>(dun, <span class="kw">pData</span>(dunkley2006)<span class="op">$</span>replicate)</a>
-<a class="sourceLine" id="cb226-2" data-line-number="2"><span class="kw"><a href="../reference/compareMSnSets.html">compareMSnSets</a></span>(dunkley2006, dun2)</a></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb224-1" data-line-number="1">dun2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/split">unsplit</a></span>(dun, <span class="kw">pData</span>(dunkley2006)<span class="op">$</span>replicate)</a>
+<a class="sourceLine" id="cb224-2" data-line-number="2"><span class="kw"><a href="../reference/compareMSnSets.html">compareMSnSets</a></span>(dunkley2006, dun2)</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>See <code><a href="../reference/MSnSetList-class.html">?MSnSetList</a></code> for more details about the class, <code>split</code> and <code>unsplit</code> and comments about storing multiple assays pertaining the same experiment.</p>
 </div>
@@ -1375,13 +1372,13 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 <a href="#sec:avg" class="anchor"></a>Averaging <em>MSnSet</em> instances</h2>
 <p>It is sometimes useful to average a set of replicated experiments to facilitate their visualisation. This can be easily achieved with the <code>averageMSnSet</code> function, which takes a list of valid <em>MSnSet</em> instances as input and creates a new object whose expression values are an average of the original values. A value of dispersion (<code>disp</code>) and a count of missing values (<code>nNA</code>) is recorded in the feature metadata slot. The average and dispersion are computed by default as the median and (non-parametric) coefficient of variation (see <code><a href="../reference/npcv.html">?npcv</a></code> for details), although this can easily be parametrised, as described in <code><a href="../reference/averageMSnSet.html">?averageMSnSet</a></code>.</p>
 <p>The next code chunk illustrates the averaging function using three replicated experiments from <span class="citation">(Tan et al. 2009)</span> available in the <em><a href="https://bioconductor.org/packages/3.9/pRolocdata">pRolocdata</a></em> package.</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb228-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"pRolocdata"</span>)</a>
-<a class="sourceLine" id="cb228-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(tan2009r1)</a>
-<a class="sourceLine" id="cb228-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(tan2009r2)</a>
-<a class="sourceLine" id="cb228-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(tan2009r3)</a>
-<a class="sourceLine" id="cb228-5" data-line-number="5">msnl &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MSnSetList-class.html">MSnSetList</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(tan2009r1, tan2009r2, tan2009r3))</a>
-<a class="sourceLine" id="cb228-6" data-line-number="6">avgtan &lt;-<span class="st"> </span><span class="kw"><a href="../reference/averageMSnSet.html">averageMSnSet</a></span>(msnl)</a>
-<a class="sourceLine" id="cb228-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span>(avgtan))</a></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb226-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"pRolocdata"</span>)</a>
+<a class="sourceLine" id="cb226-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(tan2009r1)</a>
+<a class="sourceLine" id="cb226-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(tan2009r2)</a>
+<a class="sourceLine" id="cb226-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(tan2009r3)</a>
+<a class="sourceLine" id="cb226-5" data-line-number="5">msnl &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MSnSetList-class.html">MSnSetList</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(tan2009r1, tan2009r2, tan2009r3))</a>
+<a class="sourceLine" id="cb226-6" data-line-number="6">avgtan &lt;-<span class="st"> </span><span class="kw"><a href="../reference/averageMSnSet.html">averageMSnSet</a></span>(msnl)</a>
+<a class="sourceLine" id="cb226-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span>(avgtan))</a></code></pre></div>
 <pre><code>##             X114      X115      X116      X117
 ## P20353 0.3605000 0.3035000 0.2095000 0.1265000
 ## P53501 0.4299090 0.1779700 0.2068280 0.1852625
@@ -1389,7 +1386,7 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 ## P04412 0.2567500 0.2210000 0.3015000 0.2205000
 ## Q7KJ73 0.2160000 0.1830000 0.3420000 0.2590000
 ## Q7JZN0 0.0965000 0.2509443 0.4771667 0.1750557</code></pre>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb230-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw">fData</span>(avgtan)<span class="op">$</span>disp)</a></code></pre></div>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb228-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw">fData</span>(avgtan)<span class="op">$</span>disp)</a></code></pre></div>
 <pre><code>##               X114      X115        X116       X117
 ## P20353 0.076083495 0.1099127 0.109691169 0.14650198
 ## P53501 0.034172542 0.2640556 0.005139653 0.17104568
@@ -1397,7 +1394,7 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 ## P04412 0.053414021 0.2146751 0.090972139 0.27903810
 ## Q7KJ73 0.000000000 0.0000000 0.000000000 0.00000000
 ## Q7JZN0 0.007681865 0.1959534 0.097873350 0.06210542</code></pre>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb232-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw">fData</span>(avgtan)<span class="op">$</span>nNA)</a></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb230-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw">fData</span>(avgtan)<span class="op">$</span>nNA)</a></code></pre></div>
 <pre><code>##        X114 X115 X116 X117
 ## P20353    1    1    1    1
 ## P53501    1    1    1    1
@@ -1406,12 +1403,12 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 ## Q7KJ73    2    2    2    2
 ## Q7JZN0    0    0    0    0</code></pre>
 <p>We are going to visualise the average data on a principle component (PCA) plot using the <code>plot2D</code> function from the <em><a href="https://bioconductor.org/packages/3.9/pRoloc">pRoloc</a></em> package <span class="citation">(Gatto et al. 2014)</span>. In addition, we are going to use the measure of dispersion to highlight averages with high variability by taking, for each protein, the maximum observed dispersion in the 4 samples. Note that in the default implementation, dispersions estimated from a single measurement (i.e. that had 2 missing values in our example) are set to 0; we will set these to the overal maximum observed dispersion.</p>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb234-1" data-line-number="1">disp &lt;-<span class="st"> </span><span class="kw">rowMax</span>(<span class="kw">fData</span>(avgtan)<span class="op">$</span>disp)</a>
-<a class="sourceLine" id="cb234-2" data-line-number="2">disp[disp <span class="op">==</span><span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">max</a></span>(disp)</a>
-<a class="sourceLine" id="cb234-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/range">range</a></span>(disp)</a></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb232-1" data-line-number="1">disp &lt;-<span class="st"> </span><span class="kw">rowMax</span>(<span class="kw">fData</span>(avgtan)<span class="op">$</span>disp)</a>
+<a class="sourceLine" id="cb232-2" data-line-number="2">disp[disp <span class="op">==</span><span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">max</a></span>(disp)</a>
+<a class="sourceLine" id="cb232-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/range">range</a></span>(disp)</a></code></pre></div>
 <pre><code>## [1] 0.01152877 1.20888923</code></pre>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb236-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"pRoloc"</span>)</a>
-<a class="sourceLine" id="cb236-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/pRoloc/topics/plot2D">plot2D</a></span>(avgtan, <span class="dt">cex =</span> <span class="dv">3</span> <span class="op">*</span><span class="st"> </span>disp)</a></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb234-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"pRoloc"</span>)</a>
+<a class="sourceLine" id="cb234-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/pRoloc/topics/plot2D">plot2D</a></span>(avgtan, <span class="dt">cex =</span> <span class="dv">3</span> <span class="op">*</span><span class="st"> </span>disp)</a></code></pre></div>
 <div class="figure">
 <img src="v01-MSnbase-demo_files/figure-html/plot2Davg-1.png" alt="PCA plot of the averaged *MSnSet*. The point sizes are proportional to the dispersion of the protein quantitation across the averaged data." width="700"><p class="caption">
 PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to the dispersion of the protein quantitation across the averaged data.
@@ -1427,7 +1424,7 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 <div id="session-information" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
-<pre><code>## R Under development (unstable) (2019-02-12 r76095)
+<pre><code>## R Under development (unstable) (2019-02-26 r76164)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
@@ -1449,7 +1446,7 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 ## 
 ## other attached packages:
 ##  [1] gplots_3.0.1.1       msdata_0.23.0        pRoloc_1.23.1       
-##  [4] BiocParallel_1.17.13 MLInterfaces_1.63.0  cluster_2.0.7-1     
+##  [4] BiocParallel_1.17.16 MLInterfaces_1.63.0  cluster_2.0.7-1     
 ##  [7] annotate_1.61.0      XML_3.98-1.17        AnnotationDbi_1.45.0
 ## [10] IRanges_2.17.4       pRolocdata_1.21.0    Rdisop_1.43.1       
 ## [13] RcppClassic_0.9.11   zoo_1.8-4            MSnbase_2.9.3       
@@ -1458,54 +1455,54 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 ## [22] ggplot2_3.1.0        BiocStyle_2.11.0    
 ## 
 ## loaded via a namespace (and not attached):
-##   [1] tidyselect_0.2.5      RSQLite_2.1.1         htmlwidgets_1.3      
-##   [4] trimcluster_0.1-2.1   lpSolve_5.6.13        rda_1.0.2-2.1        
-##   [7] munsell_0.5.0         codetools_0.2-16      preprocessCore_1.45.0
-##  [10] withr_2.1.2           colorspace_1.4-0      highr_0.7            
-##  [13] knitr_1.21            robustbase_0.93-3     mzID_1.21.1          
-##  [16] labeling_0.3          hwriter_1.3.2         bit64_0.9-7          
-##  [19] ggvis_0.4.4           rprojroot_1.3-2       coda_0.19-2          
-##  [22] generics_0.0.2        ipred_0.9-8           xfun_0.4             
-##  [25] randomForest_4.6-14   diptest_0.75-7        R6_2.3.0             
-##  [28] doParallel_1.0.14     flexmix_2.3-14        bitops_1.0-6         
-##  [31] assertthat_0.2.0      promises_1.0.1        scales_1.0.0         
-##  [34] nnet_7.3-12           gtable_0.2.0          affy_1.61.0          
-##  [37] timeDate_3043.102     rlang_0.3.1           genefilter_1.65.0    
-##  [40] splines_3.6.0         lazyeval_0.2.1        ModelMetrics_1.2.2   
-##  [43] impute_1.57.0         hexbin_1.27.2         BiocManager_1.30.4   
-##  [46] yaml_2.2.0            reshape2_1.4.3        threejs_0.3.1        
-##  [49] crosstalk_1.0.0       backports_1.1.3       httpuv_1.4.5.1       
-##  [52] caret_6.0-81          tools_3.6.0           lava_1.6.5           
-##  [55] bookdown_0.9          affyio_1.53.0         RColorBrewer_1.1-2   
-##  [58] proxy_0.4-22          plyr_1.8.4            base64enc_0.1-3      
-##  [61] progress_1.2.0        zlibbioc_1.29.0       purrr_0.3.0          
-##  [64] RCurl_1.95-4.11       prettyunits_1.0.2     rpart_4.1-13         
-##  [67] viridis_0.5.1         sampling_2.8          sfsmisc_1.1-3        
-##  [70] LaplacesDemon_16.1.1  fs_1.2.6              magrittr_1.5         
-##  [73] data.table_1.12.0     pcaMethods_1.75.1     mvtnorm_1.0-8        
-##  [76] whisker_0.3-2         hms_0.4.2             mime_0.6             
-##  [79] evaluate_0.13         xtable_1.8-3          mclust_5.4.2         
-##  [82] gridExtra_2.3         compiler_3.6.0        biomaRt_2.39.2       
-##  [85] tibble_2.0.1          KernSmooth_2.23-15    ncdf4_1.16           
-##  [88] crayon_1.3.4          htmltools_0.3.6       segmented_0.5-3.0    
-##  [91] later_0.8.0           lubridate_1.7.4       DBI_1.0.0            
-##  [94] MASS_7.3-51.1         fpc_2.1-11.1          Matrix_1.2-15        
-##  [97] vsn_3.51.0            gdata_2.18.0          mlbench_2.1-1        
-## [100] bindr_0.1.1           gower_0.1.2           igraph_1.2.3         
-## [103] pkgconfig_2.0.2       pkgdown_1.3.0         recipes_0.1.4        
-## [106] MALDIquant_1.18       xml2_1.2.0            roxygen2_6.1.1       
-## [109] foreach_1.4.4         prodlim_2018.04.18    stringr_1.4.0        
-## [112] digest_0.6.18         pls_2.7-0             rmarkdown_1.11       
-## [115] dendextend_1.9.0      kernlab_0.9-27        shiny_1.2.0          
-## [118] gtools_3.8.1          commonmark_1.7        modeltools_0.2-22    
-## [121] nlme_3.1-137          bindrcpp_0.2.2        desc_1.2.0           
-## [124] viridisLite_0.3.0     limma_3.39.5          pillar_1.3.1         
-## [127] lattice_0.20-38       httr_1.4.0            DEoptimR_1.0-8       
-## [130] survival_2.43-3       glue_1.3.0            FNN_1.1.2.2          
-## [133] gbm_2.1.5             prabclus_2.2-7        iterators_1.0.10     
-## [136] bit_1.1-14            class_7.3-15          stringi_1.2.4        
-## [139] mixtools_1.1.0        blob_1.1.1            caTools_1.17.1.1     
-## [142] memoise_1.1.0         dplyr_0.7.8           e1071_1.7-0.1</code></pre>
+##   [1] backports_1.1.3       plyr_1.8.4            igraph_1.2.4         
+##   [4] lazyeval_0.2.1        splines_3.6.0         ggvis_0.4.4          
+##   [7] crosstalk_1.0.0       digest_0.6.18         foreach_1.4.4        
+##  [10] htmltools_0.3.6       viridis_0.5.1         gdata_2.18.0         
+##  [13] magrittr_1.5          memoise_1.1.0         doParallel_1.0.14    
+##  [16] mixtools_1.1.0        sfsmisc_1.1-3         limma_3.39.12        
+##  [19] recipes_0.1.4         gower_0.1.2           rda_1.0.2-2.1        
+##  [22] pkgdown_1.3.0         lpSolve_5.6.13        prettyunits_1.0.2    
+##  [25] colorspace_1.4-0      blob_1.1.1            xfun_0.5             
+##  [28] dplyr_0.8.0.1         crayon_1.3.4          RCurl_1.95-4.11      
+##  [31] hexbin_1.27.2         roxygen2_6.1.1        genefilter_1.65.0    
+##  [34] impute_1.57.0         survival_2.43-3       iterators_1.0.10     
+##  [37] glue_1.3.0            gtable_0.2.0          ipred_0.9-8          
+##  [40] zlibbioc_1.29.0       kernlab_0.9-27        prabclus_2.2-7       
+##  [43] DEoptimR_1.0-8        scales_1.0.0          vsn_3.51.0           
+##  [46] mvtnorm_1.0-8         DBI_1.0.0             viridisLite_0.3.0    
+##  [49] xtable_1.8-3          progress_1.2.0        proxy_0.4-22         
+##  [52] bit_1.1-14            mclust_5.4.2          preprocessCore_1.45.0
+##  [55] lava_1.6.5            prodlim_2018.04.18    sampling_2.8         
+##  [58] htmlwidgets_1.3       httr_1.4.0            threejs_0.3.1        
+##  [61] FNN_1.1.3             RColorBrewer_1.1-2    fpc_2.1-11.1         
+##  [64] modeltools_0.2-22     pkgconfig_2.0.2       flexmix_2.3-15       
+##  [67] nnet_7.3-12           caret_6.0-81          labeling_0.3         
+##  [70] reshape2_1.4.3        tidyselect_0.2.5      rlang_0.3.1          
+##  [73] later_0.8.0           munsell_0.5.0         mlbench_2.1-1        
+##  [76] tools_3.6.0           LaplacesDemon_16.1.1  generics_0.0.2       
+##  [79] RSQLite_2.1.1         pls_2.7-0             evaluate_0.13        
+##  [82] stringr_1.4.0         mzID_1.21.1           yaml_2.2.0           
+##  [85] ModelMetrics_1.2.2    knitr_1.21            bit64_0.9-7          
+##  [88] fs_1.2.6              robustbase_0.93-3     caTools_1.17.1.1     
+##  [91] randomForest_4.6-14   purrr_0.3.0           dendextend_1.9.0     
+##  [94] ncdf4_1.16            nlme_3.1-137          whisker_0.3-2        
+##  [97] mime_0.6              xml2_1.2.0            biomaRt_2.39.2       
+## [100] compiler_3.6.0        e1071_1.7-0.1         affyio_1.53.0        
+## [103] tibble_2.0.1          stringi_1.3.1         highr_0.7            
+## [106] desc_1.2.0            lattice_0.20-38       trimcluster_0.1-2.1  
+## [109] Matrix_1.2-15         commonmark_1.7        gbm_2.1.5            
+## [112] pillar_1.3.1          BiocManager_1.30.4    MALDIquant_1.18      
+## [115] data.table_1.12.0     bitops_1.0-6          httpuv_1.4.5.1       
+## [118] R6_2.4.0              pcaMethods_1.75.1     affy_1.61.0          
+## [121] hwriter_1.3.2         bookdown_0.9          promises_1.0.1       
+## [124] KernSmooth_2.23-15    gridExtra_2.3         codetools_0.2-16     
+## [127] MASS_7.3-51.1         gtools_3.8.1          assertthat_0.2.0     
+## [130] rprojroot_1.3-2       withr_2.1.2           diptest_0.75-7       
+## [133] hms_0.4.2             timeDate_3043.102     rpart_4.1-13         
+## [136] coda_0.19-2           class_7.3-15          rmarkdown_1.11       
+## [139] segmented_0.5-3.0     lubridate_1.7.4       shiny_1.2.0          
+## [142] base64enc_0.1-3</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">

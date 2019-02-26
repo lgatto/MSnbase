@@ -183,12 +183,12 @@ The plotNA method produces plots that illustrate missing data.
 <span class='fu'>exprs</span>(<span class='no'>msnset</span>)[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prod'>prod</a></span>(<span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='no'>msnset</span>)), <span class='fl'>120</span>)] <span class='kw'>&lt;-</span> <span class='fl'>NA</span>
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NA'>is.na</a></span>(<span class='no'>msnset</span>))</div><div class='output co'>#&gt;     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
-#&gt; X1       FALSE      FALSE       TRUE      FALSE
-#&gt; X10      FALSE      FALSE       TRUE       TRUE
-#&gt; X11      FALSE       TRUE      FALSE      FALSE
-#&gt; X12      FALSE       TRUE       TRUE       TRUE
-#&gt; X13      FALSE       TRUE      FALSE      FALSE
-#&gt; X14       TRUE      FALSE       TRUE       TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NA'>is.na</a></span>(<span class='no'>msnset</span>))</div><div class='output co'>#&gt; 
+#&gt; X1        TRUE       TRUE       TRUE      FALSE
+#&gt; X10       TRUE       TRUE      FALSE      FALSE
+#&gt; X11      FALSE      FALSE       TRUE       TRUE
+#&gt; X12      FALSE      FALSE      FALSE       TRUE
+#&gt; X13      FALSE       TRUE      FALSE       TRUE
+#&gt; X14      FALSE      FALSE       TRUE       TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NA'>is.na</a></span>(<span class='no'>msnset</span>))</div><div class='output co'>#&gt; 
 #&gt; FALSE  TRUE 
 #&gt;    99   121 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/image'>image</a></span>(<span class='no'>msnset</span>)</div><div class='img'><img src='plotNA-methods-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'>plotNA</span>(<span class='no'>msnset</span>, <span class='kw'>pNA</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>4</span>)</div><div class='img'><img src='plotNA-methods-2.png' alt='' width='700' height='433' /></div></pre>
