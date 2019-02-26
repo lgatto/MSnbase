@@ -96,7 +96,7 @@ applyProcessingQueue(x, BPPARAM = bpparam())
   BPPARAM = bpparam())
 
 \S4method{chromatogram}{MSnExperiment}(object, rt, mz,
-  aggregationFun = "sum", missing = NA_real_, msLevel = 1L,
+  aggregationFun = "sum", missing = NA_real_, msLevel. = 1L,
   BPPARAM = bpparam())
 
 \S4method{centroided}{MSnExperiment}(object, na.fail = FALSE)
@@ -289,6 +289,10 @@ certain retention time.}
 to be reported for retention times for which no signal was measured
 in the m/z range. Defaults to \code{NA_real_}.}
 
+\item{msLevel.}{\code{integer} defining the MS level of the spectra to which the
+function should be applied. For \code{filterMsLevel}: the MS level to which
+\code{object} should be subsetted.}
+
 \item{na.fail}{for \code{centroided}: whether a value of \code{NA} is not supported
 as a result. Defaults to \code{FALSE}.}
 
@@ -305,10 +309,6 @@ a \code{MSnExperiment} object.}
 
 \item{n}{for \code{filterAcquisitionNum}: \code{integer} with the acquisition numbers
 to filter for.}
-
-\item{msLevel.}{\code{integer} defining the MS level of the spectra to which the
-function should be applied. For \code{filterMsLevel}: the MS level to which
-\code{object} should be subsetted.}
 
 \item{acquisitionNum}{for \code{filterPrecursorScan}: \code{integer} with the
 acquisition number of the spectra to which the object should be

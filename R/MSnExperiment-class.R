@@ -951,7 +951,7 @@ setMethod("bpi", "MSnExperiment", function(object, initial = TRUE,
 setMethod("chromatogram", "MSnExperiment", function(object, rt, mz,
                                                     aggregationFun = "sum",
                                                     missing = NA_real_,
-                                                    msLevel = 1L,
+                                                    msLevel. = 1L,
                                                     BPPARAM = bpparam()){
     if (!missing(rt) && is.null(ncol(rt)))
         rt <- matrix(range(rt), ncol = 2, byrow = TRUE)
@@ -960,7 +960,7 @@ setMethod("chromatogram", "MSnExperiment", function(object, rt, mz,
     res <- .extractMultipleChromatograms(object, rt = rt, mz = mz,
                                          aggregationFun = aggregationFun,
                                          missingValue = missing,
-                                         msLevel = msLevel,
+                                         msLevel = msLevel.,
                                          BPPARAM = BPPARAM)
     res <- as(res, "Chromatograms")
     if (!nrow(res))
