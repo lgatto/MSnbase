@@ -69,10 +69,37 @@ particular
 
 - Do not use `.` when naming symbols.
 - A leading `.` can be used for hidden/local functions or variables.
+- Snake case should be restricted to internal functions. For
+  consistency, we favour camel case for public functions.
+- Class names should start with a capital and each class should posses
+  a constructor with identical name. Running the constructor without
+  any input should produce a valid empty object.
 - Use `##` to start full-line comments.
-- Use spaces between `=` in function arguments or class definition.
-- Always use a space after a comma. This: `a, b, c`.
-- Always use spaces around binary operators.
+- For roxygen headers `#'` is preferred, although `##'` is tolerated.
+- Use spaces between `=` in function arguments or class definition:
+  `f(a = 1, b = 2)`.
+- Always use a space after a comma: `a, b, c`.
+- Always use spaces around binary operators: `a + b`.
+- Lines should be kept shorter than 80 characters. For example the
+  following code isn't accepted
+
+```r
+# no wrap at 80
+someVeryLongVariableName <- someVeryLongFunctionName(withSomeEvenLongerFunctionArgumentA = 1, withSomeEvenLongerFunctionArgumentB = 2)
+```
+  and should be wrapped as shown below:
+
+```r
+# alternative 1
+someVeryLongVariableName <- 
+    someVeryLongFunctionName(withSomeEvenLongerFunctionArgumentA = 1, 
+                             withSomeEvenLongerFunctionArgumentB = 2)
+
+# alternative 2
+someVeryLongVariableName <- someVeryLongFunctionName(
+    withSomeEvenLongerFunctionArgumentA = 1, 
+    withSomeEvenLongerFunctionArgumentB = 2)
+```
 
 # `r Biocpkg("MSnbase")` classes
 
