@@ -14,6 +14,7 @@
 \alias{$<-,MSnExperiment-method}
 \alias{acquisitionNum,MSnExperiment-method}
 \alias{bpi,MSnExperiment-method}
+\alias{chromatogram,MSnExperiment-method}
 \alias{centroided,MSnExperiment-method}
 \alias{centroided<-,MSnExperiment,ANY-method}
 \alias{collisionEnergy,MSnExperiment-method}
@@ -92,6 +93,10 @@ applyProcessingQueue(x, BPPARAM = bpparam())
 \S4method{acquisitionNum}{MSnExperiment}(object)
 
 \S4method{bpi}{MSnExperiment}(object, initial = TRUE,
+  BPPARAM = bpparam())
+
+\S4method{chromatogram}{MSnExperiment}(object, rt, mz,
+  aggregationFun = "sum", missing = NA_real_, msLevel = 1L,
   BPPARAM = bpparam())
 
 \S4method{centroided}{MSnExperiment}(object, na.fail = FALSE)
@@ -267,6 +272,23 @@ length equal to the number of files.}
 original input file should be returned (default) or whether the TIC and
 BPI should be calculated on the actual data.}
 
+\item{rt}{for \code{filterRt}: \code{numeric(2)} defining the retention time range to
+be used to subset/filter \code{object}. For \code{chromatogram}: either
+\code{numeric(2)} or two-column matrix with the lower and upper bound of the
+retention time range(s).}
+
+\item{mz}{for \code{filterMz}: \code{numeric(2)} defining the lower and upper m/z to
+trim/filter spectra. For \code{chromatogram}: either \code{numeric(2)} or
+two-column \code{matrix} with the lower and upper bound for the m/z range(s).}
+
+\item{aggregationFun}{for \code{chromatogram}: \code{character(1)} defining the
+function to aggregate intensity values across the m/z range for a
+certain retention time.}
+
+\item{missing}{for \code{chromatogram}: \code{numeric(1)} defining the intensity value
+to be reported for retention times for which no signal was measured
+in the m/z range. Defaults to \code{NA_real_}.}
+
 \item{na.fail}{for \code{centroided}: whether a value of \code{NA} is not supported
 as a result. Defaults to \code{FALSE}.}
 
@@ -288,18 +310,12 @@ to filter for.}
 function should be applied. For \code{filterMsLevel}: the MS level to which
 \code{object} should be subsetted.}
 
-\item{mz}{for \code{filterMz}: \code{numeric(2)} defining the lower and upper m/z to
-trim/filter spectra.}
-
 \item{acquisitionNum}{for \code{filterPrecursorScan}: \code{integer} with the
 acquisition number of the spectra to which the object should be
 subsetted.}
 
 \item{polarity.}{for \code{filterPolarity}: \code{integer} specifying the polarity to
 to subset \code{object}.}
-
-\item{rt}{for \code{filterRt}: \code{numeric(2)} defining the retention time range to
-be used to subset/filter \code{object}.}
 
 \item{binSize}{for \code{bin}: \code{numeric(1)} defining the m/z bin size.}
 
@@ -399,6 +415,21 @@ undefined. This function returns the value defined in the spectrum
 metadata. See also \code{isCentroided} for estimating from the spectrum data
 whether the spectrum is centroided. \code{centroided<-} either takes a single
 \code{logical} or \code{logical} with the same length than spectra.
+\item \code{chromatogram}: returns a \code{\link[=Chromatograms]{Chromatograms()}} with the chromatographic data
+for the full object or data subsets (extracted ion chromatograms). The
+number of columns of the returned object is equal to the number of samples
+in \code{object} and the number of rows to the specified m/z - rt ranges.
+Parameters \code{rt} and \code{mz} allow to define the subsets of MS data for which
+the chromatograms should be extracted. These can be specified as
+\code{numeric(2)} defining the lower and upper bound of the range, or as a
+two-column \code{matrix}, each row specifying one range. With \code{aggregationFun}
+the function to aggregate intensities along the m/z dimension can be
+specified. Allowed values are \code{"sum"} (TIC), \code{"max"} (BPC), \code{"min"} and
+\code{"max"}. Paramter \code{missing} allows to define thhe intensity value to be
+used if for a certain retention time no signal was measured in the
+specified m/z range (defaults to \code{NA_real_}). Paramter \code{msLevel} allows
+to specify the MS level on which the chromatogram should be calculated
+(defaults to \code{msLevel = 1L}). For more details see \code{\link[=chromatogram]{chromatogram()}}.
 \item \code{collisionEnergy}, \code{collisionEnergy<-}: get or set the collision energy
 for all spectra in \code{object}.
 \item \code{featureData}, \code{fData}: get or set general spectrum metadata. Returns
@@ -643,6 +674,11 @@ tic(mse_sub)
 
 ## Calculate the TIC from the actual data
 tic(mse_sub, initial = FALSE)
+
+## Extract the total ion chromatogram from the full data
+chr_tic <- chromatogram(mse, aggregationFun = "sum")
+chr_tic
+plot(chr_tic)
 
 ## Coerce to a list of spectra
 as(mse_sub, "list")

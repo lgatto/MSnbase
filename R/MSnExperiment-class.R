@@ -32,6 +32,10 @@ NULL
 #'     acquisition number of the spectra to which the object should be
 #'     subsetted.
 #'
+#' @param aggregationFun for `chromatogram`: `character(1)` defining the
+#'     function to aggregate intensity values across the m/z range for a
+#'     certain retention time.
+#'
 #' @param backend a [Backend-class] derivate used for internal data storage.
 #'
 #' @param binSize for `bin`: `numeric(1)` defining the m/z bin size.
@@ -85,12 +89,17 @@ NULL
 #'     `"SavitzkyGolay"` or `"MovingAverage"`. See method description below or
 #'     [smooth()] for more details.
 #'
+#' @param missing for `chromatogram`: `numeric(1)` defining the intensity value
+#'     to be reported for retention times for which no signal was measured
+#'     in the m/z range. Defaults to `NA_real_`.
+#'
 #' @param msLevel. `integer` defining the MS level of the spectra to which the
 #'     function should be applied. For `filterMsLevel`: the MS level to which
 #'     `object` should be subsetted.
 #'
 #' @param mz for `filterMz`: `numeric(2)` defining the lower and upper m/z to
-#'     trim/filter spectra.
+#'     trim/filter spectra. For `chromatogram`: either `numeric(2)` or
+#'     two-column `matrix` with the lower and upper bound for the m/z range(s).
 #'
 #' @param n for `filterAcquisitionNum`: `integer` with the acquisition numbers
 #'     to filter for.
@@ -114,7 +123,9 @@ NULL
 #'     to be removed. See method description below for more information.
 #'
 #' @param rt for `filterRt`: `numeric(2)` defining the retention time range to
-#'     be used to subset/filter `object`.
+#'     be used to subset/filter `object`. For `chromatogram`: either
+#'     `numeric(2)` or two-column matrix with the lower and upper bound of the
+#'     retention time range(s).
 #'
 #' @param sampleData a [S4Vectors::DataFrame-class] object with additional
 #'     information on each sample (samples as rows, information as columns).
@@ -185,6 +196,22 @@ NULL
 #'   metadata. See also `isCentroided` for estimating from the spectrum data
 #'   whether the spectrum is centroided. `centroided<-` either takes a single
 #'   `logical` or `logical` with the same length than spectra.
+#'
+#' - `chromatogram`: returns a [Chromatograms()] with the chromatographic data
+#'   for the full object or data subsets (extracted ion chromatograms). The
+#'   number of columns of the returned object is equal to the number of samples
+#'   in `object` and the number of rows to the specified m/z - rt ranges.
+#'   Parameters `rt` and `mz` allow to define the subsets of MS data for which
+#'   the chromatograms should be extracted. These can be specified as
+#'   `numeric(2)` defining the lower and upper bound of the range, or as a
+#'   two-column `matrix`, each row specifying one range. With `aggregationFun`
+#'   the function to aggregate intensities along the m/z dimension can be
+#'   specified. Allowed values are `"sum"` (TIC), `"max"` (BPC), `"min"` and
+#'   `"max"`. Paramter `missing` allows to define thhe intensity value to be
+#'   used if for a certain retention time no signal was measured in the
+#'   specified m/z range (defaults to `NA_real_`). Paramter `msLevel` allows
+#'   to specify the MS level on which the chromatogram should be calculated
+#'   (defaults to `msLevel = 1L`). For more details see [chromatogram()].
 #'
 #' - `collisionEnergy`, `collisionEnergy<-`: get or set the collision energy
 #'   for all spectra in `object`.
@@ -479,6 +506,11 @@ NULL
 #'
 #' ## Calculate the TIC from the actual data
 #' tic(mse_sub, initial = FALSE)
+#'
+#' ## Extract the total ion chromatogram from the full data
+#' chr_tic <- chromatogram(mse, aggregationFun = "sum")
+#' chr_tic
+#' plot(chr_tic)
 #'
 #' ## Coerce to a list of spectra
 #' as(mse_sub, "list")
@@ -915,7 +947,43 @@ setMethod("bpi", "MSnExperiment", function(object, initial = TRUE,
     res
 })
 
-## chromatogram
+#' @rdname MSnExperiment
+setMethod("chromatogram", "MSnExperiment", function(object, rt, mz,
+                                                    aggregationFun = "sum",
+                                                    missing = NA_real_,
+                                                    msLevel = 1L,
+                                                    BPPARAM = bpparam()){
+    if (!missing(rt) && is.null(ncol(rt)))
+        rt <- matrix(range(rt), ncol = 2, byrow = TRUE)
+    if (!missing(mz) && is.null(ncol(mz)))
+        mz <- matrix(range(mz), ncol = 2, byrow = TRUE)
+    res <- .extractMultipleChromatograms(object, rt = rt, mz = mz,
+                                         aggregationFun = aggregationFun,
+                                         missingValue = missing,
+                                         msLevel = msLevel,
+                                         BPPARAM = BPPARAM)
+    res <- as(res, "Chromatograms")
+    if (!nrow(res))
+        return(res)
+    fd <- annotatedDataFrameFrom(res, byrow = TRUE)
+    if (!missing(mz)) {
+        fd$mzmin <- mz[, 1]
+        fd$mzmax <- mz[, 2]
+    }
+    if (!missing(rt)) {
+        fd$rtmin <- rt[, 1]
+        fd$rtmax <- rt[, 2]
+    }
+    plrt <- unique(polarity(object))
+    if (length(plrt) == 1)
+        fd$polarity <- plrt
+    res@featureData <- fd
+    rownames(res@.Data) <- rownames(fd)
+    res@phenoData <- new("NAnnotatedDataFrame", as.data.frame(object@sampleData))
+    colnames(res@.Data) <- rownames(sampleData(object))
+    validObject(res)
+    res
+})
 
 #' @rdname MSnExperiment
 setMethod("centroided", "MSnExperiment", function(object, na.fail = FALSE) {

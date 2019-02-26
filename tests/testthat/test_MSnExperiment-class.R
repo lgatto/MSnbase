@@ -913,3 +913,82 @@ test_that("smooth,MSnExperiment works", {
                  smooth(sciex_mzr[[3]], method = "MovingAverage",
                         halfWindowSize = 3L))
 })
+
+test_that("chromatogram,MSnExperiment works", {
+    f <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
+           system.file("microtofq/MM8.mzML", package = "msdata"))
+    mem <- readMSnExperiment(f, backend = BackendMemory())
+    mzr <- readMSnExperiment(f, backend = BackendMzR())
+    ## file 1: rt 270-307, mz = 94.8, 1004
+    ## file 2: rt 0.4-66.7 mz = 95, 1005
+    res <- chromatogram(mem, mz = c(1, 2), rt = c(400, 402))
+    expect_true(nrow(res) == 0)
+    expect_true(ncol(res) == 2)
+
+    mzm <- matrix(c(100, 120, 200, 220, 300, 320), nrow = 3, byrow = TRUE)
+    rtm <- matrix(c(50, 300), nrow = 1)
+    res <- chromatogram(mem, mz = mzm, rt = rtm)
+
+    ## Check that the values for all ranges is within the specified ranges
+    for (i in 1:nrow(mzm)) {
+        expect_true(all(mz(res[i, 1]) >= mzm[i, 1] &
+                        mz(res[i, 1]) <= mzm[i, 2]))
+        expect_true(all(mz(res[i, 2]) >= mzm[i, 1] &
+                        mz(res[i, 2]) <= mzm[i, 2]))
+        expect_true(all(rtime(res[i, 1]) >= rtm[1, 1] &
+                        rtime(res[i, 1]) <= rtm[1, 2]))
+        expect_true(all(rtime(res[i, 2]) >= rtm[1, 1] &
+                        rtime(res[i, 2]) <= rtm[1, 2]))
+    }
+    ## Check that values are correct.
+    flt <- filterMz(filterRt(mem, rt = rtm[1, ]), mz = mzm[2, ])
+    ints <- split(unlist(lapply(as(flt, "list"), function(z) sum(intensity(z)))),
+                  fromFile(flt))
+    expect_equal(ints[[1]], intensity(res[2, 1]))
+    expect_equal(ints[[2]], intensity(res[2, 2]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[1]], rtime(res[2, 1]))
+    expect_equal(split(rtime(flt), fromFile(flt))[[2]], rtime(res[2, 2]))
+    ## fData
+    expect_true(nrow(fData(res)) == nrow(res))
+    expect_true(all(colnames(fData(res)) == c("mzmin", "mzmax",
+                                              "rtmin", "rtmax", "polarity")))
+    expect_true(all(fData(res)$rtmin == 50))
+    expect_true(all(fData(res)$rtmax == 300))
+    expect_equal(fData(res)$mzmin, c(100, 200, 300))
+    expect_equal(fData(res)$mzmax, c(120, 220, 320))
+    expect_equal(fData(res)$polarity, c(1, 1, 1))
+
+    ## Now with ranges for which we don't have values in one or the other.
+    rtr <- matrix(c(280, 300, 20, 40), nrow = 2,
+                  byrow = TRUE)  ## Only present in first, or 2nd file
+    res <- chromatogram(mzr, rt = rtr)
+    ## Check fromFile
+    for (i in 1:ncol(res))
+        expect_true(all(sapply(res[, i], fromFile) == i))
+    expect_equal(length(res[2, 1]), 0)
+    expect_equal(length(res[1, 2]), 0)
+    ## Check rtime
+    expect_true(all(rtime(res[1, 1]) >= rtr[1, 1] &
+                    rtime(res[1, 1]) <= rtr[1, 2]))
+    expect_true(all(rtime(res[2, 2]) >= rtr[2, 1] &
+                    rtime(res[2, 2]) <= rtr[2, 2]))
+    ## Check intensity
+    flt <- filterRt(mzr, rt = rtr[1, ])
+    spctr <- split(as(flt, "list"), fromFile(flt))
+    ints <- unlist(lapply(spctr[[1]], function(z) sum(intensity(z))))
+    expect_equal(ints, intensity(res[1, 1]))
+    flt <- filterRt(mzr, rt = rtr[2, ])
+    spctr <- split(as(flt, "list"), fromFile(flt))
+    ints <- unlist(lapply(spctr[[1]], function(z) sum(intensity(z))))
+    expect_equal(ints, intensity(res[2, 2]))
+
+    ## Check that phenoType is correctly passed.
+    pd <- data.frame(name = c("first", "second"), idx = 1:2)
+    sampleData(mzr) <- DataFrame(pd)
+    chrs <- chromatogram(mzr)
+    ## rownames(pd) <- colnames(chrs)
+    expect_equal(pData(chrs), pd)
+
+    chrs_2 <- chromatogram(mzr, msLevel = 1:4)
+    expect_equal(chrs, chrs_2)
+})
