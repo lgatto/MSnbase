@@ -545,9 +545,9 @@ applyProcessingQueue <- function(x, BPPARAM = bpparam()) {
             stop(isOK)
 
         ## update fileIdx, useful to split src backends across cores
-        spd <- object@spectraData
+        spd <- x@spectraData
         spd$fileIdx <- 1L
-        spd <- split(spd, object@spectraData$fileIdx)
+        spd <- split(spd, x@spectraData$fileIdx)
 
         mod_c <- x@backend@modCount
 
