@@ -610,9 +610,14 @@ addProcessingStep <- function(object, FUN, ...) {
     object
 }
 
+#' @rdname MSnExperiment
+#' @name coerce,MSnExperiment,list-method
 setAs("MSnExperiment", "list", function(from) {
     spectrapply(from)
 })
+
+#' @rdname MSnExperiment
+#' @name coerce,MSnExperiment,List-method
 setAs("MSnExperiment", "List", function(from) {
     List(spectrapply(from))
 })
