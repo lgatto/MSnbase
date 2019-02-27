@@ -503,8 +503,9 @@ setMethod(
     backend <- backendInitialize(backend, fileNames(object), object@spectraData,
                                  ...)
     ## update fileIdx, useful to split src backends across cores
-    spd <- lapply(split(object@spectraData, object@spectraData$fileIdx),
-                  function(s) { s$fileIdx <- 1L; s })
+    spd <- object@spectraData
+    spd$fileIdx <- 1L
+    spd <- split(spd, object@spectraData$fileIdx)
 
     backendSplitByFile(backend, object@spectraData) <-
         bpmapply(function(dst, src, spd, queue) {
@@ -544,8 +545,9 @@ applyProcessingQueue <- function(x, BPPARAM = bpparam()) {
             stop(isOK)
 
         ## update fileIdx, useful to split src backends across cores
-        spd <- lapply(split(x@spectraData, x@spectraData$fileIdx),
-                      function(s) { s$fileIdx <- 1L; s })
+        spd <- object@spectraData
+        spd$fileIdx <- 1L
+        spd <- split(spd, object@spectraData$fileIdx)
 
         mod_c <- x@backend@modCount
 
