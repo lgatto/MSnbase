@@ -51,11 +51,24 @@ test_that("backendSubset,Backend works", {
     expect_equal(be, backendSubset(be, spd))
 })
 
-test_that("backendApplyProcessingQueue,Backend works", {
-    tmp <- sciex_inmem[c(13, 17, 33, 1013, 1017)]
-    be <- tmp@backend
-    the_q <- list(ProcessingStep(removePeaks, list(t = 1000)))
-    res <- backendApplyProcessingQueue(be, tmp@spectraData, the_q)
-    expect_equal(res@spectra, lapply(be@spectra, removePeaks, t = 1000))
-    expect_equal(res@modCount, c(1L, 1L))
+test_that("backendSplitByFile,Backend works", {
+    b <- BackendMzR()
+    b@files <- c("a", "b", "c")
+    b@modCount <- rep(0L, 3L)
+    spd <- DataFrame(fileIdx = c(3, 3, 1, 1, 2, 1))
+    res <- backendSplitByFile(b, spd)
+    bl <- BackendMzR()
+    bl@files <- "a"
+    bl@modCount <- 0L
+    l <- list("1"=bl, "2"=bl, "3"=bl)
+    l[[2]]@files <- "b"
+    l[[3]]@files <- "c"
+    expect_equal(backendSplitByFile(b, spd), l)
+    r <- b
+    r@files[1] <- "d"
+    r@modCount[1L] <- 1L
+    l[[1]]@files <- "d"
+    l[[1]]@modCount <- 1L
+    backendSplitByFile(b, spd) <- l
+    expect_equal(b, r)
 })

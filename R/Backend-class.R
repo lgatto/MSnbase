@@ -359,7 +359,7 @@ setReplaceMethod(
     "backendSplitByFile",
     "Backend",
     function(object, spectraData, ..., value) {
-    fidx <- unique(spectraData$fileIdx)
+    fidx <- unique(sort.int(spectraData$fileIdx))
     if (length(fidx) != length(value)) {
         stop("Length of assignment is not the same as number of files.")
     }
@@ -398,40 +398,3 @@ setGeneric("backendUpdateMetadata", def = function(object, spectraData)
 setMethod("backendUpdateMetadata", "Backend", function(object, spectraData) {
     object
 })
-
-#' @description
-#'
-#' `backendApplyProcessingQueue` forces execution of all data manipulation steps
-#' in `queue` and writes the changes backe to the backend. The default
-#' implementation reads all spectra first, applies the queue (in parallel) and
-#' writes the spectra again to the backend.
-#'
-#' @param x `Backend`.
-#'
-#' @param spectraData `DataFrame` with the spectrum metadata.
-#'
-#' @param queue `list` with [ProcessingStep()] objects.
-#'
-#' @return A `Backend` class.
-#'
-#' @author Johannes Rainer
-#'
-#' @rdname hidden_aliases
-#'
-#' @noRd
-setGeneric("backendApplyProcessingQueue",
-           def = function(object, spectraData, queue, ..., BPPARAM = bpparam())
-               standardGeneric("backendApplyProcessingQueue"),
-           valueClass = "Backend")
-setMethod("backendApplyProcessingQueue", "Backend",
-          function(object, spectraData, queue, ..., BPPARAM = bpparam()) {
-              sps <- backendReadSpectra(object, spectraData)
-              object <- backendWriteSpectra(
-                  object,
-                  unlist(bplapply(sps, .apply_processing_queue, queue = queue,
-                                  BPPARAM = BPPARAM), use.names = FALSE,
-                         recursive = FALSE),
-                  spectraData)
-              validObject(object)
-              object
-          })

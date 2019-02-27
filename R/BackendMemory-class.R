@@ -45,11 +45,17 @@ setMethod("backendSubset", "BackendMemory", function(object, spectraData) {
     })
     callNextMethod()
 })
-setReplaceMethod("backendSplitByFile", "BackendMemory", function(object, spectraData,
-                                                           ..., value) {
+
+#' @rdname hidden_aliases
+setReplaceMethod(
+    "backendSplitByFile",
+    "BackendMemory",
+    function(object, spectraData, ..., value) {
     rn <- split(rownames(spectraData), spectraData$fileIdx)
+    fidx <- as.integer(sort.int(unique(spectraData$fileIdx)))
     for (i in seq(along=value)) {
-        object@spectra[rn[[i]]] <- value[[i]]@spectra
+        object@spectra[rn[[i]]] <-
+            lapply(value[[i]]@spectra, function(s){ s@fromFile <- fidx[i]; s })
     }
     callNextMethod()
 })
