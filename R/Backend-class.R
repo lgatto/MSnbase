@@ -275,7 +275,7 @@ setGeneric(
 #' Subsetting could/should be done based on columns `"fileIdx"`, `"spIdx"`
 #' and/or `rownames(spectraData)`.
 #'
-#' @param x `Backend`
+#' @param object `Backend`
 #'
 #' @param spectraData `DataFrame` with the spectrum metadata of the spectra to
 #'     which the `object` should be subsetted.
@@ -298,6 +298,75 @@ setMethod("backendSubset", "Backend", function(object, spectraData) {
     fidx <- unique(spectraData$fileIdx)
     object@files <- object@files[fidx]
     object@modCount <- object@modCount[fidx]
+    validObject(object)
+    object
+})
+
+#' @description
+#'
+#' Split the `Backend` based on the provided `spectraData` data frame.
+#' Splitting could/should be done based on columns `"fileIdx"`.
+#'
+#' @param object `Backend`
+#'
+#' @param spectraData `DataFrame` with the spectrum metadata of the spectra to
+#'     which the `object` should be subsetted.
+#'
+#' @return A `list` of `Backend` classes.
+#'
+#' @author Sebastian Gibb
+#'
+#' @rdname hidden_aliases
+#'
+#' @noRd
+setGeneric(
+    "backendSplitByFile",
+    def = function(object, spectraData, ...)
+        standardGeneric("backendSplitByFile"),
+    valueClass = "list"
+)
+setMethod("backendSplitByFile", "Backend", function(object, spectraData, ...) {
+    lapply(
+        split(spectraData, spectraData$fileIdx),
+        backendSubset,
+        object = object
+    )
+})
+
+#' @description
+#'
+#' The reverse/undo function to `backendSplitByFile`.
+#'
+#' @param object `Backend`
+#'
+#' @param spectraData `DataFrame` with the spectrum metadata of the spectra to
+#'     which the `object` should be subsetted.
+#'
+#' @return A `Backend` class.
+#'
+#' @author Sebastian Gibb
+#'
+#' @rdname hidden_aliases
+#'
+#' @noRd
+setGeneric(
+    "backendSplitByFile<-",
+    def = function(object, spectraData, ..., value)
+        standardGeneric("backendSplitByFile<-"),
+    valueClass = "Backend"
+)
+setReplaceMethod(
+    "backendSplitByFile",
+    "Backend",
+    function(object, spectraData, ..., value) {
+    fidx <- unique(spectraData$fileIdx)
+    if (length(fidx) != length(value)) {
+        stop("Length of assignment is not the same as number of files.")
+    }
+    for (i in seq_along(value)) {
+        object@files[fidx[i]] <- value[[i]]@files
+        object@modCount[fidx[i]] <- value[[i]]@modCount
+    }
     validObject(object)
     object
 })

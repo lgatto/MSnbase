@@ -45,6 +45,14 @@ setMethod("backendSubset", "BackendMemory", function(object, spectraData) {
     })
     callNextMethod()
 })
+setReplaceMethod("backendSplitByFile", "BackendMemory", function(object, spectraData,
+                                                           ..., value) {
+    rn <- split(rownames(spectraData), spectraData$fileIdx)
+    for (i in seq(along=value)) {
+        object@spectra[rn[[i]]] <- value[[i]]@spectra
+    }
+    callNextMethod()
+})
 
 #' @rdname hidden_aliases
 setMethod(
@@ -90,7 +98,7 @@ setMethod(
     definition = function(object, spectra, spectraData, ...,
                           BPPARAM = bpparam()) {
         object@spectra[rownames(spectraData)] <- spectra
-        idx <- unique(vapply(spectra, fromFile, integer(1)))
+        idx <- unique(vapply(spectra, fromFile, integer(1L)))
         object@modCount[idx] <- object@modCount[idx] + 1L
         validObject(object)
         object
