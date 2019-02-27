@@ -3,7 +3,8 @@ NULL
 
 #' @title The MSnExperiment class to manage and access MS data
 #'
-#' @aliases MSnExperiment-class
+#' @aliases MSnExperiment-class spectraData spectraData<- sampleData
+#'     sampleData<-
 #'
 #' @name MSnExperiment
 #'
@@ -146,6 +147,22 @@ NULL
 #' - `filterFile`: subset the object by file. Returns an `MSnExperiment`.
 #'
 #' @section Data manipulation methods:
+#'
+#' Data manipulation operations, such as those listed in this section,  are by
+#' default not applied immediately to the spectra, but added to a
+#' *lazy processinq queue*. Operations stored in this queue are applied
+#' on-the-fly to spectra data each time it is accessed. This lazy
+#' execution guarantees the same functionality for `MSnExperiment` objects with
+#' any backend, i.e. backends supporting to save changes to spectrum data
+#' ([BackendMemory()] and [BackendHdf5()] as well as read-only backends (such
+#' as the [BackendMzR()]).
+#'
+#' - `applyProcessingQueue`: make data manipulations persistent, i.e. apply all
+#'   data manipulation operations stored in the processing queue to each
+#'   spectrum and store this data in the backend. This does not work for
+#'   read-only backends such as the [BackendMzR()]. The function returns
+#'   the `MSnExperiment` with data manipulations applied and stored in the
+#'   backend.
 #'
 #' - `clean`: remove 0-intensity data points. See [clean()] for
 #'    [Spectrum-class] objects for more details.
@@ -389,15 +406,15 @@ MSnExperiment <- function(x, spectraData, sampleData, metadata, ...) {
 #' @rdname hidden_aliases
 #' @param object Object to display.
 #' @export
-setMethod(
-    "show",
-    signature="MSnExperiment",
-    definition=function(object) {
+setMethod("show", "MSnExperiment",
+    function(object) {
         cat("MSn data (", class(object)[1L], ") with ",
-            nrow(object@spectraData), " spectra:\n", sep="")
-        txt <- capture.output(
-            object@spectraData[, c("msLevel", "retentionTime", "totIonCurrent")])
-        cat(txt[-1], sep = "\n")
+            nrow(object@spectraData), " spectra:\n", sep = "")
+        if (nrow(object@spectraData)) {
+            txt <- capture.output(
+                object@spectraData[, c("msLevel", "retentionTime", "totIonCurrent")])
+            cat(txt[-1], sep = "\n")
+        }
         show(object@backend)
         if (length(object@processingQueue))
             cat("Lazy evaluation queue:", length(object@processingQueue),
@@ -494,7 +511,7 @@ setMethod("setBackend", c("MSnExperiment", "Backend"),
 #' @rdname hidden_aliases
 setMethod("setBackend", c("MSnExperiment", "BackendMzR"),
           function(object, backend, ..., BPPARAM = bpparam()) {
-              if (any(backend@modCount > 0))
+              if (any(object@backend@modCount > 0))
                   stop("Can not change backend to 'BackendMzR' because the ",
                        "data was changed.")
               object@backend <- backendInitialize(backend, fileNames(object),
@@ -520,12 +537,30 @@ setMethod("setBackend", c("MSnExperiment", "BackendHdf5"),
               object
 })
 
+#' @rdname MSnExperiment
+applyProcessingQueue <- function(x, BPPARAM = bpparam()) {
+    if (!inherits(x, "MSnExperiment"))
+        stop("'x' is supposed to be an 'MSnExperiment' object")
+    if (length(x@processingQueue)) {
+        isOK <- validateFeatureDataForOnDiskMSnExp(x@spectraData)
+        if (length(isOK))
+            stop(isOK)
+        mod_c <- x@backend@modCount
+        x@backend <- backendApplyProcessingQueue(x@backend, x@spectraData,
+                                                 x@processingQueue,
+                                                 BPPARAM = BPPARAM)
+        if (all(mod_c < x@backend@modCount))
+            x@processingQueue <- list()
+    }
+    validObject(x)
+    x
+}
 
 #' @rdname MSnExperiment
 setMethod("spectrapply", "MSnExperiment", function(object,
+                                                   FUN = NULL, ...,
                                                    f = spectraData(object)$fileIdx,
-                                                   FUN = NULL,
-                                                   BPPARAM = bpparam(), ...) {
+                                                   BPPARAM = bpparam()) {
     BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
     isOK <- validateFeatureDataForOnDiskMSnExp(object@spectraData)
     if (length(isOK))

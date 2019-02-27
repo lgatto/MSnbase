@@ -140,7 +140,7 @@ setMethod(
     for (i in seq_along(pks)) {
         h5write(pks[[i]], h5, spids[i], level = comp_level)
     }
-    h5write(0L, h5, paste0("/modification/counter"), level = comp_level)
+    h5write(0L, h5, "/modification/counter", level = comp_level)
 }
 
 setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
@@ -257,11 +257,11 @@ setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
     h5 <- H5Fopen(h5file)
     on.exit(invisible(H5Fclose(h5)))
     comp_level <- .hdf5_compression_level()
-    if (prune) {
-        h5delete(h5, "spectra")
-    }
-    if (!H5Lexists(h5, "spectra"))
-        h5createGroup(h5, "spectra")
+    x <- force(x)
+    if (prune)
+        h5delete(h5, "/spectra")
+    if (!H5Lexists(h5, "/spectra"))
+        h5createGroup(h5, "/spectra")
     spids <- paste0("/spectra/", spectraData$spIdx)
     for (i in seq_along(x)) {
         h5write(cbind(mz(x[[i]]), intensity(x[[i]])),
@@ -291,3 +291,20 @@ setMethod("backendSubset", "BackendHdf5", function(object, spectraData) {
     object@h5files <- object@h5files[unique(spectraData$fileIdx)]
     callNextMethod()
 })
+
+setMethod("backendApplyProcessingQueue", "BackendHdf5",
+          function(object, spectraData, queue, ..., BPPARAM = bpparam()) {
+              cnts <- bplapply(split(spectraData, spectraData$fileIdx),
+                               function(z, bknd, queue) {
+                                   res <- backendWriteSpectra(
+                                       bknd, .apply_processing_queue(
+                                                 backendReadSpectra(bknd, z),
+                                                 queue),
+                                       z)
+                                   res@modCount[z$fileIdx[1]]
+                               }, bknd = object, queue = queue,
+                               BPPARAM = BPPARAM)
+              object@modCount <- unlist(cnts, use.names = FALSE)
+              validObject(object)
+              object
+          })

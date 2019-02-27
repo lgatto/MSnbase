@@ -27,3 +27,14 @@ test_that("backendReadSpectra,BackendMzR works", {
     expect_true(all(vapply(res, is, "Spectrum", FUN.VALUE = logical(1))))
     expect_equal(res, sciex_spectra[spd$fileIdx == 2])
 })
+
+test_that("backendApplyProcessingQueue,BackendMzR works", {
+    be <- sciex_mzr@backend
+    spd <- sciex_mzr@spectraData[c(13, 15, 33, 113, 117, 167), ]
+    the_q <- list(ProcessingStep("removePeaks", list(t = 5000)))
+    v <- isMSnbaseVerbose()
+    setMSnbaseVerbose(TRUE)
+    expect_message(res <- backendApplyProcessingQueue(be, spd, queue = the_q))
+    expect_equal(res@modCount, c(0L, 0L))
+    setMSnbaseVerbose(v)
+})

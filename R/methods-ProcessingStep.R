@@ -60,6 +60,8 @@ executeProcessingStep <- function(object, ...) {
 #' @noRd
 .apply_processing_queue <- function(x, queue = NULL) {
     if (length(queue)) {
+        if (!is.list(x))
+            x <- list(x)
         x <- lapply(x, function(z, q) {
             for (pStep in q) {
                 z <- executeProcessingStep(pStep, z)

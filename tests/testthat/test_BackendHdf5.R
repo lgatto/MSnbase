@@ -95,11 +95,11 @@ test_that("backendReadSpectra,BackendHdf5 works", {
     be <- sciex_h5@backend
     spd <- sciex_h5@spectraData
     ## all spectra from the second file.
-    res <- MSnbase:::backendReadSpectra(be, spd[spd$fileIdx == 2, ])
+    res <- backendReadSpectra(be, spd[spd$fileIdx == 2, ])
     expect_equal(res, sps[spd$fileIdx == 2])
     ## Some spectra
     idx <- c(23, 45, 12, 954, 976)
-    res <- MSnbase:::backendReadSpectra(be, spd[idx, ])
+    res <- backendReadSpectra(be, spd[idx, ])
     expect_equal(res, sps[idx])
 })
 
@@ -113,42 +113,62 @@ test_that(".h5_write_spectra, and backendWriteSpectra,BackendHdf5 work", {
     spd <- mse_h5@spectraData
     ## Write only 5 spectra to the second file.
     idx <- c(114:118)
-    MSnbase:::.h5_write_spectra(sps[idx], spd[idx, ], be@h5files[2], be@modCount[2] + 1L)
-    res <- MSnbase:::backendReadSpectra(be, spd[spd$fileIdx == 1, ])
+    .h5_write_spectra(sps[idx], spd[idx, ], be@h5files[2], be@modCount[2] + 1L)
+    res <- backendReadSpectra(be, spd[spd$fileIdx == 1, ])
     expect_equal(sps[spd$fileIdx == 1], res)
-    expect_error(MSnbase:::backendReadSpectra(be, spd[spd$fileIdx == 2, ]),
+    expect_error(backendReadSpectra(be, spd[spd$fileIdx == 2, ]),
                  "The data .* have changed")
     be@modCount[2] <- 1L
-    res <- MSnbase:::backendReadSpectra(be, spd[idx, ])
+    res <- backendReadSpectra(be, spd[idx, ])
     expect_equal(res, sps[idx])
 
     ## backendWriteSpectra, write spectra in arbitrary order
     idx <- c(which(spd$fileIdx == 1), idx)
     spd <- spd[idx, ]
     sps <- sps[idx]
-    res <- MSnbase:::backendReadSpectra(be, spd)
+    res <- backendReadSpectra(be, spd)
     expect_equal(res, sps)
 
     idx <- c(34, 12, 5, 117, 114)
     modCount_orig <- be@modCount
-    res <- MSnbase:::backendWriteSpectra(be, sps[idx], spd[idx, ])
+    res <- backendWriteSpectra(be, sps[idx], spd[idx, ])
     expect_true(is(res, "BackendHdf5"))
     expect_true(all(modCount_orig != res@modCount))
-    res_sps <- MSnbase:::backendReadSpectra(res, spd[idx, ])
+    res_sps <- backendReadSpectra(res, spd[idx, ])
     expect_equal(res_sps, sps[idx])
 })
 
 test_that("backendSubset, BackendHdf5", {
     spd <- sciex_h5@spectraData
     spd <- spd[c(1000, 1003, 34, 64), ]
-    res <- MSnbase:::backendSubset(sciex_h5@backend, spd)
+    res <- backendSubset(sciex_h5@backend, spd)
     expect_equal(res@files, sciex_h5@backend@files[2:1])
     expect_equal(res@modCount, sciex_h5@backend@modCount[2:1])
     expect_equal(res@h5files, sciex_h5@backend@h5files[2:1])
 
     spd <- spd[3, , drop = FALSE]
-    res <- MSnbase:::backendSubset(sciex_h5@backend, spd)
+    res <- backendSubset(sciex_h5@backend, spd)
     expect_equal(res@files, sciex_h5@backend@files[1])
     expect_equal(res@modCount, sciex_h5@backend@modCount[1])
     expect_equal(res@h5files, sciex_h5@backend@h5files[1])
+})
+
+test_that("backendApplyProcessingQueue,BackendHdf5 works", {
+    f <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
+       system.file("microtofq/MM8.mzML", package = "msdata"))
+    mse_h5 <- readMSnExperiment(f, path = paste0(tempdir(), "/procqueue"),
+                                backend = BackendHdf5())
+    mse_h5 <- mse_h5[c(13, 17, 33, 117, 133)]
+    sps <- spectrapply(mse_h5)
+    be <- mse_h5@backend
+    spd <- mse_h5@spectraData
+    the_q <- list(ProcessingStep(removePeaks, list(t = 1000)))
+
+    res <- backendApplyProcessingQueue(be, spd, the_q)
+    expect_equal(res@modCount, c(1L, 1L))
+    res_sps <- backendReadSpectra(res, spd)
+    expect_equal(lapply(res_sps, ionCount),
+                 lapply(sps, function(z) ionCount(removePeaks(z, t = 1000))))
+
+    expect_error(spectrapply(mse_h5), "The data in the hdf5")
 })
