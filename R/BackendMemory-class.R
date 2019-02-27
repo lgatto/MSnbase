@@ -39,10 +39,14 @@ BackendMemory <- function() { new("BackendMemory") }
 setMethod("backendSubset", "BackendMemory", function(object, spectraData) {
     fidx <- unique(spectraData$fileIdx)
     ## Update also `@fromFile` in the spectra.
-    object@spectra <- lapply(object@spectra[rownames(spectraData)], function(z) {
-        z@fromFile <- match(z@fromFile, fidx)
-        z
-    })
+    object@spectra <- lapply(
+        object@spectra[rownames(spectraData)],
+        function(s) {
+            if (!is.null(s))
+                s@fromFile <- match(s@fromFile, fidx)
+            s
+        }
+    )
     callNextMethod()
 })
 

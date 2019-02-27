@@ -496,45 +496,42 @@ readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
 setGeneric("setBackend", function(object, backend, ..., BPPARAM = bpparam())
     standardGeneric("setBackend"))
 #' @rdname hidden_aliases
-setMethod("setBackend", c("MSnExperiment", "Backend"),
-          function(object, backend, ..., BPPARAM = bpparam()) {
-              backend <- backendInitialize(backend, fileNames(object),
-                                           object@spectraData, ...)
-              backend <- backendWriteSpectra(
-                  backend, backendReadSpectra(object@backend,
-                                              object@spectraData),
-                  object@spectraData)
-              object@backend <- backend
-              validObject(object)
-              object
-          })
+setMethod(
+    "setBackend",
+    c("MSnExperiment", "Backend"),
+    function(object, backend, ..., BPPARAM = bpparam()) {
+    backend <- backendInitialize(backend, fileNames(object), object@spectraData,
+                                 ...)
+    ## update fileIdx, useful to split src backends across cores
+    spd <- lapply(split(object@spectraData, object@spectraData$fileIdx),
+                  function(s) { s$fileIdx <- 1L; s })
+
+    backendSplitByFile(backend, object@spectraData) <-
+        bpmapply(function(dst, src, spd, queue) {
+            backendWriteSpectra(dst, backendReadSpectra(src, spd), spd)
+        },
+        dst = backendSplitByFile(backend, object@spectraData),
+        src = backendSplitByFile(object@backend, object@spectraData),
+        spd = spd,
+        SIMPLIFY = FALSE, USE.NAMES = FALSE, BPPARAM = BPPARAM)
+
+    object@backend <- backend
+    validObject(object)
+    object
+})
+
 #' @rdname hidden_aliases
-setMethod("setBackend", c("MSnExperiment", "BackendMzR"),
-          function(object, backend, ..., BPPARAM = bpparam()) {
-              if (any(object@backend@modCount > 0))
-                  stop("Can not change backend to 'BackendMzR' because the ",
-                       "data was changed.")
-              object@backend <- backendInitialize(backend, fileNames(object),
-                                                  object@spectraData, ...)
-              validObject(object)
-              object
-          })
-#' @rdname hidden_aliases
-setMethod("setBackend", c("MSnExperiment", "BackendHdf5"),
-          function(object, backend, ..., BPPARAM = bpparam()) {
-              backend <- backendInitialize(backend, fileNames(object),
-                                           object@spectraData, ...)
-              spd <- split(object@spectraData, object@spectraData$fileIdx)
-              cnts <- bplapply(spd, function(z, hdf5_backend, backend) {
-                  res <- backendWriteSpectra(hdf5_backend,
-                                             backendReadSpectra(backend, z), z)
-                  res@modCount[z$fileIdx[1]]
-              }, hdf5_backend = backend, backend = object@backend,
-              BPPARAM = BPPARAM)
-              backend@modCount <- unlist(cnts)
-              object@backend <- backend
-              validObject(object)
-              object
+setMethod(
+    "setBackend",
+    c("MSnExperiment", "BackendMzR"),
+    function(object, backend, ..., BPPARAM = bpparam()) {
+    if (any(object@backend@modCount > 0))
+        stop("Can not change backend to 'BackendMzR' because the ",
+             "data was changed.")
+    object@backend <- backendInitialize(backend, fileNames(object),
+                                        object@spectraData, ...)
+    validObject(object)
+    object
 })
 
 #' @rdname MSnExperiment
