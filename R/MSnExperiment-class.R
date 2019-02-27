@@ -542,6 +542,13 @@ applyProcessingQueue <- function(x, BPPARAM = bpparam()) {
         isOK <- validateFeatureDataForOnDiskMSnExp(x@spectraData)
         if (length(isOK))
             stop(isOK)
+
+        ## update fileIdx, useful to split src backends across cores
+        spd <- lapply(split(x@spectraData, x@spectraData$fileIdx),
+                      function(s) { s$fileIdx <- 1L; s })
+
+        mod_c <- x@backend@modCount
+
         backendSplitByFile(x@backend, x@spectraData) <-
             bpmapply(function(b, spd, queue) {
                 backendWriteSpectra(b,
@@ -550,11 +557,12 @@ applyProcessingQueue <- function(x, BPPARAM = bpparam()) {
                 )
             },
             b = backendSplitByFile(x@backend, x@spectraData),
-            spd = split(x@spectraData, x@spectraData$fileIdx),
-            queue = x@processingQueue,
+            spd = spd, MoreArgs=list(queue = x@processingQueue),
             SIMPLIFY = FALSE, USE.NAMES = FALSE, BPPARAM = BPPARAM)
+
+        if (all(mod_c < x@backend@modCount))
+            x@processingQueue <- list()
     }
-    x@processingQueue <- list()
     validObject(x)
     x
 }
