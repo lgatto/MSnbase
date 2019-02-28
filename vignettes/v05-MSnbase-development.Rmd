@@ -38,6 +38,9 @@ cat(readLines("./Foreword.md"), sep = "\n")
 cat(readLines("./Bugs.md"), sep = "\n")
 ```
 
+**NB** This document is going to be updated based on current major
+development plans in `MSnbase`.
+
 # Introduction
 
 This document is not a replacement for the individual manual pages,
@@ -58,6 +61,18 @@ label-free (spectral counting, index and abundance) quantitation
 infrastructure is currently extended to support a wider range of
 technologies, including metabolomics.
 
+# Coding style
+
+`MSnbase` follows the [Bioconductor style
+guide](https://bioconductor.org/developers/how-to/coding-style/). In
+particular
+
+- Do not use `.` when naming symbols.
+- A leading `.` can be used for hidden/local functions or variables.
+- Use `##` to start full-line comments.
+- Use spaces between `=` in function arguments or class definition.
+- Always use a space after a comma. This: `a, b, c`.
+- Always use spaces around binary operators.
 
 # `r Biocpkg("MSnbase")` classes
 
