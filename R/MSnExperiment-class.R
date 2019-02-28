@@ -343,7 +343,7 @@ MSnExperiment <- function(x, spectraData, sampleData, metadata, ...) {
         stop("'x' has to be a list of 'Spectrum' objects")
     fdata <- DataFrame(do.call(rbind, lapply(x, .spectrum_header)))
     if (!missing(spectraData))
-        spectraData <- .merge_featureData(spectraData, fdata)
+        spectraData <- .combine_featureData(spectraData, fdata)
     else spectraData <- fdata
     if (all(is.na(spectraData$fileIdx))) {
         spectraData$fileIdx <- 1L
@@ -378,7 +378,7 @@ MSnExperiment <- function(x, spectraData, sampleData, metadata, ...) {
 
 #' @description
 #'
-#' Merge two featureData `DataFrame`s. The resulting `DataFrame` contains all
+#' Combine two featureData `DataFrame`s. The resulting `DataFrame` contains all
 #' columns from both `x` and `y`. For columns present in both `DataFrame`s those
 #' in `x` will be used. Also, the resulting `DataFrame` uses the row names of
 #' `x` unless `x` has no row names.
@@ -392,7 +392,7 @@ MSnExperiment <- function(x, spectraData, sampleData, metadata, ...) {
 #' @author Johannes Rainer
 #'
 #' @noRd
-.merge_featureData <- function(x, y) {
+.combine_featureData <- function(x, y) {
     if (nrow(x) != nrow(y))
         stop("'x' and 'y' have to have the same number of rows")
     if (is.null(rownames(x)) & !is.null(rownames(y)))
