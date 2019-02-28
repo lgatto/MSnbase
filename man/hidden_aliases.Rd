@@ -16,16 +16,17 @@
 \alias{fileNames,Backend-method}
 \alias{show,BackendHdf5-method}
 \alias{backendSubset,BackendMemory-method}
+\alias{backendSplitByFile<-,BackendMemory-method}
 \alias{backendInitialize,BackendMemory-method}
 \alias{backendImportData,BackendMemory-method}
 \alias{backendReadSpectra,BackendMemory-method}
 \alias{backendWriteSpectra,BackendMemory-method}
 \alias{backendUpdateMetadata,BackendMemory-method}
 \alias{backendReadSpectra,BackendMzR-method}
+\alias{backendWriteSpectra,BackendMzR-method}
 \alias{show,MSnExperiment-method}
 \alias{setBackend,MSnExperiment,Backend-method}
 \alias{setBackend,MSnExperiment,BackendMzR-method}
-\alias{setBackend,MSnExperiment,BackendHdf5-method}
 \title{Internal page for hidden aliases}
 \usage{
 collisionEnergy(object) <- value
@@ -50,6 +51,9 @@ rtime(object) <- value
 
 \S4method{backendSubset}{BackendMemory}(object, spectraData)
 
+\S4method{backendSplitByFile}{BackendMemory}(object, spectraData,
+  ...) <- value
+
 \S4method{backendInitialize}{BackendMemory}(object, files, spectraData,
   ..., BPPARAM = bpparam())
 
@@ -67,15 +71,14 @@ rtime(object) <- value
 \S4method{backendReadSpectra}{BackendMzR}(object, spectraData,
   processingQueue = list(), ...)
 
+\S4method{backendWriteSpectra}{BackendMzR}(object, spectra, spectraData)
+
 \S4method{show}{MSnExperiment}(object)
 
 \S4method{setBackend}{MSnExperiment,Backend}(object, backend, ...,
   BPPARAM = bpparam())
 
 \S4method{setBackend}{MSnExperiment,BackendMzR}(object, backend, ...,
-  BPPARAM = bpparam())
-
-\S4method{setBackend}{MSnExperiment,BackendHdf5}(object, backend, ...,
   BPPARAM = bpparam())
 }
 \arguments{
