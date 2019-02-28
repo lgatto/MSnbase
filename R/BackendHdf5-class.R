@@ -292,19 +292,13 @@ setMethod("backendSubset", "BackendHdf5", function(object, spectraData) {
     callNextMethod()
 })
 
-setMethod("backendApplyProcessingQueue", "BackendHdf5",
-          function(object, spectraData, queue, ..., BPPARAM = bpparam()) {
-              cnts <- bplapply(split(spectraData, spectraData$fileIdx),
-                               function(z, bknd, queue) {
-                                   res <- backendWriteSpectra(
-                                       bknd, .apply_processing_queue(
-                                                 backendReadSpectra(bknd, z),
-                                                 queue),
-                                       z)
-                                   res@modCount[z$fileIdx[1]]
-                               }, bknd = object, queue = queue,
-                               BPPARAM = BPPARAM)
-              object@modCount <- unlist(cnts, use.names = FALSE)
-              validObject(object)
-              object
-          })
+setReplaceMethod(
+    "backendSplitByFile",
+    "BackendHdf5",
+    function(object, spectraData, ..., value) {
+    fidx <- unique(sort.int(spectraData$fileIdx))
+    for (i in seq(along=value)) {
+        object@h5files[fidx[i]] <- value[[i]]@h5files
+    }
+    callNextMethod()
+})

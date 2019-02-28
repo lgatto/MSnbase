@@ -153,22 +153,33 @@ test_that("backendSubset, BackendHdf5", {
     expect_equal(res@h5files, sciex_h5@backend@h5files[1])
 })
 
-test_that("backendApplyProcessingQueue,BackendHdf5 works", {
-    f <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-       system.file("microtofq/MM8.mzML", package = "msdata"))
-    mse_h5 <- readMSnExperiment(f, path = paste0(tempdir(), "/procqueue"),
-                                backend = BackendHdf5())
-    mse_h5 <- mse_h5[c(13, 17, 33, 117, 133)]
-    sps <- spectrapply(mse_h5)
-    be <- mse_h5@backend
-    spd <- mse_h5@spectraData
-    the_q <- list(ProcessingStep(removePeaks, list(t = 1000)))
-
-    res <- backendApplyProcessingQueue(be, spd, the_q)
-    expect_equal(res@modCount, c(1L, 1L))
-    res_sps <- backendReadSpectra(res, spd)
-    expect_equal(lapply(res_sps, ionCount),
-                 lapply(sps, function(z) ionCount(removePeaks(z, t = 1000))))
-
-    expect_error(spectrapply(mse_h5), "The data in the hdf5")
+test_that("backendSplitByFile,BackendHdf5 works", {
+    b <- BackendHdf5()
+    b@files <- c("a", "b", "c")
+    tmpfiles <- paste0(tempfile(), letters[1:4], ".h5")
+    file.create(tmpfiles)
+    on.exit(unlink(tmpfiles))
+    b@h5files <- tmpfiles[1:3]
+    b@modCount <- rep(0L, 3L)
+    spd <- DataFrame(fileIdx = c(3, 3, 1, 1, 2, 1))
+    res <- backendSplitByFile(b, spd)
+    bl <- BackendHdf5()
+    bl@files <- "a"
+    bl@h5files <- tmpfiles[1]
+    bl@modCount <- 0L
+    l <- list("1"=bl, "2"=bl, "3"=bl)
+    l[[2]]@files <- "b"
+    l[[2]]@h5files <- tmpfiles[2]
+    l[[3]]@files <- "c"
+    l[[3]]@h5files <- tmpfiles[3]
+    expect_equal(backendSplitByFile(b, spd), l)
+    r <- b
+    r@files[1] <- "d"
+    r@h5files[1] <- tmpfiles[4]
+    r@modCount[1L] <- 1L
+    l[[1]]@files <- "d"
+    l[[1]]@h5files <- tmpfiles[4]
+    l[[1]]@modCount <- 1L
+    backendSplitByFile(b, spd) <- l
+    expect_equal(b, r)
 })

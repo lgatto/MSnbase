@@ -61,6 +61,41 @@ test_that("backendSubset,BackendMemory works", {
     expect_equal(lapply(be_3@spectra, intensity), lapply(sps[idx], intensity))
 })
 
+test_that("backendSplitByFile,BackendMemory works", {
+    b <- BackendMemory()
+    b@files <- c("a", "b", "c")
+    s <- c(F1.S1=new("Spectrum2", mz=1:2, intensity=1:2, fromFile = 1L),
+           F2.S2=new("Spectrum2", mz=3:4, intensity=3:4, fromFile = 2L),
+           F3.S3=new("Spectrum2", mz=5:6, intensity=5:6, fromFile = 3L),
+           F1.S2=new("Spectrum2", mz=7:8, intensity=7:8, fromFile = 1L))
+    b@spectra <- s[1:3]
+    b@modCount <- rep(0L, 3L)
+    spd <- DataFrame(fileIdx = c(3, 1, 2))
+    rownames(spd) <- names(s)[c(3, 1, 2)]
+    res <- backendSplitByFile(b, spd)
+    bl <- BackendMemory()
+    bl@files <- "a"
+    bl@spectra <- s[1]
+    bl@modCount <- 0L
+    l <- list("1"=bl, "2"=bl, "3"=bl)
+    l[[2]]@files <- "b"
+    l[[2]]@spectra <- s[2]
+    l[[2]]@spectra[[1]]@fromFile <- 1L
+    l[[3]]@files <- "c"
+    l[[3]]@spectra <- s[3]
+    l[[3]]@spectra[[1]]@fromFile <- 1L
+    expect_equal(backendSplitByFile(b, spd), l)
+    r <- b
+    r@files[1] <- "d"
+    r@spectra[1] <- s[4]
+    r@modCount[1L] <- 1L
+    l[[1]]@files <- "d"
+    l[[1]]@spectra <- s[4]
+    l[[1]]@modCount <- 1L
+    backendSplitByFile(b, spd) <- l
+    expect_equal(b, r)
+})
+
 test_that("backendInitialize", {
     spd <- DataFrame(fileIdx=c(1, 1, 2), spIdx=1:3,
                      row.names=c("F1.S1", "F1.S2", "F2.S3"))

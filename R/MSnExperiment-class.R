@@ -496,45 +496,43 @@ readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
 setGeneric("setBackend", function(object, backend, ..., BPPARAM = bpparam())
     standardGeneric("setBackend"))
 #' @rdname hidden_aliases
-setMethod("setBackend", c("MSnExperiment", "Backend"),
-          function(object, backend, ..., BPPARAM = bpparam()) {
-              backend <- backendInitialize(backend, fileNames(object),
-                                           object@spectraData, ...)
-              backend <- backendWriteSpectra(
-                  backend, backendReadSpectra(object@backend,
-                                              object@spectraData),
-                  object@spectraData)
-              object@backend <- backend
-              validObject(object)
-              object
-          })
+setMethod(
+    "setBackend",
+    c("MSnExperiment", "Backend"),
+    function(object, backend, ..., BPPARAM = bpparam()) {
+    backend <- backendInitialize(backend, fileNames(object), object@spectraData,
+                                 ...)
+    ## update fileIdx, useful to split src backends across cores
+    spd <- object@spectraData
+    spd$fileIdx <- 1L
+    spd <- split(spd, object@spectraData$fileIdx)
+
+    backendSplitByFile(backend, object@spectraData) <-
+        bpmapply(function(dst, src, spd, queue) {
+            backendWriteSpectra(dst, backendReadSpectra(src, spd), spd)
+        },
+        dst = backendSplitByFile(backend, object@spectraData),
+        src = backendSplitByFile(object@backend, object@spectraData),
+        spd = spd,
+        SIMPLIFY = FALSE, USE.NAMES = FALSE, BPPARAM = BPPARAM)
+
+    object@backend <- backend
+    validObject(object)
+    object
+})
+
 #' @rdname hidden_aliases
-setMethod("setBackend", c("MSnExperiment", "BackendMzR"),
-          function(object, backend, ..., BPPARAM = bpparam()) {
-              if (any(object@backend@modCount > 0))
-                  stop("Can not change backend to 'BackendMzR' because the ",
-                       "data was changed.")
-              object@backend <- backendInitialize(backend, fileNames(object),
-                                                  object@spectraData, ...)
-              validObject(object)
-              object
-          })
-#' @rdname hidden_aliases
-setMethod("setBackend", c("MSnExperiment", "BackendHdf5"),
-          function(object, backend, ..., BPPARAM = bpparam()) {
-              backend <- backendInitialize(backend, fileNames(object),
-                                           object@spectraData, ...)
-              spd <- split(object@spectraData, object@spectraData$fileIdx)
-              cnts <- bplapply(spd, function(z, hdf5_backend, backend) {
-                  res <- backendWriteSpectra(hdf5_backend,
-                                             backendReadSpectra(backend, z), z)
-                  res@modCount[z$fileIdx[1]]
-              }, hdf5_backend = backend, backend = object@backend,
-              BPPARAM = BPPARAM)
-              backend@modCount <- unlist(cnts)
-              object@backend <- backend
-              validObject(object)
-              object
+setMethod(
+    "setBackend",
+    c("MSnExperiment", "BackendMzR"),
+    function(object, backend, ..., BPPARAM = bpparam()) {
+    if (any(object@backend@modCount > 0))
+        stop("Can not change backend to 'BackendMzR' because the ",
+             "data was changed.")
+    object@backend <- backendInitialize(backend, fileNames(object),
+                                        object@spectraData, ...)
+    validObject(object)
+    object
 })
 
 #' @rdname MSnExperiment
@@ -545,10 +543,25 @@ applyProcessingQueue <- function(x, BPPARAM = bpparam()) {
         isOK <- validateFeatureDataForOnDiskMSnExp(x@spectraData)
         if (length(isOK))
             stop(isOK)
+
+        ## update fileIdx, useful to split src backends across cores
+        spd <- x@spectraData
+        spd$fileIdx <- 1L
+        spd <- split(spd, x@spectraData$fileIdx)
+
         mod_c <- x@backend@modCount
-        x@backend <- backendApplyProcessingQueue(x@backend, x@spectraData,
-                                                 x@processingQueue,
-                                                 BPPARAM = BPPARAM)
+
+        backendSplitByFile(x@backend, x@spectraData) <-
+            bpmapply(function(b, spd, queue) {
+                backendWriteSpectra(b,
+                    .apply_processing_queue(backendReadSpectra(b, spd), queue),
+                    spd
+                )
+            },
+            b = backendSplitByFile(x@backend, x@spectraData),
+            spd = spd, MoreArgs=list(queue = x@processingQueue),
+            SIMPLIFY = FALSE, USE.NAMES = FALSE, BPPARAM = BPPARAM)
+
         if (all(mod_c < x@backend@modCount))
             x@processingQueue <- list()
     }
@@ -599,9 +612,14 @@ addProcessingStep <- function(object, FUN, ...) {
     object
 }
 
+#' @rdname MSnExperiment
+#' @name coerce,MSnExperiment,list-method
 setAs("MSnExperiment", "list", function(from) {
     spectrapply(from)
 })
+
+#' @rdname MSnExperiment
+#' @name coerce,MSnExperiment,List-method
 setAs("MSnExperiment", "List", function(from) {
     List(spectrapply(from))
 })

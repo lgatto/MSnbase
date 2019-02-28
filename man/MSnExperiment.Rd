@@ -12,6 +12,8 @@
 \alias{setBackend}
 \alias{applyProcessingQueue}
 \alias{spectrapply,MSnExperiment-method}
+\alias{coerce,MSnExperiment,list-method}
+\alias{coerce,MSnExperiment,List-method}
 \alias{featureData,MSnExperiment-method}
 \alias{featureData<-,MSnExperiment,ANY-method}
 \alias{spectraData,MSnExperiment-method}
