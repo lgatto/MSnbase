@@ -138,7 +138,7 @@ test_that(".h5_write_spectra, and backendWriteSpectra,BackendHdf5 work", {
     expect_equal(res_sps, sps[idx])
 })
 
-test_that("backendSubset, BackendHdf5", {
+test_that("backendSubset,BackendHdf5", {
     spd <- sciex_h5@spectraData
     spd <- spd[c(1000, 1003, 34, 64), ]
     res <- backendSubset(sciex_h5@backend, spd)
