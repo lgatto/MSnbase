@@ -79,22 +79,6 @@ setMethod(
 
 #' @rdname hidden_aliases
 setMethod(
-    "backendImportData",
-    signature = "BackendMemory",
-    definition = function(object, spectraData, ..., BPPARAM = bpparam()) {
-
-    spd <- split(spectraData, spectraData$fileIdx)
-
-    split(object@spectra, spectraData$fileIdx) <- bpmapply(
-        .spectra_from_file_mzR, file = object@files, spectraData = spd,
-        USE.NAMES = FALSE, SIMPLIFY = FALSE, BPPARAM = BPPARAM
-    )
-    validObject(object)
-    object
-})
-
-#' @rdname hidden_aliases
-setMethod(
     "backendReadSpectra",
     signature = "BackendMemory",
     definition = function(object, spectraData, ..., BPPARAM = bpparam()) {

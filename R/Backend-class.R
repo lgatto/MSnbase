@@ -75,7 +75,6 @@ NULL
 #' It may also provide methods for:
 #'
 #' - [backendInitialize()] to setup the backend (create files, tables, ...).
-#' - [backendImportData()] to initial import data from source *mzML* files.
 #' - [backendDeepCopy()] to create a copy of the backend with associated files.
 #'
 #' @name Backend
@@ -166,34 +165,6 @@ setMethod(
     object@files <- files
     object@modCount <- integer(length(files))
     validObject(object)
-    object
-})
-
-#' Import spectra data into a backend
-#'
-#' This generic is used to import spectra data into a backend.
-#'
-#' It should be only reimplemented if the backend is created from scratch
-#' e.g. for *HDF5* the content of the .mzML files is imported into .h5 files.
-#' It must not be reimplemented for the .mzML backend.
-#'
-#' @inheritParams backendInitialize
-#' @param BPPARAM Should parallel processing be used? See
-#' [BiocParallel::bpparam()].
-#' @return A [Backend-class] derivate.
-#' @family Backend generics
-#' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
-#' @noRd
-setGeneric(
-    "backendImportData",
-    def = function(object, spectraData, ..., BPPARAM = bpparam())
-        standardGeneric("backendImportData"),
-    valueClass = "Backend"
-)
-setMethod(
-    "backendImportData",
-    signature = "Backend",
-    definition = function(object, spectraData, ..., BPPARAM = bpparam()) {
     object
 })
 
