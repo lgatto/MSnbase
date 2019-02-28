@@ -16,6 +16,18 @@ setMethod("backendReadSpectra", "BackendMzR", function(object,
                       USE.NAMES = FALSE), recursive = FALSE)
 })
 
+#' @rdname hidden_aliases
+setMethod(
+    "backendWriteSpectra",
+    "BackendMzR",
+    function(object, spectra, spectraData) {
+        if (isMSnbaseVerbose()) {
+            message("Can not make changes to spectrum data persistent: ",
+                    "'BackendMzR' is read-only.")
+        }
+    object
+})
+
 #' @rdname Backend
 BackendMzR <- function() {
     new("BackendMzR")

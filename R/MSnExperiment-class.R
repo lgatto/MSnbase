@@ -3,7 +3,8 @@ NULL
 
 #' @title The MSnExperiment class to manage and access MS data
 #'
-#' @aliases MSnExperiment-class
+#' @aliases MSnExperiment-class spectraData spectraData<- sampleData
+#'     sampleData<-
 #'
 #' @name MSnExperiment
 #'
@@ -146,6 +147,22 @@ NULL
 #' - `filterFile`: subset the object by file. Returns an `MSnExperiment`.
 #'
 #' @section Data manipulation methods:
+#'
+#' Data manipulation operations, such as those listed in this section,  are by
+#' default not applied immediately to the spectra, but added to a
+#' *lazy processinq queue*. Operations stored in this queue are applied
+#' on-the-fly to spectra data each time it is accessed. This lazy
+#' execution guarantees the same functionality for `MSnExperiment` objects with
+#' any backend, i.e. backends supporting to save changes to spectrum data
+#' ([BackendMemory()] and [BackendHdf5()] as well as read-only backends (such
+#' as the [BackendMzR()]).
+#'
+#' - `applyProcessingQueue`: make data manipulations persistent, i.e. apply all
+#'   data manipulation operations stored in the processing queue to each
+#'   spectrum and store this data in the backend. This does not work for
+#'   read-only backends such as the [BackendMzR()]. The function returns
+#'   the `MSnExperiment` with data manipulations applied and stored in the
+#'   backend.
 #'
 #' - `clean`: remove 0-intensity data points. See [clean()] for
 #'    [Spectrum-class] objects for more details.
@@ -326,7 +343,7 @@ MSnExperiment <- function(x, spectraData, sampleData, metadata, ...) {
         stop("'x' has to be a list of 'Spectrum' objects")
     fdata <- DataFrame(do.call(rbind, lapply(x, .spectrum_header)))
     if (!missing(spectraData))
-        spectraData <- .merge_featureData(spectraData, fdata)
+        spectraData <- .combine_featureData(spectraData, fdata)
     else spectraData <- fdata
     if (all(is.na(spectraData$fileIdx))) {
         spectraData$fileIdx <- 1L
@@ -361,7 +378,7 @@ MSnExperiment <- function(x, spectraData, sampleData, metadata, ...) {
 
 #' @description
 #'
-#' Merge two featureData `DataFrame`s. The resulting `DataFrame` contains all
+#' Combine two featureData `DataFrame`s. The resulting `DataFrame` contains all
 #' columns from both `x` and `y`. For columns present in both `DataFrame`s those
 #' in `x` will be used. Also, the resulting `DataFrame` uses the row names of
 #' `x` unless `x` has no row names.
@@ -375,7 +392,7 @@ MSnExperiment <- function(x, spectraData, sampleData, metadata, ...) {
 #' @author Johannes Rainer
 #'
 #' @noRd
-.merge_featureData <- function(x, y) {
+.combine_featureData <- function(x, y) {
     if (nrow(x) != nrow(y))
         stop("'x' and 'y' have to have the same number of rows")
     if (is.null(rownames(x)) & !is.null(rownames(y)))
@@ -389,15 +406,15 @@ MSnExperiment <- function(x, spectraData, sampleData, metadata, ...) {
 #' @rdname hidden_aliases
 #' @param object Object to display.
 #' @export
-setMethod(
-    "show",
-    signature="MSnExperiment",
-    definition=function(object) {
+setMethod("show", "MSnExperiment",
+    function(object) {
         cat("MSn data (", class(object)[1L], ") with ",
-            nrow(object@spectraData), " spectra:\n", sep="")
-        txt <- capture.output(
-            object@spectraData[, c("msLevel", "retentionTime", "totIonCurrent")])
-        cat(txt[-1], sep = "\n")
+            nrow(object@spectraData), " spectra:\n", sep = "")
+        if (nrow(object@spectraData)) {
+            txt <- capture.output(
+                object@spectraData[, c("msLevel", "retentionTime", "totIonCurrent")])
+            cat(txt[-1], sep = "\n")
+        }
         show(object@backend)
         if (length(object@processingQueue))
             cat("Lazy evaluation queue:", length(object@processingQueue),
@@ -479,53 +496,84 @@ readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
 setGeneric("setBackend", function(object, backend, ..., BPPARAM = bpparam())
     standardGeneric("setBackend"))
 #' @rdname hidden_aliases
-setMethod("setBackend", c("MSnExperiment", "Backend"),
-          function(object, backend, ..., BPPARAM = bpparam()) {
-              backend <- backendInitialize(backend, fileNames(object),
-                                           object@spectraData, ...)
-              backend <- backendWriteSpectra(
-                  backend, backendReadSpectra(object@backend,
-                                              object@spectraData),
-                  object@spectraData)
-              object@backend <- backend
-              validObject(object)
-              object
-          })
-#' @rdname hidden_aliases
-setMethod("setBackend", c("MSnExperiment", "BackendMzR"),
-          function(object, backend, ..., BPPARAM = bpparam()) {
-              if (any(backend@modCount > 0))
-                  stop("Can not change backend to 'BackendMzR' because the ",
-                       "data was changed.")
-              object@backend <- backendInitialize(backend, fileNames(object),
-                                                  object@spectraData, ...)
-              validObject(object)
-              object
-          })
-#' @rdname hidden_aliases
-setMethod("setBackend", c("MSnExperiment", "BackendHdf5"),
-          function(object, backend, ..., BPPARAM = bpparam()) {
-              backend <- backendInitialize(backend, fileNames(object),
-                                           object@spectraData, ...)
-              spd <- split(object@spectraData, object@spectraData$fileIdx)
-              cnts <- bplapply(spd, function(z, hdf5_backend, backend) {
-                  res <- backendWriteSpectra(hdf5_backend,
-                                             backendReadSpectra(backend, z), z)
-                  res@modCount[z$fileIdx[1]]
-              }, hdf5_backend = backend, backend = object@backend,
-              BPPARAM = BPPARAM)
-              backend@modCount <- unlist(cnts)
-              object@backend <- backend
-              validObject(object)
-              object
+setMethod(
+    "setBackend",
+    c("MSnExperiment", "Backend"),
+    function(object, backend, ..., BPPARAM = bpparam()) {
+    backend <- backendInitialize(backend, fileNames(object), object@spectraData,
+                                 ...)
+    ## update fileIdx, useful to split src backends across cores
+    spd <- object@spectraData
+    spd$fileIdx <- 1L
+    spd <- split(spd, object@spectraData$fileIdx)
+
+    backendSplitByFile(backend, object@spectraData) <-
+        bpmapply(function(dst, src, spd, queue) {
+            backendWriteSpectra(dst, backendReadSpectra(src, spd), spd)
+        },
+        dst = backendSplitByFile(backend, object@spectraData),
+        src = backendSplitByFile(object@backend, object@spectraData),
+        spd = spd,
+        SIMPLIFY = FALSE, USE.NAMES = FALSE, BPPARAM = BPPARAM)
+
+    object@backend <- backend
+    validObject(object)
+    object
 })
 
+#' @rdname hidden_aliases
+setMethod(
+    "setBackend",
+    c("MSnExperiment", "BackendMzR"),
+    function(object, backend, ..., BPPARAM = bpparam()) {
+    if (any(object@backend@modCount > 0))
+        stop("Can not change backend to 'BackendMzR' because the ",
+             "data was changed.")
+    object@backend <- backendInitialize(backend, fileNames(object),
+                                        object@spectraData, ...)
+    validObject(object)
+    object
+})
+
+#' @rdname MSnExperiment
+applyProcessingQueue <- function(x, BPPARAM = bpparam()) {
+    if (!inherits(x, "MSnExperiment"))
+        stop("'x' is supposed to be an 'MSnExperiment' object")
+    if (length(x@processingQueue)) {
+        isOK <- validateFeatureDataForOnDiskMSnExp(x@spectraData)
+        if (length(isOK))
+            stop(isOK)
+
+        ## update fileIdx, useful to split src backends across cores
+        spd <- x@spectraData
+        spd$fileIdx <- 1L
+        spd <- split(spd, x@spectraData$fileIdx)
+
+        mod_c <- x@backend@modCount
+
+        backendSplitByFile(x@backend, x@spectraData) <-
+            bpmapply(function(b, spd, queue) {
+                backendWriteSpectra(b,
+                    .apply_processing_queue(backendReadSpectra(b, spd), queue),
+                    spd
+                )
+            },
+            b = backendSplitByFile(x@backend, x@spectraData),
+            spd = spd, MoreArgs=list(queue = x@processingQueue),
+            SIMPLIFY = FALSE, USE.NAMES = FALSE, BPPARAM = BPPARAM)
+
+        if (all(mod_c < x@backend@modCount))
+            x@processingQueue <- list()
+    }
+    validObject(x)
+    x
+}
 
 #' @rdname MSnExperiment
 setMethod("spectrapply", "MSnExperiment", function(object,
+                                                   FUN = NULL, ...,
                                                    f = spectraData(object)$fileIdx,
-                                                   FUN = NULL,
-                                                   BPPARAM = bpparam(), ...) {
+                                                   BPPARAM = bpparam()) {
     BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
     isOK <- validateFeatureDataForOnDiskMSnExp(object@spectraData)
     if (length(isOK))
@@ -564,9 +612,14 @@ addProcessingStep <- function(object, FUN, ...) {
     object
 }
 
+#' @rdname MSnExperiment
+#' @name coerce,MSnExperiment,list-method
 setAs("MSnExperiment", "list", function(from) {
     spectrapply(from)
 })
+
+#' @rdname MSnExperiment
+#' @name coerce,MSnExperiment,List-method
 setAs("MSnExperiment", "List", function(from) {
     List(spectrapply(from))
 })

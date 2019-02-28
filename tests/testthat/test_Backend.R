@@ -50,3 +50,25 @@ test_that("backendSubset,Backend works", {
     spd <- DataFrame(fileIdx = c(1, 2, 3, 4))
     expect_equal(be, backendSubset(be, spd))
 })
+
+test_that("backendSplitByFile,Backend works", {
+    b <- BackendMzR()
+    b@files <- c("a", "b", "c")
+    b@modCount <- rep(0L, 3L)
+    spd <- DataFrame(fileIdx = c(3, 3, 1, 1, 2, 1))
+    res <- backendSplitByFile(b, spd)
+    bl <- BackendMzR()
+    bl@files <- "a"
+    bl@modCount <- 0L
+    l <- list("1"=bl, "2"=bl, "3"=bl)
+    l[[2]]@files <- "b"
+    l[[3]]@files <- "c"
+    expect_equal(backendSplitByFile(b, spd), l)
+    r <- b
+    r@files[1] <- "d"
+    r@modCount[1L] <- 1L
+    l[[1]]@files <- "d"
+    l[[1]]@modCount <- 1L
+    backendSplitByFile(b, spd) <- l
+    expect_equal(b, r)
+})

@@ -275,7 +275,7 @@ setGeneric(
 #' Subsetting could/should be done based on columns `"fileIdx"`, `"spIdx"`
 #' and/or `rownames(spectraData)`.
 #'
-#' @param x `Backend`
+#' @param object `Backend`
 #'
 #' @param spectraData `DataFrame` with the spectrum metadata of the spectra to
 #'     which the `object` should be subsetted.
@@ -304,8 +304,79 @@ setMethod("backendSubset", "Backend", function(object, spectraData) {
 
 #' @description
 #'
+#' Split the `Backend` based on the provided `spectraData` data frame.
+#' Splitting could/should be done based on columns `"fileIdx"`.
+#'
+#' @param object `Backend`
+#'
+#' @param spectraData `DataFrame` with the spectrum metadata of the spectra to
+#'     which the `object` should be subsetted.
+#'
+#' @return A `list` of `Backend` classes.
+#'
+#' @author Sebastian Gibb
+#'
+#' @rdname hidden_aliases
+#'
+#' @noRd
+setGeneric(
+    "backendSplitByFile",
+    def = function(object, spectraData, ...)
+        standardGeneric("backendSplitByFile"),
+    valueClass = "list"
+)
+setMethod("backendSplitByFile", "Backend", function(object, spectraData, ...) {
+    lapply(
+        split(spectraData, spectraData$fileIdx),
+        backendSubset,
+        object = object
+    )
+})
+
+#' @description
+#'
+#' The reverse/undo function to `backendSplitByFile`.
+#'
+#' @param object `Backend`
+#'
+#' @param spectraData `DataFrame` with the spectrum metadata of the spectra to
+#'     which the `object` should be subsetted.
+#'
+#' @return A `Backend` class.
+#'
+#' @author Sebastian Gibb
+#'
+#' @rdname hidden_aliases
+#'
+#' @noRd
+setGeneric(
+    "backendSplitByFile<-",
+    def = function(object, spectraData, ..., value)
+        standardGeneric("backendSplitByFile<-"),
+    valueClass = "Backend"
+)
+setReplaceMethod(
+    "backendSplitByFile",
+    "Backend",
+    function(object, spectraData, ..., value) {
+    fidx <- unique(sort.int(spectraData$fileIdx))
+    if (length(fidx) != length(value)) {
+        stop("Length of assignment is not the same as number of files.")
+    }
+    for (i in seq_along(value)) {
+        object@files[fidx[i]] <- value[[i]]@files
+        object@modCount[fidx[i]] <- value[[i]]@modCount
+    }
+    validObject(object)
+    object
+})
+
+#' @description
+#'
 #' `backendUpdateMetadata` updates the spectrum metadata on backends that
-#' support it with the provided `spectraData`.
+#' support it with the provided `spectraData`. It ensures that changes to the
+#' metadata in the upstream object (e.g. `MSnExperiment`) are propagated to
+#' the backend.
 #'
 #' This method is called each time the spectrum metadata is updated in the
 #' `MSnExperiment`, e.g. by `spectraData(object) <- new_spd`.

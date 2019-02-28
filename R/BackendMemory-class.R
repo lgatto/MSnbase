@@ -39,10 +39,28 @@ BackendMemory <- function() { new("BackendMemory") }
 setMethod("backendSubset", "BackendMemory", function(object, spectraData) {
     fidx <- unique(spectraData$fileIdx)
     ## Update also `@fromFile` in the spectra.
-    object@spectra <- lapply(object@spectra[rownames(spectraData)], function(z) {
-        z@fromFile <- match(z@fromFile, fidx)
-        z
-    })
+    object@spectra <- lapply(
+        object@spectra[rownames(spectraData)],
+        function(s) {
+            if (!is.null(s))
+                s@fromFile <- match(s@fromFile, fidx)
+            s
+        }
+    )
+    callNextMethod()
+})
+
+#' @rdname hidden_aliases
+setReplaceMethod(
+    "backendSplitByFile",
+    "BackendMemory",
+    function(object, spectraData, ..., value) {
+    rn <- split(rownames(spectraData), spectraData$fileIdx)
+    fidx <- as.integer(sort.int(unique(spectraData$fileIdx)))
+    for (i in seq(along=value)) {
+        object@spectra[rn[[i]]] <-
+            lapply(value[[i]]@spectra, function(s){ s@fromFile <- fidx[i]; s })
+    }
     callNextMethod()
 })
 
@@ -90,7 +108,7 @@ setMethod(
     definition = function(object, spectra, spectraData, ...,
                           BPPARAM = bpparam()) {
         object@spectra[rownames(spectraData)] <- spectra
-        idx <- unique(vapply(spectra, fromFile, integer(1)))
+        idx <- unique(vapply(spectra, fromFile, integer(1L)))
         object@modCount[idx] <- object@modCount[idx] + 1L
         validObject(object)
         object
