@@ -75,7 +75,7 @@ setMethod("backendInitialize", "BackendHdf5", function(object, files,
     object@h5files <- file.path(path, paste0(.vdigest(files), ".h5"))
     if (any(file.exists(object@h5files)))
         stop("File(s) ", paste0(object@h5files[file.exists(object@h5files)],
-                                collapse = ", "), "already exist(s). ",
+                                collapse = ", "), " already exist(s). ",
              "Please choose a different 'path'.")
     for (i in seq_along(object@h5files)) {
         h5 <- H5Fcreate(object@h5files[i])
