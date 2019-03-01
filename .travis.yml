@@ -46,7 +46,9 @@ jobs:
       before_script: rm -rf vignettes
       script:
         - R CMD build --no-build-vignettes --no-manual .
-        - travis_wait 20 "R CMD check MSnbase*.tar.gz --as-cran --no-build-vignettes --no-vignettes --no-manual --no-codoc --no-examples; $CHECK_RET=$?"
+        - travis_wait 20 R CMD check MSnbase*.tar.gz --as-cran --no-build-vignettes --no-vignettes --no-manual --no-codoc --no-examples
+      after_failure:
+        - find *Rcheck -name '*.fail' -print -exec cat '{}' \;
       name: "tests"
     - r_build_args:
       r_check_args: --as-cran --no-build-vignettes --no-codoc --no-examples --no-tests
