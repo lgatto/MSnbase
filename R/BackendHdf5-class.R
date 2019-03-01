@@ -86,26 +86,6 @@ setMethod("backendInitialize", "BackendHdf5", function(object, files,
     callNextMethod()
 })
 
-#' Import the data from the raw MS files and store them to the hdf5 files.
-#'
-#' @inheritParams backendInitialize
-#'
-#' @return `BackendHdf5`
-#'
-#' @author Johannes Rainer
-#'
-#' @md
-#'
-#' @noRd
-setMethod("backendImportData", "BackendHdf5", function(object, spectraData,
-                                                       ...,
-                                                       BPPARAM = bpparam()) {
-    bpmapply(fileNames(object), object@h5files, FUN = .serialize_msfile_to_hdf5,
-             BPPARAM = BPPARAM)
-    validObject(object)
-    object
-})
-
 #' Create a deep copy (means also copying the hdf5 files).
 #'
 #' @inheritParams backendInitialize
@@ -121,27 +101,6 @@ setMethod(
     definition = function(object, ...) {
     stop("Not implemented yet!")
 })
-
-#' Write the content of a single mzML/etc file to an h5file. We're using the
-#' spectrum index in the file as data set ID.
-#'
-#' @author Johannes Rainer, Sebastian Gibb
-#'
-#' @noRd
-.serialize_msfile_to_hdf5 <- function(file, h5file) {
-    h5 <- H5Fopen(h5file)
-    on.exit(H5Fclose(h5))
-    comp_level <- .hdf5_compression_level()
-    fh <- openMSfile(file)
-    hdr <- header(fh)
-    pks <- peaks(fh)
-    close(fh)
-    spids <- paste0("/spectra/", seq_along(pks))
-    for (i in seq_along(pks)) {
-        h5write(pks[[i]], h5, spids[i], level = comp_level)
-    }
-    h5write(0L, h5, "/modification/counter", level = comp_level)
-}
 
 setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
                                                         ...) {
@@ -271,19 +230,20 @@ setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
 }
 
 setMethod("backendWriteSpectra", "BackendHdf5", function(object, spectra,
-                                                         spectraData) {
+                                                         spectraData,
+                                                         updateModCount, ...) {
     file_f <- factor(spectraData$fileIdx, levels = unique(spectraData$fileIdx))
     idx <- as.integer(levels(file_f))
     fls <- object@h5files[idx]
-    modCount <- object@modCount[idx] + 1L
+    if (updateModCount)
+        object@modCount[idx] <- object@modCount[idx] + 1L
     if (length(fls) == 1)
-        .h5_write_spectra(spectra, spectraData, fls, modCount)
+        .h5_write_spectra(spectra, spectraData, fls, object@modCount[idx])
     else
         unlist(mapply(split(spectra, file_f), split(spectraData, file_f),
-                            fls, modCount, FUN = .h5_write_spectra,
+                            fls, object@modCount[idx], FUN = .h5_write_spectra,
                             SIMPLIFY = FALSE, USE.NAMES = FALSE),
                       recursive = FALSE)
-    object@modCount[idx] <- modCount
     object
 })
 

@@ -108,43 +108,6 @@ test_that("backendInitialize", {
     expect_equal(names(b@spectra), rownames(spd))
 })
 
-test_that("backendImportData", {
-    f <- system.file(
-        file.path("microtofq", c("MM8.mzML", "MM14.mzML")),
-        package="msdata"
-    )
-    nn <- c(4, 3)
-    n <- sum(nn)
-    spd <-  DataFrame(
-        fileIdx=rep(1:2, nn),
-        spIdx=c(seq_len(nn[1]), seq_len(nn[2])),
-        smoothed=FALSE,
-        row.names=paste0(rep(c("F1", "F2"), nn),
-                         ".S", c(seq_len(nn[1]), seq_len(nn[2])))
-    )
-    hdr <- pks <- vector(mode="list", length=length(f))
-
-    for (i in seq(along=f)) {
-        fh <- mzR::openMSfile(f[i])
-        j <- seq_len(nn[i])
-        hdr[[i]] <- header(fh, j)
-        pks[[i]] <- peaks(fh, j)
-        close(fh)
-    }
-    hdr <- do.call(rbind, hdr)
-    pks <- unlist(pks, recursive=FALSE)
-    spd <- cbind(spd, hdr)
-
-    b <- backendInitialize(BackendMemory(), files=f, spectraData=spd)
-    b <- backendImportData(b, spectraData=spd, BPPARAM=SerialParam())
-    expect_length(b@spectra, n)
-    expect_equal(names(b@spectra), rownames(spd))
-    expect_equal(lapply(b@spectra, mz),
-                 setNames(lapply(pks, function(p)p[,1]), rownames(spd)))
-    expect_equal(lapply(b@spectra, intensity),
-                 setNames(lapply(pks, function(p)p[,2]), rownames(spd)))
-})
-
 test_that("backendReadSpectra/backendWriteSpectra", {
     spd <- DataFrame(fileIdx=c(1, 1, 2), spIdx=1:3,
                      row.names=c("F1.S1", "F1.S2", "F2.S3"))

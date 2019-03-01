@@ -11,7 +11,6 @@
 \alias{backendSubset,BackendMemory-method}
 \alias{backendSplitByFile<-,BackendMemory-method}
 \alias{backendInitialize,BackendMemory-method}
-\alias{backendImportData,BackendMemory-method}
 \alias{backendReadSpectra,BackendMemory-method}
 \alias{backendWriteSpectra,BackendMemory-method}
 \alias{backendUpdateMetadata,BackendMemory-method}
@@ -36,14 +35,11 @@
 \S4method{backendInitialize}{BackendMemory}(object, files, spectraData,
   ..., BPPARAM = bpparam())
 
-\S4method{backendImportData}{BackendMemory}(object, spectraData, ...,
-  BPPARAM = bpparam())
-
 \S4method{backendReadSpectra}{BackendMemory}(object, spectraData, ...,
   BPPARAM = bpparam())
 
 \S4method{backendWriteSpectra}{BackendMemory}(object, spectra, spectraData,
-  ..., BPPARAM = bpparam())
+  updateModCount = TRUE, ...)
 
 \S4method{backendUpdateMetadata}{BackendMemory}(object, spectraData)
 
