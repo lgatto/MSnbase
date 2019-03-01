@@ -75,7 +75,6 @@ NULL
 #' It may also provide methods for:
 #'
 #' - [backendInitialize()] to setup the backend (create files, tables, ...).
-#' - [backendImportData()] to initial import data from source *mzML* files.
 #' - [backendDeepCopy()] to create a copy of the backend with associated files.
 #'
 #' @name Backend
@@ -169,34 +168,6 @@ setMethod(
     object
 })
 
-#' Import spectra data into a backend
-#'
-#' This generic is used to import spectra data into a backend.
-#'
-#' It should be only reimplemented if the backend is created from scratch
-#' e.g. for *HDF5* the content of the .mzML files is imported into .h5 files.
-#' It must not be reimplemented for the .mzML backend.
-#'
-#' @inheritParams backendInitialize
-#' @param BPPARAM Should parallel processing be used? See
-#' [BiocParallel::bpparam()].
-#' @return A [Backend-class] derivate.
-#' @family Backend generics
-#' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
-#' @noRd
-setGeneric(
-    "backendImportData",
-    def = function(object, spectraData, ..., BPPARAM = bpparam())
-        standardGeneric("backendImportData"),
-    valueClass = "Backend"
-)
-setMethod(
-    "backendImportData",
-    signature = "Backend",
-    definition = function(object, spectraData, ..., BPPARAM = bpparam()) {
-    object
-})
-
 #' Create a deep copy of the backend
 #'
 #' This generic is used to create a deep copy of the backend and its associated
@@ -256,15 +227,17 @@ setGeneric(
 #' It *MUST* be reimplemented by all backends!
 #'
 #' @inheritParams backendReadSpectra
-#' @param spectra A list of [Spectrum-class] objects that should be written to
+#' @param spectra A `list` of [Spectrum-class] objects that should be written to
 #' the backend.
+#' @param updateModCount `logical`, should the `@modCount` be incremented? Only
+#' set to `FALSE` if you know what you are doing (e.g. in `setBackend`).
 #' @return A [Backend-class] derivate.
 #' @family Backend generics
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
 #' @noRd
 setGeneric(
     "backendWriteSpectra",
-    def = function(object, spectra, spectraData, ...)
+    def = function(object, spectra, spectraData, updateModCount = TRUE, ...)
         standardGeneric("backendWriteSpectra"),
     valueClass = "Backend"
 )

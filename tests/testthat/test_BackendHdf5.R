@@ -18,37 +18,6 @@ test_that("BackendHdf5 works", {
     expect_error(validObject(tst))
 })
 
-test_that("backendInitialize and backendImportData,BackendHdf5 work", {
-    tst <- BackendHdf5()
-    dr <- tempdir()
-    res <- backendInitialize(tst, files = sf, path = dr)
-    expect_equal(length(res@h5files), 2)
-    expect_true(all(file.exists(res@h5files)))
-    expect_error(backendInitialize(tst, files = sf, path = dr))
-    expect_true(validObject(res))
-    expect_identical(res@modCount, c(0L, 0L))
-    show(res)
-
-    ## backendImportData
-    spdata <- sciex_mzr@spectraData
-    res <- backendImportData(res, spdata)
-    cont <- rhdf5::h5ls(res@h5files[1])
-    expect_equal(sum(spdata$fileIdx == 1) + 3, nrow(cont))
-    cont <- rhdf5::h5ls(res@h5files[2])
-    expect_equal(sum(spdata$fileIdx == 2) + 3, nrow(cont))
-})
-
-test_that(".serialize_msfile_to_hdf5 works", {
-    h5file <- tempfile()
-    h5 <- rhdf5::H5Fcreate(h5file)
-    rhdf5::h5createGroup(h5, "spectra")
-    rhdf5::h5createGroup(h5, "modification")
-    rhdf5::H5Fclose(h5)
-    .serialize_msfile_to_hdf5(fileNames(sciex)[1], h5file)
-    cont <- rhdf5::h5ls(h5file)
-    expect_equal(nrow(cont), sum(fromFile(sciex) == 1) + 3)
-})
-
 test_that(".h5_read_bare works", {
     expect_error(.h5_read_bare())
     expect_error(.h5_read_bare("5"))
@@ -138,7 +107,7 @@ test_that(".h5_write_spectra, and backendWriteSpectra,BackendHdf5 work", {
     expect_equal(res_sps, sps[idx])
 })
 
-test_that("backendSubset, BackendHdf5", {
+test_that("backendSubset,BackendHdf5", {
     spd <- sciex_h5@spectraData
     spd <- spd[c(1000, 1003, 34, 64), ]
     res <- backendSubset(sciex_h5@backend, spd)
