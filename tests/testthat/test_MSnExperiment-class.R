@@ -311,10 +311,10 @@ test_that("applyProcessingQueue works", {
     idx <- c(13, 15, 33, 89, 113, 117, 167)
     mse_mem <- mse_mem[idx]
     mse_mem <- removePeaks(mse_mem, t = 5000)
-    expect_equal(mse_mem@backend@modCount, c(1L, 1L))
+    expect_equal(mse_mem@backend@modCount, c(0L, 0L))
     expect_equal(length(mse_mem@processingQueue), 1L)
     mse_mem <- applyProcessingQueue(mse_mem)
-    expect_equal(mse_mem@backend@modCount, c(2L, 2L))
+    expect_equal(mse_mem@backend@modCount, c(1L, 1L))
     expect_true(length(mse_mem@processingQueue) == 0)
     expect_equal(as(mse_mem, "list"), lapply(sps[idx], removePeaks, t = 5000))
     ## Hdf5 backend
@@ -322,13 +322,13 @@ test_that("applyProcessingQueue works", {
                                 path = paste0(tempdir(), "/apq"))
     mse_h5 <- mse_h5[idx]
     sps <- spectrapply(mse_h5)
-    expect_equal(mse_h5@backend@modCount, c(1L, 1L))
+    expect_equal(mse_h5@backend@modCount, c(0L, 0L))
     expect_equal(length(mse_h5@processingQueue), 0L)
     mse_h5 <- removePeaks(mse_h5, t = 5000)
-    expect_equal(mse_h5@backend@modCount, c(1L, 1L))
+    expect_equal(mse_h5@backend@modCount, c(0L, 0L))
     expect_equal(length(mse_h5@processingQueue), 1L)
     mse_h5 <- applyProcessingQueue(mse_h5)
-    expect_equal(mse_h5@backend@modCount, c(2L, 2L))
+    expect_equal(mse_h5@backend@modCount, c(1L, 1L))
     expect_equal(length(mse_h5@processingQueue), 0L)
     expect_equal(spectrapply(mse_h5, ionCount),
                  lapply(sps, function(z) ionCount(removePeaks(z, t = 5000))))

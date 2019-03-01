@@ -87,7 +87,7 @@ test_that(".h5_write_spectra, and backendWriteSpectra,BackendHdf5 work", {
     expect_equal(sps[spd$fileIdx == 1], res)
     expect_error(backendReadSpectra(be, spd[spd$fileIdx == 2, ]),
                  "The data .* have changed")
-    be@modCount[2] <- 2L
+    be@modCount[2] <- 1L
     res <- backendReadSpectra(be, spd[idx, ])
     expect_equal(res, sps[idx])
 
