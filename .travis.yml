@@ -46,7 +46,7 @@ jobs:
       install: skip
       before_script: rm -rf vignettes
       script:
-        - travis_wait 20 R CMD check "${PKG_TARBALL}" --as-cran --no-build-vignettes --no-vignettes --no-manual --no-codoc --no-examples
+        - travis_wait 20 R CMD check MSnbase*.tar.gz --as-cran --no-build-vignettes --no-vignettes --no-manual --no-codoc --no-examples
       name: "tests"
     - r_build_args:
       r_check_args: --as-cran --no-build-vignettes --no-codoc --no-examples --no-tests
