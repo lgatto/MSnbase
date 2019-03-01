@@ -39,7 +39,7 @@
   BPPARAM = bpparam())
 
 \S4method{backendWriteSpectra}{BackendMemory}(object, spectra, spectraData,
-  ..., BPPARAM = bpparam())
+  updateModCount = TRUE, ...)
 
 \S4method{backendUpdateMetadata}{BackendMemory}(object, spectraData)
 

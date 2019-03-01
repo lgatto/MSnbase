@@ -487,7 +487,11 @@ readMSnExperiment <- function(file, sampleData, backend = BackendMzR(),
         metadata = metadata,
         processing = paste0("Data loaded [", date(), "]")
     )
-    setBackend(msnexp, backend, ..., BPPARAM = BPPARAM)
+
+    if (!inherits(backend, "BackendMzR"))
+        msnexp <- setBackend(msnexp, backend, ..., BPPARAM = BPPARAM)
+
+    msnexp
 }
 
 #' @rdname MSnExperiment
@@ -505,9 +509,14 @@ setMethod(
     spd$fileIdx <- 1L
     spd <- split(spd, object@spectraData$fileIdx)
 
+    ## keep current modCount
+    backend@modCount <- object@backend@modCount
+
     backendSplitByFile(backend, object@spectraData) <-
         bpmapply(function(dst, src, spd, queue) {
-            backendWriteSpectra(dst, backendReadSpectra(src, spd), spd)
+            backendWriteSpectra(
+                dst, backendReadSpectra(src, spd), spd, updateModCount=FALSE
+            )
         },
         dst = backendSplitByFile(backend, object@spectraData),
         src = backendSplitByFile(object@backend, object@spectraData),
@@ -515,6 +524,9 @@ setMethod(
         SIMPLIFY = FALSE, USE.NAMES = FALSE, BPPARAM = BPPARAM)
 
     object@backend <- backend
+    object@processing <- c(object@processing,
+                           paste0("Backend set to '", class(backend),
+                                  "' [", date(), "]"))
     validObject(object)
     object
 })
@@ -524,11 +536,13 @@ setMethod(
     "setBackend",
     c("MSnExperiment", "BackendMzR"),
     function(object, backend, ..., BPPARAM = bpparam()) {
-    if (any(object@backend@modCount > 0))
+    if (any(object@backend@modCount))
         stop("Can not change backend to 'BackendMzR' because the ",
              "data was changed.")
     object@backend <- backendInitialize(backend, fileNames(object),
                                         object@spectraData, ...)
+    object@processing <- c(object@processing,
+                           paste0("Backend set to 'BackendMzR' [", date(), "]"))
     validObject(object)
     object
 })

@@ -230,19 +230,20 @@ setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
 }
 
 setMethod("backendWriteSpectra", "BackendHdf5", function(object, spectra,
-                                                         spectraData) {
+                                                         spectraData,
+                                                         updateModCount, ...) {
     file_f <- factor(spectraData$fileIdx, levels = unique(spectraData$fileIdx))
     idx <- as.integer(levels(file_f))
     fls <- object@h5files[idx]
-    modCount <- object@modCount[idx] + 1L
+    if (updateModCount)
+        object@modCount[idx] <- object@modCount[idx] + 1L
     if (length(fls) == 1)
-        .h5_write_spectra(spectra, spectraData, fls, modCount)
+        .h5_write_spectra(spectra, spectraData, fls, object@modCount[idx])
     else
         unlist(mapply(split(spectra, file_f), split(spectraData, file_f),
-                            fls, modCount, FUN = .h5_write_spectra,
+                            fls, object@modCount[idx], FUN = .h5_write_spectra,
                             SIMPLIFY = FALSE, USE.NAMES = FALSE),
                       recursive = FALSE)
-    object@modCount[idx] <- modCount
     object
 })
 

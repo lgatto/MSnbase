@@ -227,15 +227,17 @@ setGeneric(
 #' It *MUST* be reimplemented by all backends!
 #'
 #' @inheritParams backendReadSpectra
-#' @param spectra A list of [Spectrum-class] objects that should be written to
+#' @param spectra A `list` of [Spectrum-class] objects that should be written to
 #' the backend.
+#' @param updateModCount `logical`, should the `@modCount` be incremented? Only
+#' set to `FALSE` if you know what you are doing (e.g. in `setBackend`).
 #' @return A [Backend-class] derivate.
 #' @family Backend generics
 #' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
 #' @noRd
 setGeneric(
     "backendWriteSpectra",
-    def = function(object, spectra, spectraData, ...)
+    def = function(object, spectra, spectraData, updateModCount = TRUE, ...)
         standardGeneric("backendWriteSpectra"),
     valueClass = "Backend"
 )

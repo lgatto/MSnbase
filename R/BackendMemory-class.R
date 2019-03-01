@@ -89,11 +89,12 @@ setMethod(
 setMethod(
     "backendWriteSpectra",
     signature = "BackendMemory",
-    definition = function(object, spectra, spectraData, ...,
-                          BPPARAM = bpparam()) {
+    definition = function(object, spectra, spectraData, updateModCount, ...) {
         object@spectra[rownames(spectraData)] <- spectra
-        idx <- unique(vapply(spectra, fromFile, integer(1L)))
-        object@modCount[idx] <- object@modCount[idx] + 1L
+        if (updateModCount) {
+            idx <- unique(vapply(spectra, fromFile, integer(1L)))
+            object@modCount[idx] <- object@modCount[idx] + 1L
+        }
         validObject(object)
         object
 })
