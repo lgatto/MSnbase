@@ -75,7 +75,6 @@ NULL
 #' It may also provide methods for:
 #'
 #' - [backendInitialize()] to setup the backend (create files, tables, ...).
-#' - [backendDeepCopy()] to create a copy of the backend with associated files.
 #'
 #' @name Backend
 #'
@@ -165,37 +164,6 @@ setMethod(
     object@files <- files
     object@modCount <- integer(length(files))
     validObject(object)
-    object
-})
-
-#' Create a deep copy of the backend
-#'
-#' This generic is used to create a deep copy of the backend and its associated
-#' files.
-#'
-#' If an object with a file-based backend is copied in R via `newObj <- oldObj`
-#' and subsequently modified the file content may be corrupted. The deep copy
-#' also should copy all associated files to a new destination.
-#'
-#' It should be only reimplemented if the backend uses files or other resources
-#' that could be corrputed when the object is copied via `<-`, e.g. *HDF5*.
-#'
-#' @param object A [Backend-class] derivate.
-#' @inheritParams backendInitialize
-#' @return A [Backend-class] derivate.
-#' @family Backend generics
-#' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
-#' @noRd
-setGeneric(
-    "backendDeepCopy",
-    def = function(object, ...)
-        standardGeneric("backendDeepCopy"),
-    valueClass = "Backend"
-)
-setMethod(
-    "backendDeepCopy",
-    signature = "Backend",
-    definition = function(object, ...) {
     object
 })
 

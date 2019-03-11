@@ -86,22 +86,6 @@ setMethod("backendInitialize", "BackendHdf5", function(object, files,
     callNextMethod()
 })
 
-#' Create a deep copy (means also copying the hdf5 files).
-#'
-#' @inheritParams backendInitialize
-#'
-#' @return `BackendHdf5`
-#'
-#' @md
-#'
-#' @noRd
-setMethod(
-    "backendDeepCopy",
-    signature = "BackendHdf5",
-    definition = function(object, ...) {
-    stop("Not implemented yet!")
-})
-
 setMethod("backendReadSpectra", "BackendHdf5", function(object, spectraData,
                                                         ...) {
     file_f <- factor(spectraData$fileIdx, levels = unique(spectraData$fileIdx))
