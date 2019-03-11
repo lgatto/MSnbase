@@ -1004,3 +1004,13 @@ test_that(".combine_featureData works", {
     expect_equal(res$col_2, 11:15)
     expect_error(.combine_featureData(a, b[1:4, ]), "'x' and 'y'")
 })
+
+test_that(".extractSpectraDataColumn works", {
+    res <- .extractSpectraDataColumn(sciex_mzr, "retentionTime")
+    expect_equal(unname(res), spectraData(sciex_mzr)$retentionTime)
+    expect_equal(names(res), featureNames(sciex_mzr))
+
+    res <- .extractSpectraDataColumn(sciex_mzr, "other", "b")
+    expect_true(all(res == "b"))
+    expect_equal(names(res), featureNames(sciex_mzr))
+})

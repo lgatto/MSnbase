@@ -408,7 +408,7 @@ reported in the original raw data file is returned. Use \code{initial = FALSE}
 to calculate on the actual spectra data. Returns a \code{numeric} vector with
 length equal to the number of spectra.
 \item \code{centroided}, \code{centroided<-}: get or set the centroiding information of
-the spectra. \code{centroided} eturns a \code{logical} vector (same length than
+the spectra. \code{centroided} returns a \code{logical} vector (same length than
 \code{object} with names being the spectrum names) with \code{TRUE} if a spectrum
 is centroided, \code{FALSE} if it is in profile more and \code{NA} if it is
 undefined. This function returns the value defined in the spectrum
@@ -443,8 +443,8 @@ objects.
 named integer vector of length equal to the number of spectra and names
 being the spectrum names.
 \item \code{intensity}: get the intensity values from the spectra. Returns a named
-list, names being the spectrum names, each element a numeric vector with
-the intensity values of one spectrum.
+list, names being the spectrum names, each element is a numeric vector
+with the intensity values of one spectrum.
 \item \code{ionCount}: returns a \code{numeric} (names being spectrum names, length equal
 to the number of spectra) representing the sum of intensities for each
 spectrum. In contrast to \code{tic}, this function calculates the actual ion
@@ -517,7 +517,7 @@ length equal to the number of spectra.
 unless \code{drop = TRUE} and the object is subsetted to a single spectrum,
 in which case a \code{Spectrum} is returned.
 \item \code{[[i]]}: extract the \linkS4class{Spectrum} with index \code{i} from the data.
-\item \code{filterAcquisitionNum}: filter the object keeping only spectra matchin the
+\item \code{filterAcquisitionNum}: filter the object keeping only spectra matching the
 provided acquisition numbers (argument \code{n}). If \code{file} is also provided,
 \code{object} is subsetted to the spectra with an acquisition number equal to
 \code{n} \strong{in this/these file(s)} and all spectra for the remaining files (not
@@ -598,7 +598,15 @@ specify whether \code{0} intensity peaks should be removed from spectra. See
 \code{MSnExperiment} with the reporter peaks removed.
 \item \code{removePeaks}: remove peaks lower than a threshold \code{t}. See
 \code{\link[=removePeaks]{removePeaks()}} for \linkS4class{Spectrum} objects for more details.
-\item \code{smooth}: smooths intensities of each spectrum data within the \code{object using the method specified with }method\code{. Currently }method = "SavitzkyGolay"\code{(default) and}method = "MovingAverage\code{are available for smoothing the data with a Savitzky-Golay filter or with an moving average approach. Parameter}halfWindowSize\code{(default =}2\code{) controls the window size of the filter. Additional parameters to the filter function can be passed with the }...\code{parameter. See [smooth()] for more information and descriptions on the filters. The function returns a}MSnExperiment` object with smoothed spectra.
+\item \code{smooth}: smooths intensities of each spectrum data within the \code{object}
+using the method specified with \code{method}. Currently
+\code{method = "SavitzkyGolay"} (default) and \code{method = "MovingAverage"} are
+available for smoothing the data with a Savitzky-Golay filter or with an
+moving average approach. Parameter \code{halfWindowSize} (default = \code{2})
+controls the window size of the filter. Additional parameters to the filter
+function can be passed with the \code{...} parameter. See \code{\link[=smooth]{smooth()}} for more
+information and descriptions on the filters. The function returns a
+\code{MSnExperiment} object with smoothed spectra.
 }
 }
 
@@ -708,6 +716,7 @@ head(res)
 mse <- setBackend(mse, backend = BackendHdf5(),
     path = paste0(tempdir(), "/hdf5"))
 mse
+
 }
 \author{
 Sebastian Gibb, Johannes Rainer

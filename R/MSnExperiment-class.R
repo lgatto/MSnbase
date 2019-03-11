@@ -189,7 +189,7 @@ NULL
 #'   length equal to the number of spectra.
 #'
 #' - `centroided`, `centroided<-`: get or set the centroiding information of
-#'   the spectra. `centroided` eturns a `logical` vector (same length than
+#'   the spectra. `centroided` returns a `logical` vector (same length than
 #'   `object` with names being the spectrum names) with `TRUE` if a spectrum
 #'   is centroided, `FALSE` if it is in profile more and `NA` if it is
 #'   undefined. This function returns the value defined in the spectrum
@@ -231,8 +231,8 @@ NULL
 #'   being the spectrum names.
 #'
 #' - `intensity`: get the intensity values from the spectra. Returns a named
-#'   list, names being the spectrum names, each element a numeric vector with
-#'   the intensity values of one spectrum.
+#'   list, names being the spectrum names, each element is a numeric vector
+#'   with the intensity values of one spectrum.
 #'
 #' - `ionCount`: returns a `numeric` (names being spectrum names, length equal
 #'   to the number of spectra) representing the sum of intensities for each
@@ -322,7 +322,7 @@ NULL
 #'
 #' - `[[i]]`: extract the [Spectrum-class] with index `i` from the data.
 #'
-#' - `filterAcquisitionNum`: filter the object keeping only spectra matchin the
+#' - `filterAcquisitionNum`: filter the object keeping only spectra matching the
 #'   provided acquisition numbers (argument `n`). If `file` is also provided,
 #'   `object` is subsetted to the spectra with an acquisition number equal to
 #'   `n` **in this/these file(s)** and all spectra for the remaining files (not
@@ -418,9 +418,9 @@ NULL
 #' - `removePeaks`: remove peaks lower than a threshold `t`. See
 #'   [removePeaks()] for [Spectrum-class] objects for more details.
 #'
-#' - `smooth`: smooths intensities of each spectrum data within the `object
+#' - `smooth`: smooths intensities of each spectrum data within the `object`
 #'   using the method specified with `method`. Currently
-#'   `method = "SavitzkyGolay"` (default) and `method = "MovingAverage` are
+#'   `method = "SavitzkyGolay"` (default) and `method = "MovingAverage"` are
 #'   available for smoothing the data with a Savitzky-Golay filter or with an
 #'   moving average approach. Parameter `halfWindowSize` (default = `2`)
 #'   controls the window size of the filter. Additional parameters to the filter
@@ -540,6 +540,7 @@ NULL
 #' mse <- setBackend(mse, backend = BackendHdf5(),
 #'     path = paste0(tempdir(), "/hdf5"))
 #' mse
+#'
 NULL
 
 #' validation function for MSnExperiment
@@ -944,7 +945,7 @@ setAs("MSnExperiment", "List", function(from) {
 
 #' @rdname MSnExperiment
 setMethod("$", "MSnExperiment", function(x, name) {
-    eval(substitute(sampleData(x)$NAME_ARG, list(NAME_ARG = name)))
+    sampleData(x)[[name]]
 })
 #' @rdname MSnExperiment
 setReplaceMethod("$", "MSnExperiment", function(x, name, value) {
@@ -954,24 +955,17 @@ setReplaceMethod("$", "MSnExperiment", function(x, name, value) {
 
 #' @rdname MSnExperiment
 setMethod("acquisitionNum", "MSnExperiment", function(object) {
-    res <- if (is.null(object@spectraData$acquisitionNum))
-               rep_len(NA_integer_, length(object))
-           else object@spectraData$acquisitionNum
-    names(res) <- featureNames(object)
-    res
+    .extractSpectraDataColumn(object, "acquisitionNum", NA_integer_)
 })
 
 #' @rdname MSnExperiment
 setMethod("bpi", "MSnExperiment", function(object, initial = TRUE,
                                            BPPARAM = bpparam()) {
-    if (initial) {
-        res <- if (is.null(object@spectraData$basePeakIntensity))
-                   rep_len(NA_real_, length(object))
-               else object@spectraData$basePeakIntensity
-    } else
+    if (initial)
+        res <- .extractSpectraDataColumn(object, "basePeakIntensity", NA_real_)
+    else
         res <- unlist(spectrapply(object, function(z) {
-            if (length(z@intensity)) max(z@intensity)
-            else 0
+            max(0, z@intensity)
         }, BPPARAM = BPPARAM), recursive = FALSE, use.names = FALSE)
     names(res) <- featureNames(object)
     res
@@ -1017,9 +1011,7 @@ setMethod("chromatogram", "MSnExperiment", function(object, rt, mz,
 
 #' @rdname MSnExperiment
 setMethod("centroided", "MSnExperiment", function(object, na.fail = FALSE) {
-    res <- if (is.null(object@spectraData$centroided))
-               rep_len(NA, length(object))
-           else object@spectraData$centroided
+    res <- .extractSpectraDataColumn(object, "centroided", NA)
     if (na.fail & anyNA(res))
         stop("Mode is undefined. See ?isCentroided for details.", call. = FALSE)
     names(res) <- featureNames(object)
@@ -1039,11 +1031,7 @@ setReplaceMethod("centroided", "MSnExperiment", function(object, value) {
 
 #' @rdname MSnExperiment
 setMethod("collisionEnergy", "MSnExperiment", function(object) {
-    res <- if (is.null(object@spectraData$collisionEnergy))
-               rep_len(NA_real_, length(object))
-           else object@spectraData$collisionEnergy
-    names(res) <- featureNames(object)
-    res
+    .extractSpectraDataColumn(object, "collisionEnergy", NA_real_)
 })
 
 #' @rdname MSnExperiment
@@ -1101,8 +1089,7 @@ setMethod("intensity", "MSnExperiment", function(object) {
 #' @rdname MSnExperiment
 setMethod("ionCount", "MSnExperiment", function(object) {
     unlist(spectrapply(object, FUN = function(z) {
-        if (length(z@intensity)) sum(z@intensity)
-        else 0
+        sum(0, z@intensity)
     }))
 })
 
@@ -1118,7 +1105,7 @@ setMethod("isCentroided", "MSnExperiment",
 
 #' @rdname MSnExperiment
 setMethod("isEmpty", "MSnExperiment", function(x) {
-    unlist(spectrapply(x, FUN = function(z) length(z@mz) == 0))
+    !unlist(spectrapply(x, FUN = function(z) length(z@mz)))
 })
 
 #' @rdname MSnExperiment
@@ -1134,13 +1121,18 @@ setMethod("metadata", "MSnExperiment",
               else x@metadata
           })
 
-#' @rdname MSnExperiment
-setMethod("msLevel", "MSnExperiment", function(object) {
-    res <- if (is.null(object@spectraData$msLevel))
-               rep_len(NA_integer_, length(object))
-           else object@spectraData$msLevel
+.extractSpectraDataColumn <- function(object, column,
+                                      returnValue = NA_integer_) {
+    res <- if (is.null(object@spectraData[[column]]))
+               rep_len(returnValue, length(object))
+           else object@spectraData[[column]]
     names(res) <- featureNames(object)
     res
+}
+
+#' @rdname MSnExperiment
+setMethod("msLevel", "MSnExperiment", function(object) {
+    .extractSpectraDataColumn(object, "msLevel", NA_integer_)
 })
 
 #' @rdname MSnExperiment
@@ -1156,11 +1148,7 @@ setMethod("peaksCount", "MSnExperiment", function(object, BPPARAM = bpparam()) {
 
 #' @rdname MSnExperiment
 setMethod("polarity", "MSnExperiment", function(object) {
-    res <- if (is.null(object@spectraData$polarity))
-               rep_len(NA_integer_, length(object))
-           else object@spectraData$polarity
-    names(res) <- featureNames(object)
-    res
+    .extractSpectraDataColumn(object, "polarity", NA_integer_)
 })
 
 #' @rdname MSnExperiment
@@ -1176,47 +1164,27 @@ setReplaceMethod("polarity", "MSnExperiment", function(object, value) {
 
 #' @rdname MSnExperiment
 setMethod("precursorCharge", "MSnExperiment", function(object) {
-    res <- if (is.null(object@spectraData$precursorCharge))
-               rep_len(NA_integer_, length(object))
-           else object@spectraData$precursorCharge
-    names(res) <- featureNames(object)
-    res
+    .extractSpectraDataColumn(object, "precursorCharge", NA_integer_)
 })
 
 #' @rdname MSnExperiment
 setMethod("precursorIntensity", "MSnExperiment", function(object) {
-    res <- if (is.null(object@spectraData$precursorIntensity))
-               rep_len(NA_real_, length(object))
-           else object@spectraData$precursorIntensity
-    names(res) <- featureNames(object)
-    res
+    .extractSpectraDataColumn(object, "precursorIntensity", NA_real_)
 })
 
 #' @rdname MSnExperiment
 setMethod("precursorMz", "MSnExperiment", function(object) {
-    res <- if (is.null(object@spectraData$precursorMZ))
-               rep_len(NA_real_, length(object))
-           else object@spectraData$precursorMZ
-    names(res) <- featureNames(object)
-    res
+    .extractSpectraDataColumn(object, "precursorMZ", NA_real_)
 })
 
 #' @rdname MSnExperiment
 setMethod("precScanNum", "MSnExperiment", function(object) {
-    res <- if (is.null(object@spectraData$precursorScanNum))
-               rep_len(NA_integer_, length(object))
-           else object@spectraData$precursorScanNum
-    names(res) <- featureNames(object)
-    res
+    .extractSpectraDataColumn(object, "precursorScanNum", NA_integer_)
 })
 
 #' @rdname MSnExperiment
 setMethod("rtime", "MSnExperiment", function(object) {
-    res <- if (is.null(object@spectraData$retentionTime))
-               rep_len(NA_integer_, length(object))
-           else object@spectraData$retentionTime
-    names(res) <- featureNames(object)
-    res
+    .extractSpectraDataColumn(object, "retentionTime", NA_real_)
 })
 
 #' @rdname MSnExperiment
@@ -1244,20 +1212,12 @@ setReplaceMethod("sampleData", "MSnExperiment", function(object, value) {
 
 #' @rdname MSnExperiment
 setMethod("scanIndex", "MSnExperiment", function(object) {
-    res <- if (is.null(object@spectraData$spIdx))
-               rep_len(NA_integer_, length(object))
-           else object@spectraData$spIdx
-    names(res) <- featureNames(object)
-    res
+    .extractSpectraDataColumn(object, "spIdx", NA_integer_)
 })
 
 #' @rdname MSnExperiment
 setMethod("smoothed", "MSnExperiment", function(object) {
-    res <- if (is.null(object@spectraData$smoothed))
-               rep_len(NA, length(object))
-           else object@spectraData$smoothed
-    names(res) <- featureNames(object)
-    res
+    .extractSpectraDataColumn(object, "smoothed", NA)
 })
 
 #' @rdname MSnExperiment
@@ -1288,11 +1248,9 @@ spectraNames <- function(object) featureNames(object)
 #' @rdname MSnExperiment
 setMethod("tic", "MSnExperiment", function(object, initial = TRUE,
                                            BPPARAM = bpparam()) {
-    if (initial) {
-        res <- if (is.null(object@spectraData$totIonCurrent))
-                   rep_len(NA_real_, length(object))
-               else object@spectraData$totIonCurrent
-    } else
+    if (initial)
+        res <- .extractSpectraDataColumn(object, "totIonCurrent", NA_real_)
+    else
         res <- unlist(spectrapply(object, function(z) sum(z@intensity),
                                   BPPARAM = BPPARAM), use.names = FALSE,
                       recursive = FALSE)
@@ -1469,12 +1427,7 @@ setMethod("filterRt", "MSnExperiment", function(object, rt, msLevel.) {
 setMethod("splitByFile", c("MSnExperiment", "factor"), function(object, f) {
     if (length(f) != length(fileNames(object)))
         stop("length of 'f' has to match the length of samples/files in 'object'.")
-    idxs <- lapply(levels(f), function(z) which(f == z))
-    res <- lapply(idxs, function(z) {
-        filterFile(object, file = z)
-    })
-    names(res) <- levels(f)
-    res
+    lapply(split(seq_along(f), f), filterFile, object = object)
 })
 
 ##============================================================
@@ -1493,9 +1446,8 @@ setMethod("bin", "MSnExperiment", function(object, binSize = 1L, msLevel.) {
         return(object)
     }
     mzr <- range(unlist(spectrapply(filterMsLevel(object, msLevel. = msLevel.),
-                                    FUN = function(z) {
-                                        range(z@mz, na.rm = TRUE)
-                                    }, BPPARAM = bpparam())))
+                                    FUN = function(z) z@mz[c(1L, length(z@mz))]
+                                  , BPPARAM = bpparam())), na.rm = TRUE)
     breaks <- seq(floor(mzr[1]), ceiling(mzr[2]), by = binSize)
     object <- addProcessingStep(object, "bin", breaks = breaks,
                                 msLevel. = msLevel.)
