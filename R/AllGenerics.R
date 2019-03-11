@@ -1,3 +1,6 @@
+#' @include hidden_aliases.R
+NULL
+
 setGeneric("bin", function(object, ...) standardGeneric("bin"))
 setGeneric("clean", function(object, ...) standardGeneric("clean"))
 setGeneric("compareSpectra", function(object1, object2, ...) standardGeneric("compareSpectra"))
@@ -22,9 +25,14 @@ setGeneric("precAcquisitionNum", function(object) standardGeneric("precAcquisiti
 setGeneric("precScanNum", function(object) standardGeneric("precScanNum"))
 setGeneric("msLevel", function(object) standardGeneric("msLevel"))
 setGeneric("collisionEnergy", function(object) standardGeneric("collisionEnergy"))
+#' @rdname hidden_aliases
+setGeneric("collisionEnergy<-", function(object, value)
+    standardGeneric("collisionEnergy<-"))
 ## setGeneric("peaksCount", function(object) standardGeneric("peaksCount")) ## use mzR generic
 ## setGeneric("header", function(object) standardGeneric("header")) ## use mzR generic
 setGeneric("polarity", function(object) standardGeneric("polarity"))
+#' @rdname hidden_aliases
+setGeneric("polarity<-", function(object, value) standardGeneric("polarity<-"))
 
 setGeneric("centroided", function(object, ...) standardGeneric("centroided"))
 setGeneric("centroided<-", function(object, ..., value) standardGeneric("centroided<-"))
@@ -155,9 +163,16 @@ setGeneric("estimateMzResolution", function(object, ...)
 
 setGeneric("combineSpectra", function(object, ...)
            standardGeneric("combineSpectra"))
+
+#' @rdname hidden_aliases
 setGeneric("sampleData", function(object, ...) standardGeneric("sampleData"))
+#' @rdname hidden_aliases
 setGeneric("sampleData<-", function(object, value)
     standardGeneric("sampleData<-"))
+#' @rdname hidden_aliases
 setGeneric("spectraData", function(object, ...) standardGeneric("spectraData"))
+#' @rdname hidden_aliases
 setGeneric("spectraData<-", function(object, value)
     standardGeneric("spectraData<-"))
+#' @rdname hidden_aliases
+setGeneric("rtime<-", function(object, value) standardGeneric("rtime<-"))

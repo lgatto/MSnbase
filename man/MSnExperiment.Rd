@@ -4,32 +4,74 @@
 \name{MSnExperiment}
 \alias{MSnExperiment}
 \alias{MSnExperiment-class}
-\alias{spectraData}
-\alias{spectraData<-}
-\alias{sampleData}
-\alias{sampleData<-}
+\alias{coerce,MSnExperiment,list-method}
+\alias{coerce,MSnExperiment,List-method}
 \alias{readMSnExperiment}
 \alias{setBackend}
 \alias{applyProcessingQueue}
 \alias{spectrapply,MSnExperiment-method}
-\alias{coerce,MSnExperiment,list-method}
-\alias{coerce,MSnExperiment,List-method}
+\alias{$,MSnExperiment-method}
+\alias{$<-,MSnExperiment-method}
+\alias{acquisitionNum,MSnExperiment-method}
+\alias{bpi,MSnExperiment-method}
+\alias{chromatogram,MSnExperiment-method}
+\alias{centroided,MSnExperiment-method}
+\alias{centroided<-,MSnExperiment,ANY-method}
+\alias{collisionEnergy,MSnExperiment-method}
+\alias{collisionEnergy<-,MSnExperiment-method}
 \alias{featureData,MSnExperiment-method}
+\alias{fData,MSnExperiment-method}
 \alias{featureData<-,MSnExperiment,ANY-method}
-\alias{spectraData,MSnExperiment-method}
-\alias{spectraData<-,MSnExperiment-method}
+\alias{featureNames,MSnExperiment-method}
+\alias{fileNames,MSnExperiment-method}
+\alias{fromFile,MSnExperiment-method}
+\alias{intensity,MSnExperiment-method}
+\alias{ionCount,MSnExperiment-method}
+\alias{isCentroided,MSnExperiment-method}
+\alias{isEmpty,MSnExperiment-method}
+\alias{length,MSnExperiment-method}
+\alias{metadata,MSnExperiment-method}
+\alias{msLevel,MSnExperiment-method}
+\alias{mz,MSnExperiment-method}
+\alias{peaksCount,MSnExperiment,ANY-method}
+\alias{polarity,MSnExperiment-method}
+\alias{polarity<-,MSnExperiment-method}
+\alias{precursorCharge,MSnExperiment-method}
+\alias{precursorIntensity,MSnExperiment-method}
+\alias{precursorMz,MSnExperiment-method}
+\alias{precScanNum,MSnExperiment-method}
+\alias{rtime,MSnExperiment-method}
+\alias{rtime<-,MSnExperiment-method}
 \alias{sampleData,MSnExperiment-method}
 \alias{sampleData<-,MSnExperiment-method}
-\alias{metadata,MSnExperiment-method}
-\alias{fileNames,MSnExperiment-method}
-\alias{acquisitionNum,MSnExperiment-method}
-\alias{featureNames,MSnExperiment-method}
-\alias{length,MSnExperiment-method}
+\alias{scanIndex,MSnExperiment-method}
+\alias{smoothed,MSnExperiment-method}
+\alias{smoothed<-,MSnExperiment,ANY-method}
+\alias{spectraData,MSnExperiment-method}
+\alias{spectraData<-,MSnExperiment-method}
+\alias{spectraNames}
+\alias{tic,MSnExperiment-method}
 \alias{[,MSnExperiment,ANY,ANY,ANY-method}
 \alias{[[,MSnExperiment,ANY,ANY-method}
+\alias{filterAcquisitionNum,MSnExperiment-method}
+\alias{filterEmptySpectra,MSnExperiment-method}
 \alias{filterFile,MSnExperiment-method}
-\alias{removePeaks,MSnExperiment-method}
+\alias{filterMsLevel,MSnExperiment-method}
+\alias{filterMz,MSnExperiment-method}
+\alias{filterPrecursorScan,MSnExperiment-method}
+\alias{filterPolarity,MSnExperiment-method}
+\alias{filterRt,MSnExperiment-method}
+\alias{splitByFile,MSnExperiment,factor-method}
+\alias{bin,MSnExperiment-method}
 \alias{clean,MSnExperiment-method}
+\alias{compareSpectra,MSnExperiment,ANY-method}
+\alias{estimateMzResolution,MSnExperiment-method}
+\alias{estimateNoise,MSnExperiment-method}
+\alias{normalize,MSnExperiment-method}
+\alias{pickPeaks,MSnExperiment-method}
+\alias{removePeaks,MSnExperiment-method}
+\alias{removeReporters,MSnExperiment-method}
+\alias{smooth,MSnExperiment-method}
 \title{The MSnExperiment class to manage and access MS data}
 \usage{
 MSnExperiment(x, spectraData, sampleData, metadata, ...)
@@ -44,40 +86,145 @@ applyProcessingQueue(x, BPPARAM = bpparam())
 \S4method{spectrapply}{MSnExperiment}(object, FUN = NULL, ...,
   f = spectraData(object)$fileIdx, BPPARAM = bpparam())
 
+\S4method{$}{MSnExperiment}(x, name)
+
+\S4method{$}{MSnExperiment}(x, name) <- value
+
+\S4method{acquisitionNum}{MSnExperiment}(object)
+
+\S4method{bpi}{MSnExperiment}(object, initial = TRUE,
+  BPPARAM = bpparam())
+
+\S4method{chromatogram}{MSnExperiment}(object, rt, mz,
+  aggregationFun = "sum", missing = NA_real_, msLevel. = 1L,
+  BPPARAM = bpparam())
+
+\S4method{centroided}{MSnExperiment}(object, na.fail = FALSE)
+
+\S4method{centroided}{MSnExperiment,ANY}(object) <- value
+
+\S4method{collisionEnergy}{MSnExperiment}(object)
+
+\S4method{collisionEnergy}{MSnExperiment}(object) <- value
+
 \S4method{featureData}{MSnExperiment}(object)
+
+\S4method{fData}{MSnExperiment}(object)
 
 \S4method{featureData}{MSnExperiment,ANY}(object) <- value
 
-\S4method{spectraData}{MSnExperiment}(object)
+\S4method{featureNames}{MSnExperiment}(object)
 
-\S4method{spectraData}{MSnExperiment}(object) <- value
+\S4method{fileNames}{MSnExperiment}(object)
+
+\S4method{fromFile}{MSnExperiment}(object)
+
+\S4method{intensity}{MSnExperiment}(object)
+
+\S4method{ionCount}{MSnExperiment}(object)
+
+\S4method{isCentroided}{MSnExperiment}(object, ...,
+  verbose = isMSnbaseVerbose())
+
+\S4method{isEmpty}{MSnExperiment}(x)
+
+\S4method{length}{MSnExperiment}(x)
+
+\S4method{metadata}{MSnExperiment}(x, ...)
+
+\S4method{msLevel}{MSnExperiment}(object)
+
+\S4method{mz}{MSnExperiment}(object)
+
+\S4method{peaksCount}{MSnExperiment,ANY}(object, BPPARAM = bpparam())
+
+\S4method{polarity}{MSnExperiment}(object)
+
+\S4method{polarity}{MSnExperiment}(object) <- value
+
+\S4method{precursorCharge}{MSnExperiment}(object)
+
+\S4method{precursorIntensity}{MSnExperiment}(object)
+
+\S4method{precursorMz}{MSnExperiment}(object)
+
+\S4method{precScanNum}{MSnExperiment}(object)
+
+\S4method{rtime}{MSnExperiment}(object)
+
+\S4method{rtime}{MSnExperiment}(object) <- value
 
 \S4method{sampleData}{MSnExperiment}(object)
 
 \S4method{sampleData}{MSnExperiment}(object) <- value
 
-\S4method{metadata}{MSnExperiment}(x, ...)
+\S4method{scanIndex}{MSnExperiment}(object)
 
-\S4method{fileNames}{MSnExperiment}(object)
+\S4method{smoothed}{MSnExperiment}(object)
 
-\S4method{acquisitionNum}{MSnExperiment}(object)
+\S4method{smoothed}{MSnExperiment,ANY}(object) <- value
 
-\S4method{featureNames}{MSnExperiment}(object)
+\S4method{spectraData}{MSnExperiment}(object)
 
-\S4method{length}{MSnExperiment}(x)
+\S4method{spectraData}{MSnExperiment}(object) <- value
+
+spectraNames(object)
+
+\S4method{tic}{MSnExperiment}(object, initial = TRUE,
+  BPPARAM = bpparam())
 
 \S4method{[}{MSnExperiment,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 
 \S4method{[[}{MSnExperiment,ANY,ANY}(x, i, j = "missing",
   drop = "missing")
 
+\S4method{filterAcquisitionNum}{MSnExperiment}(object, n, file)
+
+\S4method{filterEmptySpectra}{MSnExperiment}(object)
+
 \S4method{filterFile}{MSnExperiment}(object, file)
+
+\S4method{filterMsLevel}{MSnExperiment}(object, msLevel.)
+
+\S4method{filterMz}{MSnExperiment}(object, mz, msLevel., ...)
+
+\S4method{filterPrecursorScan}{MSnExperiment}(object, acquisitionNum, ...)
+
+\S4method{filterPolarity}{MSnExperiment}(object, polarity.)
+
+\S4method{filterRt}{MSnExperiment}(object, rt, msLevel.)
+
+\S4method{splitByFile}{MSnExperiment,factor}(object, f)
+
+\S4method{bin}{MSnExperiment}(object, binSize = 1L, msLevel.)
+
+\S4method{clean}{MSnExperiment}(object, all = FALSE,
+  verbose = isMSnbaseVerbose(), msLevel.)
+
+\S4method{compareSpectra}{MSnExperiment,ANY}(object1, fun = c("common",
+  "cor", "dotproduct"), ...)
+
+\S4method{estimateMzResolution}{MSnExperiment}(object, ...)
+
+\S4method{estimateNoise}{MSnExperiment}(object, method = c("MAD",
+  "SuperSmoother"), ...)
+
+\S4method{normalize}{MSnExperiment}(object, method = c("max", "sum"),
+  ...)
+
+\S4method{pickPeaks}{MSnExperiment}(object, halfWindowSize = 3L,
+  method = c("MAD", "SuperSmoother"), SNR = 0L, refineMz = c("none",
+  "kNeighbors", "kNeighbours", "descendPeak"), ...)
 
 \S4method{removePeaks}{MSnExperiment}(object, t = "min",
   verbose = isMSnbaseVerbose(), msLevel.)
 
-\S4method{clean}{MSnExperiment}(object, all = FALSE,
-  verbose = isMSnbaseVerbose(), msLevel.)
+\S4method{removeReporters}{MSnExperiment}(object, reporters = NULL,
+  clean = FALSE, verbose = isMSnbaseVerbose())
+
+\S4method{smooth}{MSnExperiment}(x, method = c("SavitzkyGolay",
+  "MovingAverage"), halfWindowSize = 2L, verbose = isMSnbaseVerbose(),
+  ...)
 }
 \arguments{
 \item{x}{a \code{MSnExperiment} object.}
@@ -114,9 +261,42 @@ to each \linkS4class{Spectrum} of the experiment.}
 \item{f}{for \code{spectrapply}: \code{factor}, \code{character}, \code{numeric} or \code{logical}
 (same length than there are spectra in \code{object}, i.e. with length
 equal to \code{nrow(spectraData(object))} to define how the data should be
-split into chunks for parallelization.}
+split into chunks for parallelization. For \code{splitByFile}: \code{factor} of
+length equal to the number of files.}
+
+\item{name}{for \code{$}: the name of the variable.}
 
 \item{value}{for \code{featureData}, \code{sampleData} and \code{spectraData}: a \code{DataFrame}}
+
+\item{initial}{for \code{bpi} and \code{tic}: \code{logical(1)} whether the values in the
+original input file should be returned (default) or whether the TIC and
+BPI should be calculated on the actual data.}
+
+\item{rt}{for \code{filterRt}: \code{numeric(2)} defining the retention time range to
+be used to subset/filter \code{object}. For \code{chromatogram}: either
+\code{numeric(2)} or two-column matrix with the lower and upper bound of the
+retention time range(s).}
+
+\item{mz}{for \code{filterMz}: \code{numeric(2)} defining the lower and upper m/z to
+trim/filter spectra. For \code{chromatogram}: either \code{numeric(2)} or
+two-column \code{matrix} with the lower and upper bound for the m/z range(s).}
+
+\item{aggregationFun}{for \code{chromatogram}: \code{character(1)} defining the
+function to aggregate intensity values across the m/z range for a
+certain retention time.}
+
+\item{missing}{for \code{chromatogram}: \code{numeric(1)} defining the intensity value
+to be reported for retention times for which no signal was measured
+in the m/z range. Defaults to \code{NA_real_}.}
+
+\item{msLevel.}{\code{integer} defining the MS level of the spectra to which the
+function should be applied. For \code{filterMsLevel}: the MS level to which
+\code{object} should be subsetted.}
+
+\item{na.fail}{for \code{centroided}: whether a value of \code{NA} is not supported
+as a result. Defaults to \code{FALSE}.}
+
+\item{verbose}{\code{logical(1)} defining the verbosity.}
 
 \item{i}{for \code{[}: \code{integer}, \code{logical} or \code{character} specifying the
 \strong{spectra} to which \code{object} should be subsetted.}
@@ -127,16 +307,52 @@ split into chunks for parallelization.}
 element, a \code{Spectrum} class is returned; \code{drop = FALSE} returns always
 a \code{MSnExperiment} object.}
 
-\item{t}{for \code{removePeaks}: a \code{numeric(1)} defining the threshold or \code{"min"}.}
+\item{n}{for \code{filterAcquisitionNum}: \code{integer} with the acquisition numbers
+to filter for.}
 
-\item{verbose}{\code{logical(1)} defining the verbosity.}
+\item{acquisitionNum}{for \code{filterPrecursorScan}: \code{integer} with the
+acquisition number of the spectra to which the object should be
+subsetted.}
 
-\item{msLevel.}{\code{integer} defining the MS level of the spectra to which the
-function should be applied.}
+\item{polarity.}{for \code{filterPolarity}: \code{integer} specifying the polarity to
+to subset \code{object}.}
+
+\item{binSize}{for \code{bin}: \code{numeric(1)} defining the m/z bin size.}
 
 \item{all}{for \code{clean}: \code{logical(1)} whether all 0 intensity peaks should be
 removed (\code{TRUE}) or whether 0-intensity peaks directly adjacent to a
 non-zero intensity peak should be kept (\code{FALSE}).}
+
+\item{object1}{a \code{MSnExperiment} object.}
+
+\item{fun}{for \code{compareSpectra}: the method to compare spectra. See
+\code{\link[=compareSpectra]{compareSpectra()}} for a description of the methods.}
+
+\item{method}{for \code{estimateNoise} and \code{pickPeaks}: either \code{"MAD"} or
+\code{"SuperSmoother"}. See \code{\link[=estimateNoise]{estimateNoise()}} for more details. For
+\code{normalize} either \code{"max"} or \code{"sum"}. See \code{\link[=normalize]{normalize()}} for more
+details. For \code{smooth}: define the smoothing method, either
+\code{"SavitzkyGolay"} or \code{"MovingAverage"}. See method description below or
+\code{\link[=smooth]{smooth()}} for more details.}
+
+\item{halfWindowSize}{for \code{pickPeaks} and \code{smooth}: controls the window size
+of the peak picking algorithm. See \code{\link[=pickPeaks]{pickPeaks()}} or \code{\link[=smooth]{smooth()}} for
+details.}
+
+\item{SNR}{for \code{pickPeaks}: \code{numeric(1)}, a local maximum is considered a
+peak if its intensity is \code{SNR} times larger than the estimated noise.
+See \code{\link[=pickPeaks]{pickPeaks()}} for more details.}
+
+\item{refineMz}{for \code{pickPeaks}: \code{character(1)} defining the method to be
+used to refine the centroid's m/z. See \code{\link[=pickPeaks]{pickPeaks()}} for details.}
+
+\item{t}{for \code{removePeaks}: a \code{numeric(1)} defining the threshold or \code{"min"}.}
+
+\item{reporters}{for \code{removeReporters}: \link{ReporterIons} defining the reporters
+to be removed. See method description below for more information.}
+
+\item{clean}{for \code{removeReporters}: \code{logical(1)} whether \code{0} intensity
+values should be cleaned from the spectra after removing the reporters.}
 }
 \value{
 See individual method description for the return value.
@@ -181,27 +397,116 @@ for more details.
 \section{Accessing data}{
 
 \itemize{
+\item \code{$}: get the values of a column in the object's \code{sampleData}, i.e.
+\code{data$sample_name} is a shortcut to access columns \code{"sample_name"} in
+\code{sampleData(data)} and is equivaluent to \code{sampleData(data)$sample_name}.
 \item \code{acquisitionNum}: get the acquisition number of each spectrum as a
 named \code{integer} vector with the same length than \code{object}.
-\item \code{featureData}: get or set general spectrum metadata. Returns a \code{DataFrame}
-or a \code{MSnExperiment} with updated spectra metadata. Each row of the
-\code{DataFrame} contains information for one spectrum. This function is
-equivalent to \code{\link[=featureData]{featureData()}} of \code{MSnExp}/\code{OnDiskMSnExp} objects.
+\item \code{bpi}: get the base peak intensity (largest signal of a spectrum) for all
+spectra in \code{object}. By default (\code{initial = TRUE}) the base peak intensity
+reported in the original raw data file is returned. Use \code{initial = FALSE}
+to calculate on the actual spectra data. Returns a \code{numeric} vector with
+length equal to the number of spectra.
+\item \code{centroided}, \code{centroided<-}: get or set the centroiding information of
+the spectra. \code{centroided} returns a \code{logical} vector (same length than
+\code{object} with names being the spectrum names) with \code{TRUE} if a spectrum
+is centroided, \code{FALSE} if it is in profile more and \code{NA} if it is
+undefined. This function returns the value defined in the spectrum
+metadata. See also \code{isCentroided} for estimating from the spectrum data
+whether the spectrum is centroided. \code{centroided<-} either takes a single
+\code{logical} or \code{logical} with the same length than spectra.
+\item \code{chromatogram}: returns a \code{\link[=Chromatograms]{Chromatograms()}} with the chromatographic data
+for the full object or data subsets (extracted ion chromatograms). The
+number of columns of the returned object is equal to the number of samples
+in \code{object} and the number of rows to the specified m/z - rt ranges.
+Parameters \code{rt} and \code{mz} allow to define the subsets of MS data for which
+the chromatograms should be extracted. These can be specified as
+\code{numeric(2)} defining the lower and upper bound of the range, or as a
+two-column \code{matrix}, each row specifying one range. With \code{aggregationFun}
+the function to aggregate intensities along the m/z dimension can be
+specified. Allowed values are \code{"sum"} (TIC), \code{"max"} (BPC), \code{"min"} and
+\code{"max"}. Paramter \code{missing} allows to define thhe intensity value to be
+used if for a certain retention time no signal was measured in the
+specified m/z range (defaults to \code{NA_real_}). Paramter \code{msLevel} allows
+to specify the MS level on which the chromatogram should be calculated
+(defaults to \code{msLevel = 1L}). For more details see \code{\link[=chromatogram]{chromatogram()}}.
+\item \code{collisionEnergy}, \code{collisionEnergy<-}: get or set the collision energy
+for all spectra in \code{object}.
+\item \code{featureData}, \code{fData}: get or set general spectrum metadata. Returns
+a \code{DataFrame} or a \code{MSnExperiment} with updated spectra metadata. Each
+row of the \code{DataFrame} contains information for one spectrum. This
+function is equivalent to \code{\link[=featureData]{featureData()}} of \code{MSnExp}/\code{OnDiskMSnExp}
+objects.
 \item \code{featureNames}: extract the feature (spectrum) names.
 \item \code{fileNames}: get the original file names from which the data was imported.
+\item \code{fromFile}: get the file/sample assignment of each spectrum. Returns a
+named integer vector of length equal to the number of spectra and names
+being the spectrum names.
+\item \code{intensity}: get the intensity values from the spectra. Returns a named
+list, names being the spectrum names, each element is a numeric vector
+with the intensity values of one spectrum.
+\item \code{ionCount}: returns a \code{numeric} (names being spectrum names, length equal
+to the number of spectra) representing the sum of intensities for each
+spectrum. In contrast to \code{tic}, this function calculates the actual ion
+count on the data.
+\item \code{isCentroided}: a heuristic approach  assessing if the spectra in \code{object}
+are in profile or centroided mode. The function takes the \code{qtl}th quantile
+top peaks, then calculates the difference between adjacent M/Z value and
+returns \code{TRUE} if the first quartile is greater than \code{k}. (See
+\code{MSnbase:::.isCentroided} for the code.)
+\item \code{isEmpty}: whether a spectrum in \code{object} is empty (i.e. does not contain
+any peaks). Returns a logical vector (length equal number of spectra, names
+being the spectrum names).
 \item \code{length}: get the number of spectra in the object.
 \item \code{metadata}: get the metadata \code{list}.
+\item \code{msLevel}: get the spectra's MS level. Returns an integer vector (names
+being spectrum names, length equal to the number of spectra) with the MS
+level for each spectrum.
+\item \code{mz}: get the mass-to-charge ratios (m/z) from the spectra. Returns a named
+list, names being the spectrum names, each element a numeric vector with
+the m/z values of one spectrum.
+\item \code{polarity}, \code{polarity<-}: get or set the polarity for each spectrum.
+\code{polarity} returns an integer vector (names being spectrum names, length
+equal to the number of spectra), with \code{0} and \code{1} representing negative
+and positive polarity, respectively. \code{polarity<-} expects an integer vector
+of length 1 or equal to the number of spectra.
+\item \code{peaksCount}: get the number of peaks (m/z-intensity values) per spectrum.
+Returns an integer vector (names being spectrum names, length equal to the
+number of spectra).
+\item \code{precursorCharge}, \code{precursorIntensity}, \code{precursorMz}, \code{precScanNum}: get
+the charge, intensity, m/z and scan index of the precursor for MS level > 2
+from the object. Returns a named vector of length equal to the number of
+spectra in \code{object}.
+\item \code{rtime}, \code{rtime<-}: get or set the retention times for each spectrum.
+\code{rtime} returns a \code{numeric} vector (names being spectrum names, length
+equal to the number of spectra) with the retention time for each spectrum.
+\code{rtime<-} expects a numeric vector with length equal to the number of
+spectra.
 \item \code{sampleData}: get or set sample metadata. Returns a \code{DataFrame}, each row
 containing information for one sample or file or a \code{MSnExperiment} with
 the update sample metadata. This function is equivalent to \code{\link[=phenoData]{phenoData()}}
 of \code{MSnExp}/\code{OnDiskMSnExp} objects.
+\item \code{scanIndex}: get the \emph{scan index} for each spectrum. This represents the
+relative index of the spectrum within each file (i.e. for each sample).
+Note that this can be different to the \code{acquisitionNum} of the spectrum
+which is the index of the spectrum as reported in the mzML file.
+\item \code{smoothed},\code{smoothed<-}: get or set the information whether a spectrum
+was \emph{smoothed} (see \code{\link[=smooth]{smooth()}}). \code{smoothed} returns a logical vector of
+length equal to the number of spectra. \code{smoothed<-} takes a logical
+vector of length 1 or equal to the number of spectra in \code{object}.
 \item \code{spectraData}: get or set general spectrum metadata. See \code{featureData}
 above.
+\item \code{spectraNames}: same as \code{featureNames}: returns the names of the spectra.
 \item \code{spectrapply}: apply an arbitrary function to each spectrum in the dataset
 and return its result. The function returns a \code{list} with the same length
 than there are spectra. Argument \code{f} allows to define how to split the
 data/spectra into chunks for paralellization. By default data access and
 application of the provided function are parallelized by file.
+\item \code{tic}: get the total ion current/count (sum of signal of a spectrum) for
+all spectra in \code{object}. By default (\code{initial = TRUE}) the value
+reported in the original raw data file is returned. Use \code{initial = FALSE}
+to calculate on the actual spectra data. Returns a \code{numeric} vector with
+length equal to the number of spectra.
 }
 }
 
@@ -212,15 +517,38 @@ application of the provided function are parallelized by file.
 unless \code{drop = TRUE} and the object is subsetted to a single spectrum,
 in which case a \code{Spectrum} is returned.
 \item \code{[[i]]}: extract the \linkS4class{Spectrum} with index \code{i} from the data.
+\item \code{filterAcquisitionNum}: filter the object keeping only spectra matching the
+provided acquisition numbers (argument \code{n}). If \code{file} is also provided,
+\code{object} is subsetted to the spectra with an acquisition number equal to
+\code{n} \strong{in this/these file(s)} and all spectra for the remaining files (not
+specified with \code{file}).
+\item \code{filterEmptySpectra}: remove empty spectra from \code{object}.
 \item \code{filterFile}: subset the object by file. Returns an \code{MSnExperiment}.
+\item \code{filterMsLevel}: filter object by MS level keeping only spectra matching
+the MS level specified with argument \code{msLevel.}. Returns the filtered
+\code{MSnExperiment}.
+\item \code{filterMz}: filter/trim all spectra in \code{object} to the provided m/z range.
+Returns the filtered \code{MSnExperiment}.
+\item \code{filterPrecursorScan}: filter the object keeping only spectra (parent and
+children) with acquisition numnbers matching the provided \code{acquisitionNum}.
+Returns the filtered \code{MSnExperiment} with all spectra with the specified
+acquisition number and all their parent or child spectra.
+\item \code{filterPolarity}: filter the object keeping only spectra matching the
+provided polarity. Returns the subsetted \code{MSnExperiment}.
+\item \code{filterRt}: filter the object by retention time keeping only spectra with
+a retention time within the spectified retention time range \code{rt}. Returns
+the subsetted \code{MSnExperiment}.
+\item \code{splitByFile}: split an \code{MSnExperiment} by file. The function returns a
+\code{list} of \code{MSnExperiment} objects, each containing spectra from a single
+file if called with argument \code{f = factor(fileNames(object))}.
 }
 }
 
-\section{Data manipulation methods}{
+\section{Data manipulation and analysis methods}{
 
 
-Data manipulation operations, such as those listed in this section,  are by
-default not applied immediately to the spectra, but added to a
+Many data manipulation operations, such as those listed in this section, are
+not applied immediately to the spectra, but added to a
 \emph{lazy processinq queue}. Operations stored in this queue are applied
 on-the-fly to spectra data each time it is accessed. This lazy
 execution guarantees the same functionality for \code{MSnExperiment} objects with
@@ -234,10 +562,51 @@ spectrum and store this data in the backend. This does not work for
 read-only backends such as the \code{\link[=BackendMzR]{BackendMzR()}}. The function returns
 the \code{MSnExperiment} with data manipulations applied and stored in the
 backend.
+\item \code{bin}: bins all spectra (of MS level specified with \code{msLevel.}) in \code{object}
+by aggregating (summing) intensities within m/z bins. The bin size can be
+specified with parameter \code{binSize}. See \code{\link[=bin]{bin()}} for details. The function
+returns an \code{MSnExperiment} with binned spectra.
 \item \code{clean}: remove 0-intensity data points. See \code{\link[=clean]{clean()}} for
 \linkS4class{Spectrum} objects for more details.
+\item \code{compareSpectra}: compare all spectra within the object with each other.
+The function returns a similarity matrix, \code{nrow} and \code{ncol} equal to the
+number of spectra in the object. See \code{\link[=compareSpectra]{compareSpectra()}} for information
+on the different functions (argument \code{fun}) to compare spectra.
+\item \code{estimateMzResolution}: estimates the m/z resolution of each (profile
+mode) spectrum in \code{object}. See \code{\link[=estimateMzResolution]{estimateMzResolution()}} for details.
+Additional arguments as well as parallel processing settings can be passed
+with the \code{...} parameter. The function returns a \code{list} of estimates, one
+per spectrum.
+\item \code{estimateNoise}: estimates the noise in all (profile) spectra of \code{object}.
+See \code{\link[=estimateNoise]{estimateNoise()}} for more details. Noise can be estimated with the
+\emph{Median Absolute Deviation} (\code{method = "MAD"}) or
+\code{method = "SuperSmoother"} method. Additional parameters can be passed
+with the \code{...} argument. Returns a \code{list} of matrices with noise estimates,
+one per spectrum.
+\item \code{normalize}: normalizes each spectrum in \code{object} with the specified method
+(currently \code{method = "max"} and \code{method = "sum"} are supported). See
+\code{\link[=normalize]{normalize()}} for more details. The function returns the \code{MSnExperiment}
+with the normalized spectra.
+\item \code{pickPeaks}: perform peak picking to generate centroided spectra. For
+detailed description see \code{\link[=pickPeaks]{pickPeaks()}}. The function returns an
+\code{MSnExperiment} with centroided spectra.
+\item \code{removeReporters}: set all reporter tag ion peaks in MS2 spectra to \code{0}.
+Reporter ions have to specified using a \link{ReporterIons} class and passed to
+the function with the \code{reporters} argument. Parameter \code{clean} allows to
+specify whether \code{0} intensity peaks should be removed from spectra. See
+\code{\link[=removeReporters]{removeReporters()}} for more details. The function returns an
+\code{MSnExperiment} with the reporter peaks removed.
 \item \code{removePeaks}: remove peaks lower than a threshold \code{t}. See
 \code{\link[=removePeaks]{removePeaks()}} for \linkS4class{Spectrum} objects for more details.
+\item \code{smooth}: smooths intensities of each spectrum data within the \code{object}
+using the method specified with \code{method}. Currently
+\code{method = "SavitzkyGolay"} (default) and \code{method = "MovingAverage"} are
+available for smoothing the data with a Savitzky-Golay filter or with an
+moving average approach. Parameter \code{halfWindowSize} (default = \code{2})
+controls the window size of the filter. Additional parameters to the filter
+function can be passed with the \code{...} parameter. See \code{\link[=smooth]{smooth()}} for more
+information and descriptions on the filters. The function returns a
+\code{MSnExperiment} object with smoothed spectra.
 }
 }
 
@@ -261,6 +630,20 @@ spectraData(mse)$peak_id <- c("a", "b")
 ## featureData and spectraData both access the spectrum metadata
 featureData(mse)
 
+## Get the intensity values and the m/z values for each spectrum
+intensity(mse)
+mz(mse)
+
+## The spectrapply function can be used to apply any function to a spectrum
+## and get its result. Below we use spectrapply to get the m/z and intensity
+## values per spectrum as a data.frame
+spectrapply(mse, as.data.frame)
+
+## filter all spectra by m/z keeping m/z - intensity pairs with an m/z
+## between 2 and 3.
+mse_filt <- filterMz(mse, mz = c(2, 3))
+mz(mse_filt)
+intensity(mse_filt)
 
 ## Create an MSnExperiment from two input files using the on-disk
 ## BackendMzR backend
@@ -274,9 +657,36 @@ fileNames(mse)
 ## Get spectra metadata
 spectraData(mse)
 
+## Get the range of retention times of the object
+range(rtime(mse))
+
+## Filter the object keeping only spectra with a retention time between
+## 4 and 20 seconds
+mse_sub <- filterRt(mse, rt = c(4, 20))
+
+## How many spectra do we have now per file?
+table(fromFile(mse_sub))
+
+## The full data object has how many spectra?
+table(fromFile(mse))
+
 ## Subset the object to contain only spectra 3, 12, 45
 mse_sub <- mse[c(3, 12, 45)]
 mse_sub
+
+## Are the spectra centroided?
+centroided(mse_sub)
+
+## Get the total ion current reported in the original files
+tic(mse_sub)
+
+## Calculate the TIC from the actual data
+tic(mse_sub, initial = FALSE)
+
+## Extract the total ion chromatogram from the full data
+chr_tic <- chromatogram(mse, aggregationFun = "sum")
+chr_tic
+plot(chr_tic)
 
 ## Coerce to a list of spectra
 as(mse_sub, "list")
@@ -306,6 +716,7 @@ head(res)
 mse <- setBackend(mse, backend = BackendHdf5(),
     path = paste0(tempdir(), "/hdf5"))
 mse
+
 }
 \author{
 Sebastian Gibb, Johannes Rainer

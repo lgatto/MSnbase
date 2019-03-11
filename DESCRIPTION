@@ -120,8 +120,8 @@ biocViews: Infrastructure, Proteomics, MassSpectrometry,
 RoxygenNote: 6.1.1
 Collate:
     'AllClassUnions.R'
-    'AllGenerics.R'
     'hidden_aliases.R'
+    'AllGenerics.R'
     'Backend-class.R'
     'BackendHdf5-class.R'
     'BackendMemory-class.R'

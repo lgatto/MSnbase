@@ -526,19 +526,20 @@ validSpectrum <- function(object) {
 #'
 #' @noRd
 .spectrum_header <- function(x) {
-    res <- data.frame(acquisitionNum = acquisitionNum(x),
+    res <- data.frame(acquisitionNum = if (length(x@acquisitionNum)) x@acquisitionNum
+                                       else NA_integer_,
                       msLevel = msLevel(x),
-                      polarity = ifelse(length(x@polarity), x@polarity, NA_integer_),
+                      polarity = if (length(x@polarity)) x@polarity else NA_integer_,
                       peaksCount = peaksCount(x),
                       totIonCurrent = tic(x),
-                      retentionTime = ifelse(length(x@rt),  x@rt, NA_real_),
-                      spIdx = ifelse(length(x@scanIndex), x@scanIndex, NA_integer_),
-                      fileIdx = ifelse(length(x@fromFile), x@fromFile, NA_integer_),
+                      retentionTime = if (length(x@rt)) x@rt else NA_real_,
+                      spIdx = if (length(x@scanIndex)) x@scanIndex else NA_integer_,
+                      fileIdx = if (length(x@fromFile)) x@fromFile else NA_integer_,
                       collisionEnergy = 0,
                       ionisationEnergy = 0,      # How to get that?
-                      precursorScanNum = 0,
+                      precursorScanNum = 0L,
                       precursorMZ = 0,
-                      precursorCharge = 0,
+                      precursorCharge = 0L,
                       precursorIntensity = 0,
                       mergedScan = 0,
                       mergedResultScanNum = 0,   # ???
@@ -548,6 +549,7 @@ validSpectrum <- function(object) {
                       filterString = NA_character_,
                       spectrumId = paste0("scan=", acquisitionNum(x)),
                       centroided = centroided(x),
+                      smoothed = x@smoothed,
                       ionMobilityDriftTime = NA_real_,
                       stringsAsFactors = FALSE
                       )
@@ -563,11 +565,15 @@ validSpectrum <- function(object) {
         res$highMZ <- NA_real_
     }
     if (msLevel(x) > 1) {
-        res$collisionEnergy <- collisionEnergy(x)
-        res$precursorScanNum <- precScanNum(x)
-        res$precursorMZ <- precursorMz(x)
-        res$precursorCharge <- precursorCharge(x)
-        res$precursorIntensity <- precursorIntensity(x)
+        res$collisionEnergy <- if (length(x@collisionEnergy)) x@collisionEnergy
+                               else NA_real_
+        res$precursorScanNum <- if (length(x@precScanNum)) x@precScanNum
+                                else NA_integer_
+        res$precursorMZ <- if (length(x@precursorMz)) x@precursorMz else NA_real_
+        res$precursorCharge <- if (length(x@precursorCharge)) x@precursorCharge
+                               else NA_integer_
+        res$precursorIntensity <- if (length(x@precursorIntensity)) x@precursorIntensity
+                                  else NA_real_
         res$mergedScan <- x@merged
     }
     res

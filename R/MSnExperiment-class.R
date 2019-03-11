@@ -3,8 +3,8 @@ NULL
 
 #' @title The MSnExperiment class to manage and access MS data
 #'
-#' @aliases MSnExperiment-class spectraData spectraData<- sampleData
-#'     sampleData<-
+#' @aliases MSnExperiment-class coerce,MSnExperiment,list-method
+#'     coerce,MSnExperiment,List-method
 #'
 #' @name MSnExperiment
 #'
@@ -28,10 +28,23 @@ NULL
 #'     removed (`TRUE`) or whether 0-intensity peaks directly adjacent to a
 #'     non-zero intensity peak should be kept (`FALSE`).
 #'
+#' @param acquisitionNum for `filterPrecursorScan`: `integer` with the
+#'     acquisition number of the spectra to which the object should be
+#'     subsetted.
+#'
+#' @param aggregationFun for `chromatogram`: `character(1)` defining the
+#'     function to aggregate intensity values across the m/z range for a
+#'     certain retention time.
+#'
 #' @param backend a [Backend-class] derivate used for internal data storage.
+#'
+#' @param binSize for `bin`: `numeric(1)` defining the m/z bin size.
 #'
 #' @param BPPARAM should parallel processing be used? See
 #'     [BiocParallel::bpparam()].
+#'
+#' @param clean for `removeReporters`: `logical(1)` whether `0` intensity
+#'     values should be cleaned from the spectra after removing the reporters.
 #'
 #' @param drop for `[`: if `drop = TRUE` and the object is subsetted to a single
 #'     element, a `Spectrum` class is returned; `drop = FALSE` returns always
@@ -40,7 +53,8 @@ NULL
 #' @param f for `spectrapply`: `factor`, `character`, `numeric` or `logical`
 #'     (same length than there are spectra in `object`, i.e. with length
 #'     equal to `nrow(spectraData(object))` to define how the data should be
-#'     split into chunks for parallelization.
+#'     split into chunks for parallelization. For `splitByFile`: `factor` of
+#'     length equal to the number of files.
 #'
 #' @param file for `readMSnExperiment: `character` with the file names of the
 #'     experiment. For `filterFile`: index or name of the file to which the
@@ -49,21 +63,76 @@ NULL
 #' @param FUN for `spectrapply`: a function or the name of a function to apply
 #'     to each [Spectrum-class] of the experiment.
 #'
+#' @param fun for `compareSpectra`: the method to compare spectra. See
+#'     [compareSpectra()] for a description of the methods.
+#'
+#' @param halfWindowSize for `pickPeaks` and `smooth`: controls the window size
+#'     of the peak picking algorithm. See [pickPeaks()] or [smooth()] for
+#'     details.
+#'
 #' @param i for `[`: `integer`, `logical` or `character` specifying the
 #'     **spectra** to which `object` should be subsetted.
+#'
+#' @param initial for `bpi` and `tic`: `logical(1)` whether the values in the
+#'     original input file should be returned (default) or whether the TIC and
+#'     BPI should be calculated on the actual data.
 #'
 #' @param j for `[`: not supported.
 #'
 #' @param metadata for `MSnExperiment` and `readMSnExperiment`: `list` with
 #'     optional metadata information.
 #'
+#' @param method for `estimateNoise` and `pickPeaks`: either `"MAD"` or
+#'     `"SuperSmoother"`. See [estimateNoise()] for more details. For
+#'     `normalize` either `"max"` or `"sum"`. See [normalize()] for more
+#'     details. For `smooth`: define the smoothing method, either
+#'     `"SavitzkyGolay"` or `"MovingAverage"`. See method description below or
+#'     [smooth()] for more details.
+#'
+#' @param missing for `chromatogram`: `numeric(1)` defining the intensity value
+#'     to be reported for retention times for which no signal was measured
+#'     in the m/z range. Defaults to `NA_real_`.
+#'
 #' @param msLevel. `integer` defining the MS level of the spectra to which the
-#'     function should be applied.
+#'     function should be applied. For `filterMsLevel`: the MS level to which
+#'     `object` should be subsetted.
+#'
+#' @param mz for `filterMz`: `numeric(2)` defining the lower and upper m/z to
+#'     trim/filter spectra. For `chromatogram`: either `numeric(2)` or
+#'     two-column `matrix` with the lower and upper bound for the m/z range(s).
+#'
+#' @param n for `filterAcquisitionNum`: `integer` with the acquisition numbers
+#'     to filter for.
+#'
+#' @param name for `$`: the name of the variable.
+#'
+#' @param na.fail for `centroided`: whether a value of `NA` is not supported
+#'     as a result. Defaults to `FALSE`.
 #'
 #' @param object a `MSnExperiment` object.
 #'
+#' @param object1 a `MSnExperiment` object.
+#'
+#' @param polarity. for `filterPolarity`: `integer` specifying the polarity to
+#'     to subset `object`.
+#'
+#' @param refineMz for `pickPeaks`: `character(1)` defining the method to be
+#'     used to refine the centroid's m/z. See [pickPeaks()] for details.
+#'
+#' @param reporters for `removeReporters`: [ReporterIons] defining the reporters
+#'     to be removed. See method description below for more information.
+#'
+#' @param rt for `filterRt`: `numeric(2)` defining the retention time range to
+#'     be used to subset/filter `object`. For `chromatogram`: either
+#'     `numeric(2)` or two-column matrix with the lower and upper bound of the
+#'     retention time range(s).
+#'
 #' @param sampleData a [S4Vectors::DataFrame-class] object with additional
 #'     information on each sample (samples as rows, information as columns).
+#'
+#' @param SNR for `pickPeaks`: `numeric(1)`, a local maximum is considered a
+#'     peak if its intensity is `SNR` times larger than the estimated noise.
+#'     See [pickPeaks()] for more details.
 #'
 #' @param spectraData for `MSnExperiment`: a [S4Vectors::DataFrame-class] object
 #'     with optional additional metadata columns for each spectrum.
@@ -106,35 +175,144 @@ NULL
 #'
 #' @section Accessing data:
 #'
+#' - `$`: get the values of a column in the object's `sampleData`, i.e.
+#'   `data$sample_name` is a shortcut to access columns `"sample_name"` in
+#'   `sampleData(data)` and is equivaluent to `sampleData(data)$sample_name`.
+#'
 #' - `acquisitionNum`: get the acquisition number of each spectrum as a
 #'   named `integer` vector with the same length than `object`.
 #'
-#' - `featureData`: get or set general spectrum metadata. Returns a `DataFrame`
-#'   or a `MSnExperiment` with updated spectra metadata. Each row of the
-#'   `DataFrame` contains information for one spectrum. This function is
-#'   equivalent to [featureData()] of `MSnExp`/`OnDiskMSnExp` objects.
+#' - `bpi`: get the base peak intensity (largest signal of a spectrum) for all
+#'   spectra in `object`. By default (`initial = TRUE`) the base peak intensity
+#'   reported in the original raw data file is returned. Use `initial = FALSE`
+#'   to calculate on the actual spectra data. Returns a `numeric` vector with
+#'   length equal to the number of spectra.
+#'
+#' - `centroided`, `centroided<-`: get or set the centroiding information of
+#'   the spectra. `centroided` returns a `logical` vector (same length than
+#'   `object` with names being the spectrum names) with `TRUE` if a spectrum
+#'   is centroided, `FALSE` if it is in profile more and `NA` if it is
+#'   undefined. This function returns the value defined in the spectrum
+#'   metadata. See also `isCentroided` for estimating from the spectrum data
+#'   whether the spectrum is centroided. `centroided<-` either takes a single
+#'   `logical` or `logical` with the same length than spectra.
+#'
+#' - `chromatogram`: returns a [Chromatograms()] with the chromatographic data
+#'   for the full object or data subsets (extracted ion chromatograms). The
+#'   number of columns of the returned object is equal to the number of samples
+#'   in `object` and the number of rows to the specified m/z - rt ranges.
+#'   Parameters `rt` and `mz` allow to define the subsets of MS data for which
+#'   the chromatograms should be extracted. These can be specified as
+#'   `numeric(2)` defining the lower and upper bound of the range, or as a
+#'   two-column `matrix`, each row specifying one range. With `aggregationFun`
+#'   the function to aggregate intensities along the m/z dimension can be
+#'   specified. Allowed values are `"sum"` (TIC), `"max"` (BPC), `"min"` and
+#'   `"max"`. Paramter `missing` allows to define thhe intensity value to be
+#'   used if for a certain retention time no signal was measured in the
+#'   specified m/z range (defaults to `NA_real_`). Paramter `msLevel` allows
+#'   to specify the MS level on which the chromatogram should be calculated
+#'   (defaults to `msLevel = 1L`). For more details see [chromatogram()].
+#'
+#' - `collisionEnergy`, `collisionEnergy<-`: get or set the collision energy
+#'   for all spectra in `object`.
+#'
+#' - `featureData`, `fData`: get or set general spectrum metadata. Returns
+#'   a `DataFrame` or a `MSnExperiment` with updated spectra metadata. Each
+#'   row of the `DataFrame` contains information for one spectrum. This
+#'   function is equivalent to [featureData()] of `MSnExp`/`OnDiskMSnExp`
+#'   objects.
 #'
 #' - `featureNames`: extract the feature (spectrum) names.
 #'
 #' - `fileNames`: get the original file names from which the data was imported.
 #'
+#' - `fromFile`: get the file/sample assignment of each spectrum. Returns a
+#'   named integer vector of length equal to the number of spectra and names
+#'   being the spectrum names.
+#'
+#' - `intensity`: get the intensity values from the spectra. Returns a named
+#'   list, names being the spectrum names, each element is a numeric vector
+#'   with the intensity values of one spectrum.
+#'
+#' - `ionCount`: returns a `numeric` (names being spectrum names, length equal
+#'   to the number of spectra) representing the sum of intensities for each
+#'   spectrum. In contrast to `tic`, this function calculates the actual ion
+#'   count on the data.
+#'
+#' - `isCentroided`: a heuristic approach  assessing if the spectra in `object`
+#'   are in profile or centroided mode. The function takes the `qtl`th quantile
+#'   top peaks, then calculates the difference between adjacent M/Z value and
+#'   returns `TRUE` if the first quartile is greater than `k`. (See
+#'   `MSnbase:::.isCentroided` for the code.)
+#'
+#' - `isEmpty`: whether a spectrum in `object` is empty (i.e. does not contain
+#'   any peaks). Returns a logical vector (length equal number of spectra, names
+#'   being the spectrum names).
+#'
 #' - `length`: get the number of spectra in the object.
 #'
 #' - `metadata`: get the metadata `list`.
+#'
+#' - `msLevel`: get the spectra's MS level. Returns an integer vector (names
+#'   being spectrum names, length equal to the number of spectra) with the MS
+#'   level for each spectrum.
+#'
+#' - `mz`: get the mass-to-charge ratios (m/z) from the spectra. Returns a named
+#'   list, names being the spectrum names, each element a numeric vector with
+#'   the m/z values of one spectrum.
+#'
+#' - `polarity`, `polarity<-`: get or set the polarity for each spectrum.
+#'   `polarity` returns an integer vector (names being spectrum names, length
+#'   equal to the number of spectra), with `0` and `1` representing negative
+#'   and positive polarity, respectively. `polarity<-` expects an integer vector
+#'   of length 1 or equal to the number of spectra.
+#'
+#' - `peaksCount`: get the number of peaks (m/z-intensity values) per spectrum.
+#'   Returns an integer vector (names being spectrum names, length equal to the
+#'   number of spectra).
+#'
+#' - `precursorCharge`, `precursorIntensity`, `precursorMz`, `precScanNum`: get
+#'   the charge, intensity, m/z and scan index of the precursor for MS level > 2
+#'   from the object. Returns a named vector of length equal to the number of
+#'   spectra in `object`.
+#'
+#' - `rtime`, `rtime<-`: get or set the retention times for each spectrum.
+#'   `rtime` returns a `numeric` vector (names being spectrum names, length
+#'   equal to the number of spectra) with the retention time for each spectrum.
+#'   `rtime<-` expects a numeric vector with length equal to the number of
+#'   spectra.
 #'
 #' - `sampleData`: get or set sample metadata. Returns a `DataFrame`, each row
 #'   containing information for one sample or file or a `MSnExperiment` with
 #'   the update sample metadata. This function is equivalent to [phenoData()]
 #'   of `MSnExp`/`OnDiskMSnExp` objects.
 #'
+#' - `scanIndex`: get the *scan index* for each spectrum. This represents the
+#'   relative index of the spectrum within each file (i.e. for each sample).
+#'   Note that this can be different to the `acquisitionNum` of the spectrum
+#'   which is the index of the spectrum as reported in the mzML file.
+#'
+#' - `smoothed`,`smoothed<-`: get or set the information whether a spectrum
+#'   was *smoothed* (see [smooth()]). `smoothed` returns a logical vector of
+#'   length equal to the number of spectra. `smoothed<-` takes a logical
+#'   vector of length 1 or equal to the number of spectra in `object`.
+#'
 #' - `spectraData`: get or set general spectrum metadata. See `featureData`
 #'   above.
+#'
+#' - `spectraNames`: same as `featureNames`: returns the names of the spectra.
 #'
 #' - `spectrapply`: apply an arbitrary function to each spectrum in the dataset
 #'   and return its result. The function returns a `list` with the same length
 #'   than there are spectra. Argument `f` allows to define how to split the
 #'   data/spectra into chunks for paralellization. By default data access and
 #'   application of the provided function are parallelized by file.
+#'
+#' - `tic`: get the total ion current/count (sum of signal of a spectrum) for
+#'   all spectra in `object`. By default (`initial = TRUE`) the value
+#'   reported in the original raw data file is returned. Use `initial = FALSE`
+#'   to calculate on the actual spectra data. Returns a `numeric` vector with
+#'   length equal to the number of spectra.
 #'
 #' @section Subsetting and filtering:
 #'
@@ -144,12 +322,43 @@ NULL
 #'
 #' - `[[i]]`: extract the [Spectrum-class] with index `i` from the data.
 #'
+#' - `filterAcquisitionNum`: filter the object keeping only spectra matching the
+#'   provided acquisition numbers (argument `n`). If `file` is also provided,
+#'   `object` is subsetted to the spectra with an acquisition number equal to
+#'   `n` **in this/these file(s)** and all spectra for the remaining files (not
+#'   specified with `file`).
+#'
+#' - `filterEmptySpectra`: remove empty spectra from `object`.
+#'
 #' - `filterFile`: subset the object by file. Returns an `MSnExperiment`.
 #'
-#' @section Data manipulation methods:
+#' - `filterMsLevel`: filter object by MS level keeping only spectra matching
+#'   the MS level specified with argument `msLevel.`. Returns the filtered
+#'   `MSnExperiment`.
 #'
-#' Data manipulation operations, such as those listed in this section,  are by
-#' default not applied immediately to the spectra, but added to a
+#' - `filterMz`: filter/trim all spectra in `object` to the provided m/z range.
+#'   Returns the filtered `MSnExperiment`.
+#'
+#' - `filterPrecursorScan`: filter the object keeping only spectra (parent and
+#'   children) with acquisition numnbers matching the provided `acquisitionNum`.
+#'   Returns the filtered `MSnExperiment` with all spectra with the specified
+#'   acquisition number and all their parent or child spectra.
+#'
+#' - `filterPolarity`: filter the object keeping only spectra matching the
+#'   provided polarity. Returns the subsetted `MSnExperiment`.
+#'
+#' - `filterRt`: filter the object by retention time keeping only spectra with
+#'   a retention time within the spectified retention time range `rt`. Returns
+#'   the subsetted `MSnExperiment`.
+#'
+#' - `splitByFile`: split an `MSnExperiment` by file. The function returns a
+#'   `list` of `MSnExperiment` objects, each containing spectra from a single
+#'   file if called with argument `f = factor(fileNames(object))`.
+#'
+#' @section Data manipulation and analysis methods:
+#'
+#' Many data manipulation operations, such as those listed in this section, are
+#' not applied immediately to the spectra, but added to a
 #' *lazy processinq queue*. Operations stored in this queue are applied
 #' on-the-fly to spectra data each time it is accessed. This lazy
 #' execution guarantees the same functionality for `MSnExperiment` objects with
@@ -164,12 +373,60 @@ NULL
 #'   the `MSnExperiment` with data manipulations applied and stored in the
 #'   backend.
 #'
+#' - `bin`: bins all spectra (of MS level specified with `msLevel.`) in `object`
+#'   by aggregating (summing) intensities within m/z bins. The bin size can be
+#'   specified with parameter `binSize`. See [bin()] for details. The function
+#'   returns an `MSnExperiment` with binned spectra.
+#'
 #' - `clean`: remove 0-intensity data points. See [clean()] for
-#'    [Spectrum-class] objects for more details.
+#'   [Spectrum-class] objects for more details.
+#'
+#' - `compareSpectra`: compare all spectra within the object with each other.
+#'   The function returns a similarity matrix, `nrow` and `ncol` equal to the
+#'   number of spectra in the object. See [compareSpectra()] for information
+#'   on the different functions (argument `fun`) to compare spectra.
+#'
+#' - `estimateMzResolution`: estimates the m/z resolution of each (profile
+#'   mode) spectrum in `object`. See [estimateMzResolution()] for details.
+#'   Additional arguments as well as parallel processing settings can be passed
+#'   with the `...` parameter. The function returns a `list` of estimates, one
+#'   per spectrum.
+#'
+#' - `estimateNoise`: estimates the noise in all (profile) spectra of `object`.
+#'   See [estimateNoise()] for more details. Noise can be estimated with the
+#'   *Median Absolute Deviation* (`method = "MAD"`) or
+#'   `method = "SuperSmoother"` method. Additional parameters can be passed
+#'   with the `...` argument. Returns a `list` of matrices with noise estimates,
+#'   one per spectrum.
+#'
+#' - `normalize`: normalizes each spectrum in `object` with the specified method
+#'   (currently `method = "max"` and `method = "sum"` are supported). See
+#'   [normalize()] for more details. The function returns the `MSnExperiment`
+#'   with the normalized spectra.
+#'
+#' - `pickPeaks`: perform peak picking to generate centroided spectra. For
+#'   detailed description see [pickPeaks()]. The function returns an
+#'   `MSnExperiment` with centroided spectra.
+#'
+#' - `removeReporters`: set all reporter tag ion peaks in MS2 spectra to `0`.
+#'   Reporter ions have to specified using a [ReporterIons] class and passed to
+#'   the function with the `reporters` argument. Parameter `clean` allows to
+#'   specify whether `0` intensity peaks should be removed from spectra. See
+#'   [removeReporters()] for more details. The function returns an
+#'   `MSnExperiment` with the reporter peaks removed.
 #'
 #' - `removePeaks`: remove peaks lower than a threshold `t`. See
 #'   [removePeaks()] for [Spectrum-class] objects for more details.
 #'
+#' - `smooth`: smooths intensities of each spectrum data within the `object`
+#'   using the method specified with `method`. Currently
+#'   `method = "SavitzkyGolay"` (default) and `method = "MovingAverage"` are
+#'   available for smoothing the data with a Savitzky-Golay filter or with an
+#'   moving average approach. Parameter `halfWindowSize` (default = `2`)
+#'   controls the window size of the filter. Additional parameters to the filter
+#'   function can be passed with the `...` parameter. See [smooth()] for more
+#'   information and descriptions on the filters. The function returns a
+#'   `MSnExperiment` object with smoothed spectra.
 #'
 #' @return See individual method description for the return value.
 #'
@@ -197,6 +454,20 @@ NULL
 #' ## featureData and spectraData both access the spectrum metadata
 #' featureData(mse)
 #'
+#' ## Get the intensity values and the m/z values for each spectrum
+#' intensity(mse)
+#' mz(mse)
+#'
+#' ## The spectrapply function can be used to apply any function to a spectrum
+#' ## and get its result. Below we use spectrapply to get the m/z and intensity
+#' ## values per spectrum as a data.frame
+#' spectrapply(mse, as.data.frame)
+#'
+#' ## filter all spectra by m/z keeping m/z - intensity pairs with an m/z
+#' ## between 2 and 3.
+#' mse_filt <- filterMz(mse, mz = c(2, 3))
+#' mz(mse_filt)
+#' intensity(mse_filt)
 #'
 #' ## Create an MSnExperiment from two input files using the on-disk
 #' ## BackendMzR backend
@@ -210,9 +481,36 @@ NULL
 #' ## Get spectra metadata
 #' spectraData(mse)
 #'
+#' ## Get the range of retention times of the object
+#' range(rtime(mse))
+#'
+#' ## Filter the object keeping only spectra with a retention time between
+#' ## 4 and 20 seconds
+#' mse_sub <- filterRt(mse, rt = c(4, 20))
+#'
+#' ## How many spectra do we have now per file?
+#' table(fromFile(mse_sub))
+#'
+#' ## The full data object has how many spectra?
+#' table(fromFile(mse))
+#'
 #' ## Subset the object to contain only spectra 3, 12, 45
 #' mse_sub <- mse[c(3, 12, 45)]
 #' mse_sub
+#'
+#' ## Are the spectra centroided?
+#' centroided(mse_sub)
+#'
+#' ## Get the total ion current reported in the original files
+#' tic(mse_sub)
+#'
+#' ## Calculate the TIC from the actual data
+#' tic(mse_sub, initial = FALSE)
+#'
+#' ## Extract the total ion chromatogram from the full data
+#' chr_tic <- chromatogram(mse, aggregationFun = "sum")
+#' chr_tic
+#' plot(chr_tic)
 #'
 #' ## Coerce to a list of spectra
 #' as(mse_sub, "list")
@@ -242,6 +540,7 @@ NULL
 #' mse <- setBackend(mse, backend = BackendHdf5(),
 #'     path = paste0(tempdir(), "/hdf5"))
 #' mse
+#'
 NULL
 
 #' validation function for MSnExperiment
@@ -354,11 +653,14 @@ MSnExperiment <- function(x, spectraData, sampleData, metadata, ...) {
     if (!is.null(names(x)))
         rownames(spectraData) <- names(x)
     else {
+        ## Use acquisitionNum to order the spectra per file. If that is NA
+        ## spectra get named according to their
+        from_file <- factor(spectraData$fileIdx, unique(spectraData$fileIdx))
         names(x) <- formatFileSpectrumNames(
             fileIds = spectraData$fileIdx,
-            spectrumIds = unlist(lapply(table(
-                factor(spectraData$fileIdx, unique(spectraData$fileIdx))
-            ), seq_len), use.names = FALSE),
+            spectrumIds = unsplit(lapply(
+                split(spectraData$acquisitionNum, from_file),
+                order), from_file),
             nFiles = length(file))
         rownames(spectraData) <- names(x)
     }
@@ -642,9 +944,112 @@ setAs("MSnExperiment", "List", function(from) {
 ##------------------------------------------------------------
 
 #' @rdname MSnExperiment
+setMethod("$", "MSnExperiment", function(x, name) {
+    sampleData(x)[[name]]
+})
+#' @rdname MSnExperiment
+setReplaceMethod("$", "MSnExperiment", function(x, name, value) {
+    sampleData(x)[[name]] <- value
+    x
+})
+
+#' @rdname MSnExperiment
+setMethod("acquisitionNum", "MSnExperiment", function(object) {
+    .extractSpectraDataColumn(object, "acquisitionNum", NA_integer_)
+})
+
+#' @rdname MSnExperiment
+setMethod("bpi", "MSnExperiment", function(object, initial = TRUE,
+                                           BPPARAM = bpparam()) {
+    if (initial)
+        res <- .extractSpectraDataColumn(object, "basePeakIntensity", NA_real_)
+    else
+        res <- unlist(spectrapply(object, function(z) {
+            max(0, z@intensity)
+        }, BPPARAM = BPPARAM), recursive = FALSE, use.names = FALSE)
+    names(res) <- featureNames(object)
+    res
+})
+
+#' @rdname MSnExperiment
+setMethod("chromatogram", "MSnExperiment", function(object, rt, mz,
+                                                    aggregationFun = "sum",
+                                                    missing = NA_real_,
+                                                    msLevel. = 1L,
+                                                    BPPARAM = bpparam()){
+    if (!missing(rt) && is.null(ncol(rt)))
+        rt <- matrix(range(rt), ncol = 2, byrow = TRUE)
+    if (!missing(mz) && is.null(ncol(mz)))
+        mz <- matrix(range(mz), ncol = 2, byrow = TRUE)
+    res <- .extractMultipleChromatograms(object, rt = rt, mz = mz,
+                                         aggregationFun = aggregationFun,
+                                         missingValue = missing,
+                                         msLevel = msLevel.,
+                                         BPPARAM = BPPARAM)
+    res <- as(res, "Chromatograms")
+    if (!nrow(res))
+        return(res)
+    fd <- annotatedDataFrameFrom(res, byrow = TRUE)
+    if (!missing(mz)) {
+        fd$mzmin <- mz[, 1]
+        fd$mzmax <- mz[, 2]
+    }
+    if (!missing(rt)) {
+        fd$rtmin <- rt[, 1]
+        fd$rtmax <- rt[, 2]
+    }
+    plrt <- unique(polarity(object))
+    if (length(plrt) == 1)
+        fd$polarity <- plrt
+    res@featureData <- fd
+    rownames(res@.Data) <- rownames(fd)
+    res@phenoData <- new("NAnnotatedDataFrame", as.data.frame(object@sampleData))
+    colnames(res@.Data) <- rownames(sampleData(object))
+    validObject(res)
+    res
+})
+
+#' @rdname MSnExperiment
+setMethod("centroided", "MSnExperiment", function(object, na.fail = FALSE) {
+    res <- .extractSpectraDataColumn(object, "centroided", NA)
+    if (na.fail & anyNA(res))
+        stop("Mode is undefined. See ?isCentroided for details.", call. = FALSE)
+    names(res) <- featureNames(object)
+    res
+})
+
+#' @rdname MSnExperiment
+setReplaceMethod("centroided", "MSnExperiment", function(object, value) {
+    if (length(value) == 1)
+        value <- rep(value, length(object))
+    if (length(value) != length(object) || !is.logical(value))
+        stop("'value' has to be a logical length 1 or length equal to the ",
+             "number of spectra")
+    featureData(object)$centroided <- value
+    object
+})
+
+#' @rdname MSnExperiment
+setMethod("collisionEnergy", "MSnExperiment", function(object) {
+    .extractSpectraDataColumn(object, "collisionEnergy", NA_real_)
+})
+
+#' @rdname MSnExperiment
+setReplaceMethod("collisionEnergy", "MSnExperiment", function(object, value) {
+    if (length(value) != length(object) || !is.numeric(value))
+        stop("'value' has to be a numerical vector with length equal to the ",
+             "number of spectra")
+    featureData(object)$collisionEnergy <- value
+    object
+})
+
+#' @rdname MSnExperiment
 setMethod("featureData", "MSnExperiment", function(object) {
     object@spectraData
 })
+
+#' @rdname MSnExperiment
+setMethod("fData", "MSnExperiment", function(object) featureData(object))
 
 #' @rdname MSnExperiment
 setReplaceMethod("featureData", "MSnExperiment", function(object, value) {
@@ -660,13 +1065,134 @@ setReplaceMethod("featureData", "MSnExperiment", function(object, value) {
 })
 
 #' @rdname MSnExperiment
-setMethod("spectraData", "MSnExperiment", function(object) {
-    featureData(object)
+setMethod("featureNames", "MSnExperiment", function(object) {
+    rownames(object@spectraData)
 })
 
 #' @rdname MSnExperiment
-setReplaceMethod("spectraData", "MSnExperiment", function(object, value) {
-    featureData(object) <- value
+setMethod("fileNames", "MSnExperiment", function(object) {
+    fileNames(object@backend)
+})
+
+#' @rdname MSnExperiment
+setMethod("fromFile", "MSnExperiment", function(object) {
+    res <- object@spectraData$fileIdx
+    names(res) <- featureNames(object)
+    res
+})
+
+#' @rdname MSnExperiment
+setMethod("intensity", "MSnExperiment", function(object) {
+    spectrapply(object, FUN = intensity)
+})
+
+#' @rdname MSnExperiment
+setMethod("ionCount", "MSnExperiment", function(object) {
+    unlist(spectrapply(object, FUN = function(z) {
+        sum(0, z@intensity)
+    }))
+})
+
+#' @rdname MSnExperiment
+setMethod("isCentroided", "MSnExperiment",
+          function(object, ..., verbose = isMSnbaseVerbose()) {
+              res <- unlist(spectrapply(object, function(z, ...)
+                  .isCentroided(as(z, "data.frame"), ...)), use.names = FALSE)
+              if (verbose) print(table(res, msLevel(object)))
+              names(res) <- featureNames(object)
+              res
+          })
+
+#' @rdname MSnExperiment
+setMethod("isEmpty", "MSnExperiment", function(x) {
+    !unlist(spectrapply(x, FUN = function(z) length(z@mz)))
+})
+
+#' @rdname MSnExperiment
+setMethod("length", "MSnExperiment", function(x) {
+    nrow(x@spectraData)
+})
+
+#' @rdname MSnExperiment
+setMethod("metadata", "MSnExperiment",
+          function(x, ...) {
+              if (is.null(x@metadata) || is.character(x@metadata))
+                  list(metadata = x@metadata)
+              else x@metadata
+          })
+
+.extractSpectraDataColumn <- function(object, column,
+                                      returnValue = NA_integer_) {
+    res <- if (is.null(object@spectraData[[column]]))
+               rep_len(returnValue, length(object))
+           else object@spectraData[[column]]
+    names(res) <- featureNames(object)
+    res
+}
+
+#' @rdname MSnExperiment
+setMethod("msLevel", "MSnExperiment", function(object) {
+    .extractSpectraDataColumn(object, "msLevel", NA_integer_)
+})
+
+#' @rdname MSnExperiment
+setMethod("mz", "MSnExperiment", function(object) {
+    spectrapply(object, FUN = mz)
+})
+
+#' @rdname MSnExperiment
+setMethod("peaksCount", "MSnExperiment", function(object, BPPARAM = bpparam()) {
+    unlist(spectrapply(object, FUN = peaksCount, BPPARAM = BPPARAM),
+           recursive = FALSE)
+})
+
+#' @rdname MSnExperiment
+setMethod("polarity", "MSnExperiment", function(object) {
+    .extractSpectraDataColumn(object, "polarity", NA_integer_)
+})
+
+#' @rdname MSnExperiment
+setReplaceMethod("polarity", "MSnExperiment", function(object, value) {
+    if (length(value) == 1)
+        value <- rep_len(value, nrow(object@spectraData))
+    if (length(value) != nrow(object@spectraData) || !is.integer(value))
+        stop("'value' has to be an integer vector of length 1 or equal to the",
+             " number of spectra in 'object'")
+    featureData(object)$polarity <- value
+    object
+})
+
+#' @rdname MSnExperiment
+setMethod("precursorCharge", "MSnExperiment", function(object) {
+    .extractSpectraDataColumn(object, "precursorCharge", NA_integer_)
+})
+
+#' @rdname MSnExperiment
+setMethod("precursorIntensity", "MSnExperiment", function(object) {
+    .extractSpectraDataColumn(object, "precursorIntensity", NA_real_)
+})
+
+#' @rdname MSnExperiment
+setMethod("precursorMz", "MSnExperiment", function(object) {
+    .extractSpectraDataColumn(object, "precursorMZ", NA_real_)
+})
+
+#' @rdname MSnExperiment
+setMethod("precScanNum", "MSnExperiment", function(object) {
+    .extractSpectraDataColumn(object, "precursorScanNum", NA_integer_)
+})
+
+#' @rdname MSnExperiment
+setMethod("rtime", "MSnExperiment", function(object) {
+    .extractSpectraDataColumn(object, "retentionTime", NA_real_)
+})
+
+#' @rdname MSnExperiment
+setReplaceMethod("rtime", "MSnExperiment", function(object, value) {
+    if (length(value) != nrow(object@spectraData) || !is.numeric(value))
+        stop("'value' has to be a numeric vector of length equal to the number",
+             " of spectra (", nrow(object@spectraData), ")")
+    featureData(object)$retentionTime <- value
     object
 })
 
@@ -685,54 +1211,52 @@ setReplaceMethod("sampleData", "MSnExperiment", function(object, value) {
 })
 
 #' @rdname MSnExperiment
-setMethod("metadata", "MSnExperiment",
-          function(x, ...) {
-              if (is.null(x@metadata) || is.character(x@metadata))
-                  list(metadata = x@metadata)
-              else x@metadata
-          })
-
-#' @rdname MSnExperiment
-setMethod("fileNames", "MSnExperiment", function(object) {
-    fileNames(object@backend)
+setMethod("scanIndex", "MSnExperiment", function(object) {
+    .extractSpectraDataColumn(object, "spIdx", NA_integer_)
 })
 
 #' @rdname MSnExperiment
-setMethod("acquisitionNum", "MSnExperiment", function(object) {
-    res <- if (is.null(object@spectraData$acquisitionNum))
-               rep_len(NA_integer_, length(object))
-           else object@spectraData$acquisitionNum
+setMethod("smoothed", "MSnExperiment", function(object) {
+    .extractSpectraDataColumn(object, "smoothed", NA)
+})
+
+#' @rdname MSnExperiment
+setReplaceMethod("smoothed", "MSnExperiment", function(object, value) {
+    if (length(value) == 1)
+        value <- rep_len(value, length(object))
+    if (length(value) != nrow(object@spectraData) || !is.logical(value))
+        stop("'value' has to be a logical vector of length equal to the number",
+             " of spectra (", nrow(object@spectraData), ")")
+    featureData(object)$smoothed <- value
+    object
+})
+
+#' @rdname MSnExperiment
+setMethod("spectraData", "MSnExperiment", function(object) {
+    featureData(object)
+})
+
+#' @rdname MSnExperiment
+setReplaceMethod("spectraData", "MSnExperiment", function(object, value) {
+    featureData(object) <- value
+    object
+})
+
+#' @rdname MSnExperiment
+spectraNames <- function(object) featureNames(object)
+
+#' @rdname MSnExperiment
+setMethod("tic", "MSnExperiment", function(object, initial = TRUE,
+                                           BPPARAM = bpparam()) {
+    if (initial)
+        res <- .extractSpectraDataColumn(object, "totIonCurrent", NA_real_)
+    else
+        res <- unlist(spectrapply(object, function(z) sum(z@intensity),
+                                  BPPARAM = BPPARAM), use.names = FALSE,
+                      recursive = FALSE)
     names(res) <- featureNames(object)
     res
 })
-
-## centroided
-## collisionEnergy
-#' @rdname MSnExperiment
-setMethod("featureNames", "MSnExperiment", function(object) {
-    rownames(object@spectraData)
-})
-## fromFile
-## intensity
-## ionCount
-## isCentroided
-## isEmpty
-#' @rdname MSnExperiment
-setMethod("length", "MSnExperiment", function(x) {
-    nrow(x@spectraData)
-})
-## msLevel
-## mz
-## polarity
-## rtime
-## peaksCount
-## precursorCharge
-## precursorIntensity
-## precursorMz
-## precScanNum
-## scanIndex
-## smoothed
-## tic
 
 ##============================================================
 ##  --  SUBSETTING AND FILTERING METHODS
@@ -763,6 +1287,40 @@ setMethod("[[", "MSnExperiment",
           })
 
 #' @rdname MSnExperiment
+setMethod("filterAcquisitionNum", "MSnExperiment", function(object, n, file) {
+    if (missing(n)) return(object)
+    if (missing(file))
+        file <- unique(fromFile(object))
+    if (!is.integer(n))
+        stop("'n' has to be an integer representing the acquisition number(s)",
+             " for sub-setting.")
+    if (!is.integer(file))
+        stop("'file' has to be an integer with the index of the file(s)",
+             " for sub-setting.")
+    sel_file <- fromFile(object) %in% file
+    sel_acq <- acquisitionNum(object) %in% n & sel_file
+    if (!any(sel_acq))
+        warning("No spectra with the specified acquisition number(s) found.")
+    object <- object[sel_acq | !sel_file, drop = FALSE]
+    object@processing <- c(object@processing,
+                           paste0("Filter: select by: ", length(n),
+                                  " acquisition number(s) in ", length(file),
+                                  " file(s). [", date(), "]"))
+    object
+})
+
+#' @rdname MSnExperiment
+setMethod("filterEmptySpectra", "MSnExperiment", function(object) {
+    empties <- isEmpty(object)
+    if (any(empties))
+        object <- object[!empties, drop = FALSE]
+    object@processing <- c(object@processing,
+                           paste0("Filter: removed ", sum(empties),
+                                  " empty spectra. [", date(), "]"))
+    object
+})
+
+#' @rdname MSnExperiment
 setMethod("filterFile", "MSnExperiment", function(object, file) {
     if (missing(file))
         return(object)
@@ -783,27 +1341,120 @@ setMethod("filterFile", "MSnExperiment", function(object, file) {
     object
 })
 
+#' @rdname MSnExperiment
+setMethod("filterMsLevel", "MSnExperiment", function(object, msLevel.) {
+    if (missing(msLevel.))
+        return(object)
+    object <- object[msLevel(object) %in% unique(msLevel.), drop = FALSE]
+    object@processing <- c(object@processing,
+                           paste0("Filter: select MS level(s)",
+                                  paste0(unique(msLevel.), collapse = " "),
+                                  " [", date(), "]"))
+    object
+})
+
+#' @rdname MSnExperiment
+setMethod("filterMz", "MSnExperiment", function(object, mz, msLevel., ...) {
+    if (missing(mz))
+        return(object)
+    if (!(is.numeric(mz) & length(mz) == 2))
+        stop("'mz' must be a numeric of length 2", call. = FALSE)
+    if (missing(msLevel.))
+        msLevel. <- unique(msLevel(object))
+    else if (!is.numeric(msLevel.))
+        stop("'msLevel' must be numeric", call. = FALSE)
+    ps <- ProcessingStep("filterMz", list(mz = mz, msLevel. = msLevel., ...))
+    object@processingQueue <- c(object@processingQueue, list(ps))
+    object@processing <- c(object@processing,
+                           paste0("Filter: trim m/z [", mz[1], "..", mz[2],
+                                  "] on MS level(s) ",
+                                  paste0(unique(msLevel.), collapse = " "),
+                                  " [", date(), "]"))
+    object
+})
+
+#' @rdname MSnExperiment
+setMethod("filterPrecursorScan", "MSnExperiment",
+          function(object, acquisitionNum, ...) {
+              if (missing(acquisitionNum))
+                  return(object)
+              object <- object[.filterSpectraHierarchy(
+                  as.data.frame(object@spectraData), acquisitionNum),
+                  drop = FALSE]
+              object@processing <- c(
+                  object@processing,
+                  paste0("Filter: select parent/children scans for ",
+                         paste0(acquisitionNum, collapse = " "),
+                         " [", date(), "]"))
+              object
+          })
+
+#' @rdname MSnExperiment
+setMethod("filterPolarity", "MSnExperiment", function(object, polarity.) {
+    if (missing(polarity.))
+        return(object)
+    object <- object[polarity(object) %in% polarity., drop = FALSE]
+    object@processing <- c(object@processing,
+                           paste0("Filter: select spectra with polarity  ",
+                                  paste0(polarity., collapse = " "),
+                                  " [", date(), "]"))
+    object
+})
+
+#' @rdname MSnExperiment
+setMethod("filterRt", "MSnExperiment", function(object, rt, msLevel.) {
+    if (missing(rt)) return(object)
+    if (!(length(rt) == 2 & is.numeric(rt)))
+        stop("'rt' must be a numeric of length 2", call. = FALSE)
+    if (missing(msLevel.))
+        msLevel. <- unique(msLevel(object))
+    else if (!is.numeric(msLevel.))
+        stop("'msLevel' must be numeric", call. = FALSE)
+    rt <- range(rt)
+    msLevel. <- unique(msLevel.)
+    sel_ms <- msLevel(object) %in% msLevel.
+    sel_rt <- rtime(object) >= rt[1] & rtime(object) <= rt[2] & sel_ms
+    object <- object[sel_rt | !sel_ms, drop = FALSE]
+    object@processing <- c(object@processing,
+                           paste0("Filter: select retention time [",
+                                  rt[1], "..", rt[2], "] on MS level(s) ",
+                                  paste0(unique(msLevel.), collapse = " "),
+                                  " [", date(), "]"))
+    object
+})
+
+#' @rdname MSnExperiment
+setMethod("splitByFile", c("MSnExperiment", "factor"), function(object, f) {
+    if (length(f) != length(fileNames(object)))
+        stop("length of 'f' has to match the length of samples/files in 'object'.")
+    lapply(split(seq_along(f), f), filterFile, object = object)
+})
+
 ##============================================================
 ##  --  DATA MANIPULATION METHODS
 ##
 ##------------------------------------------------------------
 
 #' @rdname MSnExperiment
-setMethod("removePeaks", "MSnExperiment", function(object, t = "min",
-                                                   verbose = isMSnbaseVerbose(),
-                                                   msLevel.) {
-    if (!is.numeric(t) & t != "min")
-        stop("Argument 't' has to be either numeric of 'min'.")
+setMethod("bin", "MSnExperiment", function(object, binSize = 1L, msLevel.) {
     if (missing(msLevel.))
-        msLevel. <- base::sort(unique(object@spectraData$msLevel))
-    if (!is.numeric(msLevel.))
-        stop("'msLevel' must be numeric.")
-    object <- addProcessingStep(object, "removePeaks", t = t,
+        msLevel. <- base::sort(unique(msLevel(object)))
+    else if (!is.numeric(msLevel.))
+        stop("'msLevel' must be numeric", call. = FALSE)
+    if (!any(unique(msLevel(object)) %in% msLevel.)) {
+        warning("No spectra of the specified MS level present.")
+        return(object)
+    }
+    mzr <- range(unlist(spectrapply(filterMsLevel(object, msLevel. = msLevel.),
+                                    FUN = function(z) z@mz[c(1L, length(z@mz))]
+                                  , BPPARAM = bpparam())), na.rm = TRUE)
+    breaks <- seq(floor(mzr[1]), ceiling(mzr[2]), by = binSize)
+    object <- addProcessingStep(object, "bin", breaks = breaks,
                                 msLevel. = msLevel.)
     object@processing <- c(object@processing,
-                           paste0("Signal <= ", t, " in MS level(s) ",
+                           paste0("Spectra of MS level(s) ",
                                   paste0(msLevel., collapse = ", "),
-                                  " set to 0 [", date(), "]"))
+                                  " binned [", date(), "]"))
     validObject(object)
     object
 })
@@ -826,3 +1477,170 @@ setMethod("clean", "MSnExperiment", function(object, all = FALSE,
     validObject(object)
     object
 })
+
+#' @rdname MSnExperiment
+setMethod("compareSpectra", "MSnExperiment",
+          function(object1, fun = c("common", "cor", "dotproduct"), ...) {
+              fun <- match.arg(fun)
+              nm <- featureNames(object1)
+              cb <- combn(nm, 2, function(x) {
+                  compare_Spectra(object1[[x[1]]], object1[[x[2]]],
+                                  fun = fun, ...)
+              })
+              m <- matrix(NA, length(object1), length(object1),
+                          dimnames = list(nm, nm))
+              ## fill lower triangle of the matrix
+              m[lower.tri(m)] <- cb
+              ## copy to upper triangle
+              for (i in 1:nrow(m)) {
+                  m[i, ] <- m[, i]
+              }
+              m
+          })
+
+#' @rdname MSnExperiment
+setMethod("estimateMzResolution", "MSnExperiment", function(object, ...) {
+    spectrapply(object, FUN = estimateMzResolution, ...)
+})
+
+#' @rdname MSnExperiment
+setMethod("estimateNoise", "MSnExperiment",
+          function(object, method = c("MAD", "SuperSmoother"), ...) {
+              method <- match.arg(method)
+              spectrapply(object, FUN = estimateNoise_Spectrum,
+                          method = method, ...)
+          })
+
+#' @rdname MSnExperiment
+setMethod("normalize", "MSnExperiment",
+          function(object, method = c("max", "sum"), ...) {
+              method <- match.arg(method)
+              object <- addProcessingStep(object, "normalize", method = method,
+                                          ...)
+              object@processing <- c(
+                  object@processing,
+                  paste0("Spectra normalized (", method, ") [", date(), "]"))
+              validObject(object)
+              object
+          })
+
+#' @rdname MSnExperiment
+setMethod("pickPeaks", "MSnExperiment",
+          function(object, halfWindowSize = 3L,
+                   method = c("MAD", "SuperSmoother"),
+                   SNR = 0L, refineMz = c("none", "kNeighbors", "kNeighbours",
+                                          "descendPeak"),
+                   ...) {
+              method <- match.arg(method)
+              refineMz <- match.arg(refineMz)
+              object <- addProcessingStep(object, "pickPeaks", method = method,
+                                          halfWindowSize = halfWindowSize,
+                                          SNR = SNR, ignoreCentroided = TRUE,
+                                          refineMz = refineMz, ...)
+              object@processing <- c(
+                  object@processing,
+                  paste0("Peak picking: ", method, " noise estimation and ",
+                         refineMz, "centroid m/z [", date(), "]"))
+              spectraData(object)$centroided <- TRUE
+              object
+})
+
+## #' @rdname MSnExperiment
+## setMethod("quantify", "MSnExperiment",
+##           function(object,
+##                    method = c("trapezoidation", "max", "sum", "SI", "SIgi",
+##                               "SIn", "SAF", "NSAF", "count"),
+##                    reporters,
+##                    wd = width(reporters),
+##                    strict = FALSE,
+##                    BPPARAM = bpparam(),
+##                    verbose = isMSnbaseVerbose(),
+##                    ...) {
+##               ## TODO: check if and how that works for MSnExperiment!
+##               method <- match.arg(method)
+##               if (!all(msLevel(object) >= 2)) {
+##                   message("Currently only MS > 1 quantitation supported: ",
+##                           "subsetting data set to MS2 spectra.")
+##                   object <- filterMsLevel(object, msLevel. = 2L)
+##                   if (length(object) == 0L)
+##                       stop("Empty data set.")
+##               }
+##               ## MS2 isobaric
+##               if (method %in% c("trapezoidation", "max", "sum")) {
+##                   if (!inherits(reporters, "ReporterIons"))
+##                       stop("Argument 'reporters' must inherit from ",
+##                            "'ReporterIons' class.")
+##                   if (method != "max")
+##                       stop("Not yet implemented - see issue #130")
+##                   if (!verbose)
+##                       suppressMessages(quantify_OnDiskMSnExp_max(object,
+##                                                                  reporters,
+##                                                                  wd,
+##                                                                  BPPARAM))
+##                   else quantify_OnDiskMSnExp_max(object, reporters,
+##                                                  wd, BPPARAM)
+##               } else if (method == "count") {
+##                   count_MSnSet(object)
+##               } else {
+##                   ## the following assumes that the appropriate fcols
+##                   ## are available
+##                   object <- utils.removeNoIdAndMultipleAssignments(object)
+##                   if (method %in% c("SI", "SIgi", "SIn"))
+##                       SI(object, method, ...)
+##                   else SAF(object, method, ...)
+##               }
+## })
+
+
+#' @rdname MSnExperiment
+setMethod("removePeaks", "MSnExperiment", function(object, t = "min",
+                                                   verbose = isMSnbaseVerbose(),
+                                                   msLevel.) {
+    if (!is.numeric(t) & t != "min")
+        stop("Argument 't' has to be either numeric of 'min'.")
+    if (missing(msLevel.))
+        msLevel. <- base::sort(unique(object@spectraData$msLevel))
+    if (!is.numeric(msLevel.))
+        stop("'msLevel' must be numeric.")
+    object <- addProcessingStep(object, "removePeaks", t = t,
+                                msLevel. = msLevel.)
+    object@processing <- c(object@processing,
+                           paste0("Signal <= ", t, " in MS level(s) ",
+                                  paste0(msLevel., collapse = ", "),
+                                  " set to 0 [", date(), "]"))
+    validObject(object)
+    object
+})
+
+#' @rdname MSnExperiment
+setMethod("removeReporters", "MSnExperiment",
+          function(object, reporters = NULL, clean = FALSE,
+                   verbose = isMSnbaseVerbose()) {
+              if (is.null(reporters))
+                  return(object)
+              if (all(msLevel(object) == 1))
+                  stop("No MS level > 1 spectra present! Reporters can",
+                       " only be removed from spectra >= 2!")
+              object <- addProcessingStep(object, "removeReporters",
+                                          reporters = reporters, clean = clean)
+              object@processing <- c(object@processing,
+                                     paste0("Removed ", paste0(names(reporters),
+                                                               collapse = ", "),
+                                            " reporter ions [", date(), "]"))
+              validObject(object)
+              object
+          })
+
+#' @rdname MSnExperiment
+setMethod("smooth", "MSnExperiment",
+          function(x, method = c("SavitzkyGolay", "MovingAverage"),
+                   halfWindowSize = 2L, verbose = isMSnbaseVerbose(), ...) {
+              method <- match.arg(method)
+              x <- addProcessingStep(x, "smooth", method = method,
+                                     halfWindowSize = halfWindowSize, ...)
+              x@processing <- c(x@processing,
+                                paste0("Spectra smoothed (", method,
+                                       ") [", date(), "]"))
+              validObject(x)
+              x
+          })
