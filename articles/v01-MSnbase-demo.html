@@ -403,7 +403,7 @@ Raw MS2 spectrum with details about reporter ions.
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Data [logically] subsetted 3 spectra: Mon Apr  8 09:49:29 2019 
+## Data [logically] subsetted 3 spectra: Mon Apr  8 09:54:38 2019 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -729,8 +729,8 @@ This figure illustrated the effect or the <code>removePeaks</code> and <code>cle
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Mon Apr  8 09:49:35 2019 
-## Spectra cleaned: Mon Apr  8 09:49:37 2019 
+## Curves &lt;= 400 set to '0': Mon Apr  8 09:54:44 2019 
+## Spectra cleaned: Mon Apr  8 09:54:45 2019 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -796,9 +796,9 @@ The different quantitation methods. See text for details.
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Mon Apr  8 09:49:35 2019 
-## Spectra cleaned: Mon Apr  8 09:49:37 2019 
-## iTRAQ4 quantification by trapezoidation: Mon Apr  8 09:49:39 2019 
+## Curves &lt;= 400 set to '0': Mon Apr  8 09:54:44 2019 
+## Spectra cleaned: Mon Apr  8 09:54:45 2019 
+## iTRAQ4 quantification by trapezoidation: Mon Apr  8 09:54:48 2019 
 ##  MSnbase version: 1.1.22</code></pre>
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/tidyeval">exprs</a></span>(qnt))</a></code></pre></div>
 <pre><code>##     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
@@ -932,7 +932,7 @@ The different quantitation methods. See text for details.
 <div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/impute-methods.html">impute</a></span>(naset, <span class="st">"min"</span>)</a>
 <a class="sourceLine" id="cb128-2" data-line-number="2"><span class="kw"><a href="../reference/pSet-class.html">processingData</a></span>(x)</a></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data imputation using min Mon Apr  8 09:49:41 2019 
+## Data imputation using min Mon Apr  8 09:54:49 2019 
 ##  MSnbase version: 1.15.6</code></pre>
 <div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NA">is.na</a></span>(x))</a></code></pre></div>
 <pre><code>## 
@@ -969,7 +969,7 @@ Mixed imputation method. Black cells represent presence of quantitation values a
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Data imputation using mixed Mon Apr  8 09:49:41 2019 
+## Data imputation using mixed Mon Apr  8 09:54:50 2019 
 ##   Using default parameters 
 ##  MSnbase version: 1.15.6</code></pre>
 <p>Please read <code><a href="../reference/impute-methods.html">?impute</a></code> for a description of the different methods.</p>
@@ -1049,13 +1049,13 @@ CV versus signal intensity comparison for log2 and vsn transformed data. Lines i
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Mon Apr  8 09:49:35 2019 
-## Spectra cleaned: Mon Apr  8 09:49:37 2019 
-## iTRAQ4 quantification by trapezoidation: Mon Apr  8 09:49:39 2019 
-## Subset [55,4][54,4] Mon Apr  8 09:49:40 2019 
-## Removed features with more than 0 NAs: Mon Apr  8 09:49:40 2019 
-## Dropped featureData's levels Mon Apr  8 09:49:40 2019 
-## Combined 54 features into 40 using median: Mon Apr  8 09:49:42 2019 
+## Curves &lt;= 400 set to '0': Mon Apr  8 09:54:44 2019 
+## Spectra cleaned: Mon Apr  8 09:54:45 2019 
+## iTRAQ4 quantification by trapezoidation: Mon Apr  8 09:54:48 2019 
+## Subset [55,4][54,4] Mon Apr  8 09:54:48 2019 
+## Removed features with more than 0 NAs: Mon Apr  8 09:54:48 2019 
+## Dropped featureData's levels Mon Apr  8 09:54:48 2019 
+## Combined 54 features into 40 using median: Mon Apr  8 09:54:51 2019 
 ##  MSnbase version: 2.9.3</code></pre>
 <p>Of interest is also the <code>iPQF</code> spectra-to-protein summarisation method, which integrates peptide spectra characteristics and quantitative values for protein quantitation estimation. See <code><a href="../reference/iPQF.html">?iPQF</a></code> and references therein for details.</p>
 </div>
@@ -1094,11 +1094,11 @@ CV versus signal intensity comparison for log2 and vsn transformed data. Lines i
 <div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" data-line-number="1">siquant &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(msexp, <span class="dt">method =</span> <span class="st">"SIn"</span>)</a>
 <a class="sourceLine" id="cb148-2" data-line-number="2"><span class="kw"><a href="../reference/pSet-class.html">processingData</a></span>(siquant)</a></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data loaded: Mon Apr  8 09:49:35 2019 
-## Filtered 2 unidentified peptides out [Mon Apr  8 09:49:35 2019] 
-## Quantitation by total ion current [Mon Apr  8 09:49:43 2019] 
-## Combined 3 features into 3 using sum: Mon Apr  8 09:49:43 2019 
-## Quantification by SIn [Mon Apr  8 09:49:43 2019] 
+## Data loaded: Mon Apr  8 09:54:43 2019 
+## Filtered 2 unidentified peptides out [Mon Apr  8 09:54:44 2019] 
+## Quantitation by total ion current [Mon Apr  8 09:54:51 2019] 
+## Combined 3 features into 3 using sum: Mon Apr  8 09:54:51 2019 
+## Quantification by SIn [Mon Apr  8 09:54:51 2019] 
 ##  MSnbase version: 2.9.3</code></pre>
 <div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/tidyeval">exprs</a></span>(siquant)</a></code></pre></div>
 <pre><code>##         dummyiTRAQ.mzXML
@@ -1338,7 +1338,7 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Combined [27,4] and [24,4] MSnSets Mon Apr  8 09:49:53 2019 
+## Combined [27,4] and [24,4] MSnSets Mon Apr  8 09:55:02 2019 
 ##  MSnbase version: 2.9.3</code></pre>
 <p>In summary, when experiments with different samples need to be combined (along the columns), one needs to (1) clarify the sample names using <code>updateSampleNames</code> or better manually, for biological relevance and (2) update the feature data variable labels with <code>updateFvarLabels</code>. The individual experiments (there can be more than 2) can then easily be combined with the <code>combine</code> method while retaining the meta-data.</p>
 <p>If runs for the same sample (different fractions for example) need to be combines, one needs to (1) differentiate the feature provenance with <code>updateFeatureNames</code> prior to use <code>combine</code>.</p>
@@ -1424,7 +1424,7 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 <div id="session-information" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
-<pre><code>## R Under development (unstable) (2019-04-08 r76343)
+<pre><code>## R Under development (unstable) (2019-04-08 r76340)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
