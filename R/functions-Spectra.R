@@ -21,7 +21,7 @@
 #' @md
 #'
 #' @examples
-#' 
+#'
 #' ## Create from Spectrum objects
 #' sp1 <- new("Spectrum1", mz = c(1, 2, 4), intensity = c(4, 5, 2))
 #' sp2 <- new("Spectrum2", mz = c(1, 2, 3, 4), intensity = c(5, 3, 2, 5),
@@ -44,6 +44,10 @@ Spectra <- function(..., elementMetadata = NULL) {
     args <- list(...)
     if (length(args) == 1L && is.list(args[[1L]]))
         args <- args[[1L]]
+    if (length(dim(elementMetadata)) > 1)
+        rownames(elementMetadata) <- NULL
+    if (is.null(names(args)))
+        names(args) <- seq_len(length(args))
     new("Spectra", listData = args, elementMetadata = elementMetadata)
 }
 

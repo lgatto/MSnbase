@@ -491,10 +491,10 @@ validSpectrum <- function(object) {
 #' - mergedResultScanNum
 #' - mergedResultStartScanNum
 #' - mergedResultEndScanNum
-#' 
+#'
 #' @param x `Spectrum` object.
 #'
-#' @return A named `numeric` with the following fields:
+#' @return A `data.frame` with the following columns:
 #' - acquisitionNum
 #' - msLevel
 #' - polarity
@@ -515,44 +515,51 @@ validSpectrum <- function(object) {
 #' - mergedResultStartScanNum
 #' - mergedResultEndScanNum
 #' - injectionTime
+#' - filterString
+#' - spectrumId
 #' - centroided
-#' 
+#' - ionMobilityDriftTime
+#'
 #' @author Johannes Rainer
 #'
 #' @md
 #'
 #' @noRd
 .spectrum_header <- function(x) {
-    res <- c(acquisitionNum = acquisitionNum(x),
-             msLevel = msLevel(x),
-             polarity = polarity(x),
-             peaksCount = peaksCount(x),
-             totIonCurrent = tic(x),
-             retentionTime = rtime(x),
-             basePeakMZ = mz(x)[which.max(intensity(x))][1],
-             basePeakIntensity = max(intensity(x)),
-             collisionEnergy = 0,
-             ionisationEnergy = 0,      # How to get that?
-             lowMZ = min(mz(x)),
-             highMZ = max(mz(x)),
-             precursorScanNum = 0,
-             precursorMZ = 0,
-             precursorCharge = 0,
-             precursorIntensity = 0,
-             mergedScan = 0,
-             mergedResultScanNum = 0,   # ???
-             mergedResultStartScanNum = 0, # ???
-             mergedResultEndScanNum = 0,   # ???
-             injectionTime = 0,            # Don't have that
-             centroided = centroided(x)
-             )
+    res <- data.frame(acquisitionNum = acquisitionNum(x),
+                      msLevel = msLevel(x),
+                      polarity = polarity(x),
+                      peaksCount = peaksCount(x),
+                      totIonCurrent = tic(x),
+                      retentionTime = rtime(x),
+                      basePeakMZ = mz(x)[which.max(intensity(x))][1],
+                      basePeakIntensity = max(intensity(x)),
+                      collisionEnergy = 0,
+                      ionisationEnergy = 0,      # How to get that?
+                      lowMZ = min(mz(x)),
+                      highMZ = max(mz(x)),
+                      precursorScanNum = 0,
+                      precursorMZ = 0,
+                      precursorCharge = 0,
+                      precursorIntensity = 0,
+                      mergedScan = 0,
+                      mergedResultScanNum = 0,   # ???
+                      mergedResultStartScanNum = 0, # ???
+                      mergedResultEndScanNum = 0,   # ???
+                      injectionTime = 0,            # Don't have that
+                      filterString = NA_character_,
+                      spectrumId = paste0("scan=", acquisitionNum(x)),
+                      centroided = centroided(x),
+                      ionMobilityDriftTime = NA_real_,
+                      stringsAsFactors = FALSE
+                      )
     if (msLevel(x) > 1) {
-        res["collisionEnergy"] <- collisionEnergy(x)
-        res["precursorScanNum"] <- precScanNum(x)
-        res["precursorMZ"] <- precursorMz(x)
-        res["precursorCharge"] <- precursorCharge(x)
-        res["precursorIntensity"] <- precursorIntensity(x)
-        res["mergedScan"] <- x@merged
+        res$collisionEnergy <- collisionEnergy(x)
+        res$precursorScanNum <- precScanNum(x)
+        res$precursorMZ <- precursorMz(x)
+        res$precursorCharge <- precursorCharge(x)
+        res$precursorIntensity <- precursorIntensity(x)
+        res$mergedScan <- x@merged
     }
     res
 }
@@ -573,10 +580,10 @@ validSpectrum <- function(object) {
 #'     peak that should be considered in the weighted mean calculation.
 #'
 #' @param ... Currently not used.
-#' 
+#'
 #' @return A `matrix` with columns `"mz"` and `"intensity"`
 #'     with the m/z and intensity values of the refined peaks.
-#' 
+#'
 #' @author Johannes Rainer
 #'
 #' @noRd
@@ -599,7 +606,7 @@ validSpectrum <- function(object) {
 #' mzs_2 <- kNeighbors(mz = mzs, peakIdx = peak_idx, intensity = ints, k = 2)
 #' points(mzs_2[, 1], mzs_2[, 2], col = "red", type = "h")
 #'
-#' ## Second example 
+#' ## Second example
 #' ints <- c(5, 3, 2, 3, 1, 2, 4, 6, 8, 11, 4, 7, 5, 2, 1, 0, 1, 0, 1, 1, 1, 0)
 #' mzs <- 1:length(ints)
 #'
@@ -653,13 +660,13 @@ kNeighbours <- kNeighbors
 #' @param stopAtTwo `logical(1)` indicating whether the peak descending
 #'     should only stop if two consecutive measurements with increasing (or
 #'     same) signal are encountered or already at the first (default).
-#' 
+#'
 #' @author Johannes Rainer
 #'
 #' @md
 #'
 #' @noRd
-#' 
+#'
 #' @examples
 #' ints <- c(5, 8, 12, 7, 4, 9, 15, 16, 11, 8, 3, 2, 3, 9, 12, 14, 13, 8, 3)
 #' mzs <- 1:length(ints)
@@ -677,7 +684,7 @@ kNeighbours <- kNeighbors
 #' pk_1 <- c(1, 2, 3, 4, 5)
 #' mzs_1[1, 1] == weighted.mean(mzs[pk_1], ints[pk_1])
 #'
-#' ## Second example 
+#' ## Second example
 #' ints <- c(5, 3, 2, 3, 1, 2, 4, 6, 8, 11, 4, 7, 5, 2, 1, 0, 1, 4, 1, 1, 1, 0)
 #' mzs <- 1:length(ints)
 #'
@@ -700,7 +707,7 @@ kNeighbours <- kNeighbors
 #' pk_idx <- c(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16)
 #' mzs_2[1, 1] == weighted.mean(mzs[pk_idx], ints[pk_idx])
 #'
-#' 
+#'
 #' ## Include "missing" measurements.
 #' ints <- ints[-9]
 #' mzs <- mzs[-9]
@@ -776,7 +783,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' @return `list` of `Spectrum` objects, same length than `x`, but each
 #'     `Spectrum` containing the intensity and m/z values from multiple
 #'     neighboring spectra.
-#' 
+#'
 #' @author Johannes Rainer
 #'
 #' @noRd
@@ -813,12 +820,12 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' values by the mean, or intensity weighted mean if `weighted = TRUE`.
 #'
 #' @note
-#' 
+#'
 #' This allows e.g. to combine profile-mode spectra of consecutive scans into
 #' the values for the *main* spectrum. This can improve centroiding of
 #' profile-mode data by increasing the signal-to-noise ratio and is used in the
 #' [combineSpectraMovingWindow()] function.
-#' 
+#'
 #' @details
 #'
 #' For general merging of spectra, the `mzd` and/or `ppm` should be manually
@@ -828,7 +835,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'
 #'
 #' Some details for the combination of consecutive spectra of an LCMS run:
-#' 
+#'
 #' The m/z values of the same ion in consecutive scans (spectra) of a LCMS run
 #' will not be identical. Assuming that this random variation is much smaller
 #' than the resolution of the MS instrument (i.e. the difference between
@@ -859,7 +866,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #' @param weighted `logical(1)` whether m/z values per m/z group should be
 #'     aggregated with an intensity-weighted mean. The default is to report
 #'     the mean m/z.
-#' 
+#'
 #' @param intensityFun `function` to aggregate the intensity values per m/z
 #'     group. Should be a function or the name of a function. The function is
 #'     expected to return a `numeric(1)`.
@@ -872,7 +879,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'
 #' @param ppm `numeric(1)` allowing to perform a m/z dependent grouping of mass
 #'     peaks. See details for more information.
-#' 
+#'
 #' @param timeDomain `logical(1)` whether definition of the m/z values to be
 #'     combined into one m/z is performed on m/z values
 #'     (`timeDomain = FALSE`) or on `sqrt(mz)` (`timeDomain = TRUE`).
@@ -887,7 +894,7 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'     is to report the union of peaks from all spectra.
 #'
 #' @param ... additional parameters that are passed to `intensityFun`.
-#' 
+#'
 #' @return
 #'
 #' `Spectrum` with m/z and intensity values representing the aggregated values
@@ -908,10 +915,10 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 #'
 #' [estimateMzResolution()] for a function estimating the m/z resolution of
 #' a spectrum.
-#' 
+#'
 #' [combineSpectraMovingWindow()] for the function to combine consecutive
 #' spectra of an `MSnExp` object using a moving window approach.
-#' 
+#'
 #' @md
 #'
 #' @examples
@@ -1015,10 +1022,10 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
 #' @param mzd `numeric(1)` with the m/z difference below which m/z values are
 #'     grouped together. If not provided the `.estimate_mz_scattering` function
 #'     is used to estimate it.
-#' 
+#'
 #' @param ppm `numeric(1)` defining an optional ppm. `mzd` will be increased
 #'     by the ppm of the m/z to allow m/z dependent peak groups.
-#' 
+#'
 #' @return `integer` of same length than `x` grouping m/z values.
 #'
 #' @noRd
@@ -1041,7 +1048,7 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
 #' of m/z values is much smaller than the m/z resolution of the MS instrument.
 #'
 #' Assumes the data is in profile mode.
-#' 
+#'
 #' @param x Either values or differences between values.
 #'
 #' @param is_diff `logical(1)` indicating whether `x` are already differences.
@@ -1120,7 +1127,7 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
 #' grouping of mass peaks with parameter `ppm`: mass peaks from different spectra
 #'  with a difference in their m/z smaller than `ppm` of their m/z are grouped
 #' into the same final peak.
-#' 
+#'
 #' @param x `list` of [Spectrum-class] objects (either [Spectrum1-class] or
 #'     [Spectrum2-class]).
 #'
@@ -1135,16 +1142,16 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
 #'     which a mass peak has to be present in order to include it in the
 #'     final consensus spectrum. Should be a number between 0 and 1 (present in
 #'     all spectra).
-#' 
+#'
 #' @param intensityFun `function` to be used to define the intensity of the
 #'     aggregated peak. By default the maximum signal for a mass peak is
 #'     reported.
 #'
 #' @param ppm `numeric(1)` allowing to perform a m/z dependent grouping of mass
 #'     peaks. See details for more information.
-#' 
+#'
 #' @param ... additional arguments to be passed to `intensityFun`.
-#' 
+#'
 #' @md
 #'
 #' @author Johannes Rainer
@@ -1182,10 +1189,10 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
 #' ## Other Spectrum data is taken from the first Spectrum in the list
 #' rtime(cons)
 #' precursorMz(cons)
-#' 
+#'
 #' plot(mz(cons), intensity(cons), type = "h", xlab = "m/z", ylab = "intensity",
 #'     xlim = range(mz(spl)), ylim = range(intensity(spl)), lwd = 2)
-#' 
+#'
 consensusSpectrum <- function(x, mzd, minProp = 0.5, intensityFun = base::max,
                               ppm = 0, ...) {
     if (!is(x, "Spectra"))

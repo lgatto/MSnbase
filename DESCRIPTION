@@ -1,12 +1,13 @@
 Package: MSnbase
 Title: Base Functions and Classes for Mass Spectrometry and Proteomics
-Version: 2.9.2
+Version: 2.9.3
 Description: MSnbase provides infrastructure for manipulation,
 	     processing and visualisation of mass spectrometry and
 	     proteomics data, ranging from raw to quantitative and
 	     annotated data.
 Authors@R: c(person(given = "Laurent", family = "Gatto",
-		    email = "lg390@cam.ac.uk",
+		    email = "laurent.gatto@uclouvain.be",
+		    comment = c(ORCID = "0000-0002-1520-2268"),
 		    role = c("aut","cre")),
 	     person(given = "Guangchuang", family = "Yu",
 		    email = "guangchuangyu@gmail.com",
@@ -55,7 +56,7 @@ Author: Laurent Gatto, Johannes Rainer and Sebastian Gibb with
     Lazar, Vladislav Petyuk, Thomas Naake, Richie Cotton, Arne Smits,
     Martina Fisher, Ludger Goeminne, Adriaan Sticker and Lieven
     Clement.
-Maintainer: Laurent Gatto <lg390@cam.ac.uk>
+Maintainer: Laurent Gatto <laurent.gatto@uclouvain.be>
 Depends:
     R (>= 3.1),
     methods,
@@ -116,7 +117,7 @@ BugReports: https://github.com/lgatto/MSnbase/issues
 URL: https://github.com/lgatto/MSnbase
 biocViews: ImmunoOncology, Infrastructure, Proteomics, MassSpectrometry,
     QualityControl, DataImport
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Collate:
     'AllClassUnions.R'
     'AllGenerics.R'

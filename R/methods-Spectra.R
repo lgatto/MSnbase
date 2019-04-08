@@ -419,18 +419,21 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
         x
 })
 
-#' @rdname combineSpectra
+
+
+
+#' `combineSpectra` combines spectra in a [MSnExp-class] or [Spectra-class]
+#' object applying the summarization function `fun` to sets of spectra defined
+#' by a factor (`fcol` parameter). The resulting combined spectrum for each set
+#' contains metadata information (present in `mcols` and all spectrum
+#' information other than `mz` and `intensity`) from the first spectrum in each
+#' set.
 #'
 #' @aliases combineSpectra
 #'
-#' @title Combine Spectra
+#' @rdname combineSpectra
 #'
-#' `combineSpectra` combines spectra in a [MSnExp-class] or [Spectra-class]
-#' object applying the summarization function `fun` to sets of spectra defined
-#' by a factor (`fcol` parameter). The resulting combined spectrum for each
-#' set contains metadata information (present in `mcols` and all spectrum
-#' information other than `mz` and `intensity`) from the first spectrum in
-#' each set.
+#' @title Combine Spectra
 #'
 #' @param object A [MSnExp-class] or [Spectra-class]
 #'
@@ -438,9 +441,11 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #'     the sets of spectra to be combined. If missing, all spectra are
 #'     considered to be one set.
 #'
-#' @param fun `function` to be used to combine the spectra by `fcol`. Has to
+#' @param fun *Deprecated* use `method` instead.
+#'
+#' @param method `function` to be used to combine the spectra by `fcol`. Has to
 #'     be a function that takes a list of spectra as input and returns a single
-#'     [Spectrum-class]. See [meanMzInts()] for details..
+#'     [Spectrum-class]. See [meanMzInts()] for details.
 #'
 #' @param ... additional arguments for `fun`.
 #'
@@ -507,7 +512,13 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #' plot(mz(res[[2]]), intensity(res[[2]]), xlim = range(mzs[5:25]), type = "h",
 #'     col = "black")
 setMethod("combineSpectra", "Spectra", function(object, fcol,
-                                                fun = meanMzInts, ...) {
+                                                method = meanMzInts, fun, ...) {
+    if (!missing(fun)) {
+        .Deprecated(
+            msg = "Parameter 'fun' is deprecated. Please use 'method' instead")
+        if (missing(method))
+            method <- fun
+    }
     if (missing(fcol)) {
         .by <- factor(rep(1, length(object)))
     } else {
@@ -516,11 +527,11 @@ setMethod("combineSpectra", "Spectra", function(object, fcol,
         .by <- factor(mcols(object)[, fcol],
                       levels = unique(mcols(object)[, fcol]))
     }
-    Spectra(
-        lapply(split(object, .by), FUN = fun, ...),
-        elementMetadata = mcols(object, use.names = FALSE)[
-            levelIndex(.by, which = "first"), , drop = FALSE
-        ])
+    res <- lapply(split(object, .by), FUN = method, ...)
+    elm <-  mcols(object, use.names = TRUE)[
+        levelIndex(.by, which = "first"), , drop = FALSE]
+    names(res) <- rownames(elm)
+    Spectra(res, elementMetadata = elm)
 })
 
 setAs("Spectra", "list", function(from) {

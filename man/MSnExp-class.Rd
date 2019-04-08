@@ -43,6 +43,9 @@
 \alias{filterMsLevel}
 \alias{filterMsLevel,MSnExp-method}
 \alias{filterMsLevel,OnDiskMSnExp-method}
+\alias{filterPolarity}
+\alias{filterPolarity,MSnExp-method}
+\alias{filterPolarity,OnDiskMSnExp-method}
 \alias{filterMz,MSnExp-method}
 \alias{filterMz,OnDiskMSnExp-method}
 \alias{filterRt}
@@ -166,11 +169,11 @@
       intensity data points. See \code{\link{clean}} documentation
       for more details and examples. }
     \item{compareSpectra}{\code{signature(object1 = "Spectrum",
-	object2 = "missing")}: Compares spectra.  See
+        object2 = "missing")}: Compares spectra.  See
       \code{\link{compareSpectra}} documentation for more details and
       examples. }
     \item{extractPrecSpectra}{\code{signature(object = "MSnExp", prec =
-	"numeric")}: extracts spectra with precursor MZ value equal to
+        "numeric")}: extracts spectra with precursor MZ value equal to
       \code{prec} and returns an object of class 'MSnExp'.
       See \code{\link{extractPrecSpectra}} documentation for more
       details and examples. }
@@ -222,12 +225,12 @@
       more details and examples. }
 
     \item{removeNoId}{\code{signature(object = "MSnExp", fcol =
-	"pepseq", keep = NULL)}: Removes non-identified features. See
+        "pepseq", keep = NULL)}: Removes non-identified features. See
       \code{\link{removeNoId}} documentation for more details and
       examples. }
 
     \item{removeMultipleAssignment}{\code{signature(object = "MSnExp",
-	fcol = "nprot")}: Removes protein groups (or feature belong to
+        fcol = "nprot")}: Removes protein groups (or feature belong to
       protein groups) with more than one member. The latter is defined
       by extracting a feature variable (default is
       \code{"nprot"}). Also removes non-identified features. }
@@ -249,7 +252,7 @@
       examples. }
 
     \item{\code{isCentroided(object, k = 0.025, qtl = 0.9, verbose =
-	TRUE)}}{ A heuristic assessing if the spectra in the
+        TRUE)}}{ A heuristic assessing if the spectra in the
       \code{object} are in profile or centroided mode. The function
       takes the \code{qtl}th quantile top peaks, then calculates the
       difference between adjacent M/Z value and returns \code{TRUE} if
@@ -288,16 +291,19 @@
   \describe{
 
     \item{filterRt}{\code{signature(object = "MSnExp", rt = "numeric",
-	msLevel. = "numeric")}: Retains MS spectra of level
+        msLevel. = "numeric")}: Retains MS spectra of level
       \code{msLevel.} with a retention times within \code{rt[1]} and
       \code{rt[2]}. }
 
     \item{filterMsLevel}{\code{signature(object = "MSnExp", msLevel. =
-	"numeric")}: Retains MS spectra of level \code{msLevel.}. }
+        "numeric")}: Retains MS spectra of level \code{msLevel.}. }
+
+    \item{filterPolarity}{\code{signature(object = "MSnExp", polarity. =
+        "numeric")}: Retains MS spectra of polarity \code{polarity.}. }
 
     \item{filterMz}{\code{signature(object = "MSnExp", mz = "numeric",
-	msLevel. = "numeric")}. See \code{\link{filterMz}} for
-	details. }
+        msLevel. = "numeric")}. See \code{\link{filterMz}} for
+        details. }
 
     \item{filterFile}{\code{signature(object = "MSnExp", file)}: Retains
       MS data of files matching the file index or file name provided
@@ -309,12 +315,12 @@
       Remove empty spectra from \code{object} (see \code{isEmpty}). }
 
     \item{filterPrecursorScan}{\code{signature(object = "MSnExp",
-	acquisitionNum = "numeric")}: Retain parent (e.g. MS1) and
+        acquisitionNum = "numeric")}: Retain parent (e.g. MS1) and
       children scans (e.g. MS2) of \code{acquisitionNum}. See
       \code{\link{OnDiskMSnExp}} for an example. }
 
     \item{splitByFile}{\code{signature(object = "MSnExp", f =
-	"factor")}: split a \code{MSnExp} object by file into a
+        "factor")}: split a \code{MSnExp} object by file into a
       \code{list} of \code{MSnExp} objects given the grouping in
       \code{factor} \code{f}.
     }
@@ -348,7 +354,7 @@
 
 \examples{
 mzxmlfile <- dir(system.file("extdata",package="MSnbase"),
-		 pattern="mzXML",full.names=TRUE)
+                 pattern="mzXML",full.names=TRUE)
 msnexp <- readMSData(mzxmlfile)
 msnexp
 }

@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/lgatto/MSnbase.svg?branch=master)](https://travis-ci.org/lgatto/MSnbase) 
+[![Build Status](https://travis-ci.org/lgatto/MSnbase.svg?branch=master)](https://travis-ci.org/lgatto/MSnbase)
 [![codecov.io](https://codecov.io/github/lgatto/MSnbase/coverage.svg?branch=master)](https://codecov.io/github/lgatto/MSnbase?branch=master)
 
 
@@ -22,11 +22,11 @@ The official page is the Bioconductor landing page
 ([release](http://www.bioconductor.org/packages/release/bioc/html/MSnbase.html) or
 [devel](http://www.bioconductor.org/packages/devel/bioc/html/MSnbase.html) versions). The
 [github page](https://github.com/lgatto/MSnbase) page is for active
-development, issue tracking and forking/pulling purposes. 
+development, issue tracking and forking/pulling purposes.
 
 To get an overview of the package, see the
 [*MSnbase-demo*](https://lgatto.github.io/MSnbase/articles/MSnbase-demo.html) vignette. More
-vignettes are available in the *Articles* tab. 
+vignettes are available in the *Articles* tab.
 
 ## Installation
 
@@ -71,10 +71,9 @@ contribute to this package, you should follow the same conventions as
 the rest of the functions. Please do get in touch (preferable opening
 a [github issue](https://github.com/lgatto/MSnbase/issues/)) to
 discuss any suggestions. The
-[`MSnbase` development vignette](http://lgatto.github.io/MSnbase/articles/MSnbase-development.html) gives
+[`MSnbase` development vignette](http://lgatto.github.io/MSnbase/articles/v05-MSnbase-development.html) gives
 some background on the class infrastructure.
 
 Please note that this project is released with a
 [Contributor Code of Conduct](https://github.com/lgatto/MSnbase/blob/master/CONDUCT.md). By
 participating in this project you agree to abide by its terms.
-

@@ -303,59 +303,20 @@ test_that(".spectrum_header works", {
     sp_1 <- tmt_erwinia_on_disk[[1]]
     sp_2 <- tmt_erwinia_on_disk[[2]]
 
-    hdr_1 <- .spectrum_header(sp_1)
-    expect_equal(unname(hdr_1["acquisitionNum"]), hdr$acquisitionNum[1])
-    expect_equal(hdr$collisionEnergy[1], unname(hdr_1["collisionEnergy"]))
-    expect_equal(hdr$highMZ[1], unname(hdr_1["highMZ"]))
-    expect_equal(hdr$ionisationEnergy[1], unname(hdr_1["ionisationEnergy"]))
-    expect_equal(hdr$lowMZ[1], unname(hdr_1["lowMZ"]))
-    expect_equal(hdr$mergedResultEndScanNum[1],
-                 unname(hdr_1["mergedResultEndScanNum"]))
-    expect_equal(hdr$mergedResultScanNum[1],
-                 unname(hdr_1["mergedResultScanNum"]))
-    expect_equal(hdr$mergedResultStartScanNum[1],
-                 unname(hdr_1["mergedResultStartScanNum"]))
-    expect_equal(hdr$mergedScan[1], unname(hdr_1["mergedScan"]))
-    expect_equal(hdr$msLevel[1], unname(hdr_1["msLevel"]))
-    expect_equal(hdr$peaksCount[1], unname(hdr_1["peaksCount"]))
-    expect_equal(hdr$polarity[1], unname(hdr_1["polarity"]))
-    expect_equal(hdr$precursorCharge[1], unname(hdr_1["precursorCharge"]))
-    expect_equal(hdr$precursorIntensity[1], unname(hdr_1["precursorIntensity"]))
-    expect_equal(hdr$precursorMZ[1], unname(hdr_1["precursorMZ"]))
-    expect_equal(hdr$precursorScanNum[1], unname(hdr_1["precursorScanNum"]))
-    expect_equal(hdr$retentionTime[1], unname(hdr_1["retentionTime"]))
-    ## Failing: base peak most likely because the data was filtered,
-    ## injectionTime because it's not stored in a Spectrum object
-    ## expect_equal(hdr$basePeakIntensity[1], unname(hdr_1["basePeakIntensity"]))
-    ## expect_equal(hdr$basePeakMZ[1], unname(hdr_1["basePeakMZ"]))
-    ## expect_equal(hdr$injectionTime[1], unname(hdr_1["injectionTime"]))
+    hdr_1 <- MSnbase:::.spectrum_header(sp_1)
+    hdr_1$seqNum <- 1L
+    expect_true(all(colnames(hdr) %in% colnames(hdr_1)))
+    cns <- colnames(hdr)
+    cns <- cns[!(cns %in% c("basePeakMZ", "basePeakIntensity", "injectionTime",
+                            "filterString", "spectrumId"))]
+    for (cn in cns)
+        expect_equal(hdr[1, cn], hdr_1[1, cn])
 
-    hdr_2 <- .spectrum_header(sp_2)
-    expect_equal(unname(hdr_2["acquisitionNum"]), hdr$acquisitionNum[2])
-    expect_equal(hdr$collisionEnergy[2], unname(hdr_2["collisionEnergy"]))
-    expect_equal(hdr$highMZ[2], unname(hdr_2["highMZ"]))
-    expect_equal(hdr$ionisationEnergy[2], unname(hdr_2["ionisationEnergy"]))
-    expect_equal(hdr$lowMZ[2], unname(hdr_2["lowMZ"]))
-    expect_equal(hdr$mergedResultEndScanNum[2],
-                 unname(hdr_2["mergedResultEndScanNum"]))
-    expect_equal(hdr$mergedResultScanNum[2],
-                 unname(hdr_2["mergedResultScanNum"]))
-    expect_equal(hdr$mergedResultStartScanNum[2],
-                 unname(hdr_2["mergedResultStartScanNum"]))
-    expect_equal(hdr$mergedScan[2], unname(hdr_2["mergedScan"]))
-    expect_equal(hdr$msLevel[2], unname(hdr_2["msLevel"]))
-    expect_equal(hdr$peaksCount[2], unname(hdr_2["peaksCount"]))
-    expect_equal(hdr$polarity[2], unname(hdr_2["polarity"]))
-    expect_equal(hdr$precursorCharge[2], unname(hdr_2["precursorCharge"]))
-    expect_equal(hdr$precursorIntensity[2], unname(hdr_2["precursorIntensity"]))
-    expect_equal(hdr$precursorMZ[2], unname(hdr_2["precursorMZ"]))
-    expect_equal(hdr$precursorScanNum[2], unname(hdr_2["precursorScanNum"]))
-    expect_equal(hdr$retentionTime[2], unname(hdr_2["retentionTime"]))
-    ## Failing: base peak most likely because the data was filtered,
-    ## injectionTime because it's not stored in a Spectrum object
-    ## expect_equal(hdr$basePeakIntensity[1], unname(hdr_1["basePeakIntensity"]))
-    ## expect_equal(hdr$basePeakMZ[1], unname(hdr_1["basePeakMZ"]))
-    ## expect_equal(hdr$injectionTime[1], unname(hdr_1["injectionTime"]))
+    hdr_2 <- MSnbase:::.spectrum_header(sp_2)
+    hdr_2$seqNum <- 1L
+    expect_true(all(colnames(hdr) %in% colnames(hdr_2)))
+    for (cn in cns)
+        expect_equal(hdr[1, cn], hdr_1[1, cn])
 })
 
 test_that("kNeighbors works", {
@@ -376,7 +337,7 @@ test_that("kNeighbors works", {
     expect_equal(unname(res[1, 1]), weighted.mean(mzs[2:6], ints[2:6]))
     expect_equal(unname(res[2, 1]), weighted.mean(mzs[6:10], ints[6:10]))
     expect_equal(unname(res[3, 1]), weighted.mean(mzs[10:14], ints[10:14]))
-    
+
     expect_error(kNeighbors(mz = 3, ints))
 })
 
@@ -391,7 +352,7 @@ test_that("descendPeak works", {
     points(res[, 1], res[, 2], type = "h", col = "blue")
     expect_equal(unname(res[1, 1]), weighted.mean(mzs[11:15], ints[11:15]))
     expect_equal(unname(res[2, 1]), weighted.mean(mzs[15:26], ints[15:26]))
-    
+
     res <- descendPeak(mzs, ints, pk_pos, signalPercentage = 0,
                        stopAtTwo = TRUE)
     points(res[, 1], res[, 2], type = "h", col = "green")
@@ -443,14 +404,14 @@ test_that("pickPeaks,Spectrum works with refineMz", {
     points(mz(filterMz(spctr_kn, mz = mzr)),
            intensity(filterMz(spctr_kn, mz = mzr)),
            type = "p", col = "orange")
-        
+
     ## Check if we can call method and refineMz and pass arguments to both
     spctr_kn <- pickPeaks(spctr, refineMz = "kNeighbors", k = 1,
                           method = "SuperSmoother", span = 0.9)
     points(mz(filterMz(spctr_kn, mz = mzr)),
            intensity(filterMz(spctr_kn, mz = mzr)),
            type = "p", col = "red")
-    
+
     ## Check errors
     expect_error(pickPeaks(spctr, refineMz = "some_method"))
     expect_error(pickPeaks(spctr, not_sup = TRUE, method = "SuperSmoother"))
@@ -469,7 +430,7 @@ test_that(".combineMovingWindow works for Spectrum", {
     vals_exp <- vals_exp[order(vals_exp$mz), ]
     expect_equal(mz(s_comb[[1]]), vals_exp$mz)
     expect_equal(intensity(s_comb[[1]]), vals_exp$i)
-    
+
     ## Check the second.
     vals_exp <- do.call(rbind, lapply(spcts[1:3], as.data.frame))
     vals_exp <- vals_exp[order(vals_exp$mz), ]
@@ -487,7 +448,7 @@ test_that(".combineMovingWindow works for Spectrum", {
     vals_exp <- vals_exp[order(vals_exp$mz), ]
     expect_equal(mz(s_comb[[1]]), vals_exp$mz)
     expect_equal(intensity(s_comb[[1]]), vals_exp$i)
-    
+
     ## Check the fifth
     vals_exp <- do.call(rbind, lapply(spcts[1:9], as.data.frame))
     vals_exp <- vals_exp[order(vals_exp$mz), ]
@@ -524,7 +485,7 @@ test_that(".group_mz_values works", {
     expect_true(length(res) == length(all_mz))
     ## Expect groups of 3 each.
     expect_true(all(table(res) == 3))
-    
+
     ## Remove one from the 2nd group.
     res <- MSnbase:::.group_mz_values(all_mz[-5])
     expect_true(sum(res == 2) == 2)
@@ -555,7 +516,7 @@ test_that("meanMzInts works", {
                intensity = ints2, rt = 4)
     expect_error(meanMzInts(list(sp1, sp2, sp3, sp4)))
     expect_error(meanMzInts(list(sp1, sp2, sp3), main = 5))
-    
+
     res <- meanMzInts(list(sp1, sp2, sp3), timeDomain = TRUE,
                       unionPeaks = FALSE)
     expect_equal(length(mz(res)), length(mz(sp1)))
@@ -574,7 +535,7 @@ test_that("meanMzInts works", {
                       main = 2)
     expect_equal(length(mz(res)), length(mz(sp1)))
     expect_equal(rtime(res), rtime(sp1))
-    
+
     sp4 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.3),
                intensity = ints2, rt = 4)
     ## randon noise larger than resolution.
@@ -589,7 +550,7 @@ test_that("meanMzInts works", {
                           unionPeaks = FALSE)
     expect_equal(rtime(res), rtime(sp3))
     expect_equal(length(mz(res)), length(mz(sp3)))
-    
+
     res <- meanMzInts(list(sp1, sp1), intensityFun = sum,
                           timeDomain = TRUE, unionPeaks = TRUE)
     expect_equal(mz(res), mz(sp1))
@@ -613,7 +574,7 @@ test_that("meanMzInts works", {
     mzd <- MSnbase:::.estimate_mz_scattering(sort(unlist(lapply(lst, mz))))
     expect_warning(meanMzInts(lst, timeDomain = TRUE, mzd = mzd))
     res_3 <- meanMzInts(lst, timeDomain = FALSE, mzd = mzd, main = 2)
-    
+
     expect_equal(mz(res), mz(res_3))
     expect_equal(intensity(res), intensity(res_3))
 
@@ -665,7 +626,7 @@ test_that("consensusSpectrum works", {
                mz = c(1, 1.82, 2.2, 3, 7.0, 8),
                intensity = c(8, 210, 7, 101, 17, 8))
     spl <- Spectra(sp1, sp2, sp3)
-    
+
     expect_error(consensusSpectrum(4))
     cons <- consensusSpectrum(spl, mzd = 0.02)
     expect_true(is(cons, "Spectrum2"))

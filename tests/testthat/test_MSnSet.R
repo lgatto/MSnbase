@@ -2,6 +2,10 @@ context("MSnSet class")
 
 test_that("MSnSet validity", {
     expect_true(validObject(new("MSnSet")))
+    e <- matrix(rnorm(12), ncol = 3)
+    rownames(e) <- LETTERS[1:4]
+    colnames(e) <- letters[1:3]
+    expect_true(validObject(MSnSet(e)))
 })
 
 test_that("MSnSet acquisitionNum", {
@@ -104,8 +108,8 @@ test_that("Combine MSnSet features (V)", {
     gb2 <- factor(c("a", "c", "z", "a", "z", "b", "b", "a", "c", "a"))
     gb3 <- factor(rev(c("a", "c", "z", "a", "z", "b", "b", "a", "c", "a")))
     fData(aa)$Z <- gb2
-    zz <- combineFeatures(aa, gb2, fun = "sum")
-    zz3 <- combineFeatures(aa[10:1, ], gb3, fun = "sum")
+    zz <- combineFeatures(aa, gb2, method = "sum")
+    zz3 <- combineFeatures(aa[10:1, ], gb3, method = "sum")
     expect_equal(exprs(zz), exprs(zz3))
     expect_equal(fData(zz)[, 3:5], fData(zz3)[, 3:5], tolerance=1e-5)
     expect_true(all.equal(as.numeric(exprs(zz["a", ])),
@@ -428,12 +432,12 @@ test_that("Robust summary and sample names order (bug PR# 349)", {
     ## Expected results
     res0 <- combineFeatures(msnset,
                             fcol = "ProteinAccession",
-                            fun = "robust")
+                            method = "robust")
     ## Identify the bug
     sampleNames(msnset2)[1] <- "zzz"
     res2 <- combineFeatures(msnset2,
                             fcol = "ProteinAccession",
-                            fun = "robust")
+                            method = "robust")
     ## Re-set sample name
     sampleNames(res2) <- sampleNames(res0)
     expect_equal(exprs(res0), exprs(res2))

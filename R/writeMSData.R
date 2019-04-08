@@ -18,7 +18,7 @@
 #'
 #' @param copy `logical(1)` if metadata (data processings, original file names
 #'     etc) should be copied from the original files.
-#' 
+#'
 #' @param software_processing optionally provide specific data processing steps.
 #'     See documentation of the `software_processing` parameter of
 #'     [mzR::writeMSData()].
@@ -59,7 +59,7 @@
 #' @description `.writeMSData` for a single file.
 #'
 #' @md
-#' 
+#'
 #' @noRd
 .writeSingleMSData <- function(msData, file, outformat,
                                software_processing = NULL,
@@ -97,10 +97,12 @@
             hdr$highMZ <- new_vals[, "highMZ"]
         } else {
             ## MSnExp: feature data does not provide all the data we need.
-            hdr <- data.frame(
-                do.call(rbind, spectrapply(msData, FUN = .spectrum_header,
-                                           BPPARAM = SerialParam())),
-                check.names = FALSE)
+            hdr <- do.call(rbind, spectrapply(msData, FUN = .spectrum_header,
+                                           BPPARAM = SerialParam()))
+            ## In case we do have some/all fData columns: use them (issue #383).
+            have_cols <- intersect(colnames(hdr), colnames(fData(msData)))
+            if (length(have_cols))
+                hdr[, have_cols] <- fData(msData)[, have_cols]
         }
     ## seqNum is expected to be sequentially numbered
     hdr$seqNum <- 1:nrow(hdr)
@@ -133,7 +135,7 @@
 #' @param software_processing If provided it will be appended to the software
 #'     processing guessed from the object. See [mzR::writeMSData()] for the
 #'     format.
-#' 
+#'
 #' @return `list` with the software processing(s).
 #'
 #' @author Johannes Rainer
@@ -168,17 +170,17 @@
 #'
 #' @details The mapping bases on a manually curated list of pattern-CV-term
 #'    pairs.
-#' 
+#'
 #' @param pattern `character(1)` with the pattern for which a CV term should be
 #'     returned.
 #'
 #' @param ifnotfound value to be returned if none of the cv terms
 #'     matches the pattern.
-#' 
+#'
 #' @param return `character` with the PSI-MS term or the value of `ifnotfound`
 #'     if it was not found. Note that the length of the character can be > 1 if
 #'     multiple terms match.
-#' 
+#'
 #' @author Johannes Rainer
 #'
 #' @md

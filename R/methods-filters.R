@@ -13,6 +13,17 @@ setMethod("filterMsLevel", "MSnExp",
               object
           })
 
+setMethod("filterPolarity", "MSnExp",
+          function(object, polarity.) {
+              if (missing(polarity.)) return(object)
+              msLevel. <- as.numeric(polarity.)
+              object <- object[polarity(object) %in% polarity.]
+              object <- logging(object,
+                                paste0("Filter: select polarity",
+                                polarity., "."))
+              object
+          })
+
 
 setMethod("filterRt", "MSnExp",
           function(object, rt, msLevel.) {

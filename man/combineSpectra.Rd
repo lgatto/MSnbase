@@ -4,16 +4,10 @@
 \name{combineSpectra,Spectra-method}
 \alias{combineSpectra,Spectra-method}
 \alias{combineSpectra}
-\title{Combine Spectra
-
-\code{combineSpectra} combines spectra in a \linkS4class{MSnExp} or \linkS4class{Spectra}
-object applying the summarization function \code{fun} to sets of spectra defined
-by a factor (\code{fcol} parameter). The resulting combined spectrum for each
-set contains metadata information (present in \code{mcols} and all spectrum
-information other than \code{mz} and \code{intensity}) from the first spectrum in
-each set.}
+\title{Combine Spectra}
 \usage{
-\S4method{combineSpectra}{Spectra}(object, fcol, fun = meanMzInts, ...)
+\S4method{combineSpectra}{Spectra}(object, fcol, method = meanMzInts,
+  fun, ...)
 }
 \arguments{
 \item{object}{A \linkS4class{MSnExp} or \linkS4class{Spectra}}
@@ -22,9 +16,11 @@ each set.}
 the sets of spectra to be combined. If missing, all spectra are
 considered to be one set.}
 
-\item{fun}{\code{function} to be used to combine the spectra by \code{fcol}. Has to
+\item{method}{\code{function} to be used to combine the spectra by \code{fcol}. Has to
 be a function that takes a list of spectra as input and returns a single
-\linkS4class{Spectrum}. See \code{\link[=meanMzInts]{meanMzInts()}} for details..}
+\linkS4class{Spectrum}. See \code{\link[=meanMzInts]{meanMzInts()}} for details.}
+
+\item{fun}{\emph{Deprecated} use \code{method} instead.}
 
 \item{...}{additional arguments for \code{fun}.}
 }
@@ -34,14 +30,12 @@ A \code{Spectra} or \code{MSnExp} object with combined spectra. Metadata
 are taken from the first \code{Spectrum} in each set.
 }
 \description{
-Combine Spectra
-
 \code{combineSpectra} combines spectra in a \linkS4class{MSnExp} or \linkS4class{Spectra}
 object applying the summarization function \code{fun} to sets of spectra defined
-by a factor (\code{fcol} parameter). The resulting combined spectrum for each
-set contains metadata information (present in \code{mcols} and all spectrum
-information other than \code{mz} and \code{intensity}) from the first spectrum in
-each set.
+by a factor (\code{fcol} parameter). The resulting combined spectrum for each set
+contains metadata information (present in \code{mcols} and all spectrum
+information other than \code{mz} and \code{intensity}) from the first spectrum in each
+set.
 }
 \examples{
 

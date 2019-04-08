@@ -203,8 +203,7 @@ makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
         ## diag(test[1:3, 4:6]) <- m[1:3, 6] ## col6: +3
         ## test <- test/100
         M <- res/100
-        rownames(M) <- colnames(M) <-
-            paste("reporter", 1:x, sep=".")
+        rownames(M) <- colnames(M) <- rownames(m)
     } else {
         if (x==4) {
             M <- matrix(c(0.929,0.059,0.002,0.000,
@@ -232,19 +231,21 @@ makeImpuritiesMatrix <- function(x, filename, edit = TRUE) {
             rownames(M) <- colnames(M) <- c(113:119, 121)
         } else if (x == 10) {
             ## see TMT10.R
-            M <- structure(c(0.9531, 0, 0.002, 0, 0.001, 0, 0, 0, 0, 0, 0,
-                             0.931, 0, 0.009, 0, 0, 0, 0, 0, 0, 0.0469, 0, 0.949, 0, 0.0053, 0, 0,
-                             0, 0, 0, 0, 0.065, 0, 0.942, 0, 0.0073, 0, 0, 0, 0, 0, 0, 0.046, 0,
-                             0.9678, 0, 0.013, 0, 0.001, 0, 0, 0, 0.003, 0.047, 0, 0.9678, 0,
-                             0.012, 0, 0, 0, 0, 0, 0.002, 0.0259, 0, 0.962, 0, 0.029, 0, 0, 0, 0,
-                             0, 0, 0.0249, 0, 0.933, 0, 0.0236, 0, 0, 0, 0, 0, 0, 0.025, 0, 0.941,
-                             0, 0, 0, 0, 0, 0, 0, 0, 0.028, 0, 0.9621),
+            M <- structure(c(0.95, 0, 0.003, 0, 0, 0, 0, 0, 0, 0, 0, 0.94, 0,
+                             0.004, 0, 0, 0, 0, 0, 0, 0.05, 0, 0.949, 0, 0.006,
+                             0, 0, 0, 0, 0, 0, 0.058, 0, 0.955, 0, 0.008, 0,
+                             0.001, 0, 0, 0, 0, 0.048, 0, 0.964, 0, 0.014, 0, 0,
+                             0, 0, 0, 0, 0.041, 0, 0.957, 0, 0.015, 0, 0.002, 0,
+                             0, 0, 0, 0.03, 0, 0.962, 0, 0.017, 0, 0, 0, 0, 0,
+                             0, 0.035, 0, 0.928, 0, 0.02, 0, 0, 0, 0, 0, 0,
+                             0.024, 0, 0.965, 0, 0, 0, 0, 0, 0, 0, 0, 0.024, 0,
+                             0.956),
                            .Dim = c(10L, 10L),
                            .Dimnames = list(
-                               c("126", "127N", "127C", "128N", "128C",
-                                 "129N", "129C", "130N", "130C", "131"),
-                               c("126", "127N", "127C", "128N", "128C",
-                                 "129N", "129C", "130N", "130C", "131")))
+                               c("126", "127N", "127C", "128N", "128C", "129N",
+                                 "129C", "130N", "130C", "131"),
+                               c("126", "127N", "127C", "128N", "128C", "129N",
+                                 "129C", "130N", "130C", "131")))
         } else {
             M <- diag(x)
         }
@@ -1384,21 +1385,21 @@ hasChromatograms <- function(files) {
 #'
 #' @param which `character` defining for which element the index should be
 #'     returned, can be either `"first"`, `"middle"` or `"last"`.
-#' 
+#'
 #' @return `integer` same length than `levels(x)` with the index for each
 #'     level in `x`.
-#' 
+#'
 #' @author Johannes Rainer
-#' 
+#'
 #' @md
 #'
 #' @noRd
-#' 
+#'
 #' @examples
-#' 
+#'
 #' f <- factor(c("a", "a", "b", "a", "b", "c", "c", "b", "d", "d", "d"))
 #' f
-#' 
+#'
 #' levelIndex(f, which = "first")
 #' levelIndex(f, which = "middle")
 #' levelIndex(f, which = "last")

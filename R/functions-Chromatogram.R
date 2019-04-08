@@ -11,12 +11,12 @@ names(.SUPPORTED_AGG_FUN_CHROM) <-
 #'     method on all super classes.
 #'
 #' @param object A \code{Chromatogram} object.
-#' 
+#'
 #' @return \code{TRUE} if the \code{object} is valid and the error messages
 #'     otherwise (i.e. a \code{character}).
-#' 
+#'
 #' @author Johannes Rainer
-#' 
+#'
 #' @noRd
 .validChromatogram <- function(object) {
     msg <- character()
@@ -78,10 +78,10 @@ names(.SUPPORTED_AGG_FUN_CHROM) <-
 #'
 #' @param precursorMz \code{numeric(2)} for SRM/MRM transitions.
 #'     Represents the mz of the precursor ion. See details for more information.
-#' 
+#'
 #' @param productMz \code{numeric(2)} for SRM/MRM transitions.
 #'     Represents the mz of the product. See details for more information.
-#' 
+#'
 #' @param fromFile \code{integer(1)} the index of the file within the
 #'     \code{\linkS4class{OnDiskMSnExp}} or \code{\linkS4class{MSnExp}}
 #'     from which the chromatogram was extracted.
@@ -93,9 +93,9 @@ names(.SUPPORTED_AGG_FUN_CHROM) <-
 #'
 #' @param msLevel \code{integer} with the MS level from which the chromatogram
 #'     was extracted.
-#' 
+#'
 #' @slot .__classVersion__,rtime,intensity,mz,filterMz,precursorMz,productMz,fromFile,aggregationFun,msLevel See corresponding parameter above.
-#' 
+#'
 #' @rdname Chromatogram-class
 Chromatogram <- function(rtime = numeric(), intensity = numeric(),
                          mz = c(NA_real_, NA_real_),
@@ -142,7 +142,7 @@ Chromatogram <- function(rtime = numeric(), intensity = numeric(),
 #'
 #' @description \code{aggregationFun,aggregationFun<-} get or set the
 #'     aggregation function.
-#' 
+#'
 #' @rdname Chromatogram-class
 aggregationFun <- function(object) {
     if (!is(object, "Chromatogram"))
@@ -168,4 +168,3 @@ aggregationFun <- function(object) {
     if (validObject(object))
         object
 }
-

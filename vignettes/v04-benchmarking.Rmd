@@ -1,8 +1,8 @@
 ---
-title: "MSnbase2 benchmarking"
-author: 
+title: "MSnbase benchmarking"
+author:
 - name: Laurent Gatto
-  affiliation: Computational Proteomics Unit, Cambridge, UK
+  affiliation: de Duve Institute, UCLouvain, Belgium
 - name: Johannes Rainer
   affiliation: Center for Biomedicine, EURAC, Bolzano, Italy
 package: MSnbase
@@ -10,7 +10,7 @@ output:
   BiocStyle::html_document:
     toc_float: true
 vignette: >
-  %\VignetteIndexEntry{MSnbase2 benchmarking}
+  %\VignetteIndexEntry{MSnbase benchmarking}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteKeyword{proteomics, mass spectrometry}
   %\VignetteEncoding{UTF-8}
@@ -25,10 +25,10 @@ suppressPackageStartupMessages(library("BiocParallel"))
 # Introduction
 
 In this vignette, we will document various timings and benchmarkings
-of the recent `r Biocpkg("MSnbase")` development (aka `MSnbase2`),
-that focuses on *on-disk* data access (as opposed to
-*in-memory*). More details about the new implementation will be
-documented elsewhere.
+of the recent `r Biocpkg("MSnbase")` development, that focuses on
+*on-disk* data access (as opposed to *in-memory*). More details about
+the new implementation are documented in the respective classes manual
+pages.
 
 As a benchmarking dataset, we are going to use a subset of an TMT
 6-plex experiment acquired on an LTQ Orbitrap Velos, that is
@@ -50,6 +50,7 @@ setMSnbaseVerbose(FALSE)
 ```
 
 # Benchmarking
+
 ## Reading data
 
 We first read the data using the original behaviour `readMSData`
@@ -134,7 +135,7 @@ mb
 While it takes order or magnitudes more time to access the data on-the-fly
 rather than a pre-generated spectrum, accessing all spectra is only marginally
 slower than accessing all spectra, as most of the time is spent preparing the
-file for access, which is done only once. 
+file for access, which is done only once.
 
 
 On-disk access performance will depend on the read throughput of the
@@ -202,7 +203,7 @@ data.
 
 Whenever possible, accessing and processing *on-disk* data is delayed
 (*lazy* processing). These operations are stored in a *processing
-queue* until the spectra are effectively instantiated. 
+queue* until the spectra are effectively instantiated.
 
 ## Validity
 
@@ -210,7 +211,6 @@ The *on-disk* `validObject` method doesn't verify the validity on the
 spectra (as there aren't any to check). The `validateOnDiskMSnExp`
 function, on the other hand, instantiates all spectra and checks their
 validity (in addition to calling `validObject`).
-
 
 # Conclusions
 

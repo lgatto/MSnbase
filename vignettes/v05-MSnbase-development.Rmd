@@ -1,8 +1,8 @@
 ---
 title: "A short introduction to *MSnbase* development"
-author: 
+author:
 - name: Laurent Gatto
-  affiliation: Computational Proteomics Unit, Cambridge, UK.
+  affiliation: de Duve Institute, UCLouvain, Belgium
 - name: Johannes Rainer
   affiliation: Institute for Biomedicine, Eurac Research, Bolzano, Italy.
 - name: Sebastian Gibb
@@ -38,13 +38,16 @@ cat(readLines("./Foreword.md"), sep = "\n")
 cat(readLines("./Bugs.md"), sep = "\n")
 ```
 
+**NB** This document is going to be updated based on current major
+development plans in `MSnbase`.
+
 # Introduction
 
 This document is not a replacement for the individual manual pages,
 that document the slots of the `r Biocpkg("MSnbase")` classes. It is a
 centralised high-level description of the package design.
 
-`r Biocpkg("MSnbase")` aims at being compatible with the 
+`r Biocpkg("MSnbase")` aims at being compatible with the
 `r Biocpkg("Biobase")` infrastructure [@Gentleman2004].  Many meta data
 structures that are used in `eSet` and associated classes are also
 used here. As such, knowledge of the *Biobase development and the new
@@ -58,6 +61,45 @@ label-free (spectral counting, index and abundance) quantitation
 infrastructure is currently extended to support a wider range of
 technologies, including metabolomics.
 
+# Coding style
+
+`MSnbase` follows the [Bioconductor style
+guide](https://bioconductor.org/developers/how-to/coding-style/). In
+particular
+
+- Do not use `.` when naming symbols.
+- A leading `.` can be used for hidden/local functions or variables.
+- Snake case should be restricted to internal functions. For
+  consistency, we favour camel case for public functions.
+- Class names should start with a capital and each class should posses
+  a constructor with identical name. Running the constructor without
+  any input should produce a valid empty object.
+- Use `##` to start full-line comments.
+- For roxygen headers `#'` is preferred, although `##'` is tolerated.
+- Use spaces between `=` in function arguments or class definition:
+  `f(a = 1, b = 2)`.
+- Always use a space after a comma: `a, b, c`.
+- Always use spaces around binary operators: `a + b`.
+- Lines should be kept shorter than 80 characters. For example the
+  following code isn't accepted
+
+```r
+# no wrap at 80
+someVeryLongVariableName <- someVeryLongFunctionName(withSomeEvenLongerFunctionArgumentA = 1, withSomeEvenLongerFunctionArgumentB = 2)
+```
+  and should be wrapped as shown below:
+
+```r
+# alternative 1
+someVeryLongVariableName <- 
+    someVeryLongFunctionName(withSomeEvenLongerFunctionArgumentA = 1, 
+                             withSomeEvenLongerFunctionArgumentB = 2)
+
+# alternative 2
+someVeryLongVariableName <- someVeryLongFunctionName(
+    withSomeEvenLongerFunctionArgumentA = 1, 
+    withSomeEvenLongerFunctionArgumentB = 2)
+```
 
 # `r Biocpkg("MSnbase")` classes
 
@@ -320,4 +362,3 @@ sessionInfo()
 ```
 
 # References
-

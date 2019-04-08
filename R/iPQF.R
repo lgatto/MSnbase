@@ -226,7 +226,7 @@ uni.measured.dist <- function(pos, uniques.all, mat) {
 ##' head(exprs(msnset2))
 ##' prot <- combineFeatures(msnset2,
 ##'                         groupBy = fData(msnset2)$accession,
-##'                         fun = "iPQF")
+##'                         method = "iPQF")
 ##' head(exprs(prot))
 iPQF <- function(object, groupBy,
                  low.support.filter = FALSE,

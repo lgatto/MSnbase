@@ -26,7 +26,13 @@ setMethod("impute", "MSnSet",
               ## imputaton methods
               ##
               if (method == "knn") {
-                  .eset <- impute.knn(exprs(object), ...)$data
+                  imp_res <- impute.knn(exprs(object), ...)
+                  .eset <- imp_res$data
+                  if (!is.null(imp_res$rng.state)) {
+                      assign(".Random.seed", imp_res$rng.state, envir=.GlobalEnv)
+                  } else {
+                      rm(".Random.seed", envir=.GlobalEnv)
+                  }
                   exprs(object) <- .eset
               } else if (method == "nbavg") {
                   message("Assuming values are ordered.")
