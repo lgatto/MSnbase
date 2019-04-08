@@ -7,6 +7,7 @@ Description: MSnbase provides infrastructure for manipulation,
 	     annotated data.
 Authors@R: c(person(given = "Laurent", family = "Gatto",
 		    email = "laurent.gatto@uclouvain.be",
+		    comment = c(ORCID = "0000-0002-1520-2268"),
 		    role = c("aut","cre")),
 	     person(given = "Guangchuang", family = "Yu",
 		    email = "guangchuangyu@gmail.com",
