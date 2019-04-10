@@ -1,7 +1,6 @@
 # MSnbase 2.9
 
 ## Changes in version 2.9.4
-
 - Remove `NAnnotatedDataframe` <2019-04-10 Wed>
 
 ## Changes in version 2.9.3
