@@ -13,7 +13,7 @@ readMSData(files, pdata = NULL, msLevel. = NULL,
 \arguments{
 \item{files}{A \code{character} with file names to be read and parsed.}
 
-\item{pdata}{An object of class \linkS4class{NAnnotatedDataFrame} or
+\item{pdata}{An object of class \linkS4class{AnnotatedDataFrame} or
 \code{NULL} (default).}
 
 \item{msLevel.}{MS level spectra to be read. In \code{inMemory} mode,

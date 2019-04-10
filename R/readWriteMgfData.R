@@ -165,7 +165,7 @@ readMgfData <- function(filename,
                  files = filename,
                  smoothed = smoothed)
   if (is.null(pdata)) {
-    pdata <- new("NAnnotatedDataFrame",
+    pdata <- new("AnnotatedDataFrame",
                  data = data.frame(sampleNames = filename,
                                    fileNumbers = 1))
   }

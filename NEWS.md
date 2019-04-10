@@ -1,7 +1,8 @@
 # MSnbase 2.9
 
 ## Changes in version 2.9.4
-- Nothing yet
+
+- Remove `NAnnotatedDataframe` <2019-04-10 Wed>
 
 ## Changes in version 2.9.3
 - Fix bug in ms2df (order of fcols could be scambled) <2018-12-04 Tue>

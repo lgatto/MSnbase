@@ -98,7 +98,7 @@ Chromatograms(data, phenoData, featureData, ...)
 \item{data}{A \code{list} of \code{\link{Chromatogram}} objects.}
 
 \item{phenoData}{either a \code{data.frame}, \code{AnnotatedDataFrame} or
-\code{NAnnotatedDataFrame} describing the phenotypical information of the
+\code{AnnotatedDataFrame} describing the phenotypical information of the
 samples.}
 
 \item{featureData}{either a \code{data.frame} or \code{AnnotatedDataFrame}
@@ -179,7 +179,7 @@ For \code{[}: the subset of the \code{Chromatograms} object. If a
     object is returned. If \code{drop = TRUE} is specified, the method
     returns a \code{list} of \code{Chromatogram} objects.
 
-    For \code{phenoData}: an \code{NAnnotatedDataFrame} representing the
+    For \code{phenoData}: an \code{AnnotatedDataFrame} representing the
     pheno data of the object.
 
     For \code{pData}: a \code{data.frame} representing the pheno data of
@@ -206,7 +206,7 @@ The \code{Chromatograms} class allows to store
     objects in the same row are added to the same plot.
 
 \code{phenoData}: accesses the phenotypical desccription of the
-    samples. Returns an \code{NAnnotatedDataFrame} object.
+    samples. Returns an \code{AnnotatedDataFrame} object.
 
 \code{pData}: accesses the phenotypical description of the
     samples. Returns a \code{data.frame}.

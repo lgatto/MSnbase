@@ -31,7 +31,7 @@ test_that("readMSData", {
 test_that("readMSData with pdata", {
     file <- dir(system.file(package = "MSnbase", dir = "extdata"),
                 full.name = TRUE, pattern = "mzXML$")
-    pd <- new("NAnnotatedDataFrame",
+    pd <- new("AnnotatedDataFrame",
               data = data.frame(pvarA = "A", pvarB = "B"))
     aa <- readMSData(file, pdata = pd, verbose = FALSE)
     expect_true(validObject(aa))
@@ -264,7 +264,7 @@ test_that("MSnExp mulitplexed sample names", {
     data(itraqdata, package = "MSnbase")
     ## this is an iTRAQ4-plex sample; let's update phenoData
     ## accordingly
-    pd2 <- new("NAnnotatedDataFrame",
+    pd2 <- new("AnnotatedDataFrame",
                data = data.frame(sampleNumbers = 1:4,
                                  row.names = paste0("iTRAQ", 1:4)),
                multiplex = 4,
@@ -383,11 +383,11 @@ test_that("phenoData<- on MSnExp works", {
     pData(pd_2) <- cbind(pData(old_pd), add_col = 4)
     ## Assign AnnotatedDataFrame
     phenoData(im) <- AnnotatedDataFrame(pData(pd_2))
-    expect_true(is(im@phenoData, "NAnnotatedDataFrame"))
+    expect_true(is(im@phenoData, "AnnotatedDataFrame"))
     expect_equal(pData(im), pData(pd_2))
-    ## Assign NAnnotatedDataFrame
+    ## Assign AnnotatedDataFrame
     phenoData(im) <- pd_2
-    expect_true(is(im@phenoData, "NAnnotatedDataFrame"))
+    expect_true(is(im@phenoData, "AnnotatedDataFrame"))
     expect_equal(phenoData(im), pd_2)    
 })
 

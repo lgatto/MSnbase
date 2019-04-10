@@ -204,7 +204,7 @@ test_that("phenoData,pData,pData<-,Chromatograms works", {
     chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
     pd_exp <- annotatedDataFrameFrom(matrix(ncol = 2, nrow = 2), byrow = FALSE)
     rownames(pData(pd_exp)) <- NULL
-    pd_exp <- as(pd_exp, "NAnnotatedDataFrame")
+    pd_exp <- as(pd_exp, "AnnotatedDataFrame")
     expect_equal(phenoData(chrs), pd_exp)
 
     ## Check error when assigning a phenoData with different names
@@ -218,7 +218,7 @@ test_that("phenoData,pData,pData<-,Chromatograms works", {
     chrs_2 <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2,
                             phenoData = pd)
     expect_equal(chrs, chrs_2)
-    expect_equal(phenoData(chrs), as(AnnotatedDataFrame(pd), "NAnnotatedDataFrame"))
+    expect_equal(phenoData(chrs), as(AnnotatedDataFrame(pd), "AnnotatedDataFrame"))
 
     ## pData.
     expect_equal(pData(chrs), pd)

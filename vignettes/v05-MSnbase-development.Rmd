@@ -297,16 +297,6 @@ getClass("ReporterIons")
 ```
 
 
-## `NAnnotatedDataFrame`: multiplexed `AnnotatedDataFrame`s
-
-The simple expansion of the `AnnotatedDataFrame` classes adds the
-`multiplex` and `multiLabel` slots to document the number and names of
-multiplexed samples.
-
-```{r NAnnotatedDF}
-getClass("NAnnotatedDataFrame")
-```
-
 ## `Chromatogram` and `Chromatograms`: classes to handle chromatographic data
 
 The `Chromatogram` class represents chromatographic MS data, i.e. retention time

@@ -162,8 +162,9 @@ quantify_OnDiskMSnExp_max <- function(object, reporters,
                                         row.names = reporterNames(reporters)))
 
     ## This actually fails if the number of files (rows) in the MSnExp
-    ## matches the number of reporter ions in the MSnSet, as it tries
-    ## to combine an NAnnotatedDataFrame and a AnnotatedDataFrame.
+    ## matches the number of reporter ions in the MSnSet, as it tried
+    ## to combine an NAnnotatedDataFrame (now deprecated) and a
+    ## AnnotatedDataFrame.
     ##
     ## if (nrow(pData(object)) > 0) {
     ##     if (nrow(pData(object)) == length(reporters)) {

@@ -97,7 +97,7 @@ readOnDiskMSData <- function(files, pdata, msLevel., verbose,
     if (is.null(pdata)) {
         .pd <- data.frame(sampleNames = basename(files))
         rownames(.pd) <- .pd$sampleNames
-        pdata <- new("NAnnotatedDataFrame",
+        pdata <- new("AnnotatedDataFrame",
                      data = .pd)
     }
     ## If we've got a featureDataList, use it

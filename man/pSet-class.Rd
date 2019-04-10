@@ -115,7 +115,7 @@
       containing the MS spectra (see \code{"\linkS4class{Spectrum1}"}
       and \code{"\linkS4class{Spectrum2}"}). }
     \item{\code{phenoData}:}{Object of class
-      \code{"\linkS4class{NAnnotatedDataFrame}"} containing
+      \code{"\linkS4class{AnnotatedDataFrame}"} containing
       experimenter-supplied variables describing sample (i.e the
       individual tags for an labelled MS experiment)
       See \code{\link{phenoData}} for more details.}
@@ -210,8 +210,7 @@
       \code{phenoData} slot. }
     \item{phenoData<-}{\code{signature(x = "pSet", value)}: Replace
     sample data information with \code{value}. \code{value} can be a
-    \code{data.frame}, an \code{AnnotatedDataFrame} or a
-    \code{NAnnotatedDataFrame}.}
+    \code{data.frame} or an \code{AnnotatedDataFrame}.}
     \item{processingData}{\code{signature(object = "pSet")}: Access the
       \code{processingData} slot. }
     \item{protocolData}{\code{signature(x = "pSet")}: Access the

@@ -557,7 +557,7 @@ setAs("Spectra", "MSnExp", function(from) {
     assaydata <- list2env(as(from, "list"))
     lockEnvironment(assaydata, bindings = TRUE)
     new("MSnExp", assayData = assaydata,
-        phenoData = new("NAnnotatedDataFrame", pd), featureData = fd,
+        phenoData = new("AnnotatedDataFrame", pd), featureData = fd,
         processingData = process)
 })
 

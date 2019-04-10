@@ -38,8 +38,7 @@ setMethod("show", "Chromatograms", function(object) {
 setAs("matrix", "Chromatograms", function(from) {
     res <- new("Chromatograms")
     res@.Data <- from
-    res@phenoData <- as(annotatedDataFrameFrom(from, byrow = FALSE),
-                        "NAnnotatedDataFrame")
+    res@phenoData <- annotatedDataFrameFrom(from, byrow = FALSE)
     res@featureData <- annotatedDataFrameFrom(from, byrow = TRUE)
     res
 })
@@ -77,7 +76,7 @@ setAs("matrix", "Chromatograms", function(from) {
 #'     object is returned. If \code{drop = TRUE} is specified, the method
 #'     returns a \code{list} of \code{Chromatogram} objects.
 #'
-#'     For \code{phenoData}: an \code{NAnnotatedDataFrame} representing the
+#'     For \code{phenoData}: an \code{AnnotatedDataFrame} representing the
 #'     pheno data of the object.
 #'
 #'     For \code{pData}: a \code{data.frame} representing the pheno data of
@@ -238,7 +237,7 @@ setMethod("plot", signature = signature("Chromatograms"),
 #' @rdname Chromatograms-class
 #'
 #' @description \code{phenoData}: accesses the phenotypical desccription of the
-#'     samples. Returns an \code{NAnnotatedDataFrame} object.
+#'     samples. Returns an \code{AnnotatedDataFrame} object.
 setMethod("phenoData", "Chromatograms", function(object) object@phenoData)
 
 #' @rdname Chromatograms-class

@@ -22,7 +22,7 @@
 ##' @aliases readMSData2
 ##' @md
 ##' @param files A `character` with file names to be read and parsed.
-##' @param pdata An object of class [NAnnotatedDataFrame-class] or
+##' @param pdata An object of class [AnnotatedDataFrame-class] or
 ##'     `NULL` (default).
 ##' @param msLevel. MS level spectra to be read. In `inMemory` mode,
 ##'     use `1` for MS1 spectra or any larger numeric for MSn
@@ -286,7 +286,7 @@ readInMemMSData <- function(files, pdata, msLevel., verbose,
     if (is.null(pdata)) {
         .pd <- data.frame(sampleNames = basename(files))
         rownames(.pd) <- .pd$sampleNames
-        pdata <- new("NAnnotatedDataFrame",
+        pdata <- new("AnnotatedDataFrame",
                      data = .pd)
     }
     fdata <- new("AnnotatedDataFrame",

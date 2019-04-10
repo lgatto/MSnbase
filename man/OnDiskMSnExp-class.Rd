@@ -128,7 +128,7 @@
       is however empty, as no spectrum data is stored.
       Slot is inherited from \code{"\linkS4class{pSet}"}. }
     \item{\code{phenoData}:}{Object of class
-      \code{"\linkS4class{NAnnotatedDataFrame}"} containing
+      \code{"\linkS4class{AnnotatedDataFrame}"} containing
       experimenter-supplied variables describing sample (i.e the
       individual tags for an labelled MS experiment)
       See \code{\link{phenoData}} for more details.

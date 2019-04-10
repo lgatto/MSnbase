@@ -21,7 +21,7 @@ verbose = isMSnbaseVerbose(), cache = 1)
     character vector with file name to be read.
   }
   \item{pdata}{
-    an object of class \code{"\linkS4class{NAnnotatedDataFrame}"}.
+    an object of class \code{"\linkS4class{AnnotatedDataFrame}"}.
   }
   \item{smoothed}{
     \code{Logical} indicating whether spectra already smoothed or not. Default is

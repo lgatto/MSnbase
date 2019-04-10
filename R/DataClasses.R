@@ -111,29 +111,6 @@ setClass("MIAPE",
              preprocessing = list(),
              other = list()))
 
-############################################################################
-## NAnnotatedDataFrame: As Biobase's AnnotatedDataFrame, it is composed of
-## a data.frame, with annotations about columns named
-## in the data slot contained in the metadata slot.
-## In addition, it contains a multiplex slot to make explicite that
-## the AnnotatedDataFrame is applied to a set of mulitplexed tags.
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-setClass("NAnnotatedDataFrame",
-         representation(multiplex = "numeric",
-                        multiLabels = "character"),
-         contains = c("AnnotatedDataFrame"),
-         prototype = prototype(
-              new("Versioned", versions = list(NAnnotatedDataFrame="0.0.3")),
-             multiplex = 1,
-             multiLabels = "Single run"),
-         validity = function(object) {
-             msg <- validMsg(NULL, NULL)
-             if (length(object@multiLabels) != object@multiplex)
-                 msg <- validMsg(msg, "Number of multiplex does not match it's labels.")
-             if (is.null(msg)) TRUE
-             else msg
-         })
-
 
 #############################################################################
 ## pSet: similarly to eSet but with a focus toward proteomics experiments,
@@ -145,17 +122,7 @@ setClass("NAnnotatedDataFrame",
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setClass("pSet",
          representation(assayData = "environment", ## locked environment
-                        phenoData = "NAnnotatedDataFrame",
-                                        # Filenames,  Fractions, replicates
-                                        # file1.mzML, 1        , 1          (n1 spectra)
-                                        # file2.mzML, 2        , 1          (n2 spectra)
-                                        # file3.mzML, 1        , 2          (n3 spectra)
-                                        # file4.mzML, 1        , 2          (n4 spectra)
-                                        # ...
-                                        # How to link individual spectra in assayData env to phenoData?
-                                        # Use the spectrum@fromFile slot
-                                        # This phenoData will be expanded to an NAnnotatedDataFrame
-                                        # when the MSnSet is created from MSnExp
+                        phenoData = "AnnotatedDataFrame",
                         featureData = "AnnotatedDataFrame",
                                         # How to link individual spectra in assayData env to featureData?
                                         # The spectra and the rowNames of featureData will be named X1..(n1+n2+...)
@@ -170,7 +137,7 @@ setClass("pSet",
              new("Versioned", versions = c(pSet = "0.1.1")),
              assayData = new.env(parent=emptyenv()),
              experimentData = new("MIAPE"),
-             phenoData = new("NAnnotatedDataFrame",
+             phenoData = new("AnnotatedDataFrame",
                  dimLabels=c("sampleNames", "fileNumbers")),
              featureData = new("AnnotatedDataFrame",
                  dimLabels=c("featureNames", "featureColumns")),
@@ -661,11 +628,11 @@ setClass("Chromatogram",
 #' mz(chrs)
 setClass("Chromatograms",
          contains = "matrix",
-         slots = c(phenoData = "NAnnotatedDataFrame",
+         slots = c(phenoData = "AnnotatedDataFrame",
                    featureData = "AnnotatedDataFrame"),
          prototype = prototype(
              matrix(ncol = 0, nrow = 0),
-             phenoData = new("NAnnotatedDataFrame",
+             phenoData = new("AnnotatedDataFrame",
                              dimLabels = c("sampleNames", "sampleColumns")),
              featureData = new("AnnotatedDataFrame",
                                dimLabels = c("featureNames", "featureColumns"))
