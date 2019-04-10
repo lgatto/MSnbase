@@ -161,7 +161,7 @@
       containing the MS spectra (see <code>"<a href='Spectrum1-class.html'>Spectrum1</a>"</code>
       and <code>"<a href='Spectrum2-class.html'>Spectrum2</a>"</code>).</p></dd>
     <dt><code>phenoData</code>:</dt><dd><p>Object of class
-      <code>"<a href='NAnnotatedDataFrame-class.html'>NAnnotatedDataFrame</a>"</code> containing
+      <code>"AnnotatedDataFrame"</code> containing
       experimenter-supplied variables describing sample (i.e the
       individual tags for an labelled MS experiment)
       See <code>phenoData</code> for more details.</p></dd>
@@ -253,8 +253,7 @@
       <code>phenoData</code> slot.</p></dd>
     <dt>phenoData&lt;-</dt><dd><p><code>signature(x = "pSet", value)</code>: Replace
     sample data information with <code>value</code>. <code>value</code> can be a
-    <code>data.frame</code>, an <code>AnnotatedDataFrame</code> or a
-    <code>NAnnotatedDataFrame</code>.</p></dd>
+    <code>data.frame</code> or an <code>AnnotatedDataFrame</code>.</p></dd>
     <dt>processingData</dt><dd><p><code>signature(object = "pSet")</code>: Access the
       <code>processingData</code> slot.</p></dd>
     <dt>protocolData</dt><dd><p><code>signature(x = "pSet")</code>: Access the
@@ -339,15 +338,15 @@
     <pre class="examples"><div class='input'><span class='fu'>showClass</span>(<span class='st'>"pSet"</span>)</div><div class='output co'>#&gt; Virtual Class "pSet" [package "MSnbase"]
 #&gt; 
 #&gt; Slots:
-#&gt;                                                                   
-#&gt; Name:            assayData           phenoData         featureData
-#&gt; Class:         environment NAnnotatedDataFrame  AnnotatedDataFrame
-#&gt;                                                                   
-#&gt; Name:       experimentData        protocolData      processingData
-#&gt; Class:               MIAxE  AnnotatedDataFrame          MSnProcess
-#&gt;                                               
-#&gt; Name:               .cache   .__classVersion__
-#&gt; Class:         environment            Versions
+#&gt;                                                                
+#&gt; Name:           assayData          phenoData        featureData
+#&gt; Class:        environment AnnotatedDataFrame AnnotatedDataFrame
+#&gt;                                                                
+#&gt; Name:      experimentData       protocolData     processingData
+#&gt; Class:              MIAxE AnnotatedDataFrame         MSnProcess
+#&gt;                                             
+#&gt; Name:              .cache  .__classVersion__
+#&gt; Class:        environment           Versions
 #&gt; 
 #&gt; Extends: "Versioned"
 #&gt; 

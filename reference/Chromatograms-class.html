@@ -45,7 +45,7 @@ plot: plots a Chromatograms object. For each row
     in the object one plot is created, i.e. all Chromatogram
     objects in the same row are added to the same plot.
 phenoData: accesses the phenotypical desccription of the
-    samples. Returns an NAnnotatedDataFrame object.
+    samples. Returns an AnnotatedDataFrame object.
 pData: accesses the phenotypical description of the
     samples. Returns a data.frame.
 pData&amp;lt;-: replace the phenotype data.
@@ -211,7 +211,7 @@ documentation for more details and examples." />
     in the object one plot is created, i.e. all <code><a href='Chromatogram-class.html'>Chromatogram</a></code>
     objects in the same row are added to the same plot.</p>
 <p><code>phenoData</code>: accesses the phenotypical desccription of the
-    samples. Returns an <code>NAnnotatedDataFrame</code> object.</p>
+    samples. Returns an <code>AnnotatedDataFrame</code> object.</p>
 <p><code>pData</code>: accesses the phenotypical description of the
     samples. Returns a <code>data.frame</code>.</p>
 <p><code>pData&lt;-</code>: replace the phenotype data.</p>
@@ -363,7 +363,7 @@ clean(object, all = FALSE, na.rm = FALSE)</pre>
     <tr>
       <th>phenoData</th>
       <td><p>either a <code>data.frame</code>, <code>AnnotatedDataFrame</code> or
-<code>NAnnotatedDataFrame</code> describing the phenotypical information of the
+<code>AnnotatedDataFrame</code> describing the phenotypical information of the
 samples.</p></td>
     </tr>
     <tr>
@@ -484,7 +484,7 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
     <code>drop = FALSE</code>, the default, is specified) a <code>Chromatograms</code>
     object is returned. If <code>drop = TRUE</code> is specified, the method
     returns a <code>list</code> of <code>Chromatogram</code> objects.</p>
-<p>For <code>phenoData</code>: an <code>NAnnotatedDataFrame</code> representing the
+<p>For <code>phenoData</code>: an <code>AnnotatedDataFrame</code> representing the
     pheno data of the object.</p>
 <p>For <code>pData</code>: a <code>data.frame</code> representing the pheno data of
     the object.</p>

@@ -177,15 +177,15 @@
 <pre><code>## Virtual Class "pSet" [package "MSnbase"]
 ## 
 ## Slots:
-##                                                                   
-## Name:            assayData           phenoData         featureData
-## Class:         environment NAnnotatedDataFrame  AnnotatedDataFrame
-##                                                                   
-## Name:       experimentData        protocolData      processingData
-## Class:               MIAxE  AnnotatedDataFrame          MSnProcess
-##                                               
-## Name:               .cache   .__classVersion__
-## Class:         environment            Versions
+##                                                                
+## Name:           assayData          phenoData        featureData
+## Class:        environment AnnotatedDataFrame AnnotatedDataFrame
+##                                                                
+## Name:      experimentData       protocolData     processingData
+## Class:              MIAxE AnnotatedDataFrame         MSnProcess
+##                                             
+## Name:              .cache  .__classVersion__
+## Class:        environment           Versions
 ## 
 ## Extends: "Versioned"
 ## 
@@ -201,15 +201,15 @@
 <pre><code>## Class "MSnExp" [package "MSnbase"]
 ## 
 ## Slots:
-##                                                                   
-## Name:            assayData           phenoData         featureData
-## Class:         environment NAnnotatedDataFrame  AnnotatedDataFrame
-##                                                                   
-## Name:       experimentData        protocolData      processingData
-## Class:               MIAxE  AnnotatedDataFrame          MSnProcess
-##                                               
-## Name:               .cache   .__classVersion__
-## Class:         environment            Versions
+##                                                                
+## Name:           assayData          phenoData        featureData
+## Class:        environment AnnotatedDataFrame AnnotatedDataFrame
+##                                                                
+## Name:      experimentData       protocolData     processingData
+## Class:              MIAxE AnnotatedDataFrame         MSnProcess
+##                                             
+## Name:              .cache  .__classVersion__
+## Class:        environment           Versions
 ## 
 ## Extends: 
 ## Class "pSet", directly
@@ -234,7 +234,7 @@
 ## Class:                   list              character
 ##                                                     
 ## Name:               assayData              phenoData
-## Class:            environment    NAnnotatedDataFrame
+## Class:            environment     AnnotatedDataFrame
 ##                                                     
 ## Name:             featureData         experimentData
 ## Class:     AnnotatedDataFrame                  MIAxE
@@ -476,30 +476,11 @@
 ## 
 ## Extends: "Versioned"</code></pre>
 </div>
-<div id="nannotateddataframe-multiplexed-annotateddataframes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#nannotateddataframe-multiplexed-annotateddataframes" class="anchor"></a><code>NAnnotatedDataFrame</code>: multiplexed <code>AnnotatedDataFrame</code>s</h2>
-<p>The simple expansion of the <code>AnnotatedDataFrame</code> classes adds the <code>multiplex</code> and <code>multiLabel</code> slots to document the number and names of multiplexed samples.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">getClass</span>(<span class="st">"NAnnotatedDataFrame"</span>)</a></code></pre></div>
-<pre><code>## Class "NAnnotatedDataFrame" [package "MSnbase"]
-## 
-## Slots:
-##                                                             
-## Name:          multiplex       multiLabels       varMetadata
-## Class:           numeric         character        data.frame
-##                                                             
-## Name:               data         dimLabels .__classVersion__
-## Class:        data.frame         character          Versions
-## 
-## Extends: 
-## Class "AnnotatedDataFrame", directly
-## Class "Versioned", by class "AnnotatedDataFrame", distance 2</code></pre>
-</div>
 <div id="chromatogram-and-chromatograms-classes-to-handle-chromatographic-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#chromatogram-and-chromatograms-classes-to-handle-chromatographic-data" class="anchor"></a><code>Chromatogram</code> and <code>Chromatograms</code>: classes to handle chromatographic data</h2>
 <p>The <code>Chromatogram</code> class represents chromatographic MS data, i.e. retention time and intensity duplets for one file/sample. The <code>Chromatograms</code> class allows to arrange multiple <code>Chromatogram</code> instances in a two-dimensional grid, with columns supposed to represent different samples and rows two-dimensional areas in the plane spanned by the m/z and retention time dimensions from which the intensities are extracted (e.g. an extracted ion chromatogram for a specific ion). The <code>Chromatograms</code> class extends the base <code>matrix</code> class. <code>Chromatograms</code> objects can be extracted from an <code>MSnExp</code> or <code>OnDiskMSnExp</code> object using the <code>chromatogram</code> method.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">getClass</span>(<span class="st">"Chromatogram"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">getClass</span>(<span class="st">"Chromatogram"</span>)</a></code></pre></div>
 <pre><code>## Class "Chromatogram" [package "MSnbase"]
 ## 
 ## Slots:
@@ -517,13 +498,13 @@
 ## Class:          Versions
 ## 
 ## Extends: "Versioned"</code></pre>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">getClass</span>(<span class="st">"Chromatograms"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">getClass</span>(<span class="st">"Chromatograms"</span>)</a></code></pre></div>
 <pre><code>## Class "Chromatograms" [package "MSnbase"]
 ## 
 ## Slots:
-##                                                                   
-## Name:                .Data           phenoData         featureData
-## Class:              matrix NAnnotatedDataFrame  AnnotatedDataFrame
+##                                                                
+## Name:               .Data          phenoData        featureData
+## Class:             matrix AnnotatedDataFrame AnnotatedDataFrame
 ## 
 ## Extends: 
 ## Class "matrix", from data part
@@ -539,7 +520,7 @@
 <h3 class="hasAnchor">
 <a href="#lists-of-msnset-instances" class="anchor"></a>Lists of <code>MSnSet</code> instances</h3>
 <p>When several <code>MSnSet</code> instances are related to each other and should be stored together as different objects, they can be grouped as a list into and <code>MSnSetList</code> object. In addition to the actual <code>list</code> slot, this class also has basic logging functionality and enables iteration over the <code>MSnSet</code> instances using a dedicated <code>lapply</code> methods.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">getClass</span>(<span class="st">"MSnSetList"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">getClass</span>(<span class="st">"MSnSetList"</span>)</a></code></pre></div>
 <pre><code>## Class "MSnSetList" [package "MSnbase"]
 ## 
 ## Slots:
@@ -571,8 +552,8 @@
 <div id="session-information" class="section level1">
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()</a></code></pre></div>
-<pre><code>## R Under development (unstable) (2019-04-08 r76343)
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()</a></code></pre></div>
+<pre><code>## R Under development (unstable) (2019-04-09 r76359)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
@@ -669,7 +650,6 @@
       <li><a href="#miape-minimum-information-about-a-proteomics-experiment"><code>MIAPE</code>: Minimum Information About a Proteomics Experiment</a></li>
       <li><a href="#Spectum"><code>Spectrum</code> <em>et al.</em>: classes for MS spectra</a></li>
       <li><a href="#reporterions-a-class-for-isobaric-tags"><code>ReporterIons</code>: a class for isobaric tags</a></li>
-      <li><a href="#nannotateddataframe-multiplexed-annotateddataframes"><code>NAnnotatedDataFrame</code>: multiplexed <code>AnnotatedDataFrame</code>s</a></li>
       <li><a href="#chromatogram-and-chromatograms-classes-to-handle-chromatographic-data"><code>Chromatogram</code> and <code>Chromatograms</code>: classes to handle chromatographic data</a></li>
       <li><a href="#other-classes">Other classes</a></li>
       </ul>
