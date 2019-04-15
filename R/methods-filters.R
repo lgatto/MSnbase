@@ -190,4 +190,16 @@ setMethod("filterPrecursorScan", "MSnExp",
             object
         })
 
-## setMethod("filterPrecursorMz", "MSnExp", function(object, ...))
+setMethod("filterPrecursorMz", "MSnExp", function(object, mz, ppm = 10) {
+    if (missing(mz))
+        return(object)
+    if (length(mz) > 1)
+        stop("'mz' is expected to be a single m/z value")
+    mz_ppm <- ppm * mz / 1e6
+    idx <- which(precursorMz(object) >= (mz - mz_ppm) &
+                 precursorMz(object) <= (mz + mz_ppm))
+    msg <- paste0("Filter: select by precursor m/z: ", mz, ".")
+    object <- object[idx]
+    object <- logging(object, msg)
+    object
+})

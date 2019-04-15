@@ -63,6 +63,8 @@
 \alias{filterPrecursorScan}
 \alias{filterPrecursorScan,MSnExp-method}
 \alias{filterPrecursorScan,OnDiskMSnExp-method}
+\alias{filterPrecursorMz}
+\alias{filterPrecursorMz,MSnExp-method}
 
 \alias{isCentroided,MSnExp-method}
 
@@ -323,6 +325,13 @@
         "factor")}: split a \code{MSnExp} object by file into a
       \code{list} of \code{MSnExp} objects given the grouping in
       \code{factor} \code{f}.
+    }
+
+    \item{filterPrecursorMz}{\code{signature(object = "MSnExp", mz, ppm
+	= 10)}: retain spectra with a precursor m/z equal or similar to
+	the one defined with parameter \code{mz}. Parameter \code{ppm}
+	allows to define an accepted difference between the provided m/z
+	and the spectrum's m/z.
     }
   }
 }

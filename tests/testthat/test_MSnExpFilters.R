@@ -167,3 +167,16 @@ test_that("filterPolarity", {
     expect_identical(length(filterPolarity(rw, 1)), sum(pol2 == 1))
     expect_identical(length(filterPolarity(rw, -1)), sum(pol2 == -1))
 })
+
+test_that("filterPrecursorMz works", {
+    res <- filterPrecursorMz(tmt_im_ms2_sub, mz = 417.75, ppm = 20)
+    expect_true(length(res) == 1)
+
+    res <- filterPrecursorMz(tmt_im_ms2_sub, mz = 417.75, ppm = 100)
+    expect_true(length(res) == 2)
+
+    res <- filterPrecursorMz(tmt_od_sub, mz = 417.75, ppm = 20)
+    expect_true(length(res) == 1)
+    res <- filterPrecursorMz(tmt_od_sub, mz = 417.75, ppm = 100)
+    expect_true(length(res) == 2)
+})
