@@ -570,6 +570,11 @@ setReplaceMethod("phenoData", "pSet", function(object, value) {
         object
 })
 
+setMethod("isolationWindowLowerMz", "pSet", function(object)
+    stop("isolationWindowLowerMz not available for ", class(object)))
+setMethod("isolationWindowUpperMz", "pSet", function(object)
+    stop("isolationWindowUpperMz not available for ", class(object)))
+
 ################################
 ## TODO: setReplaceMethods for
 ##  phenoData

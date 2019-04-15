@@ -296,7 +296,7 @@ test_that("splitByFile,OnDiskMSnExp", {
     expect_error(splitByFile(od, f = factor(1:3)))
     spl <- splitByFile(od, f = factor(c("b", "a")))
     expect_equal(pData(spl[[1]]), pData(filterFile(od, 2)))
-    expect_equal(pData(spl[[2]]), pData(filterFile(od, 1)))    
+    expect_equal(pData(spl[[2]]), pData(filterFile(od, 1)))
 })
 
 test_that("chromatogram,OnDiskMSnExp works", {
@@ -307,7 +307,7 @@ test_that("chromatogram,OnDiskMSnExp works", {
     file.copy(mzf[1], paste0(tmpd, "a.mzML"))
     file.copy(mzf[2], paste0(tmpd, "b.mzML"))
     mzf <- c(mzf, paste0(tmpd, c("a.mzML", "b.mzML")))
-    
+
     onDisk <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE,
                          mode = "onDisk")
 
@@ -400,9 +400,9 @@ test_that("low memory spectrapply function works", {
     fData$fileIdx <- 1L
     fData$smoothed <- FALSE
     fData$centroided <- TRUE
-    
+
     fastLoad <- FALSE
-    
+
     expect_equal(
         MSnbase:::.applyFun2SpectraOfFileMulti(fData, filenames = fl,
                                                fastLoad = fastLoad),
@@ -427,3 +427,15 @@ test_that("low memory spectrapply function works", {
                                                     APPLYFUN = mz))
 })
 
+test_that("isolationWindowLowerMz,isolationWindowUpperMz,OnDiskMSnExp works", {
+    mz_low <- isolationWindowLowerMz(tmt_od_ms2_sub)
+    mz_high <- isolationWindowUpperMz(tmt_od_ms2_sub)
+    expect_true(all(mz_low < mz_high))
+    expect_true(all(precursorMz(tmt_od_ms2_sub) >= mz_low))
+    expect_true(all(precursorMz(tmt_od_ms2_sub) <= mz_high))
+
+    mz_low <- isolationWindowLowerMz(sciex)
+    mz_high <- isolationWindowUpperMz(sciex)
+    expect_true(all(is.na(mz_low)))
+    expect_true(all(is.na(mz_high)))
+})

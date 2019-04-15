@@ -155,3 +155,12 @@ setGeneric("estimateMzResolution", function(object, ...)
 
 setGeneric("combineSpectra", function(object, ...)
            standardGeneric("combineSpectra"))
+
+setGeneric("isolationWindowLowerMz", function(object, ...)
+    standardGeneric("isolationWindowLowerMz"))
+setGeneric("isolationWindowUpperMz", function(object, ...)
+    standardGeneric("isolationWindowUpperMz"))
+setGeneric("filterPrecursorMz", function(object, ...)
+    standardGeneric("filterPrecursorMz"))
+setGeneric("filterIsolationWindow", function(object, ...)
+           standardGeneric("filterIsolationWindow"))

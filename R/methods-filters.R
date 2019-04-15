@@ -189,3 +189,5 @@ setMethod("filterPrecursorScan", "MSnExp",
             )
             object
         })
+
+## setMethod("filterPrecursorMz", "MSnExp", function(object, ...))

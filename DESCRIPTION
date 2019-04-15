@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for Mass Spectrometry and Proteomics
-Version: 2.9.4
+Version: 2.9.5
 Description: MSnbase provides infrastructure for manipulation,
 	     processing and visualisation of mass spectrometry and
 	     proteomics data, ranging from raw to quantitative and
@@ -47,7 +47,8 @@ Authors@R: c(person(given = "Laurent", family = "Gatto",
 		    role = "ctb"),
 	     person(given = "Johannes", family = "Rainer",
 		    email = "Johannes.Rainer@eurac.edu",
-		    role = c("aut", "cre")),
+		    role = c("aut", "cre"),
+		    comment = c(ORCID = "0000-0002-6977-7147")),
 	     person(given = "Sebastian", family = "Gibb",
 		    email = "mail@sebastiangibb.de",
 		    role = c("aut", "cre")))
@@ -62,7 +63,7 @@ Depends:
     methods,
     BiocGenerics (>= 0.7.1),
     Biobase (>= 2.15.2),
-    mzR (>= 2.15.1),
+    mzR (>= 2.17.3),
     S4Vectors,
     ProtGenerics (>= 1.9.1)
 Imports:
