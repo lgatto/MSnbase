@@ -119,7 +119,7 @@ test_that("Spectrum quantification", {
               mz = mz,
               centroided = FALSE)
     expect_true(validObject(sp))
-    expect_equal(MSnbase:::getCurveWidth(sp, iTRAQ4[1]),
+    expect_equal(getCurveWidth(sp, iTRAQ4[1]),
                  list(lwr = 1, upr = 5))
     expect_equal(as.numeric(quantify(sp, "sum", iTRAQ4[1])$peakQuant), 6)
     expect_equal(as.numeric(quantify(sp, "max", iTRAQ4[1])$peakQuant), 3)
@@ -187,27 +187,27 @@ test_that(".fix_breaks works as breaks_Spectra", {
     brks <- seq(floor(min(c(mz(s1), mz(s1)))),
                 ceiling(max(c(mz(s1), mz(s1)))), by = 1)
     expect_equal(brks, 1:4)
-    expect_equal(MSnbase:::.fix_breaks(brks, c(1, 4)), 1:5)
+    expect_equal(.fix_breaks(brks, c(1, 4)), 1:5)
     brks <- seq(floor(min(c(mz(s1), mz(s2)))),
                 ceiling(max(c(mz(s1), mz(s2)))), by = 1)
     expect_equal(brks, 1:5)
     ## issue 190
-    expect_equal(MSnbase:::.fix_breaks(brks, c(1, 5)), 1:6)
+    expect_equal(.fix_breaks(brks, c(1, 5)), 1:6)
     brks <- seq(floor(min(c(mz(s1), mz(s2)))),
                 ceiling(max(c(mz(s1), mz(s2)))), by = 2)
     expect_equal(brks, c(1, 3, 5))
-    expect_equal(MSnbase:::.fix_breaks(brks, c(1, 6)), c(1, 3, 5, 7))
+    expect_equal(.fix_breaks(brks, c(1, 6)), c(1, 3, 5, 7))
 
     s3 <- new("Spectrum2", mz = 1:4, intensity = 1:4)
     s4 <- new("Spectrum2", mz = 11:15, intensity = 1:5)
     brks <- seq(floor(min(c(mz(s3), mz(s4)))),
                 ceiling(max(c(mz(s3), mz(s4)))), by = 1)
     expect_equal(brks, 1:15)
-    expect_equal(MSnbase:::.fix_breaks(brks, c(1, 15)), 1:16)
+    expect_equal(.fix_breaks(brks, c(1, 15)), 1:16)
     brks <- seq(floor(min(c(mz(s3), mz(s4)))),
                 ceiling(max(c(mz(s3), mz(s4)))), by = 2)
     expect_equal(brks, seq(1, 15, 2))
-    expect_equal(MSnbase:::.fix_breaks(brks, c(1, 15)), seq(1, 17, by=2))
+    expect_equal(.fix_breaks(brks, c(1, 15)), seq(1, 17, by=2))
 })
 
 test_that("bin_Spectrum", {
@@ -218,13 +218,13 @@ test_that("bin_Spectrum", {
     r3 <- new("Spectrum2", mz = c(2, 4, 6), intensity = c(1.5, 3.5, 5), tic = 10)
     r31 <- new("Spectrum2", mz = c(2, 4, 6), intensity = c(1.5, 3.5, 5), tic = 10)
     r4 <- new("Spectrum2", mz = c(1, 3, 5), intensity = c(1, 5, 9), tic = 15)
-    expect_equal(MSnbase:::bin_Spectrum(s1, binSize = 1), r1)
-    expect_equal(MSnbase:::bin_Spectrum(s1, binSize = 2), r2)
-    expect_equal(MSnbase:::bin_Spectrum(s1, binSize = 2, fun = mean), r3)
-    expect_equal(MSnbase:::bin_Spectrum(s1, breaks = seq(0, 7, by = 2)), r4)
-    expect_equal(MSnbase:::bin_Spectrum(s2, binSize = 1), r1)
-    expect_equal(MSnbase:::bin_Spectrum(s2, binSize = 2, fun = mean), r31)
-    expect_equal(MSnbase:::bin_Spectrum(s2, breaks = seq(0, 7, by = 2)), r4)
+    expect_equal(bin_Spectrum(s1, binSize = 1), r1)
+    expect_equal(bin_Spectrum(s1, binSize = 2), r2)
+    expect_equal(bin_Spectrum(s1, binSize = 2, fun = mean), r3)
+    expect_equal(bin_Spectrum(s1, breaks = seq(0, 7, by = 2)), r4)
+    expect_equal(bin_Spectrum(s2, binSize = 1), r1)
+    expect_equal(bin_Spectrum(s2, binSize = 2, fun = mean), r31)
+    expect_equal(bin_Spectrum(s2, breaks = seq(0, 7, by = 2)), r4)
 })
 
 test_that("bin_Spectrum - bug fix #ecaaa324505b17ee8c4855806f7e37f14f1b27b8", {
@@ -246,8 +246,8 @@ test_that("bin_Spectra", {
     r1 <- new("Spectrum2", mz = 1:5 + 0.5, intensity = c(1:4, 0))
     r2 <- new("Spectrum2", mz = 1:5 + 0.5, intensity = 1:5)
     r3 <- new("Spectrum2", mz = 1:4 + 0.5, intensity = 1:4)
-    expect_equal(MSnbase:::bin_Spectra(s1, s2), list(r1, r2))
-    expect_equal(MSnbase:::bin_Spectra(s1, s1), list(r3, r3))
+    expect_equal(bin_Spectra(s1, s2), list(r1, r2))
+    expect_equal(bin_Spectra(s1, s1), list(r3, r3))
 })
 
 test_that("removePeaks profile vs centroided", {
@@ -303,7 +303,7 @@ test_that(".spectrum_header works", {
     sp_1 <- tmt_erwinia_on_disk[[1]]
     sp_2 <- tmt_erwinia_on_disk[[2]]
 
-    hdr_1 <- MSnbase:::.spectrum_header(sp_1)
+    hdr_1 <- .spectrum_header(sp_1)
     hdr_1$seqNum <- 1L
     expect_true(all(colnames(hdr) %in% colnames(hdr_1)))
     cns <- colnames(hdr)
@@ -312,7 +312,7 @@ test_that(".spectrum_header works", {
     for (cn in cns)
         expect_equal(hdr[1, cn], hdr_1[1, cn])
 
-    hdr_2 <- MSnbase:::.spectrum_header(sp_2)
+    hdr_2 <- .spectrum_header(sp_2)
     hdr_2$seqNum <- 1L
     expect_true(all(colnames(hdr) %in% colnames(hdr_2)))
     for (cn in cns)
@@ -481,16 +481,16 @@ test_that(".group_mz_values works", {
     all_mz <- sort(c(mzs + rnorm(length(mzs), sd = 0.001),
                      mzs + rnorm(length(mzs), sd = 0.005),
                      mzs + rnorm(length(mzs), sd = 0.002)))
-    res <- MSnbase:::.group_mz_values(all_mz)
+    res <- .group_mz_values(all_mz)
     expect_true(length(res) == length(all_mz))
     ## Expect groups of 3 each.
     expect_true(all(table(res) == 3))
 
     ## Remove one from the 2nd group.
-    res <- MSnbase:::.group_mz_values(all_mz[-5])
+    res <- .group_mz_values(all_mz[-5])
     expect_true(sum(res == 2) == 2)
 
-    res <- MSnbase:::.group_mz_values(all_mz, ppm = 20)
+    res <- .group_mz_values(all_mz, ppm = 20)
     expect_true(all(table(res) == 3))
 })
 
@@ -571,7 +571,7 @@ test_that("meanMzInts works", {
     expect_equal(mz(res), mz(res_2))
     expect_equal(intensity(res), intensity(res_2))
     ## with (wrongly) pre-calculated mzd
-    mzd <- MSnbase:::.estimate_mz_scattering(sort(unlist(lapply(lst, mz))))
+    mzd <- .estimate_mz_scattering(sort(unlist(lapply(lst, mz))))
     expect_warning(meanMzInts(lst, timeDomain = TRUE, mzd = mzd))
     res_3 <- meanMzInts(lst, timeDomain = FALSE, mzd = mzd, main = 2)
 

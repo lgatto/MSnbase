@@ -59,7 +59,8 @@ test_that("writeMSData works", {
                                      c(not_equal, "retentionTime",
                                        "precursorScanNum", "acquisitionNum",
                                        "injectionTime", "spectrumId",
-                                       "filterString"))]
+                                       "filterString",
+                                       "isolationWindowTargetMZ"))]
     expect_equal(fd_out[, check_cols], fd_in[, check_cols])
     ## Again force check:
     expect_equal(unname(precursorCharge(odf_out)),
@@ -80,7 +81,7 @@ test_that("writeMSData works", {
     expect_equal(res$status, 0)
     doc <- XML::xmlInternalTreeParse(out_file[2])
     res <- XML::xmlSchemaValidate(mzML_xsd_idx, doc)
-    expect_equal(res$status, 0)    
+    expect_equal(res$status, 0)
     odf_in <- readMSData(out_file, mode = "onDisk")
     expect_equal(unname(rtime(odf_in)), unname(rtime(microtofq_in_mem_ms1)))
     expect_equal(spectra(odf_in), spectra(microtofq_in_mem_ms1))
@@ -93,14 +94,13 @@ test_that("writeMSData works", {
     expect_equal(unname(rtime(odf)), unname(rtime(odf_in)))
     expect_equal(unname(mz(odf)), unname(mz(odf_in)))
     expect_equal(unname(intensity(odf)), unname(intensity(odf_in)))
-
 })
 
 test_that(".pattern_to_cv works", {
     ## Not found.
     expect_equal(.pattern_to_cv("unknown"), NA_character_)
     expect_equal(.pattern_to_cv("peak picking"), "MS:1000035")
-    expect_equal(.pattern_to_cv("centroid"), "MS:1000035")    
+    expect_equal(.pattern_to_cv("centroid"), "MS:1000035")
     expect_equal(.pattern_to_cv("Alignment/retention time adjustment"),
                  "MS:1000745")
 })
@@ -187,7 +187,7 @@ test_that("writeMSData,OnDiskMSnExp works", {
                       as.numeric(factor(fData(in_data)$precursorScanNum))
     expect_equal(fData(out_data)[, check_cols], fData(in_data)[, check_cols])
     expect_equal(fData(out_data)$filterString, fData(in_data)$filterString)
-    
+
     ## With copy = TRUE
     out_file <- paste0(tempfile(), ".mzML")
     out_data <- tmt_erwinia_on_disk
@@ -225,7 +225,7 @@ test_that("writeMSData,MSnExp works", {
     expect_equal(unname(precursorIntensity(odf_in)),
                  unname(precursorIntensity(extdata_mzXML_in_mem_ms2)))
 
-    in_file <- system.file(package = "msdata", 
+    in_file <- system.file(package = "msdata",
                            "proteomics/MS3TMT10_01022016_32917-33481.mzML.gz")
     data_out <- readMSData(in_file, msLevel = 3, mode = "inMem")
     out_file <- paste0(tempfile(), ".mzML")
