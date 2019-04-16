@@ -83,6 +83,10 @@
 \alias{instrumentCustomisations,pSet-method}
 \alias{detectorType,pSet-method}
 \alias{description,pSet-method}
+\alias{isolationWindowLowerMz}
+\alias{isolationWindowUpperMz}
+\alias{isolationWindowLowerMz,pSet-method}
+\alias{isolationWindowUpperMz,pSet-method}
 
 \alias{spectrapply}
 \alias{spectrapply,pSet-method}
@@ -279,6 +283,21 @@
 
       Returns a list with the result for each of spectrum.
     }
+
+    \item{isolationWindowLowerMz}{
+      \code{isolationWindowLowerMz(object = "pSet")}: return the
+      lower m/z boundary for the isolation window. Note that this method
+      is at present only available for \code{\linkS4class{OnDiskMSnExp}}
+      objects.
+    }
+
+    \item{isolationWindowUpperMz}{
+      \code{isolationWindowUpperMz(object = "pSet")}: return the
+      upper m/z boundary for the isolation window. Note that this method
+      is at present only available for \code{\linkS4class{OnDiskMSnExp}}
+      objects.
+    }
+
   }
 
   Additional accessors for the experimental metadata

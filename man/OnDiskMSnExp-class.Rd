@@ -46,6 +46,8 @@
 \alias{precScanNum,OnDiskMSnExp-method}
 \alias{precursorIntensity,OnDiskMSnExp-method}
 \alias{collisionEnergy,OnDiskMSnExp-method}
+\alias{isolationWindowLowerMz,OnDiskMSnExp-method}
+\alias{isolationWindowUpperMz,OnDiskMSnExp-method}
 
 \alias{compareSpectra,OnDiskMSnExp,missing-method}
 \alias{estimateNoise,OnDiskMSnExp-method}
@@ -250,16 +252,6 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 
     }
 
-    \item{smoothed,smoothed<-}{
-      \code{smoothed(signature(object="OnDiskMSnExp", msLevel. =
-      "numeric"))}: whether individual spectra are smoothed or
-      unsmoothed. The relevant information is extracted from the
-      object's \code{featureData} slot. Returns a logical vector with
-      names corresponding to the spectrum names.  Use
-      \code{smoothed(object) <- value} to update the information, with
-      value being a logical vector of length equal to the number of
-      spectra in the experiment.  }
-
     \item{fromFile}{
       \code{fromFile(signature(object = "OnDiskMSnExp"))}: get the
       index of the file (in \code{fileNames(object)}) from which the
@@ -299,6 +291,24 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 
       Returns a numeric vector with names corresponding to the spectrum
       names.
+    }
+
+    \item{isolationWindowLowerMz}{
+      \code{isolationWindowLowerMz(object = "OnDiskMSnExp")}: return the
+      lower m/z boundary for the isolation window.
+
+      Returns a numeric vector of length equal to the number of spectra
+      with the lower m/z value of the isolation window or \code{NA} if
+      not specified in the original file.
+    }
+
+    \item{isolationWindowUpperMz}{
+      \code{isolationWindowUpperMz(object = "OnDiskMSnExp")}: return the
+      upper m/z boundary for the isolation window.
+
+      Returns a numeric vector of length equal to the number of spectra
+      with the upper m/z value of the isolation window or \code{NA} if
+      not specified in the original file.
     }
 
     \item{length}{
@@ -372,6 +382,16 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
       Returns a numeric vector of indices with names corresponding to the
       spectrum names.
     }
+
+    \item{smoothed,smoothed<-}{
+      \code{smoothed(signature(object="OnDiskMSnExp", msLevel. =
+      "numeric"))}: whether individual spectra are smoothed or
+      unsmoothed. The relevant information is extracted from the
+      object's \code{featureData} slot. Returns a logical vector with
+      names corresponding to the spectrum names.  Use
+      \code{smoothed(object) <- value} to update the information, with
+      value being a logical vector of length equal to the number of
+      spectra in the experiment.  }
 
     \item{spectra}{
       \code{spectra(signature(object="OnDiskMSnExp"), BPPARAM=bpparam())}:

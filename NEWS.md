@@ -1,5 +1,10 @@
 # MSnbase 2.9
 
+## Changes in version 2.9.5
+- Add `isolationWindowLowerMz` and `isolationWindowUpperMz` methods <2019-04-15 Mon>
+- Add `filterPrecursorMz` method <2019-04-15 Mon>
+- Add `filterIsolationWindow` method <2019-05-16 Tue>
+
 ## Changes in version 2.9.4
 - Remove `NAnnotatedDataframe` <2019-04-10 Wed>
 
