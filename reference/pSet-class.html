@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.5</span>
       </span>
     </div>
 
@@ -319,7 +319,15 @@
       <code>BPPARAM</code> allows to specify how and if parallel processing
       should be enabled.
     Returns a list with the result for each of spectrum.</p></dd>
-  </dl>
+    <dt>isolationWindowLowerMz</dt><dd><p><code>isolationWindowLowerMz(object = "pSet")</code>: return the
+      lower m/z boundary for the isolation window. Note that this method
+      is at present only available for <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code>
+      objects.</p></dd>
+    <dt>isolationWindowUpperMz</dt><dd><p><code>isolationWindowUpperMz(object = "pSet")</code>: return the
+      upper m/z boundary for the isolation window. Note that this method
+      is at present only available for <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code>
+      objects.</p></dd>
+    </dl>
     <p>Additional accessors for the experimental metadata
   (<code>experimentData</code> slot) are defined. See
   <code>"<a href='MIAPE-class.html'>MIAPE</a>"</code> for details.</p>

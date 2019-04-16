@@ -66,7 +66,7 @@ names in the fData data.frame) for the specified object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.5</span>
       </span>
     </div>
 
@@ -195,21 +195,23 @@ variable names.</p>
 <span class='no'>od</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>f</span>, <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)
 
 <span class='co'>## what columns do we have?</span>
-<span class='fu'>fvarLabels</span>(<span class='no'>od</span>)</div><div class='output co'>#&gt;  [1] "fileIdx"                  "spIdx"                   
-#&gt;  [3] "smoothed"                 "seqNum"                  
-#&gt;  [5] "acquisitionNum"           "msLevel"                 
-#&gt;  [7] "polarity"                 "originalPeaksCount"      
-#&gt;  [9] "totIonCurrent"            "retentionTime"           
-#&gt; [11] "basePeakMZ"               "basePeakIntensity"       
-#&gt; [13] "collisionEnergy"          "ionisationEnergy"        
-#&gt; [15] "lowMZ"                    "highMZ"                  
-#&gt; [17] "precursorScanNum"         "precursorMZ"             
-#&gt; [19] "precursorCharge"          "precursorIntensity"      
-#&gt; [21] "mergedScan"               "mergedResultScanNum"     
-#&gt; [23] "mergedResultStartScanNum" "mergedResultEndScanNum"  
-#&gt; [25] "injectionTime"            "filterString"            
-#&gt; [27] "spectrumId"               "centroided"              
-#&gt; [29] "ionMobilityDriftTime"     "spectrum"                </div><div class='input'>
+<span class='fu'>fvarLabels</span>(<span class='no'>od</span>)</div><div class='output co'>#&gt;  [1] "fileIdx"                    "spIdx"                     
+#&gt;  [3] "smoothed"                   "seqNum"                    
+#&gt;  [5] "acquisitionNum"             "msLevel"                   
+#&gt;  [7] "polarity"                   "originalPeaksCount"        
+#&gt;  [9] "totIonCurrent"              "retentionTime"             
+#&gt; [11] "basePeakMZ"                 "basePeakIntensity"         
+#&gt; [13] "collisionEnergy"            "ionisationEnergy"          
+#&gt; [15] "lowMZ"                      "highMZ"                    
+#&gt; [17] "precursorScanNum"           "precursorMZ"               
+#&gt; [19] "precursorCharge"            "precursorIntensity"        
+#&gt; [21] "mergedScan"                 "mergedResultScanNum"       
+#&gt; [23] "mergedResultStartScanNum"   "mergedResultEndScanNum"    
+#&gt; [25] "injectionTime"              "filterString"              
+#&gt; [27] "spectrumId"                 "centroided"                
+#&gt; [29] "ionMobilityDriftTime"       "isolationWindowTargetMZ"   
+#&gt; [31] "isolationWindowLowerOffset" "isolationWindowUpperOffset"
+#&gt; [33] "spectrum"                  </div><div class='input'>
 <span class='co'>## Reduce the feature data data.frame to the required columns only</span>
 <span class='no'>od</span> <span class='kw'>&lt;-</span> <span class='fu'>selectFeatureData</span>(<span class='no'>od</span>, <span class='kw'>fcol</span> <span class='kw'>=</span> <span class='fu'>requiredFvarLabels</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/class'>class</a></span>(<span class='no'>od</span>)))
 <span class='fu'>fvarLabels</span>(<span class='no'>od</span>)</div><div class='output co'>#&gt; [1] "fileIdx"          "spIdx"            "acquisitionNum"   "retentionTime"   

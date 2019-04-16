@@ -76,7 +76,7 @@ The feature variables in the feature data slot will depend on the
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.5</span>
       </span>
     </div>
 
@@ -359,6 +359,14 @@ The feature variables in the feature data slot will depend on the
         "factor")</code>: split a <code>MSnExp</code> object by file into a
       <code>list</code> of <code>MSnExp</code> objects given the grouping in
       <code>factor</code> <code>f</code>.</p></dd>
+    <dt>filterPrecursorMz</dt><dd><p><code>signature(object = "MSnExp", mz, ppm
+	= 10)</code>: retain spectra with a precursor m/z equal or similar to
+	the one defined with parameter <code>mz</code>. Parameter <code>ppm</code>
+	allows to define an accepted difference between the provided m/z
+	and the spectrum's m/z.</p></dd>
+    <dt>filterIsolationWindow</dt><dd><p><code>signature(object = "MSnExp",
+	mz)</code>: retain spectra with isolation windows that contain
+	(which m/z range contain) the specified m/z.</p></dd>
   </dl>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -391,8 +399,8 @@ The feature variables in the feature data slot will depend on the
 #&gt;  Number of spectra: 5 
 #&gt;  MSn retention times: 25:1 - 25:2 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded: Wed Apr 10 09:34:27 2019 
-#&gt;  MSnbase version: 2.9.4 
+#&gt; Data loaded: Tue Apr 16 08:31:48 2019 
+#&gt;  MSnbase version: 2.9.5 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
 #&gt;   rowNames: dummyiTRAQ.mzXML

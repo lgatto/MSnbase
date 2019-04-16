@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.5</span>
       </span>
     </div>
 
@@ -285,14 +285,6 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       rather than results for individual spectra.
     See also <code><a href='isCentroidedFromFile.html'>isCentroidedFromFile</a></code> that accessed the mode
       directly from the raw data file.</p></dd>
-    <dt>smoothed,smoothed&lt;-</dt><dd><p><code><a href='Spectrum-class.html'>smoothed(signature(object="OnDiskMSnExp", msLevel. =
-      "numeric"))</a></code>: whether individual spectra are smoothed or
-      unsmoothed. The relevant information is extracted from the
-      object's <code>featureData</code> slot. Returns a logical vector with
-      names corresponding to the spectrum names.  Use
-      <code>smoothed(object) &lt;- value</code> to update the information, with
-      value being a logical vector of length equal to the number of
-      spectra in the experiment.</p></dd>
     <dt>fromFile</dt><dd><p><code><a href='Spectrum-class.html'>fromFile(signature(object = "OnDiskMSnExp"))</a></code>: get the
       index of the file (in <code><a href='pSet-class.html'>fileNames(object)</a></code>) from which the
       spectra were read. The relevant information is extracted from the
@@ -322,6 +314,16 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       original file).
     Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
+    <dt>isolationWindowLowerMz</dt><dd><p><code><a href='pSet-class.html'>isolationWindowLowerMz(object = "OnDiskMSnExp")</a></code>: return the
+      lower m/z boundary for the isolation window.
+    Returns a numeric vector of length equal to the number of spectra
+      with the lower m/z value of the isolation window or <code>NA</code> if
+      not specified in the original file.</p></dd>
+    <dt>isolationWindowUpperMz</dt><dd><p><code><a href='pSet-class.html'>isolationWindowUpperMz(object = "OnDiskMSnExp")</a></code>: return the
+      upper m/z boundary for the isolation window.
+    Returns a numeric vector of length equal to the number of spectra
+      with the upper m/z value of the isolation window or <code>NA</code> if
+      not specified in the original file.</p></dd>
     <dt>length</dt><dd><p><code><a href='pSet-class.html'>length(signature(object="OnDiskMSnExp"))</a></code>:
       Returns the number of spectra of the current experiment.</p></dd>
     <dt>msLevel</dt><dd><p><code><a href='Spectrum-class.html'>msLevel(signature(object = "OnDiskMSnExp"))</a></code>: extract the
@@ -369,6 +371,14 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       relevant information is extracted from the object's <code>featureData</code> slot.
       Returns a numeric vector of indices with names corresponding to the
       spectrum names.</p></dd>
+    <dt>smoothed,smoothed&lt;-</dt><dd><p><code><a href='Spectrum-class.html'>smoothed(signature(object="OnDiskMSnExp", msLevel. =
+      "numeric"))</a></code>: whether individual spectra are smoothed or
+      unsmoothed. The relevant information is extracted from the
+      object's <code>featureData</code> slot. Returns a logical vector with
+      names corresponding to the spectrum names.  Use
+      <code>smoothed(object) &lt;- value</code> to update the information, with
+      value being a logical vector of length equal to the number of
+      spectra in the experiment.</p></dd>
     <dt>spectra</dt><dd><p><code><a href='pSet-class.html'>spectra(signature(object="OnDiskMSnExp"), BPPARAM=bpparam())</a></code>:
       extract spectrum data from the individual files. This causes the
       spectrum data to be read from the original raw files. After that
@@ -1013,9 +1023,9 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt;  Number of spectra: 35 
 #&gt;  MSn retention times: 45:27 - 45:30 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded [Wed Apr 10 09:34:43 2019] 
-#&gt; Filter: select parent/children scans for 21945 [Wed Apr 10 09:34:45 2019] 
-#&gt;  MSnbase version: 2.9.4 
+#&gt; Data loaded [Tue Apr 16 08:32:03 2019] 
+#&gt; Filter: select parent/children scans for 21945 [Tue Apr 16 08:32:05 2019] 
+#&gt;  MSnbase version: 2.9.5 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
 #&gt;   rowNames: MS3TMT11.mzML
@@ -1026,7 +1036,7 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt; protocolData: none
 #&gt; featureData
 #&gt;   featureNames: F1.S001 F1.S002 ... F1.S035 (35 total)
-#&gt;   fvarLabels: fileIdx spIdx ... spectrum (30 total)
+#&gt;   fvarLabels: fileIdx spIdx ... spectrum (33 total)
 #&gt;   fvarMetadata: labelDescription
 #&gt; experimentData: use 'experimentData(object)'</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>from1</span>))</div><div class='output co'>#&gt; 
 #&gt;  1  2  3 
@@ -1041,9 +1051,9 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt;  Number of spectra: 3 
 #&gt;  MSn retention times: 45:27 - 45:27 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded [Wed Apr 10 09:34:43 2019] 
-#&gt; Filter: select parent/children scans for 21946 [Wed Apr 10 09:34:45 2019] 
-#&gt;  MSnbase version: 2.9.4 
+#&gt; Data loaded [Tue Apr 16 08:32:03 2019] 
+#&gt; Filter: select parent/children scans for 21946 [Tue Apr 16 08:32:05 2019] 
+#&gt;  MSnbase version: 2.9.5 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
 #&gt;   rowNames: MS3TMT11.mzML
@@ -1054,7 +1064,7 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt; protocolData: none
 #&gt; featureData
 #&gt;   featureNames: F1.S001 F1.S002 F1.S004
-#&gt;   fvarLabels: fileIdx spIdx ... spectrum (30 total)
+#&gt;   fvarLabels: fileIdx spIdx ... spectrum (33 total)
 #&gt;   fvarMetadata: labelDescription
 #&gt; experimentData: use 'experimentData(object)'</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>from2</span>))</div><div class='output co'>#&gt; 
 #&gt; 1 2 3 
