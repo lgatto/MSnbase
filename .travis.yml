@@ -75,6 +75,6 @@ after_failure: sleep 10
 
 notifications:
   email:
-    recipients: lg390@cam.ac.uk
+    recipients: laurent.gatto@gmail.com
     on_failure: change
     on_success: change
