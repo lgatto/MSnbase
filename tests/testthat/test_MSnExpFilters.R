@@ -179,4 +179,28 @@ test_that("filterPrecursorMz works", {
     expect_true(length(res) == 1)
     res <- filterPrecursorMz(tmt_od_sub, mz = 417.75, ppm = 100)
     expect_true(length(res) == 2)
+
+    res <- filterPrecursorMz(tmt_od_sub)
+    expect_equal(length(res), length(tmt_od_sub))
+
+    expect_error(filterPrecursorMz(sciex, mz = 233), "MS1 spectra")
+
+    expect_error(filterPrecursorMz(tmt_od_sub, mz = c(1, 2)), "single m/z")
+})
+
+test_that("filterIsolationWindow works", {
+    res <- filterIsolationWindow(tmt_od_sub)
+    expect_equal(length(res), length(tmt_od_sub))
+
+    res <- filterIsolationWindow(tmt_od_sub, mz = 411)
+    expect_equal(length(res), 2)
+    expect_true(all(isolationWindowLowerMz(res) < 411))
+    expect_true(all(isolationWindowUpperMz(res) > 411))
+
+    expect_error(filterIsolationWindow(tmt_od_sub, mz = c(1, 2)), "single m/z")
+
+    expect_error(filterIsolationWindow(tmt_im_ms2_sub, mz = 411), "not available")
+
+    res <- filterIsolationWindow(sciex, mz = 411)
+    expect_true(length(res) == 0)
 })

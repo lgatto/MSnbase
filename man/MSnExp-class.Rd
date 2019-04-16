@@ -65,6 +65,8 @@
 \alias{filterPrecursorScan,OnDiskMSnExp-method}
 \alias{filterPrecursorMz}
 \alias{filterPrecursorMz,MSnExp-method}
+\alias{filterIsolationWindow}
+\alias{filterIsolationWindow,MSnExp-method}
 
 \alias{isCentroided,MSnExp-method}
 
@@ -332,6 +334,11 @@
 	the one defined with parameter \code{mz}. Parameter \code{ppm}
 	allows to define an accepted difference between the provided m/z
 	and the spectrum's m/z.
+    }
+
+    \item{filterIsolationWindow}{\code{signature(object = "MSnExp",
+	mz)}: retain spectra with isolation windows that contain
+	(which m/z range contain) the specified m/z.
     }
   }
 }
