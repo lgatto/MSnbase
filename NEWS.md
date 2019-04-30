@@ -1,5 +1,8 @@
 # MSnbase 2.9
 
+## Changes in version 2.9.6
+- remove plain NEWS file now that R supports NEWS.md
+
 ## Changes in version 2.9.5
 - Add `isolationWindowLowerMz` and `isolationWindowUpperMz` methods <2019-04-15 Mon>
 - Add `filterPrecursorMz` method <2019-04-15 Mon>
