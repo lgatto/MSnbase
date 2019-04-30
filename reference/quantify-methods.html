@@ -74,7 +74,7 @@ Since version 1.13.5, parallel quantitation is supported by the
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.6</span>
       </span>
     </div>
 
@@ -330,7 +330,7 @@ Since version 1.13.5, parallel quantitation is supported by the
 #&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#&gt; iTRAQ4 quantification by trapezoidation: Tue Apr 16 08:33:16 2019 
+#&gt; iTRAQ4 quantification by trapezoidation: Tue Apr 30 09:08:04 2019 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
 <span class='co'>## specifying a custom parallel framework</span>
 <span class='co'>## bp &lt;- MulticoreParam(2L) # on Linux/OSX</span>
@@ -357,24 +357,24 @@ Since version 1.13.5, parallel quantitation is supported by the
 <span class='fu'>fData</span>(<span class='no'>msexp</span>)$<span class='no'>DatabaseAccess</span></div><div class='output co'>#&gt; [1] "ECA0984" "ECA1028" NA        NA        "ECA0510"</div><div class='input'>
 <span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'>quantify</span>(<span class='no'>msexp</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"SIn"</span>)
 <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>si</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Data loaded: Tue Apr 16 08:33:17 2019 
-#&gt; Filtered 2 unidentified peptides out [Tue Apr 16 08:33:17 2019] 
-#&gt; Quantitation by total ion current [Tue Apr 16 08:33:17 2019] 
-#&gt; Combined 3 features into 3 using sum: Tue Apr 16 08:33:17 2019 
-#&gt; Quantification by SIn [Tue Apr 16 08:33:17 2019] 
-#&gt;  MSnbase version: 2.9.5 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>si</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
+#&gt; Data loaded: Tue Apr 30 09:08:05 2019 
+#&gt; Filtered 2 unidentified peptides out [Tue Apr 30 09:08:05 2019] 
+#&gt; Quantitation by total ion current [Tue Apr 30 09:08:05 2019] 
+#&gt; Combined 3 features into 3 using sum: Tue Apr 30 09:08:05 2019 
+#&gt; Quantification by SIn [Tue Apr 30 09:08:05 2019] 
+#&gt;  MSnbase version: 2.9.6 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>si</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
 #&gt; ECA0510     0.0006553518
 #&gt; ECA0984     0.0035384487
 #&gt; ECA1028     0.0002684726</div><div class='input'>
 <span class='no'>saf</span> <span class='kw'>&lt;-</span> <span class='fu'>quantify</span>(<span class='no'>msexp</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"NSAF"</span>)
 <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>saf</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Data loaded: Tue Apr 16 08:33:17 2019 
-#&gt; Filtered 2 unidentified peptides out [Tue Apr 16 08:33:17 2019] 
-#&gt; Filtered 0 unidentified peptides out [Tue Apr 16 08:33:17 2019] 
-#&gt; Quantitation by count [Tue Apr 16 08:33:17 2019] 
-#&gt; Combined 3 features into 3 using user-defined function: Tue Apr 16 08:33:17 2019 
-#&gt; Quantification by NSAF [Tue Apr 16 08:33:17 2019] 
-#&gt;  MSnbase version: 2.9.5 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>saf</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
+#&gt; Data loaded: Tue Apr 30 09:08:05 2019 
+#&gt; Filtered 2 unidentified peptides out [Tue Apr 30 09:08:05 2019] 
+#&gt; Filtered 0 unidentified peptides out [Tue Apr 30 09:08:05 2019] 
+#&gt; Quantitation by count [Tue Apr 30 09:08:05 2019] 
+#&gt; Combined 3 features into 3 using user-defined function: Tue Apr 30 09:08:05 2019 
+#&gt; Quantification by NSAF [Tue Apr 30 09:08:05 2019] 
+#&gt;  MSnbase version: 2.9.6 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>saf</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
 #&gt; ECA0510        0.4306167
 #&gt; ECA0984        0.3094475
 #&gt; ECA1028        0.2599359</div><div class='input'>

@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.6</span>
       </span>
     </div>
 
@@ -403,7 +403,7 @@ Raw MS2 spectrum with details about reporter ions.
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Data [logically] subsetted 3 spectra: Tue Apr 16 08:33:58 2019 
+## Data [logically] subsetted 3 spectra: Tue Apr 30 09:08:44 2019 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -729,8 +729,8 @@ This figure illustrated the effect or the <code>removePeaks</code> and <code>cle
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Tue Apr 16 08:34:04 2019 
-## Spectra cleaned: Tue Apr 16 08:34:05 2019 
+## Curves &lt;= 400 set to '0': Tue Apr 30 09:08:50 2019 
+## Spectra cleaned: Tue Apr 30 09:08:51 2019 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -796,9 +796,9 @@ The different quantitation methods. See text for details.
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Tue Apr 16 08:34:04 2019 
-## Spectra cleaned: Tue Apr 16 08:34:05 2019 
-## iTRAQ4 quantification by trapezoidation: Tue Apr 16 08:34:08 2019 
+## Curves &lt;= 400 set to '0': Tue Apr 30 09:08:50 2019 
+## Spectra cleaned: Tue Apr 30 09:08:51 2019 
+## iTRAQ4 quantification by trapezoidation: Tue Apr 30 09:08:53 2019 
 ##  MSnbase version: 1.1.22</code></pre>
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/tidyeval">exprs</a></span>(qnt))</a></code></pre></div>
 <pre><code>##     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
@@ -932,7 +932,7 @@ The different quantitation methods. See text for details.
 <div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/impute-methods.html">impute</a></span>(naset, <span class="st">"min"</span>)</a>
 <a class="sourceLine" id="cb128-2" data-line-number="2"><span class="kw"><a href="../reference/pSet-class.html">processingData</a></span>(x)</a></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data imputation using min Tue Apr 16 08:34:09 2019 
+## Data imputation using min Tue Apr 30 09:08:55 2019 
 ##  MSnbase version: 1.15.6</code></pre>
 <div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NA">is.na</a></span>(x))</a></code></pre></div>
 <pre><code>## 
@@ -969,7 +969,7 @@ Mixed imputation method. Black cells represent presence of quantitation values a
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Data imputation using mixed Tue Apr 16 08:34:10 2019 
+## Data imputation using mixed Tue Apr 30 09:08:55 2019 
 ##   Using default parameters 
 ##  MSnbase version: 1.15.6</code></pre>
 <p>Please read <code><a href="../reference/impute-methods.html">?impute</a></code> for a description of the different methods.</p>
@@ -1049,14 +1049,14 @@ CV versus signal intensity comparison for log2 and vsn transformed data. Lines i
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Tue Apr 16 08:34:04 2019 
-## Spectra cleaned: Tue Apr 16 08:34:05 2019 
-## iTRAQ4 quantification by trapezoidation: Tue Apr 16 08:34:08 2019 
-## Subset [55,4][54,4] Tue Apr 16 08:34:08 2019 
-## Removed features with more than 0 NAs: Tue Apr 16 08:34:08 2019 
-## Dropped featureData's levels Tue Apr 16 08:34:08 2019 
-## Combined 54 features into 40 using median: Tue Apr 16 08:34:10 2019 
-##  MSnbase version: 2.9.5</code></pre>
+## Curves &lt;= 400 set to '0': Tue Apr 30 09:08:50 2019 
+## Spectra cleaned: Tue Apr 30 09:08:51 2019 
+## iTRAQ4 quantification by trapezoidation: Tue Apr 30 09:08:53 2019 
+## Subset [55,4][54,4] Tue Apr 30 09:08:54 2019 
+## Removed features with more than 0 NAs: Tue Apr 30 09:08:54 2019 
+## Dropped featureData's levels Tue Apr 30 09:08:54 2019 
+## Combined 54 features into 40 using median: Tue Apr 30 09:08:56 2019 
+##  MSnbase version: 2.9.6</code></pre>
 <p>Of interest is also the <code>iPQF</code> spectra-to-protein summarisation method, which integrates peptide spectra characteristics and quantitative values for protein quantitation estimation. See <code><a href="../reference/iPQF.html">?iPQF</a></code> and references therein for details.</p>
 </div>
 <div id="sec:lf" class="section level1">
@@ -1094,12 +1094,12 @@ CV versus signal intensity comparison for log2 and vsn transformed data. Lines i
 <div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" data-line-number="1">siquant &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(msexp, <span class="dt">method =</span> <span class="st">"SIn"</span>)</a>
 <a class="sourceLine" id="cb148-2" data-line-number="2"><span class="kw"><a href="../reference/pSet-class.html">processingData</a></span>(siquant)</a></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data loaded: Tue Apr 16 08:34:03 2019 
-## Filtered 2 unidentified peptides out [Tue Apr 16 08:34:03 2019] 
-## Quantitation by total ion current [Tue Apr 16 08:34:11 2019] 
-## Combined 3 features into 3 using sum: Tue Apr 16 08:34:11 2019 
-## Quantification by SIn [Tue Apr 16 08:34:11 2019] 
-##  MSnbase version: 2.9.5</code></pre>
+## Data loaded: Tue Apr 30 09:08:49 2019 
+## Filtered 2 unidentified peptides out [Tue Apr 30 09:08:49 2019] 
+## Quantitation by total ion current [Tue Apr 30 09:08:56 2019] 
+## Combined 3 features into 3 using sum: Tue Apr 30 09:08:56 2019 
+## Quantification by SIn [Tue Apr 30 09:08:56 2019] 
+##  MSnbase version: 2.9.6</code></pre>
 <div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/tidyeval">exprs</a></span>(siquant)</a></code></pre></div>
 <pre><code>##         dummyiTRAQ.mzXML
 ## ECA0510     0.0006553518
@@ -1338,8 +1338,8 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Combined [27,4] and [24,4] MSnSets Tue Apr 16 08:34:20 2019 
-##  MSnbase version: 2.9.5</code></pre>
+## Combined [27,4] and [24,4] MSnSets Tue Apr 30 09:09:06 2019 
+##  MSnbase version: 2.9.6</code></pre>
 <p>In summary, when experiments with different samples need to be combined (along the columns), one needs to (1) clarify the sample names using <code>updateSampleNames</code> or better manually, for biological relevance and (2) update the feature data variable labels with <code>updateFvarLabels</code>. The individual experiments (there can be more than 2) can then easily be combined with the <code>combine</code> method while retaining the meta-data.</p>
 <p>If runs for the same sample (different fractions for example) need to be combines, one needs to (1) differentiate the feature provenance with <code>updateFeatureNames</code> prior to use <code>combine</code>.</p>
 </div>
@@ -1424,7 +1424,7 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 <div id="session-information" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
-<pre><code>## R Under development (unstable) (2019-04-14 r76394)
+<pre><code>## R Under development (unstable) (2019-04-29 r76439)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
@@ -1446,48 +1446,48 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 ## 
 ## other attached packages:
 ##  [1] gplots_3.0.1.1       msdata_0.23.0        pRoloc_1.23.3       
-##  [4] BiocParallel_1.17.18 MLInterfaces_1.63.2  cluster_2.0.8       
+##  [4] BiocParallel_1.17.19 MLInterfaces_1.63.2  cluster_2.0.8       
 ##  [7] annotate_1.61.1      XML_3.98-1.19        AnnotationDbi_1.45.1
-## [10] IRanges_2.17.5       pRolocdata_1.21.0    Rdisop_1.43.3       
-## [13] zoo_1.8-5            MSnbase_2.9.5        ProtGenerics_1.15.0 
-## [16] S4Vectors_0.21.23    mzR_2.17.3           Rcpp_1.0.1          
+## [10] IRanges_2.17.5       pRolocdata_1.21.0    Rdisop_1.43.7       
+## [13] zoo_1.8-5            MSnbase_2.9.6        ProtGenerics_1.15.0 
+## [16] S4Vectors_0.21.24    mzR_2.17.4           Rcpp_1.0.1          
 ## [19] Biobase_2.43.1       BiocGenerics_0.29.2  ggplot2_3.1.1       
 ## [22] BiocStyle_2.11.0    
 ## 
 ## loaded via a namespace (and not attached):
-##   [1] backports_1.1.4       plyr_1.8.4            igraph_1.2.4         
+##   [1] backports_1.1.4       plyr_1.8.4            igraph_1.2.4.1       
 ##   [4] lazyeval_0.2.2        splines_3.7.0         ggvis_0.4.4          
 ##   [7] crosstalk_1.0.0       digest_0.6.18         foreach_1.4.4        
 ##  [10] htmltools_0.3.6       viridis_0.5.1         gdata_2.18.0         
 ##  [13] magrittr_1.5          memoise_1.1.0         doParallel_1.0.14    
-##  [16] mixtools_1.1.0        sfsmisc_1.1-3         limma_3.39.15        
+##  [16] mixtools_1.1.0        sfsmisc_1.1-3         limma_3.39.19        
 ##  [19] recipes_0.1.5         gower_0.2.0           rda_1.0.2-2.1        
 ##  [22] pkgdown_1.3.0         lpSolve_5.6.13        prettyunits_1.0.2    
 ##  [25] colorspace_1.4-1      blob_1.1.1            xfun_0.6             
 ##  [28] dplyr_0.8.0.1         crayon_1.3.4          RCurl_1.95-4.12      
 ##  [31] hexbin_1.27.2         roxygen2_6.1.1        genefilter_1.65.0    
 ##  [34] impute_1.57.0         survival_2.44-1.1     iterators_1.0.10     
-##  [37] glue_1.3.1            gtable_0.3.0          ipred_0.9-8          
+##  [37] glue_1.3.1            gtable_0.3.0          ipred_0.9-9          
 ##  [40] zlibbioc_1.29.0       kernlab_0.9-27        prabclus_2.2-7       
 ##  [43] DEoptimR_1.0-8        scales_1.0.0          vsn_3.51.0           
 ##  [46] mvtnorm_1.0-10        DBI_1.0.0             viridisLite_0.3.0    
-##  [49] xtable_1.8-3          progress_1.2.0        proxy_0.4-23         
+##  [49] xtable_1.8-4          progress_1.2.0        proxy_0.4-23         
 ##  [52] bit_1.1-14            mclust_5.4.3          preprocessCore_1.45.0
 ##  [55] lava_1.6.5            prodlim_2018.04.18    sampling_2.8         
 ##  [58] htmlwidgets_1.3       httr_1.4.0            threejs_0.3.1        
-##  [61] FNN_1.1.3             RColorBrewer_1.1-2    fpc_2.1-11.1         
+##  [61] FNN_1.1.3             RColorBrewer_1.1-2    fpc_2.1-11.2         
 ##  [64] modeltools_0.2-22     pkgconfig_2.0.2       flexmix_2.3-15       
-##  [67] nnet_7.3-12           caret_6.0-82          labeling_0.3         
+##  [67] nnet_7.3-12           caret_6.0-84          labeling_0.3         
 ##  [70] reshape2_1.4.3        tidyselect_0.2.5      rlang_0.3.4          
 ##  [73] later_0.8.0           munsell_0.5.0         mlbench_2.1-1        
 ##  [76] tools_3.7.0           LaplacesDemon_16.1.1  generics_0.0.2       
 ##  [79] RSQLite_2.1.1         pls_2.7-1             evaluate_0.13        
-##  [82] stringr_1.4.0         mzID_1.21.1           yaml_2.2.0           
+##  [82] stringr_1.4.0         mzID_1.21.2           yaml_2.2.0           
 ##  [85] ModelMetrics_1.2.2    knitr_1.22            bit64_0.9-7          
 ##  [88] fs_1.2.7              robustbase_0.93-4     caTools_1.17.1.2     
 ##  [91] randomForest_4.6-14   purrr_0.3.2           dendextend_1.10.0    
 ##  [94] ncdf4_1.16.1          nlme_3.1-139          whisker_0.3-2        
-##  [97] mime_0.6              xml2_1.2.0            biomaRt_2.39.2       
+##  [97] mime_0.6              xml2_1.2.0            biomaRt_2.39.4       
 ## [100] compiler_3.7.0        e1071_1.7-1           affyio_1.53.0        
 ## [103] tibble_2.1.1          stringi_1.4.3         highr_0.8            
 ## [106] desc_1.2.0            lattice_0.20-38       trimcluster_0.1-2.1  
@@ -1499,9 +1499,9 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 ## [124] KernSmooth_2.23-15    gridExtra_2.3         codetools_0.2-16     
 ## [127] MASS_7.3-51.4         gtools_3.8.1          assertthat_0.2.1     
 ## [130] rprojroot_1.3-2       withr_2.1.2           diptest_0.75-7       
-## [133] hms_0.4.2             timeDate_3043.102     rpart_4.1-13         
+## [133] hms_0.4.2             timeDate_3043.102     rpart_4.1-15         
 ## [136] coda_0.19-2           class_7.3-15          rmarkdown_1.12       
-## [139] segmented_0.5-3.0     lubridate_1.7.4       shiny_1.3.1          
+## [139] segmented_0.5-3.0     lubridate_1.7.4       shiny_1.3.2          
 ## [142] base64enc_0.1-3</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
