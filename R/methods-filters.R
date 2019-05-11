@@ -189,3 +189,63 @@ setMethod("filterPrecursorScan", "MSnExp",
             )
             object
         })
+
+#' @description
+#'
+#' Filter `object` reducing to MS data (spectra) for which the precursor m/z
+#' matches the provided m/z accepting a small difference which can be defined
+#' with the `ppm` parameter.
+#'
+#' @param object `MSnExp` object.
+#'
+#' @param mz `numeric(1)` with the m/z value to filter the object.
+#'
+#' @param ppm `numeric(1)` defining the accepted difference between the
+#'     provided m/z and the spectrum's m/z in parts per million.
+#'
+#' @md
+#'
+#' @noRd
+#'
+#' @author Johannes Rainer
+setMethod("filterPrecursorMz", "MSnExp", function(object, mz, ppm = 10) {
+    if (missing(mz))
+        return(object)
+    if (length(mz) > 1)
+        stop("'mz' is expected to be a single m/z value", call. = FALSE)
+    mz_ppm <- ppm * mz / 1e6
+    keep <- which(precursorMz(object) >= (mz - mz_ppm) &
+                 precursorMz(object) <= (mz + mz_ppm))
+    object <- object[keep]
+    msg <- paste0("Filter: select by precursor m/z: ", mz, ".")
+    object <- logging(object, msg)
+    object
+})
+
+#' @description
+#'
+#' Filter the object based on the isolation window. The resulting object will
+#' contain all spectra with isolation windows containing the specified m/z.
+#'
+#' @param object `MSnExp` object.
+#'
+#' @param mz `numeric(1)` with the m/z tha should be within the isolation
+#'     window's m/z range.
+#'
+#' @md
+#'
+#' @noRd
+#'
+#' @author Johannes Rainer
+setMethod("filterIsolationWindow", "MSnExp", function(object, mz, ...){
+    if (missing(mz))
+        return(object)
+    if (length(mz) > 1)
+        stop("'mz' is expected to be a single m/z value", call. = FALSE)
+    keep <- which(isolationWindowLowerMz(object) <= mz &
+                  isolationWindowUpperMz(object) >= mz)
+    object <- object[keep]
+    msg <- paste0("Filter isolation windows containing : ", mz, ".")
+    object <- logging(object, msg)
+    object
+})

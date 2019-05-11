@@ -416,7 +416,7 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #'     enables to extract multiple chromatograms per file, one for each row in
 #'     the matrix. If the number of columns of \code{mz} or \code{rt} are not
 #'     equal to 2, \code{range} is called on each row of the matrix.
-#' 
+#'
 #' @param object For \code{chromatogram}: a \code{\linkS4class{MSnExp}} or
 #'     \code{\linkS4class{OnDiskMSnExp}} object from which the chromatogram
 #'     should be extracted.
@@ -457,7 +457,7 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #'     \code{"mzmin"} and \code{"mzmax"} with the values from input argument
 #'     \code{mz} (if used) and \code{"rtmin"} and \code{"rtmax"} if the input
 #'     argument \code{rt} was used.
-#' 
+#'
 #' @author Johannes Rainer
 #'
 #' @seealso \code{\link{Chromatogram}} and \code{\link{Chromatograms}} for the
@@ -497,7 +497,7 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #'
 #' ## The mz and/or rt ranges used are provided as featureData of the object
 #' fData(chrs)
-#' 
+#'
 #' ## The mz method can be used to extract the m/z ranges directly
 #' mz(chrs)
 #'

@@ -310,7 +310,11 @@ exportMethods(updateObject,
               writeMSData,
               productMz,
               estimateMzResolution,
-	      combineSpectra
+	      combineSpectra,
+              "isolationWindowLowerMz",
+              "isolationWindowUpperMz",
+              "filterPrecursorMz",
+              "filterIsolationWindow"
               )
 
 ## methods NOT exported

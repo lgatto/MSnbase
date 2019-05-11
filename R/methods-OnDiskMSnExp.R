@@ -205,7 +205,7 @@ setMethod("isCentroided", "OnDiskMSnExp",
                   .isCentroided(as(z, "data.frame"), ...))
               ctrd <- unlist(res, use.names = FALSE)
               if (verbose) print(table(ctrd, msLevel(object)))
-              names(ctrd) <- featureNames(object)              
+              names(ctrd) <- featureNames(object)
               ctrd
           })
 
@@ -908,4 +908,19 @@ setMethod("spectrapply", "OnDiskMSnExp", function(object, FUN = NULL,
     names(vals) <- NULL
     vals <- unlist(vals, recursive = FALSE)
     vals[rownames(fData(object))]
+})
+
+setMethod("isolationWindowLowerMz", "OnDiskMSnExp", function(object) {
+    if (all(c("isolationWindowTargetMZ", "isolationWindowLowerOffset") %in%
+            colnames(fData(object))))
+        return(fData(object)$isolationWindowTargetMZ -
+                            fData(object)$isolationWindowLowerOffset)
+    rep(NA_real_, length(object))
+})
+setMethod("isolationWindowUpperMz", "OnDiskMSnExp", function(object) {
+    if (all(c("isolationWindowTargetMZ", "isolationWindowUpperOffset") %in%
+            colnames(fData(object))))
+        return(fData(object)$isolationWindowTargetMZ +
+                            fData(object)$isolationWindowUpperOffset)
+    rep(NA_real_, length(object))
 })
