@@ -9,16 +9,15 @@
   This function combines the features in an
   \code{"\linkS4class{MSnSet}"} instance applying a summarisation
   function (see \code{fun} argument) to sets of features as defined by a
-  factor (see \code{groupBy} argument).  Note that the feature names are
+  factor (see \code{fcol} argument).  Note that the feature names are
   automatically updated based on the \code{groupBy} parameter.
 
   The coefficient of variations are automatically computed and collated
   to the featureData slot. See \code{cv} and \code{cv.norm} arguments
   for details.
 
-  If NA values are present, a message will be remind the user. Details
-  on how missing value impact on the data aggregation are provided
-  below.
+  If NA values are present, a message will be shown. Details on how
+  missing value impact on the data aggregation are provided below.
 
 }
 
