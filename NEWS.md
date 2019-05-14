@@ -1,3 +1,19 @@
+# MSnbase 2.11
+
+## MSnbase 2.11.1
+
+- Migrate generics to ProtGenerics 
+
+## MSnbase 2.11.0
+
+- Bioconductor 3.10 (devel)
+
+# MSnbase 2.10
+
+## MSnbase 2.10.0
+
+- Bioconductor 3.9 (release)
+
 # MSnbase 2.9
 
 ## Changes in version 2.9.6
