@@ -185,7 +185,7 @@
   }
 
   if (length(widx)) {
-    df <- .removeNeutralLoss(df, idx=widx, mass=mass["H"]+2*mass["O"], ion="_")
+    df <- .removeNeutralLoss(df, idx=widx, mass=2*mass["H"]+mass["O"], ion="_")
   }
   if (length(aidx)) {
     df <- .removeNeutralLoss(df, idx=aidx, mass=mass["N"]+3*mass["H"], ion="*")
