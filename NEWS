@@ -1,5 +1,8 @@
 # MSnbase 2.11
 
+MSnbase 2.11.3
+- Nothing yet
+
 MSnbase 2.11.2
 
 - Fix bug in `calculateFragments` for neutral loss calculation. For
