@@ -1,5 +1,6 @@
 \name{combineFeatures}
 \alias{combineFeatures}
+\alias{combineFeatures,MSnSet-method}
 
 \title{ Combines features in an \code{MSnSet} object }
 
@@ -21,14 +22,6 @@
 
 }
 
-\usage{
-
-combineFeatures(object, groupBy, method = c("mean", "median",
-"weighted.mean", "sum", "medpolish", "robust", "iPQF", "NTR"), fcol,
-redundancy.handler = c("unique", "multiple"), cv = TRUE, cv.norm =
-"sum", verbose = isMSnbaseVerbose(), fun, ...)
-
-}
 
 \arguments{
 
@@ -166,7 +159,7 @@ exprs(msnset)
 
 ## arbitrary grouping into two groups
 grp <- as.factor(c(1, 1, 2, 2, 2))
-msnset.comb <- combineFeatures(msnset, grp, "sum")
+msnset.comb <- combineFeatures(msnset, groupBy = grp, method = "sum")
 dim(msnset.comb)
 exprs(msnset.comb)
 fvarLabels(msnset.comb)
@@ -175,8 +168,8 @@ fvarLabels(msnset.comb)
 grpl <- list(c("A", "B"), "A", "A", "C", c("C", "B"))
 ## optional naming
 names(grpl) <- featureNames(msnset)
-exprs(combineFeatures(msnset, grpl, method = "sum", redundancy.handler = "unique"))
-exprs(combineFeatures(msnset, grpl, method = "sum", redundancy.handler = "multiple"))
+exprs(combineFeatures(msnset, groupBy = grpl, method = "sum", redundancy.handler = "unique"))
+exprs(combineFeatures(msnset, groupBy = grpl, method = "sum", redundancy.handler = "multiple"))
 
 ## missing data
 exprs(msnset)[4, 4] <-
