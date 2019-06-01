@@ -12,15 +12,6 @@
                                 modifications = c(C = 57.02146),
                                 neutralLoss = defaultNeutralLoss(),
                                 verbose = isMSnbaseVerbose()) {
-  ## TODO: this information should inform the user about a major API change
-  ## and could be removed in MSnbase > 1.18
-  if (packageVersion("MSnbase") < as.package_version("1.20.0")) {
-    message("The mass listed in \"modifications\" is now added to the ",
-            "amino acid/peptide.\n",
-            "In MSnbase < 1.17.6 the mass was replaced. ",
-            "Please see '?calculateFragments' for details.")
-  }
-
   if (nchar(sequence) <= 1L) {
     stop("'sequence' has to have two or more residues.")
   }

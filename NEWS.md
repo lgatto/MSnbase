@@ -1,7 +1,11 @@
 # MSnbase 2.11
 
 ## MSnbase 2.11.3
+
 - Make combineFeatures a method <2019-05-31 Fri>
+- Remove message about changed meaning of the "modifications" argument in
+  calculateFragments' that was introduced in MSnbase 1.17.6 (2015-06-21).
+  <2019-06-01 Sat>
 
 ## MSnbase 2.11.2
 
