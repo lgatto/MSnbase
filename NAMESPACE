@@ -55,6 +55,15 @@ importClassesFrom(mzID, mzID, mzIDCollection)
 importFrom(digest, digest)
 importFrom(grDevices, topo.colors)
 
+S3method(as.data.frame, MSnExp)
+S3method(as.data.frame, MSnSet)
+S3method(as.data.frame, Spectrum)
+S3method(as.data.frame, mzRident)
+S3method(as.matrix, FoICollection)
+S3method(droplevels, MSnSet)
+S3method(is.na, MSnSet)
+S3method(t, MSnSet)
+
 export(MSnSet,
        abstract,
        compareMSnSets,
@@ -83,7 +92,6 @@ export(MSnSet,
        as.data.frame.MSnExp,
        is.na.MSnSet,
        droplevels.MSnSet,
-       combineFeatures,
        nFeatures,
        aggvar,
        nQuants,
@@ -172,8 +180,8 @@ exportClasses(pSet,
               ProcessingStep,
               Chromatogram,
               Chromatograms,
-	      Spectra
-	      )
+              Spectra
+              )
 
 exportMethods(updateObject,
               exprs,
@@ -277,6 +285,7 @@ exportMethods(updateObject,
               filterPrecursorScan,
               spectrapply,
               splitByFile,
+              combineFeatures,
               ## Features of interest
               FeaturesOfInterest,
               foi,
@@ -310,7 +319,7 @@ exportMethods(updateObject,
               writeMSData,
               productMz,
               estimateMzResolution,
-	      combineSpectra,
+              combineSpectra,
               "isolationWindowLowerMz",
               "isolationWindowUpperMz",
               "filterPrecursorMz",

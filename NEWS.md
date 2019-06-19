@@ -1,8 +1,23 @@
 # MSnbase 2.11
 
+## MSnbase 2.11.3
+
+- Make combineFeatures a method <2019-05-31 Fri>
+- Remove message about changed meaning of the "modifications" argument in
+  calculateFragments' that was introduced in MSnbase 1.17.6 (2015-06-21).
+  <2019-06-01 Sat>
+
+## MSnbase 2.11.2
+
+- Fix bug in `calculateFragments` for neutral loss calculation. For
+  the "loss of water" the mass of HO~2~ instead of H~2~O was removed
+  (see [#462](https://github.com/lgatto/MSnbase/issues/462)).  Thanks
+  to Max Helf (@mjhelf) for the fix (see
+  [#463](https://github.com/lgatto/MSnbase/issues/463)) <2019-05-31 Fri>.
+
 ## MSnbase 2.11.1
 
-- Migrate generics to ProtGenerics 
+- Migrate generics to ProtGenerics
 
 ## MSnbase 2.11.0
 
