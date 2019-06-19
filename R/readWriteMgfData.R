@@ -221,7 +221,6 @@ extractMgfSpectrum2Info <- function(mgf, centroided) {
     voi <- c("RTINSECONDS", "CHARGE", "SCANS", "PEPMASSMZ", "PEPMASSINT")
     desc <- setNames(as.numeric(desc[voi]), voi)
     desc[is.na(desc[voi])] <- 0L
-    cat(".")
     sp <- Spectrum2_mz_sorted(rt = unname(desc["RTINSECONDS"]),
                               scanIndex = unname(as.integer(desc["SCANS"])),
                               precursorMz = unname(desc["PEPMASSMZ"]),
