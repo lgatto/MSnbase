@@ -74,7 +74,7 @@ If NA values are present, a message will be shown. Details on how
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.3</span>
       </span>
     </div>
 
@@ -159,10 +159,6 @@ If NA values are present, a message will be shown. Details on how
     
     </div>
 
-    <pre class="usage"><span class='fu'>combineFeatures</span>(<span class='no'>object</span>, <span class='no'>groupBy</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"mean"</span>, <span class='st'>"median"</span>,
-<span class='st'>"weighted.mean"</span>, <span class='st'>"sum"</span>, <span class='st'>"medpolish"</span>, <span class='st'>"robust"</span>, <span class='st'>"iPQF"</span>, <span class='st'>"NTR"</span>), <span class='no'>fcol</span>,
-<span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"unique"</span>, <span class='st'>"multiple"</span>), <span class='kw'>cv</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>cv.norm</span> <span class='kw'>=</span>
-<span class='st'>"sum"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span>(), <span class='no'>fun</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -304,7 +300,7 @@ If NA values are present, a message will be shown. Details on how
 #&gt; X22   8635.316  10036.529   9254.432   7769.749</div><div class='input'>
 <span class='co'>## arbitrary grouping into two groups</span>
 <span class='no'>grp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>as.factor</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>))
-<span class='no'>msnset.comb</span> <span class='kw'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grp</span>, <span class='st'>"sum"</span>)
+<span class='no'>msnset.comb</span> <span class='kw'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='kw'>groupBy</span> <span class='kw'>=</span> <span class='no'>grp</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sum"</span>)
 <span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='no'>msnset.comb</span>)</div><div class='output co'>#&gt; [1] 2 4</div><div class='input'><span class='fu'>exprs</span>(<span class='no'>msnset.comb</span>)</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; 1   36553.13   41320.38   46178.09   44950.38
 #&gt; 2   64407.15   68134.01   76572.53   76563.54</div><div class='input'><span class='fu'>fvarLabels</span>(<span class='no'>msnset.comb</span>)</div><div class='output co'>#&gt;  [1] "spectrum"            "ProteinAccession"    "ProteinDescription" 
@@ -318,9 +314,9 @@ If NA values are present, a message will be shown. Details on how
 <span class='no'>grpl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>), <span class='st'>"A"</span>, <span class='st'>"A"</span>, <span class='st'>"C"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"C"</span>, <span class='st'>"B"</span>))
 <span class='co'>## optional naming</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>grpl</span>) <span class='kw'>&lt;-</span> <span class='fu'>featureNames</span>(<span class='no'>msnset</span>)
-<span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grpl</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sum"</span>, <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='st'>"unique"</span>))</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
+<span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='kw'>groupBy</span> <span class='kw'>=</span> <span class='no'>grpl</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sum"</span>, <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='st'>"unique"</span>))</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; A   38224.78   39183.07   46659.49   48093.74
-#&gt; C   21262.15   23168.73   25407.07   25949.95</div><div class='input'><span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grpl</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sum"</span>, <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='st'>"multiple"</span>))</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
+#&gt; C   21262.15   23168.73   25407.07   25949.95</div><div class='input'><span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='kw'>groupBy</span> <span class='kw'>=</span> <span class='no'>grpl</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sum"</span>, <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='st'>"multiple"</span>))</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; A   71062.82   76249.13   88089.12   87794.22
 #&gt; B   41473.36   47102.59   50684.06   47470.22
 #&gt; C   29897.46   33205.26   34661.50   33719.70</div><div class='input'>

@@ -64,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.3</span>
       </span>
     </div>
 
@@ -250,24 +250,24 @@
 #&gt; 2 232.07504  b2    b   2 1  AC
 #&gt; 3 148.06043  y1    y   1 1   E
 #&gt; 4 308.09108  y2    y   2 1  CE
-#&gt; 5 115.06278 y1_   y_   1 1   E
-#&gt; 6 275.09343 y2_   y_   2 1  CE</div><div class='input'>
+#&gt; 5 130.04987 y1_   y_   1 1   E
+#&gt; 6 290.08052 y2_   y_   2 1  CE</div><div class='input'>
 <span class='co'>## calculate fragments for ACE with an addition N-terminal modification</span>
 <span class='fu'>calculateFragments</span>(<span class='st'>"ACE"</span>, <span class='kw'>modifications</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>C</span><span class='kw'>=</span><span class='fl'>57.02146</span>, <span class='kw'>Nterm</span><span class='kw'>=</span><span class='fl'>229.1629</span>))</div><div class='output co'>#&gt;         mz ion type pos z seq
 #&gt; 1 301.2073  b1    b   1 1   A
 #&gt; 2 461.2379  b2    b   2 1  AC
 #&gt; 3 148.0604  y1    y   1 1   E
 #&gt; 4 308.0911  y2    y   2 1  CE
-#&gt; 5 115.0628 y1_   y_   1 1   E
-#&gt; 6 275.0934 y2_   y_   2 1  CE</div><div class='input'>
+#&gt; 5 130.0499 y1_   y_   1 1   E
+#&gt; 6 290.0805 y2_   y_   2 1  CE</div><div class='input'>
 <span class='co'>## calculate fragments for ACE without any modifications</span>
 <span class='fu'>calculateFragments</span>(<span class='st'>"ACE"</span>, <span class='kw'>modifications</span><span class='kw'>=</span><span class='kw'>NULL</span>)</div><div class='output co'>#&gt;          mz ion type pos z seq
 #&gt; 1  72.04439  b1    b   1 1   A
 #&gt; 2 175.05358  b2    b   2 1  AC
 #&gt; 3 148.06043  y1    y   1 1   E
 #&gt; 4 251.06962  y2    y   2 1  CE
-#&gt; 5 115.06278 y1_   y_   1 1   E
-#&gt; 6 218.07197 y2_   y_   2 1  CE</div><div class='input'>
+#&gt; 5 130.04987 y1_   y_   1 1   E
+#&gt; 6 233.05906 y2_   y_   2 1  CE</div><div class='input'>
 <span class='fu'>calculateFragments</span>(<span class='st'>"VESITARHGEVLQLRPK"</span>,
                    <span class='kw'>type</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='st'>"x"</span>, <span class='st'>"y"</span>, <span class='st'>"z"</span>),
                    <span class='kw'>z</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>2</span>)</div><div class='output co'>#&gt;             mz  ion type pos z              seq
@@ -463,180 +463,180 @@
 #&gt; 190  844.48373  z15    z  15 2  SITARHGEVLQLRPK
 #&gt; 191 1817.00277  z16    z  16 1 ESITARHGEVLQLRPK
 #&gt; 192  909.00502  z16    z  16 2 ESITARHGEVLQLRPK
-#&gt; 193  368.24180  a4_   a_   4 1             VESI
-#&gt; 194  168.12571  a4_   a_   4 2             VESI
-#&gt; 195  469.28948  a5_   a_   5 1            VESIT
-#&gt; 196  218.64955  a5_   a_   5 2            VESIT
-#&gt; 197  540.32659  a6_   a_   6 1           VESITA
-#&gt; 198  254.16810  a6_   a_   6 2           VESITA
-#&gt; 199  696.42770  a7_   a_   7 1          VESITAR
-#&gt; 200  332.21866  a7_   a_   7 2          VESITAR
-#&gt; 201  833.48661  a8_   a_   8 1         VESITARH
-#&gt; 202  400.74811  a8_   a_   8 2         VESITARH
-#&gt; 203  890.50807  a9_   a_   9 1        VESITARHG
-#&gt; 204  429.25884  a9_   a_   9 2        VESITARHG
-#&gt; 205 1019.55066 a10_   a_  10 1       VESITARHGE
-#&gt; 206  493.78014 a10_   a_  10 2       VESITARHGE
-#&gt; 207 1118.61907 a11_   a_  11 1      VESITARHGEV
-#&gt; 208  543.31434 a11_   a_  11 2      VESITARHGEV
-#&gt; 209 1231.70313 a12_   a_  12 1     VESITARHGEVL
-#&gt; 210  599.85637 a12_   a_  12 2     VESITARHGEVL
-#&gt; 211 1359.76171 a13_   a_  13 1    VESITARHGEVLQ
-#&gt; 212  663.88566 a13_   a_  13 2    VESITARHGEVLQ
-#&gt; 213 1472.84577 a14_   a_  14 1   VESITARHGEVLQL
-#&gt; 214  720.42769 a14_   a_  14 2   VESITARHGEVLQL
-#&gt; 215 1628.94688 a15_   a_  15 1  VESITARHGEVLQLR
-#&gt; 216  798.47825 a15_   a_  15 2  VESITARHGEVLQLR
-#&gt; 217 1725.99964 a16_   a_  16 1 VESITARHGEVLQLRP
-#&gt; 218  847.00463 a16_   a_  16 2 VESITARHGEVLQLRP
-#&gt; 219  396.23671  b4_   b_   4 1             VESI
-#&gt; 220  182.12317  b4_   b_   4 2             VESI
-#&gt; 221  497.28439  b5_   b_   5 1            VESIT
-#&gt; 222  232.64701  b5_   b_   5 2            VESIT
-#&gt; 223  568.32150  b6_   b_   6 1           VESITA
-#&gt; 224  268.16556  b6_   b_   6 2           VESITA
-#&gt; 225  724.42261  b7_   b_   7 1          VESITAR
-#&gt; 226  346.21612  b7_   b_   7 2          VESITAR
-#&gt; 227  861.48152  b8_   b_   8 1         VESITARH
-#&gt; 228  414.74557  b8_   b_   8 2         VESITARH
-#&gt; 229  918.50298  b9_   b_   9 1        VESITARHG
-#&gt; 230  443.25630  b9_   b_   9 2        VESITARHG
-#&gt; 231 1047.54557 b10_   b_  10 1       VESITARHGE
-#&gt; 232  507.77760 b10_   b_  10 2       VESITARHGE
-#&gt; 233 1146.61398 b11_   b_  11 1      VESITARHGEV
-#&gt; 234  557.31180 b11_   b_  11 2      VESITARHGEV
-#&gt; 235 1259.69804 b12_   b_  12 1     VESITARHGEVL
-#&gt; 236  613.85383 b12_   b_  12 2     VESITARHGEVL
-#&gt; 237 1387.75662 b13_   b_  13 1    VESITARHGEVLQ
-#&gt; 238  677.88312 b13_   b_  13 2    VESITARHGEVLQ
-#&gt; 239 1500.84068 b14_   b_  14 1   VESITARHGEVLQL
-#&gt; 240  734.42515 b14_   b_  14 2   VESITARHGEVLQL
-#&gt; 241 1656.94179 b15_   b_  15 1  VESITARHGEVLQLR
-#&gt; 242  812.47571 b15_   b_  15 2  VESITARHGEVLQLR
-#&gt; 243 1753.99455 b16_   b_  16 1 VESITARHGEVLQLRP
-#&gt; 244  861.00209 b16_   b_  16 2 VESITARHGEVLQLRP
-#&gt; 245  413.26326  c4_   c_   4 1             VESI
-#&gt; 246  190.63644  c4_   c_   4 2             VESI
-#&gt; 247  514.31094  c5_   c_   5 1            VESIT
-#&gt; 248  241.16028  c5_   c_   5 2            VESIT
-#&gt; 249  585.34805  c6_   c_   6 1           VESITA
-#&gt; 250  276.67884  c6_   c_   6 2           VESITA
-#&gt; 251  741.44916  c7_   c_   7 1          VESITAR
-#&gt; 252  354.72939  c7_   c_   7 2          VESITAR
-#&gt; 253  878.50807  c8_   c_   8 1         VESITARH
-#&gt; 254  423.25885  c8_   c_   8 2         VESITARH
-#&gt; 255  935.52953  c9_   c_   9 1        VESITARHG
-#&gt; 256  451.76958  c9_   c_   9 2        VESITARHG
-#&gt; 257 1064.57212 c10_   c_  10 1       VESITARHGE
-#&gt; 258  516.29087 c10_   c_  10 2       VESITARHGE
-#&gt; 259 1163.64053 c11_   c_  11 1      VESITARHGEV
-#&gt; 260  565.82508 c11_   c_  11 2      VESITARHGEV
-#&gt; 261 1276.72459 c12_   c_  12 1     VESITARHGEVL
-#&gt; 262  622.36711 c12_   c_  12 2     VESITARHGEVL
-#&gt; 263 1404.78317 c13_   c_  13 1    VESITARHGEVLQ
-#&gt; 264  686.39640 c13_   c_  13 2    VESITARHGEVLQ
-#&gt; 265 1517.86723 c14_   c_  14 1   VESITARHGEVLQL
-#&gt; 266  742.93843 c14_   c_  14 2   VESITARHGEVLQL
-#&gt; 267 1673.96834 c15_   c_  15 1  VESITARHGEVLQLR
-#&gt; 268  820.98898 c15_   c_  15 2  VESITARHGEVLQLR
-#&gt; 269 1771.02110 c16_   c_  16 1 VESITARHGEVLQLRP
-#&gt; 270  869.51536 c16_   c_  16 2 VESITARHGEVLQLRP
-#&gt; 271  975.58598  x8_   x_   8 1         EVLQLRPK
-#&gt; 272  471.79780  x8_   x_   8 2         EVLQLRPK
-#&gt; 273 1610.93631 x14_   x_  14 1   ITARHGEVLQLRPK
-#&gt; 274  789.47297 x14_   x_  14 2   ITARHGEVLQLRPK
-#&gt; 275 1697.96834 x15_   x_  15 1  SITARHGEVLQLRPK
-#&gt; 276  832.98898 x15_   x_  15 2  SITARHGEVLQLRPK
-#&gt; 277 1827.01093 x16_   x_  16 1 ESITARHGEVLQLRPK
-#&gt; 278  897.51028 x16_   x_  16 2 ESITARHGEVLQLRPK
-#&gt; 279  949.60672  y8_   y_   8 1         EVLQLRPK
-#&gt; 280  458.80817  y8_   y_   8 2         EVLQLRPK
-#&gt; 281 1584.95705 y14_   y_  14 1   ITARHGEVLQLRPK
-#&gt; 282  776.48333 y14_   y_  14 2   ITARHGEVLQLRPK
-#&gt; 283 1671.98908 y15_   y_  15 1  SITARHGEVLQLRPK
-#&gt; 284  819.99935 y15_   y_  15 2  SITARHGEVLQLRPK
-#&gt; 285 1801.03167 y16_   y_  16 1 ESITARHGEVLQLRPK
-#&gt; 286  884.52064 y16_   y_  16 2 ESITARHGEVLQLRPK
-#&gt; 287  932.58017  z8_   z_   8 1         EVLQLRPK
-#&gt; 288  450.29489  z8_   z_   8 2         EVLQLRPK
-#&gt; 289 1567.93050 z14_   z_  14 1   ITARHGEVLQLRPK
-#&gt; 290  767.97006 z14_   z_  14 2   ITARHGEVLQLRPK
-#&gt; 291 1654.96253 z15_   z_  15 1  SITARHGEVLQLRPK
-#&gt; 292  811.48607 z15_   z_  15 2  SITARHGEVLQLRPK
-#&gt; 293 1784.00512 z16_   z_  16 1 ESITARHGEVLQLRPK
-#&gt; 294  876.00737 z16_   z_  16 2 ESITARHGEVLQLRPK
-#&gt; 295  140.09441  x1_   x_   1 1                K
-#&gt; 296   54.05202  x1_   x_   1 2                K
-#&gt; 297  237.14717  x2_   x_   2 1               PK
-#&gt; 298  102.57840  x2_   x_   2 2               PK
-#&gt; 299  393.24828  x3_   x_   3 1              RPK
-#&gt; 300  180.62895  x3_   x_   3 2              RPK
-#&gt; 301  506.33234  x4_   x_   4 1             LRPK
-#&gt; 302  237.17098  x4_   x_   4 2             LRPK
-#&gt; 303  634.39092  x5_   x_   5 1            QLRPK
-#&gt; 304  301.20027  x5_   x_   5 2            QLRPK
-#&gt; 305  747.47498  x6_   x_   6 1           LQLRPK
-#&gt; 306  357.74230  x6_   x_   6 2           LQLRPK
-#&gt; 307  846.54339  x7_   x_   7 1          VLQLRPK
-#&gt; 308  407.27651  x7_   x_   7 2          VLQLRPK
-#&gt; 309 1032.60744  x9_   x_   9 1        GEVLQLRPK
-#&gt; 310  500.30853  x9_   x_   9 2        GEVLQLRPK
-#&gt; 311 1169.66635 x10_   x_  10 1       HGEVLQLRPK
-#&gt; 312  568.83799 x10_   x_  10 2       HGEVLQLRPK
-#&gt; 313 1325.76746 x11_   x_  11 1      RHGEVLQLRPK
-#&gt; 314  646.88854 x11_   x_  11 2      RHGEVLQLRPK
-#&gt; 315 1396.80457 x12_   x_  12 1     ARHGEVLQLRPK
-#&gt; 316  682.40710 x12_   x_  12 2     ARHGEVLQLRPK
-#&gt; 317 1497.85225 x13_   x_  13 1    TARHGEVLQLRPK
-#&gt; 318  732.93094 x13_   x_  13 2    TARHGEVLQLRPK
-#&gt; 319  114.11515  y1_   y_   1 1                K
-#&gt; 320   41.06238  y1_   y_   1 2                K
-#&gt; 321  211.16791  y2_   y_   2 1               PK
-#&gt; 322   89.58876  y2_   y_   2 2               PK
-#&gt; 323  367.26902  y3_   y_   3 1              RPK
-#&gt; 324  167.63932  y3_   y_   3 2              RPK
-#&gt; 325  480.35308  y4_   y_   4 1             LRPK
-#&gt; 326  224.18135  y4_   y_   4 2             LRPK
-#&gt; 327  608.41166  y5_   y_   5 1            QLRPK
-#&gt; 328  288.21064  y5_   y_   5 2            QLRPK
-#&gt; 329  721.49572  y6_   y_   6 1           LQLRPK
-#&gt; 330  344.75267  y6_   y_   6 2           LQLRPK
-#&gt; 331  820.56413  y7_   y_   7 1          VLQLRPK
-#&gt; 332  394.28687  y7_   y_   7 2          VLQLRPK
-#&gt; 333 1006.62818  y9_   y_   9 1        GEVLQLRPK
-#&gt; 334  487.31890  y9_   y_   9 2        GEVLQLRPK
-#&gt; 335 1143.68709 y10_   y_  10 1       HGEVLQLRPK
-#&gt; 336  555.84835 y10_   y_  10 2       HGEVLQLRPK
-#&gt; 337 1299.78820 y11_   y_  11 1      RHGEVLQLRPK
-#&gt; 338  633.89891 y11_   y_  11 2      RHGEVLQLRPK
-#&gt; 339 1370.82531 y12_   y_  12 1     ARHGEVLQLRPK
-#&gt; 340  669.41746 y12_   y_  12 2     ARHGEVLQLRPK
-#&gt; 341 1471.87299 y13_   y_  13 1    TARHGEVLQLRPK
-#&gt; 342  719.94130 y13_   y_  13 2    TARHGEVLQLRPK
-#&gt; 343   97.08860  z1_   z_   1 1                K
-#&gt; 344   32.54911  z1_   z_   1 2                K
-#&gt; 345  194.14136  z2_   z_   2 1               PK
-#&gt; 346   81.07549  z2_   z_   2 2               PK
-#&gt; 347  350.24247  z3_   z_   3 1              RPK
-#&gt; 348  159.12604  z3_   z_   3 2              RPK
-#&gt; 349  463.32653  z4_   z_   4 1             LRPK
-#&gt; 350  215.66807  z4_   z_   4 2             LRPK
-#&gt; 351  591.38511  z5_   z_   5 1            QLRPK
-#&gt; 352  279.69736  z5_   z_   5 2            QLRPK
-#&gt; 353  704.46917  z6_   z_   6 1           LQLRPK
-#&gt; 354  336.23939  z6_   z_   6 2           LQLRPK
-#&gt; 355  803.53758  z7_   z_   7 1          VLQLRPK
-#&gt; 356  385.77360  z7_   z_   7 2          VLQLRPK
-#&gt; 357  989.60163  z9_   z_   9 1        GEVLQLRPK
-#&gt; 358  478.80562  z9_   z_   9 2        GEVLQLRPK
-#&gt; 359 1126.66054 z10_   z_  10 1       HGEVLQLRPK
-#&gt; 360  547.33508 z10_   z_  10 2       HGEVLQLRPK
-#&gt; 361 1282.76165 z11_   z_  11 1      RHGEVLQLRPK
-#&gt; 362  625.38563 z11_   z_  11 2      RHGEVLQLRPK
-#&gt; 363 1353.79876 z12_   z_  12 1     ARHGEVLQLRPK
-#&gt; 364  660.90419 z12_   z_  12 2     ARHGEVLQLRPK
-#&gt; 365 1454.84644 z13_   z_  13 1    TARHGEVLQLRPK
-#&gt; 366  711.42803 z13_   z_  13 2    TARHGEVLQLRPK
+#&gt; 193  383.22889  a4_   a_   4 1             VESI
+#&gt; 194  183.11280  a4_   a_   4 2             VESI
+#&gt; 195  484.27657  a5_   a_   5 1            VESIT
+#&gt; 196  233.63664  a5_   a_   5 2            VESIT
+#&gt; 197  555.31368  a6_   a_   6 1           VESITA
+#&gt; 198  269.15519  a6_   a_   6 2           VESITA
+#&gt; 199  711.41479  a7_   a_   7 1          VESITAR
+#&gt; 200  347.20575  a7_   a_   7 2          VESITAR
+#&gt; 201  848.47370  a8_   a_   8 1         VESITARH
+#&gt; 202  415.73520  a8_   a_   8 2         VESITARH
+#&gt; 203  905.49516  a9_   a_   9 1        VESITARHG
+#&gt; 204  444.24593  a9_   a_   9 2        VESITARHG
+#&gt; 205 1034.53775 a10_   a_  10 1       VESITARHGE
+#&gt; 206  508.76723 a10_   a_  10 2       VESITARHGE
+#&gt; 207 1133.60616 a11_   a_  11 1      VESITARHGEV
+#&gt; 208  558.30143 a11_   a_  11 2      VESITARHGEV
+#&gt; 209 1246.69022 a12_   a_  12 1     VESITARHGEVL
+#&gt; 210  614.84346 a12_   a_  12 2     VESITARHGEVL
+#&gt; 211 1374.74880 a13_   a_  13 1    VESITARHGEVLQ
+#&gt; 212  678.87275 a13_   a_  13 2    VESITARHGEVLQ
+#&gt; 213 1487.83286 a14_   a_  14 1   VESITARHGEVLQL
+#&gt; 214  735.41478 a14_   a_  14 2   VESITARHGEVLQL
+#&gt; 215 1643.93397 a15_   a_  15 1  VESITARHGEVLQLR
+#&gt; 216  813.46534 a15_   a_  15 2  VESITARHGEVLQLR
+#&gt; 217 1740.98673 a16_   a_  16 1 VESITARHGEVLQLRP
+#&gt; 218  861.99172 a16_   a_  16 2 VESITARHGEVLQLRP
+#&gt; 219  411.22380  b4_   b_   4 1             VESI
+#&gt; 220  197.11026  b4_   b_   4 2             VESI
+#&gt; 221  512.27148  b5_   b_   5 1            VESIT
+#&gt; 222  247.63410  b5_   b_   5 2            VESIT
+#&gt; 223  583.30859  b6_   b_   6 1           VESITA
+#&gt; 224  283.15265  b6_   b_   6 2           VESITA
+#&gt; 225  739.40970  b7_   b_   7 1          VESITAR
+#&gt; 226  361.20321  b7_   b_   7 2          VESITAR
+#&gt; 227  876.46861  b8_   b_   8 1         VESITARH
+#&gt; 228  429.73266  b8_   b_   8 2         VESITARH
+#&gt; 229  933.49007  b9_   b_   9 1        VESITARHG
+#&gt; 230  458.24339  b9_   b_   9 2        VESITARHG
+#&gt; 231 1062.53266 b10_   b_  10 1       VESITARHGE
+#&gt; 232  522.76469 b10_   b_  10 2       VESITARHGE
+#&gt; 233 1161.60107 b11_   b_  11 1      VESITARHGEV
+#&gt; 234  572.29889 b11_   b_  11 2      VESITARHGEV
+#&gt; 235 1274.68513 b12_   b_  12 1     VESITARHGEVL
+#&gt; 236  628.84092 b12_   b_  12 2     VESITARHGEVL
+#&gt; 237 1402.74371 b13_   b_  13 1    VESITARHGEVLQ
+#&gt; 238  692.87021 b13_   b_  13 2    VESITARHGEVLQ
+#&gt; 239 1515.82777 b14_   b_  14 1   VESITARHGEVLQL
+#&gt; 240  749.41224 b14_   b_  14 2   VESITARHGEVLQL
+#&gt; 241 1671.92888 b15_   b_  15 1  VESITARHGEVLQLR
+#&gt; 242  827.46280 b15_   b_  15 2  VESITARHGEVLQLR
+#&gt; 243 1768.98164 b16_   b_  16 1 VESITARHGEVLQLRP
+#&gt; 244  875.98918 b16_   b_  16 2 VESITARHGEVLQLRP
+#&gt; 245  428.25035  c4_   c_   4 1             VESI
+#&gt; 246  205.62353  c4_   c_   4 2             VESI
+#&gt; 247  529.29803  c5_   c_   5 1            VESIT
+#&gt; 248  256.14737  c5_   c_   5 2            VESIT
+#&gt; 249  600.33514  c6_   c_   6 1           VESITA
+#&gt; 250  291.66593  c6_   c_   6 2           VESITA
+#&gt; 251  756.43625  c7_   c_   7 1          VESITAR
+#&gt; 252  369.71648  c7_   c_   7 2          VESITAR
+#&gt; 253  893.49516  c8_   c_   8 1         VESITARH
+#&gt; 254  438.24594  c8_   c_   8 2         VESITARH
+#&gt; 255  950.51662  c9_   c_   9 1        VESITARHG
+#&gt; 256  466.75667  c9_   c_   9 2        VESITARHG
+#&gt; 257 1079.55921 c10_   c_  10 1       VESITARHGE
+#&gt; 258  531.27796 c10_   c_  10 2       VESITARHGE
+#&gt; 259 1178.62762 c11_   c_  11 1      VESITARHGEV
+#&gt; 260  580.81217 c11_   c_  11 2      VESITARHGEV
+#&gt; 261 1291.71168 c12_   c_  12 1     VESITARHGEVL
+#&gt; 262  637.35420 c12_   c_  12 2     VESITARHGEVL
+#&gt; 263 1419.77026 c13_   c_  13 1    VESITARHGEVLQ
+#&gt; 264  701.38349 c13_   c_  13 2    VESITARHGEVLQ
+#&gt; 265 1532.85432 c14_   c_  14 1   VESITARHGEVLQL
+#&gt; 266  757.92552 c14_   c_  14 2   VESITARHGEVLQL
+#&gt; 267 1688.95543 c15_   c_  15 1  VESITARHGEVLQLR
+#&gt; 268  835.97607 c15_   c_  15 2  VESITARHGEVLQLR
+#&gt; 269 1786.00819 c16_   c_  16 1 VESITARHGEVLQLRP
+#&gt; 270  884.50245 c16_   c_  16 2 VESITARHGEVLQLRP
+#&gt; 271  990.57307  x8_   x_   8 1         EVLQLRPK
+#&gt; 272  486.78489  x8_   x_   8 2         EVLQLRPK
+#&gt; 273 1625.92340 x14_   x_  14 1   ITARHGEVLQLRPK
+#&gt; 274  804.46006 x14_   x_  14 2   ITARHGEVLQLRPK
+#&gt; 275 1712.95543 x15_   x_  15 1  SITARHGEVLQLRPK
+#&gt; 276  847.97607 x15_   x_  15 2  SITARHGEVLQLRPK
+#&gt; 277 1841.99802 x16_   x_  16 1 ESITARHGEVLQLRPK
+#&gt; 278  912.49737 x16_   x_  16 2 ESITARHGEVLQLRPK
+#&gt; 279  964.59381  y8_   y_   8 1         EVLQLRPK
+#&gt; 280  473.79526  y8_   y_   8 2         EVLQLRPK
+#&gt; 281 1599.94414 y14_   y_  14 1   ITARHGEVLQLRPK
+#&gt; 282  791.47042 y14_   y_  14 2   ITARHGEVLQLRPK
+#&gt; 283 1686.97617 y15_   y_  15 1  SITARHGEVLQLRPK
+#&gt; 284  834.98644 y15_   y_  15 2  SITARHGEVLQLRPK
+#&gt; 285 1816.01876 y16_   y_  16 1 ESITARHGEVLQLRPK
+#&gt; 286  899.50773 y16_   y_  16 2 ESITARHGEVLQLRPK
+#&gt; 287  947.56726  z8_   z_   8 1         EVLQLRPK
+#&gt; 288  465.28198  z8_   z_   8 2         EVLQLRPK
+#&gt; 289 1582.91759 z14_   z_  14 1   ITARHGEVLQLRPK
+#&gt; 290  782.95715 z14_   z_  14 2   ITARHGEVLQLRPK
+#&gt; 291 1669.94962 z15_   z_  15 1  SITARHGEVLQLRPK
+#&gt; 292  826.47316 z15_   z_  15 2  SITARHGEVLQLRPK
+#&gt; 293 1798.99221 z16_   z_  16 1 ESITARHGEVLQLRPK
+#&gt; 294  890.99446 z16_   z_  16 2 ESITARHGEVLQLRPK
+#&gt; 295  155.08150  x1_   x_   1 1                K
+#&gt; 296   69.03911  x1_   x_   1 2                K
+#&gt; 297  252.13426  x2_   x_   2 1               PK
+#&gt; 298  117.56549  x2_   x_   2 2               PK
+#&gt; 299  408.23537  x3_   x_   3 1              RPK
+#&gt; 300  195.61604  x3_   x_   3 2              RPK
+#&gt; 301  521.31943  x4_   x_   4 1             LRPK
+#&gt; 302  252.15807  x4_   x_   4 2             LRPK
+#&gt; 303  649.37801  x5_   x_   5 1            QLRPK
+#&gt; 304  316.18736  x5_   x_   5 2            QLRPK
+#&gt; 305  762.46207  x6_   x_   6 1           LQLRPK
+#&gt; 306  372.72939  x6_   x_   6 2           LQLRPK
+#&gt; 307  861.53048  x7_   x_   7 1          VLQLRPK
+#&gt; 308  422.26360  x7_   x_   7 2          VLQLRPK
+#&gt; 309 1047.59453  x9_   x_   9 1        GEVLQLRPK
+#&gt; 310  515.29562  x9_   x_   9 2        GEVLQLRPK
+#&gt; 311 1184.65344 x10_   x_  10 1       HGEVLQLRPK
+#&gt; 312  583.82508 x10_   x_  10 2       HGEVLQLRPK
+#&gt; 313 1340.75455 x11_   x_  11 1      RHGEVLQLRPK
+#&gt; 314  661.87563 x11_   x_  11 2      RHGEVLQLRPK
+#&gt; 315 1411.79166 x12_   x_  12 1     ARHGEVLQLRPK
+#&gt; 316  697.39419 x12_   x_  12 2     ARHGEVLQLRPK
+#&gt; 317 1512.83934 x13_   x_  13 1    TARHGEVLQLRPK
+#&gt; 318  747.91803 x13_   x_  13 2    TARHGEVLQLRPK
+#&gt; 319  129.10224  y1_   y_   1 1                K
+#&gt; 320   56.04947  y1_   y_   1 2                K
+#&gt; 321  226.15500  y2_   y_   2 1               PK
+#&gt; 322  104.57585  y2_   y_   2 2               PK
+#&gt; 323  382.25611  y3_   y_   3 1              RPK
+#&gt; 324  182.62641  y3_   y_   3 2              RPK
+#&gt; 325  495.34017  y4_   y_   4 1             LRPK
+#&gt; 326  239.16844  y4_   y_   4 2             LRPK
+#&gt; 327  623.39875  y5_   y_   5 1            QLRPK
+#&gt; 328  303.19773  y5_   y_   5 2            QLRPK
+#&gt; 329  736.48281  y6_   y_   6 1           LQLRPK
+#&gt; 330  359.73976  y6_   y_   6 2           LQLRPK
+#&gt; 331  835.55122  y7_   y_   7 1          VLQLRPK
+#&gt; 332  409.27396  y7_   y_   7 2          VLQLRPK
+#&gt; 333 1021.61527  y9_   y_   9 1        GEVLQLRPK
+#&gt; 334  502.30599  y9_   y_   9 2        GEVLQLRPK
+#&gt; 335 1158.67418 y10_   y_  10 1       HGEVLQLRPK
+#&gt; 336  570.83544 y10_   y_  10 2       HGEVLQLRPK
+#&gt; 337 1314.77529 y11_   y_  11 1      RHGEVLQLRPK
+#&gt; 338  648.88600 y11_   y_  11 2      RHGEVLQLRPK
+#&gt; 339 1385.81240 y12_   y_  12 1     ARHGEVLQLRPK
+#&gt; 340  684.40455 y12_   y_  12 2     ARHGEVLQLRPK
+#&gt; 341 1486.86008 y13_   y_  13 1    TARHGEVLQLRPK
+#&gt; 342  734.92839 y13_   y_  13 2    TARHGEVLQLRPK
+#&gt; 343  112.07569  z1_   z_   1 1                K
+#&gt; 344   47.53620  z1_   z_   1 2                K
+#&gt; 345  209.12845  z2_   z_   2 1               PK
+#&gt; 346   96.06258  z2_   z_   2 2               PK
+#&gt; 347  365.22956  z3_   z_   3 1              RPK
+#&gt; 348  174.11313  z3_   z_   3 2              RPK
+#&gt; 349  478.31362  z4_   z_   4 1             LRPK
+#&gt; 350  230.65516  z4_   z_   4 2             LRPK
+#&gt; 351  606.37220  z5_   z_   5 1            QLRPK
+#&gt; 352  294.68445  z5_   z_   5 2            QLRPK
+#&gt; 353  719.45626  z6_   z_   6 1           LQLRPK
+#&gt; 354  351.22648  z6_   z_   6 2           LQLRPK
+#&gt; 355  818.52467  z7_   z_   7 1          VLQLRPK
+#&gt; 356  400.76069  z7_   z_   7 2          VLQLRPK
+#&gt; 357 1004.58872  z9_   z_   9 1        GEVLQLRPK
+#&gt; 358  493.79271  z9_   z_   9 2        GEVLQLRPK
+#&gt; 359 1141.64763 z10_   z_  10 1       HGEVLQLRPK
+#&gt; 360  562.32217 z10_   z_  10 2       HGEVLQLRPK
+#&gt; 361 1297.74874 z11_   z_  11 1      RHGEVLQLRPK
+#&gt; 362  640.37272 z11_   z_  11 2      RHGEVLQLRPK
+#&gt; 363 1368.78585 z12_   z_  12 1     ARHGEVLQLRPK
+#&gt; 364  675.89128 z12_   z_  12 2     ARHGEVLQLRPK
+#&gt; 365 1469.83353 z13_   z_  13 1    TARHGEVLQLRPK
+#&gt; 366  726.41512 z13_   z_  13 2    TARHGEVLQLRPK
 #&gt; 367  849.45771  a8*   a*   8 1         VESITARH
 #&gt; 368  416.71922  a8*   a*   8 2         VESITARH
 #&gt; 369  906.47917  a9*   a*   9 1        VESITARHG
@@ -770,13 +770,14 @@
 #&gt; 497 1799.97622 z16*   z*  16 1 ESITARHGEVLQLRPK
 #&gt; 498  891.97848 z16*   z*  16 2 ESITARHGEVLQLRPK</div><div class='input'>
 <span class='fu'>calculateFragments</span>(<span class='st'>"VESITARHGEVLQLRPK"</span>, <span class='no'>msexp</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt;          mz intensity  ion type pos z             seq       error
-#&gt; 1  114.1109  706555.7  y1_   y_   1 1               K  0.00425275
-#&gt; 2  429.2563 1972344.0   b4    b   4 1            VESI -0.02189010
+#&gt; 1  429.2563 1972344.0   b4    b   4 1            VESI -0.02189010
+#&gt; 2  512.3044  684918.0  b5_   b_   5 1           VESIT -0.03290132
 #&gt; 3  513.3047 2574137.0   y4    y   4 1            LRPK  0.04598246
-#&gt; 4  754.4504  537234.8   y6    y   6 1          LQLRPK  0.04293155
-#&gt; 5  982.5354  500159.1   y8    y   8 1        EVLQLRPK  0.06897061
-#&gt; 6 1080.5867  209363.7  b10    b  10 1      VESITARHGE -0.04344392
-#&gt; 7 1688.0375  136748.8 y15*   y*  15 1 SITARHGEVLQLRPK -0.07729359</div><div class='input'>
+#&gt; 4  583.3300 1440833.8  b6_   b_   6 1          VESITA -0.02142609
+#&gt; 5  754.4504  537234.8   y6    y   6 1          LQLRPK  0.04293155
+#&gt; 6  982.5354  500159.1   y8    y   8 1        EVLQLRPK  0.06897061
+#&gt; 7 1080.5867  209363.7  b10    b  10 1      VESITARHGE -0.04344392
+#&gt; 8 1688.0375  136748.8 y15*   y*  15 1 SITARHGEVLQLRPK -0.07729359</div><div class='input'>
 <span class='co'>## neutral loss</span>
 <span class='fu'>defaultNeutralLoss</span>()</div><div class='output co'>#&gt; $water
 #&gt; [1] "Cterm" "D"     "E"     "S"     "T"    
@@ -797,8 +798,8 @@
 #&gt; 2 226.11862  b2    b   2 1  PQ
 #&gt; 3 175.11895  y1    y   1 1   R
 #&gt; 4 303.17753  y2    y   2 1  QR
-#&gt; 5 142.12130 y1_   y_   1 1   R
-#&gt; 6 270.17988 y2_   y_   2 1  QR
+#&gt; 5 157.10839 y1_   y_   1 1   R
+#&gt; 6 285.16697 y2_   y_   2 1  QR
 #&gt; 7 286.15098 y2*   y*   2 1  QR</div><div class='input'><span class='fu'>calculateFragments</span>(<span class='st'>"PQR"</span>,
                    <span class='kw'>neutralLoss</span><span class='kw'>=</span><span class='fu'>defaultNeutralLoss</span>(<span class='kw'>disableWaterLoss</span><span class='kw'>=</span><span class='st'>"Cterm"</span>))</div><div class='output co'>#&gt;          mz ion type pos z seq
 #&gt; 1  98.06004  b1    b   1 1   P
@@ -811,8 +812,8 @@
 #&gt; 2 226.11862  b2    b   2 1  PQ
 #&gt; 3 175.11895  y1    y   1 1   R
 #&gt; 4 303.17753  y2    y   2 1  QR
-#&gt; 5 142.12130 y1_   y_   1 1   R
-#&gt; 6 270.17988 y2_   y_   2 1  QR</div><div class='input'>
+#&gt; 5 157.10839 y1_   y_   1 1   R
+#&gt; 6 285.16697 y2_   y_   2 1  QR</div><div class='input'>
 <span class='co'>## disable neutral loss completely</span>
 <span class='fu'>calculateFragments</span>(<span class='st'>"PQR"</span>, <span class='kw'>neutralLoss</span><span class='kw'>=</span><span class='kw'>NULL</span>)</div><div class='output co'>#&gt;          mz ion type pos z seq
 #&gt; 1  98.06004  b1    b   1 1   P
