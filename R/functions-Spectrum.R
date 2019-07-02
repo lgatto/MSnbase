@@ -966,6 +966,8 @@ descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
 meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
                        main = 1L, mzd, ppm = 0, timeDomain = FALSE,
                        unionPeaks = TRUE) {
+    if (length(x) == 1)
+        return(x[[1]])
     if (length(unique(unlist(lapply(x, function(z) z@msLevel)))) != 1)
         stop("Can only combine spectra with the same MS level")
     if (main > length(x) || main < 1)
@@ -979,10 +981,13 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
         mz_groups <- .group_mz_values(sqrt(mzs), mzd = mzd)
     else
         mz_groups <- .group_mz_values(mzs, mzd = mzd, ppm = ppm)
-    if (length(unique(mz_groups)) < length(x[[main]]@mz))
-        warning("Got less m/z groups than m/z values in the original spectrum.",
-                " Most likely the data is not profile-mode LCMS data or ",
-                "'mzd' is too large.")
+    ## Disable the warning below, as this does not apply to all use cases: for
+    ## arbitrary input data we can not expect the first spectrum to contain the
+    ## largest number of peaks.
+    ## if (length(unique(mz_groups)) < length(x[[main]]@mz))
+    ##     warning("Got less m/z groups than m/z values in the original spectrum.",
+    ##             " Most likely the data is not profile-mode LCMS data or ",
+    ##             "'mzd' is too large.")
     ints <- unlist(base::lapply(x, function(z) z@intensity),
                    use.names = FALSE)[mz_order]
     new_sp <- x[[main]]
@@ -1205,6 +1210,8 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
 #'
 consensusSpectrum <- function(x, mzd, minProp = 0.5, intensityFun = base::max,
                               ppm = 0, ...) {
+    if (length(x) == 1)
+        return(x[[1]])
     if (!is(x, "Spectra"))
         x <- Spectra(x)
     if (length(unique(msLevel(x))) != 1)
@@ -1220,9 +1227,12 @@ consensusSpectrum <- function(x, mzd, minProp = 0.5, intensityFun = base::max,
     mzs <- mzs[keep]
     ints <- ints[keep]
     mz_groups <- .group_mz_values(mzs, mzd = mzd, ppm = ppm)
-    if (length(unique(mz_groups)) < sum(xnew@intensity > 0))
-        warning("Got less m/z groups than m/z groups in the first spectrum. ",
-                "Most likely `mzd` is too large.")
+    ## Disable the warning below, as this does not apply to all use cases: for
+    ## arbitrary input data we can not expect the first spectrum to contain the
+    ## largest number of peaks.
+    ## if (length(unique(mz_groups)) < sum(xnew@intensity > 0))
+    ##     warning("Got less m/z groups than m/z groups in the first spectrum. ",
+    ##             "Most likely `mzd` is too large.")
     mzs <- split(mzs, mz_groups)
     ints <- split(ints, mz_groups)
     keep <- lengths(mzs) >= (length(x) * minProp)

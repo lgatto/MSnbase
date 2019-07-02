@@ -577,3 +577,50 @@ setAs("MSnExp", "Spectra", function(from) {
     fdta <- fdta[, !colnames(fdta) %in% red_cn, drop = FALSE]
     Spectra(spectra(from), elementMetadata = DataFrame(fdta))
 })
+
+#' @rdname combineSpectra
+setMethod("combineSpectra", "MSnExp", function(object, fcol = "fileIdx",
+                                               method = meanMzInts, ...,
+                                               BPPARAM = bpparam()) {
+    BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
+    fns <- fileNames(object)
+    if (is(object, "MSnExp") && fcol == "fileIdx")
+        fData(object)$fileIdx <- fromFile(object)
+    objs <- split(object, fromFile(object))
+    dots <- list(...)
+    res <- bplapply(objs, function(z, fcol, fns, dots) {
+        sps <- do.call(
+            combineSpectra,
+            args = c(list(
+                object = Spectra(spectra(z), elementMetadata = DataFrame(fData(z))),
+                fcol = fcol, method = method), dots))
+        ff <- match(fileNames(z), fns)
+        sps@listData <- lapply(sps@listData, function(x) {
+            x@fromFile <- ff
+            x
+        })
+        mcols(sps)$fileIdx <- ff
+        sps
+    }, fcol = fcol, fns = fns, dots = dots, BPPARAM = BPPARAM)
+    names(res) <- NULL
+    fdta <- do.call(rbind, lapply(res, function(z) z@elementMetadata))
+    res <- unlist(lapply(res, function(z) z@listData))
+    rownames(fdta) <- names(res)
+    msn <- new("MSnExp")
+    msn@featureData <- AnnotatedDataFrame(as.data.frame(fdta))
+    msn@assayData <- list2env(res)
+    lockEnvironment(msn@assayData, bindings = TRUE)
+    msn@phenoData <- object@phenoData
+    msn@experimentData <- object@experimentData
+    msn@protocolData <- object@protocolData
+    msn@processingData <- object@processingData
+    msn@processingData@processing <- c(
+        msn@processingData@processing,
+        paste0("Spectra combined based on feature variable '", fcol, "' [",
+               date(), "]"))
+    .cacheEnv <- setCacheEnv(list("assaydata" = msn@assayData, "hd" = NULL),
+                             level = 0, lock = TRUE)
+    msn@.cache = .cacheEnv
+    validObject(msn)
+    msn
+})

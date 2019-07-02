@@ -6,6 +6,8 @@
 - Remove message about changed meaning of the "modifications" argument in
   calculateFragments' that was introduced in MSnbase 1.17.6 (2015-06-21).
   <2019-06-01 Sat>
+- Implement combineSpectra,MSnExp (see
+  [#474](https://github.com/lgatto/MSnbase/issues/474)) <2019-06-02 Tue>.
 
 ## MSnbase 2.11.2
 

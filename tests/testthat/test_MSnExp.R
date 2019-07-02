@@ -538,8 +538,8 @@ test_that("combineSpectraMovingWindow works", {
     ## Use pre-calculated mzd:
     mzd <- estimateMzScattering(od)
     ## If mzd is estimated on mz and combination on sqrt(mz) it will fail.
-    expect_warning(od_comb <- combineSpectraMovingWindow(
-                       od, mzd = mzd[[4]], timeDomain = TRUE))
+    od_comb <- combineSpectraMovingWindow(
+        od, mzd = mzd[[4]], timeDomain = TRUE)
     ## All on m/z scale
     od_comb <- combineSpectraMovingWindow(od, mzd = mzd[[4]],
                                           timeDomain = FALSE)
@@ -599,4 +599,19 @@ test_that("as,MSnExp,Spectra works", {
 test_that("isolationWindowLowerMz, isolationWindowUpperMz work", {
     expect_error(isolationWindowLowerMz(tmt_im_ms2_sub), "not available")
     expect_error(isolationWindowUpperMz(tmt_im_ms2_sub), "not available")
+})
+
+test_that("combineSpectra,MSnExp works", {
+    res <- combineSpectra(tmt_im_ms2_sub)
+    expect_true(is(res, "MSnExp"))
+    expect_true(length(res) == 1)
+    expect_equal(res[[1]],
+                 combineSpectra(as(tmt_im_ms2_sub, "Spectra"))@listData[[1]])
+    res2 <- combineSpectra(tmt_im_ms2_sub, mzd = 0.1)
+    expect_true(peaksCount(res2) < peaksCount(res))
+    res3 <- combineSpectra(tmt_im_ms2_sub, mzd = 0.01, minProp = 0.1,
+                           method = consensusSpectrum)
+    expect_true(peaksCount(res3) < peaksCount(res2))
+
+    expect_error(combineSpectra(tmt_im_ms2_sub, fcol = "other"))
 })

@@ -439,3 +439,9 @@ test_that("isolationWindowLowerMz,isolationWindowUpperMz,OnDiskMSnExp works", {
     expect_true(all(is.na(mz_low)))
     expect_true(all(is.na(mz_high)))
 })
+
+test_that("combineSpectra,MSnExp works with OnDiskMSnExp", {
+    res <- combineSpectra(filterRt(sciex, c(10, 20)))
+    expect_true(is(res, "MSnExp"))
+    expect_true(length(res) == 2)
+})

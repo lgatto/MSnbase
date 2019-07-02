@@ -539,7 +539,7 @@ test_that("meanMzInts works", {
     sp4 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.3),
                intensity = ints2, rt = 4)
     ## randon noise larger than resolution.
-    expect_warning(res <- meanMzInts(list(sp1, sp3, sp4)))
+    res <- meanMzInts(list(sp1, sp3, sp4))
 
     res <- meanMzInts(list(sp1, sp2, sp3), main = 1, timeDomain = TRUE,
                           unionPeaks = FALSE)
@@ -572,7 +572,7 @@ test_that("meanMzInts works", {
     expect_equal(intensity(res), intensity(res_2))
     ## with (wrongly) pre-calculated mzd
     mzd <- .estimate_mz_scattering(sort(unlist(lapply(lst, mz))))
-    expect_warning(meanMzInts(lst, timeDomain = TRUE, mzd = mzd))
+    meanMzInts(lst, timeDomain = TRUE, mzd = mzd)
     res_3 <- meanMzInts(lst, timeDomain = FALSE, mzd = mzd, main = 2)
 
     expect_equal(mz(res), mz(res_3))
@@ -627,7 +627,6 @@ test_that("consensusSpectrum works", {
                intensity = c(8, 210, 7, 101, 17, 8))
     spl <- Spectra(sp1, sp2, sp3)
 
-    expect_error(consensusSpectrum(4))
     cons <- consensusSpectrum(spl, mzd = 0.02)
     expect_true(is(cons, "Spectrum2"))
     expect_equal(length(mz(cons)), 2)

@@ -69,7 +69,7 @@ setMethod("show", "Spectra", function(object) {
 #'
 #' - `smooth` *smooths* spectra. See [smooth()] for more details.
 #'
-#' @section Filtering and subsetting
+#' @section Filtering and subsetting:
 #'
 #' - `[` can be used to subset the `Spectra` object.
 #'
@@ -419,27 +419,32 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
         x
 })
 
-
-
-
-#' `combineSpectra` combines spectra in a [MSnExp-class] or [Spectra-class]
-#' object applying the summarization function `fun` to sets of spectra defined
-#' by a factor (`fcol` parameter). The resulting combined spectrum for each set
-#' contains metadata information (present in `mcols` and all spectrum
-#' information other than `mz` and `intensity`) from the first spectrum in each
-#' set.
+#' @title Combine Spectra
+#'
+#' @description
+#'
+#' `combineSpectra` combines spectra in a [MSnExp-class], [OnDiskMSnExp-class]
+#' or [Spectra-class] object applying the summarization function `fun` to sets
+#' of spectra defined by a factor (`fcol` parameter). The resulting combined
+#' spectrum for each set contains metadata information (present in `mcols` and
+#' all spectrum information other than `mz` and `intensity`) from the first
+#' spectrum in each set.
+#'
+#' Combining of spectra for [MSnExp-class] or [OnDiskMSnExp-class] objects is
+#' performed by default for each file **separately**, combining of spectra
+#' across files is thus not possible. See examples for details.
 #'
 #' @aliases combineSpectra
 #'
 #' @rdname combineSpectra
 #'
-#' @title Combine Spectra
-#'
 #' @param object A [MSnExp-class] or [Spectra-class]
 #'
 #' @param fcol For `Spectra` objects: `mcols` column name to be used to define
 #'     the sets of spectra to be combined. If missing, all spectra are
-#'     considered to be one set.
+#'     considered to be one set. For `MSnExp`/`OnDiskMSnExp` objects: column
+#'     in `fData(object)` defining which spectra to combine. See examples below
+#'     for more details.
 #'
 #' @param fun *Deprecated* use `method` instead.
 #'
@@ -448,6 +453,10 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #'     [Spectrum-class]. See [meanMzInts()] for details.
 #'
 #' @param ... additional arguments for `fun`.
+#'
+#' @param BPPARAM For `MSnExp`/`OnDiskMSnExp` objects: parallel processing setup
+#'     to perform per-file parallel spectra combining. See [bpparam()] for more
+#'     details.
 #'
 #' @return A `Spectra` or `MSnExp` object with combined spectra. Metadata
 #'     (`mcols`) and all spectrum attributes other than `mz` and `intensity`
@@ -511,6 +520,34 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #'     col = "black")
 #' plot(mz(res[[2]]), intensity(res[[2]]), xlim = range(mzs[5:25]), type = "h",
 #'     col = "black")
+#'
+#' ## Combining spectra of an MSnExp/OnDiskMSnExp objects
+#' ## Reading data from 2 mzML files
+#' sciex <- readMSData(dir(system.file("sciex", package = "msdata"),
+#'     full.names = TRUE), mode = "onDisk")
+#'
+#' ## Filter the file to a retention time range from 2 to 20 seconds (to reduce
+#' ## execution time of the example)
+#' sciex <- filterRt(sciex, rt = c(2, 20))
+#' table(fromFile(sciex))
+#'
+#' ## We have thus 64 spectra per file.
+#'
+#' ## In the example below we combine spectra measured in one second to a
+#' ## single spectrum. We thus first define the grouping variable and add that
+#' ## to the `fData` of the object. For combining, we use the
+#' ## `consensusSpectrum` function that combines the spectra keeping only peaks
+#' ## that were found in 50% of the spectra; by defining `mzd = 0.01` all peaks
+#' ## within an m/z of 0.01 are evaluated for combining.
+#' seconds <- round(rtime(sciex))
+#' head(seconds)
+#' fData(sciex)$second <- seconds
+#'
+#' res <- combineSpectra(sciex, fcol = "second", mzd = 0.01, minProp = 0.1,
+#'     method = consensusSpectrum)
+#' table(fromFile(res))
+#'
+#' ## The data was reduced to 19 spectra for each file.
 setMethod("combineSpectra", "Spectra", function(object, fcol,
                                                 method = meanMzInts, fun, ...) {
     if (!missing(fun)) {
