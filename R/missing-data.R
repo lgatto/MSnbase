@@ -38,7 +38,7 @@ plotNA_matrix <- function(X, pNA) {
              theme(legend.position=c(0.23, 0.18),
                   legend.title = element_blank(),
                   legend.background = element_rect(size = 0)) +
-                    scale_colour_hue(labels = c("Individual proteins", "Full dataset"),
+                    scale_colour_hue(labels = c("Individual features", "Full dataset"),
                                      breaks = c("proteins", "data"))
   dfr0 <- data.frame(x = nrow(dfr1), y = min(dfr1$data))  
   p <- p +
