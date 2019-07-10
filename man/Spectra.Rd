@@ -226,6 +226,17 @@ centroided from the actual peak data.
 }
 }
 
+\section{Filtering and subsetting}{
+
+\itemize{
+\item \code{[} can be used to subset the \code{Spectra} object.
+\item \code{filterMsLevel} filters \code{Spectra} to retain only spectra from certain MS
+level(s).
+\item \code{filterMz} filters the spectra by the specified \code{mz} range. See
+\code{\link[=filterMz]{filterMz()}} for details.
+}
+}
+
 \examples{
 
 ## Create from Spectrum objects

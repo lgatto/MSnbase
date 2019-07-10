@@ -4,7 +4,7 @@ readMSData2 <- function(files,
                         verbose = isMSnbaseVerbose(),
                         centroided.,
                         smoothed. = NA) {
-   .Defunct(new = "readMSData")			
+   .Defunct(new = "readMSData")
 }
 
 
@@ -66,6 +66,7 @@ readOnDiskMSData <- function(files, pdata, msLevel., verbose,
                                                        nrow(fdData)))
         }
         ## Order the fdData by acquisitionNum to force use of acquisitionNum
+
         ## as unique ID for the spectrum (issue #103). That way we can use
         ## the spIdx (is the index of the spectrum within the file) for
         ## subsetting and extracting.
