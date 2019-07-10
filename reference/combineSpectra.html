@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Combine Spectra — combineSpectra,Spectra-method • MSnbase</title>
+<title>Combine Spectra — combineSpectra,MSnExp-method • MSnbase</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,14 +30,17 @@
 
 
 
-<meta property="og:title" content="Combine Spectra — combineSpectra,Spectra-method" />
+<meta property="og:title" content="Combine Spectra — combineSpectra,MSnExp-method" />
 
-<meta property="og:description" content="combineSpectra combines spectra in a MSnExp or Spectra
-object applying the summarization function fun to sets of spectra defined
-by a factor (fcol parameter). The resulting combined spectrum for each set
-contains metadata information (present in mcols and all spectrum
-information other than mz and intensity) from the first spectrum in each
-set." />
+<meta property="og:description" content="combineSpectra combines spectra in a MSnExp, OnDiskMSnExp
+or Spectra object applying the summarization function fun to sets
+of spectra defined by a factor (fcol parameter). The resulting combined
+spectrum for each set contains metadata information (present in mcols and
+all spectrum information other than mz and intensity) from the first
+spectrum in each set.
+Combining of spectra for MSnExp or OnDiskMSnExp objects is
+performed by default for each file separately, combining of spectra
+across files is thus not possible. See examples for details." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -132,22 +135,29 @@ set." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Combine Spectra</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lgatto/MSnbase/blob/master/R/methods-Spectra.R'><code>R/methods-Spectra.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/lgatto/MSnbase/blob/master/R/methods-MSnExp.R'><code>R/methods-MSnExp.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/methods-Spectra.R'><code>R/methods-Spectra.R</code></a></small>
     <div class="hidden name"><code>combineSpectra.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>combineSpectra</code> combines spectra in a <a href='MSnExp-class.html'>MSnExp</a> or <a href='Spectra.html'>Spectra</a>
-object applying the summarization function <code>fun</code> to sets of spectra defined
-by a factor (<code>fcol</code> parameter). The resulting combined spectrum for each set
-contains metadata information (present in <code>mcols</code> and all spectrum
-information other than <code>mz</code> and <code>intensity</code>) from the first spectrum in each
-set.</p>
+    <p><code>combineSpectra</code> combines spectra in a <a href='MSnExp-class.html'>MSnExp</a>, <a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a>
+or <a href='Spectra.html'>Spectra</a> object applying the summarization function <code>fun</code> to sets
+of spectra defined by a factor (<code>fcol</code> parameter). The resulting combined
+spectrum for each set contains metadata information (present in <code>mcols</code> and
+all spectrum information other than <code>mz</code> and <code>intensity</code>) from the first
+spectrum in each set.</p>
+<p>Combining of spectra for <a href='MSnExp-class.html'>MSnExp</a> or <a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a> objects is
+performed by default for each file <strong>separately</strong>, combining of spectra
+across files is thus not possible. See examples for details.</p>
     
     </div>
 
-    <pre class="usage"><span class='co'># S4 method for Spectra</span>
+    <pre class="usage"><span class='co'># S4 method for MSnExp</span>
+<span class='fu'>combineSpectra</span>(<span class='no'>object</span>, <span class='kw'>fcol</span> <span class='kw'>=</span> <span class='st'>"fileIdx"</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='no'>meanMzInts</span>, <span class='no'>...</span>, <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>bpparam</span>())
+
+<span class='co'># S4 method for Spectra</span>
 <span class='fu'>combineSpectra</span>(<span class='no'>object</span>, <span class='no'>fcol</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='no'>meanMzInts</span>,
   <span class='no'>fun</span>, <span class='no'>...</span>)</pre>
     
@@ -162,7 +172,9 @@ set.</p>
       <th>fcol</th>
       <td><p>For <code>Spectra</code> objects: <code>mcols</code> column name to be used to define
 the sets of spectra to be combined. If missing, all spectra are
-considered to be one set.</p></td>
+considered to be one set. For <code>MSnExp</code>/<code>OnDiskMSnExp</code> objects: column
+in <code>fData(object)</code> defining which spectra to combine. See examples below
+for more details.</p></td>
     </tr>
     <tr>
       <th>method</th>
@@ -171,12 +183,18 @@ be a function that takes a list of spectra as input and returns a single
 <a href='Spectrum-class.html'>Spectrum</a>. See <code><a href='meanMzInts.html'>meanMzInts()</a></code> for details.</p></td>
     </tr>
     <tr>
-      <th>fun</th>
-      <td><p><em>Deprecated</em> use <code>method</code> instead.</p></td>
-    </tr>
-    <tr>
       <th>...</th>
       <td><p>additional arguments for <code>fun</code>.</p></td>
+    </tr>
+    <tr>
+      <th>BPPARAM</th>
+      <td><p>For <code>MSnExp</code>/<code>OnDiskMSnExp</code> objects: parallel processing setup
+to perform per-file parallel spectra combining. See <code>bpparam()</code> for more
+details.</p></td>
+    </tr>
+    <tr>
+      <th>fun</th>
+      <td><p><em>Deprecated</em> use <code>method</code> instead.</p></td>
     </tr>
     </table>
     
@@ -246,7 +264,37 @@ are taken from the first <code>Spectrum</code> in each set.</p>
 <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>res</span><span class='kw'>[[</span><span class='fl'>1</span>]]), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>res</span><span class='kw'>[[</span><span class='fl'>1</span>]]), <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/range'>range</a></span>(<span class='no'>mzs</span>[<span class='fl'>5</span>:<span class='fl'>25</span>]), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>,
     <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>)
 <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>res</span><span class='kw'>[[</span><span class='fl'>2</span>]]), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>res</span><span class='kw'>[[</span><span class='fl'>2</span>]]), <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/range'>range</a></span>(<span class='no'>mzs</span>[<span class='fl'>5</span>:<span class='fl'>25</span>]), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>,
-    <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>)</div><div class='img'><img src='combineSpectra-2.png' alt='' width='700' height='433' /></div></pre>
+    <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>)</div><div class='img'><img src='combineSpectra-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'>## Combining spectra of an MSnExp/OnDiskMSnExp objects</span>
+<span class='co'>## Reading data from 2 mzML files</span>
+<span class='no'>sciex</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list.files'>dir</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"sciex"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"msdata"</span>),
+    <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)
+
+<span class='co'>## Filter the file to a retention time range from 2 to 20 seconds (to reduce</span>
+<span class='co'>## execution time of the example)</span>
+<span class='no'>sciex</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterRt</a></span>(<span class='no'>sciex</span>, <span class='kw'>rt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>20</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='fu'><a href='Spectrum-class.html'>fromFile</a></span>(<span class='no'>sciex</span>))</div><div class='output co'>#&gt; 
+#&gt;  1  2 
+#&gt; 64 64 </div><div class='input'>
+<span class='co'>## We have thus 64 spectra per file.</span>
+
+<span class='co'>## In the example below we combine spectra measured in one second to a</span>
+<span class='co'>## single spectrum. We thus first define the grouping variable and add that</span>
+<span class='co'>## to the `fData` of the object. For combining, we use the</span>
+<span class='co'>## `consensusSpectrum` function that combines the spectra keeping only peaks</span>
+<span class='co'>## that were found in 50% of the spectra; by defining `mzd = 0.01` all peaks</span>
+<span class='co'>## within an m/z of 0.01 are evaluated for combining.</span>
+<span class='no'>seconds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Round'>round</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>sciex</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>seconds</span>)</div><div class='output co'>#&gt; F1.S008 F1.S009 F1.S010 F1.S011 F1.S012 F1.S013 
+#&gt;       2       3       3       3       3       4 </div><div class='input'><span class='fu'>fData</span>(<span class='no'>sciex</span>)$<span class='no'>second</span> <span class='kw'>&lt;-</span> <span class='no'>seconds</span>
+
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>combineSpectra</span>(<span class='no'>sciex</span>, <span class='kw'>fcol</span> <span class='kw'>=</span> <span class='st'>"second"</span>, <span class='kw'>mzd</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>minProp</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+    <span class='kw'>method</span> <span class='kw'>=</span> <span class='no'>consensusSpectrum</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='fu'><a href='Spectrum-class.html'>fromFile</a></span>(<span class='no'>res</span>))</div><div class='output co'>#&gt; 
+#&gt;  1  2 
+#&gt; 19 19 </div><div class='input'>
+## The data was reduced to 19 spectra for each file.
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
