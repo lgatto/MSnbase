@@ -1,5 +1,9 @@
 # MSnbase 2.11
 
+## MSnbase 2.11.4
+
+- `plot,Spectrum,Spectrum` now also supports MS1 spectra (see #477)
+
 ## MSnbase 2.11.3
 
 - Make combineFeatures a method <2019-05-31 Fri>
