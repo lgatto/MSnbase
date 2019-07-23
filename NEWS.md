@@ -2,7 +2,8 @@
 
 ## MSnbase 2.11.4
 
-- `plot,Spectrum,Spectrum` now also supports MS1 spectra (see #477)
+- `plot,Spectrum,Spectrum` now also supports MS1 spectra (see
+  [#477](https://github.com/lgatto/MSnbase/issues/477)) <2019-07-23 Tue>
 
 ## MSnbase 2.11.3
 
