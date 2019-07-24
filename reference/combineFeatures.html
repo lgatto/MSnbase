@@ -330,12 +330,12 @@ If NA values are present, a message will be shown. Details on how
 #&gt; X21  21262.148   23168.73  25407.068         NA
 #&gt; X22   8635.316   10036.53   9254.432   7769.749</div><div class='input'><span class='co'>## NAs propagate in the 115 and 117 channels</span>
 <span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grp</span>, <span class='st'>"sum"</span>))</div><div class='output co'>#&gt; <span class='message'>Your data contains missing values. Please read the relevant section in</span>
-#&gt; <span class='message'>the combineFeatures manual page for details the effects of missing</span>
+#&gt; <span class='message'>the combineFeatures manual page for details on the effects of missing</span>
 #&gt; <span class='message'>values on data aggregation.</span></div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; 1   36553.13         NA   46178.09   44950.38
 #&gt; 2   64407.15   68134.01   76572.53         NA</div><div class='input'><span class='co'>## NAs are removed before summing</span>
 <span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='no'>grp</span>, <span class='st'>"sum"</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='message'>Your data contains missing values. Please read the relevant section in</span>
-#&gt; <span class='message'>the combineFeatures manual page for details the effects of missing</span>
+#&gt; <span class='message'>the combineFeatures manual page for details on the effects of missing</span>
 #&gt; <span class='message'>values on data aggregation.</span></div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; 1   36553.13   37066.06   46178.09   44950.38
 #&gt; 2   64407.15   68134.01   76572.53   50613.59</div><div class='input'>
@@ -368,7 +368,7 @@ If NA values are present, a message will be shown. Details on how
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>,
                        <span class='kw'>fcol</span> <span class='kw'>=</span> <span class='st'>"ProteinAccession"</span>,
                        <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"robust"</span>)</div><div class='output co'>#&gt; <span class='message'>Your data contains missing values. Please read the relevant section in</span>
-#&gt; <span class='message'>the combineFeatures manual page for details the effects of missing</span>
+#&gt; <span class='message'>the combineFeatures manual page for details on the effects of missing</span>
 #&gt; <span class='message'>values on data aggregation.</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>tail</a></span>(<span class='fu'>exprs</span>(<span class='no'>res</span>))</div><div class='output co'>#&gt;         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; ECA1032   15.00308   15.17781   15.33838   15.27687
 #&gt; ECA1104   14.37600   14.49989   14.63294         NA
