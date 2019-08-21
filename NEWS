@@ -1,5 +1,9 @@
 # MSnbase 2.11
 
+MSnbase 2.11.6
+
+- Nothing yet.
+
 MSnbase 2.11.5
 
 - Use `filterMsLevel, `filterMz`, `filterPolarity`, `filterRt`,
