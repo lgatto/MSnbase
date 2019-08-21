@@ -1,7 +1,12 @@
 # MSnbase 2.11
 
 MSnbase 2.11.5
-- Nothing yet
+
+- Use `filterMsLevel, `filterMz`, `filterPolarity`, `filterRt`,
+  `filterAcquisitionNum`, `filterEmptySpectra`, `filterPrecursorScan`,
+  `productMz`, `filterPrecursorMz` and `filterIsolationWindow`
+  generics from `ProtGenerics`.
+
 
 MSnbase 2.11.4
 
