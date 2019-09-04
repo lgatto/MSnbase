@@ -2,7 +2,10 @@
 
 ## MSnbase 2.11.6
 
-- Nothing yet.
+- Update to match changes in mzR version 2.17.4 <2019-09-04 Wed>.
+- Add parameter `msLevel` to `pickPeaks` to allow peak picking in specific MS
+  levels. See [#478](https://github.com/lgatto/MSnbase/issues/478)  <2019-09-04
+  Wed>.
 
 ## MSnbase 2.11.5
 
