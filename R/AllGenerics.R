@@ -86,14 +86,7 @@ setGeneric("trimws", signature = "x",
         standardGeneric("trimws"),
     useAsDefault=.trimws.useAsDefault)
 
-setGeneric("filterMz", function (object, ...) standardGeneric("filterMz"))
-setGeneric("filterPolarity", function (object, ...) standardGeneric("filterPolarity"))
-setGeneric("filterRt", function (object, ...) standardGeneric("filterRt"))
-setGeneric("filterMsLevel", function (object, ...) standardGeneric("filterMsLevel"))
 setGeneric("filterFile", function (object, ...) standardGeneric("filterFile"))
-setGeneric("filterAcquisitionNum", function (object, ...) standardGeneric("filterAcquisitionNum"))
-setGeneric("filterEmptySpectra", function (object, ...) standardGeneric("filterEmptySpectra"))
-setGeneric("filterPrecursorScan", function (object, ...) standardGeneric("filterPrecursorScan"))
 
 ## isolationWindow generic is in mzR
 
@@ -102,7 +95,6 @@ setGeneric("spectrapply", function(object, ...) standardGeneric("spectrapply"))
 setGeneric("splitByFile", function(object, f, ...) standardGeneric("splitByFile"))
 
 ## Chromatogram class:
-setGeneric("productMz", function(object, ...) standardGeneric("productMz"))
 ## setGeneric("aggregationFun", function(object, ...)
 ##     standardGeneric("aggregationFun"))
 
@@ -119,5 +111,3 @@ setGeneric("isolationWindowUpperMz", function(object, ...)
     standardGeneric("isolationWindowUpperMz"))
 setGeneric("filterPrecursorMz", function(object, ...)
     standardGeneric("filterPrecursorMz"))
-setGeneric("filterIsolationWindow", function(object, ...)
-           standardGeneric("filterIsolationWindow"))

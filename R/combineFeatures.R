@@ -47,7 +47,7 @@ setMethod("combineFeatures", "MSnSet",
         groupBy <- fData(object)[, fcol]
     }
     if (anyNA(object)) {
-        msg <- "Your data contains missing values. Please read the relevant section in the combineFeatures manual page for details the effects of missing values on data aggregation."
+        msg <- "Your data contains missing values. Please read the relevant section in the combineFeatures manual page for details on the effects of missing values on data aggregation."
         message(paste(strwrap(msg), collapse = "\n"))
     }
 

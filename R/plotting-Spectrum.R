@@ -30,13 +30,12 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=25e-6,
 .plotSpectrumVsSpectrum <- function(spectra,
                                     sequences,
                                     common,
-                                    norm=TRUE,
+                                    norm = TRUE,
                                     xlim, ylim,
-                                    legend.cex=1,
-                                    peaks.pch=19, ...) {
-  if (norm) {
+                                    legend.cex = 1,
+                                    peaks.pch = 19, ...) {
+  if (norm) 
     spectra <- lapply(spectra, normalize)
-  }
 
   if (missing(xlim)) {
     mass <- unlist(lapply(spectra, mz))
@@ -49,13 +48,11 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=25e-6,
     ylim <- c(-maxInten, maxInten)
   }
 
-  if (missing(common)) {
+  if (missing(common)) 
     common <- lapply(spectra, function(x)logical(peaksCount(x)))
-  }
 
-  if (missing(sequences)) {
+  if (missing(sequences)) 
     sequences <- character(2)
-  }
 
   orientation <- c(1, -1)
   add <- c(FALSE, TRUE)
@@ -64,25 +61,29 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=25e-6,
   cols <- c("#74ADD1", "#313695", "#F46D43", "#A50026")
   pch <- c(NA, peaks.pch)
 
-  for (i in seq(along=spectra)) {
+  for (i in seq(along = spectra)) {
     .plotSingleSpectrum(spectra[[i]], sequence=sequences[[i]],
                         orientation=orientation[i], add=add[i],
                         xlim=xlim, ylim=ylim,
                         col=cols[(i-1)*2+common[[i]]+1],
                         pch=pch[common[[i]]+1], ...)
 
-    label <- paste0("prec scan: ", precScanNum(spectra[[i]]))
-
-    if (peaksCount(spectra[[i]])) {
-      label <- paste0(label, ", prec mass: ", round(precursorMz(spectra[[i]]), 3),
-                             ", prec z: ", precursorCharge(spectra[[i]]),
-                             ", # common: ", sum(common[[i]]))
-      if (nchar(sequences[[i]])) {
-        label <- paste0(label, ", seq: ", sequences[[i]])
-      }
+    if (msLevel(spectra[[i]]) == 1) {
+        label <- paste0("Retention time: ", formatRt(rtime(spectra[[i]])),
+                        ", # common: ", sum(common[[i]]))
+        
+    } else {
+        label <- paste0("prec scan: ", precScanNum(spectra[[i]]))
+        if (peaksCount(spectra[[i]])) {
+            label <- paste0(label, ", prec mass: ", round(precursorMz(spectra[[i]]), 3),
+                            ", prec z: ", precursorCharge(spectra[[i]]),
+                            ", # common: ", sum(common[[i]]))
+            if (nchar(sequences[[i]])) {
+                label <- paste0(label, ", seq: ", sequences[[i]])
+            }
+        }
     }
-
-    legend(legend.pos[i], legend=label, bty="n", cex=legend.cex)
+    legend(legend.pos[i], legend = label, bty="n", cex = legend.cex)
   }
 }
 
