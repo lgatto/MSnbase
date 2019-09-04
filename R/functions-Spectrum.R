@@ -565,6 +565,8 @@ validSpectrum <- function(object) {
                       isolationWindowTargetMZ = NA_real_,
                       isolationWindowLowerOffset = NA_real_,
                       isolationWindowUpperOffset = NA_real_,
+                      scanWindowLowerLimit = NA_real_,
+                      scanWindowUpperLimit = NA_real_,
                       stringsAsFactors = FALSE
                       )
     if (msLevel(x) > 1) {

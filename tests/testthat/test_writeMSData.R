@@ -60,7 +60,9 @@ test_that("writeMSData works", {
                                        "precursorScanNum", "acquisitionNum",
                                        "injectionTime", "spectrumId",
                                        "filterString",
-                                       "isolationWindowTargetMZ"))]
+                                       "isolationWindowTargetMZ",
+                                       "scanWindowLowerLimit",
+                                       "scanWindowUpperLimit"))]
     expect_equal(fd_out[, check_cols], fd_in[, check_cols])
     ## Again force check:
     expect_equal(unname(precursorCharge(odf_out)),

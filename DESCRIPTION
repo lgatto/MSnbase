@@ -63,7 +63,7 @@ Depends:
     methods,
     BiocGenerics (>= 0.7.1),
     Biobase (>= 2.15.2),
-    mzR (>= 2.17.3),
+    mzR (>= 2.17.4),
     S4Vectors,
     ProtGenerics (>= 1.17.2)
 Imports:
