@@ -238,14 +238,16 @@ setMethod("pickPeaks", "MSnExp",
                    method = c("MAD", "SuperSmoother"),
                    SNR = 0L, refineMz = c("none", "kNeighbors", "kNeighbours",
                                           "descendPeak"),
-                   ...) {
-              object <- logging(object, paste0("peak picking: ", method,
-                                               " noise estimation and ",
-                                               refineMz, " centroid m/z ",
-                                               "refinement"))
+                   msLevel. = unique(msLevel(object)), ...) {
+              object <- logging(
+                  object, paste0("peak picking: ", method, " noise estimation",
+                                 " and ", refineMz, " centroid m/z refinement",
+                                 " on spectra of MS level(s)",
+                                 paste0(msLevel., collapse = ", ")))
               pickPeaks_MSnExp(object, halfWindowSize = halfWindowSize,
                                method = match.arg(method), SNR = SNR,
-                               refineMz = match.arg(refineMz), ...)
+                               refineMz = match.arg(refineMz),
+                               msLevel. = msLevel., ...)
           })
 
 setMethod("estimateNoise", "MSnExp",

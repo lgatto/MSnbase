@@ -85,8 +85,9 @@ setMethod("show", "Spectra", function(object) {
 #' @param all For `clean`: if `FALSE` original 0-intensity values are retained
 #'   around peaks.
 #'
-#' @param msLevel. For `clean`, `removePeaks`, `filterMz`: optionally specify
-#'   the MS level of the spectra on which the operation should be performed.
+#' @param msLevel. For `clean`, `removePeaks`, `filterMz`, `pickPeaks`:
+#'   optionally specify the MS level(s) of the spectra on which the operation
+#'   should be performed.
 #'   For `filterMsLevels`: MS level(s) to which the `Spectra` should be reduced.
 #'
 #' @param method For `pickPeaks` and `smooth`: see [pickPeaks()] and [smooth()]
@@ -401,10 +402,12 @@ setMethod("pickPeaks", "Spectra", function(object, halfWindowSize = 3L,
                                            SNR = 0L,
                                            refineMz = c("none", "kNeighbors",
                                                         "kNeighbours",
-                                                        "descendPeak"), ...) {
+                                                        "descendPeak"),
+                                           msLevel. = unique(msLevel(object)),
+                                           ...) {
     object <- endoapply(object, pickPeaks, halfWindowSize = halfWindowSize,
                         method = match.arg(method), SNR = SNR,
-                        refineMz = refineMz, ...)
+                        refineMz = refineMz, msLevel. = msLevel., ...)
     if (validObject(object))
         object
 })

@@ -470,6 +470,13 @@ test_that("setAs,MSnExp,data.frame works", {
     expect_equal(unlist(intensity(res), use.names = FALSE), df$i)
 })
 
+test_that("pickPeaks,MSnExp works with msLevel", {
+    res <- pickPeaks(tmt_im_ms1_sub, msLevel = 2)
+    expect_identical(peaksCount(res), peaksCount(tmt_im_ms1_sub))
+    res <- pickPeaks(tmt_im_ms1_sub, msLevel = 1:3)
+    expect_true(all(peaksCount(res) < peaksCount(tmt_im_ms1_sub)))
+})
+
 test_that("pickPeaks,MSnExp works with refineMz", {
     ## Reduce the TMT erwinia data set to speed up processing on the full
     ## data.

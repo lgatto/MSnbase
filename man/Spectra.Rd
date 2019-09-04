@@ -91,7 +91,8 @@ Spectra(..., elementMetadata = NULL)
 
 \S4method{pickPeaks}{Spectra}(object, halfWindowSize = 3L,
   method = c("MAD", "SuperSmoother"), SNR = 0L, refineMz = c("none",
-  "kNeighbors", "kNeighbours", "descendPeak"), ...)
+  "kNeighbors", "kNeighbours", "descendPeak"),
+  msLevel. = unique(msLevel(object)), ...)
 
 \S4method{smooth}{Spectra}(x, method = c("SavitzkyGolay",
   "MovingAverage"), halfWindowSize = 2L, ...)
@@ -125,8 +126,9 @@ for the MGF file.}
 \item{all}{For \code{clean}: if \code{FALSE} original 0-intensity values are retained
 around peaks.}
 
-\item{msLevel.}{For \code{clean}, \code{removePeaks}, \code{filterMz}: optionally specify
-the MS level of the spectra on which the operation should be performed.
+\item{msLevel.}{For \code{clean}, \code{removePeaks}, \code{filterMz}, \code{pickPeaks}:
+optionally specify the MS level(s) of the spectra on which the operation
+should be performed.
 For \code{filterMsLevels}: MS level(s) to which the \code{Spectra} should be reduced.}
 
 \item{t}{For \code{removePeaks}: \code{numeric(1)} specifying the threshold below

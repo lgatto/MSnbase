@@ -231,7 +231,7 @@ compare_MSnExp <- function(object, fun, ...) {
 }
 
 pickPeaks_MSnExp <- function(object, halfWindowSize, method, SNR,
-                             ..., verbose = isMSnbaseVerbose()) {
+                             ..., msLevel., verbose = isMSnbaseVerbose()) {
   ## copied from clean_MSnExp
   e <- new.env()
 
@@ -248,7 +248,8 @@ pickPeaks_MSnExp <- function(object, halfWindowSize, method, SNR,
            }
            sp <- get(x, envir = assayData(object))
            xx <- pickPeaks(sp, halfWindowSize = halfWindowSize,
-                           method = method, SNR = SNR, ...)
+                           method = method, SNR = SNR, msLevel. = msLevel.,
+                           ...)
            assign(x, xx, envir = e)
            invisible(TRUE)
          })
@@ -270,7 +271,7 @@ pickPeaks_MSnExp <- function(object, halfWindowSize, method, SNR,
                                       hd = hd),
                                  object@.cache$level)
   }
-    lockEnvironment(e, bindings = TRUE)    
+    lockEnvironment(e, bindings = TRUE)
     object@assayData <- e
     if (validObject(object))
     return(object)
@@ -315,7 +316,7 @@ smooth_MSnExp <- function(object, method, halfWindowSize, ...,
                                       hd = hd),
                                  object@.cache$level)
   }
-    lockEnvironment(e, bindings = TRUE)    
+    lockEnvironment(e, bindings = TRUE)
     object@assayData <- e
     if (validObject(object))
     return(object)
@@ -377,7 +378,7 @@ removeReporters_MSnExp <- function(object, reporters = NULL,
 #'
 #' For `timeDomain = TRUE` the function does **not** return the estimated
 #' scattering of m/z values, but the scattering of `sqrt(mz)` values.
-#' 
+#'
 #' @param x `MSnExp` or `OnDiskMSnExp` object.
 #'
 #' @param halfWindowSize `integer(1)` defining the half window size for the
@@ -387,7 +388,7 @@ removeReporters_MSnExp <- function(object, reporters = NULL,
 #'     on `mz` (`timeDomain = FALSE`) or `sqrt(mz)` (`timeDomain = TRUE`)
 #'     values. See [combineSpectraMovingWindow()] for details on this
 #'     parameter.
-#' 
+#'
 #' @author Johannes Rainer
 #'
 #' @md
@@ -396,7 +397,7 @@ removeReporters_MSnExp <- function(object, reporters = NULL,
 #'     profile-mode spectrum's m/z resolution from it's data.
 #'
 #' @examples
-#' 
+#'
 #' library(MSnbase)
 #' library(msdata)
 #' ## Load a profile-mode LC-MS data file
@@ -440,7 +441,7 @@ estimateMzScattering <- function(x, halfWindowSize = 1L, timeDomain = FALSE) {
 #'
 #' Note that the function returns always a `MSnExp` object, even if `x` was an
 #' `OnDiskMSnExp` object.
-#' 
+#'
 #' @details
 #'
 #' The method assumes same ions being measured in consecutive scans (i.e. LCMS
@@ -448,7 +449,7 @@ estimateMzScattering <- function(x, halfWindowSize = 1L, timeDomain = FALSE) {
 #' signal to noise ratio.
 #'
 #' Intensities (and m/z values) for signals with the same m/z value in
-#' consecutive scans are aggregated using the `intensityFun`. 
+#' consecutive scans are aggregated using the `intensityFun`.
 #' m/z values of intensities from consecutive scans will never be exactly
 #' identical, even if they represent signal from the same ion. The function
 #' determines thus internally a similarity threshold based on differences
@@ -456,7 +457,7 @@ estimateMzScattering <- function(x, halfWindowSize = 1L, timeDomain = FALSE) {
 #' considered to derive from the same ion. For robustness reasons, this
 #' threshold is estimated on the 100 spectra with the largest number of
 #' m/z - intensity pairs (i.e. mass peaks).
-#' 
+#'
 #' See [meanMzInts()] for details.
 #'
 #' Parameter `timeDomain`: by default, m/z-intensity pairs from consecutive
@@ -469,7 +470,7 @@ estimateMzScattering <- function(x, halfWindowSize = 1L, timeDomain = FALSE) {
 #' scattering being different in the lower and upper m/z range. Determining
 #' m/z values to be combined on the `sqrt(mz)` reduces this dependency. For
 #' non-QTOF MS data `timeDomain = FALSE` might be used instead.
-#' 
+#'
 #' @note
 #'
 #' The function has to read all data into memory for the spectra combining
@@ -477,14 +478,14 @@ estimateMzScattering <- function(x, halfWindowSize = 1L, timeDomain = FALSE) {
 #' preventing its usage on large experimental data. In these cases it is
 #' suggested to perform the combination on a per-file basis and save the
 #' results using the [writeMSData()] function afterwards.
-#' 
+#'
 #' @param x `MSnExp` or `OnDiskMSnExp` object.
 #'
 #' @param halfWindowSize `integer(1)` with the half window size for the moving
 #'     window.
-#' 
+#'
 #' @param BPPARAM parallel processing settings.
-#' 
+#'
 #' @inheritParams meanMzInts
 #'
 #' @return `MSnExp` with the same number of spectra than `x`.
@@ -498,7 +499,7 @@ estimateMzScattering <- function(x, halfWindowSize = 1L, timeDomain = FALSE) {
 #'
 #' [estimateMzScattering()] for a function to estimate m/z value scattering in
 #' consecutive spectra.
-#' 
+#'
 #' @author Johannes Rainer, Sigurdur Smarason
 #'
 #' @examples
@@ -525,7 +526,7 @@ estimateMzScattering <- function(x, halfWindowSize = 1L, timeDomain = FALSE) {
 #'
 #' peaksCount(od)
 #' peaksCount(od_comb)
-#' 
+#'
 #' ## Comparing the chromatographic signal for proline (m/z ~ 116.0706)
 #' ## before and after spectra data combination.
 #' mzr <- c(116.065, 116.075)

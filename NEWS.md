@@ -1,5 +1,11 @@
 # MSnbase 2.11
 
+## MSnbase 2.11.4
+
+- Add parameter `msLevel` to `pickPeaks` to allow peak picking in specific MS
+  levels. See [#478](https://github.com/lgatto/MSnbase/issues/478)  <2019-09-04
+  Wed>.
+
 ## MSnbase 2.11.3
 
 - Make combineFeatures a method <2019-05-31 Fri>

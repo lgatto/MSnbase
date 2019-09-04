@@ -96,6 +96,8 @@ test_that("Peak picking", {
     expect_equal(suppressWarnings(pickPeaks(s2)), s2)
     centroided(s1) <- FALSE
     expect_equal(pickPeaks(s1), s2)
+    expect_equal(pickPeaks(s1, msLevel = 1), s1)
+    expect_equal(pickPeaks(s1, msLevel = c(2, 3)), s2)
 })
 
 test_that("Spectrum smoothing", {
