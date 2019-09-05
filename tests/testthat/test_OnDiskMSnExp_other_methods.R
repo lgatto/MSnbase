@@ -76,6 +76,14 @@ test_that("Compare OnDiskMSnExp and MSnExp pickPeaks", {
     names(pc) <- NULL
     names(pc2) <- NULL
     expect_identical(pc, pc2)
+
+    centroided(ondisk) <- FALSE
+    res <- pickPeaks(ondisk, msLevel = 1L)
+    expect_identical(peaksCount(filterMsLevel(res, 2)),
+                     peaksCount(filterMsLevel(ondisk, 2)))
+    expect_identical(peaksCount(pp2), peaksCount(filterMsLevel(res, 1)))
+    expect_identical(peaksCount(ondisk),
+                     peaksCount(pickPeaks(ondisk, msLevel = 3)))
 })
 
 ############################################################
@@ -221,14 +229,14 @@ test_that("pickPeaks,OnDiskMSnExp works with refineMz", {
     tmt_pk <- pickPeaks(tmt_erwinia_on_disk_ms1, refineMz = "descendPeak",
                         signalPercentage = 75)
     expect_equal(spctr_pk, tmt_pk[[1]])
-    
+
     ## Check if we can call method and refineMz and pass arguments to both
     spctr_pk <- pickPeaks(spctr, refineMz = "kNeighbors", k = 1,
                           method = "SuperSmoother", span = 0.9)
     tmt_pk <- pickPeaks(tmt_erwinia_on_disk_ms1, refineMz = "kNeighbors",
                         k = 1, method = "SuperSmoother", span = 0.9)
     expect_equal(spctr_pk, tmt_pk[[1]])
-    
+
     ## Check errors
     expect_error(pickPeaks(tmt_erwinia_on_disk_ms1, refineMz = "some_method"))
 })

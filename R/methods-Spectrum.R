@@ -245,10 +245,12 @@ setMethod("pickPeaks", "Spectrum",
           function(object, halfWindowSize = 3L,
                    method = c("MAD", "SuperSmoother"),
                    SNR = 0L, refineMz = c("none", "kNeighbors",
-                                          "kNeighbours", "descendPeak"), ...) {
+                                          "kNeighbours", "descendPeak"),
+                   msLevel. = msLevel(object), ...) {
               pickPeaks_Spectrum(object, halfWindowSize = halfWindowSize,
                                  method = match.arg(method), SNR = SNR,
-                                 refineMz = match.arg(refineMz), ...)
+                                 refineMz = match.arg(refineMz),
+                                 msLevel. = msLevel., ...)
           })
 
 setMethod("smooth", "Spectrum",
@@ -284,7 +286,7 @@ setMethod("isCentroided", "Spectrum",
 #' @aliases estimateMzResolution
 #'
 #' @description
-#' 
+#'
 #' `estimateMzResolution` estimates the m/z resolution of a profile-mode
 #' `Spectrum` (or of all spectra in an [MSnExp] or [OnDiskMSnExp] object.
 #' The m/z resolution is defined as the most frequent difference between a
@@ -302,7 +304,7 @@ setMethod("isCentroided", "Spectrum",
 #' @param object either a `Spectrum`, `MSnExp` or `OnDiskMSnExp` object.
 #'
 #' @param ... currently not used.
-#' 
+#'
 #' @return `numeric(1)` with the m/z resolution. If called on a `MSnExp` or
 #' `OnDiskMSnExp` a `list` of m/z resolutions are returned (one for
 #' each spectrum).

@@ -187,7 +187,8 @@
     % See \code{\link{extractSpectra}} documentation for more details
     % and examples. }
     \item{pickPeaks}{\code{signature(object = "MSnExp")}: Performs the peak
-      picking to generate centroided spectra.
+      picking to generate centroided spectra. Parameter \code{msLevel.}
+      allows to restrict peak picking to spectra of certain MS level(s).
       See \code{\link{pickPeaks}} documentation for more
       details and examples. }
     \item{estimateNoise}{\code{signature(object = "MSnExp")}: Estimates

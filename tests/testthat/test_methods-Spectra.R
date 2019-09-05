@@ -238,6 +238,13 @@ test_that("pickPeaks,Spectra and smooth,Spectra works", {
     res <- pickPeaks(spl)
     expect_true(is(res, "Spectra"))
     expect_equal(res@listData, lapply(spctra, pickPeaks))
+    expect_true(all(peaksCount(res) < peaksCount(spl)))
+
+    res <- pickPeaks(spl, msLevel = 2:3)
+    expect_equal(peaksCount(res), peaksCount(spl))
+
+    res <- pickPeaks(spl, msLevel = 1:4)
+    expect_true(all(peaksCount(res) < peaksCount(spl)))
 
     expect_warning(res <- smooth(spl))
     expect_true(is(res, "Spectra"))

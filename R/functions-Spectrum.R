@@ -375,7 +375,11 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
                                refineMz = c("none", "kNeighbors",
                                             "kNeighbours",
                                             "descendPeak"),
-                               ...) {
+                               msLevel., ...) {
+    if (!missing(msLevel.)) {
+        if (!(msLevel(object) %in% msLevel.))
+            return(object)
+    }
     if (isEmpty(object)) {
         warning("Your spectrum is empty. Nothing to pick.")
         return(object)
@@ -561,6 +565,8 @@ validSpectrum <- function(object) {
                       isolationWindowTargetMZ = NA_real_,
                       isolationWindowLowerOffset = NA_real_,
                       isolationWindowUpperOffset = NA_real_,
+                      scanWindowLowerLimit = NA_real_,
+                      scanWindowUpperLimit = NA_real_,
                       stringsAsFactors = FALSE
                       )
     if (msLevel(x) > 1) {
