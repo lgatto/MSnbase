@@ -16,13 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -46,6 +48,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -72,7 +75,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -111,7 +114,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lgatto/MSnbase">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -122,6 +125,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -143,7 +147,8 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <p>There are two ways to store different sets of measurements pertaining
+
+<p>There are two ways to store different sets of measurements pertaining
   an experimental unit, such as replicated measures of different
   conditions that were recorded over more than one MS
   acquisition. Without focusing on any proteomics technology in
@@ -168,17 +173,22 @@
     conserved (i.e. all feature or samples names are identical). See
     <code>split</code>/<code>unsplit</code> below.</p></li>
 </ul>
+  
+
     
     <h2 class="hasAnchor" id="objects-from-the-class"><a class="anchor" href="#objects-from-the-class"></a>Objects from the Class</h2>
 
     
-    <p>Objects can be created and manipluated with:</p>
+
+<p>Objects can be created and manipluated with:</p>
 <p></p><dl class='dl-horizontal'>
+
     <dt><code>MSnSetList(x, log, featureDAta)</code></dt><dd><p>The class constructor
       that takes a list of valid <code>MSnSet</code> instances as input
       <code>x</code>, an optional logging <code>list</code>, and an optional feature
       metadata <code>data.frame</code>.</p></dd>
-    <dt><code><a href='https://www.rdocumentation.org/packages/base/topics/split'>split(x, f)</a></code></dt><dd><p>An <code>MSnSetList</code> can be created from
+
+    <dt><code><a href='https://rdrr.io/r/base/split.html'>split(x, f)</a></code></dt><dd><p>An <code>MSnSetList</code> can be created from
       an <code><a href='MSnSet-class.html'>MSnSet</a></code> instance. <code>x</code> is a single
       <code>MSnSet</code> and <code>f</code> is a <code>factor</code> or a
       <code>character</code> of length 1. In the latter case, <code>f</code> will be
@@ -188,60 +198,81 @@
       <code>x</code> along the features/rows (<code>f</code> was a feature variable
       name) or samples/columns (<code>f</code> was a phenotypic variable
       name).  If <code>f</code> is passed as a factor, its length will be
-      matched to <code><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow(x)</a></code> or <code><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>ncol(x)</a></code> (in that order) to
+      matched to <code><a href='https://rdrr.io/r/base/nrow.html'>nrow(x)</a></code> or <code><a href='https://rdrr.io/r/base/nrow.html'>ncol(x)</a></code> (in that order) to
       determine if <code>x</code> will be split along the features (rows) or
       sample (columns). Hence, the length of <code>f</code> must match exactly
       to either dimension.</p></dd>
-    <dt><code><a href='https://www.rdocumentation.org/packages/base/topics/split'>unsplit(value, f)</a></code></dt><dd><p>The <code>unsplit</code> method reverses
+
+    <dt><code><a href='https://rdrr.io/r/base/split.html'>unsplit(value, f)</a></code></dt><dd><p>The <code>unsplit</code> method reverses
       the effect of splitting the <code>value</code> <code>MSnSet</code> along the
       groups <code>f</code>.</p></dd>
+
     <dt><code><a href='mzRident2dfr.html'>as(x, "MSnSetList")</a></code></dt><dd><p>Where <code>x</code> is an instance of
       class <a href='MzTab-class.html'>MzTab</a>. See the class documentation for
       details.</p></dd>
-    </dl>
+    
+  
+</dl>
+
     
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
     <p></p><dl class='dl-horizontal'>
+    
     <dt><code>x</code>:</dt><dd><p>Object of class <code>list</code> containing valid
       <code>MSnSet</code> instances. Can be extracted with the
       <code>msnsets()</code> accessor.</p></dd>
+
     <dt><code>log</code>:</dt><dd><p>Object of class <code>list</code> containing an object
       creation log, containing among other elements the call that
       generated the object. Can be accessed with <code>objlog()</code>.</p></dd>
+
     <dt><code>featureData</code>:</dt><dd><p>Object of class <code>DataFrame</code> that
     stores metadata for each object in the <code>x</code> slot. The number of
     rows of this <code>data.frame</code> must be equal to the number of items
     in the <code>x</code> slot and their respective (row)names must be
     identical.</p></dd>
+    
     <dt><code>.__classVersion__</code>:</dt><dd><p>The version of the instance. For
       development purposes only.</p></dd>
-  </dl>
+  
+</dl>
+
     
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     <p></p><dl class='dl-horizontal'>
-    <dt><code>"[["</code></dt><dd><p>Extracts a single <code>MSnSet</code> at position.</p></dd>
-    <dt><code>"["</code></dt><dd><p>Extracts one of more <code>MSnSets</code> as
+    <dt><code><a href='https://rdrr.io/r/base/Extract.html'>"[["</a></code></dt><dd><p>Extracts a single <code>MSnSet</code> at position.</p></dd>
+    
+    <dt><code><a href='https://rdrr.io/r/base/Extract.html'>"["</a></code></dt><dd><p>Extracts one of more <code>MSnSets</code> as
       <code>MSnSetList</code>.</p></dd>
+    
     <dt><code>length</code></dt><dd><p>Returns the number of <code>MSnSets</code>.</p></dd>
+    
     <dt><code>names</code></dt><dd><p>Returns the names of <code>MSnSets</code>, if
       available. The replacement method is also available.</p></dd>
     <dt><code>show</code></dt><dd><p>Display the object by printing a short
       summary.</p></dd>
-    <dt><code><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply(x, FUN, ...)</a></code></dt><dd><p>Apply function <code>FUN</code> to each
+
+    <dt><code><a href='https://rdrr.io/r/base/lapply.html'>lapply(x, FUN, ...)</a></code></dt><dd><p>Apply function <code>FUN</code> to each
       element of the input <code>x</code>. If the application of <code>FUN</code>
       returns and <code>MSnSet</code>, then the return value is an
       <code>MSnSetList</code>, otherwise a <code>list</code></p></dd>.
-    <dt><code><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply(x, FUN, ..., simplify = TRUE, USE.NAMES =
+
+    <dt><code><a href='https://rdrr.io/r/base/lapply.html'>sapply(x, FUN, ..., simplify = TRUE, USE.NAMES =
 	TRUE)</a></code></dt><dd><p>A <code>lapply</code> wrapper that simplifies the ouptut to a
-	vector, matric or array is possible. See <code><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>?base::sapply</a></code>
+	vector, matric or array is possible. See <code><a href='https://rdrr.io/r/base/lapply.html'>?base::sapply</a></code>
 	for details.</p></dd>.
+    
     <dt><code>fData</code></dt><dd><p>Returns the features metadata <code>featureData</code>
       slot.</p></dd>
+
     <dt><code>fData&lt;-</code></dt><dd><p>Features metadata <code>featureData</code>
       replacement method.</p></dd>
-    </dl>
+
+  
+</dl>
+
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -250,20 +281,125 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"pRolocdata"</span>)</div><div class='output co'>#&gt; <span class='error'>Error: package ‘MSnbase’ required by ‘pRolocdata’ could not be found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>tan2009r1</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘tan2009r1’ not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>tan2009r2</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘tan2009r2’ not found</span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"pRolocdata"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>tan2009r1</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>tan2009r2</span>)
+
 <span class='co'>## The MSnSetList class</span>
 <span class='co'>##  for an unnamed list, names are set to indices</span>
-<span class='no'>msnl</span> <span class='kw'>&lt;-</span> <span class='fu'>MSnSetList</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>tan2009r1</span>, <span class='no'>tan2009r2</span>))</div><div class='output co'>#&gt; <span class='error'>Error in MSnSetList(list(tan2009r1, tan2009r2)): object 'tan2009r1' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'msnl' not found</span></div><div class='input'><span class='co'>##  a named example</span>
-<span class='no'>msnl</span> <span class='kw'>&lt;-</span> <span class='fu'>MSnSetList</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>A</span> <span class='kw'>=</span> <span class='no'>tan2009r1</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='no'>tan2009r2</span>))</div><div class='output co'>#&gt; <span class='error'>Error in MSnSetList(list(A = tan2009r1, B = tan2009r2)): object 'tan2009r1' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'msnl' not found</span></div><div class='input'><span class='fu'>msnsets</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in msnsets(msnl): object 'msnl' not found</span></div><div class='input'><span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'msnl' not found</span></div><div class='input'><span class='fu'>objlog</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in objlog(msnl): object 'msnl' not found</span></div><div class='input'><span class='no'>msnl</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='co'>## an MSnSet</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'msnl' not found</span></div><div class='input'><span class='no'>msnl</span>[<span class='fl'>1</span>]   <span class='co'>## an MSnSetList of length 1</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'msnl' not found</span></div><div class='input'>
+<span class='no'>msnl</span> <span class='kw'>&lt;-</span> <span class='fu'>MSnSetList</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>tan2009r1</span>, <span class='no'>tan2009r2</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; [1] "1" "2"</div><div class='input'><span class='co'>##  a named example</span>
+<span class='no'>msnl</span> <span class='kw'>&lt;-</span> <span class='fu'>MSnSetList</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A</span> <span class='kw'>=</span> <span class='no'>tan2009r1</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='no'>tan2009r2</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; [1] "A" "B"</div><div class='input'><span class='fu'>msnsets</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; $A
+#&gt; MSnSet (storageMode: lockedEnvironment)
+#&gt; assayData: 888 features, 4 samples 
+#&gt;   element names: exprs 
+#&gt; protocolData: none
+#&gt; phenoData
+#&gt;   sampleNames: X114 X115 X116 X117
+#&gt;   varLabels: Fractions
+#&gt;   varMetadata: labelDescription
+#&gt; featureData
+#&gt;   featureNames: P20353 P53501 ... P07909 (888 total)
+#&gt;   fvarLabels: FBgn Protein.ID ... markers.tl (16 total)
+#&gt;   fvarMetadata: labelDescription
+#&gt; experimentData: use 'experimentData(object)'
+#&gt;   pubMedIds: 19317464 
+#&gt; Annotation:  
+#&gt; - - - Processing information - - -
+#&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:44 2015 
+#&gt;  MSnbase version: 1.17.12 
+#&gt; 
+#&gt; $B
+#&gt; MSnSet (storageMode: lockedEnvironment)
+#&gt; assayData: 871 features, 4 samples 
+#&gt;   element names: exprs 
+#&gt; protocolData: none
+#&gt; phenoData
+#&gt;   sampleNames: X114 X115 X116 X117
+#&gt;   varLabels: Fractions
+#&gt;   varMetadata: labelDescription
+#&gt; featureData
+#&gt;   featureNames: P20432 P20353 ... Q9VIW3 (871 total)
+#&gt;   fvarLabels: FBgn Protein.ID ... markers (13 total)
+#&gt;   fvarMetadata: labelDescription
+#&gt; experimentData: use 'experimentData(object)'
+#&gt;   pubMedIds: 19317464 
+#&gt; Annotation:  
+#&gt; - - - Processing information - - -
+#&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:44 2015 
+#&gt;  MSnbase version: 1.17.12 
+#&gt; </div><div class='input'><span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; [1] 2</div><div class='input'><span class='fu'>objlog</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; $call
+#&gt; MSnSetList(x = list(A = tan2009r1, B = tan2009r2))
+#&gt; </div><div class='input'><span class='no'>msnl</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='co'>## an MSnSet</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
+#&gt; assayData: 888 features, 4 samples 
+#&gt;   element names: exprs 
+#&gt; protocolData: none
+#&gt; phenoData
+#&gt;   sampleNames: X114 X115 X116 X117
+#&gt;   varLabels: Fractions
+#&gt;   varMetadata: labelDescription
+#&gt; featureData
+#&gt;   featureNames: P20353 P53501 ... P07909 (888 total)
+#&gt;   fvarLabels: FBgn Protein.ID ... markers.tl (16 total)
+#&gt;   fvarMetadata: labelDescription
+#&gt; experimentData: use 'experimentData(object)'
+#&gt;   pubMedIds: 19317464 
+#&gt; Annotation:  
+#&gt; - - - Processing information - - -
+#&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:44 2015 
+#&gt;  MSnbase version: 1.17.12 </div><div class='input'><span class='no'>msnl</span>[<span class='fl'>1</span>]   <span class='co'>## an MSnSetList of length 1</span></div><div class='output co'>#&gt; Instance of class 'MSnSetList' containig 1 objects.</div><div class='input'>
 <span class='co'>## Iterating over the elements</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>msnl</span>, <span class='no'>dim</span>) <span class='co'>## a list</span></div><div class='output co'>#&gt; <span class='error'>Error in lapply(msnl, dim): object 'msnl' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>msnl</span>, <span class='no'>normalise</span>) <span class='co'>## an MSnSetList</span></div><div class='output co'>#&gt; <span class='error'>Error in lapply(msnl, normalise): object 'msnl' not found</span></div><div class='input'>
-<span class='fu'>fData</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in fData(msnl): object 'msnl' not found</span></div><div class='input'><span class='fu'>fData</span>(<span class='no'>msnl</span>)$<span class='no'>X</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply</a></span>(<span class='no'>msnl</span>, <span class='no'>nrow</span>)</div><div class='output co'>#&gt; <span class='error'>Error in sapply(msnl, nrow): object 'msnl' not found</span></div><div class='input'><span class='fu'>fData</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; <span class='error'>Error in fData(msnl): object 'msnl' not found</span></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>msnl</span>, <span class='no'>dim</span>) <span class='co'>## a list</span></div><div class='output co'>#&gt; $A
+#&gt; [1] 888   4
+#&gt; 
+#&gt; $B
+#&gt; [1] 871   4
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>msnl</span>, <span class='no'>normalise</span>) <span class='co'>## an MSnSetList</span></div><div class='output co'>#&gt; Instance of class 'MSnSetList' containig 2 objects.</div><div class='input'>
+<span class='fu'>fData</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; DataFrame with 2 rows and 0 columns</div><div class='input'><span class='fu'>fData</span>(<span class='no'>msnl</span>)$<span class='no'>X</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>msnl</span>, <span class='no'>nrow</span>)
+<span class='fu'>fData</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; DataFrame with 2 rows and 1 column
+#&gt;           X
+#&gt;   &lt;integer&gt;
+#&gt; A       888
+#&gt; B       871</div><div class='output co'>#&gt; &lt;integer&gt;</div><div class='input'>
 <span class='co'>## Splitting and unsplitting</span>
 <span class='co'>##  splitting along the columns/samples</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>dunkley2006</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘dunkley2006’ not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'>pData</span>(<span class='no'>dunkley2006</span>))</div><div class='output co'>#&gt; <span class='error'>Error in pData(dunkley2006): object 'dunkley2006' not found</span></div><div class='input'>(<span class='no'>splt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/split'>split</a></span>(<span class='no'>dunkley2006</span>, <span class='st'>"replicate"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in split(dunkley2006, "replicate"): object 'dunkley2006' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>splt</span>, <span class='no'>dim</span>) <span class='co'>## the number of rows and columns of the split elements</span></div><div class='output co'>#&gt; <span class='error'>Error in lapply(splt, dim): object 'splt' not found</span></div><div class='input'><span class='no'>unsplt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/split'>unsplit</a></span>(<span class='no'>splt</span>, <span class='no'>dunkley2006</span>$<span class='no'>replicate</span>)</div><div class='output co'>#&gt; <span class='error'>Error in unsplit(splt, dunkley2006$replicate): object 'splt' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/stopifnot'>stopifnot</a></span>(<span class='fu'><a href='compareMSnSets.html'>compareMSnSets</a></span>(<span class='no'>dunkley2006</span>, <span class='no'>unsplt</span>))</div><div class='output co'>#&gt; <span class='error'>Error in y@processingData &lt;- new("MSnProcess"): object 'unsplt' not found</span></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>dunkley2006</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>pData</span>(<span class='no'>dunkley2006</span>))</div><div class='output co'>#&gt;        membrane.prep fraction replicate
+#&gt; M1F1A              1        1         A
+#&gt; M1F4A              1        4         A
+#&gt; M1F7A              1        7         A
+#&gt; M1F11A             1       11         A
+#&gt; M1F2B              1        2         B
+#&gt; M1F5B              1        5         B</div><div class='input'>(<span class='no'>splt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>dunkley2006</span>, <span class='st'>"replicate"</span>))</div><div class='output co'>#&gt; Instance of class 'MSnSetList' containig 2 objects.</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>splt</span>, <span class='no'>dim</span>) <span class='co'>## the number of rows and columns of the split elements</span></div><div class='output co'>#&gt; $A
+#&gt; [1] 689   8
+#&gt; 
+#&gt; $B
+#&gt; [1] 689   8
+#&gt; </div><div class='input'><span class='no'>unsplt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>unsplit</a></span>(<span class='no'>splt</span>, <span class='no'>dunkley2006</span>$<span class='no'>replicate</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='compareMSnSets.html'>compareMSnSets</a></span>(<span class='no'>dunkley2006</span>, <span class='no'>unsplt</span>))
+
 <span class='co'>##  splitting along the rows/features</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'>fData</span>(<span class='no'>dunkley2006</span>))</div><div class='output co'>#&gt; <span class='error'>Error in fData(dunkley2006): object 'dunkley2006' not found</span></div><div class='input'>(<span class='no'>splt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/split'>split</a></span>(<span class='no'>dunkley2006</span>, <span class='st'>"markers"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in split(dunkley2006, "markers"): object 'dunkley2006' not found</span></div><div class='input'><span class='no'>unsplt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/split'>unsplit</a></span>(<span class='no'>splt</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='fu'>fData</span>(<span class='no'>dunkley2006</span>)$<span class='no'>markers</span>))</div><div class='output co'>#&gt; <span class='error'>Error in unsplit(splt, factor(fData(dunkley2006)$markers)): object 'splt' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>simplify2array</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>splt</span>, <span class='no'>dim</span>))</div><div class='output co'>#&gt; <span class='error'>Error in lapply(splt, dim): object 'splt' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/stopifnot'>stopifnot</a></span>(<span class='fu'><a href='compareMSnSets.html'>compareMSnSets</a></span>(<span class='no'>dunkley2006</span>, <span class='no'>unsplt</span>))</div><div class='output co'>#&gt; <span class='error'>Error in y@processingData &lt;- new("MSnProcess"): object 'unsplt' not found</span></div><div class='input'>
-</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='no'>dunkley2006</span>))</div><div class='output co'>#&gt;           assigned  evidence method   new pd.2013 pd.markers markers.orig
+#&gt; AT1G09210       ER predicted  PLSDA known      ER   ER lumen           ER
+#&gt; AT1G21750       ER predicted  PLSDA known      ER   ER lumen           ER
+#&gt; AT1G51760       ER   unknown  PLSDA   new      ER   ER lumen      unknown
+#&gt; AT1G56340       ER predicted  PLSDA known      ER   ER lumen           ER
+#&gt; AT2G32920       ER predicted  PLSDA known      ER   ER lumen           ER
+#&gt; AT2G47470       ER predicted  PLSDA known      ER   ER lumen           ER
+#&gt;            markers
+#&gt; AT1G09210 ER lumen
+#&gt; AT1G21750 ER lumen
+#&gt; AT1G51760 ER lumen
+#&gt; AT1G56340 ER lumen
+#&gt; AT2G32920 ER lumen
+#&gt; AT2G47470 ER lumen</div><div class='input'>(<span class='no'>splt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>dunkley2006</span>, <span class='st'>"markers"</span>))</div><div class='output co'>#&gt; Instance of class 'MSnSetList' containig 10 objects.</div><div class='input'><span class='no'>unsplt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>unsplit</a></span>(<span class='no'>splt</span>, <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'>fData</span>(<span class='no'>dunkley2006</span>)$<span class='no'>markers</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>simplify2array</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>splt</span>, <span class='no'>dim</span>))</div><div class='output co'>#&gt;      ER lumen ER membrane Golgi Mitochondrion Plastid PM Ribosome TGN unknown
+#&gt; [1,]       14          45    28            55      20 46       19  13     428
+#&gt; [2,]       16          16    16            16      16 16       16  16      16
+#&gt;      vacuole
+#&gt; [1,]      21
+#&gt; [2,]      16</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='compareMSnSets.html'>compareMSnSets</a></span>(<span class='no'>dunkley2006</span>, <span class='no'>unsplt</span>))</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -287,19 +423,23 @@
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

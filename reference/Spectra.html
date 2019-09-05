@@ -16,13 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -56,6 +58,7 @@ the capitalized column names used as field names (see examples below)." />
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -80,7 +83,7 @@ the capitalized column names used as field names (see examples below)." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -119,7 +122,7 @@ the capitalized column names used as field names (see examples below)." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lgatto/MSnbase">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -130,6 +133,7 @@ the capitalized column names used as field names (see examples below)." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -233,11 +237,12 @@ the capitalized column names used as field names (see examples below).</p>
 
 <span class='co'># S4 method for Spectra</span>
 <span class='fu'><a href='pickPeaks-method.html'>pickPeaks</a></span>(<span class='no'>object</span>, <span class='kw'>halfWindowSize</span> <span class='kw'>=</span> <span class='fl'>3L</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"MAD"</span>, <span class='st'>"SuperSmoother"</span>), <span class='kw'>SNR</span> <span class='kw'>=</span> <span class='fl'>0L</span>, <span class='kw'>refineMz</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"none"</span>,
-  <span class='st'>"kNeighbors"</span>, <span class='st'>"kNeighbours"</span>, <span class='st'>"descendPeak"</span>), <span class='no'>...</span>)
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"MAD"</span>, <span class='st'>"SuperSmoother"</span>), <span class='kw'>SNR</span> <span class='kw'>=</span> <span class='fl'>0L</span>, <span class='kw'>refineMz</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"none"</span>,
+  <span class='st'>"kNeighbors"</span>, <span class='st'>"kNeighbours"</span>, <span class='st'>"descendPeak"</span>),
+  <span class='kw'>msLevel.</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>object</span>)), <span class='no'>...</span>)
 
 <span class='co'># S4 method for Spectra</span>
-<span class='fu'><a href='smooth-methods.html'>smooth</a></span>(<span class='no'>x</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"SavitzkyGolay"</span>,
+<span class='fu'><a href='smooth-methods.html'>smooth</a></span>(<span class='no'>x</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SavitzkyGolay"</span>,
   <span class='st'>"MovingAverage"</span>), <span class='kw'>halfWindowSize</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for Spectra</span>
@@ -270,17 +275,17 @@ one spectrum.</p></td>
     </tr>
     <tr>
       <th>con</th>
-      <td><p>For <code>writeMgfData</code>: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code> defining the file name of
+      <td><p>For <code>writeMgfData</code>: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> defining the file name of
 the MGF file.</p></td>
     </tr>
     <tr>
       <th>COM</th>
-      <td><p>For <code>writeMgfData</code>: optional <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code> providing a comment
+      <td><p>For <code>writeMgfData</code>: optional <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> providing a comment
 to be added to the file.</p></td>
     </tr>
     <tr>
       <th>TITLE</th>
-      <td><p>For <code>writeMgfData</code>: optional <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code> defining the title
+      <td><p>For <code>writeMgfData</code>: optional <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> defining the title
 for the MGF file.</p></td>
     </tr>
     <tr>
@@ -290,18 +295,19 @@ around peaks.</p></td>
     </tr>
     <tr>
       <th>msLevel.</th>
-      <td><p>For <code>clean</code>, <code>removePeaks</code>, <code>filterMz</code>: optionally specify
-the MS level of the spectra on which the operation should be performed.
+      <td><p>For <code>clean</code>, <code>removePeaks</code>, <code>filterMz</code>, <code>pickPeaks</code>:
+optionally specify the MS level(s) of the spectra on which the operation
+should be performed.
 For <code>filterMsLevels</code>: MS level(s) to which the <code>Spectra</code> should be reduced.</p></td>
     </tr>
     <tr>
       <th>t</th>
-      <td><p>For <code>removePeaks</code>: <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code> specifying the threshold below
+      <td><p>For <code>removePeaks</code>: <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code> specifying the threshold below
 which intensities are set to 0.</p></td>
     </tr>
     <tr>
       <th>mz</th>
-      <td><p>For <code>filterMz</code>: <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(2)</a></code> defining the lower and upper m/z
+      <td><p>For <code>filterMz</code>: <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code> defining the lower and upper m/z
 for the filter. See <code><a href='trimMz-methods.html'>filterMz()</a></code> for details.</p></td>
     </tr>
     <tr>
@@ -333,14 +339,18 @@ and subsetting operations.</p>
     <h2 class="hasAnchor" id="constructor"><a class="anchor" href="#constructor"></a>Constructor</h2>
 
     
-    <p>New Spectra can be created with the <code>Spectra(...)</code> function
+
+
+<p>New Spectra can be created with the <code>Spectra(...)</code> function
 where <code>...</code> can either be a single <a href='Spectrum-class.html'>Spectrum</a> object or a <code>list</code> of
 <code>Spectrum</code> objects (<a href='Spectrum1-class.html'>Spectrum1</a> and/or <a href='Spectrum2-class.html'>Spectrum2</a>).</p>
     
     <h2 class="hasAnchor" id="accessing-spectrum-attributes"><a class="anchor" href="#accessing-spectrum-attributes"></a>Accessing spectrum attributes</h2>
 
     
-    <p>These methods allow to access the attributes and values of the individual
+
+
+<p>These methods allow to access the attributes and values of the individual
 <code>Spectrum</code> (<a href='Spectrum1-class.html'>Spectrum1</a> or <a href='Spectrum2-class.html'>Spectrum2</a>) objects within the list.</p><ul>
 <li><p><code>mz</code> return the m/z values of each spectrum as a <code>list</code> of <code>numeric</code>
 vectors.</p></li>
@@ -375,11 +385,13 @@ number of spectra.</p></li>
 each spectrum, <code>isCentroided</code> tries to guess whether spectra are
 centroided from the actual peak data.</p></li>
 </ul>
+
     
     <h2 class="hasAnchor" id="data-manipulation-methods"><a class="anchor" href="#data-manipulation-methods"></a>Data manipulation methods</h2>
 
     
-    <ul>
+
+<ul>
 <li><p><code>clean</code> <em>cleans</em> each spectrum. See <code><a href='clean-methods.html'>clean()</a></code> for more details.</p></li>
 <li><p><code>pickPeaks</code> performs peak picking to generate centroided spectra. See
 <code><a href='pickPeaks-method.html'>pickPeaks()</a></code> for more details.</p></li>
@@ -387,24 +399,27 @@ centroided from the actual peak data.</p></li>
 <code><a href='removePeaks-methods.html'>removePeaks()</a></code> for more details.</p></li>
 <li><p><code>smooth</code> <em>smooths</em> spectra. See <code><a href='smooth-methods.html'>smooth()</a></code> for more details.</p></li>
 </ul>
+
     
     <h2 class="hasAnchor" id="filtering-and-subsetting"><a class="anchor" href="#filtering-and-subsetting"></a>Filtering and subsetting</h2>
 
     
-    <ul>
+
+<ul>
 <li><p><code>[</code> can be used to subset the <code>Spectra</code> object.</p></li>
 <li><p><code>filterMsLevel</code> filters <code>Spectra</code> to retain only spectra from certain MS
 level(s).</p></li>
 <li><p><code>filterMz</code> filters the spectra by the specified <code>mz</code> range. See
 <code><a href='trimMz-methods.html'>filterMz()</a></code> for details.</p></li>
 </ul>
+
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>## Create from Spectrum objects</span>
-<span class='no'>sp1</span> <span class='kw'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum1"</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>4</span>), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>2</span>))
-<span class='no'>sp2</span> <span class='kw'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum2"</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>3</span>, <span class='fl'>2</span>, <span class='fl'>5</span>),
+<span class='no'>sp1</span> <span class='kw'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum1"</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>4</span>), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>2</span>))
+<span class='no'>sp2</span> <span class='kw'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum2"</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>3</span>, <span class='fl'>2</span>, <span class='fl'>5</span>),
     <span class='kw'>precursorMz</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 
 <span class='no'>spl</span> <span class='kw'>&lt;-</span> <span class='fu'>Spectra</span>(<span class='no'>sp1</span>, <span class='no'>sp2</span>)
@@ -418,20 +433,20 @@ level(s).</p></li>
 #&gt;  Total ion count: 3 
 #&gt;  Polarity:  </div><div class='input'>
 <span class='co'>## Add also metadata columns</span>
-<span class='fu'>mcols</span>(<span class='no'>spl</span>)$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>)
+<span class='fu'>mcols</span>(<span class='no'>spl</span>)$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>)
 <span class='fu'>mcols</span>(<span class='no'>spl</span>)</div><div class='output co'>#&gt; DataFrame with 2 rows and 1 column
 #&gt;            id
 #&gt;   &lt;character&gt;
 #&gt; 1           a
-#&gt; 2           b</div><div class='input'>
+#&gt; 2           b</div><div class='output co'>#&gt; &lt;character&gt;</div><div class='input'>
 <span class='co'>## Create a Spectra with metadata</span>
-<span class='no'>spl</span> <span class='kw'>&lt;-</span> <span class='fu'>Spectra</span>(<span class='no'>sp1</span>, <span class='no'>sp2</span>, <span class='kw'>elementMetadata</span> <span class='kw'>=</span> <span class='fu'>DataFrame</span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>)))
+<span class='no'>spl</span> <span class='kw'>&lt;-</span> <span class='fu'>Spectra</span>(<span class='no'>sp1</span>, <span class='no'>sp2</span>, <span class='kw'>elementMetadata</span> <span class='kw'>=</span> <span class='fu'>DataFrame</span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>)))
 
 <span class='fu'>mcols</span>(<span class='no'>spl</span>)</div><div class='output co'>#&gt; DataFrame with 2 rows and 1 column
 #&gt;            id
 #&gt;   &lt;character&gt;
 #&gt; 1           a
-#&gt; 2           b</div><div class='input'><span class='fu'>mcols</span>(<span class='no'>spl</span>)$<span class='no'>id</span></div><div class='output co'>#&gt; [1] "a" "b"</div><div class='input'>
+#&gt; 2           b</div><div class='output co'>#&gt; &lt;character&gt;</div><div class='input'><span class='fu'>mcols</span>(<span class='no'>spl</span>)$<span class='no'>id</span></div><div class='output co'>#&gt; [1] "a" "b"</div><div class='input'>
 <span class='co'>## Extract the mz values for the individual spectra</span>
 <span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>spl</span>)</div><div class='output co'>#&gt; $`1`
 #&gt; [1] 1 2 4
@@ -504,12 +519,12 @@ level(s).</p></li>
 #&gt; NA NA </div><div class='input'>
 <span class='co'>## Export the spectrum list to a MGF file. Values in metadata columns are</span>
 <span class='co'>## exported as additional field for each spectrum.</span>
-<span class='no'>tmpf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>()
+<span class='no'>tmpf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>()
 <span class='fu'><a href='writeMgfData-methods.html'>writeMgfData</a></span>(<span class='no'>spl</span>, <span class='no'>tmpf</span>)
 
 <span class='co'>## Evaluate the written output. The ID of each spectrum (defined in the</span>
 <span class='co'>## "id" metadata column) is exported as field "ID".</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/readLines'>readLines</a></span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Wed Aug 21 19:15:09 2019"   
+<span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Thu Sep  5 12:12:15 2019"   
 #&gt;  [2] "BEGIN IONS"                                                      
 #&gt;  [3] "SCANS=NA"                                                        
 #&gt;  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     
@@ -533,9 +548,9 @@ level(s).</p></li>
 #&gt; [22] "END IONS"                                                        </div><div class='input'>
 <span class='co'>## Set mcols to NULL to avoid export of additional data fields.</span>
 <span class='fu'>mcols</span>(<span class='no'>spl</span>) <span class='kw'>&lt;-</span> <span class='kw'>NULL</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/files'>file.remove</a></span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='fu'><a href='writeMgfData-methods.html'>writeMgfData</a></span>(<span class='no'>spl</span>, <span class='no'>tmpf</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/readLines'>readLines</a></span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Wed Aug 21 19:15:09 2019"   
+<span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Thu Sep  5 12:12:15 2019"   
 #&gt;  [2] "BEGIN IONS"                                                      
 #&gt;  [3] "SCANS=NA"                                                        
 #&gt;  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     
@@ -584,19 +599,23 @@ level(s).</p></li>
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

@@ -16,13 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,9 +34,9 @@
 
 <meta property="og:title" content="Plotting 'MSnExp' and 'Spectrum' object(s) — plot-methods" />
 
-<meta property="og:description" content="" />
+<meta property="og:description" content="
 
-<meta property="og:description" content="These methods provide the functionality to plot mass spectrometry data
+These methods provide the functionality to plot mass spectrometry data
   provided as MSnExp,
   OnDiskMSnExp or Spectrum
   objects. Most functions plot mass spectra M/Z values against
@@ -67,6 +69,7 @@ If a single &quot;Spectrum2&quot; and a &quot;character&quot;
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -91,7 +94,7 @@ If a single &quot;Spectrum2&quot; and a &quot;character&quot;
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -130,7 +133,7 @@ If a single &quot;Spectrum2&quot; and a &quot;character&quot;
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lgatto/MSnbase">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -141,6 +144,7 @@ If a single &quot;Spectrum2&quot; and a &quot;character&quot;
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -155,7 +159,7 @@ If a single &quot;Spectrum2&quot; and a &quot;character&quot;
     
     
 
-    <p>These methods provide the functionality to plot mass spectrometry data
+<p>These methods provide the functionality to plot mass spectrometry data
   provided as <code><a href='MSnExp-class.html'>MSnExp</a></code>,
   <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code> or <code><a href='Spectrum-class.html'>Spectrum</a></code>
   objects. Most functions plot mass spectra M/Z values against
@@ -236,8 +240,7 @@ If a single &quot;Spectrum2&quot; and a &quot;character&quot;
 	full = "logical", plot = "logical", ...)</code></dt><dd><p>For <code>type = "spectra"</code>: Plots all the spectra in the
       <code>MSnExp</code> object vertically. One of <code>reporters</code> must be
       defined or <code>full</code> set to 'TRUE'. In case of <code>MSnExp</code>
-      objects, repoter ions are not inlaid when <code>full</code> is 'TRUE'.
-    For <code>type = "XIC"</code>: Plots a combined plot of retention time
+      objects, repoter ions are not inlaid when <code>full</code> is 'TRUE'.      For <code>type = "XIC"</code>: Plots a combined plot of retention time
       against m/z values and retention time against largest signal per
       spectrum for each file. Data points are colored by intensity. The
       lower part of the plot represents the location of the individual
@@ -250,21 +253,15 @@ If a single &quot;Spectrum2&quot; and a &quot;character&quot;
       and <code><a href='trimMz-methods.html'>filterMz</a></code> functions to narrow on an ion of
       interest. See examples below. This plot uses base R
       plotting. Additional arguments to the <code>plot</code> function can be
-      passed with <code>...</code>.
-    Additional arguments for <code>type = "XIC"</code> are:
+      passed with <code>...</code>.      Additional arguments for <code>type = "XIC"</code> are:
       <dl class='dl-horizontal'>
 	<dt><code>col</code></dt><dd><p>color for the border of the points. Defaults to
-	  <code>col = "grey"</code>.</p></dd>
-    <dt><code>colramp</code></dt><dd><p>color function/ramp to be used for the
+	  <code>col = "grey"</code>.</p></dd>	<dt><code>colramp</code></dt><dd><p>color function/ramp to be used for the
 	  intensity-dependent background color of data points. Defaults
-	  to <code>colramp = topo.colors</code>.</p></dd>
-    <dt><code>grid.color</code></dt><dd><p>color for the grid lines. Defaults to
+	  to <code>colramp = topo.colors</code>.</p></dd>	<dt><code>grid.color</code></dt><dd><p>color for the grid lines. Defaults to
 	  <code>grid.color = "lightgrey"</code>; use <code>grid.color = NA</code> to
-	  disable grid lines altogether.</p></dd>
-    <dt><code>pch</code></dt><dd><p>point character. Defaults to <code>pch = 21</code></p></dd>.
-    <dt><code>...</code></dt><dd><p>additional parameters for the low-level
-	  <code>plot</code> function.</p></dd>
-    </dl></p></dd>
+	  disable grid lines altogether.</p></dd>	<dt><code>pch</code></dt><dd><p>point character. Defaults to <code>pch = 21</code></p></dd>.	<dt><code>...</code></dt><dd><p>additional parameters for the low-level
+	  <code>plot</code> function.</p></dd></dl></p></dd>
     <dt><code>plot(signature(x = "Spectrum", y = "missing"), reporters =
 	"ReporterIons", full = "logical", centroided. = "logical", plot =
 	"logical", w1, w2)</code></dt><dd><p>Displays the MZs against intensities of
@@ -275,6 +272,7 @@ If a single &quot;Spectrum2&quot; and a &quot;character&quot;
       <code>"<a href='Spectrum2-class.html'>Spectrum2</a>"</code>
       objects. Full <code>"<a href='Spectrum1-class.html'>Spectrum1</a>"</code> spectra are plotted
       by default.</p></dd>
+
     <dt><code>plot(signature(x = "Spectrum2", y = "character"), orientation
 	= "numeric", add = "logical", col = "character", pch, xlab =
 	"character", ylab = "character", xlim = "numeric", ylim =
@@ -292,7 +290,10 @@ If a single &quot;Spectrum2&quot; and a &quot;character&quot;
 	fragments=<code>MSnbase:::calculateFragments_Spectrum2</code> and
 	<code>fragments.cex=0.75</code>. Additional arguments <code>...</code> are
 	passed to <code>plot.default</code>.</p></dd>
-    </dl>
+
+  
+</dl>  
+
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -303,20 +304,20 @@ If a single &quot;Spectrum2&quot; and a &quot;character&quot;
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>itraqdata</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>itraqdata</span>)
 <span class='co'>## plotting experiments</span>
 <span class='fu'>plot</span>(<span class='no'>itraqdata</span>[<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='kw'>reporters</span> <span class='kw'>=</span> <span class='no'>iTRAQ4</span>)</div><div class='img'><img src='plot-methods-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>itraqdata</span>[<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='input'><span class='co'>## plotting spectra</span>
 <span class='fu'>plot</span>(<span class='no'>itraqdata</span><span class='kw'>[[</span><span class='fl'>1</span>]],<span class='kw'>reporters</span> <span class='kw'>=</span> <span class='no'>iTRAQ4</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot-methods-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>itraqdata2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pickPeaks-method.html'>pickPeaks</a></span>(<span class='no'>itraqdata</span>)
 <span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fl'>14</span>
-<span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='fu'>fData</span>(<span class='no'>itraqdata2</span>)[<span class='no'>i</span>, <span class='st'>"PeptideSequence"</span>])
+<span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='fu'>fData</span>(<span class='no'>itraqdata2</span>)[<span class='no'>i</span>, <span class='st'>"PeptideSequence"</span>])
 <span class='fu'>plot</span>(<span class='no'>itraqdata2</span><span class='kw'>[[</span><span class='no'>i</span>]], <span class='no'>s</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='no'>s</span>)</div><div class='img'><img src='plot-methods-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>## Load profile-mode LC-MS files</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>msdata</span>)
-<span class='no'>od</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list.files'>dir</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"sciex"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"msdata"</span>),
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>msdata</span>)
+<span class='no'>od</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"sciex"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"msdata"</span>),
                      <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)
 <span class='co'>## Restrict the MS data to signal for serine</span>
-<span class='no'>serine</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trimMz-methods.html'>filterMz</a></span>(<span class='fu'><a href='MSnExp-class.html'>filterRt</a></span>(<span class='no'>od</span>, <span class='kw'>rt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>175</span>, <span class='fl'>190</span>)), <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>106.04</span>, <span class='fl'>106.06</span>))
+<span class='no'>serine</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trimMz-methods.html'>filterMz</a></span>(<span class='fu'><a href='MSnExp-class.html'>filterRt</a></span>(<span class='no'>od</span>, <span class='kw'>rt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>175</span>, <span class='fl'>190</span>)), <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>106.04</span>, <span class='fl'>106.06</span>))
 <span class='fu'>plot</span>(<span class='no'>serine</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"XIC"</span>)</div><div class='img'><img src='plot-methods-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>## Same plot but using heat.colors, rectangles and no point border</span>
 <span class='fu'>plot</span>(<span class='no'>serine</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"XIC"</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>22</span>, <span class='kw'>colramp</span> <span class='kw'>=</span> <span class='no'>heat.colors</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</div><div class='img'><img src='plot-methods-5.png' alt='' width='700' height='433' /></div><div class='input'>
@@ -339,19 +340,23 @@ If a single &quot;Spectrum2&quot; and a &quot;character&quot;
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

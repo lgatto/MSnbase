@@ -16,13 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -74,6 +76,7 @@ By default (refineMz = &quot;none&quot;, simply the m/z of the largest
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -98,7 +101,7 @@ By default (refineMz = &quot;none&quot;, simply the m/z of the largest
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -137,7 +140,7 @@ By default (refineMz = &quot;none&quot;, simply the m/z of the largest
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lgatto/MSnbase">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -148,6 +151,7 @@ By default (refineMz = &quot;none&quot;, simply the m/z of the largest
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -166,8 +170,8 @@ By default (refineMz = &quot;none&quot;, simply the m/z of the largest
   For noisy spectra there are currently two different noise estimators
   available, the Median Absolute Deviation (<code>method = "MAD"</code>) and
   Friedman's Super Smoother (<code>method = "SuperSmoother"</code>),
-  as implemented in the <code><a href='https://www.rdocumentation.org/packages/MALDIquant/topics/detectPeaks-methods'>MALDIquant::detectPeaks</a></code> and
-  <code><a href='https://www.rdocumentation.org/packages/MALDIquant/topics/estimateNoise-methods'>MALDIquant::estimateNoise</a></code> functions respectively.</p>
+  as implemented in the <code><a href='https://rdrr.io/pkg/MALDIquant/man/detectPeaks-methods.html'>MALDIquant::detectPeaks</a></code> and
+  <code><a href='https://rdrr.io/pkg/MALDIquant/man/estimateNoise-methods.html'>MALDIquant::estimateNoise</a></code> functions respectively.</p>
 <p>The method supports also to optionally <em>refine</em> the m/z value of
   the identified centroids by considering data points that belong (most
   likely) to the same mass peak. The m/z value is calculated as an
@@ -209,23 +213,24 @@ By default (refineMz = &quot;none&quot;, simply the m/z of the largest
       m/z refinement (see description for more details). Choises are
       <code>"none"</code> (default, no m/z refinement), <code>"kNeighbors"</code>
       and <code>"descendPeak"</code>.
-      The arguments <code>&#8230;</code> are passed to the noise estimator or
+      The arguments <code>...</code> are passed to the noise estimator or
       m/z refinement functions.
       For the noise estimator functions, currenlty only the
       <code>method = "SuperSmoother"</code> accepts additional arguments,
-      e.g.  <code>span</code>. Please see <code><a href='https://www.rdocumentation.org/packages/stats/topics/supsmu'>supsmu</a></code> for
+      e.g.  <code>span</code>. Please see <code><a href='https://rdrr.io/r/stats/supsmu.html'>supsmu</a></code> for
       details. <code>refineMethod = "kNeighbors"</code> supports additional
       argument <code>k</code> and <code>refineMethod = "descendPeak"</code>
       arguments <code>signalPercentage</code> and <code>stopAtTwo</code>. See
-      description above for more details.
-    This method displays a progress bar if <code>verbose = TRUE</code>.
+      description above for more details.      This method displays a progress bar if <code>verbose = TRUE</code>.
       Returns an <code>MSnExp</code> instance with centroided spectra.</p></dd>
     <dt><code>signature(x = "Spectrum", method = "character",
         halfWindowSize = "integer", ...)</code></dt><dd><p>Performs the peak picking for the spectrum (<code>Spectrum</code> instance).
       This method is the same as above but returns a centroided <code>Spectrum</code>
       instead of an <code>MSnExp</code> object. It has no <code>verbose</code> argument.
       Please read the details for the above <code>MSnExp</code> method.</p></dd>
-  </dl>
+  
+</dl>
+
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -243,36 +248,36 @@ Bioinformatics 28: 2270-2271.
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>sp1</span> <span class='kw'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum1"</span>,
-           <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>6</span>, <span class='fl'>5</span>:<span class='fl'>1</span>),
+           <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>6</span>, <span class='fl'>5</span>:<span class='fl'>1</span>),
            <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>11</span>,
            <span class='kw'>centroided</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='no'>sp2</span> <span class='kw'>&lt;-</span> <span class='fu'>pickPeaks</span>(<span class='no'>sp1</span>)
 <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp2</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>itraqdata</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>itraqdata</span>)
 <span class='no'>itraqdata2</span> <span class='kw'>&lt;-</span> <span class='fu'>pickPeaks</span>(<span class='no'>itraqdata</span>)
 <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>itraqdata2</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#&gt; peak picking: MAD noise estimation and none centroid m/z refinement [Wed Aug 21 19:16:01 2019] 
-#&gt; peak picking: SuperSmoother noise estimation and kNeighbors centroid m/z refinement [Wed Aug 21 19:16:01 2019] 
-#&gt; peak picking: MAD noise estimation and kNeighbours centroid m/z refinement [Wed Aug 21 19:16:01 2019] 
-#&gt; peak picking: SuperSmoother noise estimation and descendPeak centroid m/z refinement [Wed Aug 21 19:16:01 2019] 
-#&gt; Spectra centroided: Wed Aug 21 19:16:01 2019 
+#&gt; peak picking: MAD noise estimation and none centroid m/z refinement on spectra of MS level(s)2 [Thu Sep  5 12:13:32 2019] 
+#&gt; peak picking: SuperSmoother noise estimation and kNeighbors centroid m/z refinement on spectra of MS level(s)2 [Thu Sep  5 12:13:32 2019] 
+#&gt; peak picking: MAD noise estimation and kNeighbours centroid m/z refinement on spectra of MS level(s)2 [Thu Sep  5 12:13:32 2019] 
+#&gt; peak picking: SuperSmoother noise estimation and descendPeak centroid m/z refinement on spectra of MS level(s)2 [Thu Sep  5 12:13:32 2019] 
+#&gt; Spectra centroided: Thu Sep  5 12:13:32 2019 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
 
 <span class='co'>## Examples for refineMz:</span>
-<span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>3</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>4</span>, <span class='fl'>6</span>, <span class='fl'>8</span>, <span class='fl'>11</span>, <span class='fl'>4</span>, <span class='fl'>7</span>, <span class='fl'>5</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>0</span>)
+<span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>3</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>4</span>, <span class='fl'>6</span>, <span class='fl'>8</span>, <span class='fl'>11</span>, <span class='fl'>4</span>, <span class='fl'>7</span>, <span class='fl'>5</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>0</span>)
 <span class='no'>mzs</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span>:<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>ints</span>)
 <span class='no'>sp1</span> <span class='kw'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum1"</span>, <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='no'>mzs</span>, <span class='kw'>centroided</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp1</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp1</span>), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>)</div><div class='input'>
 <span class='co'>## Without m/z refinement:</span>
 <span class='no'>sp2</span> <span class='kw'>&lt;-</span> <span class='fu'>pickPeaks</span>(<span class='no'>sp1</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp2</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp2</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"darkgrey"</span>)</div><div class='input'><span class='co'>## Using k = 1, closest signals</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp2</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp2</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"darkgrey"</span>)</div><div class='input'><span class='co'>## Using k = 1, closest signals</span>
 <span class='no'>sp3</span> <span class='kw'>&lt;-</span> <span class='fu'>pickPeaks</span>(<span class='no'>sp1</span>, <span class='kw'>refineMz</span> <span class='kw'>=</span> <span class='st'>"kNeighbors"</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp3</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp3</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>)</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp3</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp3</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>)</div><div class='input'>
 <span class='co'>## Using descendPeak requiring at least 50% or the centroid's intensity</span>
 <span class='no'>sp4</span> <span class='kw'>&lt;-</span> <span class='fu'>pickPeaks</span>(<span class='no'>sp1</span>, <span class='kw'>refineMz</span> <span class='kw'>=</span> <span class='st'>"descendPeak"</span>, <span class='kw'>signalPercentage</span> <span class='kw'>=</span> <span class='fl'>50</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp4</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp4</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>)</div><div class='img'><img src='pickPeaks-method-1.png' alt='' width='700' height='433' /></div><div class='input'>           
+<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp4</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp4</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>)</div><div class='img'><img src='pickPeaks-method-1.png' alt='' width='700' height='433' /></div><div class='input'>           
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -294,19 +299,23 @@ Bioinformatics 28: 2270-2271.
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

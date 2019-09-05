@@ -16,13 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -46,6 +48,7 @@ spectrum." />
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -72,7 +75,7 @@ spectrum." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -111,7 +114,7 @@ spectrum." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lgatto/MSnbase">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -122,6 +125,7 @@ spectrum." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -139,7 +143,7 @@ spectrum.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>navMS</span>(<span class='no'>i</span>, <span class='no'>object</span>, <span class='no'>msLevel</span>, <span class='kw'>nav</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"nextMS"</span>, <span class='st'>"prevMS"</span>), <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>navMS</span>(<span class='no'>i</span>, <span class='no'>object</span>, <span class='no'>msLevel</span>, <span class='kw'>nav</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"nextMS"</span>, <span class='st'>"prevMS"</span>), <span class='no'>...</span>)
 
 <span class='fu'>nextMS</span>(<span class='no'>...</span>)
 
@@ -181,35 +185,35 @@ the next or previous spectrum of level <code>msLevel</code>.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>msdata</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/msdata/topics/proteomics'>proteomics</a></span>(<span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"MS3"</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>f</span>, <span class='kw'>centroided.</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>, <span class='fl'>FALSE</span>), <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Reading different file formats in.</span>
+    <pre class="examples"><div class='input'><span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>msdata</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/msdata/man/proteomics.html'>proteomics</a></span>(<span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"MS3"</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>f</span>, <span class='kw'>centroided.</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>, <span class='fl'>FALSE</span>), <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Reading different file formats in.</span>
 #&gt; <span class='warning'>This is untested and you are welcome to try it out.</span>
-#&gt; <span class='warning'>Please report back!</span></div><div class='input'>(<span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/which'>which</a></span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>x</span>) <span class='kw'>==</span> <span class='fl'>3</span>)[<span class='fl'>2</span>]) <span class='co'>## 2nd MS3 spectrum</span></div><div class='output co'>#&gt; F1.S009 
+#&gt; <span class='warning'>Please report back!</span></div><div class='input'>(<span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>x</span>) <span class='kw'>==</span> <span class='fl'>3</span>)[<span class='fl'>2</span>]) <span class='co'>## 2nd MS3 spectrum</span></div><div class='output co'>#&gt; F1.S009 
 #&gt;       9 </div><div class='input'><span class='no'>x</span><span class='kw'>[[</span><span class='no'>sp</span>]] <span class='co'>## curent MS3</span></div><div class='output co'>#&gt; Object of class "Spectrum2"
 #&gt;  Precursor: 756.4332 
 #&gt;  Retention time: 73:43 
 #&gt;  Charge: 1 
 #&gt;  MSn level: 3 
 #&gt;  Peaks count: 1422 
-#&gt;  Total ion count: 972514 </div><div class='input'><span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/MSnbase/topics/navMS'>nextMS</a></span>(<span class='no'>sp</span>, <span class='no'>x</span>) <span class='co'>## next MS3</span></div><div class='output co'>#&gt; Object of class "Spectrum2"
+#&gt;  Total ion count: 972514 </div><div class='input'><span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'><a href='https://rdrr.io/pkg/MSnbase/man/navMS.html'>nextMS</a></span>(<span class='no'>sp</span>, <span class='no'>x</span>) <span class='co'>## next MS3</span></div><div class='output co'>#&gt; Object of class "Spectrum2"
 #&gt;  Precursor: 466.1647 
 #&gt;  Retention time: 73:44 
 #&gt;  Charge: 0 
 #&gt;  MSn level: 3 
 #&gt;  Peaks count: 2281 
-#&gt;  Total ion count: 3908748 </div><div class='input'><span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/MSnbase/topics/navMS'>prevMS</a></span>(<span class='no'>sp</span>, <span class='no'>x</span>) <span class='co'>## prev MS3</span></div><div class='output co'>#&gt; Object of class "Spectrum2"
+#&gt;  Total ion count: 3908748 </div><div class='input'><span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'><a href='https://rdrr.io/pkg/MSnbase/man/navMS.html'>prevMS</a></span>(<span class='no'>sp</span>, <span class='no'>x</span>) <span class='co'>## prev MS3</span></div><div class='output co'>#&gt; Object of class "Spectrum2"
 #&gt;  Precursor: 490.2629 
 #&gt;  Retention time: 73:43 
 #&gt;  Charge: 0 
 #&gt;  MSn level: 3 
 #&gt;  Peaks count: 2540 
-#&gt;  Total ion count: 9311294 </div><div class='input'><span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/MSnbase/topics/navMS'>prevMS</a></span>(<span class='no'>sp</span>, <span class='no'>x</span>, <span class='fl'>2L</span>) <span class='co'>## prev MS2</span></div><div class='output co'>#&gt; Object of class "Spectrum2"
+#&gt;  Total ion count: 9311294 </div><div class='input'><span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'><a href='https://rdrr.io/pkg/MSnbase/man/navMS.html'>prevMS</a></span>(<span class='no'>sp</span>, <span class='no'>x</span>, <span class='fl'>2L</span>) <span class='co'>## prev MS2</span></div><div class='output co'>#&gt; Object of class "Spectrum2"
 #&gt;  Precursor: 675.6938 
 #&gt;  Retention time: 73:43 
 #&gt;  Charge: 3 
 #&gt;  MSn level: 2 
 #&gt;  Peaks count: 858 
-#&gt;  Total ion count: 627600.3 </div><div class='input'><span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/MSnbase/topics/navMS'>prevMS</a></span>(<span class='no'>sp</span>, <span class='no'>x</span>, <span class='fl'>1L</span>) <span class='co'>## prev MS1</span></div><div class='output co'>#&gt; Object of class "Spectrum1"
+#&gt;  Total ion count: 627600.3 </div><div class='input'><span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'><a href='https://rdrr.io/pkg/MSnbase/man/navMS.html'>prevMS</a></span>(<span class='no'>sp</span>, <span class='no'>x</span>, <span class='fl'>1L</span>) <span class='co'>## prev MS1</span></div><div class='output co'>#&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 73:43 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 48304 
@@ -230,19 +234,23 @@ the next or previous spectrum of level <code>msLevel</code>.</p></td>
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

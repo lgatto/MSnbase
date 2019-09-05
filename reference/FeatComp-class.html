@@ -16,13 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -45,6 +47,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -71,7 +74,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -110,7 +113,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lgatto/MSnbase">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -121,6 +124,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -141,7 +145,8 @@
     <h2 class="hasAnchor" id="objects-from-the-class"><a class="anchor" href="#objects-from-the-class"></a>Objects from the Class</h2>
 
     
-    <p>Objects can be created with <code>compfnames</code>. The method compares the
+
+<p>Objects can be created with <code>compfnames</code>. The method compares the
   feature names of two objects of class <code>"MSnSet"</code>. It prints a
   summary matrix of common and unique feature names and invisibly
   returns a list of <code>FeatComp</code> instances.</p>
@@ -153,30 +158,40 @@
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
     <p></p><dl class='dl-horizontal'>
+
     <dt><code>name</code>:</dt><dd><p>Object of class <code>"character"</code> defining the
       name of the compared features. By convention, <code>"all"</code> is used
       when all feature names are used; otherwise, the respective levels of
       the feature variables <code>fcol1</code> and <code>fcol2</code>.</p></dd>
+
     <dt><code>common</code>:</dt><dd><p>Object of class <code>"character"</code> with the common
       feature names.</p></dd>
+
     <dt><code>unique1</code>:</dt><dd><p>Object of class <code>"character"</code> with the
       features unique to the first <code>MSnSet</code> (<code>x</code> in
       <code>compfname</code>).</p></dd>
+
     <dt><code>unique2</code>:</dt><dd><p>Object of class <code>"character"</code> with the
       features unique to the seconn <code>MSnSet</code> (<code>y</code> in
       <code>compfname</code>).</p></dd>
+
     <dt><code>all</code>:</dt><dd><p>Object of class <code>"logical"</code> defining if all
       features of only a subset were compared. One expects that
       <code>name == "all"</code> when <code>all</code> is <code>TRUE</code>.</p></dd>
-    </dl>
+    
+  
+</dl>
+
     
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-    <p>Accessors <code>names</code>, <code>common</code>, <code>unique1</code> and
+
+<p>Accessors <code>names</code>, <code>common</code>, <code>unique1</code> and
   <code>unique2</code> can be used to access the respective <code>FeatComp</code>
   slots.</p>
 <p></p><dl class='dl-horizontal'>
+
     <dt>compfnames</dt><dd><p><code>signature(x = "MSnSet", y = "MSnSet", fcol1
 	= "character", fcol2 = "character", simplify = "logical",
 	verbose = "logical")</code>: creates the <code>FeatComp</code> comparison
@@ -189,15 +204,20 @@
       <code>FeatComp</code> object is returned instead of a list of length
       1. The <code>verbose</code> logical controls if a summary table needs
       to be printed (default is <code>TRUE</code>).</p></dd>
+
     <dt>compfnames</dt><dd><p><code>signature(x = "list", y = "missing", ...)</code>:
       when <code>x</code> is a list of <code>MSnSet</code> instances,
       <code>compfnames</code> is applied to all element pairs of
       <code>x</code>. Additional parameters <code>fcol1</code>, <code>fcol2</code>,
       <code>simplify</code> and <code>verbose</code> are passed to the pairwise
       comparison method.</p></dd>
+    
     <dt>show</dt><dd><p><code>signature(object = "FeatComp")</code>: prints a summary
       of the <code>object</code>.</p></dd>
-    </dl>
+
+  
+</dl>
+
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -205,10 +225,82 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"pRolocdata"</span>)</div><div class='output co'>#&gt; <span class='error'>Error: package ‘MSnbase’ required by ‘pRolocdata’ could not be found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>tan2009r1</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘tan2009r1’ not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>tan2009r2</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘tan2009r2’ not found</span></div><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>compfnames</span>(<span class='no'>tan2009r1</span>, <span class='no'>tan2009r2</span>)</div><div class='output co'>#&gt; <span class='error'>Error in compfnames(tan2009r1, tan2009r2): object 'tan2009r1' not found</span></div><div class='input'><span class='no'>x</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'x' not found</span></div><div class='input'><span class='no'>x</span>[<span class='fl'>2</span>:<span class='fl'>3</span>]</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'x' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'>common</span>(<span class='no'>x</span><span class='kw'>[[</span><span class='fl'>1</span>]]))</div><div class='output co'>#&gt; <span class='error'>Error in common(x[[1]]): object 'x' not found</span></div><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>tan2009r3</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘tan2009r3’ not found</span></div><div class='input'><span class='no'>tanl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>tan2009r1</span>, <span class='no'>tan2009r2</span>, <span class='no'>tan2009r3</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'tan2009r1' not found</span></div><div class='input'><span class='no'>xx</span> <span class='kw'>&lt;-</span> <span class='fu'>compfnames</span>(<span class='no'>tanl</span>, <span class='kw'>fcol1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</div><div class='output co'>#&gt; <span class='error'>Error in compfnames(tanl, fcol1 = NULL): object 'tanl' not found</span></div><div class='input'><span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>xx</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'xx' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>tail</a></span>(<span class='no'>xx</span>)</div><div class='output co'>#&gt; <span class='error'>Error in tail(xx): object 'xx' not found</span></div><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>xx</span><span class='kw'>[[</span><span class='fl'>15</span>]],
-          <span class='fu'>compfnames</span>(<span class='no'>tan2009r2</span>, <span class='no'>tan2009r3</span>, <span class='kw'>fcol1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>))</div><div class='output co'>#&gt; <span class='error'>Error in all.equal(xx[[15]], compfnames(tan2009r2, tan2009r3, fcol1 = NULL)): object 'xx' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply</a></span>(<span class='no'>xx</span>, <span class='no'>common</span>))</div><div class='output co'>#&gt; <span class='error'>Error in sapply(xx, common): object 'xx' not found</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"pRolocdata"</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>This is pRolocdata version 1.23.0.</span>
+#&gt; <span class='message'>Use 'pRolocdata()' to list available data sets.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>tan2009r1</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>tan2009r2</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>compfnames</span>(<span class='no'>tan2009r1</span>, <span class='no'>tan2009r2</span>)
+<span class='no'>x</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt; Object of class "FeatComp", 'all' features:
+#&gt;  Common feature: 551 
+#&gt;  Unique to 1: 337 
+#&gt;  Unique to 2: 320 </div><div class='input'><span class='no'>x</span>[<span class='fl'>2</span>:<span class='fl'>3</span>]</div><div class='output co'>#&gt; [[1]]
+#&gt; Object of class "FeatComp", 'unknown' features:
+#&gt;  Common feature: 413 
+#&gt;  Unique to 1: 264 
+#&gt;  Unique to 2: 331 
+#&gt; 
+#&gt; [[2]]
+#&gt; Object of class "FeatComp", 'ER' features:
+#&gt;  Common feature: 21 
+#&gt;  Unique to 1: 7 
+#&gt;  Unique to 2: 0 
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>common</span>(<span class='no'>x</span><span class='kw'>[[</span><span class='fl'>1</span>]]))</div><div class='output co'>#&gt; [1] "P20353" "P53501" "Q7KU78" "P04412" "Q7JZN0" "Q9VM65"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>tan2009r3</span>)
+<span class='no'>tanl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>tan2009r1</span>, <span class='no'>tan2009r2</span>, <span class='no'>tan2009r3</span>)
+<span class='no'>xx</span> <span class='kw'>&lt;-</span> <span class='fu'>compfnames</span>(<span class='no'>tanl</span>, <span class='kw'>fcol1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>xx</span>)</div><div class='output co'>#&gt; [1] 15</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span>(<span class='no'>xx</span>)</div><div class='output co'>#&gt; $`1v3`
+#&gt; Object of class "FeatComp", 'all' features:
+#&gt;  Common feature: 494 
+#&gt;  Unique to 1: 394 
+#&gt;  Unique to 2: 176 
+#&gt; 
+#&gt; $`1v2`
+#&gt; Object of class "FeatComp", 'all' features:
+#&gt;  Common feature: 551 
+#&gt;  Unique to 1: 337 
+#&gt;  Unique to 2: 320 
+#&gt; 
+#&gt; $`1v3`
+#&gt; Object of class "FeatComp", 'all' features:
+#&gt;  Common feature: 494 
+#&gt;  Unique to 1: 394 
+#&gt;  Unique to 2: 176 
+#&gt; 
+#&gt; $`3v2`
+#&gt; Object of class "FeatComp", 'all' features:
+#&gt;  Common feature: 477 
+#&gt;  Unique to 1: 193 
+#&gt;  Unique to 2: 394 
+#&gt; 
+#&gt; $`3v3`
+#&gt; Object of class "FeatComp", 'all' features:
+#&gt;  Common feature: 670 
+#&gt;  Unique to 1: 0 
+#&gt;  Unique to 2: 0 
+#&gt; 
+#&gt; $`2v3`
+#&gt; Object of class "FeatComp", 'all' features:
+#&gt;  Common feature: 477 
+#&gt;  Unique to 1: 394 
+#&gt;  Unique to 2: 193 
+#&gt; </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span>(<span class='no'>xx</span><span class='kw'>[[</span><span class='fl'>15</span>]],
+          <span class='fu'>compfnames</span>(<span class='no'>tan2009r2</span>, <span class='no'>tan2009r3</span>, <span class='kw'>fcol1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>xx</span>, <span class='no'>common</span>))</div><div class='output co'>#&gt; List of 15
+#&gt;  $ 1v2: chr [1:551] "P20353" "P53501" "Q7KU78" "P04412" ...
+#&gt;  $ 1v1: chr [1:888] "P20353" "P53501" "Q7KU78" "P04412" ...
+#&gt;  $ 1v3: chr [1:494] "Q7KU78" "Q7JZN0" "P15348" "Q00174" ...
+#&gt;  $ 1v2: chr [1:551] "P20353" "P53501" "Q7KU78" "P04412" ...
+#&gt;  $ 1v3: chr [1:494] "Q7KU78" "Q7JZN0" "P15348" "Q00174" ...
+#&gt;  $ 2v1: chr [1:551] "P20353" "P53501" "Q7KU78" "P04412" ...
+#&gt;  $ 2v3: chr [1:477] "Q7KU78" "Q7JZN0" "Q9VJ80" "P15348" ...
+#&gt;  $ 2v2: chr [1:871] "P20432" "P20353" "P53501" "Q7KU78" ...
+#&gt;  $ 2v3: chr [1:477] "Q7KU78" "Q7JZN0" "Q9VJ80" "P15348" ...
+#&gt;  $ 1v3: chr [1:494] "Q7KU78" "Q7JZN0" "P15348" "Q00174" ...
+#&gt;  $ 1v2: chr [1:551] "P20353" "P53501" "Q7KU78" "P04412" ...
+#&gt;  $ 1v3: chr [1:494] "Q7KU78" "Q7JZN0" "P15348" "Q00174" ...
+#&gt;  $ 3v2: chr [1:477] "Q7KU78" "Q7JZN0" "Q9VJ80" "P15348" ...
+#&gt;  $ 3v3: chr [1:670] "Q7KU78" "Q7JZN0" "M9PC85" "Q9VJ80" ...
+#&gt;  $ 2v3: chr [1:477] "Q7KU78" "Q7JZN0" "Q9VJ80" "P15348" ...</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -230,19 +322,23 @@
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

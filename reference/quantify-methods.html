@@ -16,13 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -58,6 +60,7 @@ Since version 1.13.5, parallel quantitation is supported by the
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -82,7 +85,7 @@ Since version 1.13.5, parallel quantitation is supported by the
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -121,7 +124,7 @@ Since version 1.13.5, parallel quantitation is supported by the
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lgatto/MSnbase">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,6 +135,7 @@ Since version 1.13.5, parallel quantitation is supported by the
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -206,7 +210,7 @@ Since version 1.13.5, parallel quantitation is supported by the
     <code>BiocParallelParam</code> parameters are applied using
     <code>bpparam()</code>. Alternatively, one can pass a valid
     <code>BiocParallelParam</code> parameter instance: <code>SnowParam</code>,
-    <code>MulticoreParam</code>, <code>DoparParam</code>, &#8230; see the
+    <code>MulticoreParam</code>, <code>DoparParam</code>, ... see the
     <code>BiocParallel</code> package for details.</p></td>
     </tr>
     <tr>
@@ -235,7 +239,8 @@ Since version 1.13.5, parallel quantitation is supported by the
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <p><code>"<a href='ReporterIons-class.html'>ReporterIons</a>"</code> define specific MZ at which peaks
+
+<p><code>"<a href='ReporterIons-class.html'>ReporterIons</a>"</code> define specific MZ at which peaks
   are expected and a window around that MZ value.  A peak of interest is
   searched for in that window.  Since version 1.1.2, warnings are not
   thrown anymore in case no data is found in that region or if the peak
@@ -263,26 +268,23 @@ Since version 1.13.5, parallel quantitation is supported by the
       <code>signature(object = "MSnExp", method = "character", reporters
 	= "ReporterIons", verbose = "logical", ...)</code></dt><dd><p>For isobaric tagging, quantifies peaks defined in <code>reporters</code>
       using <code>method</code> in all spectra of the <code>MSnExp</code> object. If
-      verbose is set to <code>TRUE</code>, a progress bar will be displayed.
-    For label-free quantitation, the respective quantitation methods
+      verbose is set to <code>TRUE</code>, a progress bar will be displayed.      For label-free quantitation, the respective quantitation methods
       and normalisations are applied to the spectra. These methods
       require two additional arguments (<code>...</code>), namely the protein
       accession of identifiers (<code>fcol</code>, with detault value
       <code>"DatabaseAccess"</code>) and the protein lengths (<code>plength</code>,
       with default value <code>"DBseqLength"</code>). These values are
       available of the identification data had been collated using
-      <code><a href='addIdentificationData-methods.html'>addIdentificationData</a></code>.
-    An object of class <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> is returned
+      <code><a href='addIdentificationData-methods.html'>addIdentificationData</a></code>.      An object of class <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> is returned
       containing the quantified feature expression and all meta data
       inherited from the <code>MSnExp</code> <code>object</code> argument.</p></dd>
+
     <dt><code>signature(object = "Spectrum", method = "character",
 	reporters = "ReporterIons")</code></dt><dd><p>Quantifies peaks defined in <code>reporters</code> using <code>method</code>
-      in the <code>Spectrum</code> object (isobaric tagging only).
-    A list of length 2 will be returned. The first element, named
+      in the <code>Spectrum</code> object (isobaric tagging only).      A list of length 2 will be returned. The first element, named
       <code>peakQuant</code>, is a 'numeric' of length equal to
       <code><a href='pSet-class.html'>length(reporters)</a></code> with quantitation of the reporter peaks
-      using <code>method</code>.
-    The second element, names <code>curveStats</code>, is a 'data.frame' of
+      using <code>method</code>.      The second element, names <code>curveStats</code>, is a 'data.frame' of
       dimension <code><a href='pSet-class.html'>length(reporters)</a></code> times 7 giving, for each
       reporter curve parameters: maximum intensity (<code>'maxInt'</code>),
       number of maxima (<code>'nMaxInt'</code>), number of data points defined
@@ -290,12 +292,15 @@ Since version 1.13.5, parallel quantitation is supported by the
       curve (<code>'lowerMz'</code> and <code>'upperMz'</code>), reporter
       (<code>'reporter'</code>) and precursor MZ value (<code>'precursor'</code>)
       when available.</p></dd>
-  </dl>
+  
+</dl>
+
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     
-    <p>For details about the spectral index (SI), see Griffin NM, Yu J, Long
+
+<p>For details about the spectral index (SI), see Griffin NM, Yu J, Long
   F, Oh P, Shore S, Li Y, Koziol JA, Schnitzer JE.  <em>Label-free,
   normalized quantification of complex mass spectrometry data for
   proteomic analysis</em>. Nat Biotechnol. 2010 Jan;28(1):83-9. doi:
@@ -311,7 +316,7 @@ Since version 1.13.5, parallel quantitation is supported by the
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>## Quantifying a full experiment using iTRAQ4-plex tagging</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>itraqdata</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>itraqdata</span>)
 <span class='no'>msnset</span> <span class='kw'>&lt;-</span> <span class='fu'>quantify</span>(<span class='no'>itraqdata</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"trap"</span>, <span class='kw'>reporters</span> <span class='kw'>=</span> <span class='no'>iTRAQ4</span>)
 <span class='no'>msnset</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
 #&gt; assayData: 55 features, 4 samples 
@@ -330,7 +335,7 @@ Since version 1.13.5, parallel quantitation is supported by the
 #&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#&gt; iTRAQ4 quantification by trapezoidation: Wed Aug 21 19:16:14 2019 
+#&gt; iTRAQ4 quantification by trapezoidation: Thu Sep  5 12:13:46 2019 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
 <span class='co'>## specifying a custom parallel framework</span>
 <span class='co'>## bp &lt;- MulticoreParam(2L) # on Linux/OSX</span>
@@ -338,7 +343,7 @@ Since version 1.13.5, parallel quantitation is supported by the
 <span class='co'>## quantify(itraqdata[1:10], method = "trap", iTRAQ4, BPPARAM = bp)</span>
 
 <span class='co'>## Checking for non-quantified peaks</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sum'>sum</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NA'>is.na</a></span>(<span class='fu'>exprs</span>(<span class='no'>msnset</span>)))</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='fu'>exprs</span>(<span class='no'>msnset</span>)))</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
 <span class='co'>## Quantifying a single spectrum</span>
 <span class='no'>qty</span> <span class='kw'>&lt;-</span> <span class='fu'>quantify</span>(<span class='no'>itraqdata</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"trap"</span>, <span class='no'>iTRAQ4</span>[<span class='fl'>1</span>])
 <span class='no'>qty</span>$<span class='no'>peakQuant</span></div><div class='output co'>#&gt; iTRAQ4.114 
@@ -347,9 +352,9 @@ Since version 1.13.5, parallel quantitation is supported by the
 
 <span class='co'>## Label-free quantitation</span>
 <span class='co'>## Raw (mzXML) and identification (mzid) files</span>
-<span class='no'>quantFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list.files'>dir</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"MSnbase"</span>, <span class='kw'>dir</span> <span class='kw'>=</span> <span class='st'>"extdata"</span>),
+<span class='no'>quantFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"MSnbase"</span>, <span class='kw'>dir</span> <span class='kw'>=</span> <span class='st'>"extdata"</span>),
                  <span class='kw'>full.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"mzXML$"</span>)
-<span class='no'>identFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list.files'>dir</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"MSnbase"</span>, <span class='kw'>dir</span> <span class='kw'>=</span> <span class='st'>"extdata"</span>),
+<span class='no'>identFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"MSnbase"</span>, <span class='kw'>dir</span> <span class='kw'>=</span> <span class='st'>"extdata"</span>),
                  <span class='kw'>full.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"dummyiTRAQ.mzid"</span>)
 
 <span class='no'>msexp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>quantFile</span>)
@@ -357,23 +362,23 @@ Since version 1.13.5, parallel quantitation is supported by the
 <span class='fu'>fData</span>(<span class='no'>msexp</span>)$<span class='no'>DatabaseAccess</span></div><div class='output co'>#&gt; [1] "ECA0984" "ECA1028" NA        NA        "ECA0510"</div><div class='input'>
 <span class='no'>si</span> <span class='kw'>&lt;-</span> <span class='fu'>quantify</span>(<span class='no'>msexp</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"SIn"</span>)
 <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>si</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Data loaded: Wed Aug 21 19:16:15 2019 
-#&gt; Filtered 2 unidentified peptides out [Wed Aug 21 19:16:15 2019] 
-#&gt; Quantitation by total ion current [Wed Aug 21 19:16:15 2019] 
-#&gt; Combined 3 features into 3 using sum: Wed Aug 21 19:16:15 2019 
-#&gt; Quantification by SIn [Wed Aug 21 19:16:15 2019] 
+#&gt; Data loaded: Thu Sep  5 12:13:48 2019 
+#&gt; Filtered 2 unidentified peptides out [Thu Sep  5 12:13:48 2019] 
+#&gt; Quantitation by total ion current [Thu Sep  5 12:13:48 2019] 
+#&gt; Combined 3 features into 3 using sum: Thu Sep  5 12:13:48 2019 
+#&gt; Quantification by SIn [Thu Sep  5 12:13:48 2019] 
 #&gt;  MSnbase version: 2.11.6 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>si</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
 #&gt; ECA0510     0.0006553518
 #&gt; ECA0984     0.0035384487
 #&gt; ECA1028     0.0002684726</div><div class='input'>
 <span class='no'>saf</span> <span class='kw'>&lt;-</span> <span class='fu'>quantify</span>(<span class='no'>msexp</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"NSAF"</span>)
 <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>saf</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Data loaded: Wed Aug 21 19:16:15 2019 
-#&gt; Filtered 2 unidentified peptides out [Wed Aug 21 19:16:15 2019] 
-#&gt; Filtered 0 unidentified peptides out [Wed Aug 21 19:16:15 2019] 
-#&gt; Quantitation by count [Wed Aug 21 19:16:15 2019] 
-#&gt; Combined 3 features into 3 using user-defined function: Wed Aug 21 19:16:15 2019 
-#&gt; Quantification by NSAF [Wed Aug 21 19:16:15 2019] 
+#&gt; Data loaded: Thu Sep  5 12:13:48 2019 
+#&gt; Filtered 2 unidentified peptides out [Thu Sep  5 12:13:48 2019] 
+#&gt; Filtered 0 unidentified peptides out [Thu Sep  5 12:13:48 2019] 
+#&gt; Quantitation by count [Thu Sep  5 12:13:48 2019] 
+#&gt; Combined 3 features into 3 using user-defined function: Thu Sep  5 12:13:48 2019 
+#&gt; Quantification by NSAF [Thu Sep  5 12:13:48 2019] 
 #&gt;  MSnbase version: 2.11.6 </div><div class='input'><span class='fu'>exprs</span>(<span class='no'>saf</span>)</div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
 #&gt; ECA0510        0.4306167
 #&gt; ECA0984        0.3094475
@@ -400,19 +405,23 @@ Since version 1.13.5, parallel quantitation is supported by the
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

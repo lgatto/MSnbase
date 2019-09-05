@@ -16,13 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -60,6 +62,7 @@ Note that the number of peaks is not changed; the peaks below the
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -84,7 +87,7 @@ Note that the number of peaks is not changed; the peaks below the
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -123,7 +126,7 @@ Note that the number of peaks is not changed; the peaks below the
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lgatto/MSnbase">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -134,6 +137,7 @@ Note that the number of peaks is not changed; the peaks below the
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -173,6 +177,7 @@ Note that the number of peaks is not changed; the peaks below the
       <code>numeric</code> values are valid.
       Displays a control bar if verbose set to <code>TRUE</code>
       (default). Returns a new <code>MSnExp</code> instance.</p></dd>
+
     <dt><code>signature(object = "Spectrum", t, msLevel. =
       "numeric")</code></dt><dd><p>Removes low intensity peaks of <code>Spectrum</code>
       object.  <code>t</code> sets the minimum peak intensity. Default is
@@ -180,9 +185,11 @@ Note that the number of peaks is not changed; the peaks below the
       <code>numeric</code> values are valid. <code>msLevel.</code> defines the level
       of the spectrum, and if <code>msLevel(object) != msLevel.</code>,
       cleaning is ignored. Only relevant when called from
-      <code>OnDiskMSnExp</code> and is only relevant for developers.
-    Returns a new <code>Spectrum</code> instance.</p></dd>
-    </dl>
+      <code>OnDiskMSnExp</code> and is only relevant for developers.      Returns a new <code>Spectrum</code> instance.</p></dd>
+    
+  
+</dl>
+
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -191,7 +198,7 @@ Note that the number of peaks is not changed; the peaks below the
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>int</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>4</span>, <span class='fl'>2</span>, <span class='fl'>1</span>)
+    <pre class="examples"><div class='input'><span class='no'>int</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>4</span>, <span class='fl'>2</span>, <span class='fl'>1</span>)
 <span class='no'>sp1</span> <span class='kw'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum2"</span>,
            <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>int</span>,
            <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>int</span>),
@@ -202,29 +209,29 @@ Note that the number of peaks is not changed; the peaks below the
 <span class='no'>sp3</span> <span class='kw'>&lt;-</span> <span class='fu'>removePeaks</span>(<span class='no'>sp1</span>, <span class='fl'>3</span>)
 <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp1</span>)</div><div class='output co'>#&gt;  [1] 2 0 0 0 1 5 1 0 0 1 3 1 0 0 1 4 2 1</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp2</span>)</div><div class='output co'>#&gt;  [1] 2 0 0 0 1 5 1 0 0 1 3 1 0 0 1 4 2 1</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp3</span>)</div><div class='output co'>#&gt;  [1] 0 0 0 0 1 5 1 0 0 0 0 0 0 0 1 4 2 1</div><div class='input'>
 <span class='fu'><a href='Spectrum-class.html'>peaksCount</a></span>(<span class='no'>sp1</span>) <span class='kw'>==</span> <span class='fu'><a href='Spectrum-class.html'>peaksCount</a></span>(<span class='no'>sp2</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>peaksCount</a></span>(<span class='no'>sp3</span>) <span class='kw'>&lt;=</span> <span class='fu'><a href='Spectrum-class.html'>peaksCount</a></span>(<span class='no'>sp1</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>itraqdata</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>itraqdata</span>)
 <span class='no'>itraqdata2</span> <span class='kw'>&lt;-</span> <span class='fu'>removePeaks</span>(<span class='no'>itraqdata</span>, <span class='kw'>t</span> <span class='kw'>=</span> <span class='fl'>2.5e5</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unlist'>unlist</a></span>(<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>itraqdata</span>)) <span class='kw'>==</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>itraqdata</span>)) <span class='kw'>==</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; 
 #&gt; FALSE  TRUE 
-#&gt; 45628 60661 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unlist'>unlist</a></span>(<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>itraqdata2</span>)) <span class='kw'>==</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; 
+#&gt; 45628 60661 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>itraqdata2</span>)) <span class='kw'>==</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; 
 #&gt; FALSE  TRUE 
 #&gt; 10280 96009 </div><div class='input'><span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>itraqdata2</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#&gt; Curves &lt;= 250000 set to '0': Wed Aug 21 19:16:34 2019 
+#&gt; Curves &lt;= 250000 set to '0': Thu Sep  5 12:14:11 2019 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
 <span class='co'>## difference between centroided and profile peaks</span>
 
-<span class='no'>int</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>104</span>, <span class='fl'>57</span>, <span class='fl'>32</span>, <span class='fl'>33</span>, <span class='fl'>118</span>, <span class='fl'>76</span>, <span class='fl'>38</span>, <span class='fl'>39</span>, <span class='fl'>52</span>, <span class='fl'>140</span>, <span class='fl'>52</span>, <span class='fl'>88</span>, <span class='fl'>394</span>, <span class='fl'>71</span>,
+<span class='no'>int</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>104</span>, <span class='fl'>57</span>, <span class='fl'>32</span>, <span class='fl'>33</span>, <span class='fl'>118</span>, <span class='fl'>76</span>, <span class='fl'>38</span>, <span class='fl'>39</span>, <span class='fl'>52</span>, <span class='fl'>140</span>, <span class='fl'>52</span>, <span class='fl'>88</span>, <span class='fl'>394</span>, <span class='fl'>71</span>,
          <span class='fl'>408</span>, <span class='fl'>94</span>, <span class='fl'>2032</span>)
 <span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum2"</span>,
           <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>int</span>,
           <span class='kw'>centroided</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-          <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>int</span>)))
+          <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>int</span>)))
 
 <span class='co'>## unchanged, as ranges of peaks &lt;= 500 considered</span>
 <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='fu'>removePeaks</span>(<span class='no'>sp</span>, <span class='fl'>500</span>))</div><div class='output co'>#&gt;  [1]  104   57   32   33  118   76   38   39   52  140   52   88  394   71  408
-#&gt; [16]   94 2032</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/stopifnot'>stopifnot</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='fu'>removePeaks</span>(<span class='no'>sp</span>, <span class='fl'>500</span>))))
+#&gt; [16]   94 2032</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>sp</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='fu'>removePeaks</span>(<span class='no'>sp</span>, <span class='fl'>500</span>))))
 
 <span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='no'>sp</span>) <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
 <span class='co'>## different!</span>
@@ -247,19 +254,23 @@ Note that the number of peaks is not changed; the peaks below the
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

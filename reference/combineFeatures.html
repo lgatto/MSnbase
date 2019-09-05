@@ -16,13 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,9 +34,9 @@
 
 <meta property="og:title" content="Combines features in an <code>MSnSet</code> object — combineFeatures" />
 
-<meta property="og:description" content="" />
+<meta property="og:description" content="
 
-<meta property="og:description" content="This function combines the features in an
+This function combines the features in an
   &quot;MSnSet&quot; instance applying a summarisation
   function (see fun argument) to sets of features as defined by a
   factor (see fcol argument).  Note that the feature names are
@@ -56,6 +58,7 @@ If NA values are present, a message will be shown. Details on how
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -82,7 +85,7 @@ If NA values are present, a message will be shown. Details on how
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -121,7 +124,7 @@ If NA values are present, a message will be shown. Details on how
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lgatto/MSnbase">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,6 +135,7 @@ If NA values are present, a message will be shown. Details on how
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -146,7 +150,7 @@ If NA values are present, a message will be shown. Details on how
     
     
 
-    <p>This function combines the features in an
+<p>This function combines the features in an
   <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> instance applying a summarisation
   function (see <code>fun</code> argument) to sets of features as defined by a
   factor (see <code>fcol</code> argument).  Note that the feature names are
@@ -172,7 +176,7 @@ If NA values are present, a message will be shown. Details on how
       <th>groupBy</th>
       <td><p>A <code>factor</code>, <code>character</code>, <code>numeric</code> or a
     <code>list</code> of the above defining how to summerise the features. The
-    list must be of length <code><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow(object)</a></code>. Each element of the list
+    list must be of length <code><a href='https://rdrr.io/r/base/nrow.html'>nrow(object)</a></code>. Each element of the list
     is a vector describing the feature mapping. If the list can be
     named, its names must match <code>fetureNames(object)</code>. See
     <code>redundancy.handler</code> for details about the latter.</p></td>
@@ -185,7 +189,7 @@ If NA values are present, a message will be shown. Details on how
       <th>method</th>
       <td><p>The summerising function. Currently, mean, median,
     weighted mean, sum, median polish, robust summarisation (using
-    <code><a href='https://www.rdocumentation.org/packages/MASS/topics/rlm'>MASS::rlm</a></code>), iPQF (see <code><a href='iPQF.html'>iPQF</a></code> for details) and NTR
+    <code><a href='https://rdrr.io/pkg/MASS/man/rlm.html'>MASS::rlm</a></code>), iPQF (see <code><a href='iPQF.html'>iPQF</a></code> for details) and NTR
     (see <code><a href='normToReference.html'>NTR</a></code> for details) are implemented, but
     user-defined functions can also be supplied. Note that the robust
     menthods assumes that the data are already log-transformed.</p></td>
@@ -229,7 +233,7 @@ If NA values are present, a message will be shown. Details on how
     to be printed out.</p></td>
     </tr>
     <tr>
-      <th>&#8230;</th>
+      <th>...</th>
       <td><p>Additional arguments for the <code>fun</code> function.</p></td>
     </tr>
     </table>
@@ -248,7 +252,8 @@ If NA values are present, a message will be shown. Details on how
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <p>Missing values have different effect based on the aggregation method
+
+<p>Missing values have different effect based on the aggregation method
   employed, as detailed below. See also examples below.</p>
 <p></p><ol>
 <li><p>When using either <code>"sum"</code>, <code>"mean"</code>,
@@ -265,14 +270,16 @@ If NA values are present, a message will be shown. Details on how
     value are present, which will have to be handled explicitly. See
     below.</p></li>
 </ol>
-    <p>More generally, missing values often need dedicated handling such as
+
+<p>More generally, missing values often need dedicated handling such as
   filtering (see <code><a href='MSnSet-class.html'>filterNA</a></code>) or imputation (see
   <code><a href='impute-methods.html'>impute</a></code>).</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     
-    <p>iPQF: a new peptide-to-protein summarization method using peptide
+
+<p>iPQF: a new peptide-to-protein summarization method using peptide
   spectra characteristics to improve protein quantification. Fischer M,
   Renard BY.  Bioinformatics. 2016 Apr
   1;32(7):1040-7. doi:10.1093/bioinformatics/btv675. Epub 2015 Nov
@@ -280,8 +287,9 @@ If NA values are present, a message will be shown. Details on how
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'></div>
-    <div class='dont-index'><p><code><a href='featureCV.html'>featureCV</a></code> to calculate coefficient of variation,
+    <div class='dont-index'>
+
+<p><code><a href='featureCV.html'>featureCV</a></code> to calculate coefficient of variation,
   <code><a href='nFeatures.html'>nFeatures</a></code> to document the number of features per group
   in the feature data, and the <code><a href='aggvar.html'>aggvar</a></code> to explore
   variability within protein groups.</p>
@@ -290,7 +298,7 @@ If NA values are present, a message will be shown. Details on how
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>msnset</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>msnset</span>)
 <span class='no'>msnset</span> <span class='kw'>&lt;-</span> <span class='no'>msnset</span>[<span class='fl'>11</span>:<span class='fl'>15</span>, ]
 <span class='fu'>exprs</span>(<span class='no'>msnset</span>)</div><div class='output co'>#&gt;     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; X19  32838.044  37066.058  41429.627  39700.475
@@ -299,7 +307,7 @@ If NA values are present, a message will be shown. Details on how
 #&gt; X21  21262.148  23168.729  25407.068  25949.954
 #&gt; X22   8635.316  10036.529   9254.432   7769.749</div><div class='input'>
 <span class='co'>## arbitrary grouping into two groups</span>
-<span class='no'>grp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>as.factor</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>))
+<span class='no'>grp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>))
 <span class='no'>msnset.comb</span> <span class='kw'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='kw'>groupBy</span> <span class='kw'>=</span> <span class='no'>grp</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sum"</span>)
 <span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='no'>msnset.comb</span>)</div><div class='output co'>#&gt; [1] 2 4</div><div class='input'><span class='fu'>exprs</span>(<span class='no'>msnset.comb</span>)</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; 1   36553.13   41320.38   46178.09   44950.38
@@ -311,9 +319,9 @@ If NA values are present, a message will be shown. Details on how
 #&gt; [16] "CV.iTRAQ4.114"       "CV.iTRAQ4.115"       "CV.iTRAQ4.116"      
 #&gt; [19] "CV.iTRAQ4.117"      </div><div class='input'>
 <span class='co'>## grouping with a list</span>
-<span class='no'>grpl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>), <span class='st'>"A"</span>, <span class='st'>"A"</span>, <span class='st'>"C"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"C"</span>, <span class='st'>"B"</span>))
+<span class='no'>grpl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>), <span class='st'>"A"</span>, <span class='st'>"A"</span>, <span class='st'>"C"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"C"</span>, <span class='st'>"B"</span>))
 <span class='co'>## optional naming</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>grpl</span>) <span class='kw'>&lt;-</span> <span class='fu'>featureNames</span>(<span class='no'>msnset</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>grpl</span>) <span class='kw'>&lt;-</span> <span class='fu'>featureNames</span>(<span class='no'>msnset</span>)
 <span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='kw'>groupBy</span> <span class='kw'>=</span> <span class='no'>grpl</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sum"</span>, <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='st'>"unique"</span>))</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; A   38224.78   39183.07   46659.49   48093.74
 #&gt; C   21262.15   23168.73   25407.07   25949.95</div><div class='input'><span class='fu'>exprs</span>(<span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>, <span class='kw'>groupBy</span> <span class='kw'>=</span> <span class='no'>grpl</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sum"</span>, <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='st'>"multiple"</span>))</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
@@ -340,8 +348,8 @@ If NA values are present, a message will be shown. Details on how
 #&gt; 1   36553.13   37066.06   46178.09   44950.38
 #&gt; 2   64407.15   68134.01   76572.53   50613.59</div><div class='input'>
 <span class='co'>## using iPQF</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>msnset2</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NA'>anyNA</a></span>(<span class='no'>msnset2</span>)</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='no'>msnset2</span>,
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>msnset2</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>anyNA</a></span>(<span class='no'>msnset2</span>)</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='no'>msnset2</span>,
                        <span class='kw'>groupBy</span> <span class='kw'>=</span> <span class='fu'>fData</span>(<span class='no'>msnset2</span>)$<span class='no'>accession</span>,
                        <span class='kw'>redundancy.handler</span> <span class='kw'>=</span> <span class='st'>"unique"</span>,
                        <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"iPQF"</span>,
@@ -350,7 +358,7 @@ If NA values are present, a message will be shown. Details on how
                        <span class='kw'>method.combine</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The following 1 proteins are only supported by 1 or 2 peptide spectra,</span>
 #&gt; <span class='message'>hence, protein quantification is not reliable and can only be calculated</span>
 #&gt; <span class='message'>by the 'mean' in these cases, corresponding protein accessions are:</span>
-#&gt; <span class='message'>  O95678</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'>exprs</span>(<span class='no'>res</span>))</div><div class='output co'>#&gt;        X114.ions X115.ions X116.ions X117.ions
+#&gt; <span class='message'>  O95678</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>exprs</span>(<span class='no'>res</span>))</div><div class='output co'>#&gt;        X114.ions X115.ions X116.ions X117.ions
 #&gt; O95678 0.2404726 0.2682764 0.2584247 0.2328263
 #&gt; P01766 0.2610278 0.2467206 0.2544715 0.2377801
 #&gt; P01776 0.2678859 0.2591250 0.2423396 0.2306495
@@ -358,18 +366,18 @@ If NA values are present, a message will be shown. Details on how
 #&gt; P02763 0.2503318 0.2524583 0.2501628 0.2470472
 #&gt; P07225 0.2533961 0.2506013 0.2504353 0.2455673</div><div class='input'>
 <span class='co'>## using robust summarisation</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>msnset</span>) <span class='co'>## reset data</span>
-<span class='no'>msnset</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>msnset</span>, <span class='fl'>2</span>) <span class='co'>## log2 transform</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>msnset</span>) <span class='co'>## reset data</span>
+<span class='no'>msnset</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>msnset</span>, <span class='fl'>2</span>) <span class='co'>## log2 transform</span>
 
 <span class='co'>## Feature X46, in the ENO protein has one missig value</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/which'>which</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NA'>is.na</a></span>(<span class='no'>msnset</span>), <span class='kw'>arr.ind</span> <span class='kw'>=</span> <span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='no'>msnset</span>))</div><div class='output co'>#&gt;     row col
+<span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>msnset</span>), <span class='kw'>arr.ind</span> <span class='kw'>=</span> <span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='no'>msnset</span>))</div><div class='output co'>#&gt;     row col
 #&gt; X2    2   2
 #&gt; X21   4   4</div><div class='input'><span class='fu'>exprs</span>(<span class='no'>msnset</span>[<span class='st'>"X46"</span>, ])</div><div class='output co'>#&gt; <span class='error'>Error in orig[[nm]][i, , ..., drop = drop]: subscript out of bounds</span></div><div class='input'><span class='co'>## Only the missing value in X46 and iTRAQ4.116 will be ignored</span>
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='no'>msnset</span>,
                        <span class='kw'>fcol</span> <span class='kw'>=</span> <span class='st'>"ProteinAccession"</span>,
                        <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"robust"</span>)</div><div class='output co'>#&gt; <span class='message'>Your data contains missing values. Please read the relevant section in</span>
 #&gt; <span class='message'>the combineFeatures manual page for details on the effects of missing</span>
-#&gt; <span class='message'>values on data aggregation.</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>tail</a></span>(<span class='fu'>exprs</span>(<span class='no'>res</span>))</div><div class='output co'>#&gt;         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
+#&gt; <span class='message'>values on data aggregation.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span>(<span class='fu'>exprs</span>(<span class='no'>res</span>))</div><div class='output co'>#&gt;         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; ECA1032   15.00308   15.17781   15.33838   15.27687
 #&gt; ECA1104   14.37600   14.49989   14.63294         NA
 #&gt; ECA1294   11.85918         NA   12.21324   12.35808
@@ -381,7 +389,7 @@ If NA values are present, a message will be shown. Details on how
                         <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"robust"</span>)
 <span class='co'>## Here, the values for ENO are different because the whole feature</span>
 <span class='co'>## X46 that contained the missing value was removed prior to fitting.</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>tail</a></span>(<span class='fu'>exprs</span>(<span class='no'>res2</span>))</div><div class='output co'>#&gt;         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span>(<span class='fu'>exprs</span>(<span class='no'>res2</span>))</div><div class='output co'>#&gt;         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; ECA1032   15.00308   15.17781   15.33838   15.27687
 #&gt; ECA3356   13.07603   13.29297   13.17593   12.92365
 #&gt; ECA4514   15.07471   15.09213   15.35504   15.38680</div></pre>
@@ -411,19 +419,23 @@ If NA values are present, a message will be shown. Details on how
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
