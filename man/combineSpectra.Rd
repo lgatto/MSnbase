@@ -44,7 +44,7 @@ are taken from the first \code{Spectrum} in each set.
 or \linkS4class{Spectra} object applying the summarization function \code{fun} to sets
 of spectra defined by a factor (\code{fcol} parameter). The resulting combined
 spectrum for each set contains metadata information (present in \code{mcols} and
-all spectrum information other than \code{mz} and \code{intensity}) from the first
+all spectrum information other than \code{mz} and \code{intensity}) from the \strong{first}
 spectrum in each set.
 
 Combining of spectra for \linkS4class{MSnExp} or \linkS4class{OnDiskMSnExp} objects is

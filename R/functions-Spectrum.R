@@ -1164,6 +1164,11 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
 #' @param ppm `numeric(1)` allowing to perform a m/z dependent grouping of mass
 #'     peaks. See details for more information.
 #'
+#' @param weighted `logical(1)` whether the m/z of the aggregated peak
+#'     represents the intensity-weighted average of the m/z values of all peaks
+#'     of the peak group. If `FALSE`, the m/z of the peak with the **largest**
+#'     intensity is reported.
+#'
 #' @param ... additional arguments to be passed to `intensityFun`.
 #'
 #' @md
@@ -1208,7 +1213,7 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
 #'     xlim = range(mz(spl)), ylim = range(intensity(spl)), lwd = 2)
 #'
 consensusSpectrum <- function(x, mzd, minProp = 0.5, intensityFun = base::max,
-                              ppm = 0, ...) {
+                              ppm = 0, weighted = FALSE, ...) {
     if (length(x) == 1)
         return(x[[1]])
     if (!is(x, "Spectra"))
@@ -1230,9 +1235,14 @@ consensusSpectrum <- function(x, mzd, minProp = 0.5, intensityFun = base::max,
     ints <- split(ints, mz_groups)
     keep <- lengths(mzs) >= (length(x) * minProp)
     if (any(keep)) {
-        xnew@mz <- mapply(mzs[keep], ints[keep], FUN = function(mz_vals, w)
-            stats::weighted.mean(mz_vals, w + 1, na.rm = TRUE),
-            USE.NAMES = FALSE)
+        if (weighted)
+            xnew@mz <- mapply(mzs[keep], ints[keep], FUN = function(mz_vals, w)
+                stats::weighted.mean(mz_vals, w + 1, na.rm = TRUE),
+                USE.NAMES = FALSE)
+        else
+            xnew@mz <- mapply(mzs[keep], ints[keep],
+                              FUN = function(mzv, intv) mzv[which.max(intv)],
+                              USE.NAMES = FALSE)
         xnew@intensity <- base::vapply(ints[keep], FUN = intensityFun,
                                        FUN.VALUE = numeric(1),
                                        USE.NAMES = FALSE, ...)

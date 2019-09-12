@@ -5,7 +5,7 @@
 \title{Combine spectra to a consensus spectrum}
 \usage{
 consensusSpectrum(x, mzd, minProp = 0.5, intensityFun = base::max,
-  ppm = 0, ...)
+  ppm = 0, weighted = FALSE, ...)
 }
 \arguments{
 \item{x}{\code{list} of \linkS4class{Spectrum} objects (either \linkS4class{Spectrum1} or
@@ -29,6 +29,11 @@ reported.}
 
 \item{ppm}{\code{numeric(1)} allowing to perform a m/z dependent grouping of mass
 peaks. See details for more information.}
+
+\item{weighted}{\code{logical(1)} whether the m/z of the aggregated peak
+represents the intensity-weighted average of the m/z values of all peaks
+of the peak group. If \code{FALSE}, the m/z of the peak with the \strong{largest}
+intensity is reported.}
 
 \item{...}{additional arguments to be passed to \code{intensityFun}.}
 }

@@ -2,7 +2,7 @@
 
 MSnbase 2.11.7
 
-- Nothing yet
+- Add parameter `weighted` to `consensusSpectrum` <2019-09-12 Thu>.
 
 MSnbase 2.11.6
 
