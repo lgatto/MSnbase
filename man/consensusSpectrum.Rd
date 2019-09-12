@@ -32,8 +32,8 @@ peaks. See details for more information.}
 
 \item{weighted}{\code{logical(1)} whether the m/z of the aggregated peak
 represents the intensity-weighted average of the m/z values of all peaks
-of the peak group. If \code{FALSE}, the m/z of the peak with the \strong{largest}
-intensity is reported.}
+of the peak group. If \code{FALSE} (the default), the m/z of the peak with
+the \strong{largest} intensity is reported.}
 
 \item{...}{additional arguments to be passed to \code{intensityFun}.}
 }
