@@ -146,7 +146,7 @@ definable proportion of spectra.</p>
     </div>
 
     <pre class="usage"><span class='fu'>consensusSpectrum</span>(<span class='no'>x</span>, <span class='no'>mzd</span>, <span class='kw'>minProp</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>intensityFun</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>,
-  <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>weighted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -182,6 +182,13 @@ reported.</p></td>
       <th>ppm</th>
       <td><p><code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code> allowing to perform a m/z dependent grouping of mass
 peaks. See details for more information.</p></td>
+    </tr>
+    <tr>
+      <th>weighted</th>
+      <td><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether the m/z of the aggregated peak
+represents the intensity-weighted average of the m/z values of all peaks
+of the peak group. If <code>FALSE</code> (the default), the m/z of the peak with
+the <strong>largest</strong> intensity is reported.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -230,7 +237,7 @@ into the same final peak.</p>
 <span class='no'>cons</span> <span class='kw'>&lt;-</span> <span class='fu'>consensusSpectrum</span>(<span class='no'>spl</span>, <span class='kw'>mzd</span> <span class='kw'>=</span> <span class='fl'>0.02</span>, <span class='kw'>minProp</span> <span class='kw'>=</span> <span class='fl'>2</span>/<span class='fl'>3</span>)
 
 <span class='co'>## Peaks of the consensus spectrum</span>
-<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>cons</span>)</div><div class='output co'>#&gt; [1] 1.811304 4.903435</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>cons</span>)</div><div class='output co'>#&gt; [1] 210 299</div><div class='input'>
+<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>cons</span>)</div><div class='output co'>#&gt; [1] 1.82 4.90</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>cons</span>)</div><div class='output co'>#&gt; [1] 210 299</div><div class='input'>
 <span class='co'>## Other Spectrum data is taken from the first Spectrum in the list</span>
 <span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>cons</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span>(<span class='no'>cons</span>)</div><div class='output co'>#&gt; [1] 1.41</div><div class='input'>
 <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>cons</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>cons</span>), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"m/z"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"intensity"</span>,
