@@ -2,7 +2,9 @@
 
 MSnbase 2.11.7
 
-- Nothing yet
+- Add parameter `weighted` to `consensusSpectrum` and change the default from
+  reporting the intensity-weighted mean of m/z values for consensus peaks to
+  reporting the m/z of the largest peak <2019-09-12 Thu>.
 
 MSnbase 2.11.6
 
