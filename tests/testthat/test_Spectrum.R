@@ -305,7 +305,7 @@ test_that(".spectrum_header works", {
     sp_1 <- tmt_erwinia_on_disk[[1]]
     sp_2 <- tmt_erwinia_on_disk[[2]]
 
-    hdr_1 <- .spectrum_header(sp_1)
+    hdr_1 <- MSnbase:::.spectrum_header(sp_1)
     hdr_1$seqNum <- 1L
     expect_true(all(colnames(hdr) %in% colnames(hdr_1)))
     cns <- colnames(hdr)
