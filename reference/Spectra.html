@@ -75,7 +75,7 @@ the capitalized column names used as field names (see examples below)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.8</span>
       </span>
     </div>
 
@@ -120,12 +120,7 @@ the capitalized column names used as field names (see examples below)." />
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/lgatto/MSnbase">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -140,7 +135,7 @@ the capitalized column names used as field names (see examples below)." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>List of Spectrum objects along with annotations</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lgatto/MSnbase/blob/master/R/DataClasses.R'><code>R/DataClasses.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/functions-Spectra.R'><code>R/functions-Spectra.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/methods-Spectra.R'><code>R/methods-Spectra.R</code></a></small>
+    
     <div class="hidden name"><code>Spectra.Rd</code></div>
     </div>
 
@@ -524,7 +519,7 @@ level(s).</p></li>
 
 <span class='co'>## Evaluate the written output. The ID of each spectrum (defined in the</span>
 <span class='co'>## "id" metadata column) is exported as field "ID".</span>
-<span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Tue Sep 17 19:34:43 2019"   
+<span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Fri Sep 27 15:49:11 2019"   
 #&gt;  [2] "BEGIN IONS"                                                      
 #&gt;  [3] "SCANS=NA"                                                        
 #&gt;  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     
@@ -550,7 +545,7 @@ level(s).</p></li>
 <span class='fu'>mcols</span>(<span class='no'>spl</span>) <span class='kw'>&lt;-</span> <span class='kw'>NULL</span>
 <span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='fu'><a href='writeMgfData-methods.html'>writeMgfData</a></span>(<span class='no'>spl</span>, <span class='no'>tmpf</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Tue Sep 17 19:34:43 2019"   
+<span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Fri Sep 27 15:49:11 2019"   
 #&gt;  [2] "BEGIN IONS"                                                      
 #&gt;  [3] "SCANS=NA"                                                        
 #&gt;  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     

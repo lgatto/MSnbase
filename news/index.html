@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.8</span>
       </span>
     </div>
 
@@ -108,12 +108,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/lgatto/MSnbase">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -128,12 +123,19 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/lgatto/MSnbase/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+      
     </div>
 
     <div id="msnbase-2-11" class="section level1">
 <h1 class="page-header">
 <a href="#msnbase-2-11" class="anchor"></a>MSnbase 2.11</h1>
+<div id="msnbase-2-11-8" class="section level2">
+<h2 class="hasAnchor">
+<a href="#msnbase-2-11-8" class="anchor"></a>MSnbase 2.11.8</h2>
+<ul>
+<li>Update URL to point to pkgdown site</li>
+</ul>
+</div>
 <div id="msnbase-2-11-7" class="section level2">
 <h2 class="hasAnchor">
 <a href="#msnbase-2-11-7" class="anchor"></a>MSnbase 2.11.7</h2>
@@ -146,7 +148,7 @@
 <a href="#msnbase-2-11-6" class="anchor"></a>MSnbase 2.11.6</h2>
 <ul>
 <li>Update to match changes in mzR version 2.17.4 &lt;2019-09-04 Wed&gt;.</li>
-<li>Add parameter <code>msLevel</code> to <code>pickPeaks</code> to allow peak picking in specific MS levels. See <a href="https://github.com/lgatto/MSnbase/issues/478"><a href='https://github.com/lgatto/MSnbase/issues/478'>#478</a></a> &lt;2019-09-04 Wed&gt;.</li>
+<li>Add parameter <code>msLevel</code> to <code>pickPeaks</code> to allow peak picking in specific MS levels. See <a href="https://github.com/lgatto/MSnbase/issues/478">#478</a> &lt;2019-09-04 Wed&gt;.</li>
 </ul>
 </div>
 <div id="msnbase-2-11-5" class="section level2">
@@ -161,7 +163,7 @@
 <a href="#msnbase-2-11-4" class="anchor"></a>MSnbase 2.11.4</h2>
 <ul>
 <li>
-<code>plot,Spectrum,Spectrum</code> now also supports MS1 spectra (see <a href="https://github.com/lgatto/MSnbase/issues/477"><a href='https://github.com/lgatto/MSnbase/issues/477'>#477</a></a>) &lt;2019-07-23 Tue&gt;</li>
+<code>plot,Spectrum,Spectrum</code> now also supports MS1 spectra (see <a href="https://github.com/lgatto/MSnbase/issues/477">#477</a>) &lt;2019-07-23 Tue&gt;</li>
 </ul>
 </div>
 <div id="msnbase-2-11-3" class="section level2">
@@ -170,14 +172,14 @@
 <ul>
 <li>Make combineFeatures a method &lt;2019-05-31 Fri&gt;</li>
 <li>Remove message about changed meaning of the “modifications” argument in calculateFragments’ that was introduced in MSnbase 1.17.6 (2015-06-21). &lt;2019-06-01 Sat&gt;</li>
-<li>Implement combineSpectra,MSnExp (see <a href="https://github.com/lgatto/MSnbase/issues/474"><a href='https://github.com/lgatto/MSnbase/issues/474'>#474</a></a>) &lt;2019-06-02 Tue&gt;.</li>
+<li>Implement combineSpectra,MSnExp (see <a href="https://github.com/lgatto/MSnbase/issues/474">#474</a>) &lt;2019-06-02 Tue&gt;.</li>
 </ul>
 </div>
 <div id="msnbase-2-11-2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#msnbase-2-11-2" class="anchor"></a>MSnbase 2.11.2</h2>
 <ul>
-<li>Fix bug in <code>calculateFragments</code> for neutral loss calculation. For the “loss of water” the mass of HO~2~ instead of H~2~O was removed (see <a href="https://github.com/lgatto/MSnbase/issues/462"><a href='https://github.com/lgatto/MSnbase/issues/462'>#462</a></a>). Thanks to Max Helf (<a href='https://github.com/mjhelf'>@mjhelf</a>) for the fix (see <a href="https://github.com/lgatto/MSnbase/issues/463"><a href='https://github.com/lgatto/MSnbase/issues/463'>#463</a></a>) &lt;2019-05-31 Fri&gt;.</li>
+<li>Fix bug in <code>calculateFragments</code> for neutral loss calculation. For the “loss of water” the mass of HO~2~ instead of H~2~O was removed (see <a href="https://github.com/lgatto/MSnbase/issues/462">#462</a>). Thanks to Max Helf (<a href='https://github.com/mjhelf'>@mjhelf</a>) for the fix (see <a href="https://github.com/lgatto/MSnbase/issues/463">#463</a>) &lt;2019-05-31 Fri&gt;.</li>
 </ul>
 </div>
 <div id="msnbase-2-11-1" class="section level2">
@@ -237,8 +239,8 @@
 <a href="#changes-in-version-2-9-3" class="anchor"></a>Changes in version 2.9.3</h2>
 <ul>
 <li>Fix bug in ms2df (order of fcols could be scambled) &lt;2018-12-04 Tue&gt;</li>
-<li>Fix bug in MSnSet constructor (see issue <a href="https://github.com/lgatto/MSnbase/issues/386"><a href='https://github.com/lgatto/MSnbase/issues/386'>#386</a></a>) &lt;2018-12-07 Fri&gt;</li>
-<li>Add filterPolarity method (see issue <a href="https://github.com/lgatto/MSnbase/issues/388"><a href='https://github.com/lgatto/MSnbase/issues/388'>#388</a></a>, feature requeste by
+<li>Fix bug in MSnSet constructor (see issue <a href="https://github.com/lgatto/MSnbase/issues/386">#386</a>) &lt;2018-12-07 Fri&gt;</li>
+<li>Add filterPolarity method (see issue <a href="https://github.com/lgatto/MSnbase/issues/388">#388</a>, feature requeste by
 <a href='https://github.com/zeehio'>@zeehio</a>) &lt;2018-12-10 Mon&gt;</li>
 </ul>
 </div>
@@ -246,17 +248,17 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-9-2" class="anchor"></a>Changes in version 2.9.2</h2>
 <ul>
-<li>Fix problem that impute(x, method=“knn”) sets the seed (issue <a href="https://github.com/lgatto/MSnbase/issues/380"><a href='https://github.com/lgatto/MSnbase/issues/380'>#380</a></a>). Contributed by Constantin Ahlmann-Eltze &lt;2018-11-16 Fri&gt;</li>
-<li>Conserve spectra names in <code>combineSpectra</code> (see <a href="https://github.com/lgatto/MSnbase/issues/379"><a href='https://github.com/lgatto/MSnbase/issues/379'>#379</a></a>) &lt;2018-11-15 Thu&gt;</li>
-<li>Fix bug in writeMSData - see <a href="https://github.com/lgatto/MSnbase/issues/383"><a href='https://github.com/lgatto/MSnbase/issues/383'>#383</a></a> &lt;2018-11-22 Thu&gt;</li>
+<li>Fix problem that impute(x, method=“knn”) sets the seed (issue <a href="https://github.com/lgatto/MSnbase/issues/380">#380</a>). Contributed by Constantin Ahlmann-Eltze &lt;2018-11-16 Fri&gt;</li>
+<li>Conserve spectra names in <code>combineSpectra</code> (see <a href="https://github.com/lgatto/MSnbase/issues/379">#379</a>) &lt;2018-11-15 Thu&gt;</li>
+<li>Fix bug in writeMSData - see <a href="https://github.com/lgatto/MSnbase/issues/383">#383</a> &lt;2018-11-22 Thu&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-9-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-9-1" class="anchor"></a>Changes in version 2.9.1</h2>
 <ul>
-<li>Add clean,Chromatograms (issue <a href="https://github.com/lgatto/MSnbase/issues/354"><a href='https://github.com/lgatto/MSnbase/issues/354'>#354</a></a>) &lt;2018-11-07 Wed&gt;</li>
-<li>Add as,Spectra,list as,Spectra,MSnExp and as,MSnExp,Spectra (issue <a href="https://github.com/lgatto/MSnbase/issues/370"><a href='https://github.com/lgatto/MSnbase/issues/370'>#370</a></a>) &lt;2018-11-07 Wed&gt;</li>
+<li>Add clean,Chromatograms (issue <a href="https://github.com/lgatto/MSnbase/issues/354">#354</a>) &lt;2018-11-07 Wed&gt;</li>
+<li>Add as,Spectra,list as,Spectra,MSnExp and as,MSnExp,Spectra (issue <a href="https://github.com/lgatto/MSnbase/issues/370">#370</a>) &lt;2018-11-07 Wed&gt;</li>
 <li>Add filterMsLevel,Spectra &lt;2018-11-07 Wed&gt;</li>
 <li>Fix regression bug in plot,Spectrum1 &lt;2018-11-14 Wed&gt;</li>
 </ul>
@@ -287,8 +289,8 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-7-12" class="anchor"></a>Changes in version 2.7.12</h2>
 <ul>
-<li>Fix warnings on windows (see <a href="https://github.com/lgatto/MSnbase/issues/371"><a href='https://github.com/lgatto/MSnbase/issues/371'>#371</a></a>) &lt;2018-10-26 Fri&gt;</li>
-<li>Add parameter ppm to consensusSpectrum and meanMzInts (see <a href="https://github.com/lgatto/MSnbase/issues/373"><a href='https://github.com/lgatto/MSnbase/issues/373'>#373</a></a> for details) &lt;2018-10-26 Fri&gt;</li>
+<li>Fix warnings on windows (see <a href="https://github.com/lgatto/MSnbase/issues/371">#371</a>) &lt;2018-10-26 Fri&gt;</li>
+<li>Add parameter ppm to consensusSpectrum and meanMzInts (see <a href="https://github.com/lgatto/MSnbase/issues/373">#373</a> for details) &lt;2018-10-26 Fri&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-7-11" class="section level2">
@@ -297,7 +299,7 @@
 <ul>
 <li>Change default for <code>timeDomain</code> in <code>combineSpectra</code> and <code>combineSpectraMovingWindow</code> to <code>FALSE</code> &lt;2018-10-18 Thu&gt;</li>
 <li>Add new spectra combination function <code>consensusSpectrum</code> &lt;2018-10-24 Wed&gt;</li>
-<li>Amend plot,Spectrum 1 and 2 (see <a href="https://github.com/lgatto/MSnbase/issues/369"><a href='https://github.com/lgatto/MSnbase/issues/369'>#369</a></a>)</li>
+<li>Amend plot,Spectrum 1 and 2 (see <a href="https://github.com/lgatto/MSnbase/issues/369">#369</a>)</li>
 </ul>
 </div>
 <div id="changes-in-version-2-7-10" class="section level2">
@@ -319,15 +321,15 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-7-8" class="anchor"></a>Changes in version 2.7.8</h2>
 <ul>
-<li>MGF exporter gets a new <code>addFields</code> argument (see PR <a href="https://github.com/lgatto/MSnbase/issues/362"><a href='https://github.com/lgatto/MSnbase/issues/362'>#362</a></a>) &lt;2018-10-12 Fri&gt;</li>
-<li>New <code>Spectra</code> (<code>SimpleList</code> of <code>Sepctrum</code> objects) (see PR <a href="https://github.com/lgatto/MSnbase/issues/361"><a href='https://github.com/lgatto/MSnbase/issues/361'>#361</a></a>) &lt;2018-10-13 Sat&gt;</li>
+<li>MGF exporter gets a new <code>addFields</code> argument (see PR <a href="https://github.com/lgatto/MSnbase/issues/362">#362</a>) &lt;2018-10-12 Fri&gt;</li>
+<li>New <code>Spectra</code> (<code>SimpleList</code> of <code>Sepctrum</code> objects) (see PR <a href="https://github.com/lgatto/MSnbase/issues/361">#361</a>) &lt;2018-10-13 Sat&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-7-7" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-7-7" class="anchor"></a>Changes in version 2.7.7</h2>
 <ul>
-<li>Fix unit tests (issue <a href="https://github.com/lgatto/MSnbase/issues/360"><a href='https://github.com/lgatto/MSnbase/issues/360'>#360</a></a>, wrong MS OBO CV terms for data smoothing (MS:1000592) and baseline correction (MS:1000593))</li>
+<li>Fix unit tests (issue <a href="https://github.com/lgatto/MSnbase/issues/360">#360</a>, wrong MS OBO CV terms for data smoothing (MS:1000592) and baseline correction (MS:1000593))</li>
 </ul>
 </div>
 <div id="changes-in-version-2-7-6" class="section level2">
@@ -341,21 +343,21 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-7-5" class="anchor"></a>Changes in version 2.7.5</h2>
 <ul>
-<li>Add a note about parallel processing in vignette (see <a href="https://github.com/lgatto/MSnbase/issues/356"><a href='https://github.com/lgatto/MSnbase/issues/356'>#356</a></a> for background) &lt;2018-09-04 Tue&gt;</li>
+<li>Add a note about parallel processing in vignette (see <a href="https://github.com/lgatto/MSnbase/issues/356">#356</a> for background) &lt;2018-09-04 Tue&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-7-4" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-7-4" class="anchor"></a>Changes in version 2.7.4</h2>
 <ul>
-<li>Fix filterMz for spectra with no non-NA intensities in m/z range (see <a href="https://github.com/lgatto/MSnbase/issues/355"><a href='https://github.com/lgatto/MSnbase/issues/355'>#355</a></a>) &lt;2018-08-08 Wed&gt;</li>
+<li>Fix filterMz for spectra with no non-NA intensities in m/z range (see <a href="https://github.com/lgatto/MSnbase/issues/355">#355</a>) &lt;2018-08-08 Wed&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-7-3" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-7-3" class="anchor"></a>Changes in version 2.7.3</h2>
 <ul>
-<li>Fix bug in robust summary (see PR <a href="https://github.com/lgatto/MSnbase/issues/349"><a href='https://github.com/lgatto/MSnbase/issues/349'>#349</a></a>) &lt;2018-07-28 Sat&gt;</li>
+<li>Fix bug in robust summary (see PR <a href="https://github.com/lgatto/MSnbase/issues/349">#349</a>) &lt;2018-07-28 Sat&gt;</li>
 <li>Fix failing unit test &lt;2018-07-28 Sat&gt;</li>
 </ul>
 </div>
@@ -363,9 +365,9 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-7-2" class="anchor"></a>Changes in version 2.7.2</h2>
 <ul>
-<li>Handle files without any spectra - see <a href="https://github.com/lgatto/MSnbase/issues/342"><a href='https://github.com/lgatto/MSnbase/issues/342'>#342</a></a> &lt;2018-05-15 Tue&gt;</li>
+<li>Handle files without any spectra - see <a href="https://github.com/lgatto/MSnbase/issues/342">#342</a> &lt;2018-05-15 Tue&gt;</li>
 <li>New <code>mergeFeatureVars</code> and <code>expandFeatureVars</code> functions &lt;2018-05-30 Wed&gt;</li>
-<li>Update plot,Spectrum methods to match the tolerance and relative arguments (see <a href="https://github.com/lgatto/MSnbase/issues/350"><a href='https://github.com/lgatto/MSnbase/issues/350'>#350</a></a>) &lt;2018-06-29 Fri&gt;</li>
+<li>Update plot,Spectrum methods to match the tolerance and relative arguments (see <a href="https://github.com/lgatto/MSnbase/issues/350">#350</a>) &lt;2018-06-29 Fri&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-7-1" class="section level2">
@@ -409,14 +411,14 @@
 <a href="#changes-in-version-2-5-14" class="anchor"></a>Changes in version 2.5.14</h2>
 <ul>
 <li>Fix changed remote location of mzTab example files &lt;2018-04-19 Thu&gt;</li>
-<li>Fix failing centroided unit test (see issue <a href="https://github.com/lgatto/MSnbase/issues/338"><a href='https://github.com/lgatto/MSnbase/issues/338'>#338</a></a>) &lt;2018-04-20 Fri&gt;</li>
+<li>Fix failing centroided unit test (see issue <a href="https://github.com/lgatto/MSnbase/issues/338">#338</a>) &lt;2018-04-20 Fri&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-5-13" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-5-13" class="anchor"></a>Changes in version 2.5.13</h2>
 <ul>
-<li>Reduce unit testing time (see <a href="https://github.com/lgatto/MSnbase/issues/334"><a href='https://github.com/lgatto/MSnbase/issues/334'>#334</a></a>) &lt;2018-04-13 Fri&gt;</li>
+<li>Reduce unit testing time (see <a href="https://github.com/lgatto/MSnbase/issues/334">#334</a>) &lt;2018-04-13 Fri&gt;</li>
 <li>Fix bug in write.exprs when only one feature data is passed &lt;2018-04-17 Tue&gt;</li>
 </ul>
 </div>
@@ -424,7 +426,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-5-12" class="anchor"></a>Changes in version 2.5.12</h2>
 <ul>
-<li>Ensure tic and bpi with initial = TRUE calculate the tic and bpi from the data (related to issue <a href="https://github.com/lgatto/MSnbase/issues/332"><a href='https://github.com/lgatto/MSnbase/issues/332'>#332</a></a>). &lt;2018-04-10 Tue&gt;</li>
+<li>Ensure tic and bpi with initial = TRUE calculate the tic and bpi from the data (related to issue <a href="https://github.com/lgatto/MSnbase/issues/332">#332</a>). &lt;2018-04-10 Tue&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-5-11" class="section level2">
@@ -432,7 +434,7 @@
 <a href="#changes-in-version-2-5-11" class="anchor"></a>Changes in version 2.5.11</h2>
 <ul>
 <li>Improve combineFeatures manual to document the effect for missing values for different types of aggregation methods &lt;2018-04-07 Sat&gt;</li>
-<li>Update robust summary to hangle missing values (see <a href="https://github.com/lgatto/MSnbase/issues/330"><a href='https://github.com/lgatto/MSnbase/issues/330'>#330</a></a>). &lt;2018-04-09 Mon&gt;</li>
+<li>Update robust summary to hangle missing values (see <a href="https://github.com/lgatto/MSnbase/issues/330">#330</a>). &lt;2018-04-09 Mon&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-5-10" class="section level2">
@@ -440,10 +442,10 @@
 <a href="#changes-in-version-2-5-10" class="anchor"></a>Changes in version 2.5.10</h2>
 <ul>
 <li>New robust summarisation method in <code>combineFeatures</code> contributed by Ludger Goeminne, Adriaan Sticker and Lieven Clement &lt;2018-04-03 Tue&gt;</li>
-<li>Adapt <code>utils.removePeaks</code> to new <code>IRanges</code> implementation; thanks to H. Pagès for the implementation (see PR <a href="https://github.com/lgatto/MSnbase/issues/320"><a href='https://github.com/lgatto/MSnbase/issues/320'>#320</a></a> for discussion) &lt;2018-03-26&gt;.</li>
-<li>Centroiding information is retrieved from raw files (for mzML/mzXML files;. see issue <a href="https://github.com/lgatto/MSnbase/issues/325"><a href='https://github.com/lgatto/MSnbase/issues/325'>#325</a></a> &lt;2018-03-27&gt;</li>
+<li>Adapt <code>utils.removePeaks</code> to new <code>IRanges</code> implementation; thanks to H. Pagès for the implementation (see PR <a href="https://github.com/lgatto/MSnbase/issues/320">#320</a> for discussion) &lt;2018-03-26&gt;.</li>
+<li>Centroiding information is retrieved from raw files (for mzML/mzXML files;. see issue <a href="https://github.com/lgatto/MSnbase/issues/325">#325</a> &lt;2018-03-27&gt;</li>
 <li>Add parameter <code>timeDomain</code> to <code>combineSpectra</code>, <code>combineSpectraMovingWindow</code> and <code>estimateMzScattering</code> allowing to perform the grouping of m/z values from consecutive scans based on the square root of the m/z values &lt;2018-03-29&gt;.</li>
-<li>Assure feature CV feature variable names are unique when combining feature repeatedly (see issue <a href="https://github.com/lgatto/MSnbase/issues/303"><a href='https://github.com/lgatto/MSnbase/issues/303'>#303</a></a>) &lt;2018-04-04 Wed&gt;</li>
+<li>Assure feature CV feature variable names are unique when combining feature repeatedly (see issue <a href="https://github.com/lgatto/MSnbase/issues/303">#303</a>) &lt;2018-04-04 Wed&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-5-9" class="section level2">
@@ -459,14 +461,14 @@
 <a href="#changes-in-version-2-5-8" class="anchor"></a>Changes in version 2.5.8</h2>
 <ul>
 <li>New as(MSnExp, data.frame) method &lt;2018-02-16&gt;</li>
-<li>Speed up readMgfData function - see issue <a href="https://github.com/lgatto/MSnbase/issues/319"><a href='https://github.com/lgatto/MSnbase/issues/319'>#319</a></a> &lt;2018-03-13 Tue&gt;</li>
+<li>Speed up readMgfData function - see issue <a href="https://github.com/lgatto/MSnbase/issues/319">#319</a> &lt;2018-03-13 Tue&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-5-7" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-5-7" class="anchor"></a>Changes in version 2.5.7</h2>
 <ul>
-<li>MSmap constructor for OnDiskMSnExp objects (see issue <a href="https://github.com/lgatto/MSnbase/issues/305"><a href='https://github.com/lgatto/MSnbase/issues/305'>#305</a></a>) &lt;2018-01-31 Wed&gt;</li>
+<li>MSmap constructor for OnDiskMSnExp objects (see issue <a href="https://github.com/lgatto/MSnbase/issues/305">#305</a>) &lt;2018-01-31 Wed&gt;</li>
 <li>New filterMsLevel,MSnSet method &lt;2018-02-06 Tue&gt;</li>
 </ul>
 </div>
@@ -474,7 +476,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-5-6" class="anchor"></a>Changes in version 2.5.6</h2>
 <ul>
-<li>Fixing processing message when combining two MSnSets (reported by kamal.fartiyal84 <a href="https://support.bioconductor.org/p/100865/<a href='https://github.com/lgatto/MSnbase/issues/105206'>#105206</a>" class="uri">https://support.bioconductor.org/p/100865/<a href='https://github.com/lgatto/MSnbase/issues/105206'>#105206</a></a>) &lt;2018-01-24 Wed&gt;</li>
+<li>Fixing processing message when combining two MSnSets (reported by kamal.fartiyal84 <a href="https://support.bioconductor.org/p/100865/#105206" class="uri">https://support.bioconductor.org/p/100865/#105206</a>) &lt;2018-01-24 Wed&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-5-5" class="section level2">
@@ -482,7 +484,7 @@
 <a href="#changes-in-version-2-5-5" class="anchor"></a>Changes in version 2.5.5</h2>
 <ul>
 <li>Added TMT11-plex &lt;2018-01-17 Wed&gt;</li>
-<li>Add <code>phenoData&lt;-</code> method for <code>pSet</code> (issue <a href="https://github.com/lgatto/MSnbase/issues/299"><a href='https://github.com/lgatto/MSnbase/issues/299'>#299</a></a> &lt;2018-01-22&gt;.</li>
+<li>Add <code>phenoData&lt;-</code> method for <code>pSet</code> (issue <a href="https://github.com/lgatto/MSnbase/issues/299">#299</a> &lt;2018-01-22&gt;.</li>
 <li>Change readMSnSet2 example &lt;2018-01-23 Tue&gt;</li>
 </ul>
 </div>
@@ -490,37 +492,37 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-5-4" class="anchor"></a>Changes in version 2.5.4</h2>
 <ul>
-<li>Add featureData slot to Chromatograms class and add mz, precursorMz and productMz methods for Chromatograms (issue <a href="https://github.com/lgatto/MSnbase/issues/289"><a href='https://github.com/lgatto/MSnbase/issues/289'>#289</a></a>) &lt;2017-12-18 Mon&gt;.</li>
-<li>Add readSRMData function to read chromatographic data from SRM (MRM) experiments; issue <a href="https://github.com/lgatto/MSnbase/issues/286"><a href='https://github.com/lgatto/MSnbase/issues/286'>#286</a></a> &lt;2018-01-10 Wed&gt;.</li>
+<li>Add featureData slot to Chromatograms class and add mz, precursorMz and productMz methods for Chromatograms (issue <a href="https://github.com/lgatto/MSnbase/issues/289">#289</a>) &lt;2017-12-18 Mon&gt;.</li>
+<li>Add readSRMData function to read chromatographic data from SRM (MRM) experiments; issue <a href="https://github.com/lgatto/MSnbase/issues/286">#286</a> &lt;2018-01-10 Wed&gt;.</li>
 <li>The MSnSetList class has a new <code>featureData</code> slot, accessible with <code>fData</code> to store metadata for the individial MSnSets of the list. <code>MSnSetList</code> also not has an <code>sapply</code> method. &lt;2018-01-10 Wed&gt;</li>
-<li>combineFeatures now has a new <code>fcol</code> argument (see issue <a href="https://github.com/lgatto/MSnbase/issues/195"><a href='https://github.com/lgatto/MSnbase/issues/195'>#195</a></a>) &lt;2018-01-11 Thu&gt;</li>
+<li>combineFeatures now has a new <code>fcol</code> argument (see issue <a href="https://github.com/lgatto/MSnbase/issues/195">#195</a>) &lt;2018-01-11 Thu&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-5-3" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-5-3" class="anchor"></a>Changes in version 2.5.3</h2>
 <ul>
-<li>Add filterPrecursorScan for <code>MSnExp</code> and <code>OnDiskMSnExp</code>; closes issue <a href="https://github.com/lgatto/MSnbase/issues/282"><a href='https://github.com/lgatto/MSnbase/issues/282'>#282</a></a> and PR <a href="https://github.com/lgatto/MSnbase/issues/287"><a href='https://github.com/lgatto/MSnbase/issues/287'>#287</a></a> &lt;2017-12-16 Sat&gt;.</li>
-<li>MSnSet to/from SummarizedExperiment coercion (contributed by Arne Smits in PR <a href="https://github.com/lgatto/MSnbase/issues/284"><a href='https://github.com/lgatto/MSnbase/issues/284'>#284</a></a>) &lt;2017-12-17 Sun&gt;</li>
-<li>Fix inverted M/Z axis in plot3D,MSmap (reported by Sylvain Dechaumet, see issue <a href="https://github.com/lgatto/MSnbase/issues/292"><a href='https://github.com/lgatto/MSnbase/issues/292'>#292</a></a>) &lt;2017-12-19 Tue&gt;</li>
+<li>Add filterPrecursorScan for <code>MSnExp</code> and <code>OnDiskMSnExp</code>; closes issue <a href="https://github.com/lgatto/MSnbase/issues/282">#282</a> and PR <a href="https://github.com/lgatto/MSnbase/issues/287">#287</a> &lt;2017-12-16 Sat&gt;.</li>
+<li>MSnSet to/from SummarizedExperiment coercion (contributed by Arne Smits in PR <a href="https://github.com/lgatto/MSnbase/issues/284">#284</a>) &lt;2017-12-17 Sun&gt;</li>
+<li>Fix inverted M/Z axis in plot3D,MSmap (reported by Sylvain Dechaumet, see issue <a href="https://github.com/lgatto/MSnbase/issues/292">#292</a>) &lt;2017-12-19 Tue&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-5-2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-5-2" class="anchor"></a>Changes in version 2.5.2</h2>
 <ul>
-<li>Use automatic backend detection (based on file name and file content) that was introduced in mzR version 2.13.1 (issue <a href="https://github.com/lgatto/MSnbase/issues/271"><a href='https://github.com/lgatto/MSnbase/issues/275'>#275</a></a>).</li>
-<li>Fix mzML file writing unit tests to work with recently introduced header column “filterString” (issue <a href="https://github.com/lgatto/MSnbase/issues/271"><a href='https://github.com/lgatto/MSnbase/issues/278'>#278</a></a>).</li>
-<li>Reduce number of comparsions in in internal <code>fastquant_max</code> to get little speed improvents for isobaric quantification (see PR <a href="https://github.com/lgatto/MSnbase/issues/280"><a href='https://github.com/lgatto/MSnbase/issues/280'>#280</a></a>) &lt;2017-11-27 Mon&gt;.</li>
-<li>MIAxE, MSnProcess and AnnotatedDataFrame coercion to list methods (in related to PR <a href="https://github.com/lgatto/MSnbase/issues/284"><a href='https://github.com/lgatto/MSnbase/issues/280'>#280</a></a>) &lt;2017-12-11 Mon&gt;</li>
-<li>Add support to reduce the featureData for OnDiskMSnExp objects (issue <a href="https://github.com/lgatto/MSnbase/issues/285"><a href='https://github.com/lgatto/MSnbase/issues/285'>#285</a></a>) &lt;2017-12-11 Mon&gt;.</li>
+<li>Use automatic backend detection (based on file name and file content) that was introduced in mzR version 2.13.1 (issue <a href="https://github.com/lgatto/MSnbase/issues/271">#275</a>).</li>
+<li>Fix mzML file writing unit tests to work with recently introduced header column “filterString” (issue <a href="https://github.com/lgatto/MSnbase/issues/271">#278</a>).</li>
+<li>Reduce number of comparsions in in internal <code>fastquant_max</code> to get little speed improvents for isobaric quantification (see PR <a href="https://github.com/lgatto/MSnbase/issues/280">#280</a>) &lt;2017-11-27 Mon&gt;.</li>
+<li>MIAxE, MSnProcess and AnnotatedDataFrame coercion to list methods (in related to PR <a href="https://github.com/lgatto/MSnbase/issues/284">#280</a>) &lt;2017-12-11 Mon&gt;</li>
+<li>Add support to reduce the featureData for OnDiskMSnExp objects (issue <a href="https://github.com/lgatto/MSnbase/issues/285">#285</a>) &lt;2017-12-11 Mon&gt;.</li>
 </ul>
 </div>
 <div id="changes-in-version-2-5-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-5-1" class="anchor"></a>Changes in version 2.5.1</h2>
 <ul>
-<li>Update dependencies (see issue <a href="https://github.com/lgatto/MSnbase/issues/271"><a href='https://github.com/lgatto/MSnbase/issues/271'>#271</a></a>)</li>
+<li>Update dependencies (see issue <a href="https://github.com/lgatto/MSnbase/issues/271">#271</a>)</li>
 <li>Replace HCD by ETD in TMT10ETD’s name/description</li>
 </ul>
 </div>
@@ -564,7 +566,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-3-12" class="anchor"></a>Changes in version 2.3.12</h2>
 <ul>
-<li>Keep <code>protocolData</code> in isobaric quantification; fixes <a href="https://github.com/lgatto/MSnbase/issues/265"><a href='https://github.com/lgatto/MSnbase/issues/265'>#265</a></a>
+<li>Keep <code>protocolData</code> in isobaric quantification; fixes <a href="https://github.com/lgatto/MSnbase/issues/265">#265</a>
 </li>
 </ul>
 </div>
@@ -572,8 +574,8 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-3-11" class="anchor"></a>Changes in version 2.3.11</h2>
 <ul>
-<li>Amend <code>addIdentificationData</code> when sourceInfo reports multiple files and when scores are missing from the identification results (closes <a href="https://github.com/lgatto/MSnbase/issues/261"><a href='https://github.com/lgatto/MSnbase/issues/261'>#261</a></a>).</li>
-<li>Don’t overwrite <code>processingData</code> slot when creating an <code>MSnSet</code> object (closes <a href="https://github.com/lgatto/MSnbase/issues/264"><a href='https://github.com/lgatto/MSnbase/issues/264'>#264</a></a>).</li>
+<li>Amend <code>addIdentificationData</code> when sourceInfo reports multiple files and when scores are missing from the identification results (closes <a href="https://github.com/lgatto/MSnbase/issues/261">#261</a>).</li>
+<li>Don’t overwrite <code>processingData</code> slot when creating an <code>MSnSet</code> object (closes <a href="https://github.com/lgatto/MSnbase/issues/264">#264</a>).</li>
 </ul>
 </div>
 <div id="changes-in-version-2-3-10" class="section level2">
@@ -584,16 +586,16 @@
 <li>Add msLevel slot to Chromatogram object &lt;2017-08-16 Wed&gt;</li>
 <li>Add msLevel argument to chromatogram,MSnExp method &lt;2017-08-16 Wed&gt;</li>
 <li>
-<code>calculateFragments</code> now just calculate fragments for all <code>n - 1L</code> bonds (before it incorrectly adds an additional bond; fixes <a href="https://github.com/lgatto/MSnbase/issues/248"><a href='https://github.com/lgatto/MSnbase/issues/248'>#248</a></a>) &lt;2017-08-20 Sun&gt;</li>
+<code>calculateFragments</code> now just calculate fragments for all <code>n - 1L</code> bonds (before it incorrectly adds an additional bond; fixes <a href="https://github.com/lgatto/MSnbase/issues/248">#248</a>) &lt;2017-08-20 Sun&gt;</li>
 <li>Add <code>isEmpty</code> methods for <code>Chromatogram</code> and <code>Chromatograms</code> objects &lt;2017-09-05 Tue&gt;</li>
-<li>plot,Chromatogram[s] creates an empty plot and returns a warning if the Chromatogram[s] object is empty (issue <a href="https://github.com/lgatto/MSnbase/issues/249"><a href='https://github.com/lgatto/MSnbase/issues/249'>#249</a></a>) &lt;2017-09-05 Tue&gt;</li>
+<li>plot,Chromatogram[s] creates an empty plot and returns a warning if the Chromatogram[s] object is empty (issue <a href="https://github.com/lgatto/MSnbase/issues/249">#249</a>) &lt;2017-09-05 Tue&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-3-9" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-3-9" class="anchor"></a>Changes in version 2.3.9</h2>
 <ul>
-<li>Using new mzR::openIdfile backend to add identifcation data to raw and quantitative data (see issue <a href="https://github.com/lgatto/MSnbase/issues/232"><a href='https://github.com/lgatto/MSnbase/issues/232'>#232</a></a>) &lt;2017-07-28 Fri&gt;</li>
+<li>Using new mzR::openIdfile backend to add identifcation data to raw and quantitative data (see issue <a href="https://github.com/lgatto/MSnbase/issues/232">#232</a>) &lt;2017-07-28 Fri&gt;</li>
 <li>New utils functions: factorsAsStrings, makeCamelCase and reduce,data.frame &lt;2017-07-29 Sat&gt;</li>
 <li>Coerce mzRident to data.frames &lt;2017-07-29 Sat&gt;</li>
 <li>Add phenoData slot to Chromatograms class&lt;2017-08-02 Wed&gt;</li>
@@ -607,7 +609,7 @@
 <a href="#changes-in-version-2-3-8" class="anchor"></a>Changes in version 2.3.8</h2>
 <ul>
 <li>New infrastructure for chromatogram data &lt;2017-06-24 Sat&gt;</li>
-<li>Change naming scheme for spectra: FFILEID.SSPECTRUMID, e.g. F01.S0001. Before it has been XSPECTRUMID.FILEID. The new naming scheme changes the order of the spectra. See <a href="https://github.com/lgatto/MSnbase/issues/255"><a href='https://github.com/lgatto/MSnbase/issues/255'>#255</a></a> (and PR <a href="https://github.com/lgatto/MSnbase/issues/256"><a href='https://github.com/lgatto/MSnbase/issues/256'>#256</a></a>) for details &lt;2017-06-25 Sun&gt;.</li>
+<li>Change naming scheme for spectra: FFILEID.SSPECTRUMID, e.g. F01.S0001. Before it has been XSPECTRUMID.FILEID. The new naming scheme changes the order of the spectra. See <a href="https://github.com/lgatto/MSnbase/issues/255">#255</a> (and PR <a href="https://github.com/lgatto/MSnbase/issues/256">#256</a>) for details &lt;2017-06-25 Sun&gt;.</li>
 </ul>
 </div>
 <div id="changes-in-version-2-3-7" class="section level2">
@@ -635,7 +637,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-3-4" class="anchor"></a>Changes in version 2.3.4</h2>
 <ul>
-<li>Use the injection time from mzR (see PR <a href="https://github.com/lgatto/MSnbase/issues/109"><a href='https://github.com/lgatto/MSnbase/issues/109'>#109</a></a>) which in now in seconds (was in milliseconds) &lt;2017-06-13 Tue&gt;</li>
+<li>Use the injection time from mzR (see PR <a href="https://github.com/lgatto/MSnbase/issues/109">#109</a>) which in now in seconds (was in milliseconds) &lt;2017-06-13 Tue&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-3-3" class="section level2">
@@ -653,7 +655,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-3-2" class="anchor"></a>Changes in version 2.3.2</h2>
 <ul>
-<li>Rewrite <code>utils.clean</code>. It now keeps just the zeros in the direct neighbourhood (see <a href="https://github.com/lgatto/MSnbase/issues/210"><a href='https://github.com/lgatto/MSnbase/issues/210'>#210</a></a>) &lt;2017-05-04 Thu&gt;.</li>
+<li>Rewrite <code>utils.clean</code>. It now keeps just the zeros in the direct neighbourhood (see <a href="https://github.com/lgatto/MSnbase/issues/210">#210</a>) &lt;2017-05-04 Thu&gt;.</li>
 </ul>
 </div>
 <div id="changes-in-version-2-3-1" class="section level2">
@@ -661,8 +663,8 @@
 <a href="#changes-in-version-2-3-1" class="anchor"></a>Changes in version 2.3.1</h2>
 <ul>
 <li>Introduce “NTR” method for <code>combineFeatures</code> &lt;2017-04-26 Wed&gt;.</li>
-<li>Rewrite <code>nQuants</code> and <code>featureCV</code> to avoid returning of rows for empty factors; see PR <a href="https://github.com/lgatto/MSnbase/issues/208"><a href='https://github.com/lgatto/MSnbase/issues/208'>#208</a></a> for details &lt;2017-04-28 Fri&gt;.</li>
-<li>Add $,pSet method to easily access columns in the phenoData (see <a href="https://github.com/lgatto/MSnbase/issues/203"><a href='https://github.com/lgatto/MSnbase/issues/203'>#203</a></a>)</li>
+<li>Rewrite <code>nQuants</code> and <code>featureCV</code> to avoid returning of rows for empty factors; see PR <a href="https://github.com/lgatto/MSnbase/issues/208">#208</a> for details &lt;2017-04-28 Fri&gt;.</li>
+<li>Add $,pSet method to easily access columns in the phenoData (see <a href="https://github.com/lgatto/MSnbase/issues/203">#203</a>)</li>
 </ul>
 </div>
 <div id="changes-in-version-2-3-0" class="section level2">
@@ -691,7 +693,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-1-19" class="anchor"></a>Changes in version 2.1.19</h2>
 <ul>
-<li>Set SerialParams() in an attempt to avoid random errors in tests - see issue <a href="https://github.com/lgatto/MSnbase/issues/205"><a href='https://github.com/lgatto/MSnbase/issues/205'>#205</a></a> &lt;2017-04-24 Mon&gt;</li>
+<li>Set SerialParams() in an attempt to avoid random errors in tests - see issue <a href="https://github.com/lgatto/MSnbase/issues/205">#205</a> &lt;2017-04-24 Mon&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-1-18" class="section level2">
@@ -719,15 +721,15 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-1-15" class="anchor"></a>Changes in version 2.1.15</h2>
 <ul>
-<li>Remove reshape2 dependency; see <a href="https://github.com/lgatto/MSnbase/issues/201"><a href='https://github.com/lgatto/MSnbase/issues/201'>#201</a></a> &lt;2017-04-06 Thu&gt;</li>
+<li>Remove reshape2 dependency; see <a href="https://github.com/lgatto/MSnbase/issues/201">#201</a> &lt;2017-04-06 Thu&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-1-14" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-1-14" class="anchor"></a>Changes in version 2.1.14</h2>
 <ul>
-<li>Internal rewrite and speedup of topN; Briefly multiple apply calls are avoided, <code>getTopIdx</code> and <code>subsetById</code> are replaced by <code>.topIdx</code>. See PR <a href="https://github.com/lgatto/MSnbase/issues/199"><a href='https://github.com/lgatto/MSnbase/issues/199'>#199</a></a> for details. &lt;2017-03-20 Mon&gt;</li>
-<li>Fix mz calculation for terminal modifications and z &gt; 1 in <code>calculateFragments</code>; closes <a href="https://github.com/lgatto/MSnbase/issues/200"><a href='https://github.com/lgatto/MSnbase/issues/200'>#200</a></a> &lt;2017-03-22 Wed&gt;</li>
+<li>Internal rewrite and speedup of topN; Briefly multiple apply calls are avoided, <code>getTopIdx</code> and <code>subsetById</code> are replaced by <code>.topIdx</code>. See PR <a href="https://github.com/lgatto/MSnbase/issues/199">#199</a> for details. &lt;2017-03-20 Mon&gt;</li>
+<li>Fix mz calculation for terminal modifications and z &gt; 1 in <code>calculateFragments</code>; closes <a href="https://github.com/lgatto/MSnbase/issues/200">#200</a> &lt;2017-03-22 Wed&gt;</li>
 <li>Fix errors and notes &lt;2017-03-30 Thu&gt;</li>
 </ul>
 </div>
@@ -750,7 +752,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-1-11" class="anchor"></a>Changes in version 2.1.11</h2>
 <ul>
-<li>Fix breaks calculation for binning single (closes <a href="https://github.com/lgatto/MSnbase/issues/191"><a href='https://github.com/lgatto/MSnbase/issues/191'>#191</a></a>) and multiple (closes <a href="https://github.com/lgatto/MSnbase/issues/190"><a href='https://github.com/lgatto/MSnbase/issues/190'>#190</a></a>) spectra. The fix for single spectra (<a href="https://github.com/lgatto/MSnbase/issues/191"><a href='https://github.com/lgatto/MSnbase/issues/191'>#191</a></a>) could result in slightly different breaks on the upper end of the m/z values. &lt;2017-02-10 Fri&gt;</li>
+<li>Fix breaks calculation for binning single (closes <a href="https://github.com/lgatto/MSnbase/issues/191">#191</a>) and multiple (closes <a href="https://github.com/lgatto/MSnbase/issues/190">#190</a>) spectra. The fix for single spectra (<a href="https://github.com/lgatto/MSnbase/issues/191">#191</a>) could result in slightly different breaks on the upper end of the m/z values. &lt;2017-02-10 Fri&gt;</li>
 <li>New <code>aggvar</code> function, to assess aggregation variability &lt;2017-02-11 Sat&gt;</li>
 </ul>
 </div>
@@ -767,8 +769,8 @@
 <a href="#changes-in-version-2-1-9" class="anchor"></a>Changes in version 2.1.9</h2>
 <ul>
 <li>When fully trimmed, an (empty) spectrum has peaksCount of 0L - see <a href="https://github.com/https://github.com/lgatto/MSnbase/issues/184" class="uri">https://github.com/https://github.com/lgatto/MSnbase/issues/184</a> &lt;2017-01-20 Fri&gt;</li>
-<li>Add filterEmptySpectra,MSnExp method (see issue <a href="https://github.com/lgatto/MSnbase/issues/181"><a href='https://github.com/lgatto/MSnbase/issues/181'>#181</a></a>) &lt;2017-01-20 Fri&gt;</li>
-<li>Add a section about notable on-disk and in-memory differences (was issue <a href="https://github.com/lgatto/MSnbase/issues/165"><a href='https://github.com/lgatto/MSnbase/issues/165'>#165</a></a>) &lt;2017-01-20 Fri&gt;</li>
+<li>Add filterEmptySpectra,MSnExp method (see issue <a href="https://github.com/lgatto/MSnbase/issues/181">#181</a>) &lt;2017-01-20 Fri&gt;</li>
+<li>Add a section about notable on-disk and in-memory differences (was issue <a href="https://github.com/lgatto/MSnbase/issues/165">#165</a>) &lt;2017-01-20 Fri&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-1-8" class="section level2">
@@ -783,8 +785,8 @@
 <a href="#changes-in-version-2-1-7" class="anchor"></a>Changes in version 2.1.7</h2>
 <ul>
 <li>Setting default sorting using “auto” on R &lt; 3.3 and “radix” otherwise &lt;2017-01-03 Tue&gt;</li>
-<li>filterMz returns an empty spectrum when no data is within the mz range (see issue <a href="https://github.com/lgatto/MSnbase/issues/181"><a href='https://github.com/lgatto/MSnbase/issues/181'>#181</a></a>) &lt;2017-01-16 Mon&gt;</li>
-<li>Performance improvement: a new private .firstMsLevel will efficiently return the first MS level in an MSnExp and OnDiskMSnExp. See issue <a href="https://github.com/lgatto/MSnbase/issues/183"><a href='https://github.com/lgatto/MSnbase/issues/183'>#183</a></a> for details/background &lt;2017-01-18 Wed&gt;</li>
+<li>filterMz returns an empty spectrum when no data is within the mz range (see issue <a href="https://github.com/lgatto/MSnbase/issues/181">#181</a>) &lt;2017-01-16 Mon&gt;</li>
+<li>Performance improvement: a new private .firstMsLevel will efficiently return the first MS level in an MSnExp and OnDiskMSnExp. See issue <a href="https://github.com/lgatto/MSnbase/issues/183">#183</a> for details/background &lt;2017-01-18 Wed&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-1-6" class="section level2">
@@ -815,7 +817,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-2-1-3" class="anchor"></a>Changes in version 2.1.3</h2>
 <ul>
-<li>FeaturesOfInterest collections can now be assigned names - addresses issue <a href="https://github.com/lgatto/MSnbase/issues/172"><a href='https://github.com/lgatto/MSnbase/issues/172'>#172</a></a> &lt;2016-11-25 Fri&gt;</li>
+<li>FeaturesOfInterest collections can now be assigned names - addresses issue <a href="https://github.com/lgatto/MSnbase/issues/172">#172</a> &lt;2016-11-25 Fri&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-1-2" class="section level2">
@@ -823,7 +825,7 @@
 <a href="#changes-in-version-2-1-2" class="anchor"></a>Changes in version 2.1.2</h2>
 <ul>
 <li>Update readMSnSet2 to save filename &lt;2016-11-09 Wed&gt;</li>
-<li>Ensure that header information is read too if spectra data is loaded for onDiskMSnExp objects (see issue <a href="https://github.com/lgatto/MSnbase/issues/170"><a href='https://github.com/lgatto/MSnbase/issues/170'>#170</a></a>) &lt;2016-11-24 Thu&gt;</li>
+<li>Ensure that header information is read too if spectra data is loaded for onDiskMSnExp objects (see issue <a href="https://github.com/lgatto/MSnbase/issues/170">#170</a>) &lt;2016-11-24 Thu&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-2-1-1" class="section level2">
@@ -856,15 +858,15 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-99-6" class="anchor"></a>Changes in version 1.99.6</h2>
 <ul>
-<li>Reverting to old initialize,Spectrum (see issue <a href="https://github.com/lgatto/MSnbase/issues/163"><a href='https://github.com/lgatto/MSnbase/issues/163'>#163</a></a>) &lt;2016-10-07 Fri&gt;</li>
-<li>Setting Spectrum class versions outside of prototype (see issue <a href="https://github.com/lgatto/MSnbase/issues/163"><a href='https://github.com/lgatto/MSnbase/issues/163'>#163</a></a>). For this, there is now a vector of class version in .MSnbaseEnv &lt;2016-10-10 Mon&gt;</li>
+<li>Reverting to old initialize,Spectrum (see issue <a href="https://github.com/lgatto/MSnbase/issues/163">#163</a>) &lt;2016-10-07 Fri&gt;</li>
+<li>Setting Spectrum class versions outside of prototype (see issue <a href="https://github.com/lgatto/MSnbase/issues/163">#163</a>). For this, there is now a vector of class version in .MSnbaseEnv &lt;2016-10-10 Mon&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-1-99-5" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-99-5" class="anchor"></a>Changes in version 1.99.5</h2>
 <ul>
-<li>Add removeReporters,OnDiskMSnExp (see issue <a href="https://github.com/lgatto/MSnbase/issues/161"><a href='https://github.com/lgatto/MSnbase/issues/161'>#161</a></a> for details) &lt;2016-10-07 Fri&gt;</li>
+<li>Add removeReporters,OnDiskMSnExp (see issue <a href="https://github.com/lgatto/MSnbase/issues/161">#161</a> for details) &lt;2016-10-07 Fri&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-1-99-4" class="section level2">
@@ -878,7 +880,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-99-3" class="anchor"></a>Changes in version 1.99.3</h2>
 <ul>
-<li>Injection time is now added to the header when reading mzML files using readMSData2 (see issue <a href="https://github.com/lgatto/MSnbase/issues/159"><a href='https://github.com/lgatto/MSnbase/issues/159'>#159</a></a>) &lt;2016-10-04 Tue&gt;</li>
+<li>Injection time is now added to the header when reading mzML files using readMSData2 (see issue <a href="https://github.com/lgatto/MSnbase/issues/159">#159</a>) &lt;2016-10-04 Tue&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-1-99-2" class="section level2">
@@ -920,9 +922,9 @@
 <li>Added slot onDisk to pSet objects (TRUE for onDiskMSnExp objects, FALSE otherwise). The getter method isOnDisk checks for the presence of the slot in the object (backward compatibility) &lt;2016-05-19 Thu&gt;</li>
 <li>Implemented a ProcessingStep class that helps to keep track how (spectra) data should be processed on the fly &lt;2016-05-18 Wed&gt;</li>
 <li>In onDiskMSnExp validity, check that the assaydata is empty &lt;2016-06-28 Tue&gt;</li>
-<li>Pass neutralLoss in plot,Spectrum,Spectrum-method to .calculateFragments; fixes <a href="https://github.com/lgatto/MSnbase/issues/146"><a href='https://github.com/lgatto/MSnbase/issues/146'>#146</a></a> &lt;2016-08-12 Fri&gt;</li>
-<li>Allow the user to specify the <code>cex</code>, <code>lwd</code>, <code>pch</code> for peaks and fragments in plot,Spectrum,Spectrum-method; closes <a href="https://github.com/lgatto/MSnbase/issues/148"><a href='https://github.com/lgatto/MSnbase/issues/148'>#148</a></a> &lt;2016-08-12 Fri&gt;</li>
-<li>Update centroided with an na.fail argument (see issue <a href="https://github.com/lgatto/MSnbase/issues/150"><a href='https://github.com/lgatto/MSnbase/issues/150'>#150</a></a> for details) &lt;2016-08-12 Fri&gt;</li>
+<li>Pass neutralLoss in plot,Spectrum,Spectrum-method to .calculateFragments; fixes <a href="https://github.com/lgatto/MSnbase/issues/146">#146</a> &lt;2016-08-12 Fri&gt;</li>
+<li>Allow the user to specify the <code>cex</code>, <code>lwd</code>, <code>pch</code> for peaks and fragments in plot,Spectrum,Spectrum-method; closes <a href="https://github.com/lgatto/MSnbase/issues/148">#148</a> &lt;2016-08-12 Fri&gt;</li>
+<li>Update centroided with an na.fail argument (see issue <a href="https://github.com/lgatto/MSnbase/issues/150">#150</a> for details) &lt;2016-08-12 Fri&gt;</li>
 <li>Fix warning in readMgfData if TITLE contains multiple “=” &lt;2016-08-24 Wed&gt;</li>
 </ul>
 </div>
@@ -935,13 +937,13 @@
 <a href="#changes-in-version-1-21-8" class="anchor"></a>Changes in version 1.21.8</h2>
 <ul>
 <li>Update MSnSet validity method to guard agains empty string feature names &lt;2016-06-20 Mon&gt;</li>
-<li>Simplify show,MSnExp method to work for various MS level cases and onDiskMSnExp - addressed issue <a href="https://github.com/lgatto/MSnbase/issues/98"><a href='https://github.com/lgatto/MSnbase/issues/98'>#98</a></a> &lt;2016-06-28 Tue&gt;</li>
+<li>Simplify show,MSnExp method to work for various MS level cases and onDiskMSnExp - addressed issue <a href="https://github.com/lgatto/MSnbase/issues/98">#98</a> &lt;2016-06-28 Tue&gt;</li>
 <li>removeMultipleAssignment also removes features that were not assigned (i.e. that have fcol (nprots) NA) &lt;2016-07-02 Sat&gt;</li>
 <li>New smoothed slot/accessor/replacement methods &lt;2016-07-08 Fri&gt;</li>
 <li>Update reporter masses and add TMT10 ETD/HCD &lt;2016-07-20 Wed&gt;</li>
-<li>returning empty spectrum when fliterMz has empty range - see issue <a href="https://github.com/lgatto/MSnbase/issues/134"><a href='https://github.com/lgatto/MSnbase/issues/134'>#134</a></a> &lt;2016-07-22 Fri&gt;</li>
-<li>(mz, intensity) values are reordered based on order(mz) - see issue <a href="https://github.com/lgatto/MSnbase/issues/135"><a href='https://github.com/lgatto/MSnbase/issues/135'>#135</a></a> &lt;2016-07-26 Tue&gt;</li>
-<li>fix bug in bin,Spectrum - see issue <a href="https://github.com/lgatto/MSnbase/issues/137"><a href='https://github.com/lgatto/MSnbase/issues/137'>#137</a></a> &lt;2016-08-05 Fri&gt;</li>
+<li>returning empty spectrum when fliterMz has empty range - see issue <a href="https://github.com/lgatto/MSnbase/issues/134">#134</a> &lt;2016-07-22 Fri&gt;</li>
+<li>(mz, intensity) values are reordered based on order(mz) - see issue <a href="https://github.com/lgatto/MSnbase/issues/135">#135</a> &lt;2016-07-26 Tue&gt;</li>
+<li>fix bug in bin,Spectrum - see issue <a href="https://github.com/lgatto/MSnbase/issues/137">#137</a> &lt;2016-08-05 Fri&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-1-21-7" class="section level2">
@@ -949,8 +951,8 @@
 <a href="#changes-in-version-1-21-7" class="anchor"></a>Changes in version 1.21.7</h2>
 <ul>
 <li>Update iPQF reference &lt;2016-06-01 Wed&gt;</li>
-<li>Fix a bug in normalize method for MSnExp objects: assigning normalized spectra directly to assayData is not possible, as the environment is locked. See PR <a href="https://github.com/lgatto/MSnbase/issues/91"><a href='https://github.com/lgatto/MSnbase/issues/91'>#91</a></a>.</li>
-<li>readMSData: if no phenodata is provided it creates an empty one with rownames corresponding to the file names. See PR <a href="https://github.com/lgatto/MSnbase/issues/91"><a href='https://github.com/lgatto/MSnbase/issues/91'>#91</a></a>.</li>
+<li>Fix a bug in normalize method for MSnExp objects: assigning normalized spectra directly to assayData is not possible, as the environment is locked. See PR <a href="https://github.com/lgatto/MSnbase/issues/91">#91</a>.</li>
+<li>readMSData: if no phenodata is provided it creates an empty one with rownames corresponding to the file names. See PR <a href="https://github.com/lgatto/MSnbase/issues/91">#91</a>.</li>
 <li>Lock itraqdata’s assaydata bindings &lt;2016-06-08 Wed&gt;</li>
 </ul>
 </div>
@@ -976,7 +978,7 @@
 <a href="#changes-in-version-1-21-4" class="anchor"></a>Changes in version 1.21.4</h2>
 <ul>
 <li>More MzTab and Spectrum1 unit testing &lt;2016-05-08 Sun&gt;</li>
-<li>Speed up readMSData (PR <a href="https://github.com/lgatto/MSnbase/issues/86"><a href='https://github.com/lgatto/MSnbase/issues/86'>#86</a></a> by jotsetung) &lt;2016-05-12 Thu&gt;</li>
+<li>Speed up readMSData (PR <a href="https://github.com/lgatto/MSnbase/issues/86">#86</a> by jotsetung) &lt;2016-05-12 Thu&gt;</li>
 <li>Replace example file URL to use github instead of googlecode &lt;2016-05-12 Thu&gt;</li>
 </ul>
 </div>
@@ -1000,7 +1002,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-21-1" class="anchor"></a>Changes in version 1.21.1</h2>
 <ul>
-<li>Fix wrong indexing in readMSdata, msLevel==1 (PR <a href="https://github.com/lgatto/MSnbase/issues/85"><a href='https://github.com/lgatto/MSnbase/issues/85'>#85</a></a> by jotsetung) &lt;2016-05-04 Wed&gt;</li>
+<li>Fix wrong indexing in readMSdata, msLevel==1 (PR <a href="https://github.com/lgatto/MSnbase/issues/85">#85</a> by jotsetung) &lt;2016-05-04 Wed&gt;</li>
 <li>grep/getEcols have a ‘n’ param specifying which line to grep/get &lt;2016-05-04 Wed&gt;</li>
 </ul>
 </div>
@@ -1088,7 +1090,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-19-16" class="anchor"></a>Changes in version 1.19.16</h2>
 <ul>
-<li>add estimateNoise,[Spectrum|MSnExp]-method; closes <a href="https://github.com/lgatto/MSnbase/issues/78"><a href='https://github.com/lgatto/MSnbase/issues/78'>#78</a></a> &lt;2016-03-10&gt;</li>
+<li>add estimateNoise,[Spectrum|MSnExp]-method; closes <a href="https://github.com/lgatto/MSnbase/issues/78">#78</a> &lt;2016-03-10&gt;</li>
 <li>import a lot of functions from recommended packages, namely graphics, stats and utils to avoid many “Undefined global functions or variables” NOTEs in R CMD check &lt;2016-03-10&gt;</li>
 </ul>
 </div>
@@ -1128,7 +1130,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-19-11" class="anchor"></a>Changes in version 1.19.11</h2>
 <ul>
-<li>Fix trimws generic/methods with useAsDefault (see issue <a href="https://github.com/lgatto/MSnbase/issues/75"><a href='https://github.com/lgatto/MSnbase/issues/75'>#75</a></a>) &lt;2016-02-02 Tue&gt;</li>
+<li>Fix trimws generic/methods with useAsDefault (see issue <a href="https://github.com/lgatto/MSnbase/issues/75">#75</a>) &lt;2016-02-02 Tue&gt;</li>
 <li>add exprs,MSnSet-method alias (since exprs is now exported) &lt;2016-02-02 Tue&gt;</li>
 </ul>
 </div>
@@ -1159,7 +1161,7 @@
 <a href="#changes-in-version-1-19-7" class="anchor"></a>Changes in version 1.19.7</h2>
 <ul>
 <li>new sampleNames&lt;- for pSet and MSnExp objects &lt;2015-12-15 Tue&gt;</li>
-<li>Fix bug preventing to write MS1 to mgf (fixes issue <a href="https://github.com/lgatto/MSnbase/issues/73"><a href='https://github.com/lgatto/MSnbase/issues/73'>#73</a></a> reported by meowcat) &lt;2015-12-18 Fri&gt;</li>
+<li>Fix bug preventing to write MS1 to mgf (fixes issue <a href="https://github.com/lgatto/MSnbase/issues/73">#73</a> reported by meowcat) &lt;2015-12-18 Fri&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-1-19-6" class="section level2">
@@ -1167,14 +1169,14 @@
 <a href="#changes-in-version-1-19-6" class="anchor"></a>Changes in version 1.19.6</h2>
 <ul>
 <li>MSnExp feautreNames are now X01, X02 (0 after X) to maintain numerical sorting of ASCII characters; contributed by sgibb &lt;2015-12-14 Mon&gt;</li>
-<li>Update MSnbase:::subsetBy to use split instead of lapply, which makes topN faster. This nevertheless changes the order of the resulting MSnSet (see issue <a href="https://github.com/lgatto/MSnbase/issues/63"><a href='https://github.com/lgatto/MSnbase/issues/63'>#63</a></a> for details and background); contributed by sgibb &lt;2015-12-14 Mon&gt;</li>
+<li>Update MSnbase:::subsetBy to use split instead of lapply, which makes topN faster. This nevertheless changes the order of the resulting MSnSet (see issue <a href="https://github.com/lgatto/MSnbase/issues/63">#63</a> for details and background); contributed by sgibb &lt;2015-12-14 Mon&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-1-19-5" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-19-5" class="anchor"></a>Changes in version 1.19.5</h2>
 <ul>
-<li>Merged pull request <a href="https://github.com/lgatto/MSnbase/issues/67"><a href='https://github.com/lgatto/MSnbase/issues/67'>#67</a></a> from lgatto/featureCV by sgibb: featureCV ignores its na.rm argument &lt;2015-12-12 Sat&gt;</li>
+<li>Merged pull request <a href="https://github.com/lgatto/MSnbase/issues/67">#67</a> from lgatto/featureCV by sgibb: featureCV ignores its na.rm argument &lt;2015-12-12 Sat&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-1-19-4" class="section level2">
@@ -1231,7 +1233,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-17-16" class="anchor"></a>Changes in version 1.17.16</h2>
 <ul>
-<li>new default parameter ‘feature weight’ in iPQF by Martina Fisher (see PR<a href="https://github.com/lgatto/MSnbase/issues/65"><a href='https://github.com/lgatto/MSnbase/issues/65'>#65</a></a>) &lt;2015-10-07 Wed&gt;</li>
+<li>new default parameter ‘feature weight’ in iPQF by Martina Fisher (see PR<a href="https://github.com/lgatto/MSnbase/issues/65">#65</a>) &lt;2015-10-07 Wed&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-1-17-15" class="section level2">
@@ -1254,7 +1256,7 @@
 <ul>
 <li>partly rewrite writeMgfData &lt;2015-05-16 Thu&gt;</li>
 <li>initial hmap function &lt;2015-07-16 Thu&gt;</li>
-<li>fix bug in plotting MS1 spectra (closes issue <a href="https://github.com/lgatto/MSnbase/issues/59"><a href='https://github.com/lgatto/MSnbase/issues/59'>#59</a></a>) &lt;2015-07-16 Thu&gt;</li>
+<li>fix bug in plotting MS1 spectra (closes issue <a href="https://github.com/lgatto/MSnbase/issues/59">#59</a>) &lt;2015-07-16 Thu&gt;</li>
 <li>new image implementation, based on <a href='https://github.com/vladpetyuk'>@vladpetyuk</a>’s vp.misc::image_msnset &lt;2015-07-25 Sat&gt;</li>
 <li>Changed the deprecated warning to a message when reading MzTab data version 0.9, as using the old reader can not only be achived by accident and will be kept for backwards file format compatibility &lt;2015-07-30 Thu&gt;</li>
 </ul>
@@ -1286,8 +1288,8 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-17-9" class="anchor"></a>Changes in version 1.17.9</h2>
 <ul>
-<li>calculateFragments’ “neutralLoss” argument is now a list (was a logical before), see <a href="https://github.com/lgatto/MSnbase/issues/47"><a href='https://github.com/lgatto/MSnbase/issues/47'>#47</a></a>. &lt;2015-06-24 Wed&gt;</li>
-<li>add defaultNeutralLoss() function to fill calculateFragments’ modified “neutralLoss” argument, see <a href="https://github.com/lgatto/MSnbase/issues/47"><a href='https://github.com/lgatto/MSnbase/issues/47'>#47</a></a>. &lt;2015-06-24 Wed&gt;</li>
+<li>calculateFragments’ “neutralLoss” argument is now a list (was a logical before), see <a href="https://github.com/lgatto/MSnbase/issues/47">#47</a>. &lt;2015-06-24 Wed&gt;</li>
+<li>add defaultNeutralLoss() function to fill calculateFragments’ modified “neutralLoss” argument, see <a href="https://github.com/lgatto/MSnbase/issues/47">#47</a>. &lt;2015-06-24 Wed&gt;</li>
 </ul>
 </div>
 <div id="changes-in-version-1-17-8" class="section level2">
@@ -1312,7 +1314,7 @@
 <li>Export metadata,MzTab-method &lt;2015-06-19 Fri&gt;</li>
 <li>Replace spectra,MzTab-method by psms,MzTab-method &lt;2015-06-20 Sat&gt;</li>
 <li>Change the meaning of calculateFragments’ “modifications” argument. Now the modification is added to the mass of the amino acid/peptide. Before it was replaced. &lt;2015-06-21 Sun&gt;</li>
-<li>calculateFragments gains the feature to handle N-/C-terminal modifications, see <a href="https://github.com/lgatto/MSnbase/issues/47"><a href='https://github.com/lgatto/MSnbase/issues/47'>#47</a></a>. &lt;2015-06-21 Sun&gt;</li>
+<li>calculateFragments gains the feature to handle N-/C-terminal modifications, see <a href="https://github.com/lgatto/MSnbase/issues/47">#47</a>. &lt;2015-06-21 Sun&gt;</li>
 <li>update readMzTabData example &lt;2015-06-22 Mon&gt;</li>
 </ul>
 </div>
@@ -1373,7 +1375,7 @@
 <a href="#changes-in-version-1-15-18" class="anchor"></a>Changes in version 1.15.18</h2>
 <ul>
 <li>fix failing test_MSnExp::readMSData unit test on Windows i386 (@.cache$size being different on that arch) [2015-04-14 Tue]</li>
-<li>merge <a href='https://github.com/vladpetyuk'>@vladpetyuk</a> PR <a href="https://github.com/lgatto/MSnbase/issues/50"><a href='https://github.com/lgatto/MSnbase/issues/50'>#50</a></a> fix of combine features bug [2015-04-14 Tue]</li>
+<li>merge <a href='https://github.com/vladpetyuk'>@vladpetyuk</a> PR <a href="https://github.com/lgatto/MSnbase/issues/50">#50</a> fix of combine features bug [2015-04-14 Tue]</li>
 </ul>
 </div>
 <div id="changes-in-version-1-15-17" class="section level2">
@@ -1460,9 +1462,9 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-15-6" class="anchor"></a>Changes in version 1.15.6</h2>
 <ul>
-<li>add intensity column to the calculateFragments output; closes <a href="https://github.com/lgatto/MSnbase/issues/47"><a href='https://github.com/lgatto/MSnbase/issues/47'>#47</a></a>;1 [2015-02-02 Mon]</li>
-<li>add method argument to calculateFragments to allow the user choosing the highest/closest peak or all peaks in the tolerance range; closes <a href="https://github.com/lgatto/MSnbase/issues/47"><a href='https://github.com/lgatto/MSnbase/issues/47'>#47</a></a>;2 [2015-02-09 Mon]</li>
-<li>add neutralLoss argument to calculateFragments and calculate loss of water and ammonia; closes <a href="https://github.com/lgatto/MSnbase/issues/47"><a href='https://github.com/lgatto/MSnbase/issues/47'>#47</a></a>:3 [2015-02-19 Thu]</li>
+<li>add intensity column to the calculateFragments output; closes <a href="https://github.com/lgatto/MSnbase/issues/47">#47</a>;1 [2015-02-02 Mon]</li>
+<li>add method argument to calculateFragments to allow the user choosing the highest/closest peak or all peaks in the tolerance range; closes <a href="https://github.com/lgatto/MSnbase/issues/47">#47</a>;2 [2015-02-09 Mon]</li>
+<li>add neutralLoss argument to calculateFragments and calculate loss of water and ammonia; closes <a href="https://github.com/lgatto/MSnbase/issues/47">#47</a>:3 [2015-02-19 Thu]</li>
 <li>new imputation methods via imputeLCMD and norm [2015-02-09 Mon]</li>
 <li>vignette updates [2015-02-09 Mon]</li>
 <li>imputation unit test [2015-02-24 Tue]</li>
@@ -1474,7 +1476,7 @@
 <ul>
 <li>update dependency to mzID &gt;= 1.5.2 [2015-01-28 Wed]</li>
 <li>rewrite addIdentificationData and change its signature [2015-01-28 Wed]</li>
-<li>add methods addIdentificationData which work on MSnExp and MSnSets using filenames (characters), mzID objects and data.frames; see <a href="https://github.com/lgatto/MSnbase/issues/42"><a href='https://github.com/lgatto/MSnbase/issues/42'>#42</a></a>; closes <a href="https://github.com/lgatto/MSnbase/issues/45"><a href='https://github.com/lgatto/MSnbase/issues/45'>#45</a></a>; [2015-01-28 Wed]</li>
+<li>add methods addIdentificationData which work on MSnExp and MSnSets using filenames (characters), mzID objects and data.frames; see <a href="https://github.com/lgatto/MSnbase/issues/42">#42</a>; closes <a href="https://github.com/lgatto/MSnbase/issues/45">#45</a>; [2015-01-28 Wed]</li>
 <li>add a section about MSmaps in the vignette [2015-02-02 Mon]</li>
 <li>MSmap has a new zeroIsNA argument to set all 0 values of the map to NA. This simplifies the resulting plot3D figure. [2015-02-02 Mon]</li>
 </ul>
@@ -1511,7 +1513,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-15-1" class="anchor"></a>Changes in version 1.15.1</h2>
 <ul>
-<li>Fixing error when id file has no spectrumFile info (see issue <a href="https://github.com/lgatto/MSnbase/issues/39"><a href='https://github.com/lgatto/MSnbase/issues/39'>#39</a></a>) and return a warning (instead of an error) when the file used to create the MSnExp/MSnSet and mzid file were different [2014-10-15 Wed]</li>
+<li>Fixing error when id file has no spectrumFile info (see issue <a href="https://github.com/lgatto/MSnbase/issues/39">#39</a>) and return a warning (instead of an error) when the file used to create the MSnExp/MSnSet and mzid file were different [2014-10-15 Wed]</li>
 </ul>
 </div>
 <div id="changes-in-version-1-15-0" class="section level2">
@@ -1747,7 +1749,7 @@
 <h2 class="hasAnchor">
 <a href="#changes-in-version-1-11-8" class="anchor"></a>Changes in version 1.11.8</h2>
 <ul>
-<li>adding redundancy handling to combineFeatures (by vladpetyuk, pull request <a href="https://github.com/lgatto/MSnbase/issues/18"><a href='https://github.com/lgatto/MSnbase/issues/18'>#18</a></a>) [2014-03-14 Fri]</li>
+<li>adding redundancy handling to combineFeatures (by vladpetyuk, pull request <a href="https://github.com/lgatto/MSnbase/issues/18">#18</a>) [2014-03-14 Fri]</li>
 <li>updated combineFeatures signature to accomodate above changes [2014-03-14 Fri]</li>
 <li>updated unit tests for new testhat 0.8 [2014-03-14 Fri]</li>
 </ul>
