@@ -1,5 +1,9 @@
 # MSnbase 2.11
 
+## MSnbase 2.11.8
+
+- Update URL to point to pkgdown site
+ 
 ## MSnbase 2.11.7
 
 - Add parameter `weighted` to `consensusSpectrum` and change the default from
