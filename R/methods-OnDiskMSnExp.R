@@ -801,9 +801,9 @@ setMethod("pickPeaks", "OnDiskMSnExp",
                                  " on spectra of MS level(s)",
                                  paste0(msLevel., collapse = ", ")))
               object@processingData@smoothed <- TRUE
-              fData(object)$centroided <- TRUE
+              fData(object)$centroided[msLevel(object) %in% msLevel.] <- TRUE
               if (validObject(object))
-                  return(object)
+                  object
           })
 
 ############################################################
