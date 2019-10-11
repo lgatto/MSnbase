@@ -68,7 +68,7 @@ definable proportion of spectra." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.10</span>
       </span>
     </div>
 
@@ -140,8 +140,9 @@ definable proportion of spectra.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>consensusSpectrum</span>(<span class='no'>x</span>, <span class='no'>mzd</span>, <span class='kw'>minProp</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>intensityFun</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>,
-  <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>weighted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>consensusSpectrum</span>(<span class='no'>x</span>, <span class='kw'>mzd</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>minProp</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+  <span class='kw'>intensityFun</span> <span class='kw'>=</span> <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/r/stats/median.html'>median</a></span>, <span class='kw'>mzFun</span> <span class='kw'>=</span> <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/r/stats/median.html'>median</a></span>, <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>weighted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,10 +156,10 @@ definable proportion of spectra.</p>
       <th>mzd</th>
       <td><p><code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code> defining the maximal m/z difference below which
 mass peaks are grouped in to the same final mass peak (see details for
-more information). If not provided this value is estimated from the
-distribution of differences of m/z values from the spectra (see
-<code><a href='meanMzInts.html'>meanMzInts()</a></code> for more details). See also parameter <code>ppm</code> below for
-the definition of an m/z dependent peak grouping.</p></td>
+more information). Defaults to <code>0</code>; see <code><a href='meanMzInts.html'>meanMzInts()</a></code> for estimating
+this value from the distribution of differences of m/z values from the
+spectra. See also parameter <code>ppm</code> below for the definition of an m/z
+dependent peak grouping.</p></td>
     </tr>
     <tr>
       <th>minProp</th>
@@ -169,9 +170,15 @@ all spectra).</p></td>
     </tr>
     <tr>
       <th>intensityFun</th>
-      <td><p><code>function</code> to be used to define the intensity of the
-aggregated peak. By default the maximum signal for a mass peak is
-reported.</p></td>
+      <td><p><code>function</code> (or name of a function) to be used to define
+the intensity of the aggregated peak. By default the median signal for
+a mass peak is reported.</p></td>
+    </tr>
+    <tr>
+      <th>mzFun</th>
+      <td><p><code>function</code> (or name of a function) to be used to define the
+intensity of the aggregated peak. By default the median m/z is reported.
+Note that setting <code>weighted = TRUE</code> overrides this parameter.</p></td>
     </tr>
     <tr>
       <th>ppm</th>
@@ -182,8 +189,8 @@ peaks. See details for more information.</p></td>
       <th>weighted</th>
       <td><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether the m/z of the aggregated peak
 represents the intensity-weighted average of the m/z values of all peaks
-of the peak group. If <code>FALSE</code> (the default), the m/z of the peak with
-the <strong>largest</strong> intensity is reported.</p></td>
+of the peak group. If <code>FALSE</code> (the default), the m/z of the peak is
+calculated with <code>mzFun</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -195,12 +202,14 @@ the <strong>largest</strong> intensity is reported.</p></td>
 
     <p>Peaks from spectra with a difference of their m/z being smaller than <code>mzd</code>
 are grouped into the same final mass peak with their intensities being
-aggregated with <code>intensityFun</code>. The m/z of the final mass peaks is calculated
-using a intensity-weighted mean of the m/z values from the individual mass
-peaks. Alternatively (or in addition) it is possible to perform an m/z dependent
-grouping of mass peaks with parameter <code>ppm</code>: mass peaks from different spectra
-with a difference in their m/z smaller than <code>ppm</code> of their m/z are grouped
-into the same final peak.</p>
+aggregated with <code>intensityFun</code>. Alternatively (or in addition) it is
+possible to perform an m/z dependent grouping of mass peaks with parameter
+<code>ppm</code>: mass peaks from different spectra with a difference in their m/z
+smaller than <code>ppm</code> of their m/z are grouped into the same final peak.</p>
+<p>The m/z of the final mass peaks is calculated with <code>mzFun</code>. By setting
+<code>weighted = TRUE</code> the parameter <code>mzFun</code> is ignored and an intensity-weighted
+mean of the m/z values from the individual mass peaks is returned as the
+peak's m/z.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -232,7 +241,7 @@ into the same final peak.</p>
 <span class='no'>cons</span> <span class='kw'>&lt;-</span> <span class='fu'>consensusSpectrum</span>(<span class='no'>spl</span>, <span class='kw'>mzd</span> <span class='kw'>=</span> <span class='fl'>0.02</span>, <span class='kw'>minProp</span> <span class='kw'>=</span> <span class='fl'>2</span>/<span class='fl'>3</span>)
 
 <span class='co'>## Peaks of the consensus spectrum</span>
-<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>cons</span>)</div><div class='output co'>#&gt; [1] 1.82 4.90</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>cons</span>)</div><div class='output co'>#&gt; [1] 210 299</div><div class='input'>
+<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>cons</span>)</div><div class='output co'>#&gt; [1] 1.810 4.905</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>cons</span>)</div><div class='output co'>#&gt; [1] 184.0 227.5</div><div class='input'>
 <span class='co'>## Other Spectrum data is taken from the first Spectrum in the list</span>
 <span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>cons</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span>(<span class='no'>cons</span>)</div><div class='output co'>#&gt; [1] 1.41</div><div class='input'>
 <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>cons</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>cons</span>), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"h"</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"m/z"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"intensity"</span>,
