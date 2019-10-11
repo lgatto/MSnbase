@@ -1,5 +1,12 @@
 # MSnbase 2.11
 
+## MSnbase 2.11.10
+
+- Updates to `consensusSpectrum`: add parameter `mzFun` allowing to define the
+  aggregation function for m/z values, change default for `mzd` to `0` (hence
+  avoid estimating m/z differences by default) and change the default for
+  parameter `intensityFun` to `median`.
+
 ## MSnbase 2.11.9
 - Use latest mzR
 

@@ -1135,39 +1135,46 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
 #'
 #' Peaks from spectra with a difference of their m/z being smaller than `mzd`
 #' are grouped into the same final mass peak with their intensities being
-#' aggregated with `intensityFun`. The m/z of the final mass peaks is calculated
-#' using a intensity-weighted mean of the m/z values from the individual mass
-#' peaks. Alternatively (or in addition) it is possible to perform an m/z dependent
-#' grouping of mass peaks with parameter `ppm`: mass peaks from different spectra
-#'  with a difference in their m/z smaller than `ppm` of their m/z are grouped
-#' into the same final peak.
+#' aggregated with `intensityFun`. Alternatively (or in addition) it is
+#' possible to perform an m/z dependent grouping of mass peaks with parameter
+#' `ppm`: mass peaks from different spectra with a difference in their m/z
+#' smaller than `ppm` of their m/z are grouped into the same final peak.
+#'
+#' The m/z of the final mass peaks is calculated with `mzFun`. By setting
+#' `weighted = TRUE` the parameter `mzFun` is ignored and an intensity-weighted
+#' mean of the m/z values from the individual mass peaks is returned as the
+#' peak's m/z.
 #'
 #' @param x `list` of [Spectrum-class] objects (either [Spectrum1-class] or
 #'     [Spectrum2-class]).
 #'
 #' @param mzd `numeric(1)` defining the maximal m/z difference below which
 #'     mass peaks are grouped in to the same final mass peak (see details for
-#'     more information). If not provided this value is estimated from the
-#'     distribution of differences of m/z values from the spectra (see
-#'     [meanMzInts()] for more details). See also parameter `ppm` below for
-#'     the definition of an m/z dependent peak grouping.
+#'     more information). Defaults to `0`; see [meanMzInts()] for estimating
+#'     this value from the distribution of differences of m/z values from the
+#'     spectra. See also parameter `ppm` below for the definition of an m/z
+#'     dependent peak grouping.
 #'
 #' @param minProp `numeric(1)` defining the minimal proportion of spectra in
 #'     which a mass peak has to be present in order to include it in the
 #'     final consensus spectrum. Should be a number between 0 and 1 (present in
 #'     all spectra).
 #'
-#' @param intensityFun `function` to be used to define the intensity of the
-#'     aggregated peak. By default the maximum signal for a mass peak is
-#'     reported.
+#' @param intensityFun `function` (or name of a function) to be used to define
+#'     the intensity of the aggregated peak. By default the median signal for
+#'     a mass peak is reported.
+#'
+#' @param mzFun `function` (or name of a function) to be used to define the
+#'     intensity of the aggregated peak. By default the median m/z is reported.
+#'     Note that setting `weighted = TRUE` overrides this parameter.
 #'
 #' @param ppm `numeric(1)` allowing to perform a m/z dependent grouping of mass
 #'     peaks. See details for more information.
 #'
 #' @param weighted `logical(1)` whether the m/z of the aggregated peak
 #'     represents the intensity-weighted average of the m/z values of all peaks
-#'     of the peak group. If `FALSE` (the default), the m/z of the peak with
-#'     the **largest** intensity is reported.
+#'     of the peak group. If `FALSE` (the default), the m/z of the peak is
+#'     calculated with `mzFun`.
 #'
 #' @param ... additional arguments to be passed to `intensityFun`.
 #'
@@ -1212,8 +1219,10 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
 #' plot(mz(cons), intensity(cons), type = "h", xlab = "m/z", ylab = "intensity",
 #'     xlim = range(mz(spl)), ylim = range(intensity(spl)), lwd = 2)
 #'
-consensusSpectrum <- function(x, mzd, minProp = 0.5, intensityFun = base::max,
-                              ppm = 0, weighted = FALSE, ...) {
+consensusSpectrum <- function(x, mzd = 0, minProp = 0.5,
+                              intensityFun = stats::median,
+                              mzFun = stats::median, ppm = 0,
+                              weighted = FALSE, ...) {
     if (length(x) == 1)
         return(x[[1]])
     if (!is(x, "Spectra"))
@@ -1240,9 +1249,9 @@ consensusSpectrum <- function(x, mzd, minProp = 0.5, intensityFun = base::max,
             xnew@mz <- mapply(mzs[keep], ints[keep], FUN = function(mz_vals, w)
                 wm(mz_vals, w + 1, na.rm = TRUE), USE.NAMES = FALSE)
         } else
-            xnew@mz <- mapply(mzs[keep], ints[keep],
-                              FUN = function(mzv, intv) mzv[which.max(intv)],
-                              USE.NAMES = FALSE)
+            xnew@mz <- base::vapply(mzs[keep], FUN = mzFun,
+                                    FUN.VALUE = numeric(1),
+                                    USE.NAMES = FALSE, ...)
         xnew@intensity <- base::vapply(ints[keep], FUN = intensityFun,
                                        FUN.VALUE = numeric(1),
                                        USE.NAMES = FALSE, ...)
