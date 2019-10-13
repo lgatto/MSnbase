@@ -637,4 +637,25 @@ test_that("consensusSpectrum works", {
 
     cons <- consensusSpectrum(spl, mzd = 0.02, minProp = 1/3)
     expect_equal(peaksCount(cons), 18)
+
+    expect_error(consensusSpectrum(spl, mzd = 0.03, intensityFun = "nofun"),
+                 "of mode 'function'")
+    expect_error(consensusSpectrum(spl, mzd = 0.03, mzFun = "nofun"),
+                 "of mode 'function'")
+
+    res_1 <- consensusSpectrum(spl, mzd = 0.02, intensityFun = max)
+    res_2 <- consensusSpectrum(spl, mzd = 0.02, intensityFun = mean)
+    expect_true(all(intensity(res_1) > intensity(res_2)))
+
+    res_1 <- consensusSpectrum(spl, mzd = 0.02, mzFun = max)
+    res_2 <- consensusSpectrum(spl, mzd = 0.02, mzFun = median)
+    expect_true(all(mz(res_1) > mz(res_2)))
+
+    res_1 <- consensusSpectrum(spl, mzd = 0.02, mzFun = mean)
+    res_2 <- consensusSpectrum(spl, mzd = 0.02, weighted = TRUE)
+    expect_true(all(mz(res_1) != mz(res_2)))
+
+    res_1 <- consensusSpectrum(spl, mzd = 0.02, mzFun = max, weighted = TRUE)
+    res_2 <- consensusSpectrum(spl, mzd = 0.02, weighted = TRUE)
+    expect_identical(mz(res_1), mz(res_2))
 })

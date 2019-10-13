@@ -2,8 +2,10 @@
 
 ## MSnbase 2.11.10
 
-- Fix bug in `pickPeaks`: set variable `centroided` only to `TRUE` for spectra
-  matching the provided `msLevel.`.
+- Updates to `consensusSpectrum`: add parameter `mzFun` allowing to define the
+  aggregation function for m/z values, change default for `mzd` to `0` (hence
+  avoid estimating m/z differences by default) and change the default for
+  parameter `intensityFun` to `median`.
 
 ## MSnbase 2.11.9
 - Use latest mzR

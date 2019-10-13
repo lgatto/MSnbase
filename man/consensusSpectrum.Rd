@@ -4,8 +4,9 @@
 \alias{consensusSpectrum}
 \title{Combine spectra to a consensus spectrum}
 \usage{
-consensusSpectrum(x, mzd, minProp = 0.5, intensityFun = base::max,
-  ppm = 0, weighted = FALSE, ...)
+consensusSpectrum(x, mzd = 0, minProp = 0.5,
+  intensityFun = stats::median, mzFun = stats::median, ppm = 0,
+  weighted = FALSE, ...)
 }
 \arguments{
 \item{x}{\code{list} of \linkS4class{Spectrum} objects (either \linkS4class{Spectrum1} or
@@ -13,27 +14,31 @@ consensusSpectrum(x, mzd, minProp = 0.5, intensityFun = base::max,
 
 \item{mzd}{\code{numeric(1)} defining the maximal m/z difference below which
 mass peaks are grouped in to the same final mass peak (see details for
-more information). If not provided this value is estimated from the
-distribution of differences of m/z values from the spectra (see
-\code{\link[=meanMzInts]{meanMzInts()}} for more details). See also parameter \code{ppm} below for
-the definition of an m/z dependent peak grouping.}
+more information). Defaults to \code{0}; see \code{\link[=meanMzInts]{meanMzInts()}} for estimating
+this value from the distribution of differences of m/z values from the
+spectra. See also parameter \code{ppm} below for the definition of an m/z
+dependent peak grouping.}
 
 \item{minProp}{\code{numeric(1)} defining the minimal proportion of spectra in
 which a mass peak has to be present in order to include it in the
 final consensus spectrum. Should be a number between 0 and 1 (present in
 all spectra).}
 
-\item{intensityFun}{\code{function} to be used to define the intensity of the
-aggregated peak. By default the maximum signal for a mass peak is
-reported.}
+\item{intensityFun}{\code{function} (or name of a function) to be used to define
+the intensity of the aggregated peak. By default the median signal for
+a mass peak is reported.}
+
+\item{mzFun}{\code{function} (or name of a function) to be used to define the
+intensity of the aggregated peak. By default the median m/z is reported.
+Note that setting \code{weighted = TRUE} overrides this parameter.}
 
 \item{ppm}{\code{numeric(1)} allowing to perform a m/z dependent grouping of mass
 peaks. See details for more information.}
 
 \item{weighted}{\code{logical(1)} whether the m/z of the aggregated peak
 represents the intensity-weighted average of the m/z values of all peaks
-of the peak group. If \code{FALSE} (the default), the m/z of the peak with
-the \strong{largest} intensity is reported.}
+of the peak group. If \code{FALSE} (the default), the m/z of the peak is
+calculated with \code{mzFun}.}
 
 \item{...}{additional arguments to be passed to \code{intensityFun}.}
 }
@@ -45,12 +50,15 @@ definable proportion of spectra.
 \details{
 Peaks from spectra with a difference of their m/z being smaller than \code{mzd}
 are grouped into the same final mass peak with their intensities being
-aggregated with \code{intensityFun}. The m/z of the final mass peaks is calculated
-using a intensity-weighted mean of the m/z values from the individual mass
-peaks. Alternatively (or in addition) it is possible to perform an m/z dependent
-grouping of mass peaks with parameter \code{ppm}: mass peaks from different spectra
-with a difference in their m/z smaller than \code{ppm} of their m/z are grouped
-into the same final peak.
+aggregated with \code{intensityFun}. Alternatively (or in addition) it is
+possible to perform an m/z dependent grouping of mass peaks with parameter
+\code{ppm}: mass peaks from different spectra with a difference in their m/z
+smaller than \code{ppm} of their m/z are grouped into the same final peak.
+
+The m/z of the final mass peaks is calculated with \code{mzFun}. By setting
+\code{weighted = TRUE} the parameter \code{mzFun} is ignored and an intensity-weighted
+mean of the m/z values from the individual mass peaks is returned as the
+peak's m/z.
 }
 \examples{
 library(MSnbase)
