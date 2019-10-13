@@ -1,5 +1,11 @@
 # MSnbase 2.11
 
+
+## MSnbase 2.11.11
+
+- Fix bug in `pickPeaks`: set variable `centroided` only to `TRUE` for spectra
+  matching the provided `msLevel.`.
+
 ## MSnbase 2.11.10
 
 - Updates to `consensusSpectrum`: add parameter `mzFun` allowing to define the
