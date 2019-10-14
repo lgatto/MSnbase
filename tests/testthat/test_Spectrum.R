@@ -104,8 +104,8 @@ test_that("Spectrum smoothing", {
     s1 <- new("Spectrum2", mz = 1:5, intensity = c(1:3, 2:1))
     s2 <- new("Spectrum2", mz = 1:5, intensity = c(2, 2, 2+1/3, 2, 2))
     expect_warning(smooth(new("Spectrum2")), "spectrum is empty")
-    expect_equal(smooth(s1, method = "MovingAverag", halfWindowSize = 1),
-                 s2)
+    expect_equal(smooth(s1, method = "MovingAverag", halfWindowSize = 1), s2)
+    expect_equal(smooth(s1, msLevel = 1), s1)
 })
 
 test_that("Spectrum quantification", {

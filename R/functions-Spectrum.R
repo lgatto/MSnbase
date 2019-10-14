@@ -431,8 +431,11 @@ pickPeaks_Spectrum <- function(object, halfWindowSize = 2L,
 
 smooth_Spectrum <- function(object,
                             method = c("SavitzkyGolay", "MovingAverage"),
-                            halfWindowSize = 2L, ...) {
-
+                            halfWindowSize = 2L, msLevel., ...) {
+    if (!missing(msLevel.)) {
+        if (!(msLevel(object) %in% msLevel.))
+            return(object)
+    }
     if (!peaksCount(object)) {
         warning("Your spectrum is empty. Nothing to change.")
         return(object)

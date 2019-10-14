@@ -255,9 +255,11 @@ setMethod("pickPeaks", "Spectrum",
 
 setMethod("smooth", "Spectrum",
           function(x, method = c("SavitzkyGolay", "MovingAverage"),
-                   halfWindowSize = 2L, ...) {
+                   halfWindowSize = 2L, msLevel. = msLevel(x),
+                   ...) {
               smooth_Spectrum(x, method = match.arg(method),
-                              halfWindowSize = halfWindowSize, ...)
+                              halfWindowSize = halfWindowSize,
+                              msLevel. = msLevel., ...)
           })
 
 setMethod("removeReporters", "Spectrum",

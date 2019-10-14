@@ -5,6 +5,7 @@
 
 - Fix bug in `pickPeaks`: set variable `centroided` only to `TRUE` for spectra
   matching the provided `msLevel.`.
+- Add parameter `msLevel.` to `smooth`.
 
 ## MSnbase 2.11.10
 

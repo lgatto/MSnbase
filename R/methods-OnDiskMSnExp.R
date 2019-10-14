@@ -756,11 +756,13 @@ setMethod("bin", "OnDiskMSnExp", function(object, binSize = 1L, msLevel.) {
 ## smooth
 setMethod("smooth", "OnDiskMSnExp",
           function(x, method = c("SavitzkyGolay", "MovingAverage"),
-                   halfWindowSize = 2L, verbose = isMSnbaseVerbose(), ...) {
+                   halfWindowSize = 2L, verbose = isMSnbaseVerbose(),
+                   msLevel. = unique(msLevel(x)), ...) {
               method <- match.arg(method)
               ps <- ProcessingStep("smooth",
                                    list(method = method,
-                                        halfWindowSize = halfWindowSize, ...))
+                                        halfWindowSize = halfWindowSize,
+                                        msLevel. = msLevel., ...))
               x@spectraProcessingQueue <- c(x@spectraProcessingQueue,
                                             list(ps))
               x@processingData@processing <- c(x@processingData@processing,

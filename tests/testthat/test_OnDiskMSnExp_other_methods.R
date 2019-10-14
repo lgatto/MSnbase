@@ -240,3 +240,11 @@ test_that("pickPeaks,OnDiskMSnExp works with refineMz", {
     ## Check errors
     expect_error(pickPeaks(tmt_erwinia_on_disk_ms1, refineMz = "some_method"))
 })
+
+test_that("smooth,OnDiskMSnExp works with msLevel", {
+    res <- smooth(tmt_od_ms1_sub, msLevel = 2)
+    expect_identical(intensity(res), intensity(tmt_od_ms1_sub))
+    res <- smooth(tmt_od_ms1_sub, msLevel = 1:3)
+    expect_false(all(unlist(intensity(res)) ==
+                     unlist(intensity(tmt_od_ms1_sub))))
+})
