@@ -1,33 +1,37 @@
 # MSnbase 2.11
 
-## MSnbase 2.11.10
+## Changes in 2.11.10
+
+- Update news files titles to be consistent with other Bioc packages.
+
+## Changes in 2.11.10
 
 - Updates to `consensusSpectrum`: add parameter `mzFun` allowing to define the
   aggregation function for m/z values, change default for `mzd` to `0` (hence
   avoid estimating m/z differences by default) and change the default for
   parameter `intensityFun` to `median`.
 
-## MSnbase 2.11.9
+## Changes in 2.11.9
 - Use latest mzR
 
-## MSnbase 2.11.8
+## Changes in 2.11.8
 
 - Update URL to point to pkgdown site
 
-## MSnbase 2.11.7
+## Changes in 2.11.7
 
 - Add parameter `weighted` to `consensusSpectrum` and change the default from
   reporting the intensity-weighted mean of m/z values for consensus peaks to
   reporting the m/z of the largest peak <2019-09-12 Thu>.
 
-## MSnbase 2.11.6
+## Changes in 2.11.6
 
 - Update to match changes in mzR version 2.17.4 <2019-09-04 Wed>.
 - Add parameter `msLevel` to `pickPeaks` to allow peak picking in specific MS
   levels. See [#478](https://github.com/lgatto/MSnbase/issues/478)  <2019-09-04
   Wed>.
 
-## MSnbase 2.11.5
+## Changes in 2.11.5
 
 - Use `filterMsLevel, `filterMz`, `filterPolarity`, `filterRt`,
   `filterAcquisitionNum`, `filterEmptySpectra`, `filterPrecursorScan`,
@@ -35,12 +39,12 @@
   generics from `ProtGenerics`.
 
 
-## MSnbase 2.11.4
+## Changes in 2.11.4
 
 - `plot,Spectrum,Spectrum` now also supports MS1 spectra (see
   [#477](https://github.com/lgatto/MSnbase/issues/477)) <2019-07-23 Tue>
 
-## MSnbase 2.11.3
+## Changes in 2.11.3
 
 - Make combineFeatures a method <2019-05-31 Fri>
 - Remove message about changed meaning of the "modifications" argument in
@@ -49,7 +53,7 @@
 - Implement combineSpectra,MSnExp (see
   [#474](https://github.com/lgatto/MSnbase/issues/474)) <2019-06-02 Tue>.
 
-## MSnbase 2.11.2
+## Changes in 2.11.2
 
 - Fix bug in `calculateFragments` for neutral loss calculation. For
   the "loss of water" the mass of HO~2~ instead of H~2~O was removed
@@ -57,17 +61,17 @@
   to Max Helf (@mjhelf) for the fix (see
   [#463](https://github.com/lgatto/MSnbase/issues/463)) <2019-05-31 Fri>.
 
-## MSnbase 2.11.1
+## Changes in 2.11.1
 
 - Migrate generics to ProtGenerics
 
-## MSnbase 2.11.0
+## Changes in 2.11.0
 
 - Bioconductor 3.10 (devel)
 
 # MSnbase 2.10
 
-## MSnbase 2.10.0
+## Changes in 2.10.0
 
 - Bioconductor 3.9 (release)
 
@@ -342,7 +346,7 @@
 - Add msLevel slot to Chromatogram object <2017-08-16 Wed>
 - Add msLevel argument to chromatogram,MSnExp method <2017-08-16 Wed>
 - `calculateFragments` now just calculate fragments for all `n - 1L` bonds
-		(before it incorrectly adds an additional bond; fixes [#248](https://github.com/lgatto/MSnbase/issues/248)) <2017-08-20 Sun>
+  (before it incorrectly adds an additional bond; fixes [#248](https://github.com/lgatto/MSnbase/issues/248)) <2017-08-20 Sun>
 - Add `isEmpty` methods for `Chromatogram` and `Chromatograms` objects
   <2017-09-05 Tue>
 - plot,Chromatogram[s] creates an empty plot and returns a warning if the
