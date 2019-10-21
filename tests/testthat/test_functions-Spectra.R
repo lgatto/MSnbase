@@ -81,27 +81,3 @@ test_that("show,Spectra works", {
     .show_Spectra(spl, print.classinfo = TRUE)
     show(spl)
 })
-
-test_that(".combine_spectra works", {
-    spd <- DataFrame(msLevel = c(2L, 2L, 2L), rtime = c(1, 2, 3))
-    spd$mz <- list(c(12, 14, 45, 56), c(14.1, 34, 56.1), c(12.1, 14.15, 34.1))
-    spd$intensity <- list(c(10, 20, 30, 40), c(11, 21, 31), c(12, 22, 32))
-    sps <- Spectra(spd)
-    res <- .combine_spectra(sps)
-    expect_true(length(res) == 1)
-    expect_equal(res$mz[[1]], sort(unlist(spd$mz)))
-
-    res <- .combine_spectra(sps, FUN = combinePeaks, tolerance = 0.1)
-    expect_true(length(res) == 1)
-    expect_equal(res$mz[[1]], c(mean(c(12, 12.1)), mean(c(14, 14.1, 14.15)),
-                                mean(c(34, 34.1)), 45, mean(c(56, 56.1))))
-    expect_equal(res$intensity[[1]], c(mean(c(10, 12)), mean(c(20, 11, 22)),
-                                       mean(c(21, 32)), 30, mean(c(40, 31))))
-    res <- .combine_spectra(sps, FUN = combinePeaks, tolerance = 0.1,
-                            mzFun = max, intensityFun = median)
-    expect_true(length(res) == 1)
-    expect_equal(res$mz[[1]], c(max(c(12, 12.1)), max(c(14, 14.1, 14.15)),
-                                max(c(34, 34.1)), 45, max(c(56, 56.1))))
-    expect_equal(res$intensity[[1]], c(median(c(10, 12)), median(c(20, 11, 22)),
-                                       median(c(21, 32)), 30, median(c(40, 31))))
-})
