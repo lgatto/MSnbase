@@ -1,6 +1,6 @@
 # MSnbase 2.11
 
-## MSnbase 2.11.11
+## Changes in 2.11.11
 
 - Fix bug in `pickPeaks`: set variable `centroided` only to `TRUE` for spectra
   matching the provided `msLevel.`.
