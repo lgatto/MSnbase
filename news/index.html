@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.12</span>
       </span>
     </div>
 
@@ -129,16 +129,24 @@
     <div id="msnbase-2-11" class="section level1">
 <h1 class="page-header">
 <a href="#msnbase-2-11" class="anchor"></a>MSnbase 2.11</h1>
-<div id="changes-in-2-11-10" class="section level2">
+<div id="changes-in-2-11-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-in-2-11-10" class="anchor"></a>Changes in 2.11.10</h2>
+<a href="#changes-in-2-11-12" class="anchor"></a>Changes in 2.11.12</h2>
+<ul>
+<li>Fix bug in <code>pickPeaks</code>: set variable <code>centroided</code> only to <code>TRUE</code> for spectra matching the provided <code>msLevel.</code>.</li>
+<li>Add parameter <code>msLevel.</code> to <code>smooth</code>.</li>
+</ul>
+</div>
+<div id="changes-in-2-11-11" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-in-2-11-11" class="anchor"></a>Changes in 2.11.11</h2>
 <ul>
 <li>Update news files titles to be consistent with other Bioc packages.</li>
 </ul>
 </div>
-<div id="changes-in-2-11-10-1" class="section level2">
+<div id="changes-in-2-11-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-in-2-11-10-1" class="anchor"></a>Changes in 2.11.10</h2>
+<a href="#changes-in-2-11-10" class="anchor"></a>Changes in 2.11.10</h2>
 <ul>
 <li>Updates to <code>consensusSpectrum</code>: add parameter <code>mzFun</code> allowing to define the aggregation function for m/z values, change default for <code>mzd</code> to <code>0</code> (hence avoid estimating m/z differences by default) and change the default for parameter <code>intensityFun</code> to <code>median</code>.</li>
 </ul>
