@@ -1,5 +1,11 @@
 # MSnbase 2.11
 
+## MSnbase 2.11.11
+
+- Fix bug in `pickPeaks`: set variable `centroided` only to `TRUE` for spectra
+  matching the provided `msLevel.`.
+- Add parameter `msLevel.` to `smooth`.
+
 ## Changes in 2.11.10
 
 - Update news files titles to be consistent with other Bioc packages.
