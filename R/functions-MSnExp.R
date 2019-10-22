@@ -277,7 +277,7 @@ pickPeaks_MSnExp <- function(object, halfWindowSize, method, SNR,
     return(object)
 }
 
-smooth_MSnExp <- function(object, method, halfWindowSize, ...,
+smooth_MSnExp <- function(object, method, halfWindowSize, ..., msLevel.,
                           verbose = isMSnbaseVerbose()) {
   ## copied from clean_MSnExp
   e <- new.env()
@@ -295,7 +295,7 @@ smooth_MSnExp <- function(object, method, halfWindowSize, ...,
            }
            sp <- get(x, envir = assayData(object))
            xx <- smooth(sp, method = method, halfWindowSize = halfWindowSize,
-                        ...)
+                        msLevel. = msLevel., ...)
            assign(x, xx, envir = e)
            invisible(TRUE)
          })
