@@ -15,8 +15,9 @@
 #' resulting `Chromatograms()` object corresponds to the number of files. Each
 #' row in the `Chromatograms()` object is supposed to contain chromatograms
 #' with same polarity, precursor and product m/z. If chromatograms with
-#' redundant polarity, precursor and product m/z values are found, they are
-#' placed into multiple consecutive rows in the `Chromatograms()` object.
+#' redundant polarity, precursor and product m/z values and precursor collision
+#' energies are found, they are placed into multiple consecutive rows in the
+#' `Chromatograms()` object.
 #'
 #' @note
 #'
@@ -27,12 +28,13 @@
 #'
 #' The number of features and hence rows of the resulting `Chromatograms`
 #' object depends on the total list of unique precursor and product m/z
-#' isolation windows found across all input files. In cases in which not each
-#' file has chromatgraphic data for the same polarity, precursor and product
-#' m/z, an empty `Chromatogram()` object is reported for the specific precursor
+#' isolation windows (and precursor collision energies) found across all input
+#' files. In cases in which not each file has chromatgraphic data for the same
+#' polarity, precursor m/z, product m/z and collision energy,
+#' an empty `Chromatogram()` object is reported for the specific precursor
 #' and product m/z combination of the respective file (and a warning is
 #' thrown).
-#' 
+#'
 #' @param files `character` with the files containing the SRM/MRM data.
 #'
 #' @param pdata `data.frame` or `AnnotatedDataFrame` with file/sample
@@ -92,13 +94,15 @@ readSRMData <- function(files, pdata = NULL) {
     ## What makes all this necessary is that mzML files can contain multiple
     ## chromatogram entries with exactly the same polarity, precursor and
     ## product m/z. We need to account for that.
-    fdata <- .combine_data.frame(hdr_list,
-                                 cols = c("polarity",
-                                          "precursorIsolationWindowTargetMZ",
-                                          "productIsolationWindowTargetMZ"))
-    fdata_ids <- paste(.polarity_char(fdata$polarity),
+    fdata <-  .combine_data.frame(hdr_list,
+                                  cols = c("polarity",
+                                           "precursorIsolationWindowTargetMZ",
+                                           "productIsolationWindowTargetMZ",
+                                           "precursorCollisionEnergy"))
+    fdata_ids <- paste0(.polarity_char(fdata$polarity),
                        " Q1=", fdata$precursorIsolationWindowTargetMZ,
-                       " Q3=", fdata$productIsolationWindowTargetMZ)
+                       " Q3=", fdata$productIsolationWindowTargetMZ,
+                       " collisionEnergy=", fdata$precursorCollisionEnergy)
     ## Process the phenoData.
     if (is.null(pdata))
         pdata <- data.frame(file = files, stringsAsFactors = FALSE)
@@ -109,14 +113,16 @@ readSRMData <- function(files, pdata = NULL) {
     if (length(files) != nrow(pdata))
         stop("'nrow(pdata)' has to match 'length(files)'")
     pdata$file <- files
-    
+
     ## Read the data.
     chrs <- unlist(mapply(
         files, hdr_list, seq_along(files),
         FUN = function(file, hdr, idx) {
-            current_ids <- paste(.polarity_char(hdr$polarity),
-                                 " Q1=", hdr$precursorIsolationWindowTargetMZ,
-                                 " Q3=", hdr$productIsolationWindowTargetMZ)
+            current_ids <- paste0(
+                .polarity_char(hdr$polarity),
+                " Q1=", hdr$precursorIsolationWindowTargetMZ,
+                " Q3=", hdr$productIsolationWindowTargetMZ,
+                " collisionEnergy=", hdr$precursorCollisionEnergy)
             ## Warn if the current file does contain redundant isolation windows
             if (length(current_ids) != length(unique(current_ids)))
                 warning("file ", basename(file), " contains multiple ",
@@ -141,7 +147,7 @@ readSRMData <- function(files, pdata = NULL) {
                     intensity = chr_data[[i]][, 2],
                     precursorMz = hdr$precursorIsolationWindowTargetMZ[i],
                     productMz = hdr$productIsolationWindowTargetMZ[i],
-                    fromFile = idx)                
+                    fromFile = idx)
             }
             res_chrs
         }), use.names = FALSE)
@@ -170,17 +176,17 @@ readSRMData <- function(files, pdata = NULL) {
 #' The ordering of a combined `data.frame` from `data.frame`s with some or
 #' all columns being `factors` might not be as expected. It is thus suggested
 #' to avoid passing `data.frame`s with `factors` to the function.
-#' 
+#'
 #' @param x
 #'
 #' @param cols `character` defining the columns that should be returned.
 #'
 #' @return `data.frame`
-#' 
+#'
 #' @noRd
 #'
 #' @md
-#' 
+#'
 #' @author Johannes Rainer, Sebastian Gibb
 #'
 #' @examples
