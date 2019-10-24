@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.13</span>
       </span>
     </div>
 
@@ -125,13 +125,13 @@
 <a class="sourceLine" id="cb4-2" data-line-number="2">                                <span class="dt">mode =</span> <span class="st">"inMemory"</span>,</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">                                <span class="dt">centroided =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   4.760   0.036   4.796</code></pre>
+##   5.084   0.068   5.146</code></pre>
 <p>Next, we use the <code>readMSData</code> function to generate an on-disk representation of the same data by setting <code>mode = "onDisk"</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(ondisk &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readMSData.html">readMSData</a></span>(f, <span class="dt">msLevel =</span> <span class="dv">2</span>,</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">                                  <span class="dt">mode =</span> <span class="st">"onDisk"</span>,</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3">                                  <span class="dt">centroided =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.280   0.040   1.321</code></pre>
+##   1.380   0.052   1.429</code></pre>
 <p>Creating the on-disk experiment is considerable faster and scales to much bigger, multi-file data, both in terms of object creation time, but also in terms of object size (see next section). We must of course make sure that these two datasets are equivalent:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(inmem, ondisk)</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
@@ -169,26 +169,26 @@ Plotting in-memory and on-disk spectra
 <a class="sourceLine" id="cb17-6" data-line-number="6">                     <span class="dt">times =</span> <span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb17-7" data-line-number="7">mb</a></code></pre></div>
 <pre><code>## Unit: microseconds
-##             expr        min         lq        mean     median         uq
-##   spectra(inmem)     77.799    197.395    253.3930    293.719    328.101
-##     inmem[[200]]     16.113     22.712     55.6397     48.351     72.623
-##  spectra(ondisk) 386913.401 389783.670 393016.4019 391472.769 394546.854
-##    ondisk[[200]] 180704.049 181436.718 182034.2436 182006.299 182362.949
+##             expr        min        lq        mean      median         uq
+##   spectra(inmem)     96.400    234.47    347.3939    390.8095    443.639
+##     inmem[[200]]     19.407     22.16     73.7581     92.5005     95.460
+##  spectra(ondisk) 392193.136 393884.52 398649.7210 397689.5560 399970.906
+##    ondisk[[200]] 186538.957 186613.42 187772.7833 186849.8285 187471.420
 ##         max neval
-##     372.170    10
-##     157.395    10
-##  402022.233    10
-##  184064.993    10</code></pre>
+##     639.665    10
+##     135.654    10
+##  408865.682    10
+##  195428.918    10</code></pre>
 <p>While it takes order or magnitudes more time to access the data on-the-fly rather than a pre-generated spectrum, accessing all spectra is only marginally slower than accessing all spectra, as most of the time is spent preparing the file for access, which is done only once.</p>
 <p>On-disk access performance will depend on the read throughput of the disk. A comparison of the data import of the above file from an internal solid state drive and from an USB3 connected hard disk showed only small differences for the <code>onDisk</code> mode (1.07 <em>vs</em> 1.36 seconds), while no difference were observed for accessing individual or all spectra. Thus, for this particular setup, performance was about the same for SSD and HDD. This might however not apply to setting in which data import is performed in parallel from multiple files.</p>
 <p>Data access does not prohibit interactive usage, such as plotting, for example, as it is about 1/2 seconds, which is an operation that is relatively rare, compared to subsetting and filtering, which are faster for on-disk data:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">i &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="kw"><a href="../reference/pSet-class.html">length</a></span>(inmem), <span class="dv">100</span>)</a>
 <a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(inmem[i])</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.092   0.000   0.093</code></pre>
+##   0.100   0.000   0.099</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(ondisk[i])</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.012   0.000   0.013</code></pre>
+##   0.016   0.000   0.014</code></pre>
 <p>Operations on the spectra data, such as peak picking, smoothing, cleaning, … are cleverly cached and only applied when the data is accessed, to minimise file access overhead. Finally, specific operations such as for example quantitation (see next section) are optimised for speed.</p>
 </div>
 <div id="ms2-quantitation" class="section level2">
@@ -198,11 +198,11 @@ Plotting in-memory and on-disk spectra
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(eim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(inmem[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>], <span class="dt">reporters =</span> TMT6,</a>
 <a class="sourceLine" id="cb23-2" data-line-number="2">                            <span class="dt">method =</span> <span class="st">"max"</span>))</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   2.728   0.056   2.786</code></pre>
+##   2.932   0.040   2.978</code></pre>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(eod &lt;-<span class="st"> </span><span class="kw"><a href="../reference/quantify-methods.html">quantify</a></span>(ondisk[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>], <span class="dt">reporters =</span> TMT6,</a>
 <a class="sourceLine" id="cb25-2" data-line-number="2">                            <span class="dt">method =</span> <span class="st">"max"</span>))</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.288   0.008   0.295</code></pre>
+##   0.296   0.020   0.316</code></pre>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(eim, eod, <span class="dt">check.attributes =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 </div>

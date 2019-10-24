@@ -67,7 +67,7 @@ returns the results as a Chromatograms() object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.13</span>
       </span>
     </div>
 
@@ -166,8 +166,9 @@ chromatograms are expected across files. The number of columns of the
 resulting <code><a href='Chromatograms-class.html'>Chromatograms()</a></code> object corresponds to the number of files. Each
 row in the <code><a href='Chromatograms-class.html'>Chromatograms()</a></code> object is supposed to contain chromatograms
 with same polarity, precursor and product m/z. If chromatograms with
-redundant polarity, precursor and product m/z values are found, they are
-placed into multiple consecutive rows in the <code><a href='Chromatograms-class.html'>Chromatograms()</a></code> object.</p>
+redundant polarity, precursor and product m/z values and precursor collision
+energies are found, they are placed into multiple consecutive rows in the
+<code><a href='Chromatograms-class.html'>Chromatograms()</a></code> object.</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
@@ -177,9 +178,10 @@ from mzML files with <code>precursorIsolationWindowTargetMZ</code> and
 hence not extracted.</p>
 <p>The number of features and hence rows of the resulting <code>Chromatograms</code>
 object depends on the total list of unique precursor and product m/z
-isolation windows found across all input files. In cases in which not each
-file has chromatgraphic data for the same polarity, precursor and product
-m/z, an empty <code><a href='Chromatogram-class.html'>Chromatogram()</a></code> object is reported for the specific precursor
+isolation windows (and precursor collision energies) found across all input
+files. In cases in which not each file has chromatgraphic data for the same
+polarity, precursor m/z, product m/z and collision energy,
+an empty <code><a href='Chromatogram-class.html'>Chromatogram()</a></code> object is reported for the specific precursor
 and product m/z combination of the respective file (and a warning is
 thrown).</p>
     
