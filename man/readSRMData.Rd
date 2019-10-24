@@ -26,8 +26,9 @@ chromatograms are expected across files. The number of columns of the
 resulting \code{Chromatograms()} object corresponds to the number of files. Each
 row in the \code{Chromatograms()} object is supposed to contain chromatograms
 with same polarity, precursor and product m/z. If chromatograms with
-redundant polarity, precursor and product m/z values are found, they are
-placed into multiple consecutive rows in the \code{Chromatograms()} object.
+redundant polarity, precursor and product m/z values and precursor collision
+energies are found, they are placed into multiple consecutive rows in the
+\code{Chromatograms()} object.
 }
 \note{
 \code{readSRMData} reads only SRM/MRM chromatogram data, i.e. chromatogram data
@@ -37,9 +38,10 @@ hence not extracted.
 
 The number of features and hence rows of the resulting \code{Chromatograms}
 object depends on the total list of unique precursor and product m/z
-isolation windows found across all input files. In cases in which not each
-file has chromatgraphic data for the same polarity, precursor and product
-m/z, an empty \code{Chromatogram()} object is reported for the specific precursor
+isolation windows (and precursor collision energies) found across all input
+files. In cases in which not each file has chromatgraphic data for the same
+polarity, precursor m/z, product m/z and collision energy,
+an empty \code{Chromatogram()} object is reported for the specific precursor
 and product m/z combination of the respective file (and a warning is
 thrown).
 }

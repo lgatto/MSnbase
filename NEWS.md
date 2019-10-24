@@ -1,5 +1,10 @@
 # MSnbase 2.11
 
+## Changes in 2.11.13
+
+- Fix bug in `readSRMData` (issue #486) which caused the function to not
+  discriminate between chromatograms with different precursor collision energy.
+
 ## Changes in 2.11.12
 
 - Fix bug in `pickPeaks`: set variable `centroided` only to `TRUE` for spectra
