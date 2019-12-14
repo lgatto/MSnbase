@@ -48,7 +48,6 @@ setGeneric("plotNA", function(object, ...) standardGeneric("plotNA"))
 
 setGeneric("writeMgfData", function(object, ...) standardGeneric("writeMgfData"))
 
-setGeneric("filterNA", function(object, ...) standardGeneric("filterNA"))
 setGeneric("filterZero", function(object, ...) standardGeneric("filterZero"))
 setGeneric("topN", function(object, ...) standardGeneric("topN"))
 
