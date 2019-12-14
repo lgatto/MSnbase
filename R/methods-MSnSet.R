@@ -395,57 +395,59 @@ getRatios <- function(x, log = FALSE) {
 setMethod("exprsToRatios",
           "MSnSet",
           function(object, log = FALSE) {
-            if (ncol(object) == 2) {
-              ifelse(log,
-                     r <- exprs(object)[, 1] - exprs(object)[, 2],
-                     r <- exprs(object)[, 1] / exprs(object)[, 2])
-              dim(r) <- c(length(r), 1)
-            } else {
-              r <- apply(exprs(object), 1, getRatios, log)
-              r <- t(r)
-            }
-            rownames(r) <- featureNames(object)
-            cmb <- combn(ncol(object), 2)
-            ratio.description <-
-                apply(cmb, 2,
-                      function(x)
-                          paste(sampleNames(object)[x[1]],
-                                sampleNames(object)[x[2]],
-                                sep = "/"))
-            phenodata <- new("AnnotatedDataFrame",
-                             data = data.frame(ratio.description))
-            processingdata <- processingData(object)
-            processingdata@processing <- c(processingdata@processing,
-                                           paste("Intensities to ratios: ",
-                                                 date(), sep = ""))
-            message("Dropping protocolData.")
-            res <- new("MSnSet",
-                       exprs = r,
-                       featureData = featureData(object),
-                       phenoData = phenodata,
-                       processingData = processingdata,
-                       experimentData = experimentData(object))
-            if (validObject(res))
-                return(res)
+              .Deprecated(msg = "`exprsToRatios` is deprecated.")
+              if (ncol(object) == 2) {
+                  ifelse(log,
+                         r <- exprs(object)[, 1] - exprs(object)[, 2],
+                         r <- exprs(object)[, 1] / exprs(object)[, 2])
+                  dim(r) <- c(length(r), 1)
+              } else {
+                  r <- apply(exprs(object), 1, getRatios, log)
+                  r <- t(r)
+              }
+              rownames(r) <- featureNames(object)
+              cmb <- combn(ncol(object), 2)
+              ratio.description <-
+                  apply(cmb, 2,
+                        function(x)
+                            paste(sampleNames(object)[x[1]],
+                                  sampleNames(object)[x[2]],
+                                  sep = "/"))
+              phenodata <- new("AnnotatedDataFrame",
+                               data = data.frame(ratio.description))
+              processingdata <- processingData(object)
+              processingdata@processing <- c(processingdata@processing,
+                                             paste("Intensities to ratios: ",
+                                                   date(), sep = ""))
+              message("Dropping protocolData.")
+              res <- new("MSnSet",
+                         exprs = r,
+                         featureData = featureData(object),
+                         phenoData = phenodata,
+                         processingData = processingdata,
+                         experimentData = experimentData(object))
+              if (validObject(res))
+                  return(res)
           })
 
 
 setMethod("exprsToRatios",
           "matrix",
           function(object, log = FALSE) {
-            if (ncol(object) == 2) {
-              ifelse(log,
-                     r <- object[, 1] - object[, 2],
-                     r <- object[, 1] / object[, 2])
-              dim(r) <- c(length(r), 1)
-            } else {
-              r <- apply(object, 1, getRatios, log)
-              r <- t(r)
-              colnames(r) <-
-                apply(combn(ncol(object), 2), 2,
-                      paste, collapse = ".")
-            }
-            r
+              .Deprecated(msg = "`exprsToRatios` is deprecated.")
+              if (ncol(object) == 2) {
+                  ifelse(log,
+                         r <- object[, 1] - object[, 2],
+                         r <- object[, 1] / object[, 2])
+                  dim(r) <- c(length(r), 1)
+              } else {
+                  r <- apply(object, 1, getRatios, log)
+                  r <- t(r)
+                  colnames(r) <-
+                      apply(combn(ncol(object), 2), 2,
+                            paste, collapse = ".")
+              }
+              r
           })
 
 setMethod("image", "MSnSet",

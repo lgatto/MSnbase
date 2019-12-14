@@ -2,7 +2,7 @@
 
 ## Changes in 2.13.1
 - Need ProtGenerics 1.19.2
-- Deprecate filterZero
+- Deprecate filterZero and exprsToRatios
 
 ## Changes in 2.13.0
 - Bioconductor 3.11 (devel)
