@@ -565,6 +565,7 @@ setMethod("filterNA", signature(object = "matrix"),
 
 setMethod("filterZero", "matrix",
           function(object, ...) {
+              .Deprecated("filterNA (after replace 0s by NAs)")
               object[object == 0] <- NA
               object <- filterNA(object, ...)
               object[is.na(object)] <- 0
@@ -595,6 +596,7 @@ setMethod("filterNA", signature(object = "MSnSet"),
 
 setMethod("filterZero", signature = "MSnSet",
           function(object, ...) {
+              .Deprecated("filterNA (after replace 0s by NAs)")
               exprs(object)[exprs(object) == 0] <- NA
               object <- filterNA(object, ...)
               ## updating processing log
