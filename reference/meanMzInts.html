@@ -8,11 +8,13 @@
 
 <title>Combine a list of spectra to a single spectrum — meanMzInts • MSnbase</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,8 +34,8 @@
 
 
 
-<meta property="og:title" content="Combine a list of spectra to a single spectrum — meanMzInts" />
 
+<meta property="og:title" content="Combine a list of spectra to a single spectrum — meanMzInts" />
 <meta property="og:description" content="Combine peaks from several spectra into a single spectrum. Intensity and
 m/z values from the input spectra are aggregated into a single peak if
 the difference between their m/z values is smaller than mzd or smaller than
@@ -42,6 +44,7 @@ fixed value, ppm allows a m/z dependent mass peak grouping. Intensity
 values of grouped mass peaks are aggregated with the intensityFun, m/z
 values by the mean, or intensity weighted mean if weighted = TRUE." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -72,7 +75,7 @@ values by the mean, or intensity weighted mean if weighted = TRUE." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.0</span>
       </span>
     </div>
 
@@ -115,7 +118,6 @@ values by the mean, or intensity weighted mean if weighted = TRUE." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -137,7 +139,6 @@ values by the mean, or intensity weighted mean if weighted = TRUE." />
     </div>
 
     <div class="ref-description">
-    
     <p>Combine peaks from several spectra into a single spectrum. Intensity and
 m/z values from the input spectra are aggregated into a single peak if
 the difference between their m/z values is smaller than <code>mzd</code> or smaller than
@@ -145,12 +146,11 @@ the difference between their m/z values is smaller than <code>mzd</code> or smal
 fixed value, <code>ppm</code> allows a m/z dependent mass peak grouping. Intensity
 values of grouped mass peaks are aggregated with the <code>intensityFun</code>, m/z
 values by the mean, or intensity weighted mean if <code>weighted = TRUE</code>.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>meanMzInts</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>intensityFun</span> <span class='kw'>=</span> <span class='kw pkg'>base</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>, <span class='kw'>weighted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>main</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='no'>mzd</span>, <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>timeDomain</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>unionPeaks</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -211,7 +211,7 @@ that are present in the <em>main</em> spectrum (defined by <code>main</code>). T
 is to report the union of peaks from all spectra.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>Spectrum</code> with m/z and intensity values representing the aggregated values
@@ -220,7 +220,6 @@ all peaks from all spectra (if <code>unionPeaks = TRUE</code>), or the same numb
 m/z and intensity pairs than the spectrum with index <code>main</code> in <code>x</code> (if
 <code>unionPeaks = FALSE</code>. All other spectrum data (such as retention time etc)
 is taken from the <em>main</em> spectrum.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>For general merging of spectra, the <code>mzd</code> and/or <code>ppm</code> should be manually
@@ -248,14 +247,12 @@ by small variations in the time circuit) will thus be different in the lower
 and upper m/z scale. m/z-intensity pairs from consecutive scans to be
 combined are therefore defined by default on the square root of the m/z
 values. With <code>timeDomain = FALSE</code>, the actual m/z values will be used.</p>
-    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>This allows e.g. to combine profile-mode spectra of consecutive scans into
 the values for the <em>main</em> spectrum. This can improve centroiding of
 profile-mode data by increasing the signal-to-noise ratio and is used in the
 <code><a href='combineSpectraMovingWindow.html'>combineSpectraMovingWindow()</a></code> function.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='estimateMzScattering.html'>estimateMzScattering()</a></code> for a function to estimate m/z scattering
@@ -265,7 +262,6 @@ a spectrum.</p>
 <p><code><a href='combineSpectraMovingWindow.html'>combineSpectraMovingWindow()</a></code> for the function to combine consecutive
 spectra of an <code>MSnExp</code> object using a moving window approach.</p>
 <p>Other spectra combination functions: <code><a href='consensusSpectrum.html'>consensusSpectrum</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -304,15 +300,10 @@ spectra of an <code>MSnExp</code> object using a moving window approach.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#note">Note</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

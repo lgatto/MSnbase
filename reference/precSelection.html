@@ -8,11 +8,13 @@
 
 <title>Number of precursor selection events — precSelection • MSnbase</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,8 +34,8 @@
 
 
 
-<meta property="og:title" content="Number of precursor selection events — precSelection" />
 
+<meta property="og:title" content="Number of precursor selection events — precSelection" />
 <meta property="og:description" content="precSelection computes the number of selection events each
   precursor ions has undergone in an tandem MS experiment. This will be
   a function of amount of peptide loaded, chromatography efficiency,
@@ -45,6 +47,7 @@
 precSelectionTable is a wrapper around precSelection and
   returns a table with the number of single, 2-fold, ... selection events." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -75,7 +78,7 @@ precSelectionTable is a wrapper around precSelection and
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.0</span>
       </span>
     </div>
 
@@ -118,7 +121,6 @@ precSelectionTable is a wrapper around precSelection and
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -140,7 +142,6 @@ precSelectionTable is a wrapper around precSelection and
     </div>
 
     <div class="ref-description">
-    
     <p><code>precSelection</code> computes the number of selection events each
   precursor ions has undergone in an tandem MS experiment. This will be
   a function of amount of peptide loaded, chromatography efficiency,
@@ -151,11 +152,10 @@ precSelectionTable is a wrapper around precSelection and
   decimals.</p>
 <p><code>precSelectionTable</code> is a wrapper around <code>precSelection</code> and
   returns a table with the number of single, 2-fold, ... selection events.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>precSelection</span>(<span class='no'>object</span>,<span class='no'>n</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -169,12 +169,11 @@ precSelectionTable is a wrapper around precSelection and
     to. Is passed to the <a href='https://rdrr.io/r/base/Round.html'>round</a> function.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A named integer in case of <code>precSelection</code> and a <code>table</code> for
   <code>precSelectionTable</code>.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>precSelection</span>(<span class='no'>itraqdata</span>)</div><div class='output co'>#&gt; 520.78326416 573.95385742 401.73919678 567.83392334 488.32687378   782.871521 
@@ -216,9 +215,7 @@ precSelectionTable is a wrapper around precSelection and
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

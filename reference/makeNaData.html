@@ -8,11 +8,13 @@
 
 <title>Create a data with missing values — makeNaData • MSnbase</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,12 +34,13 @@
 
 
 
-<meta property="og:title" content="Create a data with missing values — makeNaData" />
 
+<meta property="og:title" content="Create a data with missing values — makeNaData" />
 <meta property="og:description" content="These functions take an instance of class
 &quot;MSnSet&quot; and sets randomly selected values to
 NA." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -68,7 +71,7 @@ NA." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.0</span>
       </span>
     </div>
 
@@ -111,7 +114,6 @@ NA." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -133,11 +135,9 @@ NA." />
     </div>
 
     <div class="ref-description">
-    
     <p>These functions take an instance of class
 <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> and sets randomly selected values to
 <code>NA</code>.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>makeNaData</span>(<span class='no'>object</span>, <span class='no'>nNA</span>, <span class='no'>pNA</span>, <span class='no'>exclude</span>)
@@ -145,7 +145,7 @@ NA." />
 <span class='fu'>makeNaData2</span>(<span class='no'>object</span>, <span class='no'>nRows</span>, <span class='no'>nNAs</span>, <span class='no'>exclude</span>)
 
 <span class='fu'>whichNA</span>(<span class='no'>x</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -179,14 +179,13 @@ defining rows that should not be used to set <code>NA</code>s.</p></td>
       <td><p>A <code>matrix</code> or an instance of class <code>MSnSet</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An instance of class <code>MSnSet</code>, as <code>object</code>, but
     with the appropriate number/proportion of missing values.  The
     returned object has an additional feature meta-data columns,
     <code>nNA</code></p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>makeNaData</code> randomly selects a number <code>nNA</code> (or a
@@ -199,7 +198,6 @@ second <code>nNAs[2]</code>, ... As opposed to <code>makeNaData</code>, this
 permits to control the number of <code>NAs</code> per rows.</p>
 <p>The <code>whichNA</code> can be used to extract the indices
 of the missing values, as illustrated in the example.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Example 1</span>
@@ -210,7 +208,7 @@ of the missing values, as illustrated in the example.</p>
 #&gt; Loaded on Thu Jul 16 22:53:08 2015. 
 #&gt; Normalised to sum of intensities. 
 #&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:08 2015 
-#&gt; Set 150 values to NA Thu Oct 24 14:35:04 2019 
+#&gt; Set 150 values to NA Sat Dec 14 04:07:08 2019 
 #&gt;  MSnbase version: 1.17.12 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>dunkleyNA</span>))</div><div class='output co'>#&gt; [1] 150</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='no'>dunkleyNA</span>)$<span class='no'>nNA</span>)</div><div class='output co'>#&gt; 
 #&gt;   0   1   2   3 
 #&gt; 558 113  17   1 </div><div class='input'><span class='no'>naIdx</span> <span class='kw'>&lt;-</span> <span class='fu'>whichNA</span>(<span class='no'>dunkleyNA</span>)
@@ -223,7 +221,7 @@ of the missing values, as illustrated in the example.</p>
 #&gt; [6,]  273    1</div><div class='input'><span class='co'>## Example 2</span>
 <span class='no'>dunkleyNA</span> <span class='kw'>&lt;-</span> <span class='fu'>makeNaData</span>(<span class='no'>dunkley2006</span>, <span class='kw'>nNA</span> <span class='kw'>=</span> <span class='fl'>150</span>, <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>)
 <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>dunkleyNA</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Set 150 values to NA Thu Oct 24 14:35:04 2019
+#&gt; Set 150 values to NA Sat Dec 14 04:07:08 2019
 #&gt;   (excluding 10 features) 
 #&gt;  MSnbase version: 1.17.12 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='no'>dunkleyNA</span>)$<span class='no'>nNA</span>[<span class='fl'>1</span>:<span class='fl'>10</span>])</div><div class='output co'>#&gt; 
 #&gt;  0 
@@ -239,9 +237,9 @@ of the missing values, as illustrated in the example.</p>
 #&gt; Loaded on Thu Jul 16 22:53:08 2015. 
 #&gt; Normalised to sum of intensities. 
 #&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:08 2015 
-#&gt; Subset [689,16][100,5] Thu Oct 24 14:35:04 2019 
+#&gt; Subset [689,16][100,5] Sat Dec 14 04:07:08 2019 
 #&gt; Set (1,2,3,4,5) NAs in (10,10,10,10,10) rows,
-#&gt;   respectively Thu Oct 24 14:35:04 2019 
+#&gt;   respectively Sat Dec 14 04:07:08 2019 
 #&gt;  MSnbase version: 1.17.12 </div><div class='input'>(<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='no'>x</span>)$<span class='no'>nNA</span>))</div><div class='output co'>#&gt; 
 #&gt;  0  1  2  3  4  5 
 #&gt; 50 10 10 10 10 10 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>res</span>)[-<span class='fl'>1</span>]) <span class='kw'>==</span>  <span class='no'>na</span>)
@@ -256,9 +254,9 @@ of the missing values, as illustrated in the example.</p>
 #&gt; Loaded on Thu Jul 16 22:53:08 2015. 
 #&gt; Normalised to sum of intensities. 
 #&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:08 2015 
-#&gt; Subset [689,16][100,10] Thu Oct 24 14:35:04 2019 
+#&gt; Subset [689,16][100,10] Sat Dec 14 04:07:08 2019 
 #&gt; Set (3,8,1,4) NAs in (5,12,11,8) rows,
-#&gt;   respectively Thu Oct 24 14:35:04 2019 
+#&gt;   respectively Sat Dec 14 04:07:08 2019 
 #&gt;  MSnbase version: 1.17.12 </div><div class='input'>(<span class='no'>res2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='no'>x2</span>)$<span class='no'>nNA</span>))</div><div class='output co'>#&gt; 
 #&gt;  0  1  3  4  8 
 #&gt; 64 11  5  8 12 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>res2</span>)[-<span class='fl'>1</span>]) <span class='kw'>==</span>  <span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='no'>na2</span>))
@@ -273,9 +271,9 @@ of the missing values, as illustrated in the example.</p>
 #&gt; Loaded on Thu Jul 16 22:53:08 2015. 
 #&gt; Normalised to sum of intensities. 
 #&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:08 2015 
-#&gt; Subset [689,16][100,10] Thu Oct 24 14:35:04 2019 
+#&gt; Subset [689,16][100,10] Sat Dec 14 04:07:08 2019 
 #&gt; Set (3,8,1,3) NAs in (5,12,11,8) rows,
-#&gt;   respectively Thu Oct 24 14:35:04 2019 
+#&gt;   respectively Sat Dec 14 04:07:08 2019 
 #&gt;  MSnbase version: 1.17.12 </div><div class='input'>(<span class='no'>res3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='no'>x3</span>)$<span class='no'>nNA</span>))</div><div class='output co'>#&gt; 
 #&gt;  0  1  3  8 
 #&gt; 64 11 13 12 </div></pre>
@@ -284,11 +282,8 @@ of the missing values, as illustrated in the example.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

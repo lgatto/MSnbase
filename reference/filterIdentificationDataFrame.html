@@ -8,11 +8,13 @@
 
 <title>Filter out unreliable PSMs. — filterIdentificationDataFrame • MSnbase</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,11 +34,12 @@
 
 
 
-<meta property="og:title" content="Filter out unreliable PSMs. — filterIdentificationDataFrame" />
 
+<meta property="og:title" content="Filter out unreliable PSMs. — filterIdentificationDataFrame" />
 <meta property="og:description" content="A function to filter out PSMs matching to the decoy database, of
 rank greater than one and matching non-proteotypic peptides." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -67,7 +70,7 @@ rank greater than one and matching non-proteotypic peptides." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.0</span>
       </span>
     </div>
 
@@ -110,7 +113,6 @@ rank greater than one and matching non-proteotypic peptides." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -132,16 +134,14 @@ rank greater than one and matching non-proteotypic peptides." />
     </div>
 
     <div class="ref-description">
-    
     <p>A function to filter out PSMs matching to the decoy database, of
 rank greater than one and matching non-proteotypic peptides.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>filterIdentificationDataFrame</span>(<span class='no'>x</span>, <span class='kw'>decoy</span> <span class='kw'>=</span> <span class='st'>"isDecoy"</span>, <span class='kw'>rank</span> <span class='kw'>=</span> <span class='st'>"rank"</span>,
   <span class='kw'>accession</span> <span class='kw'>=</span> <span class='st'>"DatabaseAccess"</span>, <span class='kw'>spectrumID</span> <span class='kw'>=</span> <span class='st'>"spectrumID"</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span>())</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -179,30 +179,26 @@ column. Default is <code>spectrumID</code>.</p></td>
 <code><a href='MSnbaseOptions.html'>isMSnbaseVerbose()</a></code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A new <code>data.frame</code> with filtered out peptides and with the
 same columns as the input <code>x</code>.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The PSMs should be stored in a <code>data.frame</code> such as those produced
 by <code><a href='readMzIdData.html'>readMzIdData()</a></code>. Note that this function should be called
 before calling the <a href='reduce-data.frame-method.html'>reduce</a> method on a
 PSM <code>data.frame</code>.</p>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-          </ul>
+    </ul>
 
     <h2>Author</h2>
     <p>Laurent Gatto</p>

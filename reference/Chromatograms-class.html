@@ -8,11 +8,13 @@
 
 <title>Container for multiple Chromatogram objects — Chromatograms-class • MSnbase</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,8 +34,8 @@
 
 
 
-<meta property="og:title" content="Container for multiple Chromatogram objects — Chromatograms-class" />
 
+<meta property="og:title" content="Container for multiple Chromatogram objects — Chromatograms-class" />
 <meta property="og:description" content="The Chromatograms class allows to store
     Chromatogram objects in a matrix-like
     two-dimensional structure.
@@ -104,6 +106,7 @@ documentation for more details and examples." />
 
 
 
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -131,7 +134,7 @@ documentation for more details and examples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.0</span>
       </span>
     </div>
 
@@ -174,7 +177,6 @@ documentation for more details and examples." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -196,7 +198,6 @@ documentation for more details and examples." />
     </div>
 
     <div class="ref-description">
-    
     <p>The <code>Chromatograms</code> class allows to store
     <code><a href='Chromatogram-class.html'>Chromatogram</a></code> objects in a <code>matrix</code>-like
     two-dimensional structure.</p>
@@ -263,7 +264,6 @@ objects of one row are binned into the same bins. The function returns a
 (with <code>all = TRUE</code>) or all except those adjacent to non-zero
 intensities (<code>all = FALSE</code>; default). See <code><a href='clean-methods.html'>clean</a></code>
 documentation for more details and examples.</p>
-    
     </div>
 
     <pre class="usage">Chromatograms(data, phenoData, featureData, ...)
@@ -351,7 +351,7 @@ bin(object, binSize = 0.5,
 
 # S4 method for Chromatograms
 clean(object, all = FALSE, na.rm = FALSE)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -474,7 +474,7 @@ adjacent to peaks should be kept (<code>all = FALSE</code>; default).</p></td>
 intensities should be removed prior to clean 0 intensity data points.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>For <code>[</code>: the subset of the <code>Chromatograms</code> object. If a
@@ -489,7 +489,6 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
     the object.</p>
 <p>For <code>$</code>: the value of the corresponding column in the pheno data
     table of the object.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>Chromatograms</code> class extends the base <code>matrix</code> class
@@ -501,14 +500,12 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
 <p><code>plot</code>: if <code>nrow(x) &gt; 1</code> the plot area is split into
     <code><a href='https://rdrr.io/r/base/nrow.html'>nrow(x)</a></code> sub-plots and the chromatograms of one row are plotted in
     each.</p>
-    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Subsetting with <code>[</code> will always return a <code>Chromatograms</code>
     object (with the exception of extracting a single element)
     unless <code>drop = TRUE</code> is specified. This is different from the
     default subsetting behaviour of <code>matrix</code>-like objects.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='Chromatogram-class.html'>Chromatogram</a></code> for the class representing chromatogram
@@ -518,7 +515,6 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
     <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code> object.
     <code><a href='readSRMData.html'>readSRMData</a></code> for the function to read chromatographic data
     of an SRM/MRM experiment.</p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Creating some chromatogram objects to put them into a Chromatograms object</span>
@@ -616,15 +612,10 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#note">Note</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

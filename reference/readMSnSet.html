@@ -8,11 +8,13 @@
 
 <title>Read 'MSnSet' — readMSnSet • MSnbase</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,8 +34,8 @@
 
 
 
-<meta property="og:title" content="Read 'MSnSet' — readMSnSet" />
 
+<meta property="og:title" content="Read 'MSnSet' — readMSnSet" />
 <meta property="og:description" content="
   
 This function reads data files to generate an
@@ -48,6 +50,7 @@ Note that when using readMSnSet2, one should not set
   rownames as additional argument to defined feature names. It is
   ignored and used to set fnames if not provided otherwise." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -78,7 +81,7 @@ Note that when using readMSnSet2, one should not set
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.0</span>
       </span>
     </div>
 
@@ -121,7 +124,6 @@ Note that when using readMSnSet2, one should not set
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -144,7 +146,6 @@ Note that when using readMSnSet2, one should not set
 
     <div class="ref-description">
     
-    
   
 <p>This function reads data files to generate an
   <code><a href='MSnSet-class.html'>MSnSet</a></code> instance. It is a wrapper around
@@ -157,7 +158,6 @@ Note that when using readMSnSet2, one should not set
 <p>Note that when using <code>readMSnSet2</code>, one should not set
   <code>rownames</code> as additional argument to defined feature names. It is
   ignored and used to set <code>fnames</code> if not provided otherwise.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>readMSnSet</span>(<span class='no'>exprsFile</span>,
@@ -178,7 +178,7 @@ Note that when using readMSnSet2, one should not set
            <span class='kw'>widget</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"BioC"</span>)$<span class='no'>Base</span>$<span class='no'>use.widgets</span>, <span class='no'>...</span>)
 
 <span class='fu'>readMSnSet2</span>(<span class='no'>file</span>, <span class='no'>ecol</span>, <span class='no'>fnames</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -294,11 +294,10 @@ Note that when using readMSnSet2, one should not set
     1 indicating the column to be used as feature names.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An instance of the <code><a href='MSnSet-class.html'>MSnSet</a></code> class.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'>
@@ -307,7 +306,6 @@ Note that when using readMSnSet2, one should not set
   functions to identify the <code>ecol</code> values.  The <code>MSnbase-io</code>
   vignette illustrates these functions in detail. It can be accessed
   with <code>vignette("MSnbase-io")</code>.</p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
@@ -335,7 +333,7 @@ Note that when using readMSnSet2, one should not set
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt;  MSnbase version: 2.11.13 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>exprs</span>(<span class='no'>res</span>)) <span class='co'>## columns 5 to 20</span></div><div class='output co'>#&gt;      M1F1A    M1F4A    M1F7A   M1F11A    M1F2B    M1F5B    M1F8B   M1F11B
+#&gt;  MSnbase version: 2.13.0 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>exprs</span>(<span class='no'>res</span>)) <span class='co'>## columns 5 to 20</span></div><div class='output co'>#&gt;      M1F1A    M1F4A    M1F7A   M1F11A    M1F2B    M1F5B    M1F8B   M1F11B
 #&gt; 1 0.323250 0.275500 0.216000 0.185250 0.465667 0.199667 0.174333 0.160333
 #&gt; 2 0.332000 0.279667 0.222000 0.166000 0.451500 0.200375 0.177250 0.171125
 #&gt; 3 0.397250 0.246500 0.168250 0.188250 0.459750 0.214500 0.183250 0.142250
@@ -360,11 +358,8 @@ Note that when using readMSnSet2, one should not set
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

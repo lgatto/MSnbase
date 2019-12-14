@@ -8,11 +8,13 @@
 
 <title>Representation of chromatographic MS data — Chromatogram-class • MSnbase</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,8 +34,8 @@
 
 
 
-<meta property="og:title" content="Representation of chromatographic MS data — Chromatogram-class" />
 
+<meta property="og:title" content="Representation of chromatographic MS data — Chromatogram-class" />
 <meta property="og:description" content="The Chromatogram class is designed to store
     chromatographic MS data, i.e. pairs of retention time and intensity
     values. Instances of the class can be created with the
@@ -76,6 +78,7 @@ the binned signal." />
 
 
 
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -103,7 +106,7 @@ the binned signal." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.0</span>
       </span>
     </div>
 
@@ -146,7 +149,6 @@ the binned signal." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -168,7 +170,6 @@ the binned signal." />
     </div>
 
     <div class="ref-description">
-    
     <p>The <code>Chromatogram</code> class is designed to store
     chromatographic MS data, i.e. pairs of retention time and intensity
     values. Instances of the class can be created with the
@@ -207,7 +208,6 @@ the binned signal." />
 along the retention time axis and returns a <code>Chromatogram</code> object with
 the retention time representing the mid-point of the bins and the intensity
 the binned signal.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>Chromatogram</span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span>(), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span>(),
@@ -266,7 +266,7 @@ the binned signal.</p>
 <span class='fu'><a href='bin-methods.html'>bin</a></span>(<span class='no'>object</span>, <span class='kw'>binSize</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>floor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>object</span>))), <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>ceiling</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>object</span>))), <span class='kw'>by</span>
   <span class='kw'>=</span> <span class='no'>binSize</span>), <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>max</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -403,7 +403,7 @@ required as the function calculates the bins automatically based on
 values falling within each bin.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>mz</code>, <code>filterMz</code>, <code>precursorMz</code> and
@@ -416,7 +416,6 @@ values falling within each bin.</p></td>
     example, a <code>Chromatogram</code> for a SRM transition 273 -&gt; 153 will have
     a <code>@precursorMz = c(273, 273)</code> and a
     <code>@productMz = c(153, 153)</code>.</p>
-    
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
     
@@ -425,7 +424,6 @@ values falling within each bin.</p></td>
 <dt><code>.__classVersion__,rtime,intensity,mz,filterMz,precursorMz,productMz,fromFile,aggregationFun,msLevel</code></dt><dd><p>See corresponding parameter above.</p></dd>
 
 </dl>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='Chromatograms-class.html'>Chromatograms</a></code> for combining <code>Chromatogram</code> in
@@ -435,7 +433,6 @@ values falling within each bin.</p></td>
     object.
     <code><a href='clean-methods.html'>clean</a></code> for the method to <em>clean</em> a <code>Chromatogram</code>
     object.</p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -502,13 +499,9 @@ values falling within each bin.</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#details">Details</a></li>
-
       <li><a href="#slots">Slots</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

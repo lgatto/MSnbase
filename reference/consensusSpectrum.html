@@ -8,11 +8,13 @@
 
 <title>Combine spectra to a consensus spectrum — consensusSpectrum • MSnbase</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,12 +34,13 @@
 
 
 
-<meta property="og:title" content="Combine spectra to a consensus spectrum — consensusSpectrum" />
 
+<meta property="og:title" content="Combine spectra to a consensus spectrum — consensusSpectrum" />
 <meta property="og:description" content="consensusSpectrum takes a list of spectra and combines them to a
 consensus spectrum containing mass peaks that are present in a user
 definable proportion of spectra." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -68,7 +71,7 @@ definable proportion of spectra." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.0</span>
       </span>
     </div>
 
@@ -111,7 +114,6 @@ definable proportion of spectra." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -133,17 +135,15 @@ definable proportion of spectra." />
     </div>
 
     <div class="ref-description">
-    
     <p><code>consensusSpectrum</code> takes a list of spectra and combines them to a
 consensus spectrum containing mass peaks that are present in a user
 definable proportion of spectra.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>consensusSpectrum</span>(<span class='no'>x</span>, <span class='kw'>mzd</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>minProp</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>intensityFun</span> <span class='kw'>=</span> <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/r/stats/median.html'>median</a></span>, <span class='kw'>mzFun</span> <span class='kw'>=</span> <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/r/stats/median.html'>median</a></span>, <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>weighted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -197,7 +197,7 @@ calculated with <code>mzFun</code>.</p></td>
       <td><p>additional arguments to be passed to <code>intensityFun</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Peaks from spectra with a difference of their m/z being smaller than <code>mzd</code>
@@ -210,11 +210,9 @@ smaller than <code>ppm</code> of their m/z are grouped into the same final peak.
 <code>weighted = TRUE</code> the parameter <code>mzFun</code> is ignored and an intensity-weighted
 mean of the m/z values from the individual mass peaks is returned as the
 peak's m/z.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other spectra combination functions: <code><a href='meanMzInts.html'>meanMzInts</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>MSnbase</span>)
@@ -252,11 +250,8 @@ peak's m/z.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

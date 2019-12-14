@@ -8,11 +8,13 @@
 
 <title>Read an 'mzTab' file — readMzTabData • MSnbase</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,13 +34,14 @@
 
 
 
-<meta property="og:title" content="Read an 'mzTab' file — readMzTabData" />
 
+<meta property="og:title" content="Read an 'mzTab' file — readMzTabData" />
 <meta property="og:description" content="This function can be used to create an
 &quot;MSnSet&quot; by reading and parsing an
 mzTab file. The metadata section is always used to populate
 the MSnSet's experimentData()@other$mzTab slot." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -69,7 +72,7 @@ the MSnSet's experimentData()@other$mzTab slot." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.0</span>
       </span>
     </div>
 
@@ -112,7 +115,6 @@ the MSnSet's experimentData()@other$mzTab slot." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -134,17 +136,15 @@ the MSnSet's experimentData()@other$mzTab slot." />
     </div>
 
     <div class="ref-description">
-    
     <p>This function can be used to create an
 <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> by reading and parsing an
 <code>mzTab</code> file. The metadata section is always used to populate
 the <code>MSnSet</code>'s <code>experimentData()@other$mzTab</code> slot.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>readMzTabData</span>(<span class='no'>file</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PRT"</span>, <span class='st'>"PEP"</span>, <span class='st'>"PSM"</span>), <span class='kw'>version</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"1.0"</span>,
   <span class='st'>"0.9"</span>), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span>())</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -171,16 +171,14 @@ compatibility. See <code><a href='readMzTabData_v0.9.html'>readMzTabData_v0.9</a
       <td><p>Produce verbose output.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An instance of class <code>MSnSet</code>.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>See <code><a href='MzTab-class.html'>MzTab</a></code> and <code><a href='MSnSetList-class.html'>MSnSetList</a></code> for
 details about the inners of <code>readMzTabData</code>.</p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>testfile</span> <span class='kw'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/1_0-Proteomics-Release/PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"</span>
@@ -198,7 +196,7 @@ details about the inners of <code>readMzTabData</code>.</p></div>
 #&gt;   pubMedIds: pubmed:21398567 
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt;  MSnbase version: 2.11.13 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='no'>prot</span>))</div><div class='output co'>#&gt;            accession
+#&gt;  MSnbase version: 2.13.0 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='no'>prot</span>))</div><div class='output co'>#&gt;            accession
 #&gt; X223462890 223462890
 #&gt; X19855078   19855078
 #&gt; X21450277   21450277
@@ -287,7 +285,7 @@ details about the inners of <code>readMzTabData</code>.</p></div>
 #&gt;   pubMedIds: pubmed:21398567 
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt;  MSnbase version: 2.11.13 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='no'>psms</span>))</div><div class='output co'>#&gt;       sequence PSM_ID accession unique       database database_version
+#&gt;  MSnbase version: 2.13.0 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='no'>psms</span>))</div><div class='output co'>#&gt;       sequence PSM_ID accession unique       database database_version
 #&gt; X1661   QQVLDR   1661 223462890     NA NCBInr_2010_10  nr_101020.fasta
 #&gt; X2280   LVQYLR   2280 223462890     NA NCBInr_2010_10  nr_101020.fasta
 #&gt; X2281   LVQYLR   2281 223462890     NA NCBInr_2010_10  nr_101020.fasta
@@ -320,11 +318,8 @@ details about the inners of <code>readMzTabData</code>.</p></div>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

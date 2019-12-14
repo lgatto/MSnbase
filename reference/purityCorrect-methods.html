@@ -8,11 +8,13 @@
 
 <title>Performs reporter ions purity correction — purityCorrect-methods • MSnbase</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,8 +34,8 @@
 
 
 
-<meta property="og:title" content="Performs reporter ions purity correction — purityCorrect-methods" />
 
+<meta property="og:title" content="Performs reporter ions purity correction — purityCorrect-methods" />
 <meta property="og:description" content="Manufacturers sometimes provide purity correction values indicating
   the percentages of each reporter ion that have masses differing by
   +/- n Da from the nominal reporter ion mass due to isotopic
@@ -67,6 +69,7 @@ Function makeImpuritiesMatrix(x, filename, edit = TRUE) helps
 
 
 
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -94,7 +97,7 @@ Function makeImpuritiesMatrix(x, filename, edit = TRUE) helps
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.11.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.0</span>
       </span>
     </div>
 
@@ -137,7 +140,6 @@ Function makeImpuritiesMatrix(x, filename, edit = TRUE) helps
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -159,7 +161,6 @@ Function makeImpuritiesMatrix(x, filename, edit = TRUE) helps
     </div>
 
     <div class="ref-description">
-    
     <p>Manufacturers sometimes provide purity correction values indicating
   the percentages of each reporter ion that have masses differing by
   +/- n Da from the nominal reporter ion mass due to isotopic
@@ -189,10 +190,9 @@ Function makeImpuritiesMatrix(x, filename, edit = TRUE) helps
     "PurityCorrection", full.names = TRUE)</a></code> to locate them.
   If <code>edit = TRUE</code>, the the matrix can be edited before
   it is returned.</p>
-    
     </div>
 
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -309,7 +309,7 @@ Function makeImpuritiesMatrix(x, filename, edit = TRUE) helps
 <p></p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     <p></p><dl class='dl-horizontal'>
@@ -317,7 +317,6 @@ Function makeImpuritiesMatrix(x, filename, edit = TRUE) helps
   
 </dl>
 
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## quantifying full experiment</span>
@@ -345,7 +344,7 @@ Function makeImpuritiesMatrix(x, filename, edit = TRUE) helps
 #&gt; X14  6809.7600  6090.7894  6799.5030  6636.1450</div><div class='input'><span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>msnset.crct</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#&gt; Purity corrected: Thu Oct 24 14:35:27 2019 
+#&gt; Purity corrected: Sat Dec 14 04:07:24 2019 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
 <span class='co'>## default impurity matrix for iTRAQ 8-plex</span>
 <span class='fu'>makeImpuritiesMatrix</span>(<span class='fl'>8</span>, <span class='kw'>edit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;                  113   114   115   116   117   118   119   121
@@ -374,9 +373,7 @@ Function makeImpuritiesMatrix(x, filename, edit = TRUE) helps
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#methods">Methods</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
