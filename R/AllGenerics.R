@@ -52,7 +52,6 @@ setGeneric("filterZero", function(object, ...) standardGeneric("filterZero"))
 setGeneric("topN", function(object, ...) standardGeneric("topN"))
 
 setGeneric("exprsToRatios", function(object, ...) standardGeneric("exprsToRatios"))
-setGeneric("impute", function(object, ...) standardGeneric("impute"))
 
 ## identification
 setGeneric("addIdentificationData", function(object, id, ...) standardGeneric("addIdentificationData"))

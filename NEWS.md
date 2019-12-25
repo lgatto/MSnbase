@@ -1,5 +1,8 @@
 # MSnbase 2.13
 
+## Changes in 2.13.2
+- Need ProtGenerics 1.19.3 for impute generic
+
 ## Changes in 2.13.1
 - Need ProtGenerics 1.19.2
 - Deprecate filterZero and exprsToRatios

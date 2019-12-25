@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for Mass Spectrometry and Proteomics
-Version: 2.13.1
+Version: 2.13.2
 Description: MSnbase provides infrastructure for manipulation,
 	     processing and visualisation of mass spectrometry and
 	     proteomics data, ranging from raw to quantitative and
@@ -59,13 +59,13 @@ Author: Laurent Gatto, Johannes Rainer and Sebastian Gibb with
     Clement.
 Maintainer: Laurent Gatto <laurent.gatto@uclouvain.be>
 Depends:
-    R (>= 3.1),
+    R (>= 3.5),
     methods,
     BiocGenerics (>= 0.7.1),
     Biobase (>= 2.15.2),
     mzR (>= 2.19.6),
     S4Vectors,
-    ProtGenerics (>= 1.19.2)
+    ProtGenerics (>= 1.19.3)
 Imports:
     BiocParallel,
     IRanges (>= 2.13.28),
