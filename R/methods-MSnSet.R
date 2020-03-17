@@ -395,7 +395,7 @@ getRatios <- function(x, log = FALSE) {
 setMethod("exprsToRatios",
           "MSnSet",
           function(object, log = FALSE) {
-              .Deprecated(msg = "`exprsToRatios` is deprecated.")
+              .Defunct()
               if (ncol(object) == 2) {
                   ifelse(log,
                          r <- exprs(object)[, 1] - exprs(object)[, 2],
