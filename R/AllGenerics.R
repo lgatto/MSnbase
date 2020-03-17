@@ -51,8 +51,6 @@ setGeneric("writeMgfData", function(object, ...) standardGeneric("writeMgfData")
 setGeneric("filterZero", function(object, ...) standardGeneric("filterZero"))
 setGeneric("topN", function(object, ...) standardGeneric("topN"))
 
-setGeneric("exprsToRatios", function(object, ...) standardGeneric("exprsToRatios"))
-
 ## identification
 setGeneric("addIdentificationData", function(object, id, ...) standardGeneric("addIdentificationData"))
 setGeneric("idSummary", function(object, ...) standardGeneric("idSummary"))

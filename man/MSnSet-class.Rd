@@ -358,12 +358,6 @@
       \code{\link{droplevels}} for details.
     }
 
-    \item{exprsToRatios}{\code{signature(object = "MSnSet", log =
-	"logical")}}{calculates all possible ratios between
-      \code{object}'s columns/samples.
-      See \code{\link{exprsToRatios}} for more details.
-    }
-
     \item{impute}{\code{signature(object = "MSnSet", ...)}}{
       Performs data imputation on the \code{MSnSet} object.
       See \code{\link{impute}} for more details.
