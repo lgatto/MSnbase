@@ -1,7 +1,10 @@
 # MSnbase 2.13
 
+## Changes in 2.13.4
+- Bump version for Bioc propagation.
+
 ## Changes in 2.13.3
-- `exprsToRatios` is not defunct.
+- `exprsToRatios` is now defunct.
 
 ## Changes in 2.13.2
 - Need ProtGenerics 1.19.3 for impute generic
