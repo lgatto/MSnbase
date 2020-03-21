@@ -18,7 +18,6 @@ readOnDiskMSData <- function(files, pdata, msLevel., verbose,
     filenams <- filenums <- c()
     fullhd2 <- fullhdorder <- c()
     fullhdordercounter <- 1
-    .instrumentInfo <- vector("list", 1)    
     ## List eventual limitations
     if (isCdfFile(files)) {
         message("Polarity can not be extracted from netCDF files, please set ",
@@ -34,7 +33,6 @@ readOnDiskMSData <- function(files, pdata, msLevel., verbose,
         filenams <- c(filenams, f)
         ## issue #214: define backend based on file format.
         msdata <- .openMSfile(f)
-        .instrumentInfo <- c(.instrumentInfo, list(instrumentInfo(msdata)))
         fullhd <- mzR::header(msdata)
         spidx <- seq_len(nrow(fullhd))
         if (verbose)
@@ -117,25 +115,12 @@ readOnDiskMSData <- function(files, pdata, msLevel., verbose,
     } else fdata <- new("AnnotatedDataFrame")
 
     ## expriment data slot
-    if (length(.instrumentInfo) > 1) {
-        cmp <- length(unique(sapply(.instrumentInfo, "[[", 1)))
-        if (cmp > 1 & verbose)
-            message("According to the instrument information in the files,\n",
-                    "the data has been acquired on different instruments!")
-        for (nm in names(.instrumentInfo[[1]]))
-            .instrumentInfo[[1]][[nm]] <- sapply(.instrumentInfo, "[[", nm)
-    }
-    .instrumentInfo[[1]] <- list(manufacturer = "none",
-                                 model = "none", 
-                                 ionisation = "none",
-                                 analyzer = "none", 
-                                 detector = "none")
     expdata <- new("MIAPE",
-                   instrumentManufacturer = .instrumentInfo[[1]]$manufacturer,
-                   instrumentModel = .instrumentInfo[[1]]$model,
-                   ionSource = .instrumentInfo[[1]]$ionisation,
-                   analyser = as.character(.instrumentInfo[[1]]$analyzer),
-                   detectorType = .instrumentInfo[[1]]$detector)
+                   instrumentManufacturer = NA_character_,
+                   instrumentModel = NA_character_,
+                   ionSource = NA_character_,
+                   analyser = NA_character_,
+                   detectorType = NA_character_)
     ## Create ProcessingStep if needed.
     ## Create the OnDiskMSnExp object.
     res <- new("OnDiskMSnExp",
