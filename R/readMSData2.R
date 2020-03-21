@@ -18,7 +18,7 @@ readOnDiskMSData <- function(files, pdata, msLevel., verbose,
     filenams <- filenums <- c()
     fullhd2 <- fullhdorder <- c()
     fullhdordercounter <- 1
-    .instrumentInfo <- list()
+    .instrumentInfo <- vector("list", 1)    
     ## List eventual limitations
     if (isCdfFile(files)) {
         message("Polarity can not be extracted from netCDF files, please set ",
@@ -125,6 +125,11 @@ readOnDiskMSData <- function(files, pdata, msLevel., verbose,
         for (nm in names(.instrumentInfo[[1]]))
             .instrumentInfo[[1]][[nm]] <- sapply(.instrumentInfo, "[[", nm)
     }
+    .instrumentInfo[[1]] <- list(manufacturer = "none",
+                                 model = "none", 
+                                 ionisation = "none",
+                                 analyzer = "none", 
+                                 detector = "none")
     expdata <- new("MIAPE",
                    instrumentManufacturer = .instrumentInfo[[1]]$manufacturer,
                    instrumentModel = .instrumentInfo[[1]]$model,
