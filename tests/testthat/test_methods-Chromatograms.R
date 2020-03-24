@@ -235,7 +235,7 @@ test_that("phenoData,pData,pData<-,Chromatograms works", {
     expect_equal(colnames(chrs), rownames(pd_2))
 
     ## $
-    expect_equal(chrs$name, factor(letters[1:2]))
+    expect_equal(chrs$name, letters[1:2])
     expect_equal(chrs$idx, 1:2)
 
     chrs$idx <- c(2, 1)

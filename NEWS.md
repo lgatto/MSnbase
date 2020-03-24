@@ -1,7 +1,8 @@
 # MSnbase 2.13
 
 ## Changes in 2.13.4
-- Bump version for Bioc propagation.
+- Fix failing unit test: in R 4.0, data.frames not don't cast strings
+  to factors anymore <2020-03-24 Tue>
 
 ## Changes in 2.13.3
 - `exprsToRatios` is now defunct.
