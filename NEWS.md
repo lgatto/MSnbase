@@ -1,5 +1,8 @@
 # MSnbase 2.13
 
+## Changes in 2.13.5
+- Nothing yet
+
 ## Changes in 2.13.4
 - Fix failing unit test: in R 4.0, data.frames not don't cast strings
   to factors anymore <2020-03-24 Tue>
