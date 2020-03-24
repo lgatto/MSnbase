@@ -134,7 +134,7 @@ documentation for more details and examples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.4</span>
       </span>
     </div>
 
@@ -418,14 +418,14 @@ vector of length 1 or equal to <code><a href='https://rdrr.io/r/base/nrow.html'>
     </tr>
     <tr>
       <th>lty</th>
-      <td><p>For <code>plot</code>: the line type (see <code><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></code>
+      <td><p>For <code>plot</code>: the line type (see <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></code>
 for more details. Can be either a vector of length 1 or of length equal
 to <code><a href='https://rdrr.io/r/base/nrow.html'>ncol(x)</a></code>.</p></td>
     </tr>
     <tr>
       <th>type</th>
       <td><p>For <code>plot</code>: the type of plot (see
-<code><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></code> for more details. Can be either a vector
+<code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></code> for more details. Can be either a vector
 of length 1 or of length equal to <code><a href='https://rdrr.io/r/base/nrow.html'>ncol(x)</a></code>.</p></td>
     </tr>
     <tr>
@@ -583,8 +583,7 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
 #&gt; phenoData with 2 variables
 #&gt; featureData with 0 variables</div><div class='input'>
 <span class='co'>## Access a column within the pheno data</span>
-<span class='no'>chrs</span>$<span class='no'>name</span></div><div class='output co'>#&gt; [1] first sample  second sample
-#&gt; Levels: first sample second sample</div><div class='input'>
+<span class='no'>chrs</span>$<span class='no'>name</span></div><div class='output co'>#&gt; [1] "first sample"  "second sample"</div><div class='input'>
 <span class='co'>## Access the m/z ratio for each row; this will be NA for the present</span>
 <span class='co'>## object</span>
 <span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>chrs</span>)</div><div class='output co'>#&gt;      mzmin mzmax

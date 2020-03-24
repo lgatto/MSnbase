@@ -72,7 +72,7 @@ row/observation." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.4</span>
       </span>
     </div>
 
@@ -193,14 +193,14 @@ value is present) as soon as one observation of transformed.</p>
 #&gt; 2   2 z   C</div><div class='input'><span class='co'>## A is converted to chr; B remains factor</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>dfr3</span>)</div><div class='output co'>#&gt; 'data.frame':	2 obs. of  3 variables:
 #&gt;  $ A: chr  "1;1" "2"
-#&gt;  $ B: Factor w/ 2 levels "x","z": 1 2
+#&gt;  $ B: chr  "x" "z"
 #&gt;  $ C: chr  "A;B" "C"</div><div class='input'><span class='no'>dfr4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>A</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>,
                    <span class='kw'>B</span> <span class='kw'>=</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>3</span>],
                    <span class='kw'>C</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>TRUE</span>, <span class='fl'>FALSE</span>, <span class='fl'>NA</span>))
 <span class='co'>## No effect of reducing, column classes are maintained</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='fu'>reduce</span>(<span class='no'>dfr4</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"B"</span>))</div><div class='output co'>#&gt; 'data.frame':	3 obs. of  3 variables:
 #&gt;  $ A: int  1 2 3
-#&gt;  $ B: Factor w/ 3 levels "A","B","C": 1 2 3
+#&gt;  $ B: chr  "A" "B" "C"
 #&gt;  $ C: logi  TRUE FALSE NA</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

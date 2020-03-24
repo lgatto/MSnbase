@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.4</span>
       </span>
     </div>
 
@@ -263,8 +263,8 @@
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Quantitation data loaded: Sat Dec 14 04:30:41 2019  using readMSnSet. 
-##  MSnbase version: 2.13.1</code></pre>
+## Quantitation data loaded: Tue Mar 24 12:11:12 2020  using readMSnSet. 
+##  MSnbase version: 2.13.4</code></pre>
 <div id="the-msnset-class" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-msnset-class" class="anchor"></a>The <code>MSnSet</code> class</h3>
@@ -305,7 +305,7 @@
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-##  MSnbase version: 2.13.1</code></pre>
+##  MSnbase version: 2.13.4</code></pre>
 <p>The <code>ecol</code> columns can also be queried interactively from R using the <code>getEcols</code> and <code>grepEcols</code> function. The former return a character with all column names, given a splitting character, i.e. the separation value of the spreadsheet (typically <code>","</code> for <code>csv</code>, <code>"\t"</code> for <code>tsv</code>, …). The latter can be used to grep a pattern of interest to obtain the relevant column indices.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="../reference/grepEcols.html">getEcols</a></span>(f0, <span class="st">","</span>)</a></code></pre></div>
 <pre><code>##  [1] "\"Protein ID\""              "\"FBgn\""                   
@@ -332,7 +332,7 @@
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-##  MSnbase version: 2.13.1</code></pre>
+##  MSnbase version: 2.13.4</code></pre>
 <p>The <code>phenoData</code> slot can now be updated accordingly using the replacement functions <code>phenoData&lt;-</code> or <code>pData&lt;-</code> (see <code><a href="../reference/MSnSet-class.html">?MSnSet</a></code> for details).</p>
 </div>
 </div>
@@ -340,7 +340,7 @@
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</a></code></pre></div>
-<pre><code>## R Under development (unstable) (2019-12-13 r77566)
+<pre><code>## R Under development (unstable) (2020-03-13 r77948)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
@@ -361,31 +361,31 @@
 ## [8] methods   base     
 ## 
 ## other attached packages:
-## [1] pRolocdata_1.25.0   MSnbase_2.13.1      ProtGenerics_1.19.2
-## [4] S4Vectors_0.25.6    mzR_2.21.0          Rcpp_1.0.3         
-## [7] Biobase_2.47.1      BiocGenerics_0.33.0 BiocStyle_2.15.2   
+## [1] pRolocdata_1.25.2   MSnbase_2.13.4      ProtGenerics_1.19.3
+## [4] S4Vectors_0.25.13   mzR_2.21.1          Rcpp_1.0.4         
+## [7] Biobase_2.47.3      BiocGenerics_0.33.2 BiocStyle_2.15.6   
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] tidyselect_0.2.5      xfun_0.11             purrr_0.3.3          
-##  [4] lattice_0.20-38       colorspace_1.4-1      htmltools_0.4.0      
-##  [7] yaml_2.2.0            vsn_3.55.0            XML_3.98-1.20        
-## [10] rlang_0.4.2           pkgdown_1.4.1         pillar_1.4.2         
-## [13] glue_1.3.1            BiocParallel_1.21.0   affy_1.65.1          
-## [16] foreach_1.4.7         affyio_1.57.0         lifecycle_0.1.0      
-## [19] plyr_1.8.5            mzID_1.25.0           zlibbioc_1.33.0      
+##  [1] tidyselect_1.0.0      xfun_0.12             purrr_0.3.3          
+##  [4] lattice_0.20-40       colorspace_1.4-1      htmltools_0.4.0      
+##  [7] yaml_2.2.1            vsn_3.55.0            XML_3.99-0.3         
+## [10] rlang_0.4.5           pkgdown_1.4.1         pillar_1.4.3         
+## [13] glue_1.3.2            BiocParallel_1.21.2   affy_1.65.1          
+## [16] foreach_1.4.8         affyio_1.57.0         lifecycle_0.2.0      
+## [19] plyr_1.8.6            mzID_1.25.0           zlibbioc_1.33.1      
 ## [22] stringr_1.4.0         munsell_0.5.0         pcaMethods_1.79.1    
 ## [25] gtable_0.3.0          codetools_0.2-16      memoise_1.1.0        
-## [28] evaluate_0.14         knitr_1.26            IRanges_2.21.2       
-## [31] doParallel_1.0.15     preprocessCore_1.49.0 scales_1.1.0         
-## [34] backports_1.1.5       BiocManager_1.30.10   limma_3.43.0         
-## [37] desc_1.2.0            fs_1.3.1              impute_1.61.0        
-## [40] ggplot2_3.2.1         digest_0.6.23         stringi_1.4.3        
-## [43] bookdown_0.16         dplyr_0.8.3           ncdf4_1.17           
+## [28] evaluate_0.14         knitr_1.28            IRanges_2.21.5       
+## [31] doParallel_1.0.15     preprocessCore_1.49.2 scales_1.1.0         
+## [34] backports_1.1.5       BiocManager_1.30.10   limma_3.43.5         
+## [37] desc_1.2.0            fs_1.3.2              impute_1.61.0        
+## [40] ggplot2_3.3.0         digest_0.6.25         stringi_1.4.6        
+## [43] bookdown_0.18         dplyr_0.8.5           ncdf4_1.17           
 ## [46] grid_4.0.0            rprojroot_1.3-2       tools_4.0.0          
-## [49] magrittr_1.5          lazyeval_0.2.2        tibble_2.1.3         
-## [52] crayon_1.3.4          pkgconfig_2.0.3       MASS_7.3-51.4        
-## [55] iterators_1.0.12      assertthat_0.2.1      rmarkdown_2.0        
-## [58] R6_2.4.1              MALDIquant_1.19.3     compiler_4.0.0</code></pre>
+## [49] magrittr_1.5          tibble_2.1.3          crayon_1.3.4         
+## [52] pkgconfig_2.0.3       MASS_7.3-51.5         iterators_1.0.12     
+## [55] assertthat_0.2.1      rmarkdown_2.1         R6_2.4.1             
+## [58] MALDIquant_1.19.3     compiler_4.0.0</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
