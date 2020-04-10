@@ -351,6 +351,8 @@ setClass("MSnSet",
                        Peptides = "data.frame",
                        PSMs = "data.frame",
                        SmallMolecules = "data.frame",
+                       MoleculeFeatures = "data.frame",
+                       MoleculeEvidence = "data.frame",                       
                        Comments = "character"))
 
 ##################################################################

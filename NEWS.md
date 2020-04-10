@@ -2,6 +2,7 @@
 
 ## Changes in 2.13.5
 - Nothing yet
+- Support reading of MzTab-M 2.0 format
 
 ## Changes in 2.13.4
 - Fix failing unit test: in R 4.0, data.frames not don't cast strings

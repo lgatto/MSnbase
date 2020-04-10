@@ -44,6 +44,8 @@ setMethod("psms", "MzTab",
           function(object, ...) object@PSMs)
 
 smallMolecules <- function(x) x@SmallMolecules
+moleculeFeatures <- function(x) x@MoleculeFeatures
+moleculeEvidence <- function(x) x@MoleculeEvidence
 
 comments <- function(x) x@Comments
 
@@ -76,14 +78,15 @@ MzTab <- function(file) {
     ## metadata afterwards
     res <- setNames(
         lapply(
-            linesByType[c("MT", "PR", "PE", "PS", "SM")],
+            linesByType[c("MT", "PR", "PE", "PS", "SM", "SF", "SE")],
             function(x) {
                 if (length(x) == 0) return(data.frame())
                 return(read.delim(text = x,
                                   na.strings = c("", "null"),
                                   stringsAsFactors = FALSE)[,-1])
             }),
-        c("Metadata", "Proteins", "Peptides", "PSMs", "SmallMolecules"))
+        c("Metadata", "Proteins", "Peptides", "PSMs", "SmallMolecules",
+          "MoleculeFeatures", "MoleculeEvidence"))
     
     res[["Metadata"]] <- reshapeMetadata(res[["Metadata"]])
 
@@ -93,6 +96,8 @@ MzTab <- function(file) {
            Peptides = res[["Peptides"]],
            PSMs = res[["PSMs"]],
            SmallMolecules = res[["SmallMolecules"]],
+           MoleculeFeatures = res[["MoleculeFeatures"]],
+           MoleculeEvidence = res[["MoleculeEvidence"]],
            Comments = comments)
 
 }
