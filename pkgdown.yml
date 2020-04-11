@@ -1,5 +1,5 @@
 pandoc: '2.2'
-pkgdown: 1.4.1
+pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
   v01-MSnbase-demo: v01-MSnbase-demo.html
@@ -7,4 +7,5 @@ articles:
   v03-MSnbase-centroiding: v03-MSnbase-centroiding.html
   v04-benchmarking: v04-benchmarking.html
   v05-MSnbase-development: v05-MSnbase-development.html
+last_built: 2020-04-11T17:22Z
 

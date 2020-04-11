@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -44,7 +48,6 @@ The Features of Interest infrastructure allows to define a set
   of features is stored as an FeaturesOfInterest object and a
   collection of such non-redundant instances (for example for a specific
   organism, project, ...) can be collected in a FoICollection." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -62,7 +65,7 @@ The Features of Interest infrastructure allows to define a set
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -120,7 +123,12 @@ The Features of Interest infrastructure allows to define a set
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/lgatto/MSnbase/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -184,7 +192,7 @@ The Features of Interest infrastructure allows to define a set
     
 
 <p><code>FeaturesOfInterest</code> class:</p>
-<p></p><dl class='dl-horizontal'>
+<p></p><dl'>
 
     <dt><code>description</code>:</dt><dd><p>Object of class <code>"character"</code>
       describing the instance.</p></dd>
@@ -207,7 +215,7 @@ The Features of Interest infrastructure allows to define a set
 </dl>
 
 <p><code>FoICollection</code> class:</p>
-<p></p><dl class='dl-horizontal'>
+<p></p><dl'>
 
     <dt><code>foic</code>:</dt><dd><p>Object of class <code>"list"</code> with the
       <code>FeaturesOfInterest</code>.</p></dd>
@@ -225,7 +233,7 @@ The Features of Interest infrastructure allows to define a set
     <p>Class <code>"Versioned"</code>, directly.</p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
-    <p><code>FeaturesOfInterest</code> class:</p><dl class='dl-horizontal'>
+    <p><code>FeaturesOfInterest</code> class:</p><dl'>
 
     <dt>description</dt><dd><p><code>signature(object = "FeaturesOfInterest")</code>:
       returns the description of <code>object</code>.</p></dd>
@@ -256,7 +264,7 @@ The Features of Interest infrastructure allows to define a set
 </dl>
 
 <p><code>FoICollection</code> class:</p>
-<p></p><dl class='dl-horizontal'>
+<p></p><dl'>
 
     <dt>description</dt><dd><p><code>signature(object = "FoICollection")</code>:
       returns the description of <code>object</code>.</p></dd>
@@ -296,7 +304,7 @@ The Features of Interest infrastructure allows to define a set
                         <span class='kw'>fnames</span> <span class='kw'>=</span> <span class='fu'>featureNames</span>(<span class='no'>tan2009r1</span>)[<span class='fl'>1</span>:<span class='fl'>10</span>],
                         <span class='kw'>object</span> <span class='kw'>=</span> <span class='no'>tan2009r1</span>)
 <span class='no'>x</span></div><div class='output co'>#&gt; Traceable object of class "FeaturesOfInterest"
-#&gt;  Created on Tue Mar 24 12:12:43 2020 
+#&gt;  Created on Sat Apr 11 17:22:42 2020 
 #&gt;  Description:
 #&gt;   A traceable test set of features of interest
 #&gt;  10 features of interest:
@@ -306,7 +314,7 @@ The Features of Interest infrastructure allows to define a set
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>FeaturesOfInterest</span>(<span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Non-traceable features of interest"</span>,
                         <span class='kw'>fnames</span> <span class='kw'>=</span> <span class='fu'>featureNames</span>(<span class='no'>tan2009r1</span>)[<span class='fl'>111</span>:<span class='fl'>113</span>])
 <span class='no'>y</span></div><div class='output co'>#&gt; Object of class "FeaturesOfInterest"
-#&gt;  Created on Tue Mar 24 12:12:43 2020 
+#&gt;  Created on Sat Apr 11 17:22:42 2020 
 #&gt;  Description:
 #&gt;   Non-traceable features of interest
 #&gt;  3 features of interest:
@@ -320,7 +328,7 @@ The Features of Interest infrastructure allows to define a set
 
 <span class='fu'>FeaturesOfInterest</span>(<span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"This work, but not traceable"</span>,
                        <span class='kw'>fnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"Z"</span>, <span class='fu'>featureNames</span>(<span class='no'>tan2009r1</span>)))</div><div class='output co'>#&gt; Object of class "FeaturesOfInterest"
-#&gt;  Created on Tue Mar 24 12:12:43 2020 
+#&gt;  Created on Sat Apr 11 17:22:42 2020 
 #&gt;  Description:
 #&gt;   This work, but not traceable
 #&gt;  890 features of interest:
@@ -335,12 +343,12 @@ The Features of Interest infrastructure allows to define a set
 <span class='no'>xx</span></div><div class='output co'>#&gt; A collection of 2 features of interest.</div><div class='input'>
 <span class='co'>## Sub-setting</span>
 <span class='no'>xx</span>[<span class='fl'>1</span>]</div><div class='output co'>#&gt; A collection of 1 features of interest.</div><div class='input'><span class='no'>xx</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt; Traceable object of class "FeaturesOfInterest"
-#&gt;  Created on Tue Mar 24 12:12:43 2020 
+#&gt;  Created on Sat Apr 11 17:22:42 2020 
 #&gt;  Description:
 #&gt;   A traceable test set of features of interest
 #&gt;  10 features of interest:
 #&gt;    P20353, P53501  ...  Q9VCK0, Q9VIU7</div><div class='input'><span class='no'>xx</span><span class='kw'>[[</span><span class='st'>"A"</span>]]</div><div class='output co'>#&gt; Traceable object of class "FeaturesOfInterest"
-#&gt;  Created on Tue Mar 24 12:12:43 2020 
+#&gt;  Created on Sat Apr 11 17:22:42 2020 
 #&gt;  Description:
 #&gt;   A traceable test set of features of interest
 #&gt;  10 features of interest:
@@ -350,7 +358,7 @@ The Features of Interest infrastructure allows to define a set
 #&gt;                                              B 
 #&gt;           "Non-traceable features of interest" </div><div class='input'><span class='fu'>foi</span>(<span class='no'>xx</span>)</div><div class='output co'>#&gt; $A
 #&gt; Traceable object of class "FeaturesOfInterest"
-#&gt;  Created on Tue Mar 24 12:12:43 2020 
+#&gt;  Created on Sat Apr 11 17:22:42 2020 
 #&gt;  Description:
 #&gt;   A traceable test set of features of interest
 #&gt;  10 features of interest:
@@ -358,7 +366,7 @@ The Features of Interest infrastructure allows to define a set
 #&gt; 
 #&gt; $B
 #&gt; Object of class "FeaturesOfInterest"
-#&gt;  Created on Tue Mar 24 12:12:43 2020 
+#&gt;  Created on Sat Apr 11 17:22:42 2020 
 #&gt;  Description:
 #&gt;   Non-traceable features of interest
 #&gt;  3 features of interest:
@@ -368,18 +376,10 @@ The Features of Interest infrastructure allows to define a set
 <span class='fu'>rmFeaturesOfInterest</span>(<span class='no'>xx</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; A collection of 1 features of interest.</div><div class='input'>
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#objects-from-the-class">Objects from the Class</a></li>
-      <li><a href="#slots">Slots</a></li>
-      <li><a href="#extends">Extends</a></li>
-      <li><a href="#methods">Methods</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Laurent Gatto &lt;lg390@cam.ac.uk&gt;</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -390,7 +390,7 @@ The Features of Interest infrastructure allows to define a set
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
