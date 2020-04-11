@@ -4,8 +4,13 @@
 \alias{naplot}
 \title{Overview of missing value}
 \usage{
-naplot(object, verbose = isMSnbaseVerbose(), reorderRows = TRUE,
-  reorderColumns = TRUE, ...)
+naplot(
+  object,
+  verbose = isMSnbaseVerbose(),
+  reorderRows = TRUE,
+  reorderColumns = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{An object of class \code{MSnSet}.}

@@ -6,9 +6,16 @@
 \title{Imports mass-spectrometry raw data files as 'MSnExp'
 instances.}
 \usage{
-readMSData(files, pdata = NULL, msLevel. = NULL,
-  verbose = isMSnbaseVerbose(), centroided. = NA, smoothed. = NA,
-  cache. = 1L, mode = c("inMemory", "onDisk"))
+readMSData(
+  files,
+  pdata = NULL,
+  msLevel. = NULL,
+  verbose = isMSnbaseVerbose(),
+  centroided. = NA,
+  smoothed. = NA,
+  cache. = 1L,
+  mode = c("inMemory", "onDisk")
+)
 }
 \arguments{
 \item{files}{A \code{character} with file names to be read and parsed.}

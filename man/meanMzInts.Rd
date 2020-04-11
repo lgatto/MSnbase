@@ -4,8 +4,17 @@
 \alias{meanMzInts}
 \title{Combine a list of spectra to a single spectrum}
 \usage{
-meanMzInts(x, ..., intensityFun = base::mean, weighted = FALSE,
-  main = 1L, mzd, ppm = 0, timeDomain = FALSE, unionPeaks = TRUE)
+meanMzInts(
+  x,
+  ...,
+  intensityFun = base::mean,
+  weighted = FALSE,
+  main = 1L,
+  mzd,
+  ppm = 0,
+  timeDomain = FALSE,
+  unionPeaks = TRUE
+)
 }
 \arguments{
 \item{x}{\code{list} of \code{Spectrum} objects.}
@@ -141,7 +150,8 @@ a spectrum.
 \code{\link[=combineSpectraMovingWindow]{combineSpectraMovingWindow()}} for the function to combine consecutive
 spectra of an \code{MSnExp} object using a moving window approach.
 
-Other spectra combination functions: \code{\link{consensusSpectrum}}
+Other spectra combination functions: 
+\code{\link{consensusSpectrum}()}
 }
 \author{
 Johannes Rainer, Sigurdur Smarason

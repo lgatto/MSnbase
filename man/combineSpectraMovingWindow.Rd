@@ -4,9 +4,15 @@
 \alias{combineSpectraMovingWindow}
 \title{Combine signal from consecutive spectra of LCMS experiments}
 \usage{
-combineSpectraMovingWindow(x, halfWindowSize = 1L,
-  intensityFun = base::mean, mzd = NULL, timeDomain = FALSE,
-  weighted = FALSE, BPPARAM = bpparam())
+combineSpectraMovingWindow(
+  x,
+  halfWindowSize = 1L,
+  intensityFun = base::mean,
+  mzd = NULL,
+  timeDomain = FALSE,
+  weighted = FALSE,
+  BPPARAM = bpparam()
+)
 }
 \arguments{
 \item{x}{\code{MSnExp} or \code{OnDiskMSnExp} object.}

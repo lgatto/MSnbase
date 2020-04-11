@@ -4,8 +4,15 @@
 \alias{imageNA2}
 \title{NA heatmap visualisation for 2 groups}
 \usage{
-imageNA2(object, pcol, Rowv, Colv = TRUE, useGroupMean = FALSE,
-  plot = TRUE, ...)
+imageNA2(
+  object,
+  pcol,
+  Rowv,
+  Colv = TRUE,
+  useGroupMean = FALSE,
+  plot = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{An instance of class MSnSet}
