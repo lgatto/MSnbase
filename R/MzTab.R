@@ -55,6 +55,7 @@ comments <- function(x) x@Comments
 MzTab <- function(file) {
     file <- file[1]
     lines <- readLines(file)
+    lines <- lines[-grep("^\\s*$", readLines(file))]
     lines <- lines[nzchar(lines)]
 
     ## Split on the first two characters (so headers stay in
@@ -65,7 +66,7 @@ MzTab <- function(file) {
     ## three of the first characters match the 10 allowed types
     ## but since it doesn't affect parsing, I don't think it's
     ## worth bothering.
-    allowed_types <- c("CO", "MT", "PR", "PE", "PS", "SM")
+    allowed_types <- c("CO", "MT", "PR", "PE", "PS", "SM", "SF", "SE")
     stopifnot(all(lineType %in% allowed_types))
     linesByType <- split(lines, lineType)
 
