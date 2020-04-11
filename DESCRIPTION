@@ -114,11 +114,12 @@ LinkingTo: Rcpp
 License: Artistic-2.0
 LazyData: yes
 VignetteBuilder: knitr
+Encoding: UTF-8
 BugReports: https://github.com/lgatto/MSnbase/issues
 URL: https://lgatto.github.io/MSnbase
 biocViews: ImmunoOncology, Infrastructure, Proteomics, MassSpectrometry,
     QualityControl, DataImport
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Collate:
     'AllClassUnions.R'
     'AllGenerics.R'
