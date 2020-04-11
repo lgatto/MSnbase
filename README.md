@@ -25,12 +25,12 @@ The official page is the Bioconductor landing page
 development, issue tracking and forking/pulling purposes.
 
 To get an overview of the package, see the
-[*MSnbase-demo*](https://lgatto.github.io/MSnbase/articles/MSnbase-demo.html) vignette. More
-vignettes are available in the *Articles* tab.
+[*MSnbase-demo*](http://lgatto.github.io/MSnbase/articles/v01-MSnbase-demo.html)
+vignette. More vignettes are available in the *Articles* tab.
 
 ## Installation
 
-To install *[MSnbase](https://bioconductor.org/packages/3.8/MSnbase)*
+To install *[MSnbase](https://bioconductor.org/packages/3.10/MSnbase)*
 
 
 ```r
