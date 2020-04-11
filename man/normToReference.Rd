@@ -5,8 +5,11 @@
 \alias{NTR}
 \title{Combine peptides into proteins.}
 \usage{
-normToReference(x, group, reference = .referenceFractionValues(x = x,
-  group = group))
+normToReference(
+  x,
+  group,
+  reference = .referenceFractionValues(x = x, group = group)
+)
 }
 \arguments{
 \item{x}{\code{matrix}, \code{\link{exprs}} matrix of an

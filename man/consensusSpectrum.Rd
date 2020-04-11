@@ -4,9 +4,16 @@
 \alias{consensusSpectrum}
 \title{Combine spectra to a consensus spectrum}
 \usage{
-consensusSpectrum(x, mzd = 0, minProp = 0.5,
-  intensityFun = stats::median, mzFun = stats::median, ppm = 0,
-  weighted = FALSE, ...)
+consensusSpectrum(
+  x,
+  mzd = 0,
+  minProp = 0.5,
+  intensityFun = stats::median,
+  mzFun = stats::median,
+  ppm = 0,
+  weighted = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{\code{list} of \linkS4class{Spectrum} objects (either \linkS4class{Spectrum1} or
@@ -97,7 +104,8 @@ plot(mz(cons), intensity(cons), type = "h", xlab = "m/z", ylab = "intensity",
 
 }
 \seealso{
-Other spectra combination functions: \code{\link{meanMzInts}}
+Other spectra combination functions: 
+\code{\link{meanMzInts}()}
 }
 \author{
 Johannes Rainer

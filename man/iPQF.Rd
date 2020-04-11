@@ -5,8 +5,14 @@
 \title{iPQF: iTRAQ (and TMT) Protein Quantification based on
     Features}
 \usage{
-iPQF(object, groupBy, low.support.filter = FALSE, ratio.calc = "sum",
-  method.combine = FALSE, feature.weight = c(7, 6, 4, 3, 2, 1, 5)^2)
+iPQF(
+  object,
+  groupBy,
+  low.support.filter = FALSE,
+  ratio.calc = "sum",
+  method.combine = FALSE,
+  feature.weight = c(7, 6, 4, 3, 2, 1, 5)^2
+)
 }
 \arguments{
 \item{object}{An instance of class \code{MSnSet} containing

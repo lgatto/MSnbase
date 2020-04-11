@@ -4,9 +4,14 @@
 \alias{filterIdentificationDataFrame}
 \title{Filter out unreliable PSMs.}
 \usage{
-filterIdentificationDataFrame(x, decoy = "isDecoy", rank = "rank",
-  accession = "DatabaseAccess", spectrumID = "spectrumID",
-  verbose = isMSnbaseVerbose())
+filterIdentificationDataFrame(
+  x,
+  decoy = "isDecoy",
+  rank = "rank",
+  accession = "DatabaseAccess",
+  spectrumID = "spectrumID",
+  verbose = isMSnbaseVerbose()
+)
 }
 \arguments{
 \item{x}{A \code{data.frame} containing PSMs.}

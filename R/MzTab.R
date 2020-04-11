@@ -44,6 +44,8 @@ setMethod("psms", "MzTab",
           function(object, ...) object@PSMs)
 
 smallMolecules <- function(x) x@SmallMolecules
+moleculeFeatures <- function(x) x@MoleculeFeatures
+moleculeEvidence <- function(x) x@MoleculeEvidence
 
 comments <- function(x) x@Comments
 
@@ -53,6 +55,7 @@ comments <- function(x) x@Comments
 MzTab <- function(file) {
     file <- file[1]
     lines <- readLines(file)
+    lines <- lines[-grep("^\\s*$", readLines(file))]
     lines <- lines[nzchar(lines)]
 
     ## Split on the first two characters (so headers stay in
@@ -63,7 +66,7 @@ MzTab <- function(file) {
     ## three of the first characters match the 10 allowed types
     ## but since it doesn't affect parsing, I don't think it's
     ## worth bothering.
-    allowed_types <- c("CO", "MT", "PR", "PE", "PS", "SM")
+    allowed_types <- c("CO", "MT", "PR", "PE", "PS", "SM", "SF", "SE")
     stopifnot(all(lineType %in% allowed_types))
     linesByType <- split(lines, lineType)
 
@@ -76,14 +79,15 @@ MzTab <- function(file) {
     ## metadata afterwards
     res <- setNames(
         lapply(
-            linesByType[c("MT", "PR", "PE", "PS", "SM")],
+            linesByType[c("MT", "PR", "PE", "PS", "SM", "SF", "SE")],
             function(x) {
                 if (length(x) == 0) return(data.frame())
                 return(read.delim(text = x,
                                   na.strings = c("", "null"),
                                   stringsAsFactors = FALSE)[,-1])
             }),
-        c("Metadata", "Proteins", "Peptides", "PSMs", "SmallMolecules"))
+        c("Metadata", "Proteins", "Peptides", "PSMs", "SmallMolecules",
+          "MoleculeFeatures", "MoleculeEvidence"))
     
     res[["Metadata"]] <- reshapeMetadata(res[["Metadata"]])
 
@@ -93,6 +97,8 @@ MzTab <- function(file) {
            Peptides = res[["Peptides"]],
            PSMs = res[["PSMs"]],
            SmallMolecules = res[["SmallMolecules"]],
+           MoleculeFeatures = res[["MoleculeFeatures"]],
+           MoleculeEvidence = res[["MoleculeEvidence"]],
            Comments = comments)
 
 }

@@ -72,6 +72,10 @@
       the PSM data. }
     \item{\code{SmallMolecules}:}{Object of class \code{"data.frame"}
       storing the small molecules data. }
+    \item{\code{MoleculeFeatures}:}{Object of class \code{"data.frame"}
+      storing the molecule features. }
+    \item{\code{MoleculeEvidence}:}{Object of class
+      \code{"data.frame"} storing the molecule evidence. }
     \item{\code{Comments}:}{Object of class \code{"character"} storing
       the comments that were present in the file. }
   }
@@ -124,7 +128,8 @@
 \author{
 
   Laurent Gatto, with contributions from Richard Cotton (see
-  \url{https://github.com/lgatto/MSnbase/issues/41}).
+  \url{https://github.com/lgatto/MSnbase/issues/41}) and Steffen Neuman
+  (see https://github.com/lgatto/MSnbase/pull/500).
 
 }
 
