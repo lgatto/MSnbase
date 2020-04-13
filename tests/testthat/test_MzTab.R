@@ -11,7 +11,7 @@ test_that("MzTab creation and accessors", {
     expect_null(show(xx))
     ## Accessors
     expect_is(metadata(xx), "list")
-    expect_identical(length(metadata(xx)), 64L)
+    expect_identical(length(metadata(xx)), 65L)
     expect_identical(mzTabMode(xx), metadata(xx)$`mzTab-mode`)
     expect_identical(mzTabMode(xx), "Complete")
     expect_identical(mzTabType(xx), metadata(xx)$`mzTab-type`)
@@ -37,7 +37,7 @@ test_that("MzTab-M creation and accessors", {
     expect_null(show(xx))
     ## Accessors
     expect_is(metadata(xx), "list")
-    expect_identical(length(metadata(xx)), 73L)
+    expect_identical(length(metadata(xx)), 74L)
     
     ## In mzTab-M 2.0 metadata(xx)$`mzTab-mode`=="NULL"
     expect_identical(mzTabMode(xx), metadata(xx)$`mzTab-mode`)
@@ -56,7 +56,11 @@ test_that("MzTab-M creation and accessors", {
     expect_identical(dim(psms(xx)), c(0L, 0L))
     
     expect_is(smallMolecules(xx), "data.frame")
-    expect_identical(dim(smallMolecules(xx)), c(55L, 24L))
+    expect_identical(dim(smallMolecules(xx)), c(17L, 24L))
+    expect_is(moleculeFeatures(xx), "data.frame")
+    expect_identical(dim(moleculeFeatures(xx)), c(19L, 24L))
+    expect_is(moleculeEvidence(xx), "data.frame")
+    expect_identical(dim(moleculeEvidence(xx)), c(19L, 24L))
     
     expect_is(comments(xx), "character")
     expect_identical(length(comments(xx)), 0L)
@@ -68,7 +72,7 @@ test_that("MzTab reading and writing", {
     xx <- MzTab(fl)
     
     outfile=tempfile()
-    write.mzTab(xx, file=outfile)
+    writeMzTabData(xx, file=outfile)
     
     inlines <- readLines(fl)
     inlines <- inlines[!grepl("^COM", inlines)]
@@ -83,7 +87,7 @@ test_that("MzTab-M reading and writing", {
     xx <- MzTab(fl)
     
     outfile=tempfile()
-    write.mzTab(xx, file=outfile)
+    writeMzTabData(xx, file=outfile)
     
     inlines <- readLines(fl)
     inlines <- inlines[!grepl("^COM", inlines)]

@@ -125,8 +125,8 @@ export(MSnSet,
        mzTabMode,
        mzTabType,
        readMzTabData,
-       ## old - defunct
        writeMzTabData,
+       ## old - defunct
        readMzTabData_v0.9,
        makeMTD,
        makePEP,
@@ -264,7 +264,6 @@ exportMethods(updateObject,
               reporterNames, "reporterNames<-",
               writeMgfData,
               write.exprs,
-              write.mzTab,
               combine, ## for classes MIAPE, MSnProcess and MSnSet
               "experimentData<-", ## signature("MSnSet", "MIAPE")
               normalize,
