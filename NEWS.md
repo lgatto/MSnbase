@@ -1,5 +1,11 @@
 # MSnbase 2.13
 
+## Changes in 2.13.6
+- When reading MzTab files, the column names aren't converted to legal
+  colnames (my make.names) - `check.names` in `read.delim` is now
+  (internally) set to `FALSE`. This will make it easier to write MzTab
+  objects back to files. See issue #501 for a discussion.
+
 ## Changes in 2.13.5
 - Support reading of MzTab-M 2.0 format (contributed by Steffen
   Neumann).
