@@ -47,10 +47,13 @@ The MzTab class stores the output of a basic parsing of a
   (a character vector), and the at least of of the following data
   types: proteins, peptides, PSMs and small molecules (as
   data.frames).
-At this stage, the metadata and data are only minimally parsed. More
-  specific data extraction and preparation are delegated to more
-  specialised functions, such as the as(., to = &quot;MSnSetList&quot;) and
-  readMzTabData for proteomics data.
+At this stage, the metadata and data are only minimally parsed. The
+  column names are kept as they are defined in the original files and
+  are thus not all going to be valid colnames. To access them using the
+  dollar operator, use backticks. More specific data extraction and
+  preparation are delegated to more specialised functions, such as the
+  as(., to = &quot;MSnSetList&quot;) and readMzTabData for
+  proteomics data.
 Note that no attempts are made to verify the validitiy of the mzTab
   file." />
 
@@ -160,10 +163,13 @@ Note that no attempts are made to verify the validitiy of the mzTab
   (a <code>character</code> vector), and the at least of of the following data
   types: proteins, peptides, PSMs and small molecules (as
   <code>data.frames</code>).</p>
-<p>At this stage, the metadata and data are only minimally parsed. More
-  specific data extraction and preparation are delegated to more
-  specialised functions, such as the <code><a href='mzRident2dfr.html'>as(., to = "MSnSetList")</a></code> and
-  <code>readMzTabData</code> for proteomics data.</p>
+<p>At this stage, the metadata and data are only minimally parsed. The
+  column names are kept as they are defined in the original files and
+  are thus not all going to be valid colnames. To access them using the
+  dollar operator, use backticks. More specific data extraction and
+  preparation are delegated to more specialised functions, such as the
+  <code><a href='mzRident2dfr.html'>as(., to = "MSnSetList")</a></code> and <code>readMzTabData</code> for
+  proteomics data.</p>
 <p>Note that no attempts are made to verify the validitiy of the mzTab
   file.</p>
     </div>
