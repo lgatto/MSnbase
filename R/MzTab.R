@@ -12,7 +12,6 @@ setMethod("show", "MzTab",
               cat(paste(names(avbl)[which(avbl)], collape = ""), "\n")
           })
 
-
 ## Accessors
 
 ## Generic from S4Vectors
