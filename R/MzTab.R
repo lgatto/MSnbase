@@ -12,6 +12,91 @@ setMethod("show", "MzTab",
               cat(paste(names(avbl)[which(avbl)], collape = ""), "\n")
           })
 
+#' @title Export an MzTab object as mzTab file.
+#'
+#' @description
+#'
+#' `write.mzTab` exports an MzTab object as mzTab file. 
+#' Note that the comment section "COM" are not written out. 
+#'
+#' @param object [MzTab] object, either read in by MzTab() or assembled. 
+#'
+#' @param file `character` with the file name. 
+#'
+#' @param what `character` with names of the sections to be written out. 
+#'
+#' @author Steffen Neumann
+#'
+#' @md
+#'
+setMethod("write.mzTab", 
+          "MzTab",
+          function(object,
+                   file, 
+                   what = c("MT", "PEP", "PRT", "PSM", "SML", "SMF", "SME"),
+                   ...) {
+            
+            if ("MT" %in% what) {
+              mtdsection <- cbind("MTD", names(object@Metadata), unlist(object@Metadata))
+              write.table(mtdsection, file=file, append=FALSE, sep="\t", na="null", quote=FALSE, 
+                          row.names=FALSE, col.names=FALSE)
+            }
+            
+            if ("PRT" %in% what && nrow(object@Proteins) >0) {
+              cat("\n", file=file, append=TRUE)    
+              section <- data.frame("PRH"="PRT", object@Proteins, check.names = FALSE)
+              ## The supporessed warning is: In write.table(..., append = TRUE, col.names=TRUE, ...)
+              ## appending column names to file => That's exactly what we want to do in mzTab!
+              suppressWarnings(write.table(section, file=file, append=TRUE, sep="\t", na="null", quote=FALSE, 
+                                           row.names=FALSE, col.names=TRUE))
+            }
+            
+            if ("PEP" %in% what && nrow(object@Peptides) >0) {
+              cat("\n", file=file, append=TRUE)    
+              section <- data.frame("PEH"="PEP", object@Peptides, check.names = FALSE)
+              ## The supporessed warning is: In write.table(..., append = TRUE, col.names=TRUE, ...)
+              ## appending column names to file => That's exactly what we want to do in mzTab!
+              suppressWarnings(write.table(section, file=file, append=TRUE, sep="\t", na="null", quote=FALSE, 
+                                           row.names=FALSE, col.names=TRUE))
+            }
+            
+            if ("PSM" %in% what && nrow(object@PSMs) >0) {
+              cat("\n", file=file, append=TRUE)    
+              section <- data.frame("PSH"="PSM", object@PSMs, check.names = FALSE)
+              ## The supporessed warning is: In write.table(..., append = TRUE, col.names=TRUE, ...)
+              ## appending column names to file => That's exactly what we want to do in mzTab!
+              suppressWarnings(write.table(section, file=file, append=TRUE, sep="\t", na="null", quote=FALSE, 
+                                           row.names=FALSE, col.names=TRUE))
+            }
+            
+            if ("SML" %in% what && nrow(object@SmallMolecules) >0) {
+              cat("\n", file=file, append=TRUE)    
+              section <- data.frame("SMH"="SML", object@SmallMolecules, check.names = FALSE)
+              ## The supporessed warning is: In write.table(..., append = TRUE, col.names=TRUE, ...)
+              ## appending column names to file => That's exactly what we want to do in mzTab!
+              suppressWarnings(write.table(section, file=file, append=TRUE, sep="\t", na="null", quote=FALSE, 
+                                           row.names=FALSE, col.names=TRUE))
+            }
+            
+            if ("SMF" %in% what && nrow(object@MoleculeFeatures) >0) {
+              cat("\n", file=file, append=TRUE)    
+              section <- data.frame("SFH"="SMF", object@MoleculeFeatures, check.names = FALSE)
+              ## The supporessed warning is: In write.table(..., append = TRUE, col.names=TRUE, ...)
+              ## appending column names to file => That's exactly what we want to do in mzTab!
+              suppressWarnings(write.table(section, file=file, append=TRUE, sep="\t", na="null", quote=FALSE, 
+                                           row.names=FALSE, col.names=TRUE))
+            }
+            
+            if ("SME" %in% what && nrow(object@MoleculeEvidence) >0) {
+              cat("\n", file=file, append=TRUE)    
+              section <- data.frame("SEH"="SME", object@MoleculeEvidence, check.names = FALSE)
+              ## The supporessed warning is: In write.table(..., append = TRUE, col.names=TRUE, ...)
+              ## appending column names to file => That's exactly what we want to do in mzTab!
+              suppressWarnings(write.table(section, file=file, append=TRUE, sep="\t", na="null", quote=FALSE, 
+                                           row.names=FALSE, col.names=TRUE))
+            }
+          })
+
 ## Accessors
 
 ## Generic from S4Vectors
@@ -58,9 +143,24 @@ MzTab <- function(file) {
     lines <- lines[-grep("^\\s*$", readLines(file))]
     lines <- lines[nzchar(lines)]
 
-    ## Split on the first two characters (so headers stay in
-    ## the same group as table content rows)
-    lineType <- substring(lines, 1, 2)
+    ## Split on the first characters, make sure headers stay in
+    ## the same group as table content rows
+    
+    lineType <- sapply(substring(lines, 1, 3), function(s) switch(s,
+                       MTD = "MT",
+                       COM = "CO",
+                       PRH = "PR",
+                       PRT = "PR",
+                       PEH = "PE",
+                       PEP = "PE",
+                       PSH = "PS",
+                       PSM = "PS",
+                       SMH = "SM",
+                       SML = "SM",
+                       SFH = "SF",
+                       SMF = "SF",
+                       SEH = "SE",
+                       SME = "SE"))
 
     ## Could be stricter in the type checking to check that all
     ## three of the first characters match the 10 allowed types
@@ -83,6 +183,7 @@ MzTab <- function(file) {
             function(x) {
                 if (length(x) == 0) return(data.frame())
                 return(read.delim(text = x,
+                                  header=ifelse(all(grepl("^MTD", x)), FALSE, TRUE), ## MTD has no header
                                   na.strings = c("", "null"),
                                   check.names = FALSE,
                                   stringsAsFactors = FALSE)[,-1])

@@ -7,3 +7,5 @@ docs
 Makefile
 NEWS.md
 README.Rmd
+^.*\.Rproj$
+^\.Rproj\.user$

@@ -47,6 +47,7 @@ setGeneric("plotMzDelta", function(object, ...) standardGeneric("plotMzDelta"))
 setGeneric("plotNA", function(object, ...) standardGeneric("plotNA"))
 
 setGeneric("writeMgfData", function(object, ...) standardGeneric("writeMgfData"))
+setGeneric("write.mzTab", function(object, ...) standardGeneric("write.mzTab"))
 
 setGeneric("filterZero", function(object, ...) standardGeneric("filterZero"))
 setGeneric("topN", function(object, ...) standardGeneric("topN"))

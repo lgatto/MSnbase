@@ -264,6 +264,7 @@ exportMethods(updateObject,
               reporterNames, "reporterNames<-",
               writeMgfData,
               write.exprs,
+              write.mzTab,
               combine, ## for classes MIAPE, MSnProcess and MSnSet
               "experimentData<-", ## signature("MSnSet", "MIAPE")
               normalize,
