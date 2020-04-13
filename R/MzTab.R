@@ -84,6 +84,7 @@ MzTab <- function(file) {
                 if (length(x) == 0) return(data.frame())
                 return(read.delim(text = x,
                                   na.strings = c("", "null"),
+                                  check.names = FALSE,
                                   stringsAsFactors = FALSE)[,-1])
             }),
         c("Metadata", "Proteins", "Peptides", "PSMs", "SmallMolecules",
