@@ -27,10 +27,13 @@
   types: proteins, peptides, PSMs and small molecules (as
   \code{data.frames}).
 
-  At this stage, the metadata and data are only minimally parsed. More
-  specific data extraction and preparation are delegated to more
-  specialised functions, such as the \code{as(., to = "MSnSetList")} and
-  \code{readMzTabData} for proteomics data.
+  At this stage, the metadata and data are only minimally parsed. The
+  column names are kept as they are defined in the original files and
+  are thus not all going to be valid colnames. To access them using the
+  dollar operator, use backticks. More specific data extraction and
+  preparation are delegated to more specialised functions, such as the
+  \code{as(., to = "MSnSetList")} and \code{readMzTabData} for
+  proteomics data.
 
   Note that no attempts are made to verify the validitiy of the mzTab
   file. 
