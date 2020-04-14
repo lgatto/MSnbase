@@ -5,6 +5,8 @@
   colnames (my make.names) - `check.names` in `read.delim` is now
   (internally) set to `FALSE`. This will make it easier to write MzTab
   objects back to files. See issue #501 for a discussion.
+- Re-introduce MzTab write support (contributed by Steffen
+  Neumann). See #502.
 
 ## Changes in 2.13.5
 - Support reading of MzTab-M 2.0 format (contributed by Steffen
