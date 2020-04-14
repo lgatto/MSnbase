@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read an 'mzTab' file — readMzTabData_v0.9 • MSnbase</title>
+<title>Export an MzTab object as mzTab file. — writeMzTabData • MSnbase</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,9 @@
 
 
 
-<meta property="og:title" content="Read an 'mzTab' file — readMzTabData_v0.9" />
-<meta property="og:description" content="This function can be used to create a &quot;MSnSet&quot;
-by reading and parsing an mzTab file. The metadata section
-is always used to populate the MSnSet's experimentData
-slot." />
+<meta property="og:title" content="Export an MzTab object as mzTab file. — writeMzTabData" />
+<meta property="og:description" content="writeMzTabData exports an MzTab object as mzTab file.  Note
+that the comment section &quot;COM&quot; are not written out." />
 
 
 
@@ -138,90 +136,42 @@ slot." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read an 'mzTab' file</h1>
+    <h1>Export an MzTab object as mzTab file.</h1>
     <small class="dont-index">Source: <a href='https://github.com/lgatto/MSnbase/blob/master/R/readWriteMzTab.R'><code>R/readWriteMzTab.R</code></a></small>
-    <div class="hidden name"><code>readMzTabData_v0.9.Rd</code></div>
+    <div class="hidden name"><code>writeMzTabData.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function can be used to create a <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code>
-by reading and parsing an <code>mzTab</code> file. The metadata section
-is always used to populate the <code>MSnSet</code>'s <code>experimentData</code>
-slot.</p>
+    <p><code>writeMzTabData</code> exports an <a href='MzTab-class.html'>MzTab</a> object as mzTab file.  Note
+that the comment section "COM" are not written out.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>readMzTabData_v0.9</span>(<span class='no'>file</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PRT"</span>, <span class='st'>"PEP"</span>), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span>())</pre>
+    <pre class="usage"><span class='fu'>writeMzTabData</span>(
+  <span class='no'>object</span>,
+  <span class='no'>file</span>,
+  <span class='kw'>what</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"MT"</span>, <span class='st'>"PEP"</span>, <span class='st'>"PRT"</span>, <span class='st'>"PSM"</span>, <span class='st'>"SML"</span>, <span class='st'>"SMF"</span>, <span class='st'>"SME"</span>)
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>object</th>
+      <td><p><a href='MzTab-class.html'>MzTab</a> object, either read in by <code><a href='MzTab-class.html'>MzTab()</a></code> or assembled.</p></td>
+    </tr>
+    <tr>
       <th>file</th>
-      <td><p>A <code>character</code> with the <code>mzTab</code> file to be
-read in.</p></td>
+      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> with the file name.</p></td>
     </tr>
     <tr>
       <th>what</th>
-      <td><p>One of <code>"PRT"</code> or <code>"PEP"</code>, defining which of
-protein of peptide section should be parse. The metadata
-section, when available, is always used to populate the
-<code>experimentData</code> slot.</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Produce verbose output.</p></td>
+      <td><p><code>character</code> with names of the sections to be written
+out. Expected sections are <code>"MT"</code>, <code>"PEP"</code>, <code>"PRT"</code>, <code>"PSM"</code>,
+<code>"SML"</code>, <code>"SMF"</code>, or <code>"SME"</code>.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An instance of class <code>MSnSet</code>.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='writeMzTabData.html'>writeMzTabData</a></code> to save an
-    <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> as an <code>mzTab</code> file.</p></div>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>testfile</span> <span class='kw'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"</span>
-
-<span class='no'>prot</span> <span class='kw'>&lt;-</span> <span class='fu'>readMzTabData_v0.9</span>(<span class='no'>testfile</span>, <span class='st'>"PRT"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Version 0.9 is deprecated. Please see '?readMzTabData' and '?MzTab' for details.</span></div><div class='input'>
-<span class='no'>prot</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
-#&gt; assayData: 2 features, 4 samples 
-#&gt;   element names: exprs 
-#&gt; protocolData: none
-#&gt; phenoData
-#&gt;   sampleNames: sub[1] sub[2] sub[3] sub[4]
-#&gt;   varLabels: abundance
-#&gt;   varMetadata: labelDescription
-#&gt; featureData
-#&gt;   featureNames: 1 2
-#&gt;   fvarLabels: accession unit_id ... protein_abundance_std_error_sub[4]
-#&gt;     (26 total)
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'
-#&gt; Annotation:  
-#&gt; - - - Processing information - - -
-#&gt; mzTab read: Tue Apr 14 14:46:57 2020 
-#&gt;  MSnbase version: 2.13.6 </div><div class='input'>
-<span class='no'>pep</span> <span class='kw'>&lt;-</span> <span class='fu'>readMzTabData_v0.9</span>(<span class='no'>testfile</span>, <span class='st'>"PEP"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Version 0.9 is deprecated. Please see '?readMzTabData' and '?MzTab' for details.</span></div><div class='input'>
-<span class='no'>pep</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
-#&gt; assayData: 6 features, 4 samples 
-#&gt;   element names: exprs 
-#&gt; protocolData: none
-#&gt; phenoData
-#&gt;   sampleNames: sub[1] sub[2] sub[3] sub[4]
-#&gt;   varLabels: abundance
-#&gt;   varMetadata: labelDescription
-#&gt; featureData
-#&gt;   featureNames: 1 2 ... 6 (6 total)
-#&gt;   fvarLabels: sequence accession ... peptide_abundance_std_error_sub[4]
-#&gt;     (23 total)
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'
-#&gt; Annotation:  
-#&gt; - - - Processing information - - -
-#&gt; mzTab read: Tue Apr 14 14:46:57 2020 
-#&gt;  MSnbase version: 2.13.6 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

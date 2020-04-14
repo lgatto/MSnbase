@@ -162,21 +162,22 @@ the <code>MSnSet</code>'s <code>experimentData()@other$mzTab</code> slot.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>file</th>
-      <td><p>A <code>character</code> with the <code>mzTab</code> file to
-be read in.</p></td>
+      <td><p>A <code>character</code> with the <code>mzTab</code> file to be
+read in.</p></td>
     </tr>
     <tr>
       <th>what</th>
       <td><p>One of <code>"PRT"</code>, <code>"PEP"</code> or <code>"PSM"</code>,
-defining which of protein, peptide PSMs section should be returned
-as an <code>MSnSet</code>.</p></td>
+defining which of protein, peptide PSMs section should be
+returned as an <code>MSnSet</code>.</p></td>
     </tr>
     <tr>
       <th>version</th>
       <td><p>A <code>character</code> defining the format
 specification version of the mzTab file. Default is
 <code>"1.0"</code>. Version <code>"0.9"</code> is available of backwards
-compatibility. See <code><a href='readMzTabData_v0.9.html'>readMzTabData_v0.9</a></code> for details.</p></td>
+compatibility. See <code><a href='readMzTabData_v0.9.html'>readMzTabData_v0.9</a></code> for
+details.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -190,11 +191,13 @@ compatibility. See <code><a href='readMzTabData_v0.9.html'>readMzTabData_v0.9</a
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>See <code><a href='MzTab-class.html'>MzTab</a></code> and <code><a href='MSnSetList-class.html'>MSnSetList</a></code> for
-details about the inners of <code>readMzTabData</code>.</p></div>
+    details about the inners of <code>readMzTabData</code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>testfile</span> <span class='kw'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/1_0-Proteomics-Release/PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"</span>
+
 <span class='no'>prot</span> <span class='kw'>&lt;-</span> <span class='fu'>readMzTabData</span>(<span class='no'>testfile</span>, <span class='st'>"PRT"</span>)
+
 <span class='no'>prot</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
 #&gt; assayData: 1249 features, 4 samples 
 #&gt;   element names: exprs 
@@ -208,7 +211,8 @@ details about the inners of <code>readMzTabData</code>.</p></div>
 #&gt;   pubMedIds: pubmed:21398567 
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt;  MSnbase version: 2.13.6 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='no'>prot</span>))</div><div class='output co'>#&gt;            accession
+#&gt;  MSnbase version: 2.13.6 </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='no'>prot</span>))</div><div class='output co'>#&gt;            accession
 #&gt; X223462890 223462890
 #&gt; X19855078   19855078
 #&gt; X21450277   21450277
@@ -270,7 +274,8 @@ details about the inners of <code>readMzTabData</code>.</p></div>
 #&gt; X21450277                 0
 #&gt; X6978545                  0
 #&gt; X51315739                 0
-#&gt; X117938332                0</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>exprs</span>(<span class='no'>prot</span>))</div><div class='output co'>#&gt;            protein_abundance_assay[1] protein_abundance_assay[2]
+#&gt; X117938332                0</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>exprs</span>(<span class='no'>prot</span>))</div><div class='output co'>#&gt;            protein_abundance_assay[1] protein_abundance_assay[2]
 #&gt; X223462890                          1                      0.853
 #&gt; X19855078                          NA                         NA
 #&gt; X21450277                           1                      0.776
@@ -283,7 +288,9 @@ details about the inners of <code>readMzTabData</code>.</p></div>
 #&gt; X21450277                       0.819                      0.687
 #&gt; X6978545                        0.848                      0.693
 #&gt; X51315739                          NA                         NA
-#&gt; X117938332                      0.861                      0.795</div><div class='input'><span class='no'>psms</span> <span class='kw'>&lt;-</span> <span class='fu'>readMzTabData</span>(<span class='no'>testfile</span>, <span class='st'>"PSM"</span>)
+#&gt; X117938332                      0.861                      0.795</div><div class='input'>
+<span class='no'>psms</span> <span class='kw'>&lt;-</span> <span class='fu'>readMzTabData</span>(<span class='no'>testfile</span>, <span class='st'>"PSM"</span>)
+
 <span class='no'>psms</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
 #&gt; assayData: 8761 features, 0 samples 
 #&gt;   element names: exprs 
@@ -297,7 +304,8 @@ details about the inners of <code>readMzTabData</code>.</p></div>
 #&gt;   pubMedIds: pubmed:21398567 
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt;  MSnbase version: 2.13.6 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='no'>psms</span>))</div><div class='output co'>#&gt;       sequence PSM_ID accession unique       database database_version
+#&gt;  MSnbase version: 2.13.6 </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='no'>psms</span>))</div><div class='output co'>#&gt;       sequence PSM_ID accession unique       database database_version
 #&gt; X1661   QQVLDR   1661 223462890     NA NCBInr_2010_10  nr_101020.fasta
 #&gt; X2280   LVQYLR   2280 223462890     NA NCBInr_2010_10  nr_101020.fasta
 #&gt; X2281   LVQYLR   2281 223462890     NA NCBInr_2010_10  nr_101020.fasta
