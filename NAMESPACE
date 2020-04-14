@@ -125,8 +125,8 @@ export(MSnSet,
        mzTabMode,
        mzTabType,
        readMzTabData,
-       ## old - defunct
        writeMzTabData,
+       ## old - defunct
        readMzTabData_v0.9,
        makeMTD,
        makePEP,

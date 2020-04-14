@@ -6,7 +6,6 @@
 
 \alias{readMzXMLData}
 \alias{extractSpectra}
-\alias{writeMzTabData}
 \alias{makeMTD}
 \alias{makePEP}
 \alias{makePRT}

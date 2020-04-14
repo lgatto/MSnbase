@@ -45,17 +45,89 @@ readMzTabData <- function(file, what = c("PRT", "PEP", "PSM"),
     }
 }
 
+#' @title Export an MzTab object as mzTab file.
+#'
+#' @description
+#'
+#' `writeMzTabData` exports an MzTab object as mzTab file. 
+#' Note that the comment section "COM" are not written out. 
+#'
+#' @param object [MzTab] object, either read in by MzTab() or assembled. 
+#'
+#' @param file `character` with the file name. 
+#'
+#' @param what `character` with names of the sections to be written out. 
+#'
+#' @author Steffen Neumann
+#'
+#' @md
+#'
+writeMzTabData <- function(object, file, what = c("MT", "PEP", "PRT", "PSM", "SML", "SMF", "SME")) 
+{
+    
+    if ("MT" %in% what) {
+        mtdsection <- cbind("MTD", names(object@Metadata), unlist(object@Metadata))
+        write.table(mtdsection, file=file, append=FALSE, sep="\t", na="null", quote=FALSE, 
+                    row.names=FALSE, col.names=FALSE)
+    }
+    
+    if ("PRT" %in% what && nrow(object@Proteins) >0) {
+        cat("\n", file=file, append=TRUE)    
+        section <- data.frame("PRH"="PRT", object@Proteins, check.names = FALSE)
+        ## The supporessed warning is: In write.table(..., append = TRUE, col.names=TRUE, ...)
+        ## appending column names to file => That's exactly what we want to do in mzTab!
+        suppressWarnings(write.table(section, file=file, append=TRUE, sep="\t", na="null", quote=FALSE, 
+                                     row.names=FALSE, col.names=TRUE))
+    }
+    
+    if ("PEP" %in% what && nrow(object@Peptides) >0) {
+        cat("\n", file=file, append=TRUE)    
+        section <- data.frame("PEH"="PEP", object@Peptides, check.names = FALSE)
+        ## The supporessed warning is: In write.table(..., append = TRUE, col.names=TRUE, ...)
+        ## appending column names to file => That's exactly what we want to do in mzTab!
+        suppressWarnings(write.table(section, file=file, append=TRUE, sep="\t", na="null", quote=FALSE, 
+                                     row.names=FALSE, col.names=TRUE))
+    }
+    
+    if ("PSM" %in% what && nrow(object@PSMs) >0) {
+        cat("\n", file=file, append=TRUE)    
+        section <- data.frame("PSH"="PSM", object@PSMs, check.names = FALSE)
+        ## The supporessed warning is: In write.table(..., append = TRUE, col.names=TRUE, ...)
+        ## appending column names to file => That's exactly what we want to do in mzTab!
+        suppressWarnings(write.table(section, file=file, append=TRUE, sep="\t", na="null", quote=FALSE, 
+                                     row.names=FALSE, col.names=TRUE))
+    }
+    
+    if ("SML" %in% what && nrow(object@SmallMolecules) >0) {
+        cat("\n", file=file, append=TRUE)    
+        section <- data.frame("SMH"="SML", object@SmallMolecules, check.names = FALSE)
+        ## The supporessed warning is: In write.table(..., append = TRUE, col.names=TRUE, ...)
+        ## appending column names to file => That's exactly what we want to do in mzTab!
+        suppressWarnings(write.table(section, file=file, append=TRUE, sep="\t", na="null", quote=FALSE, 
+                                     row.names=FALSE, col.names=TRUE))
+    }
+    
+    if ("SMF" %in% what && nrow(object@MoleculeFeatures) >0) {
+        cat("\n", file=file, append=TRUE)    
+        section <- data.frame("SFH"="SMF", object@MoleculeFeatures, check.names = FALSE)
+        ## The supporessed warning is: In write.table(..., append = TRUE, col.names=TRUE, ...)
+        ## appending column names to file => That's exactly what we want to do in mzTab!
+        suppressWarnings(write.table(section, file=file, append=TRUE, sep="\t", na="null", quote=FALSE, 
+                                     row.names=FALSE, col.names=TRUE))
+    }
+    
+    if ("SME" %in% what && nrow(object@MoleculeEvidence) >0) {
+        cat("\n", file=file, append=TRUE)    
+        section <- data.frame("SEH"="SME", object@MoleculeEvidence, check.names = FALSE)
+        ## The supporessed warning is: In write.table(..., append = TRUE, col.names=TRUE, ...)
+        ## appending column names to file => That's exactly what we want to do in mzTab!
+        suppressWarnings(write.table(section, file=file, append=TRUE, sep="\t", na="null", quote=FALSE, 
+                                     row.names=FALSE, col.names=TRUE))
+    }
+}
 
 ## ===================================
 ## Legacy code
-
-writeMzTabData <- function(x,
-                           what = c("PEP", "PRT"),
-                           append = FALSE,
-                           MTD = TRUE,
-                           file, ...) {
-    .Defunct(msg = "Writing support for mzTab is defunct.")
-}
 
 makeMTD <- function(...) .Defunct()
 makePEP <- function(...) .Defunct()

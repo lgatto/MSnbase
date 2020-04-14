@@ -2,3 +2,5 @@
 docs
 *.o
 *.so
+.Rproj.user
+.Rhistory
