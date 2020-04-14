@@ -71,8 +71,8 @@ test_that("MzTab reading and writing", {
     fl <- file.path(baseUrl, fl)
     xx <- MzTab(fl)
     
-    outfile=tempfile()
-    writeMzTabData(xx, file=outfile)
+    outfile <- tempfile()
+    writeMzTabData(xx, file = outfile)
     
     inlines <- readLines(fl)
     inlines <- inlines[!grepl("^COM", inlines)]
@@ -86,8 +86,8 @@ test_that("MzTab-M reading and writing", {
     fl <- file.path(baseUrlM, fl)
     xx <- MzTab(fl)
     
-    outfile=tempfile()
-    writeMzTabData(xx, file=outfile)
+    outfile <- tempfile()
+    writeMzTabData(xx, file = outfile)
     
     inlines <- readLines(fl)
     inlines <- inlines[!grepl("^COM", inlines)]

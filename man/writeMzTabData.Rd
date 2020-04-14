@@ -11,15 +11,17 @@ writeMzTabData(
 )
 }
 \arguments{
-\item{object}{\link{MzTab} object, either read in by MzTab() or assembled.}
+\item{object}{\link{MzTab} object, either read in by \code{MzTab()} or assembled.}
 
-\item{file}{\code{character} with the file name.}
+\item{file}{\code{character(1)} with the file name.}
 
-\item{what}{\code{character} with names of the sections to be written out.}
+\item{what}{\code{character} with names of the sections to be written
+out. Expected sections are \code{"MT"}, \code{"PEP"}, \code{"PRT"}, \code{"PSM"},
+\code{"SML"}, \code{"SMF"}, or \code{"SME"}.}
 }
 \description{
-\code{writeMzTabData} exports an MzTab object as mzTab file.
-Note that the comment section "COM" are not written out.
+\code{writeMzTabData} exports an \link{MzTab} object as mzTab file.  Note
+that the comment section "COM" are not written out.
 }
 \author{
 Steffen Neumann

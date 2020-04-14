@@ -60,22 +60,22 @@ MzTab <- function(file) {
 
     ## Split on the first characters, make sure headers stay in
     ## the same group as table content rows
-    
-    lineType <- sapply(substring(lines, 1, 3), function(s) switch(s,
-                       MTD = "MT",
-                       COM = "CO",
-                       PRH = "PR",
-                       PRT = "PR",
-                       PEH = "PE",
-                       PEP = "PE",
-                       PSH = "PS",
-                       PSM = "PS",
-                       SMH = "SM",
-                       SML = "SM",
-                       SFH = "SF",
-                       SMF = "SF",
-                       SEH = "SE",
-                       SME = "SE"))
+    lineType <- sapply(substring(lines, 1, 3),
+                       function(s) switch(s,
+                                          MTD = "MT",
+                                          COM = "CO",
+                                          PRH = "PR",
+                                          PRT = "PR",
+                                          PEH = "PE",
+                                          PEP = "PE",
+                                          PSH = "PS",
+                                          PSM = "PS",
+                                          SMH = "SM",
+                                          SML = "SM",
+                                          SFH = "SF",
+                                          SMF = "SF",
+                                          SEH = "SE",
+                                          SME = "SE"))
 
     ## Could be stricter in the type checking to check that all
     ## three of the first characters match the 10 allowed types
@@ -86,7 +86,7 @@ MzTab <- function(file) {
     linesByType <- split(lines, lineType)
 
     ## Comments are easy: just strip the first four characters
-   ## from each line.  Though is it important to record the
+    ## from each line.  Though is it important to record the
     ## position in the file where they were found?
     comments <- substring(linesByType[["CO"]], 5)
 
@@ -98,7 +98,7 @@ MzTab <- function(file) {
             function(x) {
                 if (length(x) == 0) return(data.frame())
                 return(read.delim(text = x,
-                                  header=ifelse(all(grepl("^MTD", x)), FALSE, TRUE), ## MTD has no header
+                                  header = ifelse(all(grepl("^MTD", x)), FALSE, TRUE), ## MTD has no header
                                   na.strings = c("", "null"),
                                   check.names = FALSE,
                                   stringsAsFactors = FALSE)[,-1])

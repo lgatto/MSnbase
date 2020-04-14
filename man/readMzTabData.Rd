@@ -12,17 +12,18 @@ readMzTabData(
 )
 }
 \arguments{
-\item{file}{A \code{character} with the \code{mzTab} file to
-be read in.}
+\item{file}{A \code{character} with the \code{mzTab} file to be
+read in.}
 
 \item{what}{One of \code{"PRT"}, \code{"PEP"} or \code{"PSM"},
-defining which of protein, peptide PSMs section should be returned
-as an \code{MSnSet}.}
+defining which of protein, peptide PSMs section should be
+returned as an \code{MSnSet}.}
 
 \item{version}{A \code{character} defining the format
 specification version of the mzTab file. Default is
 \code{"1.0"}. Version \code{"0.9"} is available of backwards
-compatibility. See \code{\link{readMzTabData_v0.9}} for details.}
+compatibility. See \code{\link{readMzTabData_v0.9}} for
+details.}
 
 \item{verbose}{Produce verbose output.}
 }
@@ -37,17 +38,24 @@ the \code{MSnSet}'s \code{experimentData()@other$mzTab} slot.
 }
 \examples{
 testfile <- "https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/1_0-Proteomics-Release/PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"
+
 prot <- readMzTabData(testfile, "PRT")
+
 prot
+
 head(fData(prot))
+
 head(exprs(prot))
+
 psms <- readMzTabData(testfile, "PSM")
+
 psms
+
 head(fData(psms))
 }
 \seealso{
 See \code{\link{MzTab}} and \code{\link{MSnSetList}} for
-details about the inners of \code{readMzTabData}.
+    details about the inners of \code{readMzTabData}.
 }
 \author{
 Laurent Gatto

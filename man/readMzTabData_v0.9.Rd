@@ -7,11 +7,11 @@
 readMzTabData_v0.9(file, what = c("PRT", "PEP"), verbose = isMSnbaseVerbose())
 }
 \arguments{
-\item{file}{A \code{character} with the \code{mzTab} file to
-be read in.}
+\item{file}{A \code{character} with the \code{mzTab} file to be
+read in.}
 
-\item{what}{One of \code{"PRT"} or \code{"PEP"}, defining
-which of protein of peptide section should be parse. The metadata
+\item{what}{One of \code{"PRT"} or \code{"PEP"}, defining which of
+protein of peptide section should be parse. The metadata
 section, when available, is always used to populate the
 \code{experimentData} slot.}
 
@@ -28,14 +28,18 @@ slot.
 }
 \examples{
 testfile <- "https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"
+
 prot <- readMzTabData_v0.9(testfile, "PRT")
+
 prot
+
 pep <- readMzTabData_v0.9(testfile, "PEP")
+
 pep
 }
 \seealso{
 \code{\link{writeMzTabData}} to save an
-\code{"\linkS4class{MSnSet}"} as an \code{mzTab} file.
+    \code{"\linkS4class{MSnSet}"} as an \code{mzTab} file.
 }
 \author{
 Laurent Gatto
