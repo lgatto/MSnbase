@@ -1,4 +1,4 @@
-MSnbase itraqdata
+COM=MSnbase itraqdata
 BEGIN IONS
 SCANS=2
 TITLE=msLevel 2; retentionTime 1149.31; scanNum 2; precMz 520.7833; precCharge 2
