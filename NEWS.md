@@ -1,5 +1,8 @@
 # MSnbase 2.13
 
+## Changes in 2.13.7
+- Make writeMgfData example runnable <2020-04-20 Mon>
+
 ## Changes in 2.13.6
 - When reading MzTab files, the column names aren't converted to legal
   colnames (my make.names) - `check.names` in `read.delim` is now

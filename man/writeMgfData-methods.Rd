@@ -53,28 +53,33 @@
 }
 
 \examples{
-  \dontrun{
-    data(itraqdata)
-    writeMgfData(itraqdata,file="itraqdata.mgf",COM="MSnbase itraqdata")
-    itraqdata2 <- readMgfData("itraqdata.mgf")
-    ## note that the order of the spectra 
-    ## and precision of some values (precursorMz for instance)
-    ## are altered
-    match(signif(precursorMz(itraqdata2),4),signif(precursorMz(itraqdata),4))
-    ## [1]  1 10 11 12 13 14 15 16 17 18 ...
-    ## ... but all the precursors are there
-    all.equal(sort(precursorMz(itraqdata2)),sort(precursorMz(itraqdata)),
-              check.attributes=FALSE,
-              tolerance=10e-5)
-    ## is TRUE
-    all.equal(as.data.frame(itraqdata2[[1]]),as.data.frame(itraqdata[[1]]))
-    ## is TRUE
-    all.equal(as.data.frame(itraqdata2[[3]]),as.data.frame(itraqdata[[11]]))
-    ## is TRUE
-    ## But, beware that
-    all(featureNames(itraqdata2)==featureNames(itraqdata))
-    ## is TRUE too!
-  }
+data(itraqdata)
+
+f <- tempfile()
+
+writeMgfData(itraqdata, con = f)
+
+itraqdata2 <- readMgfData(f)
+
+## note that the order of the spectra and precision of some values
+## (precursorMz for instance) are altered
+match(signif(precursorMz(itraqdata2),4),
+      signif(precursorMz(itraqdata),4))
+
+## [1]  1 10 11 12 13 14 15 16 17 18 ...
+## ... but all the precursors are there
+all.equal(sort(precursorMz(itraqdata2)),
+          sort(precursorMz(itraqdata)),
+          check.attributes = FALSE,
+          tolerance = 10e-5)
+
+all.equal(as.data.frame(itraqdata2[[1]]),
+          as.data.frame(itraqdata[[1]]))
+
+all.equal(as.data.frame(itraqdata2[[3]]),
+          as.data.frame(itraqdata[[11]]))
+
+all(featureNames(itraqdata2) == featureNames(itraqdata))
 }
 
 
