@@ -42,7 +42,7 @@ writeMgfDataFile <- function(splist, con, COM = NULL, TITLE = NULL,
           stop("nrow of 'addFields' has to match length of 'splist'")
   }
 
-  if (class(con) == "character") {
+  if (class(con)[1] == "character") {
     con <- file(description = con, open = "at")
     on.exit(close(con))
   }
