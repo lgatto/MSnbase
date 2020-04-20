@@ -1,36 +1,36 @@
 context("readWriteMgfData")
 
 test_that("extractMgfSpectrum2Info", {
-  mgf <- c("TITLE=foobar File=\"foobar.raw\", Native ID:\"controllerType=0 controllerNumber=1, scan=100\"",
-           "RTINSECONDS=600",
-           "PEPMASS=100 50000",
-           "CHARGE=3+",
-           "10 100",
-           "11 200",
-           "12 300",
-           "13 400")
+    mgf <- c("TITLE=foobar File=\"foobar.raw\", Native ID:\"controllerType=0 controllerNumber=1, scan=100\"",
+             "RTINSECONDS=600",
+             "PEPMASS=100 50000",
+             "CHARGE=3+",
+             "10 100",
+             "11 200",
+             "12 300",
+             "13 400")
 
-  s <- new("Spectrum2",
-           rt = 600,
-           scanIndex = 0L,
-           precursorMz = 100,
-           precursorIntensity = 50000,
-           precursorCharge = 3L,
-           mz = c(10, 11, 12, 13),
-           intensity = c(100, 200, 300, 400),
-           fromFile = 1L,
-           acquisitionNum = NA_integer_,
-           collisionEnergy = NA_real_,
-           precScanNum = NA_integer_,
-           centroided = TRUE)
+    s <- new("Spectrum2",
+             rt = 600,
+             scanIndex = 0L,
+             precursorMz = 100,
+             precursorIntensity = 50000,
+             precursorCharge = 3L,
+             mz = c(10, 11, 12, 13),
+             intensity = c(100, 200, 300, 400),
+             fromFile = 1L,
+             acquisitionNum = NA_integer_,
+             collisionEnergy = NA_real_,
+             precScanNum = NA_integer_,
+             centroided = TRUE)
 
-  fdata <- c(TITLE="foobar File=\"foobar.raw\", Native ID:\"controllerType=0 controllerNumber=1, scan=100\"",
-             RTINSECONDS="600",
-             PEPMASS="100 50000",
-             CHARGE="3+")
-  result <- list(spectrum=s, fdata=fdata)
-  expect_equal(MSnbase:::extractMgfSpectrum2Info(mgf, centroided = TRUE),
-               result)
+    fdata <- c(TITLE="foobar File=\"foobar.raw\", Native ID:\"controllerType=0 controllerNumber=1, scan=100\"",
+               RTINSECONDS="600",
+               PEPMASS="100 50000",
+               CHARGE="3+")
+    result <- list(spectrum=s, fdata=fdata)
+    expect_equal(MSnbase:::extractMgfSpectrum2Info(mgf, centroided = TRUE),
+                 result)
 })
 
 test_that("writeMgfContent works", {
@@ -75,18 +75,18 @@ test_that("writeMgfContent works", {
 test_that("writeMgfDataFile works", {
 
     s1 <- new("Spectrum2",
-             rt = 600,
-             scanIndex = 0L,
-             precursorMz = 100,
-             precursorIntensity = 50000,
-             precursorCharge = 3L,
-             mz = c(10, 11, 12, 13),
-             intensity = c(100, 200, 300, 400),
-             fromFile = 1L,
-             acquisitionNum = NA_integer_,
-             collisionEnergy = NA_real_,
-             precScanNum = NA_integer_,
-             centroided = TRUE)
+              rt = 600,
+              scanIndex = 0L,
+              precursorMz = 100,
+              precursorIntensity = 50000,
+              precursorCharge = 3L,
+              mz = c(10, 11, 12, 13),
+              intensity = c(100, 200, 300, 400),
+              fromFile = 1L,
+              acquisitionNum = NA_integer_,
+              collisionEnergy = NA_real_,
+              precScanNum = NA_integer_,
+              centroided = TRUE)
     s2 <- new("Spectrum2",
               rt = 601, mz = c(12, 13, 14, 15, 16),
               intensity = c(200, 3000, 4000, 300, 399),
@@ -109,4 +109,42 @@ test_that("writeMgfDataFile works", {
     expect_equal(lns[9], "VALUE=1")
     expect_equal(lns[21], "PKID=b")
     expect_equal(lns[22], "VALUE=2")
+})
+
+
+test_that("writeMgfContent works with file and con", {
+    s <- new("Spectrum2",
+             rt = 600,
+             scanIndex = 0L,
+             precursorMz = 100,
+             precursorIntensity = 50000,
+             precursorCharge = 3L,
+             mz = c(10, 11, 12, 13),
+             intensity = c(100, 200, 300, 400),
+             fromFile = 1L,
+             acquisitionNum = NA_integer_,
+             collisionEnergy = NA_real_,
+             precScanNum = NA_integer_,
+             centroided = TRUE)
+    
+    tmpf1 <- tempfile()
+    tmpf2 <- tempfile()
+    tmpcon <- file(description = tmpf2,
+                   open = "w")
+
+    MSnbase:::writeMgfContent(s, con = tmpf1)
+    MSnbase:::writeMgfContent(s, con = tmpcon)
+
+    x1 <- readMgfData(tmpf1)
+    x2 <- readMgfData(tmpf2)
+    
+    expect_identical(fileNames(x1), tmpf1)
+    expect_identical(fileNames(x2), tmpf2)
+    
+    ## pData and processingData are expected to be different
+    x1$sampleNames <- x2$sampleNames <- ""
+    x1@processingData@files <- x2@processingData@files <- ""
+    x1@processingData@processing <- x2@processingData@processing <- "" 
+
+    expect_equal(x1, x2)    
 })
