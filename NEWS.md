@@ -2,6 +2,9 @@
 
 ## Changes in 2.13.7
 - Make writeMgfData example runnable <2020-04-20 Mon>
+- Fix issue when writing mgf with a connection (PR #505, by Rico
+  Derks) <2020-04-20 Mon>
+- Add writeMgfData file/connection unit test <2020-04-20 Mon>
 
 ## Changes in 2.13.6
 - When reading MzTab files, the column names aren't converted to legal
