@@ -48,11 +48,12 @@ writeMgfDataFile <- function(splist, con, COM = NULL, TITLE = NULL,
   }
 
   if (is.null(COM)) {
-    COM <- paste0("COM=", ifelse(length(splist) <= 1, "Spectrum", "Experiment"),
+    COM <- paste0(ifelse(length(splist) <= 1, "Spectrum", "Experiment"),
                   "exported by MSnbase on ", date())
   }
   cat(paste0("COM=",COM), file = con, sep = "")
 
+  
   verbose <- verbose & length(splist) > 1
 
   if (verbose)
