@@ -1,5 +1,8 @@
 # MSnbase 2.13
 
+## Changes in 2.13.8
+- Remove duplicated COM= when writing mgf <2020-04-24 Fri>
+
 ## Changes in 2.13.7
 - Make writeMgfData example runnable <2020-04-20 Mon>
 - Fix issue when writing mgf with a connection (PR #505, by Rico
