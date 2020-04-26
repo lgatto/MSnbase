@@ -420,8 +420,8 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
       the object's \code{featureData} and represents the tic provided in
       the header of the original raw data files. For \code{initial =
       FALSE}, the TIC is calculated from the actual intensity values in
-      each spectrum after applying all eventual data manipulation
-      methods.
+      each spectrum after applying all data manipulation
+      methods (if any).
 
       See also https://github.com/lgatto/MSnbase/issues/332 for
       more details.

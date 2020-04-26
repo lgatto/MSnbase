@@ -1,5 +1,8 @@
 # MSnbase 2.13
 
+## Changes in 2.13.9
+- Typo in OnDiskMSnExp man page <2020-04-26 Sun>
+
 ## Changes in 2.13.8
 - Remove duplicated COM= when writing mgf <2020-04-24 Fri>
 
