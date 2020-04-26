@@ -2,17 +2,12 @@ plot_MSnExp <- function(object,
                         reporters,
                         full = FALSE,
                         centroided.,
-                        plot = TRUE,
-                        w1) {
+                        plot = TRUE) {
     i <- NULL # to satisfy codetools
     ## plot_MSnExp: no visible binding for global variable 'i'
     if (missing(centroided.))
         centroided. <- any(centroided(object))
     mtc <- unlist(mz(object))
-    if (missing(w1)) {
-        if (full) w1 <- max(mtc)/500
-        else w1 <- 0.02
-    }
     spectraList <- spectra(object)
     ints <- unlist(sapply(spectraList, function(x) x@intensity))
     mzs <- unlist(sapply(spectraList, function(x) x@mz))
@@ -31,12 +26,12 @@ plot_MSnExp <- function(object,
         full <- TRUE
     }
     if (centroided.) {
-        p <- ggplot(data = dfr, aes(x = mz, y = i, width = width)) +
-            geom_bar(stat = "identity", position = "identity")
+        p <- ggplot(dfr, aes(x = mz, xend = mz, y = 0, yend = i)) +
+            geom_segment()
     } else {
         p <- ggplot(data = dfr, aes(x = mz, y = i)) + geom_line()
     }
-    p <- p +  facet_grid(n~.) +
+    p <- p +  facet_grid(n~., scales = "free_y") +
         labs(x = "M/Z", y = "Intensity") + 
             title    
     if (!full) {
