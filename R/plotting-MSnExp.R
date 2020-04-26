@@ -15,7 +15,7 @@ plot_MSnExp <- function(object,
     n <- rep(1:length(l), l)
     dfr <- data.frame(i = ints, mz = mzs, n = n)
     colnames(dfr) <- c("i", "mz", "n")
-    if (all(msLevel(object)>1)) {
+    if (all(msLevel(object) > 1)) {
         pmz <- paste(unique(unlist(sapply(spectraList,
                                           function(x) round(precursorMz(x), 2)))),
                      collapse = ",")
@@ -43,8 +43,6 @@ plot_MSnExp <- function(object,
         reps <- coord_cartesian(xlim = c(rlim1, rlim2)) 
         breaks <- scale_x_continuous(breaks = seq(rlim1, rlim2, (rlim2-rlim1)/10))
         p <- p + reps + breaks
-        ##    + geom_vline(xintercept = c(reporters@mz + reporters@width,
-        ##                   reporters@mz - reporters@width), col = "grey")
     }
     if (plot)
         print(p)

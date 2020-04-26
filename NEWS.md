@@ -2,7 +2,7 @@
 
 ## Changes in 2.13.9
 - Typo in OnDiskMSnExp man page <2020-04-26 Sun>
-- Fix plot,MSnExp for centroided data <2020-04-26 Sun>
+- Fix plot,[On]MSnExp for centroided data <2020-04-26 Sun>
 - Use free x scaling in plot,MSnExp's facet <2020-04-26 Sun>
 
 ## Changes in 2.13.8
