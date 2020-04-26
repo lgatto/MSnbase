@@ -13,8 +13,8 @@ plot_MSnExp <- function(object,
     mzs <- unlist(sapply(spectraList, function(x) x@mz))
     l <- unlist(sapply(spectraList, function(x) length(x@mz)))
     n <- rep(1:length(l), l)
-    dfr <- data.frame(i = ints, mz = mzs, n = n, width = w1)
-    colnames(dfr) <- c("i", "mz", "n", "width")
+    dfr <- data.frame(i = ints, mz = mzs, n = n)
+    colnames(dfr) <- c("i", "mz", "n")
     if (all(msLevel(object)>1)) {
         pmz <- paste(unique(unlist(sapply(spectraList,
                                           function(x) round(precursorMz(x), 2)))),
