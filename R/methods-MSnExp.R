@@ -87,10 +87,8 @@ setMethod("show", "MSnExp",
 setMethod("plot", c("MSnExp","missing"),
           function(x, y , type = c("spectra", "XIC"), ...) {
               type <- match.arg(type)
-              if (type == "spectra")
-                  plot_MSnExp(x, ...)
-              if (type == "XIC")
-                  plotXIC_MSnExp(x, ...)
+              if (type == "spectra") plot_MSnExp(x, ...)
+              else plotXIC_MSnExp(x, ...)
 })
 
 setMethod("plot2d", c("MSnExp"),

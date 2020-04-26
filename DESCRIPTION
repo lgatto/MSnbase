@@ -198,7 +198,6 @@ Collate:
     'options.R'
     'plotting-MSnExp.R'
     'plotting-MSnSet.R'
-    'plotting-OnDiskMSnExp.R'
     'plotting-Spectrum.R'
     'plotting-Spectrum1.R'
     'plotting-Spectrum2.R'

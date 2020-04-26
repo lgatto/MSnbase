@@ -31,9 +31,10 @@ plot_MSnExp <- function(object,
     } else {
         p <- ggplot(data = dfr, aes(x = mz, y = i)) + geom_line()
     }
-    p <- p +  facet_grid(n~., scales = "free_y") +
+    p <- p +
+        facet_grid(n ~ ., scales = "free_y") +
         labs(x = "M/Z", y = "Intensity") + 
-            title    
+        title
     if (!full) {
         if (class(reporters) != "ReporterIons")
             stop("Reporters must be of class \"ReporterIons\".")
