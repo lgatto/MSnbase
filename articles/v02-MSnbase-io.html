@@ -126,7 +126,7 @@
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h1>
-<p><em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em>’s aims are to facilitate the reproducible analysis of mass spectrometry data within the R environment, from raw data import and processing, feature quantification, quantification and statistical analysis of the results <span class="citation">(Gatto and Lilley 2012)</span>. Data import functions for several formats are provided and intermediate or final results can also be saved or exported. These capabilities are presented below.</p>
+<p><em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em>’s aims are to facilitate the reproducible analysis of mass spectrometry data within the R environment, from raw data import and processing, feature quantification, quantification and statistical analysis of the results <span class="citation">(Gatto and Lilley 2012)</span>. Data import functions for several formats are provided and intermediate or final results can also be saved or exported. These capabilities are presented below.</p>
 </div>
 <div id="data-input" class="section level1">
 <h1 class="hasAnchor">
@@ -134,7 +134,7 @@
 <div id="raw-data" class="section level4 unnumbered">
 <h4 class="hasAnchor">
 <a href="#raw-data" class="anchor"></a>Raw data</h4>
-<p>Data stored in one of the published <code>XML</code>-based formats. i.e. <code>mzXML</code> <span class="citation">(Pedrioli et al. 2004)</span>, <code>mzData</code> <span class="citation">(Orchard et al. 2007)</span> or <code>mzML</code> <span class="citation">(Martens et al. 2010)</span>, can be imported with the <code>readMSData</code> method, which makes use of the <em><a href="https://bioconductor.org/packages/3.11/mzR">mzR</a></em> package to create <code>MSnExp</code> objects. The files can be in profile or centroided mode. See <code><a href="../reference/readMSData.html">?readMSData</a></code> for details.</p>
+<p>Data stored in one of the published <code>XML</code>-based formats. i.e. <code>mzXML</code> <span class="citation">(Pedrioli et al. 2004)</span>, <code>mzData</code> <span class="citation">(Orchard et al. 2007)</span> or <code>mzML</code> <span class="citation">(Martens et al. 2010)</span>, can be imported with the <code>readMSData</code> method, which makes use of the <em><a href="https://bioconductor.org/packages/3.12/mzR">mzR</a></em> package to create <code>MSnExp</code> objects. The files can be in profile or centroided mode. See <code><a href="../reference/readMSData.html">?readMSData</a></code> for details.</p>
 <p>Data from <code>mzML</code> files containing chromatographic data (e.g. generated in SRM/MRM experiments) can be imported with the <code>readSRMData</code> function that returns the chromatographic data as a <code>Chromatograms</code> object. See <code><a href="../reference/readSRMData.html">?readSRMData</a></code> for more details.</p>
 </div>
 <div id="peak-lists" class="section level4 unnumbered">
@@ -146,7 +146,7 @@
 <h4 class="hasAnchor">
 <a href="#quantitation-data" class="anchor"></a>Quantitation data</h4>
 <p>Third party software can be used to generate quantitative data and exported as a spreadsheet (generally comma or tab separated format). This data as well as any additional meta-data can be imported with the <code>readMSnSet</code> function. See <code><a href="../reference/readMSnSet.html">?readMSnSet</a></code> for details.</p>
-<p><em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> also supports the <code>mzTab</code> format<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, a light-weight, tab-delimited file format for proteomics data developed within the Proteomics Standards Initiative (PSI). <code>mzTab</code> files can be read into R with <code>readMzTabData</code> to create and <code>MSnSet</code> instance.</p>
+<p><em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> also supports the <code>mzTab</code> format<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, a light-weight, tab-delimited file format for proteomics data developed within the Proteomics Standards Initiative (PSI). <code>mzTab</code> files can be read into R with <code>readMzTabData</code> to create and <code>MSnSet</code> instance.</p>
 <div class="figure">
 <img src="Figures/MSnbase-io-in.png" alt="MSnbase input capabilities. The white and red boxes represent R functions/methods and objects respectively. The blue boxes represent different disk storage formats."><p class="caption"><em>MSnbase</em> input capabilities. The white and red boxes represent R functions/methods and objects respectively. The blue boxes represent different disk storage formats.</p>
 </div>
@@ -183,11 +183,11 @@
 <div id="creating-msnset-from-text-spread-sheets" class="section level1">
 <h1 class="hasAnchor">
 <a href="#creating-msnset-from-text-spread-sheets" class="anchor"></a>Creating <code>MSnSet</code> from text spread sheets</h1>
-<p>This section describes the generation of <code>MSnSet</code> objects using data available in a text-based spreadsheet. This entry point into R and <em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> allows to import data processed by any of the third party mass-spectrometry processing software available and proceed with data exploration, normalisation and statistical analysis using functions available in and the numerous Bioconductor packages.</p>
+<p>This section describes the generation of <code>MSnSet</code> objects using data available in a text-based spreadsheet. This entry point into R and <em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> allows to import data processed by any of the third party mass-spectrometry processing software available and proceed with data exploration, normalisation and statistical analysis using functions available in and the numerous Bioconductor packages.</p>
 <div id="a-complete-work-flow" class="section level2">
 <h2 class="hasAnchor">
 <a href="#a-complete-work-flow" class="anchor"></a>A complete work flow</h2>
-<p>The following section describes a work flow that uses three input files to create the <code>MSnSet</code>. These files respectively describe the quantitative expression data, the sample meta-data and the feature meta-data. It is taken from the <em><a href="https://bioconductor.org/packages/3.11/pRoloc">pRoloc</a></em> tutorial and uses example files from the <em><a href="https://bioconductor.org/packages/3.11/pRolocdat">pRolocdat</a></em> package.</p>
+<p>The following section describes a work flow that uses three input files to create the <code>MSnSet</code>. These files respectively describe the quantitative expression data, the sample meta-data and the feature meta-data. It is taken from the <em><a href="https://bioconductor.org/packages/3.12/pRoloc">pRoloc</a></em> tutorial and uses example files from the <em><a href="https://bioconductor.org/packages/3.12/pRolocdat">pRolocdat</a></em> package.</p>
 <p>We start by describing the <code>csv</code> to be used as input using the <code>read.csv</code> function.</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="co">## The original data for replicate 1, available</span>
 <span class="co">## from the pRolocdata package</span>
@@ -271,7 +271,7 @@
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Quantitation data loaded: Sun Apr 26 21:17:33 2020  using readMSnSet. 
+## Quantitation data loaded: Tue May  5 14:37:01 2020  using readMSnSet. 
 ##  MSnbase version: 2.13.9</code></pre>
 <div id="the-msnset-class" class="section level3">
 <h3 class="hasAnchor">
@@ -348,7 +348,7 @@
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
 <div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</pre></body></html></div>
-<pre><code>## R Under development (unstable) (2020-04-26 r78306)
+<pre><code>## R Under development (unstable) (2020-05-05 r78363)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
@@ -369,25 +369,25 @@
 ## [8] methods   base     
 ## 
 ## other attached packages:
-## [1] pRolocdata_1.25.3   MSnbase_2.13.9      ProtGenerics_1.19.3
-## [4] S4Vectors_0.25.15   mzR_2.21.1          Rcpp_1.0.4.6       
-## [7] Biobase_2.47.3      BiocGenerics_0.33.3 BiocStyle_2.15.8   
+## [1] pRolocdata_1.27.0   MSnbase_2.13.9      ProtGenerics_1.19.3
+## [4] S4Vectors_0.27.4    mzR_2.23.0          Rcpp_1.0.4.6       
+## [7] Biobase_2.49.0      BiocGenerics_0.35.0 BiocStyle_2.17.0   
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] tidyselect_1.0.0      xfun_0.13             purrr_0.3.4          
 ##  [4] lattice_0.20-41       colorspace_1.4-1      vctrs_0.2.4          
-##  [7] htmltools_0.4.0       yaml_2.2.1            vsn_3.55.0           
-## [10] XML_3.99-0.3          rlang_0.4.5           pkgdown_1.5.1        
-## [13] pillar_1.4.3          glue_1.4.0            BiocParallel_1.21.3  
-## [16] affy_1.65.1           foreach_1.5.0         affyio_1.57.0        
-## [19] lifecycle_0.2.0       plyr_1.8.6            mzID_1.25.0          
-## [22] zlibbioc_1.33.1       stringr_1.4.0         munsell_0.5.0        
-## [25] pcaMethods_1.79.1     gtable_0.3.0          codetools_0.2-16     
+##  [7] htmltools_0.4.0       yaml_2.2.1            vsn_3.57.0           
+## [10] XML_3.99-0.3          rlang_0.4.6           pkgdown_1.5.1        
+## [13] pillar_1.4.4          glue_1.4.0            BiocParallel_1.23.0  
+## [16] affy_1.67.0           foreach_1.5.0         affyio_1.59.0        
+## [19] lifecycle_0.2.0       plyr_1.8.6            mzID_1.27.0          
+## [22] zlibbioc_1.35.0       stringr_1.4.0         munsell_0.5.0        
+## [25] pcaMethods_1.81.0     gtable_0.3.0          codetools_0.2-16     
 ## [28] memoise_1.1.0         evaluate_0.14         knitr_1.28           
-## [31] IRanges_2.21.8        doParallel_1.0.15     preprocessCore_1.49.2
+## [31] IRanges_2.23.4        doParallel_1.0.15     preprocessCore_1.51.0
 ## [34] scales_1.1.0          backports_1.1.6       BiocManager_1.30.10  
-## [37] limma_3.43.8          desc_1.2.0            fs_1.3.2             
-## [40] impute_1.61.0         ggplot2_3.3.0         digest_0.6.25        
+## [37] limma_3.45.0          desc_1.2.0            fs_1.3.2             
+## [40] impute_1.63.0         ggplot2_3.3.0         digest_0.6.25        
 ## [43] stringi_1.4.6         bookdown_0.18         dplyr_0.8.5          
 ## [46] ncdf4_1.17            grid_4.1.0            rprojroot_1.3-2      
 ## [49] tools_4.1.0           magrittr_1.5          tibble_3.0.1         

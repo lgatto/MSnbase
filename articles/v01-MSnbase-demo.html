@@ -139,15 +139,15 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="sec:intro" class="section level1">
 <h1 class="hasAnchor">
 <a href="#sec:intro" class="anchor"></a>Introduction</h1>
-<p><em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> <span class="citation">(Gatto and Lilley 2012)</span> aims are providing a reproducible research framework to proteomics data analysis. It should allow researcher to easily mine mass spectrometry data, explore the data and its statistical properties and visually display these.</p>
-<p><em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> also aims at being compatible with the infrastructure implemented in Bioconductor, in particular <em><a href="https://bioconductor.org/packages/3.11/Biobase">Biobase</a></em>. As such, classes developed specifically for proteomics mass spectrometry data are based on the <em>eSet</em> and <em>ExpressionSet</em> classes. The main goal is to assure seamless compatibility with existing meta data structure, accessor methods and normalisation techniques.</p>
-<p>This vignette illustrates <em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> utility using a dummy data sets provided with the package without describing the underlying data structures. More details can be found in the package, classes, method and function documentations. A description of the classes is provided in the <em>MSnbase-development</em> vignette<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+<p><em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> <span class="citation">(Gatto and Lilley 2012)</span> aims are providing a reproducible research framework to proteomics data analysis. It should allow researcher to easily mine mass spectrometry data, explore the data and its statistical properties and visually display these.</p>
+<p><em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> also aims at being compatible with the infrastructure implemented in Bioconductor, in particular <em><a href="https://bioconductor.org/packages/3.12/Biobase">Biobase</a></em>. As such, classes developed specifically for proteomics mass spectrometry data are based on the <em>eSet</em> and <em>ExpressionSet</em> classes. The main goal is to assure seamless compatibility with existing meta data structure, accessor methods and normalisation techniques.</p>
+<p>This vignette illustrates <em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> utility using a dummy data sets provided with the package without describing the underlying data structures. More details can be found in the package, classes, method and function documentations. A description of the classes is provided in the <em>MSnbase-development</em> vignette<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
 <div id="speed-and-memory-requirements" class="section level2">
 <h2 class="hasAnchor">
 <a href="#speed-and-memory-requirements" class="anchor"></a>Speed and memory requirements</h2>
 <p>Raw mass spectrometry file are generally several hundreds of MB large and most of this is used for binary raw spectrum data. As such, data containers can easily grow very large and thus require large amounts of RAM. This requirement is being tackled by avoiding to load the raw data into memory and using on-disk random access to the content of <code>mzXML</code>/<code>mzML</code> data files on demand. When focusing on reporter ion quantitation, a direct solution for this is to trim the spectra using the <code>trimMz</code> method to select the area of interest and thus substantially reduce the size of the <code>Spectrum</code> objects. This is illustrated in section @ref(sec:trim).</p>
 <p><strong>Parallel processing</strong> The independent handling of spectra is ideally suited for parallel processing. The <code>quantify</code> method for example performs reporter peaks quantitation in parallel.</p>
-<p>Parallel support is provided by the <em><a href="https://bioconductor.org/packages/3.11/BiocParallel">BiocParallel</a></em> and various backends including multicore (forking, default on Linux), simple networf network of workstations (SNOW, default on Windows) using sockets, forking or MPI among others. We refer readers to the documentation in <em><a href="https://bioconductor.org/packages/3.11/BiocParallel">BiocParallel</a></em>. Automatic parallel processing of spectra is only established for a certain number of spectra (per file). This value (default is 1000) can be set with the <code>setMSnbaseParallelThresh</code> function.</p>
+<p>Parallel support is provided by the <em><a href="https://bioconductor.org/packages/3.12/BiocParallel">BiocParallel</a></em> and various backends including multicore (forking, default on Linux), simple networf network of workstations (SNOW, default on Windows) using sockets, forking or MPI among others. We refer readers to the documentation in <em><a href="https://bioconductor.org/packages/3.12/BiocParallel">BiocParallel</a></em>. Automatic parallel processing of spectra is only established for a certain number of spectra (per file). This value (default is 1000) can be set with the <code>setMSnbaseParallelThresh</code> function.</p>
 <p>In sock-based parallel processing, the main worker process has to start new R instances and connect to them via sock. Sometimes these connections can not be established and the processes get stuck. To test this, users can disable parallel processing by disabling parallel processing with <code>register(SerialParam())</code>. To avoid these deadlocks, it is possible to initiate the parallel processing setup explicitly at the beginning of the script using, for example</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"doParallel"</span>)
 <span class="fu"><a href="https://rdrr.io/pkg/doParallel/man/registerDoParallel.html">registerDoParallel</a></span>(<span class="fl">3</span>) <span class="co">## using 3 slave nodes</span>
@@ -163,16 +163,16 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="sec:io" class="section level2">
 <h2 class="hasAnchor">
 <a href="#sec:io" class="anchor"></a>Importing experiments</h2>
-<p><em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> is able to import raw MS data stored in one of the <code>XML</code>-based formats as well as peak lists in the <code>mfg</code> format<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>.</p>
+<p><em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> is able to import raw MS data stored in one of the <code>XML</code>-based formats as well as peak lists in the <code>mfg</code> format<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>.</p>
 <p><strong>Raw data</strong> The <code>XML</code>-based formats, <code>mzXML</code> <span class="citation">(Pedrioli et al. 2004)</span>, <code>mzData</code> <span class="citation">(Orchard et al. 2007)</span> and <code>mzML</code> <span class="citation">(Martens et al. 2010)</span> can be imported with the <code>readMSData</code> function, as illustrated below (see <code><a href="../reference/readMSData.html">?readMSData</a></code> for more details). To make use of the new <em>on-disk</em> implementation, set <code>mode = "onDisk"</code> in <code>readMSData</code> rather than using the default <code>mode = "inMemory"</code>.</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">file</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="kw">package</span> <span class="kw">=</span> <span class="st">"MSnbase"</span>, <span class="kw">dir</span> <span class="kw">=</span> <span class="st">"extdata"</span>),
             <span class="kw">full.names</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">pattern</span> <span class="kw">=</span> <span class="st">"mzXML$"</span>)
 <span class="no">rawdata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/readMSData.html">readMSData</a></span>(<span class="no">file</span>, <span class="kw">msLevel</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
-<p>Only spectra of a given MS level can be loaded at a time by setting the <code>msLevel</code> parameter accordingly in <code>readMSData</code> and <em>in-memory</em> data. In this document, we will use the <code>itraqdata</code> data set, provided with <em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em>. It includes feature metadata, accessible with the <code>fData</code> accessor. The metadata includes identification data for the 55 MS2 spectra.</p>
-<p>Version 2.0 and later of <em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> provide a new <em>on-disk</em> data storage model (see the <em>benchmarking</em> vignette for more details). The new data backend is compatible with the orignal <em>in-memory</em> model. To make use of the new infrastructure, read your raw data by setting the <code>mode</code> argument to <code>"onDisk"</code> (the default is still <code>"inMemory"</code> but is likely to change in the future). The new <em>on-disk</em> implementation supports several MS levels in a single raw data object. All existing operations work irrespective of the backend.</p>
+<p>Only spectra of a given MS level can be loaded at a time by setting the <code>msLevel</code> parameter accordingly in <code>readMSData</code> and <em>in-memory</em> data. In this document, we will use the <code>itraqdata</code> data set, provided with <em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em>. It includes feature metadata, accessible with the <code>fData</code> accessor. The metadata includes identification data for the 55 MS2 spectra.</p>
+<p>Version 2.0 and later of <em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> provide a new <em>on-disk</em> data storage model (see the <em>benchmarking</em> vignette for more details). The new data backend is compatible with the orignal <em>in-memory</em> model. To make use of the new infrastructure, read your raw data by setting the <code>mode</code> argument to <code>"onDisk"</code> (the default is still <code>"inMemory"</code> but is likely to change in the future). The new <em>on-disk</em> implementation supports several MS levels in a single raw data object. All existing operations work irrespective of the backend.</p>
 <p><strong>Peak lists</strong> can often be exported after spectrum processing from vendor-specific software and are also used as input to search engines. Peak lists in <code>mgf</code> format can be imported with the function <code>readMgfData</code> (see <code><a href="../reference/readMgfData.html">?readMgfData</a></code> for details) to create experiment objects. Experiments or individual spectra can be exported to an <code>mgf</code> file with the <code>writeMgfData</code> methods (see <code><a href="../reference/writeMgfData-methods.html">?writeMgfData</a></code> for details and examples).</p>
 <p><strong>Experiments with multiple runs</strong> Although it is possible to load and process multiple files serially and later merge the resulting quantitation data as show in section @ref(sec:combine), it is also feasible to load several raw data files at once. Here, we report the analysis of an LC-MSMS experiment were 14 liquid chromatography (LC) fractions were loaded in memory using <code>readMSData</code> on a 32-cores servers with 128 Gb of RAM. It took about 90 minutes to read the 14 uncentroided <code>mzXML</code> raw files (4.9 Gb on disk in total) and create a 3.3 Gb raw data object (an <em>MSnExp</em> instance, see next section). Quantitation of 9 reporter ions (<em>iTRAQ9</em> object, see @ref(sec:reporterions)) for 88690 features was performed in parallel on 16 processors and took 76 minutes. The resulting quantitation data was only 22.1 Mb and could easily be further processed. These number are based on the older <em>in-memory</em> implementation. As shown in the <em>benchmarking</em> vignette, using <em>on-disk</em> data greatly reduces memory requirement and computation time.</p>
-<p>See also section @ref(sec:io2) to import quantitative data stored in spreadsheets into R for further processing using <em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em>. The <em>MSnbase-io</em>vignette[in R, open it with <code>vignette("MSnbase-io")</code> or read it online <a href="https://bioconductor.org/packages/devel/bioc/vignettes/MSnbase/inst/doc/MSnbase-io.html">here</a>] gives a general overview of <em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em>’s input/ouput capabilites.</p>
+<p>See also section @ref(sec:io2) to import quantitative data stored in spreadsheets into R for further processing using <em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em>. The <em>MSnbase-io</em>vignette[in R, open it with <code>vignette("MSnbase-io")</code> or read it online <a href="https://bioconductor.org/packages/devel/bioc/vignettes/MSnbase/inst/doc/MSnbase-io.html">here</a>] gives a general overview of <em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em>’s input/ouput capabilites.</p>
 <p>See section @ref(sec:io3) for importing chromatographic data of SRM/MRM experiments.</p>
 </div>
 <div id="exporting-experimentsms-data" class="section level2">
@@ -265,7 +265,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="sec:reporterions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#sec:reporterions" class="anchor"></a>Reporter ions</h2>
-<p>Reporter ions are defined with the <em>ReporterIons</em> class. Specific peaks of interest are defined by a MZ value, a with around the expected MZ and a name (and optionally a colour for plotting, see section @ref(sec:plotting)). <em>ReporterIons</em> instances are required to quantify reporter peaks in <em>MSnExp</em> experiments. Instances for the most commonly used isobaric tags like iTRAQ 4-plex and 8-plex and TMT 6- and 10-plex tags are already defined in <em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em>. See <code><a href="../reference/ReporterIons-class.html">?ReporterIons</a></code> for details about how to generate new <em>ReporterIons</em> objects.</p>
+<p>Reporter ions are defined with the <em>ReporterIons</em> class. Specific peaks of interest are defined by a MZ value, a with around the expected MZ and a name (and optionally a colour for plotting, see section @ref(sec:plotting)). <em>ReporterIons</em> instances are required to quantify reporter peaks in <em>MSnExp</em> experiments. Instances for the most commonly used isobaric tags like iTRAQ 4-plex and 8-plex and TMT 6- and 10-plex tags are already defined in <em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em>. See <code><a href="../reference/ReporterIons-class.html">?ReporterIons</a></code> for details about how to generate new <em>ReporterIons</em> objects.</p>
 <div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">iTRAQ4</span></pre></body></html></div>
 <pre><code>## Object of class "ReporterIons"
 ## iTRAQ4: '4-plex iTRAQ' with 4 reporter ions
@@ -320,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <pre><code>## [1]   94.80679 1004.96155</code></pre>
 <p>To extract the base peak chromatogram (the largest peak along the <span class="math inline">\(m/z\)</span> dimension for each retention time/spectrum) we set the <code>aggregationFun</code> argument to <code>"max"</code>.</p>
 <div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="no">mtof_bpc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/chromatogram-MSnExp-method.html">chromatogram</a></span>(<span class="no">mtof</span>, <span class="kw">aggregationFun</span> <span class="kw">=</span> <span class="st">"max"</span>)</pre></body></html></div>
-<p>See the <code>Chromatogram</code> help page and the vignettes from the <em><a href="https://bioconductor.org/packages/3.11/xcms">xcms</a></em> package for more details and use cases, also on how to extract chromatograms for specific ions.</p>
+<p>See the <code>Chromatogram</code> help page and the vignettes from the <em><a href="https://bioconductor.org/packages/3.12/xcms">xcms</a></em> package for more details and use cases, also on how to extract chromatograms for specific ions.</p>
 </div>
 </div>
 <div id="sec:plotting" class="section level1">
@@ -329,7 +329,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="sec:msmaps" class="section level2">
 <h2 class="hasAnchor">
 <a href="#sec:msmaps" class="anchor"></a>MS data space</h2>
-<p>The <em>MSmap</em> class can be used to isolate specific slices of interest from a complete MS acquisition by specifying <span class="math inline">\(m/z\)</span> and retention time ranges. One needs a raw data file in a format supported by <em><a href="https://bioconductor.org/packages/3.11/mzR">mzR</a></em>’s <code>openMSfile</code> (<code>mzML</code>, <code>mzXML</code>, …). Below we first download a raw data file from the PRIDE repository and create an <em>MSmap</em> containing all the MS1 spectra between acquired between 30 and 35 minutes and peaks between 521 and 523 <span class="math inline">\(m/z\)</span>. See <code><a href="../reference/MSmap-class.html">?MSmap</a></code> for details.</p>
+<p>The <em>MSmap</em> class can be used to isolate specific slices of interest from a complete MS acquisition by specifying <span class="math inline">\(m/z\)</span> and retention time ranges. One needs a raw data file in a format supported by <em><a href="https://bioconductor.org/packages/3.12/mzR">mzR</a></em>’s <code>openMSfile</code> (<code>mzML</code>, <code>mzXML</code>, …). Below we first download a raw data file from the PRIDE repository and create an <em>MSmap</em> containing all the MS1 spectra between acquired between 30 and 35 minutes and peaks between 521 and 523 <span class="math inline">\(m/z\)</span>. See <code><a href="../reference/MSmap-class.html">?MSmap</a></code> for details.</p>
 <div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="co">## downloads the data</span>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"rpx"</span>)
 <span class="no">px1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rpx/man/PXDataset-class.html">PXDataset</a></span>(<span class="st">"PXD000001"</span>)
@@ -405,7 +405,7 @@ Raw MS2 spectrum with details about reporter ions.
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Data [logically] subsetted 3 spectra: Sun Apr 26 21:17:05 2020 
+## Data [logically] subsetted 3 spectra: Tue May  5 14:36:34 2020 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -430,8 +430,8 @@ Raw MS2 spectrum with details about reporter ions.
 Experiment-wide raw MS2 spectra. The y-axes of the individual spectra are automatically rescaled to the same range. See section @ref(sec:norm) to rescale peaks identically.
 </p>
 </div>
-<p><strong>Customising your plots</strong> The <em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> <code>plot</code> methods have a logical <code>plot</code> parameter (default is <code>TRUE</code>), that specifies if the plot should be printed to the current device. A plot object is also (invisibly) returned, so that it can be saved as a variable for later use or for customisation.</p>
-<p><em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> uses the  package to generate plots, which can subsequently easily be customised. More details about  can be found in <span class="citation">(Wickham 2009)</span> (especially chapter 8) and on <a href="http://had.co.nz/ggplot2/" class="uri">http://had.co.nz/ggplot2/</a>. Finally, if a plot object has been saved in a variable <code>p</code>, it is possible to obtain a summary of the object with <code><a href="https://rdrr.io/r/base/summary.html">summary(p)</a></code>. To view the data frame used to generate the plot, use <code>p$data</code>.</p>
+<p><strong>Customising your plots</strong> The <em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> <code>plot</code> methods have a logical <code>plot</code> parameter (default is <code>TRUE</code>), that specifies if the plot should be printed to the current device. A plot object is also (invisibly) returned, so that it can be saved as a variable for later use or for customisation.</p>
+<p><em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> uses the  package to generate plots, which can subsequently easily be customised. More details about  can be found in <span class="citation">(Wickham 2009)</span> (especially chapter 8) and on <a href="http://had.co.nz/ggplot2/" class="uri">http://had.co.nz/ggplot2/</a>. Finally, if a plot object has been saved in a variable <code>p</code>, it is possible to obtain a summary of the object with <code><a href="https://rdrr.io/r/base/summary.html">summary(p)</a></code>. To view the data frame used to generate the plot, use <code>p$data</code>.</p>
 </div>
 <div id="sec:chromplots" class="section level2">
 <h2 class="hasAnchor">
@@ -448,7 +448,7 @@ Base peak chromatogram.
 <div id="sec:id" class="section level1">
 <h1 class="hasAnchor">
 <a href="#sec:id" class="anchor"></a>Tandem MS identification data</h1>
-<p>Typically, identification data is produced by a search engine and serialised to disk in the <code>mzIdentML</code> (or <code>mzid</code>) file format. This format can be parsed by <code>openIDfile</code> from the <em><a href="https://bioconductor.org/packages/3.11/mzR">mzR</a></em> package or <code>mzID</code> from the <em><a href="https://bioconductor.org/packages/3.11/mzID">mzID</a></em> package. The <code>MSnbase</code> package relies on the former (which is faster) and offers a simplified interface by converting the dedicated identification data objects into <code>data.frames</code>.</p>
+<p>Typically, identification data is produced by a search engine and serialised to disk in the <code>mzIdentML</code> (or <code>mzid</code>) file format. This format can be parsed by <code>openIDfile</code> from the <em><a href="https://bioconductor.org/packages/3.12/mzR">mzR</a></em> package or <code>mzID</code> from the <em><a href="https://bioconductor.org/packages/3.12/mzID">mzID</a></em> package. The <code>MSnbase</code> package relies on the former (which is faster) and offers a simplified interface by converting the dedicated identification data objects into <code>data.frames</code>.</p>
 <div class="sourceCode" id="cb49"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"msdata"</span>)
 <span class="no">f</span> <span class="kw">&lt;-</span> <span class="st">"TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"</span>
 <span class="no">idf</span> <span class="kw">&lt;-</span> <span class="kw pkg">msdata</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/msdata/man/proteomics.html">ident</a></span>(<span class="kw">full.names</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">pattern</span> <span class="kw">=</span> <span class="no">f</span>)
@@ -532,8 +532,8 @@ Base peak chromatogram.
 <div id="adding-identification-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#adding-identification-data" class="anchor"></a>Adding identification data</h2>
-<p><em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> is able to integrate identification data from <code>mzIdentML</code> <span class="citation">(Jones et al. 2012)</span> files.</p>
-<p>We first load two example files shipped with the <em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> containing raw data (as above) and the corresponding identification results respectively. The raw data is read with the <code>readMSData</code>, as demonstrated above. As can be seen, the default feature data only contain spectra numbers. More data about the spectra is of course available in an <em>MSnExp</em> object, as illustrated in the previous sections. See also <code><a href="../reference/pSet-class.html">?pSet</a></code> and <code><a href="../reference/MSnExp-class.html">?MSnExp</a></code> for more details.</p>
+<p><em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> is able to integrate identification data from <code>mzIdentML</code> <span class="citation">(Jones et al. 2012)</span> files.</p>
+<p>We first load two example files shipped with the <em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> containing raw data (as above) and the corresponding identification results respectively. The raw data is read with the <code>readMSData</code>, as demonstrated above. As can be seen, the default feature data only contain spectra numbers. More data about the spectra is of course available in an <em>MSnExp</em> object, as illustrated in the previous sections. See also <code><a href="../reference/pSet-class.html">?pSet</a></code> and <code><a href="../reference/MSnExp-class.html">?MSnExp</a></code> for more details.</p>
 <div class="sourceCode" id="cb62"><html><body><pre class="r"><span class="co">## find path to a mzXML file</span>
 <span class="no">quantFile</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="kw">package</span> <span class="kw">=</span> <span class="st">"MSnbase"</span>, <span class="kw">dir</span> <span class="kw">=</span> <span class="st">"extdata"</span>),
                  <span class="kw">full.name</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">pattern</span> <span class="kw">=</span> <span class="st">"mzXML$"</span>)
@@ -608,7 +608,7 @@ Annotated MS2 spectrum.
 <div id="sec:calcfrag" class="section level2">
 <h2 class="hasAnchor">
 <a href="#sec:calcfrag" class="anchor"></a>Calculate Fragments</h2>
-<p><em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> is able to calculate theoretical peptide fragments via <code>calculateFragments</code>.</p>
+<p><em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> is able to calculate theoretical peptide fragments via <code>calculateFragments</code>.</p>
 <div class="sourceCode" id="cb76"><html><body><pre class="r"><span class="fu"><a href="../reference/calculateFragments-methods.html">calculateFragments</a></span>(<span class="st">"ACEK"</span>,
                    <span class="kw">type</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"z"</span>))</pre></body></html></div>
 <pre><code>##           mz ion type pos z seq
@@ -660,7 +660,7 @@ Annotated MS2 spectrum.
 <h1 class="hasAnchor">
 <a href="#sec:qc" class="anchor"></a>Quality control</h1>
 <p>The current section is not executed dynamically for package size and processing time constrains. The figures and tables have been generated with the respective methods and included statically in the vignette for illustration purposes.</p>
-<p><em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> allows easy and flexible access to the data, which allows to visualise data features to assess it’s quality. Some methods are readily available, although many QC approaches will be experiment specific and users are encourage to explore their data.</p>
+<p><em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> allows easy and flexible access to the data, which allows to visualise data features to assess it’s quality. Some methods are readily available, although many QC approaches will be experiment specific and users are encourage to explore their data.</p>
 <p>The <code>plot2d</code> method takes one <em>MSnExp</em> instance as first argument to produce retention time <em>vs.</em> precursor MZ scatter plots. Points represent individual MS2 spectra and can be coloured based on precursor charge (with second argument <code>z="charge"</code>), total ion count (<code>z="ionCount"</code>), number of peaks in the MS2 spectra <code>z="peaks.count"</code>) or, when multiple data files were loaded, file <code>z="file"</code>), as illustrated on the <a href="#fig:plot2d">next figure</a>. The lower right panel is produced for only a subset of proteins. See the method documentation for more details.</p>
 <div class="figure">
 <img src="Figures/plot2d-figure.png" alt="Illustration of the plot2d output." id="fig:plot2d"><p class="caption">Illustration of the <code>plot2d</code> output.</p>
@@ -725,8 +725,8 @@ This figure illustrated the effect or the <code>removePeaks</code> and <code>cle
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Sun Apr 26 21:17:09 2020 
-## Spectra cleaned: Sun Apr 26 21:17:10 2020 
+## Curves &lt;= 400 set to '0': Tue May  5 14:36:39 2020 
+## Spectra cleaned: Tue May  5 14:36:39 2020 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -767,7 +767,7 @@ This figure illustrated the effect or the <code>removePeaks</code> and <code>cle
 The different quantitation methods. See text for details.
 </p>
 </div>
-<p>The <code>quantify</code> method returns <em>MSnSet</em> objects, that extend the well-known <em>eSet</em> class defined in the <em><a href="https://bioconductor.org/packages/3.11/Biobase">Biobase</a></em> package. <em>MSnSet</em> instances are very similar to <em>ExpressionSet</em> objects, except for the experiment meta-data that captures MIAPE specific information. The assay data is a matrix of dimensions <span class="math inline">\(n \times m\)</span>, where <span class="math inline">\(m\)</span> is the number of features/spectra originally in the <em>MSnExp</em> used as parameter in <code>quantify</code> and <span class="math inline">\(m\)</span> is the number of reporter ions, that can be accessed with the <code>exprs</code> method. The meta data is directly inherited from the <em>MSnExp</em> instance.</p>
+<p>The <code>quantify</code> method returns <em>MSnSet</em> objects, that extend the well-known <em>eSet</em> class defined in the <em><a href="https://bioconductor.org/packages/3.12/Biobase">Biobase</a></em> package. <em>MSnSet</em> instances are very similar to <em>ExpressionSet</em> objects, except for the experiment meta-data that captures MIAPE specific information. The assay data is a matrix of dimensions <span class="math inline">\(n \times m\)</span>, where <span class="math inline">\(m\)</span> is the number of features/spectra originally in the <em>MSnExp</em> used as parameter in <code>quantify</code> and <span class="math inline">\(m\)</span> is the number of reporter ions, that can be accessed with the <code>exprs</code> method. The meta data is directly inherited from the <em>MSnExp</em> instance.</p>
 <div class="sourceCode" id="cb100"><html><body><pre class="r"><span class="no">qnt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span>(<span class="no">experiment</span>,
                 <span class="kw">method</span> <span class="kw">=</span> <span class="st">"trap"</span>,
                 <span class="kw">reporters</span> <span class="kw">=</span> <span class="no">iTRAQ4</span>,
@@ -791,9 +791,9 @@ The different quantitation methods. See text for details.
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Sun Apr 26 21:17:09 2020 
-## Spectra cleaned: Sun Apr 26 21:17:10 2020 
-## iTRAQ4 quantification by trapezoidation: Sun Apr 26 21:17:12 2020 
+## Curves &lt;= 400 set to '0': Tue May  5 14:36:39 2020 
+## Spectra cleaned: Tue May  5 14:36:39 2020 
+## iTRAQ4 quantification by trapezoidation: Tue May  5 14:36:41 2020 
 ##  MSnbase version: 1.1.22</code></pre>
 <div class="sourceCode" id="cb102"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span>(<span class="no">qnt</span>))</pre></body></html></div>
 <pre><code>##     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
@@ -826,8 +826,8 @@ The different quantitation methods. See text for details.
 <a href="#sec:io2" class="anchor"></a>Importing quantitation data</h2>
 <p>If quantitation data is already available as a spreadsheet, it can be imported, along with additional optional feature and sample (pheno) meta data, with the <code>readMSnSet</code> function. This function takes the respective text-based spreadsheet (comma- or tab-separated) file names as argument to create a valid <em>MSnSet</em> instance.</p>
 <p>Note that the quantitation data of <em>MSnSet</em> objects can also be exported to a text-based spreadsheet file using the <code>write.exps</code> method.</p>
-<p><em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> also supports the <code>mzTab</code> format, a light-weight, tab-delimited file format for proteomics data. <code>mzTab</code> files can be read into R with <code>readMzTabData</code> to create and <em>MSnSet</em> instance.</p>
-<p>See the <em>MSnbase-io</em> vignette for a general overview of <em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em>’s input/ouput capabilites.</p>
+<p><em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> also supports the <code>mzTab</code> format, a light-weight, tab-delimited file format for proteomics data. <code>mzTab</code> files can be read into R with <code>readMzTabData</code> to create and <em>MSnSet</em> instance.</p>
+<p>See the <em>MSnbase-io</em> vignette for a general overview of <em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em>’s input/ouput capabilites.</p>
 </div>
 <div id="sec:io3" class="section level2">
 <h2 class="hasAnchor">
@@ -868,7 +868,7 @@ The different quantitation methods. See text for details.
 <div id="sec:purcor" class="section level2">
 <h2 class="hasAnchor">
 <a href="#sec:purcor" class="anchor"></a>Peak adjustments</h2>
-<p><strong>Single peak adjustment</strong> In certain cases, peak intensities need to be adjusted as a result of peak interferance. For example, the <span class="math inline">\(+1\)</span> peak of the phenylalanine (F, Phe) immonium ion (with <span class="math inline">\(m/z\)</span> 120.03) inteferes with the 121.1 TMT reporter ion. Below, we calculate the relative intensity of the +1 peaks compared to the main peak using the <em><a href="https://bioconductor.org/packages/3.11/Rdisop">Rdisop</a></em> package.</p>
+<p><strong>Single peak adjustment</strong> In certain cases, peak intensities need to be adjusted as a result of peak interferance. For example, the <span class="math inline">\(+1\)</span> peak of the phenylalanine (F, Phe) immonium ion (with <span class="math inline">\(m/z\)</span> 120.03) inteferes with the 121.1 TMT reporter ion. Below, we calculate the relative intensity of the +1 peaks compared to the main peak using the <em><a href="https://bioconductor.org/packages/3.12/Rdisop">Rdisop</a></em> package.</p>
 <div class="sourceCode" id="cb115"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">Rdisop</span>)
 <span class="co">## Phenylalanine immonium ion</span>
 <span class="no">Fim</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Rdisop/man/getMolecule.html">getMolecule</a></span>(<span class="st">"C8H10N"</span>)
@@ -927,7 +927,7 @@ The different quantitation methods. See text for details.
 <div class="sourceCode" id="cb127"><html><body><pre class="r"><span class="no">x</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/impute-methods.html">impute</a></span>(<span class="no">naset</span>, <span class="st">"min"</span>)
 <span class="fu"><a href="../reference/pSet-class.html">processingData</a></span>(<span class="no">x</span>)</pre></body></html></div>
 <pre><code>## - - - Processing information - - -
-## Data imputation using min Sun Apr 26 21:17:13 2020 
+## Data imputation using min Tue May  5 14:36:42 2020 
 ##  MSnbase version: 1.15.6</code></pre>
 <div class="sourceCode" id="cb129"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">x</span>))</pre></body></html></div>
 <pre><code>## 
@@ -964,7 +964,7 @@ Mixed imputation method. Black cells represent presence of quantitation values a
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Data imputation using mixed Sun Apr 26 21:17:13 2020 
+## Data imputation using mixed Tue May  5 14:36:43 2020 
 ##   Using default parameters 
 ##  MSnbase version: 1.15.6</code></pre>
 <p>Please read <code><a href="../reference/impute-methods.html">?impute</a></code> for a description of the different methods.</p>
@@ -974,9 +974,9 @@ Mixed imputation method. Black cells represent presence of quantitation values a
 <a href="#sec:norm" class="anchor"></a>Normalisation</h2>
 <p>A <em>MSnSet</em> object is meant to be compatible with further downstream packages for data normalisation and statistical analysis. There is also a <code>normalise</code> (also available as <code>normalize</code>) method for expression sets. The method takes and instance of class <em>MSnSet</em> as first argument, and a character to describe the <code>method</code> to be used:</p>
 <ul>
-<li><p><code>quantiles</code>: Applies quantile normalisation <span class="citation">(Bolstad et al. 2003)</span> as implemented in the <code>normalize.quantiles</code> function of the <em><a href="https://bioconductor.org/packages/3.11/preprocessCore">preprocessCore</a></em> package.</p></li>
-<li><p><code>quantiles.robust</code>: Applies robust quantile normalisation <span class="citation">(Bolstad et al. 2003)</span> as implemented in the <code>normalize.quantiles.robust</code> function of the <em><a href="https://bioconductor.org/packages/3.11/preprocessCore">preprocessCore</a></em> package.</p></li>
-<li><p><code>vsn</code>: Applies variance stabilisation normalization <span class="citation">(Huber et al. 2002)</span> as implemented in the <code>vsn2</code> function of the <em><a href="https://bioconductor.org/packages/3.11/vsn">vsn</a></em> package.</p></li>
+<li><p><code>quantiles</code>: Applies quantile normalisation <span class="citation">(Bolstad et al. 2003)</span> as implemented in the <code>normalize.quantiles</code> function of the <em><a href="https://bioconductor.org/packages/3.12/preprocessCore">preprocessCore</a></em> package.</p></li>
+<li><p><code>quantiles.robust</code>: Applies robust quantile normalisation <span class="citation">(Bolstad et al. 2003)</span> as implemented in the <code>normalize.quantiles.robust</code> function of the <em><a href="https://bioconductor.org/packages/3.12/preprocessCore">preprocessCore</a></em> package.</p></li>
+<li><p><code>vsn</code>: Applies variance stabilisation normalization <span class="citation">(Huber et al. 2002)</span> as implemented in the <code>vsn2</code> function of the <em><a href="https://bioconductor.org/packages/3.12/vsn">vsn</a></em> package.</p></li>
 <li><p><code>max</code>: Each feature’s reporter intensity is divided by the maximum of the reporter ions intensities.</p></li>
 <li><p><code>sum</code>: Each feature’s reporter intensity is divided by the sum of the reporter ions intensities.</p></li>
 </ul>
@@ -1010,7 +1010,7 @@ Experiment-wide normalised MS2 spectra. The y-axes of the individual spectra is 
 <h1 class="hasAnchor">
 <a href="#sec:feataggregation" class="anchor"></a>Feature aggregation</h1>
 <p>The above quantitation and normalisation has been performed on quantitative data obtained from individual spectra. However, the biological unit of interest is not the spectrum but the peptide or the protein. As such, it is important to be able to summarise features that belong to a same group, i.e. spectra from one peptide, peptides that originate from one protein, or directly combine all spectra that have been uniquely associated to one protein.</p>
-<p><em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> provides one function, <code>combineFeatures</code>, that allows to aggregate features stored in an <em>MSnSet</em> using build-in or user defined summary function and return a new <em>MSnSet</em> instance. The three main arguments are described below. Additional details can be found in the method documentation.</p>
+<p><em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> provides one function, <code>combineFeatures</code>, that allows to aggregate features stored in an <em>MSnSet</em> using build-in or user defined summary function and return a new <em>MSnSet</em> instance. The three main arguments are described below. Additional details can be found in the method documentation.</p>
 <p><code>combineFeatures</code>’s first argument, <code>object</code>, is an instance of class <em>MSnSet</em>, as has been created in the section @ref(sec:quant) for instance. The second argument, <code>groupBy</code>, is a <code>factor</code> than has as many elements as there are features in the <em>MSnSet</em> <code>object</code> argument. The features corresponding to the <code>groupBy</code> levels will be aggregated so that the resulting <em>MSnSet</em> output will have <code><a href="../reference/pSet-class.html">length(levels(groupBy))</a></code> features. Here, we will combine individual MS2 spectra based on the protein they originate from. As shown below, this will result in 40 new aggregated features.</p>
 <div class="sourceCode" id="cb134"><html><body><pre class="r"><span class="no">gb</span> <span class="kw">&lt;-</span> <span class="fu">fData</span>(<span class="no">qnt</span>)$<span class="no">ProteinAccession</span>
 <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="no">gb</span>)</pre></body></html></div>
@@ -1045,13 +1045,13 @@ Experiment-wide normalised MS2 spectra. The y-axes of the individual spectra is 
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Sun Apr 26 21:17:09 2020 
-## Spectra cleaned: Sun Apr 26 21:17:10 2020 
-## iTRAQ4 quantification by trapezoidation: Sun Apr 26 21:17:12 2020 
-## Subset [55,4][54,4] Sun Apr 26 21:17:12 2020 
-## Removed features with more than 0 NAs: Sun Apr 26 21:17:12 2020 
-## Dropped featureData's levels Sun Apr 26 21:17:12 2020 
-## Combined 54 features into 40 using median: Sun Apr 26 21:17:14 2020 
+## Curves &lt;= 400 set to '0': Tue May  5 14:36:39 2020 
+## Spectra cleaned: Tue May  5 14:36:39 2020 
+## iTRAQ4 quantification by trapezoidation: Tue May  5 14:36:41 2020 
+## Subset [55,4][54,4] Tue May  5 14:36:41 2020 
+## Removed features with more than 0 NAs: Tue May  5 14:36:41 2020 
+## Dropped featureData's levels Tue May  5 14:36:41 2020 
+## Combined 54 features into 40 using median: Tue May  5 14:36:44 2020 
 ##  MSnbase version: 2.13.9</code></pre>
 <p>Of interest is also the <code>iPQF</code> spectra-to-protein summarisation method, which integrates peptide spectra characteristics and quantitative values for protein quantitation estimation. See <code><a href="../reference/iPQF.html">?iPQF</a></code> and references therein for details.</p>
 </div>
@@ -1061,7 +1061,7 @@ Experiment-wide normalised MS2 spectra. The y-axes of the individual spectra is 
 <div id="peptide-counting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#peptide-counting" class="anchor"></a>Peptide counting</h2>
-<p>Note that if samples are not multiplexed, label-free MS2 quantitation by spectral counting is possible using <em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em>. Once individual spectra have been assigned to peptides and proteins (see section @ref(sec:id)), it becomes straightforward to estimate protein quantities using the simple peptide counting method, as illustrated in section @ref(sec:feataggregation).</p>
+<p>Note that if samples are not multiplexed, label-free MS2 quantitation by spectral counting is possible using <em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em>. Once individual spectra have been assigned to peptides and proteins (see section @ref(sec:id)), it becomes straightforward to estimate protein quantities using the simple peptide counting method, as illustrated in section @ref(sec:feataggregation).</p>
 <div class="sourceCode" id="cb140"><html><body><pre class="r"><span class="no">sc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span>(<span class="no">msexp</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"count"</span>)
 <span class="co">## lets modify out data for demonstration purposes</span>
 <span class="fu">fData</span>(<span class="no">sc</span>)$<span class="no">DatabaseAccess</span>[<span class="fl">1</span>] <span class="kw">&lt;-</span> <span class="fu">fData</span>(<span class="no">sc</span>)$<span class="no">DatabaseAccess</span>[<span class="fl">2</span>]
@@ -1073,7 +1073,7 @@ Experiment-wide normalised MS2 spectra. The y-axes of the individual spectra is 
 <pre><code>##         dummyiTRAQ.mzXML
 ## ECA0510                1
 ## ECA1028                2</code></pre>
-<p>Such count data could then be further analyses using dedicated count methods (originally developed for high-throughput sequencing) and directly available for <em>MSnSet</em> instances in the <em><a href="https://bioconductor.org/packages/3.11/msmsTests">msmsTests</a></em> Bioconductor package.</p>
+<p>Such count data could then be further analyses using dedicated count methods (originally developed for high-throughput sequencing) and directly available for <em>MSnSet</em> instances in the <em><a href="https://bioconductor.org/packages/3.12/msmsTests">msmsTests</a></em> Bioconductor package.</p>
 </div>
 <div id="spectral-counting-and-intensity-methods" class="section level2">
 <h2 class="hasAnchor">
@@ -1090,11 +1090,11 @@ Experiment-wide normalised MS2 spectra. The y-axes of the individual spectra is 
 <div class="sourceCode" id="cb146"><html><body><pre class="r"><span class="no">siquant</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span>(<span class="no">msexp</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"SIn"</span>)
 <span class="fu"><a href="../reference/pSet-class.html">processingData</a></span>(<span class="no">siquant</span>)</pre></body></html></div>
 <pre><code>## - - - Processing information - - -
-## Data loaded: Sun Apr 26 21:17:09 2020 
-## Filtered 2 unidentified peptides out [Sun Apr 26 21:17:09 2020] 
-## Quantitation by total ion current [Sun Apr 26 21:17:15 2020] 
-## Combined 3 features into 3 using sum: Sun Apr 26 21:17:15 2020 
-## Quantification by SIn [Sun Apr 26 21:17:15 2020] 
+## Data loaded: Tue May  5 14:36:38 2020 
+## Filtered 2 unidentified peptides out [Tue May  5 14:36:38 2020] 
+## Quantitation by total ion current [Tue May  5 14:36:44 2020] 
+## Combined 3 features into 3 using sum: Tue May  5 14:36:44 2020 
+## Quantification by SIn [Tue May  5 14:36:44 2020] 
 ##  MSnbase version: 2.13.9</code></pre>
 <div class="sourceCode" id="cb148"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span>(<span class="no">siquant</span>)</pre></body></html></div>
 <pre><code>##         dummyiTRAQ.mzXML
@@ -1110,7 +1110,7 @@ Experiment-wide normalised MS2 spectra. The y-axes of the individual spectra is 
 <div id="plotting-two-spectra" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plotting-two-spectra" class="anchor"></a>Plotting two spectra</h2>
-<p><em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> provides functionality to compare spectra against each other. The first notable function is <code>plot</code>. If two <em>Spectrum2</em> objects are provided <code>plot</code> will draw two plots: the upper and lower panel contain respectively the first and second spectrum. Common peaks are drawn in a slightly darker colour.</p>
+<p><em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> provides functionality to compare spectra against each other. The first notable function is <code>plot</code>. If two <em>Spectrum2</em> objects are provided <code>plot</code> will draw two plots: the upper and lower panel contain respectively the first and second spectrum. Common peaks are drawn in a slightly darker colour.</p>
 <div class="sourceCode" id="cb150"><html><body><pre class="r"><span class="no">centroided</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/pickPeaks-method.html">pickPeaks</a></span>(<span class="no">itraqdata</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
 (<span class="no">k</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="fu">fData</span>(<span class="no">centroided</span>)[, <span class="st">"PeptideSequence"</span>] <span class="kw">==</span> <span class="st">"TAGIQIVADDLTVTNPK"</span>))</pre></body></html></div>
 <pre><code>## [1] 41 42</code></pre>
@@ -1129,7 +1129,7 @@ Comparing two MS2 spectra.
 <div id="comparison-metrics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#comparison-metrics" class="anchor"></a>Comparison metrics</h2>
-<p>Currently <em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> supports three different metrics to compare spectra against each other: <code>common</code> to calculate the number of common peaks, <code>cor</code> to calculate the Pearson correlation and <code>dotproduct</code> to calculate the dot product. See <code><a href="../reference/compareSpectra-methods.html">?compareSpectra</a></code> to apply other arbitrary metrics.</p>
+<p>Currently <em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> supports three different metrics to compare spectra against each other: <code>common</code> to calculate the number of common peaks, <code>cor</code> to calculate the Pearson correlation and <code>dotproduct</code> to calculate the dot product. See <code><a href="../reference/compareSpectra-methods.html">?compareSpectra</a></code> to apply other arbitrary metrics.</p>
 <div class="sourceCode" id="cb155"><html><body><pre class="r"><span class="fu"><a href="../reference/compareSpectra-methods.html">compareSpectra</a></span>(<span class="no">centroided</span><span class="kw">[[</span><span class="fl">2</span>]], <span class="no">centroided</span><span class="kw">[[</span><span class="fl">3</span>]],
                <span class="kw">fun</span> <span class="kw">=</span> <span class="st">"common"</span>)</pre></body></html></div>
 <pre><code>## [1] 8</code></pre>
@@ -1165,7 +1165,7 @@ Comparing two MS2 spectra.
 <div class="figure">
 <img src="Figures/itraqchem.png" alt="iTRAQ 4-plex isobaric tags reagent consist of three parts: (1) a charged reporter group (MZ of 114, 115, 116 and 117) that is unique to each of the four reagents (red), (2) an uncharged mass balance group (28-31 Da) (blue)and (3) a peptide reactive group (NHS ester) that binds to the peptide. In case of incomplete dissociation, the reporter and balance groups produce a specific peaks at MZ 145." id="fig:itraqchem"><p class="caption">iTRAQ 4-plex isobaric tags reagent consist of three parts: (1) a charged reporter group (MZ of 114, 115, 116 and 117) that is unique to each of the four reagents (red), (2) an uncharged mass balance group (28-31 Da) (blue)and (3) a peptide reactive group (NHS ester) that binds to the peptide. In case of incomplete dissociation, the reporter and balance groups produce a specific peaks at MZ 145.</p>
 </div>
-<p><em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> provides, among others, a <em>ReporterIons</em> object for iTRAQ 4-plex that includes the 145 peaks, called <em>iTRAQ5</em>. This can then be used to quantify the experiment as show in section @ref(sec:quant) to estimate incomplete dissociation for each spectrum.</p>
+<p><em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> provides, among others, a <em>ReporterIons</em> object for iTRAQ 4-plex that includes the 145 peaks, called <em>iTRAQ5</em>. This can then be used to quantify the experiment as show in section @ref(sec:quant) to estimate incomplete dissociation for each spectrum.</p>
 <div class="sourceCode" id="cb164"><html><body><pre class="r"><span class="no">iTRAQ5</span></pre></body></html></div>
 <pre><code>## Object of class "ReporterIons"
 ## iTRAQ5: '4-plex iTRAQ and reporter + balance group' with 5 reporter ions
@@ -1335,7 +1335,7 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Combined [27,4] and [24,4] MSnSets Sun Apr 26 21:17:23 2020 
+## Combined [27,4] and [24,4] MSnSets Tue May  5 14:36:52 2020 
 ##  MSnbase version: 2.13.9</code></pre>
 <p>In summary, when experiments with different samples need to be combined (along the columns), one needs to (1) clarify the sample names using <code>updateSampleNames</code> or better manually, for biological relevance and (2) update the feature data variable labels with <code>updateFvarLabels</code>. The individual experiments (there can be more than 2) can then easily be combined with the <code>combine</code> method while retaining the meta-data.</p>
 <p>If runs for the same sample (different fractions for example) need to be combines, one needs to (1) differentiate the feature provenance with <code>updateFeatureNames</code> prior to use <code>combine</code>.</p>
@@ -1368,7 +1368,7 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 <h2 class="hasAnchor">
 <a href="#sec:avg" class="anchor"></a>Averaging <em>MSnSet</em> instances</h2>
 <p>It is sometimes useful to average a set of replicated experiments to facilitate their visualisation. This can be easily achieved with the <code>averageMSnSet</code> function, which takes a list of valid <em>MSnSet</em> instances as input and creates a new object whose expression values are an average of the original values. A value of dispersion (<code>disp</code>) and a count of missing values (<code>nNA</code>) is recorded in the feature metadata slot. The average and dispersion are computed by default as the median and (non-parametric) coefficient of variation (see <code><a href="../reference/npcv.html">?npcv</a></code> for details), although this can easily be parametrised, as described in <code><a href="../reference/averageMSnSet.html">?averageMSnSet</a></code>.</p>
-<p>The next code chunk illustrates the averaging function using three replicated experiments from <span class="citation">(Tan et al. 2009)</span> available in the <em><a href="https://bioconductor.org/packages/3.11/pRolocdata">pRolocdata</a></em> package.</p>
+<p>The next code chunk illustrates the averaging function using three replicated experiments from <span class="citation">(Tan et al. 2009)</span> available in the <em><a href="https://bioconductor.org/packages/3.12/pRolocdata">pRolocdata</a></em> package.</p>
 <div class="sourceCode" id="cb225"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"pRolocdata"</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">tan2009r1</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">tan2009r2</span>)
@@ -1399,7 +1399,7 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 ## P04412    1    1    1    1
 ## Q7KJ73    2    2    2    2
 ## Q7JZN0    0    0    0    0</code></pre>
-<p>We are going to visualise the average data on a principle component (PCA) plot using the <code>plot2D</code> function from the <em><a href="https://bioconductor.org/packages/3.11/pRoloc">pRoloc</a></em> package <span class="citation">(Gatto et al. 2014)</span>. In addition, we are going to use the measure of dispersion to highlight averages with high variability by taking, for each protein, the maximum observed dispersion in the 4 samples. Note that in the default implementation, dispersions estimated from a single measurement (i.e. that had 2 missing values in our example) are set to 0; we will set these to the overal maximum observed dispersion.</p>
+<p>We are going to visualise the average data on a principle component (PCA) plot using the <code>plot2D</code> function from the <em><a href="https://bioconductor.org/packages/3.12/pRoloc">pRoloc</a></em> package <span class="citation">(Gatto et al. 2014)</span>. In addition, we are going to use the measure of dispersion to highlight averages with high variability by taking, for each protein, the maximum observed dispersion in the 4 samples. Note that in the default implementation, dispersions estimated from a single measurement (i.e. that had 2 missing values in our example) are set to 0; we will set these to the overal maximum observed dispersion.</p>
 <div class="sourceCode" id="cb231"><html><body><pre class="r"><span class="no">disp</span> <span class="kw">&lt;-</span> <span class="fu">rowMax</span>(<span class="fu">fData</span>(<span class="no">avgtan</span>)$<span class="no">disp</span>)
 <span class="no">disp</span>[<span class="no">disp</span> <span class="kw">==</span> <span class="fl">0</span>] <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="no">disp</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span>(<span class="no">disp</span>)</pre></body></html></div>
@@ -1416,12 +1416,12 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 <div id="sec:mse" class="section level1">
 <h1 class="hasAnchor">
 <a href="#sec:mse" class="anchor"></a>MS<sup>E</sup> data processing</h1>
-<p><em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> can also be used for MS<sup>E</sup> data independent acquisition from Waters instrument. The MS<sup>E</sup> pipeline depends on the Bioconductor <em><a href="https://bioconductor.org/packages/3.11/synapter">synapter</a></em> package <span class="citation">(Bond et al. 2013)</span> that produces <em>MSnSet</em> instances for indvidual acquisitions. The <em><a href="https://bioconductor.org/packages/3.11/MSnbase">MSnbase</a></em> infrastructure can subsequently be used to further combine experiments, as shown in section @ref(sec:comb2) and apply <em>top3</em> quantitation using the <code>topN</code> method.</p>
+<p><em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> can also be used for MS<sup>E</sup> data independent acquisition from Waters instrument. The MS<sup>E</sup> pipeline depends on the Bioconductor <em><a href="https://bioconductor.org/packages/3.12/synapter">synapter</a></em> package <span class="citation">(Bond et al. 2013)</span> that produces <em>MSnSet</em> instances for indvidual acquisitions. The <em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> infrastructure can subsequently be used to further combine experiments, as shown in section @ref(sec:comb2) and apply <em>top3</em> quantitation using the <code>topN</code> method.</p>
 </div>
 <div id="session-information" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
-<pre><code>## R Under development (unstable) (2020-04-26 r78306)
+<pre><code>## R Under development (unstable) (2020-05-05 r78363)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
@@ -1442,51 +1442,51 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 ##  [8] datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] gplots_3.0.3         msdata_0.27.0        pRoloc_1.27.6       
-##  [4] BiocParallel_1.21.3  MLInterfaces_1.67.11 cluster_2.1.0       
-##  [7] annotate_1.65.1      XML_3.99-0.3         AnnotationDbi_1.49.1
-## [10] IRanges_2.21.8       pRolocdata_1.25.3    Rdisop_1.47.0       
-## [13] zoo_1.8-7            MSnbase_2.13.9       ProtGenerics_1.19.3 
-## [16] S4Vectors_0.25.15    mzR_2.21.1           Rcpp_1.0.4.6        
-## [19] Biobase_2.47.3       BiocGenerics_0.33.3  ggplot2_3.3.0       
-## [22] BiocStyle_2.15.8    
+##  [1] gplots_3.0.3         msdata_0.29.0        pRoloc_1.29.0       
+##  [4] BiocParallel_1.23.0  MLInterfaces_1.69.0  cluster_2.1.0       
+##  [7] annotate_1.67.0      XML_3.99-0.3         AnnotationDbi_1.51.0
+## [10] IRanges_2.23.4       pRolocdata_1.27.0    Rdisop_1.49.0       
+## [13] zoo_1.8-8            MSnbase_2.13.9       ProtGenerics_1.19.3 
+## [16] S4Vectors_0.27.4     mzR_2.23.0           Rcpp_1.0.4.6        
+## [19] Biobase_2.49.0       BiocGenerics_0.35.0  ggplot2_3.3.0       
+## [22] BiocStyle_2.17.0    
 ## 
 ## loaded via a namespace (and not attached):
-##   [1] backports_1.1.6       BiocFileCache_1.11.6  plyr_1.8.6           
+##   [1] backports_1.1.6       BiocFileCache_1.13.0  plyr_1.8.6           
 ##   [4] splines_4.1.0         digest_0.6.25         foreach_1.5.0        
 ##   [7] htmltools_0.4.0       viridis_0.5.1         gdata_2.18.0         
 ##  [10] magrittr_1.5          memoise_1.1.0         doParallel_1.0.15    
-##  [13] mixtools_1.2.0        limma_3.43.8          recipes_0.1.10       
+##  [13] mixtools_1.2.0        limma_3.45.0          recipes_0.1.12       
 ##  [16] gower_0.2.1           askpass_1.1           pkgdown_1.5.1        
 ##  [19] lpSolve_5.6.15        prettyunits_1.1.1     colorspace_1.4-1     
 ##  [22] blob_1.2.1            rappdirs_0.3.1        xfun_0.13            
 ##  [25] dplyr_0.8.5           crayon_1.3.4          RCurl_1.98-1.2       
-##  [28] hexbin_1.28.1         impute_1.61.0         survival_3.1-12      
+##  [28] hexbin_1.28.1         impute_1.63.0         survival_3.1-12      
 ##  [31] iterators_1.0.12      glue_1.4.0            gtable_0.3.0         
-##  [34] ipred_0.9-9           zlibbioc_1.33.1       kernlab_0.9-29       
-##  [37] scales_1.1.0          vsn_3.55.0            mvtnorm_1.1-0        
+##  [34] ipred_0.9-9           zlibbioc_1.35.0       kernlab_0.9-29       
+##  [37] scales_1.1.0          vsn_3.57.0            mvtnorm_1.1-0        
 ##  [40] DBI_1.1.0             viridisLite_0.3.0     xtable_1.8-4         
 ##  [43] progress_1.2.2        bit_1.1-15.2          proxy_0.4-24         
-##  [46] mclust_5.4.6          preprocessCore_1.49.2 lava_1.6.7           
+##  [46] mclust_5.4.6          preprocessCore_1.51.0 lava_1.6.7           
 ##  [49] prodlim_2019.11.13    sampling_2.8          httr_1.4.1           
 ##  [52] FNN_1.1.3             RColorBrewer_1.1-2    ellipsis_0.3.0       
 ##  [55] farver_2.0.3          pkgconfig_2.0.3       nnet_7.3-14          
 ##  [58] dbplyr_1.4.3          caret_6.0-86          tidyselect_1.0.0     
-##  [61] labeling_0.3          rlang_0.4.5           reshape2_1.4.4       
+##  [61] labeling_0.3          rlang_0.4.6           reshape2_1.4.4       
 ##  [64] munsell_0.5.0         tools_4.1.0           LaplacesDemon_16.1.4 
 ##  [67] generics_0.0.2        RSQLite_2.2.0         evaluate_0.14        
-##  [70] stringr_1.4.0         mzID_1.25.0           yaml_2.2.1           
+##  [70] stringr_1.4.0         mzID_1.27.0           yaml_2.2.1           
 ##  [73] ModelMetrics_1.2.2.2  knitr_1.28            bit64_0.9-7          
 ##  [76] fs_1.3.2              caTools_1.18.0        purrr_0.3.4          
 ##  [79] randomForest_4.6-14   dendextend_1.13.4     ncdf4_1.17           
-##  [82] nlme_3.1-147          biomaRt_2.43.6        compiler_4.1.0       
-##  [85] curl_4.3              e1071_1.7-3           affyio_1.57.0        
+##  [82] nlme_3.1-147          biomaRt_2.45.0        compiler_4.1.0       
+##  [85] curl_4.3              e1071_1.7-3           affyio_1.59.0        
 ##  [88] tibble_3.0.1          stringi_1.4.6         highr_0.8            
 ##  [91] desc_1.2.0            lattice_0.20-41       Matrix_1.2-18        
-##  [94] vctrs_0.2.4           pillar_1.4.3          lifecycle_0.2.0      
+##  [94] vctrs_0.2.4           pillar_1.4.4          lifecycle_0.2.0      
 ##  [97] BiocManager_1.30.10   MALDIquant_1.19.3     data.table_1.12.8    
-## [100] bitops_1.0-6          R6_2.4.1              pcaMethods_1.79.1    
-## [103] affy_1.65.1           bookdown_0.18         KernSmooth_2.23-17   
+## [100] bitops_1.0-6          R6_2.4.1              pcaMethods_1.81.0    
+## [103] affy_1.67.0           bookdown_0.18         KernSmooth_2.23-17   
 ## [106] gridExtra_2.3         codetools_0.2-16      MASS_7.3-51.6        
 ## [109] gtools_3.8.2          assertthat_0.2.1      openssl_1.4.1        
 ## [112] rprojroot_1.3-2       withr_2.2.0           mgcv_1.8-31          
@@ -1570,7 +1570,7 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 <li id="fn2"><p>in R, open it with <code>vignette("benchmarking")</code> or read it online <a href="https://bioconductor.org/packages/devel/bioc/vignettes/MSnbase/inst/doc/benchmarking.html">here</a><a href="#fnref2" class="footnote-back">↩</a></p></li>
 <li id="fn3"><p>Mascot Generic Format, see <a href="http://www.matrixscience.com/help/data_file_help.html#GEN" class="uri">http://www.matrixscience.com/help/data_file_help.html#GEN</a><a href="#fnref3" class="footnote-back">↩</a></p></li>
 <li id="fn4"><p>This part will be automatically updated when the object is modified with it’s <em>ad hoc</em> methods, as illustrated later.<a href="#fnref4" class="footnote-back">↩</a></p></li>
-<li id="fn5"><p>The identification data can also be passed as dedicated identification objects such as <code>mzRident</code> from the <em><a href="https://bioconductor.org/packages/3.11/mzR">mzR</a></em> package or <code>mzID</code> from thr <em><a href="https://bioconductor.org/packages/3.11/mzID">mzID</a></em> package, or as a <code>data.frame</code> - see <code>?addIdentifionData</code> for details.<a href="#fnref5" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>The identification data can also be passed as dedicated identification objects such as <code>mzRident</code> from the <em><a href="https://bioconductor.org/packages/3.12/mzR">mzR</a></em> package or <code>mzID</code> from thr <em><a href="https://bioconductor.org/packages/3.12/mzID">mzID</a></em> package, or as a <code>data.frame</code> - see <code>?addIdentifionData</code> for details.<a href="#fnref5" class="footnote-back">↩</a></p></li>
 <li id="fn6"><p>The code to generate the histograms has been contributed by Guangchuang Yu.<a href="#fnref6" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
