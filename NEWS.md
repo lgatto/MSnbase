@@ -1,3 +1,16 @@
+# MSnbase 2.15
+
+## Changes in 2.15.1
+- Fix: don't read mzTab twice <2020-05-05 Tue>
+
+## Changes in 2.15.0
+- Bioconductor devel version (Bioc 3.12)
+
+# MSnbase 2.14
+
+## Changes in 2.14.0
+- Bioconductor release version (Bioc 3.11)
+
 # MSnbase 2.13
 
 ## Changes in 2.13.9
@@ -10,7 +23,7 @@
 
 ## Changes in 2.13.7
 - Make writeMgfData example runnable <2020-04-20 Mon>
-- Fix issue when writing mgf with a connection (PR #505, by Rico
+- Fix issue when writing mgf with a connection (PR [#505](https://github.com/lgatto/MSnbase/issues/505), by Rico
   Derks) <2020-04-20 Mon>
 - Add writeMgfData file/connection unit test <2020-04-20 Mon>
 
@@ -18,9 +31,9 @@
 - When reading MzTab files, the column names aren't converted to legal
   colnames (my make.names) - `check.names` in `read.delim` is now
   (internally) set to `FALSE`. This will make it easier to write MzTab
-  objects back to files. See issue #501 for a discussion.
+  objects back to files. See issue [#501](https://github.com/lgatto/MSnbase/issues/501) for a discussion.
 - Re-introduce MzTab write support (contributed by Steffen
-  Neumann). See #502.
+  Neumann). See [#502](https://github.com/lgatto/MSnbase/issues/502).
 
 ## Changes in 2.13.5
 - Support reading of MzTab-M 2.0 format (contributed by Steffen
