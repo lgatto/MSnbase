@@ -55,7 +55,7 @@ comments <- function(x) x@Comments
 MzTab <- function(file) {
     file <- file[1]
     lines <- readLines(file)
-    lines <- lines[-grep("^\\s*$", readLines(file))]
+    lines <- lines[-grep("^\\s*$", lines)]
     lines <- lines[nzchar(lines)]
 
     ## Split on the first characters, make sure headers stay in
