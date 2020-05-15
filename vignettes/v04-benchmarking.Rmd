@@ -25,10 +25,15 @@ suppressPackageStartupMessages(library("BiocParallel"))
 # Introduction
 
 In this vignette, we will document various timings and benchmarkings
-of the recent `r Biocpkg("MSnbase")` development, that focuses on
-*on-disk* data access (as opposed to *in-memory*). More details about
-the new implementation are documented in the respective classes manual
-pages.
+of the `r Biocpkg("MSnbase")` version 2, that focuses on *on-disk*
+data access (as opposed to *in-memory*). More details about the new
+implementation are documented in the respective classes manual pages
+and in
+
+> *`MSnbase`, efficient and elegant R-based processing and
+> visualisation of raw mass spectrometry data*. Laurent Gatto,
+> Sebastian Gibb, Johannes Rainer. bioRxiv 2020.04.29.067868; doi:
+> https://doi.org/10.1101/2020.04.29.067868
 
 As a benchmarking dataset, we are going to use a subset of an TMT
 6-plex experiment acquired on an LTQ Orbitrap Velos, that is
@@ -224,3 +229,4 @@ For general functionality about the on-disk `MSnExp` data class and
 ```{r vigs, eval=FALSE}
 vignette(package = "MSnbase")
 ```
+

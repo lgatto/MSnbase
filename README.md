@@ -30,7 +30,7 @@ vignette. More vignettes are available in the *Articles* tab.
 
 ## Installation
 
-To install *[MSnbase](https://bioconductor.org/packages/3.10/MSnbase)*
+To install *[MSnbase](https://bioconductor.org/packages/3.11/MSnbase)*
 
 
 ```r
@@ -63,6 +63,13 @@ To cite the `MSnbase` package in publications, please use:
 > quantitation*. Bioinformatics. 2012 Jan
 > 15;28(2):288-9. doi:10.1093/bioinformatics/btr645. PubMed
 > [PMID:22113085](http://www.ncbi.nlm.nih.gov/pubmed/22113085).
+
+
+> *`MSnbase`, efficient and elegant R-based processing and
+> visualisation of raw mass spectrometry data*. Laurent Gatto,
+> Sebastian Gibb, Johannes Rainer. bioRxiv 2020.04.29.067868; doi:
+> https://doi.org/10.1101/2020.04.29.067868
+
 
 ## Contributing
 
