@@ -1,6 +1,6 @@
 # MSnbase 2.15
 
-## Changes in 2.15.1
+## Changes in 2.15.2
 - Add MSnbase2 citation entry <2020-05-15 Fri>
 
 ## Changes in 2.15.1
