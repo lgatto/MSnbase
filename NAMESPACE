@@ -121,6 +121,8 @@ export(MSnSet,
        ## MzTab
        MzTab,
        smallMolecules,
+       moleculeFeatures,
+       moleculeEvidence,
        comments,
        mzTabMode,
        mzTabType,
