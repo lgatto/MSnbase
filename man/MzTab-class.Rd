@@ -12,6 +12,8 @@
 \alias{psms,MzTab-method}
 \alias{comments}
 \alias{smallMolecules}
+\alias{moleculeFeatures}
+\alias{moleculeEvidence}
 \alias{mzTabMode}
 \alias{mzTabType}
 \alias{coerce,MzTab,MSnSetList-method}
@@ -103,7 +105,11 @@
     \item{psms}{\code{signature(object = "MzTab")}: returns the
       PSMs \code{data.frame}. }
     \item{smallMolecules}{\code{signature(object = "MzTab")}: returns
-      the small molecules \code{data.frame}. }
+      the small molecules (SML) \code{data.frame}. }
+    \item{moleculeFeatures}{\code{signature(object = "MzTab")}: returns
+      the small molecules features (SMF) \code{data.frame}. }
+    \item{moleculeEvidence}{\code{signature(object = "MzTab")}: returns
+      the small molecule identification evidence (SME) \code{data.frame}. }
     \item{comments}{\code{signature(object = "MzTab")}: returns the
       comments. }
   }
@@ -113,7 +119,8 @@
 \references{
 
   The mzTab format is a light-weight, tab-delimited file format for
-  proteomics data. See https://github.com/HUPO-PSI/mzTab for details and
+  proteomics data. Version mzTab 1.0 is aimed at proteomics, mzTab-M 2.0
+  was adapted to metabolomics. See https://github.com/HUPO-PSI/mzTab for details and
   specifications.
 
   Griss J, Jones AR, Sachsenberg T, Walzer M, Gatto L, Hartler J,
@@ -125,7 +132,11 @@
   audience. Mol Cell Proteomics. 2014 Oct;13(10):2765-75. doi:
   10.1074/mcp.O113.036681. Epub 2014 Jun 30. PubMed PMID: 24980485;
   PubMed Central PMCID: PMC4189001.
-  
+
+  Hoffmann N, Rein J, Sachsenberg T, et al. mzTab-M: A Data Standard
+  for Sharing Quantitative Results in Mass Spectrometry Metabolomics.
+  Anal Chem. 2019;91(5):3302‐3310. doi:10.1021/acs.analchem.8b04310
+  PubMed PMID: 30688441; PubMed Central PMCID: PMC6660005.
 }
 
 \author{
