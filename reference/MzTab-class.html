@@ -238,7 +238,11 @@ Note that no attempts are made to verify the validitiy of the mzTab
     <dt>psms</dt><dd><p><code>signature(object = "MzTab")</code>: returns the
       PSMs <code>data.frame</code>.</p></dd>
     <dt>smallMolecules</dt><dd><p><code>signature(object = "MzTab")</code>: returns
-      the small molecules <code>data.frame</code>.</p></dd>
+      the small molecules (SML) <code>data.frame</code>.</p></dd>
+    <dt>moleculeFeatures</dt><dd><p><code>signature(object = "MzTab")</code>: returns
+      the small molecules features (SMF) <code>data.frame</code>.</p></dd>
+    <dt>moleculeEvidence</dt><dd><p><code>signature(object = "MzTab")</code>: returns
+      the small molecule identification evidence (SME) <code>data.frame</code>.</p></dd>
     <dt>comments</dt><dd><p><code>signature(object = "MzTab")</code>: returns the
       comments.</p></dd>
   
@@ -249,7 +253,8 @@ Note that no attempts are made to verify the validitiy of the mzTab
     
 
 <p>The mzTab format is a light-weight, tab-delimited file format for
-  proteomics data. See https://github.com/HUPO-PSI/mzTab for details and
+  proteomics data. Version mzTab 1.0 is aimed at proteomics, mzTab-M 2.0
+  was adapted to metabolomics. See https://github.com/HUPO-PSI/mzTab for details and
   specifications.</p>
 <p>Griss J, Jones AR, Sachsenberg T, Walzer M, Gatto L, Hartler J,
   Thallinger GG, Salek RM, Steinbeck C, Neuhauser N, Cox J, Neumann S,
@@ -260,6 +265,10 @@ Note that no attempts are made to verify the validitiy of the mzTab
   audience. Mol Cell Proteomics. 2014 Oct;13(10):2765-75. doi:
   10.1074/mcp.O113.036681. Epub 2014 Jun 30. PubMed PMID: 24980485;
   PubMed Central PMCID: PMC4189001.</p>
+<p>Hoffmann N, Rein J, Sachsenberg T, et al. mzTab-M: A Data Standard
+  for Sharing Quantitative Results in Mass Spectrometry Metabolomics.
+  Anal Chem. 2019;91(5):3302‐3310. doi:10.1021/acs.analchem.8b04310
+  PubMed PMID: 30688441; PubMed Central PMCID: PMC6660005.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Test files from the mzTab developement repository</span>
