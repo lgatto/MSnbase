@@ -402,7 +402,7 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #'     retention time. Setting \code{aggregationFun = "sum"} would e.g. allow
 #'     to calculate the \emph{total ion chromatogram} (TIC),
 #'     \code{aggregationFun = "max"} the \emph{base peak chromatogram} (BPC).
-#'     The length of the extracted \code{\link[MSnbase]{Chromatogram}} object,
+#'     The length of the extracted \code{\link{Chromatogram}} object,
 #'     i.e. the number of available data points, corresponds to the number of
 #'     scans/spectra measured in the specified retention time range. If in a
 #'     specific scan (for a give retention time) no signal was measured in the

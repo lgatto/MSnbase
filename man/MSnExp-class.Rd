@@ -249,7 +249,7 @@
 
     \item{isolationWindow}{\code{signature(object = "MSnExp", ...)}:
       Returns the isolation window offsets for the MS2 spectra. See
-      \code{\link[mzR]{isolationWindow}} for details. }
+      \code{\link{isolationWindow}} in the \code{mzR} package for details. }
 
     \item{trimMz}{\code{signature(object = "MSnExp")}: Trims the MZ
       range of all the spectra of the \code{MSnExp} instance. See

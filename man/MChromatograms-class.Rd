@@ -142,12 +142,14 @@ extracted).}
 \item{col}{For \code{plot}: the color to be used for plotting. Either a
 vector of length 1 or equal to \code{ncol(x)}.}
 
-\item{lty}{For \code{plot}: the line type (see \code{\link[graphics]{plot}}
+\item{lty}{For \code{plot}: the line type (see \code{plot} in the
+\code{graphics} package
 for more details. Can be either a vector of length 1 or of length equal
 to \code{ncol(x)}.}
 
 \item{type}{For \code{plot}: the type of plot (see
-\code{\link[graphics]{plot}} for more details. Can be either a vector
+\code{plot} from the \code{graphics} package for more details.
+Can be either a vector
 of length 1 or of length equal to \code{ncol(x)}.}
 
 \item{xlab}{For \code{plot}: the x-axis label.}

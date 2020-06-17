@@ -26,7 +26,7 @@ setMethod("show", "Chromatogram", function(object) {
 #'     - intensity pairs stored in the chromatogram.
 #'
 #' @param object A \code{Chromatogram} object.
-#' 
+#'
 #' @rdname Chromatogram-class
 setMethod("rtime", "Chromatogram", function(object) {
     object@rtime
@@ -34,7 +34,7 @@ setMethod("rtime", "Chromatogram", function(object) {
 
 #' @description \code{intensity} returns the intensity for the rentention time
 #'     - intensity pairs stored in the chromatogram.
-#' 
+#'
 #' @rdname Chromatogram-class
 setMethod("intensity", "Chromatogram", function(object) {
     object@intensity
@@ -46,7 +46,7 @@ setMethod("intensity", "Chromatogram", function(object) {
 #' @param filter For \code{mz}: whether the mz range used to filter the
 #'     original object should be returned (\code{filter = TRUE}), or the mz
 #'     range calculated on the real data (\code{filter = FALSE}).
-#' 
+#'
 #' @rdname Chromatogram-class
 setMethod("mz", "Chromatogram", function(object, filter = FALSE) {
     if (filter)
@@ -62,14 +62,14 @@ setMethod("mz", "Chromatogram", function(object, filter = FALSE) {
 
 #' @description \code{precursorMz} get the mz of the precursor ion. The
 #'     function returns a \code{numeric(2)} with the lower and upper mz value.
-#' 
+#'
 #' @rdname Chromatogram-class
 setMethod("precursorMz", "Chromatogram", function(object) {
     object@precursorMz
 })
 
 #' @description \code{fromFile} returns the value from the \code{fromFile} slot.
-#' 
+#'
 #' @rdname Chromatogram-class
 setMethod("fromFile", "Chromatogram", function(object) {
     object@fromFile
@@ -77,7 +77,7 @@ setMethod("fromFile", "Chromatogram", function(object) {
 
 #' @description \code{length} returns the length (number of retention time -
 #'     intensity pairs) of the chromatogram.
-#' 
+#'
 #' @param x For \code{as.data.frame} and \code{length}: a \code{Chromatogram}
 #'     object.
 #'
@@ -88,7 +88,7 @@ setMethod("length", "Chromatogram", function(x) {
 
 #' @description \code{as.data.frame} returns the \code{rtime} and
 #'     \code{intensity} values from the object as \code{data.frame}.
-#' 
+#'
 #' @rdname Chromatogram-class
 setMethod("as.data.frame", "Chromatogram", function(x) {
     data.frame(rtime = x@rtime, intensity = x@intensity)
@@ -150,7 +150,7 @@ setMethod("filterRt", "Chromatogram", function(object, rt) {
 #'     intensities should be removed before cleaning the \code{Chromatogram}.
 #'     Defaults to \code{FALSE}. See \code{\link{clean}} for more details and
 #'     examples.
-#' 
+#'
 #' @rdname Chromatogram-class
 setMethod("clean", signature = signature("Chromatogram"),
           function(object, all = FALSE, na.rm = FALSE) {
@@ -162,16 +162,16 @@ setMethod("clean", signature = signature("Chromatogram"),
           })
 
 #' @rdname Chromatogram-class
-#' 
+#'
 #' @description \code{plot}: plots a \code{Chromatogram} object.
 #'
 #' @param col For \code{plot}: the color to be used for plotting.
 #'
-#' @param lty For \code{plot}: the line type. See \code{\link[graphics]{plot}}
-#'     for more details.
+#' @param lty For \code{plot}: the line type. See help page of \code{plot} in
+#'     the \code{graphics} package for details.
 #'
-#' @param type For \code{plot}: the type of plot. See
-#'     \code{\link[graphics]{plot}} for more details.
+#' @param type For \code{plot}: the type of plot. See help page of \code{plot} in
+#'     the \code{graphics} package for details.
 #'
 #' @param xlab For \code{plot}: the x-axis label.
 #'
@@ -181,7 +181,7 @@ setMethod("clean", signature = signature("Chromatogram"),
 #'     will be used as plot title.
 #'
 #' @param ... For \code{plot}: additional arguments to be passed to the
-#'     \code{\link[graphics]{plot}} function.
+#'     base `plot` function.
 setMethod("plot", signature = signature("Chromatogram"),
           function(x, col = "#00000060", lty = 1, type = "l",
                    xlab = "retention time", ylab = "intensity",
@@ -198,7 +198,7 @@ setMethod("plot", signature = signature("Chromatogram"),
           })
 
 #' @description \code{msLevel} returns the MS level of the chromatogram.
-#' 
+#'
 #' @rdname Chromatogram-class
 setMethod("msLevel", "Chromatogram", function(object) {
     object@msLevel
@@ -206,17 +206,17 @@ setMethod("msLevel", "Chromatogram", function(object) {
 
 #' @description \code{isEmpty} returns \code{TRUE} for empty chromatogram or
 #'     chromatograms with all intensities being \code{NA}.
-#' 
+#'
 #' @rdname Chromatogram-class
 setMethod("isEmpty", "Chromatogram", function(x) {
     (length(x) == 0 | all(is.na(intensity(x))))
 })
 
 #' @aliases productMz
-#' 
+#'
 #' @description \code{productMz} get the mz of the product chromatogram/ion. The
 #'     function returns a \code{numeric(2)} with the lower and upper mz value.
-#' 
+#'
 #' @rdname Chromatogram-class
 setMethod("productMz", "Chromatogram", function(object) {
     object@productMz

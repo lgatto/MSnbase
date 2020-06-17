@@ -175,12 +175,14 @@ setReplaceMethod("[", "MChromatograms",
 #' @param col For \code{plot}: the color to be used for plotting. Either a
 #'     vector of length 1 or equal to \code{ncol(x)}.
 #'
-#' @param lty For \code{plot}: the line type (see \code{\link[graphics]{plot}}
+#' @param lty For \code{plot}: the line type (see \code{plot} in the
+#'     \code{graphics} package
 #'     for more details. Can be either a vector of length 1 or of length equal
 #'     to \code{ncol(x)}.
 #'
 #' @param type For \code{plot}: the type of plot (see
-#'     \code{\link[graphics]{plot}} for more details. Can be either a vector
+#'     \code{plot} from the \code{graphics} package for more details.
+#'     Can be either a vector
 #'     of length 1 or of length equal to \code{ncol(x)}.
 #'
 #' @inheritParams Chromatogram-class
