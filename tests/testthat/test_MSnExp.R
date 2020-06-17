@@ -599,12 +599,12 @@ test_that("plotXIC_MSnExp works", {
     expect_error(plotXIC_MSnExp(tmt_erwinia_in_mem_ms2))
 })
 
-test_that("as,MSnExp,Spectra works", {
-    res <- as(tmt_erwinia_in_mem_ms1, "Spectra")
+test_that("as,MSnExp,MSpectra works", {
+    res <- as(tmt_erwinia_in_mem_ms1, "MSpectra")
     expect_equal(res@listData, spectra(tmt_erwinia_in_mem_ms1))
     expect_true(ncol(mcols(res)) == 0)
 
-    res <- as(sciex, "Spectra")
+    res <- as(sciex, "MSpectra")
     expect_equal(length(res), length(sciex))
     expect_equal(msLevel(res), msLevel(sciex))
     expect_equal(intensity(res), intensity(sciex))
@@ -621,7 +621,7 @@ test_that("combineSpectra,MSnExp works", {
     expect_true(is(res, "MSnExp"))
     expect_true(length(res) == 1)
     expect_equal(res[[1]],
-                 combineSpectra(as(tmt_im_ms2_sub, "Spectra"))@listData[[1]])
+                 combineSpectra(as(tmt_im_ms2_sub, "MSpectra"))@listData[[1]])
     res2 <- combineSpectra(tmt_im_ms2_sub, mzd = 0.1)
     expect_true(peaksCount(res2) < peaksCount(res))
     res3 <- combineSpectra(tmt_im_ms2_sub, mzd = 0.01, minProp = 0.1,

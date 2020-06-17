@@ -1,10 +1,10 @@
-#' @include functions-Spectra.R
+#' @include functions-MSpectra.R
 
-setMethod("show", "Spectra", function(object) {
-    .show_Spectra(object, margin = "  ", print.classinfo = TRUE)
+setMethod("show", "MSpectra", function(object) {
+    .show_MSpectra(object, margin = "  ", print.classinfo = TRUE)
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @section Accessing spectrum attributes:
 #'
@@ -71,9 +71,9 @@ setMethod("show", "Spectra", function(object) {
 #'
 #' @section Filtering and subsetting:
 #'
-#' - `[` can be used to subset the `Spectra` object.
+#' - `[` can be used to subset the `MSpectra` object.
 #'
-#' - `filterMsLevel` filters `Spectra` to retain only spectra from certain MS
+#' - `filterMsLevel` filters `MSpectra` to retain only spectra from certain MS
 #'   level(s).
 #'
 #' - `filterMz` filters the spectra by the specified `mz` range. See
@@ -88,7 +88,7 @@ setMethod("show", "Spectra", function(object) {
 #' @param msLevel. For `clean`, `removePeaks`, `filterMz`, `pickPeaks`:
 #'   optionally specify the MS level(s) of the spectra on which the operation
 #'   should be performed.
-#'   For `filterMsLevels`: MS level(s) to which the `Spectra` should be reduced.
+#'   For `filterMsLevels`: MS level(s) to which the `MSpectra` should be reduced.
 #'
 #' @param method For `pickPeaks` and `smooth`: see [pickPeaks()] and [smooth()]
 #'   for details.
@@ -110,76 +110,76 @@ setMethod("show", "Spectra", function(object) {
 #'
 #' ## Extract the mz values for the individual spectra
 #' mz(spl)
-setMethod("mz", "Spectra", function(object) {
+setMethod("mz", "MSpectra", function(object) {
     lapply(object, function(z) z@mz)
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Extract the intensity values for the individual spectra
 #' intensity(spl)
-setMethod("intensity", "Spectra", function(object) {
+setMethod("intensity", "MSpectra", function(object) {
     lapply(object, function(z) z@intensity)
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Extract the retention time values for the individual spectra
 #' rtime(spl)
-setMethod("rtime", "Spectra", function(object) {
+setMethod("rtime", "MSpectra", function(object) {
     vapply(object, function(z) if(length(z@rt)) z@rt else NA_real_, numeric(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Extract the precursor m/z of each spectrum.
 #' precursorMz(spl)
-setMethod("precursorMz", "Spectra", function(object) {
+setMethod("precursorMz", "MSpectra", function(object) {
     vapply(object, function(z) {
         if (is(z, "Spectrum2") && length(z@precursorMz)) z@precursorMz
         else NA_real_
     }, numeric(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Extract the precursor charge of each spectrum.
 #' precursorCharge(spl)
-setMethod("precursorCharge", "Spectra", function(object) {
+setMethod("precursorCharge", "MSpectra", function(object) {
     vapply(object, function(z) {
         if (is(z, "Spectrum2") && length(z@precursorCharge)) z@precursorCharge
         else NA_integer_
     }, integer(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Extract the precursor scan number for each spectrum.
 #' precScanNum(spl)
-setMethod("precScanNum", "Spectra", function(object) {
+setMethod("precScanNum", "MSpectra", function(object) {
     vapply(object, function(z) {
         if (is(z, "Spectrum2") && length(z@precScanNum)) z@precScanNum
         else NA_integer_
     }, integer(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Extract the precursor intensity of each spectrum.
 #' precursorIntensity(spl)
-setMethod("precursorIntensity", "Spectra", function(object) {
+setMethod("precursorIntensity", "MSpectra", function(object) {
     vapply(object, function(z) {
         if (is(z, "Spectrum2") && length(z@precursorIntensity))
             z@precursorIntensity
@@ -187,154 +187,154 @@ setMethod("precursorIntensity", "Spectra", function(object) {
     }, numeric(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Extract the acquisition number of each spectrum.
 #' acquisitionNum(spl)
-setMethod("acquisitionNum", "Spectra", function(object) {
+setMethod("acquisitionNum", "MSpectra", function(object) {
     vapply(object, function(z)
         if (length(z@acquisitionNum)) z@acquisitionNum else NA_integer_,
         integer(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Extract the scan index of each spectrum.
 #' scanIndex(spl)
-setMethod("scanIndex", "Spectra", function(object) {
+setMethod("scanIndex", "MSpectra", function(object) {
     vapply(object, function(z)
         if (length(z@scanIndex)) z@scanIndex else NA_integer_,
         integer(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Get the number of peaks per spectrum.
 #' peaksCount(spl)
-setMethod("peaksCount", "Spectra", function(object) {
+setMethod("peaksCount", "MSpectra", function(object) {
     vapply(object, peaksCount, integer(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Get the MS level of each spectrum.
 #' msLevel(spl)
-setMethod("msLevel", "Spectra", function(object) {
+setMethod("msLevel", "MSpectra", function(object) {
     vapply(object, msLevel, integer(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Get the total ion current for each spectrum.
 #' tic(spl)
-setMethod("tic", "Spectra", function(object) {
+setMethod("tic", "MSpectra", function(object) {
     vapply(object, tic, numeric(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Get the total ion current for each spectrum.
 #' ionCount(spl)
-setMethod("ionCount", "Spectra", function(object) {
+setMethod("ionCount", "MSpectra", function(object) {
     vapply(object, ionCount, numeric(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Extract the collision energy for each spectrum.
 #' collisionEnergy(spl)
-setMethod("collisionEnergy", "Spectra", function(object) {
+setMethod("collisionEnergy", "MSpectra", function(object) {
     vapply(object, function(z) {
         if (is(z, "Spectrum2") && length(z@collisionEnergy)) z@collisionEnergy
         else NA_real_
     }, numeric(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Extract the file index for each spectrum.
 #' fromFile(spl)
-setMethod("fromFile", "Spectra", function(object) {
+setMethod("fromFile", "MSpectra", function(object) {
     vapply(object, function(z)
         if (length(z@fromFile)) z@fromFile else NA_integer_,
         integer(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Get the polarity for each spectrum.
 #' polarity(spl)
-setMethod("polarity", "Spectra", function(object) {
+setMethod("polarity", "MSpectra", function(object) {
     vapply(object, function(z)
         if (length(z@polarity)) z@polarity else NA_integer_,
         integer(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Whether spectra are smoothed (i.e. processed with the `smooth`
 #' ## function).
 #' smoothed(spl)
-setMethod("smoothed", "Spectra", function(object) {
+setMethod("smoothed", "MSpectra", function(object) {
     vapply(object, smoothed, logical(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Are spectra empty (i.e. contain no peak data)?
 #' isEmpty(spl)
-setMethod("isEmpty", "Spectra", function(x) {
+setMethod("isEmpty", "MSpectra", function(x) {
     vapply(x, isEmpty, logical(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Do the spectra contain centroided data?
 #' centroided(spl)
-setMethod("centroided", "Spectra", function(object) {
+setMethod("centroided", "MSpectra", function(object) {
     vapply(object, centroided, logical(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Do the spectra contain centroided data? Whether spectra are centroided
 #' ## is estimated from the peak data.
 #' isCentroided(spl)
-setMethod("isCentroided", "Spectra", function(object) {
+setMethod("isCentroided", "MSpectra", function(object) {
     vapply(object, isCentroided, logical(1))
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @description
 #'
-#' `writeMgfData` exports a `Spectra` object to a file in MGF format. All
+#' `writeMgfData` exports a `MSpectra` object to a file in MGF format. All
 #' metadata columns present in `mcols` are exported as additional fields with
 #' the capitalized column names used as field names (see examples below).
 #'
@@ -366,7 +366,7 @@ setMethod("isCentroided", "Spectra", function(object) {
 #'
 #' writeMgfData(spl, tmpf)
 #' readLines(tmpf)
-setMethod("writeMgfData", "Spectra", function(object, con = "spectra.mgf",
+setMethod("writeMgfData", "MSpectra", function(object, con = "spectra.mgf",
                                               COM = NULL, TITLE = NULL) {
     if (file.exists(con))
         stop("file ", con, " does already exist.")
@@ -374,30 +374,30 @@ setMethod("writeMgfData", "Spectra", function(object, con = "spectra.mgf",
                      TITLE = TITLE, addFields = mcols(object))
 })
 
-#' @rdname Spectra
-setMethod("clean", "Spectra", function(object, all = FALSE,
+#' @rdname MSpectra
+setMethod("clean", "MSpectra", function(object, all = FALSE,
                                        msLevel. = msLevel., ...) {
     object <- endoapply(object, clean, all = all, msLevel. = msLevel., ...)
     if (validObject(object))
         object
 })
 
-#' @rdname Spectra
-setMethod("removePeaks", "Spectra", function(object, t, msLevel., ...) {
+#' @rdname MSpectra
+setMethod("removePeaks", "MSpectra", function(object, t, msLevel., ...) {
     object <- endoapply(object, removePeaks, t = t, msLevel. = msLevel., ...)
     if (validObject(object))
         object
 })
 
-#' @rdname Spectra
-setMethod("filterMz", "Spectra", function(object, mz, msLevel., ...) {
+#' @rdname MSpectra
+setMethod("filterMz", "MSpectra", function(object, mz, msLevel., ...) {
     object <- endoapply(object, filterMz, mz = mz, msLevel. = msLevel., ...)
     if (validObject(object))
         object
 })
 
-#' @rdname Spectra
-setMethod("pickPeaks", "Spectra", function(object, halfWindowSize = 3L,
+#' @rdname MSpectra
+setMethod("pickPeaks", "MSpectra", function(object, halfWindowSize = 3L,
                                            method = c("MAD", "SuperSmoother"),
                                            SNR = 0L,
                                            refineMz = c("none", "kNeighbors",
@@ -412,8 +412,8 @@ setMethod("pickPeaks", "Spectra", function(object, halfWindowSize = 3L,
         object
 })
 
-#' @rdname Spectra
-setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
+#' @rdname MSpectra
+setMethod("smooth", "MSpectra", function(x, method = c("SavitzkyGolay",
                                                       "MovingAverage"),
                                         halfWindowSize = 2L, ...) {
     x <- endoapply(x, smooth, method = match.arg(method),
@@ -427,7 +427,7 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #' @description
 #'
 #' `combineSpectra` combines spectra in a [MSnExp-class], [OnDiskMSnExp-class]
-#' or [Spectra-class] object applying the summarization function `fun` to sets
+#' or [MSpectra-class] object applying the summarization function `fun` to sets
 #' of spectra defined by a factor (`fcol` parameter). The resulting combined
 #' spectrum for each set contains metadata information (present in `mcols` and
 #' all spectrum information other than `mz` and `intensity`) from the **first**
@@ -441,9 +441,9 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #'
 #' @rdname combineSpectra
 #'
-#' @param object A [MSnExp-class] or [Spectra-class]
+#' @param object A [MSnExp-class] or [MSpectra-class]
 #'
-#' @param fcol For `Spectra` objects: `mcols` column name to be used to define
+#' @param fcol For `MSpectra` objects: `mcols` column name to be used to define
 #'     the sets of spectra to be combined. If missing, all spectra are
 #'     considered to be one set. For `MSnExp`/`OnDiskMSnExp` objects: column
 #'     in `fData(object)` defining which spectra to combine. See examples below
@@ -461,7 +461,7 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #'     to perform per-file parallel spectra combining. See [bpparam()] for more
 #'     details.
 #'
-#' @return A `Spectra` or `MSnExp` object with combined spectra. Metadata
+#' @return A `MSpectra` or `MSnExp` object with combined spectra. Metadata
 #'     (`mcols`) and all spectrum attributes other than `mz` and `intensity`
 #'     are taken from the first `Spectrum` in each set.
 #'
@@ -490,7 +490,7 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #' sp3 <- new("Spectrum1", mz = mzs + rnorm(length(mzs), sd = 0.009),
 #'     intensity = ints3, rt = 3)
 #'
-#' spctra <- Spectra(sp1, sp2, sp3,
+#' spctra <- MSpectra(sp1, sp2, sp3,
 #'     elementMetadata = DataFrame(idx = 1:3, group = c("b", "a", "a")))
 #'
 #' ## Combine the spectra reporting the maximym signal
@@ -551,8 +551,8 @@ setMethod("smooth", "Spectra", function(x, method = c("SavitzkyGolay",
 #' table(fromFile(res))
 #'
 #' ## The data was reduced to 19 spectra for each file.
-setMethod("combineSpectra", "Spectra", function(object, fcol,
-                                                method = meanMzInts, fun, ...) {
+setMethod("combineSpectra", "MSpectra", function(object, fcol,
+                                                 method = meanMzInts, fun, ...) {
     if (!missing(fun)) {
         .Deprecated(
             msg = "Parameter 'fun' is deprecated. Please use 'method' instead")
@@ -571,14 +571,14 @@ setMethod("combineSpectra", "Spectra", function(object, fcol,
     elm <-  mcols(object, use.names = TRUE)[
         levelIndex(.by, which = "first"), , drop = FALSE]
     names(res) <- rownames(elm)
-    Spectra(res, elementMetadata = elm)
+    MSpectra(res, elementMetadata = elm)
 })
 
-setAs("Spectra", "list", function(from) {
+setAs("MSpectra", "list", function(from) {
     from@listData
 })
 
-setAs("Spectra", "MSnExp", function(from) {
+setAs("MSpectra", "MSnExp", function(from) {
     if (length(unique(msLevel(from))) > 1)
         stop("'from' contains Spectra from more than one MS level. Use ",
              "'filterMsLevel' to restrict to Spectra from a single MS level ",
@@ -601,13 +601,13 @@ setAs("Spectra", "MSnExp", function(from) {
         processingData = process)
 })
 
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @examples
 #'
 #' ## Filter the object by MS level
 #' filterMsLevel(spl, msLevel. = 1)
-setMethod("filterMsLevel", "Spectra", function(object, msLevel.) {
+setMethod("filterMsLevel", "MSpectra", function(object, msLevel.) {
     if (missing(msLevel.)) return(object)
     msLevel. <- as.numeric(msLevel.)
     object[msLevel(object) %in% msLevel.]
@@ -617,6 +617,3 @@ setMethod("filterMsLevel", "Spectra", function(object, msLevel.) {
 ## quantify, method = c("trapezoidation", "max", "sum", reporters, strict = FALSE)
 ## normalize, method = c("max", "sum", "precursor", precursorIntensity)
 ## bin, binSize = 1L, breaks....
-
-## Fun things:
-## compareSpectra

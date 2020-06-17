@@ -567,7 +567,7 @@ setAs("MSnExp", "data.frame", function(from) {
 as.data.frame.MSnExp <- function(x, row.names = NULL, optional=FALSE, ...)
     as(x, "data.frame")
 
-setAs("MSnExp", "Spectra", function(from) {
+setAs("MSnExp", "MSpectra", function(from) {
     fdta <- fData(from)
     red_cn <- c("fileIdx", "spIdx", "smoothed", "seqNum", "acquisitionNum",
                 "msLevel", "polarity", "originalPeaksCount", "totIonCurrent",
@@ -576,7 +576,7 @@ setAs("MSnExp", "Spectra", function(from) {
                 "precursorMZ", "precursorCharge", "precursorIntensity",
                 "mergedScan", "centroided", "spectrum")
     fdta <- fdta[, !colnames(fdta) %in% red_cn, drop = FALSE]
-    Spectra(spectra(from), elementMetadata = DataFrame(fdta))
+    MSpectra(spectra(from), elementMetadata = DataFrame(fdta))
 })
 
 #' @rdname combineSpectra
@@ -593,7 +593,7 @@ setMethod("combineSpectra", "MSnExp", function(object, fcol = "fileIdx",
         sps <- do.call(
             combineSpectra,
             args = c(list(
-                object = Spectra(spectra(z), elementMetadata = DataFrame(fData(z))),
+                object = MSpectra(spectra(z), elementMetadata = DataFrame(fData(z))),
                 fcol = fcol, method = method), dots))
         ff <- match(fileNames(z), fns)
         sps@listData <- lapply(sps@listData, function(x) {

@@ -79,7 +79,7 @@ sp2 <- new("Spectrum2", rt = 1.1, precursorMz = 1.4102,
 sp3 <- new("Spectrum2", rt = 1.2, precursorMz = 1.409,
     mz = c(1, 1.82, 2.2, 3, 7.0, 8),
     intensity = c(8, 210, 7, 101, 17, 8))
-spl <- Spectra(sp1, sp2, sp3)
+spl <- MSpectra(sp1, sp2, sp3)
 
 ## Plot the spectra, each in a different color
 par(mfrow = c(2, 1), mar = c(4.3, 4, 1, 1))

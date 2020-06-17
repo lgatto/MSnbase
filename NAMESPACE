@@ -161,7 +161,7 @@ export(MSnSet,
        estimateMzScattering,
        hasSpectra, hasChromatograms,
        mergeFeatureVars, expandFeatureVars,
-       Spectra
+       MSpectra
        )
 
 exportClasses(pSet,
@@ -181,7 +181,7 @@ exportClasses(pSet,
               ProcessingStep,
               Chromatogram,
               Chromatograms,
-              Spectra
+              MSpectra
               )
 
 exportMethods(updateObject,

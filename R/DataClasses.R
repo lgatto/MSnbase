@@ -352,7 +352,7 @@ setClass("MSnSet",
                        PSMs = "data.frame",
                        SmallMolecules = "data.frame",
                        MoleculeFeatures = "data.frame",
-                       MoleculeEvidence = "data.frame",                       
+                       MoleculeEvidence = "data.frame",
                        Comments = "character"))
 
 ##################################################################
@@ -643,45 +643,46 @@ setClass("Chromatograms",
              .validChromatograms(object)
          )
 
-#' @name Spectra
+#' @name MSpectra
 #'
-#' @aliases Spectra-class show,Spectra-method coerce,Spectra,list-method coerce,Spectra,MSnExp-method
+#' @aliases MSpectra-class show,MSpectra-method coerce,MSpectra,list-method coerce,MSpectra,MSnExp-method
 #'
 #' @title List of Spectrum objects along with annotations
 #'
 #' @description
 #'
-#' `Spectra` objects allow to collect one or more [Spectrum-class] object(s)
-#' ([Spectrum1-class] or [Spectrum2-class]) in a `list`-like structure with
-#' the possibility to add arbitrary annotations to each individual
-#' `Spectrum` object. These can be accessed/set with the [mcols()] method.
+#' `MSpectra` (Mass Spectra) objects allow to collect one or more
+#' [Spectrum-class] object(s) ([Spectrum1-class] or [Spectrum2-class]) in
+#' a `list`-like structure with the possibility to add arbitrary annotations
+#' to each individual `Spectrum` object. These can be accessed/set with
+#' the [mcols()] method.
 #'
-#' `Spectra` objects can be created with the `Spectra` function.
+#' `MSpectra` objects can be created with the `MSpectra` function.
 #'
 #' Functions to access the individual spectra's attributes are available
 #' (listed below).
 #'
 #' @details
 #'
-#' `Spectra` inherits all methods from the [SimpleList] class of the
+#' `MSpectra` inherits all methods from the [SimpleList] class of the
 #' `S4Vectors` package. This includes `lapply` and other data manipulation
 #' and subsetting operations.
 #'
-#' @param object For all functions: a `Spectra` object.
+#' @param object For all functions: a `MSpectra` object.
 #'
-#' @param x For all functions: a `Spectra` object.
+#' @param x For all functions: a `MSpectra` object.
 #'
 #' @md
 #'
-#' @rdname Spectra
+#' @rdname MSpectra
 NULL
 
-.Spectra <- setClass("Spectra",
+.MSpectra <- setClass("MSpectra",
                      contains = "SimpleList",
                      prototype = prototype(elementType = "Spectrum")
                      )
 
-setValidity("Spectra", function(object) {
+setValidity("MSpectra", function(object) {
     ## All elements in the list have to be Spectrum objects.
     msg <- character()
     if (any(vapply(object, function(z) !is(z, "Spectrum"), logical(1))))

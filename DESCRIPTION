@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for Mass Spectrometry and Proteomics
-Version: 2.15.2
+Version: 2.15.3
 Description: MSnbase provides infrastructure for manipulation,
 	     processing and visualisation of mass spectrometry and
 	     proteomics data, ranging from raw to quantitative and
@@ -150,9 +150,9 @@ Collate:
     'functions-MSnExp.R'
     'functions-MSnProcess.R'
     'functions-MSnSet.R'
+    'functions-MSpectra.R'
     'functions-OnDiskMSnExp.R'
     'functions-ReporterIons.R'
-    'functions-Spectra.R'
     'functions-Spectrum.R'
     'functions-Spectrum1.R'
     'functions-Spectrum2.R'
@@ -177,10 +177,10 @@ Collate:
     'methods-MSnProcess.R'
     'methods-MSnSet.R'
     'methods-MSnSetList.R'
+    'methods-MSpectra.R'
     'methods-OnDiskMSnExp.R'
     'methods-ProcessingStep.R'
     'methods-ReporterIons.R'
-    'methods-Spectra.R'
     'methods-Spectrum.R'
     'methods-Spectrum1.R'
     'methods-Spectrum2.R'

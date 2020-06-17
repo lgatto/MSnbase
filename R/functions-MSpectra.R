@@ -1,16 +1,16 @@
-#' @rdname Spectra
+#' @rdname MSpectra
 #'
 #' @section Constructor:
 #'
-#' New [Spectra] can be created with the `Spectra(...)` function
+#' New [MSpectra] can be created with the `MSpectra(...)` function
 #' where `...` can either be a single [Spectrum-class] object or a `list` of
 #' `Spectrum` objects ([Spectrum1-class] and/or [Spectrum2-class]).
 #'
-#' @param ... For `Spectra`: [Spectrum-class] object(s) or a `list` of
+#' @param ... For `MSpectra`: [Spectrum-class] object(s) or a `list` of
 #'     [Spectrum-class] objects.
 #'     For all other methods optional arguments passed along.
 #'
-#' @param elementMetadata For `Spectra`: [DataFrame] with optional information
+#' @param elementMetadata For `MSpectra`: [DataFrame] with optional information
 #'     that should be added as metadata information (`mcols`) to the object.
 #'     The number of rows has to match the number of [Spectrum-class] objects,
 #'     each row is expected to represent additional metadata information for
@@ -27,7 +27,7 @@
 #' sp2 <- new("Spectrum2", mz = c(1, 2, 3, 4), intensity = c(5, 3, 2, 5),
 #'     precursorMz = 2)
 #'
-#' spl <- Spectra(sp1, sp2)
+#' spl <- MSpectra(sp1, sp2)
 #' spl
 #' spl[[1]]
 #'
@@ -35,12 +35,12 @@
 #' mcols(spl)$id <- c("a", "b")
 #' mcols(spl)
 #'
-#' ## Create a Spectra with metadata
-#' spl <- Spectra(sp1, sp2, elementMetadata = DataFrame(id = c("a", "b")))
+#' ## Create a MSpectra with metadata
+#' spl <- MSpectra(sp1, sp2, elementMetadata = DataFrame(id = c("a", "b")))
 #'
 #' mcols(spl)
 #' mcols(spl)$id
-Spectra <- function(..., elementMetadata = NULL) {
+MSpectra <- function(..., elementMetadata = NULL) {
     args <- list(...)
     if (length(args) == 1L && is.list(args[[1L]]))
         args <- args[[1L]]
@@ -48,15 +48,15 @@ Spectra <- function(..., elementMetadata = NULL) {
         rownames(elementMetadata) <- NULL
     if (is.null(names(args)))
         names(args) <- seq_len(length(args))
-    new("Spectra", listData = args, elementMetadata = elementMetadata)
+    new("MSpectra", listData = args, elementMetadata = elementMetadata)
 }
 
-.show_Spectra <- function(x, margin = "", print.classinfo = FALSE) {
-    cat("Spectra with", length(x), "spectra and", length(mcols(x)),
+.show_MSpectra <- function(x, margin = "", print.classinfo = FALSE) {
+    cat("MSpectra with", length(x), "spectra and", length(mcols(x)),
         "metadata column(s):\n")
     if (length(x)) {
         out <- S4Vectors:::makePrettyMatrixForCompactPrinting(
-                               x, .make_naked_matrix_from_Spectra)
+                               x, .make_naked_matrix_from_MSpectra)
         if (print.classinfo) {
             .COL2CLASS <- c(msLevel = "integer", rtime = "numeric",
                             peaksCount = "integer")
@@ -75,7 +75,7 @@ Spectra <- function(..., elementMetadata = NULL) {
       peaksCount = peaksCount(x))
 }
 
-.make_naked_matrix_from_Spectra <- function(x) {
+.make_naked_matrix_from_MSpectra <- function(x) {
     x_len <- length(x)
     mcls <- mcols(x, use.names = FALSE)
     x_mcls_len <- if (is.null(mcls)) 0L else ncol(mcls)
