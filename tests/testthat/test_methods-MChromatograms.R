@@ -1,4 +1,4 @@
-test_that("[,Chromatograms works", {
+test_that("[,MChromatograms works", {
 
     ints <- abs(rnorm(12, sd = 20))
     ch <- Chromatogram(rtime = 1:length(ints), ints)
@@ -8,20 +8,20 @@ test_that("[,Chromatograms works", {
     ch2 <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(40, sd = 34))
     ch3 <- Chromatogram(rtime = 1:length(ints), ints)
-    chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
+    chrs <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
 
     ## o Subset using indices
     expect_true(is(chrs[1, 1], "Chromatogram"))
     expect_equal(chrs[1, 2], ch2)
     ##   extract a row
     expect_equal(chrs[1, , drop = TRUE], list(`1` = ch, `2` = ch2))
-    expect_equal(chrs[1, , drop = FALSE], Chromatograms(list(ch, ch2), nrow = 1))
+    expect_equal(chrs[1, , drop = FALSE], MChromatograms(list(ch, ch2), nrow = 1))
     ##   Test the default
-    expect_equal(chrs[1, ], Chromatograms(list(ch, ch2), nrow = 1))
+    expect_equal(chrs[1, ], MChromatograms(list(ch, ch2), nrow = 1))
     ##   extract a column
     expect_equal(chrs[, 2, drop = TRUE], list(`1` = ch2, `2` = ch3))
     res <- chrs[, 2, drop = FALSE]
-    res_exp <- Chromatograms(list(ch2, ch3), ncol = 1,
+    res_exp <- MChromatograms(list(ch2, ch3), ncol = 1,
                              dimnames = list(NULL, "2"))
     ## Have to re-place the rownames of pheno data othewise we compare numeric
     ## against character
@@ -33,14 +33,14 @@ test_that("[,Chromatograms works", {
     expect_equal(chrs[1, 2], ch2)
     ##   extract a row
     expect_equal(chrs[1, , drop = TRUE], list(a = ch, b = ch2))
-    res_exp <- Chromatograms(list(ch, ch2), nrow = 1)
+    res_exp <- MChromatograms(list(ch, ch2), nrow = 1)
     colnames(res_exp) <- c("a", "b")
     expect_equal(chrs[1, , drop = FALSE], res_exp)
     ##   Test the default
     expect_equal(chrs[1, ], res_exp)
     ##   extract a column
     expect_equal(chrs[, 2, drop = TRUE], list(`1` = ch2, `2` = ch3))
-    res_exp <- Chromatograms(list(ch2, ch3), ncol = 1)
+    res_exp <- MChromatograms(list(ch2, ch3), ncol = 1)
     colnames(res_exp) <- "b"
     expect_equal(chrs[, 2, drop = FALSE], res_exp)
     ## Check also the featureData
@@ -49,51 +49,51 @@ test_that("[,Chromatograms works", {
     expect_equal(featureNames(res), "2")
 
     ## o Subset using logical
-    chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
+    chrs <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
     expect_true(is(chrs[c(TRUE, FALSE), c(TRUE, FALSE)], "Chromatogram"))
     expect_equal(chrs[c(TRUE, FALSE), c(FALSE, TRUE)], ch2)
     ##   extract a row
     expect_equal(chrs[c(TRUE, FALSE), , drop = TRUE], list(`1` = ch, `2` = ch2))
     expect_equal(chrs[c(TRUE, FALSE), , drop = FALSE],
-                 Chromatograms(list(ch, ch2), nrow = 1))
+                 MChromatograms(list(ch, ch2), nrow = 1))
     expect_equal(chrs[c(TRUE, FALSE), ],
-                 Chromatograms(list(ch, ch2), nrow = 1))
+                 MChromatograms(list(ch, ch2), nrow = 1))
     ##   extract a column
     expect_equal(chrs[, c(FALSE, TRUE), drop = TRUE], list(`1` = ch2, `2` = ch3))
     res <- chrs[, c(FALSE, TRUE), drop = FALSE]
     rownames(pData(res)) <- rownames(pData(res))
-    expect_equal(res, Chromatograms(list(ch2, ch3), ncol = 1,
+    expect_equal(res, MChromatograms(list(ch2, ch3), ncol = 1,
                                     dimnames = list(NULL, "2")))
     ##   Repeat with colnames
     colnames(chrs) <- c("a", "b")
     expect_equal(chrs[c(TRUE, FALSE), , drop = TRUE], list(a = ch, b = ch2))
-    res_exp <- Chromatograms(list(ch, ch2), nrow = 1)
+    res_exp <- MChromatograms(list(ch, ch2), nrow = 1)
     colnames(res_exp) <- c("a", "b")
     expect_equal(chrs[c(TRUE, FALSE), , drop = FALSE], res_exp)
     expect_equal(chrs[c(TRUE, FALSE), ], res_exp)
     ## extract a column
     expect_equal(chrs[, c(FALSE, TRUE), drop = TRUE], list(`1` = ch2, `2` = ch3))
-    res_exp <- Chromatograms(list(ch2, ch3), ncol = 1)
+    res_exp <- MChromatograms(list(ch2, ch3), ncol = 1)
     colnames(res_exp) <- "b"
     expect_equal(chrs[, c(FALSE, TRUE)], res_exp)
     expect_equal(chrs[, c(FALSE, TRUE)], res_exp)
 
     ## Subset using names
     expect_equal(chrs[, "a", drop = TRUE], list(`1` = ch, `2` = ch1))
-    res_exp <- Chromatograms(list(ch, ch1), ncol = 1)
+    res_exp <- MChromatograms(list(ch, ch1), ncol = 1)
     colnames(res_exp) <- "a"
     expect_equal(chrs[, "a", drop = FALSE], res_exp)
     expect_equal(chrs[, "a"], res_exp)
 
     ## Check phenoData while subsetting.
     pd <- data.frame(name = letters[1:2], idx = 1:2)
-    chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2,
+    chrs <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2,
                           phenoData = AnnotatedDataFrame(pd))
     res <- chrs[, 2]
     pd_exp <- droplevels(pd[2, ])
     expect_equal(pData(res), pd_exp)
     rownames(pd) <- c("g", "h")
-    chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2,
+    chrs <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2,
                           phenoData = AnnotatedDataFrame(pd))
     res <- chrs[, 2]
     pd_exp <- droplevels(pd[2, ])
@@ -102,7 +102,7 @@ test_that("[,Chromatograms works", {
     ## Check featureData while subsetting
     fd <- data.frame(a = c("first", "second"), mz = c(2, 4))
     rownames(fd) <- fd$a
-    chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2,
+    chrs <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2,
                           phenoData = AnnotatedDataFrame(pd),
                           featureData = fd)
     expect_equal(rownames(chrs), rownames(fd))
@@ -110,7 +110,7 @@ test_that("[,Chromatograms works", {
     expect_equal(fData(chrs[2, ]), droplevels(fd[2, ]))
 })
 
-test_that("[<-,Chromatograms works", {
+test_that("[<-,MChromatograms works", {
 
     ints <- abs(rnorm(12, sd = 20))
     ch <- Chromatogram(rtime = 1:length(ints), ints)
@@ -120,7 +120,7 @@ test_that("[<-,Chromatograms works", {
     ch2 <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(40, sd = 34))
     ch3 <- Chromatogram(rtime = 1:length(ints), ints)
-    chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
+    chrs <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
     colnames(chrs) <- c("a", "b")
 
     ints <- abs(rnorm(94, sd = 200))
@@ -146,7 +146,7 @@ test_that("[<-,Chromatograms works", {
     expect_equal(chrs[, 1, drop = TRUE], list(`1` = ch4, `2` = ch4))
 })
 
-test_that("plot,Chromatograms works", {
+test_that("plot,MChromatograms works", {
     ints <- abs(rnorm(123, mean = 200, sd = 19))
     ch1 <- Chromatogram(rtime = seq_along(ints), intensity = ints, mz = 231)
     ints <- abs(rnorm(122, mean = 300, sd = 35))
@@ -157,7 +157,7 @@ test_that("plot,Chromatograms works", {
     ints <- abs(rnorm(123, mean = 530, sd = 89))
     ch4 <- Chromatogram(rtime = seq_along(ints) + 300, intensity = ints,
                         mz = 403)
-    chrs <- Chromatograms(list(ch1, ch2, ch3, ch4, ch1, ch2), ncol = 2,
+    chrs <- MChromatograms(list(ch1, ch2, ch3, ch4, ch1, ch2), ncol = 2,
                           byrow = TRUE)
     plot(chrs)
     plot(chrs[1, , drop = FALSE])
@@ -167,7 +167,7 @@ test_that("plot,Chromatograms works", {
     plot(chrs[, 2])
 })
 
-test_that("colnames<-, sampleNames, sampleNames<-,Chromatograms works", {
+test_that("colnames<-, sampleNames, sampleNames<-,MChromatograms works", {
     ints <- abs(rnorm(12, sd = 20))
     ch <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(20, sd = 14))
@@ -176,7 +176,7 @@ test_that("colnames<-, sampleNames, sampleNames<-,Chromatograms works", {
     ch2 <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(40, sd = 34))
     ch3 <- Chromatogram(rtime = 1:length(ints), ints)
-    chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
+    chrs <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
 
     expect_equal(colnames(chrs), as.character(1:ncol(chrs)))
     expect_equal(sampleNames(chrs), as.character(1:ncol(chrs)))
@@ -191,7 +191,7 @@ test_that("colnames<-, sampleNames, sampleNames<-,Chromatograms works", {
     expect_error(colnames(chrs) <- 1:4)
 })
 
-test_that("phenoData,pData,pData<-,Chromatograms works", {
+test_that("phenoData,pData,pData<-,MChromatograms works", {
     ## Check if we can access the phenoData.
     ints <- abs(rnorm(12, sd = 20))
     ch <- Chromatogram(rtime = 1:length(ints), ints)
@@ -201,7 +201,7 @@ test_that("phenoData,pData,pData<-,Chromatograms works", {
     ch2 <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(40, sd = 34))
     ch3 <- Chromatogram(rtime = 1:length(ints), ints)
-    chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
+    chrs <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
     pd_exp <- annotatedDataFrameFrom(matrix(ncol = 2, nrow = 2), byrow = FALSE)
     rownames(pData(pd_exp)) <- NULL
     pd_exp <- as(pd_exp, "AnnotatedDataFrame")
@@ -213,9 +213,9 @@ test_that("phenoData,pData,pData<-,Chromatograms works", {
     expect_error(pData(chrs) <- pd)
 
     pd <- data.frame(name = letters[1:2], idx = 1:2)
-    chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2,
+    chrs <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2,
                           phenoData = AnnotatedDataFrame(pd))
-    chrs_2 <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2,
+    chrs_2 <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2,
                             phenoData = pd)
     expect_equal(chrs, chrs_2)
     expect_equal(phenoData(chrs), as(AnnotatedDataFrame(pd), "AnnotatedDataFrame"))
@@ -248,7 +248,7 @@ test_that("phenoData,pData,pData<-,Chromatograms works", {
     chrs$new_variable <- 1
 })
 
-test_that("rownames<-, featureNames, featureNames<-,Chromatograms works", {
+test_that("rownames<-, featureNames, featureNames<-,MChromatograms works", {
     ints <- abs(rnorm(12, sd = 20))
     ch <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(20, sd = 14))
@@ -257,7 +257,7 @@ test_that("rownames<-, featureNames, featureNames<-,Chromatograms works", {
     ch2 <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(40, sd = 34))
     ch3 <- Chromatogram(rtime = 1:length(ints), ints)
-    chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
+    chrs <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
 
     expect_equal(rownames(chrs), as.character(1:nrow(chrs)))
     expect_equal(featureNames(chrs), as.character(1:nrow(chrs)))
@@ -270,7 +270,7 @@ test_that("rownames<-, featureNames, featureNames<-,Chromatograms works", {
     expect_equal(rownames(chrs), c("b", "z"))
 })
 
-test_that("featureData,fData,fData<-,Chromatograms works", {
+test_that("featureData,fData,fData<-,MChromatograms works", {
     ints <- abs(rnorm(12, sd = 20))
     ch <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(20, sd = 14))
@@ -279,7 +279,7 @@ test_that("featureData,fData,fData<-,Chromatograms works", {
     ch2 <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(40, sd = 34))
     ch3 <- Chromatogram(rtime = 1:length(ints), ints)
-    chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
+    chrs <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
 
     fd_exp <- annotatedDataFrameFrom(matrix(ncol = 2, nrow = 2), byrow = TRUE)
     expect_equal(featureData(chrs), fd_exp)
@@ -290,7 +290,7 @@ test_that("featureData,fData,fData<-,Chromatograms works", {
     expect_error(fData(chrs) <- pd)
 
     fd <- data.frame(name = letters[1:2], idx = 1:2)
-    chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2,
+    chrs <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2,
                           featureData = fd)
     expect_equal(featureData(chrs), AnnotatedDataFrame(fd))
     expect_equal(fData(chrs), fd)
@@ -307,7 +307,7 @@ test_that("featureData,fData,fData<-,Chromatograms works", {
     expect_equal(fvarLabels(chrs), colnames(fd_3))
 })
 
-test_that("isEmpty,Chromatograms works", {
+test_that("isEmpty,MChromatograms works", {
     ints <- abs(rnorm(12, sd = 20))
     ch <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(20, sd = 14))
@@ -316,12 +316,12 @@ test_that("isEmpty,Chromatograms works", {
     ch2 <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(40, sd = 34))
     ch3 <- Chromatogram(rtime = 1:length(ints), ints)
-    chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
+    chrs <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
 
     expect_true(!isEmpty(chrs))
     plot(chrs)
 
-    chrs <- Chromatograms()
+    chrs <- MChromatograms()
     expect_true(isEmpty(chrs))
     expect_warning(plot(chrs))
 
@@ -329,7 +329,7 @@ test_that("isEmpty,Chromatograms works", {
     ch1 <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- rep(NA_real_, 64)
     ch2 <- Chromatogram(rtime = 1:length(ints), ints)
-    chrs <- Chromatograms(list(ch1, ch2), nrow = 2)
+    chrs <- MChromatograms(list(ch1, ch2), nrow = 2)
     expect_true(isEmpty(chrs))
     expect_warning(plot(chrs))
 
@@ -338,21 +338,21 @@ test_that("isEmpty,Chromatograms works", {
     ch1 <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(64))
     ch2 <- Chromatogram(rtime = 1:length(ints), ints)
-    chrs <- Chromatograms(list(ch1, ch2), nrow = 2)
+    chrs <- MChromatograms(list(ch1, ch2), nrow = 2)
     expect_true(!isEmpty(chrs))
     expect_warning(plot(chrs))
 
     ## 2x2 first row NA
-    chrs <- Chromatograms(list(ch1, ch2, ch1, ch2), nrow = 2)
+    chrs <- MChromatograms(list(ch1, ch2, ch1, ch2), nrow = 2)
     expect_warning(plot(chrs))
 
     ## 2x2 first col NA
-    chrs <- Chromatograms(list(ch1, ch1, ch2, ch2), nrow = 2)
+    chrs <- MChromatograms(list(ch1, ch1, ch2, ch2), nrow = 2)
     expect_true(!isEmpty(chrs))
     plot(chrs)
 })
 
-test_that(".mz_chromatograms, precursorMz etc,Chromatograms works", {
+test_that(".mz_chromatograms, precursorMz etc,MChromatograms works", {
     ints <- abs(rnorm(12, sd = 20))
     ch <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(20, sd = 14))
@@ -361,7 +361,7 @@ test_that(".mz_chromatograms, precursorMz etc,Chromatograms works", {
     ch2 <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(40, sd = 34))
     ch3 <- Chromatogram(rtime = 1:length(ints), ints)
-    chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
+    chrs <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
 
     ## Base function
     expect_error(MSnbase:::.mz_chromatograms(chrs, mz = "other"))
@@ -380,7 +380,7 @@ test_that(".mz_chromatograms, precursorMz etc,Chromatograms works", {
 
     ## method implementations:
     ## precursorMz
-    expect_true(nrow(precursorMz(Chromatograms())) == 0)
+    expect_true(nrow(precursorMz(MChromatograms())) == 0)
 
     ## with precursor m/z data in the featureData data.frame
     chrs_f <- chrs
@@ -456,7 +456,7 @@ test_that(".mz_chromatograms, precursorMz etc,Chromatograms works", {
     expect_true(polarity(chrs) == unique(polarity(microtofq_on_disk)))
 })
 
-test_that(".bin_Chromatograms and bin,Chromatograms work", {
+test_that(".bin_MChromatograms and bin,MChromatograms work", {
     ints <- abs(rnorm(12, sd = 20))
     ch <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(20, sd = 14))
@@ -465,9 +465,9 @@ test_that(".bin_Chromatograms and bin,Chromatograms work", {
     ch2 <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(40, sd = 34))
     ch3 <- Chromatogram(rtime = 1:length(ints), ints)
-    chrs <- Chromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
+    chrs <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
 
-    chrsb <- .bin_Chromatograms(chrs, binSize = 2)
+    chrsb <- .bin_MChromatograms(chrs, binSize = 2)
 
     ## 1st row:
     expect_equal(rtime(chrsb[1, 1]), rtime(chrsb[1, 2]))
@@ -485,7 +485,7 @@ test_that(".bin_Chromatograms and bin,Chromatograms work", {
     expect_equal(chrsb[2, 2], bin(chrs[2, 2], binSize = 2))
 })
 
-test_that("clean,Chromatograms works", {
+test_that("clean,MChromatograms works", {
     chr1 <- Chromatogram(rtime = 1:10,
                          intensity = c(0, 3, 5, 0, 0, 0, 8, 9, 0, 9))
     chr2 <- Chromatogram(rtime = 1:12,
@@ -498,7 +498,7 @@ test_that("clean,Chromatograms works", {
                          intensity = c(0, 0, 0, 0, 0))
     chr6 <- Chromatogram(rtime = 1:9,
                          intensity = c(0, 3, 5, 0, 0, 8, 9, 0, 9))
-    chrs <- Chromatograms(list(chr1, chr2, chr3, chr4, chr5, chr6), nrow = 2,
+    chrs <- MChromatograms(list(chr1, chr2, chr3, chr4, chr5, chr6), nrow = 2,
                           phenoData = AnnotatedDataFrame(data.frame(id = 5:7)),
                           featureData = AnnotatedDataFrame(data.frame(mz = 3:4)))
     res <- clean(chrs)

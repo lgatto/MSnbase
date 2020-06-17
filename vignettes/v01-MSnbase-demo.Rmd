@@ -494,9 +494,9 @@ the plot, use `p$data`.
 
 Chromatographic data can be plotted using the `plot` method which, in contrast
 to the `plot` method for `Spectrum` classes, uses R base graphics. The `plot`
-method is implemented for `Chromatogram` and `Chromatograms` classes. The latter
+method is implemented for `Chromatogram` and `MChromatograms` classes. The latter
 plots all chromatograms for the same $m/z$-rt range of all files in an
-experiment (i.e. for one row in the `Chromatograms` object) into one plot.
+experiment (i.e. for one row in the `MChromatograms` object) into one plot.
 
 ```{r chromPlot, fig.keep='high', fig.cap = "Base peak chromatogram."}
 plot(mtof_bpc)
@@ -1024,7 +1024,7 @@ See the *MSnbase-io* vignette for a general overview of
 Data from SRM/MRM experiments can be imported from `mzML` files using the
 `readSRMData` function. The `mzML` files are expected to contain chromatographic
 data for the same precursor and product m/z values. The function returns a
-`Chromatograms` object that arranges the data in a two-dimensional array, each
+`MChromatograms` object that arranges the data in a two-dimensional array, each
 column representing the data of one file (sample) and each row the
 chromatographic data for the same polarity, precursor and product m/z. In the
 example code below we load a single SRM file using `readSRMData`.

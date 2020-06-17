@@ -2,6 +2,7 @@
 
 ## Changes in 2.15.3
 - Rename Spectra class to MSpectra.
+- Rename Chromatograms class to MChromatograms.
 
 ## Changes in 2.15.2
 - Add MSnbase2 citation entry <2020-05-15 Fri>

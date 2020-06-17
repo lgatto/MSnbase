@@ -497,7 +497,7 @@ setClass("ProcessingStep",
 #'
 #' @export
 #'
-#' @seealso \code{\link{Chromatograms}} for combining \code{Chromatogram} in
+#' @seealso \code{\link{MChromatograms}} for combining \code{Chromatogram} in
 #'     a two-dimensional matrix (rows being mz-rt ranges, columns samples).
 #'     \code{\link{chromatogram}} for the method to extract chromatogram data
 #'     from a \code{\linkS4class{MSnExp}} or \code{\linkS4class{OnDiskMSnExp}}
@@ -556,13 +556,13 @@ setClass("Chromatogram",
 
 #' @title Container for multiple Chromatogram objects
 #'
-#' @aliases coerce,matrix,Chromatograms-method
+#' @aliases coerce,matrix,MChromatograms-method
 #'
-#' @description The \code{Chromatograms} class allows to store
+#' @description The \code{MChromatograms} class allows to store
 #'     \code{\link{Chromatogram}} objects in a \code{matrix}-like
 #'     two-dimensional structure.
 #'
-#' @details The \code{Chromatograms} class extends the base \code{matrix} class
+#' @details The \code{MChromatograms} class extends the base \code{matrix} class
 #'     and hence allows to store \code{\link{Chromatogram}} objects in a
 #'     two-dimensional array. Each row is supposed to contain
 #'     \code{Chromatogram} objects for one MS data \emph{slice} with a common
@@ -571,12 +571,12 @@ setClass("Chromatogram",
 #'
 #' @export
 #'
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @seealso \code{\link{Chromatogram}} for the class representing chromatogram
 #'     data.
 #'     \code{\link{chromatogram}} for the method to extract a
-#'     \code{Chromatograms} object from a \code{\linkS4class{MSnExp}} or
+#'     \code{MChromatograms} object from a \code{\linkS4class{MSnExp}} or
 #'     \code{\linkS4class{OnDiskMSnExp}} object.
 #'     \code{\link{readSRMData}} for the function to read chromatographic data
 #'     of an SRM/MRM experiment.
@@ -584,7 +584,7 @@ setClass("Chromatogram",
 #' @author Johannes Rainer
 #'
 #' @examples
-#' ## Creating some chromatogram objects to put them into a Chromatograms object
+#' ## Creating some chromatogram objects to put them into a MChromatograms object
 #' ints <- abs(rnorm(25, sd = 200))
 #' ch1 <- Chromatogram(rtime = 1:length(ints), ints)
 #' ints <- abs(rnorm(32, sd = 90))
@@ -594,8 +594,8 @@ setClass("Chromatogram",
 #' ints <- abs(rnorm(21, sd = 40))
 #' ch4 <- Chromatogram(rtime = 1:length(ints), ints)
 #'
-#' ## Create a Chromatograms object with 2 rows and 2 columns
-#' chrs <- Chromatograms(list(ch1, ch2, ch3, ch4), nrow = 2)
+#' ## Create a MChromatograms object with 2 rows and 2 columns
+#' chrs <- MChromatograms(list(ch1, ch2, ch3, ch4), nrow = 2)
 #' chrs
 #'
 #' ## Extract the first element from the second column. Extracting a single
@@ -606,7 +606,7 @@ setClass("Chromatogram",
 #' ## returns by default a list of Chromatogram objects.
 #' chrs[2, ]
 #'
-#' ## Extract the second row with drop = FALSE, i.e. return a Chromatograms
+#' ## Extract the second row with drop = FALSE, i.e. return a MChromatograms
 #' ## object.
 #' chrs[2, , drop = FALSE]
 #'
@@ -628,7 +628,7 @@ setClass("Chromatogram",
 #' ## Access the m/z ratio for each row; this will be NA for the present
 #' ## object
 #' mz(chrs)
-setClass("Chromatograms",
+setClass("MChromatograms",
          contains = "matrix",
          slots = c(phenoData = "AnnotatedDataFrame",
                    featureData = "AnnotatedDataFrame"),
@@ -640,7 +640,7 @@ setClass("Chromatograms",
                                dimLabels = c("featureNames", "featureColumns"))
          ),
          validity = function(object)
-             .validChromatograms(object)
+             .validMChromatograms(object)
          )
 
 #' @name MSpectra

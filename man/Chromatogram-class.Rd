@@ -280,7 +280,7 @@ chr2 <- filterRt(chr, rt = c(4, 10))
 range(rtime(chr2))
 }
 \seealso{
-\code{\link{Chromatograms}} for combining \code{Chromatogram} in
+\code{\link{MChromatograms}} for combining \code{Chromatogram} in
     a two-dimensional matrix (rows being mz-rt ranges, columns samples).
     \code{\link{chromatogram}} for the method to extract chromatogram data
     from a \code{\linkS4class{MSnExp}} or \code{\linkS4class{OnDiskMSnExp}}

@@ -5,19 +5,19 @@
 #' @description
 #'
 #' The `readSRMData` function reads MRM/SRM data from provided *mzML* files and
-#' returns the results as a `Chromatograms()` object.
+#' returns the results as a [MChromatograms()] object.
 #'
 #' @details
 #'
 #' `readSRMData` supports reading chromatogram entries from *mzML* files. If
 #' multiple files are provided the same precursor and product m/z for SRM/MRM
 #' chromatograms are expected across files. The number of columns of the
-#' resulting `Chromatograms()` object corresponds to the number of files. Each
-#' row in the `Chromatograms()` object is supposed to contain chromatograms
+#' resulting [MChromatograms()] object corresponds to the number of files. Each
+#' row in the `MChromatograms` object is supposed to contain chromatograms
 #' with same polarity, precursor and product m/z. If chromatograms with
 #' redundant polarity, precursor and product m/z values and precursor collision
 #' energies are found, they are placed into multiple consecutive rows in the
-#' `Chromatograms()` object.
+#' `MChromatograms` object.
 #'
 #' @note
 #'
@@ -26,7 +26,7 @@
 #' `productIsolationWindowTargetMZ` attributes. Total ion chromatogram data is
 #' hence not extracted.
 #'
-#' The number of features and hence rows of the resulting `Chromatograms`
+#' The number of features and hence rows of the resulting `MChromatograms`
 #' object depends on the total list of unique precursor and product m/z
 #' isolation windows (and precursor collision energies) found across all input
 #' files. In cases in which not each file has chromatgraphic data for the same
@@ -40,7 +40,7 @@
 #' @param pdata `data.frame` or `AnnotatedDataFrame` with file/sample
 #'     descriptions.
 #'
-#' @return A `Chromatograms()` object. See details above for more information.
+#' @return A `MChromatograms()` object. See details above for more information.
 #'
 #' @author Johannes Rainer
 #'
@@ -55,7 +55,7 @@
 #' ## Read the data
 #' mrm <- readSRMData(fl)
 #'
-#' ## The data is represented as a Chromatograms object, each column
+#' ## The data is represented as a MChromatograms object, each column
 #' ## containing the data from one input file
 #' mrm
 #'
@@ -152,7 +152,7 @@ readSRMData <- function(files, pdata = NULL) {
             res_chrs
         }), use.names = FALSE)
 
-    Chromatograms(chrs, phenoData = pdata, featureData = fdata,
+    MChromatograms(chrs, phenoData = pdata, featureData = fdata,
                   ncol = length(files))
 }
 

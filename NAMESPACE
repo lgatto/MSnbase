@@ -147,7 +147,7 @@ export(MSnSet,
        executeProcessingStep,
        aggregationFun,
        Chromatogram,
-       Chromatograms,
+       MChromatograms,
        factorsAsStrings,
        makeCamelCase,
        filterIdentificationDataFrame,
@@ -180,7 +180,7 @@ exportClasses(pSet,
               OnDiskMSnExp,
               ProcessingStep,
               Chromatogram,
-              Chromatograms,
+              MChromatograms,
               MSpectra
               )
 
