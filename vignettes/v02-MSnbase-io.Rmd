@@ -54,7 +54,7 @@ in profile or centroided mode.  See `?readMSData` for details.
 
 Data from `mzML` files containing chromatographic data (e.g. generated in
 SRM/MRM experiments) can be imported with the `readSRMData` function that
-returns the chromatographic data as a `Chromatograms` object. See `?readSRMData`
+returns the chromatographic data as a `MChromatograms` object. See `?readSRMData`
 for more details.
 
 #### Peak lists {-}

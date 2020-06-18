@@ -147,7 +147,7 @@ export(MSnSet,
        executeProcessingStep,
        aggregationFun,
        Chromatogram,
-       Chromatograms,
+       MChromatograms,
        factorsAsStrings,
        makeCamelCase,
        filterIdentificationDataFrame,
@@ -161,7 +161,7 @@ export(MSnSet,
        estimateMzScattering,
        hasSpectra, hasChromatograms,
        mergeFeatureVars, expandFeatureVars,
-       Spectra
+       MSpectra
        )
 
 exportClasses(pSet,
@@ -180,8 +180,8 @@ exportClasses(pSet,
               OnDiskMSnExp,
               ProcessingStep,
               Chromatogram,
-              Chromatograms,
-              Spectra
+              MChromatograms,
+              MSpectra
               )
 
 exportMethods(updateObject,

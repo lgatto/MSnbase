@@ -80,7 +80,7 @@
 
 \alias{coerce,MSnExp,data.frame-method}
 \alias{as.data.frame.MSnExp}
-\alias{coerce,MSnExp,Spectra-method}
+\alias{coerce,MSnExp,MSpectra-method}
 
 \title{The 'MSnExp' Class for MS Data And Meta-Data}
 
@@ -249,7 +249,7 @@
 
     \item{isolationWindow}{\code{signature(object = "MSnExp", ...)}:
       Returns the isolation window offsets for the MS2 spectra. See
-      \code{\link[mzR]{isolationWindow}} for details. }
+      \code{\link{isolationWindow}} in the \code{mzR} package for details. }
 
     \item{trimMz}{\code{signature(object = "MSnExp")}: Trims the MZ
       range of all the spectra of the \code{MSnExp} instance. See
@@ -283,8 +283,8 @@
       values) and \code{"i"} (intensity values).
     }
 
-    \item{as}{\code{signature(object = "MSnExp", "Spectra")}:
-      Coerces the \code{MSnExp} object to a \code{\linkS4class{Spectra}}
+    \item{as}{\code{signature(object = "MSnExp", "MSpectra")}:
+      Coerces the \code{MSnExp} object to a \code{\linkS4class{MSpectra}}
       object with all feature annotations added as metadata columns
       (\code{mcols}).
     }

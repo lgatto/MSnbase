@@ -1,7 +1,7 @@
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
-#' @param object a \code{Chromatograms} object.
-setMethod("show", "Chromatograms", function(object) {
+#' @param object a \code{MChromatograms} object.
+setMethod("show", "MChromatograms", function(object) {
     nr <- nrow(object)
     nc <- ncol(object)
     cat(class(object), " with ",
@@ -35,27 +35,27 @@ setMethod("show", "Chromatograms", function(object) {
     cat("featureData with", length(fvarLabels(object)), "variables\n")
 })
 
-setAs("matrix", "Chromatograms", function(from) {
-    res <- new("Chromatograms")
+setAs("matrix", "MChromatograms", function(from) {
+    res <- new("MChromatograms")
     res@.Data <- from
     res@phenoData <- annotatedDataFrameFrom(from, byrow = FALSE)
     res@featureData <- annotatedDataFrameFrom(from, byrow = TRUE)
     res
 })
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
-#' @description \code{Chromatograms} objects can, just like a \code{matrix},
+#' @description \code{MChromatograms} objects can, just like a \code{matrix},
 #'     be subsetted using the \code{[} method. Single elements, rows or columns
 #'     can be replaced using e.g. \code{x[1, 1] <- value} where \code{value}
 #'     has to be a \code{Chromatogram} object or a \code{list} of such objects.
 #'
-#' @note Subsetting with \code{[} will always return a \code{Chromatograms}
+#' @note Subsetting with \code{[} will always return a \code{MChromatograms}
 #'     object (with the exception of extracting a single element)
 #'     unless \code{drop = TRUE} is specified. This is different from the
 #'     default subsetting behaviour of \code{matrix}-like objects.
 #'
-#' @param x For all methods: a \code{Chromatograms} object.
+#' @param x For all methods: a \code{MChromatograms} object.
 #'
 #' @param i For \code{[}: \code{numeric}, \code{logical} or \code{character}
 #'     defining which row(s) to extract.
@@ -65,14 +65,14 @@ setAs("matrix", "Chromatograms", function(from) {
 #'
 #' @param drop For \code{[}: \code{logical(1)} whether to drop the
 #'     dimensionality of the returned object (if possible). The default is
-#'     \code{drop = FALSE}, i.e. each subsetting returns a \code{Chromatograms}
+#'     \code{drop = FALSE}, i.e. each subsetting returns a \code{MChromatograms}
 #'     object (or a \code{Chromatogram} object if a single element is
 #'     extracted).
 #'
-#' @return For \code{[}: the subset of the \code{Chromatograms} object. If a
+#' @return For \code{[}: the subset of the \code{MChromatograms} object. If a
 #'     single element is extracted (e.g. if \code{i} and \code{j} are of length
 #'     1) a \code{\link{Chromatogram}} object is returned. Otherwise (if
-#'     \code{drop = FALSE}, the default, is specified) a \code{Chromatograms}
+#'     \code{drop = FALSE}, the default, is specified) a \code{MChromatograms}
 #'     object is returned. If \code{drop = TRUE} is specified, the method
 #'     returns a \code{list} of \code{Chromatogram} objects.
 #'
@@ -84,7 +84,7 @@ setAs("matrix", "Chromatograms", function(from) {
 #'
 #'     For \code{$}: the value of the corresponding column in the pheno data
 #'     table of the object.
-setMethod("[", "Chromatograms",
+setMethod("[", "MChromatograms",
           function(x, i, j, drop = FALSE) {
               if (missing(i) & missing(j))
                   return(x)
@@ -118,7 +118,7 @@ setMethod("[", "Chromatograms",
                   x
           })
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @param value For \code{[<-}: the replacement object(s). Can be a \code{list}
 #'     of \code{\link{Chromatogram}} objects or, if length of \code{i} and
@@ -128,7 +128,7 @@ setMethod("[", "Chromatograms",
 #'     the number of columns of \code{object}.
 #'
 #'     For \code{colnames}: a \code{character} with the new column names.
-setReplaceMethod("[", "Chromatograms",
+setReplaceMethod("[", "MChromatograms",
                  function(x, i, j, value) {
                      if(missing(i) & missing(j))
                          return(x)
@@ -162,9 +162,9 @@ setReplaceMethod("[", "Chromatograms",
                          x
                  })
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
-#' @description \code{plot}: plots a \code{Chromatograms} object. For each row
+#' @description \code{plot}: plots a \code{MChromatograms} object. For each row
 #'     in the object one plot is created, i.e. all \code{\link{Chromatogram}}
 #'     objects in the same row are added to the same plot.
 #'
@@ -175,12 +175,14 @@ setReplaceMethod("[", "Chromatograms",
 #' @param col For \code{plot}: the color to be used for plotting. Either a
 #'     vector of length 1 or equal to \code{ncol(x)}.
 #'
-#' @param lty For \code{plot}: the line type (see \code{\link[graphics]{plot}}
+#' @param lty For \code{plot}: the line type (see \code{plot} in the
+#'     \code{graphics} package
 #'     for more details. Can be either a vector of length 1 or of length equal
 #'     to \code{ncol(x)}.
 #'
 #' @param type For \code{plot}: the type of plot (see
-#'     \code{\link[graphics]{plot}} for more details. Can be either a vector
+#'     \code{plot} from the \code{graphics} package for more details.
+#'     Can be either a vector
 #'     of length 1 or of length equal to \code{ncol(x)}.
 #'
 #' @inheritParams Chromatogram-class
@@ -197,15 +199,15 @@ setReplaceMethod("[", "Chromatograms",
 #' ints <- abs(rnorm(124, mean = 1200, sd = 509))
 #' ch4 <- Chromatogram(rtime = seq_along(ints), intensity = ints, mz = 542)
 #'
-#' ## Combine into a 2x2 Chromatograms object
-#' chrs <- Chromatograms(list(ch1, ch2, ch3, ch4), byrow = TRUE, ncol = 2)
+#' ## Combine into a 2x2 MChromatograms object
+#' chrs <- MChromatograms(list(ch1, ch2, ch3, ch4), byrow = TRUE, ncol = 2)
 #'
 #' ## Plot the second row
 #' plot(chrs[2, , drop = FALSE])
 #'
 #' ## Plot all chromatograms
 #' plot(chrs, col = c("#ff000080", "#00ff0080"))
-setMethod("plot", signature = signature("Chromatograms"),
+setMethod("plot", signature = signature("MChromatograms"),
           function(x, col = "#00000060", lty = 1, type = "l",
                    xlab = "retention time", ylab = "intensity",
                    main = NULL, ...){
@@ -213,7 +215,7 @@ setMethod("plot", signature = signature("Chromatograms"),
                   ## Show a warning and plot an empty plot (issue #249)
                   warning("All chromatograms empty")
                   plot(3, 3, pch = NA, xlab = xlab, ylab = ylab, main = main)
-                  text(3, 3, labels = "Empty Chromatograms", col = "red")
+                  text(3, 3, labels = "Empty MChromatograms", col = "red")
               } else {
                   nr <- nrow(x)
                   nc <- ncol(x)
@@ -234,112 +236,112 @@ setMethod("plot", signature = signature("Chromatograms"),
               }
           })
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description \code{phenoData}: accesses the phenotypical desccription of the
 #'     samples. Returns an \code{AnnotatedDataFrame} object.
-setMethod("phenoData", "Chromatograms", function(object) object@phenoData)
+setMethod("phenoData", "MChromatograms", function(object) object@phenoData)
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description \code{pData}: accesses the phenotypical description of the
 #'     samples. Returns a \code{data.frame}.
-setMethod("pData", "Chromatograms", function(object) pData(phenoData(object)))
+setMethod("pData", "MChromatograms", function(object) pData(phenoData(object)))
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description \code{pData<-}: replace the phenotype data.
-setReplaceMethod("pData", c("Chromatograms", "data.frame"),
+setReplaceMethod("pData", c("MChromatograms", "data.frame"),
                  function(object, value) {
                      pData(object@phenoData) <- value
                      if (validObject(object))
                          object
                  })
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description \code{$} and \code{$<-}: get or replace individual columns of
 #'     the object's pheno data.
 #'
 #' @param name For \code{$}, the name of the pheno data column.
-setMethod("$", "Chromatograms", function(x, name) {
+setMethod("$", "MChromatograms", function(x, name) {
     ## eval(substitute(pData(x)$NAME_ARG, list(NAME_ARG = name)))
     pData(x)[[name]]
 })
-#' @rdname Chromatograms-class
-setReplaceMethod("$", "Chromatograms", function(x, name, value) {
+#' @rdname MChromatograms-class
+setReplaceMethod("$", "MChromatograms", function(x, name, value) {
     pData(x)[[name]] <- value
     if(validObject(x))
         x
 })
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description \code{colnames<-}: replace or set the column names of the
-#'     \code{Chromatograms} object. Does also set the \code{rownames} of the
+#'     \code{MChromatograms} object. Does also set the \code{rownames} of the
 #'     \code{phenoData}.
-setReplaceMethod("colnames", "Chromatograms", function(x, value) {
+setReplaceMethod("colnames", "MChromatograms", function(x, value) {
     colnames(x@.Data) <- value
     rownames(pData(x)) <- value
     if (validObject(x))
         x
 })
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description \code{sampleNames}: get the sample names.
-setMethod("sampleNames", "Chromatograms", function(object)
+setMethod("sampleNames", "MChromatograms", function(object)
     sampleNames(object@phenoData))
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description \code{sampleNames<-}: replace or set the sample names of the
-#'     \code{Chromatograms} object (i.e. the \code{rownames} of the pheno data
+#'     \code{MChromatograms} object (i.e. the \code{rownames} of the pheno data
 #'     and \code{colnames} of the data matrix.
-setReplaceMethod("sampleNames", "Chromatograms",
+setReplaceMethod("sampleNames", "MChromatograms",
                  function(object, value) {
                      colnames(object) <- value
                      object
                  })
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
-#' @description \code{isEmpty}: returns \code{TRUE} if the \code{Chromatograms}
+#' @description \code{isEmpty}: returns \code{TRUE} if the \code{MChromatograms}
 #'     object or all of its \code{Chromatogram} objects is/are empty or contain
 #'     only \code{NA} intensities.
-setMethod("isEmpty", "Chromatograms", function(x) {
+setMethod("isEmpty", "MChromatograms", function(x) {
     (nrow(x) == 0 | all(unlist(lapply(x, isEmpty))))
 })
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description \code{featureNames}: returns the feature names of the
-#'     \code{Chromatograms} object.
-setMethod("featureNames", "Chromatograms", function(object)
+#'     \code{MChromatograms} object.
+setMethod("featureNames", "MChromatograms", function(object)
           featureNames(featureData(object)))
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description \code{featureNames<-}: set the feature names.
-setReplaceMethod("featureNames", "Chromatograms", function(object, value) {
+setReplaceMethod("featureNames", "MChromatograms", function(object, value) {
     if (length(value) != nrow(object))
         stop("length of 'value' has to match the number of rows of the ",
-             "'Chromatograms' object")
+             "'MChromatograms' object")
     rownames(object) <- value
     featureNames(featureData(object)) <- value
     if (validObject(object))
         object
 })
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description \code{featureData}: return the feature data.
-setMethod("featureData", "Chromatograms", function(object) object@featureData)
+setMethod("featureData", "MChromatograms", function(object) object@featureData)
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description \code{featureData<-}: replace the object's feature data.
-setReplaceMethod("featureData", "Chromatograms", function(object, value) {
+setReplaceMethod("featureData", "MChromatograms", function(object, value) {
     if (is.data.frame(value))
         value <- AnnotatedDataFrame(value)
     if (!is(value, "AnnotatedDataFrame"))
@@ -353,16 +355,16 @@ setReplaceMethod("featureData", "Chromatograms", function(object, value) {
         object
 })
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description \code{fData}: return the feature data as a \code{data.frame}.
-setMethod("fData", "Chromatograms", function(object) pData(object@featureData))
+setMethod("fData", "MChromatograms", function(object) pData(object@featureData))
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description \code{fData<-}: replace the object's feature data by passing a
 #'     \code{data.frame}
-setReplaceMethod("fData", "Chromatograms", function(object, value) {
+setReplaceMethod("fData", "MChromatograms", function(object, value) {
     if (!is.data.frame(value))
         stop("'value' has to be a 'data.frame'")
     if (nrow(value) != nrow(object))
@@ -373,70 +375,70 @@ setReplaceMethod("fData", "Chromatograms", function(object, value) {
         object
 })
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description \code{fvarLabels}: return the feature data variable names (i.e.
 #'     column names).
-setMethod("fvarLabels", "Chromatograms", function(object)
+setMethod("fvarLabels", "MChromatograms", function(object)
     varLabels(featureData(object)))
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description \code{rownames<-}: replace the rownames (and featureNames) of
 #'     the object.
-setReplaceMethod("rownames", "Chromatograms", function(x, value) {
+setReplaceMethod("rownames", "MChromatograms", function(x, value) {
     rownames(x@.Data) <- value
     rownames(x@featureData) <- value
     if (validObject(x))
         x
 })
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description
 #'
 #' \code{precursorMz}: return the precursor m/z from the chromatograms. The
 #' method returns a \code{matrix} with 2 columns (\code{"mzmin"} and
 #' \code{"mzmax"}) and as many rows as there are rows in the
-#' \code{Chromatograms} object. Each row contains the precursor m/z of the
+#' \code{MChromatograms} object. Each row contains the precursor m/z of the
 #' chromatograms in that row. An error is thrown if the chromatograms within one
 #' row have different precursor m/z values.
-setMethod("precursorMz", "Chromatograms", function(object) {
+setMethod("precursorMz", "MChromatograms", function(object) {
     .mz_chromatograms(object, mz = "precursorMz")
 })
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description
 #'
 #' \code{productMz}: return the product m/z from the chromatograms. The
 #' method returns a \code{matrix} with 2 columns (\code{"mzmin"} and
 #' \code{"mzmax"}) and as many rows as there are rows in the
-#' \code{Chromatograms} object. Each row contains the product m/z of the
+#' \code{MChromatograms} object. Each row contains the product m/z of the
 #' chromatograms in that row. An error is thrown if the chromatograms within one
 #' row have different product m/z values.
-setMethod("productMz", "Chromatograms", function(object) {
+setMethod("productMz", "MChromatograms", function(object) {
     .mz_chromatograms(object, mz = "productMz")
 })
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description
 #'
-#' \code{mz}: returns the m/z for each row of the \code{Chromatograms} object
+#' \code{mz}: returns the m/z for each row of the \code{MChromatograms} object
 #' as a two-column \code{matrix} (with columns \code{"mzmin"} and
 #' \code{"mzmax"}).
-setMethod("mz", "Chromatograms", function(object) {
+setMethod("mz", "MChromatograms", function(object) {
     .mz_chromatograms(object, mz = "mz")
 })
 
-#' @rdname Chromatograms-class
+#' @rdname MChromatograms-class
 #'
 #' @description
 #'
 #' \code{polarity}: returns the polarity of the scans/chromatograms: `1`,
 #' `0` or `-1` for positive, negative or unknown polarity.
-setMethod("polarity", "Chromatograms", function(object) {
+setMethod("polarity", "MChromatograms", function(object) {
     if (any(fvarLabels(object) == "polarity"))
         fData(object)$polarity
     else
@@ -448,7 +450,7 @@ setMethod("polarity", "Chromatograms", function(object) {
 #' \code{bin} aggregates intensity values of chromatograms in discrete bins
 #' along the retention time axis. By default, individual \code{Chromatogram}
 #' objects of one row are binned into the same bins. The function returns a
-#' \code{Chromatograms} object with binned chromatograms.
+#' \code{MChromatograms} object with binned chromatograms.
 #'
 #' @param binSize for \code{bin}: \code{numeric(1)} with the size of the bins
 #'     (in seconds).
@@ -461,8 +463,8 @@ setMethod("polarity", "Chromatograms", function(object) {
 #' @param fun for \code{bin}: function to be used to aggregate the intensity
 #'     values falling within each bin.
 #'
-#' @rdname Chromatograms-class
-setMethod("bin", "Chromatograms", .bin_Chromatograms)
+#' @rdname MChromatograms-class
+setMethod("bin", "MChromatograms", .bin_MChromatograms)
 
 #' @description
 #'
@@ -478,8 +480,8 @@ setMethod("bin", "Chromatograms", .bin_Chromatograms)
 #' @param na.rm for \code{clean}: \code{logical(1)} whether all \code{NA}
 #'     intensities should be removed prior to clean 0 intensity data points.
 #'
-#' @rdname Chromatograms-class
-setMethod("clean", "Chromatograms", function(object, all = FALSE,
+#' @rdname MChromatograms-class
+setMethod("clean", "MChromatograms", function(object, all = FALSE,
                                              na.rm = FALSE) {
     object@.Data <- matrix(lapply(object, clean, all = all, na.rm = na.rm),
                            nrow = nrow(object), dimnames = dimnames(object))

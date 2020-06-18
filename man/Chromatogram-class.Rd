@@ -139,11 +139,11 @@ examples.}
 
 \item{col}{For \code{plot}: the color to be used for plotting.}
 
-\item{lty}{For \code{plot}: the line type. See \code{\link[graphics]{plot}}
-for more details.}
+\item{lty}{For \code{plot}: the line type. See help page of \code{plot} in
+the \code{graphics} package for details.}
 
-\item{type}{For \code{plot}: the type of plot. See
-\code{\link[graphics]{plot}} for more details.}
+\item{type}{For \code{plot}: the type of plot. See help page of \code{plot} in
+the \code{graphics} package for details.}
 
 \item{xlab}{For \code{plot}: the x-axis label.}
 
@@ -153,7 +153,7 @@ for more details.}
 will be used as plot title.}
 
 \item{...}{For \code{plot}: additional arguments to be passed to the
-\code{\link[graphics]{plot}} function.}
+base `plot` function.}
 
 \item{binSize}{for \code{bin}: \code{numeric(1)} with the size of the bins
 (in seconds).}
@@ -280,7 +280,7 @@ chr2 <- filterRt(chr, rt = c(4, 10))
 range(rtime(chr2))
 }
 \seealso{
-\code{\link{Chromatograms}} for combining \code{Chromatogram} in
+\code{\link{MChromatograms}} for combining \code{Chromatogram} in
     a two-dimensional matrix (rows being mz-rt ranges, columns samples).
     \code{\link{chromatogram}} for the method to extract chromatogram data
     from a \code{\linkS4class{MSnExp}} or \code{\linkS4class{OnDiskMSnExp}}

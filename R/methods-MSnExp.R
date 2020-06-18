@@ -402,7 +402,7 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #'     retention time. Setting \code{aggregationFun = "sum"} would e.g. allow
 #'     to calculate the \emph{total ion chromatogram} (TIC),
 #'     \code{aggregationFun = "max"} the \emph{base peak chromatogram} (BPC).
-#'     The length of the extracted \code{\link[MSnbase]{Chromatogram}} object,
+#'     The length of the extracted \code{\link{Chromatogram}} object,
 #'     i.e. the number of available data points, corresponds to the number of
 #'     scans/spectra measured in the specified retention time range. If in a
 #'     specific scan (for a give retention time) no signal was measured in the
@@ -450,7 +450,7 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #'     depend on the architecture. Default is
 #'     \code{BiocParallel::bpparam()}.
 #'
-#' @return \code{chromatogram} returns a \code{\link{Chromatograms}} object with
+#' @return \code{chromatogram} returns a \code{\link{MChromatograms}} object with
 #'     the number of columns corresponding to the number of files in
 #'     \code{object} and number of rows the number of specified ranges (i.e.
 #'     number of rows of matrices provided with arguments \code{mz} and/or
@@ -461,7 +461,7 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #'
 #' @author Johannes Rainer
 #'
-#' @seealso \code{\link{Chromatogram}} and \code{\link{Chromatograms}} for the
+#' @seealso \code{\link{Chromatogram}} and \code{\link{MChromatograms}} for the
 #'     classes that represent single and multiple chromatograms.
 #'
 #' @examples
@@ -491,7 +491,7 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #' mzr <- rbind(c(140, 160), c(300, 320))
 #' chrs <- chromatogram(msd, rt = rtr, mz = mzr)
 #'
-#' ## Each row of the returned Chromatograms object corresponds to one mz-rt
+#' ## Each row of the returned MChromatograms object corresponds to one mz-rt
 #' ## range. The Chromatogram for the first range in the first file is empty,
 #' ## because the retention time range is outside of the file's rt range:
 #' chrs[1, 1]
@@ -526,7 +526,7 @@ setMethod("chromatogram", "MSnExp", function(object, rt, mz,
                                          missingValue = missing,
                                          msLevel = msLevel,
                                          BPPARAM = BPPARAM)
-    res <- as(res, "Chromatograms")
+    res <- as(res, "MChromatograms")
     if (!nrow(res))
         return(res)
     fd <- annotatedDataFrameFrom(res, byrow = TRUE)
@@ -567,7 +567,7 @@ setAs("MSnExp", "data.frame", function(from) {
 as.data.frame.MSnExp <- function(x, row.names = NULL, optional=FALSE, ...)
     as(x, "data.frame")
 
-setAs("MSnExp", "Spectra", function(from) {
+setAs("MSnExp", "MSpectra", function(from) {
     fdta <- fData(from)
     red_cn <- c("fileIdx", "spIdx", "smoothed", "seqNum", "acquisitionNum",
                 "msLevel", "polarity", "originalPeaksCount", "totIonCurrent",
@@ -576,7 +576,7 @@ setAs("MSnExp", "Spectra", function(from) {
                 "precursorMZ", "precursorCharge", "precursorIntensity",
                 "mergedScan", "centroided", "spectrum")
     fdta <- fdta[, !colnames(fdta) %in% red_cn, drop = FALSE]
-    Spectra(spectra(from), elementMetadata = DataFrame(fdta))
+    MSpectra(spectra(from), elementMetadata = DataFrame(fdta))
 })
 
 #' @rdname combineSpectra
@@ -593,7 +593,7 @@ setMethod("combineSpectra", "MSnExp", function(object, fcol = "fileIdx",
         sps <- do.call(
             combineSpectra,
             args = c(list(
-                object = Spectra(spectra(z), elementMetadata = DataFrame(fData(z))),
+                object = MSpectra(spectra(z), elementMetadata = DataFrame(fData(z))),
                 fcol = fcol, method = method), dots))
         ff <- match(fileNames(z), fns)
         sps@listData <- lapply(sps@listData, function(x) {

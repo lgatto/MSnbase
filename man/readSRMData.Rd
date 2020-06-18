@@ -13,22 +13,22 @@ readSRMData(files, pdata = NULL)
 descriptions.}
 }
 \value{
-A \code{Chromatograms()} object. See details above for more information.
+A \code{MChromatograms()} object. See details above for more information.
 }
 \description{
 The \code{readSRMData} function reads MRM/SRM data from provided \emph{mzML} files and
-returns the results as a \code{Chromatograms()} object.
+returns the results as a \code{\link[=MChromatograms]{MChromatograms()}} object.
 }
 \details{
 \code{readSRMData} supports reading chromatogram entries from \emph{mzML} files. If
 multiple files are provided the same precursor and product m/z for SRM/MRM
 chromatograms are expected across files. The number of columns of the
-resulting \code{Chromatograms()} object corresponds to the number of files. Each
-row in the \code{Chromatograms()} object is supposed to contain chromatograms
+resulting \code{\link[=MChromatograms]{MChromatograms()}} object corresponds to the number of files. Each
+row in the \code{MChromatograms} object is supposed to contain chromatograms
 with same polarity, precursor and product m/z. If chromatograms with
 redundant polarity, precursor and product m/z values and precursor collision
 energies are found, they are placed into multiple consecutive rows in the
-\code{Chromatograms()} object.
+\code{MChromatograms} object.
 }
 \note{
 \code{readSRMData} reads only SRM/MRM chromatogram data, i.e. chromatogram data
@@ -36,7 +36,7 @@ from mzML files with \code{precursorIsolationWindowTargetMZ} and
 \code{productIsolationWindowTargetMZ} attributes. Total ion chromatogram data is
 hence not extracted.
 
-The number of features and hence rows of the resulting \code{Chromatograms}
+The number of features and hence rows of the resulting \code{MChromatograms}
 object depends on the total list of unique precursor and product m/z
 isolation windows (and precursor collision energies) found across all input
 files. In cases in which not each file has chromatgraphic data for the same
@@ -54,7 +54,7 @@ fl <- proteomics(full.names = TRUE, pattern = "MRM")
 ## Read the data
 mrm <- readSRMData(fl)
 
-## The data is represented as a Chromatograms object, each column
+## The data is represented as a MChromatograms object, each column
 ## containing the data from one input file
 mrm
 

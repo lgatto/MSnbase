@@ -380,7 +380,7 @@ test_that("chromatogram,OnDiskMSnExp works", {
     res <- MSnbase:::.extractMultipleChromatograms(onDisk, rt = rtr,
                                                    msLevel = 1:5)
     colnames(res) <- basename(fileNames(onDisk))
-    res <- as(res, "Chromatograms")
+    res <- as(res, "MChromatograms")
     expect_true(validObject(res))
     ## pData(res) <- pData(onDisk)
     ## fData(res) <- fData(tmp)

@@ -1199,7 +1199,7 @@ meanMzInts <- function(x, ..., intensityFun = base::mean, weighted = FALSE,
 #' sp3 <- new("Spectrum2", rt = 1.2, precursorMz = 1.409,
 #'     mz = c(1, 1.82, 2.2, 3, 7.0, 8),
 #'     intensity = c(8, 210, 7, 101, 17, 8))
-#' spl <- Spectra(sp1, sp2, sp3)
+#' spl <- MSpectra(sp1, sp2, sp3)
 #'
 #' ## Plot the spectra, each in a different color
 #' par(mfrow = c(2, 1), mar = c(4.3, 4, 1, 1))
@@ -1228,8 +1228,8 @@ consensusSpectrum <- function(x, mzd = 0, minProp = 0.5,
                               weighted = FALSE, ...) {
     if (length(x) == 1)
         return(x[[1]])
-    if (!is(x, "Spectra"))
-        x <- Spectra(x)
+    if (!is(x, "MSpectra"))
+        x <- MSpectra(x)
     if (length(unique(msLevel(x))) != 1)
         stop("Can only combine spectra with the same MS level")
     xnew <- x[[1]]                      # data from the first peak.

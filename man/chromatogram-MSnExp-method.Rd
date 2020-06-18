@@ -49,7 +49,7 @@ depend on the architecture. Default is
 \code{BiocParallel::bpparam()}.}
 }
 \value{
-\code{chromatogram} returns a \code{\link{Chromatograms}} object with
+\code{chromatogram} returns a \code{\link{MChromatograms}} object with
     the number of columns corresponding to the number of files in
     \code{object} and number of rows the number of specified ranges (i.e.
     number of rows of matrices provided with arguments \code{mz} and/or
@@ -73,7 +73,7 @@ Arguments \code{rt} and \code{mz} allow to specify the MS
     retention time. Setting \code{aggregationFun = "sum"} would e.g. allow
     to calculate the \emph{total ion chromatogram} (TIC),
     \code{aggregationFun = "max"} the \emph{base peak chromatogram} (BPC).
-    The length of the extracted \code{\link[MSnbase]{Chromatogram}} object,
+    The length of the extracted \code{\link{Chromatogram}} object,
     i.e. the number of available data points, corresponds to the number of
     scans/spectra measured in the specified retention time range. If in a
     specific scan (for a give retention time) no signal was measured in the
@@ -116,7 +116,7 @@ rtr <- rbind(c(10, 60), c(280, 300))
 mzr <- rbind(c(140, 160), c(300, 320))
 chrs <- chromatogram(msd, rt = rtr, mz = mzr)
 
-## Each row of the returned Chromatograms object corresponds to one mz-rt
+## Each row of the returned MChromatograms object corresponds to one mz-rt
 ## range. The Chromatogram for the first range in the first file is empty,
 ## because the retention time range is outside of the file's rt range:
 chrs[1, 1]
@@ -137,7 +137,7 @@ chr
 plot(rtime(chr), intensity(chr), xlab = "rtime", ylab = "intensity")
 }
 \seealso{
-\code{\link{Chromatogram}} and \code{\link{Chromatograms}} for the
+\code{\link{Chromatogram}} and \code{\link{MChromatograms}} for the
     classes that represent single and multiple chromatograms.
 }
 \author{

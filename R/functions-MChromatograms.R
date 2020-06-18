@@ -1,6 +1,6 @@
-## functions for Chromatograms class
+## functions for MChromatograms class
 
-.validChromatograms <- function(x) {
+.validMChromatograms <- function(x) {
     msg <- character()
     ## All elements have to be of type Chromatogram
     if (length(x)) {
@@ -12,14 +12,14 @@
     }
     if (nrow(x@phenoData) != ncol(x))
         msg <- c(msg, paste0("nrow of phenoData has to match ncol ",
-                             "of the Chromatograms object"))
+                             "of the MChromatograms object"))
     ## Check colnames .Data with rownames phenoData.
     if (any(colnames(x) != rownames(x@phenoData)))
         msg <- c(msg, paste0("colnames of object has to match rownames of",
                              " object's phenoData"))
     if (nrow(x@featureData) != nrow(x))
         msg <- c(msg, paste0("nrow of featureData has to match nrow ",
-                             "of the Chromatograms object"))
+                             "of the MChromatograms object"))
     if (any(rownames(x) != rownames(x@featureData)))
         msg <- c(msg, paste0("rownames of object has to match rownames of",
                              " object's featureData"))
@@ -28,8 +28,8 @@
     else TRUE
 }
 
-#' @description \code{Chromatograms}: create an instance of class
-#'     \code{Chromatograms}.
+#' @description \code{MChromatograms}: create an instance of class
+#'     \code{MChromatograms}.
 #'
 #' @param data A \code{list} of \code{\link{Chromatogram}} objects.
 #'
@@ -44,10 +44,10 @@
 #'     \code{\link[base]{matrix}} constructor, such as \code{nrow}, \code{ncol}
 #'     and \code{byrow}.
 #'
-#' @rdname Chromatograms-class
-Chromatograms <- function(data, phenoData, featureData, ...) {
+#' @rdname MChromatograms-class
+MChromatograms <- function(data, phenoData, featureData, ...) {
     if (missing(data))
-        return(new("Chromatograms"))
+        return(new("MChromatograms"))
     datmat <- matrix(data, ...)
     if (missing(phenoData))
         phenoData <- annotatedDataFrameFrom(datmat, byrow = FALSE)
@@ -69,7 +69,7 @@ Chromatograms <- function(data, phenoData, featureData, ...) {
         rownames(datmat) <- rownames(featureData)
     if (is(featureData, "data.frame"))
         featureData <- AnnotatedDataFrame(featureData)
-    res <- new("Chromatograms", .Data = datmat, phenoData = phenoData,
+    res <- new("MChromatograms", .Data = datmat, phenoData = phenoData,
                featureData = featureData)
     if (validObject(res))
         res
@@ -133,13 +133,13 @@ Chromatograms <- function(data, phenoData, featureData, ...) {
                 lty = lty[keep], col = col[keep], xlab = xlab,
                 ylab = ylab, main = main, ...)
     } else {
-        warning("Chromatograms empty")
+        warning("MChromatograms empty")
         plot(3, 3, pch = NA, xlab = xlab, ylab = ylab, main = main)
-        text(3, 3, labels = "Empty Chromatograms", col = "red")
+        text(3, 3, labels = "Empty MChromatograms", col = "red")
     }
 }
 
-#' Helper function to extract mz, precursorMz or productMz from a Chromatograms
+#' Helper function to extract mz, precursorMz or productMz from a MChromatograms
 #' object
 #'
 #' @author Johannes Rainer
@@ -174,13 +174,13 @@ Chromatograms <- function(data, phenoData, featureData, ...) {
     }
 }
 
-#' Simple binning function for Chromatograms object. Defines common breaks for
+#' Simple binning function for MChromatograms object. Defines common breaks for
 #' `Chromatogram` objects in each row.
 #'
 #' @author Johannes Rainer
 #'
 #' @noRd
-.bin_Chromatograms <- function(object, binSize = 0.5, breaks = numeric(),
+.bin_MChromatograms <- function(object, binSize = 0.5, breaks = numeric(),
                                fun = max) {
     for (i in seq_len(nrow(object))) {
         if (!length(breaks)) {
