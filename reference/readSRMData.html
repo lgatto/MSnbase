@@ -41,7 +41,7 @@
 
 <meta property="og:title" content="Read SRM/MRM chromatographic data — readSRMData" />
 <meta property="og:description" content="The readSRMData function reads MRM/SRM data from provided mzML files and
-returns the results as a Chromatograms() object." />
+returns the results as a MChromatograms() object." />
 
 
 
@@ -73,7 +73,7 @@ returns the results as a Chromatograms() object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.3</span>
       </span>
     </div>
 
@@ -143,7 +143,7 @@ returns the results as a Chromatograms() object." />
 
     <div class="ref-description">
     <p>The <code>readSRMData</code> function reads MRM/SRM data from provided <em>mzML</em> files and
-returns the results as a <code><a href='Chromatograms-class.html'>Chromatograms()</a></code> object.</p>
+returns the results as a <code><a href='MChromatograms-class.html'>MChromatograms()</a></code> object.</p>
     </div>
 
     <pre class="usage"><span class='fu'>readSRMData</span>(<span class='no'>files</span>, <span class='kw'>pdata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -164,25 +164,25 @@ descriptions.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code><a href='Chromatograms-class.html'>Chromatograms()</a></code> object. See details above for more information.</p>
+    <p>A <code><a href='MChromatograms-class.html'>MChromatograms()</a></code> object. See details above for more information.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>readSRMData</code> supports reading chromatogram entries from <em>mzML</em> files. If
 multiple files are provided the same precursor and product m/z for SRM/MRM
 chromatograms are expected across files. The number of columns of the
-resulting <code><a href='Chromatograms-class.html'>Chromatograms()</a></code> object corresponds to the number of files. Each
-row in the <code><a href='Chromatograms-class.html'>Chromatograms()</a></code> object is supposed to contain chromatograms
+resulting <code><a href='MChromatograms-class.html'>MChromatograms()</a></code> object corresponds to the number of files. Each
+row in the <code>MChromatograms</code> object is supposed to contain chromatograms
 with same polarity, precursor and product m/z. If chromatograms with
 redundant polarity, precursor and product m/z values and precursor collision
 energies are found, they are placed into multiple consecutive rows in the
-<code><a href='Chromatograms-class.html'>Chromatograms()</a></code> object.</p>
+<code>MChromatograms</code> object.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p><code>readSRMData</code> reads only SRM/MRM chromatogram data, i.e. chromatogram data
 from mzML files with <code>precursorIsolationWindowTargetMZ</code> and
 <code>productIsolationWindowTargetMZ</code> attributes. Total ion chromatogram data is
 hence not extracted.</p>
-<p>The number of features and hence rows of the resulting <code>Chromatograms</code>
+<p>The number of features and hence rows of the resulting <code>MChromatograms</code>
 object depends on the total list of unique precursor and product m/z
 isolation windows (and precursor collision energies) found across all input
 files. In cases in which not each file has chromatgraphic data for the same
@@ -199,9 +199,9 @@ thrown).</p>
 
 <span class='co'>## Read the data</span>
 <span class='no'>mrm</span> <span class='kw'>&lt;-</span> <span class='fu'>readSRMData</span>(<span class='no'>fl</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: file MRM-standmix-5.mzML.gz contains multiple chromatograms with identical polarity, precursor and product m/z values</span></div><div class='input'>
-<span class='co'>## The data is represented as a Chromatograms object, each column</span>
+<span class='co'>## The data is represented as a MChromatograms object, each column</span>
 <span class='co'>## containing the data from one input file</span>
-<span class='no'>mrm</span></div><div class='output co'>#&gt; Chromatograms with 137 rows and 1 column
+<span class='no'>mrm</span></div><div class='output co'>#&gt; MChromatograms with 137 rows and 1 column
 #&gt;                     1
 #&gt;        &lt;Chromatogram&gt;
 #&gt; [1,]      length: 523

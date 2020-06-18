@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>List of Spectrum objects along with annotations — Spectra • MSnbase</title>
+<title>List of Spectrum objects along with annotations — MSpectra • MSnbase</title>
 
 
 <!-- jquery -->
@@ -39,15 +39,16 @@
 
 
 
-<meta property="og:title" content="List of Spectrum objects along with annotations — Spectra" />
-<meta property="og:description" content="Spectra objects allow to collect one or more Spectrum object(s)
-(Spectrum1 or Spectrum2) in a list-like structure with
-the possibility to add arbitrary annotations to each individual
-Spectrum object. These can be accessed/set with the mcols() method.
-Spectra objects can be created with the Spectra function.
+<meta property="og:title" content="List of Spectrum objects along with annotations — MSpectra" />
+<meta property="og:description" content="MSpectra (Mass Spectra) objects allow to collect one or more
+Spectrum object(s) (Spectrum1 or Spectrum2) in
+a list-like structure with the possibility to add arbitrary annotations
+to each individual Spectrum object. These can be accessed/set with
+the mcols() method.
+MSpectra objects can be created with the MSpectra function.
 Functions to access the individual spectra's attributes are available
 (listed below).
-writeMgfData exports a Spectra object to a file in MGF format. All
+writeMgfData exports a MSpectra object to a file in MGF format. All
 metadata columns present in mcols are exported as additional fields with
 the capitalized column names used as field names (see examples below)." />
 
@@ -81,7 +82,7 @@ the capitalized column names used as field names (see examples below)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.3</span>
       </span>
     </div>
 
@@ -145,98 +146,99 @@ the capitalized column names used as field names (see examples below)." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>List of Spectrum objects along with annotations</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lgatto/MSnbase/blob/master/R/DataClasses.R'><code>R/DataClasses.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/functions-Spectra.R'><code>R/functions-Spectra.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/methods-Spectra.R'><code>R/methods-Spectra.R</code></a></small>
-    <div class="hidden name"><code>Spectra.Rd</code></div>
+    <small class="dont-index">Source: <a href='https://github.com/lgatto/MSnbase/blob/master/R/DataClasses.R'><code>R/DataClasses.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/functions-MSpectra.R'><code>R/functions-MSpectra.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/methods-MSpectra.R'><code>R/methods-MSpectra.R</code></a></small>
+    <div class="hidden name"><code>MSpectra.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>Spectra</code> objects allow to collect one or more <a href='Spectrum-class.html'>Spectrum</a> object(s)
-(<a href='Spectrum1-class.html'>Spectrum1</a> or <a href='Spectrum2-class.html'>Spectrum2</a>) in a <code>list</code>-like structure with
-the possibility to add arbitrary annotations to each individual
-<code>Spectrum</code> object. These can be accessed/set with the <code>mcols()</code> method.</p>
-<p><code>Spectra</code> objects can be created with the <code>Spectra</code> function.</p>
+    <p><code>MSpectra</code> (Mass Spectra) objects allow to collect one or more
+<a href='Spectrum-class.html'>Spectrum</a> object(s) (<a href='Spectrum1-class.html'>Spectrum1</a> or <a href='Spectrum2-class.html'>Spectrum2</a>) in
+a <code>list</code>-like structure with the possibility to add arbitrary annotations
+to each individual <code>Spectrum</code> object. These can be accessed/set with
+the <code>mcols()</code> method.</p>
+<p><code>MSpectra</code> objects can be created with the <code>MSpectra</code> function.</p>
 <p>Functions to access the individual spectra's attributes are available
 (listed below).</p>
-<p><code>writeMgfData</code> exports a <code>Spectra</code> object to a file in MGF format. All
+<p><code>writeMgfData</code> exports a <code>MSpectra</code> object to a file in MGF format. All
 metadata columns present in <code>mcols</code> are exported as additional fields with
 the capitalized column names used as field names (see examples below).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>Spectra</span>(<span class='no'>...</span>, <span class='kw'>elementMetadata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>MSpectra</span>(<span class='no'>...</span>, <span class='kw'>elementMetadata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum2-class.html'>precursorCharge</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum2-class.html'>precScanNum</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum2-class.html'>precursorIntensity</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum-class.html'>acquisitionNum</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum-class.html'>scanIndex</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra,ANY</span>
+<span class='co'># S4 method for MSpectra,ANY</span>
 <span class='fu'><a href='Spectrum-class.html'>peaksCount</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum-class.html'>tic</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum-class.html'>ionCount</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum2-class.html'>collisionEnergy</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum-class.html'>fromFile</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum-class.html'>polarity</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum-class.html'>smoothed</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'>isEmpty</span>(<span class='no'>x</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum-class.html'>isCentroided</a></span>(<span class='no'>object</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='writeMgfData-methods.html'>writeMgfData</a></span>(<span class='no'>object</span>, <span class='kw'>con</span> <span class='kw'>=</span> <span class='st'>"spectra.mgf"</span>, <span class='kw'>COM</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>TITLE</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='clean-methods.html'>clean</a></span>(<span class='no'>object</span>, <span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>msLevel.</span> <span class='kw'>=</span> <span class='no'>msLevel.</span>, <span class='no'>...</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='removePeaks-methods.html'>removePeaks</a></span>(<span class='no'>object</span>, <span class='no'>t</span>, <span class='no'>msLevel.</span>, <span class='no'>...</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='trimMz-methods.html'>filterMz</a></span>(<span class='no'>object</span>, <span class='no'>mz</span>, <span class='no'>msLevel.</span>, <span class='no'>...</span>)
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='pickPeaks-method.html'>pickPeaks</a></span>(
   <span class='no'>object</span>,
   <span class='kw'>halfWindowSize</span> <span class='kw'>=</span> <span class='fl'>3L</span>,
@@ -247,7 +249,7 @@ the capitalized column names used as field names (see examples below).</p>
   <span class='no'>...</span>
 )
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='smooth-methods.html'>smooth</a></span>(
   <span class='no'>x</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SavitzkyGolay"</span>, <span class='st'>"MovingAverage"</span>),
@@ -255,7 +257,7 @@ the capitalized column names used as field names (see examples below).</p>
   <span class='no'>...</span>
 )
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='MSnExp-class.html'>filterMsLevel</a></span>(<span class='no'>object</span>, <span class='no'>msLevel.</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -263,13 +265,13 @@ the capitalized column names used as field names (see examples below).</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>For <code>Spectra</code>: <a href='Spectrum-class.html'>Spectrum</a> object(s) or a <code>list</code> of
+      <td><p>For <code>MSpectra</code>: <a href='Spectrum-class.html'>Spectrum</a> object(s) or a <code>list</code> of
 <a href='Spectrum-class.html'>Spectrum</a> objects.
 For all other methods optional arguments passed along.</p></td>
     </tr>
     <tr>
       <th>elementMetadata</th>
-      <td><p>For <code>Spectra</code>: DataFrame with optional information
+      <td><p>For <code>MSpectra</code>: DataFrame with optional information
 that should be added as metadata information (<code>mcols</code>) to the object.
 The number of rows has to match the number of <a href='Spectrum-class.html'>Spectrum</a> objects,
 each row is expected to represent additional metadata information for
@@ -277,11 +279,11 @@ one spectrum.</p></td>
     </tr>
     <tr>
       <th>object</th>
-      <td><p>For all functions: a <code>Spectra</code> object.</p></td>
+      <td><p>For all functions: a <code>MSpectra</code> object.</p></td>
     </tr>
     <tr>
       <th>x</th>
-      <td><p>For all functions: a <code>Spectra</code> object.</p></td>
+      <td><p>For all functions: a <code>MSpectra</code> object.</p></td>
     </tr>
     <tr>
       <th>con</th>
@@ -308,7 +310,7 @@ around peaks.</p></td>
       <td><p>For <code>clean</code>, <code>removePeaks</code>, <code>filterMz</code>, <code>pickPeaks</code>:
 optionally specify the MS level(s) of the spectra on which the operation
 should be performed.
-For <code>filterMsLevels</code>: MS level(s) to which the <code>Spectra</code> should be reduced.</p></td>
+For <code>filterMsLevels</code>: MS level(s) to which the <code>MSpectra</code> should be reduced.</p></td>
     </tr>
     <tr>
       <th>t</th>
@@ -342,7 +344,7 @@ for details.</p></td>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>Spectra</code> inherits all methods from the SimpleList class of the
+    <p><code>MSpectra</code> inherits all methods from the SimpleList class of the
 <code>S4Vectors</code> package. This includes <code>lapply</code> and other data manipulation
 and subsetting operations.</p>
     <h2 class="hasAnchor" id="constructor"><a class="anchor" href="#constructor"></a>Constructor</h2>
@@ -350,7 +352,7 @@ and subsetting operations.</p>
     
 
 
-<p>New Spectra can be created with the <code>Spectra(...)</code> function
+<p>New MSpectra can be created with the <code>MSpectra(...)</code> function
 where <code>...</code> can either be a single <a href='Spectrum-class.html'>Spectrum</a> object or a <code>list</code> of
 <code>Spectrum</code> objects (<a href='Spectrum1-class.html'>Spectrum1</a> and/or <a href='Spectrum2-class.html'>Spectrum2</a>).</p>
     <h2 class="hasAnchor" id="accessing-spectrum-attributes"><a class="anchor" href="#accessing-spectrum-attributes"></a>Accessing spectrum attributes</h2>
@@ -412,8 +414,8 @@ centroided from the actual peak data.</p></li>
     
 
 <ul>
-<li><p><code>[</code> can be used to subset the <code>Spectra</code> object.</p></li>
-<li><p><code>filterMsLevel</code> filters <code>Spectra</code> to retain only spectra from certain MS
+<li><p><code>[</code> can be used to subset the <code>MSpectra</code> object.</p></li>
+<li><p><code>filterMsLevel</code> filters <code>MSpectra</code> to retain only spectra from certain MS
 level(s).</p></li>
 <li><p><code>filterMz</code> filters the spectra by the specified <code>mz</code> range. See
 <code><a href='trimMz-methods.html'>filterMz()</a></code> for details.</p></li>
@@ -427,8 +429,8 @@ level(s).</p></li>
 <span class='no'>sp2</span> <span class='kw'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum2"</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>3</span>, <span class='fl'>2</span>, <span class='fl'>5</span>),
     <span class='kw'>precursorMz</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 
-<span class='no'>spl</span> <span class='kw'>&lt;-</span> <span class='fu'>Spectra</span>(<span class='no'>sp1</span>, <span class='no'>sp2</span>)
-<span class='no'>spl</span></div><div class='output co'>#&gt; Spectra with 2 spectra and 0 metadata column(s):
+<span class='no'>spl</span> <span class='kw'>&lt;-</span> <span class='fu'>MSpectra</span>(<span class='no'>sp1</span>, <span class='no'>sp2</span>)
+<span class='no'>spl</span></div><div class='output co'>#&gt; MSpectra with 2 spectra and 0 metadata column(s):
 #&gt;       msLevel     rtime peaksCount
 #&gt;     &lt;integer&gt; &lt;numeric&gt;  &lt;integer&gt;
 #&gt;   1         1        NA          3
@@ -444,8 +446,8 @@ level(s).</p></li>
 #&gt;   &lt;character&gt;
 #&gt; 1           a
 #&gt; 2           b</div><div class='input'>
-<span class='co'>## Create a Spectra with metadata</span>
-<span class='no'>spl</span> <span class='kw'>&lt;-</span> <span class='fu'>Spectra</span>(<span class='no'>sp1</span>, <span class='no'>sp2</span>, <span class='kw'>elementMetadata</span> <span class='kw'>=</span> <span class='fu'>DataFrame</span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>)))
+<span class='co'>## Create a MSpectra with metadata</span>
+<span class='no'>spl</span> <span class='kw'>&lt;-</span> <span class='fu'>MSpectra</span>(<span class='no'>sp1</span>, <span class='no'>sp2</span>, <span class='kw'>elementMetadata</span> <span class='kw'>=</span> <span class='fu'>DataFrame</span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>)))
 
 <span class='fu'>mcols</span>(<span class='no'>spl</span>)</div><div class='output co'>#&gt; DataFrame with 2 rows and 1 column
 #&gt;            id
@@ -529,7 +531,7 @@ level(s).</p></li>
 
 <span class='co'>## Evaluate the written output. The ID of each spectrum (defined in the</span>
 <span class='co'>## "id" metadata column) is exported as field "ID".</span>
-<span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Sun May 31 11:26:54 2020"   
+<span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Thu Jun 18 15:03:56 2020"   
 #&gt;  [2] "BEGIN IONS"                                                      
 #&gt;  [3] "SCANS=NA"                                                        
 #&gt;  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     
@@ -555,7 +557,7 @@ level(s).</p></li>
 <span class='fu'>mcols</span>(<span class='no'>spl</span>) <span class='kw'>&lt;-</span> <span class='kw'>NULL</span>
 <span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='fu'><a href='writeMgfData-methods.html'>writeMgfData</a></span>(<span class='no'>spl</span>, <span class='no'>tmpf</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Sun May 31 11:26:54 2020"   
+<span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='no'>tmpf</span>)</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Thu Jun 18 15:03:56 2020"   
 #&gt;  [2] "BEGIN IONS"                                                      
 #&gt;  [3] "SCANS=NA"                                                        
 #&gt;  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     
@@ -576,7 +578,7 @@ level(s).</p></li>
 #&gt; [19] "4 5"                                                             
 #&gt; [20] "END IONS"                                                        </div><div class='input'>
 <span class='co'>## Filter the object by MS level</span>
-<span class='fu'><a href='MSnExp-class.html'>filterMsLevel</a></span>(<span class='no'>spl</span>, <span class='kw'>msLevel.</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; Spectra with 1 spectra and 0 metadata column(s):
+<span class='fu'><a href='MSnExp-class.html'>filterMsLevel</a></span>(<span class='no'>spl</span>, <span class='kw'>msLevel.</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; MSpectra with 1 spectra and 0 metadata column(s):
 #&gt;       msLevel     rtime peaksCount
 #&gt;     &lt;integer&gt; &lt;numeric&gt;  &lt;integer&gt;
 #&gt;   1         1        NA          3</div></pre>

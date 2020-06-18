@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Container for multiple Chromatogram objects — Chromatograms-class • MSnbase</title>
+<title>Container for multiple Chromatogram objects — MChromatograms-class • MSnbase</title>
 
 
 <!-- jquery -->
@@ -39,17 +39,17 @@
 
 
 
-<meta property="og:title" content="Container for multiple Chromatogram objects — Chromatograms-class" />
-<meta property="og:description" content="The Chromatograms class allows to store
+<meta property="og:title" content="Container for multiple Chromatogram objects — MChromatograms-class" />
+<meta property="og:description" content="The MChromatograms class allows to store
     Chromatogram objects in a matrix-like
     two-dimensional structure.
-Chromatograms: create an instance of class
-    Chromatograms.
-Chromatograms objects can, just like a matrix,
+MChromatograms: create an instance of class
+    MChromatograms.
+MChromatograms objects can, just like a matrix,
     be subsetted using the [ method. Single elements, rows or columns
     can be replaced using e.g. x[1, 1] &amp;lt;- value where value
     has to be a Chromatogram object or a list of such objects.
-plot: plots a Chromatograms object. For each row
+plot: plots a MChromatograms object. For each row
     in the object one plot is created, i.e. all Chromatogram
     objects in the same row are added to the same plot.
 phenoData: accesses the phenotypical desccription of the
@@ -60,17 +60,17 @@ pData&amp;lt;-: replace the phenotype data.
 $ and $&amp;lt;-: get or replace individual columns of
     the object's pheno data.
 colnames&amp;lt;-: replace or set the column names of the
-    Chromatograms object. Does also set the rownames of the
+    MChromatograms object. Does also set the rownames of the
     phenoData.
 sampleNames: get the sample names.
 sampleNames&amp;lt;-: replace or set the sample names of the
-    Chromatograms object (i.e. the rownames of the pheno data
+    MChromatograms object (i.e. the rownames of the pheno data
     and colnames of the data matrix.
-isEmpty: returns TRUE if the Chromatograms
+isEmpty: returns TRUE if the MChromatograms
     object or all of its Chromatogram objects is/are empty or contain
     only NA intensities.
 featureNames: returns the feature names of the
-    Chromatograms object.
+    MChromatograms object.
 featureNames&amp;lt;-: set the feature names.
 featureData: return the feature data.
 featureData&amp;lt;-: replace the object's feature data.
@@ -84,16 +84,16 @@ rownames&amp;lt;-: replace the rownames (and featureNames) of
 precursorMz: return the precursor m/z from the chromatograms. The
 method returns a matrix with 2 columns (&quot;mzmin&quot; and
 &quot;mzmax&quot;) and as many rows as there are rows in the
-Chromatograms object. Each row contains the precursor m/z of the
+MChromatograms object. Each row contains the precursor m/z of the
 chromatograms in that row. An error is thrown if the chromatograms within one
 row have different precursor m/z values.
 productMz: return the product m/z from the chromatograms. The
 method returns a matrix with 2 columns (&quot;mzmin&quot; and
 &quot;mzmax&quot;) and as many rows as there are rows in the
-Chromatograms object. Each row contains the product m/z of the
+MChromatograms object. Each row contains the product m/z of the
 chromatograms in that row. An error is thrown if the chromatograms within one
 row have different product m/z values.
-mz: returns the m/z for each row of the Chromatograms object
+mz: returns the m/z for each row of the MChromatograms object
 as a two-column matrix (with columns &quot;mzmin&quot; and
 &quot;mzmax&quot;).
 polarity: returns the polarity of the scans/chromatograms: `1`,
@@ -101,7 +101,7 @@ polarity: returns the polarity of the scans/chromatograms: `1`,
 bin aggregates intensity values of chromatograms in discrete bins
 along the retention time axis. By default, individual Chromatogram
 objects of one row are binned into the same bins. The function returns a
-Chromatograms object with binned chromatograms.
+MChromatograms object with binned chromatograms.
 clean: removes 0-intensity data points. Either all of them
 (with all = TRUE) or all except those adjacent to non-zero
 intensities (all = FALSE; default). See clean
@@ -137,7 +137,7 @@ documentation for more details and examples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.3</span>
       </span>
     </div>
 
@@ -201,21 +201,21 @@ documentation for more details and examples." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Container for multiple Chromatogram objects</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lgatto/MSnbase/blob/master/R/DataClasses.R'><code>R/DataClasses.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/functions-Chromatograms.R'><code>R/functions-Chromatograms.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/methods-Chromatograms.R'><code>R/methods-Chromatograms.R</code></a></small>
-    <div class="hidden name"><code>Chromatograms-class.Rd</code></div>
+    <small class="dont-index">Source: <a href='https://github.com/lgatto/MSnbase/blob/master/R/DataClasses.R'><code>R/DataClasses.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/functions-MChromatograms.R'><code>R/functions-MChromatograms.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/methods-MChromatograms.R'><code>R/methods-MChromatograms.R</code></a></small>
+    <div class="hidden name"><code>MChromatograms-class.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The <code>Chromatograms</code> class allows to store
+    <p>The <code>MChromatograms</code> class allows to store
     <code><a href='Chromatogram-class.html'>Chromatogram</a></code> objects in a <code>matrix</code>-like
     two-dimensional structure.</p>
-<p><code>Chromatograms</code>: create an instance of class
-    <code>Chromatograms</code>.</p>
-<p><code>Chromatograms</code> objects can, just like a <code>matrix</code>,
+<p><code>MChromatograms</code>: create an instance of class
+    <code>MChromatograms</code>.</p>
+<p><code>MChromatograms</code> objects can, just like a <code>matrix</code>,
     be subsetted using the <code>[</code> method. Single elements, rows or columns
     can be replaced using e.g. <code>x[1, 1] &lt;- value</code> where <code>value</code>
     has to be a <code>Chromatogram</code> object or a <code>list</code> of such objects.</p>
-<p><code>plot</code>: plots a <code>Chromatograms</code> object. For each row
+<p><code>plot</code>: plots a <code>MChromatograms</code> object. For each row
     in the object one plot is created, i.e. all <code><a href='Chromatogram-class.html'>Chromatogram</a></code>
     objects in the same row are added to the same plot.</p>
 <p><code>phenoData</code>: accesses the phenotypical desccription of the
@@ -226,17 +226,17 @@ documentation for more details and examples." />
 <p><code>$</code> and <code>$&lt;-</code>: get or replace individual columns of
     the object's pheno data.</p>
 <p><code>colnames&lt;-</code>: replace or set the column names of the
-    <code>Chromatograms</code> object. Does also set the <code>rownames</code> of the
+    <code>MChromatograms</code> object. Does also set the <code>rownames</code> of the
     <code>phenoData</code>.</p>
 <p><code>sampleNames</code>: get the sample names.</p>
 <p><code>sampleNames&lt;-</code>: replace or set the sample names of the
-    <code>Chromatograms</code> object (i.e. the <code>rownames</code> of the pheno data
+    <code>MChromatograms</code> object (i.e. the <code>rownames</code> of the pheno data
     and <code>colnames</code> of the data matrix.</p>
-<p><code>isEmpty</code>: returns <code>TRUE</code> if the <code>Chromatograms</code>
+<p><code>isEmpty</code>: returns <code>TRUE</code> if the <code>MChromatograms</code>
     object or all of its <code>Chromatogram</code> objects is/are empty or contain
     only <code>NA</code> intensities.</p>
 <p><code>featureNames</code>: returns the feature names of the
-    <code>Chromatograms</code> object.</p>
+    <code>MChromatograms</code> object.</p>
 <p><code>featureNames&lt;-</code>: set the feature names.</p>
 <p><code>featureData</code>: return the feature data.</p>
 <p><code>featureData&lt;-</code>: replace the object's feature data.</p>
@@ -250,16 +250,16 @@ documentation for more details and examples." />
 <p><code>precursorMz</code>: return the precursor m/z from the chromatograms. The
 method returns a <code>matrix</code> with 2 columns (<code>"mzmin"</code> and
 <code>"mzmax"</code>) and as many rows as there are rows in the
-<code>Chromatograms</code> object. Each row contains the precursor m/z of the
+<code>MChromatograms</code> object. Each row contains the precursor m/z of the
 chromatograms in that row. An error is thrown if the chromatograms within one
 row have different precursor m/z values.</p>
 <p><code>productMz</code>: return the product m/z from the chromatograms. The
 method returns a <code>matrix</code> with 2 columns (<code>"mzmin"</code> and
 <code>"mzmax"</code>) and as many rows as there are rows in the
-<code>Chromatograms</code> object. Each row contains the product m/z of the
+<code>MChromatograms</code> object. Each row contains the product m/z of the
 chromatograms in that row. An error is thrown if the chromatograms within one
 row have different product m/z values.</p>
-<p><code>mz</code>: returns the m/z for each row of the <code>Chromatograms</code> object
+<p><code>mz</code>: returns the m/z for each row of the <code>MChromatograms</code> object
 as a two-column <code>matrix</code> (with columns <code>"mzmin"</code> and
 <code>"mzmax"</code>).</p>
 <p><code>polarity</code>: returns the polarity of the scans/chromatograms: `1`,
@@ -267,25 +267,25 @@ as a two-column <code>matrix</code> (with columns <code>"mzmin"</code> and
 <p><code>bin</code> aggregates intensity values of chromatograms in discrete bins
 along the retention time axis. By default, individual <code>Chromatogram</code>
 objects of one row are binned into the same bins. The function returns a
-<code>Chromatograms</code> object with binned chromatograms.</p>
+<code>MChromatograms</code> object with binned chromatograms.</p>
 <p><code>clean</code>: removes 0-intensity data points. Either all of them
 (with <code>all = TRUE</code>) or all except those adjacent to non-zero
 intensities (<code>all = FALSE</code>; default). See <code><a href='clean-methods.html'>clean</a></code>
 documentation for more details and examples.</p>
     </div>
 
-    <pre class="usage">Chromatograms(data, phenoData, featureData, ...)
+    <pre class="usage">MChromatograms(data, phenoData, featureData, ...)
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 show(object)
 
-# S4 method for Chromatograms,ANY,ANY,ANY
+# S4 method for MChromatograms,ANY,ANY,ANY
 [(x, i, j, drop = FALSE)
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 [(x, i, j) &lt;- value
 
-# S4 method for Chromatograms,ANY
+# S4 method for MChromatograms,ANY
 plot(
   x,
   col = "#00000060",
@@ -297,73 +297,73 @@ plot(
   ...
 )
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 phenoData(object)
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 pData(object)
 
-# S4 method for Chromatograms,data.frame
+# S4 method for MChromatograms,data.frame
 pData(object) &lt;- value
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 $(x, name)
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 $(x, name) &lt;- value
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 colnames(x) &lt;- value
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 sampleNames(object)
 
-# S4 method for Chromatograms,ANY
+# S4 method for MChromatograms,ANY
 sampleNames(object) &lt;- value
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 isEmpty(x)
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 featureNames(object)
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 featureNames(object) &lt;- value
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 featureData(object)
 
-# S4 method for Chromatograms,ANY
+# S4 method for MChromatograms,ANY
 featureData(object) &lt;- value
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 fData(object)
 
-# S4 method for Chromatograms,ANY
+# S4 method for MChromatograms,ANY
 fData(object) &lt;- value
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 fvarLabels(object)
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 rownames(x) &lt;- value
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 precursorMz(object)
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 productMz(object)
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 mz(object)
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 polarity(object)
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 bin(object, binSize = 0.5, breaks = numeric(), fun = max)
 
-# S4 method for Chromatograms
+# S4 method for MChromatograms
 clean(object, all = FALSE, na.rm = FALSE)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -392,11 +392,11 @@ and <code>byrow</code>.</p></td>
     </tr>
     <tr>
       <th>object</th>
-      <td><p>a <code>Chromatograms</code> object.</p></td>
+      <td><p>a <code>MChromatograms</code> object.</p></td>
     </tr>
     <tr>
       <th>x</th>
-      <td><p>For all methods: a <code>Chromatograms</code> object.</p></td>
+      <td><p>For all methods: a <code>MChromatograms</code> object.</p></td>
     </tr>
     <tr>
       <th>i</th>
@@ -412,7 +412,7 @@ defining which columns(s) to extract.</p></td>
       <th>drop</th>
       <td><p>For <code>[</code>: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether to drop the
 dimensionality of the returned object (if possible). The default is
-<code>drop = FALSE</code>, i.e. each subsetting returns a <code>Chromatograms</code>
+<code>drop = FALSE</code>, i.e. each subsetting returns a <code>MChromatograms</code>
 object (or a <code>Chromatogram</code> object if a single element is
 extracted).</p></td>
     </tr>
@@ -432,14 +432,16 @@ vector of length 1 or equal to <code><a href='https://rdrr.io/r/base/nrow.html'>
     </tr>
     <tr>
       <th>lty</th>
-      <td><p>For <code>plot</code>: the line type (see <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></code>
+      <td><p>For <code>plot</code>: the line type (see <code>plot</code> in the
+<code>graphics</code> package
 for more details. Can be either a vector of length 1 or of length equal
 to <code><a href='https://rdrr.io/r/base/nrow.html'>ncol(x)</a></code>.</p></td>
     </tr>
     <tr>
       <th>type</th>
       <td><p>For <code>plot</code>: the type of plot (see
-<code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></code> for more details. Can be either a vector
+<code>plot</code> from the <code>graphics</code> package for more details.
+Can be either a vector
 of length 1 or of length equal to <code><a href='https://rdrr.io/r/base/nrow.html'>ncol(x)</a></code>.</p></td>
     </tr>
     <tr>
@@ -491,10 +493,10 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>For <code>[</code>: the subset of the <code>Chromatograms</code> object. If a
+    <p>For <code>[</code>: the subset of the <code>MChromatograms</code> object. If a
     single element is extracted (e.g. if <code>i</code> and <code>j</code> are of length
     1) a <code><a href='Chromatogram-class.html'>Chromatogram</a></code> object is returned. Otherwise (if
-    <code>drop = FALSE</code>, the default, is specified) a <code>Chromatograms</code>
+    <code>drop = FALSE</code>, the default, is specified) a <code>MChromatograms</code>
     object is returned. If <code>drop = TRUE</code> is specified, the method
     returns a <code>list</code> of <code>Chromatogram</code> objects.</p>
 <p>For <code>phenoData</code>: an <code>AnnotatedDataFrame</code> representing the
@@ -505,7 +507,7 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
     table of the object.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The <code>Chromatograms</code> class extends the base <code>matrix</code> class
+    <p>The <code>MChromatograms</code> class extends the base <code>matrix</code> class
     and hence allows to store <code><a href='Chromatogram-class.html'>Chromatogram</a></code> objects in a
     two-dimensional array. Each row is supposed to contain
     <code>Chromatogram</code> objects for one MS data <em>slice</em> with a common
@@ -516,7 +518,7 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
     each.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Subsetting with <code>[</code> will always return a <code>Chromatograms</code>
+    <p>Subsetting with <code>[</code> will always return a <code>MChromatograms</code>
     object (with the exception of extracting a single element)
     unless <code>drop = TRUE</code> is specified. This is different from the
     default subsetting behaviour of <code>matrix</code>-like objects.</p>
@@ -525,13 +527,13 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
     <div class='dont-index'><p><code><a href='Chromatogram-class.html'>Chromatogram</a></code> for the class representing chromatogram
     data.
     <code><a href='chromatogram-MSnExp-method.html'>chromatogram</a></code> for the method to extract a
-    <code>Chromatograms</code> object from a <code><a href='MSnExp-class.html'>MSnExp</a></code> or
+    <code>MChromatograms</code> object from a <code><a href='MSnExp-class.html'>MSnExp</a></code> or
     <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code> object.
     <code><a href='readSRMData.html'>readSRMData</a></code> for the function to read chromatographic data
     of an SRM/MRM experiment.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Creating some chromatogram objects to put them into a Chromatograms object</span>
+    <pre class="examples"><div class='input'><span class='co'>## Creating some chromatogram objects to put them into a MChromatograms object</span>
 <span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>25</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>200</span>))
 <span class='no'>ch1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>ints</span>), <span class='no'>ints</span>)
 <span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>32</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>90</span>))
@@ -541,9 +543,9 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
 <span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>21</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>40</span>))
 <span class='no'>ch4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>ints</span>), <span class='no'>ints</span>)
 
-<span class='co'>## Create a Chromatograms object with 2 rows and 2 columns</span>
-<span class='no'>chrs</span> <span class='kw'>&lt;-</span> <span class='fu'>Chromatograms</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>ch1</span>, <span class='no'>ch2</span>, <span class='no'>ch3</span>, <span class='no'>ch4</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='no'>chrs</span></div><div class='output co'>#&gt; Chromatograms with 2 rows and 2 columns
+<span class='co'>## Create a MChromatograms object with 2 rows and 2 columns</span>
+<span class='no'>chrs</span> <span class='kw'>&lt;-</span> <span class='fu'>MChromatograms</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>ch1</span>, <span class='no'>ch2</span>, <span class='no'>ch3</span>, <span class='no'>ch4</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='no'>chrs</span></div><div class='output co'>#&gt; MChromatograms with 2 rows and 2 columns
 #&gt;                   1              2
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]     length: 25     length: 19
@@ -560,15 +562,15 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
 #&gt; MS level: 1</div><div class='input'>
 <span class='co'>## Extract the second row. Extracting a row or column (i.e. multiple elements</span>
 <span class='co'>## returns by default a list of Chromatogram objects.</span>
-<span class='no'>chrs</span>[<span class='fl'>2</span>, ]</div><div class='output co'>#&gt; Chromatograms with 1 row and 2 columns
+<span class='no'>chrs</span>[<span class='fl'>2</span>, ]</div><div class='output co'>#&gt; MChromatograms with 1 row and 2 columns
 #&gt;                   1              2
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]     length: 32     length: 21
 #&gt; phenoData with 0 variables
 #&gt; featureData with 0 variables</div><div class='input'>
-<span class='co'>## Extract the second row with drop = FALSE, i.e. return a Chromatograms</span>
+<span class='co'>## Extract the second row with drop = FALSE, i.e. return a MChromatograms</span>
 <span class='co'>## object.</span>
-<span class='no'>chrs</span>[<span class='fl'>2</span>, , <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>]</div><div class='output co'>#&gt; Chromatograms with 1 row and 2 columns
+<span class='no'>chrs</span>[<span class='fl'>2</span>, , <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>]</div><div class='output co'>#&gt; MChromatograms with 1 row and 2 columns
 #&gt;                   1              2
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]     length: 32     length: 21
@@ -576,7 +578,7 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
 #&gt; featureData with 0 variables</div><div class='input'>
 <span class='co'>## Replace the first element.</span>
 <span class='no'>chrs</span>[<span class='fl'>1</span>, <span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='no'>ch3</span>
-<span class='no'>chrs</span></div><div class='output co'>#&gt; Chromatograms with 2 rows and 2 columns
+<span class='no'>chrs</span></div><div class='output co'>#&gt; MChromatograms with 2 rows and 2 columns
 #&gt;                   1              2
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]     length: 19     length: 19
@@ -589,7 +591,7 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
 <span class='fu'>pData</span>(<span class='no'>chrs</span>) <span class='kw'>&lt;-</span> <span class='no'>pd</span>
 
 <span class='co'>## Column names correspond to the row names of the pheno data</span>
-<span class='no'>chrs</span></div><div class='output co'>#&gt; Chromatograms with 2 rows and 2 columns
+<span class='no'>chrs</span></div><div class='output co'>#&gt; MChromatograms with 2 rows and 2 columns
 #&gt;                   1              2
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]     length: 19     length: 19
@@ -613,13 +615,13 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
 <span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>124</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>1200</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>509</span>))
 <span class='no'>ch4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span>(<span class='no'>ints</span>), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fl'>542</span>)
 
-<span class='co'>## Combine into a 2x2 Chromatograms object</span>
-<span class='no'>chrs</span> <span class='kw'>&lt;-</span> <span class='fu'>Chromatograms</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>ch1</span>, <span class='no'>ch2</span>, <span class='no'>ch3</span>, <span class='no'>ch4</span>), <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='co'>## Combine into a 2x2 MChromatograms object</span>
+<span class='no'>chrs</span> <span class='kw'>&lt;-</span> <span class='fu'>MChromatograms</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>ch1</span>, <span class='no'>ch2</span>, <span class='no'>ch3</span>, <span class='no'>ch4</span>), <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 
 <span class='co'>## Plot the second row</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>chrs</span>[<span class='fl'>2</span>, , <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>])</div><div class='img'><img src='Chromatograms-class-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>chrs</span>[<span class='fl'>2</span>, , <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>])</div><div class='img'><img src='MChromatograms-class-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>## Plot all chromatograms</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>chrs</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#ff000080"</span>, <span class='st'>"#00ff0080"</span>))</div><div class='img'><img src='Chromatograms-class-2.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>chrs</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#ff000080"</span>, <span class='st'>"#00ff0080"</span>))</div><div class='img'><img src='MChromatograms-class-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

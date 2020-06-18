@@ -76,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.3</span>
       </span>
     </div>
 
@@ -216,7 +216,7 @@ depend on the architecture. Default is
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>chromatogram</code> returns a <code><a href='Chromatograms-class.html'>Chromatograms</a></code> object with
+    <p><code>chromatogram</code> returns a <code><a href='MChromatograms-class.html'>MChromatograms</a></code> object with
     the number of columns corresponding to the number of files in
     <code>object</code> and number of rows the number of specified ranges (i.e.
     number of rows of matrices provided with arguments <code>mz</code> and/or
@@ -249,7 +249,7 @@ depend on the architecture. Default is
     equal to 2, <code>range</code> is called on each row of the matrix.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='Chromatogram-class.html'>Chromatogram</a></code> and <code><a href='Chromatograms-class.html'>Chromatograms</a></code> for the
+    <div class='dont-index'><p><code><a href='Chromatogram-class.html'>Chromatogram</a></code> and <code><a href='MChromatograms-class.html'>MChromatograms</a></code> for the
     classes that represent single and multiple chromatograms.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -264,7 +264,7 @@ depend on the architecture. Default is
 <span class='co'>## Extract the total ion chromatogram for each file:</span>
 <span class='no'>tic</span> <span class='kw'>&lt;-</span> <span class='fu'>chromatogram</span>(<span class='no'>msd</span>)
 
-<span class='no'>tic</span></div><div class='output co'>#&gt; Chromatograms with 1 row and 2 columns
+<span class='no'>tic</span></div><div class='output co'>#&gt; MChromatograms with 1 row and 2 columns
 #&gt;           MM14.mzML       MM8.mzML
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]    length: 112    length: 198
@@ -287,7 +287,7 @@ depend on the architecture. Default is
 <span class='no'>mzr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>140</span>, <span class='fl'>160</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>300</span>, <span class='fl'>320</span>))
 <span class='no'>chrs</span> <span class='kw'>&lt;-</span> <span class='fu'>chromatogram</span>(<span class='no'>msd</span>, <span class='kw'>rt</span> <span class='kw'>=</span> <span class='no'>rtr</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='no'>mzr</span>)
 
-<span class='co'>## Each row of the returned Chromatograms object corresponds to one mz-rt</span>
+<span class='co'>## Each row of the returned MChromatograms object corresponds to one mz-rt</span>
 <span class='co'>## range. The Chromatogram for the first range in the first file is empty,</span>
 <span class='co'>## because the retention time range is outside of the file's rt range:</span>
 <span class='no'>chrs</span>[<span class='fl'>1</span>, <span class='fl'>1</span>]</div><div class='output co'>#&gt; Object of class: Chromatogram

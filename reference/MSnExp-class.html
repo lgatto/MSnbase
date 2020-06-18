@@ -85,7 +85,7 @@ The feature variables in the feature data slot will depend on the
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.3</span>
       </span>
     </div>
 
@@ -314,7 +314,7 @@ The feature variables in the feature data slot will depend on the
 
     <dt>isolationWindow</dt><dd><p><code>signature(object = "MSnExp", ...)</code>:
       Returns the isolation window offsets for the MS2 spectra. See
-      <code><a href='https://rdrr.io/pkg/mzR/man/isolationWindow-methods.html'>isolationWindow</a></code> for details.</p></dd>
+      <code>isolationWindow</code> in the <code>mzR</code> package for details.</p></dd>
 
     <dt>trimMz</dt><dd><p><code>signature(object = "MSnExp")</code>: Trims the MZ
       range of all the spectra of the <code>MSnExp</code> instance. See
@@ -343,8 +343,8 @@ The feature variables in the feature data slot will depend on the
       <code>object</code>), <code>"rt"</code> (retention time), <code>"mz"</code> (m/z
       values) and <code>"i"</code> (intensity values).</p></dd>
 
-    <dt>as</dt><dd><p><code>signature(object = "MSnExp", "Spectra")</code>:
-      Coerces the <code>MSnExp</code> object to a <code><a href='Spectra.html'>Spectra</a></code>
+    <dt>as</dt><dd><p><code>signature(object = "MSnExp", "MSpectra")</code>:
+      Coerces the <code>MSnExp</code> object to a <code><a href='MSpectra.html'>MSpectra</a></code>
       object with all feature annotations added as metadata columns
       (<code>mcols</code>).</p></dd>
 
@@ -428,8 +428,8 @@ The feature variables in the feature data slot will depend on the
 #&gt;  Number of spectra: 5 
 #&gt;  MSn retention times: 25:1 - 25:2 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded: Sun May 31 11:26:32 2020 
-#&gt;  MSnbase version: 2.15.2 
+#&gt; Data loaded: Thu Jun 18 15:03:45 2020 
+#&gt;  MSnbase version: 2.15.3 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
 #&gt;   rowNames: dummyiTRAQ.mzXML

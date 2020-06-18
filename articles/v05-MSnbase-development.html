@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.3</span>
       </span>
     </div>
 
@@ -463,10 +463,10 @@
 ## 
 ## Extends: "Versioned"</code></pre>
 </div>
-<div id="chromatogram-and-chromatograms-classes-to-handle-chromatographic-data" class="section level2">
+<div id="chromatogram-and-mchromatograms-classes-to-handle-chromatographic-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#chromatogram-and-chromatograms-classes-to-handle-chromatographic-data" class="anchor"></a><code>Chromatogram</code> and <code>Chromatograms</code>: classes to handle chromatographic data</h2>
-<p>The <code>Chromatogram</code> class represents chromatographic MS data, i.e. retention time and intensity duplets for one file/sample. The <code>Chromatograms</code> class allows to arrange multiple <code>Chromatogram</code> instances in a two-dimensional grid, with columns supposed to represent different samples and rows two-dimensional areas in the plane spanned by the m/z and retention time dimensions from which the intensities are extracted (e.g. an extracted ion chromatogram for a specific ion). The <code>Chromatograms</code> class extends the base <code>matrix</code> class. <code>Chromatograms</code> objects can be extracted from an <code>MSnExp</code> or <code>OnDiskMSnExp</code> object using the <code>chromatogram</code> method.</p>
+<a href="#chromatogram-and-mchromatograms-classes-to-handle-chromatographic-data" class="anchor"></a><code>Chromatogram</code> and <code>MChromatograms</code>: classes to handle chromatographic data</h2>
+<p>The <code>Chromatogram</code> class represents chromatographic MS data, i.e. retention time and intensity duplets for one file/sample. The <code>MChromatograms</code> class (Matrix of Chromatograms) allows to arrange multiple <code>Chromatogram</code> instances in a two-dimensional grid, with columns supposed to represent different samples and rows two-dimensional areas in the plane spanned by the m/z and retention time dimensions from which the intensities are extracted (e.g. an extracted ion chromatogram for a specific ion). The <code>MChromatograms</code> class extends the base <code>matrix</code> class. <code>MChromatograms</code> objects can be extracted from an <code>MSnExp</code> or <code>OnDiskMSnExp</code> object using the <code>chromatogram</code> method.</p>
 <div class="sourceCode" id="cb31"><html><body><pre class="r"><span class="fu">getClass</span>(<span class="st">"Chromatogram"</span>)</pre></body></html></div>
 <pre><code>## Class "Chromatogram" [package "MSnbase"]
 ## 
@@ -482,8 +482,8 @@
 ## Class:           integer          Versions
 ## 
 ## Extends: "Versioned"</code></pre>
-<div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="fu">getClass</span>(<span class="st">"Chromatograms"</span>)</pre></body></html></div>
-<pre><code>## Class "Chromatograms" [package "MSnbase"]
+<div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="fu">getClass</span>(<span class="st">"MChromatograms"</span>)</pre></body></html></div>
+<pre><code>## Class "MChromatograms" [package "MSnbase"]
 ## 
 ## Slots:
 ##                                                                
@@ -535,7 +535,7 @@
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
 <div class="sourceCode" id="cb37"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</pre></body></html></div>
-<pre><code>## R Under development (unstable) (2020-05-29 r78616)
+<pre><code>## R Under development (unstable) (2020-06-18 r78710)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
@@ -556,14 +556,14 @@
 ## [8] methods   base     
 ## 
 ## other attached packages:
-## [1] MSnbase_2.15.2      ProtGenerics_1.19.3 S4Vectors_0.27.9   
+## [1] MSnbase_2.15.3      ProtGenerics_1.19.3 S4Vectors_0.27.12  
 ## [4] mzR_2.23.0          Rcpp_1.0.4.6        Biobase_2.49.0     
-## [7] BiocGenerics_0.35.2 BiocStyle_2.17.0   
+## [7] BiocGenerics_0.35.4 BiocStyle_2.17.0   
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] tidyselect_1.1.0      xfun_0.14             purrr_0.3.4          
-##  [4] lattice_0.20-41       colorspace_1.4-1      vctrs_0.3.0          
-##  [7] generics_0.0.2        htmltools_0.4.0       yaml_2.2.1           
+##  [4] lattice_0.20-41       colorspace_1.4-1      vctrs_0.3.1          
+##  [7] generics_0.0.2        htmltools_0.5.0       yaml_2.2.1           
 ## [10] vsn_3.57.0            XML_3.99-0.3          rlang_0.4.6          
 ## [13] pkgdown_1.5.1         pillar_1.4.4          glue_1.4.1           
 ## [16] BiocParallel_1.23.0   affy_1.67.0           foreach_1.5.0        
@@ -571,16 +571,16 @@
 ## [22] mzID_1.27.0           zlibbioc_1.35.0       stringr_1.4.0        
 ## [25] munsell_0.5.0         pcaMethods_1.81.0     gtable_0.3.0         
 ## [28] codetools_0.2-16      memoise_1.1.0         evaluate_0.14        
-## [31] knitr_1.28            IRanges_2.23.6        doParallel_1.0.15    
-## [34] preprocessCore_1.51.0 scales_1.1.1          backports_1.1.7      
-## [37] BiocManager_1.30.10   limma_3.45.0          desc_1.2.0           
+## [31] knitr_1.28            IRanges_2.23.10       doParallel_1.0.15    
+## [34] preprocessCore_1.51.0 scales_1.1.1          backports_1.1.8      
+## [37] BiocManager_1.30.10   limma_3.45.7          desc_1.2.0           
 ## [40] fs_1.3.2              impute_1.63.0         ggplot2_3.3.1        
 ## [43] digest_0.6.25         stringi_1.4.6         bookdown_0.19        
 ## [46] dplyr_1.0.0           ncdf4_1.17            grid_4.1.0           
 ## [49] rprojroot_1.3-2       tools_4.1.0           magrittr_1.5         
 ## [52] tibble_3.0.1          crayon_1.3.4          pkgconfig_2.0.3      
 ## [55] MASS_7.3-51.6         ellipsis_0.3.1        iterators_1.0.12     
-## [58] assertthat_0.2.1      rmarkdown_2.1         R6_2.4.1             
+## [58] assertthat_0.2.1      rmarkdown_2.2         R6_2.4.1             
 ## [61] MALDIquant_1.19.3     compiler_4.1.0</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">

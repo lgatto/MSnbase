@@ -41,7 +41,7 @@
 
 <meta property="og:title" content="Combine Spectra — combineSpectra,MSnExp-method" />
 <meta property="og:description" content="combineSpectra combines spectra in a MSnExp, OnDiskMSnExp
-or Spectra object applying the summarization function fun to sets
+or MSpectra object applying the summarization function fun to sets
 of spectra defined by a factor (fcol parameter). The resulting combined
 spectrum for each set contains metadata information (present in mcols and
 all spectrum information other than mz and intensity) from the first
@@ -80,7 +80,7 @@ across files is thus not possible. See examples for details." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.3</span>
       </span>
     </div>
 
@@ -144,13 +144,13 @@ across files is thus not possible. See examples for details." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Combine Spectra</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lgatto/MSnbase/blob/master/R/methods-MSnExp.R'><code>R/methods-MSnExp.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/methods-Spectra.R'><code>R/methods-Spectra.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/lgatto/MSnbase/blob/master/R/methods-MSnExp.R'><code>R/methods-MSnExp.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/methods-MSpectra.R'><code>R/methods-MSpectra.R</code></a></small>
     <div class="hidden name"><code>combineSpectra.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p><code>combineSpectra</code> combines spectra in a <a href='MSnExp-class.html'>MSnExp</a>, <a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a>
-or <a href='Spectra.html'>Spectra</a> object applying the summarization function <code>fun</code> to sets
+or <a href='MSpectra.html'>MSpectra</a> object applying the summarization function <code>fun</code> to sets
 of spectra defined by a factor (<code>fcol</code> parameter). The resulting combined
 spectrum for each set contains metadata information (present in <code>mcols</code> and
 all spectrum information other than <code>mz</code> and <code>intensity</code>) from the <strong>first</strong>
@@ -169,7 +169,7 @@ across files is thus not possible. See examples for details.</p>
   <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>bpparam</span>()
 )
 
-<span class='co'># S4 method for Spectra</span>
+<span class='co'># S4 method for MSpectra</span>
 <span class='fu'>combineSpectra</span>(<span class='no'>object</span>, <span class='no'>fcol</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='no'>meanMzInts</span>, <span class='no'>fun</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -177,11 +177,11 @@ across files is thus not possible. See examples for details.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>A <a href='MSnExp-class.html'>MSnExp</a> or <a href='Spectra.html'>Spectra</a></p></td>
+      <td><p>A <a href='MSnExp-class.html'>MSnExp</a> or <a href='MSpectra.html'>MSpectra</a></p></td>
     </tr>
     <tr>
       <th>fcol</th>
-      <td><p>For <code>Spectra</code> objects: <code>mcols</code> column name to be used to define
+      <td><p>For <code>MSpectra</code> objects: <code>mcols</code> column name to be used to define
 the sets of spectra to be combined. If missing, all spectra are
 considered to be one set. For <code>MSnExp</code>/<code>OnDiskMSnExp</code> objects: column
 in <code>fData(object)</code> defining which spectra to combine. See examples below
@@ -211,7 +211,7 @@ details.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>Spectra</code> or <code>MSnExp</code> object with combined spectra. Metadata
+    <p>A <code>MSpectra</code> or <code>MSnExp</code> object with combined spectra. Metadata
 (<code>mcols</code>) and all spectrum attributes other than <code>mz</code> and <code>intensity</code>
 are taken from the first <code>Spectrum</code> in each set.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -237,12 +237,12 @@ are taken from the first <code>Spectrum</code> in each set.</p>
 <span class='no'>sp3</span> <span class='kw'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum1"</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='no'>mzs</span> + <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>mzs</span>), <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>0.009</span>),
     <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints3</span>, <span class='kw'>rt</span> <span class='kw'>=</span> <span class='fl'>3</span>)
 
-<span class='no'>spctra</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Spectra.html'>Spectra</a></span>(<span class='no'>sp1</span>, <span class='no'>sp2</span>, <span class='no'>sp3</span>,
+<span class='no'>spctra</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='MSpectra.html'>MSpectra</a></span>(<span class='no'>sp1</span>, <span class='no'>sp2</span>, <span class='no'>sp3</span>,
     <span class='kw'>elementMetadata</span> <span class='kw'>=</span> <span class='fu'>DataFrame</span>(<span class='kw'>idx</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"b"</span>, <span class='st'>"a"</span>, <span class='st'>"a"</span>)))
 
 <span class='co'>## Combine the spectra reporting the maximym signal</span>
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>combineSpectra</span>(<span class='no'>spctra</span>, <span class='kw'>mzd</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>intensityFun</span> <span class='kw'>=</span> <span class='no'>max</span>)
-<span class='no'>res</span></div><div class='output co'>#&gt; Spectra with 1 spectra and 2 metadata column(s):
+<span class='no'>res</span></div><div class='output co'>#&gt; MSpectra with 1 spectra and 2 metadata column(s):
 #&gt;       msLevel     rtime peaksCount |       idx       group
 #&gt;     &lt;integer&gt; &lt;numeric&gt;  &lt;integer&gt; | &lt;integer&gt; &lt;character&gt;
 #&gt;   1         1         1        191 |         1           b</div><div class='input'>
@@ -258,7 +258,7 @@ are taken from the first <code>Spectrum</code> in each set.</p>
     <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='no'>mzs</span>[<span class='fl'>5</span>:<span class='fl'>25</span>]))</div><div class='img'><img src='combineSpectra-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>## Combine spectra in two sets.</span>
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>combineSpectra</span>(<span class='no'>spctra</span>, <span class='kw'>fcol</span> <span class='kw'>=</span> <span class='st'>"group"</span>, <span class='kw'>mzd</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)
-<span class='no'>res</span></div><div class='output co'>#&gt; Spectra with 2 spectra and 2 metadata column(s):
+<span class='no'>res</span></div><div class='output co'>#&gt; MSpectra with 2 spectra and 2 metadata column(s):
 #&gt;       msLevel     rtime peaksCount |       idx       group
 #&gt;     &lt;integer&gt; &lt;numeric&gt;  &lt;integer&gt; | &lt;integer&gt; &lt;character&gt;
 #&gt;   1         1         1        191 |         1           b

@@ -78,7 +78,7 @@ Users should proceed with care when imputing data and take precautions
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.3</span>
       </span>
     </div>
 
@@ -328,15 +328,12 @@ Data Sets to Compare Imputation Strategies. J Proteome Res. 2016 Apr
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt; Data imputation using min Sun May 31 11:27:42 2020 
+#&gt; Data imputation using min Thu Jun 18 15:04:51 2020 
 #&gt;  MSnbase version: 1.15.6 </div><div class='input'>
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'>"imputeLCMD"</span>)) {
     <span class='fu'>impute</span>(<span class='no'>naset</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"QRILC"</span>)
     <span class='fu'>impute</span>(<span class='no'>naset</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"MinDet"</span>)
-}</div><div class='output co'>#&gt; <span class='message'>Loading required package: imputeLCMD</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: tmvtnorm</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: mvtnorm</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: Matrix</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘Matrix’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:S4Vectors’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    expand</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: gmm</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: sandwich</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: norm</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: pcaMethods</span></div><div class='output co'>#&gt; <span class='message'></span>
+}</div><div class='output co'>#&gt; <span class='message'>Loading required package: imputeLCMD</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: tmvtnorm</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: mvtnorm</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: gmm</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: sandwich</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: norm</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: pcaMethods</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘pcaMethods’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:stats’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    loadings</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: impute</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
@@ -354,7 +351,7 @@ Data Sets to Compare Imputation Strategies. J Proteome Res. 2016 Apr
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt; Data imputation using MinDet Sun May 31 11:27:42 2020 
+#&gt; Data imputation using MinDet Thu Jun 18 15:04:51 2020 
 #&gt;   Using default parameters 
 #&gt;  MSnbase version: 1.15.6 </div><div class='input'>
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'>"norm"</span>))
@@ -374,7 +371,7 @@ Data Sets to Compare Imputation Strategies. J Proteome Res. 2016 Apr
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt; Data imputation using MLE Sun May 31 11:27:42 2020 
+#&gt; Data imputation using MLE Thu Jun 18 15:04:51 2020 
 #&gt;   Using default parameters 
 #&gt;  MSnbase version: 1.15.6 </div><div class='input'>
 <span class='fu'>impute</span>(<span class='no'>naset</span>, <span class='st'>"mixed"</span>,
@@ -394,7 +391,7 @@ Data Sets to Compare Imputation Strategies. J Proteome Res. 2016 Apr
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt; Data imputation using mixed Sun May 31 11:27:43 2020 
+#&gt; Data imputation using mixed Thu Jun 18 15:04:51 2020 
 #&gt;   Using default parameters 
 #&gt;  MSnbase version: 1.15.6 </div><div class='input'>
 <span class='co'>## neighbour averaging</span>
