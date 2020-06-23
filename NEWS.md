@@ -1,5 +1,8 @@
 # MSnbase 2.15
 
+## Changes in 2.15.4
+- Nothing yet
+
 ## Changes in 2.15.3
 - Rename Spectra class to MSpectra.
 - Rename Chromatograms class to MChromatograms.
