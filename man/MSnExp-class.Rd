@@ -77,6 +77,7 @@
 
 \alias{splitByFile}
 \alias{splitByFile,MSnExp,factor-method}
+\alias{splitByFile,OnDiskMSnExp,factor-method}
 
 \alias{coerce,MSnExp,data.frame-method}
 \alias{as.data.frame.MSnExp}

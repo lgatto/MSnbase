@@ -293,10 +293,9 @@ test_that("spectrapply,OnDiskMSnExp", {
 
 test_that("splitByFile,OnDiskMSnExp", {
     od <- microtofq_on_disk_ms1
-    expect_error(splitByFile(od, f = factor(1:3)))
-    spl <- splitByFile(od, f = factor(c("b", "a")))
-    expect_equal(pData(spl[[1]]), pData(filterFile(od, 2)))
-    expect_equal(pData(spl[[2]]), pData(filterFile(od, 1)))
+    spl <- splitByFile(od, f = factor(c("a", "b")))
+    expect_equal(pData(spl[[1]]), pData(filterFile(od, 1)))
+    expect_equal(pData(spl[[2]]), pData(filterFile(od, 2)))
 })
 
 test_that("chromatogram,OnDiskMSnExp works", {
@@ -444,4 +443,13 @@ test_that("combineSpectra,MSnExp works with OnDiskMSnExp", {
     res <- combineSpectra(filterRt(sciex, c(10, 20)))
     expect_true(is(res, "MSnExp"))
     expect_true(length(res) == 2)
+})
+
+test_that(".on_disk_split_by_file works", {
+    res <- .on_disk_split_by_file(sciex)
+    expect_equal(length(res), 2)
+    expect_equal(featureData(res[[1]]), featureData(filterFile(sciex, 1L)))
+    expect_equal(featureData(res[[2]]), featureData(filterFile(sciex, 2L)))
+    expect_equal(phenoData(res[[1]]), phenoData(filterFile(sciex, 1L)))
+    expect_equal(phenoData(res[[2]]), phenoData(filterFile(sciex, 2L)))
 })
