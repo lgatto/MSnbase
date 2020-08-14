@@ -928,3 +928,7 @@ setMethod("isolationWindowUpperMz", "OnDiskMSnExp", function(object) {
                             fData(object)$isolationWindowUpperOffset)
     rep(NA_real_, length(object))
 })
+
+setMethod("splitByFile", c("OnDiskMSnExp", "factor"), function(object, f) {
+    .on_disk_split_by_file(object)
+})

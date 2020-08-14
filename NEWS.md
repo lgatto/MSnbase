@@ -1,7 +1,7 @@
 # MSnbase 2.15
 
 ## Changes in 2.15.4
-- Nothing yet
+- Add splitByFile,OnDiskMSnExp method to provide a more efficient splitting.
 
 ## Changes in 2.15.3
 - Rename Spectra class to MSpectra.
