@@ -1,7 +1,8 @@
 # MSnbase 2.15
 
 ## Changes in 2.15.5
-- Nothing yet.
+- `combineSpectraMovingWindow` gains parameter `ppm` to allow definition of m/z
+  relative differences.
 
 ## Changes in 2.15.4
 - Add splitByFile,OnDiskMSnExp method to provide a more efficient splitting.
