@@ -11,6 +11,7 @@ combineSpectraMovingWindow(
   mzd = NULL,
   timeDomain = FALSE,
   weighted = FALSE,
+  ppm = 0,
   BPPARAM = bpparam()
 )
 }
@@ -41,6 +42,11 @@ also be estimated on the square root of m/z values if
 \item{weighted}{\code{logical(1)} whether m/z values per m/z group should be
 aggregated with an intensity-weighted mean. The default is to report
 the mean m/z.}
+
+\item{ppm}{\code{numeric(1)} to define an m/z relative deviation. Note that if
+only \code{ppm} should be considered but not \code{mzd}, \code{mzd} should be set to
+\code{0} (i.e. \code{mzd = 0}). This parameter is directly passed to
+\code{\link[=meanMzInts]{meanMzInts()}}.}
 
 \item{BPPARAM}{parallel processing settings.}
 }

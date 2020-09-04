@@ -484,6 +484,11 @@ estimateMzScattering <- function(x, halfWindowSize = 1L, timeDomain = FALSE) {
 #' @param halfWindowSize `integer(1)` with the half window size for the moving
 #'     window.
 #'
+#' @param ppm `numeric(1)` to define an m/z relative deviation. Note that if
+#'     only `ppm` should be considered but not `mzd`, `mzd` should be set to
+#'     `0` (i.e. `mzd = 0`). This parameter is directly passed to
+#'     [meanMzInts()].
+#'
 #' @param BPPARAM parallel processing settings.
 #'
 #' @inheritParams meanMzInts
@@ -542,6 +547,7 @@ combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
                                        mzd = NULL,
                                        timeDomain = FALSE,
                                        weighted = FALSE,
+                                       ppm = 0,
                                        BPPARAM = bpparam()){
     if (!is(x, "MSnExp"))
         stop("'x' has to be a 'MSnExp' or an 'OnDiskMSnExp'")
@@ -551,7 +557,8 @@ combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
     new_sp <- bplapply(split(spectra(x), fromFile(x)), FUN = function(z, intF,
                                                                       wght, hws,
                                                                       mzd,
-                                                                      timeD) {
+                                                                      timeD,
+                                                                      ppm) {
         len_z <- length(z)
         ## Estimate m/z scattering on the 100 spectra with largest number of
         ## peaks
@@ -570,12 +577,12 @@ combineSpectraMovingWindow <- function(x, halfWindowSize = 1L,
             res[[i]] <- meanMzInts(z[windowIndices(i, hws, len_z)],
                                        weighted = wght, intensityFun = intF,
                                        main = hwsp - (i <= hws) * (hwsp - i),
-                                       mzd = mzd, timeDomain = timeD,
+                                       mzd = mzd, timeDomain = timeD, ppm = ppm,
                                        unionPeaks = FALSE)
         }
         res
     }, intF = intensityFun, wght = weighted, hws = as.integer(halfWindowSize),
-    mzd = mzd, timeD = timeDomain, BPPARAM = BPPARAM)
+    mzd = mzd, timeD = timeDomain, ppm = ppm, BPPARAM = BPPARAM)
     new_sp <- unsplit(new_sp, fromFile(x))
     names(new_sp) <- featureNames(x)
     x@assayData <- list2env(new_sp)
