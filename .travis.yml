@@ -8,7 +8,6 @@ cache:
   directories:
     - ~/.AnnotationHub
 warnings_are_errors: true
-dist: trusty
 
 # unfortunately apt packages are not cached
 # we could use these build dependencies just in the "Build" stage and
