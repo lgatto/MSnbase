@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/lgatto/MSnbase.svg?branch=master)](https://travis-ci.org/lgatto/MSnbase)
 [![codecov.io](https://codecov.io/github/lgatto/MSnbase/coverage.svg?branch=master)](https://codecov.io/github/lgatto/MSnbase?branch=master)
 
 
