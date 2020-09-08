@@ -1,5 +1,8 @@
 # MSnbase 2.15
 
+## Changes in 2.15.6
+- Nothing yet
+
 ## Changes in 2.15.5
 - `combineSpectraMovingWindow` gains parameter `ppm` to allow definition of m/z
   relative differences.
