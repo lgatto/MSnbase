@@ -340,7 +340,7 @@ Since version 1.13.5, parallel quantitation is supported by the
 #&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#&gt; iTRAQ4 quantification by trapezoidation: Tue Sep  8 11:46:56 2020 
+#&gt; iTRAQ4 quantification by trapezoidation: Tue Sep  8 13:13:00 2020 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
 <span class='co'>## specifying a custom parallel framework</span>
 <span class='co'>## bp &lt;- MulticoreParam(2L) # on Linux/OSX</span>
@@ -372,11 +372,11 @@ Since version 1.13.5, parallel quantitation is supported by the
 <span class='kw'>si</span> <span class='op'>&lt;-</span> <span class='fu'>quantify</span>(<span class='kw'>msexp</span>, method = <span class='st'>"SIn"</span>)
 <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='kw'>si</span>)
 </div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Data loaded: Tue Sep  8 11:46:57 2020 
-#&gt; Filtered 2 unidentified peptides out [Tue Sep  8 11:46:57 2020] 
-#&gt; Quantitation by total ion current [Tue Sep  8 11:46:57 2020] 
-#&gt; Combined 3 features into 3 using sum: Tue Sep  8 11:46:57 2020 
-#&gt; Quantification by SIn [Tue Sep  8 11:46:57 2020] 
+#&gt; Data loaded: Tue Sep  8 13:13:01 2020 
+#&gt; Filtered 2 unidentified peptides out [Tue Sep  8 13:13:01 2020] 
+#&gt; Quantitation by total ion current [Tue Sep  8 13:13:01 2020] 
+#&gt; Combined 3 features into 3 using sum: Tue Sep  8 13:13:01 2020 
+#&gt; Quantification by SIn [Tue Sep  8 13:13:01 2020] 
 #&gt;  MSnbase version: 2.15.6 </div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>si</span>)
 </div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
 #&gt; ECA0510     0.0006553518
@@ -385,12 +385,12 @@ Since version 1.13.5, parallel quantitation is supported by the
 <span class='kw'>saf</span> <span class='op'>&lt;-</span> <span class='fu'>quantify</span>(<span class='kw'>msexp</span>, method = <span class='st'>"NSAF"</span>)
 <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='kw'>saf</span>)
 </div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Data loaded: Tue Sep  8 11:46:57 2020 
-#&gt; Filtered 2 unidentified peptides out [Tue Sep  8 11:46:57 2020] 
-#&gt; Filtered 0 unidentified peptides out [Tue Sep  8 11:46:57 2020] 
-#&gt; Quantitation by count [Tue Sep  8 11:46:57 2020] 
-#&gt; Combined 3 features into 3 using user-defined function: Tue Sep  8 11:46:57 2020 
-#&gt; Quantification by NSAF [Tue Sep  8 11:46:57 2020] 
+#&gt; Data loaded: Tue Sep  8 13:13:01 2020 
+#&gt; Filtered 2 unidentified peptides out [Tue Sep  8 13:13:01 2020] 
+#&gt; Filtered 0 unidentified peptides out [Tue Sep  8 13:13:01 2020] 
+#&gt; Quantitation by count [Tue Sep  8 13:13:01 2020] 
+#&gt; Combined 3 features into 3 using user-defined function: Tue Sep  8 13:13:02 2020 
+#&gt; Quantification by NSAF [Tue Sep  8 13:13:02 2020] 
 #&gt;  MSnbase version: 2.15.6 </div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>saf</span>)
 </div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
 #&gt; ECA0510        0.4306167
