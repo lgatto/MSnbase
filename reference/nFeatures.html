@@ -74,7 +74,7 @@ in the feature data of object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -148,7 +148,7 @@ by the feature variable <code>fcol</code> and appends this information
 in the feature data of <code>object</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>nFeatures</span>(<span class='no'>object</span>, <span class='no'>fcol</span>)</pre>
+    <pre class="usage"><span class='fu'>nFeatures</span>(<span class='kw'>object</span>, <span class='kw'>fcol</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,14 +168,18 @@ structure.</p></td>
 
     <p>An updated <code>MSnSet</code> with a new feature variable
     <code>fcol.nFeatures</code>.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>pRolocdata</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/lgatto/pRolocdata'>pRolocdata</a></span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"hyperLOPIT2015ms3r1psm"</span>)
-<span class='no'>hyperLOPIT2015ms3r1psm</span> <span class='kw'>&lt;-</span> <span class='fu'>nFeatures</span>(<span class='no'>hyperLOPIT2015ms3r1psm</span>,
+<span class='kw'>hyperLOPIT2015ms3r1psm</span> <span class='op'>&lt;-</span> <span class='fu'>nFeatures</span>(<span class='kw'>hyperLOPIT2015ms3r1psm</span>,
                                     <span class='st'>"Protein.Group.Accessions"</span>)
-<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Protein.Group.Accessions"</span>, <span class='st'>"Protein.Group.Accessions.nFeatures"</span>)
-<span class='fu'>fData</span>(<span class='no'>hyperLOPIT2015ms3r1psm</span>)[<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='no'>i</span>]</div><div class='output co'>#&gt;     Protein.Group.Accessions Protein.Group.Accessions.nFeatures
+<span class='kw'>i</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Protein.Group.Accessions"</span>, <span class='st'>"Protein.Group.Accessions.nFeatures"</span>)
+<span class='fu'>fData</span>(<span class='kw'>hyperLOPIT2015ms3r1psm</span>)[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, <span class='kw'>i</span>]
+</div><div class='output co'>#&gt;     Protein.Group.Accessions Protein.Group.Accessions.nFeatures
 #&gt; 136                   Q99PL5                                108
 #&gt; 141                   P14901                                  7
 #&gt; 169                   O89090                                  3
@@ -201,7 +205,7 @@ structure.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

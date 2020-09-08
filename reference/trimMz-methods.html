@@ -78,7 +78,7 @@ This method selects a range of MZ values in a single spectrum
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -160,7 +160,7 @@ This method selects a range of MZ values in a single spectrum
 
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
-    <p></p><dl'>
+    <p></p><dl>
     
     <dt><code>signature(object = "MSnExp", mz = "numeric", msLevel. =
 	"numeric")</code></dt><dd><p>Trims all spectra in <code>MSnExp</code> object according
@@ -177,22 +177,30 @@ This method selects a range of MZ values in a single spectrum
   
 </dl>
 
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto &lt;lg390@cam.ac.uk&gt;</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='removePeaks-methods.html'>removePeaks</a></code> and <code><a href='clean-methods.html'>clean</a></code> for other spectra
   processing methods.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mz</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span>:<span class='fl'>100</span>
-<span class='no'>sp1</span> <span class='kw'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum2"</span>,
-           <span class='kw'>mz</span> <span class='kw'>=</span> <span class='no'>mz</span>,
-           <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>mz</span>))))
+    <pre class="examples"><div class='input'><span class='kw'>mz</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>
+<span class='kw'>sp1</span> <span class='op'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum2"</span>,
+           mz = <span class='kw'>mz</span>,
+           intensity = <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>mz</span>))))
 
-<span class='no'>sp2</span> <span class='kw'>&lt;-</span> <span class='fu'>trimMz</span>(<span class='no'>sp1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>25</span>, <span class='fl'>75</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp1</span>))</div><div class='output co'>#&gt; [1]   1 100</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>sp2</span>))</div><div class='output co'>#&gt; [1] 25 75</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>itraqdata</span>)
-<span class='no'>itraqdata2</span> <span class='kw'>&lt;-</span> <span class='fu'>filterMz</span>(<span class='no'>itraqdata</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>113</span>, <span class='fl'>117</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>itraqdata</span>))</div><div class='output co'>#&gt; [1]   99.99872 2069.27344</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>itraqdata2</span>))</div><div class='output co'>#&gt; [1] 113.0459 116.7362</div><div class='input'><span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>itraqdata2</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
+<span class='kw'>sp2</span> <span class='op'>&lt;-</span> <span class='fu'>trimMz</span>(<span class='kw'>sp1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>25</span>, <span class='fl'>75</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>sp1</span>))
+</div><div class='output co'>#&gt; [1]   1 100</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>sp2</span>))
+</div><div class='output co'>#&gt; [1] 25 75</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>itraqdata</span>)
+<span class='kw'>itraqdata2</span> <span class='op'>&lt;-</span> <span class='fu'>filterMz</span>(<span class='kw'>itraqdata</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>113</span>, <span class='fl'>117</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>itraqdata</span>))
+</div><div class='output co'>#&gt; [1]   99.99872 2069.27344</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>itraqdata2</span>))
+</div><div class='output co'>#&gt; [1] 113.0459 116.7362</div><div class='input'><span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='kw'>itraqdata2</span>)
+</div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
 #&gt; Filter: trim MZ [113..117] on MS level(s) 2. 
@@ -212,7 +220,7 @@ This method selects a range of MZ values in a single spectrum
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

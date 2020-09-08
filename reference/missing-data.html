@@ -79,7 +79,7 @@ There is a need for adequate handling of missing value impuation in
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -176,43 +176,55 @@ There is a need for adequate handling of missing value impuation in
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='plotNA-methods.html'>plotNA</a></code>, <code><a href='imageNA2.html'>imageNA2</a></code>.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto &lt;lg390@cam.ac.uk&gt;, Samuel Wieczorek and Thomas
+Burger</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Other suggestions</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"pRolocdata"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"pRoloc"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>dunkley2006</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/lgatto/pRoloc'>"pRoloc"</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>dunkley2006</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='no'>nax</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='makeNaData.html'>makeNaData</a></span>(<span class='no'>dunkley2006</span>, <span class='kw'>pNA</span> <span class='kw'>=</span> <span class='fl'>0.10</span>)
-<span class='no'>pcol</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='no'>dunkley2006</span>$<span class='no'>fraction</span> <span class='kw'>&lt;=</span> <span class='fl'>5</span>, <span class='st'>"A"</span>, <span class='st'>"B"</span>))
-<span class='no'>sel1</span> <span class='kw'>&lt;-</span> <span class='no'>pcol</span> <span class='kw'>==</span> <span class='st'>"A"</span>
+<span class='kw'>nax</span> <span class='op'>&lt;-</span> <span class='fu'><a href='makeNaData.html'>makeNaData</a></span>(<span class='kw'>dunkley2006</span>, pNA = <span class='fl'>0.10</span>)
+<span class='kw'>pcol</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='kw'>dunkley2006</span><span class='op'>$</span><span class='kw'>fraction</span> <span class='op'>&lt;=</span> <span class='fl'>5</span>, <span class='st'>"A"</span>, <span class='st'>"B"</span>))
+<span class='kw'>sel1</span> <span class='op'>&lt;-</span> <span class='kw'>pcol</span> <span class='op'>==</span> <span class='st'>"A"</span>
 
 <span class='co'>## missing values in each sample</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/barplot.html'>barplot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>nax</span>)), <span class='kw'>col</span> <span class='kw'>=</span> <span class='no'>pcol</span>)</div><div class='img'><img src='missing-data-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/barplot.html'>barplot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>nax</span>)), col = <span class='kw'>pcol</span>)
+</div><div class='img'><img src='missing-data-1.png' alt='' width='700' height='433' /></div><div class='input'>
 
 <span class='co'>## table of missing values in proteins</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>1</span>))
-<span class='fu'><a href='https://rdrr.io/r/graphics/barplot.html'>barplot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>nax</span>))), <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"All"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/barplot.html'>barplot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>nax</span>)[<span class='no'>sel1</span>,])), <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Group A"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/barplot.html'>barplot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>nax</span>)[!<span class='no'>sel1</span>,])), <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Group B"</span>)</div><div class='img'><img src='missing-data-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(mfrow = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>1</span>))
+<span class='fu'><a href='https://rdrr.io/r/graphics/barplot.html'>barplot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>nax</span>))), main = <span class='st'>"All"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/barplot.html'>barplot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>nax</span>)[<span class='kw'>sel1</span>,])), main = <span class='st'>"Group A"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/barplot.html'>barplot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>nax</span>)[<span class='op'>!</span><span class='kw'>sel1</span>,])), main = <span class='st'>"Group B"</span>)
+</div><div class='img'><img src='missing-data-2.png' alt='' width='700' height='433' /></div><div class='input'>
 
-<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>nax</span>)[, <span class='no'>sel1</span>])
-<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>nax</span>)[, !<span class='no'>sel1</span>])
-<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>nax</span>))
-<span class='no'>o</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'><a href='imageNA2.html'>imageNA2</a></span>(<span class='no'>nax</span>, <span class='no'>pcol</span>)
+<span class='fu'>fData</span>(<span class='kw'>nax</span>)<span class='op'>$</span><span class='kw'>nNA1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>nax</span>)[, <span class='kw'>sel1</span>])
+<span class='fu'>fData</span>(<span class='kw'>nax</span>)<span class='op'>$</span><span class='kw'>nNA2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>nax</span>)[, <span class='op'>!</span><span class='kw'>sel1</span>])
+<span class='fu'>fData</span>(<span class='kw'>nax</span>)<span class='op'>$</span><span class='kw'>nNA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>nax</span>))
+<span class='kw'>o</span> <span class='op'>&lt;-</span> <span class='kw'>MSnbase</span>:::<span class='fu'><a href='imageNA2.html'>imageNA2</a></span>(<span class='kw'>nax</span>, <span class='kw'>pcol</span>)
 
-<span class='fu'><a href='plot-methods.html'>plot</a></span>((<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA1</span> - <span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA2</span>)[<span class='no'>o</span>], <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>)
+<span class='fu'><a href='plot-methods.html'>plot</a></span>((<span class='fu'>fData</span>(<span class='kw'>nax</span>)<span class='op'>$</span><span class='kw'>nNA1</span> <span class='op'>-</span> <span class='fu'>fData</span>(<span class='kw'>nax</span>)<span class='op'>$</span><span class='kw'>nNA2</span>)[<span class='kw'>o</span>], type = <span class='st'>"l"</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/grid.html'>grid</a></span>()
 
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA1</span> - <span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA2</span>), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/grid.html'>grid</a></span>()</div><div class='img'><img src='missing-data-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'>fData</span>(<span class='kw'>nax</span>)<span class='op'>$</span><span class='kw'>nNA1</span> <span class='op'>-</span> <span class='fu'>fData</span>(<span class='kw'>nax</span>)<span class='op'>$</span><span class='kw'>nNA2</span>), type = <span class='st'>"l"</span>)
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/grid.html'>grid</a></span>()
+</div><div class='img'><img src='missing-data-3.png' alt='' width='700' height='433' /></div><div class='input'>
 
-<span class='no'>o2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span>(<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA1</span> - <span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA2</span>)
-<span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'><a href='imageNA2.html'>imageNA2</a></span>(<span class='no'>nax</span>, <span class='no'>pcol</span>, <span class='kw'>Rowv</span><span class='kw'>=</span><span class='no'>o2</span>)
+<span class='kw'>o2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span>(<span class='fu'>fData</span>(<span class='kw'>nax</span>)<span class='op'>$</span><span class='kw'>nNA1</span> <span class='op'>-</span> <span class='fu'>fData</span>(<span class='kw'>nax</span>)<span class='op'>$</span><span class='kw'>nNA2</span>)
+<span class='kw'>MSnbase</span>:::<span class='fu'><a href='imageNA2.html'>imageNA2</a></span>(<span class='kw'>nax</span>, <span class='kw'>pcol</span>, Rowv=<span class='kw'>o2</span>)
 
-<span class='fu'><a href='https://rdrr.io/r/graphics/layout.html'>layout</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>, <span class='fl'>10</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>2</span>, <span class='fl'>5</span>)), <span class='kw'>nc</span> <span class='kw'>=</span> <span class='fl'>3</span>))</div><div class='img'><img src='missing-data-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'><a href='imageNA2.html'>imageNA2</a></span>(<span class='no'>nax</span>, <span class='no'>pcol</span>, <span class='kw'>Rowv</span><span class='kw'>=</span><span class='no'>o2</span>)
-<span class='fu'><a href='plot-methods.html'>plot</a></span>((<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA1</span> - <span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA</span>)[<span class='no'>o2</span>], <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>,
-     <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>9</span>, <span class='fl'>9</span>), <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>""</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>((<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA</span> - <span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA2</span>)[<span class='no'>o2</span>], <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"steelblue"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>((<span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA1</span> - <span class='fu'>fData</span>(<span class='no'>nax</span>)$<span class='no'>nNA2</span>)[<span class='no'>o2</span>], <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>,
-     <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='img'><img src='missing-data-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/layout.html'>layout</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>, <span class='fl'>10</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>2</span>, <span class='fl'>5</span>)), nc = <span class='fl'>3</span>))
+</div><div class='img'><img src='missing-data-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>MSnbase</span>:::<span class='fu'><a href='imageNA2.html'>imageNA2</a></span>(<span class='kw'>nax</span>, <span class='kw'>pcol</span>, Rowv=<span class='kw'>o2</span>)
+<span class='fu'><a href='plot-methods.html'>plot</a></span>((<span class='fu'>fData</span>(<span class='kw'>nax</span>)<span class='op'>$</span><span class='kw'>nNA1</span> <span class='op'>-</span> <span class='fu'>fData</span>(<span class='kw'>nax</span>)<span class='op'>$</span><span class='kw'>nNA</span>)[<span class='kw'>o2</span>], type = <span class='st'>"l"</span>, col = <span class='st'>"red"</span>,
+     ylim = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='op'>-</span><span class='fl'>9</span>, <span class='fl'>9</span>), ylab = <span class='st'>""</span>)
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>((<span class='fu'>fData</span>(<span class='kw'>nax</span>)<span class='op'>$</span><span class='kw'>nNA</span> <span class='op'>-</span> <span class='fu'>fData</span>(<span class='kw'>nax</span>)<span class='op'>$</span><span class='kw'>nNA2</span>)[<span class='kw'>o2</span>], col = <span class='st'>"steelblue"</span>)
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>((<span class='fu'>fData</span>(<span class='kw'>nax</span>)<span class='op'>$</span><span class='kw'>nNA1</span> <span class='op'>-</span> <span class='fu'>fData</span>(<span class='kw'>nax</span>)<span class='op'>$</span><span class='kw'>nNA2</span>)[<span class='kw'>o2</span>], type = <span class='st'>"l"</span>,
+     lwd = <span class='fl'>2</span>)
+</div><div class='img'><img src='missing-data-5.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -229,7 +241,7 @@ There is a need for adequate handling of missing value impuation in
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

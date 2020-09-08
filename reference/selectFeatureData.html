@@ -75,7 +75,7 @@ names in the fData data.frame) for the specified object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -150,9 +150,9 @@ required feature data variable names (<code>fvarLabels</code>, i.e. the column
 names in the <code>fData</code> <code>data.frame</code>) for the specified object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>selectFeatureData</span>(<span class='no'>object</span>, <span class='kw'>graphics</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>fcol</span>)
+    <pre class="usage"><span class='fu'>selectFeatureData</span>(<span class='kw'>object</span>, graphics = <span class='fl'>TRUE</span>, <span class='kw'>fcol</span>)
 
-<span class='fu'>requiredFvarLabels</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"OnDiskMSnExp"</span>, <span class='st'>"MSnExp"</span>, <span class='st'>"MSnSet"</span>))</pre>
+<span class='fu'>requiredFvarLabels</span>(x = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"OnDiskMSnExp"</span>, <span class='st'>"MSnExp"</span>, <span class='st'>"MSnSet"</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,27 +186,32 @@ feature data variable names should be returned.</p></td>
     selected feature variables.</p>
 <p>For <code>requiredFvarLabels</code>: <code>character</code> with the required feature
 variable names.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"pRolocdata"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>hyperLOPIT2015</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>hyperLOPIT2015</span>)
 <span class='co'>## 5 first feature variables</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>selectFeatureData</span>(<span class='no'>hyperLOPIT2015</span>, <span class='kw'>fcol</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>5</span>)
-<span class='fu'>fvarLabels</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] "entry.name"          "protein.description" "peptides.rep1"      
-#&gt; [4] "peptides.rep2"       "psms.rep1"          </div><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'>selectFeatureData</span>(<span class='kw'>hyperLOPIT2015</span>, fcol = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>)
+<span class='fu'>fvarLabels</span>(<span class='kw'>x</span>)
+</div><div class='output co'>#&gt; [1] "entry.name"          "protein.description" "peptides.rep1"      
+#&gt; [4] "peptides.rep2"       "psms.rep1"          </div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## select via GUI</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>selectFeatureData</span>(<span class='no'>hyperLOPIT2015</span>)
-<span class='fu'>fvarLabels</span>(<span class='no'>x</span>)
+<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'>selectFeatureData</span>(<span class='kw'>hyperLOPIT2015</span>)
+<span class='fu'>fvarLabels</span>(<span class='kw'>x</span>)
 }
 
 <span class='co'>## Subset the feature data of an OnDiskMSnExp object to the minimal</span>
 <span class='co'>## required columns</span>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"microtofq/MM14.mzML"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"msdata"</span>)
-<span class='no'>od</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>f</span>, <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)
+<span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"microtofq/MM14.mzML"</span>, package = <span class='st'>"msdata"</span>)
+<span class='kw'>od</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='kw'>f</span>, mode = <span class='st'>"onDisk"</span>)
 
 <span class='co'>## what columns do we have?</span>
-<span class='fu'>fvarLabels</span>(<span class='no'>od</span>)</div><div class='output co'>#&gt;  [1] "fileIdx"                    "spIdx"                     
+<span class='fu'>fvarLabels</span>(<span class='kw'>od</span>)
+</div><div class='output co'>#&gt;  [1] "fileIdx"                    "spIdx"                     
 #&gt;  [3] "smoothed"                   "seqNum"                    
 #&gt;  [5] "acquisitionNum"             "msLevel"                   
 #&gt;  [7] "polarity"                   "originalPeaksCount"        
@@ -225,8 +230,9 @@ variable names.</p>
 #&gt; [33] "scanWindowLowerLimit"       "scanWindowUpperLimit"      
 #&gt; [35] "spectrum"                  </div><div class='input'>
 <span class='co'>## Reduce the feature data data.frame to the required columns only</span>
-<span class='no'>od</span> <span class='kw'>&lt;-</span> <span class='fu'>selectFeatureData</span>(<span class='no'>od</span>, <span class='kw'>fcol</span> <span class='kw'>=</span> <span class='fu'>requiredFvarLabels</span>(<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>od</span>)))
-<span class='fu'>fvarLabels</span>(<span class='no'>od</span>)</div><div class='output co'>#&gt; [1] "fileIdx"          "spIdx"            "acquisitionNum"   "retentionTime"   
+<span class='kw'>od</span> <span class='op'>&lt;-</span> <span class='fu'>selectFeatureData</span>(<span class='kw'>od</span>, fcol = <span class='fu'>requiredFvarLabels</span>(<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='kw'>od</span>)))
+<span class='fu'>fvarLabels</span>(<span class='kw'>od</span>)
+</div><div class='output co'>#&gt; [1] "fileIdx"          "spIdx"            "acquisitionNum"   "retentionTime"   
 #&gt; [5] "msLevel"          "precursorScanNum"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -243,7 +249,7 @@ variable names.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

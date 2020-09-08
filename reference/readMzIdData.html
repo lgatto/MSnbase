@@ -73,7 +73,7 @@ data.frame." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -146,7 +146,7 @@ data.frame." />
 <code>data.frame</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>readMzIdData</span>(<span class='no'>files</span>)</pre>
+    <pre class="usage"><span class='fu'>readMzIdData</span>(<span class='kw'>files</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,15 +165,20 @@ files.</p>
 
     <p>This function uses the functionality provided by the <code>mzR</code> package
 to access data in the <code>mzId</code> files. An object of class <code>mzRident</code>
-can also be coerced to a <code>data.frame</code> using <code><a href='mzRident2dfr.html'>as(, "data.frame")</a></code>.</p>
+can also be coerced to a <code>data.frame</code> using <code><a href='as.html'>as(, "data.frame")</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='filterIdentificationDataFrame.html'>filterIdentificationDataFrame()</a></code> to filter out unreliable PSMs.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>idf</span> <span class='kw'>&lt;-</span> <span class='st'>"TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"</span>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>msdata</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/msdata/man/proteomics.html'>ident</a></span>(<span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='no'>idf</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/basename.html'>basename</a></span>(<span class='no'>f</span>)</div><div class='output co'>#&gt; [1] "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"</div><div class='input'><span class='fu'>readMzIdData</span>(<span class='no'>f</span>)</div><div class='output co'>#&gt;                                      sequence
+    <pre class="examples"><div class='input'><span class='kw'>idf</span> <span class='op'>&lt;-</span> <span class='st'>"TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"</span>
+<span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='kw'>msdata</span>::<span class='fu'><a href='https://rdrr.io/pkg/msdata/man/proteomics.html'>ident</a></span>(full.names = <span class='fl'>TRUE</span>, pattern = <span class='kw'>idf</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/basename.html'>basename</a></span>(<span class='kw'>f</span>)
+</div><div class='output co'>#&gt; [1] "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"</div><div class='input'><span class='fu'>readMzIdData</span>(<span class='kw'>f</span>)
+</div><div class='output co'>#&gt;                                      sequence
 #&gt; 1                                RQCRTDFLNYLR
 #&gt; 2                      ESVALADQVTCVDWRNRKATKK
 #&gt; 3                                KELLCLAMQIIR
@@ -36561,7 +36566,7 @@ can also be coerced to a <code>data.frame</code> using <code><a href='mzRident2d
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

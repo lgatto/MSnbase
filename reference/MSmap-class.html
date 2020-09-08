@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Class <code>MSmap</code> — MSmap-class • MSnbase</title>
+<title>Class MSmap — MSmap-class • MSnbase</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Class <code>MSmap</code> — MSmap-class" />
+<meta property="og:title" content="Class MSmap — MSmap-class" />
 <meta property="og:description" content="A class to store mass spectrometry data maps, i.e intensities
   collected along the M/Z and retention time space during a mass
   spectrometry acquisition." />
@@ -74,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -154,7 +154,7 @@
 
     <p>Objects can be created with the <code>MSmap</code> constructor. The
   constructor has the following arguments:</p>  
-<p></p><dl'>
+<p></p><dl>
 
     <dt>object</dt><dd><p>An object created by <code><a href='https://rdrr.io/pkg/mzR/man/openMSfile.html'>mzR::openMSfile</a></code> or an
       instance of class <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code>. If the latter
@@ -181,7 +181,7 @@
 
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
-    <p></p><dl'>
+    <p></p><dl>
     <dt><code>call</code>:</dt><dd><p>Object of class <code>"call"</code> - the call used to
       generate the instance.</p></dd>
     <dt><code>map</code>:</dt><dd><p>Object of class <code>"matrix"</code> containing the
@@ -203,7 +203,7 @@
 
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
-    <p></p><dl'>
+    <p></p><dl>
     <dt>coerce</dt><dd><p><code>signature(from = "MSmap", to = "data.frame")</code>:
       convert the <code>MSmap</code> instance in a <code>data.frame</code>. Useful
       for plotting with <code>lattice</code> or <code>ggplot2</code>.</p></dd>
@@ -238,60 +238,64 @@
   
 </dl>
 
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto &lt;lg390@cam.ac.uk&gt;</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
     <span class='co'>## downloads the data</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"rpx"</span>)
-    <span class='no'>px1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/rpx/man/PXDataset-class.html'>PXDataset</a></span>(<span class='st'>"PXD000001"</span>)
-    (<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grep</a></span>(<span class='st'>"TMT.+mzML"</span>, <span class='fu'><a href='https://rdrr.io/pkg/rpx/man/PXDataset-class.html'>pxfiles</a></span>(<span class='no'>px1</span>), <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
-    <span class='no'>mzf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/rpx/man/PXDataset-class.html'>pxget</a></span>(<span class='no'>px1</span>, <span class='no'>i</span>)
+    <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/lgatto/rpx'>"rpx"</a></span>)
+    <span class='kw'>px1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/rpx/man/PXDataset-class.html'>PXDataset</a></span>(<span class='st'>"PXD000001"</span>)
+    (<span class='kw'>i</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grep</a></span>(<span class='st'>"TMT.+mzML"</span>, <span class='fu'><a href='https://rdrr.io/pkg/rpx/man/PXDataset-class.html'>pxfiles</a></span>(<span class='kw'>px1</span>), value = <span class='fl'>TRUE</span>))
+    <span class='kw'>mzf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/rpx/man/PXDataset-class.html'>pxget</a></span>(<span class='kw'>px1</span>, <span class='kw'>i</span>)
 
     <span class='co'>## Using an mzRpwiz object</span>
     <span class='co'>## reads the data </span>
-    <span class='no'>ms</span> <span class='kw'>&lt;-</span> <span class='fu'>openMSfile</span>(<span class='no'>mzf</span>)
-    <span class='no'>hd</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pSet-class.html'>header</a></span>(<span class='no'>ms</span>)
+    <span class='kw'>ms</span> <span class='op'>&lt;-</span> <span class='fu'>openMSfile</span>(<span class='kw'>mzf</span>)
+    <span class='kw'>hd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pSet-class.html'>header</a></span>(<span class='kw'>ms</span>)
 
     <span class='co'>## a set of spectra of interest: MS1 spectra eluted</span>
     <span class='co'>## between 30 and 35 minutes retention time</span>
-    <span class='no'>ms1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='no'>hd</span>$<span class='no'>msLevel</span> <span class='kw'>==</span> <span class='fl'>1</span>)
-    <span class='no'>rtsel</span> <span class='kw'>&lt;-</span> <span class='no'>hd</span>$<span class='no'>retentionTime</span>[<span class='no'>ms1</span>] / <span class='fl'>60</span> <span class='kw'>&gt;</span> <span class='fl'>30</span> <span class='kw'>&amp;</span>
-        <span class='no'>hd</span>$<span class='no'>retentionTime</span>[<span class='no'>ms1</span>] / <span class='fl'>60</span> <span class='kw'>&lt;</span> <span class='fl'>35</span>
+    <span class='kw'>ms1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='kw'>hd</span><span class='op'>$</span><span class='kw'>msLevel</span> <span class='op'>==</span> <span class='fl'>1</span>)
+    <span class='kw'>rtsel</span> <span class='op'>&lt;-</span> <span class='kw'>hd</span><span class='op'>$</span><span class='kw'>retentionTime</span>[<span class='kw'>ms1</span>] <span class='op'>/</span> <span class='fl'>60</span> <span class='op'>&gt;</span> <span class='fl'>30</span> <span class='op'>&amp;</span>
+        <span class='kw'>hd</span><span class='op'>$</span><span class='kw'>retentionTime</span>[<span class='kw'>ms1</span>] <span class='op'>/</span> <span class='fl'>60</span> <span class='op'>&lt;</span> <span class='fl'>35</span>
 
     <span class='co'>## the map</span>
-    <span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='no'>ms</span>, <span class='no'>ms1</span>[<span class='no'>rtsel</span>], <span class='fl'>521</span>, <span class='fl'>523</span>, <span class='fl'>.005</span>, <span class='no'>hd</span>)
+    <span class='kw'>M</span> <span class='op'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='kw'>ms</span>, <span class='kw'>ms1</span>[<span class='kw'>rtsel</span>], <span class='fl'>521</span>, <span class='fl'>523</span>, <span class='fl'>.005</span>, <span class='kw'>hd</span>)
 
-    <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>M</span>, <span class='kw'>aspect</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>allTicks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-    <span class='fu'>plot3D</span>(<span class='no'>M</span>)
-    <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'>"rgl"</span>) <span class='kw'>&amp;</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>())
-        <span class='fu'>plot3D</span>(<span class='no'>M</span>, <span class='kw'>rgl</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='kw'>M</span>, aspect = <span class='fl'>1</span>, allTicks = <span class='fl'>FALSE</span>)
+    <span class='fu'>plot3D</span>(<span class='kw'>M</span>)
+    <span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'><a href='https://r-forge.r-project.org/projects/rgl'>"rgl"</a></span>) <span class='op'>&amp;</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>())
+        <span class='fu'>plot3D</span>(<span class='kw'>M</span>, rgl = <span class='fl'>TRUE</span>)
 
     <span class='co'>## With some MS2 spectra</span>
-    <span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='no'>ms1</span>[<span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='no'>rtsel</span>)][<span class='fl'>1</span>]
-    <span class='no'>j</span> <span class='kw'>&lt;-</span> <span class='no'>ms1</span>[<span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='no'>rtsel</span>)][<span class='fl'>2</span>]
-    <span class='no'>M2</span> <span class='kw'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='no'>ms</span>, <span class='no'>i</span>:<span class='no'>j</span>, <span class='fl'>100</span>, <span class='fl'>1000</span>, <span class='fl'>1</span>, <span class='no'>hd</span>)
-    <span class='fu'>plot3D</span>(<span class='no'>M2</span>)
+    <span class='kw'>i</span> <span class='op'>&lt;-</span> <span class='kw'>ms1</span>[<span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='kw'>rtsel</span>)][<span class='fl'>1</span>]
+    <span class='kw'>j</span> <span class='op'>&lt;-</span> <span class='kw'>ms1</span>[<span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='kw'>rtsel</span>)][<span class='fl'>2</span>]
+    <span class='kw'>M2</span> <span class='op'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='kw'>ms</span>, <span class='kw'>i</span><span class='op'>:</span><span class='kw'>j</span>, <span class='fl'>100</span>, <span class='fl'>1000</span>, <span class='fl'>1</span>, <span class='kw'>hd</span>)
+    <span class='fu'>plot3D</span>(<span class='kw'>M2</span>)
 
     <span class='co'>## Using an OnDiskMSnExp object and accessors</span>
-    <span class='no'>msn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>mzf</span>, <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)
-
+    <span class='kw'>msn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='kw'>mzf</span>, mode = <span class='st'>"onDisk"</span>)
+    
     <span class='co'>## a set of spectra of interest: MS1 spectra eluted</span>
     <span class='co'>## between 30 and 35 minutes retention time</span>
-    <span class='no'>ms1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>msn</span>) <span class='kw'>==</span> <span class='fl'>1</span>)
-    <span class='no'>rtsel</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>msn</span>)[<span class='no'>ms1</span>] / <span class='fl'>60</span> <span class='kw'>&gt;</span> <span class='fl'>30</span> <span class='kw'>&amp;</span>
-        <span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>msn</span>)[<span class='no'>ms1</span>] / <span class='fl'>60</span> <span class='kw'>&lt;</span> <span class='fl'>35</span>
+    <span class='kw'>ms1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='kw'>msn</span>) <span class='op'>==</span> <span class='fl'>1</span>)
+    <span class='kw'>rtsel</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='kw'>msn</span>)[<span class='kw'>ms1</span>] <span class='op'>/</span> <span class='fl'>60</span> <span class='op'>&gt;</span> <span class='fl'>30</span> <span class='op'>&amp;</span>
+        <span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='kw'>msn</span>)[<span class='kw'>ms1</span>] <span class='op'>/</span> <span class='fl'>60</span> <span class='op'>&lt;</span> <span class='fl'>35</span>
 
     <span class='co'>## the map</span>
-    <span class='no'>M3</span> <span class='kw'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='no'>msn</span>, <span class='no'>ms1</span>[<span class='no'>rtsel</span>], <span class='fl'>521</span>, <span class='fl'>523</span>, <span class='fl'>.005</span>)
-    <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>M3</span>, <span class='kw'>aspect</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>allTicks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <span class='kw'>M3</span> <span class='op'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='kw'>msn</span>, <span class='kw'>ms1</span>[<span class='kw'>rtsel</span>], <span class='fl'>521</span>, <span class='fl'>523</span>, <span class='fl'>.005</span>)
+    <span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='kw'>M3</span>, aspect = <span class='fl'>1</span>, allTicks = <span class='fl'>FALSE</span>)
 
     <span class='co'>## With some MS2 spectra</span>
-    <span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='no'>ms1</span>[<span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='no'>rtsel</span>)][<span class='fl'>1</span>]
-    <span class='no'>j</span> <span class='kw'>&lt;-</span> <span class='no'>ms1</span>[<span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='no'>rtsel</span>)][<span class='fl'>2</span>]
-    <span class='no'>M4</span> <span class='kw'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='no'>msn</span>, <span class='no'>i</span>:<span class='no'>j</span>, <span class='fl'>100</span>, <span class='fl'>1000</span>, <span class='fl'>1</span>)
-    <span class='fu'>plot3D</span>(<span class='no'>M4</span>)
-}</div></pre>
+    <span class='kw'>i</span> <span class='op'>&lt;-</span> <span class='kw'>ms1</span>[<span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='kw'>rtsel</span>)][<span class='fl'>1</span>]
+    <span class='kw'>j</span> <span class='op'>&lt;-</span> <span class='kw'>ms1</span>[<span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='kw'>rtsel</span>)][<span class='fl'>2</span>]
+    <span class='kw'>M4</span> <span class='op'>&lt;-</span> <span class='fu'>MSmap</span>(<span class='kw'>msn</span>, <span class='kw'>i</span><span class='op'>:</span><span class='kw'>j</span>, <span class='fl'>100</span>, <span class='fl'>1000</span>, <span class='fl'>1</span>)
+    <span class='fu'>plot3D</span>(<span class='kw'>M4</span>)    
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -307,7 +311,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

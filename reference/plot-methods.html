@@ -92,7 +92,7 @@ If a single &quot;Spectrum2&quot; and a &quot;character&quot;
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -174,7 +174,7 @@ If a single &quot;Spectrum2&quot; and a &quot;character&quot;
   sub-figure of the reporter ions is inlaid inside the full spectrum.</p>
 <p>If an <code>"<a href='MSnExp-class.html'>MSnExp</a>"</code> is provided as argument, all the
   spectra are aligned vertically. Experiments can be subset to
-  extract spectra of interest using the <code>[</code> operator or
+  extract spectra of interest using the <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code> operator or
   <code><a href='extractPrecSpectra-methods.html'>extractPrecSpectra</a></code> methods.</p>
 <p>Most methods make use the <code>ggplot2</code> system in which case an
   object of class 'ggplot' is returned invisibly.</p>
@@ -237,7 +237,7 @@ If a single &quot;Spectrum2&quot; and a &quot;character&quot;
 
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
-    <p></p><dl'>
+    <p></p><dl>
     <dt><code>plot(signature(x = "MSnExp", y = "missing"),
 	type = c("spectra", "XIC"), reporters = "ReporterIons",
 	full = "logical", plot = "logical", ...)</code></dt><dd><p>For <code>type = "spectra"</code>: Plots all the spectra in the
@@ -257,7 +257,7 @@ If a single &quot;Spectrum2&quot; and a &quot;character&quot;
       interest. See examples below. This plot uses base R
       plotting. Additional arguments to the <code>plot</code> function can be
       passed with <code>...</code>.      Additional arguments for <code>type = "XIC"</code> are:
-      <dl'>
+      <dl>
 	<dt><code>col</code></dt><dd><p>color for the border of the points. Defaults to
 	  <code>col = "grey"</code>.</p></dd>	<dt><code>colramp</code></dt><dd><p>color function/ramp to be used for the
 	  intensity-dependent background color of data points. Defaults
@@ -300,28 +300,37 @@ If a single &quot;Spectrum2&quot; and a &quot;character&quot;
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='calculateFragments-methods.html'>calculateFragments</a></code> to calculate ions produced by
-  fragmentation and <code><a href='plotSpectrumSpectrum-methods.html'>plot.Spectrum.Spectrum</a></code> to plot and
+  fragmentation and <code><a href='plot.Spectrum.Spectrum-methods.html'>plot.Spectrum.Spectrum</a></code> to plot and
   compare 2 spectra and their shared peaks.</p>
 <p><code><a href='Chromatogram-class.html'>Chromatogram</a></code> for plotting of chromatographic data.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto &lt;lg390@cam.ac.uk&gt;, Johannes Rainer and Sebastian Gibb</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>itraqdata</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>itraqdata</span>)
 <span class='co'>## plotting experiments</span>
-<span class='fu'>plot</span>(<span class='no'>itraqdata</span>[<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='kw'>reporters</span> <span class='kw'>=</span> <span class='no'>iTRAQ4</span>)</div><div class='img'><img src='plot-methods-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>itraqdata</span>[<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='input'><span class='co'>## plotting spectra</span>
-<span class='fu'>plot</span>(<span class='no'>itraqdata</span><span class='kw'>[[</span><span class='fl'>1</span>]],<span class='kw'>reporters</span> <span class='kw'>=</span> <span class='no'>iTRAQ4</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot-methods-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>itraqdata2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pickPeaks-method.html'>pickPeaks</a></span>(<span class='no'>itraqdata</span>)
-<span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fl'>14</span>
-<span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='fu'>fData</span>(<span class='no'>itraqdata2</span>)[<span class='no'>i</span>, <span class='st'>"PeptideSequence"</span>])
-<span class='fu'>plot</span>(<span class='no'>itraqdata2</span><span class='kw'>[[</span><span class='no'>i</span>]], <span class='no'>s</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='no'>s</span>)</div><div class='img'><img src='plot-methods-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='kw'>itraqdata</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>], reporters = <span class='kw'>iTRAQ4</span>)
+</div><div class='img'><img src='plot-methods-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span>(<span class='kw'>itraqdata</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>], full = <span class='fl'>TRUE</span>)
+</div><div class='input'><span class='co'>## plotting spectra</span>
+<span class='fu'>plot</span>(<span class='kw'>itraqdata</span>[[<span class='fl'>1</span>]],reporters = <span class='kw'>iTRAQ4</span>, full = <span class='fl'>TRUE</span>)
+</div><div class='img'><img src='plot-methods-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>itraqdata2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pickPeaks-methods.html'>pickPeaks</a></span>(<span class='kw'>itraqdata</span>)
+<span class='kw'>i</span> <span class='op'>&lt;-</span> <span class='fl'>14</span>
+<span class='kw'>s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='fu'>fData</span>(<span class='kw'>itraqdata2</span>)[<span class='kw'>i</span>, <span class='st'>"PeptideSequence"</span>])
+<span class='fu'>plot</span>(<span class='kw'>itraqdata2</span>[[<span class='kw'>i</span>]], <span class='kw'>s</span>, main = <span class='kw'>s</span>)
+</div><div class='img'><img src='plot-methods-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>## Load profile-mode LC-MS files</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>msdata</span>)
-<span class='no'>od</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"sciex"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"msdata"</span>),
-                     <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>msdata</span>)
+<span class='kw'>od</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"sciex"</span>, package = <span class='st'>"msdata"</span>),
+                     full.names = <span class='fl'>TRUE</span>), mode = <span class='st'>"onDisk"</span>)
 <span class='co'>## Restrict the MS data to signal for serine</span>
-<span class='no'>serine</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trimMz-methods.html'>filterMz</a></span>(<span class='fu'><a href='MSnExp-class.html'>filterRt</a></span>(<span class='no'>od</span>, <span class='kw'>rt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>175</span>, <span class='fl'>190</span>)), <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>106.04</span>, <span class='fl'>106.06</span>))
-<span class='fu'>plot</span>(<span class='no'>serine</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"XIC"</span>)</div><div class='img'><img src='plot-methods-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>serine</span> <span class='op'>&lt;-</span> <span class='fu'><a href='trimMz-methods.html'>filterMz</a></span>(<span class='fu'><a href='MSnExp-class.html'>filterRt</a></span>(<span class='kw'>od</span>, rt = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>175</span>, <span class='fl'>190</span>)), mz = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>106.04</span>, <span class='fl'>106.06</span>))
+<span class='fu'>plot</span>(<span class='kw'>serine</span>, type = <span class='st'>"XIC"</span>)
+</div><div class='img'><img src='plot-methods-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>## Same plot but using heat.colors, rectangles and no point border</span>
-<span class='fu'>plot</span>(<span class='no'>serine</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"XIC"</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>22</span>, <span class='kw'>colramp</span> <span class='kw'>=</span> <span class='no'>heat.colors</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</div><div class='img'><img src='plot-methods-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot</span>(<span class='kw'>serine</span>, type = <span class='st'>"XIC"</span>, pch = <span class='fl'>22</span>, colramp = <span class='kw'>heat.colors</span>, col = <span class='fl'>NA</span>)
+</div><div class='img'><img src='plot-methods-5.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -338,7 +347,7 @@ If a single &quot;Spectrum2&quot; and a &quot;character&quot;
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

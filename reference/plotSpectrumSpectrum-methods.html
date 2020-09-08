@@ -76,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -172,7 +172,7 @@
 
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
-    <p></p><dl'>
+    <p></p><dl>
     <dt><code>signature(x = "Spectrum", y = "Spectrum", ...)</code></dt><dd><p>Plots two spectra against each other. Common peaks are drawn in a slightly
       darker colour.
       The <code>...</code> arguments are passed to the internal functions.
@@ -204,6 +204,9 @@
   
 </dl>
 
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Sebastian Gibb &lt;mail@sebastiangibb.de&gt;</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>More spectrum plotting available in <code><a href='plot-methods.html'>plot.Spectrum</a></code>.</p>
@@ -211,26 +214,31 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## find path to a mzXML file</span>
-<span class='no'>file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"MSnbase"</span>, <span class='kw'>dir</span> <span class='kw'>=</span> <span class='st'>"extdata"</span>),
-            <span class='kw'>full.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"mzXML$"</span>)
+<span class='kw'>file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(package = <span class='st'>"MSnbase"</span>, dir = <span class='st'>"extdata"</span>),
+            full.name = <span class='fl'>TRUE</span>, pattern = <span class='st'>"mzXML$"</span>)
 
 <span class='co'>## create basic MSnExp</span>
-<span class='no'>msexp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>file</span>, <span class='kw'>centroided.</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+<span class='kw'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='kw'>file</span>, centroided.=<span class='fl'>FALSE</span>)
 
 <span class='co'>## centroid them</span>
-<span class='no'>msexp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pickPeaks-method.html'>pickPeaks</a></span>(<span class='no'>msexp</span>)
+<span class='kw'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pickPeaks-methods.html'>pickPeaks</a></span>(<span class='kw'>msexp</span>)
 
 <span class='co'>## plot the first against the second spectrum</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>msexp</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='no'>msexp</span><span class='kw'>[[</span><span class='fl'>2</span>]])</div><div class='img'><img src='plotSpectrumSpectrum-methods-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='kw'>msexp</span>[[<span class='fl'>1</span>]], <span class='kw'>msexp</span>[[<span class='fl'>2</span>]])
+</div><div class='img'><img src='plotSpectrumSpectrum-methods-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>## add sequence information</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>msexp</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='no'>msexp</span><span class='kw'>[[</span><span class='fl'>2</span>]], <span class='kw'>sequences</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"VESITARHGEVLQLRPK"</span>,
-                                         <span class='st'>"IDGQWVTHQWLKK"</span>))</div><div class='img'><img src='plotSpectrumSpectrum-methods-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='kw'>msexp</span>[[<span class='fl'>1</span>]], <span class='kw'>msexp</span>[[<span class='fl'>2</span>]], sequences=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"VESITARHGEVLQLRPK"</span>,
+                                         <span class='st'>"IDGQWVTHQWLKK"</span>))
+</div><div class='img'><img src='plotSpectrumSpectrum-methods-2.png' alt='' width='700' height='433' /></div><div class='input'>
 
-<span class='no'>itraqdata2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pickPeaks-method.html'>pickPeaks</a></span>(<span class='no'>itraqdata</span>)
-(<span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'>fData</span>(<span class='no'>itraqdata2</span>)[, <span class='st'>"PeptideSequence"</span>] <span class='kw'>==</span> <span class='st'>"TAGIQIVADDLTVTNPK"</span>))</div><div class='output co'>#&gt; [1] 41 42</div><div class='input'><span class='no'>mzk</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span>(<span class='no'>itraqdata2</span>)[<span class='no'>k</span>]
-<span class='no'>zk</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Spectrum2-class.html'>precursorCharge</a></span>(<span class='no'>itraqdata2</span>)[<span class='no'>k</span>]
-<span class='no'>mzk</span> * <span class='no'>zk</span></div><div class='output co'>#&gt;      X46      X47 
-#&gt; 2046.175 2045.169 </div><div class='input'><span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>itraqdata2</span><span class='kw'>[[</span><span class='no'>k</span>[<span class='fl'>1</span>]]], <span class='no'>itraqdata2</span><span class='kw'>[[</span><span class='no'>k</span>[<span class='fl'>2</span>]]])</div><div class='img'><img src='plotSpectrumSpectrum-methods-3.png' alt='' width='700' height='433' /></div></pre>
+<span class='kw'>itraqdata2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pickPeaks-methods.html'>pickPeaks</a></span>(<span class='kw'>itraqdata</span>)
+(<span class='kw'>k</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'>fData</span>(<span class='kw'>itraqdata2</span>)[, <span class='st'>"PeptideSequence"</span>] <span class='op'>==</span> <span class='st'>"TAGIQIVADDLTVTNPK"</span>))
+</div><div class='output co'>#&gt; [1] 41 42</div><div class='input'><span class='kw'>mzk</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span>(<span class='kw'>itraqdata2</span>)[<span class='kw'>k</span>]
+<span class='kw'>zk</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum2-class.html'>precursorCharge</a></span>(<span class='kw'>itraqdata2</span>)[<span class='kw'>k</span>]
+<span class='kw'>mzk</span> <span class='op'>*</span> <span class='kw'>zk</span>
+</div><div class='output co'>#&gt;      X46      X47 
+#&gt; 2046.175 2045.169 </div><div class='input'><span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='kw'>itraqdata2</span>[[<span class='kw'>k</span>[<span class='fl'>1</span>]]], <span class='kw'>itraqdata2</span>[[<span class='kw'>k</span>[<span class='fl'>2</span>]]])
+</div><div class='img'><img src='plotSpectrumSpectrum-methods-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -246,7 +254,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

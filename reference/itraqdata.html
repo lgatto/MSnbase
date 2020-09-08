@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Example <code>MSnExp</code> and <code>MSnSet</code> data sets — itraqdata • MSnbase</title>
+<title>Example MSnExp and MSnSet data sets — itraqdata • MSnbase</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Example <code>MSnExp</code> and <code>MSnSet</code> data sets — itraqdata" />
+<meta property="og:title" content="Example MSnExp and MSnSet data sets — itraqdata" />
 <meta property="og:description" content="
 
 itraqdata is and example data sets is an iTRAQ 4-plex
@@ -96,7 +96,7 @@ The msnset2 object is another example iTRAQ4 data that is used
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -192,13 +192,14 @@ The msnset2 object is another example iTRAQ4 data that is used
   tags</em>. J. Proteome Res., 10, 2758-2766.</p>
     </div>
 
-    <pre class="usage"><span class='no'>itraqdata</span></pre>
+    <pre class="usage"><span class='kw'>itraqdata</span></pre>
 
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>itraqdata</span>)
-<span class='no'>itraqdata</span></div><div class='output co'>#&gt; MSn experiment data ("MSnExp")
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>itraqdata</span>)
+<span class='kw'>itraqdata</span>
+</div><div class='output co'>#&gt; MSn experiment data ("MSnExp")
 #&gt; Object size in memory: 1.9 Mb
 #&gt; - - - Spectra data - - -
 #&gt;  MS level(s): 2 
@@ -224,8 +225,9 @@ The msnset2 object is another example iTRAQ4 data that is used
 #&gt; experimentData: use 'experimentData(object)'</div><div class='input'>
 <span class='co'>## created by</span>
 <span class='co'>## msnset &lt;- quantify(itraqdata, method = "trap", reporters = iTRAQ4)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>msnset</span>)
-<span class='no'>msnset</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>msnset</span>)
+<span class='kw'>msnset</span>
+</div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
 #&gt; assayData: 55 features, 4 samples 
 #&gt;   element names: exprs 
 #&gt; protocolData: none
@@ -243,8 +245,9 @@ The msnset2 object is another example iTRAQ4 data that is used
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>msnset2</span>)
-<span class='no'>msnset2</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>msnset2</span>)
+<span class='kw'>msnset2</span>
+</div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
 #&gt; assayData: 614 features, 4 samples 
 #&gt;   element names: exprs 
 #&gt; protocolData: none
@@ -273,7 +276,7 @@ The msnset2 object is another example iTRAQ4 data that is used
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

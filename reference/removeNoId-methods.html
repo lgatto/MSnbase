@@ -74,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -152,7 +152,7 @@
 
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
-    <p></p><dl'>
+    <p></p><dl>
     <dt><code>signature(object = "MSnExp", fcol = "pepseq", keep =
 	NULL)</code></dt><dd><p>Removes the feature from <code>object</code> that have a
 	feature <code>fcol</code> (default is <code>"pepseq"</code>) equal to
@@ -164,24 +164,32 @@
   
 </dl>
 
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto &lt;lg390@cam.ac.uk&gt;</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='MSnExp-class.html'>MSnExp</a></code> and <code><a href='MSnSet-class.html'>MSnSet</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='no'>quantFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"MSnbase"</span>, <span class='kw'>dir</span> <span class='kw'>=</span> <span class='st'>"extdata"</span>),
-                     <span class='kw'>full.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"mzXML$"</span>)
-  <span class='no'>identFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"MSnbase"</span>, <span class='kw'>dir</span> <span class='kw'>=</span> <span class='st'>"extdata"</span>),
-                     <span class='kw'>full.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"dummyiTRAQ.mzid"</span>)
-  <span class='no'>msexp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>quantFile</span>)
-  <span class='no'>msexp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='addIdentificationData-methods.html'>addIdentificationData</a></span>(<span class='no'>msexp</span>, <span class='no'>identFile</span>)
-  <span class='fu'>fData</span>(<span class='no'>msexp</span>)$<span class='no'>sequence</span></div><div class='output co'>#&gt; [1] "VESITARHGEVLQLRPK" "IDGQWVTHQWLKK"     NA                 
-#&gt; [4] NA                  "LVILLFR"          </div><div class='input'>  <span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>msexp</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'>
+    <pre class="examples"><div class='input'>  <span class='kw'>quantFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(package = <span class='st'>"MSnbase"</span>, dir = <span class='st'>"extdata"</span>),
+                     full.name = <span class='fl'>TRUE</span>, pattern = <span class='st'>"mzXML$"</span>)
+  <span class='kw'>identFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(package = <span class='st'>"MSnbase"</span>, dir = <span class='st'>"extdata"</span>),
+                     full.name = <span class='fl'>TRUE</span>, pattern = <span class='st'>"dummyiTRAQ.mzid"</span>)
+  <span class='kw'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='kw'>quantFile</span>)
+  <span class='kw'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='addIdentificationData-methods.html'>addIdentificationData</a></span>(<span class='kw'>msexp</span>, <span class='kw'>identFile</span>)
+  <span class='fu'>fData</span>(<span class='kw'>msexp</span>)<span class='op'>$</span><span class='kw'>sequence</span>
+</div><div class='output co'>#&gt; [1] "VESITARHGEVLQLRPK" "IDGQWVTHQWLKK"     NA                 
+#&gt; [4] NA                  "LVILLFR"          </div><div class='input'>  <span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>msexp</span>)
+</div><div class='output co'>#&gt; [1] 5</div><div class='input'>
   <span class='co'>## using default fcol</span>
-  <span class='no'>msexp2</span> <span class='kw'>&lt;-</span> <span class='fu'>removeNoId</span>(<span class='no'>msexp</span>)
-  <span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>msexp2</span>)</div><div class='output co'>#&gt; [1] 3</div><div class='input'>  <span class='fu'>fData</span>(<span class='no'>msexp2</span>)$<span class='no'>sequence</span></div><div class='output co'>#&gt; [1] "VESITARHGEVLQLRPK" "IDGQWVTHQWLKK"     "LVILLFR"          </div><div class='input'>
+  <span class='kw'>msexp2</span> <span class='op'>&lt;-</span> <span class='fu'>removeNoId</span>(<span class='kw'>msexp</span>)
+  <span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>msexp2</span>)
+</div><div class='output co'>#&gt; [1] 3</div><div class='input'>  <span class='fu'>fData</span>(<span class='kw'>msexp2</span>)<span class='op'>$</span><span class='kw'>sequence</span>
+</div><div class='output co'>#&gt; [1] "VESITARHGEVLQLRPK" "IDGQWVTHQWLKK"     "LVILLFR"          </div><div class='input'>
   <span class='co'>## using keep</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'>fvarLabels</span>(<span class='no'>msexp</span>))</div><div class='output co'>#&gt;  [1] "spectrum"                 "acquisition.number"      
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'>fvarLabels</span>(<span class='kw'>msexp</span>))
+</div><div class='output co'>#&gt;  [1] "spectrum"                 "acquisition.number"      
 #&gt;  [3] "sequence"                 "chargeState"             
 #&gt;  [5] "rank"                     "passThreshold"           
 #&gt;  [7] "experimentalMassToCharge" "calculatedMassToCharge"  
@@ -197,9 +205,13 @@
 #&gt; [27] "modLocation"              "subOriginalResidue"      
 #&gt; [29] "subReplacementResidue"    "subLocation"             
 #&gt; [31] "nprot"                    "npep.prot"               
-#&gt; [33] "npsm.prot"                "npsm.pep"                </div><div class='input'>  (<span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>fData</span>(<span class='no'>msexp</span>)$<span class='st'>'MS.GF.EValue'</span> <span class='kw'>&gt;</span> <span class='fl'>75</span>)</div><div class='output co'>#&gt; [1]  TRUE FALSE    NA    NA  TRUE</div><div class='input'>  <span class='no'>k</span>[<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>k</span>)] <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-  <span class='no'>k</span></div><div class='output co'>#&gt; [1]  TRUE FALSE FALSE FALSE  TRUE</div><div class='input'>  <span class='no'>msexp3</span> <span class='kw'>&lt;-</span> <span class='fu'>removeNoId</span>(<span class='no'>msexp</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='no'>k</span>)
-  <span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>msexp3</span>)</div><div class='output co'>#&gt; [1] 2</div><div class='input'>  <span class='fu'>fData</span>(<span class='no'>msexp3</span>)$<span class='no'>sequence</span></div><div class='output co'>#&gt; [1] "VESITARHGEVLQLRPK" "LVILLFR"          </div></pre>
+#&gt; [33] "npsm.prot"                "npsm.pep"                </div><div class='input'>  (<span class='kw'>k</span> <span class='op'>&lt;-</span> <span class='fu'>fData</span>(<span class='kw'>msexp</span>)<span class='op'>$</span><span class='st'>'MS.GF.EValue'</span> <span class='op'>&gt;</span> <span class='fl'>75</span>)
+</div><div class='output co'>#&gt; [1]  TRUE FALSE    NA    NA  TRUE</div><div class='input'>  <span class='kw'>k</span>[<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>k</span>)] <span class='op'>&lt;-</span> <span class='fl'>FALSE</span>
+  <span class='kw'>k</span>
+</div><div class='output co'>#&gt; [1]  TRUE FALSE FALSE FALSE  TRUE</div><div class='input'>  <span class='kw'>msexp3</span> <span class='op'>&lt;-</span> <span class='fu'>removeNoId</span>(<span class='kw'>msexp</span>, keep = <span class='kw'>k</span>)
+  <span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>msexp3</span>)
+</div><div class='output co'>#&gt; [1] 2</div><div class='input'>  <span class='fu'>fData</span>(<span class='kw'>msexp3</span>)<span class='op'>$</span><span class='kw'>sequence</span>
+</div><div class='output co'>#&gt; [1] "VESITARHGEVLQLRPK" "LVILLFR"          </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -215,7 +227,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

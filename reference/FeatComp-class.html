@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Class <code>"FeatComp"</code> — FeatComp-class • MSnbase</title>
+<title>Class "FeatComp" — FeatComp-class • MSnbase</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Class <code>"FeatComp"</code> — FeatComp-class" />
+<meta property="og:title" content="Class "FeatComp" — FeatComp-class" />
 <meta property="og:description" content="Comparing feature names of two comparable MSnSet instances." />
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -160,7 +160,7 @@
   <code>fcol1</code> and <code>fcol2</code> feautre variables.</p>
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
-    <p></p><dl'>
+    <p></p><dl>
 
     <dt><code>name</code>:</dt><dd><p>Object of class <code>"character"</code> defining the
       name of the compared features. By convention, <code>"all"</code> is used
@@ -192,7 +192,7 @@
 <p>Accessors <code>names</code>, <code>common</code>, <code>unique1</code> and
   <code>unique2</code> can be used to access the respective <code>FeatComp</code>
   slots.</p>
-<p></p><dl'>
+<p></p><dl>
 
     <dt>compfnames</dt><dd><p><code>signature(x = "MSnSet", y = "MSnSet", fcol1
 	= "character", fcol2 = "character", simplify = "logical",
@@ -220,20 +220,26 @@
   
 </dl>
 
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto &lt;lg390@cam.ac.uk&gt; and Thomas Naake</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='averageMSnSet.html'>averageMSnSet</a></code> to compuate an average <code>MSnSet</code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"pRolocdata"</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span>)
+</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>This is pRolocdata version 1.27.0.</span>
-#&gt; <span class='message'>Use 'pRolocdata()' to list available data sets.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>tan2009r1</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>tan2009r2</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>compfnames</span>(<span class='no'>tan2009r1</span>, <span class='no'>tan2009r2</span>)
-<span class='no'>x</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt; Object of class "FeatComp", 'all' features:
+#&gt; <span class='message'>Use 'pRolocdata()' to list available data sets.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>tan2009r1</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>tan2009r2</span>)
+<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'>compfnames</span>(<span class='kw'>tan2009r1</span>, <span class='kw'>tan2009r2</span>)
+<span class='kw'>x</span>[[<span class='fl'>1</span>]]
+</div><div class='output co'>#&gt; Object of class "FeatComp", 'all' features:
 #&gt;  Common feature: 551 
 #&gt;  Unique to 1: 337 
-#&gt;  Unique to 2: 320 </div><div class='input'><span class='no'>x</span>[<span class='fl'>2</span>:<span class='fl'>3</span>]</div><div class='output co'>#&gt; [[1]]
+#&gt;  Unique to 2: 320 </div><div class='input'><span class='kw'>x</span>[<span class='fl'>2</span><span class='op'>:</span><span class='fl'>3</span>]
+</div><div class='output co'>#&gt; [[1]]
 #&gt; Object of class "FeatComp", 'unknown' features:
 #&gt;  Common feature: 413 
 #&gt;  Unique to 1: 264 
@@ -244,11 +250,14 @@
 #&gt;  Common feature: 21 
 #&gt;  Unique to 1: 7 
 #&gt;  Unique to 2: 0 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>common</span>(<span class='no'>x</span><span class='kw'>[[</span><span class='fl'>1</span>]]))</div><div class='output co'>#&gt; [1] "P20353" "P53501" "Q7KU78" "P04412" "Q7JZN0" "Q9VM65"</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>tan2009r3</span>)
-<span class='no'>tanl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>tan2009r1</span>, <span class='no'>tan2009r2</span>, <span class='no'>tan2009r3</span>)
-<span class='no'>xx</span> <span class='kw'>&lt;-</span> <span class='fu'>compfnames</span>(<span class='no'>tanl</span>, <span class='kw'>fcol1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>xx</span>)</div><div class='output co'>#&gt; [1] 15</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span>(<span class='no'>xx</span>)</div><div class='output co'>#&gt; $`1v3`
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>common</span>(<span class='kw'>x</span>[[<span class='fl'>1</span>]]))
+</div><div class='output co'>#&gt; [1] "P20353" "P53501" "Q7KU78" "P04412" "Q7JZN0" "Q9VM65"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>tan2009r3</span>)
+<span class='kw'>tanl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>tan2009r1</span>, <span class='kw'>tan2009r2</span>, <span class='kw'>tan2009r3</span>)
+<span class='kw'>xx</span> <span class='op'>&lt;-</span> <span class='fu'>compfnames</span>(<span class='kw'>tanl</span>, fcol1 = <span class='kw'>NULL</span>)
+<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>xx</span>)
+</div><div class='output co'>#&gt; [1] 15</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span>(<span class='kw'>xx</span>)
+</div><div class='output co'>#&gt; $`1v3`
 #&gt; Object of class "FeatComp", 'all' features:
 #&gt;  Common feature: 494 
 #&gt;  Unique to 1: 394 
@@ -284,8 +293,10 @@
 #&gt;  Unique to 1: 394 
 #&gt;  Unique to 2: 193 
 #&gt; </div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span>(<span class='no'>xx</span><span class='kw'>[[</span><span class='fl'>15</span>]],
-          <span class='fu'>compfnames</span>(<span class='no'>tan2009r2</span>, <span class='no'>tan2009r3</span>, <span class='kw'>fcol1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>xx</span>, <span class='no'>common</span>))</div><div class='output co'>#&gt; List of 15
+<span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span>(<span class='kw'>xx</span>[[<span class='fl'>15</span>]],
+          <span class='fu'>compfnames</span>(<span class='kw'>tan2009r2</span>, <span class='kw'>tan2009r3</span>, fcol1 = <span class='kw'>NULL</span>))
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='kw'>xx</span>, <span class='kw'>common</span>))
+</div><div class='output co'>#&gt; List of 15
 #&gt;  $ 1v2: chr [1:551] "P20353" "P53501" "Q7KU78" "P04412" ...
 #&gt;  $ 1v1: chr [1:888] "P20353" "P53501" "Q7KU78" "P04412" ...
 #&gt;  $ 1v3: chr [1:494] "Q7KU78" "Q7JZN0" "P15348" "Q00174" ...
@@ -316,7 +327,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

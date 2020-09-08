@@ -73,7 +73,7 @@ noise) for the same ion in consecutive scans of a LCMS experiment." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -146,7 +146,7 @@ noise) for the same ion in consecutive scans of a LCMS experiment." />
 noise) for the same ion in consecutive scans of a LCMS experiment.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>estimateMzScattering</span>(<span class='no'>x</span>, <span class='kw'>halfWindowSize</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>timeDomain</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>estimateMzScattering</span>(<span class='kw'>x</span>, halfWindowSize = <span class='fl'>1L</span>, timeDomain = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,26 +185,33 @@ as the <em>m/z scattering</em>.</p>
 scattering of m/z values, but the scattering of <code><a href='https://rdrr.io/r/base/MathFun.html'>sqrt(mz)</a></code> values.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='estimateMzResolution.html'>estimateMzResolution()</a></code> for the function to estimate a
+    <div class='dont-index'><p><code><a href='estimateMzResolution,MSnExp-method.html'>estimateMzResolution()</a></code> for the function to estimate a
 profile-mode spectrum's m/z resolution from it's data.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Johannes Rainer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>MSnbase</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>msdata</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://lgatto.github.io/MSnbase'>MSnbase</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>msdata</span>)
 <span class='co'>## Load a profile-mode LC-MS data file</span>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"sciex"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"msdata"</span>), <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)[<span class='fl'>1</span>]
-<span class='no'>im</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>f</span>, <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"inMem"</span>, <span class='kw'>msLevel</span> <span class='kw'>=</span> <span class='fl'>1L</span>)
+<span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"sciex"</span>, package = <span class='st'>"msdata"</span>), full.names = <span class='fl'>TRUE</span>)[<span class='fl'>1</span>]
+<span class='kw'>im</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='kw'>f</span>, mode = <span class='st'>"inMem"</span>, msLevel = <span class='fl'>1L</span>)
 
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>estimateMzScattering</span>(<span class='no'>im</span>)
+<span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'>estimateMzScattering</span>(<span class='kw'>im</span>)
 
 <span class='co'>## Plot the distribution of estimated m/z scattering</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/density.html'>density</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='no'>res</span>)))</div><div class='input'>
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/density.html'>density</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='kw'>res</span>)))
+</div><div class='input'>
 <span class='co'>## Compare the m/z resolution and m/z scattering of the spectrum with the</span>
 <span class='co'>## most peaks</span>
-<span class='no'>idx</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.min.html'>which.max</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='pSet-class.html'>spectrapply</a></span>(<span class='no'>im</span>, <span class='no'>peaksCount</span>)))
+<span class='kw'>idx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.min.html'>which.max</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='pSet-class.html'>spectrapply</a></span>(<span class='kw'>im</span>, <span class='kw'>peaksCount</span>)))
 
-<span class='no'>res</span><span class='kw'>[[</span><span class='no'>idx</span>]]</div><div class='output co'>#&gt; [1] 0.0007412626</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>v</span> <span class='kw'>=</span> <span class='no'>res</span><span class='kw'>[[</span><span class='no'>idx</span>]], <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='img'><img src='estimateMzScattering-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='estimateMzResolution.html'>estimateMzResolution</a></span>(<span class='no'>im</span><span class='kw'>[[</span><span class='no'>idx</span>]])</div><div class='output co'>#&gt; [1] 0.001617368</div><div class='input'>## As expected, the m/z scattering is much lower than the m/z resolution.
+<span class='kw'>res</span>[[<span class='kw'>idx</span>]]
+</div><div class='output co'>#&gt; [1] 0.0007412626</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(v = <span class='kw'>res</span>[[<span class='kw'>idx</span>]], lty = <span class='fl'>2</span>)
+</div><div class='img'><img src='estimateMzScattering-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='estimateMzResolution,MSnExp-method.html'>estimateMzResolution</a></span>(<span class='kw'>im</span>[[<span class='kw'>idx</span>]])
+</div><div class='output co'>#&gt; [1] 0.001617368</div><div class='input'><span class='co'>## As expected, the m/z scattering is much lower than the m/z resolution.</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -221,7 +228,7 @@ profile-mode spectrum's m/z resolution from it's data.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

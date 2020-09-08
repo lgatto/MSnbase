@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -191,7 +191,7 @@
 
     
 
-<p></p><dl'>
+<p></p><dl>
 
     <dt><code>qual</code>:</dt><dd><p>Object of class <code>"data.frame"</code> that records
       peaks data for each of the reporter ions to be used as quality
@@ -263,7 +263,7 @@
     <p>MSnSet specific methods or over-riding it's super-class are described
   below. See also more <code>"eSet"</code> for
   inherited methods.</p>
-<p></p><dl'>
+<p></p><dl>
     %% \item{$name}{\code{signature(x = "pSet")}: Access \code{name} column
     %%   in \code{featureData}. Note that this behaviour is different to
     %%   the \code{eSet}, where \code{$} accesses the \code{phenoData}. }
@@ -419,7 +419,7 @@
   <code>"<a href='MIAPE-class.html'>MIAPE</a>"</code> for details.</p>
     <h2 class="hasAnchor" id="plotting"><a class="anchor" href="#plotting"></a>Plotting</h2>
 
-    <p></p><dl'>
+    <p></p><dl>
     <dt>meanSdPlot</dt><dd><p><code>signature(object = "MSnSet")</code></p></dd> Plots row
       standard deviations versus row means. See
       <code>meanSdPlot</code> (<code>vsn</code> package) for more details.
@@ -499,7 +499,7 @@
 
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
-    <p></p><dl'>
+    <p></p><dl>
 
     <dt>updateFvarLabels</dt><dd><p>signature(object, label, sep)</p></dd> This
       function updates <code>object</code>'s featureData variable labels by
@@ -519,7 +519,7 @@
     <dt>ms2df</dt><dd><p>signature(x, fcols)</p></dd>Coerces the <code>MSnSet</code> instance
       to a <code>data.frame</code>. The direction of the data is retained and
       the feature variable labels that match <code>fcol</code> are appended to
-      the expression values. See also <code><a href='mzRident2dfr.html'>as(x, "data.frame")</a></code> above.
+      the expression values. See also <code><a href='as.html'>as(x, "data.frame")</a></code> above.
       
 
     <dt>addMSnSetMetadata</dt><dd><p>signature(x, y)</p></dd>When coercing an
@@ -535,6 +535,9 @@
   
 </dl>
 
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto &lt;lg390@cam.ac.uk&gt;</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'>
@@ -547,58 +550,76 @@
   <code>data.frame</code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>msnset</span>)
-<span class='no'>msnset</span> <span class='kw'>&lt;-</span> <span class='no'>msnset</span>[<span class='fl'>10</span>:<span class='fl'>15</span>]
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>msnset</span>)
+<span class='kw'>msnset</span> <span class='op'>&lt;-</span> <span class='kw'>msnset</span>[<span class='fl'>10</span><span class='op'>:</span><span class='fl'>15</span>]
 
-<span class='fu'>exprs</span>(<span class='no'>msnset</span>)[<span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>4</span>)] <span class='kw'>&lt;-</span> <span class='fl'>NA</span>
-<span class='fu'>exprs</span>(<span class='no'>msnset</span>)[<span class='fl'>2</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)] <span class='kw'>&lt;-</span> <span class='fl'>NA</span>
-<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>msnset</span>)</div><div class='output co'>#&gt;     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
+<span class='fu'>exprs</span>(<span class='kw'>msnset</span>)[<span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>4</span>)] <span class='op'>&lt;-</span> <span class='fl'>NA</span>
+<span class='fu'>exprs</span>(<span class='kw'>msnset</span>)[<span class='fl'>2</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)] <span class='op'>&lt;-</span> <span class='fl'>NA</span>
+<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>msnset</span>)
+</div><div class='output co'>#&gt;     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; X18       TRUE      FALSE      FALSE       TRUE
 #&gt; X19       TRUE       TRUE      FALSE      FALSE
 #&gt; X2       FALSE      FALSE      FALSE      FALSE
 #&gt; X20      FALSE      FALSE      FALSE      FALSE
 #&gt; X21      FALSE      FALSE      FALSE      FALSE
-#&gt; X22      FALSE      FALSE      FALSE      FALSE</div><div class='input'><span class='fu'>featureNames</span>(<span class='fu'>filterNA</span>(<span class='no'>msnset</span>, <span class='kw'>pNA</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>4</span>))</div><div class='output co'>#&gt; [1] "X2"  "X20" "X21" "X22"</div><div class='input'><span class='fu'>featureNames</span>(<span class='fu'>filterNA</span>(<span class='no'>msnset</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"0110"</span>))</div><div class='output co'>#&gt; [1] "X18" "X2"  "X20" "X21" "X22"</div><div class='input'>
-<span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>12</span>), <span class='fl'>4</span>)
-<span class='no'>pd</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>otherpdata</span> <span class='kw'>=</span> <span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>])
-<span class='no'>fd</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>otherfdata</span> <span class='kw'>=</span> <span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>4</span>])
-<span class='no'>x0</span> <span class='kw'>&lt;-</span> <span class='fu'>MSnSet</span>(<span class='no'>M</span>, <span class='no'>fd</span>, <span class='no'>pd</span>)
-<span class='fu'>sampleNames</span>(<span class='no'>x0</span>)</div><div class='output co'>#&gt; [1] "1" "2" "3"</div><div class='input'>
-<span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>12</span>), <span class='fl'>4</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>M</span>) <span class='kw'>&lt;-</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>3</span>]
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>M</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"id"</span>, <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>4</span>])
-<span class='no'>pd</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>otherpdata</span> <span class='kw'>=</span> <span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>])
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>pd</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>M</span>)
-<span class='no'>fd</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>otherfdata</span> <span class='kw'>=</span> <span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>4</span>])
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>fd</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>M</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>MSnSet</span>(<span class='no'>M</span>, <span class='no'>fd</span>, <span class='no'>pd</span>)
-<span class='fu'>sampleNames</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] "A" "B" "C"</div><div class='input'>
+#&gt; X22      FALSE      FALSE      FALSE      FALSE</div><div class='input'><span class='fu'>featureNames</span>(<span class='fu'>filterNA</span>(<span class='kw'>msnset</span>, pNA = <span class='fl'>1</span><span class='op'>/</span><span class='fl'>4</span>))
+</div><div class='output co'>#&gt; [1] "X2"  "X20" "X21" "X22"</div><div class='input'><span class='fu'>featureNames</span>(<span class='fu'>filterNA</span>(<span class='kw'>msnset</span>, pattern = <span class='st'>"0110"</span>))
+</div><div class='output co'>#&gt; [1] "X18" "X2"  "X20" "X21" "X22"</div><div class='input'>
+<span class='kw'>M</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>12</span>), <span class='fl'>4</span>)
+<span class='kw'>pd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(otherpdata = <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>])
+<span class='kw'>fd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(otherfdata = <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>])
+<span class='kw'>x0</span> <span class='op'>&lt;-</span> <span class='fu'>MSnSet</span>(<span class='kw'>M</span>, <span class='kw'>fd</span>, <span class='kw'>pd</span>)
+<span class='fu'>sampleNames</span>(<span class='kw'>x0</span>)
+</div><div class='output co'>#&gt; [1] "1" "2" "3"</div><div class='input'>
+<span class='kw'>M</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>12</span>), <span class='fl'>4</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>M</span>) <span class='op'>&lt;-</span> <span class='kw'>LETTERS</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>]
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>M</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"id"</span>, <span class='kw'>LETTERS</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>])
+<span class='kw'>pd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(otherpdata = <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>])
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>pd</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>M</span>)
+<span class='kw'>fd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(otherfdata = <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>])
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>fd</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>M</span>)
+<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'>MSnSet</span>(<span class='kw'>M</span>, <span class='kw'>fd</span>, <span class='kw'>pd</span>)
+<span class='fu'>sampleNames</span>(<span class='kw'>x</span>)
+</div><div class='output co'>#&gt; [1] "A" "B" "C"</div><div class='input'>
 
 <span class='co'>## Visualisation</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"pRolocdata"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>dunkley2006</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='no'>dunkley2006</span>)</div><div class='img'><img src='MSnSet-class-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## Changing colours</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='no'>dunkley2006</span>, <span class='kw'>high</span> <span class='kw'>=</span> <span class='st'>"darkgreen"</span>)</div><div class='img'><img src='MSnSet-class-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='no'>dunkley2006</span>, <span class='kw'>high</span> <span class='kw'>=</span> <span class='st'>"darkgreen"</span>, <span class='kw'>low</span> <span class='kw'>=</span> <span class='st'>"yellow"</span>)</div><div class='img'><img src='MSnSet-class-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## Forcing feature names</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='no'>dunkley2006</span>, <span class='kw'>fnames</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='MSnSet-class-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## Facetting</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='no'>dunkley2006</span>, <span class='kw'>facetBy</span> <span class='kw'>=</span> <span class='st'>"replicate"</span>)</div><div class='img'><img src='MSnSet-class-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='no'>dunkley2006</span>)</div><div class='img'><img src='MSnSet-class-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ggplot2"</span>) <span class='co'>## for facet_grid</span>
-<span class='no'>p</span> + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span>(<span class='no'>replicate</span> ~ <span class='no'>membrane.prep</span>, <span class='kw'>scales</span> <span class='kw'>=</span> <span class='st'>'free'</span>, <span class='kw'>space</span> <span class='kw'>=</span> <span class='st'>'free'</span>)</div><div class='img'><img src='MSnSet-class-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>p</span> + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span>(<span class='no'>markers</span> ~ <span class='no'>replicate</span>)</div><div class='img'><img src='MSnSet-class-8.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## Fold-changes</span>
-<span class='no'>dd</span> <span class='kw'>&lt;-</span> <span class='no'>dunkley2006</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='no'>dd</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='no'>dd</span>) - <span class='fl'>0.25</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='no'>dd</span>)</div><div class='img'><img src='MSnSet-class-9.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='no'>dd</span>, <span class='kw'>low</span> <span class='kw'>=</span> <span class='st'>"green"</span>, <span class='kw'>high</span> <span class='kw'>=</span> <span class='st'>"red"</span>)</div><div class='img'><img src='MSnSet-class-10.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## Feature names are displayed by default for smaller data</span>
-<span class='no'>dunkley2006</span> <span class='kw'>&lt;-</span> <span class='no'>dunkley2006</span>[<span class='fl'>1</span>:<span class='fl'>25</span>, ]
-<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='no'>dunkley2006</span>)</div><div class='img'><img src='MSnSet-class-11.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='no'>dunkley2006</span>, <span class='kw'>legend</span> <span class='kw'>=</span> <span class='st'>"hello"</span>)</div><div class='img'><img src='MSnSet-class-12.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>dunkley2006</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='kw'>dunkley2006</span>)
+</div><div class='img'><img src='MSnSet-class-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## Changing colours</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='kw'>dunkley2006</span>, high = <span class='st'>"darkgreen"</span>)
+</div><div class='img'><img src='MSnSet-class-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='kw'>dunkley2006</span>, high = <span class='st'>"darkgreen"</span>, low = <span class='st'>"yellow"</span>)
+</div><div class='img'><img src='MSnSet-class-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## Forcing feature names</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='kw'>dunkley2006</span>, fnames = <span class='fl'>TRUE</span>)
+</div><div class='img'><img src='MSnSet-class-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## Facetting</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='kw'>dunkley2006</span>, facetBy = <span class='st'>"replicate"</span>)
+</div><div class='img'><img src='MSnSet-class-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='kw'>dunkley2006</span>)
+</div><div class='img'><img src='MSnSet-class-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='http://ggplot2.tidyverse.org'>"ggplot2"</a></span>) <span class='co'>## for facet_grid</span>
+<span class='kw'>p</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span>(<span class='kw'>replicate</span> <span class='op'>~</span> <span class='kw'>membrane.prep</span>, scales = <span class='st'>'free'</span>, space = <span class='st'>'free'</span>)
+</div><div class='img'><img src='MSnSet-class-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>p</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span>(<span class='kw'>markers</span> <span class='op'>~</span> <span class='kw'>replicate</span>)
+</div><div class='img'><img src='MSnSet-class-8.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## Fold-changes</span>
+<span class='kw'>dd</span> <span class='op'>&lt;-</span> <span class='kw'>dunkley2006</span>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>dd</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>dd</span>) <span class='op'>-</span> <span class='fl'>0.25</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='kw'>dd</span>)
+</div><div class='img'><img src='MSnSet-class-9.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='kw'>dd</span>, low = <span class='st'>"green"</span>, high = <span class='st'>"red"</span>)
+</div><div class='img'><img src='MSnSet-class-10.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## Feature names are displayed by default for smaller data</span>
+<span class='kw'>dunkley2006</span> <span class='op'>&lt;-</span> <span class='kw'>dunkley2006</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>25</span>, ]
+<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='kw'>dunkley2006</span>)
+</div><div class='img'><img src='MSnSet-class-11.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='kw'>dunkley2006</span>, legend = <span class='st'>"hello"</span>)
+</div><div class='img'><img src='MSnSet-class-12.png' alt='' width='700' height='433' /></div><div class='input'>
 
 <span class='co'>## Coercion</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'>"SummarizedExperiment"</span>)) {
-    <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>msnset</span>)
-    <span class='no'>se</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mzRident2dfr.html'>as</a></span>(<span class='no'>msnset</span>, <span class='st'>"SummarizedExperiment"</span>)
-    <span class='fu'>metadata</span>(<span class='no'>se</span>) <span class='co'>## only logging</span>
-    <span class='no'>se</span> <span class='kw'>&lt;-</span> <span class='fu'>addMSnSetMetadata</span>(<span class='no'>se</span>, <span class='no'>msnset</span>)
-    <span class='fu'>metadata</span>(<span class='no'>se</span>) <span class='co'>## all metadata</span>
-    <span class='no'>msnset2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mzRident2dfr.html'>as</a></span>(<span class='no'>se</span>, <span class='st'>"MSnSet"</span>)
-    <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>msnset2</span>)
-}</div><div class='output co'>#&gt; <span class='message'>Loading required package: SummarizedExperiment</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomicRanges</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: IRanges</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomeInfoDb</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: DelayedArray</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: Matrix</span></div><div class='output co'>#&gt; <span class='message'></span>
+<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'>"SummarizedExperiment"</span>)) {
+    <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>msnset</span>)
+    <span class='kw'>se</span> <span class='op'>&lt;-</span> <span class='fu'><a href='as.html'>as</a></span>(<span class='kw'>msnset</span>, <span class='st'>"SummarizedExperiment"</span>)
+    <span class='fu'>metadata</span>(<span class='kw'>se</span>) <span class='co'>## only logging</span>
+    <span class='kw'>se</span> <span class='op'>&lt;-</span> <span class='fu'>addMSnSetMetadata</span>(<span class='kw'>se</span>, <span class='kw'>msnset</span>)
+    <span class='fu'>metadata</span>(<span class='kw'>se</span>) <span class='co'>## all metadata</span>
+    <span class='kw'>msnset2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='as.html'>as</a></span>(<span class='kw'>se</span>, <span class='st'>"MSnSet"</span>)
+    <span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='kw'>msnset2</span>)
+}
+</div><div class='output co'>#&gt; <span class='message'>Loading required package: SummarizedExperiment</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomicRanges</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: IRanges</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomeInfoDb</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: DelayedArray</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: Matrix</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘Matrix’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:S4Vectors’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    expand</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: matrixStats</span></div><div class='output co'>#&gt; <span class='message'></span>
@@ -612,9 +633,10 @@
 #&gt; <span class='message'>    aperm, apply, rowsum</span></div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#&gt; Subset [55,4][6,4] Fri Aug 14 08:41:51 2020 
+#&gt; Subset [55,4][6,4] Tue Sep  8 11:34:26 2020 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
-<span class='fu'><a href='mzRident2dfr.html'>as</a></span>(<span class='no'>msnset</span>, <span class='st'>"ExpressionSet"</span>)</div><div class='output co'>#&gt; ExpressionSet (storageMode: lockedEnvironment)
+<span class='fu'><a href='as.html'>as</a></span>(<span class='kw'>msnset</span>, <span class='st'>"ExpressionSet"</span>)
+</div><div class='output co'>#&gt; ExpressionSet (storageMode: lockedEnvironment)
 #&gt; assayData: 6 features, 4 samples 
 #&gt;   element names: exprs 
 #&gt; protocolData: none
@@ -644,7 +666,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

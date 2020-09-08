@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Coerce identification data to a <code>data.frame</code> — as • MSnbase</title>
+<title>Coerce identification data to a data.frame — as • MSnbase</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Coerce identification data to a <code>data.frame</code> — as" />
+<meta property="og:title" content="Coerce identification data to a data.frame — as" />
 <meta property="og:description" content="A function to convert the identification data contained in an
 mzRident object to a data.frame. Each row represents
 a scan, which can however be repeated several times if the PSM
@@ -79,7 +79,7 @@ reduce." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -155,7 +155,7 @@ matches multiple proteins and/or contains two or more
 modifications. To reduce the <code>data.frame</code> so that rows/scans
 are unique and use semicolon-separated values to combine
 information pertaining a scan, use
-<code><a href='reduce-data.frame-method.html'>reduce</a></code>.</p>
+<code><a href='reduce,data.frame-method.html'>reduce</a></code>.</p>
     </div>
 
 
@@ -176,16 +176,21 @@ information pertaining a scan, use
 
     <p>See also the <em>Tandem MS identification data</em> section in the
 <em>MSnbase-demo</em> vignette.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## find path to a mzIdentML file</span>
-<span class='no'>identFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"MSnbase"</span>, <span class='kw'>dir</span> <span class='kw'>=</span> <span class='st'>"extdata"</span>),
-                 <span class='kw'>full.name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"dummyiTRAQ.mzid"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"mzR"</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/mzR/man/openMSfile.html'>openIDfile</a></span>(<span class='no'>identFile</span>)
-<span class='no'>x</span></div><div class='output co'>#&gt; Identification file handle.
+<span class='kw'>identFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(package = <span class='st'>"MSnbase"</span>, dir = <span class='st'>"extdata"</span>),
+                 full.name = <span class='fl'>TRUE</span>, pattern = <span class='st'>"dummyiTRAQ.mzid"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/sneumann/mzR'>"mzR"</a></span>)
+<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/mzR/man/openMSfile.html'>openIDfile</a></span>(<span class='kw'>identFile</span>)
+<span class='kw'>x</span>
+</div><div class='output co'>#&gt; Identification file handle.
 #&gt; Filename:  dummyiTRAQ.mzid 
-#&gt; Number of psms:  4 </div><div class='input'><span class='fu'>as</span>(<span class='no'>x</span>, <span class='st'>"data.frame"</span>)</div><div class='output co'>#&gt;            sequence spectrumID chargeState rank passThreshold
+#&gt; Number of psms:  4 </div><div class='input'><span class='fu'>as</span>(<span class='kw'>x</span>, <span class='st'>"data.frame"</span>)
+</div><div class='output co'>#&gt;            sequence spectrumID chargeState rank passThreshold
 #&gt; 1     IDGQWVTHQWLKK     scan=2           3    1          TRUE
 #&gt; 2 VESITARHGEVLQLRPK     scan=1           3    1          TRUE
 #&gt; 3 IKPQAVIETLHRLTEGK     scan=1           3    2          TRUE
@@ -235,7 +240,7 @@ information pertaining a scan, use
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

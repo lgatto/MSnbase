@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Parse <code>MzTab</code> files — MzTab-class • MSnbase</title>
+<title>Parse MzTab files — MzTab-class • MSnbase</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Parse <code>MzTab</code> files — MzTab-class" />
+<meta property="og:title" content="Parse MzTab files — MzTab-class" />
 <meta property="og:description" content="
 
 The MzTab class stores the output of a basic parsing of a
@@ -87,7 +87,7 @@ Note that no attempts are made to verify the validitiy of the mzTab
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -168,7 +168,7 @@ Note that no attempts are made to verify the validitiy of the mzTab
   are thus not all going to be valid colnames. To access them using the
   dollar operator, use backticks. More specific data extraction and
   preparation are delegated to more specialised functions, such as the
-  <code><a href='mzRident2dfr.html'>as(., to = "MSnSetList")</a></code> and <code>readMzTabData</code> for
+  <code><a href='as.html'>as(., to = "MSnSetList")</a></code> and <code>readMzTabData</code> for
   proteomics data.</p>
 <p>Note that no attempts are made to verify the validitiy of the mzTab
   file.</p>
@@ -183,7 +183,7 @@ Note that no attempts are made to verify the validitiy of the mzTab
 <p>Objects can be created by calls the the constructor <code>MzTab</code> that
   takes a single <code>mzTab</code> file as input.</p>
 <p>The objects can subsequently be coerced to <a href='MSnSetList-class.html'>MSnSetList</a>
-  instances with <code><a href='mzRident2dfr.html'>as(object, "MSnSetList")</a></code>. The resulting
+  instances with <code><a href='as.html'>as(object, "MSnSetList")</a></code>. The resulting
   <code>MSnSetList</code> contains possibly empty <code>MSnSet</code> instances for
   proteins, peptide and PSMs, respectively named <code>"Proteins"</code>,
   <code>"Peptides"</code> and <code>"PSMs"</code>.</p>
@@ -196,7 +196,7 @@ Note that no attempts are made to verify the validitiy of the mzTab
   to duplicates.</p>
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
-    <p></p><dl'>
+    <p></p><dl>
     <dt><code>Metadata</code>:</dt><dd><p>Object of class <code>"list"</code> storing the
       metadata section.</p></dd>
     <dt><code>Filename</code>:</dt><dd><p>Object of class <code>"character"</code> storing
@@ -220,7 +220,7 @@ Note that no attempts are made to verify the validitiy of the mzTab
 
     <h2 class="hasAnchor" id="accessors"><a class="anchor" href="#accessors"></a>Accessors</h2>
 
-    <p></p><dl'>
+    <p></p><dl>
     <dt>metadata</dt><dd><p><code>signature(x = "MzTab")</code>: returns the meta data
       <code>list</code>.</p></dd>
     <dt>mzTabMode</dt><dd><p><code>signature(x = "MzTab")</code>: returns the mode
@@ -269,31 +269,43 @@ Note that no attempts are made to verify the validitiy of the mzTab
   for Sharing Quantitative Results in Mass Spectrometry Metabolomics.
   Anal Chem. 2019;91(5):3302‐3310. doi:10.1021/acs.analchem.8b04310
   PubMed PMID: 30688441; PubMed Central PMCID: PMC6660005.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    
+
+<p>Laurent Gatto, with contributions from Richard Cotton (see
+  <a href='https://github.com/lgatto/MSnbase/issues/41'>https://github.com/lgatto/MSnbase/issues/41</a>) and Steffen Neuman
+  (see https://github.com/lgatto/MSnbase/pull/500).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Test files from the mzTab developement repository</span>
-<span class='no'>fls</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Cytidine.mzTab"</span>, <span class='st'>"MTBLS2.mztab"</span>,
-         <span class='st'>"PRIDE_Exp_Complete_Ac_1643.xml-mztab.txt"</span>,
-         <span class='st'>"PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"</span>,
-         <span class='st'>"SILAC_CQI.mzTab"</span>, <span class='st'>"SILAC_SQ.mzTab"</span>,
-         <span class='st'>"iTRAQ_CQI.mzTab"</span>, <span class='st'>"iTRAQ_SQI.mzTab"</span>,
-         <span class='st'>"labelfree_CQI.mzTab"</span>, <span class='st'>"labelfree_SQI.mzTab"</span>,
-         <span class='st'>"lipidomics-HFD-LD-study-PL-DG-SM.mzTab"</span>,
+<span class='kw'>fls</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Cytidine.mzTab"</span>, <span class='st'>"MTBLS2.mztab"</span>, 
+         <span class='st'>"PRIDE_Exp_Complete_Ac_1643.xml-mztab.txt"</span>, 
+         <span class='st'>"PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"</span>, 
+         <span class='st'>"SILAC_CQI.mzTab"</span>, <span class='st'>"SILAC_SQ.mzTab"</span>, 
+         <span class='st'>"iTRAQ_CQI.mzTab"</span>, <span class='st'>"iTRAQ_SQI.mzTab"</span>, 
+         <span class='st'>"labelfree_CQI.mzTab"</span>, <span class='st'>"labelfree_SQI.mzTab"</span>, 
+         <span class='st'>"lipidomics-HFD-LD-study-PL-DG-SM.mzTab"</span>, 
          <span class='st'>"lipidomics-HFD-LD-study-TG.mzTab"</span>)
 
-<span class='no'>baseUrl</span> <span class='kw'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/1_0-Proteomics-Release/"</span>
+<span class='kw'>baseUrl</span> <span class='op'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/1_0-Proteomics-Release/"</span>
 
 <span class='co'>## a list of mzTab objects</span>
-<span class='no'>mzt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>baseUrl</span>, <span class='no'>fls</span>), <span class='no'>MzTab</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>mzt</span>) <span class='kw'>==</span> <span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>fls</span>))
-<span class='no'>mzt</span><span class='kw'>[[</span><span class='fl'>4</span>]]</div><div class='output co'>#&gt; Object of class "MzTab".
+<span class='kw'>mzt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw'>baseUrl</span>, <span class='kw'>fls</span>), <span class='kw'>MzTab</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>mzt</span>) <span class='op'>==</span> <span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>fls</span>))
+<span class='kw'>mzt</span>[[<span class='fl'>4</span>]]
+</div><div class='output co'>#&gt; Object of class "MzTab".
 #&gt;  Description: date of export: Mon Jun 16 10:57:56 BST 2014
 #&gt;  Mode: Summary 
 #&gt;  Type: Quantification 
 #&gt;  Available data: Proteins  PSMs  </div><div class='input'>
-<span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='fu'>proteins</span>(<span class='no'>mzt</span><span class='kw'>[[</span><span class='fl'>4</span>]]))</div><div class='output co'>#&gt; [1] 1249   19</div><div class='input'><span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='fu'>psms</span>(<span class='no'>mzt</span><span class='kw'>[[</span><span class='fl'>4</span>]]))</div><div class='output co'>#&gt; [1] 8761   18</div><div class='input'>
-<span class='no'>prots4</span> <span class='kw'>&lt;-</span> <span class='fu'>proteins</span>(<span class='no'>mzt</span><span class='kw'>[[</span><span class='fl'>4</span>]])
-<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>prots4</span>)</div><div class='output co'>#&gt; [1] "data.frame"</div><div class='input'><span class='no'>prots4</span>[<span class='fl'>1</span>:<span class='fl'>5</span>, <span class='fl'>1</span>:<span class='fl'>4</span>]</div><div class='output co'>#&gt;   accession
+<span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='fu'>proteins</span>(<span class='kw'>mzt</span>[[<span class='fl'>4</span>]]))
+</div><div class='output co'>#&gt; [1] 1249   19</div><div class='input'><span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='fu'>psms</span>(<span class='kw'>mzt</span>[[<span class='fl'>4</span>]]))
+</div><div class='output co'>#&gt; [1] 8761   18</div><div class='input'>
+<span class='kw'>prots4</span> <span class='op'>&lt;-</span> <span class='fu'>proteins</span>(<span class='kw'>mzt</span>[[<span class='fl'>4</span>]])
+<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='kw'>prots4</span>)
+</div><div class='output co'>#&gt; [1] "data.frame"</div><div class='input'><span class='kw'>prots4</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>]
+</div><div class='output co'>#&gt;   accession
 #&gt; 1 223462890
 #&gt; 2  19855078
 #&gt; 3  21450277
@@ -326,7 +338,7 @@ Note that no attempts are made to verify the validitiy of the mzTab
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

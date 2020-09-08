@@ -76,7 +76,7 @@ the name of a column of fData(object)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -152,7 +152,7 @@ The group of features are defined by a feature variable names, i.e
 the name of a column of <code>fData(object)</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>nQuants</span>(<span class='no'>x</span>, <span class='no'>groupBy</span>)</pre>
+    <pre class="usage"><span class='fu'>nQuants</span>(<span class='kw'>x</span>, <span class='kw'>groupBy</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -188,23 +188,29 @@ be the result of 0 (if no feature was quantified) to <code>n</code>
 (if all <code>topN</code>'s <code>n</code> features were quantified) features,
 and one might want to rescale the sums based on the number of
 non-NA features effectively summed.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto &lt;lg390@cam.ac.uk&gt;, Sebastian Gibb
+    &lt;mail@sebastiangibb.de&gt;</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>msnset</span>)
-<span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='fl'>2</span>
-<span class='no'>msnset</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='MSnSet-class.html'>topN</a></span>(<span class='no'>msnset</span>, <span class='kw'>groupBy</span> <span class='kw'>=</span> <span class='fu'>fData</span>(<span class='no'>msnset</span>)$<span class='no'>ProteinAccession</span>, <span class='no'>n</span>)
-<span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'>nQuants</span>(<span class='no'>msnset</span>, <span class='kw'>groupBy</span> <span class='kw'>=</span> <span class='fu'>fData</span>(<span class='no'>msnset</span>)$<span class='no'>ProteinAccession</span>)
-<span class='no'>msnset2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='combineFeatures.html'>combineFeatures</a></span>(<span class='no'>msnset</span>,
-                           <span class='kw'>groupBy</span> <span class='kw'>=</span> <span class='fu'>fData</span>(<span class='no'>msnset</span>)$<span class='no'>ProteinAccession</span>,
-                           <span class='kw'>method</span> <span class='kw'>=</span> <span class='no'>sum</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='no'>n</span>) <span class='kw'>==</span> <span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='no'>msnset2</span>))
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>exprs</span>(<span class='no'>msnset2</span>))</div><div class='output co'>#&gt;         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>msnset</span>)
+<span class='kw'>n</span> <span class='op'>&lt;-</span> <span class='fl'>2</span>
+<span class='kw'>msnset</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnSet-class.html'>topN</a></span>(<span class='kw'>msnset</span>, groupBy = <span class='fu'>fData</span>(<span class='kw'>msnset</span>)<span class='op'>$</span><span class='kw'>ProteinAccession</span>, <span class='kw'>n</span>)
+<span class='kw'>m</span> <span class='op'>&lt;-</span> <span class='fu'>nQuants</span>(<span class='kw'>msnset</span>, groupBy = <span class='fu'>fData</span>(<span class='kw'>msnset</span>)<span class='op'>$</span><span class='kw'>ProteinAccession</span>)
+<span class='kw'>msnset2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='combineFeatures.html'>combineFeatures</a></span>(<span class='kw'>msnset</span>,
+                           groupBy = <span class='fu'>fData</span>(<span class='kw'>msnset</span>)<span class='op'>$</span><span class='kw'>ProteinAccession</span>,
+                           method = <span class='kw'>sum</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='kw'>n</span>) <span class='op'>==</span> <span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='kw'>msnset2</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>msnset2</span>))
+</div><div class='output co'>#&gt;         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; BSA       2941.052   5174.721   8955.985  18023.287
 #&gt; ECA0172  17593.548  18545.620  19361.837  18328.237
 #&gt; ECA0435   9847.256  11115.636  11550.405  10158.590
 #&gt; ECA0452   1524.148   1399.897   1547.218   1563.230
 #&gt; ECA0469   2139.889   2071.378   2058.840   1999.391
-#&gt; ECA0621   1101.062   1124.167   1140.093   1191.805</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>exprs</span>(<span class='no'>msnset2</span>) * (<span class='no'>n</span>/<span class='no'>m</span>))</div><div class='output co'>#&gt;         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
+#&gt; ECA0621   1101.062   1124.167   1140.093   1191.805</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>msnset2</span>) <span class='op'>*</span> (<span class='kw'>n</span><span class='op'>/</span><span class='kw'>m</span>))
+</div><div class='output co'>#&gt;         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; BSA       2941.052   5174.721   8955.985  18023.287
 #&gt; ECA0172  35187.095  37091.239  38723.673  36656.473
 #&gt; ECA0435   9847.256  11115.636  11550.405  10158.590
@@ -226,7 +232,7 @@ non-NA features effectively summed.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

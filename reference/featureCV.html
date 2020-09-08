@@ -76,7 +76,7 @@ defined by single features, NA is returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -152,7 +152,7 @@ for the groups of features defined by <code>groupBy</code>. For groups
 defined by single features, <code>NA</code> is returned.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>featureCV</span>(<span class='no'>x</span>, <span class='no'>groupBy</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>norm</span> <span class='kw'>=</span> <span class='st'>"none"</span>, <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>featureCV</span>(<span class='kw'>x</span>, <span class='kw'>groupBy</span>, na.rm = <span class='fl'>TRUE</span>, norm = <span class='st'>"none"</span>, suffix = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -195,14 +195,19 @@ suffixed by <code>.suffix</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='combineFeatures.html'>combineFeatures()</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto and Sebastian Gibb</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>msnset</span>)
-<span class='no'>msnset</span> <span class='kw'>&lt;-</span> <span class='no'>msnset</span>[<span class='fl'>1</span>:<span class='fl'>4</span>]
-<span class='no'>gb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>:<span class='fl'>2</span>, <span class='kw'>each</span> <span class='kw'>=</span> <span class='fl'>2</span>))
-<span class='fu'>featureCV</span>(<span class='no'>msnset</span>, <span class='no'>gb</span>)</div><div class='output co'>#&gt;   CV.iTRAQ4.114 CV.iTRAQ4.115 CV.iTRAQ4.116 CV.iTRAQ4.117
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>msnset</span>)
+<span class='kw'>msnset</span> <span class='op'>&lt;-</span> <span class='kw'>msnset</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>]
+<span class='kw'>gb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, each = <span class='fl'>2</span>))
+<span class='fu'>featureCV</span>(<span class='kw'>msnset</span>, <span class='kw'>gb</span>)
+</div><div class='output co'>#&gt;   CV.iTRAQ4.114 CV.iTRAQ4.115 CV.iTRAQ4.116 CV.iTRAQ4.117
 #&gt; 1     0.4116294   0.672121019     0.9798589     1.1049021
-#&gt; 2     0.1010699   0.005077863     0.1128963     0.2347332</div><div class='input'><span class='fu'>featureCV</span>(<span class='no'>msnset</span>, <span class='no'>gb</span>, <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='st'>"2"</span>)</div><div class='output co'>#&gt;   CV.iTRAQ4.114.2 CV.iTRAQ4.115.2 CV.iTRAQ4.116.2 CV.iTRAQ4.117.2
+#&gt; 2     0.1010699   0.005077863     0.1128963     0.2347332</div><div class='input'><span class='fu'>featureCV</span>(<span class='kw'>msnset</span>, <span class='kw'>gb</span>, suffix = <span class='st'>"2"</span>)
+</div><div class='output co'>#&gt;   CV.iTRAQ4.114.2 CV.iTRAQ4.115.2 CV.iTRAQ4.116.2 CV.iTRAQ4.117.2
 #&gt; 1       0.4116294     0.672121019       0.9798589       1.1049021
 #&gt; 2       0.1010699     0.005077863       0.1128963       0.2347332</div></pre>
   </div>
@@ -220,7 +225,7 @@ suffixed by <code>.suffix</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

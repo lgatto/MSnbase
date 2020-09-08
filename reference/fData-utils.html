@@ -77,7 +77,7 @@ variables are removed." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -154,9 +154,9 @@ expanded into single feature columns. The original feature
 variables are removed.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>expandFeatureVars</span>(<span class='no'>x</span>, <span class='no'>fcol</span>, <span class='no'>prefix</span>)
+    <pre class="usage"><span class='fu'>expandFeatureVars</span>(<span class='kw'>x</span>, <span class='kw'>fcol</span>, <span class='kw'>prefix</span>)
 
-<span class='fu'>mergeFeatureVars</span>(<span class='no'>x</span>, <span class='no'>fcol</span>, <span class='no'>fcol2</span>)</pre>
+<span class='fu'>mergeFeatureVars</span>(<span class='kw'>x</span>, <span class='kw'>fcol</span>, <span class='kw'>fcol2</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,11 +186,15 @@ variable.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An <code>MSnSet</code> for expanded (merged) feature variables.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"pRolocdata"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>hyperLOPIT2015</span>)
-<span class='fu'>fvarLabels</span>(<span class='no'>hyperLOPIT2015</span>)</div><div class='output co'>#&gt;  [1] "entry.name"                "protein.description"      
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>hyperLOPIT2015</span>)
+<span class='fu'>fvarLabels</span>(<span class='kw'>hyperLOPIT2015</span>)
+</div><div class='output co'>#&gt;  [1] "entry.name"                "protein.description"      
 #&gt;  [3] "peptides.rep1"             "peptides.rep2"            
 #&gt;  [5] "psms.rep1"                 "psms.rep2"                
 #&gt;  [7] "phenodisco.input"          "phenodisco.output"        
@@ -203,8 +207,10 @@ variable.</p></td>
 #&gt; [21] "oct4.interactome"          "nanog.interactome"        
 #&gt; [23] "sox2.interactome"          "cell.surface.proteins"    
 #&gt; [25] "markers2015"               "TAGM"                     </div><div class='input'><span class='co'>## Let's merge all svm prediction feature variables</span>
-(<span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grep</a></span>(<span class='st'>"^svm"</span>, <span class='fu'>fvarLabels</span>(<span class='no'>hyperLOPIT2015</span>), <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; [1] "svm.classification" "svm.score"          "svm.top.quartile"  </div><div class='input'><span class='no'>hl</span> <span class='kw'>&lt;-</span> <span class='fu'>mergeFeatureVars</span>(<span class='no'>hyperLOPIT2015</span>, <span class='kw'>fcol</span> <span class='kw'>=</span> <span class='no'>k</span>, <span class='kw'>fcol2</span> <span class='kw'>=</span> <span class='st'>"SVM"</span>)
-<span class='fu'>fvarLabels</span>(<span class='no'>hl</span>)</div><div class='output co'>#&gt;  [1] "entry.name"                "protein.description"      
+(<span class='kw'>k</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grep</a></span>(<span class='st'>"^svm"</span>, <span class='fu'>fvarLabels</span>(<span class='kw'>hyperLOPIT2015</span>), value = <span class='fl'>TRUE</span>))
+</div><div class='output co'>#&gt; [1] "svm.classification" "svm.score"          "svm.top.quartile"  </div><div class='input'><span class='kw'>hl</span> <span class='op'>&lt;-</span> <span class='fu'>mergeFeatureVars</span>(<span class='kw'>hyperLOPIT2015</span>, fcol = <span class='kw'>k</span>, fcol2 = <span class='st'>"SVM"</span>)
+<span class='fu'>fvarLabels</span>(<span class='kw'>hl</span>)
+</div><div class='output co'>#&gt;  [1] "entry.name"                "protein.description"      
 #&gt;  [3] "peptides.rep1"             "peptides.rep2"            
 #&gt;  [5] "psms.rep1"                 "psms.rep2"                
 #&gt;  [7] "phenodisco.input"          "phenodisco.output"        
@@ -215,7 +221,8 @@ variable.</p></td>
 #&gt; [17] "signalling.cascades"       "oct4.interactome"         
 #&gt; [19] "nanog.interactome"         "sox2.interactome"         
 #&gt; [21] "cell.surface.proteins"     "markers2015"              
-#&gt; [23] "TAGM"                      "SVM"                      </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='no'>hl</span>)$<span class='no'>SVM</span>)</div><div class='output co'>#&gt;                             svm.classification svm.score   svm.top.quartile
+#&gt; [23] "TAGM"                      "SVM"                      </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='kw'>hl</span>)<span class='op'>$</span><span class='kw'>SVM</span>)
+</div><div class='output co'>#&gt;                             svm.classification svm.score   svm.top.quartile
 #&gt; Q9JHU4                              Peroxisome     0.303            unknown
 #&gt; Q9QXS1-3                          60S Ribosome     0.223            unknown
 #&gt; Q9ERU9                     Nucleus - Chromatin     0.737            unknown
@@ -223,8 +230,9 @@ variable.</p></td>
 #&gt; Q8BTM8   Endoplasmic reticulum/Golgi apparatus     0.218            unknown
 #&gt; A2ARV4                                Lysosome     0.681            unknown</div><div class='input'>
 <span class='co'>## Let's expand the new SVM into individual columns</span>
-<span class='no'>hl2</span> <span class='kw'>&lt;-</span> <span class='fu'>expandFeatureVars</span>(<span class='no'>hl</span>, <span class='st'>"SVM"</span>)
-<span class='fu'>fvarLabels</span>(<span class='no'>hl2</span>)</div><div class='output co'>#&gt;  [1] "entry.name"                "protein.description"      
+<span class='kw'>hl2</span> <span class='op'>&lt;-</span> <span class='fu'>expandFeatureVars</span>(<span class='kw'>hl</span>, <span class='st'>"SVM"</span>)
+<span class='fu'>fvarLabels</span>(<span class='kw'>hl2</span>)
+</div><div class='output co'>#&gt;  [1] "entry.name"                "protein.description"      
 #&gt;  [3] "peptides.rep1"             "peptides.rep2"            
 #&gt;  [5] "psms.rep1"                 "psms.rep2"                
 #&gt;  [7] "phenodisco.input"          "phenodisco.output"        
@@ -237,8 +245,9 @@ variable.</p></td>
 #&gt; [21] "cell.surface.proteins"     "markers2015"              
 #&gt; [23] "TAGM"                      "SVM.svm.classification"   
 #&gt; [25] "SVM.svm.score"             "SVM.svm.top.quartile"     </div><div class='input'><span class='co'>## We can set the prefix manually</span>
-<span class='no'>hl2</span> <span class='kw'>&lt;-</span> <span class='fu'>expandFeatureVars</span>(<span class='no'>hl</span>, <span class='st'>"SVM"</span>, <span class='kw'>prefix</span> <span class='kw'>=</span> <span class='st'>"Expanded"</span>)
-<span class='fu'>fvarLabels</span>(<span class='no'>hl2</span>)</div><div class='output co'>#&gt;  [1] "entry.name"                  "protein.description"        
+<span class='kw'>hl2</span> <span class='op'>&lt;-</span> <span class='fu'>expandFeatureVars</span>(<span class='kw'>hl</span>, <span class='st'>"SVM"</span>, prefix = <span class='st'>"Expanded"</span>)
+<span class='fu'>fvarLabels</span>(<span class='kw'>hl2</span>)
+</div><div class='output co'>#&gt;  [1] "entry.name"                  "protein.description"        
 #&gt;  [3] "peptides.rep1"               "peptides.rep2"              
 #&gt;  [5] "psms.rep1"                   "psms.rep2"                  
 #&gt;  [7] "phenodisco.input"            "phenodisco.output"          
@@ -251,8 +260,9 @@ variable.</p></td>
 #&gt; [21] "cell.surface.proteins"       "markers2015"                
 #&gt; [23] "TAGM"                        "Expanded.svm.classification"
 #&gt; [25] "Expanded.svm.score"          "Expanded.svm.top.quartile"  </div><div class='input'><span class='co'>## If we don't want any prefix</span>
-<span class='no'>hl2</span> <span class='kw'>&lt;-</span> <span class='fu'>expandFeatureVars</span>(<span class='no'>hl</span>, <span class='st'>"SVM"</span>, <span class='kw'>prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-<span class='fu'>fvarLabels</span>(<span class='no'>hl2</span>)</div><div class='output co'>#&gt;  [1] "entry.name"                "protein.description"      
+<span class='kw'>hl2</span> <span class='op'>&lt;-</span> <span class='fu'>expandFeatureVars</span>(<span class='kw'>hl</span>, <span class='st'>"SVM"</span>, prefix = <span class='kw'>NULL</span>)
+<span class='fu'>fvarLabels</span>(<span class='kw'>hl2</span>)
+</div><div class='output co'>#&gt;  [1] "entry.name"                "protein.description"      
 #&gt;  [3] "peptides.rep1"             "peptides.rep2"            
 #&gt;  [5] "psms.rep1"                 "psms.rep2"                
 #&gt;  [7] "phenodisco.input"          "phenodisco.output"        
@@ -280,7 +290,7 @@ variable.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

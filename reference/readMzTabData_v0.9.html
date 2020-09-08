@@ -75,7 +75,7 @@ slot." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -150,7 +150,7 @@ is always used to populate the <code>MSnSet</code>'s <code>experimentData</code>
 slot.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>readMzTabData_v0.9</span>(<span class='no'>file</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PRT"</span>, <span class='st'>"PEP"</span>), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span>())</pre>
+    <pre class="usage"><span class='fu'>readMzTabData_v0.9</span>(<span class='kw'>file</span>, what = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PRT"</span>, <span class='st'>"PEP"</span>), verbose = <span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,12 +180,17 @@ section, when available, is always used to populate the
 
     <div class='dont-index'><p><code><a href='writeMzTabData.html'>writeMzTabData</a></code> to save an
     <code>"<a href='MSnSet-class.html'>MSnSet</a>"</code> as an <code>mzTab</code> file.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>testfile</span> <span class='kw'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"</span>
+    <pre class="examples"><div class='input'><span class='kw'>testfile</span> <span class='op'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/legacy/jmztab-1.0/examples/mztab_itraq_example.txt"</span>
 
-<span class='no'>prot</span> <span class='kw'>&lt;-</span> <span class='fu'>readMzTabData_v0.9</span>(<span class='no'>testfile</span>, <span class='st'>"PRT"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Version 0.9 is deprecated. Please see '?readMzTabData' and '?MzTab' for details.</span></div><div class='input'>
-<span class='no'>prot</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
+<span class='kw'>prot</span> <span class='op'>&lt;-</span> <span class='fu'>readMzTabData_v0.9</span>(<span class='kw'>testfile</span>, <span class='st'>"PRT"</span>)
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Version 0.9 is deprecated. Please see '?readMzTabData' and '?MzTab' for details.</span></div><div class='input'>
+<span class='kw'>prot</span>
+</div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
 #&gt; assayData: 2 features, 4 samples 
 #&gt;   element names: exprs 
 #&gt; protocolData: none
@@ -201,10 +206,12 @@ section, when available, is always used to populate the
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt; mzTab read: Fri Aug 14 08:43:41 2020 
-#&gt;  MSnbase version: 2.15.4 </div><div class='input'>
-<span class='no'>pep</span> <span class='kw'>&lt;-</span> <span class='fu'>readMzTabData_v0.9</span>(<span class='no'>testfile</span>, <span class='st'>"PEP"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Version 0.9 is deprecated. Please see '?readMzTabData' and '?MzTab' for details.</span></div><div class='input'>
-<span class='no'>pep</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
+#&gt; mzTab read: Tue Sep  8 11:37:25 2020 
+#&gt;  MSnbase version: 2.15.6 </div><div class='input'>
+<span class='kw'>pep</span> <span class='op'>&lt;-</span> <span class='fu'>readMzTabData_v0.9</span>(<span class='kw'>testfile</span>, <span class='st'>"PEP"</span>)
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Version 0.9 is deprecated. Please see '?readMzTabData' and '?MzTab' for details.</span></div><div class='input'>
+<span class='kw'>pep</span>
+</div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
 #&gt; assayData: 6 features, 4 samples 
 #&gt;   element names: exprs 
 #&gt; protocolData: none
@@ -220,8 +227,8 @@ section, when available, is always used to populate the
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt; mzTab read: Fri Aug 14 08:43:41 2020 
-#&gt;  MSnbase version: 2.15.4 </div></pre>
+#&gt; mzTab read: Tue Sep  8 11:37:25 2020 
+#&gt;  MSnbase version: 2.15.6 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -237,7 +244,7 @@ section, when available, is always used to populate the
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

@@ -74,7 +74,7 @@ NA." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -148,11 +148,11 @@ NA." />
 <code>NA</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>makeNaData</span>(<span class='no'>object</span>, <span class='no'>nNA</span>, <span class='no'>pNA</span>, <span class='no'>exclude</span>)
+    <pre class="usage"><span class='fu'>makeNaData</span>(<span class='kw'>object</span>, <span class='kw'>nNA</span>, <span class='kw'>pNA</span>, <span class='kw'>exclude</span>)
 
-<span class='fu'>makeNaData2</span>(<span class='no'>object</span>, <span class='no'>nRows</span>, <span class='no'>nNAs</span>, <span class='no'>exclude</span>)
+<span class='fu'>makeNaData2</span>(<span class='kw'>object</span>, <span class='kw'>nRows</span>, <span class='kw'>nNAs</span>, <span class='kw'>exclude</span>)
 
-<span class='fu'>whichNA</span>(<span class='no'>x</span>)</pre>
+<span class='fu'>whichNA</span>(<span class='kw'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -206,83 +206,100 @@ second <code>nNAs[2]</code>, ... As opposed to <code>makeNaData</code>, this
 permits to control the number of <code>NAs</code> per rows.</p>
 <p>The <code>whichNA</code> can be used to extract the indices
 of the missing values, as illustrated in the example.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Example 1</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>pRolocdata</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>dunkley2006</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>dunkley2006</span>))</div><div class='output co'>#&gt; [1] 0</div><div class='input'><span class='no'>dunkleyNA</span> <span class='kw'>&lt;-</span> <span class='fu'>makeNaData</span>(<span class='no'>dunkley2006</span>, <span class='kw'>nNA</span> <span class='kw'>=</span> <span class='fl'>150</span>)
-<span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>dunkleyNA</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/lgatto/pRolocdata'>pRolocdata</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>dunkley2006</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>dunkley2006</span>))
+</div><div class='output co'>#&gt; [1] 0</div><div class='input'><span class='kw'>dunkleyNA</span> <span class='op'>&lt;-</span> <span class='fu'>makeNaData</span>(<span class='kw'>dunkley2006</span>, nNA = <span class='fl'>150</span>)
+<span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='kw'>dunkleyNA</span>)
+</div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Loaded on Thu Jul 16 22:53:08 2015. 
 #&gt; Normalised to sum of intensities. 
 #&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:08 2015 
-#&gt; Set 150 values to NA Fri Aug 14 08:43:08 2020 
-#&gt;  MSnbase version: 1.17.12 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>dunkleyNA</span>))</div><div class='output co'>#&gt; [1] 150</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='no'>dunkleyNA</span>)$<span class='no'>nNA</span>)</div><div class='output co'>#&gt; 
+#&gt; Set 150 values to NA Tue Sep  8 11:36:45 2020 
+#&gt;  MSnbase version: 1.17.12 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>dunkleyNA</span>))
+</div><div class='output co'>#&gt; [1] 150</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='kw'>dunkleyNA</span>)<span class='op'>$</span><span class='kw'>nNA</span>)
+</div><div class='output co'>#&gt; 
 #&gt;   0   1   2   3 
-#&gt; 558 113  17   1 </div><div class='input'><span class='no'>naIdx</span> <span class='kw'>&lt;-</span> <span class='fu'>whichNA</span>(<span class='no'>dunkleyNA</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>naIdx</span>)</div><div class='output co'>#&gt;      [,1] [,2]
+#&gt; 558 113  17   1 </div><div class='input'><span class='kw'>naIdx</span> <span class='op'>&lt;-</span> <span class='fu'>whichNA</span>(<span class='kw'>dunkleyNA</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>naIdx</span>)
+</div><div class='output co'>#&gt;      [,1] [,2]
 #&gt; [1,]    4    1
 #&gt; [2,]   57    1
 #&gt; [3,]  110    1
 #&gt; [4,]  119    1
 #&gt; [5,]  147    1
 #&gt; [6,]  273    1</div><div class='input'><span class='co'>## Example 2</span>
-<span class='no'>dunkleyNA</span> <span class='kw'>&lt;-</span> <span class='fu'>makeNaData</span>(<span class='no'>dunkley2006</span>, <span class='kw'>nNA</span> <span class='kw'>=</span> <span class='fl'>150</span>, <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>)
-<span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>dunkleyNA</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Set 150 values to NA Fri Aug 14 08:43:08 2020
+<span class='kw'>dunkleyNA</span> <span class='op'>&lt;-</span> <span class='fu'>makeNaData</span>(<span class='kw'>dunkley2006</span>, nNA = <span class='fl'>150</span>, exclude = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>)
+<span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='kw'>dunkleyNA</span>)
+</div><div class='output co'>#&gt; - - - Processing information - - -
+#&gt; Set 150 values to NA Tue Sep  8 11:36:46 2020
 #&gt;   (excluding 10 features) 
-#&gt;  MSnbase version: 1.17.12 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='no'>dunkleyNA</span>)$<span class='no'>nNA</span>[<span class='fl'>1</span>:<span class='fl'>10</span>])</div><div class='output co'>#&gt; 
+#&gt;  MSnbase version: 1.17.12 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='kw'>dunkleyNA</span>)<span class='op'>$</span><span class='kw'>nNA</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>])
+</div><div class='output co'>#&gt; 
 #&gt;  0 
-#&gt; 10 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='no'>dunkleyNA</span>)$<span class='no'>nNA</span>)</div><div class='output co'>#&gt; 
+#&gt; 10 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='kw'>dunkleyNA</span>)<span class='op'>$</span><span class='kw'>nNA</span>)
+</div><div class='output co'>#&gt; 
 #&gt;   0   1   2 
 #&gt; 549 130  10 </div><div class='input'><span class='co'>## Example 3</span>
-<span class='no'>nr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>10</span>, <span class='fl'>5</span>)
-<span class='no'>na</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span>:<span class='fl'>5</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>makeNaData2</span>(<span class='no'>dunkley2006</span>[<span class='fl'>1</span>:<span class='fl'>100</span>, <span class='fl'>1</span>:<span class='fl'>5</span>],
-                 <span class='kw'>nRows</span> <span class='kw'>=</span> <span class='no'>nr</span>,
-                 <span class='kw'>nNAs</span> <span class='kw'>=</span> <span class='no'>na</span>)
-<span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
+<span class='kw'>nr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>10</span>, <span class='fl'>5</span>)
+<span class='kw'>na</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>
+<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'>makeNaData2</span>(<span class='kw'>dunkley2006</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>],
+                 nRows = <span class='kw'>nr</span>,
+                 nNAs = <span class='kw'>na</span>)
+<span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='kw'>x</span>)
+</div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Loaded on Thu Jul 16 22:53:08 2015. 
 #&gt; Normalised to sum of intensities. 
 #&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:08 2015 
-#&gt; Subset [689,16][100,5] Fri Aug 14 08:43:09 2020 
+#&gt; Subset [689,16][100,5] Tue Sep  8 11:36:46 2020 
 #&gt; Set (1,2,3,4,5) NAs in (10,10,10,10,10) rows,
-#&gt;   respectively Fri Aug 14 08:43:09 2020 
-#&gt;  MSnbase version: 1.17.12 </div><div class='input'>(<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='no'>x</span>)$<span class='no'>nNA</span>))</div><div class='output co'>#&gt; 
+#&gt;   respectively Tue Sep  8 11:36:46 2020 
+#&gt;  MSnbase version: 1.17.12 </div><div class='input'>(<span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='kw'>x</span>)<span class='op'>$</span><span class='kw'>nNA</span>))
+</div><div class='output co'>#&gt; 
 #&gt;  0  1  2  3  4  5 
-#&gt; 50 10 10 10 10 10 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>res</span>)[-<span class='fl'>1</span>]) <span class='kw'>==</span>  <span class='no'>na</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='no'>res</span>[-<span class='fl'>1</span>] <span class='kw'>==</span>  <span class='no'>nr</span>)
+#&gt; 50 10 10 10 10 10 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>res</span>)[<span class='op'>-</span><span class='fl'>1</span>]) <span class='op'>==</span>  <span class='kw'>na</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='kw'>res</span>[<span class='op'>-</span><span class='fl'>1</span>] <span class='op'>==</span>  <span class='kw'>nr</span>)
 <span class='co'>## Example 3</span>
-<span class='no'>nr2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>12</span>, <span class='fl'>11</span>, <span class='fl'>8</span>)
-<span class='no'>na2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>8</span>, <span class='fl'>1</span>, <span class='fl'>4</span>)
-<span class='no'>x2</span> <span class='kw'>&lt;-</span> <span class='fu'>makeNaData2</span>(<span class='no'>dunkley2006</span>[<span class='fl'>1</span>:<span class='fl'>100</span>, <span class='fl'>1</span>:<span class='fl'>10</span>],
-                  <span class='kw'>nRows</span> <span class='kw'>=</span> <span class='no'>nr2</span>,
-                  <span class='kw'>nNAs</span> <span class='kw'>=</span> <span class='no'>na2</span>)
-<span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>x2</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
+<span class='kw'>nr2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>12</span>, <span class='fl'>11</span>, <span class='fl'>8</span>)
+<span class='kw'>na2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>8</span>, <span class='fl'>1</span>, <span class='fl'>4</span>)
+<span class='kw'>x2</span> <span class='op'>&lt;-</span> <span class='fu'>makeNaData2</span>(<span class='kw'>dunkley2006</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>],
+                  nRows = <span class='kw'>nr2</span>,
+                  nNAs = <span class='kw'>na2</span>)
+<span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='kw'>x2</span>)
+</div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Loaded on Thu Jul 16 22:53:08 2015. 
 #&gt; Normalised to sum of intensities. 
 #&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:08 2015 
-#&gt; Subset [689,16][100,10] Fri Aug 14 08:43:09 2020 
+#&gt; Subset [689,16][100,10] Tue Sep  8 11:36:46 2020 
 #&gt; Set (3,8,1,4) NAs in (5,12,11,8) rows,
-#&gt;   respectively Fri Aug 14 08:43:09 2020 
-#&gt;  MSnbase version: 1.17.12 </div><div class='input'>(<span class='no'>res2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='no'>x2</span>)$<span class='no'>nNA</span>))</div><div class='output co'>#&gt; 
+#&gt;   respectively Tue Sep  8 11:36:46 2020 
+#&gt;  MSnbase version: 1.17.12 </div><div class='input'>(<span class='kw'>res2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='kw'>x2</span>)<span class='op'>$</span><span class='kw'>nNA</span>))
+</div><div class='output co'>#&gt; 
 #&gt;  0  1  3  4  8 
-#&gt; 64 11  5  8 12 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>res2</span>)[-<span class='fl'>1</span>]) <span class='kw'>==</span>  <span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='no'>na2</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='no'>res2</span>[-<span class='fl'>1</span>] <span class='kw'>==</span>  <span class='no'>nr2</span>[<span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span>(<span class='no'>na2</span>)])
+#&gt; 64 11  5  8 12 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>res2</span>)[<span class='op'>-</span><span class='fl'>1</span>]) <span class='op'>==</span>  <span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='kw'>na2</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='kw'>res2</span>[<span class='op'>-</span><span class='fl'>1</span>] <span class='op'>==</span>  <span class='kw'>nr2</span>[<span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span>(<span class='kw'>na2</span>)])
 <span class='co'>## Example 5</span>
-<span class='no'>nr3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>12</span>, <span class='fl'>11</span>, <span class='fl'>8</span>)
-<span class='no'>na3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>8</span>, <span class='fl'>1</span>, <span class='fl'>3</span>)
-<span class='no'>x3</span> <span class='kw'>&lt;-</span> <span class='fu'>makeNaData2</span>(<span class='no'>dunkley2006</span>[<span class='fl'>1</span>:<span class='fl'>100</span>, <span class='fl'>1</span>:<span class='fl'>10</span>],
-                  <span class='kw'>nRows</span> <span class='kw'>=</span> <span class='no'>nr3</span>,
-                  <span class='kw'>nNAs</span> <span class='kw'>=</span> <span class='no'>na3</span>)
-<span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='no'>x3</span>)</div><div class='output co'>#&gt; - - - Processing information - - -
+<span class='kw'>nr3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>12</span>, <span class='fl'>11</span>, <span class='fl'>8</span>)
+<span class='kw'>na3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>8</span>, <span class='fl'>1</span>, <span class='fl'>3</span>)
+<span class='kw'>x3</span> <span class='op'>&lt;-</span> <span class='fu'>makeNaData2</span>(<span class='kw'>dunkley2006</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>],
+                  nRows = <span class='kw'>nr3</span>,
+                  nNAs = <span class='kw'>na3</span>)
+<span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='kw'>x3</span>)
+</div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Loaded on Thu Jul 16 22:53:08 2015. 
 #&gt; Normalised to sum of intensities. 
 #&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:08 2015 
-#&gt; Subset [689,16][100,10] Fri Aug 14 08:43:09 2020 
+#&gt; Subset [689,16][100,10] Tue Sep  8 11:36:46 2020 
 #&gt; Set (3,8,1,3) NAs in (5,12,11,8) rows,
-#&gt;   respectively Fri Aug 14 08:43:09 2020 
-#&gt;  MSnbase version: 1.17.12 </div><div class='input'>(<span class='no'>res3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='no'>x3</span>)$<span class='no'>nNA</span>))</div><div class='output co'>#&gt; 
+#&gt;   respectively Tue Sep  8 11:36:46 2020 
+#&gt;  MSnbase version: 1.17.12 </div><div class='input'>(<span class='kw'>res3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='kw'>x3</span>)<span class='op'>$</span><span class='kw'>nNA</span>))
+</div><div class='output co'>#&gt; 
 #&gt;  0  1  3  8 
 #&gt; 64 11 13 12 </div></pre>
   </div>
@@ -300,7 +317,7 @@ of the missing values, as illustrated in the example.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

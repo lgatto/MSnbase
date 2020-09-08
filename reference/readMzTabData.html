@@ -75,7 +75,7 @@ the MSnSet's experimentData()@other$mzTab slot." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -151,10 +151,10 @@ the <code>MSnSet</code>'s <code>experimentData()@other$mzTab</code> slot.</p>
     </div>
 
     <pre class="usage"><span class='fu'>readMzTabData</span>(
-  <span class='no'>file</span>,
-  <span class='kw'>what</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PRT"</span>, <span class='st'>"PEP"</span>, <span class='st'>"PSM"</span>),
-  <span class='kw'>version</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"1.0"</span>, <span class='st'>"0.9"</span>),
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span>()
+  <span class='kw'>file</span>,
+  what = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"PRT"</span>, <span class='st'>"PEP"</span>, <span class='st'>"PSM"</span>),
+  version = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"1.0"</span>, <span class='st'>"0.9"</span>),
+  verbose = <span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -192,13 +192,17 @@ details.</p></td>
 
     <div class='dont-index'><p>See <code><a href='MzTab-class.html'>MzTab</a></code> and <code><a href='MSnSetList-class.html'>MSnSetList</a></code> for
     details about the inners of <code>readMzTabData</code>.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>testfile</span> <span class='kw'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/1_0-Proteomics-Release/PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"</span>
+    <pre class="examples"><div class='input'><span class='kw'>testfile</span> <span class='op'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/1_0-Proteomics-Release/PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"</span>
 
-<span class='no'>prot</span> <span class='kw'>&lt;-</span> <span class='fu'>readMzTabData</span>(<span class='no'>testfile</span>, <span class='st'>"PRT"</span>)
+<span class='kw'>prot</span> <span class='op'>&lt;-</span> <span class='fu'>readMzTabData</span>(<span class='kw'>testfile</span>, <span class='st'>"PRT"</span>)
 
-<span class='no'>prot</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
+<span class='kw'>prot</span>
+</div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
 #&gt; assayData: 1249 features, 4 samples 
 #&gt;   element names: exprs 
 #&gt; protocolData: none
@@ -211,8 +215,9 @@ details.</p></td>
 #&gt;   pubMedIds: pubmed:21398567 
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt;  MSnbase version: 2.15.4 </div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='no'>prot</span>))</div><div class='output co'>#&gt;            accession
+#&gt;  MSnbase version: 2.15.6 </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='kw'>prot</span>))
+</div><div class='output co'>#&gt;            accession
 #&gt; X223462890 223462890
 #&gt; X19855078   19855078
 #&gt; X21450277   21450277
@@ -275,7 +280,8 @@ details.</p></td>
 #&gt; X6978545                  0
 #&gt; X51315739                 0
 #&gt; X117938332                0</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>exprs</span>(<span class='no'>prot</span>))</div><div class='output co'>#&gt;            protein_abundance_assay[1] protein_abundance_assay[2]
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>prot</span>))
+</div><div class='output co'>#&gt;            protein_abundance_assay[1] protein_abundance_assay[2]
 #&gt; X223462890                          1                      0.853
 #&gt; X19855078                          NA                         NA
 #&gt; X21450277                           1                      0.776
@@ -289,9 +295,10 @@ details.</p></td>
 #&gt; X6978545                        0.848                      0.693
 #&gt; X51315739                          NA                         NA
 #&gt; X117938332                      0.861                      0.795</div><div class='input'>
-<span class='no'>psms</span> <span class='kw'>&lt;-</span> <span class='fu'>readMzTabData</span>(<span class='no'>testfile</span>, <span class='st'>"PSM"</span>)
+<span class='kw'>psms</span> <span class='op'>&lt;-</span> <span class='fu'>readMzTabData</span>(<span class='kw'>testfile</span>, <span class='st'>"PSM"</span>)
 
-<span class='no'>psms</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
+<span class='kw'>psms</span>
+</div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
 #&gt; assayData: 8761 features, 0 samples 
 #&gt;   element names: exprs 
 #&gt; protocolData: none
@@ -304,8 +311,9 @@ details.</p></td>
 #&gt;   pubMedIds: pubmed:21398567 
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt;  MSnbase version: 2.15.4 </div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='no'>psms</span>))</div><div class='output co'>#&gt;       sequence PSM_ID accession unique       database database_version
+#&gt;  MSnbase version: 2.15.6 </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='kw'>psms</span>))
+</div><div class='output co'>#&gt;       sequence PSM_ID accession unique       database database_version
 #&gt; X1661   QQVLDR   1661 223462890     NA NCBInr_2010_10  nr_101020.fasta
 #&gt; X2280   LVQYLR   2280 223462890     NA NCBInr_2010_10  nr_101020.fasta
 #&gt; X2281   LVQYLR   2281 223462890     NA NCBInr_2010_10  nr_101020.fasta
@@ -348,7 +356,7 @@ details.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

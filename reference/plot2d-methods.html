@@ -77,7 +77,7 @@ The methods make use the ggplot2 system. An object of class
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -187,7 +187,7 @@ The methods make use the ggplot2 system. An object of class
 
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
-    <p></p><dl'>
+    <p></p><dl>
     <dt><code>signature(object = "MSnExp", ...)</code></dt><dd><p>Plots a 'MSnExp' summary.</p></dd>
     <dt><code>signature(object = "data.frame", ...)</code></dt><dd><p>Plots a summary of the 'MSnExp' experiment described by the data
       frame.</p></dd>
@@ -198,9 +198,13 @@ The methods make use the ggplot2 system. An object of class
 
     <div class='dont-index'><p>The <code><a href='plotDensity-methods.html'>plotDensity</a></code> and <code><a href='plotMzDelta-methods.html'>plotMzDelta</a></code> methods
   for other QC plots.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto &lt;lg390@cam.ac.uk&gt;</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>itraqdata</span></div><div class='output co'>#&gt; MSn experiment data ("MSnExp")
+    <pre class="examples"><div class='input'><span class='kw'>itraqdata</span>
+</div><div class='output co'>#&gt; MSn experiment data ("MSnExp")
 #&gt; Object size in memory: 1.9 Mb
 #&gt; - - - Spectra data - - -
 #&gt;  MS level(s): 2 
@@ -223,7 +227,10 @@ The methods make use the ggplot2 system. An object of class
 #&gt;   fvarLabels: spectrum ProteinAccession ProteinDescription
 #&gt;     PeptideSequence
 #&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'</div><div class='input'><span class='fu'>plot2d</span>(<span class='no'>itraqdata</span>,<span class='kw'>z</span><span class='kw'>=</span><span class='st'>"ionCount"</span>)</div><div class='img'><img src='plot2d-methods-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot2d</span>(<span class='no'>itraqdata</span>,<span class='kw'>z</span><span class='kw'>=</span><span class='st'>"peaks.count"</span>)</div><div class='img'><img src='plot2d-methods-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot2d</span>(<span class='no'>itraqdata</span>,<span class='kw'>z</span><span class='kw'>=</span><span class='st'>"charge"</span>)</div><div class='img'><img src='plot2d-methods-3.png' alt='' width='700' height='433' /></div></pre>
+#&gt; experimentData: use 'experimentData(object)'</div><div class='input'><span class='fu'>plot2d</span>(<span class='kw'>itraqdata</span>,z=<span class='st'>"ionCount"</span>)
+</div><div class='img'><img src='plot2d-methods-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot2d</span>(<span class='kw'>itraqdata</span>,z=<span class='st'>"peaks.count"</span>)
+</div><div class='img'><img src='plot2d-methods-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot2d</span>(<span class='kw'>itraqdata</span>,z=<span class='st'>"charge"</span>)
+</div><div class='img'><img src='plot2d-methods-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -239,7 +246,7 @@ The methods make use the ggplot2 system. An object of class
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

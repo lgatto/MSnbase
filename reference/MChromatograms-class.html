@@ -137,7 +137,7 @@ documentation for more details and examples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -212,7 +212,7 @@ documentation for more details and examples." />
 <p><code>MChromatograms</code>: create an instance of class
     <code>MChromatograms</code>.</p>
 <p><code>MChromatograms</code> objects can, just like a <code>matrix</code>,
-    be subsetted using the <code>[</code> method. Single elements, rows or columns
+    be subsetted using the <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code> method. Single elements, rows or columns
     can be replaced using e.g. <code>x[1, 1] &lt;- value</code> where <code>value</code>
     has to be a <code>Chromatogram</code> object or a <code>list</code> of such objects.</p>
 <p><code>plot</code>: plots a <code>MChromatograms</code> object. For each row
@@ -223,7 +223,7 @@ documentation for more details and examples." />
 <p><code>pData</code>: accesses the phenotypical description of the
     samples. Returns a <code>data.frame</code>.</p>
 <p><code>pData&lt;-</code>: replace the phenotype data.</p>
-<p><code>$</code> and <code>$&lt;-</code>: get or replace individual columns of
+<p><code><a href='https://rdrr.io/r/base/Extract.html'>$</a></code> and <code>$&lt;-</code>: get or replace individual columns of
     the object's pheno data.</p>
 <p><code>colnames&lt;-</code>: replace or set the column names of the
     <code>MChromatograms</code> object. Does also set the <code>rownames</code> of the
@@ -400,17 +400,17 @@ and <code>byrow</code>.</p></td>
     </tr>
     <tr>
       <th>i</th>
-      <td><p>For <code>[</code>: <code>numeric</code>, <code>logical</code> or <code>character</code>
+      <td><p>For <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>: <code>numeric</code>, <code>logical</code> or <code>character</code>
 defining which row(s) to extract.</p></td>
     </tr>
     <tr>
       <th>j</th>
-      <td><p>For <code>[</code>: <code>numeric</code>, <code>logical</code> or <code>character</code>
+      <td><p>For <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>: <code>numeric</code>, <code>logical</code> or <code>character</code>
 defining which columns(s) to extract.</p></td>
     </tr>
     <tr>
       <th>drop</th>
-      <td><p>For <code>[</code>: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether to drop the
+      <td><p>For <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether to drop the
 dimensionality of the returned object (if possible). The default is
 <code>drop = FALSE</code>, i.e. each subsetting returns a <code>MChromatograms</code>
 object (or a <code>Chromatogram</code> object if a single element is
@@ -459,7 +459,7 @@ will be used as plot title.</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>For <code>$</code>, the name of the pheno data column.</p></td>
+      <td><p>For <code><a href='https://rdrr.io/r/base/Extract.html'>$</a></code>, the name of the pheno data column.</p></td>
     </tr>
     <tr>
       <th>binSize</th>
@@ -493,7 +493,7 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>For <code>[</code>: the subset of the <code>MChromatograms</code> object. If a
+    <p>For <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>: the subset of the <code>MChromatograms</code> object. If a
     single element is extracted (e.g. if <code>i</code> and <code>j</code> are of length
     1) a <code><a href='Chromatogram-class.html'>Chromatogram</a></code> object is returned. Otherwise (if
     <code>drop = FALSE</code>, the default, is specified) a <code>MChromatograms</code>
@@ -503,7 +503,7 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
     pheno data of the object.</p>
 <p>For <code>pData</code>: a <code>data.frame</code> representing the pheno data of
     the object.</p>
-<p>For <code>$</code>: the value of the corresponding column in the pheno data
+<p>For <code><a href='https://rdrr.io/r/base/Extract.html'>$</a></code>: the value of the corresponding column in the pheno data
     table of the object.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -518,7 +518,7 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
     each.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Subsetting with <code>[</code> will always return a <code>MChromatograms</code>
+    <p>Subsetting with <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code> will always return a <code>MChromatograms</code>
     object (with the exception of extracting a single element)
     unless <code>drop = TRUE</code> is specified. This is different from the
     default subsetting behaviour of <code>matrix</code>-like objects.</p>
@@ -526,26 +526,30 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
 
     <div class='dont-index'><p><code><a href='Chromatogram-class.html'>Chromatogram</a></code> for the class representing chromatogram
     data.
-    <code><a href='chromatogram-MSnExp-method.html'>chromatogram</a></code> for the method to extract a
+    <code><a href='chromatogram,MSnExp-method.html'>chromatogram</a></code> for the method to extract a
     <code>MChromatograms</code> object from a <code><a href='MSnExp-class.html'>MSnExp</a></code> or
     <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code> object.
     <code><a href='readSRMData.html'>readSRMData</a></code> for the function to read chromatographic data
     of an SRM/MRM experiment.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Johannes Rainer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Creating some chromatogram objects to put them into a MChromatograms object</span>
-<span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>25</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>200</span>))
-<span class='no'>ch1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>ints</span>), <span class='no'>ints</span>)
-<span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>32</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>90</span>))
-<span class='no'>ch2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>ints</span>), <span class='no'>ints</span>)
-<span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>19</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>120</span>))
-<span class='no'>ch3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>ints</span>), <span class='no'>ints</span>)
-<span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>21</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>40</span>))
-<span class='no'>ch4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>ints</span>), <span class='no'>ints</span>)
+<span class='kw'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>25</span>, sd = <span class='fl'>200</span>))
+<span class='kw'>ch1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(rtime = <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>ints</span>), <span class='kw'>ints</span>)
+<span class='kw'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>32</span>, sd = <span class='fl'>90</span>))
+<span class='kw'>ch2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(rtime = <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>ints</span>), <span class='kw'>ints</span>)
+<span class='kw'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>19</span>, sd = <span class='fl'>120</span>))
+<span class='kw'>ch3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(rtime = <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>ints</span>), <span class='kw'>ints</span>)
+<span class='kw'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>21</span>, sd = <span class='fl'>40</span>))
+<span class='kw'>ch4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(rtime = <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>ints</span>), <span class='kw'>ints</span>)
 
 <span class='co'>## Create a MChromatograms object with 2 rows and 2 columns</span>
-<span class='no'>chrs</span> <span class='kw'>&lt;-</span> <span class='fu'>MChromatograms</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>ch1</span>, <span class='no'>ch2</span>, <span class='no'>ch3</span>, <span class='no'>ch4</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='no'>chrs</span></div><div class='output co'>#&gt; MChromatograms with 2 rows and 2 columns
+<span class='kw'>chrs</span> <span class='op'>&lt;-</span> <span class='fu'>MChromatograms</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>ch1</span>, <span class='kw'>ch2</span>, <span class='kw'>ch3</span>, <span class='kw'>ch4</span>), nrow = <span class='fl'>2</span>)
+<span class='kw'>chrs</span>
+</div><div class='output co'>#&gt; MChromatograms with 2 rows and 2 columns
 #&gt;                   1              2
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]     length: 25     length: 19
@@ -554,7 +558,8 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
 #&gt; featureData with 0 variables</div><div class='input'>
 <span class='co'>## Extract the first element from the second column. Extracting a single</span>
 <span class='co'>## element always returns a Chromatogram object.</span>
-<span class='no'>chrs</span>[<span class='fl'>1</span>, <span class='fl'>2</span>]</div><div class='output co'>#&gt; Object of class: Chromatogram
+<span class='kw'>chrs</span>[<span class='fl'>1</span>, <span class='fl'>2</span>]
+</div><div class='output co'>#&gt; Object of class: Chromatogram
 #&gt; length of object: 19
 #&gt; from file: 
 #&gt; mz range: [NA, NA]
@@ -562,7 +567,8 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
 #&gt; MS level: 1</div><div class='input'>
 <span class='co'>## Extract the second row. Extracting a row or column (i.e. multiple elements</span>
 <span class='co'>## returns by default a list of Chromatogram objects.</span>
-<span class='no'>chrs</span>[<span class='fl'>2</span>, ]</div><div class='output co'>#&gt; MChromatograms with 1 row and 2 columns
+<span class='kw'>chrs</span>[<span class='fl'>2</span>, ]
+</div><div class='output co'>#&gt; MChromatograms with 1 row and 2 columns
 #&gt;                   1              2
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]     length: 32     length: 21
@@ -570,15 +576,17 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
 #&gt; featureData with 0 variables</div><div class='input'>
 <span class='co'>## Extract the second row with drop = FALSE, i.e. return a MChromatograms</span>
 <span class='co'>## object.</span>
-<span class='no'>chrs</span>[<span class='fl'>2</span>, , <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>]</div><div class='output co'>#&gt; MChromatograms with 1 row and 2 columns
+<span class='kw'>chrs</span>[<span class='fl'>2</span>, , drop = <span class='fl'>FALSE</span>]
+</div><div class='output co'>#&gt; MChromatograms with 1 row and 2 columns
 #&gt;                   1              2
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]     length: 32     length: 21
 #&gt; phenoData with 0 variables
 #&gt; featureData with 0 variables</div><div class='input'>
 <span class='co'>## Replace the first element.</span>
-<span class='no'>chrs</span>[<span class='fl'>1</span>, <span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='no'>ch3</span>
-<span class='no'>chrs</span></div><div class='output co'>#&gt; MChromatograms with 2 rows and 2 columns
+<span class='kw'>chrs</span>[<span class='fl'>1</span>, <span class='fl'>1</span>] <span class='op'>&lt;-</span> <span class='kw'>ch3</span>
+<span class='kw'>chrs</span>
+</div><div class='output co'>#&gt; MChromatograms with 2 rows and 2 columns
 #&gt;                   1              2
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]     length: 19     length: 19
@@ -586,12 +594,13 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
 #&gt; phenoData with 0 variables
 #&gt; featureData with 0 variables</div><div class='input'>
 <span class='co'>## Add a pheno data.</span>
-<span class='no'>pd</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"first sample"</span>, <span class='st'>"second sample"</span>),
-    <span class='kw'>idx</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>)
-<span class='fu'>pData</span>(<span class='no'>chrs</span>) <span class='kw'>&lt;-</span> <span class='no'>pd</span>
+<span class='kw'>pd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(name = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"first sample"</span>, <span class='st'>"second sample"</span>),
+    idx = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>)
+<span class='fu'>pData</span>(<span class='kw'>chrs</span>) <span class='op'>&lt;-</span> <span class='kw'>pd</span>
 
 <span class='co'>## Column names correspond to the row names of the pheno data</span>
-<span class='no'>chrs</span></div><div class='output co'>#&gt; MChromatograms with 2 rows and 2 columns
+<span class='kw'>chrs</span>
+</div><div class='output co'>#&gt; MChromatograms with 2 rows and 2 columns
 #&gt;                   1              2
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
 #&gt; [1,]     length: 19     length: 19
@@ -599,29 +608,33 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
 #&gt; phenoData with 2 variables
 #&gt; featureData with 0 variables</div><div class='input'>
 <span class='co'>## Access a column within the pheno data</span>
-<span class='no'>chrs</span>$<span class='no'>name</span></div><div class='output co'>#&gt; [1] "first sample"  "second sample"</div><div class='input'>
+<span class='kw'>chrs</span><span class='op'>$</span><span class='kw'>name</span>
+</div><div class='output co'>#&gt; [1] "first sample"  "second sample"</div><div class='input'>
 <span class='co'>## Access the m/z ratio for each row; this will be NA for the present</span>
 <span class='co'>## object</span>
-<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>chrs</span>)</div><div class='output co'>#&gt;      mzmin mzmax
+<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>chrs</span>)
+</div><div class='output co'>#&gt;      mzmin mzmax
 #&gt; [1,]    NA    NA
 #&gt; [2,]    NA    NA</div><div class='input'>
 <span class='co'>## Create some random Chromatogram objects</span>
-<span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>123</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>32</span>))
-<span class='no'>ch1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span>(<span class='no'>ints</span>), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fl'>231</span>)
-<span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>122</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>250</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>43</span>))
-<span class='no'>ch2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span>(<span class='no'>ints</span>), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fl'>231</span>)
-<span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>125</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>590</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>120</span>))
-<span class='no'>ch3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span>(<span class='no'>ints</span>), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fl'>542</span>)
-<span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>124</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>1200</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>509</span>))
-<span class='no'>ch4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span>(<span class='no'>ints</span>), <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints</span>, <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fl'>542</span>)
+<span class='kw'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>123</span>, mean = <span class='fl'>200</span>, sd = <span class='fl'>32</span>))
+<span class='kw'>ch1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(rtime = <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span>(<span class='kw'>ints</span>), intensity = <span class='kw'>ints</span>, mz = <span class='fl'>231</span>)
+<span class='kw'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>122</span>, mean = <span class='fl'>250</span>, sd = <span class='fl'>43</span>))
+<span class='kw'>ch2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(rtime = <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span>(<span class='kw'>ints</span>), intensity = <span class='kw'>ints</span>, mz = <span class='fl'>231</span>)
+<span class='kw'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>125</span>, mean = <span class='fl'>590</span>, sd = <span class='fl'>120</span>))
+<span class='kw'>ch3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(rtime = <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span>(<span class='kw'>ints</span>), intensity = <span class='kw'>ints</span>, mz = <span class='fl'>542</span>)
+<span class='kw'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>124</span>, mean = <span class='fl'>1200</span>, sd = <span class='fl'>509</span>))
+<span class='kw'>ch4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span>(rtime = <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span>(<span class='kw'>ints</span>), intensity = <span class='kw'>ints</span>, mz = <span class='fl'>542</span>)
 
 <span class='co'>## Combine into a 2x2 MChromatograms object</span>
-<span class='no'>chrs</span> <span class='kw'>&lt;-</span> <span class='fu'>MChromatograms</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>ch1</span>, <span class='no'>ch2</span>, <span class='no'>ch3</span>, <span class='no'>ch4</span>), <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='kw'>chrs</span> <span class='op'>&lt;-</span> <span class='fu'>MChromatograms</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>ch1</span>, <span class='kw'>ch2</span>, <span class='kw'>ch3</span>, <span class='kw'>ch4</span>), byrow = <span class='fl'>TRUE</span>, ncol = <span class='fl'>2</span>)
 
 <span class='co'>## Plot the second row</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>chrs</span>[<span class='fl'>2</span>, , <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>])</div><div class='img'><img src='MChromatograms-class-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='kw'>chrs</span>[<span class='fl'>2</span>, , drop = <span class='fl'>FALSE</span>])
+</div><div class='img'><img src='MChromatograms-class-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>## Plot all chromatograms</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>chrs</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#ff000080"</span>, <span class='st'>"#00ff0080"</span>))</div><div class='img'><img src='MChromatograms-class-2.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='kw'>chrs</span>, col = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#ff000080"</span>, <span class='st'>"#00ff0080"</span>))
+</div><div class='img'><img src='MChromatograms-class-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -637,7 +650,7 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

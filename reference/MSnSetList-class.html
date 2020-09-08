@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -184,7 +184,7 @@
     
 
 <p>Objects can be created and manipluated with:</p>
-<p></p><dl'>
+<p></p><dl>
 
     <dt><code>MSnSetList(x, log, featureDAta)</code></dt><dd><p>The class constructor
       that takes a list of valid <code>MSnSet</code> instances as input
@@ -210,7 +210,7 @@
       the effect of splitting the <code>value</code> <code>MSnSet</code> along the
       groups <code>f</code>.</p></dd>
 
-    <dt><code><a href='mzRident2dfr.html'>as(x, "MSnSetList")</a></code></dt><dd><p>Where <code>x</code> is an instance of
+    <dt><code><a href='as.html'>as(x, "MSnSetList")</a></code></dt><dd><p>Where <code>x</code> is an instance of
       class <a href='MzTab-class.html'>MzTab</a>. See the class documentation for
       details.</p></dd>
     
@@ -219,7 +219,7 @@
 
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
-    <p></p><dl'>
+    <p></p><dl>
     
     <dt><code>x</code>:</dt><dd><p>Object of class <code>list</code> containing valid
       <code>MSnSet</code> instances. Can be extracted with the
@@ -242,10 +242,10 @@
 
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
-    <p></p><dl'>
-    <dt><code><a href='https://rdrr.io/r/base/Extract.html'>"[["</a></code></dt><dd><p>Extracts a single <code>MSnSet</code> at position.</p></dd>
+    <p></p><dl>
+    <dt><code>"[["</code></dt><dd><p>Extracts a single <code>MSnSet</code> at position.</p></dd>
     
-    <dt><code><a href='https://rdrr.io/r/base/Extract.html'>"["</a></code></dt><dd><p>Extracts one of more <code>MSnSets</code> as
+    <dt><code>"["</code></dt><dd><p>Extracts one of more <code>MSnSets</code> as
       <code>MSnSetList</code>.</p></dd>
     
     <dt><code>length</code></dt><dd><p>Returns the number of <code>MSnSets</code>.</p></dd>
@@ -278,18 +278,24 @@
 
     <div class='dont-index'><p>The <code><a href='commonFeatureNames.html'>commonFeatureNames</a></code> function to select common
   features among <code>MSnSet</code> instances.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto &lt;lg390@cam.ac.uk&gt;</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"pRolocdata"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>tan2009r1</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>tan2009r2</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>tan2009r1</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>tan2009r2</span>)
 
 <span class='co'>## The MSnSetList class</span>
 <span class='co'>##  for an unnamed list, names are set to indices</span>
-<span class='no'>msnl</span> <span class='kw'>&lt;-</span> <span class='fu'>MSnSetList</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>tan2009r1</span>, <span class='no'>tan2009r2</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; [1] "1" "2"</div><div class='input'><span class='co'>##  a named example</span>
-<span class='no'>msnl</span> <span class='kw'>&lt;-</span> <span class='fu'>MSnSetList</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A</span> <span class='kw'>=</span> <span class='no'>tan2009r1</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='no'>tan2009r2</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; [1] "A" "B"</div><div class='input'><span class='fu'>msnsets</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; $A
+<span class='kw'>msnl</span> <span class='op'>&lt;-</span> <span class='fu'>MSnSetList</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>tan2009r1</span>, <span class='kw'>tan2009r2</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>msnl</span>)
+</div><div class='output co'>#&gt; [1] "1" "2"</div><div class='input'><span class='co'>##  a named example</span>
+<span class='kw'>msnl</span> <span class='op'>&lt;-</span> <span class='fu'>MSnSetList</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(A = <span class='kw'>tan2009r1</span>, B = <span class='kw'>tan2009r2</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>msnl</span>)
+</div><div class='output co'>#&gt; [1] "A" "B"</div><div class='input'><span class='fu'>msnsets</span>(<span class='kw'>msnl</span>)
+</div><div class='output co'>#&gt; $A
 #&gt; MSnSet (storageMode: lockedEnvironment)
 #&gt; assayData: 888 features, 4 samples 
 #&gt;   element names: exprs 
@@ -328,9 +334,12 @@
 #&gt; - - - Processing information - - -
 #&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:44 2015 
 #&gt;  MSnbase version: 1.17.12 
-#&gt; </div><div class='input'><span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; [1] 2</div><div class='input'><span class='fu'>objlog</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; $call
+#&gt; </div><div class='input'><span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>msnl</span>)
+</div><div class='output co'>#&gt; [1] 2</div><div class='input'><span class='fu'>objlog</span>(<span class='kw'>msnl</span>)
+</div><div class='output co'>#&gt; $call
 #&gt; MSnSetList(x = list(A = tan2009r1, B = tan2009r2))
-#&gt; </div><div class='input'><span class='no'>msnl</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='co'>## an MSnSet</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
+#&gt; </div><div class='input'><span class='kw'>msnl</span>[[<span class='fl'>1</span>]] <span class='co'>## an MSnSet</span>
+</div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
 #&gt; assayData: 888 features, 4 samples 
 #&gt;   element names: exprs 
 #&gt; protocolData: none
@@ -347,39 +356,48 @@
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
 #&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:44 2015 
-#&gt;  MSnbase version: 1.17.12 </div><div class='input'><span class='no'>msnl</span>[<span class='fl'>1</span>]   <span class='co'>## an MSnSetList of length 1</span></div><div class='output co'>#&gt; Instance of class 'MSnSetList' containig 1 objects.</div><div class='input'>
+#&gt;  MSnbase version: 1.17.12 </div><div class='input'><span class='kw'>msnl</span>[<span class='fl'>1</span>]   <span class='co'>## an MSnSetList of length 1</span>
+</div><div class='output co'>#&gt; Instance of class 'MSnSetList' containig 1 objects.</div><div class='input'>
 <span class='co'>## Iterating over the elements</span>
-<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>msnl</span>, <span class='no'>dim</span>) <span class='co'>## a list</span></div><div class='output co'>#&gt; $A
+<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='kw'>msnl</span>, <span class='kw'>dim</span>) <span class='co'>## a list</span>
+</div><div class='output co'>#&gt; $A
 #&gt; [1] 888   4
 #&gt; 
 #&gt; $B
 #&gt; [1] 871   4
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>msnl</span>, <span class='no'>normalise</span>) <span class='co'>## an MSnSetList</span></div><div class='output co'>#&gt; Instance of class 'MSnSetList' containig 2 objects.</div><div class='input'>
-<span class='fu'>fData</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; DataFrame with 2 rows and 0 columns</div><div class='input'><span class='fu'>fData</span>(<span class='no'>msnl</span>)$<span class='no'>X</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>msnl</span>, <span class='no'>nrow</span>)
-<span class='fu'>fData</span>(<span class='no'>msnl</span>)</div><div class='output co'>#&gt; DataFrame with 2 rows and 1 column
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='kw'>msnl</span>, <span class='kw'>normalise</span>) <span class='co'>## an MSnSetList</span>
+</div><div class='output co'>#&gt; Instance of class 'MSnSetList' containig 2 objects.</div><div class='input'>
+<span class='fu'>fData</span>(<span class='kw'>msnl</span>)
+</div><div class='output co'>#&gt; DataFrame with 2 rows and 0 columns</div><div class='input'><span class='fu'>fData</span>(<span class='kw'>msnl</span>)<span class='op'>$</span><span class='kw'>X</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='kw'>msnl</span>, <span class='kw'>nrow</span>)
+<span class='fu'>fData</span>(<span class='kw'>msnl</span>)
+</div><div class='output co'>#&gt; DataFrame with 2 rows and 1 column
 #&gt;           X
 #&gt;   &lt;integer&gt;
 #&gt; A       888
 #&gt; B       871</div><div class='input'>
 <span class='co'>## Splitting and unsplitting</span>
 <span class='co'>##  splitting along the columns/samples</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>dunkley2006</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>pData</span>(<span class='no'>dunkley2006</span>))</div><div class='output co'>#&gt;        membrane.prep fraction replicate
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>dunkley2006</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>pData</span>(<span class='kw'>dunkley2006</span>))
+</div><div class='output co'>#&gt;        membrane.prep fraction replicate
 #&gt; M1F1A              1        1         A
 #&gt; M1F4A              1        4         A
 #&gt; M1F7A              1        7         A
 #&gt; M1F11A             1       11         A
 #&gt; M1F2B              1        2         B
-#&gt; M1F5B              1        5         B</div><div class='input'>(<span class='no'>splt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>dunkley2006</span>, <span class='st'>"replicate"</span>))</div><div class='output co'>#&gt; Instance of class 'MSnSetList' containig 2 objects.</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>splt</span>, <span class='no'>dim</span>) <span class='co'>## the number of rows and columns of the split elements</span></div><div class='output co'>#&gt; $A
+#&gt; M1F5B              1        5         B</div><div class='input'>(<span class='kw'>splt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='kw'>dunkley2006</span>, <span class='st'>"replicate"</span>))
+</div><div class='output co'>#&gt; Instance of class 'MSnSetList' containig 2 objects.</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='kw'>splt</span>, <span class='kw'>dim</span>) <span class='co'>## the number of rows and columns of the split elements</span>
+</div><div class='output co'>#&gt; $A
 #&gt; [1] 689   8
 #&gt; 
 #&gt; $B
 #&gt; [1] 689   8
-#&gt; </div><div class='input'><span class='no'>unsplt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>unsplit</a></span>(<span class='no'>splt</span>, <span class='no'>dunkley2006</span>$<span class='no'>replicate</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='compareMSnSets.html'>compareMSnSets</a></span>(<span class='no'>dunkley2006</span>, <span class='no'>unsplt</span>))
+#&gt; </div><div class='input'><span class='kw'>unsplt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>unsplit</a></span>(<span class='kw'>splt</span>, <span class='kw'>dunkley2006</span><span class='op'>$</span><span class='kw'>replicate</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='compareMSnSets.html'>compareMSnSets</a></span>(<span class='kw'>dunkley2006</span>, <span class='kw'>unsplt</span>))
 
 <span class='co'>##  splitting along the rows/features</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='no'>dunkley2006</span>))</div><div class='output co'>#&gt;           assigned  evidence method   new pd.2013 pd.markers markers.orig
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='kw'>dunkley2006</span>))
+</div><div class='output co'>#&gt;           assigned  evidence method   new pd.2013 pd.markers markers.orig
 #&gt; AT1G09210       ER predicted  PLSDA known      ER   ER lumen           ER
 #&gt; AT1G21750       ER predicted  PLSDA known      ER   ER lumen           ER
 #&gt; AT1G51760       ER   unknown  PLSDA   new      ER   ER lumen      unknown
@@ -392,13 +410,17 @@
 #&gt; AT1G51760 ER lumen
 #&gt; AT1G56340 ER lumen
 #&gt; AT2G32920 ER lumen
-#&gt; AT2G47470 ER lumen</div><div class='input'>(<span class='no'>splt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>dunkley2006</span>, <span class='st'>"markers"</span>))</div><div class='output co'>#&gt; Instance of class 'MSnSetList' containig 10 objects.</div><div class='input'><span class='no'>unsplt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>unsplit</a></span>(<span class='no'>splt</span>, <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'>fData</span>(<span class='no'>dunkley2006</span>)$<span class='no'>markers</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>simplify2array</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>splt</span>, <span class='no'>dim</span>))</div><div class='output co'>#&gt;      ER lumen ER membrane Golgi Mitochondrion Plastid PM Ribosome TGN unknown
+#&gt; AT2G47470 ER lumen</div><div class='input'>(<span class='kw'>splt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='kw'>dunkley2006</span>, <span class='st'>"markers"</span>))
+</div><div class='output co'>#&gt; Instance of class 'MSnSetList' containig 10 objects.</div><div class='input'><span class='kw'>unsplt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>unsplit</a></span>(<span class='kw'>splt</span>, <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'>fData</span>(<span class='kw'>dunkley2006</span>)<span class='op'>$</span><span class='kw'>markers</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>simplify2array</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='kw'>splt</span>, <span class='kw'>dim</span>))
+</div><div class='output co'>#&gt;      ER lumen ER membrane Golgi Mitochondrion Plastid PM Ribosome TGN unknown
 #&gt; [1,]       14          45    28            55      20 46       19  13     428
 #&gt; [2,]       16          16    16            16      16 16       16  16      16
 #&gt;      vacuole
 #&gt; [1,]      21
-#&gt; [2,]      16</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='compareMSnSets.html'>compareMSnSets</a></span>(<span class='no'>dunkley2006</span>, <span class='no'>unsplt</span>))</div></pre>
+#&gt; [2,]      16</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='compareMSnSets.html'>compareMSnSets</a></span>(<span class='kw'>dunkley2006</span>, <span class='kw'>unsplt</span>))
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -414,7 +436,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

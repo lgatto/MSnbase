@@ -74,7 +74,7 @@ single feature, NA is returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -148,7 +148,7 @@ of an <code>MSnSet</code>. If a protein group is composed only of a
 single feature, <code>NA</code> is returned.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>aggvar</span>(<span class='no'>object</span>, <span class='no'>groupBy</span>, <span class='no'>fun</span>)</pre>
+    <pre class="usage"><span class='fu'>aggvar</span>(<span class='kw'>object</span>, <span class='kw'>groupBy</span>, <span class='kw'>fun</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,18 +189,22 @@ proteins with different expression patterns.</p>
 
     <div class='dont-index'><p><code><a href='combineFeatures.html'>combineFeatures</a></code> to combine PSMs
     quantitation into peptides and/or into proteins.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"pRolocdata"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>hyperLOPIT2015ms3r1psm</span>)
-<span class='no'>groupBy</span> <span class='kw'>&lt;-</span> <span class='st'>"Protein.Group.Accessions"</span>
-<span class='no'>res1</span> <span class='kw'>&lt;-</span> <span class='fu'>aggvar</span>(<span class='no'>hyperLOPIT2015ms3r1psm</span>, <span class='no'>groupBy</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>max</span>)
-<span class='no'>res2</span> <span class='kw'>&lt;-</span> <span class='fu'>aggvar</span>(<span class='no'>hyperLOPIT2015ms3r1psm</span>, <span class='no'>groupBy</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>mean</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>))
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>res1</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='st'>"y"</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Single outliers (max)"</span>)
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>res2</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='st'>"y"</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Overall inconsistency (mean)"</span>)
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>res1</span>[, <span class='st'>"agg_dist"</span>], <span class='no'>res2</span>[, <span class='st'>"agg_dist"</span>],
-     <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"max"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"mean"</span>)</div><div class='img'><img src='aggvar-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>hyperLOPIT2015ms3r1psm</span>)
+<span class='kw'>groupBy</span> <span class='op'>&lt;-</span> <span class='st'>"Protein.Group.Accessions"</span>
+<span class='kw'>res1</span> <span class='op'>&lt;-</span> <span class='fu'>aggvar</span>(<span class='kw'>hyperLOPIT2015ms3r1psm</span>, <span class='kw'>groupBy</span>, fun = <span class='kw'>max</span>)
+<span class='kw'>res2</span> <span class='op'>&lt;-</span> <span class='fu'>aggvar</span>(<span class='kw'>hyperLOPIT2015ms3r1psm</span>, <span class='kw'>groupBy</span>, fun = <span class='kw'>mean</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(mfrow = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>))
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='kw'>res1</span>, log = <span class='st'>"y"</span>, main = <span class='st'>"Single outliers (max)"</span>)
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='kw'>res2</span>, log = <span class='st'>"y"</span>, main = <span class='st'>"Overall inconsistency (mean)"</span>)
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='kw'>res1</span>[, <span class='st'>"agg_dist"</span>], <span class='kw'>res2</span>[, <span class='st'>"agg_dist"</span>],
+     xlab = <span class='st'>"max"</span>, ylab = <span class='st'>"mean"</span>)
+</div><div class='img'><img src='aggvar-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -216,7 +220,7 @@ proteins with different expression patterns.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

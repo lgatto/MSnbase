@@ -82,7 +82,7 @@ general overview of feature aggregation and examples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -164,12 +164,12 @@ general overview of feature aggregation and examples.</p>
     </div>
 
     <pre class="usage"><span class='fu'>iPQF</span>(
-  <span class='no'>object</span>,
-  <span class='no'>groupBy</span>,
-  <span class='kw'>low.support.filter</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>ratio.calc</span> <span class='kw'>=</span> <span class='st'>"sum"</span>,
-  <span class='kw'>method.combine</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>feature.weight</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>7</span>, <span class='fl'>6</span>, <span class='fl'>4</span>, <span class='fl'>3</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>5</span>)^<span class='fl'>2</span>
+  <span class='kw'>object</span>,
+  <span class='kw'>groupBy</span>,
+  low.support.filter = <span class='fl'>FALSE</span>,
+  ratio.calc = <span class='st'>"sum"</span>,
+  method.combine = <span class='fl'>FALSE</span>,
+  feature.weight = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>7</span>, <span class='fl'>6</span>, <span class='fl'>4</span>, <span class='fl'>3</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>5</span>)<span class='op'>^</span><span class='fl'>2</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -224,21 +224,27 @@ state, and mass based on a robustness analysis.</p></td>
     quantification. Fischer M, Renard BY.  Bioinformatics. 2016
     Apr 1;32(7):1040-7. doi:10.1093/bioinformatics/btv675. Epub
     2015 Nov 20. PubMed PMID:26589272.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Martina Fischer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>msnset2</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>exprs</span>(<span class='no'>msnset2</span>))</div><div class='output co'>#&gt;       X114.ions  X115.ions  X116.ions X117.ions
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>msnset2</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>msnset2</span>))
+</div><div class='output co'>#&gt;       X114.ions  X115.ions  X116.ions X117.ions
 #&gt; 11695 7.0384398  7.6349574  7.2886949 6.7348692
 #&gt; 11696 9.4098886 10.1034528 10.0697640 9.4273709
 #&gt; 11697 4.5859834  4.6926775  4.5016924 4.2924254
 #&gt; 11698 3.7262916  3.8913142  3.7928041 3.3721019
 #&gt; 11699 1.2229379  1.4005805  1.3940034 1.2957861
-#&gt; 11700 0.8303542  0.7397313  0.7686411 0.7402981</div><div class='input'><span class='no'>prot</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='combineFeatures.html'>combineFeatures</a></span>(<span class='no'>msnset2</span>,
-                        <span class='kw'>groupBy</span> <span class='kw'>=</span> <span class='fu'>fData</span>(<span class='no'>msnset2</span>)$<span class='no'>accession</span>,
-                        <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"iPQF"</span>)</div><div class='output co'>#&gt; <span class='message'>The following 1 proteins are only supported by 1 or 2 peptide spectra,</span>
+#&gt; 11700 0.8303542  0.7397313  0.7686411 0.7402981</div><div class='input'><span class='kw'>prot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='combineFeatures.html'>combineFeatures</a></span>(<span class='kw'>msnset2</span>,
+                        groupBy = <span class='fu'>fData</span>(<span class='kw'>msnset2</span>)<span class='op'>$</span><span class='kw'>accession</span>,
+                        method = <span class='st'>"iPQF"</span>)
+</div><div class='output co'>#&gt; <span class='message'>The following 1 proteins are only supported by 1 or 2 peptide spectra,</span>
 #&gt; <span class='message'>hence, protein quantification is not reliable and can only be calculated</span>
 #&gt; <span class='message'>by the 'mean' in these cases, corresponding protein accessions are:</span>
-#&gt; <span class='message'>  O95678</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>exprs</span>(<span class='no'>prot</span>))</div><div class='output co'>#&gt;        X114.ions X115.ions X116.ions X117.ions
+#&gt; <span class='message'>  O95678</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>prot</span>))
+</div><div class='output co'>#&gt;        X114.ions X115.ions X116.ions X117.ions
 #&gt; O95678 0.2404726 0.2682764 0.2584247 0.2328263
 #&gt; P01766 0.2610278 0.2467206 0.2544715 0.2377801
 #&gt; P01776 0.2678859 0.2591250 0.2423396 0.2306495
@@ -260,7 +266,7 @@ state, and mass based on a robustness analysis.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

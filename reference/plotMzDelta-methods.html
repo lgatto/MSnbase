@@ -96,7 +96,7 @@ Most of the code for plotMzDelta has kindly been contributed by
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -235,7 +235,7 @@ Most of the code for plotMzDelta has kindly been contributed by
       <th>bw</th>
       <td><p>A <code>numeric</code> specifying the bandwith to be used to bin
     the delta m/z value to plot the histogram. Default if 1. See
-    <code>geom_histogram</code> for more details.</p></td>
+    <code><a href='https://ggplot2.tidyverse.org/reference/geom_histogram.html'>geom_histogram</a></code> for more details.</p></td>
     </tr>
     <tr>
       <th>xlim</th>
@@ -269,7 +269,7 @@ Most of the code for plotMzDelta has kindly been contributed by
 
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
-    <p></p><dl'>
+    <p></p><dl>
     <dt><code>signature(object = "MSnExp", ...)</code></dt><dd><p>Plots and (invisibly) returns the m/z delta histogram.</p></dd>
   
 </dl>
@@ -285,21 +285,26 @@ Most of the code for plotMzDelta has kindly been contributed by
   public proteomics data." <em>Proteomics</em>, 2011
   Jun;11(11):2182-94. doi:10.1002/pmic.201000602. Epub 2011 May 2.
   PMID: 21538885</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto &lt;lg390@cam.ac.uk&gt; and Guangchuang Yu</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mzdplot</span> <span class='kw'>&lt;-</span> <span class='fu'>plotMzDelta</span>(<span class='no'>itraqdata</span>,
-                       <span class='kw'>subset</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-                       <span class='kw'>reporters</span> <span class='kw'>=</span> <span class='no'>iTRAQ4</span>,
-                       <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="examples"><div class='input'><span class='kw'>mzdplot</span> <span class='op'>&lt;-</span> <span class='fu'>plotMzDelta</span>(<span class='kw'>itraqdata</span>,
+                       subset = <span class='fl'>0.5</span>,
+                       reporters = <span class='kw'>iTRAQ4</span>,
+                       verbose = <span class='fl'>FALSE</span>, plot = <span class='fl'>FALSE</span>)
 <span class='co'>## let's retrieve peptide sequence information</span>
 <span class='co'>## and get a table of amino acids</span>
-<span class='no'>peps</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='fu'>fData</span>(<span class='no'>itraqdata</span>)$<span class='no'>PeptideSequence</span>)
-<span class='no'>aas</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/strsplit.html'>strsplit</a></span>(<span class='no'>peps</span>,<span class='st'>""</span>))
+<span class='kw'>peps</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='fu'>fData</span>(<span class='kw'>itraqdata</span>)<span class='op'>$</span><span class='kw'>PeptideSequence</span>)
+<span class='kw'>aas</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/strsplit.html'>strsplit</a></span>(<span class='kw'>peps</span>,<span class='st'>""</span>))
 <span class='co'>## table of aas</span>
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>aas</span>)</div><div class='output co'>#&gt; aas
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='kw'>aas</span>)
+</div><div class='output co'>#&gt; aas
 #&gt;  A  C  D  E  F  G  H  I  K  L  M  N  P  Q  R  S  T  V  W  Y 
 #&gt; 70  1 53 49 12 53  6 32 41 63 16 26 20 29 14 36 47 58  3 13 </div><div class='input'><span class='co'>## mzDelta plot</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>mzdplot</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 2 rows containing missing values (geom_bar).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 2 rows containing missing values (geom_vline).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 2 rows containing missing values (geom_text).</span></div><div class='img'><img src='plotMzDelta-methods-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>mzdplot</span>)
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 2 rows containing missing values (geom_bar).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 2 rows containing missing values (geom_vline).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 2 rows containing missing values (geom_text).</span></div><div class='img'><img src='plotMzDelta-methods-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -315,7 +320,7 @@ Most of the code for plotMzDelta has kindly been contributed by
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

@@ -75,7 +75,7 @@ returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -150,7 +150,7 @@ the object <code>x</code> stems from any other type of file, <code>NA</code>s ar
 returned.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>isCentroidedFromFile</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>isCentroidedFromFile</span>(<span class='kw'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -170,13 +170,17 @@ returned.</p>
 estimates mode from the data, but is limited to data stemming from
 mzML files which are still available in their original location
 (and accessed with <code><a href='pSet-class.html'>fileNames(x)</a></code>).</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"msdata"</span>)
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/msdata/man/proteomics.html'>proteomics</a></span>(<span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-                <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz"</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>f</span>, <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>isCentroidedFromFile</span>(<span class='no'>x</span>), <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>x</span>))</div><div class='output co'>#&gt;        
+<span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/msdata/man/proteomics.html'>proteomics</a></span>(full.names = <span class='fl'>TRUE</span>,
+                pattern = <span class='st'>"TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz"</span>)
+<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='kw'>f</span>, mode = <span class='st'>"onDisk"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>isCentroidedFromFile</span>(<span class='kw'>x</span>), <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='kw'>x</span>))
+</div><div class='output co'>#&gt;        
 #&gt;           1   2
 #&gt;   FALSE  58   0
 #&gt;   TRUE    0 451</div></pre>
@@ -195,7 +199,7 @@ mzML files which are still available in their original location
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

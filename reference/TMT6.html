@@ -85,7 +85,7 @@ These objects are used to plot the reporter ions of interest in an
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -170,15 +170,15 @@ These objects are used to plot the reporter ions of interest in an
   quantification (see <code><a href='quantify-methods.html'>quantify</a></code>).</p>
     </div>
 
-    <pre class="usage"><span class='no'>TMT6</span>
-<span class='no'>TMT6b</span>
-<span class='no'>TMT7</span>
-<span class='no'>TMT7b</span>
-<span class='no'>TMT10</span>
-<span class='no'>TMT10ETD</span>
-<span class='no'>TMT10HCD</span>
-<span class='no'>TMT11</span>
-<span class='no'>TMT11HCD</span></pre>
+    <pre class="usage"><span class='kw'>TMT6</span>
+<span class='kw'>TMT6b</span>
+<span class='kw'>TMT7</span>
+<span class='kw'>TMT7b</span>
+<span class='kw'>TMT10</span>
+<span class='kw'>TMT10ETD</span>
+<span class='kw'>TMT10HCD</span>
+<span class='kw'>TMT11</span>
+<span class='kw'>TMT11HCD</span></pre>
 
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -197,18 +197,21 @@ These objects are used to plot the reporter ions of interest in an
     <div class='dont-index'><p><code><a href='iTRAQ4.html'>iTRAQ4</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>TMT6</span></div><div class='output co'>#&gt; Object of class "ReporterIons"
+    <pre class="examples"><div class='input'><span class='kw'>TMT6</span>
+</div><div class='output co'>#&gt; Object of class "ReporterIons"
 #&gt; TMT6: '6-plex TMT tags' with 6 reporter ions
 #&gt;  - [TMT6.126] 126.1277 +/- 0.05 (red)
 #&gt;  - [TMT6.127] 127.1311 +/- 0.05 (purple)
 #&gt;  - [TMT6.128] 128.1344 +/- 0.05 (blue)
 #&gt;  - [TMT6.129] 129.1378 +/- 0.05 (steelblue)
 #&gt;  - [TMT6.130] 130.1411 +/- 0.05 (green)
-#&gt;  - [TMT6.131] 131.1382 +/- 0.05 (yellow)</div><div class='input'><span class='no'>TMT6</span>[<span class='fl'>1</span>:<span class='fl'>2</span>]</div><div class='output co'>#&gt; Object of class "ReporterIons"
+#&gt;  - [TMT6.131] 131.1382 +/- 0.05 (yellow)</div><div class='input'><span class='kw'>TMT6</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>]
+</div><div class='output co'>#&gt; Object of class "ReporterIons"
 #&gt; TMT6[1:2]: 'subset of 6-plex TMT tags' with 2 reporter ions
 #&gt;  - [TMT6.126] 126.1277 +/- 0.05 (red)
 #&gt;  - [TMT6.127] 127.1311 +/- 0.05 (purple)</div><div class='input'>
-<span class='no'>TMT10</span></div><div class='output co'>#&gt; Object of class "ReporterIons"
+<span class='kw'>TMT10</span>
+</div><div class='output co'>#&gt; Object of class "ReporterIons"
 #&gt; TMT10HCD: '10-plex TMT HCD' with 10 reporter ions
 #&gt;  - [126] 126.1277 +/- 0.002 (#8DD3C7)
 #&gt;  - [127N] 127.1248 +/- 0.002 (#FFFFB3)
@@ -220,14 +223,15 @@ These objects are used to plot the reporter ions of interest in an
 #&gt;  - [130N] 130.1348 +/- 0.002 (#FCCDE5)
 #&gt;  - [130C] 130.1411 +/- 0.002 (#D9D9D9)
 #&gt;  - [131] 131.1382 +/- 0.002 (#BC80BD)</div><div class='input'>
-<span class='no'>newReporter</span> <span class='kw'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"ReporterIons"</span>,
-                   <span class='kw'>description</span><span class='kw'>=</span><span class='st'>"an example"</span>,
-                   <span class='kw'>name</span><span class='kw'>=</span><span class='st'>"my reporter ions"</span>,
-                   <span class='kw'>reporterNames</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"myrep1"</span>,<span class='st'>"myrep2"</span>),
-                   <span class='kw'>mz</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>121</span>,<span class='fl'>122</span>),
-                   <span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"red"</span>,<span class='st'>"blue"</span>),
-                   <span class='kw'>width</span><span class='kw'>=</span><span class='fl'>0.05</span>)
-<span class='no'>newReporter</span></div><div class='output co'>#&gt; Object of class "ReporterIons"
+<span class='kw'>newReporter</span> <span class='op'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"ReporterIons"</span>,
+                   description=<span class='st'>"an example"</span>,
+                   name=<span class='st'>"my reporter ions"</span>,
+                   reporterNames=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"myrep1"</span>,<span class='st'>"myrep2"</span>),
+                   mz=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>121</span>,<span class='fl'>122</span>),
+                   col=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"red"</span>,<span class='st'>"blue"</span>),
+                   width=<span class='fl'>0.05</span>)
+<span class='kw'>newReporter</span>
+</div><div class='output co'>#&gt; Object of class "ReporterIons"
 #&gt; my reporter ions: 'an example' with 2 reporter ions
 #&gt;  - [myrep1] 121 +/- 0.05 (red)
 #&gt;  - [myrep2] 122 +/- 0.05 (blue)</div></pre>
@@ -246,7 +250,7 @@ These objects are used to plot the reporter ions of interest in an
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

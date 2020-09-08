@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Navigate an <code>MSnExp</code> object — navMS • MSnbase</title>
+<title>Navigate an MSnExp object — navMS • MSnbase</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Navigate an <code>MSnExp</code> object — navMS" />
+<meta property="og:title" content="Navigate an MSnExp object — navMS" />
 <meta property="og:description" content="Navigate an MSnExp object by moving to the next or previous
 spectrum." />
 
@@ -73,7 +73,7 @@ spectrum." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -146,11 +146,11 @@ spectrum." />
 spectrum.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>navMS</span>(<span class='no'>i</span>, <span class='no'>object</span>, <span class='no'>msLevel</span>, <span class='kw'>nav</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"nextMS"</span>, <span class='st'>"prevMS"</span>), <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>navMS</span>(<span class='kw'>i</span>, <span class='kw'>object</span>, <span class='kw'>msLevel</span>, nav = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"nextMS"</span>, <span class='st'>"prevMS"</span>), <span class='kw'>...</span>)
 
-<span class='fu'>nextMS</span>(<span class='no'>...</span>)
+<span class='fu'>nextMS</span>(<span class='kw'>...</span>)
 
-<span class='fu'>prevMS</span>(<span class='no'>...</span>)</pre>
+<span class='fu'>prevMS</span>(<span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,37 +185,47 @@ the next or previous spectrum of level <code>msLevel</code>.</p></td>
     <p>An object of class <code>Spectrum1</code> or <code>Spectrum2</code>,
     depending on the value of <code>msLevel</code> or <code>NULL</code>, of no
     spectrum is found.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>msdata</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/msdata/man/proteomics.html'>proteomics</a></span>(<span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"MS3"</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='no'>f</span>, <span class='kw'>centroided.</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>, <span class='fl'>FALSE</span>), <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"onDisk"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Reading different file formats in.</span>
+    <pre class="examples"><div class='input'><span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='kw'>msdata</span>::<span class='fu'><a href='https://rdrr.io/pkg/msdata/man/proteomics.html'>proteomics</a></span>(full.names = <span class='fl'>TRUE</span>, pattern = <span class='st'>"MS3"</span>)
+<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='kw'>f</span>, centroided. = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>, <span class='fl'>FALSE</span>), mode = <span class='st'>"onDisk"</span>)
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Reading different file formats in.</span>
 #&gt; <span class='warning'>This is untested and you are welcome to try it out.</span>
-#&gt; <span class='warning'>Please report back!</span></div><div class='input'>(<span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>x</span>) <span class='kw'>==</span> <span class='fl'>3</span>)[<span class='fl'>2</span>]) <span class='co'>## 2nd MS3 spectrum</span></div><div class='output co'>#&gt; F1.S009 
-#&gt;       9 </div><div class='input'><span class='no'>x</span><span class='kw'>[[</span><span class='no'>sp</span>]] <span class='co'>## curent MS3</span></div><div class='output co'>#&gt; Object of class "Spectrum2"
+#&gt; <span class='warning'>Please report back!</span></div><div class='input'>(<span class='kw'>sp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='kw'>x</span>) <span class='op'>==</span> <span class='fl'>3</span>)[<span class='fl'>2</span>]) <span class='co'>## 2nd MS3 spectrum</span>
+</div><div class='output co'>#&gt; F1.S009 
+#&gt;       9 </div><div class='input'><span class='kw'>x</span>[[<span class='kw'>sp</span>]] <span class='co'>## curent MS3</span>
+</div><div class='output co'>#&gt; Object of class "Spectrum2"
 #&gt;  Precursor: 756.4332 
 #&gt;  Retention time: 73:43 
 #&gt;  Charge: 1 
 #&gt;  MSn level: 3 
 #&gt;  Peaks count: 1422 
-#&gt;  Total ion count: 972514 </div><div class='input'><span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'>nextMS</span>(<span class='no'>sp</span>, <span class='no'>x</span>) <span class='co'>## next MS3</span></div><div class='output co'>#&gt; Object of class "Spectrum2"
+#&gt;  Total ion count: 972514 </div><div class='input'><span class='kw'>MSnbase</span>:::<span class='fu'>nextMS</span>(<span class='kw'>sp</span>, <span class='kw'>x</span>) <span class='co'>## next MS3</span>
+</div><div class='output co'>#&gt; Object of class "Spectrum2"
 #&gt;  Precursor: 466.1647 
 #&gt;  Retention time: 73:44 
 #&gt;  Charge: 0 
 #&gt;  MSn level: 3 
 #&gt;  Peaks count: 2281 
-#&gt;  Total ion count: 3908748 </div><div class='input'><span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'>prevMS</span>(<span class='no'>sp</span>, <span class='no'>x</span>) <span class='co'>## prev MS3</span></div><div class='output co'>#&gt; Object of class "Spectrum2"
+#&gt;  Total ion count: 3908748 </div><div class='input'><span class='kw'>MSnbase</span>:::<span class='fu'>prevMS</span>(<span class='kw'>sp</span>, <span class='kw'>x</span>) <span class='co'>## prev MS3</span>
+</div><div class='output co'>#&gt; Object of class "Spectrum2"
 #&gt;  Precursor: 490.2629 
 #&gt;  Retention time: 73:43 
 #&gt;  Charge: 0 
 #&gt;  MSn level: 3 
 #&gt;  Peaks count: 2540 
-#&gt;  Total ion count: 9311294 </div><div class='input'><span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'>prevMS</span>(<span class='no'>sp</span>, <span class='no'>x</span>, <span class='fl'>2L</span>) <span class='co'>## prev MS2</span></div><div class='output co'>#&gt; Object of class "Spectrum2"
+#&gt;  Total ion count: 9311294 </div><div class='input'><span class='kw'>MSnbase</span>:::<span class='fu'>prevMS</span>(<span class='kw'>sp</span>, <span class='kw'>x</span>, <span class='fl'>2L</span>) <span class='co'>## prev MS2</span>
+</div><div class='output co'>#&gt; Object of class "Spectrum2"
 #&gt;  Precursor: 675.6938 
 #&gt;  Retention time: 73:43 
 #&gt;  Charge: 3 
 #&gt;  MSn level: 2 
 #&gt;  Peaks count: 858 
-#&gt;  Total ion count: 627600.3 </div><div class='input'><span class='kw pkg'>MSnbase</span><span class='kw ns'>:::</span><span class='fu'>prevMS</span>(<span class='no'>sp</span>, <span class='no'>x</span>, <span class='fl'>1L</span>) <span class='co'>## prev MS1</span></div><div class='output co'>#&gt; Object of class "Spectrum1"
+#&gt;  Total ion count: 627600.3 </div><div class='input'><span class='kw'>MSnbase</span>:::<span class='fu'>prevMS</span>(<span class='kw'>sp</span>, <span class='kw'>x</span>, <span class='fl'>1L</span>) <span class='co'>## prev MS1</span>
+</div><div class='output co'>#&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 73:43 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 48304 
@@ -235,7 +245,7 @@ the next or previous spectrum of level <code>msLevel</code>.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

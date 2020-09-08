@@ -75,7 +75,7 @@ row/observation." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -151,7 +151,7 @@ row/observation.</p>
     </div>
 
     <pre class="usage"><span class='co'># S4 method for data.frame</span>
-<span class='fu'>reduce</span>(<span class='no'>x</span>, <span class='no'>key</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>";"</span>)</pre>
+<span class='fu'>reduce</span>(<span class='kw'>x</span>, <span class='kw'>key</span>, sep = <span class='st'>";"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,33 +180,42 @@ used as primary key.</p></td>
 columns other than the key are converted to characters when they
 are collapsed to a semi-column separated value (even if only one
 value is present) as soon as one observation of transformed.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>dfr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>A</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>),
-                  <span class='kw'>B</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"x"</span>, <span class='st'>"x"</span>, <span class='st'>"z"</span>),
-                  <span class='kw'>C</span> <span class='kw'>=</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>3</span>])
-<span class='no'>dfr</span></div><div class='output co'>#&gt;   A B C
+    <pre class="examples"><div class='input'><span class='kw'>dfr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>),
+                  B = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"x"</span>, <span class='st'>"x"</span>, <span class='st'>"z"</span>),
+                  C = <span class='kw'>LETTERS</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>])
+<span class='kw'>dfr</span>
+</div><div class='output co'>#&gt;   A B C
 #&gt; 1 1 x A
 #&gt; 2 1 x B
-#&gt; 3 2 z C</div><div class='input'><span class='no'>dfr2</span> <span class='kw'>&lt;-</span> <span class='fu'>reduce</span>(<span class='no'>dfr</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"A"</span>)
-<span class='no'>dfr2</span></div><div class='output co'>#&gt;   A   B   C
+#&gt; 3 2 z C</div><div class='input'><span class='kw'>dfr2</span> <span class='op'>&lt;-</span> <span class='fu'>reduce</span>(<span class='kw'>dfr</span>, key = <span class='st'>"A"</span>)
+<span class='kw'>dfr2</span>
+</div><div class='output co'>#&gt;   A   B   C
 #&gt; 1 1 x;x A;B
 #&gt; 2 2   z   C</div><div class='input'><span class='co'>## column A used as key is still num</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>dfr2</span>)</div><div class='output co'>#&gt; 'data.frame':	2 obs. of  3 variables:
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='kw'>dfr2</span>)
+</div><div class='output co'>#&gt; 'data.frame':	2 obs. of  3 variables:
 #&gt;  $ A: num  1 2
 #&gt;  $ B: chr  "x;x" "z"
-#&gt;  $ C: chr  "A;B" "C"</div><div class='input'><span class='no'>dfr3</span> <span class='kw'>&lt;-</span> <span class='fu'>reduce</span>(<span class='no'>dfr</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"B"</span>)
-<span class='no'>dfr3</span></div><div class='output co'>#&gt;     A B   C
+#&gt;  $ C: chr  "A;B" "C"</div><div class='input'><span class='kw'>dfr3</span> <span class='op'>&lt;-</span> <span class='fu'>reduce</span>(<span class='kw'>dfr</span>, key = <span class='st'>"B"</span>)
+<span class='kw'>dfr3</span>
+</div><div class='output co'>#&gt;     A B   C
 #&gt; 1 1;1 x A;B
 #&gt; 2   2 z   C</div><div class='input'><span class='co'>## A is converted to chr; B remains factor</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>dfr3</span>)</div><div class='output co'>#&gt; 'data.frame':	2 obs. of  3 variables:
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='kw'>dfr3</span>)
+</div><div class='output co'>#&gt; 'data.frame':	2 obs. of  3 variables:
 #&gt;  $ A: chr  "1;1" "2"
 #&gt;  $ B: chr  "x" "z"
-#&gt;  $ C: chr  "A;B" "C"</div><div class='input'><span class='no'>dfr4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>A</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>,
-                   <span class='kw'>B</span> <span class='kw'>=</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>3</span>],
-                   <span class='kw'>C</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>TRUE</span>, <span class='fl'>FALSE</span>, <span class='fl'>NA</span>))
+#&gt;  $ C: chr  "A;B" "C"</div><div class='input'><span class='kw'>dfr4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>,
+                   B = <span class='kw'>LETTERS</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>],
+                   C = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>TRUE</span>, <span class='fl'>FALSE</span>, <span class='fl'>NA</span>))
 <span class='co'>## No effect of reducing, column classes are maintained</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='fu'>reduce</span>(<span class='no'>dfr4</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"B"</span>))</div><div class='output co'>#&gt; 'data.frame':	3 obs. of  3 variables:
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='fu'>reduce</span>(<span class='kw'>dfr4</span>, key = <span class='st'>"B"</span>))
+</div><div class='output co'>#&gt; 'data.frame':	3 obs. of  3 variables:
 #&gt;  $ A: int  1 2 3
 #&gt;  $ B: chr  "A" "B" "C"
 #&gt;  $ C: logi  TRUE FALSE NA</div></pre>
@@ -225,7 +234,7 @@ value is present) as soon as one observation of transformed.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

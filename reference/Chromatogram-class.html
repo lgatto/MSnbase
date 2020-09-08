@@ -109,7 +109,7 @@ the binned signal." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
       </span>
     </div>
 
@@ -184,7 +184,7 @@ the binned signal." />
     <code>Chromatogram</code> constructor function but in most cases the dedicated
     methods for <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code> and
     <code><a href='MSnExp-class.html'>MSnExp</a></code> objects extracting chromatograms should be
-    used instead (i.e. the <code><a href='chromatogram-MSnExp-method.html'>chromatogram</a></code> method).</p>
+    used instead (i.e. the <code><a href='chromatogram,MSnExp-method.html'>chromatogram</a></code> method).</p>
 <p><code>Chromatogram</code>: create an instance of the
     <code>Chromatogram</code> class.</p>
 <p><code>aggregationFun,aggregationFun&lt;-</code> get or set the
@@ -219,76 +219,76 @@ the binned signal.</p>
     </div>
 
     <pre class="usage"><span class='fu'>Chromatogram</span>(
-  <span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span>(),
-  <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span>(),
-  <span class='kw'>mz</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA_real_</span>, <span class='fl'>NA_real_</span>),
-  <span class='kw'>filterMz</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA_real_</span>, <span class='fl'>NA_real_</span>),
-  <span class='kw'>precursorMz</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA_real_</span>, <span class='fl'>NA_real_</span>),
-  <span class='kw'>productMz</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA_real_</span>, <span class='fl'>NA_real_</span>),
-  <span class='kw'>fromFile</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span>(),
-  <span class='kw'>aggregationFun</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  <span class='kw'>msLevel</span> <span class='kw'>=</span> <span class='fl'>1L</span>
+  rtime = <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span>(),
+  intensity = <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span>(),
+  mz = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA_real_</span>, <span class='fl'>NA_real_</span>),
+  filterMz = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA_real_</span>, <span class='fl'>NA_real_</span>),
+  precursorMz = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA_real_</span>, <span class='fl'>NA_real_</span>),
+  productMz = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA_real_</span>, <span class='fl'>NA_real_</span>),
+  fromFile = <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span>(),
+  aggregationFun = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  msLevel = <span class='fl'>1L</span>
 )
 
-<span class='fu'>aggregationFun</span>(<span class='no'>object</span>)
+<span class='fu'>aggregationFun</span>(<span class='kw'>object</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
-<span class='fu'>show</span>(<span class='no'>object</span>)
+<span class='fu'>show</span>(<span class='kw'>object</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
-<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>object</span>)
+<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='kw'>object</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
-<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>object</span>)
+<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='kw'>object</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
-<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>object</span>, <span class='kw'>filter</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>object</span>, filter = <span class='fl'>FALSE</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
-<span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span>(<span class='no'>object</span>)
+<span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span>(<span class='kw'>object</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
-<span class='fu'><a href='Spectrum-class.html'>fromFile</a></span>(<span class='no'>object</span>)
+<span class='fu'><a href='Spectrum-class.html'>fromFile</a></span>(<span class='kw'>object</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
-<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>x</span>)
+<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>x</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
-<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>x</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='kw'>x</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
-<span class='fu'><a href='MSnExp-class.html'>filterRt</a></span>(<span class='no'>object</span>, <span class='no'>rt</span>)
+<span class='fu'><a href='MSnExp-class.html'>filterRt</a></span>(<span class='kw'>object</span>, <span class='kw'>rt</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
-<span class='fu'><a href='clean-methods.html'>clean</a></span>(<span class='no'>object</span>, <span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'><a href='clean-methods.html'>clean</a></span>(<span class='kw'>object</span>, all = <span class='fl'>FALSE</span>, na.rm = <span class='fl'>FALSE</span>)
 
 <span class='co'># S4 method for Chromatogram,ANY</span>
 <span class='fu'><a href='plot-methods.html'>plot</a></span>(
-  <span class='no'>x</span>,
-  <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"#00000060"</span>,
-  <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>,
-  <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"retention time"</span>,
-  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"intensity"</span>,
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>
+  <span class='kw'>x</span>,
+  col = <span class='st'>"#00000060"</span>,
+  lty = <span class='fl'>1</span>,
+  type = <span class='st'>"l"</span>,
+  xlab = <span class='st'>"retention time"</span>,
+  ylab = <span class='st'>"intensity"</span>,
+  main = <span class='kw'>NULL</span>,
+  <span class='kw'>...</span>
 )
 
 <span class='co'># S4 method for Chromatogram</span>
-<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='no'>object</span>)
+<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='kw'>object</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
-<span class='fu'>isEmpty</span>(<span class='no'>x</span>)
+<span class='fu'>isEmpty</span>(<span class='kw'>x</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
-<span class='fu'>productMz</span>(<span class='no'>object</span>)
+<span class='fu'>productMz</span>(<span class='kw'>object</span>)
 
 <span class='co'># S4 method for Chromatogram</span>
 <span class='fu'><a href='bin-methods.html'>bin</a></span>(
-  <span class='no'>object</span>,
-  <span class='kw'>binSize</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>floor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>object</span>))), <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>ceiling</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>object</span>))), <span class='kw'>by</span> <span class='kw'>=</span> <span class='no'>binSize</span>),
-  <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>max</span>
+  <span class='kw'>object</span>,
+  binSize = <span class='fl'>0.5</span>,
+  breaks = <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>floor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='kw'>object</span>))), <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>ceiling</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='kw'>object</span>))), by = <span class='kw'>binSize</span>),
+  fun = <span class='kw'>max</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -444,7 +444,7 @@ values falling within each bin.</p></td>
 
     
 
-<dl'>
+<dl>
 <dt><code>.__classVersion__,rtime,intensity,mz,filterMz,precursorMz,productMz,fromFile,aggregationFun,msLevel</code></dt><dd><p>See corresponding parameter above.</p></dd>
 
 </dl>
@@ -452,26 +452,31 @@ values falling within each bin.</p></td>
 
     <div class='dont-index'><p><code><a href='MChromatograms-class.html'>MChromatograms</a></code> for combining <code>Chromatogram</code> in
     a two-dimensional matrix (rows being mz-rt ranges, columns samples).
-    <code><a href='chromatogram-MSnExp-method.html'>chromatogram</a></code> for the method to extract chromatogram data
+    <code><a href='chromatogram,MSnExp-method.html'>chromatogram</a></code> for the method to extract chromatogram data
     from a <code><a href='MSnExp-class.html'>MSnExp</a></code> or <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code>
     object.
     <code><a href='clean-methods.html'>clean</a></code> for the method to <em>clean</em> a <code>Chromatogram</code>
     object.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Johannes Rainer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>## Create a simple Chromatogram object.</span>
-<span class='no'>ints</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>100</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>100</span>))
-<span class='no'>rts</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='no'>ints</span>))
-<span class='no'>chr</span> <span class='kw'>&lt;-</span> <span class='fu'>Chromatogram</span>(<span class='kw'>rtime</span> <span class='kw'>=</span> <span class='no'>rts</span>, <span class='kw'>intensity</span> <span class='kw'>=</span> <span class='no'>ints</span>)
-<span class='no'>chr</span></div><div class='output co'>#&gt; Object of class: Chromatogram
+<span class='kw'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>100</span>, sd = <span class='fl'>100</span>))
+<span class='kw'>rts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>ints</span>))
+<span class='kw'>chr</span> <span class='op'>&lt;-</span> <span class='fu'>Chromatogram</span>(rtime = <span class='kw'>rts</span>, intensity = <span class='kw'>ints</span>)
+<span class='kw'>chr</span>
+</div><div class='output co'>#&gt; Object of class: Chromatogram
 #&gt; length of object: 100
 #&gt; from file: 
 #&gt; mz range: [NA, NA]
 #&gt; rt range: [1, 100]
 #&gt; MS level: 1</div><div class='input'>
 <span class='co'>## Extract intensities</span>
-<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>chr</span>)</div><div class='output co'>#&gt;   [1] 140.0043517  25.5317055 243.7263611   0.5571287  62.1552721 114.8411606
+<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='kw'>chr</span>)
+</div><div class='output co'>#&gt;   [1] 140.0043517  25.5317055 243.7263611   0.5571287  62.1552721 114.8411606
 #&gt;   [7] 182.1817661  24.7325302  24.4199607  28.2705449  55.3699384  62.8982042
 #&gt;  [13] 206.5024895 163.0989402  51.2426950 186.3011492  52.2012515   5.2601910
 #&gt;  [19]  54.2996343  91.4074827  46.8154420  36.2951256 130.4543545  73.7776321
@@ -489,35 +494,43 @@ values falling within each bin.</p></td>
 #&gt;  [91]  42.4187575 106.3101996 104.8712620   3.8102895  48.6148920 167.2882611
 #&gt;  [97]  35.4361164  94.6347886 131.6826356  29.6640025</div><div class='input'>
 <span class='co'>## Extract retention times</span>
-<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>chr</span>)</div><div class='output co'>#&gt;   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
+<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='kw'>chr</span>)
+</div><div class='output co'>#&gt;   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
 #&gt;  [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36
 #&gt;  [37]  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54
 #&gt;  [55]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72
 #&gt;  [73]  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90
 #&gt;  [91]  91  92  93  94  95  96  97  98  99 100</div><div class='input'>
 <span class='co'>## Extract the mz range - is NA for the present example</span>
-<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='no'>chr</span>)</div><div class='output co'>#&gt; [1] NA NA</div><div class='input'>
+<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>chr</span>)
+</div><div class='output co'>#&gt; [1] NA NA</div><div class='input'>
 <span class='co'>## plot the Chromatogram</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='no'>chr</span>)</div><div class='img'><img src='Chromatogram-class-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='kw'>chr</span>)
+</div><div class='img'><img src='Chromatogram-class-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>## Create a simple Chromatogram object based on random values.</span>
-<span class='no'>chr</span> <span class='kw'>&lt;-</span> <span class='fu'>Chromatogram</span>(<span class='kw'>intensity</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>1000</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>200</span>)),
-        <span class='kw'>rtime</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>1000</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>5</span>))))
-<span class='no'>chr</span></div><div class='output co'>#&gt; Object of class: Chromatogram
+<span class='kw'>chr</span> <span class='op'>&lt;-</span> <span class='fu'>Chromatogram</span>(intensity = <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>1000</span>, mean = <span class='fl'>2000</span>, sd = <span class='fl'>200</span>)),
+        rtime = <span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>1000</span>, mean = <span class='fl'>10</span>, sd = <span class='fl'>5</span>))))
+<span class='kw'>chr</span>
+</div><div class='output co'>#&gt; Object of class: Chromatogram
 #&gt; length of object: 1000
 #&gt; from file: 
 #&gt; mz range: [NA, NA]
 #&gt; rt range: [0.002530252, 23.75382]
 #&gt; MS level: 1</div><div class='input'>
 <span class='co'>## Get the intensities</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='no'>chr</span>))</div><div class='output co'>#&gt; [1] 1658.884 1828.917 1971.020 1935.111 1965.487 1752.787</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='kw'>chr</span>))
+</div><div class='output co'>#&gt; [1] 1658.884 1828.917 1971.020 1935.111 1965.487 1752.787</div><div class='input'>
 <span class='co'>## Get the retention time</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>chr</span>))</div><div class='output co'>#&gt; [1] 0.002530252 0.004804333 0.086750187 0.102224373 0.114592272 0.155135059</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='kw'>chr</span>))
+</div><div class='output co'>#&gt; [1] 0.002530252 0.004804333 0.086750187 0.102224373 0.114592272 0.155135059</div><div class='input'>
 <span class='co'>## What is the retention time range of the object?</span>
-<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>chr</span>))</div><div class='output co'>#&gt; [1]  0.002530252 23.753823765</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='kw'>chr</span>))
+</div><div class='output co'>#&gt; [1]  0.002530252 23.753823765</div><div class='input'>
 <span class='co'>## Filter the chromatogram to keep only values between 4 and 10 seconds</span>
-<span class='no'>chr2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterRt</a></span>(<span class='no'>chr</span>, <span class='kw'>rt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>10</span>))
+<span class='kw'>chr2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterRt</a></span>(<span class='kw'>chr</span>, rt = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>10</span>))
 
-<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='no'>chr2</span>))</div><div class='output co'>#&gt; [1] 4.031794 9.975626</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='kw'>chr2</span>))
+</div><div class='output co'>#&gt; [1] 4.031794 9.975626</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -533,7 +546,7 @@ values falling within each bin.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>
