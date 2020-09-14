@@ -1,7 +1,8 @@
 # MSnbase 2.15
 
 ## Changes in 2.15.6
-- Nothing yet
+- Add `extractSpectraData` function to extract all data from an `MSnExp` or
+  `Spectra` object as a `DataFrame` to be used with the `Spectra` package.
 
 ## Changes in 2.15.5
 - `combineSpectraMovingWindow` gains parameter `ppm` to allow definition of m/z
