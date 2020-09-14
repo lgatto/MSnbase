@@ -80,7 +80,7 @@ These methods add identification data to a raw MS experiment (an
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
       </span>
     </div>
 
@@ -346,18 +346,18 @@ These methods add identification data to a raw MS experiment (an
 #&gt; F1.S3        3                  3              &lt;NA&gt;          NA   NA
 #&gt; F1.S4        4                  4              &lt;NA&gt;          NA   NA
 #&gt; F1.S5        5                  5           LVILLFR           2    1
-#&gt;       passThreshold experimentalMassToCharge calculatedMassToCharge modNum
-#&gt; F1.S1          TRUE                 645.3741               645.0375      0
-#&gt; F1.S2          TRUE                 546.9586               546.9633      0
-#&gt; F1.S3            NA                       NA                     NA     NA
-#&gt; F1.S4            NA                       NA                     NA     NA
-#&gt; F1.S5          TRUE                 437.8040               437.2997      0
-#&gt;       isDecoy post  pre start end DatabaseAccess DBseqLength DatabaseSeq
-#&gt; F1.S1   FALSE    A    R   170 186        ECA0984         231            
-#&gt; F1.S2   FALSE    A    K    50  62        ECA1028         275            
-#&gt; F1.S3      NA &lt;NA&gt; &lt;NA&gt;    NA  NA           &lt;NA&gt;          NA        &lt;NA&gt;
-#&gt; F1.S4      NA &lt;NA&gt; &lt;NA&gt;    NA  NA           &lt;NA&gt;          NA        &lt;NA&gt;
-#&gt; F1.S5   FALSE    L    K    22  28        ECA0510         166            
+#&gt;       passThreshold experimentalMassToCharge calculatedMassToCharge peptideRef
+#&gt; F1.S1          TRUE                 645.3741               645.0375       Pep2
+#&gt; F1.S2          TRUE                 546.9586               546.9633       Pep1
+#&gt; F1.S3            NA                       NA                     NA       &lt;NA&gt;
+#&gt; F1.S4            NA                       NA                     NA       &lt;NA&gt;
+#&gt; F1.S5          TRUE                 437.8040               437.2997       Pep4
+#&gt;       modNum isDecoy post  pre start end DatabaseAccess DBseqLength DatabaseSeq
+#&gt; F1.S1      0   FALSE    A    R   170 186        ECA0984         231            
+#&gt; F1.S2      0   FALSE    A    K    50  62        ECA1028         275            
+#&gt; F1.S3     NA      NA &lt;NA&gt; &lt;NA&gt;    NA  NA           &lt;NA&gt;          NA        &lt;NA&gt;
+#&gt; F1.S4     NA      NA &lt;NA&gt; &lt;NA&gt;    NA  NA           &lt;NA&gt;          NA        &lt;NA&gt;
+#&gt; F1.S5      0   FALSE    L    K    22  28        ECA0510         166            
 #&gt;                                                              DatabaseDescription
 #&gt; F1.S1                                        ECA0984 DNA mismatch repair protein
 #&gt; F1.S2 ECA1028 2,3,4,5-tetrahydropyridine-2,6-dicarboxylate N-succinyltransferase
@@ -370,12 +370,12 @@ These methods add identification data to a raw MS experiment (an
 #&gt; F1.S3             NA            &lt;NA&gt;             NA                NA
 #&gt; F1.S4             NA            &lt;NA&gt;             NA                NA
 #&gt; F1.S5              5 dummyiTRAQ.mzid            -42                 5
-#&gt;       MS.GF.SpecEValue MS.GF.EValue modName modMass modLocation
-#&gt; F1.S1     5.527468e-05     79.36958    &lt;NA&gt;      NA          NA
-#&gt; F1.S2     9.399048e-06     13.46615    &lt;NA&gt;      NA          NA
-#&gt; F1.S3               NA           NA    &lt;NA&gt;      NA          NA
-#&gt; F1.S4               NA           NA    &lt;NA&gt;      NA          NA
-#&gt; F1.S5     2.577830e-04    366.38422    &lt;NA&gt;      NA          NA
+#&gt;       MS.GF.SpecEValue MS.GF.EValue modPeptideRef modName modMass modLocation
+#&gt; F1.S1     5.527468e-05     79.36958          &lt;NA&gt;    &lt;NA&gt;      NA          NA
+#&gt; F1.S2     9.399048e-06     13.46615          &lt;NA&gt;    &lt;NA&gt;      NA          NA
+#&gt; F1.S3               NA           NA          &lt;NA&gt;    &lt;NA&gt;      NA          NA
+#&gt; F1.S4               NA           NA          &lt;NA&gt;    &lt;NA&gt;      NA          NA
+#&gt; F1.S5     2.577830e-04    366.38422          &lt;NA&gt;    &lt;NA&gt;      NA          NA
 #&gt;       subOriginalResidue subReplacementResidue subLocation nprot npep.prot
 #&gt; F1.S1               &lt;NA&gt;                  &lt;NA&gt;          NA     1         1
 #&gt; F1.S2               &lt;NA&gt;                  &lt;NA&gt;          NA     1         1
@@ -406,7 +406,7 @@ These methods add identification data to a raw MS experiment (an
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

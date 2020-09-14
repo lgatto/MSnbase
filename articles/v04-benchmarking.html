@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
       </span>
     </div>
 
@@ -142,7 +142,7 @@
                                 centroided = <span class="fl">TRUE</span>))
 </pre></div>
 <pre><code>##    user  system elapsed 
-##   5.221   0.149   5.363</code></pre>
+##   5.368   0.132   5.495</code></pre>
 <p>Next, we use the <code>readMSData</code> function to generate an on-disk representation of the same data by setting <code>mode = "onDisk"</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(<span class="kw">ondisk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readMSData.html">readMSData</a></span>(<span class="kw">f</span>, msLevel = <span class="fl">2</span>,
@@ -150,7 +150,7 @@
                                   centroided = <span class="fl">TRUE</span>))
 </pre></div>
 <pre><code>##    user  system elapsed 
-##   1.466   0.040   1.499</code></pre>
+##   1.449   0.040   1.482</code></pre>
 <p>Creating the on-disk experiment is considerable faster and scales to much bigger, multi-file data, both in terms of object creation time, but also in terms of object size (see next section). We must of course make sure that these two datasets are equivalent:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(<span class="kw">inmem</span>, <span class="kw">ondisk</span>)
@@ -200,11 +200,11 @@ Plotting in-memory and on-disk spectra
 <span class="kw">mb</span>
 </pre></div>
 <pre><code>## Unit: microseconds
-##             expr      min       lq      mean    median       uq      max neval
-##   spectra(inmem)     96.3    104.1    219.66    219.05    324.9    360.0    10
-##     inmem[[200]]     28.3     51.5     62.21     73.30     77.0     81.7    10
-##  spectra(ondisk) 435224.9 437561.9 441369.04 439404.30 442976.9 457039.4    10
-##    ondisk[[200]] 206599.6 208226.6 210738.81 210668.05 212267.0 218610.0    10</code></pre>
+##             expr      min       lq      mean   median       uq      max neval
+##   spectra(inmem)     99.4    106.6    258.01    286.7    392.3    432.2    10
+##     inmem[[200]]     26.6     52.2     66.55     77.1     82.0     83.6    10
+##  spectra(ondisk) 428550.9 429213.0 434108.83 432530.8 436796.2 446834.0    10
+##    ondisk[[200]] 204343.1 204951.6 207283.91 206138.1 210013.0 213577.8    10</code></pre>
 <p>While it takes order or magnitudes more time to access the data on-the-fly rather than a pre-generated spectrum, accessing all spectra is only marginally slower than accessing all spectra, as most of the time is spent preparing the file for access, which is done only once.</p>
 <p>On-disk access performance will depend on the read throughput of the disk. A comparison of the data import of the above file from an internal solid state drive and from an USB3 connected hard disk showed only small differences for the <code>onDisk</code> mode (1.07 <em>vs</em> 1.36 seconds), while no difference were observed for accessing individual or all spectra. Thus, for this particular setup, performance was about the same for SSD and HDD. This might however not apply to setting in which data import is performed in parallel from multiple files.</p>
 <p>Data access does not prohibit interactive usage, such as plotting, for example, as it is about 1/2 seconds, which is an operation that is relatively rare, compared to subsetting and filtering, which are faster for on-disk data:</p>
@@ -213,12 +213,12 @@ Plotting in-memory and on-disk spectra
 <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(<span class="kw">inmem</span>[<span class="kw">i</span>])
 </pre></div>
 <pre><code>##    user  system elapsed 
-##   0.114   0.000   0.113</code></pre>
+##   0.110   0.000   0.111</code></pre>
 <div class="sourceCode" id="cb21"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(<span class="kw">ondisk</span>[<span class="kw">i</span>])
 </pre></div>
 <pre><code>##    user  system elapsed 
-##   0.014   0.000   0.014</code></pre>
+##   0.015   0.000   0.015</code></pre>
 <p>Operations on the spectra data, such as peak picking, smoothing, cleaning, … are cleverly cached and only applied when the data is accessed, to minimise file access overhead. Finally, specific operations such as for example quantitation (see next section) are optimised for speed.</p>
 </div>
 <div id="ms2-quantitation" class="section level2">
@@ -230,13 +230,13 @@ Plotting in-memory and on-disk spectra
                             method = <span class="st">"max"</span>))
 </pre></div>
 <pre><code>##    user  system elapsed 
-##   3.293   0.012   3.305</code></pre>
+##   3.254   0.025   3.281</code></pre>
 <div class="sourceCode" id="cb25"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(<span class="kw">eod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span>(<span class="kw">ondisk</span>[<span class="fl">1</span><span class="op">:</span><span class="fl">100</span>], reporters = <span class="kw">TMT6</span>,
                             method = <span class="st">"max"</span>))
 </pre></div>
 <pre><code>##    user  system elapsed 
-##   0.320   0.020   0.338</code></pre>
+##   0.314   0.020   0.331</code></pre>
 <div class="sourceCode" id="cb27"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(<span class="kw">eim</span>, <span class="kw">eod</span>, check.attributes = <span class="fl">FALSE</span>)
 </pre></div>
@@ -294,7 +294,7 @@ Plotting in-memory and on-disk spectra
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
