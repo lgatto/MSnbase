@@ -9,3 +9,4 @@ NEWS.md
 README.Rmd
 ^.*\.Rproj$
 ^\.Rproj\.user$
+.github
