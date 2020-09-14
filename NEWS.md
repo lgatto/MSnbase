@@ -1,5 +1,8 @@
 # MSnbase 2.15
 
+## Changes in 2.15.7
+- Nothing yet
+
 ## Changes in 2.15.6
 - Add `extractSpectraData` function to extract all data from an `MSnExp` or
   `Spectra` object as a `DataFrame` to be used with the `Spectra` package.
