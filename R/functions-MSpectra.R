@@ -91,3 +91,62 @@ MSpectra <- function(..., elementMetadata = NULL) {
     }
     res
 }
+
+#' @title Extract data from MSnbase objects for use in Spectra
+#'
+#' @description
+#'
+#' `extractSpectraData` extracts the spectra data (m/z and intensity values
+#' including metadata) from [MSnExp-class], [OnDiskMSnExp-class],
+#' [Spectrum1-class], [Spectrum2-class] objects (or `list` of such objects) and
+#' returns these as a `DataFrame` that can be used to create a
+#' [Spectra::Spectra-class] object.This function enables thus
+#' to convert data from the *old* `MSnbase` package to the newer `Spectra`
+#' package.
+#'
+#' @param x a `list` of [Spectrum-class] objects or an object extending
+#'     [MSnExp-class] or a [MSpectra-class] object.
+#'
+#' @return [DataFrame()] with the full spectrum data that can be passed to the
+#'     [Spectra::Spectra()] function to create a `Spectra` object.
+#'
+#' @author Johannes Rainer
+#'
+#' @md
+#'
+#' @examples
+#'
+#' ## Read an mzML file with MSnbase
+#' fl <- system.file("TripleTOF-SWATH", "PestMix1_SWATH.mzML",
+#'     package = "msdata")
+#' data <- filterRt(readMSData(fl, mode = "onDisk"), rt = c(1, 6))
+#'
+#' ## Extract the data as a DataFrame
+#' res <- extractSpectraData(data)
+#' res
+#'
+#' ## This can be used as an input for the Spectra constructor of the
+#' ## Spectra package:
+#' ## sps <- Spectra::Spectra(res)
+#' ## sps
+extractSpectraData <- function(x) {
+    if (inherits(x, "MSpectra")) {
+        df <- DataFrame(do.call(rbind, lapply(x, .spectrum_header)))
+        df <- cbind(df, mcols(x))
+        df$mz <- NumericList(lapply(x, function(z) z@mz))
+        df$intensity <- NumericList(lapply(x, function(z) z@intensity))
+    } else if (is(x, "list") || inherits(x, "SimpleList")) {
+        df <- DataFrame(do.call(rbind, lapply(x, .spectrum_header)))
+        df$mz <- NumericList(lapply(x, function(z) z@mz))
+        df$intensity <- NumericList(lapply(x, function(z) z@intensity))
+    } else if (inherits(x, "MSnExp")) {
+        df <- DataFrame(fData(x))
+        df$mz <- NumericList(mz(x))
+        df$intensity <- NumericList(intensity(x))
+    } else stop("'x' should be either a 'list' of 'Spectrum' objects or an ",
+                "object extending 'MSnExp' or 'MSpectra'.")
+    colnames(df)[colnames(df) == "retentionTime"] <- "rtime"
+    colnames(df)[colnames(df) == "fileIdx"] <- "fromFile"
+    colnames(df)[colnames(df) == "seqNum"] <- "scanIndex"
+    df
+}

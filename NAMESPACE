@@ -47,7 +47,7 @@ importFrom(stats4, plot)
 importFrom(preprocessCore, normalize.quantiles)
 importFrom(vsn, vsn2, meanSdPlot)
 importFrom(IRanges, IRanges, end, extractList, findOverlaps, start, width,
-           reduce)
+           reduce, NumericList)
 importClassesFrom(IRanges, IRanges)
 importFrom(affy, MAplot, ma.plot, mva.pairs)
 importFrom(mzID, mzID, flatten)
@@ -161,7 +161,8 @@ export(MSnSet,
        estimateMzScattering,
        hasSpectra, hasChromatograms,
        mergeFeatureVars, expandFeatureVars,
-       MSpectra
+       MSpectra,
+       extractSpectraData
        )
 
 exportClasses(pSet,
