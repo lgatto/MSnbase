@@ -7,9 +7,9 @@ setMethod("filterMsLevel", "MSnExp",
               msLevel. <- as.numeric(msLevel.)
               object <- object[msLevel(object) %in% msLevel.]
               object <- logging(object,
-                                paste("Filter: select MS level(s)",
+                                paste0("Filter: select MS level(s) ",
                                       paste(unique(msLevel.),
-                                            collapse = " ")))
+                                            collapse = " "), "."))
               object
           })
 
@@ -19,7 +19,7 @@ setMethod("filterPolarity", "MSnExp",
               msLevel. <- as.numeric(polarity.)
               object <- object[polarity(object) %in% polarity.]
               object <- logging(object,
-                                paste0("Filter: select polarity",
+                                paste0("Filter: select polarity ",
                                 polarity., "."))
               object
           })
