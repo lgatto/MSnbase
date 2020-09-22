@@ -1,7 +1,7 @@
 # MSnbase 2.15
 
 ## Changes in 2.15.7
-- Nothing yet
+- Fixed some consistency in the processing reporting (contributed by @stanstrup).
 
 ## Changes in 2.15.6
 - Add `extractSpectraData` function to extract all data from an `MSnExp` or
