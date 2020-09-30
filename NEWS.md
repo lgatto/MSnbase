@@ -1,5 +1,8 @@
 # MSnbase 2.15
 
+## Changes in 2.15.8
+- Nothin yet.
+
 ## Changes in 2.15.7
 - Fixed some consistency in the processing reporting (contributed by @stanstrup).
 
