@@ -83,7 +83,7 @@ Since version 1.13.5, parallel quantitation is supported by the
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -314,9 +314,9 @@ Since version 1.13.5, parallel quantitation is supported by the
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>## Quantifying a full experiment using iTRAQ4-plex tagging</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>itraqdata</span>)
-<span class='kw'>msnset</span> <span class='op'>&lt;-</span> <span class='fu'>quantify</span>(<span class='kw'>itraqdata</span>, method = <span class='st'>"trap"</span>, reporters = <span class='kw'>iTRAQ4</span>)
-<span class='kw'>msnset</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>itraqdata</span><span class='op'>)</span>
+<span class='va'>msnset</span> <span class='op'>&lt;-</span> <span class='fu'>quantify</span><span class='op'>(</span><span class='va'>itraqdata</span>, method <span class='op'>=</span> <span class='st'>"trap"</span>, reporters <span class='op'>=</span> <span class='va'>iTRAQ4</span><span class='op'>)</span>
+<span class='va'>msnset</span>
 </div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
 #&gt; assayData: 55 features, 4 samples 
 #&gt;   element names: exprs 
@@ -334,7 +334,7 @@ Since version 1.13.5, parallel quantitation is supported by the
 #&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#&gt; iTRAQ4 quantification by trapezoidation: Tue Sep 22 09:15:42 2020 
+#&gt; iTRAQ4 quantification by trapezoidation: Wed Sep 30 10:54:35 2020 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
 <span class='co'>## specifying a custom parallel framework</span>
 <span class='co'>## bp &lt;- MulticoreParam(2L) # on Linux/OSX</span>
@@ -342,50 +342,50 @@ Since version 1.13.5, parallel quantitation is supported by the
 <span class='co'>## quantify(itraqdata[1:10], method = "trap", iTRAQ4, BPPARAM = bp)</span>
 
 <span class='co'>## Checking for non-quantified peaks</span>
-<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>msnset</span>)))
+<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 1</div><div class='input'>
 <span class='co'>## Quantifying a single spectrum</span>
-<span class='kw'>qty</span> <span class='op'>&lt;-</span> <span class='fu'>quantify</span>(<span class='kw'>itraqdata</span>[[<span class='fl'>1</span>]], method = <span class='st'>"trap"</span>, <span class='kw'>iTRAQ4</span>[<span class='fl'>1</span>])
-<span class='kw'>qty</span><span class='op'>$</span><span class='kw'>peakQuant</span>
+<span class='va'>qty</span> <span class='op'>&lt;-</span> <span class='fu'>quantify</span><span class='op'>(</span><span class='va'>itraqdata</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>, method <span class='op'>=</span> <span class='st'>"trap"</span>, <span class='va'>iTRAQ4</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+<span class='va'>qty</span><span class='op'>$</span><span class='va'>peakQuant</span>
 </div><div class='output co'>#&gt; iTRAQ4.114 
-#&gt;   1347.616 </div><div class='input'><span class='kw'>qty</span><span class='op'>$</span><span class='kw'>curveStats</span>
+#&gt;   1347.616 </div><div class='input'><span class='va'>qty</span><span class='op'>$</span><span class='va'>curveStats</span>
 </div><div class='output co'>#&gt;        maxInt nMaxInt baseLength  lowerMz  upperMz reporter precursor
 #&gt; [1,] 197455.8       1         11 114.1012 114.1196 114.1112  520.7833</div><div class='input'>
 
 <span class='co'>## Label-free quantitation</span>
 <span class='co'>## Raw (mzXML) and identification (mzid) files</span>
-<span class='kw'>quantFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(package = <span class='st'>"MSnbase"</span>, dir = <span class='st'>"extdata"</span>),
-                 full.name = <span class='fl'>TRUE</span>, pattern = <span class='st'>"mzXML$"</span>)
-<span class='kw'>identFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(package = <span class='st'>"MSnbase"</span>, dir = <span class='st'>"extdata"</span>),
-                 full.name = <span class='fl'>TRUE</span>, pattern = <span class='st'>"dummyiTRAQ.mzid"</span>)
+<span class='va'>quantFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"MSnbase"</span>, dir <span class='op'>=</span> <span class='st'>"extdata"</span><span class='op'>)</span>,
+                 full.name <span class='op'>=</span> <span class='cn'>TRUE</span>, pattern <span class='op'>=</span> <span class='st'>"mzXML$"</span><span class='op'>)</span>
+<span class='va'>identFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"MSnbase"</span>, dir <span class='op'>=</span> <span class='st'>"extdata"</span><span class='op'>)</span>,
+                 full.name <span class='op'>=</span> <span class='cn'>TRUE</span>, pattern <span class='op'>=</span> <span class='st'>"dummyiTRAQ.mzid"</span><span class='op'>)</span>
 
-<span class='kw'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='kw'>quantFile</span>)
-<span class='kw'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='addIdentificationData-methods.html'>addIdentificationData</a></span>(<span class='kw'>msexp</span>, <span class='kw'>identFile</span>)
-<span class='fu'>fData</span>(<span class='kw'>msexp</span>)<span class='op'>$</span><span class='kw'>DatabaseAccess</span>
+<span class='va'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>quantFile</span><span class='op'>)</span>
+<span class='va'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='addIdentificationData-methods.html'>addIdentificationData</a></span><span class='op'>(</span><span class='va'>msexp</span>, <span class='va'>identFile</span><span class='op'>)</span>
+<span class='fu'>fData</span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span><span class='op'>$</span><span class='va'>DatabaseAccess</span>
 </div><div class='output co'>#&gt; [1] "ECA0984" "ECA1028" NA        NA        "ECA0510"</div><div class='input'>
-<span class='kw'>si</span> <span class='op'>&lt;-</span> <span class='fu'>quantify</span>(<span class='kw'>msexp</span>, method = <span class='st'>"SIn"</span>)
-<span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='kw'>si</span>)
+<span class='va'>si</span> <span class='op'>&lt;-</span> <span class='fu'>quantify</span><span class='op'>(</span><span class='va'>msexp</span>, method <span class='op'>=</span> <span class='st'>"SIn"</span><span class='op'>)</span>
+<span class='fu'><a href='pSet-class.html'>processingData</a></span><span class='op'>(</span><span class='va'>si</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Data loaded: Tue Sep 22 09:15:43 2020 
-#&gt; Filtered 2 unidentified peptides out [Tue Sep 22 09:15:43 2020] 
-#&gt; Quantitation by total ion current [Tue Sep 22 09:15:43 2020] 
-#&gt; Combined 3 features into 3 using sum: Tue Sep 22 09:15:43 2020 
-#&gt; Quantification by SIn [Tue Sep 22 09:15:43 2020] 
-#&gt;  MSnbase version: 2.15.7 </div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>si</span>)
+#&gt; Data loaded: Wed Sep 30 10:54:37 2020 
+#&gt; Filtered 2 unidentified peptides out [Wed Sep 30 10:54:37 2020] 
+#&gt; Quantitation by total ion current [Wed Sep 30 10:54:37 2020] 
+#&gt; Combined 3 features into 3 using sum: Wed Sep 30 10:54:37 2020 
+#&gt; Quantification by SIn [Wed Sep 30 10:54:37 2020] 
+#&gt;  MSnbase version: 2.15.8 </div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>si</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
 #&gt; ECA0510     0.0006553518
 #&gt; ECA0984     0.0035384487
 #&gt; ECA1028     0.0002684726</div><div class='input'>
-<span class='kw'>saf</span> <span class='op'>&lt;-</span> <span class='fu'>quantify</span>(<span class='kw'>msexp</span>, method = <span class='st'>"NSAF"</span>)
-<span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='kw'>saf</span>)
+<span class='va'>saf</span> <span class='op'>&lt;-</span> <span class='fu'>quantify</span><span class='op'>(</span><span class='va'>msexp</span>, method <span class='op'>=</span> <span class='st'>"NSAF"</span><span class='op'>)</span>
+<span class='fu'><a href='pSet-class.html'>processingData</a></span><span class='op'>(</span><span class='va'>saf</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Data loaded: Tue Sep 22 09:15:43 2020 
-#&gt; Filtered 2 unidentified peptides out [Tue Sep 22 09:15:43 2020] 
-#&gt; Filtered 0 unidentified peptides out [Tue Sep 22 09:15:44 2020] 
-#&gt; Quantitation by count [Tue Sep 22 09:15:44 2020] 
-#&gt; Combined 3 features into 3 using user-defined function: Tue Sep 22 09:15:44 2020 
-#&gt; Quantification by NSAF [Tue Sep 22 09:15:44 2020] 
-#&gt;  MSnbase version: 2.15.7 </div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>saf</span>)
+#&gt; Data loaded: Wed Sep 30 10:54:37 2020 
+#&gt; Filtered 2 unidentified peptides out [Wed Sep 30 10:54:37 2020] 
+#&gt; Filtered 0 unidentified peptides out [Wed Sep 30 10:54:37 2020] 
+#&gt; Quantitation by count [Wed Sep 30 10:54:37 2020] 
+#&gt; Combined 3 features into 3 using user-defined function: Wed Sep 30 10:54:37 2020 
+#&gt; Quantification by NSAF [Wed Sep 30 10:54:37 2020] 
+#&gt;  MSnbase version: 2.15.8 </div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>saf</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;         dummyiTRAQ.mzXML
 #&gt; ECA0510        0.4306167
 #&gt; ECA0984        0.3094475

@@ -78,7 +78,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -501,21 +501,21 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Get some example mzML files</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>msdata</span>)
-<span class='kw'>mzfiles</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"microtofq/MM14.mzML"</span>, package=<span class='st'>"msdata"</span>),
-       <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"microtofq/MM8.mzML"</span>, package=<span class='st'>"msdata"</span>))
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>msdata</span><span class='op'>)</span>
+<span class='va'>mzfiles</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"microtofq/MM14.mzML"</span>, package<span class='op'>=</span><span class='st'>"msdata"</span><span class='op'>)</span>,
+       <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"microtofq/MM8.mzML"</span>, package<span class='op'>=</span><span class='st'>"msdata"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>## Read the data as an OnDiskMSnExp</span>
-<span class='kw'>odmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='kw'>mzfiles</span>, msLevel=<span class='fl'>1</span>, centroided = <span class='fl'>TRUE</span>)
+<span class='va'>odmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>mzfiles</span>, msLevel<span class='op'>=</span><span class='fl'>1</span>, centroided <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'>## Get the length of data, i.e. the total number of spectra.</span>
-<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>odmse</span>)
+<span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 310</div><div class='input'>
 <span class='co'>## Get the MS level</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='kw'>odmse</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
 #&gt;       1       1       1       1       1       1 </div><div class='input'>
 <span class='co'>## Get the featureData, use fData to return as a data.frame</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='kw'>odmse</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;         spectrum
 #&gt; F1.S001        1
 #&gt; F1.S002        2
@@ -524,21 +524,21 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt; F1.S005        5
 #&gt; F1.S006        6</div><div class='input'>
 <span class='co'>## Get to know from which file the spectra are</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='Spectrum-class.html'>fromFile</a></span>(<span class='kw'>odmse</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>fromFile</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
 #&gt;       1       1       1       1       1       1 </div><div class='input'>
 <span class='co'>## And the file names:</span>
-<span class='fu'><a href='pSet-class.html'>fileNames</a></span>(<span class='kw'>odmse</span>)
+<span class='fu'><a href='pSet-class.html'>fileNames</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "/usr/local/lib/R/host-site-library/msdata/microtofq/MM14.mzML"
 #&gt; [2] "/usr/local/lib/R/host-site-library/msdata/microtofq/MM8.mzML" </div><div class='input'>
 <span class='co'>## Scan index and acquisitionNum</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='Spectrum-class.html'>scanIndex</a></span>(<span class='kw'>odmse</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>scanIndex</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#&gt;       1       2       3       4       5       6 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='Spectrum-class.html'>acquisitionNum</a></span>(<span class='kw'>odmse</span>))
+#&gt;       1       2       3       4       5       6 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>acquisitionNum</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
 #&gt;       1       2       3       4       5       6 </div><div class='input'>
 <span class='co'>## Extract the spectra; the data is retrieved from the raw files.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='pSet-class.html'>spectra</a></span>(<span class='kw'>odmse</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='pSet-class.html'>spectra</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $F1.S001
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:30 
@@ -582,7 +582,7 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt;  Polarity: 1 
 #&gt; </div><div class='input'>
 <span class='co'>## Extracting individual spectra or a subset is much faster.</span>
-<span class='fu'><a href='pSet-class.html'>spectra</a></span>(<span class='kw'>odmse</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>50</span>])
+<span class='fu'><a href='pSet-class.html'>spectra</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>50</span><span class='op'>]</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $F1.S001
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:30 
@@ -934,9 +934,9 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt;  Polarity: 1 
 #&gt; </div><div class='input'>
 <span class='co'>## Alternatively, we could also subset the whole object by spectra and/or samples:</span>
-<span class='kw'>subs</span> <span class='op'>&lt;-</span> <span class='kw'>odmse</span>[<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='kw'>odmse</span>) <span class='op'>&gt;=</span> <span class='fl'>2</span> <span class='op'>&amp;</span> <span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='kw'>odmse</span>) <span class='op'>&lt;=</span> <span class='fl'>20</span>, ]
-<span class='fu'><a href='pSet-class.html'>fileNames</a></span>(<span class='kw'>subs</span>)
-</div><div class='output co'>#&gt; [1] "/usr/local/lib/R/host-site-library/msdata/microtofq/MM8.mzML"</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='kw'>subs</span>)
+<span class='va'>subs</span> <span class='op'>&lt;-</span> <span class='va'>odmse</span><span class='op'>[</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span> <span class='op'>&gt;=</span> <span class='fl'>2</span> <span class='op'>&amp;</span> <span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span> <span class='op'>&lt;=</span> <span class='fl'>20</span>, <span class='op'>]</span>
+<span class='fu'><a href='pSet-class.html'>fileNames</a></span><span class='op'>(</span><span class='va'>subs</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "/usr/local/lib/R/host-site-library/msdata/microtofq/MM8.mzML"</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>subs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   F2.S006   F2.S007   F2.S008   F2.S009   F2.S010   F2.S011   F2.S012   F2.S013 
 #&gt;  2.169000  2.506002  2.842998  3.178998  3.516000  3.852000  4.188000  4.525002 
 #&gt;   F2.S014   F2.S015   F2.S016   F2.S017   F2.S018   F2.S019   F2.S020   F2.S021 
@@ -953,23 +953,23 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt; 18.322980 18.660000 18.996000 19.333020 19.669020 </div><div class='input'>
 <span class='co'>## Extract intensities and M/Z values per spectrum; the methods return a list,</span>
 <span class='co'>## each element representing the values for one spectrum.</span>
-<span class='kw'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='kw'>odmse</span>)
-<span class='kw'>mzs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>odmse</span>)
+<span class='va'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>
+<span class='va'>mzs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>
 
 <span class='co'>## Return a data.frame with mz and intensity pairs for each spectrum from the</span>
 <span class='co'>## object</span>
-<span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pSet-class.html'>spectrapply</a></span>(<span class='kw'>odmse</span>, FUN = <span class='kw'>as</span>, Class = <span class='st'>"data.frame"</span>)
+<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pSet-class.html'>spectrapply</a></span><span class='op'>(</span><span class='va'>odmse</span>, FUN <span class='op'>=</span> <span class='va'>as</span>, Class <span class='op'>=</span> <span class='st'>"data.frame"</span><span class='op'>)</span>
 
 <span class='co'>## Calling removePeaks, i.e. setting intensity values below a certain threshold to 0.</span>
 <span class='co'>## Unlike the name suggests, this is not actually removing peaks. Such peaks with a 0</span>
 <span class='co'>## intensity are then removed by the "clean" step.</span>
 <span class='co'>## Also, the manipulations are not applied directly, but put into the "lazy"</span>
 <span class='co'>## processing queue.</span>
-<span class='kw'>odmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='removePeaks-methods.html'>removePeaks</a></span>(<span class='kw'>odmse</span>, t=<span class='fl'>10000</span>)
-<span class='kw'>odmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='clean-methods.html'>clean</a></span>(<span class='kw'>odmse</span>)
+<span class='va'>odmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='removePeaks-methods.html'>removePeaks</a></span><span class='op'>(</span><span class='va'>odmse</span>, t<span class='op'>=</span><span class='fl'>10000</span><span class='op'>)</span>
+<span class='va'>odmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='clean-methods.html'>clean</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>
 
 <span class='co'>## The processing steps are only applied when actual raw data is extracted.</span>
-<span class='fu'><a href='pSet-class.html'>spectra</a></span>(<span class='kw'>odmse</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>])
+<span class='fu'><a href='pSet-class.html'>spectra</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $F1.S001
 #&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 4:30 
@@ -985,67 +985,67 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt;  Polarity: 1 
 #&gt; </div><div class='input'>
 <span class='co'>## Get the polarity of the spectra.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='Spectrum-class.html'>polarity</a></span>(<span class='kw'>odmse</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>polarity</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
 #&gt;       1       1       1       1       1       1 </div><div class='input'>
 <span class='co'>## Get the retention time of all spectra</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='kw'>odmse</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
 #&gt; 270.334 270.671 271.007 271.343 271.680 272.016 </div><div class='input'>
 <span class='co'>## Get the intensities after removePeaks and clean</span>
-<span class='kw'>intsAfter</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='kw'>odmse</span>)
+<span class='va'>intsAfter</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span>(<span class='kw'>ints</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#&gt;    1378    1356    1404    1496    1525    1498 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span>(<span class='kw'>intsAfter</span>))
+#&gt;    1378    1356    1404    1496    1525    1498 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span><span class='op'>(</span><span class='va'>intsAfter</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
 #&gt;       0       0       0       3       6       9 </div><div class='input'>
 <span class='co'>## The same for the M/Z values</span>
-<span class='kw'>mzsAfter</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='kw'>odmse</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span>(<span class='kw'>mzs</span>))
+<span class='va'>mzsAfter</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span><span class='op'>(</span><span class='va'>mzs</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#&gt;    1378    1356    1404    1496    1525    1498 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span>(<span class='kw'>mzsAfter</span>))
+#&gt;    1378    1356    1404    1496    1525    1498 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span><span class='op'>(</span><span class='va'>mzsAfter</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
 #&gt;       0       0       0       3       6       9 </div><div class='input'>
 
 <span class='co'>## Centroided or profile mode</span>
-<span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='kw'>msdata</span>::<span class='fu'><a href='https://rdrr.io/pkg/msdata/man/proteomics.html'>proteomics</a></span>(full.names = <span class='fl'>TRUE</span>,
-      pattern = <span class='st'>"MS3TMT11.mzML"</span>)
-<span class='kw'>odmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='kw'>f</span>, mode = <span class='st'>"onDisk"</span>)
-<span class='fu'>validObject</span>(<span class='kw'>odmse</span>)
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>odmse</span>[[<span class='fl'>1</span>]]
+<span class='va'>f</span> <span class='op'>&lt;-</span> <span class='fu'>msdata</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/msdata/man/proteomics.html'>proteomics</a></span><span class='op'>(</span>full.names <span class='op'>=</span> <span class='cn'>TRUE</span>,
+      pattern <span class='op'>=</span> <span class='st'>"MS3TMT11.mzML"</span><span class='op'>)</span>
+<span class='va'>odmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>f</span>, mode <span class='op'>=</span> <span class='st'>"onDisk"</span><span class='op'>)</span>
+<span class='fu'>validObject</span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='va'>odmse</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
 </div><div class='output co'>#&gt; Object of class "Spectrum1"
 #&gt;  Retention time: 45:27 
 #&gt;  MSn level: 1 
 #&gt;  Total ion count: 10768 
 #&gt;  Polarity: 1 </div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='isCentroidedFromFile.html'>isCentroidedFromFile</a></span>(<span class='kw'>odmse</span>), <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='kw'>odmse</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='isCentroidedFromFile.html'>isCentroidedFromFile</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;        
 #&gt;           1   2   3
 #&gt;   FALSE  30   0   0
 #&gt;   TRUE    0 482 482</div><div class='input'>
 <span class='co'>## centroided status could be set manually</span>
-<span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='kw'>odmse</span>, msLevel = <span class='fl'>1</span>) <span class='op'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='kw'>odmse</span>, msLevel = <span class='fl'>2</span>) <span class='op'>&lt;-</span> <span class='fl'>TRUE</span>
-<span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='kw'>odmse</span>, msLevel = <span class='fl'>3</span>) <span class='op'>&lt;-</span> <span class='fl'>TRUE</span>
+<span class='fu'><a href='Spectrum-class.html'>centroided</a></span><span class='op'>(</span><span class='va'>odmse</span>, msLevel <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
+<span class='fu'><a href='Spectrum-class.html'>centroided</a></span><span class='op'>(</span><span class='va'>odmse</span>, msLevel <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='cn'>TRUE</span>
+<span class='fu'><a href='Spectrum-class.html'>centroided</a></span><span class='op'>(</span><span class='va'>odmse</span>, msLevel <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='cn'>TRUE</span>
 
 <span class='co'>## or when reading the data</span>
-<span class='kw'>odmse2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='kw'>f</span>, centroided = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>, <span class='fl'>TRUE</span>),
-         mode = <span class='st'>"onDisk"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='Spectrum-class.html'>centroided</a></span>(<span class='kw'>odmse</span>), <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='kw'>odmse</span>))
+<span class='va'>odmse2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>f</span>, centroided <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>FALSE</span>, <span class='cn'>TRUE</span>, <span class='cn'>TRUE</span><span class='op'>)</span>,
+         mode <span class='op'>=</span> <span class='st'>"onDisk"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>centroided</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;        
 #&gt;           1   2   3
 #&gt;   FALSE  30   0   0
 #&gt;   TRUE    0 482 482</div><div class='input'>
 <span class='co'>## Filtering precursor scans</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='Spectrum-class.html'>acquisitionNum</a></span>(<span class='kw'>odmse</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>acquisitionNum</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#&gt;   21945   21946   21947   21948   21949   21950 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='kw'>odmse</span>))
+#&gt;   21945   21946   21947   21948   21949   21950 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
 #&gt;       1       2       2       3       2       2 </div><div class='input'>
 <span class='co'>## Extract all spectra stemming from the first MS1 spectrum</span>
-(<span class='kw'>from1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterPrecursorScan</a></span>(<span class='kw'>odmse</span>, <span class='fl'>21945</span>))
+<span class='op'>(</span><span class='va'>from1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterPrecursorScan</a></span><span class='op'>(</span><span class='va'>odmse</span>, <span class='fl'>21945</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; MSn experiment data ("OnDiskMSnExp")
 #&gt; Object size in memory: 0.05 Mb
 #&gt; - - - Spectra data - - -
@@ -1053,9 +1053,9 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt;  Number of spectra: 35 
 #&gt;  MSn retention times: 45:27 - 45:30 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded [Tue Sep 22 09:12:58 2020] 
-#&gt; Filter: select parent/children scans for 21945 [Tue Sep 22 09:12:59 2020] 
-#&gt;  MSnbase version: 2.15.7 
+#&gt; Data loaded [Wed Sep 30 10:51:54 2020] 
+#&gt; Filter: select parent/children scans for 21945 [Wed Sep 30 10:51:55 2020] 
+#&gt;  MSnbase version: 2.15.8 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
 #&gt;   rowNames: MS3TMT11.mzML
@@ -1068,14 +1068,14 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt;   featureNames: F1.S001 F1.S002 ... F1.S035 (35 total)
 #&gt;   fvarLabels: fileIdx spIdx ... spectrum (35 total)
 #&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='kw'>from1</span>))
+#&gt; experimentData: use 'experimentData(object)'</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>from1</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
 #&gt;  1  2  3 
 #&gt;  1 17 17 </div><div class='input'>
 
 <span class='co'>## Extract the second sepctrum's parent (MS1) and children (MS3)</span>
 <span class='co'>## spectra</span>
-(<span class='kw'>from2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterPrecursorScan</a></span>(<span class='kw'>odmse</span>, <span class='fl'>21946</span>))
+<span class='op'>(</span><span class='va'>from2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterPrecursorScan</a></span><span class='op'>(</span><span class='va'>odmse</span>, <span class='fl'>21946</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; MSn experiment data ("OnDiskMSnExp")
 #&gt; Object size in memory: 0.03 Mb
 #&gt; - - - Spectra data - - -
@@ -1083,9 +1083,9 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt;  Number of spectra: 3 
 #&gt;  MSn retention times: 45:27 - 45:27 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded [Tue Sep 22 09:12:58 2020] 
-#&gt; Filter: select parent/children scans for 21946 [Tue Sep 22 09:12:59 2020] 
-#&gt;  MSnbase version: 2.15.7 
+#&gt; Data loaded [Wed Sep 30 10:51:54 2020] 
+#&gt; Filter: select parent/children scans for 21946 [Wed Sep 30 10:51:56 2020] 
+#&gt;  MSnbase version: 2.15.8 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
 #&gt;   rowNames: MS3TMT11.mzML
@@ -1098,7 +1098,7 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 #&gt;   featureNames: F1.S001 F1.S002 F1.S004
 #&gt;   fvarLabels: fileIdx spIdx ... spectrum (35 total)
 #&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span>(<span class='kw'>from2</span>))
+#&gt; experimentData: use 'experimentData(object)'</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>from2</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
 #&gt; 1 2 3 
 #&gt; 1 1 1 </div><div class='input'>

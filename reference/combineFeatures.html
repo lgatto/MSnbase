@@ -83,7 +83,7 @@ If NA values are present, a message will be shown. Details on how
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -298,9 +298,9 @@ If NA values are present, a message will be shown. Details on how
 <p><code><a href='normToReference.html'>NTR</a></code> for normalisation to reference summarisation.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>msnset</span>)
-<span class='kw'>msnset</span> <span class='op'>&lt;-</span> <span class='kw'>msnset</span>[<span class='fl'>11</span><span class='op'>:</span><span class='fl'>15</span>, ]
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>msnset</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>
+<span class='va'>msnset</span> <span class='op'>&lt;-</span> <span class='va'>msnset</span><span class='op'>[</span><span class='fl'>11</span><span class='op'>:</span><span class='fl'>15</span>, <span class='op'>]</span>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; X19  32838.044  37066.058  41429.627  39700.475
 #&gt; X2    3715.089   4254.323   4748.462   5249.904
@@ -308,13 +308,13 @@ If NA values are present, a message will be shown. Details on how
 #&gt; X21  21262.148  23168.729  25407.068  25949.954
 #&gt; X22   8635.316  10036.529   9254.432   7769.749</div><div class='input'>
 <span class='co'>## arbitrary grouping into two groups</span>
-<span class='kw'>grp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>))
-<span class='kw'>msnset.comb</span> <span class='op'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='kw'>msnset</span>, groupBy = <span class='kw'>grp</span>, method = <span class='st'>"sum"</span>)
-<span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='kw'>msnset.comb</span>)
-</div><div class='output co'>#&gt; [1] 2 4</div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>msnset.comb</span>)
+<span class='va'>grp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>msnset.comb</span> <span class='op'>&lt;-</span> <span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>, groupBy <span class='op'>=</span> <span class='va'>grp</span>, method <span class='op'>=</span> <span class='st'>"sum"</span><span class='op'>)</span>
+<span class='fu'><a href='pSet-class.html'>dim</a></span><span class='op'>(</span><span class='va'>msnset.comb</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 2 4</div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset.comb</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; 1   36553.13   41320.38   46178.09   44950.38
-#&gt; 2   64407.15   68134.01   76572.53   76563.54</div><div class='input'><span class='fu'>fvarLabels</span>(<span class='kw'>msnset.comb</span>)
+#&gt; 2   64407.15   68134.01   76572.53   76563.54</div><div class='input'><span class='fu'>fvarLabels</span><span class='op'>(</span><span class='va'>msnset.comb</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] "spectrum"            "ProteinAccession"    "ProteinDescription" 
 #&gt;  [4] "PeptideSequence"     "file"                "retention.time"     
 #&gt;  [7] "precursor.mz"        "precursor.intensity" "charge"             
@@ -323,53 +323,53 @@ If NA values are present, a message will be shown. Details on how
 #&gt; [16] "CV.iTRAQ4.114"       "CV.iTRAQ4.115"       "CV.iTRAQ4.116"      
 #&gt; [19] "CV.iTRAQ4.117"      </div><div class='input'>
 <span class='co'>## grouping with a list</span>
-<span class='kw'>grpl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>), <span class='st'>"A"</span>, <span class='st'>"A"</span>, <span class='st'>"C"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"C"</span>, <span class='st'>"B"</span>))
+<span class='va'>grpl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"B"</span><span class='op'>)</span>, <span class='st'>"A"</span>, <span class='st'>"A"</span>, <span class='st'>"C"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"C"</span>, <span class='st'>"B"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>## optional naming</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>grpl</span>) <span class='op'>&lt;-</span> <span class='fu'>featureNames</span>(<span class='kw'>msnset</span>)
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='fu'>combineFeatures</span>(<span class='kw'>msnset</span>, groupBy = <span class='kw'>grpl</span>, method = <span class='st'>"sum"</span>, redundancy.handler = <span class='st'>"unique"</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>grpl</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'>featureNames</span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>, groupBy <span class='op'>=</span> <span class='va'>grpl</span>, method <span class='op'>=</span> <span class='st'>"sum"</span>, redundancy.handler <span class='op'>=</span> <span class='st'>"unique"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; A   38224.78   39183.07   46659.49   48093.74
-#&gt; C   21262.15   23168.73   25407.07   25949.95</div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='fu'>combineFeatures</span>(<span class='kw'>msnset</span>, groupBy = <span class='kw'>grpl</span>, method = <span class='st'>"sum"</span>, redundancy.handler = <span class='st'>"multiple"</span>))
+#&gt; C   21262.15   23168.73   25407.07   25949.95</div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>, groupBy <span class='op'>=</span> <span class='va'>grpl</span>, method <span class='op'>=</span> <span class='st'>"sum"</span>, redundancy.handler <span class='op'>=</span> <span class='st'>"multiple"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; A   71062.82   76249.13   88089.12   87794.22
 #&gt; B   41473.36   47102.59   50684.06   47470.22
 #&gt; C   29897.46   33205.26   34661.50   33719.70</div><div class='input'>
 <span class='co'>## missing data</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>msnset</span>)[<span class='fl'>4</span>, <span class='fl'>4</span>] <span class='op'>&lt;-</span>
-    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>msnset</span>)[<span class='fl'>2</span>, <span class='fl'>2</span>] <span class='op'>&lt;-</span> <span class='fl'>NA</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>msnset</span>)
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>4</span>, <span class='fl'>4</span><span class='op'>]</span> <span class='op'>&lt;-</span>
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; X19  32838.044   37066.06  41429.627  39700.475
 #&gt; X2    3715.089         NA   4748.462   5249.904
 #&gt; X20  34509.686   34928.75  41911.032  42843.839
 #&gt; X21  21262.148   23168.73  25407.068         NA
 #&gt; X22   8635.316   10036.53   9254.432   7769.749</div><div class='input'><span class='co'>## NAs propagate in the 115 and 117 channels</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='fu'>combineFeatures</span>(<span class='kw'>msnset</span>, <span class='kw'>grp</span>, <span class='st'>"sum"</span>))
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>, <span class='va'>grp</span>, <span class='st'>"sum"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Your data contains missing values. Please read the relevant section in</span>
 #&gt; <span class='message'>the combineFeatures manual page for details on the effects of missing</span>
 #&gt; <span class='message'>values on data aggregation.</span></div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; 1   36553.13         NA   46178.09   44950.38
 #&gt; 2   64407.15   68134.01   76572.53         NA</div><div class='input'><span class='co'>## NAs are removed before summing</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='fu'>combineFeatures</span>(<span class='kw'>msnset</span>, <span class='kw'>grp</span>, <span class='st'>"sum"</span>, na.rm = <span class='fl'>TRUE</span>))
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>, <span class='va'>grp</span>, <span class='st'>"sum"</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Your data contains missing values. Please read the relevant section in</span>
 #&gt; <span class='message'>the combineFeatures manual page for details on the effects of missing</span>
 #&gt; <span class='message'>values on data aggregation.</span></div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; 1   36553.13   37066.06   46178.09   44950.38
 #&gt; 2   64407.15   68134.01   76572.53   50613.59</div><div class='input'>
 <span class='co'>## using iPQF</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>msnset2</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>anyNA</a></span>(<span class='kw'>msnset2</span>)
-</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='kw'>msnset2</span>,
-           groupBy = <span class='fu'>fData</span>(<span class='kw'>msnset2</span>)<span class='op'>$</span><span class='kw'>accession</span>,
-           redundancy.handler = <span class='st'>"unique"</span>,
-           method = <span class='st'>"iPQF"</span>,
-           low.support.filter = <span class='fl'>FALSE</span>,
-           ratio.calc = <span class='st'>"sum"</span>,
-           method.combine = <span class='fl'>FALSE</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>anyNA</a></span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset2</span>,
+           groupBy <span class='op'>=</span> <span class='fu'>fData</span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>accession</span>,
+           redundancy.handler <span class='op'>=</span> <span class='st'>"unique"</span>,
+           method <span class='op'>=</span> <span class='st'>"iPQF"</span>,
+           low.support.filter <span class='op'>=</span> <span class='cn'>FALSE</span>,
+           ratio.calc <span class='op'>=</span> <span class='st'>"sum"</span>,
+           method.combine <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>The following 1 proteins are only supported by 1 or 2 peptide spectra,</span>
 #&gt; <span class='message'>hence, protein quantification is not reliable and can only be calculated</span>
 #&gt; <span class='message'>by the 'mean' in these cases, corresponding protein accessions are:</span>
-#&gt; <span class='message'>  O95678</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>res</span>))
+#&gt; <span class='message'>  O95678</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;        X114.ions X115.ions X116.ions X117.ions
 #&gt; O95678 0.2404726 0.2682764 0.2584247 0.2328263
 #&gt; P01766 0.2610278 0.2467206 0.2544715 0.2377801
@@ -378,34 +378,34 @@ If NA values are present, a message will be shown. Details on how
 #&gt; P02763 0.2503318 0.2524583 0.2501628 0.2470472
 #&gt; P07225 0.2533961 0.2506013 0.2504353 0.2455673</div><div class='input'>
 <span class='co'>## using robust summarisation</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>msnset</span>) <span class='co'>## reset data</span>
-<span class='kw'>msnset</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>msnset</span>, <span class='fl'>2</span>) <span class='co'>## log2 transform</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span> <span class='co'>## reset data</span>
+<span class='va'>msnset</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>msnset</span>, <span class='fl'>2</span><span class='op'>)</span> <span class='co'>## log2 transform</span>
 
 <span class='co'>## Feature X46, in the ENO protein has one missig value</span>
-<span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='kw'>msnset</span>), arr.ind = <span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='kw'>msnset</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>, arr.ind <span class='op'>=</span> <span class='fu'><a href='pSet-class.html'>dim</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;     row col
 #&gt; X2    2   2
-#&gt; X21   4   4</div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>msnset</span>[<span class='st'>"X46"</span>, ])
+#&gt; X21   4   4</div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>[</span><span class='st'>"X46"</span>, <span class='op'>]</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'exprs': subscript out of bounds</span></div><div class='input'><span class='co'>## Only the missing value in X46 and iTRAQ4.116 will be ignored</span>
-<span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='kw'>msnset</span>,
-           fcol = <span class='st'>"ProteinAccession"</span>,
-           method = <span class='st'>"robust"</span>)
+<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>,
+           fcol <span class='op'>=</span> <span class='st'>"ProteinAccession"</span>,
+           method <span class='op'>=</span> <span class='st'>"robust"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Your data contains missing values. Please read the relevant section in</span>
 #&gt; <span class='message'>the combineFeatures manual page for details on the effects of missing</span>
-#&gt; <span class='message'>values on data aggregation.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>res</span>))
+#&gt; <span class='message'>values on data aggregation.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; ECA1032   15.00308   15.17781   15.33838   15.27687
 #&gt; ECA1104   14.37600   14.49989   14.63294         NA
 #&gt; ECA1294   11.85918         NA   12.21324   12.35808
 #&gt; ECA3356   13.07603   13.29297   13.17593   12.92365
 #&gt; ECA4514   15.07471   15.09213   15.35504   15.38680</div><div class='input'>
-<span class='kw'>msnset2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnSet-class.html'>filterNA</a></span>(<span class='kw'>msnset</span>) <span class='co'>## remove features with missing value(s)</span>
-<span class='kw'>res2</span> <span class='op'>&lt;-</span> <span class='fu'>combineFeatures</span>(<span class='kw'>msnset2</span>,
-      fcol = <span class='st'>"ProteinAccession"</span>,
-      method = <span class='st'>"robust"</span>)
+<span class='va'>msnset2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnSet-class.html'>filterNA</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span> <span class='co'>## remove features with missing value(s)</span>
+<span class='va'>res2</span> <span class='op'>&lt;-</span> <span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset2</span>,
+      fcol <span class='op'>=</span> <span class='st'>"ProteinAccession"</span>,
+      method <span class='op'>=</span> <span class='st'>"robust"</span><span class='op'>)</span>
 <span class='co'>## Here, the values for ENO are different because the whole feature</span>
 <span class='co'>## X46 that contained the missing value was removed prior to fitting.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>res2</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>res2</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 #&gt; ECA1032   15.00308   15.17781   15.33838   15.27687
 #&gt; ECA3356   13.07603   13.29297   13.17593   12.92365

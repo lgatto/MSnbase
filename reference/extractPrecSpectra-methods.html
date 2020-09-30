@@ -76,7 +76,7 @@ A warning will be issued of one or several of the precursor MZ values
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -161,20 +161,20 @@ A warning will be issued of one or several of the precursor MZ values
     <p>Laurent Gatto &lt;lg390@cam.ac.uk&gt;</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(package=<span class='st'>"MSnbase"</span>,dir=<span class='st'>"extdata"</span>),
-            full.name=<span class='fl'>TRUE</span>,pattern=<span class='st'>"mzXML$"</span>)
-<span class='kw'>aa</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='kw'>file</span>,verbose=<span class='fl'>FALSE</span>)
-<span class='kw'>my.prec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span>(<span class='kw'>aa</span>)[<span class='fl'>1</span>]
-<span class='kw'>my.prec</span>
+    <pre class="examples"><div class='input'><span class='va'>file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package<span class='op'>=</span><span class='st'>"MSnbase"</span>,dir<span class='op'>=</span><span class='st'>"extdata"</span><span class='op'>)</span>,
+            full.name<span class='op'>=</span><span class='cn'>TRUE</span>,pattern<span class='op'>=</span><span class='st'>"mzXML$"</span><span class='op'>)</span>
+<span class='va'>aa</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>file</span>,verbose<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>my.prec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span><span class='op'>(</span><span class='va'>aa</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>
+<span class='va'>my.prec</span>
 </div><div class='output co'>#&gt;    F1.S1 
-#&gt; 645.3741 </div><div class='input'><span class='kw'>bb</span> <span class='op'>&lt;-</span> <span class='fu'>extractPrecSpectra</span>(<span class='kw'>aa</span>,<span class='kw'>my.prec</span>)
-<span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span>(<span class='kw'>bb</span>)
+#&gt; 645.3741 </div><div class='input'><span class='va'>bb</span> <span class='op'>&lt;-</span> <span class='fu'>extractPrecSpectra</span><span class='op'>(</span><span class='va'>aa</span>,<span class='va'>my.prec</span><span class='op'>)</span>
+<span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span><span class='op'>(</span><span class='va'>bb</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    F1.S1    F1.S3 
-#&gt; 645.3741 645.3741 </div><div class='input'><span class='fu'><a href='pSet-class.html'>processingData</a></span>(<span class='kw'>bb</span>)
+#&gt; 645.3741 645.3741 </div><div class='input'><span class='fu'><a href='pSet-class.html'>processingData</a></span><span class='op'>(</span><span class='va'>bb</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Data loaded: Tue Sep 22 09:14:01 2020 
-#&gt; 1 (2) precursors (spectra) extracted: Tue Sep 22 09:14:01 2020 
-#&gt;  MSnbase version: 2.15.7 </div></pre>
+#&gt; Data loaded: Wed Sep 30 10:52:55 2020 
+#&gt; 1 (2) precursors (spectra) extracted: Wed Sep 30 10:52:55 2020 
+#&gt;  MSnbase version: 2.15.8 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

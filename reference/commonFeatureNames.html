@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -138,7 +138,7 @@
     <p>Subsets <code>MSnSet</code> instances to their common feature names.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>commonFeatureNames</span>(<span class='kw'>x</span>, <span class='kw'>y</span>)</pre>
+    <pre class="usage"><span class='fu'>commonFeatureNames</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,19 +168,19 @@ if <code>x</code> is a <code>list</code>/<code>MSnSetList</code>.</p></td>
     <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>tan2009r1</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>tan2009r2</span>)
-<span class='kw'>cmn</span> <span class='op'>&lt;-</span> <span class='fu'>commonFeatureNames</span>(<span class='kw'>tan2009r1</span>, <span class='kw'>tan2009r2</span>)
-</div><div class='output co'>#&gt; <span class='message'>551 features in common</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>cmn</span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tan2009r1</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tan2009r2</span><span class='op'>)</span>
+<span class='va'>cmn</span> <span class='op'>&lt;-</span> <span class='fu'>commonFeatureNames</span><span class='op'>(</span><span class='va'>tan2009r1</span>, <span class='va'>tan2009r2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>551 features in common</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>cmn</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "tan2009r1" "tan2009r2"</div><div class='input'><span class='co'>## as a named list</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'>commonFeatureNames</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(a = <span class='kw'>tan2009r1</span>, b = <span class='kw'>tan2009r2</span>)))
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'>commonFeatureNames</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='va'>tan2009r1</span>, b <span class='op'>=</span> <span class='va'>tan2009r2</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>551 features in common</span></div><div class='output co'>#&gt; [1] "a" "b"</div><div class='input'><span class='co'>## without message</span>
-<span class='fu'><a href='https://rdrr.io/r/base/message.html'>suppressMessages</a></span>(<span class='kw'>cmn</span> <span class='op'>&lt;-</span> <span class='fu'>commonFeatureNames</span>(<span class='kw'>tan2009r1</span>, <span class='kw'>tan2009r2</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/message.html'>suppressMessages</a></span><span class='op'>(</span><span class='va'>cmn</span> <span class='op'>&lt;-</span> <span class='fu'>commonFeatureNames</span><span class='op'>(</span><span class='va'>tan2009r1</span>, <span class='va'>tan2009r2</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>## more than 2 instance</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>tan2009r3</span>)
-<span class='kw'>cmn</span> <span class='op'>&lt;-</span> <span class='fu'>commonFeatureNames</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>tan2009r1</span>, <span class='kw'>tan2009r2</span>, <span class='kw'>tan2009r3</span>))
-</div><div class='output co'>#&gt; <span class='message'>404 features in common</span></div><div class='input'><span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>cmn</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tan2009r3</span><span class='op'>)</span>
+<span class='va'>cmn</span> <span class='op'>&lt;-</span> <span class='fu'>commonFeatureNames</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>tan2009r1</span>, <span class='va'>tan2009r2</span>, <span class='va'>tan2009r3</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>404 features in common</span></div><div class='input'><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>cmn</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 3</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -76,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -147,15 +147,15 @@
     </div>
 
     <pre class="usage"><span class='co'># S4 method for MSnExp</span>
-<span class='fu'>chromatogram</span>(
-  <span class='kw'>object</span>,
-  <span class='kw'>rt</span>,
-  <span class='kw'>mz</span>,
-  aggregationFun = <span class='st'>"sum"</span>,
-  missing = <span class='fl'>NA_real_</span>,
-  msLevel = <span class='fl'>1L</span>,
-  BPPARAM = <span class='fu'>bpparam</span>()
-)</pre>
+<span class='fu'>chromatogram</span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  <span class='va'>rt</span>,
+  <span class='va'>mz</span>,
+  aggregationFun <span class='op'>=</span> <span class='st'>"sum"</span>,
+  missing <span class='op'>=</span> <span class='cn'>NA_real_</span>,
+  msLevel <span class='op'>=</span> <span class='fl'>1L</span>,
+  BPPARAM <span class='op'>=</span> <span class='fu'>bpparam</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -251,17 +251,17 @@ depend on the architecture. Default is
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Read a test data file.</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>msdata</span>)
-<span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"microtofq/MM14.mzML"</span>, package = <span class='st'>"msdata"</span>),
-     <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"microtofq/MM8.mzML"</span>, package = <span class='st'>"msdata"</span>))
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>msdata</span><span class='op'>)</span>
+<span class='va'>f</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"microtofq/MM14.mzML"</span>, package <span class='op'>=</span> <span class='st'>"msdata"</span><span class='op'>)</span>,
+     <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"microtofq/MM8.mzML"</span>, package <span class='op'>=</span> <span class='st'>"msdata"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'>## Read the data as an MSnExp</span>
-<span class='kw'>msd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='kw'>f</span>, msLevel = <span class='fl'>1</span>)
+<span class='va'>msd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>f</span>, msLevel <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 
 <span class='co'>## Extract the total ion chromatogram for each file:</span>
-<span class='kw'>tic</span> <span class='op'>&lt;-</span> <span class='fu'>chromatogram</span>(<span class='kw'>msd</span>)
+<span class='va'>tic</span> <span class='op'>&lt;-</span> <span class='fu'>chromatogram</span><span class='op'>(</span><span class='va'>msd</span><span class='op'>)</span>
 
-<span class='kw'>tic</span>
+<span class='va'>tic</span>
 </div><div class='output co'>#&gt; MChromatograms with 1 row and 2 columns
 #&gt;           MM14.mzML       MM8.mzML
 #&gt;      &lt;Chromatogram&gt; &lt;Chromatogram&gt;
@@ -269,7 +269,7 @@ depend on the architecture. Default is
 #&gt; phenoData with 1 variables
 #&gt; featureData with 1 variables</div><div class='input'>
 <span class='co'>## Extract the TIC for the second file:</span>
-<span class='kw'>tic</span>[<span class='fl'>1</span>, <span class='fl'>2</span>]
+<span class='va'>tic</span><span class='op'>[</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>]</span>
 </div><div class='output co'>#&gt; Object of class: Chromatogram
 #&gt; Intensity values aggregated using: sum 
 #&gt; length of object: 198
@@ -278,19 +278,19 @@ depend on the architecture. Default is
 #&gt; rt range: [0.486, 66.7818]
 #&gt; MS level: 1</div><div class='input'>
 <span class='co'>## Plot the TIC for the first file</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='kw'>tic</span>[<span class='fl'>1</span>, <span class='fl'>1</span>]), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='kw'>tic</span>[<span class='fl'>1</span>, <span class='fl'>1</span>]), type = <span class='st'>"l"</span>,
-    xlab = <span class='st'>"rtime"</span>, ylab = <span class='st'>"intensity"</span>, main = <span class='st'>"TIC"</span>)
+<span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>tic</span><span class='op'>[</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>tic</span><span class='op'>[</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"l"</span>,
+    xlab <span class='op'>=</span> <span class='st'>"rtime"</span>, ylab <span class='op'>=</span> <span class='st'>"intensity"</span>, main <span class='op'>=</span> <span class='st'>"TIC"</span><span class='op'>)</span>
 </div><div class='img'><img src='chromatogram-MSnExp-method-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>## Extract chromatograms for a MS data slices defined by retention time</span>
 <span class='co'>## and mz ranges.</span>
-<span class='kw'>rtr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>60</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>280</span>, <span class='fl'>300</span>))
-<span class='kw'>mzr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>140</span>, <span class='fl'>160</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>300</span>, <span class='fl'>320</span>))
-<span class='kw'>chrs</span> <span class='op'>&lt;-</span> <span class='fu'>chromatogram</span>(<span class='kw'>msd</span>, rt = <span class='kw'>rtr</span>, mz = <span class='kw'>mzr</span>)
+<span class='va'>rtr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>60</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>280</span>, <span class='fl'>300</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>mzr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>140</span>, <span class='fl'>160</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>300</span>, <span class='fl'>320</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>chrs</span> <span class='op'>&lt;-</span> <span class='fu'>chromatogram</span><span class='op'>(</span><span class='va'>msd</span>, rt <span class='op'>=</span> <span class='va'>rtr</span>, mz <span class='op'>=</span> <span class='va'>mzr</span><span class='op'>)</span>
 
 <span class='co'>## Each row of the returned MChromatograms object corresponds to one mz-rt</span>
 <span class='co'>## range. The Chromatogram for the first range in the first file is empty,</span>
 <span class='co'>## because the retention time range is outside of the file's rt range:</span>
-<span class='kw'>chrs</span>[<span class='fl'>1</span>, <span class='fl'>1</span>]
+<span class='va'>chrs</span><span class='op'>[</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>]</span>
 </div><div class='output co'>#&gt; Object of class: Chromatogram
 #&gt; Intensity values aggregated using: sum 
 #&gt; length of object: 0
@@ -298,17 +298,17 @@ depend on the architecture. Default is
 #&gt; mz range: [NA, NA]
 #&gt; MS level: 1</div><div class='input'>
 <span class='co'>## The mz and/or rt ranges used are provided as featureData of the object</span>
-<span class='fu'>fData</span>(<span class='kw'>chrs</span>)
+<span class='fu'>fData</span><span class='op'>(</span><span class='va'>chrs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   mzmin mzmax rtmin rtmax polarity
 #&gt; 1   140   160    10    60        1
 #&gt; 2   300   320   280   300        1</div><div class='input'>
 <span class='co'>## The mz method can be used to extract the m/z ranges directly</span>
-<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>chrs</span>)
+<span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>chrs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;      mzmin mzmax
 #&gt; [1,]   140   160
 #&gt; [2,]   300   320</div><div class='input'>
 <span class='co'>## Also the Chromatogram for the second range in the second file is empty</span>
-<span class='kw'>chrs</span>[<span class='fl'>2</span>, <span class='fl'>2</span>]
+<span class='va'>chrs</span><span class='op'>[</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>]</span>
 </div><div class='output co'>#&gt; Object of class: Chromatogram
 #&gt; Intensity values aggregated using: sum 
 #&gt; length of object: 0
@@ -316,8 +316,8 @@ depend on the architecture. Default is
 #&gt; mz range: [NA, NA]
 #&gt; MS level: 1</div><div class='input'>
 <span class='co'>## Get the extracted chromatogram for the first range in the second file</span>
-<span class='kw'>chr</span> <span class='op'>&lt;-</span> <span class='kw'>chrs</span>[<span class='fl'>1</span>, <span class='fl'>2</span>]
-<span class='kw'>chr</span>
+<span class='va'>chr</span> <span class='op'>&lt;-</span> <span class='va'>chrs</span><span class='op'>[</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>]</span>
+<span class='va'>chr</span>
 </div><div class='output co'>#&gt; Object of class: Chromatogram
 #&gt; Intensity values aggregated using: sum 
 #&gt; length of object: 148
@@ -325,7 +325,7 @@ depend on the architecture. Default is
 #&gt; mz range: [140.0022, 159.9989]
 #&gt; rt range: [10.24602, 59.71602]
 #&gt; MS level: 1</div><div class='input'>
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='kw'>chr</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='kw'>chr</span>), xlab = <span class='st'>"rtime"</span>, ylab = <span class='st'>"intensity"</span>)
+<span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span>, xlab <span class='op'>=</span> <span class='st'>"rtime"</span>, ylab <span class='op'>=</span> <span class='st'>"intensity"</span><span class='op'>)</span>
 </div><div class='img'><img src='chromatogram-MSnExp-method-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

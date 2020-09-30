@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -186,15 +186,13 @@
 <div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="co">## The original data for replicate 1, available</span>
 <span class="co">## from the pRolocdata package</span>
-<span class="kw">f0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, package = <span class="st">"pRolocdata"</span>),
-          full.names = <span class="fl">TRUE</span>,
-          pattern = <span class="st">"pr800866n_si_004-rep1.csv"</span>)
-<span class="kw">csv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="kw">f0</span>)
-</pre></div>
+<span class="va">f0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"pRolocdata"</span><span class="op">)</span>,
+          full.names <span class="op">=</span> <span class="cn">TRUE</span>,
+          pattern <span class="op">=</span> <span class="st">"pr800866n_si_004-rep1.csv"</span><span class="op">)</span>
+<span class="va">csv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="va">f0</span><span class="op">)</span></pre></div>
 <p>The three first lines of the original spreadsheet, containing the data for replicate one, are illustrated below (using the function <code>head</code>). It contains 888 rows (proteins) and 16 columns, including protein identifiers, database accession numbers, gene symbols, reporter ion quantitation values, information related to protein identification, …</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">csv</span>, n=<span class="fl">3</span>)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">csv</span>, n<span class="op">=</span><span class="fl">3</span><span class="op">)</span></pre></div>
 <pre><code>##   Protein.ID        FBgn Flybase.Symbol No..peptide.IDs Mascot.score
 ## 1    CG10060 FBgn0001104    G-ialpha65A               3       179.86
 ## 2    CG10067 FBgn0000044         Act57B               5       222.40
@@ -214,30 +212,27 @@
 <p>Below read in turn the spread sheets that contain the quantitation data (<code>exprsFile.csv</code>), feature meta-data (<code>fdataFile.csv</code>) and sample meta-data (<code>pdataFile.csv</code>).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="co">## The quantitation data, from the original data</span>
-<span class="kw">f1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, package = <span class="st">"pRolocdata"</span>),
-          full.names = <span class="fl">TRUE</span>, pattern = <span class="st">"exprsFile.csv"</span>)
-<span class="kw">exprsCsv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="kw">f1</span>)
+<span class="va">f1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"pRolocdata"</span><span class="op">)</span>,
+          full.names <span class="op">=</span> <span class="cn">TRUE</span>, pattern <span class="op">=</span> <span class="st">"exprsFile.csv"</span><span class="op">)</span>
+<span class="va">exprsCsv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="va">f1</span><span class="op">)</span>
 <span class="co">## Feature meta-data, from the original data</span>
-<span class="kw">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, package = <span class="st">"pRolocdata"</span>),
-          full.names = <span class="fl">TRUE</span>, pattern = <span class="st">"fdataFile.csv"</span>)
-<span class="kw">fdataCsv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="kw">f2</span>)
+<span class="va">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"pRolocdata"</span><span class="op">)</span>,
+          full.names <span class="op">=</span> <span class="cn">TRUE</span>, pattern <span class="op">=</span> <span class="st">"fdataFile.csv"</span><span class="op">)</span>
+<span class="va">fdataCsv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="va">f2</span><span class="op">)</span>
 <span class="co">## Sample meta-data, a new file</span>
-<span class="kw">f3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, package = <span class="st">"pRolocdata"</span>),
-          full.names = <span class="fl">TRUE</span>, pattern = <span class="st">"pdataFile.csv"</span>)
-<span class="kw">pdataCsv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="kw">f3</span>)
-</pre></div>
+<span class="va">f3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"pRolocdata"</span><span class="op">)</span>,
+          full.names <span class="op">=</span> <span class="cn">TRUE</span>, pattern <span class="op">=</span> <span class="st">"pdataFile.csv"</span><span class="op">)</span>
+<span class="va">pdataCsv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="va">f3</span><span class="op">)</span></pre></div>
 <p><code>exprsFile.csv</code> contains the quantitation (expression) data for the 888 proteins and 4 reporter tags.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">exprsCsv</span>, n = <span class="fl">3</span>)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">exprsCsv</span>, n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></pre></div>
 <pre><code>##          FBgn     X114     X115     X116     X117
 ## 1 FBgn0001104 0.379000 0.281000 0.225000 0.114000
 ## 2 FBgn0000044 0.420000 0.209667 0.206111 0.163889
 ## 3 FBgn0035720 0.187333 0.167333 0.169667 0.476000</code></pre>
 <p><code>fdataFile.csv</code> contains meta-data for the 888 features (here proteins).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">fdataCsv</span>, n = <span class="fl">3</span>)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">fdataCsv</span>, n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></pre></div>
 <pre><code>##          FBgn ProteinID FlybaseSymbol NoPeptideIDs MascotScore
 ## 1 FBgn0001104   CG10060   G-ialpha65A            3      179.86
 ## 2 FBgn0000044   CG10067        Act57B            5      222.40
@@ -248,8 +243,7 @@
 ## 3                    3</code></pre>
 <p><code>pdataFile.csv</code> contains samples (here fractions) meta-data. This simple file has been created manually.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="kw">pdataCsv</span>
-</pre></div>
+<span class="va">pdataCsv</span></pre></div>
 <pre><code>##   sampleNames Fractions
 ## 1        X114       4/5
 ## 2        X115     12/13
@@ -257,13 +251,12 @@
 ## 4        X117        21</code></pre>
 <p>The self-contained <code>MSnSet</code> can now easily be generated using the <code>readMSnSet</code> constructor, providing the respective <code>csv</code> file names shown above and specifying that the data is comma-separated (with <code>sep = ","</code>). Below, we call that object <code>res</code> and display its content.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st"><a href="https://lgatto.github.io/MSnbase">"MSnbase"</a></span>)
-<span class="kw">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readMSnSet.html">readMSnSet</a></span>(exprsFile = <span class="kw">f1</span>,
-                  featureDataFile = <span class="kw">f2</span>,
-                  phenoDataFile = <span class="kw">f3</span>,
-                  sep = <span class="st">","</span>)
-<span class="kw">res</span>
-</pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://lgatto.github.io/MSnbase">"MSnbase"</a></span><span class="op">)</span>
+<span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readMSnSet.html">readMSnSet</a></span><span class="op">(</span>exprsFile <span class="op">=</span> <span class="va">f1</span>,
+                  featureDataFile <span class="op">=</span> <span class="va">f2</span>,
+                  phenoDataFile <span class="op">=</span> <span class="va">f3</span>,
+                  sep <span class="op">=</span> <span class="st">","</span><span class="op">)</span>
+<span class="va">res</span></pre></div>
 <pre><code>## MSnSet (storageMode: lockedEnvironment)
 ## assayData: 888 features, 4 samples 
 ##   element names: exprs 
@@ -279,8 +272,8 @@
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Quantitation data loaded: Tue Sep 22 09:17:14 2020  using readMSnSet. 
-##  MSnbase version: 2.15.7</code></pre>
+## Quantitation data loaded: Wed Sep 30 10:56:09 2020  using readMSnSet. 
+##  MSnbase version: 2.15.8</code></pre>
 <div id="the-msnset-class" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-msnset-class" class="anchor"></a>The <code>MSnSet</code> class</h3>
@@ -306,11 +299,10 @@
 <a href="#a-shorter-work-flow" class="anchor"></a>A shorter work flow</h2>
 <p>The <code>readMSnSet2</code> function provides a simplified import workforce. It takes a single spreadsheet as input (default is <code>csv</code>) and extract the columns identified by <code>ecol</code> to create the expression data, while the others are used as feature meta-data. <code>ecol</code> can be a <code>character</code> with the respective column labels or a numeric with their indices. In the former case, it is important to make sure that the names match exactly. Special characters like <code>'-'</code> or <code>'('</code> will be transformed by R into <code>'.'</code> when the <code>csv</code> file is read in. Optionally, one can also specify a column to be used as feature names. Note that these must be unique to guarantee the final object validity.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="kw">ecol</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="st">"area"</span>, <span class="fl">114</span><span class="op">:</span><span class="fl">117</span>, sep = <span class="st">"."</span>)
-<span class="kw">fname</span> <span class="op">&lt;-</span> <span class="st">"Protein.ID"</span>
-<span class="kw">eset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readMSnSet.html">readMSnSet2</a></span>(<span class="kw">f0</span>, <span class="kw">ecol</span>, <span class="kw">fname</span>)
-<span class="kw">eset</span>
-</pre></div>
+<span class="va">ecol</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"area"</span>, <span class="fl">114</span><span class="op">:</span><span class="fl">117</span>, sep <span class="op">=</span> <span class="st">"."</span><span class="op">)</span>
+<span class="va">fname</span> <span class="op">&lt;-</span> <span class="st">"Protein.ID"</span>
+<span class="va">eset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readMSnSet.html">readMSnSet2</a></span><span class="op">(</span><span class="va">f0</span>, <span class="va">ecol</span>, <span class="va">fname</span><span class="op">)</span>
+<span class="va">eset</span></pre></div>
 <pre><code>## MSnSet (storageMode: lockedEnvironment)
 ## assayData: 888 features, 4 samples 
 ##   element names: exprs 
@@ -323,11 +315,10 @@
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-##  MSnbase version: 2.15.7</code></pre>
+##  MSnbase version: 2.15.8</code></pre>
 <p>The <code>ecol</code> columns can also be queried interactively from R using the <code>getEcols</code> and <code>grepEcols</code> function. The former return a character with all column names, given a splitting character, i.e. the separation value of the spreadsheet (typically <code>","</code> for <code>csv</code>, <code>"\t"</code> for <code>tsv</code>, …). The latter can be used to grep a pattern of interest to obtain the relevant column indices.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="fu"><a href="../reference/grepEcols.html">getEcols</a></span>(<span class="kw">f0</span>, <span class="st">","</span>)
-</pre></div>
+<span class="fu"><a href="../reference/grepEcols.html">getEcols</a></span><span class="op">(</span><span class="va">f0</span>, <span class="st">","</span><span class="op">)</span></pre></div>
 <pre><code>##  [1] "\"Protein ID\""              "\"FBgn\""                   
 ##  [3] "\"Flybase Symbol\""          "\"No. peptide IDs\""        
 ##  [5] "\"Mascot score\""            "\"No. peptides quantified\""
@@ -337,13 +328,11 @@
 ## [13] "\"Precursor ion mass\""      "\"Precursor ion charge\""   
 ## [15] "\"pd.2013\""                 "\"pd.markers\""</code></pre>
 <div class="sourceCode" id="cb17"><pre class="downlit">
-<span class="fu"><a href="../reference/grepEcols.html">grepEcols</a></span>(<span class="kw">f0</span>, <span class="st">"area"</span>, <span class="st">","</span>)
-</pre></div>
+<span class="fu"><a href="../reference/grepEcols.html">grepEcols</a></span><span class="op">(</span><span class="va">f0</span>, <span class="st">"area"</span>, <span class="st">","</span><span class="op">)</span></pre></div>
 <pre><code>## [1]  7  8  9 10</code></pre>
 <div class="sourceCode" id="cb19"><pre class="downlit">
-<span class="kw">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/grepEcols.html">grepEcols</a></span>(<span class="kw">f0</span>, <span class="st">"area"</span>, <span class="st">","</span>)
-<span class="fu"><a href="../reference/readMSnSet.html">readMSnSet2</a></span>(<span class="kw">f0</span>, <span class="kw">e</span>)
-</pre></div>
+<span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/grepEcols.html">grepEcols</a></span><span class="op">(</span><span class="va">f0</span>, <span class="st">"area"</span>, <span class="st">","</span><span class="op">)</span>
+<span class="fu"><a href="../reference/readMSnSet.html">readMSnSet2</a></span><span class="op">(</span><span class="va">f0</span>, <span class="va">e</span><span class="op">)</span></pre></div>
 <pre><code>## MSnSet (storageMode: lockedEnvironment)
 ## assayData: 888 features, 4 samples 
 ##   element names: exprs 
@@ -356,7 +345,7 @@
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-##  MSnbase version: 2.15.7</code></pre>
+##  MSnbase version: 2.15.8</code></pre>
 <p>The <code>phenoData</code> slot can now be updated accordingly using the replacement functions <code>phenoData&lt;-</code> or <code>pData&lt;-</code> (see <code><a href="../reference/MSnSet-class.html">?MSnSet</a></code> for details).</p>
 </div>
 </div>
@@ -364,14 +353,13 @@
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
 <div class="sourceCode" id="cb21"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()
-</pre></div>
-<pre><code>## R version 4.0.2 Patched (2020-09-17 r79226)
+<span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<pre><code>## R version 4.0.2 Patched (2020-09-24 r79253)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 20.04.1 LTS
 ## 
 ## Matrix products: default
-## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-openmp/libopenblasp-r0.3.8.so
+## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so
 ## 
 ## locale:
 ##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
@@ -386,9 +374,9 @@
 ## [8] methods   base     
 ## 
 ## other attached packages:
-## [1] pRolocdata_1.27.1   MSnbase_2.15.7      ProtGenerics_1.21.0
+## [1] pRolocdata_1.27.1   MSnbase_2.15.8      ProtGenerics_1.21.0
 ## [4] S4Vectors_0.27.13   mzR_2.23.1          Rcpp_1.0.5         
-## [7] Biobase_2.49.1      BiocGenerics_0.35.4 BiocStyle_2.17.0   
+## [7] Biobase_2.49.1      BiocGenerics_0.35.4 BiocStyle_2.17.1   
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] lattice_0.20-41       assertthat_0.2.1      rprojroot_1.3-2      
@@ -404,7 +392,7 @@
 ## [31] IRanges_2.23.10       codetools_0.2-16      XML_3.99-0.5         
 ## [34] crayon_1.3.4          dplyr_1.0.2           MASS_7.3-53          
 ## [37] grid_4.0.2            gtable_0.3.0          lifecycle_0.2.0      
-## [40] affy_1.67.0           magrittr_1.5          scales_1.1.1         
+## [40] affy_1.67.1           magrittr_1.5          scales_1.1.1         
 ## [43] ncdf4_1.17            stringi_1.5.3         impute_1.63.0        
 ## [46] fs_1.5.0              affyio_1.59.0         doParallel_1.0.15    
 ## [49] limma_3.45.14         ellipsis_0.3.1        ragg_0.3.1           
@@ -412,7 +400,7 @@
 ## [55] tools_4.0.2           glue_1.4.2            purrr_0.3.4          
 ## [58] yaml_2.2.1            colorspace_1.4-1      BiocManager_1.30.10  
 ## [61] vsn_3.57.0            MALDIquant_1.19.3     cpp11_0.2.1          
-## [64] memoise_1.1.0         knitr_1.29</code></pre>
+## [64] memoise_1.1.0         knitr_1.30</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">

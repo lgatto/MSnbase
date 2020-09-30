@@ -87,7 +87,7 @@ Note that no attempts are made to verify the validitiy of the mzTab
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -273,32 +273,32 @@ Note that no attempts are made to verify the validitiy of the mzTab
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Test files from the mzTab developement repository</span>
-<span class='kw'>fls</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Cytidine.mzTab"</span>, <span class='st'>"MTBLS2.mztab"</span>, 
+<span class='va'>fls</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Cytidine.mzTab"</span>, <span class='st'>"MTBLS2.mztab"</span>, 
          <span class='st'>"PRIDE_Exp_Complete_Ac_1643.xml-mztab.txt"</span>, 
          <span class='st'>"PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"</span>, 
          <span class='st'>"SILAC_CQI.mzTab"</span>, <span class='st'>"SILAC_SQ.mzTab"</span>, 
          <span class='st'>"iTRAQ_CQI.mzTab"</span>, <span class='st'>"iTRAQ_SQI.mzTab"</span>, 
          <span class='st'>"labelfree_CQI.mzTab"</span>, <span class='st'>"labelfree_SQI.mzTab"</span>, 
          <span class='st'>"lipidomics-HFD-LD-study-PL-DG-SM.mzTab"</span>, 
-         <span class='st'>"lipidomics-HFD-LD-study-TG.mzTab"</span>)
+         <span class='st'>"lipidomics-HFD-LD-study-TG.mzTab"</span><span class='op'>)</span>
 
-<span class='kw'>baseUrl</span> <span class='op'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/1_0-Proteomics-Release/"</span>
+<span class='va'>baseUrl</span> <span class='op'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/1_0-Proteomics-Release/"</span>
 
 <span class='co'>## a list of mzTab objects</span>
-<span class='kw'>mzt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw'>baseUrl</span>, <span class='kw'>fls</span>), <span class='kw'>MzTab</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>mzt</span>) <span class='op'>==</span> <span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>fls</span>))
-<span class='kw'>mzt</span>[[<span class='fl'>4</span>]]
+<span class='va'>mzt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>baseUrl</span>, <span class='va'>fls</span><span class='op'>)</span>, <span class='va'>MzTab</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>mzt</span><span class='op'>)</span> <span class='op'>==</span> <span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>fls</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>mzt</span><span class='op'>[[</span><span class='fl'>4</span><span class='op'>]</span><span class='op'>]</span>
 </div><div class='output co'>#&gt; Object of class "MzTab".
 #&gt;  Description: date of export: Mon Jun 16 10:57:56 BST 2014
 #&gt;  Mode: Summary 
 #&gt;  Type: Quantification 
 #&gt;  Available data: Proteins  PSMs  </div><div class='input'>
-<span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='fu'>proteins</span>(<span class='kw'>mzt</span>[[<span class='fl'>4</span>]]))
-</div><div class='output co'>#&gt; [1] 1249   19</div><div class='input'><span class='fu'><a href='pSet-class.html'>dim</a></span>(<span class='fu'>psms</span>(<span class='kw'>mzt</span>[[<span class='fl'>4</span>]]))
+<span class='fu'><a href='pSet-class.html'>dim</a></span><span class='op'>(</span><span class='fu'>proteins</span><span class='op'>(</span><span class='va'>mzt</span><span class='op'>[[</span><span class='fl'>4</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1249   19</div><div class='input'><span class='fu'><a href='pSet-class.html'>dim</a></span><span class='op'>(</span><span class='fu'>psms</span><span class='op'>(</span><span class='va'>mzt</span><span class='op'>[[</span><span class='fl'>4</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 8761   18</div><div class='input'>
-<span class='kw'>prots4</span> <span class='op'>&lt;-</span> <span class='fu'>proteins</span>(<span class='kw'>mzt</span>[[<span class='fl'>4</span>]])
-<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='kw'>prots4</span>)
-</div><div class='output co'>#&gt; [1] "data.frame"</div><div class='input'><span class='kw'>prots4</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>]
+<span class='va'>prots4</span> <span class='op'>&lt;-</span> <span class='fu'>proteins</span><span class='op'>(</span><span class='va'>mzt</span><span class='op'>[[</span><span class='fl'>4</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span><span class='op'>(</span><span class='va'>prots4</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "data.frame"</div><div class='input'><span class='va'>prots4</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span><span class='op'>]</span>
 </div><div class='output co'>#&gt;   accession
 #&gt; 1 223462890
 #&gt; 2  19855078

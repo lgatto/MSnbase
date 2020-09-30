@@ -73,7 +73,7 @@ data.frame." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -140,7 +140,7 @@ data.frame." />
 <code>data.frame</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>readMzIdData</span>(<span class='kw'>files</span>)</pre>
+    <pre class="usage"><span class='fu'>readMzIdData</span><span class='op'>(</span><span class='va'>files</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,10 +168,10 @@ can also be coerced to a <code>data.frame</code> using <code><a href='as.html'>a
     <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>idf</span> <span class='op'>&lt;-</span> <span class='st'>"TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"</span>
-<span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='kw'>msdata</span>::<span class='fu'><a href='https://rdrr.io/pkg/msdata/man/proteomics.html'>ident</a></span>(full.names = <span class='fl'>TRUE</span>, pattern = <span class='kw'>idf</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/basename.html'>basename</a></span>(<span class='kw'>f</span>)
-</div><div class='output co'>#&gt; [1] "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"</div><div class='input'><span class='fu'>readMzIdData</span>(<span class='kw'>f</span>)
+    <pre class="examples"><div class='input'><span class='va'>idf</span> <span class='op'>&lt;-</span> <span class='st'>"TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"</span>
+<span class='va'>f</span> <span class='op'>&lt;-</span> <span class='fu'>msdata</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/msdata/man/proteomics.html'>ident</a></span><span class='op'>(</span>full.names <span class='op'>=</span> <span class='cn'>TRUE</span>, pattern <span class='op'>=</span> <span class='va'>idf</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/basename.html'>basename</a></span><span class='op'>(</span><span class='va'>f</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"</div><div class='input'><span class='fu'>readMzIdData</span><span class='op'>(</span><span class='va'>f</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                      sequence
 #&gt; 1                                RQCRTDFLNYLR
 #&gt; 2                      ESVALADQVTCVDWRNRKATKK

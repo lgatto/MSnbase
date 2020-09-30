@@ -84,7 +84,7 @@ Note that when using readMSnSet2, one should not set
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -162,24 +162,24 @@ Note that when using readMSnSet2, one should not set
   ignored and used to set <code>fnames</code> if not provided otherwise.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>readMSnSet</span>(<span class='kw'>exprsFile</span>,
-           <span class='kw'>phenoDataFile</span>,
-           <span class='kw'>featureDataFile</span>,
-           <span class='kw'>experimentDataFile</span>,
-           <span class='kw'>notesFile</span>,
-           <span class='kw'>path</span>, <span class='kw'>annotation</span>,
-           exprsArgs = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(sep = <span class='kw'>sep</span>, header = <span class='kw'>header</span>, row.names = <span class='kw'>row.names</span>, quote = <span class='kw'>quote</span>, <span class='kw'>...</span>),
-           phenoDataArgs = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(sep = <span class='kw'>sep</span>, header = <span class='kw'>header</span>, row.names = <span class='kw'>row.names</span>, quote = <span class='kw'>quote</span>, stringsAsFactors = <span class='kw'>stringsAsFactors</span>, <span class='kw'>...</span>),
-           featureDataArgs = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(sep = <span class='kw'>sep</span>, header = <span class='kw'>header</span>, row.names = <span class='kw'>row.names</span>, quote = <span class='kw'>quote</span>, stringsAsFactors = <span class='kw'>stringsAsFactors</span>, <span class='kw'>...</span>),
-           experimentDataArgs = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(sep = <span class='kw'>sep</span>, header = <span class='kw'>header</span>, row.names = <span class='kw'>row.names</span>, quote = <span class='kw'>quote</span>, stringsAsFactors = <span class='kw'>stringsAsFactors</span>, <span class='kw'>...</span>),
-           sep = <span class='st'>"\t"</span>,
-           header = <span class='fl'>TRUE</span>,
-           quote = <span class='st'>""</span>,
-           stringsAsFactors = <span class='fl'>FALSE</span>,
-           row.names = <span class='fl'>1L</span>,
-           widget = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"BioC"</span>)<span class='op'>$</span><span class='kw'>Base</span><span class='op'>$</span><span class='kw'>use.widgets</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>readMSnSet</span><span class='op'>(</span><span class='va'>exprsFile</span>,
+           <span class='va'>phenoDataFile</span>,
+           <span class='va'>featureDataFile</span>,
+           <span class='va'>experimentDataFile</span>,
+           <span class='va'>notesFile</span>,
+           <span class='va'>path</span>, <span class='va'>annotation</span>,
+           exprsArgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>sep <span class='op'>=</span> <span class='va'>sep</span>, header <span class='op'>=</span> <span class='va'>header</span>, row.names <span class='op'>=</span> <span class='va'>row.names</span>, quote <span class='op'>=</span> <span class='va'>quote</span>, <span class='va'>...</span><span class='op'>)</span>,
+           phenoDataArgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>sep <span class='op'>=</span> <span class='va'>sep</span>, header <span class='op'>=</span> <span class='va'>header</span>, row.names <span class='op'>=</span> <span class='va'>row.names</span>, quote <span class='op'>=</span> <span class='va'>quote</span>, stringsAsFactors <span class='op'>=</span> <span class='va'>stringsAsFactors</span>, <span class='va'>...</span><span class='op'>)</span>,
+           featureDataArgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>sep <span class='op'>=</span> <span class='va'>sep</span>, header <span class='op'>=</span> <span class='va'>header</span>, row.names <span class='op'>=</span> <span class='va'>row.names</span>, quote <span class='op'>=</span> <span class='va'>quote</span>, stringsAsFactors <span class='op'>=</span> <span class='va'>stringsAsFactors</span>, <span class='va'>...</span><span class='op'>)</span>,
+           experimentDataArgs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>sep <span class='op'>=</span> <span class='va'>sep</span>, header <span class='op'>=</span> <span class='va'>header</span>, row.names <span class='op'>=</span> <span class='va'>row.names</span>, quote <span class='op'>=</span> <span class='va'>quote</span>, stringsAsFactors <span class='op'>=</span> <span class='va'>stringsAsFactors</span>, <span class='va'>...</span><span class='op'>)</span>,
+           sep <span class='op'>=</span> <span class='st'>"\t"</span>,
+           header <span class='op'>=</span> <span class='cn'>TRUE</span>,
+           quote <span class='op'>=</span> <span class='st'>""</span>,
+           stringsAsFactors <span class='op'>=</span> <span class='cn'>FALSE</span>,
+           row.names <span class='op'>=</span> <span class='fl'>1L</span>,
+           widget <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"BioC"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>Base</span><span class='op'>$</span><span class='va'>use.widgets</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>readMSnSet2</span>(<span class='kw'>file</span>, <span class='kw'>ecol</span>, <span class='kw'>fnames</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>readMSnSet2</span><span class='op'>(</span><span class='va'>file</span>, <span class='va'>ecol</span>, <span class='va'>fnames</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -313,21 +313,21 @@ Note that when using readMSnSet2, one should not set
   with <code>vignette("MSnbase-io")</code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>exprsFile</span> <span class='op'>&lt;-</span> <span class='st'>"path_to_intensity_file.csv"</span>
-<span class='kw'>fdatafile</span> <span class='op'>&lt;-</span> <span class='st'>"path_to_featuredata_file.csv"</span>
-<span class='kw'>pdatafile</span> <span class='op'>&lt;-</span> <span class='st'>"path_to_sampledata_file.csv"</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>exprsFile</span> <span class='op'>&lt;-</span> <span class='st'>"path_to_intensity_file.csv"</span>
+<span class='va'>fdatafile</span> <span class='op'>&lt;-</span> <span class='st'>"path_to_featuredata_file.csv"</span>
+<span class='va'>pdatafile</span> <span class='op'>&lt;-</span> <span class='st'>"path_to_sampledata_file.csv"</span>
 <span class='co'>## Read ExpressionSet with appropriate parameters</span>
-<span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'>readMSnSet</span>(<span class='kw'>exprsFile</span>, <span class='kw'>pdataFile</span>, <span class='kw'>fdataFile</span>, sep = <span class='st'>"\t"</span>, header=<span class='fl'>TRUE</span>)
-}
+<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>readMSnSet</span><span class='op'>(</span><span class='va'>exprsFile</span>, <span class='va'>pdataFile</span>, <span class='va'>fdataFile</span>, sep <span class='op'>=</span> <span class='st'>"\t"</span>, header<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='op'>}</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span>)
-<span class='kw'>f0</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, package = <span class='st'>"pRolocdata"</span>),
-          full.names = <span class='fl'>TRUE</span>,
-          pattern = <span class='st'>"Dunkley2006"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/basename.html'>basename</a></span>(<span class='kw'>f0</span>)
-</div><div class='output co'>#&gt; [1] "Dunkley2006.csv.gz"</div><div class='input'><span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'>readMSnSet2</span>(<span class='kw'>f0</span>, ecol = <span class='fl'>5</span><span class='op'>:</span><span class='fl'>20</span>)
-<span class='kw'>res</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span><span class='op'>)</span>
+<span class='va'>f0</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, package <span class='op'>=</span> <span class='st'>"pRolocdata"</span><span class='op'>)</span>,
+          full.names <span class='op'>=</span> <span class='cn'>TRUE</span>,
+          pattern <span class='op'>=</span> <span class='st'>"Dunkley2006"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/basename.html'>basename</a></span><span class='op'>(</span><span class='va'>f0</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "Dunkley2006.csv.gz"</div><div class='input'><span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>readMSnSet2</span><span class='op'>(</span><span class='va'>f0</span>, ecol <span class='op'>=</span> <span class='fl'>5</span><span class='op'>:</span><span class='fl'>20</span><span class='op'>)</span>
+<span class='va'>res</span>
 </div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
 #&gt; assayData: 689 features, 16 samples 
 #&gt;   element names: exprs 
@@ -340,7 +340,7 @@ Note that when using readMSnSet2, one should not set
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt;  MSnbase version: 2.15.7 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>res</span>)) <span class='co'>## columns 5 to 20</span>
+#&gt;  MSnbase version: 2.15.8 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>## columns 5 to 20</span>
 </div><div class='output co'>#&gt;      M1F1A    M1F4A    M1F7A   M1F11A    M1F2B    M1F5B    M1F8B   M1F11B
 #&gt; 1 0.323250 0.275500 0.216000 0.185250 0.465667 0.199667 0.174333 0.160333
 #&gt; 2 0.332000 0.279667 0.222000 0.166000 0.451500 0.200375 0.177250 0.171125
@@ -354,7 +354,7 @@ Note that when using readMSnSet2, one should not set
 #&gt; 3 0.390200 0.298400 0.176800 0.134200 0.413500 0.255000 0.172500 0.1590
 #&gt; 4 0.387833 0.326833 0.152667 0.133000 0.416333 0.305667 0.147333 0.1310
 #&gt; 5 0.356714 0.306857 0.172143 0.164286 0.450333 0.260667 0.158667 0.1300
-#&gt; 6 0.344087 0.326739 0.177609 0.151739 0.373750 0.295375 0.176625 0.1540</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>fData</span>(<span class='kw'>res</span>)) <span class='co'>## other columns</span>
+#&gt; 6 0.344087 0.326739 0.177609 0.151739 0.373750 0.295375 0.176625 0.1540</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>## other columns</span>
 </div><div class='output co'>#&gt;   Protein.ID Loc.Predicted Loc.Confirmed Loc.Assigned pd.2013 pd.markers
 #&gt; 1  At1g09210  predicted ER  predicted ER           ER      ER   ER lumen
 #&gt; 2  At1g21750  predicted ER  predicted ER           ER      ER   ER lumen

@@ -78,7 +78,7 @@ Users should proceed with care when imputing data and take precautions
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -300,21 +300,21 @@ Data Sets to Compare Imputation Strategies. J Proteome Res. 2016 Apr
     <p>Laurent Gatto and Samuel Wieczorek</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>naset</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>naset</span><span class='op'>)</span>
 <span class='co'>## table of missing values along the rows</span>
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'>fData</span>(<span class='kw'>naset</span>)<span class='op'>$</span><span class='kw'>nNA</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>naset</span><span class='op'>)</span><span class='op'>$</span><span class='va'>nNA</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
 #&gt;   0   1   2   3   4   8   9  10 
 #&gt; 301 247  91  13   2  23  10   2 </div><div class='input'><span class='co'>## table of missing values along the columns</span>
-<span class='fu'>pData</span>(<span class='kw'>naset</span>)<span class='op'>$</span><span class='kw'>nNA</span>
+<span class='fu'>pData</span><span class='op'>(</span><span class='va'>naset</span><span class='op'>)</span><span class='op'>$</span><span class='va'>nNA</span>
 </div><div class='output co'>#&gt;  [1] 34 45 56 39 47 52 49 61 41 42 55 45 51 43 57 53</div><div class='input'>
 <span class='co'>## non-random missing values</span>
-<span class='kw'>notna</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='op'>!</span><span class='fu'>fData</span>(<span class='kw'>naset</span>)<span class='op'>$</span><span class='kw'>randna</span>)
-<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>notna</span>)
-</div><div class='output co'>#&gt; [1] 35</div><div class='input'><span class='kw'>notna</span>
+<span class='va'>notna</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>naset</span><span class='op'>)</span><span class='op'>$</span><span class='va'>randna</span><span class='op'>)</span>
+<span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>notna</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 35</div><div class='input'><span class='va'>notna</span>
 </div><div class='output co'>#&gt;  [1]   6  20  79  88 130 187 227 231 238 264 275 317 324 363 373 382 409 437 445
 #&gt; [20] 453 456 474 484 485 492 514 516 546 568 580 594 631 648 664 671</div><div class='input'>
-<span class='fu'>impute</span>(<span class='kw'>naset</span>, method = <span class='st'>"min"</span>)
+<span class='fu'>impute</span><span class='op'>(</span><span class='va'>naset</span>, method <span class='op'>=</span> <span class='st'>"min"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
 #&gt; assayData: 689 features, 16 samples 
 #&gt;   element names: exprs 
@@ -330,12 +330,12 @@ Data Sets to Compare Imputation Strategies. J Proteome Res. 2016 Apr
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt; Data imputation using min Tue Sep 22 09:14:10 2020 
+#&gt; Data imputation using min Wed Sep 30 10:53:04 2020 
 #&gt;  MSnbase version: 1.15.6 </div><div class='input'>
-<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'>"imputeLCMD"</span>)) {
-    <span class='fu'>impute</span>(<span class='kw'>naset</span>, method = <span class='st'>"QRILC"</span>)
-    <span class='fu'>impute</span>(<span class='kw'>naset</span>, method = <span class='st'>"MinDet"</span>)
-}
+<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'>"imputeLCMD"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='fu'>impute</span><span class='op'>(</span><span class='va'>naset</span>, method <span class='op'>=</span> <span class='st'>"QRILC"</span><span class='op'>)</span>
+    <span class='fu'>impute</span><span class='op'>(</span><span class='va'>naset</span>, method <span class='op'>=</span> <span class='st'>"MinDet"</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div><div class='output co'>#&gt; <span class='message'>Loading required package: imputeLCMD</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: tmvtnorm</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: mvtnorm</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: gmm</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: sandwich</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: norm</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: pcaMethods</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘pcaMethods’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:stats’:</span>
 #&gt; <span class='message'></span>
@@ -354,11 +354,11 @@ Data Sets to Compare Imputation Strategies. J Proteome Res. 2016 Apr
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt; Data imputation using MinDet Tue Sep 22 09:14:11 2020 
+#&gt; Data imputation using MinDet Wed Sep 30 10:53:04 2020 
 #&gt;   Using default parameters 
 #&gt;  MSnbase version: 1.15.6 </div><div class='input'>
-<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'><a href='http://www.stat.psu.edu/~jls/misoftwa.html#aut'>"norm"</a></span>))
-    <span class='fu'>impute</span>(<span class='kw'>naset</span>, method = <span class='st'>"MLE"</span>)
+<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='http://www.stat.psu.edu/~jls/misoftwa.html#aut'>"norm"</a></span><span class='op'>)</span><span class='op'>)</span>
+    <span class='fu'>impute</span><span class='op'>(</span><span class='va'>naset</span>, method <span class='op'>=</span> <span class='st'>"MLE"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Iterations of EM: 
 #&gt; 1...2...3...4...5...6...7...8...9...10...11...</div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
 #&gt; assayData: 689 features, 16 samples 
@@ -375,12 +375,12 @@ Data Sets to Compare Imputation Strategies. J Proteome Res. 2016 Apr
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt; Data imputation using MLE Tue Sep 22 09:14:11 2020 
+#&gt; Data imputation using MLE Wed Sep 30 10:53:04 2020 
 #&gt;   Using default parameters 
 #&gt;  MSnbase version: 1.15.6 </div><div class='input'>
-<span class='fu'>impute</span>(<span class='kw'>naset</span>, <span class='st'>"mixed"</span>,
-       randna = <span class='fu'>fData</span>(<span class='kw'>naset</span>)<span class='op'>$</span><span class='kw'>randna</span>,
-       mar = <span class='st'>"knn"</span>, mnar = <span class='st'>"QRILC"</span>)
+<span class='fu'>impute</span><span class='op'>(</span><span class='va'>naset</span>, <span class='st'>"mixed"</span>,
+       randna <span class='op'>=</span> <span class='fu'>fData</span><span class='op'>(</span><span class='va'>naset</span><span class='op'>)</span><span class='op'>$</span><span class='va'>randna</span>,
+       mar <span class='op'>=</span> <span class='st'>"knn"</span>, mnar <span class='op'>=</span> <span class='st'>"QRILC"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
 #&gt; assayData: 689 features, 16 samples 
 #&gt;   element names: exprs 
@@ -396,23 +396,23 @@ Data Sets to Compare Imputation Strategies. J Proteome Res. 2016 Apr
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt; Data imputation using mixed Tue Sep 22 09:14:11 2020 
+#&gt; Data imputation using mixed Wed Sep 30 10:53:04 2020 
 #&gt;   Using default parameters 
 #&gt;  MSnbase version: 1.15.6 </div><div class='input'>
 <span class='co'>## neighbour averaging</span>
 
-<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='kw'>naset</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>6</span>]
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>x</span>)[<span class='fl'>1</span>, <span class='fl'>1</span>] <span class='op'>&lt;-</span> <span class='fl'>NA</span> <span class='co'>## min value</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>x</span>)[<span class='fl'>2</span>, <span class='fl'>3</span>] <span class='op'>&lt;-</span> <span class='fl'>NA</span> <span class='co'>## average</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>x</span>)[<span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>] <span class='op'>&lt;-</span> <span class='fl'>NA</span> <span class='co'>## min value and average</span>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='va'>naset</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>6</span><span class='op'>]</span>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span> <span class='co'>## min value</span>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>2</span>, <span class='fl'>3</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span> <span class='co'>## average</span>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span> <span class='co'>## min value and average</span>
 <span class='co'>## 4th row: no imputation</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='kw'>x</span>)
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;              M1F1A    M1F4A   M1F7A  M1F11A    M1F2B    M1F5B
 #&gt; AT1G09210       NA 0.275500 0.21600 0.18525 0.465667 0.199667
 #&gt; AT1G21750 0.332000 0.279667      NA 0.16600 0.451500 0.200375
 #&gt; AT1G51760       NA       NA 0.16825 0.18825 0.459750 0.214500
 #&gt; AT1G56340 0.336733       NA      NA      NA 0.487167 0.201833</div><div class='input'>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span>(<span class='fu'>impute</span>(<span class='kw'>x</span>, <span class='st'>"nbavg"</span>))
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='fu'>impute</span><span class='op'>(</span><span class='va'>x</span>, <span class='st'>"nbavg"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Assuming values are ordered.</span></div><div class='output co'>#&gt;              M1F1A    M1F4A     M1F7A  M1F11A    M1F2B    M1F5B
 #&gt; AT1G09210 0.166000 0.275500 0.2160000 0.18525 0.465667 0.199667
 #&gt; AT1G21750 0.332000 0.279667 0.2228335 0.16600 0.451500 0.200375

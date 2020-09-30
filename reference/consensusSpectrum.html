@@ -74,7 +74,7 @@ definable proportion of spectra." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -142,16 +142,16 @@ consensus spectrum containing mass peaks that are present in a user
 definable proportion of spectra.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>consensusSpectrum</span>(
-  <span class='kw'>x</span>,
-  mzd = <span class='fl'>0</span>,
-  minProp = <span class='fl'>0.5</span>,
-  intensityFun = <span class='kw'>stats</span>::<span class='kw'><a href='https://rdrr.io/r/stats/median.html'>median</a></span>,
-  mzFun = <span class='kw'>stats</span>::<span class='kw'><a href='https://rdrr.io/r/stats/median.html'>median</a></span>,
-  ppm = <span class='fl'>0</span>,
-  weighted = <span class='fl'>FALSE</span>,
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>consensusSpectrum</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  mzd <span class='op'>=</span> <span class='fl'>0</span>,
+  minProp <span class='op'>=</span> <span class='fl'>0.5</span>,
+  intensityFun <span class='op'>=</span> <span class='fu'>stats</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/stats/median.html'>median</a></span>,
+  mzFun <span class='op'>=</span> <span class='fu'>stats</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/stats/median.html'>median</a></span>,
+  ppm <span class='op'>=</span> <span class='fl'>0</span>,
+  weighted <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -228,39 +228,39 @@ peak's m/z.</p>
     <p>Johannes Rainer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://lgatto.github.io/MSnbase'>MSnbase</a></span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://lgatto.github.io/MSnbase'>MSnbase</a></span><span class='op'>)</span>
 <span class='co'>## Create 3 example spectra.</span>
-<span class='kw'>sp1</span> <span class='op'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum2"</span>, rt = <span class='fl'>1</span>, precursorMz = <span class='fl'>1.41</span>,
-    mz = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1.2</span>, <span class='fl'>1.5</span>, <span class='fl'>1.8</span>, <span class='fl'>3.6</span>, <span class='fl'>4.9</span>, <span class='fl'>5.0</span>, <span class='fl'>7.8</span>, <span class='fl'>8.4</span>),
-    intensity = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>3</span>, <span class='fl'>140</span>, <span class='fl'>14</span>, <span class='fl'>299</span>, <span class='fl'>12</span>, <span class='fl'>49</span>, <span class='fl'>20</span>))
-<span class='kw'>sp2</span> <span class='op'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum2"</span>, rt = <span class='fl'>1.1</span>, precursorMz = <span class='fl'>1.4102</span>,
-    mz = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1.4</span>, <span class='fl'>1.81</span>, <span class='fl'>2.4</span>, <span class='fl'>4.91</span>, <span class='fl'>6.0</span>, <span class='fl'>7.2</span>, <span class='fl'>9</span>),
-    intensity = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>184</span>, <span class='fl'>8</span>, <span class='fl'>156</span>, <span class='fl'>12</span>, <span class='fl'>23</span>, <span class='fl'>10</span>))
-<span class='kw'>sp3</span> <span class='op'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"Spectrum2"</span>, rt = <span class='fl'>1.2</span>, precursorMz = <span class='fl'>1.409</span>,
-    mz = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1.82</span>, <span class='fl'>2.2</span>, <span class='fl'>3</span>, <span class='fl'>7.0</span>, <span class='fl'>8</span>),
-    intensity = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>8</span>, <span class='fl'>210</span>, <span class='fl'>7</span>, <span class='fl'>101</span>, <span class='fl'>17</span>, <span class='fl'>8</span>))
-<span class='kw'>spl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSpectra.html'>MSpectra</a></span>(<span class='kw'>sp1</span>, <span class='kw'>sp2</span>, <span class='kw'>sp3</span>)
+<span class='va'>sp1</span> <span class='op'>&lt;-</span> <span class='fu'>new</span><span class='op'>(</span><span class='st'>"Spectrum2"</span>, rt <span class='op'>=</span> <span class='fl'>1</span>, precursorMz <span class='op'>=</span> <span class='fl'>1.41</span>,
+    mz <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1.2</span>, <span class='fl'>1.5</span>, <span class='fl'>1.8</span>, <span class='fl'>3.6</span>, <span class='fl'>4.9</span>, <span class='fl'>5.0</span>, <span class='fl'>7.8</span>, <span class='fl'>8.4</span><span class='op'>)</span>,
+    intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>3</span>, <span class='fl'>140</span>, <span class='fl'>14</span>, <span class='fl'>299</span>, <span class='fl'>12</span>, <span class='fl'>49</span>, <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>sp2</span> <span class='op'>&lt;-</span> <span class='fu'>new</span><span class='op'>(</span><span class='st'>"Spectrum2"</span>, rt <span class='op'>=</span> <span class='fl'>1.1</span>, precursorMz <span class='op'>=</span> <span class='fl'>1.4102</span>,
+    mz <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1.4</span>, <span class='fl'>1.81</span>, <span class='fl'>2.4</span>, <span class='fl'>4.91</span>, <span class='fl'>6.0</span>, <span class='fl'>7.2</span>, <span class='fl'>9</span><span class='op'>)</span>,
+    intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>184</span>, <span class='fl'>8</span>, <span class='fl'>156</span>, <span class='fl'>12</span>, <span class='fl'>23</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>sp3</span> <span class='op'>&lt;-</span> <span class='fu'>new</span><span class='op'>(</span><span class='st'>"Spectrum2"</span>, rt <span class='op'>=</span> <span class='fl'>1.2</span>, precursorMz <span class='op'>=</span> <span class='fl'>1.409</span>,
+    mz <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1.82</span>, <span class='fl'>2.2</span>, <span class='fl'>3</span>, <span class='fl'>7.0</span>, <span class='fl'>8</span><span class='op'>)</span>,
+    intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>8</span>, <span class='fl'>210</span>, <span class='fl'>7</span>, <span class='fl'>101</span>, <span class='fl'>17</span>, <span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>spl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSpectra.html'>MSpectra</a></span><span class='op'>(</span><span class='va'>sp1</span>, <span class='va'>sp2</span>, <span class='va'>sp3</span><span class='op'>)</span>
 
 <span class='co'>## Plot the spectra, each in a different color</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(mfrow = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>1</span>), mar = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4.3</span>, <span class='fl'>4</span>, <span class='fl'>1</span>, <span class='fl'>1</span>))
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>sp1</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='kw'>sp1</span>), type = <span class='st'>"h"</span>, col = <span class='st'>"#ff000080"</span>, lwd = <span class='fl'>2</span>,
-    xlab = <span class='st'>"m/z"</span>, ylab = <span class='st'>"intensity"</span>, xlim = <span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>spl</span>)),
-    ylim = <span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='kw'>spl</span>)))
-<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>sp2</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='kw'>sp2</span>), type = <span class='st'>"h"</span>, col = <span class='st'>"#00ff0080"</span>, lwd = <span class='fl'>2</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>sp3</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='kw'>sp3</span>), type = <span class='st'>"h"</span>, col = <span class='st'>"#0000ff80"</span>, lwd = <span class='fl'>2</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>1</span><span class='op'>)</span>, mar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4.3</span>, <span class='fl'>4</span>, <span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>sp1</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>sp1</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"h"</span>, col <span class='op'>=</span> <span class='st'>"#ff000080"</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>,
+    xlab <span class='op'>=</span> <span class='st'>"m/z"</span>, ylab <span class='op'>=</span> <span class='st'>"intensity"</span>, xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span><span class='op'>)</span>,
+    ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>sp2</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>sp2</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"h"</span>, col <span class='op'>=</span> <span class='st'>"#00ff0080"</span>, lwd <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>sp3</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>sp3</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"h"</span>, col <span class='op'>=</span> <span class='st'>"#0000ff80"</span>, lwd <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 
-<span class='kw'>cons</span> <span class='op'>&lt;-</span> <span class='fu'>consensusSpectrum</span>(<span class='kw'>spl</span>, mzd = <span class='fl'>0.02</span>, minProp = <span class='fl'>2</span><span class='op'>/</span><span class='fl'>3</span>)
+<span class='va'>cons</span> <span class='op'>&lt;-</span> <span class='fu'>consensusSpectrum</span><span class='op'>(</span><span class='va'>spl</span>, mzd <span class='op'>=</span> <span class='fl'>0.02</span>, minProp <span class='op'>=</span> <span class='fl'>2</span><span class='op'>/</span><span class='fl'>3</span><span class='op'>)</span>
 
 <span class='co'>## Peaks of the consensus spectrum</span>
-<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>cons</span>)
-</div><div class='output co'>#&gt; [1] 1.810 4.905</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='kw'>cons</span>)
+<span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>cons</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1.810 4.905</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>cons</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 184.0 227.5</div><div class='input'>
 <span class='co'>## Other Spectrum data is taken from the first Spectrum in the list</span>
-<span class='fu'><a href='Spectrum-class.html'>rtime</a></span>(<span class='kw'>cons</span>)
-</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span>(<span class='kw'>cons</span>)
+<span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>cons</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span><span class='op'>(</span><span class='va'>cons</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 1.41</div><div class='input'>
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>cons</span>), <span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='kw'>cons</span>), type = <span class='st'>"h"</span>, xlab = <span class='st'>"m/z"</span>, ylab = <span class='st'>"intensity"</span>,
-    xlim = <span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>spl</span>)), ylim = <span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='kw'>spl</span>)), lwd = <span class='fl'>2</span>)
+<span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>cons</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>cons</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"h"</span>, xlab <span class='op'>=</span> <span class='st'>"m/z"</span>, ylab <span class='op'>=</span> <span class='st'>"intensity"</span>,
+    xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span><span class='op'>)</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span><span class='op'>)</span>, lwd <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 </div><div class='img'><img src='consensusSpectrum-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>

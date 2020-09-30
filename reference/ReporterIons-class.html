@@ -92,7 +92,7 @@ Some reporter ions are provided with MSnbase an can be loaded
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -269,22 +269,22 @@ Some reporter ions are provided with MSnbase an can be loaded
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Code used for the iTRAQ4 set</span>
-<span class='kw'>ri</span> <span class='op'>&lt;-</span> <span class='fu'>new</span>(<span class='st'>"ReporterIons"</span>,
-          description=<span class='st'>"4-plex iTRAQ"</span>,
-          name=<span class='st'>"iTRAQ4"</span>,
-          reporterNames=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"iTRAQ4.114"</span>,<span class='st'>"iTRAQ4.115"</span>,
-                          <span class='st'>"iTRAQ4.116"</span>,<span class='st'>"iTRAQ4.117"</span>),
-          mz=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>114.1</span>,<span class='fl'>115.1</span>,<span class='fl'>116.1</span>,<span class='fl'>117.1</span>),
-          col=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"red"</span>,<span class='st'>"green"</span>,<span class='st'>"blue"</span>,<span class='st'>"yellow"</span>),
-          width=<span class='fl'>0.05</span>)
-<span class='kw'>ri</span>
+<span class='va'>ri</span> <span class='op'>&lt;-</span> <span class='fu'>new</span><span class='op'>(</span><span class='st'>"ReporterIons"</span>,
+          description<span class='op'>=</span><span class='st'>"4-plex iTRAQ"</span>,
+          name<span class='op'>=</span><span class='st'>"iTRAQ4"</span>,
+          reporterNames<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"iTRAQ4.114"</span>,<span class='st'>"iTRAQ4.115"</span>,
+                          <span class='st'>"iTRAQ4.116"</span>,<span class='st'>"iTRAQ4.117"</span><span class='op'>)</span>,
+          mz<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>114.1</span>,<span class='fl'>115.1</span>,<span class='fl'>116.1</span>,<span class='fl'>117.1</span><span class='op'>)</span>,
+          col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"red"</span>,<span class='st'>"green"</span>,<span class='st'>"blue"</span>,<span class='st'>"yellow"</span><span class='op'>)</span>,
+          width<span class='op'>=</span><span class='fl'>0.05</span><span class='op'>)</span>
+<span class='va'>ri</span>
 </div><div class='output co'>#&gt; Object of class "ReporterIons"
 #&gt; iTRAQ4: '4-plex iTRAQ' with 4 reporter ions
 #&gt;  - [iTRAQ4.114] 114.1 +/- 0.05 (red)
 #&gt;  - [iTRAQ4.115] 115.1 +/- 0.05 (green)
 #&gt;  - [iTRAQ4.116] 116.1 +/- 0.05 (blue)
-#&gt;  - [iTRAQ4.117] 117.1 +/- 0.05 (yellow)</div><div class='input'><span class='fu'>reporterNames</span>(<span class='kw'>ri</span>)
-</div><div class='output co'>#&gt; [1] "iTRAQ4.114" "iTRAQ4.115" "iTRAQ4.116" "iTRAQ4.117"</div><div class='input'><span class='kw'>ri</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>]
+#&gt;  - [iTRAQ4.117] 117.1 +/- 0.05 (yellow)</div><div class='input'><span class='fu'>reporterNames</span><span class='op'>(</span><span class='va'>ri</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "iTRAQ4.114" "iTRAQ4.115" "iTRAQ4.116" "iTRAQ4.117"</div><div class='input'><span class='va'>ri</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span>
 </div><div class='output co'>#&gt; Object of class "ReporterIons"
 #&gt; iTRAQ4[1:2]: 'subset of 4-plex iTRAQ' with 2 reporter ions
 #&gt;  - [iTRAQ4.114] 114.1 +/- 0.05 (red)

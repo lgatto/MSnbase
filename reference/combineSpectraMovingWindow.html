@@ -79,7 +79,7 @@ OnDiskMSnExp object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -152,16 +152,16 @@ time dimension.</p>
 <code>OnDiskMSnExp</code> object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>combineSpectraMovingWindow</span>(
-  <span class='kw'>x</span>,
-  halfWindowSize = <span class='fl'>1L</span>,
-  intensityFun = <span class='kw'>base</span>::<span class='kw'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>,
-  mzd = <span class='kw'>NULL</span>,
-  timeDomain = <span class='fl'>FALSE</span>,
-  weighted = <span class='fl'>FALSE</span>,
-  ppm = <span class='fl'>0</span>,
-  BPPARAM = <span class='fu'>bpparam</span>()
-)</pre>
+    <pre class="usage"><span class='fu'>combineSpectraMovingWindow</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  halfWindowSize <span class='op'>=</span> <span class='fl'>1L</span>,
+  intensityFun <span class='op'>=</span> <span class='fu'>base</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>,
+  mzd <span class='op'>=</span> <span class='cn'>NULL</span>,
+  timeDomain <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  weighted <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  ppm <span class='op'>=</span> <span class='fl'>0</span>,
+  BPPARAM <span class='op'>=</span> <span class='fu'>bpparam</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -265,27 +265,27 @@ consecutive spectra.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://lgatto.github.io/MSnbase'>MSnbase</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>msdata</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://lgatto.github.io/MSnbase'>MSnbase</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>msdata</span><span class='op'>)</span>
 
 <span class='co'>## Read a profile-mode LC-MS data file.</span>
-<span class='kw'>fl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"sciex"</span>, package = <span class='st'>"msdata"</span>), full.names = <span class='fl'>TRUE</span>)[<span class='fl'>1</span>]
-<span class='kw'>od</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='kw'>fl</span>, mode = <span class='st'>"onDisk"</span>)
+<span class='va'>fl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"sciex"</span>, package <span class='op'>=</span> <span class='st'>"msdata"</span><span class='op'>)</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>
+<span class='va'>od</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>fl</span>, mode <span class='op'>=</span> <span class='st'>"onDisk"</span><span class='op'>)</span>
 
 <span class='co'>## Subset the object to the retention time range that includes the signal</span>
 <span class='co'>## for proline. This is done for performance reasons.</span>
-<span class='kw'>rtr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>165</span>, <span class='fl'>175</span>)
-<span class='kw'>od</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterRt</a></span>(<span class='kw'>od</span>, <span class='kw'>rtr</span>)
+<span class='va'>rtr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>165</span>, <span class='fl'>175</span><span class='op'>)</span>
+<span class='va'>od</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterRt</a></span><span class='op'>(</span><span class='va'>od</span>, <span class='va'>rtr</span><span class='op'>)</span>
 
 <span class='co'>## Combine signal from neighboring spectra.</span>
-<span class='kw'>od_comb</span> <span class='op'>&lt;-</span> <span class='fu'>combineSpectraMovingWindow</span>(<span class='kw'>od</span>)
+<span class='va'>od_comb</span> <span class='op'>&lt;-</span> <span class='fu'>combineSpectraMovingWindow</span><span class='op'>(</span><span class='va'>od</span><span class='op'>)</span>
 
 <span class='co'>## The combined spectra have the same number of spectra, same number of</span>
 <span class='co'>## mass peaks per spectra, but the signal is larger in the combined object.</span>
-<span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>od</span>)
-</div><div class='output co'>#&gt; [1] 36</div><div class='input'><span class='fu'><a href='pSet-class.html'>length</a></span>(<span class='kw'>od_comb</span>)
+<span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>od</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 36</div><div class='input'><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>od_comb</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 36</div><div class='input'>
-<span class='fu'><a href='Spectrum-class.html'>peaksCount</a></span>(<span class='kw'>od</span>)
+<span class='fu'><a href='Spectrum-class.html'>peaksCount</a></span><span class='op'>(</span><span class='va'>od</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; F1.S592 F1.S593 F1.S594 F1.S595 F1.S596 F1.S597 F1.S598 F1.S599 F1.S600 F1.S601 
 #&gt;     681     745     763     848     713     963    1126    1016     756     796 
 #&gt; F1.S602 F1.S603 F1.S604 F1.S605 F1.S606 F1.S607 F1.S608 F1.S609 F1.S610 F1.S611 
@@ -293,7 +293,7 @@ consecutive spectra.</p></div>
 #&gt; F1.S612 F1.S613 F1.S614 F1.S615 F1.S616 F1.S617 F1.S618 F1.S619 F1.S620 F1.S621 
 #&gt;    1509    1590    1943    2130    2166    2923    2816    2123    1744    1704 
 #&gt; F1.S622 F1.S623 F1.S624 F1.S625 F1.S626 F1.S627 
-#&gt;    2073    2015    1910    1859    1853    1762 </div><div class='input'><span class='fu'><a href='Spectrum-class.html'>peaksCount</a></span>(<span class='kw'>od_comb</span>)
+#&gt;    2073    2015    1910    1859    1853    1762 </div><div class='input'><span class='fu'><a href='Spectrum-class.html'>peaksCount</a></span><span class='op'>(</span><span class='va'>od_comb</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; F1.S592 F1.S593 F1.S594 F1.S595 F1.S596 F1.S597 F1.S598 F1.S599 F1.S600 F1.S601 
 #&gt;     681     745     763     848     713     963    1126    1016     756     796 
 #&gt; F1.S602 F1.S603 F1.S604 F1.S605 F1.S606 F1.S607 F1.S608 F1.S609 F1.S610 F1.S611 
@@ -304,13 +304,13 @@ consecutive spectra.</p></div>
 #&gt;    2073    2015    1910    1859    1853    1762 </div><div class='input'>
 <span class='co'>## Comparing the chromatographic signal for proline (m/z ~ 116.0706)</span>
 <span class='co'>## before and after spectra data combination.</span>
-<span class='kw'>mzr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>116.065</span>, <span class='fl'>116.075</span>)
-<span class='kw'>chr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='chromatogram,MSnExp-method.html'>chromatogram</a></span>(<span class='kw'>od</span>, rt = <span class='kw'>rtr</span>, mz = <span class='kw'>mzr</span>)
-<span class='kw'>chr_comb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='chromatogram,MSnExp-method.html'>chromatogram</a></span>(<span class='kw'>od_comb</span>, rt = <span class='kw'>rtr</span>, mz = <span class='kw'>mzr</span>)
+<span class='va'>mzr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>116.065</span>, <span class='fl'>116.075</span><span class='op'>)</span>
+<span class='va'>chr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='chromatogram,MSnExp-method.html'>chromatogram</a></span><span class='op'>(</span><span class='va'>od</span>, rt <span class='op'>=</span> <span class='va'>rtr</span>, mz <span class='op'>=</span> <span class='va'>mzr</span><span class='op'>)</span>
+<span class='va'>chr_comb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='chromatogram,MSnExp-method.html'>chromatogram</a></span><span class='op'>(</span><span class='va'>od_comb</span>, rt <span class='op'>=</span> <span class='va'>rtr</span>, mz <span class='op'>=</span> <span class='va'>mzr</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(mfrow = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>))
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='kw'>chr</span>)
-<span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='kw'>chr_comb</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span>
+<span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>chr_comb</span><span class='op'>)</span>
 </div><div class='img'><img src='combineSpectraMovingWindow-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## Chromatographic data is "smoother" after combining.</span>
 </div></pre>
   </div>

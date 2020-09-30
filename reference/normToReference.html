@@ -73,7 +73,7 @@ intensity values to a reference run/sample for each protein." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -140,11 +140,11 @@ intensity values to a reference run/sample for each protein." />
 intensity values to a reference run/sample for each protein.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>normToReference</span>(
-  <span class='kw'>x</span>,
-  <span class='kw'>group</span>,
-  reference = <span class='fu'>.referenceFractionValues</span>(x = <span class='kw'>x</span>, group = <span class='kw'>group</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>normToReference</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>group</span>,
+  reference <span class='op'>=</span> <span class='fu'>.referenceFractionValues</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>x</span>, group <span class='op'>=</span> <span class='va'>group</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -206,11 +206,11 @@ quantification for plant Golgi protein localization and abundance. Plant Physiol
     <p>Sebastian Gibb &lt;mail@sebastiangibb.de&gt;, Pavel Shliaha</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://lgatto.github.io/MSnbase'>"MSnbase"</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>msnset</span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://lgatto.github.io/MSnbase'>"MSnbase"</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>
 
 <span class='co'># choose the reference run automatically</span>
-<span class='fu'><a href='combineFeatures.html'>combineFeatures</a></span>(<span class='kw'>msnset</span>, groupBy=<span class='fu'>fData</span>(<span class='kw'>msnset</span>)<span class='op'>$</span><span class='kw'>ProteinAccession</span>)
+<span class='fu'><a href='combineFeatures.html'>combineFeatures</a></span><span class='op'>(</span><span class='va'>msnset</span>, groupBy<span class='op'>=</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>$</span><span class='va'>ProteinAccession</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Your data contains missing values. Please read the relevant section in</span>
 #&gt; <span class='message'>the combineFeatures manual page for details on the effects of missing</span>
 #&gt; <span class='message'>values on data aggregation.</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
@@ -230,11 +230,11 @@ quantification for plant Golgi protein localization and abundance. Plant Physiol
 #&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#&gt; Combined 55 features into 40 using mean: Tue Sep 22 09:15:26 2020 
-#&gt;  MSnbase version: 2.15.7 </div><div class='input'>
+#&gt; Combined 55 features into 40 using mean: Wed Sep 30 10:54:19 2020 
+#&gt;  MSnbase version: 2.15.8 </div><div class='input'>
 <span class='co'># use a user-given reference</span>
-<span class='fu'><a href='combineFeatures.html'>combineFeatures</a></span>(<span class='kw'>msnset</span>, groupBy=<span class='fu'>fData</span>(<span class='kw'>msnset</span>)<span class='op'>$</span><span class='kw'>ProteinAccession</span>,
- reference=<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>2</span>, <span class='fl'>55</span>))
+<span class='fu'><a href='combineFeatures.html'>combineFeatures</a></span><span class='op'>(</span><span class='va'>msnset</span>, groupBy<span class='op'>=</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>$</span><span class='va'>ProteinAccession</span>,
+ reference<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>55</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Your data contains missing values. Please read the relevant section in</span>
 #&gt; <span class='message'>the combineFeatures manual page for details on the effects of missing</span>
 #&gt; <span class='message'>values on data aggregation.</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
@@ -254,8 +254,8 @@ quantification for plant Golgi protein localization and abundance. Plant Physiol
 #&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#&gt; Combined 55 features into 40 using mean: Tue Sep 22 09:15:26 2020 
-#&gt;  MSnbase version: 2.15.7 </div><div class='input'>
+#&gt; Combined 55 features into 40 using mean: Wed Sep 30 10:54:19 2020 
+#&gt;  MSnbase version: 2.15.8 </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

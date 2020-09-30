@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -240,17 +240,17 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## find path to a mzXML file</span>
-<span class='kw'>file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(package = <span class='st'>"MSnbase"</span>, dir = <span class='st'>"extdata"</span>),
-            full.name = <span class='fl'>TRUE</span>, pattern = <span class='st'>"mzXML$"</span>)
+<span class='va'>file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"MSnbase"</span>, dir <span class='op'>=</span> <span class='st'>"extdata"</span><span class='op'>)</span>,
+            full.name <span class='op'>=</span> <span class='cn'>TRUE</span>, pattern <span class='op'>=</span> <span class='st'>"mzXML$"</span><span class='op'>)</span>
 
 <span class='co'>## create basic MSnExp</span>
-<span class='kw'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span>(<span class='kw'>file</span>, centroided = <span class='fl'>FALSE</span>)
+<span class='va'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>file</span>, centroided <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'>## centroid them</span>
-<span class='kw'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pickPeaks-methods.html'>pickPeaks</a></span>(<span class='kw'>msexp</span>)
+<span class='va'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pickPeaks-methods.html'>pickPeaks</a></span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span>
 
 <span class='co'>## calculate fragments for ACE with default modification</span>
-<span class='fu'>calculateFragments</span>(<span class='st'>"ACE"</span>, modifications=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(C=<span class='fl'>57.02146</span>))
+<span class='fu'>calculateFragments</span><span class='op'>(</span><span class='st'>"ACE"</span>, modifications<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>C<span class='op'>=</span><span class='fl'>57.02146</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;          mz ion type pos z seq
 #&gt; 1  72.04439  b1    b   1 1   A
 #&gt; 2 232.07504  b2    b   2 1  AC
@@ -259,7 +259,7 @@
 #&gt; 5 130.04987 y1_   y_   1 1   E
 #&gt; 6 290.08052 y2_   y_   2 1  CE</div><div class='input'>
 <span class='co'>## calculate fragments for ACE with an addition N-terminal modification</span>
-<span class='fu'>calculateFragments</span>(<span class='st'>"ACE"</span>, modifications=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(C=<span class='fl'>57.02146</span>, Nterm=<span class='fl'>229.1629</span>))
+<span class='fu'>calculateFragments</span><span class='op'>(</span><span class='st'>"ACE"</span>, modifications<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>C<span class='op'>=</span><span class='fl'>57.02146</span>, Nterm<span class='op'>=</span><span class='fl'>229.1629</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;         mz ion type pos z seq
 #&gt; 1 301.2073  b1    b   1 1   A
 #&gt; 2 461.2379  b2    b   2 1  AC
@@ -268,7 +268,7 @@
 #&gt; 5 130.0499 y1_   y_   1 1   E
 #&gt; 6 290.0805 y2_   y_   2 1  CE</div><div class='input'>
 <span class='co'>## calculate fragments for ACE without any modifications</span>
-<span class='fu'>calculateFragments</span>(<span class='st'>"ACE"</span>, modifications=<span class='kw'>NULL</span>)
+<span class='fu'>calculateFragments</span><span class='op'>(</span><span class='st'>"ACE"</span>, modifications<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;          mz ion type pos z seq
 #&gt; 1  72.04439  b1    b   1 1   A
 #&gt; 2 175.05358  b2    b   2 1  AC
@@ -276,9 +276,9 @@
 #&gt; 4 251.06962  y2    y   2 1  CE
 #&gt; 5 130.04987 y1_   y_   1 1   E
 #&gt; 6 233.05906 y2_   y_   2 1  CE</div><div class='input'>
-<span class='fu'>calculateFragments</span>(<span class='st'>"VESITARHGEVLQLRPK"</span>,
-                   type=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='st'>"x"</span>, <span class='st'>"y"</span>, <span class='st'>"z"</span>),
-                   z=<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>)
+<span class='fu'>calculateFragments</span><span class='op'>(</span><span class='st'>"VESITARHGEVLQLRPK"</span>,
+                   type<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='st'>"x"</span>, <span class='st'>"y"</span>, <span class='st'>"z"</span><span class='op'>)</span>,
+                   z<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;             mz  ion type pos z              seq
 #&gt; 1     72.08077   a1    a   1 1                V
 #&gt; 2     36.54402   a1    a   1 2                V
@@ -778,7 +778,7 @@
 #&gt; 496  827.45718 z15*   z*  15 2  SITARHGEVLQLRPK
 #&gt; 497 1799.97622 z16*   z*  16 1 ESITARHGEVLQLRPK
 #&gt; 498  891.97848 z16*   z*  16 2 ESITARHGEVLQLRPK</div><div class='input'>
-<span class='fu'>calculateFragments</span>(<span class='st'>"VESITARHGEVLQLRPK"</span>, <span class='kw'>msexp</span>[[<span class='fl'>1</span>]])
+<span class='fu'>calculateFragments</span><span class='op'>(</span><span class='st'>"VESITARHGEVLQLRPK"</span>, <span class='va'>msexp</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;          mz intensity  ion type pos z             seq       error
 #&gt; 1  429.2563 1972344.0   b4    b   4 1            VESI -0.02189010
 #&gt; 2  512.3044  684918.0  b5_   b_   5 1           VESIT -0.03290132
@@ -789,7 +789,7 @@
 #&gt; 7 1080.5867  209363.7  b10    b  10 1      VESITARHGE -0.04344392
 #&gt; 8 1688.0375  136748.8 y15*   y*  15 1 SITARHGEVLQLRPK -0.07729359</div><div class='input'>
 <span class='co'>## neutral loss</span>
-<span class='fu'>defaultNeutralLoss</span>()
+<span class='fu'>defaultNeutralLoss</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $water
 #&gt; [1] "Cterm" "D"     "E"     "S"     "T"    
 #&gt; 
@@ -797,7 +797,7 @@
 #&gt; [1] "K" "N" "Q" "R"
 #&gt; </div><div class='input'>
 <span class='co'>## disable water loss on the C terminal</span>
-<span class='fu'>defaultNeutralLoss</span>(disableWaterLoss=<span class='st'>"Cterm"</span>)
+<span class='fu'>defaultNeutralLoss</span><span class='op'>(</span>disableWaterLoss<span class='op'>=</span><span class='st'>"Cterm"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $water
 #&gt; [1] "D" "E" "S" "T"
 #&gt; 
@@ -805,7 +805,7 @@
 #&gt; [1] "K" "N" "Q" "R"
 #&gt; </div><div class='input'>
 <span class='co'>## real example</span>
-<span class='fu'>calculateFragments</span>(<span class='st'>"PQR"</span>)
+<span class='fu'>calculateFragments</span><span class='op'>(</span><span class='st'>"PQR"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;          mz ion type pos z seq
 #&gt; 1  98.06004  b1    b   1 1   P
 #&gt; 2 226.11862  b2    b   2 1  PQ
@@ -813,15 +813,15 @@
 #&gt; 4 303.17753  y2    y   2 1  QR
 #&gt; 5 157.10839 y1_   y_   1 1   R
 #&gt; 6 285.16697 y2_   y_   2 1  QR
-#&gt; 7 286.15098 y2*   y*   2 1  QR</div><div class='input'><span class='fu'>calculateFragments</span>(<span class='st'>"PQR"</span>,
-                   neutralLoss=<span class='fu'>defaultNeutralLoss</span>(disableWaterLoss=<span class='st'>"Cterm"</span>))
+#&gt; 7 286.15098 y2*   y*   2 1  QR</div><div class='input'><span class='fu'>calculateFragments</span><span class='op'>(</span><span class='st'>"PQR"</span>,
+                   neutralLoss<span class='op'>=</span><span class='fu'>defaultNeutralLoss</span><span class='op'>(</span>disableWaterLoss<span class='op'>=</span><span class='st'>"Cterm"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;          mz ion type pos z seq
 #&gt; 1  98.06004  b1    b   1 1   P
 #&gt; 2 226.11862  b2    b   2 1  PQ
 #&gt; 3 175.11895  y1    y   1 1   R
 #&gt; 4 303.17753  y2    y   2 1  QR
-#&gt; 5 286.15098 y2*   y*   2 1  QR</div><div class='input'><span class='fu'>calculateFragments</span>(<span class='st'>"PQR"</span>,
-                   neutralLoss=<span class='fu'>defaultNeutralLoss</span>(disableAmmoniaLoss=<span class='st'>"Q"</span>))
+#&gt; 5 286.15098 y2*   y*   2 1  QR</div><div class='input'><span class='fu'>calculateFragments</span><span class='op'>(</span><span class='st'>"PQR"</span>,
+                   neutralLoss<span class='op'>=</span><span class='fu'>defaultNeutralLoss</span><span class='op'>(</span>disableAmmoniaLoss<span class='op'>=</span><span class='st'>"Q"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;          mz ion type pos z seq
 #&gt; 1  98.06004  b1    b   1 1   P
 #&gt; 2 226.11862  b2    b   2 1  PQ
@@ -830,7 +830,7 @@
 #&gt; 5 157.10839 y1_   y_   1 1   R
 #&gt; 6 285.16697 y2_   y_   2 1  QR</div><div class='input'>
 <span class='co'>## disable neutral loss completely</span>
-<span class='fu'>calculateFragments</span>(<span class='st'>"PQR"</span>, neutralLoss=<span class='kw'>NULL</span>)
+<span class='fu'>calculateFragments</span><span class='op'>(</span><span class='st'>"PQR"</span>, neutralLoss<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;          mz ion type pos z seq
 #&gt; 1  98.06004  b1    b   1 1   P
 #&gt; 2 226.11862  b2    b   2 1  PQ

@@ -81,7 +81,7 @@ Note that this method only works for MS2 spectra or experiments that
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -187,18 +187,18 @@ Note that this method only works for MS2 spectra or experiments that
   processing methods.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>sp1</span> <span class='op'>&lt;-</span> <span class='kw'>itraqdata</span>[[<span class='fl'>1</span>]]
-<span class='kw'>sp2</span> <span class='op'>&lt;-</span> <span class='fu'>removeReporters</span>(<span class='kw'>sp1</span>,reporters=<span class='kw'>iTRAQ4</span>)
-<span class='kw'>sel</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>sp1</span>) <span class='op'>&gt;</span> <span class='fl'>114</span> <span class='op'>&amp;</span> <span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>sp1</span>) <span class='op'>&lt;</span> <span class='fl'>114.2</span>
-<span class='fu'><a href='Spectrum-class.html'>mz</a></span>(<span class='kw'>sp1</span>)[<span class='kw'>sel</span>]
+    <pre class="examples"><div class='input'><span class='va'>sp1</span> <span class='op'>&lt;-</span> <span class='va'>itraqdata</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+<span class='va'>sp2</span> <span class='op'>&lt;-</span> <span class='fu'>removeReporters</span><span class='op'>(</span><span class='va'>sp1</span>,reporters<span class='op'>=</span><span class='va'>iTRAQ4</span><span class='op'>)</span>
+<span class='va'>sel</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>sp1</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>114</span> <span class='op'>&amp;</span> <span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>sp1</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>114.2</span>
+<span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>sp1</span><span class='op'>)</span><span class='op'>[</span><span class='va'>sel</span><span class='op'>]</span>
 </div><div class='output co'>#&gt;  [1] 114.0956 114.0975 114.0993 114.1012 114.1030 114.1049 114.1067 114.1085
 #&gt;  [9] 114.1104 114.1122 114.1141 114.1159 114.1178 114.1196 114.1214 114.1233
-#&gt; [17] 114.1251</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='kw'>sp1</span>)[<span class='kw'>sel</span>]
+#&gt; [17] 114.1251</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>sp1</span><span class='op'>)</span><span class='op'>[</span><span class='va'>sel</span><span class='op'>]</span>
 </div><div class='output co'>#&gt;  [1]      0.0000      0.0000      0.0000      0.0000   1640.2427  25143.0898
 #&gt;  [7]  87905.3906 164363.5156 197455.8125 158061.2812  79058.3672  17596.0898
-#&gt; [13]    346.5309      0.0000      0.0000      0.0000      0.0000</div><div class='input'><span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='kw'>sp1</span>,full=<span class='fl'>TRUE</span>,reporters=<span class='kw'>iTRAQ4</span>)
-</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span>(<span class='kw'>sp2</span>)[<span class='kw'>sel</span>]
-</div><div class='output co'>#&gt;  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</div><div class='input'><span class='fu'><a href='plot-methods.html'>plot</a></span>(<span class='kw'>sp2</span>,full=<span class='fl'>TRUE</span>,reporters=<span class='kw'>iTRAQ4</span>)
+#&gt; [13]    346.5309      0.0000      0.0000      0.0000      0.0000</div><div class='input'><span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>sp1</span>,full<span class='op'>=</span><span class='cn'>TRUE</span>,reporters<span class='op'>=</span><span class='va'>iTRAQ4</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>sp2</span><span class='op'>)</span><span class='op'>[</span><span class='va'>sel</span><span class='op'>]</span>
+</div><div class='output co'>#&gt;  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</div><div class='input'><span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>sp2</span>,full<span class='op'>=</span><span class='cn'>TRUE</span>,reporters<span class='op'>=</span><span class='va'>iTRAQ4</span><span class='op'>)</span>
 </div><div class='img'><img src='removeReporters-methods-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

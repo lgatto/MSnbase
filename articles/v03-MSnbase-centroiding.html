@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
       </span>
     </div>
 
@@ -125,34 +125,30 @@ document.addEventListener("DOMContentLoaded", function() {
 <a href="#centroiding-of-profile-mode-ms-data" class="anchor"></a>Centroiding of profile-mode MS data</h1>
 <p>In this vignette we use a subset of a metabolomics profile-mode LC-MS data of pooled human serum samples measured on a AB Sciex TripleTOF 5600+ mass spectrometer (the employed chromatography was a hydrophilic interaction high-performance liquid chromatography (HILIC HPLC)). The mzML file contains profile mode data for an m/z range from 105 to 130 and a retention time from 0 to 240 seconds. For more details on the sample see <code><a href="https://rdrr.io/pkg/msdata/man/sciexdata.html">?msdata::sciexdata</a></code>. Below we load the required packages and read the MS data.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st"><a href="https://lgatto.github.io/MSnbase">"MSnbase"</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"msdata"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"magrittr"</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://lgatto.github.io/MSnbase">"MSnbase"</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"msdata"</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"magrittr"</span><span class="op">)</span>
 
-<span class="kw">fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"sciex"</span>, package = <span class="st">"msdata"</span>), full.names = <span class="fl">TRUE</span>)[<span class="fl">2</span>]
-<span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span>(<span class="kw">fl</span>)
-</pre></div>
+<span class="va">fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"sciex"</span>, package <span class="op">=</span> <span class="st">"msdata"</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>
+<span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">fl</span><span class="op">)</span></pre></div>
 <pre><code>## [1] "20171016_POOL_POS_3_105-134.mzML"</code></pre>
 <div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw">data_prof</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readMSData.html">readMSData</a></span>(<span class="kw">fl</span>, mode = <span class="st">"onDisk"</span>, centroided = <span class="fl">FALSE</span>)
-</pre></div>
+<span class="va">data_prof</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readMSData.html">readMSData</a></span><span class="op">(</span><span class="va">fl</span>, mode <span class="op">=</span> <span class="st">"onDisk"</span>, centroided <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></pre></div>
 <p>We next extract the profile MS data for the [M+H]+ adduct of serine with the expected m/z of 106.049871. We thus filter the <code>data_prof</code> object using an m/z range containing the signal for the metabolite and a retention time window from 175 to 187 seconds corresponding to the time when the analyte elutes from the LC.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="co">## Define the mz and retention time ranges</span>
-<span class="kw">serine_mz</span> <span class="op">&lt;-</span> <span class="fl">106.049871</span>
-<span class="kw">mzr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">serine_mz</span> <span class="op">-</span> <span class="fl">0.01</span>, <span class="kw">serine_mz</span> <span class="op">+</span> <span class="fl">0.01</span>)
-<span class="kw">rtr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">175</span>, <span class="fl">187</span>)
+<span class="va">serine_mz</span> <span class="op">&lt;-</span> <span class="fl">106.049871</span>
+<span class="va">mzr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">serine_mz</span> <span class="op">-</span> <span class="fl">0.01</span>, <span class="va">serine_mz</span> <span class="op">+</span> <span class="fl">0.01</span><span class="op">)</span>
+<span class="va">rtr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">175</span>, <span class="fl">187</span><span class="op">)</span>
 
 <span class="co">## Filtering the object</span>
-<span class="kw">serine</span> <span class="op">&lt;-</span> <span class="kw">data_prof</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span>(<span class="kw">rtr</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span>(<span class="kw">mzr</span>)
-</pre></div>
+<span class="va">serine</span> <span class="op">&lt;-</span> <span class="va">data_prof</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span><span class="op">(</span><span class="va">rtr</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span><span class="op">(</span><span class="va">mzr</span><span class="op">)</span></pre></div>
 <p>We can now plot the profile MS data for serine.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="../reference/plot-methods.html">plot</a></span>(<span class="kw">serine</span>, type = <span class="st">"XIC"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(h = <span class="kw">serine_mz</span>, col = <span class="st">"red"</span>, lty = <span class="fl">2</span>)
-</pre></div>
+<span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">serine</span>, type <span class="op">=</span> <span class="st">"XIC"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">serine_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></pre></div>
 <div class="figure" style="text-align: center">
 <img src="v03-MSnbase-centroiding_files/figure-html/serine-plot-1.png" alt="MS profile data for serine. Upper panel shows the base peak chromatogram (BPC), lower panel the individual signals in the retention time - m/z space. The horizontal dashed red line indicates the theoretical m/z of the [M+H]+ adduct of serine." width="700"><p class="caption">
 MS profile data for serine. Upper panel shows the base peak chromatogram (BPC), lower panel the individual signals in the retention time - m/z space. The horizontal dashed red line indicates the theoretical m/z of the [M+H]+ adduct of serine.
@@ -161,8 +157,7 @@ MS profile data for serine. Upper panel shows the base peak chromatogram (BPC), 
 <p>The lower panel in the plot above shows all the individual signal intensities measured by the mass spectrometer over the retention time and the m/z ranges of interest. The upper panel displays the <em>base peak chromatogram</em> (BPC), which represents the maximum signal (across the range of m/z values) for each discrete retention time. The rows of points in this lower panel indicate the resolution of the mass spectrometer while the columns of data points (i.e. the data collected for a discrete retention time point) represents the signal for the ion in one spectrum.</p>
 <p>Below we plot the signal for one of of the 43 spectra containing signal for serine, the one at retention time 181.07</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu"><a href="../reference/plot-methods.html">plot</a></span>(<span class="kw">serine</span>[[<span class="fl">22</span>]])
-</pre></div>
+<span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">serine</span><span class="op">[[</span><span class="fl">22</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></pre></div>
 <div class="figure" style="text-align: center">
 <img src="v03-MSnbase-centroiding_files/figure-html/serine-spectrum24-1.png" alt="On of the spectra for serine in profile mode." width="700"><p class="caption">
 On of the spectra for serine in profile mode.
@@ -171,17 +166,16 @@ On of the spectra for serine in profile mode.
 <p>The MS instrument recorded a signal along the m/z range in discrete intervals (which depend on the resolution of the instrument). The profile-mode signal of the serine ion at the respective retention time (the <em>mass peak</em>) consists therefore of multiple intensities that follow approximately a gaussian distribution.</p>
 <p>As described in the introduction, centroiding aims to reduce this signal distribution to a single representative intensity, a single data point, for the ion in a spectrum. The simplest approach selects the largest intensity for each mass peak and report its intensity and m/z value. This can be done using the <code>pickPeaks</code> method with default parameters as shown below.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw">data_cent</span> <span class="op">&lt;-</span> <span class="kw">data_prof</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/pickPeaks-methods.html">pickPeaks</a></span>()
+<span class="va">data_cent</span> <span class="op">&lt;-</span> <span class="va">data_prof</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/pickPeaks-methods.html">pickPeaks</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="kw">serine_cent</span> <span class="op">&lt;-</span> <span class="kw">data_cent</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span>(<span class="kw">rtr</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span>(<span class="kw">mzr</span>)
+<span class="va">serine_cent</span> <span class="op">&lt;-</span> <span class="va">data_cent</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span><span class="op">(</span><span class="va">rtr</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span><span class="op">(</span><span class="va">mzr</span><span class="op">)</span>
 
 <span class="co">## Plot the centroided data for serine</span>
-<span class="fu"><a href="../reference/plot-methods.html">plot</a></span>(<span class="kw">serine_cent</span>, type = <span class="st">"XIC"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(h = <span class="kw">serine_mz</span>, col = <span class="st">"red"</span>, lty = <span class="fl">2</span>)
-</pre></div>
+<span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">serine_cent</span>, type <span class="op">=</span> <span class="st">"XIC"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">serine_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></pre></div>
 <div class="figure" style="text-align: center">
 <img src="v03-MSnbase-centroiding_files/figure-html/simple-pickPeaks-1.png" alt="Centroided data for serine." width="700"><p class="caption">
 Centroided data for serine.
@@ -190,18 +184,17 @@ Centroided data for serine.
 <p>After centroiding the data consists of a single intensity for each mass peak. In the example above the centroids from consecutive scans do however not have the same m/z value, but they fluctuate between the discrete m/z values defined by the instruments’s resolution. For lower intensity signals this variation can be substantial.</p>
 <p>To further illustrate this, we plot below the centroided signal for the [M+H]+ ion of proline.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="kw">prol_mz</span> <span class="op">&lt;-</span> <span class="fl">116.070608</span>
-<span class="kw">prol_mzr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">prol_mz</span> <span class="op">-</span> <span class="fl">0.01</span>, <span class="kw">prol_mz</span> <span class="op">+</span> <span class="fl">0.01</span>)
-<span class="kw">prol_rtr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">165</span>, <span class="fl">175</span>)
+<span class="va">prol_mz</span> <span class="op">&lt;-</span> <span class="fl">116.070608</span>
+<span class="va">prol_mzr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">prol_mz</span> <span class="op">-</span> <span class="fl">0.01</span>, <span class="va">prol_mz</span> <span class="op">+</span> <span class="fl">0.01</span><span class="op">)</span>
+<span class="va">prol_rtr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">165</span>, <span class="fl">175</span><span class="op">)</span>
 
-<span class="kw">proline</span> <span class="op">&lt;-</span> <span class="kw">data_prof</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/pickPeaks-methods.html">pickPeaks</a></span>() <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span>(<span class="kw">prol_rtr</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span>(<span class="kw">prol_mzr</span>)
+<span class="va">proline</span> <span class="op">&lt;-</span> <span class="va">data_prof</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/pickPeaks-methods.html">pickPeaks</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span><span class="op">(</span><span class="va">prol_rtr</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span><span class="op">(</span><span class="va">prol_mzr</span><span class="op">)</span>
 
-<span class="fu"><a href="../reference/plot-methods.html">plot</a></span>(<span class="kw">proline</span>, type = <span class="st">"XIC"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(h = <span class="kw">prol_mz</span>, col = <span class="st">"red"</span>, lty = <span class="fl">2</span>)
-</pre></div>
+<span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">proline</span>, type <span class="op">=</span> <span class="st">"XIC"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">prol_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></pre></div>
 <div class="figure" style="text-align: center">
 <img src="v03-MSnbase-centroiding_files/figure-html/proline-1.png" alt="Centroided data for proline." width="700"><p class="caption">
 Centroided data for proline.
@@ -218,20 +211,18 @@ Centroided data for proline.
 <a href="#sec:smoothing" class="anchor"></a>Data smoothing</h2>
 <p>Raw mass spectrometry data is usually smoothed in m/z dimension by applying e.g. a Savitzky-Golay filter <span class="citation">(Savitzky and Golay 1964)</span> which reduces the noise and hence improves data quality. Below we use the <code>smooth</code> method to apply a Savitzky-Golay filter with a half-window size of 4 to the data within each spectrum (see <code><a href="../reference/smooth-methods.html">?smooth</a></code> for more details on the parameters).</p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="kw">data_sg</span> <span class="op">&lt;-</span> <span class="kw">data_prof</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/smooth-methods.html">smooth</a></span>(method = <span class="st">"SavitzkyGolay"</span>, halfWindowSize = <span class="fl">4L</span>)
-</pre></div>
+<span class="va">data_sg</span> <span class="op">&lt;-</span> <span class="va">data_prof</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/smooth-methods.html">smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"SavitzkyGolay"</span>, halfWindowSize <span class="op">=</span> <span class="fl">4L</span><span class="op">)</span></pre></div>
 <p>We next apply the simple peak picking on the smoothed data, filter the desired retention time and m/z ranges, and subsequently plot the such centroided data for serine.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="kw">data_sg_cent</span> <span class="op">&lt;-</span> <span class="kw">data_sg</span> <span class="op">%&gt;%</span>
-    <span class="kw">pickPeaks</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span>(<span class="kw">rtr</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span>(<span class="kw">mzr</span>)
+<span class="va">data_sg_cent</span> <span class="op">&lt;-</span> <span class="va">data_sg</span> <span class="op">%&gt;%</span>
+    <span class="va">pickPeaks</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span><span class="op">(</span><span class="va">rtr</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span><span class="op">(</span><span class="va">mzr</span><span class="op">)</span>
 
 <span class="co">## Plot the centroided data for serine</span>
-<span class="fu"><a href="../reference/plot-methods.html">plot</a></span>(<span class="kw">data_sg_cent</span>, type = <span class="st">"XIC"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(h = <span class="kw">serine_mz</span>, col = <span class="st">"red"</span>, lty = <span class="fl">2</span>)
-</pre></div>
+<span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">data_sg_cent</span>, type <span class="op">=</span> <span class="st">"XIC"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">serine_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></pre></div>
 <div class="figure" style="text-align: center">
 <img src="v03-MSnbase-centroiding_files/figure-html/smoothSG-pp-serine-1.png" alt="Centroided data for serine after smoothing with a Savitzky-Golay filter." width="700"><p class="caption">
 Centroided data for serine after smoothing with a Savitzky-Golay filter.
@@ -239,14 +230,13 @@ Centroided data for serine after smoothing with a Savitzky-Golay filter.
 </div>
 <p>Smoothing the raw data prior to peak picking improved the quality of the centroided data of serine as well as proline as can be seen below.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="kw">prol_sg_cent</span> <span class="op">&lt;-</span> <span class="kw">data_sg</span> <span class="op">%&gt;%</span>
-    <span class="kw">pickPeaks</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span>(<span class="kw">prol_rtr</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span>(<span class="kw">prol_mzr</span>)
+<span class="va">prol_sg_cent</span> <span class="op">&lt;-</span> <span class="va">data_sg</span> <span class="op">%&gt;%</span>
+    <span class="va">pickPeaks</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span><span class="op">(</span><span class="va">prol_rtr</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span><span class="op">(</span><span class="va">prol_mzr</span><span class="op">)</span>
 
-<span class="fu"><a href="../reference/plot-methods.html">plot</a></span>(<span class="kw">prol_sg_cent</span>, type = <span class="st">"XIC"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(h = <span class="kw">prol_mz</span>, col = <span class="st">"red"</span>, lty = <span class="fl">2</span>)
-</pre></div>
+<span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">prol_sg_cent</span>, type <span class="op">=</span> <span class="st">"XIC"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">prol_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></pre></div>
 <div class="figure" style="text-align: center">
 <img src="v03-MSnbase-centroiding_files/figure-html/smoothSG-pp-proline-1.png" alt="Centroided data for proline after smoothing with a Savitzky-Golay filter." width="700"><p class="caption">
 Centroided data for proline after smoothing with a Savitzky-Golay filter.
@@ -257,16 +247,14 @@ Centroided data for proline after smoothing with a Savitzky-Golay filter.
 <div class="sourceCode" id="cb12"><pre class="downlit">
 <span class="co">## Subset to the data for proline, smooth it in rt dimension and</span>
 <span class="co">## perform the centroiding</span>
-<span class="kw">proline_c_cent</span> <span class="op">&lt;-</span> <span class="kw">data_prof</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span>(<span class="kw">prol_rtr</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/combineSpectraMovingWindow.html">combineSpectraMovingWindow</a></span>() <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/pickPeaks-methods.html">pickPeaks</a></span>() <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span>(<span class="kw">prol_mzr</span>)
-</pre></div>
+<span class="va">proline_c_cent</span> <span class="op">&lt;-</span> <span class="va">data_prof</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span><span class="op">(</span><span class="va">prol_rtr</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/combineSpectraMovingWindow.html">combineSpectraMovingWindow</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/pickPeaks-methods.html">pickPeaks</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span><span class="op">(</span><span class="va">prol_mzr</span><span class="op">)</span></pre></div>
 <div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="fu"><a href="../reference/plot-methods.html">plot</a></span>(<span class="kw">proline_c_cent</span>, type = <span class="st">"XIC"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(h = <span class="kw">prol_mz</span>, col = <span class="st">"red"</span>, lty = <span class="fl">2</span>)
-</pre></div>
+<span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">proline_c_cent</span>, type <span class="op">=</span> <span class="st">"XIC"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">prol_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></pre></div>
 <div class="figure" style="text-align: center">
 <img src="v03-MSnbase-centroiding_files/figure-html/proline-rtsmooth-1.png" alt="Centroided data for proline after smoothing in retention time dimension." width="700"><p class="caption">
 Centroided data for proline after smoothing in retention time dimension.
@@ -281,31 +269,29 @@ Centroided data for proline after smoothing in retention time dimension.
 <p>Thus far we applied only a simple peak picking strategy, but the <code>pickPeaks</code> method allows also to <em>refine</em> the identified centroid’s m/z value by considering also the signal from the full, or parts of the, mass peak. Currently two methods are implemented, <em>descendPeak</em> and <em>kNeighbors</em> that can be selected by passing either <code>refineMz = "descendPeak"</code> or <code>refineMz = "kNeighbors"</code> to the <code>pickPeaks</code> method. The m/z value of the reported centroid is calculated using an intensity-weighted mean of m/z-intensity values from the mass peak. This can improve the accuracy of the reported m/z values. The two methods differ only in the way in which the peak area for the final calculation is defined: <code>kNeighbors</code> takes the <code>k</code> m/z-intensity pairs (default <code>k = 2</code>) left and right of the centroid and <code>descendPeak</code> walks, on both sides from the centroid, down until the signal is below <code>signalPercentage</code>% of the centroid’s intensity (by default 33%), or until the signal increases again. All m/z intensity pairs within this range are used for the weighted average calculation of the centroid’s m/z value.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="co">## Use pickPeaks with descendPeak m/z refinement</span>
-<span class="kw">data_sg_cent_mz</span> <span class="op">&lt;-</span> <span class="kw">data_sg</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/pickPeaks-methods.html">pickPeaks</a></span>(refineMz = <span class="st">"descendPeak"</span>)
-</pre></div>
+<span class="va">data_sg_cent_mz</span> <span class="op">&lt;-</span> <span class="va">data_sg</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/pickPeaks-methods.html">pickPeaks</a></span><span class="op">(</span>refineMz <span class="op">=</span> <span class="st">"descendPeak"</span><span class="op">)</span></pre></div>
 <p>Below we first extract the data for serine and then plot the smoothed and centroided data without and with m/z refinement.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit">
 <span class="co">## Extract the data for serine</span>
-<span class="kw">serine_sg_cent</span> <span class="op">&lt;-</span> <span class="kw">data_sg_cent</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span>(<span class="kw">rtr</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span>(<span class="kw">mzr</span>)
+<span class="va">serine_sg_cent</span> <span class="op">&lt;-</span> <span class="va">data_sg_cent</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span><span class="op">(</span><span class="va">rtr</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span><span class="op">(</span><span class="va">mzr</span><span class="op">)</span>
 
-<span class="kw">serine_sg_cent_mz</span> <span class="op">&lt;-</span> <span class="kw">data_sg_cent_mz</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span>(<span class="kw">rtr</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span>(<span class="kw">mzr</span>)
+<span class="va">serine_sg_cent_mz</span> <span class="op">&lt;-</span> <span class="va">data_sg_cent_mz</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span><span class="op">(</span><span class="va">rtr</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span><span class="op">(</span><span class="va">mzr</span><span class="op">)</span>
 
 <span class="co">## Plot the data</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/layout.html">layout</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, ncol = <span class="fl">2</span>))
+<span class="fu"><a href="https://rdrr.io/r/graphics/layout.html">layout</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
 <span class="co">## No m/z refinement</span>
-<span class="fu"><a href="../reference/plot-methods.html">plot</a></span>(<span class="kw">serine_sg_cent</span>, type = <span class="st">"XIC"</span>, layout = <span class="kw">NULL</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(h = <span class="kw">serine_mz</span>, col = <span class="st">"red"</span>, lty = <span class="fl">2</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(v = <span class="fu"><a href="../reference/Spectrum-class.html">rtime</a></span>(<span class="kw">serine_sg_cent</span>)[<span class="fl">22</span>], col = <span class="st">"red"</span>, lty = <span class="fl">3</span>)
+<span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">serine_sg_cent</span>, type <span class="op">=</span> <span class="st">"XIC"</span>, layout <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">serine_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="../reference/Spectrum-class.html">rtime</a></span><span class="op">(</span><span class="va">serine_sg_cent</span><span class="op">)</span><span class="op">[</span><span class="fl">22</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 <span class="co">## With m/z refinement</span>
-<span class="fu"><a href="../reference/plot-methods.html">plot</a></span>(<span class="kw">serine_sg_cent_mz</span>, type = <span class="st">"XIC"</span>, layout = <span class="kw">NULL</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(h = <span class="kw">serine_mz</span>, col = <span class="st">"red"</span>, lty = <span class="fl">2</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(v = <span class="fu"><a href="../reference/Spectrum-class.html">rtime</a></span>(<span class="kw">serine_sg_cent_mz</span>)[<span class="fl">22</span>], col = <span class="st">"red"</span>, lty = <span class="fl">3</span>)
-</pre></div>
+<span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">serine_sg_cent_mz</span>, type <span class="op">=</span> <span class="st">"XIC"</span>, layout <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">serine_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="../reference/Spectrum-class.html">rtime</a></span><span class="op">(</span><span class="va">serine_sg_cent_mz</span><span class="op">)</span><span class="op">[</span><span class="fl">22</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></pre></div>
 <div class="figure" style="text-align: center">
 <img src="v03-MSnbase-centroiding_files/figure-html/refineMz-serine-1.png" alt="Smoothed and centroided data for serine without (left) and with m/z refinement (right). The horizontal red dashed line indicates the theoretical m/z for the [M+H]+ ion and the vertical red dotted line the position of the largest signal for serine." width="700"><p class="caption">
 Smoothed and centroided data for serine without (left) and with m/z refinement (right). The horizontal red dashed line indicates the theoretical m/z for the [M+H]+ ion and the vertical red dotted line the position of the largest signal for serine.
@@ -315,44 +301,40 @@ Smoothed and centroided data for serine without (left) and with m/z refinement (
 <p>For the simple peak picking on raw data the difference is:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit">
 <span class="co">## only centroided</span>
-<span class="fu"><a href="../reference/Spectrum-class.html">mz</a></span>(<span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span>(<span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span>(<span class="kw">data_cent</span>, <span class="kw">rtr</span>), <span class="kw">mzr</span>))[[<span class="fl">22</span>]] <span class="op">-</span> <span class="kw">serine_mz</span>
-</pre></div>
+<span class="fu"><a href="../reference/Spectrum-class.html">mz</a></span><span class="op">(</span><span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span><span class="op">(</span><span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span><span class="op">(</span><span class="va">data_cent</span>, <span class="va">rtr</span><span class="op">)</span>, <span class="va">mzr</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">22</span><span class="op">]</span><span class="op">]</span> <span class="op">-</span> <span class="va">serine_mz</span></pre></div>
 <pre><code>## [1] -0.0003682412</code></pre>
 <p>Smoothing already improves the accuracy:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit">
 <span class="co">## smoothed and centroided</span>
-<span class="fu"><a href="../reference/Spectrum-class.html">mz</a></span>(<span class="kw">serine_sg_cent</span>)[[<span class="fl">22</span>]] <span class="op">-</span> <span class="kw">serine_mz</span>
-</pre></div>
+<span class="fu"><a href="../reference/Spectrum-class.html">mz</a></span><span class="op">(</span><span class="va">serine_sg_cent</span><span class="op">)</span><span class="op">[[</span><span class="fl">22</span><span class="op">]</span><span class="op">]</span> <span class="op">-</span> <span class="va">serine_mz</span></pre></div>
 <pre><code>## [1] -0.0003682412</code></pre>
 <p>And refining the m/z value during the centroiding can improve accuracy even more:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit">
 <span class="co">## smoothed and centroided with m/z refinement</span>
-<span class="fu"><a href="../reference/Spectrum-class.html">mz</a></span>(<span class="kw">serine_sg_cent_mz</span>)[[<span class="fl">22</span>]] <span class="op">-</span> <span class="kw">serine_mz</span>
-</pre></div>
+<span class="fu"><a href="../reference/Spectrum-class.html">mz</a></span><span class="op">(</span><span class="va">serine_sg_cent_mz</span><span class="op">)</span><span class="op">[[</span><span class="fl">22</span><span class="op">]</span><span class="op">]</span> <span class="op">-</span> <span class="va">serine_mz</span></pre></div>
 <pre><code>## [1] -0.0001703475</code></pre>
 <p>Similarly, the m/z refinement also improved the accuracy for proline.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit">
-<span class="kw">proline_sg_cent</span> <span class="op">&lt;-</span> <span class="kw">data_prof</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/smooth-methods.html">smooth</a></span>(method = <span class="st">"SavitzkyGolay"</span>, halfWindowSize = <span class="fl">4L</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/pickPeaks-methods.html">pickPeaks</a></span>() <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span>(<span class="kw">prol_rtr</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span>(<span class="kw">prol_mzr</span>)
+<span class="va">proline_sg_cent</span> <span class="op">&lt;-</span> <span class="va">data_prof</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/smooth-methods.html">smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"SavitzkyGolay"</span>, halfWindowSize <span class="op">=</span> <span class="fl">4L</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/pickPeaks-methods.html">pickPeaks</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span><span class="op">(</span><span class="va">prol_rtr</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span><span class="op">(</span><span class="va">prol_mzr</span><span class="op">)</span>
 
-<span class="kw">proline_sg_cent_mz</span> <span class="op">&lt;-</span> <span class="kw">data_prof</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/smooth-methods.html">smooth</a></span>(method = <span class="st">"SavitzkyGolay"</span>, halfWindowSize = <span class="fl">4L</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/pickPeaks-methods.html">pickPeaks</a></span>(refineMz = <span class="st">"descendPeak"</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span>(<span class="kw">prol_rtr</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span>(<span class="kw">prol_mzr</span>)
+<span class="va">proline_sg_cent_mz</span> <span class="op">&lt;-</span> <span class="va">data_prof</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/smooth-methods.html">smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"SavitzkyGolay"</span>, halfWindowSize <span class="op">=</span> <span class="fl">4L</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/pickPeaks-methods.html">pickPeaks</a></span><span class="op">(</span>refineMz <span class="op">=</span> <span class="st">"descendPeak"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span><span class="op">(</span><span class="va">prol_rtr</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span><span class="op">(</span><span class="va">prol_mzr</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/layout.html">layout</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, ncol = <span class="fl">2</span>))
-<span class="fu"><a href="../reference/plot-methods.html">plot</a></span>(<span class="kw">proline_sg_cent</span>, type = <span class="st">"XIC"</span>, layout = <span class="kw">NULL</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(h = <span class="kw">prol_mz</span>, col = <span class="st">"red"</span>, lty = <span class="fl">2</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(v = <span class="fu"><a href="../reference/Spectrum-class.html">rtime</a></span>(<span class="kw">proline_sg_cent_mz</span>)[<span class="fl">16</span>], col = <span class="st">"red"</span>, lty = <span class="fl">3</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/layout.html">layout</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">proline_sg_cent</span>, type <span class="op">=</span> <span class="st">"XIC"</span>, layout <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">prol_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="../reference/Spectrum-class.html">rtime</a></span><span class="op">(</span><span class="va">proline_sg_cent_mz</span><span class="op">)</span><span class="op">[</span><span class="fl">16</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 
-<span class="fu"><a href="../reference/plot-methods.html">plot</a></span>(<span class="kw">proline_sg_cent_mz</span>, type = <span class="st">"XIC"</span>, layout = <span class="kw">NULL</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(h = <span class="kw">prol_mz</span>, col = <span class="st">"red"</span>, lty = <span class="fl">2</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(v = <span class="fu"><a href="../reference/Spectrum-class.html">rtime</a></span>(<span class="kw">proline_sg_cent_mz</span>)[<span class="fl">16</span>], col = <span class="st">"red"</span>, lty = <span class="fl">3</span>)
-</pre></div>
+<span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">proline_sg_cent_mz</span>, type <span class="op">=</span> <span class="st">"XIC"</span>, layout <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">prol_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="../reference/Spectrum-class.html">rtime</a></span><span class="op">(</span><span class="va">proline_sg_cent_mz</span><span class="op">)</span><span class="op">[</span><span class="fl">16</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></pre></div>
 <div class="figure" style="text-align: center">
 <img src="v03-MSnbase-centroiding_files/figure-html/refineMz-proline-1.png" alt="Smoothed and centroided data for proline without (left) and with m/z refinement (right). The horizontal red dashed line indicates the theoretical m/z for the [M+H]+ ion and the vertical red dotted line the position of the maximum signal." width="700"><p class="caption">
 Smoothed and centroided data for proline without (left) and with m/z refinement (right). The horizontal red dashed line indicates the theoretical m/z for the [M+H]+ ion and the vertical red dotted line the position of the maximum signal.
@@ -361,18 +343,15 @@ Smoothed and centroided data for proline without (left) and with m/z refinement 
 <p>The difference between the m/z of the centroid with the largest signal and the theoretical m/z for the [M+H]+ ion of proline is shown below.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit">
 <span class="co">## only centroiding</span>
-<span class="fu"><a href="../reference/Spectrum-class.html">mz</a></span>(<span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span>(<span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span>(<span class="kw">data_cent</span>, <span class="kw">prol_rtr</span>), <span class="kw">prol_mzr</span>))[[<span class="fl">16</span>]] <span class="op">-</span> <span class="kw">prol_mz</span>
-</pre></div>
+<span class="fu"><a href="../reference/Spectrum-class.html">mz</a></span><span class="op">(</span><span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span><span class="op">(</span><span class="fu"><a href="../reference/MSnExp-class.html">filterRt</a></span><span class="op">(</span><span class="va">data_cent</span>, <span class="va">prol_rtr</span><span class="op">)</span>, <span class="va">prol_mzr</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">16</span><span class="op">]</span><span class="op">]</span> <span class="op">-</span> <span class="va">prol_mz</span></pre></div>
 <pre><code>## [1] 0.001577028</code></pre>
 <div class="sourceCode" id="cb25"><pre class="downlit">
 <span class="co">## smoothed and centroided</span>
-<span class="fu"><a href="../reference/Spectrum-class.html">mz</a></span>(<span class="kw">proline_sg_cent</span>)[[<span class="fl">16</span>]] <span class="op">-</span> <span class="kw">prol_mz</span>
-</pre></div>
+<span class="fu"><a href="../reference/Spectrum-class.html">mz</a></span><span class="op">(</span><span class="va">proline_sg_cent</span><span class="op">)</span><span class="op">[[</span><span class="fl">16</span><span class="op">]</span><span class="op">]</span> <span class="op">-</span> <span class="va">prol_mz</span></pre></div>
 <pre><code>## [1] 5.75261e-05</code></pre>
 <div class="sourceCode" id="cb27"><pre class="downlit">
 <span class="co">## smoothed and centroided with m/z refinement</span>
-<span class="fu"><a href="../reference/Spectrum-class.html">mz</a></span>(<span class="kw">proline_sg_cent_mz</span>)[[<span class="fl">16</span>]] <span class="op">-</span> <span class="kw">prol_mz</span>
-</pre></div>
+<span class="fu"><a href="../reference/Spectrum-class.html">mz</a></span><span class="op">(</span><span class="va">proline_sg_cent_mz</span><span class="op">)</span><span class="op">[[</span><span class="fl">16</span><span class="op">]</span><span class="op">]</span> <span class="op">-</span> <span class="va">prol_mz</span></pre></div>
 <pre><code>## [1] -3.241556e-05</code></pre>
 <p>Summarizing, smoothing raw profile MS data, e.g. by applying a Savitzky-Golay filter, improves quality considerably. Additional smoothing in retention time dimension can be advantageous too, specifically for the chromatographic peak shape. Accuracy can be further improved for smoothed profile MS data by refining the m/z value of the identified centroids.</p>
 </div>
