@@ -57,9 +57,6 @@ setGeneric("idSummary", function(object, ...) standardGeneric("idSummary"))
 setGeneric("removeNoId", function(object, ...) standardGeneric("removeNoId"))
 setGeneric("removeMultipleAssignment", function(object, ...) standardGeneric("removeMultipleAssignment"))
 
-## fragments
-setGeneric("calculateFragments", function(sequence, object, ...) standardGeneric("calculateFragments"))
-
 ## Feature of Interest
 setGeneric("FeaturesOfInterest",
            function(fnames, description, object, ...)

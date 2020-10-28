@@ -1,7 +1,12 @@
-# MSnbase 2.15
+# MSnbase 2.17
 
-## Changes in 2.15.8
-- Nothin yet.
+## Changes in 2.17.1
+- Use ProtGenerics::calculateFragments generic
+
+## Changes in 2.17.0
+- New Bioc devel version
+
+# MSnbase 2.15
 
 ## Changes in 2.15.7
 - Fixed some consistency in the processing reporting (contributed by @stanstrup).
