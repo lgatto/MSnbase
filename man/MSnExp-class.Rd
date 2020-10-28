@@ -290,6 +290,23 @@
       (\code{mcols}).
     }
 
+    Clarifications regarding scan/acquisition numbers and indices:
+
+    A \code{spectrumId} (or \code{spectrumID}) is a vendor specific
+    field in the mzML file that contains some information about the
+    run/spectrum, e.g.: \code{controllerType=0 controllerNumber=1
+    scan=5281 file=2}.
+   
+    \code{acquisitionNum} is a more a less sanitize spectrum id
+    generated from the \code{spectrumId} field by \code{mzR} (see
+    https://github.com/sneumann/mzR/blob/master/src/pwiz/data/msdata/MSData.cpp#L552-L580).
+   
+    \code{scanIndex} is the \code{mzR} generated sequence number of the
+    spectrum in the raw file (which doesn't have to be the same as the
+    \code{acquisitionNum}).
+
+    See also this issue: https://github.com/lgatto/MSnbase/issues/525.    
+
   }
 
   Filtering and subsetting functions:

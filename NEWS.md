@@ -2,7 +2,9 @@
 
 ## Changes in 2.17.1
 - Use ProtGenerics::calculateFragments generic
-
+- Document differences between `spectrumId` (`spectrumID`),
+  `acquitisionNum` and `scanIndex`.
+  
 ## Changes in 2.17.0
 - New Bioc devel version
 
