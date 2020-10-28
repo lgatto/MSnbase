@@ -85,7 +85,7 @@ The feature variables in the feature data slot will depend on the
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.1</span>
       </span>
     </div>
 
@@ -342,6 +342,23 @@ The feature variables in the feature data slot will depend on the
       object with all feature annotations added as metadata columns
       (<code>mcols</code>).</p></dd>
 
+    Clarifications regarding scan/acquisition numbers and indices:
+
+    A spectrumId (or spectrumID) is a vendor specific
+    field in the mzML file that contains some information about the
+    run/spectrum, e.g.: controllerType=0 controllerNumber=1
+    scan=5281 file=2.
+   
+    acquisitionNum is a more a less sanitize spectrum id
+    generated from the spectrumId field by mzR (see
+    https://github.com/sneumann/mzR/blob/master/src/pwiz/data/msdata/MSData.cpp#L552-L580).
+   
+    scanIndex is the mzR generated sequence number of the
+    spectrum in the raw file (which doesn't have to be the same as the
+    acquisitionNum).
+
+    See also this issue: https://github.com/lgatto/MSnbase/issues/525.    
+
   
 </dl>
 
@@ -426,8 +443,8 @@ The feature variables in the feature data slot will depend on the
 #&gt;  Number of spectra: 5 
 #&gt;  MSn retention times: 25:1 - 25:2 minutes
 #&gt; - - - Processing information - - -
-#&gt; Data loaded: Wed Sep 30 10:51:26 2020 
-#&gt;  MSnbase version: 2.15.8 
+#&gt; Data loaded: Wed Oct 28 22:53:33 2020 
+#&gt;  MSnbase version: 2.17.1 
 #&gt; - - - Meta data  - - -
 #&gt; phenoData
 #&gt;   rowNames: dummyiTRAQ.mzXML
