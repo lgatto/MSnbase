@@ -208,7 +208,7 @@ jobs:
           BiocManager::install("BiocCheck")
 
           ## Manual dependency (not yet on Bioc)
-	  BiocManager::install("lgatto/ProtGeneric")
+          BiocManager::install("lgatto/ProtGeneric")
         shell: Rscript {0}
 
       - name: Session info
