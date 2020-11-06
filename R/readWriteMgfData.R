@@ -53,7 +53,7 @@ writeMgfDataFile <- function(splist, con, COM = NULL, TITLE = NULL,
   }
   cat(paste0("COM=",COM), file = con, sep = "")
 
-  
+
   verbose <- verbose & length(splist) > 1
 
   if (verbose)
@@ -117,6 +117,7 @@ readMgfData <- function(filename,
                         centroided = TRUE,
                         smoothed = FALSE,
                         verbose = isMSnbaseVerbose(),
+                        scanToAcquisitionNum = FALSE,
                         cache = 1) {
   if (verbose)
     cat("Scanning", filename, "...\n")
@@ -152,7 +153,8 @@ readMgfData <- function(filename,
       cnt <- cnt + 1L
     }
     specInfo <- extractMgfSpectrum2Info(mgf[begin[i]:end[i]],
-                                        centroided = centroided)
+                                        centroided = centroided,
+                                        scanToAcquisitionNum)
     spectra[[i]] <- specInfo$spectrum
     fdata[[i]] <- specInfo$fdata
   }
@@ -200,7 +202,7 @@ readMgfData <- function(filename,
     return(toReturn)
 }
 
-extractMgfSpectrum2Info <- function(mgf, centroided) {
+extractMgfSpectrum2Info <- function(mgf, centroided, scanToAcquisitionNum) {
     ## grep description
     desc.idx <- grep("=", mgf)
     desc <- mgf[desc.idx]
@@ -233,5 +235,7 @@ extractMgfSpectrum2Info <- function(mgf, centroided) {
                               intensity = ms[, 2L],
                               fromFile = 1L,
                               centroided = centroided)
+    if (scanToAcquisitionNum)
+        sp@acquisitionNum <- sp@scanIndex
     return(list(spectrum = sp, fdata = fdata))
 }
