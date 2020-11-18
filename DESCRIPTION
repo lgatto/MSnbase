@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for Mass Spectrometry and Proteomics
-Version: 2.17.1
+Version: 2.17.2
 Description: MSnbase provides infrastructure for manipulation,
 	     processing and visualisation of mass spectrometry and
 	     proteomics data, ranging from raw to quantitative and
@@ -43,11 +43,14 @@ Authors@R: c(person(given = "Laurent", family = "Gatto",
 		    email = " ludger.goeminne@vib-ugent.be",
 		    role = "ctb"),
 	     person(given = "Lieven", family = "Clement",
-		    email = " Lieven.Clement@ugent.be",
+		    email = "Lieven.Clement@ugent.be",
 		    role = "ctb"),
 	     person(given = "Sigurdur", family = "Smarason",
 		    email = " Sigurdur.Smarason@eurac.edu",
 		    role = "ctb"),
+	     person(given = "Miguel", family = "Cosenza-Contreras",
+		    email = "migueljcc5@gmail.com",
+		    role = "ctb"),		    
 	     person(given = "Johannes", family = "Rainer",
 		    email = "Johannes.Rainer@eurac.edu",
 		    role = c("aut", "cre"),
@@ -133,6 +136,7 @@ Collate:
     'RcppExports.R'
     'TMT10.R'
     'TMT11.R'
+    'TMT16.R'
     'TMT6.R'
     'TMT7.R'
     'averageMSnSet.R'

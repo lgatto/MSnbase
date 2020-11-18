@@ -8,6 +8,8 @@
 \alias{TMT10HCD}
 \alias{TMT11}
 \alias{TMT11HCD}
+\alias{TMT16}
+\alias{TMT16HCD}
 \docType{data}
 
 \title{ TMT 6/10-plex sets }
