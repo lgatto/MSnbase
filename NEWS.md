@@ -1,5 +1,8 @@
 # MSnbase 2.17
 
+## Changes in 2.19.2
+- Add TMT16 reporter ions (contribute by Miguel Cosenza-Contreras)
+
 ## Changes in 2.17.1
 - Use ProtGenerics::calculateFragments generic
 - Document differences between `spectrumId` (`spectrumID`),
