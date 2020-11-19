@@ -1,7 +1,7 @@
 # MSnbase 2.17
 
 ## Changes in 2.19.3
-- Nothing yet
+- Use two digits when printing retention time seconds
 
 ## Changes in 2.19.2
 - Add TMT16 reporter ions (contribute by Miguel Cosenza-Contreras)
