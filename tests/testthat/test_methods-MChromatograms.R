@@ -10,6 +10,12 @@ test_that("[,MChromatograms works", {
     ch3 <- Chromatogram(rtime = 1:length(ints), ints)
     chrs <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
 
+    ## with a non-empty pData.
+    chrs2 <- chrs
+    pData(chrs2) <- data.frame(id = 1:2)
+    fData(chrs2) <- data.frame(ion = c("a", "b"))
+    chrs2[, 1]
+
     ## o Subset using indices
     expect_true(is(chrs[1, 1], "Chromatogram"))
     expect_equal(chrs[1, 2], ch2)
