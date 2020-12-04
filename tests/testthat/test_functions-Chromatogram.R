@@ -49,3 +49,18 @@ test_that(".normalize_chromatogram works", {
     expect_true(max(intensity(res), na.rm = TRUE) == 1)
     expect_true(is.na(intensity(res)[1]))
 })
+
+test_that(".filter_intensity_chromatogram works", {
+    chr1 <- Chromatogram(rtime = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                         intensity = c(3, 5, 14, 30, 24, 6, 2, 1, 1, 0))
+    res <- .filter_intensity_chromatogram(chr1, intensity = 4)
+    expect_true(all(intensity(res) > 4))
+
+    res <- .filter_intensity_chromatogram(
+        chr1, intensity = function(x) x@intensity > max(x@intensity) / 2)
+    expect_true(all(intensity(res) > max(intensity(res) / 2)))
+
+    expect_error(
+        .filter_intensity_chromatogram(chr1, intensity = function(x) TRUE),
+        "expected result")
+})

@@ -21,6 +21,7 @@
 \alias{productMz,Chromatogram-method}
 \alias{bin,Chromatogram-method}
 \alias{normalize,Chromatogram-method}
+\alias{filterIntensity,Chromatogram-method}
 \title{Representation of chromatographic MS data}
 \usage{
 Chromatogram(
@@ -82,13 +83,17 @@ aggregationFun(object)
 )
 
 \S4method{normalize}{Chromatogram}(object, method = c("max", "sum"))
+
+\S4method{filterIntensity}{Chromatogram}(object, intensity = 0, ...)
 }
 \arguments{
 \item{rtime}{for \code{Chromatogram}: \code{numeric} with the retention times (length
 has to be equal to the length of \code{intensity}).}
 
 \item{intensity}{for \code{Chromatogram}: \code{numeric} with the intensity values
-(length has to be equal to the length of \code{rtime}).}
+(length has to be equal to the length of \code{rtime}). For \code{filterIntensity}:
+\code{numeric(1)} or \code{function} to use to filter intensities. See description
+for details.}
 
 \item{mz}{for \code{Chromatogram}: \code{numeric(2)} representing the mz value range
 (min, max) on which the chromatogram was created. This is supposed to
@@ -149,7 +154,8 @@ the \code{graphics} package for details.}
 will be used as plot title.}
 
 \item{...}{for \code{plot}: additional arguments to be passed to the
-base \code{plot} function.}
+base \code{plot} function. For \code{filterIntensity}: additional parameters passed
+along to the function provided with \code{intensity}.}
 
 \item{binSize}{for \code{bin}: \code{numeric(1)} with the size of the bins
 (in seconds). Defaults to \code{binSize = 0.5}.}
@@ -228,6 +234,15 @@ returns a \code{numeric(2)} with the lower and upper m/z value.
 \itemize{
 \item \code{filterRt}: filter/subset the \code{Chromatogram} to the specified retention
 time range (defined with parameter \code{rt}).
+\item \code{filterIntensity}: filter a \code{\link[=Chromatogram]{Chromatogram()}} object removing data
+points with intensities below a user provided threshold. If \code{intensity}
+is a \code{numeric} value, the returned chromatogram will only contain data
+points with intensities > \code{intensity}. In addition it is possible to
+provide a function to perform the filtering.
+This function is expected to take the input \code{Chromatogram} (\code{object}) and
+to return a logical vector with the same length then there are data points
+in \code{object} with \code{TRUE} for data points that should be kept and \code{FALSE}
+for data points that should be removed. See examples below.
 }
 }
 
@@ -300,6 +315,27 @@ range(rtime(chr2))
 par(mfrow = c(1, 2))
 plot(chr)
 plot(normalize(chr, method = "max"))
+
+## Data filtering
+
+chr1 <- Chromatogram(rtime = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+    intensity = c(3, 5, 14, 30, 24, 6, 2, 1, 1, 0))
+
+## Remove data points with intensities below 10
+res <- filterIntensity(chr1, 10)
+intensity(res)
+
+## Remove data points with an intensity lower than 10\% of the maximum
+## intensity in the Chromatogram
+filt_fun <- function(x, prop = 0.1) {
+    x@intensity >= max(x@intensity, na.rm = TRUE) * prop
+}
+res <- filterIntensity(chr1, filt_fun)
+intensity(res)
+
+## Remove data points with an intensity lower than half of the maximum
+res <- filterIntensity(chr1, filt_fun, prop = 0.5)
+intensity(res)
 }
 \seealso{
 \link{MChromatograms} for combining \code{Chromatogram} in

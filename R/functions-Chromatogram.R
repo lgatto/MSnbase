@@ -131,3 +131,17 @@ aggregationFun <- function(object) {
     x@intensity <- x@intensity / ref
     x
 }
+
+.filter_intensity_chromatogram <- function(x, intensity = 0, ...) {
+    if (is.numeric(intensity)) {
+        keep <- x@intensity >= intensity[1]
+    } else if (is.function(intensity)) {
+        keep <- intensity(x, ...)
+    } else stop("'intensity' should be either a numeric value or a function.")
+    if (!is.logical(keep) | length(keep) != length(x@intensity))
+        stop("The filter function seems to not return the expected result.")
+    keep <- which(keep)
+    x@intensity <- x@intensity[keep]
+    x@rtime <- x@rtime[keep]
+    x
+}

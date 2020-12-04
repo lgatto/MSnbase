@@ -54,7 +54,9 @@
 #'     values falling within each bin. Defaults to `fun = max`.
 #'
 #' @param intensity for `Chromatogram`: `numeric` with the intensity values
-#'     (length has to be equal to the length of `rtime`).
+#'     (length has to be equal to the length of `rtime`). For `filterIntensity`:
+#'     `numeric(1)` or `function` to use to filter intensities. See description
+#'     for details.
 #'
 #' @param lty for `plot`: the line type. See help page of `plot` in
 #'     the `graphics` package for details.
@@ -101,7 +103,8 @@
 #' @param ylab for `plot`: the y-axis label.
 #'
 #' @param ... for `plot`: additional arguments to be passed to the
-#'     base `plot` function.
+#'     base `plot` function. For `filterIntensity`: additional parameters passed
+#'     along to the function provided with `intensity`.
 #'
 #'
 #' @section Object creation:
@@ -152,6 +155,16 @@
 #'
 #' - `filterRt`: filter/subset the `Chromatogram` to the specified retention
 #'   time range (defined with parameter `rt`).
+#'
+#' - `filterIntensity`: filter a [Chromatogram()] object removing data
+#'   points with intensities below a user provided threshold. If `intensity`
+#'   is a `numeric` value, the returned chromatogram will only contain data
+#'   points with intensities > `intensity`. In addition it is possible to
+#'   provide a function to perform the filtering.
+#'   This function is expected to take the input `Chromatogram` (`object`) and
+#'   to return a logical vector with the same length then there are data points
+#'   in `object` with `TRUE` for data points that should be kept and `FALSE`
+#'   for data points that should be removed. See examples below.
 #'
 #'
 #' @section Data processing and manipulation:
@@ -234,6 +247,27 @@
 #' par(mfrow = c(1, 2))
 #' plot(chr)
 #' plot(normalize(chr, method = "max"))
+#'
+#' ## Data filtering
+#'
+#' chr1 <- Chromatogram(rtime = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+#'     intensity = c(3, 5, 14, 30, 24, 6, 2, 1, 1, 0))
+#'
+#' ## Remove data points with intensities below 10
+#' res <- filterIntensity(chr1, 10)
+#' intensity(res)
+#'
+#' ## Remove data points with an intensity lower than 10% of the maximum
+#' ## intensity in the Chromatogram
+#' filt_fun <- function(x, prop = 0.1) {
+#'     x@intensity >= max(x@intensity, na.rm = TRUE) * prop
+#' }
+#' res <- filterIntensity(chr1, filt_fun)
+#' intensity(res)
+#'
+#' ## Remove data points with an intensity lower than half of the maximum
+#' res <- filterIntensity(chr1, filt_fun, prop = 0.5)
+#' intensity(res)
 NULL
 
 setMethod("initialize", "Chromatogram", function(.Object, ...) {
@@ -370,4 +404,10 @@ setMethod("normalize", "Chromatogram",
           function(object, method = c("max", "sum")) {
               method <- match.arg(method)
               .normalize_chromatogram(object, method)
+})
+
+#' @rdname Chromatogram-class
+setMethod("filterIntensity", "Chromatogram", function(object,
+                                                      intensity = 0, ...) {
+    .filter_intensity_chromatogram(object, intensity = intensity, ...)
 })
