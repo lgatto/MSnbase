@@ -1,16 +1,18 @@
 # MSnbase 2.17
 
-## Changes in 2.19.3
+## Changes in 2.17.4
+
+## Changes in 2.17.3
 - Use two digits when printing retention time seconds
 
-## Changes in 2.19.2
+## Changes in 2.17.2
 - Add TMT16 reporter ions (contribute by Miguel Cosenza-Contreras)
 
 ## Changes in 2.17.1
 - Use ProtGenerics::calculateFragments generic
 - Document differences between `spectrumId` (`spectrumID`),
   `acquitisionNum` and `scanIndex`.
-  
+
 ## Changes in 2.17.0
 - New Bioc devel version
 

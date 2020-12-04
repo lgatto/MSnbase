@@ -471,61 +471,6 @@ setClass("ProcessingStep",
              }
          })
 
-#' @title Representation of chromatographic MS data
-#'
-#' @description The \code{Chromatogram} class is designed to store
-#'     chromatographic MS data, i.e. pairs of retention time and intensity
-#'     values. Instances of the class can be created with the
-#'     \code{Chromatogram} constructor function but in most cases the dedicated
-#'     methods for \code{\linkS4class{OnDiskMSnExp}} and
-#'     \code{\linkS4class{MSnExp}} objects extracting chromatograms should be
-#'     used instead (i.e. the \code{\link{chromatogram}} method).
-#'
-#' @details The \code{mz}, \code{filterMz}, \code{precursorMz} and
-#'     \code{productMz} are stored as a \code{numeric(2)} representing a range
-#'     even if the chromatogram was generated for only a single ion (i.e. a
-#'     single mz value). Using ranges for \code{mz} values allow this class to
-#'     be used also for e.g. total ion chromatograms or base peak chromatograms.
-#'
-#'     The slots \code{precursorMz} and \code{productMz} allow to represent SRM
-#'     (single reaction monitoring) and MRM (multiple SRM) chromatograms. As
-#'     example, a \code{Chromatogram} for a SRM transition 273 -> 153 will have
-#'     a \code{@precursorMz = c(273, 273)} and a
-#'     \code{@productMz = c(153, 153)}.
-#'
-#' @rdname Chromatogram-class
-#'
-#' @export
-#'
-#' @seealso \code{\link{MChromatograms}} for combining \code{Chromatogram} in
-#'     a two-dimensional matrix (rows being mz-rt ranges, columns samples).
-#'     \code{\link{chromatogram}} for the method to extract chromatogram data
-#'     from a \code{\linkS4class{MSnExp}} or \code{\linkS4class{OnDiskMSnExp}}
-#'     object.
-#'     \code{\link{clean}} for the method to \emph{clean} a \code{Chromatogram}
-#'     object.
-#'
-#' @author Johannes Rainer
-#'
-#' @examples
-#'
-#' ## Create a simple Chromatogram object.
-#' ints <- abs(rnorm(100, sd = 100))
-#' rts <- seq_len(length(ints))
-#' chr <- Chromatogram(rtime = rts, intensity = ints)
-#' chr
-#'
-#' ## Extract intensities
-#' intensity(chr)
-#'
-#' ## Extract retention times
-#' rtime(chr)
-#'
-#' ## Extract the mz range - is NA for the present example
-#' mz(chr)
-#'
-#' ## plot the Chromatogram
-#' plot(chr)
 setClass("Chromatogram",
          slots = c(
              rtime = "numeric",

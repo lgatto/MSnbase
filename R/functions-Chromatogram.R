@@ -58,44 +58,6 @@ names(.SUPPORTED_AGG_FUN_CHROM) <-
         TRUE
 }
 
-#' @description \code{Chromatogram}: create an instance of the
-#'     \code{Chromatogram} class.
-#'
-#' @param rtime \code{numeric} with the retention times (length has to be equal
-#'     to the length of \code{intensity}).
-#'
-#' @param intensity \code{numeric} with the intensity values (length has to be
-#'     equal to the length of \code{rtime}).
-#'
-#' @param mz \code{numeric(2)} representing the mz value range (min, max)
-#'     on which the chromatogram was created. This is supposed to contain the
-#'     \emph{real} range of mz values in contrast to the \code{filterMz} below.
-#'     If not applicable use \code{mzrange = c(0, 0)}.
-#'
-#' @param filterMz \code{numeric(2)} representing the mz value range (min,
-#'     max) that was used to filter the original object on mz dimension. If not
-#'     applicable use \code{filterMz = c(0, 0)}.
-#'
-#' @param precursorMz \code{numeric(2)} for SRM/MRM transitions.
-#'     Represents the mz of the precursor ion. See details for more information.
-#'
-#' @param productMz \code{numeric(2)} for SRM/MRM transitions.
-#'     Represents the mz of the product. See details for more information.
-#'
-#' @param fromFile \code{integer(1)} the index of the file within the
-#'     \code{\linkS4class{OnDiskMSnExp}} or \code{\linkS4class{MSnExp}}
-#'     from which the chromatogram was extracted.
-#'
-#' @param aggregationFun \code{character} string specifying the function that
-#'     was used to aggregate intensity values for the same retention time across
-#'     the mz range. Supported are \code{"sum"} (total ion chromatogram),
-#'     \code{"max"} (base peak chromatogram), \code{"min"} and \code{"mean"}.
-#'
-#' @param msLevel \code{integer} with the MS level from which the chromatogram
-#'     was extracted.
-#'
-#' @slot .__classVersion__,rtime,intensity,mz,filterMz,precursorMz,productMz,fromFile,aggregationFun,msLevel See corresponding parameter above.
-#'
 #' @rdname Chromatogram-class
 Chromatogram <- function(rtime = numeric(), intensity = numeric(),
                          mz = c(NA_real_, NA_real_),
@@ -138,11 +100,6 @@ Chromatogram <- function(rtime = numeric(), intensity = numeric(),
          type = type, xlab = xlab, ylab = ylab, ...)
 }
 
-#' @aliases aggregationFun
-#'
-#' @description \code{aggregationFun,aggregationFun<-} get or set the
-#'     aggregation function.
-#'
 #' @rdname Chromatogram-class
 aggregationFun <- function(object) {
     if (!is(object, "Chromatogram"))
