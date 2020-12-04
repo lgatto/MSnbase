@@ -41,7 +41,8 @@ library(MSnbase)
 library(msdata)
 ## Load a profile-mode LC-MS data file
 f <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)[1]
-im <- readMSData(f, mode = "inMem", msLevel = 1L)
+od <- readMSData(f, mode = "onDisk")
+im <- as(filterRt(od, c(10, 20)), "MSnExp")
 
 res <- estimateMzScattering(im)
 
