@@ -32,6 +32,8 @@
 \alias{polarity,MChromatograms-method}
 \alias{bin,MChromatograms-method}
 \alias{clean,MChromatograms-method}
+\alias{normalize,MChromatograms-method}
+\alias{filterIntensity,MChromatograms-method}
 \title{Container for multiple Chromatogram objects}
 \usage{
 MChromatograms(data, phenoData, featureData, ...)
@@ -98,6 +100,10 @@ MChromatograms(data, phenoData, featureData, ...)
 \S4method{bin}{MChromatograms}(object, binSize = 0.5, breaks = numeric(), fun = max)
 
 \S4method{clean}{MChromatograms}(object, all = FALSE, na.rm = FALSE)
+
+\S4method{normalize}{MChromatograms}(object, method = c("max", "sum"))
+
+\S4method{filterIntensity}{MChromatograms}(object, intensity = 0, ...)
 }
 \arguments{
 \item{data}{for \code{MChromatograms}: a \code{list} of \code{\link[=Chromatogram]{Chromatogram()}} objects.}
@@ -172,6 +178,13 @@ adjacent to peaks should be kept (\code{all = FALSE}; default).}
 
 \item{na.rm}{for \code{clean}: \code{logical(1)} whether all \code{NA}
 intensities should be removed prior to clean 0-intensity data points.}
+
+\item{method}{\code{character(1)}. For \code{normalise}: defining whether each
+chromatogram should be normalized to its maximum signal
+(\code{method = "max"}) or total signal (\code{method = "sum"}).}
+
+\item{intensity}{for \code{filterIntensity}: \code{numeric(1)} or \code{function} to use to
+filter intensities. See description for details.}
 }
 \value{
 For \code{[}: the subset of the \code{MChromatograms} object. If a
@@ -258,6 +271,16 @@ the chromatograms within one row have different product m/z values.
 and \code{j}).
 \item \verb{[<-} replace individual or multiple elements. \code{value} has to be either a
 single \code{Chromatogram} obhect or a \code{list} of \code{Chromatogram} objects.
+\item \code{filterIntensity}: filter each \code{\link[=Chromatogram]{Chromatogram()}} object within the
+\code{MChromatograms} removing data points with intensities below the user
+provided threshold. If \code{intensity} is a \code{numeric} value, the returned
+chromatogram will only contain data points with intensities > \code{intensity}.
+In addition it is possible to provide a function to perform the filtering.
+This function is expected to take the input \code{Chromatogram} (\code{object}) and
+to return a logical vector with the same length then there are data points
+in \code{object} with \code{TRUE} for data points that should be kept and \code{FALSE}
+for data points that should be removed. See the \code{filterIntensity}
+documentation in the \code{\link[=Chromatogram]{Chromatogram()}} help page for details and examples.
 }
 }
 
@@ -272,6 +295,9 @@ objects of one row are binned into the same bins. The function returns a
 (with \code{all = TRUE}) or all except those adjacent to non-zero
 intensities (\code{all = FALSE}; default). See \code{\link[=clean]{clean()}} documentation for more
 details and examples.
+\item \code{normalize}, \code{normalise}: \emph{normalises} the intensities of a chromatogram by
+dividing them either by the maximum intensity (\code{method = "max"}) or total
+intensity (\code{method = "sum"}) of the chromatogram.
 }
 }
 

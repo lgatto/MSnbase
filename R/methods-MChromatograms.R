@@ -78,12 +78,19 @@
 #' @param i for `[`: `numeric`, `logical` or `character`
 #'     defining which row(s) to extract.
 #'
+#' @param intensity for `filterIntensity`: `numeric(1)` or `function` to use to
+#'   filter intensities. See description for details.
+#'
 #' @param j for `[`: `numeric`, `logical` or `character`
 #'     defining which columns(s) to extract.
 #'
 #' @param lty for `plot`: the line type (see `plot` in the `graphics` package
 #'     for more details). Can be either a vector of length 1 or of length equal
 #'     to `ncol(x)`.
+#'
+#' @param method `character(1)`. For `normalise`: defining whether each
+#'     chromatogram should be normalized to its maximum signal
+#'     (`method = "max"`) or total signal (`method = "sum"`).
 #'
 #' @param name for `$`, the name of the pheno data column.
 #'
@@ -184,6 +191,18 @@
 #' - `[<-` replace individual or multiple elements. `value` has to be either a
 #'   single `Chromatogram` obhect or a `list` of `Chromatogram` objects.
 #'
+#' - `filterIntensity`: filter each [Chromatogram()] object within the
+#'   `MChromatograms` removing data points with intensities below the user
+#'   provided threshold. If `intensity` is a `numeric` value, the returned
+#'   chromatogram will only contain data points with intensities > `intensity`.
+#'   In addition it is possible to provide a function to perform the filtering.
+#'   This function is expected to take the input `Chromatogram` (`object`) and
+#'   to return a logical vector with the same length then there are data points
+#'   in `object` with `TRUE` for data points that should be kept and `FALSE`
+#'   for data points that should be removed. See the `filterIntensity`
+#'   documentation in the [Chromatogram()] help page for details and examples.
+#'
+#'
 #' @section Data processing and manipulation:
 #'
 #' - `bin`: aggregates intensity values of chromatograms in discrete bins
@@ -195,6 +214,10 @@
 #'   (with `all = TRUE`) or all except those adjacent to non-zero
 #'   intensities (`all = FALSE`; default). See [clean()] documentation for more
 #'   details and examples.
+#'
+#' - `normalize`, `normalise`: *normalises* the intensities of a chromatogram by
+#'   dividing them either by the maximum intensity (`method = "max"`) or total
+#'   intensity (`method = "sum"`) of the chromatogram.
 #'
 #'
 #' @section Data visualization:
@@ -562,4 +585,27 @@ setMethod("clean", "MChromatograms", function(object, all = FALSE,
                            nrow = nrow(object), dimnames = dimnames(object))
     if (validObject(object))
         object
+})
+
+#' @rdname MChromatograms-class
+setMethod("normalize", "MChromatograms",
+          function(object, method = c("max", "sum")) {
+              method <- match.arg(method)
+              object@.Data <- matrix(lapply(c(object@.Data),
+                                            FUN = .normalize_chromatogram,
+                                            method = method),
+                                     ncol = ncol(object),
+                                     dimnames = dimnames(object@.Data))
+              object
+          })
+
+#' @rdname MChromatograms-class
+setMethod("filterIntensity", "MChromatograms", function(object,
+                                                        intensity = 0, ...) {
+    object@.Data <- matrix(lapply(c(object@.Data),
+                                  FUN = .filter_intensity_chromatogram,
+                                  intensity = intensity, ...),
+                           ncol = ncol(object),
+                           dimnames = dimnames(object@.Data))
+    object
 })
