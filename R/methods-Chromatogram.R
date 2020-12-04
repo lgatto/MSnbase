@@ -1,6 +1,6 @@
 #' @title Representation of chromatographic MS data
 #'
-#' @aliases Chromatogram-class
+#' @name Chromatogram-class
 #'
 #' @description The `Chromatogram` class is designed to store
 #'     chromatographic MS data, i.e. pairs of retention time and intensity
@@ -61,6 +61,10 @@
 #'
 #' @param main for `plot`: the plot title. If not provided the mz range
 #'     will be used as plot title.
+#'
+#' @param method `character(1)`. For `normalise`: defining whether each
+#'     chromatogram should be normalized to its maximum signal
+#'     (`method = "max"`) or total signal (`method = "sum"`).
 #'
 #' @param msLevel for `Chromatogram`: `integer(1)` with the MS level from
 #'     which the chromatogram was extracted.
@@ -162,6 +166,9 @@
 #' - `clean`: removes 0-intensity data points (and `NA` values). See [clean()]
 #'   for details.
 #'
+#' - `normalize`, `normalise`: *normalises* the intensities of a chromatogram by
+#'   dividing them either by the maximum intensity (`method = "max"`) or total
+#'   intensity (`method = "sum"`) of the chromatogram.
 #'
 #' @section Data visualization:
 #'
@@ -220,6 +227,13 @@
 #' chr2 <- filterRt(chr, rt = c(4, 10))
 #'
 #' range(rtime(chr2))
+#'
+#' ## Data manipulations:
+#'
+#' ## normalize a chromatogram
+#' par(mfrow = c(1, 2))
+#' plot(chr)
+#' plot(normalize(chr, method = "max"))
 NULL
 
 setMethod("initialize", "Chromatogram", function(.Object, ...) {
@@ -350,3 +364,10 @@ setMethod("productMz", "Chromatogram", function(object) {
 
 #' @rdname Chromatogram-class
 setMethod("bin", "Chromatogram", .bin_Chromatogram)
+
+#' @rdname Chromatogram-class
+setMethod("normalize", "Chromatogram",
+          function(object, method = c("max", "sum")) {
+              method <- match.arg(method)
+              .normalize_chromatogram(object, method)
+})

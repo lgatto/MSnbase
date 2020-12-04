@@ -1,6 +1,7 @@
 # MSnbase 2.17
 
 ## Changes in 2.17.4
+- Add `normalize,Chromatogram` method.
 
 ## Changes in 2.17.3
 - Use two digits when printing retention time seconds

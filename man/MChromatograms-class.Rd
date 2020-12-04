@@ -152,11 +152,11 @@ to \code{ncol(x)}.}
 Can be either a vector
 of length 1 or of length equal to \code{ncol(x)}.}
 
-\item{xlab}{For \code{plot}: the x-axis label.}
+\item{xlab}{for \code{plot}: the x-axis label.}
 
-\item{ylab}{For \code{plot}: the y-axis label.}
+\item{ylab}{for \code{plot}: the y-axis label.}
 
-\item{main}{For \code{plot}: the plot title. If not provided the mz range
+\item{main}{for \code{plot}: the plot title. If not provided the mz range
 will be used as plot title.}
 
 \item{name}{For \code{$}, the name of the pheno data column.}

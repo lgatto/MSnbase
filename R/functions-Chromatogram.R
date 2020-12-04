@@ -125,3 +125,9 @@ aggregationFun <- function(object) {
     if (validObject(object))
         object
 }
+
+.normalize_chromatogram <- function(x, method = "max") {
+    ref <- do.call(method, list(x = x@intensity, na.rm = TRUE))
+    x@intensity <- x@intensity / ref
+    x
+}

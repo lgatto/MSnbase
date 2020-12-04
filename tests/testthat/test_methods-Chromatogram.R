@@ -69,7 +69,7 @@ test_that("clean,Chromatogram works", {
     expect_equal(rtime(chr_2), c(2, 3, 7, 8, 10))
     chr_2 <- clean(chr, all = FALSE)
     expect_equal(intensity(chr_2), c(0, 3, 5, 0, 0, 8, 9, 0, 9))
-    
+
     chr <- Chromatogram(
         rtime = 1:12,
         intensity = c(0, 0, 20, 0, 0, 0, 123, 124343, 3432, 0, 0, 0))
@@ -126,13 +126,13 @@ test_that("isEmpty,Chromatogram and plot,Chromatogram work", {
     chr <- Chromatogram()
     expect_true(isEmpty(chr))
     expect_warning(plot(chr))
-    
+
     int <- rnorm(100, mean = 200, sd = 2)
     rt <- rnorm(100, mean = 300, sd = 3)
     chr <- Chromatogram(intensity = int, rtime = sort(rt))
     expect_true(!isEmpty(chr))
     plot(chr)
-    
+
     chr <- Chromatogram(intensity = rep_len(NA_real_, length(rt)),
                         rtime = sort(rt))
     expect_true(isEmpty(chr))
@@ -154,4 +154,13 @@ test_that(".bin_Chromatogram and bin,Chromatogram work", {
     res <- .bin_Chromatogram(chr, breaks = brks)
     expect_equal(length(rtime(res)), (length(brks) - 1))
     expect_equal(intensity(res)[1:length(chrb)], intensity(chrb))
+})
+
+test_that("normalize,Chromatogram works", {
+    chr <- Chromatogram(rtime = c(1, 2, 3, 4, 5, 6, 7),
+                        intensity = c(NA_real_, 13, 16, 22, 34, 15, 6))
+    res <- normalize(chr)
+    expect_true(max(intensity(res), na.rm = TRUE) == 1)
+    expect_true(is.na(intensity(res)[1]))
+
 })

@@ -41,3 +41,11 @@ test_that(".plotChromatogram works", {
     MSnbase:::.plotChromatogram(chr, main = "dummy")
     plot(chr)
 })
+
+test_that(".normalize_chromatogram works", {
+    chr <- Chromatogram(rtime = c(1, 2, 3, 4, 5, 6, 7),
+                        intensity = c(NA_real_, 13, 16, 22, 34, 15, 6))
+    res <- .normalize_chromatogram(chr)
+    expect_true(max(intensity(res), na.rm = TRUE) == 1)
+    expect_true(is.na(intensity(res)[1]))
+})
