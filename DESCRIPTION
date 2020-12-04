@@ -91,6 +91,7 @@ Imports:
     XML,
     scales,
     MASS,
+    MsCoreUtils,
     Rcpp
 Suggests:
     testthat,
