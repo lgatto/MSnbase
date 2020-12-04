@@ -28,22 +28,6 @@
     else TRUE
 }
 
-#' @description \code{MChromatograms}: create an instance of class
-#'     \code{MChromatograms}.
-#'
-#' @param data A \code{list} of \code{\link{Chromatogram}} objects.
-#'
-#' @param phenoData either a \code{data.frame}, \code{AnnotatedDataFrame} or
-#'     \code{AnnotatedDataFrame} describing the phenotypical information of the
-#'     samples.
-#'
-#' @param featureData either a \code{data.frame} or \code{AnnotatedDataFrame}
-#'     with additional information for each row of chromatograms.
-#'
-#' @param ... Additional parameters to be passed to the
-#'     \code{\link[base]{matrix}} constructor, such as \code{nrow}, \code{ncol}
-#'     and \code{byrow}.
-#'
 #' @rdname MChromatograms-class
 MChromatograms <- function(data, phenoData, featureData, ...) {
     if (missing(data))
