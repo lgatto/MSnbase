@@ -13,12 +13,13 @@ import(scales)
 import(lattice)
 import(methods)
 
+importFrom(MsCoreUtils, closest)
 importFrom(XML, xmlInternalTreeParse, getDefaultNamespace, xpathApply,
            xmlAttrs)
 importFrom(graphics, abline, axis, grid, legend, lines, points, text,
            barplot, layout, par, matplot, mtext)
 importFrom(stats, ave, median, medpolish, quantile, reorder, setNames,
-           weighted.mean, dist, model.matrix, .lm.fit)
+           weighted.mean, dist, model.matrix, .lm.fit, approx)
 importFrom(utils, combn, head, ls.str, object.size,
            packageDescription, packageVersion, read.csv, read.delim,
            read.table, select.list, setTxtProgressBar, tail,
@@ -324,7 +325,9 @@ exportMethods(updateObject,
               "isolationWindowLowerMz",
               "isolationWindowUpperMz",
               "filterPrecursorMz",
-              "filterIsolationWindow"
+              "filterIsolationWindow",
+	      "align",
+	      "filterIntensity"
               )
 
 ## methods NOT exported

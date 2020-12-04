@@ -3,6 +3,7 @@
 ## Changes in 2.17.3
 - Add `normalize,Chromatogram` method.
 - Add `filterIntensity,Chromatogram` method.
+- Add `align,Chromatogram` method.
 - Use two digits when printing retention time seconds
 
 ## Changes in 2.17.2

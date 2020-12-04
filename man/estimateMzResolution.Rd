@@ -37,6 +37,7 @@ certain threshold.
 \examples{
 
 ## Load a profile mode example file
+library(BiocParallel)
 register(SerialParam())
 library(msdata)
 f <- proteomics(full.names = TRUE,

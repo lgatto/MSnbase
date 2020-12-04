@@ -5,6 +5,7 @@
 \alias{Chromatogram}
 \alias{aggregationFun}
 \alias{Chromatogram-class}
+\alias{align}
 \alias{show,Chromatogram-method}
 \alias{rtime,Chromatogram-method}
 \alias{intensity,Chromatogram-method}
@@ -22,6 +23,7 @@
 \alias{bin,Chromatogram-method}
 \alias{normalize,Chromatogram-method}
 \alias{filterIntensity,Chromatogram-method}
+\alias{align,Chromatogram,Chromatogram-method}
 \title{Representation of chromatographic MS data}
 \usage{
 Chromatogram(
@@ -85,6 +87,8 @@ aggregationFun(object)
 \S4method{normalize}{Chromatogram}(object, method = c("max", "sum"))
 
 \S4method{filterIntensity}{Chromatogram}(object, intensity = 0, ...)
+
+\S4method{align}{Chromatogram,Chromatogram}(x, y, method = c("closest", "approx", "none"), ...)
 }
 \arguments{
 \item{rtime}{for \code{Chromatogram}: \code{numeric} with the retention times (length
@@ -169,7 +173,12 @@ values falling within each bin. Defaults to \code{fun = max}.}
 
 \item{method}{\code{character(1)}. For \code{normalise}: defining whether each
 chromatogram should be normalized to its maximum signal
-(\code{method = "max"}) or total signal (\code{method = "sum"}).}
+(\code{method = "max"}) or total signal (\code{method = "sum"}).
+For \code{align}: aligning approach that should be used (see description).
+Defaults to \code{method = "closest"}.}
+
+\item{y}{for \code{align}: \code{Chromatogram} against which \code{x} should be aligned
+against.}
 }
 \description{
 The \code{Chromatogram} class is designed to store
@@ -249,6 +258,30 @@ for data points that should be removed. See examples below.
 \section{Data processing and manipulation}{
 
 \itemize{
+\item \code{align}: Aligns chromatogram \code{x} against chromatogram \code{y}. The resulting
+chromatogram has the same length (number of data points) than \code{y} and the
+same retention times thus allowing to perform any pair-wise comparisons
+between the chromatograms. If \code{x} is a \code{\link[=MChromatograms]{MChromatograms()}} object, each
+\code{Chromatogram} in it is aligned against \code{y}. Additional parameters (\code{...})
+are passed along to the alignment functions (e.g. \code{\link[=closest]{closest()}}).
+
+Parameter \code{method} allows to specify which alignment method
+should be used. Currently there are the following options:
+\itemize{
+\item \code{method = "closest"} (the default): match data points in the first
+chromatogram (\code{x}) to those of the second (\code{y}) based on the difference
+between their retention times: each data point in \code{x} is assigned to the
+data point in \code{y} with the smallest difference in their retention times
+if their difference is smaller than the minimum average difference
+between retention times in \code{x} or \code{y}. See also \code{\link[=closest]{closest()}} for details.
+\item \code{method = "approx"}: uses the base R \code{approx} function to approximate
+intensities in \code{x} to the retention times in \code{y} (using linear
+interpolation). This should only be used for chromatograms that were
+measured in the same measurement run (e.g. MS1 and corresponding MS2
+chromatograms from SWATH experiments).
+\item \code{method = "none"}: use only values with exactly the same retention times
+(i.e. don't perform any alignment).
+}
 \item \code{bin}: aggregates intensity values from a chromatogram in discrete bins
 along the retention time axis and returns a \code{Chromatogram} object with
 the retention time representing the mid-point of the bins and the
@@ -315,6 +348,29 @@ range(rtime(chr2))
 par(mfrow = c(1, 2))
 plot(chr)
 plot(normalize(chr, method = "max"))
+
+## Align chromatograms against each other
+
+chr1 <- Chromatogram(rtime = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+    intensity = c(3, 5, 14, 30, 24, 6, 2, 1, 1, 0))
+chr2 <- Chromatogram(rtime = c(2.5, 3.42, 4.5, 5.43, 6.5),
+    intensity = c(5, 12, 15, 11, 5))
+
+plot(chr1, col = "black")
+points(rtime(chr2), intensity(chr2), col = "blue", type = "l")
+
+## Align chr2 to chr1 without interpolation
+res <- align(chr2, chr1)
+rtime(res)
+intensity(res)
+points(rtime(res), intensity(res), col = "#00ff0080", type = "l")
+
+## Align chr2 to chr1 with interpolation
+res <- align(chr2, chr1, method = "approx")
+points(rtime(res), intensity(res), col = "#ff000080", type = "l")
+legend("topright", col = c("black", "blue", "#00ff0080","#ff000080"),lty = 1,
+    legend = c("chr1", "chr2", "chr2 matchRtime", "chr2 approx"))
+
 
 ## Data filtering
 

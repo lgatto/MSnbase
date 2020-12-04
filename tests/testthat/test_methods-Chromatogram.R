@@ -180,3 +180,29 @@ test_that("filterIntensity,Chromatogram works", {
     res <- filterIntensity(chr, filt_fun, prop = 0.5)
     expect_true(all(intensity(res) >= max(intensity(chr), na.rm = TRUE) * 0.5))
 })
+
+test_that("align,Chromatogram,MChromatograms works", {
+    chr1 <- Chromatogram(rtime = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                         intensity = c(3, 5, 14, 30, 24, 6, 2, 1, 1, 0))
+    chr2 <- Chromatogram(rtime = c(2.5, 3.42, 4.5, 5.43, 6.5),
+                         intensity = c(5, 12, 15, 11, 5))
+    chr3 <- Chromatogram(rtime = c(2.3, 3.2, 4.3, 5.2),
+                         intensity = c(8, 9, 19, 8))
+    chr4 <- Chromatogram(rtime = c(7, 8, 9, 10),
+                         intensity = c(3, 5, 7, 8))
+
+    chrs <- MChromatograms(list(chr2, chr3, chr4))
+    res <- align(chrs, chr1)
+    expect_equal(dimnames(res), dimnames(chrs))
+    expect_equal(res[1, 1], align(chr2, chr1))
+    expect_equal(res[2, 1], align(chr3, chr1))
+    expect_equal(res[3, 1], align(chr4, chr1))
+
+    chrs <- MChromatograms(list(chr2, chr3, chr4, chr2), nrow = 2)
+    res <- align(chrs, chr1, method = "approx")
+    expect_equal(dimnames(res), dimnames(chrs))
+    expect_equal(res[1, 1], align(chr2, chr1, method = "approx"))
+    expect_equal(res[2, 1], align(chr3, chr1, method = "approx"))
+    expect_equal(res[1, 2], align(chr4, chr1, method = "approx"))
+    expect_equal(res[2, 2], align(chr2, chr1, method = "approx"))
+})

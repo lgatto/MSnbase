@@ -466,6 +466,7 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #'
 #' @examples
 #' ## Read a test data file.
+#' library(BiocParallel)
 #' register(SerialParam())
 #' library(msdata)
 #' f <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
