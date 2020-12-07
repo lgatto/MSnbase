@@ -178,3 +178,25 @@ MChromatograms <- function(data, phenoData, featureData, ...) {
     if (validObject(object))
         object
 }
+
+.bind_rows_chromatograms <- function(...) {
+    lst <- unname(list(...))
+    if (length(lst) == 1L)
+        lst <- lst[[1L]]
+    if (inherits(lst, "MChromatograms"))
+        return(lst)
+    ## If that fails we're in trouble
+    dta <- do.call(rbind, lapply(lst, function(z) z@.Data))
+    pd <- lst[[1]]@phenoData
+    fd <- AnnotatedDataFrame(do.call(rbindFill, lapply(lst, fData)))
+    if (nrow(fd) == 0)
+        fd <- AnnotatedDataFrame(data.frame(matrix(ncol = 0, nrow = nrow(dta))))
+    rownames(dta) <- rownames(fd)
+    colnames(dta) <- rownames(pd)
+    res <- new("MChromatograms")
+    res@.Data <- dta
+    res@phenoData <- pd
+    res@featureData <- fd
+    validObject(res)
+    res
+}

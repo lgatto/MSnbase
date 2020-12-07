@@ -188,13 +188,16 @@
 #' - `rownames<-`: replace the rownames (and featureNames) of the object.
 #'
 #'
-#' @section Data subsetting and filtering:
+#' @section Data subsetting, combining and filtering:
 #'
 #' - `[` subset (similar to a `matrix`) by row and column (with parameters `i`
 #'   and `j`).
 #'
 #' - `[<-` replace individual or multiple elements. `value` has to be either a
 #'   single `Chromatogram` obhect or a `list` of `Chromatogram` objects.
+#'
+#' - `c` concatenate (row-wise) `MChromatogram` objects with the
+#'   **same number of samples (columns)**.
 #'
 #' - `filterIntensity`: filter each [Chromatogram()] object within the
 #'   `MChromatograms` removing data points with intensities below the user
@@ -628,3 +631,7 @@ setMethod("align", signature = c(x = "MChromatograms", y = "Chromatogram"),
               validObject(x)
               x
           })
+
+#' @rdname MChromatograms-class
+setMethod("c", "MChromatograms",
+          function(x, ...) .bind_rows_chromatograms(x, ...))

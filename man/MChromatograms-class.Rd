@@ -35,6 +35,7 @@
 \alias{normalize,MChromatograms-method}
 \alias{filterIntensity,MChromatograms-method}
 \alias{align,MChromatograms,Chromatogram-method}
+\alias{c,MChromatograms-method}
 \title{Container for multiple Chromatogram objects}
 \usage{
 MChromatograms(data, phenoData, featureData, ...)
@@ -107,6 +108,8 @@ MChromatograms(data, phenoData, featureData, ...)
 \S4method{filterIntensity}{MChromatograms}(object, intensity = 0, ...)
 
 \S4method{align}{MChromatograms,Chromatogram}(x, y, method = c("closest", "approx", "none"), ...)
+
+\S4method{c}{MChromatograms}(x, ...)
 }
 \arguments{
 \item{data}{for \code{MChromatograms}: a \code{list} of \code{\link[=Chromatogram]{Chromatogram()}} objects.}
@@ -272,13 +275,15 @@ the chromatograms within one row have different product m/z values.
 }
 }
 
-\section{Data subsetting and filtering}{
+\section{Data subsetting, combining and filtering}{
 
 \itemize{
 \item \code{[} subset (similar to a \code{matrix}) by row and column (with parameters \code{i}
 and \code{j}).
 \item \verb{[<-} replace individual or multiple elements. \code{value} has to be either a
 single \code{Chromatogram} obhect or a \code{list} of \code{Chromatogram} objects.
+\item \code{c} concatenate (row-wise) \code{MChromatogram} objects with the
+\strong{same number of samples (columns)}.
 \item \code{filterIntensity}: filter each \code{\link[=Chromatogram]{Chromatogram()}} object within the
 \code{MChromatograms} removing data points with intensities below the user
 provided threshold. If \code{intensity} is a \code{numeric} value, the returned

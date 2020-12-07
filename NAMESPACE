@@ -13,7 +13,7 @@ import(scales)
 import(lattice)
 import(methods)
 
-importFrom(MsCoreUtils, closest)
+importFrom(MsCoreUtils, closest, rbindFill)
 importFrom(XML, xmlInternalTreeParse, getDefaultNamespace, xpathApply,
            xmlAttrs)
 importFrom(graphics, abline, axis, grid, legend, lines, points, text,
@@ -327,7 +327,8 @@ exportMethods(updateObject,
               "filterPrecursorMz",
               "filterIsolationWindow",
 	      "align",
-	      "filterIntensity"
+	      "filterIntensity",
+	      c
               )
 
 ## methods NOT exported
