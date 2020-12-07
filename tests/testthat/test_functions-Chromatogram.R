@@ -104,7 +104,7 @@ test_that(".align_chromatogram_closest works", {
     res <- .align_chromatogram_closest(chr1, chr2)
     expect_equal(rtime(res), rtime(chr2))
     expect_equal(intensity(res), c(3, 1, 3))
-    res_none <- .align_chromatogram_none(chr1, chr2)
+    res_none <- .align_chromatogram_closest(chr1, chr2, tolerance = 0)
     expect_equal(res, res_none)
 
     ## Not perfectly matching rtimes:
@@ -117,13 +117,11 @@ test_that(".align_chromatogram_closest works", {
     res <- .align_chromatogram_closest(chr1, chr2)
     expect_equal(rtime(res), rtime(chr2))
     expect_equal(intensity(res), c(2, 3))
-})
 
-test_that(".align_chromatogram_none works", {
     chr1 <- Chromatogram(rtime = c(1, 2, 3, 4, 5, 6, 7, 8),
                          intensity = c(5, 9, 3, 1, 4, 3, 6, 9))
     chr2 <- Chromatogram(rtime = c(3, 4, 6), intensity = c(3, 1, 3))
-    res <- .align_chromatogram_none(chr2, chr1)
+    res <- .align_chromatogram_closest(chr2, chr1, tolerance = 0)
     expect_equal(length(chr1), length(res))
     expect_equal(rtime(res), rtime(chr1))
     expect_equal(intensity(res), c(NA, NA, 3, 1, NA, 3, NA, NA))
@@ -132,7 +130,7 @@ test_that(".align_chromatogram_none works", {
     chr1 <- Chromatogram(rtime = c(1.1, 2.1, 3.1, 4.1, 5.1),
                          intensity = c(1, 2, 3, 2, 1))
     chr2 <- Chromatogram(rtime = c(2, 3), intensity = c(3, 5))
-    res <- .align_chromatogram_none(chr2, chr1)
+    res <- .align_chromatogram_closest(chr2, chr1, tolerance = 0)
     expect_equal(rtime(res), rtime(chr1))
     expect_true(all(is.na(intensity(res))))
 })

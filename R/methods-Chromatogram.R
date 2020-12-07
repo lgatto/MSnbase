@@ -1,7 +1,5 @@
 #' @title Representation of chromatographic MS data
 #'
-#' @aliases align
-#'
 #' @name Chromatogram-class
 #'
 #' @description The `Chromatogram` class is designed to store
@@ -69,7 +67,7 @@
 #' @param method `character(1)`. For `normalise`: defining whether each
 #'     chromatogram should be normalized to its maximum signal
 #'     (`method = "max"`) or total signal (`method = "sum"`).
-#'     For `align`: aligning approach that should be used (see description).
+#'     For `alignRt`: aligning approach that should be used (see description).
 #'     Defaults to `method = "closest"`.
 #'
 #' @param msLevel for `Chromatogram`: `integer(1)` with the MS level from
@@ -104,7 +102,7 @@
 #'
 #' @param xlab for `plot`: the x-axis label.
 #'
-#' @param y for `align`: `Chromatogram` against which `x` should be aligned
+#' @param y for `alignRt`: `Chromatogram` against which `x` should be aligned
 #'     against.
 #'
 #' @param ylab for `plot`: the y-axis label.
@@ -176,7 +174,7 @@
 #'
 #' @section Data processing and manipulation:
 #'
-#' - `align`: Aligns chromatogram `x` against chromatogram `y`. The resulting
+#' - `alignRt`: Aligns chromatogram `x` against chromatogram `y`. The resulting
 #'   chromatogram has the same length (number of data points) than `y` and the
 #'   same retention times thus allowing to perform any pair-wise comparisons
 #'   between the chromatograms. If `x` is a [MChromatograms()] object, each
@@ -191,14 +189,16 @@
 #'     between their retention times: each data point in `x` is assigned to the
 #'     data point in `y` with the smallest difference in their retention times
 #'     if their difference is smaller than the minimum average difference
-#'     between retention times in `x` or `y`. See also [closest()] for details.
+#'     between retention times in `x` or `y` (parameter `tolerance` for the
+#'     call to the [closest()] function).
+#'     By setting `tolerance = 0` only exact retention times are matched against
+#'     each other (i.e. only values are kept with exactly the same retention
+#'     times between both chromatograms).
 #'   - `method = "approx"`: uses the base R `approx` function to approximate
 #'     intensities in `x` to the retention times in `y` (using linear
 #'     interpolation). This should only be used for chromatograms that were
 #'     measured in the same measurement run (e.g. MS1 and corresponding MS2
 #'     chromatograms from SWATH experiments).
-#'   - `method = "none"`: use only values with exactly the same retention times
-#'      (i.e. don't perform any alignment).
 #'
 #' - `bin`: aggregates intensity values from a chromatogram in discrete bins
 #'   along the retention time axis and returns a `Chromatogram` object with
@@ -290,13 +290,13 @@
 #' points(rtime(chr2), intensity(chr2), col = "blue", type = "l")
 #'
 #' ## Align chr2 to chr1 without interpolation
-#' res <- align(chr2, chr1)
+#' res <- alignRt(chr2, chr1)
 #' rtime(res)
 #' intensity(res)
 #' points(rtime(res), intensity(res), col = "#00ff0080", type = "l")
 #'
 #' ## Align chr2 to chr1 with interpolation
-#' res <- align(chr2, chr1, method = "approx")
+#' res <- alignRt(chr2, chr1, method = "approx")
 #' points(rtime(res), intensity(res), col = "#ff000080", type = "l")
 #' legend("topright", col = c("black", "blue", "#00ff0080","#ff000080"),lty = 1,
 #'     legend = c("chr1", "chr2", "chr2 matchRtime", "chr2 approx"))
@@ -467,7 +467,7 @@ setMethod("filterIntensity", "Chromatogram", function(object,
 })
 
 #' @rdname Chromatogram-class
-setMethod("align", signature = c(x = "Chromatogram", y = "Chromatogram"),
-          function(x, y, method = c("closest", "approx", "none"), ...) {
+setMethod("alignRt", signature = c(x = "Chromatogram", y = "Chromatogram"),
+          function(x, y, method = c("closest", "approx"), ...) {
               .align_chromatogram(x = x, y = y, method = method, ...)
           })

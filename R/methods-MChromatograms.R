@@ -91,7 +91,7 @@
 #' @param method `character(1)`. For `normalise`: defining whether each
 #'     chromatogram should be normalized to its maximum signal
 #'     (`method = "max"`) or total signal (`method = "sum"`).
-#'     For `align`: alignment methods (see documentation for `align` in the
+#'     For `alignRt`: alignment methods (see documentation for `alignRt` in the
 #'     [Chromatogram()] help page. Defaults to `method = "closest"`.
 #'
 #' @param name for `$`, the name of the pheno data column.
@@ -120,7 +120,7 @@
 #'
 #' @param x for all methods: a `MChromatograms` object.
 #'
-#' @param y for `align`: a [Chromatogram()] object against which `x` should be
+#' @param y for `alignRt`: a [Chromatogram()] object against which `x` should be
 #'     aligned against.
 #'
 #' @param ... for `MChromatograms`: additional parameters to be passed to the
@@ -213,8 +213,8 @@
 #'
 #' @section Data processing and manipulation:
 #'
-#' - `align`: align all chromatograms in an `MChromatograms` object against the
-#'   chromatogram specified with `y`. See documentation on `align` in the
+#' - `alignRt`: align all chromatograms in an `MChromatograms` object against
+#'   the chromatogram specified with `y`. See documentation on `alignRt` in the
 #'   [Chromatogram()] help page.
 #'
 #' - `bin`: aggregates intensity values of chromatograms in discrete bins
@@ -623,8 +623,8 @@ setMethod("filterIntensity", "MChromatograms", function(object,
 })
 
 #' @rdname MChromatograms-class
-setMethod("align", signature = c(x = "MChromatograms", y = "Chromatogram"),
-          function(x, y, method = c("closest", "approx", "none"), ...) {
+setMethod("alignRt", signature = c(x = "MChromatograms", y = "Chromatogram"),
+          function(x, y, method = c("closest", "approx"), ...) {
               x@.Data <- matrix(lapply(x@.Data, .align_chromatogram, y = y,
                                        method = method, ...),
                                 nrow = nrow(x), dimnames = dimnames(x))

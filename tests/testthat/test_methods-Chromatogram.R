@@ -181,7 +181,7 @@ test_that("filterIntensity,Chromatogram works", {
     expect_true(all(intensity(res) >= max(intensity(chr), na.rm = TRUE) * 0.5))
 })
 
-test_that("align,Chromatogram,MChromatograms works", {
+test_that("alignRt,Chromatogram,MChromatograms works", {
     chr1 <- Chromatogram(rtime = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
                          intensity = c(3, 5, 14, 30, 24, 6, 2, 1, 1, 0))
     chr2 <- Chromatogram(rtime = c(2.5, 3.42, 4.5, 5.43, 6.5),
@@ -192,17 +192,33 @@ test_that("align,Chromatogram,MChromatograms works", {
                          intensity = c(3, 5, 7, 8))
 
     chrs <- MChromatograms(list(chr2, chr3, chr4))
-    res <- align(chrs, chr1)
+    res <- alignRt(chrs, chr1)
     expect_equal(dimnames(res), dimnames(chrs))
-    expect_equal(res[1, 1], align(chr2, chr1))
-    expect_equal(res[2, 1], align(chr3, chr1))
-    expect_equal(res[3, 1], align(chr4, chr1))
+    expect_equal(res[1, 1], alignRt(chr2, chr1))
+    expect_equal(res[2, 1], alignRt(chr3, chr1))
+    expect_equal(res[3, 1], alignRt(chr4, chr1))
 
     chrs <- MChromatograms(list(chr2, chr3, chr4, chr2), nrow = 2)
-    res <- align(chrs, chr1, method = "approx")
+    res <- alignRt(chrs, chr1, method = "approx")
     expect_equal(dimnames(res), dimnames(chrs))
-    expect_equal(res[1, 1], align(chr2, chr1, method = "approx"))
-    expect_equal(res[2, 1], align(chr3, chr1, method = "approx"))
-    expect_equal(res[1, 2], align(chr4, chr1, method = "approx"))
-    expect_equal(res[2, 2], align(chr2, chr1, method = "approx"))
+    expect_equal(res[1, 1], alignRt(chr2, chr1, method = "approx"))
+    expect_equal(res[2, 1], alignRt(chr3, chr1, method = "approx"))
+    expect_equal(res[1, 2], alignRt(chr4, chr1, method = "approx"))
+    expect_equal(res[2, 2], alignRt(chr2, chr1, method = "approx"))
+
+    chr1 <- Chromatogram(rtime = c(1, 2, 3, 4, 5, 6, 7, 8),
+                         intensity = c(5, 9, 3, 1, 4, 3, 6, 9))
+    chr2 <- Chromatogram(rtime = c(3, 4, 6), intensity = c(3, 1, 3))
+    res <- alignRt(chr2, chr1, tolerance = 0)
+    expect_equal(length(chr1), length(res))
+    expect_equal(rtime(res), rtime(chr1))
+    expect_equal(intensity(res), c(NA, NA, 3, 1, NA, 3, NA, NA))
+
+    ## Not perfectly matching rtimes:
+    chr1 <- Chromatogram(rtime = c(1.1, 2.1, 3.1, 4.1, 5.1),
+                         intensity = c(1, 2, 3, 2, 1))
+    chr2 <- Chromatogram(rtime = c(2, 3), intensity = c(3, 5))
+    res <- alignRt(chr2, chr1, tolerance = 0)
+    expect_equal(rtime(res), rtime(chr1))
+    expect_true(all(is.na(intensity(res))))
 })

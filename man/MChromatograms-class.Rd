@@ -34,7 +34,7 @@
 \alias{clean,MChromatograms-method}
 \alias{normalize,MChromatograms-method}
 \alias{filterIntensity,MChromatograms-method}
-\alias{align,MChromatograms,Chromatogram-method}
+\alias{alignRt,MChromatograms,Chromatogram-method}
 \alias{c,MChromatograms-method}
 \title{Container for multiple Chromatogram objects}
 \usage{
@@ -107,7 +107,7 @@ MChromatograms(data, phenoData, featureData, ...)
 
 \S4method{filterIntensity}{MChromatograms}(object, intensity = 0, ...)
 
-\S4method{align}{MChromatograms,Chromatogram}(x, y, method = c("closest", "approx", "none"), ...)
+\S4method{alignRt}{MChromatograms,Chromatogram}(x, y, method = c("closest", "approx"), ...)
 
 \S4method{c}{MChromatograms}(x, ...)
 }
@@ -188,13 +188,13 @@ intensities should be removed prior to clean 0-intensity data points.}
 \item{method}{\code{character(1)}. For \code{normalise}: defining whether each
 chromatogram should be normalized to its maximum signal
 (\code{method = "max"}) or total signal (\code{method = "sum"}).
-For \code{align}: alignment methods (see documentation for \code{align} in the
+For \code{alignRt}: alignment methods (see documentation for \code{alignRt} in the
 \code{\link[=Chromatogram]{Chromatogram()}} help page. Defaults to \code{method = "closest"}.}
 
 \item{intensity}{for \code{filterIntensity}: \code{numeric(1)} or \code{function} to use to
 filter intensities. See description for details.}
 
-\item{y}{for \code{align}: a \code{\link[=Chromatogram]{Chromatogram()}} object against which \code{x} should be
+\item{y}{for \code{alignRt}: a \code{\link[=Chromatogram]{Chromatogram()}} object against which \code{x} should be
 aligned against.}
 }
 \value{
@@ -300,8 +300,8 @@ documentation in the \code{\link[=Chromatogram]{Chromatogram()}} help page for d
 \section{Data processing and manipulation}{
 
 \itemize{
-\item \code{align}: align all chromatograms in an \code{MChromatograms} object against the
-chromatogram specified with \code{y}. See documentation on \code{align} in the
+\item \code{alignRt}: align all chromatograms in an \code{MChromatograms} object against
+the chromatogram specified with \code{y}. See documentation on \code{alignRt} in the
 \code{\link[=Chromatogram]{Chromatogram()}} help page.
 \item \code{bin}: aggregates intensity values of chromatograms in discrete bins
 along the retention time axis. By default, individual \code{Chromatogram}

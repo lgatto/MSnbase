@@ -146,14 +146,15 @@ aggregationFun <- function(object) {
     x
 }
 
-.align_chromatogram <- function(x, y, method = c("closest", "approx", "none"),
+.align_chromatogram <- function(x, y, method = c("closest", "approx"),
                                 na.value = NA_real_, ...) {
     method <- match.arg(method)
     switch(
         method,
-        closest = .align_chromatogram_closest(x, y, na.value = na.value, ...),
-        approx = .align_chromatogram_approx(x, y, na.value = na.value, ...),
-        none = .align_chromatogram_none(x, y, na.value = na.value, ...))
+        closest = .align_chromatogram_closest(x = x, y = y,
+                                              na.value = na.value, ...),
+        approx = .align_chromatogram_approx(x = x, y = y,
+                                            na.value = na.value, ...))
 }
 
 #' @description
@@ -214,26 +215,16 @@ aggregationFun <- function(object) {
 #' @author Johannes Rainer
 #'
 #' @noRd
-.align_chromatogram_closest <- function(x, y, na.value = NA_real_, ...) {
-    idx <- closest(x@rtime, y@rtime, duplicates = "closest",
-                   tolerance = min(mean(diff(x@rtime)), mean(diff(y@rtime))),
-                   ...)
-    not_na <- !is.na(idx)
-    x@rtime <- rtime(y)
-    new_int <- rep(na.value, length(y))
-    if (any(not_na))
-        new_int[idx[not_na]] <- x@intensity[not_na]
-    x@intensity <- new_int
-    x
-}
-
-.align_chromatogram_none <- function(x, y, na.value = NA_real_, ...) {
-    idx <- match(x@rtime, y@rtime)
-    not_na <- !is.na(idx)
-    x@rtime <- y@rtime
-    new_int <- rep(na.value, length(y))
-    if (any(not_na))
-        new_int[idx[not_na]] <- x@intensity[not_na]
-    x@intensity <- new_int
-    x
-}
+.align_chromatogram_closest <-
+    function(x, y, na.value = NA_real_,
+             tolerance = min(mean(diff(x@rtime)), mean(diff(y@rtime))), ...) {
+        idx <- closest(x = x@rtime, table = y@rtime, duplicates = "closest",
+                       tolerance = tolerance)
+        not_na <- !is.na(idx)
+        x@rtime <- rtime(y)
+        new_int <- rep(na.value, length(y))
+        if (any(not_na))
+            new_int[idx[not_na]] <- x@intensity[not_na]
+        x@intensity <- new_int
+        x
+    }
