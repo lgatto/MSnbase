@@ -28,22 +28,6 @@
     else TRUE
 }
 
-#' @description \code{MChromatograms}: create an instance of class
-#'     \code{MChromatograms}.
-#'
-#' @param data A \code{list} of \code{\link{Chromatogram}} objects.
-#'
-#' @param phenoData either a \code{data.frame}, \code{AnnotatedDataFrame} or
-#'     \code{AnnotatedDataFrame} describing the phenotypical information of the
-#'     samples.
-#'
-#' @param featureData either a \code{data.frame} or \code{AnnotatedDataFrame}
-#'     with additional information for each row of chromatograms.
-#'
-#' @param ... Additional parameters to be passed to the
-#'     \code{\link[base]{matrix}} constructor, such as \code{nrow}, \code{ncol}
-#'     and \code{byrow}.
-#'
 #' @rdname MChromatograms-class
 MChromatograms <- function(data, phenoData, featureData, ...) {
     if (missing(data))
@@ -193,4 +177,26 @@ MChromatograms <- function(data, phenoData, featureData, ...) {
     }
     if (validObject(object))
         object
+}
+
+.bind_rows_chromatograms <- function(...) {
+    lst <- unname(list(...))
+    if (length(lst) == 1L)
+        lst <- lst[[1L]]
+    if (inherits(lst, "MChromatograms"))
+        return(lst)
+    ## If that fails we're in trouble
+    dta <- do.call(rbind, lapply(lst, function(z) z@.Data))
+    pd <- lst[[1]]@phenoData
+    fd <- AnnotatedDataFrame(do.call(rbindFill, lapply(lst, fData)))
+    if (nrow(fd) == 0)
+        fd <- AnnotatedDataFrame(data.frame(matrix(ncol = 0, nrow = nrow(dta))))
+    rownames(dta) <- rownames(fd)
+    colnames(dta) <- rownames(pd)
+    res <- new("MChromatograms")
+    res@.Data <- dta
+    res@phenoData <- pd
+    res@featureData <- fd
+    validObject(res)
+    res
 }

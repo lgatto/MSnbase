@@ -69,7 +69,7 @@ test_that("clean,Chromatogram works", {
     expect_equal(rtime(chr_2), c(2, 3, 7, 8, 10))
     chr_2 <- clean(chr, all = FALSE)
     expect_equal(intensity(chr_2), c(0, 3, 5, 0, 0, 8, 9, 0, 9))
-    
+
     chr <- Chromatogram(
         rtime = 1:12,
         intensity = c(0, 0, 20, 0, 0, 0, 123, 124343, 3432, 0, 0, 0))
@@ -126,13 +126,13 @@ test_that("isEmpty,Chromatogram and plot,Chromatogram work", {
     chr <- Chromatogram()
     expect_true(isEmpty(chr))
     expect_warning(plot(chr))
-    
+
     int <- rnorm(100, mean = 200, sd = 2)
     rt <- rnorm(100, mean = 300, sd = 3)
     chr <- Chromatogram(intensity = int, rtime = sort(rt))
     expect_true(!isEmpty(chr))
     plot(chr)
-    
+
     chr <- Chromatogram(intensity = rep_len(NA_real_, length(rt)),
                         rtime = sort(rt))
     expect_true(isEmpty(chr))
@@ -154,4 +154,71 @@ test_that(".bin_Chromatogram and bin,Chromatogram work", {
     res <- .bin_Chromatogram(chr, breaks = brks)
     expect_equal(length(rtime(res)), (length(brks) - 1))
     expect_equal(intensity(res)[1:length(chrb)], intensity(chrb))
+})
+
+test_that("normalize,Chromatogram works", {
+    chr <- Chromatogram(rtime = c(1, 2, 3, 4, 5, 6, 7),
+                        intensity = c(NA_real_, 13, 16, 22, 34, 15, 6))
+    res <- normalize(chr)
+    expect_true(max(intensity(res), na.rm = TRUE) == 1)
+    expect_true(is.na(intensity(res)[1]))
+
+})
+
+test_that("filterIntensity,Chromatogram works", {
+    chr <- Chromatogram(rtime = c(1, 2, 3, 4, 5, 6, 7),
+                        intensity = c(NA_real_, 13, 16, 22, 34, 15, 6))
+    res <- filterIntensity(chr, 7)
+    expect_equal(intensity(res), c(13, 16, 22, 34, 15))
+    expect_true(validObject(res))
+
+    filt_fun <- function(x, prop = 0.1) {
+        x@intensity >= max(x@intensity, na.rm = TRUE) * prop
+    }
+    res <- filterIntensity(chr, filt_fun)
+    expect_true(all(intensity(res) >= max(intensity(chr), na.rm = TRUE) * 0.1))
+    res <- filterIntensity(chr, filt_fun, prop = 0.5)
+    expect_true(all(intensity(res) >= max(intensity(chr), na.rm = TRUE) * 0.5))
+})
+
+test_that("alignRt,Chromatogram,MChromatograms works", {
+    chr1 <- Chromatogram(rtime = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                         intensity = c(3, 5, 14, 30, 24, 6, 2, 1, 1, 0))
+    chr2 <- Chromatogram(rtime = c(2.5, 3.42, 4.5, 5.43, 6.5),
+                         intensity = c(5, 12, 15, 11, 5))
+    chr3 <- Chromatogram(rtime = c(2.3, 3.2, 4.3, 5.2),
+                         intensity = c(8, 9, 19, 8))
+    chr4 <- Chromatogram(rtime = c(7, 8, 9, 10),
+                         intensity = c(3, 5, 7, 8))
+
+    chrs <- MChromatograms(list(chr2, chr3, chr4))
+    res <- alignRt(chrs, chr1)
+    expect_equal(dimnames(res), dimnames(chrs))
+    expect_equal(res[1, 1], alignRt(chr2, chr1))
+    expect_equal(res[2, 1], alignRt(chr3, chr1))
+    expect_equal(res[3, 1], alignRt(chr4, chr1))
+
+    chrs <- MChromatograms(list(chr2, chr3, chr4, chr2), nrow = 2)
+    res <- alignRt(chrs, chr1, method = "approx")
+    expect_equal(dimnames(res), dimnames(chrs))
+    expect_equal(res[1, 1], alignRt(chr2, chr1, method = "approx"))
+    expect_equal(res[2, 1], alignRt(chr3, chr1, method = "approx"))
+    expect_equal(res[1, 2], alignRt(chr4, chr1, method = "approx"))
+    expect_equal(res[2, 2], alignRt(chr2, chr1, method = "approx"))
+
+    chr1 <- Chromatogram(rtime = c(1, 2, 3, 4, 5, 6, 7, 8),
+                         intensity = c(5, 9, 3, 1, 4, 3, 6, 9))
+    chr2 <- Chromatogram(rtime = c(3, 4, 6), intensity = c(3, 1, 3))
+    res <- alignRt(chr2, chr1, tolerance = 0)
+    expect_equal(length(chr1), length(res))
+    expect_equal(rtime(res), rtime(chr1))
+    expect_equal(intensity(res), c(NA, NA, 3, 1, NA, 3, NA, NA))
+
+    ## Not perfectly matching rtimes:
+    chr1 <- Chromatogram(rtime = c(1.1, 2.1, 3.1, 4.1, 5.1),
+                         intensity = c(1, 2, 3, 2, 1))
+    chr2 <- Chromatogram(rtime = c(2, 3), intensity = c(3, 5))
+    res <- alignRt(chr2, chr1, tolerance = 0)
+    expect_equal(rtime(res), rtime(chr1))
+    expect_true(all(is.na(intensity(res))))
 })

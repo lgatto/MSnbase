@@ -10,6 +10,12 @@ test_that("[,MChromatograms works", {
     ch3 <- Chromatogram(rtime = 1:length(ints), ints)
     chrs <- MChromatograms(list(ch, ch1, ch2, ch3), nrow = 2)
 
+    ## with a non-empty pData.
+    chrs2 <- chrs
+    pData(chrs2) <- data.frame(id = 1:2)
+    fData(chrs2) <- data.frame(ion = c("a", "b"))
+    chrs2[, 1]
+
     ## o Subset using indices
     expect_true(is(chrs[1, 1], "Chromatogram"))
     expect_equal(chrs[1, 2], ch2)
@@ -528,4 +534,78 @@ test_that("clean,MChromatograms works", {
     expect_equal(intensity(res[2, 2]), c(5, 8, 9, 9))
     expect_equal(intensity(res[1, 3]), numeric())
     expect_equal(intensity(res[2, 3]), c(3, 5, 8, 9, 9))
+})
+
+test_that("normalize,MChromatograms works", {
+    set.seed(123)
+    chr1 <- Chromatogram(rtime = 1:10 + rnorm(n = 10, sd = 0.3),
+                         intensity = c(5, 29, 50, NA, 100, 12, 3, 4, 1, 3))
+    chr2 <- Chromatogram(rtime = 1:10 + rnorm(n = 10, sd = 0.3),
+                         intensity = c(80, 50, 20, 10, 9, 4, 3, 4, 1, 3))
+    chr3 <- Chromatogram(rtime = 3:9 + rnorm(7, sd = 0.3),
+                         intensity = c(53, 80, 130, 15, 5, 3, 2))
+    chr4 <- Chromatogram(rtime = 1:10,
+                         intensity = c(NA, NA, 4, NA, NA, 9, NA, 10, 9, 1))
+    chrs <- MChromatograms(list(chr1, chr2, chr3, chr4), ncol = 2)
+    res <- normalize(chrs)
+
+    expect_true(ncol(res) == ncol(chrs))
+    expect_true(nrow(res) == nrow(chrs))
+
+    expect_equal(intensity(res[1, 2]) * max(intensity(chrs[1, 2]), na.rm = TRUE),
+                 intensity(chrs[1, 2]))
+})
+
+test_that("filterIntensity,MChromatograms works", {
+    set.seed(123)
+    chr1 <- Chromatogram(rtime = 1:10 + rnorm(n = 10, sd = 0.3),
+                         intensity = c(5, 29, 50, NA, 100, 12, 3, 4, 1, 3))
+    chr2 <- Chromatogram(rtime = 1:10 + rnorm(n = 10, sd = 0.3),
+                         intensity = c(80, 50, 20, 10, 9, 4, 3, 4, 1, 3))
+    chr3 <- Chromatogram(rtime = 3:9 + rnorm(7, sd = 0.3),
+                         intensity = c(53, 80, 130, 15, 5, 3, 2))
+    chr4 <- Chromatogram(rtime = 1:10,
+                         intensity = c(NA, NA, 4, NA, NA, 9, NA, 10, 9, 1))
+    chrs <- MChromatograms(list(chr1, chr2, chr3, chr4), ncol = 2)
+    res <- filterIntensity(chrs, intensity = 6)
+    expect_true(ncol(res) == ncol(chrs))
+    expect_true(nrow(res) == nrow(chrs))
+    expect_equal(colnames(res), colnames(chrs))
+    expect_equal(rownames(res), rownames(chrs))
+    expect_true(all(intensity(res[1, 1]) >= 6))
+    expect_true(all(intensity(res[1, 2]) >= 6))
+    expect_true(all(intensity(res[2, 1]) >= 6))
+    expect_true(all(intensity(res[2, 2]) >= 6))
+
+    filt_fun <- function(x, prop = 0.2) {
+        x@intensity >= max(x@intensity, na.rm = TRUE) * prop
+    }
+
+    res <- filterIntensity(chrs, intensity = filt_fun)
+    expect_true(ncol(res) == ncol(chrs))
+    expect_true(nrow(res) == nrow(chrs))
+    expect_equal(colnames(res), colnames(chrs))
+    expect_equal(rownames(res), rownames(chrs))
+    expect_true(all(intensity(res[1, 1]) >=
+                    max(intensity(chrs[1, 1]), na.rm = TRUE) * 0.2))
+    expect_true(all(intensity(res[1, 2]) >=
+                    max(intensity(chrs[1, 2]), na.rm = TRUE) * 0.2))
+    expect_true(all(intensity(res[2, 1]) >=
+                    max(intensity(chrs[2, 1]), na.rm = TRUE) * 0.2))
+    expect_true(all(intensity(res[2, 2]) >=
+                    max(intensity(chrs[2, 2]), na.rm = TRUE) * 0.2))
+
+    res <- filterIntensity(chrs, intensity = filt_fun, prop = 0.5)
+    expect_true(ncol(res) == ncol(chrs))
+    expect_true(nrow(res) == nrow(chrs))
+    expect_equal(colnames(res), colnames(chrs))
+    expect_equal(rownames(res), rownames(chrs))
+    expect_true(all(intensity(res[1, 1]) >=
+                    max(intensity(chrs[1, 1]), na.rm = TRUE) * 0.5))
+    expect_true(all(intensity(res[1, 2]) >=
+                    max(intensity(chrs[1, 2]), na.rm = TRUE) * 0.5))
+    expect_true(all(intensity(res[2, 1]) >=
+                    max(intensity(chrs[2, 1]), na.rm = TRUE) * 0.5))
+    expect_true(all(intensity(res[2, 2]) >=
+                    max(intensity(chrs[2, 2]), na.rm = TRUE) * 0.5))
 })

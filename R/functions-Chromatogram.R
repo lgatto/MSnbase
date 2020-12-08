@@ -58,44 +58,6 @@ names(.SUPPORTED_AGG_FUN_CHROM) <-
         TRUE
 }
 
-#' @description \code{Chromatogram}: create an instance of the
-#'     \code{Chromatogram} class.
-#'
-#' @param rtime \code{numeric} with the retention times (length has to be equal
-#'     to the length of \code{intensity}).
-#'
-#' @param intensity \code{numeric} with the intensity values (length has to be
-#'     equal to the length of \code{rtime}).
-#'
-#' @param mz \code{numeric(2)} representing the mz value range (min, max)
-#'     on which the chromatogram was created. This is supposed to contain the
-#'     \emph{real} range of mz values in contrast to the \code{filterMz} below.
-#'     If not applicable use \code{mzrange = c(0, 0)}.
-#'
-#' @param filterMz \code{numeric(2)} representing the mz value range (min,
-#'     max) that was used to filter the original object on mz dimension. If not
-#'     applicable use \code{filterMz = c(0, 0)}.
-#'
-#' @param precursorMz \code{numeric(2)} for SRM/MRM transitions.
-#'     Represents the mz of the precursor ion. See details for more information.
-#'
-#' @param productMz \code{numeric(2)} for SRM/MRM transitions.
-#'     Represents the mz of the product. See details for more information.
-#'
-#' @param fromFile \code{integer(1)} the index of the file within the
-#'     \code{\linkS4class{OnDiskMSnExp}} or \code{\linkS4class{MSnExp}}
-#'     from which the chromatogram was extracted.
-#'
-#' @param aggregationFun \code{character} string specifying the function that
-#'     was used to aggregate intensity values for the same retention time across
-#'     the mz range. Supported are \code{"sum"} (total ion chromatogram),
-#'     \code{"max"} (base peak chromatogram), \code{"min"} and \code{"mean"}.
-#'
-#' @param msLevel \code{integer} with the MS level from which the chromatogram
-#'     was extracted.
-#'
-#' @slot .__classVersion__,rtime,intensity,mz,filterMz,precursorMz,productMz,fromFile,aggregationFun,msLevel See corresponding parameter above.
-#'
 #' @rdname Chromatogram-class
 Chromatogram <- function(rtime = numeric(), intensity = numeric(),
                          mz = c(NA_real_, NA_real_),
@@ -138,11 +100,6 @@ Chromatogram <- function(rtime = numeric(), intensity = numeric(),
          type = type, xlab = xlab, ylab = ylab, ...)
 }
 
-#' @aliases aggregationFun
-#'
-#' @description \code{aggregationFun,aggregationFun<-} get or set the
-#'     aggregation function.
-#'
 #' @rdname Chromatogram-class
 aggregationFun <- function(object) {
     if (!is(object, "Chromatogram"))
@@ -168,3 +125,106 @@ aggregationFun <- function(object) {
     if (validObject(object))
         object
 }
+
+.normalize_chromatogram <- function(x, method = "max") {
+    ref <- do.call(method, list(x = x@intensity, na.rm = TRUE))
+    x@intensity <- x@intensity / ref
+    x
+}
+
+.filter_intensity_chromatogram <- function(x, intensity = 0, ...) {
+    if (is.numeric(intensity)) {
+        keep <- x@intensity >= intensity[1]
+    } else if (is.function(intensity)) {
+        keep <- intensity(x, ...)
+    } else stop("'intensity' should be either a numeric value or a function.")
+    if (!is.logical(keep) | length(keep) != length(x@intensity))
+        stop("The filter function seems to not return the expected result.")
+    keep <- which(keep)
+    x@intensity <- x@intensity[keep]
+    x@rtime <- x@rtime[keep]
+    x
+}
+
+.align_chromatogram <- function(x, y, method = c("closest", "approx"),
+                                na.value = NA_real_, ...) {
+    method <- match.arg(method)
+    switch(
+        method,
+        closest = .align_chromatogram_closest(x = x, y = y,
+                                              na.value = na.value, ...),
+        approx = .align_chromatogram_approx(x = x, y = y,
+                                            na.value = na.value, ...))
+}
+
+#' @description
+#'
+#' *Align* chromatogram `x` to chromatogram `y`.
+#' The retention times of the first `Chromatogram` (`x`) will be replaced
+#' by the retention times of the second (`y`) estimated by the `approx`
+#' function.
+#'
+#' This type of alignment should be used if the chromatograms were measured in
+#' the same run (e.g. in SWATH experiments).
+#'
+#' @param x [Chromatogram()] object that will be aligned against `y`
+#'
+#' @param y [Chromatogram()] object.
+#'
+#' @param na.value optional parameter allowing to specify the value with which
+#'     `NA`s in the aligned chromatogram `x` will be replaced.
+#'
+#' @return aligned `x` `Chromatogram` with the same number of data points and
+#'     same retention times than `y`.
+#'
+#' @author Michael Witting
+#'
+#' @noRd
+.align_chromatogram_approx <- function(x, y, na.value = NA_real_, ...) {
+    x_aligned <- approx(x@rtime, x@intensity, y@rtime)
+    if (!is.na(na.value)) {
+        x_aligned$y[is.na(x_aligned$y)] <- na.value
+    }
+    ## correct rtime and int in chromatogram object
+    x@rtime <- x_aligned$x
+    x@intensity <- x_aligned$y
+    x
+}
+
+#' @description
+#'
+#' *Align* chromatogram `x` against chromatogram `y` matching each data point
+#' in `x` to the data point in `y` with the smallest difference between their
+#' retention times, but only if the difference in retention times is `<=` the
+#' minimal average difference between retention times in `x` or `y` (otherwise
+#' the data point will be discarded).
+#'
+#' @param x [Chromatogram()] object that will be aligned against `y`
+#'
+#' @param y [Chromatogram()] object.
+#'
+#' @param na.value optional parameter allowing to specify the value with which
+#'     `NA`s in the aligned chromatogram `x` will be replaced.
+#'
+#' @param ... optional parameters to be passed along to the `.match_closest`
+#'     function.
+#'
+#' @return aligned `x` `Chromatogram` with the same number of data points and
+#'     same retention times than `y`.
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+.align_chromatogram_closest <-
+    function(x, y, na.value = NA_real_,
+             tolerance = min(mean(diff(x@rtime)), mean(diff(y@rtime))), ...) {
+        idx <- closest(x = x@rtime, table = y@rtime, duplicates = "closest",
+                       tolerance = tolerance)
+        not_na <- !is.na(idx)
+        x@rtime <- rtime(y)
+        new_int <- rep(na.value, length(y))
+        if (any(not_na))
+            new_int[idx[not_na]] <- x@intensity[not_na]
+        x@intensity <- new_int
+        x
+    }

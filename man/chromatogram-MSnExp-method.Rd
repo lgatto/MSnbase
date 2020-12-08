@@ -91,6 +91,8 @@ Arguments \code{rt} and \code{mz} allow to specify the MS
 }
 \examples{
 ## Read a test data file.
+library(BiocParallel)
+register(SerialParam())
 library(msdata)
 f <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
      system.file("microtofq/MM8.mzML", package = "msdata"))

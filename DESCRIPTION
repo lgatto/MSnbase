@@ -50,7 +50,7 @@ Authors@R: c(person(given = "Laurent", family = "Gatto",
 		    role = "ctb"),
 	     person(given = "Miguel", family = "Cosenza-Contreras",
 		    email = "migueljcc5@gmail.com",
-		    role = "ctb"),		    
+		    role = "ctb"),
 	     person(given = "Johannes", family = "Rainer",
 		    email = "Johannes.Rainer@eurac.edu",
 		    role = c("aut", "cre"),
@@ -71,7 +71,7 @@ Depends:
     Biobase (>= 2.15.2),
     mzR (>= 2.19.6),
     S4Vectors,
-    ProtGenerics (>= 1.23.1)
+    ProtGenerics (>= 1.23.5)
 Imports:
     BiocParallel,
     IRanges (>= 2.13.28),
@@ -91,6 +91,7 @@ Imports:
     XML,
     scales,
     MASS,
+    MsCoreUtils,
     Rcpp
 Suggests:
     testthat,
