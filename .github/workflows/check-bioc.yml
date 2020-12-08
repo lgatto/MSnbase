@@ -209,6 +209,7 @@ jobs:
 
           ## Manual dependency (not yet on Bioc)
           BiocManager::install("lgatto/ProtGenerics")
+          BiocManager::install("magick")
         shell: Rscript {0}
 
       - name: Session info
@@ -416,6 +417,7 @@ jobs:
 
           ## Manual dependency (not yet on Bioc)
           BiocManager::install("lgatto/ProtGenerics")
+          BiocManager::install("magick")
         shell: Rscript {0}
 
       - name: Session info
