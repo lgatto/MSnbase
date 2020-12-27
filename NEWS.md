@@ -1,5 +1,10 @@
 # MSnbase 2.17
 
+## Changes in 2.17.4
+
+- Re-implement `impute,MSnSet-method` with
+  `MsCoreUtils::impute_matrix()`.
+
 ## Changes in 2.17.3
 - Add `normalize,Chromatogram` method.
 - Add `filterIntensity,Chromatogram` method.

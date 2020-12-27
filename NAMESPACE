@@ -1,6 +1,7 @@
 useDynLib(MSnbase)
 importFrom(Rcpp, sourceCpp)
 
+
 import(grid)
 import(BiocGenerics)
 import(ProtGenerics)
@@ -13,7 +14,7 @@ import(scales)
 import(lattice)
 import(methods)
 
-importFrom(MsCoreUtils, closest, rbindFill)
+importFrom(MsCoreUtils, closest, rbindFill, impute_matrix)
 importFrom(XML, xmlInternalTreeParse, getDefaultNamespace, xpathApply,
            xmlAttrs)
 importFrom(graphics, abline, axis, grid, legend, lines, points, text,
@@ -105,7 +106,6 @@ export(MSnSet,
        updateFeatureNames,
        updateSampleNames,
        normalise, ## for normalize method
-       imputeMethods,
        get.amino.acids,
        get.atomic.mass,
        listOf,
