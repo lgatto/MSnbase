@@ -52,7 +52,7 @@
   \code{vsn} package.  Note that the latter also glog-transforms the
   intensities.  See respective manuals for more details and function
   arguments.
-
+  
   A \code{scale} method, mimicking the base \code{scale} method exists
   for \code{"\linkS4class{MSnSet}"} instances. See
   \code{?base::\link[base]{scale}} for details. 

@@ -15,44 +15,6 @@ MSnSet <- function(exprs, fData, pData, ...) {
         return(ans)
 }
 
-normalise_MSnSet <- function(object, method, ...) {
-  if (method == "vsn") {
-    e <- exprs(vsn2(exprs(object), ...))
-  } else if (method == "quantiles") {
-    e <- preprocessCore::normalize.quantiles(exprs(object), ...)
-  } else if (method == "quantiles.robust") {
-    e <- preprocessCore::normalize.quantiles.robust(exprs(object), ...)
-  } else if (method == "center.mean") {
-    e <- exprs(object)
-    center <- colMeans(e, na.rm = TRUE)
-    e <- sweep(e, 2L, center, check.margin = FALSE, ...)
-  } else if (method == "center.median") {
-    e <- exprs(object)
-    center <- apply(e, 2L, median, na.rm = TRUE)
-    e <- sweep(e, 2L, center, check.margin = FALSE, ...)
-  } else if (method == "diff.median") {
-      e <- exprs(object)
-      med <- median(as.numeric(e), na.rm = TRUE)
-      cmeds <- apply(e, 2L, median, na.rm = TRUE)
-      e <- sweep(e, 2L, cmeds - med)
-  } else {
-    switch(method,
-           max = div <- .rowMaxs(exprs(object), na.rm = TRUE),
-           sum = div <- rowSums(exprs(object), na.rm = TRUE))
-    e <- exprs(object)/div
-  }
-  rownames(e) <- rownames(exprs(object))
-  colnames(e) <- colnames(exprs(object))
-  exprs(object) <- e
-  object@processingData@processing <-
-    c(object@processingData@processing,
-      paste("Normalised (", method ,"): ",
-            date(), sep = ""))
-  object@processingData@normalised <- TRUE
-  if (validObject(object))
-    return(object)
-}
-
 
 ##' This function calculates the column-wise coefficient of variation
 ##' (CV), i.e.  the ration between the standard deviation and the

@@ -4,6 +4,8 @@
 
 - Re-implement `impute,MSnSet-method` with
   `MsCoreUtils::impute_matrix()`.
+- Re-implement `normalise,MSnSet-method` with
+  `MsCoreUtils::normalize_matrix()`.
 - Illustrate `ReporterIons` class using TMT16.
 
 ## Changes in 2.17.3

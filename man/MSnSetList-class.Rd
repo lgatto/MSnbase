@@ -183,7 +183,7 @@ msnl[1]   ## an MSnSetList of length 1
 
 ## Iterating over the elements
 lapply(msnl, dim) ## a list
-lapply(msnl, normalise) ## an MSnSetList
+lapply(msnl, normalise, method = "quantiles") ## an MSnSetList
 
 fData(msnl)
 fData(msnl)$X <- sapply(msnl, nrow)

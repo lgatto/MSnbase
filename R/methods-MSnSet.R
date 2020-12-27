@@ -119,11 +119,20 @@ setMethod("show","MSnSet",
 
 setMethod("normalize", "MSnSet",
           function(object,
-                   method = c("sum", "max", "center.mean",
-                              "center.median", "diff.median",
-                              "quantiles", "quantiles.robust", "vsn"), ...)
-              normalise_MSnSet(object, match.arg(method), ...)
-          )
+                   method,
+                   ...) {
+              e <- MsCoreUtils::normalize_matrix(exprs(object), method, ...)
+              rownames(e) <- rownames(exprs(object))
+              colnames(e) <- colnames(exprs(object))
+              exprs(object) <- e
+              object@processingData@processing <-
+                  c(object@processingData@processing,
+                    paste("Normalised (", method ,"): ",
+                          date(), sep = ""))
+              object@processingData@normalised <- TRUE              
+              if (validObject(object))
+                  return(object)              
+          })
 
 normalise <- normalize
 
